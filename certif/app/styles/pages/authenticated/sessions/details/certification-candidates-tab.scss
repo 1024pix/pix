@@ -4,39 +4,84 @@
   box-sizing: border-box;
 }
 
-.table__empty svg {
-  font-size: 4rem;
-  color: #ccc;
-  margin-bottom: 1.5rem;
-  border: 2px solid;
-  padding: 45px;
-  border-radius: 200px;
+.panel-actions  {
+  margin-bottom: 1.25rem;
+  padding: 1.25rem 2.5rem 0.3rem 2.58rem;
 }
 
-.panel-info {
+.panel-actions__header {
   display: flex;
-  flex-flow: row nowrap;
-  padding: 1rem 0;
-  position: relative;
   align-items: center;
-  margin-bottom: 1rem;
-  &__icon {
-    font-size: 3rem;
-    color: #ccc;
-    padding: 45px;
-    display: flex;
-    margin-left: 1rem;
-  }
-  &__list-item {
-    margin-bottom: 0.3rem;
-  }
-  &__vertical-splitter {
-    height: 80px;
-    width: 1px;
-    background: #ccc;
-    margin-left: 0.5rem;
-  }
-  &__text {
-    margin-left: 3rem;
-  }
+  flex-flow: row nowrap;
+  margin-bottom: 2.5rem;
+}
+
+.panel-actions__header-title {
+  margin-left: 2.5rem;
+  font-size: 1.3rem;
+}
+
+.panel-actions__header-icon {
+  font-size: 1rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  flex-align: center;
+  justify-content: center;
+  border: 0.18rem solid;
+  border-radius: 0.13rem;
+  padding-top: 0.13rem;
+  box-sizing: border-box;
+}
+
+.panel-actions__action-row {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem 0 1.25rem 1.25rem;
+  box-sizing: border-box;
+  flex-flow: row nowrap;
+  margin-bottom: 1.3rem;
+  border: 0.062rem solid #d6d6d6;
+  border-radius: 1.25rem;
+  background: $wild-sand;
+  position: relative;
+}
+
+.panel-actions__action-icon {
+  color: #ccc;
+  font-size: 1.87rem;
+  margin-bottom: auto;
+  width: 3.125rem;
+  text-align: center;
+}
+
+.panel-actions__action-icon svg {
+  margin: 0 auto;
+}
+
+.panel-actions__description {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-left: 1.25rem;
+  width: 65%;
+  color: $dove-gray;
+  font-size: 0.8rem;
+}
+
+.panel-actions__title {
+  margin-bottom: 0.625rem;
+  font-weight: bold;
+  color: $tundora;
+}
+
+.panel-actions__button {
+  display: flex;
+  align-items: center;
+  padding-right: 0.625rem;
+  margin-left: auto;
+  margin-right: 1.25rem;
+}
+
+.panel-actions__button .button {
+  background: $comet;
 }

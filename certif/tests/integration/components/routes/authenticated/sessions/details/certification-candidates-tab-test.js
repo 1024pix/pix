@@ -14,6 +14,7 @@ module('Integration | Component | routes/authenticated/session | certification-c
   hooks.beforeEach(function() {
     run(() => {
       store = this.owner.lookup('service:store');
+      this.set('uploadCertificationCandidatesSpy', () => {});
     });
   });
 
@@ -26,7 +27,7 @@ module('Integration | Component | routes/authenticated/session | certification-c
     this.set('certificationCandidates', certificationCandidates);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates}}`);
+    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates uploadCertificationCandidates=uploadCertificationCandidatesSpy}}`);
 
     // then
     assert.dom('table tbody tr:first-child td:first-child').hasText('B');
@@ -48,7 +49,7 @@ module('Integration | Component | routes/authenticated/session | certification-c
     this.set('certificationCandidates', []);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidate=certificationCandidates}}`);
+    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates uploadCertificationCandidates=uploadCertificationCandidatesSpy}}`);
 
     // then
     assert.dom('table tbody').doesNotExist();

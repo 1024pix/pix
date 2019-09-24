@@ -41,13 +41,4 @@ module('Integration | Component | routes/authenticated/session | details-item', 
     assert.dom('.session-details-header-datetime__time .content-text').hasText('14:00');
   });
 
-  test('it should display buttons to download and upload attendance sheet', async function(assert) {
-    // when
-    await render(hbs`{{routes/authenticated/sessions/details-item session=session uploadCertificationCandidates=uploadCertificationCandidatesSpy}}`);
-
-    // then
-    assert.dom('.session-details-controls__download-button').hasText('Télécharger le PV (.ods)');
-    assert.dom('.session-details-controls__import-button').hasText('Importer des candidats (.ods)');
-  });
-
 });
