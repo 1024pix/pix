@@ -9,7 +9,7 @@ module.exports = async function startImprovingCampaignParticipation({
 }) {
 
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, {});
-  if (campaignParticipation.userId != userId) {
+  if (campaignParticipation.userId !== userId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
 
