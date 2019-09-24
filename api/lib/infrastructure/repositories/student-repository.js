@@ -26,5 +26,16 @@ module.exports = {
   batchSave(studentsToSave) {
     const bookshelfStudents = studentsToSave.map((studentToSave) => _.omit(studentToSave, ['id']));
     return Bookshelf.knex.batchInsert('students', bookshelfStudents).then(() => undefined);
+  },
+
+  checkIfUserIsPartOfStudentListInOrganization({ user, organizationId }) {
+    return BookshelfStudent
+      .query((qb) => {
+        qb.where('organizationId', organizationId);
+        qb.whereRaw('? in (LOWER(??), LOWER(??), LOWER(??))', [user.firstName.toLowerCase(), 'firstName', 'middleName', 'thirdName']);
+        qb.whereRaw('? in (LOWER(??), LOWER(??))', [user.lastName.toLowerCase(), 'lastName', 'preferredLastName']);
+      })
+      .fetch()
+      .then((student) => !_.isEmpty(student));
   }
 };
