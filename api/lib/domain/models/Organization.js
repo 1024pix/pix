@@ -8,6 +8,7 @@ class Organization {
     type,
     logoUrl,
     externalId,
+    provinceCode,
     isManagingStudents,
     // includes
     user,
@@ -23,6 +24,7 @@ class Organization {
     this.type = type;
     this.logoUrl = logoUrl;
     this.externalId = externalId;
+    this.provinceCode = provinceCode;
     this.isManagingStudents = isManagingStudents;
     // includes
     this.user = user;

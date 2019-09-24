@@ -24,7 +24,7 @@ module.exports = Bookshelf.model('Assessment', {
   },
 
   campaignParticipation() {
-    return this.hasOne('CampaignParticipation', 'assessmentId');
+    return this.belongsTo('CampaignParticipation', 'campaignParticipationId');
   },
 
 });

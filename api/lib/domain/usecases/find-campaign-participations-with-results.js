@@ -8,6 +8,7 @@ module.exports = async function findCampaignParticipationsWithResults({
   competenceRepository,
   targetProfileRepository,
   campaignParticipationRepository,
+  assessmentRepository
 }) {
   const campaignId = options.filter.campaignId;
 
@@ -21,11 +22,15 @@ module.exports = async function findCampaignParticipationsWithResults({
   ]);
 
   for (const campaignParticipation of campaignParticipations.models) {
-    const { assessment } = campaignParticipation;
     const { user: { knowledgeElements } } = campaignParticipation;
+    const assessment = await assessmentRepository.get(campaignParticipation.assessmentId);
 
     const campaignParticipationResult = CampaignParticipationResult.buildFrom({
-      campaignParticipationId: campaignParticipation.id, competences, targetProfile, assessment, knowledgeElements
+      campaignParticipationId: campaignParticipation.id,
+      competences,
+      targetProfile,
+      assessment,
+      knowledgeElements
     });
 
     campaignParticipation.campaignParticipationResult = campaignParticipationResult;

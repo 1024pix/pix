@@ -115,6 +115,7 @@ async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessm
     userId: assessment.userId,
     state: Assessment.states.STARTED,
     type: Assessment.types.SMARTPLACEMENT,
+    campaignParticipationId: assessment.campaignParticipationId,
     courseId: 'Smart Placement Tests CourseId Not Used'
   });
 
@@ -122,10 +123,7 @@ async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessm
     assessmentRepository.updateStateById({ id: assessment.id, state: Assessment.states.ABORTED }),
     assessmentRepository.save(newAssessment)
   ]);
-
-  return campaignParticipationRepository.updateAssessmentIdByOldAssessmentId({
-    oldAssessmentId: assessment.id, newAssessmentId: newAssessmentSaved.id
-  });
+  return newAssessmentSaved;
 }
 
 function _computeResetSkillsNotIncludedInTargetProfile({ targetObjectSkills, resetSkills }) {

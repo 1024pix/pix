@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.67.0 (24/09/2019)
+
+- [#710](https://github.com/1024pix/pix/pull/710) [FEATURE] Ajout du département (code) aux Organisations et affichage dans Pix Admin (PA-105).
+- [#698](https://github.com/1024pix/pix/pull/698) [TECH] Redefinir la relation entre un assessment et une participation (PF-750-1).
+
 ## v2.66.1 (23/09/2019)
 
 - [#721](https://github.com/1024pix/pix/pull/721) [BUGFIX] L'assessment considéré par un certification course pouvait ne pas être le même si il en existe plusieurs (PA-110)
