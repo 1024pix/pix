@@ -15,7 +15,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   async afterModel(model) {
-    const canFindANextChallenge = await this.store.queryRecord('challenge', { assessmentId: model.assessment.id, tryIfCanImprove: true });
+    const canFindANextChallenge = await this.store.queryRecord('challenge', { assessmentId: model.assessment.id, tryImproving: true });
     this.controllerFor('campaigns.skill-review').set('displayImprovementButton', canFindANextChallenge ? true : false);
   },
 });
