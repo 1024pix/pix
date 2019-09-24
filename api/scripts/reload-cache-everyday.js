@@ -6,14 +6,12 @@ function authenticationTokenRequest() {
   return {
     method: 'POST',
     baseUrl: process.env.BASE_URL,
-    uri: '/api/authentications',
-    body: {
-      data: {
-        attributes: {
-          email: process.env.PIXMASTER_EMAIL,
-          password: process.env.PIXMASTER_PASSWORD
-        }
-      }
+    uri: '/api/token',
+    form: {
+      grant_type: 'password',
+      username: process.env.PIXMASTER_EMAIL,
+      password: process.env.PIXMASTER_PASSWORD,
+      scope: 'pix-cron'
     },
     json: true
   };
@@ -49,7 +47,7 @@ cron.schedule(process.env.CACHE_RELOAD_TIME, () => {
   console.log('Starting daily cache reload');
 
   return request(authenticationTokenRequest())
-    .then((response) => authToken = response.data.attributes.token)
+    .then((response) => authToken = response.access_token)
     .then(() => request(cacheFlushingRequest(authToken)))
     .then(() => request(cacheWarmupRequest(authToken)))
     .then(() => console.log('Daily cache reload done'))
