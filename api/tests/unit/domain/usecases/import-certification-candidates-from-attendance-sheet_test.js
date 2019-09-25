@@ -47,7 +47,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
         sinon.stub(certificationCandidatesOdsService, 'extractCertificationCandidatesFromAttendanceSheet')
           .withArgs({ sessionId, odsBuffer })
           .resolves(certificationCandidates);
-        sinon.stub(certificationCandidateRepository, 'replaceBySessionId')
+        sinon.stub(certificationCandidateRepository, 'setSessionCandidates')
           .withArgs(sessionId, certificationCandidates)
           .resolves();
       });
@@ -68,8 +68,8 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
         expect(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet).to.have.been.calledWith({ sessionId, odsBuffer });
         expect(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet.calledAfter(sessionRepository.ensureUserHasAccessToSession))
           .to.be.true;
-        expect(certificationCandidateRepository.replaceBySessionId).to.have.been.calledWith(sessionId, certificationCandidates);
-        expect(certificationCandidateRepository.replaceBySessionId.calledAfter(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet))
+        expect(certificationCandidateRepository.setSessionCandidates).to.have.been.calledWith(sessionId, certificationCandidates);
+        expect(certificationCandidateRepository.setSessionCandidates.calledAfter(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet))
           .to.be.true;
       });
 

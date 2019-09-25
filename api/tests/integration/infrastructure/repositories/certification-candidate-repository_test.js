@@ -168,7 +168,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('#replaceBySessionId', () => {
+  describe('#setSessionCandidates', () => {
     let sessionId;
     let existingCertificationCandidateIds;
     let newCertificationCandidates;
@@ -195,7 +195,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
       it('should delete existing certification candidates in session', async () => {
         // when
-        await certificationCandidateRepository.replaceBySessionId(sessionId, newCertificationCandidates);
+        await certificationCandidateRepository.setSessionCandidates(sessionId, newCertificationCandidates);
 
         // then
         const actualCertificationCandidates = await knex('certification-candidates').where({ sessionId });
@@ -206,7 +206,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
       it('should save the new certification candidates', async () => {
         // when
-        await certificationCandidateRepository.replaceBySessionId(sessionId, newCertificationCandidates);
+        await certificationCandidateRepository.setSessionCandidates(sessionId, newCertificationCandidates);
 
         // then
         const actualCertificationCandidates = await knex('certification-candidates').select('firstName').where({ sessionId });
@@ -224,7 +224,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
         newCertificationCandidates[0].sessionId = newCertificationCandidates[0].sessionId + 1;
 
         // when
-        const error = await catchErr(certificationCandidateRepository.replaceBySessionId)(sessionId, newCertificationCandidates);
+        const error = await catchErr(certificationCandidateRepository.setSessionCandidates)(sessionId, newCertificationCandidates);
 
         // then
         const actualCertificationCandidates = await knex('certification-candidates').where({ sessionId });

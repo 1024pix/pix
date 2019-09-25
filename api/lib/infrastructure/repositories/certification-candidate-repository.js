@@ -38,7 +38,7 @@ module.exports = {
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results));
   },
 
-  async replaceBySessionId(sessionId, certificationCandidates) {
+  async setSessionCandidates(sessionId, certificationCandidates) {
     const certificationCandidatesToInsert = certificationCandidates.map((candidate) => _.omit(candidate, ['createdAt']));
 
     return Bookshelf.knex.transaction(async (trx) => {
