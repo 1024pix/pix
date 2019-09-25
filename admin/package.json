@@ -82,7 +82,6 @@
     "json2csv": "^4.5.3",
     "loader.js": "^4.7.0",
     "lodash": "^4.17.15",
-    "papaparse": "^5.1.0",
     "popper.js": "^1.15.0",
     "qunit-dom": "^0.9.0",
     "sass": "^1.22.12",
