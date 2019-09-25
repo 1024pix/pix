@@ -4,7 +4,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const usecases = require('../../../../lib/domain/usecases');
 const { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | start-improving-campaign-participation', () => {
+describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
 
   const userId = 1;
   const oldAssessmentId = 1;
@@ -24,7 +24,7 @@ describe('Unit | UseCase | start-improving-campaign-participation', () => {
 
   it('should throw an error if the campaign participation does not linked to user', () => {
     // when
-    const promise = usecases.startImprovingCampaignParticipation({ campaignParticipationId, userId: 2, campaignParticipationRepository, assessmentRepository });
+    const promise = usecases.beginCampaignParticipationImprovement({ campaignParticipationId, userId: 2, campaignParticipationRepository, assessmentRepository });
 
     // then
     return expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntity);
@@ -36,7 +36,7 @@ describe('Unit | UseCase | start-improving-campaign-participation', () => {
     campaignParticipationRepository.get.resolves(campaignParticipationShared);
 
     // when
-    const promise = usecases.startImprovingCampaignParticipation({ campaignParticipationId, userId , campaignParticipationRepository, assessmentRepository });
+    const promise = usecases.beginCampaignParticipationImprovement({ campaignParticipationId, userId , campaignParticipationRepository, assessmentRepository });
 
     // then
     return expect(promise).to.be.rejectedWith(AlreadySharedCampaignParticipationError);
@@ -47,7 +47,7 @@ describe('Unit | UseCase | start-improving-campaign-participation', () => {
     assessmentRepository.save.resolves({});
 
     // when
-    const promise = usecases.startImprovingCampaignParticipation({ campaignParticipationId, userId , campaignParticipationRepository, assessmentRepository });
+    const promise = usecases.beginCampaignParticipationImprovement({ campaignParticipationId, userId , campaignParticipationRepository, assessmentRepository });
 
     // then
     return promise.then(() => {
