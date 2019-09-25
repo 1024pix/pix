@@ -3,8 +3,32 @@ const errors = require('../../../lib/domain/errors');
 
 describe('Unit | Domain | Errors', () => {
 
+  it('should export a CertificationCandidateCreationOrUpdateError', () => {
+    expect(errors.CertificationCandidateCreationOrUpdateError).to.exist;
+  });
+
+  it('should export a CertificationCandidateDeletionError', () => {
+    expect(errors.CertificationCandidateDeletionError).to.exist;
+  });
+
   it('should export a NotFoundError', () => {
     expect(errors.NotFoundError).to.exist;
+  });
+
+  it('should export a InvalidCertificationCandidate', () => {
+    expect(errors.InvalidCertificationCandidate).to.exist;
+  });
+
+  it('should export a ODSBufferReadFailedError', () => {
+    expect(errors.ODSBufferReadFailedError).to.exist;
+  });
+
+  it('should export a ODSTableDataEmptyError', () => {
+    expect(errors.ODSTableDataEmptyError).to.exist;
+  });
+
+  it('should export a ODSTableHeadersNotFoundError', () => {
+    expect(errors.ODSTableHeadersNotFoundError).to.exist;
   });
 
   describe('#UserNotFoundError', () => {

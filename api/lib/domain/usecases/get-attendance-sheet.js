@@ -5,17 +5,12 @@ const {
   ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES
 } = require('./../../infrastructure/files/attendance-sheet/attendance-sheet-placeholders');
-const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const moment = require('moment');
 const _ = require('lodash');
 
 module.exports = async function getAttendanceSheet({ userId, sessionId, sessionRepository }) {
 
-  try {
-    await sessionRepository.ensureUserHasAccessToSession(userId, sessionId);
-  } catch (err) {
-    throw new UserNotAuthorizedToAccessEntity(sessionId);
-  }
+  await sessionRepository.ensureUserHasAccessToSession(userId, sessionId);
 
   const [ stringifiedXml, session ] = await Promise.all([
     odsService.getContentXml({ odsFilePath: _getAttendanceTemplatePath() }),

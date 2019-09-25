@@ -2,12 +2,14 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  width: 100%;
 }
 
 .session-details__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 1em 0;
 }
 
 .session-details-header {
@@ -119,8 +121,14 @@
   display: flex;
 }
 
-.session-details-controls__download-button {
+.session-details-controls__actions {
   display: flex;
   align-items: center;
   padding-right: 10px;
+}
+
+.session-details-controls__import-button {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
 }

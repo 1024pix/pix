@@ -129,7 +129,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
 
     context('user does not have access to the session', () => {
       beforeEach(async () => {
-        sinon.stub(sessionRepository, 'ensureUserHasAccessToSession').rejects();
+        sinon.stub(sessionRepository, 'ensureUserHasAccessToSession').rejects(new UserNotAuthorizedToAccessEntity());
         try {
           result = await getAttendanceSheet({ userId, sessionId, sessionRepository });
         } catch (err) {
