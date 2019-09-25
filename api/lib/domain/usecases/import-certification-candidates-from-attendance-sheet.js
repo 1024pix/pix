@@ -1,5 +1,3 @@
-const { UserNotAuthorizedToAccessEntity } = require('../errors');
-
 module.exports = async function importCertificationCandidatesFromAttendanceSheet({
   userId,
   sessionId,
@@ -8,11 +6,7 @@ module.exports = async function importCertificationCandidatesFromAttendanceSheet
   sessionRepository,
   certificationCandidateRepository,
 }) {
-  try {
-    await sessionRepository.ensureUserHasAccessToSession(userId, sessionId);
-  } catch (err) {
-    throw new UserNotAuthorizedToAccessEntity(sessionId);
-  }
+  await sessionRepository.ensureUserHasAccessToSession(userId, sessionId);
 
   const certificationCandidates = await certificationCandidatesOdsService
     .extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
