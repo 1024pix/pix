@@ -11,5 +11,5 @@ module.exports = async function importCertificationCandidatesFromAttendanceSheet
   const certificationCandidates = await certificationCandidatesOdsService
     .extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
 
-  return certificationCandidateRepository.replaceBySessionId(sessionId, certificationCandidates);
+  return certificationCandidateRepository.setSessionCandidates(sessionId, certificationCandidates);
 };
