@@ -35,13 +35,83 @@ const ATTENDANCE_SHEET_CANDIDATES_TABLE_HEADERS = [
   {
     header: 'Temps majoré ?',
     property: 'extraTimePercentage',
-    transformFn: _toNonZeroValueOrNull
+    transformFn: _toNonZeroValueOrNull,
+  },
+];
+
+// TODO LAURA renommer
+const ATTENDANCE_SHEET_HEADERS_AND_TRANSFORM_FUNCTIONS_ADMIN = [
+  {
+    header: 'NOM',
+    property: 'lastName',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Date de naissance (format : jj/mm/aaaa)',
+    property: 'birthdate',
+    transformFn: (cellVal) => {
+      if (cellVal && moment(cellVal).isValid()) {
+        return moment(cellVal).format('DD/MM/YYYY');
+      }
+      return null;
+    },
+  },
+  {
+    header: 'Prénom',
+    property: 'firstName',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Lieu de naissance',
+    property: 'birthplace',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Identifiant local',
+    property: 'externalId',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Temps majoré ?',
+    property: 'extraTime',
+    transformFn: _toNonZeroValueOrNull,
+  },
+  {
+    header: 'Adresse électronique de convocation',
+    property: 'email',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Signature',
+    property: 'signature',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Numéro de certification\n(sans le #)',
+    property: 'certificationId',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Ecran de fin de test vu\n(cocher)',
+    property: 'lastScreen',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Commentaires / Signalements\n(test non achevé, incident technique, fraude, etc.)\nà compléter par un rapport si nécessaire',
+    property: 'comments',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
   },
 ];
 
 function _toNotEmptyStringOrNull(val) {
   const value = _.toString(val);
   return _.isEmpty(value) ? null : value;
+}
+
+function _toNotEmptyTrimmedStringOrNull(val) {
+  const value = _.toString(val);
+  const trimmedValue = _.trim(value);
+  return _.isEmpty(trimmedValue) ? null : value;
 }
 
 function _toNonZeroValueOrNull(val) {
@@ -51,4 +121,5 @@ function _toNonZeroValueOrNull(val) {
 
 module.exports = {
   ATTENDANCE_SHEET_CANDIDATES_TABLE_HEADERS,
+  ATTENDANCE_SHEET_HEADERS_AND_TRANSFORM_FUNCTIONS_ADMIN,
 };
