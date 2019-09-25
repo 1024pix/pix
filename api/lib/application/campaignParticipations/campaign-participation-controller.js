@@ -60,7 +60,7 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     const campaignParticipationId = parseInt(request.params.id);
 
-    const campaignParticipation = await usecases.startImprovingCampaignParticipation({
+    const campaignParticipation = await usecases.beginCampaignParticipationImprovement({
       campaignParticipationId,
       userId,
     });

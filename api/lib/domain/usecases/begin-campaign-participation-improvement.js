@@ -1,7 +1,7 @@
 const Assessment = require('../models/Assessment');
 const { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
 
-module.exports = async function startImprovingCampaignParticipation({
+module.exports = async function beginCampaignParticipationImprovement({
   campaignParticipationId,
   userId,
   assessmentRepository,

@@ -23,7 +23,7 @@ describe('Unit | Adapters | campaign-participation', function() {
       expect(url.endsWith('/campaign-participations/123')).to.be.true;
     });
 
-    it('should redirect to start-improvement', async function() {
+    it('should redirect to begin-improvement', async function() {
       // when
       const options = { adapterOptions: { beginImprovement: true } };
       const url = await adapter.urlForUpdateRecord(123, 'campaign-participation', options);
