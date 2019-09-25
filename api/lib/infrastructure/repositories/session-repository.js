@@ -4,7 +4,7 @@ const BookshelfCertificationCourse = require('../data/certification-course');
 const BookshelfSession = require('../data/session');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
 
 function _toDomain(bookshelfSession) {
   if (bookshelfSession) {
@@ -125,6 +125,9 @@ module.exports = {
       })
       .fetch({
         require: true
+      })
+      .catch(() => {
+        throw new UserNotAuthorizedToAccessEntity(sessionId);
       });
   }
 };

@@ -38,7 +38,12 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         relationships: {
           certifications: {
             data: null
-          }
+          },
+          'certification-candidates': {
+            'links': {
+              'related': '/api/sessions/12/certification-candidates',
+            }
+          },
         }
       }
     };
@@ -97,7 +102,12 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
                 { type: 'certifications', id: '1' },
                 { type: 'certifications', id: '2' }
               ]
-            }
+            },
+            'certification-candidates': {
+              'links': {
+                'related': '/api/sessions/12/certification-candidates',
+              }
+            },
           }
         }
       });

@@ -1,13 +1,13 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 
 const sessionController = require('../../../../lib/application/sessions/session-controller');
-
 const usecases = require('../../../../lib/domain/usecases');
 const Session = require('../../../../lib/domain/models/Session');
 const sessionService = require('../../../../lib/domain/services/session-service');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
+const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
 const _ = require('lodash');
 
 describe('Unit | Controller | sessionController', () => {
@@ -226,6 +226,70 @@ describe('Unit | Controller | sessionController', () => {
 
       // then
       expect(response.headers).to.deep.equal(expectedHeaders);
+    });
+
+  });
+
+  describe('#importCertificationCandidatesFromAttendanceSheet', () => {
+
+    const sessionId = 2;
+    const userId = 1;
+    let request;
+    const odsBuffer = 'File Buffer';
+    beforeEach(() => {
+      // given
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: sessionId },
+        payload: { file: odsBuffer },
+      };
+
+      sinon.stub(usecases, 'importCertificationCandidatesFromAttendanceSheet').resolves();
+    });
+
+    it('should call the usecase to import certification candidates', async () => {
+      // given
+      usecases.importCertificationCandidatesFromAttendanceSheet.resolves();
+
+      // when
+      await sessionController.importCertificationCandidatesFromAttendanceSheet(request);
+
+      // then
+      expect(usecases.importCertificationCandidatesFromAttendanceSheet).to.have.been.calledWith({
+        userId,
+        sessionId,
+        odsBuffer,
+      });
+    });
+  });
+
+  describe('#getCertificationCandidates ', () => {
+    let request;
+    const sessionId = 1;
+    const userId = 2;
+    const certificationCandidates = 'candidates';
+    const certificationCandidatesJsonApi = 'candidatesJSONAPI';
+
+    beforeEach(() => {
+      // given
+      request = {
+        params: { id : sessionId },
+        auth: {
+          credentials : {
+            userId,
+          }
+        },
+      };
+      sinon.stub(usecases, 'getSessionCertificationCandidates').withArgs({ userId, sessionId }).resolves(certificationCandidates);
+      sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(certificationCandidates).returns(certificationCandidatesJsonApi);
+    });
+
+    it('should return certification candidates', async () => {
+      // when
+      const response = await sessionController.getCertificationCandidates(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(certificationCandidatesJsonApi);
     });
 
   });
