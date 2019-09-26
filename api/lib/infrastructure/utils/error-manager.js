@@ -68,15 +68,6 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.ObjectAlreadyExisting) {
     return new InfraErrors.ConflictError(error.message);
   }
-  if (error instanceof DomainErrors.ODSBufferReadFailedError) {
-    return new InfraErrors.UnprocessableEntityError('Fichier ODS invalide');
-  }
-  if (error instanceof DomainErrors.ODSTableDataEmptyError) {
-    return new InfraErrors.UnprocessableEntityError('Fichier ODS invalide');
-  }
-  if (error instanceof DomainErrors.ODSTableHeadersNotFoundError) {
-    return new InfraErrors.UnprocessableEntityError('Fichier ODS invalide');
-  }
   if (error instanceof DomainErrors.InvalidCertificationCandidate) {
     return new InfraErrors.BadRequestError(error.message);
   }
