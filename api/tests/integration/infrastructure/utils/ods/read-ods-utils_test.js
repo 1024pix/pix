@@ -5,7 +5,7 @@ const _ = require('lodash');
 const moment = require('moment');
 moment.suppressDeprecationWarnings = true;
 
-const { ODSTableDataEmptyError, ODSTableHeadersNotFoundError, ODSBufferReadFailedError } = require('../../../../../lib/domain/errors');
+const { UnprocessableEntityError } = require('../../../../../lib/infrastructure/errors');
 
 describe('read-ods-utils', () => {
 
@@ -73,7 +73,7 @@ describe('read-ods-utils', () => {
 
     context('when the buffer is invalid', () => {
 
-      it('should throw a ODSInvalidDataError', async () => {
+      it('should throw a UnprocessableEntityError', async () => {
         // given
         const alteredBuffer = Buffer.from(_.map(odsBuffer, (value) => value + 1));
 
@@ -84,14 +84,14 @@ describe('read-ods-utils', () => {
         });
 
         // then
-        expect(result).to.be.instanceof(ODSBufferReadFailedError);
+        expect(result).to.be.instanceof(UnprocessableEntityError);
       });
 
     });
 
     context('when the headers are not present in the ods file', () => {
 
-      it('should throw a ODSTableHeadersNotFoundError', async () => {
+      it('should throw a UnprocessableEntityError', async () => {
         // given
         const NONEXISTANT_TABLEHEADER_PROPERTY_MAP = [
           {
@@ -127,13 +127,13 @@ describe('read-ods-utils', () => {
         });
 
         // then
-        expect(result).to.be.instanceof(ODSTableHeadersNotFoundError);
+        expect(result).to.be.instanceof(UnprocessableEntityError);
       });
     });
 
     context('when the file does not contain any data in the specified table', () => {
 
-      it('should throw a ODSTableDataEmptyError', async () => {
+      it('should throw a UnprocessableEntityError', async () => {
         // given
         const emptyOdsFilePath = `${__dirname}/read-ods-utils-extract-table-data-from-ods-file-empty_test.ods`;
         const emptyOdsBuffer = fs.readFileSync(emptyOdsFilePath);
@@ -145,7 +145,7 @@ describe('read-ods-utils', () => {
         });
 
         // then
-        expect(result).to.be.instanceof(ODSTableDataEmptyError);
+        expect(result).to.be.instanceof(UnprocessableEntityError);
       });
 
     });
