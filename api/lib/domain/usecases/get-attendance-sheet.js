@@ -1,4 +1,5 @@
-const odsService = require('../services/ods-service');
+const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils');
+const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
 const sessionXmlService = require('../services/session-xml-service');
 const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
@@ -13,13 +14,13 @@ module.exports = async function getAttendanceSheet({ userId, sessionId, sessionR
   await sessionRepository.ensureUserHasAccessToSession(userId, sessionId);
 
   const [ stringifiedXml, session ] = await Promise.all([
-    odsService.getContentXml({ odsFilePath: _getAttendanceTemplatePath() }),
+    readOdsUtils.getContentXml({ odsFilePath: _getAttendanceTemplatePath() }),
     sessionRepository.getWithCertificationCandidates(sessionId),
   ]);
 
   const updatedStringifiedXml = _updateXmlWithSession(stringifiedXml, session);
 
-  return odsService.makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath: _getAttendanceTemplatePath() });
+  return writeOdsUtils.makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath: _getAttendanceTemplatePath() });
 };
 
 function _updateXmlWithSession(stringifiedXml, session) {

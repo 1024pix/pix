@@ -1,4 +1,4 @@
-const odsService = require('./ods-service');
+const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
 const { ATTENDANCE_SHEET_CANDIDATES_TABLE_HEADERS } = require('./../../infrastructure/files/attendance-sheet/attendance-sheet-candidates-table-headers');
 const CertificationCandidate = require('../models/CertificationCandidate');
 const _ = require('lodash');
@@ -9,7 +9,7 @@ module.exports = {
 
 async function extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer }) {
   let certificationCandidatesData;
-  certificationCandidatesData = await odsService.extractTableDataFromOdsFile({
+  certificationCandidatesData = await readOdsUtils.extractTableDataFromOdsFile({
     odsBuffer,
     tableHeaderTargetPropertyMap: ATTENDANCE_SHEET_CANDIDATES_TABLE_HEADERS,
   });
