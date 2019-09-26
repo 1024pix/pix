@@ -5,7 +5,8 @@ const {
   ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   EXTRA_EMPTY_CANDIDATE_ROWS
 } = require('../../../../lib/infrastructure/files/attendance-sheet/attendance-sheet-placeholders');
-const odsService = require('../../../../lib/domain/services/ods-service');
+const writeOdsUtils = require('../../../../lib/infrastructure/utils/ods/write-ods-utils');
+const readOdsUtils  = require('../../../../lib/infrastructure/utils/ods/read-ods-utils');
 const sessionXmlService = require('../../../../lib/domain/services/session-xml-service');
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
@@ -95,8 +96,8 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
     beforeEach(async () => {
       // given
       sinon.stub(sessionRepository, 'getWithCertificationCandidates').resolves(sessionWithCandidates);
-      sinon.stub(odsService, 'getContentXml').resolves(stringifiedXml);
-      sinon.stub(odsService, 'makeUpdatedOdsByContentXml').resolves(odsBuffer);
+      sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
+      sinon.stub(writeOdsUtils, 'makeUpdatedOdsByContentXml').resolves(odsBuffer);
       sinon.stub(sessionXmlService, 'getUpdatedXmlWithSessionData').withArgs({ stringifiedXml, sessionData: attendanceSheetSessionData, sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES }).returns(stringifiedSessionUpdatedXml);
       sinon.stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData').withArgs({ stringifiedXml: stringifiedSessionUpdatedXml, candidatesData: attendanceSheetCandidatesData, candidateTemplateValues: ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES }).returns(stringifiedSessionAndCandidatesUpdatedXml);
     });
@@ -120,7 +121,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
         expect(sessionXmlService.getUpdatedXmlWithCertificationCandidatesData).to.have.been.calledWith({ stringifiedXml: stringifiedSessionUpdatedXml, candidatesData: attendanceSheetCandidatesData, candidateTemplateValues: ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES });
       });
       it('should have rebuild the ods zip with new content.xml file', () => {
-        expect(odsService.makeUpdatedOdsByContentXml).to.have.been.calledWithExactly({ stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml, odsFilePath: sinon.match('attendance_sheet_template.ods') });
+        expect(writeOdsUtils.makeUpdatedOdsByContentXml).to.have.been.calledWithExactly({ stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml, odsFilePath: sinon.match('attendance_sheet_template.ods') });
       });
       it('should return something when user has access', async () => {
         expect(result).to.deep.equal(odsBuffer);

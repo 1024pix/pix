@@ -1,4 +1,4 @@
-const odsService = require('./ods-service');
+const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
 const { ATTENDANCE_SHEET_HEADERS_AND_TRANSFORM_FUNCTIONS_ADMIN } = require('./../../infrastructure/files/attendance-sheet/attendance-sheet-candidates-table-headers');
 const _ = require('lodash');
 
@@ -8,7 +8,7 @@ module.exports = {
 
 async function extractCertificationsDataFromAttendanceSheet({ odsBuffer }) {
   let certificationsData;
-  certificationsData = await odsService.extractTableDataFromOdsFile({
+  certificationsData = await readOdsUtils.extractTableDataFromOdsFile({
     odsBuffer,
     tableHeaderTargetPropertyMap: ATTENDANCE_SHEET_HEADERS_AND_TRANSFORM_FUNCTIONS_ADMIN,
   });
