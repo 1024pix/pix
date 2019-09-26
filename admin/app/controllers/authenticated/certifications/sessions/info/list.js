@@ -1,9 +1,11 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import ENV from 'pix-admin/config/environment';
 
 export default Controller.extend({
 
   // DI
+  session: service(),
   sessionInfoService: service(),
   notifications: service('notification-messages'),
 
@@ -36,12 +38,18 @@ export default Controller.extend({
     },
 
     async displayCertificationSessionReportModal(file) {
+      const { access_token } = this.get('session.data.authenticated');
+      const url = `${ENV.APP.API_HOST}/${ENV.APP.ODS_PARSING_URL}`;
       try {
-        const attendanceSheetCandidates = await this.sessionInfoService.readSessionAttendanceSheet(file);
-        this.set('importedCandidates', attendanceSheetCandidates);
+        const response = await file.upload(url, {
+          headers: { Authorization: `Bearer ${access_token}` },
+          method: 'PUT',
+        });
+        this.set('importedCandidates', response.body);
         this.set('displaySessionReport', true);
-      } catch (error) {
-        this.notifications.error(error);
+      }
+      catch (err) {
+        this.notifications.error(err);
       }
     },
 
