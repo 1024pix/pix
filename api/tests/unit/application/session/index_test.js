@@ -94,7 +94,6 @@ describe('Unit | Application | Sessions | Routes', () => {
       fs.unlinkSync(testFilePath);
     });
 
-    // TODO LAURA FAIRE RETOURNER 204
     it('should exist', async () => {
       // when
       const res = await server.inject(options);
