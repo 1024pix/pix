@@ -5,7 +5,12 @@
     <div class="btn-group certification-list-page__actions" role="group">
 
       <button class="btn btn-outline-default btn--check-session-record" type="button">
-        {{#file-upload name="session-record-report" onfileadd=(action "displayCertificationSessionReportModal") accept="application/vnd.oasis.opendocument.spreadsheet"}}
+        {{#file-upload
+          name="session-record-report"
+          for="upload-attendance-sheet"
+          onfileadd=(action "displayCertificationSessionReportModal")
+          accept="application/vnd.oasis.opendocument.spreadsheet"
+        }}
           {{fa-icon "clipboard-list"}}
         {{/file-upload}}
         {{#bs-tooltip}}Analyser le PV de session afin de détecter les cas particuliers à traiter (.ods){{/bs-tooltip}}

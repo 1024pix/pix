@@ -1,6 +1,7 @@
 import { createMembership } from './handlers/memberships';
 import { getOrganizationMemberships } from './handlers/organizations';
 import { findUsers } from './handlers/users';
+import { upload } from 'ember-file-upload/mirage';
 
 export default function() {
 
@@ -33,6 +34,34 @@ export default function() {
   this.post('/memberships', createMembership);
   this.get('/organizations/:id');
   this.get('/organizations/:id/memberships', getOrganizationMemberships);
+  this.get('/sessions/:id');
   this.get('/users', findUsers);
+  this.put('/certifications/attendance-sheet/parsing', upload(function() {
+    return [
+      { lastName: 'Lantier',
+        firstName: 'Étienne',
+        birthdate: '04/01/1990',
+        birthplace: 'Ajaccio',
+        email: null,
+        externalId: 'ELAN123',
+        extraTime: null,
+        signature: 'x',
+        certificationId: '2',
+        lastScreen: 'x',
+        comments: null,
+      },
+      { lastName: 'Ranou',
+        firstName: 'Liam',
+        birthdate: '22/10/2000',
+        birthplace: null,
+        email: null,
+        externalId: null,
+        extraTime: null,
+        signature: null,
+        certificationId: '3',
+        lastScreen: 'x',
+        comments: 'Commentaire',
+      }];
+  }));
 
 }
