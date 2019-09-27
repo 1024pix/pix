@@ -67,7 +67,7 @@ describe('Unit | Adapters | user', function() {
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      expect(url.endsWith('/users/123/update-password?temporary-key=temp%3D%26key')).to.be.true;
+      expect(url.endsWith('/users/123/password-update?temporary-key=temp%3D%26key')).to.be.true;
     });
 
   });

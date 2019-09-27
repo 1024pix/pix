@@ -16,7 +16,7 @@ export default ApplicationAdapter.extend({
 
     if (adapterOptions && adapterOptions.acceptPixCertifTermsOfService) {
       delete adapterOptions.acceptPixCertifTermsOfService;
-      return url + '/accept-pix-certif-terms-of-service';
+      return url + '/pix-certif-terms-of-service-acceptance';
     }
 
     return url;

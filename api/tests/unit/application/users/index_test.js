@@ -118,12 +118,12 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('PATCH /api/users/{id}/update-password', function() {
+  describe('PATCH /api/users/{id}/password-update', function() {
 
     const userId = '12344';
     const request = (payloadAttributes) => ({
       method: 'PATCH',
-      url: `/api/users/${userId}/update-password`,
+      url: `/api/users/${userId}/password-update`,
       payload: { data: { attributes: payloadAttributes } },
     });
 
@@ -151,7 +151,7 @@ describe('Unit | Router | user-router', () => {
         // given
         const requestWithoutPayload = {
           method: 'PATCH',
-          url: `/api/users/${userId}/update-password`,
+          url: `/api/users/${userId}/password-update`,
         };
 
         // when

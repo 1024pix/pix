@@ -14,7 +14,7 @@ describe('Acceptance | Controller | users-controller-accept-pix-orga-terms-of-se
 
     options = {
       method: 'PATCH',
-      url: `/api/users/${user.id}/accept-pix-orga-terms-of-service`,
+      url: `/api/users/${user.id}/pix-orga-terms-of-service-acceptance`,
       headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
     };
 

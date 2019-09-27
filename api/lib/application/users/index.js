@@ -99,7 +99,7 @@ exports.register = async function(server) {
     },
     {
       method: 'PATCH',
-      path: '/api/users/{id}/update-password',
+      path: '/api/users/{id}/password-update',
       config: {
         auth: false,
         pre: [{
@@ -128,7 +128,7 @@ exports.register = async function(server) {
     },
     {
       method: 'PATCH',
-      path: '/api/users/{id}/accept-pix-orga-terms-of-service',
+      path: '/api/users/{id}/pix-orga-terms-of-service-acceptance',
       config: {
         pre: [{
           method: securityController.checkRequestedUserIsAuthenticatedUser,
@@ -146,7 +146,7 @@ exports.register = async function(server) {
     },
     {
       method: 'PATCH',
-      path: '/api/users/{id}/accept-pix-certif-terms-of-service',
+      path: '/api/users/{id}/pix-certif-terms-of-service-acceptance',
       config: {
         pre: [{
           method: securityController.checkRequestedUserIsAuthenticatedUser,

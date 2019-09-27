@@ -32,7 +32,7 @@ export default ApplicationAdapter.extend({
       delete adapterOptions.updatePassword;
       const temporaryKey = adapterOptions.temporaryKey;
       delete adapterOptions.temporaryKey;
-      return url + `/update-password?temporary-key=${encodeURIComponent(temporaryKey)}`;
+      return url + `/password-update?temporary-key=${encodeURIComponent(temporaryKey)}`;
     }
 
     return url;

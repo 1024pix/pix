@@ -16,7 +16,7 @@ export default ApplicationAdapter.extend({
 
     if (adapterOptions && adapterOptions.acceptPixOrgaTermsOfService) {
       delete adapterOptions.acceptPixOrgaTermsOfService;
-      return url + '/accept-pix-orga-terms-of-service';
+      return url + '/pix-orga-terms-of-service-acceptance';
     }
 
     return url;

@@ -24,13 +24,13 @@ module('Unit | Adapters | user', function(hooks) {
       assert.equal(url.endsWith('/users/123'), true);
     });
 
-    test('it should redirect to accept-pix-orga-terms-of-service', async function(assert) {
+    test('it should redirect to pix-orga-terms-of-service-acceptance', async function(assert) {
       // when
       const snapshot = { adapterOptions: { acceptPixOrgaTermsOfService: true } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      assert.equal(url.endsWith('/users/123/accept-pix-orga-terms-of-service'), true);
+      assert.equal(url.endsWith('/users/123/pix-orga-terms-of-service-acceptance'), true);
     });
   });
 });
