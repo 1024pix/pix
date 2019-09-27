@@ -3,7 +3,6 @@ const usecases = require('../../domain/usecases');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
-const requestUtils = require('../../infrastructure/utils/request-utils');
 
 module.exports = {
 
@@ -28,7 +27,7 @@ module.exports = {
   },
 
   async find(request) {
-    const userId = requestUtils.extractUserIdFromRequest(request);
+    const userId = request.auth.credentials.userId;
     const options = queryParamsUtils.extractParameters(request.query);
 
     if (!options.filter.assessmentId && !options.filter.campaignId) {
@@ -47,7 +46,7 @@ module.exports = {
   },
 
   shareCampaignResult(request) {
-    const userId = requestUtils.extractUserIdFromRequest(request);
+    const userId = request.auth.credentials.userId;
     const campaignParticipationId = parseInt(request.params.id);
 
     return usecases.shareCampaignResult({
@@ -55,5 +54,17 @@ module.exports = {
       campaignParticipationId,
     })
       .then(() => null);
+  },
+
+  async beginImprovement(request) {
+    const userId = request.auth.credentials.userId;
+    const campaignParticipationId = parseInt(request.params.id);
+
+    const campaignParticipation = await usecases.beginCampaignParticipationImprovement({
+      campaignParticipationId,
+      userId,
+    });
+    return serializer.serialize(campaignParticipation);
+
   }
 };

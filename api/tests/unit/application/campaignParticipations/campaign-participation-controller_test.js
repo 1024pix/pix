@@ -16,7 +16,15 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     const query = 'some query';
     const userId = 1;
     const authorization = 'auth header';
-    const request = { headers: { authorization }, query };
+    const request = {
+      headers: { authorization },
+      auth: {
+        credentials : {
+          userId
+        }
+      },
+      query
+    };
     const resultWithPagination = { models: [], pagination: {} };
     const result = [];
     const serialized = {};
@@ -26,7 +34,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'findCampaignParticipationsRelatedToAssessment');
-      sinon.stub(requestUtils, 'extractUserIdFromRequest').withArgs(request).returns(userId);
       sinon.stub(queryParamsUtils, 'extractParameters');
       sinon.stub(serializer, 'serialize')
         .withArgs(resultWithPagination.models, resultWithPagination.pagination).returns(serialized)
@@ -86,6 +93,19 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
   describe('#shareCampaignResult', () => {
     const userId = 1;
+    const request = {
+      params: {
+        id: '5'
+      },
+      headers: {
+        authorization: 'token'
+      },
+      auth: {
+        credentials : {
+          userId
+        }
+      },
+    };
 
     beforeEach(() => {
       sinon.stub(usecases, 'shareCampaignResult');
@@ -94,14 +114,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
     it('should call the use case to share campaign result', async () => {
       // given
-      const request = {
-        params: {
-          id: '5'
-        },
-        headers: {
-          authorization: 'token'
-        },
-      };
       usecases.shareCampaignResult.resolves();
 
       // when
@@ -118,14 +130,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
       it('should return a 403 status code', async () => {
         // given
-        const request = {
-          params: {
-            id: '5'
-          },
-          headers: {
-            authorization: 'token'
-          },
-        };
         usecases.shareCampaignResult.resolves();
 
         // when
@@ -246,4 +250,39 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     });
   });
 
+  describe('#beginImprovement', () => {
+    const campaignParticipationId = 1;
+    const userId = 1;
+    let request;
+
+    beforeEach(() => {
+      request = {
+        params: { id: campaignParticipationId, },
+        auth: { credentials: { userId } },
+      };
+
+      sinon.stub(usecases, 'beginCampaignParticipationImprovement');
+      sinon.stub(serializer, 'serialize');
+    });
+
+    it('should return an improving campaignParticipation', async () => {
+      // given
+      const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId, userId });
+      usecases.beginCampaignParticipationImprovement
+        .withArgs({ campaignParticipationId, userId })
+        .resolves(campaignParticipation);
+
+      const serializedCampaignParticipation = { id: campaignParticipationId, userId };
+      serializer.serialize
+        .withArgs(campaignParticipation)
+        .returns(serializedCampaignParticipation);
+
+      // when
+      const response = await campaignParticipationController.beginImprovement(request);
+
+      // then
+      expect(usecases.beginCampaignParticipationImprovement).to.have.been.calledOnce;
+      expect(response).to.deep.equal(serializedCampaignParticipation);
+    });
+  });
 });

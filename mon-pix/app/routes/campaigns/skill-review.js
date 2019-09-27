@@ -13,4 +13,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
       assessment: store.findRecord('assessment', assessmentId)
     });
   },
+
+  async afterModel(model) {
+    await model.campaignParticipation.belongsTo('campaignParticipationResult').reload();
+    const improvableNextChallenge = await this.store.queryRecord('challenge', { assessmentId: model.assessment.id, tryImproving: true });
+    this.controllerFor('campaigns.skill-review').set('displayImprovementButton', !!improvableNextChallenge);
+  },
 });
