@@ -1,4 +1,4 @@
-import { click, fillIn, currentURL, find } from '@ember/test-helpers';
+import { click, fillIn, currentURL, find, findAll } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import {
@@ -52,7 +52,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         await click('.button');
 
         expect(currentURL()).to.contains('/assessments/');
-        expect(find('.progress-bar-info').textContent).to.contains('2/5');
+        expect(findAll('.progress-bar-stepnum.active').length).to.equals(2);
       });
 
     });
@@ -67,7 +67,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
           // then
           expect(currentURL()).to.contains('/assessments/');
-          expect(find('.progress-bar-info').textContent).to.contains('2/5');
+          expect(findAll('.progress-bar-stepnum.active').length).to.equals(2);
         });
       });
 
@@ -79,7 +79,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
           // then
           expect(currentURL()).to.contains('/assessments/');
-          expect(find('.progress-bar-info').textContent).to.contains('2/5');
+          expect(findAll('.progress-bar-stepnum.active').length).to.equals(2);
         });
       });
 
