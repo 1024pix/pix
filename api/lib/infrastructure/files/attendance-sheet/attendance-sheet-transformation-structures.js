@@ -1,12 +1,45 @@
 const _ = require('lodash');
 const moment = require('moment');
 
-const ATTENDANCE_SHEET_CANDIDATES_TABLE_HEADERS = [
+// These are transformation structures. They provide all the necessary info
+// on how to transform cell values in an attendance sheet into a target JS object.
+// Such a structure is an array holding objects with 3 properties. One object
+// represents the transformation formula for one specific column in the ods file.
+// Those 3 properties are:
+//  - header -> Header in the ods file under which the cell values will be found
+//  - property -> Property name of the target object in which the value will be put
+//  - transformFn -> Transformation function through which the cell value will be processed into the final value
+
+const _TRANSFORMATION_STRUCT_COMMON = [
   {
     header: 'NOM',
     property: 'lastName',
-    transformFn: _toNotEmptyStringOrNull,
+    transformFn: _toNotEmptyTrimmedStringOrNull,
   },
+  {
+    header: 'Prénom',
+    property: 'firstName',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Lieu de naissance',
+    property: 'birthplace',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Identifiant local',
+    property: 'externalId',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Temps majoré ?',
+    property: 'extraTimePercentage',
+    transformFn: _toNonZeroValueOrNull,
+  },
+];
+
+const TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT = [
+  ..._TRANSFORMATION_STRUCT_COMMON,
   {
     header: 'Date de naissance (format : jj/mm/aaaa)',
     property: 'birthdate',
@@ -17,35 +50,10 @@ const ATTENDANCE_SHEET_CANDIDATES_TABLE_HEADERS = [
       return null;
     },
   },
-  {
-    header: 'Prénom',
-    property: 'firstName',
-    transformFn: _toNotEmptyStringOrNull,
-  },
-  {
-    header: 'Lieu de naissance',
-    property: 'birthplace',
-    transformFn: _toNotEmptyStringOrNull,
-  },
-  {
-    header: 'Identifiant local',
-    property: 'externalId',
-    transformFn: _toNotEmptyStringOrNull,
-  },
-  {
-    header: 'Temps majoré ?',
-    property: 'extraTimePercentage',
-    transformFn: _toNonZeroValueOrNull,
-  },
 ];
 
-// TODO LAURA renommer
-const ATTENDANCE_SHEET_HEADERS_AND_TRANSFORM_FUNCTIONS_ADMIN = [
-  {
-    header: 'NOM',
-    property: 'lastName',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
+const TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING = [
+  ..._TRANSFORMATION_STRUCT_COMMON,
   {
     header: 'Date de naissance (format : jj/mm/aaaa)',
     property: 'birthdate',
@@ -55,26 +63,6 @@ const ATTENDANCE_SHEET_HEADERS_AND_TRANSFORM_FUNCTIONS_ADMIN = [
       }
       return null;
     },
-  },
-  {
-    header: 'Prénom',
-    property: 'firstName',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Lieu de naissance',
-    property: 'birthplace',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Identifiant local',
-    property: 'externalId',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Temps majoré ?',
-    property: 'extraTime',
-    transformFn: _toNonZeroValueOrNull,
   },
   {
     header: 'Adresse électronique de convocation',
@@ -103,11 +91,6 @@ const ATTENDANCE_SHEET_HEADERS_AND_TRANSFORM_FUNCTIONS_ADMIN = [
   },
 ];
 
-function _toNotEmptyStringOrNull(val) {
-  const value = _.toString(val);
-  return _.isEmpty(value) ? null : value;
-}
-
 function _toNotEmptyTrimmedStringOrNull(val) {
   const value = _.toString(val);
   const trimmedValue = _.trim(value);
@@ -120,6 +103,6 @@ function _toNonZeroValueOrNull(val) {
 }
 
 module.exports = {
-  ATTENDANCE_SHEET_CANDIDATES_TABLE_HEADERS,
-  ATTENDANCE_SHEET_HEADERS_AND_TRANSFORM_FUNCTIONS_ADMIN,
+  TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT,
+  TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING,
 };
