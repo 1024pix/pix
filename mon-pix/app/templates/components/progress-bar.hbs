@@ -1,8 +1,17 @@
-<div class="progress-bar progress-bar-info"
-     role="progressbar"
-     aria-valuenow={{progression.valueNow}}
-     aria-valuemin="0"
-     aria-valuemax="100"
-     style={{barStyle}}>
-  {{progression.text}}
+<div class="progress-bar-container">
+  <div class="progress-bar-stepnums">
+    {{#each this.steps as |step|}}
+      <div class="progress-bar-stepnum {{step.status}}">{{step.stepnum}}</div>
+    {{/each}}
+  </div>
+
+  <div class="progress-bar-background"></div>
+
+  <div class="progress-bar-progression" style={{progressionWidth}}></div>
+
+  <div class="progress-bar-steps">
+    {{#each this.steps}}
+      <span class="progress-bar-step"></span>
+    {{/each}}
+  </div>
 </div>

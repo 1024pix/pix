@@ -10,9 +10,7 @@
 
   <div class="assessment-challenge__content rounded-panel--over-background-banner">
     {{#if model.assessment.showProgressBar}}
-      <div class="assessment-challenge__progress-bar">
-        {{progress-bar assessment=model.assessment}}
-      </div>
+      {{progress-bar assessment=model.assessment challenge=model.challenge}}
     {{/if}}
 
     {{component (get-challenge-component-class model.challenge)
