@@ -11,6 +11,11 @@ function isFeatureEnabled(environmentVariable) {
   return environmentVariable === 'true';
 }
 
+function _getNumber(numberAsString, defaultIntNumber) {
+  const number = parseInt(numberAsString, 10);
+  return isNaN(number) ? defaultIntNumber : number;
+}
+
 module.exports = (function() {
 
   const config = {
@@ -89,8 +94,8 @@ module.exports = (function() {
     },
 
     features: {
-      dayBeforeImproving: process.env.DAY_BEFORE_IMPROVING,
-      dayBeforeCompetenceResetV2: process.env.DAY_BEFORE_COMPETENCE_RESET_V2
+      dayBeforeImproving: _getNumber(process.env.DAY_BEFORE_IMPROVING, 4),
+      dayBeforeCompetenceResetV2: _getNumber(process.env.DAY_BEFORE_COMPETENCE_RESET_V2,7),
     },
   };
 
