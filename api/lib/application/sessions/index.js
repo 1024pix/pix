@@ -54,6 +54,22 @@ exports.register = async (server) => {
       }
     },
     {
+      method: 'POST',
+      path: '/api/sessions/{id}/certification-candidates/import',
+      config: {
+        payload: {
+          allow: 'multipart/form-data',
+          maxBytes: 1048576 * 10, // 10MB
+        },
+        handler: sessionController.importCertificationCandidatesFromAttendanceSheet,
+        tags: ['api', 'sessions'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés et appartenant à un centre de certification ayant créé la session**\n' +
+          '- Elle permet de récupérer la liste des candidats à inscrire contenue dans le PV de session format ODS envoyé',
+        ]
+      }
+    },
+    {
       method: 'PATCH',
       path: '/api/sessions/{id}',
       config: {
@@ -65,7 +81,19 @@ exports.register = async (server) => {
         ],
         tags: ['api', 'session']
       }
-    }
+    },
+    {
+      method: 'GET',
+      path: '/api/sessions/{id}/certification-candidates',
+      config: {
+        handler: sessionController.getCertificationCandidates,
+        tags: ['api', 'organizations'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle retourne les candidats de certification inscrits à la session.',
+        ]
+      }
+    },
   ]);
 };
 

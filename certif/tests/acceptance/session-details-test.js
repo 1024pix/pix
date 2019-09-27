@@ -13,9 +13,14 @@ module('Acceptance | Session Details', function(hooks) {
 
   let user;
 
-  hooks.beforeEach(() => {
+  hooks.beforeEach(function() {
     user = createUserWithMembership();
     server.create('session', { id: 1 });
+  });
+
+  hooks.afterEach(function() {
+    const notificationMessagesService = this.owner.lookup('service:notification-messages');
+    notificationMessagesService.clearAll();
   });
 
   module('When user is not logged in', function() {
@@ -69,5 +74,7 @@ module('Acceptance | Session Details', function(hooks) {
       // then
       assert.equal(currentURL(), '/sessions/liste');
     });
+
   });
+
 });

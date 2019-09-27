@@ -1,16 +1,9 @@
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 
 export default Component.extend({
-
-  tooltipText: 'Copier le lien direct',
-
-  actions: {
-    clipboardSuccess() {
-      this.set('tooltipText', 'Copié !');
-    },
-
-    clipboardOut() {
-      this.set('tooltipText', 'Copier le code d\'accès');
-    }
-  }
+  certificationCandidatesCount: computed('session.certificationCandidates.length', function() {
+    const certificationCandidatesCount = this.get('session.certificationCandidates.length');
+    return certificationCandidatesCount > 0 ? `(${certificationCandidatesCount})`  : '';
+  }),
 });

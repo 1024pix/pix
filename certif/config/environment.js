@@ -47,6 +47,10 @@ module.exports = function(environment) {
       url: 'https://stats.pix.fr/js/container_cMIdKogu.js',
     },
 
+    notifications: {
+      autoClear: true,
+      clearDuration: 3000,
+    },
   };
 
   if (environment === 'development') {
@@ -71,6 +75,9 @@ module.exports = function(environment) {
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
+
+    ENV.notifications.autoClear = null;
+    ENV.notifications.clearDuration = null;
   }
 
   if (environment === 'production') {

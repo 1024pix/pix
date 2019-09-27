@@ -12,9 +12,15 @@ export default DS.Model.extend({
   room: DS.attr(),
   time: DS.attr(),
   certificationCenter: DS.belongsTo('certificationCenter'),
+  certificationCandidates: DS.hasMany('certificationCandidate'),
   session: service(),
 
   urlToDownload: computed('id', function() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.get('id')}/attendance-sheet?accessToken=${this.get('session.data.authenticated.access_token')}`;
   }),
+
+  urlToUpload: computed('id', function() {
+    return `${ENV.APP.API_HOST}/api/sessions/${this.get('id')}/certification-candidates/import`;
+  }),
+
 });

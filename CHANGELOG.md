@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.68.0 (27/09/2019)
+
+- [#720](https://github.com/1024pix/pix/pull/720) [FEATURE] Import & affichage de candidats à une session de certification (PC-61-2)(PC-49)
+- [#727](https://github.com/1024pix/pix/pull/727) [BUGFIX] Dysfonctionnement du nettoyage journalier des caches (PF-836)
+- [#726](https://github.com/1024pix/pix/pull/726) [TECH] Retrait de la fonctionnalité plus utilisée d'import CSV dans PixAdmin (PA-111)
+
 ## v2.67.0 (24/09/2019)
 
 - [#710](https://github.com/1024pix/pix/pull/710) [FEATURE] Ajout du département (code) aux Organisations et affichage dans Pix Admin (PA-105).

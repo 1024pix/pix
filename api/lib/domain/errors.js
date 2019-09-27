@@ -72,6 +72,18 @@ class CampaignCodeError extends DomainError {
   }
 }
 
+class CertificationCandidateCreationOrUpdateError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class CertificationCandidateDeletionError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class CertificationComputeError extends DomainError {
   constructor(message) {
     super(message);
@@ -115,6 +127,12 @@ class EntityValidationError extends DomainError {
 }
 
 class ForbiddenAccess extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class InvalidCertificationCandidate extends DomainError {
   constructor(message) {
     super(message);
   }
@@ -175,6 +193,24 @@ class FileValidationError extends DomainError {
 }
 
 class ObjectAlreadyExisting extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class ODSBufferReadFailedError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class ODSTableDataEmptyError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class ODSTableHeadersNotFoundError extends DomainError {
   constructor(message) {
     super(message);
   }
@@ -278,6 +314,8 @@ module.exports = {
   CampaignCodeError,
   CampaignWithoutOrganizationError,
   CompetenceResetError,
+  CertificationCandidateCreationOrUpdateError,
+  CertificationCandidateDeletionError,
   CertificationCenterMembershipCreationError,
   CertificationComputeError,
   ChallengeAlreadyAnsweredError,
@@ -285,6 +323,7 @@ module.exports = {
   FileValidationError,
   ForbiddenAccess,
   InternalError,
+  InvalidCertificationCandidate,
   InvalidRecaptchaTokenError,
   InvalidTemporaryKeyError,
   MembershipCreationError,
@@ -292,6 +331,9 @@ module.exports = {
   NotFoundError,
   ObjectAlreadyExisting,
   ObjectValidationError,
+  ODSBufferReadFailedError,
+  ODSTableDataEmptyError,
+  ODSTableHeadersNotFoundError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   UserNotAuthorizedToAccessEntity,

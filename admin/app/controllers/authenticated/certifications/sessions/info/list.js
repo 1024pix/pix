@@ -1,5 +1,4 @@
 import Controller from '@ember/controller';
-import Papa from 'papaparse';
 import { inject as service } from '@ember/service';
 
 export default Controller.extend({
@@ -25,33 +24,6 @@ export default Controller.extend({
   },
 
   actions: {
-
-    async importAndLinkCandidatesToTheSessionCertifications(file) {
-      const csvAsText = await file.readAsText();
-      // XXX We delete the BOM UTF8 at the beginning of the CSV, otherwise the first element is wrongly parsed.
-      const csvRawData = csvAsText.toString('utf8').replace(/^\uFEFF/, '');
-      const fileHeaders = {
-        'ID de certification': 'certificationId',
-        'Prenom du candidat': 'firstName',
-        'Nom du candidat': 'lastName',
-        'Date de naissance du candidat': 'birthdate',
-        'Lieu de naissance du candidat': 'birthplace',
-        'Identifiant Externe': 'externalId',
-      };
-      const candidatesData = Papa.parse(csvRawData, {
-        header: true,
-        skipEmptyLines: true,
-        transformHeader: ((header) => {
-          return fileHeaders[header];
-        })
-      }).data;
-      try {
-        await this.sessionInfoService.updateCertificationsFromCandidatesData(this.model.certifications, candidatesData);
-        this.notifications.success(`${candidatesData.length} lignes correctement importé(e)s.`);
-      } catch (error) {
-        this.notifications.error(error);
-      }
-    },
 
     async onSaveReportData(candidatesData) {
       try {
