@@ -50,7 +50,7 @@ describe('Unit | Repository | assessmentRepository', () => {
 
     context('when assessment is valid', () => {
       beforeEach(() => {
-        assessment = Assessment.fromAttributes({ id: '1', type: Assessment.types.CERTIFICATION, userId: 2, campaignParticipation: null });
+        assessment = Assessment.fromAttributes({ id: '1', type: Assessment.types.CERTIFICATION, userId: 2, campaignParticipation: null, isImproving: true });
         const assessmentBookshelf = new BookshelfAssessment(assessment);
         sinon.stub(BookshelfAssessment.prototype, 'save').resolves(assessmentBookshelf);
       });

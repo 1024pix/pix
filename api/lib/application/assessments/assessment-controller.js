@@ -93,8 +93,10 @@ module.exports = {
         }
 
         if (assessment.isSmartPlacement()) {
+          const tryImproving = Boolean(request.query.tryImproving);
           return usecases.getNextChallengeForSmartPlacement({
             assessment,
+            tryImproving
           });
         }
 

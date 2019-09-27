@@ -38,6 +38,19 @@
         {{/if}}
       {{/if}}
     </div>
+    {{#if displayImprovementButton}}
+      {{#unless model.campaignParticipation.isShared}}
+       <div class="skill-review-result__dash-line"></div>
+       <div class="skill-review__begin-improvement">
+         <div><h2 class="skill-review__subtitle">Envie d'améliorer vos résultats ?</h2>
+           <p class="skill-review__explain-text">Vous pouvez retenter certaines questions</p>
+         </div>
+         <button class="button button--dark-grey button--big skill-review__improvement-button" {{action 'improvementCampaignParticipation'}}>
+           Je retente
+         </button>
+       </div>
+      {{/unless}}
+    {{/if}}
 
     <div class="skill-review-result__dash-line"></div>
 
