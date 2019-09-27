@@ -45,7 +45,7 @@ module('Acceptance | terms-of-service', function(hooks) {
     test('it should send request for saving Pix-orga terms of service acceptation when submitting', async function(assert) {
       // given
       let pixOrgaTermsOfServiceAccepted = null;
-      server.patch('/users/:id/accept-pix-orga-terms-of-service', () => {
+      server.patch('/users/:id/pix-orga-terms-of-service-acceptance', () => {
         pixOrgaTermsOfServiceAccepted = true;
         return new Response(200, { some: 'header' }, {
           data: [{

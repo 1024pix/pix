@@ -45,7 +45,7 @@ module('Acceptance | terms-of-service', function(hooks) {
     test('it should send request for saving Pix-certif terms of service acceptation when submitting', async function(assert) {
       // given
       let pixCertifTermsOfServiceAccepted = null;
-      server.patch('/users/:id/accept-pix-certif-terms-of-service', () => {
+      server.patch('/users/:id/pix-certif-terms-of-service-acceptance', () => {
         pixCertifTermsOfServiceAccepted = true;
         return new Response(200, { some: 'header' }, {
           data: [{

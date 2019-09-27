@@ -14,7 +14,7 @@ describe('Acceptance | Controller | users-controller-accept-pix-certif-terms-of-
 
     options = {
       method: 'PATCH',
-      url: `/api/users/${user.id}/accept-pix-certif-terms-of-service`,
+      url: `/api/users/${user.id}/pix-certif-terms-of-service-acceptance`,
       headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
     };
 

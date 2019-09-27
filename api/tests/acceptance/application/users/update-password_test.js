@@ -28,7 +28,7 @@ describe('Acceptance | Controller | users-controller-update-password', () => {
       // given
       options = {
         method: 'PATCH',
-        url: `/api/users/${user.id}/update-password?temporary-key=bad-temporary-key`,
+        url: `/api/users/${user.id}/password-update?temporary-key=bad-temporary-key`,
         payload: {
           data: {
             id: user.id,
@@ -53,7 +53,7 @@ describe('Acceptance | Controller | users-controller-update-password', () => {
       // given
       options = {
         method: 'PATCH',
-        url: `/api/users/${user.id}/update-password?temporary-key=${temporaryKey}`,
+        url: `/api/users/${user.id}/password-update?temporary-key=${temporaryKey}`,
         payload: {
           data: {
             id: user.id,

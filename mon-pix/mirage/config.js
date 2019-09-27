@@ -109,7 +109,7 @@ export default function() {
     return user;
   });
 
-  this.patch('/users/:id/update-password', (schema, request) => {
+  this.patch('/users/:id/password-update', (schema, request) => {
     const body = JSON.parse(request.requestBody);
     const user =  schema.users.find(request.params.id);
 
