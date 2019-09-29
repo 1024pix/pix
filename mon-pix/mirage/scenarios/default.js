@@ -89,7 +89,7 @@ export default function(server) {
   server.create('certification', {
     id: '2',
     date: new Date('2018-02-15T15:15:52Z'),
-    birthdate: new Date('1994-07-10'),
+    birthdate: '1994-07-10',
     birthplace: 'Paris',
     firstName:'Jean',
     lastName:'Bon',
