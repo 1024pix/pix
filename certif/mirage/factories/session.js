@@ -12,7 +12,7 @@ export default Factory.extend({
   },
 
   date() {
-    return '23/02/2019';
+    return '2019-02-23';
   },
 
   time() {

@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
@@ -38,8 +36,7 @@ module('Acceptance | Session creation', function(hooks) {
 
     test('it should create a session and redirect to session details', async function(assert) {
       // given
-      const sessionDate = moment();
-      const sessionFormattedDate = sessionDate.format('DD/MM/YYYY');
+      const sessionDate = '2019-12-25';
       const sesionFormattedTime = '02/02/2019 13:45';
       const sessionTime = new Date(sesionFormattedTime);
 
@@ -48,7 +45,7 @@ module('Acceptance | Session creation', function(hooks) {
       await fillIn('#session-room', 'My room');
       await fillIn('#session-examiner', 'My examiner');
       await fillIn('#session-description', 'My description');
-      await setFlatpickrDate('#session-date', sessionDate.toDate());
+      await setFlatpickrDate('#session-date', sessionDate);
       await setFlatpickrDate('#session-time', sessionTime);
 
       // when
@@ -60,7 +57,7 @@ module('Acceptance | Session creation', function(hooks) {
       assert.equal(session.room, 'My room');
       assert.equal(session.examiner, 'My examiner');
       assert.equal(session.description, 'My description');
-      assert.equal(session.date, sessionFormattedDate);
+      assert.equal(session.date, sessionDate);
       assert.equal(session.time, '13:45');
       assert.equal(currentURL(), `/sessions/${session.id}`);
     });
