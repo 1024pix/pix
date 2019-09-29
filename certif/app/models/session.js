@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 export default DS.Model.extend({
   address: DS.attr(),
   accessCode: DS.attr(),
-  date: DS.attr(),
+  date: DS.attr('date-only'),
   description: DS.attr(),
   examiner: DS.attr(),
   room: DS.attr(),

@@ -23,7 +23,7 @@ module('Acceptance | Session Update', function(hooks) {
 
   test('it should allow to update a session and redirect to the session #1 details', async function(assert) {
     // given
-    const session = server.create('session', { id: 1, date: '12/10/2010', time: '13:00' });
+    const session = server.create('session', { id: 1, date: '2010-10-12', time: '13:00' });
     const newRoom = 'New room';
     const newExaminer = 'New examiner';
 
@@ -42,7 +42,7 @@ module('Acceptance | Session Update', function(hooks) {
 
   test('it should not update a session when cancel button is clicked and redirect to the session #1 details', async function(assert) {
     // given
-    const session = server.create('session', { id: 1, room: 'current room', examiner: 'current examiner', date: '12/10/2010', time: '13:00' });
+    const session = server.create('session', { id: 1, room: 'current room', examiner: 'current examiner', date: '2010-10-12', time: '13:00' });
     const newRoom = 'New room';
     const newExaminer = 'New examiner';
 
