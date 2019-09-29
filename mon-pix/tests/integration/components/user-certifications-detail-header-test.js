@@ -21,7 +21,7 @@ describe('Integration | Component | user certifications detail header', function
       // given
       certification = EmberObject.create({
         id: 1,
-        birthdate: new Date('2000-01-22T15:15:52Z'),
+        birthdate: '2000-01-22',
         birthplace: 'Paris',
         firstName: 'Jean',
         lastName: 'Bon',
