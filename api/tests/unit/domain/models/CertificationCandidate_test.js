@@ -11,7 +11,9 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       const rawData = {
         firstName: 'Jean-Pierre',
         lastName: 'Foucault',
-        birthplace: 'Marseille',
+        birthCity: 'Marseille',
+        birthProvinceCode: '13',
+        birthCountry: 'France',
         externalId: 'QVGDM',
         birthdate: '1940-05-05',
         extraTimePercentage: 0.3,
@@ -24,7 +26,9 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       // then
       expect(certificationCandidate.firstName).to.equal('Jean-Pierre');
       expect(certificationCandidate.lastName).to.equal('Foucault');
-      expect(certificationCandidate.birthplace).to.equal('Marseille');
+      expect(certificationCandidate.birthCity).to.equal('Marseille');
+      expect(certificationCandidate.birthProvinceCode).to.equal('13');
+      expect(certificationCandidate.birthCountry).to.equal('France');
       expect(certificationCandidate.externalId).to.equal('QVGDM');
       expect(certificationCandidate.birthdate).to.equal('1940-05-05');
       expect(certificationCandidate.extraTimePercentage).to.equal(0.3);
@@ -90,19 +94,75 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         .to.throw(InvalidCertificationCandidate);
     });
 
-    it('should return an error if birthplace is not defined', () => {
+    it('should return an error if birthCity is not defined', () => {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
-      certificationCandidate.birthplace = undefined;
+      certificationCandidate.birthCity = undefined;
 
       // then
       return expect(() => certificationCandidate.validate())
         .to.throw(InvalidCertificationCandidate);
     });
 
-    it('should return an error if birthplace is not a string', () => {
+    it('should return an error if birthCity is not a string', () => {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthplace: 123 });
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthCity: 123 });
+
+      // then
+      return expect(() => certificationCandidate.validate())
+        .to.throw(InvalidCertificationCandidate);
+    });
+
+    it('should not throw an error if birthProvinceCode is null', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthProvinceCode: null });
+
+      // then
+      return expect(() => certificationCandidate.validate())
+        .not.to.throw;
+    });
+
+    it('should not throw an error if birthProvinceCode is undefined', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({});
+      certificationCandidate.birthProvinceCode = undefined;
+
+      // then
+      return expect(() => certificationCandidate.validate())
+        .not.to.throw;
+    });
+
+    it('should return an error if birthProvinceCode is not a string', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthProvinceCode: 123 });
+
+      // then
+      return expect(() => certificationCandidate.validate())
+        .to.throw(InvalidCertificationCandidate);
+    });
+
+    it('should not throw an error if birthCountry is null', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthCountry: null });
+
+      // then
+      return expect(() => certificationCandidate.validate())
+        .not.to.throw;
+    });
+
+    it('should not throw an error if birthCountry is undefined', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({});
+      certificationCandidate.birthCountry = undefined;
+
+      // then
+      return expect(() => certificationCandidate.validate())
+        .not.to.throw;
+    });
+
+    it('should return an error if birthCountry is not a string', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthCountry: 123 });
 
       // then
       return expect(() => certificationCandidate.validate())

@@ -14,7 +14,9 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
         attributes: {
           'first-name': certificationCandidate.firstName,
           'last-name': certificationCandidate.lastName,
-          'birthplace': certificationCandidate.birthplace,
+          'birth-city': certificationCandidate.birthCity,
+          'birth-province-code': certificationCandidate.birthProvinceCode,
+          'birth-country': certificationCandidate.birthCountry,
           'birthdate': certificationCandidate.birthdate,
           'external-id': certificationCandidate.externalId,
           'extra-time-percentage': certificationCandidate.extraTimePercentage,

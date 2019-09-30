@@ -57,22 +57,22 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
     const expectedCertificationCandidates = _.map([
       {
         lastName: 'Gallagher', firstName: 'Jack',
-        birthdate: '2010-10-01', birthplace: 'Londres',
+        birthdate: '2010-10-01', birthCity: 'Londres',
         externalId: null, extraTimePercentage: 0.15, sessionId,
       },
       {
         lastName: 'Jackson', firstName: 'Janet',
-        birthdate: '2018-09-25', birthplace: 'Milan',
+        birthdate: '2018-09-25', birthCity: 'Milan',
         externalId: 'DEF456', extraTimePercentage: null, sessionId,
       },
       {
         lastName: 'Jackson', firstName: 'Michael',
-        birthdate: '1995-01-15', birthplace: 'Paris',
+        birthdate: '1995-01-15', birthCity: 'Paris',
         externalId: 'ABC123', extraTimePercentage: 0.6, sessionId,
       },
       {
         lastName: 'Mercury', firstName: 'Freddy',
-        birthdate: '1925-06-14', birthplace: 'Barcelone',
+        birthdate: '1925-06-14', birthCity: 'Barcelone',
         externalId: 'GHI789', extraTimePercentage: 1.5, sessionId,
       },
     ], (candidate) => new CertificationCandidate(candidate));

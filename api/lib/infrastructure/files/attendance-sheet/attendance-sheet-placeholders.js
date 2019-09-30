@@ -52,7 +52,7 @@ const ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES = [
   },
   {
     placeholder: 'BIRTHPLACE',
-    propertyName: 'birthplace',
+    propertyName: 'birthCity',
   },
   {
     placeholder: 'EXTERNAL_ID',
