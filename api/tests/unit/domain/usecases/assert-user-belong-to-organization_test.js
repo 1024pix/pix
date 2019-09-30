@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors')
+const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const usecases = require('../../../../lib/domain/usecases');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
