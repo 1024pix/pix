@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.69.0 (30/09/2019)
+
+- [#724](https://github.com/1024pix/pix/pull/724) [FEATURE] Mise à jour des organisations en ajoutant un identifiant externe et le département à l'aide d'un script (PF-778).
+- [#729](https://github.com/1024pix/pix/pull/729) [FEATURE] Modification du logo dans Pix Orga (PO-245)
+- [#723](https://github.com/1024pix/pix/pull/723) [FEATURE] Ajout de la progression par campagne (PF-835).
+
 ## v2.68.0 (27/09/2019)
 
 - [#720](https://github.com/1024pix/pix/pull/720) [FEATURE] Import & affichage de candidats à une session de certification (PC-61-2)(PC-49)
