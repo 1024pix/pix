@@ -1,5 +1,5 @@
 const { expect, catchErr } = require('../../../../test-helper');
-const { getContentXml, extractTableDataFromOdsFile } = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
+const { getContentXml, extractTableDataFromOdsFile, getOdsVersionByHeaders } = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 const fs = require('fs');
 const _ = require('lodash');
 const moment = require('moment');
@@ -73,10 +73,12 @@ describe('read-ods-utils', () => {
         // given
         const TRANSFORM_STRUCT_NON_EXISTENT_HEADERS = [
           {
-            header: 'Non existent HEADER1',
+            header: 'NONEXISTENT_HEADER1',
+            property: 'lastName',
           },
           {
-            header: 'Non existent HEADER2',
+            header: 'NONEXISTENT_HEADER2',
+            property: 'firstName',
           },
         ];
 
@@ -132,6 +134,59 @@ describe('read-ods-utils', () => {
 
       // then
       expect(certificationCandidatesData).to.deep.equal(expectedCertificationCandidatesData);
+    });
+
+  });
+
+  describe('getOdsVersionByHeaders', () => {
+
+    const HEADERS_BY_VERSION = [
+      {
+        version: 1,
+        headers: ['HEADER1_V1', 'HEADER2_V1'],
+      },
+      {
+        version: 2,
+        headers: ['HEADER1', 'HEADER2'],
+      },
+    ];
+
+    context('when a version is found', () => {
+      before(() => {
+        odsFilePath = `${__dirname}/ods-file_test.ods`;
+        odsBuffer = fs.readFileSync(odsFilePath);
+      });
+
+      it('should return the appropriate version', async () => {
+        // when
+        const version = await getOdsVersionByHeaders({
+          odsBuffer,
+          headersListByVersion: HEADERS_BY_VERSION,
+        });
+
+        // then
+        expect(version).to.equal(2);
+      });
+
+    });
+
+    context('when no version is found', () => {
+      before(() => {
+        odsFilePath = `${__dirname}/ods-file_unknown-version_test.ods`;
+        odsBuffer = fs.readFileSync(odsFilePath);
+      });
+
+      it('should throw a UnprocessableEntityError', async () => {
+        // when
+        const result = await catchErr(getOdsVersionByHeaders)({
+          odsBuffer,
+          headersListByVersion: HEADERS_BY_VERSION,
+        });
+
+        // then
+        expect(result).to.be.instanceof(UnprocessableEntityError);
+      });
+
     });
 
   });
