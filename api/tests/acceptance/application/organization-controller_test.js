@@ -284,6 +284,79 @@ describe('Acceptance | Application | organization-controller', () => {
     });
   });
 
+  describe('PATCH /api/organizations/{id}', () => {
+    let payload;
+    let options;
+    let organization;
+
+    beforeEach(async () => {
+      organization = databaseBuilder.factory.buildOrganization();
+      await databaseBuilder.commit();
+      payload = {
+        data: {
+          type: 'organizations',
+          id: organization.id,
+          attributes: {
+            'external-id': '0446758F',
+            'province-code': '044',
+          }
+        }
+      };
+      options = {
+        method: 'PATCH',
+        url: `/api/organizations/${organization.id}`,
+        payload,
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
+      };
+    });
+
+    afterEach(() => databaseBuilder.clean());
+
+    it('should return 200 HTTP status code', async () => {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should create and return the new organization', async () => {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.result.data.attributes['external-id']).to.equal('0446758F');
+      expect(response.result.data.attributes['province-code']).to.equal('044');
+      expect(parseInt(response.result.data.id)).to.equal(organization.id);
+    });
+
+    describe('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async() => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async() => {
+        // given
+        const nonPixMAsterUserId = 9999;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
+
   describe('GET /api/organizations', () => {
     let userId;
     const options = {

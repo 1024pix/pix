@@ -12,6 +12,8 @@ describe('Unit | UseCase | update-organization-information', () => {
       name: 'Old name',
       type: 'SCO',
       logoUrl: 'http://old.logo.url',
+      externalId: 'extId',
+      provinceCode: '666'
     });
     organizationRepository = {
       get: sinon.stub().resolves(originalOrganization),
@@ -72,12 +74,48 @@ describe('Unit | UseCase | update-organization-information', () => {
 
       // then
       return promise.then((resultOrganization) => {
-        expect(resultOrganization.logoUrl).to.equal(newLogoUrl);
-
         expect(resultOrganization.name).to.equal(originalOrganization.name);
         expect(resultOrganization.type).to.equal(originalOrganization.type);
         expect(resultOrganization.logoUrl).to.equal(newLogoUrl);
       });
+    });
+
+    it('should allow to update the organization external id (only) if modified', async () => {
+      // given
+      const externalId = '9752145V';
+
+      // when
+      const resultOrganization = await updateOrganizationInformation({
+        id: originalOrganization.id,
+        externalId,
+        organizationRepository
+      });
+
+      // then
+      expect(resultOrganization.name).to.equal(originalOrganization.name);
+      expect(resultOrganization.type).to.equal(originalOrganization.type);
+      expect(resultOrganization.logoUrl).to.equal(originalOrganization.logoUrl);
+      expect(resultOrganization.externalId).to.equal(externalId);
+      expect(resultOrganization.provinceCode).to.equal(originalOrganization.provinceCode);
+    });
+
+    it('should allow to update the organization province code (only) if modified', async () => {
+      // given
+      const provinceCode = '975';
+
+      // when
+      const resultOrganization = await updateOrganizationInformation({
+        id: originalOrganization.id,
+        provinceCode,
+        organizationRepository
+      });
+
+      // then
+      expect(resultOrganization.name).to.equal(originalOrganization.name);
+      expect(resultOrganization.type).to.equal(originalOrganization.type);
+      expect(resultOrganization.logoUrl).to.equal(originalOrganization.logoUrl);
+      expect(resultOrganization.externalId).to.equal(originalOrganization.externalId);
+      expect(resultOrganization.provinceCode).to.equal(provinceCode);
     });
   });
 

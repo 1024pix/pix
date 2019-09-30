@@ -38,6 +38,8 @@ describe('Integration | Application | Organizations | organization-controller', 
           'type': 'PRO',
           'code': 'ABCD12',
           'logo-url': 'http://log.url',
+          'external-id': '02A2145V',
+          'province-code': '02A',
         }
       }
     };

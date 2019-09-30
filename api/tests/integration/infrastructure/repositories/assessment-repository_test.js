@@ -274,6 +274,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           state: Assessment.states.COMPLETED,
           createdAt: johnAssessmentToRemember.createdAt,
           type: PLACEMENT,
+          isImproving: false,
           campaignParticipationId: null,
           competenceId: johnAssessmentToRemember.competenceId,
           assessmentResults: [
