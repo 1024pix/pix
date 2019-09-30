@@ -6,7 +6,9 @@ const certificationCandidateValidationJoiSchema = Joi.object().keys({
   id: Joi.number().optional(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
-  birthplace: Joi.string().required(),
+  birthCity: Joi.string().required(),
+  birthProvinceCode: Joi.string().allow(null).optional(),
+  birthCountry: Joi.string().allow(null).optional(),
   externalId: Joi.string().allow(null).optional(),
   birthdate: Joi.string().length(10).required(),
   createdAt: Joi.any().allow(null).optional(),
@@ -21,7 +23,9 @@ class CertificationCandidate {
       // attributes
       firstName,
       lastName,
-      birthplace,
+      birthCity,
+      birthProvinceCode,
+      birthCountry,
       externalId,
       birthdate,
       createdAt,
@@ -34,7 +38,9 @@ class CertificationCandidate {
     // attributes
     this.firstName = firstName;
     this.lastName = lastName;
-    this.birthplace = birthplace;
+    this.birthCity = birthCity;
+    this.birthProvinceCode = birthProvinceCode;
+    this.birthCountry = birthCountry;
     this.externalId = externalId;
     this.birthdate = birthdate;
     this.createdAt = createdAt;

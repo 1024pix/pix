@@ -24,11 +24,6 @@ const _TRANSFORMATION_STRUCT_COMMON_V1 = [
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: 'Lieu de naissance',
-    property: 'birthplace',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
     header: 'Identifiant local',
     property: 'externalId',
     transformFn: _toNotEmptyTrimmedStringOrNull,
@@ -43,6 +38,11 @@ const _TRANSFORMATION_STRUCT_COMMON_V1 = [
 const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1 = [
   ..._TRANSFORMATION_STRUCT_COMMON_V1,
   {
+    header: 'Lieu de naissance',
+    property: 'birthCity',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
     header: 'Date de naissance (format : jj/mm/aaaa)',
     property: 'birthdate',
     transformFn: (cellVal) => {
@@ -56,6 +56,11 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1 = [
 
 const _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1 = [
   ..._TRANSFORMATION_STRUCT_COMMON_V1,
+  {
+    header: 'Lieu de naissance',
+    property: 'birthplace',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
   {
     header: 'Date de naissance (format : jj/mm/aaaa)',
     property: 'birthdate',

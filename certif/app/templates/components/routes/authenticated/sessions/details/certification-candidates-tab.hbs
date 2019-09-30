@@ -57,7 +57,9 @@
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>Date de naissance</th>
-                <th>Lieu de naissance</th>
+                <th>Commune de naissance</th>
+                <th>Département de naissance</th>
+                <th>Pays de naissance</th>
                 <th>Identifiant externe</th>
                 <th>Temps majoré</th>
             </tr>
@@ -68,7 +70,9 @@
                       <td>{{candidate.lastName}}</td>
                       <td>{{candidate.firstName}}</td>
                       <td>{{moment-format candidate.birthdate 'DD/MM/YYYY'}}</td>
-                      <td>{{candidate.birthplace}}</td>
+                      <td>{{candidate.birthCity}}</td>
+                      <td>{{candidate.birthProvinceCode}}</td>
+                      <td>{{candidate.birthCountry}}</td>
                       <td>{{candidate.externalId}}</td>
                       <td>{{format-percentage candidate.extraTimePercentage}}</td>
                   </tr>
