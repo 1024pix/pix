@@ -73,11 +73,8 @@ class Scorecard {
 }
 
 function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
-  if (!competenceEvaluation) {
+  if (!competenceEvaluation || competenceEvaluation.status === CompetenceEvaluation.statuses.RESET) {
     return _.isEmpty(knowledgeElements) ? statuses.NOT_STARTED : statuses.STARTED;
-  }
-  if (competenceEvaluation.status === CompetenceEvaluation.statuses.RESET) {
-    return statuses.NOT_STARTED;
   }
   const stateOfAssessment = _.get(competenceEvaluation, 'assessment.state');
   if (stateOfAssessment === Assessment.states.COMPLETED) {

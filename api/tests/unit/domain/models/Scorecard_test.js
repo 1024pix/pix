@@ -99,7 +99,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
       });
     });
 
-    context('when the competence evaluation has been reset', () => {
+    context('when the competence evaluation has been reset but no knowledgeElements exist', () => {
       beforeEach(() => {
         // given
         const knowledgeElements = [];
@@ -111,6 +111,22 @@ describe('Unit | Domain | Models | Scorecard', () => {
       // then
       it('should have set the scorecard status based on the competence evaluation status', () => {
         expect(actualScorecard.status).to.equal('NOT_STARTED');
+      });
+    });
+
+    context('when the competence evaluation has been reset and some knowledgeElements exist', () => {
+      beforeEach(() => {
+        // given
+        const knowledgeElements = [{ earnedPix: 5.5, createdAt: new Date() }, { earnedPix: 3.6, createdAt: new Date() }];
+        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
+        competenceEvaluation = { status: 'reset' };
+
+        //when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+      });
+      // then
+      it('should have set the scorecard status STARTED', () => {
+        expect(actualScorecard.status).to.equal(Scorecard.statuses.STARTED);
       });
     });
 
