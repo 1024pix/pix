@@ -11,8 +11,8 @@ export default Route.extend({
     return this.transitionTo(transition);
   },
 
-  _selectTransition({ pixOrgaTermsOfServiceAccepted }) {
-    if (!pixOrgaTermsOfServiceAccepted) {
+  _selectTransition({ pixCertifTermsOfServiceAccepted }) {
+    if (!pixCertifTermsOfServiceAccepted) {
       return 'authenticated.terms-of-service';
     }
 
