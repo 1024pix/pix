@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
+import { A } from '@ember/array';
 
 describe('Unit | Component | resume-campaign-banner-component ', function() {
 
@@ -49,7 +50,6 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
   });
 
   describe('#campaignToResumeOrShare', function() {
-
     it('should return the most recent campaign among campaigns not finished and not shared', function() {
       // given
       const listCampaignParticipations = [oldCampaignNotFinished, campaignNotFinished];
@@ -66,6 +66,33 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
 
       // then
       expect(campaignToResumeOrShare).to.deep.equal(expectedResult);
+    });
+
+    it('should return the most recent campaign among campaigns not finished and not shared dynamically', function() {
+      // given
+      const participations = A([]);
+      component.set('campaignParticipations', participations);
+
+      // then
+      expect(component.get('campaignToResumeOrShare')).to.equal(null);
+
+      // when
+      const updatableCampaignNotFinished = EmberObject.create({
+        isShared: false,
+        createdAt: '2018-01-01',
+        campaign: EmberObject.create({
+          code: 'AZERTY0',
+        })
+      });
+      participations.addObject(oldCampaignNotFinished);
+      participations.addObject(updatableCampaignNotFinished);
+
+      // then
+      expect(component.get('campaignToResumeOrShare').code).to.equal('AZERTY0');
+
+      updatableCampaignNotFinished.set('createdAt', '2000-05-13');
+
+      expect(component.get('campaignToResumeOrShare').code).to.equal(oldCampaignNotFinished.campaign.code);
     });
 
     it('should return the most recent campaign among campaigns not shared', function() {
