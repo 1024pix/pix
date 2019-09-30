@@ -6,7 +6,6 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/courses/{id}',
       config: {
-        auth: false,
         handler: courseController.get,
         tags: ['api']
       }
