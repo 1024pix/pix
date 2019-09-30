@@ -175,39 +175,28 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
 
   describe('#checkIfUserIsPartOfStudentListInOrganization', () => {
 
-    let organization;
-    let badOrganization;
-
-    beforeEach(async () => {
-      organization = databaseBuilder.factory.buildOrganization();
-      badOrganization = databaseBuilder.factory.buildOrganization();
-      databaseBuilder.factory.buildStudent({
-        organizationId: organization.id,
-        userId: null,
-        preferredLastName: 'Lee',
-        lastName: 'Lieber',
-        firstName: 'Stanley',
-        middleName: 'Martin',
-        thirdName: 'Stan',
-      });
-      databaseBuilder.factory.buildStudent({
-        organizationId: badOrganization.id,
-        userId: null,
-        preferredLastName: 'Kirby',
-        lastName: 'Kurtzberg',
-        firstName: 'Jacob',
-        middleName: 'Jack',
-        thirdName: 'The King of comic book',
-      });
-      await databaseBuilder.commit();
-    });
-
     afterEach(async () => {
       await knex('students').delete();
       await databaseBuilder.clean();
     });
 
     context('User is part of the studentList', async () => {
+
+      let organization;
+
+      beforeEach(async () => {
+        organization = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildStudent({
+          organizationId: organization.id,
+          userId: null,
+          preferredLastName: 'Lee',
+          lastName: 'Lieber',
+          firstName: 'Stanley',
+          middleName: 'Martin',
+          thirdName: 'Stan',
+        });
+        await databaseBuilder.commit();
+      });
 
       for (const [description, user] of [
         ['should match on couple firstName and lastName', { firstName: 'Stanley', lastName: 'Lieber' }],
@@ -247,6 +236,33 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
 
     context('User is not part of the organization studentList', () => {
 
+      let organization;
+      let badOrganization;
+
+      beforeEach(async () => {
+        organization = databaseBuilder.factory.buildOrganization();
+        badOrganization = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildStudent({
+          organizationId: organization.id,
+          userId: null,
+          preferredLastName: 'Lee',
+          lastName: 'Lieber',
+          firstName: 'Stanley',
+          middleName: 'Martin',
+          thirdName: 'Stan',
+        });
+        databaseBuilder.factory.buildStudent({
+          organizationId: badOrganization.id,
+          userId: null,
+          preferredLastName: 'Kirby',
+          lastName: 'Kurtzberg',
+          firstName: 'Jacob',
+          middleName: 'Jack',
+          thirdName: 'The King of comic book',
+        });
+        await databaseBuilder.commit();
+      });
+
       it('should return false, wrong user on right organization', async () => {
         // given
         const user = { firstName: 'Bob', lastName: 'Kane' };
@@ -268,6 +284,48 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
         const result = await studentRepository.checkIfUserIsPartOfStudentListInOrganization({
           user,
           organizationId: badOrganization.id
+        });
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+
+    context('Users is found twice in student list', () => {
+
+      let organization;
+
+      beforeEach(async () => {
+        organization = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildStudent({
+          organizationId: organization.id,
+          userId: null,
+          preferredLastName: 'Lee',
+          lastName: 'Lieber',
+          firstName: 'Stanley',
+          middleName: 'Martin',
+          thirdName: 'Stan',
+        });
+        databaseBuilder.factory.buildStudent({
+          organizationId: organization.id,
+          userId: null,
+          preferredLastName: 'Lee',
+          lastName: 'Once again',
+          firstName: 'The second',
+          middleName: 'Another one',
+          thirdName: 'Stan',
+        });
+        await databaseBuilder.commit();
+      });
+
+      it('should return false, even if user in part of the organization', async () => {
+        // given
+        const user = { firstName: 'Stan', lastName: 'Lee' };
+
+        // when
+        const result = await studentRepository.checkIfUserIsPartOfStudentListInOrganization({
+          user,
+          organizationId: organization.id
         });
 
         // then
