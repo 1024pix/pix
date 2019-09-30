@@ -23,11 +23,8 @@ describe('Integration | Component | Certification Banner', function() {
       await render(hbs`{{certification-banner certificationNumber=certificationNumber}}`);
 
       // then
-      expect(find('.certification-banner__container .certification-banner__user-fullname')).to.exist;
-      expect(find('.certification-banner__container .certification-banner__user-fullname').textContent.trim()).to.equal(fullName);
-      expect(find('.certification-banner__container .certification-banner__certification-number')).to.exist;
-      expect(find('.certification-banner__container .certification-banner__certification-number').textContent.trim()).to.equal(`#${certificationNumber}`);
+      expect(find('.assessment-banner__title').textContent.trim()).to.equal(fullName);
+      expect(find('.certification-number__value').textContent.trim()).to.equal(`${certificationNumber}`);
     });
-
   });
 });
