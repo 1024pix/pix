@@ -17,6 +17,7 @@ class Course {
     // references
     challenges = [],
     competences = [],
+    userId,
   } = {}) {
     this.id = id;
     // attributes
@@ -31,6 +32,7 @@ class Course {
     // references
     this.challenges = challenges; // Array of Record IDs
     this.competences = competences; // Array of Record IDs
+    this.userId = userId;
   }
 
   get nbChallenges() {

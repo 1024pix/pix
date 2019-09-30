@@ -22,6 +22,12 @@ class AlreadyRegisteredEmailError extends DomainError {
   }
 }
 
+class AlreadySharedCampaignParticipationError extends DomainError {
+  constructor() {
+    super('Ces résultats de campagne ont déjà été partagés.');
+  }
+}
+
 class UserNotAuthorizedToCreateCampaignError extends DomainError {
   constructor(message) {
     super(message);
@@ -35,6 +41,12 @@ class UserNotAuthorizedToUpdateResourceError extends DomainError {
 }
 
 class UserNotAuthorizedToGetCampaignResultsError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class UserNotAuthorizedToGetCertificationCoursesError extends DomainError {
   constructor(message) {
     super(message);
   }
@@ -309,6 +321,7 @@ module.exports = {
   AlreadyExistingMembershipError,
   AlreadyRatedAssessmentError,
   AlreadyRegisteredEmailError,
+  AlreadySharedCampaignParticipationError,
   AssessmentEndedError,
   AssessmentNotCompletedError,
   CampaignCodeError,
@@ -340,6 +353,7 @@ module.exports = {
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToGetCampaignResultsError,
+  UserNotAuthorizedToGetCertificationCoursesError,
   UserNotAuthorizedToUpdateResourceError,
   UserNotFoundError,
   WrongDateFormatError,
