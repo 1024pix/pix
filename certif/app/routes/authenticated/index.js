@@ -6,10 +6,16 @@ export default Route.extend({
   currentUser: service(),
 
   beforeModel() {
-    if (this.currentUser.user.pixOrgaTermsOfServiceAccepted) {
-      return this.transitionTo('authenticated.sessions.list');
-    } else {
-      return this.transitionTo('authenticated.terms-of-service');
+    const transition = this._selectTransition(this.currentUser);
+
+    return this.transitionTo(transition);
+  },
+
+  _selectTransition({ pixOrgaTermsOfServiceAccepted }) {
+    if (!pixOrgaTermsOfServiceAccepted) {
+      return 'authenticated.terms-of-service';
     }
+
+    return 'authenticated.sessions.list';
   }
 });
