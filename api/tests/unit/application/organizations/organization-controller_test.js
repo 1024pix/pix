@@ -99,6 +99,70 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
+  describe('#updateOrganizationInformation', () => {
+
+    let organization;
+
+    beforeEach(() => {
+      organization = domainBuilder.buildOrganization();
+      sinon.stub(usecases, 'updateOrganizationInformation');
+      sinon.stub(organizationSerializer, 'serialize');
+
+      request = {
+        payload: {
+          data: {
+            id: organization.id,
+            attributes: {
+              name: 'Acme',
+              type: 'PRO',
+              'logo-url': 'logo',
+              'external-id': '02A2145V',
+              'province-code': '02A'
+            }
+          }
+        }
+      };
+    });
+
+    context('successful case', () => {
+
+      let serializedOrganization;
+
+      beforeEach(() => {
+        serializedOrganization = { foo: 'bar' };
+
+        usecases.updateOrganizationInformation.resolves(organization);
+        organizationSerializer.serialize.withArgs(organization).returns(serializedOrganization);
+      });
+
+      it('should update an organization', async () => {
+        // when
+        await organizationController.updateOrganizationInformation(request, hFake);
+
+        // then
+        expect(usecases.updateOrganizationInformation).to.have.been.calledOnce;
+        expect(usecases.updateOrganizationInformation).to.have.been.calledWith({ id: organization.id, name: 'Acme', type: 'PRO', logoUrl: 'logo', externalId: '02A2145V', provinceCode: '02A' });
+      });
+
+      it('should serialized organization into JSON:API', async () => {
+        // when
+        await organizationController.updateOrganizationInformation(request, hFake);
+
+        // then
+        expect(organizationSerializer.serialize).to.have.been.calledOnce;
+        expect(organizationSerializer.serialize).to.have.been.calledWith(organization);
+      });
+
+      it('should return the serialized organization', async () => {
+        // when
+        const response = await organizationController.updateOrganizationInformation(request, hFake);
+
+        // then
+        expect(response).to.deep.equal(serializedOrganization);
+      });
+    });
+  });
+
   describe('#find', () => {
 
     beforeEach(() => {
