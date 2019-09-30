@@ -20,7 +20,8 @@ export default Component.extend({
       this.set('isLoading', true);
       try {
         const certificationCourse = await this.store.createRecord('course', { accessCode }).save();
-        this.router.replaceWith('certifications.resume', certificationCourse.id);
+        await certificationCourse.reload();
+        return this.router.replaceWith('certifications.resume', certificationCourse.id);
       } catch ({ errors }) {
         const { status } = errors[0];
         this.handleErrorStatus(status);
