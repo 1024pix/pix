@@ -34,8 +34,11 @@ module.exports = {
         qb.where('organizationId', organizationId);
         qb.whereRaw('? in (LOWER(??), LOWER(??), LOWER(??))', [user.firstName.toLowerCase(), 'firstName', 'middleName', 'thirdName']);
         qb.whereRaw('? in (LOWER(??), LOWER(??))', [user.lastName.toLowerCase(), 'lastName', 'preferredLastName']);
+        qb.count();
       })
       .fetch()
-      .then((student) => !_.isEmpty(student));
+      .then((countStudents) => {
+        return parseInt(countStudents.attributes.count) === 1;
+      });
   }
 };
