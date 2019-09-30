@@ -51,8 +51,16 @@ const ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES = [
     propertyName: 'birthdate',
   },
   {
-    placeholder: 'BIRTHPLACE',
+    placeholder: 'BIRTH_CITY',
     propertyName: 'birthCity',
+  },
+  {
+    placeholder: 'BIRTH_PROVINCE_CODE',
+    propertyName: 'birthProvinceCode',
+  },
+  {
+    placeholder: 'BIRTH_COUNTRY',
+    propertyName: 'birthCountry',
   },
   {
     placeholder: 'EXTERNAL_ID',
