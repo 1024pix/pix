@@ -1,6 +1,6 @@
 const { UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
 
-module.exports = async function assertUserBelongToOrganization ({
+module.exports = async function assertUserBelongToOrganization({
   userId,
   campaign,
   organizationRepository,

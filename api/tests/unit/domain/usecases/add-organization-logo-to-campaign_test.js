@@ -38,7 +38,7 @@ describe('Unit | UseCase | add-organization-logo-to-campaign', () => {
         await usecases.addOrganizationLogoToCampaign({ campaign });
       }
 
-        // then
+      // then
       catch (error) {
         return expect(error).to.be.an instanceof (InternalError);
       }
