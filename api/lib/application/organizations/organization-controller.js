@@ -28,9 +28,9 @@ module.exports = {
 
   updateOrganizationInformation: (request) => {
     const id = request.payload.data.id;
-    const { name, type, 'logo-url': logoUrl } = request.payload.data.attributes;
+    const { name, type, 'logo-url': logoUrl, 'external-id': externalId, 'province-code': provinceCode } = request.payload.data.attributes;
 
-    return usecases.updateOrganizationInformation({ id, name, type, logoUrl })
+    return usecases.updateOrganizationInformation({ id, name, type, logoUrl, externalId, provinceCode })
       .then(organizationSerializer.serialize);
   },
 
