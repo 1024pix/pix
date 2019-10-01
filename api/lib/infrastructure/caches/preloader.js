@@ -31,10 +31,7 @@ module.exports = {
   },
 
   load({ tableName, recordId }) {
-    if (recordId) {
-      return _loadRecord(tableName, recordId);
-    }
-    return _loadTable(tableName);
+    return _loadRecord(tableName, recordId);
   }
 
 };
