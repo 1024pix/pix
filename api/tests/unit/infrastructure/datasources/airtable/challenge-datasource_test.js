@@ -3,7 +3,7 @@ const airtable = require('../../../../../lib/infrastructure/airtable');
 const AirtableError = require('airtable').Error;
 const challengeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const challengeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/challengeRawAirTableFixture');
-const airTableDataModels = require('../../../../../lib/infrastructure/datasources/airtable/objects');
+const { Challenge, AirtableResourceNotFound } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 const _ = require('lodash');
 
 describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', () => {
@@ -49,6 +49,10 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       fields: { Acquix: [ web3.id ] }
     });
 
+  beforeEach(() => {
+    sinon.stub(Challenge, 'getUsedAirtableFields').returns(['fieldA', 'fieldB']);
+  });
+
   describe('#list', () => {
 
     let promise;
@@ -62,10 +66,10 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       promise = challengeDatasource.list();
     });
 
-    it('should query Airtable challenges with empty query', () => {
+    it('should query Airtable challenges with empty query specifying used fields', () => {
       // then
       return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Epreuves');
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', ['fieldA', 'fieldB']);
       });
     });
 
@@ -73,7 +77,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       // then
       return promise.then((result) => {
         expect(result).to.be.an('array').and.to.have.lengthOf(2);
-        expect(result[0]).to.be.an.instanceOf(airTableDataModels.Challenge);
+        expect(result[0]).to.be.an.instanceOf(Challenge);
       });
     });
   });
@@ -91,7 +95,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       return promise.then((challenge) => {
         expect(airtable.getRecord).to.have.been.calledWith('Epreuves', '243');
 
-        expect(challenge).to.be.an.instanceof(airTableDataModels.Challenge);
+        expect(challenge).to.be.an.instanceof(Challenge);
         expect(challenge.id).to.equal('recwWzTquPlvIl4So');
         expect(challenge.type).to.equal('QCM');
       });
@@ -107,7 +111,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
         const promise = challengeDatasource.get('243');
 
         // then
-        return expect(promise).to.have.been.rejectedWith(airTableDataModels.AirtableResourceNotFound);
+        return expect(promise).to.have.been.rejectedWith(AirtableResourceNotFound);
       });
 
       it('should reject with the original error in any other case', () => {
@@ -143,7 +147,8 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
       // then
       return promise.then((result) => {
-        expect(result[0]).to.be.an.instanceOf(airTableDataModels.Challenge);
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', ['fieldA', 'fieldB']);
+        expect(result[0]).to.be.an.instanceOf(Challenge);
         expect(_.map(result, 'id')).to.deep.equal([
           'challenge-web1',
           'challenge-web2',
@@ -172,7 +177,8 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     it('should resolve to an array of matching Challenges from airTable', () => {
       // then
       return promise.then((result) => {
-        expect(result[0]).to.be.an.instanceOf(airTableDataModels.Challenge);
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', ['fieldA', 'fieldB']);
+        expect(result[0]).to.be.an.instanceOf(Challenge);
         expect(_.map(result, 'id')).to.deep.equal([ 'challenge-competence1' ]);
       });
     });
