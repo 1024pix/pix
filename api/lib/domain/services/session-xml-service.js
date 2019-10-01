@@ -1,9 +1,9 @@
-const odsContentXmlService = require('./../../infrastructure/services/ods-content-xml-service');
+const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils');
 // Placeholder in the template ODS file that helps us find the template candidate row in the file.
 const CANDIDATE_ROW_MARKER_PLACEHOLDER = 'COUNT';
 
 function getUpdatedXmlWithSessionData({ stringifiedXml, sessionTemplateValues, sessionData }) {
-  return odsContentXmlService.updateXmlSparseValues({
+  return writeOdsUtils.updateXmlSparseValues({
     stringifiedXml,
     templateValues: sessionTemplateValues,
     dataToInject: sessionData,
@@ -11,7 +11,7 @@ function getUpdatedXmlWithSessionData({ stringifiedXml, sessionTemplateValues, s
 }
 
 function getUpdatedXmlWithCertificationCandidatesData({ stringifiedXml, candidateTemplateValues, candidatesData }) {
-  return odsContentXmlService.updateXmlRows({
+  return writeOdsUtils.updateXmlRows({
     stringifiedXml,
     rowMarkerPlaceholder: CANDIDATE_ROW_MARKER_PLACEHOLDER,
     rowTemplateValues: candidateTemplateValues,

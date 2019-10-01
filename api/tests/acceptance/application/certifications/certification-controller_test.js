@@ -1,11 +1,14 @@
 const {
   expect, generateValidRequestAuthorizationHeader, cleanupUsersAndPixRolesTables,
-  insertUserWithRolePixMaster, insertUserWithStandardRole, knex, nock,
-} = require('../../test-helper');
-const createServer = require('../../../server');
+  insertUserWithRolePixMaster, insertUserWithStandardRole, knex, nock, databaseBuilder,
+} = require('../../../test-helper');
+const createServer = require('../../../../server');
 
-const Assessment = require('../../../lib/domain/models/Assessment');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const _ = require('lodash');
+const FormData = require('form-data');
+const streamToPromise = require('stream-to-promise');
+const fs = require('fs');
 
 describe('Acceptance | API | Certifications', () => {
 
@@ -633,7 +636,7 @@ describe('Acceptance | API | Certifications', () => {
       return promise
         .then((response) => {
           expect(response.statusCode).to.equal(200);
-          // TODO Tech Point : node-postgres date parsing
+          // TODO : Handle date type correctly
           expect(_.omit(response.result.data, ['attributes.birthdate'])).to.deep.equal({
             type: 'certifications',
             id: JOHN_CERTIFICATION_ID.toString(),
@@ -684,4 +687,118 @@ describe('Acceptance | API | Certifications', () => {
         .then((certifications) => expect(certifications[0].isPublished == true).to.be.false);
     });
   });
+
+  describe('PUT /api/certifications/attendance-sheet/parsing', () => {
+    const odsFileName = 'files/parse-from-attendance-sheet-test-ok.ods';
+    const odsFilePath = `${__dirname}/${odsFileName}`;
+    let options;
+
+    afterEach(() => {
+      return databaseBuilder.clean();
+    });
+
+    context('User does not have the role PIX MASTER', () => {
+
+      beforeEach(async () => {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        const form = new FormData();
+        form.append('file', fs.createReadStream(odsFilePath), { knownLength: fs.statSync(odsFilePath).size });
+        const payload = await streamToPromise(form);
+        const authHeader = generateValidRequestAuthorizationHeader(user.id);
+        const token = authHeader.replace('Bearer ', '');
+        const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
+        options = {
+          method: 'PUT',
+          url: '/api/certifications/attendance-sheet/parsing',
+          payload,
+          headers,
+        };
+
+        return databaseBuilder.commit();
+      });
+
+      it('will shut me down ', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+    });
+
+    context('User has role PixMaster', () => {
+
+      beforeEach(async () => {
+        // given
+        const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+        const form = new FormData();
+        form.append('file', fs.createReadStream(odsFilePath), { knownLength: fs.statSync(odsFilePath).size });
+        const payload = await streamToPromise(form);
+        const authHeader = generateValidRequestAuthorizationHeader(user.id);
+        const token = authHeader.replace('Bearer ', '');
+        const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
+        options = {
+          method: 'PUT',
+          url: '/api/certifications/attendance-sheet/parsing',
+          headers,
+          payload,
+        };
+
+        return databaseBuilder.commit();
+      });
+
+      it('should return an 204 status after success parsing the ods file', async () => {
+        const expectedResult = [ {
+          lastName: 'Baudu',
+          firstName: null,
+          birthdate: '25/12/2008',
+          birthplace: 'Metz',
+          email: null,
+          externalId: null,
+          extraTimePercentage: 0.3,
+          signature: 'x',
+          certificationId: '1',
+          lastScreen: null,
+          comments: null
+        },
+        {
+          lastName: 'Lantier',
+          firstName: 'Étienne',
+          birthdate: '04/01/1990',
+          birthplace: 'Ajaccio',
+          email: null,
+          externalId: 'ELAN123',
+          extraTimePercentage: null,
+          signature: 'x',
+          certificationId: '2',
+          lastScreen: 'x',
+          comments: null
+        },
+        {
+          lastName: 'Ranou',
+          firstName: 'Liam',
+          birthdate: '22/10/2000',
+          birthplace: null,
+          email: null,
+          externalId: null,
+          extraTimePercentage: null,
+          signature: null,
+          certificationId: '3',
+          lastScreen: 'x',
+          comments: 'Commentaire'
+        }];
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expectedResult);
+      });
+
+    });
+
+  });
+
 });

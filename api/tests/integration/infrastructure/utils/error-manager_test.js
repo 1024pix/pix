@@ -71,39 +71,6 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(422);
     });
 
-    it('should return 422 on domain ODSBufferReadFailedError', function() {
-      // given
-      const error = new DomainErrors.ODSBufferReadFailedError();
-
-      // when
-      const result = send(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(422);
-    });
-
-    it('should return 422 on domain ODSTableDataEmptyError', function() {
-      // given
-      const error = new DomainErrors.ODSTableDataEmptyError();
-
-      // when
-      const result = send(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(422);
-    });
-
-    it('should return 422 on domain ODSTableHeadersNotFoundError', function() {
-      // given
-      const error = new DomainErrors.ODSTableHeadersNotFoundError();
-
-      // when
-      const result = send(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(422);
-    });
-
     it('should return 421 on domain AlreadyRatedAssessmentError', function() {
       // given
       const error = new DomainErrors.AlreadyRatedAssessmentError();

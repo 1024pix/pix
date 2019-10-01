@@ -42,4 +42,10 @@ module.exports = {
       })
       .then((certification) => certificationSerializer.serialize(certification));
   },
+
+  async parseFromAttendanceSheet(request) {
+    const odsBuffer = request.payload.file;
+
+    return usecases.parseCertificationsDataFromAttendanceSheet({ odsBuffer });
+  }
 };
