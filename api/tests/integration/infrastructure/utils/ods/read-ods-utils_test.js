@@ -142,11 +142,11 @@ describe('read-ods-utils', () => {
 
     const HEADERS_BY_VERSION = [
       {
-        version: 1,
+        version: '1',
         headers: ['HEADER1_V1', 'HEADER2_V1'],
       },
       {
-        version: 2,
+        version: '2',
         headers: ['HEADER1', 'HEADER2'],
       },
     ];
@@ -161,11 +161,11 @@ describe('read-ods-utils', () => {
         // when
         const version = await getOdsVersionByHeaders({
           odsBuffer,
-          headersListByVersion: HEADERS_BY_VERSION,
+          transformationStructsByVersion: HEADERS_BY_VERSION,
         });
 
         // then
-        expect(version).to.equal(2);
+        expect(version).to.equal('2');
       });
 
     });
@@ -180,7 +180,7 @@ describe('read-ods-utils', () => {
         // when
         const result = await catchErr(getOdsVersionByHeaders)({
           odsBuffer,
-          headersListByVersion: HEADERS_BY_VERSION,
+          transformationStructsByVersion: HEADERS_BY_VERSION,
         });
 
         // then

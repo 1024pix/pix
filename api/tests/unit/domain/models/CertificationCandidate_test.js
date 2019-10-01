@@ -113,23 +113,14 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         .to.throw(InvalidCertificationCandidate);
     });
 
-    it('should not throw an error if birthProvinceCode is null', () => {
+    it('should return an error if birthProvinceCode is not defined', () => {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthProvinceCode: null });
-
-      // then
-      return expect(() => certificationCandidate.validate())
-        .not.to.throw;
-    });
-
-    it('should not throw an error if birthProvinceCode is undefined', () => {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({});
+      const certificationCandidate = domainBuilder.buildCertificationCandidate();
       certificationCandidate.birthProvinceCode = undefined;
 
       // then
       return expect(() => certificationCandidate.validate())
-        .not.to.throw;
+        .to.throw(InvalidCertificationCandidate);
     });
 
     it('should return an error if birthProvinceCode is not a string', () => {
@@ -141,23 +132,14 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         .to.throw(InvalidCertificationCandidate);
     });
 
-    it('should not throw an error if birthCountry is null', () => {
+    it('should return an error if birthCountry is not defined', () => {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthCountry: null });
-
-      // then
-      return expect(() => certificationCandidate.validate())
-        .not.to.throw;
-    });
-
-    it('should not throw an error if birthCountry is undefined', () => {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({});
+      const certificationCandidate = domainBuilder.buildCertificationCandidate();
       certificationCandidate.birthCountry = undefined;
 
       // then
       return expect(() => certificationCandidate.validate())
-        .not.to.throw;
+        .to.throw(InvalidCertificationCandidate);
     });
 
     it('should return an error if birthCountry is not a string', () => {

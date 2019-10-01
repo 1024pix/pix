@@ -14,8 +14,8 @@ async function getContentXml({ odsFilePath }) {
 
 async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropertyMap }) {
   const sheetDataRows = await _getSheetDataRowsFromOdsBuffer(odsBuffer);
-  const tableHeaders = _.map(tableHeaderTargetPropertyMap, (item) => item.header);
-  const sheetHeaderRow = _getHeaderRow(sheetDataRows, tableHeaders);
+  const tableHeaders = _.map(tableHeaderTargetPropertyMap, 'header');
+  const sheetHeaderRow = _findHeaderRow(sheetDataRows, tableHeaders);
   if (!sheetHeaderRow) {
     throw new UnprocessableEntityError('Table headers not found');
   }
@@ -29,13 +29,13 @@ async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropert
   return data;
 }
 
-async function getOdsVersionByHeaders({ odsBuffer, headersListByVersion }) {
+async function getOdsVersionByHeaders({ odsBuffer, transformationStructsByVersion }) {
   const sheetDataRows = await _getSheetDataRowsFromOdsBuffer(odsBuffer);
   let version = null;
-  _.some(headersListByVersion, (headersByVersion) => {
-    const sheetHeaderRow = _getHeaderRow(sheetDataRows, headersByVersion.headers);
+  _.some(transformationStructsByVersion, (transformationStruct) => {
+    const sheetHeaderRow = _findHeaderRow(sheetDataRows, transformationStruct.headers);
     if (sheetHeaderRow) {
-      version = headersByVersion.version;
+      version = transformationStruct.version;
       return true;
     }
   });
@@ -72,7 +72,7 @@ function _takeRightUntilIndex({ array, index }) {
   return _.takeRight(array, countElementsToTake);
 }
 
-function _getHeaderRow(sheetDataRows, tableHeaders) {
+function _findHeaderRow(sheetDataRows, tableHeaders) {
   return _.find(sheetDataRows, (row) => _allHeadersValuesAreInTheRow(row, tableHeaders));
 }
 

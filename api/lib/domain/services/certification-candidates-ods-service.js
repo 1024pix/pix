@@ -1,8 +1,6 @@
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
 const {
   TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION,
-  CURRENT_ATTENDANCE_SHEET_VERSION,
-  getHeadersListByVersion,
 } = require('../../infrastructure/files/attendance-sheet/attendance-sheet-transformation-structures');
 const CertificationCandidate = require('../models/CertificationCandidate');
 const _ = require('lodash');
@@ -12,22 +10,12 @@ module.exports = {
 };
 
 async function extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer }) {
-  const headersListByVersion = getHeadersListByVersion(TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION);
-  const version = await readOdsUtils.getOdsVersionByHeaders({ odsBuffer, headersListByVersion });
-  switch (version) {
-    case CURRENT_ATTENDANCE_SHEET_VERSION: {
-      const transformationStruct = _.find(TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION, { version }).struct;
-      return handleCurrentVersion({ sessionId, odsBuffer, transformationStruct : transformationStruct });
-    }
-    default:
-      break;
-  }
-}
-
-async function handleCurrentVersion({ sessionId, odsBuffer, transformationStruct }) {
+  const version = await readOdsUtils.getOdsVersionByHeaders({
+    odsBuffer,
+    transformationStructsByVersion: _.orderBy(TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION, ['version'], ['desc']) });
   let certificationCandidatesData = await readOdsUtils.extractTableDataFromOdsFile({
     odsBuffer,
-    tableHeaderTargetPropertyMap: transformationStruct,
+    tableHeaderTargetPropertyMap: TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION[version].transformStruct,
   });
 
   certificationCandidatesData = _filterOutEmptyCandidateData(certificationCandidatesData);
@@ -36,7 +24,7 @@ async function handleCurrentVersion({ sessionId, odsBuffer, transformationStruct
     return new CertificationCandidate({ ...certificationCandidateData, sessionId });
   });
 
-  _.each(certificationCandidates, (c) => c.validate());
+  _.each(certificationCandidates, (c) => c.validate(version));
 
   return certificationCandidates;
 }
