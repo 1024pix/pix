@@ -113,4 +113,31 @@ describe('Unit | Controller | certifications-controller', () => {
       expect(response).to.deep.equal(serializedCertification);
     });
   });
+
+  describe('#parseFromAttendanceSheet', () => {
+
+    let request;
+    const odsBuffer = 'File Buffer';
+    beforeEach(() => {
+      // given
+      request = {
+        payload: { file: odsBuffer },
+      };
+
+      sinon.stub(usecases, 'parseCertificationsDataFromAttendanceSheet').resolves();
+    });
+
+    it('should call the usecase to parse certifications data', async () => {
+      // given
+      usecases.parseCertificationsDataFromAttendanceSheet.resolves();
+
+      // when
+      await certificationController.parseFromAttendanceSheet(request);
+
+      // then
+      expect(usecases.parseCertificationsDataFromAttendanceSheet).to.have.been.calledWith({
+        odsBuffer,
+      });
+    });
+  });
 });

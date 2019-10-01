@@ -1,10 +1,15 @@
+const { loadOdsZip } = require('./common-ods-utils');
 const { DOMParser, XMLSerializer } = require('xmldom');
 const _ = require('lodash');
 
-module.exports = {
-  updateXmlSparseValues,
-  updateXmlRows,
-};
+const CONTENT_XML_IN_ODS = 'content.xml';
+
+async function makeUpdatedOdsByContentXml({ stringifiedXml, odsFilePath }) {
+  const zip = await loadOdsZip(odsFilePath);
+  await zip.file(CONTENT_XML_IN_ODS, stringifiedXml);
+  const odsBuffer = await zip.generateAsync({ type: 'nodebuffer' });
+  return odsBuffer;
+}
 
 function updateXmlSparseValues({ stringifiedXml, templateValues, dataToInject }) {
   const parsedXmlDom = _buildXmlDomFromXmlString(stringifiedXml);
@@ -123,3 +128,9 @@ function _getXmlDomElementByText(parsedXmlDom, text) {
 function _buildStringifiedXmlFromXmlDom(parsedXmlDom) {
   return new XMLSerializer().serializeToString(parsedXmlDom);
 }
+
+module.exports = {
+  makeUpdatedOdsByContentXml,
+  updateXmlSparseValues,
+  updateXmlRows,
+};

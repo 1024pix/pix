@@ -19,18 +19,6 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.InvalidCertificationCandidate).to.exist;
   });
 
-  it('should export a ODSBufferReadFailedError', () => {
-    expect(errors.ODSBufferReadFailedError).to.exist;
-  });
-
-  it('should export a ODSTableDataEmptyError', () => {
-    expect(errors.ODSTableDataEmptyError).to.exist;
-  });
-
-  it('should export a ODSTableHeadersNotFoundError', () => {
-    expect(errors.ODSTableHeadersNotFoundError).to.exist;
-  });
-
   describe('#UserNotFoundError', () => {
     it('should export a UserNotFoundError', () => {
       expect(errors.UserNotFoundError).to.exist;

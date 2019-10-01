@@ -1,7 +1,6 @@
 import Service, { inject as service } from '@ember/service';
 import json2csv from 'json2csv';
 import _ from 'lodash';
-import moment from 'moment';
 
 const competenceIndexes = [
   '1.1', '1.2', '1.3',
@@ -13,40 +12,7 @@ const competenceIndexes = [
 
 export default Service.extend({
 
-  fileReader: service(),
   fileSaver: service(), // TODO ? convert into FileManager
-
-  async readSessionAttendanceSheet(attendanceSheetFile) {
-    const header = [
-      'row',
-      'lastName',
-      'firstName',
-      'birthdate',
-      'birthplace',
-      'email',
-      'externalId',
-      'extraTime',
-      'signature',
-      'certificationId',
-      'lastScreen',
-      'comments'
-    ];
-    const jsonData = await this.fileReader.extractJSONDataFromODSFileIgnoringHeader(attendanceSheetFile, header);
-    const importedCandidates = jsonData.filter((candidate) => candidate.lastName);
-
-    return _.map(importedCandidates, this.sanitizeCandidate);
-  },
-
-  sanitizeCandidate(candidate) {
-    return _.mapValues(candidate, (value, key) => {
-      if (key === 'birthdate') {
-        value = value instanceof Date ? moment(value).format('DD/MM/YYYY') : '';
-      } else {
-        value = _.trim(value);
-      }
-      return value;
-    });
-  },
 
   async updateCertificationsStatus(certifications, isPublished) {
     const promises = certifications.map((certification) => {
