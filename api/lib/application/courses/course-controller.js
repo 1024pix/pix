@@ -7,9 +7,10 @@ module.exports = {
 
   get(request) {
     const courseId = request.params.id;
+    const userId = parseInt(request.auth.credentials.userId);
 
     return courseService
-      .getCourse(courseId)
+      .getCourse({ courseId, userId })
       .then(courseSerializer.serialize);
   },
 

@@ -34,18 +34,23 @@ describe('Unit | Controller | course-controller', () => {
 
     it('should fetch and return the given course, serialized as JSONAPI', async () => {
       // given
+      const userId = 42;
       courseService.getCourse.resolves(course);
       courseSerializer.serialize.callsFake(() => course);
-      const request = { params: { id: 'course_id' } };
+      const request = {
+        params: { id: 'course_id' },
+        auth: { credentials: { accessToken: 'jwt.access.token', userId } },
+        pre: { userId },
+      };
 
       // when
       const response = await courseController.get(request, hFake);
 
       // then
       expect(courseService.getCourse).to.have.been.called;
-      expect(courseService.getCourse).to.have.been.calledWith('course_id');
+      expect(courseService.getCourse).to.have.been.calledWithExactly({ courseId: 'course_id', userId });
       expect(courseSerializer.serialize).to.have.been.called;
-      expect(courseSerializer.serialize).to.have.been.calledWith(course);
+      expect(courseSerializer.serialize).to.have.been.calledWithExactly(course);
       expect(response).to.deep.equal(course);
     });
   });
