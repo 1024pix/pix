@@ -1,19 +1,9 @@
 <div class="background-banner-wrapper assessment-challenge">
 
-  <div class="assessment-challenge__course-banner">
-    {{#if model.assessment.isDemo}}
-      {{course-banner course=model.assessment.course withHomeLink=true}}
-    {{/if}}
-    {{#if model.assessment.isPreview}}
-      {{course-banner course=model.assessment.course withHomeLink=true}}
-    {{/if}}
+  <div class="assessment-challenge__assessment-banner">
     {{#if model.assessment.isCertification}}
       {{certification-banner certificationNumber=model.assessment.certificationNumber}}
-    {{/if}}
-    {{#if model.assessment.isSmartPlacement}}
-      {{assessment-banner title=model.assessment.title checkpoint=false displayHomeLink=true}}
-    {{/if}}
-    {{#if model.assessment.isCompetenceEvaluation}}
+    {{else}}
       {{assessment-banner title=model.assessment.title checkpoint=false displayHomeLink=true}}
     {{/if}}
   </div>

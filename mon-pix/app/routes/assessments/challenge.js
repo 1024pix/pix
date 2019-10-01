@@ -26,9 +26,6 @@ export default Route.extend({
       const campaigns = await this._findCampaigns({ campaignCode });
       modelResult.campaign = campaigns.get('firstObject');
     }
-    if (modelResult.assessment.get('isDemo') || modelResult.assessment.get('isCertification')) {
-      await modelResult.assessment.belongsTo('course').reload();
-    }
   },
 
   serialize(model) {

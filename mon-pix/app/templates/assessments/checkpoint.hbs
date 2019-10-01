@@ -1,12 +1,7 @@
 <div class="background-banner-wrapper assessment-challenge">
 
-  <div class="assessment-challenge__course-banner">
-    {{#if model.isSmartPlacement}}
-      {{assessment-banner title=model.title checkpoint=true displayHomeLink=true}}
-    {{/if}}
-    {{#if model.isCompetenceEvaluation}}
-      {{assessment-banner title=model.title checkpoint=true displayHomeLink=true}}
-    {{/if}}
+  <div class="assessment-challenge__assessment-banner">
+    {{assessment-banner title=model.title checkpoint=true displayHomeLink=true}}
   </div>
 
   <div class="checkpoint__container rounded-panel--over-background-banner">

@@ -1,4 +1,4 @@
-import { click, currentURL, find } from '@ember/test-helpers';
+import { find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateAsSimpleUser } from '../helpers/testing';
@@ -18,7 +18,7 @@ describe('Acceptance | Common behavior to all challenges', function() {
   });
 
   it('should display the name of the test', function() {
-    expect(find('.course-banner__name').textContent).to.contain('First Course');
+    expect(find('.assessment-banner__title').textContent).to.contain('First Course');
   });
 
   it('should display the challenge instruction', function() {
@@ -45,14 +45,11 @@ describe('Acceptance | Common behavior to all challenges', function() {
   });
 
   it('should display a button to come back to the courses list', function() {
-    expect(find('.course-banner__home-link').textContent).to.equal('Revenir à l\'accueil');
+    expect(find('.assessment-banner__home-link').textContent).to.contain('‹ Quitter');
   });
 
   it('should come back to the home route when the back button is clicked', async function() {
-    // when
-    await click('.course-banner__home-link');
-
-    expect(currentURL()).to.equal('/profil');
+    expect(find('.assessment-banner__home-link a').getAttribute('href')).to.equal('/');
   });
 
   it('should be able to send a feedback about the current challenge', () => {
