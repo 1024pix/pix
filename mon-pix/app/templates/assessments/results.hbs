@@ -1,7 +1,7 @@
 <div class="assessment-results">
 
-  <div class="assessment-results__course-banner">
-    {{course-banner course=model.course}}
+  <div class="assessment-results__assessment-banner">
+    {{assessment-banner title=model.title checkpoint=false displayHomeLink=false}}
   </div>
 
   <div class="assessment-results__content">
@@ -16,7 +16,7 @@
     </div>
 
     <div class="assessment-results__index-link-container">
-      {{#if model.course.isDemo}}
+      {{#if model.isDemo}}
         <a href={{urlHome}} class="assessment-results__index-link__element assessment-results__index-a-link">
           <span class="assessment-results__link-back">Revenir à l'accueil</span>
         </a>

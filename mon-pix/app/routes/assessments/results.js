@@ -7,16 +7,15 @@ export default Route.extend({
     return this.modelFor('assessments').reload();
   },
 
-  afterModel(assessment) {
+  async afterModel(assessment) {
     if (assessment.get('isCertification')) {
       return this.transitionTo('index');
     }
-    return RSVP.all([
-      assessment.answers,
-      assessment.course
-    ]).then(([answers]) => {
-      return RSVP.all([answers.map((answer) => answer.challenge), answers.map((answer) => answer.correction)]);
-    });
+    const answers = await assessment.answers;
+    await RSVP.all([
+      ...answers.map((answer) => answer.challenge),
+      ...answers.map((answer) => answer.correction)
+    ]);
   },
 
 });
