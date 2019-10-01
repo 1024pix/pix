@@ -1,9 +1,10 @@
-const { expect, nock } = require('../../test-helper');
+const { expect, nock, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | API | Courses', () => {
 
   let server;
+  const userId = 42;
 
   beforeEach(async () => {
     server = await createServer();
@@ -58,6 +59,9 @@ describe('Acceptance | API | Courses', () => {
     const options = {
       method: 'GET',
       url: '/api/courses/rec_course_id',
+      headers: {
+        authorization: generateValidRequestAuthorizationHeader(userId),
+      },
     };
 
     it('should return 200 HTTP status code', () => {
@@ -93,5 +97,6 @@ describe('Acceptance | API | Courses', () => {
         expect(course.attributes.description).to.equal('Mener une recherche et une veille d\'information');
       });
     });
+
   });
 });

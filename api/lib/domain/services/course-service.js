@@ -2,11 +2,11 @@ const _ = require('lodash');
 const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
 const certificationCourseRepository = require('../../../lib/infrastructure/repositories/certification-course-repository');
 const Course = require('../models/Course');
-const { NotFoundError } = require('../../../lib/domain/errors');
+const { NotFoundError, UserNotAuthorizedToGetCertificationCoursesError } = require('../../../lib/domain/errors');
 
 module.exports = {
 
-  getCourse(courseId) {
+  async getCourse({ courseId, userId }) {
 
     // TODO: delete when smart placement assessment does not have courses anymore
     if (_.startsWith(courseId, 'Smart')) {
@@ -20,18 +20,16 @@ module.exports = {
           return new Course(airtableCourse);
         }).catch((err) => {
           if ('MODEL_ID_NOT_FOUND' === err.error.type || 'NOT_FOUND' === err.error) {
-            return Promise.reject(new NotFoundError());
+            throw new NotFoundError();
           }
         });
     } else {
-      return certificationCourseRepository.get(courseId)
-        .then((certificationCourse) => {
-          return new Course(certificationCourse);
-        }).catch(() => {
-          return Promise.reject(new NotFoundError());
-        });
+      let certificationCourse = await certificationCourseRepository.get(courseId);
+      if (userId !== certificationCourse.userId) {
+        throw new UserNotAuthorizedToGetCertificationCoursesError();
+      }
+      return new Course(certificationCourse);
     }
-
   }
 
 };
