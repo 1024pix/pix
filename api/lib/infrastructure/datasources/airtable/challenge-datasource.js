@@ -1,8 +1,6 @@
 const airtable = require('../../airtable');
-const {
-  Challenge,
-  AirtableResourceNotFound
-} = require('./objects');
+const { Challenge } = require('./objects');
+const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
 const _ = require('lodash');
 

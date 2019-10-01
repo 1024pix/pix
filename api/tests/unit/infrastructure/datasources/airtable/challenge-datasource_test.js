@@ -3,7 +3,8 @@ const airtable = require('../../../../../lib/infrastructure/airtable');
 const AirtableError = require('airtable').Error;
 const challengeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const challengeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/challengeRawAirTableFixture');
-const { Challenge, AirtableResourceNotFound } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
+const { Challenge } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
+const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
 const _ = require('lodash');
 
 describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', () => {
