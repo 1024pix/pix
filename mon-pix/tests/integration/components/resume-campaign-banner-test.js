@@ -14,6 +14,7 @@ describe('Integration | Component | resume-campaign-banner', function() {
   describe('Banner display', function() {
     const campaignToResume = EmberObject.create({
       isShared: false,
+      createdAt: '2019-09-30T12:30:00Z',
       campaign: EmberObject.create({
         code: 'AZERTY',
         title: 'Parcours Pix'
@@ -21,12 +22,14 @@ describe('Integration | Component | resume-campaign-banner', function() {
     });
     const oldCampaignNotFinished = EmberObject.create({
       isShared: false,
+      createdAt: '2019-09-30T10:30:00Z',
       campaign: EmberObject.create({
         code: 'AZERTY',
       })
     });
     const campaignFinished = EmberObject.create({
       isShared: true,
+      createdAt: '2019-09-30T14:30:00Z',
       campaign: EmberObject.create({
         code: 'AZERTY',
       }),
@@ -97,6 +100,7 @@ describe('Integration | Component | resume-campaign-banner', function() {
 
       const campaignFinishedButNotShared = EmberObject.create({
         isShared: false,
+        createdAt: '2019-09-30T10:30:00Z',
         campaign: EmberObject.create({
           code: 'AZERTY',
           title: 'Parcours Pix'

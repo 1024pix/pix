@@ -1,6 +1,6 @@
-import _orderBy from 'lodash/orderBy';
-import _filter from 'lodash/filter';
+import _maxBy from 'lodash/maxBy';
 import { computed } from '@ember/object';
+import { filterBy } from '@ember/object/computed';
 import Component from '@ember/component';
 
 export default Component.extend({
@@ -8,21 +8,18 @@ export default Component.extend({
   classNames: ['resume-campaign-banner'],
   campaignParticipations: [],
 
-  campaignToResumeOrShare: computed('campaignParticipations', function() {
-    const campaignParticipations = this.campaignParticipations.toArray();
+  unsharedCampaignParticipations: filterBy('campaignParticipations', 'isShared', false),
 
-    const campaignParticipationsNotShared = _filter(campaignParticipations,
-      (campaignParticipation) => campaignParticipation.isShared === false);
+  lastUnsharedCampaignParticipation: computed('unsharedCampaignParticipations.@each.createdAt', function() {
+    return _maxBy(this.unsharedCampaignParticipations, 'createdAt');
+  }),
 
-    const campaignParticipationOrdered = _orderBy(campaignParticipationsNotShared, 'createdAt', 'desc');
-
-    const lastCampaignParticipationStarted = campaignParticipationOrdered[0];
-
-    if (lastCampaignParticipationStarted) {
+  campaignToResumeOrShare: computed('lastUnsharedCampaignParticipation.campaign.{title,code},lastUnsharedCampaignParticipation.assessment.isCompleted', function() {
+    if (this.lastUnsharedCampaignParticipation) {
       return {
-        title: lastCampaignParticipationStarted.campaign.get('title'),
-        code: lastCampaignParticipationStarted.campaign.get('code'),
-        assessment: lastCampaignParticipationStarted.assessment
+        title: this.lastUnsharedCampaignParticipation.campaign.get('title'),
+        code: this.lastUnsharedCampaignParticipation.campaign.get('code'),
+        assessment: this.lastUnsharedCampaignParticipation.assessment
       };
     }
 
