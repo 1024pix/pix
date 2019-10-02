@@ -12,7 +12,8 @@ export default {
       'user-id': 'user_id',
       'user-name': 'Jon Snow',
       'user-email': 'jsnow@winterfell.got',
-      'type': 'DEMO'
+      'type': 'DEMO',
+      'title': 'First Course',
     },
     relationships: {
       course: {
