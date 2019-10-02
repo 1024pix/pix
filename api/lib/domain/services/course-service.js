@@ -24,7 +24,7 @@ module.exports = {
           }
         });
     } else {
-      let certificationCourse = await certificationCourseRepository.get(courseId);
+      const certificationCourse = await certificationCourseRepository.get(courseId);
       if (userId !== certificationCourse.userId) {
         throw new UserNotAuthorizedToGetCertificationCoursesError();
       }
