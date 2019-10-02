@@ -112,4 +112,8 @@
   font-size: 3.2rem;
   line-height: 4.5rem;
   margin-bottom: 26px;
+
+  &--all-small-caps {
+    font-variant-caps: all-small-caps;
+  }
 }
