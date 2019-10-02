@@ -2,7 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-campaign-by-code', () => {
+describe('Unit | UseCase | retrieve-campaign-information', () => {
 
   const organizationId = 'organizationId';
   const campaignCode = 'QWERTY123';
@@ -22,7 +22,7 @@ describe('Unit | UseCase | get-campaign-by-code', () => {
 
       it('should return the campaign ', async () => {
         // when
-        const res = await usecases.getCampaignByCode({ code: campaignCode, campaignRepository });
+        const res = await usecases.retrieveCampaignInformation({ code: campaignCode, campaignRepository });
 
         // then
         expect(res).to.deep.equal(campaign);
@@ -30,7 +30,7 @@ describe('Unit | UseCase | get-campaign-by-code', () => {
 
       it('should have fetched the campaign by code', async () => {
         // when
-        await usecases.getCampaignByCode({ code: campaignCode, campaignRepository });
+        await usecases.retrieveCampaignInformation({ code: campaignCode, campaignRepository });
 
         // then
         expect(campaignRepository.getByCode).to.have.been.calledWithExactly(campaignCode);
@@ -45,7 +45,7 @@ describe('Unit | UseCase | get-campaign-by-code', () => {
       it('should throw a NotFound error', async () => {
         // when
         try {
-          await usecases.getCampaignByCode({ code: campaignCode, campaignRepository });
+          await usecases.retrieveCampaignInformation({ code: campaignCode, campaignRepository });
         }
 
         // then
@@ -64,7 +64,7 @@ describe('Unit | UseCase | get-campaign-by-code', () => {
     it('should throw an Internal error', async () => {
       // when
       try {
-        await usecases.getCampaignByCode({ code: campaignCode, campaignRepository });
+        await usecases.retrieveCampaignInformation({ code: campaignCode, campaignRepository });
       }
 
       // then
