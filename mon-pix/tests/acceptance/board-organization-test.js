@@ -70,6 +70,9 @@ describe('Acceptance | Board organization', function() {
 
     // then
     expect(find('.profiles-title__export-csv').textContent).to.contains('Exporter (.csv)');
+    expect(find('.profiles-title__export-csv').getAttribute('href')).to.equal(
+      `http://localhost:3000/api/organizations/1/snapshots/export?userToken=aaa.${btoa('{"user_id":2,"source":"mon-pix","iat":1545321469}')}.bbb`
+    );
   });
 
 });
