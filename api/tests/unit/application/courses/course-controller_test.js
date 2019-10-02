@@ -1,4 +1,4 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
+const { expect, sinon, hFake, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const Hapi = require('hapi');
 
 const courseController = require('../../../../lib/application/courses/course-controller');
@@ -39,7 +39,7 @@ describe('Unit | Controller | course-controller', () => {
       courseSerializer.serialize.callsFake(() => course);
       const request = {
         params: { id: 'course_id' },
-        auth: { credentials: { accessToken: 'jwt.access.token', userId } },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         pre: { userId },
       };
 

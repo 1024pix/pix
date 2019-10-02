@@ -24,10 +24,10 @@ describe('Unit | Service | Course Service', () => {
       it('should call the certification course repository  ', () => {
         // given
         const givenCourseId = 1;
-        certificationCourseRepository.get.resolves();
+        certificationCourseRepository.get.resolves(certificationCourse);
 
         // when
-        const promise = courseService.getCourse({ courseId: givenCourseId });
+        const promise = courseService.getCourse({ courseId: givenCourseId, userId });
 
         // then
         return promise.then(() => {
