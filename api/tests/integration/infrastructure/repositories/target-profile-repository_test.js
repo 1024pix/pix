@@ -92,10 +92,9 @@ describe('Integration | Repository | Target-profile', () => {
 
       // then
       return promise.then((targetProfiles) => {
-        expect(targetProfiles).to.have.lengthOf(2); // There is one public target profile in database migrations already
+        expect(targetProfiles).to.have.lengthOf(1);
         expect(targetProfiles[0]).to.be.an.instanceOf(TargetProfile);
         expect(targetProfiles[0].isPublic).to.be.true;
-        expect(targetProfiles[1].isPublic).to.be.true;
       });
     });
 

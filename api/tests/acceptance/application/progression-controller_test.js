@@ -38,7 +38,6 @@ describe('Acceptance | API | Progressions', () => {
       const campaignId = databaseBuilder.factory.buildCampaign(
         {
           name: 'Campaign',
-          targetProfileId: 1
         }).id;
       databaseBuilder.factory.buildCampaignParticipation(
         {
