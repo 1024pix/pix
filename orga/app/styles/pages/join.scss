@@ -1,0 +1,9 @@
+.join-page {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: $denim-gradient;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+  min-height: 100vh;
+}
