@@ -208,8 +208,8 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     context('Success cases', () => {
 
-      const invitation = domainBuilder.buildOrganizationInvitation();
-      const acceptedInvitation = { ...invitation, status: OrganizationInvitation.StatusType.ACCEPTED };
+      const status = OrganizationInvitation.StatusType.PENDING;
+      const invitation = domainBuilder.buildOrganizationInvitation({ status });
 
       const payload = {
         data: {
@@ -227,14 +227,26 @@ describe('Integration | Application | Organizations | organization-controller', 
       it('should return an HTTP response with status code 201', async () => {
         // given
         usecases.createOrganizationInvitation.resolves(invitation);
-        usecases.acceptOrganizationInvitation.resolves(acceptedInvitation);
-        usecases.addOrganizationMembershipWithEmail.resolves({});
 
         // when
         const response = await httpTestServer.request('POST', '/api/organizations/1/invitations', payload);
 
         // then
         expect(response.statusCode).to.equal(201);
+      });
+
+      it('should return the created invitation with status pending', async () => {
+        // given
+        usecases.createOrganizationInvitation.resolves(invitation);
+
+        // when
+        const response = await httpTestServer.request('POST', `/api/organizations/${invitation.organizationId}/invitations`, payload);
+
+        // then
+        expect(response.result.data.type).to.equal('organization-invitations');
+        expect(response.result.data.attributes['organization-id']).to.equal(invitation.organizationId);
+        expect(response.result.data.attributes.email).to.equal(invitation.email);
+        expect(response.result.data.attributes.status).to.equal(status);
       });
     });
   });

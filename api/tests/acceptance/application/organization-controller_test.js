@@ -1280,19 +1280,18 @@ describe('Acceptance | Application | organization-controller', () => {
       });
 
       afterEach(async () => {
-        await knex('memberships').delete();
         await knex('organization-invitations').delete();
         await databaseBuilder.clean();
       });
 
       it('should return the matching organization-invitations as JSON API', async () => {
         // given
-        const status = OrganizationInvitation.StatusType.ACCEPTED;
+        const status = OrganizationInvitation.StatusType.PENDING;
         const expectedResult = {
           data: {
             type: 'organization-invitations',
             attributes: {
-              'organization-id': organizationId,
+              'organization-id': organizationId.toString(),
               email: user.email,
               status
             },
@@ -1338,7 +1337,6 @@ describe('Acceptance | Application | organization-controller', () => {
       });
 
       afterEach(async () => {
-        await knex('memberships').delete();
         await knex('organization-invitations').delete();
         await databaseBuilder.clean();
       });
@@ -1382,6 +1380,18 @@ describe('Acceptance | Application | organization-controller', () => {
         // given
         const email = user.email;
         databaseBuilder.factory.buildOrganizationInvitation({ organizationId, email });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(421);
+      });
+
+      it('should respond with a 421 if membership already exist', async () => {
+        // given
+        databaseBuilder.factory.buildMembership({ organizationId, userId: user.id });
         await databaseBuilder.commit();
 
         // when
