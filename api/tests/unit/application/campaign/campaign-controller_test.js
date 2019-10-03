@@ -121,6 +121,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     let request;
     const campaignCode = 'AZERTY123';
     const userId = 1;
+    const createdCampaign = domainBuilder.buildCampaign();
 
     beforeEach(() => {
       request = {
@@ -128,14 +129,11 @@ describe('Unit | Application | Controller | Campaign', () => {
       };
       sinon.stub(requestUtils, 'extractUserIdFromRequest').returns(userId);
       sinon.stub(usecases, 'retrieveCampaignInformation');
-      sinon.stub(usecases, 'addOrganizationLogoToCampaign');
-      sinon.stub(usecases, 'assertUserBelongToOrganization');
       sinon.stub(campaignSerializer, 'serialize');
     });
 
     it('should call retrieveCampaignInformation usecase to retrieve the campaign by code', async () => {
       // given
-      const createdCampaign = domainBuilder.buildCampaign();
       usecases.retrieveCampaignInformation.resolves(createdCampaign);
 
       const serializedCampaign = { name: createdCampaign.name };
@@ -145,34 +143,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       await campaignController.getByCode(request, hFake);
 
       // then
-      expect(usecases.retrieveCampaignInformation).to.have.been.calledWith({ code: campaignCode });
-    });
-
-    it('should call addOrganizationLogoToCampaign usecase', async () => {
-      // given
-      const createdCampaign = domainBuilder.buildCampaign();
-      usecases.retrieveCampaignInformation.resolves(createdCampaign);
-      usecases.addOrganizationLogoToCampaign.resolves(createdCampaign);
-
-      // when
-      await campaignController.getByCode(request, hFake);
-
-      // then
-      expect(usecases.addOrganizationLogoToCampaign).to.have.been.calledWith({ campaign: createdCampaign });
-    });
-
-    it('should call assertUserBelongToOrganization usecase', async () => {
-      // given
-      const createdCampaign = domainBuilder.buildCampaign();
-      usecases.retrieveCampaignInformation.resolves(createdCampaign);
-      usecases.addOrganizationLogoToCampaign.resolves(createdCampaign);
-      usecases.assertUserBelongToOrganization.resolves();
-
-      // when
-      await campaignController.getByCode(request, hFake);
-
-      // then
-      expect(usecases.assertUserBelongToOrganization).to.have.been.calledWith({ userId, campaign: createdCampaign });
+      expect(usecases.retrieveCampaignInformation).to.have.been.calledWith({ code: campaignCode, userId });
     });
 
     it('should return the serialized campaign found by the use case', async () => {
@@ -180,9 +151,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       const createdCampaign = domainBuilder.buildCampaign();
       usecases.retrieveCampaignInformation.resolves(createdCampaign);
 
-      const organizationLogoUrl = 'url for the orga logo';
-      const augmentedCampaign = Object.assign({}, createdCampaign, organizationLogoUrl);
-      usecases.addOrganizationLogoToCampaign.resolves(augmentedCampaign);
+      const augmentedCampaign = Object.assign(createdCampaign, { organizationLogoUrl: 'url for the orga logo' });
 
       const serializedCampaign = { name: augmentedCampaign.name };
       campaignSerializer.serialize.returns(serializedCampaign);

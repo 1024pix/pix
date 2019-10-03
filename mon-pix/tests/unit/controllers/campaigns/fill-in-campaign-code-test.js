@@ -57,7 +57,7 @@ describe('Unit | Controller | Campaigns | Fill in Campaign Code', function() {
       expect(controller.get('errorMessage')).to.equal('Votre code de parcours est erroné, veuillez vérifier ou contacter la personne organisant le parcours de test.');
     });
 
-    it('should set error when student is not autorized in campaign', async () => {
+    it('should set error when student is not authorized in campaign', async () => {
       // given
       controller.set('campaignCode', 'SOMECODE');
       storeStub.query.rejects({ errors: [{ status: '403' }] });
