@@ -6,7 +6,7 @@ const { UserNotFoundError } = require('../../domain/errors');
 module.exports = {
   verifyById(request, h) {
     return userRepository
-      .findUserById(request.params.id)
+      .get(request.params.id)
       .catch((err) => {
         if (err instanceof User.NotFoundError) {
           const serializedError = errorSerializer.serialize(new UserNotFoundError().getErrorMessage());

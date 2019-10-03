@@ -41,7 +41,11 @@ export default function() {
     return schema.users.find(userId);
   });
 
-  this.patch('/users/:id');
+  this.patch('/users/:id/pix-certif-terms-of-service-acceptance', (schema, request) => {
+    const user =  schema.users.find(request.params.id);
+    user.pixCertifTermsOfServiceAccepted = true;
+    return user;
+  });
 
   this.get('/users/:id/certification-center-memberships', (schema, request) => {
     const userId = request.params.id;

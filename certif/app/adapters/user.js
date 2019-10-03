@@ -10,4 +10,15 @@ export default ApplicationAdapter.extend({
 
     return this._super(...arguments);
   },
+
+  urlForUpdateRecord(id, modelName, { adapterOptions }) {
+    const url = this._super(...arguments);
+
+    if (adapterOptions && adapterOptions.acceptPixCertifTermsOfService) {
+      delete adapterOptions.acceptPixCertifTermsOfService;
+      return url + '/pix-certif-terms-of-service-acceptance';
+    }
+
+    return url;
+  },
 });

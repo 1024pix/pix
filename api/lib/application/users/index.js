@@ -99,14 +99,14 @@ exports.register = async function(server) {
     },
     {
       method: 'PATCH',
-      path: '/api/users/{id}',
+      path: '/api/users/{id}/password-update',
       config: {
         auth: false,
         pre: [{
           method: userVerification.verifyById,
           assign: 'user'
         }],
-        handler: userController.updateUser,
+        handler: userController.updatePassword,
         validate: {
           options: {
             allowUnknown: true
@@ -114,13 +114,52 @@ exports.register = async function(server) {
           payload: {
             data: {
               attributes: {
-                password: Joi.string().regex(XRegExp(passwordValidationPattern)).allow(null),
-                'pix-orga-terms-of-service-accepted': Joi.boolean(),
-                'pix-certif-terms-of-service-accepted': Joi.boolean(),
+                password: Joi.string().regex(XRegExp(passwordValidationPattern)).required(),
               }
             }
           }
-        }, tags: ['api']
+        },
+        notes : [
+          '- Met à jour le mot de passe d\'un utilisateur identifié par son id\n' +
+          '- Une clé d\'identification temporaire permet de vérifier l\'identité du demandeur'
+        ],
+        tags: ['api', 'user'],
+      }
+    },
+    {
+      method: 'PATCH',
+      path: '/api/users/{id}/pix-orga-terms-of-service-acceptance',
+      config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
+        handler: userController.acceptPixOrgaTermsOfService,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Sauvegarde le fait que l\'utilisateur a accepté les Conditions Générales d\'Utilisation de Pix Orga\n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
+          '- Le contenu de la requête n\'est pas pris en compte.',
+        ],
+        tags: ['api', 'user'],
+      }
+    },
+    {
+      method: 'PATCH',
+      path: '/api/users/{id}/pix-certif-terms-of-service-acceptance',
+      config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
+        handler: userController.acceptPixCertifTermsOfService,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Sauvegarde le fait que l\'utilisateur a accepté les Conditions Générales d\'Utilisation de Pix Certif\n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
+          '- Le contenu de la requête n\'est pas pris en compte.',
+        ],
+        tags: ['api', 'user'],
       }
     },
     {

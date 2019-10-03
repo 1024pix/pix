@@ -1,6 +1,5 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 
-const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const User = require('../../../../lib/domain/models/User');
 const SearchResultList = require('../../../../lib/domain/models/SearchResultList');
 
@@ -10,7 +9,6 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
-const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 
 const usecases = require('../../../../lib/domain/usecases');
 
@@ -20,7 +18,6 @@ const membershipSerializer = require('../../../../lib/infrastructure/serializers
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const requestUtils = require('../../../../lib/infrastructure/utils/request-utils');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -91,139 +88,99 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#updateUser', () => {
+  describe('#updatePassword', () => {
 
-    context('When payload is good (with a payload and a password attribute) and temporary key is provided', () => {
-      const request = {
-        params: {
-          id: 7,
+    const userId = 7;
+    const userPassword = 'Pix2017!';
+    const userTemporaryKey = 'good-temporary-key';
+    const payload = {
+      data: {
+        attributes: {
+          password: userPassword,
         },
-        query: {
-          'temporary-key': 'good-temporary-key',
-        },
-        payload: {
-          data: {
-            attributes: {
-              password: 'Pix2017!',
-            },
-          },
-        },
+      },
+    };
+    const request = {
+      params: {
+        id: userId,
+      },
+      query: {
+        'temporary-key': userTemporaryKey,
+      },
+      payload
+    };
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'updateUserPassword');
+      sinon.stub(userSerializer, 'serialize');
+      sinon.stub(userSerializer, 'deserialize');
+    });
+
+    it('should update password', async () => {
+      // given
+      userSerializer.deserialize.withArgs(payload).returns({ password: userPassword, temporaryKey: userTemporaryKey });
+      usecases.updateUserPassword.withArgs({ userId, password: userPassword, temporaryKey: userTemporaryKey }).resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await userController.updatePassword(request);
+
+      // then
+      expect(response).to.be.equal('ok');
+    });
+  });
+
+  describe('#acceptPixOrgaTermsOfService', () => {
+    let request;
+    const userId = 1;
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: userId },
       };
-      const user = new BookshelfUser({
-        id: 7,
-        email: 'maryz@acme.xh',
-      });
 
-      beforeEach(() => {
-        sinon.stub(passwordResetService, 'hasUserAPasswordResetDemandInProgress');
-        sinon.stub(passwordResetService, 'invalidOldResetPasswordDemand');
-        sinon.stub(validationErrorSerializer, 'serialize');
-        sinon.stub(userRepository, 'updatePassword');
-        sinon.stub(userRepository, 'findUserById').resolves(user);
-        sinon.stub(encryptionService, 'hashPassword');
-      });
-
-      it('should reply with no content', async () => {
-        // given
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-        userRepository.updatePassword.resolves();
-        passwordResetService.invalidOldResetPasswordDemand.resolves();
-
-        // when
-        const response = await userController.updateUser(request, hFake);
-
-        // then
-        expect(response).to.be.null;
-      });
+      sinon.stub(usecases, 'acceptPixOrgaTermsOfService');
+      sinon.stub(userSerializer, 'serialize');
     });
 
-    context('When payload has a password field and temporary key is provided', () => {
-      it('should update password', async () => {
-        // given
-        const userId = 7;
-        const password = 'PIX123$';
-        const request = {
-          params: {
-            id: userId,
-          },
-          query: {
-            'temporary-key': 'good-temporary-key',
-          },
-          payload: {
-            data: {
-              attributes: {
-                password,
-              },
-            },
-          },
-        };
-        const usecaseUpdateUserPasswordStub = sinon.stub(usecases, 'updateUserPassword');
+    it('should accept pix orga terms of service', async () => {
+      // given
+      usecases.acceptPixOrgaTermsOfService.withArgs({ userId }).resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
 
-        // when
-        await userController.updateUser(request, hFake);
+      // when
+      const response = await userController.acceptPixOrgaTermsOfService(request);
 
-        // then
-        expect(usecaseUpdateUserPasswordStub).to.have.been.calledWith({ userId, password, temporaryKey: 'good-temporary-key' });
-      });
+      // then
+      expect(response).to.be.equal('ok');
+    });
+  });
 
+  describe('#acceptPixCertifTermsOfService', () => {
+    let request;
+    const userId = 1;
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: userId },
+      };
+
+      sinon.stub(usecases, 'acceptPixCertifTermsOfService');
+      sinon.stub(userSerializer, 'serialize');
     });
 
-    context('When payload has a pix-orga-terms-of-service-accepted field', () => {
+    it('should accept pix certif terms of service', async () => {
+      // given
+      usecases.acceptPixCertifTermsOfService.withArgs({ userId }).resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
 
-      it('should accept pix orga terms of service', async () => {
-        // given
-        const userId = 7;
-        sinon.stub(requestUtils, 'extractUserIdFromRequest').returns(userId);
-        const request = {
-          params: {
-            id: userId.toString(),
-          },
-          payload: {
-            data: {
-              attributes: {
-                'pix-orga-terms-of-service-accepted': true,
-              },
-            },
-          },
-        };
-        const usecaseAcceptPixOrgaTermsOfServiceStub = sinon.stub(usecases, 'acceptPixOrgaTermsOfService');
+      // when
+      const response = await userController.acceptPixCertifTermsOfService(request);
 
-        // when
-        await userController.updateUser(request, hFake);
-
-        // then
-        expect(usecaseAcceptPixOrgaTermsOfServiceStub).to.have.been.calledWith({ authenticatedUserId: userId, requestedUserId: userId });
-      });
-    });
-
-    context('When payload has a pix-certif-terms-of-service-accepted field', () => {
-
-      it('should accept pix certif terms of service', () => {
-        // given
-        const userId = 7;
-        sinon.stub(requestUtils, 'extractUserIdFromRequest').returns(userId);
-        const request = {
-          params: {
-            id: userId.toString(),
-          },
-          payload: {
-            data: {
-              attributes: {
-                'pix-certif-terms-of-service-accepted': true,
-              },
-            },
-          },
-        };
-        const usecaseAcceptPixCertifTermsOfServiceStub = sinon.stub(usecases, 'acceptPixCertifTermsOfService');
-
-        // when
-        const promise = userController.updateUser(request, hFake);
-
-        // then
-        return promise.then(() => {
-          expect(usecaseAcceptPixCertifTermsOfServiceStub).to.have.been.calledWith({ authenticatedUserId: userId, requestedUserId: userId });
-        });
-      });
+      // then
+      expect(response).to.be.equal('ok');
     });
   });
 
