@@ -61,8 +61,6 @@ describe('Acceptance | API | Campaign Controller', () => {
     context('when organization does not manage student', () => {
 
       beforeEach(async () => {
-        await databaseBuilder.clean();
-        server = await createServer();
         organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: false });
         campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
         campaignWithoutOrga = databaseBuilder.factory.buildCampaign({ organizationId: null });
@@ -89,8 +87,6 @@ describe('Acceptance | API | Campaign Controller', () => {
     context('when organization manage student', () => {
 
       beforeEach(async () => {
-        await databaseBuilder.clean();
-        server = await createServer();
         user = databaseBuilder.factory.buildUser();
         user2 = databaseBuilder.factory.buildUser();
         organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });

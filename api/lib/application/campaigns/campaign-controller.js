@@ -31,11 +31,8 @@ module.exports = {
     const userId = requestUtils.extractUserIdFromRequest(request);
     await _validateFilters(filters);
 
-    const campaign = await usecases.retrieveCampaignInformation({ code: filters.code });
-    await usecases.assertUserBelongToOrganization({ userId, campaign });
-    const campaignWithLogo = await usecases.addOrganizationLogoToCampaign({ campaign });
-
-    return campaignSerializer.serialize([campaignWithLogo]);
+    const campaign = await usecases.retrieveCampaignInformation({ code: filters.code, userId });
+    return campaignSerializer.serialize([campaign]);
   },
 
   getById(request) {
