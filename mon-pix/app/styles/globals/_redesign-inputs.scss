@@ -126,15 +126,6 @@ input[type=radio]:checked:after {
   border-radius: 100%;
 }
 
-input[type=radio]:checked:after {
-  height: 8.5px;
-  width: 8.5px;
-  top: -13px;
-  left: 2px;
-
-  background-color: #3D68FF;
-}
-
 input[type=radio]:before {
   height: 17px;
   width: 17px;
@@ -142,12 +133,31 @@ input[type=radio]:before {
   left: -2px;
 
   border: solid 2px #7D808B;
-  background-color: white;
+  border-radius: 10px;
+  background-color: $white;
 }
 
-input[type=radio]:focus:before {
-  border: solid 2px #3D68FF;
-  box-shadow: 0px 0px 5px 0px #3D68FF;
+input[type=radio]:checked:after {
+  height: 9px;
+  width: 9px;
+  top: -13px;
+  left: 2px;
+
+  background-color: $pix-blue;
+}
+
+input[type=radio]:checked:before {
+  border-color: $pix-blue;
+}
+
+input[type=radio]:focus:before,
+input[type=radio]:hover:before {
+  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.1);
+  border-color: $pix-blue;
+}
+
+input[type=radio]:active:before {
+  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.3);
 }
 
 /**
@@ -206,4 +216,3 @@ input[type=radio]:focus:before {
   padding-left: 20px;
   position: relative;
 }
-
