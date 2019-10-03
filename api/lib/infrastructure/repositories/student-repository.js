@@ -28,12 +28,12 @@ module.exports = {
     return Bookshelf.knex.batchInsert('students', bookshelfStudents).then(() => undefined);
   },
 
-  checkIfUserIsPartOfStudentListInOrganization({ user, organizationId }) {
+  isThereAtLeastOneMatchForTheUserInStudentList({ user, organizationId }) {
     return BookshelfStudent
       .query((qb) => {
         qb.where('organizationId', organizationId);
-        qb.whereRaw('? in (LOWER(??), LOWER(??), LOWER(??))', [user.firstName.toLowerCase(), 'firstName', 'middleName', 'thirdName']);
-        qb.whereRaw('? in (LOWER(??), LOWER(??))', [user.lastName.toLowerCase(), 'lastName', 'preferredLastName']);
+        qb.whereRaw('LOWER(?) in (LOWER(??), LOWER(??), LOWER(??))', [user.firstName, 'firstName', 'middleName', 'thirdName']);
+        qb.whereRaw('LOWER(?) in (LOWER(??), LOWER(??))', [user.lastName, 'lastName', 'preferredLastName']);
         qb.count();
       })
       .fetch()

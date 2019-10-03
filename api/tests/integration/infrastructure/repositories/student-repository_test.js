@@ -173,7 +173,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
     });
   });
 
-  describe('#checkIfUserIsPartOfStudentListInOrganization', () => {
+  describe('#isThereAtLeastOneMatchForTheUserInStudentList', () => {
 
     afterEach(async () => {
       await knex('students').delete();
@@ -209,7 +209,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       ]) {
         it(description, async () => {
           // when
-          const result = await studentRepository.checkIfUserIsPartOfStudentListInOrganization({
+          const result = await studentRepository.isThereAtLeastOneMatchForTheUserInStudentList({
             user,
             organizationId: organization.id
           });
@@ -224,7 +224,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
         const user = { firstName: 'Sttan', lastName: 'Lees' };
 
         // when
-        const result = await studentRepository.checkIfUserIsPartOfStudentListInOrganization({
+        const result = await studentRepository.isThereAtLeastOneMatchForTheUserInStudentList({
           user,
           organizationId: organization.id
         });
@@ -268,7 +268,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
         const user = { firstName: 'Bob', lastName: 'Kane' };
 
         // when
-        const result = await studentRepository.checkIfUserIsPartOfStudentListInOrganization({
+        const result = await studentRepository.isThereAtLeastOneMatchForTheUserInStudentList({
           user,
           organizationId: organization.id
         });
@@ -281,7 +281,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
         const user = { firstName: 'Stan', lastName: 'Lee' };
 
         // when
-        const result = await studentRepository.checkIfUserIsPartOfStudentListInOrganization({
+        const result = await studentRepository.isThereAtLeastOneMatchForTheUserInStudentList({
           user,
           organizationId: badOrganization.id
         });
@@ -323,7 +323,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
         const user = { firstName: 'Stan', lastName: 'Lee' };
 
         // when
-        const result = await studentRepository.checkIfUserIsPartOfStudentListInOrganization({
+        const result = await studentRepository.isThereAtLeastOneMatchForTheUserInStudentList({
           user,
           organizationId: organization.id
         });
