@@ -105,22 +105,6 @@ exports.register = async (server) => {
       }
     },
     {
-      method: 'POST',
-      path: '/api/organizations/{id}/add-membership',
-      config: {
-        pre: [{
-          method: securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster,
-          assign: 'isOwnerInOrganizationOrHasRolePixMaster'
-        }],
-        handler: organisationController.addOrganizationMembershipWithEmail,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés en tant que PIX_MASTER ou responsables de l\'organisation**\n' +
-          '- Elle permet d\'associer un utilisateur à une organisation via son **email**'
-        ],
-        tags: ['api', 'memberships']
-      }
-    },
-    {
       method: 'GET',
       path: '/api/organizations/{id}/target-profiles',
       config: {
@@ -169,6 +153,23 @@ exports.register = async (server) => {
         tags: ['api', 'students']
       }
     },
+    {
+      method: 'POST',
+      path: '/api/organizations/{id}/invitations',
+      config: {
+        pre: [{
+          method: securityController.checkUserIsOwnerInOrganization,
+          assign: 'isOwnerInOrganization'
+        }],
+        handler: organisationController.sendInvitation,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés en tant que responsables de l\'organisation**\n' +
+          '- Elle permet d\'inviter un utilisateur à être membre d\'une organisation, via son **email**'
+        ],
+        tags: ['api', 'invitations']
+      }
+    },
+
   ]);
 };
 

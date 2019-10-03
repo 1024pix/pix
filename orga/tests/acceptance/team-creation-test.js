@@ -13,7 +13,7 @@ module('Acceptance | Team Creation', function(hooks) {
 
   test('it should not be accessible by an unauthenticated user', async function(assert) {
     // when
-    await visit('/team/creation');
+    await visit('/equipe/creation');
 
     // then
     assert.equal(currentURL(), '/connexion');
@@ -22,6 +22,7 @@ module('Acceptance | Team Creation', function(hooks) {
   module('When user is logged in', function() {
 
     let user;
+    let organizationId;
 
     module('When user is a member', function(hooks) {
 
@@ -49,6 +50,7 @@ module('Acceptance | Team Creation', function(hooks) {
 
       hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('OWNER');
+        organizationId = server.db.organizations[0].id;
 
         await authenticateSession({
           user_id: user.id,
@@ -66,10 +68,10 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.equal(currentURL(), '/equipe/creation');
       });
 
-      test('it should allow to add a team member and redirect to team page', async function(assert) {
+      test('it should allow to create a organization-invitation and redirect to team page', async function(assert) {
         // given
         const email = 'gigi@labrochette.com';
-        const addedMember = server.create('user', { firstName: 'Gigi', lastName: 'La Brochette', email, 'pixOrgaTermsOfServiceAccepted': true });
+        server.create('user', { firstName: 'Gigi', lastName: 'La Brochette', email, 'pixOrgaTermsOfServiceAccepted': true });
 
         await visit('/equipe/creation');
         await fillIn('#email', email);
@@ -78,8 +80,8 @@ module('Acceptance | Team Creation', function(hooks) {
         await click('button[type="submit"]');
 
         // then
-        assert.equal(server.db.memberships[1].userId, addedMember.id);
-        assert.equal(server.db.memberships[1].organizationRole, 'MEMBER');
+        assert.equal(server.db.organizationInvitations[0].email, email);
+        assert.equal(server.db.organizationInvitations[0].status, 'ACCEPTED');
         assert.equal(currentURL(), '/equipe');
         assert.dom('.table tbody tr').exists({ count: 2 });
       });
@@ -102,7 +104,7 @@ module('Acceptance | Team Creation', function(hooks) {
       test('it should display error on global form when error 500 is returned from backend', async function(assert) {
         // given
         await visit('/equipe/creation');
-        await server.post('/organizations/:id/add-membership',
+        server.post(`/organizations/${organizationId}/invitations`,
           {
             errors: [
               {
@@ -126,7 +128,7 @@ module('Acceptance | Team Creation', function(hooks) {
       test('it should display error on global form when error 421 is returned from backend', async function(assert) {
         // given
         await visit('/equipe/creation');
-        server.post('/organizations/:id/add-membership',
+        server.post(`/organizations/${organizationId}/invitations`,
           {
             errors: [
               {
@@ -150,7 +152,7 @@ module('Acceptance | Team Creation', function(hooks) {
       test('it should display error on global form when error 404 is returned from backend', async function(assert) {
         // given
         await visit('/equipe/creation');
-        server.post('/organizations/:id/add-membership',
+        server.post(`/organizations/${organizationId}/invitations`,
           {
             errors: [
               {

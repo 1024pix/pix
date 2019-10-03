@@ -8,8 +8,8 @@ const User = require('../../../../lib/domain/models/User');
 
 describe('Integration | Infrastructure | Repository | membership-repository', () => {
 
-  beforeEach(() => {
-    return databaseBuilder.clean();
+  beforeEach(async () => {
+    await databaseBuilder.clean();
   });
 
   afterEach(async () => {
@@ -224,6 +224,40 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         const organization = memberships[0].organization;
         expect(organization).to.be.instanceOf(Organization);
       });
+    });
+  });
+
+  describe('#isMembershipExistingByOrganizationIdAndEmail', () => {
+
+    it('should return true when the membership exists by organizationId and email', async () => {
+      // given
+      const user = databaseBuilder.factory.buildUser();
+      const email = user.email;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildMembership({ organizationId, userId: user.id });
+
+      await databaseBuilder.commit();
+
+      // when
+      const membershipExists = await membershipRepository.isMembershipExistingByOrganizationIdAndEmail(organizationId, email);
+
+      // then
+      expect(membershipExists).to.be.true;
+    });
+
+    it('should throw an error when the membership does not exist by organizationId and email', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildMembership({ organizationId, userId });
+
+      await databaseBuilder.commit();
+
+      // when
+      const membershipExists = await membershipRepository.isMembershipExistingByOrganizationIdAndEmail(organizationId, 'wrongEmail@organization.org');
+
+      // then
+      expect(membershipExists).to.be.false;
     });
 
   });
