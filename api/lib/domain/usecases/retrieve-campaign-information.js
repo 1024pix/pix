@@ -21,13 +21,17 @@ module.exports = async function retrieveCampaignInformation({
   foundCampaign.organizationLogoUrl = foundOrganization.logoUrl;
 
   if (foundOrganization.isManagingStudents) {
-    const user = await userRepository.get(userId);
-    const userIsPartOfOrganizationStudentList = await studentRepository.isThereAtLeastOneMatchForTheUserInStudentList({
-      user,
-      organizationId
-    });
-    if (!userIsPartOfOrganizationStudentList) {
+    if (userId === null) {
       throw new UserNotAuthorizedToAccessEntity('User is not part of the organization student list');
+    } else {
+      const user = await userRepository.get(userId);
+      const userIsPartOfOrganizationStudentList = await studentRepository.isThereAtLeastOneMatchForTheUserInStudentList({
+        user,
+        organizationId
+      });
+      if (!userIsPartOfOrganizationStudentList) {
+        throw new UserNotAuthorizedToAccessEntity('User is not part of the organization student list');
+      }
     }
   }
 

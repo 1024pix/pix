@@ -11,6 +11,7 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
   let campaignRepoStub;
   let orgaRepoStub;
   let studentRepoStub;
+  let userRepoStub;
   const organizationId = 'organizationId';
   const organization = { id: organizationId, logoUrl: 'a logo url' };
   const campaign = { id: 'campaignId', organizationId };
@@ -22,7 +23,7 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
     campaignRepoStub = sinon.stub(campaignRepository, 'getByCode');
     orgaRepoStub = sinon.stub(organizationRepository, 'get').resolves(organization);
     studentRepoStub = sinon.stub(studentRepository, 'isThereAtLeastOneMatchForTheUserInStudentList');
-    sinon.stub(userRepository, 'get').withArgs(user.id).resolves(user);
+    userRepoStub = sinon.stub(userRepository, 'get').withArgs(user.id).resolves(user);
   });
 
   afterEach(() => {
@@ -133,6 +134,22 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
           return expect(promise).to.be.rejected.then((error) => {
             expect(error).to.be.an.instanceOf(UserNotAuthorizedToAccessEntity);
           });
+        });
+
+        it('should throw an error if user is not connected', async () => {
+          // given
+          const userIdNull = null;
+          userRepoStub.withArgs(userIdNull).rejects(NotFoundError);
+
+          // when
+          try {
+            await usecases.retrieveCampaignInformation({ code: campaignCode, userId: userIdNull });
+          }
+
+          // then
+          catch (error) {
+            expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+          }
         });
       });
 

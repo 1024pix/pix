@@ -129,7 +129,22 @@ describe('Acceptance | API | Campaign Controller', () => {
         expect(response.result.errors[0].title).to.equal('Forbidden');
         expect(response.result.errors[0].detail).to.equal('Utilisateur non autorisé à accéder à la ressource');
       });
-    });
 
+      it('should return an UserNotAuthorizedToAccessEntity error if user is not authenticated', async () => {
+        // given
+        const options = {
+          method: 'GET',
+          url: `/api/campaigns/?filter[code]=${campaign.code}`,
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.result.errors[0].title).to.equal('Forbidden');
+        expect(response.result.errors[0].detail).to.equal('Utilisateur non autorisé à accéder à la ressource');
+      });
+    });
   });
 });
