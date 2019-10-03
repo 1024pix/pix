@@ -1,6 +1,6 @@
 {
   "name": "pix-admin",
-  "version": "2.69.0",
+  "version": "2.70.0",
   "private": false,
   "description": "Interface d'administration pour les Pix Masters.",
   "license": "AGPL-3.0",
@@ -84,7 +84,6 @@
     "lodash": "^4.17.15",
     "popper.js": "^1.15.0",
     "qunit-dom": "^0.9.0",
-    "sass": "^1.22.12",
-    "xlsx": "^0.15.1"
+    "sass": "^1.22.12"
   }
 }

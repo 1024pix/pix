@@ -9,7 +9,7 @@ module.exports = {
     }, settings.temporaryKey.secret, { expiresIn: settings.temporaryKey.tokenLifespan });
   },
 
-  invalidOldResetPasswordDemand(userEmail) {
+  invalidateOldResetPasswordDemand(userEmail) {
     return passwordResetDemandRepository.markAsBeingUsed(userEmail);
   },
 

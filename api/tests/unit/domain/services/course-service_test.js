@@ -1,18 +1,19 @@
 const courseService = require('../../../../lib/domain/services/course-service');
 
 const Course = require('../../../../lib/domain/models/Course');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { NotFoundError, UserNotAuthorizedToGetCertificationCoursesError } = require('../../../../lib/domain/errors');
 
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 
 describe('Unit | Service | Course Service', () => {
 
   describe('#getCourse', function() {
 
+    const userId = 1;
     const airtableCourse = { id: 'recAirtableId' };
-    const certificationCourse = new Course({ id: 1 });
+    const certificationCourse = new Course({ id: 1, userId });
 
     context('when the id is a certification course id', () => {
 
@@ -23,10 +24,10 @@ describe('Unit | Service | Course Service', () => {
       it('should call the certification course repository  ', () => {
         // given
         const givenCourseId = 1;
-        certificationCourseRepository.get.resolves();
+        certificationCourseRepository.get.resolves(certificationCourse);
 
         // when
-        const promise = courseService.getCourse(givenCourseId);
+        const promise = courseService.getCourse({ courseId: givenCourseId, userId });
 
         // then
         return promise.then(() => {
@@ -43,7 +44,7 @@ describe('Unit | Service | Course Service', () => {
           certificationCourseRepository.get.resolves(certificationCourse);
 
           // when
-          const promise = courseService.getCourse(givenCourseId);
+          const promise = courseService.getCourse({ courseId: givenCourseId, userId });
 
           // then
           return promise.then((result) => {
@@ -52,20 +53,34 @@ describe('Unit | Service | Course Service', () => {
           });
         });
 
+        context('when the user is not authorized to get the course', () => {
+          it('should reject a UserNotAuthorizedToGetCertificationCoursesError', async () => {
+            // given
+            const givenCourseId = 1;
+            certificationCourseRepository.get.resolves({ ...certificationCourse, ...{ userId: 2 } });
+
+            // when
+            const err = await catchErr(courseService.getCourse)({ courseId: givenCourseId, userId });
+
+            // then
+            expect(err).to.be.instanceOf(UserNotAuthorizedToGetCertificationCoursesError);
+          });
+        });
+
       });
 
       context('when the course id does not exist', () => {
 
-        it('should return a NotFoundError', function() {
+        it('should return a NotFoundError', async function() {
           // given
           const givenCourseId = 'unexistantId';
-          certificationCourseRepository.get.rejects(NotFoundError);
+          certificationCourseRepository.get.rejects(new NotFoundError());
 
           // when
-          const promise = courseService.getCourse(givenCourseId);
+          const err = await catchErr(courseService.getCourse)({ courseId: givenCourseId, userId });
 
           // then
-          return expect(promise).to.be.rejectedWith(NotFoundError);
+          return expect(err).to.be.instanceOf(NotFoundError);
         });
 
       });
@@ -84,7 +99,7 @@ describe('Unit | Service | Course Service', () => {
         courseRepository.get.resolves(airtableCourse);
 
         // when
-        const promise = courseService.getCourse(givenCourseId);
+        const promise = courseService.getCourse({ courseId: givenCourseId, userId });
 
         // then
         return promise.then(() => {
@@ -101,7 +116,7 @@ describe('Unit | Service | Course Service', () => {
           courseRepository.get.resolves(airtableCourse);
 
           // when
-          const promise = courseService.getCourse(givenCourseId);
+          const promise = courseService.getCourse({ courseId: givenCourseId, userId });
 
           // then
           return promise.then((result) => {
@@ -128,7 +143,7 @@ describe('Unit | Service | Course Service', () => {
           courseRepository.get.rejects(error);
 
           // when
-          const promise = courseService.getCourse(givenCourseId);
+          const promise = courseService.getCourse({ courseId: givenCourseId, userId });
 
           // then
           return expect(promise).to.be.rejectedWith(NotFoundError);

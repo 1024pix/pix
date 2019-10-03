@@ -1,7 +1,7 @@
 const { expect, databaseBuilder } = require('../../../../test-helper');
 const sessionRepository = require('../../../../../lib/infrastructure/repositories/session-repository');
 const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');
-const odsService = require('../../../../../lib/domain/services/ods-service');
+const readOdsUtils  = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 const fs = require('fs');
 const _ = require('lodash');
 
@@ -50,8 +50,8 @@ describe('Integration | UseCases | getAttendanceSheet', () => {
     // when
     const updatedOdsFileBuffer = await getAttendanceSheet({ userId, sessionId, sessionRepository });
     fs.writeFileSync(actualOdsFilePath, updatedOdsFileBuffer);
-    const actualResult = await odsService.getContentXml({ odsFilePath: actualOdsFilePath });
-    const expectResult = await odsService.getContentXml({ odsFilePath: expectedOdsFilePath });
+    const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
+    const expectResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
 
     // then
     expect(actualResult).to.deep.equal(expectResult);

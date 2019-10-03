@@ -14,7 +14,7 @@ describe('Unit | Pre-handler | User Verification', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(userRepository, 'findUserById');
+      sinon.stub(userRepository, 'get');
       sinon.stub(errorSerializer, 'serialize');
     });
 
@@ -28,14 +28,14 @@ describe('Unit | Pre-handler | User Verification', () => {
       it('should passthrough to handler', async () => {
         // given
         const userCount = 1;
-        userRepository.findUserById.resolves(userCount);
+        userRepository.get.resolves(userCount);
 
         // when
         const response = await userVerification.verifyById(request, hFake);
 
         // then
-        sinon.assert.calledOnce(userRepository.findUserById);
-        sinon.assert.calledWith(userRepository.findUserById, request.params.id);
+        sinon.assert.calledOnce(userRepository.get);
+        sinon.assert.calledWith(userRepository.get, request.params.id);
         expect(response).to.equal(userCount);
       });
 
@@ -45,7 +45,7 @@ describe('Unit | Pre-handler | User Verification', () => {
 
       it('should reply 404 status with a serialized error and takeOver the request', async () => {
         // given
-        userRepository.findUserById.rejects(new BookshelfUser.NotFoundError());
+        userRepository.get.rejects(new BookshelfUser.NotFoundError());
         const serializedError = { serialized: 'error' };
         errorSerializer.serialize.returns(serializedError);
 

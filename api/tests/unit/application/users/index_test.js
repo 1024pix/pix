@@ -118,116 +118,73 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('PATCH /api/users/{id}', function() {
+  describe('PATCH /api/users/{id}/password-update', function() {
 
     const userId = '12344';
     const request = (payloadAttributes) => ({
       method: 'PATCH',
-      url: `/api/users/${userId}`,
+      url: `/api/users/${userId}/password-update`,
       payload: { data: { attributes: payloadAttributes } },
     });
 
     beforeEach(() => {
-      sinon.stub(userController, 'updateUser').returns('ok');
+      sinon.stub(userController, 'updatePassword').returns('ok');
       sinon.stub(userVerification, 'verifyById').returns('ok');
       startServer();
     });
 
-    it('should exist and pass through user verification pre-handler', () => {
+    it('should exist and pass through user verification pre-handler', async () => {
       // given
-      return server.inject(request({})).then((res) => {
-        // then
-        expect(res.statusCode).to.equal(200);
-        sinon.assert.calledOnce(userVerification.verifyById);
-      });
+      const payloadAttributes = { password: 'Pix2019!' };
+
+      // when
+      const result = await server.inject(request(payloadAttributes));
+
+      // then
+      expect(result.statusCode).to.equal(200);
+      sinon.assert.calledOnce(userVerification.verifyById);
     });
 
     describe('Payload schema validation', () => {
 
-      it('should have a payload', () => {
+      it('should have a payload', async () => {
         // given
         const requestWithoutPayload = {
           method: 'PATCH',
-          url: `/api/users/${userId}`,
+          url: `/api/users/${userId}/password-update`,
         };
 
+        // when
+        const result = await server.inject(requestWithoutPayload);
+
         // then
-        return server.inject(requestWithoutPayload).then((res) => {
-          expect(res.statusCode).to.equal(400);
-        });
+        expect(result.statusCode).to.equal(400);
       });
 
-      describe('pix-orga-terms-of-service-accepted validation', () => {
+      it('should have a password attribute in payload', async () => {
+        // given
+        const payloadAttributes = {};
 
-        it('should return 200 when pix-orga-terms-of-service-accepted field is a boolean', () => {
-          // given
-          const payloadAttributes = {
-            'pix-orga-terms-of-service-accepted': true
-          };
+        // when
+        const result = await server.inject(request(payloadAttributes));
 
-          // when
-          return server.inject(request(payloadAttributes)).then((res) => {
-            // then
-            expect(res.statusCode).to.equal(200);
-          });
-        });
-
-        it('should return 400 when pix-orga-terms-of-service-accepted field is not a boolean', () => {
-          // given
-          const payloadAttributes = {
-            'pix-orga-terms-of-service-accepted': 'yolo'
-          };
-
-          // when
-          return server.inject(request(payloadAttributes)).then((res) => {
-            // then
-            expect(res.statusCode).to.equal(400);
-          });
-        });
-      });
-
-      describe('pix-certif-terms-of-service-accepted validation', () => {
-
-        it('should return 200 when pix-certif-terms-of-service-accepted field is a boolean', () => {
-          // given
-          const payloadAttributes = {
-            'pix-certif-terms-of-service-accepted': true
-          };
-
-          // when
-          return server.inject(request(payloadAttributes)).then((res) => {
-            // then
-            expect(res.statusCode).to.equal(200);
-          });
-        });
-
-        it('should return 400 when pix-certif-terms-of-service-accepted field is not a boolean', () => {
-          // given
-          const payloadAttributes = {
-            'pix-certif-terms-of-service-accepted': 'yolo'
-          };
-
-          // when
-          return server.inject(request(payloadAttributes)).then((res) => {
-            // then
-            expect(res.statusCode).to.equal(400);
-          });
-        });
+        // then
+        expect(result.statusCode).to.equal(400);
       });
 
       describe('password validation', () => {
 
-        it('should have a valid password format in payload', () => {
+        it('should have a valid password format in payload', async () => {
           // given
           const payloadAttributes = {
             'password': 'Mot de passe mal formé'
           };
 
           // when
-          return server.inject(request(payloadAttributes)).then((res) => {
-            // then
-            expect(res.statusCode).to.equal(400);
-          });
+          const result = await server.inject(request(payloadAttributes));
+
+          // then
+          expect(result.statusCode).to.equal(400);
         });
       });
     });

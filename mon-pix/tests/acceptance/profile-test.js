@@ -125,6 +125,7 @@ describe('Acceptance | Profile', function() {
           campaignId: 1,
           assessmentId: 2,
           userId: 1,
+          createdAt: '2019-09-30T14:30:00Z',
         });
 
         // when
@@ -149,6 +150,7 @@ describe('Acceptance | Profile', function() {
           campaignId: 3,
           assessmentId: 2,
           userId: 1,
+          createdAt: '2019-09-30T14:30:00Z',
         });
 
         // when
@@ -176,6 +178,7 @@ describe('Acceptance | Profile', function() {
           campaignId: 1,
           assessmentId: 2,
           userId: 1,
+          createdAt: '2019-09-30T14:30:00Z',
         });
 
         // when
@@ -200,6 +203,7 @@ describe('Acceptance | Profile', function() {
           campaignId: 3,
           assessmentId: 2,
           userId: 1,
+          createdAt: '2019-09-30T14:30:00Z',
         });
 
         // when

@@ -12,7 +12,7 @@ export default Component.extend({
 
   snapshotsExportUrl: computed('organization', function() {
     const organizationId = this.get('organization.id');
-    const userToken = this.get('session.data.authenticated.token');
-    return `${ENV.APP.API_HOST}/api/organizations/${organizationId}/snapshots/export?userToken=${userToken}`;
+    const { access_token } = this.get('session.data.authenticated');
+    return `${ENV.APP.API_HOST}/api/organizations/${organizationId}/snapshots/export?userToken=${access_token}`;
   }),
 });

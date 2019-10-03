@@ -12,17 +12,22 @@ const buildUser = function buildUser({
   id,
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
-  email ,
+  email,
   password,
   cgu = true,
+  pixOrgaTermsOfServiceAccepted = false,
+  pixCertifTermsOfServiceAccepted = false,
+  hasSeenNewProfileInfo = false,
+  hasSeenAssessmentInstructions = false,
   samlId,
 } = {}) {
 
   password = _.isUndefined(password) ? encrypt.hashPasswordSync(faker.internet.password()) : encrypt.hashPasswordSync(password);
   email = _.isUndefined(email) ? faker.internet.exampleEmail().toLowerCase() : email.toLowerCase();
-  
+
   const values = {
-    id, firstName, lastName, email, password, cgu, samlId,
+    id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted, hasSeenNewProfileInfo, hasSeenAssessmentInstructions, samlId,
   };
 
   return databaseBuffer.pushInsertable({
@@ -38,13 +43,18 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   email = faker.internet.email(),
   rawPassword = faker.internet.password(),
   cgu = true,
+  pixOrgaTermsOfServiceAccepted = false,
+  pixCertifTermsOfServiceAccepted = false,
+  hasSeenNewProfileInfo = false,
+  hasSeenAssessmentInstructions = false,
   samlId,
 }) {
 
   const password = encrypt.hashPasswordSync(rawPassword);
 
   const values = {
-    id, firstName, lastName, email, password, cgu, samlId,
+    id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted, hasSeenNewProfileInfo, hasSeenAssessmentInstructions, samlId,
   };
 
   return databaseBuffer.pushInsertable({
@@ -60,10 +70,15 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
   email = faker.internet.email(),
   password = encrypt.hashPasswordSync(faker.internet.password()),
   cgu = true,
+  pixOrgaTermsOfServiceAccepted = false,
+  pixCertifTermsOfServiceAccepted = false,
+  hasSeenNewProfileInfo = false,
+  hasSeenAssessmentInstructions = false,
 } = {}) {
 
   const values = {
-    id, firstName, lastName, email, password, cgu,
+    id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted, hasSeenNewProfileInfo, hasSeenAssessmentInstructions
   };
 
   const pixRolePixMaster = buildPixRole({ name: 'PIX_MASTER' });
@@ -85,12 +100,17 @@ buildUser.withMembership = function buildUserWithMemberships({
   email = faker.internet.email(),
   password = 'encrypt.hashPasswordSync(faker.internet.password())',
   cgu = true,
+  pixOrgaTermsOfServiceAccepted = false,
+  pixCertifTermsOfServiceAccepted = false,
+  hasSeenNewProfileInfo = false,
+  hasSeenAssessmentInstructions = false,
   organizationRole = Membership.roles.OWNER,
   organizationId = null,
 } = {}) {
 
   const values = {
-    id, firstName, lastName, email, password, cgu,
+    id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted, hasSeenNewProfileInfo, hasSeenAssessmentInstructions
   };
 
   organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;

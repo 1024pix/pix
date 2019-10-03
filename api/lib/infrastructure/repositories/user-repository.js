@@ -116,21 +116,6 @@ module.exports = {
       });
   },
 
-  /**
-   * @deprecated Please use #get(userId) that returns a domain User object
-   */
-  findUserById(userId) {
-    return BookshelfUser
-      .where({ id: userId })
-      .fetch({ require: true })
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NotFoundError) {
-          throw new UserNotFoundError(`User not found for ID ${userId}`);
-        }
-        throw err;
-      });
-  },
-
   get(userId) {
     return BookshelfUser
       .where({ id: userId })
@@ -235,7 +220,8 @@ module.exports = {
   },
 
   updatePassword(id, hashedPassword) {
-    return BookshelfUser.where({ id })
+    return BookshelfUser
+      .where({ id })
       .save({ password: hashedPassword }, {
         patch: true,
         require: false

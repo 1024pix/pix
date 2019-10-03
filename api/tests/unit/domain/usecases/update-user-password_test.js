@@ -2,7 +2,7 @@ const updateUserPassword = require('../../../../lib/domain/usecases/update-user-
 
 const { sinon, expect } = require('../../../test-helper');
 
-const BookshelfUser = require('../../../../lib/infrastructure/data/user');
+const User = require('../../../../lib/domain/models/User');
 
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
@@ -15,7 +15,7 @@ const { PasswordResetDemandNotFoundError } = require('../../../../lib/domain/err
 describe('Unit | UseCase | update-user-password', () => {
 
   const userId = 1;
-  const user = new BookshelfUser({
+  const user = new User({
     id: userId,
     email: 'maryz@acme.xh',
   });
@@ -24,10 +24,10 @@ describe('Unit | UseCase | update-user-password', () => {
 
   beforeEach(() => {
     sinon.stub(resetPasswordService, 'hasUserAPasswordResetDemandInProgress').throws();
-    sinon.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
+    sinon.stub(resetPasswordService, 'invalidateOldResetPasswordDemand');
     sinon.stub(validationErrorSerializer, 'serialize');
     sinon.stub(userRepository, 'updatePassword');
-    sinon.stub(userRepository, 'findUserById').resolves(user);
+    sinon.stub(userRepository, 'get').resolves(user);
     sinon.stub(encryptionService, 'hashPassword');
   });
 
@@ -35,7 +35,7 @@ describe('Unit | UseCase | update-user-password', () => {
     // given
 
     resetPasswordService.hasUserAPasswordResetDemandInProgress
-      .withArgs(user.get('email'), temporaryKey)
+      .withArgs(user.email, temporaryKey)
       .resolves();
 
     // when
@@ -50,15 +50,15 @@ describe('Unit | UseCase | update-user-password', () => {
 
     // then
     return promise.then(() => {
-      sinon.assert.calledOnce(userRepository.findUserById);
-      sinon.assert.calledWith(userRepository.findUserById, userId);
+      sinon.assert.calledOnce(userRepository.get);
+      sinon.assert.calledWith(userRepository.get, userId);
     });
   });
 
   it('should check if user has a current password reset demand', () => {
     // given
     resetPasswordService.hasUserAPasswordResetDemandInProgress
-      .withArgs(user.get('email'), temporaryKey)
+      .withArgs(user.email, temporaryKey)
       .resolves();
 
     // when
@@ -74,14 +74,14 @@ describe('Unit | UseCase | update-user-password', () => {
     // then
     return promise.then(() => {
       sinon.assert.calledOnce(resetPasswordService.hasUserAPasswordResetDemandInProgress);
-      sinon.assert.calledWith(resetPasswordService.hasUserAPasswordResetDemandInProgress, user.get('email'));
+      sinon.assert.calledWith(resetPasswordService.hasUserAPasswordResetDemandInProgress, user.email);
     });
   });
 
   it('should update user password with a hashed password', async () => {
     // given
     resetPasswordService.hasUserAPasswordResetDemandInProgress
-      .withArgs(user.get('email'), temporaryKey)
+      .withArgs(user.email, temporaryKey)
       .resolves();
     const encryptedPassword = '$2a$05$jJnoQ/YCvAChJmYW9AoQXe/k17mx2l2MqJBgXVo/R/ju4HblB2iAe';
     encryptionService.hashPassword.resolves(encryptedPassword);
@@ -108,10 +108,10 @@ describe('Unit | UseCase | update-user-password', () => {
   it('should invalidate current password reset demand (mark as being used)', () => {
     // given
     resetPasswordService.hasUserAPasswordResetDemandInProgress
-      .withArgs(user.get('email'), temporaryKey)
+      .withArgs(user.email, temporaryKey)
       .resolves();
     userRepository.updatePassword.resolves();
-    resetPasswordService.invalidOldResetPasswordDemand.resolves();
+    resetPasswordService.invalidateOldResetPasswordDemand.resolves();
 
     // when
     const promise = updateUserPassword({
@@ -125,8 +125,8 @@ describe('Unit | UseCase | update-user-password', () => {
 
     // then
     return promise.then(() => {
-      sinon.assert.calledOnce(resetPasswordService.invalidOldResetPasswordDemand);
-      sinon.assert.calledWith(resetPasswordService.invalidOldResetPasswordDemand, user.get('email'));
+      sinon.assert.calledOnce(resetPasswordService.invalidateOldResetPasswordDemand);
+      sinon.assert.calledWith(resetPasswordService.invalidateOldResetPasswordDemand, user.email);
     });
   });
 
@@ -135,7 +135,7 @@ describe('Unit | UseCase | update-user-password', () => {
       // given
       const error = new PasswordResetDemandNotFoundError();
       resetPasswordService.hasUserAPasswordResetDemandInProgress
-        .withArgs(user.get('email'), temporaryKey)
+        .withArgs(user.email, temporaryKey)
         .rejects(error);
 
       // when
@@ -158,7 +158,7 @@ describe('Unit | UseCase | update-user-password', () => {
       // given
       const error = new PasswordResetDemandNotFoundError();
       resetPasswordService.hasUserAPasswordResetDemandInProgress
-        .withArgs(user.get('email'), temporaryKey)
+        .withArgs(user.email, temporaryKey)
         .rejects(error);
 
       // when

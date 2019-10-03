@@ -98,7 +98,7 @@ describe('Integration | Component | reset password form', function() {
 
           // then
           expect(isSaveMethodCalled).to.be.true;
-          expect(saveMethodOptions).to.eql({ adapterOptions: { temporaryKey: 'temp-key' } });
+          expect(saveMethodOptions).to.eql({ adapterOptions: { updatePassword: true, temporaryKey: 'temp-key' } });
           expect(this.get('user.password')).to.eql(null);
           expect(find(PASSWORD_INPUT_CLASS)).to.not.exist;
           expect(find('.password-reset-demand-form__body')).to.exist;

@@ -35,11 +35,11 @@ describe('Acceptance | Course ending screen', function() {
   });
 
   it('should display the course name', function() {
-    expect(find('.course-banner__name').textContent).to.contain('First Course');
+    expect(find('.assessment-banner__title').textContent).to.contain('First Course');
   });
 
   it('should not display the back button to return to the home page', function() {
-    expect(find('.course-banner__home-link')).to.not.exist;
+    expect(find('.assessment-banner__home-link')).to.not.exist;
   });
 
   it('should display a way to come back to the test list', function() {
@@ -47,7 +47,7 @@ describe('Acceptance | Course ending screen', function() {
   });
 
   it('should display the course banner', function() {
-    expect(find('.assessment-results__course-banner')).to.exist;
+    expect(find('.assessment-results__assessment-banner')).to.exist;
   });
 
 });

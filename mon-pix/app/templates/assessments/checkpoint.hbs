@@ -1,12 +1,7 @@
 <div class="background-banner-wrapper assessment-challenge">
 
-  <div class="assessment-challenge__course-banner">
-    {{#if model.isSmartPlacement}}
-      {{assessment-banner title=model.title checkpoint=true displayHomeLink=true}}
-    {{/if}}
-    {{#if model.isCompetenceEvaluation}}
-      {{assessment-banner title=model.title checkpoint=true displayHomeLink=true}}
-    {{/if}}
+  <div class="assessment-challenge__assessment-banner">
+    {{assessment-banner title=model.title checkpoint=true displayHomeLink=true}}
   </div>
 
   <div class="checkpoint__container rounded-panel--over-background-banner">
@@ -32,7 +27,7 @@
     <div class="rounded-panel rounded-panel--strong checkpoint__content">
       {{#if shouldDisplayAnswers}}
         <div class="rounded-panel-one-line-header">
-          <h1 class="rounded-panel-header-text__content rounded-panel-title">
+          <h1 class="rounded-panel-header-text__content rounded-panel-title rounded-panel-title--all-small-caps">
             vos réponses
           </h1>
         </div>

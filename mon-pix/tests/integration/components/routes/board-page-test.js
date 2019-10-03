@@ -16,7 +16,7 @@ describe('Integration | Component | Board page', function() {
       this.owner.register('service:session', Service.extend({
         data: {
           authenticated: {
-            token: 'VALID-TOKEN',
+            access_token: 'VALID-TOKEN',
           }
         },
       }));

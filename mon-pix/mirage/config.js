@@ -88,7 +88,6 @@ export default function() {
   this.get('/snapshots', getSnapshots);
 
   this.post('/users');
-  this.patch('/users/:id', getAuthenticatedUser);
 
   this.del('/cache', () => null, 204);
 
@@ -110,13 +109,9 @@ export default function() {
     return user;
   });
 
-  this.patch('/users/:id', (schema, request) => {
+  this.patch('/users/:id/password-update', (schema, request) => {
     const body = JSON.parse(request.requestBody);
     const user =  schema.users.find(request.params.id);
-
-    if (body.data.attributes['has-seen-new-profile-info']) {
-      return new Response(204);
-    }
 
     const demand = schema.passwordResetDemands.findBy({ temporaryKey: request.queryParams['temporary-key'] });
     if (user.email !== demand.email) {
