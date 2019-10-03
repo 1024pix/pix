@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v2.70.0 (03/10/2019)
+
+- [#741](https://github.com/1024pix/pix/pull/741) [BUGFIX] Polir le titre des checkpoints (PF-823).
+- [#736](https://github.com/1024pix/pix/pull/736) [BUGFIX] Permettre de nouveau l'export des snapshots - profil v1 (PF-844).
+- [#734](https://github.com/1024pix/pix/pull/734) [BUGFIX] Optimise le chargement de la bannière de reprise de campagne (PF-840).
+- [#740](https://github.com/1024pix/pix/pull/740) [BUGFIX] Pouvoir passer une démo à nouveau
+- [#731](https://github.com/1024pix/pix/pull/731) [BUGFIX] Mise à jour via campagnes des scorecards remises à zéro (PF-841).
+- [#732](https://github.com/1024pix/pix/pull/732) [BUGFIX] Corrige une typo dans la vérification cgu de Pix Certif (PC-75)
+- [#725](https://github.com/1024pix/pix/pull/725) [TECH] Diviser le PATCH /users/id (PF-831).
+- [#738](https://github.com/1024pix/pix/pull/738) [TECH] mon-pix: suppression du composant `course-banner`
+- [#728](https://github.com/1024pix/pix/pull/728) [TECH] Harmonisation de l'import du PV de session dans PixAdmin avec l'existant (PA-112)
+
 ## v2.69.0 (30/09/2019)
 
 - [#724](https://github.com/1024pix/pix/pull/724) [FEATURE] Mise à jour des organisations en ajoutant un identifiant externe et le département à l'aide d'un script (PF-778).
