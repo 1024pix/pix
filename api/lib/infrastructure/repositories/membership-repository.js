@@ -48,5 +48,17 @@ module.exports = {
       .where({ userId, organizationId })
       .fetchAll({ withRelated: includeOrganization ? ['organization'] : [] })
       .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
-  }
+  },
+
+  isMembershipExistingByOrganizationIdAndEmail(organizationId, email) {
+    return BookshelfMembership
+      .where({ 'memberships.organizationId': organizationId, 'users.email': email })
+      .query((qb) => {
+        qb.innerJoin('users', 'users.id', 'memberships.userId');
+      })
+      .fetch({ require: true })
+      .then(() => true)
+      .catch(() => false);
+  },
+
 };

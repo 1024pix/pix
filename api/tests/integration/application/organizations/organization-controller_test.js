@@ -1,6 +1,9 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const usecases = require('../../../../lib/domain/usecases');
+const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
+
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
 describe('Integration | Application | Organizations | organization-controller', () => {
@@ -16,6 +19,9 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'getOrganizationMemberships');
     sandbox.stub(usecases, 'addOrganizationMembershipWithEmail');
     sandbox.stub(usecases, 'findOrganizationStudents');
+    sandbox.stub(usecases, 'createOrganizationInvitation');
+    sandbox.stub(usecases, 'acceptOrganizationInvitation');
+
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');
     sandbox.stub(securityController, 'checkUserIsOwnerInOrganization');
     sandbox.stub(securityController, 'checkUserIsOwnerInOrganizationOrHasRolePixMaster');
@@ -143,65 +149,6 @@ describe('Integration | Application | Organizations | organization-controller', 
     });
   });
 
-  describe('#createOrganizationMemberships', () => {
-
-    context('Success cases', () => {
-
-      const payload = {
-        data: {
-          email: 'dev@example.net',
-        }
-      };
-
-      beforeEach(() => {
-        securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster.returns(true);
-      });
-
-      const membership = domainBuilder.buildMembership();
-
-      it('should return an HTTP response with status code 200', async () => {
-        // given
-        usecases.addOrganizationMembershipWithEmail.resolves([membership]);
-
-        // when
-        const response = await httpTestServer.request('POST', '/api/organizations/1234/add-membership', payload);
-
-        // then
-        expect(response.statusCode).to.equal(201);
-      });
-
-      it('should return an HTTP response formatted as JSON:API', async () => {
-        // given
-        usecases.addOrganizationMembershipWithEmail.resolves([membership]);
-
-        // when
-        const response = await httpTestServer.request('POST', '/api/organizations/1234/add-membership', payload);
-
-        // then
-        expect(response.result.data[0].type).to.equal('memberships');
-        expect(response.result.data[0].id).to.equal(membership.id.toString());
-      });
-
-      it('should return a JSON:API response including organization, organization role & user information', async () => {
-        // given
-        const expectedAttributes = {
-          'organization-role': 'MEMBER'
-        };
-        usecases.addOrganizationMembershipWithEmail.resolves([membership]);
-
-        // when
-        const response = await httpTestServer.request('POST', '/api/organizations/1234/add-membership', payload);
-
-        // then
-        expect(response.result.included[0].type).to.equal('organizations');
-        expect(response.result.included[0].id).to.equal(`${membership.organization.id}`);
-        expect(response.result.included[1].type).to.equal('users');
-        expect(response.result.included[1].id).to.equal(`${membership.user.id}`);
-        expect(response.result.data[0].attributes).to.deep.equal(expectedAttributes);
-      });
-    });
-  });
-
   describe('#findStudents', () => {
 
     beforeEach(() => {
@@ -254,7 +201,42 @@ describe('Integration | Application | Organizations | organization-controller', 
           expect(response.statusCode).to.equal(403);
         });
       });
-
     });
   });
+
+  describe('#sendInvitation', () => {
+
+    context('Success cases', () => {
+
+      const invitation = domainBuilder.buildOrganizationInvitation();
+      const acceptedInvitation = { ...invitation, status: OrganizationInvitation.StatusType.ACCEPTED };
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: invitation.email
+          },
+        }
+      };
+
+      beforeEach(() => {
+        securityController.checkUserIsOwnerInOrganization.returns(true);
+      });
+
+      it('should return an HTTP response with status code 201', async () => {
+        // given
+        usecases.createOrganizationInvitation.resolves(invitation);
+        usecases.acceptOrganizationInvitation.resolves(acceptedInvitation);
+        usecases.addOrganizationMembershipWithEmail.resolves({});
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organizations/1/invitations', payload);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+      });
+    });
+  });
+
 });

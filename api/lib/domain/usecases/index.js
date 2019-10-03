@@ -31,6 +31,7 @@ const dependencies = {
   membershipRepository: require('../../infrastructure/repositories/membership-repository'),
   organizationService: require('../../domain/services/organization-service'),
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
+  organizationInvitationRepository: require('../../infrastructure/repositories/organization-invitation-repository'),
   resetPasswordService: require('../../domain/services/reset-password-service'),
   reCaptchaValidator: require('../../infrastructure/validators/grecaptcha-validator'),
   scoringService: require('../../domain/services/scoring/scoring-service'),
@@ -55,6 +56,7 @@ function injectDependencies(usecases) {
 }
 
 module.exports = injectDependencies({
+  acceptOrganizationInvitation: require('./accept-organization-invitation'),
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
   acceptPixOrgaTermsOfService: require('./accept-pix-orga-terms-of-service'),
   addOrganizationMembershipWithEmail: require('./add-organization-membership-with-email'),
@@ -68,6 +70,7 @@ module.exports = injectDependencies({
   createCertificationCenterMembership: require('./create-certification-center-membership'),
   createMembership: require('./create-membership'),
   createOrganization: require('./create-organization'),
+  createOrganizationInvitation: require('./create-organization-invitation'),
   createSession: require('./create-session'),
   createUser: require('./create-user'),
   findAnswerByChallengeAndAssessment: require('./find-answer-by-challenge-and-assessment'),

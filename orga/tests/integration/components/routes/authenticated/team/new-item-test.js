@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, fillIn, render } from '@ember/test-helpers';
+import { fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -8,30 +8,28 @@ module('Integration | Component | routes/authenticated/team/new-item', function(
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {
-    this.set('addTeamMemberSpy', () => {});
+    this.set('createOrganizationInvitationSpy', () => {});
     this.set('cancelSpy', () => {});
   });
 
   test('it should contain email input and validation button', async function(assert) {
     // when
-    await render(hbs`{{routes/authenticated/team/new-item addTeamMember=(action addTeamMemberSpy) cancel=(action cancelSpy)}}`);
+    await render(hbs`{{routes/authenticated/team/new-item createOrganizationInvitation=(action createOrganizationInvitationSpy) cancel=(action cancelSpy)}}`);
 
     // then
     assert.dom('#email').exists();
     assert.dom('button[type="submit"]').exists();
   });
 
-  test('it should send membership creation action when submitted', async function(assert) {
+  test('it should bind organizationInvitation properties with email form input', async function(assert) {
     // given
-    this.set('model', EmberObject.create({ membership: {} }));
+    this.set('organizationInvitation', EmberObject.create({ organizationInvitation: { email: 'toto@org.fr' } }));
+    await render(hbs`{{routes/authenticated/team/new-item organizationInvitation=organizationInvitation createOrganizationInvitation=(action createOrganizationInvitationSpy) cancel=(action cancelSpy)}}`);
 
     // when
-    await render(hbs`{{routes/authenticated/team/new-item membership=model.membership email=email addTeamMember=(action addTeamMemberSpy) cancel=(action cancelSpy)}}`);
+    await fillIn('#email', 'dev@example.net');
 
     // then
-    await fillIn('#email', 'dev@example.net');
-    await click('button[type="submit"]');
-
-    assert.deepEqual(this.get('email'), 'dev@example.net');
+    assert.deepEqual(this.get('organizationInvitation.email'), 'dev@example.net');
   });
 });
