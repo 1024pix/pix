@@ -61,34 +61,26 @@
   transition: opacity .2s linear;
 }
 
-input[type="checkbox"]:focus {
-  outline: none;
-}
-
-input[type="checkbox"]:before {
+input[type=checkbox]:before {
   position: relative;
 
   height: 18px;
   width: 18px;
   top: -3px;
 
-  border: 2px solid $alto-grey;
+  border: 2px solid $raven-grey;
   content: ' ';
   display: block;
   background-color: $white;
   border-radius: 10%;
 }
 
-input[type="checkbox"]:focus:before {
+input[type=checkbox]:checked:before {
   border-color: $pix-blue;
-}
-
-input[type="checkbox"]:checked:before {
-  border: 2px solid $pix-blue;
   background-color: $pix-blue;
 }
 
-input[type="checkbox"]:checked:after {
+input[type=checkbox]:checked:after {
   height: 18px;
   width: 18px;
 
@@ -98,13 +90,20 @@ input[type="checkbox"]:checked:after {
   font-size: 14px;
   color: $white;
 
+  font-weight: $font-bold;
   content: '✓';
   display: block;
   text-align: center;
 }
 
-input[type="checkbox"]:checked:focus:before {
-  box-shadow: 0 0 4px $pix-blue;
+input[type=checkbox]:focus:before,
+input[type=checkbox]:hover:before {
+  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.1);
+  border-color: $pix-blue;
+}
+
+input[type=checkbox]:active:before {
+  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.3);
 }
 
 /**
@@ -132,7 +131,7 @@ input[type=radio]:before {
   top: 0px;
   left: -2px;
 
-  border: solid 2px #7D808B;
+  border: solid 2px $raven-grey;
   border-radius: 10px;
   background-color: $white;
 }
