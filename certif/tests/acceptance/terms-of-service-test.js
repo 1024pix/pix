@@ -45,10 +45,15 @@ module('Acceptance | terms-of-service', function(hooks) {
     test('it should send request for saving Pix-certif terms of service acceptation when submitting', async function(assert) {
       // given
       let pixCertifTermsOfServiceAccepted = null;
-      server.patch('/users/:id', (schema, request) => {
-        const requestBodyParams = JSON.parse(request.requestBody);
-        pixCertifTermsOfServiceAccepted = requestBodyParams.data.attributes['pix-certif-terms-of-service-accepted'];
-        return new Response(204);
+      server.patch('/users/:id/pix-certif-terms-of-service-acceptance', () => {
+        pixCertifTermsOfServiceAccepted = true;
+        return new Response(200, { some: 'header' }, {
+          data: [{
+            type: 'users',
+            id: user.id,
+            attributes: { 'pix-certif-terms-of-service-accepted': pixCertifTermsOfServiceAccepted }
+          }]
+        });
       });
 
       await visit('/cgu');
@@ -62,8 +67,6 @@ module('Acceptance | terms-of-service', function(hooks) {
 
     test('it should redirect to session list after saving terms of service acceptation', async function(assert) {
       // given
-      server.patch('/users/:id', new Response(204));
-
       await visit('/cgu');
 
       // when

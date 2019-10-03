@@ -28,8 +28,11 @@ export default ApplicationAdapter.extend({
       return url + '/remember-user-has-seen-new-profile-info';
     }
 
-    if (adapterOptions && adapterOptions.temporaryKey) {
-      return url + `?temporary-key=${encodeURIComponent(adapterOptions.temporaryKey)}`;
+    if (adapterOptions && adapterOptions.updatePassword) {
+      delete adapterOptions.updatePassword;
+      const temporaryKey = adapterOptions.temporaryKey;
+      delete adapterOptions.temporaryKey;
+      return url + `/password-update?temporary-key=${encodeURIComponent(temporaryKey)}`;
     }
 
     return url;

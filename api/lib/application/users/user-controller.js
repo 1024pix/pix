@@ -4,11 +4,8 @@ const membershipSerializer = require('../../infrastructure/serializers/jsonapi/m
 const pixScoreSerializer = require('../../infrastructure/serializers/jsonapi/pix-score-serializer');
 const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
-const requestUtils = require('../../infrastructure/utils/request-utils');
 
 const usecases = require('../../domain/usecases');
-
-const { BadRequestError } = require('../../infrastructure/errors');
 
 module.exports = {
 
@@ -33,36 +30,37 @@ module.exports = {
       .then(userSerializer.serialize);
   },
 
-  updateUser(request) {
-    const requestedUserId = parseInt(request.params.id);
+  async updatePassword(request) {
+    const userId = parseInt(request.params.id);
+    const user = userSerializer.deserialize(request.payload);
 
-    return Promise.resolve(request.payload)
-      .then(userSerializer.deserialize)
-      .then((user) => {
-        if (user.password) {
-          return usecases.updateUserPassword({
-            userId: requestedUserId,
-            password: user.password,
-            temporaryKey: request.query['temporary-key'] || '',
-          });
-        }
-        if (user.pixOrgaTermsOfServiceAccepted) {
-          const authenticatedUserId = requestUtils.extractUserIdFromRequest(request);
-          return usecases.acceptPixOrgaTermsOfService({
-            authenticatedUserId,
-            requestedUserId
-          });
-        }
-        if (user.pixCertifTermsOfServiceAccepted) {
-          const authenticatedUserId = requestUtils.extractUserIdFromRequest(request);
-          return usecases.acceptPixCertifTermsOfService({
-            authenticatedUserId,
-            requestedUserId
-          });
-        }
-        return Promise.reject(new BadRequestError());
-      })
-      .then(() => null);
+    const updatedUser = await usecases.updateUserPassword({
+      userId,
+      password: user.password,
+      temporaryKey: request.query['temporary-key'] || '',
+    });
+
+    return userSerializer.serialize(updatedUser);
+  },
+
+  async acceptPixOrgaTermsOfService(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+
+    const updatedUser = await usecases.acceptPixOrgaTermsOfService({
+      userId: authenticatedUserId
+    });
+
+    return userSerializer.serialize(updatedUser);
+  },
+
+  async acceptPixCertifTermsOfService(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+
+    const updatedUser = await usecases.acceptPixCertifTermsOfService({
+      userId: authenticatedUserId
+    });
+
+    return userSerializer.serialize(updatedUser);
   },
 
   async rememberUserHasSeenAssessmentInstructions(request) {
