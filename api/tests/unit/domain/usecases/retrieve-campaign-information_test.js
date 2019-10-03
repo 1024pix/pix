@@ -21,7 +21,7 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
   beforeEach(() => {
     campaignRepoStub = sinon.stub(campaignRepository, 'getByCode');
     orgaRepoStub = sinon.stub(organizationRepository, 'get').resolves(organization);
-    studentRepoStub = sinon.stub(studentRepository, 'checkIfUserIsPartOfStudentListInOrganization');
+    studentRepoStub = sinon.stub(studentRepository, 'isThereAtLeastOneMatchForTheUserInStudentList');
     sinon.stub(userRepository, 'get').withArgs(user.id).resolves(user);
   });
 
@@ -100,7 +100,7 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
           orgaRepoStub.resolves(Object.assign(organization, { isManagingStudents: true }));
         });
 
-        it('should call checkIfUserIsPartOfStudentListInOrganization from student repository', async () => {
+        it('should call isThereAtLeastOneMatchForTheUserInStudentList from student repository', async () => {
           // given
           studentRepoStub.resolves(true);
 
@@ -108,7 +108,7 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
           await usecases.retrieveCampaignInformation({ code: campaignCode, userId: user.id });
 
           // then
-          return expect(studentRepository.checkIfUserIsPartOfStudentListInOrganization).to.have.been.called;
+          return expect(studentRepository.isThereAtLeastOneMatchForTheUserInStudentList).to.have.been.called;
         });
 
         it('should resolve if user is part of the organization student list', async () => {
@@ -142,12 +142,12 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
           orgaRepoStub.resolves(Object.assign(organization, { isManagingStudents: false }));
         });
 
-        it('should not called checkIfUserIsPartOfStudentListInOrganization method', async () => {
+        it('should not called isThereAtLeastOneMatchForTheUserInStudentList method', async () => {
           // when
           await usecases.retrieveCampaignInformation({ code: campaignCode, userId: user.id });
 
           // then
-          return expect(studentRepository.checkIfUserIsPartOfStudentListInOrganization).to.not.have.been.called;
+          return expect(studentRepository.isThereAtLeastOneMatchForTheUserInStudentList).to.not.have.been.called;
         });
 
         it('should return an error because organization is not managing students', async () => {

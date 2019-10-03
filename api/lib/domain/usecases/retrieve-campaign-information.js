@@ -22,7 +22,7 @@ module.exports = async function retrieveCampaignInformation({
 
   if (foundOrganization.isManagingStudents) {
     const user = await userRepository.get(userId);
-    const userIsPartOfOrganizationStudentList = await studentRepository.checkIfUserIsPartOfStudentListInOrganization({
+    const userIsPartOfOrganizationStudentList = await studentRepository.isThereAtLeastOneMatchForTheUserInStudentList({
       user,
       organizationId
     });
