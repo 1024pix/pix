@@ -12,8 +12,9 @@
 
 .feedback-panel__open-link {
   cursor: pointer;
-  color: inherit;
-  font-weight: $font-heavy;
+  color: $dove-gray;
+  font-family: $font-roboto;
+  font-weight: $font-medium;
   font-size: 1.5rem;
   line-height: 20px;
 }
