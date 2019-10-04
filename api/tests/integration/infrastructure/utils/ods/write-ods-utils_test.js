@@ -9,7 +9,7 @@ describe('write-ods-utils', () => {
 
   describe('makeUpdatedOdsByContentXml', () => {
 
-    const odsFilePath = `${__dirname}/read-ods-utils-get-content-xml_test.ods`;
+    const odsFilePath = `${__dirname}/get-content-xml_test.ods`;
     const updatedOdsFilePath = `${__dirname}/write-ods-utils-make-updated-ods-by-content-xml_test_tmp.ods`;
 
     it('should return the edited ods file as a buffer', async () => {

@@ -30,10 +30,10 @@ describe('Integration | UseCases | getAttendanceSheet', () => {
       description: 'La super description',
     }).id;
     _.each([
-      { lastName: 'Jackson', firstName: 'Michael', birthplace: 'Paris', birthdate: '2004-04-04', sessionId, externalId: 'ABC123', extraTimePercentage: 0.6 },
-      { lastName: 'Jackson', firstName: 'Janet', birthplace: 'Milan', birthdate: '2005-12-05', sessionId, externalId: 'DEF456', extraTimePercentage: null },
-      { lastName: 'Mercury', firstName: 'Freddy', birthplace: 'Barcelone', birthdate: '1925-06-28', sessionId, externalId: 'GHI789', extraTimePercentage: 1.5 },
-      { lastName: 'Gallagher', firstName: 'Jack', birthplace: 'Londres', birthdate: '1980-08-10', sessionId, externalId: null, extraTimePercentage: 0.15 },
+      { lastName: 'Jackson', firstName: 'Michael', birthCity: 'Paris', birthProvinceCode: '75', birthCountry: 'France', birthdate: '2004-04-04', sessionId, externalId: 'ABC123', extraTimePercentage: 0.6 },
+      { lastName: 'Jackson', firstName: 'Janet', birthCity: 'Ajaccio', birthProvinceCode: '2A', birthCountry: 'France', birthdate: '2005-12-05', sessionId, externalId: 'DEF456', extraTimePercentage: null },
+      { lastName: 'Mercury', firstName: 'Freddy', birthCity: 'Sainte-Anne', birthProvinceCode: '971', birthCountry: 'France', birthdate: '1925-06-28', sessionId, externalId: 'GHI789', extraTimePercentage: 1.5 },
+      { lastName: 'Gallagher', firstName: 'Jack', birthCity: 'Londres', birthProvinceCode: '99', birthCountry: 'Angleterre', birthdate: '1980-08-10', sessionId, externalId: null, extraTimePercentage: 0.15 },
     ], (candidate) => {
       databaseBuilder.factory.buildCertificationCandidate(candidate);
     });
