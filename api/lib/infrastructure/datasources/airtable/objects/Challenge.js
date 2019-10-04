@@ -41,33 +41,6 @@ class Challenge {
     this.embedHeight = embedHeight;
   }
 
-  static getAirtableName() {
-    return 'Epreuves';
-  }
-
-  static getUsedAirtableFields() {
-    return [
-      'Illustration de la consigne',
-      'Pièce jointe',
-      'Compétences (via tube)',
-      'Timer',
-      'Consigne',
-      'Propositions',
-      'Type d\'épreuve',
-      'Bonnes réponses',
-      'T1 - Espaces, casse & accents',
-      'T2 - Ponctuation',
-      'T3 - Distance d\'édition',
-      'Scoring',
-      'Statut',
-      'Acquix',
-      'acquis',
-      'Embed URL',
-      'Embed title',
-      'Embed height',
-    ];
-  }
-
   static fromAirTableObject(airtableEpreuveObject) {
 
     let illustrationUrl;

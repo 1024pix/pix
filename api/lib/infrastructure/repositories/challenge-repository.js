@@ -6,7 +6,7 @@ const Skill = require('../../domain/models/Skill');
 const challengeDatasource = require('../datasources/airtable/challenge-datasource');
 const skillDatasource = require('../datasources/airtable/skill-datasource');
 const solutionAdapter = require('../adapters/solution-adapter');
-const AirtableResourceNotFound = require('../datasources/airtable/AirtableResourceNotFound');
+const airtableDatasourceObjects = require('../datasources/airtable/objects');
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
     return challengeDatasource.get(id)
       .then(_generateChallengeDomainModel)
       .catch((error) => {
-        if (error instanceof AirtableResourceNotFound) {
+        if (error instanceof airtableDatasourceObjects.AirtableResourceNotFound) {
           throw new NotFoundError();
         }
         throw error;
