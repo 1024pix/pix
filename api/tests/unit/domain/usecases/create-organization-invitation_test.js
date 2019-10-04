@@ -50,7 +50,7 @@ describe('Unit | UseCase | create-organization-invitation', () => {
     expect(result).to.be.instanceOf(AlreadyExistingMembershipError);
   });
 
-  it('should insert a new organization invitation with status pending', async () => {
+  it('should create a new organization-invitation with organizationId email and temporaryKey', async () => {
     // given
     userRepository.isUserExistingByEmail.resolves();
     membershipRepository.isMembershipExistingByOrganizationIdAndEmail.resolves();
@@ -63,6 +63,6 @@ describe('Unit | UseCase | create-organization-invitation', () => {
     await createOrganizationInvitation({ userRepository, membershipRepository, organizationInvitationRepository, organizationId, email });
 
     // then
-    expect(organizationInvitationRepository.create).to.has.been.calledWithExactly(organizationId, email);
+    expect(organizationInvitationRepository.create).to.has.been.calledWith(organizationId, email);
   });
 });

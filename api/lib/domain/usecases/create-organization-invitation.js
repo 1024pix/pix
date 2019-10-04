@@ -24,5 +24,6 @@ module.exports = async function createOrganizationInvitation({ userRepository, m
   await _checkMemberNotExistWithOrganizationIdAndEmail(membershipRepository, organizationId, email);
   await _checkOrganizationInvitationNotExistsWithOrganizationIdAndEmail(organizationInvitationRepository, organizationId, email);
 
-  return organizationInvitationRepository.create(organizationId, email);
+  const temporaryKey = 'temporary-key';
+  return organizationInvitationRepository.create(organizationId, email, temporaryKey);
 };
