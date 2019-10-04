@@ -8,37 +8,41 @@ describe('Unit | Infrastructure | Datasource | Airtable | CompetenceDatasource',
 
   describe('#get', () => {
 
-    it('should call airtable on Competences table with the id and return a Competence data object', async () => {
+    it('should call airtable on Competences table with the id and return a Competence data object', () => {
       // given
       sinon.stub(airtable, 'getRecord')
         .withArgs('Competences', 'recsvLz0W2ShyfD63')
         .resolves(competenceRawAirTableFixture());
 
       // when
-      const competence = await competenceDatasource.get('recsvLz0W2ShyfD63');
+      const promise = competenceDatasource.get('recsvLz0W2ShyfD63');
 
       // then
-      expect(competence).to.be.an.instanceof(airTableDataModels.Competence);
-      expect(competence.id).to.equal('recsvLz0W2ShyfD63');
-      expect(competence.name).to.equal('Mener une recherche et une veille d’information');
+      return promise.then((competence) => {
+        expect(competence).to.be.an.instanceof(airTableDataModels.Competence);
+        expect(competence.id).to.equal('recsvLz0W2ShyfD63');
+        expect(competence.name).to.equal('Mener une recherche et une veille d’information');
+      });
     });
   });
 
   describe('#list', () => {
 
-    it('should call airtable on Competences table to retrieve all Competences', async () => {
+    it('should call airtable on Competences table to retrieve all Competences', () => {
       // given
       sinon.stub(airtable, 'findRecords')
-        .withArgs('Competences', airTableDataModels.Competence.getUsedAirtableFields())
+        .withArgs('Competences')
         .resolves([ competenceRawAirTableFixture() ]);
 
       // when
-      const competences = await competenceDatasource.list();
+      const promise = competenceDatasource.list();
 
       // then
-      expect(competences[0]).to.be.an.instanceof(airTableDataModels.Competence);
-      expect(competences[0].id).to.equal('recsvLz0W2ShyfD63');
-      expect(competences[0].name).to.equal('Mener une recherche et une veille d’information');
+      return promise.then((competences) => {
+        expect(competences[0]).to.be.an.instanceof(airTableDataModels.Competence);
+        expect(competences[0].id).to.equal('recsvLz0W2ShyfD63');
+        expect(competences[0].name).to.equal('Mener une recherche et une veille d’information');
+      });
     });
   });
 });

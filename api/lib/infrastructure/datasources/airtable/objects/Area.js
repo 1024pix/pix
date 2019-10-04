@@ -13,19 +13,6 @@ class Area {
     this.competenceIds = competenceIds;
   }
 
-  static getAirtableName() {
-    return 'Domaines';
-  }
-
-  static getUsedAirtableFields() {
-    return [
-      'Code',
-      'Nom',
-      'Titre',
-      'Competences (identifiants)',
-    ];
-  }
-
   static fromAirTableObject(airtableDomaineObject) {
     return new Area({
       id: airtableDomaineObject.getId(),
