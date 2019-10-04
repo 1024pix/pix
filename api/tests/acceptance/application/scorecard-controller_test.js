@@ -15,13 +15,6 @@ describe('Acceptance | Controller | scorecard-controller', () => {
     server = await createServer();
     userId = databaseBuilder.factory.buildUser({}).id;
     await databaseBuilder.commit();
-
-    options = {
-      method: 'GET',
-      url: `/api/scorecards/${userId}_${competenceId}`,
-      payload: {},
-      headers: {},
-    };
   });
 
   afterEach(() => {
@@ -39,7 +32,16 @@ describe('Acceptance | Controller | scorecard-controller', () => {
 
   describe('GET /scorecards/{id}', () => {
 
-    describe('Resource access management', () => {
+    beforeEach(async () => {
+      options = {
+        method: 'GET',
+        url: `/api/scorecards/${userId}_${competenceId}`,
+        payload: {},
+        headers: {},
+      };
+    });
+
+    context('Resource access management', () => {
 
       it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
         // given
@@ -55,7 +57,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
       });
     });
 
-    describe('Success case', () => {
+    context('Success case', () => {
 
       const skillWeb1Id = 'recAcquisWeb1';
       const skillWeb1Name = '@web1';
@@ -158,6 +160,54 @@ describe('Acceptance | Controller | scorecard-controller', () => {
           expect(response.result.data).to.deep.equal(expectedScorecardJSONApi.data);
           expect(response.result.included).to.deep.equal(expectedScorecardJSONApi.included);
         });
+      });
+    });
+  });
+
+  describe('GET /scorecards/{id}/tutorials', () => {
+
+    beforeEach(async () => {
+      options = {
+        method: 'GET',
+        url: `/api/scorecards/${userId}_${competenceId}/tutorials`,
+        payload: {},
+        headers: {},
+      };
+    });
+
+    context('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+    });
+
+    context('Success case', () => {
+
+      beforeEach(async () => {
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+      });
+
+      it('should return 200', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+
+      it('should return user\'s serialized tutorials', () => {
       });
     });
   });

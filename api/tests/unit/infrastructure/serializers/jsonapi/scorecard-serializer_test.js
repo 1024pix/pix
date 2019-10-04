@@ -28,6 +28,11 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
               type: 'areas'
             }
           },
+          tutorials: {
+            'links': {
+              'related': `/api/scorecard/${scorecardObject.id}/tutorials`
+            }
+          },
         },
       },
       included: [
@@ -44,7 +49,7 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
 
     it('should convert a scorecard object into JSON API data', () => {
       // when
-      const json = serializer.serialize(scorecardObject);
+      const json = serializer.serialize(scorecardObject, { ignoreTutorialsRelationshipData: false });
 
       // then
       expect(json).to.deep.equal(jsonScorecardExpected);

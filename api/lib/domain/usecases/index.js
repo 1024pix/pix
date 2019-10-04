@@ -112,6 +112,7 @@ module.exports = injectDependencies({
   getScorecard: require('./get-scorecard'),
   getSession: require('./get-session'),
   getSessionCertificationCandidates: require('./get-session-certification-candidates'),
+  getTutorials: require('./get-tutorials'),
   getUser: require('./get-user'),
   getUserCertificationCenterMemberships: require('./get-user-certification-center-memberships'),
   getUserCertificationWithResultTree: require('./get-user-certification-with-result-tree'),
