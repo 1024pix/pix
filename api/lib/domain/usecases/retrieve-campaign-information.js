@@ -15,23 +15,19 @@ module.exports = async function retrieveCampaignInformation({
 
   const organizationId = foundCampaign.organizationId;
   const foundOrganization = await organizationRepository.get(organizationId);
-  if (foundOrganization === null) {
-    throw new NotFoundError(`Organization ${organizationId} not found`);
-  }
   foundCampaign.organizationLogoUrl = foundOrganization.logoUrl;
 
   if (foundOrganization.isManagingStudents) {
     if (userId === null) {
       throw new UserNotAuthorizedToAccessEntity('User is not part of the organization student list');
-    } else {
-      const user = await userRepository.get(userId);
-      const userIsPartOfOrganizationStudentList = await studentRepository.isThereAtLeastOneMatchForTheUserInStudentList({
-        user,
-        organizationId
-      });
-      if (!userIsPartOfOrganizationStudentList) {
-        throw new UserNotAuthorizedToAccessEntity('User is not part of the organization student list');
-      }
+    }
+    const user = await userRepository.get(userId);
+    const userIsPartOfOrganizationStudentList = await studentRepository.isThereAtLeastOneMatchForTheUserInStudentList({
+      user,
+      organizationId
+    });
+    if (!userIsPartOfOrganizationStudentList) {
+      throw new UserNotAuthorizedToAccessEntity('User is not part of the organization student list');
     }
   }
 

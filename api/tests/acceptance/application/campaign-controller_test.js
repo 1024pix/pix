@@ -90,60 +90,67 @@ describe('Acceptance | API | Campaign Controller', () => {
         user = databaseBuilder.factory.buildUser();
         user2 = databaseBuilder.factory.buildUser();
         organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
-        databaseBuilder.factory.buildStudent({ organizationId: organization.id, firstName: user.firstName, lastName: user.lastName });
+        databaseBuilder.factory.buildStudent({
+          organizationId: organization.id,
+          firstName: user.firstName,
+          lastName: user.lastName
+        });
         campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
         campaignWithoutOrga = databaseBuilder.factory.buildCampaign({ organizationId: null });
         await databaseBuilder.commit();
       });
 
-      it('should return the campaign ask by code', async () => {
-        // given
-        const options = {
-          method: 'GET',
-          url: `/api/campaigns/?filter[code]=${campaign.code}`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        };
+      context('The student is connected to his account', () => {
 
-        // when
-        const response = await server.inject(options);
+        it('should return the campaign ask by code', async () => {
+          // given
+          const options = {
+            method: 'GET',
+            url: `/api/campaigns/?filter[code]=${campaign.code}`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          };
 
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data[0].attributes.code).to.equal(campaign.code);
-        expect(response.result.data[0].attributes['organization-logo-url']).to.equal(organization.logoUrl);
-      });
+          // when
+          const response = await server.inject(options);
 
-      it('should return an UserNotAuthorizedToAccessEntity error if user is not part of organization student list', async () => {
-        // given
-        const options = {
-          method: 'GET',
-          url: `/api/campaigns/?filter[code]=${campaign.code}`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user2.id) },
-        };
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result.data[0].attributes.code).to.equal(campaign.code);
+          expect(response.result.data[0].attributes['organization-logo-url']).to.equal(organization.logoUrl);
+        });
 
-        // when
-        const response = await server.inject(options);
+        it('should return an UserNotAuthorizedToAccessEntity error if user is not part of organization student list', async () => {
+          // given
+          const options = {
+            method: 'GET',
+            url: `/api/campaigns/?filter[code]=${campaign.code}`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(user2.id) },
+          };
 
-        // then
-        expect(response.statusCode).to.equal(403);
-        expect(response.result.errors[0].title).to.equal('Forbidden');
-        expect(response.result.errors[0].detail).to.equal('Utilisateur non autorisé à accéder à la ressource');
-      });
+          // when
+          const response = await server.inject(options);
 
-      it('should return an UserNotAuthorizedToAccessEntity error if user is not authenticated', async () => {
-        // given
-        const options = {
-          method: 'GET',
-          url: `/api/campaigns/?filter[code]=${campaign.code}`,
-        };
+          // then
+          expect(response.statusCode).to.equal(403);
+          expect(response.result.errors[0].title).to.equal('Forbidden');
+          expect(response.result.errors[0].detail).to.equal('Utilisateur non autorisé à accéder à la ressource');
+        });
 
-        // when
-        const response = await server.inject(options);
+        it('should return an UserNotAuthorizedToAccessEntity error if user is not authenticated', async () => {
+          // given
+          const options = {
+            method: 'GET',
+            url: `/api/campaigns/?filter[code]=${campaign.code}`,
+          };
 
-        // then
-        expect(response.statusCode).to.equal(403);
-        expect(response.result.errors[0].title).to.equal('Forbidden');
-        expect(response.result.errors[0].detail).to.equal('Utilisateur non autorisé à accéder à la ressource');
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(403);
+          expect(response.result.errors[0].title).to.equal('Forbidden');
+          expect(response.result.errors[0].detail).to.equal('Utilisateur non autorisé à accéder à la ressource');
+        });
       });
     });
   });

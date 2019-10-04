@@ -4,7 +4,7 @@ const campaignRepository = require('../../../../lib/infrastructure/repositories/
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const { NotFoundError, InternalError, UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | retrieve-campaign-information', () => {
 
@@ -61,25 +61,6 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
       // then
       expect(campaignRepository.getByCode).to.have.been.calledWithExactly(campaignCode);
       expect(result).to.deep.equal(campaign);
-    });
-
-    context('The related organization does not exist', () => {
-
-      beforeEach(() => {
-        orgaRepoStub.resolves(null);
-      });
-
-      it('should throw an Internal Error', async () => {
-        // when
-        try {
-          await usecases.retrieveCampaignInformation({ code: campaignCode, userId: user.id });
-        }
-
-        // then
-        catch (error) {
-          return expect(error).to.be.an instanceof (InternalError);
-        }
-      });
     });
 
     context('The related organization exist', () => {
