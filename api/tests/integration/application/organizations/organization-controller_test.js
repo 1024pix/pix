@@ -1,4 +1,5 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
+const _ = require('lodash');
 
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const usecases = require('../../../../lib/domain/usecases');
@@ -20,7 +21,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'addOrganizationMembershipWithEmail');
     sandbox.stub(usecases, 'findOrganizationStudents');
     sandbox.stub(usecases, 'createOrganizationInvitation');
-    sandbox.stub(usecases, 'acceptOrganizationInvitation');
+    sandbox.stub(usecases, 'answerToOrganizationInvitation');
 
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');
     sandbox.stub(securityController, 'checkUserIsOwnerInOrganization');
@@ -237,16 +238,23 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return the created invitation with status pending', async () => {
         // given
+        const expectedResult = {
+          data: {
+            type: 'organization-invitations',
+            attributes: {
+              'organization-id': invitation.organizationId,
+              email: invitation.email,
+              status
+            }
+          }
+        };
         usecases.createOrganizationInvitation.resolves(invitation);
 
         // when
         const response = await httpTestServer.request('POST', `/api/organizations/${invitation.organizationId}/invitations`, payload);
 
         // then
-        expect(response.result.data.type).to.equal('organization-invitations');
-        expect(response.result.data.attributes['organization-id']).to.equal(invitation.organizationId);
-        expect(response.result.data.attributes.email).to.equal(invitation.email);
-        expect(response.result.data.attributes.status).to.equal(status);
+        expect(_.omit(response.result, 'data.id')).to.deep.equal(expectedResult);
       });
     });
   });
