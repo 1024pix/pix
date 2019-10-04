@@ -11,6 +11,7 @@ class OrganizationInvitation {
     organizationId,
     email,
     status,
+    code,
     createdAt,
     updatedAt,
   } = {}) {
@@ -19,6 +20,7 @@ class OrganizationInvitation {
     this.organizationId = organizationId;
     this.email = email;
     this.status = status;
+    this.code = code;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
