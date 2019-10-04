@@ -17,21 +17,6 @@ class Competence {
     this.areaId = areaId;
   }
 
-  static getAirtableName() {
-    return 'Competences';
-  }
-
-  static getUsedAirtableFields() {
-    return [
-      'Titre',
-      'Sous-domaine',
-      'Description',
-      'Domaine',
-      'Tests',
-      'Acquis (via Tubes)'
-    ];
-  }
-
   static fromAirTableObject(rawAirtableCompetence) {
 
     return new Competence({
