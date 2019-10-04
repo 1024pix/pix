@@ -6,6 +6,16 @@ const { Skill } = require('../../../../../lib/infrastructure/datasources/airtabl
 const AirtableRecord = require('airtable').Record;
 const _ = require('lodash');
 
+function makeAirtableFake(records) {
+  return async (tableName, fieldList) => {
+    return records.map((record) => new AirtableRecord(tableName, record.id,
+      {
+        id: record.id,
+        fields: _.pick(record._rawJson.fields, fieldList)
+      }));
+  };
+}
+
 describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () => {
 
   describe('#get', () => {
@@ -45,7 +55,8 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       rawSkill4.id = 'FAKE_REC_ID_RAW_SKILL_4' ;
       rawSkill4.fields['Status'] = 'périmé';
 
-      sinon.stub(airtable, 'findRecords').resolves([rawSkill1, rawSkill2, rawSkill3, rawSkill4]);
+      const records = [rawSkill1, rawSkill2, rawSkill3, rawSkill4];
+      sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake(records));
 
       // when
       const promise = skillDatasource.findByRecordIds([rawSkill1.id, rawSkill2.id, rawSkill4.id]);
@@ -66,14 +77,16 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
     it('should query Airtable skills with empty query', () => {
       // given
-      sinon.stub(airtable, 'findRecords').resolves([]);
+      sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([]));
+
+      sinon.stub(Skill, 'getUsedAirtableFields').returns(['titi', 'toto']);
 
       // when
       const promise = skillDatasource.list();
 
       // then
       return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Acquis');
+        expect(airtable.findRecords).to.have.been.calledWith('Acquis', ['titi', 'toto']);
       });
     });
 
@@ -82,7 +95,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       const
         rawSkill1 = skillRawAirTableFixture(),
         rawSkill2 = skillRawAirTableFixture();
-      sinon.stub(airtable, 'findRecords').resolves([rawSkill1, rawSkill2]);
+      sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([rawSkill1, rawSkill2]));
 
       // when
       const promise = skillDatasource.list();
@@ -101,7 +114,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
         rawSkill2 = skillRawAirTableFixture(),
         rawSkill3 = skillRawAirTableFixture();
       rawSkill3.fields['Status'] = 'périmé';
-      sinon.stub(airtable, 'findRecords').resolves([rawSkill1, rawSkill2, rawSkill3]);
+      sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([rawSkill1, rawSkill2, rawSkill3]));
 
       // when
       const promise = skillDatasource.list();
@@ -123,7 +136,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       const acquix4 = new AirtableRecord('Acquis', 'recAcquix4', { fields: { 'Nom': '@acquix4', 'Status': 'actif', 'Compétence (via Tube)': [ 'recOtherCompetence' ] } });
       sinon.stub(airtable, 'findRecords')
         .withArgs('Acquis')
-        .resolves([acquix1, acquix2, acquix3, acquix4]);
+        .callsFake(makeAirtableFake([acquix1, acquix2, acquix3, acquix4]));
     });
 
     it('should retrieve all skills from Airtable for one competence', function() {

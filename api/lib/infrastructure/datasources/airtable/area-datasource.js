@@ -1,14 +1,12 @@
 const airtable = require('../../airtable');
-const airTableDataObjects = require('./objects');
-
-const AIRTABLE_TABLE_NAME = 'Domaines';
+const { Area } = require('./objects');
 
 module.exports = {
   list() {
-    return airtable.findRecords(AIRTABLE_TABLE_NAME)
+    return airtable.findRecords(Area.getAirtableName(), Area.getUsedAirtableFields())
       .then((airtableRawObjects) => {
         return airtableRawObjects.map((airtableRawObject) => {
-          return airTableDataObjects.Area.fromAirTableObject(airtableRawObject);
+          return Area.fromAirTableObject(airtableRawObject);
         });
       });
   },
