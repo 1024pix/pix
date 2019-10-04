@@ -30,9 +30,7 @@ export default Controller.extend({
                 this.set('errorMessage', 'Votre code de parcours est erroné, veuillez vérifier ou contacter la personne organisant le parcours de test.');
                 return false;
               }
-              else {
-                throw (error);
-              }
+              throw (error);
             });
 
         if (campaignCodeExists) {
