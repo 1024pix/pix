@@ -15,6 +15,19 @@ exports.register = async (server) => {
         tags: ['api'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/scorecards/{id}/tutorials',
+      config: {
+        handler: scorecardController.getTutorials,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des tutoriels par compétences de l\'utilisateur dans une scorecard \n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api'],
+      },
+    },
   ]);
 };
 
