@@ -15,20 +15,6 @@ class Tutorial {
     this.title = title;
   }
 
-  static getAirtableName() {
-    return 'Tutoriels';
-  }
-
-  static getUsedAirtableFields() {
-    return [
-      'Durée',
-      'Format',
-      'Lien',
-      'Source',
-      'Titre',
-    ];
-  }
-
   static fromAirTableObject(airtableTutorialObject) {
     return new Tutorial({
       id: airtableTutorialObject.getId(),

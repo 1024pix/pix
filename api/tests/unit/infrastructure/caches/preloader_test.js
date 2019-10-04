@@ -205,6 +205,26 @@ describe('Unit | Infrastructure | preloader', () => {
   describe('#load', () => {
     let promise = null;
 
+    context('When the key is a table',() => {
+      beforeEach(() => {
+        // given
+        airtable.findRecordsSkipCache
+          .withArgs('Epreuves')
+          .resolves([ airtableChallenge_1, airtableChallenge_2 ]);
+
+        return promise = preloader.load({ tableName: 'Epreuves' });
+      });
+
+      it('For table "Epreuves", should fetch all challenges and cache them individually', () => {
+        // then
+        return promise
+          .then(() => {
+            expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge1', airtableChallenge_1._rawJson);
+            expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge2', airtableChallenge_2._rawJson);
+          });
+      });
+    });
+
     context('When the key is a record',() => {
       beforeEach(() => {
         // given

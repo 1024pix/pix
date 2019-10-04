@@ -1,7 +1,7 @@
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
 
 const AirtableResourceNotFound = require(
-  '../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
+  '../../../../lib/infrastructure/datasources/airtable/objects/AirtableResourceNotFound');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const Challenge = require('../../../../lib/domain/models/Challenge');
