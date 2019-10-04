@@ -4,7 +4,7 @@ module.exports = {
   serialize(certificationCandidates) {
     return new Serializer('certification-candidate', {
       attributes: [
-        'lastName', 'firstName', 'birthdate', 'birthplace', 'externalId', 'extraTimePercentage'
+        'lastName', 'firstName', 'birthdate', 'birthCity', 'birthProvinceCode', 'birthCountry', 'externalId', 'extraTimePercentage'
       ],
     }).serialize(certificationCandidates);
   }
