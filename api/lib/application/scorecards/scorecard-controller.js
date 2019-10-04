@@ -10,4 +10,12 @@ module.exports = {
     return usecases.getScorecard({ authenticatedUserId, scorecardId })
       .then(scorecardSerializer.serialize);
   },
+
+  getTutorials(request) {
+    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const scorecardId = request.params.id;
+
+    return usecases.getTutorials({ authenticatedUserId, scorecardId })
+      .then(scorecardSerializer.serialize);
+  },
 };

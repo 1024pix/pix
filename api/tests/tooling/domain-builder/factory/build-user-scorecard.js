@@ -16,6 +16,7 @@ module.exports = function buildUserScorecard(
     status = 'STARTED',
     // relationships
     area = buildArea(),
+    tutorials = [],
   } = {}) {
 
   return {
@@ -32,5 +33,6 @@ module.exports = function buildUserScorecard(
     status,
     // relationships
     area,
+    tutorials,
   };
 };
