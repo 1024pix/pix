@@ -1,4 +1,4 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 
 const organizationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
 const usecases = require('../../../../lib/domain/usecases');
@@ -11,7 +11,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
   describe('#answerToOrganizationInvitation', () => {
 
     const organizationInvitationId = 1;
-    const temporaryKey = 'ABCDEF';
+    const code = 'ABCDEFGH01';
     const status = OrganizationInvitation.StatusType.ACCEPTED;
 
     beforeEach(() => {
@@ -20,10 +20,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
         payload: {
           data: {
             type: 'organization-invitations',
-            attributes: {
-              'temporary-key': temporaryKey,
-              status
-            },
+            attributes: { code, status },
           }
         }
       };
@@ -31,13 +28,16 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
       sinon.stub(usecases, 'answerToOrganizationInvitation');
     });
 
-    it('should call the usecase to update invitation with organizationInvitationId, temporaryKey and status', async () => {
+    it('should call the usecase to update invitation with organizationInvitationId, code and status', async () => {
+      // given
+      usecases.answerToOrganizationInvitation.resolves();
+
       // when
-      await organizationInvitationController.answerToOrganizationInvitation(request, hFake);
+      await organizationInvitationController.answerToOrganizationInvitation(request);
 
       // then
       expect(usecases.answerToOrganizationInvitation).to.have.been.calledWith({
-        organizationInvitationId, temporaryKey, status });
+        organizationInvitationId, code, status });
     });
   });
 

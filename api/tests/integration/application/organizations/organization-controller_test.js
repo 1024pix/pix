@@ -18,7 +18,6 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'updateOrganizationInformation');
     sandbox.stub(usecases, 'getOrganizationMemberships');
-    sandbox.stub(usecases, 'addOrganizationMembershipWithEmail');
     sandbox.stub(usecases, 'findOrganizationStudents');
     sandbox.stub(usecases, 'createOrganizationInvitation');
     sandbox.stub(usecases, 'answerToOrganizationInvitation');

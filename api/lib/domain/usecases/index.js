@@ -58,7 +58,6 @@ function injectDependencies(usecases) {
 module.exports = injectDependencies({
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
   acceptPixOrgaTermsOfService: require('./accept-pix-orga-terms-of-service'),
-  addOrganizationMembershipWithEmail: require('./add-organization-membership-with-email'),
   answerToOrganizationInvitation: require('./answer-to-organization-invitation'),
   authenticateUser: require('./authenticate-user'),
   beginCampaignParticipationImprovement: require('./begin-campaign-participation-improvement'),
