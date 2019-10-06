@@ -1,3 +1,4 @@
+const mailService = require('../../domain/services/mail-service');
 const { AlreadyExistingOrganizationInvitationError, AlreadyExistingMembershipError } = require('../../domain/errors');
 
 function _checkUserExistWithEmail(userRepository, email) {
@@ -18,12 +19,27 @@ async function _checkOrganizationInvitationNotExistsWithOrganizationIdAndEmail(o
   }
 }
 
-module.exports = async function createOrganizationInvitation({ userRepository, membershipRepository, organizationInvitationRepository, organizationId, email }) {
+// TODO export to a key/code service
+function _generateTemporaryKey() {
+  return Math.random().toString(36).substring(2).toUpperCase();
+}
+
+module.exports = async function createOrganizationInvitation({
+  userRepository, membershipRepository, organizationRepository,
+  organizationInvitationRepository, organizationId, email
+}) {
 
   await _checkUserExistWithEmail(userRepository, email);
   await _checkMemberNotExistWithOrganizationIdAndEmail(membershipRepository, organizationId, email);
   await _checkOrganizationInvitationNotExistsWithOrganizationIdAndEmail(organizationInvitationRepository, organizationId, email);
 
-  const temporaryKey = 'temporary-key';
-  return organizationInvitationRepository.create(organizationId, email, temporaryKey);
+  const { name: organizationName } = await organizationRepository.get(organizationId);
+  const temporaryKey = _generateTemporaryKey();
+  const organizationInvitation = await organizationInvitationRepository.create(organizationId, email, temporaryKey);
+
+  await mailService.sendOrganizationInvitationEmail(
+    email, organizationName, organizationInvitation.id, organizationInvitation.temporaryKey
+  );
+
+  return organizationInvitation;
 };
