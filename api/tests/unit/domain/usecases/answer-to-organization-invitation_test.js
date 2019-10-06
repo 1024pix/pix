@@ -19,21 +19,21 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
       findByOrganizationId: sinon.stub(),
     };
     organizationInvitationRepository = {
-      getByIdAndTemporaryKey: sinon.stub(),
+      getByIdAndCode: sinon.stub(),
       markAsAccepted: sinon.stub(),
     };
   });
 
-  context('when invitation with id and temporaryKey does not exist', () => {
+  context('when invitation with id and code does not exist', () => {
 
     it('should throw a NotFoundError', async () => {
       // given
-      organizationInvitationRepository.getByIdAndTemporaryKey.rejects(new NotFoundError());
+      organizationInvitationRepository.getByIdAndCode.rejects(new NotFoundError());
 
       // when
       const error = await catchErr(answerToOrganizationInvitation)({
         organizationInvitationId: 1,
-        temporaryKey: 'keyNotExist',
+        code: 'codeNotExist',
         organizationInvitationRepository
       });
 
@@ -48,7 +48,7 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
       // given
       const status = OrganizationInvitation.StatusType.ACCEPTED;
       const organizationInvitation = domainBuilder.buildOrganizationInvitation({ status });
-      organizationInvitationRepository.getByIdAndTemporaryKey.resolves(organizationInvitation);
+      organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitation);
 
       // when
       const err = await catchErr(answerToOrganizationInvitation)({
@@ -68,8 +68,8 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
       const organizationInvitationPending = domainBuilder.buildOrganizationInvitation({
         status:  OrganizationInvitation.StatusType.PENDING
       });
-      const { id: organizationInvitationId, organizationId, email, temporaryKey } = organizationInvitationPending;
-      organizationInvitationRepository.getByIdAndTemporaryKey.resolves(organizationInvitationPending);
+      const { id: organizationInvitationId, organizationId, email, code } = organizationInvitationPending;
+      organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitationPending);
 
       const userToInvite = domainBuilder.buildUser();
       userRepository.findByEmail.resolves(userToInvite);
@@ -80,7 +80,7 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
 
       // when
       await answerToOrganizationInvitation({
-        organizationInvitationId, temporaryKey, status,
+        organizationInvitationId, code, status,
         userRepository, membershipRepository, organizationInvitationRepository
       });
 

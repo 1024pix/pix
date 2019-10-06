@@ -31,13 +31,13 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         });
 
         const userToInviteEmail = databaseBuilder.factory.buildUser().email;
-        const temporaryKey = 'temporaryKey';
+        const code = 'ABCDEFGH01';
 
         const organizationInvitationId = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
           email: userToInviteEmail,
           status: OrganizationInvitation.StatusType.PENDING,
-          temporaryKey
+          code: code
         }).id;
 
         const status = OrganizationInvitation.StatusType.ACCEPTED;
@@ -48,10 +48,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
           payload: {
             data: {
               type: 'organization-invitations',
-              attributes: {
-                'temporary-key': temporaryKey,
-                status
-              },
+              attributes: { code, status },
             }
           }
         };
@@ -91,7 +88,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
             data: {
               type: 'organization-invitations',
               attributes: {
-                'temporary-key': 'notExistTemporaryKey',
+                code: 'notExistCode',
                 status: OrganizationInvitation.StatusType.ACCEPTED,
               }
             }
@@ -105,7 +102,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         await databaseBuilder.clean();
       });
 
-      it('should respond with a 404 if organization-invitation does not exist with id and temporaryKey', async () => {
+      it('should respond with a 404 if organization-invitation does not exist with id and code', async () => {
         // when
         const response = await server.inject(options);
 
@@ -115,13 +112,13 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
 
       it('should respond with a 421 if organization-invitation is already accepted', async () => {
         // given
-        const { id: organizationInvitationId, temporaryKey } = databaseBuilder.factory.buildOrganizationInvitation({
+        const { id: organizationInvitationId, code } = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
           status: OrganizationInvitation.StatusType.ACCEPTED
         });
 
         options.url = `/api/organization-invitations/${organizationInvitationId}/response`;
-        options.payload.data.attributes['temporary-key'] = temporaryKey;
+        options.payload.data.attributes.code = code;
 
         await databaseBuilder.commit();
 
@@ -134,14 +131,14 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
 
       it('should respond with a 404 if given email is not linked to an existing user', async () => {
         // given
-        const { id: organizationInvitationId, temporaryKey } = databaseBuilder.factory.buildOrganizationInvitation({
+        const { id: organizationInvitationId, code } = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
           email: 'fakeEmail@organization.org',
           status: OrganizationInvitation.StatusType.PENDING
         });
 
         options.url = `/api/organization-invitations/${organizationInvitationId}/response`;
-        options.payload.data.attributes['temporary-key'] = temporaryKey;
+        options.payload.data.attributes.code = code;
 
         await databaseBuilder.commit();
 
@@ -158,14 +155,14 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
 
         databaseBuilder.factory.buildMembership({ userId, organizationId });
 
-        const { id: organizationInvitationId, temporaryKey } = databaseBuilder.factory.buildOrganizationInvitation({
+        const { id: organizationInvitationId, code } = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
           email,
           status: OrganizationInvitation.StatusType.PENDING
         });
 
         options.url = `/api/organization-invitations/${organizationInvitationId}/response`;
-        options.payload.data.attributes['temporary-key'] = temporaryKey;
+        options.payload.data.attributes.code = code;
 
         await databaseBuilder.commit();
 

@@ -2,13 +2,12 @@ const usecases = require('../../domain/usecases');
 
 module.exports = {
 
-  async answerToOrganizationInvitation(request, h) {
+  async answerToOrganizationInvitation(request) {
     const organizationInvitationId = request.params.id;
-    const { 'temporary-key': temporaryKey, status } = request.payload.data.attributes;
+    const { code, status } = request.payload.data.attributes;
 
-    await usecases.answerToOrganizationInvitation({ organizationInvitationId, temporaryKey, status, });
-
-    return h.response().code(204);
+    return usecases.answerToOrganizationInvitation({ organizationInvitationId, code, status, })
+      .then(() => null);
   },
 
 };
