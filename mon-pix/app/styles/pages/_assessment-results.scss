@@ -24,14 +24,10 @@
   max-width: 800px;
   width: 100%;
   padding: 30px;
-  margin: 30px 15px;
+  margin-top: -175px;
   background: $white;
   border-radius: 10px;
   box-shadow: 0 7px 14px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
-
-  @include device-is('desktop') {
-    margin: 30px 0;
-  }
 }
 
 /* Forces bootstrap's default by including bootstrap props into .assessment-results container */
