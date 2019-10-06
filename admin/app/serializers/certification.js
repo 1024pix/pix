@@ -6,14 +6,6 @@ export default DS.JSONAPISerializer.extend({
     return this.normalizeSingleResponse(...arguments);
   },
 
-  extractAttributes() {
-    const attributes = this._super(...arguments);
-    if (attributes['birthdate']) {
-      attributes['birthdate'] = (new Date(attributes['birthdate'])).toLocaleDateString('fr-FR');
-    }
-    return attributes;
-  },
-
   serialize(snapshot, options) {
     if (options && options.onlyInformation) {
       const data = {};

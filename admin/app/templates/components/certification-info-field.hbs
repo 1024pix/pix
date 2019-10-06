@@ -2,7 +2,20 @@
   <div class='row form-group certification-info-field'>
     <label class='{{leftWidth}} col-form-label' for={{id}}>{{label}}</label>
     <div class='{{rightWidth}} certificate'>
-      {{input type="text" class="form-control" value=value id=fieldId}}
+      {{#if isDate}}
+        {{ember-flatpickr id=fieldId
+                          altFormat='d/m/Y'
+                          altInput=true
+                          onChange=(action onUpdateCertificationBirthdate)
+                          dateFormat='Y-m-d'
+                          locale='fr'
+                          date=value
+                          name=fieldId
+                          class='form-control'
+        }}
+      {{else}}
+        {{input type="text" class="form-control" value=value id=fieldId}}
+      {{/if}}
     </div>
   </div>
 {{else}}
@@ -14,7 +27,11 @@
           {{value}} {{suffix}}
         {{/link-to}}
       {{else}}
-        {{value}} {{suffix}}
+        {{#if isDate}}
+          {{moment-format value 'DD/MM/YYYY' allow-empty=true}}
+        {{else}}
+          {{value}} {{suffix}}
+        {{/if}}
       {{/if}}
     </div>
   </div>
