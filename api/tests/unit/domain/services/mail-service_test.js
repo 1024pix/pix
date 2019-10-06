@@ -70,6 +70,47 @@ describe('Unit | Service | MailService', () => {
         });
       });
     });
-
   });
+
+  describe('#sendOrganizationInvitationEmail', () => {
+
+    let sendEmailStub;
+
+    beforeEach(() => {
+      sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
+    });
+
+    it('should be a function', () => {
+      // then
+      expect(mailService.sendOrganizationInvitationEmail).to.be.a('function');
+    });
+
+    it('should call Mailjet with  pix-orga url, organization-invitation id and temporaryKey', async () => {
+      // given
+      const email = 'user@organization.org';
+      const organizationName = 'Organization Name';
+      const pixOrgaBaseUrl = 'http://dev.pix-orga.fr';
+      const organizationInvitationId = 1;
+      const code = 'ABCDEFGH01';
+
+      // when
+      await mailService.sendOrganizationInvitationEmail({
+        email, organizationName, organizationInvitationId, code
+      });
+
+      // then
+      sinon.assert.calledWith(sendEmailStub, {
+        to: email,
+        template: 'test-organization-invitation-demand-template-id',
+        from: 'ne-pas-repondre@pix.fr',
+        fromName: 'PIX-ORGA - Ne pas répondre',
+        subject: 'Invitation à rejoindre Pix Orga',
+        variables: {
+          organizationName,
+          responseUrl: `${pixOrgaBaseUrl}/invitations/${organizationInvitationId}?code=${code}`
+        }
+      });
+    });
+  });
+
 });

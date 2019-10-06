@@ -49,6 +49,7 @@ module.exports = (function() {
       mailjetApiKey: process.env.MAILJET_KEY,
       mailjetApiSecret: process.env.MAILJET_SECRET,
       mailjetAccountCreationTemplateId: process.env.MAILJET_ACCOUNT_CREATION_TEMPLATE_ID,
+      mailjetOrganizationInvitationDemandTemplateId: process.env.MAILJET_ORGANIZATION_INVITATION_DEMAND_TEMPLATE_ID,
       mailjetPasswordResetTemplateId: process.env.MAILJET_PASSWORD_RESET_TEMPLATE_ID,
     },
 
@@ -97,6 +98,8 @@ module.exports = (function() {
       dayBeforeImproving: _getNumber(process.env.DAY_BEFORE_IMPROVING, 4),
       dayBeforeCompetenceResetV2: _getNumber(process.env.DAY_BEFORE_COMPETENCE_RESET_V2,7),
     },
+
+    pixOrgaUrl: process.env.PIXORGA_URL,
   };
 
   if (process.env.NODE_ENV === 'test') {
@@ -111,6 +114,7 @@ module.exports = (function() {
     config.mailing.mailjetApiKey = 'test-api-ket';
     config.mailing.mailjetApiSecret = 'test-api-secret';
     config.mailing.mailjetAccountCreationTemplateId = 'test-account-creation-template-id';
+    config.mailing.mailjetOrganizationInvitationDemandTemplateId = 'test-organization-invitation-demand-template-id';
     config.mailing.mailjetPasswordResetTemplateId = 'test-password-reset-template-id';
 
     config.captcha.enabled = false;
@@ -126,6 +130,8 @@ module.exports = (function() {
     config.caching.redisUrl = null;
     config.caching.redisCacheKeyLockTTL = 0;
     config.caching.redisCacheLockedWaitBeforeRetry = 0;
+
+    config.pixOrgaUrl = 'http://dev.pix-orga.fr';
   }
 
   return config;
