@@ -17,7 +17,11 @@ module.exports = function(defaults) {
 
     'ember-cli-template-lint': {
       testGenerator: 'qunit' // or 'mocha', etc.
-    }
+    },
+
+    flatpickr: {
+      locales: ['fr']
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated

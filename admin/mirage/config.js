@@ -40,7 +40,7 @@ export default function() {
     return [
       { lastName: 'Lantier',
         firstName: 'Étienne',
-        birthdate: '04/01/1990',
+        birthdate: '1990-01-04',
         birthplace: 'Ajaccio',
         email: null,
         externalId: 'ELAN123',
@@ -52,7 +52,7 @@ export default function() {
       },
       { lastName: 'Ranou',
         firstName: 'Liam',
-        birthdate: '22/10/2000',
+        birthdate: '2000-10-22',
         birthplace: null,
         email: null,
         externalId: null,
