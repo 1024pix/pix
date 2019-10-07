@@ -33,7 +33,7 @@ describe('Unit | Component | certification-starter', function() {
     it('should create and save a new course', function() {
       // given
       component.set('store', storeStub);
-      component.set('_accessCode', 'ABCD12');
+      component.set('accessCode', 'ABCD12');
 
       // when
       component.send('submit');
@@ -44,16 +44,16 @@ describe('Unit | Component | certification-starter', function() {
       sinon.assert.called(storeSaveStub);
     });
 
-    it('should set _loadingCertification at true', function() {
+    it('should set isLoading at true', function() {
       // given
       component.set('store', storeStub);
-      component.set('_accessCode', 'ABCD12');
+      component.set('accessCode', 'ABCD12');
 
       // when
       component.send('submit');
 
       // then
-      expect(component.get('_loadingCertification')).to.be.true;
+      expect(component.get('isLoading')).to.be.true;
     });
 
   });

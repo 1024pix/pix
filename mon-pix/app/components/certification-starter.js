@@ -2,50 +2,42 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 
 export default Component.extend({
+  store: service(),
   router: service(),
-  // Element
+
+  isLoading: false,
+  accessCode: null,
+  errorMessage: null,
   classNames: ['certification-starter'],
 
-  // Dependency injection
-  store: service(),
-
-  // Public props
-  onSubmit: null,
-  onError: null,
-
-  // Internal props
-  _accessCode: '',
-  _errorMessage: null,
-  _loadingCertification: false,
+  init() {
+    this._super(...arguments);
+    window.cs = this;
+  },
 
   actions: {
-
-    submit() {
-      this.set('_errorMessage', null);
-      const accessCode = this._accessCode;
-      if (accessCode) {
-        this.set('_loadingCertification', true);
-        return this.store
-          .createRecord('course', { accessCode })
-          .save()
-          .then((certificationCourse) => {
-            this.set('_loadingCertification', false);
-            this.router.replaceWith('certifications.resume', certificationCourse.id);
-          })
-          .catch((error) => {
-            this.set('_loadingCertification', false);
-            if (error.errors[0].status === '404') {
-              this.set('_errorMessage', 'Ce code n’existe pas ou n’est plus valide.');
-            } else {
-              if (error.errors[0].status === '403') {
-                return this.router.render('certifications.start-error');
-              } else {
-                this.router.transitionTo('index');
-              }
-            }
-          });
-      } else {
-        this.set('_errorMessage', 'Merci de saisir un code d’accès valide.');
+    async submit() {
+      this.set('errorMessage', null);
+      const { accessCode } = this;
+      if (!accessCode) {
+        return this.set('errorMessage', 'Merci de saisir un code d’accès valide.');
+      }
+      this.set('isLoading', true);
+      try {
+        const certificationCourse = await this.store.createRecord('course', { accessCode }).save();
+        this.router.replaceWith('certifications.resume', certificationCourse.id);
+      } catch ({ errors }) {
+        const { status } = errors[0];
+        if (status === '404') {
+          this.set('errorMessage', 'Ce code n’existe pas ou n’est plus valide.');
+          return this.set('isLoading', true);
+        }
+        else if (status === '403') {
+          return this.router.render('certifications.start-error');
+        }
+        else {
+          return this.router.transitionTo('index');
+        }
       }
     }
   }

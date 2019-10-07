@@ -5,9 +5,9 @@
 </p>
 
 <div class="certification-course-page__session-code-input">
-  {{input id="session-code" type="text" value=_accessCode placeholder="Code d'accès"}}
-  {{#if _errorMessage}}
-    <div class="certification-course-page__errors">{{_errorMessage}}</div>
+  {{input id="session-code" type="text" value=accessCode placeholder="Code d'accès"}}
+  {{#if errorMessage}}
+    <div class="certification-course-page__errors">{{errorMessage}}</div>
   {{/if}}
 </div>
 
@@ -25,11 +25,13 @@
 </div>
 
 <div class="certification-course-page__field-button">
-
-  {{#if _loadingCertification}}
+  {{#if isLoading}}
     <button class="button button--big button--thin certification-course-page__submit_button"><span
-      class="loader-in-button">&nbsp;</span></button>
+      class="loader-in-button">&nbsp;</span>
+    </button>
   {{else}}
-    <button type="submit" class="button button--big button--thin button--uppercase certification-course-page__submit_button" {{ action "submit" }}>Lancer le test</button>
+    <button type="submit" class="button button--big button--thin button--uppercase certification-course-page__submit_button" {{ action "submit" }}>
+      Lancer le test
+    </button>
   {{/if}}
 </div>
