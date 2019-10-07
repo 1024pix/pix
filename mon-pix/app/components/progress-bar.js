@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import ENV from 'mon-pix/config/environment';
 import { htmlSafe } from '@ember/string';
 import { filterBy } from '@ember/object/computed';
+import colorGradient from 'mon-pix/utils/color-gradient';
 
 const minWidthPercent = 1.7;
 const minWidthPixel = 16;
@@ -35,10 +36,13 @@ export default Component.extend({
   _setSteps() {
     const steps = [];
 
+    const gradient = colorGradient('#388AFF', '#985FFF', this.maxStepsNumber);
+
     for (let i = 0; i < this.maxStepsNumber; i++) {
       steps.push({
         stepnum: i + 1,
         status: i <= this.currentStepIndex ? 'active' : '',
+        background: htmlSafe(`background: ${gradient[i]};`),
       });
     }
 

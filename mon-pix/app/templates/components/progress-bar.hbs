@@ -11,8 +11,8 @@
     <div class="progress-bar-progression" style={{progressionWidth}}></div>
 
     <div class="progress-bar-steps">
-      {{#each this.steps}}
-        <span class="progress-bar-step"></span>
+      {{#each this.steps as |step|}}
+        <span class="progress-bar-step" style={{step.background}}></span>
       {{/each}}
     </div>
   </div>
