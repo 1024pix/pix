@@ -1,17 +1,26 @@
-<div class="progress-bar-container">
-  <div class="progress-bar-stepnums">
-    {{#each this.steps as |step|}}
-      <div class="progress-bar-stepnum {{step.status}}">{{step.stepnum}}</div>
-    {{/each}}
+{{#if media.isDesktop}}
+  <div class="progress-bar-container">
+    <div class="progress-bar-stepnums">
+      {{#each this.steps as |step|}}
+        <div class="progress-bar-stepnum {{step.status}}">{{step.stepnum}}</div>
+      {{/each}}
+    </div>
+
+    <div class="progress-bar-background"></div>
+
+    <div class="progress-bar-progression" style={{progressionWidth}}></div>
+
+    <div class="progress-bar-steps">
+      {{#each this.steps}}
+        <span class="progress-bar-step"></span>
+      {{/each}}
+    </div>
   </div>
-
-  <div class="progress-bar-background"></div>
-
-  <div class="progress-bar-progression" style={{progressionWidth}}></div>
-
-  <div class="progress-bar-steps">
-    {{#each this.steps}}
-      <span class="progress-bar-step"></span>
-    {{/each}}
+{{else}}
+  <div class="assessment-progress">
+    <div class="assessment-progress__label">Question</div>
+    <div class="assessment-progress__value">
+      {{currentStepNumber}} / {{maxStepsNumber}}
+    </div>
   </div>
-</div>
+{{/if}}

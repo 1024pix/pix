@@ -24,8 +24,12 @@ export default Component.extend({
     return this.get('assessment.course.nbChallenges');
   }),
 
-  currentStepNumber: computed('persistedAnswers.length', 'maxStepsNumber', function() {
+  currentStepIndex: computed('persistedAnswers.length', 'maxStepsNumber', function() {
     return this.get('persistedAnswers.length') % this.maxStepsNumber;
+  }),
+
+  currentStepNumber: computed('currentStepIndex', function() {
+    return this.currentStepIndex + 1;
   }),
 
   _setSteps() {
@@ -34,7 +38,7 @@ export default Component.extend({
     for (let i = 0; i < this.maxStepsNumber; i++) {
       steps.push({
         stepnum: i + 1,
-        status: i <= this.currentStepNumber ? 'active' : '',
+        status: i <= this.currentStepIndex ? 'active' : '',
       });
     }
 
@@ -42,7 +46,7 @@ export default Component.extend({
   },
 
   _setProgressionWidth() {
-    const widthPercent = minWidthPercent + (100 - minWidthPercent) * this.currentStepNumber  / (this.maxStepsNumber - 1);
+    const widthPercent = minWidthPercent + (100 - minWidthPercent) * this.currentStepIndex  / (this.maxStepsNumber - 1);
 
     const width = this.currentStepIndex === 0 ? `${minWidthPixel}px` : `${widthPercent}%`;
 
