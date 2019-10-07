@@ -28,17 +28,20 @@ export default Component.extend({
         this.router.replaceWith('certifications.resume', certificationCourse.id);
       } catch ({ errors }) {
         const { status } = errors[0];
-        if (status === '404') {
-          this.set('errorMessage', 'Ce code n’existe pas ou n’est plus valide.');
-          return this.set('isLoading', true);
-        }
-        else if (status === '403') {
-          return this.router.render('certifications.start-error');
-        }
-        else {
-          return this.router.transitionTo('index');
-        }
+        this.handleErrorStatus(status);
       }
+    }
+  },
+  handleErrorStatus(status) {
+    if (status === '404') {
+      this.set('errorMessage', 'Ce code n’existe pas ou n’est plus valide.');
+      return this.set('isLoading', false);
+    }
+    else if (status === '403') {
+      return this.router.render('certifications.start-error');
+    }
+    else {
+      return this.router.transitionTo('index');
     }
   }
 });
