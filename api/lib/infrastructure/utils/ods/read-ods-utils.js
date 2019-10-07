@@ -14,7 +14,11 @@ async function getContentXml({ odsFilePath }) {
 
 async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropertyMap }) {
   const sheetDataRows = await _getSheetDataRowsFromOdsBuffer(odsBuffer);
-  const sheetHeaderRow = _getHeaderRow(sheetDataRows, tableHeaderTargetPropertyMap);
+  const tableHeaders = _.map(tableHeaderTargetPropertyMap, 'header');
+  const sheetHeaderRow = _findHeaderRow(sheetDataRows, tableHeaders);
+  if (!sheetHeaderRow) {
+    throw new UnprocessableEntityError('Table headers not found');
+  }
   const sheetDataRowsBelowHeader = _extractRowsBelowHeader(sheetHeaderRow, sheetDataRows);
   const sheetHeaderPropertyMap = _mapSheetHeadersWithProperties(sheetHeaderRow, tableHeaderTargetPropertyMap);
 
@@ -23,6 +27,24 @@ async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropert
     throw new UnprocessableEntityError('No data in table');
   }
   return data;
+}
+
+async function getOdsVersionByHeaders({ odsBuffer, transformationStructsByVersion }) {
+  const sheetDataRows = await _getSheetDataRowsFromOdsBuffer(odsBuffer);
+  let version = null;
+  _.some(transformationStructsByVersion, (transformationStruct) => {
+    const sheetHeaderRow = _findHeaderRow(sheetDataRows, transformationStruct.headers);
+    if (sheetHeaderRow) {
+      version = transformationStruct.version;
+      return true;
+    }
+  });
+
+  if (version) {
+    return version;
+  }
+
+  throw new UnprocessableEntityError('Unknown attendance sheet version');
 }
 
 async function _getSheetDataRowsFromOdsBuffer(odsBuffer) {
@@ -50,13 +72,8 @@ function _takeRightUntilIndex({ array, index }) {
   return _.takeRight(array, countElementsToTake);
 }
 
-function _getHeaderRow(sheetDataRows, tableHeaderTargetPropertyMap) {
-  const headers = _.map(tableHeaderTargetPropertyMap, (item) => item.header);
-  const sheetHeaderRow = _.find(sheetDataRows, (row) => _allHeadersValuesAreInTheRow(row, headers));
-  if (!sheetHeaderRow) {
-    throw new UnprocessableEntityError('Table headers not found');
-  }
-  return sheetHeaderRow;
+function _findHeaderRow(sheetDataRows, tableHeaders) {
+  return _.find(sheetDataRows, (row) => _allHeadersValuesAreInTheRow(row, tableHeaders));
 }
 
 function _allHeadersValuesAreInTheRow(row, headers) {
@@ -97,4 +114,5 @@ function _transformSheetDataRow(sheetDataRow, sheetHeaderPropertyMap) {
 module.exports = {
   getContentXml,
   extractTableDataFromOdsFile,
+  getOdsVersionByHeaders,
 };

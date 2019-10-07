@@ -7,13 +7,11 @@ export default Controller.extend({
   errorMessage: null,
 
   actions: {
-    async addTeamMember(membership) {
+    async createOrganizationInvitation(organizationInvitation) {
       this.set('errorMessage', null);
-      const organization = this.model.organization;
 
-      return membership.save({ adapterOptions: { createMembershipsWithEmail: true, organizationId: organization.id, email: this.email } })
+      return organizationInvitation.save({ adapterOptions: { organizationId: organizationInvitation.organizationId } })
         .then(() => {
-          this.set('email', null);
           this.transitionToRoute('authenticated.team');
         })
         .catch((errorResponse) => {
@@ -32,7 +30,6 @@ export default Controller.extend({
     },
 
     cancel() {
-      this.set('email', null);
       this.set('errorMessage', null);
       this.transitionToRoute('authenticated.team');
     },

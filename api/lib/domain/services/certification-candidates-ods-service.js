@@ -1,5 +1,7 @@
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
-const { TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT } = require('../../infrastructure/files/attendance-sheet/attendance-sheet-transformation-structures');
+const {
+  TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION,
+} = require('../../infrastructure/files/attendance-sheet/attendance-sheet-transformation-structures');
 const CertificationCandidate = require('../models/CertificationCandidate');
 const _ = require('lodash');
 
@@ -8,10 +10,12 @@ module.exports = {
 };
 
 async function extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer }) {
-  let certificationCandidatesData;
-  certificationCandidatesData = await readOdsUtils.extractTableDataFromOdsFile({
+  const version = await readOdsUtils.getOdsVersionByHeaders({
     odsBuffer,
-    tableHeaderTargetPropertyMap: TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT,
+    transformationStructsByVersion: _.orderBy(TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION, ['version'], ['desc']) });
+  let certificationCandidatesData = await readOdsUtils.extractTableDataFromOdsFile({
+    odsBuffer,
+    tableHeaderTargetPropertyMap: TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION[version].transformStruct,
   });
 
   certificationCandidatesData = _filterOutEmptyCandidateData(certificationCandidatesData);
@@ -20,7 +24,7 @@ async function extractCertificationCandidatesFromAttendanceSheet({ sessionId, od
     return new CertificationCandidate({ ...certificationCandidateData, sessionId });
   });
 
-  _.each(certificationCandidates, (c) => c.validate());
+  _.each(certificationCandidates, (c) => c.validate(version));
 
   return certificationCandidates;
 }

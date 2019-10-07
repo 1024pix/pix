@@ -1,5 +1,7 @@
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
-const { TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING } = require('../../infrastructure/files/attendance-sheet/attendance-sheet-transformation-structures');
+const {
+  TRANSFORMATION_STRUCTS_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_BY_VERSION,
+} = require('../../infrastructure/files/attendance-sheet/attendance-sheet-transformation-structures');
 const _ = require('lodash');
 
 module.exports = {
@@ -7,10 +9,12 @@ module.exports = {
 };
 
 async function extractCertificationsDataFromAttendanceSheet({ odsBuffer }) {
-  let certificationsData;
-  certificationsData = await readOdsUtils.extractTableDataFromOdsFile({
+  const version = await readOdsUtils.getOdsVersionByHeaders({
     odsBuffer,
-    tableHeaderTargetPropertyMap: TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING,
+    transformationStructsByVersion: _.orderBy(TRANSFORMATION_STRUCTS_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_BY_VERSION, ['version'], ['desc']) });
+  let certificationsData = await readOdsUtils.extractTableDataFromOdsFile({
+    odsBuffer,
+    tableHeaderTargetPropertyMap: TRANSFORMATION_STRUCTS_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_BY_VERSION[version].transformStruct,
   });
 
   certificationsData = _filterOutEmptyCertificationData(certificationsData);

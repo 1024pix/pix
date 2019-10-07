@@ -17,7 +17,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
       certificationCandidate = domainBuilder.buildCertificationCandidate({
         firstName: 'Pix',
         lastName: 'Lover',
-        birthplace: 'HaussmanPolis',
+        birthCity: 'HaussmanPolis',
         externalId: 'ABCDEF123',
         birthdate: '1990-07-12',
         extraTimePercentage: '0.05',

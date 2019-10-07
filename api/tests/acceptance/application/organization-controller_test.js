@@ -1,11 +1,18 @@
 const jwt = require('jsonwebtoken');
-const { expect, knex, nock, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
-const Membership = require('../../../lib/domain/models/Membership');
+const _ = require('lodash');
+const iconv = require('iconv-lite');
+
+const {
+  expect, knex, nock, databaseBuilder,
+  generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables
+} = require('../../test-helper');
+
 const createServer = require('../../../server');
 const settings = require('../../../lib/config');
 const areaRawAirTableFixture = require('../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
-const _ = require('lodash');
-const iconv = require('iconv-lite');
+
+const Membership = require('../../../lib/domain/models/Membership');
+const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
 
 async function _insertOrganization(userId) {
   const organization = databaseBuilder.factory.buildOrganization({
@@ -162,12 +169,12 @@ describe('Acceptance | Application | organization-controller', () => {
     nock.cleanAll();
   });
 
-  beforeEach(() => {
-    return insertUserWithRolePixMaster();
+  beforeEach(async () => {
+    await insertUserWithRolePixMaster();
   });
 
-  afterEach(() => {
-    return cleanupUsersAndPixRolesTables();
+  afterEach(async () => {
+    await cleanupUsersAndPixRolesTables();
   });
 
   describe('POST /api/organizations', () => {
@@ -192,26 +199,25 @@ describe('Acceptance | Application | organization-controller', () => {
       };
     });
 
-    afterEach(() => {
-      return knex('organizations').delete();
+    afterEach(async () => {
+      await knex('organizations').delete();
     });
 
-    it('should return 200 HTTP status code', () => {
-      // when
-      const promise = server.inject(options);
+    describe('Success case', () => {
 
-      // then
-      return promise.then((response) => {
+      it('should return 200 HTTP status code', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // then
         expect(response.statusCode).to.equal(200);
       });
-    });
 
-    it('should create and return the new organization', () => {
-      // when
-      const promise = server.inject(options);
+      it('should create and return the new organization', async () => {
+        // when
+        const response = await server.inject(options);
 
-      // then
-      return promise.then((response) => {
+        // then
         const createdOrganization = response.result.data.attributes;
         expect(createdOrganization.name).to.equal('The name of the organization');
         expect(createdOrganization.type).to.equal('PRO');
@@ -222,20 +228,18 @@ describe('Acceptance | Application | organization-controller', () => {
 
     describe('when creating with a wrong payload (ex: organization type is wrong)', () => {
 
-      it('should return 422 HTTP status code', () => {
+      it('should return 422 HTTP status code', async () => {
         // given
         payload.data.attributes.type = 'FAK';
 
         // then
-        const creatingOrganizationOnFailure = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return creatingOrganizationOnFailure.then((response) => {
-          expect(response.statusCode).to.equal(422);
-        });
+        expect(response.statusCode).to.equal(422);
       });
 
-      it('should not keep the user in the database', () => {
+      it('should not keep the user in the database', async () => {
         // given
         payload.data.attributes.type = 'FAK';
 
@@ -432,10 +436,9 @@ describe('Acceptance | Application | organization-controller', () => {
     afterEach(async () => {
       await knex('snapshots').delete();
       await databaseBuilder.clean();
-      await knex('organizations').delete();
     });
 
-    it('should return 200 HTTP status code', () => {
+    it('should return 200 HTTP status code', async () => {
       // given
       const url = `/api/organizations/${organizationId}/snapshots/export?userToken=${userToken}`;
       const expectedCsvSnapshots = '\uFEFF"Nom";"Prénom";"Numéro Étudiant";"Code Campagne";"Date";"Score Pix";' +
@@ -449,13 +452,11 @@ describe('Acceptance | Application | organization-controller', () => {
       };
 
       // when
-      const promise = server.inject(request);
+      const response = await server.inject(request);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-        expect(response.result).to.deep.equal(expectedCsvSnapshots);
-      });
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal(expectedCsvSnapshots);
     });
   });
 
@@ -763,148 +764,6 @@ describe('Acceptance | Application | organization-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(403);
-      });
-    });
-  });
-
-  describe('GET /api/organizations/{id}/add-membership', () => {
-
-    let organization;
-    let options;
-
-    beforeEach(async () => {
-      const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
-      organization = databaseBuilder.factory.buildOrganization();
-      options = {
-        method: 'POST',
-        url: `/api/organizations/${organization.id}/add-membership`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(userPixMaster.id) },
-        payload: {
-          email: 'dev@example.net'
-        }
-      };
-    });
-
-    context('Expected output', () => {
-
-      let user;
-
-      beforeEach(async () => {
-        const ownerUser = databaseBuilder.factory.buildUser();
-        user = databaseBuilder.factory.buildUser({ id: 123, email: options.payload.email });
-        databaseBuilder.factory.buildMembership({
-          userId: ownerUser.id,
-          organizationId: organization.id,
-          organizationRole: Membership.roles.OWNER,
-        });
-
-        await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await knex('memberships').delete();
-        await databaseBuilder.clean();
-      });
-
-      it('should return the matching organization as JSON API', async () => {
-        // given
-        const attributes = {
-          'organization-role': 'MEMBER'
-        };
-
-        const relationships = {
-          organization: {
-            data: null
-          },
-          user: {
-            data: {
-              id: user.id.toString(),
-              type: 'users'
-            }
-          }
-        };
-
-        const included = [{
-          attributes: {
-            email: user.email,
-            'first-name': user.firstName,
-            'last-name': user.lastName,
-          },
-          id: user.id.toString(),
-          type: 'users'
-        }];
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(201);
-        expect(response.result.included).to.deep.equal(included);
-        expect(response.result.data.relationships).to.deep.equal(relationships);
-        expect(response.result.data.relationships).to.deep.equal(relationships);
-        expect(response.result.data.type).to.equal('memberships');
-        expect(response.result.data.attributes).to.deep.equal(attributes);
-      });
-    });
-
-    context('Resource access management', () => {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
-        // given
-        options.headers.authorization = 'invalid.access.token';
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-      });
-
-      it('should respond with a 403 - forbidden access - if user is not OWNER in organization nor PIX_MASTER', async () => {
-        // given
-        const nonPixMasterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
-        databaseBuilder.factory.buildUser({
-          id: nonPixMasterUserId,
-        });
-        databaseBuilder.factory.buildMembership({
-          organizationRole : Membership.roles.MEMBER,
-          organizationId : organization.id,
-          userId : nonPixMasterUserId,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-
-      it('should respond with a 404 - not found - if given email is not linked to an existing user', async () => {
-        // given
-        options.payload.email = 'fakeEmail';
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(404);
-      });
-
-      it('should respond with a 421 - precondition failed - if user is already member of organization', async () => {
-        // given
-        const userAlreadyInDB = databaseBuilder.factory.buildUser({ id: 123, email: options.payload.email });
-        databaseBuilder.factory.buildMembership({ userId: userAlreadyInDB.id, organizationId: organization.id });
-
-        await databaseBuilder.commit();
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(421);
       });
     });
   });
@@ -1383,4 +1242,155 @@ describe('Acceptance | Application | organization-controller', () => {
       });
     });
   });
+
+  describe('POST /api/organizations/{id}/invitations', () => {
+
+    let organizationId;
+    let user;
+    let options;
+
+    context('Expected output', () => {
+
+      beforeEach(async () => {
+        const ownerUserId = databaseBuilder.factory.buildUser().id;
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildMembership({
+          userId: ownerUserId,
+          organizationId,
+          organizationRole: Membership.roles.OWNER,
+        });
+
+        user = databaseBuilder.factory.buildUser();
+
+        options = {
+          method: 'POST',
+          url: `/api/organizations/${organizationId}/invitations`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(ownerUserId) },
+          payload: {
+            data: {
+              type: 'organization-invitations',
+              attributes: {
+                email: user.email,
+              },
+            }
+          }
+        };
+
+        await databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await knex('memberships').delete();
+        await knex('organization-invitations').delete();
+        await databaseBuilder.clean();
+      });
+
+      it('should return the matching organization-invitations as JSON API', async () => {
+        // given
+        const status = OrganizationInvitation.StatusType.ACCEPTED;
+        const expectedResult = {
+          data: {
+            type: 'organization-invitations',
+            attributes: {
+              'organization-id': organizationId,
+              email: user.email,
+              status
+            },
+          }
+        };
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+        expect(_.omit(response.result, 'data.id')).to.deep.equal(expectedResult);
+      });
+    });
+
+    context('Resource access management', () => {
+
+      beforeEach(async () => {
+        const ownerUserId = databaseBuilder.factory.buildUser().id;
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildMembership({
+          userId: ownerUserId,
+          organizationId,
+          organizationRole: Membership.roles.OWNER,
+        });
+
+        user = databaseBuilder.factory.buildUser();
+
+        options = {
+          method: 'POST',
+          url: `/api/organizations/${organizationId}/invitations`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(ownerUserId) },
+          payload: {
+            data: {
+              type: 'organization-invitations',
+              attributes: {
+                email: user.email,
+              },
+            }
+          }
+        };
+
+        await databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await knex('memberships').delete();
+        await knex('organization-invitations').delete();
+        await databaseBuilder.clean();
+      });
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('should respond with a 403 - forbidden access - if user is not OWNER in organization', async () => {
+        // given
+        const nonPixMasterUserId = databaseBuilder.factory.buildUser().id;
+        await databaseBuilder.commit();
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+      it('should respond with a 404 - not found - if given email is not linked to an existing user', async () => {
+        // given
+        options.payload.data.attributes.email = 'fakeEmail@wanadoo.fr';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+
+      it('should respond with a 421 if organization-invitation already exist', async () => {
+        // given
+        const email = user.email;
+        databaseBuilder.factory.buildOrganizationInvitation({ organizationId, email });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(421);
+      });
+    });
+  });
+
 });

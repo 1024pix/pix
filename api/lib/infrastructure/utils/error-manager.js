@@ -53,6 +53,9 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.AlreadyExistingMembershipError) {
     return new InfraErrors.PreconditionFailedError(error.message);
   }
+  if (error instanceof DomainErrors.AlreadyExistingOrganizationInvitationError) {
+    return new InfraErrors.PreconditionFailedError(error.message);
+  }
   if (error instanceof DomainErrors.ForbiddenAccess) {
     return new InfraErrors.ForbiddenError(error.message);
   }

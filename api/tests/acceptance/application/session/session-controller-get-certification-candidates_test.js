@@ -56,7 +56,9 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
           'last-name': certificationCandidate.lastName,
           // TODO : Handle date type correctly
           //'birthdate': certificationCandidate.birthdate,
-          'birthplace': certificationCandidate.birthplace,
+          'birth-city': certificationCandidate.birthCity,
+          'birth-province-code': certificationCandidate.birthProvinceCode,
+          'birth-country': certificationCandidate.birthCountry,
           'external-id': certificationCandidate.externalId,
           'extra-time-percentage': certificationCandidate.extraTimePercentage,
         };

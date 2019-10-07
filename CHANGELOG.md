@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.71.0 (07/10/2019)
+
+- [#733](https://github.com/1024pix/pix/pull/733) [FEATURE] Modifier la version du PV de session (PC-64).
+- [#715](https://github.com/1024pix/pix/pull/715) [FEATURE] Création d'une invitation pour rejoindre une Organisation (PO-238).
+- [#737](https://github.com/1024pix/pix/pull/737) [TECH] Appliquer le pattern datasource sur course-repository (PF-194).
+- [#718](https://github.com/1024pix/pix/pull/718) [TECH] Réduire la taille des données sorties de Airtable (PF-729).
+- [#745](https://github.com/1024pix/pix/pull/745) Revert [TECH] Réduire la taille des données sorties de Airtable (PF-729).
+
 ## v2.70.0 (03/10/2019)
 
 - [#741](https://github.com/1024pix/pix/pull/741) [BUGFIX] Polir le titre des checkpoints (PF-823).
