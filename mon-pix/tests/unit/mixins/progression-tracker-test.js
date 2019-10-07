@@ -3,7 +3,7 @@ import ProgressionTrackerMixin from 'mon-pix/mixins/progression-tracker';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-describe.only('Unit | Mixin | progression-tracker', function() {
+describe('Unit | Mixin | progression-tracker', function() {
 
   const steps = ['one', 'two', 'three'];
   const initialProgression = [

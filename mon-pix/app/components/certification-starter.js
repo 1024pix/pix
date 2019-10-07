@@ -10,11 +10,6 @@ export default Component.extend({
   errorMessage: null,
   classNames: ['certification-starter'],
 
-  init() {
-    this._super(...arguments);
-    window.cs = this;
-  },
-
   actions: {
     async submit() {
       this.set('errorMessage', null);

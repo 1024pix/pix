@@ -5,7 +5,7 @@ import Mixin from '@ember/object/mixin';
 const STEPS = {
   COMPLETED: 'completed',
   TO_COMPLETE: null,
-}
+};
 
 export default Mixin.create({
   activeStep: null,
