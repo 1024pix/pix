@@ -2,7 +2,7 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 
 export default Component.extend({
-
+  router: service(),
   // Element
   classNames: ['certification-starter'],
 
@@ -30,14 +30,18 @@ export default Component.extend({
           .save()
           .then((certificationCourse) => {
             this.set('_loadingCertification', false);
-            this.onSubmit(certificationCourse.id);
+            this.router.replaceWith('certifications.resume', certificationCourse.id);
           })
           .catch((error) => {
             this.set('_loadingCertification', false);
             if (error.errors[0].status === '404') {
               this.set('_errorMessage', 'Ce code n’existe pas ou n’est plus valide.');
             } else {
-              this.onError(error);
+              if (error.errors[0].status === '403') {
+                return this.router.render('certifications.start-error');
+              } else {
+                this.router.transitionTo('index');
+              }
             }
           });
       } else {
