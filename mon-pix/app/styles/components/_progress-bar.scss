@@ -52,3 +52,19 @@
  border-radius: 5px;
  margin: 3px;
 }
+
+.assessment-progress {
+  text-align: right;
+  color: $white;
+  margin-bottom: 10px;
+
+  &__label {
+    opacity: 0.5;
+    text-transform: uppercase;
+  }
+
+  &__value {
+    font-size: 3rem;
+    font-weight: bold;
+  }
+}
