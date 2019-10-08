@@ -11,7 +11,7 @@ module.exports = async function importStudentsFromSIECLE({ organizationId, buffe
   const nationalStudentsIds = students.map((student) => student.nationalStudentId);
 
   if (await studentRepository.checkIfAtLeastOneStudentHasAlreadyBeenImported(nationalStudentsIds)) {
-    throw new ObjectAlreadyExisting('La mise à jour de la liste n\'est actuellement pas disponible.');
+    throw new ObjectAlreadyExisting('La mise à jour de la liste n\'est pas disponible car le fichier contient un ou des INE déjà importés.');
   }
 
   const studentsWithOrganizationId = students.map((student) => ({ ...student, organizationId }));
