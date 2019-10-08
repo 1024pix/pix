@@ -21,7 +21,14 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
 
       // then
       return promise.then((courses) => {
-        expect(airtable.findRecords).to.have.been.calledWith('Tests');
+        expect(airtable.findRecords).to.have.been.calledWith('Tests', [
+          'Nom',
+          'Description',
+          'Adaptatif ?',
+          'Competence',
+          'Épreuves',
+          'Image',
+        ]);
 
         expect(courses).to.have.lengthOf(1);
         expect(courses[0]).to.be.an.instanceof(Course);

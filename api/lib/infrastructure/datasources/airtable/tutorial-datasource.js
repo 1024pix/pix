@@ -1,12 +1,10 @@
 const airtable = require('../../airtable');
-const airTableDataObjects = require('./objects');
-
-const AIRTABLE_TABLE_NAME = 'Tutoriels';
+const { Tutorial } = require('./objects');
 
 module.exports = {
   get(id) {
-    return airtable.getRecord(AIRTABLE_TABLE_NAME, id)
-      .then((airtableRawObject) => airTableDataObjects.Tutorial.fromAirTableObject(airtableRawObject));
+    return airtable.getRecord(Tutorial.getAirtableName(), id)
+      .then((airtableRawObject) => Tutorial.fromAirTableObject(airtableRawObject));
   }
 };
 
