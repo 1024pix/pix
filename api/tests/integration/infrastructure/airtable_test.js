@@ -1,36 +1,24 @@
-const Airtable = require('airtable');
 const AirtableRecord = require('airtable').Record;
-const { expect, sinon } = require('../../test-helper');
+const { airtableBuilder, expect, sinon } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/caches/cache');
 const airtable = require('../../../lib/infrastructure/airtable');
 
-function assertAirtableRecordToEqualExpected(actualRecord, expectedRecord) {
+function assertAirtableRecordToEqualExpectedJson(actualRecord, expectedRecordJson) {
   expect(actualRecord).to.be.an.instanceOf(AirtableRecord);
-  expect(actualRecord.getId()).to.equal(expectedRecord.getId());
-  expect(actualRecord.fields).to.deep.equal(expectedRecord.fields);
-  expect(actualRecord._rawJson).to.deep.equal(expectedRecord._rawJson);
+  expect(actualRecord.getId()).to.equal(expectedRecordJson.id);
+  expect(actualRecord.fields).to.deep.equal(expectedRecordJson.fields);
+  expect(actualRecord._rawJson).to.deep.equal(expectedRecordJson);
 }
 
 describe('Integration | Infrastructure | airtable', () => {
 
-  const findStub = sinon.stub();
-  const allStub = sinon.stub();
-
   beforeEach(() => {
     sinon.stub(cache, 'get');
     sinon.stub(cache, 'set');
-    sinon.stub(Airtable.prototype, 'base').returns({
-      table() {
-        return {
-          find: findStub,
-          select() {
-            return {
-              all: allStub
-            };
-          },
-        };
-      }
-    });
+  });
+
+  afterEach(() => {
+    airtableBuilder.cleanAll();
   });
 
   describe('#getRecord{SkipCache}', () => {
@@ -38,74 +26,62 @@ describe('Integration | Infrastructure | airtable', () => {
     const tableName = 'Tests';
     const recordId = 'recNPB7dTNt5krlMA';
     const cacheKey = 'Tests_recNPB7dTNt5krlMA';
-    const airtableRecord = new AirtableRecord(tableName, recordId, {
-      id: recordId,
-      fields:
-        {
-          foo: 'bar'
-        }
+    let airtableCourseJson;
+
+    beforeEach(() => {
+      airtableCourseJson = airtableBuilder.factory.buildCourse({
+        id: 'recNPB7dTNt5krlMA',
+      });
+      airtableBuilder
+        .mockGet({ tableName })
+        .returns(airtableCourseJson)
+        .activate();
+
     });
 
     context('when the response was previously cached', () => {
-
-      it('should resolve with cached value', () => {
+      it('should resolve with cached value', async () => {
         // given
-        const cachedValue = airtableRecord._rawJson;
+        const cachedValue = airtableCourseJson;
         cache.get.withArgs(cacheKey).resolves(cachedValue);
 
         // when
-        const promise = airtable.getRecord(tableName, recordId);
+        const record = await airtable.getRecord(tableName, recordId);
 
         // then
-        return promise.then((record) => {
-          assertAirtableRecordToEqualExpected(record, airtableRecord);
-        });
+        assertAirtableRecordToEqualExpectedJson(record, airtableCourseJson);
       });
-
     });
 
     context('when the response was previously cached but we do not want to use cache', () => {
-
-      it('should Airtable fetched record and store it in cache', () => {
+      it('should Airtable fetched record and store it in cache', async () => {
         // given
-        const cachedValue = airtableRecord._rawJson;
-        cache.get.resolves(cachedValue);
         cache.set.resolves();
-        findStub.resolves(airtableRecord);
 
         // when
-        const promise = airtable.getRecordSkipCache(tableName, recordId);
+        const record = await airtable.getRecordSkipCache(tableName, recordId);
 
         // then
-        return promise.then((record) => {
-          expect(cache.get).to.have.not.been.called;
-          assertAirtableRecordToEqualExpected(record, airtableRecord);
-          expect(cache.set).to.have.been.calledWith(cacheKey, airtableRecord._rawJson);
-        });
+        expect(cache.get).to.have.not.been.called;
+        assertAirtableRecordToEqualExpectedJson(record, airtableCourseJson);
+        expect(cache.set).to.have.been.calledWith(cacheKey, airtableCourseJson);
       });
     });
 
     context('when the response was not previously cached', () => {
-
-      it('should query for record and resolve with value now in cache', () => {
+      it('should query for record and resolve with value now in cache', async () => {
         // given
-        cache.get.withArgs(cacheKey)
-          .callsFake((_key, generator) => Promise.resolve(generator()));
-
-        findStub.withArgs(recordId).resolves(airtableRecord);
+        cache.get.withArgs(cacheKey).callsFake(async (_key, generator) => generator());
 
         // when
-        const promise = airtable.getRecord(tableName, recordId);
+        const record = await airtable.getRecord(tableName, recordId);
 
         // then
-        return promise.then((record) => {
-          assertAirtableRecordToEqualExpected(record, airtableRecord);
-        });
+        assertAirtableRecordToEqualExpectedJson(record, airtableCourseJson);
       });
     });
 
     context('when the cache throws an error', () => {
-
       it('should reject the error', () => {
         // given
         const error = new Error('cache error');
@@ -119,98 +95,138 @@ describe('Integration | Infrastructure | airtable', () => {
       });
     });
   });
-
   describe('#findRecords{SkipCache}', () => {
 
     const tableName = 'Tests';
     const cacheKey = tableName;
-    const airtableRecords = [
-      new AirtableRecord(tableName, 'recId1', {
-        id: 'recId1',
-        fields:
-          {
-            foo: 'bar'
-          }
-      }),
-      new AirtableRecord(tableName, 'recId2', {
-        id: 'recId2',
-        fields:
-          {
-            titi: 'toto'
-          }
-      })
-    ];
+    const airtableRecordsJson = [{
+      id: 'recId1',
+      fields: {
+        foo: 'bar',
+        titi: 'toto',
+        toto: 'titi'
+      }
+    }, {
+      id: 'recId2',
+      fields: {
+        foo:'bar',
+        titi: 'toto',
+        toto: 'titi'
+      }
+    }];
+
+    const airtableRecordsJsonWithSpecificFields = [{
+      id: 'recId1',
+      fields: {
+        titi: 'toto',
+        toto: 'titi'
+      }
+    }, {
+      id: 'recId2',
+      fields: {
+        titi: 'toto',
+        toto: 'titi'
+      }
+    }];
+
+    beforeEach(() => {
+      airtableBuilder
+        .mockList({ tableName })
+        .respondsToQuery({})
+        .returns(airtableRecordsJson)
+        .activate();
+
+      airtableBuilder
+        .mockList({ tableName })
+        .respondsToQuery({
+          'fields[]': ['titi', 'toto']
+        })
+        .returns(airtableRecordsJsonWithSpecificFields)
+        .activate();
+    });
 
     context('when the response was previously cached', () => {
-
-      it('should resolve with cached value', () => {
+      it('should resolve with cached value', async () => {
         // given
-        const cachedArrayOfRawJson = airtableRecords.map((airtableRecord) => airtableRecord._rawJson);
-        cache.get.withArgs(cacheKey).resolves(cachedArrayOfRawJson);
+        cache.get.withArgs(cacheKey).resolves(airtableRecordsJson);
 
         // when
-        const promise = airtable.findRecords(tableName);
+        const records = await airtable.findRecords(tableName);
 
         // then
-        return promise.then((records) => {
-          records.forEach((record, index) => {
-            const expectedRecord = airtableRecords[index];
-            assertAirtableRecordToEqualExpected(record, expectedRecord);
-          });
+        records.forEach((record, index) => {
+          const expectedRecord = airtableRecordsJson[index];
+          assertAirtableRecordToEqualExpectedJson(record, expectedRecord);
         });
       });
     });
 
-    context('when the response was previously cached but we do not want to use case', () => {
-
-      it('should Airtable fetched record and store it in cache', () => {
+    context('when the response was previously cached but we do not want to use cache', () => {
+      beforeEach(() => {
         // given
         const cachedValue = null;
         cache.get.resolves(cachedValue);
         cache.set.resolves();
-        allStub.resolves(airtableRecords);
-
+      });
+      it('should fetch Airtable record and store it in cache', async () => {
         // when
-        const promise = airtable.findRecordsSkipCache(tableName);
+        const records = await airtable.findRecordsSkipCache(tableName);
 
         // then
-        return promise.then((records) => {
-          expect(cache.get).to.have.not.been.called;
+        expect(cache.get).to.have.not.been.called;
 
-          records.forEach((record, index) => {
-            const expectedRecord = airtableRecords[index];
-            assertAirtableRecordToEqualExpected(record, expectedRecord);
-          });
-          expect(cache.set).to.have.been.calledWith('Tests', airtableRecords.map((airtableRecord) => airtableRecord._rawJson));
+        records.forEach((record, index) => {
+          const expectedRecord = airtableRecordsJson[index];
+          assertAirtableRecordToEqualExpectedJson(record, expectedRecord);
         });
+        expect(cache.set).to.have.been.calledWith('Tests', airtableRecordsJson);
       });
+
+      it('should allow to fetch Airtable record with specific fields and store it in cache', async () => {
+        // when
+        const records = await airtable.findRecordsSkipCache(tableName, ['titi', 'toto']);
+
+        // then
+        records.forEach((record, index) => {
+          const expectedRecord = airtableRecordsJsonWithSpecificFields[index];
+          assertAirtableRecordToEqualExpectedJson(record, expectedRecord);
+        });
+        expect(cache.set).to.have.been.calledWith('Tests', airtableRecordsJsonWithSpecificFields);
+      });
+
     });
 
     context('when the response was not previously cached', () => {
-
-      it('should query for records and resolve with value now in cache', () => {
+      beforeEach(function() {
         // given
-        cache.get.withArgs(cacheKey)
-          .callsFake((_key, generator) => Promise.resolve(generator()));
+        cache.get.withArgs(cacheKey).callsFake(async (_key, generator) => generator());
+      });
 
-        allStub.resolves(airtableRecords);
-
+      it('should query for records and resolve with value now in cache', async () => {
         // when
-        const promise = airtable.findRecords(tableName);
+        const records = await airtable.findRecords(tableName);
 
         // then
-        return promise.then((records) => {
-          records.forEach((record, index) => {
-            const expectedRecord = airtableRecords[index];
-            assertAirtableRecordToEqualExpected(record, expectedRecord);
-          });
+        records.forEach((record, index) => {
+          const expectedRecord = airtableRecordsJson[index];
+          assertAirtableRecordToEqualExpectedJson(record, expectedRecord);
+        });
+      });
+
+      it('should allow query for records with specific fields and resolve with value now in cache', async () => {
+        // when
+        const records = await airtable.findRecords(tableName, ['titi', 'toto']);
+
+        // then
+        records.forEach((record, index) => {
+          const expectedRecord = airtableRecordsJsonWithSpecificFields[index];
+          assertAirtableRecordToEqualExpectedJson(record, expectedRecord);
         });
       });
 
     });
 
     context('when the cache throws an error', () => {
-
       it('should reject the error', () => {
         // given
         const error = new Error('cache error');
@@ -224,4 +240,5 @@ describe('Integration | Infrastructure | airtable', () => {
       });
     });
   });
+
 });
