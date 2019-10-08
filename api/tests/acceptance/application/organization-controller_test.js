@@ -810,8 +810,7 @@ describe('Acceptance | Application | organization-controller', () => {
               'attributes': {
                 'last-name': student.lastName,
                 'first-name': student.firstName,
-                // TODO : Handle date type correctly
-                //'birthdate': student.birthdate,
+                'birthdate': student.birthdate,
               },
               'id': student.id.toString(),
               'type': 'students'
@@ -824,8 +823,7 @@ describe('Acceptance | Application | organization-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(200);
-        // TODO : Handle date type correctly
-        expect(_.omit(response.result.data[0].attributes, 'birthdate')).to.deep.equal(expectedResult.data[0].attributes);
+        expect(response.result.data).to.deep.equal(expectedResult.data);
       });
     });
 

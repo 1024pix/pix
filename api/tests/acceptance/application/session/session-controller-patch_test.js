@@ -1,7 +1,7 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | session-controller-path', () => {
+describe('Acceptance | Controller | session-controller-patch', () => {
 
   let server;
 
@@ -43,7 +43,7 @@ describe('Acceptance | Controller | session-controller-path', () => {
             address: 'New address',
             room: 'New room',
             examiner: 'Antoine Toutvenant',
-            date: '08/12/2017',
+            date: '2017-08-12',
             time: '14:30',
             description: 'ahah',
             accessCode: 'ABCD12'

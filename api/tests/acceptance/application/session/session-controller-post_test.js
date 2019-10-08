@@ -28,7 +28,7 @@ describe('Acceptance | Controller | session-controller-post', () => {
               address: 'Nice',
               room: '28D',
               examiner: 'Michel Essentiel',
-              date: '08/12/2017',
+              date: '2017-12-08',
               time: '14:30',
               description: ''
             }

@@ -1,7 +1,7 @@
 const { Serializer, Deserializer } = require('jsonapi-serializer');
 
 const { WrongDateFormatError } = require('../../../domain/errors');
-const moment = require('moment-timezone');
+const { isValidDate } = require('../../utils/date-utils');
 
 module.exports = {
 
@@ -65,10 +65,9 @@ module.exports = {
       .deserialize(json)
       .then(((certifications) => {
         if (birthdate) {
-          if (!moment.utc(birthdate, 'DD/MM/YYYY').isValid()) {
+          if (!isValidDate(birthdate)) {
             return Promise.reject(new WrongDateFormatError());
           }
-          certifications.birthdate = moment.utc(birthdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
         }
         return certifications;
       }));

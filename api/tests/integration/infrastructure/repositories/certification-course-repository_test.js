@@ -33,7 +33,7 @@ describe('Integration | Repository | Certification Course', function() {
   });
 
   describe('#get', function() {
-    let courseId;
+    let expectedCertificationCourse;
     let anotherCourseId;
     let sessionId;
     let userId;
@@ -41,7 +41,7 @@ describe('Integration | Repository | Certification Course', function() {
     beforeEach(() => {
       userId = databaseBuilder.factory.buildUser({}).id;
       sessionId = databaseBuilder.factory.buildSession({}).id;
-      courseId = databaseBuilder.factory.buildCertificationCourse(
+      expectedCertificationCourse = databaseBuilder.factory.buildCertificationCourse(
         {
           userId,
           sessionId,
@@ -51,11 +51,11 @@ describe('Integration | Repository | Certification Course', function() {
           birthdate: '1993-08-14',
           birthplace: 'Cuba',
           isPublished: true,
-        }).id;
+        });
       anotherCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
       _.each([
-        { courseId: courseId },
-        { courseId: courseId },
+        { courseId: expectedCertificationCourse.id },
+        { courseId: expectedCertificationCourse.id },
         { courseId: anotherCourseId },
       ], (certificationChallenge) => {
         databaseBuilder.factory.buildCertificationChallenge(certificationChallenge);
@@ -71,23 +71,23 @@ describe('Integration | Repository | Certification Course', function() {
 
       it('should retrieve certification course informations', async () => {
         // when
-        const thisCertificationCourse = await certificationCourseRepository.get(courseId);
+        const actualCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
         // then
-        expect(thisCertificationCourse.id).to.equal(courseId);
-        expect(thisCertificationCourse.type).to.equal('CERTIFICATION');
-        expect(thisCertificationCourse.completedAt).to.equal(null);
-        expect(thisCertificationCourse.firstName).to.equal('Timon');
-        expect(thisCertificationCourse.lastName).to.equal('De La Havane');
-        expect(thisCertificationCourse.birthdate.toDateString()).to.equal(new Date('1993-08-14').toDateString());
-        expect(thisCertificationCourse.birthplace).to.equal('Cuba');
-        expect(thisCertificationCourse.sessionId).to.equal(sessionId);
-        expect(thisCertificationCourse.isPublished).to.be.ok;
+        expect(actualCertificationCourse.id).to.equal(expectedCertificationCourse.id);
+        expect(actualCertificationCourse.type).to.equal('CERTIFICATION');
+        expect(actualCertificationCourse.completedAt).to.equal(expectedCertificationCourse.completedAt);
+        expect(actualCertificationCourse.firstName).to.equal(expectedCertificationCourse.firstName);
+        expect(actualCertificationCourse.lastName).to.equal(expectedCertificationCourse.lastName);
+        expect(actualCertificationCourse.birthdate).to.equal(expectedCertificationCourse.birthdate);
+        expect(actualCertificationCourse.birthplace).to.equal(expectedCertificationCourse.birthplace);
+        expect(actualCertificationCourse.sessionId).to.equal(sessionId);
+        expect(actualCertificationCourse.isPublished).to.equal(expectedCertificationCourse.isPublished);
       });
 
       it('should retrieve associated challenges with the certification course', async () => {
         // when
-        const thisCertificationCourse = await certificationCourseRepository.get(courseId);
+        const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
         // then
         expect(thisCertificationCourse.challenges.length).to.equal(2);
@@ -99,14 +99,14 @@ describe('Integration | Repository | Certification Course', function() {
           let completedAssessmentId;
 
           beforeEach(() => {
-            databaseBuilder.factory.buildAssessment({ courseId: courseId, userId, state: Assessment.states.STARTED });
-            completedAssessmentId = databaseBuilder.factory.buildAssessment({ courseId: courseId, userId }).id;
+            databaseBuilder.factory.buildAssessment({ courseId: expectedCertificationCourse.id, userId, state: Assessment.states.STARTED });
+            completedAssessmentId = databaseBuilder.factory.buildAssessment({ courseId: expectedCertificationCourse.id, userId }).id;
             return databaseBuilder.commit();
           });
 
           it('should retrieve associated completed assessment', async () => {
             // when
-            const thisCertificationCourse = await certificationCourseRepository.get(courseId);
+            const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
             // then
             expect(thisCertificationCourse.assessment.id).to.equal(completedAssessmentId);
@@ -118,16 +118,16 @@ describe('Integration | Repository | Certification Course', function() {
 
           beforeEach(() => {
             assessmentIds = _.map([
-              { courseId, userId, state: Assessment.states.STARTED },
-              { courseId, userId, state: Assessment.states.STARTED },
-              { courseId, userId, state: Assessment.states.STARTED },
+              { courseId: expectedCertificationCourse.id, userId, state: Assessment.states.STARTED },
+              { courseId: expectedCertificationCourse.id, userId, state: Assessment.states.STARTED },
+              { courseId: expectedCertificationCourse.id, userId, state: Assessment.states.STARTED },
             ], (assessment) => databaseBuilder.factory.buildAssessment(assessment).id);
             return databaseBuilder.commit();
           });
 
           it('should retrieve an assessment anyway', async () => {
             // when
-            const actualCertificationCourse = await certificationCourseRepository.get(courseId);
+            const actualCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
             // then
             expect(assessmentIds).to.include(actualCertificationCourse.assessment.id);
@@ -141,13 +141,13 @@ describe('Integration | Repository | Certification Course', function() {
         let assessmentId;
 
         beforeEach(() => {
-          assessmentId = databaseBuilder.factory.buildAssessment({ courseId: courseId, userId }).id;
+          assessmentId = databaseBuilder.factory.buildAssessment({ courseId: expectedCertificationCourse.id, userId }).id;
           return databaseBuilder.commit();
         });
 
         it('should retrieve associated assessment', async () => {
           // when
-          const thisCertificationCourse = await certificationCourseRepository.get(courseId);
+          const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
           // then
           expect(thisCertificationCourse.assessment.id).to.equal(assessmentId);

@@ -2,7 +2,6 @@ const { expect, domainBuilder, databaseBuilder, catchErr } = require('../../../t
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const _ = require('lodash');
 
 describe('Integration | Repository | Certification ', () => {
 
@@ -46,8 +45,7 @@ describe('Integration | Repository | Certification ', () => {
     expectedCertification = domainBuilder.buildCertification({
       id: certificationCourse.id,
       assessmentState,
-      // TODO : Handle date type correctly
-      // birthdate: certificationCourse.birthdate,
+      birthdate: certificationCourse.birthdate,
       birthplace: certificationCourse.birthplace,
       certificationCenter: session.certificationCenter,
       date: certificationCourse.completedAt,
@@ -59,8 +57,6 @@ describe('Integration | Repository | Certification ', () => {
       commentForCandidate,
       userId,
     });
-    // TODO : Handle date type correctly
-    expectedCertification = _.omit(expectedCertification, 'birthdate');
     incompleteCertificationCourse = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id, isPublished: true });
     databaseBuilder.factory.buildAssessment({
       courseId: incompleteCertificationCourse.id,
@@ -93,8 +89,7 @@ describe('Integration | Repository | Certification ', () => {
     expectedCertificationWithoutDate = domainBuilder.buildCertification({
       id: certificationCourseWithoutDate.id,
       assessmentState: assessmentStateNoDate,
-      // TODO : Handle date type correctly
-      // birthdate: certificationCourseWithoutDate.birthdate,
+      birthdate: certificationCourseWithoutDate.birthdate,
       birthplace: certificationCourseWithoutDate.birthplace,
       certificationCenter: session.certificationCenter,
       date: certificationCourseWithoutDate.completedAt,
@@ -106,8 +101,6 @@ describe('Integration | Repository | Certification ', () => {
       commentForCandidate: commentForCandidateNoDate,
       userId,
     });
-    // TODO : Handle date type correctly
-    expectedCertificationWithoutDate = _.omit(expectedCertificationWithoutDate, 'birthdate');
 
     await databaseBuilder.commit();
   });
@@ -121,8 +114,7 @@ describe('Integration | Repository | Certification ', () => {
       const actualCertification = await certificationRepository.getByCertificationCourseId({ id: certificationCourse.id });
 
       // then
-      // TODO : Handle date type correctly
-      expect(_.omit(actualCertification, 'birthdate')).to.deep.equal(expectedCertification);
+      expect(actualCertification).to.deep.equal(expectedCertification);
     });
 
     it('should not return a false birthdate or completedAt date if there are null in database', async () => {
@@ -130,8 +122,7 @@ describe('Integration | Repository | Certification ', () => {
       const actualCertification = await certificationRepository.getByCertificationCourseId({ id: certificationCourseWithoutDate.id });
 
       // then
-      // TODO : Handle date type correctly
-      expect(_.omit(actualCertification, 'birthdate')).to.deep.equal(expectedCertificationWithoutDate);
+      expect(actualCertification).to.deep.equal(expectedCertificationWithoutDate);
     });
 
     it('should return a not found error when certification does not exist', async () => {
@@ -158,8 +149,7 @@ describe('Integration | Repository | Certification ', () => {
       const certifications = await certificationRepository.findByUserId(userId);
 
       // then
-      expect(_.map(certifications, (certification) => _.omit(certification, 'birthdate')))
-        .to.deep.equal([expectedCertificationWithoutDate, expectedCertification]);
+      expect(certifications).to.deep.equal([expectedCertificationWithoutDate, expectedCertification]);
     });
 
   });
@@ -193,8 +183,7 @@ describe('Integration | Repository | Certification ', () => {
       it('should update the certification', () => {
         const expectedUpdatedCertification = expectedCertification;
         expectedUpdatedCertification.isPublished = false;
-        // TODO : Handle date type correctly
-        expect(_.omit(certification, 'birthdate')).to.deep.equal(expectedUpdatedCertification);
+        expect(certification).to.deep.equal(expectedUpdatedCertification);
       });
 
     });
