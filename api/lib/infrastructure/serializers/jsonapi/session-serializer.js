@@ -1,9 +1,10 @@
 const { Serializer } = require('jsonapi-serializer');
 const _ = require('lodash');
 
-const Session = require('../../../domain/models/Session');
+const { WrongDateFormatError } = require('../../../domain/errors');
+const { isValidDate } = require('../../utils/date-utils');
 
-const moment = require('moment');
+const Session = require('../../../domain/models/Session');
 
 module.exports = {
 
@@ -38,6 +39,9 @@ module.exports = {
 
   deserialize(json) {
     const attributes = json.data.attributes;
+    if (!isValidDate(attributes.date)) {
+      throw new WrongDateFormatError();
+    }
 
     const certificationCenterId = _.get(json.data, ['relationships', 'certification-center', 'data', 'id']);
 
@@ -48,7 +52,7 @@ module.exports = {
       address: attributes.address,
       room: attributes.room,
       examiner: attributes.examiner,
-      date: moment.utc(attributes.date, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+      date: attributes.date,
       time: attributes.time,
       description: attributes.description,
     });

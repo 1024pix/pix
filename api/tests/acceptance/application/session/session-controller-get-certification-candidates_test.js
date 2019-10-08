@@ -54,8 +54,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
         expectedCertificationCandidateAttributes = {
           'first-name': certificationCandidate.firstName,
           'last-name': certificationCandidate.lastName,
-          // TODO : Handle date type correctly
-          //'birthdate': certificationCandidate.birthdate,
+          'birthdate': certificationCandidate.birthdate,
           'birth-city': certificationCandidate.birthCity,
           'birth-province-code': certificationCandidate.birthProvinceCode,
           'birth-country': certificationCandidate.birthCountry,
@@ -91,7 +90,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
         });
 
         // then
-        expect(_.omit(response.result.data[0].attributes, 'birthdate')).to.deep.equal(expectedCertificationCandidateAttributes);
+        expect(response.result.data[0].attributes).to.deep.equal(expectedCertificationCandidateAttributes);
       });
 
     });

@@ -13,10 +13,6 @@ module.exports = Bookshelf.model('CertificationCourse', {
       rawAttributes.completedAt = new Date(rawAttributes.completedAt);
     }
 
-    if (rawAttributes.birthdate) {
-      rawAttributes.birthdate = new Date(rawAttributes.birthdate);
-    }
-
     return rawAttributes;
   },
 
