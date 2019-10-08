@@ -1162,7 +1162,7 @@ describe('Acceptance | Application | organization-controller', () => {
         const students = await knex('students').where({ organizationId: organization.id });
         expect(students).to.have.lengthOf(1);
         expect(response.statusCode).to.equal(409);
-        expect(response.result.errors[0].detail).to.equal('La mise à jour de la liste n\'est pas disponible car le fichier contient un ou des INE déjà importés.');
+        expect(response.result.errors[0].detail).to.equal('La mise à jour de la liste n\'a pas été réalisée. Le fichier contient des élèves déjà importés.');
       });
     });
 
