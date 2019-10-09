@@ -1376,10 +1376,9 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond with a 421 if organization-invitation already exist', async () => {
+      it('should respond with a 421 if membership already exist', async () => {
         // given
-        const email = user.email;
-        databaseBuilder.factory.buildOrganizationInvitation({ organizationId, email });
+        databaseBuilder.factory.buildMembership({ organizationId, userId: user.id });
         await databaseBuilder.commit();
 
         // when
@@ -1389,9 +1388,11 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(421);
       });
 
-      it('should respond with a 421 if membership already exist', async () => {
+      it('should respond with a 421 if organization-invitation already exist with status accepted', async () => {
         // given
-        databaseBuilder.factory.buildMembership({ organizationId, userId: user.id });
+        const email = user.email;
+        const status = OrganizationInvitation.StatusType.ACCEPTED;
+        databaseBuilder.factory.buildOrganizationInvitation({ organizationId, email, status });
         await databaseBuilder.commit();
 
         // when
