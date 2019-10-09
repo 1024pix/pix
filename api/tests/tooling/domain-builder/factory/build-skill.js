@@ -5,9 +5,16 @@ const buildSkill = function buildSkill({
   id = `rec${faker.random.uuid()}`,
   name = `${buildRandomTubeName()}${faker.random.number(8)}`,
   pixValue = faker.random.number(4),
-  competenceId = `rec${faker.random.uuid()}`
+  competenceId = `rec${faker.random.uuid()}`,
+  tutorialIds = [],
 } = {}) {
-  return new Skill({ id, name, pixValue, competenceId });
+  return new Skill({
+    id,
+    name,
+    pixValue,
+    competenceId,
+    tutorialIds,
+  });
 };
 
 buildSkill.buildRandomTubeName = buildRandomTubeName;
