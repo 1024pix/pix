@@ -82,8 +82,8 @@ function checkRequestedUserIsAuthenticatedUser(request, h) {
     return _replyWithAuthorizationError(h);
   }
 
-  const authenticatedUserId = request.auth.credentials.userId.toString();
-  const requestedUserId = request.params.userId || request.params.id;
+  const authenticatedUserId = request.auth.credentials.userId;
+  const requestedUserId = parseInt(request.params.userId) || parseInt(request.params.id);
 
   return authenticatedUserId === requestedUserId ? h.response(true) : _replyWithAuthorizationError(h);
 }
@@ -94,7 +94,7 @@ function checkUserIsOwnerInOrganization(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = request.params.id;
+  const organizationId = parseInt(request.params.id);
 
   return checkUserIsOwnerInOrganizationUseCase.execute(userId, organizationId)
     .then((isOwnerInOrganization) => {
@@ -115,7 +115,7 @@ async function checkUserIsOwnerInOrganizationOrHasRolePixMaster(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = request.params.id;
+  const organizationId = parseInt(request.params.id);
 
   const isOwnerInOrganization = await checkUserIsOwnerInOrganizationUseCase.execute(userId, organizationId);
   if (isOwnerInOrganization) {
@@ -136,7 +136,7 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = request.params.id;
+  const organizationId = parseInt(request.params.id);
 
   let belongsToScoOrganizationAndManageStudents;
   try {
@@ -159,7 +159,7 @@ async function checkUserIsOwnerInScoOrganizationAndManagesStudents(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = request.params.id;
+  const organizationId = parseInt(request.params.id);
 
   const belongsToScoOrganizationAndManageStudents = await checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute(userId, organizationId);
   if (belongsToScoOrganizationAndManageStudents) {

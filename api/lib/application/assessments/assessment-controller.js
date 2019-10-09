@@ -36,7 +36,7 @@ module.exports = {
   },
 
   async get(request) {
-    const assessmentId = request.params.id;
+    const assessmentId = parseInt(request.params.id);
 
     const assessment = await usecases.getAssessment({ assessmentId });
 
@@ -65,12 +65,12 @@ module.exports = {
     const logContext = {
       zone: 'assessmentController.getNextChallenge',
       type: 'controller',
-      assessmentId: request.params.id,
+      assessmentId: parseInt(request.params.id),
     };
     logger.trace(logContext, 'tracing assessmentController.getNextChallenge()');
 
     return assessmentRepository
-      .get(request.params.id)
+      .get(parseInt(request.params.id))
       .then((assessment) => {
 
         logContext.assessmentType = assessment.type;
@@ -123,7 +123,7 @@ module.exports = {
   },
 
   async completeAssessment(request) {
-    const assessmentId = request.params.id;
+    const assessmentId = parseInt(request.params.id);
     const userId = requestUtils.extractUserIdFromRequest(request);
 
     const completedAssessment = await usecases.completeAssessment({ userId, assessmentId });

@@ -35,7 +35,7 @@ module.exports = {
   },
 
   getById(request) {
-    const campaignId = request.params.id;
+    const campaignId = parseInt(request.params.id);
     const options = queryParamsUtils.extractParameters(request.query);
     const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
     return usecases.getCampaign({ campaignId, options })
@@ -59,7 +59,7 @@ module.exports = {
 
   update(request) {
     const { userId } = request.auth.credentials;
-    const campaignId = request.params.id;
+    const campaignId = parseInt(request.params.id);
     const { title, 'custom-landing-page-text': customLandingPageText } = request.payload.data.attributes;
 
     return usecases.updateCampaign({ userId, campaignId, title, customLandingPageText })
@@ -76,7 +76,7 @@ module.exports = {
 
   async getCollectiveResult(request) {
     const { userId } = request.auth.credentials;
-    const campaignId = request.params.id;
+    const campaignId = parseInt(request.params.id);
 
     const campaignCollectiveResult = await usecases.computeCampaignCollectiveResult({ userId, campaignId });
     return campaignCollectiveResultSerializer.serialize(campaignCollectiveResult);

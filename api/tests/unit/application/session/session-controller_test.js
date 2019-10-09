@@ -92,13 +92,14 @@ describe('Unit | Controller | sessionController', () => {
   });
 
   describe('#get', function() {
+    const sessionId = 123;
 
     beforeEach(() => {
       sinon.stub(sessionService, 'get');
       sinon.stub(sessionSerializer, 'serialize');
       request = {
         params: {
-          id: 'sessionId'
+          id: sessionId.toString(),
         }
       };
     });
@@ -113,7 +114,7 @@ describe('Unit | Controller | sessionController', () => {
         await sessionController.get(request, hFake);
 
         // then
-        expect(sessionService.get).to.have.been.calledWith('sessionId');
+        expect(sessionService.get).to.have.been.calledWith(sessionId);
       });
 
       it('should serialize session informations', async function() {

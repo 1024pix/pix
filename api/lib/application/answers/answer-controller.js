@@ -16,7 +16,7 @@ module.exports = {
 
   async get(request) {
     const userId = requestUtils.extractUserIdFromRequest(request);
-    const answerId = request.params.id;
+    const answerId = parseInt(request.params.id);
     const answer = await usecases.getAnswer({ answerId, userId });
 
     return answerSerializer.serialize(answer);
@@ -24,7 +24,7 @@ module.exports = {
 
   async update(request) {
     const userId = requestUtils.extractUserIdFromRequest(request);
-    const answerId = request.params.id;
+    const answerId = parseInt(request.params.id);
     const answer = await usecases.getAnswer({ answerId, userId });
 
     return answerSerializer.serialize(answer);
@@ -43,7 +43,7 @@ module.exports = {
     const userId = requestUtils.extractUserIdFromRequest(request);
 
     const correction = await usecases.getCorrectionForAnswer({
-      answerId: request.params.id,
+      answerId: parseInt(request.params.id),
       userId
     });
 

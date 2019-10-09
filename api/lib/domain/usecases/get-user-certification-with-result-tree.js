@@ -24,7 +24,7 @@ module.exports = function getUserCertificationWithResultTree({
 }) {
   return certificationRepository.getByCertificationCourseId({ id: certificationId })
     .then((certification) => {
-      if (certification.userId !== parseInt(userId, 10)) {
+      if (certification.userId !== userId) {
         throw new UserNotAuthorizedToAccessEntity();
       }
 
