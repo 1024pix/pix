@@ -7,6 +7,7 @@ const campaignReportSerializer = require('../../infrastructure/serializers/jsona
 const campaignCollectiveResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const requestUtils = require('../../infrastructure/utils/request-utils');
 const infraErrors = require('../../infrastructure/errors');
 
 module.exports = {
@@ -25,13 +26,13 @@ module.exports = {
       });
   },
 
-  getByCode(request) {
+  async getByCode(request) {
     const filters = queryParamsUtils.extractParameters(request.query).filter;
-    return _validateFilters(filters)
-      .then(() => usecases.getCampaignByCode({ code: filters.code }))
-      .then((campaign) => {
-        return campaignSerializer.serialize([campaign]);
-      });
+    const userId = requestUtils.extractUserIdFromRequest(request);
+    await _validateFilters(filters);
+
+    const campaign = await usecases.retrieveCampaignInformation({ code: filters.code, userId });
+    return campaignSerializer.serialize([campaign]);
   },
 
   getById(request) {
@@ -84,10 +85,8 @@ module.exports = {
 };
 
 function _validateFilters(filters) {
-  return new Promise((resolve) => {
-    if (typeof filters.code === 'undefined') {
-      throw new infraErrors.MissingQueryParamError('filter.code');
-    }
-    resolve();
-  });
+  if (typeof filters.code === 'undefined') {
+    throw new infraErrors.MissingQueryParamError('filter.code');
+  }
 }
+
