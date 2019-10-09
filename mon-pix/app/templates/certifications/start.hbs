@@ -7,9 +7,7 @@
 
       <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner certification-start-page__panel">
 
-        <h2 class="certification-start-page__title">Lancement du test de certification</h2>
-
-        {{certification-starter onSubmit=(route-action 'submit') onError=(route-action 'error')}}
+        <Stepper @steps={{array "certification-stepper-start"}}/>
 
       </div>
     </div>
