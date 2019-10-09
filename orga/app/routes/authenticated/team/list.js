@@ -10,6 +10,9 @@ export default Route.extend({
   },
 
   afterModel(model) {
-    return model.hasMany('memberships').reload();
+    return Promise.all([
+      model.hasMany('memberships').reload(),
+      model.hasMany('organizationInvitations').reload(),
+    ]);
   }
 });
