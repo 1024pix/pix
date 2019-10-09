@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
+import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
@@ -55,6 +55,18 @@ describe('Unit | Controller | Campaigns | Fill in Campaign Code', function() {
 
       // then
       expect(controller.get('errorMessage')).to.equal('Votre code de parcours est erroné, veuillez vérifier ou contacter la personne organisant le parcours de test.');
+    });
+
+    it('should set error when student is not authorized in campaign', async () => {
+      // given
+      controller.set('campaignCode', 'SOMECODE');
+      storeStub.query.rejects({ errors: [{ status: '403' }] });
+
+      // When
+      await controller.actions.startCampaign.call(controller);
+
+      // then
+      expect(controller.get('errorMessage')).to.equal('Oups ! nous ne parvenons pas à vous trouver. Verifiez vos informations afin de continuer ou prévenez l’organisateur de la campagne.');
     });
   });
 
