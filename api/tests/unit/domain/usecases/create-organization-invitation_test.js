@@ -2,7 +2,9 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 
 const createOrganizationInvitation = require('../../../../lib/domain/usecases/create-organization-invitation');
 const mailService = require('../../../../lib/domain/services/mail-service');
-const { UserNotFoundError, AlreadyExistingMembershipError } = require('../../../../lib/domain/errors');
+const {
+  UserNotFoundError, AlreadyExistingMembershipError, AlreadyExistingOrganizationInvitationError
+} = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | create-organization-invitation', () => {
 
@@ -51,10 +53,31 @@ describe('Unit | UseCase | create-organization-invitation', () => {
     const email = 'member@organization.org';
 
     // when
-    const result = await catchErr(createOrganizationInvitation)({ userRepository, membershipRepository, organizationInvitationRepository, organizationId, email });
+    const result = await catchErr(createOrganizationInvitation)({
+      userRepository, membershipRepository, organizationInvitationRepository, organizationId, email
+    });
 
     // then
     expect(result).to.be.instanceOf(AlreadyExistingMembershipError);
+  });
+
+  it('should throw an error if organization-invitation already exist with status accepted', async () => {
+    // given
+    const organizationId = 1;
+    const email = 'member@organization.org';
+    const isAccepted = true;
+
+    userRepository.isUserExistingByEmail.resolves();
+    membershipRepository.isMembershipExistingByOrganizationIdAndEmail.resolves();
+    organizationInvitationRepository.findByOrganizationIdAndEmail.resolves([{ isAccepted }]);
+
+    // when
+    const result = await catchErr(createOrganizationInvitation)({
+      userRepository, membershipRepository, organizationInvitationRepository, organizationId, email
+    });
+
+    // then
+    expect(result).to.be.instanceOf(AlreadyExistingOrganizationInvitationError);
   });
 
   it('should create a new organization-invitation and send an email with organizationId, email and temporaryKey', async () => {
@@ -86,4 +109,34 @@ describe('Unit | UseCase | create-organization-invitation', () => {
       email, organizationName, organizationInvitationId, temporaryKey
     );
   });
+
+  it('should send an email if organization-invitation already exist with status pending', async () => {
+    // given
+    const organizationId = 1;
+    const organizationName = 'Organization Name';
+    const organizationInvitationId = 100;
+    const email = 'member@organization.org';
+    const temporaryKey = 'temporaryKey';
+    const isAccepted = false;
+
+    userRepository.isUserExistingByEmail.resolves();
+    membershipRepository.isMembershipExistingByOrganizationIdAndEmail.resolves();
+    organizationInvitationRepository.findByOrganizationIdAndEmail.resolves([{
+      id: organizationInvitationId, isAccepted, temporaryKey
+    }]);
+    organizationRepository.get.resolves({ name: organizationName });
+
+    mailService.sendOrganizationInvitationEmail.resolves();
+
+    // when
+    await createOrganizationInvitation({
+      userRepository, membershipRepository, organizationRepository,
+      organizationInvitationRepository, organizationId, email });
+
+    // then
+    expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(
+      email, organizationName, organizationInvitationId, temporaryKey
+    );
+  });
+
 });
