@@ -66,7 +66,12 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
               links: {
                 related: '/api/organizations/10293/students'
               }
-            }
+            },
+            'organization-invitations': {
+              links: {
+                related: '/api/organizations/10293/invitations',
+              },
+            },
           }
         }]
       };
