@@ -7,6 +7,7 @@ export default DS.Model.extend({
   campaigns: DS.hasMany('campaign'),
   targetProfiles: DS.hasMany('target-profile'),
   memberships: DS.hasMany('membership'),
+  organizationInvitations: DS.hasMany('organization-invitation'),
   students: DS.hasMany('student'),
   isManagingStudents: DS.attr('boolean'),
 

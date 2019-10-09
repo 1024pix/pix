@@ -3,18 +3,21 @@ import { JSONAPISerializer } from 'ember-cli-mirage';
 export default JSONAPISerializer.extend({
   links(organization) {
     return {
-      'campaigns': {
-        related: `/api/organizations/${organization.id}/campaigns`
+      campaigns: {
+        related: `/api/organizations/${organization.id}/campaigns`,
       },
-      'targetProfiles': {
-        related: `/api/organizations/${organization.id}/target-profiles`
+      targetProfiles: {
+        related: `/api/organizations/${organization.id}/target-profiles`,
       },
-      'memberships': {
-        related: `/api/organizations/${organization.id}/memberships`
+      memberships: {
+        related: `/api/organizations/${organization.id}/memberships`,
       },
-      'students': {
-        related: `/api/organizations/${organization.id}/students`
-      }
+      students: {
+        related: `/api/organizations/${organization.id}/students`,
+      },
+      organizationInvitations: {
+        related: `/api/organizations/${organization.id}/invitations`,
+      },
     };
   }
 });

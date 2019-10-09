@@ -61,13 +61,21 @@ export default function() {
     return schema.memberships.where({ organizationId });
   });
 
+  this.get('/organizations/:id/invitations', (schema, request) => {
+    const organizationId = request.params.id;
+    return schema.organizationInvitations.where({ organizationId });
+  });
+
   this.post('/organizations/:id/invitations', (schema, request) => {
     const organizationId = request.params.id;
     const requestBody = JSON.parse(request.requestBody);
     const email = requestBody.data.attributes.email;
     const code = 'ABCDEFGH01';
 
-    return schema.organizationInvitations.create({ organizationId, email: email, status: 'PENDING', code });
+    return schema.organizationInvitations.create({
+      organizationId, email: email, status: 'PENDING', code,
+      createdAt: new Date()
+    });
   });
 
   this.post('/organization-invitations/:id/response', (schema, request) => {
