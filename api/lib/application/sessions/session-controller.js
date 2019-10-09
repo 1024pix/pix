@@ -13,7 +13,7 @@ module.exports = {
   },
 
   async get(request) {
-    const sessionId = request.params.id;
+    const sessionId = parseInt(request.params.id);
     const session = await sessionService.get(sessionId);
 
     return sessionSerializer.serialize(session);
@@ -31,7 +31,7 @@ module.exports = {
   async update(request) {
     const userId = request.auth.credentials.userId;
     const session = sessionSerializer.deserialize(request.payload);
-    session.id = request.params.id;
+    session.id = parseInt(request.params.id);
 
     const updatedSession = await usecases.updateSession({ userId, session });
 
@@ -39,7 +39,7 @@ module.exports = {
   },
 
   async getAttendanceSheet(request, h) {
-    const sessionId = request.params.id;
+    const sessionId = parseInt(request.params.id);
     const token = request.query.accessToken;
     const userId = tokenService.extractUserId(token);
     const attendanceSheet = await usecases.getAttendanceSheet({ sessionId, userId });

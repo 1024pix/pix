@@ -34,7 +34,7 @@ module.exports = async function completeAssessment({
     throw new NotFoundError();
   }
 
-  if (assessment.userId != userId) {
+  if (assessment.userId !== userId) {
     throw new ForbiddenAccess('User is not allowed to complete this assessment.');
   }
 

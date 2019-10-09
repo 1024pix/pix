@@ -7,7 +7,7 @@ const serializer = require('../../infrastructure/serializers/jsonapi/campaign-pa
 module.exports = {
 
   async getById(request) {
-    const campaignParticipationId = request.params.id;
+    const campaignParticipationId = parseInt(request.params.id);
     const userId = request.auth.credentials.userId;
     const options = queryParamsUtils.extractParameters(request.query);
 

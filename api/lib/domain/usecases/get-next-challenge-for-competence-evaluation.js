@@ -28,7 +28,7 @@ module.exports = async function getNextChallengeForCompetenceEvaluation({
 };
 
 function _checkIfAssessmentBelongsToUser(assessment, userId) {
-  if (assessment.userId != userId) {
+  if (assessment.userId !== userId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
 }

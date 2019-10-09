@@ -19,7 +19,7 @@ module.exports = {
 
   getCertification(request) {
     const userId = request.auth.credentials.userId;
-    const certificationId = request.params.id;
+    const certificationId = parseInt(request.params.id);
 
     return usecases.getUserCertificationWithResultTree({
       userId,

@@ -15,7 +15,7 @@ const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 module.exports = {
 
   getOrganizationDetails: (request) => {
-    const organizationId = request.params.id;
+    const organizationId = parseInt(request.params.id);
 
     return usecases.getOrganizationDetails({ organizationId })
       .then(organizationSerializer.serialize);
@@ -60,14 +60,14 @@ module.exports = {
   },
 
   getCampaigns(request) {
-    const organizationId = request.params.id;
+    const organizationId = parseInt(request.params.id);
 
     return usecases.getOrganizationCampaigns({ organizationId })
       .then((campaigns) => campaignSerializer.serialize(campaigns, { ignoreCampaignReportRelationshipData : false }));
   },
 
   getMemberships(request) {
-    const organizationId = request.params.id;
+    const organizationId = parseInt(request.params.id);
 
     return usecases.getOrganizationMemberships({ organizationId })
       .then(membershipSerializer.serialize);
@@ -81,7 +81,7 @@ module.exports = {
   },
 
   exportSharedSnapshotsAsCsv: async (request) => {
-    const organizationId = request.params.id;
+    const organizationId = parseInt(request.params.id);
 
     const stream = new PassThrough();
 
@@ -99,14 +99,14 @@ module.exports = {
   },
 
   findStudents: async (request) => {
-    const organizationId = request.params.id;
+    const organizationId = parseInt(request.params.id);
 
     return usecases.findOrganizationStudents({ organizationId })
       .then(studentSerializer.serialize);
   },
 
   importStudentsFromSIECLE(request) {
-    const organizationId = request.params.id;
+    const organizationId = parseInt(request.params.id);
     const buffer = request.payload;
 
     return usecases.importStudentsFromSIECLE({ organizationId, buffer })

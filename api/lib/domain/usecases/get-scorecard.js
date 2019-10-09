@@ -5,7 +5,7 @@ module.exports = async function getScorecard({ authenticatedUserId, scorecardId,
 
   const { userId, competenceId } = Scorecard.parseId(scorecardId);
 
-  if (parseInt(authenticatedUserId) !== parseInt(userId)) {
+  if (authenticatedUserId !== userId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
 
