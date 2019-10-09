@@ -12,6 +12,7 @@ module.exports = {
           record.organization.targetProfiles = [];
           record.organization.memberships = [];
           record.organization.students = [];
+          record.organization.organizationInvitations = [];
         }
         return record;
       },
@@ -19,7 +20,7 @@ module.exports = {
       organization: {
         ref: 'id',
         included: true,
-        attributes: ['code', 'name', 'type', 'isManagingStudents', 'campaigns', 'targetProfiles', 'memberships', 'students'],
+        attributes: ['code', 'name', 'type', 'isManagingStudents', 'campaigns', 'targetProfiles', 'memberships', 'students', 'organizationInvitations'],
         campaigns: {
           ref: 'id',
           ignoreRelationshipData: true,
@@ -55,7 +56,16 @@ module.exports = {
               return `/api/organizations/${parent.id}/students`;
             }
           }
-        }
+        },
+        organizationInvitations: {
+          ref: 'id',
+          ignoreRelationshipData: true,
+          relationshipLinks: {
+            related: function(record, current, parent) {
+              return `/api/organizations/${parent.id}/invitations`;
+            }
+          }
+        },
       },
       user: {
         ref: 'id',
