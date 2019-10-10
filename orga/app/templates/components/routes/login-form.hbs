@@ -1,26 +1,17 @@
 <div class="login-form">
+  <h1 class="form-title">Déjà utilisateur Pix ?</h1>
 
-  <div>
-    <img src="/pix-orga.svg">
+  <div class="login-form__information paragraph">Vous avez déjà un compte sur Pix.fr ? Vous pouvez utiliser ce compte
+    pour rejoindre l'espace organisation.
   </div>
 
-  <div>
-
-    <h1 class="form-title">Déjà utilisateur Pix ?</h1>
-
-    <div class="login-form__information paragraph">Vous avez déjà un compte sur Pix.fr ? Vous pouvez utiliser ce compte
-      pour
-      rejoindre
-      l'espace organisation.
+  {{#if isErrorMessagePresent}}
+    <div id="login-form-error-message" class="login-form__error-message error-message">L'adresse e-mail et/ou le mot
+      de passe saisis sont incorrects.
     </div>
+  {{/if}}
 
-    {{#if isErrorMessagePresent}}
-      <div id="login-form-error-message" class="login-form__error-message error-message">L'adresse e-mail et/ou le mot
-        de passe saisis sont incorrects.
-      </div>
-    {{/if}}
-
-    <form {{action 'authenticate' on='submit'}}>
+  <form {{action 'authenticate' on='submit'}}>
 
     <div class="input-container">
       <label for="login-email" class="label">E-mail</label>
@@ -59,12 +50,10 @@
         <button type="submit" class="button">Je me connecte</button>
       </div>
 
-    </form>
+  </form>
 
-    <div class="login-form__forgotten-password help-text">
-      Vous avez oublié votre mot de passe ? Rendez-vous sur <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank">pix.fr</a> pour
-      le réinitialiser.
-    </div>
-
+  <div class="login-form__forgotten-password help-text">
+    Vous avez oublié votre mot de passe ? Rendez-vous sur <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank">pix.fr</a> pour
+    le réinitialiser.
   </div>
 </div>

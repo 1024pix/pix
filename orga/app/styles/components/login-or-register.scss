@@ -1,4 +1,32 @@
 .login-or-register {
   margin: 20px 0;
   vertical-align: top;
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    width: 880px;
+    border-radius: 10px;
+    padding: 40px 100px;
+  }
+}
+
+.login-or-register-panel {
+  &__logo {
+    display: flex;
+    margin: auto;
+  }
+
+  &__forms {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+}
+
+.login-or-register-panel-forms {
+  &__divider {
+    margin-top: 30px;
+    border-left: 1px solid $dusty-gray;
+  }
 }

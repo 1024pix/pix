@@ -1,4 +1,12 @@
 <div class="login-or-register">
-  {{routes/register-form}}
-  {{routes/login-form}}
+  <div class="panel login-or-register__panel">
+    <div>
+      <img src="/pix-orga.svg" alt="" class="login-or-register-panel__logo">
+    </div>
+    <div class="login-or-register-panel__forms">
+      {{routes/register-form}}
+      <div class="login-or-register-panel-forms__divider"></div>
+      {{routes/login-form}}
+    </div>
+  </div>
 </div>
