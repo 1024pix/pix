@@ -6,8 +6,8 @@ module.exports = {
     const organizationInvitationId = request.params.id;
     const { code, status } = request.payload.data.attributes;
 
-    return usecases.answerToOrganizationInvitation({ organizationInvitationId, code, status, })
-      .then(() => null);
+    await usecases.answerToOrganizationInvitation({ organizationInvitationId, code, status, });
+    return null;
   },
 
 };

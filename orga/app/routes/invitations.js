@@ -7,9 +7,7 @@ export default Route.extend(UnauthenticatedRouteMixin, {
   session: service(),
 
   queryParams: {
-    temporaryKey: {
-      refreshModel: true
-    }
+    code: {}
   },
 
   model(params) {
@@ -17,9 +15,11 @@ export default Route.extend(UnauthenticatedRouteMixin, {
     const status = 'accepted';
 
     return this.store.createRecord('organization-invitation-response', {
-      temporaryKey: params.temporaryKey,
+      code: params.code,
       status
-    }).save({ adapterOptions: { organizationInvitationId } });
+    })
+      .save({ adapterOptions: { organizationInvitationId } })
+      .finally(() => { this.transitionTo('login'); });
   },
 
 });

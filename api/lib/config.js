@@ -49,7 +49,7 @@ module.exports = (function() {
       mailjetApiKey: process.env.MAILJET_KEY,
       mailjetApiSecret: process.env.MAILJET_SECRET,
       mailjetAccountCreationTemplateId: process.env.MAILJET_ACCOUNT_CREATION_TEMPLATE_ID,
-      mailjetOrganizationInvitationDemandTemplateId: process.env.MAILJET_ORGANIZATION_INVITATION_DEMAND_TEMPLATE_ID,
+      mailjetOrganizationInvitationTemplateId: process.env.MAILJET_ORGANIZATION_INVITATION_TEMPLATE_ID,
       mailjetPasswordResetTemplateId: process.env.MAILJET_PASSWORD_RESET_TEMPLATE_ID,
     },
 
@@ -114,7 +114,7 @@ module.exports = (function() {
     config.mailing.mailjetApiKey = 'test-api-ket';
     config.mailing.mailjetApiSecret = 'test-api-secret';
     config.mailing.mailjetAccountCreationTemplateId = 'test-account-creation-template-id';
-    config.mailing.mailjetOrganizationInvitationDemandTemplateId = 'test-organization-invitation-demand-template-id';
+    config.mailing.mailjetOrganizationInvitationTemplateId = 'test-organization-invitation-demand-template-id';
     config.mailing.mailjetPasswordResetTemplateId = 'test-password-reset-template-id';
 
     config.captcha.enabled = false;
