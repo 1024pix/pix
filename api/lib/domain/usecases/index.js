@@ -47,6 +47,7 @@ const dependencies = {
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
   tokenService: require('../../domain/services/token-service'),
   tubeRepository: require('../../infrastructure/repositories/tube-repository'),
+  tutorialRepository: require('../../infrastructure/repositories/tutorial-repository'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
   userService: require('../../domain/services/user-service'),
 };
