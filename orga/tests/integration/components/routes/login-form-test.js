@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { reject, resolve } from 'rsvp';
 
-module('Integration | Component | login-form', function(hooks) {
+module('Integration | Component | routes/login-form', function(hooks) {
   setupRenderingTest(hooks);
 
   let sessionStub;
@@ -17,7 +17,7 @@ module('Integration | Component | login-form', function(hooks) {
 
   test('it should ask for email and password', async function(assert) {
     // when
-    await render(hbs`{{login-form}}`);
+    await render(hbs`{{routes/login-form}}`);
 
     // then
     assert.dom('#login-email').exists();
@@ -26,7 +26,7 @@ module('Integration | Component | login-form', function(hooks) {
 
   test('it should not display error message', async function(assert) {
     // when
-    await render(hbs`{{login-form}}`);
+    await render(hbs`{{routes/login-form}}`);
 
     // then
     assert.dom('#login-form-error-message').doesNotExist();
@@ -42,7 +42,7 @@ module('Integration | Component | login-form', function(hooks) {
       return resolve();
     };
     const sessionServiceObserver = this.owner.lookup('service:session');
-    await render(hbs`{{login-form}}`);
+    await render(hbs`{{routes/login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'JeMeLoggue1024');
 
@@ -59,7 +59,7 @@ module('Integration | Component | login-form', function(hooks) {
   test('it should display an error message when authentication fails', async function(assert) {
     // given
     sessionStub.prototype.authenticate = () => reject();
-    await render(hbs`{{login-form}}`);
+    await render(hbs`{{routes/login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'Mauvais mot de passe');
 
@@ -75,7 +75,7 @@ module('Integration | Component | login-form', function(hooks) {
 
     hooks.beforeEach(async function() {
       // given
-      await render(hbs`{{login-form}});`);
+      await render(hbs`{{routes/login-form}});`);
     });
 
     test('it should display password when user click', async function(assert) {
