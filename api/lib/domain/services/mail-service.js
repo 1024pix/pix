@@ -29,10 +29,10 @@ function sendOrganizationInvitationEmail(
 
   return mailJet.sendEmail({
     to: email,
-    template: settings.mailing.mailjetOrganizationInvitationDemandTemplateId,
+    template: settings.mailing.mailjetOrganizationInvitationTemplateId,
     from: 'ne-pas-repondre@pix.fr',
     fromName: 'PIX-ORGA - Ne pas répondre',
-    subject: 'Invitation à rejoindre PIX-ORGA',
+    subject: 'Invitation à rejoindre Pix Orga',
     variables: {
       organizationName,
       responseUrl: `${pixOrgaBaseUrl}/invitations/${organizationInvitationId}?temporaryKey=${temporaryKey}`,

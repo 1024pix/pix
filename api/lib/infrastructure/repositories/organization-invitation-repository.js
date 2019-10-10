@@ -26,7 +26,7 @@ function _checkNotFoundErrorWithTemporaryKey(err, id, temporaryKey) {
 
 module.exports = {
 
-  create(organizationId, email, temporaryKey) {
+  create({ organizationId, email, temporaryKey }) {
     const status = OrganizationInvitation.StatusType.PENDING;
     return new BookshelfOrganizationInvitation({ organizationId, email, status, temporaryKey })
       .save()

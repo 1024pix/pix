@@ -16,7 +16,6 @@ module.exports = async function answerToOrganizationInvitation({
     throw new AlreadyExistingOrganizationInvitationError(`Invitation already accepted with the id ${organizationInvitationId}`);
   } else {
 
-    // TODO traitement du status
     if (status === OrganizationInvitation.StatusType.ACCEPTED) {
       const userFound = await userRepository.findByEmail(organizationInvitationFound.email);
 
@@ -33,6 +32,5 @@ module.exports = async function answerToOrganizationInvitation({
 
       return organizationInvitationRepository.markAsAccepted(organizationInvitationId);
     }
-    return;
   }
 };

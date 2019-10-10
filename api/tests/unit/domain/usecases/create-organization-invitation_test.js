@@ -88,7 +88,6 @@ describe('Unit | UseCase | create-organization-invitation', () => {
 
     const organizationInvitationId = 10;
     const temporaryKey = 'temporaryKey';
-    organizationInvitationRepository.create.resolves({ id: organizationInvitationId, temporaryKey });
 
     const organizationName = 'Organization Name';
     organizationRepository.get.resolves({ name: organizationName });
@@ -97,17 +96,20 @@ describe('Unit | UseCase | create-organization-invitation', () => {
 
     const organizationId = 1;
     const email = 'member@organization.org';
+    organizationInvitationRepository.create.withArgs({
+      organizationId, email, temporaryKey: sinon.match.string
+    }).resolves({ id: organizationInvitationId, temporaryKey });
 
     // when
     await createOrganizationInvitation({
       userRepository, membershipRepository, organizationRepository,
-      organizationInvitationRepository, organizationId, email });
+      organizationInvitationRepository, organizationId, email
+    });
 
     // then
-    expect(organizationInvitationRepository.create).to.has.been.calledWith(organizationId, email);
-    expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(
+    expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith({
       email, organizationName, organizationInvitationId, temporaryKey
-    );
+    });
   });
 
   it('should send an email if organization-invitation already exist with status pending', async () => {
@@ -131,12 +133,13 @@ describe('Unit | UseCase | create-organization-invitation', () => {
     // when
     await createOrganizationInvitation({
       userRepository, membershipRepository, organizationRepository,
-      organizationInvitationRepository, organizationId, email });
+      organizationInvitationRepository, organizationId, email
+    });
 
     // then
-    expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(
+    expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith({
       email, organizationName, organizationInvitationId, temporaryKey
-    );
+    });
   });
 
 });

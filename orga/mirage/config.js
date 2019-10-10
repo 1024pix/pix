@@ -65,9 +65,28 @@ export default function() {
     const organizationId = request.params.id;
     const requestBody = JSON.parse(request.requestBody);
     const email = requestBody.data.attributes.email;
-    const user = schema.users.findBy({ email });
-    schema.memberships.create({ userId: user.id, organizationId, organizationRole: 'MEMBER' });
-    return schema.organizationInvitations.create({ organizationId, email: email, status: 'ACCEPTED' });
+    const temporaryKey = 'temporaryKey';
+
+    return schema.organizationInvitations.create({ organizationId, email: email, status: 'PENDING', temporaryKey });
+  });
+
+  this.post('/organization-invitations/:id/response', (schema, request) => {
+    const organizationInvitationId = request.params.id;
+    const requestBody = JSON.parse(request.requestBody);
+    const temporaryKey = requestBody.data.attributes['temporary-key'];
+    const status = requestBody.data.attributes.status;
+
+    const organizationInvitation = schema.organizationInvitations.findBy({ id: organizationInvitationId, temporaryKey });
+    const user = schema.users.findBy({ email: organizationInvitation.email });
+
+    schema.memberships.create({
+      userId: user.id,
+      organizationId: organizationInvitation.organizationId,
+      organizationRole: 'MEMBER'
+    });
+
+    organizationInvitation.update({ status });
+    return schema.organizationInvitationResponses.create();
   });
 
   this.get('/organizations/:id/students', (schema, request) => {

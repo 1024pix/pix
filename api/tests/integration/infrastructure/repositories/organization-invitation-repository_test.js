@@ -27,7 +27,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       const temporaryKey = 'temporary-key';
 
       // when
-      const savedInvitation = await organizationInvitationRepository.create(organizationId, email, temporaryKey);
+      const savedInvitation = await organizationInvitationRepository.create({ organizationId, email, temporaryKey });
 
       // then
       expect(savedInvitation).to.be.instanceof(OrganizationInvitation);

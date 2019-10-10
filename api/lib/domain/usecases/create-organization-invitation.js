@@ -1,3 +1,4 @@
+const randomString = require('randomstring');
 const mailService = require('../../domain/services/mail-service');
 const { AlreadyExistingOrganizationInvitationError, AlreadyExistingMembershipError } = require('../../domain/errors');
 
@@ -12,9 +13,9 @@ async function _checkMemberNotExistWithOrganizationIdAndEmail(membershipReposito
   }
 }
 
-// TODO export to a key/code service
+// TODO Export all functions generating random codes to an appropriate service
 function _generateTemporaryKey() {
-  return Math.random().toString(36).substring(2).toUpperCase();
+  return randomString.generate({ length: 10, capitalization: 'uppercase' });
 }
 
 module.exports = async function createOrganizationInvitation({
@@ -31,18 +32,21 @@ module.exports = async function createOrganizationInvitation({
   if (organizationInvitationsFound.length) {
     organizationInvitation = organizationInvitationsFound[0];
     if (organizationInvitation.isAccepted) {
-      throw new AlreadyExistingOrganizationInvitationError(`Invitation already exists with the organization id ${organizationId} and the email ${email}`);
+      throw new AlreadyExistingOrganizationInvitationError(`Invitation already accepted with the organization id ${organizationId} and the email ${email}`);
     }
   } else {
     const temporaryKey = _generateTemporaryKey();
-    organizationInvitation = await organizationInvitationRepository.create(organizationId, email, temporaryKey);
+    organizationInvitation = await organizationInvitationRepository.create({ organizationId, email, temporaryKey });
   }
 
   const { name: organizationName } = await organizationRepository.get(organizationId);
 
-  await mailService.sendOrganizationInvitationEmail(
-    email, organizationName, organizationInvitation.id, organizationInvitation.temporaryKey
-  );
+  await mailService.sendOrganizationInvitationEmail({
+    email,
+    organizationName,
+    organizationInvitationId: organizationInvitation.id,
+    temporaryKey: organizationInvitation.temporaryKey
+  });
 
   return organizationInvitation;
 };

@@ -102,7 +102,7 @@ describe('Unit | Service | MailService', () => {
         template: 'test-organization-invitation-demand-template-id',
         from: 'ne-pas-repondre@pix.fr',
         fromName: 'PIX-ORGA - Ne pas répondre',
-        subject: 'Invitation à rejoindre PIX-ORGA',
+        subject: 'Invitation à rejoindre Pix Orga',
         variables: {
           organizationName,
           responseUrl: `${pixOrgaBaseUrl}/invitations/${organizationInvitationId}?temporaryKey=${temporaryKey}`
