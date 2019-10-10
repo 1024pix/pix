@@ -3,6 +3,7 @@ const Challenge = require('./Challenge');
 const Competence = require('./Competence');
 const Course = require('./Course');
 const Skill = require('./Skill');
+const Tube = require('./Tube');
 const Tutorial = require('./Tutorial');
 
 module.exports = {
@@ -11,5 +12,6 @@ module.exports = {
   Competence,
   Course,
   Skill,
+  Tube,
   Tutorial,
 };
