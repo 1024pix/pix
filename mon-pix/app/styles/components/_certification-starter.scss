@@ -48,8 +48,12 @@
 
 .certification-course-page__field-button {
   text-align: center;
+  margin-bottom: 25px;
+  margin-top: 25px;
 }
 
 .certification-course-page__submit_button {
-  margin: 5px 5px 5px 5px;
+  white-space: nowrap;
+  width: content-box;
+  min-width: 150px;
 }
