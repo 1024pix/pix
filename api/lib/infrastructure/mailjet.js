@@ -29,15 +29,17 @@ function sendEmail(options) {
     return Promise.resolve();
   }
 
-  return mailCheck.checkMail(options.to).then(()=>{
-    const mailjet = nodeMailjet.connect(mailingConfig.mailjetApiKey, mailingConfig.mailjetApiSecret);
+  return mailCheck.checkMail(options.to)
+    .then(() => {
+      const mailjet = nodeMailjet.connect(mailingConfig.mailjetApiKey, mailingConfig.mailjetApiSecret);
 
-    return mailjet
-      .post('send')
-      .request(_formatPayload(options));
-  }).catch((err)=>{
-    logger.warn({ err }, `Could not send email to '${options.to}'`);
-  });
+      return mailjet
+        .post('send')
+        .request(_formatPayload(options));
+    })
+    .catch((err) => {
+      logger.warn({ err }, `Could not send email to '${options.to}'`);
+    });
 }
 
 module.exports = {
