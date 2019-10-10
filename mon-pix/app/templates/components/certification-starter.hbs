@@ -1,15 +1,26 @@
-<h2 class="certification-start-page__title">Lancement du test de certification</h2>
+<h2 class="certification-start-page__title">Vous allez commencer votre test de certification</h2>
 
 <p class="certification-course-page__order">
-  Un code d'accès va vous être communiqué par le responsable de la session.
+  Saisissez le code d'accès communiqué par le surveillant
 </p>
+<form autocomplete="off">
+  <div class="certification-course-page__session-code-input">
+    {{input required id="session-code" type="text" value=accessCode maxlength="6" spellcheck=false}}
+    {{#if errorMessage}}
+        <div class="certification-course-page__errors">{{errorMessage}}</div>
+    {{/if}}
+  </div>
 
-<div class="certification-course-page__session-code-input">
-  {{input id="session-code" type="text" value=accessCode placeholder="Code d'accès"}}
-  {{#if errorMessage}}
-    <div class="certification-course-page__errors">{{errorMessage}}</div>
-  {{/if}}
-</div>
+  <div class="certification-course-page__field-button">
+
+    {{#if isLoading}}
+        <button class="button button--thin certification-course-page__submit_button" disabled><span
+                class="loader-in-button">&nbsp;</span></button>
+    {{else}}
+        <button type="submit" class="button button--thin certification-course-page__submit_button" {{ action "submit" }}>Commencer mon test</button>
+    {{/if}}
+  </div>
+</form>
 
 <div class="certification-course-page__cgu">
   <p>
@@ -22,16 +33,4 @@
     Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous
     concernant et les faire rectifier en envoyant un mail à <a href="mailto:dpo@pix.fr">dpo@pix.fr</a>.
   </p>
-</div>
-
-<div class="certification-course-page__field-button">
-  {{#if isLoading}}
-    <button class="button button--big button--thin certification-course-page__submit_button"><span
-      class="loader-in-button">&nbsp;</span>
-    </button>
-  {{else}}
-    <button type="submit" class="button button--big button--thin button--uppercase certification-course-page__submit_button" {{ action "submit" }}>
-      Lancer le test
-    </button>
-  {{/if}}
 </div>
