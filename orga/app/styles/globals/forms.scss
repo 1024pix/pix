@@ -56,6 +56,10 @@
   &:focus {
     border: 2px solid $dodger-blue;
   }
+
+  &--error {
+    border: 2px solid $vermilion;
+  }
 }
 
 .input-password {
