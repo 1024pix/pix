@@ -1,0 +1,20 @@
+.register-form {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  align-items: center;
+  background-color: white;
+  max-width: 360px;
+  border-radius: 10px;
+  padding: 60px 100px;
+
+  &__cgu {
+    font-family: $roboto;
+    font-size: 0.875rem;
+    font-weight: 300;
+  }
+
+  &__cgu-label input[type=checkbox] {
+    margin: 2px 6px 0 0;
+  }
+}
