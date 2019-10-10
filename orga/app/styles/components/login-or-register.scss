@@ -17,16 +17,38 @@
     margin: auto;
   }
 
-  &__forms {
+  &__forms-container {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    min-height: 500px;
   }
-}
 
-.login-or-register-panel-forms {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+  }
+
   &__divider {
     margin-top: 30px;
     border-left: 1px solid $dusty-gray;
+  }
+}
+
+.login-or-register-panel-form {
+  &__expandable {
+    display: flex;
+    flex-direction: column;
+    max-height: 0;
+    overflow-y: hidden;
+    -webkit-transition: max-height .4s ease-in-out;
+    -moz-transition: max-height .4s ease-in-out;
+    -o-transition: max-height .4s ease-in-out;
+    transition: max-height .4s ease-in-out;
+
+    &--expanded {
+      max-height: 720px;
+    }
   }
 }

@@ -43,6 +43,16 @@
     }
   }
 
+  &--bordered {
+    border: 1px solid $dodger-blue;
+    color: $dodger-blue;
+
+    &:hover, &:active, &:focus {
+      background-color: $dodger-blue;
+      color: $white;
+    }
+  }
+
   &--regular {
     width: 120px;
   }
