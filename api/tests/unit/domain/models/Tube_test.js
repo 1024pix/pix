@@ -27,6 +27,25 @@ describe('Unit | Domain | Models | Tube', () => {
       expect(tube.name).to.equal('web');
     });
 
+    it('should have a name from constructor', () => {
+      // given
+      const skills = [new Skill({ name: '@web3' })];
+
+      // when
+      const tube = new Tube({ skills, name: 'tubeName' });
+
+      // then
+      expect(tube.name).to.equal('tubeName');
+    });
+
+    it('should not have a name when skills list is empty and name is not provided', () => {
+      // when
+      const tube = new Tube();
+
+      // then
+      expect(tube.name).to.equal('');
+    });
+
     it('should create the tube without skills', () => {
       // when
       const tube = new Tube({});
