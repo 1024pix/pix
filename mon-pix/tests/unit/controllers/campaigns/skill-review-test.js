@@ -34,11 +34,6 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
         state: 'completed',
         save: sinon.stub().resolves({}),
         codeCampaign: 'codeCampaign'
-      },
-      campaign: {
-        targetProfile: {
-          name: 'Cléa Numérique',
-        }
       }
     });
     controller.set('showButtonToShareResult', true);
@@ -46,7 +41,7 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
   });
 
   describe('#shouldShowPixEmploiBadge', () => {
-    it('should return true when user masterise more than 85 percent for pixEmploi profile ', function() {
+    it('should return true when user masters more than 85 percent for pixEmploi profile ', function() {
       // when
       controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Pix Emploi');
       controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 85);
@@ -55,7 +50,7 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
       expect(controller.shouldShowPixEmploiBadge).to.equal(true);
     });
 
-    it('should return false when user masterise less than 85 percent for pixEmploi profile ', function() {
+    it('should return false when user masters less than 85 percent for pixEmploi profile ', function() {
       // when
       controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Pix Emploi');
       controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 83);
@@ -63,7 +58,7 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
       // then
       expect(controller.shouldShowPixEmploiBadge).to.equal(false);
     });
-    it('should return false when user masterise more than 85 percent for other profile ', function() {
+    it('should return false when user masters more than 85 percent for other profile ', function() {
       // when
       controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Pix Chomage');
       controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 86);
