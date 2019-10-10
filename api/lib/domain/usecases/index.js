@@ -39,15 +39,16 @@ const dependencies = {
   settings: require('../../config'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
   smartPlacementAssessmentRepository: require('../../infrastructure/repositories/smart-placement-assessment-repository'),
-  targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
-  tokenService: require('../../domain/services/token-service'),
-  userRepository: require('../../infrastructure/repositories/user-repository'),
-  userService: require('../../domain/services/user-service'),
   sessionRepository: require('../../infrastructure/repositories/session-repository'),
   snapshotsCsvConverter: require('../../infrastructure/converter/snapshots-csv-converter'),
   snapshotRepository: require('../../infrastructure/repositories/snapshot-repository'),
   studentRepository: require('../../infrastructure/repositories/student-repository'),
   studentsXmlService: require('../../domain/services/students-xml-service'),
+  targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
+  tokenService: require('../../domain/services/token-service'),
+  tubeRepository: require('../../infrastructure/repositories/tube-repository'),
+  userRepository: require('../../infrastructure/repositories/user-repository'),
+  userService: require('../../domain/services/user-service'),
 };
 
 function injectDependencies(usecases) {
