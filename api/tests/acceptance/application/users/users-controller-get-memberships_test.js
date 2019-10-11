@@ -15,7 +15,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
   beforeEach(async () => {
     server = await createServer();
   });
-  
+
   describe('GET /users/:id/memberships', () => {
 
     beforeEach(async () => {
@@ -108,6 +108,11 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
                   links: {
                     related: `/api/organizations/${organization.id.toString()}/target-profiles`
                   }
+                },
+                'organization-invitations': {
+                  links: {
+                    related: `/api/organizations/${organization.id.toString()}/invitations`,
+                  },
                 },
                 students: {
                   links: {
