@@ -22,7 +22,26 @@ function sendResetPasswordDemandEmail(email, baseUrl, temporaryKey) {
   });
 }
 
+function sendOrganizationInvitationEmail(
+  email, organizationName, organizationInvitationId, temporaryKey
+) {
+  const pixOrgaBaseUrl = settings.pixOrgaUrl;
+
+  return mailJet.sendEmail({
+    to: email,
+    template: settings.mailing.mailjetOrganizationInvitationTemplateId,
+    from: 'ne-pas-repondre@pix.fr',
+    fromName: 'PIX-ORGA - Ne pas répondre',
+    subject: 'Invitation à rejoindre Pix Orga',
+    variables: {
+      organizationName,
+      responseUrl: `${pixOrgaBaseUrl}/invitations/${organizationInvitationId}?temporaryKey=${temporaryKey}`,
+    }
+  });
+}
+
 module.exports = {
   sendAccountCreationEmail,
-  sendResetPasswordDemandEmail
+  sendOrganizationInvitationEmail,
+  sendResetPasswordDemandEmail,
 };
