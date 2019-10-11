@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.72.0 (11/10/2019)
+
+- [#751](https://github.com/1024pix/pix/pull/751) [FEATURE] Changer un message d'erreur d'import SIECLE (PO-247).
+- [#735](https://github.com/1024pix/pix/pull/735) [FEATURE] Restreindre les campagnes aux étudiants d'une organisation (PF-816).
+- [#713](https://github.com/1024pix/pix/pull/713) [TECH] S'assurer que les ids sont toujours traités en tant qu'entier.
+- [#749](https://github.com/1024pix/pix/pull/749) [TECH] Mise en place d'un tunnel pour démarrer la certification (PF-382).
+- [#746](https://github.com/1024pix/pix/pull/746) [TECH] Réduire la taille des données sorties de Airtable (PF-729).
+- [#744](https://github.com/1024pix/pix/pull/744) [TECH] Mise à jour des scripts e2e et de la documentation associée.
+- [#755](https://github.com/1024pix/pix/pull/755) [DOC] Supprime Test.md et déplace `transitionTo` dans Ember.md.
+- [#748](https://github.com/1024pix/pix/pull/748) [BSR] Un fichier de test était vide et donc inutile.
+
 ## v2.71.0 (07/10/2019)
 
 - [#733](https://github.com/1024pix/pix/pull/733) [FEATURE] Modifier la version du PV de session (PC-64).
