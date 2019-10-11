@@ -15,12 +15,10 @@ describe('Unit | Component | progress-bar', function() {
         type: 'DEMO',
         answers: [{}, {}, {}],
         hasCheckpoints: false,
-        course: {
-          nbChallenges: 10
-        }
       });
       const component = this.owner.lookup('component:progress-bar');
       component.set('assessment', assessment);
+      component.set('certificationCourseNbChallenges', 10);
       component.setProgression();
 
       // when
@@ -41,12 +39,10 @@ describe('Unit | Component | progress-bar', function() {
         type: 'DEMO',
         answers: [{}, {}, {}, {}, {}],
         hasCheckpoints: false,
-        course: {
-          nbChallenges: 10
-        }
       });
       const component = this.owner.lookup('component:progress-bar');
       component.set('assessment', assessment);
+      component.set('certificationCourseNbChallenges', 10);
       component.setProgression();
 
       // when

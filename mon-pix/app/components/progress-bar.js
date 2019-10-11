@@ -14,7 +14,7 @@ export default Component.extend({
     if (this.get('assessment.hasCheckpoints')) {
       challengesToAnswerCount = ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
     } else {
-      challengesToAnswerCount = this.get('assessment.course.nbChallenges');
+      challengesToAnswerCount = this.certificationCourseNbChallenges;
     }
     this.set('progression', AssessmentProgression.create({
       assessmentType: this.get('assessment.type'),

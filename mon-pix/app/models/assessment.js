@@ -19,6 +19,7 @@ export default Model.extend({
 
   // includes
   answers: hasMany('answer'),
+  certificationCourse: belongsTo('certificationCourse', { inverse: null }),
   course: belongsTo('course', { inverse: null }),
   progression: belongsTo('progression', { inverse: null }),
   result: belongsTo('assessment-result'),

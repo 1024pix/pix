@@ -11,7 +11,7 @@
   <div class="assessment-challenge__content">
     {{#if model.assessment.showProgressBar}}
       <div class="assessment-challenge__progress-bar">
-        {{progress-bar assessment=model.assessment}}
+        {{progress-bar assessment=model.assessment certificationCourseNbChallenges=model.assessment.certificationCourse.nbChallenges }}
       </div>
     {{/if}}
 

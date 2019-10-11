@@ -99,7 +99,7 @@ export default Route.extend({
 
   async _rateAssessment(assessment) {
     await assessment.save({ adapterOptions: { completeAssessment: true } });
-    
+
     return this._routeToResults(assessment);
   },
 
