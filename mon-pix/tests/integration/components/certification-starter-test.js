@@ -20,10 +20,10 @@ describe('Integration | Component | certification-starter', function() {
 
     it('should display an error message when it exists', async function() {
       // given
-      this.set('_errorMessage', 'Un lapin ne peut pas s’enamourer d’une belette :(');
+      this.set('errorMessage', 'Un lapin ne peut pas s’enamourer d’une belette :(');
 
       // when
-      await render(hbs`{{certification-starter _errorMessage=_errorMessage}}`);
+      await render(hbs`{{certification-starter errorMessage=errorMessage}}`);
 
       // then
       expect(find('.certification-course-page__errors')).to.exist;
@@ -42,10 +42,10 @@ describe('Integration | Component | certification-starter', function() {
 
     it('should display a loading spinner when loading certification', async function() {
       // given
-      this.set('_loadingCertification', true);
+      this.set('isLoading', true);
 
       // when
-      await render(hbs`{{certification-starter _loadingCertification=_loadingCertification}}`);
+      await render(hbs`{{certification-starter isLoading=isLoading}}`);
 
       // then
       expect(find('.certification-course-page__submit_button .loader-in-button')).to.exist;

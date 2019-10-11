@@ -393,7 +393,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
   describe('#findStudents', () => {
 
     const connectedUserId = 1;
-    const organizationId = '145';
+    const organizationId = 145;
 
     let student;
     let serializedStudents;
@@ -401,7 +401,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     beforeEach(() => {
       request = {
         auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId }
+        params: { id: organizationId.toString() }
       };
 
       sinon.stub(usecases, 'findOrganizationStudents');
@@ -444,13 +444,13 @@ describe('Unit | Application | Organizations | organization-controller', () => {
   describe('#importStudentsFromSIECLE', () => {
 
     const connectedUserId = 1;
-    const organizationId = '145';
+    const organizationId = 145;
     const buffer = null;
 
     beforeEach(() => {
       request = {
         auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
+        params: { id: organizationId.toString() },
         payload: buffer
       };
 

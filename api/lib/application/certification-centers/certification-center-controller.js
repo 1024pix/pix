@@ -11,7 +11,7 @@ module.exports = {
   },
 
   getById(request) {
-    const certificationCenterId = request.params.id;
+    const certificationCenterId = parseInt(request.params.id);
     return usecases.getCertificationCenter({ id: certificationCenterId })
       .then(certificationCenterSerializer.serialize);
   },

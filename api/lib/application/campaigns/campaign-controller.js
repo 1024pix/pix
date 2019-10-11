@@ -7,6 +7,7 @@ const campaignReportSerializer = require('../../infrastructure/serializers/jsona
 const campaignCollectiveResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const requestUtils = require('../../infrastructure/utils/request-utils');
 const infraErrors = require('../../infrastructure/errors');
 
 module.exports = {
@@ -25,17 +26,17 @@ module.exports = {
       });
   },
 
-  getByCode(request) {
+  async getByCode(request) {
     const filters = queryParamsUtils.extractParameters(request.query).filter;
-    return _validateFilters(filters)
-      .then(() => usecases.getCampaignByCode({ code: filters.code }))
-      .then((campaign) => {
-        return campaignSerializer.serialize([campaign]);
-      });
+    const userId = requestUtils.extractUserIdFromRequest(request);
+    await _validateFilters(filters);
+
+    const campaign = await usecases.retrieveCampaignInformation({ code: filters.code, userId });
+    return campaignSerializer.serialize([campaign]);
   },
 
   getById(request) {
-    const campaignId = request.params.id;
+    const campaignId = parseInt(request.params.id);
     const options = queryParamsUtils.extractParameters(request.query);
     const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
     return usecases.getCampaign({ campaignId, options })
@@ -59,7 +60,7 @@ module.exports = {
 
   update(request) {
     const { userId } = request.auth.credentials;
-    const campaignId = request.params.id;
+    const campaignId = parseInt(request.params.id);
     const { title, 'custom-landing-page-text': customLandingPageText } = request.payload.data.attributes;
 
     return usecases.updateCampaign({ userId, campaignId, title, customLandingPageText })
@@ -76,7 +77,7 @@ module.exports = {
 
   async getCollectiveResult(request) {
     const { userId } = request.auth.credentials;
-    const campaignId = request.params.id;
+    const campaignId = parseInt(request.params.id);
 
     const campaignCollectiveResult = await usecases.computeCampaignCollectiveResult({ userId, campaignId });
     return campaignCollectiveResultSerializer.serialize(campaignCollectiveResult);
@@ -84,10 +85,8 @@ module.exports = {
 };
 
 function _validateFilters(filters) {
-  return new Promise((resolve) => {
-    if (typeof filters.code === 'undefined') {
-      throw new infraErrors.MissingQueryParamError('filter.code');
-    }
-    resolve();
-  });
+  if (typeof filters.code === 'undefined') {
+    throw new infraErrors.MissingQueryParamError('filter.code');
+  }
 }
+

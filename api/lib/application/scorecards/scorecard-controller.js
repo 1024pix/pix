@@ -4,7 +4,7 @@ const usecases = require('../../domain/usecases');
 module.exports = {
 
   getScorecard(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const authenticatedUserId = request.auth.credentials.userId;
     const scorecardId = request.params.id;
 
     return usecases.getScorecard({ authenticatedUserId, scorecardId })
