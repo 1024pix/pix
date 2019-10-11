@@ -44,9 +44,13 @@
       </div>
     </div>
 
-      <div class="input-container">
+    <div class="input-container">
+      {{#if isLoading}}
+        <button type="submit" class="button"><span class="loader-in-button">&nbsp;</span></button>
+      {{else}}
         <button type="submit" class="button">Je me connecte</button>
-      </div>
+      {{/if}}
+    </div>
 
   </form>
 

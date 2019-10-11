@@ -8,6 +8,7 @@ export default Component.extend({
 
   email: null,
   password: null,
+  isLoading: false,
   isPasswordVisible: false,
   passwordInputType: computed('isPasswordVisible', function() {
     return this.isPasswordVisible ? 'text' : 'password';
@@ -18,12 +19,16 @@ export default Component.extend({
   actions: {
 
     authenticate() {
+      this.set('isLoading', true);
       const email = this.email;
       const password = this.password;
       const scope = 'pix-orga';
       return this.session.authenticate('authenticator:oauth2', email, password, scope)
         .catch(() => {
           this.set('isErrorMessagePresent', true);
+        })
+        .finally(() => {
+          this.set('isLoading', false);
         });
     },
 
