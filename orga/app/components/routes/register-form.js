@@ -36,7 +36,7 @@ export default Component.extend({
   store: inject(),
 
   user: null,
-
+  isLoading: false,
   validation: validation,
   isPasswordVisible: false,
 
@@ -57,6 +57,7 @@ export default Component.extend({
 
   actions: {
     async register() {
+      this.set('isLoading', true);
       return this.user.save()
         .then(() => {
           const scope = 'pix-orga';
@@ -65,6 +66,9 @@ export default Component.extend({
         })
         .catch(() => {
           this._updateInputsStatus();
+        })
+        .finally(() => {
+          this.set('isLoading', false);
         });
     },
 
