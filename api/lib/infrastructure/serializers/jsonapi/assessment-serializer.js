@@ -22,6 +22,9 @@ module.exports = {
             id: Progression.generateIdFromAssessmentId(currentAssessment.id),
           };
         }
+        if (currentAssessment.type === Assessment.types.CERTIFICATION) {
+          assessment.certificationCourse = { id: currentAssessment.courseId };
+        }
 
         if (currentAssessment.campaignParticipation && currentAssessment.campaignParticipation.campaign) {
           assessment.codeCampaign = currentAssessment.campaignParticipation.campaign.code;
@@ -45,6 +48,7 @@ module.exports = {
         'codeCampaign',
         'certificationNumber',
         'course',
+        'certificationCourse',
         'progression'
       ],
       answers: {
@@ -54,6 +58,15 @@ module.exports = {
         ref: 'id',
         included: _includeCourse(assessments),
         attributes: ['name', 'description', 'nbChallenges'],
+      },
+      certificationCourse: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current) {
+            return `/api/courses/${current.id}`;
+          }
+        }
       },
       progression: {
         ref: 'id',

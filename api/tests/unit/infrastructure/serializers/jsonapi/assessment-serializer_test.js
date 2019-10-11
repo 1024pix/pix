@@ -8,7 +8,9 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
     it('should convert an Assessment model object (of type CERTIFICATION) into JSON API data', function() {
       //given
-      const assessment = domainBuilder.buildAssessment();
+      const assessment = domainBuilder.buildAssessment({
+        type: Assessment.types.CERTIFICATION,
+      });
       const expectedJson = {
         data: {
           id: assessment.id.toString(),
@@ -33,7 +35,12 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
                 id: assessment.courseId.toString(),
                 type: 'courses'
               }
-            }
+            },
+            'certification-course': {
+              'links': {
+                'related': `/api/courses/${assessment.courseId}`,
+              }
+            },
           },
         },
         included: [{

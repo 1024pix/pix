@@ -1,6 +1,7 @@
 const { airtableBuilder, expect, nock, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const createServer = require('../../../../server');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Acceptance | API | assessment-controller-get', () => {
 
@@ -127,6 +128,78 @@ describe('Acceptance | API | assessment-controller-get', () => {
   after(() => {
     nock.cleanAll();
     cache.flushAll();
+  });
+
+  describe('(type CERTIFICATION) GET /api/assessments/:id', () => {
+
+    let options;
+    let assessmentId;
+
+    beforeEach(async () => {
+      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId: '1', state: null, type: Assessment.types.CERTIFICATION }).id;
+      await databaseBuilder.commit();
+      options = {
+        method: 'GET',
+        url: `/api/assessments/${assessmentId}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return 200 HTTP status code', async () => {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return application/json', async () => {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      const contentType = response.headers['content-type'];
+      expect(contentType).to.contain('application/json');
+    });
+
+    it('should return the expected assessment', async () => {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      const expectedAssessment = {
+        'type': 'assessments',
+        'id': assessmentId.toString(),
+        'attributes': {
+          'estimated-level': null,
+          'pix-score': null,
+          'state': null,
+          'title': '1',
+          'type': Assessment.types.CERTIFICATION,
+          'certification-number': '1',
+        },
+        'relationships': {
+          'course': {
+            data: {
+              id: '1',
+              type: 'courses'
+            }
+          },
+          'certification-course': {
+            links: {
+              related: '/api/courses/1',
+            }
+          },
+          'answers': { 'data': [] },
+        },
+      };
+      const assessment = response.result.data;
+      expect(assessment).to.deep.equal(expectedAssessment);
+    });
   });
 
   describe('(no provided answer) GET /api/assessments/:id', () => {
