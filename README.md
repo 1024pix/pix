@@ -43,7 +43,7 @@ $ npm run configure
 
 **3/ Configurer les variables d'environnement dans le fichier `pix/api/.env`**
 
-Pour récupérer les différents identifiants / clés de connexion, s'adresser à un membre de [l'équipe PIX](https://github.com/orgs/1024pix/teams/pix).
+Pour récupérer les différents identifiants / clés de connexion, s'adresser à un membre de [l'équipe PIX](https://github.com/orgs/1024pix/teams/everyone).
 
 
 **4/ Lancer l'application**
