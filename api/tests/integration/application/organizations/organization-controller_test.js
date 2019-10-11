@@ -21,6 +21,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'findOrganizationStudents');
     sandbox.stub(usecases, 'createOrganizationInvitation');
     sandbox.stub(usecases, 'answerToOrganizationInvitation');
+    sandbox.stub(usecases, 'findPendingOrganizationInvitations');
 
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');
     sandbox.stub(securityController, 'checkUserIsOwnerInOrganization');
@@ -243,7 +244,8 @@ describe('Integration | Application | Organizations | organization-controller', 
             attributes: {
               'organization-id': invitation.organizationId,
               email: invitation.email,
-              status
+              status,
+              'created-at': invitation.createdAt
             }
           }
         };
@@ -254,6 +256,32 @@ describe('Integration | Application | Organizations | organization-controller', 
 
         // then
         expect(_.omit(response.result, 'data.id')).to.deep.equal(expectedResult);
+      });
+    });
+  });
+
+  describe('#findPendingInvitations', () => {
+
+    context('Success cases', () => {
+
+      const invitation = domainBuilder.buildOrganizationInvitation({
+        organizationId: 1,
+        status: OrganizationInvitation.StatusType.PENDING,
+      });
+
+      beforeEach(() => {
+        securityController.checkUserIsOwnerInOrganization.returns(true);
+      });
+
+      it('should return an HTTP response with status code 200', async () => {
+        // given
+        usecases.findPendingOrganizationInvitations.resolves([invitation]);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/organizations/1/invitations');
+
+        // then
+        expect(response.statusCode).to.equal(200);
       });
     });
   });
