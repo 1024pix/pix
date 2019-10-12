@@ -1,5 +1,4 @@
 const CertificationCourse = require('../models/CertificationCourse');
-const UserCompetence = require('../models/UserCompetence');
 const Assessment = require('../models/Assessment');
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../errors');
 
@@ -46,7 +45,7 @@ async function _startNewCertification({
   const now = new Date();
   const certificationProfile = await userService.getCertificationProfile({ userId, limitDate: now });
 
-  if (!UserCompetence.isCertifiable(certificationProfile.userCompetences)) {
+  if (!certificationProfile.isCertifiable()) {
     throw new UserNotAuthorizedToCertifyError();
   }
   await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);

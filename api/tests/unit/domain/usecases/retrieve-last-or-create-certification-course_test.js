@@ -7,18 +7,20 @@ const retrieveLastOrCreateCertificationCourse = require('../../../../lib/domain/
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
+const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
+const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 
 describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => {
 
   describe('#retrieveLastOrCreateCertificationCourse', () => {
 
     const fiveCompetencesWithLevelHigherThan0 = [
-      { id: 'competence1', pixScore: 8, estimatedLevel: 1 },
-      { id: 'competence2', pixScore: 0, estimatedLevel: 0 },
-      { id: 'competence3', pixScore: 24, estimatedLevel: 3 },
-      { id: 'competence4', pixScore: 32, estimatedLevel: 4 },
-      { id: 'competence5', pixScore: 40, estimatedLevel: 5 },
-      { id: 'competence6', pixScore: 48, estimatedLevel: 6 },
+      new UserCompetence({ id: 'competence1', pixScore: 8, estimatedLevel: 1 }),
+      new UserCompetence({ id: 'competence2', pixScore: 0, estimatedLevel: 0 }),
+      new UserCompetence({ id: 'competence3', pixScore: 24, estimatedLevel: 3 }),
+      new UserCompetence({ id: 'competence4', pixScore: 32, estimatedLevel: 4 }),
+      new UserCompetence({ id: 'competence5', pixScore: 40, estimatedLevel: 5 }),
+      new UserCompetence({ id: 'competence6', pixScore: 48, estimatedLevel: 6 }),
     ];
 
     context('when a certification course already exists for given sessionId and userId', () => {
@@ -71,7 +73,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           sinon.stub(certificationCourseRepository, 'getLastCertificationCourseByUserIdAndSessionId')
             .onFirstCall().rejects(new NotFoundError())
             .onSecondCall().resolves(certificationCourse);
-          const certificationProfile = { userCompetences: fiveCompetencesWithLevelHigherThan0 };
+          const certificationProfile = new CertificationProfile({ userCompetences: fiveCompetencesWithLevelHigherThan0 });
           sinon.stub(userService, 'getCertificationProfile').resolves(certificationProfile);
           sinon.stub(userService, 'fillCertificationProfileWithCertificationChallenges').withArgs(certificationProfile).resolves(certificationProfile);
         });
@@ -139,14 +141,14 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
       let clock;
 
       const noCompetences = [];
-      const oneCompetenceWithLevel0 = [{ id: 'competence1', pixScore: 0, estimatedLevel: 0 }];
-      const oneCompetenceWithLevel5 = [{ id: 'competence1', pixScore: 40, estimatedLevel: 5 }];
+      const oneCompetenceWithLevel0 = [new UserCompetence({ id: 'competence1', pixScore: 0, estimatedLevel: 0 })];
+      const oneCompetenceWithLevel5 = [new UserCompetence({ id: 'competence1', pixScore: 40, estimatedLevel: 5 })];
       const fiveCompetencesAndOneWithLevel0 = [
-        { id: 'competence1', pixScore: 8, estimatedLevel: 1 },
-        { id: 'competence2', pixScore: 16, estimatedLevel: 2 },
-        { id: 'competence3', pixScore: 0, estimatedLevel: 0 },
-        { id: 'competence4', pixScore: 32, estimatedLevel: 4 },
-        { id: 'competence5', pixScore: 40, estimatedLevel: 5 },
+        new UserCompetence({ id: 'competence1', pixScore: 8, estimatedLevel: 1 }),
+        new UserCompetence({ id: 'competence2', pixScore: 16, estimatedLevel: 2 }),
+        new UserCompetence({ id: 'competence3', pixScore: 0, estimatedLevel: 0 }),
+        new UserCompetence({ id: 'competence4', pixScore: 32, estimatedLevel: 4 }),
+        new UserCompetence({ id: 'competence5', pixScore: 40, estimatedLevel: 5 }),
       ];
 
       beforeEach(() => {
@@ -188,7 +190,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         it(`should not create a new certification if ${testCase.label}`, async function() {
           // given
-          const certificationProfile = { userCompetences: testCase.competences };
+          const certificationProfile = new CertificationProfile({ userCompetences: testCase.competences });
           sinon.stub(userService, 'getCertificationProfile').withArgs({ userId, limitDate: now }).resolves(certificationProfile);
           sinon.stub(userService, 'fillCertificationProfileWithCertificationChallenges').withArgs(certificationProfile).resolves(certificationProfile);
           sinon.stub(certificationCourseRepository, 'save');
@@ -214,7 +216,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
       it('should create the certification course with status "started", if at least 5 competences with level higher than 0', async function() {
         // given
-        const certificationProfile = { userCompetences: fiveCompetencesWithLevelHigherThan0 };
+        const certificationProfile = new CertificationProfile({ userCompetences: fiveCompetencesWithLevelHigherThan0 });
         sinon.stub(userService, 'getCertificationProfile').withArgs({ userId, limitDate: now })
           .resolves(certificationProfile);
         sinon.stub(userService, 'fillCertificationProfileWithCertificationChallenges').withArgs(certificationProfile)

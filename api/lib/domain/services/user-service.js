@@ -1,9 +1,5 @@
 const _ = require('lodash');
 
-const {
-  MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY,
-} = require('../constants');
-
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
 const Challenge = require('../models/Challenge');
@@ -38,7 +34,7 @@ async function fillCertificationProfileWithCertificationChallenges(certification
 
     const userCompetence = _getUserCompetenceByChallengeCompetenceId(certificationProfile.userCompetences, challenge);
 
-    if (!userCompetence || !_isCompetenceCertifiable(userCompetence)) {
+    if (!userCompetence || !userCompetence.isCertifiable()) {
       return;
     }
 
@@ -98,10 +94,6 @@ function _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLa
     userCompetence.estimatedLevel = assessment && assessment.getLevel() || 0;
     return userCompetence;
   });
-}
-
-function _isCompetenceCertifiable(userCompetence) {
-  return userCompetence.estimatedLevel >= MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY;
 }
 
 async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1(certificationProfile) {
