@@ -1,5 +1,6 @@
 const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
+const certificationProfileSerializer = require('../../infrastructure/serializers/jsonapi/certification-profile-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const pixScoreSerializer = require('../../infrastructure/serializers/jsonapi/pix-score-serializer');
 const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
@@ -119,6 +120,13 @@ module.exports = {
 
     return usecases.findCampaignParticipationsRelatedToUser({ userId: authenticatedUserId })
       .then(campaignParticipationSerializer.serialize);
+  },
+
+  getCertificationProfile(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+
+    return usecases.getUserCurrentCertificationProfile({ userId: authenticatedUserId })
+      .then(certificationProfileSerializer.serialize);
   },
 
   getPixScore(request) {
