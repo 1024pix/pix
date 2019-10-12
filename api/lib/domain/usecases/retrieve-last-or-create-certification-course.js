@@ -49,6 +49,7 @@ async function _startNewCertification({
   if (!UserCompetence.isCertifiable(certificationProfile.userCompetences)) {
     throw new UserNotAuthorizedToCertifyError();
   }
+  await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
 
   try {
     const certificationCourse = await certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId(userId, sessionId);

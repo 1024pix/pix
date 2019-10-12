@@ -22,15 +22,12 @@ async function getCertificationProfile({ userId, limitDate, isV2Certification = 
     profileDate: limitDate,
   });
   if (isV2Certification) {
-    await _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2(certificationProfile);
+    return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2(certificationProfile);
   }
-  else {
-    await _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1(certificationProfile);
-  }
-  return _fillCertificationProfileWithCertificationChallenges(certificationProfile);
+  return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1(certificationProfile);
 }
 
-async function _fillCertificationProfileWithCertificationChallenges(certificationProfile) {
+async function fillCertificationProfileWithCertificationChallenges(certificationProfile) {
   const allChallenges = await challengeRepository.list();
   const challengesAlreadyAnswered = certificationProfile.challengeIdsCorrectlyAnswered.map((challengeId) => Challenge.findById(allChallenges, challengeId));
 
@@ -155,4 +152,5 @@ async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredC
 
 module.exports = {
   getCertificationProfile,
+  fillCertificationProfileWithCertificationChallenges,
 };
