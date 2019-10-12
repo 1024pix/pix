@@ -6,6 +6,7 @@ import getAuthenticatedUser from './routes/get-user-me';
 import getCampaignParticipation from './routes/get-campaign-participation';
 import getCampaignParticipationResult from './routes/get-campaign-participation-result';
 import getCampaigns from './routes/get-campaigns';
+import getCertificationProfile from './routes/get-certification-profile';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getCorrections from './routes/get-corrections';
@@ -70,6 +71,7 @@ export default function() {
   this.get('/certifications');
 
   this.get('/users/me', getAuthenticatedUser);
+  this.get('/users/:id/certification-profile', getCertificationProfile);
   this.get('/users/:id/pixscore', getPixScore);
   this.get('/users/:id/scorecards', getScorecards);
   this.get('/users/:id/campaign-participations', getUserCampaignParticipations);
