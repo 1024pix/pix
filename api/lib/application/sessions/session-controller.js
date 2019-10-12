@@ -1,5 +1,4 @@
 const usecases = require('../../domain/usecases');
-const sessionService = require('../../domain/services/session-service');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const certificationCandidateSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-serializer');
 const tokenService = require('../../../lib/domain/services/token-service');
@@ -7,14 +6,14 @@ const tokenService = require('../../../lib/domain/services/token-service');
 module.exports = {
 
   async find() {
-    const session = await sessionService.find();
+    const session = await usecases.findSessions();
 
     return sessionSerializer.serialize(session);
   },
 
   async get(request) {
     const sessionId = parseInt(request.params.id);
-    const session = await sessionService.get(sessionId);
+    const session = await usecases.getSession({ sessionId });
 
     return sessionSerializer.serialize(session);
   },
