@@ -71,7 +71,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           sinon.stub(certificationCourseRepository, 'getLastCertificationCourseByUserIdAndSessionId')
             .onFirstCall().rejects(new NotFoundError())
             .onSecondCall().resolves(certificationCourse);
-          sinon.stub(userService, 'getProfileToCertifyV2').resolves(fiveCompetencesWithLevelHigherThan0);
+          sinon.stub(userService, 'getCertificationProfile').resolves({ userCompetences: fiveCompetencesWithLevelHigherThan0 });
         });
 
         it('should get last started certification course for given sessionId and userId', async function() {
@@ -186,7 +186,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         it(`should not create a new certification if ${testCase.label}`, async function() {
           // given
-          sinon.stub(userService, 'getProfileToCertifyV2').withArgs({ userId, limitDate: now }).resolves(testCase.competences);
+          sinon.stub(userService, 'getCertificationProfile').withArgs({ userId, limitDate: now }).resolves({ userCompetences: testCase.competences });
           sinon.stub(certificationCourseRepository, 'save');
           sinon.stub(assessmentRepository, 'save');
 
@@ -210,7 +210,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
       it('should create the certification course with status "started", if at least 5 competences with level higher than 0', async function() {
         // given
-        sinon.stub(userService, 'getProfileToCertifyV2').withArgs({ userId, limitDate: now }).resolves(fiveCompetencesWithLevelHigherThan0);
+        sinon.stub(userService, 'getCertificationProfile').withArgs({ userId, limitDate: now })
+          .resolves({ userCompetences: fiveCompetencesWithLevelHigherThan0 });
         sinon.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
         sinon.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
         sinon.stub(assessmentRepository, 'save').resolves();

@@ -55,9 +55,10 @@ describe('Unit | Service | Certification Service', function() {
       sinon.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves([]);
       sinon.stub(competenceRepository, 'list').resolves([]);
       sinon.stub(challengeRepository, 'list').resolves([]);
-      sinon.stub(userService, 'getProfileToCertifyV1').withArgs({
+      sinon.stub(userService, 'getCertificationProfile').withArgs({
         userId: 'user_id',
-        limitDate: dateCreationCertif
+        limitDate: dateCreationCertif,
+        isV2Certification: certificationCourseV1.isV2Certification,
       }).resolves([]);
       sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourseV1);
     });
