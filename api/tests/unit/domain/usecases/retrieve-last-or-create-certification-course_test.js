@@ -71,7 +71,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           sinon.stub(certificationCourseRepository, 'getLastCertificationCourseByUserIdAndSessionId')
             .onFirstCall().rejects(new NotFoundError())
             .onSecondCall().resolves(certificationCourse);
-          sinon.stub(userService, 'getCertificationProfile').resolves({ userCompetences: fiveCompetencesWithLevelHigherThan0 });
+          const certificationProfile = { userCompetences: fiveCompetencesWithLevelHigherThan0 };
+          sinon.stub(userService, 'getCertificationProfile').resolves(certificationProfile);
+          sinon.stub(userService, 'fillCertificationProfileWithCertificationChallenges').withArgs(certificationProfile).resolves(certificationProfile);
         });
 
         it('should get last started certification course for given sessionId and userId', async function() {
@@ -186,7 +188,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         it(`should not create a new certification if ${testCase.label}`, async function() {
           // given
-          sinon.stub(userService, 'getCertificationProfile').withArgs({ userId, limitDate: now }).resolves({ userCompetences: testCase.competences });
+          const certificationProfile = { userCompetences: testCase.competences };
+          sinon.stub(userService, 'getCertificationProfile').withArgs({ userId, limitDate: now }).resolves(certificationProfile);
+          sinon.stub(userService, 'fillCertificationProfileWithCertificationChallenges').withArgs(certificationProfile).resolves(certificationProfile);
           sinon.stub(certificationCourseRepository, 'save');
           sinon.stub(assessmentRepository, 'save');
 
@@ -210,8 +214,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
       it('should create the certification course with status "started", if at least 5 competences with level higher than 0', async function() {
         // given
+        const certificationProfile = { userCompetences: fiveCompetencesWithLevelHigherThan0 };
         sinon.stub(userService, 'getCertificationProfile').withArgs({ userId, limitDate: now })
-          .resolves({ userCompetences: fiveCompetencesWithLevelHigherThan0 });
+          .resolves(certificationProfile);
+        sinon.stub(userService, 'fillCertificationProfileWithCertificationChallenges').withArgs(certificationProfile)
+          .resolves(certificationProfile);
         sinon.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
         sinon.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
         sinon.stub(assessmentRepository, 'save').resolves();
