@@ -2,11 +2,11 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../../../../lib/domain/errors');
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
-const sessionService = require('../../../../lib/domain/services/session-service');
 const userService = require('../../../../lib/domain/services/user-service');
 const retrieveLastOrCreateCertificationCourse = require('../../../../lib/domain/usecases/retrieve-last-or-create-certification-course');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 
 describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => {
 
@@ -34,7 +34,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         accessCode = 'ABCD12';
         certificationCourse = domainBuilder.buildCertificationCourse({ id: 'newlyCreatedCertificationCourse', sessionId, userId, createdAt: new Date('2018-12-12T01:02:03Z') });
 
-        sinon.stub(sessionService, 'getSessionIdByAccessCode').resolves(sessionId);
+        sinon.stub(sessionRepository, 'getByAccessCode').resolves({ id: sessionId });
         sinon.stub(certificationCourseRepository, 'save').resolves();
       });
 
@@ -49,7 +49,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           const result = await retrieveLastOrCreateCertificationCourse({
             accessCode,
             userId,
-            sessionService,
+            sessionRepository,
             userService,
             certificationChallengesService,
             certificationCourseRepository,
@@ -79,7 +79,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           const result = await retrieveLastOrCreateCertificationCourse({
             accessCode,
             userId,
-            sessionService,
+            sessionRepository,
             userService,
             certificationChallengesService,
             certificationCourseRepository,
@@ -105,7 +105,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         userId = 12345;
         accessCode = 'ABCD12';
 
-        sinon.stub(sessionService, 'getSessionIdByAccessCode').rejects(new NotFoundError());
+        sinon.stub(sessionRepository, 'getByAccessCode').rejects(new NotFoundError());
       });
 
       it('should rejects an error when the session does not exist',  async function() {
@@ -113,7 +113,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         const result = await catchErr(retrieveLastOrCreateCertificationCourse)({
           accessCode,
           userId,
-          sessionService,
+          sessionRepository,
           userService,
           certificationChallengesService,
           certificationCourseRepository,
@@ -167,7 +167,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           nbChallenges: 3
         });
 
-        sinon.stub(sessionService, 'getSessionIdByAccessCode').resolves(sessionId);
+        sinon.stub(sessionRepository, 'getByAccessCode').resolves({ id: sessionId });
         sinon.stub(certificationCourseRepository, 'getLastCertificationCourseByUserIdAndSessionId').rejects(new NotFoundError());
 
         clock = sinon.useFakeTimers(now);
@@ -194,7 +194,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           const result = await catchErr(retrieveLastOrCreateCertificationCourse)({
             accessCode,
             userId,
-            sessionService,
+            sessionRepository,
             userService,
             certificationChallengesService,
             certificationCourseRepository,
@@ -219,7 +219,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         const newCertification = await retrieveLastOrCreateCertificationCourse({
           accessCode,
           userId,
-          sessionService,
+          sessionRepository,
           userService,
           certificationChallengesService,
           certificationCourseRepository,
