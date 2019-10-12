@@ -14,7 +14,6 @@ describe('Unit | Domain | Models | OrganizationInvitation', () => {
         organizationId: 10,
         email: 'member@team.org',
         status: 'pending',
-        temporaryKey: 'sndvfjihrehtzifjsdret',
         createdAt: today,
         updatedAt: today,
       };

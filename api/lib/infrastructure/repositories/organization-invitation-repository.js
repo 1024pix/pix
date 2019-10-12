@@ -17,18 +17,11 @@ function _checkNotFoundError(err, id) {
   throw err;
 }
 
-function _checkNotFoundErrorWithTemporaryKey(err, id, temporaryKey) {
-  if (err instanceof BookshelfOrganizationInvitation.NotFoundError) {
-    throw new NotFoundError(`Not found organization-invitation for ID ${id} and temporaryKey ${temporaryKey}`);
-  }
-  throw err;
-}
-
 module.exports = {
 
-  create({ organizationId, email, temporaryKey }) {
+  create(organizationId, email) {
     const status = OrganizationInvitation.StatusType.PENDING;
-    return new BookshelfOrganizationInvitation({ organizationId, email, status, temporaryKey })
+    return new BookshelfOrganizationInvitation({ organizationId, email, status })
       .save()
       .then(_toDomain);
   },
@@ -39,14 +32,6 @@ module.exports = {
       .fetch({ require: true })
       .then(_toDomain)
       .catch((err) => _checkNotFoundError(err, id));
-  },
-
-  getByIdAndTemporaryKey({ id, temporaryKey }) {
-    return BookshelfOrganizationInvitation
-      .where({ id, temporaryKey })
-      .fetch({ require: true })
-      .then(_toDomain)
-      .catch((err) => _checkNotFoundErrorWithTemporaryKey(err, id, temporaryKey));
   },
 
   markAsAccepted(id) {
@@ -65,5 +50,10 @@ module.exports = {
       .fetchAll()
       .then((results) =>  bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationInvitation, results));
   },
+
+  isAccepted(id) {
+    return this.get(id)
+      .then((invitation) => invitation.status === OrganizationInvitation.StatusType.ACCEPTED);
+  }
 
 };

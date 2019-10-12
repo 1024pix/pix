@@ -19,7 +19,6 @@ module.exports = [
   require('./application/memberships'),
   require('./application/metrics'),
   require('./application/organizations'),
-  require('./application/organization-invitations'),
   require('./application/passwords'),
   require('./application/saml'),
   require('./application/scorecards'),

@@ -1,6 +1,7 @@
 const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 
 const Organization = require('../../../../lib/domain/models/Organization');
+const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const SearchResultList = require('../../../../lib/domain/models/SearchResultList');
 
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
@@ -473,6 +474,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
     const userId = 1;
     const invitation = domainBuilder.buildOrganizationInvitation();
+    const acceptedInvitation = { ...invitation, status: OrganizationInvitation.StatusType.ACCEPTED };
 
     const organizationId = invitation.organizationId;
     const email = invitation.email;
@@ -492,7 +494,12 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       };
 
       sinon.stub(usecases, 'createOrganizationInvitation');
+      sinon.stub(usecases, 'acceptOrganizationInvitation');
+      sinon.stub(usecases, 'addOrganizationMembershipWithEmail');
+
       usecases.createOrganizationInvitation.resolves({ id: 1 });
+      usecases.acceptOrganizationInvitation.resolves({});
+      usecases.addOrganizationMembershipWithEmail.resolves({});
     });
 
     it('should call the usecase to create invitation with organizationId and email', async () => {
@@ -501,6 +508,29 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
       // then
       expect(usecases.createOrganizationInvitation).to.have.been.calledWith({ organizationId, email });
+    });
+
+    it('should call the usecase to accepte invitation with organization-invitation Id', async () => {
+      // given
+      const organizationInvitationId = 1;
+
+      // when
+      await organizationController.sendInvitation(request, hFake);
+
+      // then
+      expect(usecases.acceptOrganizationInvitation).to.have.been.calledWith({ organizationInvitationId });
+    });
+
+    it('should call the usecase to create membership with organization Id and email', async () => {
+      // given
+      usecases.createOrganizationInvitation.resolves(invitation);
+      usecases.acceptOrganizationInvitation.resolves(acceptedInvitation);
+
+      // when
+      await organizationController.sendInvitation(request, hFake);
+
+      // then
+      expect(usecases.addOrganizationMembershipWithEmail).to.have.been.calledWith({ organizationId, email });
     });
   });
 

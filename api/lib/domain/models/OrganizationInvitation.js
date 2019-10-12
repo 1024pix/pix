@@ -11,7 +11,6 @@ class OrganizationInvitation {
     organizationId,
     email,
     status,
-    temporaryKey,
     createdAt,
     updatedAt,
   } = {}) {
@@ -20,7 +19,6 @@ class OrganizationInvitation {
     this.organizationId = organizationId;
     this.email = email;
     this.status = status;
-    this.temporaryKey = temporaryKey;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }

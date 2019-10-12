@@ -118,7 +118,13 @@ module.exports = {
     const email = request.payload.data.attributes.email;
 
     const organizationInvitation = await usecases.createOrganizationInvitation({ organizationId, email });
-    return h.response(organizationInvitationSerializer.serialize(organizationInvitation)).created();
+    const organizationInvitationId = organizationInvitation.id;
+
+    const invitationAccepted = await usecases.acceptOrganizationInvitation({ organizationInvitationId });
+
+    await usecases.addOrganizationMembershipWithEmail({ organizationId, email });
+
+    return h.response(organizationInvitationSerializer.serialize(invitationAccepted)).created();
   },
 
 };

@@ -68,10 +68,10 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.equal(currentURL(), '/equipe/creation');
       });
 
-      test('it should allow to invite an user and redirect to team page', async function(assert) {
+      test('it should allow to create a organization-invitation and redirect to team page', async function(assert) {
         // given
         const email = 'gigi@labrochette.com';
-        const temporaryKey = 'temporaryKey';
+        server.create('user', { firstName: 'Gigi', lastName: 'La Brochette', email, 'pixOrgaTermsOfServiceAccepted': true });
 
         await visit('/equipe/creation');
         await fillIn('#email', email);
@@ -80,12 +80,10 @@ module('Acceptance | Team Creation', function(hooks) {
         await click('button[type="submit"]');
 
         // then
-        const organizationInvitation = server.db.organizationInvitations[0];
-        assert.equal(organizationInvitation.email, email);
-        assert.equal(organizationInvitation.status, 'PENDING');
-        assert.equal(organizationInvitation.temporaryKey, temporaryKey);
+        assert.equal(server.db.organizationInvitations[0].email, email);
+        assert.equal(server.db.organizationInvitations[0].status, 'ACCEPTED');
         assert.equal(currentURL(), '/equipe');
-        assert.dom('.table tbody tr').exists({ count: 1 });
+        assert.dom('.table tbody tr').exists({ count: 2 });
       });
 
       test('should display an empty input field after cancel and before add a team member', async function(assert) {

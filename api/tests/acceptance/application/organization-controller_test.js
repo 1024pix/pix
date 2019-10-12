@@ -1280,18 +1280,19 @@ describe('Acceptance | Application | organization-controller', () => {
       });
 
       afterEach(async () => {
+        await knex('memberships').delete();
         await knex('organization-invitations').delete();
         await databaseBuilder.clean();
       });
 
       it('should return the matching organization-invitations as JSON API', async () => {
         // given
-        const status = OrganizationInvitation.StatusType.PENDING;
+        const status = OrganizationInvitation.StatusType.ACCEPTED;
         const expectedResult = {
           data: {
             type: 'organization-invitations',
             attributes: {
-              'organization-id': organizationId.toString(),
+              'organization-id': organizationId,
               email: user.email,
               status
             },
@@ -1337,6 +1338,7 @@ describe('Acceptance | Application | organization-controller', () => {
       });
 
       afterEach(async () => {
+        await knex('memberships').delete();
         await knex('organization-invitations').delete();
         await databaseBuilder.clean();
       });
@@ -1376,23 +1378,10 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond with a 421 if membership already exist', async () => {
-        // given
-        databaseBuilder.factory.buildMembership({ organizationId, userId: user.id });
-        await databaseBuilder.commit();
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(421);
-      });
-
-      it('should respond with a 421 if organization-invitation already exist with status accepted', async () => {
+      it('should respond with a 421 if organization-invitation already exist', async () => {
         // given
         const email = user.email;
-        const status = OrganizationInvitation.StatusType.ACCEPTED;
-        databaseBuilder.factory.buildOrganizationInvitation({ organizationId, email, status });
+        databaseBuilder.factory.buildOrganizationInvitation({ organizationId, email });
         await databaseBuilder.commit();
 
         // when
