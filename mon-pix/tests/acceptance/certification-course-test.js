@@ -1,4 +1,4 @@
-import { click, fillIn, currentURL } from '@ember/test-helpers';
+import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateAsSimpleUser } from '../helpers/testing';
@@ -36,39 +36,62 @@ describe('Acceptance | Certification | Start Course', function() {
         await authenticateAsSimpleUser();
         await visitWithAbortedTransition('/certifications');
       });
-      context('when user enter a correct code session', function() {
+
+      context('When user is not certifiable', function() {
+
         beforeEach(async function() {
-          // when
-          await fillIn('#session-code', 'ABCD12');
-          await click('.certification-course-page__submit_button');
+          const currentUser = this.owner.lookup('service:currentUser');
+          await currentUser.load();
+          currentUser.user.get('certificationProfile').set('isCertifiable', false);
+          await visitWithAbortedTransition('/certifications');
         });
 
-        it('should be redirected on the first challenge of an assessment', function() {
-          // then
-          expect(currentURL()).to.match(/assessments\/1\/challenges\/receop4TZKvtjjG0V/);
+        it('should render the not certifiable template', function() {
+          expect(find('.certification-not-certifiable__title').textContent.trim()).to.equal('Votre profil n\'est pas encore certifiable.');
         });
 
-        it('should navigate to next challenge when we click pass', async function() {
-          // when
-          await click('.challenge-actions__action-skip-text');
+      });
 
-          // then
-          expect(currentURL()).to.match(/assessments\/1\/challenges\/recLt9uwa2dR3IYpi/);
+      context('When user is certifiable', function() {
+
+        beforeEach(async function() {
+          await visitWithAbortedTransition('/certifications');
         });
 
-        context('after skipping the all three challenges of the certification course', function() {
-
-          it('should navigate to redirect to certification result page at the end of the assessment', async function() {
-            // given
-            await click('.challenge-actions__action-skip');
-            await click('.challenge-actions__action-skip');
-
+        context('when user enter a correct code session', function() {
+          beforeEach(async function() {
             // when
-            await click('.challenge-item-warning__confirm-btn');
-            await click('.challenge-actions__action-skip');
+            await fillIn('#session-code', 'ABCD12');
+            await click('.certification-course-page__submit_button');
+          });
+
+          it('should be redirected on the first challenge of an assessment', function() {
+            // then
+            expect(currentURL()).to.match(/assessments\/1\/challenges\/receop4TZKvtjjG0V/);
+          });
+
+          it('should navigate to next challenge when we click pass', async function() {
+            // when
+            await click('.challenge-actions__action-skip-text');
 
             // then
-            expect(currentURL()).to.equal('/certifications/certification-course-id/results');
+            expect(currentURL()).to.match(/assessments\/1\/challenges\/recLt9uwa2dR3IYpi/);
+          });
+
+          context('after skipping the all three challenges of the certification course', function() {
+
+            it('should navigate to redirect to certification result page at the end of the assessment', async function() {
+              // given
+              await click('.challenge-actions__action-skip');
+              await click('.challenge-actions__action-skip');
+
+              // when
+              await click('.challenge-item-warning__confirm-btn');
+              await click('.challenge-actions__action-skip');
+
+              // then
+              expect(currentURL()).to.equal('/certifications/certification-course-id/results');
+            });
           });
         });
       });

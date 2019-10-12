@@ -5,18 +5,7 @@
 
     <div class="background-banner-wrapper">
       <div class="background-banner"></div>
-
-      <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner certification-error-page__panel">
-
-        <h2 class="certification-error-page__title">
-          Votre profil n'est pas encore certifiable.
-        </h2>
-        <p class="certification-error-page__text">
-          Pour faire certifier votre profil, vous devez avoir obtenu un niveau supérieur à 0 dans 5 compétences minimum.
-        </p>
-
-        {{#link-to "index" class="button button--link button--big button--thin certification-error-page__button"}}Retour à l'accueil{{/link-to}}
-      </div>
+        {{certification-not-certifiable}}
     </div>
 
   {{/burger.outlet}}
