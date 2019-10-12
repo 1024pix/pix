@@ -3,7 +3,6 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const Session = require('../../../../lib/domain/models/Session');
-const sessionService = require('../../../../lib/domain/services/session-service');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
@@ -95,7 +94,7 @@ describe('Unit | Controller | sessionController', () => {
     const sessionId = 123;
 
     beforeEach(() => {
-      sinon.stub(sessionService, 'get');
+      sinon.stub(usecases, 'getSession');
       sinon.stub(sessionSerializer, 'serialize');
       request = {
         params: {
@@ -108,13 +107,13 @@ describe('Unit | Controller | sessionController', () => {
 
       it('should get session informations with certifications associated', async function() {
         // given
-        sessionService.get.resolves();
+        usecases.getSession.resolves();
 
         // when
         await sessionController.get(request, hFake);
 
         // then
-        expect(sessionService.get).to.have.been.calledWith(sessionId);
+        expect(usecases.getSession).to.have.been.calledWith({ sessionId });
       });
 
       it('should serialize session informations', async function() {
@@ -124,7 +123,7 @@ describe('Unit | Controller | sessionController', () => {
           id: 'sessionId',
           certifications: [certification]
         });
-        sessionService.get.resolves(session);
+        usecases.getSession.resolves(session);
 
         // when
         await sessionController.get(request, hFake);
@@ -142,7 +141,7 @@ describe('Unit | Controller | sessionController', () => {
           }
         };
         sessionSerializer.serialize.resolves(serializedSession);
-        sessionService.get.resolves();
+        usecases.getSession.resolves();
 
         // when
         const response = await sessionController.get(request, hFake);
