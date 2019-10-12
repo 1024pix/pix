@@ -6,13 +6,13 @@ const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../errors');
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   accessCode,
   userId,
-  sessionService,
+  sessionRepository,
   userService,
   certificationChallengesService,
   certificationCourseRepository,
   assessmentRepository,
 }) {
-  const sessionId = await sessionService.getSessionIdByAccessCode(accessCode);
+  const { id: sessionId } = await sessionRepository.getByAccessCode(accessCode);
   try {
     const certificationCourse = await certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
     return {
