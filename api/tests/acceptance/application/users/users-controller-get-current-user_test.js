@@ -75,6 +75,11 @@ describe('Acceptance | Controller | users-controller-get-current-user', () => {
             organizations: {
               data: []
             },
+            'certification-profile': {
+              links: {
+                related: `/api/users/${user.id}/certification-profile`,
+              }
+            }
           }
         }
       };
