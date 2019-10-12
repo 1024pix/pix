@@ -44,9 +44,9 @@ async function _startNewCertification({
   assessmentRepository,
 }) {
   const now = new Date();
-  const userCompetencesProfile = await userService.getProfileToCertifyV2({ userId, limitDate: now });
+  const certificationProfile = await userService.getCertificationProfile({ userId, limitDate: now });
 
-  if (!UserCompetence.isCertifiable(userCompetencesProfile)) {
+  if (!UserCompetence.isCertifiable(certificationProfile.userCompetences)) {
     throw new UserNotAuthorizedToCertifyError();
   }
 
@@ -63,7 +63,7 @@ async function _startNewCertification({
       await _createAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id, assessmentRepository });
       return {
         created: true,
-        certificationCourse: await certificationChallengesService.saveChallenges(userCompetencesProfile, savedCertificationCourse),
+        certificationCourse: await certificationChallengesService.saveChallenges(certificationProfile.userCompetences, savedCertificationCourse),
       };
     }
 
