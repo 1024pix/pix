@@ -5,9 +5,21 @@
   &__panel {
     display: flex;
     flex-direction: column;
-    width: 880px;
+    justify-content: space-between;
+    width: 97vw;
+    max-width: 880px;
     border-radius: 10px;
-    padding: 40px 100px;
+    padding: 20px 10px;
+
+    @include device-is('large-screen') {
+      width: 100vw;
+      padding: 40px 100px;
+    }
+
+    @include device-is('mobile') {
+      align-items: center;
+      padding: 20px 2px;
+    }
   }
 }
 
@@ -19,15 +31,29 @@
 
   &__forms-container {
     display: flex;
-    justify-content: space-between;
     margin-top: 20px;
     min-height: 500px;
+    flex-flow: row;
+    justify-content: space-around;
+
+    @include device-is('large-screen') {
+      flex-flow: row;
+      justify-content: space-between;
+    }
+
+    @include device-is('mobile') {
+      flex-flow: column;
+      margin: 10px 20px 0 20px;
+    }
   }
 
   &__form {
     display: flex;
     flex-direction: column;
-    width: 360px;
+
+    @include device-is('tablet') {
+      width: 360px;
+    }
   }
 
   &__divider {
