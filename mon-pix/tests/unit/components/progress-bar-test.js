@@ -10,89 +10,21 @@ describe('Unit | Component | progress-bar', function() {
 
   describe('@didReceiveAttrs', function() {
 
-    it('should set steps', function() {
+    it('should set the current step index', function() {
       // given
       const assessment = EmberObject.create({
-        answers: [{ isNew: false }, { isNew: false }],
-        hasCheckpoints: false,
-        course: {
-          nbChallenges: 4
-        }
+        answers: [{ isNew: false }, { isNew: false }, { isNew: false }, { isNew: false }, { isNew: false }, { isNew: false }],
+        hasCheckpoints: true,
       });
       const component = this.owner.lookup('component:progress-bar');
       component.set('assessment', assessment);
       component.didReceiveAttrs();
 
       // when
-      const steps = component.get('steps');
+      const currentStepIndex = component.get('currentStepIndex');
 
       // then
-      expect(steps).to.deep.equal([
-        { stepnum: 1, status: 'active', background: htmlSafe('background: #507fff;') },
-        { stepnum: 2, status: 'active', background: htmlSafe('background: #6874ff;') },
-        { stepnum: 3, status: 'active', background: htmlSafe('background: #8069ff;') },
-        { stepnum: 4, status: '', background: htmlSafe('background: #985fff;') },
-      ]);
-    });
-
-    it('should set the progressionWidth', function() {
-      // given
-      const assessment = EmberObject.create({
-        answers: [{ isNew: false }, { isNew: false }],
-        hasCheckpoints: false,
-        course: {
-          nbChallenges: 5
-        }
-      });
-      const component = this.owner.lookup('component:progress-bar');
-      component.set('assessment', assessment);
-      component.didReceiveAttrs();
-
-      // when
-      const progressionWidth = component.get('progressionWidth');
-
-      // then
-      expect(progressionWidth).to.deep.equal(htmlSafe('width: 50.85%;'));
-    });
-
-    it('should set progressionWidth inferior to 100%', function() {
-      // given
-      const assessment = EmberObject.create({
-        answers: [{ isNew: false }, { isNew: false }, { isNew: false }, { isNew: false }, { isNew: false }, { isNew: false }, { isNew: false }],
-        hasCheckpoints: false,
-        course: {
-          nbChallenges: 5
-        }
-      });
-      const component = this.owner.lookup('component:progress-bar');
-      component.set('assessment', assessment);
-      component.didReceiveAttrs();
-
-      // when
-      const progressionWidth = component.get('progressionWidth');
-
-      // then
-      expect(progressionWidth).to.deep.equal(htmlSafe('width: 50.85%;'));
-    });
-
-    it('should set the initial progressionWidth', function() {
-      // given
-      const assessment = EmberObject.create({
-        answers: [],
-        hasCheckpoints: false,
-        course: {
-          nbChallenges: 5
-        }
-      });
-      const component = this.owner.lookup('component:progress-bar');
-      component.set('assessment', assessment);
-      component.didReceiveAttrs();
-
-      // when
-      const progressionWidth = component.get('progressionWidth');
-
-      // then
-      expect(progressionWidth).to.deep.equal(htmlSafe('width: 16px;'));
+      expect(currentStepIndex).to.deep.equal(1);
     });
   });
 
@@ -130,25 +62,6 @@ describe('Unit | Component | progress-bar', function() {
     });
   });
 
-  describe('@currentStepIndex', function() {
-
-    it('should return the answers count modulus maxStepsNumber', function() {
-      // given
-      const assessment = EmberObject.create({
-        answers: [{ isNew: false }, { isNew: false }, { isNew: false }, { isNew: false }, { isNew: false }, { isNew: false }],
-        hasCheckpoints: true,
-      });
-      const component = this.owner.lookup('component:progress-bar');
-      component.set('assessment', assessment);
-
-      // when
-      const currentStepIndex = component.get('currentStepIndex');
-
-      // then
-      expect(currentStepIndex).to.deep.equal(1);
-    });
-  });
-
   describe('@currentStepNumber', function() {
 
     it('should return the current step number', function() {
@@ -161,6 +74,54 @@ describe('Unit | Component | progress-bar', function() {
 
       // then
       expect(currentStepNumber).to.deep.equal(3);
+    });
+  });
+
+  describe('@steps', function() {
+    it('should return the steps', function() {
+      // given
+      const component = this.owner.lookup('component:progress-bar');
+      component.set('currentStepIndex', 2);
+      component.set('maxStepsNumber', 4);
+
+      // when
+      const steps = component.get('steps');
+
+      // then
+      expect(steps).to.deep.equal([
+        { stepnum: 1, status: 'active', background: htmlSafe('background: #507fff;') },
+        { stepnum: 2, status: 'active', background: htmlSafe('background: #6874ff;') },
+        { stepnum: 3, status: 'active', background: htmlSafe('background: #8069ff;') },
+        { stepnum: 4, status: '', background: htmlSafe('background: #985fff;') },
+      ]);
+    });
+  });
+
+  describe('@progressionWidth', function() {
+    it('should return the progressionWidth', function() {
+      // given
+      const component = this.owner.lookup('component:progress-bar');
+      component.set('currentStepIndex', 2);
+      component.set('maxStepsNumber', 5);
+
+      // when
+      const progressionWidth = component.get('progressionWidth');
+
+      // then
+      expect(progressionWidth).to.deep.equal(htmlSafe('width: 50.85%;'));
+    });
+
+    it('should return the initial progressionWidth', function() {
+      // given
+      const component = this.owner.lookup('component:progress-bar');
+      component.set('currentStepIndex', 0);
+      component.set('maxStepsNumber', 5);
+
+      // when
+      const progressionWidth = component.get('progressionWidth');
+
+      // then
+      expect(progressionWidth).to.deep.equal(htmlSafe('width: 16px;'));
     });
   });
 });

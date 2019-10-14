@@ -7,15 +7,16 @@ describe('Unit | Component | certification-progress', function() {
 
   setupTest();
 
-  describe('@currentAnswerNumber', () => {
+  describe('@didReceiveAttrs', () => {
 
-    it('should return the current answer number', function() {
+    it('should set the current answer number', function() {
       // given
       const component = this.owner.lookup('component:certification-progress');
       const assessment = EmberObject.create({
         answers: [{}, {}],
       });
       component.set('assessment', assessment);
+      component.didReceiveAttrs();
 
       // when
       const currentAnswerNumber = component.get('currentAnswerNumber');

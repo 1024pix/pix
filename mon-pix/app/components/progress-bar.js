@@ -2,7 +2,6 @@ import { computed } from '@ember/object';
 import Component from '@ember/component';
 import ENV from 'mon-pix/config/environment';
 import { htmlSafe } from '@ember/string';
-import { filterBy } from '@ember/object/computed';
 import colorGradient from 'mon-pix/utils/color-gradient';
 
 const minWidthPercent = 1.7;
@@ -11,11 +10,10 @@ const minWidthPixel = 16;
 export default Component.extend({
 
   didReceiveAttrs() {
-    this._setSteps();
-    this._setProgressionWidth();
-  },
+    const currentStepIndex = this.get('assessment.answers.length') % this.maxStepsNumber;
 
-  persistedAnswers: filterBy('assessment.answers.@each.isNew', 'isNew', false),
+    this.set('currentStepIndex', currentStepIndex);
+  },
 
   maxStepsNumber: computed('assessment.{hasCheckpoints,course.nbChallenges}', function() {
     if (this.get('assessment.hasCheckpoints')) {
@@ -25,15 +23,11 @@ export default Component.extend({
     return this.get('assessment.course.nbChallenges');
   }),
 
-  currentStepIndex: computed('persistedAnswers.length', 'maxStepsNumber', function() {
-    return this.get('persistedAnswers.length') % this.maxStepsNumber;
-  }),
-
   currentStepNumber: computed('currentStepIndex', function() {
     return this.currentStepIndex + 1;
   }),
 
-  _setSteps() {
+  steps: computed('currentStepIndex', 'maxStepsNumber', function() {
     const steps = [];
 
     const gradient = colorGradient('#388AFF', '#985FFF', this.maxStepsNumber);
@@ -46,14 +40,14 @@ export default Component.extend({
       });
     }
 
-    this.set('steps', steps);
-  },
+    return steps;
+  }),
 
-  _setProgressionWidth() {
+  progressionWidth: computed('currentStepIndex', 'maxStepsNumber', function() {
     const widthPercent = minWidthPercent + (100 - minWidthPercent) * this.currentStepIndex  / (this.maxStepsNumber - 1);
 
     const width = this.currentStepIndex === 0 ? `${minWidthPixel}px` : `${widthPercent}%`;
 
-    this.set('progressionWidth', htmlSafe(`width: ${width};`));
-  },
+    return htmlSafe(`width: ${width};`);
+  }),
 });
