@@ -21,6 +21,7 @@ describe('Unit | Component | certification-starter', function() {
     let storeStub;
     let storeCreateRecordStub;
     let storeSaveStub;
+    let reloadStub;
     let replaceWithStub;
     beforeEach(() => {
       storeSaveStub = sinon.stub();
@@ -31,6 +32,7 @@ describe('Unit | Component | certification-starter', function() {
       storeStub = {
         createRecord: storeCreateRecordStub,
       };
+      reloadStub = sinon.stub();
       replaceWithStub = sinon.stub();
       routerStub = {
         replaceWith: replaceWithStub,
@@ -43,7 +45,11 @@ describe('Unit | Component | certification-starter', function() {
       // given
       accessCode = 'someAccessCode';
       storeCreateRecordStub.returns(course);
-      storeSaveStub.resolves({ id: certificationId });
+      reloadStub.resolves();
+      storeSaveStub.resolves({
+        id: certificationId,
+        reload: reloadStub,
+      });
 
       component.set('store', storeStub);
       component.set('accessCode', accessCode);
@@ -53,8 +59,10 @@ describe('Unit | Component | certification-starter', function() {
 
       // then
       expect(component.isLoading).to.be.true;
+
       sinon.assert.calledWithExactly(storeCreateRecordStub, 'course', { accessCode });
       sinon.assert.called(storeSaveStub);
+      await sinon.assert.called(reloadStub);
       sinon.assert.calledWith(replaceWithStub, 'certifications.resume', certificationId);
     });
 

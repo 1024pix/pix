@@ -282,7 +282,6 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
             // then
             expect(currentURL()).to.contains(/assessments/);
-            expect(find('.assessment-challenge__progress-bar')).to.exist;
           });
         });
 
@@ -305,7 +304,6 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
             // then
             expect(currentURL()).to.contains(/assessments/);
-            expect(find('.assessment-challenge__progress-bar')).to.exist;
           });
         });
       });

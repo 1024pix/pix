@@ -53,7 +53,6 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
           // then
           expect(currentURL()).to.contains(/assessments/);
           expect(find('.assessment-banner')).to.exist;
-          expect(find('.assessment-challenge__progress-bar')).to.exist;
         });
       });
 
