@@ -5,19 +5,20 @@
 {{/if}}
 
 {{#unless hasChallengeTimer}}
-  <form {{action "validateAnswer" on="submit"}}>
-    {{challenge-statement challenge=challenge assessment=assessment}}
+  <form {{action "validateAnswer" on="submit"}} class="rounded-panel">
+    {{challenge-statement challenge=challenge assessment=assessment class="rounded-panel__row"}}
 
-    <div class="rounded-panel challenge-response">
-      <div class="rounded-panel__row challenge-proposals">
+    <div class="rounded-panel__row challenge-response">
+      <div class="challenge-proposals">
         {{qcu-proposals
           answerValue=answer.value
           proposals=challenge.proposals
           answerChanged=(action 'answerChanged')}}
       </div>
+      
       {{#if challenge.timer}}
         {{#if hasUserConfirmWarning}}
-          <div class="rounded-panel__row timeout-jauge-wrapper">
+          <div class="timeout-jauge-wrapper">
             {{timeout-jauge allotedTime=challenge.timer}}
           </div>
         {{/if}}
@@ -37,6 +38,7 @@
         skipChallenge=(action "skipChallenge")
         isValidateButtonEnabled=isValidateButtonEnabled
         isSkipButtonEnabled=isSkipButtonEnabled
+        class="rounded-panel__row"
       }}
     {{/if}}
   </form>
