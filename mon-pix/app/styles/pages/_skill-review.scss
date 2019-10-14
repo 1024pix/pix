@@ -114,6 +114,13 @@
     }
   }
 
+  &__badge {
+    text-align: center;
+    img {
+      width: 250px;
+    }
+  }
+
   &__dash-line {
     height: 1px;
     top: 0;
