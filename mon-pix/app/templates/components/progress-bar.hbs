@@ -1,6 +1,11 @@
 {{#if media.isDesktop}}
   <div class="progress-bar-container">
-    <div class="progress-bar-stepnums">
+    <div class="progress-bar-stepnums"
+         role="progressbar"
+         aria-valuenow={{currentStepNumber}}
+         aria-valuemin="1"
+         aria-valuemax="5"
+      >
       {{#each this.steps as |step|}}
         <div class="progress-bar-stepnum {{step.status}}">{{step.stepnum}}</div>
       {{/each}}
