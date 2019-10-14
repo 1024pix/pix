@@ -15,6 +15,7 @@ module.exports = function buildCampaign(
     organizationId = faker.random.number(2),
     targetProfileId = faker.random.number(2),
     targetProfile = buildTargetProfile({ id: targetProfileId }),
+    isRestricted = false,
     organizationLogoUrl
   } = {}) {
   return new Campaign({
@@ -29,6 +30,7 @@ module.exports = function buildCampaign(
     organizationId,
     targetProfileId,
     targetProfile,
+    isRestricted,
     organizationLogoUrl
   });
 };
