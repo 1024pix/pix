@@ -9,15 +9,16 @@ describe('Unit | Component | certification-progress', function() {
   setupTest();
 
   describe('@currentAnswerNumber', () => {
-    let component, firstAnswer, secondAnswer, assessment;
+    let component, assessment;
 
     beforeEach(function() {
       // given
       component = this.owner.lookup('component:certification-progress');
-      firstAnswer = EmberObject.create({ id: 1, challenge: EmberObject.create({ id: 'recChallenge1' }) }),
-      secondAnswer = EmberObject.create({ id: 2, challenge: EmberObject.create({ id: undefined }) }),
       assessment = EmberObject.create({
-        answers: A([firstAnswer, secondAnswer])
+        answers: A([{ id: 12 }, { id: 42 }]),
+        hasMany(relationship) {
+          return { ids: () => { return this[relationship].mapBy('id'); } };
+        },
       });
       component.set('assessment', assessment);
 
@@ -25,38 +26,55 @@ describe('Unit | Component | certification-progress', function() {
       component.get('currentAnswerNumber');
     });
 
-    it('when challenge was answered, should return the matching answer number', function() {
+    it('when answer is known, should return the matching answer number', function() {
       // when
-      component.set('challengeId', 'recChallenge1');
+      component.set('answerId', 12);
 
       // then
       expect(component.get('currentAnswerNumber')).to.equal(1);
     });
 
-    it('when challenge is new but not all answers are loaded, should return an empty string', function() {
+    it('when no answer exists, should return the next answer number', function() {
       // when
-      component.set('challengeId', 'recChallengeNew');
-
-      // then
-      expect(component.get('currentAnswerNumber')).to.equal('');
-    });
-
-    it('when challenge is new and all answers are loaded, should return the next answer number', function() {
-      // when
-      component.set('challengeId', 'recChallengeNew');
-      secondAnswer.set('challenge.id', 'recChallenge2');
+      component.set('answerId', undefined);
 
       // then
       expect(component.get('currentAnswerNumber')).to.equal(3);
     });
 
-    it('when challenge is known and then answer is loaded, should return the matching answer number', function() {
+    it('when unsaved answer is added to the list, should ignore it', function() {
       // when
-      component.set('challengeId', 'recChallenge2');
-      secondAnswer.set('challenge.id', 'recChallenge2');
+      component.set('answerId', undefined);
+      assessment.get('answers').pushObject({ id: null });
 
       // then
-      expect(component.get('currentAnswerNumber')).to.equal(2);
+      expect(component.get('currentAnswerNumber')).to.equal(3);
+    });
+
+    it('when answer list is updated, should recompute', function() {
+      // when
+      component.set('answerId', undefined);
+      assessment.get('answers').pushObject({ id: 57 });
+
+      // then
+      expect(component.get('currentAnswerNumber')).to.equal(4);
+    });
+
+    it('when challenge ID changes, should recompute', function() {
+      // when
+      component.set('answerId', undefined);
+      const newAnswer = EmberObject.create({ id: null });
+      assessment.get('answers').pushObject(newAnswer);
+
+      // then
+      expect(component.get('currentAnswerNumber')).to.equal(3);
+
+      // when
+      newAnswer.set('id', 57);
+      component.set('challengeId', 'recNewChallenge');
+
+      // then
+      expect(component.get('currentAnswerNumber')).to.equal(4);
     });
   });
 });

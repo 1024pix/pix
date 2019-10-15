@@ -1,26 +1,20 @@
 import { computed } from '@ember/object';
-import { mapBy } from '@ember/object/computed';
 import Component from '@ember/component';
 
 export default Component.extend({
-  challenges: mapBy('assessment.answers', 'challenge'),
+  currentAnswerNumber: computed('answerId', 'assessment.answers.[]', 'challengeId', function() {
+    const answerIds = this.get('assessment').hasMany('answers').ids();
 
-  challengeIds: mapBy('challenges', 'id'),
+    const notNullAnswerIds = answerIds.filter((id) => id != null);
 
-  currentAnswerNumber: computed('challengeId', 'challengeIds', function() {
-    const challengeIds = this.get('challengeIds');
-    const currentChallengeId = this.get('challengeId');
+    const currentAnswerId = this.get('answerId');
 
-    const foundIndex = challengeIds.indexOf(currentChallengeId);
+    const foundIndex = notNullAnswerIds.indexOf(currentAnswerId);
 
     if (foundIndex >= 0) {
       return foundIndex + 1;
     }
 
-    if (challengeIds.indexOf(undefined) >= 0) {
-      return '';
-    }
-
-    return challengeIds.length + 1;
+    return notNullAnswerIds.length + 1;
   })
 });

@@ -14,7 +14,7 @@
     {{/if}}
 
     {{#if model.assessment.isCertification}}
-      {{certification-progress assessment=model.assessment challengeId=model.challenge.id}}
+      {{certification-progress assessment=model.assessment answerId=model.answer.id challengeId=model.challenge.id}}
     {{/if}}
 
     {{component (get-challenge-component-class model.challenge)
