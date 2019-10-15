@@ -12,6 +12,8 @@ describe('Unit | UseCase | get-tutorials', () => {
   let parseIdStub;
   let knowledgeElementRepository;
   let skillRepository;
+  let tubeRepository;
+  let tutorialRepository;
 
   beforeEach(() => {
     scorecardId = '1_recabC123';
@@ -20,6 +22,8 @@ describe('Unit | UseCase | get-tutorials', () => {
     parseIdStub = sinon.stub(Scorecard, 'parseId');
     knowledgeElementRepository = { findUniqByUserIdAndCompetenceId: sinon.stub() };
     skillRepository = { findByCompetenceId: sinon.stub() };
+    tubeRepository = { findByNames: sinon.stub() };
+    tutorialRepository = { findByRecordIds: sinon.stub() };
   });
 
   afterEach(() => {
@@ -43,6 +47,9 @@ describe('Unit | UseCase | get-tutorials', () => {
           authenticatedUserId,
           scorecardId,
           knowledgeElementRepository,
+          skillRepository,
+          tubeRepository,
+          tutorialRepository,
         });
 
         // then
@@ -52,14 +59,55 @@ describe('Unit | UseCase | get-tutorials', () => {
       context('when there is at least one invalidated knowledge element', () => {
         it('should return the user tutorials related to the scorecard', async () => {
           // given
-          const skill_1 = domainBuilder.buildSkill({ name: '@wikipédia1' });
-          const skill_2 = domainBuilder.buildSkill({ name: '@wikipédia2' });
-          const skill_3 = domainBuilder.buildSkill({ name: '@wikipédia3' });
-          const skill_4 = domainBuilder.buildSkill({ name: '@url1' });
-          const skill_5 = domainBuilder.buildSkill({ name: '@url2' });
-          const skill_6 = domainBuilder.buildSkill({ name: '@recherche1' });
-          const skill_7 = domainBuilder.buildSkill({ name: '@recherche2' });
-          const skill_8 = domainBuilder.buildSkill({ name: '@recherche3' });
+          const competenceIdUrl = 'recCompetenceUrl';
+          const competenceIdRecherche = 'recCompetenceRecherche';
+          const competenceIdWikipedia = 'recCompetenceWikipedia';
+
+          const tutorial1 = domainBuilder.buildTutorial({ id: 'tuto1' });
+          const tutorial2 = domainBuilder.buildTutorial({ id: 'tuto2' });
+          const tutorial3 = domainBuilder.buildTutorial({ id: 'tuto3' });
+
+          const expectedTutorial1 = {
+            ...tutorial1,
+            tubeName: 'wikipédia',
+            tubePracticalTitle: 'Practical Title wikipédia',
+            tubePracticalDescription: 'Practical Description wikipédia',
+          };
+
+          const expectedTutorial2 = {
+            ...tutorial2,
+            tubeName: 'wikipédia',
+            tubePracticalTitle: 'Practical Title wikipédia',
+            tubePracticalDescription: 'Practical Description wikipédia',
+          };
+
+          const expectedTutorial3 = {
+            ...tutorial3,
+            tubeName: 'recherche',
+            tubePracticalTitle: 'Practical Title recherche',
+            tubePracticalDescription: 'Practical Description recherche',
+          };
+
+          const expectedTutorialList = [
+            expectedTutorial1,
+            expectedTutorial2,
+            expectedTutorial3,
+          ];
+
+          const tutorialIdList1 = [tutorial1.id, tutorial2.id];
+          const tutorialIdList2 = [tutorial3.id];
+
+          tutorialRepository.findByRecordIds.withArgs(tutorialIdList1).returns([tutorial1, tutorial2]);
+          tutorialRepository.findByRecordIds.withArgs(tutorialIdList2).returns([tutorial3]);
+
+          const skill_1 = domainBuilder.buildSkill({ name: '@wikipédia1', tutorialIds: tutorialIdList1, competenceId: competenceIdWikipedia });
+          const skill_2 = domainBuilder.buildSkill({ name: '@wikipédia2', tutorialIds: tutorialIdList1, competenceId: competenceIdWikipedia });
+          const skill_3 = domainBuilder.buildSkill({ name: '@wikipédia3', tutorialIds: tutorialIdList1, competenceId: competenceIdWikipedia });
+          const skill_4 = domainBuilder.buildSkill({ name: '@url1', competenceId: competenceIdUrl });
+          const skill_5 = domainBuilder.buildSkill({ name: '@url2', competenceId: competenceIdUrl });
+          const skill_6 = domainBuilder.buildSkill({ name: '@recherche1', tutorialIds: tutorialIdList2, competenceId: competenceIdRecherche });
+          const skill_7 = domainBuilder.buildSkill({ name: '@recherche2', tutorialIds: tutorialIdList2, competenceId: competenceIdRecherche });
+          const skill_8 = domainBuilder.buildSkill({ name: '@recherche3', tutorialIds: tutorialIdList2, competenceId: competenceIdRecherche });
 
           const knowledgeElementList = [
             domainBuilder.buildKnowledgeElement({ skillId: skill_3.id, competenceId: skill_3.competenceId, status: KnowledgeElement.StatusType.INVALIDATED }),
@@ -75,14 +123,26 @@ describe('Unit | UseCase | get-tutorials', () => {
           ];
 
           knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves(knowledgeElementList);
-          skillRepository.findByCompetenceId.withArgs(skill_1.competenceId).returns(skill_1);
-          skillRepository.findByCompetenceId.withArgs(skill_2.competenceId).returns(skill_2);
-          skillRepository.findByCompetenceId.withArgs(skill_3.competenceId).returns(skill_3);
-          skillRepository.findByCompetenceId.withArgs(skill_4.competenceId).returns(skill_4);
-          skillRepository.findByCompetenceId.withArgs(skill_5.competenceId).returns(skill_5);
-          skillRepository.findByCompetenceId.withArgs(skill_6.competenceId).returns(skill_6);
-          skillRepository.findByCompetenceId.withArgs(skill_7.competenceId).returns(skill_7);
-          skillRepository.findByCompetenceId.withArgs(skill_8.competenceId).returns(skill_8);
+
+          skillRepository.findByCompetenceId.withArgs(competenceIdWikipedia).returns([skill_1, skill_2, skill_3]);
+          skillRepository.findByCompetenceId.withArgs(competenceIdUrl).returns([skill_4, skill_5]);
+          skillRepository.findByCompetenceId.withArgs(competenceIdRecherche).returns([skill_6, skill_7, skill_8]);
+
+          const tubeNames = ['wikipédia', 'recherche'];
+          const tubeList = [
+            domainBuilder.buildTube({
+              name: tubeNames[0],
+              practicalTitle: 'Practical Title wikipédia',
+              practicalDescription: 'Practical Description wikipédia',
+            }),
+            domainBuilder.buildTube({
+              name: tubeNames[1],
+              practicalTitle: 'Practical Title recherche',
+              practicalDescription: 'Practical Description recherche',
+            }),
+          ];
+
+          tubeRepository.findByNames.withArgs(tubeNames).returns(tubeList);
 
           // when
           const result = await getTutorials({
@@ -90,30 +150,29 @@ describe('Unit | UseCase | get-tutorials', () => {
             scorecardId,
             knowledgeElementRepository,
             skillRepository,
+            tubeRepository,
+            tutorialRepository,
           });
 
           //then
-          expect(result).to.deep.equal({});
+          expect(result).to.deep.equal(expectedTutorialList);
         });
       });
 
       context('when there is no invalidated knowledge element', () => {
         it('should return no tutorials', async () => {
           // given
-          const skill_1 = domainBuilder.buildSkill({ name: '@wikipédia1' });
-          const skill_2 = domainBuilder.buildSkill({ name: '@wikipédia2' });
-          const skill_3 = domainBuilder.buildSkill({ name: '@wikipédia3' });
+          const competenceIdWikipedia = 'recCompetenceWikipedia';
+          const skill_1 = domainBuilder.buildSkill({ name: '@wikipédia1', competenceId: competenceIdWikipedia });
+          const skill_2 = domainBuilder.buildSkill({ name: '@wikipédia2', competenceId: competenceIdWikipedia  });
 
           const knowledgeElementList = [
-            domainBuilder.buildKnowledgeElement({ skillId: skill_3.id, competenceId: skill_3.competenceId, status: KnowledgeElement.StatusType.VALIDATED }),
             domainBuilder.buildKnowledgeElement({ skillId: skill_2.id, competenceId: skill_2.competenceId, status: KnowledgeElement.StatusType.VALIDATED }),
             domainBuilder.buildKnowledgeElement({ skillId: skill_1.id, competenceId: skill_1.competenceId, status: KnowledgeElement.StatusType.VALIDATED }),
           ];
 
           knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves(knowledgeElementList);
-          skillRepository.findByCompetenceId.withArgs(skill_1.competenceId).returns(skill_1);
-          skillRepository.findByCompetenceId.withArgs(skill_2.competenceId).returns(skill_2);
-          skillRepository.findByCompetenceId.withArgs(skill_3.competenceId).returns(skill_3);
+          skillRepository.findByCompetenceId.withArgs(competenceIdWikipedia).returns([skill_1, skill_2]);
 
           // when
           const result = await getTutorials({
@@ -121,11 +180,13 @@ describe('Unit | UseCase | get-tutorials', () => {
             scorecardId,
             knowledgeElementRepository,
             skillRepository,
+            tubeRepository,
+            tutorialRepository,
           });
 
           //then
           expect(skillRepository.findByCompetenceId).to.not.have.been.called;
-          expect(result).to.deep.equal({});
+          expect(result).to.deep.equal([]);
         });
       });
 
@@ -140,6 +201,10 @@ describe('Unit | UseCase | get-tutorials', () => {
         const promise = getTutorials({
           authenticatedUserId: unauthorizedUserId,
           scorecardId,
+          knowledgeElementRepository,
+          skillRepository,
+          tubeRepository,
+          tutorialRepository,
         });
 
         // then
