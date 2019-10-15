@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
@@ -17,7 +18,15 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
       campaignParticipation: {
         isShared: false,
         set: setStub,
-        save: sinon.stub().resolves({})
+        save: sinon.stub().resolves({}),
+        campaignParticipationResult: {
+          masteryPercentage: 50,
+        },
+        campaign: {
+          targetProfile: {
+            name: 'Cléa Numérique',
+          }
+        }
       },
       assessment: {
         id: 'assessmentId',
@@ -25,10 +34,44 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
         state: 'completed',
         save: sinon.stub().resolves({}),
         codeCampaign: 'codeCampaign'
+      },
+      campaign: {
+        targetProfile: {
+          name: 'Cléa Numérique',
+        }
       }
     });
     controller.set('showButtonToShareResult', true);
     controller.transitionToRoute = sinon.stub();
+  });
+
+  describe('#shouldShowPixEmploiBadge', () => {
+    it('should return true when user masterise more than 85 percent for pixEmploi profile ', function() {
+      // when
+      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Pix Emploi');
+      controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 85);
+
+      // then
+      expect(controller.shouldShowPixEmploiBadge).to.equal(true);
+    });
+
+    it('should return false when user masterise less than 85 percent for pixEmploi profile ', function() {
+      // when
+      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Pix Emploi');
+      controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 83);
+
+      // then
+      expect(controller.shouldShowPixEmploiBadge).to.equal(false);
+    });
+    it('should return false when user masterise more than 85 percent for other profile ', function() {
+      // when
+      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Pix Chomage');
+      controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 86);
+
+      // then
+      expect(controller.shouldShowPixEmploiBadge).to.equal(false);
+    });
+
   });
 
   describe('#shareCampaignParticipation', function() {

@@ -1,10 +1,17 @@
 import Controller from '@ember/controller';
+import { computed } from '@ember/object';
 
 export default Controller.extend({
 
   displayLoadingButton: false,
   displayErrorMessage: false,
   displayImprovementButton: false,
+
+  shouldShowPixEmploiBadge: computed('model.{campaignParticipation.campaign.targetProfile.name,campaignParticipation.campaignParticipationResult.masteryPercentage}', function() {
+    const targetProfileName = this.get('model.campaignParticipation.campaign.targetProfile.name');
+    const masteryPercentage = this.get('model.campaignParticipation.campaignParticipationResult.masteryPercentage');
+    return (masteryPercentage >= 85 && targetProfileName === 'Pix Emploi');
+  }),
 
   actions: {
     shareCampaignParticipation() {

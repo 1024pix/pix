@@ -10,12 +10,13 @@ export default Route.extend(AuthenticatedRouteMixin, {
     return RSVP.hash({
       campaignParticipation: store.query('campaignParticipation', { filter: { assessmentId } })
         .then((campaignParticipations) => campaignParticipations.get('firstObject')),
-      assessment: store.findRecord('assessment', assessmentId)
+      assessment: store.findRecord('assessment', assessmentId),
     });
   },
 
   async afterModel(model) {
     await model.campaignParticipation.belongsTo('campaignParticipationResult').reload();
+    await model.campaignParticipation.belongsTo('campaign').reload({ include: 'targetProfile' });
     const improvableNextChallenge = await this.store.queryRecord('challenge', { assessmentId: model.assessment.id, tryImproving: true });
     this.controllerFor('campaigns.skill-review').set('displayImprovementButton', !!improvableNextChallenge);
   },
