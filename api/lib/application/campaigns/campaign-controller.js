@@ -28,10 +28,9 @@ module.exports = {
 
   async getByCode(request) {
     const filters = queryParamsUtils.extractParameters(request.query).filter;
-    const userId = requestResponseUtils.extractUserIdFromRequest(request);
     await _validateFilters(filters);
 
-    const campaign = await usecases.retrieveCampaignInformation({ code: filters.code, userId });
+    const campaign = await usecases.retrieveCampaignInformation({ code: filters.code });
     return campaignSerializer.serialize([campaign]);
   },
 
