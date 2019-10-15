@@ -4,10 +4,14 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
 
   describe('#serialize()', () => {
+    const expectedTutorials = [
+      domainBuilder.buildTutorial({ id: 'recTuto1' }),
+      domainBuilder.buildTutorial({ id: 'recTuto2' })
+    ];
 
-    const scorecardObject = domainBuilder.buildUserScorecard();
+    const scorecardObject = domainBuilder.buildUserScorecard({ tutorials: expectedTutorials });
 
-    const jsonScorecardExpected = {
+    const expectedSerializedScorecard = {
       data: {
         type: 'scorecards',
         id: scorecardObject.id,
@@ -29,8 +33,15 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
             }
           },
           tutorials: {
-            'links': {
-              'related': `/api/scorecard/${scorecardObject.id}/tutorials`
+            data: [{
+              id: 'recTuto1',
+              type: 'tutorials'
+            }, {
+              id: 'recTuto2',
+              type: 'tutorials'
+            }],
+            links: {
+              related: `/api/scorecards/${scorecardObject.id}/tutorials`
             }
           },
         },
@@ -43,16 +54,32 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
           },
           id: scorecardObject.area.id,
           type: 'areas'
+        },
+        {
+          attributes: {
+            ...expectedTutorials[0]
+          },
+          id: expectedTutorials[0].id,
+          type: 'tutorials',
+        },
+        {
+          attributes: {
+            ...expectedTutorials[1]
+          },
+          id: expectedTutorials[1].id,
+          type: 'tutorials',
         }
       ]
     };
 
     it('should convert a scorecard object into JSON API data', () => {
       // when
-      const json = serializer.serialize(scorecardObject, { ignoreTutorialsRelationshipData: false });
+      const json = serializer.serialize(scorecardObject);
 
       // then
-      expect(json).to.deep.equal(jsonScorecardExpected);
+      expect(json).to.deep.equal(expectedSerializedScorecard);
+      expect(json.included[1].attributes).to.deep.equal(expectedTutorials[0]);
+      expect(json.included[2].attributes).to.deep.equal(expectedTutorials[1]);
     });
 
   });
