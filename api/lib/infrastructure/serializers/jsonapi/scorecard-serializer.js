@@ -2,7 +2,7 @@ const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
 
-  serialize(scorecard, { ignoreTutorialsRelationshipData = true } = {}) {
+  serialize(scorecard = {}) {
     return new Serializer('scorecard', {
       attributes: [
         'name',
@@ -14,7 +14,8 @@ module.exports = {
         'level',
         'pixScoreAheadOfNextLevel',
         'status',
-        'remainingDaysBeforeReset'
+        'remainingDaysBeforeReset',
+        'tutorials',
       ],
 
       area: {
@@ -23,12 +24,22 @@ module.exports = {
       },
       tutorials: {
         ref: 'id',
-        ignoreRelationshipData: ignoreTutorialsRelationshipData,
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/scorecards/${parent.id}/tutorials`;
           }
-        }
+        },
+        attributes: [
+          'id',
+          'duration',
+          'format',
+          'link',
+          'source',
+          'title',
+          'tubeName',
+          'tubePracticalTitle',
+          'tubePracticalDescription',
+        ],
       },
     }).serialize(scorecard);
   },
