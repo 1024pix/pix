@@ -6,6 +6,7 @@ module.exports = function buildOrganizationInvitation({
   organizationId = faker.random.number(),
   email = faker.internet.email(),
   status = OrganizationInvitation.StatusType.PENDING,
+  code = faker.random.alphaNumeric(10),
   createdAt = faker.date.recent(),
   updatedAt = faker.date.recent(),
 } = {}) {
@@ -14,6 +15,7 @@ module.exports = function buildOrganizationInvitation({
     organizationId,
     email,
     status,
+    code,
     createdAt,
     updatedAt,
   });
