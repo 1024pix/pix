@@ -10,6 +10,7 @@ module.exports = function buildOrganizationInvitation(
     organizationId,
     email,
     status = OrganizationInvitation.StatusType.PENDING,
+    code = faker.random.alphaNumeric(10),
   } = {}) {
 
   organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
@@ -20,6 +21,7 @@ module.exports = function buildOrganizationInvitation(
     organizationId,
     email,
     status,
+    code,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'organization-invitations',
