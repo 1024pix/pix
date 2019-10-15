@@ -1365,17 +1365,6 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(403);
       });
 
-      it('should respond with a 404 - not found - if given email is not linked to an existing user', async () => {
-        // given
-        options.payload.data.attributes.email = 'fakeEmail@wanadoo.fr';
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(404);
-      });
-
       it('should respond with a 421 if membership already exist', async () => {
         // given
         databaseBuilder.factory.buildMembership({ organizationId, userId: user.id });
