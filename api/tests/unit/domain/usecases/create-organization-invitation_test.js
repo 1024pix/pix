@@ -3,7 +3,7 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const createOrganizationInvitation = require('../../../../lib/domain/usecases/create-organization-invitation');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const {
-  UserNotFoundError, AlreadyExistingMembershipError, AlreadyExistingOrganizationInvitationError
+  AlreadyExistingMembershipError, AlreadyExistingOrganizationInvitationError
 } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | create-organization-invitation', () => {
@@ -28,20 +28,6 @@ describe('Unit | UseCase | create-organization-invitation', () => {
       get: sinon.stub()
     };
     sinon.stub(mailService, 'sendOrganizationInvitationEmail');
-  });
-
-  it('should throw an error if user email does not already exist', async () => {
-    // given
-    userRepository.isUserExistingByEmail.rejects(new UserNotFoundError());
-
-    const organizationId = 1;
-    const email = 'member@organization.org';
-
-    // when
-    const result = await catchErr(createOrganizationInvitation)({ userRepository, organizationInvitationRepository, organizationId, email });
-
-    // then
-    expect(result).to.be.instanceOf(UserNotFoundError);
   });
 
   it('should throw an error if membership already exist with organizationId and email', async () => {

@@ -164,7 +164,7 @@ exports.register = async (server) => {
         handler: organisationController.sendInvitation,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés en tant que responsables de l\'organisation**\n' +
-          '- Elle permet d\'inviter un utilisateur à être membre d\'une organisation, via son **email**'
+          '- Elle permet d\'inviter une personne, déjà utilisateur de Pix ou non, à être membre d\'une organisation, via son **email**'
         ],
         tags: ['api', 'invitations']
       }
