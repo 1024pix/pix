@@ -4,30 +4,34 @@ import ENV from 'mon-pix/config/environment';
 import { htmlSafe } from '@ember/string';
 import colorGradient from 'mon-pix/utils/color-gradient';
 
+const { and } = computed;
+
 const minWidthPercent = 1.7;
 const minWidthPixel = 16;
 
 export default Component.extend({
 
-  didReceiveAttrs() {
-    const answers = this.get('assessment.answers');
+  showProgressBar: and('media.isDesktop', 'assessment.showProgressBar'),
+
+  currentStepIndex: computed('answerId', 'assessment.answers.[]', 'challengeId', 'maxStepsNumber', function() {
+    const persistedAnswers = this.get('assessment.answers').filterBy('isNew', false);
     const currentAnswerId = this.get('answerId');
 
     let foundIndex = -1;
-    answers.find((a, i) => {
-      if (a.id === currentAnswerId) {
-        foundIndex = i;
+    persistedAnswers.find((answer, index) => {
+      if (answer.id === currentAnswerId) {
+        foundIndex = index;
         return true;
       }
       return false;
     });
 
     if (foundIndex === -1) {
-      foundIndex = answers.length;
+      foundIndex = persistedAnswers.length;
     }
 
-    this.set('currentStepIndex', foundIndex % this.maxStepsNumber);
-  },
+    return foundIndex % this.maxStepsNumber;
+  }),
 
   maxStepsNumber: computed('assessment.{hasCheckpoints,course.nbChallenges}', function() {
     if (this.get('assessment.hasCheckpoints')) {

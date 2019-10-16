@@ -8,18 +8,26 @@ describe('Unit | Component | progress-bar', function() {
 
   setupTest();
 
-  describe('@didReceiveAttrs', function() {
+  describe('@currentStepIndex', function() {
+    let component, assessment;
 
-    it('should set the current step index modulus maxStepsNumber', function() {
-      // given
-      const assessment = EmberObject.create({
-        answers: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }],
-        hasCheckpoints: true,
+    beforeEach(function() {
+      assessment = EmberObject.create({
+        answers: [
+          { id: 1, isNew: false, },
+          { id: 2, isNew: false, },
+          { id: 3, isNew: false, },
+          { id: 4, isNew: false, },
+          { id: 5, isNew: false, },
+          { id: 6, isNew: false, },
+        ],
       });
-      const component = this.owner.lookup('component:progress-bar');
+      component = this.owner.lookup('component:progress-bar');
       component.set('assessment', assessment);
-      component.didReceiveAttrs();
+      component.set('maxStepsNumber', 5);
+    });
 
+    it('should return the current step index modulus maxStepsNumber', function() {
       // when
       const currentStepIndex = component.get('currentStepIndex');
 
@@ -27,22 +35,42 @@ describe('Unit | Component | progress-bar', function() {
       expect(currentStepIndex).to.deep.equal(1);
     });
 
-    it('should set the current step index for already answered challenge', function() {
+    it('should return the current step index for already answered challenge', function() {
       // given
-      const assessment = EmberObject.create({
-        answers: [{ id: 1 }, { id: 2 }, { id: 3 }],
-        hasCheckpoints: true,
-      });
-      const component = this.owner.lookup('component:progress-bar');
-      component.set('assessment', assessment);
-      component.set('answerId', 2);
-      component.didReceiveAttrs();
+      component.set('answerId', 3);
 
       // when
       const currentStepIndex = component.get('currentStepIndex');
 
       // then
+      expect(currentStepIndex).to.deep.equal(2);
+    });
+
+    it('should recompute when challenge changes but not when answer is persisted', function() {
+      // given
+      const newAnswer = EmberObject.create({ id: null, isNew: true });
+      assessment.get('answers').push(newAnswer);
+
+      // when
+      let currentStepIndex = component.get('currentStepIndex');
+
+      // then
       expect(currentStepIndex).to.deep.equal(1);
+
+      //when
+      newAnswer.set('id', 7);
+      newAnswer.set('isNew', false);
+      currentStepIndex = component.get('currentStepIndex');
+
+      // then
+      expect(currentStepIndex).to.deep.equal(1);
+
+      //when
+      component.set('challengeId', 'newId');
+      currentStepIndex = component.get('currentStepIndex');
+
+      //then
+      expect(currentStepIndex).to.deep.equal(2);
     });
   });
 
