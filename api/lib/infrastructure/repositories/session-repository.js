@@ -36,8 +36,14 @@ module.exports = {
   getByAccessCode: (accessCode) => {
     return BookshelfSession
       .where({ accessCode })
-      .fetch({})
-      .then(_toDomain);
+      .fetch({ require: true })
+      .then(_toDomain)
+      .catch((error) => {
+        if (error instanceof BookshelfSession.NotFoundError) {
+          throw new NotFoundError();
+        }
+        throw error;
+      });
   },
 
   get(idSession) {

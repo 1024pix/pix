@@ -19,6 +19,7 @@ export default Model.extend({
   certifications: hasMany('certification'),
   campaignParticipations: hasMany('campaign-participation'),
   scorecards: hasMany('scorecard'),
+  certificationProfile: belongsTo('certification-profile'),
 
   competenceAreas: computed('competences', function() {
     return this.competences.then((competences) => {

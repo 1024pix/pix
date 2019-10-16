@@ -5,12 +5,17 @@ module.exports = {
 
   serialize(users, meta) {
     return new Serializer('user', {
+      transform: (untouchedUser) => {
+        const user = Object.assign({}, untouchedUser);
+        user.certificationProfile = undefined;
+        return user;
+      },
       attributes: [
         'firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted',
         'pixCertifTermsOfServiceAccepted', 'usesProfileV2', 'memberships',
         'certificationCenterMemberships', 'pixScore', 'scorecards',
         'campaignParticipations', 'organizations', 'isProfileV2',
-        'hasSeenNewProfileInfo', 'hasSeenAssessmentInstructions',
+        'hasSeenNewProfileInfo', 'hasSeenAssessmentInstructions', 'certificationProfile',
       ],
       memberships: {
         ref: 'id',
@@ -60,6 +65,15 @@ module.exports = {
       organizations: {
         ref: 'id',
         attributes: ['name', 'type', 'code', 'logoUrl', 'isManagingStudents'],
+      },
+      certificationProfile: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related: function(record, current, parent) {
+            return `/api/users/${parent.id}/certification-profile`;
+          }
+        }
       },
       meta,
     }).serialize(users);

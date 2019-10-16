@@ -190,6 +190,28 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
+  describe('GET /api/users/{id}/certification-profile', function() {
+    beforeEach(() => {
+      sinon.stub(userController, 'getCertificationProfile').returns('ok');
+      sinon.stub(securityController, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      startServer();
+    });
+
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/users/42/certification-profile',
+      };
+
+      // when
+      return server.inject(options).then(() => {
+        // then
+        sinon.assert.calledOnce(userController.getCertificationProfile);
+      });
+    });
+  });
+
   describe('GET /api/users/{id}/pixscore', function() {
     beforeEach(() => {
       sinon.stub(userController, 'getPixScore').returns('ok');

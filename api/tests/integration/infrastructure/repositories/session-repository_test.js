@@ -136,15 +136,15 @@ describe('Integration | Repository | Session', function() {
       expect(actualSession.accessCode).to.be.equal(session.accessCode);
     });
 
-    it('should return null when the accessCode do not correspond to a session', async () => {
+    it('should return a Not found error when no session was found', async () => {
       // given
       const accessCode = 'DEE123';
 
       // when
-      const result = await sessionRepository.getByAccessCode(accessCode);
+      const error = await catchErr(sessionRepository.getByAccessCode)(accessCode);
 
       // then
-      expect(result).to.be.equal(null);
+      expect(error).to.be.instanceOf(NotFoundError);
     });
   });
 

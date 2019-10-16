@@ -89,6 +89,11 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             organizations: {
               data: []
             },
+            'certification-profile': {
+              links: {
+                related: '/api/users/234567/certification-profile'
+              }
+            }
           }
         }
       });

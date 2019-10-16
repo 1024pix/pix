@@ -1,13 +1,10 @@
 const _ = require('lodash');
 
-const {
-  MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY,
-} = require('../constants');
-
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
 const Challenge = require('../models/Challenge');
 const Scorecard = require('../models/Scorecard');
+const CertificationProfile = require('../models/CertificationProfile');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../lib/infrastructure/repositories/answer-repository');
@@ -15,28 +12,59 @@ const competenceRepository = require('../../../lib/infrastructure/repositories/c
 const knowledgeElementRepository = require('../../../lib/infrastructure/repositories/knowledge-element-repository');
 const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
 
-async function getProfileToCertifyV1({ userId, limitDate }) {
-  const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV1({
+async function getCertificationProfile({ userId, limitDate, isV2Certification = true }) {
+  const certificationProfile = new CertificationProfile({
     userId,
-    limitDate
+    profileDate: limitDate,
   });
-
-  return _pickChallengesForUserCompetences({
-    userCompetences,
-    challengeIdsCorrectlyAnswered,
-  });
+  if (isV2Certification) {
+    return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2(certificationProfile);
+  }
+  return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1(certificationProfile);
 }
 
-async function getProfileToCertifyV2({ userId, limitDate }) {
-  const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({
-    userId,
-    limitDate
+async function fillCertificationProfileWithCertificationChallenges(certificationProfile) {
+  const allChallenges = await challengeRepository.list();
+  const challengesAlreadyAnswered = certificationProfile.challengeIdsCorrectlyAnswered.map((challengeId) => Challenge.findById(allChallenges, challengeId));
+
+  challengesAlreadyAnswered.forEach((challenge) => {
+    if (!challenge) {
+      return;
+    }
+
+    const userCompetence = _getUserCompetenceByChallengeCompetenceId(certificationProfile.userCompetences, challenge);
+
+    if (!userCompetence || !userCompetence.isCertifiable()) {
+      return;
+    }
+
+    challenge.skills
+      .filter((skill) => _skillHasAtLeastOneChallengeInTheReferentiel(skill, allChallenges))
+      .forEach((publishedSkill) => userCompetence.addSkill(publishedSkill));
   });
 
-  return _pickChallengesForUserCompetences({
-    userCompetences,
-    challengeIdsCorrectlyAnswered,
+  certificationProfile.userCompetences = UserCompetence.orderSkillsOfCompetenceByDifficulty(certificationProfile.userCompetences);
+
+  certificationProfile.userCompetences.forEach((userCompetence) => {
+    const testedSkills = [];
+    userCompetence.skills.forEach((skill) => {
+      if (userCompetence.hasEnoughChallenges()) {
+        const challengesToValidateCurrentSkill = Challenge.findPublishedBySkill(allChallenges, skill);
+        const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
+
+        const challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
+
+        //TODO : Mettre le skill en entier (Skill{id, name})
+        challenge.testedSkill = skill.name;
+        testedSkills.push(skill);
+
+        userCompetence.addChallenge(challenge);
+      }
+    });
+    userCompetence.skills = testedSkills;
   });
+
+  return certificationProfile;
 }
 
 async function _findCorrectAnswersByAssessments(assessments) {
@@ -68,65 +96,18 @@ function _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLa
   });
 }
 
-function _isCompetenceCertifiable(userCompetence) {
-  return userCompetence.estimatedLevel >= MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY;
-}
-
-async function _pickChallengesForUserCompetences({ userCompetences, challengeIdsCorrectlyAnswered }) {
-  const allChallenges = await challengeRepository.list();
-  const challengesAlreadyAnswered = challengeIdsCorrectlyAnswered.map((challengeId) => Challenge.findById(allChallenges, challengeId));
-
-  challengesAlreadyAnswered.forEach((challenge) => {
-    if (!challenge) {
-      return;
-    }
-
-    const userCompetence = _getUserCompetenceByChallengeCompetenceId(userCompetences, challenge);
-
-    if (!userCompetence || !_isCompetenceCertifiable(userCompetence)) {
-      return;
-    }
-
-    challenge.skills
-      .filter((skill) => _skillHasAtLeastOneChallengeInTheReferentiel(skill, allChallenges))
-      .forEach((publishedSkill) => userCompetence.addSkill(publishedSkill));
-  });
-
-  userCompetences = UserCompetence.orderSkillsOfCompetenceByDifficulty(userCompetences);
-
-  userCompetences.forEach((userCompetence) => {
-    const testedSkills = [];
-    userCompetence.skills.forEach((skill) => {
-      if (userCompetence.hasEnoughChallenges()) {
-        const challengesToValidateCurrentSkill = Challenge.findPublishedBySkill(allChallenges, skill);
-        const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
-
-        const challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
-
-        //TODO : Mettre le skill en entier (Skill{id, name})
-        challenge.testedSkill = skill.name;
-        testedSkills.push(skill);
-
-        userCompetence.addChallenge(challenge);
-      }
-    });
-    userCompetence.skills = testedSkills;
-  });
-
-  return userCompetences;
-}
-
-async function _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV1({ userId, limitDate }) {
+async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1(certificationProfile) {
   const [allCompetences, allAdaptativeCourses] = await Promise.all([
     competenceRepository.list(),
     courseRepository.getAdaptiveCourses()
   ]);
-  const userLastAssessments = await assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate);
-  const userCompetences = _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLastAssessments });
+  const userLastAssessments = await assessmentRepository
+    .findLastCompletedAssessmentsForEachCoursesByUser(certificationProfile.userId, certificationProfile.profileDate);
+  certificationProfile.userCompetences = _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLastAssessments });
   const correctAnswers = await _findCorrectAnswersByAssessments(userLastAssessments);
-  const challengeIdsCorrectlyAnswered = _.map(correctAnswers, 'challengeId');
+  certificationProfile.challengeIdsCorrectlyAnswered = _.map(correctAnswers, 'challengeId');
 
-  return { userCompetences, challengeIdsCorrectlyAnswered };
+  return certificationProfile;
 }
 
 function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCompetences }) {
@@ -146,24 +127,22 @@ function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCo
   });
 }
 
-async function _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ userId, limitDate }) {
+async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2(certificationProfile) {
   const allCompetences = await competenceRepository.list();
 
-  const knowledgeElementsByCompetence = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId, limitDate });
-  const userCompetences = _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCompetences });
+  const knowledgeElementsByCompetence = await knowledgeElementRepository
+    .findUniqByUserIdGroupedByCompetenceId({ userId: certificationProfile.userId, limitDate: certificationProfile.profileDate });
+  certificationProfile.userCompetences = _createUserCompetencesV2({ userId: certificationProfile.userId, knowledgeElementsByCompetence, allCompetences });
 
   const knowledgeElements = KnowledgeElement.findDirectlyValidatedFromGroups(knowledgeElementsByCompetence);
   const answerIds = _.map(knowledgeElements, 'answerId');
 
-  const challengeIdsCorrectlyAnswered = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
+  certificationProfile.challengeIdsCorrectlyAnswered = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
 
-  return { userCompetences, challengeIdsCorrectlyAnswered };
+  return certificationProfile;
 }
 
 module.exports = {
-  getProfileToCertifyV1,
-  getProfileToCertifyV2,
-  _pickChallengesForUserCompetences,
-  _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV1,
-  _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV2,
+  getCertificationProfile,
+  fillCertificationProfileWithCertificationChallenges,
 };
