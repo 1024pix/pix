@@ -13,6 +13,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
     const organizationInvitationId = 1;
     const code = 'ABCDEFGH01';
     const status = OrganizationInvitation.StatusType.ACCEPTED;
+    const email = 'random@email.com';
 
     beforeEach(() => {
       request = {
@@ -20,7 +21,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
         payload: {
           data: {
             type: 'organization-invitations',
-            attributes: { code, status },
+            attributes: { code, status, email },
           }
         }
       };
@@ -37,7 +38,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
 
       // then
       expect(usecases.answerToOrganizationInvitation).to.have.been.calledWith({
-        organizationInvitationId, code, status });
+        organizationInvitationId, code, status, email });
     });
   });
 
