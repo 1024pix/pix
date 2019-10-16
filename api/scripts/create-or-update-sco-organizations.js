@@ -32,9 +32,11 @@ function organizeOrganizationsByExternalId(data) {
   return organizationsByExternalId;
 }
 
-async function createOrUpdateOrganizations(accessToken, organizationsByExternalId, data) {
+async function createOrUpdateOrganizations(accessToken, organizationsByExternalId, data, logOutput = false) {
   for (let i = 0; i < data.length; i++) {
-    process.stdout.write(`${i + 1}/${data.length}`);
+    if (logOutput) {
+      process.stdout.write(`${i + 1}/${data.length}`);
+    }
 
     const [externalId, name] = data[i];
 
@@ -55,8 +57,10 @@ async function createOrUpdateOrganizations(accessToken, organizationsByExternalI
       }));
     }
 
-    process.stdout.clearLine();
-    process.stdout.cursorTo(0);
+    if (logOutput) {
+      process.stdout.clearLine();
+      process.stdout.cursorTo(0);
+    }
   }
 }
 
@@ -160,7 +164,7 @@ async function main() {
     console.log('ok');
 
     console.log('Creating or updating organizations...');
-    await createOrUpdateOrganizations(accessToken, organizationsByExternalId, data);
+    await createOrUpdateOrganizations(accessToken, organizationsByExternalId, data, true);
     console.log('\nDone.');
 
   } catch (error) {
