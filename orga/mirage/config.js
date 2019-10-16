@@ -19,7 +19,7 @@ export default function() {
     const params = parseQueryString(request.requestBody);
     const foundUser = schema.users.findBy({ email: params.username });
 
-    if (foundUser && params.password === 'secret') {
+    if (foundUser && (params.password === 'secret' || params.password === 'Password4register')) {
       return {
         token_type: '',
         expires_in: '',
@@ -31,8 +31,9 @@ export default function() {
     }
   });
 
-  this.post('/revoke', () => {
-  });
+  this.post('/revoke', () => {});
+
+  this.post('/users');
 
   this.get('/users/me', (schema, request) => {
     const userToken = request.requestHeaders.Authorization.replace('Bearer ', '');
@@ -88,10 +89,10 @@ export default function() {
   this.post('/organization-invitations/:id/response', (schema, request) => {
     const organizationInvitationId = request.params.id;
     const requestBody = JSON.parse(request.requestBody);
-    const { code, status } = requestBody.data.attributes;
+    const { code, status, email } = requestBody.data.attributes;
 
     const organizationInvitation = schema.organizationInvitations.findBy({ id: organizationInvitationId, code });
-    const user = schema.users.findBy({ email: organizationInvitation.email });
+    const user = schema.users.findBy({ email });
 
     schema.memberships.create({
       userId: user.id,
@@ -100,7 +101,9 @@ export default function() {
     });
 
     organizationInvitation.update({ status });
-    return schema.organizationInvitationResponses.create();
+    schema.organizationInvitationResponses.create();
+
+    return new Response(204);
   });
 
   this.get('/organizations/:id/students', (schema, request) => {
