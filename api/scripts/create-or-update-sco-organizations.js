@@ -8,6 +8,8 @@ const path = require('path');
 const papa = require('papaparse');
 const request = require('request-promise-native');
 
+const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+
 function assertFileValidity(filePath) {
   if (!fs.existsSync(filePath)) {
     throw new Error(`File not found ${filePath}`);
@@ -67,7 +69,7 @@ async function createOrUpdateOrganizations(accessToken, organizationsByExternalI
 function _buildAccessTokenRequestObject() {
   return {
     method: 'POST',
-    baseUrl: process.env.BASE_URL,
+    baseUrl,
     url: '/api/token',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -87,7 +89,7 @@ function _buildGetOrganizationsRequestObject(accessToken) {
     headers: {
       authorization: `Bearer ${accessToken}`,
     },
-    baseUrl: process.env.BASE_URL,
+    baseUrl,
     url: '/api/organizations',
     json: true,
   };
@@ -99,7 +101,7 @@ function _buildPatchOrganizationRequestObject(accessToken, organization) {
     headers: {
       authorization: `Bearer ${accessToken}`,
     },
-    baseUrl: process.env.BASE_URL,
+    baseUrl,
     url: `/api/organizations/${organization.id}`,
     json: true,
     body: {
@@ -120,7 +122,7 @@ function _buildPostOrganizationRequestObject(accessToken, organization) {
     headers: {
       authorization: `Bearer ${accessToken}`,
     },
-    baseUrl: process.env.BASE_URL,
+    baseUrl,
     url: '/api/organizations',
     json: true,
     body: {
