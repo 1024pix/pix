@@ -4,9 +4,9 @@ module.exports = {
 
   async answerToOrganizationInvitation(request) {
     const organizationInvitationId = request.params.id;
-    const { code, status } = request.payload.data.attributes;
+    const { code, status, email } = request.payload.data.attributes;
 
-    await usecases.answerToOrganizationInvitation({ organizationInvitationId, code, status, });
+    await usecases.answerToOrganizationInvitation({ organizationInvitationId, code, status, email });
     return null;
   },
 

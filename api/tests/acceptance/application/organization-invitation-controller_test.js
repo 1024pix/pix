@@ -35,7 +35,6 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
 
         const organizationInvitationId = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
-          email: userToInviteEmail,
           status: OrganizationInvitation.StatusType.PENDING,
           code: code
         }).id;
@@ -48,7 +47,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
           payload: {
             data: {
               type: 'organization-invitations',
-              attributes: { code, status },
+              attributes: { code, status, email: userToInviteEmail },
             }
           }
         };
@@ -133,12 +132,12 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         // given
         const { id: organizationInvitationId, code } = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
-          email: 'fakeEmail@organization.org',
           status: OrganizationInvitation.StatusType.PENDING
         });
 
         options.url = `/api/organization-invitations/${organizationInvitationId}/response`;
         options.payload.data.attributes.code = code;
+        options.payload.data.attributes.code = 'random@email.com';
 
         await databaseBuilder.commit();
 
@@ -157,12 +156,12 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
 
         const { id: organizationInvitationId, code } = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
-          email,
           status: OrganizationInvitation.StatusType.PENDING
         });
 
         options.url = `/api/organization-invitations/${organizationInvitationId}/response`;
         options.payload.data.attributes.code = code;
+        options.payload.data.attributes.email = email;
 
         await databaseBuilder.commit();
 
