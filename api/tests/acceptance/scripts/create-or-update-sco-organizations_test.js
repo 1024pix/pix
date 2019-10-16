@@ -39,7 +39,7 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
 
   describe('#organizeOrganizationsByExternalId', () => {
 
-    it('should return organaized organizations', () => {
+    it('should return organizations data by externalId', () => {
       // given
       const data = [
         {
@@ -128,7 +128,7 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
       let postCallCount = 0;
       let patchCallCount = 0;
 
-      const networkStub = nock(
+      const networkStub1 = nock(
         'http://localhost:3000',
         {
           reqheaders: {
@@ -141,7 +141,16 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
           patchCallCount++;
 
           return {};
-        })
+        });
+
+      const networkStub2 = nock(
+        'http://localhost:3000',
+        {
+          reqheaders: {
+            authorization: 'Bearer token',
+          },
+        }
+      )
         .post('/api/organizations', (body) => JSON.stringify(body) === JSON.stringify(expectedPostBody))
         .reply(201, () => {
           postCallCount++;
@@ -153,7 +162,8 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
       await script.createOrUpdateOrganizations('token', organizationsByExternalId, data);
 
       // then
-      expect(networkStub.isDone()).to.be.true;
+      expect(networkStub1.isDone()).to.be.true;
+      expect(networkStub2.isDone()).to.be.true;
       expect(postCallCount).to.be.equal(1);
       expect(patchCallCount).to.be.equal(1);
     });
