@@ -10,7 +10,7 @@
 
   <div class="assessment-challenge__content rounded-panel--over-background-banner">
     {{#if model.assessment.showProgressBar}}
-      {{progress-bar assessment=model.assessment challenge=model.challenge}}
+      {{progress-bar assessment=model.assessment challenge=model.challenge answerId=model.answer.id}}
     {{/if}}
 
     {{#if model.assessment.isCertification}}
