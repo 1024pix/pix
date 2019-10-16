@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.73.0 (16/10/2019)
+
+- [#764](https://github.com/1024pix/pix/pull/764) [FEATURE] Envoyer un e-mail pour inviter un utilisateur Pix à rejoindre une organisation (PO-244).
+- [#730](https://github.com/1024pix/pix/pull/730) [FEATURE] Nouveau design pour les challenges. (PF-794).
+- [#754](https://github.com/1024pix/pix/pull/754) [FEATURE] Limiter la taille des messages de feedbacks (PF-864).
+- [#739](https://github.com/1024pix/pix/pull/739) [FEATURE] Modification du design de la page de lancement de test de certification (PF-849).
+- [#758](https://github.com/1024pix/pix/pull/758) [FEATURE] Envoyer un e-mail pour inviter un utilisateur Pix à rejoindre une organisation (PO-244).
+- [#752](https://github.com/1024pix/pix/pull/752) [BUGFIX] Des réponses trop longues envoyées dans les signalements (PF-865).
+
 ## v2.72.0 (11/10/2019)
 
 - [#751](https://github.com/1024pix/pix/pull/751) [FEATURE] Changer un message d'erreur d'import SIECLE (PO-247).
