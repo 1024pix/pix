@@ -67,7 +67,7 @@ describe('Acceptance | Challenge page banner', function() {
       await startCampaign();
 
       // then
-      expect(find('.assessment-banner__title h1').textContent).to.equal(campaignTitle);
+      expect(find('.assessment-banner__title').textContent).to.equal(campaignTitle);
     });
   });
 });

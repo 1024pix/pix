@@ -33,7 +33,7 @@ export default Model.extend({
   isCompleted: equal('state', 'completed'),
   isAborted: equal('state', 'aborted'),
 
-  showProgressBar: or('isCompetenceEvaluation', 'isSmartPlacement', 'isDemo', 'isCertification'),
+  showProgressBar: or('isCompetenceEvaluation', 'isSmartPlacement', 'isDemo'),
 
   hasCheckpoints: or('isCompetenceEvaluation', 'isSmartPlacement'),
 

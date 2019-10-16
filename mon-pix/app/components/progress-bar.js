@@ -1,34 +1,59 @@
-import { htmlSafe } from '@ember/string';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
-import AssessmentProgression from '../models/assessment-progression';
 import ENV from 'mon-pix/config/environment';
+import { htmlSafe } from '@ember/string';
+import { filterBy } from '@ember/object/computed';
+import colorGradient from 'mon-pix/utils/color-gradient';
+
+const minWidthPercent = 1.7;
+const minWidthPixel = 16;
 
 export default Component.extend({
 
-  classNames: ['progress'],
-  progression: null,
-
-  setProgression() {
-    let challengesToAnswerCount;
-    if (this.get('assessment.hasCheckpoints')) {
-      challengesToAnswerCount = ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
-    } else {
-      challengesToAnswerCount = this.get('assessment.course.nbChallenges');
-    }
-    this.set('progression', AssessmentProgression.create({
-      assessmentType: this.get('assessment.type'),
-      challengesAnsweredCount: this.get('assessment.answers.length'),
-      challengesToAnswerCount,
-    }));
+  didReceiveAttrs() {
+    this._setSteps();
+    this._setProgressionWidth();
   },
 
-  barStyle: computed('progression', function() {
-    return htmlSafe(`width: ${this.get('progression.valueNow')}%`);
+  persistedAnswers: filterBy('assessment.answers.@each.isNew', 'isNew', false),
+
+  maxStepsNumber: computed('assessment.{hasCheckpoints,course.nbChallenges}', function() {
+    if (this.get('assessment.hasCheckpoints')) {
+      return ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
+    }
+
+    return this.get('assessment.course.nbChallenges');
   }),
 
-  willRender() {
-    this.setProgression();
-  }
+  currentStepIndex: computed('persistedAnswers.length', 'maxStepsNumber', function() {
+    return this.get('persistedAnswers.length') % this.maxStepsNumber;
+  }),
 
+  currentStepNumber: computed('currentStepIndex', function() {
+    return this.currentStepIndex + 1;
+  }),
+
+  _setSteps() {
+    const steps = [];
+
+    const gradient = colorGradient('#388AFF', '#985FFF', this.maxStepsNumber);
+
+    for (let i = 0; i < this.maxStepsNumber; i++) {
+      steps.push({
+        stepnum: i + 1,
+        status: i <= this.currentStepIndex ? 'active' : '',
+        background: htmlSafe(`background: ${gradient[i]};`),
+      });
+    }
+
+    this.set('steps', steps);
+  },
+
+  _setProgressionWidth() {
+    const widthPercent = minWidthPercent + (100 - minWidthPercent) * this.currentStepIndex  / (this.maxStepsNumber - 1);
+
+    const width = this.currentStepIndex === 0 ? `${minWidthPixel}px` : `${widthPercent}%`;
+
+    this.set('progressionWidth', htmlSafe(`width: ${width};`));
+  },
 });

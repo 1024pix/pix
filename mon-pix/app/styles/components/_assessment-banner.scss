@@ -1,11 +1,5 @@
 .assessment-banner {
   display: flex;
-  justify-content: center;
-  height: 100px;
-}
-
-.assessment-banner__checkpoint {
-  display: flex;
   justify-content: space-around;
   align-items: flex-start;
 }
@@ -25,21 +19,11 @@
 }
 
 .assessment-banner__title {
-  font-size: 1.4rem;
-  font-family: $font-open-sans;
-
-  @include device-is('desktop') {
-    font-size: 1.75rem;
-  }
-}
-
-.assessment-banner__title h1 {
-  margin: 0;
-  font-size: 1.4rem;
+  font-size: 1.75rem;
   font-weight: $font-light;
+  margin: 0;
 
   @include device-is('desktop') {
-    font-size: 2.4rem;
     font-weight: $font-normal;
   }
 }

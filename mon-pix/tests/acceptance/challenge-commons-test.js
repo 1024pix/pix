@@ -45,11 +45,11 @@ describe('Acceptance | Common behavior to all challenges', function() {
   });
 
   it('should display a button to come back to the courses list', function() {
-    expect(find('.assessment-banner__home-link').textContent).to.contain('‹ Quitter');
+    expect(find('.assessment-banner__home-link')).to.exist;
   });
 
   it('should come back to the home route when the back button is clicked', async function() {
-    expect(find('.assessment-banner__home-link a').getAttribute('href')).to.equal('/');
+    expect(find('.assessment-banner__home-link').getAttribute('href')).to.equal('/');
   });
 
   it('should be able to send a feedback about the current challenge', () => {

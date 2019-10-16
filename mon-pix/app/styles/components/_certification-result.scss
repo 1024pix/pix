@@ -5,15 +5,15 @@
   justify-content: center;
   max-width: 990px;
   width: 100%;
-  margin: 50px auto;
+  margin: -150px auto;
   line-height: 3rem;
   background-color: $white;
+  padding-top: 10px;
 
   @include device-is('tablet') {
     padding: 41px 0;
   }
 }
-
 
 .result-content__panel-title {
   color: $grayish-grey;
@@ -27,10 +27,6 @@
   @include device-is('tablet') {
     font-size: 30px;
   }
-}
-
-.result-content__panel-picture {
-  margin-top: -70px;
 }
 
 .result-content__panel-description {

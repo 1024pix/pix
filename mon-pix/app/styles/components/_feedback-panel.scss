@@ -12,8 +12,9 @@
 
 .feedback-panel__open-link {
   cursor: pointer;
-  color: inherit;
-  font-weight: $font-heavy;
+  color: $dove-gray;
+  font-family: $font-roboto;
+  font-weight: $font-medium;
   font-size: 1.5rem;
   line-height: 20px;
 }
@@ -72,30 +73,29 @@
   }
 }
 
-.feedback-panel__field--content {
-  resize: none;
-}
-
 .feedback-panel__quick-help {
-  font-size: 1.8rem;
-  margin: 20px 0;
+  font-size: 1.5rem;
+  margin-top: 20px;
   font-weight: bold;
   text-align: justify;
   word-break: break-word;
+  background-color: $white;
+  padding: 20px;
+  border: dashed $tundora-grey;
 
   & .tuto-icon {
     width: 15px;
 
     &__warning {
       float: left;
-      width: 30px;
-      height: 30px;
-      margin: 5px 0;
+      width: 20px;
+      height: 20px;
+      color: $pix-yellow-hover;
     }
   }
 
   & p {
-    margin-left: 50px;
+    margin: 0 0 0 35px;
   }
 }
 
