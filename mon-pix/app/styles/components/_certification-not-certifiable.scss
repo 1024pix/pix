@@ -1,4 +1,4 @@
-.certification-error-page__panel {
+.certification-not-certifiable__panel {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,12 +13,12 @@
   }
 }
 
-.certification-error-page__button {
+.certification-not-certifiable__button {
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
-.certification-error-page__title {
+.certification-not-certifiable__title {
   font-family: $font-raleway;
   font-weight: $font-bold;
   text-align: center;
@@ -26,7 +26,7 @@
   line-height: 42px;
 }
 
-.certification-error-page__text {
+.certification-not-certifiable__text {
   font-family: $font-raleway;
   text-align: left;
   font-size: 20px;

@@ -4,6 +4,9 @@ export default BaseSerializer.extend({
   include: ['competences', 'organizations'],
   links(user) {
     return {
+      certificationProfile: {
+        related: `/api/users/${user.id}/certification-profile`,
+      },
       pixScore: {
         related: `/api/users/${user.id}/pixscore`
       },

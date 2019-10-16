@@ -39,9 +39,4 @@ module.exports = {
         });
       });
   },
-
-  getSessionByAccessCode(codeToValidate) {
-    return sessionRepository.getByAccessCode(codeToValidate);
-
-  }
 };

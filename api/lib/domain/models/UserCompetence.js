@@ -1,7 +1,6 @@
 const {
-  MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY,
-  MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY,
   MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION,
+  MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY,
 } = require('../constants');
 
 const Skill = require('./Skill');
@@ -15,7 +14,11 @@ class UserCompetence {
     index,
     name,
     area,
+    pixScore,
+    estimatedLevel,
     // includes
+    skills = [],
+    challenges = [],
     // references
   } = {}) {
     this.id = id;
@@ -23,9 +26,11 @@ class UserCompetence {
     this.index = index;
     this.name = name;
     this.area = area;
+    this.pixScore = pixScore;
+    this.estimatedLevel = estimatedLevel;
     // includes
-    this.skills = [];
-    this.challenges = [];
+    this.skills = skills;
+    this.challenges = challenges;
     // references
   }
 
@@ -49,12 +54,8 @@ class UserCompetence {
     return this.challenges.length < MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION;
   }
 
-  static isCertifiable(userCompetences) {
-    const certifiableCompetences = _(userCompetences)
-      .filter((userCompetence) => userCompetence.estimatedLevel >= MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY)
-      .size();
-
-    return certifiableCompetences >= MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY;
+  isCertifiable() {
+    return this.estimatedLevel >= MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY;
   }
 
   static orderSkillsOfCompetenceByDifficulty(userCompetences) {

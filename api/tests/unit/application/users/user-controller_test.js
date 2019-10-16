@@ -1,5 +1,6 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 
+const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
 const User = require('../../../../lib/domain/models/User');
 const SearchResultList = require('../../../../lib/domain/models/SearchResultList');
 
@@ -462,6 +463,35 @@ describe('Unit | Controller | user-controller', () => {
 
       // then
       expect(response).to.deep.equal({});
+    });
+  });
+
+  describe('#getCertificationProfile', () => {
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getUserCurrentCertificationProfile').resolves(new CertificationProfile());
+    });
+
+    it('should return the user certification profile', async () => {
+      // given
+      const userId = '76';
+
+      const request = {
+        auth: {
+          credentials: {
+            userId
+          }
+        },
+        params: {
+          id: userId
+        }
+      };
+
+      // when
+      await userController.getCertificationProfile(request);
+
+      // then
+      expect(usecases.getUserCurrentCertificationProfile).to.have.been.calledWith({ userId });
     });
   });
 
