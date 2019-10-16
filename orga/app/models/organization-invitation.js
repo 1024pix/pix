@@ -8,6 +8,6 @@ export default DS.Model.extend({
 
   organization: DS.belongsTo('organization'),
 
-  isPending: equal('status', 'PENDING'),
-  isAccepted: equal('status', 'ACCEPTED'),
+  isPending: equal('status', 'pending'),
+  isAccepted: equal('status', 'accepted'),
 });

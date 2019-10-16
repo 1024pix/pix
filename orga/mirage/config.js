@@ -78,6 +78,13 @@ export default function() {
     });
   });
 
+  this.get('/organization-invitations/:id', (schema, request) => {
+    const organizationInvitationId = request.params.id;
+    const organizationInvitationCode = request.queryParams.code;
+
+    return schema.organizationInvitations.findBy({ id: organizationInvitationId, code: organizationInvitationCode });
+  });
+
   this.post('/organization-invitations/:id/response', (schema, request) => {
     const organizationInvitationId = request.params.id;
     const requestBody = JSON.parse(request.requestBody);

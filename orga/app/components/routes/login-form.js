@@ -5,6 +5,7 @@ import { inject } from '@ember/service';
 export default Component.extend({
 
   session: inject(),
+  store: inject(),
 
   email: null,
   password: null,
@@ -17,11 +18,15 @@ export default Component.extend({
   isErrorMessagePresent: false,
 
   actions: {
-
-    authenticate() {
+    async authenticate() {
       this.set('isLoading', true);
       const email = this.email;
       const password = this.password;
+
+      if (this.isWithInvitation) {
+        await this._acceptOrganizationInvitation(this.organizationInvitationId, this.organizationInvitationCode, email);
+      }
+
       const scope = 'pix-orga';
       return this.session.authenticate('authenticator:oauth2', email, password, scope)
         .catch(() => {
@@ -36,6 +41,16 @@ export default Component.extend({
       this.toggleProperty('isPasswordVisible');
     }
 
-  }
+  },
+
+  _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, email) {
+    const status = 'accepted';
+    return this.store.createRecord('organization-invitation-response', {
+      id: organizationInvitationId + '_' + organizationInvitationCode,
+      code: organizationInvitationCode,
+      status,
+      email,
+    }).save({ adapterOptions: { organizationInvitationId } });
+  },
 
 });

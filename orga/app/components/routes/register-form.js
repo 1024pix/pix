@@ -58,18 +58,18 @@ export default Component.extend({
   actions: {
     async register() {
       this.set('isLoading', true);
-      return this.user.save()
-        .then(() => {
-          const scope = 'pix-orga';
-          this.session.authenticate('authenticator:oauth2', this.get('user.email'), this.get('user.password'), scope);
-          this.set('user.password', null);
-        })
-        .catch(() => {
-          this._updateInputsStatus();
-        })
-        .finally(() => {
-          this.set('isLoading', false);
-        });
+      try {
+        await this.user.save();
+      } catch (e) {
+        this.set('isLoading', false);
+        return this._updateInputsStatus();
+      }
+
+      await this._acceptOrganizationInvitation(this.organizationInvitationId, this.organizationInvitationCode, this.get('user.email'));
+      await this._authenticate(this.get('user.email'), this.get('user.password'));
+
+      this.set('user.password', null);
+      this.set('isLoading', false);
     },
 
     togglePasswordVisibility() {
@@ -103,6 +103,21 @@ export default Component.extend({
     const message = isInvalidInput ? ERROR_INPUT_MESSAGE_MAP[key] : null;
     const messageObject = 'validation.' + key + '.message';
     this.set(messageObject, message);
+  },
+
+  _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, createdUserEmail) {
+    const status = 'accepted';
+    return this.store.createRecord('organization-invitation-response', {
+      id: organizationInvitationId + '_' + organizationInvitationCode,
+      code: organizationInvitationCode,
+      status,
+      email: createdUserEmail,
+    }).save({ adapterOptions: { organizationInvitationId } });
+  },
+
+  _authenticate(email, password) {
+    const scope = 'pix-orga';
+    return this.session.authenticate('authenticator:oauth2', email, password, scope);
   },
 
 });
