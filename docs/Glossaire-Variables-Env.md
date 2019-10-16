@@ -46,3 +46,9 @@ Une explication est associée à chaque variable ainsi que leur utilisation (OUI
 | SENTRY_DSN                            | Adresse pour la collecte d'erreurs sur Sentry                                                                                                | OUI      | OUI      | OUI         |
 | TEST_DATABASE_URL                     | Définit l'adresse, le port et le nom de la BDD PostgreSQL à utiliser pour les tests automatiques                                             | OUI      | NON      | NON         |
 | TOKEN_LIFE_SPAN                       | Durée de vie du token de connexion. Exemple : `7d` pour 7 jours.                                                                             | OUI      | OUI      | OUI         |
+
+### PIX FRONT (app, orga, certif, admin)
+
+| Variable                              | Description                                                                                                                                  | DEV      | INT      | PROD        | Si absente                                                      |
+| ---                                   | ---                                                                                                                                          | ---      | ---      | ---         | ---                                                             |
+| API_HOST_SUFFIX                       | Utilisée pour déterminer le nom de domaine où router les requêtes API                                                                        |          |          |             | scalingo.io                                                     |
