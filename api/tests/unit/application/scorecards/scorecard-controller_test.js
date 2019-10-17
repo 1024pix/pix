@@ -5,6 +5,7 @@ const scorecardController = require('../../../../lib/application/scorecards/scor
 const usecases = require('../../../../lib/domain/usecases');
 
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
+const tutorialSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -43,32 +44,18 @@ describe('Unit | Controller | user-controller', () => {
   });
 
   describe('#getTutorials', () => {
+    const authenticatedUserId = '12';
+    const scorecardId = 'foo';
 
-    const tutorials = [
-      { duration: "00:01:30",
-        format: "son",
-        id: "reccvN6cmqfmcfJrz",
-        link: "http://wikicyb.fr/mediawiki/index.php/Enregistrement_des_fichiers",
-        source: "wikicyb",
-        title: "Enregistrement des fichiers Enregistrement des " },
-      { duration: "00:01:30",
-        format: "vidéo",
-        id: "reccvN6cmqfmcfJrz",
-        link: "http://wikicyb.fr/mediawiki/index.php/Enregistrement_des_fichiers",
-        source: "wikicyb",
-        title: "Enregistrement des fichiers" },
-    ];
+    const tutorials = [];
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getTutorials').resolves(tutorials);
-      sinon.stub(scorecardSerializer, 'serialize').resolvesArg(0);
+      sinon.stub(usecases, 'getTutorials').withArgs({ authenticatedUserId, scorecardId }).resolves(tutorials);
+      sinon.stub(tutorialSerializer, 'serialize').withArgs(tutorials).resolves('ok');
     });
 
     it('should call the expected usecase', async () => {
       // given
-      const authenticatedUserId = '12';
-      const scorecardId = 'foo';
-
       const request = {
         auth: {
           credentials: {
@@ -85,7 +72,7 @@ describe('Unit | Controller | user-controller', () => {
 
       // then
       expect(usecases.getTutorials).to.have.been.calledWith({ authenticatedUserId, scorecardId });
-      expect(result).to.be.equal(tutorials);
+      expect(result).to.be.equal('ok');
     });
   });
 });
