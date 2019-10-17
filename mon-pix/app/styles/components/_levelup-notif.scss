@@ -1,0 +1,40 @@
+.levelup {
+  display: flex;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 300px;
+  height: 80px;
+  background-color: $alabaster-grey;
+  border-radius: 5px;
+  box-shadow: 0 0 10px $charcoal-grey;
+  color: $tundora-grey;
+
+  &__card-level {
+    position: absolute;
+    top: 28px;
+    left: 39px;
+    font-size: 3rem;
+    font-family: $font-open-sans;
+    font-weight: $font-bold;
+  }
+
+  &__competence {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 5px;
+  }
+
+  &__level {
+    font-size: 1.25rem;
+    font-weight: $font-bold;
+    font-family: $font-open-sans;
+    text-transform: uppercase;
+  }
+
+  &__competence-name {
+    font-size: 1.20rem;
+    font-family: $font-roboto;
+  }
+}

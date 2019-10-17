@@ -14,6 +14,7 @@ export default Model.extend(ValueAsArrayOfString, {
   assessment: belongsTo('assessment'),
   challenge: belongsTo('challenge'),
   correction: belongsTo('correction'),
+  levelup: belongsTo('levelup'),
 
   isResultOk: equal('result', 'ok'),
   isResultNotOk: not('isResultOk'),

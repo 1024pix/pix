@@ -1,13 +1,21 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 
+const { and } = computed;
+
 export default Controller.extend({
 
-  queryParams: ['finalCheckpoint'],
+  queryParams: ['finalCheckpoint', 'newLevel', 'competenceLeveled'],
+
   finalCheckpoint: false,
+  newLevel: null,
+  competenceLeveled: null,
+
   isShowingModal: false,
   answer: null,
   challenge: null,
+
+  showLevelup: and('model.showLevelup', 'newLevel'),
 
   nextPageButtonText: computed('finalCheckpoint', function() {
     return this.finalCheckpoint ? 'Voir mes résultats' : 'Continuer mon parcours';

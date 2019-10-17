@@ -99,7 +99,7 @@ export default Route.extend({
 
   async _rateAssessment(assessment) {
     await assessment.save({ adapterOptions: { completeAssessment: true } });
-    
+
     return this._routeToResults(assessment);
   },
 
@@ -123,5 +123,4 @@ export default Route.extend({
   _routeToFinalCheckpoint(assessment) {
     return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true } });
   },
-
 });
