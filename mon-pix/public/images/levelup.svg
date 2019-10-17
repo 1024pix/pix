@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="87px" height="72px" viewBox="0 0 87 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 58 (101010) - https://sketch.com -->
+    <title>6EB49345-69E8-4419-A98A-E43A36AA28F7@1.00x</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <rect id="path-1" x="24" y="3" width="50" height="71" rx="6"></rect>
+        <filter x="-53.0%" y="-26.1%" width="206.0%" height="174.6%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="8" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="7.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.945098039   0 0 0 0 0.631372549   0 0 0 0 0.254901961  0 0 0 0.32 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="4.-Components/8.-Notification/Dom1" transform="translate(-5.000000, -6.000000)">
+            <g id="carte-avec-input">
+                <g id="Carte" transform="translate(3.000000, 10.000000)">
+                    <g id="carte-icone">
+                        <path d="M21.6021928,5.85325309 L55.102348,5.79626737 C58.0846813,5.79119424 60.5064528,8.20474052 60.5115259,11.1870739 C60.5115362,11.1931617 60.5115363,11.1992497 60.5115261,11.2053375 L60.4251544,62.5830208 C60.4201527,65.5582243 58.0095512,67.968874 55.0343477,67.9739349 L21.5341925,68.0309207 C18.5518592,68.0359938 16.1300877,65.6224475 16.1250146,62.6401142 C16.1250043,62.6340263 16.1250042,62.6279384 16.1250144,62.6218505 L16.2113861,11.2441673 C16.2163878,8.26896376 18.6269894,5.85831408 21.6021928,5.85325309 Z" id="Rectangle-Copy" fill="#F1A141" opacity="0.204413144" transform="translate(38.318270, 36.913594) rotate(-8.000000) translate(-38.318270, -36.913594) "></path>
+                        <path d="M15.8393115,6.27119987 L49.4120857,6.41999492 C52.3757979,6.43313014 54.7750772,8.83249966 54.7881009,11.7962124 L55.0134295,63.0725238 C55.026535,66.0548326 52.61952,68.4830957 49.6372112,68.4962012 C49.6213239,68.496271 49.6054363,68.4962707 49.589549,68.4962003 L16.0167749,68.3474052 C13.0530627,68.33427 10.6537834,65.9349005 10.6407597,62.9711878 L10.415431,11.6948764 C10.4023256,8.71256751 12.8093405,6.28430443 15.7916494,6.27119897 C15.8075367,6.27112916 15.8234242,6.27112945 15.8393115,6.27119987 Z" id="Rectangle-Copy-2" fill="#F1A141" opacity="0.204413144" transform="translate(32.714430, 37.383700) scale(-1, 1) rotate(23.000000) translate(-32.714430, -37.383700) "></path>
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <g id="Mask">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-1"></use>
+                            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                        </g>
+                        <path d="M24,3 L74,3 L74,32.2498689 C66.8392464,39.416623 58.9089433,43 50.2090909,43 C41.5092385,43 32.7728748,39.416623 24,32.2498689 L24,3 Z" id="Rectangle" fill="#F1A141" fill-rule="nonzero" mask="url(#mask-2)"></path>
+                    </g>
+                    <circle id="cercle-blanc" fill="#FFFFFF" cx="49" cy="41" r="23"></circle>
+                    <circle id="cercle-color" stroke="#F1A141" stroke-width="2.39583333" fill="#FFFFFF" cx="49" cy="41" r="19.1979167"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

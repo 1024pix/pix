@@ -34,7 +34,7 @@ export default Model.extend({
   isAborted: equal('state', 'aborted'),
 
   showProgressBar: or('isCompetenceEvaluation', 'isSmartPlacement', 'isDemo'),
-
+  showLevelup: or('isCompetenceEvaluation', 'isSmartPlacement'),
   hasCheckpoints: or('isCompetenceEvaluation', 'isSmartPlacement'),
 
   answersSinceLastCheckpoints: computed('answers.[]', function() {
