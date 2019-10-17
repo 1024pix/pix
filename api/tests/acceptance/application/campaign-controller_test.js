@@ -1,20 +1,26 @@
 const createServer = require('../../../server');
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const settings = require('../../../lib/config');
+const jwt = require('jsonwebtoken');
+const Membership = require('../../../lib/domain/models/Membership');
+const cache = require('../../../lib/infrastructure/caches/cache');
 
 describe('Acceptance | API | Campaign Controller', () => {
 
   let campaign;
   let campaignWithoutOrga;
   let organization;
+  let targetProfile;
   let server;
-  let user;
-  let user2;
 
   beforeEach(async () => {
     await databaseBuilder.clean();
     server = await createServer();
     organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
-    campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
+
+    targetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId: organization.id });
+    campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id, targetProfileId: targetProfile.id });
+
     campaignWithoutOrga = databaseBuilder.factory.buildCampaign({ organizationId: null });
     await databaseBuilder.commit();
   });
@@ -85,6 +91,8 @@ describe('Acceptance | API | Campaign Controller', () => {
     });
 
     context('when organization manage student', () => {
+      let user;
+      let user2;
 
       beforeEach(async () => {
         user = databaseBuilder.factory.buildUser();
@@ -152,6 +160,79 @@ describe('Acceptance | API | Campaign Controller', () => {
           expect(response.result.errors[0].detail).to.equal('Utilisateur non autorisé à accéder à la ressource');
         });
       });
+    });
+  });
+
+  describe('GET /api/campaign/{id}/csvResult', ()=> {
+
+    let accessToken;
+    let user;
+    let userId;
+    const externalId = 'my external id';
+    const assessmentStartDate = '2018-01-01';
+
+    function _createTokenWithAccessId(userId) {
+      return jwt.sign({
+        access_id: userId,
+      }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
+    }
+
+    beforeEach(async () => {
+      user = databaseBuilder.factory.buildUser();
+      userId = user.id;
+      accessToken = _createTokenWithAccessId(userId);
+
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId: organization.id,
+        organizationRole: Membership.roles.MEMBER,
+      });
+
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        userId: userId,
+        participantExternalId: externalId,
+        isShared: false,
+      });
+
+      databaseBuilder.factory.buildAssessment({
+        userId: user.id,
+        type: 'SMART_PLACEMENT',
+        createdAt: new Date(assessmentStartDate),
+        campaignParticipationId: campaignParticipation.id
+      });
+
+      await databaseBuilder.commit();
+
+      const competence1 = airtableBuilder.factory.buildCompetence({ id: 1, titre: 'Liberticide', acquisViaTubes: 'recSkillIds1' });
+      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
+      airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence1]).activate();
+      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
+    });
+
+    afterEach(async () => {
+      await airtableBuilder.cleanAll();
+      await cache.flushAll();
+    });
+
+    it('should return csv file with statusCode 200', async ()=> {
+
+      // given
+      const url = `/api/campaigns/${campaign.id}/csvResults?accessToken=${accessToken}`;
+      const request = {
+        method: 'GET',
+        url
+      };
+
+      const expectedCsv = `\uFEFF"Nom de l'organisation";"ID Campagne";"Nom de la campagne";"Nom du Profil Cible";"Nom du Participant";"Prénom du Participant";"${campaign.idPixLabel}";"% de progression";"Date de début";"Partage (O/N)";"Date du partage";"% maitrise de l'ensemble des acquis du profil"\n` +
+        `"${organization.name}";${campaign.id};"${campaign.name}";"${targetProfile.name}";"${user.lastName}";"${user.firstName}";"${externalId}";1;${assessmentStartDate};"Non";"NA";"NA"\n`;
+
+      // when
+      const response = await server.inject(request);
+
+      // then
+      expect(response.statusCode).to.equal(200, response.payload);
+      expect(response.result).to.equal(expectedCsv);
     });
   });
 });
