@@ -43,7 +43,7 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
   describe('#shouldShowPixEmploiBadge', () => {
     it('should return true when user masters more than 85 percent for pixEmploi profile ', function() {
       // when
-      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Pix Emploi');
+      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Pix emploi - Parcours complet');
       controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 85);
 
       // then
@@ -52,7 +52,7 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
 
     it('should return false when user masters less than 85 percent for pixEmploi profile ', function() {
       // when
-      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Pix Emploi');
+      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Pix emploi - Parcours complet');
       controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 83);
 
       // then
