@@ -31,13 +31,9 @@ export default Component.extend({
   handleErrorStatus(status) {
     if (status === '404') {
       this.set('errorMessage', 'Ce code n’existe pas ou n’est plus valide.');
-      return this.set('isLoading', false);
+    } else {
+      this.set('errorMessage', 'Une erreur serveur inattendue vient de se produire');
     }
-    else if (status === '403') {
-      return this.router.render('certifications.start-error');
-    }
-    else {
-      return this.router.transitionTo('index');
-    }
+    return this.set('isLoading', false);
   }
 });
