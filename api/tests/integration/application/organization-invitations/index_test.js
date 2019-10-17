@@ -27,4 +27,20 @@ describe('Integration | Application | Organization-invitations | Routes', () => 
     });
   });
 
+  describe('GET /api/organization-invitations/:id', () => {
+
+    beforeEach(async () => {
+      sinon.stub(organisationInvitationController, 'getOrganizationInvitation').callsFake((request, h) => h.response().code(200));
+      await server.register(route);
+    });
+
+    it('should exist', async () => {
+      // when
+      const response = await server.inject({ method: 'GET', url: '/api/organization-invitations/1' });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
 });

@@ -105,6 +105,7 @@ module.exports = injectDependencies({
   getOrCreateSamlUser: require('./get-or-create-saml-user'),
   getOrganizationCampaigns: require('./get-organization-campaigns'),
   getOrganizationDetails: require('./get-organization-details'),
+  getOrganizationInvitation: require('./get-organization-invitation'),
   getOrganizationMemberships: require('./get-organization-memberships'),
   getProgression: require('./get-progression'),
   getResultsCampaignInCSVFormat: require('./get-results-campaign-in-csv-format'),

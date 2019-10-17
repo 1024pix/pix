@@ -4,7 +4,8 @@ const OrganizationInvitation = require('../../../../lib/domain/models/Organizati
 module.exports = function buildOrganizationInvitation({
   id = faker.random.number(),
   organizationId = faker.random.number(),
-  email = faker.internet.email(),
+  organizationName = faker.company.companyName(),
+  email = faker.internet.exampleEmail(),
   status = OrganizationInvitation.StatusType.PENDING,
   code = faker.random.alphaNumeric(10),
   createdAt = faker.date.recent(),
@@ -13,6 +14,7 @@ module.exports = function buildOrganizationInvitation({
   return new OrganizationInvitation({
     id,
     organizationId,
+    organizationName,
     email,
     status,
     code,

@@ -13,6 +13,7 @@ describe('Unit | Router | organization-invitation-router', () => {
 
   beforeEach(() => {
     sinon.stub(organizationInvitationController, 'answerToOrganizationInvitation').callsFake((request, h) => h.response().code(204));
+    sinon.stub(organizationInvitationController, 'getOrganizationInvitation').callsFake((request, h) => h.response().code(200));
 
     startServer();
   });
@@ -31,6 +32,23 @@ describe('Unit | Router | organization-invitation-router', () => {
 
       // then
       expect(response.statusCode).to.equal(204);
+    });
+  });
+
+  describe('GET /api/organization-invitations/{id}', () => {
+
+    it('should exist', async () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/organization-invitations/1'
+      };
+
+      // when
+      const response = await server.inject(options, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
