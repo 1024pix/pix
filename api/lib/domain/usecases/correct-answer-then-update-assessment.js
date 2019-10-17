@@ -12,6 +12,8 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     answerRepository,
     assessmentRepository,
     challengeRepository,
+    scorecardService,
+    competenceRepository,
     competenceEvaluationRepository,
     skillRepository,
     smartPlacementAssessmentRepository,
@@ -33,6 +35,16 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   }
 
   const challenge = await challengeRepository.get(answer.challengeId);
+
+  const scorecardBeforeAnswer = await scorecardService.computeScorecard({
+    userId,
+    competenceId: challenge.competenceId,
+    competenceRepository,
+    competenceEvaluationRepository,
+    knowledgeElementRepository,
+    blockReachablePixAndLevel: true,
+  });
+
   const correctedAnswer = evaluateAnswer(challenge, answer);
 
   const answerSaved = await answerRepository.save(correctedAnswer);
@@ -55,6 +67,23 @@ module.exports = async function correctAnswerThenUpdateAssessment(
       smartPlacementAssessmentRepository,
       knowledgeElementRepository,
     });
+  }
+
+  const scorecardAfterAnswer = await scorecardService.computeScorecard({
+    userId,
+    competenceId: challenge.competenceId,
+    competenceRepository,
+    competenceEvaluationRepository,
+    knowledgeElementRepository,
+    blockReachablePixAndLevel: true,
+  });
+
+  if (scorecardBeforeAnswer.level < scorecardAfterAnswer.level) {
+    answerSaved.levelup = {
+      id: answerSaved.id,
+      competenceName: scorecardAfterAnswer.name,
+      level: scorecardAfterAnswer.level,
+    };
   }
 
   return answerSaved;
@@ -108,8 +137,8 @@ function saveKnowledgeElements({ userId, targetSkills, knowledgeElements, answer
     userId
   });
 
-  return knowledgeElementsToCreate.map((knowledgeElement) =>
-    knowledgeElementRepository.save(knowledgeElement));
+  return Promise.all(knowledgeElementsToCreate.map((knowledgeElement) =>
+    knowledgeElementRepository.save(knowledgeElement)));
 }
 
 function _getSkillsFilteredByStatus(knowledgeElements, targetSkills, status) {
