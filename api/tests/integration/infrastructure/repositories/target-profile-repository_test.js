@@ -182,6 +182,76 @@ describe('Integration | Repository | Target-profile', () => {
     });
   });
 
+  describe('#findAllTargetProfileOrganizationCanUse', () => {
+
+    let organizationId;
+    let otherOrganizationId;
+    let targetProfileSkill;
+
+    let organizationTargetProfile;
+    let organizationTargetProfilePublic;
+    let publicTargetProfile;
+
+    beforeEach(async () => {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+
+      organizationTargetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId, isPublic: false });
+      organizationTargetProfilePublic = databaseBuilder.factory.buildTargetProfile({ organizationId, isPublic: true });
+      publicTargetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId: null, isPublic: true });
+      databaseBuilder.factory.buildTargetProfile({ organizationId: otherOrganizationId, isPublic: false });
+
+      const targetProfileSkillAssociation = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: organizationTargetProfile.id });
+      await databaseBuilder.commit();
+
+      targetProfileSkill = new SkillDataObject({ id: targetProfileSkillAssociation.skillId, name: '@Acquis2' });
+      sinon.stub(skillDatasource, 'findByRecordIds').resolves([targetProfileSkill]);
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return an Array', async () => {
+      // when
+      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfileOrganizationCanUse(organizationId);
+
+      // then
+      expect(foundTargetProfiles).to.be.an('array');
+    });
+
+    it('should return all the target profile the organization can access (owned + public)', async () => {
+      // when
+      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfileOrganizationCanUse(organizationId);
+
+      // then
+      expect(foundTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
+      expect(foundTargetProfiles).to.have.lengthOf(4);
+      expect(foundTargetProfiles[0].name).to.equal('PIC - Diagnostic Initial');
+      expect(foundTargetProfiles[1].name).to.equal(organizationTargetProfile.name);
+      expect(foundTargetProfiles[2].name).to.equal(organizationTargetProfilePublic.name);
+      expect(foundTargetProfiles[3].name).to.equal(publicTargetProfile.name);
+    });
+
+    it('should contain skills linked to every target profiles', () => {
+      // when
+      const promise = targetProfileRepository.findAllTargetProfileOrganizationCanUse(organizationId);
+
+      // then
+      return promise.then((targetProfiles) => {
+        const targetProfileSkills = targetProfiles[0].skills;
+        expect(targetProfileSkills).to.be.an('array');
+        expect(targetProfileSkills.length).to.equal(1);
+
+        const skill = targetProfileSkills[0];
+        expect(skill).to.be.an.instanceOf(Skill);
+        expect(skill.id).to.equal(targetProfileSkill.id);
+        expect(skill.name).to.equal(targetProfileSkill.name);
+      });
+    });
+
+  });
+
   describe('#getByCampaignId', () => {
     let campaignId, targetProfileId;
 
