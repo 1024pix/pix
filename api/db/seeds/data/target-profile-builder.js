@@ -1,7 +1,7 @@
 module.exports = function snapshotsBuilder({ databaseBuilder }) {
 
   const pixEmploiProfile = databaseBuilder.factory.buildTargetProfile({
-    name: 'Pix Emploi',
+    name: 'Pix emploi - Parcours complet',
     isPublic: true,
     organizationId: 1,
   });

@@ -10,7 +10,7 @@ export default Controller.extend({
   shouldShowPixEmploiBadge: computed('model.{campaignParticipation.campaign.targetProfile.name,campaignParticipation.campaignParticipationResult.masteryPercentage}', function() {
     const targetProfileName = this.get('model.campaignParticipation.campaign.targetProfile.name');
     const masteryPercentage = this.get('model.campaignParticipation.campaignParticipationResult.masteryPercentage');
-    return (masteryPercentage >= 85 && targetProfileName === 'Pix Emploi');
+    return (masteryPercentage >= 85 && targetProfileName === 'Pix emploi - Parcours complet');
   }),
 
   actions: {
