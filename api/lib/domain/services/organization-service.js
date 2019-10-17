@@ -30,12 +30,9 @@ module.exports = {
 
   async findAllTargetProfilesAvailableForOrganization(organizationId) {
     const organization = await organizationRepository.get(organizationId);
-    const targetProfilesOwnedByOrganization = await targetProfileRepository.findTargetProfilesOwnedByOrganizationId(organizationId);
+    const targetProfilesOrganizationCanUse = await targetProfileRepository.findAllTargetProfileOrganizationCanUse(organizationId);
     const targetProfileSharesWithOrganization = _extractProfilesSharedWithOrganization(organization);
-    const publicTargetProfiles = await targetProfileRepository.findPublicTargetProfiles();
-    const orderedPrivateProfile = orderBy(concat(targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization), 'name');
-    const orderedPublicProfile = orderBy(publicTargetProfiles, 'name');
-    const allAvailableTargetProfiles = concat(orderedPrivateProfile, orderedPublicProfile);
+    const allAvailableTargetProfiles = orderBy(concat(targetProfilesOrganizationCanUse, targetProfileSharesWithOrganization), ['isPublic', 'name']);
     return uniqBy(allAvailableTargetProfiles, 'id');
   },
 

@@ -1,4 +1,5 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { concat } = require('lodash');
 
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 
@@ -50,6 +51,7 @@ describe('Unit | Service | OrganizationService', () => {
     let organizationId;
     let targetProfilesOwnedByOrganization;
     let targetProfileSharesWithOrganization;
+    let targetProfileOrganizationCanUse;
     let publicTargetProfiles;
 
     beforeEach(() => {
@@ -57,60 +59,59 @@ describe('Unit | Service | OrganizationService', () => {
       targetProfilesOwnedByOrganization = [domainBuilder.buildTargetProfile({ organizationId, isPublic: false })];
       targetProfileSharesWithOrganization = domainBuilder.buildTargetProfile({ isPublic: false });
       publicTargetProfiles = [domainBuilder.buildTargetProfile({ isPublic: true })];
+
       const targetProfileShares = [{
         targetProfile: targetProfileSharesWithOrganization
       }];
-      const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
 
-      sinon.stub(targetProfileRepository, 'findPublicTargetProfiles').resolves(publicTargetProfiles);
-      sinon.stub(targetProfileRepository, 'findTargetProfilesOwnedByOrganizationId').resolves(targetProfilesOwnedByOrganization);
+      const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
+      targetProfileOrganizationCanUse = concat(publicTargetProfiles, targetProfilesOwnedByOrganization);
+
+      sinon.stub(targetProfileRepository, 'findAllTargetProfileOrganizationCanUse').resolves(targetProfileOrganizationCanUse);
       sinon.stub(organizationRepository, 'get').resolves(organization);
     });
 
-    it('should return an array of target profiles', () => {
+    it('should return an array of target profiles', async () => {
       // when
-      const promise = organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
+      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
 
       // then
-      return promise.then((availableTargetProfiles) => {
-        expect(availableTargetProfiles).to.be.an('array');
-        expect(availableTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
-      });
+      expect(availableTargetProfiles).to.be.an('array');
+      expect(availableTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
     });
 
-    it('should return public profiles and profiles owned by or shared with anyOrganization', () => {
+    it('should return public profiles and profiles owned by or shared with anyOrganization', async () => {
       // when
-      const promise = organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
+      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
 
       // then
-      return promise.then((availableTargetProfiles) => {
-        expect(availableTargetProfiles.length).to.equal(3);
-        expect(availableTargetProfiles).to.include.deep.members(targetProfilesOwnedByOrganization);
-        expect(availableTargetProfiles).to.include(targetProfileSharesWithOrganization);
-        expect(availableTargetProfiles).to.include.deep.members(publicTargetProfiles);
-      });
+      expect(availableTargetProfiles.length).to.equal(3);
+      expect(availableTargetProfiles).to.include.deep.members(targetProfilesOwnedByOrganization);
+      expect(availableTargetProfiles).to.include(targetProfileSharesWithOrganization);
+      expect(availableTargetProfiles).to.include.deep.members(publicTargetProfiles);
     });
 
-    it('should not have duplicate in targetProfiles', () => {
+    it('should not have duplicate in targetProfiles', async () => {
       // given
-      targetProfileRepository.findPublicTargetProfiles.resolves(targetProfilesOwnedByOrganization);
+      targetProfileRepository.findAllTargetProfileOrganizationCanUse.resolves(targetProfilesOwnedByOrganization);
 
       // when
-      const promise = organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
+      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
 
       // then
-      return promise.then((availableTargetProfiles) => {
-        expect(availableTargetProfiles.length).to.equal(2);
-      });
+      expect(availableTargetProfiles.length).to.equal(2);
     });
 
-    it('should return a list ordered by private profile before public profile and alphabetically', () => {
+    it('should return a list ordered by private profile before public profile and alphabetically', async () => {
       // given
       targetProfilesOwnedByOrganization = [
         domainBuilder.buildTargetProfile({ name: 'C owned profile', organizationId, isPublic: false }),
         domainBuilder.buildTargetProfile({ name: 'A owned profile', organizationId, isPublic: false })
       ];
-      targetProfileSharesWithOrganization = domainBuilder.buildTargetProfile({ name: 'B shared profile', isPublic: false });
+      targetProfileSharesWithOrganization = domainBuilder.buildTargetProfile({
+        name: 'B shared profile',
+        isPublic: false
+      });
       publicTargetProfiles = [
         domainBuilder.buildTargetProfile({ name: 'B Public profile', isPublic: true }),
         domainBuilder.buildTargetProfile({ name: 'A Public profile', isPublic: true })
@@ -120,22 +121,20 @@ describe('Unit | Service | OrganizationService', () => {
       }];
       const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
 
-      targetProfileRepository.findPublicTargetProfiles.resolves(publicTargetProfiles);
-      targetProfileRepository.findTargetProfilesOwnedByOrganizationId.resolves(targetProfilesOwnedByOrganization);
+      targetProfileOrganizationCanUse = concat(targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization, publicTargetProfiles);
+
+      targetProfileRepository.findAllTargetProfileOrganizationCanUse.resolves(targetProfileOrganizationCanUse);
       organizationRepository.get.resolves(organization);
       // when
-      const promise = organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
+      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
 
       // then
-      return promise.then((availableTargetProfiles) => {
-        expect(availableTargetProfiles.length).to.equal(5);
-        expect(availableTargetProfiles[0].name).equal('A owned profile');
-        expect(availableTargetProfiles[1].name).equal('B shared profile');
-        expect(availableTargetProfiles[2].name).equal('C owned profile');
-        expect(availableTargetProfiles[3].name).equal('A Public profile');
-        expect(availableTargetProfiles[4].name).equal('B Public profile');
-
-      });
+      expect(availableTargetProfiles.length).to.equal(5);
+      expect(availableTargetProfiles[0].name).equal('A owned profile');
+      expect(availableTargetProfiles[1].name).equal('B shared profile');
+      expect(availableTargetProfiles[2].name).equal('C owned profile');
+      expect(availableTargetProfiles[3].name).equal('A Public profile');
+      expect(availableTargetProfiles[4].name).equal('B Public profile');
     });
   });
 });
