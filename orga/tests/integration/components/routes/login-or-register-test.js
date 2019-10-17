@@ -14,6 +14,14 @@ module('Integration | Component | routes/login-or-register', function(hooks) {
     assert.dom('.login-or-register').exists();
   });
 
+  test('it display the organization name the user is invited to', async function(assert) {
+    // when
+    await render(hbs`{{routes/login-or-register organizationName='Organization Aztec'}}`);
+
+    // then
+    assert.dom('.login-or-register-panel__invitation').hasText('Vous êtes invité(e) à rejoindre l\'organisation Organization Aztec');
+  });
+
   test('it toggle the register form by default', async function(assert) {
     // when
     await render(hbs`{{routes/login-or-register}}`);
