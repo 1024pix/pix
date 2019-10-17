@@ -28,21 +28,15 @@ module.exports = {
       .catch(() => this.generateUniqueOrganizationCode({ organizationRepository }));
   },
 
-  findAllTargetProfilesAvailableForOrganization(organizationId) {
-    return organizationRepository.get(organizationId)
-      .then((organization) => {
-        return Promise.all([
-          targetProfileRepository.findTargetProfilesOwnedByOrganizationId(organizationId),
-          _extractProfilesSharedWithOrganization(organization),
-          targetProfileRepository.findPublicTargetProfiles(),
-        ]);
-      })
-      .then(([targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization, publicTargetProfiles]) => {
-        const orderedPrivateProfile = orderBy(concat(targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization), 'name');
-        const orderedPublicProfile = orderBy(publicTargetProfiles, 'name');
-        const allAvailableTargetProfiles = concat(orderedPrivateProfile, orderedPublicProfile);
-        return uniqBy(allAvailableTargetProfiles, 'id');
-      });
+  async findAllTargetProfilesAvailableForOrganization(organizationId) {
+    const organization = await organizationRepository.get(organizationId);
+    const targetProfilesOwnedByOrganization = await targetProfileRepository.findTargetProfilesOwnedByOrganizationId(organizationId);
+    const targetProfileSharesWithOrganization = _extractProfilesSharedWithOrganization(organization);
+    const publicTargetProfiles = await targetProfileRepository.findPublicTargetProfiles();
+    const orderedPrivateProfile = orderBy(concat(targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization), 'name');
+    const orderedPublicProfile = orderBy(publicTargetProfiles, 'name');
+    const allAvailableTargetProfiles = concat(orderedPrivateProfile, orderedPublicProfile);
+    return uniqBy(allAvailableTargetProfiles, 'id');
   },
 
 };
