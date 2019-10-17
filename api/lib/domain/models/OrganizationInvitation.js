@@ -8,21 +8,25 @@ class OrganizationInvitation {
   constructor({
     id,
     // attributes
-    organizationId,
     email,
     status,
     code,
+    organizationName,
     createdAt,
     updatedAt,
+    //references
+    organizationId,
   } = {}) {
     this.id = id;
     // attributes
-    this.organizationId = organizationId;
     this.email = email;
     this.status = status;
     this.code = code;
+    this.organizationName = organizationName;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    //references
+    this.organizationId = organizationId;
   }
 
   get isPending() {

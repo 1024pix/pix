@@ -12,6 +12,7 @@ describe('Unit | Domain | Models | OrganizationInvitation', () => {
       const rawData = {
         id: 1,
         organizationId: 10,
+        organizationName: 'The Organization',
         email: 'member@team.org',
         status: 'pending',
         code: 'ABCDEFGH01',
