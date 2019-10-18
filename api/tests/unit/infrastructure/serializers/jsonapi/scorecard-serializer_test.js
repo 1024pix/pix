@@ -33,13 +33,6 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
             }
           },
           tutorials: {
-            data: [{
-              id: 'recTuto1',
-              type: 'tutorials'
-            }, {
-              id: 'recTuto2',
-              type: 'tutorials'
-            }],
             links: {
               related: `/api/scorecards/${scorecardObject.id}/tutorials`
             }
