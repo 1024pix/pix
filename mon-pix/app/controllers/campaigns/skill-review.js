@@ -13,6 +13,12 @@ export default Controller.extend({
     return (masteryPercentage >= 85 && targetProfileName === 'Pix emploi - Parcours complet');
   }),
 
+  shouldShowCleaNumeriqueBadge: computed('model.{campaignParticipation.campaign.targetProfile.name,campaignParticipation.campaignParticipationResult.masteryPercentage}', function() {
+    const targetProfileName = this.get('model.campaignParticipation.campaign.targetProfile.name');
+    const masteryPercentage = this.get('model.campaignParticipation.campaignParticipationResult.masteryPercentage');
+    return (masteryPercentage >= 85 && targetProfileName === 'Parcours Cléa numérique');
+  }),
+
   actions: {
     shareCampaignParticipation() {
       this.set('displayErrorMessage', false);

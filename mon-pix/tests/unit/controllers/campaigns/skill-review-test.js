@@ -69,6 +69,35 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
 
   });
 
+  describe('#shouldShowCleaNumeriqueBadge', () => {
+    it('should return true when user masters more than 85 percent for Clea Numerique profile ', function() {
+      // when
+      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Parcours Cléa numérique');
+      controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 85);
+
+      // then
+      expect(controller.shouldShowCleaNumeriqueBadge).to.equal(true);
+    });
+
+    it('should return false when user masters less than 85 percent for Clea Numerique profile ', function() {
+      // when
+      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Parcours Cléa numérique');
+      controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 83);
+
+      // then
+      expect(controller.shouldShowCleaNumeriqueBadge).to.equal(false);
+    });
+    it('should return false when user masters more than 85 percent for other profile ', function() {
+      // when
+      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Bidule Numérique');
+      controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 86);
+
+      // then
+      expect(controller.shouldShowCleaNumeriqueBadge).to.equal(false);
+    });
+
+  });
+
   describe('#shareCampaignParticipation', function() {
     it('should set isShared to true', function() {
       // when
