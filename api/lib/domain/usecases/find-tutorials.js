@@ -2,7 +2,7 @@ const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const Scorecard = require('../models/Scorecard');
 const _ = require('lodash');
 
-module.exports = async function getTutorials({
+module.exports = async function findTutorials({
   authenticatedUserId,
   scorecardId,
   knowledgeElementRepository,

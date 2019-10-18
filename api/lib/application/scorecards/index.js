@@ -19,7 +19,7 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/scorecards/{id}/tutorials',
       config: {
-        handler: scorecardController.getTutorials,
+        handler: scorecardController.findTutorials,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération des tutoriels par compétences de l\'utilisateur dans une scorecard \n' +
