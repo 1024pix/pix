@@ -7,13 +7,19 @@
       <div class="rounded-panel rounded-panel--strong error-page__body-section">
         <div class="error-page__main-content">
           <h1 class="error-page-main-content__title">Oups, une erreur est survenue !</h1>
-          <p>Nous vous invitons à recharger cette page ou {{#link-to 'index'}}revenir à la page d’accueil{{/link-to}}.</p>
+          <p>Nous vous invitons à recharger cette page ou {{#link-to 'login'}}revenir à la page d’accueil{{/link-to}}.</p>
           <p>Vous pouvez aussi nous contacter par courriel à l’adresse <a href="mailto:support@pix.fr">support@pix.fr</a>.
           </p>
           <p>Nous vous prions de nous excuser pour la gêne occasionnée.</p>
           <p>L'équipe Pix.</p>
-          {{#link-to 'index' class="button button--extra-big button--link error-page__index-link"}}
+          {{#link-to 'login' class="button button--extra-big button--link error-page__index-link"}}
             Revenir à la page d'accueil{{/link-to}}
+        </div>
+        <div class="error-page__error">
+          <p class="error-page__error-title">{{this.errorTitle}}</p>
+          <p class="error-page__error-status">{{this.errorStatus}}</p>
+          <p class="error-page__error-message">{{this.errorMessage}}</p>
+          <p class="error-page__error-detail">{{this.errorDetail}}</p>
         </div>
       </div>
     </div>
