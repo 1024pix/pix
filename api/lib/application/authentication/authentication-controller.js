@@ -13,7 +13,6 @@ module.exports = {
       .then((accessToken) => {
         return h.response({
           token_type: 'bearer',
-          expires_in: 3600,
           access_token: accessToken,
           user_id: tokenService.extractUserId(accessToken),
         })

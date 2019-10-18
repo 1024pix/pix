@@ -66,7 +66,6 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
         const result = response.result;
         expect(result.token_type).to.equal('bearer');
-        expect(result.expires_in).to.equal(3600);
         expect(result.access_token).to.exist;
         expect(result.user_id).to.equal(userId);
       });

@@ -53,7 +53,6 @@ describe('Unit | Application | Controller | Authentication', () => {
       // then
       const expectedResponseResult = {
         token_type: 'bearer',
-        expires_in: 3600,
         access_token: 'jwt.access.token',
         user_id: 1
       };
