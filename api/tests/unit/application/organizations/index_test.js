@@ -56,4 +56,21 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
+  describe('GET /api/organizations/{id}/invitations', () => {
+
+    it('should exist', async () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/organizations/1/invitations'
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
 });

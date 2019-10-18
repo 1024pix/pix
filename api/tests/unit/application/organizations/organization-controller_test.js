@@ -12,6 +12,7 @@ const organizationSerializer = require('../../../../lib/infrastructure/serialize
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
 const studentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-serializer');
+const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 
 describe('Unit | Application | Organizations | organization-controller', () => {
 
@@ -504,4 +505,36 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
+  describe('#findPendingInvitations', () => {
+
+    const userId = 1;
+    const organization = domainBuilder.buildOrganization();
+
+    const resolvedOrganizationInvitations = 'organization invitations';
+    const serializedOrganizationInvitations = 'serialized organization invitations';
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: organization.id },
+      };
+
+      sinon.stub(usecases, 'findPendingOrganizationInvitations');
+      sinon.stub(organizationInvitationSerializer, 'serialize');
+
+      usecases.findPendingOrganizationInvitations.resolves(resolvedOrganizationInvitations);
+      organizationInvitationSerializer.serialize.resolves(serializedOrganizationInvitations);
+    });
+
+    it('should call the usecase to find pending invitations with organizationId', async () => {
+      // when
+      const response = await organizationController.findPendingInvitations(request, hFake);
+
+      // then
+      expect(usecases.findPendingOrganizationInvitations).to.have.been.calledWith({ organizationId: organization.id });
+      expect(organizationInvitationSerializer.serialize).to.have.been.calledWith(resolvedOrganizationInvitations);
+      expect(response).to.deep.equal(serializedOrganizationInvitations);
+    });
+
+  });
 });

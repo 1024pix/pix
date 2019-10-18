@@ -169,7 +169,22 @@ exports.register = async (server) => {
         tags: ['api', 'invitations']
       }
     },
-
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/invitations',
+      config: {
+        pre: [{
+          method: securityController.checkUserIsOwnerInOrganization,
+          assign: 'isOwnerInOrganization'
+        }],
+        handler: organisationController.findPendingInvitations,
+        tags: ['api', 'invitations'],
+        notes: [
+          '- Cette route est restreinte aux utilisateurs authentifiés responsables de l\'organisation',
+          '- Elle permet de lister les invitations en attente d\'acceptation d\'une organisation',
+        ],
+      },
+    },
   ]);
 };
 

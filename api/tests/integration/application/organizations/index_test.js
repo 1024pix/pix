@@ -114,4 +114,20 @@ describe('Integration | Application | Organizations | Routes', () => {
     });
   });
 
+  describe('GET /api/organizations/:id/invitations', () => {
+
+    beforeEach(() => {
+      sinon.stub(securityController, 'checkUserIsOwnerInOrganization').callsFake((request, h) => h.response(true));
+      sinon.stub(organisationController, 'findPendingInvitations').returns('ok');
+      return server.register(route);
+    });
+
+    it('should exist', async () => {
+      const response = await server.inject({ method: 'GET', url: '/api/organizations/:id/invitations' });
+
+      expect(response.statusCode).to.equal(200);
+      expect(organisationController.findPendingInvitations).to.have.been.calledOnce;
+    });
+  });
+
 });
