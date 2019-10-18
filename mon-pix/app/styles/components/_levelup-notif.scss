@@ -3,12 +3,14 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 300px;
+  width: 400px;
   height: 80px;
   background-color: $alabaster-grey;
   border-radius: 5px;
   box-shadow: 0 0 10px $charcoal-grey;
   color: $tundora-grey;
+  animation-duration: 1s;
+  animation-name: slidein;
 
   &__card-level {
     position: absolute;
@@ -42,5 +44,15 @@
   &__close {
     margin-right: 5px;
     cursor: pointer;
+  }
+}
+
+@keyframes slidein {
+  from {
+    right: -1000px;
+  }
+
+  to {
+    right: 10px;
   }
 }
