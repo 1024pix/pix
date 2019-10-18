@@ -15,12 +15,11 @@
           {{#link-to 'login' class="button button--extra-big button--link error-page__index-link"}}
             Revenir à la page d'accueil{{/link-to}}
         </div>
-        <div>
-          hey les erreurs sont ici :
-          Message -> {{this.errorMessage}}
-          Title -> {{this.errorTitle}}
-          Detail -> {{this.errorDetail}}
-          Status -> {{this.errorStatus}}
+        <div class="error-page__error">
+          <p class="error-page__error-title">{{this.errorTitle}}</p>
+          <p class="error-page__error-status">{{this.errorStatus}}</p>
+          <p class="error-page__error-message">{{this.errorMessage}}</p>
+          <p class="error-page__error-detail">{{this.errorDetail}}</p>
         </div>
       </div>
     </div>
