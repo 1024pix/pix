@@ -24,23 +24,34 @@ export default Component.extend({
       const password = this.password;
 
       if (this.isWithInvitation) {
-        await this._acceptOrganizationInvitation(this.organizationInvitationId, this.organizationInvitationCode, email);
+        try {
+          await this._acceptOrganizationInvitation(this.organizationInvitationId, this.organizationInvitationCode, email);
+        } catch (errorResponse) {
+          errorResponse.errors.forEach((error) => {
+            if (error.status === '421') {
+              return this._authenticate(password, email);
+            }
+          });
+        }
       }
-
-      const scope = 'pix-orga';
-      return this.session.authenticate('authenticator:oauth2', email, password, scope)
-        .catch(() => {
-          this.set('isErrorMessagePresent', true);
-        })
-        .finally(() => {
-          this.set('isLoading', false);
-        });
+      return this._authenticate(password, email);
     },
 
     togglePasswordVisibility() {
       this.toggleProperty('isPasswordVisible');
     }
 
+  },
+
+  _authenticate(password, email) {
+    const scope = 'pix-orga';
+    return this.session.authenticate('authenticator:oauth2', email, password, scope)
+      .catch(() => {
+        this.set('isErrorMessagePresent', true);
+      })
+      .finally(() => {
+        this.set('isLoading', false);
+      });
   },
 
   _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, email) {
