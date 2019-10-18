@@ -45,7 +45,7 @@ describe('Unit | Router | scorecard-router', () => {
       sinon.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, h) => {
         h.continue({ credentials: { accessToken: 'jwt.access.token' } });
       });
-      sinon.stub(scorecardController, 'getTutorials').returns('ok');
+      sinon.stub(scorecardController, 'findTutorials').returns('ok');
       startServer();
     });
 

@@ -12,11 +12,11 @@ module.exports = {
       .then(scorecardSerializer.serialize);
   },
 
-  getTutorials(request) {
+  findTutorials(request) {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const scorecardId = request.params.id;
 
-    return usecases.getTutorials({ authenticatedUserId, scorecardId })
+    return usecases.findTutorials({ authenticatedUserId, scorecardId })
       .then(tutorialSerializer.serialize);
   },
 };

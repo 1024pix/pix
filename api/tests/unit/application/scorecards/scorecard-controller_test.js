@@ -43,14 +43,14 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getTutorials', () => {
+  describe('#findTutorials', () => {
     const authenticatedUserId = '12';
     const scorecardId = 'foo';
 
     const tutorials = [];
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getTutorials').withArgs({ authenticatedUserId, scorecardId }).resolves(tutorials);
+      sinon.stub(usecases, 'findTutorials').withArgs({ authenticatedUserId, scorecardId }).resolves(tutorials);
       sinon.stub(tutorialSerializer, 'serialize').withArgs(tutorials).resolves('ok');
     });
 
@@ -68,10 +68,10 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // when
-      const result = await scorecardController.getTutorials(request, hFake);
+      const result = await scorecardController.findTutorials(request, hFake);
 
       // then
-      expect(usecases.getTutorials).to.have.been.calledWith({ authenticatedUserId, scorecardId });
+      expect(usecases.findTutorials).to.have.been.calledWith({ authenticatedUserId, scorecardId });
       expect(result).to.be.equal('ok');
     });
   });

@@ -2,9 +2,9 @@ const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
-const getTutorials = require('../../../../lib/domain/usecases/get-tutorials');
+const findTutorials = require('../../../../lib/domain/usecases/find-tutorials');
 
-describe('Unit | UseCase | get-tutorials', () => {
+describe('Unit | UseCase | find-tutorials', () => {
 
   let authenticatedUserId;
   let competenceId;
@@ -43,7 +43,7 @@ describe('Unit | UseCase | get-tutorials', () => {
         knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves({});
 
         // when
-        const result = getTutorials({
+        const result = findTutorials({
           authenticatedUserId,
           scorecardId,
           knowledgeElementRepository,
@@ -145,7 +145,7 @@ describe('Unit | UseCase | get-tutorials', () => {
           tubeRepository.findByNames.withArgs(tubeNames).returns(tubeList);
 
           // when
-          const result = await getTutorials({
+          const result = await findTutorials({
             authenticatedUserId,
             scorecardId,
             knowledgeElementRepository,
@@ -175,7 +175,7 @@ describe('Unit | UseCase | get-tutorials', () => {
           skillRepository.findByCompetenceId.withArgs(competenceIdWikipedia).returns([skill_1, skill_2]);
 
           // when
-          const result = await getTutorials({
+          const result = await findTutorials({
             authenticatedUserId,
             scorecardId,
             knowledgeElementRepository,
@@ -198,7 +198,7 @@ describe('Unit | UseCase | get-tutorials', () => {
         const unauthorizedUserId = 42;
 
         // when
-        const promise = getTutorials({
+        const promise = findTutorials({
           authenticatedUserId: unauthorizedUserId,
           scorecardId,
           knowledgeElementRepository,
