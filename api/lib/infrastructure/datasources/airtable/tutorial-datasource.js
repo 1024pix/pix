@@ -1,5 +1,6 @@
 const airtable = require('../../airtable');
 const { Tutorial } = require('./objects');
+const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
 const _ = require('lodash');
 
@@ -20,7 +21,13 @@ module.exports = {
   
   get(id) {
     return airtable.getRecord(Tutorial.getAirtableName(), id)
-      .then((airtableRawObject) => Tutorial.fromAirTableObject(airtableRawObject));
+      .then(Tutorial.fromAirTableObject)
+      .catch((err) => {
+        if (err.error === 'NOT_FOUND') {
+          throw new AirtableResourceNotFound();
+        }
+        throw err;
+      });
   },
 };
 

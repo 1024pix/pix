@@ -4,6 +4,8 @@ const tubeDatasource = require('../../../../../lib/infrastructure/datasources/ai
 const tubeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/tubeRawAirTableFixture');
 const { Tube } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 const AirtableRecord = require('airtable').Record;
+const AirtableError = require('airtable').Error;
+const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
 const _ = require('lodash');
 
 function makeAirtableFake(records) {
@@ -20,7 +22,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () =>
 
   describe('#findByNames', () => {
 
-    it('should return an array of airtable tube data objects', async function() {
+    it('should return an array of matching airtable tube data objects', async function() {
       // given
       const rawTube1 = tubeRawAirTableFixture();
       rawTube1.fields['Nom'] = 'FAKE_NAME_RAW_TUBE_1' ;
@@ -71,6 +73,32 @@ describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () =>
         expect(tube.id).to.equal(rawTube.id);
       });
     });
+
+    context('when airtable client throw an error', () => {
+
+      it('should reject with a specific error when resource not found', () => {
+        // given
+        sinon.stub(airtable, 'getRecord').rejects(new AirtableError('NOT_FOUND'));
+
+        // when
+        const promise = tubeDatasource.get('243');
+
+        // then
+        return expect(promise).to.have.been.rejectedWith(AirtableResourceNotFound);
+      });
+
+      it('should reject with the original error in any other case', () => {
+        // given
+        sinon.stub(airtable, 'getRecord').rejects(new AirtableError('SERVICE_UNAVAILABLE'));
+
+        // when
+        const promise = tubeDatasource.get('243');
+
+        // then
+        return expect(promise).to.have.been.rejectedWith(new AirtableError('SERVICE_UNAVAILABLE'));
+      });
+    });
+
   });
 
   describe('#list', () => {

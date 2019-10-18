@@ -4,6 +4,8 @@ const airTableDataModels = require('../../../../../lib/infrastructure/datasource
 const tutorialDatasource = require('../../../../../lib/infrastructure/datasources/airtable/tutorial-datasource');
 const tutorialRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/tutorialRawAirtableFixture');
 const AirtableRecord = require('airtable').Record;
+const AirtableError = require('airtable').Error;
+const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
 const { Tutorial } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 const _ = require('lodash');
 
@@ -69,5 +71,31 @@ describe('Unit | Infrastructure | Datasource | Airtable | TutorialDatasource', (
         expect(tuto.source).to.equal(givenAirtableTutorial.fields['Source']);
       });
     });
+
+    context('when airtable client throw an error', () => {
+
+      it('should reject with a specific error when resource not found', () => {
+        // given
+        sinon.stub(airtable, 'getRecord').rejects(new AirtableError('NOT_FOUND'));
+
+        // when
+        const promise = tutorialDatasource.get('243');
+
+        // then
+        return expect(promise).to.have.been.rejectedWith(AirtableResourceNotFound);
+      });
+
+      it('should reject with the original error in any other case', () => {
+        // given
+        sinon.stub(airtable, 'getRecord').rejects(new AirtableError('SERVICE_UNAVAILABLE'));
+
+        // when
+        const promise = tutorialDatasource.get('243');
+
+        // then
+        return expect(promise).to.have.been.rejectedWith(new AirtableError('SERVICE_UNAVAILABLE'));
+      });
+    });
+
   });
 });
