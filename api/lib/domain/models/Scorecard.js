@@ -24,6 +24,7 @@ class Scorecard {
     exactlyEarnedPix,
     status,
     remainingDaysBeforeReset,
+    tutorials,
   } = {}) {
 
     this.id = id;
@@ -39,6 +40,7 @@ class Scorecard {
     this.pixScoreAheadOfNextLevel = pixScoreAheadOfNextLevel;
     this.status = status;
     this.remainingDaysBeforeReset = remainingDaysBeforeReset;
+    this.tutorials = tutorials;
   }
 
   static parseId(scorecardId) {

@@ -24,6 +24,7 @@ module.exports = {
       },
       tutorials: {
         ref: 'id',
+        ignoreRelationshipData: true,
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/scorecards/${parent.id}/tutorials`;
