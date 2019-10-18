@@ -40,7 +40,7 @@ location /api/ {
   #   pix-orga-integration-pr123 -> pix-api-integration-pr123.scalingo.io
   #   pix-orga-production        -> pix-api-production.scalingo.io
   %>
-  proxy_pass https://<%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.scalingo.io;
+  proxy_pass https://<%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.<%= ENV['API_HOST_SUFFIX'] || 'scalingo.io' %>;
   proxy_redirect default;
 }
 
