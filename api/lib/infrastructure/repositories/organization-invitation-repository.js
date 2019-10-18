@@ -59,6 +59,13 @@ module.exports = {
       .catch((err) => _checkNotFoundError(err, id));
   },
 
+  findPendingByOrganizationId({ organizationId }) {
+    return BookshelfOrganizationInvitation
+      .where({ organizationId, status: OrganizationInvitation.StatusType.PENDING })
+      .fetchAll()
+      .then((results) =>  bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationInvitation, results));
+  },
+
   findOneByOrganizationIdAndEmail({ organizationId, email }) {
     return BookshelfOrganizationInvitation
       .where({ organizationId, email })

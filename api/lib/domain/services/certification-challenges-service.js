@@ -2,9 +2,9 @@ const certificationChallengeRepository = require('../../infrastructure/repositor
 
 module.exports = {
 
-  saveChallenges(certificationProfile, certificationCourse) {
+  saveChallenges(userCompetences, certificationCourse) {
     const saveChallengePromises = [];
-    certificationProfile.forEach((userCompetence) => {
+    userCompetences.forEach((userCompetence) => {
       userCompetence.challenges.forEach((challenge) => {
         saveChallengePromises.push(certificationChallengeRepository.save(challenge, certificationCourse));
       });

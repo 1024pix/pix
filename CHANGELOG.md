@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.74.0 (18/10/2019)
+
+- [#779](https://github.com/1024pix/pix/pull/779) [FEATURE] Ajouter le details des erreurs sur la page "Oups" (PF-882).
+- [#756](https://github.com/1024pix/pix/pull/756) [FEATURE] Lister les invitations sur la page équipe (PO-239).
+- [#750](https://github.com/1024pix/pix/pull/750) [FEATURE] Indiquer à l'utilisateur s'il est certifiable (PF-751).
+- [#778](https://github.com/1024pix/pix/pull/778) [BUGFIX] Les utilisateurs étaient déconnectés intempestivement (PF-870).
+- [#777](https://github.com/1024pix/pix/pull/777) [BUGFIX] Initialiser les UserCompetences sans skills ni challenges. 
+- [#773](https://github.com/1024pix/pix/pull/773) [TECH] Variabiliser le routage des apps front pour le changement de région Scalingo.
+- [#762](https://github.com/1024pix/pix/pull/762) [DOC] Lien vers les teams Pix cassé dans le README du repo Pix.
+
 ## v2.73.0 (16/10/2019)
 
 - [#764](https://github.com/1024pix/pix/pull/764) [FEATURE] Envoyer un e-mail pour inviter un utilisateur Pix à rejoindre une organisation (PO-244).

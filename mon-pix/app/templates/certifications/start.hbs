@@ -5,11 +5,13 @@
     <div class="background-banner-wrapper">
       <div class="background-banner"></div>
 
-      <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner certification-start-page__panel">
-
-        <Stepper @steps={{array "certification-stepper-start"}}/>
-
-      </div>
+        {{#if model.isCertifiable}}
+          <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner certification-start-page__panel">
+            <Stepper @steps={{array "certification-stepper-start"}}/>
+          </div>
+        {{else}}
+          {{certification-not-certifiable}}
+        {{/if}}
     </div>
 
   {{/burger.outlet}}

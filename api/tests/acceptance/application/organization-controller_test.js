@@ -1302,7 +1302,7 @@ describe('Acceptance | Application | organization-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(201);
-        expect(_.omit(response.result, 'data.id')).to.deep.equal(expectedResult);
+        expect(_.omit(response.result, 'data.id', 'data.attributes.created-at')).to.deep.equal(expectedResult);
       });
     });
 
@@ -1400,6 +1400,116 @@ describe('Acceptance | Application | organization-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(421);
+      });
+    });
+  });
+
+  describe('GET /api/organizations/{id}/invitations', () => {
+
+    let organizationId;
+    let options;
+
+    beforeEach(async () => {
+      const ownerUserId = databaseBuilder.factory.buildUser().id;
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      databaseBuilder.factory.buildMembership({
+        userId: ownerUserId,
+        organizationId,
+        organizationRole: Membership.roles.OWNER,
+      });
+
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        email: 'jojo@business.company',
+        status: OrganizationInvitation.StatusType.PENDING,
+      });
+
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        email: 'jojo@tech.company',
+        status: OrganizationInvitation.StatusType.PENDING,
+      });
+
+      databaseBuilder.factory.buildOrganizationInvitation({
+        organizationId,
+        email: 'jojo@medical.company',
+        status: OrganizationInvitation.StatusType.ACCEPTED,
+      });
+
+      options = {
+        method: 'GET',
+        url: `/api/organizations/${organizationId}/invitations`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(ownerUserId) },
+      };
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await knex('memberships').delete();
+      await knex('organization-invitations').delete();
+      await databaseBuilder.clean();
+    });
+
+    context('Expected output', () => {
+
+      it('should return the matching organization-invitations as JSON API', async () => {
+        // given
+        const expectedResult = {
+          data: [
+            {
+              type: 'organization-invitations',
+              attributes: {
+                'organization-id': organizationId,
+                email: 'jojo@tech.company',
+                status: OrganizationInvitation.StatusType.PENDING,
+              },
+            },
+            {
+              type: 'organization-invitations',
+              attributes: {
+                'organization-id': organizationId,
+                email: 'jojo@business.company',
+                status: OrganizationInvitation.StatusType.PENDING,
+              },
+            },
+          ],
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(_.omit(response.result, 'data[0].id', 'data[0].attributes.created-at', 'data[1].id', 'data[1].attributes.created-at')).to.deep.equal(expectedResult);
+      });
+    });
+
+    context('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('should respond with a 403 - forbidden access - if user is not OWNER in organization', async () => {
+        // given
+        const nonPixMasterUserId = databaseBuilder.factory.buildUser().id;
+        await databaseBuilder.commit();
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
       });
     });
   });

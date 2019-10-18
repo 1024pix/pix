@@ -73,6 +73,8 @@ module('Acceptance | Team Creation', function(hooks) {
         const email = 'gigi@labrochette.com';
         const code = 'ABCDEFGH01';
 
+        server.create('user', { firstName: 'Gigi', lastName: 'La Brochette', email, pixOrgaTermsOfServiceAccepted: true });
+
         await visit('/equipe/creation');
         await fillIn('#email', email);
 
@@ -80,12 +82,12 @@ module('Acceptance | Team Creation', function(hooks) {
         await click('button[type="submit"]');
 
         // then
-        const organizationInvitation = server.db.organizationInvitations[0];
+        const organizationInvitation = server.db.organizationInvitations[server.db.organizationInvitations.length - 1];
         assert.equal(organizationInvitation.email, email);
         assert.equal(organizationInvitation.status, 'PENDING');
         assert.equal(organizationInvitation.code, code);
         assert.equal(currentURL(), '/equipe');
-        assert.dom('.table tbody tr').exists({ count: 1 });
+        assert.dom('#table-members tbody tr').exists({ count: 1 });
       });
 
       test('should display an empty input field after cancel and before add a team member', async function(assert) {

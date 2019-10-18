@@ -82,7 +82,22 @@ module('Acceptance | Team List', function(hooks) {
         await visit('/equipe');
 
         // then
-        assert.dom('.table tbody tr').exists({ count: 1 });
+        assert.dom('#table-members tbody tr').exists({ count: 1 });
+      });
+
+      test('it should list the pending team invitations', async function(assert) {
+        // given
+        const organizationId = server.db.organizations[0].id;
+        server.create('organization-invitation', {
+          organizationId,
+          createdAt: new Date()
+        });
+
+        // when
+        await visit('/equipe');
+
+        // then
+        assert.dom('#table-invitations tbody tr').exists({ count: 1 });
       });
     });
   });

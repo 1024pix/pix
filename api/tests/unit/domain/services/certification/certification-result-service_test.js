@@ -159,10 +159,11 @@ describe('Unit | Service | Certification Result Service', function() {
         sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourseV2);
         sinon.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
         sinon.stub(challengeRepository, 'list').resolves(challengesFromAirTable);
-        sinon.stub(userService, 'getProfileToCertifyV2').withArgs({
+        sinon.stub(userService, 'getCertificationProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
-        });
+          isV2Certification: certificationCourseV2.isV2Certification,
+        }).resolves({ userCompetences: [] });
       });
 
       it('should get user profile V2', async () => {
@@ -170,7 +171,7 @@ describe('Unit | Service | Certification Result Service', function() {
         await certificationResultService.getCertificationResult(certificationAssessment, false);
 
         // then
-        sinon.assert.calledOnce(userService.getProfileToCertifyV2);
+        sinon.assert.calledOnce(userService.getCertificationProfile);
 
       });
     });
@@ -198,10 +199,11 @@ describe('Unit | Service | Certification Result Service', function() {
         sinon.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
         sinon.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
         sinon.stub(challengeRepository, 'list').resolves(challengesFromAirTable);
-        sinon.stub(userService, 'getProfileToCertifyV1').withArgs({
+        sinon.stub(userService, 'getCertificationProfile').withArgs({
           userId: 'user_id',
-          limitDate: dateCreationCertif
-        }).resolves(userCompetences);
+          limitDate: dateCreationCertif,
+          isV2Certification: certificationCourseV1.isV2Certification,
+        }).resolves({ userCompetences });
         sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourseV1);
       });
 
@@ -687,16 +689,17 @@ describe('Unit | Service | Certification Result Service', function() {
                 { challengeId: 'challenge_C_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeC_1' },
               ], domainBuilder.buildCertificationChallenge);
 
-              const userProfile = [
+              const userCompetences = [
                 _buildUserCompetence(competence_1, positionedScore, positionedLevel),
               ];
 
               answersRepository.findByAssessment.resolves(answers);
               certificationChallengesRepository.findByCertificationCourseId.resolves(challenges);
-              userService.getProfileToCertifyV1.withArgs({
+              userService.getCertificationProfile.withArgs({
                 userId: 'user_id',
-                limitDate: dateCreationCertif
-              }).resolves(userProfile);
+                limitDate: dateCreationCertif,
+                isV2Certification: false,
+              }).resolves({ userCompetences });
 
               // When
               const promise = certificationResultService.getCertificationResult(certificationAssessment, continueOnError);
@@ -729,10 +732,11 @@ describe('Unit | Service | Certification Result Service', function() {
       });
 
       beforeEach(() => {
-        sinon.stub(userService, 'getProfileToCertifyV1').withArgs({
+        sinon.stub(userService, 'getCertificationProfile').withArgs({
           userId: 'user_id',
-          limitDate: dateCreationCertif
-        }).resolves(userCompetences);
+          limitDate: dateCreationCertif,
+          isV2Certification: false,
+        }).resolves({ userCompetences });
         sinon.stub(answersRepository, 'findByAssessment').resolves(wrongAnswersForAllChallenges());
         sinon.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
         sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
@@ -1085,10 +1089,11 @@ describe('Unit | Service | Certification Result Service', function() {
 
           challengeRepository.list.resolves(listChallengeComp5WithOneQROCMDEPChallengeAndAnother);
           certificationChallengesRepository.findByCertificationCourseId.resolves(challenges);
-          userService.getProfileToCertifyV1.withArgs({
+          userService.getCertificationProfile.withArgs({
             userId: 'user_id',
-            limitDate: dateCreationCertif
-          }).resolves(userCompetences);
+            limitDate: dateCreationCertif,
+            isV2Certification: false,
+          }).resolves({ userCompetences });
 
         });
 

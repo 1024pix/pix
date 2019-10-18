@@ -1,18 +1,17 @@
 const CertificationCourse = require('../models/CertificationCourse');
-const UserCompetence = require('../models/UserCompetence');
 const Assessment = require('../models/Assessment');
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../errors');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   accessCode,
   userId,
-  sessionService,
+  sessionRepository,
   userService,
   certificationChallengesService,
   certificationCourseRepository,
   assessmentRepository,
 }) {
-  const sessionId = await sessionService.getSessionIdByAccessCode(accessCode);
+  const { id: sessionId } = await sessionRepository.getByAccessCode(accessCode);
   try {
     const certificationCourse = await certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
     return {
@@ -44,11 +43,12 @@ async function _startNewCertification({
   assessmentRepository,
 }) {
   const now = new Date();
-  const userCompetencesProfile = await userService.getProfileToCertifyV2({ userId, limitDate: now });
+  const certificationProfile = await userService.getCertificationProfile({ userId, limitDate: now });
 
-  if (!UserCompetence.isCertifiable(userCompetencesProfile)) {
+  if (!certificationProfile.isCertifiable()) {
     throw new UserNotAuthorizedToCertifyError();
   }
+  await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
 
   try {
     const certificationCourse = await certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
@@ -63,7 +63,7 @@ async function _startNewCertification({
       await _createAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id, assessmentRepository });
       return {
         created: true,
-        certificationCourse: await certificationChallengesService.saveChallenges(userCompetencesProfile, savedCertificationCourse),
+        certificationCourse: await certificationChallengesService.saveChallenges(certificationProfile.userCompetences, savedCertificationCourse),
       };
     }
 

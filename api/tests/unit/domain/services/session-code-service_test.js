@@ -49,33 +49,4 @@ describe('Unit | Service | CodeSession', () => {
     });
   });
 
-  describe('#getSessionByAccessCode', () => {
-
-    it('should return true if session exists with this accessCode', () => {
-      // given
-      sinon.stub(sessionRepository, 'getByAccessCode').resolves({ id: 1 });
-
-      // when
-      const promise = sessionCodeService.getSessionByAccessCode('ABCD12');
-
-      // then
-      return promise.then((result) => {
-        expect(result).to.be.deep.equal({ id: 1 });
-      });
-    });
-
-    it('should return false if accessCode does not link to a session', () => {
-      // given
-      sinon.stub(sessionRepository, 'getByAccessCode').resolves(null);
-
-      // when
-      const promise = sessionCodeService.getSessionByAccessCode('BBAAAHHHHH');
-
-      // then
-      return promise.then((result) => {
-        expect(result).to.be.equal(null);
-      });
-    });
-  });
-
 });
