@@ -15,6 +15,7 @@ class Organization {
     memberships = [],
     targetProfileShares = [],
     students = [],
+    organizationInvitations = [],
     // references
   } = {}) {
     this.id = id;
@@ -31,6 +32,7 @@ class Organization {
     this.memberships = memberships;
     this.targetProfileShares = targetProfileShares;
     this.students = students;
+    this.organizationInvitations = organizationInvitations;
     // references
   }
 }

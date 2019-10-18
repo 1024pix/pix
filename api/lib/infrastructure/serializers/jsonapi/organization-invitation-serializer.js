@@ -4,7 +4,7 @@ module.exports = {
 
   serialize(invitations) {
     return new Serializer('organization-invitations', {
-      attributes: ['organizationId', 'email', 'status'],
+      attributes: ['organizationId', 'email', 'status', 'createdAt'],
     }).serialize(invitations);
   },
 

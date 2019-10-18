@@ -55,8 +55,32 @@ function _createStudents(server) {
   server.createList('students', 6, { organizationId: organization.id });
 }
 
+function _createOrganizationInvitations(server) {
+  const organization = server.create('organization', {
+    name: 'College Paul Verlaine',
+    type: 'SCO',
+    isManagingStudents: true,
+  });
+
+  const user = server.create('user', {
+    email: 'plane@example.net',
+  });
+
+  const userMembership = server.create('membership', {
+    organizationId: organization.id,
+    userId: user.id,
+    organizationRole: 'OWNER'
+  });
+
+  user.memberships = [userMembership];
+
+  server.create('organization-invitation', { email: 'car@example.net', organizationId: organization.id });
+  server.create('organization-invitation', { email: 'train@example.net', organizationId: organization.id });
+}
+
 export default function(server) {
   _createSignedUpUser(server);
   _createCampaigns(server);
   _createStudents(server);
+  _createOrganizationInvitations(server);
 }

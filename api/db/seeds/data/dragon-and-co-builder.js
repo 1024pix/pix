@@ -1,4 +1,5 @@
 const Membership = require('../../../lib/domain/models/Membership');
+const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
 
 module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
 
@@ -110,6 +111,18 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     userId: proUserSub2.id,
     organizationId: dragonAndCoSubsidiary2.id,
     organizationRole: Membership.roles.OWNER,
+  });
+
+  databaseBuilder.factory.buildOrganizationInvitation({
+    email: 'unsullied@example.net',
+    status: OrganizationInvitation.StatusType.ACCEPTED,
+    organizationId: dragonAndCoCompany.id,
+  });
+
+  databaseBuilder.factory.buildOrganizationInvitation({
+    email: 'khal@example.net',
+    status: OrganizationInvitation.StatusType.PENDING,
+    organizationId: dragonAndCoCompany.id,
   });
 
 };
