@@ -159,6 +159,76 @@ module('Acceptance | join', function(hooks) {
         assert.dom('.topbar__user-identification').hasText('Harry Cover');
       });
     });
+
+    module('When user is logging in but his credentials are invalid', function(hooks) {
+
+      let user;
+      let organizationInvitationId;
+      let code;
+
+      hooks.beforeEach(() => {
+        user = createUserWithMembership();
+        code = 'ABCDEFGH01';
+        const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
+        organizationInvitationId = server.create('organizationInvitation', {
+          organizationId, email: 'random@email.com', status: 'pending', code
+        }).id;
+      });
+
+      test('it should remain on join page', async function(assert) {
+        // given
+        await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+        await click('#login');
+        await fillIn('#login-email', user.email);
+        await fillIn('#login-password', 'fakepassword');
+
+        // when
+        await click('button[type=submit]');
+
+        // then
+        assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+        assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+        assert.dom('#login-form-error-message').hasText('L\'adresse e-mail et/ou le mot\n de passe saisis sont incorrects.');
+      });
+    });
+
+    module('When user has already accepted organization-invitation or user is already a member of the organization', function(hooks) {
+
+      let user;
+      let organizationInvitationId;
+      let code;
+
+      hooks.beforeEach(() => {
+        user = createUserWithMembership();
+        code = 'ABCDEFGH01';
+        const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
+        organizationInvitationId = server.create('organizationInvitation', {
+          organizationId, email: 'random@email.com', status: 'pending', code
+        }).id;
+      });
+
+      test('it should redirect to terms-of-service page', async function(assert) {
+        // given
+        server.post(`/organization-invitations/${organizationInvitationId}/response`, {
+          errors: [{
+            detail: '',
+            status: '421',
+            title: '',
+          }]
+        }, 421);
+        await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+        await click('#login');
+        await fillIn('#login-email', user.email);
+        await fillIn('#login-password', 'secret');
+
+        // when
+        await click('button[type=submit]');
+
+        // then
+        assert.equal(currentURL(), '/cgu');
+        assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+      });
+    });
   });
 
   module('Register', function() {
