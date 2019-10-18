@@ -7,6 +7,8 @@ export default Route.extend(UnauthenticatedRouteMixin, {
     return this.store.queryRecord('organization-invitation', {
       invitationId: params.invitationId,
       code: params.code
+    }).catch(() => {
+      this.replaceWith('login');
     });
   }
 });

@@ -14,26 +14,51 @@ module('Acceptance | join', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('Login', function() {
+  module('When user tries to go on join page', function() {
 
-    module('When user is not logged in', function() {
+    test('it should remain on join page when organization-invitation exists', async function(assert) {
+      // given
+      const code = 'ABCDEFGH01';
+      const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
+      const organizationInvitationId = server.create('organizationInvitation', {
+        organizationId, email: 'random@email.com', status: 'pending', code
+      }).id;
 
-      test('it should remain on join page', async function(assert) {
-        // given
-        const code = 'ABCDEFGH01';
-        const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
-        const organizationInvitationId = server.create('organizationInvitation', {
-          organizationId, email: 'random@email.com', status: 'pending', code
-        }).id;
+      // when
+      await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
 
-        // when
-        await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-
-        // then
-        assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
-      });
+      // then
+      assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+      assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
     });
+
+    test('it should redirect user to login page when organization-invitation does not exist', async function(assert) {
+      // when
+      await visit('rejoindre?invitationId=123456&code=FAKE999');
+
+      // then
+      assert.equal(currentURL(), '/connexion');
+      assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+    });
+
+    test('it should redirect user to login page when organization-invitation has already been accepted', async function(assert) {
+      // given
+      const code = 'ABCDEFGH01';
+      const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
+      const organizationInvitationId = server.create('organizationInvitation', {
+        organizationId, email: 'random@email.com', status: 'accepted', code
+      }).id;
+
+      // when
+      await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+
+      // then
+      assert.equal(currentURL(), '/connexion');
+      assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+    });
+  });
+
+  module('Login', function() {
 
     module('When user is logging in but has not accepted terms of service yet', function(hooks) {
 

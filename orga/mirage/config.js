@@ -82,8 +82,16 @@ export default function() {
   this.get('/organization-invitations/:id', (schema, request) => {
     const organizationInvitationId = request.params.id;
     const organizationInvitationCode = request.queryParams.code;
+    if (!organizationInvitationCode) {
+      return new Response(400, {}, { errors: [ { status: '400', detail: '' } ] });
+    }
 
-    return schema.organizationInvitations.findBy({ id: organizationInvitationId, code: organizationInvitationCode });
+    const organizationInvitation = schema.organizationInvitations.findBy({ id: organizationInvitationId, code: organizationInvitationCode, status: 'pending' });
+    if (!organizationInvitation) {
+      return new Response(421, {}, { errors: [ { status: '421', detail: '' } ] });
+    }
+
+    return organizationInvitation;
   });
 
   this.post('/organization-invitations/:id/response', (schema, request) => {
