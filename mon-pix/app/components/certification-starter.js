@@ -22,7 +22,7 @@ export default Component.extend({
         const certificationCourse = await this.store.createRecord('course', { accessCode }).save();
         await certificationCourse.reload();
         return this.router.replaceWith('certifications.resume', certificationCourse.id);
-      } catch ({ errors }) {
+      } catch ({ errors }) {ppeekerjs
         const { status } = errors[0];
         this.handleErrorStatus(status);
       }
