@@ -14,6 +14,7 @@ describe('Unit | Router | organization-router', () => {
 
   beforeEach(() => {
     sinon.stub(securityController, 'checkUserIsOwnerInOrganization').returns(true);
+    sinon.stub(securityController, 'checkUserIsOwnerInOrganizationOrHasRolePixMaster').returns(true);
     sinon.stub(organizationController, 'find').returns('ok');
     sinon.stub(organizationController, 'sendInvitation').callsFake((request, h) => h.response().created());
 

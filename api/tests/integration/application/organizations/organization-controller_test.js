@@ -222,7 +222,7 @@ describe('Integration | Application | Organizations | organization-controller', 
       };
 
       beforeEach(() => {
-        securityController.checkUserIsOwnerInOrganization.returns(true);
+        securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster.returns(true);
       });
 
       it('should return an HTTP response with status code 201', async () => {

@@ -4,24 +4,11 @@
 
 'use strict';
 require('dotenv').config();
-const fs = require('fs');
-const path = require('path');
-const papa = require('papaparse');
 const request = require('request-promise-native');
 
+const { assertFileValidity, parseCsv } = require('../scripts/helpers/csvHelpers');
+
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
-
-function assertFileValidity(filePath) {
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`File not found ${filePath}`);
-  }
-
-  const fileExtension = path.extname(filePath);
-
-  if (fileExtension !== '.csv') {
-    throw new Error(`File extension not supported ${fileExtension}`);
-  }
-}
 
 function organizeOrganizationsByExternalId(data) {
   const organizationsByExternalId = {};
@@ -35,9 +22,9 @@ function organizeOrganizationsByExternalId(data) {
   return organizationsByExternalId;
 }
 
-async function updateOrgnizationsAndSendInvitations(data, organizationsByExternalId, accessToken) {
+async function updateOrganizationsAndSendInvitations({ data, organizationsByExternalId, accessToken, logOutput = false }) {
   for (let i = 0; i < data.length; i++) {
-    console.log(i + 1);
+    if (logOutput) console.log(i + 1);
     const [externalId,, email] = data[i];
     const organization = organizationsByExternalId[externalId];
     await Promise.all([
@@ -90,7 +77,7 @@ function _buildPatchOrganizationRequestObject(accessToken, organization) {
         type: 'organizations',
         id: organization.id,
         attributes: {
-          isManaginStudents: true,
+          isManagingStudents: true,
         },
       },
     },
@@ -128,8 +115,7 @@ async function main() {
     console.log('ok');
 
     process.stdout.write('Reading and parsing data... ');
-    const rawData = fs.readFileSync(filePath, 'utf8');
-    const { data } = papa.parse(rawData);
+    const data = parseCsv(filePath);
     console.log('ok');
 
     process.stdout.write('Requesting API access token... ');
@@ -151,7 +137,7 @@ async function main() {
     console.log('ok');
 
     console.log('Updating organizations and creating invitations...');
-    await updateOrgnizationsAndSendInvitations(data, organizationsByExternalId, accessToken);
+    await updateOrganizationsAndSendInvitations({ data, organizationsByExternalId, accessToken });
     console.log('Done.');
 
   } catch (error) {
@@ -167,7 +153,6 @@ if (require.main === module) {
 }
 
 module.exports = {
-  assertFileValidity,
   organizeOrganizationsByExternalId,
-  updateOrgnizationsAndSendInvitations,
+  updateOrganizationsAndSendInvitations
 };
