@@ -196,7 +196,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
     });
 
     context('Success case', () => {
-      const tubeWeb = 'web';
+      const tubeWeb = '@web';
       const tubeWebId = 'recTubeWeb1';
       const tutorialWebId = 'recTutorial1';
       const tutorialWebId2 = 'recTutorial2';
@@ -285,7 +285,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
                 'link': 'http://www.example.com/this-is-an-example.html',
                 'source': 'Source Example, Example',
                 'title': 'Communiquer',
-                'tube-name': 'web',
+                'tube-name': '@web',
                 'tube-practical-description': 'Ceci est une description pratique',
                 'tube-practical-title': 'Ceci est un titre pratique',
               }
@@ -299,7 +299,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
                 'link': 'http://www.example.com/this-is-an-example.html',
                 'source': 'Source Example, Example',
                 'title': 'Communiquer',
-                'tube-name': 'web',
+                'tube-name': '@web',
                 'tube-practical-description': 'Ceci est une description pratique',
                 'tube-practical-title': 'Ceci est un titre pratique',
               }

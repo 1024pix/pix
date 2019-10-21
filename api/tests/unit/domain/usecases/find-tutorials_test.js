@@ -69,21 +69,21 @@ describe('Unit | UseCase | find-tutorials', () => {
 
           const expectedTutorial1 = {
             ...tutorial1,
-            tubeName: 'wikipédia',
+            tubeName: '@wikipédia',
             tubePracticalTitle: 'Practical Title wikipédia',
             tubePracticalDescription: 'Practical Description wikipédia',
           };
 
           const expectedTutorial2 = {
             ...tutorial2,
-            tubeName: 'wikipédia',
+            tubeName: '@wikipédia',
             tubePracticalTitle: 'Practical Title wikipédia',
             tubePracticalDescription: 'Practical Description wikipédia',
           };
 
           const expectedTutorial3 = {
             ...tutorial3,
-            tubeName: 'recherche',
+            tubeName: '@recherche',
             tubePracticalTitle: 'Practical Title recherche',
             tubePracticalDescription: 'Practical Description recherche',
           };
@@ -128,7 +128,7 @@ describe('Unit | UseCase | find-tutorials', () => {
           skillRepository.findByCompetenceId.withArgs(competenceIdUrl).returns([skill_4, skill_5]);
           skillRepository.findByCompetenceId.withArgs(competenceIdRecherche).returns([skill_6, skill_7, skill_8]);
 
-          const tubeNames = ['wikipédia', 'recherche'];
+          const tubeNames = ['@wikipédia', '@recherche'];
           const tubeList = [
             domainBuilder.buildTube({
               name: tubeNames[0],

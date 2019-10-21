@@ -22,7 +22,7 @@ module.exports = async function findTutorials({
   const invalidatedKnowledgeElements = _.filter(knowledgeElements, (knowledgeElement) => knowledgeElement.isInvalidated);
   const failedSkills = await Promise.all(invalidatedKnowledgeElements.map((ke) => skillRepository.findByCompetenceId(ke.competenceId)));
 
-  const skillsArraysGroupedByTubeName = _.groupBy(_(failedSkills).flatten().uniq().value(), 'tubeName');
+  const skillsArraysGroupedByTubeName = _.groupBy(_(failedSkills).flatten().uniq().value(), 'tubeNameWithAt');
   const tubeNames = Object.keys(skillsArraysGroupedByTubeName);
   const tubesReferences = await tubeRepository.findByNames(tubeNames);
 
