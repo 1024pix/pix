@@ -267,6 +267,47 @@ module('Acceptance | join', function(hooks) {
           assert.equal(organizationInvitation.status, 'accepted');
         });
       });
+
+      module('When user already exist', function(hooks) {
+
+        let organizationId;
+
+        hooks.beforeEach(() => {
+          organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
+        });
+
+        test('should redirect user to the campaigns list', async function(assert) {
+          // given
+          const code = 'ABCDEFGH01';
+          const organizationInvitationId = server.create('organizationInvitation', {
+            organizationId, email: 'random@email.com', status: 'pending', code
+          }).id;
+
+          server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'alreadyUser@organization.org', 'pixOrgaTermsOfServiceAccepted': true });
+
+          server.post('/users', {
+            errors: [{
+              detail: '',
+              status: '422',
+              title: '',
+            }]
+          }, 422);
+
+          await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+          await fillIn('#register-firstName', 'pix');
+          await fillIn('#register-lastName', 'pix');
+          await fillIn('#register-email', 'alreadyUser@organization.org');
+          await fillIn('#register-password', 'Password4register');
+          await click('#register-cgu');
+
+          // when
+          await click('button[type=submit]');
+
+          // then
+          assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+          assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+        });
+      });
     });
   });
 });
