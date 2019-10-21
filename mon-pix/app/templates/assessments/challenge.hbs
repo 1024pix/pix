@@ -9,13 +9,11 @@
   </div>
 
   <div class="assessment-challenge__content rounded-panel--over-background-banner">
-    {{#if model.assessment.showProgressBar}}
-      {{progress-bar assessment=model.assessment challenge=model.challenge}}
-    {{/if}}
-
-    {{#if model.assessment.isCertification}}
-      {{certification-progress assessment=model.assessment}}
-    {{/if}}
+    {{progress-bar
+      assessment=model.assessment
+      answerId=model.answer.id
+      challengeId=model.challenge.id
+    }}
 
     {{component (get-challenge-component-class model.challenge)
                 challenge=model.challenge
