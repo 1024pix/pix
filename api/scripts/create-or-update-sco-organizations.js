@@ -55,7 +55,7 @@ async function createOrUpdateOrganizations(accessToken, organizationsByExternalI
         externalId,
         provinceCode: externalId.substring(0, 3),
         type: 'SCO',
-        isManagingStudents: true,
+        isManagingStudents: false,
       }));
     }
 

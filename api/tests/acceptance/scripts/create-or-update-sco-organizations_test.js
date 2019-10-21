@@ -120,7 +120,7 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
             type: 'SCO',
             'external-id': 'C300',
             'province-code': 'C30',
-            'is-managing-students': true,
+            'is-managing-students': false,
           },
         },
       };
