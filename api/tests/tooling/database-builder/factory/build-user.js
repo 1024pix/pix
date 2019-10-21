@@ -40,7 +40,7 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   id,
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
-  email = faker.internet.email(),
+  email = faker.internet.email().toLowerCase(),
   rawPassword = faker.internet.password(),
   cgu = true,
   pixOrgaTermsOfServiceAccepted = false,
