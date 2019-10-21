@@ -136,5 +136,36 @@ describe('Unit | Service | OrganizationService', () => {
       expect(availableTargetProfiles[3].name).equal('A Public profile');
       expect(availableTargetProfiles[4].name).equal('B Public profile');
     });
+
+    it('should return a list of not outdated target profile', async () => {
+      // given
+      targetProfilesOwnedByOrganization = [
+        domainBuilder.buildTargetProfile({ organizationId, isPublic: false }),
+      ];
+      targetProfileSharesWithOrganization = [
+        domainBuilder.buildTargetProfile({ isPublic: false }),
+      ];
+      publicTargetProfiles = [
+        domainBuilder.buildTargetProfile({ isPublic: true }),
+      ];
+      const targetProfileShares = [{
+        targetProfile: targetProfileSharesWithOrganization
+      }];
+      const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
+
+      targetProfileOrganizationCanUse = concat(targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization, publicTargetProfiles);
+
+      targetProfileRepository.findAllTargetProfileOrganizationCanUse.resolves(targetProfileOrganizationCanUse);
+      organizationRepository.get.resolves(organization);
+      // when
+      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
+
+      // then
+      expect(availableTargetProfiles.length).to.equal(4);
+      expect(availableTargetProfiles[0].outdated).to.be.false;
+      expect(availableTargetProfiles[1].outdated).to.be.false;
+      expect(availableTargetProfiles[2].outdated).to.be.false;
+      expect(availableTargetProfiles[3].shift().outdated).to.be.false;
+    });
   });
 });
