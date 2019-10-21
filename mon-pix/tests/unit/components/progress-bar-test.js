@@ -13,14 +13,10 @@ describe('Unit | Component | progress-bar', function() {
 
     beforeEach(function() {
       assessment = EmberObject.create({
-        answers: [
-          { id: 1, isNew: false, },
-          { id: 2, isNew: false, },
-          { id: 3, isNew: false, },
-          { id: 4, isNew: false, },
-          { id: 5, isNew: false, },
-          { id: 6, isNew: false, },
-        ],
+        answers: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }],
+        hasMany(relationship) {
+          return { ids: () => { return this[relationship].mapBy('id'); } };
+        },
       });
       component = this.owner.lookup('component:progress-bar');
       component.set('assessment', assessment);
@@ -48,7 +44,7 @@ describe('Unit | Component | progress-bar', function() {
 
     it('should recompute when challenge changes but not when answer is persisted', function() {
       // given
-      const newAnswer = EmberObject.create({ id: null, isNew: true });
+      const newAnswer = EmberObject.create({ id: null });
       assessment.get('answers').push(newAnswer);
 
       // when

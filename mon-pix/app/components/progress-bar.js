@@ -14,23 +14,16 @@ export default Component.extend({
   showProgressBar: and('media.isDesktop', 'assessment.showProgressBar'),
 
   currentStepIndex: computed('answerId', 'assessment.answers.[]', 'challengeId', 'maxStepsNumber', function() {
-    const persistedAnswers = this.get('assessment.answers').filterBy('isNew', false);
+    const persistedAnswersIds = this.get('assessment').hasMany('answers').ids().filter((id) => id != null);
     const currentAnswerId = this.get('answerId');
 
-    let foundIndex = -1;
-    persistedAnswers.find((answer, index) => {
-      if (answer.id === currentAnswerId) {
-        foundIndex = index;
-        return true;
-      }
-      return false;
-    });
+    let index = persistedAnswersIds.indexOf(currentAnswerId);
 
-    if (foundIndex === -1) {
-      foundIndex = persistedAnswers.length;
+    if (index === -1) {
+      index = persistedAnswersIds.length;
     }
 
-    return foundIndex % this.maxStepsNumber;
+    return index % this.maxStepsNumber;
   }),
 
   maxStepsNumber: computed('assessment.{hasCheckpoints,course.nbChallenges}', function() {
