@@ -1352,7 +1352,7 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user is not OWNER in organization', async () => {
+      it('should respond with a 403 - forbidden access - if user is not OWNER in organization or PIXMASTER', async () => {
         // given
         const nonPixMasterUserId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
@@ -1363,6 +1363,17 @@ describe('Acceptance | Application | organization-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(403);
+      });
+
+      it('should respond with a 201 - created - if user is PIXMASTER', async () => {
+        // given
+        options.headers.authorization = generateValidRequestAuthorizationHeader();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(201);
       });
 
       it('should respond with a 404 - not found - if given email is not linked to an existing user', async () => {

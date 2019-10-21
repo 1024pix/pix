@@ -158,8 +158,8 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/invitations',
       config: {
         pre: [{
-          method: securityController.checkUserIsOwnerInOrganization,
-          assign: 'isOwnerInOrganization'
+          method: securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster,
+          assign: 'isOwnerInOrganizationOrHasRolePixMaster'
         }],
         handler: organisationController.sendInvitation,
         notes: [
