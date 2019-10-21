@@ -40,7 +40,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', () => {
       const tutorial = domainBuilder.buildTutorial({
         id: tutorialId,
       });
-      tutorial.tubeName = 'Tube Name';
+      tutorial.tubeName = '@web';
       tutorial.tubePracticalTitle = 'Tube Practical Title';
       tutorial.tubePracticalDescription = 'Tube Practical Description';
 
@@ -56,7 +56,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', () => {
             'link': 'https://youtube.fr',
             'source': 'Youtube',
             'title': 'Savoir regarder des vidéos youtube.',
-            'tube-name': 'Tube Name',
+            'tube-name': '@web',
             'tube-practical-description': 'Tube Practical Description',
             'tube-practical-title': 'Tube Practical Title',
           },

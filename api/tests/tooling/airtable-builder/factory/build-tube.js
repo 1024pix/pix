@@ -1,6 +1,6 @@
 module.exports = function buildTube({
   id = 'recTIeergjhID28Ep',
-  nom = 'web',
+  nom = '@web',
   titre = '',
   description = '',
   titrePratique = 'Adresses',

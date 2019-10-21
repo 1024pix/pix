@@ -5,7 +5,7 @@ const buildSkillCollection = require('./build-skill-collection');
 
 module.exports = function buildTube({
   id = faker.random.uuid(),
-  name = faker.random.word(),
+  name = '@tubeName',
   title = faker.random.word(),
   description = faker.lorem.sentence(),
   practicalTitle = faker.random.word(),
