@@ -1,41 +1,8 @@
 const { expect, nock } = require('../../test-helper');
+
 const script = require('../../../scripts/create-or-update-sco-organizations');
 
 describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
-
-  describe('#assertFileValidity', () => {
-
-    it('should throw an error when file does not exist', () => {
-      // given
-      const filePath = 'inexistant.file';
-
-      try {
-        // when
-        script.assertFileValidity(filePath);
-
-        // then
-        expect.fail('Expected error to have been thrown');
-      } catch (err) {
-        expect(err.message).to.equal('File not found inexistant.file');
-      }
-    });
-
-    it('should throw an error when file extension is not ".csv"', () => {
-      // given
-      const filePath = `${__dirname}/file_with_bad_extension.html`;
-
-      try {
-        // when
-        script.assertFileValidity(filePath);
-
-        // then
-        expect.fail('Expected error to have been thrown');
-      } catch (err) {
-        expect(err.message).to.equal('File extension not supported .html');
-      }
-    });
-
-  });
 
   describe('#organizeOrganizationsByExternalId', () => {
 

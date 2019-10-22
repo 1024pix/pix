@@ -3,24 +3,11 @@
 
 'use strict';
 require('dotenv').config();
-const fs = require('fs');
-const path = require('path');
-const papa = require('papaparse');
 const request = require('request-promise-native');
 
+const { assertFileValidity, parseCsv } = require('./helpers/csvHelpers');
+
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
-
-function assertFileValidity(filePath) {
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`File not found ${filePath}`);
-  }
-
-  const fileExtension = path.extname(filePath);
-
-  if (fileExtension !== '.csv') {
-    throw new Error(`File extension not supported ${fileExtension}`);
-  }
-}
 
 function organizeOrganizationsByExternalId(data) {
   const organizationsByExternalId = {};
@@ -45,8 +32,6 @@ async function createOrUpdateOrganizations(accessToken, organizationsByExternalI
     if (!(externalId && name)) return;
 
     const existingOrganization = organizationsByExternalId[externalId];
-
-
 
     if (existingOrganization && name !== existingOrganization.name) {
       await request(_buildPatchOrganizationRequestObject(accessToken, { id: existingOrganization.id, name }));
@@ -153,8 +138,7 @@ async function main() {
     console.log('ok');
 
     process.stdout.write('Reading and parsing data... ');
-    const rawData = fs.readFileSync(filePath, 'utf8');
-    const { data } = papa.parse(rawData);
+    const data = parseCsv(filePath);
     console.log('ok');
 
     process.stdout.write('Requesting API access token... ');
@@ -184,7 +168,6 @@ if (require.main === module) {
 }
 
 module.exports = {
-  assertFileValidity,
   organizeOrganizationsByExternalId,
   createOrUpdateOrganizations,
 };
