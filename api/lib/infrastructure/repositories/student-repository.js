@@ -28,17 +28,14 @@ module.exports = {
     return Bookshelf.knex.batchInsert('students', bookshelfStudents).then(() => undefined);
   },
 
-  isThereAtLeastOneMatchForTheUserInStudentList({ user, organizationId }) {
+  findByOrganizationIdAndUserFirstNameLastName({ organizationId, firstName, lastName }) {
     return BookshelfStudent
       .query((qb) => {
         qb.where('organizationId', organizationId);
-        qb.whereRaw('LOWER(?) in (LOWER(??), LOWER(??), LOWER(??))', [user.firstName, 'firstName', 'middleName', 'thirdName']);
-        qb.whereRaw('LOWER(?) in (LOWER(??), LOWER(??))', [user.lastName, 'lastName', 'preferredLastName']);
-        qb.count();
+        qb.whereRaw('LOWER(?) in (LOWER(??), LOWER(??), LOWER(??))', [firstName, 'firstName', 'middleName', 'thirdName']);
+        qb.whereRaw('LOWER(?) in (LOWER(??), LOWER(??))', [lastName, 'lastName', 'preferredLastName']);
       })
-      .fetch()
-      .then((countStudents) => {
-        return parseInt(countStudents.attributes.count) === 1;
-      });
-  }
+      .fetchAll()
+      .then((students) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStudent, students));
+  },
 };
