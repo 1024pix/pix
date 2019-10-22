@@ -121,7 +121,7 @@
       width: 250px;
     }
     &-information {
-      font-family: $font-open-sans;
+      font-family: $font-roboto;
       font-weight: $font-light;
       font-size: 2.4rem;
       padding-top: 20px;
@@ -150,12 +150,8 @@
   }
 
   &__share-container {
-    padding-bottom: 20px;
+    padding: 16px 60px 32px 60px;
     text-align: center;
-
-    @include device-is('tablet') {
-      padding: 60px;
-    }
   }
 
   &__table-header {
@@ -191,12 +187,7 @@
     color: $dove-gray;
     line-height: 33px;
     font-weight: $font-light;
-    margin: 0 10px 30px 10px;
-
-    @include device-is('tablet') {
-      font-size: 3rem;
-      margin: 0 20px 60px 20px;
-    }
+    margin: 0 20px 24px 20px;
   }
 
   &__thanks {
