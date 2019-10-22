@@ -123,9 +123,9 @@ function _insertSnapshot(organizationId, userId) {
   return knex('snapshots').insert(snapshotRaw).returning('id');
 }
 
-function _createToken(user) {
+function _createTokenWithUserId(userId) {
   return jwt.sign({
-    user_id: user,
+    user_id: userId,
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 }
 
@@ -427,7 +427,7 @@ describe('Acceptance | Application | organization-controller', () => {
     beforeEach(() => {
       return _insertUser()
         .then(({ id }) => userId = id)
-        .then(() => userToken = _createToken(userId))
+        .then(() => userToken = _createTokenWithUserId(userId))
         .then(() => _insertOrganization(userId))
         .then(({ id }) => organizationId = id)
         .then(() => _insertSnapshot(organizationId, userId));

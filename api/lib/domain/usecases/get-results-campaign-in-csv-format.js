@@ -1,7 +1,9 @@
 const _ = require('lodash');
 const moment = require('moment');
+const bluebird = require('bluebird');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
+const { InfrastructureError } = require('../../infrastructure/errors');
 
 function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   if (_.isNil(organizationId)) {
@@ -311,7 +313,15 @@ module.exports = function getResultsCampaignInCSVFormat(
       headersAsArray = _createHeaderOfCSV(listSkillsName, listCompetences, listArea, campaign.idPixLabel);
       textCsv += headersAsArray.join(';') + '\n';
 
-      const getCSVLineForEachParticipation = listCampaignParticipation.map((campaignParticipation) => {
+      const startTime = new Date();
+      const timeoutInMiliSeconds = 30000;
+
+      return bluebird.mapSeries(listCampaignParticipation, (campaignParticipation) => {
+        const now = new Date();
+        if (now.getTime() - startTime.getTime() > timeoutInMiliSeconds) {
+          throw new InfrastructureError(`CSV export is too long (more than ${timeoutInMiliSeconds} ms), aborting.`);
+        }
+
         return _createOneLineOfCSV(
           headersAsArray,
           organization,
@@ -325,7 +335,6 @@ module.exports = function getResultsCampaignInCSVFormat(
           knowledgeElementRepository
         );
       });
-      return Promise.all(getCSVLineForEachParticipation);
     })
     .then((csvLineForEachPartication) => {
       csvLineForEachPartication.forEach((csvLine) => {
