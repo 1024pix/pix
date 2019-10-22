@@ -1,0 +1,13 @@
+<a class="tube-tutorial" href="{{tutorial.link}}">
+  <div class="tube-tutorial__header">
+    <h4 class="tube-tutorial-header__title">{{tutorial.title}}</h4>
+    <p class="tube-tutorial-header__source">par {{tutorial.source}}</p>
+  </div>
+  <div class="tube-tutorial__statistics">
+    <div class="tube-tutorial-statistics__content-type">
+      <img src="/images/icons/icon-{{formatImageName}}-on-scorecard.svg" alt="{{tutorial.format}}">
+      <span>{{tutorial.format}}</span>
+    </div>
+    <span class="tube-tutorial-statistics__duration">{{fa-icon 'clock'}} {{displayedDuration}}</span>
+  </div>
+</a>
