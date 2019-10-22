@@ -15,7 +15,7 @@ module.exports = async function updateOrganizationInformation({
   if (logoUrl) organization.logoUrl = logoUrl;
   if (externalId) organization.externalId = externalId;
   if (provinceCode) organization.provinceCode = provinceCode;
-  if (isManagingStudents) organization.isManagingStudents = isManagingStudents;
+  if (typeof isManagingStudents !== 'undefined') organization.isManagingStudents = isManagingStudents;
 
   await organizationRepository.update(organization);
 
