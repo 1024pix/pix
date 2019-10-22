@@ -1,6 +1,8 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import EmberObject from '@ember/object';
+import { A as EmberArray } from '@ember/array';
 
 export default Component.extend({
 
@@ -29,6 +31,25 @@ export default Component.extend({
   remainingDaysText: computed('scorecard.remainingDaysBeforeReset', function() {
     const daysBeforeReset = this.get('scorecard.remainingDaysBeforeReset');
     return `Remise à zéro disponible dans ${daysBeforeReset} ${daysBeforeReset <= 1 ? 'jour' : 'jours'}`;
+  }),
+
+  tutorialsGroupedByTubeName: computed('scorecard.tutorials', function() {
+    const tutorialsGroupedByTubeName = EmberArray();
+    this.scorecard.get('tutorials').forEach((tutorial) => {
+      const foundTube = tutorialsGroupedByTubeName.findBy('name', tutorial.get('tubeName'));
+
+      if (!foundTube) {
+        const tube = EmberObject.create({
+          name: tutorial.get('tubeName'),
+          practicalTitle: tutorial.get('tubePracticalTitle'),
+          tutorials: [tutorial]
+        });
+        tutorialsGroupedByTubeName.pushObject(tube);
+      } else {
+        foundTube.tutorials.push(tutorial);
+      }
+    });
+    return tutorialsGroupedByTubeName;
   }),
 
   actions: {

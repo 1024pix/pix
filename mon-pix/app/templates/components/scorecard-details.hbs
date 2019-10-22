@@ -64,9 +64,30 @@
       <p class="scorecard-details-content-right__reset-message">{{remainingDaysText}}</p>
     {{/if}}
   </div>
-
 </div>
-
+{{#if tutorialsGroupedByTubeName}}
+<div class="scorecard-details__content">
+  <div class="scorecard-details-tutorial">
+    <div class="scorecard-details-tutorial__header">
+      <h2 class="scorecard-details-tutorial-header__title">Pour tout réussir la prochaine fois</h2>
+      <p class="scorecard-details-tutorial-header__description">Votre évaluation nous aide à vous proposer une sélection de tutoriels sur mesure. Vous pouvez donc vous concentrer sur les concepts que vous ne maîtrisez pas encore.</p>
+    </div>
+    <div class="separation-line"></div>
+    <div class="scorecard-details-tutorial__tubes-list">
+      {{#each tutorialsGroupedByTubeName as |tube|}}
+        <div class="scorecard-details-tutorial-tubes-list__tube">
+          <h3 class="scorecard-details-tutorial-tubes-list-tube__title">{{tube.practicalTitle}}</h3>
+          <div class="scorecard-tube">
+            {{#each tube.tutorials as |tutorial|}}
+              {{tutorial-item-on-scorecard tutorial=tutorial}}
+            {{/each}}
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</div>
+{{/if}}
 {{#if showResetModal}}
   {{#pix-modal containerClass="scorecard-details__reset-modal pix-modal-dialog--wide" onClose=(action "closeModal") }}
     <div class="pix-modal__close-link">
