@@ -1,11 +1,14 @@
 import DS from 'ember-data';
-import moment from 'moment';
 
 export default DS.Transform.extend({
   serialize: function(date) {
-    return moment(date).format('YYYY-MM-DD');
+    return date;
   },
   deserialize: function(date) {
-    return moment(date).format('YYYY-MM-DD');
+    const dateRegex = '^[0-9]{4}-[0-9]{2}-[0-9]{2}$';
+    if (date.search(dateRegex) === 0) {
+      return date;
+    }
+    return null;
   }
 });
