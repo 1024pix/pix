@@ -17,6 +17,9 @@ describe('Unit | UseCase | create-organization', () => {
     const name = 'ACME';
     const type = 'PRO';
     const code = 'ABCD12';
+    const externalId = 'externalId';
+    const provinceCode = 'provinceCode';
+    const isManagingStudents = true;
     let organizationRepository;
 
     beforeEach(() => {
@@ -29,7 +32,7 @@ describe('Unit | UseCase | create-organization', () => {
 
     it('should validate params (name + type)', () => {
       // when
-      const promise = usecases.createOrganization({ name, type, organizationRepository });
+      const promise = usecases.createOrganization({ name, type, externalId, provinceCode, isManagingStudents, organizationRepository });
 
       // then
       return promise.then(() => {
@@ -39,7 +42,7 @@ describe('Unit | UseCase | create-organization', () => {
 
     it('should generate a unique code', () => {
       // when
-      const promise = usecases.createOrganization({ name, type, organizationRepository });
+      const promise = usecases.createOrganization({ name, type, externalId, provinceCode, isManagingStudents, organizationRepository });
 
       // then
       return promise.then(() => {
@@ -49,11 +52,11 @@ describe('Unit | UseCase | create-organization', () => {
 
     it('should create a new Organization Entity into data repository', () => {
       // when
-      const promise = usecases.createOrganization({ name, type, organizationRepository });
+      const promise = usecases.createOrganization({ name, type, externalId, provinceCode, isManagingStudents, organizationRepository });
 
       // then
       return expect(promise).to.be.fulfilled.then(() => {
-        const expectedOrganization = new Organization({ name, type, code });
+        const expectedOrganization = new Organization({ name, type, code, externalId, provinceCode, isManagingStudents, });
         expect(organizationRepository.create).to.have.been.calledWithMatch(expectedOrganization);
       });
     });

@@ -22,17 +22,31 @@ module.exports = {
   },
 
   create: (request) => {
-    const { name, type } = request.payload.data.attributes;
+    const {
+      name,
+      type,
+      'logo-url': logoUrl,
+      'external-id': externalId,
+      'province-code': provinceCode,
+      'is-managing-students': isManagingStudents,
+    } = request.payload.data.attributes;
 
-    return usecases.createOrganization({ name, type })
+    return usecases.createOrganization({ name, type, logoUrl, externalId, provinceCode, isManagingStudents })
       .then(organizationSerializer.serialize);
   },
 
   updateOrganizationInformation: (request) => {
     const id = request.payload.data.id;
-    const { name, type, 'logo-url': logoUrl, 'external-id': externalId, 'province-code': provinceCode } = request.payload.data.attributes;
+    const {
+      name,
+      type,
+      'logo-url': logoUrl,
+      'external-id': externalId,
+      'province-code': provinceCode,
+      'is-managing-students': isManagingStudents,
+    } = request.payload.data.attributes;
 
-    return usecases.updateOrganizationInformation({ id, name, type, logoUrl, externalId, provinceCode })
+    return usecases.updateOrganizationInformation({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents })
       .then(organizationSerializer.serialize);
   },
 
