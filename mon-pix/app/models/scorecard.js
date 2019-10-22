@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 import { equal } from '@ember/object/computed';
 import { computed } from '@ember/object';
-const { Model, attr, belongsTo } = DS;
+const { Model, attr, belongsTo, hasMany } = DS;
 import areaColors from 'mon-pix/static-data/area-colors';
 
 const NUMBER_OF_PIX_BY_LEVEL = 8;
@@ -20,6 +20,7 @@ export default Model.extend({
   remainingDaysBeforeReset: attr('number'),
 
   area: belongsTo('area'),
+  tutorials: hasMany('tutorial'),
 
   isFinished: equal('status', 'COMPLETED'),
   isStarted: equal('status', 'STARTED'),
