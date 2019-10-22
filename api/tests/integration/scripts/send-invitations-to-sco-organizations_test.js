@@ -30,7 +30,7 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', () 
           type: 'organizations',
           id: 1,
           attributes: {
-            isManagingStudents: true,
+            'is-managing-students': true,
           },
         },
       };

@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 // Usage: BASE_URL=... PIXMASTER_EMAIL=... PIXMASTER_PASSWORD=... node send-invitations-to-organizations.js path/file.csv
-// TODO: edit tests to accept pixmaster as pre in some routes
 
 'use strict';
 require('dotenv').config();
@@ -77,7 +76,7 @@ function _buildPatchOrganizationRequestObject(accessToken, organization) {
         type: 'organizations',
         id: organization.id,
         attributes: {
-          isManagingStudents: true,
+          'is-managing-students': true,
         },
       },
     },
@@ -115,7 +114,7 @@ async function main() {
     console.log('ok');
 
     process.stdout.write('Reading and parsing data... ');
-    const data = parseCsv(filePath);
+    const data = parseCsv(filePath, { skipEmptyLines: true });
     console.log('ok');
 
     process.stdout.write('Requesting API access token... ');
