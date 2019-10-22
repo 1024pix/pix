@@ -46,6 +46,8 @@ async function createOrUpdateOrganizations(accessToken, organizationsByExternalI
 
     const existingOrganization = organizationsByExternalId[externalId];
 
+
+
     if (existingOrganization && name !== existingOrganization.name) {
       await request(_buildPatchOrganizationRequestObject(accessToken, { id: existingOrganization.id, name }));
     }
@@ -90,7 +92,7 @@ function _buildGetOrganizationsRequestObject(accessToken) {
       authorization: `Bearer ${accessToken}`,
     },
     baseUrl,
-    url: '/api/organizations',
+    url: '/api/organizations?pageSize=999999999',
     json: true,
   };
 }
