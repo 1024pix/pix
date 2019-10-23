@@ -43,6 +43,14 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       expect(currentURL()).to.equal('/competences/1_1');
     });
 
+    it('should not be able to visit /competences/1_1/tutorials', async () => {
+      // when
+      await visitWithAbortedTransition('/competences/1_1/tutorials');
+
+      // then
+      expect(currentURL()).to.equal('/profil');
+    });
+
     it('should display the competence details', async () => {
       // given
       scorecard = server.create('scorecard', {
@@ -183,6 +191,26 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
         expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
       });
 
+      it('should display relevant tutorials when there are invalidated knowledge elements', async () => {
+        // given
+        scorecard = server.create('scorecard', {
+          id: '1_1',
+          name: 'Super compétence',
+          earnedPix: 7,
+          level: 999,
+          pixScoreAheadOfNextLevel: 5,
+          area: server.schema.areas.find(1),
+        });
+
+        // when
+        await visitWithAbortedTransition(`/competences/${scorecard.id}`);
+
+        // then
+        expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
+        expect(findAll('.scorecard-details-tutorial-tubes-list__tube')).to.have.lengthOf(2);
+        expect(findAll('.tube-tutorial')).to.have.lengthOf(3);
+      });
+
       context('when it is remaining some days before reset', () => {
 
         beforeEach(() => {
@@ -296,6 +324,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
     it('should redirect to home, when user is not authenticated', async () => {
       // when
       await visitWithAbortedTransition('/competences/1_1');
+      // then
       expect(currentURL()).to.equal('/connexion');
     });
   });
