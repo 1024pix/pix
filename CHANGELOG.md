@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.74.1 (23/10/2019)
+
+- [#775](https://github.com/1024pix/pix/pull/775) [FEATURE] Annule le téléch. des résultats longs d'une campagne (PO-255).
+- [#772](https://github.com/1024pix/pix/pull/772) [BUGFIX] Affiche correctement la progression (PF-873).
+
 ## v2.74.0 (18/10/2019)
 
 - [#779](https://github.com/1024pix/pix/pull/779) [FEATURE] Ajouter le details des erreurs sur la page "Oups" (PF-882).
