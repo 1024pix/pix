@@ -73,11 +73,11 @@ module.exports = {
       .then(membershipSerializer.serialize);
   },
 
-  findTargetProfiles(request) {
+  async findTargetProfiles(request) {
     const requestedOrganizationId = parseInt(request.params.id);
 
-    return organizationService.findAllTargetProfilesAvailableForOrganization(requestedOrganizationId)
-      .then(targetProfileSerializer.serialize);
+    const targetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(requestedOrganizationId);
+    return targetProfileSerializer.serialize(targetProfiles);
   },
 
   exportSharedSnapshotsAsCsv: async (request) => {

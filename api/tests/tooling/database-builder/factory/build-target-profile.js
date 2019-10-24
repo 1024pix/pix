@@ -9,6 +9,7 @@ module.exports = function buildTargetProfile({
   isPublic = faker.random.boolean(),
   organizationId,
   createdAt = faker.date.recent(),
+  outdated = false,
 } = {}) {
 
   organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
@@ -19,6 +20,7 @@ module.exports = function buildTargetProfile({
     isPublic,
     organizationId,
     createdAt,
+    outdated,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'target-profiles',

@@ -17,6 +17,7 @@ module.exports = {
       name: bookshelfTargetProfile.get('name'),
       isPublic: Boolean(bookshelfTargetProfile.get('isPublic')),
       organizationId: bookshelfTargetProfile.get('organizationId'),
+      outdated: bookshelfTargetProfile.get('outdated'),
       skills,
       sharedWithOrganizationIds,
     });
