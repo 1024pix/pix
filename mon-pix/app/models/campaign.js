@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
-const { Model, attr } = DS;
+const { Model, attr, belongsTo } = DS;
 
 export default Model.extend({
   code: attr('string'),
@@ -8,4 +8,5 @@ export default Model.extend({
   title: attr('string'),
   organizationLogoUrl: attr('string'),
   customLandingPageText: attr('string'),
+  targetProfile: belongsTo('targetProfile'),
 });
