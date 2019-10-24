@@ -18,32 +18,32 @@ module.exports = async function findTutorials({
   }
 
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });
-
   const invalidatedKnowledgeElements = _.filter(knowledgeElements, (knowledgeElement) => knowledgeElement.isInvalidated);
-  const failedSkills = await Promise.all(invalidatedKnowledgeElements.map((ke) => skillRepository.findByCompetenceId(ke.competenceId)));
 
-  const skillsArraysGroupedByTubeName = _.groupBy(_(failedSkills).flatten().uniq().value(), 'tubeNameWithAt');
-  const tubeNames = Object.keys(skillsArraysGroupedByTubeName);
-  const tubesReferences = await tubeRepository.findByNames(tubeNames);
+  if (invalidatedKnowledgeElements.length === 0) {
+    return [];
+  }
+  const skills = await skillRepository.findByCompetenceId(competenceId);
+  const failedSkills = _.filter(skills, (skill) => _.includes(_.map(invalidatedKnowledgeElements, 'skillId'), skill.id));
 
-  const tubesWithOnlyFailedSkills = _.map(tubesReferences, (tube) => {
-    const failedSkillsToInject = skillsArraysGroupedByTubeName[tube.name];
-    tube.skills = failedSkillsToInject;
-    return tube;
-  });
+  const skillsGroupByTube = _.groupBy(_(_.orderBy(failedSkills, 'difficulty')).uniq().value(), 'tubeNameWithAt');
+  const easiestSkills = _.map(skillsGroupByTube, (skills) => skills[0]);
 
-  const enhancedTutorialList = await Promise.all(_.map(tubesWithOnlyFailedSkills, async (tube) => {
-    const easiestSkill = tube.getEasiestSkill();
-    const tutorials = await tutorialRepository.findByRecordIds(easiestSkill.tutorialIds);
+  const tubeNamesForTutos = _.keys(skillsGroupByTube);
+  const tubes = await tubeRepository.findByNames(tubeNamesForTutos);
+
+  const tutorialWithTubesList = await Promise.all(_.map(easiestSkills, async (skill) => {
+    const tube = _.find(tubes, { name: skill.tubeNameWithAt });
+    const tutorials = await tutorialRepository.findByRecordIds(skill.tutorialIds);
     const enhancedTutorials = _.map(tutorials, (tutorial) => {
       tutorial.tubeName = tube.name;
       tutorial.tubePracticalTitle = tube.practicalTitle;
       tutorial.tubePracticalDescription = tube.practicalDescription;
       return tutorial;
+
     });
-
     return enhancedTutorials;
-  }));
 
-  return _.flatten(enhancedTutorialList);
+  }));
+  return _.orderBy(_.flatten(tutorialWithTubesList), 'tubeName');
 };
