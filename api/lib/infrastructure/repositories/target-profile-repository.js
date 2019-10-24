@@ -34,7 +34,7 @@ module.exports = {
       .then((bookshelfTargetProfiles) => Promise.all(bookshelfTargetProfiles.map(_getWithAirtableSkills)));
   },
 
-  findAllTargetProfileOrganizationCanUse(organizationId) {
+  findAllTargetProfilesOrganizationCanUse(organizationId) {
     return BookshelfTargetProfile
       .query((qb) => {
         qb.where({ 'organizationId': organizationId, 'outdated': false });

@@ -8,12 +8,12 @@ function _randomLetters(count) {
 }
 
 function _extractProfilesSharedWithOrganization(organization) {
-  const targetProfileSharesNonOutdated = organization.targetProfileShares.filter((targetProfileShare) => {
-    return !targetProfileShare.targetProfile.outdated;
+  const targetProfilesSharedNonOutdated = organization.targetProfileShares.filter((targetProfileShared) => {
+    return !targetProfileShared.targetProfile.outdated;
   });
 
-  return targetProfileSharesNonOutdated.map((targetProfileShareNonOutdated) => {
-    return targetProfileShareNonOutdated.targetProfile;
+  return targetProfilesSharedNonOutdated.map((targetProfileSharedNonOutdated) => {
+    return targetProfileSharedNonOutdated.targetProfile;
   });
 }
 
@@ -34,9 +34,9 @@ module.exports = {
 
   async findAllTargetProfilesAvailableForOrganization(organizationId) {
     const organization = await organizationRepository.get(organizationId);
-    const targetProfilesOrganizationCanUse = await targetProfileRepository.findAllTargetProfileOrganizationCanUse(organizationId);
-    const targetProfileSharesWithOrganization = _extractProfilesSharedWithOrganization(organization);
-    const allAvailableTargetProfiles = orderBy(concat(targetProfilesOrganizationCanUse, targetProfileSharesWithOrganization), ['isPublic', 'name']);
+    const targetProfilesOrganizationCanUse = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(organizationId);
+    const targetProfilesSharedWithOrganization = _extractProfilesSharedWithOrganization(organization);
+    const allAvailableTargetProfiles = orderBy(concat(targetProfilesOrganizationCanUse, targetProfilesSharedWithOrganization), ['isPublic', 'name']);
     return uniqBy(allAvailableTargetProfiles, 'id');
   },
 
