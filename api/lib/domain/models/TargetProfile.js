@@ -4,6 +4,7 @@ class TargetProfile {
     // attributes
     name,
     isPublic,
+    outdated,
     // includes
     skills = [],
     // references
@@ -14,6 +15,7 @@ class TargetProfile {
     // attributes
     this.name = name;
     this.isPublic = isPublic;
+    this.outdated = outdated;
     // includes
     this.skills = skills;
     // references

@@ -33,6 +33,16 @@ module.exports = {
       .fetchAll({ withRelated: ['skillIds'] })
       .then((bookshelfTargetProfiles) => Promise.all(bookshelfTargetProfiles.map(_getWithAirtableSkills)));
   },
+
+  findAllTargetProfilesOrganizationCanUse(organizationId) {
+    return BookshelfTargetProfile
+      .query((qb) => {
+        qb.where({ 'organizationId': organizationId, 'outdated': false });
+        qb.orWhere({ 'isPublic': true, 'outdated': false });
+      })
+      .fetchAll({ withRelated: ['skillIds'] })
+      .then((bookshelfTargetProfiles) => Promise.all(bookshelfTargetProfiles.map(_getWithAirtableSkills)));
+  },
 };
 
 function _getWithAirtableSkills(targetProfile) {

@@ -8,8 +8,12 @@ function _randomLetters(count) {
 }
 
 function _extractProfilesSharedWithOrganization(organization) {
-  return organization.targetProfileShares.map((targetProfileShare) => {
-    return targetProfileShare.targetProfile;
+  const targetProfilesSharedNonOutdated = organization.targetProfileShares.filter((targetProfileShared) => {
+    return !targetProfileShared.targetProfile.outdated;
+  });
+
+  return targetProfilesSharedNonOutdated.map((targetProfileSharedNonOutdated) => {
+    return targetProfileSharedNonOutdated.targetProfile;
   });
 }
 
@@ -28,21 +32,12 @@ module.exports = {
       .catch(() => this.generateUniqueOrganizationCode({ organizationRepository }));
   },
 
-  findAllTargetProfilesAvailableForOrganization(organizationId) {
-    return organizationRepository.get(organizationId)
-      .then((organization) => {
-        return Promise.all([
-          targetProfileRepository.findTargetProfilesOwnedByOrganizationId(organizationId),
-          _extractProfilesSharedWithOrganization(organization),
-          targetProfileRepository.findPublicTargetProfiles(),
-        ]);
-      })
-      .then(([targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization, publicTargetProfiles]) => {
-        const orderedPrivateProfile = orderBy(concat(targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization), 'name');
-        const orderedPublicProfile = orderBy(publicTargetProfiles, 'name');
-        const allAvailableTargetProfiles = concat(orderedPrivateProfile, orderedPublicProfile);
-        return uniqBy(allAvailableTargetProfiles, 'id');
-      });
+  async findAllTargetProfilesAvailableForOrganization(organizationId) {
+    const organization = await organizationRepository.get(organizationId);
+    const targetProfilesOrganizationCanUse = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(organizationId);
+    const targetProfilesSharedWithOrganization = _extractProfilesSharedWithOrganization(organization);
+    const allAvailableTargetProfiles = orderBy(concat(targetProfilesOrganizationCanUse, targetProfilesSharedWithOrganization), ['isPublic', 'name']);
+    return uniqBy(allAvailableTargetProfiles, 'id');
   },
 
 };
