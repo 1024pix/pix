@@ -1,4 +1,4 @@
-const { airtableBuilder, databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const { airtableBuilder, databaseBuilder, expect, knex, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/caches/cache');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 
@@ -22,7 +22,13 @@ describe('Acceptance | Controller | scorecard-controller', () => {
     await databaseBuilder.commit();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
+    await knex('knowledge-elements').delete();
+    await knex('answers').delete();
+    await knex('competence-evaluations').delete();
+    await knex('assessments').delete();
+    await knex('campaign-participations').delete();
+
     airtableBuilder.cleanAll();
     return databaseBuilder.clean();
   });
@@ -250,6 +256,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
           competenceId: competence.id,
           status: KnowledgeElement.StatusType.INVALIDATED,
           skillId: skills[0].id,
+          createdAt: new Date('2018-01-01'),
         });
 
         const assessmentId = databaseBuilder.factory.buildAssessment({ state: 'started' }).id;
@@ -313,6 +320,35 @@ describe('Acceptance | Controller | scorecard-controller', () => {
         // then
         expect(response.result.data).to.deep.equal(expectedTutorialsJSONApi.data);
         expect(response.result.included).to.deep.equal(expectedTutorialsJSONApi.included);
+      });
+
+      context('when user resets competence', () => {
+        beforeEach(async () => {
+          const options = {
+            method: 'POST',
+            url: `/api/users/${userId}/competences/${competenceId}/reset`,
+            payload: {},
+            headers: {
+              authorization: generateValidRequestAuthorizationHeader(userId),
+            },
+          };
+
+          await server.inject(options);
+        });
+
+        it('should return an empty tutorial list', async () => {
+          // given
+          const expectedTutorialsJSONApi = {
+            'data': [],
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.result.data).to.deep.equal(expectedTutorialsJSONApi.data);
+          expect(response.result.included).to.deep.equal(expectedTutorialsJSONApi.included);
+        });
       });
     });
   });
