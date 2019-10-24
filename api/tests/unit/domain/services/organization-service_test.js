@@ -57,7 +57,7 @@ describe('Unit | Service | OrganizationService', () => {
     beforeEach(() => {
       organizationId = 1;
       targetProfilesOwnedByOrganization = [domainBuilder.buildTargetProfile({ organizationId, isPublic: false })];
-      targetProfileSharesWithOrganization = domainBuilder.buildTargetProfile({ isPublic: false });
+      targetProfileSharesWithOrganization = [domainBuilder.buildTargetProfile({ isPublic: false })];
       publicTargetProfiles = [domainBuilder.buildTargetProfile({ isPublic: true })];
 
       const targetProfileShares = [{
@@ -87,7 +87,7 @@ describe('Unit | Service | OrganizationService', () => {
       // then
       expect(availableTargetProfiles.length).to.equal(3);
       expect(availableTargetProfiles).to.include.deep.members(targetProfilesOwnedByOrganization);
-      expect(availableTargetProfiles).to.include(targetProfileSharesWithOrganization);
+      expect(availableTargetProfiles).to.deep.include(targetProfileSharesWithOrganization);
       expect(availableTargetProfiles).to.include.deep.members(publicTargetProfiles);
     });
 
@@ -104,15 +104,15 @@ describe('Unit | Service | OrganizationService', () => {
 
     it('should return a list ordered by private profile before public profile and alphabetically', async () => {
       // given
-      targetProfilesOwnedByOrganization = [
+      const targetProfilesOwnedByOrganization = [
         domainBuilder.buildTargetProfile({ name: 'C owned profile', organizationId, isPublic: false }),
         domainBuilder.buildTargetProfile({ name: 'A owned profile', organizationId, isPublic: false })
       ];
-      targetProfileSharesWithOrganization = domainBuilder.buildTargetProfile({
-        name: 'B shared profile',
-        isPublic: false
-      });
-      publicTargetProfiles = [
+      const targetProfileSharesWithOrganization = [
+        domainBuilder.buildTargetProfile({ name: 'B shared profile', isPublic: false }),
+        domainBuilder.buildTargetProfile({ name: 'W shared profile', isPublic: false })
+      ];
+      const publicTargetProfiles = [
         domainBuilder.buildTargetProfile({ name: 'B Public profile', isPublic: true }),
         domainBuilder.buildTargetProfile({ name: 'A Public profile', isPublic: true })
       ];
@@ -121,7 +121,7 @@ describe('Unit | Service | OrganizationService', () => {
       }];
       const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
 
-      targetProfileOrganizationCanUse = concat(targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization, publicTargetProfiles);
+      targetProfileOrganizationCanUse = concat(targetProfilesOwnedByOrganization, publicTargetProfiles);
 
       targetProfileRepository.findAllTargetProfileOrganizationCanUse.resolves(targetProfileOrganizationCanUse);
       organizationRepository.get.resolves(organization);
@@ -131,41 +131,35 @@ describe('Unit | Service | OrganizationService', () => {
       // then
       expect(availableTargetProfiles.length).to.equal(5);
       expect(availableTargetProfiles[0].name).equal('A owned profile');
-      expect(availableTargetProfiles[1].name).equal('B shared profile');
-      expect(availableTargetProfiles[2].name).equal('C owned profile');
-      expect(availableTargetProfiles[3].name).equal('A Public profile');
-      expect(availableTargetProfiles[4].name).equal('B Public profile');
+      expect(availableTargetProfiles[1].name).equal('C owned profile');
+      expect(availableTargetProfiles[2].name).equal('A Public profile');
+      expect(availableTargetProfiles[3].name).equal('B Public profile');
+      expect(availableTargetProfiles[4][0].name).equal('B shared profile');
+      expect(availableTargetProfiles[4][1].name).equal('W shared profile');
     });
 
-    it('should return a list of not outdated target profile', async () => {
+    it('should exclude targetProfileShares witch are outdated', async () => {
       // given
-      targetProfilesOwnedByOrganization = [
-        domainBuilder.buildTargetProfile({ organizationId, isPublic: false }),
+      const targetProfiles = [
+        domainBuilder.buildTargetProfile({ organizationId }),
       ];
-      targetProfileSharesWithOrganization = [
-        domainBuilder.buildTargetProfile({ isPublic: false }),
-      ];
-      publicTargetProfiles = [
-        domainBuilder.buildTargetProfile({ isPublic: true }),
+      const targetProfileSharesWithOrganization = [
+        domainBuilder.buildTargetProfile({ isPublic: false, outdated: true }),
+        domainBuilder.buildTargetProfile({ isPublic: false, outdated: false })
       ];
       const targetProfileShares = [{
         targetProfile: targetProfileSharesWithOrganization
       }];
       const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
 
-      targetProfileOrganizationCanUse = concat(targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization, publicTargetProfiles);
-
-      targetProfileRepository.findAllTargetProfileOrganizationCanUse.resolves(targetProfileOrganizationCanUse);
+      targetProfileRepository.findAllTargetProfileOrganizationCanUse.resolves(targetProfiles);
       organizationRepository.get.resolves(organization);
+
       // when
       const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
 
       // then
-      expect(availableTargetProfiles.length).to.equal(4);
-      expect(availableTargetProfiles[0].outdated).to.be.false;
-      expect(availableTargetProfiles[1].outdated).to.be.false;
-      expect(availableTargetProfiles[2].outdated).to.be.false;
-      expect(availableTargetProfiles[3].shift().outdated).to.be.false;
+      expect(availableTargetProfiles.length).to.equal(2);
     });
   });
 });

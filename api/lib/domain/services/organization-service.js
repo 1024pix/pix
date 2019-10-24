@@ -8,8 +8,12 @@ function _randomLetters(count) {
 }
 
 function _extractProfilesSharedWithOrganization(organization) {
-  return organization.targetProfileShares.map((targetProfileShare) => {
-    return targetProfileShare.targetProfile;
+  const targetProfileSharesNonOutdated = organization.targetProfileShares.filter((targetProfileShare) => {
+    return !targetProfileShare.targetProfile.outdated;
+  });
+
+  return targetProfileSharesNonOutdated.map((targetProfileShareNonOutdated) => {
+    return targetProfileShareNonOutdated.targetProfile;
   });
 }
 
