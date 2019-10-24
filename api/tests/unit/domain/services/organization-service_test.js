@@ -67,11 +67,11 @@ describe('Unit | Service | OrganizationService', () => {
       const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
       targetProfileOrganizationCanUse = concat(publicTargetProfiles, targetProfilesOwnedByOrganization);
 
-      sinon.stub(targetProfileRepository, 'findAllTargetProfileOrganizationCanUse').resolves(targetProfileOrganizationCanUse);
+      sinon.stub(targetProfileRepository, 'findAllTargetProfilesOrganizationCanUse').resolves(targetProfileOrganizationCanUse);
       sinon.stub(organizationRepository, 'get').resolves(organization);
     });
 
-    it('should return an array of target profiles', async () => {
+    it('should return an array of type target profile', async () => {
       // when
       const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
 
@@ -93,7 +93,7 @@ describe('Unit | Service | OrganizationService', () => {
 
     it('should not have duplicate in targetProfiles', async () => {
       // given
-      targetProfileRepository.findAllTargetProfileOrganizationCanUse.resolves(targetProfilesOwnedByOrganization);
+      targetProfileRepository.findAllTargetProfilesOrganizationCanUse.resolves(targetProfilesOwnedByOrganization);
 
       // when
       const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
@@ -123,7 +123,7 @@ describe('Unit | Service | OrganizationService', () => {
 
       targetProfileOrganizationCanUse = concat(targetProfilesOwnedByOrganization, publicTargetProfiles);
 
-      targetProfileRepository.findAllTargetProfileOrganizationCanUse.resolves(targetProfileOrganizationCanUse);
+      targetProfileRepository.findAllTargetProfilesOrganizationCanUse.resolves(targetProfileOrganizationCanUse);
       organizationRepository.get.resolves(organization);
       // when
       const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
@@ -152,7 +152,7 @@ describe('Unit | Service | OrganizationService', () => {
       }];
       const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
 
-      targetProfileRepository.findAllTargetProfileOrganizationCanUse.resolves(targetProfiles);
+      targetProfileRepository.findAllTargetProfilesOrganizationCanUse.resolves(targetProfiles);
       organizationRepository.get.resolves(organization);
 
       // when

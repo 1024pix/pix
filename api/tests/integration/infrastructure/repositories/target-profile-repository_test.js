@@ -182,7 +182,7 @@ describe('Integration | Repository | Target-profile', () => {
     });
   });
 
-  describe('#findAllTargetProfileOrganizationCanUse', () => {
+  describe('#findAllTargetProfilesOrganizationCanUse', () => {
 
     let organizationId;
     let otherOrganizationId;
@@ -216,7 +216,7 @@ describe('Integration | Repository | Target-profile', () => {
 
     it('should return an Array', async () => {
       // when
-      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfileOrganizationCanUse(organizationId);
+      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(organizationId);
 
       // then
       expect(foundTargetProfiles).to.be.an('array');
@@ -224,7 +224,7 @@ describe('Integration | Repository | Target-profile', () => {
 
     it('should return all the target profile the organization can access (owned + public) but not outdated', async () => {
       // when
-      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfileOrganizationCanUse(organizationId);
+      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(organizationId);
 
       // then
       expect(foundTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
@@ -237,7 +237,7 @@ describe('Integration | Repository | Target-profile', () => {
 
     it('should contain skills linked to every target profiles', () => {
       // when
-      const promise = targetProfileRepository.findAllTargetProfileOrganizationCanUse(organizationId);
+      const promise = targetProfileRepository.findAllTargetProfilesOrganizationCanUse(organizationId);
 
       // then
       return promise.then((targetProfiles) => {
