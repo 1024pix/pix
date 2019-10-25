@@ -6,6 +6,7 @@
   min-height: 800px;
   background: $denim-gradient;
   justify-content: center;
+  align-items: center; // XXX do not remove: ugly fix for ugly IE
 }
 
 .terms-of-service-form {
