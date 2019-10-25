@@ -1,4 +1,4 @@
-const { expect, knex, nock, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const { expect, knex, nock, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const BookshelfAnswer = require('../../../../lib/infrastructure/data/answer');
 
@@ -27,6 +27,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
     afterEach(async () => {
       nock.cleanAll();
+      airtableBuilder.cleanAll();
 
       await knex('answers').delete();
       await databaseBuilder.clean();
@@ -36,17 +37,41 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
       beforeEach(() => {
         // given
-        nock('https://api.airtable.com')
-          .get(`/v0/test-base/Epreuves/${challengeId}`)
-          .query(true)
-          .reply(200, {
-            'id': challengeId,
-            'fields': {
-              'Type d\'épreuve': 'QCU',
-              'Bonnes réponses': '1',
-              //other fields not represented
-            },
-          });
+        const area = airtableBuilder.factory.buildArea();
+
+        const competence = airtableBuilder.factory.buildCompetence({
+          id: 'recCompetence',
+          domaine: [area.id],
+          domaineCode: area['Code']
+        });
+        const skill = airtableBuilder.factory.buildSkill({
+          compétenceViaTube: [competence.id],
+        });
+        const challenge = airtableBuilder.factory.buildChallenge({
+          id: challengeId,
+          competences: [competence.id],
+          acquix: [skill.id],
+          status: 'validé',
+        });
+        airtableBuilder
+          .mockList({ tableName: 'Domaines' })
+          .returns([area])
+          .activate();
+
+        airtableBuilder
+          .mockGet({ tableName: 'Competences' })
+          .returns(competence)
+          .activate();
+
+        airtableBuilder
+          .mockGet({ tableName: 'Acquis' })
+          .returns(skill)
+          .activate();
+
+        airtableBuilder
+          .mockGet({ tableName: 'Epreuves' })
+          .returns(challenge)
+          .activate();
 
         options = {
           method: 'POST',
