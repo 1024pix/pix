@@ -3,20 +3,22 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 400px;
+  width: 362px;
   height: 80px;
   background-color: $alabaster-grey;
   border-radius: 5px;
   box-shadow: 0 0 10px $charcoal-grey;
-  color: $tundora-grey;
+  color: $gun-powder;
   animation-duration: 1s;
   animation-name: slidein;
 
-  &__card-level {
+  background-color: rgba(255,255,255,0.90);
+
+  &__icon-card-level {
     position: absolute;
-    top: 28px;
-    left: 39px;
-    font-size: 3rem;
+    top: 31px;
+    left: 40px;
+    font-size: 2.4rem;
     font-family: $font-open-sans;
     font-weight: $font-bold;
   }
@@ -24,21 +26,24 @@
   &__competence {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     width: 100%;
-    padding: 5px;
+    padding: 10px 0;
   }
 
-  &__level {
-    font-size: 1.25rem;
-    font-weight: $font-bold;
-    font-family: $font-open-sans;
-    text-transform: uppercase;
-  }
+  &-competence {
+    &__level {
+      font-size: 1.6rem;
+      font-weight: $font-bold;
+      font-family: $font-open-sans;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
 
-  &__competence-name {
-    font-size: 1.20rem;
-    font-family: $font-roboto;
+    &__name {
+      font-size: 1.4rem;
+      line-height: 1.8rem;
+      font-family: $font-roboto;
+    }
   }
 
   &__close {
@@ -49,7 +54,7 @@
 
 @keyframes slidein {
   from {
-    right: -1000px;
+    right: -500px;
   }
 
   to {

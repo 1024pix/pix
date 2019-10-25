@@ -1,11 +1,11 @@
 import Component from '@ember/component';
 
 export default Component.extend({
-  showLevelup: true,
+  closeLevelup: false,
 
   actions: {
     close: function() {
-      this.set('showLevelup', false);
+      this.set('closeLevelup', true);
     }
   },
 });
