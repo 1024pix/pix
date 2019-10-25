@@ -14,6 +14,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
       await databaseBuilder.clean();
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
+      const userId = databaseBuilder.factory.buildUser().id;
       certificationCandidate = domainBuilder.buildCertificationCandidate({
         firstName: 'Pix',
         lastName: 'Lover',
@@ -22,6 +23,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
         birthdate: '1990-07-12',
         extraTimePercentage: '0.05',
         sessionId,
+        userId,
       });
       certificationCandidate.id = undefined;
 
@@ -286,9 +288,10 @@ describe('Integration | Repository | CertificationCandidate', function() {
     beforeEach(() => {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
-      existingCertificationCandidateIds = _.times(10, () => databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id);
+      const userId = databaseBuilder.factory.buildUser().id;
+      existingCertificationCandidateIds = _.times(10, () => databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId }).id);
       newCertificationCandidates = _.times(5, () => {
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId });
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId, userId: null });
         certificationCandidate.id = undefined;
         return certificationCandidate;
       });

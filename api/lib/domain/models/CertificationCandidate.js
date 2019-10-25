@@ -14,6 +14,7 @@ const certificationCandidateValidationJoiSchema_v1 = Joi.object().keys({
   createdAt: Joi.any().allow(null).optional(),
   extraTimePercentage: Joi.number().allow(null).optional(),
   sessionId: Joi.number().required(),
+  userId: Joi.number().allow(null).optional(),
 });
 
 const certificationCandidateValidationJoiSchema_v2 = Joi.object().keys({
@@ -28,6 +29,7 @@ const certificationCandidateValidationJoiSchema_v2 = Joi.object().keys({
   createdAt: Joi.any().allow(null).optional(),
   extraTimePercentage: Joi.number().allow(null).optional(),
   sessionId: Joi.number().required(),
+  userId: Joi.number().allow(null).optional(),
 });
 
 class CertificationCandidate {
@@ -47,6 +49,7 @@ class CertificationCandidate {
       // includes
       // references
       sessionId,
+      userId,
     } = {}) {
     this.id = id;
     // attributes
@@ -62,6 +65,7 @@ class CertificationCandidate {
     // includes
     // references
     this.sessionId = sessionId;
+    this.userId = userId;
   }
 
   validate(version = '1.1') {

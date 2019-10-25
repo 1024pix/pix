@@ -1,5 +1,6 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
+const _ = require('lodash');
 
 describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', function() {
 
@@ -33,6 +34,20 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
 
       // then
       expect(json).to.deep.equal(jsonApiData);
+    });
+
+  });
+
+  describe('#deserialize()', () => {
+
+    it('should convert JSON API data into a CertificationCandidate model object', async function() {
+      // when
+      const json = await serializer.deserialize(jsonApiData);
+
+      // then
+      delete certificationCandidate.createdAt;
+      certificationCandidate.id += '';
+      expect(json).to.deep.equal(_.omit(certificationCandidate, ['userId']));
     });
 
   });
