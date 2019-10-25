@@ -20,6 +20,7 @@ class Student {
     // includes
     organization,
     // references
+    userId,
   } = {}) {
     this.id = id;
     // attributes
@@ -40,6 +41,7 @@ class Student {
     // includes
     this.organization = organization;
     // references
+    this.userId = userId;
   }
 }
 

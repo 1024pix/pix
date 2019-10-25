@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const _ = require('lodash');
 const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
 const Student = require('../../../../lib/domain/models/Student');
@@ -331,6 +331,61 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
         expect(result).to.be.an('array');
         expect(result.length).to.be.equal(2);
       });
+    });
+  });
+
+  describe('#associateUserAndStudent', () => {
+
+    afterEach(async () => {
+      await knex('students').delete();
+      await databaseBuilder.clean();
+    });
+
+    let organization;
+    let student;
+    let user;
+
+    beforeEach(async () => {
+      organization = databaseBuilder.factory.buildOrganization();
+      student = databaseBuilder.factory.buildStudent({
+        organizationId: organization.id,
+        userId: null,
+        firstName: 'Steeve',
+        lastName: 'Roger'
+      });
+      user = databaseBuilder.factory.buildUser({ firstName: 'Steeve', lastName: 'Roger' });
+      await databaseBuilder.commit();
+    });
+
+    it('should save association between user and student', async () => {
+      // when
+      const studentPatched = await studentRepository.associateUserAndStudent({ userId: user.id, studentId: student.id });
+
+      // then
+      expect(studentPatched).to.be.instanceof(Student);
+      expect(studentPatched.userId).to.equal(user.id);
+    });
+
+    it('should return an error when we don’t find the student to update', async () => {
+      // given
+      const fakeStudentId = 1;
+
+      // when
+      const error = await catchErr(studentRepository.associateUserAndStudent)({ userId: user.id, studentId: fakeStudentId });
+
+      // then
+      expect(error.message).to.be.equal('No Rows Updated');
+    });
+
+    it('should return an error when the userId to link don’t match a user', async () => {
+      // given
+      const fakeUserId = 1;
+
+      // when
+      const error = await catchErr(studentRepository.associateUserAndStudent)({ userId: fakeUserId, studentId: student.id });
+
+      // then
+      expect(error.detail).to.be.equal(`Key (userId)=(${fakeUserId}) is not present in table "users".`);
     });
   });
 });

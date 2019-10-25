@@ -38,4 +38,13 @@ module.exports = {
       .fetchAll()
       .then((students) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStudent, students));
   },
+
+  associateUserAndStudent({ userId, studentId }) {
+    return BookshelfStudent
+      .where({ id: studentId })
+      .save({ userId }, {
+        patch: true,
+      })
+      .then((student) => bookshelfToDomainConverter.buildDomainObject(BookshelfStudent, student));
+  },
 };
