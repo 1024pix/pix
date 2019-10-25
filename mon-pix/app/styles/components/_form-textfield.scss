@@ -75,7 +75,9 @@
   color: $caribbean-green;
 }
 
-.form-textfield__message--error.form-textfield__message-password, .form-textfield__message--error.form-textfield__message-email, .form-textfield__message--error.form-textfield__message-text {
+.form-textfield__message--error.form-textfield__message-password,
+.form-textfield__message--error.form-textfield__message-email,
+.form-textfield__message--error.form-textfield__message-text {
   position: relative;
   text-align: right;
   margin-top: -5px;

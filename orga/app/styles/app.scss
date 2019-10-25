@@ -2,7 +2,6 @@
 
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
-
 @import "globals/breakpoints";
 @import "globals/colors";
 @import "globals/fonts";
@@ -14,7 +13,6 @@
 @import "globals/tables";
 @import "globals/texts";
 @import "globals/titles";
-
 @import "components/login-form";
 @import "components/campaign-list";
 @import "components/campaign-item";
@@ -23,7 +21,6 @@
 @import "components/pagination-control";
 @import "components/progression-gauge";
 @import "components/sidebar-menu";
-
 @import "pages/login";
 @import "pages/authenticated";
 @import "pages/authenticated/campaigns";
@@ -52,4 +49,8 @@ body, html {
 
 body > .ember-view {
   height: 100%;
+}
+
+input:invalid {
+  box-shadow: none;
 }
