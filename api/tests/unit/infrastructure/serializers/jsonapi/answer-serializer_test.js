@@ -28,7 +28,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
             type: 'challenges',
             id: 'challenge_id',
           },
-        },
+        }
       },
     },
   };
@@ -84,6 +84,9 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
               links: {
                 related: `/api/answers/${answerId}/correction`,
               }
+            },
+            levelup: {
+              data: null
             }
           },
         },
