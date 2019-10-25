@@ -3,7 +3,6 @@ const moment = require('moment');
 const bluebird = require('bluebird');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
-const { InfrastructureError } = require('../../infrastructure/errors');
 
 function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   if (_.isNil(organizationId)) {
@@ -266,10 +265,11 @@ function _createOneLineOfCSV(
     });
 }
 
-module.exports = function getResultsCampaignInCSVFormat(
+module.exports = function startWritingCampaignResultsToStream(
   {
     userId,
     campaignId,
+    writableStream,
     campaignRepository,
     userRepository,
     targetProfileRepository,
@@ -281,8 +281,6 @@ module.exports = function getResultsCampaignInCSVFormat(
   }) {
 
   let campaign, headersAsArray, listCompetences, listArea, organization;
-  // XXX: add the UTF-8 BOM at the start of the text; see https://stackoverflow.com/a/38192870
-  let textCsv = '\uFEFF';
 
   return campaignRepository.get(campaignId)
     .then((campaignFound) => {
@@ -311,17 +309,15 @@ module.exports = function getResultsCampaignInCSVFormat(
 
       //Create HEADER of CSV
       headersAsArray = _createHeaderOfCSV(listSkillsName, listCompetences, listArea, campaign.idPixLabel);
-      textCsv += headersAsArray.join(';') + '\n';
 
-      const startTime = new Date();
-      const timeoutInMiliSeconds = 30000;
+      // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
+      // - https://en.wikipedia.org/wiki/Byte_order_mark
+      // - https://stackoverflow.com/a/38192870
+      const headerLine = '\uFEFF' + headersAsArray.join(';') + '\n';
 
-      return bluebird.mapSeries(listCampaignParticipation, (campaignParticipation) => {
-        const now = new Date();
-        if (now.getTime() - startTime.getTime() > timeoutInMiliSeconds) {
-          throw new InfrastructureError(`CSV export is too long (more than ${timeoutInMiliSeconds} ms), aborting.`);
-        }
+      writableStream.write(headerLine);
 
+      bluebird.mapSeries(listCampaignParticipation, (campaignParticipation) => {
         return _createOneLineOfCSV(
           headersAsArray,
           organization,
@@ -333,13 +329,17 @@ module.exports = function getResultsCampaignInCSVFormat(
           userRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository
-        );
+        ).then((lineCsv) => {
+          writableStream.write(lineCsv);
+        });
+      }).then(() => {
+        writableStream.end();
+      }).catch((error) => {
+        //TODO log error here
+        writableStream.emit('error', error);
       });
-    })
-    .then((csvLineForEachPartication) => {
-      csvLineForEachPartication.forEach((csvLine) => {
-        textCsv += csvLine;
-      });
-      return { csvData: textCsv, campaignName: campaign.name };
+
+      const fileName = `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
+      return { fileName };
     });
 };
