@@ -168,6 +168,116 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
+  describe('#findBySessionIdAndPersonalInfo', () => {
+    let sessionId;
+
+    beforeEach(() => {
+      // given
+      sessionId = databaseBuilder.factory.buildSession().id;
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => databaseBuilder.clean());
+
+    context('when there is one certification candidate with the given info in the session', function() {
+
+      let expectedCandidate;
+
+      beforeEach(async () => {
+        expectedCandidate = {
+          lastName: 'Bideau',
+          firstName: 'charlie',
+          birthdate: '1999-10-17',
+          sessionId,
+        };
+        databaseBuilder.factory.buildCertificationCandidate({
+          lastName: 'Bideau',
+          firstName: 'Charlie',
+          birthdate: '1999-10-17',
+          sessionId,
+        });
+
+        return databaseBuilder.commit();
+      });
+
+      it('should fetch the candidate ignoring case', async () => {
+        // when
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(expectedCandidate);
+
+        // then
+        expect(actualCandidates).to.have.lengthOf(1);
+        expect(actualCandidates[0].firstName.toLowerCase()).to.equal(expectedCandidate.firstName.toLowerCase());
+        expect(actualCandidates[0].lastName).to.equal(expectedCandidate.lastName);
+        expect(actualCandidates[0].birthdate).to.equal(expectedCandidate.birthdate);
+      });
+
+    });
+
+    context('when there is no certification candidates with the given info in the session', function() {
+
+      let onlyCandidateInBDD;
+      let notMatchingCandidateInfo;
+
+      beforeEach(() => {
+        onlyCandidateInBDD = {
+          lastName: 'Bideau',
+          firstName: 'Charlie',
+          birthdate: '1999-10-17',
+          sessionId,
+        };
+        databaseBuilder.factory.buildCertificationCandidate(onlyCandidateInBDD);
+
+        notMatchingCandidateInfo = {
+          lastName: 'Jean',
+          firstName: 'Michel',
+          birthdate: '2018-01-01',
+          sessionId,
+        };
+
+        return databaseBuilder.commit();
+      });
+
+      it('should not find any candidate', async () => {
+        // when
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(notMatchingCandidateInfo);
+
+        // then
+        expect(actualCandidates).to.be.empty;
+      });
+
+    });
+
+    context('when there are more than one certification candidate with the given info in the session', function() {
+
+      let commonCandidateInfo;
+
+      beforeEach(() => {
+        commonCandidateInfo = {
+          lastName: 'Bideau',
+          firstName: 'Charlie',
+          birthdate: '1999-10-17',
+          sessionId,
+        };
+        databaseBuilder.factory.buildCertificationCandidate(commonCandidateInfo);
+        databaseBuilder.factory.buildCertificationCandidate(commonCandidateInfo);
+
+        return databaseBuilder.commit();
+      });
+
+      it('should find two candidates', async () => {
+        // when
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(commonCandidateInfo);
+
+        // then
+        expect(actualCandidates).to.have.lengthOf(2);
+        expect(actualCandidates[0].lastName).to.equal(commonCandidateInfo.lastName);
+        expect(actualCandidates[1].lastName).to.equal(commonCandidateInfo.lastName);
+        expect(actualCandidates[0].id).to.not.equal(actualCandidates[1].id);
+      });
+    });
+
+  });
+
   describe('#setSessionCandidates', () => {
     let sessionId;
     let existingCertificationCandidateIds;
