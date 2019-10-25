@@ -68,7 +68,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     const userId = 1;
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getResultsCampaignInCSVFormat');
+      sinon.stub(usecases, 'startWritingCampaignResultsToStream');
       sinon.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
     });
 
@@ -83,19 +83,19 @@ describe('Unit | Application | Controller | Campaign', () => {
           id: campaignId
         }
       };
-      usecases.getResultsCampaignInCSVFormat.resolves('csv;result');
+      usecases.startWritingCampaignResultsToStream.resolves({ fileName: 'any file name' });
 
       // when
-      await campaignController.getCsvResults(request, hFake);
+      await campaignController.getCsvResults(request);
 
       // then
-      expect(usecases.getResultsCampaignInCSVFormat).to.have.been.calledOnce;
-      const getResultsCampaignArgs = usecases.getResultsCampaignInCSVFormat.firstCall.args[0];
+      expect(usecases.startWritingCampaignResultsToStream).to.have.been.calledOnce;
+      const getResultsCampaignArgs = usecases.startWritingCampaignResultsToStream.firstCall.args[0];
       expect(getResultsCampaignArgs).to.have.property('userId');
       expect(getResultsCampaignArgs).to.have.property('campaignId');
     });
 
-    it('should return a serialized campaign when the campaign has been successfully created', async () => {
+    it('should return a response with correct headers', async () => {
       // given
       const campaignId = 2;
       const request = {
@@ -106,14 +106,16 @@ describe('Unit | Application | Controller | Campaign', () => {
           id: campaignId
         }
       };
-      usecases.getResultsCampaignInCSVFormat.resolves({ csvData: 'csv;result', campaignName: 'Campagne' });
+
+      usecases.startWritingCampaignResultsToStream.resolves({ fileName: 'expected file name' });
 
       // when
-      const response = await campaignController.getCsvResults(request, hFake);
+      const response = await campaignController.getCsvResults(request);
 
       // then
-      expect(response.source).to.deep.equal('csv;result');
-    });
+      expect(response.headers['content-type']).to.equal('text/csv;charset=utf-8');
+      expect(response.headers['content-disposition']).to.equal('attachment; filename="expected file name"');
+      expect(response.headers['content-encoding']).to.equal('identity'); });
   });
 
   describe('#getByCode ', () => {
