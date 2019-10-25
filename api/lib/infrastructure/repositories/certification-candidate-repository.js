@@ -34,7 +34,19 @@ module.exports = {
         qb.orderByRaw('LOWER("certification-candidates"."lastName") asc');
         qb.orderByRaw('LOWER("certification-candidates"."firstName") asc');
       })
-      .fetchAll({})
+      .fetchAll()
+      .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results));
+  },
+
+  findBySessionIdAndPersonalInfo({ sessionId, firstName, lastName, birthdate }) {
+    return CertificationCandidateBookshelf
+      .query((qb) => {
+        qb.where('sessionId', sessionId);
+        qb.whereRaw('LOWER(?)=LOWER(??)', [firstName, 'firstName']);
+        qb.whereRaw('LOWER(?)=LOWER(??)', [lastName, 'lastName']);
+        qb.where('birthdate', birthdate);
+      })
+      .fetchAll()
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results));
   },
 
