@@ -116,4 +116,17 @@ describe('Unit | Application | Sessions | Routes', () => {
       expect(res.statusCode).to.equal(200);
     });
   });
+
+  describe('POST /api/sessions/{id}/candidate-participation', () => {
+
+    beforeEach(() => {
+      sinon.stub(sessionController, 'createCandidateParticipation').returns('ok');
+      return server.register(route);
+    });
+
+    it('should exist', async () => {
+      const res = await server.inject({ method: 'POST', url: '/api/sessions/3/candidate-participation' });
+      expect(res.statusCode).to.equal(200);
+    });
+  });
 });
