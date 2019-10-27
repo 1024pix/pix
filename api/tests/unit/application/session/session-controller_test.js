@@ -294,4 +294,81 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
+  describe('#createCandidateParticipation ', () => {
+    let request;
+    const sessionId = 1;
+    const userId = 2;
+    const firstName = 'firstName';
+    const lastName = 'lastName';
+    const birthdate = 'birthdate';
+    const linkedCertificationCandidate = 'candidate';
+    const serializedCertificationCandidate = 'sCandidate';
+
+    beforeEach(() => {
+      // given
+      request = {
+        params: { id : sessionId },
+        auth: {
+          credentials : {
+            userId,
+          }
+        },
+        payload: {
+          data: {
+            attributes: {
+              'first-name': 'firstName',
+              'last-name': 'lastName',
+              'birthdate': 'birthdate',
+            },
+          }
+        }
+      };
+      sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(linkedCertificationCandidate).returns(serializedCertificationCandidate);
+    });
+
+    context('when the participation already exists', () =>  {
+
+      beforeEach(() => {
+        sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
+          .withArgs({ userId, sessionId, firstName, lastName, birthdate }).resolves({
+            linkCreated: false,
+            certificationCandidate: linkedCertificationCandidate
+          });
+      });
+
+      it('should return a certification candidate', async () => {
+        // when
+        await sessionController.createCandidateParticipation(request, hFake);
+
+        // then
+        sinon.assert.calledOnce(certificationCandidateSerializer.serialize);
+        sinon.assert.calledWith(certificationCandidateSerializer.serialize, linkedCertificationCandidate);
+      });
+
+    });
+
+    context('when the participation is created', () => {
+
+      beforeEach(() => {
+        sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
+          .withArgs({ userId, sessionId, firstName, lastName, birthdate }).resolves({
+            linkCreated: true,
+            certificationCandidate: linkedCertificationCandidate
+          });
+      });
+
+      it('should return a certification candidate', async () => {
+        // when
+        const response = await sessionController.createCandidateParticipation(request, hFake);
+
+        // then
+        sinon.assert.calledOnce(certificationCandidateSerializer.serialize);
+        sinon.assert.calledWith(certificationCandidateSerializer.serialize, linkedCertificationCandidate);
+        expect(response.statusCode).to.equal(201);
+      });
+
+    });
+
+  });
+
 });

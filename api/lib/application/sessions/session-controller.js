@@ -69,4 +69,21 @@ module.exports = {
       })
       .then(() => null);
   },
+
+  async createCandidateParticipation(request, h) {
+    const userId = request.auth.credentials.userId;
+    const sessionId = request.params.id;
+    const firstName = request.payload.data.attributes['first-name'];
+    const lastName = request.payload.data.attributes['last-name'];
+    const birthdate = request.payload.data.attributes['birthdate'];
+
+    return usecases.linkUserToSessionCertificationCandidate({
+      userId, sessionId, firstName, lastName, birthdate,
+    })
+      .then(({ linkCreated, certificationCandidate }) => {
+        const serialized = certificationCandidateSerializer.serialize(certificationCandidate);
+
+        return linkCreated ? h.response(serialized).created() : serialized;
+      });
+  }
 };
