@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.75.0 (28/10/2019)
+
+- [#780](https://github.com/1024pix/pix/pull/780) [FEATURE] Ne pas afficher les profils cibles archivés (PO-254).
+- [#757](https://github.com/1024pix/pix/pull/757) [FEATURE] Affichage d'un badge pour des profils cibles (PF-779).
+- [#790](https://github.com/1024pix/pix/pull/790) [BUGFIX] Correction d'une régression sur IE de la page CGU sur Pix Orga.
+- [#788](https://github.com/1024pix/pix/pull/788) [BUGFIX] Supprime le style par défaut sur les chalmps en erreur (PF-812).
+- [#786](https://github.com/1024pix/pix/pull/786) [BUGFIX] Ajout d'une police par défaut pour les polices Roboto et Open-Sans sur Pix Orga (PO-258).
+- [#781](https://github.com/1024pix/pix/pull/781) [BUGFIX] Correction du style pour la page compétence sous IE (PF-860).
+- [#789](https://github.com/1024pix/pix/pull/789) [BIUGFIX] Problème de background sur les pages de connexion et CGU (PO-206).
+
 ## v2.74.1 (23/10/2019)
 
 - [#775](https://github.com/1024pix/pix/pull/775) [FEATURE] Annule le téléch. des résultats longs d'une campagne (PO-255).
