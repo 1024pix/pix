@@ -32,7 +32,8 @@ module.exports = function(environment) {
       GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO',
       SCROLL_DURATION: 800,
       NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS: 5,
-      IS_RECAPTCHA_ENABLED: process.env.IS_RECAPTCHA_ENABLED === 'true'
+      IS_RECAPTCHA_ENABLED: process.env.IS_RECAPTCHA_ENABLED === 'true',
+      IS_WARNING_BANNER_ENABLED: process.env.IS_WARNING_BANNER_ENABLED === 'true'
     },
 
     googleFonts: [
@@ -119,6 +120,5 @@ module.exports = function(environment) {
   if (environment === 'production') {
     // here you can enable a production-specific feature
   }
-
   return ENV;
 };
