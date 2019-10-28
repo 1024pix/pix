@@ -59,6 +59,19 @@ module.exports = {
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results));
   },
 
+  getBySessionIdAndUserId({ sessionId, userId }) {
+    return CertificationCandidateBookshelf
+      .where({ sessionId, userId })
+      .fetch({ require: true })
+      .then((result) => bookshelfToDomainConverter.buildDomainObject(CertificationCandidateBookshelf, result))
+      .catch((bookshelfError) => {
+        if (bookshelfError instanceof CertificationCandidateBookshelf.NotFoundError) {
+          throw new NotFoundError();
+        }
+        throw bookshelfError;
+      });
+  },
+
   async setSessionCandidates(sessionId, certificationCandidates) {
     const certificationCandidatesToInsert = certificationCandidates.map((candidate) => _.omit(candidate, ['createdAt']));
 
