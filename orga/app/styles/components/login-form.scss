@@ -17,79 +17,8 @@
     margin-bottom: 10px;
   }
 
-  &__input-container {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    margin-bottom: 22px;
-  }
-
   &__forgotten-password {
     text-align: left;
-
-    a {
-      text-decoration: none;
-
-      &:hover, &:active, &:focus {
-        text-decoration: underline;
-      }
-    }
-  }
-
-
-  &__input-field {
-    display: flex;
-    height: 42px;
-    border-radius: 3px;
-    align-items: center;
-    background-color: white;
-    border: 2px solid $alto;
-
-    &:focus-within {
-      border: 2px solid $dodger-blue;
-    }
-
-    input {
-      height: 40px;
-      flex-grow: 1;
-      border: none;
-      border-radius: 3px;
-      outline: none;
-      padding: 0 10px;
-      font-size: 1rem;
-
-      &:focus {
-        outline: 0;
-        border: none;
-      }
-
-      &::-ms-clear, &::-ms-reveal {
-        display: none;
-      }
-    }
-  }
-
-  &__icon {
-    height: 20px;
-    width: 38px;
-    display: flex;
-    border: none;
-    background: none;
-    padding: 0;
-  }
-
-  &-icon {
-    &__eye {
-      color: $dove-gray;
-      transition: .5s;
-      font-size: 1.1rem;
-      margin-top: 2px;
-
-      &:hover {
-        color: $nero;
-        cursor: pointer;
-      }
-    }
   }
 }
 

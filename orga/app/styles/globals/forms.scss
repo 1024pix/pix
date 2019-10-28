@@ -37,10 +37,17 @@
   padding-bottom: 5px;
 }
 
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-bottom: 22px;
+}
+
 .input {
+  height: 40px;
   border: 2px solid $alto;
   border-radius: 4px;
-  height: 40px;
   font-size: 1rem;
   padding-left: 15px;
   color: $nero;
@@ -48,6 +55,65 @@
 
   &:focus {
     border: 2px solid $dodger-blue;
+  }
+}
+
+.input-password {
+  display: flex;
+  height: 42px;
+  border-radius: 3px;
+  align-items: center;
+  background-color: white;
+  border: 2px solid $alto;
+
+  &--error {
+    border: 2px solid $vermilion;
+  }
+
+  &:focus-within {
+    border: 2px solid $dodger-blue;
+  }
+
+  .input {
+    height: 40px;
+    flex-grow: 1;
+    border: none;
+    border-radius: 3px;
+    outline: none;
+    padding: 0 10px;
+    font-size: 1rem;
+
+    &:focus {
+      outline: 0;
+      border: none;
+    }
+
+    &::-ms-clear, &::-ms-reveal {
+      display: none;
+    }
+  }
+
+  &__icon {
+    height: 20px;
+    width: 38px;
+    display: flex;
+    border: none;
+    background: none;
+    padding: 0;
+  }
+
+  &-icon {
+    &__eye {
+      color: $dove-gray;
+      transition: .5s;
+      font-size: 1.1rem;
+      margin-top: 2px;
+
+      &:hover {
+        color: $nero;
+        cursor: pointer;
+      }
+    }
   }
 }
 
@@ -80,97 +146,6 @@
 
   &:focus {
     border: 2px solid $dodger-blue;
-  }
-}
-
-.button {
-  padding: 13px 20px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.019rem;
-  text-align: center;
-  border-radius: 5px;
-  background-color: $dodger-blue;
-  color: white;
-  cursor: pointer;
-  border: none;
-  outline: none;
-
-  &:hover, &:active, &:focus {
-    background-color: $mariner;
-    transition: background-color 0.2s ease;
-  }
-
-  &--white {
-    background-color: white;
-    color: black;
-
-    &:hover, &:active, &:focus {
-      background-color: $alto;
-    }
-  }
-
-  &--grey {
-    background-color: $comet;
-    color: $white;
-
-    &:hover, &:active, &:focus {
-      background-color: $gun-powder;
-    }
-  }
-
-  &--no-color {
-    background-color: transparent;
-    color: $nero;
-
-    &:hover, &:active, &:focus {
-      background-color: $alto;
-    }
-  }
-
-  &--regular {
-    width: 120px;
-  }
-
-  &--big {
-    width: 180px;
-  }
-
-  &--extra-big {
-    width: 280px;
-  }
-
-  &--link {
-    text-decoration: none;
-  }
-
-  &--with-icon {
-    display: flex;
-    align-items: center;
-
-    &>svg {
-      padding-left: 5px;
-    }
-  }
-}
-
-.icon-button {
-  color: $dove-gray;
-  padding: 6px 8px;
-  border: none;
-  font-size: 1rem;
-  background-color: transparent;
-  cursor: pointer;
-  outline: none;
-
-  &:hover, &:active {
-    background-color: $alto;
-    border-radius: 16px;
-    transition: background-color 0.2s ease;
-  }
-
-  &--link {
-    text-decoration: none;
   }
 }
 

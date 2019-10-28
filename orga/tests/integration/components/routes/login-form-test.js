@@ -80,7 +80,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     test('it should display password when user click', async function(assert) {
       // when
-      await click('.login-form__icon');
+      await click('.input-password__icon');
 
       // then
       assert.dom('#login-password').hasAttribute('type', 'text');
@@ -88,7 +88,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     test('it should change icon when user click on it', async function(assert) {
       // when
-      await click('.login-form__icon');
+      await click('.input-password__icon');
 
       // then
       assert.dom('.fa-eye').exists();
@@ -99,7 +99,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
       await fillIn('#login-password', 'début du mot de passe');
 
       // when
-      await click('.login-form__icon');
+      await click('.input-password__icon');
       await fillIn('#login-password', 'fin du mot de passe');
 
       // then
