@@ -5,9 +5,4 @@ export default Controller.extend({
 
   currentUser: service(),
 
-  actions: {
-    updateUserHasSeenNewProfileInfo() {
-      return this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenNewProfileInfo: true } });
-    }
-  }
 });

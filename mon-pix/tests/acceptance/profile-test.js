@@ -28,22 +28,6 @@ describe('Acceptance | Profile', function() {
       expect(currentURL()).to.equal('/profil');
     });
 
-    it('should display new profile information', async function() {
-      // when
-      await visitWithAbortedTransition('/profil');
-
-      // then
-      expect(find('.new-profile-info')).to.exists;
-      expect(find('.profile-panel-header-information')).to.exists;
-
-      // when
-      await click('.new-profile-info__close');
-
-      // then
-      expect(find('.new-profile-info')).to.not.exists;
-      expect(find('.profile-panel-header-information')).to.not.exists;
-    });
-
     it('should display pixscore', async function() {
       await visitWithAbortedTransition('/profil');
 

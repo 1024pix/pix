@@ -23,11 +23,6 @@ export default ApplicationAdapter.extend({
       return url + '/remember-user-has-seen-assessment-instructions';
     }
 
-    if (adapterOptions && adapterOptions.rememberUserHasSeenNewProfileInfo) {
-      delete adapterOptions.rememberUserHasSeenNewProfileInfo;
-      return url + '/remember-user-has-seen-new-profile-info';
-    }
-
     if (adapterOptions && adapterOptions.updatePassword) {
       delete adapterOptions.updatePassword;
       const temporaryKey = adapterOptions.temporaryKey;
