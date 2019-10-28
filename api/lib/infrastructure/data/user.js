@@ -50,7 +50,6 @@ module.exports = Bookshelf.model('User', {
     model.pixOrgaTermsOfServiceAccepted = Boolean(model.pixOrgaTermsOfServiceAccepted);
     model.pixCertifTermsOfServiceAccepted = Boolean(model.pixCertifTermsOfServiceAccepted);
     model.isProfileV2 = Boolean(model.isProfileV2);
-    model.hasSeenNewProfileInfo = Boolean(model.hasSeenNewProfileInfo);
     model.hasSeenAssessmentInstructions = Boolean(model.hasSeenAssessmentInstructions);
 
     return new User(model);
