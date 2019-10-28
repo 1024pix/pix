@@ -7,7 +7,6 @@
   margin-bottom: 50px;
   padding: 20px;
   text-rendering: optimizeLegibility;
-
   @include device-is('desktop') {
     padding: 50px 70px 40px;
   }
@@ -32,4 +31,9 @@
   font-size: 20px;
   line-height: 24px;
   margin-top: 58px;
+  
+  @include device-is('desktop') {
+    max-width: 850px;
+  }
+
 }

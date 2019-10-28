@@ -142,6 +142,9 @@ export default function() {
   this.get('/campaign-participations', getCampaignParticipation);
   this.patch('/campaign-participations/:id', patchCampaignParticipation);
   this.get('/campaign-participations/:id/campaign-participation-result', getCampaignParticipationResult);
+  this.get('/campaigns/:id?include=targetProfile', (schema, request) => {
+    return schema.campaigns.find(request.params['id?include=targetProfile']);
+  });
 
   this.get('/competence-evaluations');
   this.post('/competence-evaluations/start-or-resume', postCompetenceEvaluation);

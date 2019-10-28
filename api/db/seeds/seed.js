@@ -17,6 +17,7 @@ const pixAileBuilder = require('./data/pix-aile-builder');
 const buildPixAileProfile = require('./data/pix-aile-profile-builder');
 const sessionsBuilder = require('./data/sessions-builder');
 const snapshotsBuilder = require('./data/snapshots-builder');
+const targetProfileBuilder = require('./data/target-profile-builder');
 const usersBuilder = require('./data/users-builder');
 const usersPixRolesBuilder = require('./data/users_pix_roles-builder');
 
@@ -32,6 +33,7 @@ exports.seed = (knex) => {
   dragonAndCoBuilder({ databaseBuilder });
   organizationsBuilder({ databaseBuilder });
   snapshotsBuilder({ databaseBuilder });
+  targetProfileBuilder({ databaseBuilder });
   campaignsBuilder({ databaseBuilder });
   campaignParticipationsBuilder({ databaseBuilder });
   certificationCentersBuilder({ databaseBuilder });
