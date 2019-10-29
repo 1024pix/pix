@@ -48,8 +48,13 @@ async function emptyAllTables() {
   }
 }
 
+async function disconnect() {
+  return knex.destroy();
+}
+
 module.exports = {
   knex,
+  disconnect,
   listAllTableNames,
   emptyAllTables,
 };
