@@ -1,5 +1,5 @@
 const { expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const { extractUserIdFromRequest } = require('../../../../lib/infrastructure/utils/request-utils');
+const { escapeFileName, extractUserIdFromRequest } = require('../../../../lib/infrastructure/utils/request-response-utils');
 
 describe('Unit | Utils | Request Utils', function() {
 
@@ -26,6 +26,21 @@ describe('Unit | Utils | Request Utils', function() {
 
       // then
       expect(result).to.equal(null);
+    });
+
+  });
+
+  describe('#escapeFileName', function() {
+
+    it('should allow only a restricted set of characters', function() {
+      // given
+      const fileName = 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv';
+
+      // when
+      const escapedFileName = escapeFileName(fileName);
+
+      // then
+      expect(escapedFileName).to.equal('file-name with invalid_chars _____________.csv');
     });
 
   });

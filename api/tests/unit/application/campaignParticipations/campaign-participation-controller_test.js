@@ -3,7 +3,7 @@ const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test
 const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
 const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const { BadRequestError } = require('../../../../lib/infrastructure/errors');
-const requestUtils = require('../../../../lib/infrastructure/utils/request-utils');
+const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
@@ -109,7 +109,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'shareCampaignResult');
-      sinon.stub(requestUtils, 'extractUserIdFromRequest').returns(userId);
+      sinon.stub(requestResponseUtils, 'extractUserIdFromRequest').returns(userId);
     });
 
     it('should call the use case to share campaign result', async () => {
