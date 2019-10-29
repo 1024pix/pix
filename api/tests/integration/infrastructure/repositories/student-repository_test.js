@@ -173,7 +173,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
     });
   });
 
-  describe('#findByOrganizationIdAndUserFirstNameLastName', () => {
+  describe('#findByOrganizationIdAndUserInformation', () => {
 
     afterEach(async () => {
       await knex('students').delete();
@@ -194,18 +194,19 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
           firstName: 'Stanley',
           middleName: 'Martin',
           thirdName: 'Stan',
+          birthdate: '2000-03-31',
         });
         await databaseBuilder.commit();
       });
 
       for (const [description, user] of [
-        ['should match on couple firstName and lastName and return the student', { firstName: 'Stanley', lastName: 'Lieber' }],
-        ['should match on couple firstName and preferredLastName and return the student', { firstName: 'Stanley', lastName: 'Lee' }],
-        ['should match on couple middleName and lastName and return the student', { firstName: 'Martin', lastName: 'Lieber' }],
-        ['should match on couple middleName and preferredLastName and return the student', { firstName: 'Martin', lastName: 'Lee' }],
-        ['should match on couple thirdName and lastName and return the student', { firstName: 'Stan', lastName: 'Lieber' }],
-        ['should match on couple thirdName and preferredLastName and return the student', { firstName: 'Stan', lastName: 'Lee' }],
-        ['should match indifferently of low/upper case and return the student', { firstName: 'STAN', lastName: 'LEE' }],
+        ['should match on couple firstName and lastName and return the student', { firstName: 'Stanley', lastName: 'Lieber', birthdate: '2000-03-31' }],
+        ['should match on couple firstName and preferredLastName and return the student', { firstName: 'Stanley', lastName: 'Lee', birthdate: '2000-03-31' }],
+        ['should match on couple middleName and lastName and return the student', { firstName: 'Martin', lastName: 'Lieber', birthdate: '2000-03-31' }],
+        ['should match on couple middleName and preferredLastName and return the student', { firstName: 'Martin', lastName: 'Lee', birthdate: '2000-03-31' }],
+        ['should match on couple thirdName and lastName and return the student', { firstName: 'Stan', lastName: 'Lieber', birthdate: '2000-03-31' }],
+        ['should match on couple thirdName and preferredLastName and return the student', { firstName: 'Stan', lastName: 'Lee', birthdate: '2000-03-31' }],
+        ['should match indifferently of low/upper case and return the student', { firstName: 'STAN', lastName: 'LEE', birthdate: '2000-03-31' }],
       ]) {
         it(description, async () => {
           // when
@@ -222,6 +223,20 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       it('should return an empty list if there is one or more spelling mistake in user information', async () => {
         // given
         const user = { firstName: 'Sttan', lastName: 'Lees', birthdate: '2000-03-31' };
+
+        // when
+        const result = await studentRepository.findByOrganizationIdAndUserInformation({
+          organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, birthdate: user.birthdate
+        });
+
+        // then
+        expect(result).to.be.an('array');
+        expect(result.length).to.be.equal(0);
+      });
+
+      it('should return an error if birthdate in user information does not match', async () => {
+        // given
+        const user = { firstName: 'Stan', lastName: 'Lee', birthdate: '2001-06-01' };
 
         // when
         const result = await studentRepository.findByOrganizationIdAndUserInformation({
@@ -250,6 +265,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
           firstName: 'Stanley',
           middleName: 'Martin',
           thirdName: 'Stan',
+          birthdate: '2000-03-31',
         });
         databaseBuilder.factory.buildStudent({
           organizationId: badOrganization.id,
@@ -259,6 +275,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
           firstName: 'Jacob',
           middleName: 'Jack',
           thirdName: 'The King of comic book',
+          birthdate: '2000-08-07',
         });
         await databaseBuilder.commit();
       });
@@ -305,6 +322,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
           firstName: 'Stanley',
           middleName: 'Martin',
           thirdName: 'Stan',
+          birthdate: '2000-03-31',
         });
         databaseBuilder.factory.buildStudent({
           organizationId: organization.id,
@@ -314,13 +332,14 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
           firstName: 'The second',
           middleName: 'Another one',
           thirdName: 'Stan',
+          birthdate: '2000-03-31',
         });
         await databaseBuilder.commit();
       });
 
       it('should return a list of all matching students', async () => {
         // given
-        const user = { firstName: 'Stan', lastName: 'Lee' };
+        const user = { firstName: 'Stan', lastName: 'Lee', birthdate: '2000-03-31' };
 
         // when
         const result = await studentRepository.findByOrganizationIdAndUserInformation({

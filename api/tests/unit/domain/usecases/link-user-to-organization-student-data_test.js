@@ -29,11 +29,12 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
       .withArgs(campaignCode)
       .resolves({ organizationId });
 
-    findStudentStub = sinon.stub(studentRepository, 'findByOrganizationIdAndUserFirstNameLastName')
+    findStudentStub = sinon.stub(studentRepository, 'findByOrganizationIdAndUserInformation')
       .withArgs({
         organizationId,
         firstName: user.firstName,
-        lastName: user.lastName
+        lastName: user.lastName,
+        birthdate: user.birthdate
       }).resolves([student]);
 
     associateUserAndStudentStub = sinon.stub(studentRepository, 'associateUserAndStudent');
