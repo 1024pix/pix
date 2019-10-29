@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.76.0 (29/10/2019)
+
+- [#791](https://github.com/1024pix/pix/pull/791) [FEATURE] Modifier l'image du badge Pix Emploi (PF-893).
+- [#782](https://github.com/1024pix/pix/pull/782) [FEATURE] Ajout d'une bannière pour staging (PF-879).
+
 ## v2.75.0 (28/10/2019)
 
 - [#780](https://github.com/1024pix/pix/pull/780) [FEATURE] Ne pas afficher les profils cibles archivés (PO-254).
