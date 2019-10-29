@@ -254,8 +254,12 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           });
         });
 
-        it('should not the level up to the answer when the user gain pix but not a level', async () => {
+        it('should return an empty levelup when not gaining a level', async () => {
           // given
+          scorecardService.computeScorecard
+            .onFirstCall().resolves(scorecard)
+            .onSecondCall().resolves(scorecard);
+
           // when
           const result = await correctAnswerThenUpdateAssessment({
             answer,
@@ -271,7 +275,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           });
 
           // then
-          expect(result.levelup).to.equal({});
+          expect(result.levelup).to.deep.equal({});
         });
       });
 
@@ -538,8 +542,12 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           });
         });
 
-        it('should not the level up to the answer when the user gain pix but not a level', async () => {
+        it('should return an empty levelup when not gaining a level', async () => {
           // given
+          scorecardService.computeScorecard
+            .onFirstCall().resolves(scorecard)
+            .onSecondCall().resolves(scorecard);
+
           // when
           const result = await correctAnswerThenUpdateAssessment({
             answer,
@@ -555,7 +563,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           });
 
           // then
-          expect(result.levelup).to.equal({});
+          expect(result.levelup).to.deep.equal({});
         });
       });
 
