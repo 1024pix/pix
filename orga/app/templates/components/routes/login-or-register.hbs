@@ -1,0 +1,36 @@
+<div class="login-or-register">
+  <div class="panel login-or-register__panel">
+    <div>
+      <img src="/pix-orga.svg" alt="" class="login-or-register-panel__logo">
+    </div>
+    <span class="login-or-register-panel__invitation">Vous êtes invité(e) à rejoindre l'organisation {{organizationName}}</span>
+    <div class="login-or-register-panel__forms-container">
+      <div class="login-or-register-panel__form">
+        <h1 class="form-title">Je m’inscris</h1>
+        {{#unless displayRegisterForm}}
+          <button id="register" {{action "toggleFormsVisibility"}} class="button button--white button--bordered">S'inscrire</button>
+        {{/unless}}
+        <div class={{concat "login-or-register-panel-form__expandable" (if displayRegisterForm " login-or-register-panel-form__expandable--expanded")}}>
+          {{#if displayRegisterForm}}
+            {{routes/register-form organizationInvitationId=organizationInvitationId
+                                   organizationInvitationCode=organizationInvitationCode}}
+          {{/if}}
+        </div>
+      </div>
+      <div class="login-or-register-panel__divider"></div>
+      <div class="login-or-register-panel__form">
+        <h1 class="form-title">J’ai déjà un compte</h1>
+        {{#if displayRegisterForm}}
+          <button id="login" {{action "toggleFormsVisibility"}} class="button button--white button--bordered">Se connecter</button>
+        {{/if}}
+        <div class={{concat "login-or-register-panel-form__expandable" (if (not displayRegisterForm) " login-or-register-panel-form__expandable--expanded")}}>
+          {{#unless displayRegisterForm}}
+            {{routes/login-form isWithInvitation=true
+                                organizationInvitationId=organizationInvitationId
+                                organizationInvitationCode=organizationInvitationCode}}
+          {{/unless}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

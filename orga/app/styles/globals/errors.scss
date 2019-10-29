@@ -30,3 +30,15 @@
     padding-left: 10px;
   }
 }
+
+.alert-input {
+  position: relative;
+  text-align: right;
+  margin-top: -5px;
+  margin-bottom: 5px;
+  font-size: .75rem;
+
+  &--error {
+    color: $vermilion;
+  }
+}

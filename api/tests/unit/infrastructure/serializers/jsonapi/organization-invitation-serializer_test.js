@@ -13,6 +13,7 @@ describe('Unit | Serializer | JSONAPI | organization-invitation-serializer', () 
         id: invitationObject.id.toString(),
         attributes: {
           'organization-id': invitationObject.organizationId,
+          'organization-name': invitationObject.organizationName,
           email: invitationObject.email,
           status: invitationObject.status,
           'created-at': invitationObject.createdAt,
@@ -28,5 +29,4 @@ describe('Unit | Serializer | JSONAPI | organization-invitation-serializer', () 
       expect(json).to.deep.equal(jsonInvitationExpected);
     });
   });
-
 });

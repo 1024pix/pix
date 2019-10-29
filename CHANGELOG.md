@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.77.0 (29/10/2019)
+
+- [#759](https://github.com/1024pix/pix/pull/759) [FEATURE] Ajout d'une nouvelle mire de connexion et inscription dans Pix Orga pour les utilisateurs invités (PO-19).
+- [#784](https://github.com/1024pix/pix/pull/784) [BUGFIX] Télécharger les résultats CSV de grosses campagne (PO-257).
+
 ## v2.76.0 (29/10/2019)
 
 - [#791](https://github.com/1024pix/pix/pull/791) [FEATURE] Modifier l'image du badge Pix Emploi (PF-893).

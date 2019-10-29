@@ -85,7 +85,7 @@ describe('Unit | Service | MailService', () => {
       expect(mailService.sendOrganizationInvitationEmail).to.be.a('function');
     });
 
-    it('should call Mailjet with  pix-orga url, organization-invitation id and temporaryKey', async () => {
+    it('should call Mailjet with pix-orga url, organization-invitation id and code', async () => {
       // given
       const email = 'user@organization.org';
       const organizationName = 'Organization Name';
@@ -103,11 +103,11 @@ describe('Unit | Service | MailService', () => {
         to: email,
         template: 'test-organization-invitation-demand-template-id',
         from: 'ne-pas-repondre@pix.fr',
-        fromName: 'PIX-ORGA - Ne pas répondre',
+        fromName: 'Pix Orga - Ne pas répondre',
         subject: 'Invitation à rejoindre Pix Orga',
         variables: {
           organizationName,
-          responseUrl: `${pixOrgaBaseUrl}/invitations/${organizationInvitationId}?code=${code}`
+          responseUrl: `${pixOrgaBaseUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
         }
       });
     });

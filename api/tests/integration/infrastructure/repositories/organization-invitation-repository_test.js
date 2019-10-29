@@ -190,19 +190,17 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
 
   describe('#findPendingByOrganizationId', () => {
 
-    let insertedOrganizationInvitation1;
-    let insertedOrganizationInvitation2;
     const organizationId = 6789;
 
     beforeEach(async () => {
       databaseBuilder.factory.buildOrganization({
         id: organizationId,
       });
-      insertedOrganizationInvitation1 = databaseBuilder.factory.buildOrganizationInvitation({
+      databaseBuilder.factory.buildOrganizationInvitation({
         organizationId,
         status: OrganizationInvitation.StatusType.PENDING,
       });
-      insertedOrganizationInvitation2 = databaseBuilder.factory.buildOrganizationInvitation({
+      databaseBuilder.factory.buildOrganizationInvitation({
         organizationId,
         status: OrganizationInvitation.StatusType.PENDING,
       });
@@ -217,15 +215,12 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       await databaseBuilder.clean();
     });
 
-    it('should find the organization-invitations from db by organizationId', async () => {
+    it('should find two of the three organization-invitations from db by organizationId', async () => {
       // when
       const foundOrganizationInvitations = await organizationInvitationRepository.findPendingByOrganizationId({ organizationId });
 
       // then
-      expect(foundOrganizationInvitations).to.deep.equal([
-        insertedOrganizationInvitation2,
-        insertedOrganizationInvitation1,
-      ]);
+      expect(foundOrganizationInvitations.length).to.equal(2);
     });
 
     it('should return an empty array on no result', async () => {

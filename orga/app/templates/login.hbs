@@ -1,3 +1,7 @@
 <div class="login-page">
-  {{login-form}}
+  <div class="panel login-page__panel">
+    <img src="/pix-orga.svg" alt="logo de Pix Orga">
+    <h1 class="form-title">Déjà utilisateur Pix ?</h1>
+    {{routes/login-form isWithInvitation=false}}
+  </div>
 </div>

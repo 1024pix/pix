@@ -255,7 +255,7 @@ describe('Integration | Application | Organizations | organization-controller', 
         const response = await httpTestServer.request('POST', `/api/organizations/${invitation.organizationId}/invitations`, payload);
 
         // then
-        expect(_.omit(response.result, 'data.id')).to.deep.equal(expectedResult);
+        expect(_.omit(response.result, 'data.id', 'data.attributes.organization-name')).to.deep.equal(expectedResult);
       });
     });
   });

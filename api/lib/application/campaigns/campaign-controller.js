@@ -1,4 +1,4 @@
-const moment = require('moment');
+const { PassThrough } = require('stream');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
@@ -43,19 +43,25 @@ module.exports = {
       .then((campaign) => campaignSerializer.serialize(campaign, { tokenForCampaignResults }));
   },
 
-  getCsvResults(request, h) {
+  async getCsvResults(request) {
     const token = request.query.accessToken;
     const userId = tokenService.extractUserIdForCampaignResults(token);
-
     const campaignId = parseInt(request.params.id);
 
-    return usecases.getResultsCampaignInCSVFormat({ userId, campaignId })
-      .then((resultCampaign) => {
-        const fileName = `Resultats-${resultCampaign.campaignName}-${campaignId}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
-        return h.response(resultCampaign.csvData)
-          .header('Content-Type', 'text/csv;charset=utf-8')
-          .header('Content-Disposition', `attachment; filename="${fileName}"`);
-      });
+    const writableStream = new PassThrough();
+
+    const { fileName } = await usecases.startWritingCampaignResultsToStream({ userId, campaignId, writableStream });
+
+    writableStream.headers = {
+      'content-type': 'text/csv;charset=utf-8',
+      'content-disposition': `attachment; filename="${fileName}"`,
+
+      // WHY: to avoid compression because when compressing, the server buffers
+      // for too long causing a response timeout.
+      'content-encoding': 'identity',
+    };
+
+    return writableStream;
   },
 
   update(request) {
