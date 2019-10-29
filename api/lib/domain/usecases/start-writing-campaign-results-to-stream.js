@@ -265,7 +265,7 @@ function _createOneLineOfCSV(
     });
 }
 
-module.exports = function startWritingCampaignResultsToStream(
+module.exports = async function startWritingCampaignResultsToStream(
   {
     userId,
     campaignId,
@@ -280,66 +280,58 @@ module.exports = function startWritingCampaignResultsToStream(
     knowledgeElementRepository,
   }) {
 
-  let campaign, headersAsArray, listCompetences, listArea, organization;
+  const campaign = await campaignRepository.get(campaignId);
 
-  return campaignRepository.get(campaignId)
-    .then((campaignFound) => {
-      campaign = campaignFound;
-      return _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
-    })
-    .then(() => {
-      return Promise.all([
-        targetProfileRepository.get(campaign.targetProfileId),
-        competenceRepository.list(),
-        organizationRepository.get(campaign.organizationId),
-        campaignParticipationRepository.findByCampaignId(campaign.id),
-      ]);
+  await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-    }).then(([targetProfile, listAllCompetences, organizationFound, listCampaignParticipation]) => {
-      organization = organizationFound;
+  const [targetProfile, listAllCompetences, organization, listCampaignParticipation] = await Promise.all([
+    targetProfileRepository.get(campaign.targetProfileId),
+    competenceRepository.list(),
+    organizationRepository.get(campaign.organizationId),
+    campaignParticipationRepository.findByCampaignId(campaign.id),
+  ]);
 
-      const listSkillsName = targetProfile.skills.map((skill) => skill.name);
-      const listSkillsId = targetProfile.skills.map((skill) => skill.id);
+  const listSkillsName = targetProfile.skills.map((skill) => skill.name);
+  const listSkillsId = targetProfile.skills.map((skill) => skill.id);
 
-      listCompetences = listAllCompetences.filter((competence) => {
-        return listSkillsId.some((skillId) => competence.skills.includes(skillId));
-      });
+  const listCompetences = listAllCompetences.filter((competence) => {
+    return listSkillsId.some((skillId) => competence.skills.includes(skillId));
+  });
 
-      listArea = _.uniqBy(listCompetences.map((competence) => competence.area), 'code');
+  const listArea = _.uniqBy(listCompetences.map((competence) => competence.area), 'code');
 
-      //Create HEADER of CSV
-      headersAsArray = _createHeaderOfCSV(listSkillsName, listCompetences, listArea, campaign.idPixLabel);
+  //Create HEADER of CSV
+  const headersAsArray = _createHeaderOfCSV(listSkillsName, listCompetences, listArea, campaign.idPixLabel);
 
-      // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
-      // - https://en.wikipedia.org/wiki/Byte_order_mark
-      // - https://stackoverflow.com/a/38192870
-      const headerLine = '\uFEFF' + headersAsArray.join(';') + '\n';
+  // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
+  // - https://en.wikipedia.org/wiki/Byte_order_mark
+  // - https://stackoverflow.com/a/38192870
+  const headerLine = '\uFEFF' + headersAsArray.join(';') + '\n';
 
-      writableStream.write(headerLine);
+  writableStream.write(headerLine);
 
-      bluebird.mapSeries(listCampaignParticipation, (campaignParticipation) => {
-        return _createOneLineOfCSV(
-          headersAsArray,
-          organization,
-          campaign,
-          listCompetences,
-          listArea,
-          campaignParticipation,
-          targetProfile,
-          userRepository,
-          smartPlacementAssessmentRepository,
-          knowledgeElementRepository
-        ).then((lineCsv) => {
-          writableStream.write(lineCsv);
-        });
-      }).then(() => {
-        writableStream.end();
-      }).catch((error) => {
-        //TODO log error here
-        writableStream.emit('error', error);
-      });
+  bluebird.mapSeries(listCampaignParticipation, async (campaignParticipation) => {
+    const csvLine = await _createOneLineOfCSV(
+      headersAsArray,
+      organization,
+      campaign,
+      listCompetences,
+      listArea,
+      campaignParticipation,
+      targetProfile,
+      userRepository,
+      smartPlacementAssessmentRepository,
+      knowledgeElementRepository
+    );
 
-      const fileName = `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
-      return { fileName };
-    });
+    writableStream.write(csvLine);
+  }).then(() => {
+    writableStream.end();
+  }).catch((error) => {
+    writableStream.emit('error', error);
+    throw error;
+  });
+
+  const fileName = `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
+  return { fileName };
 };
