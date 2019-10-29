@@ -4,6 +4,7 @@ const heapProfile = require('heap-profile');
 const createServer = require('../server');
 const logger = require('../lib/infrastructure/logger');
 const { system } = require('../lib/config');
+const { disconnect } = require('../db/knex-database-connection');
 
 const start = async () => {
   try {
@@ -20,5 +21,15 @@ const start = async () => {
     process.exit(1);
   }
 };
+
+function exitOnSignal(signal) {
+  logger.info(`Received signal ${signal}. Closing DB connections before exiting.`);
+  disconnect().then(() => {
+    process.exit(0);
+  });
+}
+
+process.on('SIGTERM', () => { exitOnSignal('SIGTERM'); });
+process.on('SIGINT', () => { exitOnSignal('SIGINT'); });
 
 start();
