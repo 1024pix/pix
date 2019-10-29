@@ -3,7 +3,6 @@ const moment = require('moment');
 const bluebird = require('bluebird');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
-const { InfrastructureError } = require('../../infrastructure/errors');
 
 function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   if (_.isNil(organizationId)) {
@@ -266,10 +265,11 @@ function _createOneLineOfCSV(
     });
 }
 
-module.exports = function getResultsCampaignInCSVFormat(
+module.exports = async function startWritingCampaignResultsToStream(
   {
     userId,
     campaignId,
+    writableStream,
     campaignRepository,
     userRepository,
     targetProfileRepository,
@@ -280,66 +280,58 @@ module.exports = function getResultsCampaignInCSVFormat(
     knowledgeElementRepository,
   }) {
 
-  let campaign, headersAsArray, listCompetences, listArea, organization;
-  // XXX: add the UTF-8 BOM at the start of the text; see https://stackoverflow.com/a/38192870
-  let textCsv = '\uFEFF';
+  const campaign = await campaignRepository.get(campaignId);
 
-  return campaignRepository.get(campaignId)
-    .then((campaignFound) => {
-      campaign = campaignFound;
-      return _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
-    })
-    .then(() => {
-      return Promise.all([
-        targetProfileRepository.get(campaign.targetProfileId),
-        competenceRepository.list(),
-        organizationRepository.get(campaign.organizationId),
-        campaignParticipationRepository.findByCampaignId(campaign.id),
-      ]);
+  await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-    }).then(([targetProfile, listAllCompetences, organizationFound, listCampaignParticipation]) => {
-      organization = organizationFound;
+  const [targetProfile, listAllCompetences, organization, listCampaignParticipation] = await Promise.all([
+    targetProfileRepository.get(campaign.targetProfileId),
+    competenceRepository.list(),
+    organizationRepository.get(campaign.organizationId),
+    campaignParticipationRepository.findByCampaignId(campaign.id),
+  ]);
 
-      const listSkillsName = targetProfile.skills.map((skill) => skill.name);
-      const listSkillsId = targetProfile.skills.map((skill) => skill.id);
+  const listSkillsName = targetProfile.skills.map((skill) => skill.name);
+  const listSkillsId = targetProfile.skills.map((skill) => skill.id);
 
-      listCompetences = listAllCompetences.filter((competence) => {
-        return listSkillsId.some((skillId) => competence.skills.includes(skillId));
-      });
+  const listCompetences = listAllCompetences.filter((competence) => {
+    return listSkillsId.some((skillId) => competence.skills.includes(skillId));
+  });
 
-      listArea = _.uniqBy(listCompetences.map((competence) => competence.area), 'code');
+  const listArea = _.uniqBy(listCompetences.map((competence) => competence.area), 'code');
 
-      //Create HEADER of CSV
-      headersAsArray = _createHeaderOfCSV(listSkillsName, listCompetences, listArea, campaign.idPixLabel);
-      textCsv += headersAsArray.join(';') + '\n';
+  //Create HEADER of CSV
+  const headersAsArray = _createHeaderOfCSV(listSkillsName, listCompetences, listArea, campaign.idPixLabel);
 
-      const startTime = new Date();
-      const timeoutInMiliSeconds = 30000;
+  // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
+  // - https://en.wikipedia.org/wiki/Byte_order_mark
+  // - https://stackoverflow.com/a/38192870
+  const headerLine = '\uFEFF' + headersAsArray.join(';') + '\n';
 
-      return bluebird.mapSeries(listCampaignParticipation, (campaignParticipation) => {
-        const now = new Date();
-        if (now.getTime() - startTime.getTime() > timeoutInMiliSeconds) {
-          throw new InfrastructureError(`CSV export is too long (more than ${timeoutInMiliSeconds} ms), aborting.`);
-        }
+  writableStream.write(headerLine);
 
-        return _createOneLineOfCSV(
-          headersAsArray,
-          organization,
-          campaign,
-          listCompetences,
-          listArea,
-          campaignParticipation,
-          targetProfile,
-          userRepository,
-          smartPlacementAssessmentRepository,
-          knowledgeElementRepository
-        );
-      });
-    })
-    .then((csvLineForEachPartication) => {
-      csvLineForEachPartication.forEach((csvLine) => {
-        textCsv += csvLine;
-      });
-      return { csvData: textCsv, campaignName: campaign.name };
-    });
+  bluebird.mapSeries(listCampaignParticipation, async (campaignParticipation) => {
+    const csvLine = await _createOneLineOfCSV(
+      headersAsArray,
+      organization,
+      campaign,
+      listCompetences,
+      listArea,
+      campaignParticipation,
+      targetProfile,
+      userRepository,
+      smartPlacementAssessmentRepository,
+      knowledgeElementRepository
+    );
+
+    writableStream.write(csvLine);
+  }).then(() => {
+    writableStream.end();
+  }).catch((error) => {
+    writableStream.emit('error', error);
+    throw error;
+  });
+
+  const fileName = `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
+  return { fileName };
 };

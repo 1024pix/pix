@@ -1,12 +1,14 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { PassThrough } = require('stream');
 const moment = require('moment');
 
-const getResultsCampaignInCsvFormat = require('../../../../lib/domain/usecases/get-results-campaign-in-csv-format');
+const { expect, sinon, domainBuilder, streamToPromise } = require('../../../test-helper');
+
+const startWritingCampaignResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-results-to-stream');
 const Area = require('../../../../lib/domain/models/Area');
 
-describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () => {
+describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream', () => {
 
-  describe('#getResultsCampaignInCsvFormat', () => {
+  describe('#startWritingCampaignResultsToStream', () => {
 
     const user = domainBuilder.buildUser();
     const organization = user.memberships[0].organization;
@@ -94,6 +96,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         }),
       },
     ];
+
     const campaignRepository = { get: () => undefined };
     const userRepository = { getWithMemberships: () => undefined, get: () => undefined };
     const targetProfileRepository = { get: () => undefined };
@@ -104,6 +107,9 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const knowledgeElementRepository = { findUniqByUserId: () => undefined };
 
     let findCampaignParticipationStub;
+
+    let writableStream;
+    let csvPromise;
 
     beforeEach(() => {
 
@@ -116,12 +122,13 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       sinon.stub(smartPlacementAssessmentRepository, 'get').resolves(assessment);
       sinon.stub(knowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
       findCampaignParticipationStub = sinon.stub(campaignParticipationRepository, 'findByCampaignId');
+
+      writableStream = new PassThrough();
+      csvPromise = streamToPromise(writableStream);
     });
 
-    it('should return the header in CSV styles with all competence, domain and skills', () => {
+    it('should return the header in CSV styles with all competence, domain and skills', async () => {
       // given
-      findCampaignParticipationStub.resolves([]);
-
       const csvExpected = '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Nom de la campagne";' +
@@ -145,11 +152,13 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         '"web3";' +
         '"web4";' +
         '"web5"\n';
+      findCampaignParticipationStub.resolves([]);
 
       // when
-      const promise = getResultsCampaignInCsvFormat({
+      startWritingCampaignResultsToStream({
         userId: user.id,
         campaignId: campaign.id,
+        writableStream,
         campaignRepository,
         userRepository,
         targetProfileRepository,
@@ -160,15 +169,15 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         knowledgeElementRepository,
       });
 
+      const csv = await csvPromise;
+
       // then
-      return promise.then((result) => {
-        expect(result.csvData).to.contains(csvExpected);
-      });
+      expect(csv).to.equal(csvExpected);
     });
 
     context('when isShared is true', () => {
 
-      it('should return the complete line with user results for her participation', () => {
+      it('should return the complete line with user results for her participation', async () => {
         // given
         const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: true, sharedAt: new Date('2019-03-01T23:04:05Z') });
         factoryCampaignParticipation.assessmentId = domainBuilder.buildAssessment({ campaignParticipationId: factoryCampaignParticipation.id }).id;
@@ -196,12 +205,13 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           '"OK";' +
           '"OK";' +
           '"KO";' +
-          '"KO"\n';
+          '"KO"';
 
         // when
-        const promise = getResultsCampaignInCsvFormat({
+        startWritingCampaignResultsToStream({
           userId: user.id,
           campaignId: campaign.id,
+          writableStream,
           campaignRepository,
           userRepository,
           targetProfileRepository,
@@ -212,16 +222,17 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           knowledgeElementRepository,
         });
 
+        const csv = await csvPromise;
+        const csvLines = csv.split('\n');
+
         // then
-        return promise.then((result) => {
-          expect(result.csvData).to.contains(csvSecondLine);
-        });
+        expect(csvLines[1]).to.equal(csvSecondLine);
       });
     });
 
     context('when isShared is false', () => {
 
-      it('should return the beginning of the line with user information for her participation', () => {
+      it('should return the beginning of the line with user information for her participation', async () => {
         // given
 
         const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: false });
@@ -252,12 +263,13 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           '"NA";' +
           '"NA";' +
           '"NA";' +
-          '"NA"\n';
+          '"NA"';
 
         // when
-        const promise = getResultsCampaignInCsvFormat({
+        startWritingCampaignResultsToStream({
           userId: user.id,
           campaignId: campaign.id,
+          writableStream,
           campaignRepository,
           userRepository,
           targetProfileRepository,
@@ -268,10 +280,11 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           knowledgeElementRepository,
         });
 
+        const csv = await csvPromise;
+        const csvLines = csv.split('\n');
+
         // then
-        return promise.then((result) => {
-          expect(result.csvData).to.contains(csvSecondLine);
-        });
+        expect(csvLines[1]).to.equal(csvSecondLine);
       });
     });
     context('when campaign do not have a idPixLabel', () => {
@@ -291,7 +304,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         campaignRepository.get.resolves(campaignWithoutIdPixLabel);
       });
 
-      it('should return the header in CSV styles with all competence, domain and skills', () => {
+      it('should return the header in CSV styles with all competence, domain and skills', async () => {
         // given
         const csvExpected = '\uFEFF"Nom de l\'organisation";' +
           '"ID Campagne";' +
@@ -314,12 +327,13 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           '"web2";' +
           '"web3";' +
           '"web4";' +
-          '"web5"\n';
+          '"web5"';
 
         // when
-        const promise = getResultsCampaignInCsvFormat({
+        startWritingCampaignResultsToStream({
           userId: user.id,
           campaignId: campaign.id,
+          writableStream,
           campaignRepository,
           userRepository,
           targetProfileRepository,
@@ -330,10 +344,11 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           knowledgeElementRepository,
         });
 
+        const csv = await csvPromise;
+        const csvLines = csv.split('\n');
+
         // then
-        return promise.then((result) => {
-          expect(result.csvData).to.contains(csvExpected);
-        });
+        expect(csvLines[0]).to.equal(csvExpected);
       });
     });
   });

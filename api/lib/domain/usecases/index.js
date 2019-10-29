@@ -108,7 +108,7 @@ module.exports = injectDependencies({
   getOrganizationInvitation: require('./get-organization-invitation'),
   getOrganizationMemberships: require('./get-organization-memberships'),
   getProgression: require('./get-progression'),
-  getResultsCampaignInCSVFormat: require('./get-results-campaign-in-csv-format'),
+  startWritingCampaignResultsToStream: require('./start-writing-campaign-results-to-stream'),
   getScorecard: require('./get-scorecard'),
   getSession: require('./get-session'),
   getSessionCertificationCandidates: require('./get-session-certification-candidates'),
