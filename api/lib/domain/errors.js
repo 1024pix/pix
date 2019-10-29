@@ -102,6 +102,18 @@ class CertificationCandidateDeletionError extends DomainError {
   }
 }
 
+class CertificationCandidateMultipleUserLinksWithinSessionError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class CertificationCandidatePersonalInfoFieldMissingError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class CertificationComputeError extends DomainError {
   constructor(message) {
     super(message);
@@ -318,6 +330,8 @@ module.exports = {
   CompetenceResetError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateDeletionError,
+  CertificationCandidateMultipleUserLinksWithinSessionError,
+  CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCenterMembershipCreationError,
   CertificationComputeError,
   ChallengeAlreadyAnsweredError,

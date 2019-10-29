@@ -11,6 +11,14 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.CertificationCandidateDeletionError).to.exist;
   });
 
+  it('should export a CertificationCandidateMultipleUserLinksWithinSessionError', () => {
+    expect(errors.CertificationCandidateMultipleUserLinksWithinSessionError).to.exist;
+  });
+
+  it('should export a CertificationCandidatePersonalInfoFieldMissingError', () => {
+    expect(errors.CertificationCandidatePersonalInfoFieldMissingError).to.exist;
+  });
+
   it('should export a NotFoundError', () => {
     expect(errors.NotFoundError).to.exist;
   });
