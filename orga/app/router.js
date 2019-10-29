@@ -16,8 +16,7 @@ const Router = EmberRouter.extend({
 
 Router.map(function() {
   this.route('login', { path: 'connexion' });
-
-  this.route('invitations', { path: 'invitations/:organization_invitation_id' });
+  this.route('join', { path: 'rejoindre' });
 
   this.route('authenticated', { path: '' }, function() {
     this.route('terms-of-service', { path: '/cgu' });

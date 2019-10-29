@@ -1,0 +1,102 @@
+<div class="register-form">
+  <form {{action 'register' on='submit'}}>
+
+    <div id="register-lastName-container" class="input-container">
+      <label for="register-lastName" class="label">Nom</label>
+      <div class="{{if validation.lastName.message 'alert-input alert-input--error'}}" role="alert">{{validation.lastName.message}}</div>
+      <Input
+        @id="register-lastName"
+        @name="lastName"
+        @type="lastName"
+        @class="input {{if validation.lastName.message 'input--error'}}"
+        @value={{user.lastName}}
+        @focusOut={{action "validateInput" "lastName" user.lastName}}
+        @autocomplete="lastname"
+      />
+    </div>
+
+    <div id="register-firstName-container" class="input-container">
+      <label for="register-firstName" class="label">Prénom</label>
+      <div class="{{if validation.firstName.message 'alert-input alert-input--error'}}" role="alert">{{validation.firstName.message}}</div>
+      <Input
+        @id="register-firstName"
+        @name="firstName"
+        @type="firstName"
+        @class="input {{if validation.firstName.message 'input--error'}}"
+        @value={{user.firstName}}
+        @focusOut={{action "validateInput" "firstName" user.firstName}}
+        @autocomplete="firstname"
+      />
+    </div>
+
+    <div id="register-email-container" class="input-container">
+      <label for="register-email" class="label">E-mail</label>
+      <div class="{{if validation.email.message 'alert-input alert-input--error'}}" role="alert">{{validation.email.message}}</div>
+      <Input
+        @id="register-email"
+        @name="email"
+        @type="email"
+        @class="input {{if validation.email.message 'input--error'}}"
+        @value={{user.email}}
+        @focusOut={{action "validateInputEmail" "email" user.email}}
+        @autocomplete="username"
+      />
+    </div>
+
+    <div id="register-password-container" class="input-container">
+      <label for="register-password" class="label">Mot de passe</label>
+      <div class="{{if validation.password.message 'alert-input alert-input--error'}}" role="alert">{{validation.password.message}}</div>
+      <div class="input-password {{if validation.password.message 'input-password--error'}}">
+        <Input
+          @id="register-password"
+          @name="password"
+          @type={{passwordInputType}}
+          @class="input"
+          @value={{user.password}}
+          @focusOut={{action "validateInputPassword" "password" user.password}}
+          @autocomplete="current-password"
+        />
+        <button type="button" aria-label="rendre le mot de passe lisible" class="input-password__icon" {{action
+          'togglePasswordVisibility'}}>
+          {{#if isPasswordVisible}}
+            <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>
+              {{fa-icon 'eye' class="fa-fw input-password-icon__eye"}}
+            </div>
+          {{else}}
+            <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>
+              {{fa-icon 'eye-slash' class="fa-fw input-password-icon__eye"}}
+            </div>
+          {{/if}}
+        </button>
+      </div>
+    </div>
+
+    <div id="register-cgu-container" class="input-container">
+      <div class="{{if validation.cgu.message 'alert-input alert-input--error'}}" role="alert">{{validation.cgu.message}}</div>
+      <label for="register-cgu" class="label register-form__cgu-label">
+        {{input type="checkbox" id='register-cgu' checked=user.cgu}}
+        <span class="register-form__cgu">
+      J'​accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="link" target="_blank">conditions d'​utilisation de Pix</a>
+    </span>
+      </label>
+    </div>
+
+    <div class="input-container">
+      {{#if isLoading}}
+        <button type="submit" class="button"><span class="loader-in-button">&nbsp;</span></button>
+      {{else}}
+        <button type="submit" class="button">Je m'inscris</button>
+      {{/if}}
+    </div>
+
+  </form>
+
+  <div class="legal-text">
+    Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour
+    permettre l’accès au service offert. Elles sont conservées pendant la durée d’utilisation du service et sont
+    destinées à Pix. Les résultats des tests pourront être communiqués à des tiers, avec votre consentement, dans le
+    cas où vous avez été invité à suivre un parcours spécifique. Conformément à la loi « informatique et libertés »,
+    vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant le
+    Délégué à la Protection des Données de Pix à dpo@pix.fr.
+  </div>
+</div>

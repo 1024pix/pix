@@ -35,7 +35,6 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
 
         const organizationInvitationId = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
-          email: userToInviteEmail,
           status: OrganizationInvitation.StatusType.PENDING,
           code: code
         }).id;
@@ -48,7 +47,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
           payload: {
             data: {
               type: 'organization-invitations',
-              attributes: { code, status },
+              attributes: { code, status, email: userToInviteEmail },
             }
           }
         };
@@ -133,12 +132,12 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         // given
         const { id: organizationInvitationId, code } = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
-          email: 'fakeEmail@organization.org',
           status: OrganizationInvitation.StatusType.PENDING
         });
 
         options.url = `/api/organization-invitations/${organizationInvitationId}/response`;
         options.payload.data.attributes.code = code;
+        options.payload.data.attributes.code = 'random@email.com';
 
         await databaseBuilder.commit();
 
@@ -157,14 +156,122 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
 
         const { id: organizationInvitationId, code } = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
-          email,
           status: OrganizationInvitation.StatusType.PENDING
         });
 
         options.url = `/api/organization-invitations/${organizationInvitationId}/response`;
         options.payload.data.attributes.code = code;
+        options.payload.data.attributes.email = email;
 
         await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(421);
+      });
+    });
+  });
+
+  describe('GET /api/organization-invitations/{id}', () => {
+
+    let organizationId;
+    let options;
+
+    context('Success cases', () => {
+
+      beforeEach(async () => {
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+
+        const code = 'ABCDEFGH01';
+
+        const organizationInvitationId = databaseBuilder.factory.buildOrganizationInvitation({
+          organizationId,
+          status: OrganizationInvitation.StatusType.PENDING,
+          code
+        }).id;
+
+        options = {
+          method: 'GET',
+          url: `/api/organization-invitations/${organizationInvitationId}?code=${code}`,
+        };
+
+        await databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await databaseBuilder.clean();
+      });
+
+      it('should return 200 HTTP status code', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    context('Error cases', () => {
+
+      let organizationInvitationId;
+
+      beforeEach(async () => {
+        const code = 'ABCDEFGH01';
+
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        organizationInvitationId = databaseBuilder.factory.buildOrganizationInvitation({
+          organizationId,
+          code
+        }).id;
+
+        options = {
+          method: 'GET',
+          url: `/api/organization-invitations/${organizationInvitationId}?code=${code}`,
+        };
+
+        await databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await databaseBuilder.clean();
+      });
+
+      it('should respond with a 400 - missing parameters if organization-invitation is requested without code', async () => {
+        // given
+        options.url = `/api/organization-invitations/${organizationInvitationId}`;
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should respond with a 404 if organization-invitation is not found with given id and code', async () => {
+        // given
+        options.url = `/api/organization-invitations/${organizationInvitationId}?code=999`;
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+
+      it('should respond with a 421 if organization-invitation is already accepted', async () => {
+        // given
+        const code = 'ABCDEFGH01';
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        organizationInvitationId = databaseBuilder.factory.buildOrganizationInvitation({
+          organizationId,
+          code,
+          status: 'accepted'
+        }).id;
+        await databaseBuilder.commit();
+
+        options.url = `/api/organization-invitations/${organizationInvitationId}?code=${code}`;
 
         // when
         const response = await server.inject(options);
