@@ -99,7 +99,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       let solution;
       let validator;
       let scorecard;
-      let scorecardAfter;
 
       beforeEach(() => {
         // given
@@ -116,8 +115,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.COMPETENCE_EVALUATION });
         competenceEvaluation = domainBuilder.buildCompetenceEvaluation();
         knowledgeElement = domainBuilder.buildKnowledgeElement();
-        firstCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement();
-        secondCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement();
+        firstCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
+        secondCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1 });
         skills = domainBuilder.buildSkillCollection();
 
         completedAnswer = domainBuilder.buildAnswer(answer);
@@ -127,8 +126,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         savedAnswer = domainBuilder.buildAnswer(completedAnswer);
 
-        scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 23 });
-        scorecardAfter = domainBuilder.buildUserScorecard({ ...scorecard, level: 3, earnedPix: 25 });
+        scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 22 });
         answerRepository.findByChallengeAndAssessment.resolves(false);
         assessmentRepository.get.resolves(assessment);
         challengeRepository.get.resolves(challenge);
@@ -139,10 +137,11 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstCreatedKnowledgeElement, secondCreatedKnowledgeElement,
         ]);
+        knowledgeElementRepository.save
+          .onFirstCall().resolves(firstCreatedKnowledgeElement)
+          .onSecondCall().resolves(secondCreatedKnowledgeElement);
         smartPlacementAssessmentRepository.get.rejects(new NotFoundError());
-        scorecardService.computeScorecard
-          .onFirstCall().resolves(scorecard)
-          .onSecondCall().resolves(scorecardAfter);
+        scorecardService.computeScorecard.resolves(scorecard);
 
       });
 
@@ -232,6 +231,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       context('when the user responds correctly', async () => {
         it('should add the level up to the answer when the user gain one level', async () => {
           // given
+          const expectedLevel = scorecard.level + 1;
           // when
           const result = await correctAnswerThenUpdateAssessment({
             answer,
@@ -250,15 +250,15 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           expect(result.levelup).to.deep.equal({
             id: result.id,
             competenceName: scorecard.name,
-            level: scorecardAfter.level,
+            level: expectedLevel,
           });
         });
 
         it('should return an empty levelup when not gaining a level', async () => {
           // given
-          scorecardService.computeScorecard
-            .onFirstCall().resolves(scorecard)
-            .onSecondCall().resolves(scorecard);
+          knowledgeElementRepository.save
+            .onFirstCall().resolves(domainBuilder.buildKnowledgeElement({ earnedPix: 0 }))
+            .onSecondCall().resolves(domainBuilder.buildKnowledgeElement({ earnedPix: 0 }));
 
           // when
           const result = await correctAnswerThenUpdateAssessment({
@@ -321,7 +321,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       let solution;
       let validator;
       let scorecard;
-      let scorecardAfter;
 
       beforeEach(() => {
         // given
@@ -345,10 +344,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.SMARTPLACEMENT });
         smartPlacementAssessment = domainBuilder.buildSmartPlacementAssessment();
-        firstKnowledgeElement = domainBuilder.buildKnowledgeElement();
-        secondKnowledgeElement = domainBuilder.buildKnowledgeElement();
+        firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
+        secondKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
         scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 23 });
-        scorecardAfter = domainBuilder.buildUserScorecard({ ...scorecard, level: 3, earnedPix: 25 });
 
         answerRepository.findByChallengeAndAssessment.resolves(false);
         assessmentRepository.get.resolves(assessment);
@@ -358,9 +356,11 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstKnowledgeElement, secondKnowledgeElement,
         ]);
-        scorecardService.computeScorecard
-          .onFirstCall().resolves(scorecard)
-          .onSecondCall().resolves(scorecardAfter);
+        knowledgeElementRepository.save
+          .onFirstCall().resolves(firstKnowledgeElement)
+          .onSecondCall().resolves(secondKnowledgeElement);
+
+        scorecardService.computeScorecard.resolves(scorecard);
 
       });
 
@@ -520,6 +520,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       context('when the user responds correctly', async () => {
         it('should add the level up to the answer when the user gain one level', async () => {
           // given
+          const expectedLevel = scorecard.level + 1;
+
           // when
           const result = await correctAnswerThenUpdateAssessment({
             answer,
@@ -538,15 +540,15 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           expect(result.levelup).to.deep.equal({
             id: result.id,
             competenceName: scorecard.name,
-            level: scorecardAfter.level,
+            level: expectedLevel,
           });
         });
 
         it('should return an empty levelup when not gaining a level', async () => {
           // given
-          scorecardService.computeScorecard
-            .onFirstCall().resolves(scorecard)
-            .onSecondCall().resolves(scorecard);
+          knowledgeElementRepository.save
+            .onFirstCall().resolves(domainBuilder.buildKnowledgeElement({ earnedPix: 0 }))
+            .onSecondCall().resolves(domainBuilder.buildKnowledgeElement({ earnedPix: 0 }));
 
           // when
           const result = await correctAnswerThenUpdateAssessment({
