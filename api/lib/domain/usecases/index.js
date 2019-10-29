@@ -121,6 +121,7 @@ module.exports = injectDependencies({
   getUserWithMemberships: require('./get-user-with-memberships'),
   importCertificationCandidatesFromAttendanceSheet: require('./import-certification-candidates-from-attendance-sheet'),
   importStudentsFromSIECLE: require('./import-students-from-siecle'),
+  linkUserToOrganizationStudentData: require('./link-user-to-organization-student-data'),
   parseCertificationsDataFromAttendanceSheet: require('./parse-certifications-data-from-attendance-sheet'),
   preloadCacheEntries: require('./preload-cache-entries'),
   reloadCacheEntry: require('./reload-cache-entry'),
