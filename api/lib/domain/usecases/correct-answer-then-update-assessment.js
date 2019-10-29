@@ -19,6 +19,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     smartPlacementAssessmentRepository,
     knowledgeElementRepository,
   } = {}) {
+  let scorecardBeforeAnswer;
   const answersFind = await answerRepository.findByChallengeAndAssessment({
     assessmentId: answer.assessmentId,
     challengeId: answer.challengeId,
@@ -36,16 +37,18 @@ module.exports = async function correctAnswerThenUpdateAssessment(
 
   const challenge = await challengeRepository.get(answer.challengeId);
 
-  const scorecardBeforeAnswer = await scorecardService.computeScorecard({
-    userId,
-    competenceId: challenge.competenceId,
-    competenceRepository,
-    competenceEvaluationRepository,
-    knowledgeElementRepository,
-    blockReachablePixAndLevel: true,
-  });
-
   const correctedAnswer = evaluateAnswer(challenge, answer);
+
+  if (correctedAnswer.result.isOK() && (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement())) {
+    scorecardBeforeAnswer = await scorecardService.computeScorecard({
+      userId,
+      competenceId: challenge.competenceId,
+      competenceRepository,
+      competenceEvaluationRepository,
+      knowledgeElementRepository,
+      blockReachablePixAndLevel: true,
+    });
+  }
 
   const answerSaved = await answerRepository.save(correctedAnswer);
 
@@ -68,24 +71,25 @@ module.exports = async function correctAnswerThenUpdateAssessment(
       knowledgeElementRepository,
     });
   }
+  if (correctedAnswer.result.isOK() && (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement())) {
+    const scorecardAfterAnswer = await scorecardService.computeScorecard({
+      userId,
+      competenceId: challenge.competenceId,
+      competenceRepository,
+      competenceEvaluationRepository,
+      knowledgeElementRepository,
+      blockReachablePixAndLevel: true,
+    });
 
-  const scorecardAfterAnswer = await scorecardService.computeScorecard({
-    userId,
-    competenceId: challenge.competenceId,
-    competenceRepository,
-    competenceEvaluationRepository,
-    knowledgeElementRepository,
-    blockReachablePixAndLevel: true,
-  });
-
-  if (scorecardBeforeAnswer.level < scorecardAfterAnswer.level) {
-    answerSaved.levelup = {
-      id: answerSaved.id,
-      competenceName: scorecardAfterAnswer.name,
-      level: scorecardAfterAnswer.level,
-    };
+    answerSaved.levelup = {};
+    if (scorecardBeforeAnswer.level < scorecardAfterAnswer.level) {
+      answerSaved.levelup = {
+        id: answerSaved.id,
+        competenceName: scorecardAfterAnswer.name,
+        level: scorecardAfterAnswer.level,
+      };
+    }
   }
-
   return answerSaved;
 };
 
