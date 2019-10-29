@@ -2,10 +2,6 @@ const randomString = require('randomstring');
 const mailService = require('../../domain/services/mail-service');
 const { AlreadyExistingOrganizationInvitationError, AlreadyExistingMembershipError } = require('../../domain/errors');
 
-function _checkUserExistWithEmail(userRepository, email) {
-  return userRepository.isUserExistingByEmail(email);
-}
-
 async function _checkMemberNotExistWithOrganizationIdAndEmail({ membershipRepository, organizationId, email }) {
   const membershipFound = await membershipRepository.isMembershipExistingByOrganizationIdAndEmail(organizationId, email);
   if (membershipFound) {
@@ -19,11 +15,10 @@ function _generateCode() {
 }
 
 module.exports = async function createOrganizationInvitation({
-  userRepository, membershipRepository, organizationRepository,
+  membershipRepository, organizationRepository,
   organizationInvitationRepository, organizationId, email
 }) {
 
-  await _checkUserExistWithEmail(userRepository, email);
   await _checkMemberNotExistWithOrganizationIdAndEmail({ membershipRepository, organizationId, email });
 
   let organizationInvitation = await organizationInvitationRepository.findOneByOrganizationIdAndEmail({ organizationId, email });

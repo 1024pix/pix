@@ -3,7 +3,7 @@ const OrganizationInvitation = require('../models/OrganizationInvitation');
 const { AlreadyExistingOrganizationInvitationError, AlreadyExistingMembershipError } = require('../../domain/errors');
 
 module.exports = async function answerToOrganizationInvitation({
-  organizationInvitationId, code, status,
+  organizationInvitationId, code, status, email,
   userRepository, membershipRepository, organizationInvitationRepository
 }) {
 
@@ -17,7 +17,7 @@ module.exports = async function answerToOrganizationInvitation({
   } else {
 
     if (status === OrganizationInvitation.StatusType.ACCEPTED) {
-      const userFound = await userRepository.findByEmail(foundOrganizationInvitation.email);
+      const userFound = await userRepository.findByEmail(email);
 
       const { organizationId } = foundOrganizationInvitation;
       const memberships = await membershipRepository.findByOrganizationId({ organizationId });

@@ -31,11 +31,11 @@ function sendOrganizationInvitationEmail({
     to: email,
     template: settings.mailing.mailjetOrganizationInvitationTemplateId,
     from: 'ne-pas-repondre@pix.fr',
-    fromName: 'PIX-ORGA - Ne pas répondre',
+    fromName: 'Pix Orga - Ne pas répondre',
     subject: 'Invitation à rejoindre Pix Orga',
     variables: {
       organizationName,
-      responseUrl: `${pixOrgaBaseUrl}/invitations/${organizationInvitationId}?code=${code}`,
+      responseUrl: `${pixOrgaBaseUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
     }
   });
 }

@@ -11,6 +11,13 @@
   font-size: 0.75rem;
 }
 
+.legal-text {
+  color: $dove-gray;
+  font-family: $roboto;
+  font-size: 0.6875rem;
+  font-weight: 300;
+}
+
 .information-text {
   color: $dove-gray;
   font-family: $open-sans;
@@ -42,5 +49,20 @@
 
   &--small {
     font-size: 0.8125rem;
+  }
+}
+
+.link {
+  outline: none;
+  border: none;
+  background-color: inherit;
+  color: $dodger-blue;
+  text-decoration: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: underline;
+    color: $mariner;
   }
 }

@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const Membership = require('../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
 
@@ -113,14 +115,16 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     organizationRole: Membership.roles.OWNER,
   });
 
-  databaseBuilder.factory.buildOrganizationInvitation({
-    email: 'unsullied@example.net',
-    status: OrganizationInvitation.StatusType.ACCEPTED,
-    organizationId: dragonAndCoCompany.id,
+  const invitedUsers = [];
+  _.each([
+    { lastName: 'USER_TO_INVITE', rawPassword: 'pix123', cgu: true },
+    { lastName: 'USER_TO_INVITE', rawPassword: 'pix123', cgu: true },
+  ], (user) => {
+    invitedUsers.push(databaseBuilder.factory.buildUser.withUnencryptedPassword(user));
   });
 
   databaseBuilder.factory.buildOrganizationInvitation({
-    email: 'khal@example.net',
+    email: invitedUsers[0].email,
     status: OrganizationInvitation.StatusType.PENDING,
     organizationId: dragonAndCoCompany.id,
   });

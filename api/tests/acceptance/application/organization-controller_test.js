@@ -1245,7 +1245,7 @@ describe('Acceptance | Application | organization-controller', () => {
 
   describe('POST /api/organizations/{id}/invitations', () => {
 
-    let organizationId;
+    let organization;
     let user;
     let options;
 
@@ -1253,10 +1253,10 @@ describe('Acceptance | Application | organization-controller', () => {
 
       beforeEach(async () => {
         const ownerUserId = databaseBuilder.factory.buildUser().id;
-        organizationId = databaseBuilder.factory.buildOrganization().id;
+        organization = databaseBuilder.factory.buildOrganization();
         databaseBuilder.factory.buildMembership({
           userId: ownerUserId,
-          organizationId,
+          organizationId: organization.id,
           organizationRole: Membership.roles.OWNER,
         });
 
@@ -1264,7 +1264,7 @@ describe('Acceptance | Application | organization-controller', () => {
 
         options = {
           method: 'POST',
-          url: `/api/organizations/${organizationId}/invitations`,
+          url: `/api/organizations/${organization.id}/invitations`,
           headers: { authorization: generateValidRequestAuthorizationHeader(ownerUserId) },
           payload: {
             data: {
@@ -1291,7 +1291,7 @@ describe('Acceptance | Application | organization-controller', () => {
           data: {
             type: 'organization-invitations',
             attributes: {
-              'organization-id': organizationId.toString(),
+              'organization-id': organization.id.toString(),
               email: user.email,
               status
             },
@@ -1302,7 +1302,7 @@ describe('Acceptance | Application | organization-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(201);
-        expect(_.omit(response.result, 'data.id', 'data.attributes.created-at')).to.deep.equal(expectedResult);
+        expect(_.omit(response.result, 'data.id', 'data.attributes.created-at', 'data.attributes.organization-name')).to.deep.equal(expectedResult);
       });
     });
 
@@ -1310,10 +1310,10 @@ describe('Acceptance | Application | organization-controller', () => {
 
       beforeEach(async () => {
         const ownerUserId = databaseBuilder.factory.buildUser().id;
-        organizationId = databaseBuilder.factory.buildOrganization().id;
+        organization = databaseBuilder.factory.buildOrganization();
         databaseBuilder.factory.buildMembership({
           userId: ownerUserId,
-          organizationId,
+          organizationId: organization.id,
           organizationRole: Membership.roles.OWNER,
         });
 
@@ -1321,7 +1321,7 @@ describe('Acceptance | Application | organization-controller', () => {
 
         options = {
           method: 'POST',
-          url: `/api/organizations/${organizationId}/invitations`,
+          url: `/api/organizations/${organization.id}/invitations`,
           headers: { authorization: generateValidRequestAuthorizationHeader(ownerUserId) },
           payload: {
             data: {
@@ -1365,20 +1365,9 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(403);
       });
 
-      it('should respond with a 404 - not found - if given email is not linked to an existing user', async () => {
-        // given
-        options.payload.data.attributes.email = 'fakeEmail@wanadoo.fr';
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(404);
-      });
-
       it('should respond with a 421 if membership already exist', async () => {
         // given
-        databaseBuilder.factory.buildMembership({ organizationId, userId: user.id });
+        databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
         await databaseBuilder.commit();
 
         // when
@@ -1392,7 +1381,7 @@ describe('Acceptance | Application | organization-controller', () => {
         // given
         const email = user.email;
         const status = OrganizationInvitation.StatusType.ACCEPTED;
-        databaseBuilder.factory.buildOrganizationInvitation({ organizationId, email, status });
+        databaseBuilder.factory.buildOrganizationInvitation({ organizationId: organization.id, email, status });
         await databaseBuilder.commit();
 
         // when
@@ -1406,40 +1395,40 @@ describe('Acceptance | Application | organization-controller', () => {
 
   describe('GET /api/organizations/{id}/invitations', () => {
 
-    let organizationId;
+    let organization;
     let options;
 
     beforeEach(async () => {
       const ownerUserId = databaseBuilder.factory.buildUser().id;
-      organizationId = databaseBuilder.factory.buildOrganization().id;
+      organization = databaseBuilder.factory.buildOrganization();
 
       databaseBuilder.factory.buildMembership({
         userId: ownerUserId,
-        organizationId,
+        organizationId: organization.id,
         organizationRole: Membership.roles.OWNER,
       });
 
       databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId,
+        organizationId: organization.id,
         email: 'jojo@business.company',
         status: OrganizationInvitation.StatusType.PENDING,
       });
 
       databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId,
+        organizationId: organization.id,
         email: 'jojo@tech.company',
         status: OrganizationInvitation.StatusType.PENDING,
       });
 
       databaseBuilder.factory.buildOrganizationInvitation({
-        organizationId,
+        organizationId: organization.id,
         email: 'jojo@medical.company',
         status: OrganizationInvitation.StatusType.ACCEPTED,
       });
 
       options = {
         method: 'GET',
-        url: `/api/organizations/${organizationId}/invitations`,
+        url: `/api/organizations/${organization.id}/invitations`,
         headers: { authorization: generateValidRequestAuthorizationHeader(ownerUserId) },
       };
 
@@ -1461,7 +1450,7 @@ describe('Acceptance | Application | organization-controller', () => {
             {
               type: 'organization-invitations',
               attributes: {
-                'organization-id': organizationId,
+                'organization-id': organization.id,
                 email: 'jojo@tech.company',
                 status: OrganizationInvitation.StatusType.PENDING,
               },
@@ -1469,7 +1458,7 @@ describe('Acceptance | Application | organization-controller', () => {
             {
               type: 'organization-invitations',
               attributes: {
-                'organization-id': organizationId,
+                'organization-id': organization.id,
                 email: 'jojo@business.company',
                 status: OrganizationInvitation.StatusType.PENDING,
               },
@@ -1482,7 +1471,9 @@ describe('Acceptance | Application | organization-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(_.omit(response.result, 'data[0].id', 'data[0].attributes.created-at', 'data[1].id', 'data[1].attributes.created-at')).to.deep.equal(expectedResult);
+        const omittedResult = _.omit(response.result, 'data[0].id', 'data[0].attributes.created-at', 'data[0].attributes.organization-name',
+          'data[1].id', 'data[1].attributes.created-at', 'data[1].attributes.organization-name');
+        expect(omittedResult.data).to.deep.have.members(expectedResult.data);
       });
     });
 

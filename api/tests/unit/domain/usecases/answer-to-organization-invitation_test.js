@@ -65,13 +65,14 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
 
     it('should update invitation to accepted and create membership', async () => {
       // given
+      const email = 'random@email.com';
       const organizationInvitationPending = domainBuilder.buildOrganizationInvitation({
         status:  OrganizationInvitation.StatusType.PENDING
       });
-      const { id: organizationInvitationId, organizationId, email, code } = organizationInvitationPending;
+      const { id: organizationInvitationId, organizationId, code } = organizationInvitationPending;
       organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitationPending);
 
-      const userToInvite = domainBuilder.buildUser();
+      const userToInvite = domainBuilder.buildUser({ email });
       userRepository.findByEmail.resolves(userToInvite);
       membershipRepository.findByOrganizationId.resolves([{ user: { id: 2 } }]);
 
@@ -80,7 +81,7 @@ describe('Unit | UseCase | answer-to-organization-invitation', () => {
 
       // when
       await answerToOrganizationInvitation({
-        organizationInvitationId, code, status,
+        organizationInvitationId, code, status, email,
         userRepository, membershipRepository, organizationInvitationRepository
       });
 

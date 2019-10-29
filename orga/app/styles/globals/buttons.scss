@@ -1,0 +1,106 @@
+.button {
+  padding: 13px 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.019rem;
+  text-align: center;
+  border-radius: 5px;
+  background-color: $dodger-blue;
+  color: white;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  &:hover, &:active, &:focus {
+    background-color: $mariner;
+    transition: background-color 0.2s ease;
+  }
+
+  &--white {
+    background-color: white;
+    color: black;
+
+    &:hover, &:active, &:focus {
+      background-color: $alto;
+    }
+  }
+
+  &--grey {
+    background-color: $comet;
+    color: $white;
+
+    &:hover, &:active, &:focus {
+      background-color: $gun-powder;
+    }
+  }
+
+  &--no-color {
+    background-color: transparent;
+    color: $nero;
+
+    &:hover, &:active, &:focus {
+      background-color: $alto;
+    }
+  }
+
+  &--bordered {
+    border: 1px solid $dodger-blue;
+    color: $dodger-blue;
+
+    &:hover, &:active, &:focus {
+      background-color: $dodger-blue;
+      color: $white;
+    }
+  }
+
+  &--regular {
+    width: 120px;
+  }
+
+  &--big {
+    width: 180px;
+  }
+
+  &--extra-big {
+    width: 280px;
+  }
+
+  &--link {
+    text-decoration: none;
+  }
+
+  &--with-icon {
+    display: flex;
+    align-items: center;
+
+    &>svg {
+      padding-left: 5px;
+    }
+  }
+}
+
+.loader-in-button {
+  display: flex;
+  background: url('/images/loader-white.svg') no-repeat center;
+  background-size: 50px;
+}
+
+.icon-button {
+  color: $dove-gray;
+  padding: 6px 8px;
+  border: none;
+  font-size: 1rem;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+
+  &:hover, &:active {
+    background-color: $alto;
+    border-radius: 16px;
+    transition: background-color 0.2s ease;
+  }
+
+  &--link {
+    text-decoration: none;
+  }
+}
