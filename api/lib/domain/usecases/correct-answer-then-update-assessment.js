@@ -1,7 +1,10 @@
+const _ = require('lodash');
 const {
   ChallengeAlreadyAnsweredError,
   ForbiddenAccess
 } = require('../errors');
+const constants = require('../constants');
+
 const Examiner = require('../models/Examiner');
 const KnowledgeElement = require('../models/KnowledgeElement');
 
@@ -51,9 +54,9 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   }
 
   const answerSaved = await answerRepository.save(correctedAnswer);
-
+  let savedKnowledgeElements = [];
   if (assessment.isCompetenceEvaluation()) {
-    await saveKnowledgeElementsForCompetenceEvaluation({
+    savedKnowledgeElements = await saveKnowledgeElementsForCompetenceEvaluation({
       assessment,
       answer: answerSaved,
       challenge,
@@ -64,29 +67,25 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   }
 
   if (assessment.isSmartPlacement()) {
-    await saveKnowledgeElementsForSmartPlacement({
+    savedKnowledgeElements = await saveKnowledgeElementsForSmartPlacement({
       answer: answerSaved,
       challenge,
       smartPlacementAssessmentRepository,
       knowledgeElementRepository,
     });
   }
-  if (correctedAnswer.result.isOK() && (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement())) {
-    const scorecardAfterAnswer = await scorecardService.computeScorecard({
-      userId,
-      competenceId: challenge.competenceId,
-      competenceRepository,
-      competenceEvaluationRepository,
-      knowledgeElementRepository,
-      blockReachablePixAndLevel: true,
-    });
+  answerSaved.levelup = {};
 
-    answerSaved.levelup = {};
-    if (scorecardBeforeAnswer.level < scorecardAfterAnswer.level) {
+  if (correctedAnswer.result.isOK() && (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement())) {
+    const sumPixEarned = _.sumBy(savedKnowledgeElements, 'earnedPix');
+    const totalPix = scorecardBeforeAnswer.earnedPix + sumPixEarned;
+    const userLevel = Math.min(constants.MAX_REACHABLE_LEVEL, _.floor(totalPix / constants.PIX_COUNT_BY_LEVEL));
+
+    if (scorecardBeforeAnswer.level < userLevel) {
       answerSaved.levelup = {
         id: answerSaved.id,
-        competenceName: scorecardAfterAnswer.name,
-        level: scorecardAfterAnswer.level,
+        competenceName: scorecardBeforeAnswer.name,
+        level: userLevel,
       };
     }
   }
