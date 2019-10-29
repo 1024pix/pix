@@ -1,8 +1,14 @@
 const CertificationCandidateBookshelf = require('../data/certification-candidate');
 const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
-const { CertificationCandidateCreationOrUpdateError, CertificationCandidateDeletionError } = require('../../domain/errors');
+const {
+  CertificationCandidateCreationOrUpdateError,
+  CertificationCandidateDeletionError,
+  CertificationCandidateMultipleUserLinksWithinSessionError,
+  NotFoundError,
+} = require('../../domain/errors');
 const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
+const PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR = '23505';
 
 module.exports = {
 
@@ -10,8 +16,11 @@ module.exports = {
     const certificationCandidateBookshelf = new CertificationCandidateBookshelf(_.omit(certificationCandidateToSave, ['createdAt']));
     return certificationCandidateBookshelf.save()
       .then((savedCertificationCandidate) => bookshelfToDomainConverter.buildDomainObject(CertificationCandidateBookshelf, savedCertificationCandidate))
-      .catch((error) => {
-        throw new CertificationCandidateCreationOrUpdateError(error);
+      .catch((bookshelfError) => {
+        if (bookshelfError.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
+          throw new CertificationCandidateMultipleUserLinksWithinSessionError('A user cannot be linked to several certification candidates within the same session');
+        }
+        throw new CertificationCandidateCreationOrUpdateError('An error occurred while saving the certification candidate');
       });
   },
 
@@ -22,8 +31,8 @@ module.exports = {
       .then((destroyedCertificationCandidate) => {
         return bookshelfToDomainConverter.buildDomainObject(CertificationCandidateBookshelf, destroyedCertificationCandidate);
       })
-      .catch((error) => {
-        throw new CertificationCandidateDeletionError(error);
+      .catch(() => {
+        throw new CertificationCandidateDeletionError('An error occurred while deleting the certification candidate');
       });
   },
 
@@ -59,13 +68,13 @@ module.exports = {
           .where({ sessionId })
           .del();
       } catch (err) {
-        throw new CertificationCandidateDeletionError(err);
+        throw new CertificationCandidateDeletionError('An error occurred while deleting the certification candidates during the replacement operation');
       }
 
       try {
         await trx.batchInsert('certification-candidates', certificationCandidatesToInsert).transacting(trx);
       } catch (err) {
-        throw new CertificationCandidateCreationOrUpdateError(err);
+        throw new CertificationCandidateCreationOrUpdateError('An error occurred while inserting the certification candidates during the replacement operation');
       }
     });
   }
