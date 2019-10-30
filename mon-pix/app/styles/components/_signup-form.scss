@@ -2,14 +2,14 @@
   max-width: 449px;
   width: 100%;
   padding: 0 15px;
-  margin-top: 0px;
+  margin-top: 10px;
   margin-bottom: 6px;
   position: relative;
   align-items: center;
   display: flex;
   flex-direction: column;
   @include device-is('tablet') {
-    margin-top: 6px;
+    margin-top: 10px;
     margin-bottom: 0;
     padding: 0;
   }
