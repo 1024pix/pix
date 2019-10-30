@@ -8,5 +8,6 @@ export default Model.extend({
   title: attr('string'),
   organizationLogoUrl: attr('string'),
   customLandingPageText: attr('string'),
+  isRestricted: attr('boolean'),
   targetProfile: belongsTo('targetProfile'),
 });

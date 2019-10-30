@@ -48,6 +48,7 @@ export default Router.map(function() {
   this.route('campaigns', { path: '/campagnes' }, function() {
     this.route('fill-in-campaign-code', { path: '/' });
     this.route('start-or-resume', { path: '/:campaign_code' });
+    this.route('join-restricted-campaign', { path: '/:campaign_code/rejoindre' });
     this.route('campaign-landing-page', { path: '/:campaign_code/presentation' });
     this.route('fill-in-id-pix', { path: '/:campaign_code/identifiant' });
     this.route('tutorial', { path: '/:campaign_code/didacticiel' });

@@ -1,0 +1,47 @@
+<div class="background-banner-wrapper">
+  <div class="background-banner"></div>
+  <div
+    class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner join-restricted-campaign__container">
+    <div class="join-restricted-campaign">
+      <div class="join-restricted-campaign__title">Un tout petit détail !</div>
+      <div class="join-restricted-campaign__subtitle">Remplissez les informations manquantes</div>
+      <form>
+        <div class="join-restricted-campaign__row">
+          <label class="join-restricted-campaign__label">Prénom</label>
+          {{input id="firstName" type="text" value=firstName placeholder="Prénom" readonly="readonly" disabled=true}}
+        </div>
+        <div class="join-restricted-campaign__row">
+          <label class="join-restricted-campaign__label">Nom</label>
+          {{input id="lastName" type="text" value=lastName placeholder="Nom" readonly="readonly" disabled=true}}
+        </div>
+        <div class="join-restricted-campaign__row">
+          <label class="join-restricted-campaign__label">Date de naissance</label>
+          <div class="join-restricted-campaign__birthdate">
+            {{input id="dayOfBirth" type="text" value=dayOfBirth placeholder="JJ" class=(if validation.dayOfBirth.message 'input--error')
+                    focusOut=(action "triggerInputDayValidation" "dayOfBirth" dayOfBirth)}}
+            {{input id="monthOfBirth" type="text" value=monthOfBirth placeholder="MM" class=(if validation.monthOfBirth.message 'input--error')
+                    focusOut=(action "triggerInputMonthValidation" "monthOfBirth" monthOfBirth)}}
+            {{input id="yearOfBirth" type="text" value=yearOfBirth placeholder="AAAA" class=(if validation.yearOfBirth.message 'input--error')
+                    focusOut=(action "triggerInputYearValidation" "yearOfBirth" yearOfBirth)}}
+          </div>
+          <div class="{{if validation.dayOfBirth.message 'join-restricted-campaign__field-error'}}" role="alert">{{validation.dayOfBirth.message}}</div>
+          <div class="{{if validation.monthOfBirth.message 'join-restricted-campaign__field-error'}}" role="alert">{{validation.monthOfBirth.message}}</div>
+          <div class="{{if validation.yearOfBirth.message 'join-restricted-campaign__field-error'}}" role="alert">{{validation.yearOfBirth.message}}</div>
+        </div>
+        {{#if errorMessage}}
+          <div class="join-restricted-campaign__error" aria-live="polite">{{errorMessage}}</div>
+        {{/if}}
+        {{#if isLoading}}
+          <button class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
+        {{else}}
+          <button type="submit" class="button button--big" {{action "attemptNext"}}>
+            C'est parti !
+          </button>
+        {{/if}}
+      </form>
+      <div class="join-restricted-campaign__help-text">
+        Ce n'est pas vous ?<br>Vérifiez que vous êtes bien connecté à votre ENT ou contactez votre enseignant.
+      </div>
+    </div>
+  </div>
+</div>
