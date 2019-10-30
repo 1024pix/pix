@@ -141,4 +141,9 @@ export default function() {
 
   this.get('/competence-evaluations');
   this.post('/competence-evaluations/start-or-resume', postCompetenceEvaluation);
+
+  this.post('/student-user-associations', () => {
+    return new Response(204);
+  });
+
 }
