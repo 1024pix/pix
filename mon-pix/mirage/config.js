@@ -107,8 +107,7 @@ export default function() {
 
   this.get('/password-reset-demands/:key', (schema, request) => {
     const demand = schema.passwordResetDemands.findBy({ temporaryKey: request.params.key });
-    const user = schema.users.findBy({ email: demand.email });
-    return user;
+    return schema.users.findBy({ email: demand.email });
   });
 
   this.patch('/users/:id/password-update', (schema, request) => {
@@ -127,12 +126,6 @@ export default function() {
   this.patch('/users/:id/remember-user-has-seen-assessment-instructions', (schema, request) => {
     const user =  schema.users.find(request.params.id);
     user.hasSeenAssessmentInstructions = true;
-    return user;
-  });
-
-  this.patch('/users/:id/remember-user-has-seen-new-profile-info', (schema, request) => {
-    const user =  schema.users.find(request.params.id);
-    user.hasSeenNewProfileInfo = true;
     return user;
   });
 

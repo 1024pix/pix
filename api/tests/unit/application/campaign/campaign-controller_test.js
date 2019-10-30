@@ -10,7 +10,7 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const requestUtils = require('../../../../lib/infrastructure/utils/request-utils');
+const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 
 describe('Unit | Application | Controller | Campaign', () => {
 
@@ -66,6 +66,15 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   describe('#getCsvResult', () => {
     const userId = 1;
+    const campaignId = 2;
+    const request = {
+      query: {
+        accessToken: 'token'
+      },
+      params: {
+        id: campaignId
+      }
+    };
 
     beforeEach(() => {
       sinon.stub(usecases, 'startWritingCampaignResultsToStream');
@@ -74,15 +83,6 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should call the use case to get result campaign in csv', async () => {
       // given
-      const campaignId = 2;
-      const request = {
-        query: {
-          accessToken: 'token'
-        },
-        params: {
-          id: campaignId
-        }
-      };
       usecases.startWritingCampaignResultsToStream.resolves({ fileName: 'any file name' });
 
       // when
@@ -97,16 +97,6 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should return a response with correct headers', async () => {
       // given
-      const campaignId = 2;
-      const request = {
-        query: {
-          accessToken: 'token'
-        },
-        params: {
-          id: campaignId
-        }
-      };
-
       usecases.startWritingCampaignResultsToStream.resolves({ fileName: 'expected file name' });
 
       // when
@@ -115,7 +105,19 @@ describe('Unit | Application | Controller | Campaign', () => {
       // then
       expect(response.headers['content-type']).to.equal('text/csv;charset=utf-8');
       expect(response.headers['content-disposition']).to.equal('attachment; filename="expected file name"');
-      expect(response.headers['content-encoding']).to.equal('identity'); });
+      expect(response.headers['content-encoding']).to.equal('identity');
+    });
+
+    it('should fix invalid header chars in filename', async () => {
+      // given
+      usecases.startWritingCampaignResultsToStream.resolves({ fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv' });
+
+      // when
+      const response = await campaignController.getCsvResults(request);
+
+      // then
+      expect(response.headers['content-disposition']).to.equal('attachment; filename="file-name with invalid_chars _____________.csv"');
+    });
   });
 
   describe('#getByCode ', () => {
@@ -129,7 +131,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       request = {
         query: { 'filter[code]': campaignCode }
       };
-      sinon.stub(requestUtils, 'extractUserIdFromRequest').returns(userId);
+      sinon.stub(requestResponseUtils, 'extractUserIdFromRequest').returns(userId);
       sinon.stub(usecases, 'retrieveCampaignInformation');
       sinon.stub(campaignSerializer, 'serialize');
     });

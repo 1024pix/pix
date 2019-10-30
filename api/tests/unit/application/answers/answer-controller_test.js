@@ -7,7 +7,7 @@ const correctionSerializer = require('../../../../lib/infrastructure/serializers
 const usecases = require('../../../../lib/domain/usecases');
 const smartPlacementAssessmentRepository =
   require('../../../../lib/infrastructure/repositories/smart-placement-assessment-repository');
-const requestUtils = require('../../../../lib/infrastructure/utils/request-utils');
+const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 
 describe('Unit | Controller | answer-controller', () => {
 
@@ -17,7 +17,7 @@ describe('Unit | Controller | answer-controller', () => {
     sinon.stub(answerRepository, 'findByChallengeAndAssessment');
     sinon.stub(smartPlacementAssessmentRepository, 'get');
     sinon.stub(usecases, 'correctAnswerThenUpdateAssessment');
-    sinon.stub(requestUtils, 'extractUserIdFromRequest');
+    sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
   });
 
   describe('#save', () => {
@@ -114,7 +114,7 @@ describe('Unit | Controller | answer-controller', () => {
         createdAnswer = domainBuilder.buildAnswer({ assessmentId });
         answerSerializer.serialize.returns(serializedAnswer);
         usecases.correctAnswerThenUpdateAssessment.resolves(createdAnswer);
-        requestUtils.extractUserIdFromRequest.returns(userId);
+        requestResponseUtils.extractUserIdFromRequest.returns(userId);
 
         // when
         response = await answerController.save(request, hFake);
@@ -151,7 +151,7 @@ describe('Unit | Controller | answer-controller', () => {
 
     it('should return ok', async () => {
       // given
-      requestUtils.extractUserIdFromRequest.returns(userId);
+      requestResponseUtils.extractUserIdFromRequest.returns(userId);
       usecases.getCorrectionForAnswer.withArgs({ answerId, userId }).resolves({});
       correctionSerializer.serialize.withArgs({}).returns('ok');
 

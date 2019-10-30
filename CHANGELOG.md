@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.78.0 (30/10/2019)
+
+- [#794](https://github.com/1024pix/pix/pull/794) [FEATURE] Afficher le code d'accès de session sur 1 seule ligne (PC-89).
+- [#792](https://github.com/1024pix/pix/pull/792) [FEATURE] Supprimer l'encadré d'information du nouveau profil (PF-887).
+- [#787](https://github.com/1024pix/pix/pull/787) [FEATURE] Afficher une bannière bravo quand l'utilisateur est certifiable (PF-858).
+- [#795](https://github.com/1024pix/pix/pull/795) [BUGFIX] User connecté /index redirigé vers /campagnes (PO-264).
+- [#793](https://github.com/1024pix/pix/pull/793) [BUGFIX] Cast caractères compliqués de l'export CSV campagnes (PO-266).
+
 ## v2.77.0 (29/10/2019)
 
 - [#759](https://github.com/1024pix/pix/pull/759) [FEATURE] Ajout d'une nouvelle mire de connexion et inscription dans Pix Orga pour les utilisateurs invités (PO-19).

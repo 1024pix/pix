@@ -1,6 +1,6 @@
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
-const { extractUserIdFromRequest } = require('../../infrastructure/utils/request-utils');
+const { extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
   verify(request, h) {
