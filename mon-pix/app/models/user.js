@@ -9,7 +9,6 @@ export default Model.extend({
   email: attr('string'),
   password: attr('string'),
   cgu: attr('boolean'),
-  hasSeenNewProfileInfo: attr('boolean'),
   hasSeenAssessmentInstructions: attr('boolean'),
   recaptchaToken: attr('string'),
   totalPixScore: attr('number'),

@@ -212,33 +212,6 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#rememberUserHasSeenNewProfileInfo', () => {
-    let request;
-    const userId = 1;
-
-    beforeEach(() => {
-      request = {
-        auth: { credentials: { userId } },
-        params: { id: userId },
-      };
-
-      sinon.stub(usecases, 'rememberUserHasSeenNewProfileInfo');
-      sinon.stub(userSerializer, 'serialize');
-    });
-
-    it('should remember user has seen new profile info', async () => {
-      // given
-      usecases.rememberUserHasSeenNewProfileInfo.withArgs({ userId }).resolves({});
-      userSerializer.serialize.withArgs({}).returns('ok');
-
-      // when
-      const response = await userController.rememberUserHasSeenNewProfileInfo(request);
-
-      // then
-      expect(response).to.be.equal('ok');
-    });
-  });
-
   describe('#getCurrentUser', () => {
     let request;
 

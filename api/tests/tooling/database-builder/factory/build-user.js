@@ -17,7 +17,6 @@ const buildUser = function buildUser({
   cgu = true,
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
-  hasSeenNewProfileInfo = false,
   hasSeenAssessmentInstructions = false,
   samlId,
 } = {}) {
@@ -27,7 +26,7 @@ const buildUser = function buildUser({
 
   const values = {
     id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenNewProfileInfo, hasSeenAssessmentInstructions, samlId,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId,
   };
 
   return databaseBuffer.pushInsertable({
@@ -45,7 +44,6 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   cgu = true,
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
-  hasSeenNewProfileInfo = false,
   hasSeenAssessmentInstructions = false,
   samlId,
 }) {
@@ -54,7 +52,7 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
 
   const values = {
     id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenNewProfileInfo, hasSeenAssessmentInstructions, samlId,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId,
   };
 
   return databaseBuffer.pushInsertable({
@@ -72,13 +70,12 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
   cgu = true,
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
-  hasSeenNewProfileInfo = false,
   hasSeenAssessmentInstructions = false,
 } = {}) {
 
   const values = {
     id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenNewProfileInfo, hasSeenAssessmentInstructions
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions
   };
 
   const pixRolePixMaster = buildPixRole({ name: 'PIX_MASTER' });
@@ -102,7 +99,6 @@ buildUser.withMembership = function buildUserWithMemberships({
   cgu = true,
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
-  hasSeenNewProfileInfo = false,
   hasSeenAssessmentInstructions = false,
   organizationRole = Membership.roles.OWNER,
   organizationId = null,
@@ -110,7 +106,7 @@ buildUser.withMembership = function buildUserWithMemberships({
 
   const values = {
     id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenNewProfileInfo, hasSeenAssessmentInstructions
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions
   };
 
   organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;

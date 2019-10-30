@@ -181,24 +181,6 @@ exports.register = async function(server) {
       }
     },
     {
-      method: 'PATCH',
-      path: '/api/users/{id}/remember-user-has-seen-new-profile-info',
-      config: {
-        pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser'
-        }],
-        handler: userController.rememberUserHasSeenNewProfileInfo,
-        notes : [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Sauvegarde le fait que l\'utilisateur ait vu le bandeau de nouveau profil' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-          '- Le contenu de la requête n\'est pas pris en compte.',
-        ],
-        tags: ['api', 'user'],
-      }
-    },
-    {
       method: 'GET',
       path: '/api/users/{id}/certification-profile',
       config: {
