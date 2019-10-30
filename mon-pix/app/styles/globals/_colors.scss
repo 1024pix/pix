@@ -70,5 +70,6 @@ $butterfly-bush-dark: #5E2563;
  */
 $pix-blue-to-purple-gradient: linear-gradient(to right, $dogder-blue, $purple);
 $pix-emerald-to-emerald-dark-gradient: linear-gradient(to right, $emerald, $emerald-dark);
+$pix-emerald-to-emerald-dark-gradient-bottom-to-top: linear-gradient(to top, $emerald, $emerald-dark);
 $pix-yellow-to-orange-gradient: linear-gradient(180deg, $bright-yellow 0%, $pizazz-orange 100%);
 $pix-yellow-to-jaffa-gradient: linear-gradient(180deg, $pix-yellow-hover 0%, $jaffa 100%);

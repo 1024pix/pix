@@ -3,10 +3,6 @@
   flex-direction: column;
   align-self: center;
   text-rendering: optimizeLegibility;
-
-  @include device-is('desktop') {
-    padding: 50px 70px 40px;
-  }
 }
 
 .certification-start-page__title {
@@ -16,4 +12,10 @@
   font-weight: $font-light;
   text-align: center;
   margin-bottom: 20px;
+}
+
+.certification-stepper {
+  @include device-is('desktop') {
+    padding: 50px 70px 40px;
+  }
 }

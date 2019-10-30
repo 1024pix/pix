@@ -1,0 +1,37 @@
+.congratulations-banner {
+  background: $pix-emerald-to-emerald-dark-gradient-bottom-to-top;
+  position: relative;
+  color: $porcelain-grey;
+  border-radius: 6px;
+  margin: 12px 12px 0 12px;
+  box-sizing: border-box;
+  height: 194px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.congratulations-banner__icon {
+  color: $white;
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  left: auto;
+  bottom: auto;
+  font-size: 1em;
+  cursor: pointer;
+  opacity: .5;
+  &:hover, &:active {
+    color: $dove-gray;
+  }
+}
+
+.congratulations-banner__message {
+  color: $porcelain-grey;
+  font-weight: $font-normal;
+  font-family: $font-open-sans;
+  line-height: 1.4em;
+  font-size: 2.4em;
+  text-align: center;
+}
