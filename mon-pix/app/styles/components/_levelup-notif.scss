@@ -5,7 +5,6 @@
   right: 10px;
   width: 362px;
   height: 80px;
-  background-color: $alabaster-grey;
   border-radius: 5px;
   box-shadow: 0 0 10px $charcoal-grey;
   color: $gun-powder;
@@ -30,25 +29,25 @@
     padding: 10px 0;
   }
 
-  &-competence {
-    &__level {
-      font-size: 1.6rem;
-      font-weight: $font-bold;
-      font-family: $font-open-sans;
-      text-transform: uppercase;
-      margin-bottom: 2px;
-    }
-
-    &__name {
-      font-size: 1.4rem;
-      line-height: 1.8rem;
-      font-family: $font-roboto;
-    }
-  }
-
   &__close {
     margin-right: 5px;
     cursor: pointer;
+  }
+}
+
+.levelup-competence {
+  &__level {
+    font-size: 1.6rem;
+    font-weight: $font-bold;
+    font-family: $font-open-sans;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  &__name {
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+    font-family: $font-roboto;
   }
 }
 
