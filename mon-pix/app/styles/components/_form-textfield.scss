@@ -1,10 +1,12 @@
 .form-textfield {
   position: relative;
+  margin-top: 20px;
 }
 
 .form-textfield__label {
   font-family: $font-lato;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
   font-weight: bold;
   color: $charcoal-grey;
   text-transform: uppercase;
@@ -22,7 +24,6 @@
   display: flex;
   height: 46px;
   border-radius: 3px;
-  margin-bottom: 20px;
   align-items: center;
   border: 2px solid $alto-grey;
   background-color: $white;
