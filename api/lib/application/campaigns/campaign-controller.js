@@ -7,7 +7,7 @@ const campaignReportSerializer = require('../../infrastructure/serializers/jsona
 const campaignCollectiveResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const requestUtils = require('../../infrastructure/utils/request-utils');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 const infraErrors = require('../../infrastructure/errors');
 
 module.exports = {
@@ -28,7 +28,7 @@ module.exports = {
 
   async getByCode(request) {
     const filters = queryParamsUtils.extractParameters(request.query).filter;
-    const userId = requestUtils.extractUserIdFromRequest(request);
+    const userId = requestResponseUtils.extractUserIdFromRequest(request);
     await _validateFilters(filters);
 
     const campaign = await usecases.retrieveCampaignInformation({ code: filters.code, userId });
@@ -51,10 +51,11 @@ module.exports = {
     const writableStream = new PassThrough();
 
     const { fileName } = await usecases.startWritingCampaignResultsToStream({ userId, campaignId, writableStream });
+    const escapedFileName = requestResponseUtils.escapeFileName(fileName);
 
     writableStream.headers = {
       'content-type': 'text/csv;charset=utf-8',
-      'content-disposition': `attachment; filename="${fileName}"`,
+      'content-disposition': `attachment; filename="${escapedFileName}"`,
 
       // WHY: to avoid compression because when compressing, the server buffers
       // for too long causing a response timeout.
