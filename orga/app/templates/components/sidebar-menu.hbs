@@ -12,4 +12,14 @@
       Élèves
     {{/link-to}}
   {{/if}}
+  {{#if currentUser.canAccessStudentsPage}}
+    <div class="sidebar-menu__documentation-item">
+      <a class="sidebar-menu-documentation-item__button" href="https://bit.ly/ressourcespixorga"
+         target="_blank">
+        <div class="sidebar-menu-documentation-item__bar"></div>
+        {{fa-icon 'book' class="sidebar--padding-right"}}
+        Documentation
+      </a>
+    </div>
+  {{/if}}
 </nav>
