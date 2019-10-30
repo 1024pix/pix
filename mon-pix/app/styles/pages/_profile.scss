@@ -7,7 +7,6 @@
     padding-left: 30px;
     padding-right: 30px;
   }
-
 }
 
 .profile-panel-header-information {
@@ -16,55 +15,4 @@
   color: $black;
   font-size: 1.8rem;
   line-height: 2.1rem;
-}
-
-.new-profile-info {
-  display: flex;
-  flex-direction: column;
-  background: $pix-yellow-to-jaffa-gradient;
-  height: 345px;
-  margin: 15px -15px 0 -15px;
-
-  @include device-is('desktop') {
-    height: 190px;
-  }
-
-  &__close {
-    align-self: flex-end;
-    margin: 5px;
-    padding: 4px 10px;
-    opacity: .5;
-
-    &:hover, &:active {
-      background-color: transparent;
-      opacity: 1;
-    }
-  }
-
-  .new-profile-info-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    height: 100%;
-    align-items: center;
-
-    @include device-is('desktop') {
-      flex-direction: row;
-      justify-content: space-between;
-      padding: 0 10% 25px 5%;
-    }
-
-    &__title {
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-      font-weight: $font-light;
-      font-size: 3.2rem;
-      line-height: 4.5rem;
-
-      @include device-is('desktop') {
-        text-align: left;
-      }
-    }
-  }
 }

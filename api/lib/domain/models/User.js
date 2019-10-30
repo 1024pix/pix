@@ -15,7 +15,6 @@ class User {
     password,
     samlId,
     isProfileV2 = true,
-    hasSeenNewProfileInfo = true,
     hasSeenAssessmentInstructions,
     // includes
     memberships = [],
@@ -38,7 +37,6 @@ class User {
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
     this.samlId = samlId;
     this.isProfileV2 = isProfileV2;
-    this.hasSeenNewProfileInfo = hasSeenNewProfileInfo;
     this.hasSeenAssessmentInstructions = hasSeenAssessmentInstructions;
     this.knowledgeElements = knowledgeElements;
     // includes

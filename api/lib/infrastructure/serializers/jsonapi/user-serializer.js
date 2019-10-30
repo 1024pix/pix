@@ -15,7 +15,7 @@ module.exports = {
         'pixCertifTermsOfServiceAccepted', 'usesProfileV2', 'memberships',
         'certificationCenterMemberships', 'pixScore', 'scorecards',
         'campaignParticipations', 'organizations', 'isProfileV2',
-        'hasSeenNewProfileInfo', 'hasSeenAssessmentInstructions', 'certificationProfile',
+        'hasSeenAssessmentInstructions', 'certificationProfile',
       ],
       memberships: {
         ref: 'id',
