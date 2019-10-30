@@ -5,10 +5,14 @@ export default Route.extend({
 
   hasSeenCheckpoint: false,
   campaignCode: null,
+  newLevel: null,
+  competenceLeveled: null,
 
   beforeModel(transition) {
     this.set('hasSeenCheckpoint', transition.to.queryParams.hasSeenCheckpoint);
     this.set('campaignCode', transition.to.queryParams.campaignCode);
+    this.set('newLevel', transition.to.queryParams.newLevel || null);
+    this.set('competenceLeveled', transition.to.queryParams.competenceLeveled || null);
   },
 
   model() {
@@ -94,7 +98,7 @@ export default Route.extend({
   },
 
   _routeToNextChallenge(assessment, nextChallengeId) {
-    return this.replaceWith('assessments.challenge', assessment.id, nextChallengeId);
+    return this.replaceWith('assessments.challenge', assessment.id, nextChallengeId, { queryParams: { newLevel: this.get('newLevel'), competenceLeveled: this.get('competenceLeveled') } });
   },
 
   async _rateAssessment(assessment) {
@@ -117,10 +121,10 @@ export default Route.extend({
   },
 
   _routeToCheckpoint(assessment) {
-    return this.replaceWith('assessments.checkpoint', assessment.id);
+    return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { newLevel: this.get('newLevel'), competenceLeveled: this.get('competenceLeveled') } });
   },
 
   _routeToFinalCheckpoint(assessment) {
-    return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true } });
+    return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true, newLevel: this.get('newLevel'), competenceLeveled: this.get('competenceLeveled') } });
   },
 });
