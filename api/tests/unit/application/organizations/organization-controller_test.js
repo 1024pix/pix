@@ -81,7 +81,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
         // then
         expect(usecases.createOrganization).to.have.been.calledOnce;
-        expect(usecases.createOrganization).to.have.been.calledWith({ name: 'Acme', type: 'PRO' });
+        expect(usecases.createOrganization).to.have.been.calledWithMatch({ name: 'Acme', type: 'PRO' });
       });
 
       it('should serialized organization into JSON:API', async () => {
@@ -145,7 +145,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
         // then
         expect(usecases.updateOrganizationInformation).to.have.been.calledOnce;
-        expect(usecases.updateOrganizationInformation).to.have.been.calledWith({ id: organization.id, name: 'Acme', type: 'PRO', logoUrl: 'logo', externalId: '02A2145V', provinceCode: '02A' });
+        expect(usecases.updateOrganizationInformation).to.have.been.calledWithMatch({ id: organization.id, name: 'Acme', type: 'PRO', logoUrl: 'logo', externalId: '02A2145V', provinceCode: '02A' });
       });
 
       it('should serialized organization into JSON:API', async () => {
