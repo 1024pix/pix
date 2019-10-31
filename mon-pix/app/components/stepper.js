@@ -10,9 +10,6 @@ export default Component.extend(ProgressionTrackerMixin, {
   }),
   actions: {
     didMove() {
-      if (!this.hasNext()) {
-        return this.router.transitionTo(this.exitRoute);
-      }
       this.next();
     },
   }
