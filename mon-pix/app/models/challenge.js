@@ -14,6 +14,7 @@ export default Model.extend({
   embedUrl: attr('string'),
   embedTitle: attr('string'),
   embedHeight: attr('string'),
+  format: attr('string'),
 
   attachments: attr('array'),
   answer: belongsTo('answer'),
@@ -23,7 +24,7 @@ export default Model.extend({
     return !!embedUrl
       && !!this.embedTitle
       && !!this.embedHeight
-      && embedUrl.toLowerCase().indexOf('https://') === 0; // fixes bug on IE: startsWith in not supported (PR #242) 
+      && embedUrl.toLowerCase().indexOf('https://') === 0; // fixes bug on IE: startsWith in not supported (PR #242)
   }),
   hasAttachment: notEmpty('attachments'),
   hasSingleAttachment: equal('attachments.length', 1),
