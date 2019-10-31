@@ -1,7 +1,15 @@
 .sidebar-menu {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   padding-top: 30px;
+
+  &__documentation-item {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
 }
 
 .sidebar-menu__item {
@@ -21,5 +29,35 @@
   &.active {
     border-left: 3px solid $amber;
     background-color: $chambray;
+  }
+}
+
+.sidebar-menu-documentation-item {
+  &__bar {
+    width: 157px;
+    border: 1px solid $white;
+    opacity: .25;
+    margin: 0 auto;
+    transition: .5s;
+  }
+
+  &__button {
+    height: 44px;
+    color: $white;
+    font-family: $roboto;
+    font-size: 0.875rem;
+    line-height: 2.75rem;
+    text-decoration: none;
+    text-align: center;
+    border-top: 1px black;
+    border-top-width: 157px;
+
+    &:hover {
+      background-color: $curious-blue;
+    }
+
+    &:hover .sidebar-menu-documentation-item__bar {
+      width: 100%;
+    }
   }
 }
