@@ -19,7 +19,7 @@ describe('Integration | Component | tutorial-item-on-scorecard', function() {
       await render(hbs`{{tutorial-item-on-scorecard tutorial=tutorial}}`);
 
       // then
-      expect(this.element.querySelector('.tube-tutorial')).to.exist;
+      expect(this.element.querySelector('.tutorial')).to.exist;
     });
 
     it('should display the tutorial item with related information', async function() {
@@ -37,8 +37,8 @@ describe('Integration | Component | tutorial-item-on-scorecard', function() {
       await render(hbs`{{tutorial-item-on-scorecard tutorial=tutorial}}`);
 
       // then
-      expect(find('.tube-tutorial-header__title').textContent.trim()).to.contains(tutorial.title);
-      expect(find('.tube-tutorial-statistics__duration').textContent.trim()).to.contains('1 min');
+      expect(find('.tutorial-header__title').textContent.trim()).to.contains(tutorial.title);
+      expect(find('.tutorial-statistics__duration').textContent.trim()).to.contains('1 min');
       expect(findAll('img')).to.have.lengthOf(1);
       expect(find('img').getAttribute('src')).to.equal(expectedImage);
     });

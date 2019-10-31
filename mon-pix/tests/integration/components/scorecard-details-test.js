@@ -210,7 +210,7 @@ describe('Integration | Component | scorecard-details', function() {
       await render(hbs`{{scorecard-details scorecard=scorecard}}`);
 
       // then
-      expect(find('.scorecard-details-tutorial')).to.not.exist;
+      expect(find('.tutorials')).to.not.exist;
     });
 
     it('should display the tutorial section and the related tutorials', async function() {
@@ -248,9 +248,9 @@ describe('Integration | Component | scorecard-details', function() {
       await render(hbs`{{scorecard-details scorecard=scorecard}}`);
 
       // then
-      expect(find('.scorecard-details-tutorial')).to.exist;
-      expect(findAll('.scorecard-details-tutorial-tubes-list__tube')).to.have.lengthOf(2);
-      expect(findAll('.tube-tutorial')).to.have.lengthOf(3);
+      expect(find('.tutorials')).to.exist;
+      expect(findAll('.tube')).to.have.lengthOf(2);
+      expect(findAll('.tutorial')).to.have.lengthOf(3);
     });
 
     it('should display the 4th tutorial of a tube on a new line', async function() {
@@ -294,9 +294,9 @@ describe('Integration | Component | scorecard-details', function() {
       await render(hbs`{{scorecard-details scorecard=scorecard}}`);
 
       // then
-      expect(find('.scorecard-details-tutorial')).to.exist;
-      expect(findAll('.scorecard-details-tutorial-tubes-list__tube')).to.have.lengthOf(1);
-      expect(findAll('.tube-tutorial')).to.have.lengthOf(4);
+      expect(find('.tutorials')).to.exist;
+      expect(findAll('.tube')).to.have.lengthOf(1);
+      expect(findAll('.tutorial')).to.have.lengthOf(4);
     });
 
   });
