@@ -6,7 +6,6 @@ import sinon from 'sinon';
 describe('Unit | Component | certification-starter', function() {
 
   setupTest();
-  let routerStub;
   let component;
 
   beforeEach(function() {
@@ -15,103 +14,151 @@ describe('Unit | Component | certification-starter', function() {
 
   describe('#submit', function() {
 
-    const certificationId = 42;
-    let accessCode;
-    let course;
-    let storeStub;
-    let storeCreateRecordStub;
-    let storeSaveStub;
-    let reloadStub;
-    let replaceWithStub;
-    beforeEach(() => {
-      storeSaveStub = sinon.stub();
-      course = {
-        save: storeSaveStub,
-      };
-      storeCreateRecordStub = sinon.stub();
-      storeStub = {
-        createRecord: storeCreateRecordStub,
-      };
-      reloadStub = sinon.stub();
-      replaceWithStub = sinon.stub();
-      routerStub = {
-        replaceWith: replaceWithStub,
-      };
-      component.set('store', storeStub);
-      component.set('router', routerStub);
+    context('when no access code is provided', function() {
+      it('should display an appropriated error message', async function() {
+        // given
+        component.set('accessCode', '');
+
+        // when
+        await component.send('submit');
+
+        // then
+        expect(component.get('errorMessage')).to.equal('Merci de saisir un code d’accès valide.');
+      });
     });
 
-    it('should create and save a new course when access code is given', async function() {
-      // given
-      accessCode = 'someAccessCode';
-      storeCreateRecordStub.returns(course);
-      reloadStub.resolves();
-      storeSaveStub.resolves({
-        id: certificationId,
-        reload: reloadStub,
+    context('when access code is provided', function() {
+
+      let accessCode;
+      let certificationId;
+      let peekerFindOneStub;
+      let peekerStub;
+      let replaceWithStub;
+      let routerStub;
+
+      beforeEach(() => {
+        accessCode = 'accessCode';
+        peekerFindOneStub = sinon.stub();
+        peekerStub = {
+          findOne: peekerFindOneStub,
+        };
+        replaceWithStub = sinon.stub();
+        routerStub = {
+          replaceWith: replaceWithStub,
+        };
+        component.set('accessCode', accessCode);
+        component.set('router', routerStub);
+        component.set('peeker', peekerStub);
       });
 
-      component.set('store', storeStub);
-      component.set('accessCode', accessCode);
+      context('when user\'s certification course is already saved in ember storage', function() {
 
-      // when
-      await component.send('submit');
+        it('should redirect to certifications.resume', async function() {
+          // given
+          certificationId = 'existing course id';
+          peekerFindOneStub.returns({ id: certificationId });
 
-      // then
-      expect(component.isLoading).to.be.true;
+          // when
+          await component.send('submit');
 
-      sinon.assert.calledWithExactly(storeCreateRecordStub, 'course', { accessCode });
-      sinon.assert.called(storeSaveStub);
-      await sinon.assert.called(reloadStub);
-      sinon.assert.calledWith(replaceWithStub, 'certifications.resume', certificationId);
+          // then
+          sinon.assert.calledWith(replaceWithStub, 'certifications.resume', certificationId);
+        });
+      });
+
+      context('when user\'s certification course is not saved in ember storage', function() {
+
+        let storeCreateRecordStub;
+        let storeSaveStub;
+        let storeStub;
+        let peekerCourse;
+        let course;
+
+        beforeEach(() => {
+          storeCreateRecordStub = sinon.stub();
+          storeStub = {
+            createRecord: storeCreateRecordStub,
+          };
+          storeSaveStub = sinon.stub();
+          course = {
+            save: storeSaveStub,
+          };
+          certificationId = 'new course id';
+          peekerCourse = { id: certificationId };
+          peekerFindOneStub.onCall(0).returns(null);
+          peekerFindOneStub.onCall(1).returns(peekerCourse);
+          storeCreateRecordStub.returns(course);
+          component.set('store', storeStub);
+        });
+
+        context('when the creation of certification course is successful', function() {
+
+          it('should redirect to certifications.resume', async function() {
+            // given
+            storeSaveStub.resolves();
+
+            // when
+            await component.send('submit');
+
+            // then
+            sinon.assert.calledWithExactly(storeCreateRecordStub, 'course', { accessCode });
+            await sinon.assert.called(storeSaveStub);
+            sinon.assert.calledWith(replaceWithStub, 'certifications.resume', certificationId);
+          });
+        });
+
+        context('when the creation of certification course failed', function() {
+
+          let courseDeleteRecordStub;
+          let err;
+
+          beforeEach(() => {
+            courseDeleteRecordStub = sinon.stub();
+            peekerCourse.deleteRecord = courseDeleteRecordStub;
+            courseDeleteRecordStub.returns();
+          });
+
+          context('when the error is known', function() {
+
+            beforeEach(() => {
+              err = { errors: [{ status: '404' }] };
+            });
+
+            it('should display a specific error', async function() {
+              // given
+              storeSaveStub.rejects(err);
+
+              // when
+              await component.send('submit');
+
+              // then
+              sinon.assert.calledWithExactly(storeCreateRecordStub, 'course', { accessCode });
+              await sinon.assert.called(courseDeleteRecordStub);
+              expect(component.get('errorMessage')).to.equal('Ce code n’existe pas ou n’est plus valide.');
+            });
+          });
+
+          context('when the error is unknown', function() {
+
+            beforeEach(() => {
+              err = {};
+            });
+
+            it('should display a general error', async function() {
+              // given
+              storeSaveStub.rejects(err);
+
+              // when
+              await component.send('submit');
+
+              // then
+              sinon.assert.calledWithExactly(storeCreateRecordStub, 'course', { accessCode });
+              await sinon.assert.called(courseDeleteRecordStub);
+              expect(component.get('errorMessage')).to.equal('Une erreur serveur inattendue vient de se produire');
+            });
+          });
+        });
+      });
     });
-
   });
-
-  describe('handleErrorStatus', () => {
-    let status;
-    let transitionToStub;
-    let renderStub;
-    beforeEach(() => {
-      transitionToStub = sinon.stub();
-      renderStub = sinon.stub();
-      routerStub = {
-        transitionTo: transitionToStub,
-        render: renderStub,
-      };
-      component.set('router', routerStub);
-    });
-    it('should exit the loading state when the code doesnt match any session', function() {
-      // given
-      status = '404';
-
-      // when
-      component.handleErrorStatus(status);
-
-      // then
-      expect(component.errorMessage).to.equal('Ce code n’existe pas ou n’est plus valide.');
-      expect(component.isLoading).to.be.false;
-    });
-    it('should render the start error state when the user not unauthorized', function() {
-      // given
-      status = '403';
-
-      // when
-      component.handleErrorStatus(status);
-
-      // then
-      sinon.assert.calledWithExactly(component.router.render, 'certifications.start-error');
-    });
-    it('should transition back to index route for any other errors', function() {
-      // given
-      status = '500';
-
-      // when
-      component.handleErrorStatus(status);
-
-      // then
-      sinon.assert.calledWithExactly(component.router.transitionTo, 'index');
-    });
-  });
-
 });

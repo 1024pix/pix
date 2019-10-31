@@ -7,11 +7,8 @@
 
         {{#if model.isCertifiable}}
           <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner certification-start-page__panel">
-            {{#if this.showCongratulationsBanner }}
-              <CongratulationsCertificationBanner @fullName={{this.currentUser.user.fullName}} @closeBanner={{action "closeBanner"}}/>
-            {{/if}}
             <div class="certification-stepper">
-              <Stepper @steps={{array "certification-stepper-start"}}/>
+              <Stepper @steps={{array "certification-stepper-join" "certification-stepper-start"}}/>
             </div>
           </div>
         {{else}}

@@ -30,6 +30,8 @@ describe('Acceptance | Certification | Start Course', function() {
 
     });
 
+    //const wait = delay => new Promise(resolve => setTimeout(() => resolve(), delay ));
+
     context('When user is logged in', function() {
 
       beforeEach(async function() {
@@ -58,9 +60,149 @@ describe('Acceptance | Certification | Start Course', function() {
           await visitWithAbortedTransition('/certifications');
         });
 
+        context('when user forget to fill a field', function() {
+          beforeEach(async function() {
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
+          });
+
+          it('should display an error message', function() {
+            // then
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+          });
+        });
+
+        context('when no candidate with given info has been registered in the given session', function() {
+          beforeEach(async function() {
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'PasInscrite');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
+          });
+
+          it('should display an error message', function() {
+            // then
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+          });
+        });
+
+        context('when several candidates with given info are found in the given session', function() {
+          beforeEach(async function() {
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'PlusieursMatchs');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
+          });
+
+          it('should display an error message', function() {
+            // then
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+          });
+        });
+
+        context('when user has already been linked to another candidate in the session', function() {
+          beforeEach(async function() {
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'UtilisateurLiéAutre');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
+          });
+
+          it('should display an error message', function() {
+            // then
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+          });
+        });
+
+        context('when candidate has already been linked to another user in the session', function() {
+          beforeEach(async function() {
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'CandidatLiéAutre');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
+          });
+
+          it('should display an error message', function() {
+            // then
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+          });
+        });
+
+        context('when user is already linked to this candidate', function() {
+          beforeEach(async function() {
+            // given
+            this.server.schema.certificationCandidates.create({
+              id: 1,
+              firstName: 'Laura',
+              lastName: 'CandidatLiéUtilisateur',
+              sessionId: 1,
+              birthdate: '1990-01-04',
+            });
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'CandidatLiéUtilisateur');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
+          });
+
+          it('should render the component to provide the access code', function() {
+            // then
+            expect(find('.certification-start-page__title')).to.exist;
+          });
+        });
+
+        context('when user is successfuly linked to the candidate', function() {
+          beforeEach(async function() {
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'Bravo');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
+          });
+
+          it('should render the component to provide the access code', function() {
+            // then
+            expect(find('.certification-start-page__title')).to.exist;
+          });
+        });
+
         context('when user enter a correct code session', function() {
           beforeEach(async function() {
             // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'Bravo');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
             await fillIn('#session-code', 'ABCD12');
             await click('.certification-course-page__submit_button');
           });
@@ -102,6 +244,13 @@ describe('Acceptance | Certification | Start Course', function() {
         // given
         await authenticateAsSimpleUser();
         await visitWithAbortedTransition('/certifications');
+        await fillIn('#sessionId', '1');
+        await fillIn('#firstName', 'Laura');
+        await fillIn('#lastName', 'Bravo');
+        await fillIn('#dayOfBirth', '04');
+        await fillIn('#monthOfBirth', '01');
+        await fillIn('#yearOfBirth', '1990');
+        await click('.certification-joiner__attempt-next-btn');
         await fillIn('#session-code', '10ue1');
         await click('.certification-course-page__submit_button');
 

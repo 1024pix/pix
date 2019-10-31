@@ -3,6 +3,7 @@ import Component from '@ember/component';
 
 export default Component.extend({
   store: service(),
+  peeker: service(),
   router: service(),
 
   isLoading: false,
@@ -10,30 +11,42 @@ export default Component.extend({
   errorMessage: null,
   classNames: ['certification-starter'],
 
+  certificationCourse: null,
+
   actions: {
     async submit() {
       this.set('errorMessage', null);
-      const { accessCode } = this;
-      if (!accessCode) {
+      if (!this.accessCode) {
         return this.set('errorMessage', 'Merci de saisir un code d’accès valide.');
       }
       this.set('isLoading', true);
+
+      const existingCertificationCourse = this.getCurrentCourse();
+      if (existingCertificationCourse) {
+        return this.router.replaceWith('certifications.resume', existingCertificationCourse.id);
+      }
       try {
-        const certificationCourse = await this.store.createRecord('course', { accessCode }).save();
-        await certificationCourse.reload();
-        return this.router.replaceWith('certifications.resume', certificationCourse.id);
-      } catch ({ errors }) {ppeekerjs
-        const { status } = errors[0];
-        this.handleErrorStatus(status);
+        await this.createCertificationCourseIfValid();
+        return this.router.replaceWith('certifications.resume', this.getCurrentCourse().id);
+      } catch (err) {
+        if (err.errors && err.errors[0] && err.errors[0].status === '404') {
+          this.set('errorMessage', 'Ce code n’existe pas ou n’est plus valide.');
+        } else {
+          this.set('errorMessage', 'Une erreur serveur inattendue vient de se produire');
+        }
+        this.set('isLoading', false);
       }
     }
   },
-  handleErrorStatus(status) {
-    if (status === '404') {
-      this.set('errorMessage', 'Ce code n’existe pas ou n’est plus valide.');
-    } else {
-      this.set('errorMessage', 'Une erreur serveur inattendue vient de se produire');
+  async createCertificationCourseIfValid() {
+    try {
+      await this.store.createRecord('course', { accessCode: this.accessCode }).save();
+    } catch (err) {
+      this.getCurrentCourse().deleteRecord();
+      throw err;
     }
-    return this.set('isLoading', false);
+  },
+  getCurrentCourse() {
+    return this.peeker.findOne('course', { accessCode: this.accessCode });
   }
 });
