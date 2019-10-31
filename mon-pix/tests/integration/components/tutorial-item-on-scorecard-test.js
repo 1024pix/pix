@@ -38,7 +38,7 @@ describe('Integration | Component | tutorial-item-on-scorecard', function() {
 
       // then
       expect(find('.tutorial-header__title').textContent.trim()).to.contains(tutorial.title);
-      expect(find('.tutorial-statistics__duration').textContent.trim()).to.contains('1 min');
+      expect(find('.tutorial-statistics__duration').textContent.trim()).to.contains('2 minutes');
       expect(findAll('img')).to.have.lengthOf(1);
       expect(find('img').getAttribute('src')).to.equal(expectedImage);
     });
