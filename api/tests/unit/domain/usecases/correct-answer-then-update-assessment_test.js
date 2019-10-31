@@ -19,6 +19,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
   const competenceEvaluationRepository = { getByAssessmentId: () => undefined };
   const smartPlacementAssessmentRepository = { get: () => undefined };
   const skillRepository = { findByCompetenceId: () => undefined };
+  const scorecardService = { computeScorecard: () => undefined };
   const knowledgeElementRepository = {
     save: () => undefined,
     findUniqByUserId: () => undefined,
@@ -32,6 +33,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     sinon.stub(competenceEvaluationRepository, 'getByAssessmentId');
     sinon.stub(skillRepository, 'findByCompetenceId');
     sinon.stub(smartPlacementAssessmentRepository, 'get');
+    sinon.stub(scorecardService, 'computeScorecard');
     sinon.stub(knowledgeElementRepository, 'save');
     sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
@@ -58,6 +60,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         challengeRepository,
         smartPlacementAssessmentRepository,
         knowledgeElementRepository,
+        scorecardService,
       });
     });
 
@@ -95,6 +98,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       let savedAnswer;
       let solution;
       let validator;
+      let scorecard;
 
       beforeEach(() => {
         // given
@@ -111,8 +115,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.COMPETENCE_EVALUATION });
         competenceEvaluation = domainBuilder.buildCompetenceEvaluation();
         knowledgeElement = domainBuilder.buildKnowledgeElement();
-        firstCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement();
-        secondCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement();
+        firstCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
+        secondCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1 });
         skills = domainBuilder.buildSkillCollection();
 
         completedAnswer = domainBuilder.buildAnswer(answer);
@@ -122,6 +126,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         savedAnswer = domainBuilder.buildAnswer(completedAnswer);
 
+        scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 22 });
         answerRepository.findByChallengeAndAssessment.resolves(false);
         assessmentRepository.get.resolves(assessment);
         challengeRepository.get.resolves(challenge);
@@ -132,7 +137,12 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstCreatedKnowledgeElement, secondCreatedKnowledgeElement,
         ]);
+        knowledgeElementRepository.save
+          .onFirstCall().resolves(firstCreatedKnowledgeElement)
+          .onSecondCall().resolves(secondCreatedKnowledgeElement);
         smartPlacementAssessmentRepository.get.rejects(new NotFoundError());
+        scorecardService.computeScorecard.resolves(scorecard);
+
       });
 
       it('should call the answer repository to check if challenge has already been answered', async () => {
@@ -147,6 +157,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
@@ -169,6 +180,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
@@ -187,6 +199,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
@@ -207,11 +220,90 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
         const expectedArgument = savedAnswer;
         expect(result).to.deep.equal(expectedArgument);
+      });
+
+      context('when the user responds correctly', async () => {
+        it('should add the level up to the answer when the user gain one level', async () => {
+          // given
+          const expectedLevel = scorecard.level + 1;
+          // when
+          const result = await correctAnswerThenUpdateAssessment({
+            answer,
+            userId,
+            answerRepository,
+            assessmentRepository,
+            challengeRepository,
+            competenceEvaluationRepository,
+            skillRepository,
+            smartPlacementAssessmentRepository,
+            knowledgeElementRepository,
+            scorecardService,
+          });
+
+          // then
+          expect(result.levelup).to.deep.equal({
+            id: result.id,
+            competenceName: scorecard.name,
+            level: expectedLevel,
+          });
+        });
+
+        it('should return an empty levelup when not gaining a level', async () => {
+          // given
+          knowledgeElementRepository.save
+            .onFirstCall().resolves(domainBuilder.buildKnowledgeElement({ earnedPix: 0 }))
+            .onSecondCall().resolves(domainBuilder.buildKnowledgeElement({ earnedPix: 0 }));
+
+          // when
+          const result = await correctAnswerThenUpdateAssessment({
+            answer,
+            userId,
+            answerRepository,
+            assessmentRepository,
+            challengeRepository,
+            competenceEvaluationRepository,
+            skillRepository,
+            smartPlacementAssessmentRepository,
+            knowledgeElementRepository,
+            scorecardService,
+          });
+
+          // then
+          expect(result.levelup).to.deep.equal({});
+        });
+      });
+
+      context('when the user responds badly', async () => {
+        it('should not compute the level up', async () => {
+          // given
+          answer = domainBuilder.buildAnswer({ value: '' });
+          answer.id = undefined;
+          answer.result = undefined;
+          answer.resultDetails = undefined;
+
+          // when
+          await correctAnswerThenUpdateAssessment({
+            answer,
+            userId,
+            answerRepository,
+            assessmentRepository,
+            challengeRepository,
+            competenceEvaluationRepository,
+            skillRepository,
+            smartPlacementAssessmentRepository,
+            knowledgeElementRepository,
+            scorecardService,
+          });
+
+          // then
+          expect(scorecardService.computeScorecard).to.not.have.been.called;
+        });
       });
     });
 
@@ -228,6 +320,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       let secondKnowledgeElement;
       let solution;
       let validator;
+      let scorecard;
 
       beforeEach(() => {
         // given
@@ -251,8 +344,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.SMARTPLACEMENT });
         smartPlacementAssessment = domainBuilder.buildSmartPlacementAssessment();
-        firstKnowledgeElement = domainBuilder.buildKnowledgeElement();
-        secondKnowledgeElement = domainBuilder.buildKnowledgeElement();
+        firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
+        secondKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
+        scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 23 });
 
         answerRepository.findByChallengeAndAssessment.resolves(false);
         assessmentRepository.get.resolves(assessment);
@@ -262,6 +356,12 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstKnowledgeElement, secondKnowledgeElement,
         ]);
+        knowledgeElementRepository.save
+          .onFirstCall().resolves(firstKnowledgeElement)
+          .onSecondCall().resolves(secondKnowledgeElement);
+
+        scorecardService.computeScorecard.resolves(scorecard);
+
       });
 
       it('should call the answer repository to check if challenge has already been answered', async () => {
@@ -276,6 +376,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
@@ -298,6 +399,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
@@ -317,6 +419,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
@@ -336,6 +439,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
@@ -355,6 +459,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
@@ -381,6 +486,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
@@ -403,12 +509,93 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
         const expectedArgument = savedAnswer;
         expect(result).to.deep.equal(expectedArgument);
       });
+
+      context('when the user responds correctly', async () => {
+        it('should add the level up to the answer when the user gain one level', async () => {
+          // given
+          const expectedLevel = scorecard.level + 1;
+
+          // when
+          const result = await correctAnswerThenUpdateAssessment({
+            answer,
+            userId,
+            answerRepository,
+            assessmentRepository,
+            challengeRepository,
+            competenceEvaluationRepository,
+            skillRepository,
+            smartPlacementAssessmentRepository,
+            knowledgeElementRepository,
+            scorecardService,
+          });
+
+          // then
+          expect(result.levelup).to.deep.equal({
+            id: result.id,
+            competenceName: scorecard.name,
+            level: expectedLevel,
+          });
+        });
+
+        it('should return an empty levelup when not gaining a level', async () => {
+          // given
+          knowledgeElementRepository.save
+            .onFirstCall().resolves(domainBuilder.buildKnowledgeElement({ earnedPix: 0 }))
+            .onSecondCall().resolves(domainBuilder.buildKnowledgeElement({ earnedPix: 0 }));
+
+          // when
+          const result = await correctAnswerThenUpdateAssessment({
+            answer,
+            userId,
+            answerRepository,
+            assessmentRepository,
+            challengeRepository,
+            competenceEvaluationRepository,
+            skillRepository,
+            smartPlacementAssessmentRepository,
+            knowledgeElementRepository,
+            scorecardService,
+          });
+
+          // then
+          expect(result.levelup).to.deep.equal({});
+        });
+      });
+
+      context('when the user responds badly', async () => {
+        it('should not compute the level up', async () => {
+          // given
+          answer = domainBuilder.buildAnswer({ value: '' });
+          answer.id = undefined;
+          answer.result = undefined;
+          answer.resultDetails = undefined;
+
+          // when
+          await correctAnswerThenUpdateAssessment({
+            answer,
+            userId,
+            answerRepository,
+            assessmentRepository,
+            challengeRepository,
+            competenceEvaluationRepository,
+            skillRepository,
+            smartPlacementAssessmentRepository,
+            knowledgeElementRepository,
+            scorecardService,
+          });
+
+          // then
+          expect(scorecardService.computeScorecard).to.not.have.been.called;
+        });
+      });
+
     });
 
     context('and assessment is a nor a SMART_PLACEMENT nor a COMPETENCE_EVALUATION', () => {
@@ -462,6 +649,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
@@ -484,6 +672,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
@@ -503,11 +692,31 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
         const expectedArgument = answer.challengeId;
         expect(challengeRepository.get).to.have.been.calledWith(expectedArgument);
+      });
+
+      it('should not call the compute scorecard method', async () => {
+        // when
+        await correctAnswerThenUpdateAssessment({
+          answer,
+          userId,
+          answerRepository,
+          assessmentRepository,
+          challengeRepository,
+          competenceEvaluationRepository,
+          skillRepository,
+          smartPlacementAssessmentRepository,
+          knowledgeElementRepository,
+          scorecardService,
+        });
+
+        // then
+        expect(scorecardService.computeScorecard).to.not.have.been.called;
       });
 
       it('should return the saved answer - with the id', async () => {
@@ -522,6 +731,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           skillRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
+          scorecardService,
         });
 
         // then
@@ -550,6 +760,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         userId,
         answerRepository,
         assessmentRepository,
+        scorecardService,
       });
 
       // then
