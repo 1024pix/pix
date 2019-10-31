@@ -12,6 +12,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   campaignCode: null,
   campaign: null,
   associationDone: false,
+  campaignIsRestricted: false,
   givenParticipantExternalId: null,
   userHasSeenLanding: false,
   userHasJustConsultedTutorial: false,
@@ -20,11 +21,12 @@ export default Route.extend(AuthenticatedRouteMixin, {
   beforeModel(transition) {
     this.set('campaignCode', transition.to.params.campaign_code);
     this.set('associationDone', transition.to.queryParams.associationDone);
+    this.set('campaignIsRestricted', transition.to.queryParams.campaignIsRestricted);
     this.set('givenParticipantExternalId', transition.to.queryParams.participantExternalId);
     this.set('userHasSeenLanding', transition.to.queryParams.hasSeenLanding);
     this.set('userHasJustConsultedTutorial', transition.to.queryParams.hasJustConsultedTutorial);
 
-    if (this._userIsUnauthenticated() && !this.userHasSeenLanding) {
+    if (this._userIsUnauthenticated() && !this.userHasSeenLanding && !this.campaignIsRestricted) {
       return this.replaceWith('campaigns.campaign-landing-page', this.campaignCode, { queryParams: transition.to.queryParams });
     }
     this._super(...arguments);
