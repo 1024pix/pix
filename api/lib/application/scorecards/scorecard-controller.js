@@ -13,7 +13,7 @@ module.exports = {
   },
 
   findTutorials(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const authenticatedUserId = request.auth.credentials.userId;
     const scorecardId = request.params.id;
 
     return usecases.findTutorials({ authenticatedUserId, scorecardId })
