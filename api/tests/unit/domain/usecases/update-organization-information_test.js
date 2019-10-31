@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const updateOrganizationInformation = require('../../../../lib/domain/usecases/update-organization-information');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
+const { updateOrganizationInformation } = require('../../../../lib/domain/usecases');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | update-organization-information', () => {
@@ -13,7 +13,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       type: 'SCO',
       logoUrl: 'http://old.logo.url',
       externalId: 'extId',
-      provinceCode: '666'
+      provinceCode: '666',
     });
     organizationRepository = {
       get: sinon.stub().resolves(originalOrganization),
@@ -121,20 +121,19 @@ describe('Unit | UseCase | update-organization-information', () => {
 
   context('when an error occurred', () => {
 
-    it('should reject a NotFoundError (DomainError) when the organization does not exist', () => {
+    it('should reject a NotFoundError (DomainError) when the organization does not exist', async () => {
       // given
-      const error = new NotFoundError('Not found organization');
-      organizationRepository.get = sinon.stub().rejects(error);
+      organizationRepository.get = sinon.stub().rejects(new NotFoundError('Not found organization'));
 
       // when
-      const promise = updateOrganizationInformation({
+      const error = await catchErr(updateOrganizationInformation)({
         id: originalOrganization.id,
         logoUrl: 'http://new.logo.url',
         organizationRepository
       });
 
       // then
-      return expect(promise).to.be.rejectedWith(NotFoundError);
+      expect(error).to.be.instanceOf(NotFoundError);
     });
   });
 
