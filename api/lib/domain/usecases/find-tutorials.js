@@ -1,5 +1,6 @@
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const Scorecard = require('../models/Scorecard');
+const KnowledgeElement = require('../models/KnowledgeElement');
 const _ = require('lodash');
 
 module.exports = async function findTutorials({
@@ -18,13 +19,15 @@ module.exports = async function findTutorials({
   }
 
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });
-  const invalidatedKnowledgeElements = _.filter(knowledgeElements, (knowledgeElement) => knowledgeElement.isInvalidated);
+  const invalidatedDirectKnowledgeElements = _.filter(knowledgeElements, (knowledgeElement) => (
+    knowledgeElement.isInvalidated && (knowledgeElement.source === KnowledgeElement.SourceType.DIRECT)
+  ));
 
-  if (invalidatedKnowledgeElements.length === 0) {
+  if (invalidatedDirectKnowledgeElements.length === 0) {
     return [];
   }
   const skills = await skillRepository.findByCompetenceId(competenceId);
-  const failedSkills = _.filter(skills, (skill) => _.includes(_.map(invalidatedKnowledgeElements, 'skillId'), skill.id));
+  const failedSkills = _.filter(skills, (skill) => _.includes(_.map(invalidatedDirectKnowledgeElements, 'skillId'), skill.id));
 
   const skillsGroupByTube = _.groupBy(_(_.orderBy(failedSkills, 'difficulty')).uniq().value(), 'tubeNameWithAt');
   const easiestSkills = _.map(skillsGroupByTube, (skills) => skills[0]);
