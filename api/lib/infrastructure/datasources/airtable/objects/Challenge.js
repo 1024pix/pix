@@ -19,6 +19,7 @@ class Challenge {
     embedUrl,
     embedTitle,
     embedHeight,
+    format,
   } = {}) {
     this.id = id;
     this.instruction = instruction;
@@ -39,6 +40,7 @@ class Challenge {
     this.embedUrl = embedUrl;
     this.embedTitle = embedTitle;
     this.embedHeight = embedHeight;
+    this.format = format || 'mots';
   }
 
   static getAirtableName() {
@@ -65,6 +67,7 @@ class Challenge {
       'Embed URL',
       'Embed title',
       'Embed height',
+      'Format',
     ];
   }
 
@@ -106,10 +109,11 @@ class Challenge {
       embedUrl: airtableEpreuveObject.get('Embed URL'),
       embedTitle: airtableEpreuveObject.get('Embed title'),
       embedHeight: airtableEpreuveObject.get('Embed height'),
+      format: airtableEpreuveObject.get('Format'),
       timer,
       illustrationUrl,
       attachments,
-      competenceId
+      competenceId,
     });
   }
 }

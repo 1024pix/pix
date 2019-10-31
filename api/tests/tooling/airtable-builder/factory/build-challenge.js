@@ -101,6 +101,7 @@ const buildChallenge = function buildChallenge({
     'recvoGdo7z2z7pXWa',
   ],
   createdTime = '2016-08-24T11:59:02.000Z',
+  format = 'mots',
 } = {}) {
 
   return rawBuildChallenge({
@@ -134,6 +135,7 @@ const buildChallenge = function buildChallenge({
     recordID,
     domaines,
     createdTime,
+    format,
   });
 };
 
@@ -239,6 +241,7 @@ buildChallenge.untimed = function buildUntimedChallenge({
     'recvoGdo7z2z7pXWa',
   ],
   createdTime = '2016-08-24T11:59:02.000Z',
+  format = 'petit'
 } = {}) {
 
   return rawBuildChallenge({
@@ -271,6 +274,7 @@ buildChallenge.untimed = function buildUntimedChallenge({
     recordID,
     domaines,
     createdTime,
+    format,
   });
 };
 
@@ -305,6 +309,7 @@ function rawBuildChallenge({
   recordID,
   domaines,
   createdTime,
+  format,
 }) {
 
   return {
@@ -338,6 +343,7 @@ function rawBuildChallenge({
       'Preview': preview,
       'Record ID': recordID,
       'domaines': domaines,
+      'format': format,
     },
     'createdTime': createdTime,
   };
