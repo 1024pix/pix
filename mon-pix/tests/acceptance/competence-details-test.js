@@ -207,8 +207,8 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
 
         // then
         expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
-        expect(findAll('.scorecard-details-tutorial-tubes-list__tube')).to.have.lengthOf(2);
-        expect(findAll('.tube-tutorial')).to.have.lengthOf(3);
+        expect(findAll('.tube')).to.have.lengthOf(2);
+        expect(findAll('.tutorial')).to.have.lengthOf(3);
       });
 
       context('when it is remaining some days before reset', () => {

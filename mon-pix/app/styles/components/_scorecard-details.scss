@@ -1,17 +1,19 @@
-.scorecard-details-tutorial {
+.tutorials {
   padding: 0 25px;
   color: $dove-gray;
   font-family: Roboto;
+  width: 100%;
+
+  &__header {
+    margin-bottom: 56px;
+  }
 }
 
-.scorecard-details-tutorial__header {
-  padding-bottom: 5px;
-}
-
-.scorecard-details-tutorial-header {
+.tutorials-header {
   &__title {
     color: $grayish-grey;
     font-weight: 400;
+    line-height: 2rem;
   }
 
   &__description {
@@ -21,39 +23,30 @@
   }
 }
 
-.separation-line {
-  background-image: linear-gradient(to right, transparent 50%, $grayish-grey 50%);
-  background-size: 6px 100%;
-  height: 1px;
-}
-
-.scorecard-details-tutorial-tubes-list__tube {
-  margin: 50px 0;
+.tube {
+  margin: 36px 0;
 
   &:last-child {
     margin-bottom: 0;
   }
-}
 
-.scorecard-details-tutorial-tubes-list-tube__title {
-  color: $grayish-grey;
-  margin: 20px 0;
-  font-weight: 400;
-}
+  &__title {
+    font-family: $font-open-sans;
+    font-size: 2.3rem;
+    color: $dove-gray;
+    margin: 12px 0;
+    font-weight: 400;
+  }
 
-.scorecard-tube {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: wrap;
 
-.tutorial-item-width {
-  width: 32%;
-  margin: 10px 0;
-
-  &:nth-child(3n+2) {
-    margin-right: auto;
-    margin-left: 2%;
+    @include device-is('desktop') {
+      flex-direction: row;
+    }
   }
 }
 
