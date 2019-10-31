@@ -21,6 +21,7 @@ class Scorecard {
     area,
     pixScoreAheadOfNextLevel,
     earnedPix,
+    exactlyEarnedPix,
     status,
     remainingDaysBeforeReset,
   } = {}) {
@@ -33,6 +34,7 @@ class Scorecard {
     this.index = index;
     this.area = area;
     this.earnedPix = earnedPix;
+    this.exactlyEarnedPix = exactlyEarnedPix;
     this.level = level;
     this.pixScoreAheadOfNextLevel = pixScoreAheadOfNextLevel;
     this.status = status;
@@ -45,8 +47,8 @@ class Scorecard {
   }
 
   static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation, blockReachablePixAndLevel }) {
-    const totalEarnedPix = _getTotalEarnedPix(knowledgeElements, blockReachablePixAndLevel);
-
+    const exactlyEarnedPix = _(knowledgeElements).sumBy('earnedPix');
+    const totalEarnedPix = _getTotalEarnedPix(exactlyEarnedPix, blockReachablePixAndLevel);
     const remainingDaysBeforeReset = _.isEmpty(knowledgeElements) ? null : Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
 
     return new Scorecard({
@@ -57,6 +59,7 @@ class Scorecard {
       index: competence.index,
       area: competence.area,
       earnedPix: totalEarnedPix,
+      exactlyEarnedPix,
       level: _getCompetenceLevel(totalEarnedPix),
       pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPix),
       status: _getScorecardStatus(competenceEvaluation, knowledgeElements),
@@ -83,8 +86,8 @@ function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
   return statuses.STARTED;
 }
 
-function _getTotalEarnedPix(knowledgeElements, blockReachablePixAndLevel) {
-  const userTotalEarnedPix = _.floor(_(knowledgeElements).sumBy('earnedPix'));
+function _getTotalEarnedPix(exactlyEarnedPix, blockReachablePixAndLevel) {
+  const userTotalEarnedPix = _.floor(exactlyEarnedPix);
   if (blockReachablePixAndLevel) {
     return Math.min(userTotalEarnedPix, constants.MAX_REACHABLE_PIX_BY_COMPETENCE);
   }

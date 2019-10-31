@@ -55,6 +55,11 @@ describe('Unit | Domain | Models | Scorecard', () => {
       it('should have earned pix as a rounded sum of all knowledge elements earned pixes', () => {
         expect(actualScorecard.earnedPix).to.equal(9);
       });
+
+      it('should have exactly earned pix as a sum of all knowledge elements earned pixes', () => {
+        expect(actualScorecard.exactlyEarnedPix).to.equal(9.1);
+      });
+
       it('should have a level computed from the number of pixes', () => {
         expect(actualScorecard.earnedPix).to.equal(9);
       });

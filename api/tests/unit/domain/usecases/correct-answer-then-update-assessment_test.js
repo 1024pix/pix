@@ -126,7 +126,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         savedAnswer = domainBuilder.buildAnswer(completedAnswer);
 
-        scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 22 });
+        scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 22, exactlyEarnedPix: 22 });
         answerRepository.findByChallengeAndAssessment.resolves(false);
         assessmentRepository.get.resolves(assessment);
         challengeRepository.get.resolves(challenge);
@@ -345,8 +345,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.SMARTPLACEMENT });
         smartPlacementAssessment = domainBuilder.buildSmartPlacementAssessment();
         firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
-        secondKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
-        scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 23 });
+        secondKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1.8 });
+        scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 20, exactlyEarnedPix: 20.2 });
 
         answerRepository.findByChallengeAndAssessment.resolves(false);
         assessmentRepository.get.resolves(assessment);
