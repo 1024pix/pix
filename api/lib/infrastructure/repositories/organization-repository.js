@@ -54,7 +54,7 @@ module.exports = {
 
   create(organization) {
 
-    const organizationRawData = _.pick(organization, ['name', 'type', 'logoUrl', 'code']);
+    const organizationRawData = _.pick(organization, ['name', 'type', 'logoUrl', 'code', 'externalId', 'provinceCode']);
 
     return new BookshelfOrganization()
       .save(organizationRawData)
