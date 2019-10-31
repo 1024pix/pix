@@ -78,7 +78,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
 
   if (correctedAnswer.result.isOK() && (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement())) {
     const sumPixEarned = _.sumBy(savedKnowledgeElements, 'earnedPix');
-    const totalPix = scorecardBeforeAnswer.earnedPix + sumPixEarned;
+    const totalPix = scorecardBeforeAnswer.exactlyEarnedPix + sumPixEarned;
     const userLevel = Math.min(constants.MAX_REACHABLE_LEVEL, _.floor(totalPix / constants.PIX_COUNT_BY_LEVEL));
 
     if (scorecardBeforeAnswer.level < userLevel) {
