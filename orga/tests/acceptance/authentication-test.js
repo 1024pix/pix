@@ -239,7 +239,7 @@ module('Acceptance | authentication', function(hooks) {
           await visit('/');
 
           // then
-          assert.dom('.sidebar-menu a').exists({ count: 3 });
+          assert.dom('.sidebar-menu a').exists({ count: 4 });
           assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
           assert.dom('.sidebar-menu a:nth-child(2)').hasText('Équipe');
           assert.dom('.sidebar-menu a:nth-child(3)').hasText('Élèves');
@@ -258,6 +258,14 @@ module('Acceptance | authentication', function(hooks) {
           assert.dom('.sidebar-menu a:nth-child(3)').hasText('Élèves');
           assert.dom('.sidebar-menu a:nth-child(3)').hasClass('active');
           assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
+        });
+
+        test('should have resources link', async function(assert) {
+          // given
+          await visit('/');
+
+          // then
+          assert.dom('.sidebar-menu-documentation-item__button').hasText('Documentation');
         });
       });
     });
@@ -302,7 +310,7 @@ module('Acceptance | authentication', function(hooks) {
           await visit('/');
 
           // then
-          assert.dom('.sidebar-menu a').exists({ count: 2 });
+          assert.dom('.sidebar-menu a').exists({ count: 3 });
           assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
           assert.dom('.sidebar-menu a:nth-child(2)').hasText('Élèves');
           assert.dom('.sidebar-menu a:first-child ').hasClass('active');
