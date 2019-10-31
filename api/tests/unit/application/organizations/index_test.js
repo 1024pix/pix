@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
+const usecases = require ('../../../../lib/domain/usecases');
 
 let server;
 
@@ -58,7 +59,11 @@ describe('Unit | Router | organization-router', () => {
 
   describe('GET /api/organizations/{id}/invitations', () => {
 
-    it('should exist', async () => {
+    beforeEach(() => {
+      sinon.stub(usecases, 'findPendingOrganizationInvitations').resolves([]);
+    });
+
+    it('should return an empty list when no organization is found', async () => {
       // given
       const options = {
         method: 'GET',
@@ -70,6 +75,7 @@ describe('Unit | Router | organization-router', () => {
 
       // then
       expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal([]);
     });
   });
 
