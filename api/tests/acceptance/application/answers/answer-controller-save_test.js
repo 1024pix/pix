@@ -81,7 +81,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
             data: {
               type: 'answers',
               attributes: {
-                value: '1',
+                value: '1, 5',
                 'elapsed-time': 100,
               },
               relationships: {
@@ -132,7 +132,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         return promise.then((response) => {
           const answer = response.result.data;
 
-          new BookshelfAnswer().fetch()
+          return new BookshelfAnswer().fetch()
             .then((model) => {
               expect(model.id).to.be.a('number');
               expect(model.get('value')).to.equal(options.payload.data.attributes.value);
@@ -210,7 +210,5 @@ describe('Acceptance | Controller | answer-controller-save', () => {
       });
 
     });
-
   });
-
 });
