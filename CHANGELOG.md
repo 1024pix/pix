@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.79.0 (31/10/2019)
+
+- [#798](https://github.com/1024pix/pix/pull/798) [FEATURE] Ajout d'un bouton de navigation sur Pix Orga (PO-252).
+- [#776](https://github.com/1024pix/pix/pull/776) [FEATURE] Afficher quand on gagne un niveau sur une compétence. (PF-487)
+
 ## v2.78.0 (30/10/2019)
 
 - [#794](https://github.com/1024pix/pix/pull/794) [FEATURE] Afficher le code d'accès de session sur 1 seule ligne (PC-89).
