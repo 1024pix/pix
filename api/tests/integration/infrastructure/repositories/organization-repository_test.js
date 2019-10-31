@@ -56,6 +56,8 @@ describe('Integration | Repository | Organization', function() {
       expect(organizationSaved.type).to.equal(organization.type);
       expect(organizationSaved.logoUrl).to.equal(organization.logoUrl);
       expect(organizationSaved.code).to.equal(organization.code);
+      expect(organizationSaved.externalId).to.equal(organization.externalId);
+      expect(organizationSaved.provinceCode).to.equal(organization.provinceCode);
     });
   });
 
