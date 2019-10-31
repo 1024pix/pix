@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const { expect, sinon, catchErr } = require('../../../test-helper');
+const { createOrganization } = require('../../../../lib/domain/usecases');
 const Organization = require('../../../../lib/domain/models/Organization');
 const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const organizationService = require('../../../../lib/domain/services/organization-service');
@@ -17,6 +17,8 @@ describe('Unit | UseCase | create-organization', () => {
     const name = 'ACME';
     const type = 'PRO';
     const code = 'ABCD12';
+    const externalId = 'externalId';
+    const provinceCode = 'provinceCode';
     let organizationRepository;
 
     beforeEach(() => {
@@ -27,42 +29,37 @@ describe('Unit | UseCase | create-organization', () => {
       organizationRepository.create.resolves();
     });
 
-    it('should validate params (name + type)', () => {
+    it('should validate params (name + type)', async () => {
       // when
-      const promise = usecases.createOrganization({ name, type, organizationRepository });
+      await createOrganization({ name, type, externalId, provinceCode, organizationRepository });
 
       // then
-      return promise.then(() => {
-        expect(organizationCreationValidator.validate).to.have.been.calledWithExactly({ name, type });
-      });
+      expect(organizationCreationValidator.validate).to.have.been.calledWithExactly({ name, type });
     });
 
-    it('should generate a unique code', () => {
+    it('should generate a unique code', async () => {
       // when
-      const promise = usecases.createOrganization({ name, type, organizationRepository });
+      await createOrganization({ name, type, externalId, provinceCode, organizationRepository });
 
       // then
-      return promise.then(() => {
-        expect(organizationService.generateUniqueOrganizationCode).to.have.been.calledWithExactly({ organizationRepository });
-      });
+      expect(organizationService.generateUniqueOrganizationCode).to.have.been.calledWithExactly({ organizationRepository });
     });
 
-    it('should create a new Organization Entity into data repository', () => {
+    it('should create a new Organization Entity into data repository', async () => {
+      // given
+      const expectedOrganization = new Organization({ name, type, code, externalId, provinceCode });
+
       // when
-      const promise = usecases.createOrganization({ name, type, organizationRepository });
+      await createOrganization({ name, type, externalId, provinceCode, organizationRepository });
 
       // then
-      return expect(promise).to.be.fulfilled.then(() => {
-        const expectedOrganization = new Organization({ name, type, code });
-        expect(organizationRepository.create).to.have.been.calledWithMatch(expectedOrganization);
-      });
+      expect(organizationRepository.create).to.have.been.calledWithMatch(expectedOrganization);
     });
-
   });
 
   context('Red cases', () => {
 
-    it('should reject an EntityValidationError when params are not valid', () => {
+    it('should reject an EntityValidationError when params are not valid', async () => {
       // given
       const name = 'ACME';
       const type = 'PRO';
@@ -71,12 +68,10 @@ describe('Unit | UseCase | create-organization', () => {
       organizationCreationValidator.validate.rejects(new EntityValidationError({}));
 
       // when
-      const promise = usecases.createOrganization({ name, type, organizationRepository });
+      const error = await catchErr(createOrganization)({ name, type, organizationRepository });
 
       // then
-      return expect(promise).to.be.rejected.then((error) => {
-        expect(error).to.be.an.instanceOf(EntityValidationError);
-      });
+      expect(error).to.be.an.instanceOf(EntityValidationError);
     });
   });
 });
