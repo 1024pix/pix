@@ -8,10 +8,11 @@ export default Route.extend({
 
     const assessment = this.modelFor('assessments');
     const challengeId = params.challenge_id;
+
     return RSVP.hash({
       assessment,
       challenge: store.findRecord('challenge', challengeId),
-      answer: store.queryRecord('answer', { assessment: assessment.id, challenge: challengeId })
+      answer: store.queryRecord('answer', { assessment: assessment.id, challenge: challengeId }),
     }).catch((err) => {
       const meta = ('errors' in err) ? err.errors.get('firstObject').meta : null;
       if (meta.field === 'authorization') {
@@ -49,7 +50,7 @@ export default Route.extend({
 
   actions: {
 
-    saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
+    async saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
       const answer = this._findOrCreateAnswer(challenge, assessment);
       answer.setProperties({
         value: answerValue,
@@ -57,15 +58,27 @@ export default Route.extend({
         elapsedTime: answerElapsedTime
       });
 
-      return answer.save()
-        .then(
-          () => this.transitionTo('assessments.resume', assessment.get('id')),
-          () => {
-            answer.rollbackAttributes();
-            return this.send('error');
+      try {
+        await answer.save();
+
+        const levelup = await answer.get('levelup');
+
+        const queryParams = levelup ? {
+          queryParams: {
+            newLevel: levelup.level,
+            competenceLeveled: levelup.competenceName,
           }
-        );
+        } : { queryParams: {} };
+
+        return this.transitionTo('assessments.resume', assessment.get('id'), queryParams);
+      }
+      catch (error) {
+        answer.rollbackAttributes();
+
+        return this.send('error');
+      }
     },
+
     error() {
       return true;
     }

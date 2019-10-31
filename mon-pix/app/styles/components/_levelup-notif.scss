@@ -1,0 +1,71 @@
+.levelup {
+  display: flex;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 362px;
+  height: 80px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px $charcoal-grey;
+  color: $gun-powder;
+  animation-duration: 1s;
+  animation-name: slidein;
+
+  background-color: rgba(255,255,255,0.90);
+
+  &__icon-card-level {
+    position: absolute;
+    top: 31px;
+    left: 40px;
+    font-size: 2.4rem;
+    font-family: $font-open-sans;
+    font-weight: $font-bold;
+  }
+
+  &__competence {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  &__close {
+    margin: 5px;
+    cursor: pointer;
+    opacity: 0.5;
+    height: 30px;
+
+    &:active, &:hover {
+      background-color: transparent;
+      opacity: 1;
+    }
+  }
+}
+
+.levelup-competence {
+  &__level {
+    font-size: 1.6rem;
+    font-weight: $font-bold;
+    font-family: $font-open-sans;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  &__name {
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+    font-family: $font-roboto;
+  }
+}
+
+@keyframes slidein {
+  from {
+    opacity: 0;
+    right: -500px;
+  }
+
+  to {
+    opacity: 1;
+    right: 10px;
+  }
+}

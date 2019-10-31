@@ -201,7 +201,7 @@ describe('Unit | Route | Assessments | Resume', function() {
               // then
               return promise.then(() => {
                 sinon.assert.calledOnce(route.replaceWith);
-                sinon.assert.calledWith(route.replaceWith, 'assessments.checkpoint', 123, { queryParams: { finalCheckpoint: true } });
+                sinon.assert.calledWith(route.replaceWith, 'assessments.checkpoint', 123, { queryParams: { finalCheckpoint: true, newLevel:null, competenceLeveled:null } });
               });
             });
           });
