@@ -21,6 +21,7 @@ module.exports = function buildChallengeAirtableDataObject({
   embedUrl = 'https://github.io/page/epreuve.html',
   embedTitle = 'Epreuve de selection de dossier',
   embedHeight = 500,
+  format = 'petit',
   illustrationAlt = 'texte alternatif à l\'image',
 } = {}) {
 
@@ -45,5 +46,6 @@ module.exports = function buildChallengeAirtableDataObject({
     embedTitle,
     embedHeight,
     illustrationAlt,
+    format,
   };
 };
