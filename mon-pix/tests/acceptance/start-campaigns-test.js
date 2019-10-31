@@ -257,13 +257,20 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           expect(find('.join-restricted-campaign')).to.exist;
         });
 
+        it('should set by default firstName and lastName', async function() {
+          // when
+          await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+
+          //then
+          expect(find('#firstName').value).to.equal('Jane');
+          expect(find('#lastName').value).to.equal('Doe');
+        });
+
         it('should redirect to landing page when fields are filled in', async function() {
           // given
           await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
 
           // when
-          await fillIn('#firstName', 'Jane');
-          await fillIn('#lastName', 'Doe');
           await fillIn('#dayOfBirth', '10');
           await fillIn('#monthOfBirth', '12');
           await fillIn('#yearOfBirth', '2000');
