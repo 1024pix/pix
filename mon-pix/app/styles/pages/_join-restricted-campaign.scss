@@ -12,6 +12,10 @@
     border: 2px solid $alto-grey;
     padding-left: 10px;
 
+    &[disabled] {
+      background-color: $alto-grey;
+    }
+
     &.input--error {
       border-color: $pure-orange;
     }
