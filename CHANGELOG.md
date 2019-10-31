@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.80.0 (31/10/2019)
+
+- [#770](https://github.com/1024pix/pix/pull/770) [FEATURE] Script d'import / update des organisations (PF-764).
+- [#801](https://github.com/1024pix/pix/pull/801) [BUGFIX] Problème de calcul de passage de niveau pour les succès (PF-897).
+
 ## v2.79.0 (31/10/2019)
 
 - [#798](https://github.com/1024pix/pix/pull/798) [FEATURE] Ajout d'un bouton de navigation sur Pix Orga (PO-252).
