@@ -104,6 +104,7 @@ describe('Integration | Repository | Organization', function() {
       organization.logoUrl = 'http://new.logo.url';
       organization.externalId = '999Z527F';
       organization.provinceCode = '999';
+      organization.isManagingStudents = true;
 
       // when
       const organizationSaved = await organizationRepository.update(organization);
@@ -116,6 +117,7 @@ describe('Integration | Repository | Organization', function() {
       expect(organizationSaved.code).to.equal(organization.code);
       expect(organizationSaved.externalId).to.equal(organization.externalId);
       expect(organizationSaved.provinceCode).to.equal(organization.provinceCode);
+      expect(organizationSaved.isManagingStudents).to.equal(organization.isManagingStudents);
     });
 
     it('should not modify code property', async () => {
