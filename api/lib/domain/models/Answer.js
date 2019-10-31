@@ -13,6 +13,7 @@ class Answer {
     value,
     // includes
     correction,
+    levelup,
     // references
     assessmentId,
     challengeId,
@@ -27,6 +28,7 @@ class Answer {
     this.value = value;
     // includes
     this.correction = correction;
+    this.levelup = levelup;
     // references
     this.assessmentId = assessmentId;
     this.challengeId = challengeId;

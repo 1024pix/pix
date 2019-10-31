@@ -1,0 +1,13 @@
+{{#unless closeLevelup}}
+  <div class="levelup">
+    <img src="{{rootURL}}/images/levelup.svg">
+    <div class="levelup__icon-card-level">{{level}}</div>
+    <div class="levelup__competence">
+      <div class="levelup-competence__level">Niveau {{level}} gagné !</div>
+      <div class="levelup-competence__name">{{competenceName}}</div>
+    </div>
+    <div class="icon-button levelup__close" {{action "close"}}>
+      {{fa-icon 'times'}}
+    </div>
+  </div>
+{{/unless}}

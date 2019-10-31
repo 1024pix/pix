@@ -22,3 +22,7 @@
                 answerValidated=(route-action "saveAnswerAndNavigate")}}
   </div>
 </div>
+
+{{#if showLevelup}}
+  {{levelup-notif level=newLevel competenceName=competenceLeveled}}
+{{/if}}

@@ -153,7 +153,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
         await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
 
         // then
-        sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'));
+        sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), { queryParams: {} });
       });
     });
 
