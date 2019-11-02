@@ -571,7 +571,7 @@ describe('Unit | Controller | user-controller', () => {
   describe('#getStudent', () => {
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getUserStudent').resolves({ userId: 1 });
+      sinon.stub(usecases, 'getStudentLinkedToUser').resolves({ userId: 1 });
       sinon.stub(studentSerializer, 'serialize').resolves();
     });
 
@@ -594,7 +594,7 @@ describe('Unit | Controller | user-controller', () => {
       await userController.getStudent(request);
 
       // then
-      expect(usecases.getUserStudent).to.have.been.calledWith({ userId });
+      expect(usecases.getStudentLinkedToUser).to.have.been.calledWith({ userId });
     });
   });
 });

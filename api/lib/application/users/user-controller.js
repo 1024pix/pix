@@ -148,7 +148,7 @@ module.exports = {
   getStudent(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.getUserStudent({ userId: authenticatedUserId })
+    return usecases.getStudentLinkedToUser({ userId: authenticatedUserId })
       .then(studentSerializer.serialize);
   }
 };
