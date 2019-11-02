@@ -32,6 +32,7 @@ module.exports = {
     return BookshelfStudent
       .query((qb) => {
         qb.where('organizationId', organizationId);
+        qb.whereNull('userId');
         qb.whereRaw('LOWER(?) in (LOWER(??), LOWER(??), LOWER(??))', [firstName, 'firstName', 'middleName', 'thirdName']);
         qb.whereRaw('LOWER(?) in (LOWER(??), LOWER(??))', [lastName, 'lastName', 'preferredLastName']);
         qb.where('birthdate', birthdate);

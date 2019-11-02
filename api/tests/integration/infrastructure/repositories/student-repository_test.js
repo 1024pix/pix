@@ -351,6 +351,42 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
         expect(result.length).to.be.equal(2);
       });
     });
+
+    context('All the student are already associate', () => {
+
+      let organization;
+      let user;
+
+      beforeEach(async () => {
+        organization = databaseBuilder.factory.buildOrganization();
+        user = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildStudent({
+          organizationId: organization.id,
+          userId: user.id,
+          preferredLastName: 'Lee',
+          lastName: 'Lieber',
+          firstName: 'Stanley',
+          middleName: 'Martin',
+          thirdName: 'Stan',
+          birthdate: '2000-03-31',
+        });
+        await databaseBuilder.commit();
+      });
+
+      it('should return a list of all matching students', async () => {
+        // given
+        const user = { firstName: 'Stan', lastName: 'Lee', birthdate: '2000-03-31' };
+
+        // when
+        const result = await studentRepository.findByOrganizationIdAndUserInformation({
+          organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, birthdate: user.birthdate
+        });
+
+        // then
+        expect(result).to.be.an('array');
+        expect(result.length).to.be.equal(0);
+      });
+    });
   });
 
   describe('#associateUserAndStudent', () => {
