@@ -48,4 +48,8 @@ module.exports = {
       })
       .then((student) => bookshelfToDomainConverter.buildDomainObject(BookshelfStudent, student));
   },
+
+  getByUserId({ userId }) {
+
+  }
 };
