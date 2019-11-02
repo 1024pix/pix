@@ -142,5 +142,7 @@ module.exports = {
 
     return usecases.resetScorecard({ userId: authenticatedUserId, competenceId })
       .then(scorecardSerializer.serialize);
-  }
+  },
+
+  getStudent() {}
 };
