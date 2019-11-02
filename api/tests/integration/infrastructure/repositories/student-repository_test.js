@@ -401,10 +401,45 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       const fakeUserId = 1;
 
       // when
-      const error = await catchErr(studentRepository.associateUserAndStudent)({ userId: fakeUserId, studentId: student.id });
+      const error = await catchErr(studentRepository.associateUserAndStudent)({
+        userId: fakeUserId,
+        studentId: student.id
+      });
 
       // then
       expect(error.detail).to.be.equal(`Key (userId)=(${fakeUserId}) is not present in table "users".`);
+    });
+  });
+
+  describe('#getByUserId', () => {
+
+    it('should return instance of Student linked to the given userId', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildStudent({ organizationId: organization.id, userId, });
+
+      await databaseBuilder.commit();
+
+      // when
+      const student = await studentRepository.getByUserId({ userId });
+
+      // then
+      expect(student).to.be.an.instanceOf(Student);
+      expect(student.userId).to.equal(userId);
+    });
+
+    it('should return null if there is no student linked to the given userId', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await studentRepository.getByUserId({ userId });
+
+      // then
+      expect(result).to.equal(null);
     });
   });
 });

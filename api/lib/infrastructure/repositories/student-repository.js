@@ -50,6 +50,9 @@ module.exports = {
   },
 
   getByUserId({ userId }) {
-
+    return BookshelfStudent
+      .where({ userId })
+      .fetch()
+      .then((student) => bookshelfToDomainConverter.buildDomainObject(BookshelfStudent, student));
   }
 };
