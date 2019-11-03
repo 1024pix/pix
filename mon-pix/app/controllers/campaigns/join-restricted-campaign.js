@@ -31,6 +31,9 @@ const isMonthValid = (value) => value > 0 && value <= 12;
 const isYearValid = (value) => value > 999 && value <= 9999;
 
 export default Controller.extend({
+  queryParams: ['participantExternalId'],
+  participantExternalId: null,
+
   store: service(),
 
   firstName: '',
@@ -79,7 +82,7 @@ export default Controller.extend({
       return studentUserAssociation.save().then(() => {
         this.set('isLoading', false);
         this.transitionToRoute('campaigns.start-or-resume', this.model, {
-          queryParams: { associationDone: true }
+          queryParams: { associationDone: true, participantExternalId: this.get('participantExternalId') }
         });
       }, (errorResponse) => {
         studentUserAssociation.unloadRecord();
