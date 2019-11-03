@@ -146,4 +146,13 @@ export default function() {
     return new Response(204);
   });
 
+  this.get('/users/:id/student', (schema, request) => {
+    const userId =  request.params.id;
+    const student = schema.students.findBy({ userId });
+
+    if (student) {
+      return student;
+    }
+    return { data: null };
+  });
 }
