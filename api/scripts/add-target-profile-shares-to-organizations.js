@@ -6,7 +6,6 @@
 require('dotenv').config();
 const request = require('request-promise-native');
 const targetProfileShareRepository = require('../lib/infrastructure/repositories/target-profile-share-repository');
-const _ = require('lodash');
 const { checkCsvExtensionFile, parseCsv } = require('./helpers/csvHelpers');
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
@@ -39,29 +38,20 @@ async function addTargetProfileSharesToOrganizations({ organizationsByExternalId
     }
 
     if (require.main === module) {
-      console.log(`${i + 1}/${csvData.length}`);
+      process.stdout.write(`\n${i + 1}/${csvData.length} `);
     }
-
-    //TODO j'ai un problème icin je n'arrive pas à récupérer le `organizationsByExternalId[externalId]` du premier élément de l'objet.
-    // Donc il n'ajoute j'amais la première ligne du CSV. C'est dommage car l'objet `organizationsByExternalId` à lui bien l'ensemble des organizations.
-    // Juste le get se passe mal… Et la j'ai pas trop d'idée, il me faut un canard !!
 
     const externalId = externalIdLowerCase.toUpperCase();
     const existingOrganization = organizationsByExternalId[externalId];
     const targetProfileIdList = targetProfileList.split('-');
 
-    /*    console.log('i: ', i)
-        console.log('externalId: ', externalId)
-        console.log('object: ', existingOrganization)*/
-
-    // corrige l’erreur remonté par le `existingOrganization = undefined`lié au problèle de la première ligne…
     if (existingOrganization && existingOrganization.id) {
-      console.log(`Adding targetProfiles ${targetProfileList} to organizationId: ${existingOrganization.id}…`);
+      process.stdout.write(`Adding targetProfiles: [${targetProfileList}] to organizationId: ${existingOrganization.id} `);
       await targetProfileShareRepository.addToOrganization({
         organizationId: existingOrganization.id,
         targetProfileIdList
       });
-      console.log('Ok.');
+      process.stdout.write('===> ✔');
     }
   }
 }

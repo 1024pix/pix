@@ -47,7 +47,7 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
     });
   });
 
-  describe('#createOrUpdateOrganizations', () => {
+  describe('#addTargetProfileSharesToOrganizations', () => {
 
     let targetProfileShareRepoStub;
     beforeEach(() => {
