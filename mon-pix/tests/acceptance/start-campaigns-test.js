@@ -220,19 +220,46 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         });
 
         context('When participant external id is set in the url', function() {
-          beforeEach(async function() {
-            await startCampaignByCodeAndExternalId('AZERTY1');
-            await fillIn('#firstName', 'Jane');
-            await fillIn('#lastName', 'Acme');
-            await fillIn('#email', 'jane@acme.com');
-            await fillIn('#password', 'Jane1234');
-            await click('#pix-cgu');
-            await click('.button');
+
+          context('When campaign is not restricted', function() {
+            beforeEach(async function() {
+              await startCampaignByCodeAndExternalId('AZERTY1');
+              await fillIn('#firstName', 'Jane');
+              await fillIn('#lastName', 'Acme');
+              await fillIn('#email', 'jane@acme.com');
+              await fillIn('#password', 'Jane1234');
+              await click('#pix-cgu');
+              await click('.button');
+            });
+
+            it('should redirect to assessment', async function() {
+              // then
+              expect(currentURL()).to.contains('/didacticiel');
+            });
           });
 
-          it('should redirect to assessment', async function() {
-            // then
-            expect(currentURL()).to.contains('/didacticiel');
+          context('When campaign is restricted', function() {
+            beforeEach(async function() {
+              await visitWithAbortedTransition('/campagnes/AZERTY4?participantExternalId=a73at01r3');
+              await fillIn('#firstName', 'Jane');
+              await fillIn('#lastName', 'Acme');
+              await fillIn('#email', 'jane@acme.com');
+              await fillIn('#password', 'Jane1234');
+              await click('#pix-cgu');
+              await click('.button');
+
+              await fillIn('#dayOfBirth', '10');
+              await fillIn('#monthOfBirth', '12');
+              await fillIn('#yearOfBirth', '2000');
+              await click('.button');
+
+              await click('.campaign-landing-page__start-button');
+            });
+
+            it('should redirect to assessment', async function() {
+              // then
+              expect(currentURL()).to.contains('/didacticiel');
+            });
           });
         });
       });
