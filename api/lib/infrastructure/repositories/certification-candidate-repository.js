@@ -8,7 +8,7 @@ const {
 } = require('../../domain/errors');
 const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
-const PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR = '23505';
+const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
 module.exports = {
 
