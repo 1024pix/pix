@@ -291,82 +291,113 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
       context('When campaign is restricted', function() {
         const campaignCode = 'AZERTY4';
 
-        it('should redirect to join restricted campaign page when campaign code is in url', async function() {
-          // when
-          await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
+        context('When association is not already done', function() {
 
-          //then
-          expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
-          expect(find('.join-restricted-campaign')).to.exist;
+          it('should redirect to join restricted campaign page when campaign code is in url', async function() {
+            // when
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
+            expect(find('.join-restricted-campaign')).to.exist;
+          });
+
+          it('should redirect to join restricted campaign page', async function() {
+            // given
+            await visitWithAbortedTransition('/campagnes');
+
+            //when
+            await fillIn('#campaign-code', campaignCode);
+            await click('.button');
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
+            expect(find('.join-restricted-campaign')).to.exist;
+          });
+
+          it('should set by default firstName and lastName', async function() {
+            // when
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+
+            //then
+            expect(find('#firstName').value).to.equal('Jane');
+            expect(find('#lastName').value).to.equal('Doe');
+          });
+
+          it('should redirect to landing page when fields are filled in', async function() {
+            // given
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+
+            // when
+            await fillIn('#dayOfBirth', '10');
+            await fillIn('#monthOfBirth', '12');
+            await fillIn('#yearOfBirth', '2000');
+
+            await click('.button');
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
+          });
+
+          it('should redirect to fill-in-id-pix page', async function() {
+            // given
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+            await fillIn('#dayOfBirth', '10');
+            await fillIn('#monthOfBirth', '12');
+            await fillIn('#yearOfBirth', '2000');
+            await click('.button');
+
+            // when
+            await click('.button');
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/identifiant`);
+          });
+
+          it('should redirect to tutoriel page', async function() {
+            // given
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+            await fillIn('#dayOfBirth', '10');
+            await fillIn('#monthOfBirth', '12');
+            await fillIn('#yearOfBirth', '2000');
+            await click('.button');
+            await click('.button');
+            await fillIn('#id-pix-label', 'truc');
+
+            // when
+            await click('.button');
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/didacticiel`);
+          });
         });
 
-        it('should redirect to join restricted campaign page', async function() {
-          // given
-          await visitWithAbortedTransition('/campagnes');
+        context('When association is already done', function() {
 
-          //when
-          await fillIn('#campaign-code', campaignCode);
-          await click('.button');
+          beforeEach(async function() {
+            server.create('student', {
+              userId: 1,
+            });
+          });
 
-          //then
-          expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
-          expect(find('.join-restricted-campaign')).to.exist;
-        });
+          it('should redirect to landing page', async function() {
+            // when
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
 
-        it('should set by default firstName and lastName', async function() {
-          // when
-          await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
+          });
 
-          //then
-          expect(find('#firstName').value).to.equal('Jane');
-          expect(find('#lastName').value).to.equal('Doe');
-        });
+          it('should redirect to fill-in-id-pix page', async function() {
+            // given
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
 
-        it('should redirect to landing page when fields are filled in', async function() {
-          // given
-          await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+            // when
+            await click('.button');
 
-          // when
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '12');
-          await fillIn('#yearOfBirth', '2000');
-
-          await click('.button');
-
-          //then
-          expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
-        });
-
-        it('should redirect to fill-in-id-pix page', async function() {
-          // given
-          await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '12');
-          await fillIn('#yearOfBirth', '2000');
-          await click('.button');
-
-          // when
-          await click('.button');
-
-          //then
-          expect(currentURL()).to.equal(`/campagnes/${campaignCode}/identifiant`);
-        });
-
-        it('should redirect to tutoriel page', async function() {
-          // given
-          await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
-          await fillIn('#dayOfBirth', '10');
-          await fillIn('#monthOfBirth', '12');
-          await fillIn('#yearOfBirth', '2000');
-          await click('.button');
-          await click('.button');
-          await fillIn('#id-pix-label', 'truc');
-
-          // when
-          await click('.button');
-
-          //then
-          expect(currentURL()).to.equal(`/campagnes/${campaignCode}/didacticiel`);
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/identifiant`);
+          });
         });
       });
 
