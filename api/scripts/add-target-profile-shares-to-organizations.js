@@ -6,7 +6,7 @@
 require('dotenv').config();
 const request = require('request-promise-native');
 const targetProfileShareRepository = require('../lib/infrastructure/repositories/target-profile-share-repository');
-const { checkCsvExtensionFile, parseCsv } = require('./helpers/csvHelpers');
+const { parseCsv } = require('./helpers/csvHelpers');
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
@@ -46,12 +46,12 @@ async function addTargetProfileSharesToOrganizations({ organizationsByExternalId
     const targetProfileIdList = targetProfileList.split('-');
 
     if (existingOrganization && existingOrganization.id) {
-      process.stdout.write(`Adding targetProfiles: [${targetProfileList}] to organizationId: ${existingOrganization.id} `);
+      if (require.main === module) process.stdout.write(`Adding targetProfiles: [${targetProfileList}] to organizationId: ${existingOrganization.id} `);
       await targetProfileShareRepository.addToOrganization({
         organizationId: existingOrganization.id,
         targetProfileIdList
       });
-      process.stdout.write('===> ✔');
+      if (require.main === module) process.stdout.write('===> ✔');
     }
   }
 }
@@ -90,10 +90,6 @@ async function main() {
 
   try {
     const filePath = process.argv[2];
-
-    console.log('Check csv extension file... ');
-    checkCsvExtensionFile(filePath);
-    console.log('ok');
 
     console.log('Reading and parsing csv data file... ');
     const csvData = parseCsv(filePath);
