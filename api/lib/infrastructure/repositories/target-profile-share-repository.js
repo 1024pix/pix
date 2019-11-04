@@ -3,9 +3,9 @@ const Bookshelf = require('../bookshelf');
 module.exports = {
 
   addToOrganization({ organizationId, targetProfileIdList }) {
-    const targetPorfileShareToAdd = targetProfileIdList.map((targetProfileId) => {
+    const targetProfileShareToAdd = targetProfileIdList.map((targetProfileId) => {
       return { organizationId, targetProfileId };
     });
-    return Bookshelf.knex.batchInsert('target-profile-shares', targetPorfileShareToAdd).then(() => undefined);
+    return Bookshelf.knex.batchInsert('target-profile-shares', targetProfileShareToAdd).then(() => null);
   },
 };
