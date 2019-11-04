@@ -7,7 +7,7 @@ describe('Acceptance | Controller | users-controller-get-user-student', () => {
   let options;
   let server;
   let user;
-  let userWithOutStudent;
+  let userWithoutStudent;
   let organization;
   let student;
 
@@ -16,7 +16,7 @@ describe('Acceptance | Controller | users-controller-get-user-student', () => {
 
     organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
     user = databaseBuilder.factory.buildUser();
-    userWithOutStudent = databaseBuilder.factory.buildUser();
+    userWithoutStudent = databaseBuilder.factory.buildUser();
     student = databaseBuilder.factory.buildStudent({ organizationId: organization.id, userId: user.id });
     await databaseBuilder.commit();
     options = {
@@ -79,9 +79,9 @@ describe('Acceptance | Controller | users-controller-get-user-student', () => {
         // given
         options = {
           method: 'GET',
-          url: '/api/users/' + userWithOutStudent.id + '/student',
+          url: '/api/users/' + userWithoutStudent.id + '/student',
           payload: {},
-          headers: { authorization: generateValidRequestAuthorizationHeader(userWithOutStudent.id) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(userWithoutStudent.id) },
         };
 
         // when

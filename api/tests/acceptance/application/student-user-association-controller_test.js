@@ -37,7 +37,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
       return databaseBuilder.clean();
     });
 
-    it('should return an 204 status after successfully associate user to student', async () => {
+    it('should return an 204 status after having successfully associated user to student', async () => {
       // given
       options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
       options.payload.data = {
