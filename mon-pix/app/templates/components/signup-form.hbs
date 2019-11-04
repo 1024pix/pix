@@ -91,7 +91,7 @@
 
     <div class="sign-form-body__bottom-button {{if isRecaptchaEnabled "" "sign-form-body__bottom-button--margin-top"}}">
       {{#if isLoading}}
-        <button class="button button--uppercase button--thin button--round button--big">
+        <button type="button" disabled class="button button--uppercase button--thin button--round button--big">
           <span class="loader-in-button">&nbsp;</span>
         </button>
       {{else}}
