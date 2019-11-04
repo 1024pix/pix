@@ -51,6 +51,7 @@
     border: 2px solid rgb(221, 221, 221);
     padding-left: 10px;
     margin-bottom: 20px;
+    min-width: 0px;
 
     &:hover {
       border: 2px solid $dogder-blue;
@@ -65,4 +66,14 @@
     margin: 24px 0 0 0;
     width: 100%;
   }
+
+  ::placeholder {
+    color: $dusty-grey;
+  }
+
+  :-ms-input-placeholder {
+    color: $dusty-grey;
+  }
 }
+
+
