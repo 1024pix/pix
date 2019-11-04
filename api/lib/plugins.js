@@ -69,6 +69,7 @@ const plugins = [
           dsn: process.env.SENTRY_DSN,
           environment: process.env.NODE_ENV,
           release: Pack.version,
+          maxBreadcrumbs: 200,
           debug: true,
         },
         scope: {
