@@ -6,6 +6,7 @@ export default Component.extend({
 
   classNames: ['qroc-proposal'],
 
+  format: null,
   proposals: null,
   answerValue: null,
   answerChanged: null, // action
