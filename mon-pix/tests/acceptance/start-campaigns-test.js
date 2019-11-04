@@ -37,17 +37,73 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
       context('When user want to access a campaign with only its code', function() {
 
-        it('should access presentation page', async function() {
-          // given
-          const campaignCode = 'AZERTY1';
-          await visitWithAbortedTransition('/campagnes');
+        context('When campaign code exists', function() {
 
-          // when
-          await fillIn('#campaign-code', campaignCode);
-          await click('.button');
+          context('When campaign is not restricted', function() {
 
-          // then
-          expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
+            it('should access presentation page', async function() {
+              // given
+              const campaignCode = 'AZERTY1';
+              await visitWithAbortedTransition('/campagnes');
+
+              // when
+              await fillIn('#campaign-code', campaignCode);
+              await click('.button');
+
+              // then
+              expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
+            });
+          });
+
+          context('When campaign is restricted', function() {
+            const campaignCode = 'AZERTY4';
+
+            it('should redirect to register page', async function() {
+              // when
+              await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
+
+              // then
+              expect(currentURL()).to.equal('/inscription');
+            });
+
+            it('should redirect to join restricted campaign page', async function() {
+              // given
+              await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
+
+              // when
+              await fillIn('#firstName', 'Jane');
+              await fillIn('#lastName', 'Acme');
+              await fillIn('#email', 'jane@acme.com');
+              await fillIn('#password', 'Jane1234');
+              await click('#pix-cgu');
+              await click('.button');
+
+              // then
+              expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
+            });
+
+            it('should redirect to landing page when fields are filled in', async function() {
+              // given
+              await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
+              await fillIn('#firstName', 'Jane');
+              await fillIn('#lastName', 'Acme');
+              await fillIn('#email', 'jane@acme.com');
+              await fillIn('#password', 'Jane1234');
+              await click('#pix-cgu');
+              await click('.button');
+
+              // when
+              await fillIn('#dayOfBirth', '10');
+              await fillIn('#monthOfBirth', '12');
+              await fillIn('#yearOfBirth', '2000');
+
+              await click('.button');
+
+              //then
+              expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
+            });
+
+          });
         });
 
         context('When campaign code does not exist', function() {
@@ -164,19 +220,46 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         });
 
         context('When participant external id is set in the url', function() {
-          beforeEach(async function() {
-            await startCampaignByCodeAndExternalId('AZERTY1');
-            await fillIn('#firstName', 'Jane');
-            await fillIn('#lastName', 'Acme');
-            await fillIn('#email', 'jane@acme.com');
-            await fillIn('#password', 'Jane1234');
-            await click('#pix-cgu');
-            await click('.button');
+
+          context('When campaign is not restricted', function() {
+            beforeEach(async function() {
+              await startCampaignByCodeAndExternalId('AZERTY1');
+              await fillIn('#firstName', 'Jane');
+              await fillIn('#lastName', 'Acme');
+              await fillIn('#email', 'jane@acme.com');
+              await fillIn('#password', 'Jane1234');
+              await click('#pix-cgu');
+              await click('.button');
+            });
+
+            it('should redirect to assessment', async function() {
+              // then
+              expect(currentURL()).to.contains('/didacticiel');
+            });
           });
 
-          it('should redirect to assessment', async function() {
-            // then
-            expect(currentURL()).to.contains('/didacticiel');
+          context('When campaign is restricted', function() {
+            beforeEach(async function() {
+              await visitWithAbortedTransition('/campagnes/AZERTY4?participantExternalId=a73at01r3');
+              await fillIn('#firstName', 'Jane');
+              await fillIn('#lastName', 'Acme');
+              await fillIn('#email', 'jane@acme.com');
+              await fillIn('#password', 'Jane1234');
+              await click('#pix-cgu');
+              await click('.button');
+
+              await fillIn('#dayOfBirth', '10');
+              await fillIn('#monthOfBirth', '12');
+              await fillIn('#yearOfBirth', '2000');
+              await click('.button');
+
+              await click('.campaign-landing-page__start-button');
+            });
+
+            it('should redirect to assessment', async function() {
+              // then
+              expect(currentURL()).to.contains('/didacticiel');
+            });
           });
         });
       });
@@ -222,12 +305,127 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         await authenticateAsSimpleUser();
       });
 
-      it('should redirect to landing page', async function() {
-        // when
-        await visitWithAbortedTransition('/campagnes/AZERTY1');
-        expect(currentURL()).to.equal('/campagnes/AZERTY1/presentation');
-        expect(find('.campaign-landing-page__start-button').textContent.trim()).to.equal('Je commence');
-        find('.campaign-landing-page__logo');
+      context('When campaign is not restricted', function() {
+
+        it('should redirect to landing page', async function() {
+          // when
+          await visitWithAbortedTransition('/campagnes/AZERTY1');
+          expect(currentURL()).to.equal('/campagnes/AZERTY1/presentation');
+          expect(find('.campaign-landing-page__start-button').textContent.trim()).to.equal('Je commence');
+        });
+      });
+
+      context('When campaign is restricted', function() {
+        const campaignCode = 'AZERTY4';
+
+        context('When association is not already done', function() {
+
+          it('should redirect to join restricted campaign page when campaign code is in url', async function() {
+            // when
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
+            expect(find('.join-restricted-campaign')).to.exist;
+          });
+
+          it('should redirect to join restricted campaign page', async function() {
+            // given
+            await visitWithAbortedTransition('/campagnes');
+
+            //when
+            await fillIn('#campaign-code', campaignCode);
+            await click('.button');
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
+            expect(find('.join-restricted-campaign')).to.exist;
+          });
+
+          it('should set by default firstName and lastName', async function() {
+            // when
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+
+            //then
+            expect(find('#firstName').value).to.equal('Jane');
+            expect(find('#lastName').value).to.equal('Doe');
+          });
+
+          it('should redirect to landing page when fields are filled in', async function() {
+            // given
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+
+            // when
+            await fillIn('#dayOfBirth', '10');
+            await fillIn('#monthOfBirth', '12');
+            await fillIn('#yearOfBirth', '2000');
+
+            await click('.button');
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
+          });
+
+          it('should redirect to fill-in-id-pix page', async function() {
+            // given
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+            await fillIn('#dayOfBirth', '10');
+            await fillIn('#monthOfBirth', '12');
+            await fillIn('#yearOfBirth', '2000');
+            await click('.button');
+
+            // when
+            await click('.button');
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/identifiant`);
+          });
+
+          it('should redirect to tutoriel page', async function() {
+            // given
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+            await fillIn('#dayOfBirth', '10');
+            await fillIn('#monthOfBirth', '12');
+            await fillIn('#yearOfBirth', '2000');
+            await click('.button');
+            await click('.button');
+            await fillIn('#id-pix-label', 'truc');
+
+            // when
+            await click('.button');
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/didacticiel`);
+          });
+        });
+
+        context('When association is already done', function() {
+
+          beforeEach(async function() {
+            server.create('student', {
+              userId: 1,
+            });
+          });
+
+          it('should redirect to landing page', async function() {
+            // when
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
+          });
+
+          it('should redirect to fill-in-id-pix page', async function() {
+            // given
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+
+            // when
+            await click('.button');
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/identifiant`);
+          });
+        });
       });
 
       context('When campaign has external id', function() {

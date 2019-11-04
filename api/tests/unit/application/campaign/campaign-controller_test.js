@@ -10,7 +10,6 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 
 describe('Unit | Application | Controller | Campaign', () => {
 
@@ -124,14 +123,12 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     let request;
     const campaignCode = 'AZERTY123';
-    const userId = 1;
     const createdCampaign = domainBuilder.buildCampaign();
 
     beforeEach(() => {
       request = {
         query: { 'filter[code]': campaignCode }
       };
-      sinon.stub(requestResponseUtils, 'extractUserIdFromRequest').returns(userId);
       sinon.stub(usecases, 'retrieveCampaignInformation');
       sinon.stub(campaignSerializer, 'serialize');
     });
@@ -147,7 +144,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       await campaignController.getByCode(request, hFake);
 
       // then
-      expect(usecases.retrieveCampaignInformation).to.have.been.calledWith({ code: campaignCode, userId });
+      expect(usecases.retrieveCampaignInformation).to.have.been.calledWith({ code: campaignCode });
     });
 
     it('should return the serialized campaign found by the use case', async () => {
