@@ -10,6 +10,7 @@ class Campaign {
     createdAt,
     organizationLogoUrl,
     customLandingPageText,
+    isRestricted = false,
     // includes
     targetProfile,
     campaignReport,
@@ -28,6 +29,7 @@ class Campaign {
     this.createdAt = createdAt;
     this.organizationLogoUrl = organizationLogoUrl;
     this.customLandingPageText = customLandingPageText;
+    this.isRestricted = isRestricted;
     // includes
     this.targetProfile = targetProfile;
     this.campaignReport = campaignReport;

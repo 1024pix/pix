@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.81.0 (04/11/2019)
+
+- [#802](https://github.com/1024pix/pix/pull/802) [FEATURE] Page de reconciliation au lancement d'une campagne (PF-817).
+- [#805](https://github.com/1024pix/pix/pull/805) [FEATURE] Script d'ajout de profils cible aux organizations (PF-891).
+- [#807](https://github.com/1024pix/pix/pull/807) [FEATURE] Script d'envoie des invitations SCO (PF-862).
+- [#810](https://github.com/1024pix/pix/pull/810) [FEATURE] Ajout d'un script déclenchant le déploiement SCO (PF-862-2).
+- [#803](https://github.com/1024pix/pix/pull/803) [TECH] Corrige le TU de GET /api/organizations/{id}/invitations.
+
 ## v2.80.0 (31/10/2019)
 
 - [#770](https://github.com/1024pix/pix/pull/770) [FEATURE] Script d'import / update des organisations (PF-764).

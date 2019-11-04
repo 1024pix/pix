@@ -60,7 +60,7 @@ async function getCountOfAllRowsInDatabase()
 
 async function insertUserWithRolePixMaster() {
 
-  databaseBuilder.factory.buildUser.withPixRolePixMaster({
+  const user = databaseBuilder.factory.buildUser.withPixRolePixMaster({
     id: 1234,
     firstName: 'Super',
     lastName: 'Papa',
@@ -68,8 +68,9 @@ async function insertUserWithRolePixMaster() {
     password: 'abcd1234',
   });
 
-  return databaseBuilder.commit();
+  await databaseBuilder.commit();
 
+  return user;
 }
 
 async function insertUserWithStandardRole() {

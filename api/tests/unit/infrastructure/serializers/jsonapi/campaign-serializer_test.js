@@ -39,6 +39,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               'id-pix-label': 'company id',
               'token-for-campaign-results': tokenToAccessToCampaign,
               'organization-logo-url': 'some logo',
+              'is-restricted': false,
             },
             relationships: {
               'target-profile': {
@@ -112,6 +113,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               'id-pix-label': 'company id',
               'token-for-campaign-results': tokenToAccessToCampaign,
               'organization-logo-url': 'some logo',
+              'is-restricted': false,
             },
             relationships: {
               'target-profile': {

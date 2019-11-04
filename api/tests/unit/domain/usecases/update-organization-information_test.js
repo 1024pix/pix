@@ -14,6 +14,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       logoUrl: 'http://old.logo.url',
       externalId: 'extId',
       provinceCode: '666',
+      isManagingStudents: false,
     });
     organizationRepository = {
       get: sinon.stub().resolves(originalOrganization),
@@ -117,6 +118,25 @@ describe('Unit | UseCase | update-organization-information', () => {
       expect(resultOrganization.externalId).to.equal(originalOrganization.externalId);
       expect(resultOrganization.provinceCode).to.equal(provinceCode);
     });
+
+    it('should allow to update the organization isManagingStudents (only) if modified', async () => {
+      // given
+      const isManagingStudents = true;
+
+      // when
+      const resultOrganization = await updateOrganizationInformation({
+        id: originalOrganization.id,
+        isManagingStudents,
+        organizationRepository
+      });
+
+      // then
+      expect(resultOrganization.name).to.equal(originalOrganization.name);
+      expect(resultOrganization.type).to.equal(originalOrganization.type);
+      expect(resultOrganization.logoUrl).to.equal(originalOrganization.logoUrl);
+      expect(resultOrganization.externalId).to.equal(originalOrganization.externalId);
+      expect(resultOrganization.isManagingStudents).to.equal(isManagingStudents);
+    });
   });
 
   context('when an error occurred', () => {
@@ -136,5 +156,4 @@ describe('Unit | UseCase | update-organization-information', () => {
       expect(error).to.be.instanceOf(NotFoundError);
     });
   });
-
 });

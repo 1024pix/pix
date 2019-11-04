@@ -1,5 +1,5 @@
 const createServer = require('../../../server');
-const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const { expect, databaseBuilder, airtableBuilder } = require('../../test-helper');
 const settings = require('../../../lib/config');
 const jwt = require('jsonwebtoken');
 const Membership = require('../../../lib/domain/models/Membership');
@@ -17,10 +17,8 @@ describe('Acceptance | API | Campaign Controller', () => {
     await databaseBuilder.clean();
     server = await createServer();
     organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
-
     targetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId: organization.id });
     campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id, targetProfileId: targetProfile.id });
-
     campaignWithoutOrga = databaseBuilder.factory.buildCampaign({ organizationId: null });
     await databaseBuilder.commit();
   });
@@ -87,78 +85,33 @@ describe('Acceptance | API | Campaign Controller', () => {
         expect(response.statusCode).to.equal(200);
         expect(response.result.data[0].attributes.code).to.equal(campaign.code);
         expect(response.result.data[0].attributes['organization-logo-url']).to.equal(organization.logoUrl);
+        expect(response.result.data[0].attributes['is-restricted']).to.be.false;
       });
     });
 
-    context('when organization manage student', () => {
-      let user;
-      let user2;
+    context('when organization manage student and is type SCO', () => {
 
       beforeEach(async () => {
-        user = databaseBuilder.factory.buildUser();
-        user2 = databaseBuilder.factory.buildUser();
-        organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
-        databaseBuilder.factory.buildStudent({
-          organizationId: organization.id,
-          firstName: user.firstName,
-          lastName: user.lastName
-        });
+        organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
         campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
-        campaignWithoutOrga = databaseBuilder.factory.buildCampaign({ organizationId: null });
         await databaseBuilder.commit();
       });
 
-      context('The student is connected to his account', () => {
+      it('should return the campaign ask by code', async () => {
+        // given
+        const options = {
+          method: 'GET',
+          url: `/api/campaigns/?filter[code]=${campaign.code}`,
+        };
 
-        it('should return the campaign ask by code', async () => {
-          // given
-          const options = {
-            method: 'GET',
-            url: `/api/campaigns/?filter[code]=${campaign.code}`,
-            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-          };
+        // when
+        const response = await server.inject(options);
 
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(200);
-          expect(response.result.data[0].attributes.code).to.equal(campaign.code);
-          expect(response.result.data[0].attributes['organization-logo-url']).to.equal(organization.logoUrl);
-        });
-
-        it('should return an UserNotAuthorizedToAccessEntity error if user is not part of organization student list', async () => {
-          // given
-          const options = {
-            method: 'GET',
-            url: `/api/campaigns/?filter[code]=${campaign.code}`,
-            headers: { authorization: generateValidRequestAuthorizationHeader(user2.id) },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(403);
-          expect(response.result.errors[0].title).to.equal('Forbidden');
-          expect(response.result.errors[0].detail).to.equal('Utilisateur non autorisé à accéder à la ressource');
-        });
-
-        it('should return an UserNotAuthorizedToAccessEntity error if user is not authenticated', async () => {
-          // given
-          const options = {
-            method: 'GET',
-            url: `/api/campaigns/?filter[code]=${campaign.code}`,
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(403);
-          expect(response.result.errors[0].title).to.equal('Forbidden');
-          expect(response.result.errors[0].detail).to.equal('Utilisateur non autorisé à accéder à la ressource');
-        });
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data[0].attributes.code).to.equal(campaign.code);
+        expect(response.result.data[0].attributes['organization-logo-url']).to.equal(organization.logoUrl);
+        expect(response.result.data[0].attributes['is-restricted']).to.be.true;
       });
     });
   });
