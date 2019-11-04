@@ -37,6 +37,7 @@ export default Component.extend({
   _tokenHasBeenUsed: null,
   urlHome: ENV.APP.HOME_HOST,
   isRecaptchaEnabled: ENV.APP.IS_RECAPTCHA_ENABLED,
+  isLoading: false,
 
   init() {
     this._super(...arguments);
@@ -130,6 +131,7 @@ export default Component.extend({
 
     signup() {
       this.set('_notificationMessage', null);
+      this.set('isLoading', true);
       this.user.save().then(() => {
         const credentials = { email: this.get('user.email'), password: this.get('user.password') };
         this.authenticateUser(credentials);
@@ -138,6 +140,7 @@ export default Component.extend({
       }).catch(() => {
         this._updateInputsStatus();
         this.set('_tokenHasBeenUsed', true);
+        this.set('isLoading', false);
       });
     }
   }

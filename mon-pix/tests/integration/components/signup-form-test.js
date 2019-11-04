@@ -483,6 +483,32 @@ describe('Integration | Component | signup form', function() {
         expect(find(CAPTCHA_CONTAINER)).to.exist;
       });
     });
-
   });
+
+  describe('Loading management', () => {
+
+    it('should not display any loading spinner by default', async function() {
+      // given
+      this.set('user', userEmpty);
+
+      // when
+      await render(hbs`{{signup-form user=user}}`);
+
+      // then
+      expect(find('.sign-form-body__bottom-button .loader-in-button')).to.not.exist;
+    });
+
+    it('should display a loading spinner when loading certification', async function() {
+      // given
+      this.set('user', userEmpty);
+      this.set('isLoading', true);
+
+      // when
+      await render(hbs`{{signup-form user=user isLoading=isLoading}}`);
+
+      // then
+      expect(find('.sign-form-body__bottom-button .loader-in-button')).to.exist;
+    });
+  });
+
 });
