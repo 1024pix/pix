@@ -11,6 +11,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   campaignCode: null,
   campaign: null,
+  associationDone: false,
+  campaignIsRestricted: false,
   givenParticipantExternalId: null,
   userHasSeenLanding: false,
   userHasJustConsultedTutorial: false,
@@ -18,24 +20,25 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   beforeModel(transition) {
     this.set('campaignCode', transition.to.params.campaign_code);
+    this.set('associationDone', transition.to.queryParams.associationDone);
+    this.set('campaignIsRestricted', transition.to.queryParams.campaignIsRestricted);
     this.set('givenParticipantExternalId', transition.to.queryParams.participantExternalId);
     this.set('userHasSeenLanding', transition.to.queryParams.hasSeenLanding);
     this.set('userHasJustConsultedTutorial', transition.to.queryParams.hasJustConsultedTutorial);
 
-    if (this._userIsUnauthenticated() && !this.userHasSeenLanding) {
+    if (this._userIsUnauthenticated() && !this.userHasSeenLanding && !this.campaignIsRestricted) {
       return this.replaceWith('campaigns.campaign-landing-page', this.campaignCode, { queryParams: transition.to.queryParams });
     }
     this._super(...arguments);
   },
 
   async model() {
-    // We don't actually use this model, this request is only made to see if
-    // the campaign exists, if not this query get a 404 error and the start-or-resume
-    // template is shown instead.
-    return this.store.query('campaign', { filter: { code: this.campaignCode } });
+    const campaigns = await this.store.query('campaign', { filter: { code: this.campaignCode } });
+
+    return campaigns.get('firstObject');
   },
 
-  async afterModel() {
+  async afterModel(campaign) {
     const smartPlacementAssessments = await this.store.query(
       'assessment',
       { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.campaignCode } },
@@ -45,7 +48,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
       if (this.userHasSeenLanding) {
         return this.replaceWith('campaigns.fill-in-id-pix', this.campaignCode, { queryParams: { givenParticipantExternalId: this.givenParticipantExternalId } });
       }
-      return this.replaceWith('campaigns.campaign-landing-page', this.campaignCode, { queryParams: { givenParticipantExternalId: this.givenParticipantExternalId } });
+      if (!campaign.isRestricted || this.associationDone) {
+        return this.replaceWith('campaigns.campaign-landing-page', this.campaignCode, { queryParams: { givenParticipantExternalId: this.givenParticipantExternalId } });
+      }
+      return this.replaceWith('campaigns.join-restricted-campaign', this.campaignCode, { queryParams: { givenParticipantExternalId: this.givenParticipantExternalId } });
     }
 
     const assessment = await smartPlacementAssessments.get('firstObject').reload();

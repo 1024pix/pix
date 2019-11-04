@@ -118,8 +118,17 @@ export default function(server) {
 
   const campaign3 = server.create('campaign', {
     id: 3,
-    code: 'codecampagnepix',
+    code: 'AZERTY3',
     title: 'Le Titre de la campagne'
+  });
+
+  const campaign4 = server.create('campaign', {
+    id: 4,
+    name: 'Campagne 4 resteinte',
+    code: 'AZERTY4',
+    idPixLabel: 'Mail Pro',
+    organizationLogoUrl: 'data:jpeg;base64=somelogo',
+    isRestricted: true,
   });
 
   const targetProfile = server.create('target-profile', {
@@ -128,6 +137,7 @@ export default function(server) {
   campaign1.targetProfile = targetProfile;
   campaign2.targetProfile = targetProfile;
   campaign3.targetProfile = targetProfile;
+  campaign4.targetProfile = targetProfile;
 
   server.create('password-reset-demand', {
     temporaryKey: 'temporaryKey',

@@ -4,6 +4,7 @@ const certificationProfileSerializer = require('../../infrastructure/serializers
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const pixScoreSerializer = require('../../infrastructure/serializers/jsonapi/pix-score-serializer');
 const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
+const studentSerializer = require('../../infrastructure/serializers/jsonapi/student-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 
 const usecases = require('../../domain/usecases');
@@ -142,5 +143,12 @@ module.exports = {
 
     return usecases.resetScorecard({ userId: authenticatedUserId, competenceId })
       .then(scorecardSerializer.serialize);
+  },
+
+  getStudent(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+
+    return usecases.getStudentLinkedToUser({ userId: authenticatedUserId })
+      .then(studentSerializer.serialize);
   }
 };

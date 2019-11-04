@@ -4,7 +4,7 @@ export default {
     id: 'ref_assessment_campaign_id',
     attributes: {
       'type':'SMART_PLACEMENT',
-      'code-campaign': 'codecampagnepix'
+      'code-campaign': 'AZERTY3'
     },
     relationships: {
       course: {
