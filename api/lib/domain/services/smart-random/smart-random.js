@@ -63,5 +63,11 @@ function _findFirstChallenge({ challenges, knowledgeElements, targetSkills, cour
 }
 
 function _pickRandomChallenge(challenges) {
-  return _.sample(challenges);
+  const challengesGroupBySkills = _.groupBy(challenges, _firstSkillTestedByChallenge);
+  const challengesForChosenSkill = _.sample(challengesGroupBySkills);
+  return _.sample(challengesForChosenSkill);
+}
+
+function _firstSkillTestedByChallenge(challenge) {
+  return challenge.skills[0].id;
 }
