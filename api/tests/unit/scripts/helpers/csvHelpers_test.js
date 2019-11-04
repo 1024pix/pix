@@ -67,7 +67,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', () => {
 
       // then
       expect(data.length).to.equal(3);
-      expect(data[0][2]).to.equal('mail1@ac-reims.fr');
+      expect(data[0][2]).to.equal('david.herault@pix.fr');
     });
 
     it('should cast the unexpected utf8 char add by Excel', async () => {

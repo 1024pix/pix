@@ -136,5 +136,4 @@ describe('Unit | UseCase | update-organization-information', () => {
       expect(error).to.be.instanceOf(NotFoundError);
     });
   });
-
 });
