@@ -91,5 +91,6 @@ function _adaptChallengeFromDataObjects({ challengeDataObject, skillDataObjects 
     validator,
     competenceId: challengeDataObject.competenceId,
     illustrationAlt: challengeDataObject.illustrationAlt,
+    format: challengeDataObject.format,
   });
 }
