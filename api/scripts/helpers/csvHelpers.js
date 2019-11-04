@@ -21,7 +21,8 @@ function checkCsvExtensionFile(filePath) {
 function parseCsv(filePath, options) {
   checkCsvExtensionFile(filePath);
   const rawData = fs.readFileSync(filePath, 'utf8');
-  const { data } = papa.parse(rawData, options);
+  const cleanedData = rawData.toString('utf8').replace(/^\uFEFF/, '');
+  const { data } = papa.parse(cleanedData, options);
 
   return data;
 }

@@ -1,5 +1,4 @@
 const { expect, catchErr } = require('../../../test-helper');
-
 const { NotFoundError, FileValidationError } = require('../../../../lib/domain/errors');
 const { checkCsvExtensionFile, parseCsv } = require('../../../../scripts/helpers/csvHelpers');
 
@@ -69,6 +68,17 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', () => {
       // then
       expect(data.length).to.equal(3);
       expect(data[0][2]).to.equal('mail1@ac-reims.fr');
+    });
+
+    it('should cast the unexpected utf8 char add by Excel', async () => {
+      // given
+      const filePath = `${__dirname}/csvHelpers-parseCsv_excel-test-file.csv`;
+
+      // when
+      const data = parseCsv(filePath);
+
+      // then
+      expect(data.length).to.equal(4);
     });
   });
 
