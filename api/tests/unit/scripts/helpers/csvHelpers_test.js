@@ -72,7 +72,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', () => {
 
     it('should cast the unexpected utf8 char add by Excel', async () => {
       // given
-      const filePath = `${__dirname}/csvHelpers-parseCsv_test-file.csv`;
+      const filePath = `${__dirname}/csvHelpers-parseCsv_excel-test-file.csv`;
 
       // when
       const data = parseCsv(filePath);
