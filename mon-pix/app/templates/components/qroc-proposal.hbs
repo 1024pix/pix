@@ -1,4 +1,3 @@
-Display block format: {{format}}
 {{#each _blocks as |block|}}
 
     {{#if block.text}}
@@ -7,6 +6,7 @@ Display block format: {{format}}
 
   {{#if block.input}}
     <input class="challenge-response__proposal-input"
+           size="{{qroc-size format}}"
            type="text"
            for="qroc_input"
            name={{block.input}}
