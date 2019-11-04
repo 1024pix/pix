@@ -4,8 +4,21 @@ given(`je me connecte avec le compte {string}`, (email) => {
   cy.get('button[type=submit]').click();
 });
 
+given(`je m'inscris avec le prénom {string}, le nom {string}, le mail {string} et le mot de passe {string}`, (firstname, lastname, email, password) => {
+  cy.get('input[id="firstName"]').type(firstname);
+  cy.get('input[id="lastName"]').type(lastname);
+  cy.get('input[id=email]').type(email);
+  cy.get('input[id=password]').type(password);
+  cy.get('input[id=pix-cgu]').check();
+  cy.get('button[type=submit]').click();
+});
+
 when('je vais sur Pix via un organisme externe', () => {
   cy.loginToken('daenerys.targaryen@pix.fr', 'pix123');
+});
+
+when(`je vais sur l'inscription de Pix`, () => {
+  cy.visit(`/inscription`);
 });
 
 then(`je suis redirigé vers le profil de {string}`, (fullName) => {
