@@ -1,59 +1,60 @@
-.signup-form__cgu-container {
-  max-width: 449px;
-  width: 100%;
-  padding: 0 15px;
-  margin-top: 10px;
-  margin-bottom: 6px;
-  position: relative;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  @include device-is('tablet') {
+.signup-form {
+  &__cgu-container {
+    max-width: 449px;
+    width: 100%;
+    padding: 0 15px;
     margin-top: 10px;
+    margin-bottom: 6px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    @include device-is('tablet') {
+      margin-top: 15px;
+      margin-bottom: 0;
+      padding: 0;
+    }
+  }
+
+  &__cgu {
+    font-family: $font-roboto;
+    font-size: 1.4rem;
+    font-weight: $font-light;
+  }
+
+  &__cgu-label {
+    position: relative;
+    display: flex;
     margin-bottom: 0;
-    padding: 0;
   }
-}
 
-.signup-form__cgu {
-  font-family: $font-roboto;
-  font-size: 1.4rem;
-  font-weight: $font-light;
-}
-
-.signup-form__cgu-label {
-  position: relative;
-  display: flex;
-  margin-bottom: 0;
-}
-
-.signup-form__cgu-label input[type=checkbox] {
-  margin: 3px 15px;
-}
-
-.signup-form__cgu-label span {
-  color: $slate-grey;
-  font-size: 13px;
-  @include device-is('tablet') {
-    font-size: 14px;
+  &__cgu-label input[type=checkbox] {
+    margin: 3px 15px 3px 0px;
   }
-}
 
-.signup-form__legal-details-container {
-  display: block;
-  max-width: 100%;
-  padding: 10px;
-  font-size: 11px;
-
-  @include device-is('tablet') {
-    padding: 10px 0;
+  &__cgu-label span {
+    color: $slate-grey;
+    font-size: 13px;
+    @include device-is('tablet') {
+      font-size: 14px;
+    }
   }
-}
 
-.signup-form__captcha-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 0;
+  &__legal-details-container {
+    display: block;
+    max-width: 100%;
+    padding: 10px;
+    font-size: 11px;
+
+    @include device-is('tablet') {
+      padding: 10px 0;
+    }
+  }
+  
+  &__captcha-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+  }
 }
