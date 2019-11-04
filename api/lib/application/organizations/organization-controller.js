@@ -42,9 +42,10 @@ module.exports = {
       'logo-url': logoUrl,
       'external-id': externalId,
       'province-code': provinceCode,
+      'is-managing-students': isManagingStudents,
     } = request.payload.data.attributes;
 
-    return usecases.updateOrganizationInformation({ id, name, type, logoUrl, externalId, provinceCode })
+    return usecases.updateOrganizationInformation({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents })
       .then(organizationSerializer.serialize);
   },
 
