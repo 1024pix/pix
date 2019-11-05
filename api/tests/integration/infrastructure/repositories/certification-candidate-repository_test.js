@@ -5,7 +5,6 @@ const {
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
-  NotFoundError,
 } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
@@ -418,52 +417,41 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('#getBySessionIdAndUserId', () => {
+  describe('#findOneBySessionIdAndUserId', () => {
     let sessionId;
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(() => {
       // given
-      userId = databaseBuilder.factory.buildUser().id;
       sessionId = databaseBuilder.factory.buildSession().id;
-      const anotherSessionId = databaseBuilder.factory.buildSession().id;
-      _.each([
-        { lastName: 'Jackson', firstName: 'Michael', sessionId },
-        { lastName: 'Jackson', firstName: 'Janet', sessionId, userId },
-        { lastName: 'Mercury', firstName: 'Freddy', sessionId },
-        { lastName: 'Gallagher', firstName: 'Noel', sessionId: anotherSessionId, userId },
-        { lastName: 'Gallagher', firstName: 'Liam', sessionId: anotherSessionId },
-        { lastName: 'Brown', firstName: 'James', sessionId },
-      ], (candidate) => {
-        databaseBuilder.factory.buildCertificationCandidate(candidate);
-      });
-
-      await databaseBuilder.commit();
+      userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionId, userId: userId });
+      return databaseBuilder.commit();
     });
 
     afterEach(() => databaseBuilder.clean());
 
-    context('when there is a certification candidate with the given session id and user id', function() {
+    context('when there is one certification candidate with the given session id and user id', function() {
 
-      it('should fetch the certification candidate', async () => {
+      it('should fetch the candidate', async () => {
         // when
-        const actualCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ sessionId, userId });
+        const actualCandidates = await certificationCandidateRepository.findOneBySessionIdAndUserId({ sessionId, userId });
 
         // then
-        expect(actualCandidate.firstName).to.equal('Janet');
-        expect(actualCandidate.lastName).to.equal('Jackson');
+        expect(actualCandidates.sessionId).to.equal(sessionId);
+        expect(actualCandidates.userId).to.equal(userId);
       });
 
     });
 
-    context('when there is no certification candidate with the given session ID and user Id', function() {
+    context('when there is no certification candidate with the given session id and user id', function() {
 
-      it('should throw an error', async () => {
+      it('should not find any candidate', async () => {
         // when
-        const error = await catchErr(certificationCandidateRepository.getBySessionIdAndUserId)({ sessionId: -1, userId });
+        const actualCandidates = await certificationCandidateRepository.findOneBySessionIdAndUserId({ sessionId: (sessionId + 1), userId: (userId + 1) });
 
         // then
-        expect(error).to.be.an.instanceOf(NotFoundError);
+        expect(actualCandidates).to.be.undefined;
       });
 
     });
