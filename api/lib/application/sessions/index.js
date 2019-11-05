@@ -55,6 +55,18 @@ exports.register = async (server) => {
       }
     },
     {
+      method: 'PUT',
+      path: '/api/sessions/{id}/finalization',
+      config: {
+        handler: sessionController.finalize,
+        tags: ['api', 'sessions'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Elle permet de finalizer une session de certification afin de la signaler comme terminée',
+        ]
+      }
+    },
+    {
       method: 'POST',
       path: '/api/sessions/{id}/certification-candidates/import',
       config: {
