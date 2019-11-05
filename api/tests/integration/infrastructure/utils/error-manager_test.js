@@ -159,6 +159,17 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(401);
     });
 
+    it('should return 403 on domain UserAlreadyLinkedToCandidateInSessionError', function() {
+      // given
+      const error = new DomainErrors.UserAlreadyLinkedToCandidateInSessionError();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(403);
+    });
+
     it('should return 403 on domain UserNotAuthorizedToAccessEntity', function() {
       // given
       const error = new DomainErrors.UserNotAuthorizedToAccessEntity();
@@ -239,6 +250,50 @@ describe('Integration | Utils | Error Manager', function() {
     it('should return 400 on domain WrongDateFormatError', function() {
       // given
       const error = new DomainErrors.WrongDateFormatError();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 403 on domain CertificationCandidateAlreadyLinkedToUserError', function() {
+      // given
+      const error = new DomainErrors.CertificationCandidateAlreadyLinkedToUserError();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(403);
+    });
+
+    it('should return 404 on domain CertificationCandidateByPersonalInfoNotFoundError', function() {
+      // given
+      const error = new DomainErrors.CertificationCandidateByPersonalInfoNotFoundError();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(404);
+    });
+
+    it('should return 409 on domain CertificationCandidateByPersonalInfoTooManyMatchesError', function() {
+      // given
+      const error = new DomainErrors.CertificationCandidateByPersonalInfoTooManyMatchesError();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(409);
+    });
+
+    it('should return 400 on domain CertificationCandidatePersonalInfoFieldMissingError', function() {
+      // given
+      const error = new DomainErrors.CertificationCandidatePersonalInfoFieldMissingError();
 
       // when
       const result = send(hFake, error);

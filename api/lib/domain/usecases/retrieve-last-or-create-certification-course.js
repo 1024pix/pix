@@ -7,6 +7,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   userId,
   sessionRepository,
   userService,
+  certificationCandidateRepository,
   certificationChallengesService,
   certificationCourseRepository,
   assessmentRepository,
@@ -24,6 +25,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
         userId,
         sessionId,
         userService,
+        certificationCandidateRepository,
         certificationChallengesService,
         certificationCourseRepository,
         assessmentRepository,
@@ -39,11 +41,11 @@ async function _startNewCertification({
   sessionId,
   userService,
   certificationChallengesService,
+  certificationCandidateRepository,
   certificationCourseRepository,
   assessmentRepository,
 }) {
-  const now = new Date();
-  const certificationProfile = await userService.getCertificationProfile({ userId, limitDate: now });
+  const certificationProfile = await userService.getCertificationProfile({ userId, limitDate: new Date() });
 
   if (!certificationProfile.isCertifiable()) {
     throw new UserNotAuthorizedToCertifyError();
@@ -58,7 +60,22 @@ async function _startNewCertification({
     };
   } catch (err) {
     if (err instanceof NotFoundError) {
-      const newCertificationCourse = new CertificationCourse({ userId, sessionId, isV2Certification: true });
+      const personalInfo = { firstName: null, lastName: null, birthdate: null, birthplace: null };
+      const foundCandidate = await certificationCandidateRepository.findOneBySessionIdAndUserId({ sessionId, userId });
+      if (foundCandidate) {
+        personalInfo.firstName = foundCandidate.firstName;
+        personalInfo.lastName = foundCandidate.lastName;
+        personalInfo.birthdate = foundCandidate.birthdate;
+        personalInfo.birthplace = foundCandidate.birthCity;
+      }
+
+      const newCertificationCourse = new CertificationCourse({
+        userId,
+        sessionId,
+        ...personalInfo,
+        isV2Certification: true,
+      });
+
       const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
       await _createAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id, assessmentRepository });
       return {

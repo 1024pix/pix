@@ -47,6 +47,18 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.UserNotAuthorizedToCreateCampaignError) {
     return new InfraErrors.ForbiddenError(error.message);
   }
+  if (error instanceof DomainErrors.CertificationCandidateAlreadyLinkedToUserError) {
+    return new InfraErrors.ForbiddenError('Le candidat de certification est déjà lié à un utilisateur.');
+  }
+  if (error instanceof DomainErrors.CertificationCandidateByPersonalInfoNotFoundError) {
+    return new InfraErrors.NotFoundError('Aucun candidat de certification ne correspond aux informations d\'identité fournies.');
+  }
+  if (error instanceof DomainErrors.CertificationCandidateByPersonalInfoTooManyMatchesError) {
+    return new InfraErrors.ConflictError('Plus d\'un candidat de certification correspondent aux informations d\'identité fournies.');
+  }
+  if (error instanceof DomainErrors.CertificationCandidatePersonalInfoFieldMissingError) {
+    return new InfraErrors.BadRequestError('Un ou plusieurs champs d\'informations d\'identité sont manquants.');
+  }
   if (error instanceof DomainErrors.CertificationCenterMembershipCreationError) {
     return new InfraErrors.BadRequestError('Le membre ou le centre de certification n\'existe pas.');
   }
@@ -76,6 +88,9 @@ function _mapToInfrastructureError(error) {
   }
   if (error instanceof DomainErrors.AssessmentNotCompletedError) {
     return new InfraErrors.ConflictError(error.message);
+  }
+  if (error instanceof DomainErrors.UserAlreadyLinkedToCandidateInSessionError) {
+    return new InfraErrors.ForbiddenError('L\'utilisateur est déjà lié à un candidat dans cette session.');
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToCertifyError) {
     return new InfraErrors.ForbiddenError('The user cannot be certified.');

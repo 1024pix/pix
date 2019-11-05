@@ -1,36 +1,42 @@
-<h2 class="certification-start-page__title">Vous souhaitez participer au test de certification</h2>
+{{#if this.showCongratulationsBanner }}
+  <CongratulationsCertificationBanner @fullName={{currentUser.user.fullName}} @closeBanner={{action "closeBanner"}}/>
+{{/if}}
 
-<p class="certification-course-page__order">
-  Saisissez le code d'accès communiqué par le surveillant
-</p>
-<form autocomplete="off">
-  <div class="certification-course-page__session-code-input">
-    {{input required=true id="session-code" type="text" value=accessCode maxlength="6" spellcheck=false}}
-    {{#if errorMessage}}
-        <div class="certification-course-page__errors">{{errorMessage}}</div>
-    {{/if}}
-  </div>
+<section class="certification-starter">
+    <h2 class="certification-start-page__title">Vous souhaitez participer au test de certification</h2>
 
-  <div class="certification-course-page__field-button">
+    <p class="certification-course-page__order">
+        Saisissez le code d'accès communiqué par le surveillant
+    </p>
+    <form autocomplete="off">
+        <div class="certification-course-page__session-code-input">
+          {{input required=true id="session-code" type="text" value=accessCode maxlength="6" spellcheck=false}}
+          {{#if errorMessage}}
+              <div class="certification-course-page__errors">{{errorMessage}}</div>
+          {{/if}}
+        </div>
 
-    {{#if isLoading}}
-        <button class="button button--thin certification-course-page__submit_button" disabled><span
-                class="loader-in-button">&nbsp;</span></button>
-    {{else}}
-        <button type="submit" class="button button--thin certification-course-page__submit_button" {{ action "submit" }}>Lancer mon test</button>
-    {{/if}}
-  </div>
-</form>
+        <div class="certification-course-page__field-button">
 
-<div class="certification-course-page__cgu">
-  <p>
-    En cliquant sur "Lancer mon test", j’accepte que mes données d’identité, le numéro de certification et les
-    circonstances de la passation telles que renseignées par le surveillant soient communiquées à Pix. Pix les utilisera
-    lors de la délibération du jury pour produire et archiver mes résultats et pour éditer mon certificat. Si cette
-    certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats.
-  </p>
-  <p>
-    Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous
-    concernant et les faire rectifier en envoyant un mail à <a href="mailto:dpo@pix.fr">dpo@pix.fr</a>.
-  </p>
-</div>
+          {{#if isLoading}}
+              <button class="button button--thin certification-course-page__submit_button" disabled><span
+                      class="loader-in-button">&nbsp;</span></button>
+          {{else}}
+              <button type="submit" class="button button--thin certification-course-page__submit_button" {{ action "submit" }}>Lancer mon test</button>
+          {{/if}}
+        </div>
+    </form>
+
+    <div class="certification-course-page__cgu">
+        <p>
+            En cliquant sur "Lancer mon test", j’accepte que mes données d’identité, le numéro de certification et les
+            circonstances de la passation telles que renseignées par le surveillant soient communiquées à Pix. Pix les utilisera
+            lors de la délibération du jury pour produire et archiver mes résultats et pour éditer mon certificat. Si cette
+            certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats.
+        </p>
+        <p>
+            Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous
+            concernant et les faire rectifier en envoyant un mail à <a href="mailto:dpo@pix.fr">dpo@pix.fr</a>.
+        </p>
+    </div>
+</section>

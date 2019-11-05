@@ -90,6 +90,23 @@ class CampaignCodeError extends DomainError {
   }
 }
 
+class CertificationCandidateAlreadyLinkedToUserError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+class CertificationCandidateByPersonalInfoNotFoundError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class CertificationCandidateByPersonalInfoTooManyMatchesError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class CertificationCandidateCreationOrUpdateError extends DomainError {
   constructor(message) {
     super(message);
@@ -97,6 +114,18 @@ class CertificationCandidateCreationOrUpdateError extends DomainError {
 }
 
 class CertificationCandidateDeletionError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class CertificationCandidateMultipleUserLinksWithinSessionError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class CertificationCandidatePersonalInfoFieldMissingError extends DomainError {
   constructor(message) {
     super(message);
   }
@@ -236,6 +265,12 @@ class PasswordResetDemandNotFoundError extends DomainError {
   }
 }
 
+class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToAccessEntity extends DomainError {
   constructor() {
     super('User is not authorized to access ressource');
@@ -316,8 +351,13 @@ module.exports = {
   CampaignCodeError,
   CampaignWithoutOrganizationError,
   CompetenceResetError,
+  CertificationCandidateAlreadyLinkedToUserError,
+  CertificationCandidateByPersonalInfoNotFoundError,
+  CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateDeletionError,
+  CertificationCandidateMultipleUserLinksWithinSessionError,
+  CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCenterMembershipCreationError,
   CertificationComputeError,
   ChallengeAlreadyAnsweredError,
@@ -335,6 +375,7 @@ module.exports = {
   ObjectValidationError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
+  UserAlreadyLinkedToCandidateInSessionError,
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,

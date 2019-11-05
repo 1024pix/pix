@@ -28,6 +28,7 @@ import postCampaignParticipation from './routes/post-campaign-participation';
 import postCertificationCourse from './routes/post-certification-course';
 import postCompetenceEvaluation from './routes/post-competence-evaluation';
 import postFeedbacks from './routes/post-feedbacks';
+import postSessionParticipation from './routes/post-session-participation';
 import resetScorecard from './routes/reset-scorecard';
 
 import { Response } from 'ember-cli-mirage';
@@ -69,6 +70,8 @@ export default function() {
   this.post('/courses', postCertificationCourse);
 
   this.get('/certifications');
+
+  this.post('/sessions/:id/candidate-participation', postSessionParticipation);
 
   this.get('/users/me', getAuthenticatedUser);
   this.get('/users/:id/certification-profile', getCertificationProfile);

@@ -1,7 +1,11 @@
 const { databaseBuilder, expect, knex, domainBuilder, catchErr } = require('../../../test-helper');
 const BookshelfCertificationCandidate = require('../../../../lib/infrastructure/data/certification-candidate');
 const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
-const { CertificationCandidateDeletionError, CertificationCandidateCreationOrUpdateError } = require('../../../../lib/domain/errors');
+const {
+  CertificationCandidateCreationOrUpdateError,
+  CertificationCandidateDeletionError,
+  CertificationCandidateMultipleUserLinksWithinSessionError,
+} = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
 describe('Integration | Repository | CertificationCandidate', function() {
@@ -9,21 +13,13 @@ describe('Integration | Repository | CertificationCandidate', function() {
   describe('#save', () => {
     let certificationCandidate;
     let sessionId;
+    let userId;
 
     beforeEach(async () => {
       await databaseBuilder.clean();
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
-      certificationCandidate = domainBuilder.buildCertificationCandidate({
-        firstName: 'Pix',
-        lastName: 'Lover',
-        birthCity: 'HaussmanPolis',
-        externalId: 'ABCDEF123',
-        birthdate: '1990-07-12',
-        extraTimePercentage: '0.05',
-        sessionId,
-      });
-      certificationCandidate.id = undefined;
+      userId = databaseBuilder.factory.buildUser().id;
 
       return databaseBuilder.commit();
     });
@@ -33,34 +29,106 @@ describe('Integration | Repository | CertificationCandidate', function() {
       return databaseBuilder.clean();
     });
 
-    it('should throw a CertificationCandidateCreationOrUpdateError', async () => {
-      // given
-      certificationCandidate.chose = 'truc';
+    context('when a proper candidate is being saved', () => {
 
-      // when
-      const result = await catchErr(certificationCandidateRepository.save)(certificationCandidate);
+      context('when there are no conflicting candidates already in database', () => {
 
-      // then
-      expect(result).to.be.instanceOf(CertificationCandidateCreationOrUpdateError);
-    });
+        beforeEach(async () => {
+          certificationCandidate = domainBuilder.buildCertificationCandidate({
+            firstName: 'Pix',
+            lastName: 'Lover',
+            birthCity: 'HaussmanPolis',
+            externalId: 'ABCDEF123',
+            birthdate: '1990-07-12',
+            extraTimePercentage: '0.05',
+            sessionId,
+            userId,
+          });
+          certificationCandidate.id = undefined;
+        });
 
-    it('should return the saved Certification candidate', async () => {
-      // when
-      const certificationCandidateSaved = await certificationCandidateRepository.save(certificationCandidate);
+        it('should return the saved Certification candidate', async () => {
+          // when
+          const certificationCandidateSaved = await certificationCandidateRepository.save(certificationCandidate);
 
-      // then
-      expect(certificationCandidateSaved).to.have.property('id').and.not.null;
-      expect(certificationCandidateSaved.sessionId).to.equal(sessionId);
-    });
+          // then
+          expect(certificationCandidateSaved).to.have.property('id').and.not.null;
+          expect(certificationCandidateSaved.sessionId).to.equal(sessionId);
+        });
 
-    it('should add a single row in the table', async () => {
-      const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
-      // when
-      await certificationCandidateRepository.save(certificationCandidate);
-      const nbCertifCandidatesAfterSave = await BookshelfCertificationCandidate.count();
+        it('should add a single row in the table', async () => {
+          const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
+          // when
+          await certificationCandidateRepository.save(certificationCandidate);
+          const nbCertifCandidatesAfterSave = await BookshelfCertificationCandidate.count();
 
-      // then
-      expect(nbCertifCandidatesAfterSave).to.equal(nbCertifCandidatesBeforeSave + 1);
+          // then
+          expect(nbCertifCandidatesAfterSave).to.equal(nbCertifCandidatesBeforeSave + 1);
+        });
+      });
+
+      context('when two candidates with the same sessionId and userId are saved', () => {
+
+        context('when there is a NULL in the constraint couple', () => {
+
+          beforeEach(async () => {
+            databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: null });
+            certificationCandidate = domainBuilder.buildCertificationCandidate({
+              firstName: 'Pix',
+              lastName: 'Lover',
+              birthCity: 'HaussmanPolis',
+              externalId: 'ABCDEF123',
+              birthdate: '1990-07-12',
+              extraTimePercentage: '0.05',
+              sessionId,
+              userId: null,
+            });
+            certificationCandidate.id = undefined;
+
+            return databaseBuilder.commit();
+          });
+
+          it('should successfully save the candidate', async () => {
+            const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
+            // when
+            await certificationCandidateRepository.save(certificationCandidate);
+            const nbCertifCandidatesAfterSave = await BookshelfCertificationCandidate.count();
+
+            // then
+            expect(nbCertifCandidatesAfterSave).to.equal(nbCertifCandidatesBeforeSave + 1);
+          });
+        });
+
+        context('when both values in the constraint values are not null', () => {
+
+          beforeEach(async () => {
+            databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+            certificationCandidate = domainBuilder.buildCertificationCandidate({
+              firstName: 'Pix',
+              lastName: 'Lover',
+              birthCity: 'HaussmanPolis',
+              externalId: 'ABCDEF123',
+              birthdate: '1990-07-12',
+              extraTimePercentage: '0.05',
+              sessionId,
+              userId,
+            });
+            certificationCandidate.id = undefined;
+
+            return databaseBuilder.commit();
+          });
+
+          it('should throw a CertificationCandidateMultipleUserLinksWithinSessionError', async () => {
+            // when
+            const result = await catchErr(certificationCandidateRepository.save)(certificationCandidate);
+
+            // then
+            expect(result).to.be.instanceOf(CertificationCandidateMultipleUserLinksWithinSessionError);
+          });
+        });
+
+      });
+
     });
 
   });
@@ -168,6 +236,116 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
+  describe('#findBySessionIdAndPersonalInfo', () => {
+    let sessionId;
+
+    beforeEach(() => {
+      // given
+      sessionId = databaseBuilder.factory.buildSession().id;
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => databaseBuilder.clean());
+
+    context('when there is one certification candidate with the given info in the session', function() {
+
+      let expectedCandidate;
+
+      beforeEach(async () => {
+        expectedCandidate = {
+          lastName: 'Bideau',
+          firstName: 'charlie',
+          birthdate: '1999-10-17',
+          sessionId,
+        };
+        databaseBuilder.factory.buildCertificationCandidate({
+          lastName: 'Bideau',
+          firstName: 'Charlie',
+          birthdate: '1999-10-17',
+          sessionId,
+        });
+
+        return databaseBuilder.commit();
+      });
+
+      it('should fetch the candidate ignoring case', async () => {
+        // when
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(expectedCandidate);
+
+        // then
+        expect(actualCandidates).to.have.lengthOf(1);
+        expect(actualCandidates[0].firstName.toLowerCase()).to.equal(expectedCandidate.firstName.toLowerCase());
+        expect(actualCandidates[0].lastName).to.equal(expectedCandidate.lastName);
+        expect(actualCandidates[0].birthdate).to.equal(expectedCandidate.birthdate);
+      });
+
+    });
+
+    context('when there is no certification candidates with the given info in the session', function() {
+
+      let onlyCandidateInBDD;
+      let notMatchingCandidateInfo;
+
+      beforeEach(() => {
+        onlyCandidateInBDD = {
+          lastName: 'Bideau',
+          firstName: 'Charlie',
+          birthdate: '1999-10-17',
+          sessionId,
+        };
+        databaseBuilder.factory.buildCertificationCandidate(onlyCandidateInBDD);
+
+        notMatchingCandidateInfo = {
+          lastName: 'Jean',
+          firstName: 'Michel',
+          birthdate: '2018-01-01',
+          sessionId,
+        };
+
+        return databaseBuilder.commit();
+      });
+
+      it('should not find any candidate', async () => {
+        // when
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(notMatchingCandidateInfo);
+
+        // then
+        expect(actualCandidates).to.be.empty;
+      });
+
+    });
+
+    context('when there are more than one certification candidate with the given info in the session', function() {
+
+      let commonCandidateInfo;
+
+      beforeEach(() => {
+        commonCandidateInfo = {
+          lastName: 'Bideau',
+          firstName: 'Charlie',
+          birthdate: '1999-10-17',
+          sessionId,
+        };
+        databaseBuilder.factory.buildCertificationCandidate(commonCandidateInfo);
+        databaseBuilder.factory.buildCertificationCandidate(commonCandidateInfo);
+
+        return databaseBuilder.commit();
+      });
+
+      it('should find two candidates', async () => {
+        // when
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(commonCandidateInfo);
+
+        // then
+        expect(actualCandidates).to.have.lengthOf(2);
+        expect(actualCandidates[0].lastName).to.equal(commonCandidateInfo.lastName);
+        expect(actualCandidates[1].lastName).to.equal(commonCandidateInfo.lastName);
+        expect(actualCandidates[0].id).to.not.equal(actualCandidates[1].id);
+      });
+    });
+
+  });
+
   describe('#setSessionCandidates', () => {
     let sessionId;
     let existingCertificationCandidateIds;
@@ -178,7 +356,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
       sessionId = databaseBuilder.factory.buildSession().id;
       existingCertificationCandidateIds = _.times(10, () => databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id);
       newCertificationCandidates = _.times(5, () => {
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId });
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId, userId: null });
         certificationCandidate.id = undefined;
         return certificationCandidate;
       });
@@ -233,6 +411,47 @@ describe('Integration | Repository | CertificationCandidate', function() {
         expect(error).to.be.an.instanceOf(CertificationCandidateCreationOrUpdateError);
         expect(actualIds).to.have.members(existingCertificationCandidateIds);
         expect(actualIds.length).to.equal(existingCertificationCandidateIds.length);
+      });
+
+    });
+
+  });
+
+  describe('#findOneBySessionIdAndUserId', () => {
+    let sessionId;
+    let userId;
+
+    beforeEach(() => {
+      // given
+      sessionId = databaseBuilder.factory.buildSession().id;
+      userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionId, userId: userId });
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => databaseBuilder.clean());
+
+    context('when there is one certification candidate with the given session id and user id', function() {
+
+      it('should fetch the candidate', async () => {
+        // when
+        const actualCandidates = await certificationCandidateRepository.findOneBySessionIdAndUserId({ sessionId, userId });
+
+        // then
+        expect(actualCandidates.sessionId).to.equal(sessionId);
+        expect(actualCandidates.userId).to.equal(userId);
+      });
+
+    });
+
+    context('when there is no certification candidate with the given session id and user id', function() {
+
+      it('should not find any candidate', async () => {
+        // when
+        const actualCandidates = await certificationCandidateRepository.findOneBySessionIdAndUserId({ sessionId: (sessionId + 1), userId: (userId + 1) });
+
+        // then
+        expect(actualCandidates).to.be.undefined;
       });
 
     });
