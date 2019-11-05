@@ -7,8 +7,7 @@ describe('Unit | Helper | get qroc input size', function() {
     { format: 'petit', size: '5' },
     { format: 'mots', size: '15' },
     { format: 'phrase', size: '50' },
-    { format: 'paragraphe', size: '100' },
-    { format: 'another_unreferenced_word', size: '15' }
+    { format: 'unreferenced_format', size: '15' }
   ].forEach((expected) => {
     it(`should return correct size ${expected.size} for a given format ${expected.format}`, function() {
       expect(getQrocInputSize(expected.format)).to.equal(expected.size);
