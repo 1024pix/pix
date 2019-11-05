@@ -61,13 +61,9 @@ module.exports = {
     const sessionId = request.params.id;
     const odsBuffer = request.payload.file;
 
-    return usecases.importCertificationCandidatesFromAttendanceSheet(
-      {
-        userId,
-        sessionId,
-        odsBuffer,
-      })
-      .then(() => null);
+    await usecases.importCertificationCandidatesFromAttendanceSheet({ userId, sessionId, odsBuffer });
+
+    return null;
   },
 
   async createCandidateParticipation(request, h) {
@@ -85,5 +81,14 @@ module.exports = {
 
         return linkCreated ? h.response(serialized).created() : serialized;
       });
-  }
+  },
+
+  finalize(request) {
+    const userId = request.auth.credentials.userId;
+    const sessionId = request.params.id;
+
+    return usecases.finalizeSession({ userId, sessionId })
+      .then((updatedSession) => sessionSerializer.serialize(updatedSession));
+  },
+
 };
