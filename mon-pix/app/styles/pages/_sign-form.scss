@@ -84,6 +84,8 @@
     padding: 5px 20px;
     flex-direction: column;
     text-align: center;
+    font-family: $font-open-sans;
+    font-size: 1.6rem;
 
     @include device-is('tablet') {
       flex-direction: row;
@@ -154,7 +156,7 @@
 // Text Styles
 
 .sign-form-title {
-  font-family: $font-raleway;
+  font-family: $font-open-sans;
   color: $charcoal-grey;
   margin: 0;
   font-size: 2.5rem;
@@ -166,7 +168,7 @@
 }
 
 .sign-form-subtitle {
-  font-family: $font-raleway;
+  font-family: $font-open-sans;
   color: $charcoal-grey;
   font-size: 1.5rem;
   font-weight: $font-light;

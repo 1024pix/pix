@@ -16,9 +16,9 @@
   }
 
   &__cgu {
-    font-family: $font-roboto;
-    font-size: 1.4rem;
-    font-weight: $font-light;
+    font-family: $font-lato;
+    font-size: 1.6rem;
+    font-weight: $font-bold;
   }
 
   &__cgu-label {
@@ -32,7 +32,7 @@
   }
 
   &__cgu-label span {
-    color: $slate-grey;
+    color: $charcoal-grey;
     font-size: 13px;
     @include device-is('tablet') {
       font-size: 14px;
@@ -43,7 +43,7 @@
     display: block;
     max-width: 100%;
     padding: 10px;
-    font-size: 11px;
+    font-size: 1.2rem;
 
     @include device-is('tablet') {
       padding: 10px 0;
