@@ -88,7 +88,7 @@ module.exports = {
     const sessionId = request.params.id;
 
     return usecases.finalizeSession({ userId, sessionId })
-      .then((updatedSession) => sessionSerializer.serialize(updatedSession));
+      .then((updatedSession) => sessionSerializer.serializeForFinalization(updatedSession));
   },
 
 };

@@ -16,5 +16,6 @@ module.exports = async function finalizeSession({
   } catch (err) {
     throw new ForbiddenAccess('User does not have the rights to finalize this session');
   }
-  return sessionRepository.updateStatus({ sessionId, status: statuses.COMPLETED });
+  return sessionRepository.updateStatus({ sessionId, status: statuses.COMPLETED })
+    .then(() => sessionRepository.get(sessionId));
 };
