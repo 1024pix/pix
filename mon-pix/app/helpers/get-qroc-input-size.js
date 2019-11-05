@@ -1,6 +1,6 @@
 import { helper } from '@ember/component/helper';
 
-export function qrocSize(format) {
+export function getQrocInputSize(format) {
   const defaultFormat = 'mots';
   const inputSizeMap = {
     petit: '5',
@@ -12,4 +12,4 @@ export function qrocSize(format) {
   return inputSizeMap[format] || inputSizeMap[defaultFormat];
 }
 
-export default helper(qrocSize);
+export default helper(getQrocInputSize);
