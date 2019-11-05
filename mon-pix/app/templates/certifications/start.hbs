@@ -5,15 +5,21 @@
     <div class="background-banner-wrapper">
       <div class="background-banner"></div>
 
-        {{#if model.isCertifiable}}
-          <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner certification-start-page__panel">
-            <div class="certification-stepper">
+      {{#if model.isCertifiable}}
+        <div
+          class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner certification-start-page__panel">
+          <div class="certification-stepper">
+            {{#if isNewCertificationStartActive}}
               <Stepper @steps={{array "certification-stepper-join" "certification-stepper-start"}}/>
-            </div>
+            {{else}}
+              <Stepper @steps={{array "certification-stepper-start"}}/>
+            {{/if}}
           </div>
-        {{else}}
-          {{certification-not-certifiable}}
-        {{/if}}
+        </div>
+      {{else}}
+        {{certification-not-certifiable}}
+      {{/if}}
+
     </div>
 
   {{/burger.outlet}}
