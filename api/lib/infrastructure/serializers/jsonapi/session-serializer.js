@@ -17,6 +17,7 @@ module.exports = {
         'examiner',
         'date',
         'time',
+        'status',
         'description',
         'accessCode',
         'certifications',
@@ -34,6 +35,22 @@ module.exports = {
           }
         }
       },
+    }).serialize(sessions);
+  },
+
+  serializeForFinalization(sessions) {
+    return new Serializer('session', {
+      attributes: [
+        'certificationCenter',
+        'address',
+        'room',
+        'examiner',
+        'date',
+        'time',
+        'status',
+        'description',
+        'accessCode',
+      ],
     }).serialize(sessions);
   },
 
