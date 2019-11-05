@@ -5,13 +5,26 @@
   {{/if}}
 
   {{#if block.input}}
-    <input class="challenge-response__proposal-input"
-           type="text"
-           for="qrocm_input"
-           name={{block.input}}
-           placeholder={{block.placeholder}}
-           autocomplete="off"
-           value={{property-of answersValue block.input}}>
+    {{#if (eq format 'paragraphe')}}
+      <textarea class="challenge-response__proposal-textarea"
+                for="qrocm_input"
+                name={{block.input}}
+                placeholder={{block.placeholder}}
+                autocomplete="off"
+                value={{property-of answersValue block.input}}>
+      </textarea>
+
+    {{else}}
+      <input class="challenge-response__proposal-input"
+             size="{{get-qroc-input-size format}}"
+             type="text"
+             for="qrocm_input"
+             name={{block.input}}
+             placeholder={{block.placeholder}}
+             autocomplete="off"
+             value={{property-of answersValue block.input}}>
+    {{/if}}
+
   {{/if}}
 
   {{#if block.breakline}}
