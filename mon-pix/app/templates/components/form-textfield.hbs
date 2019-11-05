@@ -1,12 +1,13 @@
 <label for="{{textfieldName}}" class="form-textfield__label">
   {{#if require}}<abbr title="obligatoire">*</abbr> {{/if}}
   {{label}}
-    <span class="form-textfield__help">{{help}}</span>
+    <br><span class="form-textfield__help">{{help}}</span>
 </label>
 
 <div class="form-textfield__input-field-container {{inputContainerStatusClass}}">
   {{input type=textfieldType
           id=textfieldName
+          name=textfieldName
           value=inputBindingValue
           focus-out=(action onValidate textfieldName)
           class= 'form-textfield__input'

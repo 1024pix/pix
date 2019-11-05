@@ -19,7 +19,7 @@
   {{/if}}
 
   <form {{action "signup" on="submit"}} class="sign-form__body">
-    <span class="sign-form-body__instruction">Les champs marqués de <abbr title="obligatoire">*</abbr> sont obligatoires<</span>
+    <span class="sign-form-body__instruction">Les champs marqués de <abbr title="obligatoire">*</abbr> sont obligatoires.</span>
 
     <div class="sign-form-body__input">
       {{form-textfield
@@ -47,7 +47,7 @@
 
     <div class="sign-form-body__input">
       {{form-textfield
-        label="Adresse Email"
+        label="Adresse électronique"
         help="(ex: nom@exemple.fr)"
         textfieldName="email"
         validationStatus=validation.email.status

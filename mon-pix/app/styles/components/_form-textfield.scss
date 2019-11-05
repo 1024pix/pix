@@ -6,14 +6,14 @@
 .form-textfield__label {
   font-family: $font-lato;
   font-size: 1.4rem;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.2px;
   font-weight: bold;
   color: $charcoal-grey;
-  text-transform: uppercase;
 }
 
 .form-textfield__help {
   text-transform: none;
+  font-weight: normal;
 }
 
 .form-textfield__message {
@@ -70,7 +70,7 @@
 
 
 .form-textfield__message {
-  font-size: 12px;
+  font-size: 1.4rem;
 }
 
 .form-textfield__message--error {
