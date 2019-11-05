@@ -487,4 +487,22 @@ describe('Integration | Repository | Session', function() {
 
   });
 
+  describe('updateStatus', () => {
+    let sessionId;
+    const status = 'some status';
+    beforeEach(async () => {
+      sessionId = databaseBuilder.factory.buildSession().id;
+      await databaseBuilder.commit();
+    });
+    it('should update the status and return only the status', async () => {
+      const updatedSession = await sessionRepository.updateStatus({ sessionId, status });
+      expect(updatedSession.status).to.equal(status);
+      expect(updatedSession.id).to.be.undefined;
+    });
+    it('should throw an error when the session is not found', async () => {
+      const err = await catchErr(sessionRepository.updateStatus)({ sessionId: sessionId + 1, status });
+      expect(err).to.be.instanceOf(Error);
+    });
+  });
+
 });

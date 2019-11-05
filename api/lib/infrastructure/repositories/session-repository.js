@@ -135,5 +135,12 @@ module.exports = {
       .catch(() => {
         throw new UserNotAuthorizedToAccessEntity(sessionId);
       });
-  }
+  },
+
+  updateStatus({ sessionId, status }) {
+    return BookshelfSession
+      .where({ id: sessionId })
+      .save({ status }, { patch: true, require: true })
+      .then((bookshelfSession) => bookshelfToDomainConverter.buildDomainObject(BookshelfSession, bookshelfSession));
+  },
 };
