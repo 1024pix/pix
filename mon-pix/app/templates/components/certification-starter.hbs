@@ -1,3 +1,7 @@
+{{#if this.showCongratulationsBanner }}
+  <CongratulationsCertificationBanner @fullName={{currentUser.user.fullName}} @closeBanner={{action "closeBanner"}}/>
+{{/if}}
+
 <section class="certification-starter">
     <h2 class="certification-start-page__title">Vous souhaitez participer au test de certification</h2>
 
