@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.82.0 (05/11/2019)
+
+- [#753](https://github.com/1024pix/pix/pull/753) [FEATURE] Lier un utilisateur participant à une session de certification à un candidat inscrit au préalable à cette même session (PF-383)
+
 ## v2.81.0 (04/11/2019)
 
 - [#802](https://github.com/1024pix/pix/pull/802) [FEATURE] Page de reconciliation au lancement d'une campagne (PF-817).
