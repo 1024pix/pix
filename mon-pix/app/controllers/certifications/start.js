@@ -1,12 +1,9 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 
+import config from 'mon-pix/config/environment';
+
 export default Controller.extend({
   currentUser: service(),
-  showCongratulationsBanner: true,
-  actions: {
-    closeBanner() {
-      this.toggleProperty('showCongratulationsBanner');
-    },
-  }
+  isNewCertificationStartActive: config.APP.isNewCertificationStartActive,
 });

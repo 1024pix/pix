@@ -3,6 +3,18 @@ const errors = require('../../../lib/domain/errors');
 
 describe('Unit | Domain | Errors', () => {
 
+  it('should export a CertificationCandidateAlreadyLinkedToUserError', () => {
+    expect(errors.CertificationCandidateAlreadyLinkedToUserError).to.exist;
+  });
+
+  it('should export a CertificationCandidateByPersonalInfoNotFoundError', () => {
+    expect(errors.CertificationCandidateByPersonalInfoNotFoundError).to.exist;
+  });
+
+  it('should export a CertificationCandidateByPersonalInfoTooManyMatchesError', () => {
+    expect(errors.CertificationCandidateByPersonalInfoTooManyMatchesError).to.exist;
+  });
+
   it('should export a CertificationCandidateCreationOrUpdateError', () => {
     expect(errors.CertificationCandidateCreationOrUpdateError).to.exist;
   });
@@ -11,12 +23,24 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.CertificationCandidateDeletionError).to.exist;
   });
 
+  it('should export a CertificationCandidateMultipleUserLinksWithinSessionError', () => {
+    expect(errors.CertificationCandidateMultipleUserLinksWithinSessionError).to.exist;
+  });
+
+  it('should export a CertificationCandidatePersonalInfoFieldMissingError', () => {
+    expect(errors.CertificationCandidatePersonalInfoFieldMissingError).to.exist;
+  });
+
   it('should export a NotFoundError', () => {
     expect(errors.NotFoundError).to.exist;
   });
 
   it('should export a InvalidCertificationCandidate', () => {
     expect(errors.InvalidCertificationCandidate).to.exist;
+  });
+
+  it('should export a UserAlreadyLinkedToCandidateInSessionError', () => {
+    expect(errors.UserAlreadyLinkedToCandidateInSessionError).to.exist;
   });
 
   describe('#UserNotFoundError', () => {
