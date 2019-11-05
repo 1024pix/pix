@@ -371,4 +371,34 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
+  describe('#finalize ', () => {
+    let request;
+    const sessionId = 1;
+    const userId = 2;
+    const updatedSession = 'updatedSession';
+    const serializedUpdatedSession = 'updated session serialized';
+
+    beforeEach(() => {
+      // given
+      request = {
+        params: { id: sessionId },
+        auth: {
+          credentials: {
+            userId,
+          }
+        },
+      };
+      sinon.stub(usecases, 'finalizeSession').withArgs({ userId, sessionId }).resolves(updatedSession);
+      sinon.stub(sessionSerializer, 'serializeForFinalization').withArgs(updatedSession).resolves(serializedUpdatedSession);
+    });
+
+    it('should return the updated version of the session', async () => {
+      // when
+      const response = await sessionController.finalize(request);
+
+      // then
+      expect(response).to.deep.equal(serializedUpdatedSession);
+    });
+  });
+
 });
