@@ -60,16 +60,22 @@ async function _startNewCertification({
     };
   } catch (err) {
     if (err instanceof NotFoundError) {
-      const { firstName, lastName, birthdate, birthCity: birthplace } = await certificationCandidateRepository.getBySessionIdAndUserId({ sessionId, userId });
+      const personalInfo = { firstName: null, lastName: null, birthdate: null, birthplace: null };
+      const foundCandidate = await certificationCandidateRepository.findOneBySessionIdAndUserId({ sessionId, userId });
+      if (foundCandidate) {
+        personalInfo.firstName = foundCandidate.firstName;
+        personalInfo.lastName = foundCandidate.lastName;
+        personalInfo.birthdate = foundCandidate.birthdate;
+        personalInfo.birthplace = foundCandidate.birthCity;
+      }
+
       const newCertificationCourse = new CertificationCourse({
         userId,
         sessionId,
-        firstName,
-        lastName,
-        birthdate,
-        birthplace,
+        ...personalInfo,
         isV2Certification: true,
       });
+
       const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
       await _createAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id, assessmentRepository });
       return {

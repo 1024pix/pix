@@ -76,7 +76,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             .onFirstCall().rejects(new NotFoundError())
             .onSecondCall().resolves(certificationCourse);
           const certificationProfile = new CertificationProfile({ userCompetences: fiveCompetencesWithLevelHigherThan0 });
-          sinon.stub(certificationCandidateRepository, 'getBySessionIdAndUserId').resolves({ firstName: 'Moi', lastName: 'Moche', birthdate: 'Méchant', birthplace: 'En enfer' });
+          sinon.stub(certificationCandidateRepository, 'findOneBySessionIdAndUserId').resolves({ firstName: 'Moi', lastName: 'Moche', birthdate: 'Méchant', birthplace: 'En enfer' });
           sinon.stub(userService, 'getCertificationProfile').resolves(certificationProfile);
           sinon.stub(userService, 'fillCertificationProfileWithCertificationChallenges').withArgs(certificationProfile).resolves(certificationProfile);
         });
@@ -219,18 +219,21 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
       context('when the user has no link with a certification candidate in the session', () => {
 
-        beforeEach(() => {
+        it('should create the certification course with status "started", if at least 5 competences with level higher than 0', async function() {
+          // given
+          sinon.stub(certificationCandidateRepository, 'findOneBySessionIdAndUserId')
+            .resolves(undefined);
           const certificationProfile = new CertificationProfile({ userCompetences: fiveCompetencesWithLevelHigherThan0 });
           sinon.stub(userService, 'getCertificationProfile').withArgs({ userId, limitDate: now })
             .resolves(certificationProfile);
           sinon.stub(userService, 'fillCertificationProfileWithCertificationChallenges').withArgs(certificationProfile)
             .resolves(certificationProfile);
-          sinon.stub(certificationCandidateRepository, 'getBySessionIdAndUserId').rejects(new NotFoundError());
-        });
+          sinon.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
+          sinon.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
+          sinon.stub(assessmentRepository, 'save').resolves();
 
-        it('should rejects an error when the user is not linked to a certification candidate in the session',  async function() {
           // when
-          const result = await catchErr(retrieveLastOrCreateCertificationCourse)({
+          const newCertification = await retrieveLastOrCreateCertificationCourse({
             accessCode,
             userId,
             sessionRepository,
@@ -242,7 +245,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           });
 
           // then
-          expect(result).to.be.instanceOf(NotFoundError);
+          expect(newCertification).to.deep.equal({
+            created: true,
+            certificationCourse: certificationCourseWithNbOfChallenges
+          });
+          sinon.assert.calledOnce(assessmentRepository.save);
         });
       });
 
@@ -250,7 +257,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         it('should create the certification course with status "started", if at least 5 competences with level higher than 0', async function() {
           // given
-          sinon.stub(certificationCandidateRepository, 'getBySessionIdAndUserId')
+          sinon.stub(certificationCandidateRepository, 'findOneBySessionIdAndUserId')
             .resolves({ firstName: 'prénom', lastName: 'nom', birthdate:'DDN', birthplace:'lieu' });
           const certificationProfile = new CertificationProfile({ userCompetences: fiveCompetencesWithLevelHigherThan0 });
           sinon.stub(userService, 'getCertificationProfile').withArgs({ userId, limitDate: now })
