@@ -9,7 +9,7 @@ export function qrocSize(format) {
     paragraphe: '100'
   };
 
-  return inputSizeMap[format || defaultFormat];
+  return inputSizeMap[format] || inputSizeMap[defaultFormat];
 }
 
 export default helper(qrocSize);

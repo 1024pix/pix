@@ -40,7 +40,7 @@ class Challenge {
     this.embedUrl = embedUrl;
     this.embedTitle = embedTitle;
     this.embedHeight = embedHeight;
-    this.format = format || 'mots';
+    this.format = format;
   }
 
   static getAirtableName() {
