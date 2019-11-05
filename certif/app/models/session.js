@@ -14,6 +14,7 @@ export default DS.Model.extend({
   certificationCenter: DS.belongsTo('certificationCenter'),
   certificationCandidates: DS.hasMany('certificationCandidate'),
   session: service(),
+  status: DS.attr(),
 
   urlToDownload: computed('id', function() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.get('id')}/attendance-sheet?accessToken=${this.get('session.data.authenticated.access_token')}`;
@@ -22,5 +23,9 @@ export default DS.Model.extend({
   urlToUpload: computed('id', function() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.get('id')}/certification-candidates/import`;
   }),
+
+  finalize() {
+    return this.store.adapterFor('session').finalize(this);
+  },
 
 });

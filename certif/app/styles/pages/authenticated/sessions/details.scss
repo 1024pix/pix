@@ -52,6 +52,11 @@
   flex-direction: column;
   padding: 22px 30px;
 
+  &--push-right {
+    margin-left: auto;
+    border-left: 1px solid $alto;
+  }
+
   &--multiple {
     &:first-child {
       width: 10%;
