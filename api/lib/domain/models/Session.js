@@ -1,3 +1,8 @@
+const statuses = {
+  STARTED: 'started',
+  COMPLETED: 'completed',
+};
+
 class Session {
 
   constructor({
@@ -12,6 +17,7 @@ class Session {
     examiner,
     room,
     time,
+    status,
     // includes
     certifications,
     certificationCandidates,
@@ -28,6 +34,7 @@ class Session {
     this.examiner = examiner;
     this.room = room;
     this.time = time;
+    this.status = status;
     // includes
     this.certifications = certifications;
     this.certificationCandidates = certificationCandidates;
@@ -36,3 +43,4 @@ class Session {
 }
 
 module.exports = Session;
+module.exports.statuses = statuses;
