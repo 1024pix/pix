@@ -6,7 +6,6 @@ export function getQrocInputSize(format) {
     petit: '5',
     mots: '15',
     phrase: '50',
-    paragraphe: '100'
   };
 
   return inputSizeMap[format] || inputSizeMap[defaultFormat];
