@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const securityController = require('../../interfaces/controllers/security-controller');
 const sessionController = require('./session-controller');
 
@@ -87,10 +88,28 @@ exports.register = async (server) => {
       path: '/api/sessions/{id}/certification-candidates',
       config: {
         handler: sessionController.getCertificationCandidates,
-        tags: ['api', 'organizations'],
+        tags: ['api', 'sessions', 'certification-candidates'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
           'Elle retourne les candidats de certification inscrits à la session.',
+        ]
+      }
+    },
+    {
+      method: 'POST',
+      path: '/api/sessions/{id}/candidate-participation',
+      config: {
+        validate: {
+          params: {
+            id: Joi.number().required()
+          },
+        },
+        handler: sessionController.createCandidateParticipation,
+        tags: ['api', 'sessions', 'certification-candidates'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle associe un candidat de certification à une session\n' +
+          'à un utilisateur à l\'aide des informations d\'identité de celui-ci (nom, prénom et date de naissance).',
         ]
       }
     },

@@ -15,7 +15,5 @@
 }
 
 .certification-stepper {
-  @include device-is('desktop') {
-    padding: 50px 70px 40px;
-  }
+  padding-bottom: 40px;
 }

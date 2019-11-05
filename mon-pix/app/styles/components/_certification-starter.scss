@@ -1,5 +1,7 @@
-.certification-course-page {
-
+.certification-starter {
+  @include device-is('desktop') {
+    padding: 50px 70px 40px;
+  }
 }
 
 .certification-course-page__order {

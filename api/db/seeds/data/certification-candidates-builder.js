@@ -15,6 +15,7 @@ module.exports = function sessionsBuilder({ databaseBuilder }) {
     externalId: 'ELAN123',
     extraTimePercentage: null,
     sessionId: 1,
+    userId: null,
   });
 
   databaseBuilder.factory.buildCertificationCandidate({
@@ -24,10 +25,81 @@ module.exports = function sessionsBuilder({ databaseBuilder }) {
     birthCity: 'Metz',
     birthProvinceCode: '57',
     birthCountry: 'France',
-    birthdate: '2008-12-25',
+    birthdate: '2012-12-12',
     externalId: null,
     extraTimePercentage: 0.3,
     sessionId: 1,
+    userId: 1,
+  });
+
+  databaseBuilder.factory.buildCertificationCandidate({
+    id: 3,
+    firstName: 'Beyoncé',
+    lastName: 'Knowles',
+    birthCity: 'Metz',
+    birthProvinceCode: '57',
+    birthCountry: 'France',
+    birthdate: '1981-09-04',
+    externalId: null,
+    extraTimePercentage: 0.3,
+    sessionId: 3,
+    userId: null,
+  });
+
+  databaseBuilder.factory.buildCertificationCandidate({
+    id: 4,
+    firstName: 'Beyoncé',
+    lastName: 'Knowles',
+    birthCity: 'Mulhouse',
+    birthProvinceCode: '68',
+    birthCountry: 'France',
+    birthdate: '1981-09-04',
+    externalId: null,
+    extraTimePercentage: 0.3,
+    sessionId: 3,
+    userId: null,
+  });
+
+  databaseBuilder.factory.buildCertificationCandidate({
+    id: 5,
+    firstName: 'Lady',
+    lastName: 'Gaga',
+    birthCity: 'Strasbourg',
+    birthProvinceCode: '67',
+    birthCountry: 'France',
+    birthdate: '1986-03-28',
+    externalId: null,
+    extraTimePercentage: 0.3,
+    sessionId: 3,
+    userId: null,
+  });
+
+  databaseBuilder.factory.buildCertificationCandidate({
+    id: 6,
+    firstName: 'Lady',
+    lastName: 'Gaga',
+    birthCity: 'Strasbourg',
+    birthProvinceCode: '67',
+    birthCountry: 'France',
+    birthdate: '1986-03-28',
+    externalId: null,
+    extraTimePercentage: 0.3,
+    sessionId: 4,
+    userId: null,
+  });
+
+  databaseBuilder.factory.buildCertificationCandidate({
+    id: 7,
+    firstName: 'Mariah',
+    lastName: 'Carey',
+    birthCity: 'Paris',
+    birthProvinceCode: '75',
+    birthCountry: 'France',
+    birthdate: '1970-03-27',
+    externalId: null,
+    extraTimePercentage: 0.3,
+    sessionId: 3,
+    userId: 3,
   });
 
   const originLocale = faker.locale;

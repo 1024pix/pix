@@ -18,6 +18,7 @@ module.exports = function buildCertificationCandidate(
     // includes
     // references
     sessionId = faker.random.number(),
+    userId = faker.random.number(),
   } = {}) {
 
   const certificationCandidate = new CertificationCandidate({
@@ -32,6 +33,7 @@ module.exports = function buildCertificationCandidate(
     externalId,
     extraTimePercentage,
     createdAt,
+    userId,
   });
 
   return certificationCandidate;

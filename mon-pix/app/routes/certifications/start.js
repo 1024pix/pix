@@ -7,6 +7,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   async model() {
     const user = this.currentUser.user;
+
     return user.belongsTo('certificationProfile').reload();
   },
 });
