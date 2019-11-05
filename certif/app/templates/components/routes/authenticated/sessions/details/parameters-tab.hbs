@@ -55,8 +55,14 @@
     <div class="session-details-row">
         <div class="session-details-content">
           {{#link-to "authenticated.sessions.update" session.id
-                     class="button button--regular button--link session-details-content__update-button"}}
+                     class="button button--regular button--grey button--link session-details-content__update-button"}}
               Modifier
+          {{/link-to}}
+        </div>
+        <div class="session-details-content session-details-content--push-right">
+          {{#link-to "authenticated.sessions.finalize" session.id
+                     class="button button--regular button--link session-details-content__finalize-button push-right"}}
+              Finaliser la session
           {{/link-to}}
         </div>
     </div>

@@ -84,6 +84,15 @@
     }
   }
 
+  &--grey {
+    background-color: $comet;
+    color: $white;
+
+    &:hover, &:active, &:focus {
+      background-color: $gun-powder;
+    }
+  }
+
   &--no-color {
     background-color: transparent;
     color: $nero;
