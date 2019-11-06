@@ -164,218 +164,97 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
     });
   });
 
-  describe('#findByOrganizationIdAndUserInformation', () => {
+  describe('#findNotLinkedYetByOrganizationIdAndUserBirthdate', () => {
 
     afterEach(() => {
       return knex('students').delete();
     });
 
-    context('User is part of the studentList', async () => {
+    let organization;
 
-      let organization;
-
-      beforeEach(async () => {
-        organization = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildStudent({
-          organizationId: organization.id,
-          userId: null,
-          preferredLastName: 'Lee',
-          lastName: 'Lieber',
-          firstName: 'Stanley',
-          middleName: 'Martin',
-          thirdName: 'Stan',
-          birthdate: '2000-03-31',
-        });
-        await databaseBuilder.commit();
+    beforeEach(async () => {
+      organization = databaseBuilder.factory.buildOrganization();
+      databaseBuilder.factory.buildStudent({
+        organizationId: organization.id,
+        userId: null,
+        preferredLastName: 'Lee',
+        lastName: 'Lieber',
+        firstName: 'Stanley',
+        middleName: 'Martin',
+        thirdName: 'Stan',
+        birthdate: '2000-03-31',
       });
-
-      for (const [description, user] of [
-        ['should match on couple firstName and lastName and return the student', { firstName: 'Stanley', lastName: 'Lieber', birthdate: '2000-03-31' }],
-        ['should match on couple firstName and preferredLastName and return the student', { firstName: 'Stanley', lastName: 'Lee', birthdate: '2000-03-31' }],
-        ['should match on couple middleName and lastName and return the student', { firstName: 'Martin', lastName: 'Lieber', birthdate: '2000-03-31' }],
-        ['should match on couple middleName and preferredLastName and return the student', { firstName: 'Martin', lastName: 'Lee', birthdate: '2000-03-31' }],
-        ['should match on couple thirdName and lastName and return the student', { firstName: 'Stan', lastName: 'Lieber', birthdate: '2000-03-31' }],
-        ['should match on couple thirdName and preferredLastName and return the student', { firstName: 'Stan', lastName: 'Lee', birthdate: '2000-03-31' }],
-        ['should match indifferently of low/upper case and return the student', { firstName: 'STAN', lastName: 'LEE', birthdate: '2000-03-31' }],
-      ]) {
-        it(description, async () => {
-          // when
-          const students = await studentRepository.findByOrganizationIdAndUserInformation({
-            organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, birthdate: user.birthdate
-          });
-
-          // then
-          expect(students.length).to.be.equal(1);
-          expect(students[0]).to.be.instanceof(Student);
-        });
-      }
-
-      it('should return an empty list if there is one or more spelling mistake in user information', async () => {
-        // given
-        const user = { firstName: 'Sttan', lastName: 'Lees', birthdate: '2000-03-31' };
-
-        // when
-        const result = await studentRepository.findByOrganizationIdAndUserInformation({
-          organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, birthdate: user.birthdate
-        });
-
-        // then
-        expect(result).to.be.an('array');
-        expect(result.length).to.be.equal(0);
+      databaseBuilder.factory.buildStudent({
+        organizationId: organization.id,
+        userId: null,
+        lastName: 'See',
+        firstName: 'Johnny',
+        birthdate: '2000-03-31',
       });
-
-      it('should return an error if birthdate in user information does not match', async () => {
-        // given
-        const user = { firstName: 'Stan', lastName: 'Lee', birthdate: '2001-06-01' };
-
-        // when
-        const result = await studentRepository.findByOrganizationIdAndUserInformation({
-          organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, birthdate: user.birthdate
-        });
-
-        // then
-        expect(result).to.be.an('array');
-        expect(result.length).to.be.equal(0);
-      });
+      await databaseBuilder.commit();
     });
 
-    context('User is not part of the organization studentList', () => {
+    it('should return found students', async () => {
+      // given
+      const user = { firstName: 'Sttan', lastName: 'Lee', birthdate: '2000-03-31' };
 
-      let organization;
-      let badOrganization;
-
-      beforeEach(async () => {
-        organization = databaseBuilder.factory.buildOrganization();
-        badOrganization = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildStudent({
-          organizationId: organization.id,
-          userId: null,
-          preferredLastName: 'Lee',
-          lastName: 'Lieber',
-          firstName: 'Stanley',
-          middleName: 'Martin',
-          thirdName: 'Stan',
-          birthdate: '2000-03-31',
-        });
-        databaseBuilder.factory.buildStudent({
-          organizationId: badOrganization.id,
-          userId: null,
-          preferredLastName: 'Kirby',
-          lastName: 'Kurtzberg',
-          firstName: 'Jacob',
-          middleName: 'Jack',
-          thirdName: 'The King of comic book',
-          birthdate: '2000-08-07',
-        });
-        await databaseBuilder.commit();
+      // when
+      const result = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
+        organizationId: organization.id, birthdate: user.birthdate
       });
 
-      it('should return an empty list, wrong user on right organization', async () => {
-        // given
-        const user = { firstName: 'Bob', lastName: 'Kane', birthdate: '2000-08-07' };
-
-        // when
-        const result = await studentRepository.findByOrganizationIdAndUserInformation({
-          organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, birthdate: user.birthdate
-        });
-
-        // then
-        expect(result).to.be.an('array');
-        expect(result.length).to.be.equal(0);
-      });
-
-      it('should return an empty list, right user on wrong organization ', async () => {
-        const user = { firstName: 'Stan', lastName: 'Lee', birthdate: '2000-03-31' };
-
-        // when
-        const result = await studentRepository.findByOrganizationIdAndUserInformation({
-          organizationId: badOrganization.id, firstName: user.firstName, lastName: user.lastName, birthdate: user.birthdate
-        });
-
-        // then
-        expect(result).to.be.an('array');
-        expect(result.length).to.be.equal(0);
-      });
+      // then
+      expect(result).to.be.an('array');
+      expect(result.length).to.be.equal(2);
     });
 
-    context('Users is found twice in student list', () => {
+    it('should return empty array with wrong birthdate', async () => {
+      // given
+      const user = { firstName: 'Sttan', lastName: 'Lee', birthdate: '2001-03-31' };
 
-      let organization;
-
-      beforeEach(async () => {
-        organization = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildStudent({
-          organizationId: organization.id,
-          userId: null,
-          preferredLastName: 'Lee',
-          lastName: 'Lieber',
-          firstName: 'Stanley',
-          middleName: 'Martin',
-          thirdName: 'Stan',
-          birthdate: '2000-03-31',
-        });
-        databaseBuilder.factory.buildStudent({
-          organizationId: organization.id,
-          userId: null,
-          preferredLastName: 'Lee',
-          lastName: 'Once again',
-          firstName: 'The second',
-          middleName: 'Another one',
-          thirdName: 'Stan',
-          birthdate: '2000-03-31',
-        });
-        await databaseBuilder.commit();
+      // when
+      const result = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
+        organizationId: organization.id, birthdate: user.birthdate
       });
 
-      it('should return a list of all matching students', async () => {
-        // given
-        const user = { firstName: 'Stan', lastName: 'Lee', birthdate: '2000-03-31' };
-
-        // when
-        const result = await studentRepository.findByOrganizationIdAndUserInformation({
-          organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, birthdate: user.birthdate
-        });
-
-        // then
-        expect(result).to.be.an('array');
-        expect(result.length).to.be.equal(2);
-      });
+      // then
+      expect(result).to.be.an('array');
+      expect(result.length).to.be.equal(0);
     });
 
-    context('All the student are already associate', () => {
+    it('should return empty array with fake organizationId', async () => {
+      // given
+      const user = { firstName: 'Sttan', lastName: 'Lee', birthdate: '2000-03-31' };
 
-      let organization;
-      let user;
-
-      beforeEach(async () => {
-        organization = databaseBuilder.factory.buildOrganization();
-        user = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildStudent({
-          organizationId: organization.id,
-          userId: user.id,
-          preferredLastName: 'Lee',
-          lastName: 'Lieber',
-          firstName: 'Stanley',
-          middleName: 'Martin',
-          thirdName: 'Stan',
-          birthdate: '2000-03-31',
-        });
-        await databaseBuilder.commit();
+      // when
+      const result = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
+        organizationId: '999', birthdate: user.birthdate
       });
 
-      it('should return a list of all matching students', async () => {
-        // given
-        const user = { firstName: 'Stan', lastName: 'Lee', birthdate: '2000-03-31' };
+      // then
+      expect(result).to.be.an('array');
+      expect(result.length).to.be.equal(0);
+    });
 
-        // when
-        const result = await studentRepository.findByOrganizationIdAndUserInformation({
-          organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, birthdate: user.birthdate
-        });
-
-        // then
-        expect(result).to.be.an('array');
-        expect(result.length).to.be.equal(0);
+    it('should return empty array when userId is not null', async () => {
+      // given
+      databaseBuilder.factory.buildStudent({
+        organizationId: organization.id,
+        lastName: 'See',
+        firstName: 'Johnny',
+        birthdate: '1999-05-05',
       });
+      await databaseBuilder.commit();
+      const user = { firstName: 'Sttan', lastName: 'Lee', birthdate: '1999-05-05' };
+
+      // when
+      const result = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
+        organizationId: '999', birthdate: user.birthdate
+      });
+
+      // then
+      expect(result).to.be.an('array');
+      expect(result.length).to.be.equal(0);
     });
   });
 
