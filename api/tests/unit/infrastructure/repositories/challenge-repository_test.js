@@ -114,8 +114,8 @@ describe('Unit | Repository | challenge-repository', () => {
           // then
           return promise.then((challenge) => {
             expect(challenge.skills).to.have.lengthOf(2);
-            expect(challenge.skills[0]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@web1', pixValue: 2.4, competenceId: 'rec1' }));
-            expect(challenge.skills[1]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@url2', pixValue: 2.4, competenceId: 'rec1' }));
+            expect(challenge.skills[0]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@web1', pixValue: 2.4, competenceId: 'rec1', tutorialIds: ['receomyzL0AmpMFGw'] }));
+            expect(challenge.skills[1]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@url2', pixValue: 2.4, competenceId: 'rec1', tutorialIds: ['receomyzL0AmpMFGw'] }));
           });
         });
         it('should call the solution-adapter to create the solution', () => {
@@ -258,7 +258,8 @@ describe('Unit | Repository | challenge-repository', () => {
                 'id': 'recSkillWeb1',
                 'name': '@web1',
                 'pixValue': 2,
-                'competenceId': 'rec1'
+                'competenceId': 'rec1',
+                'tutorialIds': ['receomyzL0AmpMFGw'],
               }
             ]);
             expect(challenges[1].skills).to.deep.equal([
@@ -266,13 +267,15 @@ describe('Unit | Repository | challenge-repository', () => {
                 'id': 'recSkillURL2',
                 'name': '@url2',
                 'pixValue': 3,
-                'competenceId': 'rec1'
+                'competenceId': 'rec1',
+                'tutorialIds': ['receomyzL0AmpMFGw'],
               },
               {
                 'id': 'recSkillURL3',
                 'name': '@url3',
                 'pixValue': 3,
-                'competenceId': 'rec1'
+                'competenceId': 'rec1',
+                'tutorialIds': ['receomyzL0AmpMFGw'],
               }
             ]);
           });

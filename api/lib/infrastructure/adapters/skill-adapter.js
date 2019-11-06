@@ -8,6 +8,7 @@ module.exports = {
       name: skillAirtableDataObject.name,
       pixValue: skillAirtableDataObject.pixValue,
       competenceId: skillAirtableDataObject.competenceId,
+      tutorialIds: skillAirtableDataObject.tutorialIds,
     });
   },
 };

@@ -64,9 +64,29 @@
       <p class="scorecard-details-content-right__reset-message">{{remainingDaysText}}</p>
     {{/if}}
   </div>
-
 </div>
-
+{{#if tutorialsGroupedByTubeName}}
+<div class="scorecard-details__content">
+  <div class="tutorials">
+    <div class="tutorials__header">
+      <h2 class="tutorials-header__title">Cultivez vos compétences</h2>
+      <p class="tutorials-header__description">Voici une sélection de tutos qui pourront vous aider à gagner des Pix.</p>
+    </div>
+    <div class="tutorial__list">
+      {{#each tutorialsGroupedByTubeName as |tube|}}
+        <div class="tube">
+          <h3 class="tube__title">{{tube.practicalTitle}}</h3>
+          <div class="tube__content">
+            {{#each tube.tutorials as |tutorial|}}
+              {{tutorial-item-on-scorecard tutorial=tutorial}}
+            {{/each}}
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</div>
+{{/if}}
 {{#if showResetModal}}
   {{#pix-modal containerClass="scorecard-details__reset-modal pix-modal-dialog--wide" onClose=(action "closeModal") }}
     <div class="pix-modal__close-link">

@@ -8,7 +8,8 @@ class Skill {
     pixValue,
     // includes
     // references
-    competenceId
+    competenceId,
+    tutorialIds,
   } = {}) {
     this.id = id;
     // attributes
@@ -17,6 +18,7 @@ class Skill {
     // includes
     // references
     this.competenceId = competenceId;
+    this.tutorialIds = tutorialIds;
   }
 
   get difficulty() {

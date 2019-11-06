@@ -12,4 +12,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
     });
   },
 
+  afterModel(scorecard) {
+    return scorecard.hasMany('tutorials').reload();
+  },
+
 });

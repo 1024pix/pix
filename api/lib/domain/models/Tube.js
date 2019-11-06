@@ -4,16 +4,34 @@ class Tube {
 
   constructor({
     // attributes
+    id,
+    name,
+    title,
+    description,
+    practicalTitle,
+    practicalDescription,
     // includes
     skills = []
     // references
+
   } = {}) {
     // attributes
+    this.id = id;
+    this.title = title;
+    this.description = description;
+    this.practicalTitle = practicalTitle;
+    this.practicalDescription = practicalDescription;
     // includes
     this.skills = skills;
     // references
 
-    this.name = (skills.length > 0) ? skills[0].tubeName : '';
+    if (name) {
+      this.name = name;
+    } else if (skills.length > 0) {
+      this.name = skills[0].tubeName;
+    } else {
+      this.name = '';
+    }
   }
 
   addSkill(skillToAdd) {
