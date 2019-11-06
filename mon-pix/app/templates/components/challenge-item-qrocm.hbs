@@ -11,11 +11,12 @@
     <div class="rounded-panel__row challenge-response">
       <div class="challenge-proposals">
         {{qrocm-proposal
+          format=challenge.format
           proposals=challenge.proposals
           answersValue=answer._valuesAsMap
           answerChanged=(action 'answerChanged') }}
       </div>
-      
+
       {{#if challenge.timer}}
         {{#if hasUserConfirmWarning}}
           <div class="timeout-jauge-wrapper">
