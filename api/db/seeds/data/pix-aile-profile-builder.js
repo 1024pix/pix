@@ -8,10 +8,11 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
 
   const userId = 1;
 
-  const _buildKnowledgeElement = ({ competenceId, answerId, skillId, assessmentId, keSource, remainingDays, remainingHours }) => {
+  const _buildKnowledgeElement = ({ competenceId, answerId, skillId, assessmentId, keStatus, keSource, remainingDays, remainingHours }) => {
     const delay = 7 - remainingDays;
     databaseBuilder.factory.buildKnowledgeElement({
       source: keSource,
+      status: keStatus ? keStatus : KnowledgeElement.StatusType.VALIDATED,
       skillId,
       assessmentId,
       userId,
@@ -81,6 +82,7 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
         remainingDays,
         remainingHours,
         keSource: KnowledgeElement.SourceType.DIRECT,
+        keStatus: challengeSkill.knowledgeElementStatus
       });
 
       _.map(challengeSkill.inferredSkillIds, (inferredSkillId) => {
@@ -105,7 +107,11 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
     challengeSkillMap: [
       { challengeId: 'rec4mYfhm45A222ab', skillId: 'recybd8jWDNiFpbgq', inferredSkillIds: [] },
       { challengeId: 'recwWzTquPlvIl4So', skillId: 'recUDrCWD76fp5MsE', inferredSkillIds: ['rec4Gvnh9kV1NeMsw'] },
-      { challengeId: 'rec6ZOkRMNlJNAKgl', skillId: 'recYLxHqrLVUBjF2a', inferredSkillIds: ['recRPl7tXR8n2D5xU']  },
+      { challengeId: 'rec6ZOkRMNlJNAKgl', skillId: 'recYLxHqrLVUBjF2a', inferredSkillIds: ['recRPl7tXR8n2D5xU'] },
+      {
+        challengeId: 'recX3USEK62h8rACE', skillId: 'recfO8994EvSQV9Ip', inferredSkillIds: ['rec0aOgRFRJ1qPG0b'],
+        knowledgeElementStatus: KnowledgeElement.StatusType.INVALIDATED
+      },
     ],
   });
 

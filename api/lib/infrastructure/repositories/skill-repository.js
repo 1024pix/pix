@@ -6,7 +6,8 @@ function _toDomain(skillData) {
     id: skillData.id,
     name: skillData.name,
     pixValue: skillData.pixValue,
-    competenceId: skillData.competenceId
+    competenceId: skillData.competenceId,
+    tutorialIds: skillData.tutorialIds,
   });
 }
 

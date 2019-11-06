@@ -1,10 +1,10 @@
 const _ = require('lodash');
 
 const Challenge = require('../../domain/models/Challenge');
-const Skill = require('../../domain/models/Skill');
 
 const challengeDatasource = require('../datasources/airtable/challenge-datasource');
 const skillDatasource = require('../datasources/airtable/skill-datasource');
+const skillAdapter = require('../adapters/skill-adapter');
 const solutionAdapter = require('../adapters/solution-adapter');
 const AirtableResourceNotFound = require('../datasources/airtable/AirtableResourceNotFound');
 const { NotFoundError } = require('../../domain/errors');
@@ -66,12 +66,7 @@ function _generateChallengeDomainModel(challengeDataObject) {
 }
 
 function _adaptChallengeFromDataObjects({ challengeDataObject, skillDataObjects }) {
-  const skills = skillDataObjects.map((skillDataObject) => new Skill({
-    id: skillDataObject.id,
-    name: skillDataObject.name,
-    pixValue: skillDataObject.pixValue,
-    competenceId: skillDataObject.competenceId,
-  }));
+  const skills = skillDataObjects.map((skillDataObject) => skillAdapter.fromAirtableDataObject(skillDataObject));
 
   const solution = solutionAdapter.fromChallengeAirtableDataObject(challengeDataObject);
 

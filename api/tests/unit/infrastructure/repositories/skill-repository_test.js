@@ -19,26 +19,35 @@ describe('Unit | Repository | skill-repository', function() {
       skillDatasource.findByCompetenceId
         .withArgs('competence_id')
         .resolves([
-          new airTableDataObjects.Skill({ id: 'recAcquix1', name: '@acquix1', pixValue: 2.4, competenceId: 'rec1' }),
-          new airTableDataObjects.Skill({ id: 'recAcquix2', name: '@acquix2', pixValue: 2.4, competenceId: 'rec2' }),
+          new airTableDataObjects.Skill({
+            id: 'recAcquix1',
+            name: '@acquix1',
+            pixValue: 2.4,
+            competenceId: 'rec1',
+            tutorialIds: [1, 2, 3],
+          }),
+          new airTableDataObjects.Skill({
+            id: 'recAcquix2',
+            name: '@acquix2',
+            pixValue: 2.4,
+            competenceId: 'rec2',
+          }),
         ]);
     });
 
-    it('should resolve all skills for one competence', function() {
+    it('should resolve all skills for one competence', async function() {
       //given
 
       // when
-      const promise = skillRepository.findByCompetenceId(competenceID);
+      const skills = await skillRepository.findByCompetenceId(competenceID);
 
       // then
-      return promise.then((skills) => {
-        expect(skills).to.have.lengthOf(2);
-        expect(skills[0]).to.be.instanceof(DomainSkill);
-        expect(skills).to.be.deep.equal([
-          { id: 'recAcquix1', name: '@acquix1', pixValue: 2.4, competenceId: 'rec1' },
-          { id: 'recAcquix2', name: '@acquix2', pixValue: 2.4, competenceId: 'rec2' },
-        ]);
-      });
+      expect(skills).to.have.lengthOf(2);
+      expect(skills[0]).to.be.instanceof(DomainSkill);
+      expect(skills).to.be.deep.equal([
+        { id: 'recAcquix1', name: '@acquix1', pixValue: 2.4, competenceId: 'rec1', tutorialIds: [1, 2, 3] },
+        { id: 'recAcquix2', name: '@acquix2', pixValue: 2.4, competenceId: 'rec2', tutorialIds: [] },
+      ]);
     });
   });
 

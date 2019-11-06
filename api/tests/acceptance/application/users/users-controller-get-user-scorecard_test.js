@@ -149,6 +149,11 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
                   type: 'areas'
                 }
               },
+              tutorials: {
+                links: {
+                  related: `/api/scorecards/${userId}_${competenceId}/tutorials`
+                }
+              }
             },
           }],
           included: [

@@ -1,4 +1,5 @@
 import findAssessments from './routes/find-assessments';
+import findTutorials from './routes/find-tutorials';
 import getAnswer from './routes/get-answer';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
 import getAssessment from './routes/get-assessment';
@@ -80,6 +81,7 @@ export default function() {
   this.get('/users/:id/campaign-participations', getUserCampaignParticipations);
   this.post('/users/:userId/competences/:competenceId/reset', resetScorecard);
   this.get('/scorecards/:id', getScorecard);
+  this.get('/scorecards/:id/tutorials', findTutorials);
   this.get('/competences/:id');
   this.get('/areas/:id');
   this.get('/organizations/:id');
