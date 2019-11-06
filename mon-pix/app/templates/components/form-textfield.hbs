@@ -13,6 +13,7 @@
           class= 'form-textfield__input'
           classBinding="inputValidationStatus"
           autocomplete=autocomplete
+          ariaDescribedBy='validationMessage'
           required=require}}
     <div class="form-textfield__icon">
       {{#if isPassword}}
@@ -35,5 +36,5 @@
 
 </div>
 {{#if hasIcon}}
-    <div class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}" role="alert">{{validationMessage}}</div>
+    <div id="validationMessage" class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}" role="alert">{{validationMessage}}</div>
 {{/if}}
