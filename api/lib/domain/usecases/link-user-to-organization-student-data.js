@@ -1,4 +1,6 @@
 const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
+const { t1, t2 } = require('../services/validation-treatments');
+const { t3 } = require('../services/validation-comparison');
 
 module.exports = async function linkUserToOrganizationStudentData({
   campaignCode,
@@ -6,7 +8,6 @@ module.exports = async function linkUserToOrganizationStudentData({
   campaignRepository,
   studentRepository,
 }) {
-  let student;
   const campaign = await campaignRepository.getByCode(campaignCode);
   const organizationId = campaign.organizationId;
 
@@ -14,18 +15,60 @@ module.exports = async function linkUserToOrganizationStudentData({
     throw new UserNotAuthorizedToAccessEntity('User is not part of the organization student list');
   }
 
-  const students = await studentRepository.findByOrganizationIdAndUserInformation({
-    organizationId,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    birthdate: user.birthdate,
-  });
+  const studentsNotLinkedYetWithMatchingBirthdateAndOrganizationId = await studentRepository
+    .findNotLinkedYetByOrganizationIdAndUserBirthdate({ organizationId, birthdate: user.birthdate });
 
-  if (students.length === 1) {
-    student = students[0];
-  } else {
+  if (studentsNotLinkedYetWithMatchingBirthdateAndOrganizationId.length === 0) {
     throw new NotFoundError('Not found only 1 student');
   }
 
-  return await studentRepository.associateUserAndStudent({ userId: user.id, studentId: student.id });
+  const standardizedUser = {
+    firstName: t2(t1(user.firstName)),
+    lastName: t2(t1(user.lastName))
+  };
+
+  const foundStudentsStandardized = studentsNotLinkedYetWithMatchingBirthdateAndOrganizationId.map((student) => {
+    return {
+      id: student.id,
+      firstName: student.firstName ? t2(t1(student.firstName)) : null,
+      middleName: student.middleName ? t2(t1(student.middleName)) : null,
+      thirdName: student.thirdName ? t2(t1(student.thirdName)) : null,
+      lastName: student.lastName ? t2(t1(student.lastName)) : null,
+      preferredLastName: student.preferredLastName ? t2(t1(student.preferredLastName)) : null,
+    };
+  });
+
+  let foundStudents = foundStudentsStandardized.filter((student) => {
+    if (student && student.firstName && student.lastName) {
+      return hasT3Check(standardizedUser.firstName, student.firstName)
+        && (hasT3Check(standardizedUser.lastName, student.lastName) || hasT3Check(standardizedUser.lastName, student.preferredLastName));
+    }
+  });
+
+  if (foundStudents.length !== 1) {
+    foundStudents = foundStudentsStandardized.filter((student) => {
+      if (student.middleName && student.lastName) {
+        return hasT3Check(standardizedUser.firstName, student.middleName) && (hasT3Check(standardizedUser.lastName, student.lastName) || hasT3Check(standardizedUser.lastName, student.preferredLastName));
+      }
+    });
+  }
+
+  if (foundStudents.length !== 1) {
+    foundStudents = foundStudentsStandardized.filter((student) => {
+      if (student.thirdName && student.lastName) {
+        return hasT3Check(standardizedUser.firstName, student.thirdName) && (hasT3Check(standardizedUser.lastName, student.lastName) || hasT3Check(standardizedUser.lastName, student.preferredLastName));
+      }
+    });
+  }
+
+  if (foundStudents.length !== 1) {
+    throw new NotFoundError('Not found only 1 student');
+  }
+
+  const matchedStudent = foundStudents[0];
+  return studentRepository.associateUserAndStudent({ userId: user.id, studentId: matchedStudent.id });
+
+  function hasT3Check(string1, string2) {
+    return t3(string1, [string2]) <= 0.25;
+  }
 };
