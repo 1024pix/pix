@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.83.0 (07/11/2019)
+
+- [#774](https://github.com/1024pix/pix/pull/774) [FEATURE] Afficher les tutoriels associés à une compétence (PF-587).
+- [#808](https://github.com/1024pix/pix/pull/808) [BUGFIX] Ajout d'un état "loading" quand on clique sur le bouton de création de son compte (PF-904).
+- [#804](https://github.com/1024pix/pix/pull/804) [TECH] Corriger le test d'acceptance de POST /answers.
+
 ## v2.82.0 (05/11/2019)
 
 - [#753](https://github.com/1024pix/pix/pull/753) [FEATURE] Lier un utilisateur participant à une session de certification à un candidat inscrit au préalable à cette même session (PF-383)
