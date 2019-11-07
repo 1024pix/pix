@@ -2,7 +2,7 @@ import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import { render } from '@ember/test-helpers';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 const ANSWER_BLOCK = '.correction-qroc-box__answer';
@@ -13,12 +13,46 @@ describe('Integration | Component | qroc solution panel', function() {
 
   setupRenderingTest();
 
-  it('should disabled all inputs', async function() {
-    // given
-    await render(hbs`{{qroc-solution-panel}}`);
+  describe('When format is paragraph', function() {
+    it('should display disabled textarea', async function() {
+      // given
+      const challenge = EmberObject.create({ format: 'paragraphe' });
+      const answer = EmberObject.create({ challenge });
+      this.set('answer', answer);
+      await render(hbs`{{qroc-solution-panel answer=answer}}`);
 
-    // then
-    expect(document.querySelector('input')).to.have.attr('disabled');
+      //when
+      await render(hbs`{{qroc-solution-panel answer=answer}}`);
+
+      // then
+      expect(find('.correction-qroc-box--answer__input')).to.not.exist;
+      expect(find('.correction-qroc-box--answer__textarea')).to.have.attr('disabled');
+    });
+  });
+
+  describe('When format is not a paragraph', function() {
+    [
+      { format: 'petit', expectedSize: '5' },
+      { format: 'mots', expectedSize: '15' },
+      { format: 'phrase', expectedSize: '50' },
+      { format: 'unreferenced_format', expectedSize: '15' }
+    ].forEach((data) => {
+      it(`should display a disabled input with expected size (${data.expectedSize}) when format is ${data.format}`, async function() {
+        // given
+        const challenge = EmberObject.create({ format: data.format });
+        const answer = EmberObject.create({ challenge });
+        this.set('answer', answer);
+        await render(hbs`{{qroc-solution-panel answer=answer}}`);
+
+        //when
+        await render(hbs`{{qroc-solution-panel answer=answer}}`);
+
+        // then
+        expect(find('.correction-qroc-box--answer__textarea')).to.not.exist;
+        expect(find('.correction-qroc-box--answer__input')).to.have.attr('disabled');
+        expect(find('.correction-qroc-box--answer__input').getAttribute('size')).to.equal(data.expectedSize);
+      });
+    });
   });
 
   describe('comparison when the answer is right', function() {
