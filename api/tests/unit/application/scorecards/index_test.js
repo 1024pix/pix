@@ -39,4 +39,31 @@ describe('Unit | Router | scorecard-router', () => {
     });
   });
 
+  describe('GET /api/scorecards/{id}/tutorials', () => {
+
+    beforeEach(() => {
+      sinon.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, h) => {
+        h.continue({ credentials: { accessToken: 'jwt.access.token' } });
+      });
+      sinon.stub(scorecardController, 'findTutorials').returns('ok');
+      startServer();
+    });
+
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/scorecards/foo/tutorials',
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+  });
+
 });

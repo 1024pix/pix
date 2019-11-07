@@ -13,16 +13,19 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
     bookshelfTargetProfile.related = sinon.stub().onCall('sharedWithOrganizations').resolves([ organizationWhichShared ]);
     const skillAirtableDataObject = domainBuilder.buildSkillAirtableDataObject();
     const associatedSkillAirtableDataObjects = [skillAirtableDataObject];
+    const skill = domainBuilder.buildSkill({
+      id: skillAirtableDataObject.id,
+      name: skillAirtableDataObject.name,
+      pixValue: skillAirtableDataObject.pixValue,
+      competenceId: skillAirtableDataObject.competenceId,
+      tutorialIds: ['receomyzL0AmpMFGw'],
+    });
     const expectedTargetProfile = domainBuilder.buildTargetProfile({
       id: bookshelfTargetProfile.get('id'),
       name: bookshelfTargetProfile.get('name'),
       isPublic: Boolean(bookshelfTargetProfile.get('isPublic')),
       organizationId: bookshelfTargetProfile.get('organizationId'),
-      skills: [domainBuilder.buildSkill({
-        id: skillAirtableDataObject.id,
-        name: skillAirtableDataObject.name,
-        pixValue: skillAirtableDataObject.pixValue,
-        competenceId: skillAirtableDataObject.competenceId })],
+      skills: [skill],
       sharedWithOrganizationIds: [organizationWhichShared.get('organizationId')]
     });
 

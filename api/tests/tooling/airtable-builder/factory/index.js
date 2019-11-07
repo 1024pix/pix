@@ -4,4 +4,6 @@ module.exports = {
   buildCompetence: require('./build-competence'),
   buildCourse: require('./build-course'),
   buildSkill: require('./build-skill'),
+  buildTube: require('./build-tube'),
+  buildTutorial: require('./build-tutorial'),
 };

@@ -93,6 +93,28 @@ describe('Unit | Infrastructure | preloader', () => {
     }
   });
 
+  const airtableTube_1 = new AirtableRecord('Tubes', 'recTube1', {
+    fields: {
+      'id': 'recTube1',
+      'name': '@Moteur',
+      'title': 'Titre',
+      'description': 'Description',
+      'practicalTitle': 'Titre pratique',
+      'practicalDescription': 'Description pratique',
+    }
+  });
+
+  const airtableTube_2 = new AirtableRecord('Tubes', 'recTube2', {
+    fields: {
+      'id': 'recTube2',
+      'name': '@enregistrer',
+      'title': 'Titre',
+      'description': 'Description',
+      'practicalTitle': 'Titre pratique',
+      'practicalDescription': 'Description pratique',
+    }
+  });
+
   const airtableTutorial = new AirtableRecord('Tutoriels', 'recTutorial', {
     fields: {
       'Titre': 'Les formats de cellule',
@@ -139,6 +161,10 @@ describe('Unit | Infrastructure | preloader', () => {
       airtable.findRecordsSkipCache
         .withArgs('Tests')
         .resolves([ airtableProgressionCourse, airtableAdaptiveCourse, airtableWeekCourse ]);
+
+      airtable.findRecordsSkipCache
+        .withArgs('Tubes')
+        .resolves([ airtableTube_1, airtableTube_2 ]);
 
       airtable.findRecordsSkipCache
         .withArgs('Tutoriels')
