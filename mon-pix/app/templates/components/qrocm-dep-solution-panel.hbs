@@ -3,7 +3,18 @@
     {{#each inputFields as |field|}}
       {{{field.label}}}
       <div class="correction-qrocm__answer-solution">
-        <input value="{{field.answer}}" class="correction-qrocm__answer-input {{field.inputClass}}" disabled>
+        {{#if (eq challenge.format 'paragraphe')}}
+          <textarea class="correction-qrocm__answer-textarea"
+                    value="{{field.answer}}"
+                    data-uid="qroc-proposal-uid"
+                    disabled>
+          </textarea>
+        {{else}}
+          <input value="{{field.answer}}"
+                 size="{{get-qroc-input-size challenge.format}}"
+                 class="correction-qrocm__answer-input {{field.inputClass}}"
+                 disabled>
+        {{/if}}
       </div>
     {{/each}}
     {{#unless answerIsCorrect}}
