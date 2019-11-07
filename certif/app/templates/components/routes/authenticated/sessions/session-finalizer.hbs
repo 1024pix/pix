@@ -1,0 +1,17 @@
+<div class="page__title session-finalizer">
+  <div class="session-finalizer__title">
+    {{#link-to "authenticated.sessions.details" session.id class="icon-button session-details-content__return-button"}}
+      {{fa-icon 'arrow-left'}}
+    {{/link-to}}
+    <h1 class="page-title">Finaliser la session</h1>
+  </div>
+  <div class="session-finalizer__subtitle">
+    <p>Pour finaliser la session, complétez les trois étapes puis validez. Vous pouvez sauvegarder vos changements à tout moment.</p>
+  </div>
+  <ActionButton
+    class="session-finalizer__button"
+    @isLoading={{isLoading}}
+    @handleClick={{action 'finalizeSession' session}} >
+    Finaliser
+  </ActionButton>
+</div>

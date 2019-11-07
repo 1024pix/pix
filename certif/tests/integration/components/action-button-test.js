@@ -8,18 +8,18 @@ module('Integration | Component | action-btn', function(hooks) {
 
   test('it renders the text passed in when not in a loading state by default', async function(assert) {
     await render(hbs`
-      <ActionBtn>
+      <ActionButton>
         Finalize
-      </ActionBtn>
+      </ActionButton>
     `);
     assert.equal(this.element.textContent.trim(), 'Finalize');
   });
   test('it renders a loader when in a loading state', async function(assert) {
     this.set('isLoading', true);
     await render(hbs`
-      <ActionBtn @isLoading={{true}}>
+      <ActionButton @isLoading={{true}}>
         Finalize
-      </ActionBtn>
+      </ActionButton>
     `);
     assert.ok(this.element.firstElementChild.firstElementChild.classList.contains('button__loader'));
   });
