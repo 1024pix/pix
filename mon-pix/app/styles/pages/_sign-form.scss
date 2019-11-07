@@ -72,8 +72,8 @@
   }
 
   &__validation-error {
-    margin-bottom: 7px;
-    text-align: center;
+    color: $red-error;
+    font-weight: normal;
   }
 }
 
@@ -195,11 +195,6 @@
   @include device-is('tablet') {
     font-size: 1.5rem;
   }
-}
-
-.sign-form-validation-error {
-  color: $pure-orange;
-  font-size: 1.2rem;
 }
 
 .sign-form-link {
