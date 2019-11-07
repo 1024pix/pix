@@ -1,6 +1,5 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const _ = require('lodash');
 
 describe('Acceptance | Controller | session-controller-get', () => {
 
@@ -100,7 +99,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
         address: 'Paris',
         room: 'Salle 1',
         examiner: 'Bernard',
-        date: new Date('2017-12-08'),
+        date: '2017-12-08',
         time: '14:30',
         accessCode: 'ABC123',
         description: '',
@@ -114,7 +113,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
         address: 'Lyon',
         room: 'Salle 2',
         examiner: 'Bernard',
-        date: new Date('2017-12-08'),
+        date: '2017-12-08',
         time: '14:30',
         accessCode: 'DEF456',
         description: '',
@@ -155,6 +154,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'access-code': 'ABC123',
             'address': 'Paris',
             'certification-center': 'Centre 1',
+            'date': '2017-12-08',
             'description': '',
             'examiner': 'Bernard',
             'room': 'Salle 1',
@@ -177,6 +177,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'access-code': 'DEF456',
             'address': 'Lyon',
             'certification-center': 'Centre 2',
+            'date': '2017-12-08',
             'description': '',
             'examiner': 'Bernard',
             'room': 'Salle 2',
@@ -200,10 +201,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
 
       // then
       return promise.then((response) => {
-        const result = {};
-        // TODO : Handle date type correctly
-        result.data = _.map(response.result.data, (item) => _.omit(item, ['attributes.date']));
-        expect(result).to.deep.equal(expectedResult);
+        expect(response.result).to.deep.equal(expectedResult);
       });
     });
   });

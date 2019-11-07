@@ -110,7 +110,7 @@ describe('Unit | Service | Certification Service', function() {
           firstName: 'Pumba',
           lastName: 'De La Savane',
           birthplace: 'Savane',
-          birthdate: '28/01/1992',
+          birthdate: '1992-01-28',
           sessionId: 'MoufMufassa',
           externalId: 'TimonsFriend',
         }));
@@ -156,7 +156,7 @@ describe('Unit | Service | Certification Service', function() {
           expect(certification.firstName).to.deep.equal('Pumba');
           expect(certification.lastName).to.deep.equal('De La Savane');
           expect(certification.birthplace).to.deep.equal('Savane');
-          expect(certification.birthdate).to.deep.equal('28/01/1992');
+          expect(certification.birthdate).to.deep.equal('1992-01-28');
           expect(certification.externalId).to.deep.equal('TimonsFriend');
         });
       });
@@ -174,7 +174,7 @@ describe('Unit | Service | Certification Service', function() {
           firstName: 'Pumba',
           lastName: 'De La Savane',
           birthplace: 'Savane',
-          birthdate: '28/01/1992',
+          birthdate: '1992-01-28',
           sessionId: 'MoufMufassa',
           externalId: 'TimonsFriend',
         }));

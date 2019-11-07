@@ -7,7 +7,7 @@ module.exports = function buildCertificationCourse(
     id = faker.random.number(),
     // attributes
     birthplace = faker.address.city(),
-    birthdate = moment(faker.date.past(25)).format('DD/MM/YYYY'),
+    birthdate = moment(faker.date.past(25)).format('YYYY-MM-DD'),
     completedAt = faker.date.recent(),
     createdAt = faker.date.past(1),
     externalId = faker.random.uuid(),

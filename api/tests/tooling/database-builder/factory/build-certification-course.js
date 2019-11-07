@@ -3,6 +3,7 @@ const buildSession = require('./build-session');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
+const moment = require('moment');
 
 module.exports = function buildCertificationCourse({
   id,
@@ -11,7 +12,7 @@ module.exports = function buildCertificationCourse({
   updatedAt = faker.date.recent(),
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
-  birthdate = faker.date.past(12),
+  birthdate = moment(faker.date.past(12)).format('YYYY-MM-DD'),
   birthplace = faker.address.city(),
   sessionId,
   externalId = faker.random.uuid(),

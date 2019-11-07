@@ -39,4 +39,23 @@ module('Integration | Component | certification-info-field', function(hooks) {
     assert.dom('.certification-info-field .certification-info-value').hasText('a field value SUFFIX');
   });
 
+  test('it renders a flatpickr in edition mode when is date', async function(assert) {
+    // Given
+    const store = this.owner.lookup('service:store');
+    const certification = store.createRecord('certification', {
+      id: 1,
+      birthdate: '2019-02-18',
+    });
+    this.set('certification', certification);
+    this.set('onUpdateCertificationBirthdate', () => {});
+
+    // When
+    await render(hbs`{{certification-info-field isDate=true 
+    value=certification.birthdate edition=true 
+    onUpdateCertificationBirthdate=onUpdateCertificationBirthdate}}`);
+
+    // Then
+    assert.dom('.ember-flatpickr-input').exists();
+  });
+
 });

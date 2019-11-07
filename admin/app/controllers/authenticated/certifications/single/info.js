@@ -183,7 +183,10 @@ export default Controller.extend({
           this.set('edition', true);
         });
       }
-    }
+    },
+    onUpdateCertificationBirthdate(selectedDates, lastSelectedDateFormatted) {
+      this.set('certification.birthdate', lastSelectedDateFormatted);
+    },
   },
 
   // Private methods

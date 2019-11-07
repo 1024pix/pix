@@ -125,8 +125,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         }
       };
 
-      // FIXME deserializer expects date in localized format!
-      jsonApiSession.data.attributes.date = '20/01/2017';
+      jsonApiSession.data.attributes.date = '2017-01-20';
     });
 
     it('should convert JSON API data to a Session', function() {

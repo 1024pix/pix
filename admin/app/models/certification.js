@@ -7,7 +7,7 @@ export default DS.Model.extend({
   assessmentId: DS.attr(),
   firstName: DS.attr(),
   lastName: DS.attr(),
-  birthdate: DS.attr(),
+  birthdate: DS.attr('date-only'),
   birthplace: DS.attr(),
   externalId: DS.attr(),
   createdAt: DS.attr(),

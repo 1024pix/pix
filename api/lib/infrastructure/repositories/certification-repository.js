@@ -1,4 +1,3 @@
-
 const Assessment = require('../../domain/models/Assessment');
 const AssessmentResultBookshelf = require('../data/assessment-result');
 const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/certification-course');

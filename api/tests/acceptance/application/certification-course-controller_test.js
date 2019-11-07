@@ -293,7 +293,7 @@ describe('Acceptance | API | Certification Course', () => {
               'first-name': 'Freezer',
               'last-name': 'The all mighty',
               'birthplace': 'Namek',
-              'birthdate': '24/10/1989',
+              'birthdate': '1989-10-24',
               'external-id': 'xenoverse2'
             }
           }
