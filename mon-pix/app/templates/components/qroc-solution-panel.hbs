@@ -2,7 +2,17 @@
   <div class="rounded-panel__row ">
 
     <div class="correction-qroc-box__answer">
-      <input class="{{inputClass}} correction-qroc-box--answer__input" value="{{answerToDisplay}}" disabled>
+      {{#if (eq answer.challenge.format 'paragraphe')}}
+        <textarea class="correction-qroc-box--answer__textarea"
+                  value="{{answerToDisplay}}"
+                  disabled>
+        </textarea>
+      {{else}}
+        <input class="{{inputClass}} correction-qroc-box--answer__input"
+               size="{{get-qroc-input-size answer.challenge.format}}"
+               value="{{answerToDisplay}}"
+               disabled>
+      {{/if}}
     </div>
 
     {{#unless isResultOk}}
