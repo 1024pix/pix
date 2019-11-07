@@ -1,6 +1,7 @@
 import Service, { inject as service } from '@ember/service';
 import json2csv from 'json2csv';
 import _ from 'lodash';
+import moment from 'moment';
 
 const competenceIndexes = [
   '1.1', '1.2', '1.3',
@@ -103,7 +104,7 @@ function _buildSessionExportFileData(session) {
     rowItem['Numéro de certification'] = certification.id;
     rowItem['Prénom'] = certification.firstName;
     rowItem['Nom'] = certification.lastName;
-    rowItem['Date de naissance'] = certification.birthdate;
+    rowItem['Date de naissance'] = moment(certification.birthdate).format('DD/MM/YYYY');
     rowItem['Lieu de naissance'] = certification.birthplace;
     rowItem['Identifiant Externe'] = certification.externalId;
     rowItem['Nombre de Pix'] = certification.pixScore;
@@ -119,7 +120,7 @@ function _buildSessionExportFileData(session) {
 
     rowItem['Session'] = session.id;
     rowItem['Centre de certification'] = session.certificationCenter;
-    rowItem['Date de passage de la certification'] = certification.creationDate.substring(0, 10);
+    rowItem['Date de passage de la certification'] = moment(certification.createdAt).format('DD/MM/YYYY');
 
     return rowItem;
   });

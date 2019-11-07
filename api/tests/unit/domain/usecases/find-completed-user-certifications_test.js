@@ -21,7 +21,7 @@ describe('Unit | UseCase | find-completed-user-certifications', () => {
     const completedCertifications = new Certification({
       id: 1000,
       certificationCenter: 'Université des chocolats',
-      date: '12/02/2000',
+      date: '2000-02-12',
       isPublished: true,
       assessmentState: 'completed',
       assessmentResults: [assessmentResult]
