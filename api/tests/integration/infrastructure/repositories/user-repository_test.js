@@ -518,15 +518,20 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
   describe('#isUserExistingByEmail', () => {
     const email = 'shi@fu.fr';
     beforeEach(async () => {
-      await databaseBuilder.clean();
-      databaseBuilder.factory.buildUser({ email }).id;
+      databaseBuilder.factory.buildUser({ email });
       databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
     });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
     it('should return true when the user exists by email', async () => {
       const userExists = await userRepository.isUserExistingByEmail(email);
       expect(userExists).to.be.true;
     });
+
     it('should throw an error when the user does not exist by email', async () => {
       const err = await catchErr(userRepository.isUserExistingByEmail)('none');
       expect(err).to.be.instanceOf(NotFoundError);
@@ -538,24 +543,29 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     context('when there are users in the database', () => {
 
       beforeEach(async () => {
-        await databaseBuilder.clean();
         _.times(3, databaseBuilder.factory.buildUser);
 
         await databaseBuilder.commit();
       });
 
+      afterEach(async () => {
+        await databaseBuilder.clean();
+      });
+
       it('should return an Array of Users', async () => {
         // given
         const filters = {};
-        const pagination = { page: 1, pageSize: 10 };
+        const requestedPagination = { page: 1, pageSize: 10 };
+        const expectedPagination = { ...requestedPagination, pageCount: 1, rowCount: 3 };
 
         // when
-        const matchingUsers = await userRepository.find(filters, pagination);
+        const { models: matchingUsers, pagination } = await userRepository.find(filters, requestedPagination);
 
         // then
         expect(matchingUsers).to.exist;
         expect(matchingUsers).to.have.lengthOf(3);
         expect(matchingUsers[0]).to.be.an.instanceOf(User);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
     });
 
@@ -574,13 +584,15 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       it('should return paginated matching users', async () => {
         // given
         const filters = {};
-        const pagination = { page: 1, pageSize: 3 };
+        const requestedPagination = { page: 1, pageSize: 3 };
+        const expectedPagination = { ...requestedPagination, pageCount: 4, rowCount: 12 };
 
         // when
-        const matchingUsers = await userRepository.find(filters, pagination);
+        const { models: matchingUsers, pagination } = await userRepository.find(filters, requestedPagination);
 
         // then
         expect(matchingUsers).to.have.lengthOf(3);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
     });
 
@@ -602,15 +614,15 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       it('should return only users matching "first name" if given in filters', async () => {
         // given
         const filters = { firstName: 'Go' };
-        const pagination = { page: 1, pageSize: 10 };
+        const requestedPagination = { page: 1, pageSize: 10 };
+        const expectedPagination = { ...requestedPagination, pageCount: 1, rowCount: 3 };
 
         // when
-        const promise = userRepository.find(filters, pagination);
+        const { models: matchingUsers, pagination } = await userRepository.find(filters, requestedPagination);
 
         // then
-        return promise.then((matchingUsers) => {
-          expect(_.map(matchingUsers, 'firstName')).to.have.members(['Son Gohan', 'Son Goku', 'Son Goten']);
-        });
+        expect(_.map(matchingUsers, 'firstName')).to.have.members(['Son Gohan', 'Son Goku', 'Son Goten']);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
     });
 
@@ -637,13 +649,15 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       it('should return only users matching "last name" if given in filters', async () => {
         // given
         const filters = { lastName: 'walk' };
-        const pagination = { page: 1, pageSize: 10 };
+        const requestedPagination = { page: 1, pageSize: 10 };
+        const expectedPagination = { ...requestedPagination, pageCount: 1, rowCount: 3 };
 
         // when
-        const matchingUsers = await userRepository.find(filters, pagination);
+        const { models: matchingUsers, pagination } = await userRepository.find(filters, requestedPagination);
 
         // then
         expect(_.map(matchingUsers, 'firstName')).to.have.members(['Anakin', 'Luke', 'Leia']);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
     });
 
@@ -670,13 +684,15 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       it('should return only users matching "email" if given in filters', async () => {
         // given
         const filters = { email: 'pix.fr' };
-        const pagination = { page: 1, pageSize: 10 };
+        const requestedPagination = { page: 1, pageSize: 10 };
+        const expectedPagination = { ...requestedPagination, pageCount: 1, rowCount: 3 };
 
         // when
-        const matchingUsers = await userRepository.find(filters, pagination);
+        const { models: matchingUsers, pagination } = await userRepository.find(filters, requestedPagination);
 
         // then
         expect(_.map(matchingUsers, 'email')).to.have.members(['playpus@pix.fr', 'panda@pix.fr', 'otter@pix.fr']);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
     });
 
@@ -707,15 +723,17 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       it('should return only users matching "first name" AND "last name" AND "email" if given in filters', async () => {
         // given
         const filters = { firstName: 'fn_ok', lastName: 'ln_ok', email: 'email_ok' };
-        const pagination = { page: 1, pageSize: 10 };
+        const requestedPagination = { page: 1, pageSize: 10 };
+        const expectedPagination = { ...requestedPagination, pageCount: 1, rowCount: 3 };
 
         // when
-        const matchingUsers = await userRepository.find(filters, pagination);
+        const { models: matchingUsers, pagination } = await userRepository.find(filters, requestedPagination);
 
         // then
         expect(_.map(matchingUsers, 'firstName')).to.have.members(['fn_ok_1', 'fn_ok_2', 'fn_ok_3']);
         expect(_.map(matchingUsers, 'lastName')).to.have.members(['ln_ok_1', 'ln_ok_2', 'ln_ok_3']);
         expect(_.map(matchingUsers, 'email')).to.have.members(['email_ok_1@mail.com', 'email_ok_2@mail.com', 'email_ok_3@mail.com']);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
     });
 
@@ -738,74 +756,18 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       it('should ignore the filters and retrieve all users', async () => {
         // given
         const filters = { id: firstUserId };
-        const pagination = { page: 1, pageSize: 10 };
+        const requestedPagination = { page: 1, pageSize: 10 };
+        const expectedPagination = { ...requestedPagination, pageCount: 1, rowCount: 2 };
 
         // when
-        const matchingUsers = await userRepository.find(filters, pagination);
+        const { models: matchingUsers, pagination } = await userRepository.find(filters, requestedPagination);
 
         // then
         expect(_.map(matchingUsers, 'id')).to.have.members([firstUserId, secondUserId]);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
     });
 
   });
 
-  describe('#count', () => {
-
-    context('when there are multiple users in database', () => {
-
-      beforeEach(async () => {
-        _.times(8, databaseBuilder.factory.buildUser);
-
-        await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
-      it('should return the total number of Users when there is no filter', async () => {
-        // given
-        const filters = {};
-
-        // when
-        const totalMatchingUsers = await userRepository.count(filters);
-
-        // then
-        expect(totalMatchingUsers).to.equal(8);
-      });
-    });
-
-    context('when there are multiple users matching the same "email" search pattern', () => {
-
-      beforeEach(async () => {
-        _.each([
-          { email: 'playpus@pix.fr' },
-          { email: 'panda@pix.fr' },
-          { email: 'otter@pix.fr' },
-          { email: 'playpus@example.net' },
-          { email: 'panda@example.net' },
-        ], (user) => {
-          databaseBuilder.factory.buildUser(user);
-        });
-
-        await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
-      it('should return the total number of matching Users', async () => {
-        // given
-        const filters = { email: 'pix.fr' };
-
-        // when
-        const totalMatchingUsers = await userRepository.count(filters);
-
-        // then
-        expect(totalMatchingUsers).to.equal(3);
-      });
-    });
-  });
 });

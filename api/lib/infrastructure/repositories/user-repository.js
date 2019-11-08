@@ -8,6 +8,7 @@ const Membership = require('../../domain/models/Membership');
 const CertificationCenter = require('../../domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
 const Organization = require('../../domain/models/Organization');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 function _toCertificationCenterMembershipsDomain(certificationCenterMembershipBookshelf) {
   return certificationCenterMembershipBookshelf.map((bookshelf) => {
@@ -135,11 +136,10 @@ module.exports = {
     const { page, pageSize } = pagination;
     return BookshelfUser.query((qb) => _setSearchFiltersForQueryBuilder(filters, qb))
       .fetchPage({ page, pageSize })
-      .then((results) => results.map(_toDomain));
-  },
-
-  count(filters) {
-    return BookshelfUser.query((qb) => _setSearchFiltersForQueryBuilder(filters, qb)).count();
+      .then(({ models, pagination }) => {
+        const users = bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, models);
+        return { models: users, pagination };
+      });
   },
 
   getWithMemberships(userId) {

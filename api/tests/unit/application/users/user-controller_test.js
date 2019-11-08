@@ -326,24 +326,20 @@ describe('Unit | Controller | user-controller', () => {
       expect(userSerializer.serialize).to.have.been.calledOnce;
     });
 
-    it('should return a JSON API response with pagination information in the data field "meta"', async () => {
+    it('should return a JSON API response with pagination information', async () => {
       // given
       const request = { query: {} };
-      const searchResultList = new SearchResultList({
-        page: 2,
-        pageSize: 25,
-        totalResults: 100,
-        paginatedResults: [new User({ id: 1 }), new User({ id: 2 }), new User({ id: 3 })],
-      });
-      usecases.findUsers.resolves(searchResultList);
+      const expectedResults = [new User({ id: 1 }), new User({ id: 2 }), new User({ id: 3 })];
+      const expectedPagination = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4 };
+
+      usecases.findUsers.resolves({ models: expectedResults, pagination: expectedPagination });
 
       // when
       await userController.find(request, hFake);
 
       // then
-      const expectedResults = searchResultList.paginatedResults;
-      const expectedMeta = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4, };
-      expect(userSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedMeta);
+
+      expect(userSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedPagination);
     });
 
     it('should allow to filter users by first name', async () => {
