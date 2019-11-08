@@ -88,7 +88,7 @@ export default Controller.extend({
         studentUserAssociation.unloadRecord();
         errorResponse.errors.forEach((error) => {
           if (error.status === '404') {
-            return this.set('errorMessage', 'Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur de la campagne.');
+            return this.set('errorMessage', 'Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
           }
           throw (error);
         });
