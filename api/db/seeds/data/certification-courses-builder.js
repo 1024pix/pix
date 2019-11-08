@@ -7,10 +7,10 @@ module.exports = function certificationCoursesBuilder({ databaseBuilder }) {
     createdAt: new Date('2018-02-15T15:14:46Z'),
     firstName: 'Pix',
     lastName: 'Aile',
-    birthdate: '1960-12-12',
+    birthdate: null,
     birthplace: 'Paris',
     sessionId: 1,
-    externalId: 'NumeroEtudiantHubert',
+    externalId: 'CertificationCourseSansBirthdate',
     isPublished: true
   });
 
