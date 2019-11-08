@@ -3,12 +3,13 @@
 
     <div class="correction-qroc-box__answer">
       {{#if (eq answer.challenge.format 'paragraphe')}}
-        <textarea class="correction-qroc-box--answer__textarea"
+        <textarea class="correction-qroc-box-answer correction-qroc-box-answer--paragraph"
+                  rows="5"
                   value="{{answerToDisplay}}"
                   disabled>
         </textarea>
       {{else}}
-        <input class="{{inputClass}} correction-qroc-box--answer__input"
+        <input class="{{inputClass}} correction-qroc-box-answer"
                size="{{get-qroc-input-size answer.challenge.format}}"
                value="{{answerToDisplay}}"
                disabled>
