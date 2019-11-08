@@ -27,21 +27,6 @@ describe('Integration | Component | QROCm proposal', function() {
       expect(find('.challenge-response__proposal-input')).to.not.exist;
       expect(find('.challenge-response__proposal-textarea').tagName).to.equal('TEXTAREA');
     });
-
-    describe('Component behavior when the user clicks on the input:', function() {
-
-      it('should not display autocompletion answers', async function() {
-        // given
-        const proposals = '${myInput}';
-        this.set('proposals', proposals);
-        this.set('answerValue', '');
-        this.set('format', 'paragraphe');
-        // when
-        await render(hbs`{{qrocm-proposal proposals=proposals format=format answerValue=answerValue}}`);
-        // then
-        expect(find('.challenge-response__proposal-textarea').getAttribute('autocomplete')).to.equal('off');
-      });
-    });
   });
 
   describe('When format is a not paragraph', function() {
@@ -65,21 +50,30 @@ describe('Integration | Component | QROCm proposal', function() {
         expect(find('.challenge-response__proposal-input').getAttribute('size')).to.equal(data.expectedSize);
       });
     });
+  });
 
-    describe('Component behavior when the user clicks on the input:', function() {
+  describe('Whatever the format', function() {
+    [
+      { format: 'mots', cssClass: '.challenge-response__proposal-input', inputType: 'input' },
+      { format: 'unreferenced_format', cssClass: '.challenge-response__proposal-input', inputType: 'input' },
+      { format: 'paragraphe', cssClass: '.challenge-response__proposal-textarea', inputType: 'textarea' },
+    ].forEach((data) => {
+      describe(`Component behavior when the user clicks on the ${data.inputType}`, function() {
 
-      it('should not display autocompletion answers', async function() {
-        // given
-        const proposals = '${myInput}';
-        this.set('proposals', proposals);
-        this.set('answerValue', '');
-        this.set('format', 'mots');
-        // when
-        await render(hbs`{{qrocm-proposal proposals=proposals format=format answerValue=answerValue}}`);
-        // then
-        expect(find('.challenge-response__proposal-input').getAttribute('autocomplete')).to.equal('off');
+        it('should not display autocompletion answers', async function() {
+          // given
+          const proposals = '${myInput}';
+          this.set('proposals', proposals);
+          this.set('answerValue', '');
+          this.set('format', `${data.format}`);
+
+          // when
+          await render(hbs`{{qrocm-proposal proposals=proposals format=format answerValue=answerValue}}`);
+
+          // then
+          expect(find(`${data.cssClass}`).getAttribute('autocomplete')).to.equal('off');
+        });
       });
     });
   });
-
 });
