@@ -121,7 +121,7 @@ module.exports = injectDependencies({
   getUserCurrentCertificationProfile: require('./get-user-current-certification-profile'),
   getUserPixScore: require('./get-user-pix-score'),
   getUserScorecards: require('./get-user-scorecards'),
-  getStudentLinkedToUser: require('./get-student-linked-to-user'),
+  findStudentLinkedToUser: require('./find-student-linked-to-user'),
   getUserWithMemberships: require('./get-user-with-memberships'),
   importCertificationCandidatesFromAttendanceSheet: require('./import-certification-candidates-from-attendance-sheet'),
   importStudentsFromSIECLE: require('./import-students-from-siecle'),

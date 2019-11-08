@@ -3,7 +3,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const Student = require('../../../../lib/domain/models/Student');
 const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
 
-describe('Unit | UseCase | get-student-linked-to-user', () => {
+describe('Unit | UseCase | find-student-linked-to-user', () => {
 
   const userId = 1;
   let studentReceivedStub;
@@ -12,8 +12,7 @@ describe('Unit | UseCase | get-student-linked-to-user', () => {
 
   beforeEach(() => {
     student = domainBuilder.buildStudent({ organizationId, userId });
-
-    studentReceivedStub = sinon.stub(studentRepository, 'getByUserId');
+    studentReceivedStub = sinon.stub(studentRepository, 'findOneByUserId');
   });
 
   afterEach(() => {
@@ -22,12 +21,12 @@ describe('Unit | UseCase | get-student-linked-to-user', () => {
 
   describe('There is a student linked to the given userId', () => {
 
-    it('should call getByUserId in student repositories', async () => {
+    it('should call findOneByUserId in student repositories', async () => {
       // given
       studentReceivedStub.resolves({});
 
       // when
-      await usecases.getStudentLinkedToUser({ userId });
+      await usecases.findStudentLinkedToUser({ userId });
 
       // then
       expect(studentReceivedStub).have.been.calledOnce;
@@ -36,9 +35,9 @@ describe('Unit | UseCase | get-student-linked-to-user', () => {
     it('should return the student', async () => {
       // given
       studentReceivedStub.withArgs({ userId }).resolves(student);
-      
+
       // when
-      const result = await usecases.getStudentLinkedToUser({ userId });
+      const result = await usecases.findStudentLinkedToUser({ userId });
 
       // then
       expect(result).to.be.deep.equal(student);
@@ -53,10 +52,11 @@ describe('Unit | UseCase | get-student-linked-to-user', () => {
       studentReceivedStub.withArgs({ userId }).resolves(null);
 
       // when
-      const result = await usecases.getStudentLinkedToUser({ userId });
+      const result = await usecases.findStudentLinkedToUser({ userId });
 
       // then
       expect(result).to.to.equal(null);
     });
   });
+
 });
