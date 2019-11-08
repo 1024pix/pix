@@ -7,6 +7,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
 
   beforeEach(() => {
     sinon.stub(studentUserAssociationController, 'associate').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(studentUserAssociationController, 'findAssociation').callsFake((request, h) => h.response('ok').code(200));
     server = Hapi.server();
     return server.register(require('../../../../lib/application/student-user-associations'));
   });
@@ -31,5 +32,21 @@ describe('Integration | Application | Route | student-user-associations', () => 
 
     });
 
+  });
+
+  describe('GET /api/student-user-associations', () => {
+
+    it('should exist', () => {
+      // when
+      const promise = server.inject({
+        method: 'GET',
+        url: '/api/student-user-associations',
+      });
+
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(200);
+      });
+    });
   });
 });
