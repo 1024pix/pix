@@ -6,7 +6,7 @@ import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 const ANSWER_BLOCK = '.correction-qroc-box__answer';
-const ANSWER_INPUT = '.correction-qroc-box--answer__input';
+const ANSWER_INPUT = 'input.correction-qroc-box-answer';
 const SOLUTION_BLOCK = '.correction-qroc-box__solution';
 
 describe('Integration | Component | qroc solution panel', function() {
@@ -25,8 +25,8 @@ describe('Integration | Component | qroc solution panel', function() {
       await render(hbs`{{qroc-solution-panel answer=answer}}`);
 
       // then
-      expect(find('.correction-qroc-box--answer__input')).to.not.exist;
-      expect(find('.correction-qroc-box--answer__textarea')).to.have.attr('disabled');
+      expect(find('input')).to.not.exist;
+      expect(find('textarea.correction-qroc-box-answer--paragraph')).to.have.attr('disabled');
     });
   });
 
@@ -48,9 +48,9 @@ describe('Integration | Component | qroc solution panel', function() {
         await render(hbs`{{qroc-solution-panel answer=answer}}`);
 
         // then
-        expect(find('.correction-qroc-box--answer__textarea')).to.not.exist;
-        expect(find('.correction-qroc-box--answer__input')).to.have.attr('disabled');
-        expect(find('.correction-qroc-box--answer__input').getAttribute('size')).to.equal(data.expectedSize);
+        expect(find('textarea.correction-qroc-box-answer--paragraph')).to.not.exist;
+        expect(find('input.correction-qroc-box-answer')).to.have.attr('disabled');
+        expect(find('input.correction-qroc-box-answer').getAttribute('size')).to.equal(data.expectedSize);
       });
     });
   });
