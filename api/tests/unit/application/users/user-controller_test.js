@@ -568,33 +568,32 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getStudent', () => {
+  describe('#findStudent', () => {
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getStudentLinkedToUser').resolves({ userId: 1 });
+      sinon.stub(usecases, 'findStudentLinkedToUser').resolves({ userId: 1 });
       sinon.stub(studentSerializer, 'serialize').resolves();
     });
 
     it('should call the expected usecase', async () => {
       // given
       const userId = 1;
-
       const request = {
         auth: {
           credentials: {
-            userId
-          }
+            userId,
+          },
         },
         params: {
-          id: userId
-        }
+          id: userId,
+        },
       };
 
       // when
-      await userController.getStudent(request);
+      await userController.findStudent(request);
 
       // then
-      expect(usecases.getStudentLinkedToUser).to.have.been.calledWith({ userId });
+      expect(usecases.findStudentLinkedToUser).to.have.been.calledWith({ userId });
     });
   });
 });

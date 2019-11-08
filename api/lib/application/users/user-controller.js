@@ -145,10 +145,10 @@ module.exports = {
       .then(scorecardSerializer.serialize);
   },
 
-  getStudent(request) {
+  findStudent(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.getStudentLinkedToUser({ userId: authenticatedUserId })
+    return usecases.findStudentLinkedToUser({ userId: authenticatedUserId })
       .then(studentSerializer.serialize);
   }
 };

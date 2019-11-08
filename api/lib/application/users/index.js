@@ -257,7 +257,7 @@ exports.register = async function(server) {
           method: securityController.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
-        handler: userController.getStudent,
+        handler: userController.findStudent,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération du student (au sein d’une organisation) lié au user\n' +
