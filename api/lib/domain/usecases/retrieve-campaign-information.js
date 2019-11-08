@@ -1,9 +1,11 @@
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
 
 module.exports = async function retrieveCampaignInformation({
   code,
+  userId,
   campaignRepository,
   organizationRepository,
+  studentRepository,
 }) {
   const foundCampaign = await campaignRepository.getByCode(code);
   if (foundCampaign === null) {
@@ -16,6 +18,14 @@ module.exports = async function retrieveCampaignInformation({
 
   if (foundOrganization.isManagingStudents && foundOrganization.type === 'SCO') {
     foundCampaign.isRestricted = true;
+
+    if (userId) {
+      const student = await studentRepository.findOneByUserId({ userId });
+
+      if (student && student.organizationId !== organizationId) {
+        throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
+      }
+    }
   }
 
   return foundCampaign;

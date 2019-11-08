@@ -1,15 +1,17 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
+const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | retrieve-campaign-information', () => {
 
   let campaign;
   let campaignRepoStub;
   let orgaRepoStub;
+  let studentRepoStub;
   const organizationId = 'organizationId';
   const organization = { id: organizationId, logoUrl: 'a logo url', type: 'SCO' };
   const campaignCode = 'QWERTY123';
@@ -19,6 +21,7 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
     campaign = domainBuilder.buildCampaign({ id: 'campaignId', organizationId });
     campaignRepoStub = sinon.stub(campaignRepository, 'getByCode');
     orgaRepoStub = sinon.stub(organizationRepository, 'get').resolves(organization);
+    studentRepoStub = sinon.stub(studentRepository, 'findOneByUserId');
   });
 
   afterEach(() => {
@@ -88,6 +91,17 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
           expect(result).to.be.instanceof(Campaign);
           expect(result.isRestricted).to.be.true;
 
+        });
+
+        it('throws when the authicated user is a student of another organization', async () => {
+          // given
+          studentRepoStub.resolves({ organizationId: 'foo' });
+
+          // when
+          const error = await catchErr(usecases.retrieveCampaignInformation)({ code: campaignCode, userId: '1234' });
+
+          // then
+          expect(error).to.be.instanceof(UserNotAuthorizedToAccessEntity);
         });
 
       });
