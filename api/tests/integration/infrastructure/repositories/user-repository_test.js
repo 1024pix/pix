@@ -16,7 +16,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
   const userToInsert = {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
-    email: faker.internet.email().toLowerCase(),
+    email: faker.internet.exampleEmail().toLowerCase(),
     password: bcrypt.hashSync('A124B2C3#!', 1),
     cgu: true,
     samlId: 'some-saml-id',
