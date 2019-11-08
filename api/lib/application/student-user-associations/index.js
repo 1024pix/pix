@@ -14,6 +14,19 @@ exports.register = async function(server) {
         tags: ['api', 'studentUserAssociation']
       }
     },
+    {
+      method: 'GET',
+      path: '/api/student-user-associations',
+      config: {
+        handler: studentUserAssociationController.findAssociation,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération du student (au sein d’une organisation) lié au user\n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api', 'studentUserAssociation']
+      }
+    },
   ]);
 };
 
