@@ -34,7 +34,6 @@ function _toDomain(model) {
 
 module.exports = {
 
-  //TODO omit number of course, add it to domain (length of related certificationChallenge array)
   save(certificationCourseDomainModel) {
     const certificationCourseData = _adaptModelToDb(certificationCourseDomainModel);
     const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourseData);
