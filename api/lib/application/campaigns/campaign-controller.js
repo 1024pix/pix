@@ -27,10 +27,11 @@ module.exports = {
   },
 
   async getByCode(request) {
+    const userId = requestResponseUtils.extractUserIdFromRequest(request);
     const filters = queryParamsUtils.extractParameters(request.query).filter;
     await _validateFilters(filters);
 
-    const campaign = await usecases.retrieveCampaignInformation({ code: filters.code });
+    const campaign = await usecases.retrieveCampaignInformation({ code: filters.code, userId });
     return campaignSerializer.serialize([campaign]);
   },
 
@@ -95,4 +96,3 @@ function _validateFilters(filters) {
     throw new infraErrors.MissingQueryParamError('filter.code');
   }
 }
-

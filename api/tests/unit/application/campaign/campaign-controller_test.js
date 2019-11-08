@@ -144,7 +144,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       await campaignController.getByCode(request, hFake);
 
       // then
-      expect(usecases.retrieveCampaignInformation).to.have.been.calledWith({ code: campaignCode });
+      expect(usecases.retrieveCampaignInformation).to.have.been.calledWith({ code: campaignCode, userId: null });
     });
 
     it('should return the serialized campaign found by the use case', async () => {
