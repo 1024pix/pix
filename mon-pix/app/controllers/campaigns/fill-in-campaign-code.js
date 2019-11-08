@@ -23,7 +23,7 @@ export default Controller.extend({
           .then(() => true,
             (error) => {
               if (error.errors[0].status === '403') {
-                this.set('errorMessage', 'Oups ! nous ne parvenons pas à vous trouver. Verifiez vos informations afin de continuer ou prévenez l’organisateur de la campagne.');
+                this.set('errorMessage', 'Oups ! nous ne parvenons pas à vous trouver. Verifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
                 return false;
               }
               if (error.errors[0].status === '404') {
