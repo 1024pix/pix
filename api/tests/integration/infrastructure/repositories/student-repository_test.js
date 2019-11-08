@@ -447,7 +447,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
     });
   });
 
-  describe('#getByUserId', () => {
+  describe('#findOneByUserId', () => {
 
     it('should return instance of Student linked to the given userId', async () => {
       // given
@@ -458,7 +458,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       await databaseBuilder.commit();
 
       // when
-      const student = await studentRepository.getByUserId({ userId });
+      const student = await studentRepository.findOneByUserId({ userId });
 
       // then
       expect(student).to.be.an.instanceOf(Student);
@@ -472,7 +472,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       await databaseBuilder.commit();
 
       // when
-      const result = await studentRepository.getByUserId({ userId });
+      const result = await studentRepository.findOneByUserId({ userId });
 
       // then
       expect(result).to.equal(null);

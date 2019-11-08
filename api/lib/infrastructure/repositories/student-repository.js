@@ -50,7 +50,7 @@ module.exports = {
       .then((student) => bookshelfToDomainConverter.buildDomainObject(BookshelfStudent, student));
   },
 
-  getByUserId({ userId }) {
+  findOneByUserId({ userId }) {
     return BookshelfStudent
       .where({ userId })
       .fetch()
