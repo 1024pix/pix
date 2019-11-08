@@ -6,7 +6,7 @@ export default DS.Transform.extend({
   },
   deserialize: function(date) {
     const dateRegex = '^[0-9]{4}-[0-9]{2}-[0-9]{2}$';
-    if (date.search(dateRegex) === 0) {
+    if (date && date.search(dateRegex) === 0) {
       return date;
     }
     return null;
