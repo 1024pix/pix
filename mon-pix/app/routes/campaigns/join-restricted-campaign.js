@@ -26,4 +26,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
     controller.set('firstName', this.currentUser.user.firstName);
     controller.set('lastName', this.currentUser.user.lastName);
   },
+
+  actions: {
+    error() {
+      return true;
+    },
+  },
 });
