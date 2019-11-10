@@ -15,10 +15,6 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
     return databaseBuilder.commit();
   });
 
-  afterEach(() => {
-    return databaseBuilder.clean();
-  });
-
   describe('find', function() {
     it('should return all snapshots', async function() {
       // when

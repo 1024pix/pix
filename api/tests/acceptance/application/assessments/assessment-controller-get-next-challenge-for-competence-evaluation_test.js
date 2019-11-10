@@ -150,10 +150,6 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should return the second challenge if the first answer is correct', () => {
         // given
         const options = {
@@ -205,10 +201,6 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           competenceId
         });
         await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should finish the test if there is no next challenge', () => {

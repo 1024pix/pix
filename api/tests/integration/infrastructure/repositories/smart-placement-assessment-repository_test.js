@@ -167,9 +167,8 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      airtableBuilder.cleanAll();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return airtableBuilder.cleanAll();
     });
 
     it('should get the smart placement assessment', () => {
@@ -221,10 +220,6 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
       });
       userWithNoAssessment = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should resolve if the given assessmentId belongs to the user', () => {

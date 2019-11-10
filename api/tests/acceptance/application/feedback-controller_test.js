@@ -46,9 +46,8 @@ describe('Acceptance | Controller | feedback-controller', () => {
       };
     });
 
-    afterEach(async () => {
-      await knex('feedbacks').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('feedbacks').delete();
     });
 
     it('should return 201 HTTP status code', () => {

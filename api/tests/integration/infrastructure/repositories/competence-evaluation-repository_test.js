@@ -15,9 +15,8 @@ describe('Integration | Repository | Competence Evaluation', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await knex('competence-evaluations').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('competence-evaluations').delete();
     });
 
     it('should return the given competence evaluation', () => {
@@ -94,10 +93,6 @@ describe('Integration | Repository | Competence Evaluation', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return the competence evaluation linked to the assessment', () => {
       // when
       const promise = competenceEvaluationRepository.getByAssessmentId(assessmentForExpectedCompetenceEvaluation.id);
@@ -147,10 +142,6 @@ describe('Integration | Repository | Competence Evaluation', () => {
       });
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return the competence evaluation linked to the competence id', () => {
@@ -214,10 +205,6 @@ describe('Integration | Repository | Competence Evaluation', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return the competence evaluation linked to the competence id', () => {
       // when
       const promise = competenceEvaluationRepository.findByUserId(user.id);
@@ -241,10 +228,6 @@ describe('Integration | Repository | Competence Evaluation', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should update the competence status', async () => {
       // when
       const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateStatusByAssessmentId({ assessmentId: assessment.id, status: 'new_status' });
@@ -264,10 +247,6 @@ describe('Integration | Repository | Competence Evaluation', () => {
       newAssessmentId = databaseBuilder.factory.buildAssessment({}).id;
       databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId: currentAssessmentId });
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should update the assessment id', async () => {
@@ -291,10 +270,6 @@ describe('Integration | Repository | Competence Evaluation', () => {
       databaseBuilder.factory.buildCompetenceEvaluation({ userId, competenceId, status: 'current_status' });
       databaseBuilder.factory.buildCompetenceEvaluation({ userId: otherUserId, competenceId, status: 'current_status' });
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should update the competence status', async () => {

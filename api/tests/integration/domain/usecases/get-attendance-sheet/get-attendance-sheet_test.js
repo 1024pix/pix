@@ -11,8 +11,7 @@ describe('Integration | UseCases | getAttendanceSheet', () => {
   const expectedOdsFilePath = `${__dirname}/attendance_sheet_template_target.ods`;
   const actualOdsFilePath = `${__dirname}/attendance_sheet_template_actual.tmp.ods`;
 
-  beforeEach(async () => {
-    await databaseBuilder.clean();
+  beforeEach(() => {
     const certificationCenterName = 'Centre de certification';
     userId = databaseBuilder.factory.buildUser().id;
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: certificationCenterName }).id;
@@ -38,11 +37,10 @@ describe('Integration | UseCases | getAttendanceSheet', () => {
       databaseBuilder.factory.buildCertificationCandidate(candidate);
     });
 
-    await databaseBuilder.commit();
+    return databaseBuilder.commit();
   });
 
-  afterEach(async () => {
-    await databaseBuilder.clean();
+  afterEach(() => {
     fs.unlinkSync(actualOdsFilePath);
   });
 

@@ -23,9 +23,11 @@ module.exports = class DatabaseBuilder {
   }
 
   async clean() {
-    for (const objectToDelete of this.databaseBuffer.objectsToDelete) {
-      await this.knex(objectToDelete.tableName).where({ id: objectToDelete.values.id }).delete();
+    if (this.databaseBuffer.objectsToDelete.length > 0) {
+      for (const objectToDelete of this.databaseBuffer.objectsToDelete) {
+        await this.knex(objectToDelete.tableName).where({ id: objectToDelete.values.id }).delete();
+      }
+      this.databaseBuffer.purge();
     }
-    this.databaseBuffer.purge();
   }
 };

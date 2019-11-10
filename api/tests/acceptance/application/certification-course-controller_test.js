@@ -77,10 +77,6 @@ describe('Acceptance | API | Certification Course', () => {
         return databaseBuilder.commit();
       });
 
-      afterEach(() => {
-        return databaseBuilder.clean();
-      });
-
       it('should return 200 HTTP status code', () => {
         // when
         const promise = server.inject(options);
@@ -163,10 +159,6 @@ describe('Acceptance | API | Certification Course', () => {
           }
         };
         return databaseBuilder.commit();
-      });
-
-      afterEach(() => {
-        return databaseBuilder.clean();
       });
 
       it('should return 200 HTTP status code', () => {
@@ -301,10 +293,6 @@ describe('Acceptance | API | Certification Course', () => {
       };
 
       return databaseBuilder.commit();
-    });
-
-    afterEach(() => {
-      return databaseBuilder.clean();
     });
 
     it('should update the certification course', () => {

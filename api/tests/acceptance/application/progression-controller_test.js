@@ -47,9 +47,8 @@ describe('Acceptance | API | Progressions', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
+    afterEach(() => {
       nock.cleanAll();
-      await databaseBuilder.clean();
     });
 
     context('without authorization token', () => {

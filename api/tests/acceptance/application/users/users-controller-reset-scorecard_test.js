@@ -44,8 +44,10 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
   });
 
   afterEach(async () => {
-    await knex('assessments').delete();
-    await databaseBuilder.clean();
+    await knex('competence-evaluations').delete();
+    await knex('knowledge-elements').delete();
+    await knex('answers').delete();
+    return knex('assessments').delete();
   });
 
   describe('POST /users/{id}/competences/{id}/reset', () => {
@@ -96,10 +98,6 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         });
 
         await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should respond with a 421 - precondition failed - if last knowledge element date is not old enough', async () => {
@@ -183,9 +181,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         await knex('competence-evaluations').delete();
         await knex('assessments').delete();
         await knex('campaign-participations').delete();
-
-        await databaseBuilder.clean();
-        airtableBuilder.cleanAll();
+        return airtableBuilder.cleanAll();
       });
 
       it('should return 200 and the updated scorecard', async () => {

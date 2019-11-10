@@ -19,9 +19,8 @@ describe('Integration | Repository | Certification Challenge', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await knex('certification-challenges').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('certification-challenges').delete();
     });
 
     it('should return certification challenge object', () => {
@@ -60,10 +59,6 @@ describe('Integration | Repository | Certification Challenge', function() {
         });
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should find all challenges related to a given certification courseId', async () => {
@@ -114,10 +109,6 @@ describe('Integration | Repository | Certification Challenge', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should find all challenges related to a given certification course id', async () => {
       // when
       const certificationChallenges = await certificationChallengeRepository.findChallengesByCertificationCourseId(certificationCourseId);
@@ -165,10 +156,6 @@ describe('Integration | Repository | Certification Challenge', function() {
         await databaseBuilder.commit();
       });
 
-      after(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should reject the promise if no non answered challenge is found', function() {
         // when
         const promise = certificationChallengeRepository.getNonAnsweredChallengeByCourseId(
@@ -213,10 +200,6 @@ describe('Integration | Repository | Certification Challenge', function() {
           });
 
         await databaseBuilder.commit();
-      });
-
-      after(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should return one challenge which has no answer associated', async () => {

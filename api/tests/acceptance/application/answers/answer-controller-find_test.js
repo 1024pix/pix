@@ -25,10 +25,6 @@ describe('Acceptance | Controller | answer-controller', () => {
         };
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should return 200 HTTP status code', () => {
         // when
         const promise = server.inject(options);
@@ -80,10 +76,6 @@ describe('Acceptance | Controller | answer-controller', () => {
         };
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should return 403 HTTP status code', () => {
         // when
         const promise = server.inject(options);
@@ -105,10 +97,6 @@ describe('Acceptance | Controller | answer-controller', () => {
           method: 'GET',
           url: `/api/answers?challenge=${challengeId}&assessment=${assessment.id}`,
         };
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should return 200 HTTP status code', () => {
