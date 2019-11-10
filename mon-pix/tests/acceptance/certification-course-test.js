@@ -35,7 +35,6 @@ describe('Acceptance | Certification | Start Course', function() {
 
       beforeEach(async function() {
         await authenticateAsSimpleUser();
-        await visitWithAbortedTransition('/certifications');
       });
 
       context('When user is not certifiable', function() {
@@ -43,8 +42,9 @@ describe('Acceptance | Certification | Start Course', function() {
         beforeEach(async function() {
           const currentUser = this.owner.lookup('service:currentUser');
           await currentUser.load();
+          await currentUser.user.get('certificationProfile');
           currentUser.user.get('certificationProfile').set('isCertifiable', false);
-          await visitWithAbortedTransition('/certifications');
+          return visitWithAbortedTransition('/certifications');
         });
 
         it('should render the not certifiable template', function() {
@@ -55,11 +55,11 @@ describe('Acceptance | Certification | Start Course', function() {
 
       context('When user is certifiable', function() {
 
-        beforeEach(async function() {
-          await visitWithAbortedTransition('/certifications');
+        beforeEach(function() {
+          return visitWithAbortedTransition('/certifications');
         });
 
-        context('when the new certifiation start feature toggle is OFF', function() {
+        context('when the new certification start feature toggle is OFF', function() {
 
           beforeEach(async function() {
             const controller = this.owner.lookup('controller:certifications.start');
@@ -107,6 +107,12 @@ describe('Acceptance | Certification | Start Course', function() {
 
             it('should be redirected on the second challenge of an assessment', async function() {
               // given
+              const existingAssessment = {
+                type: 'CERTIFICATION',
+                certificationNumber: 'certification-course-id',
+              };
+              const assessment = this.server.schema.assessments.create(existingAssessment);
+              this.server.schema.certificationCourses.create({ id: 'certification-course-id', nbChallenges: 10, assessment });
               await fillIn('#session-code', '10ue1');
               await click('.certification-course-page__submit_button');
 
