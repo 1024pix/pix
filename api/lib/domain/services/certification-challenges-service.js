@@ -12,7 +12,7 @@ module.exports = {
 
     return Promise.all(saveChallengePromises)
       .then((certificationChallenges) => {
-        certificationCourse.nbChallenges = certificationChallenges.length;
+        certificationCourse.challenges = certificationChallenges;
         return certificationCourse;
       });
   }

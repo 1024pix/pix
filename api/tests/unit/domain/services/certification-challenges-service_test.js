@@ -36,7 +36,7 @@ describe('Unit | Service | Certification Challenge Service', function() {
     };
 
     beforeEach(() => {
-      sinon.stub(certificationChallengeRepository, 'save').resolves({});
+      sinon.stub(certificationChallengeRepository, 'save').resolves('challenge');
     });
 
     context('when profile return one competence with two challenges', () => {
@@ -67,7 +67,7 @@ describe('Unit | Service | Certification Challenge Service', function() {
       });
     });
 
-    it('should return the certification course with the number of saved challenges', function() {
+    it('should return the certification course with its challenges', function() {
       // when
       const promise = certificationChallengesService.saveChallenges(certificationProfileWithTwoCompetence, certificationCourse);
 
@@ -75,7 +75,7 @@ describe('Unit | Service | Certification Challenge Service', function() {
       return promise.then((certificationCourse) => {
         expect(certificationCourse).to.deep.equal({
           id :'certification-course-id',
-          nbChallenges : 2
+          challenges : ['challenge', 'challenge'],
         });
       });
     });
