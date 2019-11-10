@@ -15,10 +15,6 @@ export default Route.extend({
     this.set('competenceLeveled', transition.to.queryParams.competenceLeveled || null);
   },
 
-  model() {
-    return this.modelFor('assessments').reload();
-  },
-
   async afterModel(assessment) {
     if (assessment.isCompleted) {
       return this._routeToResults(assessment);
