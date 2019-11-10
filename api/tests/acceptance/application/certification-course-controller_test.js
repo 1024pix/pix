@@ -326,4 +326,79 @@ describe('Acceptance | API | Certification Course', () => {
 
   });
 
+  describe('GET /api/certification-courses/{id}', () => {
+
+    let options;
+    let userId;
+    let otherUserId;
+    let expectedCertificationCourse;
+
+    beforeEach(() => {
+      otherUserId = databaseBuilder.factory.buildUser().id;
+      const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
+      const assessment = databaseBuilder.factory.buildAssessment({ courseId: certificationCourse.id });
+      userId = certificationCourse.userId;
+      options = {
+        method: 'GET',
+        url: `/api/certification-courses/${certificationCourse.id}`,
+        headers: {}
+      };
+      expectedCertificationCourse = {
+        type: 'certification-courses',
+        id: certificationCourse.id.toString(),
+        attributes: {
+          'nb-challenges': 0,
+        },
+        relationships: {
+          assessment: {
+            links: {
+              related: `/api/assessments/${assessment.id}`,
+            }
+          },
+        },
+      };
+      return databaseBuilder.commit();
+    });
+
+    describe('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+
+      it('should respond with a 403 - forbidden access - if user is not linked to the certification course', () => {
+        // given
+        options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+
+    it('should return the certification course', async () => {
+      // given
+      options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.result.data).to.deep.equal(expectedCertificationCourse);
+    });
+  });
+
 });

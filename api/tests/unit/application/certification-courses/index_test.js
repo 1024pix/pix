@@ -14,6 +14,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
     sinon.stub(certificationCoursesController, 'update').returns('ok');
     sinon.stub(certificationCoursesController, 'computeResult').returns('ok');
     sinon.stub(certificationCoursesController, 'save').returns('ok');
+    sinon.stub(certificationCoursesController, 'get').returns('ok');
 
     server = Hapi.server();
 
@@ -79,6 +80,25 @@ describe('Unit | Application | Certifications Course | Route', function() {
       const options = {
         method: 'POST',
         url: '/api/certification-courses'
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(200);
+      });
+    });
+  });
+
+  describe('GET /api/certification-courses/{id}', () => {
+
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/certification-courses/1234'
       };
 
       // when

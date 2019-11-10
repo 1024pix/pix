@@ -1,5 +1,5 @@
 const certificationService = require('../../domain/services/certification-service');
-const certificationCourseService = require('../../../lib/domain/services/certification-course-service');
+const certificationCourseService = require('../../domain/services/certification-course-service');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const usecases = require('../../domain/usecases');
@@ -34,5 +34,14 @@ module.exports = {
 
         return created ? h.response(serialized).created() : serialized;
       });
-  }
+  },
+
+  async get(request) {
+    const certificationCourseId = request.params.id;
+    const userId = request.auth.credentials.userId;
+
+    const certificationCourse = await usecases.getCertificationCourse({ userId, certificationCourseId });
+
+    return certificationCourseSerializer.serialize(certificationCourse);
+  },
 };

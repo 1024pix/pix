@@ -1,4 +1,4 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
+const { sinon, expect, hFake, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const Hapi = require('hapi');
 const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
 const certificationService = require('../../../../lib/domain/services/certification-service');
@@ -214,6 +214,38 @@ describe('Unit | Controller | certification-course-controller', () => {
         sinon.assert.calledWith(certificationCourseSerializer.serialize, existingCertificationCourse);
       });
 
+    });
+  });
+
+  describe('#get', () => {
+
+    let certificationCourse;
+    const certificationCourseId = 'certification_course_id';
+
+    beforeEach(() => {
+      certificationCourse = new CertificationCourse({ 'id': certificationCourseId });
+    });
+
+    it('should fetch and return the given course, serialized as JSONAPI', async () => {
+      // given
+      const userId = 42;
+      sinon.stub(usecases, 'getCertificationCourse')
+        .withArgs({ userId, certificationCourseId })
+        .resolves(certificationCourse);
+      sinon.stub(certificationCourseSerializer, 'serialize')
+        .withArgs(certificationCourse)
+        .resolves(certificationCourse);
+      const request = {
+        params: { id: certificationCourseId },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        auth: { credentials: { userId } },
+      };
+
+      // when
+      const response = await certificationCourseController.get(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(certificationCourse);
     });
   });
 });

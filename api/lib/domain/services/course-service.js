@@ -1,12 +1,11 @@
 const _ = require('lodash');
 const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
-const certificationCourseRepository = require('../../../lib/infrastructure/repositories/certification-course-repository');
 const Course = require('../models/Course');
-const { NotFoundError, UserNotAuthorizedToGetCertificationCoursesError } = require('../../../lib/domain/errors');
+const { NotFoundError } = require('../../../lib/domain/errors');
 
 module.exports = {
 
-  async getCourse({ courseId, userId }) {
+  async getCourse({ courseId }) {
 
     // TODO: delete when smart placement assessment does not have courses anymore
     if (_.startsWith(courseId, 'Smart')) {
@@ -23,13 +22,9 @@ module.exports = {
             throw new NotFoundError();
           }
         });
-    } else {
-      const certificationCourse = await certificationCourseRepository.get(courseId);
-      if (userId !== certificationCourse.userId) {
-        throw new UserNotAuthorizedToGetCertificationCoursesError();
-      }
-      return new Course(certificationCourse);
     }
+
+    throw new NotFoundError();
   }
 
 };
