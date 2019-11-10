@@ -33,7 +33,12 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
                 id: assessment.courseId.toString(),
                 type: 'courses'
               }
-            }
+            },
+            'certification-course': {
+              links: {
+                related: '/api/certification-courses/courseId',
+              }
+            },
           },
         },
         included: [{
