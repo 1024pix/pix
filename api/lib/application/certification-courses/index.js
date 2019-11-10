@@ -52,6 +52,14 @@ exports.register = async function(server) {
         tags: ['api']
       }
     },
+    {
+      method: 'GET',
+      path: '/api/certification-courses/{id}',
+      config: {
+        handler: certificationCourseController.get,
+        tags: ['api']
+      }
+    },
   ]);
 };
 
