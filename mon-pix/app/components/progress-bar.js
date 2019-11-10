@@ -26,9 +26,13 @@ export default Component.extend({
     return index % this.maxStepsNumber;
   }),
 
-  maxStepsNumber: computed('assessment.{hasCheckpoints,course.nbChallenges}', function() {
+  maxStepsNumber: computed('assessment.{hasCheckpoints,certificationCourse.nbChallenges,course.nbChallenges}', function() {
     if (this.get('assessment.hasCheckpoints')) {
       return ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
+    }
+
+    if (this.get('assessment').isCertification) {
+      return this.get('assessment.certificationCourse.nbChallenges');
     }
 
     return this.get('assessment.course.nbChallenges');

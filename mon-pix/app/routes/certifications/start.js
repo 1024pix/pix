@@ -5,9 +5,8 @@ import { inject as service } from '@ember/service';
 export default Route.extend(AuthenticatedRouteMixin, {
   currentUser: service(),
 
-  async model() {
+  model() {
     const user = this.currentUser.user;
-
     return user.belongsTo('certificationProfile').reload();
   },
 });
