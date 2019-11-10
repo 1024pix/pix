@@ -21,8 +21,6 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
       return databaseBuilder.commit();
     });
 
-    afterEach(() => databaseBuilder.clean());
-
     context('when user has no access to session resources', () => {
 
       beforeEach(() => {

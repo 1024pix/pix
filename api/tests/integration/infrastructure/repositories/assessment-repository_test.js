@@ -39,10 +39,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should return the assessment with the answers sorted by creation date ', async () => {
         // when
         const assessment = await assessmentRepository.get(assessmentId);
@@ -87,10 +83,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      after(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should fetch relative assessment ', async () => {
         // when
         const assessment = await assessmentRepository.getByAssessmentIdAndUserId(assessmentId, userId);
@@ -113,10 +105,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
             courseId: 'courseId',
           }).id;
         await databaseBuilder.commit();
-      });
-
-      after(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should fetch relative assessment', async () => {
@@ -260,10 +248,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
     });
 
-    after(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should correctly query Assessment conditions', async () => {
       // given
       const expectedAssessments = [
@@ -312,7 +296,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     let assessmentToBeSaved;
     let assessmentReturned;
 
-    before(async () => {
+    beforeEach(() => {
       userId = databaseBuilder.factory.buildUser().id;
 
       assessmentToBeSaved = new Assessment({
@@ -322,12 +306,11 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         state: Assessment.states.COMPLETED,
       });
 
-      await databaseBuilder.commit();
+      return databaseBuilder.commit();
     });
 
-    after(async () => {
-      await knex('assessments').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('assessments').delete();
     });
 
     it('should save new assessment if not already existing', async () => {
@@ -341,10 +324,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
   });
 
   describe('#getByCertificationCourseId', async () => {
-
-    afterEach(() => {
-      return databaseBuilder.clean();
-    });
 
     context('When several assessments exist for a given certification course id', () => {
 
@@ -458,10 +437,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return databaseBuilder.clean();
-    });
-
     context('When several assessments exist for a given certification course id', () => {
 
       context('When one of those assessment is completed', () => {
@@ -563,10 +538,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
     });
 
-    after(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return assessment with campaignParticipation when it matches with campaignParticipationId', async () => {
       // when
       const assessmentsReturned = await assessmentRepository.getByCampaignParticipationId(campaignParticipationId);
@@ -606,10 +577,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       });
 
       await databaseBuilder.commit();
-    });
-
-    after(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return the assessment with campaign when it matches with userId and ignore aborted assessments', async () => {
@@ -654,10 +621,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      after(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should return the assessment with campaign when asked', async () => {
         // when
         const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: true });
@@ -696,10 +659,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       userId = databaseBuilder.factory.buildUser().id;
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     context('when user does not have campaign or competenceEvaluation', () => {

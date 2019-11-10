@@ -8,18 +8,13 @@ const _ = require('lodash');
 
 describe('Integration | Repository | Campaign', () => {
 
-  afterEach(async () => {
-    await databaseBuilder.clean();
-  });
-
   describe('#isCodeAvailable', () => {
 
     beforeEach(async () => {
-      await databaseBuilder.clean();
       databaseBuilder.factory.buildCampaign({ code: 'BADOIT710' });
       await databaseBuilder.commit();
     });
-    
+
     it('should resolve true if the code is available', async () => {
       // when
       const isCodeAvailable = await campaignRepository.isCodeAvailable('FRANCE998');
@@ -103,9 +98,8 @@ describe('Integration | Repository | Campaign', () => {
       savedCampaign = await campaignRepository.save(campaignToSave);
     });
 
-    afterEach(async () => {
-      await knex('campaigns').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('campaigns').delete();
     });
 
     it('should save the given campaign', async () => {
@@ -123,10 +117,6 @@ describe('Integration | Repository | Campaign', () => {
   });
 
   describe('#findByOrganizationIdWithCampaignReports', () => {
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
 
     context('when campaigns have campaignReports', async () => {
 

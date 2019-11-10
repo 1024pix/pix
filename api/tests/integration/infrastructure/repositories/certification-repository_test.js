@@ -105,8 +105,6 @@ describe('Integration | Repository | Certification ', () => {
     await databaseBuilder.commit();
   });
 
-  afterEach(() => databaseBuilder.clean());
-
   describe('#getByCertificationCourseId', () => {
 
     it('should return a certification with needed informations', async () => {

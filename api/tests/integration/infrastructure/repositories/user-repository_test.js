@@ -64,10 +64,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should be a function', () => {
         // then
         expect(userRepository.findByEmail).to.be.a('function');
@@ -95,12 +91,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     describe('#findByEmailWithRoles', () => {
 
-      beforeEach(async () => {
-        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
+      beforeEach(() => {
+        return _insertUserWithOrganizationsAndCertificationCenterAccesses();
       });
 
       it('should return user informations for the given email', async () => {
@@ -176,10 +168,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should return user informations for the given SAML ID', async () => {
         // when
         const user = await userRepository.getBySamlId('some-saml-id');
@@ -213,10 +201,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should return the found user', async () => {
         // when
         const user = await userRepository.get(userInDb.id);
@@ -247,10 +231,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       beforeEach(async () => {
         await _insertUserWithOrganizationsAndCertificationCenterAccesses();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should return user for the given id', async () => {
@@ -308,10 +288,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       beforeEach(async () => {
         await _insertUserWithOrganizationsAndCertificationCenterAccesses();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should return user for the given id', async () => {
@@ -420,10 +396,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return the email when the email is not registered', async () => {
       // when
       const email = await userRepository.isEmailAvailable('email@example.net');
@@ -450,10 +422,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should save the user', async () => {
       // given
       const newPassword = '1235Pix!';
@@ -478,10 +446,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should update pixOrgaTermsOfServiceAccepted field', async () => {
@@ -517,14 +481,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   describe('#isUserExistingByEmail', () => {
     const email = 'shi@fu.fr';
-    beforeEach(async () => {
+
+    beforeEach(() => {
       databaseBuilder.factory.buildUser({ email });
       databaseBuilder.factory.buildUser();
-      await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
+      return databaseBuilder.commit();
     });
 
     it('should return true when the user exists by email', async () => {
@@ -542,14 +503,10 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     context('when there are users in the database', () => {
 
-      beforeEach(async () => {
+      beforeEach(() => {
         _.times(3, databaseBuilder.factory.buildUser);
 
-        await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
+        return databaseBuilder.commit();
       });
 
       it('should return an Array of Users', async () => {
@@ -571,14 +528,10 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     context('when there are lots of users (> 10) in the database', () => {
 
-      beforeEach(async () => {
+      beforeEach(() => {
         _.times(12, databaseBuilder.factory.buildUser);
 
-        await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
+        return databaseBuilder.commit();
       });
 
       it('should return paginated matching users', async () => {
@@ -605,10 +558,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         databaseBuilder.factory.buildUser({ firstName: 'Vegeta' });
         databaseBuilder.factory.buildUser({ firstName: 'Piccolo' });
         return databaseBuilder.commit();
-      });
-
-      afterEach(() => {
-        return databaseBuilder.clean();
       });
 
       it('should return only users matching "first name" if given in filters', async () => {
@@ -642,10 +591,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should return only users matching "last name" if given in filters', async () => {
         // given
         const filters = { lastName: 'walk' };
@@ -675,10 +620,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         });
 
         await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should return only users matching "email" if given in filters', async () => {
@@ -716,10 +657,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should return only users matching "first name" AND "last name" AND "email" if given in filters', async () => {
         // given
         const filters = { firstName: 'fn_ok', lastName: 'ln_ok', email: 'email_ok' };
@@ -747,10 +684,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         secondUserId = databaseBuilder.factory.buildUser().id;
 
         await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should ignore the filters and retrieve all users', async () => {

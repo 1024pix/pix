@@ -17,10 +17,6 @@ describe('Integration | Repository | Certification Course', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should update completedAt of the certificationCourse if one date is passed', async () => {
       // when
       const completionDate = new Date('2018-01-01T06:07:08Z');
@@ -61,10 +57,6 @@ describe('Integration | Repository | Certification Course', function() {
         databaseBuilder.factory.buildCertificationChallenge(certificationChallenge);
       });
       return databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     context('When the certification course exists', () => {
@@ -176,9 +168,8 @@ describe('Integration | Repository | Certification Course', function() {
     let userId;
     let sessionId;
 
-    beforeEach(async () => {
+    beforeEach(() => {
       // given
-      await databaseBuilder.clean();
       userId = databaseBuilder.factory.buildUser({}).id;
       sessionId = databaseBuilder.factory.buildSession({}).id;
       databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt });
@@ -187,10 +178,8 @@ describe('Integration | Repository | Certification Course', function() {
       databaseBuilder.factory.buildCertificationCourse({ sessionId });
       databaseBuilder.factory.buildCertificationCourse({ userId });
 
-      await databaseBuilder.commit();
+      return databaseBuilder.commit();
     });
-
-    afterEach(() => databaseBuilder.clean());
 
     it('should retrieve the last certification course with given userId, sessionId', async () => {
       // when
@@ -218,10 +207,6 @@ describe('Integration | Repository | Certification Course', function() {
       const bookshelfCertificationCourse = databaseBuilder.factory.buildCertificationCourse({ userId });
       certificationCourse = domainBuilder.buildCertificationCourse(bookshelfCertificationCourse);
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return a certification course domain object', async () => {

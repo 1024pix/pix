@@ -116,8 +116,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
 
   afterEach(async () => {
     await cache.flushAll();
-    await databaseBuilder.clean();
-    await airtableBuilder.cleanAll();
+    return airtableBuilder.cleanAll();
   });
 
   describe('GET /api/campaign-participations/{id}/campaign-participation-result', () => {

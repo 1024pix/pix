@@ -57,8 +57,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
   afterEach(async () => {
     await cache.flushAll();
-    await airtableBuilder.cleanAll();
-    await databaseBuilder.clean();
+    return airtableBuilder.cleanAll();
   });
 
   describe('#getCampaignCollectiveResults', () => {

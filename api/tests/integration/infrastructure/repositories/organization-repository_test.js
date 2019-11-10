@@ -6,14 +6,6 @@ const _ = require('lodash');
 
 describe('Integration | Repository | Organization', function() {
 
-  beforeEach(async () => {
-    await databaseBuilder.clean();
-  });
-
-  afterEach(async () => {
-    await databaseBuilder.clean();
-  });
-
   describe('#create', () => {
 
     afterEach(async () => {
@@ -71,10 +63,6 @@ describe('Integration | Repository | Organization', function() {
       const bookshelfOrganization = databaseBuilder.factory.buildOrganization({ id: 1, code: organizationCode });
       organization = domainBuilder.buildOrganization(bookshelfOrganization);
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return an Organization domain object', async () => {
@@ -144,10 +132,6 @@ describe('Integration | Repository | Organization', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return the code when the code is not already used', async () => {
       // when
       const code = await organizationRepository.isCodeAvailable('ABCD02');
@@ -174,10 +158,6 @@ describe('Integration | Repository | Organization', function() {
       beforeEach(async () => {
         insertedOrganization = databaseBuilder.factory.buildOrganization();
         await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should return a organization by provided id', async () => {
@@ -227,10 +207,6 @@ describe('Integration | Repository | Organization', function() {
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should return an list of profile containing the shared profile', async () => {
         // when
         const organization = await organizationRepository.get(insertedOrganization.id);
@@ -262,10 +238,6 @@ describe('Integration | Repository | Organization', function() {
       });
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     describe('success management', function() {
@@ -318,10 +290,6 @@ describe('Integration | Repository | Organization', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return the organizations that matches the filters', async () => {
       // given
       const filters = { type: 'PRO' };
@@ -339,15 +307,12 @@ describe('Integration | Repository | Organization', function() {
   });
 
   describe('#find', () => {
-    after(async () => {
-      await databaseBuilder.clean();
-    });
 
     context('when there are Organizations in the database', () => {
 
-      beforeEach(async () => {
+      beforeEach(() => {
         _.times(3, databaseBuilder.factory.buildOrganization);
-        await databaseBuilder.commit();
+        return databaseBuilder.commit();
       });
 
       it('should return an Array of Organizations', async () => {
