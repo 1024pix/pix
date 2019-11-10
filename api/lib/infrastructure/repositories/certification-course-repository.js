@@ -65,7 +65,7 @@ module.exports = {
       .where({ userId, sessionId })
       .orderBy('createdAt', 'desc')
       .query((qb) => qb.limit(1))
-      .fetch({ require: true })
+      .fetch({ require: true, withRelated: ['assessments', 'challenges'] })
       .then(_toDomain)
       .catch((error) => {
         if (error instanceof CertificationCourseBookshelf.NotFoundError) {
@@ -93,7 +93,8 @@ module.exports = {
 
 function _adaptModelToDb(certificationCourse) {
   return _.omit(certificationCourse, [
-    'nbChallenges',
+    'assessment',
+    'challenges',
     'createdAt',
   ]);
 }
