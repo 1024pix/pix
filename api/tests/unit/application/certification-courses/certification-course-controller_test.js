@@ -1,8 +1,11 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
-const certificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
+const Hapi = require('hapi');
+const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
+const usecases = require('../../../../lib/domain/usecases');
+const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -144,6 +147,73 @@ describe('Unit | Controller | certification-course-controller', () => {
         // then
         expect(response).to.deep.equal(JsonAPISavedCertification);
       });
+    });
+  });
+
+  describe('#save', () => {
+
+    let server;
+    let request;
+
+    beforeEach(() => {
+    });
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { accessToken: 'jwt.access.token', userId: 'userId' } },
+        pre: { userId: 'userId' },
+        payload: {
+          data: {
+            attributes: {
+              'access-code': 'ABCD12'
+            },
+          }
+        }
+      };
+      sinon.stub(usecases, 'retrieveLastOrCreateCertificationCourse');
+      sinon.stub(certificationCourseSerializer, 'serialize');
+
+      server = this.server = Hapi.server();
+      return server.register(require('../../../../lib/application/certification-courses'));
+    });
+
+    context('when certification course needs to be created', function() {
+      const newlyCreatedCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
+
+      it('should reply the certification course serialized', async () => {
+        // given
+        usecases.retrieveLastOrCreateCertificationCourse
+          .withArgs({ accessCode: 'ABCD12', userId: 'userId' })
+          .resolves({ created: true, certificationCourse: newlyCreatedCertificationCourse });
+        certificationCourseSerializer.serialize.resolves({});
+
+        // when
+        const response = await certificationCourseController.save(request, hFake);
+
+        // then
+        sinon.assert.calledOnce(certificationCourseSerializer.serialize);
+        sinon.assert.calledWith(certificationCourseSerializer.serialize, newlyCreatedCertificationCourse);
+        expect(response.statusCode).to.equal(201);
+      });
+    });
+
+    context('when certification course already exists', function() {
+      it('should reply the existing certification course', async () => {
+        // given
+        const existingCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
+
+        usecases.retrieveLastOrCreateCertificationCourse
+          .withArgs({ accessCode: 'ABCD12', userId: 'userId' })
+          .resolves({ created: false, certificationCourse: existingCertificationCourse });
+        certificationCourseSerializer.serialize.resolves({});
+
+        // when
+        await certificationCourseController.save(request, hFake);
+
+        // then
+        sinon.assert.calledWith(certificationCourseSerializer.serialize, existingCertificationCourse);
+      });
+
     });
   });
 });
