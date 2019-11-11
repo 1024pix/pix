@@ -15,19 +15,23 @@ module.exports = class DatabaseBuilder {
       await knexDatabaseConnection.emptyAllTables();
       this.isFirstCommit = false;
     }
+    const trx = await this.knex.transaction();
     for (const objectToInsert of this.databaseBuffer.objectsToInsert) {
-      await this.knex(objectToInsert.tableName).insert(objectToInsert.values);
+      await trx(objectToInsert.tableName).insert(objectToInsert.values);
       this.databaseBuffer.objectsToDelete.unshift(objectToInsert);
     }
     this.databaseBuffer.objectsToInsert = [];
+    await trx.commit();
   }
 
   async clean() {
     if (this.databaseBuffer.objectsToDelete.length > 0) {
+      const trx = await this.knex.transaction();
       for (const objectToDelete of this.databaseBuffer.objectsToDelete) {
-        await this.knex(objectToDelete.tableName).where({ id: objectToDelete.values.id }).delete();
+        await trx(objectToDelete.tableName).where({ id: objectToDelete.values.id }).delete();
       }
       this.databaseBuffer.purge();
+      await trx.commit();
     }
   }
 };
