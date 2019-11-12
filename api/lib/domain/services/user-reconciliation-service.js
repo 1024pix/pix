@@ -1,8 +1,8 @@
 const { t1, t2 } = require('../services/validation-treatments');
-const { t3 } = require('../services/validation-comparison');
+const { getLevenshteinRatio } = require('../services/validation-comparison');
 
-function _areTwoStringsCloseEnough(string1, string2) {
-  return t3(string1, [string2]) <= 0.25;
+function _areTwoStringsCloseEnough(inputString, reference) {
+  return getLevenshteinRatio(inputString, reference) <= 0.25;
 }
 
 function findMatchingPretenderIdForGivenUser(matchingUserPretenders, user) {
