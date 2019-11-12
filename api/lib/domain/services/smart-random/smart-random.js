@@ -1,6 +1,6 @@
 const Course = require('../../models/Course');
 const catAlgorithm = require('./cat-algorithm');
-const { getFilteredChallengesForAnyChallenge, getFilteredChallengesForFirstChallenge } = require('./challenges-filter');
+const { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } = require('./skills-filter');
 const _ = require('lodash');
 
 const UNEXISTING_ITEM = null;
@@ -52,22 +52,18 @@ function _filterSkillsByChallenges(skills, challenges) {
 
 function _findAnyChallenge({ challenges, knowledgeElements, targetSkills, courseTubes, lastChallenge }) {
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
-  const availableChallenges = getFilteredChallengesForAnyChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills });
-  const maxRewardingChallenges = catAlgorithm.findMaxRewardingChallenges({ availableChallenges, predictedLevel, courseTubes, knowledgeElements });
+  const availableSkills = getFilteredSkillsForNextChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills });
+  const maxRewardingChallenges = catAlgorithm.findMaxRewardingSkills({ availableSkills, predictedLevel, courseTubes, knowledgeElements });
   return _pickRandomChallenge(maxRewardingChallenges);
 }
 
 function _findFirstChallenge({ challenges, knowledgeElements, targetSkills, courseTubes }) {
-  const filteredChallengesForFirstChallenge = getFilteredChallengesForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills });
-  return _pickRandomChallenge(filteredChallengesForFirstChallenge);
+  const filteredSkillsForFirstChallenge = getFilteredSkillsForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills });
+  return _pickRandomChallenge(filteredSkillsForFirstChallenge);
 }
 
-function _pickRandomChallenge(challenges) {
-  const challengesGroupBySkills = _.groupBy(challenges, _firstSkillTestedByChallenge);
-  const challengesForChosenSkill = _.sample(challengesGroupBySkills);
-  return _.sample(challengesForChosenSkill);
-}
-
-function _firstSkillTestedByChallenge(challenge) {
-  return challenge.skills[0].id;
+function _pickRandomChallenge(skills) {
+  if (skills.length === 0) { return UNEXISTING_ITEM; }
+  const chosenSkill = _.sample(skills);
+  return _.sample(chosenSkill.challenges);
 }
