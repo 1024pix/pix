@@ -4,12 +4,10 @@ import ENV from 'pix-admin/config/environment';
 
 export default Controller.extend({
 
-  // DI
   session: service(),
   sessionInfoService: service(),
   notifications: service('notification-messages'),
 
-  // Properties
   displayConfirm: false,
   displaySessionReport: false,
   confirmMessage: null,

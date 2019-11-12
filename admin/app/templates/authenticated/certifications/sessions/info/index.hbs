@@ -31,4 +31,10 @@
     <div class='col'>Code d'accès :</div>
     <div class='col'>{{session.accessCode}}</div>
   </div>
+
+  <div class='row row--btn'>
+      <button class="btn btn-primary" {{action "downloadSessionResultFile"}} type="button">
+        Exporter les résultats
+      </button>
+  </div>
 </div>

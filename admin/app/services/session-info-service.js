@@ -121,7 +121,6 @@ function _buildSessionExportFileData(session) {
     rowItem['Session'] = session.id;
     rowItem['Centre de certification'] = session.certificationCenter;
     rowItem['Date de passage de la certification'] = moment(certification.createdAt).format('DD/MM/YYYY');
-
     return rowItem;
   });
 }

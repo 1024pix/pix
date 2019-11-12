@@ -14,4 +14,13 @@
 
 .certifications-session-info {
   padding: 20px;
+  padding-bottom: 0px;
+
+  .row--btn {
+    justify-content: end;
+
+    .btn {
+      margin-left: 20px;
+    }
+  }
 }
