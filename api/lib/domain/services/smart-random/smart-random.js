@@ -17,14 +17,14 @@ function getNextChallenge({ knowledgeElements, challenges, targetSkills, answers
   });
 
   // First challenge has specific rules
-  const nextChallenge = isUserStartingTheTest
+  const { nextChallenge, levelEstimated } = isUserStartingTheTest
     ? _findFirstChallenge({ challenges, knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes })
     : _findAnyChallenge({ challenges, knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes, lastChallenge });
 
   // Test is considered finished when no challenges are returned but we don't expose this detail
   return nextChallenge
-    ? { hasAssessmentEnded: false, nextChallenge }
-    : { hasAssessmentEnded: true, nextChallenge: null };
+    ? { hasAssessmentEnded: false, nextChallenge, levelEstimated }
+    : { hasAssessmentEnded: true, nextChallenge: null, levelEstimated };
 }
 
 function _findLastChallengeIfAny(answers, challenges) {
@@ -54,12 +54,12 @@ function _findAnyChallenge({ challenges, knowledgeElements, targetSkills, course
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
   const availableSkills = getFilteredSkillsForNextChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills });
   const maxRewardingChallenges = catAlgorithm.findMaxRewardingSkills({ availableSkills, predictedLevel, courseTubes, knowledgeElements });
-  return _pickRandomChallenge(maxRewardingChallenges);
+  return { nextChallenge: _pickRandomChallenge(maxRewardingChallenges), levelEstimated: predictedLevel };
 }
 
 function _findFirstChallenge({ challenges, knowledgeElements, targetSkills, courseTubes }) {
   const filteredSkillsForFirstChallenge = getFilteredSkillsForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills });
-  return _pickRandomChallenge(filteredSkillsForFirstChallenge);
+  return { nextChallenge: _pickRandomChallenge(filteredSkillsForFirstChallenge), levelEstimated: 2 };
 }
 
 function _pickRandomChallenge(skills) {
