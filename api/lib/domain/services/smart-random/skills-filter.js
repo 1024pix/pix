@@ -5,11 +5,11 @@ const MAX_LEVEL_TO_BE_AN_EASY_TUBE = 3;
 const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
 
 module.exports = {
-  getFilteredChallengesForFirstSkill,
-  getFilteredChallengesForAnySkill
+  getFilteredSkillsForFirstChallenge,
+  getFilteredSkillsForNextChallenge
 };
 
-function getFilteredChallengesForFirstSkill({ challenges, knowledgeElements, courseTubes, targetSkills }) {
+function getFilteredSkillsForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills }) {
   const filteredChallenges = _removeUnpublishedChallenges(challenges);
   targetSkills = _addChallengesAndTimedInformation({ targetSkills, filteredChallenges });
   return pipe(
@@ -20,7 +20,7 @@ function getFilteredChallengesForFirstSkill({ challenges, knowledgeElements, cou
   )(targetSkills);
 }
 
-function getFilteredChallengesForAnySkill({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills }) {
+function getFilteredSkillsForNextChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills }) {
   const filteredChallenges = _removeUnpublishedChallenges(challenges);
   targetSkills = _addChallengesAndTimedInformation({ targetSkills, filteredChallenges });
 

@@ -10,7 +10,7 @@ const KNOWLEDGE_ELEMENT_STATUS = {
 
 describe('Unit | Domain | services | smart-random | skillsFilter', () => {
 
-  describe('#getFilteredChallengesForFirstSkill', () => {
+  describe('#getFilteredSkillsForFirstChallenge', () => {
     it('should return a first skill possible', () => {
       // given
       const skill1 = domainBuilder.buildSkill({ name: '@web3' });
@@ -23,7 +23,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       ];
 
       // when
-      const result = skillsFilter.getFilteredChallengesForFirstSkill({
+      const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         challenges,
         knowledgeElements,
         courseTubes: tubes,
@@ -45,7 +45,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         new Tube({ skills: [skill1] })
       ];
       // when
-      const result = skillsFilter.getFilteredChallengesForFirstSkill({
+      const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         challenges,
         knowledgeElements,
         courseTubes: tubes,
@@ -68,7 +68,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       ];
 
       // when
-      const result = skillsFilter.getFilteredChallengesForFirstSkill({
+      const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         challenges,
         knowledgeElements,
         courseTubes: tubes,
@@ -99,7 +99,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       ];
 
       // when
-      const result = skillsFilter.getFilteredChallengesForFirstSkill({
+      const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         challenges,
         knowledgeElements,
         courseTubes: tubes,
@@ -111,7 +111,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
     });
   });
 
-  describe('#getFilteredChallengesForAnySkill', function() {
+  describe('#getFilteredSkillsForNextChallenge', function() {
     describe('Verify rules 1 : published and valid challenges', () => {
 
       it('should not ask a question that targets a skill already assessed', function() {
@@ -139,7 +139,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         ];
 
         // when
-        const result = skillsFilter.getFilteredChallengesForAnySkill({
+        const result = skillsFilter.getFilteredSkillsForNextChallenge({
           challenges,
           knowledgeElements,
           predictedLevel: 3,
@@ -173,7 +173,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         ];
 
         // when
-        const result = skillsFilter.getFilteredChallengesForAnySkill({
+        const result = skillsFilter.getFilteredSkillsForNextChallenge({
           challenges,
           knowledgeElements,
           predictedLevel: 2,
@@ -205,7 +205,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         ];
 
         // when
-        const result = skillsFilter.getFilteredChallengesForAnySkill({
+        const result = skillsFilter.getFilteredSkillsForNextChallenge({
           challenges,
           knowledgeElements,
           predictedLevel: 2,
@@ -248,7 +248,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         ];
 
         // when
-        const result = skillsFilter.getFilteredChallengesForAnySkill({
+        const result = skillsFilter.getFilteredSkillsForNextChallenge({
           challenges,
           knowledgeElements,
           predictedLevel: 2,
@@ -296,7 +296,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         ];
 
         // when
-        const result = skillsFilter.getFilteredChallengesForAnySkill({
+        const result = skillsFilter.getFilteredSkillsForNextChallenge({
           challenges,
           knowledgeElements,
           predictedLevel: 5,
@@ -334,7 +334,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         ];
 
         // when
-        const result = skillsFilter.getFilteredChallengesForAnySkill({
+        const result = skillsFilter.getFilteredSkillsForNextChallenge({
           challenges,
           knowledgeElements,
           predictedLevel: 5,
@@ -366,7 +366,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         ];
 
         // when
-        const result = skillsFilter.getFilteredChallengesForAnySkill({
+        const result = skillsFilter.getFilteredSkillsForNextChallenge({
           challenges,
           knowledgeElements,
           predictedLevel: 2,
