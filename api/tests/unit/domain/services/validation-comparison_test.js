@@ -1,19 +1,11 @@
 const { expect } = require('../../../test-helper');
-const { _getSmallestLevenshteinDistance, t3 } = require('../../../../lib/domain/services/validation-comparison');
+const { _getSmallestLevenshteinDistance, getSmallestLevenshteinRatio, getLevenshteinRatio } = require('../../../../lib/domain/services/validation-comparison');
 
 describe('Unit | Service | Validation Comparison', function() {
 
-  /**
-   * #_getSmallestLevenshteinDistance(str1, str2)
-   */
-
   describe('_getSmallestLevenshteinDistance', function() {
 
-    it('Should exist', function() {
-      expect(_getSmallestLevenshteinDistance).to.exist;
-    });
-
-    describe('Should return levenshtein distance if only one adminAnswer is given', function() {
+    describe('Should return levenshtein distance if only one alternative is given', function() {
 
       const successfulCases = [
         { should: 'If both are empty', arg1: '', arg2: [''], output: 0 },
@@ -23,14 +15,14 @@ describe('Unit | Service | Validation Comparison', function() {
       ];
 
       successfulCases.forEach(function(testCase) {
-        it(testCase.should + ', for example arg1 ' + JSON.stringify(testCase.arg1) + ', and arg2 ' + JSON.stringify(testCase.arg2) + ' => ' + testCase.output + '', function() {
+        it(`${testCase.should} for example arg1 ${JSON.stringify(testCase.arg1)} and arg2 ${JSON.stringify(testCase.arg2)} => ${testCase.output}`, function() {
           expect(_getSmallestLevenshteinDistance(testCase.arg1, testCase.arg2)).to.equal(testCase.output);
         });
       });
 
     });
 
-    describe('Should return the smallest levenshtein distance if many adminAnswers are given', function() {
+    describe('Should return the smallest levenshtein distance if many alternatives are given', function() {
 
       const successfulCases = [
         { should: 'If the smallest difference is 0', arg1: '', arg2: ['', 'a'], output: 0 },
@@ -42,49 +34,42 @@ describe('Unit | Service | Validation Comparison', function() {
       ];
 
       successfulCases.forEach(function(testCase) {
-        it(testCase.should + ', for example arg1 ' + JSON.stringify(testCase.arg1) + ', and arg2 ' + JSON.stringify(testCase.arg2) + ' => ' + testCase.output + '', function() {
+        it(`${testCase.should} for example arg1 ${JSON.stringify(testCase.arg1)} and arg2 ${JSON.stringify(testCase.arg2)} => ${testCase.output}`, function() {
           expect(_getSmallestLevenshteinDistance(testCase.arg1, testCase.arg2)).to.equal(testCase.output);
         });
       });
     });
   });
 
-  /**
-   * #t3(answer, solutions)
-   */
-
-  describe('#t3', () => {
-
-    it('checks sanity', () => {
-      expect(t3).to.exist;
-    });
-
+  describe('getSmallestLevenshteinRatio', () => {
     [
-      { scenario: 'the answer is a solution', answer: 'a', solution: ['a', 'b'], expected: 0 },
-      { scenario: 'there is 3/4 good character', answer: 'faco', solution: ['face', 'faac'], expected: 1 / 4 },
-      { scenario: 'the best ratio is 3/4 good character on one the solution', answer: 'faco', solution: ['face', 'allo'], expected: 1 / 4 },
-      { scenario: 'the answer has nothing to see compare to solution', answer: 'Linkedin', solution: ['Viadeo', 'Instagram'], expected: 3 / 4 },
+      { scenario: 'the inputString is the only reference', inputString: 'a1', references: ['a1'], expected: 0 },
+      { scenario: 'the inputString is a reference', inputString: 'a', references: ['a', 'b'], expected: 0 },
+      { scenario: 'there is 3/4 good character', inputString: 'faco', references: ['face', 'faac'], expected: 1 / 4 },
+      { scenario: 'the best ratio is 3/4 good character on one the references', inputString: 'faco', references: ['face', 'allo'], expected: 1 / 4 },
+      { scenario: 'the inputString has nothing to see compared to references', inputString: 'Linkedin', references: ['Viadeo', 'Instagram'], expected: 3 / 4 },
+      { scenario: 'the inputString has one mistake over 10 characters', inputString: 'abbbbbbbbb', references: ['bbbbbbbbbb'], expected: 1 / 10 },
     ].forEach((testCase) => {
       it(testCase.scenario, () => {
         // then
-        expect(t3(testCase.answer, testCase.solution)).to.equal(testCase.expected);
-      });
-
-      const successfulCases = [
-        { should: 'If only one adminAnswer', answer: 'a1', solution: ['a1'], output: 0 },
-        { should: 'If many solutions', answer: 'a1', solution: ['a1', 'a2', 'a3'], output: 0 },
-        { should: 'If ratio is 0.1, single solution', answer: 'abbbbbbbbb', solution: ['bbbbbbbbbb'], output: 0.1 },
-        { should: 'If ratio is 0.2, multiple solution', answer: 'quack', solution: ['quacks', 'azertyqwerk'], output: 0.2 },
-        { should: 'If ratio is 0.5, multiple solution', answer: 'book', solution: ['back', 'buck'], output: 0.5 },
-        { should: 'If ratio is 10, single solution', answer: 'a', solution: ['bbbbbbbbbb'], output: 10 },
-      ];
-
-      successfulCases.forEach((testCase) => {
-        it(testCase.should + ', for example answer ' + JSON.stringify(testCase.answer) + ', and solution ' + JSON.stringify(testCase.solution) + ' => ' + testCase.output + '', function() {
-          expect(t3(testCase.answer, testCase.solution)).to.equal(testCase.output);
-        });
+        expect(getSmallestLevenshteinRatio(testCase.inputString, testCase.references)).to.equal(testCase.expected);
       });
     });
-
   });
+
+  describe('getLevenshteinRatio', () => {
+    [
+      { scenario: 'the inputString is the reference', inputString: 'a1', reference: 'a1', expected: 0 },
+      { scenario: 'there is 3/4 good character', inputString: 'faco', reference: 'face', expected: 1 / 4 },
+      { scenario: 'the best ratio is 3/4 good character', inputString: 'faco', reference: 'face', expected: 1 / 4 },
+      { scenario: 'the inputString has nothing to see compared to reference', inputString: 'Linkedin', reference: 'Viadeo', expected: 3 / 4 },
+      { scenario: 'the inputString has one mistake over 10 characters', inputString: 'abbbbbbbbb', reference: 'bbbbbbbbbb', expected: 1 / 10 },
+    ].forEach((testCase) => {
+      it(testCase.scenario, () => {
+        // then
+        expect(getLevenshteinRatio(testCase.inputString, testCase.reference)).to.equal(testCase.expected);
+      });
+    });
+  });
+
 });

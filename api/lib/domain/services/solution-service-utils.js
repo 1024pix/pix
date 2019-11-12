@@ -1,6 +1,6 @@
 const _ = require('../../../lib/infrastructure/utils/lodash-utils');
 const { t1, t2 } = require('./validation-treatments');
-const { t3 } = require('./validation-comparison');
+const { getSmallestLevenshteinRatio: t3 } = require('./validation-comparison');
 
 function treatmentT1T2T3(userAnswer, adminAnswers) {
 
