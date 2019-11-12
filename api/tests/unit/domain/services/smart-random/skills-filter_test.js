@@ -187,7 +187,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
 
       it('should return a skill with timed challenges if last one was timed but we dont have not timed challenge', () => {
         // given
-        const [skill1, skill2, skill3] = domainBuilder.buildSkill({ l});
+        const [skill1, skill2, skill3] = domainBuilder.buildSkillCollection();
 
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2, skill3] });
 
