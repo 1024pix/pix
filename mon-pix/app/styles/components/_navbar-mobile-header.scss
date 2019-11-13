@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 10px;
+    padding: 5px 24px;
     width: auto;
   }
 }
@@ -14,6 +14,11 @@
     color: $gun-powder;
     font-size: 2.6rem;
     display: inline-flex;
+    cursor: pointer;
+
+    & > img {
+      width: 26px;
+    }
   }
 
   &__logo {
@@ -26,7 +31,8 @@
 .navbar-mobile-header-logo {
   &__marianne {
     > img {
-      width: 60px;
+      margin-left: 8px;
+      width: 64px;
     }
   }
 }
