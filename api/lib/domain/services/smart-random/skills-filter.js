@@ -38,6 +38,10 @@ function _addChallengesAndTimedInformation({ targetSkills, filteredChallenges })
     if (skill.challenges.length === 0) {
       return null;
     }
+    skill.linkedSkills = [];
+    if (skill.challenges[0].skills.length > 1) {
+      skill.linkedSkills = _.filter(skill.challenges[0].skills, (skillFromChallenge) => skillFromChallenge.id != skill.id);
+    }
     skill.timed = skill.challenges[0].isTimed();
     return skill;
   });

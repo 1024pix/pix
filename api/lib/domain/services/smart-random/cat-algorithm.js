@@ -84,24 +84,34 @@ function _probaOfCorrectAnswer(userEstimatedLevel, challengeDifficulty) {
   return 1 / (1 + Math.exp(-(userEstimatedLevel - challengeDifficulty)));
 }
 
-function _getNewSkillsInfoIfSkillSolved(skill, courseTubes, knowledgeElements) {
-  const extraValidatedSkills = [];
-  _findTubeByName(courseTubes, skill.tubeName).getEasierThan(skill).forEach((skill) => {
+function _getNewSkillsInfoIfSkillSolved(skillTested, courseTubes, knowledgeElements) {
+  let extraValidatedSkills = [];
+
+  _findTubeByName(courseTubes, skillTested.tubeName).getEasierThan(skillTested).forEach((skill) => {
     if (_skillNotTestedYet(skill, knowledgeElements)) {
       extraValidatedSkills.push(skill);
     }
   });
-  return extraValidatedSkills;
+  if (skillTested.linkedSkills.length > 0) {
+    extraValidatedSkills = _.concat(extraValidatedSkills, skillTested.linkedSkills);
+  }
+
+  return _.uniqBy(extraValidatedSkills, 'id');
 }
 
-function _getNewSkillsInfoIfSkillUnsolved(skill, courseTubes, knowledgeElements) {
-  return _findTubeByName(courseTubes, skill.tubeName).getHarderThan(skill)
+function _getNewSkillsInfoIfSkillUnsolved(skillTested, courseTubes, knowledgeElements) {
+  let extraFailedSkills =  _findTubeByName(courseTubes, skillTested.tubeName).getHarderThan(skillTested)
     .reduce((extraFailedSkills, skill) => {
       if (_skillNotTestedYet(skill, knowledgeElements)) {
         extraFailedSkills.push(skill);
       }
       return extraFailedSkills;
     }, []);
+
+  if (skillTested.linkedSkills.length > 0) {
+    extraFailedSkills = _.concat(extraFailedSkills, skillTested.linkedSkills);
+  }
+  return _.uniqBy(extraFailedSkills, 'id');
 }
 
 function _findTubeByName(courseTubes, tubeName) {
