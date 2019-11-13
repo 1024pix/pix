@@ -51,7 +51,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       // given
       const organization = this.server.create('organization');
       const user = this.server.create('user', { firstName: 'Denise', lastName: 'Ter Hegg', email: 'denise@example.com' });
-      this.server.create('membership', { user, organization, organizationRole: 'OWNER' });
+      this.server.create('membership', { user, organization, organizationRole: 'ADMIN' });
 
       // when
       await visit(`/organizations/${organization.id}`);
@@ -69,7 +69,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       assert.dom('div.member-list table > tbody').includesText('Denise');
       assert.dom('div.member-list table > tbody').includesText('Ter Hegg');
       assert.dom('div.member-list table > tbody').includesText('denise@example.com');
-      assert.dom('div.member-list table > tbody').includesText('Responsable');
+      assert.dom('div.member-list table > tbody').includesText('Administrateur');
     });
 
     test('should display the correct user data when the user is a MEMBER', async function(assert) {
