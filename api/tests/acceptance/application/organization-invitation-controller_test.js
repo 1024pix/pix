@@ -27,7 +27,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         databaseBuilder.factory.buildMembership({
           userId: adminOrganizationUserId,
           organizationId,
-          organizationRole: Membership.roles.OWNER,
+          organizationRole: Membership.roles.ADMIN,
         });
 
         const userToInviteEmail = databaseBuilder.factory.buildUser().email;

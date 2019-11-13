@@ -2,7 +2,7 @@ const logger = require('../../infrastructure/logger');
 const tokenService = require('../../domain/services/token-service');
 const checkUserIsAuthenticatedUseCase = require('../../application/usecases/checkUserIsAuthenticated');
 const checkUserHasRolePixMasterUseCase = require('../../application/usecases/checkUserHasRolePixMaster');
-const checkUserIsOwnerInOrganizationUseCase = require('../../application/usecases/checkUserIsOwnerInOrganization');
+const checkUserIsAdminInOrganizationUseCase = require('../../application/usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase  = require('../../application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
@@ -88,7 +88,7 @@ function checkRequestedUserIsAuthenticatedUser(request, h) {
   return authenticatedUserId === requestedUserId ? h.response(true) : _replyWithAuthorizationError(h);
 }
 
-function checkUserIsOwnerInOrganization(request, h) {
+function checkUserIsAdminInOrganization(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyWithAuthorizationError(h);
   }
@@ -96,9 +96,9 @@ function checkUserIsOwnerInOrganization(request, h) {
   const userId = request.auth.credentials.userId;
   const organizationId = parseInt(request.params.id);
 
-  return checkUserIsOwnerInOrganizationUseCase.execute(userId, organizationId)
-    .then((isOwnerInOrganization) => {
-      if (isOwnerInOrganization) {
+  return checkUserIsAdminInOrganizationUseCase.execute(userId, organizationId)
+    .then((isAdminInOrganization) => {
+      if (isAdminInOrganization) {
         return h.response(true);
       }
       return _replyWithAuthorizationError(h);
@@ -109,7 +109,7 @@ function checkUserIsOwnerInOrganization(request, h) {
     });
 }
 
-async function checkUserIsOwnerInOrganizationOrHasRolePixMaster(request, h) {
+async function checkUserIsAdminInOrganizationOrHasRolePixMaster(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyWithAuthorizationError(h);
   }
@@ -117,8 +117,8 @@ async function checkUserIsOwnerInOrganizationOrHasRolePixMaster(request, h) {
   const userId = request.auth.credentials.userId;
   const organizationId = parseInt(request.params.id);
 
-  const isOwnerInOrganization = await checkUserIsOwnerInOrganizationUseCase.execute(userId, organizationId);
-  if (isOwnerInOrganization) {
+  const isAdminInOrganization = await checkUserIsAdminInOrganizationUseCase.execute(userId, organizationId);
+  if (isAdminInOrganization) {
     return h.response(true);
   }
 
@@ -153,7 +153,7 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
   return _replyWithAuthorizationError(h);
 }
 
-async function checkUserIsOwnerInScoOrganizationAndManagesStudents(request, h) {
+async function checkUserIsAdminInScoOrganizationAndManagesStudents(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyWithAuthorizationError(h);
   }
@@ -164,8 +164,8 @@ async function checkUserIsOwnerInScoOrganizationAndManagesStudents(request, h) {
   const belongsToScoOrganizationAndManageStudents = await checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute(userId, organizationId);
   if (belongsToScoOrganizationAndManageStudents) {
 
-    const isOwnerInOrganization = await checkUserIsOwnerInOrganizationUseCase.execute(userId, organizationId);
-    if (isOwnerInOrganization) {
+    const isAdminInOrganization = await checkUserIsAdminInOrganizationUseCase.execute(userId, organizationId);
+    if (isAdminInOrganization) {
       return h.response(true);
     }
   }
@@ -178,7 +178,7 @@ module.exports = {
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserHasRolePixMaster,
   checkUserIsAuthenticated,
-  checkUserIsOwnerInOrganization,
-  checkUserIsOwnerInOrganizationOrHasRolePixMaster,
-  checkUserIsOwnerInScoOrganizationAndManagesStudents,
+  checkUserIsAdminInOrganization,
+  checkUserIsAdminInOrganizationOrHasRolePixMaster,
+  checkUserIsAdminInScoOrganizationAndManagesStudents,
 };

@@ -24,8 +24,8 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
 
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');
-    sandbox.stub(securityController, 'checkUserIsOwnerInOrganization');
-    sandbox.stub(securityController, 'checkUserIsOwnerInOrganizationOrHasRolePixMaster');
+    sandbox.stub(securityController, 'checkUserIsAdminInOrganization');
+    sandbox.stub(securityController, 'checkUserIsAdminInOrganizationOrHasRolePixMaster');
     sandbox.stub(securityController, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -106,7 +106,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     context('Success cases', () => {
 
       beforeEach(() => {
-        securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster.returns(true);
+        securityController.checkUserIsAdminInOrganizationOrHasRolePixMaster.returns(true);
       });
 
       const membership = domainBuilder.buildMembership();
@@ -222,7 +222,7 @@ describe('Integration | Application | Organizations | organization-controller', 
       };
 
       beforeEach(() => {
-        securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster.returns(true);
+        securityController.checkUserIsAdminInOrganizationOrHasRolePixMaster.returns(true);
       });
 
       it('should return an HTTP response with status code 201', async () => {
@@ -270,7 +270,7 @@ describe('Integration | Application | Organizations | organization-controller', 
       });
 
       beforeEach(() => {
-        securityController.checkUserIsOwnerInOrganization.returns(true);
+        securityController.checkUserIsAdminInOrganization.returns(true);
       });
 
       it('should return an HTTP response with status code 200', async () => {
