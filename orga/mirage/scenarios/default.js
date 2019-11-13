@@ -47,7 +47,7 @@ function _createStudents(server) {
   const userMembership = server.create('membership', {
     organizationId: organization.id,
     userId: user.id,
-    organizationRole: 'OWNER'
+    organizationRole: 'ADMIN'
   });
 
   user.memberships = [userMembership];
@@ -69,7 +69,7 @@ function _createOrganizationInvitations(server) {
   const userMembership = server.create('membership', {
     organizationId: organization.id,
     userId: user.id,
-    organizationRole: 'OWNER'
+    organizationRole: 'ADMIN'
   });
 
   user.memberships = [userMembership];
