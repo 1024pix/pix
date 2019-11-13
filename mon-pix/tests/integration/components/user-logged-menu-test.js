@@ -35,7 +35,7 @@ describe('Integration | Component | user logged menu', function() {
       // then
       expect(find('.logged-user-name')).to.exist;
       expect(find('.logged-user-name__link')).to.exist;
-      expect(find('.logged-user-name__link').textContent.trim()).to.be.equal('FHI 4EVER');
+      expect(find('.logged-user-name__link').textContent.trim()).to.be.equal('FHI');
     });
 
     it('should hide user menu, when no action on user-name', async function() {
@@ -56,8 +56,8 @@ describe('Integration | Component | user logged menu', function() {
       return wait().then(() => {
         // then
         expect(find('.logged-user-menu')).to.exist;
-        expect(find('.user-menu-item__details-firstname').textContent.trim()).to.equal('FHI');
-        expect(find('.user-menu-item__details-email').textContent.trim()).to.equal('FHI@4EVER.fr');
+        expect(find('.logged-user-menu-details__fullName').textContent.trim()).to.equal('FHI 4EVER');
+        expect(find('.logged-user-menu-details__email').textContent.trim()).to.equal('FHI@4EVER.fr');
       });
     });
 
@@ -68,8 +68,8 @@ describe('Integration | Component | user logged menu', function() {
       return wait().then(() => {
         // then
         expect(find('.logged-user-menu')).to.exist;
-        expect(findAll('.user-menu-item__link')).to.have.lengthOf(1);
-        expect(findAll('.user-menu-item__link')[0].textContent.trim()).to.equal('MES CERTIFICATIONS');
+        expect(findAll('.logged-user-menu__link')).to.have.lengthOf(2);
+        expect(findAll('.logged-user-menu__link')[0].textContent.trim()).to.equal('Mes certifications');
       });
     });
 
