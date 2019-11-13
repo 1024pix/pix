@@ -17,6 +17,7 @@ describe('Unit | Service | Course Service', () => {
 
     beforeEach(() => {
       sinon.stub(courseRepository, 'get');
+      sinon.stub(logger, 'error');
     });
 
     it('should call the course repository', () => {
@@ -55,6 +56,22 @@ describe('Unit | Service | Course Service', () => {
     });
 
     context('when an error occurred', () => {
+
+      it('should log the error', async () => {
+        // given
+        const givenCourseId = 'recAirtableId';
+        const error = new Error();
+        courseRepository.get.rejects(error);
+
+        try {
+          // when
+          await courseService.getCourse({ courseId: givenCourseId, userId });
+
+        } catch (err) {
+          // then
+          expect(logger.error).to.have.been.calledWith(error);
+        }
+      });
 
       it('should throw an InfrastructureException by default', async () => {
         // given
