@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.84.0 (13/11/2019)
+
+- [#822](https://github.com/1024pix/pix/pull/822) [FEATURE] Le champ Date de naissance doit tolérer le format apparemment commun 'DD/MM/YYYY (PC-32)
+- [#815](https://github.com/1024pix/pix/pull/815) [FEATURE] Ajouter un loader pendant le calcul des résultats collectifs (PO-275).
+- [#818](https://github.com/1024pix/pix/pull/818) [FEATURE] Remplacement du mot campagne par parcours dans un message d'erreur (PF-914).
+- [#809](https://github.com/1024pix/pix/pull/809) [FEATURE] Choisir une épreuve aléatoirement par acquis puis par challenge (PF-900).
+- [#814](https://github.com/1024pix/pix/pull/814) [BUGFIX] Une page oups! s'affichait lorsque l'utilisateur souhaitait voir ses certifications
+- [#796](https://github.com/1024pix/pix/pull/796) [TECH] Fermer proprement les connexions à PostgreSQL lors de l'arrêt (PF-923)
+- [#747](https://github.com/1024pix/pix/pull/747) [TECH] Normalisation de la manipulation du type DATE (date seule…
+
 ## v2.83.0 (07/11/2019)
 
 - [#774](https://github.com/1024pix/pix/pull/774) [FEATURE] Afficher les tutoriels associés à une compétence (PF-587).
