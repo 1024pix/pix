@@ -100,7 +100,7 @@ buildUser.withMembership = function buildUserWithMemberships({
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
-  organizationRole = Membership.roles.OWNER,
+  organizationRole = Membership.roles.ADMIN,
   organizationId = null,
 } = {}) {
 

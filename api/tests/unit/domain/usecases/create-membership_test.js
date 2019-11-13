@@ -4,7 +4,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 
 describe('Unit | UseCase | create-membership', () => {
 
-  it('should insert a new membership with role OWNER', async () => {
+  it('should insert a new membership with role ADMIN', async () => {
     // given
     const membershipRepository = {
       create: sinon.stub(),
@@ -12,7 +12,7 @@ describe('Unit | UseCase | create-membership', () => {
     };
     const userId = 1;
     const organizationId = 2;
-    const role = Membership.roles.OWNER;
+    const role = Membership.roles.ADMIN;
 
     // when
     await createMembership({ membershipRepository, userId, organizationId });

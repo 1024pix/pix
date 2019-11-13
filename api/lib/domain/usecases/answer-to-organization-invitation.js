@@ -27,7 +27,7 @@ module.exports = async function answerToOrganizationInvitation({
         throw new AlreadyExistingMembershipError(`User is already member of organisation ${organizationId}`);
       }
 
-      const organizationRole = memberships.length ? roles.MEMBER : roles.OWNER;
+      const organizationRole = memberships.length ? roles.MEMBER : roles.ADMIN;
       await membershipRepository.create(userFound.id, organizationId, organizationRole);
 
       return organizationInvitationRepository.markAsAccepted(organizationInvitationId);
