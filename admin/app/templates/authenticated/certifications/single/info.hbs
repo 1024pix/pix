@@ -27,8 +27,8 @@
                                        fieldId="certification-firstName"}}
             {{certification-info-field value=certification.lastName edition=edition label="Nom :"
                                        fieldId="certification-lastName"}}
-            {{certification-info-field value=certification.birthdate edition=edition label="Date de naissance :"
-                                       fieldId="certification-birthDate"}}
+            {{certification-info-field isDate=true edition=edition label="Date de naissance :"
+                                       fieldId="certification-birthdate" value=certification.birthdate onUpdateCertificationBirthdate=(action 'onUpdateCertificationBirthdate')}}
             {{certification-info-field value=certification.birthplace edition=edition label="Lieu de naissance :"
                                        fieldId="certification-birthPlace"}}
           </div>

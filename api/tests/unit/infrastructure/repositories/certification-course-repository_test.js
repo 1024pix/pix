@@ -19,7 +19,7 @@ describe('Unit | Repository | Certification Course', function() {
         firstName: 'Antoine',
         lastName: 'Griezmann',
         birthplace: 'Macon',
-        birthdate: '21/03/1991',
+        birthdate: '1991-03-21',
         sessionId: 'EURO2016',
         externalId: 'xenoverse2',
         isPublished: false,

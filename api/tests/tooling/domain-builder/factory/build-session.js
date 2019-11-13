@@ -1,4 +1,5 @@
 const faker = require('faker');
+const moment = require('moment');
 const Session = require('../../../../lib/domain/models/Session');
 
 module.exports = function buildSession({
@@ -9,7 +10,7 @@ module.exports = function buildSession({
   address = faker.address.streetAddress(),
   room = '28D',
   examiner = faker.name.findName(),
-  date = faker.date.recent(),
+  date = moment(faker.date.recent()).format('YYYY-MM-DD'),
   time = '14:30',
   description = faker.random.words(),
 } = {}) {

@@ -170,8 +170,7 @@ describe('Integration | Repository | Session', function() {
         'address': session.address,
         'room': session.room,
         'examiner': session.examiner,
-        // TODO : Handle date type correctly
-        //'date': session.date,
+        'date': session.date,
         'time': session.time,
         'description': session.description,
         'accessCode': session.accessCode,
@@ -189,8 +188,7 @@ describe('Integration | Repository | Session', function() {
 
       // then
       expect(actualSession).to.be.instanceOf(Session);
-      // TODO : Handle date type correctly
-      expect(_.omit(actualSession, 'date')).to.deep.includes(expectedSessionValues);
+      expect(actualSession, 'date').to.deep.includes(expectedSessionValues);
     });
 
     it('should return associated certifications', async () => {
@@ -221,7 +219,7 @@ describe('Integration | Repository | Session', function() {
         address: 'rue de Bercy',
         room: 'Salle A',
         examiner: 'Monsieur Examinateur',
-        //date: '2018-02-23',
+        date: '2018-02-23',
         time: '12:00:00',
         description: 'CertificationPix pour les jeunes',
         accessCode: 'NJR10'
@@ -232,8 +230,7 @@ describe('Integration | Repository | Session', function() {
         'address': session.address,
         'room': session.room,
         'examiner': session.examiner,
-        // TODO : Handle date type correctly
-        //'date': session.date,
+        'date': session.date,
         'time': session.time,
         'description': session.description,
         'accessCode': session.accessCode,
@@ -251,8 +248,7 @@ describe('Integration | Repository | Session', function() {
 
       // then
       expect(actualSession).to.be.instanceOf(Session);
-      // TODO : Handle date type correctly
-      expect(_.omit(actualSession, 'date')).to.deep.includes(expectedSessionValues);
+      expect(actualSession, 'date').to.deep.includes(expectedSessionValues);
     });
 
     it('should return associated certifications candidates ordered by lastname and firstname', async () => {

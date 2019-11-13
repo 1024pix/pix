@@ -1,5 +1,6 @@
 import { Factory, association } from 'ember-cli-mirage';
 import faker from 'faker';
+import moment from 'moment';
 
 export default Factory.extend({
 
@@ -12,7 +13,7 @@ export default Factory.extend({
   },
 
   birthdate() {
-    return faker.date.past(2, '2009-12-31');
+    return moment(faker.date.past(2, '2009-12-31')).format('YYYY-MM-DD');
   },
 
   organization: association(),

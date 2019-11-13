@@ -14,7 +14,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
           'first-name': 'Freezer',
           'last-name': 'The all mighty',
           'birthplace': 'Namek',
-          'birthdate': '24/10/1989',
+          'birthdate': '1989-10-24',
           'external-id': 'xenoverse2',
         },
       },
@@ -70,7 +70,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
         data: [
           {
             attributes: {
-              'birthdate': new Date('1992-06-12'),
+              'birthdate': '1992-06-12',
               'birthplace': 'Paris',
               'certification-center': 'L’univeristé du Pix',
               'date': new Date('2018-12-01T01:02:03Z'),
@@ -114,7 +114,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
         {
           data: {
             attributes: {
-              'birthdate': new Date('1992-06-12'),
+              'birthdate': '1992-06-12',
               'birthplace': 'Paris',
               'certification-center': 'L’univeristé du Pix',
               'date': new Date('2018-12-01T01:02:03Z'),
@@ -149,7 +149,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
       const JsonCertificationList = {
         'data': {
           'attributes': {
-            'birthdate': new Date('1992-06-12'),
+            'birthdate': '1992-06-12',
             'birthplace': 'Paris',
             'certification-center': 'L’univeristé du Pix',
             'date': new Date('2018-12-01T01:02:03Z'),
@@ -276,7 +276,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
           'first-name': 'Freezer',
           'last-name': 'The all mighty',
           'birthplace': 'Namek',
-          'birthdate': '24/10/1989',
+          'birthdate': '1989-10-24',
           'external-id': 'xenoverse2',
         },
       },
@@ -287,7 +287,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
       firstName: 'Freezer',
       lastName: 'The all mighty',
       birthplace: 'Namek',
-      birthdate: '24/10/1989',
+      birthdate: '1989-10-24',
       externalId: 'xenoverse2',
     };
 

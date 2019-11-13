@@ -18,7 +18,7 @@ describe('Unit | Service | Certification Course Service', function() {
       firstName: 'Freezer',
       lastName: 'The all mighty',
       birthplace: 'Namek',
-      birthdate: '24/10/1989',
+      birthdate: '1989-10-24',
     });
 
     it('should save certification course', () => {

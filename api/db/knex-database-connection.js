@@ -1,3 +1,11 @@
+/*
+By default, node-postgres casts a DATE value (PostgreSQL type) as a Date Object (JS type).
+But, when dealing with dates with no time (such as birthdate for example), we want to
+deal with a 'YYYY-MM-DD' string.
+*/
+const types = require('pg').types;
+types.setTypeParser(types.builtins.DATE, (value) => value);
+
 const _ = require('lodash');
 
 const knexConfigs = require('./knexfile');
@@ -40,8 +48,13 @@ async function emptyAllTables() {
   }
 }
 
+async function disconnect() {
+  return knex.destroy();
+}
+
 module.exports = {
   knex,
+  disconnect,
   listAllTableNames,
   emptyAllTables,
 };

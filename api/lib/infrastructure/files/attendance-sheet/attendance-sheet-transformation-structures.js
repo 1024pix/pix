@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const moment = require('moment');
+const { convertDateValue } = require('../../utils/date-utils');
 
 const CURRENT_ATTENDANCE_SHEET_VERSION = '1.1';
 // These are transformation structures. They provide all the necessary info
@@ -33,6 +33,13 @@ const _TRANSFORMATION_STRUCT_COMMON_V1_0 = [
     property: 'extraTimePercentage',
     transformFn: _toNonZeroValueOrNull,
   },
+  {
+    header: 'Date de naissance (format : jj/mm/aaaa)',
+    property: 'birthdate',
+    transformFn: (cellVal) => {
+      return convertDateValue(cellVal, 'DD/MM/YYYY', 'YYYY-MM-DD');
+    },
+  },
 ];
 
 const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_0 = [
@@ -42,16 +49,6 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_0 = [
     property: 'birthCity',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
-  {
-    header: 'Date de naissance (format : jj/mm/aaaa)',
-    property: 'birthdate',
-    transformFn: (cellVal) => {
-      if (cellVal && moment(cellVal).isValid()) {
-        return moment(cellVal).format('YYYY-MM-DD');
-      }
-      return null;
-    },
-  },
 ];
 
 const _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_0 = [
@@ -60,16 +57,6 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_0 = [
     header: 'Lieu de naissance',
     property: 'birthplace',
     transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Date de naissance (format : jj/mm/aaaa)',
-    property: 'birthdate',
-    transformFn: (cellVal) => {
-      if (cellVal && moment(cellVal).isValid()) {
-        return moment(cellVal).format('DD/MM/YYYY');
-      }
-      return null;
-    },
   },
   {
     header: 'Adresse électronique de convocation',
@@ -120,6 +107,13 @@ const _TRANSFORMATION_STRUCT_COMMON_V1_1 = [
     property: 'extraTimePercentage',
     transformFn: _toNonZeroValueOrNull,
   },
+  {
+    header: 'Date de naissance (format : jj/mm/aaaa)',
+    property: 'birthdate',
+    transformFn: (cellVal) => {
+      return convertDateValue(cellVal, 'DD/MM/YYYY', 'YYYY-MM-DD');
+    },
+  },
 ];
 
 const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_1 = [
@@ -139,16 +133,6 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_1 = [
     property: 'birthCountry',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
-  {
-    header: 'Date de naissance (format : jj/mm/aaaa)',
-    property: 'birthdate',
-    transformFn: (cellVal) => {
-      if (cellVal && moment(cellVal).isValid()) {
-        return moment(cellVal).format('YYYY-MM-DD');
-      }
-      return null;
-    },
-  },
 ];
 
 const _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_1 = [
@@ -157,16 +141,6 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_1 = [
     header: 'Commune de naissance',
     property: 'birthplace',
     transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Date de naissance (format : jj/mm/aaaa)',
-    property: 'birthdate',
-    transformFn: (cellVal) => {
-      if (cellVal && moment(cellVal).isValid()) {
-        return moment(cellVal).format('DD/MM/YYYY');
-      }
-      return null;
-    },
   },
   {
     header: 'Signature',

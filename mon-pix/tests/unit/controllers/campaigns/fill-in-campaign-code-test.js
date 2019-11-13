@@ -66,7 +66,7 @@ describe('Unit | Controller | Campaigns | Fill in Campaign Code', function() {
       await controller.actions.startCampaign.call(controller);
 
       // then
-      expect(controller.get('errorMessage')).to.equal('Oups ! nous ne parvenons pas à vous trouver. Verifiez vos informations afin de continuer ou prévenez l’organisateur de la campagne.');
+      expect(controller.get('errorMessage')).to.equal('Oups ! nous ne parvenons pas à vous trouver. Verifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
     });
   });
 

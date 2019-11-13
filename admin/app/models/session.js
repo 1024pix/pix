@@ -5,7 +5,7 @@ export default DS.Model.extend({
   address: DS.attr(),
   room: DS.attr(),
   examiner: DS.attr(),
-  date: DS.attr(),
+  date: DS.attr('date-only'),
   time: DS.attr(),
   description: DS.attr(),
   accessCode: DS.attr(),

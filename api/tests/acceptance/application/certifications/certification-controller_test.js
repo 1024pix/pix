@@ -3,9 +3,7 @@ const {
   insertUserWithRolePixMaster, insertUserWithStandardRole, knex, nock, databaseBuilder,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
-
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const _ = require('lodash');
 const FormData = require('form-data');
 const streamToPromise = require('stream-to-promise');
 const fs = require('fs');
@@ -29,7 +27,7 @@ describe('Acceptance | API | Certifications', () => {
       address: '1 rue de l\'educ',
       room: 'Salle Benjamin Marteau',
       examiner: '',
-      date: new Date('2018-08-14'),
+      date: '2018-08-14',
       time: '11:00',
       description: '',
       accessCode: 'PIX123',
@@ -41,7 +39,7 @@ describe('Acceptance | API | Certifications', () => {
       isPublished: true,
       firstName: 'Bro',
       lastName: 'Ther',
-      birthdate: new Date('1993-12-08T00:00:00Z'),
+      birthdate: '1993-12-08',
       birthplace: 'Asnières IZI',
     };
 
@@ -92,12 +90,12 @@ describe('Acceptance | API | Certifications', () => {
       // then
       return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
-        // TODO : Handle date type correctly
-        expect([_.omit(response.result.data[0], ['attributes.birthdate'])]).to.deep.equal([
+        expect(response.result.data).to.deep.equal([
           {
             type: 'certifications',
             id: certificationId.toString(),
             attributes: {
+              'birthdate': '1993-12-08',
               'birthplace': 'Asnières IZI',
               'certification-center': 'Université du Pix',
               'comment-for-candidate': null,
@@ -148,7 +146,7 @@ describe('Acceptance | API | Certifications', () => {
       address: '137 avenue de Bercy',
       room: 'La grande',
       examiner: 'Serge le Mala',
-      date: new Date('1989-10-24'),
+      date: '1989-10-24',
       time: '21:30',
       accessCode: 'ABCD12',
     };
@@ -158,7 +156,7 @@ describe('Acceptance | API | Certifications', () => {
       firstName: 'John',
       lastName: 'Doe',
       birthplace: 'Earth',
-      birthdate: new Date('1989-10-24'),
+      birthdate: '1989-10-24',
       completedAt: new Date('2003-02-01T01:02:03Z'),
       sessionId: session.id,
       isPublished: false,
@@ -428,6 +426,7 @@ describe('Acceptance | API | Certifications', () => {
       const expectedBody = {
         'data': {
           'attributes': {
+            'birthdate': '1989-10-24',
             'birthplace': 'Earth',
             'certification-center': 'Université du Pix',
             'comment-for-candidate': null,
@@ -529,8 +528,7 @@ describe('Acceptance | API | Certifications', () => {
       return promise
         .then((response) => {
           expect(response.statusCode).to.equal(200);
-          // TODO Tech Point : node-postgres date parsing
-          expect(_.omit(response.result, ['data.attributes.birthdate'])).to.deep.equal(expectedBody);
+          expect(response.result).to.deep.equal(expectedBody);
         });
     });
 
@@ -565,7 +563,7 @@ describe('Acceptance | API | Certifications', () => {
       firstName: 'John',
       lastName: 'Doe',
       birthplace: 'Earth',
-      birthdate: new Date('1991-10-24'),
+      birthdate: '1991-10-24',
       completedAt: new Date('2003-01-02T01:02:03Z'),
       sessionId: 1,
       isPublished: false,
@@ -590,7 +588,7 @@ describe('Acceptance | API | Certifications', () => {
       address: '137 avenue de Bercy',
       room: 'La grande',
       examiner: 'Serge le Mala',
-      date: new Date('1989-10-24'),
+      date: '1989-10-24',
       time: '21:30',
       accessCode: 'ABCD12',
     };
@@ -636,11 +634,11 @@ describe('Acceptance | API | Certifications', () => {
       return promise
         .then((response) => {
           expect(response.statusCode).to.equal(200);
-          // TODO : Handle date type correctly
-          expect(_.omit(response.result.data, ['attributes.birthdate'])).to.deep.equal({
+          expect(response.result.data).to.deep.equal({
             type: 'certifications',
             id: JOHN_CERTIFICATION_ID.toString(),
             attributes: {
+              'birthdate': '1991-10-24',
               'birthplace': 'Earth',
               'certification-center': 'Université du Pix',
               'comment-for-candidate': null,
@@ -753,7 +751,7 @@ describe('Acceptance | API | Certifications', () => {
         const expectedResult = [ {
           lastName: 'Baudu',
           firstName: null,
-          birthdate: '25/12/2008',
+          birthdate: '2008-12-25',
           birthplace: 'Metz',
           externalId: null,
           extraTimePercentage: 0.3,
@@ -765,7 +763,7 @@ describe('Acceptance | API | Certifications', () => {
         {
           lastName: 'Lantier',
           firstName: 'Étienne',
-          birthdate: '04/01/1990',
+          birthdate: '1990-01-04',
           birthplace: 'Ajaccio',
           externalId: 'ELAN123',
           extraTimePercentage: null,
@@ -777,7 +775,7 @@ describe('Acceptance | API | Certifications', () => {
         {
           lastName: 'Ranou',
           firstName: 'Liam',
-          birthdate: '22/10/2000',
+          birthdate: '2000-10-22',
           birthplace: null,
           externalId: null,
           extraTimePercentage: null,
