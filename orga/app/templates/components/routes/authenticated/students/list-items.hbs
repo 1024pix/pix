@@ -1,6 +1,6 @@
 <div class="list-students-page__header">
   <div class="page__title page-title">Élèves</div>
-  {{#if currentUser.isOwnerInOrganization}}
+  {{#if currentUser.isAdminInOrganization}}
     <div class="list-students-page__import-students-button">
       {{#file-upload name="file-upload"
                      for="students-file-upload"

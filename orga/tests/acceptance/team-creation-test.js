@@ -46,10 +46,10 @@ module('Acceptance | Team Creation', function(hooks) {
       });
     });
 
-    module('When user is an owner', function(hooks) {
+    module('When user is an admin', function(hooks) {
 
       hooks.beforeEach(async () => {
-        user = createUserMembershipWithRole('OWNER');
+        user = createUserMembershipWithRole('ADMIN');
         organizationId = server.db.organizations[0].id;
 
         await authenticateSession({

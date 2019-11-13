@@ -7,7 +7,7 @@ export default Route.extend({
 
   beforeModel() {
     this._super(...arguments);
-    if (!this.currentUser.isOwnerInOrganization) {
+    if (!this.currentUser.isAdminInOrganization) {
       return this.replaceWith('application');
     }
   },

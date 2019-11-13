@@ -92,10 +92,10 @@ module('Acceptance | Student List', function(hooks) {
         assert.dom('.table tbody tr').exists({ count: 6 });
       });
 
-      module('When user is owner in organization', function(hooks) {
+      module('When user is admin in organization', function(hooks) {
 
         hooks.beforeEach(async () => {
-          user = createUserManagingStudents('OWNER');
+          user = createUserManagingStudents('ADMIN');
           await authenticateSession({
             user_id: user.id,
             access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
@@ -180,7 +180,7 @@ module('Acceptance | Student List', function(hooks) {
         });
       });
 
-      module('When user is not owner in organization', function() {
+      module('When user is not admin in organization', function() {
 
         test('it should not display import button', async function(assert) {
           // given
