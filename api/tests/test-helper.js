@@ -128,7 +128,8 @@ const hFake = {
   },
   file(path, options) {
     return this.response({ path, options });
-  }
+  },
+  continue: Symbol('continue'),
 };
 
 function streamToPromise(stream) {
