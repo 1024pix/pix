@@ -10,8 +10,7 @@ export default Component.extend({
     finalizeSession(session) {
       this.set('isLoading', true);
       return session.finalize()
-        .then(console.log)
-        .then(() => this.set('isLoading', false))
+        .then(() => this.set('isLoading', false));
     }
   }
 });
