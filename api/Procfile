@@ -1,2 +1,2 @@
 background: npm run scalingo-background-job
-web: npm run scalingo-start
+web: npm run db:migrate && exec node bin/www
