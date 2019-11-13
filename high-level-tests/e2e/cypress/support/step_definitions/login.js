@@ -21,10 +21,10 @@ when(`je vais sur l'inscription de Pix`, () => {
   cy.visitMonPix(`/inscription`);
 });
 
-then(`je suis redirigé vers le profil de {string}`, (fullName) => {
+then(`je suis redirigé vers le profil de {string}`, (firstName) => {
   cy.url().should('include', '/profil');
   cy.get('.logged-user-name').should((userName) => {
-    expect(userName.text()).to.contains(fullName);
+    expect(userName.text()).to.contains(firstName);
   });
   cy.get('.rounded-panel-title').should((title) => {
     expect(title.text()).to.contains('Vous avez 16 compétences à tester.');
