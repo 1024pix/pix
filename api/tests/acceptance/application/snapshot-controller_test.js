@@ -18,7 +18,7 @@ describe('Acceptance | Controller | snapshot-controller', () => {
   const inserted_user = {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
-    email: faker.internet.email(),
+    email: faker.internet.exampleEmail().toLowerCase(),
     password: userPassword,
     cgu: true
   };
