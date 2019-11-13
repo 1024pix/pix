@@ -1,5 +1,5 @@
 const { expect } = require('../../../test-helper');
-const { isValidDate } = require('../../../../lib/infrastructure/utils/date-utils');
+const { isValidDate, convertDateValue } = require('../../../../lib/infrastructure/utils/date-utils');
 
 describe('Unit | Utils | date-utils', () => {
 
@@ -57,6 +57,23 @@ describe('Unit | Utils | date-utils', () => {
 
     });
 
+  });
+
+  describe('#convertDateValue', () => {
+
+    context('when dateValue does not match inputFormat', () => {
+
+      it('should return null', () => {
+        expect(convertDateValue('1980-05-05', 'DD/MM/YYYY', 'YYYY-MM-DD')).to.be.null;
+      });
+    });
+
+    context('when dateValue matches inputFormat', () => {
+
+      it('should return null', () => {
+        expect(convertDateValue('05/05/1980', 'DD/MM/YYYY', 'YYYY-MM-DD')).to.equal('1980-05-05');
+      });
+    });
   });
 
 });
