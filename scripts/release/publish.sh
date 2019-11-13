@@ -24,6 +24,12 @@ function push_commit_and_tag_to_remote_master {
     git push origin "v${PACKAGE_VERSION}"
 }
 
+function publish_release_on_sentry {
+    npx sentry-cli releases new -p pix-admin -p pix-api -p pix-app -p pix-orga -p pix-certif "v${PACKAGE_VERSION}"
+    npx sentry-cli releases set-commits --auto "v${PACKAGE_VERSION}"
+    npx sentry-cli releases finalize "v${PACKAGE_VERSION}"
+}
+
 function update_preview_and_maths {
     for environment in preview maths
     do
@@ -43,6 +49,7 @@ checkout_master
 fetch_and_rebase
 create_a_merge_commit_of_dev_into_master_and_tag_it
 push_commit_and_tag_to_remote_master
+publish_release_on_sentry
 update_preview_and_maths
 checkout_dev
 
