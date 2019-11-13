@@ -19,16 +19,15 @@
 @import 'globals/tables';
 @import 'globals/text';
 /* components */
-@import 'components/background-banner';
 @import 'components/assessment-banner';
-@import 'components/certification-starter';
-@import 'components/certification-joiner';
+@import 'components/background-banner';
 @import 'components/certification-banner';
+@import 'components/certification-joiner';
 @import 'components/certification-not-certifiable';
 @import 'components/certification-result';
+@import 'components/certification-starter';
 @import 'components/certifications-list';
 @import 'components/certifications-list-item';
-@import 'components/congratulations-certification-banner';
 @import 'components/challenge-actions';
 @import 'components/challenge-item';
 @import 'components/challenge-response';
@@ -37,6 +36,7 @@
 @import 'components/circle-chart';
 @import 'components/comparison-window';
 @import 'components/competence-card';
+@import 'components/congratulations-certification-banner';
 @import 'components/corner-ribbon';
 @import 'components/feedback-panel';
 @import 'components/form-textfield';
@@ -45,8 +45,8 @@
 @import 'components/levelup-notif';
 @import 'components/modal-mobile';
 @import 'components/navbar-burger-menu';
-@import 'components/navbar-desktop-menu';
 @import 'components/navbar-desktop-header';
+@import 'components/navbar-desktop-menu';
 @import 'components/navbar-header';
 @import 'components/navbar-mobile-header';
 @import 'components/no-certification-panel';
@@ -61,9 +61,10 @@
 @import 'components/qrocm-proposals';
 @import 'components/qrocm-solution-panel';
 @import 'components/reset-password-form';
-@import 'components/resume-campaign-banner';
 @import 'components/result-item';
+@import 'components/resume-campaign-banner';
 @import 'components/rounded-panel';
+@import 'components/scorecard-circle';
 @import 'components/scorecard-details';
 @import 'components/signup-form';
 @import 'components/snapshot-list';

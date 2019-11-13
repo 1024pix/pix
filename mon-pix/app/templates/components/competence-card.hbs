@@ -6,16 +6,7 @@
   </header>
   <div class="competence-card__body">
     {{#link-to "competence-details" scorecard.id class="competence-card__link"}}
-      {{#circle-chart value=scorecard.percentageAheadOfNextLevel
-                      sliceColor=scorecard.areaColor
-                      chartClass='circle-chart__content--big'
-                      thicknessClass='circle--thick'}}
-        <div class="competence-card__level">
-          <span class="score-label">Niveau</span>
-          <span class="score-value competence-card__score-value">{{replace-zero-by-dash displayedLevel}}</span>
-          <span class="competence-card__score-details">détail</span>
-        </div>
-      {{/circle-chart}}
+      {{scorecard-circle level=scorecard.level color=scorecard.areaColor}}
     {{/link-to}}
   </div>
   <footer class="competence-card__footer">
