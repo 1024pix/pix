@@ -40,33 +40,68 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
 
       context('The ODS file to import is valid', () => {
 
-        const odsFileName = 'files/import-certification-candidates-test-ok.ods';
-        const odsFilePath = `${__dirname}/${odsFileName}`;
-        let options;
+        context('The ODS file contains regular data', () => {
 
-        beforeEach(async () => {
-          // given
-          const form = new FormData();
-          form.append('file', fs.createReadStream(odsFilePath), { knownLength: fs.statSync(odsFilePath).size });
-          const payload = await streamToPromise(form);
-          const authHeader = generateValidRequestAuthorizationHeader(user.id);
-          const token = authHeader.replace('Bearer ', '');
-          const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
-          options = {
-            method: 'POST',
-            url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
-            headers,
-            payload,
-          };
+          const odsFileName = 'files/import-certification-candidates-test-ok.ods';
+          const odsFilePath = `${__dirname}/${odsFileName}`;
+          let options;
 
+          beforeEach(async () => {
+            // given
+            const form = new FormData();
+            form.append('file', fs.createReadStream(odsFilePath), { knownLength: fs.statSync(odsFilePath).size });
+            const payload = await streamToPromise(form);
+            const authHeader = generateValidRequestAuthorizationHeader(user.id);
+            const token = authHeader.replace('Bearer ', '');
+            const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
+            options = {
+              method: 'POST',
+              url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
+              headers,
+              payload,
+            };
+
+          });
+
+          it('should return an 204 status after success in importing the ods file', async () => {
+            // when
+            const response = await server.inject(options);
+
+            // then
+            expect(response.statusCode).to.equal(204);
+          });
         });
 
-        it('should return an 204 status after success in importing the ods file', async () => {
-          // when
-          const response = await server.inject(options);
+        context('The ODS file contains birthdate with special format ( \'DD/MM/YYYY )', () => {
 
-          // then
-          expect(response.statusCode).to.equal(204);
+          const odsFileName = 'files/import-certification-candidates-test-special-birthdate-ok.ods';
+          const odsFilePath = `${__dirname}/${odsFileName}`;
+          let options;
+
+          beforeEach(async () => {
+            // given
+            const form = new FormData();
+            form.append('file', fs.createReadStream(odsFilePath), { knownLength: fs.statSync(odsFilePath).size });
+            const payload = await streamToPromise(form);
+            const authHeader = generateValidRequestAuthorizationHeader(user.id);
+            const token = authHeader.replace('Bearer ', '');
+            const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
+            options = {
+              method: 'POST',
+              url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
+              headers,
+              payload,
+            };
+
+          });
+
+          it('should return an 204 status after success in importing the ods file', async () => {
+            // when
+            const response = await server.inject(options);
+
+            // then
+            expect(response.statusCode).to.equal(204);
+          });
         });
 
       });

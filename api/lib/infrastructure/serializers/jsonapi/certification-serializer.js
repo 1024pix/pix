@@ -65,7 +65,7 @@ module.exports = {
       .deserialize(json)
       .then(((certifications) => {
         if (birthdate) {
-          if (!isValidDate(birthdate)) {
+          if (!isValidDate(birthdate, 'YYYY-MM-DD')) {
             return Promise.reject(new WrongDateFormatError());
           }
         }

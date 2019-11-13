@@ -39,7 +39,7 @@ module.exports = {
 
   deserialize(json) {
     const attributes = json.data.attributes;
-    if (!isValidDate(attributes.date)) {
+    if (!isValidDate(attributes.date, 'YYYY-MM-DD')) {
       throw new WrongDateFormatError();
     }
 
