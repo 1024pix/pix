@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const moment = require('moment');
+const { convertDateValue } = require('../../utils/date-utils');
 
 const CURRENT_ATTENDANCE_SHEET_VERSION = '1.1';
 // These are transformation structures. They provide all the necessary info
@@ -37,10 +37,7 @@ const _TRANSFORMATION_STRUCT_COMMON_V1_0 = [
     header: 'Date de naissance (format : jj/mm/aaaa)',
     property: 'birthdate',
     transformFn: (cellVal) => {
-      if (cellVal && moment(cellVal).isValid()) {
-        return moment(cellVal).format('YYYY-MM-DD');
-      }
-      return null;
+      return convertDateValue(cellVal, 'DD/MM/YYYY', 'YYYY-MM-DD');
     },
   },
 ];
@@ -114,10 +111,7 @@ const _TRANSFORMATION_STRUCT_COMMON_V1_1 = [
     header: 'Date de naissance (format : jj/mm/aaaa)',
     property: 'birthdate',
     transformFn: (cellVal) => {
-      if (cellVal && moment(cellVal).isValid()) {
-        return moment(cellVal).format('YYYY-MM-DD');
-      }
-      return null;
+      return convertDateValue(cellVal, 'DD/MM/YYYY', 'YYYY-MM-DD');
     },
   },
 ];

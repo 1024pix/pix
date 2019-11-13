@@ -51,7 +51,7 @@ module.exports = {
   },
 
   deserialize(json) {
-    if (!isValidDate(json.data.attributes.birthdate)) {
+    if (!isValidDate(json.data.attributes.birthdate, 'YYYY-MM-DD')) {
       throw new WrongDateFormatError();
     }
 
