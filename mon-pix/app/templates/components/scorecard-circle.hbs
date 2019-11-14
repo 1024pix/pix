@@ -1,28 +1,28 @@
-<svg viewBox="0 0 100 100" width="140">
-  <circle cx="50" cy="50" r="48" stroke="lightgrey" fill="transparent" stroke-width="4" />
-  {{#if (gt level 0)}}
-  <path d="M {{polar-to-cartesian 50 50 48 0}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 45}}" fill="transparent" class="scorecard-circle__arc-{{color}}" stroke-width="4" />
+<svg viewBox="0 0 100 100" width="120">
+  <circle cx="50" cy="50" r="48" fill="transparent" stroke-width="4" class="scorecard-circle__circle" />
+  {{#if (gt scorecard.pixScoreAheadOfNextLevel 0)}}
+  <path d="M {{polar-to-cartesian 50 50 48 0}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 45}}" fill="transparent" class="scorecard-circle__arc-{{scorecard.areaColor}}" stroke-width="4" />
   {{/if}}
-  {{#if (gt level 1)}}
-  <path d="M {{polar-to-cartesian 50 50 48 45}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 90}}" fill="transparent" class="scorecard-circle__arc-{{color}}" stroke-width="4" />
+  {{#if (gt scorecard.pixScoreAheadOfNextLevel 1)}}
+  <path d="M {{polar-to-cartesian 50 50 48 45}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 90}}" fill="transparent" class="scorecard-circle__arc-{{scorecard.areaColor}}" stroke-width="4" />
   {{/if}}
-  {{#if (gt level 2)}}
-  <path d="M {{polar-to-cartesian 50 50 48 90}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 135}}" fill="transparent" class="scorecard-circle__arc-{{color}}" stroke-width="4" />
+  {{#if (gt scorecard.pixScoreAheadOfNextLevel 2)}}
+  <path d="M {{polar-to-cartesian 50 50 48 90}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 135}}" fill="transparent" class="scorecard-circle__arc-{{scorecard.areaColor}}" stroke-width="4" />
   {{/if}}
-  {{#if (gt level 3)}}
-  <path d="M {{polar-to-cartesian 50 50 48 135}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 180}}" fill="transparent" class="scorecard-circle__arc-{{color}}" stroke-width="4" />
+  {{#if (gt scorecard.pixScoreAheadOfNextLevel 3)}}
+  <path d="M {{polar-to-cartesian 50 50 48 135}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 180}}" fill="transparent" class="scorecard-circle__arc-{{scorecard.areaColor}}" stroke-width="4" />
   {{/if}}
-  {{#if (gt level 4)}}
-  <path d="M {{polar-to-cartesian 50 50 48 180}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 225}}" fill="transparent" class="scorecard-circle__arc-{{color}}" stroke-width="4" />
+  {{#if (gt scorecard.pixScoreAheadOfNextLevel 4)}}
+  <path d="M {{polar-to-cartesian 50 50 48 180}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 225}}" fill="transparent" class="scorecard-circle__arc-{{scorecard.areaColor}}" stroke-width="4" />
   {{/if}}
-  {{#if (gt level 5)}}
-  <path d="M {{polar-to-cartesian 50 50 48 225}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 270}}" fill="transparent" class="scorecard-circle__arc-{{color}}" stroke-width="4" />
+  {{#if (gt scorecard.pixScoreAheadOfNextLevel 5)}}
+  <path d="M {{polar-to-cartesian 50 50 48 225}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 270}}" fill="transparent" class="scorecard-circle__arc-{{scorecard.areaColor}}" stroke-width="4" />
   {{/if}}
-  {{#if (gt level 6)}}
-  <path d="M {{polar-to-cartesian 50 50 48 270}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 315}}" fill="transparent" class="scorecard-circle__arc-{{color}}" stroke-width="4" />
+  {{#if (gt scorecard.pixScoreAheadOfNextLevel 6)}}
+  <path d="M {{polar-to-cartesian 50 50 48 270}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 315}}" fill="transparent" class="scorecard-circle__arc-{{scorecard.areaColor}}" stroke-width="4" />
   {{/if}}
-  {{#if (gt level 7)}}
-  <path d="M {{polar-to-cartesian 50 50 48 315}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 360}}" fill="transparent" class="scorecard-circle__arc-{{color}}" stroke-width="4" />
+  {{#if (gt scorecard.pixScoreAheadOfNextLevel 7)}}
+  <path d="M {{polar-to-cartesian 50 50 48 315}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 48 360}}" fill="transparent" class="scorecard-circle__arc-{{scorecard.areaColor}}" stroke-width="4" />
   {{/if}}
   <path d="M {{polar-to-cartesian 50 50 47 -2}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 47 2}}" fill="transparent" stroke="white" stroke-width="7" />
   <path d="M {{polar-to-cartesian 50 50 47 43}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 47 47}}" fill="transparent" stroke="white" stroke-width="7" />
@@ -32,4 +32,9 @@
   <path d="M {{polar-to-cartesian 50 50 47 223}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 47 227}}" fill="transparent" stroke="white" stroke-width="7" />
   <path d="M {{polar-to-cartesian 50 50 47 268}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 47 272}}" fill="transparent" stroke="white" stroke-width="7" />
   <path d="M {{polar-to-cartesian 50 50 47 313}} A 50 50 0 0 1 {{polar-to-cartesian 50 50 47 317}}" fill="transparent" stroke="white" stroke-width="7" />
+  {{#if (gt scorecard.level 0)}}
+  <text x="50" y="52" class="scorecard-circle__text" alignment-baseline="middle" text-anchor="middle">
+    {{scorecard.level}}
+  </text>
+  {{/if}}
 </svg>

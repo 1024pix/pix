@@ -1,3 +1,7 @@
+.scorecard-circle__circle {
+  stroke: $silver-grey;
+}
+
 .scorecard-circle__arc-jaffa {
   stroke: $jaffa;
 }
@@ -16,4 +20,10 @@
 
 .scorecard-circle__arc-butterfly-bush {
   stroke: $butterfly-bush;
+}
+
+.scorecard-circle__text {
+  font-size: 4.2rem;
+  font-family: $font-open-sans;
+  font-weight: $font-medium;
 }

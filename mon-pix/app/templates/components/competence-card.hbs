@@ -6,7 +6,7 @@
   </header>
   <div class="competence-card__body">
     {{#link-to "competence-details" scorecard.id class="competence-card__link"}}
-      {{scorecard-circle level=scorecard.level color=scorecard.areaColor}}
+      {{scorecard-circle scorecard=scorecard}}
     {{/link-to}}
   </div>
   <footer class="competence-card__footer">
