@@ -1,17 +1,9 @@
 const { expect } = require('../../../test-helper');
-const { t1, t2, applyPreTreatments, applyTreatments } = require('../../../../lib/domain/services/validation-treatments');
+const { normalizeAndRemoveAccents, removeSpecialCharacters, applyPreTreatments, applyTreatments } = require('../../../../lib/domain/services/validation-treatments');
 
 describe('Unit | Service | Validation Treatments', function() {
 
-  /**
-   * #t1(string)
-   */
-
-  describe('#t1', function() {
-
-    it('checks sanity', () => {
-      expect(t1).to.exist;
-    });
+  describe('#normalizeAndRemoveAccents', function() {
 
     [
       { description: 'white spaces', input: '  foo  bar  ', expected: 'foobar' },
@@ -21,29 +13,21 @@ describe('Unit | Service | Validation Treatments', function() {
       { description: 'case', input: 'SHI-fu-Mi', expected: 'shi-fu-mi' }
     ].forEach((scenario) => {
       it(`should return the given string without "${scenario.description}"`, function() {
-        expect(t1(scenario.input)).to.equal(scenario.expected);
+        expect(normalizeAndRemoveAccents(scenario.input)).to.equal(scenario.expected);
       });
     });
 
     it('should not modify æ and œ', function() {
-      expect(t1('æ/œ')).to.equal('æ/œ');
+      expect(normalizeAndRemoveAccents('æ/œ')).to.equal('æ/œ');
     });
 
     it('should return (a copy of) the given string unmodified if it contains no concerned characters', () => {
-      expect(t1('shi-foo-bar')).to.equal('shi-foo-bar');
+      expect(normalizeAndRemoveAccents('shi-foo-bar')).to.equal('shi-foo-bar');
     });
 
   });
 
-  /**
-   * #t2(string)
-   */
-
-  describe('#t2', function() {
-
-    it('checks sanity', () => {
-      expect(t2).to.exist;
-    });
+  describe('#removeSpecialCharacters', function() {
 
     [
       { description: 'all point types', input: '?Allo?,:;.', expected: 'Allo' },
@@ -53,16 +37,16 @@ describe('Unit | Service | Validation Treatments', function() {
       { description: 'parenthesis', input: '(anyway)', expected: 'anyway' }
     ].forEach((scenario) => {
       it(`should return the given string without "${scenario.description}"`, function() {
-        expect(t2(scenario.input)).to.equal(scenario.expected);
+        expect(removeSpecialCharacters(scenario.input)).to.equal(scenario.expected);
       });
     });
 
     it('should return (a copy of) the given string unmodified if it contains no concerned characters', () => {
-      expect(t2('shi foo bar')).to.equal('shi foo bar');
+      expect(removeSpecialCharacters('shi foo bar')).to.equal('shi foo bar');
     });
 
     it('should return the good result even for complex phrase', () => {
-      expect(t2('Th!!is., -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation')).to.equal('This is an example of a string with punctuation');
+      expect(removeSpecialCharacters('Th!!is., -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation')).to.equal('This is an example of a string with punctuation');
     });
 
   });
