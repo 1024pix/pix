@@ -1039,6 +1039,18 @@ describe('Acceptance | Application | organization-controller', () => {
           '<CODE_MEF>12341234</CODE_MEF>' +
           '<CODE_STATUT>ST</CODE_STATUT>' +
           '</ELEVE>' +
+          '<ELEVE ELEVE_ID="0005">' +
+          '<ID_NATIONAL>00000000126</ID_NATIONAL>' +
+          '<NOM_DE_FAMILLE>VANDOU</NOM_DE_FAMILLE>' +
+          '<PRENOM>Hubert</PRENOM>' +
+          '<DATE_NAISS>31/08/2009</DATE_NAISS>' +
+          '<DATE_SORTIE>01/09/2019</DATE_SORTIE>' +
+          '<CODE_PAYS>100</CODE_PAYS>' +
+          '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+          '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+          '<CODE_MEF>12341234</CODE_MEF>' +
+          '<CODE_STATUT>ST</CODE_STATUT>' +
+          '</ELEVE>' +
           '</ELEVES>' +
           '<STRUCTURES>' +
           '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
@@ -1056,6 +1068,12 @@ describe('Acceptance | Application | organization-controller', () => {
           '<STRUCTURES_ELEVE ELEVE_ID="0004">' +
           '<STRUCTURE>' +
           '<CODE_STRUCTURE>Inactifs</CODE_STRUCTURE>' +
+          '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+          '</STRUCTURE>' +
+          '</STRUCTURES_ELEVE>' +
+          '<STRUCTURES_ELEVE ELEVE_ID="0005">' +
+          '<STRUCTURE>' +
+          '<CODE_STRUCTURE>5B</CODE_STRUCTURE>' +
           '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
           '</STRUCTURE>' +
           '</STRUCTURES_ELEVE>' +
