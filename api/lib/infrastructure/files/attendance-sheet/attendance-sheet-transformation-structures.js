@@ -194,7 +194,7 @@ const TRANSFORMATION_STRUCTS_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_BY_VERSION = {
 function _toNotEmptyTrimmedStringOrNull(val) {
   const value = _.toString(val);
   const trimmedValue = _.trim(value);
-  return _.isEmpty(trimmedValue) ? null : value;
+  return _.isEmpty(trimmedValue) ? null : trimmedValue;
 }
 
 function _toNonZeroValueOrNull(val) {
