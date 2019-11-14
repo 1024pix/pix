@@ -1,17 +1,10 @@
-const SearchResultList = require('../models/SearchResultList');
-
 module.exports = function findUsers({ filters, pagination, userRepository }) {
-
-  return Promise.all([
-    userRepository.find(filters, pagination),
-    userRepository.count(filters)
-  ]).then(([paginatedResults, totalResults]) => {
-
-    return new SearchResultList({
+  return userRepository.find(filters, pagination).then(({ models, pagination }) => ({
+    models, pagination: {
       page: pagination.page,
       pageSize: pagination.pageSize,
-      totalResults,
-      paginatedResults
-    });
-  });
+      itemsCount: pagination.rowCount,
+      pagesCount: pagination.pageCount,
+    }
+  }));
 };

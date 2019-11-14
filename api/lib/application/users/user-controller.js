@@ -86,27 +86,19 @@ module.exports = {
       .then((certificationCenterMemberships) => certificationCenterMembershipSerializer.serialize(certificationCenterMemberships));
   },
 
-  find(request) {
+  async find(request) {
     const filters = {
       firstName: request.query['firstName'],
       lastName: request.query['lastName'],
       email: request.query['email'],
     };
-    const pagination = {
+    const requestedPagination = {
       page: request.query['page'] ? request.query['page'] : 1,
       pageSize: request.query['pageSize'] ? request.query['pageSize'] : 10,
     };
 
-    return usecases.findUsers({ filters, pagination })
-      .then((searchResultList) => {
-        const meta = {
-          page: searchResultList.page,
-          pageSize: searchResultList.pageSize,
-          itemsCount: searchResultList.totalResults,
-          pagesCount: searchResultList.pagesCount,
-        };
-        return userSerializer.serialize(searchResultList.paginatedResults, meta);
-      });
+    const { models: users, pagination } = await usecases.findUsers({ filters, pagination: requestedPagination });
+    return userSerializer.serialize(users, pagination);
   },
 
   getCampaignParticipations(request) {
