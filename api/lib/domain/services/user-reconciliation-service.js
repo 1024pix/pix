@@ -1,58 +1,65 @@
 const { t1, t2 } = require('../services/validation-treatments');
-const { getLevenshteinRatio } = require('../services/validation-comparison');
+const { getLevenshteinRatio, getSmallestLevenshteinRatio } = require('../services/validation-comparison');
+
+const MAX_ACCEPTABLE_RATIO = 0.25;
 
 function _areTwoStringsCloseEnough(inputString, reference) {
-  return getLevenshteinRatio(inputString, reference) <= 0.25;
+  return getLevenshteinRatio(inputString, reference) <= MAX_ACCEPTABLE_RATIO;
 }
 
-function findMatchingPretenderIdForGivenUser(matchingUserPretenders, user) {
+function _areTwoStringsCloseEnoughWithSeveralPossibilities(inputString, references) {
+  return getSmallestLevenshteinRatio(inputString, references) <= MAX_ACCEPTABLE_RATIO;
+}
 
+function _standardize(stringToStandardize) {
+  return t2(t1(stringToStandardize));
+}
+
+function _findCandidatesMatchingWithUser(matchingUserCandidatesStandardized, standardizedUser, firstNameAlternative) {
+  return matchingUserCandidatesStandardized.filter((candidate) =>
+    candidate[firstNameAlternative] && candidate.lastName
+      && _areTwoStringsCloseEnough(standardizedUser.firstName, candidate[firstNameAlternative])
+      && _areTwoStringsCloseEnoughWithSeveralPossibilities(standardizedUser.lastName, [candidate.lastName, candidate.preferredLastName])
+  );
+}
+
+function _standardizeUserAndMatchingUserCandidates(user, matchingUserCandidates) {
   const standardizedUser = {
-    firstName: t2(t1(user.firstName)),
-    lastName: t2(t1(user.lastName))
+    firstName: _standardize(user.firstName),
+    lastName: _standardize(user.lastName)
   };
 
-  const matchingUserPretendersStandardized = matchingUserPretenders.map((pretender) => {
+  const matchingUserCandidatesStandardized = matchingUserCandidates.map((candidate) => {
     return {
-      id: pretender.id,
-      firstName: pretender.firstName ? t2(t1(pretender.firstName)) : null,
-      middleName: pretender.middleName ? t2(t1(pretender.middleName)) : null,
-      thirdName: pretender.thirdName ? t2(t1(pretender.thirdName)) : null,
-      lastName: pretender.lastName ? t2(t1(pretender.lastName)) : null,
-      preferredLastName: pretender.preferredLastName ? t2(t1(pretender.preferredLastName)) : null,
+      id: candidate.id,
+      firstName: candidate.firstName ? _standardize(candidate.firstName) : null,
+      middleName: candidate.middleName ? _standardize(candidate.middleName) : null,
+      thirdName: candidate.thirdName ? _standardize(candidate.thirdName) : null,
+      lastName: candidate.lastName ? _standardize(candidate.lastName) : null,
+      preferredLastName: candidate.preferredLastName ? _standardize(candidate.preferredLastName) : null,
     };
   });
 
-  let foundPretender = matchingUserPretendersStandardized.filter((pretender) => {
-    if (pretender && pretender.firstName && pretender.lastName) {
-      return _areTwoStringsCloseEnough(standardizedUser.firstName, pretender.firstName)
-        && (_areTwoStringsCloseEnough(standardizedUser.lastName, pretender.lastName) || _areTwoStringsCloseEnough(standardizedUser.lastName, pretender.preferredLastName));
+  return { standardizedUser, matchingUserCandidatesStandardized };
+}
+
+function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
+
+  const { standardizedUser, matchingUserCandidatesStandardized } = _standardizeUserAndMatchingUserCandidates(user, matchingUserCandidates);
+
+  const fieldNamesForMatching = ['firstName', 'middleName', 'thirdName'];
+
+  let foundCandidates;
+  for (const fieldName of fieldNamesForMatching) {
+    foundCandidates = _findCandidatesMatchingWithUser(matchingUserCandidatesStandardized, standardizedUser, fieldName);
+
+    if (foundCandidates.length === 1) {
+      return foundCandidates[0].id;
     }
-  });
-
-  if (foundPretender.length !== 1) {
-    foundPretender = matchingUserPretendersStandardized.filter((pretender) => {
-      if (pretender.middleName && pretender.lastName) {
-        return _areTwoStringsCloseEnough(standardizedUser.firstName, pretender.middleName) && (_areTwoStringsCloseEnough(standardizedUser.lastName, pretender.lastName) || _areTwoStringsCloseEnough(standardizedUser.lastName, pretender.preferredLastName));
-      }
-    });
   }
-
-  if (foundPretender.length !== 1) {
-    foundPretender = matchingUserPretendersStandardized.filter((pretender) => {
-      if (pretender.thirdName && pretender.lastName) {
-        return _areTwoStringsCloseEnough(standardizedUser.firstName, pretender.thirdName) && (_areTwoStringsCloseEnough(standardizedUser.lastName, pretender.lastName) || _areTwoStringsCloseEnough(standardizedUser.lastName, pretender.preferredLastName));
-      }
-    });
-  }
-
-  if (foundPretender.length !== 1) {
-    return null;
-  }
-
-  return foundPretender[0].id;
+  return null;
 }
 
 module.exports = {
-  findMatchingPretenderIdForGivenUser,
+  findMatchingCandidateIdForGivenUser,
 };

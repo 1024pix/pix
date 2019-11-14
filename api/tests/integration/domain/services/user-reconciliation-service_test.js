@@ -33,7 +33,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
         students[0].lastName = user.lastName;
 
         // when
-        const result = await userReconciliationService.findMatchingPretenderIdForGivenUser(students, user);
+        const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
 
         // then
         expect(result).to.equal(null);
@@ -47,7 +47,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
         students[0].lastName = user.lastName;
 
         // when
-        const result = await userReconciliationService.findMatchingPretenderIdForGivenUser(students, user);
+        const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
 
         // then
         expect(result).to.equal(null);
@@ -65,7 +65,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           students[0].lastName = user.lastName;
 
           // when
-          const result = await userReconciliationService.findMatchingPretenderIdForGivenUser(students, user);
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
 
           // then
           expect(result).to.equal(students[0].id);
@@ -77,7 +77,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           students[0].lastName = user.lastName;
 
           // when
-          const result = await userReconciliationService.findMatchingPretenderIdForGivenUser(students, user);
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
 
           // then
           expect(result).to.equal(students[0].id);
@@ -89,7 +89,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           students[0].lastName = user.lastName;
 
           // when
-          const result = await userReconciliationService.findMatchingPretenderIdForGivenUser(students, user);
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
 
           // then
           expect(result).to.equal(students[0].id);
@@ -101,7 +101,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           students[0].lastName = user.lastName;
 
           // when
-          const result = await userReconciliationService.findMatchingPretenderIdForGivenUser(students, user);
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
 
           // then
           expect(result).to.equal(students[0].id);
@@ -113,7 +113,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           students[0].preferredLastName = user.lastName;
 
           // when
-          const result = await userReconciliationService.findMatchingPretenderIdForGivenUser(students, user);
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
 
           // then
           expect(result).to.equal(students[0].id);
@@ -130,7 +130,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           students[0].lastName = user.lastName;
 
           // when
-          const result = await userReconciliationService.findMatchingPretenderIdForGivenUser(students, user);
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
 
           // then
           expect(result).to.equal(students[0].id);
@@ -144,7 +144,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           students[0].lastName = user.lastName;
 
           // when
-          const result = await userReconciliationService.findMatchingPretenderIdForGivenUser(students, user);
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
 
           // then
           expect(result).to.equal(students[0].id);
@@ -158,7 +158,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           students[0].lastName = user.lastName;
 
           // when
-          const result = await userReconciliationService.findMatchingPretenderIdForGivenUser(students, user);
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
 
           // then
           expect(result).to.equal(students[0].id);
@@ -176,7 +176,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           students[1].lastName = user.lastName;
 
           // when
-          const result = await userReconciliationService.findMatchingPretenderIdForGivenUser(students, user);
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
 
           // then
           expect(result).to.equal(students[1].id);
@@ -191,7 +191,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           students[1].lastName = user.lastName;
 
           // when
-          const result = await userReconciliationService.findMatchingPretenderIdForGivenUser(students, user);
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
 
           // then
           expect(result).to.equal(students[1].id);
@@ -206,7 +206,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           students[1].preferredLastName = user.lastName;
 
           // when
-          const result = await userReconciliationService.findMatchingPretenderIdForGivenUser(students, user);
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
 
           // then
           expect(result).to.equal(null);

@@ -21,7 +21,7 @@ module.exports = async function linkUserToOrganizationStudentData({
     throw new NotFoundError('Not found only 1 student');
   }
 
-  const matchingStudentId = userReconciliationService.findMatchingPretenderIdForGivenUser(studentsNotLinkedYetWithMatchingBirthdateAndOrganizationId, user);
+  const matchingStudentId = userReconciliationService.findMatchingCandidateIdForGivenUser(studentsNotLinkedYetWithMatchingBirthdateAndOrganizationId, user);
 
   if (matchingStudentId === null) {
     throw new NotFoundError('Not found only 1 student');

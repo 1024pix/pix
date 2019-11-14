@@ -11,7 +11,7 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
   let associateUserAndStudentStub;
   let campaignCode;
   let findStudentStub;
-  let findMatchingPretenderIdForGivenUserStub;
+  let findMatchingCandidateIdForGivenUserStub;
   let student;
   let students;
   let user;
@@ -114,7 +114,7 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
     context('When at least one student found based on birthdate and organizationId', () => {
 
       beforeEach(() => {
-        findMatchingPretenderIdForGivenUserStub = sinon.stub(userReconciliationService,'findMatchingPretenderIdForGivenUser');
+        findMatchingCandidateIdForGivenUserStub = sinon.stub(userReconciliationService,'findMatchingCandidateIdForGivenUser');
       });
 
       context('When no student matched on names', () => {
@@ -126,7 +126,7 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
           students[0].firstName = 'Joe';
           students[0].lastName = user.lastName;
           associateUserAndStudentStub.withArgs({ userId: user.id, studentId: students[0].id }).resolves(students[0]);
-          findMatchingPretenderIdForGivenUserStub.withArgs(students, user).returns(null);
+          findMatchingCandidateIdForGivenUserStub.withArgs(students, user).returns(null);
 
           // when
           const result = await catchErr(usecases.linkUserToOrganizationStudentData)({
@@ -148,7 +148,7 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
           students[0].firstName = user.firstName;
           students[0].lastName = user.lastName;
           associateUserAndStudentStub.withArgs({ userId: user.id, studentId: students[0].id }).resolves(students[0]);
-          findMatchingPretenderIdForGivenUserStub.withArgs(students, user).returns(students[0].id);
+          findMatchingCandidateIdForGivenUserStub.withArgs(students, user).returns(students[0].id);
 
           // when
           const result = await usecases.linkUserToOrganizationStudentData({
