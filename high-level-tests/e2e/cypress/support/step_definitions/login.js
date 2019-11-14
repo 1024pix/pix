@@ -17,3 +17,13 @@ then(`je suis redirigé vers le profil de {string}`, (fullName) => {
     expect(title.text()).to.contains('Vous avez 16 compétences à tester.');
   });
 });
+
+then(`je suis redirigé vers le compte Orga de {string}`, (fullName) => {
+  cy.url().should('include', '/campagnes');
+  cy.get('.topbar__user-identification').should((userName) => {
+    expect(userName.text()).to.contains(fullName);
+  });
+  cy.get('.page-title').should((title) => {
+    expect(title.text()).to.contains('Campagnes');
+  });
+});

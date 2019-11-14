@@ -1,9 +1,9 @@
 when(`je vais sur la page d'accès à une campagne`, () => {
-  cy.visit(`/campagnes`);
+  cy.visitMonPix(`/campagnes`);
 });
 
 when(`je vais sur la campagne {string} avec l'identifiant {string}`, (campaignCode, participantExternalId) => {
-  cy.visit(`/campagnes/${campaignCode}?participantExternalId=${participantExternalId}`);
+  cy.visitMonPix(`/campagnes/${campaignCode}?participantExternalId=${participantExternalId}`);
 });
 
 then(`je vois la page de {string} de la campagne`, (page) => {

@@ -194,47 +194,80 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/pix
-      - run: cat package*.json > cachekey-e2e
+      - run: cat package*.json > cachekey
       - restore_cache:
           keys:
-            - v7-e2e-npm-{{ checksum "cachekey-e2e" }}
+            - v7-e2e-npm-{{ checksum "cachekey" }}
       - run: npm ci
       - save_cache:
-          key: v7-e2e-npm-{{ checksum "cachekey-e2e" }}
+          key: v7-e2e-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
 
       - run:
           working_directory: ~/pix/api
-          command: cat package*.json > cachekey-api
+          command: cat package*.json > cachekey
       - restore_cache:
           keys:
-            - v7-api-npm-{{ checksum "~/pix/api/cachekey-api" }}
+            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
       - run:
           working_directory: ~/pix/api
-          background: true
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: npm ci && npm start
+          command: npm ci
 
       - run:
           working_directory: ~/pix/mon-pix
-          command: cat package*.json > cachekey-mon-pix
+          command: cat package*.json > cachekey
       - restore_cache:
           keys:
-            - v7-mon-pix-npm-{{ checksum "~/pix/mon-pix/cachekey-mon-pix" }}
+            - v7-mon-pix-npm-{{ checksum "~/pix/mon-pix/cachekey" }}
+      - run:
+          environment:
+            JOBS: 1
+          working_directory: ~/pix/mon-pix
+          command: npm ci
+
+      - run:
+          working_directory: ~/pix/orga
+          command: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-orga-npm-{{ checksum "~/pix/orga/cachekey" }}
       - run:
           environment:
             # See https://git.io/vdao3 for details.
             JOBS: 2
-          working_directory: ~/pix/mon-pix
+          working_directory: ~/pix/orga
+          command: npm ci
+
+      - run:
+          working_directory: ~/pix/api
+          environment:
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
           background: true
-          command: npm ci && npm start
+          command: npm start
+
+      - run:
+          working_directory: ~/pix/mon-pix
+          environment:
+            JOBS: 1
+          background: true
+          command: npm start
+
+      - run:
+          working_directory: ~/pix/orga
+          environment:
+            # See https://git.io/vdao3 for details.
+            JOBS: 2
+          background: true
+          command: npm start
 
       - run:
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
           command: |
             wget --retry-connrefused -T 60 -qO- http://localhost:4200
+            wget --retry-connrefused -T 60 -qO- http://localhost:4201
             wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
             npm run cy:run
