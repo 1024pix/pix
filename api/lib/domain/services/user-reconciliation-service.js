@@ -1,4 +1,4 @@
-const { t1, t2 } = require('../services/validation-treatments');
+const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('../services/validation-treatments');
 const { getLevenshteinRatio, getSmallestLevenshteinRatio } = require('../services/validation-comparison');
 
 const MAX_ACCEPTABLE_RATIO = 0.25;
@@ -12,7 +12,7 @@ function _areTwoStringsCloseEnoughWithSeveralPossibilities(inputString, referenc
 }
 
 function _standardize(stringToStandardize) {
-  return t2(t1(stringToStandardize));
+  return removeSpecialCharacters(normalizeAndRemoveAccents(stringToStandardize));
 }
 
 function _findCandidatesMatchingWithUser(matchingUserCandidatesStandardized, standardizedUser, firstNameAlternative) {

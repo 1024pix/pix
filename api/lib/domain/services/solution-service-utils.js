@@ -1,5 +1,5 @@
 const _ = require('../../../lib/infrastructure/utils/lodash-utils');
-const { t1, t2 } = require('./validation-treatments');
+const { normalizeAndRemoveAccents: t1, removeSpecialCharacters: t2 } = require('./validation-treatments');
 const { getSmallestLevenshteinRatio: t3 } = require('./validation-comparison');
 
 function treatmentT1T2T3(userAnswer, adminAnswers) {
