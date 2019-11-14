@@ -15,11 +15,25 @@ module.exports = async function linkUserToSessionCertificationCandidate({
   birthdate,
   certificationCandidateRepository,
 }) {
-  if (!_.every([sessionId, firstName, lastName, birthdate])) {
+
+  const trimmedFirstName = firstName
+    ? firstName.trim()
+    : firstName;
+  const trimmedLastName = lastName
+    ? lastName.trim()
+    : lastName;
+
+  if (!_.every([sessionId, trimmedFirstName, trimmedLastName, birthdate])) {
     throw new CertificationCandidatePersonalInfoFieldMissingError('One of mandatory personal info field is missing.');
   }
 
-  const certificationCandidate = await _getSessionCertificationCandidateByPersonalInfo(arguments[0]);
+  const certificationCandidate = await _getSessionCertificationCandidateByPersonalInfo({
+    sessionId,
+    firstName: trimmedFirstName,
+    lastName: trimmedLastName,
+    birthdate,
+    certificationCandidateRepository
+  });
 
   if (_.isNil(certificationCandidate.userId)) {
     const linkedCertificationCandidate = await _linkUserToCandidate({ sessionId, userId, certificationCandidate, certificationCandidateRepository });
