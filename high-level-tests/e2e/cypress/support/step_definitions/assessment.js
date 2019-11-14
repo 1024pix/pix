@@ -1,9 +1,9 @@
 when(`je lance le course {string}`, (courseId) => {
-  cy.visit(`/courses/${courseId}`);
+  cy.visitMonPix(`/courses/${courseId}`);
 });
 
 when(`je lance la preview du challenge {string}`, (challengeId) => {
-  cy.visit(`/challenges/${challengeId}/preview`);
+  cy.visitMonPix(`/challenges/${challengeId}/preview`);
 });
 
 then(`je suis redirigé vers une page d'épreuve`, () => {
