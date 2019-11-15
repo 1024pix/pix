@@ -35,7 +35,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
 
     userInDB = databaseBuilder.factory.buildUser(userToInsert);
-    organizationRoleInDB = Membership.roles.OWNER;
+    organizationRoleInDB = Membership.roles.ADMIN;
 
     membershipInDB = databaseBuilder.factory.buildMembership({
       userId: userInDB.id,

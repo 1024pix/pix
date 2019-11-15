@@ -1,22 +1,22 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const useCase = require('../../../../lib/application/usecases/checkUserIsOwnerInOrganization');
+const useCase = require('../../../../lib/application/usecases/checkUserIsAdminInOrganization');
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 const Membership = require('../../../../lib/domain/models/Membership');
 
-describe('Unit | Application | Use Case | CheckUserIsOwnerInOrganization', () => {
+describe('Unit | Application | Use Case | CheckUserIsAdminInOrganization', () => {
 
   beforeEach(() => {
     membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
   });
 
-  context('When user is owner in organization', () => {
+  context('When user is admin in organization', () => {
 
     it('should return true', async () => {
       // given
       const userId = 1234;
       const organizationId = 789;
 
-      const membership = domainBuilder.buildMembership({ organizationRole: Membership.roles.OWNER });
+      const membership = domainBuilder.buildMembership({ organizationRole: Membership.roles.ADMIN });
       membershipRepository.findByUserIdAndOrganizationId.resolves([membership]);
 
       // when
@@ -31,9 +31,9 @@ describe('Unit | Application | Use Case | CheckUserIsOwnerInOrganization', () =>
       const userId = 1234;
       const organizationId = 789;
 
-      const membershipOwner = domainBuilder.buildMembership({ organizationRole: Membership.roles.OWNER });
+      const membershipAdmin = domainBuilder.buildMembership({ organizationRole: Membership.roles.ADMIN });
       const membershipMember = domainBuilder.buildMembership({ organizationRole: Membership.roles.MEMBER });
-      membershipRepository.findByUserIdAndOrganizationId.resolves([membershipOwner, membershipMember]);
+      membershipRepository.findByUserIdAndOrganizationId.resolves([membershipAdmin, membershipMember]);
 
       // when
       const response = await useCase.execute(userId, organizationId);
@@ -43,7 +43,7 @@ describe('Unit | Application | Use Case | CheckUserIsOwnerInOrganization', () =>
     });
   });
 
-  context('When user is not owner in organization', () => {
+  context('When user is not admin in organization', () => {
 
     it('should return false', async () => {
       // given

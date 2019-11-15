@@ -63,7 +63,7 @@ describe('Integration | Application | Organizations | Routes', () => {
   describe('POST /api/organizations/:id/import-students', () => {
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserIsOwnerInScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
+      sinon.stub(securityController, 'checkUserIsAdminInScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
       sinon.stub(organisationController, 'importStudentsFromSIECLE').callsFake((request, h) => h.response('ok').code(201));
       return server.register(route);
     });
@@ -87,7 +87,7 @@ describe('Integration | Application | Organizations | Routes', () => {
   describe('POST /api/organizations/:id/invitations', () => {
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserIsOwnerInOrganizationOrHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityController, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(organisationController, 'sendInvitation').callsFake((request, h) => h.response().created());
 
       return server.register(route);
@@ -117,7 +117,7 @@ describe('Integration | Application | Organizations | Routes', () => {
   describe('GET /api/organizations/:id/invitations', () => {
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserIsOwnerInOrganization').callsFake((request, h) => h.response(true));
+      sinon.stub(securityController, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
       sinon.stub(organisationController, 'findPendingInvitations').returns('ok');
       return server.register(route);
     });

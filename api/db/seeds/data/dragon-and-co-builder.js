@@ -35,7 +35,7 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
   databaseBuilder.factory.buildMembership({
     userId: proUserDaenerys.id,
     organizationId: dragonAndCoCompany.id,
-    organizationRole: Membership.roles.OWNER,
+    organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildMembership({
@@ -84,7 +84,7 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
   databaseBuilder.factory.buildMembership({
     userId: proUserSub.id,
     organizationId: dragonAndCoSubsidiary.id,
-    organizationRole: Membership.roles.OWNER,
+    organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildTargetProfileShare({
@@ -112,7 +112,7 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
   databaseBuilder.factory.buildMembership({
     userId: proUserSub2.id,
     organizationId: dragonAndCoSubsidiary2.id,
-    organizationRole: Membership.roles.OWNER,
+    organizationRole: Membership.roles.ADMIN,
   });
 
   const invitedUsers = [];

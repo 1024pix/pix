@@ -1,5 +1,5 @@
 const roles = {
-  OWNER: 'OWNER', // Is resposible for the organization, has ADMIN capabilities, there must be only one per organzation
+  ADMIN: 'ADMIN',
   MEMBER: 'MEMBER',
 };
 
@@ -23,8 +23,8 @@ class Membership {
     // references
   }
 
-  get isOwner() {
-    return this.organizationRole === roles.OWNER;
+  get isAdmin() {
+    return this.organizationRole === roles.ADMIN;
   }
 }
 
