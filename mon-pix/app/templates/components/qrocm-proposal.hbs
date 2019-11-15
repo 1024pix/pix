@@ -1,7 +1,7 @@
 {{#each _blocks as |block|}}
 
   {{#if block.text}}
-    <span id="qrocm_input">{{block.text}}</span>
+    <label for="{{block.text}}">{{block.text}}</label>
   {{/if}}
 
   {{#if block.input}}
@@ -11,6 +11,7 @@
                 name={{block.input}}
                 placeholder={{block.placeholder}}
                 autocomplete="off"
+                id="{{block.text}}"
                 value={{property-of answersValue block.input}}>
       </textarea>
 
@@ -22,6 +23,7 @@
              name={{block.input}}
              placeholder={{block.placeholder}}
              autocomplete="off"
+             id="{{block.text}}"
              value={{property-of answersValue block.input}}>
     {{/if}}
 

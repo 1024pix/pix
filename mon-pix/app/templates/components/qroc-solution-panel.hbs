@@ -6,12 +6,14 @@
         <textarea class="correction-qroc-box-answer correction-qroc-box-answer--paragraph {{inputClass}}"
                   rows="5"
                   value="{{answerToDisplay}}"
+                  ariaLabel="réponse donnée"
                   disabled>
         </textarea>
       {{else}}
         <input class="correction-qroc-box-answer {{inputClass}}"
                size="{{get-qroc-input-size answer.challenge.format}}"
                value="{{answerToDisplay}}"
+               ariaLabel="réponse donnée"
                disabled>
       {{/if}}
     </div>
