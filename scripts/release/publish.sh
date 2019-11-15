@@ -25,9 +25,9 @@ function push_commit_and_tag_to_remote_master {
 }
 
 function publish_release_on_sentry {
-    npx sentry-cli releases new -p pix-admin -p pix-api -p pix-app -p pix-orga -p pix-certif "v${PACKAGE_VERSION}"
-    npx sentry-cli releases set-commits --auto "v${PACKAGE_VERSION}"
-    npx sentry-cli releases finalize "v${PACKAGE_VERSION}"
+    npx sentry-cli releases -o pix new -p pix-admin -p pix-api -p pix-app -p pix-orga -p pix-certif "v${PACKAGE_VERSION}"
+    npx sentry-cli releases -o pix set-commits "v${PACKAGE_VERSION}" --auto
+    npx sentry-cli releases -o pix finalize "v${PACKAGE_VERSION}"
 }
 
 function update_preview_and_maths {
