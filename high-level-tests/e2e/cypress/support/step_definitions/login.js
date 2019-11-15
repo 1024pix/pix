@@ -18,7 +18,7 @@ when('je vais sur Pix via un organisme externe', () => {
 });
 
 when(`je vais sur l'inscription de Pix`, () => {
-  cy.visit(`/inscription`);
+  cy.visitMonPix(`/inscription`);
 });
 
 then(`je suis redirigé vers le profil de {string}`, (fullName) => {
