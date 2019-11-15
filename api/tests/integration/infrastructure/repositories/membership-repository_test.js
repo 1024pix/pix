@@ -21,7 +21,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
     let userId;
     let organizationId;
-    const organizationRole = Membership.roles.OWNER;
+    const organizationRole = Membership.roles.ADMIN;
 
     beforeEach(async () => {
       userId = databaseBuilder.factory.buildUser().id;
@@ -47,7 +47,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
       // then
       expect(membership).to.be.an.instanceOf(Membership);
-      expect(membership.organizationRole).to.equal(Membership.roles.OWNER);
+      expect(membership.organizationRole).to.equal(Membership.roles.ADMIN);
     });
 
     context('Error cases', () => {
@@ -72,7 +72,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       const organization = databaseBuilder.factory.buildOrganization();
       const user = databaseBuilder.factory.buildUser();
       const otherUserId = databaseBuilder.factory.buildUser().id;
-      const organizationRole = Membership.roles.OWNER;
+      const organizationRole = Membership.roles.ADMIN;
 
       // Matching membership
       databaseBuilder.factory.buildMembership({
@@ -94,7 +94,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       const anyMembership = memberships[0];
       expect(anyMembership).to.be.an.instanceOf(Membership);
 
-      expect(anyMembership.organizationRole).to.equal(Membership.roles.OWNER);
+      expect(anyMembership.organizationRole).to.equal(Membership.roles.ADMIN);
       expect(anyMembership.organizationRole.id).to.equal(organizationRole.id);
       expect(anyMembership.organizationRole.name).to.equal(organizationRole.name);
 
@@ -114,7 +114,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       const user_2 = databaseBuilder.factory.buildUser();
       const user_3 = databaseBuilder.factory.buildUser();
 
-      const organizationRole = Membership.roles.OWNER;
+      const organizationRole = Membership.roles.ADMIN;
 
       databaseBuilder.factory.buildMembership({ organizationRole, organizationId: organization_1.id, userId: user_1.id });
       databaseBuilder.factory.buildMembership({ organizationRole, organizationId: organization_1.id, userId: user_2.id });
@@ -137,7 +137,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       const user_2 = databaseBuilder.factory.buildUser();
       const user_3 = databaseBuilder.factory.buildUser();
 
-      const organizationRole = Membership.roles.OWNER;
+      const organizationRole = Membership.roles.ADMIN;
 
       const membership_3 = databaseBuilder.factory.buildMembership({ id: 789, organizationRole, organizationId: organization.id, userId: user_3.id });
       const membership_2 = databaseBuilder.factory.buildMembership({ id: 456, organizationRole, organizationId: organization.id, userId: user_2.id });
@@ -161,7 +161,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       const user_3 = databaseBuilder.factory.buildUser({ lastName: 'Avatar', firstName: 'Arthur' });
       const user_4 = databaseBuilder.factory.buildUser({ lastName: 'Avatar', firstName: 'MATHURIN' });
 
-      const organizationRole = Membership.roles.OWNER;
+      const organizationRole = Membership.roles.ADMIN;
 
       const membership_1 = databaseBuilder.factory.buildMembership({ organizationRole, organizationId: organization.id, userId: user_1.id });
       const membership_2 = databaseBuilder.factory.buildMembership({ organizationRole, organizationId: organization.id, userId: user_2.id });
@@ -186,7 +186,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         // given
         const organization = databaseBuilder.factory.buildOrganization();
         const user1 = databaseBuilder.factory.buildUser();
-        const organizationRole1 = Membership.roles.OWNER;
+        const organizationRole1 = Membership.roles.ADMIN;
         const user2 = databaseBuilder.factory.buildUser();
         const organizationRole2 = Membership.roles.MEMBER;
 

@@ -48,10 +48,10 @@ module('Acceptance | Team List', function(hooks) {
       });
     });
 
-    module('When user is an owner', function(hooks) {
+    module('When user is an admin', function(hooks) {
 
       hooks.beforeEach(async () => {
-        user = createUserMembershipWithRole('OWNER');
+        user = createUserMembershipWithRole('ADMIN');
 
         await authenticateSession({
           user_id: user.id,

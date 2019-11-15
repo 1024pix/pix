@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.85.0 (15/11/2019)
+
+- [#823](https://github.com/1024pix/pix/pull/823) [FEATURE] Remplacer le rôle OWNER par ADMIN (PA-106).
+- [#829](https://github.com/1024pix/pix/pull/829) [BUGFIX] Il arrive que le seeding soit en échec à cause d'une violation de contrainte d'unicité sur les emails de la table users
+- [#800](https://github.com/1024pix/pix/pull/800) [TECH] Supprime Husky et le crochet d'avant commit (PF-922)
+- [#817](https://github.com/1024pix/pix/pull/817) [TECH] Supprimer un appel superflu sur la récupérations des utilisateurs dans Pix Admin (PA-115).
+- [#760](https://github.com/1024pix/pix/pull/760) [TECH] Ajout de tests e2e avec Cypress sur Pix Orga (PO-280)
+- [#816](https://github.com/1024pix/pix/pull/816) [TECH] Remplacer les vrais emails générés par de faux en @example.net (PF-919).
+- [#811](https://github.com/1024pix/pix/pull/811) [TECH] Amélioration de l'intégration de Sentry dans l'API (PF-921)
+
 ## v2.84.0 (13/11/2019)
 
 - [#822](https://github.com/1024pix/pix/pull/822) [FEATURE] Le champ Date de naissance doit tolérer le format apparemment commun 'DD/MM/YYYY (PC-32)

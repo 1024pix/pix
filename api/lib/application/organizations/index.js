@@ -93,8 +93,8 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/memberships',
       config: {
         pre: [{
-          method: securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster,
-          assign: 'isOwnerInOrganizationOrHasRolePixMaster'
+          method: securityController.checkUserIsAdminInOrganizationOrHasRolePixMaster,
+          assign: 'isAdminInOrganizationOrHasRolePixMaster'
         }],
         handler: organisationController.getMemberships,
         tags: ['api', 'organizations'],
@@ -137,8 +137,8 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/import-students',
       config: {
         pre: [{
-          method: securityController.checkUserIsOwnerInScoOrganizationAndManagesStudents,
-          assign: 'isOwnerInScoOrganizationAndManagesStudents'
+          method: securityController.checkUserIsAdminInScoOrganizationAndManagesStudents,
+          assign: 'isAdminInScoOrganizationAndManagesStudents'
         }],
         payload: {
           maxBytes: 1048576 * 10, // 10MB
@@ -158,8 +158,8 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/invitations',
       config: {
         pre: [{
-          method: securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster,
-          assign: 'isOwnerInOrganizationOrHasRolePixMaster'
+          method: securityController.checkUserIsAdminInOrganizationOrHasRolePixMaster,
+          assign: 'isAdminInOrganizationOrHasRolePixMaster'
         }],
         handler: organisationController.sendInvitation,
         notes: [
@@ -174,8 +174,8 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/invitations',
       config: {
         pre: [{
-          method: securityController.checkUserIsOwnerInOrganization,
-          assign: 'isOwnerInOrganization'
+          method: securityController.checkUserIsAdminInOrganization,
+          assign: 'isAdminInOrganization'
         }],
         handler: organisationController.findPendingInvitations,
         tags: ['api', 'invitations'],

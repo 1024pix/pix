@@ -177,11 +177,11 @@ module('Acceptance | authentication', function(hooks) {
       });
     });
 
-    module('When user is owner', function() {
+    module('When user is admin', function() {
 
       test('should display team menu', async function(assert) {
         // given
-        const user = createUserMembershipWithRole('OWNER');
+        const user = createUserMembershipWithRole('ADMIN');
         await authenticateSession({
           user_id: user.id,
           access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
@@ -201,7 +201,7 @@ module('Acceptance | authentication', function(hooks) {
 
       test('should redirect to team page', async function(assert) {
         // given
-        const user = createUserMembershipWithRole('OWNER');
+        const user = createUserMembershipWithRole('ADMIN');
         await authenticateSession({
           user_id: user.id,
           access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
@@ -224,7 +224,7 @@ module('Acceptance | authentication', function(hooks) {
         let user;
 
         hooks.beforeEach(async () => {
-          user = createUserManagingStudents('OWNER');
+          user = createUserManagingStudents('ADMIN');
 
           await authenticateSession({
             user_id: user.id,

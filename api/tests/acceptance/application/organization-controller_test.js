@@ -744,7 +744,7 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user is not OWNER in organization nor PIX_MASTER', async () => {
+      it('should respond with a 403 - forbidden access - if user is not ADMIN in organization nor PIX_MASTER', async () => {
         // given
         const nonPixMasterUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
@@ -945,7 +945,7 @@ describe('Acceptance | Application | organization-controller', () => {
     beforeEach(async () => {
       const connectedUser = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.OWNER });
+      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.ADMIN });
       await databaseBuilder.commit();
 
       options = {
@@ -1194,7 +1194,7 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should respond with a 403 - Forbidden access - if Organization type is not SCO', async () => {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization({ type: 'PRO', isManagingStudents: true }).id;
-        const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId, organizationRole: Membership.roles.OWNER }).id;
+        const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId, organizationRole: Membership.roles.ADMIN }).id;
         await databaseBuilder.commit();
 
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
@@ -1210,7 +1210,7 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should respond with a 403 - Forbidden access - if Organization does not manage students', async () => {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;
-        const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId, organizationRole: Membership.roles.OWNER }).id;
+        const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId, organizationRole: Membership.roles.ADMIN }).id;
         await databaseBuilder.commit();
 
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
@@ -1223,7 +1223,7 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(403);
       });
 
-      it('should respond with a 403 - Forbidden access - if user is not OWNER', async () => {
+      it('should respond with a 403 - Forbidden access - if user is not ADMIN', async () => {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
         const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId, organizationRole: Membership.roles.MEMBER }).id;
@@ -1250,12 +1250,12 @@ describe('Acceptance | Application | organization-controller', () => {
     context('Expected output', () => {
 
       beforeEach(async () => {
-        const ownerUserId = databaseBuilder.factory.buildUser().id;
+        const adminUserId = databaseBuilder.factory.buildUser().id;
         organization = databaseBuilder.factory.buildOrganization();
         databaseBuilder.factory.buildMembership({
-          userId: ownerUserId,
+          userId: adminUserId,
           organizationId: organization.id,
-          organizationRole: Membership.roles.OWNER,
+          organizationRole: Membership.roles.ADMIN,
         });
 
         user = databaseBuilder.factory.buildUser();
@@ -1263,7 +1263,7 @@ describe('Acceptance | Application | organization-controller', () => {
         options = {
           method: 'POST',
           url: `/api/organizations/${organization.id}/invitations`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(ownerUserId) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(adminUserId) },
           payload: {
             data: {
               type: 'organization-invitations',
@@ -1307,12 +1307,12 @@ describe('Acceptance | Application | organization-controller', () => {
     context('Resource access management', () => {
 
       beforeEach(async () => {
-        const ownerUserId = databaseBuilder.factory.buildUser().id;
+        const adminUserId = databaseBuilder.factory.buildUser().id;
         organization = databaseBuilder.factory.buildOrganization();
         databaseBuilder.factory.buildMembership({
-          userId: ownerUserId,
+          userId: adminUserId,
           organizationId: organization.id,
-          organizationRole: Membership.roles.OWNER,
+          organizationRole: Membership.roles.ADMIN,
         });
 
         user = databaseBuilder.factory.buildUser();
@@ -1320,7 +1320,7 @@ describe('Acceptance | Application | organization-controller', () => {
         options = {
           method: 'POST',
           url: `/api/organizations/${organization.id}/invitations`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(ownerUserId) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(adminUserId) },
           payload: {
             data: {
               type: 'organization-invitations',
@@ -1350,7 +1350,7 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user is not OWNER in organization or PIXMASTER', async () => {
+      it('should respond with a 403 - forbidden access - if user is not ADMIN in organization or PIXMASTER', async () => {
         // given
         const nonPixMasterUserId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
@@ -1408,13 +1408,13 @@ describe('Acceptance | Application | organization-controller', () => {
     let options;
 
     beforeEach(async () => {
-      const ownerUserId = databaseBuilder.factory.buildUser().id;
+      const adminUserId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
 
       databaseBuilder.factory.buildMembership({
-        userId: ownerUserId,
+        userId: adminUserId,
         organizationId: organization.id,
-        organizationRole: Membership.roles.OWNER,
+        organizationRole: Membership.roles.ADMIN,
       });
 
       databaseBuilder.factory.buildOrganizationInvitation({
@@ -1438,7 +1438,7 @@ describe('Acceptance | Application | organization-controller', () => {
       options = {
         method: 'GET',
         url: `/api/organizations/${organization.id}/invitations`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(ownerUserId) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(adminUserId) },
       };
 
       await databaseBuilder.commit();
@@ -1499,7 +1499,7 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user is not OWNER in organization', async () => {
+      it('should respond with a 403 - forbidden access - if user is not ADMIN in organization', async () => {
         // given
         const nonPixMasterUserId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();

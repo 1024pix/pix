@@ -6,5 +6,5 @@ export default DS.Model.extend({
   organization: DS.belongsTo('organization'),
   organizationRole: DS.attr('string'),
 
-  isOwner: equal('organizationRole', 'OWNER'),
+  isAdmin: equal('organizationRole', 'ADMIN'),
 });

@@ -100,6 +100,14 @@ module.exports = (function() {
     },
 
     pixOrgaUrl: process.env.PIXORGA_URL,
+
+    sentry: {
+      enabled: isFeatureEnabled(process.env.SENTRY_ENABLED),
+      dsn: process.env.SENTRY_DSN,
+      environment: (process.env.SENTRY_ENVIRONMENT || 'development'),
+      maxBreadcrumbs: _getNumber(process.env.SENTRY_MAX_BREADCRUMBS, 100),
+      debug: isFeatureEnabled(process.env.SENTRY_DEBUG),
+    },
   };
 
   if (process.env.NODE_ENV === 'test') {
@@ -132,6 +140,8 @@ module.exports = (function() {
     config.caching.redisCacheLockedWaitBeforeRetry = 0;
 
     config.pixOrgaUrl = 'http://dev.pix-orga.fr';
+
+    config.sentry.enabled = false;
   }
 
   return config;

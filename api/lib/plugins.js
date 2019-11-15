@@ -61,14 +61,16 @@ const plugins = [
       }
     }
   },
-  ...(isProduction && process.env.SENTRY_DSN ? [
+  ...(settings.sentry.enabled ? [
     {
       plugin: require('hapi-sentry'),
       options: {
         client: {
-          dsn: process.env.SENTRY_DSN,
-          environment: process.env.NODE_ENV,
-          debug: true,
+          dsn: settings.sentry.dsn,
+          environment: settings.sentry.environment,
+          release: Pack.version,
+          maxBreadcrumbs: settings.sentry.maxBreadcrumbs,
+          debug: settings.sentry.debug,
         },
         scope: {
           tags: [

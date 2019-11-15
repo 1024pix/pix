@@ -16,7 +16,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
           type: 'SUP',
           code: 'WASABI666',
         },
-        organizationRole: Membership.roles.OWNER,
+        organizationRole: Membership.roles.ADMIN,
       });
 
       const expectedSerializedMembership = {
@@ -24,7 +24,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
           type: 'memberships',
           id: '5',
           attributes: {
-            'organization-role': Membership.roles.OWNER,
+            'organization-role': Membership.roles.ADMIN,
           },
           relationships: {
             organization: {
