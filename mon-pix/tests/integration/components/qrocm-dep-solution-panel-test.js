@@ -209,10 +209,10 @@ describe('Integration | Component | qrocm dep solution panel', function() {
     });
 
     [
-      { format: 'petit', expectedSize: '5' },
-      { format: 'mots', expectedSize: '15' },
+      { format: 'petit', expectedSize: '10' },
+      { format: 'mots', expectedSize: '20' },
       { format: 'phrase', expectedSize: '50' },
-      { format: 'unreferenced_format', expectedSize: '15' }
+      { format: 'unreferenced_format', expectedSize: '20' }
     ].forEach((data) => {
       it(`should display a disabled input with expected size (${data.expectedSize}) when format is ${data.format}`, async function() {
         //given

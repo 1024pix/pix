@@ -3,8 +3,8 @@ import { helper } from '@ember/component/helper';
 export function getQrocInputSize(format) {
   const defaultFormat = 'mots';
   const inputSizeMap = {
-    petit: '5',
-    mots: '15',
+    petit: '10',
+    mots: '20',
     phrase: '50',
   };
 
