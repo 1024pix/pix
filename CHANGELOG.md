@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.85.4 (15/11/2019)
+
+- [#843](https://github.com/1024pix/pix/pull/843) [BUGFIX] Problème d'ajout des commits dans les versions de Sentry.
+
 ## v2.85.3 (15/11/2019)
 
 - [#842](https://github.com/1024pix/pix/pull/842) [BUGFIX] Problème d'ajout des commits dans les versions de Sentry.
