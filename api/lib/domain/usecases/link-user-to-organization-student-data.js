@@ -2,30 +2,30 @@ const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain
 
 module.exports = async function linkUserToOrganizationStudentData({
   campaignCode,
-  user,
+  user: { id: userId, firstName, lastName, birthdate },
   campaignRepository,
   studentRepository,
   userReconciliationService,
 }) {
-  const campaign = await campaignRepository.getByCode(campaignCode);
-  const organizationId = campaign.organizationId;
-
-  if (user.id === null) {
+  if (userId === null) {
     throw new UserNotAuthorizedToAccessEntity('User is not part of the organization student list');
   }
 
-  const studentsNotLinkedYetWithMatchingBirthdateAndOrganizationId = await studentRepository
-    .findNotLinkedYetByOrganizationIdAndUserBirthdate({ organizationId, birthdate: user.birthdate });
+  const { organizationId } = await campaignRepository.getByCode(campaignCode);
+  const students = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
+    organizationId,
+    birthdate,
+  });
 
-  if (studentsNotLinkedYetWithMatchingBirthdateAndOrganizationId.length === 0) {
-    throw new NotFoundError('Not found only 1 student');
+  if (students.length === 0) {
+    throw new NotFoundError('There were not exactly one student match for this user and organization');
   }
 
-  const matchingStudentId = userReconciliationService.findMatchingCandidateIdForGivenUser(studentsNotLinkedYetWithMatchingBirthdateAndOrganizationId, user);
+  const studentId = userReconciliationService.findMatchingCandidateIdForGivenUser(students, { firstName, lastName });
 
-  if (matchingStudentId === null) {
-    throw new NotFoundError('Not found only 1 student');
+  if (!studentId) {
+    throw new NotFoundError('There were not exactly one student match for this user and organization');
   }
 
-  return studentRepository.associateUserAndStudent({ userId: user.id, studentId: matchingStudentId });
+  return studentRepository.associateUserAndStudent({ userId, studentId });
 };

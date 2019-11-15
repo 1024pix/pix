@@ -13,7 +13,6 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
   let findStudentStub;
   let findMatchingCandidateIdForGivenUserStub;
   let student;
-  let students;
   let user;
   const organizationId = 1;
   const studentId = 1;
@@ -69,10 +68,7 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
 
     beforeEach(() => {
       campaignCode = 'ABCD12';
-      students = [
-        domainBuilder.buildStudent({ organizationId }),
-        domainBuilder.buildStudent({ organizationId }),
-      ];
+      student = domainBuilder.buildStudent({ organizationId, id: studentId });
       user = {
         id: 1,
         firstName: 'Joe',
@@ -88,7 +84,7 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
         .withArgs({
           organizationId,
           birthdate: user.birthdate
-        }).resolves(students);
+        }).resolves([student]);
 
       associateUserAndStudentStub = sinon.stub(studentRepository, 'associateUserAndStudent');
     });
@@ -107,7 +103,7 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
 
         // then
         expect(result).to.be.instanceof(NotFoundError);
-        expect(result.message).to.equal('Not found only 1 student');
+        expect(result.message).to.equal('There were not exactly one student match for this user and organization');
       });
     });
 
@@ -119,14 +115,13 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
 
       context('When no student matched on names', () => {
 
-        it('should throw a Not Found error if no student matched', async () => {
+        it('should throw a Not Found error', async () => {
           // given
           user.firstName = 'Sam';
 
-          students[0].firstName = 'Joe';
-          students[0].lastName = user.lastName;
-          associateUserAndStudentStub.withArgs({ userId: user.id, studentId: students[0].id }).resolves(students[0]);
-          findMatchingCandidateIdForGivenUserStub.withArgs(students, user).returns(null);
+          student.firstName = 'Joe';
+          student.lastName = user.lastName;
+          findMatchingCandidateIdForGivenUserStub.withArgs([student], user).returns(null);
 
           // when
           const result = await catchErr(usecases.linkUserToOrganizationStudentData)({
@@ -136,7 +131,7 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
 
           // then
           expect(result).to.be.instanceof(NotFoundError);
-          expect(result.message).to.equal('Not found only 1 student');
+          expect(result.message).to.equal('There were not exactly one student match for this user and organization');
         });
       });
 
@@ -144,11 +139,11 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
 
         it('should associate user with student', async () => {
           // given
-          students[0].userId = user.id;
-          students[0].firstName = user.firstName;
-          students[0].lastName = user.lastName;
-          associateUserAndStudentStub.withArgs({ userId: user.id, studentId: students[0].id }).resolves(students[0]);
-          findMatchingCandidateIdForGivenUserStub.withArgs(students, user).returns(students[0].id);
+          student.userId = user.id;
+          student.firstName = user.firstName;
+          student.lastName = user.lastName;
+          findMatchingCandidateIdForGivenUserStub.withArgs([student], { firstName: user.firstName, lastName: user.lastName }).returns(studentId);
+          associateUserAndStudentStub.withArgs({ userId: user.id, studentId }).resolves(student);
 
           // when
           const result = await usecases.linkUserToOrganizationStudentData({
@@ -162,6 +157,5 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
         });
       });
     });
-
   });
 });
