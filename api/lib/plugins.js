@@ -68,7 +68,7 @@ const plugins = [
         client: {
           dsn: settings.sentry.dsn,
           environment: settings.sentry.environment,
-          release: Pack.version,
+          release: `v${Pack.version}`,
           maxBreadcrumbs: settings.sentry.maxBreadcrumbs,
           debug: settings.sentry.debug,
         },
