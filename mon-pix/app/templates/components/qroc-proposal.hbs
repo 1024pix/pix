@@ -1,13 +1,13 @@
 {{#each _blocks as |block|}}
 
   {{#if block.text}}
-    <span id="qroc_input">{{block.text}}</span>
+    <label for="qroc_input">{{block.text}}</label>
   {{/if}}
 
   {{#if block.input}}
     {{#if (eq format 'paragraphe')}}
       <textarea class="challenge-response__proposal-textarea"
-             for="qroc_input"
+             id="qroc_input"
              name={{block.input}}
              placeholder={{block.placeholder}}
              autocomplete="off"
@@ -19,7 +19,7 @@
       <input class="challenge-response__proposal-input"
              size="{{get-qroc-input-size format}}"
              type="text"
-             for="qroc_input"
+             id="qroc_input"
              name={{block.input}}
              placeholder={{block.placeholder}}
              autocomplete="off"

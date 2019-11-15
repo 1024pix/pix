@@ -1,12 +1,13 @@
 <div class="qrocm-solution-panel rounded-panel">
   <div class="rounded-panel__row correction-qrocm__text">
     {{#each inputFields as |field|}}
-      <label>{{{field.label}}}</label>
+      <label for="{{field.label}}">{{field.label}}</label>
 
       {{#if (eq challenge.format 'paragraphe')}}
         <textarea class="correction-qrocm__answer correction-qrocm__answer--textarea {{field.inputClass}}"
                   rows="5"
                   value="{{field.answer}}"
+                  id="{{field.label}}"
                   disabled>
         </textarea>
       {{else}}
@@ -14,6 +15,7 @@
           <input value="{{field.answer}}"
                  size="{{get-qroc-input-size challenge.format}}"
                  class="correction-qrocm__answer correction-qrocm__answer--input {{field.inputClass}}"
+                 id="{{field.label}}"
                  disabled>
         </div>
       {{/if}}
