@@ -1,4 +1,5 @@
 'use strict';
+const faker = require('faker');
 const DatabaseBuilder = require('../../tests/tooling/database-builder/database-builder');
 const answersBuilder = require('./data/answers-builder');
 const assessmentsBuilder = require('./data/assessments-builder');
@@ -22,9 +23,11 @@ const usersBuilder = require('./data/users-builder');
 const usersPixRolesBuilder = require('./data/users_pix_roles-builder');
 
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
+const SEED_NUMBER = 20110228;
 
 exports.seed = (knex) => {
-
+  faker.seed(SEED_NUMBER);
+  
   const databaseBuilder = new DatabaseBuilder({ knex });
 
   usersBuilder({ databaseBuilder });
