@@ -22,6 +22,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
         date: '2017-12-08',
         time: '14:30',
         description: 'ahah',
+        status: 'created',
         accessCode: 'ABCD12'
       });
       databaseBuilder.factory.buildCertificationCourse({
@@ -103,6 +104,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
         time: '14:30',
         accessCode: 'ABC123',
         description: '',
+        status: 'started',
         createdAt: new Date('2017-12-08T08:00:00Z'),
       });
 
@@ -117,6 +119,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
         time: '14:30',
         accessCode: 'DEF456',
         description: '',
+        status: 'started',
         createdAt: new Date('2017-12-07T09:00:00Z'),
       });
 
@@ -158,7 +161,8 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'description': '',
             'examiner': 'Bernard',
             'room': 'Salle 1',
-            'time': '14:30:00'
+            'time': '14:30:00',
+            'status': 'started',
           },
           'relationships': {
             'certifications': {
@@ -181,7 +185,8 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'description': '',
             'examiner': 'Bernard',
             'room': 'Salle 2',
-            'time': '14:30:00'
+            'time': '14:30:00',
+            'status': 'started',
           },
           'relationships': {
             'certifications': {

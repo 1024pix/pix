@@ -18,6 +18,7 @@ describe('Unit | UseCase | finalize-session', () => {
     sessionId = 'dummy session id';
     updatedSession = 'updated session';
     sessionRepository = {
+      get: sinon.stub(),
       updateStatus: sinon.stub(),
       ensureUserHasAccessToSession: sinon.stub(),
     };
@@ -35,7 +36,8 @@ describe('Unit | UseCase | finalize-session', () => {
   context('When the user has the rights', () => {
     beforeEach(async () => {
       sessionRepository.ensureUserHasAccessToSession.withArgs(userId, sessionId).resolves();
-      sessionRepository.updateStatus.withArgs({ sessionId, status: 'completed' }).resolves(updatedSession);
+      sessionRepository.updateStatus.withArgs({ sessionId, status: 'completed' }).resolves();
+      sessionRepository.get.withArgs(sessionId).resolves(updatedSession);
     });
     it('should return the updated session', async () => {
       const res = await finalizeSession({ userId, sessionId, sessionRepository });
