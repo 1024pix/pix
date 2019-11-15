@@ -42,11 +42,11 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     assert.dom('.table tbody tr:first-child td:last-child').hasText('01/02/2010');
   });
 
-  module('when user is owner in organization', (hooks) => {
+  module('when user is admin in organization', (hooks) => {
 
     hooks.beforeEach(function() {
       this.set('importStudentsSpy', () => {});
-      this.owner.register('service:current-user', Service.extend({ isOwnerInOrganization: true }));
+      this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: true }));
       this.set('students', []);
     });
 
@@ -59,11 +59,11 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     });
   });
 
-  module('when user is not owner in organization', () => {
+  module('when user is not admin in organization', () => {
 
     test('it should not display import button', async function(assert) {
       // given
-      this.owner.register('service:current-user', Service.extend({ isOwnerInOrganization: false }));
+      this.owner.register('service:current-user', Service.extend({ isAdminInOrganization: false }));
 
       this.set('students', []);
 

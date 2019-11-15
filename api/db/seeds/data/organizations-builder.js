@@ -12,7 +12,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildMembership({
     userId: 3,
     organizationId: 2,
-    organizationRole: Membership.roles.OWNER,
+    organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildOrganization({
@@ -27,7 +27,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildMembership({
     userId: 4,
     organizationId: 3,
-    organizationRole: Membership.roles.OWNER,
+    organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildMembership({

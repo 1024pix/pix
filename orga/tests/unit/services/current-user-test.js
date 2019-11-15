@@ -61,11 +61,11 @@ module('Unit | Service | current-user', function(hooks) {
       assert.equal(currentUser.organization, organization);
     });
 
-    test('should set isOwnerInOrganization to true', async function(assert) {
+    test('should set isAdminInOrganization to true', async function(assert) {
       // Given
       const connectedUserId = 1;
       const organization = Object.create({ id: 9 });
-      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'OWNER', isOwner: true });
+      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'ADMIN', isAdmin: true });
       const connectedUser = Object.create({
         id: connectedUserId,
         memberships: [membership]
@@ -85,14 +85,14 @@ module('Unit | Service | current-user', function(hooks) {
       await currentUser.load();
 
       // Then
-      assert.equal(currentUser.isOwnerInOrganization, true);
+      assert.equal(currentUser.isAdminInOrganization, true);
     });
 
-    test('should set isOwnerInOrganization to false', async function(assert) {
+    test('should set isAdminInOrganization to false', async function(assert) {
       // Given
       const connectedUserId = 1;
       const organization = Object.create({ id: 9 });
-      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'MEMBER', isOwner: false });
+      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'MEMBER', isAdmin: false });
       const connectedUser = Object.create({
         id: connectedUserId,
         memberships: [membership]
@@ -112,14 +112,14 @@ module('Unit | Service | current-user', function(hooks) {
       await currentUser.load();
 
       // Then
-      assert.equal(currentUser.isOwnerInOrganization, false);
+      assert.equal(currentUser.isAdminInOrganization, false);
     });
 
     test('should set canAccessStudentsPage to true', async function(assert) {
       // Given
       const connectedUserId = 1;
       const organization = Object.create({ id: 9, type: 'SCO', isManagingStudents: true, isSco: true });
-      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'OWNER', isOwner: true });
+      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'ADMIN', isAdmin: true });
       const connectedUser = Object.create({
         id: connectedUserId,
         memberships: [membership]
@@ -146,7 +146,7 @@ module('Unit | Service | current-user', function(hooks) {
       // Given
       const connectedUserId = 1;
       const organization = Object.create({ id: 9, type: 'PRO', isManagingStudents: true, isSco: false });
-      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'OWNER', isOwner: true });
+      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'ADMIN', isAdmin: true });
       const connectedUser = Object.create({
         id: connectedUserId,
         memberships: [membership]
@@ -173,7 +173,7 @@ module('Unit | Service | current-user', function(hooks) {
       // Given
       const connectedUserId = 1;
       const organization = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
-      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'OWNER', isOwner: true });
+      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'ADMIN', isAdmin: true });
       const connectedUser = Object.create({
         id: connectedUserId,
         memberships: [membership]
