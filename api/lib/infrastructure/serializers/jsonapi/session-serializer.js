@@ -71,6 +71,7 @@ module.exports = {
       examiner: attributes.examiner,
       date: attributes.date,
       time: attributes.time,
+      status: attributes.status,
       description: attributes.description,
     });
   }

@@ -1,5 +1,5 @@
 const statuses = {
-  STARTED: 'started',
+  CREATED: 'started',
   COMPLETED: 'completed',
 };
 
