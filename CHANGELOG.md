@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.85.1 (15/11/2019)
+
+- [#840](https://github.com/1024pix/pix/pull/840) [BUGFIX] Patch sentry-cli releases dans le script de release publish.
+
 ## v2.85.0 (15/11/2019)
 
 - [#823](https://github.com/1024pix/pix/pull/823) [FEATURE] Remplacer le rôle OWNER par ADMIN (PA-106).
