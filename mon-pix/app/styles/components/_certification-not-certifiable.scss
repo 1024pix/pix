@@ -18,7 +18,7 @@
 }
 
 .certification-not-certifiable__title {
-  font-family: $font-raleway;
+  font-family: $font-open-sans;
   font-weight: $font-bold;
   text-align: center;
   font-size: 36px;
@@ -26,12 +26,12 @@
 }
 
 .certification-not-certifiable__text {
-  font-family: $font-raleway;
+  font-family: $font-open-sans;
   text-align: left;
   font-size: 20px;
   line-height: 24px;
   margin-top: 58px;
-  
+
   @include device-is('desktop') {
     max-width: 850px;
   }
