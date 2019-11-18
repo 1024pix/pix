@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.86.0 (18/11/2019)
+
+- [#831](https://github.com/1024pix/pix/pull/831) [FEATURE] Finaliser une session (PC-65).
+- [#832](https://github.com/1024pix/pix/pull/832) [FEATURE] Ne pas importer les élèves ayant une date de sortie dans le fichier SIECLE (PO-278).
+- [#785](https://github.com/1024pix/pix/pull/785) [A11Y] Page inscription (PF-888).
+
 ## v2.85.4 (15/11/2019)
 
 - [#843](https://github.com/1024pix/pix/pull/843) [BUGFIX] Problème d'ajout des commits dans les versions de Sentry.
