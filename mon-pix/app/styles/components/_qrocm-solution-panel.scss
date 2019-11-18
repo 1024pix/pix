@@ -1,6 +1,6 @@
 .correction-qrocm {
   &__text {
-    font-family: $font-lato;
+    display: inline-block;
     font-size: 1.6rem;
     line-height: 2.8rem;
     color: $charcoal-grey;
@@ -47,7 +47,6 @@
     }
 
     &-text {
-      font-family: $font-lato;
       font-weight: $font-bold;
       color: $caribbean-green;
       font-size: 16px;

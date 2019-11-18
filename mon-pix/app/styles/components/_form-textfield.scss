@@ -4,11 +4,10 @@
 }
 
 .form-textfield__label {
-  font-family: $font-lato;
   font-size: 1.5rem;
-  letter-spacing: 0.2px;
-  font-weight: bold;
+  font-weight: $font-medium;
   color: $charcoal-grey;
+  letter-spacing: 0.05rem;
 }
 
 .form-textfield__help {
@@ -140,4 +139,3 @@
     }
   }
 }
-

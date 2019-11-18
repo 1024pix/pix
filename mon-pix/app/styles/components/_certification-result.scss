@@ -17,7 +17,7 @@
 
 .result-content__panel-title {
   color: $grayish-grey;
-  font-family: $font-raleway;
+  font-family: $font-open-sans;
   font-size: 2.5rem;
   font-weight: $font-bold;
   line-height: 4rem;
@@ -31,7 +31,7 @@
 
 .result-content__panel-description {
   color: $charcoal-grey;
-  font-family: $font-raleway;
+  font-family: $font-open-sans;
   font-size: 2rem;
   line-height: 3rem;
   text-align: center;
@@ -42,7 +42,6 @@
 
 .result-content__panel-description-supervisor {
   color: $pure-orange;
-  font-family: $font-lato;
   font-size: 2rem;
   font-weight: bold;
   line-height: 3rem;
@@ -57,7 +56,6 @@
 }
 
 .result-content__warning-text {
-  font-family: $font-lato;
   text-align: center;
   font-size: 1.5rem;
   color: $charcoal-grey;
@@ -75,7 +73,6 @@
   display: block;
   font-size: 1.3rem;
   text-transform: uppercase;
-  font-family: $font-lato;
   font-weight: $font-bold;
   text-align: center;
   color: $white;

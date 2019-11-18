@@ -4,7 +4,7 @@
   justify-content: space-around;
   font-size: 10px;
   color: $charcoal-grey;
-  font-family: $font-raleway;
+  font-family: $font-open-sans;
 
   @include device-is('tablet') {
     font-size: 14px;
