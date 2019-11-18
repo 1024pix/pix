@@ -11,7 +11,7 @@
   &__title {
     text-align: center;
     color: $nero;
-
+    margin-bottom: 42px;
     @include device-is('tablet') {
       font-size: 4.2rem;
     }
@@ -23,7 +23,7 @@
     font-size: 2rem;
     text-align: center;
     font-weight: $font-light;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
   }
 
   &__form-field {
@@ -75,7 +75,8 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 160px;
+    height: 130px;
+    margin-bottom: 30px;
   }
 
   &__actions {
