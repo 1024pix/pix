@@ -3,8 +3,8 @@ import moment from 'moment';
 
 export default Route.extend({
 
-  model(params) {
-    return this.store.findRecord('session', params.session_id)
+  model({ session_id }) {
+    return this.store.findRecord('session', session_id)
       .then((session) => {
         session.set('time', moment(session.get('time'), 'HH:mm:ss').format('HH:mm'));
         return session;
