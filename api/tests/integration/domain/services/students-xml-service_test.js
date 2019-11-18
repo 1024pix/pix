@@ -158,6 +158,18 @@ describe('Integration | Services | students-xml-service', () => {
         '<CODE_MEF>12341234</CODE_MEF>' +
         '<CODE_STATUT>AP</CODE_STATUT>' +
         '</ELEVE>' +
+        '<ELEVE ELEVE_ID="0005">' +
+        '<ID_NATIONAL>00000000126</ID_NATIONAL>' +
+        '<NOM_DE_FAMILLE>GRADE</NOM_DE_FAMILLE>' +
+        '<PRENOM>François</PRENOM>' +
+        '<DATE_NAISS>12/12/2008</DATE_NAISS>' +
+        '<DATE_SORTIE>01/09/2019</DATE_SORTIE>' +
+        '<CODE_PAYS>100</CODE_PAYS>' +
+        '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+        '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+        '<CODE_MEF>123456789</CODE_MEF>' +
+        '<CODE_STATUT>AP</CODE_STATUT>' +
+        '</ELEVE>' +
         '</ELEVES>' +
         '<STRUCTURES>' +
         '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
@@ -176,6 +188,12 @@ describe('Integration | Services | students-xml-service', () => {
         '<STRUCTURE>' +
         '<CODE_STRUCTURE>4e 1</CODE_STRUCTURE>' +
         '<TYPE_STRUCTURE>G</TYPE_STRUCTURE>' +
+        '</STRUCTURE>' +
+        '</STRUCTURES_ELEVE>' +
+        '<STRUCTURES_ELEVE ELEVE_ID="0005">' +
+        '<STRUCTURE>' +
+        '<CODE_STRUCTURE>4e 1</CODE_STRUCTURE>' +
+        '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
         '</STRUCTURE>' +
         '</STRUCTURES_ELEVE>' +
         '</STRUCTURES>' +
