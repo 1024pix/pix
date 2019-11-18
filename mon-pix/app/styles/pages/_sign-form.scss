@@ -7,6 +7,10 @@
   height: 100%;
   min-height: 100vh;
   align-items: center;
+  abbr {
+    text-decoration: none;
+  }
+
 }
 
 .sign-form {
@@ -68,8 +72,8 @@
   }
 
   &__validation-error {
-    margin-bottom: 7px;
-    text-align: center;
+    color: $red-error;
+    font-weight: normal;
   }
 }
 
@@ -80,6 +84,8 @@
     padding: 5px 20px;
     flex-direction: column;
     text-align: center;
+    font-family: $font-open-sans;
+    font-size: 1.6rem;
 
     @include device-is('tablet') {
       flex-direction: row;
@@ -105,6 +111,10 @@
 }
 
 .sign-form-body{
+
+  &__instruction {
+    margin: 10px 0;
+  }
 
   &__input {
     max-width: 449px;
@@ -146,7 +156,7 @@
 // Text Styles
 
 .sign-form-title {
-  font-family: $font-raleway;
+  font-family: $font-open-sans;
   color: $charcoal-grey;
   margin: 0;
   font-size: 2.5rem;
@@ -158,7 +168,7 @@
 }
 
 .sign-form-subtitle {
-  font-family: $font-raleway;
+  font-family: $font-open-sans;
   color: $charcoal-grey;
   font-size: 1.5rem;
   font-weight: $font-light;
@@ -185,11 +195,6 @@
   @include device-is('tablet') {
     font-size: 1.5rem;
   }
-}
-
-.sign-form-validation-error {
-  color: $pure-orange;
-  font-size: 1.2rem;
 }
 
 .sign-form-link {
