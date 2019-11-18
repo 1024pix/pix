@@ -19,6 +19,7 @@ module.exports = function(environment) {
 
     APP: {
       API_HOST: process.env.API_HOST || '',
+      isSessionFinalizationActive: process.env.FT_IS_SESSION_FINALIZATION_ACTIVE === 'true',
     },
 
     googleFonts: [

@@ -18,15 +18,8 @@ function extractStudentsInformationFromSIECLE(buffer) {
   const xmlStudents = Array.from(parsedXmlDom.getElementsByTagName('ELEVE'));
 
   return xmlStudents
-    .filter((xmlStudent) => {
-      const studentStructuresContainer = _findStudentStructures(xmlStudent, xmlStudentsStructures);
-
-      return !_.isEmpty(studentStructuresContainer) && !_.isEmpty(_findStudentDivision(studentStructuresContainer)) && _findStudentDivision(studentStructuresContainer) !== 'Inactifs';
-    })
-    .filter((xmlStudent) => {
-      const nationalStudentId = _getEitherElementValueOrNull(xmlStudent, 'ID_NATIONAL');
-      return !_.isEmpty(nationalStudentId);
-    })
+    .filter((xmlStudent) => _filterLeftStudents(xmlStudent, xmlStudentsStructures))
+    .filter((xmlStudent) => _filterNotYetArrivedStudents(xmlStudent))
     .map((xmlStudent) => {
       const studentStructuresContainer = _findStudentStructures(xmlStudent, xmlStudentsStructures);
 
@@ -62,14 +55,29 @@ function _findStudentStructures(xmlStudent, xmlStudentsStructures) {
 }
 
 function _findStudentDivision(studentStructuresContainer) {
+  if (_.isEmpty(studentStructuresContainer)) {
+    return null;
+  }
   const divisionStructureElement = Array.from(studentStructuresContainer.getElementsByTagName('STRUCTURE'))
     .find((structureElement) => _getEitherElementValueOrNull(structureElement, 'TYPE_STRUCTURE') === 'D');
 
-  if (!divisionStructureElement) {
-    return null;
-  }
+  return divisionStructureElement ? _getEitherElementValueOrNull(divisionStructureElement, 'CODE_STRUCTURE') : null;
+}
 
-  return _getEitherElementValueOrNull(divisionStructureElement, 'CODE_STRUCTURE');
+function _filterLeftStudents(xmlStudent, xmlStudentsStructures) {
+  const leavingDate = _getEitherElementValueOrNull(xmlStudent, 'DATE_SORTIE');
+  return _.isEmpty(leavingDate) && _filterStudentsWithNoDivision(xmlStudent, xmlStudentsStructures);
+}
+
+function _filterStudentsWithNoDivision(xmlStudent, xmlStudentsStructures) {
+  const studentStructuresContainer = _findStudentStructures(xmlStudent, xmlStudentsStructures);
+  const studentDivision = _findStudentDivision(studentStructuresContainer);
+  return !_.isEmpty(studentDivision) && studentDivision !== 'Inactifs';
+}
+
+function _filterNotYetArrivedStudents(xmlStudent) {
+  const nationalStudentId = _getEitherElementValueOrNull(xmlStudent, 'ID_NATIONAL');
+  return !_.isEmpty(nationalStudentId);
 }
 
 function _getEitherElementValueOrNull(xmlParentElement, tagName) {

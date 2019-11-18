@@ -51,7 +51,7 @@ describe('Integration | Component | form textfield', function() {
     ].forEach(function({ item, expectedRendering, expectedText }) {
       it(`Should render a ${expectedRendering}`, function() {
         // Then
-        expect(find(item).textContent.toUpperCase()).to.equal(expectedText);
+        expect(find(item).textContent.toUpperCase()).to.contains(expectedText);
       });
     });
 

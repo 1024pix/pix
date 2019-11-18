@@ -16,6 +16,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     time: '14:30',
     description: '',
     accessCode: '',
+    status: 'created',
   });
 
   let jsonApiSession;
@@ -33,6 +34,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           examiner: 'Antoine Toutvenant',
           date: '2017-01-20',
           time: '14:30',
+          status: 'created',
           description: ''
         },
         relationships: {
@@ -75,6 +77,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         time: '14:30',
         description: '',
         accessCode: '',
+        status: 'created',
         certifications: associatedCertifications
       });
 
@@ -94,7 +97,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
             examiner: 'Antoine Toutvenant',
             date: '2017-01-20',
             time: '14:30',
-            description: ''
+            description: '',
+            status: 'created',
           },
           relationships: {
             certifications: {

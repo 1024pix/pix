@@ -24,7 +24,7 @@ const CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
 const UNCHECKED_CHECKBOX_CGU_ERROR = 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.';
 
 const CGU_LINK = '.signup-form__cgu .link';
-const CGU_LINK_CONTENT = 'conditions d\'​utilisation de Pix';
+const CGU_LINK_CONTENT = 'conditions d\'utilisation de Pix';
 
 const SUBMIT_BUTTON_CONTAINER = '.sign-form-body__bottom-button';
 const SUBMIT_BUTTON = '.button';

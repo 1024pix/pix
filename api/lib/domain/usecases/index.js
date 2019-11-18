@@ -90,6 +90,7 @@ module.exports = injectDependencies({
   findSnapshots: require('./find-snapshots'),
   findTutorials: require('./find-tutorials'),
   findUsers: require('./find-users'),
+  finalizeSession: require('./finalize-session'),
   getAnswer: require('./get-answer'),
   getAssessment: require('./get-assessment'),
   getAttendanceSheet: require('./get-attendance-sheet'),
