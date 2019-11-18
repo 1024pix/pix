@@ -7,7 +7,7 @@ function buildAnswer({
   elapsedTime = faker.random.number(),
   result = AnswerStatus.OK,
   resultDetails = null,
-  timeout = faker.random.number(),
+  timeout = null,
   value = '1',
   assessmentId = faker.random.number(),
   challengeId = faker.random.uuid(),
