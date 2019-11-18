@@ -1,14 +1,11 @@
 .feedback-panel {
   color: $charcoal-grey;
   font-size: 1.5rem;
+  margin-top: -18px;
 }
 
 /* "Link" view
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-.feedback-panel__view--link {
-  margin-bottom: 10px;
-}
 
 .feedback-panel__open-link {
   cursor: pointer;
@@ -43,7 +40,6 @@
 
 .feedback-panel__form {
   width: 100%;
-  margin-bottom: 20px;
 }
 
 .feedback-panel__group {
