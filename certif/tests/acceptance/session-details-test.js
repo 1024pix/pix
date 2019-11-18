@@ -45,34 +45,74 @@ module('Acceptance | Session Details', function(hooks) {
       });
     });
 
-    test('it should be accessible for an authenticated user', async function(assert) {
-      // when
-      await visit('/sessions/1');
+    module('when finalize feature is deactivated', function(hooks) {
 
-      // then
-      assert.equal(currentURL(), '/sessions/1');
+      hooks.beforeEach(async function() {
+        const controller = this.owner.lookup('controller:authenticated.sessions.details.parameters');
+        controller.set('isSessionFinalizationActive', false);
+      });
+
+      test('it should be accessible for an authenticated user', async function(assert) {
+        // when
+        await visit('/sessions/1');
+
+        // then
+        assert.equal(currentURL(), '/sessions/1');
+      });
+
+      test('it should redirect to update page on click on update button', async function(assert) {
+        // given
+        await visit('/sessions/1');
+
+        // when
+        await click('.session-details-content__update-button');
+
+        // then
+        assert.equal(currentURL(), '/sessions/1/modification');
+      });
+
+      test('it should redirect to update page on click on return button', async function(assert) {
+        // given
+        await visit('/sessions/1');
+
+        // when
+        await click('.session-details-content__return-button');
+
+        // then
+        assert.equal(currentURL(), '/sessions/liste');
+      });
+
     });
 
-    test('it should redirect to update page on click on update button', async function(assert) {
-      // given
-      await visit('/sessions/1');
+    module('when finalize feature is activated', function(hooks) {
 
-      // when
-      await click('.session-details-content__update-button');
+      hooks.beforeEach(async function() {
+        const controller = this.owner.lookup('controller:authenticated.sessions.details.parameters');
+        controller.set('isSessionFinalizationActive', true);
+      });
 
-      // then
-      assert.equal(currentURL(), '/sessions/1/modification');
-    });
+      test('it should still redirect to update page on click on return button', async function(assert) {
+        // given
+        await visit('/sessions/1');
 
-    test('it should redirect to update page on click on return button', async function(assert) {
-      // given
-      await visit('/sessions/1');
+        // when
+        await click('.session-details-content__return-button');
 
-      // when
-      await click('.session-details-content__return-button');
+        // then
+        assert.equal(currentURL(), '/sessions/liste');
+      });
 
-      // then
-      assert.equal(currentURL(), '/sessions/liste');
+      test('it should redirect to finalize page on click on finalize button', async function(assert) {
+        // given
+        await visit('/sessions/1');
+
+        // when
+        await click('.session-details-content__finalize-button');
+
+        // then
+        assert.equal(currentURL(), '/sessions/1/finalisation');
+      });
+
     });
 
   });

@@ -129,4 +129,16 @@ describe('Unit | Application | Sessions | Routes', () => {
       expect(res.statusCode).to.equal(200);
     });
   });
+
+  describe('PUT /api/sessions/{id}/finalization', () => {
+    beforeEach(() => {
+      sinon.stub(sessionController, 'finalize').returns('ok');
+      return server.register(route);
+    });
+
+    it('should exist', async () => {
+      const res = await server.inject({ method: 'PUT', url: '/api/sessions/{id}/finalization' });
+      expect(res.statusCode).to.equal(200);
+    });
+  });
 });

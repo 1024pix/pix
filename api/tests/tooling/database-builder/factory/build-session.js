@@ -16,10 +16,10 @@ module.exports = function buildSession({
   time = faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0'),
   description = faker.random.words(),
   createdAt = faker.date.recent(),
+  status,
 } = {}) {
 
-  if (_.isUndefined(certificationCenterId))
-  {
+  if (_.isUndefined(certificationCenterId)) {
     const builtCertificationCenter = buildCertificationCenter();
     certificationCenter = builtCertificationCenter.name;
     certificationCenterId = builtCertificationCenter.id;
@@ -36,9 +36,11 @@ module.exports = function buildSession({
     time,
     description,
     createdAt,
+    status,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'sessions',
     values,
   });
 };
+

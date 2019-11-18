@@ -23,6 +23,7 @@ Router.map(function() {
       this.route('list', { path: '/liste' });
       this.route('new', { path: '/creation' });
       this.route('update', { path: '/:session_id/modification' });
+      this.route('finalize', { path: '/:session_id/finalisation' });
       this.route('details', { path: '/:session_id' }, function() {
         this.route('parameters', { path: '/' });
         this.route('certification-candidates', { path: '/candidats' });

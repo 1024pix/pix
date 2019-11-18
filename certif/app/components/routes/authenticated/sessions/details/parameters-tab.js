@@ -3,6 +3,8 @@ import { equal } from '@ember/object/computed';
 
 export default Component.extend({
 
+  isSessionFinalizationActive: null,
+
   tooltipText: 'Copier le lien direct',
 
   isSuccessMessage: equal('message.type', 'success'),

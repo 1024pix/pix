@@ -17,6 +17,7 @@ module.exports = {
         'examiner',
         'date',
         'time',
+        'status',
         'description',
         'accessCode',
         'certifications',
@@ -37,6 +38,22 @@ module.exports = {
     }).serialize(sessions);
   },
 
+  serializeForFinalization(sessions) {
+    return new Serializer('session', {
+      attributes: [
+        'certificationCenter',
+        'address',
+        'room',
+        'examiner',
+        'date',
+        'time',
+        'status',
+        'description',
+        'accessCode',
+      ],
+    }).serialize(sessions);
+  },
+
   deserialize(json) {
     const attributes = json.data.attributes;
     if (!isValidDate(attributes.date, 'YYYY-MM-DD')) {
@@ -54,6 +71,7 @@ module.exports = {
       examiner: attributes.examiner,
       date: attributes.date,
       time: attributes.time,
+      status: attributes.status,
       description: attributes.description,
     });
   }

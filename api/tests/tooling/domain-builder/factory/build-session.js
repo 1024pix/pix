@@ -12,6 +12,7 @@ module.exports = function buildSession({
   examiner = faker.name.findName(),
   date = moment(faker.date.recent()).format('YYYY-MM-DD'),
   time = '14:30',
+  status = 'started',
   description = faker.random.words(),
 } = {}) {
   return new Session({
@@ -25,5 +26,6 @@ module.exports = function buildSession({
     examiner,
     room,
     time,
+    status
   });
 };
