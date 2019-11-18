@@ -62,7 +62,7 @@ exports.register = async (server) => {
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Elle permet de finalizer une session de certification afin de la signaler comme terminée',
+          '- Elle permet de finaliser une session de certification afin de la signaler comme terminée',
         ]
       }
     },

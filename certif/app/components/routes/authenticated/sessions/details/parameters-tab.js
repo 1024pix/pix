@@ -1,11 +1,9 @@
 import Component from '@ember/component';
 import { equal } from '@ember/object/computed';
 
-import config from 'pix-certif/config/environment';
-
 export default Component.extend({
 
-  isSessionFinalizationActive: config.APP.isSessionFinalizationActive,
+  isSessionFinalizationActive: null,
 
   tooltipText: 'Copier le lien direct',
 
