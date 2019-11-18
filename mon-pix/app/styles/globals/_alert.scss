@@ -17,3 +17,10 @@
   border: 1px solid $mandy-red;
   background-color: $mandy-red;
 }
+
+abbr[title="obligatoire"] {
+  cursor: help;
+  color: $monza;
+  display: contents;
+  margin: 2rem;
+}

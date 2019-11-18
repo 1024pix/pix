@@ -1,20 +1,29 @@
 .form-textfield {
   position: relative;
+  margin-top: 20px;
 }
 
 .form-textfield__label {
   font-family: $font-lato;
-  font-size: 12px;
+  font-size: 1.5rem;
+  letter-spacing: 0.2px;
   font-weight: bold;
   color: $charcoal-grey;
-  text-transform: uppercase;
+}
+
+.form-textfield__help {
+  text-transform: none;
+  font-weight: normal;
+}
+
+.form-textfield__message {
+  text-transform: none;
 }
 
 .form-textfield__input-field-container {
   display: flex;
   height: 46px;
   border-radius: 3px;
-  margin-bottom: 20px;
   align-items: center;
   border: 2px solid $alto-grey;
   background-color: $white;
@@ -34,7 +43,7 @@
 }
 
 .form-textfield__input-container--error {
-  border: 2px solid $pure-orange;
+  border: 2px solid $red-error;
 }
 
 .form-textfield__input-container--success {
@@ -61,14 +70,11 @@
 
 
 .form-textfield__message {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 12px;
+  font-size: 1.4rem;
 }
 
 .form-textfield__message--error {
-  color: $pure-orange;
+  color: $red-error;
 }
 
 .form-textfield__message--success {
@@ -79,8 +85,7 @@
 .form-textfield__message--error.form-textfield__message-email,
 .form-textfield__message--error.form-textfield__message-text {
   position: relative;
-  text-align: right;
-  margin-top: -5px;
+  margin-top: 5px;
   margin-bottom: 5px;
 }
 
@@ -89,8 +94,18 @@
   justify-content: center;
   align-items: center;
   margin-top: 2px;
+}
 
+.form-textfield__icons {
+  height: 20px;
+  margin: 6px 8px;
+  border: none;
+  background: none;
 
+  &:focus {
+    outline: 1px solid $pix-blue;
+    box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5);
+  }
 }
 
 .form-textfield-icon {
