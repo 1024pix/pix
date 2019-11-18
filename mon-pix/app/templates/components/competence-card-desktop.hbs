@@ -1,0 +1,38 @@
+<article class="competence-card">
+    <header class="competence-card__header">
+      <span class="competence-card__color competence-card__color--{{scorecard.areaColor}}"></span>
+      <span class="competence-card__area-name">{{scorecard.area.title}}</span>
+      <span class="competence-card__competence-name">{{scorecard.name}}</span>
+    </header>
+    <div class="competence-card__body">
+      {{#link-to "competence-details" scorecard.id class="competence-card__link"}}
+        {{#circle-chart value=scorecard.percentageAheadOfNextLevel
+                        sliceColor=scorecard.areaColor
+                        chartClass='circle-chart__content--big'
+                        thicknessClass='circle--thick'}}
+          <div class="competence-card__level">
+            <span class="score-label">Niveau</span>
+            <span class="score-value competence-card__score-value">{{replace-zero-by-dash displayedLevel}}</span>
+            <span class="competence-card__score-details">détail</span>
+          </div>
+        {{/circle-chart}}
+      {{/link-to}}
+    </div>
+    <footer class="competence-card__footer">
+      {{#unless scorecard.isFinished}}
+        {{#link-to "competences.resume" scorecard.competenceId
+                   class="button button--extra-thin button--round button--link button--green competence-card__button"}}
+          <span class="competence-card-button__label">
+            {{#if scorecard.isStarted}}
+              Reprendre
+            {{else}}
+              Commencer
+            {{/if}}
+          </span>
+          <span class="competence-card-button__arrow">
+            {{fa-icon 'long-arrow-alt-right'}}
+          </span>
+        {{/link-to}}
+      {{/unless}}
+    </footer>
+</article>
