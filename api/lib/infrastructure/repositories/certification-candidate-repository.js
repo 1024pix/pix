@@ -83,5 +83,16 @@ module.exports = {
         throw new CertificationCandidateCreationOrUpdateError('An error occurred while inserting the certification candidates during the replacement operation');
       }
     });
-  }
+  },
+
+  async doesLinkedCertificationCandidateInSessionExist({ sessionId }) {
+    const anyLinkedCandidateInSession = await CertificationCandidateBookshelf
+      .query({
+        where: { sessionId },
+        whereNotNull: 'userId',
+      }).fetch({ columns: 'id' });
+
+    return anyLinkedCandidateInSession !== null;
+  },
+
 };
