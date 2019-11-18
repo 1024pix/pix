@@ -3,6 +3,7 @@ const Answer = require('../../../../lib/domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../../../../lib/infrastructure/adapters/answer-status-database-adapter');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
+const moment = require('moment');
 
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
@@ -10,6 +11,7 @@ describe('Integration | Repository | AnswerRepository', () => {
   let assessmentId, otherAssessmentId;
   const challengeId = 'challenge_1234';
   const otherChallengeId = 'challenge_4567';
+  const anotherChallengeId = 'challenge_89';
 
   beforeEach(() => {
     assessmentId = databaseBuilder.factory.buildAssessment().id;
@@ -219,6 +221,32 @@ describe('Integration | Repository | AnswerRepository', () => {
       return promise.then((answers) => {
         expect(answers[0]).to.be.instanceof(Answer);
         expect(answers[1]).to.be.instanceof(Answer);
+      });
+    });
+  });
+
+  describe('#findLastByAssessment', () => {
+    const expectedAnswerId = 42;
+
+    beforeEach(() => {
+      _.each([
+        { id: 1, challengeId, assessmentId, createdAt: moment().subtract(2, 'day').toDate() },
+        { id: 2, challengeId, assessmentId: otherAssessmentId, createdAt: moment().subtract(1, 'day').toDate() },
+        { id: expectedAnswerId, challengeId: anotherChallengeId, assessmentId, createdAt: moment().subtract(1, 'day').toDate() },
+        { id: 4, challengeId: otherChallengeId, assessmentId, createdAt: moment().subtract(3, 'day').toDate() },
+      ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
+      return databaseBuilder.commit();
+    });
+
+    it('should resolves the last answers with assessment id provided', () => {
+      // when
+      const promise = AnswerRepository.findLastByAssessment(assessmentId);
+
+      // then
+      return promise.then((answer) => {
+        expect(answer).to.be.instanceof(Answer);
+        expect(answer.assessmentId).to.be.equal(assessmentId);
+        expect(answer.id).to.be.equal(expectedAnswerId);
       });
     });
   });

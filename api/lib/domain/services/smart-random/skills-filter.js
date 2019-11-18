@@ -20,14 +20,14 @@ function getFilteredSkillsForFirstChallenge({ challenges, knowledgeElements, cou
   )(targetSkills);
 }
 
-function getFilteredSkillsForNextChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills }) {
+function getFilteredSkillsForNextChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, isLastChallengeTimed, targetSkills }) {
   const filteredChallenges = _removeUnpublishedChallenges(challenges);
   targetSkills = _addChallengesAndTimedInformation({ targetSkills, filteredChallenges });
 
   return pipe(
     _getUntestedSkills.bind(null,knowledgeElements),
     _keepSkillsFromEasyTubes.bind(null, courseTubes),
-    _removeTimedSkillsIfNeeded.bind(null, lastChallenge),
+    _removeTimedSkillsIfNeeded.bind(null, isLastChallengeTimed),
     _removeTooDifficultSkills.bind(null, predictedLevel),
   )(targetSkills);
 }
@@ -85,8 +85,8 @@ function _skillAlreadyTested(skill, knowledgeElements) {
   return alreadyTestedSkillIds.includes(skill.id);
 }
 
-function _removeTimedSkillsIfNeeded(lastChallenge, targetSkills) {
-  if (lastChallenge === null || lastChallenge.isTimed()) {
+function _removeTimedSkillsIfNeeded(isLastChallengeTimed, targetSkills) {
+  if (isLastChallengeTimed) {
     const targetSkillsWihtoutSkillsWithTimedChallenges = _.filter(targetSkills, (skill) => !skill.timed);
     return (targetSkillsWihtoutSkillsWithTimedChallenges.length > 0) ? targetSkillsWihtoutSkillsWithTimedChallenges : targetSkills;
   }
