@@ -23,6 +23,7 @@ module.exports = function buildChallenge(
     skills = buildSkillCollection(),
     // references
     competenceId = faker.random.uuid(),
+    illustrationAlt,
   } = {}) {
   return new Challenge({
     id,
@@ -43,5 +44,6 @@ module.exports = function buildChallenge(
     skills,
     // references
     competenceId,
+    illustrationAlt,
   });
 };
