@@ -6,17 +6,16 @@
 
   {{#if block.input}}
     {{#if (eq format 'paragraphe')}}
-      <textarea class="challenge-response__proposal-textarea"
-             id="qroc_input"
-             name={{block.input}}
-             placeholder={{block.placeholder}}
-             autocomplete="off"
-             value="{{userAnswer}}"
-             data-uid="qroc-proposal-uid">
+      <textarea class="challenge-response__proposal challenge-response__proposal--textarea"
+                id="qroc_input"
+                name={{block.input}}
+                placeholder={{block.placeholder}}
+                autocomplete="off"
+                value="{{userAnswer}}"
+                data-uid="qroc-proposal-uid">
       </textarea>
-
     {{else}}
-      <input class="challenge-response__proposal-input"
+      <input class="challenge-response__proposal"
              size="{{get-qroc-input-size format}}"
              type="text"
              id="qroc_input"
