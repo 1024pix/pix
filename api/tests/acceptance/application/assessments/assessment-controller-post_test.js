@@ -1,4 +1,4 @@
-const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithStandardRole } = require('../../../test-helper');
+const { expect, knex, generateValidRequestAuthorizationHeader, insertUserWithStandardRole } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 
@@ -14,8 +14,7 @@ describe('Acceptance | API | Assessments POST', () => {
 
     afterEach(async () => {
       await knex('assessments').delete();
-      await knex('users').delete();
-      await databaseBuilder.clean();
+      return knex('users').delete();
     });
 
     let options;

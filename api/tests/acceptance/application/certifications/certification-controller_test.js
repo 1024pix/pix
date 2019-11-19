@@ -1,5 +1,5 @@
 const {
-  expect, generateValidRequestAuthorizationHeader, cleanupUsersAndPixRolesTables,
+  expect, generateValidRequestAuthorizationHeader,
   insertUserWithRolePixMaster, insertUserWithStandardRole, knex, nock, databaseBuilder,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
@@ -70,12 +70,11 @@ describe('Acceptance | API | Certifications', () => {
         .then(() => knex('assessment-results').insert(assessmentResult));
     });
 
-    afterEach(() => {
-      return knex('assessment-results').delete()
-        .then(() => knex('assessments').delete())
-        .then(() => knex('certification-courses').delete())
-        .then(() => knex('sessions').delete())
-        .then(cleanupUsersAndPixRolesTables);
+    afterEach(async () => {
+      await knex('assessment-results').delete();
+      await knex('assessments').delete();
+      await knex('certification-courses').delete();
+      return knex('sessions').delete();
     });
 
     it('should return 200 HTTP status code', () => {
@@ -402,13 +401,12 @@ describe('Acceptance | API | Certifications', () => {
         .then(() => knex('competence-marks').insert(competenceMark));
     });
 
-    afterEach(() => {
-      return knex('competence-marks').delete()
-        .then(() => knex('assessment-results').delete())
-        .then(() => knex('assessments').delete())
-        .then(() => knex('certification-courses').delete())
-        .then(() => knex('sessions').delete())
-        .then(cleanupUsersAndPixRolesTables);
+    afterEach(async () => {
+      await knex('competence-marks').delete();
+      await knex('assessment-results').delete();
+      await knex('assessments').delete();
+      await knex('certification-courses').delete();
+      return knex('sessions').delete();
     });
 
     it('should return 200 HTTP status code and the certification with the result competence tree included', () => {
@@ -602,12 +600,11 @@ describe('Acceptance | API | Certifications', () => {
         .then(() => knex('assessment-results').insert(assessmentResult));
     });
 
-    afterEach(() => {
-      return knex('assessment-results').delete()
-        .then(() => knex('assessments').delete())
-        .then(() => knex('certification-courses').delete())
-        .then(() => knex('sessions').delete())
-        .then(cleanupUsersAndPixRolesTables);
+    afterEach(async () => {
+      await knex('assessment-results').delete();
+      await knex('assessments').delete();
+      await knex('certification-courses').delete();
+      return knex('sessions').delete();
     });
 
     it('should return 200 HTTP status code and the updated certification', () => {
@@ -690,10 +687,6 @@ describe('Acceptance | API | Certifications', () => {
     const odsFileName = 'files/parse-from-attendance-sheet-test-ok.ods';
     const odsFilePath = `${__dirname}/${odsFileName}`;
     let options;
-
-    afterEach(() => {
-      return databaseBuilder.clean();
-    });
 
     context('User does not have the role PIX MASTER', () => {
 

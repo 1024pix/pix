@@ -43,10 +43,6 @@ describe('Integration | Repository | Campaign Participation', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return a campaign participation object', async () => {
       // when
       const foundCampaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
@@ -84,9 +80,8 @@ describe('Integration | Repository | Campaign Participation', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await knex('campaign-participations').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('campaign-participations').delete();
     });
 
     it('should return the given campaign participation', async () => {
@@ -156,10 +151,6 @@ describe('Integration | Repository | Campaign Participation', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should count all campaignParticipations', async () => {
       // when
       const count = await campaignParticipationRepository.count();
@@ -218,10 +209,6 @@ describe('Integration | Repository | Campaign Participation', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return all the campaign-participation links to the given campaign', () => {
       // given
       const campaignId = campaign1.id;
@@ -254,10 +241,6 @@ describe('Integration | Repository | Campaign Participation', () => {
         databaseBuilder.factory.buildCampaignParticipation({});
       });
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return all the campaign-participation links to the given user', async () => {
@@ -293,10 +276,6 @@ describe('Integration | Repository | Campaign Participation', () => {
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should return the campaign-participation linked to the given assessment with skills', async () => {
         // when
         const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(assessmentId);
@@ -318,10 +297,6 @@ describe('Integration | Repository | Campaign Participation', () => {
         databaseBuilder.factory.buildCampaignParticipation({ assessmentId: 67890 });
 
         await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should return null', async () => {
@@ -347,10 +322,6 @@ describe('Integration | Repository | Campaign Participation', () => {
       databaseBuilder.factory.buildAssessment({ campaignParticipationId: otherCampaignParticipation.id });
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return campaign participation that match given assessmentId', async function() {
@@ -413,10 +384,6 @@ describe('Integration | Repository | Campaign Participation', () => {
       pixMembers.forEach(insertPixMember);
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return paginated campaign participations including users sorted by name, lastname, their assessment and uniq knowledge elements', async () => {
@@ -486,10 +453,6 @@ describe('Integration | Repository | Campaign Participation', () => {
       sinon.useFakeTimers(frozenTime);
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return the shared campaign-participation', () => {

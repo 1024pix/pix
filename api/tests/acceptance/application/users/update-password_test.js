@@ -17,9 +17,8 @@ describe('Acceptance | Controller | users-controller-update-password', () => {
     await _insertPasswordResetDemand(temporaryKey, user.email);
   });
 
-  afterEach(async () => {
-    await knex('reset-password-demands').delete();
-    await databaseBuilder.clean();
+  afterEach(() => {
+    return knex('reset-password-demands').delete();
   });
 
   describe('Error case', () => {

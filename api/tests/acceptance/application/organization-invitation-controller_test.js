@@ -55,9 +55,8 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await knex('memberships').delete();
-        await databaseBuilder.clean();
+      afterEach(() => {
+        return knex('memberships').delete();
       });
 
       it('should return 204 HTTP status code', async () => {
@@ -95,10 +94,6 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         };
 
         await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should respond with a 404 if organization-invitation does not exist with id and code', async () => {
@@ -200,10 +195,6 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should return 200 HTTP status code', async () => {
         // when
         const response = await server.inject(options);
@@ -232,10 +223,6 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         };
 
         await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should respond with a 400 - missing parameters if organization-invitation is requested without code', async () => {

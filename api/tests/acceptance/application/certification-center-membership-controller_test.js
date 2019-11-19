@@ -1,5 +1,5 @@
 const {
-  expect, generateValidRequestAuthorizationHeader, cleanupUsersAndPixRolesTables,
+  expect, generateValidRequestAuthorizationHeader,
   insertUserWithRolePixMaster, databaseBuilder, knex
 } = require('../../test-helper');
 const createServer = require('../../../server');
@@ -9,12 +9,8 @@ describe('Acceptance | API | Certification Center Membership', () => {
   let server, options;
 
   beforeEach(async () => {
-    await cleanupUsersAndPixRolesTables();
     server = await createServer();
     await insertUserWithRolePixMaster();
-  });
-  afterEach(() => {
-    return cleanupUsersAndPixRolesTables();
   });
 
   describe('POST /api/certification-center-memberships', () => {

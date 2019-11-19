@@ -27,10 +27,6 @@ describe('Acceptance | users-controller-find-users', () => {
     return databaseBuilder.commit();
   });
 
-  afterEach(() => {
-    return databaseBuilder.clean();
-  });
-
   describe('GET /users', () => {
 
     describe('Resource access management', () => {

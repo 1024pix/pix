@@ -27,9 +27,8 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
     };
   });
 
-  afterEach(async () => {
-    await knex('assessment-results').delete();
-    return databaseBuilder.clean();
+  afterEach(() => {
+    return knex('assessment-results').delete();
   });
 
   describe('PATCH /assessments/{id}/complete-assessment', () => {

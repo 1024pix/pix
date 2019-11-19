@@ -7,14 +7,6 @@ const sessionRepository = require('../../../../lib/infrastructure/repositories/s
 
 describe('Integration | Repository | Session', function() {
 
-  beforeEach(async () => {
-    await databaseBuilder.clean();
-  });
-
-  afterEach(async () => {
-    await databaseBuilder.clean();
-  });
-
   describe('#save', () => {
     let session, certificationCenter;
 
@@ -34,9 +26,8 @@ describe('Integration | Repository | Session', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(async() => {
-      await knex('sessions').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('sessions').delete();
     });
 
     it('should persist the session in db', async () => {
@@ -179,8 +170,6 @@ describe('Integration | Repository | Session', function() {
       _.times(3, () => databaseBuilder.factory.buildCertificationCourse());
       await databaseBuilder.commit();
     });
-
-    afterEach(() => databaseBuilder.clean());
 
     it('should return session informations in a session Object', async () => {
       // when

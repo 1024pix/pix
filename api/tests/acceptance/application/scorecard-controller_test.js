@@ -23,14 +23,12 @@ describe('Acceptance | Controller | scorecard-controller', () => {
   });
 
   afterEach(async () => {
+    airtableBuilder.cleanAll();
     await knex('knowledge-elements').delete();
     await knex('answers').delete();
     await knex('competence-evaluations').delete();
     await knex('assessments').delete();
-    await knex('campaign-participations').delete();
-
-    airtableBuilder.cleanAll();
-    return databaseBuilder.clean();
+    return knex('campaign-participations').delete();
   });
 
   after(() => {

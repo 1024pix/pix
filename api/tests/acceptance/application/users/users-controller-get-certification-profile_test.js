@@ -41,8 +41,7 @@ describe('Acceptance | users-controller-get-certification-profile', () => {
   });
 
   afterEach(() => {
-    airtableBuilder.cleanAll();
-    return databaseBuilder.clean();
+    return airtableBuilder.cleanAll();
   });
 
   after(() => {

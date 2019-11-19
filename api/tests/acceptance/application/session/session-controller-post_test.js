@@ -39,8 +39,7 @@ describe('Acceptance | Controller | session-controller-post', () => {
       return databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
+    afterEach(() => {
       return knex('sessions').delete();
     });
 

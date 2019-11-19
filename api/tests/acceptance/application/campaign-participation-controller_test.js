@@ -39,10 +39,6 @@ describe('Acceptance | API | Campaign Participations', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return the campaign-participation', async () => {
       // given
       options = {
@@ -107,10 +103,6 @@ describe('Acceptance | API | Campaign Participations', () => {
       });
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     context('when the user own the campaign participation', () => {
@@ -268,8 +260,7 @@ describe('Acceptance | API | Campaign Participations', () => {
 
     afterEach(async () => {
       await cache.flushAll();
-      await databaseBuilder.clean();
-      await airtableBuilder.cleanAll();
+      return airtableBuilder.cleanAll();
     });
 
     it('should return the campaign participation of a given campaign with each campaign participation result', () => {
@@ -463,10 +454,6 @@ describe('Acceptance | API | Campaign Participations', () => {
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should allow the user to share his campaign participation', async () => {
         // when
         const response = await server.inject(options);
@@ -499,10 +486,6 @@ describe('Acceptance | API | Campaign Participations', () => {
         });
 
         await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should disallow the user to share his campaign participation', async () => {
@@ -549,8 +532,7 @@ describe('Acceptance | API | Campaign Participations', () => {
 
     afterEach(async () => {
       await knex('assessments').delete();
-      await knex('campaign-participations').delete();
-      await databaseBuilder.clean();
+      return knex('campaign-participations').delete();
     });
 
     it('should return 201 and the campaign participation when it has been successfully created', async () => {
@@ -589,9 +571,8 @@ describe('Acceptance | API | Campaign Participations', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await knex('assessments').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('assessments').delete();
     });
 
     context('when user is connected', () => {

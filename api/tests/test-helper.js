@@ -13,6 +13,7 @@ const _ = require('lodash');
 
 afterEach(function() {
   sinon.restore();
+  return databaseBuilder.clean();
 });
 
 // Knex
@@ -87,10 +88,6 @@ async function insertUserWithStandardRole() {
   return user;
 }
 
-function cleanupUsersAndPixRolesTables() {
-  return databaseBuilder.clean();
-}
-
 // Hapi
 const hFake = {
   response(source) {
@@ -160,7 +157,6 @@ function catchErr(promiseFn, ctx) {
 
 module.exports = {
   airtableBuilder,
-  cleanupUsersAndPixRolesTables,
   expect,
   domainBuilder: require('./tooling/domain-builder/factory'),
   databaseBuilder,

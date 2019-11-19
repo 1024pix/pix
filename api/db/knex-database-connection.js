@@ -38,7 +38,8 @@ async function emptyAllTables() {
   const tableNames = await listAllTableNames();
   const tablesToDelete = _.without(tableNames,
     'knex_migrations',
-    'knex_migrations_lock'
+    'knex_migrations_lock',
+    'pix_roles'
   );
 
   const query = _dbSpecificQueries[_clientName].truncateTableQuery;

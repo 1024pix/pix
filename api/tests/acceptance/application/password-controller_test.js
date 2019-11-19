@@ -17,14 +17,13 @@ describe('Acceptance | Controller | password-controller', () => {
   describe('POST /api/password-reset-demands', () => {
     let options;
 
-    before(async () => {
+    beforeEach(() => {
       databaseBuilder.factory.buildUser({ email: fakeUserEmail });
-      await databaseBuilder.commit();
+      return databaseBuilder.commit();
     });
 
-    after(async () => {
-      await knex('reset-password-demands').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('reset-password-demands').delete();
     });
 
     describe('when email provided is unknown', () => {
@@ -209,9 +208,8 @@ describe('Acceptance | Controller | password-controller', () => {
         await _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
       });
 
-      afterEach(async () => {
-        await knex('reset-password-demands').delete();
-        await databaseBuilder.clean();
+      afterEach(() => {
+        return knex('reset-password-demands').delete();
       });
 
       it('should reply with 200 status code', () => {

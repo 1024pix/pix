@@ -14,17 +14,12 @@ describe('Acceptance | API | Campaign Controller', () => {
   let server;
 
   beforeEach(async () => {
-    await databaseBuilder.clean();
     server = await createServer();
     organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
     targetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId: organization.id });
     campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id, targetProfileId: targetProfile.id });
     campaignWithoutOrga = databaseBuilder.factory.buildCampaign({ organizationId: null });
     await databaseBuilder.commit();
-  });
-
-  afterEach(async () => {
-    await databaseBuilder.clean();
   });
 
   describe('GET /api/campaign', () => {

@@ -33,10 +33,6 @@ describe('Acceptance | Controller | Student-user-associations', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      return databaseBuilder.clean();
-    });
-
     it('should return an 204 status after having successfully associated user to student', async () => {
       // given
       options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);

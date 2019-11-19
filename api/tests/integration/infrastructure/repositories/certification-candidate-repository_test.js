@@ -15,8 +15,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
     let sessionId;
     let userId;
 
-    beforeEach(async () => {
-      await databaseBuilder.clean();
+    beforeEach(() => {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
       userId = databaseBuilder.factory.buildUser().id;
@@ -24,9 +23,8 @@ describe('Integration | Repository | CertificationCandidate', function() {
       return databaseBuilder.commit();
     });
 
-    afterEach(async() => {
-      await knex('certification-candidates').delete();
-      return databaseBuilder.clean();
+    afterEach(() => {
+      return knex('certification-candidates').delete();
     });
 
     context('when a proper candidate is being saved', () => {
@@ -145,8 +143,6 @@ describe('Integration | Repository | CertificationCandidate', function() {
         await databaseBuilder.commit();
       });
 
-      afterEach(() => databaseBuilder.clean());
-
       it('should return the deleted certification candidate with all its attributes undefined', async () => {
         // when
         const certificationCandidateDeleted = await certificationCandidateRepository.delete(certificationCandidateToDeleteId);
@@ -204,8 +200,6 @@ describe('Integration | Repository | CertificationCandidate', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(() => databaseBuilder.clean());
-
     context('when there are some certification candidates with the given session id', function() {
 
       it('should fetch, alphabetically sorted, the certification candidates with a specific session ID', async () => {
@@ -244,8 +238,6 @@ describe('Integration | Repository | CertificationCandidate', function() {
       sessionId = databaseBuilder.factory.buildSession().id;
       return databaseBuilder.commit();
     });
-
-    afterEach(() => databaseBuilder.clean());
 
     context('when there is one certification candidate with the given info in the session', function() {
 
@@ -364,9 +356,8 @@ describe('Integration | Repository | CertificationCandidate', function() {
       return databaseBuilder.commit();
     });
 
-    afterEach(async() => {
-      await knex('certification-candidates').delete();
-      return databaseBuilder.clean();
+    afterEach(() => {
+      return knex('certification-candidates').delete();
     });
 
     context('when there are some certification candidates to delete', function() {
@@ -428,8 +419,6 @@ describe('Integration | Repository | CertificationCandidate', function() {
       databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionId, userId: userId });
       return databaseBuilder.commit();
     });
-
-    afterEach(() => databaseBuilder.clean());
 
     context('when there is one certification candidate with the given session id and user id', function() {
 

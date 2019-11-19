@@ -26,10 +26,6 @@ describe('Acceptance | users-controller-get-pix-score', () => {
     return databaseBuilder.commit();
   });
 
-  afterEach(() => {
-    return databaseBuilder.clean();
-  });
-
   describe('GET /users/:id/pixscore', () => {
 
     describe('Resource access management', () => {
