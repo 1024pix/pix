@@ -5,13 +5,7 @@ import { setupRenderingTest } from 'ember-mocha';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-const ANSWER_BLOCK = '.correction-qroc-box__answer';
-const ANSWER_INPUT = '.correction-qroc-box-answer';
-const SOLUTION_BLOCK = '.correction-qroc-box__solution';
-
-const CARIBBEAN_GREEN_COLOR = 'rgb(19, 201, 160)';
-
-describe('Integration | Component | qroc solution panel', function() {
+describe('Integration | Component | QROC solution panel', function() {
 
   setupRenderingTest();
 
@@ -62,98 +56,89 @@ describe('Integration | Component | qroc solution panel', function() {
     { format: 'unreferenced_format' },
     { format: 'paragraphe' },
   ].forEach((data) => {
+    describe(`Whatever the format (testing "${data.format}" format)`, function() {
+      describe('When the answer is correct', function() {
 
-    describe('Whatever the format', function() {
-      describe('comparison when the answer is right', function() {
-
-        const assessment = EmberObject.create({ id: 'assessment_id' });
-        const challenge = EmberObject.create({ id: 'challenge_id', format: data.format });
-        const answer = EmberObject.create({ id: 'answer_id', result: 'ok', assessment, challenge });
-
-        it('should display the answer in bold green and not the solution', async function() {
+        beforeEach(async function() {
           // given
-          const boldFontWeight = 700;
-          this.set('answer', answer);
-          await render(hbs`{{qroc-solution-panel answer=answer}}`);
+          const assessment = EmberObject.create({ id: 'assessment_id' });
+          const challenge = EmberObject.create({ id: 'challenge_id', format: data.format });
+          const answer = EmberObject.create({ id: 'answer_id', result: 'ok', assessment, challenge });
 
           // when
-          const answerInput = find(ANSWER_INPUT);
-          const answerBlock = find(ANSWER_BLOCK);
-          const solutionBlock = find(SOLUTION_BLOCK);
-          const answerInputStyles = window.getComputedStyle(answerInput);
+          await render(hbs`{{qroc-solution-panel answer=answer}}`);
+          this.set('answer', answer);
+        });
 
+        it('should display the answer in bold green', async function() {
           // then
-          expect(answerInput).to.exist;
-          expect(answerBlock).to.exist;
-          expect(solutionBlock).to.not.exist;
-          expect(answerInputStyles.getPropertyValue('text-decoration')).to.include('none');
-          expect(answerInputStyles.getPropertyValue('color')).to.equal(CARIBBEAN_GREEN_COLOR);
-          expect(answerInputStyles.getPropertyValue('font-weight')).to.include(boldFontWeight);
+          expect(find('.correction-qroc-box-answer')).to.exist;
+          expect(find('.correction-qroc-box__answer')).to.exist;
+          expect(find('.correction-qroc-box-answer--correct')).to.exist;
+        });
+
+        it('should not display the solution', async function() {
+          // then
+          expect(find('.correction-qroc-box__solution')).to.not.exist;
         });
       });
 
-      describe('comparison when the answer is false', function() {
+      describe('When the answer is wrong', function() {
 
         beforeEach(async function() {
+          // given
           const assessment = EmberObject.create({ id: 'assessment_id' });
           const challenge = EmberObject.create({ id: 'challenge_id', format: data.format });
           const answer = EmberObject.create({ id: 'answer_id', result: 'ko', assessment, challenge });
 
+          // when
           this.set('answer', answer);
           await render(hbs`{{qroc-solution-panel answer=answer}}`);
         });
 
-        it('should display the false answer line-through', function() {
-          // given
-          const answerBlock = find(ANSWER_BLOCK);
-          const answerInput = find(ANSWER_INPUT);
-
+        it('should display the false answer with line-through', function() {
           // then
-          const answerInputStyles = window.getComputedStyle(answerInput);
-          expect(answerBlock).to.exist;
-          expect(answerInputStyles.getPropertyValue('text-decoration')).to.include('line-through');
+          expect(find('.correction-qroc-box-answer')).to.exist;
+          expect(find('.correction-qroc-box__answer')).to.exist;
+          expect(find('.correction-qroc-box-answer--wrong')).to.exist;
         });
 
         it('should display the solution with an arrow and the solution in bold green', function() {
-          // given
-          const blockSolution = find(SOLUTION_BLOCK);
+          const blockSolution = find('.correction-qroc-box__solution');
+          const arrowImg = find('.correction-qroc-box__solution-img');
+          const solutionText = find('.correction-qroc-box__solution-text');
 
           // then
-          const blockSolutionStyles = window.getComputedStyle(blockSolution);
-          const arrowImg = find('.correction-qroc-box__solution-img');
-          const solutionTextStyles = window.getComputedStyle(find('.correction-qroc-box__solution-text'));
           expect(blockSolution).to.exist;
           expect(arrowImg).to.exist;
-          expect(solutionTextStyles.getPropertyValue('color')).to.equal(CARIBBEAN_GREEN_COLOR);
-          expect(blockSolutionStyles.getPropertyValue('align-items')).to.equal('stretch');
+          expect(solutionText).to.exist;
         });
       });
 
-      describe('comparison when the answer was not given', function() {
+      describe('When the answer was not given', function() {
 
-        beforeEach(function() {
+        const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
+
+        beforeEach(async function() {
+          // given
           const assessment = EmberObject.create({ id: 'assessment_id' });
           const challenge = EmberObject.create({ id: 'challenge_id', format: data.format });
-          const answer = EmberObject.create({ id: 'answer_id', value: '#ABAND#', assessment, challenge });
-
-          this.set('answer', answer);
-          this.set('isResultWithoutAnswer', true);
-        });
-
-        //BUG car normal au lieu de italic
-        it('BUG: should display "Pas de réponse" in italic', async function() {
-          // given
-          const emptyDefaultMessage = 'Pas de réponse';
+          const answer = EmberObject.create({ id: 'answer_id', value: '#ABAND#', result: 'aband', assessment, challenge });
 
           // when
-          await render(hbs`{{qroc-solution-panel answer=answer}}`);
-          const answerBlock = find('.correction-qroc-box-answer');
-          const answerBlockStyle = window.getComputedStyle(answerBlock);
+          this.set('answer', answer);
+          this.set('isResultWithoutAnswer', true);
 
+          await render(hbs`{{qroc-solution-panel answer=answer}}`);
+        });
+
+        it('should display "Pas de réponse" in italic', function() {
           // then
+          const answerBlock = find('.correction-qroc-box-answer');
+
           expect(answerBlock).to.exist;
-          expect(answerBlock.value).to.equal(emptyDefaultMessage);
-          expect(answerBlockStyle.getPropertyValue('font-style')).to.equal('normal');
+          expect(answerBlock.value).to.equal(EMPTY_DEFAULT_MESSAGE);
+          expect(find('.correction-qroc-box-answer--aband')).to.exist;
         });
       });
     });

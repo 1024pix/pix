@@ -11,8 +11,6 @@ const TEXTAREA = 'textarea.correction-qrocm__answer--textarea';
 const SOLUTION_BLOCK = '.correction-qrocm__solution';
 const SOLUTION_TEXT = '.correction-qrocm__solution-text';
 
-const CARIBBEAN_GREEN_COLOR = 'rgb(19, 201, 160)';
-
 const classByResultKey = {
   ok: 'ok',
   ko: 'ko',
@@ -20,7 +18,7 @@ const classByResultKey = {
   aband: 'aband'
 };
 
-describe('Integration | Component | qrocm dep solution panel', function() {
+describe('Integration | Component | QROCm dep solution panel', function() {
 
   setupRenderingTest();
 
@@ -39,7 +37,7 @@ describe('Integration | Component | qrocm dep solution panel', function() {
     { format: 'unreferenced_format' },
     { format: 'paragraphe' },
   ].forEach((data) => {
-    describe('Whatever the format', function() {
+    describe(`Whatever the format (testing ${data.format} format)`, function() {
 
       beforeEach(function() {
         this.set('solution', solution);
@@ -67,7 +65,8 @@ describe('Integration | Component | qrocm dep solution panel', function() {
 
       describe('When the answer is correct', function() {
 
-        beforeEach(function() {
+        beforeEach(async function() {
+          // given
           const answer = EmberObject.create({
             id: 'answer_id',
             value: 'key1: \'rightAnswer1\' key2: \'rightAnswer2\'',
@@ -76,28 +75,18 @@ describe('Integration | Component | qrocm dep solution panel', function() {
             challenge
           });
           this.set('answer', answer);
-        });
-
-        it('should display the correct answer in green bold', async function() {
-          // given
-          const boldFontWeight = '700';
 
           // when
           await render(hbs`{{qrocm-dep-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        });
 
+        it('should display the correct answer in green bold', function() {
           // then
-          const firstCorrectAnswerText = findAll(ANSWER)[0];
-          const correctAnswerStyle = window.getComputedStyle(firstCorrectAnswerText);
-
-          expect(correctAnswerStyle.getPropertyValue('color')).to.equal(CARIBBEAN_GREEN_COLOR);
-          expect(correctAnswerStyle.getPropertyValue('text-decoration')).to.include('none');
-          expect(correctAnswerStyle.getPropertyValue('font-weight')).to.equal(boldFontWeight);
+          const firstAnswerInput = findAll(ANSWER)[0];
+          expect(firstAnswerInput.classList.contains('correction-qroc-box-answer--correct')).to.be.true;
         });
 
-        it('should not have solution block', async function() {
-          // when
-          await render(hbs`{{qrocm-dep-solution-panel challenge=challenge answer=answer solution=solution}}`);
-
+        it('should not have solution block', function() {
           // then
           const solutionBlockList = findAll(SOLUTION_BLOCK);
           expect(solutionBlockList).to.have.lengthOf(0);
@@ -105,7 +94,10 @@ describe('Integration | Component | qrocm dep solution panel', function() {
       });
 
       describe('When there is no answer', function() {
-        beforeEach(function() {
+        const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
+
+        beforeEach(async function() {
+          // given
           const answer = EmberObject.create({
             id: 'answer_id',
             value: 'key1: \'\' key2: \'\'',
@@ -114,41 +106,29 @@ describe('Integration | Component | qrocm dep solution panel', function() {
             challenge
           });
           this.set('answer', answer);
+
+          // when
+          await render(hbs`{{qrocm-dep-solution-panel challenge=challenge answer=answer solution=solution}}`);
         });
 
         it('should display one solution in bold green', async function() {
-          // when
-          await render(hbs`{{qrocm-dep-solution-panel challenge=challenge answer=answer solution=solution}}`);
-
           // then
           const noAnswerSolutionBlockList = findAll(SOLUTION_BLOCK);
-          const noAnswerSolutionText = find(SOLUTION_TEXT);
-          const noAnswerSolutionTextStyle = window.getComputedStyle(noAnswerSolutionText);
-
           expect(noAnswerSolutionBlockList).to.have.lengthOf(1);
-          expect(noAnswerSolutionTextStyle.getPropertyValue('color')).to.equal(CARIBBEAN_GREEN_COLOR);
-          expect(noAnswerSolutionTextStyle.getPropertyValue('text-decoration')).to.include('none');
         });
 
         it('should display the empty answer with the default message "Pas de réponse" in italic', async function() {
-          // given
-          const emptyDefaultMessage = 'Pas de réponse';
-          // when
-          await render(hbs`{{qrocm-dep-solution-panel challenge=challenge answer=answer solution=solution}}`);
-
           // then
           const firstAnswerInput = findAll(ANSWER)[0];
-          const answerInputStyles = window.getComputedStyle(firstAnswerInput);
-
           expect(firstAnswerInput).to.exist;
-          expect(firstAnswerInput.value).to.equal(emptyDefaultMessage);
-          expect(answerInputStyles.getPropertyValue('text-decoration')).to.include('none');
-          expect(answerInputStyles.getPropertyValue('font-style')).to.equal('italic');
+          expect(firstAnswerInput.value).to.equal(EMPTY_DEFAULT_MESSAGE);
+          expect(firstAnswerInput.classList.contains('correction-qroc-box-answer--aband')).to.be.true;
         });
       });
 
       describe('When the answer is wrong', function() {
-        beforeEach(function() {
+        beforeEach(async function() {
+          // given
           const answer = EmberObject.create({
             id: 'answer_id',
             value: 'key1: \'wrongAnswer1\' key2: \'wrongAnswer2\'',
@@ -157,37 +137,26 @@ describe('Integration | Component | qrocm dep solution panel', function() {
             challenge
           });
           this.set('answer', answer);
+
+          // when
+          await render(hbs`{{qrocm-dep-solution-panel challenge=challenge answer=answer solution=solution}}`);
         });
 
         it('should display one solution in bold green', async function() {
-          // when
-          await render(hbs`{{qrocm-dep-solution-panel challenge=challenge answer=answer solution=solution}}`);
-
           // then
           const wrongSolutionBlock = find(SOLUTION_BLOCK);
           const wrongSolutionText = find(SOLUTION_TEXT);
-          const wrongSolutionTextStyles = window.getComputedStyle(wrongSolutionText);
 
           expect(wrongSolutionBlock).to.exist;
           expect(wrongSolutionText).to.exist;
-          expect(wrongSolutionTextStyles.getPropertyValue('color')).to.equal(CARIBBEAN_GREEN_COLOR);
-          expect(wrongSolutionTextStyles.getPropertyValue('text-decoration')).to.include('none');
         });
 
-        it('should display the wrong answer in bold font-weight without text-decoration', async function() {
-          // given
-          const boldFontWeight = '400';
-
-          // when
-          await render(hbs`{{qrocm-dep-solution-panel challenge=challenge answer=answer solution=solution}}`);
-
+        it('should display the wrong answer in standard style since we do not handle single wrong answer yet', async function() {
           // then
           const firstAnswerInput = findAll(ANSWER)[0];
-          const answerInputStyles = window.getComputedStyle(firstAnswerInput);
 
           expect(firstAnswerInput).to.exist;
-          expect(answerInputStyles.getPropertyValue('text-decoration')).to.include('none');
-          expect(answerInputStyles.getPropertyValue('font-weight')).to.equal(boldFontWeight);
+          expect(firstAnswerInput.classList.contains('correction-qroc-box-answer--wrong')).to.be.false;
         });
       });
 

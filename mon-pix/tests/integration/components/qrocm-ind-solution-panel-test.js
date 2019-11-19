@@ -15,9 +15,7 @@ const NO_ANSWER_POSITION = 0;
 const WRONG_ANSWER_POSITION = 1;
 const CORRECT_ANSWER_POSITION = 2;
 
-const CARIBBEAN_GREEN_COLOR = 'rgb(19, 201, 160)';
-
-describe('Integration | Component | qrocm ind solution panel', function() {
+describe('Integration | Component | QROCm ind solution panel', function() {
 
   setupRenderingTest();
 
@@ -43,19 +41,20 @@ describe('Integration | Component | qrocm ind solution panel', function() {
     { format: 'unreferenced_format' },
     { format: 'paragraphe' },
   ].forEach((data) => {
-    describe('Whatever the format', function() {
+    describe(`Whatever the format (testing "${data.format}" format)`, function() {
 
-      beforeEach(function() {
+      beforeEach(async function() {
+        // given
         this.set('answer', answer);
         this.set('solution', solution);
         this.set('challenge', challenge);
         this.challenge.set('format', data.format);
-      });
 
-      it('should contains three labels', async function() {
         // when
         await render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
+      });
 
+      it('should contains three labels', function() {
         // then
         expect(findAll('label')).to.have.lengthOf(3);
       });
@@ -63,25 +62,12 @@ describe('Integration | Component | qrocm ind solution panel', function() {
       describe('When the answer is correct', function() {
 
         it('should display the correct answer in green bold', async function() {
-          // given
-          const boldFontWeight = 700;
-
-          // when
-          await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
-
           // then
           const correctAnswerText = findAll(ANSWER)[CORRECT_ANSWER_POSITION];
-          const correctAnswerStyle = window.getComputedStyle(correctAnswerText);
-
-          expect(correctAnswerStyle.getPropertyValue('color')).to.equal(CARIBBEAN_GREEN_COLOR);
-          expect(correctAnswerStyle.getPropertyValue('text-decoration')).to.include('none');
-          expect(correctAnswerStyle.getPropertyValue('font-weight')).to.include(boldFontWeight);
+          expect(correctAnswerText.classList.contains('correction-qroc-box-answer--correct')).to.be.true;
         });
 
         it('should not display the solution block', async function() {
-          // when
-          await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
-
           // then
           const solutionBlockList = findAll(SOLUTION_BLOCK);
           const correctSolutionBlock = solutionBlockList[CORRECT_ANSWER_POSITION];
@@ -92,69 +78,44 @@ describe('Integration | Component | qrocm ind solution panel', function() {
       });
 
       describe('When there is no answer', function() {
-        it('should display one solution in bold green', async function() {
-          // when
-          await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
 
+        it('should display one solution in bold green', async function() {
           // then
           const noAnswerSolutionBlock = findAll(SOLUTION_BLOCK)[NO_ANSWER_POSITION];
           const noAnswerSolutionText = findAll(SOLUTION_TEXT)[NO_ANSWER_POSITION];
-          const noAnswerSolutionTextStyle = window.getComputedStyle(noAnswerSolutionText);
 
           expect(noAnswerSolutionBlock).to.exist;
           expect(noAnswerSolutionText).to.exist;
-          expect(noAnswerSolutionTextStyle.getPropertyValue('color')).to.equal(CARIBBEAN_GREEN_COLOR);
-          expect(noAnswerSolutionTextStyle.getPropertyValue('text-decoration')).to.include('none');
         });
 
         it('should display the empty answer with the default message "Pas de réponse" in italic', async function() {
-          // given
-          const emptyDefaultMessage = 'Pas de réponse';
-          // when
-          await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
-
           // then
           const answerInput = findAll(ANSWER)[NO_ANSWER_POSITION];
-          const answerInputStyles = window.getComputedStyle(answerInput);
 
           expect(answerInput).to.exist;
           expect(findAll('label')[NO_ANSWER_POSITION]).to.exist;
-          expect(answerInput.value).to.equal(emptyDefaultMessage);
-          expect(answerInputStyles.getPropertyValue('text-decoration')).to.include('none');
-          expect(answerInputStyles.getPropertyValue('font-style')).to.equal('italic');
+          expect(answerInput.value).to.equal(EMPTY_DEFAULT_MESSAGE);
+          expect(answerInput.classList.contains('correction-qroc-box-answer--aband')).to.be.true;
         });
       });
 
       describe('When the answer is wrong', function() {
         it('should display one solution in bold green', async function() {
-          // when
-          await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
-
           // then
           const wrongSolutionBlock = findAll(SOLUTION_BLOCK)[WRONG_ANSWER_POSITION];
           const wrongSolutionText = findAll(SOLUTION_TEXT)[WRONG_ANSWER_POSITION];
-          const wrongSolutionTextStyles = window.getComputedStyle(wrongSolutionText);
 
           expect(wrongSolutionBlock).to.exist;
           expect(wrongSolutionText).to.exist;
-          expect(wrongSolutionTextStyles.getPropertyValue('color')).to.equal(CARIBBEAN_GREEN_COLOR);
-          expect(wrongSolutionTextStyles.getPropertyValue('text-decoration')).to.include('none');
         });
 
         it('should display the wrong answer in line-throughed bold', async function() {
-          // given
-          const boldFontWeight = 400;
-
-          // when
-          await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
-
           // then
           const answerInput = findAll(ANSWER)[WRONG_ANSWER_POSITION];
-          const answerInputStyles = window.getComputedStyle(answerInput);
 
           expect(answerInput).to.exist;
-          expect(answerInputStyles.getPropertyValue('text-decoration')).to.include('line-through');
-          expect(answerInputStyles.getPropertyValue('font-weight')).to.include(boldFontWeight);
+          expect(answerInput.classList.contains('correction-qroc-box-answer--wrong')).to.be.true;
         });
       });
 
