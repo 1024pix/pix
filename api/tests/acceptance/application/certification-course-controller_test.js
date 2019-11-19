@@ -496,6 +496,7 @@ describe('Acceptance | API | Certification Course', () => {
         expect(certificationCourses[0].lastName).to.equal(certificationCandidate.lastName);
         expect(certificationCourses[0].birthdate).to.equal(certificationCandidate.birthdate);
         expect(certificationCourses[0].birthplace).to.equal(certificationCandidate.birthCity);
+        expect(certificationCourses[0].externalId).to.equal(certificationCandidate.externalId);
       });
 
     });
