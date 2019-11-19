@@ -10,30 +10,26 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
     it('should convert a Certification Course model object into JSON API data', function() {
       // given
       const assessment = Assessment.fromAttributes({
-        'id': '2',
+        'id': 'assessment_id',
       });
 
       const certificationCourse = CertificationCourse.fromAttributes({
         id: 'certification_id',
-        userId: 2,
         assessment: assessment,
-        nbChallenges: 3,
+        challenges: ['challenge1', 'challenge2'],
       });
 
       const jsonCertificationCourseWithAssessment = {
         data: {
-          type: 'courses',
+          type: 'certification-courses',
           id: 'certification_id',
           attributes: {
-            'user-id': '2',
-            'type': 'CERTIFICATION',
-            'nb-challenges': 3,
+            'nb-challenges': 2,
           },
           relationships: {
             assessment: {
-              data: {
-                id: '2',
-                type: 'assessments',
+              links: {
+                related: '/api/assessments/assessment_id',
               },
             },
           },

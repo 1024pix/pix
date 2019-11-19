@@ -68,7 +68,8 @@ export default function() {
   this.post('/feedbacks', postFeedbacks);
 
   this.get('/courses/:id', getCourse);
-  this.post('/courses', postCertificationCourse);
+
+  this.post('/certification-courses', postCertificationCourse);
 
   this.get('/certifications');
 

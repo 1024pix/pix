@@ -47,6 +47,9 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.UserNotAuthorizedToCreateCampaignError) {
     return new InfraErrors.ForbiddenError(error.message);
   }
+  if (error instanceof DomainErrors.UserNotAuthorizedToGetCertificationCoursesError) {
+    return new InfraErrors.ForbiddenError(error.message);
+  }
   if (error instanceof DomainErrors.CertificationCandidateAlreadyLinkedToUserError) {
     return new InfraErrors.ForbiddenError('Le candidat de certification est déjà lié à un utilisateur.');
   }

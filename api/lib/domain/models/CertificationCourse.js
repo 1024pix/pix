@@ -11,9 +11,10 @@ class CertificationCourse {
       firstName,
       isPublished = false,
       lastName,
-      nbChallenges,
       isV2Certification = false,
       // includes
+      assessment,
+      challenges,
       // references
       userId,
       sessionId,
@@ -28,9 +29,10 @@ class CertificationCourse {
     this.firstName = firstName;
     this.isPublished = isPublished;
     this.lastName = lastName;
-    this.nbChallenges = nbChallenges;
     this.isV2Certification = isV2Certification;
     // includes
+    this.assessment = assessment;
+    this.challenges = challenges;
     // references
     this.userId = userId;
     this.sessionId = sessionId;

@@ -8,15 +8,22 @@ module.exports = {
 
   serialize(certificationCourse) {
 
-    return new Serializer('course', {
-      attributes: ['userId', 'assessment', 'type', 'nbChallenges'],
+    return new Serializer('certification-course', {
+      transform(currentCertificationCourse) {
+        const certificationCourse = Object.assign({}, currentCertificationCourse);
+        certificationCourse.nbChallenges = currentCertificationCourse.challenges ? currentCertificationCourse.challenges.length : 0;
+
+        return certificationCourse;
+      },
+      attributes: ['assessment', 'nbChallenges'],
       assessment: {
         ref: 'id',
-      },
-      transform(record) {
-        record.userId = record.userId.toString();
-        record.type = 'CERTIFICATION';
-        return record;
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current) {
+            return `/api/assessments/${current.id}`;
+          }
+        }
       },
     }).serialize(certificationCourse);
   },
