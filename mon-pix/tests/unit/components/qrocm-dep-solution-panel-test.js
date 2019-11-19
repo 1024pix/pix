@@ -24,7 +24,7 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
       }, {
         label: '<br>triste : ',
         answer: 'Pas de réponse',
-        inputClass: 'correction-qroc-box__input-no-answer',
+        inputClass: 'correction-qroc-box-answer--aband',
       }];
 
       //when

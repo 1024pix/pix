@@ -2,9 +2,9 @@ import { computed } from '@ember/object';
 import Component from '@ember/component';
 
 const classByResultValue = {
-  ok: 'correction-qroc-box__input-right-answer',
-  ko: 'correction-qroc-box__input-wrong-answer',
-  aband: 'correction-qroc-box__input-no-answer'
+  ok: 'correction-qroc-box-answer--correct',
+  ko: 'correction-qroc-box-answer--wrong',
+  aband: 'correction-qroc-box-answer--aband',
 };
 
 export default Component.extend({

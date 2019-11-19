@@ -7,10 +7,10 @@ import _ from 'lodash';
 import jsyaml from 'js-yaml';
 
 const classByResultValue = {
-  ok: 'correction-qroc-box__input-right-answer',
+  ok: 'correction-qroc-box-answer--correct',
   ko: '',
   partially: '',
-  aband: 'correction-qroc-box__input-no-answer'
+  aband: 'correction-qroc-box-answer--aband'
 };
 
 export default Component.extend({
