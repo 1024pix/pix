@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, visit, find } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembership } from '../helpers/test-init';
@@ -87,7 +87,7 @@ module('Acceptance | Session Details', function(hooks) {
         assert.dom('[data-test-notification-message="success"]').exists();
       });
 
-      test('it should display an error message when uploading an invalid file', async function(assert) {
+      test('it should display a generic error message when uploading an invalid file', async function(assert) {
         // given
         await visit('/sessions/1/candidats');
         const file = new File(['foo'], 'invalid-file');
@@ -97,6 +97,20 @@ module('Acceptance | Session Details', function(hooks) {
 
         // then
         assert.dom('[data-test-notification-message="error"]').exists();
+      });
+
+      test('it should display a specific error message when importing is forbidden', async function(assert) {
+        // given
+        await visit('/sessions/1/candidats');
+        const file = new File(['foo'], 'forbidden-import');
+
+        // when
+        await upload('#upload-attendance-sheet', file);
+
+        // then
+        assert.dom('[data-test-notification-message="error"]').exists();
+        assert.equal(find('[data-test-notification-message="error"]').textContent.trim(), 'L\'import d\'une ' +
+          'nouvelle liste de candidats est impossible si au moins un candidat a déjà démarré un test de certification.');
       });
 
     });

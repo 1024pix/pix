@@ -34,6 +34,12 @@ class AlreadySharedCampaignParticipationError extends DomainError {
   }
 }
 
+class BadRequestError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToCreateCampaignError extends DomainError {
   constructor(message) {
     super(message);
@@ -348,6 +354,7 @@ module.exports = {
   AlreadySharedCampaignParticipationError,
   AssessmentEndedError,
   AssessmentNotCompletedError,
+  BadRequestError,
   CampaignCodeError,
   CampaignWithoutOrganizationError,
   CompetenceResetError,

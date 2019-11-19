@@ -26,10 +26,19 @@ export default Controller.extend({
         });
       }
       catch (err) {
-        this.get('notifications').error('Une erreur s\'est produite lors de l\'import des candidats', {
-          autoClear,
-          clearDuration,
-        });
+        const errorDetail = err.body.errors[0].detail ? err.body.errors[0].detail : null;
+        if (errorDetail === 'At least one candidate is already linked to a user') {
+          this.get('notifications').error('L\'import d\'une nouvelle liste de candidats est impossible si au moins un candidat' +
+            ' a déjà démarré un test de certification.', {
+            autoClear,
+            clearDuration,
+          });
+        } else {
+          this.get('notifications').error('Une erreur s\'est produite lors de l\'import des candidats', {
+            autoClear,
+            clearDuration,
+          });
+        }
       }
     },
   }
