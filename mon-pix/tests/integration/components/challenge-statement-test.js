@@ -103,6 +103,21 @@ describe('Integration | Component | ChallengeStatement', function() {
       expect(find('.challenge-statement__illustration').alt).to.equal(challenge.illustrationAlt);
     });
 
+    it('should always display alt on illustration', async function() {
+      // given
+      const challenge = {
+        illustrationUrl: '/images/pix-logo.svg',
+      };
+      addChallengeToContext(this, challenge);
+
+      // when
+      await renderChallengeStatement();
+
+      // then
+      expect(find('.challenge-statement__illustration').src).to.contains(challenge.illustrationUrl);
+      expect(find('.challenge-statement__illustration').alt).to.not.be.empty;
+    });
+
     it('should not display challenge illustration if it does not exist', async function() {
       // given
       addChallengeToContext(this, {});

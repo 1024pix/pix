@@ -42,6 +42,7 @@ export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
     $(`#${this.id}`).focus();
+    this._initIllustrationAlt();
   },
 
   didInsertElement() {
@@ -67,4 +68,11 @@ export default Component.extend({
     return this.mailGenerator
       .generateEmail(this.get('challenge.id'), this.get('assessment.id'), window.location.hostname, config.environment);
   },
+
+  _initIllustrationAlt() {
+    if (!this.get('challenge.illustrationAlt')) {
+      const defaultAlt = 'Illustration de l\'épreuve';
+      this.set('challenge.illustrationAlt', defaultAlt);
+    }
+  }
 });
