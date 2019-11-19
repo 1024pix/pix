@@ -37,13 +37,13 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         answer: ':)',
         solution: ':-)',
         emptyOrWrongAnswer: false,
-        inputClass: 'correction-qroc-box__input-right-answer',
+        inputClass: 'correction-qroc-box-answer--correct',
       }, {
         label: '<br>triste : ',
         answer: ':(',
         solution: ':-(',
         emptyOrWrongAnswer: false,
-        inputClass: 'correction-qroc-box__input-right-answer',
+        inputClass: 'correction-qroc-box-answer--correct',
       }];
 
       //when
@@ -63,13 +63,13 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         answer: '1',
         solution: '2',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box__input-wrong-answer',
+        inputClass: 'correction-qroc-box-answer--wrong',
       }, {
         label: '<br>Carte mémoire (SD) : ',
         answer: '2',
         solution: '1',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box__input-wrong-answer',
+        inputClass: 'correction-qroc-box-answer--wrong',
       }];
 
       //When
@@ -91,13 +91,13 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         answer: 'Pas de réponse',
         solution: '2',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box__input-no-answer',
+        inputClass: 'correction-qroc-box-answer--aband',
       }, {
         label: '<br>Carte mémoire (SD) : ',
         answer: '2',
         solution: '1',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box__input-wrong-answer',
+        inputClass: 'correction-qroc-box-answer--wrong',
       }];
 
       //When
@@ -121,37 +121,37 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         answer: '1',
         solution: '2',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box__input-wrong-answer',
+        inputClass: 'correction-qroc-box-answer--wrong',
       }, {
         label: '<br>- leonie@pix.fr : ',
         answer: '2',
         solution: '3',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box__input-wrong-answer',
+        inputClass: 'correction-qroc-box-answer--wrong',
       }, {
         label: '<br>- Programme_Pix.pdf : ',
         answer: '3',
         solution: '6',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box__input-wrong-answer',
+        inputClass: 'correction-qroc-box-answer--wrong',
       }, {
         label: '<br>- lucie@pix.fr : ',
         answer: '4',
         solution: '1',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box__input-wrong-answer',
+        inputClass: 'correction-qroc-box-answer--wrong',
       }, {
         label: '<br>- Programme du festival Pix : ',
         answer: '5',
         solution: '5',
         emptyOrWrongAnswer: false,
-        inputClass: 'correction-qroc-box__input-right-answer',
+        inputClass: 'correction-qroc-box-answer--correct',
       }, {
         label: '<br>- jeremy@pix.fr : ',
         answer: '6',
         solution: '2',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box__input-wrong-answer',
+        inputClass: 'correction-qroc-box-answer--wrong',
       }];
 
       // when
@@ -172,13 +172,13 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         answer: '2',
         solution: '1',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box__input-wrong-answer',
+        inputClass: 'correction-qroc-box-answer--wrong',
       }, {
         label: '<br>- Combien le dossier "images" contient-il de fichiers ? ',
         answer: '3',
         solution: '6',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box__input-wrong-answer',
+        inputClass: 'correction-qroc-box-answer--wrong',
       }];
 
       // when
@@ -199,13 +199,13 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         answer: 'Pas de réponse',
         solution: '2',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box__input-no-answer',
+        inputClass: 'correction-qroc-box-answer--aband',
       }, {
         label: '<br>Carte mémoire (SD) : ',
         answer: 'Pas de réponse',
         solution: '1',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box__input-no-answer',
+        inputClass: 'correction-qroc-box-answer--aband',
       }];
 
       // when
@@ -219,7 +219,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
      * _inputClass
      */
 
-    it('should return "correction-qroc-box__input-right-answer" CSS class when answer is right', function() {
+    it('should return "correction-qroc-box-answer--correct" CSS class when answer is right', function() {
       // given
       challenge = { proposals: 'Clé USB : ${num1}' };
       answer = { value: 'num1: \'2\'', resultDetails: 'num1: true' };
@@ -230,7 +230,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         answer: '2',
         solution: '2',
         emptyOrWrongAnswer: false,
-        inputClass: 'correction-qroc-box__input-right-answer'
+        inputClass: 'correction-qroc-box-answer--correct'
       }];
 
       // when

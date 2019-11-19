@@ -16,12 +16,12 @@ function _computeAnswerOutcome(inputFieldValue, resultDetail) {
 
 function _computeInputClass(answerOutcome) {
   if (answerOutcome === 'empty') {
-    return 'correction-qroc-box__input-no-answer';
+    return 'correction-qroc-box-answer--aband';
   }
   if (answerOutcome === 'ok') {
-    return 'correction-qroc-box__input-right-answer';
+    return 'correction-qroc-box-answer--correct';
   }
-  return 'correction-qroc-box__input-wrong-answer';
+  return 'correction-qroc-box-answer--wrong';
 }
 
 const QrocmIndSolutionPanel = Component.extend({
