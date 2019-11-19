@@ -14,7 +14,7 @@ module('Integration | Component | routes/authenticated/session | details-item', 
   hooks.beforeEach(function() {
     run(() => {
       store = this.owner.lookup('service:store');
-      this.set('uploadCertificationCandidatesSpy', () => {});
+      this.set('importCertificationCandidatesSpy', () => {});
       session = store.createRecord('session', {
         id: 1,
         date: '2019-02-18',
@@ -26,7 +26,7 @@ module('Integration | Component | routes/authenticated/session | details-item', 
 
   test('it should display session details page', async function(assert) {
     // when
-    await render(hbs`{{routes/authenticated/sessions/details-item session=session uploadCertificationCandidates=uploadCertificationCandidatesSpy}}`);
+    await render(hbs`{{routes/authenticated/sessions/details-item session=session importCertificationCandidates=importCertificationCandidatesSpy}}`);
 
     // then
     assert.dom('.session-details-header__title').hasText('Session 1');
@@ -34,7 +34,7 @@ module('Integration | Component | routes/authenticated/session | details-item', 
 
   test('it should display properly formatted date and time related to the session', async function(assert) {
     // when
-    await render(hbs`{{routes/authenticated/sessions/details-item session=session uploadCertificationCandidates=uploadCertificationCandidatesSpy}}`);
+    await render(hbs`{{routes/authenticated/sessions/details-item session=session importCertificationCandidates=importCertificationCandidatesSpy}}`);
 
     // then
     assert.dom('.session-details-header-datetime__date .content-text').hasText('lundi 18 févr. 2019');

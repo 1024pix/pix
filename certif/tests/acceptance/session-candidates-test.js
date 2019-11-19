@@ -62,7 +62,8 @@ module('Acceptance | Session Details', function(hooks) {
       await visit('/sessions/1/candidats');
 
       // then
-      assert.dom('.panel-actions__download-button').hasText('Télécharger (.ods)');
+      assert.dom('[data-test-id="attendance_sheet_download_button"]').exists();
+      assert.dom('[data-test-id="attendance_sheet_download_button"]').hasText('Télécharger (.ods)');
     });
 
     test('it should display an upload button', async function(assert) {
@@ -70,7 +71,8 @@ module('Acceptance | Session Details', function(hooks) {
       await visit('/sessions/1/candidats');
 
       // then
-      assert.dom('.panel-actions__upload-button').hasText('Importer (.ods)');
+      assert.dom('[data-test-id="attendance_sheet_upload_button"]').exists();
+      assert.dom('[data-test-id="attendance_sheet_upload_button"]').hasText('Importer (.ods)');
     });
 
     module('notifications', function() {
@@ -109,8 +111,8 @@ module('Acceptance | Session Details', function(hooks) {
 
         // then
         assert.dom('[data-test-notification-message="error"]').exists();
-        assert.equal(find('[data-test-notification-message="error"]').textContent.trim(), 'L\'import d\'une ' +
-          'nouvelle liste de candidats est impossible si au moins un candidat a déjà démarré un test de certification.');
+        assert.equal(find('[data-test-notification-message="error"]').textContent.trim(),
+          'La session a débuté, il n\'est plus possible de modifier la liste dans candidats en utilisant l\'import du PV de session.');
       });
 
     });

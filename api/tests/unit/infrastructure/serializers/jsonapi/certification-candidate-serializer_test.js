@@ -22,6 +22,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
           'birthdate': certificationCandidate.birthdate,
           'external-id': certificationCandidate.externalId,
           'extra-time-percentage': certificationCandidate.extraTimePercentage,
+          'is-linked': !_.isNil(certificationCandidate.userId),
         },
       }
     };
