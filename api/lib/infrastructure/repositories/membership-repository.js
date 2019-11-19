@@ -34,7 +34,7 @@ module.exports = {
       .query((qb) => {
         if (orderByName) {
           qb.innerJoin('users', 'memberships.userId', 'users.id');
-          qb.orderByRaw('LOWER(users."lastName") ASC, LOWER(users."firstName") ASC');
+          qb.orderByRaw('"organizationRole" ASC, LOWER(users."lastName") ASC, LOWER(users."firstName") ASC');
         } else {
           qb.orderBy('id', 'ASC');
         }
