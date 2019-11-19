@@ -26,4 +26,5 @@ module.exports = class AirtableBuilder {
   cleanAll() {
     this.nock.cleanAll();
   }
+
 };
