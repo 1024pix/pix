@@ -4,7 +4,7 @@ import { getQrocInputSize } from 'mon-pix/helpers/get-qroc-input-size';
 
 describe('Unit | Helper | get qroc input size', function() {
   [
-    { format: 'petit', size: '10' },
+    { format: 'petit', size: '11' },
     { format: 'mots', size: '20' },
     { format: 'phrase', size: '50' },
     { format: 'unreferenced_format', size: '20' }

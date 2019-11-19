@@ -30,7 +30,7 @@ describe('Integration | Component | QROCm proposal', function() {
 
   describe('When format is a not paragraph', function() {
     [
-      { format: 'petit', expectedSize: '10' },
+      { format: 'petit', expectedSize: '11' },
       { format: 'mots', expectedSize: '20' },
       { format: 'phrase', expectedSize: '50' },
       { format: 'unreferenced_format', expectedSize: '20' }
