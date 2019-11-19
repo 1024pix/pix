@@ -46,6 +46,9 @@ Une explication est associée à chaque variable ainsi que leur utilisation (OUI
 | SENTRY_DSN                            | Adresse pour la collecte d'erreurs sur Sentry                                                                                                | OUI      | OUI      | OUI         |
 | TEST_DATABASE_URL                     | Définit l'adresse, le port et le nom de la BDD PostgreSQL à utiliser pour les tests automatiques                                             | OUI      | NON      | NON         |
 | TOKEN_LIFE_SPAN                       | Durée de vie du token de connexion. Exemple : `7d` pour 7 jours.                                                                             | OUI      | OUI      | OUI         |
+| DD_API_KEY                      | Clé d'API (secret) de connexion pour Datadog                                                                                                | OUI      | OUI      | OUI         | Pas de connexion entre datadog et scalingo                       |                             
+| DD_TOKEN                     | Token nécessaire  à la création du logs Drain, prenant la forme : `datadog://DD_API_KEY?region=REGION`                                                                                                | OUI      | OUI      | OUI         | Pas d'envoi de logs à Datadog                                                 |
+| DD_SITE                      | Région de connexion pour Datadog                                                                                                | OUI      | OUI      | OUI         | Utilisation de la valeur par défaut : `datadoghq.com`            |                          
 
 ### PIX FRONT (app, orga, certif, admin)
 
