@@ -3,6 +3,10 @@ const errors = require('../../../lib/domain/errors');
 
 describe('Unit | Domain | Errors', () => {
 
+  it('should export a BadRequestError', () => {
+    expect(errors.BadRequestError).to.exist;
+  });
+
   it('should export a CertificationCandidateAlreadyLinkedToUserError', () => {
     expect(errors.CertificationCandidateAlreadyLinkedToUserError).to.exist;
   });
