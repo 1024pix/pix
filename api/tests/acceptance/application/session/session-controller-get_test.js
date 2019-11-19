@@ -34,8 +34,6 @@ describe('Acceptance | Controller | session-controller-get', () => {
       return databaseBuilder.commit();
     });
 
-    afterEach(() => databaseBuilder.clean());
-
     it('should return 200 HTTP status code', () => {
       // when
       const promise = server.inject({
@@ -134,8 +132,6 @@ describe('Acceptance | Controller | session-controller-get', () => {
 
       return databaseBuilder.commit();
     });
-
-    afterEach(() => databaseBuilder.clean());
 
     it('should return 200 HTTP status code', () => {
       // when

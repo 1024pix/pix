@@ -54,10 +54,6 @@ describe('Acceptance | Controller | session-controller-patch', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return databaseBuilder.clean();
-    });
-
     it('should respond with a 200 and update the session', function() {
       const options = {
         method: 'PATCH',

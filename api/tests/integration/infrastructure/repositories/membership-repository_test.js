@@ -8,13 +8,8 @@ const User = require('../../../../lib/domain/models/User');
 
 describe('Integration | Infrastructure | Repository | membership-repository', () => {
 
-  beforeEach(async () => {
-    await databaseBuilder.clean();
-  });
-
-  afterEach(async () => {
-    await knex('memberships').delete();
-    await databaseBuilder.clean();
+  afterEach(() => {
+    return knex('memberships').delete();
   });
 
   describe('#create', () => {

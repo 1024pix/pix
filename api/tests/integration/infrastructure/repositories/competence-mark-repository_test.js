@@ -108,10 +108,6 @@ describe('Integration | Repository | CompetenceMark', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return all competence-marks for one assessmentResult', () => {
       // when
       const promise = CompetenceMarkRepository.findByAssessmentResultId(assessmentResultId);

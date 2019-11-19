@@ -26,12 +26,11 @@ describe('Acceptance | Controller | answer-controller-save', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
+    afterEach(() => {
       nock.cleanAll();
       airtableBuilder.cleanAll();
 
-      await knex('answers').delete();
-      await databaseBuilder.clean();
+      return knex('answers').delete();
     });
 
     context('when the user is linked to the assessment', () => {

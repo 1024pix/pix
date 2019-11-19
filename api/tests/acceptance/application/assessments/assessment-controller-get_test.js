@@ -119,9 +119,8 @@ describe('Acceptance | API | assessment-controller-get', () => {
     await databaseBuilder.commit();
   });
 
-  afterEach(async () => {
-    airtableBuilder.cleanAll();
-    await databaseBuilder.clean();
+  afterEach(() => {
+    return airtableBuilder.cleanAll();
   });
 
   after(() => {
@@ -142,10 +141,6 @@ describe('Acceptance | API | assessment-controller-get', () => {
         url: `/api/assessments/${assessmentId}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return 200 HTTP status code', () => {
@@ -220,10 +215,6 @@ describe('Acceptance | API | assessment-controller-get', () => {
       };
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return 200 HTTP status code, when userId provided is linked to assessment', () => {
       // when
       const promise = server.inject(options);
@@ -253,10 +244,6 @@ describe('Acceptance | API | assessment-controller-get', () => {
       answer2 = databaseBuilder.factory.buildAnswer({ assessmentId });
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return 200 HTTP status code', () => {
@@ -354,10 +341,6 @@ describe('Acceptance | API | assessment-controller-get', () => {
         }).id;
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return 200 HTTP status code', () => {

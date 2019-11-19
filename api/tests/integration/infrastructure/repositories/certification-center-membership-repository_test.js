@@ -6,10 +6,6 @@ const CertificationCenter = require('../../../../lib/domain/models/Certification
 
 describe('Integration | Repository | Certification Center Membership', () => {
 
-  afterEach(async () => {
-    await databaseBuilder.clean();
-  });
-
   describe('#create', () => {
     let userId, certificationCenterId;
     beforeEach(async () => {
@@ -18,9 +14,8 @@ describe('Integration | Repository | Certification Center Membership', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await knex('certification-center-memberships').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('certification-center-memberships').delete();
     });
 
     it('should add a new membership in database', async () => {

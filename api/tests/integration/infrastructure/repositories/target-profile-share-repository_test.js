@@ -11,18 +11,16 @@ describe('Integration | Repository | Target-profile-sahre', () => {
     let targetProfileB;
     let targetProfileC;
 
-    afterEach(async () => {
-      await knex('target-profile-shares').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('target-profile-shares').delete();
     });
 
-    beforeEach(async () => {
-      await databaseBuilder.clean();
+    beforeEach(() => {
       organization = databaseBuilder.factory.buildOrganization();
       targetProfileA = databaseBuilder.factory.buildTargetProfile();
       targetProfileB = databaseBuilder.factory.buildTargetProfile();
       targetProfileC = databaseBuilder.factory.buildTargetProfile();
-      await databaseBuilder.commit();
+      return databaseBuilder.commit();
     });
 
     it('should save all the target profile shares for the organization', async function() {

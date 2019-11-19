@@ -6,14 +6,6 @@ const _ = require('lodash');
 
 describe('Integration | Repository | Certification Center', () => {
 
-  beforeEach(async () => {
-    await databaseBuilder.clean();
-  });
-
-  afterEach(async () => {
-    await databaseBuilder.clean();
-  });
-
   describe('#get', () => {
     context('the certification is found', () => {
       beforeEach(async () => {

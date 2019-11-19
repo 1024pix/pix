@@ -31,10 +31,6 @@ describe('Acceptance | API | Campaign Report', () => {
     await databaseBuilder.commit();
   });
 
-  afterEach(async () => {
-    await databaseBuilder.clean();
-  });
-
   describe('GET /api/campaign/{id}/campaign-report', () => {
     let options;
 

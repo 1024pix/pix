@@ -95,10 +95,6 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
         return databaseBuilder.commit();
       });
 
-      afterEach(() => {
-        return databaseBuilder.clean();
-      });
-
       it('should return 200 HTTP status code', () => {
         // given
         const options = {
@@ -153,10 +149,6 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
         return databaseBuilder.commit();
       });
 
-      afterEach(() => {
-        return databaseBuilder.clean();
-      });
-
       it('should return the second challenge', async () => {
         // given
         const options = {
@@ -180,10 +172,6 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
         databaseBuilder.factory.buildAnswer({ challengeId: 'first_challenge', assessmentId });
         databaseBuilder.factory.buildAnswer({ challengeId: 'second_challenge', assessmentId });
         return databaseBuilder.commit();
-      });
-
-      afterEach(() => {
-        return databaseBuilder.clean();
       });
 
       it('should finish the test', async () => {

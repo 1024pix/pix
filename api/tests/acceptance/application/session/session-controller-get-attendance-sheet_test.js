@@ -26,7 +26,6 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', ()
 
       await databaseBuilder.commit();
     });
-    afterEach(() => databaseBuilder.clean());
 
     it('should respond with a 200 when session can be found', async () => {
       // when

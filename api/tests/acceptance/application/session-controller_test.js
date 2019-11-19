@@ -32,10 +32,6 @@ describe('Acceptance | Controller | sessions-controller', () => {
     };
   });
 
-  afterEach(() => {
-    return databaseBuilder.clean();
-  });
-
   describe('PUT /sessions/{id}/finalization', () => {
 
     describe('Resource access management', () => {

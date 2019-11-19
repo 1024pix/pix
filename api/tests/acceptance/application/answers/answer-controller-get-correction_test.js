@@ -69,10 +69,6 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async() => {
-      await databaseBuilder.clean();
-    });
-
     it('should return the answer correction', async () => {
       // given
       const options = {

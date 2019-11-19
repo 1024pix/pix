@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const {
-  expect, generateValidRequestAuthorizationHeader, cleanupUsersAndPixRolesTables,
+  expect, generateValidRequestAuthorizationHeader,
   insertUserWithRolePixMaster, databaseBuilder, knex
 } = require('../../test-helper');
 const createServer = require('../../../server');
@@ -10,12 +10,8 @@ describe('Acceptance | API | Certification Center', () => {
   let server, options;
 
   beforeEach(async () => {
-    await cleanupUsersAndPixRolesTables();
     server = await createServer();
     await insertUserWithRolePixMaster();
-  });
-  afterEach(() => {
-    return cleanupUsersAndPixRolesTables();
   });
 
   describe('GET /api/certification-centers', () => {
@@ -27,10 +23,6 @@ describe('Acceptance | API | Certification Center', () => {
 
       _.times(5, databaseBuilder.factory.buildCertificationCenter);
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     context('when user is Pix Master', () => {
@@ -178,10 +170,6 @@ describe('Acceptance | API | Certification Center', () => {
       };
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     context('when user is Pix Master', () => {
       beforeEach(() => {
         options.headers = { authorization: generateValidRequestAuthorizationHeader() };
@@ -274,10 +262,6 @@ describe('Acceptance | API | Certification Center', () => {
         method: 'GET',
         url: '/api/certification-centers/' + certificationCenter.id + '/sessions',
       };
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     context('when user is linked to the certification center', () => {

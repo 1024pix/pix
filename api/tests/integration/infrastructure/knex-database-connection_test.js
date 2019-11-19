@@ -1,9 +1,9 @@
-const { expect/*, databaseBuilder*/ } = require('../../test-helper');
+const { expect, databaseBuilder } = require('../../test-helper');
 
 const knexDatabaseConnection = require('../../../db/knex-database-connection');
 
-// const { UserNotFoundError } = require('../../../lib/domain/errors');
-// const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
+const { UserNotFoundError } = require('../../../lib/domain/errors');
+const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 
 describe('Integration | Infrastructure | knex-database-connection', () => {
 
@@ -21,9 +21,7 @@ describe('Integration | Infrastructure | knex-database-connection', () => {
     expect(tableNames).to.include('users');
   });
 
-  // Waiting for a better option, since testing this have consequences on following tests...
-  // Force migrations?
-/*  it('should empty all tables', async () => {
+  it('should empty all tables', async () => {
     // given
     const { id } = databaseBuilder.factory.buildUser();
     await databaseBuilder.commit();
@@ -33,5 +31,5 @@ describe('Integration | Infrastructure | knex-database-connection', () => {
 
     // then
     await expect(userRepository.get(id)).to.be.rejectedWith(UserNotFoundError);
-  });*/
+  });
 });

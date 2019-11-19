@@ -25,20 +25,12 @@ describe('Acceptance | Controller | authentication-controller', () => {
     await databaseBuilder.commit();
   });
 
-  afterEach(async () => {
-    await databaseBuilder.clean();
-  });
-
   describe('POST /api/token', () => {
 
     beforeEach(async () => {
       const organizationId = databaseBuilder.factory.buildOrganization({}).id;
       databaseBuilder.factory.buildMembership({ userId, organizationId, organizationRoleId: orgaRoleInDB.id });
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return an 200 with accessToken when authentication is ok', () => {

@@ -12,10 +12,6 @@ const BookshelfCampaignParticipation = require('../../../../lib/infrastructure/d
 
 describe('Integration | Infrastructure | Utils | Bookshelf to domain converter', function() {
 
-  afterEach(async () => {
-    await databaseBuilder.clean();
-  });
-
   describe('buildDomainObject', () => {
     it('should convert a Bookshelf object into a domain object', async () => {
       // given

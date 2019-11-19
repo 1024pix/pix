@@ -15,9 +15,8 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await knex('organization-invitations').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('organization-invitations').delete();
     });
 
     it('should save the organization invitation in db', async () => {
@@ -45,10 +44,6 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
     beforeEach(async () => {
       insertedOrganizationInvitation = databaseBuilder.factory.buildOrganizationInvitation();
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should get the organization-invitation from db', async () => {
@@ -82,10 +77,6 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
     beforeEach(async () => {
       insertedOrganizationInvitation = databaseBuilder.factory.buildOrganizationInvitation();
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should get the organization-invitation by id and code', async () => {
@@ -128,10 +119,6 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return an Organization-invitation domain object', async () => {
       // when
       const organizationInvitationSaved = await organizationInvitationRepository.markAsAccepted(organizationInvitation.id);
@@ -170,10 +157,6 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
 
   describe('#findOneByOrganizationIdAndEmail', () => {
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should retrieve organization-invitation with given organizationId and email', async () => {
       // given
       const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation();
@@ -209,10 +192,6 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
         status: OrganizationInvitation.StatusType.ACCEPTED,
       });
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should find two of the three organization-invitations from db by organizationId', async () => {

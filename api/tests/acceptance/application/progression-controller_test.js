@@ -38,7 +38,6 @@ describe('Acceptance | API | Progressions', () => {
       const campaignId = databaseBuilder.factory.buildCampaign(
         {
           name: 'Campaign',
-          targetProfileId: 1
         }).id;
       databaseBuilder.factory.buildCampaignParticipation(
         {
@@ -48,9 +47,8 @@ describe('Acceptance | API | Progressions', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
+    afterEach(() => {
       nock.cleanAll();
-      await databaseBuilder.clean();
     });
 
     context('without authorization token', () => {

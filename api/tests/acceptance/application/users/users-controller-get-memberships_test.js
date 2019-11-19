@@ -31,10 +31,6 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
       };
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     describe('Resource access management', () => {
 
       it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {

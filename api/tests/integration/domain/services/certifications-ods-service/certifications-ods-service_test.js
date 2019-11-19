@@ -1,12 +1,8 @@
-const { expect, databaseBuilder } = require('../../../../test-helper');
+const { expect } = require('../../../../test-helper');
 const certificationsOdsService = require('../../../../../lib/domain/services/certifications-ods-service');
 const fs = require('fs');
 
 describe('Integration | Services | extractCertificationsDataFromAttendanceSheet', () => {
-
-  afterEach(async () => {
-    await databaseBuilder.clean();
-  });
 
   context('When attendance sheet is of version 1.0', () => {
 

@@ -31,9 +31,8 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await knex('certification-candidates').delete();
-      return databaseBuilder.clean();
+    afterEach(() => {
+      return knex('certification-candidates').delete();
     });
 
     context('The user can access the session', () => {

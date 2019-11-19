@@ -17,10 +17,6 @@ describe('Integration | Repository | AnswerRepository', () => {
     return databaseBuilder.commit();
   });
 
-  afterEach(() => {
-    return databaseBuilder.clean();
-  });
-
   describe('#get', () => {
 
     context('when there are no answers', () => {
