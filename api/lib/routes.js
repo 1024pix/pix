@@ -9,7 +9,7 @@ module.exports = [
   require('./application/campaigns'),
   require('./application/certification-centers'),
   require('./application/certification-center-memberships'),
-  require('./application/certificationCourses'),
+  require('./application/certification-courses'),
   require('./application/certifications'),
   require('./application/challenges'),
   require('./application/competence-evaluations'),

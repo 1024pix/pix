@@ -214,6 +214,17 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(403);
     });
 
+    it('should return 403 on domain UserNotAuthorizedToGetCertificationCoursesError', function() {
+      // given
+      const error = new DomainErrors.UserNotAuthorizedToGetCertificationCoursesError();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(403);
+    });
+
     it('should return 403 on domain UserNotAuthorizedToCertifyError', function() {
       // given
       const error = new DomainErrors.UserNotAuthorizedToCertifyError();

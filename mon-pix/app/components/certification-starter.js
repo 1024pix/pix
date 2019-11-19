@@ -25,13 +25,13 @@ export default Component.extend({
       }
       this.set('isLoading', true);
 
-      const existingCertificationCourse = this.getCurrentCourse();
+      const existingCertificationCourse = this.getCurrentCertificationCourse();
       if (existingCertificationCourse) {
         return this.router.replaceWith('certifications.resume', existingCertificationCourse.id);
       }
       try {
         await this.createCertificationCourseIfValid();
-        return this.router.replaceWith('certifications.resume', this.getCurrentCourse().id);
+        this.router.replaceWith('certifications.resume', this.getCurrentCertificationCourse().id);
       } catch (err) {
         if (err.errors && err.errors[0] && err.errors[0].status === '404') {
           this.set('errorMessage', 'Ce code n’existe pas ou n’est plus valide.');
@@ -49,14 +49,14 @@ export default Component.extend({
 
   async createCertificationCourseIfValid() {
     try {
-      await this.store.createRecord('course', { accessCode: this.accessCode }).save();
+      await this.store.createRecord('certification-course', { accessCode: this.accessCode }).save();
     } catch (err) {
-      this.getCurrentCourse().deleteRecord();
+      this.getCurrentCertificationCourse().deleteRecord();
       throw err;
     }
   },
 
-  getCurrentCourse() {
-    return this.peeker.findOne('course', { accessCode: this.accessCode });
+  getCurrentCertificationCourse() {
+    return this.peeker.findOne('certification-course', { accessCode: this.accessCode });
   },
 });

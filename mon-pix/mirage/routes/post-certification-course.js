@@ -1,10 +1,8 @@
 export default function(schema) {
-  const certificationCourse = schema.courses.create({ id: 'certification-course-id' });
   const newAssessment = {
     type: 'CERTIFICATION',
-    courseId: certificationCourse.id,
-    certificationNumber: certificationCourse.id,
+    certificationNumber: 'certification-course-id',
   };
-  schema.assessments.create(newAssessment);
-  return certificationCourse;
+  const assessment = schema.assessments.create(newAssessment);
+  return schema.certificationCourses.create({ id: 'certification-course-id', nbChallenges: 10, assessment });
 }

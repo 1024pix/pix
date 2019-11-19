@@ -11,7 +11,6 @@ export default Model.extend({
   imageUrl: attr('string'),
   nbChallenges: attr('number'),
   type: attr('string'),
-  accessCode : attr('string'),
 
   isDemo: computed('type', function() {
     return this.type === 'DEMO';

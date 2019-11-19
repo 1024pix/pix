@@ -9,8 +9,10 @@ describe('Unit | Route | Certification | Resume', function() {
 
   describe('#model', function() {
     const certificationCourseId = 'certification-course-id';
+    let certificationCourse;
     let assessment;
     let queryStub;
+    let peekRecordStub;
     let getAssessmentStub;
     let storeStub;
     let route;
@@ -22,36 +24,28 @@ describe('Unit | Route | Certification | Resume', function() {
       queryStub = sinon.stub().resolves({
         get: getAssessmentStub,
       });
-      storeStub = Service.create({ query: queryStub });
+      certificationCourse = EmberObject.create({ id: certificationCourseId, assessment, get: getAssessmentStub });
+      peekRecordStub = sinon.stub().returns(certificationCourse);
+      storeStub = Service.create({ query: queryStub, peekRecord: peekRecordStub });
       route = this.owner.lookup('route:certifications.resume');
       route.set('store', storeStub);
       route.replaceWith = sinon.stub();
     });
 
-    it('should query the assessment linked to the certification course', function() {
+    it('should peekRecord the certification course', async function() {
       // when
-      const promise = route.model(params);
+      await route.model(params);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(queryStub, 'assessment', {
-          filter: {
-            type: 'CERTIFICATION',
-            courseId: certificationCourseId,
-            resumable: true
-          }
-        });
-      });
+      sinon.assert.calledWith(peekRecordStub, 'certification-course', certificationCourseId);
     });
 
-    it('should resume the assessment', function() {
+    it('should resume the assessment linked to the certification course', async function() {
       // when
-      const promise = route.model(params);
+      await route.model(params);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(route.replaceWith, 'assessments.resume', assessment.get('id'));
-      });
+      sinon.assert.calledWith(route.replaceWith, 'assessments.resume', assessment);
     });
 
   });

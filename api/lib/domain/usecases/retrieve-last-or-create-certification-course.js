@@ -77,7 +77,8 @@ async function _startNewCertification({
       });
 
       const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
-      await _createAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id, assessmentRepository });
+      const assessment = await _createAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id, assessmentRepository });
+      savedCertificationCourse.assessment = assessment;
       return {
         created: true,
         certificationCourse: await certificationChallengesService.saveChallenges(certificationProfile.userCompetences, savedCertificationCourse),
