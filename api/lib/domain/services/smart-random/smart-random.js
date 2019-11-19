@@ -15,6 +15,8 @@ function getNextChallenge({ knowledgeElements, challenges, targetSkills, lastAns
   const knowledgeElementsOfTargetSkills = knowledgeElements.filter((ke) => {
     return targetSkills.find((skill) => skill.id === ke.skillId);
   });
+  const filteredChallenges = _removeUnpublishedChallenges(challenges);
+  targetSkills = _getSkillsWithAddedInformations({ targetSkills, filteredChallenges });
 
   // First challenge has specific rules
   const { nextChallenge, levelEstimated } = isUserStartingTheTest
@@ -63,4 +65,24 @@ function _pickRandomChallenge(skills) {
   if (skills.length === 0) { return UNEXISTING_ITEM; }
   const chosenSkill = _.sample(skills);
   return _.sample(chosenSkill.challenges);
+}
+
+function _getSkillsWithAddedInformations({ targetSkills, filteredChallenges }) {
+  const skillsWithInformation =  _.map(targetSkills, (skill) => {
+    skill.challenges = _.filter(filteredChallenges, (challenge) => challenge.hasSkill(skill));
+    if (skill.challenges.length === 0) {
+      return null;
+    }
+    skill.linkedSkills = [];
+    if (skill.challenges[0].skills.length > 1) {
+      skill.linkedSkills = _.filter(skill.challenges[0].skills, (skillFromChallenge) => skillFromChallenge.id != skill.id);
+    }
+    skill.timed = skill.challenges[0].isTimed();
+    return skill;
+  });
+  return _.without(skillsWithInformation, null);
+}
+
+function _removeUnpublishedChallenges(challenges) {
+  return _.filter(challenges, (challenge) => challenge.isPublished());
 }

@@ -9,47 +9,22 @@ module.exports = {
   getFilteredSkillsForNextChallenge
 };
 
-function getFilteredSkillsForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills }) {
-  const filteredChallenges = _removeUnpublishedChallenges(challenges);
-  targetSkills = _addChallengesAndTimedInformation({ targetSkills, filteredChallenges });
+function getFilteredSkillsForFirstChallenge({ knowledgeElements, courseTubes, targetSkills }) {
   return pipe(
     _getUntestedSkills.bind(null, knowledgeElements),
     _keepSkillsFromEasyTubes.bind(null, courseTubes),
-    _removeTimedSkillsIfNeeded.bind(null, null),
+    _removeTimedSkillsIfNeeded.bind(null, true),
     _focusOnDefaultLevel.bind(null),
   )(targetSkills);
 }
 
-function getFilteredSkillsForNextChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, isLastChallengeTimed, targetSkills }) {
-  const filteredChallenges = _removeUnpublishedChallenges(challenges);
-  targetSkills = _addChallengesAndTimedInformation({ targetSkills, filteredChallenges });
-
+function getFilteredSkillsForNextChallenge({ knowledgeElements, courseTubes, predictedLevel, isLastChallengeTimed, targetSkills }) {
   return pipe(
     _getUntestedSkills.bind(null,knowledgeElements),
     _keepSkillsFromEasyTubes.bind(null, courseTubes),
     _removeTimedSkillsIfNeeded.bind(null, isLastChallengeTimed),
     _removeTooDifficultSkills.bind(null, predictedLevel),
   )(targetSkills);
-}
-
-function _addChallengesAndTimedInformation({ targetSkills, filteredChallenges }) {
-  const skillsWithInformation =  _.map(targetSkills, (skill) => {
-    skill.challenges = _.filter(filteredChallenges, (challenge) => challenge.hasSkill(skill));
-    if (skill.challenges.length === 0) {
-      return null;
-    }
-    skill.linkedSkills = [];
-    if (skill.challenges[0].skills.length > 1) {
-      skill.linkedSkills = _.filter(skill.challenges[0].skills, (skillFromChallenge) => skillFromChallenge.id != skill.id);
-    }
-    skill.timed = skill.challenges[0].isTimed();
-    return skill;
-  });
-  return _.without(skillsWithInformation, null);
-}
-
-function _removeUnpublishedChallenges(challenges) {
-  return _.filter(challenges, (challenge) => challenge.isPublished());
 }
 
 function _getUntestedSkills(knowledgeElements, skills) {
@@ -87,8 +62,8 @@ function _skillAlreadyTested(skill, knowledgeElements) {
 
 function _removeTimedSkillsIfNeeded(isLastChallengeTimed, targetSkills) {
   if (isLastChallengeTimed) {
-    const targetSkillsWihtoutSkillsWithTimedChallenges = _.filter(targetSkills, (skill) => !skill.timed);
-    return (targetSkillsWihtoutSkillsWithTimedChallenges.length > 0) ? targetSkillsWihtoutSkillsWithTimedChallenges : targetSkills;
+    const skillsWithoutTimedChallenges = _.filter(targetSkills, (skill) => !skill.timed);
+    return (skillsWithoutTimedChallenges.length > 0) ? skillsWithoutTimedChallenges : targetSkills;
   }
   return targetSkills;
 }

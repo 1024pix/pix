@@ -77,6 +77,25 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     // The first question has specific rules. The most important is that it should not be a timed challenge to avoid user
     // being confused into thinking that all questions will be timed. Also, the algorithm requires to start at a default
     // expect level, that is not the minimum. When this two criterias can't be satisfied simultaneously, the untimed rule wins
+
+    it('should return empty array if challenge of only possible skill are not valid', () => {
+      // given
+      const skill1 = domainBuilder.buildSkill({ name: '@web3' });
+      const challengeAssessingSkill1 = domainBuilder.buildChallenge({ skills: [skill1], status: 'PAS VALIDE' });
+      const challenges = [challengeAssessingSkill1];
+
+      // when
+      const { nextChallenge } = SmartRandom.getNextChallenge({
+        targetSkills: [skill1],
+        challenges,
+        knowledgeElements: [],
+        lastAnswer
+      });
+
+      // then
+      expect(nextChallenge).to.be.equal(null);
+    });
+
     context('when it is the first question only', () => {
 
       it('should ideally start with an untimed, default starting level challenge', function() {
