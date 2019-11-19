@@ -409,8 +409,25 @@ describe('Acceptance | API | Campaign Participations', () => {
         acquis: [skillWeb2Name],
       });
 
+      const challengeWeb1 = airtableBuilder.factory.buildChallenge.untimed({
+        id: challengeId,
+        tests: [],
+        competences: [competenceId],
+        statut: 'validé',
+        acquix: [skillWeb1Id],
+        acquis: [skillWeb1Name],
+      });
+      const challengeWeb3 = airtableBuilder.factory.buildChallenge.untimed({
+        id: challengeId,
+        tests: [],
+        competences: [competenceId],
+        statut: 'validé',
+        acquix: [skillWeb3Id],
+        acquis: [skillWeb3Name],
+      });
+
       airtableBuilder.mockList({ tableName: 'Epreuves' })
-        .returns([challenge])
+        .returns([challenge, challengeWeb1, challengeWeb3])
         .activate();
     });
 
