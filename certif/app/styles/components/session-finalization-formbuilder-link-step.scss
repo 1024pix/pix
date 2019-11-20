@@ -1,0 +1,15 @@
+.session-finalization-formbuilder-link-step {
+  margin: 8px 8px 8px 8px;
+  padding: 24px 0 26px 32px;
+  font-family: $roboto;
+  color: $grey;
+
+  &__text {
+    display: inline-block;
+    margin-right: 16px;
+  }
+
+  &__link {
+    display: inline-block;
+  }
+}

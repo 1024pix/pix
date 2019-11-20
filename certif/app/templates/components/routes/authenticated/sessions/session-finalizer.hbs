@@ -8,6 +8,12 @@
   <div class="session-finalizer__subtitle">
     <p>Pour finaliser la session, complétez les trois étapes puis validez.</p>
   </div>
+  <SessionFinalizationStepContainer
+          @number="1"
+          @title="Transmettre le PV de session"
+          @icon="paper-plane">
+  <SessionFinalizationFormbuilderLinkStep/>
+  </SessionFinalizationStepContainer>
   <ActionButton
     class="session-finalizer__button"
     @isLoading={{isLoading}}
