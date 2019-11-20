@@ -28,6 +28,7 @@ export default function() {
 
     http://www.ember-cli-mirage.com/docs/v0.4.x/shorthands/
   */
+  this.logging = true;
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
 
@@ -35,6 +36,7 @@ export default function() {
   this.get('/organizations/:id');
   this.get('/organizations/:id/memberships', getOrganizationMemberships);
   this.get('/sessions/:id');
+  this.get('/admin/certifications/:id');
   this.get('/users', findUsers);
   this.put('/certifications/attendance-sheet/parsing', upload(function() {
     return [

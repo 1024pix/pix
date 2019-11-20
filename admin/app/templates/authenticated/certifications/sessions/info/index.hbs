@@ -17,7 +17,7 @@
   </div>
   <div class='row'>
     <div class='col'>Date :</div>
-    <div class='col'>{{session.date}}</div>
+    <div class='col'>{{moment-format session.date 'DD/MM/YYYY'}}</div>
   </div>
   <div class='row'>
     <div class='col'>Heure :</div>
@@ -30,5 +30,11 @@
   <div class='row'>
     <div class='col'>Code d'accès :</div>
     <div class='col'>{{session.accessCode}}</div>
+  </div>
+
+  <div class='row row--btn'>
+      <button data-test-id="button-session-result-file-info" class="btn btn-primary" {{action "downloadSessionResultFile"}} type="button">
+        Exporter les résultats
+      </button>
   </div>
 </div>
