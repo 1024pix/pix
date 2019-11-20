@@ -36,7 +36,7 @@ export default Controller.extend({
       catch (err) {
         const errorDetail = err.body.errors[0].detail ? err.body.errors[0].detail : null;
         if (errorDetail === 'At least one candidate is already linked to a user') {
-          this.get('notifications').error('La session a débuté, il n\'est plus possible de modifier la liste dans candidats en utilisant l\'import du PV de session.', {
+          this.get('notifications').error('La session a débuté, il n\'est plus possible de modifier la liste des candidats.', {
             autoClear,
             clearDuration,
           });
