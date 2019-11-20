@@ -58,18 +58,6 @@ describe('Integration | Component | comparison-window', function() {
       expect(find('.challenge-statement__illustration').alt).to.equal(challenge.illustrationAlt);
     });
 
-    it('should always display alt on illustration', async function() {
-      // given
-      challenge.set('illustrationUrl', '/images/pix-logo.svg');
-
-      // when
-      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
-
-      // then
-      expect(find('.challenge-statement__illustration').src).to.contains(challenge.illustrationUrl);
-      expect(find('.challenge-statement__illustration').alt).to.not.be.empty;
-    });
-
     it('should render challenge result in the header', async function() {
       // when
       await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);

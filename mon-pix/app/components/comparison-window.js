@@ -53,14 +53,6 @@ export default Component.extend({
   isAssessmentChallengeTypeQrocmInd: equal('answer.challenge.type', 'QROCM-ind'),
   isAssessmentChallengeTypeQrocmDep: equal('answer.challenge.type', 'QROCM-dep'),
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-    if (this.answer && this.answer.get('challenge') && !this.answer.get('challenge').get('illustrationAlt')) {
-      const defaultAlt = 'Illustration de l\'épreuve';
-      this.answer.get('challenge').set('illustrationAlt', defaultAlt);
-    }
-  },
-
   resultItem: computed('answer.result', function() {
     let resultItem = TEXT_FOR_RESULT['default'];
     const answerStatus = this.get('answer.result');
