@@ -52,6 +52,8 @@ module.exports = function(environment) {
       autoClear: true,
       clearDuration: 3000,
     },
+
+    formBuilderLinkUrl: 'https://eu.123formbuilder.com/form-29080/certification-depot-du-pv-de-session-scanne',
   };
 
   if (environment === 'development') {
