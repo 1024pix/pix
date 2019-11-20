@@ -68,8 +68,8 @@ module('Integration | Component | routes/authenticated/session | certification-c
     await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=false importCertificationCandidates=importCertificationCandidatesSpy}}`);
 
     // then
-    assert.equal(find('.panel-actions__warning b').textContent.trim(),
-      'La session a débuté, il n\'est plus possible de modifier la liste dans candidats en utilisant l\'import du PV de session.');
+    assert.equal(find('.panel-actions__warning strong').textContent.trim(),
+      'La session a débuté, il n\'est plus possible de modifier la liste des candidats.');
   });
 
 });

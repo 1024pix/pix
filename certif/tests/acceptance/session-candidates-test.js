@@ -112,7 +112,7 @@ module('Acceptance | Session Details', function(hooks) {
         // then
         assert.dom('[data-test-notification-message="error"]').exists();
         assert.equal(find('[data-test-notification-message="error"]').textContent.trim(),
-          'La session a débuté, il n\'est plus possible de modifier la liste dans candidats en utilisant l\'import du PV de session.');
+          'La session a débuté, il n\'est plus possible de modifier la liste des candidats.');
       });
 
     });
