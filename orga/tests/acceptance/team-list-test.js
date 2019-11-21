@@ -83,6 +83,7 @@ module('Acceptance | Team List', function(hooks) {
 
         // then
         assert.dom('#table-members tbody tr').exists({ count: 1 });
+        assert.dom('#table-members tbody tr:first-child').hasText('Cover Harry Administrateur');
       });
 
       test('it should list the pending team invitations', async function(assert) {

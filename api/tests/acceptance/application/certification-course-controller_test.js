@@ -1,4 +1,5 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../test-helper');
+const { expect, databaseBuilder, knex, airtableBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../test-helper');
+const cache = require('../../../lib/infrastructure/caches/cache');
 const createServer = require('../../../server');
 
 const Assessment = require('../../../lib/domain/models/Assessment');
@@ -75,10 +76,6 @@ describe('Acceptance | API | Certification Course', () => {
           }
         };
         return databaseBuilder.commit();
-      });
-
-      afterEach(() => {
-        return databaseBuilder.clean();
       });
 
       it('should return 200 HTTP status code', () => {
@@ -163,10 +160,6 @@ describe('Acceptance | API | Certification Course', () => {
           }
         };
         return databaseBuilder.commit();
-      });
-
-      afterEach(() => {
-        return databaseBuilder.clean();
       });
 
       it('should return 200 HTTP status code', () => {
@@ -303,10 +296,6 @@ describe('Acceptance | API | Certification Course', () => {
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return databaseBuilder.clean();
-    });
-
     it('should update the certification course', () => {
       // when
       const promise = server.inject(options);
@@ -334,6 +323,213 @@ describe('Acceptance | API | Certification Course', () => {
       return promise.then((err) => {
         expect(err.statusCode).to.be.equal(400);
       });
+    });
+
+  });
+
+  describe('GET /api/certification-courses/{id}', () => {
+
+    let options;
+    let userId;
+    let otherUserId;
+    let expectedCertificationCourse;
+
+    beforeEach(() => {
+      otherUserId = databaseBuilder.factory.buildUser().id;
+      const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
+      const assessment = databaseBuilder.factory.buildAssessment({ courseId: certificationCourse.id });
+      userId = certificationCourse.userId;
+      options = {
+        method: 'GET',
+        url: `/api/certification-courses/${certificationCourse.id}`,
+        headers: {}
+      };
+      expectedCertificationCourse = {
+        type: 'certification-courses',
+        id: certificationCourse.id.toString(),
+        attributes: {
+          'nb-challenges': 0,
+        },
+        relationships: {
+          assessment: {
+            links: {
+              related: `/api/assessments/${assessment.id}`,
+            }
+          },
+        },
+      };
+      return databaseBuilder.commit();
+    });
+
+    describe('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+
+      it('should respond with a 403 - forbidden access - if user is not linked to the certification course', () => {
+        // given
+        options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+
+    it('should return the certification course', async () => {
+      // given
+      options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.result.data).to.deep.equal(expectedCertificationCourse);
+    });
+  });
+
+  describe('POST /api/certification-courses', () => {
+    let options;
+    let response;
+    let userId;
+    let sessionId;
+
+    beforeEach(async() => {
+      userId = databaseBuilder.factory.buildUser().id;
+      sessionId = databaseBuilder.factory.buildSession({ accessCode: '123' }).id;
+      const payload = {
+        data: {
+          attributes: {
+            'access-code': '123',
+          }
+        }
+      };
+      options = {
+        method: 'POST',
+        url: '/api/certification-courses',
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(userId),
+        },
+        payload,
+      };
+      return databaseBuilder.commit();
+    });
+
+    context('when the certification course does not exist', () => {
+      let certificationCandidate;
+
+      beforeEach(async () => {
+        // given
+        const { area, competences, skills, challenges, competencesAssociatedSkillsAndChallenges } = airtableBuilder.factory.buildCertificationPrerequisites();
+        airtableBuilder.mockList({ tableName: 'Domaines' })
+          .returns([area])
+          .activate();
+        airtableBuilder.mockList({ tableName: 'Competences' })
+          .returns(competences)
+          .activate();
+        airtableBuilder.mockList({ tableName: 'Acquis' })
+          .returns(skills)
+          .activate();
+        airtableBuilder.mockList({ tableName: 'Epreuves' })
+          .returns(challenges)
+          .activate();
+
+        certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+          sessionId,
+          userId,
+        });
+        const assessmentId = databaseBuilder.factory.buildAssessment({
+          userId,
+        }).id;
+        const commonUserIdAssessmentIdAndEarnedPixForAllKEs = { userId, assessmentId, earnedPix: 4 };
+        competencesAssociatedSkillsAndChallenges.forEach((element) => {
+          const { challengeId, competenceId } = element;
+          const answerId = databaseBuilder.factory.buildAnswer({ assessmentId, challengeId }).id;
+          databaseBuilder.factory.buildKnowledgeElement({ ...commonUserIdAssessmentIdAndEarnedPixForAllKEs, competenceId, answerId });
+        });
+        await databaseBuilder.commit();
+
+        // when
+        response = await server.inject(options);
+      });
+
+      afterEach(async () => {
+        await knex('certification-challenges').delete();
+        await knex('certification-courses').delete();
+        await knex('knowledge-elements').delete();
+        await knex('answers').delete();
+        await knex('assessments').delete();
+        await databaseBuilder.clean();
+        airtableBuilder.cleanAll();
+        cache.flushAll();
+      });
+
+      it('should respond with 201 status code', () => {
+        // then
+        expect(response.statusCode).to.equal(201);
+      });
+
+      it('should have created a certification course', async () => {
+        // then
+        const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
+        expect(certificationCourses).to.have.length(1);
+      });
+
+      it('should have copied matching certification candidate info into created certification course', async () => {
+        // then
+        const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
+        expect(certificationCourses[0].firstName).to.equal(certificationCandidate.firstName);
+        expect(certificationCourses[0].lastName).to.equal(certificationCandidate.lastName);
+        expect(certificationCourses[0].birthdate).to.equal(certificationCandidate.birthdate);
+        expect(certificationCourses[0].birthplace).to.equal(certificationCandidate.birthCity);
+        expect(certificationCourses[0].externalId).to.equal(certificationCandidate.externalId);
+      });
+
+    });
+
+    context('when the certification course already exists', () => {
+      let certificationCourseId;
+
+      beforeEach(async () => {
+        // given
+        certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId }).id;
+        databaseBuilder.factory.buildAssessment({ userId, courseId: certificationCourseId });
+        await databaseBuilder.commit();
+
+        // when
+        response = await server.inject(options);
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
+
+      it('should respond with 200 status code', () => {
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should retrieve the already existing certification course', async () => {
+        // then
+        const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
+        expect(certificationCourses).to.have.length(1);
+        expect(certificationCourses[0].id).to.equal(certificationCourseId);
+      });
+
     });
 
   });

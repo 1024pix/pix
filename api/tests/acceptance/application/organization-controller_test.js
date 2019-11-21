@@ -4,7 +4,7 @@ const iconv = require('iconv-lite');
 
 const {
   expect, knex, nock, databaseBuilder,
-  generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables
+  generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster,
 } = require('../../test-helper');
 
 const createServer = require('../../../server');
@@ -173,10 +173,6 @@ describe('Acceptance | Application | organization-controller', () => {
     await insertUserWithRolePixMaster();
   });
 
-  afterEach(async () => {
-    await cleanupUsersAndPixRolesTables();
-  });
-
   describe('POST /api/organizations', () => {
     let payload;
     let options;
@@ -314,8 +310,6 @@ describe('Acceptance | Application | organization-controller', () => {
       };
     });
 
-    afterEach(() => databaseBuilder.clean());
-
     it('should return 200 HTTP status code', async () => {
       // when
       const response = await server.inject(options);
@@ -376,10 +370,6 @@ describe('Acceptance | Application | organization-controller', () => {
         .then(() => _insertOrganization(userId));
     });
 
-    afterEach(() => {
-      return databaseBuilder.clean();
-    });
-
     it('should return 200 HTTP status code', () => {
       // when
       const promise = server.inject(options);
@@ -433,9 +423,8 @@ describe('Acceptance | Application | organization-controller', () => {
         .then(() => _insertSnapshot(organizationId, userId));
     });
 
-    afterEach(async () => {
-      await knex('snapshots').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('snapshots').delete();
     });
 
     it('should return 200 HTTP status code', async () => {
@@ -482,10 +471,6 @@ describe('Acceptance | Application | organization-controller', () => {
         });
         databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaignsData[2].id, isShared: true });
         await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should return the organization campaigns', () => {
@@ -554,10 +539,6 @@ describe('Acceptance | Application | organization-controller', () => {
           headers: { authorization: generateValidRequestAuthorizationHeader(userPixMaster.id) },
         };
 
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should return the matching organization as JSON API', async () => {
@@ -682,10 +663,6 @@ describe('Acceptance | Application | organization-controller', () => {
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       it('should return the matching organization as JSON API', async () => {
         // given
         const expectedResult = {
@@ -784,10 +761,6 @@ describe('Acceptance | Application | organization-controller', () => {
         url: `/api/organizations/${organization.id}/students`,
         headers: { authorization: generateValidRequestAuthorizationHeader(connectedUser.id) },
       };
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     context('Expected output', () => {
@@ -958,9 +931,8 @@ describe('Acceptance | Application | organization-controller', () => {
       };
     });
 
-    afterEach(async () => {
-      await knex('students').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('students').delete();
     });
 
     context('Expected output', () => {
@@ -1295,9 +1267,8 @@ describe('Acceptance | Application | organization-controller', () => {
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await knex('organization-invitations').delete();
-        await databaseBuilder.clean();
+      afterEach(() => {
+        return knex('organization-invitations').delete();
       });
 
       it('should return the matching organization-invitations as JSON API', async () => {
@@ -1352,9 +1323,8 @@ describe('Acceptance | Application | organization-controller', () => {
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
-        await knex('organization-invitations').delete();
-        await databaseBuilder.clean();
+      afterEach(() => {
+        return knex('organization-invitations').delete();
       });
 
       it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
@@ -1464,8 +1434,7 @@ describe('Acceptance | Application | organization-controller', () => {
 
     afterEach(async () => {
       await knex('memberships').delete();
-      await knex('organization-invitations').delete();
-      await databaseBuilder.clean();
+      return knex('organization-invitations').delete();
     });
 
     context('Expected output', () => {

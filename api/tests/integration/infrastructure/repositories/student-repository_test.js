@@ -5,14 +5,6 @@ const Student = require('../../../../lib/domain/models/Student');
 
 describe('Integration | Infrastructure | Repository | student-repository', () => {
 
-  beforeEach(() => {
-    return databaseBuilder.clean();
-  });
-
-  afterEach(() => {
-    return databaseBuilder.clean();
-  });
-
   describe('#findByOrganizationId', () => {
 
     it('should return instances of Student', async () => {
@@ -139,9 +131,8 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
 
   describe('#batchSave', () => {
 
-    afterEach(async () => {
-      await knex('students').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('students').delete();
     });
 
     it('should save all students', async function() {
@@ -175,9 +166,8 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
 
   describe('#findByOrganizationIdAndUserInformation', () => {
 
-    afterEach(async () => {
-      await knex('students').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('students').delete();
     });
 
     context('User is part of the studentList', async () => {
@@ -391,9 +381,8 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
 
   describe('#associateUserAndStudent', () => {
 
-    afterEach(async () => {
-      await knex('students').delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('students').delete();
     });
 
     let organization;

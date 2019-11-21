@@ -27,10 +27,6 @@ describe('Acceptance | Controller | users-controller-get-user-student', () => {
     };
   });
 
-  afterEach(async () => {
-    await databaseBuilder.clean();
-  });
-
   describe('GET /users/:id/student', () => {
 
     describe('Resource access management', () => {

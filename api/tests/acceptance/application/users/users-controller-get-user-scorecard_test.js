@@ -21,9 +21,8 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
     server = await createServer();
   });
 
-  afterEach(async () => {
-    airtableBuilder.cleanAll();
-    await databaseBuilder.clean();
+  afterEach(() => {
+    return airtableBuilder.cleanAll();
   });
 
   after(() => {

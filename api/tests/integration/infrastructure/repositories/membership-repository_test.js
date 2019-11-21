@@ -8,13 +8,8 @@ const User = require('../../../../lib/domain/models/User');
 
 describe('Integration | Infrastructure | Repository | membership-repository', () => {
 
-  beforeEach(async () => {
-    await databaseBuilder.clean();
-  });
-
-  afterEach(async () => {
-    await knex('memberships').delete();
-    await databaseBuilder.clean();
+  afterEach(() => {
+    return knex('memberships').delete();
   });
 
   describe('#create', () => {
@@ -152,21 +147,21 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       expect(_.map(memberships, 'id')).to.deep.include.ordered.members([membership_1.id, membership_2.id, membership_3.id]);
     });
 
-    it('should order memberships by lastName and then by firstName with no sensitive case', async () => {
+    it('should order memberships by organizationRole, user.lastName and user.firstName', async () => {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
 
-      const user_1 = databaseBuilder.factory.buildUser({ lastName: 'Grenier' });
+      const user_1 = databaseBuilder.factory.buildUser({ lastName: 'alphonse', firstName: 'Pierre' });
       const user_2 = databaseBuilder.factory.buildUser({ lastName: 'Avatar', firstName: 'Xavier' });
-      const user_3 = databaseBuilder.factory.buildUser({ lastName: 'Avatar', firstName: 'Arthur' });
-      const user_4 = databaseBuilder.factory.buildUser({ lastName: 'Avatar', firstName: 'MATHURIN' });
+      const user_3 = databaseBuilder.factory.buildUser({ lastName: 'avatar', firstName: 'Arthur' });
+      const user_4 = databaseBuilder.factory.buildUser({ lastName: 'Batiste', firstName: 'Arthur' });
+      const user_5 = databaseBuilder.factory.buildUser({ lastName: 'Baptiste', firstName: 'Ernest' });
 
-      const organizationRole = Membership.roles.ADMIN;
-
-      const membership_1 = databaseBuilder.factory.buildMembership({ organizationRole, organizationId: organization.id, userId: user_1.id });
-      const membership_2 = databaseBuilder.factory.buildMembership({ organizationRole, organizationId: organization.id, userId: user_2.id });
-      const membership_3 = databaseBuilder.factory.buildMembership({ organizationRole, organizationId: organization.id, userId: user_3.id });
-      const membership_4 = databaseBuilder.factory.buildMembership({ organizationRole, organizationId: organization.id, userId: user_4.id });
+      const membership_1 = databaseBuilder.factory.buildMembership({ organizationRole: Membership.roles.ADMIN, organizationId: organization.id, userId: user_1.id });
+      const membership_2 = databaseBuilder.factory.buildMembership({ organizationRole: Membership.roles.MEMBER, organizationId: organization.id, userId: user_2.id });
+      const membership_3 = databaseBuilder.factory.buildMembership({ organizationRole: Membership.roles.MEMBER, organizationId: organization.id, userId: user_3.id });
+      const membership_4 = databaseBuilder.factory.buildMembership({ organizationRole: Membership.roles.ADMIN, organizationId: organization.id, userId: user_4.id });
+      const membership_5 = databaseBuilder.factory.buildMembership({ organizationRole: Membership.roles.MEMBER, organizationId: organization.id, userId: user_5.id });
 
       await databaseBuilder.commit();
 
@@ -174,7 +169,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       const memberships = await membershipRepository.findByOrganizationId({ organizationId: organization.id, orderByName: true });
 
       // then
-      expect(_.map(memberships, 'id')).to.deep.include.ordered.members([membership_3.id, membership_4.id, membership_2.id, membership_1.id]);
+      expect(_.map(memberships, 'id')).to.deep.include.ordered.members([membership_1.id, membership_4.id, membership_3.id, membership_2.id, membership_5.id]);
     });
   });
 

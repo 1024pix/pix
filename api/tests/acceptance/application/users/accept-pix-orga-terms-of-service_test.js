@@ -21,10 +21,6 @@ describe('Acceptance | Controller | users-controller-accept-pix-orga-terms-of-se
     return databaseBuilder.commit();
   });
 
-  afterEach(() => {
-    return databaseBuilder.clean();
-  });
-
   describe('Resource access management', () => {
 
     it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {

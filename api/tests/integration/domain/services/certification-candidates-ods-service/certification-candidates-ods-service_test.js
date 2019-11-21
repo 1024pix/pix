@@ -18,10 +18,6 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
     await databaseBuilder.commit();
   });
 
-  afterEach(async () => {
-    await databaseBuilder.clean();
-  });
-
   context('When attendance sheet is of version 1.0', () => {
 
     it('should throw a InvalidCertificationCandidate if any of the candidate data is missing a mandatory field', async () => {

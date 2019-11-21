@@ -22,10 +22,6 @@ describe('Acceptance | Controller | users-controller-get-current-user', () => {
     return databaseBuilder.commit();
   });
 
-  afterEach(() => {
-    return databaseBuilder.clean();
-  });
-
   describe('GET /users/me', () => {
 
     it('should return found user with 200 HTTP status code', async () => {

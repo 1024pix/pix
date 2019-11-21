@@ -32,9 +32,8 @@ describe('Acceptance | Controller | target-profile-controller', () => {
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
+      afterEach(() => {
         nock.cleanAll();
-        await databaseBuilder.clean();
       });
 
       it('should return 200', async () => {

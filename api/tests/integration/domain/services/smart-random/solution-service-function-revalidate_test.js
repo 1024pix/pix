@@ -11,7 +11,7 @@ describe('Integration | Service | SolutionService', function() {
 
     let ko_answer, ok_answer, unimplemented_answer;
 
-    before(async () => {
+    beforeEach(() => {
       const assessmentId = databaseBuilder.factory.buildAssessment().id;
       ko_answer = domainBuilder.buildAnswer(
         { id: 1,
@@ -35,12 +35,10 @@ describe('Integration | Service | SolutionService', function() {
         assessmentId,
       });
       _.each([ ko_answer, ok_answer, unimplemented_answer], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
-      await databaseBuilder.commit();
+      return databaseBuilder.commit();
     });
 
-    after(() => databaseBuilder.clean());
-
-    it('If the answer is ko, resolve to the answer itself, with result corresponding to the matching', function(done) {
+    it('If the answer is ko, resolve to the answer itself, with result corresponding to the matching', async () => {
 
       // given
       const MATCHING_RETURNS = { result: '#ANY_RESULT#', resultDetails: null };
@@ -50,20 +48,17 @@ describe('Integration | Service | SolutionService', function() {
       expect(service.revalidate).to.exist;
 
       // when
-      service.revalidate(new Answer(ko_answer)).then(function(foundAnswer) {
+      const foundAnswer = await service.revalidate(new Answer(ko_answer));
 
-        // then
-        expect(solutionRepository.getByChallengeId.callOnce);
-        expect(service.validate.callOnce);
-        expect(foundAnswer.id).equals(ko_answer.id);
-        expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS.result);
-
-        done();
-      });
+      // then
+      expect(solutionRepository.getByChallengeId.callOnce);
+      expect(service.validate.callOnce);
+      expect(foundAnswer.id).equals(ko_answer.id);
+      expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS.result);
 
     });
 
-    it('If the answer is ok, resolve to the answer itself, with result corresponding to the matching', function(done) {
+    it('If the answer is ok, resolve to the answer itself, with result corresponding to the matching', async () => {
 
       // given
       const MATCHING_RETURNS = { result: '#ANY_RESULT#', resultDetails: null };
@@ -74,20 +69,16 @@ describe('Integration | Service | SolutionService', function() {
       expect(service.revalidate).to.exist;
 
       // when
-      service.revalidate(new Answer(ok_answer)).then(function(foundAnswer) {
+      const foundAnswer = await service.revalidate(new Answer(ok_answer));
 
-        // then
-        expect(solutionRepository.getByChallengeId.callOnce);
-        expect(service.validate.callOnce);
-        expect(foundAnswer.id).equals(ok_answer.id);
-        expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS.result);
-
-        done();
-      });
-
+      // then
+      expect(solutionRepository.getByChallengeId.callOnce);
+      expect(service.validate.callOnce);
+      expect(foundAnswer.id).equals(ok_answer.id);
+      expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS.result);
     });
 
-    it('If the answer is unimplemented, resolve to the answer itself, with result corresponding to the matching', function(done) {
+    it('If the answer is unimplemented, resolve to the answer itself, with result corresponding to the matching', async() => {
 
       // given
       const MATCHING_RETURNS = { result: '#ANY_RESULT#', resultDetails: null };
@@ -98,17 +89,13 @@ describe('Integration | Service | SolutionService', function() {
       expect(service.revalidate).to.exist;
 
       // when
-      service.revalidate(new Answer(unimplemented_answer)).then(function(foundAnswer) {
+      const foundAnswer = await service.revalidate(new Answer(unimplemented_answer));
 
-        // then
-        expect(solutionRepository.getByChallengeId.callOnce);
-        expect(service.validate.callOnce);
-        expect(foundAnswer.id).equals(unimplemented_answer.id);
-        expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS.result);
-
-        done();
-      });
-
+      // then
+      expect(solutionRepository.getByChallengeId.callOnce);
+      expect(service.validate.callOnce);
+      expect(foundAnswer.id).equals(unimplemented_answer.id);
+      expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS.result);
     });
 
   });

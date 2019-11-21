@@ -25,10 +25,6 @@ describe('Integration | Repository | Target-profile', () => {
       sinon.stub(skillDatasource, 'findByRecordIds').resolves([skillAssociatedToTargetProfile]);
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return the target profile with its associated skills and the list of organizations which could access it', () => {
       // when
       const promise = targetProfileRepository.get(targetProfile.id);
@@ -72,10 +68,6 @@ describe('Integration | Repository | Target-profile', () => {
       sinon.stub(skillDatasource, 'findByRecordIds').resolves([targetProfileSkill]);
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return an Array', () => {
       // when
       const promise = targetProfileRepository.findPublicTargetProfiles();
@@ -92,10 +84,9 @@ describe('Integration | Repository | Target-profile', () => {
 
       // then
       return promise.then((targetProfiles) => {
-        expect(targetProfiles).to.have.lengthOf(2); // There is one public target profile in database migrations already
+        expect(targetProfiles).to.have.lengthOf(1);
         expect(targetProfiles[0]).to.be.an.instanceOf(TargetProfile);
         expect(targetProfiles[0].isPublic).to.be.true;
-        expect(targetProfiles[1].isPublic).to.be.true;
       });
     });
 
@@ -136,10 +127,6 @@ describe('Integration | Repository | Target-profile', () => {
 
       targetProfileSkill = new SkillDataObject({ id: targetProfileSkillAssociation.skillId, name: '@Acquis2' });
       sinon.stub(skillDatasource, 'findByRecordIds').resolves([targetProfileSkill]);
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return an Array', () => {
@@ -210,10 +197,6 @@ describe('Integration | Repository | Target-profile', () => {
       sinon.stub(skillDatasource, 'findByRecordIds').resolves([targetProfileSkill]);
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return an Array', async () => {
       // when
       const foundTargetProfiles = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(organizationId);
@@ -222,17 +205,16 @@ describe('Integration | Repository | Target-profile', () => {
       expect(foundTargetProfiles).to.be.an('array');
     });
 
-    it('should return all the target profile the organization can access (owned + public) but not outdated', async () => {
+    it('should return all the target profile the organization can access but not outdated', async () => {
       // when
       const foundTargetProfiles = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(organizationId);
 
       // then
       expect(foundTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
-      expect(foundTargetProfiles).to.have.lengthOf(4);
-      expect(foundTargetProfiles[0].name).to.equal('PIC - Diagnostic Initial');
-      expect(foundTargetProfiles[1].name).to.equal(organizationTargetProfile.name);
-      expect(foundTargetProfiles[2].name).to.equal(organizationTargetProfilePublic.name);
-      expect(foundTargetProfiles[3].name).to.equal(publicTargetProfile.name);
+      expect(foundTargetProfiles).to.have.lengthOf(3);
+      expect(foundTargetProfiles[0].name).to.equal(organizationTargetProfile.name);
+      expect(foundTargetProfiles[1].name).to.equal(organizationTargetProfilePublic.name);
+      expect(foundTargetProfiles[2].name).to.equal(publicTargetProfile.name);
     });
 
     it('should contain skills linked to every target profiles', () => {
@@ -267,10 +249,6 @@ describe('Integration | Repository | Target-profile', () => {
       sinon.stub(skillDatasource, 'findByRecordIds').resolves([skillAssociatedToTargetProfile]);
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return the target profile matching the campaign id', async () => {

@@ -13,8 +13,6 @@ describe('Acceptance | API | Competence Evaluations', () => {
     server = await createServer();
   });
 
-  afterEach(() => databaseBuilder.clean());
-
   describe('POST /api/competence-evaluations/start-or-resume', () => {
 
     const competenceId = 'recABCD123';
@@ -47,8 +45,7 @@ describe('Acceptance | API | Competence Evaluations', () => {
           airtableBuilder.cleanAll();
           await cache.flushAll();
           await knex('competence-evaluations').delete();
-          await knex('assessments').delete();
-          await databaseBuilder.clean();
+          return knex('assessments').delete();
         });
 
         it('should return 201 and the competence evaluation when it has been successfully created', async () => {
@@ -130,10 +127,6 @@ describe('Acceptance | API | Competence Evaluations', () => {
         url: `/api/competence-evaluations?filter[assessmentId]=${assessment.id}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return the competence-evaluation of the given assessmentId', async () => {

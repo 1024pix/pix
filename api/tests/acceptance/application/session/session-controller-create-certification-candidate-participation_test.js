@@ -10,10 +10,6 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
     server = await createServer();
   });
 
-  afterEach(() => {
-    return databaseBuilder.clean();
-  });
-
   describe('#createCandidateParticipation', () => {
     let options;
     let payload;

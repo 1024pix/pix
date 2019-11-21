@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../../test-helper');
+const { expect, knex, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -54,10 +54,9 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
       return insertUserWithRolePixMaster();
     });
 
-    afterEach(() => {
-      return knex('competence-marks').delete()
-        .then(() => knex('assessment-results').delete())
-        .then(() => cleanupUsersAndPixRolesTables());
+    afterEach(async () => {
+      await knex('competence-marks').delete();
+      return knex('assessment-results').delete();
     });
 
     before(() => { return knex('certification-courses').delete()

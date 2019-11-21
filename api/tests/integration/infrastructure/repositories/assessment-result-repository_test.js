@@ -11,9 +11,8 @@ describe('Integration | Repository | AssessmentResult', function() {
     let assessmentResultToSave;
     let assessmentResult;
 
-    afterEach(async () => {
-      await knex('assessment-results').where('id', assessmentResult.id).delete();
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return knex('assessment-results').where('id', assessmentResult.id).delete();
     });
 
     beforeEach(async () => {
@@ -59,10 +58,6 @@ describe('Integration | Repository | AssessmentResult', function() {
       competenceMarks2 = databaseBuilder.factory.buildCompetenceMark({ id: 2, assessmentResultId: assessmentResult.id });
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return the assessmentResult', async () => {

@@ -6,9 +6,8 @@ const moment = require('moment');
 
 describe('Integration | Repository | KnowledgeElementRepository', () => {
 
-  afterEach(async () => {
-    await knex('knowledge-elements').delete();
-    await databaseBuilder.clean();
+  afterEach(() => {
+    return knex('knowledge-elements').delete();
   });
 
   describe('#save', () => {
@@ -99,10 +98,6 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should find the knowledge elements associated with a given assessment', async () => {
       // when
       const knowledgeElementsFound = await KnowledgeElementRepository.findByAssessmentId(assessmentId);
@@ -145,10 +140,6 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     context('when there is no limit date', () => {
       it('should find the knowledge elements for smart placement assessment associated with a user id', async () => {
         // when
@@ -189,10 +180,6 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should find the knowledge elements grouped by competence id', async () => {
       // when
       const actualKnowledgeElementsGroupedByCompetenceId = await KnowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId });
@@ -211,7 +198,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
     const today = new Date('2018-08-01T12:34:56Z');
     const yesterday = moment(today).subtract(1, 'days').toDate();
 
-    beforeEach(async () => {
+    beforeEach(() => {
       // given
       userId = databaseBuilder.factory.buildUser().id;
       const userId_tmp = databaseBuilder.factory.buildUser().id;
@@ -227,11 +214,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
         { skillId: 'rec1', userId: userId_tmp, earnedPix: 3, status: 'invalidated' },
       ], (ke) => databaseBuilder.factory.buildKnowledgeElement(ke));
 
-      await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
+      return databaseBuilder.commit();
     });
 
     it('should return the right sum of Pix from user knowledge elements', async () => {
@@ -272,10 +255,6 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       });
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should find only the knowledge elements matching both userId and competenceId', async () => {

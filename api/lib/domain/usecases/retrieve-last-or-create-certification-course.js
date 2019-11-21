@@ -60,13 +60,14 @@ async function _startNewCertification({
     };
   } catch (err) {
     if (err instanceof NotFoundError) {
-      const personalInfo = { firstName: null, lastName: null, birthdate: null, birthplace: null };
+      const personalInfo = { firstName: null, lastName: null, birthdate: null, birthplace: null, externalId: null };
       const foundCandidate = await certificationCandidateRepository.findOneBySessionIdAndUserId({ sessionId, userId });
       if (foundCandidate) {
         personalInfo.firstName = foundCandidate.firstName;
         personalInfo.lastName = foundCandidate.lastName;
         personalInfo.birthdate = foundCandidate.birthdate;
         personalInfo.birthplace = foundCandidate.birthCity;
+        personalInfo.externalId = foundCandidate.externalId;
       }
 
       const newCertificationCourse = new CertificationCourse({
@@ -77,7 +78,8 @@ async function _startNewCertification({
       });
 
       const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
-      await _createAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id, assessmentRepository });
+      const assessment = await _createAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id, assessmentRepository });
+      savedCertificationCourse.assessment = assessment;
       return {
         created: true,
         certificationCourse: await certificationChallengesService.saveChallenges(certificationProfile.userCompetences, savedCertificationCourse),

@@ -32,6 +32,7 @@
         <tr>
           <th>Nom</th>
           <th>Prénom</th>
+          <th>Rôle</th>
         </tr>
       </thead>
       {{#if memberships}}
@@ -40,6 +41,7 @@
             <tr>
               <td>{{membership.user.lastName}}</td>
               <td>{{membership.user.firstName}}</td>
+              <td>{{membership.displayRole}}</td>
             </tr>
           {{/each}}
         </tbody>
