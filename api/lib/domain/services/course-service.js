@@ -1,7 +1,10 @@
 const _ = require('lodash');
-const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
 const Course = require('../models/Course');
-const { NotFoundError } = require('../../../lib/domain/errors');
+const { NotFoundError } = require('../../domain/errors');
+
+const courseRepository = require('../../infrastructure/repositories/course-repository');
+const { InfrastructureError } = require('../../infrastructure/errors');
+const logger = require('../../infrastructure/logger');
 
 module.exports = {
 
@@ -18,9 +21,11 @@ module.exports = {
         .then((airtableCourse) => {
           return new Course(airtableCourse);
         }).catch((err) => {
-          if ('MODEL_ID_NOT_FOUND' === err.error.type || 'NOT_FOUND' === err.error) {
+          logger.error(err);
+          if ('NOT_FOUND' === err.error || (_.has(err, 'error.type') && 'MODEL_ID_NOT_FOUND' === err.error.type)) {
             throw new NotFoundError();
           }
+          throw new InfrastructureError(err.message);
         });
     }
 
