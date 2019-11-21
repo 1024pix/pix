@@ -9,9 +9,24 @@
 }
 
 .session-finalizer__subtitle {
-
+  margin: 20px 0 32px 0;
 }
 
 .session-finalizer__button {
   margin-left: auto;
+}
+
+.app-modal-body{
+
+  &__attention {
+    color: #000;
+    font-weight: 500;
+    font-size: 1.2rem;
+  }
+
+  &__warning{
+    color: #39393A;
+    font-weight: 300;
+    font-size: 1em;
+  }
 }

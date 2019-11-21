@@ -3,16 +3,17 @@
     {{#link-to "authenticated.sessions.details" session.id class="icon-button session-details-content__return-button"}}
       {{fa-icon 'arrow-left'}}
     {{/link-to}}
-    <h1 class="page-title">Finaliser la session</h1>
+    <h1 class="page-title">Finaliser la session {{session.id}}</h1>
   </div>
   <div class="session-finalizer__subtitle">
-    <p>Pour finaliser la session, complétez les trois étapes puis validez.</p>
+    Pour finaliser la session, complétez les trois étapes puis validez.
   </div>
   <SessionFinalizationStepContainer
           @number="1"
           @title="Transmettre le PV de session"
-          @icon="paper-plane">
-  <SessionFinalizationFormbuilderLinkStep/>
+          @icon="/icons/session-finalization-send.svg"
+          @iconAlt="">
+    <SessionFinalizationFormbuilderLinkStep/>
   </SessionFinalizationStepContainer>
   <ActionButton
     class="session-finalizer__button"
