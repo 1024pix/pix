@@ -1,5 +1,5 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const { UserNotAuthorizedToAccessEntity, BadRequestError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntity, CertificationCandidateAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 const importCertificationCandidatesFromAttendanceSheet = require('../../../../lib/domain/usecases/import-certification-candidates-from-attendance-sheet');
 const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
 const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
@@ -66,7 +66,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           });
 
           // then
-          expect(result).to.be.an.instanceOf(BadRequestError);
+          expect(result).to.be.an.instanceOf(CertificationCandidateAlreadyLinkedToUserError);
         });
 
       });
