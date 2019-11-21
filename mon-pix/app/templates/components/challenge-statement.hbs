@@ -6,8 +6,7 @@
 
 {{#if challenge.illustrationUrl}}
   <div class="challenge-statement__illustration-section">
-    <img class="challenge-statement__illustration" src="{{ challenge.illustrationUrl }}"
-         alt="{{challenge.illustrationAlt}}">
+    {{img-wrapper src=challenge.illustrationUrl alt=challenge.illustrationAlt}}
   </div>
 {{/if}}
 

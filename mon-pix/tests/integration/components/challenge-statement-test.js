@@ -111,7 +111,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       await renderChallengeStatement();
 
       // then
-      expect(find('.challenge-statement__illustration')).to.not.exist;
+      expect(find('challenge-statement__illustration-section')).to.not.exist;
     });
   });
 
