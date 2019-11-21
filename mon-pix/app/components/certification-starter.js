@@ -1,8 +1,6 @@
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 
-import config from 'mon-pix/config/environment';
-
 export default Component.extend({
   store: service(),
   peeker: service(),
@@ -15,7 +13,6 @@ export default Component.extend({
   classNames: [],
 
   certificationCourse: null,
-  showCongratulationsBanner: !config.APP.isNewCertificationStartActive,
 
   actions: {
     async submit() {
@@ -41,10 +38,6 @@ export default Component.extend({
         this.set('isLoading', false);
       }
     },
-
-    closeBanner() {
-      this.set('showCongratulationsBanner', false);
-    }
   },
 
   async createCertificationCourseIfValid() {
