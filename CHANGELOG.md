@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.87.0 (21/11/2019)
+
+- [#848](https://github.com/1024pix/pix/pull/848) [FEATURE] Modification de certains textes dans la page de lancement de test de certification (PF-928).
+- [#833](https://github.com/1024pix/pix/pull/833) [FEATURE] Afficher le rôle des membres dans Pix Orga (PO-210).
+- [#844](https://github.com/1024pix/pix/pull/844) [BUGFIX] Afficher les prochaines notifications de succès après une fermeture (PF-913).
+- [#839](https://github.com/1024pix/pix/pull/839) [BUGFIX] Supprimer les barres de scroll affichées en trop sur Pix Orga (PO-271).
+- [#836](https://github.com/1024pix/pix/pull/836) [BUGFIX] L'identifiant externe n'était pas recopié depuis les données candidat vers le certification course à la création de celui ci (PA-120).
+- [#821](https://github.com/1024pix/pix/pull/821) [BUGFIX] Le compteur de questions en certification affiche NaN en cas de reprise (PF-909).
+- [#742](https://github.com/1024pix/pix/pull/742) [TECH] Rétablir le fonctionnement mode watch des tests auto (PF-924).
+
 ## v2.86.0 (18/11/2019)
 
 - [#831](https://github.com/1024pix/pix/pull/831) [FEATURE] Finaliser une session (PC-65).
