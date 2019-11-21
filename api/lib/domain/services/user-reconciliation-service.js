@@ -1,63 +1,59 @@
-const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('../services/validation-treatments');
-const { getLevenshteinRatio, getSmallestLevenshteinRatio } = require('../services/validation-comparison');
+const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
+const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
+const { pipe } = require('lodash/fp');
+const _ = require('lodash');
 
 const MAX_ACCEPTABLE_RATIO = 0.25;
 
-function _areTwoStringsCloseEnough(inputString, reference) {
-  return getLevenshteinRatio(inputString, reference) <= MAX_ACCEPTABLE_RATIO;
-}
-
-function _areTwoStringsCloseEnoughWithSeveralPossibilities(inputString, references) {
-  return getSmallestLevenshteinRatio(inputString, references) <= MAX_ACCEPTABLE_RATIO;
-}
-
-function _standardize(stringToStandardize) {
-  return removeSpecialCharacters(normalizeAndRemoveAccents(stringToStandardize));
-}
-
-function _findCandidatesMatchingWithUser(matchingUserCandidatesStandardized, standardizedUser, firstNameAlternative) {
-  return matchingUserCandidatesStandardized.filter((candidate) =>
-    candidate[firstNameAlternative] && candidate.lastName
-      && _areTwoStringsCloseEnough(standardizedUser.firstName, candidate[firstNameAlternative])
-      && _areTwoStringsCloseEnoughWithSeveralPossibilities(standardizedUser.lastName, [candidate.lastName, candidate.preferredLastName])
-  );
-}
-
-function _standardizeUserAndMatchingUserCandidates(user, matchingUserCandidates) {
-  const standardizedUser = {
-    firstName: _standardize(user.firstName),
-    lastName: _standardize(user.lastName)
-  };
-
-  const matchingUserCandidatesStandardized = matchingUserCandidates.map((candidate) => {
-    return {
-      id: candidate.id,
-      firstName: candidate.firstName ? _standardize(candidate.firstName) : null,
-      middleName: candidate.middleName ? _standardize(candidate.middleName) : null,
-      thirdName: candidate.thirdName ? _standardize(candidate.thirdName) : null,
-      lastName: candidate.lastName ? _standardize(candidate.lastName) : null,
-      preferredLastName: candidate.preferredLastName ? _standardize(candidate.preferredLastName) : null,
-    };
-  });
-
-  return { standardizedUser, matchingUserCandidatesStandardized };
-}
-
 function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
+  const standardizedUser = _standardizeUser(user);
+  const standardizedMatchingUserCandidates = _.map(matchingUserCandidates, _standardizeMatchingCandidate);
 
-  const { standardizedUser, matchingUserCandidatesStandardized } = _standardizeUserAndMatchingUserCandidates(user, matchingUserCandidates);
+  return _(['firstName', 'middleName', 'thirdName'])
+    .map(_findCandidatesMatchingWithUser(standardizedMatchingUserCandidates, standardizedUser))
+    .filter(containsOneElement)
+    .flatten()
+    .map('id')
+    .first() || null;
+}
 
-  const fieldNamesForMatching = ['firstName', 'middleName', 'thirdName'];
+function containsOneElement(arr) {
+  return _.size(arr) === 1;
+}
 
-  let foundCandidates;
-  for (const fieldName of fieldNamesForMatching) {
-    foundCandidates = _findCandidatesMatchingWithUser(matchingUserCandidatesStandardized, standardizedUser, fieldName);
+function _standardizeUser(user) {
+  return _(user)
+    .pick(['firstName', 'lastName'])
+    .mapValues(_standardize)
+    .value();
+}
 
-    if (foundCandidates.length === 1) {
-      return foundCandidates[0].id;
-    }
-  }
-  return null;
+function _standardizeMatchingCandidate(matchingUserCandidate) {
+  return _(matchingUserCandidate)
+    .pick(['id', 'firstName', 'middleName', 'thirdName', 'lastName', 'preferredLastName'])
+    .mapValues(_standardize)
+    .value();
+}
+
+function _standardize(propToStandardize) {
+  return _.isString(propToStandardize)
+    ? pipe(normalizeAndRemoveAccents, removeSpecialCharacters)(propToStandardize)
+    : propToStandardize;
+}
+
+// A given name refers to either a first name, middle name or third name
+function _findCandidatesMatchingWithUser(matchingUserCandidatesStandardized, standardizedUser) {
+  return (candidateGivenName) => matchingUserCandidatesStandardized
+    .filter(_candidateHasSimilarFirstName(standardizedUser, candidateGivenName))
+    .filter(_candidateHasSimilarLastName(standardizedUser));
+}
+
+function _candidateHasSimilarFirstName({ firstName: userFirstName }, candidateGivenName) {
+  return (candidate) => areTwoStringsCloseEnough(userFirstName, candidate[candidateGivenName], MAX_ACCEPTABLE_RATIO);
+}
+
+function _candidateHasSimilarLastName({ lastName }) {
+  return (candidate) => isOneStringCloseEnoughFromMultipleStrings(lastName, [candidate.lastName, candidate.preferredLastName], MAX_ACCEPTABLE_RATIO);
 }
 
 module.exports = {

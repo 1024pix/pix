@@ -1,6 +1,6 @@
 const _ = require('../../../lib/infrastructure/utils/lodash-utils');
 const { normalizeAndRemoveAccents: t1, removeSpecialCharacters: t2 } = require('./validation-treatments');
-const { getSmallestLevenshteinRatio: t3 } = require('./validation-comparison');
+const { getSmallestLevenshteinRatio: t3 } = require('./string-comparison-service');
 
 function treatmentT1T2T3(userAnswer, adminAnswers) {
 

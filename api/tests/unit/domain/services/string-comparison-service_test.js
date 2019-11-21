@@ -1,9 +1,15 @@
 const { expect } = require('../../../test-helper');
-const { _getSmallestLevenshteinDistance, getSmallestLevenshteinRatio, getLevenshteinRatio } = require('../../../../lib/domain/services/validation-comparison');
+const {
+  areTwoStringsCloseEnough,
+  getSmallestLevenshteinDistance,
+  getSmallestLevenshteinRatio,
+  getLevenshteinRatio,
+  isOneStringCloseEnoughFromMultipleStrings,
+} = require('../../../../lib/domain/services/string-comparison-service');
 
 describe('Unit | Service | Validation Comparison', function() {
 
-  describe('_getSmallestLevenshteinDistance', function() {
+  describe('getSmallestLevenshteinDistance', function() {
 
     describe('Should return levenshtein distance if only one alternative is given', function() {
 
@@ -16,7 +22,7 @@ describe('Unit | Service | Validation Comparison', function() {
 
       successfulCases.forEach(function(testCase) {
         it(`${testCase.should} for example arg1 ${JSON.stringify(testCase.arg1)} and arg2 ${JSON.stringify(testCase.arg2)} => ${testCase.output}`, function() {
-          expect(_getSmallestLevenshteinDistance(testCase.arg1, testCase.arg2)).to.equal(testCase.output);
+          expect(getSmallestLevenshteinDistance(testCase.arg1, testCase.arg2)).to.equal(testCase.output);
         });
       });
 
@@ -35,7 +41,7 @@ describe('Unit | Service | Validation Comparison', function() {
 
       successfulCases.forEach(function(testCase) {
         it(`${testCase.should} for example arg1 ${JSON.stringify(testCase.arg1)} and arg2 ${JSON.stringify(testCase.arg2)} => ${testCase.output}`, function() {
-          expect(_getSmallestLevenshteinDistance(testCase.arg1, testCase.arg2)).to.equal(testCase.output);
+          expect(getSmallestLevenshteinDistance(testCase.arg1, testCase.arg2)).to.equal(testCase.output);
         });
       });
     });
@@ -68,6 +74,70 @@ describe('Unit | Service | Validation Comparison', function() {
       it(testCase.scenario, () => {
         // then
         expect(getLevenshteinRatio(testCase.inputString, testCase.reference)).to.equal(testCase.expected);
+      });
+    });
+  });
+
+  describe('areTwoStringsCloseEnough', () => {
+    context('when the distance between two strings is more than MAX_ACCEPTABLE_RATIO', () => {
+      // given
+      const MAX_ACCEPTABLE_RATIO = 0;
+      const inputString = 'aaaaaa';
+      const referenceString = '12KBKHBHB65';
+
+      // when
+      const actual = areTwoStringsCloseEnough(inputString, referenceString, MAX_ACCEPTABLE_RATIO);
+
+      // then
+      it('should return false', () => {
+        expect(actual).to.be.false;
+      });
+    });
+
+    context('when the distance between two strings is equal or less than MAX_ACCEPTABLE_RATIO', () => {
+      // given
+      const MAX_ACCEPTABLE_RATIO = 1;
+      const inputString = 'aaaaaa';
+      const referenceString = 'àaaaaa';
+
+      // when
+      const actual = areTwoStringsCloseEnough(inputString, referenceString, MAX_ACCEPTABLE_RATIO);
+
+      // then
+      it('should return true', () => {
+        expect(actual).to.be.true;
+      });
+    });
+  });
+
+  describe('isOneStringCloseEnoughFromMultipleStrings', () => {
+    context('when the distance from every string referenced to the input is more than MAX_ACCEPTABLE_RATIO', () => {
+      // given
+      const MAX_ACCEPTABLE_RATIO = 0;
+      const inputString = 'aaaaaa';
+      const references = ['12KBKHBHB65', 'Jacques'];
+
+      // when
+      const actual = isOneStringCloseEnoughFromMultipleStrings(inputString, references, MAX_ACCEPTABLE_RATIO);
+
+      // then
+      it('should return false', () => {
+        expect(actual).to.be.false;
+      });
+    });
+
+    context('when the distance from one string referenced to the input is equal or less than MAX_ACCEPTABLE_RATIO', () => {
+      // given
+      const MAX_ACCEPTABLE_RATIO = 1;
+      const inputString = 'aaaaaa';
+      const references = ['àaaaaa', 'bbbbbbb', 'aaaaab'];
+
+      // when
+      const actual = isOneStringCloseEnoughFromMultipleStrings(inputString, references, MAX_ACCEPTABLE_RATIO);
+
+      // then
+      it('should return true', () => {
+        expect(actual).to.be.true;
       });
     });
   });
