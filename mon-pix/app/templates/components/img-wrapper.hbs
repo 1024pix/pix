@@ -1,0 +1,10 @@
+{{#if displayPlaceholder}}
+  <div class="img-wrapper__placeholder">
+    {{fa-icon 'image'}}
+  </div>
+{{/if}}
+
+<img src="{{src}}"
+     alt="{{alt}}"
+     class="challenge-statement__illustration {{hiddenClass}}"
+     onload={{action 'onImageReady'}}>
