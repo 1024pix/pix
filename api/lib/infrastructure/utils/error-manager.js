@@ -116,9 +116,6 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.WrongDateFormatError) {
     return new InfraErrors.BadRequestError(error.message);
   }
-  if (error instanceof DomainErrors.BadRequestError) {
-    return new InfraErrors.BadRequestError(error.message);
-  }
 
   return new InfraErrors.InfrastructureError(error.message);
 }

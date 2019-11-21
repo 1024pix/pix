@@ -357,17 +357,6 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 on BadRequestError', function() {
-      // given
-      const error = new DomainErrors.BadRequestError();
-
-      // when
-      const result = send(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-    });
-
   });
 
 });
