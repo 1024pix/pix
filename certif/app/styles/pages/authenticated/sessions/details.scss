@@ -117,6 +117,15 @@
   }
 }
 
+.session-details-buttons {
+  display: flex;
+  padding: 22px 30px;
+
+  &--push-right {
+    margin-left: auto;
+  }
+}
+
 .session-details__controls {
   display: flex;
   justify-content: space-between;
