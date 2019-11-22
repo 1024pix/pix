@@ -33,7 +33,7 @@ const SUBMIT_BUTTON_CONTENT = 'Je m\'inscris';
 const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
 
 const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
-const EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
+const EMPTY_EMAIL_ERROR_MESSAGE = 'Votre adresse électronique n’est pas valide.';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
 
 const userEmpty = EmberObject.create({});
