@@ -62,7 +62,7 @@ function _findFirstChallenge({ knowledgeElements, targetSkills, courseTubes }) {
 }
 
 function _pickRandomChallenge(skills) {
-  if (skills.length === 0) { return UNEXISTING_ITEM; }
+  if (_.isEmpty(skills)) { return UNEXISTING_ITEM; }
   const chosenSkill = _.sample(skills);
   return _.sample(chosenSkill.challenges);
 }

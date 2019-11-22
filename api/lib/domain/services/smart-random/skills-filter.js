@@ -26,7 +26,7 @@ function getFilteredSkillsForNextChallenge({ knowledgeElements, courseTubes, pre
 }
 
 function _getUntestedSkills(knowledgeElements, skills) {
-  return _.filter(skills, (skill) => !_skillAlreadyTested(skill, knowledgeElements));
+  return _.filter(skills, _skillNotAlreadyTested(knowledgeElements));
 }
 
 function _getPrioritySkills(courseTubes) {
@@ -53,9 +53,11 @@ function _getSkillsFromTubes(courseTubes) {
   return _.flatMap(courseTubes, (tube) => tube.skills);
 }
 
-function _skillAlreadyTested(skill, knowledgeElements) {
-  const alreadyTestedSkillIds = _.map(knowledgeElements, 'skillId');
-  return alreadyTestedSkillIds.includes(skill.id);
+function _skillNotAlreadyTested(knowledgeElements) {
+  return (skill) => {
+    const alreadyTestedSkillIds = _.map(knowledgeElements, 'skillId');
+    return !alreadyTestedSkillIds.includes(skill.id);
+  };
 }
 
 function _removeTimedSkillsIfNeeded(isLastChallengeTimed, targetSkills) {
