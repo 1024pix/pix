@@ -34,6 +34,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | Model | Challenge', ()
         embedUrl: 'https://github.page.io/pages/mon-epreuve.html',
         embedTitle: 'Epreuve de selection d’imprimante',
         embedHeight: 400,
+        illustrationAlt: 'texte alternatif à l\'image',
       };
 
       // when

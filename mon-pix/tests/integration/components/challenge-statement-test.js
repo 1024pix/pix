@@ -89,16 +89,18 @@ describe('Integration | Component | ChallengeStatement', function() {
   describe('Illustration section', function() {
     it('should display challenge illustration (and alt) if it exists', async function() {
       // given
-      addChallengeToContext(this, {
-        illustrationUrl: '/images/pix-logo.svg'
-      });
+      const challenge = {
+        illustrationUrl: '/images/pix-logo.svg',
+        illustrationAlt: 'texte alternatif'
+      };
+      addChallengeToContext(this, challenge);
 
       // when
       await renderChallengeStatement();
 
       // then
-      expect(find('.challenge-statement__illustration').src).to.match(/\/images\/pix-logo.svg$/);
-      expect(find('.challenge-statement__illustration').alt).to.equal('Illustration de l\'épreuve');
+      expect(find('.challenge-statement__illustration').src).to.contains(challenge.illustrationUrl);
+      expect(find('.challenge-statement__illustration').alt).to.equal(challenge.illustrationAlt);
     });
 
     it('should not display challenge illustration if it does not exist', async function() {
