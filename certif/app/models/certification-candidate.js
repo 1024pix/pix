@@ -9,4 +9,5 @@ export default DS.Model.extend({
   birthCountry: DS.attr('string'),
   externalId: DS.attr('string'),
   extraTimePercentage: DS.attr('number'),
+  isLinked: DS.attr('boolean'),
 });

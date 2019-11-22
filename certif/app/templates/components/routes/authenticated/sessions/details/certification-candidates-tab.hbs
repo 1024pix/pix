@@ -17,7 +17,8 @@
         </div>
       </div>
       <div class="panel-actions__button">
-        <a class="button button--link button--with-icon panel-actions__download-button"
+        <a data-test-id="attendance_sheet_download_button"
+           class="button button--link button--with-icon"
            href="{{session.urlToDownload}}" target="_blank" download>
           Télécharger (.ods){{fa-icon 'file-download'}}
         </a>
@@ -31,19 +32,37 @@
         <div class="panel-actions__title">Importer le PV de session</div>
         <div class="panel-actions__subtitle">
           Sélectionnez le PV de session préalablement rempli.
-          <br> <b>Attention, tout nouvel import efface la liste des candidats existante.</b>
+          <br> <strong>Attention, tout nouvel import efface la liste des candidats existante.</strong>
         </div>
+        {{#unless importAllowed}}
+          <div class="panel-actions__warning">
+              <br> <strong>{{fa-icon 'exclamation-circle' class="panel-actions__warning-icon"}}
+              La session a débuté, il n'est plus possible de modifier la liste des candidats.</strong>
+          </div>
+        {{/unless}}
       </div>
-      <div class="panel-actions__button">
-        {{#file-upload name="file-upload"
-          for="upload-attendance-sheet"
-          accept=".ods"
-          multiple=false
-          onfileadd=(action uploadCertificationCandidates)
-        }}
-        <span class="button button--with-icon panel-actions__upload-button" role="button" tabindex=0>Importer (.ods){{fa-icon 'cloud-upload-alt'}}</span>
-        {{/file-upload}}
-      </div>
+        {{#if importAllowed}}
+          <div class="panel-actions__button">
+            {{#file-upload name="file-upload"
+              for="upload-attendance-sheet"
+              accept=".ods"
+              multiple=false
+              onfileadd=(action importCertificationCandidates)
+            }}
+              <span data-test-id="attendance_sheet_upload_button"
+                    class="button button--with-icon"
+                    role="button"
+                    tabindex=0>Importer (.ods){{fa-icon 'cloud-upload-alt'}}</span>
+            {{/file-upload}}
+          </div>
+        {{else}}
+          <div class="panel-actions__button">
+            <span data-test-id="attendance_sheet_upload_button"
+                  class="button button--with-icon button--disabled"
+                  role="button"
+                  tabindex=0>Importer (.ods){{fa-icon 'cloud-upload-alt'}}</span>
+          </div>
+        {{/if}}
     </div>
   </div>
 </div>

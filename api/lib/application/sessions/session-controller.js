@@ -1,7 +1,9 @@
 const usecases = require('../../domain/usecases');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const certificationCandidateSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-serializer');
-const tokenService = require('../../../lib/domain/services/token-service');
+const tokenService = require('../../domain/services/token-service');
+const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
+const { BadRequestError } = require('../../infrastructure/errors');
 
 module.exports = {
 
@@ -61,7 +63,15 @@ module.exports = {
     const sessionId = request.params.id;
     const odsBuffer = request.payload.file;
 
-    await usecases.importCertificationCandidatesFromAttendanceSheet({ userId, sessionId, odsBuffer });
+    try {
+      await usecases.importCertificationCandidatesFromAttendanceSheet({ userId, sessionId, odsBuffer });
+    }
+    catch (err) {
+      if (err instanceof CertificationCandidateAlreadyLinkedToUserError) {
+        throw new BadRequestError(err.message);
+      }
+      throw err;
+    }
 
     return null;
   },

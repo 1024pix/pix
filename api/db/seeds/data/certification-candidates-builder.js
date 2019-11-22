@@ -29,7 +29,7 @@ module.exports = function sessionsBuilder({ databaseBuilder }) {
     externalId: null,
     extraTimePercentage: 0.3,
     sessionId: 1,
-    userId: 1,
+    userId: null,
   });
 
   databaseBuilder.factory.buildCertificationCandidate({
