@@ -7,11 +7,14 @@ export default Controller.extend({
   isLoading: false,
   notifications: service('notification-messages'),
 
+  showConfirmModal: false,
+
   actions: {
     finalizeSession() {
       this.set('isLoading', true);
       return this.model.finalize()
         .then(() => {
+          this.set('showConfirmModal', false);
           this.set('isLoading', false);
           this.transitionToRoute('authenticated.sessions.details', this.model.id);
 
@@ -24,5 +27,14 @@ export default Controller.extend({
           );
         });
     },
+
+    openModal() {
+      this.set('showConfirmModal', true);
+    },
+
+    closeModal() {
+      this.set('showConfirmModal', false);
+    },
+
   },
 });
