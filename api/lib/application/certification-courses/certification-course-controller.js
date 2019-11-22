@@ -24,16 +24,16 @@ module.exports = {
       .then(certificationSerializer.serializeFromCertificationCourse);
   },
 
-  save(request, h) {
+  async save(request, h) {
     const userId = request.auth.credentials.userId;
     const accessCode = request.payload.data.attributes['access-code'];
 
-    return usecases.retrieveLastOrCreateCertificationCourse({ accessCode, userId })
-      .then(({ created, certificationCourse }) => {
-        const serialized = certificationCourseSerializer.serialize(certificationCourse);
+    const { created, certificationCourse } =
+      await usecases.retrieveLastOrCreateCertificationCourse({ accessCode, userId });
 
-        return created ? h.response(serialized).created() : serialized;
-      });
+    const serialized = certificationCourseSerializer.serialize(certificationCourse);
+
+    return created ? h.response(serialized).created() : serialized;
   },
 
   async get(request) {
