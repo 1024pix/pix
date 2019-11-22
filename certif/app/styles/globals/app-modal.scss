@@ -1,0 +1,162 @@
+$pix-modal-border-radius: 5px;
+
+/* Structure & layout
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.pix-modal-wrapper {
+  z-index: 100;
+  font-size: 10px;
+
+  .pix-modal-dialog {
+    background: transparent;
+    padding: 10px;
+    box-shadow: none;
+    width: 90vw;
+
+    @include device-is('desktop') {
+      width: 800px;
+    }
+
+    &--wide {
+      @include device-is('desktop') {
+        width: 50vw;
+      }
+    }
+
+    .pix-modal__close-link {
+      color: $white;
+      text-align: right;
+      margin-bottom: 5px;
+      font-size: 1.2em;
+
+      &> a {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        text-decoration: none;
+        color: inherit;
+
+        &:hover,
+        &:active,
+        &:focus {
+          color: inherit;
+        }
+      }
+    }
+
+    .pix-modal__container {
+      border-radius: $pix-modal-border-radius;
+      background-color: $porcelain;
+      box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+      font-size: 1.6em;
+      position: relative;
+      margin: auto;
+
+      &--white {
+        background-color: $white;
+      }
+
+      &--with-padding {
+          padding: 4vh 4vw;
+      }
+
+      .pix-modal-header {
+        background: $white;
+        border-top-left-radius: $pix-modal-border-radius;
+        border-top-right-radius: $pix-modal-border-radius;
+
+        &__title {
+          margin: 0;
+          text-align: center;
+          padding: 30px;
+          font-family: $roboto;
+          font-size: 1.6rem;
+
+          &--thin {
+            font-weight: 300;
+          }
+        }
+
+        &__subtitle {
+          margin: 0;
+          text-align: center;
+          color: $nero;
+          font-family: $roboto;
+          font-weight: 400;
+          font-size: 1em;
+        }
+      }
+
+      .pix-modal-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+
+        &--with-padding {
+          padding: 20px 0 10px;
+        }
+      }
+
+      .pix-modal-footer {
+        border-bottom-left-radius: $pix-modal-border-radius;
+        border-bottom-right-radius: $pix-modal-border-radius;
+
+        &--with-centered-buttons {
+          padding: 8px 0 20px 0;
+          display: flex;
+          flex-direction: row-reverse;
+          justify-content: center;
+
+          >.button {
+            margin: 0 10px;
+          }
+        }
+
+        &--border {
+          border-top: 1px solid $alto;
+        }
+      }
+    }
+  }
+}
+
+/* Form & input
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.pix-modal__input {
+  padding: 15px;
+  border-radius: $pix-modal-border-radius;
+  background-color: $white;
+  border: 2px solid $alto;
+  color: #6a6d76;
+  letter-spacing: 0.2em;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+  outline: none;
+  text-align: center;
+
+  &:focus {
+    border-color: $dodger-blue;
+  }
+
+  @include device-is('tablet') {
+    width: auto;
+    text-align: left;
+  }
+}
+
+/* Overlay
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.ember-modal-overlay {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ember-modal-overlay.translucent {
+  background-color: rgba(red(#3e4149), green(#3e4149), blue(#3e4149), 0.95);
+}

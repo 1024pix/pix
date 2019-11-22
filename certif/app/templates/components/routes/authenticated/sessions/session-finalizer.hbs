@@ -18,7 +18,32 @@
   <ActionButton
     class="session-finalizer__button"
     @isLoading={{isLoading}}
-    @handleClick={{finalizeSession}} >
+    @handleClick={{openModal}} >
     Finaliser
   </ActionButton>
 </div>
+
+{{#if showConfirmModal}}
+  {{#app-modal containerClass="pix-modal-dialog--wide" onClose=closeModal }}
+
+    <div class="pix-modal__close-link">
+      <a href="#" data-test-id="finalize-session-modal__close-cross" {{action closeModal}}>Fermer
+        <img src="/icons/icon-close-modal.svg" alt="Fermer la fenêtre de confirmation" width="24" height="24">
+      </a>
+    </div>
+
+    <div class="pix-modal__container pix-modal__container--white pix-modal__container--with-padding">
+      <div class="pix-modal-body pix-modal-body--with-padding">
+        <div class="app-modal-body__attention">Vous êtes sur le point de finaliser cette session.</div>
+        <div class="app-modal-body__warning">
+          <p>Attention : il ne vous sera plus possible de modifier ces informations par la suite.</p>
+        </div>
+      </div>
+
+      <div class="pix-modal-footer pix-modal-footer--with-centered-buttons">
+        <button class="button button--big button--extra-thin button--red" {{action finalizeSession}}>Confirmer</button>
+        <button class="button button--regular button--extra-thin button--grey" {{action closeModal}}>Annuler</button>
+      </div>
+    </div>
+  {{/app-modal}}
+{{/if}}
