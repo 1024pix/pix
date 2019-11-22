@@ -52,8 +52,8 @@ function _filterSkillsByChallenges(skills, challenges) {
 function _findAnyChallenge({ challenges, knowledgeElements, targetSkills, courseTubes, isLastChallengeTimed }) {
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
   const availableSkills = getFilteredSkillsForNextChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, isLastChallengeTimed, targetSkills });
-  const maxRewardingChallenges = catAlgorithm.findMaxRewardingSkills({ availableSkills, predictedLevel, courseTubes, knowledgeElements });
-  return { nextChallenge: _pickRandomChallenge(maxRewardingChallenges), levelEstimated: predictedLevel };
+  const maxRewardingSkills = catAlgorithm.findMaxRewardingSkills({ availableSkills, predictedLevel, courseTubes, knowledgeElements });
+  return { nextChallenge: _pickRandomChallenge(maxRewardingSkills), levelEstimated: predictedLevel };
 }
 
 function _findFirstChallenge({ challenges, knowledgeElements, targetSkills, courseTubes }) {
