@@ -104,10 +104,10 @@ module.exports = {
       });
   },
 
-  findBy(filters) {
+  findByExternalIds(externalIds) {
     return BookshelfOrganization
-      .where(filters)
-      .fetchAll()
+      .where('externalId', 'in', externalIds)
+      .fetchAll({ columns: ['id', 'externalId'] })
       .then((organizations) => organizations.models.map(_toDomain));
   },
 
