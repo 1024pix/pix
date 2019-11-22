@@ -10,7 +10,7 @@ module.exports = { getNextChallenge };
 function getNextChallenge({ knowledgeElements, challenges, targetSkills, lastAnswer } = {}) {
 
   const isUserStartingTheTest = !lastAnswer;
-  const isLastChallengeTimed = _isLastAnswerWasOnTimedChallenge(lastAnswer);
+  const isLastChallengeTimed = _wasLastChallengeTimed(lastAnswer);
   const courseTubes = _findCourseTubes(targetSkills, challenges);
   const knowledgeElementsOfTargetSkills = knowledgeElements.filter((ke) => {
     return targetSkills.find((skill) => skill.id === ke.skillId);
@@ -20,8 +20,8 @@ function getNextChallenge({ knowledgeElements, challenges, targetSkills, lastAns
 
   // First challenge has specific rules
   const { nextChallenge, levelEstimated } = isUserStartingTheTest
-    ? _findFirstChallenge({ challenges, knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes })
-    : _findAnyChallenge({ challenges, knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes, isLastChallengeTimed });
+    ? _findFirstChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes })
+    : _findAnyChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes, isLastChallengeTimed });
 
   // Test is considered finished when no challenges are returned but we don't expose this detail
   return nextChallenge
@@ -29,7 +29,7 @@ function getNextChallenge({ knowledgeElements, challenges, targetSkills, lastAns
     : { hasAssessmentEnded: true, nextChallenge: null, levelEstimated };
 }
 
-function _isLastAnswerWasOnTimedChallenge(lastAnswer) {
+function _wasLastChallengeTimed(lastAnswer) {
   return (_.get(lastAnswer,'timeout') === null) ? false : true;
 }
 
@@ -49,15 +49,15 @@ function _filterSkillsByChallenges(skills, challenges) {
   return skillsWithChallenges;
 }
 
-function _findAnyChallenge({ challenges, knowledgeElements, targetSkills, courseTubes, isLastChallengeTimed }) {
+function _findAnyChallenge({ knowledgeElements, targetSkills, courseTubes, isLastChallengeTimed }) {
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
-  const availableSkills = getFilteredSkillsForNextChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, isLastChallengeTimed, targetSkills });
+  const availableSkills = getFilteredSkillsForNextChallenge({ knowledgeElements, courseTubes, predictedLevel, isLastChallengeTimed, targetSkills });
   const maxRewardingSkills = catAlgorithm.findMaxRewardingSkills({ availableSkills, predictedLevel, courseTubes, knowledgeElements });
   return { nextChallenge: _pickRandomChallenge(maxRewardingSkills), levelEstimated: predictedLevel };
 }
 
-function _findFirstChallenge({ challenges, knowledgeElements, targetSkills, courseTubes }) {
-  const filteredSkillsForFirstChallenge = getFilteredSkillsForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills });
+function _findFirstChallenge({ knowledgeElements, targetSkills, courseTubes }) {
+  const filteredSkillsForFirstChallenge = getFilteredSkillsForFirstChallenge({ knowledgeElements, courseTubes, targetSkills });
   return { nextChallenge: _pickRandomChallenge(filteredSkillsForFirstChallenge), levelEstimated: 2 };
 }
 
