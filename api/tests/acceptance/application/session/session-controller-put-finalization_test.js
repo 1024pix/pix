@@ -19,7 +19,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
     examiner: 'Forster Nakamura',
     room: 'B',
     time: '14:40:00',
-    status: 'created',
+    status: 'started',
   };
 
   beforeEach(async () => {
@@ -105,7 +105,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
               'date': sessionDomain.date,
               'time': sessionDomain.time,
               'room': sessionDomain.room,
-              'status': 'completed',
+              'status': 'finalized',
             },
           },
         };
