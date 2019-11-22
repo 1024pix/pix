@@ -69,18 +69,19 @@ function _pickRandomChallenge(skills) {
 
 function _getSkillsWithAddedInformations({ targetSkills, filteredChallenges }) {
   const skillsWithInformation =  _.map(targetSkills, (skill) => {
-    skill.challenges = _.filter(filteredChallenges, (challenge) => challenge.hasSkill(skill));
-    if (skill.challenges.length === 0) {
+    const challenges = _.filter(filteredChallenges, (challenge) => challenge.hasSkill(skill));
+    const [ firstChallenge ] = challenges;
+    if (!firstChallenge) {
       return null;
     }
-    skill.linkedSkills = [];
-    if (skill.challenges[0].skills.length > 1) {
-      skill.linkedSkills = _.filter(skill.challenges[0].skills, (skillFromChallenge) => skillFromChallenge.id != skill.id);
-    }
-    skill.timed = skill.challenges[0].isTimed();
-    return skill;
+    const skillCopy = Object.create(skill);
+    return Object.assign(skillCopy, {
+      challenges,
+      linkedSkills: _.reject(firstChallenge.skills, { id: skill.id }),
+      timed: firstChallenge.isTimed(),
+    });
   });
-  return _.without(skillsWithInformation, null);
+  return _.compact(skillsWithInformation);
 }
 
 function _removeUnpublishedChallenges(challenges) {
