@@ -1,6 +1,6 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 
-const createServer = require('../../../server');
+const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | sessions-controller', () => {
 
