@@ -2,8 +2,6 @@
 // https://www.npmjs.com/package/dotenv#usage
 require('dotenv').config();
 
-const { DomainError } = require('./lib/domain/errors');
-const { InfrastructureError } = require('./lib/infrastructure/errors');
 const errorManager = require('./lib/infrastructure/utils/error-manager');
 
 const Hapi = require('hapi');
@@ -35,7 +33,7 @@ const createServer = async () => {
   const preResponse = function(request, h) {
     const response = request.response;
 
-    if (response instanceof DomainError || response instanceof InfrastructureError) {
+    if (response instanceof Error) {
       return errorManager.send(h, response);
     }
 
