@@ -97,6 +97,7 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(usecases, 'getSession');
       sinon.stub(sessionSerializer, 'serialize');
       request = {
+        auth: { credentials: { userId } },
         params: {
           id: sessionId.toString(),
         }
@@ -113,7 +114,7 @@ describe('Unit | Controller | sessionController', () => {
         await sessionController.get(request, hFake);
 
         // then
-        expect(usecases.getSession).to.have.been.calledWith({ sessionId });
+        expect(usecases.getSession).to.have.been.calledWith({ userId, sessionId });
       });
 
       it('should serialize session informations', async function() {
