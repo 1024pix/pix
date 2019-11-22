@@ -72,10 +72,10 @@ function _clearSkillsIfNotRewarding(skills) {
 
 function _computeReward({ skill, predictedLevel, courseTubes, knowledgeElements }) {
   const proba = _probaOfCorrectAnswer(predictedLevel, skill.difficulty);
-  const nbExtraSkillsIfSolved = _getNewSkillsInfoIfSkillSolved(skill, courseTubes, knowledgeElements).length;
-  const nbFailedSkillsIfUnsolved = _getNewSkillsInfoIfSkillUnsolved(skill, courseTubes, knowledgeElements).length;
+  const extraSkillsIfSolvedCount = _getNewSkillsInfoIfSkillSolved(skill, courseTubes, knowledgeElements).length;
+  const failedSkillsIfUnsolvedCount = _getNewSkillsInfoIfSkillUnsolved(skill, courseTubes, knowledgeElements).length;
 
-  return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
+  return proba * extraSkillsIfSolvedCount + (1 - proba) * failedSkillsIfUnsolvedCount;
 }
 
 // The probability P(gap) of giving the correct answer is given by the "logistic function"

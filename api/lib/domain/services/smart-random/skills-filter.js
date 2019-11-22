@@ -3,6 +3,7 @@ const { pipe } = require('lodash/fp');
 
 const MAX_LEVEL_TO_BE_AN_EASY_TUBE = 3;
 const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
+const MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL = 2;
 
 module.exports = {
   getFilteredSkillsForFirstChallenge,
@@ -41,7 +42,7 @@ function _getPrioritySkills(courseTubes) {
 function _keepSkillsFromEasyTubes(courseTubes, targetSkills) {
   const skillsFromEasyTubes = _getPrioritySkills(courseTubes);
   const availableSkillsFromEasyTubes = _.intersectionBy(targetSkills, skillsFromEasyTubes, 'id');
-  if (availableSkillsFromEasyTubes.length > 0) {
+  if (!_.isEmpty(availableSkillsFromEasyTubes)) {
     return availableSkillsFromEasyTubes;
   }
   return targetSkills;
@@ -88,6 +89,6 @@ function _removeTooDifficultSkills(predictedLevel, targetSkills) {
 }
 
 function _isSkillTooHard(skill, predictedLevel) {
-  return skill.difficulty - predictedLevel > 2;
+  return skill.difficulty - predictedLevel > MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL;
 }
 

@@ -662,7 +662,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         ];
 
         sinon.stub(_, 'sample').callsFake(function fakeFn(array) {
-          if(array.includes(challengeUrl_2)) {
+          if (array.includes(challengeUrl_2)) {
             return challengeUrl_2;
           }
           return array[0];
