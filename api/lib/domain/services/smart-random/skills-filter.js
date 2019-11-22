@@ -40,7 +40,7 @@ function _getPrioritySkills(courseTubes) {
 
 function _keepSkillsFromEasyTubes(courseTubes, targetSkills) {
   const skillsFromEasyTubes = _getPrioritySkills(courseTubes);
-  const availableSkillsFromEasyTubes = _.intersectionBy(skillsFromEasyTubes, targetSkills, 'id');
+  const availableSkillsFromEasyTubes = _.intersectionBy(targetSkills, skillsFromEasyTubes, 'id');
   if (availableSkillsFromEasyTubes.length > 0) {
     return availableSkillsFromEasyTubes;
   }

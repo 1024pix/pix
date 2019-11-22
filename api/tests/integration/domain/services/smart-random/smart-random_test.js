@@ -26,7 +26,7 @@ function duplicateChallengeOfSameDifficulty(challenge) {
 describe('Integration | Domain | Stategies | SmartRandom', () => {
   let challenges, targetSkills, knowledgeElements, lastAnswer, web1, web2, web3, web4, web5,
     web6, web7, url2, url3, url4, url5, url6, rechInfo5, rechInfo7, info2, cnil2, challengeWeb_1,
-    challengeWeb_2, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6, challengeWeb_7,
+    challengeWeb_2,challengeWeb_2_3, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6, challengeWeb_7,
     challengeUrl_2, challengeUrl_3, challengeUrl_4, challengeUrl_5, challengeUrl_6, challengeRechInfo_5,
     challengeRechInfo_7, challengeInfo_2, challengeCnil_2;
 
@@ -56,6 +56,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     // Challenges
     challengeWeb_1 = domainBuilder.buildChallenge({ id: 'recweb1', skills: [web1] });
     challengeWeb_2 = domainBuilder.buildChallenge({ id: 'recweb2', skills: [web2] });
+    challengeWeb_2_3 = domainBuilder.buildChallenge({ id: 'recweb23', skills: [web2, web3] });
     challengeWeb_3 = domainBuilder.buildChallenge({ id: 'recweb3', skills: [web3] });
     challengeWeb_4 = domainBuilder.buildChallenge({ id: 'recweb4', skills: [web4] });
     challengeWeb_5 = domainBuilder.buildChallenge({ id: 'recweb5', skills: [web5] });
@@ -643,5 +644,37 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         _.sample.restore();
       });
     });
+
+    context('when skills is linked to another skills in challenge should have a better rewarding', () => {
+      it('should return correctly a next challenge', function() {
+        // given
+        targetSkills = [url2, web2, web3];
+        challenges = [challengeWeb_2_3, challengeUrl_2];
+        lastAnswer = [
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.KO })
+        ];
+        knowledgeElements = [
+          domainBuilder.buildKnowledgeElement({
+            skillId: web1.id,
+            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
+            source: 'indirect'
+          })
+        ];
+
+        sinon.stub(_, 'sample').callsFake(function fakeFn(array) {
+          if(array.includes(challengeUrl_2)) {
+            return challengeUrl_2;
+          }
+          return array[0];
+        });
+
+        // when
+        const { nextChallenge } = SmartRandom.getNextChallenge({ targetSkills, challenges, knowledgeElements, lastAnswer });
+
+        // then
+        expect(nextChallenge).to.deep.equal(challengeWeb_2_3);
+      });
+    });
+
   });
 });
