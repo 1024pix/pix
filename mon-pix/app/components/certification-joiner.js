@@ -40,8 +40,19 @@ export default Component.extend({
 
   joinCertificationSession() {
     const { firstName, lastName, birthdate, sessionId } = this;
+
     return this.store
-      .createRecord('certification-candidate', { firstName, lastName, birthdate, sessionId })
+      .createRecord('certification-candidate', {
+        sessionId,
+        birthdate,
+        firstName: firstName
+          ? firstName.trim()
+          : null,
+        lastName:
+        lastName
+          ? lastName.trim()
+          : null,
+      })
       .save({ adapterOptions: { joinSession: true, sessionId } });
   },
 
@@ -60,7 +71,10 @@ export default Component.extend({
         await this.joinCertificationSession();
         this.success();
       } catch (err) {
-        this.getCurrentCandidate().deleteRecord();
+        const currentCandidate = this.getCurrentCandidate();
+        if (currentCandidate) {
+          currentCandidate.deleteRecord();
+        }
         this.set('isLoading', false);
         this.set('errorMessage',
           'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
