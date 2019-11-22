@@ -58,6 +58,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
           'birth-country': certificationCandidate.birthCountry,
           'external-id': certificationCandidate.externalId,
           'extra-time-percentage': certificationCandidate.extraTimePercentage,
+          'is-linked': true,
         };
         userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });

@@ -447,4 +447,55 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
+  describe('#doesLinkedCertificationCandidateInSessionExist', () => {
+    let sessionId;
+
+    beforeEach(() => {
+      sessionId = databaseBuilder.factory.buildSession().id;
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return databaseBuilder.clean();
+    });
+
+    context('when there are candidates in the session that are already linked to a user', () => {
+
+      beforeEach(() => {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: null });
+        return databaseBuilder.commit();
+      });
+
+      it('should return true', async () => {
+        // when
+        const linkedCandidateExists = await certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist({ sessionId });
+
+        // then
+        expect(linkedCandidateExists).to.be.true;
+      });
+    });
+
+    context('when there are no candidate in the session that are linked to any user', () => {
+
+      beforeEach(() => {
+        // given
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: null });
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: null });
+        return databaseBuilder.commit();
+      });
+
+      it('should return false', async () => {
+        // when
+        const linkedCandidateExists = await certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist({ sessionId });
+
+        // then
+        expect(linkedCandidateExists).to.be.false;
+      });
+    });
+
+  });
+
 });

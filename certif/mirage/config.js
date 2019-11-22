@@ -61,11 +61,15 @@ export default function() {
   this.get('/sessions/:id');
 
   this.patch('/sessions/:id');
-  
+
   this.post('/sessions/:id/certification-candidates/import', upload(function(_, request) {
     const { name } = request.requestBody.file;
-    return name === 'invalid-file'
-      ? new Response(422)
-      : new Response(204);
+    if (name === 'invalid-file') {
+      return new Response(422, { some: 'header' }, { errors: [ 'generic error'] });
+    }
+    if (name === 'forbidden-import') {
+      return new Response(403, { some: 'header' }, { errors: [{ status: '403', title: 'Forbidden', detail: 'At least one candidate is already linked to a user' }] });
+    }
+    return new Response(204);
   }));
 }

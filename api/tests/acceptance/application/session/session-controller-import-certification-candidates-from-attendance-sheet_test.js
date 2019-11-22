@@ -206,6 +206,46 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
 
     });
 
+    context('when at least one candidate is already linked to a user', () => {
+
+      const odsFileName = 'files/import-certification-candidates-test-ok.ods';
+      const odsFilePath = `${__dirname}/${odsFileName}`;
+      let options;
+
+      beforeEach(async () => {
+        // given
+        const form = new FormData();
+        form.append('file', fs.createReadStream(odsFilePath), { knownLength: fs.statSync(odsFilePath).size });
+        const payload = await streamToPromise(form);
+        const authHeader = generateValidRequestAuthorizationHeader(user.id);
+        const token = authHeader.replace('Bearer ', '');
+        const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
+        options = {
+          method: 'POST',
+          url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
+          headers,
+          payload,
+        };
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed, userId });
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
+
+      it('should respond with a 400 when user cant import the candidates', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+    });
+
   });
 
 });
