@@ -27,6 +27,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         skills: [new Skill('recUDrCWD76fp5MsE')],
         validator: undefined,
         competenceId: 'recsvLz0W2ShyfD63',
+        illustrationAlt: 'Texte alternatif à l\'image',
       };
 
       // when

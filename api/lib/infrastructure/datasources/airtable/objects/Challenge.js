@@ -19,6 +19,7 @@ class Challenge {
     embedUrl,
     embedTitle,
     embedHeight,
+    illustrationAlt,
   } = {}) {
     this.id = id;
     this.instruction = instruction;
@@ -39,6 +40,7 @@ class Challenge {
     this.embedUrl = embedUrl;
     this.embedTitle = embedTitle;
     this.embedHeight = embedHeight;
+    this.illustrationAlt = illustrationAlt;
   }
 
   static getAirtableName() {
@@ -65,6 +67,7 @@ class Challenge {
       'Embed URL',
       'Embed title',
       'Embed height',
+      'Texte alternatif illustration',
     ];
   }
 
@@ -109,7 +112,8 @@ class Challenge {
       timer,
       illustrationUrl,
       attachments,
-      competenceId
+      competenceId,
+      illustrationAlt: airtableEpreuveObject.get('Texte alternatif illustration'),
     });
   }
 }
