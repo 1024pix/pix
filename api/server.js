@@ -2,8 +2,6 @@
 // https://www.npmjs.com/package/dotenv#usage
 require('dotenv').config();
 
-const { DomainError } = require('./lib/domain/errors');
-const { InfrastructureError } = require('./lib/infrastructure/errors');
 const errorManager = require('./lib/infrastructure/utils/error-manager');
 
 const Hapi = require('hapi');
@@ -12,6 +10,7 @@ const routes = require('./lib/routes');
 const plugins = require('./lib/plugins');
 const config = require('./lib/config');
 const security = require('./lib/infrastructure/security');
+const logger = require('./lib/infrastructure/logger');
 
 const createServer = async () => {
 
@@ -35,8 +34,12 @@ const createServer = async () => {
   const preResponse = function(request, h) {
     const response = request.response;
 
-    if (response instanceof DomainError || response instanceof InfrastructureError) {
-      return errorManager.send(h, response);
+    if (response instanceof Error) {
+      logger.error(response);
+
+      if (errorManager.canSendErrorToClient(response)) {
+        return errorManager.send(h, response);
+      }
     }
 
     return h.continue;

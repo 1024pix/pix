@@ -2,13 +2,15 @@ const DomainErrors = require('../../domain/errors');
 const InfraErrors = require('../errors');
 const JSONAPI = require('../../interfaces/jsonapi');
 const errorSerializer = require('../serializers/jsonapi/error-serializer');
-const logger = require('../logger');
 
-module.exports = { send };
+module.exports = { send, canSendErrorToClient };
+
+function canSendErrorToClient(error) {
+  return error instanceof DomainErrors.DomainError
+    || error instanceof InfraErrors.InfrastructureError;
+}
 
 function send(h, error) {
-  logger.error(error);
-
   if (error instanceof DomainErrors.EntityValidationError) {
     return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
   }
