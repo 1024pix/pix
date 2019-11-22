@@ -1,6 +1,6 @@
 const statuses = {
-  CREATED: 'created',
-  COMPLETED: 'completed',
+  STARTED: 'started',
+  FINALIZED: 'finalized',
 };
 
 class Session {
