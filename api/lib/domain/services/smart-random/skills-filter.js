@@ -1,9 +1,6 @@
 const _ = require('lodash');
 const { pipe } = require('lodash/fp');
-
-const MAX_LEVEL_TO_BE_AN_EASY_TUBE = 3;
-const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
-const MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL = 2;
+const constants  = require('../../constants');
 
 module.exports = {
   getFilteredSkillsForFirstChallenge,
@@ -49,7 +46,7 @@ function _keepSkillsFromEasyTubes(courseTubes, targetSkills) {
 }
 
 function _getEasyTubes(courseTubes) {
-  return _.filter(courseTubes, (tube) => tube.getHardestSkill().difficulty <= MAX_LEVEL_TO_BE_AN_EASY_TUBE);
+  return _.filter(courseTubes, (tube) => tube.getHardestSkill().difficulty <= constants.MAX_LEVEL_TO_BE_AN_EASY_TUBE);
 }
 
 function _getSkillsFromTubes(courseTubes) {
@@ -74,7 +71,7 @@ function _focusOnDefaultLevel(targetSkills) {
     return targetSkills;
   }
 
-  const remapDifficulty = (difficulty) => difficulty == DEFAULT_LEVEL_FOR_FIRST_CHALLENGE ? Number.MIN_VALUE : difficulty;
+  const remapDifficulty = (difficulty) => difficulty == constants.DEFAULT_LEVEL_FOR_FIRST_CHALLENGE ? Number.MIN_VALUE : difficulty;
   const [, potentialFirstSkills] = _(targetSkills)
     .groupBy('difficulty')
     .entries()
@@ -89,6 +86,6 @@ function _removeTooDifficultSkills(predictedLevel, targetSkills) {
 }
 
 function _isSkillTooHard(skill, predictedLevel) {
-  return skill.difficulty - predictedLevel > MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL;
+  return skill.difficulty - predictedLevel > constants.MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL;
 }
 
