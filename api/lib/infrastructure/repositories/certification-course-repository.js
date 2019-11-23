@@ -87,7 +87,16 @@ module.exports = {
         return Promise.reject(err);
       });
 
-  }
+  },
+
+  async findIdsBySessionId(sessionId) {
+    const result = await CertificationCourseBookshelf
+      .where({ sessionId })
+      .orderBy('createdAt', 'desc')
+      .fetchAll({ columns: ['id'] });
+
+    return _.map(result.models, 'id');
+  },
 
 };
 
