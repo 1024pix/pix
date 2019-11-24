@@ -41,11 +41,13 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         },
         relationships: {
           certifications: {
-            data: null
+            links: {
+              related: '/api/sessions/12/certifications',
+            }
           },
           'certification-candidates': {
-            'links': {
-              'related': '/api/sessions/12/certification-candidates',
+            links: {
+              related: '/api/sessions/12/certification-candidates',
             }
           },
         }
@@ -62,66 +64,6 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       // then
       expect(json).to.deep.equal(jsonApiSession);
     });
-
-    it('should convert certifications relationships into JSON API relationships', () => {
-      // given
-      const certification1 = CertificationCourse.fromAttributes({ id: 1 });
-      const certification2 = CertificationCourse.fromAttributes({ id: 2 });
-      const associatedCertifications = [certification1, certification2];
-      const session = new Session({
-        id: '12',
-        certificationCenter: 'Université de dressage de loutres',
-        certificationCenterId: 42,
-        address: 'Nice',
-        room: '28D',
-        examiner: 'Antoine Toutvenant',
-        date: '2017-01-20',
-        time: '14:30',
-        description: '',
-        accessCode: '',
-        status: 'created',
-        certifications: associatedCertifications,
-        examinerComment: 'It was a fine session my dear',
-      });
-
-      // when
-      const JSONAPISession = serializer.serialize(session);
-
-      // then
-      return expect(JSONAPISession).to.deep.equal({
-        data: {
-          id: '12',
-          type: 'sessions',
-          attributes: {
-            'certification-center': 'Université de dressage de loutres',
-            address: 'Nice',
-            room: '28D',
-            'access-code': '',
-            examiner: 'Antoine Toutvenant',
-            date: '2017-01-20',
-            time: '14:30',
-            description: '',
-            status: 'created',
-            'examiner-comment': 'It was a fine session my dear',
-          },
-          relationships: {
-            certifications: {
-              data: [
-                { type: 'certifications', id: '1' },
-                { type: 'certifications', id: '2' }
-              ]
-            },
-            'certification-candidates': {
-              'links': {
-                'related': '/api/sessions/12/certification-candidates',
-              }
-            },
-          }
-        }
-      });
-
-    });
-
   });
 
   describe('#deserialize()', function() {
