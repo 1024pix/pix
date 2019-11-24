@@ -25,7 +25,13 @@ module.exports = {
         'examinerComment',
       ],
       certifications : {
-        ref: ['id']
+        ref: ['id'],
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/sessions/${parent.id}/certifications`;
+          }
+        }
       },
       certificationCandidates: {
         ref: 'id',
