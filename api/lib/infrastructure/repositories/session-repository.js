@@ -19,77 +19,80 @@ function _toDomain(bookshelfSession) {
 }
 
 module.exports = {
-  save: (sessionToBeSaved) => {
-    sessionToBeSaved = _.omit(sessionToBeSaved, ['certifications', 'certificationCandidates']);
+  save: async (sessionData) => {
+    sessionData = _.omit(sessionData, ['certifications', 'certificationCandidates']);
 
-    return new BookshelfSession(sessionToBeSaved)
-      .save()
-      .then(_toDomain);
+    const newSession = await new BookshelfSession(sessionData).save();
+    return _toDomain(newSession);
   },
 
-  isSessionCodeAvailable: (accessCode) => {
-    return BookshelfSession
+  isSessionCodeAvailable: async (accessCode) => {
+    const sessionWithAccessCode = await BookshelfSession
       .where({ accessCode })
-      .fetch({})
-      .then((result) => !result);
+      .fetch({});
+
+    return !sessionWithAccessCode;
   },
 
-  isFinalized: (id) => {
-    return BookshelfSession
+  isFinalized: async (id) => {
+    const session = await BookshelfSession
       .where({ id, status: statuses.FINALIZED })
-      .fetch({ columns: 'id' })
-      .then((result) => Boolean(result));
+      .fetch({ columns: 'id' });
+    return Boolean(session);
   },
 
-  getByAccessCode: (accessCode) => {
-    return BookshelfSession
-      .where({ accessCode })
-      .fetch({ require: true })
-      .then(_toDomain)
-      .catch((error) => {
-        if (error instanceof BookshelfSession.NotFoundError) {
-          throw new NotFoundError();
-        }
-        throw error;
-      });
+  getByAccessCode: async (accessCode) => {
+    try {
+      const sessionWithAccessCode = await BookshelfSession
+        .where({ accessCode })
+        .fetch({ require: true });
+      return _toDomain(sessionWithAccessCode);
+    } catch (err) {
+      if (err instanceof BookshelfSession.NotFoundError) {
+        throw new NotFoundError();
+      }
+      throw err;
+    }
   },
 
-  get(idSession) {
-    return BookshelfSession
-      .where({ id: idSession })
-      .fetch({ require: true, withRelated: ['certificationCourses'] })
-      .then(_toDomain)
-      .catch((error) => {
-        if (error instanceof BookshelfSession.NotFoundError) {
-          throw new NotFoundError();
-        }
-        throw error;
-      });
+  async get(idSession) {
+    try {
+      const session = await BookshelfSession
+        .where({ id: idSession })
+        .fetch({ require: true, withRelated: ['certificationCourses'] });
+      return _toDomain(session);
+    } catch (err) {
+      if (err instanceof BookshelfSession.NotFoundError) {
+        throw new NotFoundError();
+      }
+      throw err;
+    }
   },
 
-  getWithCertificationCandidates(idSession) {
-    return BookshelfSession
-      .where({ id: idSession })
-      .fetch({ require: true, withRelated: [
-        {
-          'certificationCandidates': function(qb) {
-            qb.select(Bookshelf.knex.raw('*'));
-            qb.orderByRaw('LOWER("certification-candidates"."lastName") asc');
-            qb.orderByRaw('LOWER("certification-candidates"."firstName") asc');
+  async getWithCertificationCandidates(idSession) {
+    try {
+      const session = await BookshelfSession
+        .where({ id: idSession })
+        .fetch({ require: true, withRelated: [
+          {
+            'certificationCandidates': function(qb) {
+              qb.select(Bookshelf.knex.raw('*'));
+              qb.orderByRaw('LOWER("certification-candidates"."lastName") asc');
+              qb.orderByRaw('LOWER("certification-candidates"."firstName") asc');
+            }
           }
-        }
-      ]
-      })
-      .then(_toDomain)
-      .catch((error) => {
-        if (error instanceof BookshelfSession.NotFoundError) {
-          throw new NotFoundError();
-        }
-        throw error;
-      });
+        ]
+        });
+      return _toDomain(session);
+    } catch (err) {
+      if (err instanceof BookshelfSession.NotFoundError) {
+        throw new NotFoundError();
+      }
+      throw err;
+    }
   },
 
-  update(session) {
+  async update(session) {
     const sessionDataToUpdate = _.pick(session, [
       'address',
       'room',
@@ -102,57 +105,58 @@ module.exports = {
       'examinerComment',
     ]);
 
-    return new BookshelfSession({ id: session.id })
-      .save(sessionDataToUpdate, { patch: true })
-      .then((model) => model.refresh())
-      .then(_toDomain);
+    let updatedSession = await new BookshelfSession({ id: session.id })
+      .save(sessionDataToUpdate, { patch: true, method: 'update' });
+    updatedSession = await updatedSession.refresh();
+    return _toDomain(updatedSession);
   },
 
-  find() {
-    return BookshelfSession
+  async find() {
+    const foundSessions = await BookshelfSession
       .query((qb) => {
         qb.orderBy('createdAt', 'desc')
           .limit(10); // remove after pagination
       })
-      .fetchAll({})
-      .then((sessions) => sessions.map(_toDomain));
+      .fetchAll({});
+
+    return foundSessions.map(_toDomain);
   },
 
-  findByCertificationCenterId(certificationCenterId) {
-    return BookshelfSession
+  async findByCertificationCenterId(certificationCenterId) {
+    const foundSessions = await BookshelfSession
       .where({ certificationCenterId })
       .query((qb) => {
         qb.orderBy('date', 'desc');
         qb.orderBy('time', 'desc');
       })
-      .fetchAll({})
-      .then((sessions) => sessions.map(_toDomain));
+      .fetchAll({});
+
+    return foundSessions.map(_toDomain);
   },
 
-  ensureUserHasAccessToSession(userId, sessionId) {
-    return BookshelfSession
-      .where({ 'sessions.id': sessionId, 'certification-center-memberships.userId': userId })
-      .query((qb) => {
-        qb.innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId');
-        qb.innerJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id');
-      })
-      .fetch({
-        require: true
-      })
-      .catch(() => {
-        throw new UserNotAuthorizedToAccessEntity(sessionId);
-      });
+  async ensureUserHasAccessToSession(userId, sessionId) {
+    try {
+      await BookshelfSession
+        .where({ 'sessions.id': sessionId, 'certification-center-memberships.userId': userId })
+        .query((qb) => {
+          qb.innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId');
+          qb.innerJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id');
+        })
+        .fetch({ require: true });
+    } catch (_err) {
+      throw new UserNotAuthorizedToAccessEntity(sessionId);
+    }
   },
 
-  updateStatusAndExaminerComment(session) {
+  async updateStatusAndExaminerComment(session) {
     const sessionDataToUpdate = _.pick(session, [
       'status',
       'examinerComment',
     ]);
 
-    return new BookshelfSession({ id: session.id })
-      .save(sessionDataToUpdate, { patch: true })
-      .then((model) => model.refresh())
-      .then(_toDomain);
+    let updatedSession = await new BookshelfSession({ id: session.id })
+      .save(sessionDataToUpdate, { patch: true });
+    updatedSession = await updatedSession.refresh();
+    return _toDomain(updatedSession);
   },
 };
