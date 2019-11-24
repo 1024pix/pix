@@ -194,8 +194,6 @@ describe('Integration | Repository | Session', function() {
         'description': session.description,
         'accessCode': session.accessCode,
       };
-      _.times(2, () => databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id }));
-      _.times(3, () => databaseBuilder.factory.buildCertificationCourse());
       await databaseBuilder.commit();
     });
 
@@ -206,14 +204,6 @@ describe('Integration | Repository | Session', function() {
       // then
       expect(actualSession).to.be.instanceOf(Session);
       expect(actualSession, 'date').to.deep.includes(expectedSessionValues);
-    });
-
-    it('should return associated certifications', async () => {
-      // when
-      const actualSession = await sessionRepository.get(session.id);
-
-      // then
-      expect(_.map(actualSession.certifications, 'sessionId')).to.have.members([session.id, session.id]);
     });
 
     it('should return a Not found error when no session was found', async () => {
