@@ -20,7 +20,6 @@ class Session {
     status,
     examinerComment,
     // includes
-    certifications,
     certificationCandidates,
     // references
   } = {}) {
@@ -38,7 +37,6 @@ class Session {
     this.status = status;
     this.examinerComment = examinerComment;
     // includes
-    this.certifications = certifications;
     this.certificationCandidates = certificationCandidates;
     // references
   }

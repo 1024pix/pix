@@ -2,7 +2,6 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 
 const Session = require('../../../../../lib/domain/models/Session');
-const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
 
 describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 

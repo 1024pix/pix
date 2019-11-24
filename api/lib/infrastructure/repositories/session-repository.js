@@ -1,29 +1,17 @@
 const _ = require('lodash');
 
-const BookshelfCertificationCourse = require('../data/certification-course');
 const BookshelfSession = require('../data/session');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
 const { statuses } = require('../../domain/models/Session');
 
-function _toDomain(bookshelfSession) {
-  if (bookshelfSession) {
-    const session = bookshelfToDomainConverter.buildDomainObject(BookshelfSession, bookshelfSession);
-    session.certifications = bookshelfSession.related('certificationCourses').map((certificationCourse) => {
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationCourse, certificationCourse);
-    });
-    return session;
-  }
-  return null;
-}
-
 module.exports = {
   save: async (sessionData) => {
-    sessionData = _.omit(sessionData, ['certifications', 'certificationCandidates']);
+    sessionData = _.omit(sessionData, ['certificationCandidates']);
 
     const newSession = await new BookshelfSession(sessionData).save();
-    return _toDomain(newSession);
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, newSession);
   },
 
   isSessionCodeAvailable: async (accessCode) => {
@@ -46,7 +34,7 @@ module.exports = {
       const sessionWithAccessCode = await BookshelfSession
         .where({ accessCode })
         .fetch({ require: true });
-      return _toDomain(sessionWithAccessCode);
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, sessionWithAccessCode);
     } catch (err) {
       if (err instanceof BookshelfSession.NotFoundError) {
         throw new NotFoundError();
@@ -59,8 +47,8 @@ module.exports = {
     try {
       const session = await BookshelfSession
         .where({ id: idSession })
-        .fetch({ require: true, withRelated: ['certificationCourses'] });
-      return _toDomain(session);
+        .fetch({ require: true });
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, session);
     } catch (err) {
       if (err instanceof BookshelfSession.NotFoundError) {
         throw new NotFoundError();
@@ -83,7 +71,7 @@ module.exports = {
           }
         ]
         });
-      return _toDomain(session);
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, session);
     } catch (err) {
       if (err instanceof BookshelfSession.NotFoundError) {
         throw new NotFoundError();
@@ -108,7 +96,7 @@ module.exports = {
     let updatedSession = await new BookshelfSession({ id: session.id })
       .save(sessionDataToUpdate, { patch: true, method: 'update' });
     updatedSession = await updatedSession.refresh();
-    return _toDomain(updatedSession);
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
   },
 
   async find() {
@@ -119,7 +107,7 @@ module.exports = {
       })
       .fetchAll({});
 
-    return foundSessions.map(_toDomain);
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSession, foundSessions);
   },
 
   async findByCertificationCenterId(certificationCenterId) {
@@ -131,7 +119,7 @@ module.exports = {
       })
       .fetchAll({});
 
-    return foundSessions.map(_toDomain);
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSession, foundSessions);
   },
 
   async ensureUserHasAccessToSession(userId, sessionId) {
@@ -157,6 +145,6 @@ module.exports = {
     let updatedSession = await new BookshelfSession({ id: session.id })
       .save(sessionDataToUpdate, { patch: true });
     updatedSession = await updatedSession.refresh();
-    return _toDomain(updatedSession);
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
   },
 };
