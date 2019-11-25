@@ -17,6 +17,7 @@
   </SessionFinalizationStepContainer>
   <ActionButton
     class="session-finalizer__button"
+    data-test-id="session-finalizer__button"
     @isLoading={{isLoading}}
     @handleClick={{openModal}} >
     Finaliser
@@ -41,8 +42,14 @@
       </div>
 
       <div class="pix-modal-footer pix-modal-footer--with-centered-buttons">
-        <button class="button button--big button--extra-thin button--red" {{action finalizeSession}}>Confirmer</button>
-        <button class="button button--regular button--extra-thin button--grey" {{action closeModal}}>Annuler</button>
+        <button
+          class="button button--big button--extra-thin button--red"
+          data-test-id="finalize-session-modal__confirm-button"
+          {{action finalizeSession}}>Confirmer</button>
+        <button
+          class="button button--regular button--extra-thin button--grey"
+          data-test-id="finalize-session-modal__cancel-button"
+          {{action closeModal}}>Annuler</button>
       </div>
     </div>
   {{/app-modal}}

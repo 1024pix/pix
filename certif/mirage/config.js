@@ -72,4 +72,11 @@ export default function() {
     }
     return new Response(204);
   }));
+
+  this.put('/sessions/:id/finalization', (schema, request) => {
+    const sessionId = request.params.id;
+    const session = schema.sessions.where({ id: sessionId });
+    session.status = 'finalized';
+    return session;
+  });
 }
