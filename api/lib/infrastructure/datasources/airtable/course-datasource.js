@@ -1,6 +1,6 @@
+const _ = require('lodash');
 const airtable = require('../../airtable');
 const { Course } = require('./objects');
-const _ = require('lodash');
 
 module.exports = {
   getAdaptiveCourses() {
