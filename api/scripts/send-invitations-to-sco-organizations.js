@@ -1,26 +1,48 @@
 /* eslint-disable no-console */
 // Usage: BASE_URL=... PIXMASTER_EMAIL=... PIXMASTER_PASSWORD=... node send-invitations-to-organizations.js path/file.csv
+// To use on file with columns |externalId, email|
 
 'use strict';
 require('dotenv').config();
 const request = require('request-promise-native');
 
-const organizeOrganizationsByExternalId = require('./organizeOrganizationsByExternalId');
+const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('./organizations-by-external-id-helper');
 const { parseCsv } = require('../scripts/helpers/csvHelpers');
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
-async function sendInvitations(accessToken, data, organizationsByExternalId) {
-  for (let i = 0; i < data.length; i++) {
+function checkData({ csvData }) {
+  return csvData.map((data) => {
+    const [externalIdLowerCase, email] = data;
 
-    if (require.main === module) {
-      console.log(i + 1);
+    if (!externalIdLowerCase && !email) {
+      if (require.main === module) process.stdout.write('Found empty line in input file.');
+      return null;
     }
+    if (!externalIdLowerCase) {
+      if (require.main === module) process.stdout.write(`A line is missing an externalId for email ${email}`);
+      return null;
+    }
+    if (!email) {
+      if (require.main === module) process.stdout.write(`A line is missing a email for external id ${externalIdLowerCase}`);
+      return null;
+    }
+    const externalId = externalIdLowerCase.toUpperCase();
 
-    const [externalId,, email] = data[i];
+    return { externalId, email: email.trim() };
+  }).filter((data) => !!data);
+}
+
+async function sendInvitations({ accessToken, organizationsByExternalId, checkedData }) {
+  for (let i = 0; i < checkedData.length; i++) {
+    if (require.main === module) process.stdout.write(`\n${i + 1}/${checkedData.length} `);
+
+    const { externalId, email } = checkedData[i];
     const organization = organizationsByExternalId[externalId];
 
-    await request(_buildPostOrganizationInvitationRequestObject(accessToken, organization, email));
+    if (organization && organization.id && email) {
+      await request(_buildPostOrganizationInvitationRequestObject(accessToken, organization, email));
+    }
   }
 }
 
@@ -37,18 +59,6 @@ function _buildAccessTokenRequestObject() {
       username: process.env.PIXMASTER_EMAIL,
       password: process.env.PIXMASTER_PASSWORD,
     },
-    json: true,
-  };
-}
-
-function _buildGetOrganizationsRequestObject(accessToken) {
-  return {
-    method: 'GET',
-    headers: {
-      authorization: `Bearer ${accessToken}`,
-    },
-    baseUrl,
-    url: '/api/organizations?pageSize=999999999',
     json: true,
   };
 }
@@ -74,36 +84,31 @@ function _buildPostOrganizationInvitationRequestObject(accessToken, organization
 }
 
 async function main() {
-  console.log('Starting creating or updating SCO organizations.');
+  console.log('Starting to send invitations');
 
   try {
     const filePath = process.argv[2];
 
     console.log('Reading and parsing data... ');
-    const data = parseCsv(filePath, { skipEmptyLines: true });
+    const csvData = parseCsv(filePath);
+    console.log('ok');
+
+    console.log('Checking data... ');
+    const checkedData = checkData({ csvData });
     console.log('ok');
 
     console.log('Requesting API access token... ');
-    const response1 = await request(_buildAccessTokenRequestObject());
-    const accessToken = response1.access_token;
+    const { access_token: accessToken } = await request(_buildAccessTokenRequestObject());
     console.log('ok');
 
     console.log('Getting organizations list... ');
-    const response2 = await request(_buildGetOrganizationsRequestObject(accessToken));
-    const organizationsByExternalId = organizeOrganizationsByExternalId(response2.data);
+    const organizations = await findOrganizationsByExternalIds({ checkedData });
+    const organizationsByExternalId = organizeOrganizationsByExternalId(organizations);
     console.log('ok');
 
-    console.log('Checking if organizations from file are in database...');
-    data.forEach(([externalId, name]) => {
-      if (!organizationsByExternalId[externalId]) {
-        throw new Error(`Organization ${name} - ${externalId} is not in database. Aborting. No email was sent.`);
-      }
-    });
-    console.log('ok');
-
-    console.log('Updating organizations and creating invitations...');
-    await sendInvitations(accessToken, data, organizationsByExternalId);
-    console.log('Done.');
+    console.log('Sending invitations...');
+    await sendInvitations({ accessToken, organizationsByExternalId, checkedData });
+    console.log('\nDone.');
 
   } catch (error) {
     console.error(error);
@@ -113,9 +118,16 @@ async function main() {
 }
 
 if (require.main === module) {
-  main();
+  main().then(
+    () => process.exit(0),
+    (err) => {
+      console.error(err);
+      process.exit(1);
+    }
+  );
 }
 
 module.exports = {
+  checkData,
   sendInvitations,
 };
