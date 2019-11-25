@@ -1,7 +1,6 @@
+const _ = require('lodash');
 const airtable = require('../../airtable');
 const { Skill } = require('./objects');
-
-const _ = require('lodash');
 
 const ACTIVATED_STATUS = ['actif'];
 

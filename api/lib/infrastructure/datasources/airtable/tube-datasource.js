@@ -1,8 +1,7 @@
+const _ = require('lodash');
 const airtable = require('../../airtable');
 const { Tube } = require('./objects');
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
-
-const _ = require('lodash');
 
 function _doQuery(filter) {
   return airtable.findRecords(Tube.getAirtableName(), Tube.getUsedAirtableFields())

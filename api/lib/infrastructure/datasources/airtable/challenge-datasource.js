@@ -1,8 +1,7 @@
+const _ = require('lodash');
 const airtable = require('../../airtable');
 const { Challenge } = require('./objects');
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
-
-const _ = require('lodash');
 
 const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
 
