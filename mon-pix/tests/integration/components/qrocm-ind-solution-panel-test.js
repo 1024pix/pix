@@ -54,11 +54,6 @@ describe('Integration | Component | QROCm ind solution panel', function() {
         await render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
       });
 
-      it('should contains three labels', function() {
-        // then
-        expect(findAll('label')).to.have.lengthOf(3);
-      });
-
       describe('When the answer is correct', function() {
 
         it('should display the correct answer in green bold', async function() {
@@ -94,7 +89,6 @@ describe('Integration | Component | QROCm ind solution panel', function() {
           const answerInput = findAll(ANSWER)[NO_ANSWER_POSITION];
 
           expect(answerInput).to.exist;
-          expect(findAll('label')[NO_ANSWER_POSITION]).to.exist;
           expect(answerInput.value).to.equal(EMPTY_DEFAULT_MESSAGE);
           expect(answerInput.classList.contains('correction-qroc-box-answer--aband')).to.be.true;
         });
