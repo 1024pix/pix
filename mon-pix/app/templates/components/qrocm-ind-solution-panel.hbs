@@ -1,7 +1,7 @@
 <div class="qrocm-solution-panel rounded-panel">
   <div class="rounded-panel__row correction-qrocm__text">
     {{#each inputFields as |field|}}
-      <label for="{{field.label}}">{{field.label}}</label>
+      {{{field.label}}}
 
       {{#if (eq challenge.format 'paragraphe')}}
         <textarea class="correction-qrocm__answer correction-qrocm__answer--textarea {{field.inputClass}}"

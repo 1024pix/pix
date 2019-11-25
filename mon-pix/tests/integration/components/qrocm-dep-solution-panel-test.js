@@ -45,24 +45,6 @@ describe('Integration | Component | QROCm dep solution panel', function() {
         this.challenge.set('format', data.format);
       });
 
-      it('should contains two labels', async function() {
-        // given
-        const answer = EmberObject.create({
-          id: 'answer_id',
-          value: 'key1: \'rightAnswer1\' key2: \'rightAnswer2\'',
-          result: classByResultKey.ok,
-          assessment,
-          challenge
-        });
-        this.set('answer', answer);
-
-        // when
-        await render(hbs`{{qrocm-dep-solution-panel answer=answer solution=solution challenge=challenge}}`);
-
-        // then
-        expect(findAll('label')).to.have.lengthOf(2);
-      });
-
       describe('When the answer is correct', function() {
 
         beforeEach(async function() {
