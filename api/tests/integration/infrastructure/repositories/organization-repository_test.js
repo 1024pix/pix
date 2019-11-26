@@ -274,7 +274,7 @@ describe('Integration | Repository | Organization', function() {
     });
   });
 
-  describe('#findByExternalIds', () => {
+  describe('#findByExternalIdsFetchingIdsOnly', () => {
     let organizations;
 
     beforeEach(async () => {
@@ -294,18 +294,27 @@ describe('Integration | Repository | Organization', function() {
       const externalIds = ['1234567', '1234569'];
 
       // when
-      const foundOrganizations = await organizationRepository.findByExternalIds(externalIds);
+      const foundOrganizations = await organizationRepository.findByExternalIdsFetchingIdsOnly(externalIds);
 
       // then
       expect(foundOrganizations).to.have.lengthOf(2);
       expect(foundOrganizations[0]).to.be.an.instanceof(Organization);
       expect(foundOrganizations[0].externalId).to.equal(organizations[0].externalId);
+      expect(foundOrganizations[1].externalId).to.equal(organizations[2].externalId);
+    });
+
+    it('should only return id and externalId', async () => {
+      // given
+      const externalIds = ['1234567'];
+
+      // when
+      const foundOrganizations = await organizationRepository.findByExternalIdsFetchingIdsOnly(externalIds);
+
+      // then
+      expect(foundOrganizations[0].externalId).to.equal(organizations[0].externalId);
       expect(foundOrganizations[0].id).to.equal(organizations[0].id);
       expect(foundOrganizations[0].type).to.be.undefined;
-      expect(foundOrganizations[1]).to.be.an.instanceof(Organization);
-      expect(foundOrganizations[1].externalId).to.equal(organizations[2].externalId);
-      expect(foundOrganizations[1].id).to.equal(organizations[2].id);
-      expect(foundOrganizations[1].type).to.be.undefined;
+      expect(foundOrganizations[0].code).to.be.undefined;
     });
   });
 

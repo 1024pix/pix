@@ -1,4 +1,4 @@
-const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
+const organizationRepository = require('../../lib/infrastructure/repositories/organization-repository');
 
 function organizeOrganizationsByExternalId(organizations) {
   const organizationsByExternalId = {};
@@ -14,8 +14,8 @@ function organizeOrganizationsByExternalId(organizations) {
 }
 
 function findOrganizationsByExternalIds({ checkedData }) {
-  const externalIds = checkedData.map((data) => data.externalId.toUpperCase());
-  return organizationRepository.findByExternalIds(externalIds).then((organizations) => {
+  const externalIds = checkedData.map((data) => data.externalId);
+  return organizationRepository.findByExternalIdsFetchingIdsOnly(externalIds).then((organizations) => {
     return organizations.map((organization) => ({ id: organization.id, externalId: organization.externalId }));
   });
 }
