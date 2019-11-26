@@ -17,7 +17,7 @@ describe('Unit | Router | organization-router', () => {
     sinon.stub(securityController, 'checkUserIsAdminInOrganization').returns(true);
     sinon.stub(securityController, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').returns(true);
     sinon.stub(organizationController, 'find').returns('ok');
-    sinon.stub(organizationController, 'sendInvitation').callsFake((request, h) => h.response().created());
+    sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
 
     startServer();
   });
