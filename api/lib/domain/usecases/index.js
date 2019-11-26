@@ -70,7 +70,7 @@ module.exports = injectDependencies({
   createCertificationCenterMembership: require('./create-certification-center-membership'),
   createMembership: require('./create-membership'),
   createOrganization: require('./create-organization'),
-  createOrganizationInvitation: require('./create-organization-invitation'),
+  createOrganizationInvitations: require('./create-organization-invitations'),
   createSession: require('./create-session'),
   createUser: require('./create-user'),
   findAnswerByChallengeAndAssessment: require('./find-answer-by-challenge-and-assessment'),
