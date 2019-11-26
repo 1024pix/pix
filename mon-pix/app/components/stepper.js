@@ -5,9 +5,12 @@ import { inject as service } from '@ember/service';
 
 export default Component.extend(ProgressionTrackerMixin, {
   router: service(),
+  stepsData: {},
+
   activeComponentName: computed('activeStep', function() {
     return this.activeStep;
   }),
+
   actions: {
     didMove() {
       this.next();
