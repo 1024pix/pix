@@ -28,8 +28,8 @@ module.exports = {
   },
 
   deserialize(json) {
-    if (!isValidDate(json.data.attributes.birthdate)) {
-      throw new WrongDateFormatError();
+    if (!isValidDate(json.data.attributes.birthdate, 'YYYY-MM-DD')) {
+      throw new WrongDateFormatError('La date de naissance du candidate à la certification n\'a pas un format valide du type JJ/MM/AAAA');
     }
 
     delete json.data.attributes['is-linked'];
