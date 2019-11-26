@@ -1,13 +1,14 @@
 <form {{action createOrganizationInvitation organizationInvitation on='submit'}} class="form">
 
   <div class="form__field">
-    <label for="email" class="label">Email</label>
+    <label for="email" class="label">Adresse(s) e-mail</label>
     <Input
       @type="email"
       @id="email"
       @name="email"
       @class="input"
       @value={{organizationInvitation.email}}
+      @multiple=true
     />
   </div>
 
