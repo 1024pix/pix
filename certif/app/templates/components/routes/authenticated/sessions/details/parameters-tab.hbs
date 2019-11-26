@@ -61,10 +61,10 @@
           {{/link-to}}
         </div>
         <div class="session-details-buttons session-details-buttons--push-right {{if session.isFinalized "button--disabled"}}">
-          {{#link-to "authenticated.sessions.finalize" session.id
-                     class="button button--regular button--link session-details-content__finalize-button push-right"}}
-              Finaliser la session
-          {{/link-to}}
+            {{#link-to "authenticated.sessions.finalize" session.id
+                             class="button button--regular button--link session-details-content__finalize-button push-right"}}
+                      Finaliser la session
+            {{/link-to}}
         </div>
       {{else}}
         <div class="session-details-buttons">
