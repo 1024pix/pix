@@ -37,7 +37,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         accessCode = 'ABCD12';
         certificationCourse = domainBuilder.buildCertificationCourse({ id: 'newlyCreatedCertificationCourse', sessionId, userId, createdAt: new Date('2018-12-12T01:02:03Z') });
 
-        sinon.stub(sessionRepository, 'getByAccessCode').resolves({ id: sessionId });
+        sinon.stub(sessionRepository, 'get').resolves({ id: sessionId, accessCode });
         sinon.stub(certificationCourseRepository, 'save').resolves();
       });
 
@@ -50,6 +50,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         it('should get last started certification course for given sessionId and userId', async function() {
           // when
           const result = await retrieveLastOrCreateCertificationCourse({
+            sessionId,
             accessCode,
             userId,
             sessionRepository,
@@ -84,6 +85,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         it('should get last started certification course for given sessionId and userId', async function() {
           // when
           const result = await retrieveLastOrCreateCertificationCourse({
+            sessionId,
             accessCode,
             userId,
             sessionRepository,
@@ -108,17 +110,19 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
     context('when the session does not exist', function() {
       let userId;
       let accessCode;
+      let sessionId;
 
       beforeEach(() => {
         userId = 12345;
         accessCode = 'ABCD12';
-
-        sinon.stub(sessionRepository, 'getByAccessCode').rejects(new NotFoundError());
+        sessionId = 23;
+        sinon.stub(sessionRepository, 'get').rejects(new NotFoundError());
       });
 
       it('should rejects an error when the session does not exist',  async function() {
         // when
         const result = await catchErr(retrieveLastOrCreateCertificationCourse)({
+          sessionId,
           accessCode,
           userId,
           sessionRepository,
@@ -161,7 +165,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         userId = 12345;
         sessionId = 23;
         accessCode = 'ABCD12';
-        sinon.stub(sessionRepository, 'getByAccessCode').resolves({ id: sessionId });
+        sinon.stub(sessionRepository, 'get').resolves({ id: sessionId, accessCode });
         sinon.stub(certificationCourseRepository, 'getLastCertificationCourseByUserIdAndSessionId').rejects(new NotFoundError());
         certificationCourse = domainBuilder.buildCertificationCourse({
           id: 'newlyCreatedCertificationCourse',
@@ -200,6 +204,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
           // when
           const result = await catchErr(retrieveLastOrCreateCertificationCourse)({
+            sessionId,
             accessCode,
             userId,
             sessionRepository,
@@ -234,6 +239,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
           // when
           const newCertification = await retrieveLastOrCreateCertificationCourse({
+            sessionId,
             accessCode,
             userId,
             sessionRepository,
@@ -270,6 +276,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
           // when
           const newCertification = await retrieveLastOrCreateCertificationCourse({
+            sessionId,
             accessCode,
             userId,
             sessionRepository,
@@ -287,6 +294,41 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           });
           sinon.assert.calledOnce(assessmentRepository.save);
         });
+      });
+
+    });
+
+    context('when the access code does not correspond to the given sessionId', () => {
+      let userId;
+      let accessCode;
+      let wrongAccessCode;
+      let sessionId;
+
+      beforeEach(() => {
+        userId = 12345;
+        accessCode = 'ABCD12';
+        wrongAccessCode = 'ABCD13';
+        sessionId = 6789;
+
+        sinon.stub(sessionRepository, 'get').resolves({ id: sessionId, accessCode });
+      });
+
+      it('should not find the session', async function() {
+        // when
+        const result = await catchErr(retrieveLastOrCreateCertificationCourse)({
+          sessionId: sessionId,
+          wrongAccessCode,
+          userId,
+          sessionRepository,
+          userService,
+          certificationCandidateRepository,
+          certificationChallengesService,
+          certificationCourseRepository,
+          assessmentRepository,
+        });
+
+        // then
+        expect(result).to.be.instanceOf(NotFoundError);
       });
 
     });
