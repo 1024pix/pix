@@ -161,10 +161,10 @@ exports.register = async (server) => {
           method: securityController.checkUserIsAdminInOrganizationOrHasRolePixMaster,
           assign: 'isAdminInOrganizationOrHasRolePixMaster'
         }],
-        handler: organisationController.sendInvitation,
+        handler: organisationController.sendInvitations,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés en tant que responsables de l\'organisation**\n' +
-          '- Elle permet d\'inviter une personne, déjà utilisateur de Pix ou non, à être membre d\'une organisation, via son **email**'
+          '- **Cette route est restreinte aux utilisateurs authentifiés en tant que responsables de l\'organisation ou ayant le rôle Pix Master**\n' +
+          '- Elle permet d\'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d\'une organisation, via leur **email**'
         ],
         tags: ['api', 'invitations']
       }
