@@ -42,7 +42,7 @@ export default Component.extend({
 
   async createCertificationCourseIfValid() {
     try {
-      await this.store.createRecord('certification-course', { accessCode: this.accessCode }).save();
+      await this.store.createRecord('certification-course', { accessCode: this.accessCode, sessionId: this.stepsData.joiner.sessionId }).save();
     } catch (err) {
       this.getCurrentCertificationCourse().deleteRecord();
       throw err;
@@ -50,6 +50,6 @@ export default Component.extend({
   },
 
   getCurrentCertificationCourse() {
-    return this.peeker.findOne('certification-course', { accessCode: this.accessCode });
+    return this.peeker.findOne('certification-course', { accessCode: this.accessCode, sessionId: this.stepsData.joiner.sessionId });
   },
 });
