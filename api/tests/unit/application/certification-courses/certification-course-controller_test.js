@@ -156,16 +156,14 @@ describe('Unit | Controller | certification-course-controller', () => {
     let request;
 
     beforeEach(() => {
-    });
-
-    beforeEach(() => {
       request = {
         auth: { credentials: { accessToken: 'jwt.access.token', userId: 'userId' } },
         pre: { userId: 'userId' },
         payload: {
           data: {
             attributes: {
-              'access-code': 'ABCD12'
+              'access-code': 'ABCD12',
+              'session-id': '12345',
             },
           }
         }
@@ -180,19 +178,36 @@ describe('Unit | Controller | certification-course-controller', () => {
     context('when certification course needs to be created', function() {
       const newlyCreatedCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
 
-      it('should reply the certification course serialized', async () => {
+      it('should call the use case with the right arguments', async () => {
         // given
         usecases.retrieveLastOrCreateCertificationCourse
-          .withArgs({ accessCode: 'ABCD12', userId: 'userId' })
+          .withArgs({ sessionId: '12345', accessCode: 'ABCD12', userId: 'userId' })
           .resolves({ created: true, certificationCourse: newlyCreatedCertificationCourse });
-        certificationCourseSerializer.serialize.resolves({});
+
+        // when
+        await certificationCourseController.save(request, hFake);
+
+        // then
+        sinon.assert.calledWith(usecases.retrieveLastOrCreateCertificationCourse, {
+          sessionId: '12345',
+          accessCode: 'ABCD12',
+          userId: 'userId',
+        });
+      });
+
+      it('should reply the certification course serialized', async () => {
+        // given
+        const serializedCertificationCourse = Symbol('a serialized certification course');
+        usecases.retrieveLastOrCreateCertificationCourse
+          .withArgs({ sessionId: '12345', accessCode: 'ABCD12', userId: 'userId' })
+          .resolves({ created: true, certificationCourse: newlyCreatedCertificationCourse });
+        certificationCourseSerializer.serialize.resolves(serializedCertificationCourse);
 
         // when
         const response = await certificationCourseController.save(request, hFake);
 
         // then
-        sinon.assert.calledOnce(certificationCourseSerializer.serialize);
-        sinon.assert.calledWith(certificationCourseSerializer.serialize, newlyCreatedCertificationCourse);
+        expect(response.source).to.equal(serializedCertificationCourse);
         expect(response.statusCode).to.equal(201);
       });
     });
@@ -203,7 +218,7 @@ describe('Unit | Controller | certification-course-controller', () => {
         const existingCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
 
         usecases.retrieveLastOrCreateCertificationCourse
-          .withArgs({ accessCode: 'ABCD12', userId: 'userId' })
+          .withArgs({ sessionId: '12345', accessCode: 'ABCD12', userId: 'userId' })
           .resolves({ created: false, certificationCourse: existingCertificationCourse });
         certificationCourseSerializer.serialize.resolves({});
 
