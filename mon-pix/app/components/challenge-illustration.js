@@ -2,20 +2,20 @@ import Component from '@ember/component';
 import { computed, trySet } from '@ember/object';
 
 export default Component.extend({
-  classNames: ['img-wrapper'],
-  src: '',
-  alt: '',
+  classNames: ['challenge-illustration'],
+  src: null,
+  alt: null,
 
-  hiddenClass: 'img--hidden',
+  hiddenClass: 'challenge-illustration__loaded-image--hidden',
 
   displayPlaceholder: computed('src', function() {
     return this.src ? true : false;
   }),
 
   actions: {
-    onImageReady() {
+    onImageLoaded() {
       trySet(this, 'displayPlaceholder', false);
-      trySet(this, 'hiddenClass', '');
+      trySet(this, 'hiddenClass', null);
     }
   },
 
