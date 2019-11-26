@@ -9,11 +9,15 @@ describe('Integration | Component | challenge-illustration', function() {
 
   const IMG_SRC = 'http://www.example.com/this-is-an-example.png';
   const IMG_ALT = 'texte alternatif à l\'image';
-
-  const IMAGE = '.challenge-illustration__loaded-image';
-  const IMAGE_PLACEHOLDER = '.challenge-illustration__placeholder';
-
   const HIDDEN_CLASS_NAME = 'challenge-illustration__loaded-image--hidden';
+
+  function findImageElement() {
+    return find('.challenge-illustration__loaded-image');
+  }
+
+  function findImagePlaceholderElement() {
+    return find('.challenge-illustration__placeholder');
+  }
 
   it('renders', async function() {
     // when
@@ -34,16 +38,16 @@ describe('Integration | Component | challenge-illustration', function() {
       await render(hbs`{{challenge-illustration src=src alt=alt}}`);
 
       // then
-      expect(find(IMAGE)).to.exist;
-      expect(find(IMAGE).className).to.include(HIDDEN_CLASS_NAME);
-      expect(find(IMAGE).getAttribute('alt')).to.equal(IMG_ALT);
-      expect(find(IMAGE).getAttribute('src')).to.equal(IMG_SRC);
-      expect(find(IMAGE_PLACEHOLDER)).to.exist;
+      expect(findImageElement()).to.exist;
+      expect(findImageElement().className).to.include(HIDDEN_CLASS_NAME);
+      expect(findImageElement().getAttribute('alt')).to.equal(IMG_ALT);
+      expect(findImageElement().getAttribute('src')).to.equal(IMG_SRC);
+      expect(findImagePlaceholderElement()).to.exist;
 
-      await triggerEvent(IMAGE, 'load');
-      expect(find(IMAGE)).to.exist;
-      expect(find(IMAGE).className).to.not.include(HIDDEN_CLASS_NAME);
-      expect(find(IMAGE_PLACEHOLDER)).to.not.exist;
+      await triggerEvent(findImageElement(), 'load');
+      expect(findImageElement()).to.exist;
+      expect(findImageElement().className).to.not.include(HIDDEN_CLASS_NAME);
+      expect(findImagePlaceholderElement()).to.not.exist;
     });
   });
 
@@ -58,9 +62,9 @@ describe('Integration | Component | challenge-illustration', function() {
       await render(hbs`{{challenge-illustration src=src alt=alt}}`);
 
       // then
-      expect(find(IMAGE)).to.exist;
-      expect(find(IMAGE).className).to.include(HIDDEN_CLASS_NAME);
-      expect(find(IMAGE_PLACEHOLDER)).to.not.exist;
+      expect(findImageElement()).to.exist;
+      expect(findImageElement().className).to.include(HIDDEN_CLASS_NAME);
+      expect(findImagePlaceholderElement()).to.not.exist;
     });
   });
 });
