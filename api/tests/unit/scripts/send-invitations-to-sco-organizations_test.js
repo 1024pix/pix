@@ -1,7 +1,7 @@
 const { expect, nock } = require('../../test-helper');
 const { checkData, sendInvitations } = require('../../../scripts/send-invitations-to-sco-organizations');
 
-describe('Integration | Scripts | send-invitations-to-sco-organizations.js', () => {
+describe('Unit | Scripts | send-invitations-to-sco-organizations.js', () => {
 
   afterEach(() => {
     nock.cleanAll();

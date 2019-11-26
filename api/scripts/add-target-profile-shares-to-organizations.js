@@ -5,12 +5,11 @@
 'use strict';
 require('dotenv').config();
 const targetProfileShareRepository = require('../lib/infrastructure/repositories/target-profile-share-repository');
-const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('./organizations-by-external-id-helper');
+const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('./helpers/organizations-by-external-id-helper');
 const { parseCsv } = require('./helpers/csvHelpers');
 
 function checkData({ csvData }) {
-  return csvData.map((data) => {
-    const [externalIdLowerCase, targetProfileList] = data;
+  return csvData.map(([externalIdLowerCase, targetProfileList]) => {
 
     if (!externalIdLowerCase && !targetProfileList) {
       if (require.main === module) process.stdout.write('Found empty line in input file.');

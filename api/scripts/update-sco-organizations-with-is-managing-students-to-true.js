@@ -5,7 +5,7 @@
 'use strict';
 require('dotenv').config();
 const request = require('request-promise-native');
-const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('./organizations-by-external-id-helper');
+const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('./helpers/organizations-by-external-id-helper');
 const { parseCsv } = require('./helpers/csvHelpers');
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';

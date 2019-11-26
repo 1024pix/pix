@@ -104,7 +104,7 @@ module.exports = {
       });
   },
 
-  findByExternalIds(externalIds) {
+  findByExternalIdsFetchingIdsOnly(externalIds) {
     return BookshelfOrganization
       .where('externalId', 'in', externalIds)
       .fetchAll({ columns: ['id', 'externalId'] })

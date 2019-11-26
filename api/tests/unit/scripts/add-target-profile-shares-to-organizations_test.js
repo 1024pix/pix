@@ -12,10 +12,6 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
       targetProfileShareRepositoryStub = sinon.stub(targetProfileShareRepository, 'addToOrganization').resolves({});
     });
 
-    afterEach(() => {
-      sinon.restore();
-    });
-
     it('should add target profile shares to the given organization', async () => {
       // given
       const organizationsByExternalId = {
