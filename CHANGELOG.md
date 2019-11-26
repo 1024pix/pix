@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.88.0 (26/11/2019)
+
+- [#838](https://github.com/1024pix/pix/pull/838) [FEATURE] Dupliquer le bouton d'export des résultats pour les prescripteurs sur la page d'info de session dans Pix Admin (PA-118).
+- [#847](https://github.com/1024pix/pix/pull/847) [FEATURE] Interdire l'import de candidats dans PixCertif lorsqu'il existe au moins un lien entre un candidat et un utilisateur Pix (PC-83).
+- [#835](https://github.com/1024pix/pix/pull/835) [BUGFIX] Ignorer les espaces autour des noms des candidats de certification.
+- [#827](https://github.com/1024pix/pix/pull/827) [BUGFIX] Une sur-erreur survient en cas de problème dans la méthode getCourse().
+- [#852](https://github.com/1024pix/pix/pull/852) [TECH] Loguer toutes les erreurs sortant des contrôleurs API.
+- [#846](https://github.com/1024pix/pix/pull/846) [A11Y] Ajouter ALT sur les images dans les challenges.
+
 ## v2.87.0 (21/11/2019)
 
 - [#848](https://github.com/1024pix/pix/pull/848) [FEATURE] Modification de certains textes dans la page de lancement de test de certification (PF-928).
