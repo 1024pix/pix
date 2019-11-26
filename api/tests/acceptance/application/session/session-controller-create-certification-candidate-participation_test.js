@@ -57,7 +57,8 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
               'first-name': 'José',
               'last-name': 'Bové',
               'birthdate': '2000-01-01',
-            }
+            },
+            type: 'certification-candidates',
           }
         };
         options = {
@@ -116,7 +117,8 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
               attributes: {
                 'first-name': 'José',
                 'last-name': 'Bové',
-              }
+              },
+              type: 'certification-candidates',
             }
           };
           options.payload = payload;

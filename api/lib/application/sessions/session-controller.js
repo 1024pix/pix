@@ -80,12 +80,10 @@ module.exports = {
   async createCandidateParticipation(request, h) {
     const userId = request.auth.credentials.userId;
     const sessionId = request.params.id;
-    const firstName = request.payload.data.attributes['first-name'];
-    const lastName = request.payload.data.attributes['last-name'];
-    const birthdate = request.payload.data.attributes['birthdate'];
+    const certificationCandidateWithPersonalInfoOnly = await certificationCandidateSerializer.deserialize(request.payload);
 
     return usecases.linkUserToSessionCertificationCandidate({
-      userId, sessionId, firstName, lastName, birthdate,
+      userId, sessionId, certificationCandidateWithPersonalInfoOnly,
     })
       .then(({ linkCreated, certificationCandidate }) => {
         const serialized = certificationCandidateSerializer.serialize(certificationCandidate);
