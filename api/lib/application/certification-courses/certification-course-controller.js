@@ -27,11 +27,12 @@ module.exports = {
   async save(request, h) {
     const userId = request.auth.credentials.userId;
     const accessCode = request.payload.data.attributes['access-code'];
+    const sessionId = request.payload.data.attributes['session-id'];
 
     const { created, certificationCourse } =
-      await usecases.retrieveLastOrCreateCertificationCourse({ accessCode, userId });
+      await usecases.retrieveLastOrCreateCertificationCourse({ sessionId, accessCode, userId });
 
-    const serialized = certificationCourseSerializer.serialize(certificationCourse);
+    const serialized = await certificationCourseSerializer.serialize(certificationCourse);
 
     return created ? h.response(serialized).created() : serialized;
   },
