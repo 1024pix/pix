@@ -68,7 +68,7 @@ module('Integration | Component | login-form', function(hooks) {
 
     // then
     assert.dom('#login-form-error-message').exists();
-    assert.dom('#login-form-error-message').hasText('L\'adresse électronique et/ou le mot de passe saisis sont incorrects.');
+    assert.dom('#login-form-error-message').hasText('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
   });
 
   module('when password is hidden', function(hooks) {

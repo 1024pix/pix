@@ -4,7 +4,7 @@
   </div>
 
   {{#if isErrorMessagePresent}}
-    <div id="login-form-error-message" class="login-form__error-message error-message">L'adresse électronique et/ou le mot
+    <div id="login-form-error-message" class="login-form__error-message error-message">L'adresse e-mail et/ou le mot
       de passe saisis sont incorrects.
     </div>
   {{/if}}
@@ -12,7 +12,7 @@
   <form {{action 'authenticate' on='submit'}}>
 
     <div class="input-container">
-      <label for="login-email" class="label">Adresse électronique</label>
+      <label for="login-email" class="label">Adresse e-mail</label>
       <Input
         @id="login-email"
         @name="email"
