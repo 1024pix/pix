@@ -62,7 +62,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
           data: {
             attributes: {
               'campaign-code': campaign.code,
-              'first-name': 'wrong fristName',
+              'first-name': 'wrong firstName',
               'last-name': 'wrong lastName',
               'birthdate': '1990-03-01'
             }
@@ -75,33 +75,21 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
       // then
       expect(response.statusCode).to.equal(404);
-      expect(response.result.errors[0].detail).to.equal('Not found only 1 student');
+      expect(response.result.errors[0].detail).to.equal('There were not exactly one student match for this user and organization');
     });
 
-    it('should return an 403 UserNotAuthorizedToAccessEntity error if user is not connected', async () => {
-      // given
-      const options = {
-        method: 'POST',
-        url: '/api/student-user-associations',
-        headers: { authorization: generateValidRequestAuthorizationHeader(null) },
-        payload: {
-          data: {
-            attributes: {
-              'campaign-code': campaign.code,
-              'first-name': student.firstName,
-              'last-name': student.lastName,
-              'birthdate': student.birthdate
-            }
-          }
-        }
-      };
+    context('when user is not authenticated', () => {
 
-      // when
-      const response = await server.inject(options);
+      it('should respond with a 401 - unauthorized access', async () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
 
-      // then
-      expect(response.statusCode).to.equal(403);
-      expect(response.result.errors[0].detail).to.equal('Utilisateur non autorisé à accéder à la ressource');
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
     });
   });
 

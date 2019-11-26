@@ -1,4 +1,4 @@
-const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
+const { NotFoundError } = require('../../domain/errors');
 
 module.exports = async function linkUserToOrganizationStudentData({
   campaignCode,
@@ -7,10 +7,6 @@ module.exports = async function linkUserToOrganizationStudentData({
   studentRepository,
   userReconciliationService,
 }) {
-  if (userId === null) {
-    throw new UserNotAuthorizedToAccessEntity('User is not part of the organization student list');
-  }
-
   const { organizationId } = await campaignRepository.getByCode(campaignCode);
   const students = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
     organizationId,

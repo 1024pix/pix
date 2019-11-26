@@ -1,14 +1,13 @@
 const usecases = require('../../domain/usecases');
 const studentSerializer = require('../../infrastructure/serializers/jsonapi/student-serializer');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
 
   async associate(request, h) {
     const payload = request.payload.data.attributes;
-    const userId = requestResponseUtils.extractUserIdFromRequest(request);
+    const authenticatedUserId = request.auth.credentials.userId;
     const user = {
-      id: userId,
+      id: authenticatedUserId,
       firstName: payload['first-name'],
       lastName: payload['last-name'],
       birthdate: payload['birthdate'],
