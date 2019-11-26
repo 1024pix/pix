@@ -1,6 +1,7 @@
 const _ = require('lodash');
 
 const BookshelfCampaign = require('../data/campaign');
+const BookshelfCampaignParticipation = require('../data/campaign-participation');
 const competenceDatasource = require('../datasources/airtable/competence-datasource');
 const skillDatasource = require('../datasources/airtable/skill-datasource');
 const CampaignCollectiveResult = require('../../domain/models/CampaignCollectiveResult');
@@ -10,8 +11,8 @@ module.exports = {
 
   async getCampaignCollectiveResult(campaignId) {
 
-    const { competences, campaign, targetedSkillIds, targetedSkills } = await _fetchData(campaignId);
-    const { participants, participantsKEs } = _filterData(campaign, targetedSkillIds);
+    const { competences, campaign, sharedParticipations, targetedSkillIds, targetedSkills } = await _fetchData(campaignId);
+    const { participants, participantsKEs } = _filterData(campaign, sharedParticipations, targetedSkillIds);
     const { participantsKEsByCompetenceId, targetedSkillsByCompetenceId } = _groupByCompetenceId(participantsKEs, targetedSkills);
     const campaignCompetenceCollectiveResults = _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participants, targetedSkillsByCompetenceId, participantsKEsByCompetenceId);
 
@@ -21,20 +22,20 @@ module.exports = {
 
 async function _fetchData(campaignId) {
 
-  const [competences, campaign] = await Promise.all([
+  const [competences, campaign, sharedParticipations ] = await Promise.all([
     competenceDatasource.list(),
-    _fetchCampaignWithRelatedData(campaignId)
+    _fetchCampaignWithRelatedData(campaignId),
+    _fetchCampaignParticipations(campaignId)
   ]);
 
   const targetedSkillIds = campaign.related('targetProfile').related('skillIds').map((targetProfileSkill) => targetProfileSkill.get('skillId'));
   const targetedSkills = await skillDatasource.findByRecordIds(targetedSkillIds);
 
-  return { competences, campaign, targetedSkillIds, targetedSkills };
+  return { competences, campaign, sharedParticipations, targetedSkillIds, targetedSkills };
 }
 
-function _filterData(campaign, targetedSkillIds) {
+function _filterData(campaign, sharedParticipations, targetedSkillIds) {
 
-  const sharedParticipations = campaign.related('campaignParticipations').filter((participation) => participation.get('isShared'));
   const participants = sharedParticipations.map((participation) => participation.related('user'));
   const participantsKEs = _extractParticipantsKEs(sharedParticipations, targetedSkillIds);
 
@@ -50,15 +51,21 @@ function _groupByCompetenceId(participantsKEs, targetedSkills) {
 }
 
 function _fetchCampaignWithRelatedData(campaignId) {
-
   return BookshelfCampaign.where({ id: campaignId }).fetch({
     withRelated: [
-      'campaignParticipations',
-      'campaignParticipations.user',
-      'campaignParticipations.user.knowledgeElements',
       'targetProfile.skillIds'
     ]
   });
+}
+
+async function _fetchCampaignParticipations(campaignId) {
+  return (await BookshelfCampaignParticipation.where({ campaignId })
+    .where({ isShared: true })
+    .fetchAll({
+      withRelated: [
+        'user.knowledgeElements',
+      ]
+    })).models;
 }
 
 function _extractParticipantsKEs(sharedParticipations, targetedSkillIds) {
