@@ -1,88 +1,51 @@
 /* eslint-disable no-console */
-// Usage: BASE_URL=... PIXMASTER_EMAIL=... PIXMASTER_PASSWORD=... node add-target-profile-shares-to-organizations.js path/file.csv
-// To use on file with columns |externalId, [targetProfileId-targetProfileId-targetProfileId]|
+// Usage: node add-target-profile-shares-to-organizations.js path/file.csv
+// To use on file with columns |externalId, targetProfileId-targetProfileId-targetProfileId|
 
 'use strict';
 require('dotenv').config();
-const request = require('request-promise-native');
 const targetProfileShareRepository = require('../lib/infrastructure/repositories/target-profile-share-repository');
+const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('./helpers/organizations-by-external-id-helper');
 const { parseCsv } = require('./helpers/csvHelpers');
 
-const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+function checkData({ csvData }) {
+  return csvData.map(([externalIdLowerCase, targetProfileList]) => {
 
-function organizeOrganizationsByExternalId(data) {
-  const organizationsByExternalId = {};
-
-  data.forEach((organization) => {
-    if (organization.attributes['external-id']) {
-      organization.attributes['external-id'] = organization.attributes['external-id'].toUpperCase();
-      organizationsByExternalId[organization.attributes['external-id']] = { id: organization.id, ...organization.attributes };
-    }
-  });
-
-  return organizationsByExternalId;
-}
-
-async function addTargetProfileSharesToOrganizations({ organizationsByExternalId, csvData }) {
-  for (let i = 0; i < csvData.length; i++) {
-    const [externalIdLowerCase, targetProfileList] = csvData[i];
-
-    if (!(externalIdLowerCase && targetProfileList)) {
-      return console.log('Found empty line in input file.');
+    if (!externalIdLowerCase && !targetProfileList) {
+      if (require.main === module) process.stdout.write('Found empty line in input file.');
+      return null;
     }
     if (!externalIdLowerCase) {
-      return console.log('A line is missing an externalId.', targetProfileList);
+      if (require.main === module) process.stdout.write(`A line is missing an externalId for target profile ${targetProfileList}`);
+      return null;
     }
     if (!targetProfileList) {
-      return console.log('A line is missing a targetProfileIdList', externalIdLowerCase);
+      if (require.main === module) process.stdout.write(`A line is missing a targetProfileIdList for external id ${externalIdLowerCase}`);
+      return null;
     }
-
-    if (require.main === module) {
-      process.stdout.write(`\n${i + 1}/${csvData.length} `);
-    }
-
     const externalId = externalIdLowerCase.toUpperCase();
-    const existingOrganization = organizationsByExternalId[externalId];
-    const targetProfileIdList = targetProfileList.split('-');
+    const targetProfileIdList = targetProfileList.split('-').filter((targetProfile) => !!targetProfile.trim());
 
-    if (existingOrganization && existingOrganization.id) {
-      if (require.main === module) process.stdout.write(`Adding targetProfiles: [${targetProfileList}] to organizationId: ${existingOrganization.id} `);
+    return { externalId, targetProfileIdList };
+  }).filter((data) => !!data);
+}
+
+async function addTargetProfileSharesToOrganizations({ organizationsByExternalId, checkedData }) {
+  for (let i = 0; i < checkedData.length; i++) {
+    if (require.main === module) process.stdout.write(`\n${i + 1}/${checkedData.length} `);
+
+    const { externalId, targetProfileIdList } = checkedData[i];
+    const organization = organizationsByExternalId[externalId];
+
+    if (organization && organization.id) {
+      if (require.main === module) process.stdout.write(`Adding targetProfiles: ${targetProfileIdList} to organizationId: ${organization.id} `);
       await targetProfileShareRepository.addToOrganization({
-        organizationId: existingOrganization.id,
+        organizationId: organization.id,
         targetProfileIdList
       });
       if (require.main === module) process.stdout.write('===> ✔');
     }
   }
-}
-
-function _buildAccessTokenRequestObject() {
-  return {
-    method: 'POST',
-    baseUrl,
-    url: '/api/token',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    form: {
-      grant_type: 'password',
-      username: process.env.PIXMASTER_EMAIL,
-      password: process.env.PIXMASTER_PASSWORD,
-    },
-    json: true,
-  };
-}
-
-function _buildGetOrganizationsRequestObject(accessToken) {
-  return {
-    method: 'GET',
-    headers: {
-      authorization: `Bearer ${accessToken}`,
-    },
-    baseUrl,
-    url: '/api/organizations?pageSize=999999999',
-    json: true,
-  };
 }
 
 async function main() {
@@ -95,17 +58,18 @@ async function main() {
     const csvData = parseCsv(filePath);
     console.log('ok');
 
-    console.log('Requesting API access token... ');
-    const { access_token: accessToken } = await request(_buildAccessTokenRequestObject());
+    console.log('Checking data... ');
+    const checkedData = checkData({ csvData });
     console.log('ok');
 
     console.log('Fetching existing organizations... ');
-    const { data: organizations } = await request(_buildGetOrganizationsRequestObject(accessToken));
+    const organizations = await findOrganizationsByExternalIds({ checkedData });
+
     const organizationsByExternalId = organizeOrganizationsByExternalId(organizations);
     console.log('ok');
 
     console.log('Adding target profiles shares to organizations…');
-    await addTargetProfileSharesToOrganizations({ organizationsByExternalId, csvData });
+    await addTargetProfileSharesToOrganizations({ organizationsByExternalId, checkedData });
     console.log('\nDone.');
 
   } catch (error) {
@@ -126,6 +90,6 @@ if (require.main === module) {
 }
 
 module.exports = {
-  organizeOrganizationsByExternalId,
   addTargetProfileSharesToOrganizations,
+  checkData,
 };

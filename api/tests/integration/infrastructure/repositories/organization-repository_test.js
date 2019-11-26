@@ -274,15 +274,14 @@ describe('Integration | Repository | Organization', function() {
     });
   });
 
-  describe('#findBy', () => {
+  describe('#findByExternalIdsFetchingIdsOnly', () => {
     let organizations;
 
     beforeEach(async () => {
-      const userId = databaseBuilder.factory.buildUser({}).id;
       organizations = _.map([
-        { type: 'PRO', name: 'organization 1', userId, code: 'ABCD12' },
-        { type: 'SCO', name: 'organization 2', userId, code: 'EFGH34' },
-        { type: 'SUP', name: 'organization 3', userId, code: 'IJKL56' },
+        { type: 'PRO', name: 'organization 1', code: 'ABCD12', externalId: '1234567' },
+        { type: 'SCO', name: 'organization 2', code: 'EFGH34', externalId: '1234568' },
+        { type: 'SUP', name: 'organization 3', code: 'IJKL56', externalId: '1234569' },
       ], (organization) => {
         return databaseBuilder.factory.buildOrganization(organization);
       });
@@ -292,17 +291,30 @@ describe('Integration | Repository | Organization', function() {
 
     it('should return the organizations that matches the filters', async () => {
       // given
-      const filters = { type: 'PRO' };
+      const externalIds = ['1234567', '1234569'];
 
       // when
-      const actualOrganizations = await organizationRepository.findBy(filters);
+      const foundOrganizations = await organizationRepository.findByExternalIdsFetchingIdsOnly(externalIds);
 
       // then
-      expect(actualOrganizations).to.have.lengthOf(1);
-      expect(actualOrganizations[0]).to.be.an.instanceof(Organization);
-      expect(actualOrganizations[0].code).to.equal(organizations[0].code);
-      expect(actualOrganizations[0].type).to.equal('PRO');
-      expect(actualOrganizations[0].type).to.equal(organizations[0].type);
+      expect(foundOrganizations).to.have.lengthOf(2);
+      expect(foundOrganizations[0]).to.be.an.instanceof(Organization);
+      expect(foundOrganizations[0].externalId).to.equal(organizations[0].externalId);
+      expect(foundOrganizations[1].externalId).to.equal(organizations[2].externalId);
+    });
+
+    it('should only return id and externalId', async () => {
+      // given
+      const externalIds = ['1234567'];
+
+      // when
+      const foundOrganizations = await organizationRepository.findByExternalIdsFetchingIdsOnly(externalIds);
+
+      // then
+      expect(foundOrganizations[0].externalId).to.equal(organizations[0].externalId);
+      expect(foundOrganizations[0].id).to.equal(organizations[0].id);
+      expect(foundOrganizations[0].type).to.be.undefined;
+      expect(foundOrganizations[0].code).to.be.undefined;
     });
   });
 

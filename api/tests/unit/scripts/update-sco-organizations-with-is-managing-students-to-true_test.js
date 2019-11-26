@@ -1,50 +1,8 @@
 const { expect, nock } = require('../../test-helper');
 
-const { organizeOrganizationsByExternalId, updateOrganizations } = require('../../../scripts/update-sco-organizations-with-is-managing-students-to-true');
+const { checkData, updateOrganizations } = require('../../../scripts/update-sco-organizations-with-is-managing-students-to-true');
 
 describe('Acceptance | Scripts | update-sco-organizations-with-is-managing-students-to-true.js', () => {
-
-  describe('#organizeOrganizationsByExternalId', () => {
-
-    it('should return organizations data by externalId', () => {
-      // given
-      const data = [
-        {
-          id: 1,
-          attributes: {
-            name: 'Lycée Jean Moulin',
-            'external-id': 'a100',
-          },
-        },
-        {
-          id: 2,
-          attributes: {
-            name: 'Lycée Jean Guedin',
-            'external-id': 'b200',
-          },
-        },
-      ];
-
-      const expectedResult = {
-        A100: {
-          id: 1,
-          name: 'Lycée Jean Moulin',
-          'external-id': 'A100',
-        },
-        B200: {
-          id: 2,
-          name: 'Lycée Jean Guedin',
-          'external-id': 'B200',
-        },
-      };
-
-      // when
-      const result = organizeOrganizationsByExternalId(data);
-
-      // then
-      expect(result).to.deep.equal(expectedResult);
-    });
-  });
 
   describe('#updateOrganizations', () => {
 
@@ -59,8 +17,8 @@ describe('Acceptance | Scripts | update-sco-organizations-with-is-managing-stude
         },
       };
 
-      const csvData = [
-        ['a100', 'true'],
+      const checkedData = [
+        { externalId: 'A100' },
       ];
 
       const expectedPatchBody = {
@@ -91,11 +49,52 @@ describe('Acceptance | Scripts | update-sco-organizations-with-is-managing-stude
         });
 
       // when
-      await updateOrganizations({ accessToken, organizationsByExternalId, csvData });
+      await updateOrganizations({ accessToken, organizationsByExternalId, checkedData });
 
       // then
       expect(networkStub.isDone()).to.be.true;
       expect(patchCallCount).to.be.equal(1);
+    });
+  });
+
+  describe('#checkData', () => {
+
+    it('should keep all data', async () => {
+      // given
+      const csvData = [
+        ['a100', '1-2-999'],
+        ['b200', '1-3-6'],
+      ];
+
+      const expectedResult = [{
+        externalId: 'A100',
+      }, {
+        externalId: 'B200',
+      }];
+
+      // when
+      const result = await checkData({ csvData });
+
+      // then
+      expect(result).to.deep.have.members(expectedResult);
+    });
+
+    it('should keep only one data when a whole line is empty', async () => {
+      // given
+      const csvData = [
+        ['a100'],
+        [''],
+      ];
+
+      const expectedResult = [{
+        externalId: 'A100',
+      }];
+
+      // when
+      const result = await checkData({ csvData });
+
+      // then
+      expect(result).to.deep.have.members(expectedResult);
     });
   });
 
