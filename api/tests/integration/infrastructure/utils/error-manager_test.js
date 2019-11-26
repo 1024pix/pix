@@ -357,6 +357,17 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(400);
     });
 
+    it('should return 400 on domain SessionAlreadyFinalizedError', function() {
+      // given
+      const error = new DomainErrors.SessionAlreadyFinalizedError();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
   });
 
 });
