@@ -47,6 +47,7 @@ class Challenge {
       embedHeight,
       embedTitle,
       embedUrl,
+      illustrationAlt,
       illustrationUrl,
       instruction,
       proposals,
@@ -67,6 +68,7 @@ class Challenge {
     this.embedHeight = embedHeight;
     this.embedTitle = embedTitle;
     this.embedUrl = embedUrl;
+    this.illustrationAlt = illustrationAlt;
     this.illustrationUrl = illustrationUrl;
     this.instruction = instruction;
     this.proposals = proposals;

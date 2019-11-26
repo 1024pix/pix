@@ -192,6 +192,67 @@ describe('Integration | Services | extractCertificationsDataFromAttendanceSheet'
         // then
         expect(actualData).to.deep.equal(expectedData);
       });
+
+      it('should trim whitespaces in names', async () => {
+        // given
+        const odsFilePath = `${__dirname}/attendance_sheet_1-1_spaces_around_names_test.ods`;
+        const odsBuffer = fs.readFileSync(odsFilePath);
+        const expectedData = [{
+          lastName: 'EspaceAvant',
+          firstName: 'EspaceAvant',
+          birthdate: '1990-01-04',
+          birthplace: 'Ajaccio',
+          externalId: 'ELAN123',
+          extraTimePercentage: null,
+          signature: 'x',
+          certificationId: '2',
+          lastScreen: 'x',
+          comments: null,
+        },
+        {
+          birthdate: '2000-10-22',
+          birthplace: 'Bastia',
+          certificationId: '3',
+          comments: 'Commentaire',
+          externalId: null,
+          extraTimePercentage: null,
+          firstName: 'EspaceApres',
+          lastName: 'EspaceApres',
+          lastScreen: 'x',
+          signature: null,
+        },
+        {
+          birthdate: '1990-01-04',
+          birthplace: 'Bonifacio',
+          certificationId: '2',
+          comments: null,
+          externalId: 'ELAN123',
+          extraTimePercentage: null,
+          firstName: 'EspaceAutour',
+          lastName: 'EspacesAutour',
+          lastScreen: 'x',
+          signature: 'x',
+        },
+        {
+          birthdate: '2000-10-22',
+          birthplace: 'Porto Vecchio',
+          certificationId: '3',
+          comments: 'Commentaire',
+          externalId: null,
+          extraTimePercentage: null,
+          firstName: 'TabApres',
+          lastName: 'TabApres',
+          lastScreen: 'x',
+          signature: null,
+        }];
+
+        // when
+        const actualData =
+          await certificationsOdsService.extractCertificationsDataFromAttendanceSheet({ odsBuffer });
+
+        // then
+        expect(actualData).to.deep.equal(expectedData);
+      });
     });
   });
 

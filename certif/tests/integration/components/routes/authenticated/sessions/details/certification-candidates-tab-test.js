@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, find } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import _ from 'lodash';
 
@@ -14,7 +14,7 @@ module('Integration | Component | routes/authenticated/session | certification-c
   hooks.beforeEach(function() {
     run(() => {
       store = this.owner.lookup('service:store');
-      this.set('uploadCertificationCandidatesSpy', () => {});
+      this.set('importCertificationCandidatesSpy', () => {});
     });
   });
 
@@ -27,7 +27,7 @@ module('Integration | Component | routes/authenticated/session | certification-c
     this.set('certificationCandidates', certificationCandidates);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates uploadCertificationCandidates=uploadCertificationCandidatesSpy}}`);
+    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=true importCertificationCandidates=importCertificationCandidatesSpy}}`);
 
     // then
     assert.dom('table tbody tr:first-child td:first-child').hasText('B');
@@ -53,11 +53,23 @@ module('Integration | Component | routes/authenticated/session | certification-c
     this.set('certificationCandidates', []);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates uploadCertificationCandidates=uploadCertificationCandidatesSpy}}`);
+    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=true importCertificationCandidates=importCertificationCandidatesSpy}}`);
 
     // then
     assert.dom('table tbody').doesNotExist();
     assert.dom('.table__empty').hasText('En attente de candidats');
+  });
+
+  test('it should display a warning when the import is not allowed', async function(assert) {
+    // given
+    this.set('certificationCandidates', []);
+
+    // when
+    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=false importCertificationCandidates=importCertificationCandidatesSpy}}`);
+
+    // then
+    assert.equal(find('.panel-actions__warning strong').textContent.trim(),
+      'La session a débuté, il n\'est plus possible de modifier la liste des candidats.');
   });
 
 });

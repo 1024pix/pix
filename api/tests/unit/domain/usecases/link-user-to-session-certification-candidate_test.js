@@ -24,16 +24,27 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
 
     context('when a field is missing from the provided personal info', () => {
 
-      beforeEach(() => {
-        birthdate = null;
-      });
-
-      it('should throw a CertificationCandidatePersonalInfoFieldMissingError', async () => {
+      it('should throw a CertificationCandidatePersonalInfoFieldMissingError when the birthdate is missing', async () => {
         // when
         const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
           sessionId,
           userId,
           firstName,
+          lastName,
+          birthdate: null,
+          certificationCandidateRepository,
+        });
+
+        // then
+        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
+      });
+
+      it('should throw a CertificationCandidatePersonalInfoFieldMissingError when the firstName is missing', async () => {
+        // when
+        const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
+          sessionId,
+          userId,
+          firstName: null,
           lastName,
           birthdate,
           certificationCandidateRepository,
@@ -43,6 +54,20 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
         expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
       });
 
+      it('should throw a CertificationCandidatePersonalInfoFieldMissingError when the lastName is missing', async () => {
+        // when
+        const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
+          sessionId,
+          userId,
+          firstName,
+          lastName: null,
+          birthdate,
+          certificationCandidateRepository,
+        });
+
+        // then
+        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
+      });
     });
 
     context('when no certification candidates match with the provided personal info', () => {
@@ -209,21 +234,22 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
 
         beforeEach(() => {
           certificationCandidate = { userId: null };
-          sinon.stub(certificationCandidateRepository,
-            'findBySessionIdAndPersonalInfo')
+          sinon.stub(certificationCandidateRepository, 'findBySessionIdAndPersonalInfo')
             .withArgs({
               sessionId,
               firstName,
               lastName,
               birthdate,
-            }).resolves([certificationCandidate]);
-          sinon.stub(certificationCandidateRepository,
-            'findOneBySessionIdAndUserId')
-            .withArgs({ sessionId, userId }).resolves(undefined);
+            })
+            .resolves([certificationCandidate]);
+
+          sinon.stub(certificationCandidateRepository, 'findOneBySessionIdAndUserId')
+            .withArgs({ sessionId, userId })
+            .resolves(undefined);
+
           linkedCertificationCandidate = { userId };
-          sinon.stub(certificationCandidateRepository,
-            'save')
-            .withArgs(certificationCandidate).resolves(linkedCertificationCandidate);
+          sinon.stub(certificationCandidateRepository, 'save')
+            .resolves(linkedCertificationCandidate);
         });
 
         it('should create a link and return the linked certification candidate', async () => {
@@ -239,7 +265,23 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
 
           // then
           expect(result.linkCreated).to.be.true;
-          expect(result.certificationCandidate).to.equal(linkedCertificationCandidate);
+          sinon.assert.calledWith(certificationCandidateRepository.save, linkedCertificationCandidate);
+        });
+
+        it('should trim spaces in first and last name when searching for a candidate', async () => {
+          // when
+          const result = await usecases.linkUserToSessionCertificationCandidate({
+            sessionId,
+            userId,
+            firstName: ` \t${firstName} \t`,
+            lastName: `  \t${lastName} \t`,
+            birthdate,
+            certificationCandidateRepository,
+          });
+
+          // then
+          expect(result.linkCreated).to.be.true;
+          sinon.assert.calledWith(certificationCandidateRepository.save, linkedCertificationCandidate);
         });
       });
     });

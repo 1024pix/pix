@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, visit, find } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembership } from '../helpers/test-init';
@@ -62,7 +62,8 @@ module('Acceptance | Session Details', function(hooks) {
       await visit('/sessions/1/candidats');
 
       // then
-      assert.dom('.panel-actions__download-button').hasText('Télécharger (.ods)');
+      assert.dom('[data-test-id="attendance_sheet_download_button"]').exists();
+      assert.dom('[data-test-id="attendance_sheet_download_button"]').hasText('Télécharger (.ods)');
     });
 
     test('it should display an upload button', async function(assert) {
@@ -70,7 +71,8 @@ module('Acceptance | Session Details', function(hooks) {
       await visit('/sessions/1/candidats');
 
       // then
-      assert.dom('.panel-actions__upload-button').hasText('Importer (.ods)');
+      assert.dom('[data-test-id="attendance_sheet_upload_button"]').exists();
+      assert.dom('[data-test-id="attendance_sheet_upload_button"]').hasText('Importer (.ods)');
     });
 
     module('notifications', function() {
@@ -87,7 +89,7 @@ module('Acceptance | Session Details', function(hooks) {
         assert.dom('[data-test-notification-message="success"]').exists();
       });
 
-      test('it should display an error message when uploading an invalid file', async function(assert) {
+      test('it should display a generic error message when uploading an invalid file', async function(assert) {
         // given
         await visit('/sessions/1/candidats');
         const file = new File(['foo'], 'invalid-file');
@@ -97,6 +99,20 @@ module('Acceptance | Session Details', function(hooks) {
 
         // then
         assert.dom('[data-test-notification-message="error"]').exists();
+      });
+
+      test('it should display a specific error message when importing is forbidden', async function(assert) {
+        // given
+        await visit('/sessions/1/candidats');
+        const file = new File(['foo'], 'forbidden-import');
+
+        // when
+        await upload('#upload-attendance-sheet', file);
+
+        // then
+        assert.dom('[data-test-notification-message="error"]').exists();
+        assert.equal(find('[data-test-notification-message="error"]').textContent.trim(),
+          'La session a débuté, il n\'est plus possible de modifier la liste des candidats.');
       });
 
     });

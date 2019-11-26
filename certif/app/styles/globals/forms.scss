@@ -75,6 +75,11 @@
     transition: background-color 0.2s ease;
   }
 
+  &--disabled {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
   &--white {
     background-color: white;
     color: black;

@@ -1,8 +1,10 @@
 import Route from '@ember/routing/route';
 
 export default Route.extend({
-  model(params) {
-    return this.store.findRecord('session', params.session_id);
+  async model(params) {
+    const session = await this.store.findRecord('session', params.session_id);
+    await session.certifications;
+    return session;
   },
   setupController(controller, model) {
     this._super(controller, model);
