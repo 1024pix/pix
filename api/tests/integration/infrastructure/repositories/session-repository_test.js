@@ -96,6 +96,34 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
+  describe('#isFinalized', () => {
+    let finalizedSessionId;
+    let notFinalizedSessionId;
+
+    beforeEach(() => {
+      finalizedSessionId = databaseBuilder.factory.buildSession({ status: Session.statuses.FINALIZED }).id;
+      notFinalizedSessionId = databaseBuilder.factory.buildSession({ status: Session.statuses.STARTED }).id;
+
+      return databaseBuilder.commit();
+    });
+
+    it('should return true if the session status is finalized', async () => {
+      // when
+      const isFinalized = await sessionRepository.isFinalized(finalizedSessionId);
+
+      // then
+      expect(isFinalized).to.be.equal(true);
+    });
+
+    it('should return false if the session status is not finalized', async () => {
+      // when
+      const isFinalized = await sessionRepository.isFinalized(notFinalizedSessionId);
+
+      // then
+      expect(isFinalized).to.be.equal(false);
+    });
+  });
+
   describe('#getByAccessCode', () => {
     let session;
 
