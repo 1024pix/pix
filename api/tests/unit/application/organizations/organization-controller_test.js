@@ -470,13 +470,13 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#sendInvitation', () => {
+  describe('#sendInvitations', () => {
 
     const userId = 1;
     const invitation = domainBuilder.buildOrganizationInvitation();
 
     const organizationId = invitation.organizationId;
-    const email = invitation.email;
+    const emails = [invitation.email];
 
     beforeEach(() => {
       request = {
@@ -486,22 +486,21 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           data: {
             type: 'organization-invitations',
             attributes: {
-              email
+              email: invitation.email
             },
           }
         }
       };
 
-      sinon.stub(usecases, 'createOrganizationInvitation');
-      usecases.createOrganizationInvitation.resolves({ id: 1 });
+      sinon.stub(usecases, 'createOrganizationInvitations').resolves([{ id: 1 }]);
     });
 
     it('should call the usecase to create invitation with organizationId and email', async () => {
       // when
-      await organizationController.sendInvitation(request, hFake);
+      await organizationController.sendInvitations(request, hFake);
 
       // then
-      expect(usecases.createOrganizationInvitation).to.have.been.calledWith({ organizationId, email });
+      expect(usecases.createOrganizationInvitations).to.have.been.calledWith({ organizationId, emails });
     });
   });
 

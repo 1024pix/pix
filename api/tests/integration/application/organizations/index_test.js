@@ -88,12 +88,12 @@ describe('Integration | Application | Organizations | Routes', () => {
 
     beforeEach(() => {
       sinon.stub(securityController, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').callsFake((request, h) => h.response(true));
-      sinon.stub(organisationController, 'sendInvitation').callsFake((request, h) => h.response().created());
+      sinon.stub(organisationController, 'sendInvitations').callsFake((request, h) => h.response().created());
 
       return server.register(route);
     });
 
-    it('should call the organization controller to send invitation', async () => {
+    it('should call the organization controller to send invitations', async () => {
       // when
       const response = await server.inject({
         method: 'POST',
@@ -102,7 +102,7 @@ describe('Integration | Application | Organizations | Routes', () => {
           data: {
             type: 'organization-invitations',
             attributes: {
-              email: 'member@organization.org'
+              emails: ['member@organization.org']
             },
           }
         }
@@ -110,7 +110,7 @@ describe('Integration | Application | Organizations | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(201);
-      expect(organisationController.sendInvitation).to.have.been.calledOnce;
+      expect(organisationController.sendInvitations).to.have.been.calledOnce;
     });
   });
 

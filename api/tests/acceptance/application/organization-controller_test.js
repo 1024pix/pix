@@ -1234,7 +1234,8 @@ describe('Acceptance | Application | organization-controller', () => {
   describe('POST /api/organizations/{id}/invitations', () => {
 
     let organization;
-    let user;
+    let user1;
+    let user2;
     let options;
 
     context('Expected output', () => {
@@ -1248,7 +1249,8 @@ describe('Acceptance | Application | organization-controller', () => {
           organizationRole: Membership.roles.ADMIN,
         });
 
-        user = databaseBuilder.factory.buildUser();
+        user1 = databaseBuilder.factory.buildUser();
+        user2 = databaseBuilder.factory.buildUser();
 
         options = {
           method: 'POST',
@@ -1258,7 +1260,7 @@ describe('Acceptance | Application | organization-controller', () => {
             data: {
               type: 'organization-invitations',
               attributes: {
-                email: user.email,
+                email: `${user1.email},${user2.email}`
               },
             }
           }
@@ -1274,26 +1276,41 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should return the matching organization-invitations as JSON API', async () => {
         // given
         const status = OrganizationInvitation.StatusType.PENDING;
-        const expectedResult = {
-          data: {
+        const expectedResults = [
+          {
             type: 'organization-invitations',
             attributes: {
               'organization-id': organization.id.toString(),
-              email: user.email,
+              email: user1.email,
               status
-            },
+            }
+          },
+          {
+            type: 'organization-invitations',
+            attributes: {
+              'organization-id': organization.id.toString(),
+              email: user2.email,
+              status
+            }
           }
-        };
+        ];
+
         // when
         const response = await server.inject(options);
 
         // then
         expect(response.statusCode).to.equal(201);
-        expect(_.omit(response.result, 'data.id', 'data.attributes.created-at', 'data.attributes.organization-name')).to.deep.equal(expectedResult);
+        expect(response.result.data.length).equal(2);
+        expect(_.omit(response.result.data[0], 'id', 'attributes.created-at', 'attributes.organization-name'))
+          .to.deep.equal(expectedResults[0]);
+        expect(_.omit(response.result.data[1], 'id', 'attributes.created-at', 'attributes.organization-name'))
+          .to.deep.equal(expectedResults[1]);
       });
     });
 
     context('Resource access management', () => {
+
+      let user;
 
       beforeEach(async () => {
         const adminUserId = databaseBuilder.factory.buildUser().id;
