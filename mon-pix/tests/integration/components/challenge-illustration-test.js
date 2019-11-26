@@ -4,23 +4,23 @@ import { setupRenderingTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import { find, render, triggerEvent } from '@ember/test-helpers';
 
-describe('Integration | Component | img-wrapper', function() {
+describe('Integration | Component | challenge-illustration', function() {
   setupRenderingTest();
 
   const IMG_SRC = 'http://www.example.com/this-is-an-example.png';
   const IMG_ALT = 'texte alternatif à l\'image';
 
-  const IMAGE = '.challenge-statement__illustration';
-  const IMAGE_PLACEHOLDER = '.img-wrapper__placeholder';
+  const IMAGE = '.challenge-illustration__loaded-image';
+  const IMAGE_PLACEHOLDER = '.challenge-illustration__placeholder';
 
-  const HIDDEN_CLASS_NAME = 'img--hidden';
+  const HIDDEN_CLASS_NAME = 'challenge-illustration__loaded-image--hidden';
 
   it('renders', async function() {
     // when
-    await render(hbs`{{img-wrapper}}`);
+    await render(hbs`{{challenge-illustration}}`);
 
     // then
-    expect(find('.img-wrapper')).to.exist;
+    expect(find('.challenge-illustration')).to.exist;
   });
 
   describe('When there is an image', function() {
@@ -31,7 +31,7 @@ describe('Integration | Component | img-wrapper', function() {
       this.set('alt', IMG_ALT);
 
       // when
-      await render(hbs`{{img-wrapper src=src alt=alt}}`);
+      await render(hbs`{{challenge-illustration src=src alt=alt}}`);
 
       // then
       expect(find(IMAGE)).to.exist;
@@ -55,7 +55,7 @@ describe('Integration | Component | img-wrapper', function() {
       this.set('alt', '');
 
       // when
-      await render(hbs`{{img-wrapper src=src alt=alt}}`);
+      await render(hbs`{{challenge-illustration src=src alt=alt}}`);
 
       // then
       expect(find(IMAGE)).to.exist;
