@@ -8,7 +8,7 @@ import ENV from 'mon-pix/config/environment';
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'Votre prénom n’est pas renseigné.',
   lastName: 'Votre nom n’est pas renseigné.',
-  email: 'Votre adresse électronique n’est pas valide.',
+  email: 'Votre adresse e-mail n’est pas valide.',
   password: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.'
 };
 const TEMPORARY_DIV_CLASS_MAP = {
