@@ -86,7 +86,7 @@ module.exports = {
       userId, sessionId, certificationCandidateWithPersonalInfoOnly,
     });
 
-    const serialized = certificationCandidateSerializer.serialize(certificationCandidate);
+    const serialized = await certificationCandidateSerializer.serialize(certificationCandidate);
 
     return linkCreated ? h.response(serialized).created() : serialized;
   },
