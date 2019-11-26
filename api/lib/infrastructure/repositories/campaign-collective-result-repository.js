@@ -22,15 +22,15 @@ module.exports = {
 
 async function _fetchData(campaignId) {
 
-  const [competences, campaign, sharedParticipations ] = await Promise.all([
+  const [competences, campaign ] = await Promise.all([
     competenceDatasource.list(),
     _fetchCampaignWithRelatedData(campaignId),
-    _fetchCampaignParticipations(campaignId)
   ]);
 
   const targetedSkillIds = campaign.related('targetProfile').related('skillIds').map((targetProfileSkill) => targetProfileSkill.get('skillId'));
   const targetedSkills = await skillDatasource.findByRecordIds(targetedSkillIds);
 
+  const sharedParticipations = await _fetchCampaignParticipations(campaignId, targetedSkillIds);
   return { competences, campaign, sharedParticipations, targetedSkillIds, targetedSkills };
 }
 
@@ -58,27 +58,27 @@ function _fetchCampaignWithRelatedData(campaignId) {
   });
 }
 
-async function _fetchCampaignParticipations(campaignId) {
+async function _fetchCampaignParticipations(campaignId, targetedSkillIds) {
   return (await BookshelfCampaignParticipation.where({ campaignId })
     .where({ isShared: true })
     .fetchAll({
-      withRelated: [
-        'user.knowledgeElements',
-      ]
+      withRelated: {
+        'user.knowledgeElements': (qb) => {qb.whereIn('skillId', targetedSkillIds);}
+      }
     })).models;
 }
 
-function _extractParticipantsKEs(sharedParticipations, targetedSkillIds) {
+function _extractParticipantsKEs(sharedParticipations) {
   return _.flatMap(sharedParticipations, (participation) => {
     const filteredKEs = participation
       .related('user')
       .related('knowledgeElements')
-      .filter((ke) => ke.isCoveredByTargetProfile(targetedSkillIds)
-        && ke.wasCreatedBefore(participation.get('sharedAt'))
+      .filter((ke) =>
+        ke.wasCreatedBefore(participation.get('sharedAt'))
       );
 
-    const sortedByDateKEs = _.orderBy(filteredKEs, ((ke) => ke.get('createdAt')), 'desc');
-    const uniqueBySkillIdKEs = _.uniqBy(sortedByDateKEs, ((ke) => ke.get('skillId')));
+    const sortedByDateKEs = _.orderBy(filteredKEs, 'attributes.createdAt', 'desc');
+    const uniqueBySkillIdKEs = _.uniqBy(sortedByDateKEs, 'attributes.skillId');
     return _.filter(uniqueBySkillIdKEs, ((ke) => ke.isValidated()));
   });
 }
