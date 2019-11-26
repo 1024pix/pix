@@ -13,6 +13,8 @@ describe('Integration | Component | img-wrapper', function() {
   const IMAGE = '.challenge-statement__illustration';
   const IMAGE_PLACEHOLDER = '.img-wrapper__placeholder';
 
+  const HIDDEN_CLASS_NAME = 'img--hidden';
+
   it('renders', async function() {
     // when
     await render(hbs`{{img-wrapper}}`);
@@ -25,7 +27,6 @@ describe('Integration | Component | img-wrapper', function() {
 
     it('should display placeholder and hidden image, then only image when it has loaded', async function() {
       // given
-      const hiddenClassName = 'img--hidden';
       this.set('src', IMG_SRC);
       this.set('alt', IMG_ALT);
 
@@ -34,14 +35,14 @@ describe('Integration | Component | img-wrapper', function() {
 
       // then
       expect(find(IMAGE)).to.exist;
-      expect(find(IMAGE).className).to.include(hiddenClassName);
+      expect(find(IMAGE).className).to.include(HIDDEN_CLASS_NAME);
       expect(find(IMAGE).getAttribute('alt')).to.equal(IMG_ALT);
       expect(find(IMAGE).getAttribute('src')).to.equal(IMG_SRC);
       expect(find(IMAGE_PLACEHOLDER)).to.exist;
 
       await triggerEvent(IMAGE, 'load');
       expect(find(IMAGE)).to.exist;
-      expect(find(IMAGE).className).to.not.include(hiddenClassName);
+      expect(find(IMAGE).className).to.not.include(HIDDEN_CLASS_NAME);
       expect(find(IMAGE_PLACEHOLDER)).to.not.exist;
     });
   });
@@ -50,7 +51,6 @@ describe('Integration | Component | img-wrapper', function() {
 
     it('should display nothing', async function() {
       // given
-      const hiddenClassName = 'img--hidden';
       this.set('src', '');
       this.set('alt', '');
 
@@ -59,7 +59,7 @@ describe('Integration | Component | img-wrapper', function() {
 
       // then
       expect(find(IMAGE)).to.exist;
-      expect(find(IMAGE).className).to.include(hiddenClassName);
+      expect(find(IMAGE).className).to.include(HIDDEN_CLASS_NAME);
       expect(find(IMAGE_PLACEHOLDER)).to.not.exist;
     });
   });
