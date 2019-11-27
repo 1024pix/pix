@@ -6,8 +6,11 @@
 @import 'ember-burger-menu/animations/push';
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
+
+/* common globals */
+@import 'system/colors';
+
 /* globals */
-@import 'globals/colors';
 @import 'globals/fonts';
 @import 'globals/breakpoints';
 @import 'globals/alert';
@@ -18,6 +21,7 @@
 @import 'globals/buttons';
 @import 'globals/tables';
 @import 'globals/text';
+
 /* components */
 @import 'components/background-banner';
 @import 'components/assessment-banner';
