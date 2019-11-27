@@ -3,7 +3,7 @@
   position: fixed;
   top: 10px;
   right: 10px;
-  width: 362px;
+  width: 300px;
   height: 80px;
   border-radius: 5px;
   box-shadow: 0 0 10px $charcoal-grey;
@@ -12,6 +12,10 @@
   animation-name: slidein;
 
   background-color: rgba(255,255,255,0.90);
+
+  @include device-is('desktop') {
+    width: 362px;
+  }
 
   &__icon-card-level {
     position: absolute;
