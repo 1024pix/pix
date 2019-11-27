@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
 const BookshelfCampaign = require('../data/campaign');
-const BookshelfCampaignParticipation = require('../data/campaign-participation');
+const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const competenceDatasource = require('../datasources/airtable/competence-datasource');
 const skillDatasource = require('../datasources/airtable/skill-datasource');
 const CampaignCollectiveResult = require('../../domain/models/CampaignCollectiveResult');
@@ -11,10 +11,10 @@ module.exports = {
 
   async getCampaignCollectiveResult(campaignId) {
 
-    const { competences, campaign, sharedParticipations, targetedSkillIds, targetedSkills } = await _fetchData(campaignId);
-    const { participants, participantsKEs } = _filterData(campaign, sharedParticipations, targetedSkillIds);
+    const { competences, campaign, filteredKEsPerParticipant, targetedSkills } = await _fetchData(campaignId);
+    const { participantCount, participantsKEs } = _filterData(campaign, filteredKEsPerParticipant);
     const { participantsKEsByCompetenceId, targetedSkillsByCompetenceId } = _groupByCompetenceId(participantsKEs, targetedSkills);
-    const campaignCompetenceCollectiveResults = _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participants, targetedSkillsByCompetenceId, participantsKEsByCompetenceId);
+    const campaignCompetenceCollectiveResults = _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participantCount, targetedSkillsByCompetenceId, participantsKEsByCompetenceId);
 
     return new CampaignCollectiveResult({ id: campaignId, campaignCompetenceCollectiveResults });
   }
@@ -30,16 +30,15 @@ async function _fetchData(campaignId) {
   const targetedSkillIds = campaign.related('targetProfile').related('skillIds').map((targetProfileSkill) => targetProfileSkill.get('skillId'));
   const targetedSkills = await skillDatasource.findByRecordIds(targetedSkillIds);
 
-  const sharedParticipations = await _fetchCampaignParticipations(campaignId, targetedSkillIds);
-  return { competences, campaign, sharedParticipations, targetedSkillIds, targetedSkills };
+  const filteredKEsPerParticipant = await _fetchFilteredKEsPerParticipant(campaignId, targetedSkillIds);
+
+  return { competences, campaign, filteredKEsPerParticipant, targetedSkillIds, targetedSkills };
 }
 
-function _filterData(campaign, sharedParticipations, targetedSkillIds) {
+function _filterData(campaign, filteredKEsPerParticipant) {
+  const participantsKEs = _extractCurrentValidatedParticipantKEs(filteredKEsPerParticipant);
 
-  const participants = sharedParticipations.map((participation) => participation.related('user'));
-  const participantsKEs = _extractParticipantsKEs(sharedParticipations, targetedSkillIds);
-
-  return { participants, participantsKEs };
+  return { participantCount: _.size(filteredKEsPerParticipant), participantsKEs };
 }
 
 function _groupByCompetenceId(participantsKEs, targetedSkills) {
@@ -58,35 +57,33 @@ function _fetchCampaignWithRelatedData(campaignId) {
   });
 }
 
-async function _fetchCampaignParticipations(campaignId, targetedSkillIds) {
-  return (await BookshelfCampaignParticipation.where({ campaignId })
+async function _fetchFilteredKEsPerParticipant(campaignId, targetedSkillIds) {
+  const participantKEsSharedAndInTargetProfile = (await BookshelfKnowledgeElement
+    .query((qb) => qb.innerJoin('campaign-participations', function() {
+      this.on({ 'campaign-participations.userId': 'knowledge-elements.userId' })
+        .andOn('knowledge-elements.createdAt', '<=', 'campaign-participations.sharedAt');
+    }))
+    .where('skillId', 'in', targetedSkillIds)
     .where({ isShared: true })
-    .fetchAll({
-      withRelated: {
-        'user.knowledgeElements': (qb) => {qb.whereIn('skillId', targetedSkillIds);}
-      }
-    })).models;
+    .fetchAll({})).models;
+  const filteredKEsPerParticipant = _.values(_.groupBy(participantKEsSharedAndInTargetProfile, 'attributes.userId'));
+
+  return filteredKEsPerParticipant;
 }
 
-function _extractParticipantsKEs(sharedParticipations) {
-  return _.flatMap(sharedParticipations, (participation) => {
-    const filteredKEs = participation
-      .related('user')
-      .related('knowledgeElements')
-      .filter((ke) =>
-        ke.wasCreatedBefore(participation.get('sharedAt'))
-      );
+function _extractCurrentValidatedParticipantKEs(filteredKEsPerParticipant) {
 
-    const sortedByDateKEs = _.orderBy(filteredKEs, 'attributes.createdAt', 'desc');
+  return _.flatMap(filteredKEsPerParticipant, (participantKEs) => {
+    const sortedByDateKEs = _.orderBy(participantKEs, 'attributes.createdAt', 'desc');
     const uniqueBySkillIdKEs = _.uniqBy(sortedByDateKEs, 'attributes.skillId');
     return _.filter(uniqueBySkillIdKEs, ((ke) => ke.isValidated()));
   });
 }
 
-function _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participants, targetedSkillsByCompetenceId, participantsKEsByCompetenceId) {
+function _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participantCount, targetedSkillsByCompetenceId, participantsKEsByCompetenceId) {
   return _(targetedSkillsByCompetenceId).keys().map((competenceId) => {
     const competence = _.find(competences, { id: competenceId });
-    const averageValidatedSkills = _.size(participants) ? _.size(participantsKEsByCompetenceId[competenceId]) / _.size(participants) : 0;
+    const averageValidatedSkills = participantCount ? _.size(participantsKEsByCompetenceId[competenceId]) / participantCount : 0;
     return new CampaignCompetenceCollectiveResult({
       campaignId,
       competenceId,
