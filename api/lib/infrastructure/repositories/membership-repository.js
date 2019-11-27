@@ -61,4 +61,16 @@ module.exports = {
       .catch(() => false);
   },
 
+  findByOrganizationIdAndEmailsFetchingEmailsOnly({ organizationId, emails }) {
+    return BookshelfMembership
+      .where({ 'memberships.organizationId': organizationId })
+      .where('users.email', 'IN', emails)
+      .query((qb) => {
+        qb.innerJoin('users', 'users.id', 'memberships.userId');
+      })
+      .fetchAll({ columns: ['users.email'] })
+      .then((result) => result.toJSON())
+      .then((datas) => datas.map((data) => data.email));
+  },
+
 };

@@ -254,6 +254,44 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       // then
       expect(membershipExists).to.be.false;
     });
-
   });
+
+  describe('#findByOrganizationIdAndEmailsFetchingEmailsOnly', () => {
+
+    it('should return an empty list of emails', async () => {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const user1 = databaseBuilder.factory.buildUser();
+      const user2 = databaseBuilder.factory.buildUser();
+
+      const emails = [user1.email, user2.email];
+
+      await databaseBuilder.commit();
+
+      // when
+      const foundEmails = await membershipRepository.findByOrganizationIdAndEmailsFetchingEmailsOnly({ organizationId, emails });
+
+      // then
+      expect(foundEmails).to.be.empty;
+    });
+
+    it('should return a list of emails from already existing memberships', async () => {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const user1 = databaseBuilder.factory.buildUser();
+      const user2 = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildMembership({ organizationId, userId: user1.id });
+      databaseBuilder.factory.buildMembership({ organizationId, userId: user2.id });
+
+      const emails = [user1.email, user2.email];
+
+      await databaseBuilder.commit();
+
+      // when
+      const foundEmails = await membershipRepository.findByOrganizationIdAndEmailsFetchingEmailsOnly({ organizationId, emails });
+
+      // then
+      expect(foundEmails).to.have.members(emails);
+    });
+  });
+
 });
