@@ -4,7 +4,7 @@ const User = require('../models/User');
 const userValidator = require('../validators/user-validator');
 
 function  _manageEmailAvailabilityError(error) {
-  return _manageError(error, AlreadyRegisteredEmailError, 'email', 'Cette adresse électronique est déjà enregistrée, connectez-vous.');
+  return _manageError(error, AlreadyRegisteredEmailError, 'email', 'Cette adresse e-mail est déjà enregistrée, connectez-vous.');
 }
 
 function  _manageReCaptchaTokenError(error) {
