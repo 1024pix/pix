@@ -24,7 +24,6 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/sessions/{id}',
       config: {
-        auth: false,
         handler: sessionController.get,
         tags: ['api']
       }

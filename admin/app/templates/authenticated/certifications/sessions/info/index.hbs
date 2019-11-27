@@ -31,10 +31,14 @@
     <div class='col'>Code d'accès :</div>
     <div class='col'>{{session.accessCode}}</div>
   </div>
+  <div class='row'>
+    <div class='col'>Statut :</div>
+    <div class='col'>{{if session.isFinalized 'Finalisée' 'Prête'}}</div>
+  </div>
 
   <div class='row row--btn'>
-      <button data-test-id="button-session-result-file-info" class="btn btn-primary" {{action "downloadSessionResultFile"}} type="button">
-        Exporter les résultats
-      </button>
+    <button data-test-id="button-session-result-file-info" class="btn btn-primary" {{action "downloadSessionResultFile"}} type="button">
+      Exporter les résultats
+    </button>
   </div>
 </div>

@@ -12,7 +12,7 @@ module.exports = function buildSession({
   examiner = faker.name.findName(),
   date = moment(faker.date.recent()).format('YYYY-MM-DD'),
   time = '14:30',
-  status = 'started',
+  status = Session.statuses.STARTED,
   description = faker.random.words(),
 } = {}) {
   return new Session({
