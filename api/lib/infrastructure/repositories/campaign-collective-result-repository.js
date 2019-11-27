@@ -38,9 +38,20 @@ async function _fetchData(campaignId) {
 }
 
 async function _fetchFilteredCurrentValidatedParticipantKEs(campaignId, targetedSkillIds) {
-  const filteredKEsPerParticipant = await _fetchFilteredKEsPerParticipant(campaignId, targetedSkillIds);
+  const { models: participantKEsSharedAndInTargetProfile } = await BookshelfKnowledgeElement
+    .query(_joinWithSharedCampaignParticipationsAndFilterBySharedAt)
+    .query(_filterByTargetSkills(targetedSkillIds))
+    .query(_filterByCampaignId(campaignId))
+    .query(_keepOnlySharedParticipations)
+    .fetchAll();
 
-  return _extractCurrentValidatedParticipantKEs(filteredKEsPerParticipant);
+  const filteredKEsPerParticipant = _.values(_.groupBy(participantKEsSharedAndInTargetProfile, 'attributes.userId'));
+
+  return _.flatMap(filteredKEsPerParticipant, (participantKEs) => {
+    const sortedByDateKEs = _.orderBy(participantKEs, 'attributes.createdAt', 'desc');
+    const uniqueBySkillIdKEs = _.uniqBy(sortedByDateKEs, 'attributes.skillId');
+    return _.filter(uniqueBySkillIdKEs, ((ke) => ke.isValidated()));
+  });
 }
 
 function _groupByCompetenceId(participantsKEs, targetedSkills) {
@@ -81,28 +92,6 @@ function _filterByCampaignId(campaignId) {
 
 function _keepOnlySharedParticipations(qb) {
   qb.where({ 'campaign-participations.isShared': true });
-}
-
-async function _fetchFilteredKEsPerParticipant(campaignId, targetedSkillIds) {
-  const { models: participantKEsSharedAndInTargetProfile } = await BookshelfKnowledgeElement
-    .query(_joinWithSharedCampaignParticipationsAndFilterBySharedAt)
-    .query(_filterByTargetSkills(targetedSkillIds))
-    .query(_filterByCampaignId(campaignId))
-    .query(_keepOnlySharedParticipations)
-    .fetchAll();
-
-  const filteredKEsPerParticipant = _.values(_.groupBy(participantKEsSharedAndInTargetProfile, 'attributes.userId'));
-
-  return filteredKEsPerParticipant;
-}
-
-function _extractCurrentValidatedParticipantKEs(filteredKEsPerParticipant) {
-
-  return _.flatMap(filteredKEsPerParticipant, (participantKEs) => {
-    const sortedByDateKEs = _.orderBy(participantKEs, 'attributes.createdAt', 'desc');
-    const uniqueBySkillIdKEs = _.uniqBy(sortedByDateKEs, 'attributes.skillId');
-    return _.filter(uniqueBySkillIdKEs, ((ke) => ke.isValidated()));
-  });
 }
 
 function _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participantCount, targetedSkillsByCompetenceId, participantsKEsByCompetenceId) {
