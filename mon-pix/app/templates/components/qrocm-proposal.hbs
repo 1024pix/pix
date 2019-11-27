@@ -14,7 +14,15 @@
                 id="{{block.text}}"
                 value={{property-of answersValue block.input}}>
       </textarea>
-
+    {{else if (eq format 'phrase')}}
+      <input class="challenge-response__proposal challenge-response__proposal--sentence"
+             type="text"
+             for="qrocm_input"
+             name={{block.input}}
+             placeholder={{block.placeholder}}
+             autocomplete="off"
+             id="{{block.text}}"
+             value={{property-of answersValue block.input}}>
     {{else}}
       <input class="challenge-response__proposal"
              size="{{get-qroc-input-size format}}"

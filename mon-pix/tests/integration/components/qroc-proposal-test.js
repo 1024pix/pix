@@ -28,12 +28,26 @@ describe('Integration | Component | QROC proposal', function() {
     });
   });
 
-  describe('When format is not a paragraph', function() {
+  describe('When format is a sentence', function() {
+
+    it('should display an input', async function() {
+      // given
+      this.set('proposals', '${myInput}');
+      this.set('format', 'phrase');
+
+      // when
+      await render(hbs`{{qroc-proposal proposals=proposals format=format}}`);
+
+      // then
+      expect(find('.challenge-response__proposal--sentence').tagName).to.equal('INPUT');
+    });
+  });
+
+  describe('When format is neither a paragraph nor a phrase', function() {
 
     [
       { format: 'petit', expectedSize: '11' },
       { format: 'mots', expectedSize: '20' },
-      { format: 'phrase', expectedSize: '50' },
       { format: 'unreferenced_format', expectedSize: '20' }
     ].forEach((data) => {
       it(`should display an input with expected size (${data.expectedSize}) when format is ${data.format}`, async function() {
@@ -46,6 +60,7 @@ describe('Integration | Component | QROC proposal', function() {
 
         // then
         expect(find('.challenge-response__proposal--paragraph')).to.not.exist;
+        expect(find('.challenge-response__proposal--sentence')).to.not.exist;
         expect(find('.challenge-response__proposal').tagName).to.equal('INPUT');
         expect(find('.challenge-response__proposal').getAttribute('size')).to.equal(data.expectedSize);
       });
@@ -56,8 +71,9 @@ describe('Integration | Component | QROC proposal', function() {
   describe('Whatever the format', function() {
     [
       { format: 'mots', cssClass: '.challenge-response__proposal', inputType: 'input' },
-      { format: 'unreferenced_format', cssClass: '.challenge-response__proposal', inputType: 'input' },
+      { format: 'phrase', cssClass: '.challenge-response__proposal--sentence', inputType: 'input' },
       { format: 'paragraphe', cssClass: '.challenge-response__proposal--paragraph', inputType: 'textarea' },
+      { format: 'unreferenced_format', cssClass: '.challenge-response__proposal', inputType: 'input' },
     ].forEach((data) => {
       describe(`Component behavior when the user clicks on the ${data.inputType}:`, function() {
         it('should not display autocompletion answers', async function() {

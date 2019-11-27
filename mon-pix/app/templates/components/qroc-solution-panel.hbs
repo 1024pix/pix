@@ -9,6 +9,11 @@
                   ariaLabel="réponse donnée"
                   disabled>
         </textarea>
+      {{else if (eq answer.challenge.format 'phrase')}}
+        <input class="correction-qroc-box-answer correction-qroc-box-answer--sentence {{inputClass}}"
+               value="{{answerToDisplay}}"
+               ariaLabel="réponse donnée"
+               disabled>
       {{else}}
         <input class="correction-qroc-box-answer {{inputClass}}"
                size="{{get-qroc-input-size answer.challenge.format}}"

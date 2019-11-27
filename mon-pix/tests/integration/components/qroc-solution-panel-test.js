@@ -26,11 +26,25 @@ describe('Integration | Component | QROC solution panel', function() {
     });
   });
 
-  describe('When format is not a paragraph', function() {
+  describe('When format is sentence', function() {
+    it('should display disabled input', async function() {
+      // given
+      const challenge = EmberObject.create({ format: 'phrase' });
+      const answer = EmberObject.create({ challenge });
+      this.set('answer', answer);
+
+      //when
+      await render(hbs`{{qroc-solution-panel answer=answer}}`);
+
+      // then
+      expect(find('input.correction-qroc-box-answer--sentence')).to.have.attr('disabled');
+    });
+  });
+
+  describe('When format is neither a paragraph nor a sentence', function() {
     [
       { format: 'petit', expectedSize: '11' },
       { format: 'mots', expectedSize: '20' },
-      { format: 'phrase', expectedSize: '50' },
       { format: 'unreferenced_format', expectedSize: '20' }
     ].forEach((data) => {
       it(`should display a disabled input with expected size (${data.expectedSize}) when format is ${data.format}`, async function() {
@@ -45,6 +59,7 @@ describe('Integration | Component | QROC solution panel', function() {
 
         // then
         expect(find('textarea.correction-qroc-box-answer--paragraph')).to.not.exist;
+        expect(find('textarea.correction-qroc-box-answer--sentence')).to.not.exist;
         expect(find('input.correction-qroc-box-answer')).to.have.attr('disabled');
         expect(find('input.correction-qroc-box-answer').getAttribute('size')).to.equal(data.expectedSize);
       });
@@ -53,8 +68,9 @@ describe('Integration | Component | QROC solution panel', function() {
 
   [
     { format: 'petit' },
-    { format: 'unreferenced_format' },
+    { format: 'phrase' },
     { format: 'paragraphe' },
+    { format: 'unreferenced_format' },
   ].forEach((data) => {
     describe(`Whatever the format (testing "${data.format}" format)`, function() {
       describe('When the answer is correct', function() {
