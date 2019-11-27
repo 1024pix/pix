@@ -1,6 +1,7 @@
 const _ = require('lodash');
 
 const BookshelfCampaign = require('../data/campaign');
+const BookshelfCampaignParticipation = require('../data/campaign-participation');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const competenceDatasource = require('../datasources/airtable/competence-datasource');
 const skillDatasource = require('../datasources/airtable/skill-datasource');
@@ -11,8 +12,10 @@ module.exports = {
 
   async getCampaignCollectiveResult(campaignId) {
 
-    const { competences, campaign, filteredKEsPerParticipant, targetedSkills } = await _fetchData(campaignId);
-    const { participantCount, participantsKEs } = _filterData(campaign, filteredKEsPerParticipant);
+    const { competences, targetedSkillIds, targetedSkills, participantCount } = await _fetchData(campaignId);
+
+    const participantsKEs = await _fetchFilteredCurrentValidatedParticipantKEs(campaignId, targetedSkillIds);
+
     const { participantsKEsByCompetenceId, targetedSkillsByCompetenceId } = _groupByCompetenceId(participantsKEs, targetedSkills);
     const campaignCompetenceCollectiveResults = _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participantCount, targetedSkillsByCompetenceId, participantsKEsByCompetenceId);
 
@@ -22,23 +25,22 @@ module.exports = {
 
 async function _fetchData(campaignId) {
 
-  const [competences, campaign ] = await Promise.all([
+  const [competences, campaign, participantCount] = await Promise.all([
     competenceDatasource.list(),
-    _fetchCampaignWithRelatedData(campaignId),
+    _fetchCampaignWithTargetProfileSkills(campaignId),
+    _countSharedParticipants(campaignId),
   ]);
 
   const targetedSkillIds = campaign.related('targetProfile').related('skillIds').map((targetProfileSkill) => targetProfileSkill.get('skillId'));
   const targetedSkills = await skillDatasource.findByRecordIds(targetedSkillIds);
 
-  const filteredKEsPerParticipant = await _fetchFilteredKEsPerParticipant(campaignId, targetedSkillIds);
-
-  return { competences, campaign, filteredKEsPerParticipant, targetedSkillIds, targetedSkills };
+  return { competences, targetedSkillIds, targetedSkills, participantCount };
 }
 
-function _filterData(campaign, filteredKEsPerParticipant) {
-  const participantsKEs = _extractCurrentValidatedParticipantKEs(filteredKEsPerParticipant);
+async function _fetchFilteredCurrentValidatedParticipantKEs(campaignId, targetedSkillIds) {
+  const filteredKEsPerParticipant = await _fetchFilteredKEsPerParticipant(campaignId, targetedSkillIds);
 
-  return { participantCount: _.size(filteredKEsPerParticipant), participantsKEs };
+  return _extractCurrentValidatedParticipantKEs(filteredKEsPerParticipant);
 }
 
 function _groupByCompetenceId(participantsKEs, targetedSkills) {
@@ -49,11 +51,16 @@ function _groupByCompetenceId(participantsKEs, targetedSkills) {
   return { participantsKEsByCompetenceId, targetedSkillsByCompetenceId };
 }
 
-function _fetchCampaignWithRelatedData(campaignId) {
+function _countSharedParticipants(campaignId) {
+  return BookshelfCampaignParticipation
+    .query(_filterByCampaignId(campaignId))
+    .query(_keepOnlySharedParticipations)
+    .count();
+}
+
+function _fetchCampaignWithTargetProfileSkills(campaignId) {
   return BookshelfCampaign.where({ id: campaignId }).fetch({
-    withRelated: [
-      'targetProfile.skillIds'
-    ]
+    withRelated: 'targetProfile.skillIds'
   });
 }
 
