@@ -1,5 +1,6 @@
 const _ = require('lodash');
 
+const Bookshelf = require('../bookshelf');
 const BookshelfCampaign = require('../data/campaign');
 const BookshelfCampaignParticipation = require('../data/campaign-participation');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
@@ -38,25 +39,28 @@ async function _fetchData(campaignId) {
 }
 
 async function _fetchFilteredCurrentValidatedParticipantKEs(campaignId, targetedSkillIds) {
-  const { models: participantKEsSharedAndInTargetProfile } = await BookshelfKnowledgeElement
-    .query(_joinWithSharedCampaignParticipationsAndFilterBySharedAt)
-    .query(_filterByTargetSkills(targetedSkillIds))
-    .query(_filterByCampaignId(campaignId))
-    .query(_keepOnlySharedParticipations)
-    .fetchAll();
+  const knexQuery = Bookshelf.knex('knowledge-elements');
 
-  const filteredKEsPerParticipant = _.values(_.groupBy(participantKEsSharedAndInTargetProfile, 'attributes.userId'));
+  _joinWithSharedCampaignParticipationsAndFilterBySharedAt(knexQuery);
+  _filterByTargetSkills(targetedSkillIds)(knexQuery);
+  _filterByCampaignId(campaignId)(knexQuery);
+  _keepOnlySharedParticipations(knexQuery);
 
-  return _.flatMap(filteredKEsPerParticipant, (participantKEs) => {
-    const sortedByDateKEs = _.orderBy(participantKEs, 'attributes.createdAt', 'desc');
-    const uniqueBySkillIdKEs = _.uniqBy(sortedByDateKEs, 'attributes.skillId');
-    return _.filter(uniqueBySkillIdKEs, ((ke) => ke.isValidated()));
+  const participantKEsSharedAndInTargetProfile = await knexQuery.select('*');
+
+  const filteredKEsPerParticipant = _.values(_.groupBy(participantKEsSharedAndInTargetProfile, 'userId'));
+
+  const currentKEs = _.flatMap(filteredKEsPerParticipant, (participantKEs) => {
+    const sortedByDateKEs = _.orderBy(participantKEs, 'createdAt', 'desc');
+    return _.uniqBy(sortedByDateKEs, 'skillId');
   });
+
+  return _.filter(currentKEs, { status: 'validated' });
 }
 
 function _groupByCompetenceId(participantsKEs, targetedSkills) {
 
-  const participantsKEsByCompetenceId = _.groupBy(participantsKEs, (bookshelfKE) => bookshelfKE.get('competenceId'));
+  const participantsKEsByCompetenceId = _.groupBy(participantsKEs, 'competenceId');
   const targetedSkillsByCompetenceId = _.groupBy(targetedSkills, 'competenceId');
 
   return { participantsKEsByCompetenceId, targetedSkillsByCompetenceId };
