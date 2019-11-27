@@ -7,7 +7,8 @@ import hbs from 'htmlbars-inline-precompile';
 
 const ANSWER = '.correction-qrocm__answer';
 const INPUT = 'input.correction-qrocm__answer--input';
-const TEXTAREA = 'textarea.correction-qrocm__answer--paragraph';
+const PARAGRAPH = 'textarea.correction-qrocm__answer--paragraph';
+const SENTENCE = 'input.correction-qrocm__answer--sentence';
 const SOLUTION_BLOCK = '.correction-qrocm__solution';
 const SOLUTION_TEXT = '.correction-qrocm__solution-text';
 
@@ -34,8 +35,9 @@ describe('Integration | Component | QROCm dep solution panel', function() {
 
   [
     { format: 'petit' },
-    { format: 'unreferenced_format' },
+    { format: 'phrase' },
     { format: 'paragraphe' },
+    { format: 'unreferenced_format' },
   ].forEach((data) => {
     describe(`Whatever the format (testing ${data.format} format)`, function() {
 
@@ -145,7 +147,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
     });
   });
 
-  describe('When format is not a paragraph', function() {
+  describe('When format is neither a paragraph nor a sentence', function() {
     beforeEach(function() {
       const answer = EmberObject.create({
         id: 'answer_id',
@@ -162,7 +164,6 @@ describe('Integration | Component | QROCm dep solution panel', function() {
     [
       { format: 'petit', expectedSize: '11' },
       { format: 'mots', expectedSize: '20' },
-      { format: 'phrase', expectedSize: '50' },
       { format: 'unreferenced_format', expectedSize: '20' }
     ].forEach((data) => {
       it(`should display a disabled input with expected size (${data.expectedSize}) when format is ${data.format}`, async function() {
@@ -173,7 +174,8 @@ describe('Integration | Component | QROCm dep solution panel', function() {
         await render(hbs`{{qrocm-dep-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         //then
-        expect(find(TEXTAREA)).to.not.exist;
+        expect(find(PARAGRAPH)).to.not.exist;
+        expect(find(SENTENCE)).to.not.exist;
         expect(find(INPUT).tagName).to.equal('INPUT');
         expect(find(INPUT).getAttribute('size')).to.equal(data.expectedSize);
         expect(find(INPUT).hasAttribute('disabled')).to.be.true;
@@ -203,8 +205,37 @@ describe('Integration | Component | QROCm dep solution panel', function() {
 
       // then
       expect(find(INPUT)).to.not.exist;
-      expect(find(TEXTAREA).tagName).to.equal('TEXTAREA');
-      expect(find(TEXTAREA).hasAttribute('disabled')).to.be.true;
+      expect(find(SENTENCE)).to.not.exist;
+      expect(find(PARAGRAPH).tagName).to.equal('TEXTAREA');
+      expect(find(PARAGRAPH).hasAttribute('disabled')).to.be.true;
+    });
+
+  });
+
+  describe('When format is a sentence', function() {
+    beforeEach(function() {
+      const answer = EmberObject.create({
+        id: 'answer_id',
+        value: 'key1: \'rightAnswer1\' key2: \'rightAnswer2\'',
+        result: classByResultKey.ok,
+        assessment,
+        challenge
+      });
+      this.set('answer', answer);
+      this.set('solution', solution);
+      this.set('challenge', challenge);
+      this.challenge.set('format', 'phrase');
+    });
+
+    it('should display a disabled input', async function() {
+      // when
+      await render(hbs`{{qrocm-dep-solution-panel answer=answer solution=solution challenge=challenge}}`);
+
+      // then
+      expect(find(INPUT)).to.not.exist;
+      expect(find(PARAGRAPH)).to.not.exist;
+      expect(find(SENTENCE).tagName).to.equal('INPUT');
+      expect(find(SENTENCE).hasAttribute('disabled')).to.be.true;
     });
 
   });

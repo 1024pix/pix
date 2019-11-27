@@ -10,6 +10,11 @@
                   id="{{field.label}}"
                   disabled>
         </textarea>
+      {{else if (eq challenge.format 'phrase')}}
+        <input value="{{field.answer}}"
+               class="correction-qrocm__answer correction-qrocm__answer--sentence {{field.inputClass}}"
+               id="{{field.label}}"
+               disabled>
       {{else}}
         <div class="correction-qrocm__answer-wrapper">
           <input value="{{field.answer}}"

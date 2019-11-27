@@ -28,11 +28,24 @@ describe('Integration | Component | QROCm proposal', function() {
     });
   });
 
-  describe('When format is a not paragraph', function() {
+  describe('When format is a sentence', function() {
+    it('should display a input', async function() {
+      // given
+      this.set('proposals', '${myInput}');
+      this.set('format', 'phrase');
+
+      // when
+      await render(hbs`{{qrocm-proposal proposals=proposals format=format}}`);
+
+      // then
+      expect(find('.challenge-response__proposal--sentence').tagName).to.equal('INPUT');
+    });
+  });
+
+  describe('When format is a neither a paragraph nor a sentence', function() {
     [
       { format: 'petit', expectedSize: '11' },
       { format: 'mots', expectedSize: '20' },
-      { format: 'phrase', expectedSize: '50' },
       { format: 'unreferenced_format', expectedSize: '20' }
     ].forEach((data) => {
       it(`should display an input with expected size (${data.expectedSize}) when format is ${data.format}`, async function() {
@@ -54,8 +67,9 @@ describe('Integration | Component | QROCm proposal', function() {
   describe('Whatever the format', function() {
     [
       { format: 'mots', cssClass: '.challenge-response__proposal', inputType: 'input' },
-      { format: 'unreferenced_format', cssClass: '.challenge-response__proposal', inputType: 'input' },
+      { format: 'phrase', cssClass: '.challenge-response__proposal--sentence', inputType: 'input' },
       { format: 'paragraphe', cssClass: '.challenge-response__proposal--paragraph', inputType: 'textarea' },
+      { format: 'unreferenced_format', cssClass: '.challenge-response__proposal', inputType: 'input' },
     ].forEach((data) => {
       describe(`Component behavior when the user clicks on the ${data.inputType}`, function() {
 

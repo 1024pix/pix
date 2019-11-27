@@ -20,6 +20,10 @@
     resize: vertical;
   }
 
+  &--sentence {
+    width: 100%;
+  }
+
   &--correct {
     font-weight: $font-bold;
     color: $caribbean-green;
