@@ -35,9 +35,9 @@ const userValidationJoiSchema = Joi.object().keys({
   email: Joi.string().email().required().error((errors) => {
     const error = errors[0];
     if (error.type === 'any.empty') {
-      return { message: 'Votre adresse électronique n’est pas renseignée.' };
+      return { message: 'Votre adresse e-mail n’est pas renseignée.' };
     }
-    return { message: 'Votre adresse électronique n’est pas correcte.' };
+    return { message: 'Votre adresse e-mail n’est pas correcte.' };
   }),
 
   password: joiWithPasswordValidation.string().password().required().min(8).error((errors) => {

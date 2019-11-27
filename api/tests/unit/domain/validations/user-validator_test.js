@@ -129,7 +129,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
         // given
         const expectedError = {
           attribute: 'email',
-          message: 'Votre adresse électronique n’est pas renseignée.'
+          message: 'Votre adresse e-mail n’est pas renseignée.'
         };
         user.email = MISSING_VALUE;
 
@@ -146,7 +146,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
         // given
         const expectedError = {
           attribute: 'email',
-          message: 'Votre adresse électronique n’est pas correcte.'
+          message: 'Votre adresse e-mail n’est pas correcte.'
         };
         user.email = 'invalid_email';
 
