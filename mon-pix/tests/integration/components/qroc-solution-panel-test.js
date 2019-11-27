@@ -21,7 +21,7 @@ describe('Integration | Component | QROC solution panel', function() {
 
       // then
       expect(find('input')).to.not.exist;
-      expect(find('textarea.correction-qroc-box-answer--textarea')).to.have.attr('disabled');
+      expect(find('textarea.correction-qroc-box-answer--paragraph')).to.have.attr('disabled');
       expect(find('.correction-qroc-box-answer').getAttribute('rows')).to.equal('5');
     });
   });
@@ -44,7 +44,7 @@ describe('Integration | Component | QROC solution panel', function() {
         await render(hbs`{{qroc-solution-panel answer=answer}}`);
 
         // then
-        expect(find('textarea.correction-qroc-box-answer--textarea')).to.not.exist;
+        expect(find('textarea.correction-qroc-box-answer--paragraph')).to.not.exist;
         expect(find('input.correction-qroc-box-answer')).to.have.attr('disabled');
         expect(find('input.correction-qroc-box-answer').getAttribute('size')).to.equal(data.expectedSize);
       });
