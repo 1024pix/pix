@@ -1,9 +1,8 @@
 const _ = require('lodash');
 
-const Bookshelf = require('../bookshelf');
+const { knex } = require('../bookshelf');
 const BookshelfCampaign = require('../data/campaign');
 const BookshelfCampaignParticipation = require('../data/campaign-participation');
-const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const competenceDatasource = require('../datasources/airtable/competence-datasource');
 const skillDatasource = require('../datasources/airtable/skill-datasource');
 const CampaignCollectiveResult = require('../../domain/models/CampaignCollectiveResult');
@@ -38,21 +37,22 @@ async function _fetchData(campaignId) {
   return { competences, targetedSkillIds, targetedSkills, participantCount };
 }
 
+function _computeKERankWithinUserAndSkillByDateDescending(qb) {
+  qb.select({
+    rank: knex.raw('RANK() OVER (PARTITION BY "knowledge-elements"."userId", "knowledge-elements"."skillId" ORDER BY "knowledge-elements"."createdAt" DESC)')
+  });
+}
+
 async function _fetchFilteredCurrentValidatedParticipantKEs(campaignId, targetedSkillIds) {
-  const knexQuery = Bookshelf.knex('knowledge-elements')
+  const participantKEsSharedAndInTargetProfile = await knex('knowledge-elements')
     .modify(_joinWithSharedCampaignParticipationsAndFilterBySharedAt)
     .modify(_filterByTargetSkills(targetedSkillIds))
     .modify(_filterByCampaignId(campaignId))
-    .modify(_keepOnlySharedParticipations);
+    .modify(_keepOnlySharedParticipations)
+    .modify(_computeKERankWithinUserAndSkillByDateDescending)
+    .select('*');
 
-  const participantKEsSharedAndInTargetProfile = await knexQuery.select('*');
-
-  const filteredKEsPerParticipant = _.values(_.groupBy(participantKEsSharedAndInTargetProfile, 'userId'));
-
-  const currentKEs = _.flatMap(filteredKEsPerParticipant, (participantKEs) => {
-    const sortedByDateKEs = _.orderBy(participantKEs, 'createdAt', 'desc');
-    return _.uniqBy(sortedByDateKEs, 'skillId');
-  });
+  const currentKEs = _.filter(participantKEsSharedAndInTargetProfile, { rank: '1' });
 
   return _.filter(currentKEs, { status: 'validated' });
 }
