@@ -23,6 +23,7 @@ module.exports = function sessionsBuilder({ databaseBuilder }) {
     description: 'Session de rattrapage',
     room: 'Salle Eau',
     accessCode: 'DEF34',
+    status: 'finalized',
   });
 
   databaseBuilder.factory.buildSession({

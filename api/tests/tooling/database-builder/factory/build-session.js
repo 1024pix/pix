@@ -1,6 +1,7 @@
 const faker = require('faker');
 const buildCertificationCenter = require('./build-certification-center');
 const databaseBuffer = require('../database-buffer');
+const Session = require('../../../../lib/domain/models/Session');
 const _ = require('lodash');
 const moment = require ('moment');
 
@@ -16,7 +17,7 @@ module.exports = function buildSession({
   time = faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0'),
   description = faker.random.words(),
   createdAt = faker.date.recent(),
-  status,
+  status = Session.statuses.STARTED,
 } = {}) {
 
   if (_.isUndefined(certificationCenterId)) {
