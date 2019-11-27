@@ -14,10 +14,11 @@ module.exports = {
 
     const { competences, targetedSkillIds, targetedSkills, participantCount } = await _fetchData(campaignId);
 
-    const participantsKEs = await _fetchFilteredCurrentValidatedParticipantKEs(campaignId, targetedSkillIds);
+    const participantsKECountByCompetenceId = await _fetchValidatedKECountByCompetenceId(campaignId, targetedSkillIds);
 
-    const { participantsKEsByCompetenceId, targetedSkillsByCompetenceId } = _groupByCompetenceId(participantsKEs, targetedSkills);
-    const campaignCompetenceCollectiveResults = _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participantCount, targetedSkillsByCompetenceId, participantsKEsByCompetenceId);
+    const { targetedSkillsByCompetenceId } = _groupByCompetenceId(targetedSkills);
+
+    const campaignCompetenceCollectiveResults = _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participantCount, targetedSkillsByCompetenceId, participantsKECountByCompetenceId);
 
     return new CampaignCollectiveResult({ id: campaignId, campaignCompetenceCollectiveResults });
   }
@@ -37,14 +38,57 @@ async function _fetchData(campaignId) {
   return { competences, targetedSkillIds, targetedSkills, participantCount };
 }
 
-function _computeKERankWithinUserAndSkillByDateDescending(qb) {
-  qb.select({
-    rank: knex.raw('RANK() OVER (PARTITION BY "knowledge-elements"."userId", "knowledge-elements"."skillId" ORDER BY "knowledge-elements"."createdAt" DESC)')
+function _fetchCampaignWithTargetProfileSkills(campaignId) {
+  return BookshelfCampaign.where({ id: campaignId }).fetch({
+    withRelated: 'targetProfile.skillIds'
   });
+}
+
+function _countSharedParticipants(campaignId) {
+  return BookshelfCampaignParticipation
+    .query(_filterByCampaignId(campaignId))
+    .query(_keepOnlySharedParticipations)
+    .count();
+}
+
+function _filterByCampaignId(campaignId) {
+  return (qb) => qb.where({ 'campaign-participations.campaignId': campaignId });
+}
+
+function _keepOnlySharedParticipations(qb) {
+  qb.where({ 'campaign-participations.isShared': true });
+}
+
+async function _fetchValidatedKECountByCompetenceId(campaignId, targetedSkillIds) {
+  const counts = await knex.queryBuilder()
+    .modify(_selectFilteredMostRecentUntilSharedDateParticipantKEs(campaignId, targetedSkillIds))
+    .modify(_keepOnlyValidatedKEs)
+    .modify(_countByCompetenceId);
+
+  return _transformCountsIntoObject(counts);
+}
+
+function _selectFilteredMostRecentUntilSharedDateParticipantKEs(campaignId, targetedSkillIds) {
+  return (qb) => qb
+    .with('rankedKEs', _selectFilteredParticipantKEsWithRank(campaignId, targetedSkillIds))
+    .from('rankedKEs')
+    .where({ rank: 1 });
 }
 
 function _keepOnlyValidatedKEs(qb) {
   qb.where({ status: 'validated' });
+}
+
+function _countByCompetenceId(qb) {
+  qb.groupBy('competenceId')
+    .select('competenceId')
+    .count('*');
+}
+
+function _transformCountsIntoObject(counts) {
+  return _.fromPairs(_.map(counts, ({ competenceId, count }) => {
+    return [ competenceId, parseInt(count, 10)];
+  }));
 }
 
 function _selectFilteredParticipantKEsWithRank(campaignId, targetedSkillIds) {
@@ -58,43 +102,6 @@ function _selectFilteredParticipantKEsWithRank(campaignId, targetedSkillIds) {
     .select('*');
 }
 
-function _selectFilteredCurrentParticipantKEs(campaignId, targetedSkillIds) {
-  return (qb) => qb
-    .with('rankedKEs', _selectFilteredParticipantKEsWithRank(campaignId, targetedSkillIds))
-    .from('rankedKEs')
-    .where({ rank: 1 })
-    .select('*');
-}
-
-async function _fetchFilteredCurrentValidatedParticipantKEs(campaignId, targetedSkillIds) {
-  const currentValidatedKEs = await knex.queryBuilder()
-    .modify(_selectFilteredCurrentParticipantKEs(campaignId, targetedSkillIds))
-    .modify(_keepOnlyValidatedKEs);
-
-  return currentValidatedKEs;
-}
-
-function _groupByCompetenceId(participantsKEs, targetedSkills) {
-
-  const participantsKEsByCompetenceId = _.groupBy(participantsKEs, 'competenceId');
-  const targetedSkillsByCompetenceId = _.groupBy(targetedSkills, 'competenceId');
-
-  return { participantsKEsByCompetenceId, targetedSkillsByCompetenceId };
-}
-
-function _countSharedParticipants(campaignId) {
-  return BookshelfCampaignParticipation
-    .query(_filterByCampaignId(campaignId))
-    .query(_keepOnlySharedParticipations)
-    .count();
-}
-
-function _fetchCampaignWithTargetProfileSkills(campaignId) {
-  return BookshelfCampaign.where({ id: campaignId }).fetch({
-    withRelated: 'targetProfile.skillIds'
-  });
-}
-
 function _joinWithSharedCampaignParticipationsAndFilterBySharedAt(qb) {
   qb.innerJoin('campaign-participations', function() {
     this.on({ 'campaign-participations.userId': 'knowledge-elements.userId' })
@@ -106,18 +113,23 @@ function _filterByTargetSkills(targetedSkillIds) {
   return (qb) => qb.where('skillId', 'in', targetedSkillIds);
 }
 
-function _filterByCampaignId(campaignId) {
-  return (qb) => qb.where({ 'campaign-participations.campaignId': campaignId });
+function _computeKERankWithinUserAndSkillByDateDescending(qb) {
+  qb.select({
+    rank: knex.raw('RANK() OVER (PARTITION BY "knowledge-elements"."userId", "knowledge-elements"."skillId" ORDER BY "knowledge-elements"."createdAt" DESC)')
+  });
 }
 
-function _keepOnlySharedParticipations(qb) {
-  qb.where({ 'campaign-participations.isShared': true });
+function _groupByCompetenceId(targetedSkills) {
+  const targetedSkillsByCompetenceId = _.groupBy(targetedSkills, 'competenceId');
+
+  return { targetedSkillsByCompetenceId };
 }
 
-function _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participantCount, targetedSkillsByCompetenceId, participantsKEsByCompetenceId) {
+function _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participantCount, targetedSkillsByCompetenceId, participantsKECountByCompetenceId) {
   return _(targetedSkillsByCompetenceId).keys().map((competenceId) => {
     const competence = _.find(competences, { id: competenceId });
-    const averageValidatedSkills = participantCount ? _.size(participantsKEsByCompetenceId[competenceId]) / participantCount : 0;
+    const averageValidatedSkills = (participantCount && competenceId in participantsKECountByCompetenceId) ?
+      participantsKECountByCompetenceId[competenceId] / participantCount : 0;
     return new CampaignCompetenceCollectiveResult({
       campaignId,
       competenceId,
@@ -130,3 +142,4 @@ function _forgeCampaignCompetenceCollectiveResults(campaignId, competences, part
     .sortBy('competenceIndex')
     .value();
 }
+
