@@ -6,7 +6,7 @@
   "license": "AGPL-3.0",
   "author": "GIP Pix",
   "engines": {
-    "node": "10.15.3"
+    "node": "12.14.1"
   },
   "repository": {
     "type": "git",
@@ -91,7 +91,7 @@
     "stream-to-promise": "^2.2.0"
   },
   "scripts": {
-    "clean": "rm -rf node_modules db/*.sqlite3",
+    "clean": "rm -rf node_modules",
     "coverage:check": "NODE_ENV=test npm run db:migrate && NODE_ENV=test nyc --silent _mocha --recursive --exit --reporter dot tests && nyc report --reporter=lcovonly --report-dir=../coverage",
     "coverage:rename": "mv ../coverage/lcov.info ../coverage/api_lcov.info",
     "coverage": "npm run coverage:check && npm run coverage:rename",
@@ -105,7 +105,7 @@
     "db:reset": "npm run db:prepare && npm run db:seed",
     "lint": "eslint lib tests",
     "lint:fix": "eslint lib tests --fix",
-    "preinstall": "test \"$(npm --version)\" = 6.4.1",
+    "preinstall": "test \"$(npm --version)\" = 6.13.4",
     "scalingo-background-job": "node scripts/reload-cache-everyday.js",
     "scalingo-postbuild": "echo 'nothing to do'",
     "scalingo-post-ra-creation": "npm run db:seed",
