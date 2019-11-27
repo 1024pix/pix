@@ -57,15 +57,33 @@ function _fetchCampaignWithRelatedData(campaignId) {
   });
 }
 
+function _joinWithSharedCampaignParticipationsAndFilterBySharedAt(qb) {
+  qb.innerJoin('campaign-participations', function() {
+    this.on({ 'campaign-participations.userId': 'knowledge-elements.userId' })
+      .andOn('knowledge-elements.createdAt', '<=', 'campaign-participations.sharedAt');
+  });
+}
+
+function _filterByTargetSkills(targetedSkillIds) {
+  return (qb) => qb.where('skillId', 'in', targetedSkillIds);
+}
+
+function _filterByCampaignId(campaignId) {
+  return (qb) => qb.where({ 'campaign-participations.campaignId': campaignId });
+}
+
+function _keepOnlySharedParticipations(qb) {
+  qb.where({ 'campaign-participations.isShared': true });
+}
+
 async function _fetchFilteredKEsPerParticipant(campaignId, targetedSkillIds) {
-  const participantKEsSharedAndInTargetProfile = (await BookshelfKnowledgeElement
-    .query((qb) => qb.innerJoin('campaign-participations', function() {
-      this.on({ 'campaign-participations.userId': 'knowledge-elements.userId' })
-        .andOn('knowledge-elements.createdAt', '<=', 'campaign-participations.sharedAt');
-    }))
-    .where('skillId', 'in', targetedSkillIds)
-    .where({ isShared: true })
-    .fetchAll({})).models;
+  const { models: participantKEsSharedAndInTargetProfile } = await BookshelfKnowledgeElement
+    .query(_joinWithSharedCampaignParticipationsAndFilterBySharedAt)
+    .query(_filterByTargetSkills(targetedSkillIds))
+    .query(_filterByCampaignId(campaignId))
+    .query(_keepOnlySharedParticipations)
+    .fetchAll();
+
   const filteredKEsPerParticipant = _.values(_.groupBy(participantKEsSharedAndInTargetProfile, 'attributes.userId'));
 
   return filteredKEsPerParticipant;
