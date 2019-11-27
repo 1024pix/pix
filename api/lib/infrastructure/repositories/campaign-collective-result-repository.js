@@ -39,12 +39,11 @@ async function _fetchData(campaignId) {
 }
 
 async function _fetchFilteredCurrentValidatedParticipantKEs(campaignId, targetedSkillIds) {
-  const knexQuery = Bookshelf.knex('knowledge-elements');
-
-  _joinWithSharedCampaignParticipationsAndFilterBySharedAt(knexQuery);
-  _filterByTargetSkills(targetedSkillIds)(knexQuery);
-  _filterByCampaignId(campaignId)(knexQuery);
-  _keepOnlySharedParticipations(knexQuery);
+  const knexQuery = Bookshelf.knex('knowledge-elements')
+    .modify(_joinWithSharedCampaignParticipationsAndFilterBySharedAt)
+    .modify(_filterByTargetSkills(targetedSkillIds))
+    .modify(_filterByCampaignId(campaignId))
+    .modify(_keepOnlySharedParticipations);
 
   const participantKEsSharedAndInTargetProfile = await knexQuery.select('*');
 
