@@ -6,7 +6,7 @@
   "license": "AGPL-3.0",
   "author": "GIP Pix",
   "engines": {
-    "node": "10.15.3"
+    "node": "12.13.1"
   },
   "repository": {
     "type": "git",
@@ -41,7 +41,7 @@
     "hapi": "^18.1.0",
     "hapi-sentry": "^2.0.3",
     "hapi-swagger": "^9.3.1",
-    "heap-profile": "^0.3.2",
+    "heap-profile": "^0.4.0",
     "heapdump": "^0.3.14",
     "joi": "^14.3.1",
     "json2csv": "^4.5.2",
@@ -104,7 +104,7 @@
     "db:reset": "npm run db:prepare && npm run db:seed",
     "lint": "eslint lib tests",
     "lint:fix": "eslint lib tests --fix",
-    "preinstall": "test \"$(npm --version)\" = 6.4.1",
+    "preinstall": "test \"$(npm --version)\" = 6.12.1",
     "scalingo-background-job": "node scripts/reload-cache-everyday.js",
     "scalingo-postbuild": "echo 'nothing to do'",
     "scalingo-post-ra-creation": "npm run db:seed",
