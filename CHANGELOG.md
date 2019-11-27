@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.89.0 (27/11/2019)
+
+- [#850](https://github.com/1024pix/pix/pull/850) [FEATURE] Affichage du statut de la session dans PixAdmin (PA-119).
+- [#857](https://github.com/1024pix/pix/pull/857) [BUGFIX] Optimisation des appels de récupération des organizations dans les script de déploiement SCO (PO-281).
+
 ## v2.88.0 (26/11/2019)
 
 - [#838](https://github.com/1024pix/pix/pull/838) [FEATURE] Dupliquer le bouton d'export des résultats pour les prescripteurs sur la page d'info de session dans Pix Admin (PA-118).

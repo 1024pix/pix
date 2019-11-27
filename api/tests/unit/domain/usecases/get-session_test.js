@@ -1,41 +1,126 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const getSession = require('../../../../lib/domain/usecases/get-session');
+const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-session', () => {
 
-  let session;
+  const sessionId = 'sessionId';
+  const session = {
+    id: sessionId,
+    name: 'mySession',
+  };
+  const userId = 'userId';
   let sessionRepository;
+  let userRepository;
 
   beforeEach(() => {
-    session = {
-      id: 1,
-      name: 'mySession',
-    };
     sessionRepository = {
       get: sinon.stub(),
+      ensureUserHasAccessToSession: sinon.stub(),
+    };
+    userRepository = {
+      hasRolePixMaster: sinon.stub(),
     };
   });
 
-  it('should get the session', async () => {
-    // given
-    sessionRepository.get.withArgs(session.id).resolves(session);
+  context('when the user has role pixmaster', () => {
 
-    // when
-    const actualSession = await getSession({ sessionId: session.id, sessionRepository });
+    beforeEach(() => {
+      userRepository.hasRolePixMaster.withArgs(userId).resolves(true);
+      sessionRepository.ensureUserHasAccessToSession.rejects();
+    });
 
-    // then
-    expect(actualSession.name).to.equal(session.name);
+    context('when the session can be retrieved', () => {
+
+      beforeEach(() => {
+        sessionRepository.get.withArgs(sessionId).resolves(session);
+      });
+
+      it('should get the session', async () => {
+        // when
+        const actualSession = await getSession({ userId, sessionId, sessionRepository, userRepository });
+
+        // then
+        expect(actualSession.name).to.equal(session.name);
+      });
+    });
+
+    context('when the session could not be retrieved', () => {
+
+      beforeEach(() => {
+        sessionRepository.get.withArgs(sessionId).rejects(new NotFoundError());
+      });
+
+      it('should throw an error the session', async () => {
+        // when
+        const err = await catchErr(getSession)({ userId, sessionId, sessionRepository, userRepository });
+
+        // then
+        expect(err).to.be.an.instanceof(NotFoundError);
+      });
+    });
+
   });
 
-  it('should throw an error when the session could not be retrieved', () => {
-    // given
-    sessionRepository.get.withArgs(session.id).rejects();
+  context('when the user has no role pixmaster', () => {
 
-    // when
-    const promise = getSession({ sessionId: session.id, sessionRepository });
+    beforeEach(() => {
+      userRepository.hasRolePixMaster.withArgs(userId).resolves(false);
+    });
 
-    // then
-    return expect(promise).to.be.rejected;
+    context('when the user has access to session', () => {
+
+      beforeEach(() => {
+        sessionRepository.ensureUserHasAccessToSession.withArgs(userId, sessionId).resolves();
+      });
+
+      context('when the session can be retrieved', () => {
+
+        beforeEach(() => {
+          sessionRepository.get.withArgs(sessionId).resolves(session);
+        });
+
+        it('should get the session', async () => {
+          // when
+          const actualSession = await getSession({ userId, sessionId, sessionRepository, userRepository });
+
+          // then
+          expect(actualSession.name).to.equal(session.name);
+        });
+      });
+
+      context('when the session could not be retrieved', () => {
+
+        beforeEach(() => {
+          sessionRepository.get.withArgs(sessionId).rejects(new NotFoundError());
+        });
+
+        it('should throw an error the session', async () => {
+          // when
+          const err = await catchErr(getSession)({ userId, sessionId, sessionRepository, userRepository });
+
+          // then
+          expect(err).to.be.an.instanceof(NotFoundError);
+        });
+      });
+    });
+
+    context('when the user has no access to session', () => {
+
+      beforeEach(() => {
+        sessionRepository.get.withArgs(sessionId).resolves(session);
+        sessionRepository.ensureUserHasAccessToSession.withArgs(userId, sessionId).rejects(new UserNotAuthorizedToAccessEntity());
+      });
+
+      it('should throw an error the session', async () => {
+        // when
+        const err = await catchErr(getSession)({ userId, sessionId, sessionRepository, userRepository });
+
+        // then
+        expect(err).to.be.an.instanceof(UserNotAuthorizedToAccessEntity);
+      });
+    });
+
   });
 
 });

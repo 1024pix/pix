@@ -1,53 +1,50 @@
 /* eslint-disable no-console */
 // Usage: BASE_URL=... PIXMASTER_EMAIL=... PIXMASTER_PASSWORD=... node create-or-update-sco-organizations.js path/file.csv
+// To use on file with columns |externalId, name|
 
 'use strict';
 require('dotenv').config();
 const request = require('request-promise-native');
 
 const logoUrl = require('./default-sco-organization-logo-base64');
-const { checkCsvExtensionFile, parseCsv } = require('./helpers/csvHelpers');
+const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('./helpers/organizations-by-external-id-helper');
+const { parseCsv } = require('./helpers/csvHelpers');
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
-function organizeOrganizationsByExternalId(data) {
-  const organizationsByExternalId = {};
+function checkData({ csvData }) {
+  return csvData.map((data) => {
+    const [externalIdLowerCase, name] = data;
 
-  data.forEach((organization) => {
-    if (organization.attributes['external-id']) {
-      organization.attributes['external-id'] = organization.attributes['external-id'].toUpperCase();
-      organizationsByExternalId[organization.attributes['external-id']] = { id: organization.id, ...organization.attributes };
-    }
-  });
-
-  return organizationsByExternalId;
-}
-
-async function createOrUpdateOrganizations({ accessToken, organizationsByExternalId, csvData }) {
-  for (let i = 0; i < csvData.length; i++) {
-    const [externalIdLowerCase, name] = csvData[i];
-
-    if (!(externalIdLowerCase && name)) {
-      return console.log('Found empty line in input file.');
+    if (!externalIdLowerCase && !name) {
+      if (require.main === module) process.stdout.write('Found empty line in input file.');
+      return null;
     }
     if (!externalIdLowerCase) {
-      return console.log('A line is missing an externalId.', name);
+      if (require.main === module) process.stdout.write(`A line is missing an externalId for name ${name}`);
+      return null;
     }
     if (!name) {
-      return console.log('A line is missing a name', externalIdLowerCase);
+      if (require.main === module) process.stdout.write(`A line is missing a name for external id ${externalIdLowerCase}`);
+      return null;
     }
-
-    if (require.main === module) {
-      console.log(`${i + 1}/${csvData.length}`);
-    }
-
     const externalId = externalIdLowerCase.toUpperCase();
-    const existingOrganization = organizationsByExternalId[externalId];
 
-    if (existingOrganization && (name !== existingOrganization.name || !existingOrganization['logo-url'])) {
-      await request(_buildPatchOrganizationRequestObject(accessToken, { id: existingOrganization.id, name, logoUrl }));
+    return { externalId, name: name.trim() };
+  }).filter((data) => !!data);
+}
+
+async function createOrUpdateOrganizations({ accessToken, organizationsByExternalId, checkedData }) {
+  for (let i = 0; i < checkedData.length; i++) {
+    if (require.main === module) process.stdout.write(`\n${i + 1}/${checkedData.length} `);
+
+    const { externalId, name } = checkedData[i];
+    const organization = organizationsByExternalId[externalId];
+
+    if (organization && (name !== organization.name || !organization['logo-url'])) {
+      await request(_buildPatchOrganizationRequestObject(accessToken, { id: organization.id, name, logoUrl }));
     }
-    else if (!existingOrganization) {
+    else if (!organization) {
       await request(_buildPostOrganizationRequestObject(accessToken, {
         name,
         externalId,
@@ -71,18 +68,6 @@ function _buildAccessTokenRequestObject() {
       username: process.env.PIXMASTER_EMAIL,
       password: process.env.PIXMASTER_PASSWORD,
     },
-    json: true,
-  };
-}
-
-function _buildGetOrganizationsRequestObject(accessToken) {
-  return {
-    method: 'GET',
-    headers: {
-      authorization: `Bearer ${accessToken}`,
-    },
-    baseUrl,
-    url: '/api/organizations?pageSize=999999999',
     json: true,
   };
 }
@@ -139,12 +124,12 @@ async function main() {
   try {
     const filePath = process.argv[2];
 
-    console.log('Check csv extension file... ');
-    checkCsvExtensionFile(filePath);
-    console.log('ok');
-
     console.log('Reading and parsing csv data file... ');
     const csvData = parseCsv(filePath);
+    console.log('ok');
+
+    console.log('Checking data... ');
+    const checkedData = checkData({ csvData });
     console.log('ok');
 
     console.log('Requesting API access token... ');
@@ -152,12 +137,13 @@ async function main() {
     console.log('ok');
 
     console.log('Fetching existing organizations... ');
-    const { data: organizations } = await request(_buildGetOrganizationsRequestObject(accessToken));
+    const organizations = await findOrganizationsByExternalIds({ checkedData });
+
     const organizationsByExternalId = organizeOrganizationsByExternalId(organizations);
     console.log('ok');
 
     console.log('Creating or updating organizations...');
-    await createOrUpdateOrganizations({ accessToken, organizationsByExternalId, csvData });
+    await createOrUpdateOrganizations({ accessToken, organizationsByExternalId, checkedData });
     console.log('\nDone.');
 
   } catch (error) {
@@ -168,10 +154,16 @@ async function main() {
 }
 
 if (require.main === module) {
-  main();
+  main().then(
+    () => process.exit(0),
+    (err) => {
+      console.error(err);
+      process.exit(1);
+    }
+  );
 }
 
 module.exports = {
-  organizeOrganizationsByExternalId,
+  checkData,
   createOrUpdateOrganizations,
 };

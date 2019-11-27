@@ -11,6 +11,8 @@ describe('Acceptance | Controller | session-controller-get', () => {
 
   describe('GET /sessions/{id}', function() {
     let session;
+    let userId;
+    let request;
 
     beforeEach(() => {
       session = databaseBuilder.factory.buildSession({
@@ -29,58 +31,54 @@ describe('Acceptance | Controller | session-controller-get', () => {
         id: 3,
         sessionId: 1
       });
-      databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      userId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+      request = {
+        method: 'GET',
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        payload: {},
+      };
 
       return databaseBuilder.commit();
     });
 
-    it('should return 200 HTTP status code', () => {
+    it('should return 200 HTTP status code', async () => {
+      // given
+      request.url = '/api/sessions/1';
+
       // when
-      const promise = server.inject({
-        method: 'GET',
-        url: '/api/sessions/1',
-        payload: {},
-      });
+      const response = await server.inject(request);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 404 HTTP status code when session does not exist', () => {
+    it('should return 404 HTTP status code when session does not exist', async () => {
+      // given
+      request.url = '/api/sessions/2';
+
       // when
-      const promise = server.inject({
-        method: 'GET',
-        url: '/api/sessions/2',
-        payload: {},
-      });
+      const response = await server.inject(request);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(404);
-      });
+      expect(response.statusCode).to.equal(404);
     });
 
-    it('should return sessions information with related certification', () => {
+    it('should return sessions information with related certification', async () => {
+      // given
+      request.url = '/api/sessions/1';
+
       // when
-      const promise = server.inject({
-        method: 'GET',
-        url: '/api/sessions/1',
-        payload: {},
-      });
+      const response = await server.inject(request);
 
       // then
-      return promise.then((response) => {
-        expect(response.result.data.attributes['access-code']).to.deep.equal(session.accessCode);
-        expect(response.result.data.relationships.certifications).to.deep.equal({
-          'data': [
-            {
-              'id': '3',
-              'type': 'certifications'
-            }
-          ]
-        });
+      expect(response.result.data.attributes['access-code']).to.deep.equal(session.accessCode);
+      expect(response.result.data.relationships.certifications).to.deep.equal({
+        'data': [
+          {
+            'id': '3',
+            'type': 'certifications'
+          }
+        ]
       });
     });
   });
