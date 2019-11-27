@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { computed, trySet } from '@ember/object';
+import { trySet } from '@ember/object';
 
 export default Component.extend({
   classNames: ['challenge-illustration'],
@@ -7,10 +7,7 @@ export default Component.extend({
   alt: null,
 
   hiddenClass: 'challenge-illustration__loaded-image--hidden',
-
-  displayPlaceholder: computed('src', function() {
-    return this.src ? true : false;
-  }),
+  displayPlaceholder: true,
 
   actions: {
     onImageLoaded() {
