@@ -43,18 +43,35 @@ function _computeKERankWithinUserAndSkillByDateDescending(qb) {
   });
 }
 
-async function _fetchFilteredCurrentValidatedParticipantKEs(campaignId, targetedSkillIds) {
-  const participantKEsSharedAndInTargetProfile = await knex('knowledge-elements')
+function _keepOnlyValidatedKEs(qb) {
+  qb.where({ status: 'validated' });
+}
+
+function _selectFilteredParticipantKEsWithRank(campaignId, targetedSkillIds) {
+  return (qb) => qb
+    .from('knowledge-elements')
     .modify(_joinWithSharedCampaignParticipationsAndFilterBySharedAt)
     .modify(_filterByTargetSkills(targetedSkillIds))
     .modify(_filterByCampaignId(campaignId))
     .modify(_keepOnlySharedParticipations)
     .modify(_computeKERankWithinUserAndSkillByDateDescending)
     .select('*');
+}
 
-  const currentKEs = _.filter(participantKEsSharedAndInTargetProfile, { rank: '1' });
+function _selectFilteredCurrentParticipantKEs(campaignId, targetedSkillIds) {
+  return (qb) => qb
+    .with('rankedKEs', _selectFilteredParticipantKEsWithRank(campaignId, targetedSkillIds))
+    .from('rankedKEs')
+    .where({ rank: 1 })
+    .select('*');
+}
 
-  return _.filter(currentKEs, { status: 'validated' });
+async function _fetchFilteredCurrentValidatedParticipantKEs(campaignId, targetedSkillIds) {
+  const currentValidatedKEs = await knex.queryBuilder()
+    .modify(_selectFilteredCurrentParticipantKEs(campaignId, targetedSkillIds))
+    .modify(_keepOnlyValidatedKEs);
+
+  return currentValidatedKEs;
 }
 
 function _groupByCompetenceId(participantsKEs, targetedSkills) {
