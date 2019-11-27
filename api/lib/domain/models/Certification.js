@@ -1,8 +1,5 @@
 const moment = require('moment');
-
-function _byDate(assessmentResultA, assessmentResultB) {
-  return moment(assessmentResultA.createdAt) < moment(assessmentResultB.createdAt);
-}
+const _ = require('lodash');
 
 class Certification {
 
@@ -34,7 +31,9 @@ class Certification {
     this.isPublished = isPublished;
     this.lastName = lastName;
     const assessmentResultsCopy = Array.from(assessmentResults);
-    const mostRecentAssessmentResult = assessmentResultsCopy.sort(_byDate)[0];
+    const mostRecentAssessmentResult = _.maxBy(assessmentResultsCopy, (assessmentResult) => {
+      return moment(assessmentResult.createdAt);
+    });
 
     if (mostRecentAssessmentResult) {
       this.pixScore = mostRecentAssessmentResult.pixScore;
