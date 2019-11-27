@@ -24,7 +24,7 @@ describe('Integration | Component | QROCm proposal', function() {
       await render(hbs`{{qrocm-proposal proposals=proposals format=format}}`);
 
       // then
-      expect(find('.challenge-response__proposal--textarea').tagName).to.equal('TEXTAREA');
+      expect(find('.challenge-response__proposal--paragraph').tagName).to.equal('TEXTAREA');
     });
   });
 
@@ -44,7 +44,7 @@ describe('Integration | Component | QROCm proposal', function() {
         await render(hbs`{{qrocm-proposal proposals=proposals format=format}}`);
 
         // then
-        expect(find('.challenge-response__proposal--textarea')).to.not.exist;
+        expect(find('.challenge-response__proposal--paragraph')).to.not.exist;
         expect(find('.challenge-response__proposal').tagName).to.equal('INPUT');
         expect(find('.challenge-response__proposal').getAttribute('size')).to.equal(data.expectedSize);
       });
@@ -55,7 +55,7 @@ describe('Integration | Component | QROCm proposal', function() {
     [
       { format: 'mots', cssClass: '.challenge-response__proposal', inputType: 'input' },
       { format: 'unreferenced_format', cssClass: '.challenge-response__proposal', inputType: 'input' },
-      { format: 'paragraphe', cssClass: '.challenge-response__proposal--textarea', inputType: 'textarea' },
+      { format: 'paragraphe', cssClass: '.challenge-response__proposal--paragraph', inputType: 'textarea' },
     ].forEach((data) => {
       describe(`Component behavior when the user clicks on the ${data.inputType}`, function() {
 

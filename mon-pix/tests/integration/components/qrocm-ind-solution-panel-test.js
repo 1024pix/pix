@@ -7,7 +7,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 const ANSWER = '.correction-qrocm__answer';
 const INPUT = 'input.correction-qrocm__answer--input';
-const TEXTAREA = 'textarea.correction-qrocm__answer--textarea';
+const TEXTAREA = 'textarea.correction-qrocm__answer--paragraph';
 const SOLUTION_BLOCK = '.correction-qrocm__solution';
 const SOLUTION_TEXT = '.correction-qrocm__solution-text';
 
