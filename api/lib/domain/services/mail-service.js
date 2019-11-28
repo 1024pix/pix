@@ -1,10 +1,12 @@
 const mailJet = require('../../infrastructure/mailjet');
+const sendinblue = require('../../infrastructure/sendinblue');
 const settings = require('../../config');
 
 function sendAccountCreationEmail(email) {
+  sendinblue.sendEmail();
   return mailJet.sendEmail({
     to: email,
-    template: settings.mailing.mailjetAccountCreationTemplateId,
+    template: settings.mailing_mailjet.mailjetAccountCreationTemplateId,
     from: 'ne-pas-repondre@pix.fr',
     fromName: 'PIX - Ne pas répondre',
     subject: 'Création de votre compte PIX'
@@ -14,7 +16,7 @@ function sendAccountCreationEmail(email) {
 function sendResetPasswordDemandEmail(email, baseUrl, temporaryKey) {
   return mailJet.sendEmail({
     to: email,
-    template: settings.mailing.mailjetPasswordResetTemplateId,
+    template: settings.mailing_mailjet.mailjetPasswordResetTemplateId,
     from: 'ne-pas-repondre@pix.fr',
     fromName: 'PIX - Ne pas répondre',
     subject: 'Demande de réinitialisation de mot de passe PIX',
@@ -29,7 +31,7 @@ function sendOrganizationInvitationEmail({
 
   return mailJet.sendEmail({
     to: email,
-    template: settings.mailing.mailjetOrganizationInvitationTemplateId,
+    template: settings.mailing_mailjet.mailjetOrganizationInvitationTemplateId,
     from: 'ne-pas-repondre@pix.fr',
     fromName: 'Pix Orga - Ne pas répondre',
     subject: 'Invitation à rejoindre Pix Orga',
