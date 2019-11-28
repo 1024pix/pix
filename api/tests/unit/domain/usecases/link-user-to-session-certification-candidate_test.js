@@ -12,12 +12,12 @@ const {
 describe('Unit | Domain | Use Cases | link-user-to-session-certification-candidate', () => {
   const sessionId = 'sessionId';
   const userId = 'userId';
-  const firstName = 'Charlie';
-  const lastName = 'Bideau';
-  let birthdate;
+  const certificationCandidateWithPersonalInfoOnly = {};
 
   beforeEach(() => {
-    birthdate = '2010-10-10';
+    certificationCandidateWithPersonalInfoOnly.firstName = 'Charlie';
+    certificationCandidateWithPersonalInfoOnly.lastName = 'Bideau';
+    certificationCandidateWithPersonalInfoOnly.birthdate = '2010-10-10';
   });
 
   context('when there is a problem with the personal info', () => {
@@ -25,13 +25,14 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
     context('when a field is missing from the provided personal info', () => {
 
       it('should throw a CertificationCandidatePersonalInfoFieldMissingError when the birthdate is missing', async () => {
+        // given
+        certificationCandidateWithPersonalInfoOnly.birthdate = null;
+
         // when
         const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
           sessionId,
           userId,
-          firstName,
-          lastName,
-          birthdate: null,
+          certificationCandidateWithPersonalInfoOnly,
           certificationCandidateRepository,
         });
 
@@ -40,13 +41,14 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
       });
 
       it('should throw a CertificationCandidatePersonalInfoFieldMissingError when the firstName is missing', async () => {
+        // given
+        certificationCandidateWithPersonalInfoOnly.firstName = null;
+
         // when
         const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
           sessionId,
           userId,
-          firstName: null,
-          lastName,
-          birthdate,
+          certificationCandidateWithPersonalInfoOnly,
           certificationCandidateRepository,
         });
 
@@ -55,13 +57,14 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
       });
 
       it('should throw a CertificationCandidatePersonalInfoFieldMissingError when the lastName is missing', async () => {
+        // given
+        certificationCandidateWithPersonalInfoOnly.lastName = null;
+
         // when
         const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
           sessionId,
           userId,
-          firstName,
-          lastName: null,
-          birthdate,
+          certificationCandidateWithPersonalInfoOnly,
           certificationCandidateRepository,
         });
 
@@ -77,9 +80,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
           'findBySessionIdAndPersonalInfo')
           .withArgs({
             sessionId,
-            firstName,
-            lastName,
-            birthdate,
+            firstName: certificationCandidateWithPersonalInfoOnly.firstName,
+            lastName: certificationCandidateWithPersonalInfoOnly.lastName,
+            birthdate: certificationCandidateWithPersonalInfoOnly.birthdate,
           }).resolves([]);
       });
 
@@ -88,9 +91,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
         const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
           sessionId,
           userId,
-          firstName,
-          lastName,
-          birthdate,
+          certificationCandidateWithPersonalInfoOnly,
           certificationCandidateRepository,
         });
 
@@ -106,9 +107,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
           'findBySessionIdAndPersonalInfo')
           .withArgs({
             sessionId,
-            firstName,
-            lastName,
-            birthdate,
+            firstName: certificationCandidateWithPersonalInfoOnly.firstName,
+            lastName: certificationCandidateWithPersonalInfoOnly.lastName,
+            birthdate: certificationCandidateWithPersonalInfoOnly.birthdate,
           }).resolves(['candidate1', 'candidate2']);
       });
 
@@ -117,9 +118,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
         const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
           sessionId,
           userId,
-          firstName,
-          lastName,
-          birthdate,
+          certificationCandidateWithPersonalInfoOnly,
           certificationCandidateRepository,
         });
 
@@ -142,9 +141,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
             'findBySessionIdAndPersonalInfo')
             .withArgs({
               sessionId,
-              firstName,
-              lastName,
-              birthdate,
+              firstName: certificationCandidateWithPersonalInfoOnly.firstName,
+              lastName: certificationCandidateWithPersonalInfoOnly.lastName,
+              birthdate: certificationCandidateWithPersonalInfoOnly.birthdate,
             }).resolves([certificationCandidate]);
         });
 
@@ -153,9 +152,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
           const result = await usecases.linkUserToSessionCertificationCandidate({
             sessionId,
             userId,
-            firstName,
-            lastName,
-            birthdate,
+            certificationCandidateWithPersonalInfoOnly,
             certificationCandidateRepository,
           });
 
@@ -173,9 +170,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
             'findBySessionIdAndPersonalInfo')
             .withArgs({
               sessionId,
-              firstName,
-              lastName,
-              birthdate,
+              firstName: certificationCandidateWithPersonalInfoOnly.firstName,
+              lastName: certificationCandidateWithPersonalInfoOnly.lastName,
+              birthdate: certificationCandidateWithPersonalInfoOnly.birthdate,
             }).resolves([certificationCandidate]);
         });
 
@@ -183,9 +180,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
           const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
             sessionId,
             userId,
-            firstName,
-            lastName,
-            birthdate,
+            certificationCandidateWithPersonalInfoOnly,
             certificationCandidateRepository,
           });
 
@@ -205,9 +200,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
             'findBySessionIdAndPersonalInfo')
             .withArgs({
               sessionId,
-              firstName,
-              lastName,
-              birthdate,
+              firstName: certificationCandidateWithPersonalInfoOnly.firstName,
+              lastName: certificationCandidateWithPersonalInfoOnly.lastName,
+              birthdate: certificationCandidateWithPersonalInfoOnly.birthdate,
             }).resolves([certificationCandidate]);
           sinon.stub(certificationCandidateRepository,
             'findOneBySessionIdAndUserId')
@@ -218,9 +213,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
           const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
             sessionId,
             userId,
-            firstName,
-            lastName,
-            birthdate,
+            certificationCandidateWithPersonalInfoOnly,
             certificationCandidateRepository,
           });
 
@@ -237,9 +230,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
           sinon.stub(certificationCandidateRepository, 'findBySessionIdAndPersonalInfo')
             .withArgs({
               sessionId,
-              firstName,
-              lastName,
-              birthdate,
+              firstName: certificationCandidateWithPersonalInfoOnly.firstName,
+              lastName: certificationCandidateWithPersonalInfoOnly.lastName,
+              birthdate: certificationCandidateWithPersonalInfoOnly.birthdate,
             })
             .resolves([certificationCandidate]);
 
@@ -257,9 +250,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
           const result = await usecases.linkUserToSessionCertificationCandidate({
             sessionId,
             userId,
-            firstName,
-            lastName,
-            birthdate,
+            certificationCandidateWithPersonalInfoOnly,
             certificationCandidateRepository,
           });
 
@@ -269,13 +260,15 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
         });
 
         it('should trim spaces in first and last name when searching for a candidate', async () => {
+          // given
+          certificationCandidateWithPersonalInfoOnly.firstName = ` \t${certificationCandidateWithPersonalInfoOnly.firstName} \t`;
+          certificationCandidateWithPersonalInfoOnly.lastName = `  \t${certificationCandidateWithPersonalInfoOnly.lastName} \t`;
+
           // when
           const result = await usecases.linkUserToSessionCertificationCandidate({
             sessionId,
             userId,
-            firstName: ` \t${firstName} \t`,
-            lastName: `  \t${lastName} \t`,
-            birthdate,
+            certificationCandidateWithPersonalInfoOnly,
             certificationCandidateRepository,
           });
 
