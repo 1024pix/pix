@@ -2,6 +2,7 @@ const { databaseBuilder, expect, knex, domainBuilder, catchErr } = require('../.
 const BookshelfCertificationCandidate = require('../../../../lib/infrastructure/data/certification-candidate');
 const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
 const {
+  NotFoundError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
@@ -402,6 +403,45 @@ describe('Integration | Repository | CertificationCandidate', function() {
         expect(error).to.be.an.instanceOf(CertificationCandidateCreationOrUpdateError);
         expect(actualIds).to.have.members(existingCertificationCandidateIds);
         expect(actualIds.length).to.equal(existingCertificationCandidateIds.length);
+      });
+
+    });
+
+  });
+
+  describe('#getBySessionIdAndUserId', () => {
+    let sessionId;
+    let userId;
+
+    beforeEach(() => {
+      // given
+      sessionId = databaseBuilder.factory.buildSession().id;
+      userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+      return databaseBuilder.commit();
+    });
+
+    context('when there is one certification candidate with the given session id and user id', function() {
+
+      it('should fetch the candidate', async () => {
+        // when
+        const actualCandidates = await certificationCandidateRepository.getBySessionIdAndUserId({ sessionId, userId });
+
+        // then
+        expect(actualCandidates.sessionId).to.equal(sessionId);
+        expect(actualCandidates.userId).to.equal(userId);
+      });
+
+    });
+
+    context('when there is no certification candidate with the given session id and user id', function() {
+
+      it('should throw an error', async () => {
+        // when
+        const result = await catchErr(certificationCandidateRepository.getBySessionIdAndUserId)({ sessionId: (sessionId + 1), userId: (userId + 1) });
+
+        // then
+        expect(result).to.be.instanceOf(NotFoundError);
       });
 
     });

@@ -70,14 +70,13 @@ async function _startNewCertification({
   } catch (err) {
     if (err instanceof NotFoundError) {
       const personalInfo = { firstName: null, lastName: null, birthdate: null, birthplace: null, externalId: null };
-      const foundCandidate = await certificationCandidateRepository.findOneBySessionIdAndUserId({ sessionId, userId });
-      if (foundCandidate) {
-        personalInfo.firstName = foundCandidate.firstName;
-        personalInfo.lastName = foundCandidate.lastName;
-        personalInfo.birthdate = foundCandidate.birthdate;
-        personalInfo.birthplace = foundCandidate.birthCity;
-        personalInfo.externalId = foundCandidate.externalId;
-      }
+      const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ sessionId, userId });
+
+      personalInfo.firstName = certificationCandidate.firstName;
+      personalInfo.lastName = certificationCandidate.lastName;
+      personalInfo.birthdate = certificationCandidate.birthdate;
+      personalInfo.birthplace = certificationCandidate.birthCity;
+      personalInfo.externalId = certificationCandidate.externalId;
 
       const newCertificationCourse = new CertificationCourse({
         userId,
