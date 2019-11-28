@@ -24,10 +24,11 @@ exports.register = async function(server) {
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
-        handler: userController.find,
+        handler: userController.findPaginatedFilteredUsers,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de récupérer & chercher une liste d’utilisateurs (avec pagination)'
+          '- Elle permet de récupérer & chercher une liste d’utilisateurs\n' +
+          '- Cette liste est paginée et filtrée selon un **firstName**, un **lastName** et/ou un **email** donnés'
         ],
         tags: ['api', 'user']
       }

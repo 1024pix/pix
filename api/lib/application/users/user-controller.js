@@ -6,6 +6,7 @@ const pixScoreSerializer = require('../../infrastructure/serializers/jsonapi/pix
 const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
 const studentSerializer = require('../../infrastructure/serializers/jsonapi/student-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
 const usecases = require('../../domain/usecases');
 
@@ -86,18 +87,10 @@ module.exports = {
       .then((certificationCenterMemberships) => certificationCenterMembershipSerializer.serialize(certificationCenterMemberships));
   },
 
-  async find(request) {
-    const filters = {
-      firstName: request.query['firstName'],
-      lastName: request.query['lastName'],
-      email: request.query['email'],
-    };
-    const requestedPagination = {
-      page: request.query['page'] ? request.query['page'] : 1,
-      pageSize: request.query['pageSize'] ? request.query['pageSize'] : 10,
-    };
+  async findPaginatedFilteredUsers(request) {
+    const options = queryParamsUtils.extractParameters(request.query);
 
-    const { models: users, pagination } = await usecases.findUsers({ filters, pagination: requestedPagination });
+    const { models: users, pagination } = await usecases.findPaginatedFilteredUsers({ filter: options.filter, page: options.page });
     return userSerializer.serialize(users, pagination);
   },
 
