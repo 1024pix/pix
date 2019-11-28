@@ -1,0 +1,42 @@
+<div class="user-list">
+  <div class="table content-text content-text--small">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Prénom</th>
+          <th>Nom</th>
+          <th>Adresse électronique</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>{{input id="firstName" value=firstName keyUp=(action triggerFiltering 'firstName' firstName)}}</th>
+          <th>{{input id="lastName" value=lastName keyUp=(action triggerFiltering 'lastName' lastName)}}</th>
+          <th>{{input id="email" value=email keyUp=(action triggerFiltering 'email' email)}}</th>
+        </tr>
+      </thead>
+
+      {{#if users}}
+        <tbody>
+        {{#each users as |user|}}
+          <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.email}}</td>
+          </tr>
+        {{/each}}
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless users}}
+      <div class="table__empty content-text">En attente d'utilisateurs</div>
+    {{/unless}}
+  </div>
+</div>
+
+{{#if users}}
+  {{pagination-control pagination=users.meta paginationLink="authenticated.users.list"}}
+{{/if}}
+
