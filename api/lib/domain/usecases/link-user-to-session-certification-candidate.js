@@ -10,12 +10,10 @@ const {
 module.exports = async function linkUserToSessionCertificationCandidate({
   userId,
   sessionId,
-  firstName,
-  lastName,
-  birthdate,
+  certificationCandidateWithPersonalInfoOnly,
   certificationCandidateRepository,
 }) {
-
+  const { firstName, lastName, birthdate } = certificationCandidateWithPersonalInfoOnly;
   const trimmedFirstName = firstName
     ? firstName.trim()
     : firstName;

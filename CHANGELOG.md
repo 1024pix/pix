@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.90.0 (28/11/2019)
+
+- [#855](https://github.com/1024pix/pix/pull/855) [FEATURE] Afficher une zone grise à la place de l'image d'un challenge (PF-936).
+- [#859](https://github.com/1024pix/pix/pull/859) [FEATURE] Modification vocabulaire sur la page inscription (PF-940).
+- [#870](https://github.com/1024pix/pix/pull/870) [BUGFIX] Utiliser overflow-wrap au lieu de word-break.
+- [#860](https://github.com/1024pix/pix/pull/860) [BUGFIX] Ajouter des line-break dans la consigne des challenges (PF-939).
+- [#863](https://github.com/1024pix/pix/pull/863) [BUGFIX] Eviter les erreurs 500 lors du check de date de naissance quand un candidat essaie de rejoindre une session de certification (PF-941)
+
 ## v2.89.0 (27/11/2019)
 
 - [#850](https://github.com/1024pix/pix/pull/850) [FEATURE] Affichage du statut de la session dans PixAdmin (PA-119).

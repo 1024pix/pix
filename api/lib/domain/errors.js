@@ -306,8 +306,8 @@ class UserNotFoundError extends NotFoundError {
 }
 
 class WrongDateFormatError extends DomainError {
-  constructor() {
-    super();
+  constructor(message) {
+    super(message);
   }
 
   getErrorMessage() {

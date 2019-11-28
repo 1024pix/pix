@@ -302,6 +302,11 @@ describe('Unit | Controller | sessionController', () => {
     const firstName = 'firstName';
     const lastName = 'lastName';
     const birthdate = 'birthdate';
+    const certificationCandidateWithPersonalInfoOnly = {
+      firstName,
+      lastName,
+      birthdate,
+    };
     const linkedCertificationCandidate = 'candidate';
     const serializedCertificationCandidate = 'sCandidate';
 
@@ -317,13 +322,15 @@ describe('Unit | Controller | sessionController', () => {
         payload: {
           data: {
             attributes: {
-              'first-name': 'firstName',
-              'last-name': 'lastName',
-              'birthdate': 'birthdate',
+              'first-name': firstName,
+              'last-name': lastName,
+              'birthdate': birthdate,
             },
+            type: 'certification-candidates',
           }
         }
       };
+      sinon.stub(certificationCandidateSerializer, 'deserialize').withArgs(request.payload).resolves(certificationCandidateWithPersonalInfoOnly);
       sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(linkedCertificationCandidate).returns(serializedCertificationCandidate);
     });
 
@@ -331,7 +338,7 @@ describe('Unit | Controller | sessionController', () => {
 
       beforeEach(() => {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
-          .withArgs({ userId, sessionId, firstName, lastName, birthdate }).resolves({
+          .withArgs({ userId, sessionId, certificationCandidateWithPersonalInfoOnly }).resolves({
             linkCreated: false,
             certificationCandidate: linkedCertificationCandidate
           });
@@ -352,7 +359,7 @@ describe('Unit | Controller | sessionController', () => {
 
       beforeEach(() => {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
-          .withArgs({ userId, sessionId, firstName, lastName, birthdate }).resolves({
+          .withArgs({ userId, sessionId, certificationCandidateWithPersonalInfoOnly }).resolves({
             linkCreated: true,
             certificationCandidate: linkedCertificationCandidate
           });

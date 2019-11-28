@@ -5,18 +5,24 @@
   overflow: visible;
 }
 
-.challenge-statement__instruction strong {
-  font-weight: $font-heavy;
-}
+.challenge-statement__instruction {
+  p {
+    overflow-wrap: break-word;
+  }
 
-.challenge-statement__instruction a {
-  text-decoration: underline;
-  color: $pix-blue;
+  strong {
+    font-weight: $font-heavy;
+  }
 
-  &:active,
-  &:focus,
-  &:hover {
-    color: $pix-blue-hover;
+  a {
+    text-decoration: underline;
+    color: $pix-blue;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $pix-blue-hover;
+    }
   }
 }
 
@@ -39,10 +45,7 @@
   text-align: center;
   border-top: 1px solid $alto-grey;
   box-sizing: content-box;
-}
-
-.challenge-statement__illustration {
-  max-width: 100%;
+  padding: 10px 0;
 }
 
 .challenge-statement__attachments-section {
