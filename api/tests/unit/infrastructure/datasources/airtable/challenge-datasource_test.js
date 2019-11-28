@@ -50,10 +50,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       fields: { Acquix: [ web3.id ] }
     });
 
-  beforeEach(() => {
-    sinon.stub(Challenge, 'getUsedAirtableFields').returns(['fieldA', 'fieldB']);
-  });
-
   describe('#list', () => {
 
     let promise;
@@ -70,7 +66,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     it('should query Airtable challenges with empty query specifying used fields', () => {
       // then
       return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', ['fieldA', 'fieldB']);
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
       });
     });
 
@@ -148,7 +144,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
       // then
       return promise.then((result) => {
-        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', ['fieldA', 'fieldB']);
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
         expect(result[0]).to.be.an.instanceOf(Challenge);
         expect(_.map(result, 'id')).to.deep.equal([
           'challenge-web1',
@@ -178,7 +174,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     it('should resolve to an array of matching Challenges from airTable', () => {
       // then
       return promise.then((result) => {
-        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', ['fieldA', 'fieldB']);
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
         expect(result[0]).to.be.an.instanceOf(Challenge);
         expect(_.map(result, 'id')).to.deep.equal([ 'challenge-competence1' ]);
       });

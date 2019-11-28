@@ -19,23 +19,6 @@ class Skill {
     this.competenceId = competenceId;
   }
 
-  static getAirtableName() {
-    return 'Acquis';
-  }
-
-  static getUsedAirtableFields() {
-    return [
-      'Nom',
-      'Indice',
-      'Statut de l\'indice',
-      'Comprendre',
-      'En savoir plus',
-      'PixValue',
-      'Compétence (via Tube)',
-      'Status',
-    ];
-  }
-
   static fromAirTableObject(airtableSkillObject) {
     return new Skill({
       id: airtableSkillObject.getId(),

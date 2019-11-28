@@ -113,7 +113,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () =>
       await tubeDatasource.list();
 
       // then
-      expect(airtable.findRecords).to.have.been.calledWith('Tubes', ['titi', 'toto']);
+      expect(airtable.findRecords).to.have.been.calledWith('Tubes', tubeDatasource.usedFields);
     });
 
     it('should resolve an array of Tubes from airTable', async () => {

@@ -79,14 +79,12 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       // given
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([]));
 
-      sinon.stub(Skill, 'getUsedAirtableFields').returns(['titi', 'toto']);
-
       // when
       const promise = skillDatasource.list();
 
       // then
       return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Acquis', ['titi', 'toto']);
+        expect(airtable.findRecords).to.have.been.calledWith('Acquis', skillDatasource.usedFields);
       });
     });
 

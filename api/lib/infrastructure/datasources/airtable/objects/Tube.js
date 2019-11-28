@@ -15,10 +15,6 @@ class Tube {
     this.practicalDescription = practicalDescription;
   }
 
-  static getAirtableName() {
-    return 'Tubes';
-  }
-
   static getUsedAirtableFields() {
     return [
       'Nom',

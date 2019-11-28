@@ -1,6 +1,6 @@
 const airtable = require('../airtable');
 const cache = require('./cache');
-const AirtableObjects = require('../datasources/airtable/objects');
+const AirtableDatasources = require('../datasources/airtable');
 const _ = require('lodash');
 
 function _cacheIndividually(records, tablename) {
@@ -11,8 +11,8 @@ function _cacheIndividually(records, tablename) {
 }
 
 async function _loadAirtableClass(airtableClass) {
-  const airtableName = airtableClass.getAirtableName();
-  const fields = airtableClass.getUsedAirtableFields();
+  const airtableName = airtableClass.tableName;
+  const fields = airtableClass.usedFields;
 
   const records = await airtable.findRecordsSkipCache(airtableName, fields);
   return _cacheIndividually(records, airtableName);
@@ -25,7 +25,7 @@ function _loadRecord(tableName, recordId) {
 module.exports = {
 
   loadAllTables() {
-    return Promise.all(_.map(AirtableObjects, _loadAirtableClass));
+    return Promise.all(_.map(AirtableDatasources, _loadAirtableClass));
   },
 
   load({ tableName, recordId }) {

@@ -12,14 +12,12 @@ describe('Unit | Infrastructure | Datasource | Airtable | AreaDatasource', () =>
       // given
       sinon.stub(airtable, 'findRecords').resolves([areaRawAirTableFixture()]);
 
-      sinon.stub(Area, 'getUsedAirtableFields').returns(['field1', 'field2']);
-
       // when
       const promise = areaDatasource.list();
 
       // then
       return promise.then((areas) => {
-        expect(airtable.findRecords).to.have.been.calledWith('Domaines', ['field1', 'field2']);
+        expect(airtable.findRecords).to.have.been.calledWith('Domaines', areaDatasource.usedFields);
 
         expect(areas).to.have.lengthOf(1);
         expect(areas[0]).to.be.an.instanceof(Area);

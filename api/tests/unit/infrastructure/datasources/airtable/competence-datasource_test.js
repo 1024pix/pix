@@ -29,7 +29,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CompetenceDatasource',
     it('should call airtable on Competences table to retrieve all Competences', async () => {
       // given
       sinon.stub(airtable, 'findRecords')
-        .withArgs('Competences', airTableDataModels.Competence.getUsedAirtableFields())
+        .withArgs('Competences', competenceDatasource.usedFields)
         .resolves([ competenceRawAirTableFixture() ]);
 
       // when
