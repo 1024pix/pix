@@ -54,8 +54,8 @@ describe('Integration | Component | comparison-window', function() {
       await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
 
       // then
-      expect(find('.challenge-statement__illustration').src).to.contains(challenge.illustrationUrl);
-      expect(find('.challenge-statement__illustration').alt).to.equal(challenge.illustrationAlt);
+      expect(find('.challenge-illustration__loaded-image').src).to.contains(challenge.illustrationUrl);
+      expect(find('.challenge-illustration__loaded-image').alt).to.equal(challenge.illustrationAlt);
     });
 
     it('should render challenge result in the header', async function() {
