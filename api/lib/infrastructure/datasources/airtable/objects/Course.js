@@ -17,21 +17,6 @@ class Course {
     this.challenges = challenges;
   }
 
-  static getAirtableName() {
-    return 'Tests';
-  }
-
-  static getUsedAirtableFields() {
-    return [
-      'Nom',
-      'Description',
-      'Adaptatif ?',
-      'Competence',
-      'Épreuves',
-      'Image',
-    ];
-  }
-
   static fromAirTableObject(airtableRecord) {
     let imageUrl;
     if (airtableRecord.get('Image')) {

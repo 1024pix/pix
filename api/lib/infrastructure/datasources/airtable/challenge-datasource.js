@@ -3,12 +3,40 @@ const airtable = require('../../airtable');
 const { Challenge } = require('./objects');
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
+const TABLE_NAME = 'Epreuves';
+
+const USED_FIELDS = [
+  'Illustration de la consigne',
+  'Pièce jointe',
+  'Compétences (via tube)',
+  'Timer',
+  'Consigne',
+  'Propositions',
+  'Type d\'épreuve',
+  'Bonnes réponses',
+  'T1 - Espaces, casse & accents',
+  'T2 - Ponctuation',
+  'T3 - Distance d\'édition',
+  'Scoring',
+  'Statut',
+  'Acquix',
+  'acquis',
+  'Embed URL',
+  'Embed title',
+  'Embed height',
+  'Texte alternatif illustration',
+];
+
 const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
 
 module.exports = {
 
+  tableName: TABLE_NAME,
+
+  usedFields: USED_FIELDS,
+
   get(id) {
-    return airtable.getRecord(Challenge.getAirtableName(), id)
+    return airtable.getRecord(TABLE_NAME, id)
       .then(Challenge.fromAirTableObject)
       .catch((err) => {
         if (err.error === 'NOT_FOUND') {
@@ -20,14 +48,14 @@ module.exports = {
   },
 
   list() {
-    return airtable.findRecords(Challenge.getAirtableName(), Challenge.getUsedAirtableFields())
+    return airtable.findRecords(TABLE_NAME, USED_FIELDS)
       .then((challengeDataObjects) => challengeDataObjects.map(Challenge.fromAirTableObject));
   },
 
   findBySkillIds(skillIds) {
     const foundInSkillIds = (skillId) => _.includes(skillIds, skillId);
 
-    return airtable.findRecords(Challenge.getAirtableName(), Challenge.getUsedAirtableFields())
+    return airtable.findRecords(TABLE_NAME, USED_FIELDS)
       .then((challengeDataObjects) => {
         return challengeDataObjects
           .filter((rawChallenge) => (
@@ -39,7 +67,7 @@ module.exports = {
   },
 
   findByCompetenceId(competenceId) {
-    return airtable.findRecords(Challenge.getAirtableName(), Challenge.getUsedAirtableFields())
+    return airtable.findRecords(TABLE_NAME, USED_FIELDS)
       .then((challengeDataObjects) => {
         return challengeDataObjects
           .filter((rawChallenge) => (
