@@ -1,4 +1,6 @@
+const _ = require('lodash');
 const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
+
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const organizationInvitationRepository = require('../../../../lib/infrastructure/repositories/organization-invitation-repository');
@@ -155,19 +157,25 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
     });
   });
 
-  describe('#findOneByOrganizationIdAndEmail', () => {
+  describe('#findOnePendingByOrganizationIdAndEmail', () => {
 
-    it('should retrieve organization-invitation with given organizationId and email', async () => {
+    it('should retrieve one pending organization-invitation with given organizationId and email', async () => {
       // given
-      const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation();
+      databaseBuilder.factory.buildOrganizationInvitation({
+        status: OrganizationInvitation.StatusType.ACCEPTED,
+      });
+      const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
+        status: OrganizationInvitation.StatusType.PENDING,
+      });
       const { organizationId, email } = organizationInvitation;
+
       await databaseBuilder.commit();
 
       // when
-      const foundOrganizationInvitation = await organizationInvitationRepository.findOneByOrganizationIdAndEmail({ organizationId, email });
+      const foundOrganizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({ organizationId, email });
 
       // then
-      expect(foundOrganizationInvitation.id).to.equal(organizationInvitation.id);
+      expect(_.omit(foundOrganizationInvitation, 'organizationName')).to.deep.equal(organizationInvitation);
     });
   });
 
