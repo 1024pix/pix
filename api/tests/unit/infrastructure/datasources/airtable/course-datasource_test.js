@@ -6,6 +6,50 @@ const AirtableRecord = require('airtable').Record;
 
 describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () => {
 
+  describe('#fromAirTableObject', () => {
+
+    it('should create a Course from the AirtableRecord', () => {
+      // given
+      const airtableRecord = new AirtableRecord('Course', 'recCourse123', {
+        'id': 'recCourse123',
+        'fields': {
+          'Nom': 'course-name',
+          'Description': 'course-description',
+          'Adaptatif ?': false,
+          'Épreuves': [
+            'recChallenge1',
+            'recChallenge2',
+          ],
+          'Competence': ['recCompetence123'],
+          'Image': [
+            {
+              'url': 'https://example.org/course.png',
+            }
+          ],
+        },
+      });
+
+      // when
+      const course = courseDatasource.fromAirTableObject(airtableRecord);
+
+      // then
+      const expectedCourse = new Course({
+        id: 'recCourse123',
+        name: 'course-name',
+        adaptive: false,
+
+        competences: ['recCompetence123'],
+        description: 'course-description',
+        imageUrl: 'https://example.org/course.png',
+
+        challenges: ['recChallenge1', 'recChallenge2'],
+      });
+
+      expect(course).to.be.an.instanceof(Course);
+      expect(course).to.deep.equal(expectedCourse);
+    });
+  });
+
   describe('#getAdaptiveCourses', () => {
 
     it('should call airtable on Tests table, filter and return Course dataObjects', () => {

@@ -13,12 +13,23 @@ const USED_FIELDS = [
   'Description pratique',
 ];
 
+function fromAirTableObject(airtableRecord) {
+  return new Tube({
+    id: airtableRecord.getId(),
+    name: airtableRecord.get('Nom'),
+    title: airtableRecord.get('Titre'),
+    description: airtableRecord.get('Description'),
+    practicalTitle: airtableRecord.get('Titre pratique'),
+    practicalDescription: airtableRecord.get('Description pratique'),
+  });
+}
+
 function _doQuery(filter) {
   return airtable.findRecords(TABLE_NAME, USED_FIELDS)
     .then((rawTubes) => {
       return _(rawTubes)
         .filter(filter)
-        .map(Tube.fromAirTableObject)
+        .map(fromAirTableObject)
         .value();
     });
 }
@@ -29,13 +40,15 @@ module.exports = {
 
   usedFields: USED_FIELDS,
 
+  fromAirTableObject,
+
   findByNames(tubeNames) {
     return _doQuery((rawTube) => _.includes(tubeNames, rawTube.fields['Nom']));
   },
 
   get(id) {
     return airtable.getRecord(TABLE_NAME, id)
-      .then(Tube.fromAirTableObject)
+      .then(fromAirTableObject)
       .catch((err) => {
         if (err.error === 'NOT_FOUND') {
           throw new AirtableResourceNotFound();

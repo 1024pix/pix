@@ -17,13 +17,26 @@ const USED_FIELDS = [
 
 const ACTIVATED_STATUS = ['actif'];
 
+function fromAirTableObject(airtableSkillObject) {
+  return new Skill({
+    id: airtableSkillObject.getId(),
+    name: airtableSkillObject.get('Nom'),
+    hint: airtableSkillObject.get('Indice'),
+    hintStatus: airtableSkillObject.get('Statut de l\'indice'),
+    tutorialIds: airtableSkillObject.get('Comprendre'),
+    learningMoreTutorialIds: airtableSkillObject.get('En savoir plus'),
+    pixValue: airtableSkillObject.get('PixValue'),
+    competenceId: airtableSkillObject.get('Compétence (via Tube)')[0],
+  });
+}
+
 function _doQuery(filter) {
   return airtable.findRecords(TABLE_NAME, USED_FIELDS)
     .then((rawSkills) => {
       return _(rawSkills)
         .filter(filter)
         .filter((rawSkill) => _.includes(rawSkill.fields['Status'], ACTIVATED_STATUS))
-        .map(Skill.fromAirTableObject)
+        .map(fromAirTableObject)
         .value();
     });
 }
@@ -34,9 +47,11 @@ module.exports = {
 
   usedFields: USED_FIELDS,
 
+  fromAirTableObject,
+
   get(id) {
     return airtable.getRecord(TABLE_NAME, id)
-      .then(Skill.fromAirTableObject);
+      .then(fromAirTableObject);
   },
 
   findByRecordIds(skillRecordIds) {

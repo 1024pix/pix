@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const tubeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/tube-datasource');
 const tubeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/tubeRawAirTableFixture');
+const tubeAirtableDataModelFixture = require('../../../../tooling/fixtures/infrastructure/tubeAirtableDataObjectFixture');
 const { Tube } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 const AirtableRecord = require('airtable').Record;
 const AirtableError = require('airtable').Error;
@@ -19,6 +20,21 @@ function makeAirtableFake(records) {
 }
 
 describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () => {
+
+  describe('#fromAirTableObject', () => {
+
+    it('should create a Tube from the AirtableRecord', () => {
+      // given
+      const expectedTube = tubeAirtableDataModelFixture();
+
+      // when
+      const tube = tubeDatasource.fromAirTableObject(tubeRawAirTableFixture());
+
+      // then
+      expect(tube).to.be.an.instanceof(Tube);
+      expect(tube).to.deep.equal(expectedTube);
+    });
+  });
 
   describe('#findByNames', () => {
 
@@ -106,8 +122,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () =>
     it('should query Airtable tubes with empty query', async () => {
       // given
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([]));
-
-      sinon.stub(Tube, 'getUsedAirtableFields').returns(['titi', 'toto']);
 
       // when
       await tubeDatasource.list();
