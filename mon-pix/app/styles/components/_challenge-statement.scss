@@ -7,7 +7,7 @@
 
 .challenge-statement__instruction {
   p {
-    word-break: break-all;
+    overflow-wrap: break-word;
   }
 
   strong {
