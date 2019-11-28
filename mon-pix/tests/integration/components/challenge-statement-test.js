@@ -99,8 +99,8 @@ describe('Integration | Component | ChallengeStatement', function() {
       await renderChallengeStatement();
 
       // then
-      expect(find('.challenge-statement__illustration').src).to.contains(challenge.illustrationUrl);
-      expect(find('.challenge-statement__illustration').alt).to.equal(challenge.illustrationAlt);
+      expect(find('.challenge-illustration__loaded-image').src).to.contains(challenge.illustrationUrl);
+      expect(find('.challenge-illustration__loaded-image').alt).to.equal(challenge.illustrationAlt);
     });
 
     it('should not display challenge illustration if it does not exist', async function() {
@@ -111,7 +111,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       await renderChallengeStatement();
 
       // then
-      expect(find('.challenge-statement__illustration')).to.not.exist;
+      expect(find('challenge-statement__illustration-section')).to.not.exist;
     });
   });
 
