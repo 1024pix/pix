@@ -149,6 +149,12 @@ class ChallengeAlreadyAnsweredError extends DomainError {
   }
 }
 
+class DeletionError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class EntityValidationError extends DomainError {
   constructor({ invalidAttributes }) {
     super();
@@ -361,6 +367,7 @@ module.exports = {
   CertificationCenterMembershipCreationError,
   CertificationComputeError,
   ChallengeAlreadyAnsweredError,
+  DeletionError,
   EntityValidationError,
   FileValidationError,
   ForbiddenAccess,
