@@ -13,11 +13,30 @@ const USED_FIELDS = [
   'Image',
 ];
 
+function fromAirTableObject(airtableRecord) {
+  let imageUrl;
+  if (airtableRecord.get('Image')) {
+    imageUrl = airtableRecord.get('Image')[0].url;
+  }
+
+  return new Course({
+    id: airtableRecord.getId(),
+    name: airtableRecord.get('Nom'),
+    description: airtableRecord.get('Description'),
+    adaptive: airtableRecord.get('Adaptatif ?'),
+    competences: airtableRecord.get('Competence'),
+    challenges: airtableRecord.get('Épreuves'),
+    imageUrl,
+  });
+}
+
 module.exports = {
 
   tableName: TABLE_NAME,
 
   usedFields: USED_FIELDS,
+
+  fromAirTableObject,
 
   getAdaptiveCourses() {
     return airtable.findRecords(TABLE_NAME, USED_FIELDS)
@@ -27,12 +46,12 @@ module.exports = {
             'Adaptatif ?': true,
             'Statut': 'Publié',
           }
-        }).map(Course.fromAirTableObject);
+        }).map(fromAirTableObject);
       });
   },
 
   get(id) {
     return airtable.getRecord(TABLE_NAME, id)
-      .then(Course.fromAirTableObject);
+      .then(fromAirTableObject);
   }
 };
