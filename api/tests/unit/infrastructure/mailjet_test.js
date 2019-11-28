@@ -4,7 +4,7 @@ const Mailjet = require('../../../lib/infrastructure/mailjet');
 const nodeMailjet = require('node-mailjet');
 const mailCheck = require('../../../lib/infrastructure/mail-check');
 const logger = require('../../../lib/infrastructure/logger');
-const mailingConfig = require('../../../lib/config').mailing;
+const mailingConfig = require('../../../lib/config').mailing_mailjet;
 
 describe('Unit | Class | Mailjet', function() {
 

@@ -44,13 +44,17 @@ module.exports = (function() {
       logLevel: (process.env.LOG_LEVEL || 'info'),
     },
 
-    mailing: {
+    mailing_mailjet: {
       enabled: isFeatureEnabled(process.env.MAILING_ENABLED),
       mailjetApiKey: process.env.MAILJET_KEY,
       mailjetApiSecret: process.env.MAILJET_SECRET,
       mailjetAccountCreationTemplateId: process.env.MAILJET_ACCOUNT_CREATION_TEMPLATE_ID,
       mailjetOrganizationInvitationTemplateId: process.env.MAILJET_ORGANIZATION_INVITATION_TEMPLATE_ID,
       mailjetPasswordResetTemplateId: process.env.MAILJET_PASSWORD_RESET_TEMPLATE_ID,
+    },
+
+    mailing_sendinblue: {
+      sendinblueApiKey: process.env.SENDINBLUE_KEY,
     },
 
     captcha: {
@@ -118,12 +122,12 @@ module.exports = (function() {
     config.airtable.apiKey = 'test-api-key';
     config.airtable.base = 'test-base';
 
-    config.mailing.enabled = false;
-    config.mailing.mailjetApiKey = 'test-api-ket';
-    config.mailing.mailjetApiSecret = 'test-api-secret';
-    config.mailing.mailjetAccountCreationTemplateId = 'test-account-creation-template-id';
-    config.mailing.mailjetOrganizationInvitationTemplateId = 'test-organization-invitation-demand-template-id';
-    config.mailing.mailjetPasswordResetTemplateId = 'test-password-reset-template-id';
+    config.mailing_mailjet.enabled = false;
+    config.mailing_mailjet.mailjetApiKey = 'test-api-ket';
+    config.mailing_mailjet.mailjetApiSecret = 'test-api-secret';
+    config.mailing_mailjet.mailjetAccountCreationTemplateId = 'test-account-creation-template-id';
+    config.mailing_mailjet.mailjetOrganizationInvitationTemplateId = 'test-organization-invitation-demand-template-id';
+    config.mailing_mailjet.mailjetPasswordResetTemplateId = 'test-password-reset-template-id';
 
     config.captcha.enabled = false;
     config.captcha.googleRecaptchaSecret = 'test-recaptcha-key';
