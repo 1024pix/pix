@@ -66,6 +66,7 @@ export default Component.extend({
     },
 
     async attemptNext() {
+      this.set('stepsData.joiner', { sessionId: this.sessionId });
       this.set('isLoading', true);
       try {
         await this.joinCertificationSession();

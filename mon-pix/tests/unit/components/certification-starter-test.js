@@ -30,6 +30,7 @@ describe('Unit | Component | certification-starter', function() {
     context('when access code is provided', function() {
 
       let accessCode;
+      let sessionId;
       let certificationId;
       let peekerFindOneStub;
       let peekerStub;
@@ -38,6 +39,7 @@ describe('Unit | Component | certification-starter', function() {
 
       beforeEach(() => {
         accessCode = 'accessCode';
+        sessionId = 111;
         peekerFindOneStub = sinon.stub();
         peekerStub = {
           findOne: peekerFindOneStub,
@@ -47,6 +49,7 @@ describe('Unit | Component | certification-starter', function() {
           replaceWith: replaceWithStub,
         };
         component.set('accessCode', accessCode);
+        component.set('stepsData', { joiner: { sessionId } });
         component.set('router', routerStub);
         component.set('peeker', peekerStub);
       });
@@ -101,7 +104,7 @@ describe('Unit | Component | certification-starter', function() {
             await component.send('submit');
 
             // then
-            sinon.assert.calledWithExactly(storeCreateRecordStub, 'certification-course', { accessCode });
+            sinon.assert.calledWithExactly(storeCreateRecordStub, 'certification-course', { accessCode, sessionId });
             await sinon.assert.called(storeSaveStub);
             sinon.assert.calledWith(replaceWithStub, 'certifications.resume', certificationId);
           });
@@ -132,7 +135,7 @@ describe('Unit | Component | certification-starter', function() {
               await component.send('submit');
 
               // then
-              sinon.assert.calledWithExactly(storeCreateRecordStub, 'certification-course', { accessCode });
+              sinon.assert.calledWithExactly(storeCreateRecordStub, 'certification-course', { accessCode, sessionId });
               await sinon.assert.called(courseDeleteRecordStub);
               expect(component.get('errorMessage')).to.equal('Ce code n’existe pas ou n’est plus valide.');
             });
@@ -152,7 +155,7 @@ describe('Unit | Component | certification-starter', function() {
               await component.send('submit');
 
               // then
-              sinon.assert.calledWithExactly(storeCreateRecordStub, 'certification-course', { accessCode });
+              sinon.assert.calledWithExactly(storeCreateRecordStub, 'certification-course', { accessCode, sessionId });
               await sinon.assert.called(courseDeleteRecordStub);
               expect(component.get('errorMessage')).to.equal('Une erreur serveur inattendue vient de se produire');
             });

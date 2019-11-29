@@ -1,8 +1,6 @@
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 
-import config from 'mon-pix/config/environment';
-
 export default Component.extend({
   store: service(),
   peeker: service(),
@@ -15,7 +13,6 @@ export default Component.extend({
   classNames: [],
 
   certificationCourse: null,
-  showCongratulationsBanner: !config.APP.isNewCertificationStartActive,
 
   actions: {
     async submit() {
@@ -41,15 +38,11 @@ export default Component.extend({
         this.set('isLoading', false);
       }
     },
-
-    closeBanner() {
-      this.set('showCongratulationsBanner', false);
-    }
   },
 
   async createCertificationCourseIfValid() {
     try {
-      await this.store.createRecord('certification-course', { accessCode: this.accessCode }).save();
+      await this.store.createRecord('certification-course', { accessCode: this.accessCode, sessionId: this.stepsData.joiner.sessionId }).save();
     } catch (err) {
       this.getCurrentCertificationCourse().deleteRecord();
       throw err;
@@ -57,6 +50,6 @@ export default Component.extend({
   },
 
   getCurrentCertificationCourse() {
-    return this.peeker.findOne('certification-course', { accessCode: this.accessCode });
+    return this.peeker.findOne('certification-course', { accessCode: this.accessCode, sessionId: this.stepsData.joiner.sessionId });
   },
 });
