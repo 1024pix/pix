@@ -7,12 +7,18 @@ module.exports = async function getNextChallengeForCompetenceEvaluation({
   knowledgeElementRepository,
   challengeRepository,
   answerRepository,
+  assessmentRepository,
   skillRepository,
   assessment,
   userId,
 }) {
 
   _checkIfAssessmentBelongsToUser(assessment, userId);
+
+  if (assessment.currentChallenge) {
+    return challengeRepository.get(assessment.currentChallenge);
+  }
+
   const inputValues = await dataFetcher.fetchForCompetenceEvaluations(...arguments);
 
   const {
@@ -20,10 +26,11 @@ module.exports = async function getNextChallengeForCompetenceEvaluation({
     hasAssessmentEnded,
   } = smartRandom.getNextChallenge(inputValues);
 
+  await assessmentRepository.setCurrentChallenge(assessment.id, nextChallenge.id);
+
   if (hasAssessmentEnded) {
     throw new AssessmentEndedError();
   }
-
   return nextChallenge;
 };
 

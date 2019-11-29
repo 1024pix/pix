@@ -36,6 +36,7 @@ class Assessment {
     title,
     type,
     isImproving,
+    currentChallenge,
     // includes
     answers = [],
     assessmentResults = [],
@@ -55,6 +56,7 @@ class Assessment {
     this.title = title;
     this.type = type;
     this.isImproving = isImproving;
+    this.currentChallenge = currentChallenge;
     // includes
     this.answers = answers;
     this.assessmentResults = assessmentResults;

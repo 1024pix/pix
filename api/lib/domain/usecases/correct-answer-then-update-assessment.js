@@ -54,6 +54,9 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   }
 
   const answerSaved = await answerRepository.save(correctedAnswer);
+
+  await assessmentRepository.resetCurrentChallenge(assessment.id);
+
   let savedKnowledgeElements = [];
   if (assessment.isCompetenceEvaluation()) {
     savedKnowledgeElements = await saveKnowledgeElementsForCompetenceEvaluation({

@@ -21,6 +21,20 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
+  resetCurrentChallenge(id) {
+    return BookshelfAssessment
+      .where({ id })
+      .save({ currentChallenge: null }, { require: true, patch: true })
+      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
+  },
+
+  setCurrentChallenge(id, currentChallenge) {
+    return BookshelfAssessment
+      .where({ id })
+      .save({ currentChallenge }, { require: true, patch: true })
+      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
+  },
+
   findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate) {
     return BookshelfAssessment
       .collection()
