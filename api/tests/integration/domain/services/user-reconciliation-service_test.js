@@ -118,6 +118,45 @@ describe('Unit | Service | user-reconciliation-service', () => {
           // then
           expect(result).to.equal(students[0].id);
         });
+
+        it('...firstName with empty middleName', async () => {
+          // given
+          students[0].firstName = user.firstName;
+          students[0].middleName = null;
+          students[0].lastName = user.lastName;
+
+          // when
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+
+          // then
+          expect(result).to.equal(students[0].id);
+        });
+
+        it('...preferredLastName with empty lastName', async () => {
+          // given
+          students[0].firstName = user.firstName;
+          students[0].preferredLastName = user.lastName;
+          students[0].lastName = null;
+
+          // when
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+
+          // then
+          expect(result).to.equal(students[0].id);
+        });
+
+        it('...lastName with empty preferredLastName', async () => {
+          // given
+          students[0].firstName = user.firstName;
+          students[0].preferredLastName = null;
+          students[0].lastName = user.lastName;
+
+          // when
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+
+          // then
+          expect(result).to.equal(students[0].id);
+        });
       });
 
       context('When student found even if there is...', () => {

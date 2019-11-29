@@ -49,11 +49,15 @@ function _findCandidatesMatchingWithUser(matchingUserCandidatesStandardized, sta
 }
 
 function _candidateHasSimilarFirstName({ firstName: userFirstName }, candidateGivenName) {
-  return (candidate) => areTwoStringsCloseEnough(userFirstName, candidate[candidateGivenName], MAX_ACCEPTABLE_RATIO);
+  return (candidate) => candidate[candidateGivenName] && areTwoStringsCloseEnough(userFirstName, candidate[candidateGivenName], MAX_ACCEPTABLE_RATIO);
 }
 
 function _candidateHasSimilarLastName({ lastName }) {
-  return (candidate) => isOneStringCloseEnoughFromMultipleStrings(lastName, [candidate.lastName, candidate.preferredLastName], MAX_ACCEPTABLE_RATIO);
+  return (candidate) => {
+    const candidatesLastName = [candidate.lastName, candidate.preferredLastName]
+      .filter((candidateLastName) => candidateLastName);
+    return isOneStringCloseEnoughFromMultipleStrings(lastName, candidatesLastName, MAX_ACCEPTABLE_RATIO);
+  };
 }
 
 module.exports = {
