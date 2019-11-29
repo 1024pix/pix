@@ -2,7 +2,6 @@ const { expect, sinon, domainBuilder } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const areaDatasource = require('../../../../../lib/infrastructure/datasources/airtable/area-datasource');
 const areaRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
-const { Area } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 
 describe('Unit | Infrastructure | Datasource | Airtable | AreaDatasource', () => {
 
@@ -16,7 +15,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | AreaDatasource', () =>
       const area = areaDatasource.fromAirTableObject(areaRawAirTableFixture());
 
       // then
-      expect(area).to.be.an.instanceof(Area);
       expect(area).to.deep.equal(expectedArea);
     });
   });
@@ -35,7 +33,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | AreaDatasource', () =>
         expect(airtable.findRecords).to.have.been.calledWith('Domaines', areaDatasource.usedFields);
 
         expect(areas).to.have.lengthOf(1);
-        expect(areas[0]).to.be.an.instanceof(Area);
         expect(areas[0].id).to.equal('recvoGdo7z2z7pXWa');
       });
     });

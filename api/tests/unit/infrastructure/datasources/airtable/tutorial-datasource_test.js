@@ -6,7 +6,6 @@ const tutorialAirtableDataObjectFixture = require('../../../../tooling/fixtures/
 const tutorialRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/tutorialRawAirtableFixture');
 const { Record: AirtableRecord, Error: AirtableError } = require('airtable');
 const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
-const { Tutorial } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 const _ = require('lodash');
 
 function makeAirtableFake(records) {
@@ -31,7 +30,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | TutorialDatasource', (
       const tuto = tutorialDatasource.fromAirTableObject(tutorialRawAirTableFixture());
 
       // then
-      expect(tuto).to.be.an.instanceof(Tutorial);
       expect(tuto).to.deep.equal(expectedTuto);
     });
   });
@@ -58,8 +56,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | TutorialDatasource', (
       // then
       return promise.then((foundTutorials) => {
         expect(foundTutorials).to.be.an('array');
-        expect(foundTutorials[0]).to.be.an.instanceOf(Tutorial);
-        expect(foundTutorials[1]).to.be.an.instanceOf(Tutorial);
         expect(_.map(foundTutorials, 'id')).to.deep.equal([rawTutorial1.id, rawTutorial3.id]);
         expect(airtable.findRecords).to.have.been.calledWith('Tutoriels');
 
