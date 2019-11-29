@@ -265,6 +265,12 @@ class PasswordResetDemandNotFoundError extends DomainError {
   }
 }
 
+class SessionAlreadyFinalizedError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
   constructor(message) {
     super(message);
@@ -375,6 +381,7 @@ module.exports = {
   ObjectValidationError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
+  SessionAlreadyFinalizedError,
   UserAlreadyLinkedToCandidateInSessionError,
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,
