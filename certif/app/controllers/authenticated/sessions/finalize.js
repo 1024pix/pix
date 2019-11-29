@@ -8,6 +8,7 @@ export default Controller.extend({
   notifications: service('notification-messages'),
 
   showConfirmModal: false,
+  examinerComment: '',
 
   showErrorNotification(message) {
     const { autoClear, clearDuration } = config.notifications;
@@ -21,8 +22,12 @@ export default Controller.extend({
 
   actions: {
     finalizeSession() {
+      
       this.set('isLoading', true);
-      return this.model.finalize()
+      return this.model
+        .finalize({
+          examinerComment: this.get('examinerComment'),
+        })
         .then(() => {
           this.showSuccessNotification('Les informations de la session ont été transmises avec succès.');
         })
