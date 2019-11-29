@@ -16,6 +16,7 @@ const SESSION_PROPS = [
   'status',
   'certifications',
   'certificationCandidates',
+  'examinerComment',
 ];
 
 describe('Unit | Domain | Models | Session', () => {
@@ -34,6 +35,7 @@ describe('Unit | Domain | Models | Session', () => {
       room: '',
       time: '',
       status: '',
+      examinerComment: '',
       // includes
       certifications: [],
       certificationCandidates: [],
