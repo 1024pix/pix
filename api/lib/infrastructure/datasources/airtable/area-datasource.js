@@ -11,13 +11,13 @@ const USED_FIELDS = [
 ];
 
 function fromAirTableObject(airtableDomaineObject) {
-  return new Area({
+  return {
     id: airtableDomaineObject.getId(),
     code: airtableDomaineObject.get('Code'),
     name: airtableDomaineObject.get('Nom'),
     title: airtableDomaineObject.get('Titre'),
     competenceIds: airtableDomaineObject.get('Competences (identifiants)'),
-  });
+  };
 }
 
 module.exports = {

@@ -20,7 +20,7 @@ function fromAirTableObject(rawAirtableCompetence) {
     description: rawAirtableCompetence.get('Description'),
     areaId: rawAirtableCompetence.get('Domaine') ? rawAirtableCompetence.get('Domaine')[0] : '',
     courseId: rawAirtableCompetence.get('Tests') ? rawAirtableCompetence.get('Tests')[0] : '',
-    skillIds: rawAirtableCompetence.get('Acquis (via Tubes)'),
+    skillIds: rawAirtableCompetence.get('Acquis (via Tubes)') || [],
   });
 }
 

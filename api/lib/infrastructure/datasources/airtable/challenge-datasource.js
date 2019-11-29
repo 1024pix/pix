@@ -51,7 +51,7 @@ function fromAirTableObject(airtableEpreuveObject) {
     timer = parseInt(airtableEpreuveObject.get('Timer'));
   }
 
-  return new Challenge({
+  return {
     id: airtableEpreuveObject.getId(),
     instruction: airtableEpreuveObject.get('Consigne'),
     proposals: airtableEpreuveObject.get('Propositions'),
@@ -62,8 +62,8 @@ function fromAirTableObject(airtableEpreuveObject) {
     t3Status: airtableEpreuveObject.get('T3 - Distance d\'édition'),
     scoring: airtableEpreuveObject.get('Scoring'),
     status: airtableEpreuveObject.get('Statut'),
-    skillIds: airtableEpreuveObject.get('Acquix'),
-    skills: airtableEpreuveObject.get('acquis'),
+    skillIds: airtableEpreuveObject.get('Acquix') || [],
+    skills: airtableEpreuveObject.get('acquis') || [],
     embedUrl: airtableEpreuveObject.get('Embed URL'),
     embedTitle: airtableEpreuveObject.get('Embed title'),
     embedHeight: airtableEpreuveObject.get('Embed height'),
@@ -72,7 +72,7 @@ function fromAirTableObject(airtableEpreuveObject) {
     attachments,
     competenceId,
     illustrationAlt: airtableEpreuveObject.get('Texte alternatif illustration'),
-  });
+  };
 }
 
 module.exports = {

@@ -3,7 +3,6 @@ const airtable = require('../../../../../lib/infrastructure/airtable');
 const tubeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/tube-datasource');
 const tubeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/tubeRawAirTableFixture');
 const tubeAirtableDataModelFixture = require('../../../../tooling/fixtures/infrastructure/tubeAirtableDataObjectFixture');
-const { Tube } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 const AirtableRecord = require('airtable').Record;
 const AirtableError = require('airtable').Error;
 const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
@@ -31,7 +30,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () =>
       const tube = tubeDatasource.fromAirTableObject(tubeRawAirTableFixture());
 
       // then
-      expect(tube).to.be.an.instanceof(Tube);
       expect(tube).to.deep.equal(expectedTube);
     });
   });
@@ -64,8 +62,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () =>
 
       // then
       expect(foundTubes).to.be.an('array');
-      expect(foundTubes[0]).to.be.an.instanceOf(Tube);
-      expect(foundTubes[1]).to.be.an.instanceOf(Tube);
       expect(_.map(foundTubes, 'name')).to.deep.equal([rawTube1.fields['Nom'], rawTube2.fields['Nom'], rawTube4.fields['Nom']]);
       expect(airtable.findRecords).to.have.been.calledWith('Tubes');
     });
@@ -85,7 +81,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () =>
       return promise.then((tube) => {
         expect(airtable.getRecord).to.have.been.calledWith('Tubes', rawTube.id);
 
-        expect(tube).to.be.an.instanceof(Tube);
         expect(tube.id).to.equal(rawTube.id);
       });
     });
@@ -141,7 +136,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () =>
       const foundTubes = await tubeDatasource.list();
 
       // then
-      expect(foundTubes[0]).to.be.an.instanceOf(Tube);
       expect(_.map(foundTubes, 'id')).to.deep.equal([rawTube1.id, rawTube2.id]);
     });
   });

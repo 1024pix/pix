@@ -23,8 +23,8 @@ function fromAirTableObject(airtableSkillObject) {
     name: airtableSkillObject.get('Nom'),
     hint: airtableSkillObject.get('Indice'),
     hintStatus: airtableSkillObject.get('Statut de l\'indice'),
-    tutorialIds: airtableSkillObject.get('Comprendre'),
-    learningMoreTutorialIds: airtableSkillObject.get('En savoir plus'),
+    tutorialIds: airtableSkillObject.get('Comprendre') || [],
+    learningMoreTutorialIds: airtableSkillObject.get('En savoir plus') || [],
     pixValue: airtableSkillObject.get('PixValue'),
     competenceId: airtableSkillObject.get('Compétence (via Tube)')[0],
   });

@@ -1,7 +1,6 @@
 const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const courseDatasource = require('../../../../../lib/infrastructure/datasources/airtable/course-datasource');
-const { Course } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 const AirtableRecord = require('airtable').Record;
 
 describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () => {
@@ -33,7 +32,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
       const course = courseDatasource.fromAirTableObject(airtableRecord);
 
       // then
-      const expectedCourse = new Course({
+      const expectedCourse = {
         id: 'recCourse123',
         name: 'course-name',
         adaptive: false,
@@ -43,9 +42,8 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
         imageUrl: 'https://example.org/course.png',
 
         challenges: ['recChallenge1', 'recChallenge2'],
-      });
+      };
 
-      expect(course).to.be.an.instanceof(Course);
       expect(course).to.deep.equal(expectedCourse);
     });
   });
@@ -75,7 +73,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
         ]);
 
         expect(courses).to.have.lengthOf(1);
-        expect(courses[0]).to.be.an.instanceof(Course);
         expect(courses[0].id).to.equal('recCourse123');
       });
     });
@@ -95,7 +92,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
       const course = await courseDatasource.get('recCourse123');
 
       // then
-      expect(course).to.be.an.instanceof(Course);
       expect(course.id).to.equal('recCourse123');
     });
   });

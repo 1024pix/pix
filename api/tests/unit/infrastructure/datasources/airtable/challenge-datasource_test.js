@@ -4,7 +4,6 @@ const AirtableError = require('airtable').Error;
 const challengeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const challengeAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
 const challengeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/challengeRawAirTableFixture');
-const { Challenge } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
 const _ = require('lodash');
 
@@ -75,7 +74,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       // then
       return promise.then((result) => {
         expect(result).to.be.an('array').and.to.have.lengthOf(2);
-        expect(result[0]).to.be.an.instanceOf(Challenge);
       });
     });
   });
@@ -93,7 +91,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       return promise.then((challenge) => {
         expect(airtable.getRecord).to.have.been.calledWith('Epreuves', '243');
 
-        expect(challenge).to.be.an.instanceof(Challenge);
         expect(challenge.id).to.equal('recwWzTquPlvIl4So');
         expect(challenge.type).to.equal('QCM');
       });
@@ -146,7 +143,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       // then
       return promise.then((result) => {
         expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
-        expect(result[0]).to.be.an.instanceOf(Challenge);
         expect(_.map(result, 'id')).to.deep.equal([
           'challenge-web1',
           'challenge-web2',
@@ -176,7 +172,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       // then
       return promise.then((result) => {
         expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
-        expect(result[0]).to.be.an.instanceOf(Challenge);
         expect(_.map(result, 'id')).to.deep.equal([ 'challenge-competence1' ]);
       });
     });
@@ -192,7 +187,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       const challenge = challengeDatasource.fromAirTableObject(challengeRawAirTableFixture());
 
       // then
-      expect(challenge).to.be.an.instanceof(Challenge);
       expect(challenge).to.deep.equal(expectedChallenge);
     });
 
@@ -205,7 +199,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       const challenge = challengeDatasource.fromAirTableObject(airtableEpreuveObject);
 
       // then
-      expect(challenge).to.be.an.instanceof(Challenge);
       expect(challenge.illustrationUrl).to.be.undefined;
     });
 
@@ -218,7 +211,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       const challenge = challengeDatasource.fromAirTableObject(airtableEpreuveObject);
 
       // then
-      expect(challenge).to.be.an.instanceof(Challenge);
       expect(challenge.timer).to.be.undefined;
     });
 
@@ -231,7 +223,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       const challenge = challengeDatasource.fromAirTableObject(airtableEpreuveObject);
 
       // then
-      expect(challenge).to.be.an.instanceof(Challenge);
       expect(challenge.attachments).to.be.undefined;
     });
 
@@ -245,9 +236,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       const challenge = challengeDatasource.fromAirTableObject(airtableEpreuveObject);
 
       // then
-      expect(challenge).to.be.an.instanceof(Challenge);
       expect(challenge.competenceId).to.be.undefined;
     });
   });
-
 });
