@@ -1,10 +1,47 @@
 const fp = require('lodash/fp');
-const Answer = require('../../domain/models/Answer');
-const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
-const BookshelfAnswer = require('../data/answer');
-const Bookshelf = require('../bookshelf');
-const { NotFoundError } = require('../../domain/errors');
 const jsYaml = require('js-yaml');
+
+const createCommonRepositoryMethods = require('../createCommonRepositoryMethods');
+const Answer = require('../../domain/models/Answer');
+const Bookshelf = require('../bookshelf');
+const BookshelfAnswer = require('../data/answer');
+const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
+
+const { get, findOneByAttributes, findByAttributes, create } = createCommonRepositoryMethods({
+  BookshelfModel: BookshelfAnswer,
+  toDomain: _toDomain,
+  adaptToDatabaseForCreate: _adaptModelToDb,
+});
+
+const methods = {
+
+  get,
+
+  findByChallengeAndAssessment({ challengeId, assessmentId }) {
+    return findOneByAttributes({ challengeId, assessmentId });
+  },
+
+  findByAssessment(assessmentId) {
+    return findByAttributes({ assessmentId });
+  },
+
+  findByChallenge(challengeId) {
+    return findByAttributes({ challengeId });
+  },
+
+  findChallengeIdsFromAnswerIds(answerIds) {
+    return Bookshelf.knex('answers')
+      .distinct('challengeId')
+      .whereIn('id', answerIds)
+      .then(fp.map('challengeId'));
+  },
+
+  findCorrectAnswersByAssessmentId(assessmentId) {
+    return findByAttributes({ assessmentId, result: 'ok' });
+  },
+
+  save: create,
+};
 
 function _adaptModelToDb(answer) {
   return {
@@ -35,62 +72,4 @@ function _toDomain(bookshelfAnswer) {
   return null;
 }
 
-module.exports = {
-
-  get(answerId) {
-    return BookshelfAnswer.where('id', answerId)
-      .fetch({ require: true })
-      .then(_toDomain)
-      .catch((error) => {
-        if (error instanceof BookshelfAnswer.NotFoundError) {
-          throw new NotFoundError(`Not found answer for ID ${answerId}`);
-        }
-
-        throw error;
-      });
-  },
-
-  findByChallengeAndAssessment({ challengeId, assessmentId }) {
-    return BookshelfAnswer
-      .where({ challengeId, assessmentId })
-      .fetch()
-      .then(_toDomain);
-  },
-
-  findByAssessment(assessmentId) {
-    return BookshelfAnswer
-      .where({ assessmentId })
-      .orderBy('createdAt')
-      .fetchAll()
-      .then((answers) => answers.models.map(_toDomain));
-  },
-
-  findByChallenge(challengeId) {
-    return BookshelfAnswer
-      .where({ challengeId })
-      .fetchAll()
-      .then((answers) => answers.models.map(_toDomain));
-  },
-
-  findChallengeIdsFromAnswerIds(answerIds) {
-    return Bookshelf.knex('answers')
-      .distinct('challengeId')
-      .whereIn('id', answerIds)
-      .then(fp.map('challengeId'));
-  },
-
-  findCorrectAnswersByAssessmentId(assessmentId) {
-    return BookshelfAnswer
-      .where({ assessmentId, result: 'ok' })
-      .fetchAll()
-      .then((answers) => answers.models.map(_toDomain));
-  },
-
-  save(answer) {
-    return Promise.resolve(answer)
-      .then(_adaptModelToDb)
-      .then((rawDBAnswerModel) => new BookshelfAnswer(rawDBAnswerModel))
-      .then((answerBookshelf) => answerBookshelf.save())
-      .then(_toDomain);
-  },
-};
+module.exports = methods;
