@@ -1,39 +1,48 @@
 <div class="certifications-session-info">
-  <div class='row'>
-    <div class='col'>Centre :</div>
-    <div class='col'>{{session.certificationCenter}}</div>
+  <div class="certifications-session-info__details">
+      <div class='row'>
+          <div class='col'>Centre :</div>
+          <div class='col' data-test-id='certifications-session-info__certification-center'>{{session.certificationCenter}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Adresse :</div>
+          <div class='col' data-test-id='certifications-session-info__address'>{{session.address}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Pièce :</div>
+          <div class='col' data-test-id='certifications-session-info__room'>{{session.room}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Surveillant :</div>
+          <div class='col' data-test-id='certifications-session-info__examiner'>{{session.examiner}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Date :</div>
+          <div class='col' data-test-id='certifications-session-info__date'>{{moment-format session.date 'DD/MM/YYYY'}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Heure :</div>
+          <div class='col' data-test-id='certifications-session-info__time'>{{session.time}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Description :</div>
+          <div class='col' data-test-id='certifications-session-info__description'>{{session.description}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Code d'accès :</div>
+          <div class='col' data-test-id='certifications-session-info__access-code'>{{session.accessCode}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Statut :</div>
+          <div class='col' data-test-id='certifications-session-info__is-finalized'>{{if session.isFinalized 'Finalisée' 'Prête'}}</div>
+      </div>
   </div>
-  <div class='row'>
-    <div class='col'>Adresse :</div>
-    <div class='col'>{{session.address}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Pièce :</div>
-    <div class='col'>{{session.room}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Surveillant :</div>
-    <div class='col'>{{session.examiner}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Date :</div>
-    <div class='col'>{{moment-format session.date 'DD/MM/YYYY'}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Heure :</div>
-    <div class='col'>{{session.time}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Description :</div>
-    <div class='col'>{{session.description}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Code d'accès :</div>
-    <div class='col'>{{session.accessCode}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Statut :</div>
-    <div class='col'>{{if session.isFinalized 'Finalisée' 'Prête'}}</div>
+
+  <div class="certifications-session-info__stats">
+    <div class='row'>
+        <div class='col'>Nombre de certifications non terminées :</div>
+        <div class='col' data-test-id='certifications-session-info__count-non-validated-certifications'>{{session.countNonValidatedCertifications}}</div>
+    </div>
   </div>
 
   <div class='row row--btn'>
