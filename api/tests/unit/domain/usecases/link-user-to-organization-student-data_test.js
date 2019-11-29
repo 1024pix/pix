@@ -1,6 +1,7 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const Student = require('../../../../lib/domain/models/Student');
+const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
 const { UserNotAuthorizedToAccessEntity, NotFoundError } = require('../../../../lib/domain/errors');
@@ -10,41 +11,42 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
   let associateUserAndStudentStub;
   let campaignCode;
   let findStudentStub;
+  let findMatchingCandidateIdForGivenUserStub;
   let student;
+  let students;
   let user;
   const organizationId = 1;
   const studentId = 1;
-
-  beforeEach(() => {
-    campaignCode = 'ABCD12';
-    student = domainBuilder.buildStudent({ organizationId, id: studentId });
-    user = {
-      id: 1,
-      firstName: 'Joe',
-      lastName: 'Poe',
-      birthdate: '02/02/1992',
-    };
-
-    sinon.stub(campaignRepository, 'getByCode')
-      .withArgs(campaignCode)
-      .resolves({ organizationId });
-
-    findStudentStub = sinon.stub(studentRepository, 'findByOrganizationIdAndUserInformation')
-      .withArgs({
-        organizationId,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        birthdate: user.birthdate
-      }).resolves([student]);
-
-    associateUserAndStudentStub = sinon.stub(studentRepository, 'associateUserAndStudent');
-  });
 
   afterEach(() => {
     sinon.restore();
   });
 
-  context('User is not connected', () => {
+  context('When user is not connected', () => {
+
+    beforeEach(() => {
+      campaignCode = 'ABCD12';
+      student = domainBuilder.buildStudent({ organizationId, id: studentId });
+      user = {
+        id: 1,
+        firstName: 'Joe',
+        lastName: 'Poe',
+        birthdate: '02/02/1992',
+      };
+
+      sinon.stub(campaignRepository, 'getByCode')
+        .withArgs(campaignCode)
+        .resolves({ organizationId });
+
+      findStudentStub = sinon.stub(studentRepository, 'findNotLinkedYetByOrganizationIdAndUserBirthdate')
+        .withArgs({
+          organizationId,
+          birthdate: user.birthdate
+        }).resolves([student]);
+
+      associateUserAndStudentStub = sinon.stub(studentRepository, 'associateUserAndStudent');
+    });
+
     it('should throw an error', async () => {
       // given
       user.id = null;
@@ -63,53 +65,103 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
     });
   });
 
-  context('User is connected', () => {
+  context('When user is connected', () => {
 
-    it('should check if user is part of the student list and associate user and matching organization student', async () => {
-      // given
-      student.userId  = user.id;
-      associateUserAndStudentStub.withArgs({ userId: user.id, studentId }).resolves(student);
+    beforeEach(() => {
+      campaignCode = 'ABCD12';
+      students = [
+        domainBuilder.buildStudent({ organizationId }),
+        domainBuilder.buildStudent({ organizationId }),
+      ];
+      user = {
+        id: 1,
+        firstName: 'Joe',
+        lastName: 'Poe',
+        birthdate: '02/02/1992',
+      };
 
-      // when
-      await usecases.linkUserToOrganizationStudentData({
-        user,
-        campaignCode,
-      });
+      sinon.stub(campaignRepository, 'getByCode')
+        .withArgs(campaignCode)
+        .resolves({ organizationId });
 
-      // then
-      expect(findStudentStub).have.been.calledOnce;
-      expect(associateUserAndStudentStub).have.been.calledOnce;
+      findStudentStub = sinon.stub(studentRepository, 'findNotLinkedYetByOrganizationIdAndUserBirthdate')
+        .withArgs({
+          organizationId,
+          birthdate: user.birthdate
+        }).resolves(students);
+
+      associateUserAndStudentStub = sinon.stub(studentRepository, 'associateUserAndStudent');
     });
 
-    it('should resolve if student was patched', async () => {
-      // given
-      student.userId  = user.id;
-      associateUserAndStudentStub.withArgs({ userId: user.id, studentId }).resolves(student);
+    context('When no student found based on birthdate and organizationId', () => {
 
-      // when
-      const result = await usecases.linkUserToOrganizationStudentData({
-        user,
-        campaignCode,
+      it('should throw a Not Found error', async () => {
+        // given
+        findStudentStub.resolves([]);
+
+        // when
+        const result = await catchErr(usecases.linkUserToOrganizationStudentData)({
+          user,
+          campaignCode,
+        });
+
+        // then
+        expect(result).to.be.instanceof(NotFoundError);
+        expect(result.message).to.equal('Not found only 1 student');
       });
-
-      // then
-      expect(result).to.be.instanceof(Student);
-      expect(result.userId).to.be.equal(user.id);
     });
 
-    it('should throw an 401 error, when we don’t find student to associate in organization list', async () => {
-      // given
-      findStudentStub.rejects(new NotFoundError('test error'));
+    context('When at least one student found based on birthdate and organizationId', () => {
 
-      // when
-      const result = await catchErr(usecases.linkUserToOrganizationStudentData)({
-        user,
-        campaignCode,
+      beforeEach(() => {
+        findMatchingCandidateIdForGivenUserStub = sinon.stub(userReconciliationService,'findMatchingCandidateIdForGivenUser');
       });
 
-      // then
-      expect(result).to.be.instanceof(NotFoundError);
-      expect(result.message).to.equal('test error');
+      context('When no student matched on names', () => {
+
+        it('should throw a Not Found error if no student matched', async () => {
+          // given
+          user.firstName = 'Sam';
+
+          students[0].firstName = 'Joe';
+          students[0].lastName = user.lastName;
+          associateUserAndStudentStub.withArgs({ userId: user.id, studentId: students[0].id }).resolves(students[0]);
+          findMatchingCandidateIdForGivenUserStub.withArgs(students, user).returns(null);
+
+          // when
+          const result = await catchErr(usecases.linkUserToOrganizationStudentData)({
+            user,
+            campaignCode,
+          });
+
+          // then
+          expect(result).to.be.instanceof(NotFoundError);
+          expect(result.message).to.equal('Not found only 1 student');
+        });
+      });
+
+      context('When one student matched on names', () => {
+
+        it('should associate user with student', async () => {
+          // given
+          students[0].userId = user.id;
+          students[0].firstName = user.firstName;
+          students[0].lastName = user.lastName;
+          associateUserAndStudentStub.withArgs({ userId: user.id, studentId: students[0].id }).resolves(students[0]);
+          findMatchingCandidateIdForGivenUserStub.withArgs(students, user).returns(students[0].id);
+
+          // when
+          const result = await usecases.linkUserToOrganizationStudentData({
+            user,
+            campaignCode,
+          });
+
+          // then
+          expect(result).to.be.instanceof(Student);
+          expect(result.userId).to.be.equal(user.id);
+        });
+      });
     });
+
   });
 });

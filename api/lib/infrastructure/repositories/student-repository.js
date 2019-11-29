@@ -28,13 +28,11 @@ module.exports = {
     return Bookshelf.knex.batchInsert('students', bookshelfStudents).then(() => undefined);
   },
 
-  findByOrganizationIdAndUserInformation({ organizationId, firstName, lastName, birthdate }) {
+  findNotLinkedYetByOrganizationIdAndUserBirthdate({ organizationId, birthdate }) {
     return BookshelfStudent
       .query((qb) => {
         qb.where('organizationId', organizationId);
         qb.whereNull('userId');
-        qb.whereRaw('LOWER(?) in (LOWER(??), LOWER(??), LOWER(??))', [firstName, 'firstName', 'middleName', 'thirdName']);
-        qb.whereRaw('LOWER(?) in (LOWER(??), LOWER(??))', [lastName, 'lastName', 'preferredLastName']);
         qb.where('birthdate', birthdate);
       })
       .fetchAll()
