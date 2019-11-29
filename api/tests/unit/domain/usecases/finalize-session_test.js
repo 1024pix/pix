@@ -6,7 +6,7 @@ const {
 } = require('../../../test-helper');
 
 const finalizeSession = require('../../../../lib/domain/usecases/finalize-session');
-const { ForbiddenAccess } = require('../../../../lib/domain/errors');
+const { ForbiddenAccess, SessionAlreadyFinalizedError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | finalize-session', () => {
 
@@ -21,6 +21,7 @@ describe('Unit | UseCase | finalize-session', () => {
       get: sinon.stub(),
       updateStatus: sinon.stub(),
       ensureUserHasAccessToSession: sinon.stub(),
+      isFinalized: sinon.stub(),
     };
 
   });
@@ -37,15 +38,40 @@ describe('Unit | UseCase | finalize-session', () => {
   });
   context('When the user has the rights', () => {
 
-    beforeEach(async () => {
+    beforeEach(() => {
       sessionRepository.ensureUserHasAccessToSession.withArgs(userId, sessionId).resolves();
-      sessionRepository.updateStatus.withArgs({ sessionId, status: 'finalized' }).resolves();
-      sessionRepository.get.withArgs(sessionId).resolves(updatedSession);
     });
 
-    it('should return the updated session', async () => {
-      const res = await finalizeSession({ userId, sessionId, sessionRepository });
-      expect(res).to.deep.equal(updatedSession);
+    context('When the session status is already finalized', () => {
+
+      beforeEach(() => {
+        sessionRepository.isFinalized.withArgs(sessionId).resolves(true);
+      });
+
+      it('should throw a SessionAlreadyFinalizedError error', async () => {
+        // when
+        const err = await catchErr(finalizeSession)({ userId, sessionId, sessionRepository });
+
+        // then
+        expect(err).to.be.instanceOf(SessionAlreadyFinalizedError);
+      });
+    });
+
+    context('When the session status is not finalized yet ', () => {
+
+      beforeEach(() => {
+        sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
+        sessionRepository.updateStatus.withArgs({ sessionId, status: 'finalized' }).resolves();
+        sessionRepository.get.withArgs(sessionId).resolves(updatedSession);
+      });
+
+      it('should return the updated session', async () => {
+        // when
+        const res = await finalizeSession({ userId, sessionId, sessionRepository });
+
+        // then
+        expect(res).to.deep.equal(updatedSession);
+      });
     });
   });
 });

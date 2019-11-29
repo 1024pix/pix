@@ -103,6 +103,10 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
+  it('should export a SessionAlreadyFinalizedError', () => {
+    expect(errors.SessionAlreadyFinalizedError).to.exist;
+  });
+
   describe('#InvalidTemporaryKeyError', () => {
     it('should export a InvalidTemporaryKeyError', () => {
       expect(errors.InvalidTemporaryKeyError).to.exist;

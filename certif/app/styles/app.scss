@@ -1,5 +1,8 @@
 @charset "utf-8";
 
+@import "ember-modal-dialog/ember-modal-structure";
+@import "ember-modal-dialog/ember-modal-appearance";
+
 @import "globals/breakpoints";
 @import "globals/colors";
 @import "globals/errors";
@@ -7,6 +10,7 @@
 @import "globals/forms";
 @import "globals/pages";
 @import "globals/panels";
+@import 'globals/app-modal';
 @import "globals/tables";
 @import "globals/texts";
 @import "globals/titles";
@@ -22,6 +26,8 @@
 
 @import "components/login-form";
 @import "components/session-finalizer";
+@import "components/session-finalization-step-container";
+@import "components/session-finalization-formbuilder-link-step";
 
 body, html{
   margin: 0;

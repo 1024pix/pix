@@ -5,6 +5,7 @@ const BookshelfSession = require('../data/session');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
+const { statuses } = require('../../domain/models/Session');
 
 function _toDomain(bookshelfSession) {
   if (bookshelfSession) {
@@ -31,6 +32,13 @@ module.exports = {
       .where({ accessCode })
       .fetch({})
       .then((result) => !result);
+  },
+
+  isFinalized: (id) => {
+    return BookshelfSession
+      .where({ id, status: statuses.FINALIZED })
+      .fetch({ columns: 'id' })
+      .then((result) => Boolean(result));
   },
 
   getByAccessCode: (accessCode) => {
