@@ -1,5 +1,4 @@
 const airtable = require('../../airtable');
-const { Competence } = require('./objects');
 
 const TABLE_NAME = 'Competences';
 
@@ -13,7 +12,7 @@ const USED_FIELDS = [
 ];
 
 function fromAirTableObject(rawAirtableCompetence) {
-  return new Competence({
+  return {
     id: rawAirtableCompetence.getId(),
     name: rawAirtableCompetence.get('Titre'),
     index: rawAirtableCompetence.get('Sous-domaine'),
@@ -21,7 +20,7 @@ function fromAirTableObject(rawAirtableCompetence) {
     areaId: rawAirtableCompetence.get('Domaine') ? rawAirtableCompetence.get('Domaine')[0] : '',
     courseId: rawAirtableCompetence.get('Tests') ? rawAirtableCompetence.get('Tests')[0] : '',
     skillIds: rawAirtableCompetence.get('Acquis (via Tubes)') || [],
-  });
+  };
 }
 
 module.exports = {

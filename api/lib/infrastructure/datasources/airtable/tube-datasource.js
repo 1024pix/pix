@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const airtable = require('../../airtable');
-const { Tube } = require('./objects');
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
 const TABLE_NAME = 'Tubes';
@@ -14,14 +13,14 @@ const USED_FIELDS = [
 ];
 
 function fromAirTableObject(airtableRecord) {
-  return new Tube({
+  return {
     id: airtableRecord.getId(),
     name: airtableRecord.get('Nom'),
     title: airtableRecord.get('Titre'),
     description: airtableRecord.get('Description'),
     practicalTitle: airtableRecord.get('Titre pratique'),
     practicalDescription: airtableRecord.get('Description pratique'),
-  });
+  };
 }
 
 function _doQuery(filter) {

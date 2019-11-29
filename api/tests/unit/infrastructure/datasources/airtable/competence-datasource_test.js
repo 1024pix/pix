@@ -42,7 +42,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CompetenceDatasource',
       // given
       sinon.stub(airtable, 'findRecords')
         .withArgs('Competences', competenceDatasource.usedFields)
-        .resolves([ competenceRawAirTableFixture() ]);
+        .resolves([competenceRawAirTableFixture()]);
 
       // when
       const competences = await competenceDatasource.list();

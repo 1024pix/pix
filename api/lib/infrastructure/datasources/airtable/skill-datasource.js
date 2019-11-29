@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const airtable = require('../../airtable');
-const { Skill } = require('./objects');
 
 const TABLE_NAME = 'Acquis';
 
@@ -18,16 +17,16 @@ const USED_FIELDS = [
 const ACTIVATED_STATUS = ['actif'];
 
 function fromAirTableObject(airtableSkillObject) {
-  return new Skill({
+  return {
     id: airtableSkillObject.getId(),
     name: airtableSkillObject.get('Nom'),
     hint: airtableSkillObject.get('Indice'),
-    hintStatus: airtableSkillObject.get('Statut de l\'indice'),
+    hintStatus: airtableSkillObject.get('Statut de l\'indice') || 'no status',
     tutorialIds: airtableSkillObject.get('Comprendre') || [],
     learningMoreTutorialIds: airtableSkillObject.get('En savoir plus') || [],
     pixValue: airtableSkillObject.get('PixValue'),
     competenceId: airtableSkillObject.get('Compétence (via Tube)')[0],
-  });
+  };
 }
 
 function _doQuery(filter) {

@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const airtable = require('../../airtable');
-const { Tutorial } = require('./objects');
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
 const TABLE_NAME = 'Tutoriels';
@@ -14,14 +13,14 @@ const USED_FIELDS = [
 ];
 
 function fromAirTableObject(airtableTutorialObject) {
-  return new Tutorial({
+  return {
     id: airtableTutorialObject.getId(),
     duration: airtableTutorialObject.get('Durée'),
     format: airtableTutorialObject.get('Format'),
     link: airtableTutorialObject.get('Lien'),
     source: airtableTutorialObject.get('Source'),
     title: airtableTutorialObject.get('Titre'),
-  });
+  };
 }
 
 function _doQuery(filter) {

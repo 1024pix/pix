@@ -1,11 +1,10 @@
-const dataObjects = require('../../../../lib/infrastructure/datasources/airtable/objects/index');
-
 module.exports = function buildCompetenceAirtableDataObject({
   id = 'recsvLz0W2ShyfD63',
   name = 'Mener une recherche et une veille d’information',
   index = '1.1',
   areaId = 'recvoGdo7z2z7pXWa',
   courseId = 'recNPB7dTNt5krlMA',
+  description = 'Some description',
   skillIds = [
     'recV11ibSCXvaUzZd',
     'recD01ptfJy7c4Sex',
@@ -19,12 +18,13 @@ module.exports = function buildCompetenceAirtableDataObject({
   ],
 } = {}) {
 
-  return new dataObjects.Competence({
+  return {
     id,
     name,
     index,
     areaId,
     courseId,
     skillIds,
-  });
+    description,
+  };
 };
