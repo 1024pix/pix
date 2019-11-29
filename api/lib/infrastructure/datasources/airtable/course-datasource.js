@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const airtable = require('../../airtable');
-const { Course } = require('./objects');
 
 const TABLE_NAME = 'Tests';
 
@@ -19,7 +18,7 @@ function fromAirTableObject(airtableRecord) {
     imageUrl = airtableRecord.get('Image')[0].url;
   }
 
-  return new Course({
+  return {
     id: airtableRecord.getId(),
     name: airtableRecord.get('Nom'),
     description: airtableRecord.get('Description'),
@@ -27,7 +26,7 @@ function fromAirTableObject(airtableRecord) {
     competences: airtableRecord.get('Competence'),
     challenges: airtableRecord.get('Épreuves'),
     imageUrl,
-  });
+  };
 }
 
 module.exports = {

@@ -1,5 +1,4 @@
 const airtable = require('../../airtable');
-const { Area } = require('./objects');
 
 const TABLE_NAME = 'Domaines';
 

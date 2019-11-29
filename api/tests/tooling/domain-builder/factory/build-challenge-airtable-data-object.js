@@ -1,5 +1,3 @@
-const dataObjects = require('../../../../lib/infrastructure/datasources/airtable/objects/index');
-
 module.exports = function buildChallengeAirtableDataObject({
   id = 'recwWzTquPlvIl4So',
   instruction = 'Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?',
@@ -26,7 +24,7 @@ module.exports = function buildChallengeAirtableDataObject({
   illustrationAlt = 'texte alternatif à l\'image',
 } = {}) {
 
-  return new dataObjects.Challenge({
+  return {
     id,
     instruction,
     proposals,
@@ -47,5 +45,5 @@ module.exports = function buildChallengeAirtableDataObject({
     embedTitle,
     embedHeight,
     illustrationAlt,
-  });
+  };
 };
