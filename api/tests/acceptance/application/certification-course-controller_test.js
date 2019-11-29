@@ -415,6 +415,7 @@ describe('Acceptance | API | Certification Course', () => {
         data: {
           attributes: {
             'access-code': '123',
+            'session-id': sessionId,
           }
         }
       };
@@ -427,6 +428,22 @@ describe('Acceptance | API | Certification Course', () => {
         payload,
       };
       return databaseBuilder.commit();
+    });
+
+    context('when the given access code does not correspond to the session', () => {
+
+      beforeEach(async () => {
+        // given
+        options.payload.data.attributes['access-code'] = 'wrongcode';
+
+        // when
+        response = await server.inject(options);
+      });
+
+      it('should respond with 404 status code', () => {
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
     });
 
     context('when the certification course does not exist', () => {

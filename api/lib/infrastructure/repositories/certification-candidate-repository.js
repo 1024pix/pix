@@ -1,6 +1,7 @@
 const CertificationCandidateBookshelf = require('../data/certification-candidate');
 const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
 const {
+  NotFoundError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
@@ -56,6 +57,20 @@ module.exports = {
       })
       .fetchAll()
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results));
+  },
+
+  getBySessionIdAndUserId({ sessionId, userId }) {
+    return CertificationCandidateBookshelf
+      .where({ sessionId, userId })
+      .fetch({ require: true })
+      .then((result) => bookshelfToDomainConverter.buildDomainObject(CertificationCandidateBookshelf, result))
+      .catch((error) => {
+        if (error instanceof CertificationCandidateBookshelf.NotFoundError) {
+          throw new NotFoundError(`Candidate not found for certification session id ${sessionId} and user id ${userId}`);
+        }
+
+        throw error;
+      });
   },
 
   findOneBySessionIdAndUserId({ sessionId, userId }) {
