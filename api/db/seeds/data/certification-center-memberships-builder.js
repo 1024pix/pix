@@ -1,5 +1,9 @@
-module.exports = function certificationCenterMenbershipsBuilder({ databaseBuilder }) {
+module.exports = function certificationCenterMembershipsBuilder({ databaseBuilder }) {
 
-  databaseBuilder.factory.buildCertificationCenterMembership({ userId: 3, certificationCenterId: 1 });
+  databaseBuilder.factory.buildCertificationCenterMembership({
+    id: 1,
+    userId: 2,
+    certificationCenterId: 1
+  });
 
 };
