@@ -22,6 +22,7 @@ module.exports = {
         'accessCode',
         'certifications',
         'certificationCandidates',
+        'examinerComment',
       ],
       certifications : {
         ref: ['id']
@@ -50,6 +51,7 @@ module.exports = {
         'status',
         'description',
         'accessCode',
+        'examinerComment',
       ],
     }).serialize(sessions);
   },
@@ -73,6 +75,7 @@ module.exports = {
       time: attributes.time,
       status: attributes.status,
       description: attributes.description,
+      examinerComment: attributes['examiner-comment'],
     });
   }
 };

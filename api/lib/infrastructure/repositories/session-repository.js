@@ -90,18 +90,17 @@ module.exports = {
   },
 
   update(session) {
-    const sessionDataToUpdate = _.pick(
-      session,
-      [
-        'address',
-        'room',
-        'accessCode',
-        'examiner',
-        'date',
-        'time',
-        'description'
-      ]
-    );
+    const sessionDataToUpdate = _.pick(session, [
+      'address',
+      'room',
+      'accessCode',
+      'examiner',
+      'date',
+      'time',
+      'description',
+      'status',
+      'examinerComment',
+    ]);
 
     return new BookshelfSession({ id: session.id })
       .save(sessionDataToUpdate, { patch: true })
@@ -145,10 +144,15 @@ module.exports = {
       });
   },
 
-  updateStatus({ sessionId, status }) {
-    return BookshelfSession
-      .where({ id: sessionId })
-      .save({ status }, { patch: true, require: true })
-      .then((bookshelfSession) => bookshelfToDomainConverter.buildDomainObject(BookshelfSession, bookshelfSession));
+  updateStatusAndExaminerComment(session) {
+    const sessionDataToUpdate = _.pick(session, [
+      'status',
+      'examinerComment',
+    ]);
+
+    return new BookshelfSession({ id: session.id })
+      .save(sessionDataToUpdate, { patch: true })
+      .then((model) => model.refresh())
+      .then(_toDomain);
   },
 };
