@@ -1,0 +1,41 @@
+.session-finalization-examiner-comment-step {
+
+  padding: 22px 8px 22px 38px;
+
+  &__header-container{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__label {
+    margin-bottom: 14px;
+    color: $grey;
+    font-weight: bold;
+    display: block;
+  }
+
+  &__characters-information {
+    color: $grey;
+    font-size: 0.85rem;
+    align-self: end;
+  }
+
+  &__textarea {
+    box-sizing: border-box;
+    width: 100%;
+    height: 116px;
+    resize: none;
+    border-color: $alto;
+    border-style: solid;
+    border-radius: 4px;
+    padding: 4px;
+    font-family: $roboto;
+    color: $grey;
+    font-size: 1rem;
+
+    &:focus {
+      outline: 2px solid $mariner;
+      -moz-outline-radius: 4px;
+    }
+  }
+}

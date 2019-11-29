@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembership } from '../helpers/test-init';
@@ -60,6 +60,20 @@ module('Acceptance | Session Finalization', function(hooks) {
       hooks.beforeEach(function() {
         finalizeController = this.owner.lookup('controller:authenticated.sessions.finalize');
         return visit('/sessions/1/finalisation');
+      });
+
+      test('it should allow the user to comment the session in textarea', async function(assert) {
+        // given
+        const expectedComment = 'You are a wizard Harry!';
+        const expectedIndicator = expectedComment.length + ' / 500';
+
+        // when
+        await fillIn('#examiner-comment', 'You are a wizard Harry!');
+
+        // then
+        assert.equal(finalizeController.examinerComment, expectedComment);
+        assert.dom('.session-finalization-examiner-comment-step__characters-information').exists();
+        assert.dom('.session-finalization-examiner-comment-step__characters-information').hasText(expectedIndicator);
       });
 
       test('it should open the confirm modal', async function(assert) {
