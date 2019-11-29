@@ -383,20 +383,30 @@ describe('Unit | Controller | sessionController', () => {
     let request;
     const sessionId = 1;
     const userId = 2;
-    const updatedSession = 'updatedSession';
-    const serializedUpdatedSession = 'updated session serialized';
+    const updatedSession = Symbol('updatedSession');
+    const serializedUpdatedSession = Symbol('updated session serialized');
+    const examinerComment = 'It was a fine session my dear';
 
     beforeEach(() => {
       // given
       request = {
-        params: { id: sessionId },
+        params: { 
+          id: sessionId,
+        },
         auth: {
           credentials: {
             userId,
           }
         },
+        payload: {
+          data: {
+            attributes: {
+              'examiner-comment': examinerComment,
+            },
+          },
+        },
       };
-      sinon.stub(usecases, 'finalizeSession').withArgs({ userId, sessionId }).resolves(updatedSession);
+      sinon.stub(usecases, 'finalizeSession').withArgs({ userId, sessionId, examinerComment }).resolves(updatedSession);
       sinon.stub(sessionSerializer, 'serializeForFinalization').withArgs(updatedSession).resolves(serializedUpdatedSession);
     });
 

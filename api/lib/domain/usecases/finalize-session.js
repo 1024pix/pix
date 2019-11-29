@@ -10,6 +10,7 @@ const {
 module.exports = async function finalizeSession({
   userId,
   sessionId,
+  examinerComment,
   sessionRepository,
 } = {}) {
   try {
@@ -21,6 +22,10 @@ module.exports = async function finalizeSession({
   if (isSessionAlreadyFinalized) {
     throw new SessionAlreadyFinalizedError('Cannot finalize session more than once');
   }
-  await sessionRepository.updateStatus({ sessionId, status: statuses.FINALIZED });
-  return sessionRepository.get(sessionId);
+
+  return sessionRepository.updateStatusAndExaminerComment({
+    id: sessionId,
+    status: statuses.FINALIZED,
+    examinerComment,
+  });
 };

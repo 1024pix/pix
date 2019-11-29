@@ -94,8 +94,9 @@ module.exports = {
   finalize(request) {
     const userId = request.auth.credentials.userId;
     const sessionId = request.params.id;
+    const examinerComment = request.payload.data.attributes['examiner-comment'];
 
-    return usecases.finalizeSession({ userId, sessionId })
+    return usecases.finalizeSession({ userId, sessionId, examinerComment })
       .then((updatedSession) => sessionSerializer.serializeForFinalization(updatedSession));
   },
 
