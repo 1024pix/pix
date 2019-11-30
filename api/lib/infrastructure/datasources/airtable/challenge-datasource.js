@@ -2,9 +2,9 @@ const _ = require('lodash');
 const airtable = require('../../airtable');
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
-const TABLE_NAME = 'Epreuves';
+const tableName = 'Epreuves';
 
-const USED_FIELDS = [
+const usedFields = [
   'Illustration de la consigne',
   'Pièce jointe',
   'Compétences (via tube)',
@@ -76,14 +76,14 @@ function fromAirTableObject(airtableEpreuveObject) {
 
 module.exports = {
 
-  tableName: TABLE_NAME,
+  tableName,
 
-  usedFields: USED_FIELDS,
+  usedFields,
 
   fromAirTableObject,
 
   get(id) {
-    return airtable.getRecord(TABLE_NAME, id)
+    return airtable.getRecord(tableName, id)
       .then(fromAirTableObject)
       .catch((err) => {
         if (err.error === 'NOT_FOUND') {
@@ -95,14 +95,14 @@ module.exports = {
   },
 
   list() {
-    return airtable.findRecords(TABLE_NAME, USED_FIELDS)
+    return airtable.findRecords(tableName, usedFields)
       .then((challengeDataObjects) => challengeDataObjects.map(fromAirTableObject));
   },
 
   findBySkillIds(skillIds) {
     const foundInSkillIds = (skillId) => _.includes(skillIds, skillId);
 
-    return airtable.findRecords(TABLE_NAME, USED_FIELDS)
+    return airtable.findRecords(tableName, usedFields)
       .then((challengeDataObjects) => {
         return challengeDataObjects
           .filter((rawChallenge) => (
@@ -114,7 +114,7 @@ module.exports = {
   },
 
   findByCompetenceId(competenceId) {
-    return airtable.findRecords(TABLE_NAME, USED_FIELDS)
+    return airtable.findRecords(tableName, usedFields)
       .then((challengeDataObjects) => {
         return challengeDataObjects
           .filter((rawChallenge) => (

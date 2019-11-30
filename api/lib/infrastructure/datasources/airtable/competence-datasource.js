@@ -1,8 +1,8 @@
 const airtable = require('../../airtable');
 
-const TABLE_NAME = 'Competences';
+const tableName = 'Competences';
 
-const USED_FIELDS = [
+const usedFields = [
   'Titre',
   'Sous-domaine',
   'Description',
@@ -25,19 +25,19 @@ function fromAirTableObject(rawAirtableCompetence) {
 
 module.exports = {
 
-  tableName: TABLE_NAME,
+  tableName,
 
-  usedFields: USED_FIELDS,
+  usedFields,
 
   fromAirTableObject,
 
   list() {
-    return airtable.findRecords(TABLE_NAME, USED_FIELDS)
+    return airtable.findRecords(tableName, usedFields)
       .then((airtableRawObjects) => airtableRawObjects.map(fromAirTableObject));
   },
 
   get(id) {
-    return airtable.getRecord(TABLE_NAME, id)
+    return airtable.getRecord(tableName, id)
       .then(fromAirTableObject);
   }
 };
