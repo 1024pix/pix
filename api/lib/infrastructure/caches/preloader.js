@@ -10,9 +10,9 @@ function _cacheIndividually(records, tablename) {
   }));
 }
 
-async function _loadAirtableClass(airtableClass) {
-  const airtableName = airtableClass.tableName;
-  const fields = airtableClass.usedFields;
+async function _loadEducationalContent(airtableDatasource) {
+  const airtableName = airtableDatasource.tableName;
+  const fields = airtableDatasource.usedFields;
 
   const records = await airtable.findRecordsSkipCache(airtableName, fields);
   return _cacheIndividually(records, airtableName);
@@ -25,7 +25,7 @@ function _loadRecord(tableName, recordId) {
 module.exports = {
 
   loadAllTables() {
-    return Promise.all(_.map(AirtableDatasources, _loadAirtableClass));
+    return Promise.all(_.map(AirtableDatasources, _loadEducationalContent));
   },
 
   load({ tableName, recordId }) {
