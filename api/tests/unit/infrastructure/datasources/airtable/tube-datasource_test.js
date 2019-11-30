@@ -3,8 +3,7 @@ const airtable = require('../../../../../lib/infrastructure/airtable');
 const tubeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/tube-datasource');
 const tubeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/tubeRawAirTableFixture');
 const tubeAirtableDataModelFixture = require('../../../../tooling/fixtures/infrastructure/tubeAirtableDataObjectFixture');
-const AirtableRecord = require('airtable').Record;
-const AirtableError = require('airtable').Error;
+const { Record: AirtableRecord, Error: AirtableError } = require('airtable');
 const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
 const _ = require('lodash');
 

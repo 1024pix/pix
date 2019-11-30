@@ -1,9 +1,9 @@
 const _ = require('lodash');
 const airtable = require('../../airtable');
 
-const TABLE_NAME = 'Tests';
+const tableName = 'Tests';
 
-const USED_FIELDS = [
+const usedFields = [
   'Nom',
   'Description',
   'Adaptatif ?',
@@ -31,14 +31,14 @@ function fromAirTableObject(airtableRecord) {
 
 module.exports = {
 
-  tableName: TABLE_NAME,
+  tableName,
 
-  usedFields: USED_FIELDS,
+  usedFields,
 
   fromAirTableObject,
 
   getAdaptiveCourses() {
-    return airtable.findRecords(TABLE_NAME, USED_FIELDS)
+    return airtable.findRecords(tableName, usedFields)
       .then((airtableRawObjects) => {
         return _.filter(airtableRawObjects, {
           fields: {
@@ -50,7 +50,7 @@ module.exports = {
   },
 
   get(id) {
-    return airtable.getRecord(TABLE_NAME, id)
+    return airtable.getRecord(tableName, id)
       .then(fromAirTableObject);
   }
 };

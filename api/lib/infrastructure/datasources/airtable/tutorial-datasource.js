@@ -2,9 +2,9 @@ const _ = require('lodash');
 const airtable = require('../../airtable');
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
-const TABLE_NAME = 'Tutoriels';
+const tableName = 'Tutoriels';
 
-const USED_FIELDS = [
+const usedFields = [
   'Durée',
   'Format',
   'Lien',
@@ -24,7 +24,7 @@ function fromAirTableObject(airtableTutorialObject) {
 }
 
 function _doQuery(filter) {
-  return airtable.findRecords(TABLE_NAME, USED_FIELDS)
+  return airtable.findRecords(tableName, usedFields)
     .then((rawTutorials) => {
       return _(rawTutorials)
         .filter(filter)
@@ -35,9 +35,9 @@ function _doQuery(filter) {
 
 module.exports = {
 
-  tableName: TABLE_NAME,
+  tableName,
 
-  usedFields: USED_FIELDS,
+  usedFields,
 
   fromAirTableObject,
 
@@ -46,7 +46,7 @@ module.exports = {
   },
 
   get(id) {
-    return airtable.getRecord(TABLE_NAME, id)
+    return airtable.getRecord(tableName, id)
       .then(fromAirTableObject)
       .catch((err) => {
         if (err.error === 'NOT_FOUND') {
