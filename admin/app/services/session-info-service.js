@@ -13,7 +13,7 @@ const competenceIndexes = [
 
 export default Service.extend({
 
-  fileSaver: service(), // TODO ? convert into FileManager
+  fileSaver: service(),
 
   async updateCertificationsStatus(certifications, isPublished) {
     const promises = certifications.map((certification) => {
@@ -24,40 +24,6 @@ export default Service.extend({
     await Promise.all(promises);
   },
 
-  async updateCertificationsFromCandidatesData(certifications, candidatesData) {
-    const candidatesCertificationIds = _.map(candidatesData, 'certificationId');
-    const candidatesCertifications = certifications.filter((certification) => {
-      return candidatesCertificationIds.includes(certification.id);
-    });
-
-    const updateRequests = candidatesCertifications.map((certification) => {
-
-      function _updateCertificationFieldFromCandidateData(fieldName) {
-        const candidateValue = candidateData[fieldName];
-        if (_.isNil(candidateValue) || _.isEmpty(candidateValue)) {
-          return;
-        }
-        certification.set(fieldName, candidateValue);
-      }
-
-      const candidateData = _.find(candidatesData, ['certificationId', certification.id]);
-
-      _.each([
-        'firstName',
-        'lastName',
-        'birthdate',
-        'birthplace',
-        'externalId',
-
-      ], (candidateProperty) => {
-        _updateCertificationFieldFromCandidateData(candidateProperty);
-      });
-
-      return certification.save({ adapterOptions: { updateMarks: false } });
-    });
-    await Promise.all(updateRequests);
-  },
-
   downloadSessionExportFile(session) {
     const data = _buildSessionExportFileData(session);
     const fileHeaders = _buildSessionExportFileHeaders();
@@ -66,12 +32,12 @@ export default Service.extend({
     this.fileSaver.saveAs(csv + '\n', fileName);
   },
 
-  downloadJuryFile(session, attendanceSheetCandidates) {
-    const certificationsToBeReviewed = _getSessionCertificationsToBeReviewed(session.certifications, attendanceSheetCandidates);
-    const data = _buildJuryFileData(certificationsToBeReviewed, attendanceSheetCandidates);
+  downloadJuryFile(sessionId, certifications) {
+    const certificationsForJury = _filterCertificationsEligibleForJury(certifications);
+    const data = _buildJuryFileData(certificationsForJury);
     const fileHeaders = _buildJuryFileHeaders();
     const csv = json2csv.parse(data, { fields: fileHeaders, delimiter: ';', withBOM: true, });
-    const fileName = 'jury_session_' + session.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
+    const fileName = 'jury_session_' + sessionId + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
     this.fileSaver.saveAs(`${csv}\n`, fileName);
   },
 
@@ -99,15 +65,18 @@ function _buildSessionExportFileHeaders() {
 
 function _buildSessionExportFileData(session) {
   return session.certifications.map((certification) => {
-    const rowItem = {};
-
-    rowItem['Numéro de certification'] = certification.id;
-    rowItem['Prénom'] = certification.firstName;
-    rowItem['Nom'] = certification.lastName;
-    rowItem['Date de naissance'] = moment(certification.birthdate).format('DD/MM/YYYY');
-    rowItem['Lieu de naissance'] = certification.birthplace;
-    rowItem['Identifiant Externe'] = certification.externalId;
-    rowItem['Nombre de Pix'] = certification.pixScore;
+    const rowItem = {
+      'Numéro de certification': certification.id,
+      'Prénom': certification.firstName,
+      'Nom': certification.lastName,
+      'Date de naissance': moment(certification.birthdate).format('DD/MM/YYYY'),
+      'Lieu de naissance': certification.birthplace,
+      'Identifiant Externe': certification.externalId,
+      'Nombre de Pix': certification.pixScore,
+      'Session': session.id,
+      'Centre de certification': session.certificationCenter,
+      'Date de passage de la certification': moment(certification.createdAt).format('DD/MM/YYYY'),
+    };
 
     const certificationIndexedCompetences = certification.indexedCompetences;
     competenceIndexes.forEach((competence) => {
@@ -118,31 +87,13 @@ function _buildSessionExportFileData(session) {
       }
     });
 
-    rowItem['Session'] = session.id;
-    rowItem['Centre de certification'] = session.certificationCenter;
-    rowItem['Date de passage de la certification'] = moment(certification.createdAt).format('DD/MM/YYYY');
-
     return rowItem;
   });
 }
 
-function _getSessionCertificationsToBeReviewed(certifications, attendanceSheetCandidates) {
-  const candidatesToBeReviewed = _.filter(attendanceSheetCandidates, (candidate) => {
-    const hasCommentFromManager = !!candidate.comments && candidate.comments.trim() !== '';
-    const hasSeenEndScreen = !!candidate.lastScreen && candidate.lastScreen.trim() !== '';
-    return hasCommentFromManager || !hasSeenEndScreen;
-  });
-
-  const certificationIdsOfCandidatesToBeReviewed = _.map(candidatesToBeReviewed, (candidate) => {
-    if (candidate.certificationId) {
-      return candidate.certificationId.trim();
-    }
-  });
-
+function _filterCertificationsEligibleForJury(certifications) {
   return certifications.filter((certification) => {
-    const hasInvalidCandidate = _.includes(certificationIdsOfCandidatesToBeReviewed, certification.id);
-    const hasInvalidStatus = certification.status !== 'validated';
-    return hasInvalidCandidate || hasInvalidStatus;
+    return (certification.status !== 'validated') || (!_.isEmpty(certification.examinerComment)) || !certification.hasSeenLastScreen;
   });
 }
 
@@ -163,34 +114,26 @@ function _buildJuryFileHeaders() {
   );
 }
 
-function _buildJuryFileData(certifications, attendanceSheetCandidates) {
+function _buildJuryFileData(certifications) {
   return certifications.map((certification) => {
-    const rowItem = {};
-    const certificationCandidate = _.find(attendanceSheetCandidates, ['certificationId', certification.id]);
+    const rowItem = {
+      'ID de session': certification.sessionId,
+      'ID de certification': certification.id,
+      'Statut de la certification': certification.status,
+      'Date de debut': certification.creationDate,
+      'Date de fin': certification.completionDate,
+      'Commentaire surveillant': certification.examinerComment,
+      'Commentaire pour le jury': certification.commentForJury,
+      'Ecran de fin non renseigné': certification.hasSeenLastScreen ? null : 'non renseigné',
+      'Note Pix': certification.pixScore,
+    };
 
-    if (certificationCandidate) {
-      let didNotSeeEndScreen = null;
-      if (!certificationCandidate.lastScreen || certificationCandidate.lastScreen.trim() === '') {
-        didNotSeeEndScreen = 'non renseigné';
-      }
+    const certificationIndexedCompetences = certification.indexedCompetences;
+    competenceIndexes.forEach((competence) => {
+      rowItem[competence] = certificationIndexedCompetences[competence] ? certificationIndexedCompetences[competence].level : '';
+    });
 
-      rowItem['ID de session'] = certification.sessionId;
-      rowItem['ID de certification'] = certification.id;
-      rowItem['Statut de la certification'] = certification.status;
-      rowItem['Date de debut'] = certification.creationDate;
-      rowItem['Date de fin'] = certification.completionDate;
-      rowItem['Commentaire surveillant'] = certificationCandidate.comments;
-      rowItem['Commentaire pour le jury'] = certification.commentForJury;
-      rowItem['Ecran de fin non renseigné'] = didNotSeeEndScreen;
-      rowItem['Note Pix'] = certification.pixScore;
-
-      const certificationIndexedCompetences = certification.indexedCompetences;
-      competenceIndexes.forEach((competence) => {
-        rowItem[competence] = certificationIndexedCompetences[competence] ? certificationIndexedCompetences[competence].level : '';
-      });
-
-      return rowItem;
-    }
+    return rowItem;
   });
 
 }

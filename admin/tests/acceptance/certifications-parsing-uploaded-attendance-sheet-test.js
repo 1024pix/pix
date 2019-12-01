@@ -5,6 +5,13 @@ import { authenticateSession } from 'ember-simple-auth/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { upload } from 'ember-file-upload/test-support';
 
+const TOTAL_CERTIFICATIONS_SECTION = '(1)';
+const OUT_OF_SESSION_CERTIFICATIONS_SECTION = '(2)';
+const INCOMPLETE_CERTIFICATIONS_SECTION = '(3)';
+const DUPLICATE_CERTIFICATIONS_SECTION = '(4)';
+const HAS_NOT_SEEN_LAST_SCREEN_CERTIFICATIONS_SECTION = '(5)';
+const HAS_EXAMINER_COMMENT_CERTIFICATIONS_SECTION = '(6)';
+
 module('Acceptance | Certifications Parsing', function(hooks) {
 
   setupApplicationTest(hooks);
@@ -13,9 +20,6 @@ module('Acceptance | Certifications Parsing', function(hooks) {
   hooks.beforeEach(async function() {
     await authenticateSession({ userId: 1 });
     server.create('session', { id: 1 });
-  });
-
-  hooks.afterEach(function() {
   });
 
   test('it displays the modal the certification session report modal with appropriate info', async function(assert) {
@@ -27,14 +31,15 @@ module('Acceptance | Certifications Parsing', function(hooks) {
     await upload('#upload-attendance-sheet', file);
 
     // then
+    const commonSelector = '.certification-session-report__body section:nth-child';
+    const valueDiv = 'div:nth-child(2)';
     assert.dom('.modal-content').exists();
-    assert.dom('.certification-session-report__body section:nth-child(1) div:nth-child(2)').hasText('2');
-    assert.dom('.certification-session-report__body section:nth-child(2) div:nth-child(2)').hasText('2');
-    assert.dom('.certification-session-report__body section:nth-child(3) div:nth-child(2)').hasText('1');
-    assert.dom('.certification-session-report__body section:nth-child(4) div:nth-child(2)').hasText('0');
-    assert.dom('.certification-session-report__body section:nth-child(5) div:nth-child(2)').hasText('0');
-    assert.dom('.certification-session-report__body section:nth-child(6) div:nth-child(2)').hasText('0');
-    assert.dom('.certification-session-report__body section:nth-child(7) div:nth-child(2)').hasText('1');
+    assert.dom(`${commonSelector}${TOTAL_CERTIFICATIONS_SECTION} ${valueDiv}`).hasText('2');
+    assert.dom(`${commonSelector}${OUT_OF_SESSION_CERTIFICATIONS_SECTION} ${valueDiv}`).hasText('2');
+    assert.dom(`${commonSelector}${INCOMPLETE_CERTIFICATIONS_SECTION} ${valueDiv}`).hasText('1');
+    assert.dom(`${commonSelector}${DUPLICATE_CERTIFICATIONS_SECTION} ${valueDiv}`).hasText('0');
+    assert.dom(`${commonSelector}${HAS_NOT_SEEN_LAST_SCREEN_CERTIFICATIONS_SECTION} ${valueDiv}`).hasText('0');
+    assert.dom(`${commonSelector}${HAS_EXAMINER_COMMENT_CERTIFICATIONS_SECTION} ${valueDiv}`).hasText('1');
   });
 
 });
