@@ -1,358 +1,121 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render } from '@ember/test-helpers';
+import { click, render, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | certification-session-report', function(hooks) {
 
   setupRenderingTest(hooks);
 
+  hooks.beforeEach(function() {
+    this.set('visible', true);
+    this.set('onHide', function() {});
+    this.set('onGetJuryFile', function() {});
+    this.set('onSaveCertificationsReportData', function() {});
+    this.set('sessionId', '3');
+    const buildCertification = function buildCertificationObject({
+      id,
+      firstName = 'default firstName',
+      lastName = 'default lastName',
+      birthdate = 'default birthdate',
+      birthplace = 'default birtplace',
+      examinerComment = '',
+      hasSeenLastScreen = true,
+      isInSession = true, }) {
+      return {
+        id, firstName, lastName, birthplace, birthdate, examinerComment, hasSeenLastScreen, isInSession
+      };
+    };
+    const certifications = [
+      buildCertification({ id: 1 }),
+      buildCertification({ id: 2, birthdate: null }),
+      buildCertification({ id: 3 }),
+      buildCertification({ id: 3 }),
+      buildCertification({ id: 4 }),
+      buildCertification({ id: 4 }),
+      buildCertification({ id: 5, isInSession: false }),
+      buildCertification({ id: 6, hasSeenLastScreen: false }),
+      buildCertification({ id: 7, examinerComment: 'comment' }),
+    ];
+    this.set('certificationsInSessionReport', certifications);
+    return render(hbs`{{certification-session-report 
+      show=visible hide=onHide onDownloadJuryFile=onGetJuryFile 
+      onSaveSessionReportCertifications=onSaveCertificationsReportData certifications=certificationsInSessionReport}}`);
+  });
+
   module('Rendering', function() {
     test('it renders', async function(assert) {
-      // given
-      this.set('visible', true);
-      this.set('onHide', function() {});
-      this.set('onGetJuryFile', function() {});
-      this.set('onSaveReportData', function() {});
-      this.set('candidateData', []);
-      this.set('certificationData', []);
-
-      // when
-      await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile saveCandidates=onSaveReportData candidates=candidateData certifications=certificationData}}`);
-
       // then
       assert.dom('.certification-session-report__body').exists();
     });
   });
 
-  module('When given a list of candidates in JSON', function() {
+  module('When given a list of certifications', function() {
 
-    test('it counts candidates and displays their certification ids', async function(assert) {
-
-      // given
-      this.set('candidateData', [{
-        birthdate: '2000-02-20',
-        birthplace: 'Paris',
-        certificationId: '33347',
-        email: 'firstname.name@mail.com',
-        externalId: '123455',
-        firstName: 'Toto',
-        lastName: 'Le Héros',
-        row: 1
-      },{
-        birthdate: '2000-03-20',
-        birthplace: 'Toulouse',
-        certificationId: '33348',
-        email: 'firstname.name@mail.com',
-        externalId: '123456',
-        firstName: 'Titi',
-        lastName: 'Romi',
-        row: 2
-      },{
-        birthdate: '2000-01-20',
-        birthplace: 'Bordeaux',
-        certificationId: '33349',
-        email: 'firstname.name@mail.com',
-        externalId: '123458',
-        firstName: 'Cats',
-        lastName: 'Eyes',
-        row: 3
-      }]);
-      this.set('visible', true);
-      this.set('onHide', function() {});
-      this.set('onGetJuryFile', function() {});
-      this.set('onSaveReportData', function() {});
-      this.set('certificationData', []);
-
+    test('it counts and displays total number of certifications', async function(assert) {
       // when
-      await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile saveCandidates=onSaveReportData candidates=candidateData certifications=certificationData}}`);
-      await click('.data-section--listed-candidates .data-section__switch');
+      await click('.data-section--total-certifications .data-section__switch');
 
       // then
-      assert.dom('.data-section--listed-candidates .data-section__counter').hasText('3');
-      assert.dom('.data-section--listed-candidates .data-section__certification-ids').includesText('33347');
-      assert.dom('.data-section--listed-candidates .data-section__certification-ids').includesText('33348');
-      assert.dom('.data-section--listed-candidates .data-section__certification-ids').includesText('33349');
+      assert.dom('.data-section--total-certifications .data-section__counter').hasText('9');
+      const certificationsIdsElement = find('.data-section--total-certifications .data-section__certification-ids');
+      const certificationIds = certificationsIdsElement.textContent.trim().replace(/\s/g, '');
+      assert.equal(certificationIds, '123344567');
     });
 
-    test('it detects candidates with incomplete information and displays their certification ids', async function(assert) {
-      // given
-      this.set('candidateData', [{
-        birthdate: '2000-02-20',
-        birthplace: 'Paris',
-        certificationId: '33347',
-        email: 'firstname.name@mail.com',
-        externalId: '123455',
-        firstName: 'Toto',
-        lastName: '',
-        row: 1
-      },{
-        birthdate: '2000-03-20',
-        birthplace: '',
-        certificationId: '33348',
-        email: 'firstname.name@mail.com',
-        externalId: '123456',
-        firstName: 'Titi',
-        lastName: 'Romi',
-        row: 2
-      },{
-        birthdate: '2000-01-20',
-        birthplace: 'Bordeaux',
-        certificationId: '33349',
-        email: 'firstname.name@mail.com',
-        externalId: '123458',
-        firstName: 'Cats',
-        lastName: 'Eyes',
-        row: 3
-      },{
-        birthdate: '2000-01-20',
-        birthplace: 'Bordeaux',
-        email: 'firstname.name@mail.com',
-        externalId: '123458',
-        firstName: 'Cats',
-        lastName: 'Eyes',
-        row: 4
-      }]);
-      this.set('visible', true);
-      this.set('onHide', function() {});
-      this.set('onGetJuryFile', function() {});
-      this.set('onSaveReportData', function() {});
-      this.set('certificationData', []);
-
+    test('it counts and displays incomplete certifications', async function(assert) {
       // when
-      await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile saveCandidates=onSaveReportData candidates=candidateData certifications=certificationData}}`);
-      await click('.data-section--incomplete-candidates .data-section__switch');
+      await click('.data-section--incomplete-certifications .data-section__switch');
 
       // then
-      assert.dom('.data-section--incomplete-candidates .data-section__counter').hasText('3');
-      assert.dom('.data-section--incomplete-candidates .data-section__certification-ids').includesText('33347');
-      assert.dom('.data-section--incomplete-candidates .data-section__certification-ids').includesText('33348');
+      assert.dom('.data-section--incomplete-certifications .data-section__counter').hasText('1');
+      const certificationsIdsElement = find('.data-section--incomplete-certifications .data-section__certification-ids');
+      const certificationIds = certificationsIdsElement.textContent.trim().replace(/\s/g, '');
+      assert.equal(certificationIds, '2');
     });
 
-    test('it detects and displays duplicate certification ids', async function(assert) {
-      // given
-      this.set('candidateData', [{
-        birthdate: '2000-02-20',
-        birthplace: 'Paris',
-        certificationId: '33347',
-        email: 'firstname.name@mail.com',
-        externalId: '123455',
-        firstName: 'Toto',
-        lastName: 'Le Héros',
-        row: 1
-      },{
-        birthdate: '2000-03-20',
-        birthplace: 'Toulouse',
-        certificationId: '33347',
-        email: 'firstname.name@mail.com',
-        externalId: '123456',
-        firstName: 'Titi',
-        lastName: 'Romi',
-        row: 2
-      },{
-        birthdate: '2000-01-20',
-        birthplace: 'Bordeaux',
-        certificationId: '33349',
-        email: 'firstname.name@mail.com',
-        externalId: '123458',
-        firstName: 'Cats',
-        lastName: 'Eyes',
-        row: 3
-      }]);
-      this.set('visible', true);
-      this.set('onHide', function() {});
-      this.set('onGetJuryFile', function() {});
-      this.set('onSaveReportData', function() {});
-      this.set('certificationData', []);
-
+    test('it counts and displays duplicate certification ids', async function(assert) {
       // when
-      await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile saveCandidates=onSaveReportData candidates=candidateData certifications=certificationData}}`);
-      await click('.data-section--duplicate-candidates .data-section__switch');
+      await click('.data-section--duplicate-certification-ids .data-section__switch');
 
-      //then
-      assert.dom('.data-section--duplicate-candidates .data-section__counter').hasText('1');
-      assert.dom('.data-section--duplicate-candidates .data-section__certification-ids').includesText('33347');
+      // then
+      assert.dom('.data-section--duplicate-certification-ids .data-section__counter').hasText('2');
+      const certificationsIdsElement = find('.data-section--duplicate-certification-ids .data-section__certification-ids');
+      const certificationIds = certificationsIdsElement.textContent.trim().replace(/\s/g, '');
+      assert.equal(certificationIds, '34');
     });
 
-    test('it detects candidates with missing information for end screen column', async function(assert) {
-      // given
-      this.set('candidateData', [{
-        birthdate: '2000-02-20',
-        birthplace: 'Paris',
-        certificationId: '33347',
-        email: 'firstname.name@mail.com',
-        externalId: '123455',
-        firstName: 'Toto',
-        lastName: '',
-        row: 1
-      },{
-        birthdate: '2000-03-20',
-        birthplace: '',
-        certificationId: '33348',
-        email: 'firstname.name@mail.com',
-        externalId: '123456',
-        firstName: 'Titi',
-        lastName: 'Romi',
-        row: 2,
-        lastScreen:'X'
-      }]);
-      this.set('visible', true);
-      this.set('onHide', function() {});
-      this.set('onGetJuryFile', function() {});
-      this.set('onSaveReportData', function() {});
-      this.set('certificationData', []);
-
+    test('it counts and displays out of session certification ids', async function(assert) {
       // when
-      await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile saveCandidates=onSaveReportData candidates=candidateData certifications=certificationData}}`);
-      await click('.data-section--missing-end-screen .data-section__switch');
+      await click('.data-section--out-of-session-certifications .data-section__switch');
 
-      //then
-      assert.dom('.data-section--missing-end-screen .data-section__counter').hasText('1');
-      assert.dom('.data-section--missing-end-screen .data-section__certification-ids').includesText('33347');
+      // then
+      assert.dom('.data-section--out-of-session-certifications .data-section__counter').hasText('1');
+      const certificationsIdsElement = find('.data-section--out-of-session-certifications .data-section__certification-ids');
+      const certificationIds = certificationsIdsElement.textContent.trim().replace(/\s/g, '');
+      assert.equal(certificationIds, '5');
     });
 
-    test('it detects provided comments and displays corresponding certification ids', async function(assert) {
-      // given
-      this.set('candidateData', [{
-        birthdate: '2000-02-20',
-        birthplace: 'Paris',
-        certificationId: '33347',
-        email: 'firstname.name@mail.com',
-        externalId: '123455',
-        firstName: 'Toto',
-        lastName: '',
-        row: 1,
-        comments: 'a comment'
-      },{
-        birthdate: '2000-03-20',
-        birthplace: '',
-        certificationId: '33348',
-        email: 'firstname.name@mail.com',
-        externalId: '123456',
-        firstName: 'Titi',
-        lastName: 'Romi',
-        row: 2,
-        lastScreen:'X'
-      },{
-        birthdate: '2000-01-20',
-        birthplace: 'Bordeaux',
-        email: 'firstname.name@mail.com',
-        externalId: '123458',
-        firstName: 'Cats',
-        lastName: 'Eyes',
-        certificationId: '33351',
-        row: 3,
-        comments: 'another comment'
-      }]);
-      this.set('visible', true);
-      this.set('onHide', function() {});
-      this.set('onGetJuryFile', function() {});
-      this.set('onSaveReportData', function() {});
-      this.set('certificationData', []);
-
+    test('it counts and displays has not seen last screen certification ids', async function(assert) {
       // when
-      await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile saveCandidates=onSaveReportData candidates=candidateData certifications=certificationData}}`);
-      await click('.data-section--comments .data-section__switch');
+      await click('.data-section--has-not-seen-last-screen-certifications .data-section__switch');
 
-      //then
-      assert.dom('.data-section--comments .data-section__counter').hasText('2');
-      assert.dom('.data-section--comments .data-section__certification-ids').includesText('33347');
-      assert.dom('.data-section--comments .data-section__certification-ids').includesText('33351');
+      // then
+      assert.dom('.data-section--has-not-seen-last-screen-certifications .data-section__counter').hasText('1');
+      const certificationsIdsElement = find('.data-section--has-not-seen-last-screen-certifications .data-section__certification-ids');
+      const certificationIds = certificationsIdsElement.textContent.trim().replace(/\s/g, '');
+      assert.equal(certificationIds, '6');
     });
 
-    module('When given the list of certifications from the session', function() {
+    test('it counts and displays certification ids that have examiner comment', async function(assert) {
+      // when
+      await click('.data-section--has-examiner-comment-screen-certifications .data-section__switch');
 
-      test('it finds candidates not related to the certification session and displays corresponding certification ids', async function(assert) {
-
-        //given
-        this.set('candidateData', [{
-          birthdate: '2000-02-20',
-          birthplace: 'Paris',
-          certificationId: '33347',
-          email: 'firstname.name@mail.com',
-          externalId: '123455',
-          firstName: 'Toto',
-          lastName: 'Le Héros',
-          row: 1
-        },{
-          birthdate: '2000-03-20',
-          birthplace: 'Toulouse',
-          certificationId: '33348',
-          email: 'firstname.name@mail.com',
-          externalId: '123456',
-          firstName: 'Titi',
-          lastName: 'Romi',
-          row: 2
-        },{
-          birthdate: '2000-01-20',
-          birthplace: 'Bordeaux',
-          certificationId: '33349',
-          email: 'firstname.name@mail.com',
-          externalId: '123458',
-          firstName: 'Cats',
-          lastName: 'Eyes',
-          row: 3
-        }]);
-        this.set('certificationData', [{ id:'33347' }, { id:'33349' }]);
-        this.set('visible', true);
-        this.set('onHide', function() {});
-        this.set('onGetJuryFile', function() {});
-        this.set('onSaveReportData', function() {});
-
-        // when
-        await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile saveCandidates=onSaveReportData candidates=candidateData certifications=certificationData}}`);
-        await click('.data-section--unexpected-candidates .data-section__switch');
-
-        // then
-        assert.dom('.data-section--unexpected-candidates .data-section__counter').hasText('1');
-        assert.dom('.data-section--unexpected-candidates .data-section__certification-ids').includesText('33348');
-      });
-
-      test('it finds certifications that are missing candidate information', async function(assert) {
-
-        //given
-        this.set('candidateData', [{
-          birthdate: '2000-02-20',
-          birthplace: 'Paris',
-          certificationId: '33347',
-          email: 'firstname.name@mail.com',
-          externalId: '123455',
-          firstName: 'Toto',
-          lastName: 'Le Héros',
-          row: 1
-        },{
-          birthdate: '2000-03-20',
-          birthplace: 'Toulouse',
-          certificationId: '33348',
-          email: 'firstname.name@mail.com',
-          externalId: '123456',
-          firstName: 'Titi',
-          lastName: 'Romi',
-          row: 2
-        },{
-          birthdate: '2000-01-20',
-          birthplace: 'Bordeaux',
-          certificationId: '33349',
-          email: 'firstname.name@mail.com',
-          externalId: '123458',
-          firstName: 'Cats',
-          lastName: 'Eyes',
-          row: 3
-        }]);
-        this.set('certificationData', [{ id:'33347' }, { id:'33350' }]);
-        this.set('visible', true);
-        this.set('onHide', function() {});
-        this.set('onGetJuryFile', function() {});
-        this.set('onSaveReportData', function() {});
-
-        // when
-        await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile saveCandidates=onSaveReportData candidates=candidateData certifications=certificationData}}`);
-        await click('.data-section--missing-candidates .data-section__switch');
-
-        // then
-        assert.dom('.data-section--missing-candidates .data-section__counter').hasText('1');
-        assert.dom('.data-section--missing-candidates .data-section__certification-ids').includesText('33350');
-      });
+      // then
+      assert.dom('.data-section--has-examiner-comment-screen-certifications .data-section__counter').hasText('1');
+      const certificationsIdsElement = find('.data-section--has-examiner-comment-screen-certifications .data-section__certification-ids');
+      const certificationIds = certificationsIdsElement.textContent.trim().replace(/\s/g, '');
+      assert.equal(certificationIds, '7');
     });
   });
 });
