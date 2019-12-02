@@ -30,75 +30,69 @@ module.exports = datasource.extend({
     'Format',
   ],
 
-  fromAirTableObject(airtableEpreuveObject) {
+  fromAirTableObject(airtableRecord) {
 
     let illustrationUrl;
-    if (airtableEpreuveObject.get('Illustration de la consigne')) {
-      illustrationUrl = airtableEpreuveObject.get('Illustration de la consigne')[0].url;
+    if (airtableRecord.get('Illustration de la consigne')) {
+      illustrationUrl = airtableRecord.get('Illustration de la consigne')[0].url;
     }
 
     let attachments;
-    if (airtableEpreuveObject.get('Pièce jointe')) {
-      attachments = airtableEpreuveObject.get('Pièce jointe').map((attachment) => attachment.url).reverse();
+    if (airtableRecord.get('Pièce jointe')) {
+      attachments = airtableRecord.get('Pièce jointe').map((attachment) => attachment.url).reverse();
     }
 
     let competenceId;
-    if (airtableEpreuveObject.get('Compétences (via tube)')) {
-      competenceId = airtableEpreuveObject.get('Compétences (via tube)')[0];
+    if (airtableRecord.get('Compétences (via tube)')) {
+      competenceId = airtableRecord.get('Compétences (via tube)')[0];
     }
 
     let timer;
-    if (airtableEpreuveObject.get('Timer')) {
-      timer = parseInt(airtableEpreuveObject.get('Timer'));
+    if (airtableRecord.get('Timer')) {
+      timer = parseInt(airtableRecord.get('Timer'));
     }
 
     return {
-      id: airtableEpreuveObject.getId(),
-      instruction: airtableEpreuveObject.get('Consigne'),
-      proposals: airtableEpreuveObject.get('Propositions'),
-      type: airtableEpreuveObject.get('Type d\'épreuve'),
-      solution: airtableEpreuveObject.get('Bonnes réponses'),
-      t1Status: airtableEpreuveObject.get('T1 - Espaces, casse & accents'),
-      t2Status: airtableEpreuveObject.get('T2 - Ponctuation'),
-      t3Status: airtableEpreuveObject.get('T3 - Distance d\'édition'),
-      scoring: airtableEpreuveObject.get('Scoring'),
-      status: airtableEpreuveObject.get('Statut'),
-      skillIds: airtableEpreuveObject.get('Acquix') || [],
-      skills: airtableEpreuveObject.get('acquis') || [],
-      embedUrl: airtableEpreuveObject.get('Embed URL'),
-      embedTitle: airtableEpreuveObject.get('Embed title'),
-      embedHeight: airtableEpreuveObject.get('Embed height'),
+      id: airtableRecord.getId(),
+      instruction: airtableRecord.get('Consigne'),
+      proposals: airtableRecord.get('Propositions'),
+      type: airtableRecord.get('Type d\'épreuve'),
+      solution: airtableRecord.get('Bonnes réponses'),
+      t1Status: airtableRecord.get('T1 - Espaces, casse & accents'),
+      t2Status: airtableRecord.get('T2 - Ponctuation'),
+      t3Status: airtableRecord.get('T3 - Distance d\'édition'),
+      scoring: airtableRecord.get('Scoring'),
+      status: airtableRecord.get('Statut'),
+      skillIds: airtableRecord.get('Acquix') || [],
+      skills: airtableRecord.get('acquis') || [],
+      embedUrl: airtableRecord.get('Embed URL'),
+      embedTitle: airtableRecord.get('Embed title'),
+      embedHeight: airtableRecord.get('Embed height'),
       timer,
       illustrationUrl,
       attachments,
       competenceId,
-      illustrationAlt: airtableEpreuveObject.get('Texte alternatif illustration'),
-      format: airtableEpreuveObject.get('Format') || 'mots',
+      illustrationAlt: airtableRecord.get('Texte alternatif illustration'),
+      format: airtableRecord.get('Format') || 'mots',
     };
   },
 
-  findBySkillIds(skillIds) {
+  async findBySkillIds(skillIds) {
     const foundInSkillIds = (skillId) => _.includes(skillIds, skillId);
+    const challenges = await this.list();
+    return challenges.filter((challengeData) =>
+      _.includes(VALIDATED_CHALLENGES, challengeData.status) &&
+      _.some(challengeData.skillIds, foundInSkillIds)
+    );
+  },
 
-    return this.list({
-      filter: (rawChallenge) => (
-        _.includes(VALIDATED_CHALLENGES, rawChallenge.fields.Statut)
-        && _.some(rawChallenge.fields.Acquix, foundInSkillIds)
-      )
-    });
-  }
-  ,
-
-  findByCompetenceId(competenceId) {
-    return this.list({
-      filter: (rawChallenge) => (
-        _.includes(VALIDATED_CHALLENGES, rawChallenge.fields.Statut)
-        && !_.isEmpty(rawChallenge.fields.Acquix)
-        && _.includes(rawChallenge.fields['Compétences (via tube)'], competenceId)
-      )
-    });
-  }
-  ,
-})
-;
+  async findByCompetenceId(competenceId) {
+    const challenges = await this.list();
+    return challenges.filter((challengeData) =>
+      _.includes(VALIDATED_CHALLENGES, challengeData.status)
+      && !_.isEmpty(challengeData.skillIds)
+      && _.includes(challengeData.competenceId, competenceId)
+    );
+  },
+});
 

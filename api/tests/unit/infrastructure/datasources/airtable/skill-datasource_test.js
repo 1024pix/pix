@@ -84,14 +84,14 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
     });
   });
 
-  describe('#list', () => {
+  describe('#findActiveSkills', () => {
 
     it('should query Airtable skills with empty query', () => {
       // given
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([]));
 
       // when
-      const promise = skillDatasource.list();
+      const promise = skillDatasource.findActiveSkills();
 
       // then
       return promise.then(() => {
@@ -107,7 +107,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([rawSkill1, rawSkill2]));
 
       // when
-      const promise = skillDatasource.list();
+      const promise = skillDatasource.findActiveSkills();
 
       // then
       return promise.then((foundSkills) => {
@@ -125,7 +125,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([rawSkill1, rawSkill2, rawSkill3]));
 
       // when
-      const promise = skillDatasource.list();
+      const promise = skillDatasource.findActiveSkills();
 
       // then
       return promise.then((foundSkills) => {

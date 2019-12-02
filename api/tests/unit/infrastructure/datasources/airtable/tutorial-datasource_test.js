@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const tutorialDatasource = require('../../../../../lib/infrastructure/datasources/airtable/tutorial-datasource');
@@ -5,7 +6,6 @@ const tutorialAirtableDataObjectFixture = require('../../../../tooling/fixtures/
 const tutorialRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/tutorialRawAirtableFixture');
 const { Record: AirtableRecord, Error: AirtableError } = require('airtable');
 const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
-const _ = require('lodash');
 
 function makeAirtableFake(records) {
   return async (tableName, fieldList) => {

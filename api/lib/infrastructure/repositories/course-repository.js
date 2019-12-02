@@ -18,7 +18,7 @@ function _toDomain(courseDataObject) {
 module.exports = {
 
   getAdaptiveCourses() {
-    return courseDatasource.getAdaptiveCourses().then((courseDataObjects) => {
+    return courseDatasource.findAdaptiveCourses().then((courseDataObjects) => {
       return courseDataObjects.map(_toDomain);
     });
   },

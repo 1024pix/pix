@@ -4,10 +4,6 @@ const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
 const _DatasourcePrototype = {
 
-  airtableFilter() {
-    return true;
-  },
-
   get(id) {
     return airtable.getRecord(this.tableName, id).then(this.fromAirTableObject).catch((err) => {
       if (err.error === 'NOT_FOUND') {
@@ -17,10 +13,10 @@ const _DatasourcePrototype = {
     });
   },
 
-  list({ filter } = {}) {
+  list() {
     return airtable.findRecords(this.tableName, this.usedFields)
       .then((airtableRawObjects) => {
-        return airtableRawObjects.filter((record) => this.airtableFilter(record) && (filter ? filter(record) : true)).map(this.fromAirTableObject);
+        return airtableRawObjects.map(this.fromAirTableObject);
       });
   },
 

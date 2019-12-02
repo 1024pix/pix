@@ -11,13 +11,13 @@ module.exports = datasource.extend({
     'Competences (identifiants)',
   ],
 
-  fromAirTableObject(airtableDomaineObject) {
+  fromAirTableObject(airtableRecord) {
     return {
-      id: airtableDomaineObject.getId(),
-      code: airtableDomaineObject.get('Code'),
-      name: airtableDomaineObject.get('Nom'),
-      title: airtableDomaineObject.get('Titre'),
-      competenceIds: airtableDomaineObject.get('Competences (identifiants)'),
+      id: airtableRecord.getId(),
+      code: airtableRecord.get('Code'),
+      name: airtableRecord.get('Nom'),
+      title: airtableRecord.get('Titre'),
+      competenceIds: airtableRecord.get('Competences (identifiants)'),
     };
   },
 
