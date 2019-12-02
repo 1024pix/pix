@@ -10,7 +10,7 @@ function _cacheIndividually(records, tablename) {
   }));
 }
 
-async function _loadEducationalContent(airtableDatasource) {
+async function _loadDatasourceContent(airtableDatasource) {
   const airtableName = airtableDatasource.tableName;
   const fields = airtableDatasource.usedFields;
 
@@ -25,7 +25,7 @@ function _loadRecord(tableName, recordId) {
 module.exports = {
 
   loadAllTables() {
-    return Promise.all(_.map(AirtableDatasources, _loadEducationalContent));
+    return Promise.all(_.map(AirtableDatasources, _loadDatasourceContent));
   },
 
   load({ tableName, recordId }) {
