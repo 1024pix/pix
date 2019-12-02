@@ -126,12 +126,12 @@ module.exports = {
       .then(() => null);
   },
 
-  async sendInvitation(request, h) {
+  async sendInvitations(request, h) {
     const organizationId = request.params.id;
-    const email = request.payload.data.attributes.email;
+    const emails = request.payload.data.attributes.email.split(',');
 
-    const organizationInvitation = await usecases.createOrganizationInvitation({ organizationId, email });
-    return h.response(organizationInvitationSerializer.serialize(organizationInvitation)).created();
+    const organizationInvitations = await usecases.createOrganizationInvitations({ organizationId, emails });
+    return h.response(organizationInvitationSerializer.serialize(organizationInvitations)).created();
   },
 
   async findPendingInvitations(request) {
