@@ -13,19 +13,20 @@ module.exports = datasource.extend({
     'Titre',
   ],
 
-  fromAirTableObject(airtableTutorialObject) {
+  fromAirTableObject(airtableRecord) {
     return {
-      id: airtableTutorialObject.getId(),
-      duration: airtableTutorialObject.get('Durée'),
-      format: airtableTutorialObject.get('Format'),
-      link: airtableTutorialObject.get('Lien'),
-      source: airtableTutorialObject.get('Source'),
-      title: airtableTutorialObject.get('Titre'),
+      id: airtableRecord.getId(),
+      duration: airtableRecord.get('Durée'),
+      format: airtableRecord.get('Format'),
+      link: airtableRecord.get('Lien'),
+      source: airtableRecord.get('Source'),
+      title: airtableRecord.get('Titre'),
     };
   },
 
-  findByRecordIds(tutorialRecordIds) {
-    return this.list({ filter: (rawTutorial) => _.includes(tutorialRecordIds, rawTutorial.id) });
+  async findByRecordIds(tutorialRecordIds) {
+    const tutorials = await this.list();
+    return tutorials.filter((tutorialData) => _.includes(tutorialRecordIds, tutorialData.id));
   },
 
 });
