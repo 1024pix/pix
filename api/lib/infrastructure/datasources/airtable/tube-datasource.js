@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const airtable = require('../../airtable');
+const datasource = require('./datasource');
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
 const tableName = 'Tubes';
@@ -23,17 +24,7 @@ function fromAirTableObject(airtableRecord) {
   };
 }
 
-function _doQuery(filter) {
-  return airtable.findRecords(tableName, usedFields)
-    .then((rawTubes) => {
-      return _(rawTubes)
-        .filter(filter)
-        .map(fromAirTableObject)
-        .value();
-    });
-}
-
-module.exports = {
+module.exports = datasource.extend({
 
   tableName,
 
@@ -42,7 +33,7 @@ module.exports = {
   fromAirTableObject,
 
   findByNames(tubeNames) {
-    return _doQuery((rawTube) => _.includes(tubeNames, rawTube.fields['Nom']));
+    return this.list({ filter: (rawTube) => _.includes(tubeNames, rawTube.fields['Nom']) });
   },
 
   get(id) {
@@ -55,8 +46,4 @@ module.exports = {
         throw err;
       });
   },
-
-  list() {
-    return _doQuery({});
-  },
-};
+});

@@ -1,5 +1,5 @@
-const _ = require('lodash');
 const airtable = require('../../airtable');
+const datasource = require('./datasource');
 
 const tableName = 'Tests';
 
@@ -29,7 +29,7 @@ function fromAirTableObject(airtableRecord) {
   };
 }
 
-module.exports = {
+module.exports = datasource.extend({
 
   tableName,
 
@@ -38,19 +38,11 @@ module.exports = {
   fromAirTableObject,
 
   getAdaptiveCourses() {
-    return airtable.findRecords(tableName, usedFields)
-      .then((airtableRawObjects) => {
-        return _.filter(airtableRawObjects, {
-          fields: {
-            'Adaptatif ?': true,
-            'Statut': 'Publié',
-          }
-        }).map(fromAirTableObject);
-      });
+    return this.list({ filter: (rawCourse) => rawCourse.get('Adaptatif ?') && rawCourse.get('Statut') === 'Publié' });
   },
 
   get(id) {
     return airtable.getRecord(tableName, id)
       .then(fromAirTableObject);
   }
-};
+});

@@ -1,5 +1,7 @@
 const _ = require('lodash');
 const airtable = require('../../airtable');
+const datasource = require('./datasource');
+
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
 const tableName = 'Epreuves';
@@ -76,7 +78,7 @@ function fromAirTableObject(airtableEpreuveObject) {
   };
 }
 
-module.exports = {
+module.exports = datasource.extend({
 
   tableName,
 
@@ -96,36 +98,25 @@ module.exports = {
       });
   },
 
-  list() {
-    return airtable.findRecords(tableName, usedFields)
-      .then((challengeDataObjects) => challengeDataObjects.map(fromAirTableObject));
-  },
-
   findBySkillIds(skillIds) {
     const foundInSkillIds = (skillId) => _.includes(skillIds, skillId);
 
-    return airtable.findRecords(tableName, usedFields)
-      .then((challengeDataObjects) => {
-        return challengeDataObjects
-          .filter((rawChallenge) => (
-            _.includes(VALIDATED_CHALLENGES, rawChallenge.fields.Statut)
-            && _.some(rawChallenge.fields.Acquix, foundInSkillIds)
-          ))
-          .map(fromAirTableObject);
-      });
+    return this.list({
+      filter: (rawChallenge) => (
+        _.includes(VALIDATED_CHALLENGES, rawChallenge.fields.Statut)
+        && _.some(rawChallenge.fields.Acquix, foundInSkillIds)
+      )
+    });
   },
 
   findByCompetenceId(competenceId) {
-    return airtable.findRecords(tableName, usedFields)
-      .then((challengeDataObjects) => {
-        return challengeDataObjects
-          .filter((rawChallenge) => (
-            _.includes(VALIDATED_CHALLENGES, rawChallenge.fields.Statut)
-            && !_.isEmpty(rawChallenge.fields.Acquix)
-            && _.includes(rawChallenge.fields['Compétences (via tube)'], competenceId)
-          ))
-          .map(fromAirTableObject);
-      });
+    return this.list({
+      filter: (rawChallenge) => (
+        _.includes(VALIDATED_CHALLENGES, rawChallenge.fields.Statut)
+        && !_.isEmpty(rawChallenge.fields.Acquix)
+        && _.includes(rawChallenge.fields['Compétences (via tube)'], competenceId)
+      )
+    });
   },
-};
+});
 

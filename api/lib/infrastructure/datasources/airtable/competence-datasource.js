@@ -1,4 +1,5 @@
 const airtable = require('../../airtable');
+const datasource = require('./datasource');
 
 const tableName = 'Competences';
 
@@ -23,7 +24,7 @@ function fromAirTableObject(rawAirtableCompetence) {
   };
 }
 
-module.exports = {
+module.exports = datasource.extend({
 
   tableName,
 
@@ -31,14 +32,9 @@ module.exports = {
 
   fromAirTableObject,
 
-  list() {
-    return airtable.findRecords(tableName, usedFields)
-      .then((airtableRawObjects) => airtableRawObjects.map(fromAirTableObject));
-  },
-
   get(id) {
     return airtable.getRecord(tableName, id)
       .then(fromAirTableObject);
   }
-};
+});
 

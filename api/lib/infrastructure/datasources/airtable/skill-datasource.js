@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const airtable = require('../../airtable');
+const datasource = require('./datasource');
 
 const tableName = 'Acquis';
 
@@ -29,18 +30,7 @@ function fromAirTableObject(airtableSkillObject) {
   };
 }
 
-function _doQuery(filter) {
-  return airtable.findRecords(tableName, usedFields)
-    .then((rawSkills) => {
-      return _(rawSkills)
-        .filter(filter)
-        .filter((rawSkill) => _.includes(rawSkill.fields['Status'], ACTIVATED_STATUS))
-        .map(fromAirTableObject)
-        .value();
-    });
-}
-
-module.exports = {
+module.exports = datasource.extend({
 
   tableName,
 
@@ -48,20 +38,21 @@ module.exports = {
 
   fromAirTableObject,
 
+  airtableFilter(rawSkill) {
+    return _.includes(rawSkill.fields['Status'], ACTIVATED_STATUS);
+  },
+
   get(id) {
     return airtable.getRecord(tableName, id)
       .then(fromAirTableObject);
   },
 
   findByRecordIds(skillRecordIds) {
-    return _doQuery((rawSkill) => _.includes(skillRecordIds, rawSkill.id));
+    return this.list({ filter: (rawSkill) => _.includes(skillRecordIds, rawSkill.id) });
   },
 
   findByCompetenceId(competenceId) {
-    return _doQuery((rawSkill) => _.includes(rawSkill.fields['Compétence (via Tube)'], competenceId));
+    return this.list({ filter: (rawSkill) => _.includes(rawSkill.fields['Compétence (via Tube)'], competenceId) });
   },
 
-  list() {
-    return _doQuery({});
-  }
-};
+});
