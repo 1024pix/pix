@@ -89,16 +89,6 @@ function _addCellByHeadersTitleForText(title, data, line, headers) {
   return line;
 }
 
-/*function _totalPixScore(knowledgeElements) {
- const sumTotalPixScore = _.reduce(knowledgeElements, function(sumPix, knowledgeElement) {
- if (knowledgeElement.isValidated) {
- return sumPix + knowledgeElement.pixScore;
- }
- return sumPix;
- }, 0);
- return sumTotalPixScore;
- }*/
-
 function _totalValidatedSkills(knowledgeElements) {
   const sumValidatedSkills = _.reduce(knowledgeElements, function(validatedSkill, knowledgeElement) {
     if (knowledgeElement.isValidated) {
@@ -319,7 +309,6 @@ module.exports = async function startWritingCampaignResultsToStream(
 
   const listArea = _.uniqBy(listCompetences.map((competence) => competence.area), 'code');
 
-  //Create HEADER of CSV
   const headersAsArray = createCsvHeader(listSkillsName, listCompetences, listArea, campaign.idPixLabel);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
