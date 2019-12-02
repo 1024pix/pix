@@ -4,20 +4,15 @@ const bluebird = require('bluebird');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
 
-function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
+async function _ensureCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   if (_.isNil(organizationId)) {
-    return Promise.reject(new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`));
+    throw new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`);
   }
+  const user = await userRepository.getWithMemberships(userId);
 
-  return userRepository.getWithMemberships(userId)
-    .then((user) => {
-      if (user.hasAccessToOrganization(organizationId)) {
-        return Promise.resolve();
-      }
-      return Promise.reject(
-        new UserNotAuthorizedToGetCampaignResultsError(`User does not have an access to the organization ${organizationId}`),
-      );
-    });
+  if (!user.hasAccessToOrganization(organizationId)) {
+    throw new UserNotAuthorizedToGetCampaignResultsError(`User does not have an access to the organization ${organizationId}`);
+  }
 }
 
 function _cleanText(text) {
@@ -282,7 +277,7 @@ module.exports = async function startWritingCampaignResultsToStream(
 
   const campaign = await campaignRepository.get(campaignId);
 
-  await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
+  await _ensureCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
   const [targetProfile, listAllCompetences, organization, listCampaignParticipation] = await Promise.all([
     targetProfileRepository.get(campaign.targetProfileId),
