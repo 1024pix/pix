@@ -1,4 +1,3 @@
-const airtable = require('../../airtable');
 const datasource = require('./datasource');
 
 const tableName = 'Competences';
@@ -32,9 +31,5 @@ module.exports = datasource.extend({
 
   fromAirTableObject,
 
-  get(id) {
-    return airtable.getRecord(tableName, id)
-      .then(fromAirTableObject);
-  }
 });
 

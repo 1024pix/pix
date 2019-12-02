@@ -1,9 +1,20 @@
+const _ = require('lodash');
 const airtable = require('../../airtable');
+const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
-const datasourcePrototype = {
+const _DatasourcePrototype = {
 
   airtableFilter() {
     return true;
+  },
+
+  get(id) {
+    return airtable.getRecord(this.tableName, id).then(this.fromAirTableObject).catch((err) => {
+      if (err.error === 'NOT_FOUND') {
+        throw new AirtableResourceNotFound();
+      }
+      throw err;
+    });
   },
 
   list({ filter } = {}) {
@@ -18,7 +29,9 @@ const datasourcePrototype = {
 module.exports = {
 
   extend(props) {
-    return Object.assign(Object.create(datasourcePrototype), props);
+    const result = Object.assign({}, _DatasourcePrototype, props);
+    _.bindAll(result, _.functions(result));
+    return result;
   },
 
 };

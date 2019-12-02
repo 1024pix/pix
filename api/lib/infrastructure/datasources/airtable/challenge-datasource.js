@@ -1,8 +1,5 @@
 const _ = require('lodash');
-const airtable = require('../../airtable');
 const datasource = require('./datasource');
-
-const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
 const tableName = 'Epreuves';
 
@@ -85,18 +82,6 @@ module.exports = datasource.extend({
   usedFields,
 
   fromAirTableObject,
-
-  get(id) {
-    return airtable.getRecord(tableName, id)
-      .then(fromAirTableObject)
-      .catch((err) => {
-        if (err.error === 'NOT_FOUND') {
-          throw new AirtableResourceNotFound();
-        }
-
-        throw err;
-      });
-  },
 
   findBySkillIds(skillIds) {
     const foundInSkillIds = (skillId) => _.includes(skillIds, skillId);
