@@ -34,22 +34,19 @@ module.exports = datasource.extend({
 
   async findActiveSkills() {
     const skills = await this.list();
-    return skills.filter((skillData) =>
-      _.includes(skillData.status, ACTIVATED_STATUS));
+    return _.filter(skills, { status: ACTIVATED_STATUS });
   },
 
-  async findByRecordIds(skillRecordIds) {
+  async findByRecordIds(skillIds) {
     const skills = await this.list();
     return skills.filter((skillData) =>
-      _.includes(skillData.status, ACTIVATED_STATUS) &&
-      _.includes(skillRecordIds, skillData.id));
+      skillData.status === ACTIVATED_STATUS &&
+      _.includes(skillIds, skillData.id));
   },
 
   async findByCompetenceId(competenceId) {
     const skills = await this.list();
-    return skills.filter((skillData) =>
-      _.includes(skillData.status, ACTIVATED_STATUS) &&
-      _.includes(skillData.competenceId, competenceId));
+    return _.filter(skills, { status: ACTIVATED_STATUS, competenceId });
   },
 
 });
