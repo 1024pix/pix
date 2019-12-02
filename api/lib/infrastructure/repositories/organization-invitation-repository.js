@@ -66,9 +66,9 @@ module.exports = {
       .then((results) =>  bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationInvitation, results));
   },
 
-  findOneByOrganizationIdAndEmail({ organizationId, email }) {
+  findOnePendingByOrganizationIdAndEmail({ organizationId, email }) {
     return BookshelfOrganizationInvitation
-      .where({ organizationId, email })
+      .where({ organizationId, email, status: 'pending' })
       .fetch({ required: false })
       .then(_toDomain);
   },
