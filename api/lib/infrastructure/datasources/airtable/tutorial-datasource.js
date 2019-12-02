@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const airtable = require('../../airtable');
+const datasource = require('./datasource');
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
 const tableName = 'Tutoriels';
@@ -23,17 +24,7 @@ function fromAirTableObject(airtableTutorialObject) {
   };
 }
 
-function _doQuery(filter) {
-  return airtable.findRecords(tableName, usedFields)
-    .then((rawTutorials) => {
-      return _(rawTutorials)
-        .filter(filter)
-        .map(fromAirTableObject)
-        .value();
-    });
-}
-
-module.exports = {
+module.exports = datasource.extend({
 
   tableName,
 
@@ -42,7 +33,7 @@ module.exports = {
   fromAirTableObject,
 
   findByRecordIds(tutorialRecordIds) {
-    return _doQuery((rawTutorial) => _.includes(tutorialRecordIds, rawTutorial.id));
+    return this.list({ filter: (rawTutorial) => _.includes(tutorialRecordIds, rawTutorial.id) });
   },
 
   get(id) {
@@ -55,5 +46,5 @@ module.exports = {
         throw err;
       });
   },
-};
+});
 

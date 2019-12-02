@@ -1,4 +1,4 @@
-const airtable = require('../../airtable');
+const datasource = require('./datasource');
 
 const tableName = 'Domaines';
 
@@ -19,7 +19,7 @@ function fromAirTableObject(airtableDomaineObject) {
   };
 }
 
-module.exports = {
+module.exports = datasource.extend({
 
   tableName,
 
@@ -27,11 +27,5 @@ module.exports = {
 
   fromAirTableObject,
 
-  list() {
-    return airtable.findRecords(tableName, usedFields)
-      .then((airtableRawObjects) => {
-        return airtableRawObjects.map(fromAirTableObject);
-      });
-  },
-};
+});
 
