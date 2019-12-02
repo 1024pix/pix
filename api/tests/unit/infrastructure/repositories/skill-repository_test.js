@@ -1,6 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
 const DomainSkill = require('../../../../lib/domain/models/Skill');
-const airTableDataObjects = require('../../../../lib/infrastructure/datasources/airtable/objects');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 
@@ -18,20 +17,18 @@ describe('Unit | Repository | skill-repository', function() {
     beforeEach(() => {
       skillDatasource.findByCompetenceId
         .withArgs('competence_id')
-        .resolves([
-          new airTableDataObjects.Skill({
-            id: 'recAcquix1',
-            name: '@acquix1',
-            pixValue: 2.4,
-            competenceId: 'rec1',
-            tutorialIds: [1, 2, 3],
-          }),
-          new airTableDataObjects.Skill({
-            id: 'recAcquix2',
-            name: '@acquix2',
-            pixValue: 2.4,
-            competenceId: 'rec2',
-          }),
+        .resolves([{
+          id: 'recAcquix1',
+          name: '@acquix1',
+          pixValue: 2.4,
+          competenceId: 'rec1',
+          tutorialIds: [1, 2, 3],
+        }, {
+          id: 'recAcquix2',
+          name: '@acquix2',
+          pixValue: 2.4,
+          competenceId: 'rec2',
+        },
         ]);
     });
 

@@ -1,5 +1,3 @@
-const dataObjects = require('../../../../lib/infrastructure/datasources/airtable/objects/index');
-
 module.exports = function({
   id = 'recTIddrkopID28Ep',
   name = '@accesDonnées1',
@@ -10,7 +8,7 @@ module.exports = function({
   competenceId = 'recABCD1234'
 } = {}) {
 
-  return new dataObjects.Skill({
+  return {
     id,
     name,
     hint,
@@ -18,5 +16,5 @@ module.exports = function({
     tutorialIds,
     pixValue,
     competenceId,
-  });
+  };
 };

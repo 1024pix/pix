@@ -1,10 +1,52 @@
 const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const courseDatasource = require('../../../../../lib/infrastructure/datasources/airtable/course-datasource');
-const { Course } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 const AirtableRecord = require('airtable').Record;
 
 describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () => {
+
+  describe('#fromAirTableObject', () => {
+
+    it('should create a Course from the AirtableRecord', () => {
+      // given
+      const airtableRecord = new AirtableRecord('Course', 'recCourse123', {
+        'id': 'recCourse123',
+        'fields': {
+          'Nom': 'course-name',
+          'Description': 'course-description',
+          'Adaptatif ?': false,
+          'Épreuves': [
+            'recChallenge1',
+            'recChallenge2',
+          ],
+          'Competence': ['recCompetence123'],
+          'Image': [
+            {
+              'url': 'https://example.org/course.png',
+            }
+          ],
+        },
+      });
+
+      // when
+      const course = courseDatasource.fromAirTableObject(airtableRecord);
+
+      // then
+      const expectedCourse = {
+        id: 'recCourse123',
+        name: 'course-name',
+        adaptive: false,
+
+        competences: ['recCompetence123'],
+        description: 'course-description',
+        imageUrl: 'https://example.org/course.png',
+
+        challenges: ['recChallenge1', 'recChallenge2'],
+      };
+
+      expect(course).to.deep.equal(expectedCourse);
+    });
+  });
 
   describe('#getAdaptiveCourses', () => {
 
@@ -31,7 +73,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
         ]);
 
         expect(courses).to.have.lengthOf(1);
-        expect(courses[0]).to.be.an.instanceof(Course);
         expect(courses[0].id).to.equal('recCourse123');
       });
     });
@@ -51,7 +92,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
       const course = await courseDatasource.get('recCourse123');
 
       // then
-      expect(course).to.be.an.instanceof(Course);
       expect(course.id).to.equal('recCourse123');
     });
   });

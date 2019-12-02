@@ -50,6 +50,7 @@ module.exports = function challengeRawAirTableFixture({ id, fields } = { id: 're
           },
         },
       ],
+      'Texte alternatif illustration': 'Texte alternatif de l’illustration',
       '_Preview Temp': 'https://docs.google.com/presentation/d/12lnGYXethPtmGkjP_DymgW1lINs2XyFi4jQRbZy_cpo/edit#slide=id.g16ce321c21_0_0',
       '_Statut': 'validé (beta)',
       'Pièce jointe': [

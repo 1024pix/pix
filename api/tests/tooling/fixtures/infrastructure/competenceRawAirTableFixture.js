@@ -50,6 +50,7 @@ module.exports = function competenceRawAirTableFixture() {
       'Domaine Code': [
         '1',
       ],
+      'Description': 'Some description',
       'Acquis Of Level 1': 4,
       'Acquis Of Level 2': 4,
       'Acquis Of Level 3': 5,

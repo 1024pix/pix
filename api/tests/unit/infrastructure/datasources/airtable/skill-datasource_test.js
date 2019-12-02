@@ -1,8 +1,8 @@
 const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const skillDatasource = require('../../../../../lib/infrastructure/datasources/airtable/skill-datasource');
+const skillAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/skillAirtableDataObjectFixture');
 const skillRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
-const { Skill } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 const AirtableRecord = require('airtable').Record;
 const _ = require('lodash');
 
@@ -18,6 +18,20 @@ function makeAirtableFake(records) {
 
 describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () => {
 
+  describe('#fromAirTableObject', () => {
+
+    it('should create a Skill from the AirtableRecord', () => {
+      // given
+      const expectedSkill = skillAirtableDataObjectFixture();
+
+      // when
+      const skill = skillDatasource.fromAirTableObject(skillRawAirTableFixture());
+
+      // then
+      expect(skill).to.deep.equal(expectedSkill);
+    });
+  });
+
   describe('#get', () => {
 
     it('should call airtable on Acquis table with the id and return a datamodel Skill object', () => {
@@ -32,7 +46,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       return promise.then((skill) => {
         expect(airtable.getRecord).to.have.been.calledWith('Acquis', rawSkill.id);
 
-        expect(skill).to.be.an.instanceof(Skill);
         expect(skill.id).to.equal(rawSkill.id);
       });
     });
@@ -64,8 +77,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       // then
       return promise.then((foundSkills) => {
         expect(foundSkills).to.be.an('array');
-        expect(foundSkills[0]).to.be.an.instanceOf(Skill);
-        expect(foundSkills[1]).to.be.an.instanceOf(Skill);
         expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
         expect(airtable.findRecords).to.have.been.calledWith('Acquis');
 
@@ -79,14 +90,12 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       // given
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([]));
 
-      sinon.stub(Skill, 'getUsedAirtableFields').returns(['titi', 'toto']);
-
       // when
       const promise = skillDatasource.list();
 
       // then
       return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Acquis', ['titi', 'toto']);
+        expect(airtable.findRecords).to.have.been.calledWith('Acquis', skillDatasource.usedFields);
       });
     });
 
@@ -102,7 +111,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
       // then
       return promise.then((foundSkills) => {
-        expect(foundSkills[0]).to.be.an.instanceOf(Skill);
         expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
       });
     });
@@ -121,7 +129,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
       // then
       return promise.then((foundSkills) => {
-        expect(foundSkills[0]).to.be.an.instanceOf(Skill);
         expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
       });
     });
@@ -146,7 +153,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       // then
       return promise.then((skills) => {
         expect(_.map(skills, 'id')).to.have.members([ 'recAcquix1', 'recAcquix2' ]);
-        expect(skills[0]).to.be.an.instanceof(Skill);
       });
     });
   });
