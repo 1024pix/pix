@@ -65,6 +65,14 @@ module.exports = {
       .then((answers) => answers.models.map(_toDomain));
   },
 
+  findLastByAssessment(assessmentId) {
+    return BookshelfAnswer
+      .where({ assessmentId })
+      .orderBy('createdAt', 'desc')
+      .fetch()
+      .then(_toDomain);
+  },
+
   findByChallenge(challengeId) {
     return BookshelfAnswer
       .where({ challengeId })
