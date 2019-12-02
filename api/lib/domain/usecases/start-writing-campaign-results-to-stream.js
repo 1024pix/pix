@@ -95,8 +95,7 @@ function _percentageSkillsValidated(knowledgeElements, targetProfile) {
 }
 
 function _stateOfSkill(skillId, knowledgeElements) {
-  const knowledgeElementForSkill = _.findLast(knowledgeElements,
-    (knowledgeElement) => knowledgeElement.skillId === skillId);
+  const knowledgeElementForSkill = _.find(knowledgeElements, { skillId });
   if (knowledgeElementForSkill) {
     return knowledgeElementForSkill.isValidated ? 'OK' : 'KO';
   } else {
