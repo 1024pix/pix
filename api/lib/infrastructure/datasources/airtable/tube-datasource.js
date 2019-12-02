@@ -1,27 +1,53 @@
+const _ = require('lodash');
 const airtable = require('../../airtable');
-const { Tube } = require('./objects');
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
-const _ = require('lodash');
+const tableName = 'Tubes';
+
+const usedFields = [
+  'Nom',
+  'Titre',
+  'Description',
+  'Titre pratique',
+  'Description pratique',
+];
+
+function fromAirTableObject(airtableRecord) {
+  return {
+    id: airtableRecord.getId(),
+    name: airtableRecord.get('Nom'),
+    title: airtableRecord.get('Titre'),
+    description: airtableRecord.get('Description'),
+    practicalTitle: airtableRecord.get('Titre pratique'),
+    practicalDescription: airtableRecord.get('Description pratique'),
+  };
+}
 
 function _doQuery(filter) {
-  return airtable.findRecords(Tube.getAirtableName(), Tube.getUsedAirtableFields())
+  return airtable.findRecords(tableName, usedFields)
     .then((rawTubes) => {
       return _(rawTubes)
         .filter(filter)
-        .map(Tube.fromAirTableObject)
+        .map(fromAirTableObject)
         .value();
     });
 }
 
 module.exports = {
+
+  tableName,
+
+  usedFields,
+
+  fromAirTableObject,
+
   findByNames(tubeNames) {
     return _doQuery((rawTube) => _.includes(tubeNames, rawTube.fields['Nom']));
   },
 
   get(id) {
-    return airtable.getRecord(Tube.getAirtableName(), id)
-      .then(Tube.fromAirTableObject)
+    return airtable.getRecord(tableName, id)
+      .then(fromAirTableObject)
       .catch((err) => {
         if (err.error === 'NOT_FOUND') {
           throw new AirtableResourceNotFound();

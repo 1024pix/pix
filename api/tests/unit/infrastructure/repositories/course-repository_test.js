@@ -1,5 +1,4 @@
 const { expect, sinon } = require('../../../test-helper');
-const airTableDataObjects = require('../../../../lib/infrastructure/datasources/airtable/objects');
 const _ = require('lodash');
 
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
@@ -13,17 +12,15 @@ describe('Unit | Repository | course-repository', function() {
     beforeEach(() => {
       sinon.stub(courseDatasource, 'get')
         .withArgs('recTestAdaptative')
-        .resolves(
-          new airTableDataObjects.Course({
-            id: 'recTestAdaptative',
-            name: 'adaptive-course-name',
-            adaptive: true,
-            description: 'course-description',
-            imageUrl: 'http://example.org/course.png',
-            challenges: ['recChallenge1', 'recChallenge2'],
-            competences: ['recCompetence'],
-          })
-        );
+        .resolves({
+          id: 'recTestAdaptative',
+          name: 'adaptive-course-name',
+          adaptive: true,
+          description: 'course-description',
+          imageUrl: 'http://example.org/course.png',
+          challenges: ['recChallenge1', 'recChallenge2'],
+          competences: ['recCompetence'],
+        });
     });
 
     it('should return Course domain objects', () => {
@@ -48,12 +45,10 @@ describe('Unit | Repository | course-repository', function() {
 
     beforeEach(() => {
       sinon.stub(courseDatasource, 'getAdaptiveCourses')
-        .resolves([
-          new airTableDataObjects.Course({
-            id: 'recTestAdaptative',
-            name: 'adaptive-course-name',
-          })
-        ]);
+        .resolves([{
+          id: 'recTestAdaptative',
+          name: 'adaptive-course-name',
+        }]);
     });
 
     it('should return Course domain objects', () => {
@@ -74,13 +69,11 @@ describe('Unit | Repository | course-repository', function() {
     beforeEach(() => {
       sinon.stub(courseDatasource, 'get')
         .withArgs('recTestAdaptative')
-        .resolves(
-          new airTableDataObjects.Course({
-            id: 'recTestAdaptative',
-            name: 'adaptive-course-name',
-            adaptive: true,
-          })
-        );
+        .resolves({
+          id: 'recTestAdaptative',
+          name: 'adaptive-course-name',
+          adaptive: true,
+        });
     });
 
     it('should return Course domain objects', () => {

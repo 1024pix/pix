@@ -2,9 +2,8 @@ const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const tubeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/tube-datasource');
 const tubeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/tubeRawAirTableFixture');
-const { Tube } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
-const AirtableRecord = require('airtable').Record;
-const AirtableError = require('airtable').Error;
+const tubeAirtableDataModelFixture = require('../../../../tooling/fixtures/infrastructure/tubeAirtableDataObjectFixture');
+const { Record: AirtableRecord, Error: AirtableError } = require('airtable');
 const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
 const _ = require('lodash');
 
@@ -19,6 +18,20 @@ function makeAirtableFake(records) {
 }
 
 describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () => {
+
+  describe('#fromAirTableObject', () => {
+
+    it('should create a Tube from the AirtableRecord', () => {
+      // given
+      const expectedTube = tubeAirtableDataModelFixture();
+
+      // when
+      const tube = tubeDatasource.fromAirTableObject(tubeRawAirTableFixture());
+
+      // then
+      expect(tube).to.deep.equal(expectedTube);
+    });
+  });
 
   describe('#findByNames', () => {
 
@@ -48,8 +61,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () =>
 
       // then
       expect(foundTubes).to.be.an('array');
-      expect(foundTubes[0]).to.be.an.instanceOf(Tube);
-      expect(foundTubes[1]).to.be.an.instanceOf(Tube);
       expect(_.map(foundTubes, 'name')).to.deep.equal([rawTube1.fields['Nom'], rawTube2.fields['Nom'], rawTube4.fields['Nom']]);
       expect(airtable.findRecords).to.have.been.calledWith('Tubes');
     });
@@ -69,7 +80,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () =>
       return promise.then((tube) => {
         expect(airtable.getRecord).to.have.been.calledWith('Tubes', rawTube.id);
 
-        expect(tube).to.be.an.instanceof(Tube);
         expect(tube.id).to.equal(rawTube.id);
       });
     });
@@ -107,13 +117,11 @@ describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () =>
       // given
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake([]));
 
-      sinon.stub(Tube, 'getUsedAirtableFields').returns(['titi', 'toto']);
-
       // when
       await tubeDatasource.list();
 
       // then
-      expect(airtable.findRecords).to.have.been.calledWith('Tubes', ['titi', 'toto']);
+      expect(airtable.findRecords).to.have.been.calledWith('Tubes', tubeDatasource.usedFields);
     });
 
     it('should resolve an array of Tubes from airTable', async () => {
@@ -127,7 +135,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | TubeDatasource', () =>
       const foundTubes = await tubeDatasource.list();
 
       // then
-      expect(foundTubes[0]).to.be.an.instanceOf(Tube);
       expect(_.map(foundTubes, 'id')).to.deep.equal([rawTube1.id, rawTube2.id]);
     });
   });

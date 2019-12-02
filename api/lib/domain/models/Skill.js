@@ -9,7 +9,7 @@ class Skill {
     // includes
     // references
     competenceId,
-    tutorialIds,
+    tutorialIds = [],
   } = {}) {
     this.id = id;
     // attributes

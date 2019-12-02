@@ -1,7 +1,6 @@
 const { expect, databaseBuilder, domainBuilder, sinon } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const Skill = require('../../../../lib/domain/models/Skill');
-const SkillDataObject = require('../../../../lib/infrastructure/datasources/airtable/objects/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
 
@@ -21,7 +20,7 @@ describe('Integration | Repository | Target-profile', () => {
       databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfile.id, organizationId });
       await databaseBuilder.commit();
 
-      skillAssociatedToTargetProfile = new SkillDataObject({ id: targetProfileFirstSkill.skillId, name: '@Acquis2' });
+      skillAssociatedToTargetProfile = { id: targetProfileFirstSkill.skillId, name: '@Acquis2' };
       sinon.stub(skillDatasource, 'findByRecordIds').resolves([skillAssociatedToTargetProfile]);
     });
 
@@ -64,7 +63,7 @@ describe('Integration | Repository | Target-profile', () => {
 
       await databaseBuilder.commit();
 
-      targetProfileSkill = new SkillDataObject({ id: publicProfileSkillAssociation.skillId, name: '@Acquis1' });
+      targetProfileSkill = { id: publicProfileSkillAssociation.skillId, name: '@Acquis1' };
       sinon.stub(skillDatasource, 'findByRecordIds').resolves([targetProfileSkill]);
     });
 
@@ -125,7 +124,7 @@ describe('Integration | Repository | Target-profile', () => {
 
       await databaseBuilder.commit();
 
-      targetProfileSkill = new SkillDataObject({ id: targetProfileSkillAssociation.skillId, name: '@Acquis2' });
+      targetProfileSkill = { id: targetProfileSkillAssociation.skillId, name: '@Acquis2' };
       sinon.stub(skillDatasource, 'findByRecordIds').resolves([targetProfileSkill]);
     });
 
@@ -193,7 +192,7 @@ describe('Integration | Repository | Target-profile', () => {
       const targetProfileSkillAssociation = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: organizationTargetProfile.id });
       await databaseBuilder.commit();
 
-      targetProfileSkill = new SkillDataObject({ id: targetProfileSkillAssociation.skillId, name: '@Acquis2' });
+      targetProfileSkill = { id: targetProfileSkillAssociation.skillId, name: '@Acquis2' };
       sinon.stub(skillDatasource, 'findByRecordIds').resolves([targetProfileSkill]);
     });
 
@@ -243,7 +242,7 @@ describe('Integration | Repository | Target-profile', () => {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
       const { skillId } = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId });
-      const skillAssociatedToTargetProfile = new SkillDataObject({ id: skillId, name: '@Acquis2' });
+      const skillAssociatedToTargetProfile = { id: skillId, name: '@Acquis2' };
       databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildCampaign();
       sinon.stub(skillDatasource, 'findByRecordIds').resolves([skillAssociatedToTargetProfile]);
