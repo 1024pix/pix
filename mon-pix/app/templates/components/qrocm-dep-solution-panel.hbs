@@ -2,9 +2,28 @@
   <div class="rounded-panel__row correction-qrocm__text">
     {{#each inputFields as |field|}}
       {{{field.label}}}
-      <div class="correction-qrocm__answer-solution">
-        <input value="{{field.answer}}" class="correction-qrocm__answer-input {{field.inputClass}}" disabled>
-      </div>
+
+      {{#if (eq challenge.format 'paragraphe')}}
+        <textarea class="correction-qrocm__answer correction-qrocm__answer--paragraph {{field.inputClass}}"
+                  rows="5"
+                  value="{{field.answer}}"
+                  id="{{field.label}}"
+                  disabled>
+        </textarea>
+      {{else if (eq challenge.format 'phrase')}}
+        <input value="{{field.answer}}"
+               class="correction-qrocm__answer correction-qrocm__answer--sentence {{field.inputClass}}"
+               id="{{field.label}}"
+               disabled>
+      {{else}}
+        <div class="correction-qrocm__answer-wrapper">
+          <input value="{{field.answer}}"
+                 size="{{get-qroc-input-size challenge.format}}"
+                 class="correction-qrocm__answer correction-qrocm__answer--input {{field.inputClass}}"
+                 id="{{field.label}}"
+                 disabled>
+        </div>
+      {{/if}}
     {{/each}}
     {{#unless answerIsCorrect}}
       <div class="correction-qrocm__solution">

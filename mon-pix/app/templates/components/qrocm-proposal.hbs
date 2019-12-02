@@ -1,17 +1,41 @@
 {{#each _blocks as |block|}}
 
   {{#if block.text}}
-    <span id="qrocm_input">{{block.text}}</span>
+    <label for="{{block.text}}">{{block.text}}</label>
   {{/if}}
 
   {{#if block.input}}
-    <input class="challenge-response__proposal-input"
-           type="text"
-           for="qrocm_input"
-           name={{block.input}}
-           placeholder={{block.placeholder}}
-           autocomplete="off"
-           value={{property-of answersValue block.input}}>
+    {{#if (eq format 'paragraphe')}}
+      <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
+                rows="5"
+                for="qrocm_input"
+                name={{block.input}}
+                placeholder={{block.placeholder}}
+                autocomplete="off"
+                id="{{block.text}}"
+                value={{property-of answersValue block.input}}>
+      </textarea>
+    {{else if (eq format 'phrase')}}
+      <input class="challenge-response__proposal challenge-response__proposal--sentence"
+             type="text"
+             for="qrocm_input"
+             name={{block.input}}
+             placeholder={{block.placeholder}}
+             autocomplete="off"
+             id="{{block.text}}"
+             value={{property-of answersValue block.input}}>
+    {{else}}
+      <input class="challenge-response__proposal"
+             size="{{get-qroc-input-size format}}"
+             type="text"
+             for="qrocm_input"
+             name={{block.input}}
+             placeholder={{block.placeholder}}
+             autocomplete="off"
+             id="{{block.text}}"
+             value={{property-of answersValue block.input}}>
+    {{/if}}
+
   {{/if}}
 
   {{#if block.breakline}}

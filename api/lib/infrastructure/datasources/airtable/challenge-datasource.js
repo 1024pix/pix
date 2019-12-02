@@ -24,6 +24,7 @@ const usedFields = [
   'Embed title',
   'Embed height',
   'Texte alternatif illustration',
+  'Format',
 ];
 
 const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
@@ -71,6 +72,7 @@ function fromAirTableObject(airtableEpreuveObject) {
     attachments,
     competenceId,
     illustrationAlt: airtableEpreuveObject.get('Texte alternatif illustration'),
+    format: airtableEpreuveObject.get('Format') || 'mots',
   };
 }
 

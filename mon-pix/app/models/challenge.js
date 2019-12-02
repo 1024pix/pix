@@ -15,6 +15,7 @@ export default Model.extend({
   embedTitle: attr('string'),
   embedHeight: attr('string'),
   illustrationAlt: attr('string', { defaultValue: 'Illustration de l\'épreuve' }),
+  format: attr('string'),
 
   attachments: attr('array'),
   answer: belongsTo('answer'),

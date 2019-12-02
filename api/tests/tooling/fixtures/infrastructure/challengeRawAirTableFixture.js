@@ -123,6 +123,7 @@ module.exports = function challengeRawAirTableFixture({ id, fields } = { id: 're
       'Compétences (via tube)': [
         'recsvLz0W2ShyfD63',
       ],
+      'Format': 'petit',
     }, fields),
     'createdTime': '2016-08-24T11:59:02.000Z',
   });
