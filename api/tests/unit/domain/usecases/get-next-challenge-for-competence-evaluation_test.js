@@ -8,7 +8,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
   describe('#getNextChallengeForCompetenceEvaluation', () => {
 
     let userId, assessmentId, competenceId,
-      assessment, answers, challenges, targetSkills,
+      assessment, lastAnswer, challenges, targetSkills,
       answerRepository, challengeRepository, skillRepository,
       knowledgeElementRepository,
       recentKnowledgeElements, expectedNextChallenge, actualComputedChallenge;
@@ -19,12 +19,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       competenceId = 'dummyCompetenceId';
       assessmentId = 'dummyAssessmentId';
 
-      answers = [];
       assessment = { id: assessmentId, userId, competenceId };
       challenges = [];
       targetSkills = [];
+      lastAnswer = null;
 
-      answerRepository = { findByAssessment: sinon.stub().resolves(answers) };
+      answerRepository = { findLastByAssessment: sinon.stub().resolves(lastAnswer) };
       challengeRepository = { findByCompetenceId: sinon.stub().resolves(challenges) };
       skillRepository = { findByCompetenceId: sinon.stub().resolves(targetSkills) };
 
@@ -67,7 +67,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
         });
       });
       it('should have fetched the answers', () => {
-        expect(answerRepository.findByAssessment).to.have.been.calledWithExactly(assessmentId);
+        expect(answerRepository.findLastByAssessment).to.have.been.calledWithExactly(assessmentId);
       });
 
       it('should have fetched the most recent knowledge elements', () => {
@@ -80,7 +80,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
 
       it('should have fetched the next challenge with only most recent knowledge elements', () => {
         expect(smartRandom.getNextChallenge).to.have.been.calledWithExactly({
-          answers, challenges, targetSkills, knowledgeElements: recentKnowledgeElements
+          lastAnswer, challenges, targetSkills, knowledgeElements: recentKnowledgeElements
         });
       });
 

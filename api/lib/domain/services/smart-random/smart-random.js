@@ -1,37 +1,36 @@
 const Course = require('../../models/Course');
 const catAlgorithm = require('./cat-algorithm');
-const { getFilteredChallengesForAnyChallenge, getFilteredChallengesForFirstChallenge } = require('./challenges-filter');
+const { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } = require('./skills-filter');
 const _ = require('lodash');
 
 const UNEXISTING_ITEM = null;
 
 module.exports = { getNextChallenge };
 
-function getNextChallenge({ knowledgeElements, challenges, targetSkills, answers } = {}) {
+function getNextChallenge({ knowledgeElements, challenges, targetSkills, lastAnswer } = {}) {
 
-  const lastChallenge = _findLastChallengeIfAny(answers, challenges);
-  const isUserStartingTheTest = !lastChallenge;
+  const isUserStartingTheTest = !lastAnswer;
+  const isLastChallengeTimed = _wasLastChallengeTimed(lastAnswer);
   const courseTubes = _findCourseTubes(targetSkills, challenges);
   const knowledgeElementsOfTargetSkills = knowledgeElements.filter((ke) => {
     return targetSkills.find((skill) => skill.id === ke.skillId);
   });
+  const filteredChallenges = _removeUnpublishedChallenges(challenges);
+  targetSkills = _getSkillsWithAddedInformations({ targetSkills, filteredChallenges });
 
   // First challenge has specific rules
-  const nextChallenge = isUserStartingTheTest
-    ? _findFirstChallenge({ challenges, knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes })
-    : _findAnyChallenge({ challenges, knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes, lastChallenge });
+  const { nextChallenge, levelEstimated } = isUserStartingTheTest
+    ? _findFirstChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes })
+    : _findAnyChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes, isLastChallengeTimed });
 
   // Test is considered finished when no challenges are returned but we don't expose this detail
   return nextChallenge
-    ? { hasAssessmentEnded: false, nextChallenge }
-    : { hasAssessmentEnded: true, nextChallenge: null };
+    ? { hasAssessmentEnded: false, nextChallenge, levelEstimated }
+    : { hasAssessmentEnded: true, nextChallenge: null, levelEstimated };
 }
 
-function _findLastChallengeIfAny(answers, challenges) {
-  const lastAnswer = _.last(answers);
-  if (lastAnswer) {
-    return challenges.find((challenge) => challenge.id === lastAnswer.challengeId) || UNEXISTING_ITEM;
-  }
+function _wasLastChallengeTimed(lastAnswer) {
+  return (_.get(lastAnswer,'timeout') === null) ? false : true;
 }
 
 function _findCourseTubes(skills, challenges) {
@@ -50,24 +49,41 @@ function _filterSkillsByChallenges(skills, challenges) {
   return skillsWithChallenges;
 }
 
-function _findAnyChallenge({ challenges, knowledgeElements, targetSkills, courseTubes, lastChallenge }) {
+function _findAnyChallenge({ knowledgeElements, targetSkills, courseTubes, isLastChallengeTimed }) {
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
-  const availableChallenges = getFilteredChallengesForAnyChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills });
-  const maxRewardingChallenges = catAlgorithm.findMaxRewardingChallenges({ availableChallenges, predictedLevel, courseTubes, knowledgeElements });
-  return _pickRandomChallenge(maxRewardingChallenges);
+  const availableSkills = getFilteredSkillsForNextChallenge({ knowledgeElements, courseTubes, predictedLevel, isLastChallengeTimed, targetSkills });
+  const maxRewardingSkills = catAlgorithm.findMaxRewardingSkills({ availableSkills, predictedLevel, courseTubes, knowledgeElements });
+  return { nextChallenge: _pickRandomChallenge(maxRewardingSkills), levelEstimated: predictedLevel };
 }
 
-function _findFirstChallenge({ challenges, knowledgeElements, targetSkills, courseTubes }) {
-  const filteredChallengesForFirstChallenge = getFilteredChallengesForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills });
-  return _pickRandomChallenge(filteredChallengesForFirstChallenge);
+function _findFirstChallenge({ knowledgeElements, targetSkills, courseTubes }) {
+  const filteredSkillsForFirstChallenge = getFilteredSkillsForFirstChallenge({ knowledgeElements, courseTubes, targetSkills });
+  return { nextChallenge: _pickRandomChallenge(filteredSkillsForFirstChallenge), levelEstimated: 2 };
 }
 
-function _pickRandomChallenge(challenges) {
-  const challengesGroupBySkills = _.groupBy(challenges, _firstSkillTestedByChallenge);
-  const challengesForChosenSkill = _.sample(challengesGroupBySkills);
-  return _.sample(challengesForChosenSkill);
+function _pickRandomChallenge(skills) {
+  if (_.isEmpty(skills)) { return UNEXISTING_ITEM; }
+  const chosenSkill = _.sample(skills);
+  return _.sample(chosenSkill.challenges);
 }
 
-function _firstSkillTestedByChallenge(challenge) {
-  return challenge.skills[0].id;
+function _getSkillsWithAddedInformations({ targetSkills, filteredChallenges }) {
+  const skillsWithInformation =  _.map(targetSkills, (skill) => {
+    const challenges = _.filter(filteredChallenges, (challenge) => challenge.hasSkill(skill));
+    const [ firstChallenge ] = challenges;
+    if (!firstChallenge) {
+      return null;
+    }
+    const skillCopy = Object.create(skill);
+    return Object.assign(skillCopy, {
+      challenges,
+      linkedSkills: _.reject(firstChallenge.skills, { id: skill.id }),
+      timed: firstChallenge.isTimed(),
+    });
+  });
+  return _.compact(skillsWithInformation);
+}
+
+function _removeUnpublishedChallenges(challenges) {
+  return _.filter(challenges, (challenge) => challenge.isPublished());
 }
