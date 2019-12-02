@@ -15,12 +15,23 @@
       </div>
       <div class="campaign-landing-page__start__text">
         <p class="campaign-landing-page__start__text__title">Commencez votre parcours</p>
-        <p class="campaign-landing-page__start__text__announcement">Démarrez votre parcours d'évaluation
-          personnalisé.<br>
-          Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.</p>
-        <button class="campaign-landing-page__start-button button button--big"
-          {{action "startCampaignParticipation" model}}> Je commence
-        </button>
+        <p class="campaign-landing-page__start__text__announcement">
+          Démarrez votre parcours d'évaluation personnalisé.<br>
+          Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.
+        </p>
+
+        <form {{action "startCampaignParticipation" on="submit"}}>
+          {{#if isLoading}}
+              <button type="button" disabled class="campaign-landing-page__start-button button button--big">
+                <span class="loader-in-button ">&nbsp;</span>
+              </button>
+          {{else}}
+            <button type="submit" class="campaign-landing-page__start-button button button--big">
+              Je commence
+            </button>
+          {{/if}}
+        </form>
+
         <p class="campaign-landing-page__start__text__legal">
           Les informations relatives à votre avancée seront transmises à l'organisateur du parcours pour lui permettre
           de
