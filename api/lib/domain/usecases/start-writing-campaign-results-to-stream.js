@@ -89,18 +89,9 @@ function _addCellByHeadersTitleForText(title, data, line, headers) {
   return line;
 }
 
-function _totalValidatedSkills(knowledgeElements) {
-  const sumValidatedSkills = _.reduce(knowledgeElements, function(validatedSkill, knowledgeElement) {
-    if (knowledgeElement.isValidated) {
-      return validatedSkill + 1;
-    }
-    return validatedSkill;
-  }, 0);
-  return sumValidatedSkills;
-}
-
 function _percentageSkillsValidated(knowledgeElements, targetProfile) {
-  return _.round(_totalValidatedSkills(knowledgeElements) / targetProfile.skills.length, 2);
+  const totalValidatedSkills = _.sumBy(knowledgeElements, 'isValidated');
+  return _.round(totalValidatedSkills / targetProfile.skills.length, 2);
 }
 
 function _stateOfSkill(skillId, knowledgeElements) {
