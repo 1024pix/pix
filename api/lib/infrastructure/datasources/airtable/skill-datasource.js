@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const airtable = require('../../airtable');
 const datasource = require('./datasource');
 
 const tableName = 'Acquis';
@@ -40,11 +39,6 @@ module.exports = datasource.extend({
 
   airtableFilter(rawSkill) {
     return _.includes(rawSkill.fields['Status'], ACTIVATED_STATUS);
-  },
-
-  get(id) {
-    return airtable.getRecord(tableName, id)
-      .then(fromAirTableObject);
   },
 
   findByRecordIds(skillRecordIds) {
