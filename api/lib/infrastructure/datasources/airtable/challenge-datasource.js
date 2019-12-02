@@ -5,6 +5,8 @@ const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
 
 module.exports = datasource.extend({
 
+  modelName: 'Challenge',
+
   tableName: 'Epreuves',
 
   usedFields: [

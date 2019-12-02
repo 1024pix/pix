@@ -5,6 +5,8 @@ const ACTIVATED_STATUS = 'actif';
 
 module.exports = datasource.extend({
 
+  modelName: 'Skill',
+
   tableName: 'Acquis',
 
   usedFields: [
@@ -19,6 +21,12 @@ module.exports = datasource.extend({
   ],
 
   fromAirTableObject(airtableRecord) {
+
+    let competenceId;
+    if (airtableRecord.get('Compétence (via Tube)')) {
+      competenceId = airtableRecord.get('Compétence (via Tube)')[0];
+    }
+
     return {
       id: airtableRecord.getId(),
       name: airtableRecord.get('Nom'),
@@ -27,7 +35,7 @@ module.exports = datasource.extend({
       tutorialIds: airtableRecord.get('Comprendre') || [],
       learningMoreTutorialIds: airtableRecord.get('En savoir plus') || [],
       pixValue: airtableRecord.get('PixValue'),
-      competenceId: airtableRecord.get('Compétence (via Tube)')[0],
+      competenceId,
       status: airtableRecord.get('Status'),
     };
   },
