@@ -13,15 +13,15 @@ module.exports = datasource.extend({
     'Acquis (via Tubes)'
   ],
 
-  fromAirTableObject(rawAirtableCompetence) {
+  fromAirTableObject(airtableRecord) {
     return {
-      id: rawAirtableCompetence.getId(),
-      name: rawAirtableCompetence.get('Titre'),
-      index: rawAirtableCompetence.get('Sous-domaine'),
-      description: rawAirtableCompetence.get('Description'),
-      areaId: rawAirtableCompetence.get('Domaine') ? rawAirtableCompetence.get('Domaine')[0] : '',
-      courseId: rawAirtableCompetence.get('Tests') ? rawAirtableCompetence.get('Tests')[0] : '',
-      skillIds: rawAirtableCompetence.get('Acquis (via Tubes)') || [],
+      id: airtableRecord.getId(),
+      name: airtableRecord.get('Titre'),
+      index: airtableRecord.get('Sous-domaine'),
+      description: airtableRecord.get('Description'),
+      areaId: airtableRecord.get('Domaine') ? airtableRecord.get('Domaine')[0] : '',
+      courseId: airtableRecord.get('Tests') ? airtableRecord.get('Tests')[0] : '',
+      skillIds: airtableRecord.get('Acquis (via Tubes)') || [],
     };
   },
 

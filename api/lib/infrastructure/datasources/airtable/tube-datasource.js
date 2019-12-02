@@ -24,8 +24,9 @@ module.exports = datasource.extend({
     };
   },
 
-  findByNames(tubeNames) {
-    return this.list({ filter: (rawTube) => _.includes(tubeNames, rawTube.fields['Nom']) });
+  async findByNames(tubeNames) {
+    const tubes = await this.list();
+    return tubes.filter((tubeData) => _.includes(tubeNames, tubeData.name));
   },
 
 });

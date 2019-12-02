@@ -26,12 +26,16 @@ module.exports = datasource.extend({
       adaptive: airtableRecord.get('Adaptatif ?'),
       competences: airtableRecord.get('Competence'),
       challenges: airtableRecord.get('Épreuves'),
+      status: airtableRecord.get('Statut'),
       imageUrl,
     };
   },
 
-  getAdaptiveCourses() {
-    return this.list({ filter: (rawCourse) => rawCourse.get('Adaptatif ?') && rawCourse.get('Statut') === 'Publié' });
+  async findAdaptiveCourses() {
+    const courses = await this.list();
+    return courses.filter((courseData) =>
+      courseData.adaptive &&
+      courseData.status === 'Publié');
   },
 
 });

@@ -195,8 +195,8 @@ describe('Unit | Repository | challenge-repository', () => {
       });
       skills = [skillWeb1, skillURL2, skillURL3];
       sinon.stub(skillDatasource, 'get');
-      sinon.stub(skillDatasource, 'list');
-      skillDatasource.list.resolves(skills);
+      sinon.stub(skillDatasource, 'findActiveSkills');
+      skillDatasource.findActiveSkills.resolves(skills);
     });
 
     describe('#list', () => {

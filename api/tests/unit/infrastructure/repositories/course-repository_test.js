@@ -44,7 +44,7 @@ describe('Unit | Repository | course-repository', function() {
   describe('#getAdaptiveCourses', () => {
 
     beforeEach(() => {
-      sinon.stub(courseDatasource, 'getAdaptiveCourses')
+      sinon.stub(courseDatasource, 'findAdaptiveCourses')
         .resolves([{
           id: 'recTestAdaptative',
           name: 'adaptive-course-name',

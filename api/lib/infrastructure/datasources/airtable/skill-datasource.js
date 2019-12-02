@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const datasource = require('./datasource');
 
-const ACTIVATED_STATUS = ['actif'];
+const ACTIVATED_STATUS = 'actif';
 
 module.exports = datasource.extend({
 
@@ -18,29 +18,38 @@ module.exports = datasource.extend({
     'Status',
   ],
 
-  fromAirTableObject(airtableSkillObject) {
+  fromAirTableObject(airtableRecord) {
     return {
-      id: airtableSkillObject.getId(),
-      name: airtableSkillObject.get('Nom'),
-      hint: airtableSkillObject.get('Indice'),
-      hintStatus: airtableSkillObject.get('Statut de l\'indice') || 'no status',
-      tutorialIds: airtableSkillObject.get('Comprendre') || [],
-      learningMoreTutorialIds: airtableSkillObject.get('En savoir plus') || [],
-      pixValue: airtableSkillObject.get('PixValue'),
-      competenceId: airtableSkillObject.get('Compétence (via Tube)')[0],
+      id: airtableRecord.getId(),
+      name: airtableRecord.get('Nom'),
+      hint: airtableRecord.get('Indice'),
+      hintStatus: airtableRecord.get('Statut de l\'indice') || 'no status',
+      tutorialIds: airtableRecord.get('Comprendre') || [],
+      learningMoreTutorialIds: airtableRecord.get('En savoir plus') || [],
+      pixValue: airtableRecord.get('PixValue'),
+      competenceId: airtableRecord.get('Compétence (via Tube)')[0],
+      status: airtableRecord.get('Status'),
     };
   },
 
-  airtableFilter(rawSkill) {
-    return _.includes(rawSkill.fields['Status'], ACTIVATED_STATUS);
+  async findActiveSkills() {
+    const skills = await this.list();
+    return skills.filter((skillData) =>
+      _.includes(skillData.status, ACTIVATED_STATUS));
   },
 
-  findByRecordIds(skillRecordIds) {
-    return this.list({ filter: (rawSkill) => _.includes(skillRecordIds, rawSkill.id) });
+  async findByRecordIds(skillRecordIds) {
+    const skills = await this.list();
+    return skills.filter((skillData) =>
+      _.includes(skillData.status, ACTIVATED_STATUS) &&
+      _.includes(skillRecordIds, skillData.id));
   },
 
-  findByCompetenceId(competenceId) {
-    return this.list({ filter: (rawSkill) => _.includes(rawSkill.fields['Compétence (via Tube)'], competenceId) });
+  async findByCompetenceId(competenceId) {
+    const skills = await this.list();
+    return skills.filter((skillData) =>
+      _.includes(skillData.status, ACTIVATED_STATUS) &&
+      _.includes(skillData.competenceId, competenceId));
   },
 
 });
