@@ -1,7 +1,5 @@
 const _ = require('lodash');
-const airtable = require('../../airtable');
 const datasource = require('./datasource');
-const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
 const tableName = 'Tubes';
 
@@ -36,14 +34,4 @@ module.exports = datasource.extend({
     return this.list({ filter: (rawTube) => _.includes(tubeNames, rawTube.fields['Nom']) });
   },
 
-  get(id) {
-    return airtable.getRecord(tableName, id)
-      .then(fromAirTableObject)
-      .catch((err) => {
-        if (err.error === 'NOT_FOUND') {
-          throw new AirtableResourceNotFound();
-        }
-        throw err;
-      });
-  },
 });

@@ -26,7 +26,8 @@ describe('Unit | Infrastructure | Datasource | Airtable | AreaDatasource', () =>
       sinon.stub(airtable, 'findRecords').resolves([areaRawAirTableFixture()]);
 
       // when
-      const promise = areaDatasource.list();
+      const unboundMethod = areaDatasource.list;
+      const promise = unboundMethod();
 
       // then
       return promise.then((areas) => {

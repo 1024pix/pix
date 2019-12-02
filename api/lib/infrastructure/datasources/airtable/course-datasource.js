@@ -1,4 +1,3 @@
-const airtable = require('../../airtable');
 const datasource = require('./datasource');
 
 const tableName = 'Tests';
@@ -41,8 +40,4 @@ module.exports = datasource.extend({
     return this.list({ filter: (rawCourse) => rawCourse.get('Adaptatif ?') && rawCourse.get('Statut') === 'Publié' });
   },
 
-  get(id) {
-    return airtable.getRecord(tableName, id)
-      .then(fromAirTableObject);
-  }
 });
