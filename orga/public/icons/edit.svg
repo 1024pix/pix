@@ -1,17 +1,13 @@
-<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <defs>
-        <path d="M6,20.2525 L6,24.0025 L9.75,24.0025 L20.81,12.9425 L17.06,9.1925 L6,20.2525 L6,20.2525 Z M23.71,10.0425 C24.1,9.6525 24.1,9.0225 23.71,8.6325 L21.37,6.2925 C20.98,5.9025 20.35,5.9025 19.96,6.2925 L18.13,8.1225 L21.88,11.8725 L23.71,10.0425 L23.71,10.0425 Z" id="path-1"></path>
-    </defs>
-    <g id="CAMPAGNES" stroke="none" stroke-width="1">
-        <g id="campagne--home">
-            <g id="3.-Icons/ic_create">
-                <mask id="mask-2" fill="white">
-                    <use xlink:href="#path-1"></use>
-                </mask>
-                <g id="5.-Colors/111" mask="url(#mask-2)" fill="#3D68FF">
-                    <g id="Gray-70">
-                        <rect x="0" y="0" width="26" height="26"></rect>
-                    </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="20px" viewBox="0 0 21 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 60.1 (101010) - https://sketch.com -->
+    <title>6B9947BD-D1B8-4A9F-A83B-DCAF75B03620@1.00x</title>
+    <desc>Created with sketchtool.</desc>
+    <g id="Équipe" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="equipe--liste-copy-8" transform="translate(-1190.000000, -539.000000)" fill="#92929E" stroke="#979797" stroke-width="0.5">
+            <g id="Group-Copy-2" transform="translate(1188.500000, 537.000000)">
+                <g id="Component/icon/ic_edition">
+                    <path d="M14.6076188,3.59035563 C16.205025,1.99293563 18.794975,1.99293563 20.3923812,3.59035563 C21.9897875,5.18777563 21.9897875,7.77771188 20.3923812,9.37515938 L9.5347625,20.2327094 L20.9375,20.2327094 C21.3172063,20.2327094 21.625,20.5405719 21.625,20.9202094 C21.625,21.2999156 21.3172063,21.6077094 20.9375,21.6077094 L3.0625,21.6077094 C2.6828075,21.6077094 2.375,21.2999156 2.375,20.9202094 L2.375,16.1077094 C2.375,15.9253844 2.447435,15.7505531 2.57636187,15.6215781 L14.6076188,3.59035563 Z M7.59022375,20.2327094 L16.8714875,10.9514594 L13.03125,7.11126312 L3.75,16.3925406 L3.75,20.2327094 L7.59022375,20.2327094 Z M14.0035125,6.13899375 L17.84375,9.97919688 L19.4201187,8.40282813 C20.4805875,7.3424075 20.4805875,5.62308 19.4201187,4.56263188 C18.35965,3.50217688 16.64035,3.50217688 15.5798812,4.562625 L14.0035125,6.13899375 Z" id="Shape"></path>
                 </g>
             </g>
         </g>

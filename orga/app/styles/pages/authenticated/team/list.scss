@@ -8,6 +8,24 @@
     display: flex;
     margin: 1em;
   }
+
+  &__cancel-update-role {
+    margin-left: 12px;
+    font-size: 1.6rem;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    padding-left: 14px;
+    padding-right: 14px;
+    }
+
+  &__edit-role {
+      padding-right: 25px;
+  }
+}
+
+.ember-power-select-trigger {
+  width: 150px;
+  line-height: 3;
 }
 
 .list-team-page-header {
@@ -20,4 +38,22 @@
 
 .list-team-page-invitations {
   margin-bottom: 35px;
+}
+
+.zone-edit-role {
+    box-sizing: border-box;
+    display: flex;
+    height: inherit;
+    justify-content: flex-end;
+    padding-right: 25px;
+}
+
+.zone-save-cancel-role {
+  box-sizing: border-box;
+  padding-right: 25px;
+  display: flex;
+  height: inherit;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
 }
