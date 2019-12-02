@@ -9,6 +9,7 @@ export default Component.extend({
   proposals: null,
   answersValue: null,
   answerChanged: null, // action
+  format: null,
 
   _blocks: computed('proposals', function() {
     return proposalsAsBlocks(this.proposals);

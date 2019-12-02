@@ -8,7 +8,7 @@ const ChallengeItemQroc = ChallengeItemGeneric.extend({
 
   // FIXME refactor that
   _getAnswerValue() {
-    return this.$('input[data-uid="qroc-proposal-uid"]').val();
+    return (this.$('[data-uid="qroc-proposal-uid"]')).val();
   },
 
   _getErrorMessage() {

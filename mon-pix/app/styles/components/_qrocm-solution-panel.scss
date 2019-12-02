@@ -1,6 +1,5 @@
 .correction-qrocm {
   &__text {
-    display: inline-block;
     font-family: $font-lato;
     font-size: 1.6rem;
     line-height: 2.8rem;
@@ -8,22 +7,34 @@
   }
 
   &__answer {
-    &-solution {
+    line-height: 26px;
+    border-radius: 3px;
+    background-color: $white;
+    box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+    border: solid 1px $alto-grey;
+    padding: 0 10px;
+
+    &-wrapper {
       display: inline-block;
       vertical-align: top;
     }
 
-    &-input {
-      width: 160px;
+    &--paragraph {
+      display: block;
+      width: 100%;
+    }
+
+    &--sentence {
+      display: block;
+      width: 100%;
+    }
+
+    &--input {
+      display: inline-block;
       height: 26px;
-      line-height: 26px;
-      border-radius: 3px;
-      background-color: $white;
-      box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
-      border: solid 1px $alto-grey;
-      padding: 0 10px;
     }
   }
+
 
   &__solution {
     display: flex;

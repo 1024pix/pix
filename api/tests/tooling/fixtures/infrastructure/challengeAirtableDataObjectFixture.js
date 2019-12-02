@@ -22,6 +22,7 @@ module.exports = function ChallengeAirtableDataObjectFixture({
   embedUrl = 'https://github.io/page/epreuve.html',
   embedTitle = 'Epreuve de selection de dossier',
   embedHeight = 500,
+  format = 'petit',
 } = {}) {
   return {
     id,
@@ -44,5 +45,6 @@ module.exports = function ChallengeAirtableDataObjectFixture({
     embedUrl,
     embedTitle,
     embedHeight,
+    format,
   };
 };
