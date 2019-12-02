@@ -1,7 +1,12 @@
 @charset "utf-8";
 
+// Voir la documentation pour surcharger le css https://ember-power-select.com/docs/styles
+$ember-power-select-border-color: #666666;
+$ember-power-select-border-radius: 4px;
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
+@import "ember-power-select";
+@import 'ember-power-select/themes/bootstrap';
 @import "globals/breakpoints";
 @import "globals/colors";
 @import "globals/fonts";
