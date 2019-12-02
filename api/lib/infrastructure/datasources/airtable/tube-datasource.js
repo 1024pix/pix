@@ -3,6 +3,8 @@ const datasource = require('./datasource');
 
 module.exports = datasource.extend({
 
+  modelName: 'Tube',
+
   tableName: 'Tubes',
 
   usedFields: [
