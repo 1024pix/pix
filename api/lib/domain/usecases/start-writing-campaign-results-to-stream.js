@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const moment = require('moment');
 const bluebird = require('bluebird');
+const csvService = require('../services/csv-service');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
 
@@ -80,12 +81,12 @@ function _getSkillHeaders(skillName) {
 }
 
 function _addCellByHeadersTitleForNumber(title, data, line, headers) {
-  line[headers.indexOf(title)] = data.toString().replace('.', ',');
+  line[headers.indexOf(title)] = csvService.toCsvNumber(data);
   return line;
 }
 
 function _addCellByHeadersTitleForText(title, data, line, headers) {
-  line[headers.indexOf(title)] = `"${data.toString().replace(/"/g, '""')}"`;
+  line[headers.indexOf(title)] = csvService.toCsvText(data);
   return line;
 }
 
