@@ -19,40 +19,64 @@ function _cleanText(text) {
   return `"${text.replace(/"/g, '""')}"`;
 }
 
-function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
-  const headers = [];
-  headers.push('"Nom de l\'organisation"');
-  headers.push('"ID Campagne"');
-  headers.push('"Nom de la campagne"');
-  headers.push('"Nom du Profil Cible"');
-  headers.push('"Nom du Participant"');
-  headers.push('"Prénom du Participant"');
-  if (idPixLabel) {
-    headers.push(_cleanText(idPixLabel));
-  }
-  headers.push('"% de progression"');
-  headers.push('"Date de début"');
-  headers.push('"Partage (O/N)"');
-  headers.push('"Date du partage"');
-  headers.push('"% maitrise de l\'ensemble des acquis du profil"');
+function createCsvHeader(skillNames, competences, areas, idPixLabel) {
+  return _.concat(
+    _getBaseHeaders(idPixLabel),
+    _getCompetencesHeaders(competences),
+    _getAreasHeaders(areas),
+    _getSkillsHeaders(skillNames),
+  );
+}
 
-  competences.forEach((competence) => {
-    headers.push(`"% de maitrise des acquis de la compétence ${competence.name}"`);
-    headers.push(`"Nombre d'acquis du profil cible dans la compétence ${competence.name}"`);
-    headers.push(`"Acquis maitrisés dans la compétence ${competence.name}"`);
-  });
+function _getBaseHeaders(idPixLabel) {
+  return [
+    '"Nom de l\'organisation"',
+    '"ID Campagne"',
+    '"Nom de la campagne"',
+    '"Nom du Profil Cible"',
+    '"Nom du Participant"',
+    '"Prénom du Participant"',
+    idPixLabel ? _cleanText(idPixLabel) : null,
+    '"% de progression"',
+    '"Date de début"',
+    '"Partage (O/N)"',
+    '"Date du partage"',
+    '"% maitrise de l\'ensemble des acquis du profil"',
+  ].filter(Boolean);
+}
 
-  areas.forEach((area) => {
-    headers.push(`"% de maitrise des acquis du domaine ${area.title}"`);
-    headers.push(`"Nombre d'acquis du profil cible du domaine ${area.title}"`);
-    headers.push(`"Acquis maitrisés du domaine ${area.title}"`);
-  });
+function _getCompetencesHeaders(competences) {
+  return _.flatMap(competences, _getCompetenceHeaders);
+}
 
-  skillNames.forEach((skillName) => {
-    headers.push(`"${skillName}"`);
-  });
+function _getCompetenceHeaders(competence) {
+  return [
+    `"% de maitrise des acquis de la compétence ${competence.name}"`,
+    `"Nombre d'acquis du profil cible dans la compétence ${competence.name}"`,
+    `"Acquis maitrisés dans la compétence ${competence.name}"`,
+  ];
+}
 
-  return headers;
+function _getAreasHeaders(areas) {
+  return _.flatMap(areas, _getAreaHeaders);
+}
+
+function _getAreaHeaders(area) {
+  return [
+    `"% de maitrise des acquis du domaine ${area.title}"`,
+    `"Nombre d'acquis du profil cible du domaine ${area.title}"`,
+    `"Acquis maitrisés du domaine ${area.title}"`,
+  ];
+}
+
+function _getSkillsHeaders(skillNames) {
+  return _.flatMap(skillNames, _getSkillHeaders);
+}
+
+function _getSkillHeaders(skillName) {
+  return [
+    `"${skillName}"`,
+  ];
 }
 
 function _addCellByHeadersTitleForNumber(title, data, line, headers) {
@@ -296,7 +320,7 @@ module.exports = async function startWritingCampaignResultsToStream(
   const listArea = _.uniqBy(listCompetences.map((competence) => competence.area), 'code');
 
   //Create HEADER of CSV
-  const headersAsArray = _createHeaderOfCSV(listSkillsName, listCompetences, listArea, campaign.idPixLabel);
+  const headersAsArray = createCsvHeader(listSkillsName, listCompetences, listArea, campaign.idPixLabel);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
