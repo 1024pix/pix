@@ -52,30 +52,62 @@ describe('Acceptance | Controller | Student-user-associations', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return an 404 NotFoundError error if we don’t find a student to associate', async () => {
-      // given
-      const options = {
-        method: 'POST',
-        url: '/api/student-user-associations',
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        payload: {
-          data: {
-            attributes: {
-              'campaign-code': campaign.code,
-              'first-name': 'wrong firstName',
-              'last-name': 'wrong lastName',
-              'birthdate': '1990-03-01'
+    context('when no student found to associate because birthdate does not match', () => {
+
+      it('should return an 404 NotFoundError error', async () => {
+        // given
+        const options = {
+          method: 'POST',
+          url: '/api/student-user-associations',
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              attributes: {
+                'campaign-code': campaign.code,
+                'first-name': student.firstName,
+                'last-name': student.lastName,
+                'birthdate': '1990-03-01'
+              }
             }
           }
-        }
-      };
+        };
 
-      // when
-      const response = await server.inject(options);
+        // when
+        const response = await server.inject(options);
 
-      // then
-      expect(response.statusCode).to.equal(404);
-      expect(response.result.errors[0].detail).to.equal('There were not exactly one student match for this user and organization');
+        // then
+        expect(response.statusCode).to.equal(404);
+        expect(response.result.errors[0].detail).to.equal('There were no students matching');
+      });
+    });
+
+    context('when no student found to associate because names does not match', () => {
+
+      it('should return an 404 NotFoundError error', async () => {
+        // given
+        const options = {
+          method: 'POST',
+          url: '/api/student-user-associations',
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              attributes: {
+                'campaign-code': campaign.code,
+                'first-name': 'wrong firstName',
+                'last-name': 'wrong lastName',
+                'birthdate': student.birthdate
+              }
+            }
+          }
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+        expect(response.result.errors[0].detail).to.equal('There were not exactly one student match for this user and organization');
+      });
     });
 
     context('when user is not authenticated', () => {
