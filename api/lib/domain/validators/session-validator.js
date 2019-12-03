@@ -3,36 +3,50 @@ const { EntityValidationError } = require('../errors');
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
-const sessionValidationJoiSchema = Joi.object().keys({
+const sessionValidationJoiSchema = Joi.object({
 
-  address: Joi.string().required().error(() => {
-    return { message: 'Veuillez donner un nom de site.' };
-  }),
+  address: Joi.string()
+    .required()
+    .messages({
+      'string.empty': 'Veuillez donner un nom de site.',
+    }),
 
-  room: Joi.string().required().error(() => {
-    return { message: 'Veuillez donner un nom de salle.' };
-  }),
+  room: Joi.string()
+    .required()
+    .messages({
+      'string.empty': 'Veuillez donner un nom de salle.',
+    }),
 
-  date: Joi.string().isoDate().required().error(() => {
-    return { message: 'Veuillez indiquer une date de début.' };
-  }),
+  date: Joi.string()
+    .isoDate()
+    .required()
+    .messages({
+      'string.empty': 'Veuillez indiquer une date de début.',
+    }),
 
-  time: Joi.string().regex(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/).required().error(() => {
-    return { message: 'Veuillez indiquer une heure de début.' };
-  }),
+  time: Joi.string()
+    .pattern(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
+    .required()
+    .messages({
+      'string.empty': 'Veuillez indiquer une heure de début.',
+      'string.pattern.base': 'Veuillez indiquer une heure de début.',
+    }),
 
-  examiner: Joi.string().required().error(() => {
-    return { message: 'Veuillez indiquer un(e) surveillant(e).' };
-  }),
+  examiner: Joi.string()
+    .required()
+    .messages({
+      'string.empty': 'Veuillez indiquer un(e) surveillant(e).',
+    }),
+
 });
 
 module.exports = {
 
   validate(session) {
-    const joiValidationResults = Joi.validate(session, sessionValidationJoiSchema, validationConfiguration);
 
-    if (joiValidationResults.error !== null) {
-      throw EntityValidationError.fromJoiErrors(joiValidationResults.error.details);
+    const { error } = sessionValidationJoiSchema.validate(session, validationConfiguration);
+    if (error) {
+      return Promise.reject(EntityValidationError.fromJoiErrors(error.details));
     }
   }
 };

@@ -1,5 +1,4 @@
 const { expect, domainBuilder } = require('../../../test-helper');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
 const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
 
 const MISSING_VALUE = '';
@@ -53,7 +52,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
       context('on name attribute', () => {
 
-        it('should reject with error when name is missing', () => {
+        it('should reject with error when name is missing', async () => {
           // given
           const expectedError = {
             attribute: 'name',
@@ -61,19 +60,21 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
           };
           campaign.name = MISSING_VALUE;
 
-          // when
-          const promise = campaignValidator.validate(campaign);
+          try {
+            // when
+            await campaignValidator.validate(campaign);
 
-          // then
-          return expect(promise).to.be.rejectedWith(EntityValidationError)
-            .then((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
+          } catch (entityValidationErrors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          }
         });
 
       });
 
       context('on creatorId attribute', () => {
 
-        it('should reject with error when creatorId is missing', () => {
+        it('should reject with error when creatorId is missing', async () => {
           // given
           const expectedError = {
             attribute: 'creatorId',
@@ -81,19 +82,21 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
           };
           campaign.creatorId = MISSING_VALUE;
 
-          // when
-          const promise = campaignValidator.validate(campaign);
+          try {
+            // when
+            await campaignValidator.validate(campaign);
 
-          // then
-          return expect(promise).to.be.rejectedWith(EntityValidationError)
-            .then((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
+          } catch (entityValidationErrors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          }
         });
 
       });
 
       context('on organizationId attribute', () => {
 
-        it('should reject with error when organizationId is missing', () => {
+        it('should reject with error when organizationId is missing', async () => {
           // given
           const expectedError = {
             attribute: 'organizationId',
@@ -101,18 +104,20 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
           };
           campaign.organizationId = MISSING_VALUE;
 
-          // when
-          const promise = campaignValidator.validate(campaign);
+          try {
+            // when
+            await campaignValidator.validate(campaign);
 
-          // then
-          return expect(promise).to.be.rejectedWith(EntityValidationError)
-            .then((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
+          } catch (entityValidationErrors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          }
         });
 
       });
 
       context('on idPixLabel attribute', () => {
-        it('should reject with error when idPixLabel is an empty string', () => {
+        it('should reject with error when idPixLabel is an empty string', async () => {
           // given
           const expectedError = {
             attribute: 'idPixLabel',
@@ -120,15 +125,17 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
           };
           campaign.idPixLabel = '';
 
-          // when
-          const promise = campaignValidator.validate(campaign);
+          try {
+            // when
+            await campaignValidator.validate(campaign);
 
-          // then
-          return expect(promise).to.be.rejectedWith(EntityValidationError)
-            .then((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
+          } catch (entityValidationErrors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          }
         });
 
-        it('should reject with error when idPixLabel length is under 3 characters', () => {
+        it('should reject with error when idPixLabel length is under 3 characters', async () => {
           // given
           const expectedError = {
             attribute: 'idPixLabel',
@@ -136,19 +143,21 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
           };
           campaign.idPixLabel = 'AZ';
 
-          // when
-          const promise = campaignValidator.validate(campaign);
+          try {
+            // when
+            await campaignValidator.validate(campaign);
 
-          // then
-          return expect(promise).to.be.rejectedWith(EntityValidationError)
-            .then((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
+          } catch (entityValidationErrors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          }
         });
 
       });
 
       context('on targetProfileId attribute', () => {
 
-        it('should reject with error when targetProfileId is missing', () => {
+        it('should reject with error when targetProfileId is missing', async () => {
           // given
           const expectedError = {
             attribute: 'targetProfileId',
@@ -156,29 +165,33 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
           };
           campaign.targetProfileId = MISSING_VALUE;
 
-          // when
-          const promise = campaignValidator.validate(campaign);
+          try {
+            // when
+            await campaignValidator.validate(campaign);
 
-          // then
-          return expect(promise).to.be.rejectedWith(EntityValidationError)
-            .then((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
+          } catch (entityValidationErrors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          }
         });
 
       });
 
-      it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
+      it('should reject with errors on all fields (but only once by field) when all fields are missing', async () => {
         // given
         campaign.name = MISSING_VALUE;
         campaign.creatorId = MISSING_VALUE;
         campaign.organizationId = MISSING_VALUE;
         campaign.targetProfileId = MISSING_VALUE;
 
-        // when
-        const promise = campaignValidator.validate(campaign);
+        try {
+          // when
+          await campaignValidator.validate(campaign);
 
-        // then
-        return expect(promise).to.be.rejectedWith(EntityValidationError)
-          .then((entityValidationErrors) => expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(4));
+        } catch (entityValidationErrors) {
+          // then
+          expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(4)
+        }
       });
 
     });
