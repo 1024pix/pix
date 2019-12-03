@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.91.1 (03/12/2019)
+
+- [#887](https://github.com/1024pix/pix/pull/887) [FEATURE] Permettre à un élève d'être importé dans plusieurs établissements scolaires (PO-293).
+
 ## v2.91.0 (03/12/2019)
 
 - [#869](https://github.com/1024pix/pix/pull/869) [FEATURE] Pouvoir inviter plusieurs utilisateurs en une seule fois (PO-277).
