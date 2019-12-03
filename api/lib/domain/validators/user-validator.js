@@ -1,7 +1,9 @@
-const Joi = require('joi');
-const validatePassword = require('../../infrastructure/validators/password-validator');
+const Joi = require('@hapi/joi');
+const XRegExp = require('xregexp');
+const { passwordValidationPattern } = require('../../config').account;
 const { EntityValidationError } = require('../errors');
 
+const pattern = XRegExp(passwordValidationPattern);
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
 // TODO this check on password format should be done in create user use case and not user validation

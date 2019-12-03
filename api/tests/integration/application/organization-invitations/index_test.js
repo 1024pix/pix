@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const organisationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
 const route = require('../../../../lib/application/organization-invitations/index');
 

@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 
 describe('Unit | Router | Password router', () => {

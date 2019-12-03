@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const securityController = require('../../interfaces/controllers/security-controller');
 const sessionController = require('./session-controller');
 
