@@ -4,12 +4,12 @@ import { inject as service } from '@ember/service';
 import DS from 'ember-data';
 
 const PAGE_TITLE_MAP = {
-  'assessments.challenge': 'Evaluation en cours',
-  'assessments.checkpoint': 'Avancement du parcours',
+  'assessments.challenge': 'Évaluation en cours',
+  'assessments.checkpoint': 'Avancement de l\'évaluation',
   'assessments.checkpoint.final': 'Fin de votre évaluation',
   'campaigns.campaign-landing-page': 'Présentation | Parcours',
-  'campaigns.fill-in-campaign-code': 'Commencer un parcours',
-  'campaigns.skill-review': 'Résultat de votre parcours',
+  'campaigns.fill-in-campaign-code': 'Commencer | Parcours',
+  'campaigns.skill-review': 'Résultats | Parcours',
   'campaigns.tutorial': 'Didacticiel | Parcours',
   'certifications.start': 'Rejoindre une certification',
   'competence-details': 'Compétence',
@@ -17,7 +17,7 @@ const PAGE_TITLE_MAP = {
   'inscription': 'Inscription',
   'login': 'Connexion',
   'password-reset-demand': 'Oubli de mot de passe',
-  'not-connected': 'Vous n\'êtes plus connecté',
+  'not-connected': 'Déconnecté',
   'profile': 'Votre Profil',
   'reset-password': 'Changer mon mot de passe',
   'user-certifications.index': 'Mes certifications',
