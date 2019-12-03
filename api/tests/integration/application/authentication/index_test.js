@@ -1,4 +1,4 @@
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const querystring = require('querystring');
 const { expect, sinon } = require('../../../test-helper');
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');

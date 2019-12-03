@@ -1,5 +1,5 @@
 const passwordController = require('./password-controller');
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 
 exports.register = async function(server) {
   server.route([

@@ -1,6 +1,6 @@
 const securityController = require('../../interfaces/controllers/security-controller');
 const userController = require('./user-controller');
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const userVerification = require('../preHandlers/user-existence-verification');
 const { passwordValidationPattern } = require('../../config').account;
 const XRegExp = require('xregexp');
