@@ -79,7 +79,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
   describe('#saveAnswerAndNavigate', function() {
     let answerToChallengeOne;
 
-    const answerValue = '';
+    let answerValue = 'example';
     const answerTimeout = 120;
     const answerElapsedTime = 65;
     const challengeOne = EmberObject.create({ id: 'recChallengeOne' });
@@ -139,6 +139,27 @@ describe('Unit | Route | Assessments | Challenge', function() {
       sinon.assert.calledOnce(answerToChallengeOne.save);
       sinon.assert.calledWith(answerToChallengeOne.setProperties, {
         value: answerValue,
+        timeout: answerTimeout,
+        elapsedTime: answerElapsedTime
+      });
+    });
+
+    it('should trim the answer value to avoid useless char', function() {
+      // given
+      answerValue = '  exemple \n ';
+      const answerValueWithoutUselessChar = 'exemple';
+      const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
+      createRecordStub.returns(answerToChallengeOne);
+      queryRecordStub.resolves(nextChallenge);
+
+      // when
+      route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+
+      // then
+      sinon.assert.callOrder(answerToChallengeOne.setProperties, answerToChallengeOne.save);
+      sinon.assert.calledOnce(answerToChallengeOne.save);
+      sinon.assert.calledWith(answerToChallengeOne.setProperties, {
+        value: answerValueWithoutUselessChar,
         timeout: answerTimeout,
         elapsedTime: answerElapsedTime
       });
