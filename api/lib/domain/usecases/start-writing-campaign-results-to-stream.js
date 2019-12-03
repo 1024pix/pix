@@ -124,10 +124,10 @@ async function _createOneLineOfCSV(
 ) {
   let line = headers.map(() => '"NA"');
 
-  const assessment = await smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId);
-  const [user, allKnowledgeElements] = await Promise.all([
-    userRepository.get(assessment.userId),
-    knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId, limitDate: campaignParticipation.sharedAt })
+  const [assessment, user, allKnowledgeElements] = await Promise.all([
+    smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId),
+    userRepository.get(campaignParticipation.userId),
+    knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt })
   ]);
 
   line = _addCellByHeadersTitleForText('"Nom de l\'organisation"', organization.name, line, headers);
