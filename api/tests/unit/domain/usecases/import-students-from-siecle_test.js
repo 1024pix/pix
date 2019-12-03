@@ -15,13 +15,13 @@ describe('Unit | UseCase | import-students-from-siecle', () => {
     buffer = null;
     expectedResult = Symbol('batch save result');
     studentsXmlServiceStub = { extractStudentsInformationFromSIECLE: sinon.stub() };
-    studentRepositoryStub = { batchSave: sinon.stub(), checkIfAtLeastOneStudentHasAlreadyBeenImported: sinon.stub() };
+    studentRepositoryStub = { batchSave: sinon.stub(), checkIfAtLeastOneStudentIsInOrganization: sinon.stub().throws('unexpected call') };
   });
 
   it('should succeed', async () => {
     // given
-    studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([ { lastName: 'Student1' }, { lastName: 'Student2' } ]);
-    studentRepositoryStub.checkIfAtLeastOneStudentHasAlreadyBeenImported.resolves(false);
+    studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([ { lastName: 'Student1', nationalStudentId: 'INE1' }, { lastName: 'Student2', nationalStudentId: 'INE2' } ]);
+    studentRepositoryStub.checkIfAtLeastOneStudentIsInOrganization.withArgs({ nationalStudentIds: [ 'INE1', 'INE2' ], organizationId }).resolves(false);
     studentRepositoryStub.batchSave.resolves(expectedResult);
 
     // when
@@ -29,33 +29,30 @@ describe('Unit | UseCase | import-students-from-siecle', () => {
 
     // then
     expect(studentsXmlServiceStub.extractStudentsInformationFromSIECLE).to.have.been.calledWith(buffer);
-    expect(studentRepositoryStub.batchSave).to.have.been.calledWith([ { lastName: 'Student1', organizationId }, { lastName: 'Student2', organizationId } ]);
+    expect(studentRepositoryStub.batchSave).to.have.been.calledWith([ { lastName: 'Student1', nationalStudentId: 'INE1', organizationId }, { lastName: 'Student2', nationalStudentId: 'INE2', organizationId } ]);
     expect(result).to.equal(expectedResult);
   });
 
-  context('When something went wrong', async () => {
+  it('should throw a FileValidationError when file is not valid', async () => {
+    // given
+    studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([]);
 
-    it('should throw a FileValidationError', async () => {
-      // given
-      studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([]);
+    // when
+    const result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
 
-      // when
-      const result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
+    // then
+    expect(result).to.be.instanceOf(FileValidationError);
+  });
 
-      // then
-      expect(result).to.be.instanceOf(FileValidationError);
-    });
+  it('should throw a ObjectAlreadyExisting when a student is already imported in the same organization', async () => {
+    // given
+    studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([ { lastName: 'Student1', nationalStudentId: 'INE1' }, { lastName: 'Student2', nationalStudentId: 'INE2' } ]);
+    studentRepositoryStub.checkIfAtLeastOneStudentIsInOrganization.withArgs({ nationalStudentIds: [ 'INE1', 'INE2' ], organizationId }).resolves(true);
 
-    it('should throw a ObjectAlreadyExisting', async () => {
-      // given
-      studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([ { lastName: 'Student1' }, { lastName: 'Student2' } ]);
-      studentRepositoryStub.checkIfAtLeastOneStudentHasAlreadyBeenImported.resolves(true);
+    // when
+    const result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
 
-      // when
-      const result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
-
-      // then
-      expect(result).to.be.instanceOf(ObjectAlreadyExisting);
-    });
+    // then
+    expect(result).to.be.instanceOf(ObjectAlreadyExisting);
   });
 });
