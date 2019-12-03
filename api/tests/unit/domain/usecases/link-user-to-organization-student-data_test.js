@@ -58,7 +58,7 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
 
       // then
       expect(result).to.be.instanceof(NotFoundError);
-      expect(result.message).to.equal('There were not exactly one student match for this user and organization');
+      expect(result.message).to.equal('There were no students matching');
     });
   });
 

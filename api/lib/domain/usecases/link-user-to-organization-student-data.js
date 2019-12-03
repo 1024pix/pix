@@ -14,7 +14,7 @@ module.exports = async function linkUserToOrganizationStudentData({
   });
 
   if (students.length === 0) {
-    throw new NotFoundError('There were not exactly one student match for this user and organization');
+    throw new NotFoundError('There were no students matching');
   }
 
   const studentId = userReconciliationService.findMatchingCandidateIdForGivenUser(students, { firstName, lastName });
