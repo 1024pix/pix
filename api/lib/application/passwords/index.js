@@ -10,14 +10,14 @@ exports.register = async function(server) {
         auth: false,
         handler: passwordController.createResetDemand,
         validate: {
-          payload: Joi.object().required().keys({
-            data: Joi.object().required().keys({
-              attributes: Joi.object().required().keys({
+          payload: Joi.object({
+            data: {
+              attributes: {
                 email: Joi.string().email().required(),
                 'temporary-key': [Joi.string(), null]
-              }),
+              },
               type: Joi.string()
-            })
+            }
           })
         },
         notes: ['Route publique',
@@ -26,6 +26,7 @@ exports.register = async function(server) {
         tags: ['api', 'passwords']
       }
     },
+
     {
       method: 'GET',
       path: '/api/password-reset-demands/{temporaryKey}',
