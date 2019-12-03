@@ -15,9 +15,10 @@ module.exports = {
       .then((students) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStudent, students));
   },
 
-  checkIfAtLeastOneStudentHasAlreadyBeenImported(nationalStudentsIds) {
+  checkIfAtLeastOneStudentIsInOrganization({ nationalStudentIds, organizationId }) {
     return BookshelfStudent
-      .where('nationalStudentId', 'IN', nationalStudentsIds)
+      .where('nationalStudentId', 'IN', nationalStudentIds)
+      .where('organizationId', organizationId)
       .fetchAll()
       .then((alreadyImportedStudents) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStudent, alreadyImportedStudents))
       .then((alreadyImportedStudents) => !_.isEmpty(alreadyImportedStudents));
