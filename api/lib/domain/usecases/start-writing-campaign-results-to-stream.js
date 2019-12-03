@@ -110,7 +110,7 @@ function _knowledgeElementRelatedTo(skills) {
   return (knowledgeElement) => _(skills).map('id').includes(knowledgeElement.skillId);
 }
 
-function _createOneLineOfCSV(
+async function _createOneLineOfCSV(
   headers,
   organization,
   campaign,
@@ -124,133 +124,126 @@ function _createOneLineOfCSV(
 ) {
   let line = headers.map(() => '"NA"');
 
-  return smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId)
-    .then((assessment) => {
-      return Promise.all([
-        assessment,
-        userRepository.get(assessment.userId),
-        knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId, limitDate: campaignParticipation.sharedAt })
-      ]);
-    })
-    .then(([assessment, user, allKnowledgeElements]) => {
+  const assessment = await smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId);
+  const [user, allKnowledgeElements] = await Promise.all([
+    userRepository.get(assessment.userId),
+    knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId, limitDate: campaignParticipation.sharedAt })
+  ]);
 
-      line = _addCellByHeadersTitleForText('"Nom de l\'organisation"', organization.name, line, headers);
-      line = _addCellByHeadersTitleForNumber('"ID Campagne"', campaign.id, line, headers);
-      line = _addCellByHeadersTitleForText('"Nom de la campagne"', campaign.name, line, headers);
-      line = _addCellByHeadersTitleForText('"Nom du Profil Cible"', targetProfile.name, line, headers);
+  line = _addCellByHeadersTitleForText('"Nom de l\'organisation"', organization.name, line, headers);
+  line = _addCellByHeadersTitleForNumber('"ID Campagne"', campaign.id, line, headers);
+  line = _addCellByHeadersTitleForText('"Nom de la campagne"', campaign.name, line, headers);
+  line = _addCellByHeadersTitleForText('"Nom du Profil Cible"', targetProfile.name, line, headers);
 
-      line = _addCellByHeadersTitleForText('"Nom du Participant"', user.lastName, line, headers);
-      line = _addCellByHeadersTitleForText('"Prénom du Participant"', user.firstName, line, headers);
+  line = _addCellByHeadersTitleForText('"Nom du Participant"', user.lastName, line, headers);
+  line = _addCellByHeadersTitleForText('"Prénom du Participant"', user.firstName, line, headers);
 
-      if (campaign.idPixLabel) {
-        line = _addCellByHeadersTitleForText(_cleanText(campaign.idPixLabel), campaignParticipation.participantExternalId, line, headers);
-      }
+  if (campaign.idPixLabel) {
+    line = _addCellByHeadersTitleForText(_cleanText(campaign.idPixLabel), campaignParticipation.participantExternalId, line, headers);
+  }
 
-      const knowledgeElements = allKnowledgeElements
-        .filter((ke) => targetProfile.skills.find((skill) => skill.id === ke.skillId));
+  const knowledgeElements = allKnowledgeElements
+    .filter((ke) => targetProfile.skills.find((skill) => skill.id === ke.skillId));
 
-      const notCompletedPercentageProgression = _.round(
-        knowledgeElements.length / (targetProfile.skills.length),
-        3,
-      );
-      const percentageProgression = (assessment.isCompleted) ? 1 : notCompletedPercentageProgression;
-      line = _addCellByHeadersTitleForNumber('"% de progression"', percentageProgression, line, headers);
+  const notCompletedPercentageProgression = _.round(
+    knowledgeElements.length / (targetProfile.skills.length),
+    3,
+  );
+  const percentageProgression = (assessment.isCompleted) ? 1 : notCompletedPercentageProgression;
+  line = _addCellByHeadersTitleForNumber('"% de progression"', percentageProgression, line, headers);
+  line = _addCellByHeadersTitleForNumber(
+    '"Date de début"',
+    moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
+    line,
+    headers,
+  );
+
+  const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
+  line = _addCellByHeadersTitleForText('"Partage (O/N)"', textForParticipationShared, line, headers);
+
+  if (assessment.isCompleted && campaignParticipation.isShared) {
+
+    line = _addCellByHeadersTitleForNumber('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), line, headers);
+
+    line = _addCellByHeadersTitleForNumber(
+      '"% maitrise de l\'ensemble des acquis du profil"',
+      targetProfile.getKnowledgeElementsValidatedPercentage(knowledgeElements),
+      line,
+      headers,
+    );
+
+    const areaSkills = listArea.map((area) => {
+      return {
+        title: area.title,
+        numberSkillsValidated: 0,
+        numberSkillsTested: 0,
+      };
+    });
+
+    // By Competences
+    _.forEach(listCompetences, (competence) => {
+      const skillsForThisCompetence = targetProfile.getSkillsInCompetence(competence);
+      const numberOfSkillsValidatedForThisCompetence = _getValidatedSkillsForCompetence(skillsForThisCompetence,
+        knowledgeElements);
+      const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
       line = _addCellByHeadersTitleForNumber(
-        '"Date de début"',
-        moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
+        `"% de maitrise des acquis de la compétence ${competence.name}"`,
+        percentage,
+        line,
+        headers,
+      );
+      line = _addCellByHeadersTitleForNumber(
+        `"Nombre d'acquis du profil cible dans la compétence ${competence.name}"`,
+        skillsForThisCompetence.length,
+        line,
+        headers,
+      );
+      line = _addCellByHeadersTitleForNumber(
+        `"Acquis maitrisés dans la compétence ${competence.name}"`,
+        numberOfSkillsValidatedForThisCompetence,
+        line,
+        headers,
+      );
+      // Add on Area
+      const areaSkillsForThisCompetence = areaSkills.find((area) => area.title === competence.area.title);
+      areaSkillsForThisCompetence.numberSkillsValidated =
+            areaSkillsForThisCompetence.numberSkillsValidated + numberOfSkillsValidatedForThisCompetence;
+      areaSkillsForThisCompetence.numberSkillsTested =
+            areaSkillsForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
+    });
+
+    // By Area
+    _.forEach(areaSkills, (area) => {
+      const percentage = _.round(area.numberSkillsValidated / area.numberSkillsTested, 2);
+
+      line = _addCellByHeadersTitleForNumber(`"% de maitrise des acquis du domaine ${area.title}"`,
+        percentage,
+        line,
+        headers);
+      line = _addCellByHeadersTitleForNumber(
+        `"Nombre d'acquis du profil cible du domaine ${area.title}"`,
+        area.numberSkillsTested,
+        line,
+        headers,
+      );
+      line = _addCellByHeadersTitleForNumber(
+        `"Acquis maitrisés du domaine ${area.title}"`,
+        area.numberSkillsValidated,
         line,
         headers,
       );
 
-      const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
-      line = _addCellByHeadersTitleForText('"Partage (O/N)"', textForParticipationShared, line, headers);
-
-      if (assessment.isCompleted && campaignParticipation.isShared) {
-
-        line = _addCellByHeadersTitleForNumber('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), line, headers);
-
-        line = _addCellByHeadersTitleForNumber(
-          '"% maitrise de l\'ensemble des acquis du profil"',
-          targetProfile.getKnowledgeElementsValidatedPercentage(knowledgeElements),
-          line,
-          headers,
-        );
-
-        const areaSkills = listArea.map((area) => {
-          return {
-            title: area.title,
-            numberSkillsValidated: 0,
-            numberSkillsTested: 0,
-          };
-        });
-
-        // By Competences
-        _.forEach(listCompetences, (competence) => {
-          const skillsForThisCompetence = targetProfile.getSkillsInCompetence(competence);
-          const numberOfSkillsValidatedForThisCompetence = _getValidatedSkillsForCompetence(skillsForThisCompetence,
-            knowledgeElements);
-          const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
-          line = _addCellByHeadersTitleForNumber(
-            `"% de maitrise des acquis de la compétence ${competence.name}"`,
-            percentage,
-            line,
-            headers,
-          );
-          line = _addCellByHeadersTitleForNumber(
-            `"Nombre d'acquis du profil cible dans la compétence ${competence.name}"`,
-            skillsForThisCompetence.length,
-            line,
-            headers,
-          );
-          line = _addCellByHeadersTitleForNumber(
-            `"Acquis maitrisés dans la compétence ${competence.name}"`,
-            numberOfSkillsValidatedForThisCompetence,
-            line,
-            headers,
-          );
-          // Add on Area
-          const areaSkillsForThisCompetence = areaSkills.find((area) => area.title === competence.area.title);
-          areaSkillsForThisCompetence.numberSkillsValidated =
-            areaSkillsForThisCompetence.numberSkillsValidated + numberOfSkillsValidatedForThisCompetence;
-          areaSkillsForThisCompetence.numberSkillsTested =
-            areaSkillsForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
-        });
-
-        // By Area
-        _.forEach(areaSkills, (area) => {
-          const percentage = _.round(area.numberSkillsValidated / area.numberSkillsTested, 2);
-
-          line = _addCellByHeadersTitleForNumber(`"% de maitrise des acquis du domaine ${area.title}"`,
-            percentage,
-            line,
-            headers);
-          line = _addCellByHeadersTitleForNumber(
-            `"Nombre d'acquis du profil cible du domaine ${area.title}"`,
-            area.numberSkillsTested,
-            line,
-            headers,
-          );
-          line = _addCellByHeadersTitleForNumber(
-            `"Acquis maitrisés du domaine ${area.title}"`,
-            area.numberSkillsValidated,
-            line,
-            headers,
-          );
-
-        });
-
-        // By Skills
-        _.forEach(targetProfile.skills, (skill) => {
-          line = _addCellByHeadersTitleForText(`"${skill.name}"`,
-            _stateOfSkill(skill.id, knowledgeElements),
-            line,
-            headers);
-        });
-      }
-    })
-    .then(() => {
-      return line.join(';') + '\n';
     });
+
+    // By Skills
+    _.forEach(targetProfile.skills, (skill) => {
+      line = _addCellByHeadersTitleForText(`"${skill.name}"`,
+        _stateOfSkill(skill.id, knowledgeElements),
+        line,
+        headers);
+    });
+  }
+  return line.join(';') + '\n';
 }
 
 module.exports = async function startWritingCampaignResultsToStream(
