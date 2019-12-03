@@ -6,6 +6,25 @@
   @include device-is('desktop') {
     font-size: 20px;
   }
+
+  &__proposal {
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+}
+
+.challenge-response__proposal {
+  &--paragraph {
+    display: flex;
+    width: 100%;
+    height: auto;
+    resize: vertical;
+  }
+
+  &--sentence {
+    display: flex;
+    width: 100%;
+  }
 }
 
 .challenge-response__proposal-label {

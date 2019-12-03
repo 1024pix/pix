@@ -5,8 +5,8 @@ module.exports = async function linkUserToOrganizationStudentData({
   user,
   campaignRepository,
   studentRepository,
+  userReconciliationService,
 }) {
-  let student;
   const campaign = await campaignRepository.getByCode(campaignCode);
   const organizationId = campaign.organizationId;
 
@@ -14,18 +14,18 @@ module.exports = async function linkUserToOrganizationStudentData({
     throw new UserNotAuthorizedToAccessEntity('User is not part of the organization student list');
   }
 
-  const students = await studentRepository.findByOrganizationIdAndUserInformation({
-    organizationId,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    birthdate: user.birthdate,
-  });
+  const studentsNotLinkedYetWithMatchingBirthdateAndOrganizationId = await studentRepository
+    .findNotLinkedYetByOrganizationIdAndUserBirthdate({ organizationId, birthdate: user.birthdate });
 
-  if (students.length === 1) {
-    student = students[0];
-  } else {
+  if (studentsNotLinkedYetWithMatchingBirthdateAndOrganizationId.length === 0) {
     throw new NotFoundError('Not found only 1 student');
   }
 
-  return await studentRepository.associateUserAndStudent({ userId: user.id, studentId: student.id });
+  const matchingStudentId = userReconciliationService.findMatchingCandidateIdForGivenUser(studentsNotLinkedYetWithMatchingBirthdateAndOrganizationId, user);
+
+  if (matchingStudentId === null) {
+    throw new NotFoundError('Not found only 1 student');
+  }
+
+  return studentRepository.associateUserAndStudent({ userId: user.id, studentId: matchingStudentId });
 };

@@ -1,5 +1,3 @@
-const dataModels = require('../../../../lib/infrastructure/datasources/airtable/objects/index');
-
 module.exports = function SkillAirtableDataObjectFixture({
   id = 'recTIddrkopID28Ep',
   name = '@accesDonnées1',
@@ -7,9 +5,10 @@ module.exports = function SkillAirtableDataObjectFixture({
   hintStatus = 'Validé',
   tutorialIds = ['receomyzL0AmpMFGw'],
   learningMoreTutorialIds = ['recQbjXNAPsVJthXh', 'rec3DkUX0a6RNi2Hz'],
-  competenceId = 'recofJCxg0NqTqTdP'
+  competenceId = 'recofJCxg0NqTqTdP',
+  pixValue = 2.4,
 } = {}) {
-  return new dataModels.Skill({
+  return {
     id,
     name,
     hint,
@@ -17,5 +16,6 @@ module.exports = function SkillAirtableDataObjectFixture({
     tutorialIds,
     learningMoreTutorialIds,
     competenceId,
-  });
+    pixValue
+  };
 };

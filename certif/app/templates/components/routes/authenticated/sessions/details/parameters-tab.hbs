@@ -54,20 +54,20 @@
 
     <div class="session-details-row">
       {{#if isSessionFinalizationActive }}
-        <div class="session-details-content">
+        <div class="session-details-buttons">
           {{#link-to "authenticated.sessions.update" session.id
                      class="button button--regular button--grey button--link session-details-content__update-button"}}
               Modifier
           {{/link-to}}
         </div>
-        <div class="session-details-content session-details-content--push-right">
-          {{#link-to "authenticated.sessions.finalize" session.id
-                     class="button button--regular button--link session-details-content__finalize-button push-right"}}
-              Finaliser la session
-          {{/link-to}}
+        <div class="session-details-buttons session-details-buttons--push-right {{if session.isFinalized "button--disabled"}}">
+            {{#link-to "authenticated.sessions.finalize" session.id
+                             class="button button--regular button--link session-details-content__finalize-button push-right"}}
+                      Finaliser la session
+            {{/link-to}}
         </div>
       {{else}}
-        <div class="session-details-content">
+        <div class="session-details-buttons">
           {{#link-to "authenticated.sessions.update" session.id
                      class="button button--regular button--link session-details-content__update-button"}}
               Modifier

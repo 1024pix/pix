@@ -21,7 +21,7 @@ describe('Acceptance | Displaying un QROCM', function() {
   });
 
   it('should display only one input text as proposal to user', function() {
-    expect(findAll('.challenge-response__proposal-input')).to.have.lengthOf(3);
+    expect(findAll('.challenge-response__proposal')).to.have.lengthOf(3);
   });
 
   it('should display an error alert if the user tried to validate without checking anything first', async function() {

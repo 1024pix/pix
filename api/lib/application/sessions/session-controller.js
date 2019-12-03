@@ -82,14 +82,13 @@ module.exports = {
     const sessionId = request.params.id;
     const certificationCandidateWithPersonalInfoOnly = await certificationCandidateSerializer.deserialize(request.payload);
 
-    return usecases.linkUserToSessionCertificationCandidate({
+    const { linkCreated, certificationCandidate } = await usecases.linkUserToSessionCertificationCandidate({
       userId, sessionId, certificationCandidateWithPersonalInfoOnly,
-    })
-      .then(({ linkCreated, certificationCandidate }) => {
-        const serialized = certificationCandidateSerializer.serialize(certificationCandidate);
+    });
 
-        return linkCreated ? h.response(serialized).created() : serialized;
-      });
+    const serialized = await certificationCandidateSerializer.serialize(certificationCandidate);
+
+    return linkCreated ? h.response(serialized).created() : serialized;
   },
 
   finalize(request) {

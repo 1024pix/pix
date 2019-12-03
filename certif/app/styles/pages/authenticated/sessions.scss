@@ -1,6 +1,9 @@
 .session-layout {
   display: flex;
 }
+.session-layout > div {
+   flex-grow: 1;
+}
 
 .session-form {
   display: flex;

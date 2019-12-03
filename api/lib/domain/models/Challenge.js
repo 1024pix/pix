@@ -38,6 +38,7 @@ class Challenge {
    * @param skills
    * @param validator
    * @param competenceId
+   * @param format
    */
   constructor(
     {
@@ -47,18 +48,19 @@ class Challenge {
       embedHeight,
       embedTitle,
       embedUrl,
+      format,
       illustrationAlt,
       illustrationUrl,
       instruction,
       proposals,
       status,
       timer,
-      type,
       // includes
+      type,
       answer,
       skills = [],
-      validator,
       // references
+      validator,
       competenceId,
     } = {}) {
     this.id = id;
@@ -68,6 +70,7 @@ class Challenge {
     this.embedHeight = embedHeight;
     this.embedTitle = embedTitle;
     this.embedUrl = embedUrl;
+    this.format = format;
     this.illustrationAlt = illustrationAlt;
     this.illustrationUrl = illustrationUrl;
     this.instruction = instruction;

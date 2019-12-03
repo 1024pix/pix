@@ -2,8 +2,8 @@ const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const AirtableError = require('airtable').Error;
 const challengeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
+const challengeAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
 const challengeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/challengeRawAirTableFixture');
-const { Challenge } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
 const _ = require('lodash');
 
@@ -50,10 +50,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       fields: { Acquix: [ web3.id ] }
     });
 
-  beforeEach(() => {
-    sinon.stub(Challenge, 'getUsedAirtableFields').returns(['fieldA', 'fieldB']);
-  });
-
   describe('#list', () => {
 
     let promise;
@@ -70,7 +66,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     it('should query Airtable challenges with empty query specifying used fields', () => {
       // then
       return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', ['fieldA', 'fieldB']);
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
       });
     });
 
@@ -78,7 +74,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       // then
       return promise.then((result) => {
         expect(result).to.be.an('array').and.to.have.lengthOf(2);
-        expect(result[0]).to.be.an.instanceOf(Challenge);
       });
     });
   });
@@ -96,7 +91,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       return promise.then((challenge) => {
         expect(airtable.getRecord).to.have.been.calledWith('Epreuves', '243');
 
-        expect(challenge).to.be.an.instanceof(Challenge);
         expect(challenge.id).to.equal('recwWzTquPlvIl4So');
         expect(challenge.type).to.equal('QCM');
       });
@@ -148,8 +142,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
       // then
       return promise.then((result) => {
-        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', ['fieldA', 'fieldB']);
-        expect(result[0]).to.be.an.instanceOf(Challenge);
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
         expect(_.map(result, 'id')).to.deep.equal([
           'challenge-web1',
           'challenge-web2',
@@ -178,10 +171,72 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     it('should resolve to an array of matching Challenges from airTable', () => {
       // then
       return promise.then((result) => {
-        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', ['fieldA', 'fieldB']);
-        expect(result[0]).to.be.an.instanceOf(Challenge);
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
         expect(_.map(result, 'id')).to.deep.equal([ 'challenge-competence1' ]);
       });
+    });
+  });
+
+  describe('#fromAirTableObject', () => {
+
+    it('should create a Challenge from the AirtableRecord', () => {
+      // given
+      const expectedChallenge = challengeAirtableDataObjectFixture();
+
+      // when
+      const challenge = challengeDatasource.fromAirTableObject(challengeRawAirTableFixture());
+
+      // then
+      expect(challenge).to.deep.equal(expectedChallenge);
+    });
+
+    it('should deal with a missing illustration', () => {
+      // given
+      const airtableEpreuveObject = challengeRawAirTableFixture();
+      airtableEpreuveObject.set('Illustration de la consigne', undefined);
+
+      // when
+      const challenge = challengeDatasource.fromAirTableObject(airtableEpreuveObject);
+
+      // then
+      expect(challenge.illustrationUrl).to.be.undefined;
+    });
+
+    it('should deal with a missing timer', () => {
+      // given
+      const airtableEpreuveObject = challengeRawAirTableFixture();
+      airtableEpreuveObject.set('Timer', undefined);
+
+      // when
+      const challenge = challengeDatasource.fromAirTableObject(airtableEpreuveObject);
+
+      // then
+      expect(challenge.timer).to.be.undefined;
+    });
+
+    it('should deal with a missing Pièce jointe', () => {
+      // given
+      const airtableEpreuveObject = challengeRawAirTableFixture();
+      airtableEpreuveObject.set('Pièce jointe', undefined);
+
+      // when
+      const challenge = challengeDatasource.fromAirTableObject(airtableEpreuveObject);
+
+      // then
+      expect(challenge.attachments).to.be.undefined;
+    });
+
+    it('should deal with a missing competences', () => {
+      // given
+      const airtableEpreuveObject = challengeRawAirTableFixture();
+      airtableEpreuveObject.set('competences', undefined);
+      airtableEpreuveObject.set('Compétences (via tube)', undefined);
+
+      // when
+      const challenge = challengeDatasource.fromAirTableObject(airtableEpreuveObject);
+
+      // then
+      expect(challenge.competenceId).to.be.undefined;
     });
   });
 });

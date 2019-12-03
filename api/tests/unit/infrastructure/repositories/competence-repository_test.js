@@ -2,7 +2,6 @@ const { expect, sinon } = require('../../../test-helper');
 const AirtableRecord = require('airtable').Record;
 const airtable = require('../../../../lib/infrastructure/airtable');
 const Area = require('../../../../lib/domain/models/Area');
-const airTableDataObjects = require('../../../../lib/infrastructure/datasources/airtable/objects');
 const areaDatasource = require('../../../../lib/infrastructure/datasources/airtable/area-datasource');
 const Competence = require('../../../../lib/domain/models/Competence');
 const competenceDatasource = require('../../../../lib/infrastructure/datasources/airtable/competence-datasource');
@@ -37,11 +36,11 @@ describe('Unit | Repository | competence-repository', () => {
   beforeEach(() => {
     sinon.stub(areaDatasource, 'list')
       .resolves([
-        new airTableDataObjects.Area({
+        {
           id: 'recArea',
           code: '1',
           title: 'Information et données',
-        })
+        }
       ]);
   });
 
@@ -68,14 +67,14 @@ describe('Unit | Repository | competence-repository', () => {
   });
 
   describe('#get', () => {
-    const competenceData1 = new airTableDataObjects.Competence({
+    const competenceData1 = {
       id: 'recCompetence1',
       name: 'Mener une recherche d’information',
       index: '1.1',
       courseId: 'recCourse',
       skillIds: ['recSkill1', 'recSkill2'],
       areaId: 'recArea',
-    });
+    };
 
     beforeEach(() => {
       // given
@@ -109,14 +108,14 @@ describe('Unit | Repository | competence-repository', () => {
   });
 
   describe('#getCompetenceName', () => {
-    const competenceData1 = new airTableDataObjects.Competence({
+    const competenceData1 = {
       id: 'recCompetence1',
       name: 'Mener une recherche d’information',
       index: '1.1',
       courseId: 'recCourse',
       skillIds: ['recSkill1', 'recSkill2'],
       areaId: 'recArea',
-    });
+    };
 
     beforeEach(() => {
       // given

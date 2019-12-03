@@ -2,5 +2,6 @@
   "baseUrl": "http://localhost:4200",
   "env": {
     "API_URL": "http://localhost:3000"
-  }
+  },
+  "blacklistHosts": "*stats.pix.fr*"
 }

@@ -28,6 +28,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         validator: undefined,
         competenceId: 'recsvLz0W2ShyfD63',
         illustrationAlt: 'Texte alternatif à l\'image',
+        format: 'phrase',
       };
 
       // when

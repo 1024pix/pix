@@ -24,6 +24,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
         embedUrl: 'https://github.io/page/epreuve.html',
         embedTitle: 'Epreuve de selection de dossier',
         embedHeight: 500,
+        format: 'mots',
       });
 
       // when
@@ -49,6 +50,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
             'embed-url': 'https://github.io/page/epreuve.html',
             'embed-title': 'Epreuve de selection de dossier',
             'embed-height': 500,
+            format: 'mots',
           }
         }
       });

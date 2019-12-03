@@ -1,11 +1,12 @@
 import { computed } from '@ember/object';
 import Component from '@ember/component';
-import  proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
+import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
 export default Component.extend({
 
   classNames: ['qroc-proposal'],
 
+  format: null,
   proposals: null,
   answerValue: null,
   answerChanged: null, // action

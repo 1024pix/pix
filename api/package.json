@@ -1,6 +1,6 @@
 {
   "name": "pix-api",
-  "version": "2.90.0",
+  "version": "2.91.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones",
   "license": "AGPL-3.0",
@@ -84,7 +84,6 @@
     "nock": "^11.3.3",
     "nodemon": "^1.19.2",
     "nyc": "^14.1.1",
-    "plop": "^2.4.0",
     "sinon": "^7.4.2",
     "sinon-chai": "^3.3.0",
     "stream-to-promise": "^2.2.0"

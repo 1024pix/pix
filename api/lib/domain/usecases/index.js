@@ -48,6 +48,7 @@ const dependencies = {
   tokenService: require('../../domain/services/token-service'),
   tubeRepository: require('../../infrastructure/repositories/tube-repository'),
   tutorialRepository: require('../../infrastructure/repositories/tutorial-repository'),
+  userReconciliationService: require('../services/user-reconciliation-service'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
   userService: require('../../domain/services/user-service'),
 };
@@ -70,7 +71,7 @@ module.exports = injectDependencies({
   createCertificationCenterMembership: require('./create-certification-center-membership'),
   createMembership: require('./create-membership'),
   createOrganization: require('./create-organization'),
-  createOrganizationInvitation: require('./create-organization-invitation'),
+  createOrganizationInvitations: require('./create-organization-invitations'),
   createSession: require('./create-session'),
   createUser: require('./create-user'),
   findAnswerByChallengeAndAssessment: require('./find-answer-by-challenge-and-assessment'),

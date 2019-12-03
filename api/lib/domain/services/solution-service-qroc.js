@@ -1,7 +1,7 @@
 const utils = require('./solution-service-utils');
 const deactivationsService = require('./deactivations-service');
 const _ = require('../../infrastructure/utils/lodash-utils');
-const { t1, t2, applyPreTreatments } = require('./validation-treatments');
+const { normalizeAndRemoveAccents: t1, removeSpecialCharacters: t2, applyPreTreatments } = require('./validation-treatments');
 
 const AnswerStatus = require('../models/AnswerStatus');
 

@@ -8,7 +8,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
   describe('#getNextChallengeForSmartPlacement', () => {
 
     let userId, assessmentId, targetProfileId, campaignParticipation,
-      assessment, answers, answerRepository, challengeRepository, challenges,
+      assessment, lastAnswer, answerRepository, challengeRepository, challenges,
       knowledgeElementRepository, recentKnowledgeElements,
       targetProfileRepository, targetProfile, skills, expectedNextChallenge, actualNextChallenge,
       improvementService;
@@ -18,9 +18,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       userId = 'dummyUserId';
       targetProfileId = 'dummyTargetProfileId';
       assessmentId = 'dummyAssessmentId';
+      lastAnswer = null;
 
-      answers = [];
-      answerRepository = { findByAssessment: sinon.stub().resolves(answers) };
+      answerRepository = { findLastByAssessment: sinon.stub().resolves(lastAnswer) };
       challenges = [];
       challengeRepository = { findBySkills: sinon.stub().resolves(challenges) };
       campaignParticipation = { getTargetProfileId: sinon.stub().returns(targetProfileId) };
@@ -51,7 +51,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
     });
 
     it('should have fetched the answers', () => {
-      expect(answerRepository.findByAssessment).to.have.been.calledWithExactly(assessmentId);
+      expect(answerRepository.findLastByAssessment).to.have.been.calledWithExactly(assessmentId);
     });
 
     it('should have filter the knowledge elements with an assessment improving', () => {
@@ -79,7 +79,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
 
     it('should have fetched the next challenge with only most recent knowledge elements', () => {
       expect(smartRandom.getNextChallenge).to.have.been.calledWithExactly({
-        answers, challenges, targetSkills: targetProfile.skills, knowledgeElements: recentKnowledgeElements
+        lastAnswer, challenges, targetSkills: targetProfile.skills, knowledgeElements: recentKnowledgeElements
       });
     });
 

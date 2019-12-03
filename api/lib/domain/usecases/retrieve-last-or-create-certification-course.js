@@ -3,6 +3,7 @@ const Assessment = require('../models/Assessment');
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../errors');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
+  sessionId,
   accessCode,
   userId,
   sessionRepository,
@@ -12,9 +13,15 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   certificationCourseRepository,
   assessmentRepository,
 }) {
-  const { id: sessionId } = await sessionRepository.getByAccessCode(accessCode);
+  const session = await sessionRepository.get(sessionId);
+
+  if (session.accessCode !== accessCode) {
+    throw new NotFoundError('Session not found');
+  }
+
   try {
     const certificationCourse = await certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
+
     return {
       created: false,
       certificationCourse,
@@ -50,10 +57,12 @@ async function _startNewCertification({
   if (!certificationProfile.isCertifiable()) {
     throw new UserNotAuthorizedToCertifyError();
   }
+
   await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
 
   try {
     const certificationCourse = await certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
+
     return {
       created: false,
       certificationCourse,
@@ -61,14 +70,13 @@ async function _startNewCertification({
   } catch (err) {
     if (err instanceof NotFoundError) {
       const personalInfo = { firstName: null, lastName: null, birthdate: null, birthplace: null, externalId: null };
-      const foundCandidate = await certificationCandidateRepository.findOneBySessionIdAndUserId({ sessionId, userId });
-      if (foundCandidate) {
-        personalInfo.firstName = foundCandidate.firstName;
-        personalInfo.lastName = foundCandidate.lastName;
-        personalInfo.birthdate = foundCandidate.birthdate;
-        personalInfo.birthplace = foundCandidate.birthCity;
-        personalInfo.externalId = foundCandidate.externalId;
-      }
+      const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ sessionId, userId });
+
+      personalInfo.firstName = certificationCandidate.firstName;
+      personalInfo.lastName = certificationCandidate.lastName;
+      personalInfo.birthdate = certificationCandidate.birthdate;
+      personalInfo.birthplace = certificationCandidate.birthCity;
+      personalInfo.externalId = certificationCandidate.externalId;
 
       const newCertificationCourse = new CertificationCourse({
         userId,
@@ -80,6 +88,7 @@ async function _startNewCertification({
       const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
       const assessment = await _createAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id, assessmentRepository });
       savedCertificationCourse.assessment = assessment;
+
       return {
         created: true,
         certificationCourse: await certificationChallengesService.saveChallenges(certificationProfile.userCompetences, savedCertificationCourse),
@@ -100,4 +109,3 @@ function _createAssessmentForCertificationCourse({ userId, certificationCourseId
 
   return assessmentRepository.save(assessment);
 }
-

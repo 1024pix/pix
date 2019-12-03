@@ -1,7 +1,6 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import $ from 'jquery';
 import config from 'mon-pix/config/environment';
 
 export default Component.extend({
@@ -9,9 +8,6 @@ export default Component.extend({
   mailGenerator: service(),
 
   classNames: ['challenge-statement'],
-
-  attributeBindings: ['tabindex'],
-  tabindex: -1,
 
   challenge: null,
   assessment: null,
@@ -37,16 +33,6 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this.id = 'challenge_statement_' + this.get('challenge.id');
-  },
-
-  didReceiveAttrs() {
-    this._super(...arguments);
-    $(`#${this.id}`).focus();
-  },
-
-  didInsertElement() {
-    this._super(...arguments);
-    $(`#${this.id}`).focus();
   },
 
   selectedAttachmentUrl: computed('challenge.attachments', function() {

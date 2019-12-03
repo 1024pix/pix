@@ -265,6 +265,12 @@ class PasswordResetDemandNotFoundError extends DomainError {
   }
 }
 
+class SessionAlreadyFinalizedError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
   constructor(message) {
     super(message);
@@ -341,8 +347,8 @@ class InternalError extends DomainError {
 
 module.exports = {
   DomainError,
-  AlreadyExistingOrganizationInvitationError,
   AlreadyExistingMembershipError,
+  AlreadyExistingOrganizationInvitationError,
   AlreadyRatedAssessmentError,
   AlreadyRegisteredEmailError,
   AlreadySharedCampaignParticipationError,
@@ -350,7 +356,6 @@ module.exports = {
   AssessmentNotCompletedError,
   CampaignCodeError,
   CampaignWithoutOrganizationError,
-  CompetenceResetError,
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
@@ -361,6 +366,7 @@ module.exports = {
   CertificationCenterMembershipCreationError,
   CertificationComputeError,
   ChallengeAlreadyAnsweredError,
+  CompetenceResetError,
   EntityValidationError,
   FileValidationError,
   ForbiddenAccess,
@@ -375,6 +381,7 @@ module.exports = {
   ObjectValidationError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
+  SessionAlreadyFinalizedError,
   UserAlreadyLinkedToCandidateInSessionError,
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,

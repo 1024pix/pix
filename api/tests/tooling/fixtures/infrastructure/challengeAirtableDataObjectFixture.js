@@ -1,5 +1,3 @@
-const dataModels = require('../../../../lib/infrastructure/datasources/airtable/objects/index');
-
 module.exports = function ChallengeAirtableDataObjectFixture({
   id = 'recwWzTquPlvIl4So',
   instruction = 'Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?',
@@ -15,6 +13,7 @@ module.exports = function ChallengeAirtableDataObjectFixture({
   skills = ['@modèleEco3'],
   timer = 1234,
   illustrationUrl = 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
+  illustrationAlt = 'Texte alternatif de l’illustration',
   attachments = [
     'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
     'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp'
@@ -23,8 +22,9 @@ module.exports = function ChallengeAirtableDataObjectFixture({
   embedUrl = 'https://github.io/page/epreuve.html',
   embedTitle = 'Epreuve de selection de dossier',
   embedHeight = 500,
+  format = 'petit',
 } = {}) {
-  return new dataModels.Challenge({
+  return {
     id,
     instruction,
     proposals,
@@ -39,10 +39,12 @@ module.exports = function ChallengeAirtableDataObjectFixture({
     skills,
     timer,
     illustrationUrl,
+    illustrationAlt,
     attachments,
     competenceId,
     embedUrl,
     embedTitle,
     embedHeight,
-  });
+    format,
+  };
 };

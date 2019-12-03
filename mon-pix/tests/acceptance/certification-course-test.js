@@ -59,282 +59,206 @@ describe('Acceptance | Certification | Start Course', function() {
           return visitWithAbortedTransition('/certifications');
         });
 
-        context('when the new certification start feature toggle is OFF', function() {
-
+        context('when user forget to fill a field', function() {
           beforeEach(async function() {
-            const controller = this.owner.lookup('controller:certifications.start');
-            controller.set('isNewCertificationStartActive', false);
+            await visitWithAbortedTransition('/certifications');
+
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
           });
 
-          context('when user enter a correct code session', function() {
-            beforeEach(async function() {
-              // when
-              await fillIn('#session-code', 'ABCD12');
-              await click('.certification-course-page__submit_button');
-            });
+          it('should display an error message', function() {
+            // then
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+          });
+        });
 
-            it('should be redirected on the first challenge of an assessment', function() {
-              // then
-              expect(currentURL()).to.match(/assessments\/1\/challenges\/receop4TZKvtjjG0V/);
-            });
-
-            it('should navigate to next challenge when we click pass', async function() {
-              // when
-              await click('.challenge-actions__action-skip-text');
-
-              // then
-              expect(currentURL()).to.match(/assessments\/1\/challenges\/recLt9uwa2dR3IYpi/);
-            });
-
-            context('after skipping the all three challenges of the certification course', function() {
-
-              it('should navigate to redirect to certification result page at the end of the assessment', async function() {
-                // given
-                await click('.challenge-actions__action-skip');
-                await click('.challenge-actions__action-skip');
-
-                // when
-                await click('.challenge-item-warning__confirm-btn');
-                await click('.challenge-actions__action-skip');
-
-                // then
-                expect(currentURL()).to.equal('/certifications/certification-course-id/results');
-              });
-            });
+        context('when no candidate with given info has been registered in the given session', function() {
+          beforeEach(async function() {
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'PasInscrite');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
           });
 
-          context('When stop and relaunch the certification course', function() {
+          it('should display an error message', function() {
+            // then
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+          });
+        });
 
-            it('should be redirected on the second challenge of an assessment', async function() {
+        context('when several candidates with given info are found in the given session', function() {
+          beforeEach(async function() {
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'PlusieursMatchs');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
+          });
+
+          it('should display an error message', function() {
+            // then
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+          });
+        });
+
+        context('when user has already been linked to another candidate in the session', function() {
+          beforeEach(async function() {
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'UtilisateurLiéAutre');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
+          });
+
+          it('should display an error message', function() {
+            // then
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+          });
+        });
+
+        context('when candidate has already been linked to another user in the session', function() {
+          beforeEach(async function() {
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'CandidatLiéAutre');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
+          });
+
+          it('should display an error message', function() {
+            // then
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
+          });
+        });
+
+        context('when user is already linked to this candidate', function() {
+          beforeEach(async function() {
+            // given
+            this.server.schema.certificationCandidates.create({
+              id: 1,
+              firstName: 'Laura',
+              lastName: 'CandidatLiéUtilisateur',
+              sessionId: 1,
+              birthdate: '1990-01-04',
+            });
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'CandidatLiéUtilisateur');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
+          });
+
+          it('should render the component to provide the access code', function() {
+            // then
+            expect(find('.certification-start-page__title')).to.exist;
+          });
+        });
+
+        context('when user is successfuly linked to the candidate', function() {
+          beforeEach(async function() {
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'Bravo');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
+          });
+
+          it('should render the component to provide the access code', function() {
+            // then
+            expect(find('.certification-start-page__title')).to.exist;
+          });
+        });
+
+        context('when user enter a correct code session', function() {
+          beforeEach(async function() {
+            // when
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'Bravo');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
+            await fillIn('#session-code', 'ABCD12');
+            await click('.certification-course-page__submit_button');
+          });
+
+          it('should be redirected on the first challenge of an assessment', function() {
+            // then
+            expect(currentURL()).to.match(/assessments\/1\/challenges\/receop4TZKvtjjG0V/);
+          });
+
+          it('should navigate to next challenge when we click pass', async function() {
+            // when
+            await click('.challenge-actions__action-skip-text');
+
+            // then
+            expect(currentURL()).to.match(/assessments\/1\/challenges\/recLt9uwa2dR3IYpi/);
+          });
+
+          context('after skipping the all three challenges of the certification course', function() {
+
+            it('should navigate to redirect to certification result page at the end of the assessment', async function() {
               // given
-              const existingAssessment = {
-                type: 'CERTIFICATION',
-                certificationNumber: 'certification-course-id',
-              };
-              const assessment = this.server.schema.assessments.create(existingAssessment);
-              this.server.schema.certificationCourses.create({ id: 'certification-course-id', nbChallenges: 10, assessment });
-              await fillIn('#session-code', '10ue1');
-              await click('.certification-course-page__submit_button');
-
               await click('.challenge-actions__action-skip');
-              await visitWithAbortedTransition('/profil');
+              await click('.challenge-actions__action-skip');
+
               // when
-              await visitWithAbortedTransition('/certifications/certification-course-id');
+              await click('.challenge-item-warning__confirm-btn');
+              await click('.challenge-actions__action-skip');
 
               // then
-              expect(currentURL()).to.match(/assessments\/\d+\/challenges\/recLt9uwa2dR3IYpi/);
+              expect(currentURL()).to.equal('/certifications/certification-course-id/results');
             });
           });
         });
 
-        context('when the new certifiation start feature toggle is ON', function() {
+        context('When stop and relaunch the certification course', function() {
 
-          beforeEach(async function() {
-            const controller = this.owner.lookup('controller:certifications.start');
-            controller.set('isNewCertificationStartActive', true);
-          });
+          it('should be redirected on the second challenge of an assessment', async function() {
+            // given
+            await fillIn('#sessionId', '1');
+            await fillIn('#firstName', 'Laura');
+            await fillIn('#lastName', 'Bravo');
+            await fillIn('#dayOfBirth', '04');
+            await fillIn('#monthOfBirth', '01');
+            await fillIn('#yearOfBirth', '1990');
+            await click('.certification-joiner__attempt-next-btn');
+            await fillIn('#session-code', '10ue1');
+            await click('.certification-course-page__submit_button');
 
-          context('when user forget to fill a field', function() {
-            beforeEach(async function() {
-              await visitWithAbortedTransition('/certifications');
+            await click('.challenge-actions__action-skip');
+            await visitWithAbortedTransition('/profil');
+            // when
+            await visitWithAbortedTransition('/certifications/certification-course-id');
 
-              // when
-              await fillIn('#sessionId', '1');
-              await fillIn('#firstName', 'Laura');
-              await fillIn('#dayOfBirth', '04');
-              await fillIn('#monthOfBirth', '01');
-              await fillIn('#yearOfBirth', '1990');
-              await click('.certification-joiner__attempt-next-btn');
-            });
-
-            it('should display an error message', function() {
-              // then
-              expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
-            });
-          });
-
-          context('when no candidate with given info has been registered in the given session', function() {
-            beforeEach(async function() {
-              // when
-              await fillIn('#sessionId', '1');
-              await fillIn('#firstName', 'Laura');
-              await fillIn('#lastName', 'PasInscrite');
-              await fillIn('#dayOfBirth', '04');
-              await fillIn('#monthOfBirth', '01');
-              await fillIn('#yearOfBirth', '1990');
-              await click('.certification-joiner__attempt-next-btn');
-            });
-
-            it('should display an error message', function() {
-              // then
-              expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
-            });
-          });
-
-          context('when several candidates with given info are found in the given session', function() {
-            beforeEach(async function() {
-              // when
-              await fillIn('#sessionId', '1');
-              await fillIn('#firstName', 'Laura');
-              await fillIn('#lastName', 'PlusieursMatchs');
-              await fillIn('#dayOfBirth', '04');
-              await fillIn('#monthOfBirth', '01');
-              await fillIn('#yearOfBirth', '1990');
-              await click('.certification-joiner__attempt-next-btn');
-            });
-
-            it('should display an error message', function() {
-              // then
-              expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
-            });
-          });
-
-          context('when user has already been linked to another candidate in the session', function() {
-            beforeEach(async function() {
-              // when
-              await fillIn('#sessionId', '1');
-              await fillIn('#firstName', 'Laura');
-              await fillIn('#lastName', 'UtilisateurLiéAutre');
-              await fillIn('#dayOfBirth', '04');
-              await fillIn('#monthOfBirth', '01');
-              await fillIn('#yearOfBirth', '1990');
-              await click('.certification-joiner__attempt-next-btn');
-            });
-
-            it('should display an error message', function() {
-              // then
-              expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
-            });
-          });
-
-          context('when candidate has already been linked to another user in the session', function() {
-            beforeEach(async function() {
-              // when
-              await fillIn('#sessionId', '1');
-              await fillIn('#firstName', 'Laura');
-              await fillIn('#lastName', 'CandidatLiéAutre');
-              await fillIn('#dayOfBirth', '04');
-              await fillIn('#monthOfBirth', '01');
-              await fillIn('#yearOfBirth', '1990');
-              await click('.certification-joiner__attempt-next-btn');
-            });
-
-            it('should display an error message', function() {
-              // then
-              expect(find('.certification-course-page__errors').textContent.trim()).to.equal('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
-            });
-          });
-
-          context('when user is already linked to this candidate', function() {
-            beforeEach(async function() {
-              // given
-              this.server.schema.certificationCandidates.create({
-                id: 1,
-                firstName: 'Laura',
-                lastName: 'CandidatLiéUtilisateur',
-                sessionId: 1,
-                birthdate: '1990-01-04',
-              });
-              // when
-              await fillIn('#sessionId', '1');
-              await fillIn('#firstName', 'Laura');
-              await fillIn('#lastName', 'CandidatLiéUtilisateur');
-              await fillIn('#dayOfBirth', '04');
-              await fillIn('#monthOfBirth', '01');
-              await fillIn('#yearOfBirth', '1990');
-              await click('.certification-joiner__attempt-next-btn');
-            });
-
-            it('should render the component to provide the access code', function() {
-              // then
-              expect(find('.certification-start-page__title')).to.exist;
-            });
-          });
-
-          context('when user is successfuly linked to the candidate', function() {
-            beforeEach(async function() {
-              // when
-              await fillIn('#sessionId', '1');
-              await fillIn('#firstName', 'Laura');
-              await fillIn('#lastName', 'Bravo');
-              await fillIn('#dayOfBirth', '04');
-              await fillIn('#monthOfBirth', '01');
-              await fillIn('#yearOfBirth', '1990');
-              await click('.certification-joiner__attempt-next-btn');
-            });
-
-            it('should render the component to provide the access code', function() {
-              // then
-              expect(find('.certification-start-page__title')).to.exist;
-            });
-          });
-
-          context('when user enter a correct code session', function() {
-            beforeEach(async function() {
-              // when
-              await fillIn('#sessionId', '1');
-              await fillIn('#firstName', 'Laura');
-              await fillIn('#lastName', 'Bravo');
-              await fillIn('#dayOfBirth', '04');
-              await fillIn('#monthOfBirth', '01');
-              await fillIn('#yearOfBirth', '1990');
-              await click('.certification-joiner__attempt-next-btn');
-              await fillIn('#session-code', 'ABCD12');
-              await click('.certification-course-page__submit_button');
-            });
-
-            it('should be redirected on the first challenge of an assessment', function() {
-              // then
-              expect(currentURL()).to.match(/assessments\/1\/challenges\/receop4TZKvtjjG0V/);
-            });
-
-            it('should navigate to next challenge when we click pass', async function() {
-              // when
-              await click('.challenge-actions__action-skip-text');
-
-              // then
-              expect(currentURL()).to.match(/assessments\/1\/challenges\/recLt9uwa2dR3IYpi/);
-            });
-
-            context('after skipping the all three challenges of the certification course', function() {
-
-              it('should navigate to redirect to certification result page at the end of the assessment', async function() {
-                // given
-                await click('.challenge-actions__action-skip');
-                await click('.challenge-actions__action-skip');
-
-                // when
-                await click('.challenge-item-warning__confirm-btn');
-                await click('.challenge-actions__action-skip');
-
-                // then
-                expect(currentURL()).to.equal('/certifications/certification-course-id/results');
-              });
-            });
-          });
-
-          context('When stop and relaunch the certification course', function() {
-
-            it('should be redirected on the second challenge of an assessment', async function() {
-              // given
-              await fillIn('#sessionId', '1');
-              await fillIn('#firstName', 'Laura');
-              await fillIn('#lastName', 'Bravo');
-              await fillIn('#dayOfBirth', '04');
-              await fillIn('#monthOfBirth', '01');
-              await fillIn('#yearOfBirth', '1990');
-              await click('.certification-joiner__attempt-next-btn');
-              await fillIn('#session-code', '10ue1');
-              await click('.certification-course-page__submit_button');
-
-              await click('.challenge-actions__action-skip');
-              await visitWithAbortedTransition('/profil');
-              // when
-              await visitWithAbortedTransition('/certifications/certification-course-id');
-
-              // then
-              expect(currentURL()).to.match(/assessments\/\d+\/challenges\/recLt9uwa2dR3IYpi/);
-            });
+            // then
+            expect(currentURL()).to.match(/assessments\/\d+\/challenges\/recLt9uwa2dR3IYpi/);
           });
         });
       });

@@ -19,7 +19,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'updateOrganizationInformation');
     sandbox.stub(usecases, 'getOrganizationMemberships');
     sandbox.stub(usecases, 'findOrganizationStudents');
-    sandbox.stub(usecases, 'createOrganizationInvitation');
+    sandbox.stub(usecases, 'createOrganizationInvitations');
     sandbox.stub(usecases, 'answerToOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
 
@@ -205,7 +205,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     });
   });
 
-  describe('#sendInvitation', () => {
+  describe('#sendInvitations', () => {
 
     context('Success cases', () => {
 
@@ -227,7 +227,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return an HTTP response with status code 201', async () => {
         // given
-        usecases.createOrganizationInvitation.resolves(invitation);
+        usecases.createOrganizationInvitations.resolves([invitation]);
 
         // when
         const response = await httpTestServer.request('POST', '/api/organizations/1/invitations', payload);
@@ -239,23 +239,21 @@ describe('Integration | Application | Organizations | organization-controller', 
       it('should return the created invitation with status pending', async () => {
         // given
         const expectedResult = {
-          data: {
-            type: 'organization-invitations',
-            attributes: {
-              'organization-id': invitation.organizationId,
-              email: invitation.email,
-              status,
-              'created-at': invitation.createdAt
-            }
+          type: 'organization-invitations',
+          attributes: {
+            'organization-id': invitation.organizationId,
+            email: invitation.email,
+            status,
+            'created-at': invitation.createdAt
           }
         };
-        usecases.createOrganizationInvitation.resolves(invitation);
+        usecases.createOrganizationInvitations.resolves([invitation]);
 
         // when
         const response = await httpTestServer.request('POST', `/api/organizations/${invitation.organizationId}/invitations`, payload);
 
         // then
-        expect(_.omit(response.result, 'data.id', 'data.attributes.organization-name')).to.deep.equal(expectedResult);
+        expect(_.omit(response.result.data[0], 'id', 'attributes.organization-name')).to.deep.equal(expectedResult);
       });
     });
   });

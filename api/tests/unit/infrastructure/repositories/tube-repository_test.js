@@ -1,7 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const AirtableRecord = require('airtable').Record;
 const airtable = require('../../../../lib/infrastructure/airtable');
-const airTableDataObjects = require('../../../../lib/infrastructure/datasources/airtable/objects');
 const Tube = require('../../../../lib/domain/models/Tube');
 const tubeDatasource = require('../../../../lib/infrastructure/datasources/airtable/tube-datasource');
 const tubeRepository = require('../../../../lib/infrastructure/repositories/tube-repository');
@@ -31,23 +30,23 @@ describe('Unit | Repository | tube-repository', () => {
     'createdTime': '2018-01-31T12:48:07.000Z'
   });
 
-  const tubeData1 = new airTableDataObjects.Tube({
+  const tubeData1 = {
     id: 'recTube1',
     name: '@Moteur',
     title: 'Titre',
     description: 'Description',
     practicalTitle: 'Titre vulgarisé',
     practicalDescription: 'Description vulgarisée',
-  });
+  };
 
-  const tubeData2 = new airTableDataObjects.Tube({
+  const tubeData2 = {
     id: 'recTube2',
     name: '@enregistrer',
     title: 'Titre',
     description: 'Description',
     practicalTitle: 'Titre vulgarisé',
     practicalDescription: 'Description vulgarisée',
-  });
+  };
 
   beforeEach(() => {
     sinon.stub(tubeDatasource, 'findByNames');
@@ -60,22 +59,22 @@ describe('Unit | Repository | tube-repository', () => {
     const names = ['name1', 'name2'];
 
     beforeEach(() => {
-      const tube1 = new airTableDataObjects.Tube({
+      const tube1 = {
         id: 'recTube1',
         name: names[0],
         title: 'Title 1',
         description: 'Description 1',
         practicalTitle: 'Practical Title 1',
         practicalDescription: 'Practical Description 1',
-      });
-      const tube2 = new airTableDataObjects.Tube({
+      };
+      const tube2 = {
         id: 'recTube2',
         name: names[1],
         title: 'Title 2',
         description: 'Description 2',
         practicalTitle: 'Practical Title 2',
         practicalDescription: 'Practical Description 2',
-      });
+      };
 
       tubeDatasource.findByNames.withArgs(names).resolves([tube1, tube2]);
     });

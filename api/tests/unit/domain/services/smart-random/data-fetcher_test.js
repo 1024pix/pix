@@ -13,7 +13,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
 
     beforeEach(() => {
       answerRepository = {
-        findByAssessment: sinon.stub(),
+        findLastByAssessment: sinon.stub(),
       };
       targetProfileRepository = {
         get: sinon.stub(),
@@ -32,9 +32,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
     it('fetches answers, targetsSkills challenges and knowledgeElements', async () => {
       // given
       const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({ state: 'started' });
-      const answers = [
-        domainBuilder.buildAnswer(),
-      ];
+      const answer = domainBuilder.buildAnswer();
       const challenges = [
         domainBuilder.buildChallenge(),
       ];
@@ -44,7 +42,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       const targetProfile = domainBuilder.buildTargetProfile();
 
       assessment.campaignParticipation.getTargetProfileId = () => 1;
-      answerRepository.findByAssessment.withArgs(assessment.id).resolves(answers);
+      answerRepository.findLastByAssessment.withArgs(assessment.id).resolves(answer);
       targetProfileRepository.get.withArgs(1).resolves(targetProfile);
       challengeRepository.findBySkills.withArgs(targetProfile.skills).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
@@ -61,7 +59,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       });
 
       // then
-      expect(data.answers).to.deep.equal(answers);
+      expect(data.lastAnswer).to.deep.equal(answer);
       expect(data.targetSkills).to.deep.equal(targetProfile.skills);
       expect(data.challenges).to.deep.equal(challenges);
       expect(data.knowledgeElements).to.deep.equal(knowledgeElements);
@@ -78,7 +76,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
 
     beforeEach(() => {
       answerRepository = {
-        findByAssessment: sinon.stub(),
+        findLastByAssessment: sinon.stub(),
       };
       challengeRepository = {
         findByCompetenceId: sinon.stub(),
@@ -93,9 +91,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
 
     it('fetches answers, targetsSkills challenges and knowledgeElements', async () => {
       // given
-      const answers = [
-        domainBuilder.buildAnswer(),
-      ];
+      const answer = domainBuilder.buildAnswer();
       const challenges = [
         domainBuilder.buildChallenge(),
       ];
@@ -107,7 +103,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       ];
       const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement();
 
-      answerRepository.findByAssessment.withArgs(assessment.id).resolves(answers);
+      answerRepository.findLastByAssessment.withArgs(assessment.id).resolves(answer);
       skillRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
       challengeRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
@@ -122,7 +118,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       });
 
       // then
-      expect(data.answers).to.deep.equal(answers);
+      expect(data.lastAnswer).to.deep.equal(answer);
       expect(data.targetSkills).to.deep.equal(skills);
       expect(data.challenges).to.deep.equal(challenges);
       expect(data.knowledgeElements).to.deep.equal(knowledgeElements);

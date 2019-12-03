@@ -19,6 +19,7 @@ module.exports = function skillRawAirTableFixture() {
       'Comprendre': [
         'receomyzL0AmpMFGw'
       ],
+      'PixValue': 2.4,
       'En savoir plus': [
         'recQbjXNAPsVJthXh',
         'rec3DkUX0a6RNi2Hz'

@@ -21,7 +21,7 @@ describe('Acceptance | Displaying a QROC', function() {
   });
 
   it('should display only one input text as proposal to user', function() {
-    expect(findAll('.challenge-response__proposal-input')).to.have.lengthOf(1);
+    expect(findAll('.challenge-response__proposal')).to.have.lengthOf(1);
   });
 
   it('should display the error alert if the users tries to validate an empty answer', async function() {
