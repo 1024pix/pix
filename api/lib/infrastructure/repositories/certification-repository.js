@@ -68,6 +68,7 @@ module.exports = {
         );
         qb.where('certification-courses.userId', userId);
         qb.where('assessments.state', Assessment.states.COMPLETED);
+        qb.orderBy('id', 'desc');
       })
       .fetchAll({
         required: false,
