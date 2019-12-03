@@ -15,12 +15,12 @@ module.exports = {
       .then((students) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStudent, students));
   },
 
-  checkIfAtLeastOneStudentHasAlreadyBeenImported(nationalStudentsIds) {
-    return BookshelfStudent
-      .where('nationalStudentId', 'IN', nationalStudentsIds)
-      .fetchAll()
-      .then((alreadyImportedStudents) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStudent, alreadyImportedStudents))
-      .then((alreadyImportedStudents) => !_.isEmpty(alreadyImportedStudents));
+  async checkIfAtLeastOneStudentIsInOrganization({ nationalStudentIds, organizationId }) {
+    const anyMatchingStudent = await BookshelfStudent
+      .where('nationalStudentId', 'IN', nationalStudentIds)
+      .where('organizationId', organizationId)
+      .fetch({ columns: 'id' });
+    return Boolean(anyMatchingStudent);
   },
 
   batchSave(studentsToSave) {
