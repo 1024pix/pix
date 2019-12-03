@@ -32,7 +32,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
       context('on name attribute', () => {
 
-        it('should reject with error when name is missing', () => {
+        it('should reject with error when name is missing', async () => {
           // given
           const expectedError = {
             attribute: 'name',
@@ -40,37 +40,46 @@ describe('Unit | Domain | Validators | organization-validator', function() {
           };
           const organizationCreationParams = { name: MISSING_VALUE, type: 'PRO' };
 
-          // when
-          const promise = organizationCreationValidator.validate(organizationCreationParams);
+          try {
+            // when
+            await organizationCreationValidator.validate(organizationCreationParams);
 
-          // then
-          return promise
-            .then(() => expect.fail('Expected rejection with errors'))
-            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
       });
 
       context('on type attribute', () => {
 
-        it('should reject with error when type is missing', () => {
+        it('should reject with error when type is missing', async () => {
           // given
-          const expectedError = {
-            attribute: 'type',
-            message: 'Le type n’est pas renseigné.'
-          };
+          const expectedError = [
+            {
+              attribute: 'type',
+              message: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.'
+            },
+            {
+              attribute: 'type',
+              message: 'Le type n’est pas renseigné.'
+            }];
+
           const organizationCreationParams = { name: 'ACME', type: MISSING_VALUE };
 
-          // when
-          const promise = organizationCreationValidator.validate(organizationCreationParams);
+          try {
+            // when
+            await organizationCreationValidator.validate(organizationCreationParams);
 
-          // then
-          return promise
-            .then(() => expect.fail('Expected rejection with errors'))
-            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
+          } catch (errors) {
+            // then
+            expect(errors.invalidAttributes).to.have.length(2);
+            expect(errors.invalidAttributes).to.have.deep.equal(expectedError);
+          }
         });
 
-        it('should reject with error when type value is not SUP, SCO or PRO', () => {
+        it('should reject with error when type value is not SUP, SCO or PRO', async () => {
           // given
           const expectedError = {
             attribute: 'type',
@@ -78,13 +87,14 @@ describe('Unit | Domain | Validators | organization-validator', function() {
           };
           const organizationCreationParams = { name: 'ACME', type: 'PTT' };
 
-          // when
-          const promise = organizationCreationValidator.validate(organizationCreationParams);
+          try {
+            // when
+            await organizationCreationValidator.validate(organizationCreationParams);
 
-          // then
-          return promise
-            .then(() => expect.fail('Expected rejection with errors'))
-            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
         [
@@ -106,19 +116,18 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
       });
 
-      it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
+      it('should reject with errors on all fields (but only once by field) when all fields are missing', async () => {
         // given
         const organizationCreationParams = { name: MISSING_VALUE, type: MISSING_VALUE, };
 
-        // when
-        const promise = organizationCreationValidator.validate(organizationCreationParams);
+        try {
+          // when
+          await organizationCreationValidator.validate(organizationCreationParams);
 
-        // then
-        return promise
-          .then(() => expect.fail('Expected rejection with errors'))
-          .catch((entityValidationErrors) => {
-            expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(2);
-          });
+        } catch (errors) {
+          // then
+          expect(errors.invalidAttributes).to.have.lengthOf(3);
+        }
       });
     });
   });

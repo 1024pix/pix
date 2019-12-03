@@ -81,7 +81,7 @@ class CertificationCandidate {
         throw new InvalidCertificationCandidate();
     }
 
-    const result = Joi.validate(this, usedSchema);
+    const result = usedSchema.validate(this);
     if (result.error !== null) {
       throw new InvalidCertificationCandidate();
     }

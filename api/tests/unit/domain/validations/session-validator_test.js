@@ -1,5 +1,4 @@
 const { expect, domainBuilder } = require('../../../test-helper');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
 const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 
 const MISSING_VALUE = '';
@@ -33,7 +32,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
       context('on address attribute', () => {
 
-        it('should reject with error when address is missing', () => {
+        it('should reject with error when address is missing', async () => {
           // given
           const expectedErrors = [{
             attribute: 'address',
@@ -41,17 +40,21 @@ describe('Unit | Domain | Validators | session-validator', () => {
           }];
           session.address = MISSING_VALUE;
 
-          // when/then
-          return expect(() => sessionValidator.validate(session))
-            .to.throw(EntityValidationError)
-            .with.deep.property('invalidAttributes', expectedErrors);
+          try {
+            // when
+            await sessionValidator.validate(session);
+
+          } catch (entityValidationErrors) {
+            // then
+            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
+          }
         });
 
       });
 
       context('on room attribute', () => {
 
-        it('should reject with error when room is missing', () => {
+        it('should reject with error when room is missing', async  () => {
           // given
           const expectedErrors = [{
             attribute: 'room',
@@ -59,17 +62,21 @@ describe('Unit | Domain | Validators | session-validator', () => {
           }];
           session.room = MISSING_VALUE;
 
-          // when/then
-          return expect(() => sessionValidator.validate(session))
-            .to.throw(EntityValidationError)
-            .with.deep.property('invalidAttributes', expectedErrors);
+          try {
+            // when
+            await sessionValidator.validate(session);
+
+          } catch (entityValidationErrors) {
+            // then
+            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
+          }
         });
 
       });
 
       context('on date attribute', () => {
 
-        it('should reject with error when date is missing', () => {
+        it('should reject with error when date is missing', async () => {
           // given
           const expectedErrors = [{
             attribute: 'date',
@@ -77,17 +84,21 @@ describe('Unit | Domain | Validators | session-validator', () => {
           }];
           session.date = MISSING_VALUE;
 
-          // when/then
-          return expect(() => sessionValidator.validate(session))
-            .to.throw(EntityValidationError)
-            .with.deep.property('invalidAttributes', expectedErrors);
+          try {
+            // when
+            await sessionValidator.validate(session);
+
+          } catch (entityValidationErrors) {
+            // then
+            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
+          }
         });
 
       });
 
       context('on time attribute', () => {
 
-        it('should reject with error when time is an empty string', () => {
+        it('should reject with error when time is an empty string', async () => {
           // given
           const expectedErrors = [{
             attribute: 'time',
@@ -95,13 +106,17 @@ describe('Unit | Domain | Validators | session-validator', () => {
           }];
           session.time = '';
 
-          // when/then
-          return expect(() => sessionValidator.validate(session))
-            .to.throw(EntityValidationError)
-            .with.deep.property('invalidAttributes', expectedErrors);
+          try {
+            // when
+            await sessionValidator.validate(session);
+
+          } catch (entityValidationErrors) {
+            // then
+            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
+          }
         });
 
-        it('should reject with error when time ihas a format different than HH:MM', () => {
+        it('should reject with error when time ihas a format different than HH:MM', async () => {
           // given
           const expectedErrors = [{
             attribute: 'time',
@@ -109,17 +124,21 @@ describe('Unit | Domain | Validators | session-validator', () => {
           }];
           session.time = '14:23:30';
 
-          // when/then
-          return expect(() => sessionValidator.validate(session))
-            .to.throw(EntityValidationError)
-            .with.deep.property('invalidAttributes', expectedErrors);
+          try {
+            // when
+            await sessionValidator.validate(session);
+
+          } catch (entityValidationErrors) {
+            // then
+            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
+          }
         });
 
       });
 
       context('on examiner attribute', () => {
 
-        it('should reject with error when examiner is missing', () => {
+        it('should reject with error when examiner is missing', async () => {
           // given
           const expectedErrors = [{
             attribute: 'examiner',
@@ -127,10 +146,14 @@ describe('Unit | Domain | Validators | session-validator', () => {
           }];
           session.examiner = MISSING_VALUE;
 
-          // when/then
-          return expect(() => sessionValidator.validate(session))
-            .to.throw(EntityValidationError)
-            .with.deep.property('invalidAttributes', expectedErrors);
+          try {
+            // when
+            await sessionValidator.validate(session);
+
+          } catch (entityValidationErrors) {
+            // then
+            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
+          }
         });
 
       });
