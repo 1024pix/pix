@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.91.0 (03/12/2019)
+
+- [#869](https://github.com/1024pix/pix/pull/869) [FEATURE] Pouvoir inviter plusieurs utilisateurs en une seule fois (PO-277).
+- [#834](https://github.com/1024pix/pix/pull/834) [FEATURE] Rendre le champs QROC configurable (PF-839).
+- [#830](https://github.com/1024pix/pix/pull/830) [FEATURE] Gérer la distance d'édition lors de la réconciliation d'un user avec un student (PF-851).
+- [#849](https://github.com/1024pix/pix/pull/849) [FEATURE] Ajouter une étape contenant un lien vers le formbuilder lors de la finalisation de la session (PC-85)
+- [#873](https://github.com/1024pix/pix/pull/873) [BUGFIX] Rendre l'instruction des challenges non cliquable (PF-956).
+- [#862](https://github.com/1024pix/pix/pull/862) [BUGFIX] Vérifier que le code d'accès correspond à la session de certif (PF 931)
+- [#877](https://github.com/1024pix/pix/pull/877) [TECH] Corrige un test qui échoue au hasard
+- [#876](https://github.com/1024pix/pix/pull/876) [TECH] Suppression des objets Airtable Datasource intermédiaires.
+- [#824](https://github.com/1024pix/pix/pull/824) [TECH] Performance de la route next-challenge (PF-732).
+- [#882](https://github.com/1024pix/pix/pull/882) [TECH] Ne pas faire les appels vers matomo dans les tests E2E.
+- [#864](https://github.com/1024pix/pix/pull/864) [TECH] Supprimer le dossier /plop
+
 ## v2.90.0 (28/11/2019)
 
 - [#855](https://github.com/1024pix/pix/pull/855) [FEATURE] Afficher une zone grise à la place de l'image d'un challenge (PF-936).
