@@ -90,11 +90,6 @@ function _addCellByHeadersTitleForText(title, data, line, headers) {
   return line;
 }
 
-function _percentageSkillsValidated(knowledgeElements, targetProfile) {
-  const totalValidatedSkills = _.sumBy(knowledgeElements, 'isValidated');
-  return _.round(totalValidatedSkills / targetProfile.skills.length, 2);
-}
-
 function _stateOfSkill(skillId, knowledgeElements) {
   const knowledgeElementForSkill = _.find(knowledgeElements, { skillId });
   if (knowledgeElementForSkill) {
@@ -102,13 +97,6 @@ function _stateOfSkill(skillId, knowledgeElements) {
   } else {
     return 'Non testé';
   }
-}
-
-function _getSkillsOfCompetenceByTargetProfile(competence, targetProfile) {
-  const skillsOfProfile = targetProfile.skills;
-  const skillsOfCompetences = competence.skills;
-  return skillsOfProfile
-    .filter((skillOfProfile) => skillsOfCompetences.some((skill) => skill === skillOfProfile.id));
 }
 
 function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
@@ -183,7 +171,7 @@ function _createOneLineOfCSV(
 
         line = _addCellByHeadersTitleForNumber(
           '"% maitrise de l\'ensemble des acquis du profil"',
-          _percentageSkillsValidated(knowledgeElements, targetProfile),
+          targetProfile.getKnowledgeElementsValidatedPercentage(knowledgeElements),
           line,
           headers,
         );
@@ -198,7 +186,7 @@ function _createOneLineOfCSV(
 
         // By Competences
         _.forEach(listCompetences, (competence) => {
-          const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
+          const skillsForThisCompetence = targetProfile.getSkillsInCompetence(competence);
           const numberOfSkillsValidatedForThisCompetence = _getSkillsValidatedForCompetence(skillsForThisCompetence,
             knowledgeElements);
           const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);

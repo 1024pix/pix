@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 class TargetProfile {
   constructor({
     id,
@@ -22,6 +24,19 @@ class TargetProfile {
     this.organizationId = organizationId;
     this.sharedWithOrganizationIds = sharedWithOrganizationIds;
   }
+
+  getSkillsInCompetence(competence) {
+    const competenceSkillsKeyedById = _.map(competence.skills, (skill) => {
+      return { id: skill };
+    });
+    return _.intersectionBy(this.skills, competenceSkillsKeyedById, 'id');
+  }
+
+  getKnowledgeElementsValidatedPercentage(knowledgeElements) {
+    const totalValidatedSkills = _.sumBy(knowledgeElements, 'isValidated');
+    return _.round(totalValidatedSkills / this.skills.length, 2);
+  }
 }
 
 module.exports = TargetProfile;
+
