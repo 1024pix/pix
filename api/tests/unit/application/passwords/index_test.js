@@ -30,7 +30,7 @@ describe('Unit | Router | Password router', () => {
         payload: {
           data: {
             attributes: {
-              email: 'uzinagaz@unknown.xh',
+              email: 'uzinagaz@example.net',
               'temporary-key': 'clé'
             },
             type: 'password-reset'

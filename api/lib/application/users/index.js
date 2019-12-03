@@ -112,13 +112,13 @@ exports.register = async function(server) {
           options: {
             allowUnknown: true
           },
-          payload: {
+          payload: Joi.object({
             data: {
               attributes: {
-                password: Joi.string().regex(XRegExp(passwordValidationPattern)).required(),
+                password: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
               }
             }
-          }
+          })
         },
         notes : [
           '- Met à jour le mot de passe d\'un utilisateur identifié par son id\n' +

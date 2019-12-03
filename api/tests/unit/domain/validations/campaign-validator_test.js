@@ -190,7 +190,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
         } catch (entityValidationErrors) {
           // then
-          expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(4)
+          expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(4);
         }
       });
 
