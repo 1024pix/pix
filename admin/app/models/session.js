@@ -1,5 +1,7 @@
 import DS from 'ember-data';
+import { computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
+import _ from 'lodash';
 
 export default DS.Model.extend({
   certificationCenter: DS.attr(),
@@ -13,4 +15,9 @@ export default DS.Model.extend({
   status: DS.attr(),
   isFinalized: equal('status', 'finalized'),
   certifications: DS.hasMany('certification'),
+  countNonValidatedCertifications : computed('certifications.[]', function() {
+    return _.reduce(this.certifications.toArray(), (count, certification) => {
+      return certification.status !== 'validated' ? ++count : count;
+    }, 0);
+  }),
 });

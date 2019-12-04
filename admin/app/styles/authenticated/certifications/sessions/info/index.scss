@@ -1,0 +1,16 @@
+.certifications-session-info {
+  padding: 20px;
+  padding-bottom: 0px;
+
+  .row--btn {
+    justify-content: flex-end;
+
+    .btn {
+      margin-left: 20px;
+    }
+  }
+
+  &__stats {
+    padding-top: 40px;
+  }
+}
