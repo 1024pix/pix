@@ -33,7 +33,6 @@ module('Unit | Service | session-info-service', function(hooks) {
     return EmberObject.create({
       id,
       sessionId,
-      certificationId: id,
       assessmentId: 5,
       firstName: 'Toto',
       lastName: 'Le héros',
