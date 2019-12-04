@@ -2,11 +2,11 @@ const { sinon, expect, hFake } = require('../../../test-helper');
 
 const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
 const User = require('../../../../lib/domain/models/User');
-const SearchResultList = require('../../../../lib/domain/models/SearchResultList');
 
 const userController = require('../../../../lib/application/users/user-controller');
 
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
@@ -305,24 +305,26 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#find', () => {
+  describe('#findPaginatedFilteredUsers', () => {
 
     beforeEach(() => {
-      sinon.stub(usecases, 'findUsers');
+      sinon.stub(queryParamsUtils, 'extractParameters');
+      sinon.stub(usecases, 'findPaginatedFilteredUsers');
       sinon.stub(userSerializer, 'serialize');
     });
 
     it('should return a list of JSON API users fetched from the data repository', async () => {
       // given
       const request = { query: {} };
-      usecases.findUsers.resolves(new SearchResultList());
+      queryParamsUtils.extractParameters.withArgs({}).returns({});
+      usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
       userSerializer.serialize.returns({ data: {}, meta: {} });
 
       // when
-      await userController.find(request, hFake);
+      await userController.findPaginatedFilteredUsers(request, hFake);
 
       // then
-      expect(usecases.findUsers).to.have.been.calledOnce;
+      expect(usecases.findPaginatedFilteredUsers).to.have.been.calledOnce;
       expect(userSerializer.serialize).to.have.been.calledOnce;
     });
 
@@ -331,80 +333,70 @@ describe('Unit | Controller | user-controller', () => {
       const request = { query: {} };
       const expectedResults = [new User({ id: 1 }), new User({ id: 2 }), new User({ id: 3 })];
       const expectedPagination = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4 };
-
-      usecases.findUsers.resolves({ models: expectedResults, pagination: expectedPagination });
+      queryParamsUtils.extractParameters.withArgs({}).returns({});
+      usecases.findPaginatedFilteredUsers.resolves({ models: expectedResults, pagination: expectedPagination });
 
       // when
-      await userController.find(request, hFake);
+      await userController.findPaginatedFilteredUsers(request, hFake);
 
       // then
-
       expect(userSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedPagination);
     });
 
     it('should allow to filter users by first name', async () => {
       // given
-      const request = { query: { firstName: 'first_name' } };
-      usecases.findUsers.resolves(new SearchResultList());
+      const query = { filter: { firstName: 'Alexia' }, page: {} };
+      const request = { query };
+      queryParamsUtils.extractParameters.withArgs(query).returns(query);
+      usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
 
       // when
-      await userController.find(request, hFake);
+      await userController.findPaginatedFilteredUsers(request, hFake);
 
       // then
-      const expectedFilters = { firstName: 'first_name' };
-      expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
+      expect(usecases.findPaginatedFilteredUsers).to.have.been.calledWithMatch(query);
     });
 
     it('should allow to filter users by last name', async () => {
       // given
-      const request = { query: { lastName: 'last_name' } };
-      usecases.findUsers.resolves(new SearchResultList());
+      const query = { filter: { lastName: 'Granjean' }, page: {} };
+      const request = { query };
+      queryParamsUtils.extractParameters.withArgs(query).returns(query);
+      usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
 
       // when
-      await userController.find(request, hFake);
+      await userController.findPaginatedFilteredUsers(request, hFake);
 
       // then
-      const expectedFilters = { lastName: 'last_name' };
-      expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
+      expect(usecases.findPaginatedFilteredUsers).to.have.been.calledWithMatch(query);
     });
 
     it('should allow to filter users by email', async () => {
       // given
-      const request = { query: { email: 'email' } };
-      usecases.findUsers.resolves(new SearchResultList());
+      const query = { filter: { email: 'alexiagranjean' }, page: {} };
+      const request = { query };
+      queryParamsUtils.extractParameters.withArgs(query).returns(query);
+      usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
 
       // when
-      await userController.find(request, hFake);
+      await userController.findPaginatedFilteredUsers(request, hFake);
 
       // then
-      const expectedFilters = { email: 'email' };
-      expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
+      expect(usecases.findPaginatedFilteredUsers).to.have.been.calledWithMatch(query);
     });
 
     it('should allow to paginate on a given page and page size', async () => {
       // given
-      const request = { query: { page: 2, pageSize: 25 } };
-      usecases.findUsers.resolves(new SearchResultList());
+      const query = { filter: { email: 'alexiagranjean' }, page: { number: 2, size: 25 } };
+      const request = { query };
+      queryParamsUtils.extractParameters.withArgs(query).returns(query);
+      usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
 
       // when
-      await userController.find(request, hFake);
+      await userController.findPaginatedFilteredUsers(request, hFake);
 
       // then
-      const expectedPagination = { page: 2, pageSize: 25 };
-      expect(usecases.findUsers).to.have.been.calledWithMatch({ pagination: expectedPagination });
-    });
-
-    it('should paginate on page 1 for a page size of 10 elements by default', async () => {
-      // given
-      const request = { query: {} };
-      usecases.findUsers.resolves(new SearchResultList());
-
-      // when
-      await userController.find(request, hFake);
-
-      // then
-      const expectedPagination = { page: 1, pageSize: 10 };
-      expect(usecases.findUsers).to.have.been.calledWithMatch({ pagination: expectedPagination });
+      expect(usecases.findPaginatedFilteredUsers).to.have.been.calledWithMatch(query);
     });
   });
 

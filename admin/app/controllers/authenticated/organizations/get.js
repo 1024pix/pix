@@ -14,9 +14,9 @@ export default Controller.extend({
     },
 
     async addMembership() {
-      const email = this.userEmail;
+      const email = this.userEmail.trim();
       const organization = this.model;
-      const matchingUsers = await this.store.query('user', { email });
+      const matchingUsers = await this.store.query('user', { filter: { email } });
 
       // GET /users?filers[email] makes an approximative request ("LIKE %email%") and not a strict request
       const user = matchingUsers.findBy('email', email);
