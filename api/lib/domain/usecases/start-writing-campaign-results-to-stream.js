@@ -1,8 +1,8 @@
 const moment = require('moment');
 const bluebird = require('bluebird');
 const csvService = require('../services/csv-service');
+const { pipe, assign: addProperties } = require('lodash/fp');
 const _ = require('lodash');
-const { pipe } = require('lodash/fp');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
 
@@ -163,13 +163,7 @@ async function _createOneLineOfCSV(
       _addNumberCell('"% maitrise de l\'ensemble des acquis du profil"', targetProfile.getKnowledgeElementsValidatedPercentage(knowledgeElements), headers),
     )(line);
 
-    const areaSkills = listArea.map((area) => {
-      return {
-        title: area.title,
-        numberSkillsValidated: 0,
-        numberSkillsTested: 0,
-      };
-    });
+    const areaSkills = listArea.map(addProperties({ numberSkillsValidated: 0, numberSkillsTested: 0 }));
 
     // By Competences
     _.forEach(listCompetences, (competence) => {
