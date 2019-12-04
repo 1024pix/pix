@@ -2,11 +2,11 @@
 // https://www.npmjs.com/package/dotenv#usage
 require('dotenv').config();
 
+const Hapi = require('@hapi/hapi');
+
 const { DomainError } = require('./lib/domain/errors');
 const { InfrastructureError } = require('./lib/infrastructure/errors');
 const errorManager = require('./lib/infrastructure/utils/error-manager');
-
-const Hapi = require('@hapi/hapi');
 
 const routes = require('./lib/routes');
 const plugins = require('./lib/plugins');
@@ -22,35 +22,33 @@ const createServer = async () => {
         additionalHeaders: ['X-Requested-With']
       },
       response: {
-        emptyStatusCode: 204
-      }
+        emptyStatusCode: 204,
+      },
     },
     port: config.port,
     router: {
       isCaseSensitive: false,
-      stripTrailingSlash: true
-    }
+      stripTrailingSlash: true,
+    },
   });
 
-  const preResponse = function(request, h) {
-    const response = request.response;
+  function handleErrors(request, h) {
+    const { response } = request;
 
     if (response instanceof DomainError || response instanceof InfrastructureError) {
       return errorManager.send(h, response);
     }
 
     return h.continue;
-  };
+  }
 
-  server.ext('onPreResponse', preResponse);
+  server.ext('onPreResponse', handleErrors);
 
   server.auth.scheme('jwt-access-token', security.scheme);
   server.auth.strategy('default', 'jwt-access-token');
   server.auth.default('default');
 
-  const configuration = [].concat(plugins, routes);
-
-  await server.register(configuration);
+  await server.register([...plugins, ...routes]);
 
   return server;
 };
