@@ -3,7 +3,6 @@ import { computed } from '@ember/object';
 
 export default DS.Model.extend({
   sessionId: DS.attr(),
-  certificationId: DS.attr(),
   assessmentId: DS.attr(),
   firstName: DS.attr(),
   lastName: DS.attr(),
