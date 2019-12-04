@@ -227,7 +227,7 @@ module.exports = async function startWritingCampaignResultsToStream(
   const targetProfileSkillNames = _.map(targetProfile.skills, 'name');
   const targetProfileSkillIds = _.map(targetProfile.skills, 'id');
   const targetProfileCompetences = listAllCompetences.filter(_competenceRelatedTo(targetProfileSkillIds));
-  const targetProfileAreas = _(targetProfileCompetences).map('area').uniqBy('code').value();
+  const targetProfileAreas = _(targetProfileCompetences).map('area').value();
 
   const headersAsArray = createCsvHeader(targetProfileSkillNames, targetProfileCompetences, targetProfileAreas, campaign.idPixLabel);
 
