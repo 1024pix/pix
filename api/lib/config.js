@@ -25,6 +25,11 @@ module.exports = (function() {
 
     environment: (process.env.NODE_ENV || 'development'),
 
+    responseHeaders: {
+      xApiVersion: 'X-Api-Version',
+      AccesControlExposeHeaders: 'Access-Control-Expose-Headers',
+    },
+
     hapi: {
       options: {}
     },

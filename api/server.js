@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const Hapi = require('@hapi/hapi');
 
+const { version } = require('./package.json');
 const { DomainError } = require('./lib/domain/errors');
 const { InfrastructureError } = require('./lib/infrastructure/errors');
 const errorManager = require('./lib/infrastructure/utils/error-manager');
@@ -19,7 +20,7 @@ const createServer = async () => {
     routes: {
       cors: {
         origin: ['*'],
-        additionalHeaders: ['X-Requested-With']
+        additionalHeaders: ['X-Requested-With', config.responseHeaders.xApiVersion],
       },
       response: {
         emptyStatusCode: 204,
@@ -42,7 +43,23 @@ const createServer = async () => {
     return h.continue;
   }
 
+  function setVersionHeaders(request, h) {
+    const { response } = request;
+
+    if (response.isBoom) {
+      response.output.headers[config.responseHeaders.xApiVersion] = version;
+      response.output.headers[config.responseHeaders.AccesControlExposeHeaders] = config.responseHeaders.xApiVersion;
+    }
+    else {
+      response.header(config.responseHeaders.xApiVersion, version);
+      response.header(config.responseHeaders.AccesControlExposeHeaders, config.responseHeaders.xApiVersion);
+    }
+
+    return h.continue;
+  }
+
   server.ext('onPreResponse', handleErrors);
+  server.ext('onPreResponse', setVersionHeaders);
 
   server.auth.scheme('jwt-access-token', security.scheme);
   server.auth.strategy('default', 'jwt-access-token');
