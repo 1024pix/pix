@@ -6,7 +6,7 @@ const _ = require('lodash');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
 
-async function _ensureCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
+async function _fetchUserIfHeHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   if (_.isNil(organizationId)) {
     throw new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`);
   }
@@ -15,6 +15,7 @@ async function _ensureCreatorHasAccessToCampaignOrganization(userId, organizatio
   if (!user.hasAccessToOrganization(organizationId)) {
     throw new UserNotAuthorizedToGetCampaignResultsError(`User does not have an access to the organization ${organizationId}`);
   }
+  return user;
 }
 
 function _cleanText(text) {
@@ -115,7 +116,7 @@ function _knowledgeElementRelatedTo(skills) {
   return (knowledgeElement) => _(skills).map('id').includes(knowledgeElement.skillId);
 }
 
-async function _createOneLineOfCSV(
+function _createOneLineOfCSV(
   headers,
   organization,
   campaign,
@@ -123,17 +124,16 @@ async function _createOneLineOfCSV(
   listArea,
   campaignParticipation,
   targetProfile,
-  userRepository,
-  smartPlacementAssessmentRepository,
-  knowledgeElementRepository,
+  user,
+  assessment,
+  allKnowledgeElements,
 ) {
   let line = headers.map(() => '"NA"');
 
-  const [assessment, user, allKnowledgeElements] = await Promise.all([
-    smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId),
-    userRepository.get(campaignParticipation.userId),
-    knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt })
-  ]);
+  const knowledgeElements = allKnowledgeElements.filter((ke) => targetProfile.skills.find((skill) => skill.id === ke.skillId));
+  const notCompletedPercentageProgression = _.round(knowledgeElements.length / (targetProfile.skills.length), 3,);
+  const percentageProgression = (assessment.isCompleted) ? 1 : notCompletedPercentageProgression;
+  const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
 
   line = pipe(
     _addTextCell('"Nom de l\'organisation"', organization.name, headers),
@@ -143,14 +143,6 @@ async function _createOneLineOfCSV(
     _addTextCell('"Nom du Participant"', user.lastName, headers),
     _addTextCell('"Prénom du Participant"', user.firstName, headers),
     campaign.idPixLabel ? _addTextCell(_cleanText(campaign.idPixLabel), campaignParticipation.participantExternalId, headers) : _.identity,
-  )(line);
-
-  const knowledgeElements = allKnowledgeElements.filter((ke) => targetProfile.skills.find((skill) => skill.id === ke.skillId));
-  const notCompletedPercentageProgression = _.round(knowledgeElements.length / (targetProfile.skills.length), 3,);
-  const percentageProgression = (assessment.isCompleted) ? 1 : notCompletedPercentageProgression;
-  const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
-
-  line = pipe(
     _addNumberCell('"% de progression"', percentageProgression, headers),
     _addNumberCell('"Date de début"', moment.utc(assessment.createdAt).format('YYYY-MM-DD'), headers),
     _addTextCell('"Partage (O/N)"', textForParticipationShared, headers),
@@ -220,9 +212,8 @@ module.exports = async function startWritingCampaignResultsToStream(
 
   const campaign = await campaignRepository.get(campaignId);
 
-  await _ensureCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
-
-  const [targetProfile, listAllCompetences, organization, listCampaignParticipation] = await Promise.all([
+  const [user, targetProfile, listAllCompetences, organization, listCampaignParticipation] = await Promise.all([
+    _fetchUserIfHeHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository),
     targetProfileRepository.get(campaign.targetProfileId),
     competenceRepository.list(),
     organizationRepository.get(campaign.organizationId),
@@ -248,7 +239,13 @@ module.exports = async function startWritingCampaignResultsToStream(
   writableStream.write(headerLine);
 
   bluebird.mapSeries(listCampaignParticipation, async (campaignParticipation) => {
-    const csvLine = await _createOneLineOfCSV(
+
+    const [assessment, allKnowledgeElements] = await Promise.all([
+      smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId),
+      knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt })
+    ]);
+
+    const csvLine = _createOneLineOfCSV(
       headersAsArray,
       organization,
       campaign,
@@ -256,9 +253,9 @@ module.exports = async function startWritingCampaignResultsToStream(
       listArea,
       campaignParticipation,
       targetProfile,
-      userRepository,
-      smartPlacementAssessmentRepository,
-      knowledgeElementRepository
+      user,
+      assessment,
+      allKnowledgeElements,
     );
 
     writableStream.write(csvLine);
