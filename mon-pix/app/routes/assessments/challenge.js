@@ -53,7 +53,7 @@ export default Route.extend({
     async saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
       const answer = this._findOrCreateAnswer(challenge, assessment);
       answer.setProperties({
-        value: answerValue,
+        value: answerValue.trim(),
         timeout: answerTimeout,
         elapsedTime: answerElapsedTime
       });
