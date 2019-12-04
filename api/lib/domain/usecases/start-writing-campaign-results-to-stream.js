@@ -1,7 +1,7 @@
 const moment = require('moment');
 const bluebird = require('bluebird');
 const csvService = require('../services/csv-service');
-const { pipe, assign: addProperties } = require('lodash/fp');
+const { pipe, assign: addProperties} = require('lodash/fp');
 const _ = require('lodash');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
@@ -116,12 +116,16 @@ function _knowledgeElementRelatedTo(skills) {
   return (knowledgeElement) => _(skills).map('id').includes(knowledgeElement.skillId);
 }
 
+function _competenceRelatedTo(skillIds) {
+  return (competence) => skillIds.some((skillId) => competence.skills.includes(skillId));
+}
+
 function _createOneLineOfCSV(
   headers,
   organization,
   campaign,
-  listCompetences,
-  listArea,
+  targetProfileCompetences,
+  targetProfileAreas,
   campaignParticipation,
   targetProfile,
   user,
@@ -130,8 +134,8 @@ function _createOneLineOfCSV(
 ) {
   let line = headers.map(() => '"NA"');
 
-  const knowledgeElements = allKnowledgeElements.filter((ke) => targetProfile.skills.find((skill) => skill.id === ke.skillId));
-  const notCompletedPercentageProgression = _.round(knowledgeElements.length / (targetProfile.skills.length), 3,);
+  const knowledgeElementsInTargetProfile = allKnowledgeElements.filter(_knowledgeElementRelatedTo(targetProfile.skills));
+  const notCompletedPercentageProgression = _.round(knowledgeElementsInTargetProfile.length / (targetProfile.skills.length), 3,);
   const percentageProgression = (assessment.isCompleted) ? 1 : notCompletedPercentageProgression;
   const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
 
@@ -152,15 +156,15 @@ function _createOneLineOfCSV(
     line = pipe(
       _addNumberCell('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
       _addNumberCell('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
-      _addNumberCell('"% maitrise de l\'ensemble des acquis du profil"', targetProfile.getKnowledgeElementsValidatedPercentage(knowledgeElements), headers),
+      _addNumberCell('"% maitrise de l\'ensemble des acquis du profil"', targetProfile.getKnowledgeElementsValidatedPercentage(knowledgeElementsInTargetProfile), headers),
     )(line);
 
-    const areaSkills = listArea.map(addProperties({ numberSkillsValidated: 0, numberSkillsTested: 0 }));
+    const areaSkills = targetProfileAreas.map(addProperties({ numberSkillsValidated: 0, numberSkillsTested: 0 }));
 
     // By Competences
-    _.forEach(listCompetences, (competence) => {
+    _.forEach(targetProfileCompetences, (competence) => {
       const skillsForThisCompetence = targetProfile.getSkillsInCompetence(competence);
-      const numberOfSkillsValidatedForThisCompetence = _getValidatedSkillsForCompetence(skillsForThisCompetence, knowledgeElements);
+      const numberOfSkillsValidatedForThisCompetence = _getValidatedSkillsForCompetence(skillsForThisCompetence, knowledgeElementsInTargetProfile);
       const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
 
       line = pipe(
@@ -189,7 +193,7 @@ function _createOneLineOfCSV(
 
     // By Skills
     _.forEach(targetProfile.skills, (skill) => {
-      line = pipe(_addTextCell(`"${skill.name}"`, _stateOfSkill(skill.id, knowledgeElements), headers))(line);
+      line = pipe(_addTextCell(`"${skill.name}"`, _stateOfSkill(skill.id, knowledgeElementsInTargetProfile), headers))(line);
     });
   }
   return line.join(';') + '\n';
@@ -220,16 +224,12 @@ module.exports = async function startWritingCampaignResultsToStream(
     campaignParticipationRepository.findByCampaignId(campaign.id),
   ]);
 
-  const listSkillsName = targetProfile.skills.map((skill) => skill.name);
-  const listSkillsId = targetProfile.skills.map((skill) => skill.id);
+  const targetProfileSkillNames = _.map(targetProfile.skills, 'name');
+  const targetProfileSkillIds = _.map(targetProfile.skills, 'id');
+  const targetProfileCompetences = listAllCompetences.filter(_competenceRelatedTo(targetProfileSkillIds));
+  const targetProfileAreas = _(targetProfileCompetences).map('area').uniqBy('code').value();
 
-  const listCompetences = listAllCompetences.filter((competence) => {
-    return listSkillsId.some((skillId) => competence.skills.includes(skillId));
-  });
-
-  const listArea = _.uniqBy(listCompetences.map((competence) => competence.area), 'code');
-
-  const headersAsArray = createCsvHeader(listSkillsName, listCompetences, listArea, campaign.idPixLabel);
+  const headersAsArray = createCsvHeader(targetProfileSkillNames, targetProfileCompetences, targetProfileAreas, campaign.idPixLabel);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -237,7 +237,6 @@ module.exports = async function startWritingCampaignResultsToStream(
   const headerLine = '\uFEFF' + headersAsArray.join(';') + '\n';
 
   writableStream.write(headerLine);
-
   bluebird.mapSeries(listCampaignParticipation, async (campaignParticipation) => {
 
     const [assessment, allKnowledgeElements] = await Promise.all([
@@ -249,8 +248,8 @@ module.exports = async function startWritingCampaignResultsToStream(
       headersAsArray,
       organization,
       campaign,
-      listCompetences,
-      listArea,
+      targetProfileCompetences,
+      targetProfileAreas,
       campaignParticipation,
       targetProfile,
       user,
