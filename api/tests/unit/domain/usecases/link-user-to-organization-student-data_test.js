@@ -4,7 +4,7 @@ const Student = require('../../../../lib/domain/models/Student');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { CampaignCodeError, NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | link-user-to-organization-student-data', () => {
 
@@ -12,6 +12,7 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
   let campaignCode;
   let findStudentStub;
   let findMatchingCandidateIdForGivenUserStub;
+  let getCampaignStub;
   let student;
   let user;
   const organizationId = 1;
@@ -31,9 +32,9 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
       birthdate: '02/02/1992',
     };
 
-      sinon.stub(campaignRepository, 'getByCode')
-        .withArgs(campaignCode)
-        .resolves({ organizationId });
+    getCampaignStub = sinon.stub(campaignRepository, 'getByCode')
+      .withArgs(campaignCode)
+      .resolves({ organizationId });
 
     findStudentStub = sinon.stub(studentRepository, 'findNotLinkedYetByOrganizationIdAndUserBirthdate')
       .withArgs({
@@ -42,6 +43,23 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
       }).resolves([student]);
 
     associateUserAndStudentStub = sinon.stub(studentRepository, 'associateUserAndStudent');
+  });
+
+  context('When there is no campaign with the given code', () => {
+
+    it('should throw a campaign code error', async () => {
+      // given
+      getCampaignStub.withArgs(campaignCode).resolves(null);
+
+      // when
+      const result = await catchErr(usecases.linkUserToOrganizationStudentData)({
+        user,
+        campaignCode
+      });
+
+      // then
+      expect(result).to.be.instanceof(CampaignCodeError);
+    });
   });
 
   context('When no student found based on birthdate and organizationId', () => {
