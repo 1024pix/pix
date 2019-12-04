@@ -1,4 +1,4 @@
-const { NotFoundError } = require('../../domain/errors');
+const { CampaignCodeError, NotFoundError } = require('../../domain/errors');
 
 module.exports = async function linkUserToOrganizationStudentData({
   campaignCode,
@@ -7,9 +7,12 @@ module.exports = async function linkUserToOrganizationStudentData({
   studentRepository,
   userReconciliationService,
 }) {
-  const { organizationId } = await campaignRepository.getByCode(campaignCode);
+  const campaign = await campaignRepository.getByCode(campaignCode);
+  if (!campaign || !campaign.organizationId) {
+    throw new CampaignCodeError();
+  }
   const students = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
-    organizationId,
+    organizationId: campaign.organizationId,
     birthdate,
   });
 
