@@ -6,7 +6,13 @@
 
 <main class="page-body">
   <section class="page-section">
-    {{user-list users=model}}
+    {{routes/authenticated/users/list-items
+      users=model
+      firstName=firstName
+      lastName=lastName
+      email=email
+      triggerFiltering=(action 'triggerFiltering')
+    }}
   </section>
 </main>
 

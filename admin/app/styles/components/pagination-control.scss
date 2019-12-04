@@ -1,0 +1,55 @@
+.pagination-control {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.page-size {
+  display: flex;
+  align-items: center;
+
+  &__label {
+    margin: 0 10px;
+  }
+
+  &__choice .select {
+    height: 35px;
+    width: 70px;
+    background-color: $grey-body;
+    border: none;
+    color: black;
+  }
+}
+
+.page-navigation {
+  display: flex;
+  align-items: center;
+
+  &__arrow {
+    margin: 0 10px;
+
+    &--disabled .icon-button{
+        color: $grey-body;
+        cursor: default;
+
+      &.icon-button:hover, &.icon-button:active {
+        background-color: transparent;
+      }
+    }
+  }
+
+  &__body {
+    display: flex;
+  }
+
+  &__label {
+    margin-right: 4px;
+  }
+
+  &__current-page, &__last-page {
+    display: flex;
+    justify-content: center;
+    width: 30px;
+  }
+}
+

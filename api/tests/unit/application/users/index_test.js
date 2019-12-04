@@ -20,7 +20,7 @@ describe('Unit | Router | user-router', () => {
         h.continue({ credentials: { accessToken: 'jwt.access.token' } });
       });
       sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-      sinon.stub(userController, 'find').returns('ok');
+      sinon.stub(userController, 'findPaginatedFilteredUsers').returns('ok');
       startServer();
     });
 
