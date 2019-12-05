@@ -93,6 +93,7 @@ describe('Unit | Service | Certification Service', function() {
   });
 
   describe('#getCertificationResult', () => {
+    const certificationCourseId = 1;
 
     context('when certification is finished', () => {
 
@@ -105,6 +106,7 @@ describe('Unit | Service | Certification Service', function() {
           ],
         }));
         sinon.stub(certificationCourseRepository, 'get').resolves(new CertificationCourse({
+          id: certificationCourseId,
           createdAt: new Date('2017-12-23T15:23:12Z'),
           completedAt: new Date('2017-12-23T16:23:12Z'),
           firstName: 'Pumba',
@@ -121,9 +123,6 @@ describe('Unit | Service | Certification Service', function() {
       });
 
       it('should return certification results with pix score, date and certified competences levels', () => {
-        // given
-        const certificationCourseId = 1;
-
         // when
         const promise = certificationService.getCertificationResult(certificationCourseId);
 
@@ -145,14 +144,12 @@ describe('Unit | Service | Certification Service', function() {
       });
 
       it('should return certified user informations', function() {
-        // given
-        const certificationCourseId = 1;
-
         // when
         const promise = certificationService.getCertificationResult(certificationCourseId);
 
         // then
         return promise.then((certification) => {
+          expect(certification.id).to.deep.equal(certificationCourseId);
           expect(certification.firstName).to.deep.equal('Pumba');
           expect(certification.lastName).to.deep.equal('De La Savane');
           expect(certification.birthplace).to.deep.equal('Savane');
@@ -170,6 +167,7 @@ describe('Unit | Service | Certification Service', function() {
           state: 'started',
         }));
         sinon.stub(certificationCourseRepository, 'get').resolves(new CertificationCourse({
+          id: certificationCourseId,
           createdAt: new Date('2017-12-23T15:23:12Z'),
           firstName: 'Pumba',
           lastName: 'De La Savane',

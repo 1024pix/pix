@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
@@ -45,17 +46,14 @@ module.exports = {
     // TODO: Back this unnamed composite object with a real domain object
     // TODO: model and do the necessary adjustements in PixAdmin.
     return {
-      ...certification,
-      ...lastAssessmentResultFull,
-      ...{
-        assessmentId: assessment ? assessment.id : null,
-        certificationId: certification.id,
-        createdAt: certification.createdAt,
-        resultCreatedAt: lastAssessmentResultFull.createdAt,
-        competencesWithMark: lastAssessmentResultFull.competenceMarks,
-      },
+      ..._.pick(certification, ['id', 'createdAt', 'completedAt', 'firstName', 'lastName',
+        'birthdate', 'birthplace', 'sessionId', 'externalId', 'isPublished', 'isV2Certification']),
+      ..._.pick(lastAssessmentResultFull, ['level', 'emitter', 'commentForJury', 'commentForCandidate',
+        'commentForOrganization', 'status', 'pixScore', 'juryId']),
+      assessmentId: assessment ? assessment.id : null,
+      resultCreatedAt: lastAssessmentResultFull.createdAt,
+      competencesWithMark: lastAssessmentResultFull.competenceMarks,
     };
-
   },
 
   _computeAnswersSuccessRate,
