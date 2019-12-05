@@ -63,10 +63,20 @@ async function findRecordsSkipCache(tableName, fields) {
   return recordsAsJson.map((rawJson) => new AirtableRecord(tableName, rawJson.id, rawJson));
 }
 
+async function preload(tableName, usedFields) {
+  const records = await findRecordsSkipCache(tableName, usedFields);
+
+  return Promise.all(records.map((record) => {
+    const cacheKey = generateCacheKey(tableName, record.id);
+    return cache.set(cacheKey, record._rawJson);
+  })).then(() => true);
+}
+
 module.exports = {
   generateCacheKey,
   getRecord,
   getRecordSkipCache,
   findRecords,
   findRecordsSkipCache,
+  preload,
 };
