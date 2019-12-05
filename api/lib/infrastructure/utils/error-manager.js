@@ -74,6 +74,9 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.AlreadyExistingCampaignParticipationError) {
     return new InfraErrors.PreconditionFailedError(error.message);
   }
+  if (error instanceof DomainErrors.AlreadySharedCampaignParticipationError) {
+    return new InfraErrors.PreconditionFailedError(error.message);
+  }
   if (error instanceof DomainErrors.ForbiddenAccess) {
     return new InfraErrors.ForbiddenError(error.message);
   }
