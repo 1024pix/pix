@@ -297,7 +297,8 @@ describe('Integration | Repository | Session', function() {
       const bookshelfSession = databaseBuilder.factory.buildSession({
         id: 1,
         room: '28D',
-        examiner: 'Roger'
+        examiner: 'Roger',
+        status: Session.statuses.STARTED,
       });
       session = domainBuilder.buildSession(bookshelfSession);
 
@@ -316,6 +317,8 @@ describe('Integration | Repository | Session', function() {
       // given
       session.room = 'New room';
       session.examiner = 'New examiner';
+      session.examinerComment = 'It was a fine session my dear';
+      session.status = Session.statuses.FINALIZED;
 
       // when
       const sessionSaved = await sessionRepository.update(session);
@@ -324,6 +327,8 @@ describe('Integration | Repository | Session', function() {
       expect(sessionSaved.id).to.equal(session.id);
       expect(sessionSaved.room).to.equal('New room');
       expect(sessionSaved.examiner).to.equal('New examiner');
+      expect(sessionSaved.examinerComment).to.equal('It was a fine session my dear');
+      expect(sessionSaved.status).to.equal(Session.statuses.FINALIZED);
     });
 
     it('should not add row in table "sessions"', async () => {
@@ -464,7 +469,7 @@ describe('Integration | Repository | Session', function() {
 
   });
 
-  describe('ensureUserHasAccessToSession', () => {
+  describe('#ensureUserHasAccessToSession', () => {
     let requestErr, userId, userIdNotAllowed, sessionId, certificationCenterId, certificationCenterNotAllowedId;
 
     beforeEach(async () => {
@@ -504,22 +509,39 @@ describe('Integration | Repository | Session', function() {
 
   });
 
-  describe('updateStatus', () => {
-    let sessionId;
-    const status = 'some status';
-    beforeEach(async () => {
-      sessionId = databaseBuilder.factory.buildSession().id;
-      await databaseBuilder.commit();
+  describe('#updateStatusAndExaminerComment', () => {
+    let session;
+
+    beforeEach(() => {
+      const bookshelfSession = databaseBuilder.factory.buildSession({
+        id: 1,
+        status: Session.statuses.STARTED,
+      });
+      session = domainBuilder.buildSession(bookshelfSession);
+
+      return databaseBuilder.commit();
     });
-    it('should update the status and return only the status', async () => {
-      const updatedSession = await sessionRepository.updateStatus({ sessionId, status });
-      expect(updatedSession.status).to.equal(status);
-      expect(updatedSession.id).to.be.undefined;
+
+    it('should return a Session domain object', async () => {
+      // when
+      const sessionSaved = await sessionRepository.updateStatusAndExaminerComment(session);
+
+      // then
+      expect(sessionSaved).to.be.an.instanceof(Session);
     });
-    it('should throw an error when the session is not found', async () => {
-      const err = await catchErr(sessionRepository.updateStatus)({ sessionId: sessionId + 1, status });
-      expect(err).to.be.instanceOf(Error);
+
+    it('should update model in database', async () => {
+      // given
+      session.examinerComment = 'It was a fine session my dear';
+      session.status = Session.statuses.FINALIZED;
+
+      // when
+      const sessionSaved = await sessionRepository.updateStatusAndExaminerComment(session);
+
+      // then
+      expect(sessionSaved.id).to.deep.equal(session.id);
+      expect(sessionSaved.examinerComment).to.deep.equal('It was a fine session my dear');
+      expect(sessionSaved.status).to.deep.equal(Session.statuses.FINALIZED);
     });
   });
-
 });

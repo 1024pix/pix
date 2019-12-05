@@ -65,7 +65,7 @@
   flex-direction: column;
   height: 100%;
   background-color: $wild-sand;
-  overflow: scroll;
+  overflow: auto;
 
   &__topbar {
     background-color: white;
