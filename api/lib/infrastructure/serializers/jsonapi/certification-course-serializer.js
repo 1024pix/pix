@@ -31,7 +31,6 @@ module.exports = {
   serializeResult(certificationCourseResult) {
     return new Serializer('results', {
       attributes: [
-        'certificationId',
         'assessmentId',
         'level',
         'pixScore',
