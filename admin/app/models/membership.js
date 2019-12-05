@@ -1,14 +1,13 @@
 import DS from 'ember-data';
+const { attr, belongsTo, Model } = DS;
 import { computed } from '@ember/object';
-
-const { attr, belongsTo } = DS;
 
 const displayedOrganizationRoles = {
   ADMIN: 'Administrateur',
   MEMBER: 'Membre',
 };
 
-export default DS.Model.extend({
+export default Model.extend({
 
   // Attributes
   organizationRole: attr(),
