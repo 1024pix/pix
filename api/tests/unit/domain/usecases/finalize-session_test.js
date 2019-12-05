@@ -10,16 +10,16 @@ const { ForbiddenAccess, SessionAlreadyFinalizedError } = require('../../../../l
 
 describe('Unit | UseCase | finalize-session', () => {
 
-  let userId, sessionId, sessionRepository, updatedSession;
+  let userId, sessionId, sessionRepository, updatedSession, examinerComment;
 
   beforeEach(async () => {
 
     userId = 'dummy user id';
     sessionId = 'dummy session id';
-    updatedSession = 'updated session';
+    updatedSession = Symbol('updated session');
+    examinerComment = 'It was a fine session my dear.';
     sessionRepository = {
-      get: sinon.stub(),
-      updateStatus: sinon.stub(),
+      updateStatusAndExaminerComment: sinon.stub(),
       ensureUserHasAccessToSession: sinon.stub(),
       isFinalized: sinon.stub(),
     };
@@ -32,7 +32,7 @@ describe('Unit | UseCase | finalize-session', () => {
     });
 
     it('should throw a ForbiddenAccess error', async () => {
-      const err = await catchErr(finalizeSession)({ userId, sessionId, sessionRepository });
+      const err = await catchErr(finalizeSession)({ userId, sessionId, sessionRepository, examinerComment });
       expect(err).to.be.instanceOf(ForbiddenAccess);
     });
   });
@@ -50,7 +50,7 @@ describe('Unit | UseCase | finalize-session', () => {
 
       it('should throw a SessionAlreadyFinalizedError error', async () => {
         // when
-        const err = await catchErr(finalizeSession)({ userId, sessionId, sessionRepository });
+        const err = await catchErr(finalizeSession)({ userId, sessionId, examinerComment, sessionRepository });
 
         // then
         expect(err).to.be.instanceOf(SessionAlreadyFinalizedError);
@@ -61,13 +61,12 @@ describe('Unit | UseCase | finalize-session', () => {
 
       beforeEach(() => {
         sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
-        sessionRepository.updateStatus.withArgs({ sessionId, status: 'finalized' }).resolves();
-        sessionRepository.get.withArgs(sessionId).resolves(updatedSession);
+        sessionRepository.updateStatusAndExaminerComment.withArgs({ id: sessionId, status: 'finalized', examinerComment }).resolves(updatedSession);
       });
 
       it('should return the updated session', async () => {
         // when
-        const res = await finalizeSession({ userId, sessionId, sessionRepository });
+        const res = await finalizeSession({ userId, sessionId, examinerComment, sessionRepository });
 
         // then
         expect(res).to.deep.equal(updatedSession);

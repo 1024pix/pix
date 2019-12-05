@@ -15,6 +15,13 @@
           @iconAlt="">
     <SessionFinalizationFormbuilderLinkStep/>
   </SessionFinalizationStepContainer>
+  <SessionFinalizationStepContainer
+          @number="3"
+          @title="Commenter la session (facultatif)"
+          @icon="/icons/session-finalization-edit.svg"
+          @iconAlt="">
+    <SessionFinalizationExaminerCommentStep @examinerComment={{examinerComment}} />
+  </SessionFinalizationStepContainer>
   <ActionButton
     class="session-finalizer__button"
     data-test-id="session-finalizer__button"

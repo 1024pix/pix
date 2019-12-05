@@ -9,6 +9,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
   let userId;
   let certificationCenterId;
   let sessionId;
+  const examinerComment = 'It was a fine session my dear';
 
   const sessionDomain = {
     accessCode: 'ABC123',
@@ -27,7 +28,13 @@ describe('Acceptance | Controller | sessions-controller', () => {
 
     options = {
       method: 'PUT',
-      payload: {},
+      payload: {
+        data: {
+          attributes: {
+            'examiner-comment': examinerComment,
+          },
+        },
+      },
       headers: {},
     };
   });
@@ -89,9 +96,6 @@ describe('Acceptance | Controller | sessions-controller', () => {
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
         options.url = `/api/sessions/${sessionId}/finalization`;
 
-        // when
-        const promise = server.inject(options);
-
         const expectedSessionJSONAPI = {
           data: {
             type: 'sessions',
@@ -106,9 +110,13 @@ describe('Acceptance | Controller | sessions-controller', () => {
               'time': sessionDomain.time,
               'room': sessionDomain.room,
               'status': 'finalized',
+              'examiner-comment': examinerComment,
             },
           },
         };
+
+        // when
+        const promise = server.inject(options);
 
         // then
         return promise.then((response) => {
