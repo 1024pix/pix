@@ -32,10 +32,10 @@ describe('Unit | Route | Competence | Resume', function() {
 
     it('should returns the competenceEvaluation', async function() {
       // given
-      const params = { competence_id: competenceId };
+      const transition = { to: { parent: { params: { competence_id: competenceId } } } };
 
       // when
-      const model = await route.model(params);
+      const model = await route.model(null, transition);
 
       // then
       expect(model).to.equal(competenceEvaluation);

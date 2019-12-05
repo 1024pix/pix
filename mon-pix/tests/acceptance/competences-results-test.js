@@ -11,6 +11,9 @@ describe('Acceptance | competences results', function() {
   setupApplicationTest();
   setupMirage();
 
+  const competenceId = 10;
+  const assessmentId = 10;
+
   beforeEach(function() {
     defaultScenario(this.server);
   });
@@ -20,22 +23,22 @@ describe('Acceptance | competences results', function() {
       await authenticateAsSimpleUser();
 
       this.server.create('assessment', {
-        id: 111,
+        id: assessmentId,
         type: 'COMPETENCE_EVALUATION',
         state: 'completed',
       });
 
       this.server.create('competence-evaluation', {
         id: 1,
-        assessmentId: 111,
-        competenceId: 10,
+        assessmentId: assessmentId,
+        competenceId: competenceId,
         userId: 1,
       });
     });
 
     it('should display a return link to profil', async function() {
       // when
-      await visitWithAbortedTransition('/competences/resultats/111');
+      await visitWithAbortedTransition(`/competences/${competenceId}/resultats/${assessmentId}`);
 
       // then
       expect(find('.scorecard-details-header__return-button')).to.exist;
@@ -60,7 +63,7 @@ describe('Acceptance | competences results', function() {
 
       it('should display the "too bad" banner', async function() {
         // when
-        await visitWithAbortedTransition('/competences/resultats/111');
+        await visitWithAbortedTransition(`/competences/${competenceId}/resultats/${assessmentId}`);
 
         // then
         expect(find('.competence-results-panel-header__banner--too-bad')).to.exist;
@@ -86,7 +89,7 @@ describe('Acceptance | competences results', function() {
 
       it('should display the "not bad" banner', async function() {
         // when
-        await visitWithAbortedTransition('/competences/resultats/111');
+        await visitWithAbortedTransition(`/competences/${competenceId}/resultats/${assessmentId}`);
 
         // then
         expect(find('.competence-results-panel-header__banner--not-bad')).to.exist;
@@ -112,7 +115,7 @@ describe('Acceptance | competences results', function() {
 
       it('should display the "congrats" banner', async function() {
         // when
-        await visitWithAbortedTransition('/competences/resultats/111');
+        await visitWithAbortedTransition(`/competences/${competenceId}/resultats/${assessmentId}`);
 
         // then
         expect(find('.competence-results-panel-header__banner--congrats')).to.exist;

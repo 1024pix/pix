@@ -1,5 +1,5 @@
 <article class="competence-card">
-  {{#link-to "competence-details" scorecard.id class="competence-card__link"}}
+  {{#link-to "competence-details" scorecard.competenceId scorecard.id class="competence-card__link"}}
     <span class="competence-card__color competence-card__color--{{scorecard.areaColor}}"></span>
     <header class="competence-card__header">
       <span class="competence-card__area-name">{{scorecard.area.title}}</span>

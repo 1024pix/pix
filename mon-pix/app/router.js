@@ -56,10 +56,10 @@ Router.map(function() {
     this.route('skill-review', { path: '/:campaign_code/resultats/:assessment_id' });
   });
 
-  this.route('competence-details', { path: '/competences/:scorecard_id' });
-  this.route('competences', function() {
-    this.route('resume', { path: '/:competence_id/evaluer' });
+  this.route('competences', { path: '/competences/:competence_id' }, function() {
+    this.route('details', { path: '/scorecard/:scorecard_id' });
     this.route('results', { path: '/resultats/:assessment_id' });
+    this.route('resume', { path: '/evaluer' });
   });
 
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
