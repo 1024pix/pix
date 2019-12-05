@@ -11,7 +11,7 @@ export default Route.extend({
 
   deactivate() {
     this.controller.set('participantExternalId', null);
-    this.controller.set('loading', false);
+    this.controller.set('isLoading', false);
   },
 
   async beforeModel(transition) {
