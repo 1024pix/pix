@@ -28,6 +28,12 @@ class AlreadyRegisteredEmailError extends DomainError {
   }
 }
 
+class AlreadyExistingCampaignParticipationError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class AlreadySharedCampaignParticipationError extends DomainError {
   constructor() {
     super('Ces résultats de campagne ont déjà été partagés.');
@@ -347,6 +353,7 @@ class InternalError extends DomainError {
 
 module.exports = {
   DomainError,
+  AlreadyExistingCampaignParticipationError,
   AlreadyExistingMembershipError,
   AlreadyExistingOrganizationInvitationError,
   AlreadyRatedAssessmentError,
