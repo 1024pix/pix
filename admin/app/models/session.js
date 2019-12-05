@@ -15,10 +15,14 @@ export default Model.extend({
   accessCode: attr(),
   status: attr(),
   isFinalized: equal('status', 'finalized'),
+  examinerComment: attr(),
   certifications: hasMany('certification'),
   countNonValidatedCertifications : computed('certifications.[]', function() {
     return _.reduce(this.certifications.toArray(), (count, certification) => {
       return certification.status !== 'validated' ? ++count : count;
     }, 0);
+  }),
+  hasExaminerComment : computed('examinerComment', function() {
+    return this.examinerComment && this.examinerComment.length > 0;
   }),
 });
