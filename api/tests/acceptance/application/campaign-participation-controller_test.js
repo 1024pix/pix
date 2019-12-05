@@ -589,7 +589,7 @@ describe('Acceptance | API | Campaign Participations', () => {
     });
   });
 
-  describe('PATH /api/campaign-participations/{id}/begin-improvement', () => {
+  describe('PATCH /api/campaign-participations/{id}/begin-improvement', () => {
     let user, campaignParticipation;
     beforeEach(async () => {
       user = databaseBuilder.factory.buildUser();
@@ -660,6 +660,26 @@ describe('Acceptance | API | Campaign Participations', () => {
         return promise.then((response) => {
           expect(response.statusCode).to.equal(403);
         });
+      });
+    });
+
+    context('when user is connected but has already shared his results so he/she cannot improve it', () => {
+      beforeEach(async () => {
+        const sharedCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, isShared: true });
+        await databaseBuilder.commit();
+        options = {
+          method: 'PATCH',
+          url: `/api/campaign-participations/${sharedCampaignParticipation.id}/begin-improvement`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        };
+      });
+
+      it('should return 421 HTTP status code', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(421);
       });
     });
   });
