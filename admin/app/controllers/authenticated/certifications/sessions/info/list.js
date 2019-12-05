@@ -65,9 +65,7 @@ export default Controller.extend({
     const sessionCertifications = this.model.get('certifications').toArray();
     _.each(this.certificationsInSessionReport, (certificationInReport) => {
       if (certificationInReport.isInSession) {
-        const existingCertification = _.find(sessionCertifications, (sessionCertification) => {
-          return sessionCertification.id === certificationInReport.id;
-        });
+        const existingCertification = _.find(sessionCertifications, { 'id': certificationInReport.id });
         existingCertification.updateUsingCertificationInReport(certificationInReport);
       }
     });
@@ -75,7 +73,6 @@ export default Controller.extend({
 
   actions: {
 
-    // --- Actions for Session Report Analysis Modal
     onCloseSessionReportAnalysis() {
       this.set('certificationsInSessionReport', []);
       this.set('displaySessionReport', false);
@@ -120,7 +117,6 @@ export default Controller.extend({
         this.notifications.error(error);
       }
     },
-    // ---
 
     downloadSessionResultFile() {
       try {
