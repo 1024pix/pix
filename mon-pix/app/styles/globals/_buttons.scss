@@ -27,7 +27,6 @@
 
   &--uppercase {
     text-transform: uppercase;
-    font-size: 1.3rem;
     letter-spacing: 0.5px;
   }
 
@@ -107,6 +106,25 @@
     font-size: 1.5rem;
     &:hover, &:active, &:focus {
       background-color: $charcoal-grey;
+    }
+  }
+
+  &--white {
+    background-color: $white;
+    color: $black;
+
+    &:hover, &:active, &:focus {
+      background-color: $alto-grey;
+    }
+  }
+
+  &--bordered {
+    border: 1px solid $pix-blue;
+    color: $pix-blue;
+
+    &:hover, &:active, &:focus {
+      background-color: $pix-blue;
+      color: $white;
     }
   }
 

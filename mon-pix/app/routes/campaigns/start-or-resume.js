@@ -26,6 +26,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
     this.set('userHasSeenLanding', transition.to.queryParams.hasSeenLanding);
     this.set('userHasJustConsultedTutorial', transition.to.queryParams.hasJustConsultedTutorial);
 
+    if (this._userIsUnauthenticated() && !this.userHasSeenLanding && this.campaignIsRestricted) {
+      this.set('authenticationRoute', 'login-or-register-to-access-restricted-campaign');
+    }
     if (this._userIsUnauthenticated() && !this.userHasSeenLanding && !this.campaignIsRestricted) {
       return this.replaceWith('campaigns.campaign-landing-page', this.campaignCode, { queryParams: transition.to.queryParams });
     }

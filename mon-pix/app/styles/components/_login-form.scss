@@ -1,0 +1,28 @@
+.login-form {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  max-width: 360px;
+
+  &__error-message {
+    color: red;
+    font-family: $font-roboto;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  &__forgotten-password {
+    font-size: 1.4rem;
+    margin: 8px;
+    text-align: center;
+  }
+
+  .login-button-container {
+    display: flex;
+
+    .button {
+      flex-grow: 1;
+      margin-top: 25px;
+    }
+  }
+}
