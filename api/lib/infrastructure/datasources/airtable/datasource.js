@@ -20,6 +20,10 @@ const _DatasourcePrototype = {
       });
   },
 
+  preload() {
+    return airtable.preload(this.tableName, this.usedFields);
+  },
+
 };
 
 module.exports = {
