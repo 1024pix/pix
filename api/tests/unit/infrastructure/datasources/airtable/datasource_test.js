@@ -100,4 +100,19 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
       expect(record).to.deep.equal([{ record: { tableName: 'Airtable_table', usedFields: ['Shi', 'Foo', 'Bar'] } }]);
     });
   });
+
+  describe('#preload', () => {
+
+    it('should load all the Airtable table content in the cache (and return them)', async () => {
+      // given
+      sinon.stub(airtable, 'preload').withArgs(someDatasource.tableName, someDatasource.usedFields).resolves(true);
+
+      // when
+      const success = await someDatasource.preload();
+
+      // then
+      expect(success).to.be.true;
+    });
+  });
+
 });
