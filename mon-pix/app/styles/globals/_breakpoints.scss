@@ -1,6 +1,7 @@
 /* Breakpoints definition */
 
 $breakpoints: (
+  'mobile': (max-width: 767px),
   'tablet': (min-width: 768px),
   'desktop': (min-width: 980px),
   'middle-desktop': (min-width: 1056px),

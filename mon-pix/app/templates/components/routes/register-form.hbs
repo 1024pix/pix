@@ -1,0 +1,69 @@
+<div class="register-form">
+  <form {{action 'register' on='submit'}}>
+    <span class="register-form__required-inputs">Tous les champs sont requis</span>
+
+    <div id="register-firstName-container">
+      {{form-textfield
+              label="Prénom"
+              textfieldName="firstName"
+              inputBindingValue=user.firstName
+              onValidate=(action "validateInput" "firstName" user.firstName)
+              validationStatus=validation.firstName.status
+              validationMessage=validation.firstName.message
+              autocomplete="firstname"}}
+    </div>
+
+    <div id="register-lastName-container">
+      {{form-textfield
+              label="Nom"
+              textfieldName="lastName"
+              inputBindingValue=user.lastName
+              onValidate=(action "validateInput" "lastName" user.lastName)
+              validationStatus=validation.lastName.status
+              validationMessage=validation.lastName.message
+              autocomplete="lastname"}}
+    </div>
+
+    <div id="register-email-container">
+      {{form-textfield
+              label="Adresse e-mail"
+              help="(ex: nom@exemple.fr)"
+              textfieldName="email"
+              validationStatus=validation.email.status
+              onValidate=(action "validateInputEmail" "email" user.email)
+              inputBindingValue=user.email
+              validationMessage=validation.email.message
+              autocomplete="email"}}
+    </div>
+
+    <div id="register-password-container">
+      {{form-textfield
+              label="Mot de passe"
+              help="(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)"
+              textfieldName="password"
+              validationStatus=validation.password.status
+              onValidate=(action "validateInputPassword" "password" user.password)
+              inputBindingValue=user.password
+              validationMessage=validation.password.message
+              autocomplete="current-password"}}
+    </div>
+
+    <div class="register-button-container">
+      {{#if isLoading}}
+        <button type="submit" class="button"><span class="loader-in-button">&nbsp;</span></button>
+      {{else}}
+        <button id="submit-registration" type="submit" class="button button--uppercase">Je m'inscris</button>
+      {{/if}}
+    </div>
+
+  </form>
+
+  <div class="register-form__legal-text">
+    Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour
+    permettre l’accès au service offert. Elles sont conservées pendant la durée d’utilisation du service et sont
+    destinées à Pix. Les résultats des tests pourront être communiqués à des tiers, avec votre consentement, dans le
+    cas où vous avez été invité à suivre un parcours spécifique. Conformément à la loi « informatique et libertés »,
+    vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant le
+    Délégué à la Protection des Données de Pix à dpo@pix.fr.
+  </div>
+</div>

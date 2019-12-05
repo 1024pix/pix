@@ -58,25 +58,42 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           context('When campaign is restricted', function() {
             const campaignCode = 'AZERTY4';
 
-            it('should redirect to register page', async function() {
+            it('should redirect to login-or-register page', async function() {
               // when
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 
               // then
-              expect(currentURL()).to.equal('/inscription');
+              expect(currentURL()).to.equal('/identification');
             });
 
-            it('should redirect to join restricted campaign page', async function() {
+            it('should redirect to join restricted campaign page when registration is done', async function() {
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
+
+              expect(currentURL()).to.equal('/identification');
 
               // when
               await fillIn('#firstName', 'Jane');
               await fillIn('#lastName', 'Acme');
               await fillIn('#email', 'jane@acme.com');
               await fillIn('#password', 'Jane1234');
-              await click('#pix-cgu');
-              await click('.button');
+              await click('#submit-registration');
+
+              // then
+              expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
+            });
+
+            it('should redirect to join restricted campaign page when connexion is done', async function() {
+              // given
+              await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
+
+              expect(currentURL()).to.equal('/identification');
+
+              // when
+              await click('#login');
+              await fillIn('#email', 'jane@acme.com');
+              await fillIn('#password', 'Jane1234');
+              await click('#submit-connexion');
 
               // then
               expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
@@ -85,12 +102,15 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
             it('should redirect to landing page when fields are filled in', async function() {
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
-              await fillIn('#firstName', 'Jane');
-              await fillIn('#lastName', 'Acme');
+
+              expect(currentURL()).to.equal('/identification');
+
+              await click('#login');
               await fillIn('#email', 'jane@acme.com');
               await fillIn('#password', 'Jane1234');
-              await click('#pix-cgu');
-              await click('.button');
+              await click('#submit-connexion');
+
+              expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
 
               // when
               await fillIn('#firstName', 'Jane');
@@ -243,12 +263,14 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           context('When campaign is restricted', function() {
             beforeEach(async function() {
               await visitWithAbortedTransition('/campagnes/AZERTY4?participantExternalId=a73at01r3');
+
+              expect(currentURL()).to.equal('/identification');
+
               await fillIn('#firstName', 'Jane');
               await fillIn('#lastName', 'Acme');
               await fillIn('#email', 'jane@acme.com');
               await fillIn('#password', 'Jane1234');
-              await click('#pix-cgu');
-              await click('.button');
+              await click('#submit-registration');
 
               await fillIn('#firstName', 'Jane');
               await fillIn('#lastName', 'Acme');

@@ -1,0 +1,30 @@
+.register-form {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  max-width: 360px;
+
+  &__required-inputs {
+    color: $dove-gray;
+    font-family: $font-roboto;
+    font-size: 1.6rem;
+    font-weight: $font-normal;
+  }
+
+  &__legal-text {
+    color: $dove-gray;
+    font-family: $font-roboto;
+    font-size: 1.1rem;
+    font-weight: $font-light;
+    padding: 10px 0;
+  }
+
+  .register-button-container {
+    display: flex;
+
+    .button {
+      flex-grow: 1;
+      margin-top: 25px;
+    }
+  }
+}
