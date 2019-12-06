@@ -459,46 +459,6 @@ describe('Integration | Repository | Session', function() {
 
   });
 
-  describe('#ensureUserHasAccessToSession', () => {
-    let requestErr, userId, userIdNotAllowed, sessionId, certificationCenterId, certificationCenterNotAllowedId;
-
-    beforeEach(async () => {
-    // given
-      userId = 1;
-      userIdNotAllowed = 2;
-      databaseBuilder.factory.buildUser({ id: userId });
-      databaseBuilder.factory.buildUser({ id: userIdNotAllowed });
-      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      certificationCenterNotAllowedId = databaseBuilder.factory.buildCertificationCenter().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-      databaseBuilder.factory.buildCertificationCenterMembership({ userId: userIdNotAllowed, certificationCenterId: certificationCenterNotAllowedId });
-
-      // when
-      sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
-
-      await databaseBuilder.commit();
-    });
-
-    it('should not throw an error if the user has access to the session', async () => {
-      try {
-        await sessionRepository.ensureUserHasAccessToSession(userId, sessionId);
-      } catch (err) {
-        requestErr = err;
-      }
-      expect(requestErr).to.be.undefined;
-    });
-
-    it('should throw an error if the user does not have access to the session', async () => {
-      try {
-        await sessionRepository.ensureUserHasAccessToSession(userIdNotAllowed, sessionId);
-      } catch (err) {
-        requestErr = err;
-      }
-      expect(requestErr).to.be.instanceOf(Error);
-    });
-
-  });
-
   describe('#doesUserHaveCertificationCenterMembershipForSession', () => {
     let userId, userIdNotAllowed, sessionId, certificationCenterId, certificationCenterNotAllowedId;
 
