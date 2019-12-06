@@ -499,6 +499,44 @@ describe('Integration | Repository | Session', function() {
 
   });
 
+  describe('#doesUserHaveCertificationCenterMembershipForSession', () => {
+    let userId, userIdNotAllowed, sessionId, certificationCenterId, certificationCenterNotAllowedId;
+
+    beforeEach(async () => {
+      // given
+      userId = 1;
+      userIdNotAllowed = 2;
+      databaseBuilder.factory.buildUser({ id: userId });
+      databaseBuilder.factory.buildUser({ id: userIdNotAllowed });
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      certificationCenterNotAllowedId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId: userIdNotAllowed, certificationCenterId: certificationCenterNotAllowedId });
+
+      // when
+      sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return true if user has membership in the certification center that originated the session', async () => {
+      // when
+      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
+
+      // then
+      expect(hasMembership).to.be.true;
+    });
+
+    it('should return false if user has no membership in the certification center that originated the session', async () => {
+      // when
+      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userIdNotAllowed, sessionId);
+
+      // then
+      expect(hasMembership).to.be.false;
+    });
+
+  });
+
   describe('#updateStatusAndExaminerComment', () => {
     let session;
 
