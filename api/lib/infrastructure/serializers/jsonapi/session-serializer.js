@@ -25,7 +25,13 @@ module.exports = {
         'examinerComment',
       ],
       certifications : {
-        ref: ['id']
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/sessions/${parent.id}/certifications`;
+          }
+        }
       },
       certificationCandidates: {
         ref: 'id',
@@ -36,6 +42,11 @@ module.exports = {
           }
         }
       },
+      transform(session) {
+        const transformedSession = Object.assign({}, session);
+        transformedSession.certifications = [];
+        return transformedSession;
+      }
     }).serialize(sessions);
   },
 
