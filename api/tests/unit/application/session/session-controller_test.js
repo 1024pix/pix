@@ -203,13 +203,11 @@ describe('Unit | Controller | sessionController', () => {
   describe('#importCertificationCandidatesFromAttendanceSheet', () => {
 
     const sessionId = 2;
-    const userId = 1;
     let request;
     const odsBuffer = 'File Buffer';
     beforeEach(() => {
       // given
       request = {
-        auth: { credentials: { userId } },
         params: { id: sessionId },
         payload: { file: odsBuffer },
       };
@@ -226,7 +224,6 @@ describe('Unit | Controller | sessionController', () => {
 
       // then
       expect(usecases.importCertificationCandidatesFromAttendanceSheet).to.have.been.calledWith({
-        userId,
         sessionId,
         odsBuffer,
       });
@@ -338,9 +335,9 @@ describe('Unit | Controller | sessionController', () => {
       beforeEach(() => {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
           .withArgs({ userId, sessionId, certificationCandidateWithPersonalInfoOnly }).resolves({
-          linkCreated: false,
-          certificationCandidate: linkedCertificationCandidate
-        });
+            linkCreated: false,
+            certificationCandidate: linkedCertificationCandidate
+          });
       });
 
       it('should return a certification candidate', async () => {
@@ -359,9 +356,9 @@ describe('Unit | Controller | sessionController', () => {
       beforeEach(() => {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
           .withArgs({ userId, sessionId, certificationCandidateWithPersonalInfoOnly }).resolves({
-          linkCreated: true,
-          certificationCandidate: linkedCertificationCandidate
-        });
+            linkCreated: true,
+            certificationCandidate: linkedCertificationCandidate
+          });
       });
 
       it('should return a certification candidate', async () => {

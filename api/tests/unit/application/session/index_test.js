@@ -76,6 +76,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     let options;
     beforeEach(async () => {
       // given
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
       sinon.stub(sessionController, 'importCertificationCandidatesFromAttendanceSheet').returns('ok');
       fs.writeFileSync(testFilePath, Buffer.alloc(0));
       const form = new FormData();

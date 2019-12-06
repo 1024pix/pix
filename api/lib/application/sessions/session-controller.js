@@ -67,12 +67,11 @@ module.exports = {
   },
 
   async importCertificationCandidatesFromAttendanceSheet(request) {
-    const userId = request.auth.credentials.userId;
     const sessionId = request.params.id;
     const odsBuffer = request.payload.file;
 
     try {
-      await usecases.importCertificationCandidatesFromAttendanceSheet({ userId, sessionId, odsBuffer });
+      await usecases.importCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
     }
     catch (err) {
       if (err instanceof CertificationCandidateAlreadyLinkedToUserError) {

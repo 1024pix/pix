@@ -1,15 +1,11 @@
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
 
 module.exports = async function importCertificationCandidatesFromAttendanceSheet({
-  userId,
   sessionId,
   odsBuffer,
   certificationCandidatesOdsService,
-  sessionRepository,
   certificationCandidateRepository,
 }) {
-  await sessionRepository.ensureUserHasAccessToSession(userId, sessionId);
-
   const linkedCandidateInSessionExists = await certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist({ sessionId });
 
   if (linkedCandidateInSessionExists) {
