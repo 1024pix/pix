@@ -233,7 +233,6 @@ describe('Unit | Controller | sessionController', () => {
   describe('#getCertificationCandidates ', () => {
     let request;
     const sessionId = 1;
-    const userId = 2;
     const certificationCandidates = 'candidates';
     const certificationCandidatesJsonApi = 'candidatesJSONAPI';
 
@@ -241,13 +240,8 @@ describe('Unit | Controller | sessionController', () => {
       // given
       request = {
         params: { id : sessionId },
-        auth: {
-          credentials : {
-            userId,
-          }
-        },
       };
-      sinon.stub(usecases, 'getSessionCertificationCandidates').withArgs({ userId, sessionId }).resolves(certificationCandidates);
+      sinon.stub(usecases, 'getSessionCertificationCandidates').withArgs({ sessionId }).resolves(certificationCandidates);
       sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(certificationCandidates).returns(certificationCandidatesJsonApi);
     });
 

@@ -53,9 +53,8 @@ module.exports = {
 
   async getCertificationCandidates(request) {
     const sessionId = request.params.id;
-    const userId = request.auth.credentials.userId;
 
-    return usecases.getSessionCertificationCandidates({ userId, sessionId })
+    return usecases.getSessionCertificationCandidates({ sessionId })
       .then((certificationCandidates) => certificationCandidateSerializer.serialize(certificationCandidates));
   },
 
