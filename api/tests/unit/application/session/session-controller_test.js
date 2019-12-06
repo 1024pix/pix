@@ -3,7 +3,6 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const Session = require('../../../../lib/domain/models/Session');
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
@@ -107,43 +106,12 @@ describe('Unit | Controller | sessionController', () => {
 
     context('when session exists', () => {
 
-      it('should get session informations with certifications associated', async function() {
-        // given
-        usecases.getSession.resolves();
-
-        // when
-        await sessionController.get(request, hFake);
-
-        // then
-        expect(usecases.getSession).to.have.been.calledWith({ userId, sessionId });
-      });
-
-      it('should serialize session informations', async function() {
-        // given
-        const certification = CertificationCourse.fromAttributes({ id: 'certifId', sessionId: 'sessionId' });
-        const session = new Session({
-          id: 'sessionId',
-          certifications: [certification]
-        });
-        usecases.getSession.resolves(session);
-
-        // when
-        await sessionController.get(request, hFake);
-
-        // then
-        expect(sessionSerializer.serialize).to.have.been.calledWith(session);
-      });
-
       it('should reply serialized session informations', async function() {
         // given
-        const serializedSession = {
-          data: {
-            type: 'sessions',
-            id: 'id',
-          }
-        };
-        sessionSerializer.serialize.resolves(serializedSession);
-        usecases.getSession.resolves();
+        const foundSession = Symbol('foundSession');
+        const serializedSession = Symbol('serializedSession');
+        usecases.getSession.withArgs({ sessionId }).resolves(foundSession);
+        sessionSerializer.serialize.withArgs(foundSession).resolves(serializedSession);
 
         // when
         const response = await sessionController.get(request, hFake);
@@ -370,9 +338,9 @@ describe('Unit | Controller | sessionController', () => {
       beforeEach(() => {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
           .withArgs({ userId, sessionId, certificationCandidateWithPersonalInfoOnly }).resolves({
-            linkCreated: false,
-            certificationCandidate: linkedCertificationCandidate
-          });
+          linkCreated: false,
+          certificationCandidate: linkedCertificationCandidate
+        });
       });
 
       it('should return a certification candidate', async () => {
@@ -391,9 +359,9 @@ describe('Unit | Controller | sessionController', () => {
       beforeEach(() => {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
           .withArgs({ userId, sessionId, certificationCandidateWithPersonalInfoOnly }).resolves({
-            linkCreated: true,
-            certificationCandidate: linkedCertificationCandidate
-          });
+          linkCreated: true,
+          certificationCandidate: linkedCertificationCandidate
+        });
       });
 
       it('should return a certification candidate', async () => {
@@ -421,7 +389,7 @@ describe('Unit | Controller | sessionController', () => {
     beforeEach(() => {
       // given
       request = {
-        params: { 
+        params: {
           id: sessionId,
         },
         auth: {
