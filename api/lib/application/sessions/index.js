@@ -1,6 +1,7 @@
 const Joi = require('@hapi/joi');
 const securityController = require('../../interfaces/controllers/security-controller');
 const sessionController = require('./session-controller');
+const sessionAuthorization = require('../preHandlers/session-authorization');
 
 exports.register = async (server) => {
   server.route([
@@ -24,6 +25,10 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/sessions/{id}',
       config: {
+        pre: [{
+          method: sessionAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
         handler: sessionController.get,
         tags: ['api']
       }

@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
+const sessionAuthorization = require('../../../../lib/application/preHandlers/session-authorization');
 const route = require('../../../../lib/application/sessions');
 const fs = require('fs');
 const FormData = require('form-data');
@@ -17,7 +18,7 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('GET /api/sessions/{id}', () => {
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
       sinon.stub(sessionController, 'get').returns('ok');
       return server.register(route);
     });

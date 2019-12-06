@@ -15,9 +15,8 @@ module.exports = {
   },
 
   async get(request) {
-    const userId = request.auth.credentials.userId;
     const sessionId = parseInt(request.params.id);
-    const session = await usecases.getSession({ userId, sessionId });
+    const session = await usecases.getSession({ sessionId });
 
     return sessionSerializer.serialize(session);
   },
