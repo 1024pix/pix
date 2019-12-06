@@ -244,28 +244,28 @@ module.exports = async function startWritingCampaignResultsToStream(
       knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt })
     ]);
 
+    const knowledgeElementsInTargetProfile = allKnowledgeElements.filter(_knowledgeElementRelatedTo(targetProfile.skills));
+
     let line = pipe(
       _initLineWithPlaceholders,
+
       _withCampaign(campaign, campaignParticipation, headers),
       _withOrganization(organization, headers),
       _withUser(user, headers),
       _withAssessment(assessment, targetProfile.getProgression(allKnowledgeElements), headers),
       _withTargetProfile(targetProfile, headers),
+
+      campaignParticipation.isShared
+        ? _withEndResults(
+          campaignParticipation,
+          targetProfile,
+          targetProfileCompetences,
+          targetProfileAreasWithSkills,
+          knowledgeElementsInTargetProfile,
+          headers)
+        : _.identity
     )(headers);
 
-    if (campaignParticipation.isShared) {
-      const knowledgeElementsInTargetProfile = allKnowledgeElements.filter(_knowledgeElementRelatedTo(targetProfile.skills));
-
-      pipe(
-        _addNumberCell('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
-        _addNumberCell('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
-        _addNumberCell('"% maitrise de l\'ensemble des acquis du profil"', targetProfile.getKnowledgeElementsValidatedPercentage(knowledgeElementsInTargetProfile), headers),
-      )(line);
-
-      _.forEach(targetProfileCompetences, _withCompetence(headers, targetProfile, knowledgeElementsInTargetProfile, targetProfileAreasWithSkills, line));
-      _.forEach(targetProfileAreasWithSkills, _withArea(headers, line));
-      _.forEach(targetProfile.skills, _withSkill(headers, knowledgeElementsInTargetProfile, line));
-    }
     line = line.join(';') + '\n';
 
     writableStream.write(line);
@@ -279,3 +279,19 @@ module.exports = async function startWritingCampaignResultsToStream(
   const fileName = `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
   return { fileName };
 };
+
+function _withEndResults(campaignParticipation, targetProfile, targetProfileCompetences, targetProfileAreasWithSkills, knowledgeElementsInTargetProfile, headers) {
+  return (line) => {
+    pipe(
+      _addNumberCell('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
+      _addNumberCell('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
+      _addNumberCell('"% maitrise de l\'ensemble des acquis du profil"', targetProfile.getKnowledgeElementsValidatedPercentage(knowledgeElementsInTargetProfile), headers),
+    )(line);
+    
+    _.forEach(targetProfileCompetences, _withCompetence(headers, targetProfile, knowledgeElementsInTargetProfile, targetProfileAreasWithSkills, line));
+    _.forEach(targetProfileAreasWithSkills, _withArea(headers, line));
+    _.forEach(targetProfile.skills, _withSkill(headers, knowledgeElementsInTargetProfile, line));
+
+    return line;
+  };
+}
