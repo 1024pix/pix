@@ -36,6 +36,15 @@ class TargetProfile {
     const totalValidatedSkills = _.sumBy(knowledgeElements, 'isValidated');
     return _.round(totalValidatedSkills / this.skills.length, 2);
   }
+
+  getProgression(knowledgeElements) {
+    const knowledgeElementsInTargetProfile = knowledgeElements.filter(_knowledgeElementRelatedTo(this.skills));
+    return _.round(knowledgeElementsInTargetProfile.length / (this.skills.length), 3,);
+  }
+}
+
+function _knowledgeElementRelatedTo(skills) {
+  return (knowledgeElement) => _(skills).map('id').includes(knowledgeElement.skillId);
 }
 
 module.exports = TargetProfile;

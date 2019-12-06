@@ -1,7 +1,7 @@
 const moment = require('moment');
 const bluebird = require('bluebird');
 const csvService = require('../services/csv-service');
-const { pipe, assign: addProperties} = require('lodash/fp');
+const { pipe, assign: addProperties } = require('lodash/fp');
 const _ = require('lodash');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
@@ -120,83 +120,82 @@ function _competenceRelatedTo(skillIds) {
   return (competence) => skillIds.some((skillId) => competence.skills.includes(skillId));
 }
 
-function _createOneLineOfCSV(
-  headers,
-  organization,
-  campaign,
-  targetProfileCompetences,
-  targetProfileAreas,
-  campaignParticipation,
-  targetProfile,
-  user,
-  assessment,
-  allKnowledgeElements,
-) {
-  let line = headers.map(() => '"NA"');
+function _withSkill(headers, knowledgeElementsInTargetProfile, line) {
+  return (skill) => {
+    line = pipe(_addTextCell(`"${skill.name}"`, _stateOfSkill(skill.id, knowledgeElementsInTargetProfile), headers))(line);
+  };
+}
 
-  const knowledgeElementsInTargetProfile = allKnowledgeElements.filter(_knowledgeElementRelatedTo(targetProfile.skills));
-  const notCompletedPercentageProgression = _.round(knowledgeElementsInTargetProfile.length / (targetProfile.skills.length), 3,);
-  const percentageProgression = (assessment.isCompleted) ? 1 : notCompletedPercentageProgression;
-  const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
+function _withCompetence(headers, targetProfile, knowledgeElementsInTargetProfile, areaSkills, line) {
+  return (competence) => {
+    const skillsForThisCompetence = targetProfile.getSkillsInCompetence(competence);
+    const numberOfSkillsValidatedForThisCompetence = _getValidatedSkillsForCompetence(skillsForThisCompetence, knowledgeElementsInTargetProfile);
+    const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
 
-  line = pipe(
-    _addTextCell('"Nom de l\'organisation"', organization.name, headers),
-    _addNumberCell('"ID Campagne"', campaign.id, headers),
-    _addTextCell('"Nom de la campagne"',campaign.name, headers),
-    _addTextCell('"Nom du Profil Cible"', targetProfile.name, headers),
-    _addTextCell('"Nom du Participant"', user.lastName, headers),
-    _addTextCell('"Prénom du Participant"', user.firstName, headers),
-    campaign.idPixLabel ? _addTextCell(_cleanText(campaign.idPixLabel), campaignParticipation.participantExternalId, headers) : _.identity,
-    _addNumberCell('"% de progression"', percentageProgression, headers),
-    _addNumberCell('"Date de début"', moment.utc(assessment.createdAt).format('YYYY-MM-DD'), headers),
-    _addTextCell('"Partage (O/N)"', textForParticipationShared, headers),
-  )(line);
-
-  if (assessment.isCompleted && campaignParticipation.isShared) {
     line = pipe(
-      _addNumberCell('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
-      _addNumberCell('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
-      _addNumberCell('"% maitrise de l\'ensemble des acquis du profil"', targetProfile.getKnowledgeElementsValidatedPercentage(knowledgeElementsInTargetProfile), headers),
+      _addNumberCell(`"% de maitrise des acquis de la compétence ${competence.name}"`, percentage, headers),
+      _addNumberCell(`"Nombre d'acquis du profil cible dans la compétence ${competence.name}"`, skillsForThisCompetence.length, headers),
+      _addNumberCell(`"Acquis maitrisés dans la compétence ${competence.name}"`, numberOfSkillsValidatedForThisCompetence, headers),
     )(line);
 
-    const areaSkills = targetProfileAreas.map(addProperties({ numberSkillsValidated: 0, numberSkillsTested: 0 }));
+    // Add on Area
+    const areaSkillsForThisCompetence = areaSkills.find((area) => area.title === competence.area.title);
+    areaSkillsForThisCompetence.numberSkillsValidated = areaSkillsForThisCompetence.numberSkillsValidated + numberOfSkillsValidatedForThisCompetence;
+    areaSkillsForThisCompetence.numberSkillsTested = areaSkillsForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
+  };
+}
 
-    // By Competences
-    _.forEach(targetProfileCompetences, (competence) => {
-      const skillsForThisCompetence = targetProfile.getSkillsInCompetence(competence);
-      const numberOfSkillsValidatedForThisCompetence = _getValidatedSkillsForCompetence(skillsForThisCompetence, knowledgeElementsInTargetProfile);
-      const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
+function _withArea(headers, line) {
+  return (area) => {
+    const percentage = _.round(area.numberSkillsValidated / area.numberSkillsTested, 2);
+    line = pipe(
+      _addNumberCell(`"% de maitrise des acquis du domaine ${area.title}"`, percentage, headers),
+      _addNumberCell(`"Nombre d'acquis du profil cible du domaine ${area.title}"`, area.numberSkillsTested, headers),
+      _addNumberCell(`"Acquis maitrisés du domaine ${area.title}"`, area.numberSkillsValidated, headers),
+    )(line);
+  };
+}
 
-      line = pipe(
-        _addNumberCell(`"% de maitrise des acquis de la compétence ${competence.name}"`, percentage, headers),
-        _addNumberCell(`"Nombre d'acquis du profil cible dans la compétence ${competence.name}"`, skillsForThisCompetence.length, headers),
-        _addNumberCell(`"Acquis maitrisés dans la compétence ${competence.name}"`, numberOfSkillsValidatedForThisCompetence, headers),
-      )(line);
+function _withCampaign(campaign, campaignParticipation, headers) {
+  return _toPipe(
+    _addNumberCell('"ID Campagne"', campaign.id, headers),
+    _addTextCell('"Nom de la campagne"',campaign.name, headers),
+    _addTextCell('"Partage (O/N)"', campaignParticipation.isShared ? 'Oui' : 'Non', headers),
+    campaign.idPixLabel ? _addTextCell(_cleanText(campaign.idPixLabel), campaignParticipation.participantExternalId, headers) : _.identity,
+  );
+}
 
-      // Add on Area
-      const areaSkillsForThisCompetence = areaSkills.find((area) => area.title === competence.area.title);
-      areaSkillsForThisCompetence.numberSkillsValidated = areaSkillsForThisCompetence.numberSkillsValidated + numberOfSkillsValidatedForThisCompetence;
-      areaSkillsForThisCompetence.numberSkillsTested = areaSkillsForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
-    });
+function _withOrganization(organization, headers) {
+  return _addTextCell('"Nom de l\'organisation"', organization.name, headers);
+}
 
-    // By Area
-    _.forEach(areaSkills, (area) => {
-      const percentage = _.round(area.numberSkillsValidated / area.numberSkillsTested, 2);
+function _withUser(user, headers) {
+  return _toPipe(
+    _addTextCell('"Nom du Participant"', user.lastName, headers),
+    _addTextCell('"Prénom du Participant"', user.firstName, headers),
+  );
+}
 
-      line = pipe(
-        _addNumberCell(`"% de maitrise des acquis du domaine ${area.title}"`, percentage, headers),
-        _addNumberCell(`"Nombre d'acquis du profil cible du domaine ${area.title}"`, area.numberSkillsTested, headers),
-        _addNumberCell(`"Acquis maitrisés du domaine ${area.title}"`, area.numberSkillsValidated, headers),
-      )(line);
+function _withAssessment(assessment, progression, headers) {
+  return _toPipe(
+    _addNumberCell('"% de progression"', (assessment.isCompleted) ? 1 : progression, headers),
+    _addNumberCell('"Date de début"', moment.utc(assessment.createdAt).format('YYYY-MM-DD'), headers),
+  );
+}
 
-    });
+function _withTargetProfile(targetProfile, headers) {
+  return _addTextCell('"Nom du Profil Cible"', targetProfile.name, headers);
+}
 
-    // By Skills
-    _.forEach(targetProfile.skills, (skill) => {
-      line = pipe(_addTextCell(`"${skill.name}"`, _stateOfSkill(skill.id, knowledgeElementsInTargetProfile), headers))(line);
-    });
-  }
-  return line.join(';') + '\n';
+function _toPipe(...fns) {
+  return (input) => {
+    input = pipe(...fns)(input);
+    return input;
+  };
+}
+
+function _initLineWithPlaceholders(headers) {
+  return headers.map(() => '"NA"');
 }
 
 module.exports = async function startWritingCampaignResultsToStream(
@@ -228,13 +227,14 @@ module.exports = async function startWritingCampaignResultsToStream(
   const targetProfileSkillIds = _.map(targetProfile.skills, 'id');
   const targetProfileCompetences = listAllCompetences.filter(_competenceRelatedTo(targetProfileSkillIds));
   const targetProfileAreas = _(targetProfileCompetences).map('area').value();
+  const targetProfileAreasWithSkills = targetProfileAreas.map(addProperties({ numberSkillsValidated: 0, numberSkillsTested: 0 }));
 
-  const headersAsArray = createCsvHeader(targetProfileSkillNames, targetProfileCompetences, targetProfileAreas, campaign.idPixLabel);
+  const headers = createCsvHeader(targetProfileSkillNames, targetProfileCompetences, targetProfileAreas, campaign.idPixLabel);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
   // - https://stackoverflow.com/a/38192870
-  const headerLine = '\uFEFF' + headersAsArray.join(';') + '\n';
+  const headerLine = '\uFEFF' + headers.join(';') + '\n';
 
   writableStream.write(headerLine);
   bluebird.mapSeries(listCampaignParticipation, async (campaignParticipation) => {
@@ -244,20 +244,31 @@ module.exports = async function startWritingCampaignResultsToStream(
       knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt })
     ]);
 
-    const csvLine = _createOneLineOfCSV(
-      headersAsArray,
-      organization,
-      campaign,
-      targetProfileCompetences,
-      targetProfileAreas,
-      campaignParticipation,
-      targetProfile,
-      user,
-      assessment,
-      allKnowledgeElements,
-    );
+    let line = pipe(
+      _initLineWithPlaceholders,
+      _withCampaign(campaign, campaignParticipation, headers),
+      _withOrganization(organization, headers),
+      _withUser(user, headers),
+      _withAssessment(assessment, targetProfile.getProgression(allKnowledgeElements), headers),
+      _withTargetProfile(targetProfile, headers),
+    )(headers);
 
-    writableStream.write(csvLine);
+    if (campaignParticipation.isShared) {
+      const knowledgeElementsInTargetProfile = allKnowledgeElements.filter(_knowledgeElementRelatedTo(targetProfile.skills));
+
+      pipe(
+        _addNumberCell('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
+        _addNumberCell('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
+        _addNumberCell('"% maitrise de l\'ensemble des acquis du profil"', targetProfile.getKnowledgeElementsValidatedPercentage(knowledgeElementsInTargetProfile), headers),
+      )(line);
+
+      _.forEach(targetProfileCompetences, _withCompetence(headers, targetProfile, knowledgeElementsInTargetProfile, targetProfileAreasWithSkills, line));
+      _.forEach(targetProfileAreasWithSkills, _withArea(headers, line));
+      _.forEach(targetProfile.skills, _withSkill(headers, knowledgeElementsInTargetProfile, line));
+    }
+    line = line.join(';') + '\n';
+
+    writableStream.write(line);
   }).then(() => {
     writableStream.end();
   }).catch((error) => {
