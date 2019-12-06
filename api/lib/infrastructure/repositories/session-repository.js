@@ -136,6 +136,17 @@ module.exports = {
     }
   },
 
+  async doesUserHaveCertificationCenterMembershipForSession(userId, sessionId) {
+    const session = await BookshelfSession
+      .where({ 'sessions.id': sessionId, 'certification-center-memberships.userId': userId })
+      .query((qb) => {
+        qb.innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId');
+        qb.innerJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id');
+      })
+      .fetch({ columns: 'sessions.id' });
+    return Boolean(session);
+  },
+
   async updateStatusAndExaminerComment(session) {
     const sessionDataToUpdate = _.pick(session, [
       'status',
