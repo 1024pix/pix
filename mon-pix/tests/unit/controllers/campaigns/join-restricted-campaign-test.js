@@ -8,6 +8,7 @@ describe('Unit | Controller | campaigns/join-restricted-campaign', function() {
 
   let controller;
   let storeStub;
+  let sessionStub;
   let studentUserAssociation;
 
   beforeEach(function() {
@@ -16,7 +17,9 @@ describe('Unit | Controller | campaigns/join-restricted-campaign', function() {
     studentUserAssociation = { save: sinon.stub(), unloadRecord: sinon.stub() };
     const createStudentUserAssociationStub = sinon.stub().returns(studentUserAssociation);
     storeStub = { createRecord: createStudentUserAssociationStub };
+    sessionStub = { data: { authenticated: { source: 'pix' } } };
     controller.set('store', storeStub);
+    controller.set('session', sessionStub);
     controller.set('model', 'AZERTY999');
   });
 
@@ -195,6 +198,28 @@ describe('Unit | Controller | campaigns/join-restricted-campaign', function() {
 
       // then
       expect(result).to.equal(false);
+    });
+  });
+
+  describe('#isDisabled', function() {
+
+    it('should be false if source is not external', function() {
+      // when
+      const result = controller.get('isDisabled');
+
+      // then
+      expect(result).to.equal(false);
+    });
+
+    it('should be true if source is external', function() {
+      // given
+      sessionStub.data.authenticated.source = 'external';
+
+      // when
+      const result = controller.get('isDisabled');
+
+      // then
+      expect(result).to.equal(true);
     });
   });
 

@@ -8,11 +8,11 @@
       <form>
         <div class="join-restricted-campaign__row">
           <label class="join-restricted-campaign__label">Prénom</label>
-          {{input id="firstName" type="text" value=firstName placeholder="Prénom" readonly="readonly" disabled=true}}
+          {{input id="firstName" type="text" value=firstName placeholder="Prénom" readonly=isDisabled disabled=isDisabled}}
         </div>
         <div class="join-restricted-campaign__row">
           <label class="join-restricted-campaign__label">Nom</label>
-          {{input id="lastName" type="text" value=lastName placeholder="Nom" readonly="readonly" disabled=true}}
+          {{input id="lastName" type="text" value=lastName placeholder="Nom" readonly=isDisabled disabled=isDisabled}}
         </div>
         <div class="join-restricted-campaign__row">
           <label class="join-restricted-campaign__label">Date de naissance</label>
