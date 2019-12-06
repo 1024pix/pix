@@ -49,7 +49,7 @@ describe('Unit | Domain | Models | Competence Mark', () => {
       // then
       return promise
         .catch((error) => {
-          expect(error.message).to.be.equal('ValidationError: child "level" fails because ["level" must be less than or equal to 8]');
+          expect(error.message).to.be.equal('ValidationError: "level" must be less than or equal to 8');
         });
     });
 
@@ -63,7 +63,7 @@ describe('Unit | Domain | Models | Competence Mark', () => {
       // then
       return promise
         .catch((error) => {
-          expect(error.message).to.be.equal('ValidationError: child "level" fails because ["level" must be larger than or equal to -1]');
+          expect(error.message).to.be.equal('ValidationError: "level" must be larger than or equal to -1');
         });
     });
 
@@ -77,7 +77,7 @@ describe('Unit | Domain | Models | Competence Mark', () => {
       // then
       return promise
         .catch((error) => {
-          expect(error.message).to.be.equal('ValidationError: child "score" fails because ["score" must be less than or equal to 64]');
+          expect(error.message).to.be.equal('ValidationError: "score" must be less than or equal to 64');
           expect(error).to.be.instanceOf(ObjectValidationError);
         });
     });

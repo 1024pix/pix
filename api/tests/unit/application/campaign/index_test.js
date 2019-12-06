@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 
 describe('Unit | Application | Router | campaign-router ', function() {

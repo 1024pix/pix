@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const JSONAPIError = require('jsonapi-serializer').Error;
 const AuthenticationController = require('./authentication-controller');
 

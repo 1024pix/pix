@@ -6,7 +6,7 @@ const { DomainError } = require('./lib/domain/errors');
 const { InfrastructureError } = require('./lib/infrastructure/errors');
 const errorManager = require('./lib/infrastructure/utils/error-manager');
 
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 
 const routes = require('./lib/routes');
 const plugins = require('./lib/plugins');
