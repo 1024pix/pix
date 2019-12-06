@@ -7,6 +7,7 @@ const CertificationCourse = require('../../../../lib/domain/models/Certification
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
+const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const _ = require('lodash');
 
 describe('Unit | Controller | sessionController', () => {
@@ -295,6 +296,36 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
+  describe('#getCertifications ', () => {
+    let request;
+    const sessionId = 1;
+    const certifications = 'certifications';
+    const certificationsJsonApi = 'certificationsJSONAPI';
+
+    beforeEach(() => {
+      // given
+      request = {
+        params: { id : sessionId },
+        auth: {
+          credentials : {
+            userId,
+          }
+        },
+      };
+      sinon.stub(usecases, 'getSessionCertifications').withArgs({ sessionId }).resolves(certifications);
+      sinon.stub(certificationCourseSerializer, 'serializeResult').withArgs(certifications).returns(certificationsJsonApi);
+    });
+
+    it('should return certifications', async () => {
+      // when
+      const response = await sessionController.getCertifications(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(certificationsJsonApi);
+    });
+
+  });
+
   describe('#createCandidateParticipation ', () => {
     let request;
     const sessionId = 1;
@@ -383,20 +414,30 @@ describe('Unit | Controller | sessionController', () => {
     let request;
     const sessionId = 1;
     const userId = 2;
-    const updatedSession = 'updatedSession';
-    const serializedUpdatedSession = 'updated session serialized';
+    const updatedSession = Symbol('updatedSession');
+    const serializedUpdatedSession = Symbol('updated session serialized');
+    const examinerComment = 'It was a fine session my dear';
 
     beforeEach(() => {
       // given
       request = {
-        params: { id: sessionId },
+        params: { 
+          id: sessionId,
+        },
         auth: {
           credentials: {
             userId,
           }
         },
+        payload: {
+          data: {
+            attributes: {
+              'examiner-comment': examinerComment,
+            },
+          },
+        },
       };
-      sinon.stub(usecases, 'finalizeSession').withArgs({ userId, sessionId }).resolves(updatedSession);
+      sinon.stub(usecases, 'finalizeSession').withArgs({ userId, sessionId, examinerComment }).resolves(updatedSession);
       sinon.stub(sessionSerializer, 'serializeForFinalization').withArgs(updatedSession).resolves(serializedUpdatedSession);
     });
 

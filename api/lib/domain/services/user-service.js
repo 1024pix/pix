@@ -52,7 +52,8 @@ async function fillCertificationProfileWithCertificationChallenges(certification
         const challengesToValidateCurrentSkill = Challenge.findPublishedBySkill(allChallenges, skill);
         const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
 
-        const challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
+        const challengesPoolToPickChallengeFrom = (_.isEmpty(challengesLeftToAnswer)) ? challengesToValidateCurrentSkill : challengesLeftToAnswer;
+        const challenge = _.sample(challengesPoolToPickChallengeFrom);
 
         //TODO : Mettre le skill en entier (Skill{id, name})
         challenge.testedSkill = skill.name;

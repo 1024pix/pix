@@ -12,7 +12,7 @@
 @import 'misc/button';
 @import 'misc/form';
 @import 'misc/power-select';
-@import 'misc/table';
+@import 'misc/tables';
 @import 'misc/utils';
 /* pages */
 @import 'login';
@@ -25,17 +25,18 @@
 @import 'authenticated/certifications/info';
 @import 'authenticated/certifications/sessions';
 @import 'authenticated/certifications/sessions/info/list';
+@import 'authenticated/certifications/sessions/info/index';
 @import 'authenticated/certifications/sessions-list';
 /* components */
 @import 'components/menu-bar';
 @import 'components/organization-list';
-@import 'components/user-list';
 @import 'components/certification-details-competence';
 @import 'components/certification-details-answer';
 @import 'components/certification-session-report';
 @import 'components/certification-select';
 @import 'components/certification-list';
 @import 'components/confirm-popup';
+@import 'components/pagination-control';
 
 input:invalid {
   box-shadow: none;

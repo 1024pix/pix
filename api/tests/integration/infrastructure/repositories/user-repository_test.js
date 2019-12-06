@@ -499,7 +499,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#find', () => {
+  describe('#findPaginatedFiltered', () => {
 
     context('when there are users in the database', () => {
 
@@ -511,12 +511,12 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should return an Array of Users', async () => {
         // given
-        const filters = {};
-        const requestedPagination = { page: 1, pageSize: 10 };
-        const expectedPagination = { ...requestedPagination, pageCount: 1, rowCount: 3 };
+        const filter = {};
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
 
         // when
-        const { models: matchingUsers, pagination } = await userRepository.find(filters, requestedPagination);
+        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
 
         // then
         expect(matchingUsers).to.exist;
@@ -536,12 +536,12 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should return paginated matching users', async () => {
         // given
-        const filters = {};
-        const requestedPagination = { page: 1, pageSize: 3 };
-        const expectedPagination = { ...requestedPagination, pageCount: 4, rowCount: 12 };
+        const filter = {};
+        const page = { number: 1, size: 3 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
 
         // when
-        const { models: matchingUsers, pagination } = await userRepository.find(filters, requestedPagination);
+        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
 
         // then
         expect(matchingUsers).to.have.lengthOf(3);
@@ -560,14 +560,14 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         return databaseBuilder.commit();
       });
 
-      it('should return only users matching "first name" if given in filters', async () => {
+      it('should return only users matching "first name" if given in filter', async () => {
         // given
-        const filters = { firstName: 'Go' };
-        const requestedPagination = { page: 1, pageSize: 10 };
-        const expectedPagination = { ...requestedPagination, pageCount: 1, rowCount: 3 };
+        const filter = { firstName: 'Go' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
 
         // when
-        const { models: matchingUsers, pagination } = await userRepository.find(filters, requestedPagination);
+        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
 
         // then
         expect(_.map(matchingUsers, 'firstName')).to.have.members(['Son Gohan', 'Son Goku', 'Son Goten']);
@@ -591,14 +591,14 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return only users matching "last name" if given in filters', async () => {
+      it('should return only users matching "last name" if given in filter', async () => {
         // given
-        const filters = { lastName: 'walk' };
-        const requestedPagination = { page: 1, pageSize: 10 };
-        const expectedPagination = { ...requestedPagination, pageCount: 1, rowCount: 3 };
+        const filter = { lastName: 'walk' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
 
         // when
-        const { models: matchingUsers, pagination } = await userRepository.find(filters, requestedPagination);
+        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
 
         // then
         expect(_.map(matchingUsers, 'firstName')).to.have.members(['Anakin', 'Luke', 'Leia']);
@@ -622,14 +622,14 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return only users matching "email" if given in filters', async () => {
+      it('should return only users matching "email" if given in filter', async () => {
         // given
-        const filters = { email: 'pix.fr' };
-        const requestedPagination = { page: 1, pageSize: 10 };
-        const expectedPagination = { ...requestedPagination, pageCount: 1, rowCount: 3 };
+        const filter = { email: 'pix.fr' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
 
         // when
-        const { models: matchingUsers, pagination } = await userRepository.find(filters, requestedPagination);
+        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
 
         // then
         expect(_.map(matchingUsers, 'email')).to.have.members(['playpus@pix.fr', 'panda@pix.fr', 'otter@pix.fr']);
@@ -657,14 +657,14 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return only users matching "first name" AND "last name" AND "email" if given in filters', async () => {
+      it('should return only users matching "first name" AND "last name" AND "email" if given in filter', async () => {
         // given
-        const filters = { firstName: 'fn_ok', lastName: 'ln_ok', email: 'email_ok' };
-        const requestedPagination = { page: 1, pageSize: 10 };
-        const expectedPagination = { ...requestedPagination, pageCount: 1, rowCount: 3 };
+        const filter = { firstName: 'fn_ok', lastName: 'ln_ok', email: 'email_ok' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
 
         // when
-        const { models: matchingUsers, pagination } = await userRepository.find(filters, requestedPagination);
+        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
 
         // then
         expect(_.map(matchingUsers, 'firstName')).to.have.members(['fn_ok_1', 'fn_ok_2', 'fn_ok_3']);
@@ -674,7 +674,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    context('when there are filters that should be ignored', () => {
+    context('when there are filter that should be ignored', () => {
 
       let firstUserId;
       let secondUserId;
@@ -686,14 +686,14 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      it('should ignore the filters and retrieve all users', async () => {
+      it('should ignore the filter and retrieve all users', async () => {
         // given
-        const filters = { id: firstUserId };
-        const requestedPagination = { page: 1, pageSize: 10 };
-        const expectedPagination = { ...requestedPagination, pageCount: 1, rowCount: 2 };
+        const filter = { id: firstUserId };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
         // when
-        const { models: matchingUsers, pagination } = await userRepository.find(filters, requestedPagination);
+        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
 
         // then
         expect(_.map(matchingUsers, 'id')).to.have.members([firstUserId, secondUserId]);

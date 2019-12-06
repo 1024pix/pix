@@ -3,6 +3,10 @@
   background-color: $porcelain-grey;
   margin: 6px;
 
+  label {
+    font-weight: $font-normal;
+  }
+
   @include device-is('desktop') {
     font-size: 20px;
   }

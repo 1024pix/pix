@@ -29,11 +29,10 @@ module('Unit | Service | session-info-service', function(hooks) {
     service = this.owner.lookup('service:session-info-service');
   });
 
-  function buildCertification({ id, sessionId = 1, status = 'validated' }) {
+  function buildCertification({ id, sessionId = 1, status = 'validated', hasSeenLastScreen = true, examinerComment = null }) {
     return EmberObject.create({
       id,
       sessionId,
-      certificationId: id,
       assessmentId: 5,
       firstName: 'Toto',
       lastName: 'Le héros',
@@ -46,6 +45,8 @@ module('Unit | Service | session-info-service', function(hooks) {
       resultsCreationDate: '20/07/2018 14:23:56',
       status,
       juryId: '',
+      hasSeenLastScreen,
+      examinerComment,
       commentForCandidate: 'candidate',
       commentForOrganization: 'organization',
       commentForJury: 'jury',
@@ -144,120 +145,49 @@ module('Unit | Service | session-info-service', function(hooks) {
 
   module('#downloadJuryFile', function() {
 
-    function buildCandidate(id, certificationId, comments = null, lastScreen = 'X') {
-      return EmberObject.create({
-        id,
-        certificationId,
-        firstName: 'Toto',
-        lastName: 'Le héros',
-        birthdate: '1986-03-20',
-        birthplace: 'une ville',
-        externalId: '1234',
-        comments,
-        lastScreen
-      });
-    }
-
     test('should include certification which status is not "validated"', async function(assert) {
       const session = EmberObject.create({
         id: 5,
         certifications: A([
-          buildCertification({ id: '1', status: 'validated' }),
-          buildCertification({ id: '2', status: 'started' }),
-          buildCertification({ id: '3', status: 'rejected' }),
-          buildCertification({ id: '4', status: 'error' }),
+          buildCertification({ id: '1', status: 'validated', sessionId: 5 }),
+          buildCertification({ id: '2', status: 'started', sessionId: 5 }),
+          buildCertification({ id: '3', status: 'rejected', sessionId: 5 }),
+          buildCertification({ id: '4', status: 'error', sessionId: 5 }),
         ])
       });
 
-      const validSessionCandidates = [
-        buildCandidate(1, '1'),
-        buildCandidate(2, '2'),
-        buildCandidate(3, '3'),
-        buildCandidate(4, '4'),
-      ];
-
       // when
-      service.downloadJuryFile(session, validSessionCandidates);
+      service.downloadJuryFile(session.id, session.certifications);
 
       // then
       assert.equal(fileSaverStub.getContent(), '\uFEFF' +
         '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Commentaire surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
-        '1;"2";"started";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";;100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
-        '1;"3";"rejected";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";;100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
-        '1;"4";"error";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";;100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
+        '5;"2";"started";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";;100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
+        '5;"3";"rejected";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";;100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
+        '5;"4";"error";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";;100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
         '');
     });
 
-    test('should include certification which corresponding candidate has comments from manager', async function(assert) {
+    test('should include certification with comment from examiner', async function(assert) {
       const session = EmberObject.create({
         id: 5,
         certifications: A([
-          buildCertification({ id: '1', status: 'validated' }),
-          buildCertification({ id: '2', status: 'validated' }),
-          buildCertification({ id: '3', status: 'validated' }),
+          buildCertification({ id: '1', status: 'validated', sessionId: 5, examinerComment: 'examiner comment' }),
+          buildCertification({ id: '2', status: 'validated', sessionId: 5 }),
+          buildCertification({ id: '3', status: 'validated', sessionId: 5 }),
         ])
       });
 
-      const candidateWithoutComments = buildCandidate(1, '1', null);
-      const candidateWithEmptyComments = buildCandidate(1, '1', '   ');
-      const candidateWithComments = buildCandidate(2, '2', 'manager comments');
-
       // when
-      service.downloadJuryFile(session, [candidateWithoutComments, candidateWithEmptyComments, candidateWithComments]);
+      service.downloadJuryFile(session.id, session.certifications);
 
       // then
       assert.equal(fileSaverStub.getContent(), '\uFEFF' +
         '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Commentaire surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
-        '1;"2";"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";"manager comments";"jury";;100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
+        '5;"1";"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";"examiner comment";"jury";;100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
         '');
     });
-
-    test('should include certifications from candidates whom have not seen the end screen', async function(assert) {
-      const session = EmberObject.create({
-        id: 5,
-        certifications: A([
-          buildCertification({ id: '1', status: 'validated' }),
-          buildCertification({ id: '2', status: 'validated' }),
-          buildCertification({ id: '3', status: 'validated' }),
-        ])
-      });
-
-      const candidateThatSawTheEndScreen = buildCandidate(1, '1', null, '  X  ');
-      const candidateThatDidNotSeeTheEndScreen_null = buildCandidate(2, '2', null, null);
-      const candidateThatDidNotSeeTheEndScreen_emptyString = buildCandidate(3, '3', null, '    ');
-
-      // when
-      service.downloadJuryFile(session, [candidateThatSawTheEndScreen, candidateThatDidNotSeeTheEndScreen_null, candidateThatDidNotSeeTheEndScreen_emptyString]);
-
-      // then
-      assert.equal(fileSaverStub.getContent(), '\uFEFF' +
-        '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Commentaire surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
-        '1;"2";"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";"non renseigné";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
-        '1;"3";"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";"non renseigné";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
-        '');
-    });
-
-    test('should be able to generate the file when some certifications to be reviewed cannot find their candidate in the attendance sheet', async function(assert) {
-      const session = EmberObject.create({
-        id: 5,
-        certifications: A([
-          buildCertification({ id: '1', status: 'error' }),
-          buildCertification({ id: '2', status: 'rejected' }),
-          buildCertification({ id: '3', status: 'error' }),
-        ])
-      });
-
-      const candidate = buildCandidate(1, '1', null, '  X  ');
-
-      // when
-      service.downloadJuryFile(session, [candidate]);
-
-      // then
-      assert.equal(fileSaverStub.getContent(), '\uFEFF' +
-        '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Commentaire surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
-        '1;"1";"error";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";;100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
-        '');
-    });
+    
   });
 
 });

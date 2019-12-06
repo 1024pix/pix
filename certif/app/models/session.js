@@ -26,8 +26,8 @@ export default DS.Model.extend({
     return `${ENV.APP.API_HOST}/api/sessions/${this.get('id')}/certification-candidates/import`;
   }),
 
-  finalize() {
-    return this.store.adapterFor('session').finalize(this);
+  finalize(data) {
+    return this.store.adapterFor('session').finalize(this, data);
   },
 
 });

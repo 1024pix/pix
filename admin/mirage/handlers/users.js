@@ -13,8 +13,8 @@ export function findUsers(schema, request) {
     users = users.find(userIds);
   }
 
-  if (request.queryParams.email) {
-    const email = request.queryParams.email;
+  const email = request.queryParams['filter[email]'];
+  if (email) {
     users = users.where({ email });
   }
 

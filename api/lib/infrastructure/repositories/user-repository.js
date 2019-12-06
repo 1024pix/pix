@@ -65,8 +65,8 @@ function _toDomain(userBookshelf) {
   });
 }
 
-function _setSearchFiltersForQueryBuilder(filters, qb) {
-  const { firstName, lastName, email } = filters;
+function _setSearchFiltersForQueryBuilder(filter, qb) {
+  const { firstName, lastName, email } = filter;
 
   if (firstName) {
     qb.whereRaw('LOWER("firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
@@ -132,10 +132,13 @@ module.exports = {
       });
   },
 
-  find(filters, pagination) {
-    const { page, pageSize } = pagination;
-    return BookshelfUser.query((qb) => _setSearchFiltersForQueryBuilder(filters, qb))
-      .fetchPage({ page, pageSize })
+  findPaginatedFiltered({ filter, page }) {
+    return BookshelfUser
+      .query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
+      .fetchPage({
+        page: page.number,
+        pageSize: page.size
+      })
       .then(({ models, pagination }) => {
         const users = bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, models);
         return { models: users, pagination };

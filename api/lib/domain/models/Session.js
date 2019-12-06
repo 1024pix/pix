@@ -18,8 +18,8 @@ class Session {
     room,
     time,
     status,
+    examinerComment,
     // includes
-    certifications,
     certificationCandidates,
     // references
   } = {}) {
@@ -35,8 +35,8 @@ class Session {
     this.room = room;
     this.time = time;
     this.status = status;
+    this.examinerComment = examinerComment;
     // includes
-    this.certifications = certifications;
     this.certificationCandidates = certificationCandidates;
     // references
   }

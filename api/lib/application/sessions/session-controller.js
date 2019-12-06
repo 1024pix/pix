@@ -1,6 +1,7 @@
 const usecases = require('../../domain/usecases');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const certificationCandidateSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-serializer');
+const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const tokenService = require('../../domain/services/token-service');
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
 const { BadRequestError } = require('../../infrastructure/errors');
@@ -59,6 +60,13 @@ module.exports = {
       .then((certificationCandidates) => certificationCandidateSerializer.serialize(certificationCandidates));
   },
 
+  async getCertifications(request) {
+    const sessionId = request.params.id;
+
+    const sessionCertifications = await usecases.getSessionCertifications({ sessionId });
+    return certificationCourseSerializer.serializeResult(sessionCertifications);
+  },
+
   async importCertificationCandidatesFromAttendanceSheet(request) {
     const userId = request.auth.credentials.userId;
     const sessionId = request.params.id;
@@ -94,8 +102,9 @@ module.exports = {
   finalize(request) {
     const userId = request.auth.credentials.userId;
     const sessionId = request.params.id;
+    const examinerComment = request.payload.data.attributes['examiner-comment'];
 
-    return usecases.finalizeSession({ userId, sessionId })
+    return usecases.finalizeSession({ userId, sessionId, examinerComment })
       .then((updatedSession) => sessionSerializer.serializeForFinalization(updatedSession));
   },
 

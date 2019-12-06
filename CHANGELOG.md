@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v2.92.0 (06/12/2019)
+
+- [#813](https://github.com/1024pix/pix/pull/813) [FEATURE] Afficher les scorecards d'une même compétence sur la même ligne sur mobile (PF-507).
+- [#889](https://github.com/1024pix/pix/pull/889) [FEATURE] Retirer le bold des labels des encadrés réponses (PF-963).
+- [#820](https://github.com/1024pix/pix/pull/820) [FEATURE] Amélioration des performances de la récupération des résultats collectifs (PO-298).
+- [#874](https://github.com/1024pix/pix/pull/874) [FEATURE] Ajouter une étape d'ajout de commentaire global lors de la finalisation de la session (PC-86).
+- [#884](https://github.com/1024pix/pix/pull/884) [FEATURE] Ajout des colonnes 'externalId' et 'type' dans la table 'certification-centers' (PF-944).
+- [#872](https://github.com/1024pix/pix/pull/872) [FEATURE] Affichage du nombre de certifications non validées sur la page de détails d'une session PixAdmin (PA-126).
+- [#888](https://github.com/1024pix/pix/pull/888) [BUGFIX] Corrige le message de profil non certifiable en cas de coupure réseau (PF-962).
+- [#854](https://github.com/1024pix/pix/pull/854) [BUGFIX] Les certifications non 'validated' ne remontaient plus dans le fichier pour le jury (PA-125).
+- [#890](https://github.com/1024pix/pix/pull/890) [BUGFIX] Le payload contenant les certifications pour PixAdmin pouvait avoir comme id celui de son assessment-result (PA-129).
+- [#880](https://github.com/1024pix/pix/pull/880) [BUGFIX] Amélioration du temps de rendu de la liste utilisateurs sur Pix Admin (PA-127).
+- [#883](https://github.com/1024pix/pix/pull/883) [BUGFIX] Ne pas prendre en compte les espaces et retour à la ligne inutile (PF-953).
+- [#891](https://github.com/1024pix/pix/pull/891) [TECH] Mise en place de choix aléatoire des questions à poser lors d'un test de certification.
+
 ## v2.91.1 (03/12/2019)
 
 - [#887](https://github.com/1024pix/pix/pull/887) [FEATURE] Permettre à un élève d'être importé dans plusieurs établissements scolaires (PO-293).

@@ -22,9 +22,16 @@ module.exports = {
         'accessCode',
         'certifications',
         'certificationCandidates',
+        'examinerComment',
       ],
       certifications : {
-        ref: ['id']
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/sessions/${parent.id}/certifications`;
+          }
+        }
       },
       certificationCandidates: {
         ref: 'id',
@@ -35,6 +42,11 @@ module.exports = {
           }
         }
       },
+      transform(session) {
+        const transformedSession = Object.assign({}, session);
+        transformedSession.certifications = [];
+        return transformedSession;
+      }
     }).serialize(sessions);
   },
 
@@ -50,6 +62,7 @@ module.exports = {
         'status',
         'description',
         'accessCode',
+        'examinerComment',
       ],
     }).serialize(sessions);
   },
@@ -73,6 +86,7 @@ module.exports = {
       time: attributes.time,
       status: attributes.status,
       description: attributes.description,
+      examinerComment: attributes['examiner-comment'],
     });
   }
 };

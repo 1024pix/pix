@@ -117,6 +117,20 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
+  describe('GET /api/sessions/{id}/certifications', () => {
+
+    beforeEach(() => {
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'getCertifications').returns('ok');
+      return server.register(route);
+    });
+
+    it('should exist', async () => {
+      const res = await server.inject({ method: 'GET', url: '/api/sessions/{id}/certifications' });
+      expect(res.statusCode).to.equal(200);
+    });
+  });
+
   describe('POST /api/sessions/{id}/candidate-participation', () => {
 
     beforeEach(() => {
