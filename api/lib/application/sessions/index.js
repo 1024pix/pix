@@ -62,6 +62,10 @@ exports.register = async (server) => {
       method: 'PUT',
       path: '/api/sessions/{id}/finalization',
       config: {
+        pre: [{
+          method: sessionAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
         handler: sessionController.finalize,
         tags: ['api', 'sessions'],
         notes: [
