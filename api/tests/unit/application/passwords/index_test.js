@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 
 describe('Unit | Router | Password router', () => {
@@ -30,7 +30,7 @@ describe('Unit | Router | Password router', () => {
         payload: {
           data: {
             attributes: {
-              email: 'uzinagaz@unknown.xh',
+              email: 'uzinagaz@example.net',
               'temporary-key': 'clé'
             },
             type: 'password-reset'

@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const studentUserAssociationController = require('../../../../lib/application/student-user-associations/student-user-association-controller');
 
 describe('Integration | Application | Route | student-user-associations', () => {

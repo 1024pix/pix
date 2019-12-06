@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
 
 describe('Integration | Application | Route | campaignParticipationRouter', () => {

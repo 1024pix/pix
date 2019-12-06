@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const metricController = require('../../../../lib/application/metrics/metric-controller');
 const route = require('../../../../lib/application/metrics');
 
