@@ -372,7 +372,6 @@ describe('Unit | Controller | sessionController', () => {
   describe('#finalize ', () => {
     let request;
     const sessionId = 1;
-    const userId = 2;
     const updatedSession = Symbol('updatedSession');
     const serializedUpdatedSession = Symbol('updated session serialized');
     const examinerComment = 'It was a fine session my dear';
@@ -383,11 +382,6 @@ describe('Unit | Controller | sessionController', () => {
         params: {
           id: sessionId,
         },
-        auth: {
-          credentials: {
-            userId,
-          }
-        },
         payload: {
           data: {
             attributes: {
@@ -396,7 +390,7 @@ describe('Unit | Controller | sessionController', () => {
           },
         },
       };
-      sinon.stub(usecases, 'finalizeSession').withArgs({ userId, sessionId, examinerComment }).resolves(updatedSession);
+      sinon.stub(usecases, 'finalizeSession').withArgs({ sessionId, examinerComment }).resolves(updatedSession);
       sinon.stub(sessionSerializer, 'serializeForFinalization').withArgs(updatedSession).resolves(serializedUpdatedSession);
     });
 

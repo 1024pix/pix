@@ -149,6 +149,7 @@ describe('Unit | Application | Sessions | Routes', () => {
 
   describe('PUT /api/sessions/{id}/finalization', () => {
     beforeEach(() => {
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
       sinon.stub(sessionController, 'finalize').returns('ok');
       return server.register(route);
     });
