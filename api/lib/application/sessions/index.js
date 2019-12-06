@@ -78,6 +78,10 @@ exports.register = async (server) => {
           allow: 'multipart/form-data',
           maxBytes: 1048576 * 10, // 10MB
         },
+        pre: [{
+          method: sessionAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
         handler: sessionController.importCertificationCandidatesFromAttendanceSheet,
         tags: ['api', 'sessions'],
         notes: [
