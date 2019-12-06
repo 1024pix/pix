@@ -75,3 +75,9 @@ $pix-emerald-to-emerald-dark-gradient: linear-gradient(to right, $emerald, $emer
 $pix-emerald-to-emerald-dark-gradient-bottom-to-top: linear-gradient(to top, $emerald, $emerald-dark);
 $pix-yellow-to-orange-gradient: linear-gradient(180deg, $bright-yellow 0%, $pizazz-orange 100%);
 $pix-yellow-to-jaffa-gradient: linear-gradient(180deg, $pix-yellow-hover 0%, $jaffa 100%);
+
+/*
+  Box Shadows
+ */
+$box-shadow-competence-cards: 0 3px 4px 0 rgba(12, 22, 58, 0.1), 0 1px 3px 0 rgba($black, 0.1);
+$box-shadow-competence-cards-hover: 0 7px 14px 0 rgba(12, 22, 58, 0.2), 0 3px 6px 0 rgba($black, 0.2);

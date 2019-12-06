@@ -1,136 +1,107 @@
-@mixin competence-card-area {
-  font-size: 0.9rem;
-  letter-spacing: 0.05rem;
-  opacity: 0.8;
-  text-transform: uppercase;
-}
-
-@mixin competence-card-competence {
-  font-size: 1.6rem;
-  font-weight: $font-medium;
-}
-
 .competence-card {
   position: relative;
   top: 0;
   overflow: hidden;
-  width: 210px;
-  height: 310px;
   font-family: $font-roboto;
-  box-shadow: 0 7px 14px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: $box-shadow-competence-cards;
   border: 1px solid $alto-grey;
   border-radius: 11px;
   background-color: $white;
   transition: all 0.1s linear;
-}
+  -webkit-tap-highlight-color: rgba($dove-gray, 0.3);
 
-.competence-card:hover {
-  top: -8px;
-  box-shadow: 0 14px 24px 0 rgba(12, 22, 58, 0.2), 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+  & a {
+    text-decoration: none;
+    color: $white;
+  }
 }
 
 .competence-card__header {
   display: flex;
   flex-direction: column;
-  text-align: center;
-  color: white;
-  padding: 10px 0;
-  height: 179px;
-  overflow: hidden;
+  color: $white;
+  height: 100%;
   position: relative;
   transition: height 0.2s cubic-bezier(0.265, 0.075, 0.025, 0.990);
-
-  @include device-is('desktop') {
-    height: 110px;
-  }
-}
-
-.competence-card:hover .competence-card__header {
-  height: 179px;
-  transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: visible;
+  padding: 16px 12px;
+  width: 100%;
 }
 
 .competence-card__color {
-
   &::after {
+    width: 110%;
     border-radius: 100%;
     position: absolute;
-    right: -200px;
-    left: -200px;
-    top: -350px;
     content: '';
-    bottom: 0;
+    right: -50px;
+    left: -80px;
+    top: -90px;
+    bottom: -90px;
   }
 
   &--jaffa::after {
-    background: radial-gradient($jaffa-dark 25%, $jaffa 100%);
+    background: linear-gradient(90deg, $jaffa-dark 45%, $jaffa 100%);
   }
 
   &--emerald::after {
-    background: radial-gradient($emerald-dark 25%, $emerald 100%);
+    background: linear-gradient(90deg, $emerald-dark 45%, $emerald 100%);
   }
 
   &--cerulean::after {
-    background: radial-gradient($cerulean-dark 25%, $cerulean 100%);
+    background: linear-gradient(90deg, $cerulean-dark 45%, $cerulean 100%);
   }
 
   &--wild-strawberry::after {
-    background: radial-gradient($wild-strawberry-dark 25%, $wild-strawberry 100%);
+    background: linear-gradient(90deg, $wild-strawberry-dark 45%, $wild-strawberry 100%);
   }
 
   &--butterfly-bush::after {
-    background: radial-gradient($butterfly-bush-dark 25%, $butterfly-bush 100%);
+    background: linear-gradient(90deg, $butterfly-bush-dark 45%, $butterfly-bush 100%);
   }
 }
 
 .competence-card__area-name {
-  @include competence-card-area;
+  font-size: 1.1rem;
+  letter-spacing: 0.05rem;
+  opacity: 0.8;
+  text-transform: uppercase;
   position: relative;
-  margin: 8px 0;
+  margin-bottom: 8px;
 }
 
 .competence-card__competence-name {
-  @include competence-card-competence;
+  font-size: 1.8rem;
+  font-weight: $font-medium;
   position: relative;
-  margin: 8px 0;
-  padding: 0 4px;
 }
 
 .competence-card__body {
-  position: absolute;
-  top: 32px;
-  bottom: 0;
-  left: 0;
-  right: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
-  margin-bottom: 4px;
-  transition: top 0.2s ease-out;
-
-  @include device-is('desktop') {
-    top: 104px;
-  }
-}
-
-.competence-card:hover .competence-card__body {
-  top: 32px;
+  margin: 10px;
+  padding: 5px;
+  background-color: $white;
+  background-clip: padding-box;
+  border: 0 solid rgba($white, 0.4);
+  border-radius: 50%;
+  transition: border 0.1s ease-in;
+  z-index: 1;
+  height: 80px;
 }
 
 .competence-card__link {
-  display: inline-block;
-  padding: 8px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
   background-color: $white;
   background-clip: padding-box;
-  border: 0px solid rgba($white, 0.4);
+  border: 0 solid rgba($white, 0.4);
   border-radius: 50%;
   transition: border 0.1s ease-in;
-}
-
-.competence-card__link:hover {
-  border: 12px solid rgba($white, 0.4);
+  z-index: 1;
 }
 
 .competence-card__level {
@@ -141,84 +112,5 @@
 
 .competence-card__score-value {
   min-height: 44px;
-}
-
-.competence-card__score-details {
-  color: $dusty-grey;
-  text-transform: uppercase;
-  font-size: 1rem;
-  margin-top: 3px;
-  margin-bottom: -4px;
-  opacity: 1;
-  transition: opacity 0.1s linear;
-  letter-spacing: 0.5px;
-
-  @include device-is('desktop') {
-    opacity: 0;
-  }
-}
-
-.competence-card__link:hover .competence-card__score-details {
-  opacity: 1;
-}
-
-.competence-card__footer {
-  position: absolute;
-  bottom: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 34px;
-  transition: bottom 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transition-delay: 0s;
-
-  @include device-is('desktop') {
-    bottom: -34px;
-  }
-}
-
-.competence-card:hover .competence-card__footer {
-  transition-delay: 0.15s;
-  bottom: 22px;
-}
-
-.competence-card__button {
-  position: relative;
-  height: 34px;
-  min-width: 140px;
-}
-
-.competence-card-button__label {
-  position: absolute;
-  top: 0;
-  bottom: 2px;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: left 0.1s ease-out;
-}
-
-.competence-card__button:hover .competence-card-button__label {
-  left: -20px;
-}
-
-.competence-card-button__arrow {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  margin-left: 8px;
-  transition: all 0.1s linear;
-}
-
-.competence-card__button:hover .competence-card-button__arrow {
-  opacity: 1;
-  right: 24px;
+  font-size: 3.5rem;
 }

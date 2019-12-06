@@ -5,7 +5,7 @@ import { setupRenderingTest } from 'ember-mocha';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | competence-card', function() {
+describe('Integration | Component | competence-card-desktop', function() {
   setupRenderingTest();
 
   describe('Component rendering', function() {
@@ -22,7 +22,7 @@ describe('Integration | Component | competence-card', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
 
       // then
       expect(find('.competence-card')).to.exist;
@@ -37,7 +37,7 @@ describe('Integration | Component | competence-card', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
 
       // then
       expect(find('.competence-card__color').getAttribute('class'))
@@ -50,7 +50,7 @@ describe('Integration | Component | competence-card', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
 
       // then
       expect(find('.competence-card__area-name').textContent).to.equal(scorecard.area.title);
@@ -62,7 +62,7 @@ describe('Integration | Component | competence-card', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
 
       // then
       expect(find('.competence-card__competence-name').textContent).to.equal(scorecard.name);
@@ -74,11 +74,56 @@ describe('Integration | Component | competence-card', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
 
       // then
+      expect(find('.score-label').textContent).to.equal('Niveau');
       expect(find('.score-value').textContent).to.equal(scorecard.level.toString());
     });
 
+    context('when user can start the competence', async function() {
+
+      it('should show the button "Commencer"', async function() {
+        // given
+        const scorecard = { area, level: 3, isFinished: false, isStarted: false };
+        this.set('scorecard', scorecard);
+
+        // when
+        await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+
+        // then
+        expect(find('.competence-card__button').textContent).to.contains('Commencer');
+      });
+
+    });
+
+    context('when user can continue the competence', async function() {
+      it('should show the button "Reprendre"', async function() {
+        // given
+        const scorecard = { area, level: 3, isFinished: false, isStarted: true };
+        this.set('scorecard', scorecard);
+
+        // when
+        await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+
+        // then
+        expect(find('.competence-card__button').textContent).to.contains('Reprendre');
+      });
+    });
+
+    context('when user has finished the competence', async function() {
+
+      it('should not show the button', async function() {
+        // given
+        const scorecard = { area, level: 3, isFinished: true, isStarted: false };
+        this.set('scorecard', scorecard);
+
+        // when
+        await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+
+        // then
+        expect(find('.competence-card__button')).to.be.null;
+      });
+    });
   });
 });

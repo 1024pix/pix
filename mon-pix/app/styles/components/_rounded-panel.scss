@@ -16,7 +16,7 @@
     width: 100%;
     margin-top: -205px;
 
-    @include device-is('desktop') {
+    @include device-is('tablet') {
       max-width: 980px;
     }
   }
@@ -46,12 +46,12 @@
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  border-bottom: 1px dashed $silver-grey;
   align-items: center;
 
   @include device-is('tablet') {
     height: 205px;
     flex-direction: row;
+    border-bottom: 1px dashed $silver-grey;
   }
 }
 
@@ -63,7 +63,7 @@
   &__right-wrapper {
     display: flex;
     justify-content: center;
-    margin: 30px 0;
+    margin: 10px 0;
 
     @include device-is('tablet') {
       margin: 0 30px 0 0;
@@ -83,11 +83,23 @@
 
     @include device-is('tablet') {
       flex-direction: row;
+      overflow: auto;
     }
   }
 
   &__competence-card {
-    margin: 16px 10px;
+    margin: 12px 10px;
+    width: 100%;
+
+    @include device-is('tablet') {
+      margin: 16px 10px;
+      width: auto;
+    }
+
+  }
+
+  @include device-is('tablet') {
+    width: auto;
   }
 }
 
@@ -109,8 +121,16 @@
   font-weight: $font-light;
   font-family: $font-open-sans;
   color: $black;
-  font-size: 3.2rem;
-  line-height: 4.5rem;
+  font-size: 2.6rem;
+  line-height: 3.4rem;
+  text-align: center;
+
+  @include device-is('tablet') {
+    display: block;
+    font-size: 3.2rem;
+    line-height: 4.5rem;
+    text-align: left;
+  }
 
   &--all-small-caps {
     font-variant-caps: all-small-caps;
