@@ -1,5 +1,5 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
-const AssessmentAuhorization = require('../../../../lib/application/preHandlers/assessment-authorization');
+const AssessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 
@@ -21,7 +21,7 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
 
     it('should be a function', () => {
       // then
-      expect(AssessmentAuhorization.verify).to.be.a('function');
+      expect(AssessmentAuthorization.verify).to.be.a('function');
     });
 
     it('should get userId from token', () => {
@@ -31,7 +31,7 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
       assessmentRepository.getByAssessmentIdAndUserId.resolves();
 
       // when
-      const promise = AssessmentAuhorization.verify(request, hFake);
+      const promise = AssessmentAuthorization.verify(request, hFake);
 
       // then
       return promise.then(() => {
@@ -50,7 +50,7 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
         assessmentRepository.getByAssessmentIdAndUserId.resolves(fetchedAssessment);
 
         // when
-        const response = await AssessmentAuhorization.verify(request, hFake);
+        const response = await AssessmentAuthorization.verify(request, hFake);
 
         // then
         sinon.assert.calledOnce(assessmentRepository.getByAssessmentIdAndUserId);
@@ -69,7 +69,7 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
         assessmentRepository.getByAssessmentIdAndUserId.resolves(fetchedAssessment);
 
         // when
-        const response = await AssessmentAuhorization.verify(request, hFake);
+        const response = await AssessmentAuthorization.verify(request, hFake);
 
         // then
         sinon.assert.calledOnce(assessmentRepository.getByAssessmentIdAndUserId);
@@ -85,7 +85,7 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
         tokenService.extractUserId.returns(extractedUserId);
         assessmentRepository.getByAssessmentIdAndUserId.rejects();
         // when
-        const response = await AssessmentAuhorization.verify(request, hFake);
+        const response = await AssessmentAuthorization.verify(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(401);
