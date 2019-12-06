@@ -1,11 +1,13 @@
-.profile-page {
-  text-rendering: optimizeLegibility;
-}
-
 .profile {
   &__panel {
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  @include device-is('tablet') {
+    &__panel {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
   }
 }
 
