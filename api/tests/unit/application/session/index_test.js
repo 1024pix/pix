@@ -109,6 +109,7 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('GET /api/sessions/{id}/certification-candidates', () => {
 
     beforeEach(() => {
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
       sinon.stub(sessionController, 'getCertificationCandidates').returns('ok');
       return server.register(route);
     });

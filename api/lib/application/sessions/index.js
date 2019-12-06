@@ -107,6 +107,10 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/sessions/{id}/certification-candidates',
       config: {
+        pre: [{
+          method: sessionAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
         handler: sessionController.getCertificationCandidates,
         tags: ['api', 'sessions', 'certification-candidates'],
         notes: [
