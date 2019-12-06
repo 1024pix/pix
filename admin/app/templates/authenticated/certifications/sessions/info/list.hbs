@@ -8,7 +8,7 @@
         {{#file-upload
           name="session-record-report"
           for="upload-attendance-sheet"
-          onfileadd=(action "displayCertificationSessionReportModal")
+          onfileadd=(action "onDisplaySessionReportAnalysis")
           accept="application/vnd.oasis.opendocument.spreadsheet"
         }}
           {{fa-icon "clipboard-list"}}
@@ -44,8 +44,7 @@
                 show=displayConfirm}}
 
 {{certification-session-report show=displaySessionReport
-                               hide=(action (mut displaySessionReport) false)
-                               getJuryFile=(action "downloadJuryFile")
-                               saveCandidates=(action "onSaveReportData")
-                               candidates=importedCandidates
-                               certifications=model.certifications }}
+                               onHide=(action 'onCloseSessionReportAnalysis')
+                               onDownloadJuryFile=(action 'onDownloadJuryFile')
+                               onSaveSessionReportCertifications=(action 'onUpdateSessionCertificationsWithReportData')
+                               certifications=certificationsInSessionReport}}

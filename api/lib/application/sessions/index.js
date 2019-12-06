@@ -107,6 +107,22 @@ exports.register = async (server) => {
       }
     },
     {
+      method: 'GET',
+      path: '/api/sessions/{id}/certifications',
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: sessionController.getCertifications,
+        tags: ['api', 'sessions', 'certifications'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs ayant le rôle PIXMASTER',
+          'Elle retourne les certifications d\'une session',
+        ]
+      }
+    },
+    {
       method: 'POST',
       path: '/api/sessions/{id}/candidate-participation',
       config: {

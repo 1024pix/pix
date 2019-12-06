@@ -10,12 +10,11 @@ describe('Acceptance | Controller | session-controller-get', () => {
   });
 
   describe('GET /sessions/{id}', function() {
-    let session;
     let userId;
     let request;
 
     beforeEach(() => {
-      session = databaseBuilder.factory.buildSession({
+      databaseBuilder.factory.buildSession({
         id: 1,
         certificationCenter: 'Université de dressage de loutres',
         address: 'Nice',
@@ -27,10 +26,6 @@ describe('Acceptance | Controller | session-controller-get', () => {
         status: 'created',
         accessCode: 'ABCD12',
         examinerComment: 'It was a fine session my dear',
-      });
-      databaseBuilder.factory.buildCertificationCourse({
-        id: 3,
-        sessionId: 1
       });
       userId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
       request = {
@@ -62,25 +57,6 @@ describe('Acceptance | Controller | session-controller-get', () => {
 
       // then
       expect(response.statusCode).to.equal(404);
-    });
-
-    it('should return sessions information with related certification', async () => {
-      // given
-      request.url = '/api/sessions/1';
-
-      // when
-      const response = await server.inject(request);
-
-      // then
-      expect(response.result.data.attributes['access-code']).to.deep.equal(session.accessCode);
-      expect(response.result.data.relationships.certifications).to.deep.equal({
-        'data': [
-          {
-            'id': '3',
-            'type': 'certifications'
-          }
-        ]
-      });
     });
   });
 
@@ -164,7 +140,9 @@ describe('Acceptance | Controller | session-controller-get', () => {
           },
           'relationships': {
             'certifications': {
-              'data': []
+              'links': {
+                'related': '/api/sessions/1/certifications',
+              }
             },
             'certification-candidates': {
               'links': {
@@ -189,7 +167,9 @@ describe('Acceptance | Controller | session-controller-get', () => {
           },
           'relationships': {
             'certifications': {
-              'data': []
+              'links': {
+                'related': '/api/sessions/2/certifications',
+              }
             },
             'certification-candidates': {
               'links': {
