@@ -35,6 +35,7 @@ export default Controller.extend({
   participantExternalId: null,
 
   store: service(),
+  session: service(),
 
   firstName: '',
   lastName: '',
@@ -49,6 +50,10 @@ export default Controller.extend({
 
   isFormNotValid: computed('yearOfBirth', 'monthOfBirth', 'dayOfBirth', function() {
     return !isDayValid(this.dayOfBirth) || !isMonthValid(this.monthOfBirth) || !isYearValid(this.yearOfBirth);
+  }),
+
+  isDisabled: computed('session.data.authenticated.source', function() {
+    return this.session.data.authenticated.source === 'external';
   }),
 
   isLoading: false,
