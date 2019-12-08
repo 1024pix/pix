@@ -73,7 +73,7 @@
     "ember-export-application-global": "^2.0.1",
     "ember-keyboard": "^5.0.0",
     "ember-load-initializers": "^2.1.1",
-    "ember-math-helpers": "^2.11.1",
+    "ember-math-helpers": "^2.12.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-mocha": "^0.16.0",
     "ember-modal-dialog": "^2.4.4",
