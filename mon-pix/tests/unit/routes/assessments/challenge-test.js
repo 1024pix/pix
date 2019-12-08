@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
@@ -182,17 +181,18 @@ describe('Unit | Route | Assessments | Challenge', function() {
       it('should remove temporary answer and send error', async function() {
         // given
         answerToChallengeOne.save = sinon.stub().rejects();
-        route.actions.error = sinon.stub();
-
+        route.actions.error = sinon.stub().rejects();
         const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
 
-        // when
-        const promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
-
-        // then
-        await expect(promise).to.be.rejected;
-        sinon.assert.called(route.actions.error);
-        sinon.assert.called(answerToChallengeOne.rollbackAttributes);
+        // when / then
+        return route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime)
+          .then(function() {
+            throw new Error('was supposed to fail');
+          })
+          .catch(function() {
+            sinon.assert.called(route.actions.error);
+            sinon.assert.called(answerToChallengeOne.rollbackAttributes);
+          });
       });
     });
   });
