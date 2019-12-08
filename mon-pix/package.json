@@ -75,7 +75,7 @@
     "ember-load-initializers": "^2.1.1",
     "ember-math-helpers": "^2.12.0",
     "ember-maybe-import-regenerator": "^0.1.6",
-    "ember-mocha": "^0.16.0",
+    "ember-mocha": "^0.16.2",
     "ember-modal-dialog": "^2.4.4",
     "ember-moment": "^7.8.1",
     "ember-page-title": "^5.1.0",
