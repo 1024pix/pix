@@ -69,7 +69,7 @@
     "ember-click-outside": "^1.2.1",
     "ember-collapsible-panel": "^3.2.1",
     "ember-data": "^3.14.0",
-    "ember-exam": "^2.1.5",
+    "ember-exam": "^4.0.9",
     "ember-export-application-global": "^2.0.0",
     "ember-keyboard": "^4.0.0",
     "ember-load-initializers": "^2.0.0",
