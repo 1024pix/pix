@@ -23,10 +23,10 @@ export default Router.map(function() {
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
 
   this.route('assessments', { path: '/assessments/:assessment_id' }, function() {
-    this.route('resume', { path: '/resume' });
+    this.route('resume');
     this.route('challenge', { path: '/challenges/:challenge_id' });
-    this.route('results', { path: '/results' });
-    this.route('checkpoint', { path: '/checkpoint' });
+    this.route('results');
+    this.route('checkpoint');
   });
 
   this.route('login', { path: '/connexion' });
@@ -56,7 +56,7 @@ export default Router.map(function() {
   });
 
   this.route('competence-details', { path: '/competences/:scorecard_id' });
-  this.route('competences', { path: '/competences' }, function() {
+  this.route('competences', function() {
     this.route('resume', { path: '/:competence_id/evaluer' });
     this.route('results', { path: '/resultats/:assessment_id' });
   });
