@@ -42,7 +42,7 @@
     "broccoli-asset-rev": "^3.0.0",
     "chai-dom": "^1.8.1",
     "ember-ajax": "^5.0.0",
-    "ember-auto-import": "^1.4.0",
+    "ember-auto-import": "^1.5.3",
     "ember-burger-menu": "^3.3.3",
     "ember-cli": "~3.9.0",
     "ember-cli-app-version": "^3.2.0",
