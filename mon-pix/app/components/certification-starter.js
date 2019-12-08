@@ -26,10 +26,15 @@ export default Component.extend({
       if (existingCertificationCourse) {
         return this.router.replaceWith('certifications.resume', existingCertificationCourse.id);
       }
+      const newCertificationCourse = this.store.createRecord('certification-course', {
+        accessCode: this.accessCode,
+        sessionId: this.stepsData.joiner.sessionId
+      });
       try {
-        await this.createCertificationCourseIfValid();
+        await newCertificationCourse.save();
         this.router.replaceWith('certifications.resume', this.getCurrentCertificationCourse().id);
       } catch (err) {
+        this.getCurrentCertificationCourse().deleteRecord();
         if (err.errors && err.errors[0] && err.errors[0].status === '404') {
           this.set('errorMessage', 'Ce code n’existe pas ou n’est plus valide.');
         } else {
@@ -38,15 +43,6 @@ export default Component.extend({
         this.set('isLoading', false);
       }
     },
-  },
-
-  async createCertificationCourseIfValid() {
-    try {
-      await this.store.createRecord('certification-course', { accessCode: this.accessCode, sessionId: this.stepsData.joiner.sessionId }).save();
-    } catch (err) {
-      this.getCurrentCertificationCourse().deleteRecord();
-      throw err;
-    }
   },
 
   getCurrentCertificationCourse() {
