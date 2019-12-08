@@ -11,10 +11,11 @@ describe('Unit | Service | current-user', function() {
   let sessionStub;
 
   describe('user is authenticated', function() {
+    const user = { id: 1 };
     beforeEach(function() {
       sessionStub = Service.create({ isAuthenticated: true });
       storeStub = Service.create({
-        queryRecord: sinon.stub().resolves({ id: 1 })
+        queryRecord: sinon.stub().resolves(user)
       });
     });
 
@@ -28,7 +29,7 @@ describe('Unit | Service | current-user', function() {
       await currentUser.load();
 
       // Then
-      expect(currentUser.user).to.be.defined;
+      expect(currentUser.user).to.equal(user);
     });
   });
 
