@@ -51,7 +51,7 @@ describe('Unit | Route | user certifications/get', function() {
     it('should not return to /mes-certifications when the certification is published and validated', function() {
       // given
       const params = { id: certificationId };
-      const retreivedCertification = EmberObject.create({
+      const retrievedCertification = EmberObject.create({
         id: 2,
         date: '2018-02-15T15:15:52.504Z',
         status: 'validated',
@@ -59,14 +59,14 @@ describe('Unit | Route | user certifications/get', function() {
         isPublished: true,
         pixScore: 231
       });
-      findRecordStub.resolves(retreivedCertification);
+      findRecordStub.resolves(retrievedCertification);
 
       // when
       const promise = route.model(params);
 
       // then
       return promise.then(() => {
-        expect(route.replaceWith).to.not.have.been.called;
+        expect(route.replaceWith.notCalled).to.be.true;
       });
     });
 

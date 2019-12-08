@@ -80,13 +80,14 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
       it('should save participant external id as a property', async function() {
         // given
+        const givenParticipantExternalId = 'a7Eat01r3';
         transition = {
           to: {
             params: {
               campaign_code: campaignCode,
             },
             queryParams: {
-              givenParticipantExternalId: 'a7Eat01r3'
+              givenParticipantExternalId,
             }
           }
         };
@@ -97,7 +98,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
         await route.beforeModel(transition);
 
         // then
-        expect(route.get('givenParticipantExternalId')).to.be.defined;
+        expect(route.get('givenParticipantExternalId')).to.equal(givenParticipantExternalId);
       });
     });
   });
