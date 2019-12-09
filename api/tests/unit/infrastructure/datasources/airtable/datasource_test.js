@@ -2,10 +2,18 @@ const { expect, sinon } = require('../../../../test-helper');
 const dataSource = require('../../../../../lib/infrastructure/datasources/airtable/datasource');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
+const cache = require('../../../../../lib/infrastructure/caches/cache');
 
 describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
+  beforeEach(() => {
+    sinon.stub(cache, 'get');
+  });
+
   const someDatasource = dataSource.extend({
+
+    modelName: 'AirtableModel',
+
     tableName: 'Airtable_table',
 
     usedFields: ['Shi', 'Foo', 'Bar'],
@@ -14,6 +22,13 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
   });
 
   describe('#get', () => {
+
+    const recordId = 'some-record-id';
+    const cacheKey = `${someDatasource.modelName}_${recordId}`;
+
+    beforeEach(() => {
+      cache.get.withArgs(cacheKey).callsFake((cacheKey, generator) => generator());
+    });
 
     context('(success cases)', () => {
 
@@ -25,7 +40,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
       it('should fetch a single record from Airtable (or its cached copy)', async () => {
         // when
-        const record = await someDatasource.get('some-record-id');
+        const record = await someDatasource.get(recordId);
 
         // then
         expect(record).to.deep.equal({ record: { tableName: 'Airtable_table', id: 'some-record-id' } });
@@ -36,12 +51,19 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
         const unboundGet = someDatasource.get;
 
         // when
-        const record = await unboundGet('some-record-id');
+        const record = await unboundGet(recordId);
 
         // then
         expect(record).to.deep.equal({ record: { tableName: 'Airtable_table', id: 'some-record-id' } });
       });
 
+      it('should be cachable', async () => {
+        // when
+        await someDatasource.get(recordId);
+
+        // then
+        expect(cache.get).to.have.been.calledWith(cacheKey);
+      });
     });
 
     context('(error cases)', () => {
@@ -53,7 +75,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
         sinon.stub(airtable, 'getRecord').rejects(err);
 
         // when
-        const promise = someDatasource.get('some-record-id');
+        const promise = someDatasource.get(recordId);
 
         // then
         return expect(promise).to.have.been.rejectedWith(AirtableResourceNotFound);
@@ -65,7 +87,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
         sinon.stub(airtable, 'getRecord').rejects(err);
 
         // when
-        const promise = someDatasource.get('some-record-id');
+        const promise = someDatasource.get(recordId);
 
         // then
         return expect(promise).to.have.been.rejectedWith(err);
