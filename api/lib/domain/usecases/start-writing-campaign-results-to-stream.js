@@ -263,8 +263,7 @@ module.exports = async function startWritingCampaignResultsToStream(
       campaignId,
     };
 
-    line = csvService.getUpdatedCsvLine({ line, rawData, headerPropertyMap, propertyName: 'organizationName' });
-    line = csvService.getUpdatedCsvLine({ line, rawData, headerPropertyMap, propertyName: 'campaignId' });
+    csvService.updateCsvLine({ line, rawData, headerPropertyMap });
 
     line = line.join(';') + '\n';
 

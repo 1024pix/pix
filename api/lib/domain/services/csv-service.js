@@ -5,10 +5,17 @@ const valueTypes = {
   NUMBER: 'number',
 };
 
-function getUpdatedCsvLine({ line, rawData, headerPropertyMap, propertyName }) {
+function updateCsvLine({ line, rawData, headerPropertyMap }) {
   const headers =  _.map(headerPropertyMap, 'headerName');
+
+  _.each(headerPropertyMap, (csvParams) => {
+    line = updateCsvLineByProperty({ line, rawData, csvParams, headers });
+  });
+}
+
+function updateCsvLineByProperty({ line, rawData, csvParams, headers }) {
+  const { propertyName, headerName, type } = csvParams;
   const value = rawData[propertyName];
-  const { headerName, type } = _.find(headerPropertyMap, { propertyName });
 
   if (type === valueTypes.TEXT) {
     return addTextCell(headerName, value, headers)(line);
@@ -48,7 +55,7 @@ function toCsvNumber(input) {
 }
 
 module.exports = {
-  getUpdatedCsvLine,
+  updateCsvLine,
   addNumberCell,
   addTextCell,
   getHeadersWithQuotes,
