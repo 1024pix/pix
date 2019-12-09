@@ -137,7 +137,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
     });
   });
 
-  describe('#preload', () => {
+  describe('#loadEntries', () => {
 
     beforeEach(() => {
       cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
@@ -151,7 +151,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
     it('should load all the Airtable table content in the cache (and return them)', async () => {
       // when
-      const success = await someDatasource.preload();
+      const success = await someDatasource.loadEntries();
 
       // then
       expect(success).to.be.true;
@@ -159,7 +159,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
     it('should preload cache', async () => {
       // when
-      await someDatasource.preload();
+      await someDatasource.loadEntries();
 
       // then
       expect(cache.set).to.have.been.calledWith('AirtableModel');
