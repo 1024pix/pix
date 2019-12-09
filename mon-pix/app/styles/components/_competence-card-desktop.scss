@@ -121,15 +121,22 @@
   }
 
   .competence-card__congrats {
-    width: 120px;
-    height: 132px;
+    width: 130px;
+    height: 140px;
     background: url('/images/scorecard-congrats.svg') no-repeat center center;
-    background-size: cover;
+    background-size: contain;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    &--with-magnification {
+      &:hover {
+        width: 140px;
+        height: 150px;
+      }
+    }
   }
 
   .competence-card__score-label--congrats {

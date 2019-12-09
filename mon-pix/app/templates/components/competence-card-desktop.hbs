@@ -8,7 +8,7 @@
     <div class="competence-card__body">
       {{#if scorecard.isFinishedWithMaxLevel}}
         {{#link-to "competence-details" scorecard.id}}
-          <div class="competence-card__congrats">
+          <div class="competence-card__congrats competence-card__congrats--with-magnification">
             <div class="competence-card__level competence-card__level--congrats">
               <span class="score-label competence-card__score-label--congrats">Niveau</span>
               <span class="score-value competence-card__score-value competence-card__score-value--congrats">{{displayedLevel}}</span>
