@@ -97,25 +97,7 @@ describe('Integration | Component | scorecard-details', function() {
       expect(this.element.querySelector('.score-value').textContent).to.contain('–');
     });
 
-    context('When the user has reached the max level, i.e. scorecard.isMaxLevel is true', async function() {
-      it('should not display remainingPixToNextLevel', async function() {
-        // given
-        const scorecard = {
-          remainingPixToNextLevel: 1,
-          isMaxLevel: true,
-        };
-
-        this.set('scorecard', scorecard);
-
-        // when
-        await render(hbs`{{scorecard-details scorecard=scorecard}}`);
-
-        // then
-        expect(this.element.querySelector('.scorecard-details-content-right__level-info')).to.not.exist;
-      });
-    });
-
-    context('When the user has finished a competence, i.e. scorecard.isFinished is true', async function() {
+    context('When the user has finished a competence', async function() {
       beforeEach(async function() {
         // given
         const scorecard = {
@@ -137,6 +119,32 @@ describe('Integration | Component | scorecard-details', function() {
       it('should not display a button', async function() {
         // then
         expect(this.element.querySelector('.scorecard-details__resume-or-start-button')).to.not.exist;
+      });
+
+      context('and the user has reached the max level', async function() {
+        beforeEach(async function() {
+          // given
+          const scorecard = {
+            remainingPixToNextLevel: 1,
+            isFinishedWithMaxLevel: true,
+            isFinished: true,
+          };
+
+          this.set('scorecard', scorecard);
+
+          // when
+          await render(hbs`{{scorecard-details scorecard=scorecard}}`);
+        });
+
+        it('should not display remainingPixToNextLevel', function() {
+          // then
+          expect(this.element.querySelector('.scorecard-details-content-right__level-info')).to.not.exist;
+        });
+
+        it('should show congrats design', function() {
+          // then
+          expect(find('.competence-card__congrats')).to.exist;
+        });
       });
     });
 
@@ -177,7 +185,7 @@ describe('Integration | Component | scorecard-details', function() {
       });
     });
 
-    context('When the user has started a competence, i.e. scorecard.isStarted is true', async function() {
+    context('When the user has started a competence', async function() {
 
       it('should display a button stating "Reprendre"', async function() {
         // given
