@@ -50,7 +50,8 @@ module.exports = {
         'certificationNumber',
         'course',
         'certificationCourse',
-        'progression'
+        'progression',
+        'competenceId',
       ],
       answers: {
         ref: 'id',

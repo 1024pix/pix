@@ -44,6 +44,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
             type: null,
             state: 'completed',
             'certification-number': null,
+            'competence-id': 'recCompetenceId',
           },
           relationships: {
             answers: { data: [] },
