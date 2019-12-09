@@ -98,6 +98,8 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
   describe('#list', () => {
 
     beforeEach(() => {
+      cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
+
       sinon.stub(airtable, 'findRecords').callsFake(async (tableName, usedFields) => {
         return [{ tableName, usedFields }];
       });
@@ -120,6 +122,14 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
       // then
       expect(record).to.deep.equal([{ record: { tableName: 'Airtable_table', usedFields: ['Shi', 'Foo', 'Bar'] } }]);
+    });
+
+    it('should be cachable', async () => {
+      // when
+      await someDatasource.list();
+
+      // then
+      expect(cache.get).to.have.been.calledWith(someDatasource.modelName);
     });
   });
 
