@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 import { equal } from '@ember/object/computed';
 import { computed } from '@ember/object';
+import { and } from '@ember/object/computed';
 const { Model, attr, belongsTo, hasMany } = DS;
 import areaColors from 'mon-pix/static-data/area-colors';
 
@@ -23,6 +24,7 @@ export default Model.extend({
   tutorials: hasMany('tutorial'),
 
   isFinished: equal('status', 'COMPLETED'),
+  isFinishedWithMaxLevel: and('isFinished', 'isMaxLevel'),
   isStarted: equal('status', 'STARTED'),
   isNotStarted: equal('status', 'NOT_STARTED'),
 
