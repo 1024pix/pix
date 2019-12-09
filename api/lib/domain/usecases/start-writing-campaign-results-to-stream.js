@@ -9,7 +9,7 @@ const {
   CampaignWithoutOrganizationError
 } = require('../errors');
 
-const headerPropertyMap = [
+let headerPropertyMap = [
   {
     headerName: 'Nom de l\'organisation',
     propertyName: 'organizationName',
@@ -181,7 +181,6 @@ function _withArea(headers, line) {
 function _withCampaign(campaign, campaignParticipation, headers) {
   return _toPipe(
     csvService.addTextCell('Partage (O/N)', campaignParticipation.isShared ? 'Oui' : 'Non', headers),
-    campaign.idPixLabel ? csvService.addTextCell('' + _cleanText(campaign.idPixLabel) + '', campaignParticipation.participantExternalId, headers) : _.identity,
   );
 }
 
@@ -241,6 +240,16 @@ module.exports = async function startWritingCampaignResultsToStream(
   const enhancedTargetProfile = enhanceTargetProfile(targetProfile, competences);
 
   const headers = createCsvHeader(enhancedTargetProfile, campaign.idPixLabel);
+
+  if (campaign.idPixLabel) {
+    const item = {
+      headerName: _cleanText(campaign.idPixLabel),
+      propertyName: 'campaignLabel',
+      type: csvService.valueTypes.TEXT,
+    };
+    headerPropertyMap = csvService.insert(item).into(headerPropertyMap).after('Prénom du Participant');
+  }
+
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
   // - https://stackoverflow.com/a/38192870
@@ -271,6 +280,7 @@ module.exports = async function startWritingCampaignResultsToStream(
       targetProfileName: targetProfile.name,
       userFirstName: user.firstName,
       userLastName: user.lastName,
+      campaignLabel: campaignParticipation.participantExternalId,
     };
 
     csvService.updateCsvLine({ line, rawData, headerPropertyMap });

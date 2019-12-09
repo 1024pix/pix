@@ -54,10 +54,26 @@ function toCsvNumber(input) {
   return input.toString().replace('.', ',');
 }
 
+const insert = (item) => {
+  return {
+    into: (array) => {
+      return {
+        after: (header) => {
+          const idx = _.findIndex(array, { headerName: header });
+          const firstSlice = _.slice(array, 0, idx + 1);
+          const secondSlice = _.slice(array, idx + 1);
+          return _.concat(firstSlice, item, secondSlice);
+        }
+      };
+    }
+  };
+};
+
 module.exports = {
   updateCsvLine,
   addNumberCell,
   addTextCell,
   getHeadersWithQuotes,
   valueTypes,
+  insert,
 };
