@@ -18,7 +18,11 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
     usedFields: ['Shi', 'Foo', 'Bar'],
 
-    fromAirTableObject: (record) => ({ record }),
+    fromAirTableObject: (record) => ({
+      id: record.id,
+      tableName: record.tableName,
+      fields: record.fields
+    }),
   });
 
   describe('#get', () => {
@@ -34,7 +38,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
       beforeEach(() => {
         sinon.stub(airtable, 'getRecord').callsFake(async (tableName, id) => {
-          return { tableName, id };
+          return { tableName, id, fields: { foo: 'bar' } };
         });
       });
 
@@ -43,7 +47,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
         const record = await someDatasource.get(recordId);
 
         // then
-        expect(record).to.deep.equal({ record: { tableName: 'Airtable_table', id: 'some-record-id' } });
+        expect(record).to.deep.equal({ id: 'some-record-id', tableName: 'Airtable_table', fields: { foo: 'bar' } });
       });
 
       it('should correctly manage the `this` context', async () => {
@@ -54,7 +58,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
         const record = await unboundGet(recordId);
 
         // then
-        expect(record).to.deep.equal({ record: { tableName: 'Airtable_table', id: 'some-record-id' } });
+        expect(record).to.deep.equal({ id: 'some-record-id', tableName: 'Airtable_table', fields: { foo: 'bar' } });
       });
 
       it('should be cachable', async () => {
@@ -101,7 +105,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
       cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
 
       sinon.stub(airtable, 'findRecords').callsFake(async (tableName, usedFields) => {
-        return [{ tableName, usedFields }];
+        return [{ id: 1, tableName, fields: usedFields }];
       });
     });
 
@@ -110,7 +114,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
       const record = await someDatasource.list();
 
       // then
-      expect(record).to.deep.equal([{ record: { tableName: 'Airtable_table', usedFields: ['Shi', 'Foo', 'Bar'] } }]);
+      expect(record).to.deep.equal([{ id: 1, tableName: 'Airtable_table', fields: ['Shi', 'Foo', 'Bar'] }]);
     });
 
     it('should correctly manage the `this` context', async () => {
@@ -121,7 +125,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
       const record = await unboundList();
 
       // then
-      expect(record).to.deep.equal([{ record: { tableName: 'Airtable_table', usedFields: ['Shi', 'Foo', 'Bar'] } }]);
+      expect(record).to.deep.equal([{ id: 1, tableName: 'Airtable_table', fields: ['Shi', 'Foo', 'Bar'] }]);
     });
 
     it('should be cachable', async () => {
@@ -135,16 +139,32 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
   describe('#preload', () => {
 
-    it('should load all the Airtable table content in the cache (and return them)', async () => {
-      // given
+    beforeEach(() => {
+      cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
+      sinon.stub(cache, 'set');
       sinon.stub(airtable, 'preload').withArgs(someDatasource.tableName, someDatasource.usedFields).resolves(true);
+      sinon.stub(airtable, 'findRecords').resolves([
+        { id: 'rec1', tableName: 'Airtable_table', fields: 'value1' },
+        { id: 'rec2', tableName: 'Airtable_table', fields: 'value2' }
+      ]);
+    });
 
+    it('should load all the Airtable table content in the cache (and return them)', async () => {
       // when
       const success = await someDatasource.preload();
 
       // then
       expect(success).to.be.true;
     });
-  });
 
+    it('should preload cache', async () => {
+      // when
+      await someDatasource.preload();
+
+      // then
+      expect(cache.set).to.have.been.calledWith('AirtableModel');
+      expect(cache.set).to.have.been.calledWith('AirtableModel_rec1');
+      expect(cache.set).to.have.been.calledWith('AirtableModel_rec2');
+    });
+  });
 });
