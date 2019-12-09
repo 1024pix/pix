@@ -3,42 +3,51 @@ const airtable = require('../../airtable');
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 const cache = require('../../caches/cache');
 
-function generateCacheKey(modelName, id) {
-  return id ? `${modelName}_${id}` : `${modelName}`;
-}
-
 const _DatasourcePrototype = {
 
-  get(id) {
-    const cacheKey = generateCacheKey(this.modelName, id);
+  _generateCacheKey(modelName, id) {
+    return id ? `${modelName}_${id}` : `${modelName}`;
+  },
 
-    const generator = () => {
-      return airtable.getRecord(this.tableName, id).then(this.fromAirTableObject).catch((err) => {
-        if (err.error === 'NOT_FOUND') {
-          throw new AirtableResourceNotFound();
-        }
-        throw err;
+  _doGet(id) {
+    return airtable.getRecord(this.tableName, id).then(this.fromAirTableObject).catch((err) => {
+      if (err.error === 'NOT_FOUND') {
+        throw new AirtableResourceNotFound();
+      }
+      throw err;
+    });
+  },
+
+  _doList() {
+    return airtable.findRecords(this.tableName, this.usedFields)
+      .then((airtableRawObjects) => {
+        return airtableRawObjects.map(this.fromAirTableObject);
       });
-    };
+  },
 
-    return cache.get(cacheKey, generator);
+  get(id) {
+    const key = this._generateCacheKey(this.modelName, id);
+    const generator = () => this._doGet(id);
+    return cache.get(key, generator);
   },
 
   list() {
-    const cacheKey = generateCacheKey(this.modelName);
-
-    const generator = () => {
-      return airtable.findRecords(this.tableName, this.usedFields)
-        .then((airtableRawObjects) => {
-          return airtableRawObjects.map(this.fromAirTableObject);
-        });
-    };
-
-    return cache.get(cacheKey, generator);
+    const key = this._generateCacheKey(this.modelName);
+    const generator = () => this._doList();
+    return cache.get(key, generator);
   },
 
   async preload() {
-    return airtable.preload(this.tableName, this.usedFields);
+    await airtable.preload(this.tableName, this.usedFields);
+
+    const cacheKeyList = this._generateCacheKey(this.modelName);
+    const results = await this._doList();
+    await cache.set(cacheKeyList, results);
+
+    return Promise.all(results.map((record) => {
+      const cacheKey = this._generateCacheKey(this.modelName, record.id);
+      return cache.set(cacheKey, record);
+    })).then(() => true);
   },
 
 };
