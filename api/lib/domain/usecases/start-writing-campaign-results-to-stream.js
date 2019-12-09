@@ -52,8 +52,21 @@ let headerPropertyMap = [
   },
   {
     headerName: 'Partage (O/N)',
-    propertyName: 'sharedAt',
+    propertyName: 'isShared',
     type: csvService.valueTypes.TEXT,
+  },
+];
+
+const headerPropertyMapForSharedCampaign = [
+  {
+    headerName: 'Date du partage',
+    propertyName: 'sharedAt',
+    type: csvService.valueTypes.NUMBER,
+  },
+  {
+    headerName: '% maitrise de l\'ensemble des acquis du profil',
+    propertyName: 'knowledgeElementsValidatedPercentage',
+    type: csvService.valueTypes.NUMBER,
   },
 ];
 
@@ -266,7 +279,7 @@ module.exports = async function startWritingCampaignResultsToStream(
       campaignParticipation.isShared ? _withEndResults(campaignParticipation, enhancedTargetProfile, headers) : _.identity
     )(line);
 
-    const rawData = {
+    let rawData = {
       organizationName: organization.name,
       campaignId,
       campaignName: campaign.name,
@@ -276,10 +289,20 @@ module.exports = async function startWritingCampaignResultsToStream(
       campaignLabel: campaignParticipation.participantExternalId,
       progression: assessment.isCompleted ? 1 : enhancedTargetProfile.getProgression(allKnowledgeElements),
       startedAt: moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
-      sharedAt: campaignParticipation.isShared ? 'Oui' : 'Non',
+      isShared: campaignParticipation.isShared ? 'Oui' : 'Non',
     };
 
-    csvService.updateCsvLine({ line, rawData, headerPropertyMap });
+    if (campaignParticipation.isShared) {
+      rawData = {
+        ...rawData,
+        sharedAt: moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'),
+        knowledgeElementsValidatedPercentage: enhancedTargetProfile.getKnowledgeElementsValidatedPercentage(enhancedTargetProfile.knowledgeElements),
+      };
+      const headerPropertyMapFull = [...headerPropertyMap, ...headerPropertyMapForSharedCampaign];
+      csvService.updateCsvLine({ line, rawData, headerPropertyMap: headerPropertyMapFull });
+    } else {
+      csvService.updateCsvLine({ line, rawData, headerPropertyMap });
+    }
 
     line = line.join(';') + '\n';
 
@@ -297,10 +320,6 @@ module.exports = async function startWritingCampaignResultsToStream(
 
 function _withEndResults(campaignParticipation, enhancedTargetProfile, headers) {
   return (line) => {
-    pipe(
-      csvService.addNumberCell('Date du partage', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
-      csvService.addNumberCell('% maitrise de l\'ensemble des acquis du profil', enhancedTargetProfile.getKnowledgeElementsValidatedPercentage(enhancedTargetProfile.knowledgeElements), headers),
-    )(line);
 
     _.forEach(enhancedTargetProfile.competences, _withCompetence(headers, enhancedTargetProfile, line));
     _.forEach(enhancedTargetProfile.areas, _withArea(headers, line));
