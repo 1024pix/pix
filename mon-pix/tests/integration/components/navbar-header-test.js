@@ -4,7 +4,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { setBreakpointForIntegrationTest } from '../../helpers/responsive';
+import { setBreakpoint } from 'ember-responsive/test-support';
 
 describe('Integration | Component | navbar-header', function() {
 
@@ -12,7 +12,7 @@ describe('Integration | Component | navbar-header', function() {
 
   context('when user is on desktop', function() {
     beforeEach(async function() {
-      setBreakpointForIntegrationTest(this, 'desktop');
+      setBreakpoint('desktop');
       await render(hbs`{{navbar-header media=media}}`);
     });
 
@@ -24,7 +24,7 @@ describe('Integration | Component | navbar-header', function() {
 
   context('When user is not on desktop ', function() {
     beforeEach(function() {
-      setBreakpointForIntegrationTest(this, 'tablet');
+      setBreakpoint('tablet');
     });
 
     it('should be rendered in mobile/tablet mode with a burger', async function() {
