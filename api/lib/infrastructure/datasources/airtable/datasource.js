@@ -1,16 +1,27 @@
 const _ = require('lodash');
 const airtable = require('../../airtable');
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
+const cache = require('../../caches/cache');
+
+function generateCacheKey(modelName, id) {
+  return id ? `${modelName}_${id}` : `${modelName}`;
+}
 
 const _DatasourcePrototype = {
 
   get(id) {
-    return airtable.getRecord(this.tableName, id).then(this.fromAirTableObject).catch((err) => {
-      if (err.error === 'NOT_FOUND') {
-        throw new AirtableResourceNotFound();
-      }
-      throw err;
-    });
+    const cacheKey = generateCacheKey(this.modelName, id);
+
+    const generator = () => {
+      return airtable.getRecord(this.tableName, id).then(this.fromAirTableObject).catch((err) => {
+        if (err.error === 'NOT_FOUND') {
+          throw new AirtableResourceNotFound();
+        }
+        throw err;
+      });
+    };
+
+    return cache.get(cacheKey, generator);
   },
 
   list() {
@@ -20,7 +31,7 @@ const _DatasourcePrototype = {
       });
   },
 
-  preload() {
+  async preload() {
     return airtable.preload(this.tableName, this.usedFields);
   },
 
