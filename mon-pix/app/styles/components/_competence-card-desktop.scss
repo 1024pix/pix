@@ -114,6 +114,48 @@
     .score-label {
       display: block;
     }
+
+    &--congrats {
+      margin-bottom: 12px;
+    }
+  }
+
+  .competence-card__congrats {
+    width: 120px;
+    height: 132px;
+    background: url('/images/scorecard-congrats.svg') no-repeat center center;
+    background-size: cover;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .competence-card__score-label--congrats {
+    color: $white;
+  }
+
+  .competence-card__score-value--congrats {
+    color: $white;
+    font-size: 4.5rem;
+    font-weight: $font-bold;
+  }
+
+  .competence-card__congrats-message {
+    position: absolute;
+    bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 34px;
+    color: $gun-powder;
+    font-family: $font-open-sans;
+    font-size: 1.5rem;
+    font-weight: $font-bold;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
   }
 
   .competence-card__score-details {
