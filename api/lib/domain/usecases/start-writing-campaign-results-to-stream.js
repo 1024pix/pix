@@ -40,6 +40,21 @@ let headerPropertyMap = [
     propertyName: 'userFirstName',
     type: csvService.valueTypes.TEXT,
   },
+  {
+    headerName: '% de progression',
+    propertyName: 'progression',
+    type: csvService.valueTypes.NUMBER,
+  },
+  {
+    headerName: 'Date de début',
+    propertyName: 'startedAt',
+    type: csvService.valueTypes.NUMBER,
+  },
+  {
+    headerName: 'Partage (O/N)',
+    propertyName: 'sharedAt',
+    type: csvService.valueTypes.TEXT,
+  },
 ];
 
 async function _fetchUserIfHeHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
@@ -178,26 +193,6 @@ function _withArea(headers, line) {
   };
 }
 
-function _withCampaign(campaign, campaignParticipation, headers) {
-  return _toPipe(
-    csvService.addTextCell('Partage (O/N)', campaignParticipation.isShared ? 'Oui' : 'Non', headers),
-  );
-}
-
-function _withAssessment(assessment, progression, headers) {
-  return _toPipe(
-    csvService.addNumberCell('% de progression', (assessment.isCompleted) ? 1 : progression, headers),
-    csvService.addNumberCell('Date de début', moment.utc(assessment.createdAt).format('YYYY-MM-DD'), headers),
-  );
-}
-
-function _toPipe(...fns) {
-  return (input) => {
-    input = pipe(...fns)(input);
-    return input;
-  };
-}
-
 function _initLineWithPlaceholders(headers) {
   return headers.map(() => 'NA');
 }
@@ -268,8 +263,6 @@ module.exports = async function startWritingCampaignResultsToStream(
     let line = _initLineWithPlaceholders(headers);
 
     line = pipe(
-      _withCampaign(campaign, campaignParticipation, headers),
-      _withAssessment(assessment, enhancedTargetProfile.getProgression(allKnowledgeElements), headers),
       campaignParticipation.isShared ? _withEndResults(campaignParticipation, enhancedTargetProfile, headers) : _.identity
     )(line);
 
@@ -281,6 +274,9 @@ module.exports = async function startWritingCampaignResultsToStream(
       userFirstName: user.firstName,
       userLastName: user.lastName,
       campaignLabel: campaignParticipation.participantExternalId,
+      progression: assessment.isCompleted ? 1 : enhancedTargetProfile.getProgression(allKnowledgeElements),
+      startedAt: moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
+      sharedAt: campaignParticipation.isShared ? 'Oui' : 'Non',
     };
 
     csvService.updateCsvLine({ line, rawData, headerPropertyMap });
@@ -302,7 +298,6 @@ module.exports = async function startWritingCampaignResultsToStream(
 function _withEndResults(campaignParticipation, enhancedTargetProfile, headers) {
   return (line) => {
     pipe(
-      csvService.addNumberCell('Date du partage', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
       csvService.addNumberCell('Date du partage', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
       csvService.addNumberCell('% maitrise de l\'ensemble des acquis du profil', enhancedTargetProfile.getKnowledgeElementsValidatedPercentage(enhancedTargetProfile.knowledgeElements), headers),
     )(line);
