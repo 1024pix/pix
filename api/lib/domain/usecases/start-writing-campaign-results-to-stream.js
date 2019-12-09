@@ -29,7 +29,7 @@ async function _fetchUserIfHeHasAccessToCampaignOrganization(userId, organizatio
 }
 
 function _cleanText(text) {
-  return `"${text.replace(/"/g, '""')}"`;
+  return `${text.replace(/"/g, '')}`;
 }
 
 function createCsvHeader(enhancedTargetProfile, idPixLabel) {
@@ -43,18 +43,18 @@ function createCsvHeader(enhancedTargetProfile, idPixLabel) {
 
 function _getBaseHeaders(idPixLabel) {
   return [
-    '"Nom de l\'organisation"',
-    '"ID Campagne"',
-    '"Nom de la campagne"',
-    '"Nom du Profil Cible"',
-    '"Nom du Participant"',
-    '"Prénom du Participant"',
+    'Nom de l\'organisation',
+    'ID Campagne',
+    'Nom de la campagne',
+    'Nom du Profil Cible',
+    'Nom du Participant',
+    'Prénom du Participant',
     idPixLabel ? _cleanText(idPixLabel) : null,
-    '"% de progression"',
-    '"Date de début"',
-    '"Partage (O/N)"',
-    '"Date du partage"',
-    '"% maitrise de l\'ensemble des acquis du profil"',
+    '% de progression',
+    'Date de début',
+    'Partage (O/N)',
+    'Date du partage',
+    '% maitrise de l\'ensemble des acquis du profil',
   ].filter(Boolean);
 }
 
@@ -64,9 +64,9 @@ function _getCompetencesHeaders(competences) {
 
 function _getCompetenceHeaders(competence) {
   return [
-    `"% de maitrise des acquis de la compétence ${competence.name}"`,
-    `"Nombre d'acquis du profil cible dans la compétence ${competence.name}"`,
-    `"Acquis maitrisés dans la compétence ${competence.name}"`,
+    `% de maitrise des acquis de la compétence ${competence.name}`,
+    `Nombre d'acquis du profil cible dans la compétence ${competence.name}`,
+    `Acquis maitrisés dans la compétence ${competence.name}`,
   ];
 }
 
@@ -76,9 +76,9 @@ function _getAreasHeaders(areas) {
 
 function _getAreaHeaders(area) {
   return [
-    `"% de maitrise des acquis du domaine ${area.title}"`,
-    `"Nombre d'acquis du profil cible du domaine ${area.title}"`,
-    `"Acquis maitrisés du domaine ${area.title}"`,
+    `% de maitrise des acquis du domaine ${area.title}`,
+    `Nombre d'acquis du profil cible du domaine ${area.title}`,
+    `Acquis maitrisés du domaine ${area.title}`,
   ];
 }
 
@@ -88,7 +88,7 @@ function _getSkillsHeaders(skillNames) {
 
 function _getSkillHeaders(skillName) {
   return [
-    `"${skillName}"`,
+    `${skillName}`,
   ];
 }
 
@@ -118,7 +118,7 @@ function _competenceRelatedTo(skillIds) {
 
 function _withSkill(headers, targetProfileKnowledgeElements, line) {
   return (skill) => {
-    line = pipe(csvService.addTextCell(`"${skill.name}"`, _stateOfSkill(skill.id, targetProfileKnowledgeElements), headers))(line);
+    line = pipe(csvService.addTextCell(`${skill.name}`, _stateOfSkill(skill.id, targetProfileKnowledgeElements), headers))(line);
   };
 }
 
@@ -129,9 +129,9 @@ function _withCompetence(headers, enhancedTargetProfile, line) {
     const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
 
     line = pipe(
-      csvService.addNumberCell(`"% de maitrise des acquis de la compétence ${competence.name}"`, percentage, headers),
-      csvService.addNumberCell(`"Nombre d'acquis du profil cible dans la compétence ${competence.name}"`, skillsForThisCompetence.length, headers),
-      csvService.addNumberCell(`"Acquis maitrisés dans la compétence ${competence.name}"`, numberOfSkillsValidatedForThisCompetence, headers),
+      csvService.addNumberCell(`% de maitrise des acquis de la compétence ${competence.name}`, percentage, headers),
+      csvService.addNumberCell(`Nombre d'acquis du profil cible dans la compétence ${competence.name}`, skillsForThisCompetence.length, headers),
+      csvService.addNumberCell(`Acquis maitrisés dans la compétence ${competence.name}`, numberOfSkillsValidatedForThisCompetence, headers),
     )(line);
 
     // Add on Area
@@ -145,38 +145,38 @@ function _withArea(headers, line) {
   return (area) => {
     const percentage = _.round(area.numberSkillsValidated / area.numberSkillsTested, 2);
     line = pipe(
-      csvService.addNumberCell(`"% de maitrise des acquis du domaine ${area.title}"`, percentage, headers),
-      csvService.addNumberCell(`"Nombre d'acquis du profil cible du domaine ${area.title}"`, area.numberSkillsTested, headers),
-      csvService.addNumberCell(`"Acquis maitrisés du domaine ${area.title}"`, area.numberSkillsValidated, headers),
+      csvService.addNumberCell(`% de maitrise des acquis du domaine ${area.title}`, percentage, headers),
+      csvService.addNumberCell(`Nombre d'acquis du profil cible du domaine ${area.title}`, area.numberSkillsTested, headers),
+      csvService.addNumberCell(`Acquis maitrisés du domaine ${area.title}`, area.numberSkillsValidated, headers),
     )(line);
   };
 }
 
 function _withCampaign(campaign, campaignParticipation, headers) {
   return _toPipe(
-    csvService.addNumberCell('"ID Campagne"', campaign.id, headers),
-    csvService.addTextCell('"Nom de la campagne"',campaign.name, headers),
-    csvService.addTextCell('"Partage (O/N)"', campaignParticipation.isShared ? 'Oui' : 'Non', headers),
-    campaign.idPixLabel ? csvService.addTextCell(_cleanText(campaign.idPixLabel), campaignParticipation.participantExternalId, headers) : _.identity,
+    csvService.addNumberCell('ID Campagne', campaign.id, headers),
+    csvService.addTextCell('Nom de la campagne',campaign.name, headers),
+    csvService.addTextCell('Partage (O/N)', campaignParticipation.isShared ? 'Oui' : 'Non', headers),
+    campaign.idPixLabel ? csvService.addTextCell('' + _cleanText(campaign.idPixLabel) + '', campaignParticipation.participantExternalId, headers) : _.identity,
   );
 }
 
 function _withUser(user, headers) {
   return _toPipe(
-    csvService.addTextCell('"Nom du Participant"', user.lastName, headers),
-    csvService.addTextCell('"Prénom du Participant"', user.firstName, headers),
+    csvService.addTextCell('Nom du Participant', user.lastName, headers),
+    csvService.addTextCell('Prénom du Participant', user.firstName, headers),
   );
 }
 
 function _withAssessment(assessment, progression, headers) {
   return _toPipe(
-    csvService.addNumberCell('"% de progression"', (assessment.isCompleted) ? 1 : progression, headers),
-    csvService.addNumberCell('"Date de début"', moment.utc(assessment.createdAt).format('YYYY-MM-DD'), headers),
+    csvService.addNumberCell('% de progression', (assessment.isCompleted) ? 1 : progression, headers),
+    csvService.addNumberCell('Date de début', moment.utc(assessment.createdAt).format('YYYY-MM-DD'), headers),
   );
 }
 
 function _withTargetProfile(targetProfile, headers) {
-  return csvService.addTextCell('"Nom du Profil Cible"', targetProfile.name, headers);
+  return csvService.addTextCell('Nom du Profil Cible', targetProfile.name, headers);
 }
 
 function _toPipe(...fns) {
@@ -187,7 +187,7 @@ function _toPipe(...fns) {
 }
 
 function _initLineWithPlaceholders(headers) {
-  return headers.map(() => '"NA"');
+  return headers.map(() => 'NA');
 }
 
 function enhanceTargetProfile(targetProfile, competences) {
@@ -228,11 +228,10 @@ module.exports = async function startWritingCampaignResultsToStream(
   const enhancedTargetProfile = enhanceTargetProfile(targetProfile, competences);
 
   const headers = createCsvHeader(enhancedTargetProfile, campaign.idPixLabel);
-
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
   // - https://stackoverflow.com/a/38192870
-  const headerLine = '\uFEFF' + headers.join(';') + '\n';
+  const headerLine = '\uFEFF' + csvService.getHeadersWithQuotes(headers).join(';') + '\n';
 
   writableStream.write(headerLine);
   bluebird.mapSeries(listCampaignParticipation, async (campaignParticipation) => {
@@ -244,15 +243,15 @@ module.exports = async function startWritingCampaignResultsToStream(
 
     enhancedTargetProfile.knowledgeElements = allKnowledgeElements.filter(_knowledgeElementRelatedTo(targetProfile.skills));
 
-    let line = pipe(
-      _initLineWithPlaceholders,
+    let line = _initLineWithPlaceholders(headers);
 
+    line = pipe(
       _withCampaign(campaign, campaignParticipation, headers),
       _withUser(user, headers),
       _withAssessment(assessment, enhancedTargetProfile.getProgression(allKnowledgeElements), headers),
       _withTargetProfile(enhancedTargetProfile, headers),
       campaignParticipation.isShared ? _withEndResults(campaignParticipation, enhancedTargetProfile, headers) : _.identity
-    )(headers);
+    )(line);
 
     const rawData = {
       organizationName: organization.name,
@@ -277,9 +276,9 @@ module.exports = async function startWritingCampaignResultsToStream(
 function _withEndResults(campaignParticipation, enhancedTargetProfile, headers) {
   return (line) => {
     pipe(
-      csvService.addNumberCell('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
-      csvService.addNumberCell('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
-      csvService.addNumberCell('"% maitrise de l\'ensemble des acquis du profil"', enhancedTargetProfile.getKnowledgeElementsValidatedPercentage(enhancedTargetProfile.knowledgeElements), headers),
+      csvService.addNumberCell('Date du partage', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
+      csvService.addNumberCell('Date du partage', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
+      csvService.addNumberCell('% maitrise de l\'ensemble des acquis du profil', enhancedTargetProfile.getKnowledgeElementsValidatedPercentage(enhancedTargetProfile.knowledgeElements), headers),
     )(line);
 
     _.forEach(enhancedTargetProfile.competences, _withCompetence(headers, enhancedTargetProfile, line));

@@ -177,7 +177,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
 
     context('when isShared is true', () => {
 
-      it('should return the complete line with user results for her participation', async () => {
+      it.only('should return the complete line with user results for her participation', async () => {
         // given
         const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: true, sharedAt: new Date('2019-03-01T23:04:05Z') });
         factoryCampaignParticipation.assessmentId = domainBuilder.buildAssessment({ campaignParticipationId: factoryCampaignParticipation.id }).id;

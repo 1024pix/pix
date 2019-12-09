@@ -22,6 +22,12 @@ function addTextCell(title, data, headers) {
   };
 }
 
+const _surroundWith = (outterString) => (innerString) => [outterString, innerString, outterString].join('');
+
+function getHeadersWithQuotes(headers) {
+  return _.map(headers, _surroundWith('"'));
+}
+
 function toCsvText(input) {
   return `"${input.toString().replace(/"/g, '""')}"`;
 }
@@ -34,4 +40,5 @@ module.exports = {
   getUpdatedCsvLine,
   addNumberCell,
   addTextCell,
+  getHeadersWithQuotes,
 };
