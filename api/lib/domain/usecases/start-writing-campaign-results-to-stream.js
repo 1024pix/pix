@@ -178,21 +178,27 @@ function _withSkill(headers, targetProfileKnowledgeElements, line) {
 
 function _withCompetence(headers, enhancedTargetProfile, line) {
   return (competence) => {
+    line = pipe(
+      csvService.addNumberCell(`% de maitrise des acquis de la compétence ${competence.name}`, competence.percentage, headers),
+      csvService.addNumberCell(`Nombre d'acquis du profil cible dans la compétence ${competence.name}`, competence.skillsForThisCompetence.length, headers),
+      csvService.addNumberCell(`Acquis maitrisés dans la compétence ${competence.name}`, competence.numberOfSkillsValidatedForThisCompetence, headers),
+    )(line);
+  };
+}
+
+function enhanceTargetProfileCompetencesAndAreas(enhancedTargetProfile) {
+  return _.each(enhancedTargetProfile.competences, (competence) => {
     const skillsForThisCompetence = enhancedTargetProfile.getSkillsInCompetence(competence);
     const numberOfSkillsValidatedForThisCompetence = _getValidatedSkillsForCompetence(skillsForThisCompetence, enhancedTargetProfile.knowledgeElements);
-    const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
 
-    line = pipe(
-      csvService.addNumberCell(`% de maitrise des acquis de la compétence ${competence.name}`, percentage, headers),
-      csvService.addNumberCell(`Nombre d'acquis du profil cible dans la compétence ${competence.name}`, skillsForThisCompetence.length, headers),
-      csvService.addNumberCell(`Acquis maitrisés dans la compétence ${competence.name}`, numberOfSkillsValidatedForThisCompetence, headers),
-    )(line);
+    competence.skillsForThisCompetence = enhancedTargetProfile.getSkillsInCompetence(competence);
+    competence.numberOfSkillsValidatedForThisCompetence = numberOfSkillsValidatedForThisCompetence;
+    competence.percentage = _.round(competence.numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
 
-    // Add on Area
-    const areaSkillsForThisCompetence = enhancedTargetProfile.areas.find((area) => area.title === competence.area.title);
-    areaSkillsForThisCompetence.numberSkillsValidated = areaSkillsForThisCompetence.numberSkillsValidated + numberOfSkillsValidatedForThisCompetence;
-    areaSkillsForThisCompetence.numberSkillsTested = areaSkillsForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
-  };
+    const areaForThisCompetence = enhancedTargetProfile.areas.find((area) => area.title === competence.area.title);
+    areaForThisCompetence.numberSkillsValidated += numberOfSkillsValidatedForThisCompetence;
+    areaForThisCompetence.numberSkillsTested = areaForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
+  });
 }
 
 function _withArea(headers, line) {
@@ -272,6 +278,7 @@ module.exports = async function startWritingCampaignResultsToStream(
     ]);
 
     enhancedTargetProfile.knowledgeElements = allKnowledgeElements.filter(_knowledgeElementRelatedTo(targetProfile.skills));
+    enhanceTargetProfileCompetencesAndAreas(enhancedTargetProfile);
 
     let line = _initLineWithPlaceholders(headers);
 
