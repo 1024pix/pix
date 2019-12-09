@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { visit, currentURL } from '@ember/test-helpers';
+import { visit, currentURL, find } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import moment from 'moment';
 
@@ -61,6 +61,30 @@ module('Integration | Component | certifications-session-info', function(hooks) 
       // then
       assert.dom('[data-test-id="certifications-session-info__is-finalized"]').hasText('Finalisée');
     });
+
+    test('it renders the examinerComment if any', async function(assert) {
+      // given
+      sessionData.status = 'finalized';
+      sessionData.examinerComment = 'Bonjour je suis le commentaire du surveillant';
+      session = this.server.create('session', sessionData);
+
+      // when
+      await visit(`/certifications/sessions/${session.id}`);
+
+      assert.dom('[data-test-id="certifications-session-info__examiner-comment"]').hasText(session.examinerComment);
+    });
+
+    test('it does not render the examinerComment row if no comment', async function(assert) {
+      // given
+      sessionData.status = 'finalized';
+      sessionData.examinerComment = '';
+      session = this.server.create('session', sessionData);
+
+      // when
+      await visit(`/certifications/sessions/${session.id}`);
+
+      assert.equal(find('[data-test-id="certifications-session-info__examiner-comment"]'), undefined);
+    });
   });
 
   module('when the session is not finalized', function() {
@@ -75,6 +99,18 @@ module('Integration | Component | certifications-session-info', function(hooks) 
 
       // then
       assert.dom('[data-test-id="certifications-session-info__is-finalized"]').hasText('Prête');
+    });
+
+    test('it does not render the examinerComment row', async function(assert) {
+      // given
+      sessionData.status = 'started';
+      sessionData.examinerComment = 'AAA';
+      session = this.server.create('session', sessionData);
+
+      // when
+      await visit(`/certifications/sessions/${session.id}`);
+
+      assert.equal(find('[data-test-id="certifications-session-info__examiner-comment"]'), undefined);
     });
   });
 
