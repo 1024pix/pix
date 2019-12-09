@@ -7,7 +7,7 @@ const UNEXISTING_ITEM = null;
 
 module.exports = { getNextChallenge };
 
-function getNextChallenge({ knowledgeElements, challenges, targetSkills, lastAnswer } = {}) {
+function getNextChallenge({ knowledgeElements, challenges, targetSkills, lastAnswer, assessmentId } = {}) {
 
   const isUserStartingTheTest = !lastAnswer;
   const isLastChallengeTimed = _wasLastChallengeTimed(lastAnswer);
@@ -20,8 +20,8 @@ function getNextChallenge({ knowledgeElements, challenges, targetSkills, lastAns
 
   // First challenge has specific rules
   const { nextChallenge, levelEstimated } = isUserStartingTheTest
-    ? _findFirstChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes })
-    : _findAnyChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes, isLastChallengeTimed });
+    ? _findFirstChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes, assessmentId })
+    : _findAnyChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes, isLastChallengeTimed, assessmentId });
 
   // Test is considered finished when no challenges are returned but we don't expose this detail
   return nextChallenge
@@ -49,22 +49,22 @@ function _filterSkillsByChallenges(skills, challenges) {
   return skillsWithChallenges;
 }
 
-function _findAnyChallenge({ knowledgeElements, targetSkills, courseTubes, isLastChallengeTimed }) {
+function _findAnyChallenge({ knowledgeElements, targetSkills, courseTubes, isLastChallengeTimed, assessmentId }) {
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
   const availableSkills = getFilteredSkillsForNextChallenge({ knowledgeElements, courseTubes, predictedLevel, isLastChallengeTimed, targetSkills });
   const maxRewardingSkills = catAlgorithm.findMaxRewardingSkills({ availableSkills, predictedLevel, courseTubes, knowledgeElements });
-  return { nextChallenge: _pickRandomChallenge(maxRewardingSkills), levelEstimated: predictedLevel };
+  return { nextChallenge: _pickRandomChallenge(maxRewardingSkills, assessmentId), levelEstimated: predictedLevel };
 }
 
-function _findFirstChallenge({ knowledgeElements, targetSkills, courseTubes }) {
+function _findFirstChallenge({ knowledgeElements, targetSkills, courseTubes, assessmentId }) {
   const filteredSkillsForFirstChallenge = getFilteredSkillsForFirstChallenge({ knowledgeElements, courseTubes, targetSkills });
-  return { nextChallenge: _pickRandomChallenge(filteredSkillsForFirstChallenge), levelEstimated: 2 };
+  return { nextChallenge: _pickRandomChallenge(filteredSkillsForFirstChallenge, assessmentId), levelEstimated: 2 };
 }
 
-function _pickRandomChallenge(skills) {
+function _pickRandomChallenge(skills, assessmentId) {
   if (_.isEmpty(skills)) { return UNEXISTING_ITEM; }
-  const chosenSkill = _.sample(skills);
-  return _.sample(chosenSkill.challenges);
+  const chosenSkill = skills[assessmentId % skills.length];
+  return chosenSkill.challenges[assessmentId % chosenSkill.challenges.length];
 }
 
 function _getSkillsWithAddedInformations({ targetSkills, filteredChallenges }) {
