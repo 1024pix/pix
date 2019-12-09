@@ -56,7 +56,7 @@ describe('Integration | Component | user logged menu', function() {
       return wait().then(() => {
         // then
         expect(find('.logged-user-menu')).to.exist;
-        expect(find('.logged-user-menu-details__fullName').textContent.trim()).to.equal('FHI 4EVER');
+        expect(find('.logged-user-menu-details__fullname').textContent.trim()).to.equal('FHI 4EVER');
         expect(find('.logged-user-menu-details__email').textContent.trim()).to.equal('FHI@4EVER.fr');
       });
     });
