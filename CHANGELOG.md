@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.93.0 (09/12/2019)
+
+- [#895](https://github.com/1024pix/pix/pull/895) [FEATURE] Affichage du commentaire global de la session dans la page de détails de session dans PixAdmin (PA-121)
+- [#893](https://github.com/1024pix/pix/pull/893) [TECH] Mise à jour de HapiJS et de JoiJS
+
 ## v2.92.0 (06/12/2019)
 
 - [#813](https://github.com/1024pix/pix/pull/813) [FEATURE] Afficher les scorecards d'une même compétence sur la même ligne sur mobile (PF-507).

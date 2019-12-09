@@ -1,5 +1,5 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const _ = require('lodash');
 const Feedback = require('../../../../lib/infrastructure/data/feedback');
 const feedbackController = require('../../../../lib/application/feedbacks/feedback-controller');

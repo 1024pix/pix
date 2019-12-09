@@ -1,29 +1,29 @@
 import DS from 'ember-data';
+const { attr, Model } = DS;
 import { computed } from '@ember/object';
 import _ from 'lodash';
 
-export default DS.Model.extend({
-  sessionId: DS.attr(),
-  assessmentId: DS.attr(),
-  firstName: DS.attr(),
-  lastName: DS.attr(),
-  birthdate: DS.attr('date-only'),
-  birthplace: DS.attr(),
-  externalId: DS.attr(),
-  createdAt: DS.attr(),
-  completedAt: DS.attr(),
-  status: DS.attr(),
-  juryId: DS.attr(),
-  hasSeenLastScreen: DS.attr('boolean', { defaultValue: true }),
-  examinerComment: DS.attr('string'),
-  commentForCandidate: DS.attr(),
-  commentForOrganization: DS.attr(),
-  commentForJury: DS.attr(),
-  pixScore: DS.attr(),
-  competencesWithMark: DS.attr(),
-  isPublished: DS.attr('boolean', { defaultValue: false }),
-  isV2Certification: DS.attr('boolean', { defaultValue: false }),
-
+export default Model.extend({
+  sessionId: attr(),
+  assessmentId: attr(),
+  firstName: attr(),
+  lastName: attr(),
+  birthdate: attr('date-only'),
+  birthplace: attr(),
+  externalId: attr(),
+  createdAt: attr(),
+  completedAt: attr(),
+  status: attr(),
+  juryId: attr(),
+  hasSeenLastScreen: attr('boolean', { defaultValue: true }),
+  examinerComment: attr('string'),
+  commentForCandidate: attr(),
+  commentForOrganization: attr(),
+  commentForJury: attr(),
+  pixScore: attr(),
+  competencesWithMark: attr(),
+  isPublished: attr('boolean', { defaultValue: false }),
+  isV2Certification: attr('boolean', { defaultValue: false }),
   creationDate: computed('createdAt', function() {
     return (new Date(this.createdAt)).toLocaleString('fr-FR');
   }),

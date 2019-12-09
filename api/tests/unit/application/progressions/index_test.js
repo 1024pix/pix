@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const progressionController = require('../../../../lib/application/progressions/progression-controller');
 
 describe('Unit | Router | progression-router', () => {

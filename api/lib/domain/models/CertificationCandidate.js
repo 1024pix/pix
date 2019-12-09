@@ -1,8 +1,8 @@
 const _ = require('lodash');
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const { InvalidCertificationCandidate } = require('../errors');
 
-const certificationCandidateValidationJoiSchema_v1 = Joi.object().keys({
+const certificationCandidateValidationJoiSchema_v1 = Joi.object({
   id: Joi.number().optional(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
@@ -17,7 +17,7 @@ const certificationCandidateValidationJoiSchema_v1 = Joi.object().keys({
   userId: Joi.number().allow(null).optional(),
 });
 
-const certificationCandidateValidationJoiSchema_v2 = Joi.object().keys({
+const certificationCandidateValidationJoiSchema_v2 = Joi.object({
   id: Joi.number().optional(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
@@ -81,8 +81,8 @@ class CertificationCandidate {
         throw new InvalidCertificationCandidate();
     }
 
-    const result = Joi.validate(this, usedSchema);
-    if (result.error !== null) {
+    const { error } = usedSchema.validate(this);
+    if (error) {
       throw new InvalidCertificationCandidate();
     }
   }

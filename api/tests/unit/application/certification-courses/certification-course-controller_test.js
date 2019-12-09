@@ -1,5 +1,5 @@
 const { sinon, expect, hFake, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');

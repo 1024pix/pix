@@ -1,15 +1,16 @@
 import DS from 'ember-data';
+const { attr, Model } = DS;
 import { computed } from '@ember/object';
 
-export default DS.Model.extend({
-  competencesWithMark: DS.attr(),
-  totalScore: DS.attr(),
-  percentageCorrectAnswers: DS.attr(),
-  createdAt: DS.attr(),
-  userId: DS.attr(),
-  status: DS.attr(),
-  completedAt: DS.attr(),
-  listChallengesAndAnswers: DS.attr(),
+export default Model.extend({
+  competencesWithMark: attr(),
+  totalScore: attr(),
+  percentageCorrectAnswers: attr(),
+  createdAt: attr(),
+  userId: attr(),
+  status: attr(),
+  completedAt: attr(),
+  listChallengesAndAnswers: attr(),
   competences: computed('competencesWithMark', 'listChallengesAndAnswers', function() {
     const competenceData = this.competencesWithMark;
     const answers = this.listChallengesAndAnswers;

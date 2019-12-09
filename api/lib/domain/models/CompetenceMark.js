@@ -1,7 +1,7 @@
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const { ObjectValidationError } = require('../errors');
 
-const schemaValidateCompetenceMark = Joi.object().keys({
+const schemaValidateCompetenceMark = Joi.object({
   id: Joi.number().optional(),
   level: Joi.number().integer().min(-1).max(8).required(),
   score: Joi.number().integer().min(0).max(64).required(),
@@ -34,11 +34,11 @@ class CompetenceMark {
   }
 
   validate() {
-    const result = Joi.validate(this, schemaValidateCompetenceMark);
-    if (result.error === null) {
-      return Promise.resolve();
+    const { error } = schemaValidateCompetenceMark.validate(this);
+    if (error) {
+      return Promise.reject(new ObjectValidationError(error));
     } else {
-      return Promise.reject(new ObjectValidationError(result.error));
+      return Promise.resolve();
     }
   }
 }

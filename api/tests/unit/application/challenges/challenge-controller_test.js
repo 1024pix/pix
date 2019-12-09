@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');

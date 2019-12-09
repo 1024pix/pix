@@ -34,7 +34,7 @@ describe('Acceptance | Controller | password-controller', () => {
           payload: {
             data: {
               attributes: {
-                email: 'uzinagaz@unknown.xh'
+                email: 'uzinagaz@example.net'
               }
             }
           }
