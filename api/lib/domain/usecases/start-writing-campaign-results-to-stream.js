@@ -22,12 +22,12 @@ function _cleanText(text) {
   return `"${text.replace(/"/g, '""')}"`;
 }
 
-function createCsvHeader(skillNames, competences, areas, idPixLabel) {
+function createCsvHeader(enhancedTargetProfile, idPixLabel) {
   return _.concat(
     _getBaseHeaders(idPixLabel),
-    _getCompetencesHeaders(competences),
-    _getAreasHeaders(areas),
-    _getSkillsHeaders(skillNames),
+    _getCompetencesHeaders(enhancedTargetProfile.competences),
+    _getAreasHeaders(enhancedTargetProfile.areas),
+    _getSkillsHeaders(enhancedTargetProfile.skillNames),
   );
 }
 
@@ -120,16 +120,16 @@ function _competenceRelatedTo(skillIds) {
   return (competence) => skillIds.some((skillId) => competence.skills.includes(skillId));
 }
 
-function _withSkill(headers, knowledgeElementsInTargetProfile, line) {
+function _withSkill(headers, targetProfileKnowledgeElements, line) {
   return (skill) => {
-    line = pipe(_addTextCell(`"${skill.name}"`, _stateOfSkill(skill.id, knowledgeElementsInTargetProfile), headers))(line);
+    line = pipe(_addTextCell(`"${skill.name}"`, _stateOfSkill(skill.id, targetProfileKnowledgeElements), headers))(line);
   };
 }
 
-function _withCompetence(headers, targetProfile, knowledgeElementsInTargetProfile, areaSkills, line) {
+function _withCompetence(headers, enhancedTargetProfile, line) {
   return (competence) => {
-    const skillsForThisCompetence = targetProfile.getSkillsInCompetence(competence);
-    const numberOfSkillsValidatedForThisCompetence = _getValidatedSkillsForCompetence(skillsForThisCompetence, knowledgeElementsInTargetProfile);
+    const skillsForThisCompetence = enhancedTargetProfile.getSkillsInCompetence(competence);
+    const numberOfSkillsValidatedForThisCompetence = _getValidatedSkillsForCompetence(skillsForThisCompetence, enhancedTargetProfile.knowledgeElements);
     const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
 
     line = pipe(
@@ -139,7 +139,7 @@ function _withCompetence(headers, targetProfile, knowledgeElementsInTargetProfil
     )(line);
 
     // Add on Area
-    const areaSkillsForThisCompetence = areaSkills.find((area) => area.title === competence.area.title);
+    const areaSkillsForThisCompetence = enhancedTargetProfile.areas.find((area) => area.title === competence.area.title);
     areaSkillsForThisCompetence.numberSkillsValidated = areaSkillsForThisCompetence.numberSkillsValidated + numberOfSkillsValidatedForThisCompetence;
     areaSkillsForThisCompetence.numberSkillsTested = areaSkillsForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
   };
@@ -198,6 +198,16 @@ function _initLineWithPlaceholders(headers) {
   return headers.map(() => '"NA"');
 }
 
+function enhanceTargetProfile(targetProfile, competences) {
+  const enhancedTargetProfile = _.assign(targetProfile, {
+    skillNames: _.map(targetProfile.skills, 'name'),
+    skillIds: _.map(targetProfile.skills, 'id'),
+  });
+  enhancedTargetProfile.competences = competences.filter(_competenceRelatedTo(enhancedTargetProfile.skillIds));
+  enhancedTargetProfile.areas = _(enhancedTargetProfile.competences).map('area').map(addProperties({ numberSkillsValidated: 0, numberSkillsTested: 0 })).value();
+  return enhancedTargetProfile;
+}
+
 module.exports = async function startWritingCampaignResultsToStream(
   {
     userId,
@@ -215,7 +225,7 @@ module.exports = async function startWritingCampaignResultsToStream(
 
   const campaign = await campaignRepository.get(campaignId);
 
-  const [user, targetProfile, listAllCompetences, organization, listCampaignParticipation] = await Promise.all([
+  const [user, targetProfile, competences, organization, listCampaignParticipation] = await Promise.all([
     _fetchUserIfHeHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository),
     targetProfileRepository.get(campaign.targetProfileId),
     competenceRepository.list(),
@@ -223,13 +233,9 @@ module.exports = async function startWritingCampaignResultsToStream(
     campaignParticipationRepository.findByCampaignId(campaign.id),
   ]);
 
-  const targetProfileSkillNames = _.map(targetProfile.skills, 'name');
-  const targetProfileSkillIds = _.map(targetProfile.skills, 'id');
-  const targetProfileCompetences = listAllCompetences.filter(_competenceRelatedTo(targetProfileSkillIds));
-  const targetProfileAreas = _(targetProfileCompetences).map('area').value();
-  const targetProfileAreasWithSkills = targetProfileAreas.map(addProperties({ numberSkillsValidated: 0, numberSkillsTested: 0 }));
+  const enhancedTargetProfile = enhanceTargetProfile(targetProfile, competences);
 
-  const headers = createCsvHeader(targetProfileSkillNames, targetProfileCompetences, targetProfileAreas, campaign.idPixLabel);
+  const headers = createCsvHeader(enhancedTargetProfile, campaign.idPixLabel);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -244,7 +250,7 @@ module.exports = async function startWritingCampaignResultsToStream(
       knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt })
     ]);
 
-    const knowledgeElementsInTargetProfile = allKnowledgeElements.filter(_knowledgeElementRelatedTo(targetProfile.skills));
+    enhancedTargetProfile.knowledgeElements = allKnowledgeElements.filter(_knowledgeElementRelatedTo(targetProfile.skills));
 
     let line = pipe(
       _initLineWithPlaceholders,
@@ -252,18 +258,9 @@ module.exports = async function startWritingCampaignResultsToStream(
       _withCampaign(campaign, campaignParticipation, headers),
       _withOrganization(organization, headers),
       _withUser(user, headers),
-      _withAssessment(assessment, targetProfile.getProgression(allKnowledgeElements), headers),
-      _withTargetProfile(targetProfile, headers),
-
-      campaignParticipation.isShared
-        ? _withEndResults(
-          campaignParticipation,
-          targetProfile,
-          targetProfileCompetences,
-          targetProfileAreasWithSkills,
-          knowledgeElementsInTargetProfile,
-          headers)
-        : _.identity
+      _withAssessment(assessment, enhancedTargetProfile.getProgression(allKnowledgeElements), headers),
+      _withTargetProfile(enhancedTargetProfile, headers),
+      campaignParticipation.isShared ? _withEndResults(campaignParticipation, enhancedTargetProfile, headers) : _.identity
     )(headers);
 
     line = line.join(';') + '\n';
@@ -280,17 +277,17 @@ module.exports = async function startWritingCampaignResultsToStream(
   return { fileName };
 };
 
-function _withEndResults(campaignParticipation, targetProfile, targetProfileCompetences, targetProfileAreasWithSkills, knowledgeElementsInTargetProfile, headers) {
+function _withEndResults(campaignParticipation, enhancedTargetProfile, headers) {
   return (line) => {
     pipe(
       _addNumberCell('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
       _addNumberCell('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), headers),
-      _addNumberCell('"% maitrise de l\'ensemble des acquis du profil"', targetProfile.getKnowledgeElementsValidatedPercentage(knowledgeElementsInTargetProfile), headers),
+      _addNumberCell('"% maitrise de l\'ensemble des acquis du profil"', enhancedTargetProfile.getKnowledgeElementsValidatedPercentage(enhancedTargetProfile.knowledgeElements), headers),
     )(line);
-    
-    _.forEach(targetProfileCompetences, _withCompetence(headers, targetProfile, knowledgeElementsInTargetProfile, targetProfileAreasWithSkills, line));
-    _.forEach(targetProfileAreasWithSkills, _withArea(headers, line));
-    _.forEach(targetProfile.skills, _withSkill(headers, knowledgeElementsInTargetProfile, line));
+
+    _.forEach(enhancedTargetProfile.competences, _withCompetence(headers, enhancedTargetProfile, line));
+    _.forEach(enhancedTargetProfile.areas, _withArea(headers, line));
+    _.forEach(enhancedTargetProfile.skills, _withSkill(headers, enhancedTargetProfile.knowledgeElements, line));
 
     return line;
   };
