@@ -1,6 +1,4 @@
 const { expect, sinon } = require('../../../test-helper');
-const AirtableRecord = require('airtable').Record;
-const airtable = require('../../../../lib/infrastructure/airtable');
 const Area = require('../../../../lib/domain/models/Area');
 const areaDatasource = require('../../../../lib/infrastructure/datasources/airtable/area-datasource');
 const Competence = require('../../../../lib/domain/models/Competence');
@@ -9,48 +7,41 @@ const competenceRepository = require('../../../../lib/infrastructure/repositorie
 
 describe('Unit | Repository | competence-repository', () => {
 
-  const rawCompetence1 = new AirtableRecord('Competences', 'recCompetence1', {
-    fields: {
-      'Titre': 'Mener une recherche d’information',
-      'Sous-domaine': '1.1',
-      'Tests Record ID': ['recAY0W7x9urA11OLZJJ'],
-      'Acquis (via Tubes)': ['@url2', '@url5', '@utiliserserv6'],
-      'Domaine': ['recArea'],
-      'Domaine Code': ['1'],
-      'Domaine Titre': ['Information et données'],
-    }
-  });
+  const areaData = {
+    id: 'recArea',
+    code: '1',
+    name: 'Area name',
+    title: 'Information et données',
+    competenceIds: ['recCompetence1', 'recCompetence2'],
+  };
 
-  const rawCompetence2 = new AirtableRecord('Competences', 'recCompetence2', {
-    fields: {
-      'Titre': 'Gérer des données',
-      'Sous-domaine': '1.2',
-      'Tests Record ID': ['recAY0W7x9urA11OLZJJ'],
-      'Acquis (via Tubes)': ['@url2', '@url5', '@utiliserserv6'],
-      'Domaine': ['recArea'],
-      'Domaine Code': ['1'],
-      'Domaine Titre': ['Information et données'],
-    }
-  });
+  const competenceData1 = {
+    id: 'recCompetence1',
+    name: 'Mener une recherche d’information',
+    index: '1.1',
+    description: 'Competence description 1',
+    areaId: 'recArea',
+    courseId: 'recCourse1',
+    skillIds: ['recSkill1', 'recSkill2'],
+  };
+
+  const competenceData2 = {
+    id: 'recCompetence2',
+    name: 'CompetenceName2',
+    index: '1.2',
+    description: 'Competence description 2',
+    areaId: 'recArea',
+    courseId: 'recCourse2',
+    skillIds: [],
+  };
 
   beforeEach(() => {
-    sinon.stub(areaDatasource, 'list')
-      .resolves([
-        {
-          id: 'recArea',
-          code: '1',
-          title: 'Information et données',
-        }
-      ]);
+    sinon.stub(areaDatasource, 'list').resolves([areaData]);
+    sinon.stub(competenceDatasource, 'list').resolves([competenceData2, competenceData1]);
+    sinon.stub(competenceDatasource, 'get').withArgs('recCompetence1').resolves(competenceData1);
   });
 
   describe('#list', () => {
-
-    beforeEach(() => {
-      sinon.stub(airtable, 'findRecords')
-        .withArgs('Competences')
-        .resolves([rawCompetence2, rawCompetence1]);
-    });
 
     it('should return domain Competence objects sorted by index', () => {
       // when
@@ -67,21 +58,6 @@ describe('Unit | Repository | competence-repository', () => {
   });
 
   describe('#get', () => {
-    const competenceData1 = {
-      id: 'recCompetence1',
-      name: 'Mener une recherche d’information',
-      index: '1.1',
-      courseId: 'recCourse',
-      skillIds: ['recSkill1', 'recSkill2'],
-      areaId: 'recArea',
-    };
-
-    beforeEach(() => {
-      // given
-      sinon.stub(competenceDatasource, 'get')
-        .withArgs('recCompetence1')
-        .resolves(competenceData1);
-    });
 
     it('should return a domain Competence object', () => {
       // when
@@ -92,7 +68,8 @@ describe('Unit | Repository | competence-repository', () => {
         id: 'recCompetence1',
         index: '1.1',
         name: 'Mener une recherche d’information',
-        courseId: 'recCourse',
+        description: 'Competence description 1',
+        courseId: 'recCourse1',
         skills: ['recSkill1', 'recSkill2'],
         area: new Area({
           id: 'recArea',
@@ -108,21 +85,6 @@ describe('Unit | Repository | competence-repository', () => {
   });
 
   describe('#getCompetenceName', () => {
-    const competenceData1 = {
-      id: 'recCompetence1',
-      name: 'Mener une recherche d’information',
-      index: '1.1',
-      courseId: 'recCourse',
-      skillIds: ['recSkill1', 'recSkill2'],
-      areaId: 'recArea',
-    };
-
-    beforeEach(() => {
-      // given
-      sinon.stub(competenceDatasource, 'get')
-        .withArgs('recCompetence1')
-        .resolves(competenceData1);
-    });
 
     it('should return a domain Competence name', async () => {
       // when

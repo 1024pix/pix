@@ -167,4 +167,30 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
       expect(cache.set).to.have.been.calledWith('AirtableModel_rec2');
     });
   });
+
+  describe('#loadEntry', () => {
+
+    it('should force Airtable to reload the record and store or replace it in the cache', async () => {
+      // given
+      const airtableRecord = {
+        id: 'recId',
+        tableName: someDatasource.tableName,
+        fields: []
+      };
+      sinon.stub(airtable, 'getRecordSkipCache')
+        .withArgs(someDatasource.tableName, airtableRecord.id)
+        .resolves(airtableRecord);
+      sinon.stub(cache, 'set').callsFake((key, value) => value);
+
+      // when
+      const entry = await someDatasource.loadEntry(airtableRecord.id);
+
+      // then
+      expect(entry).to.deep.equal({
+        id: 'recId',
+        tableName: 'Airtable_table',
+        fields: []
+      });
+    });
+  });
 });

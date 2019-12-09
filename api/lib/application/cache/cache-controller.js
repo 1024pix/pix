@@ -1,24 +1,25 @@
 const cache = require('../../infrastructure/caches/cache');
-const preloader = require('../../infrastructure/caches/preloader');
-const logger = require('../../infrastructure/logger');
-const usecases = require('../../domain/usecases');
+const AirtableDatasources = require('../../infrastructure/datasources/airtable');
+const _ = require('lodash');
 
 module.exports = {
 
+  reloadCacheEntries() {
+    return Promise.all(_.map(AirtableDatasources, (datasource) => datasource.loadEntries()))
+      .then(() => null);
+  },
+
   reloadCacheEntry(request) {
     const cacheKey = request.params.cachekey || '';
-    const [ tableName, recordId ] = cacheKey.split('_');
-    return usecases.reloadCacheEntry({ preloader, tableName, recordId })
+    const [tableName, recordId] = cacheKey.split('_');
+    const datasource = AirtableDatasources[_.findKey(AirtableDatasources, { tableName })];
+    return datasource.loadEntry(recordId)
       .then(() => null);
   },
 
-  removeAllCacheEntries() {
-    return usecases.removeAllCacheEntries({ cache })
+  removeCacheEntries() {
+    return cache.flushAll()
       .then(() => null);
   },
 
-  preloadCacheEntries() {
-    return usecases.preloadCacheEntries({ preloader, logger })
-      .then(() => null);
-  }
 };

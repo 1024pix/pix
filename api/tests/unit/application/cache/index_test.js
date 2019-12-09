@@ -8,9 +8,9 @@ describe('Unit | Router | cache-router', () => {
   let server;
 
   beforeEach(() => {
+    sinon.stub(cacheController, 'reloadCacheEntries').callsFake((request, h) => h.response().code(204));
     sinon.stub(cacheController, 'reloadCacheEntry').callsFake((request, h) => h.response().code(204));
-    sinon.stub(cacheController, 'removeAllCacheEntries').callsFake((request, h) => h.response().code(204));
-    sinon.stub(cacheController, 'preloadCacheEntries').callsFake((request, h) => h.response().code(204));
+    sinon.stub(cacheController, 'removeCacheEntries').callsFake((request, h) => h.response().code(204));
     sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
 
     server = Hapi.server();
