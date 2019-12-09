@@ -25,10 +25,16 @@ const _DatasourcePrototype = {
   },
 
   list() {
-    return airtable.findRecords(this.tableName, this.usedFields)
-      .then((airtableRawObjects) => {
-        return airtableRawObjects.map(this.fromAirTableObject);
-      });
+    const cacheKey = generateCacheKey(this.modelName);
+
+    const generator = () => {
+      return airtable.findRecords(this.tableName, this.usedFields)
+        .then((airtableRawObjects) => {
+          return airtableRawObjects.map(this.fromAirTableObject);
+        });
+    };
+
+    return cache.get(cacheKey, generator);
   },
 
   async preload() {
