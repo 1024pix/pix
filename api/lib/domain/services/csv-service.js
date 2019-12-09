@@ -1,11 +1,22 @@
 const _ = require('lodash');
 
+const valueTypes = {
+  TEXT: 'text',
+  NUMBER: 'number',
+};
+
 function getUpdatedCsvLine({ line, rawData, headerPropertyMap, propertyName }) {
   const headers =  _.map(headerPropertyMap, 'headerName');
   const value = rawData[propertyName];
-  const header = _.find(headerPropertyMap, { propertyName }).headerName;
+  const { headerName, type } = _.find(headerPropertyMap, { propertyName });
 
-  return addTextCell(header, value, headers)(line);
+  if (type === valueTypes.TEXT) {
+    return addTextCell(headerName, value, headers)(line);
+  }
+  if (type === valueTypes.NUMBER) {
+    return addNumberCell(headerName, value, headers)(line);
+  }
+  throw new Error(`Missing value type: ${type} for property: ${propertyName}`);
 }
 
 function addNumberCell(title, data, headers) {
@@ -41,4 +52,5 @@ module.exports = {
   addNumberCell,
   addTextCell,
   getHeadersWithQuotes,
+  valueTypes,
 };

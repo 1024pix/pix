@@ -13,7 +13,13 @@ const headerPropertyMap = [
   {
     headerName: 'Nom de l\'organisation',
     propertyName: 'organizationName',
-  }
+    type: csvService.valueTypes.TEXT,
+  },
+  {
+    headerName: 'ID Campagne',
+    propertyName: 'campaignId',
+    type: csvService.valueTypes.NUMBER,
+  },
 ];
 
 async function _fetchUserIfHeHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
@@ -154,7 +160,6 @@ function _withArea(headers, line) {
 
 function _withCampaign(campaign, campaignParticipation, headers) {
   return _toPipe(
-    csvService.addNumberCell('ID Campagne', campaign.id, headers),
     csvService.addTextCell('Nom de la campagne',campaign.name, headers),
     csvService.addTextCell('Partage (O/N)', campaignParticipation.isShared ? 'Oui' : 'Non', headers),
     campaign.idPixLabel ? csvService.addTextCell('' + _cleanText(campaign.idPixLabel) + '', campaignParticipation.participantExternalId, headers) : _.identity,
@@ -255,9 +260,11 @@ module.exports = async function startWritingCampaignResultsToStream(
 
     const rawData = {
       organizationName: organization.name,
+      campaignId,
     };
 
     line = csvService.getUpdatedCsvLine({ line, rawData, headerPropertyMap, propertyName: 'organizationName' });
+    line = csvService.getUpdatedCsvLine({ line, rawData, headerPropertyMap, propertyName: 'campaignId' });
 
     line = line.join(';') + '\n';
 
