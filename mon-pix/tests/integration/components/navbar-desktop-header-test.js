@@ -4,7 +4,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { setBreakpointForIntegrationTest } from '../../helpers/responsive';
+import { setBreakpoint } from 'ember-responsive/test-support';
 
 describe('Integration | Component | navbar-desktop-header', function() {
 
@@ -13,7 +13,7 @@ describe('Integration | Component | navbar-desktop-header', function() {
   context('when user is not logged', function() {
     beforeEach(async function() {
       this.owner.register('service:session', Service.extend({ isAuthenticated: false }));
-      setBreakpointForIntegrationTest(this, 'desktop');
+      setBreakpoint('desktop');
       await render(hbs`{{navbar-desktop-header media=media}}`);
     });
 
@@ -57,7 +57,7 @@ describe('Integration | Component | navbar-desktop-header', function() {
           }
         }
       }));
-      setBreakpointForIntegrationTest(this, 'desktop');
+      setBreakpoint('desktop');
       await render(hbs`{{navbar-desktop-header media=media}}`);
     });
 

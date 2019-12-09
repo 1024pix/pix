@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import ENV from 'mon-pix/config/environment';
 import { htmlSafe } from '@ember/string';
 import colorGradient from 'mon-pix/utils/color-gradient';
+import { inject as service } from '@ember/service';
 
 const { and } = computed;
 
@@ -10,6 +11,7 @@ const minWidthPercent = 1.7;
 const minWidthPixel = 16;
 
 export default Component.extend({
+  media: service(),
 
   showProgressBar: and('media.isDesktop', 'assessment.showProgressBar'),
 
