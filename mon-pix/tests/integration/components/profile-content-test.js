@@ -4,7 +4,7 @@ import { setupRenderingTest } from 'ember-mocha';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
-import { setBreakpointForIntegrationTest } from '../../helpers/responsive';
+import { setBreakpoint } from 'ember-responsive/test-support';
 
 describe('Integration | Component | Profile-content', function() {
   setupRenderingTest();
@@ -59,7 +59,7 @@ describe('Integration | Component | Profile-content', function() {
     context('When user is on tablet/desktop ', function() {
       it('should be rendered in tablet/desktop mode with big cards', async function() {
         // when
-        setBreakpointForIntegrationTest(this, 'desktop');
+        setBreakpoint('desktop');
         this.set('model', model);
         this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
         await render(hbs`{{profile-content model=model media=media}}`);
@@ -74,7 +74,7 @@ describe('Integration | Component | Profile-content', function() {
     context('When user is on mobile', function() {
       it('should be rendered in mobile mode with small cards', async function() {
         // when
-        setBreakpointForIntegrationTest(this, 'mobile');
+        setBreakpoint('mobile');
         this.set('model', model);
         this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
         await render(hbs`{{profile-content model=model media=media}}`);
