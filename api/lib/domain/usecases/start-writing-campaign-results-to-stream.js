@@ -20,6 +20,26 @@ const headerPropertyMap = [
     propertyName: 'campaignId',
     type: csvService.valueTypes.NUMBER,
   },
+  {
+    headerName: 'Nom de la campagne',
+    propertyName: 'campaignName',
+    type: csvService.valueTypes.TEXT,
+  },
+  {
+    headerName: 'Nom du Profil Cible',
+    propertyName: 'targetProfileName',
+    type: csvService.valueTypes.TEXT,
+  },
+  {
+    headerName: 'Nom du Participant',
+    propertyName: 'userLastName',
+    type: csvService.valueTypes.TEXT,
+  },
+  {
+    headerName: 'Prénom du Participant',
+    propertyName: 'userFirstName',
+    type: csvService.valueTypes.TEXT,
+  },
 ];
 
 async function _fetchUserIfHeHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
@@ -160,16 +180,8 @@ function _withArea(headers, line) {
 
 function _withCampaign(campaign, campaignParticipation, headers) {
   return _toPipe(
-    csvService.addTextCell('Nom de la campagne',campaign.name, headers),
     csvService.addTextCell('Partage (O/N)', campaignParticipation.isShared ? 'Oui' : 'Non', headers),
     campaign.idPixLabel ? csvService.addTextCell('' + _cleanText(campaign.idPixLabel) + '', campaignParticipation.participantExternalId, headers) : _.identity,
-  );
-}
-
-function _withUser(user, headers) {
-  return _toPipe(
-    csvService.addTextCell('Nom du Participant', user.lastName, headers),
-    csvService.addTextCell('Prénom du Participant', user.firstName, headers),
   );
 }
 
@@ -178,10 +190,6 @@ function _withAssessment(assessment, progression, headers) {
     csvService.addNumberCell('% de progression', (assessment.isCompleted) ? 1 : progression, headers),
     csvService.addNumberCell('Date de début', moment.utc(assessment.createdAt).format('YYYY-MM-DD'), headers),
   );
-}
-
-function _withTargetProfile(targetProfile, headers) {
-  return csvService.addTextCell('Nom du Profil Cible', targetProfile.name, headers);
 }
 
 function _toPipe(...fns) {
@@ -252,15 +260,17 @@ module.exports = async function startWritingCampaignResultsToStream(
 
     line = pipe(
       _withCampaign(campaign, campaignParticipation, headers),
-      _withUser(user, headers),
       _withAssessment(assessment, enhancedTargetProfile.getProgression(allKnowledgeElements), headers),
-      _withTargetProfile(enhancedTargetProfile, headers),
       campaignParticipation.isShared ? _withEndResults(campaignParticipation, enhancedTargetProfile, headers) : _.identity
     )(line);
 
     const rawData = {
       organizationName: organization.name,
       campaignId,
+      campaignName: campaign.name,
+      targetProfileName: targetProfile.name,
+      userFirstName: user.firstName,
+      userLastName: user.lastName,
     };
 
     csvService.updateCsvLine({ line, rawData, headerPropertyMap });
