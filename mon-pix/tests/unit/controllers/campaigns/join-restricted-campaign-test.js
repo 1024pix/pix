@@ -146,7 +146,88 @@ describe('Unit | Controller | campaigns/join-restricted-campaign', function() {
     });
   });
 
+  describe('#triggerInputStringValidation', function() {
+
+    context('when string is invalid', function() {
+
+      [
+        '',
+        ' ',
+      ].forEach(function(wrongString) {
+        it(`should display an error when firstName is "${wrongString}"`, async function() {
+          // when
+          await controller.actions.triggerInputStringValidation.call(controller, 'firstName', wrongString);
+
+          // then
+          expect(controller.get('validation.firstName.message')).to.equal('Votre prénom n’est pas renseigné.');
+        });
+
+        it(`should display an error when lastName is "${wrongString}"`, async function() {
+          // when
+          await controller.actions.triggerInputStringValidation.call(controller, 'lastName', wrongString);
+
+          // then
+          expect(controller.get('validation.lastName.message')).to.equal('Votre nom n’est pas renseigné.');
+        });
+      });
+    });
+
+    context('when string is valid', function() {
+
+      [
+        'Robert',
+        'Smith',
+      ].forEach(function(validString) {
+        it(`should not display an error when firstName is ${validString}`, async function() {
+          // when
+          await controller.actions.triggerInputStringValidation.call(controller, 'firstName', validString);
+
+          // then
+          expect(controller.get('validation.firstName.message')).to.equal(null);
+        });
+
+        it(`should not display an error when lastName is ${validString}`, async function() {
+          // when
+          await controller.actions.triggerInputStringValidation.call(controller, 'lastName', validString);
+
+          // then
+          expect(controller.get('validation.lastName.message')).to.equal(null);
+        });
+      });
+    });
+  });
+
   describe('#isFormNotValid', function() {
+
+    it('should be true if firstName is not valid', function() {
+      // given
+      controller.set('firstName', ' ');
+      controller.set('lastName', 'Smith');
+      controller.set('dayOfBirth', '15');
+      controller.set('monthOfBirth', '12');
+      controller.set('yearOfBirth', '1999');
+
+      // when
+      const result = controller.get('isFormNotValid');
+
+      // then
+      expect(result).to.equal(true);
+    });
+
+    it('should be true if lastName is not valid', function() {
+      // given
+      controller.set('firstName', 'Robert');
+      controller.set('lastName', '');
+      controller.set('dayOfBirth', '15');
+      controller.set('monthOfBirth', '12');
+      controller.set('yearOfBirth', '99999');
+
+      // when
+      const result = controller.get('isFormNotValid');
+
+      // then
+      expect(result).to.equal(true);
+    });
 
     it('should be true if dayOfBirth is not valid', function() {
       // given
@@ -189,6 +270,8 @@ describe('Unit | Controller | campaigns/join-restricted-campaign', function() {
 
     it('should be false', function() {
       // given
+      controller.set('firstName', 'Robert');
+      controller.set('lastName', 'Smith');
       controller.set('dayOfBirth', '15');
       controller.set('monthOfBirth', '12');
       controller.set('yearOfBirth', '1999');
@@ -226,9 +309,43 @@ describe('Unit | Controller | campaigns/join-restricted-campaign', function() {
   describe('#attemptNext', function() {
 
     beforeEach(function() {
+      controller.set('firstName', 'Robert');
+      controller.set('lastName', 'Smith');
       controller.set('dayOfBirth', '10');
       controller.set('monthOfBirth', '10');
       controller.set('yearOfBirth', '2000');
+    });
+
+    it('should display an error on firstName', async function() {
+      // given
+      controller.set('firstName', ' ');
+
+      // when
+      await controller.actions.attemptNext.call(controller);
+
+      // then
+      sinon.assert.notCalled(storeStub.createRecord);
+      sinon.assert.notCalled(studentUserAssociation.save);
+      expect(controller.get('isLoading')).to.equal(false);
+      sinon.assert.notCalled(controller.transitionToRoute);
+      expect(controller.get('errorMessage')).to.equal(null);
+      expect(controller.get('validation.firstName.message')).to.equal('Votre prénom n’est pas renseigné.');
+    });
+
+    it('should display an error on lastName', async function() {
+      // given
+      controller.set('lastName', '');
+
+      // when
+      await controller.actions.attemptNext.call(controller);
+
+      // then
+      sinon.assert.notCalled(storeStub.createRecord);
+      sinon.assert.notCalled(studentUserAssociation.save);
+      expect(controller.get('isLoading')).to.equal(false);
+      sinon.assert.notCalled(controller.transitionToRoute);
+      expect(controller.get('errorMessage')).to.equal(null);
+      expect(controller.get('validation.lastName.message')).to.equal('Votre nom n’est pas renseigné.');
     });
 
     it('should display an error on dayOfBirth', async function() {
@@ -281,6 +398,8 @@ describe('Unit | Controller | campaigns/join-restricted-campaign', function() {
 
     it('should display an error on all fields', async function() {
       // given
+      controller.set('firstName', '');
+      controller.set('lastName', '');
       controller.set('dayOfBirth', '');
       controller.set('monthOfBirth', '');
       controller.set('yearOfBirth', '');
@@ -294,6 +413,8 @@ describe('Unit | Controller | campaigns/join-restricted-campaign', function() {
       expect(controller.get('isLoading')).to.equal(false);
       sinon.assert.notCalled(controller.transitionToRoute);
       expect(controller.get('errorMessage')).to.equal(null);
+      expect(controller.get('validation.firstName.message')).to.equal('Votre prénom n’est pas renseigné.');
+      expect(controller.get('validation.lastName.message')).to.equal('Votre nom n’est pas renseigné.');
       expect(controller.get('validation.dayOfBirth.message')).to.equal('Votre jour de naissance n’est pas valide.');
       expect(controller.get('validation.monthOfBirth.message')).to.equal('Votre mois de naissance n’est pas valide.');
       expect(controller.get('validation.yearOfBirth.message')).to.equal('Votre année de naissance n’est pas valide.');
