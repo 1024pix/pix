@@ -262,13 +262,7 @@ module.exports = async function startWritingCampaignResultsToStream({
     const line = _initLineWithPlaceholders(headers);
 
     if (campaignParticipation.isShared) {
-      dynamicHeadersPropertyMap = [
-        ...dynamicHeadersPropertyMap,
-        ...headerPropertyMapForSharedCampaign,
-        ...headerPropertyMapForCompetences(enhancedTargetProfile),
-        ...headerPropertyMapForAreas(enhancedTargetProfile),
-        ...headerPropertyMapForSkills(enhancedTargetProfile),
-      ];
+      dynamicHeadersPropertyMap = _getDynamicHeadersPropertyMapForSharedCampaign(dynamicHeadersPropertyMap, enhancedTargetProfile);
       const rawData = _extractRawDataForSharedCampaign({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile, allKnowledgeElements });
       csvService.updateCsvLine({ line, rawData, headerPropertyMap: dynamicHeadersPropertyMap });
     } else {
@@ -310,4 +304,14 @@ function _extractRawDataForSharedCampaign({ user, organization, assessment, camp
   rawData.sharedAt = moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD');
   rawData.knowledgeElementsValidatedPercentage = enhancedTargetProfile.getKnowledgeElementsValidatedPercentage(enhancedTargetProfile.knowledgeElements);
   return rawData;
+}
+
+function _getDynamicHeadersPropertyMapForSharedCampaign(dynamicHeadersPropertyMap, enhancedTargetProfile) {
+  return [
+    ...dynamicHeadersPropertyMap,
+    ...headerPropertyMapForSharedCampaign,
+    ...headerPropertyMapForCompetences(enhancedTargetProfile),
+    ...headerPropertyMapForAreas(enhancedTargetProfile),
+    ...headerPropertyMapForSkills(enhancedTargetProfile),
+  ];
 }
