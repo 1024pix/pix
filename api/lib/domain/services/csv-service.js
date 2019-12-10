@@ -81,10 +81,17 @@ function addDoubleQuotesToPlaceholders({ line, placeholder }) {
   });
 }
 
+// WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
+// - https://en.wikipedia.org/wiki/Byte_order_mark
+// - https://stackoverflow.com/a/38192870
+function getHeaderLine(headers) {
+  return '\uFEFF' + getHeadersWithQuotes(headers).join(';') + '\n';
+}
+
 module.exports = {
   addDoubleQuotesToPlaceholders,
   updateCsvLine,
-  getHeadersWithQuotes,
+  getHeaderLine,
   valueTypes,
   insert,
 };

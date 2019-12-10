@@ -297,12 +297,7 @@ module.exports = async function startWritingCampaignResultsToStream(
     dynamicHeadersPropertyMap = csvService.insert(item).into(headerPropertyMap).after('Prénom du Participant');
   }
 
-  // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
-  // - https://en.wikipedia.org/wiki/Byte_order_mark
-  // - https://stackoverflow.com/a/38192870
-  const headerLine = '\uFEFF' + csvService.getHeadersWithQuotes(headers).join(';') + '\n';
-
-  writableStream.write(headerLine);
+  writableStream.write(csvService.getHeaderLine(headers));
   bluebird.mapSeries(listCampaignParticipation, async (campaignParticipation) => {
 
     const [assessment, allKnowledgeElements] = await Promise.all([
