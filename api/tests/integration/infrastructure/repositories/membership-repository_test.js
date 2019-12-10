@@ -1,7 +1,7 @@
 const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 const _ = require('lodash');
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
-const { MembershipCreationError } = require('../../../../lib/domain/errors');
+const { MembershipCreationError, MembershipUpdateError } = require('../../../../lib/domain/errors');
 const Membership = require('../../../../lib/domain/models/Membership');
 const Organization = require('../../../../lib/domain/models/Organization');
 const User = require('../../../../lib/domain/models/User');
@@ -256,4 +256,62 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
     });
 
   });
+
+  describe('#updateRoleById', () => {
+
+    let existingMembershipId;
+
+    beforeEach(async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      existingMembershipId = databaseBuilder.factory.buildMembership({ organizationId, userId }).id;
+
+      await databaseBuilder.commit();
+    });
+
+    context('Update when membership is exist', () => {
+
+      it('should update organization role with admin role', async () => {
+        // given
+        const organizationRole = Membership.roles.ADMIN;
+
+        // when
+        const membership = await membershipRepository.updateRoleById({ id: existingMembershipId, organizationRole });
+
+        // then
+        expect(membership).to.be.an.instanceOf(Membership);
+        expect(membership.organizationRole).to.equal(organizationRole);
+      });
+
+      it('should update organization role with member role', async () => {
+        // given
+        const organizationRole = Membership.roles.MEMBER;
+
+        // when
+        const membership = await membershipRepository.updateRoleById({ id: existingMembershipId, organizationRole });
+
+        // then
+        expect(membership.organizationRole).to.equal(organizationRole);
+      });
+    });
+
+    context('Update when membership not exist', () => {
+
+      it('should throw MembershipUpdateError when id membership not exist', async () => {
+        // given
+        const organizationRole = Membership.roles.ADMIN;
+        const messageNotRowUpdated = 'No Rows Updated';
+        const notExistingMembershipId = 9898977;
+
+        // when
+        const error = await catchErr(membershipRepository.updateRoleById)({ id: notExistingMembershipId, organizationRole });
+
+        // then
+        expect(error).to.be.an.instanceOf(MembershipUpdateError);
+        expect(error.message).to.be.equal(messageNotRowUpdated);
+      });
+    });
+  });
+
 });
