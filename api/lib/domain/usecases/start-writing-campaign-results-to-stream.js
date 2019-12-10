@@ -11,7 +11,7 @@ const {
   CampaignWithoutOrganizationError
 } = require('../errors');
 
-let headerPropertyMap = [
+const headerPropertyMap = [
   {
     headerName: 'Nom de l\'organisation',
     propertyName: 'organizationName',
@@ -84,10 +84,6 @@ async function _fetchUserIfHeHasAccessToCampaignOrganization(userId, organizatio
   return user;
 }
 
-function _cleanText(text) {
-  return `${text.replace(/"/g, '')}`;
-}
-
 function createCsvHeader(enhancedTargetProfile, idPixLabel) {
   return _.concat(
     _getBaseHeaders(idPixLabel),
@@ -105,7 +101,7 @@ function _getBaseHeaders(idPixLabel) {
     'Nom du Profil Cible',
     'Nom du Participant',
     'Prénom du Participant',
-    idPixLabel ? _cleanText(idPixLabel) : null,
+    idPixLabel ? csvService.removeDoubleQuotes(idPixLabel) : null,
     '% de progression',
     'Date de début',
     'Partage (O/N)',
@@ -290,7 +286,7 @@ module.exports = async function startWritingCampaignResultsToStream(
 
   if (campaign.idPixLabel) {
     const item = {
-      headerName: _cleanText(campaign.idPixLabel),
+      headerName: csvService.removeDoubleQuotes(campaign.idPixLabel),
       propertyName: 'campaignLabel',
       type: csvService.valueTypes.TEXT,
     };
@@ -308,7 +304,7 @@ module.exports = async function startWritingCampaignResultsToStream(
     enhancedTargetProfile.knowledgeElements = allKnowledgeElements.filter(_knowledgeElementRelatedTo(targetProfile.skills));
     enhanceTargetProfileCompetencesAndAreas(enhancedTargetProfile);
 
-    let line = _initLineWithPlaceholders(headers);
+    const line = _initLineWithPlaceholders(headers);
 
     let rawData = {
       organizationName: organization.name,

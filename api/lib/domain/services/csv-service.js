@@ -81,6 +81,10 @@ function addDoubleQuotesToPlaceholders({ line, placeholder }) {
   });
 }
 
+function removeDoubleQuotes(text) {
+  return `${text.replace(/"/g, '')}`;
+}
+
 // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
 // - https://en.wikipedia.org/wiki/Byte_order_mark
 // - https://stackoverflow.com/a/38192870
@@ -95,6 +99,7 @@ function serializeLineWithPonctuationMarks(line) {
 module.exports = {
   serializeLineWithPonctuationMarks,
   addDoubleQuotesToPlaceholders,
+  removeDoubleQuotes,
   updateCsvLine,
   getHeaderLine,
   valueTypes,
