@@ -20,7 +20,7 @@
           {{#each model.scorecards as |scorecard|}}
             {{#if (eq areaCode scorecard.area.code)}}
               <div class="rounded-panel-body__competence-card">
-                {{#if media.isDesktop}}
+                {{#if media.isTablet}}
                   {{competence-card-desktop scorecard=scorecard}}
                 {{else}}
                   {{competence-card scorecard=scorecard}}
