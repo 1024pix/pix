@@ -93,7 +93,7 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_1 = [
 // V1.2
 const _TRANSFORMATION_STRUCT_COMMON_V1_2 = [
   {
-    header: 'NOM',
+    header: 'Nom de naissance',
     property: 'lastName',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
