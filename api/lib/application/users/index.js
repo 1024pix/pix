@@ -250,23 +250,6 @@ exports.register = async function(server) {
         tags: ['api', 'user', 'scorecard']
       }
     },
-    {
-      method: 'GET',
-      path: '/api/users/{id}/student',
-      config: {
-        pre: [{
-          method: securityController.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser'
-        }],
-        handler: userController.getStudent,
-        notes : [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération du student (au sein d’une organisation) lié au user\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'user', 'student']
-      }
-    },
   ]);
 };
 

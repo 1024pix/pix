@@ -311,18 +311,21 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
     });
   });
 
-  describe('#getByUserId', () => {
+  describe('#findOneByUserIdAndOrganizationId', () => {
 
-    it('should return instance of Student linked to the given userId', async () => {
-      // given
-      const organization = databaseBuilder.factory.buildOrganization();
-      const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildStudent({ organizationId: organization.id, userId, });
+    let userId;
+    let organizationId;
 
-      await databaseBuilder.commit();
+    beforeEach(() => {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildStudent({ organizationId, userId });
+      return databaseBuilder.commit();
+    });
 
+    it('should return instance of Student linked to the given userId and organizationId', async () => {
       // when
-      const student = await studentRepository.getByUserId({ userId });
+      const student = await studentRepository.findOneByUserIdAndOrganizationId({ userId, organizationId });
 
       // then
       expect(student).to.be.an.instanceOf(Student);
@@ -331,12 +334,23 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
 
     it('should return null if there is no student linked to the given userId', async () => {
       // given
-      const userId = databaseBuilder.factory.buildUser().id;
-
+      const otherUserId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
 
       // when
-      const result = await studentRepository.getByUserId({ userId });
+      const result = await studentRepository.findOneByUserIdAndOrganizationId({ userId: otherUserId, organizationId });
+
+      // then
+      expect(result).to.equal(null);
+    });
+
+    it('should return null if there is no student linked to the given organizationId', async () => {
+      // given
+      const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
+
+      // when
+      const result = await studentRepository.findOneByUserIdAndOrganizationId({ userId, organizationId: otherOrganizationId });
 
       // then
       expect(result).to.equal(null);
