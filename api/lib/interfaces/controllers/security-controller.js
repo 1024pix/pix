@@ -109,6 +109,27 @@ function checkUserIsAdminInOrganization(request, h) {
     });
 }
 
+function checkUserIsAdminInMembershipOrganization(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyWithAuthorizationError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const organizationId = request.payload.data.relationships.organization.data.id;
+
+  return checkUserIsAdminInOrganizationUseCase.execute(userId, organizationId)
+    .then((isAdminInOrganization) => {
+      if (isAdminInOrganization) {
+        return h.response(true);
+      }
+      return _replyWithAuthorizationError(h);
+    })
+    .catch((err) => {
+      logger.error(err);
+      return _replyWithAuthorizationError(h);
+    });
+}
+
 async function checkUserIsAdminInOrganizationOrHasRolePixMaster(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyWithAuthorizationError(h);
@@ -179,6 +200,7 @@ module.exports = {
   checkUserHasRolePixMaster,
   checkUserIsAuthenticated,
   checkUserIsAdminInOrganization,
+  checkUserIsAdminInMembershipOrganization,
   checkUserIsAdminInOrganizationOrHasRolePixMaster,
   checkUserIsAdminInScoOrganizationAndManagesStudents,
 };
