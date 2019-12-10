@@ -1,11 +1,11 @@
 .navbar-desktop-header {
   &__container {
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 980px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 20px;
+    padding: 20px 0;
     align-items: center;
   }
 }
@@ -26,7 +26,7 @@
     padding-bottom: 5px;
     font-size: 1.6rem;
     font-family: $font-roboto;
-    color: $gray;
+    color: $dove-gray;
     text-decoration: none;
 
     &.active {
@@ -75,11 +75,6 @@
   &__marianne {
     float:right;
     margin-top: 5px;
-    margin-left: 30px;
-  }
-
-  &__pix {
-    float:left;
-    margin-left: 5px;
+    margin-left: 16px;
   }
 }

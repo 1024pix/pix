@@ -1,33 +1,26 @@
 {{#if currentUser.user}}
-  <div class="logged-user-name" aria-haspopup="true"
-       aria-expanded="{{_canDisplayMenu}}">
+  <div class="logged-user-name" aria-haspopup="true" aria-expanded="{{_canDisplayMenu}}">
     <a href="#" class="logged-user-name__link" {{action 'toggleUserMenu'}}>
-      {{currentUser.user.fullName}}
+      {{currentUser.user.firstName}}
       <span class="caret"></span>
     </a>
   </div>
 
   {{#if _canDisplayMenu}}
-      {{#click-outside action=(action 'closeMenu')}}
-        <div class="logged-user-menu">
-          <ul class="logged-user-menu__list">
-            <li class="logged-user-menu__item user-menu-item">
-              <div class="user-menu-item__details-firstname"> {{currentUser.user.firstName}}</div>
-              <div class="user-menu-item__details-email">{{currentUser.user.email}}</div>
-            </li>
-
-            <li class="logged-user-menu__item">
-              <div class="user-menu-item__link user-menu-item__link--first user-menu-item" >
-                {{#link-to 'user-certifications'}}MES CERTIFICATIONS{{/link-to}}
-              </div>
-            </li>
-            <li class="logged-user-menu__item user-menu-item__logout">
-              {{#link-to 'logout' class="button button--uppercase button--thin button--grey" tagName='button'}}
-                se déconnecter
-              {{/link-to}}
-            </li>
-          </ul>
+    {{#click-outside action=(action 'closeMenu')}}
+      <div class="logged-user-menu">
+        <div class="logged-user-menu__details">
+          <div class="logged-user-menu-details__fullname">{{currentUser.user.fullName}}</div>
+          <div class="logged-user-menu-details__email">{{currentUser.user.email}}</div>
         </div>
-      {{/click-outside}}
+        {{#link-to 'user-certifications' class="logged-user-menu__link"}}
+          Mes certifications
+        {{/link-to}}
+        {{#link-to 'logout' class="logged-user-menu__link logged-user-menu__link--last"}}
+          {{fa-icon "power-off" class="logged-user-menu__icon"}}
+          Se déconnecter
+        {{/link-to}}
+      </div>
+    {{/click-outside}}
   {{/if}}
 {{/if}}

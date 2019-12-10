@@ -3,16 +3,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 10px;
+    padding: 5px 24px;
     width: auto;
   }
 }
 
 .navbar-mobile-header {
   &__burger-icon {
-    color: $black;
+    padding: 0;
+    color: $gun-powder;
     font-size: 2.6rem;
     display: inline-flex;
+    cursor: pointer;
   }
 
   &__logo {
@@ -25,7 +27,8 @@
 .navbar-mobile-header-logo {
   &__marianne {
     > img {
-      width: 60px;
+      margin-left: 8px;
+      width: 64px;
     }
   }
 }
