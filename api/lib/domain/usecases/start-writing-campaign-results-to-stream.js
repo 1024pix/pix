@@ -4,6 +4,8 @@ const csvService = require('../services/csv-service');
 const { assign: addProperties } = require('lodash/fp');
 const _ = require('lodash');
 
+const PLACEHOLDER = 'NA';
+
 const {
   UserNotAuthorizedToGetCampaignResultsError,
   CampaignWithoutOrganizationError
@@ -186,7 +188,7 @@ function enhanceTargetProfileCompetencesAndAreas(enhancedTargetProfile) {
 }
 
 function _initLineWithPlaceholders(headers) {
-  return headers.map(() => 'NA');
+  return headers.map(() => PLACEHOLDER);
 }
 
 function enhanceTargetProfile(targetProfile, competences) {
@@ -284,13 +286,15 @@ module.exports = async function startWritingCampaignResultsToStream(
 
   const headers = createCsvHeader(enhancedTargetProfile, campaign.idPixLabel);
 
+  let dynamicHeadersPropertyMap = _.cloneDeep(headerPropertyMap);
+
   if (campaign.idPixLabel) {
     const item = {
       headerName: _cleanText(campaign.idPixLabel),
       propertyName: 'campaignLabel',
       type: csvService.valueTypes.TEXT,
     };
-    headerPropertyMap = csvService.insert(item).into(headerPropertyMap).after('Prénom du Participant');
+    dynamicHeadersPropertyMap = csvService.insert(item).into(headerPropertyMap).after('Prénom du Participant');
   }
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
@@ -325,8 +329,8 @@ module.exports = async function startWritingCampaignResultsToStream(
     };
 
     if (campaignParticipation.isShared) {
-      const headerPropertyMapFull = [
-        ...headerPropertyMap,
+      dynamicHeadersPropertyMap = [
+        ...dynamicHeadersPropertyMap,
         ...headerPropertyMapForSharedCampaign,
         ...headerPropertyMapForCompetences(enhancedTargetProfile),
         ...headerPropertyMapForAreas(enhancedTargetProfile),
@@ -337,10 +341,11 @@ module.exports = async function startWritingCampaignResultsToStream(
         sharedAt: moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'),
         knowledgeElementsValidatedPercentage: enhancedTargetProfile.getKnowledgeElementsValidatedPercentage(enhancedTargetProfile.knowledgeElements),
       };
-      csvService.updateCsvLine({ line, rawData, headerPropertyMap: headerPropertyMapFull });
+      csvService.updateCsvLine({ line, rawData, headerPropertyMap: dynamicHeadersPropertyMap });
     } else {
-      csvService.updateCsvLine({ line, rawData, headerPropertyMap });
+      csvService.updateCsvLine({ line, rawData, headerPropertyMap: dynamicHeadersPropertyMap });
     }
+    csvService.addDoubleQuotesToPlaceholders({ line, placeholder: PLACEHOLDER });
 
     line = line.join(';') + '\n';
 

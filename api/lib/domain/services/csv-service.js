@@ -73,10 +73,17 @@ const insert = (item) => {
   };
 };
 
+function addDoubleQuotesToPlaceholders({ line, placeholder }) {
+  _.each((line), (element, i) => {
+    if (_.isEqual(element, placeholder)) {
+      line[i] = _surroundWith('"')(placeholder);
+    }
+  });
+}
+
 module.exports = {
+  addDoubleQuotesToPlaceholders,
   updateCsvLine,
-  addNumberCell,
-  addTextCell,
   getHeadersWithQuotes,
   valueTypes,
   insert,
