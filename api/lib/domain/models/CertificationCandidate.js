@@ -18,6 +18,21 @@ const certificationCandidateValidationJoiSchema_v1_1 = Joi.object({
   userId: Joi.number().allow(null).optional(),
 });
 
+const certificationCandidateValidationJoiSchema_v1_2 = Joi.object({
+  id: Joi.number().optional(),
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required(),
+  birthCity: Joi.string().required(),
+  birthProvinceCode: Joi.string().required(),
+  birthCountry: Joi.string().required(),
+  externalId: Joi.string().allow(null).optional(),
+  birthdate: Joi.string().length(10).required(),
+  createdAt: Joi.any().allow(null).optional(),
+  extraTimePercentage: Joi.number().allow(null).optional(),
+  sessionId: Joi.number().required(),
+  userId: Joi.number().allow(null).optional(),
+});
+
 const certificationCandidateParticipationJoiSchema = Joi.object({
   id: Joi.any().allow(null).optional(),
   firstName: Joi.string().required(),
@@ -69,9 +84,12 @@ class CertificationCandidate {
     this.userId = userId;
   }
 
-  validate(version = '1.1') {
+  validate(version = '1.2') {
     let usedSchema = null;
     switch (version) {
+      case '1.2':
+        usedSchema = certificationCandidateValidationJoiSchema_v1_2;
+        break;
       case '1.1':
         usedSchema = certificationCandidateValidationJoiSchema_v1_1;
         break;
