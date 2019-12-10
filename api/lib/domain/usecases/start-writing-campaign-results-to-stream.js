@@ -342,9 +342,7 @@ module.exports = async function startWritingCampaignResultsToStream(
     }
     csvService.addDoubleQuotesToPlaceholders({ line, placeholder: PLACEHOLDER });
 
-    line = line.join(';') + '\n';
-
-    writableStream.write(line);
+    writableStream.write(csvService.serializeLineWithPonctuationMarks(line));
   }).then(() => {
     writableStream.end();
   }).catch((error) => {

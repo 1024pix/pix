@@ -88,7 +88,12 @@ function getHeaderLine(headers) {
   return '\uFEFF' + getHeadersWithQuotes(headers).join(';') + '\n';
 }
 
+function serializeLineWithPonctuationMarks(line) {
+  return line.join(';') + '\n';
+}
+
 module.exports = {
+  serializeLineWithPonctuationMarks,
   addDoubleQuotesToPlaceholders,
   updateCsvLine,
   getHeaderLine,
