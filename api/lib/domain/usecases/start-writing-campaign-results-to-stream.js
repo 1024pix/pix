@@ -1,7 +1,7 @@
 const moment = require('moment');
 const bluebird = require('bluebird');
 const csvService = require('../services/csv-service');
-const { pipe, assign: addProperties } = require('lodash/fp');
+const { assign: addProperties } = require('lodash/fp');
 const _ = require('lodash');
 
 const {
@@ -170,12 +170,6 @@ function _competenceRelatedTo(skillIds) {
   return (competence) => skillIds.some((skillId) => competence.skills.includes(skillId));
 }
 
-function _withSkill(headers, targetProfileKnowledgeElements, line) {
-  return (skill) => {
-    line = pipe(csvService.addTextCell(`${skill.name}`, _stateOfSkill(skill.id, targetProfileKnowledgeElements), headers))(line);
-  };
-}
-
 function enhanceTargetProfileCompetencesAndAreas(enhancedTargetProfile) {
   return _.each(enhancedTargetProfile.competences, (competence) => {
     const skillsForThisCompetence = enhancedTargetProfile.getSkillsInCompetence(competence);
@@ -189,17 +183,6 @@ function enhanceTargetProfileCompetencesAndAreas(enhancedTargetProfile) {
     areaForThisCompetence.numberSkillsValidated += numberOfSkillsValidatedForThisCompetence;
     areaForThisCompetence.numberSkillsTested = areaForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
   });
-}
-
-function _withArea(headers, line) {
-  return (area) => {
-    const percentage = _.round(area.numberSkillsValidated / area.numberSkillsTested, 2);
-    line = pipe(
-      csvService.addNumberCell(`% de maitrise des acquis du domaine ${area.title}`, percentage, headers),
-      csvService.addNumberCell(`Nombre d'acquis du profil cible du domaine ${area.title}`, area.numberSkillsTested, headers),
-      csvService.addNumberCell(`Acquis maitrisés du domaine ${area.title}`, area.numberSkillsValidated, headers),
-    )(line);
-  };
 }
 
 function _initLineWithPlaceholders(headers) {
@@ -216,7 +199,7 @@ function enhanceTargetProfile(targetProfile, competences) {
   return enhancedTargetProfile;
 }
 
-function headerPropertyMapForCompetences(competences) {
+function headerPropertyMapForCompetences({ competences }) {
   return _.flatMap(competences, (competence) => {
     return [
       {
@@ -234,6 +217,40 @@ function headerPropertyMapForCompetences(competences) {
         value: competence.numberOfSkillsValidatedForThisCompetence,
         type: csvService.valueTypes.NUMBER,
       },
+    ];
+  });
+}
+
+function headerPropertyMapForAreas({ areas }) {
+  return _.flatMap(areas, (area) => {
+    return [
+      {
+        headerName: `% de maitrise des acquis du domaine ${area.title}`,
+        value:_.round(area.numberSkillsValidated / area.numberSkillsTested, 2),
+        type: csvService.valueTypes.NUMBER,
+      },
+      {
+        headerName: `Nombre d'acquis du profil cible du domaine ${area.title}`,
+        value: area.numberSkillsTested,
+        type: csvService.valueTypes.NUMBER,
+      },
+      {
+        headerName: `Acquis maitrisés du domaine ${area.title}`,
+        value: area.numberSkillsValidated,
+        type: csvService.valueTypes.NUMBER,
+      },
+    ];
+  });
+}
+
+function headerPropertyMapForSkills({ skills, knowledgeElements }) {
+  return _.flatMap(skills, (skill) => {
+    return [
+      {
+        headerName: skill.name,
+        value: _stateOfSkill(skill.id, knowledgeElements),
+        type: csvService.valueTypes.TEXT,
+      }
     ];
   });
 }
@@ -294,10 +311,6 @@ module.exports = async function startWritingCampaignResultsToStream(
 
     let line = _initLineWithPlaceholders(headers);
 
-    line = pipe(
-      campaignParticipation.isShared ? _withEndResults(campaignParticipation, enhancedTargetProfile, headers) : _.identity
-    )(line);
-
     let rawData = {
       organizationName: organization.name,
       campaignId,
@@ -315,7 +328,9 @@ module.exports = async function startWritingCampaignResultsToStream(
       const headerPropertyMapFull = [
         ...headerPropertyMap,
         ...headerPropertyMapForSharedCampaign,
-        ...headerPropertyMapForCompetences(enhancedTargetProfile.competences),
+        ...headerPropertyMapForCompetences(enhancedTargetProfile),
+        ...headerPropertyMapForAreas(enhancedTargetProfile),
+        ...headerPropertyMapForSkills(enhancedTargetProfile),
       ];
       rawData = {
         ...rawData,
@@ -340,13 +355,3 @@ module.exports = async function startWritingCampaignResultsToStream(
   const fileName = `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
   return { fileName };
 };
-
-function _withEndResults(campaignParticipation, enhancedTargetProfile, headers) {
-  return (line) => {
-
-    _.forEach(enhancedTargetProfile.areas, _withArea(headers, line));
-    _.forEach(enhancedTargetProfile.skills, _withSkill(headers, enhancedTargetProfile.knowledgeElements, line));
-
-    return line;
-  };
-}
