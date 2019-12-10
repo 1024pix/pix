@@ -11,81 +11,7 @@ const CURRENT_ATTENDANCE_SHEET_VERSION = '1.1';
 //  - property -> Property name of the target object in which the value will be put
 //  - transformFn -> Transformation function through which the cell value will be processed into the final value
 
-// V1
-const _TRANSFORMATION_STRUCT_COMMON_V1_0 = [
-  {
-    header: 'NOM',
-    property: 'lastName',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Prénom',
-    property: 'firstName',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Identifiant local',
-    property: 'externalId',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Temps majoré ?',
-    property: 'extraTimePercentage',
-    transformFn: _toNonZeroValueOrNull,
-  },
-  {
-    header: 'Date de naissance (format : jj/mm/aaaa)',
-    property: 'birthdate',
-    transformFn: (cellVal) => {
-      return convertDateValue(cellVal, 'DD/MM/YYYY', 'YYYY-MM-DD');
-    },
-  },
-];
-
-const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_0 = [
-  ..._TRANSFORMATION_STRUCT_COMMON_V1_0,
-  {
-    header: 'Lieu de naissance',
-    property: 'birthCity',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-];
-
-const _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_0 = [
-  ..._TRANSFORMATION_STRUCT_COMMON_V1_0,
-  {
-    header: 'Lieu de naissance',
-    property: 'birthplace',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Adresse électronique de convocation',
-    property: 'email',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Signature',
-    property: 'signature',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Numéro de certification\n(sans le #)',
-    property: 'certificationId',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Ecran de fin de test vu\n(cocher)',
-    property: 'lastScreen',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Commentaires / Signalements\n(test non achevé, incident technique, fraude, etc.)\nà compléter par un rapport si nécessaire',
-    property: 'comments',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-];
-
-// V2
+// V1.1
 const _TRANSFORMATION_STRUCT_COMMON_V1_1 = [
   {
     header: 'NOM',
@@ -166,11 +92,6 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_1 = [
 
 // ALL
 const TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION = {
-  '1.0': {
-    version: '1.0',
-    transformStruct : _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_0,
-    headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_0),
-  },
   '1.1': {
     version: '1.1',
     transformStruct : _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_1,
@@ -179,11 +100,6 @@ const TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION = {
 };
 
 const TRANSFORMATION_STRUCTS_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_BY_VERSION = {
-  '1.0': {
-    version: '1.0',
-    transformStruct : _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_0,
-    headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_0),
-  },
   '1.1': {
     version: '1.1',
     transformStruct : _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_1,

@@ -3,22 +3,7 @@ const Joi = require('@hapi/joi')
   .extend(require('@hapi/joi-date'));
 const { InvalidCertificationCandidate } = require('../errors');
 
-const certificationCandidateValidationJoiSchema_v1 = Joi.object({
-  id: Joi.number().optional(),
-  firstName: Joi.string().required(),
-  lastName: Joi.string().required(),
-  birthCity: Joi.string().required(),
-  birthProvinceCode: Joi.string().allow(null).optional(),
-  birthCountry: Joi.string().allow(null).optional(),
-  externalId: Joi.string().allow(null).optional(),
-  birthdate: Joi.string().length(10).required(),
-  createdAt: Joi.any().allow(null).optional(),
-  extraTimePercentage: Joi.number().allow(null).optional(),
-  sessionId: Joi.number().required(),
-  userId: Joi.number().allow(null).optional(),
-});
-
-const certificationCandidateValidationJoiSchema_v2 = Joi.object({
+const certificationCandidateValidationJoiSchema_v1_1 = Joi.object({
   id: Joi.number().optional(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
@@ -87,11 +72,8 @@ class CertificationCandidate {
   validate(version = '1.1') {
     let usedSchema = null;
     switch (version) {
-      case '1.0':
-        usedSchema = certificationCandidateValidationJoiSchema_v1;
-        break;
       case '1.1':
-        usedSchema = certificationCandidateValidationJoiSchema_v2;
+        usedSchema = certificationCandidateValidationJoiSchema_v1_1;
         break;
       default:
         throw new InvalidCertificationCandidate();
