@@ -14,14 +14,18 @@ function updateCsvLine({ line, rawData, headerPropertyMap }) {
 }
 
 function updateCsvLineByProperty({ line, rawData, csvParams, headers }) {
-  const { propertyName, headerName, type } = csvParams;
-  const value = rawData[propertyName];
+  const { propertyName, headerName, type, value } = csvParams;
+
+  // When the csv header to property map is dynaically generated, it is often
+  // possible that the value is already known at the same moment. Therefore, the csv
+  // service tries to look for such a pre-computed value first.
+  const valueToInsert = value || rawData[propertyName];
 
   if (type === valueTypes.TEXT) {
-    return addTextCell(headerName, value, headers)(line);
+    return addTextCell(headerName, valueToInsert, headers)(line);
   }
   if (type === valueTypes.NUMBER) {
-    return addNumberCell(headerName, value, headers)(line);
+    return addNumberCell(headerName, valueToInsert, headers)(line);
   }
   throw new Error(`Missing value type: ${type} for property: ${propertyName}`);
 }

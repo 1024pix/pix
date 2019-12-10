@@ -176,16 +176,6 @@ function _withSkill(headers, targetProfileKnowledgeElements, line) {
   };
 }
 
-function _withCompetence(headers, enhancedTargetProfile, line) {
-  return (competence) => {
-    line = pipe(
-      csvService.addNumberCell(`% de maitrise des acquis de la compétence ${competence.name}`, competence.percentage, headers),
-      csvService.addNumberCell(`Nombre d'acquis du profil cible dans la compétence ${competence.name}`, competence.skillsForThisCompetence.length, headers),
-      csvService.addNumberCell(`Acquis maitrisés dans la compétence ${competence.name}`, competence.numberOfSkillsValidatedForThisCompetence, headers),
-    )(line);
-  };
-}
-
 function enhanceTargetProfileCompetencesAndAreas(enhancedTargetProfile) {
   return _.each(enhancedTargetProfile.competences, (competence) => {
     const skillsForThisCompetence = enhancedTargetProfile.getSkillsInCompetence(competence);
@@ -226,6 +216,28 @@ function enhanceTargetProfile(targetProfile, competences) {
   return enhancedTargetProfile;
 }
 
+function headerPropertyMapForCompetences(competences) {
+  return _.flatMap(competences, (competence) => {
+    return [
+      {
+        headerName: `% de maitrise des acquis de la compétence ${competence.name}`,
+        value: competence.percentage,
+        type: csvService.valueTypes.NUMBER,
+      },
+      {
+        headerName: `Nombre d'acquis du profil cible dans la compétence ${competence.name}`,
+        value: competence.skillsForThisCompetence.length,
+        type: csvService.valueTypes.NUMBER,
+      },
+      {
+        headerName: `Acquis maitrisés dans la compétence ${competence.name}`,
+        value: competence.numberOfSkillsValidatedForThisCompetence,
+        type: csvService.valueTypes.NUMBER,
+      },
+    ];
+  });
+}
+  
 module.exports = async function startWritingCampaignResultsToStream(
   {
     userId,
@@ -300,12 +312,16 @@ module.exports = async function startWritingCampaignResultsToStream(
     };
 
     if (campaignParticipation.isShared) {
+      const headerPropertyMapFull = [
+        ...headerPropertyMap,
+        ...headerPropertyMapForSharedCampaign,
+        ...headerPropertyMapForCompetences(enhancedTargetProfile.competences),
+      ];
       rawData = {
         ...rawData,
         sharedAt: moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'),
         knowledgeElementsValidatedPercentage: enhancedTargetProfile.getKnowledgeElementsValidatedPercentage(enhancedTargetProfile.knowledgeElements),
       };
-      const headerPropertyMapFull = [...headerPropertyMap, ...headerPropertyMapForSharedCampaign];
       csvService.updateCsvLine({ line, rawData, headerPropertyMap: headerPropertyMapFull });
     } else {
       csvService.updateCsvLine({ line, rawData, headerPropertyMap });
@@ -328,7 +344,6 @@ module.exports = async function startWritingCampaignResultsToStream(
 function _withEndResults(campaignParticipation, enhancedTargetProfile, headers) {
   return (line) => {
 
-    _.forEach(enhancedTargetProfile.competences, _withCompetence(headers, enhancedTargetProfile, line));
     _.forEach(enhancedTargetProfile.areas, _withArea(headers, line));
     _.forEach(enhancedTargetProfile.skills, _withSkill(headers, enhancedTargetProfile.knowledgeElements, line));
 
