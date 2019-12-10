@@ -217,6 +217,12 @@ class MembershipCreationError extends DomainError {
   }
 }
 
+class MembershipUpdateError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class MissingOrInvalidCredentialsError extends DomainError {
   constructor() {
     super('Missing or invalid credentials');
@@ -382,6 +388,7 @@ module.exports = {
   InvalidRecaptchaTokenError,
   InvalidTemporaryKeyError,
   MembershipCreationError,
+  MembershipUpdateError,
   MissingOrInvalidCredentialsError,
   NotFoundError,
   ObjectAlreadyExisting,
