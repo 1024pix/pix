@@ -6,6 +6,10 @@ export default Route.extend({
   campaignCode: null,
   session: service(),
 
+  deactivate() {
+    this.controller.set('isLoading', false);
+  },
+
   async model(params) {
     const campaigns = await this.store.query('campaign', { filter: { code: params.campaign_code } });
 

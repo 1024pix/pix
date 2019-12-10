@@ -61,6 +61,13 @@ module.exports = {
       .then(fp.map(_toDomain));
   },
 
+  findOneByCampaignIdAndUserId({ campaignId, userId }) {
+    return BookshelfCampaignParticipation
+      .where({ campaignId, userId })
+      .fetch()
+      .then((campaignParticipation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation));
+  },
+
   findOneByAssessmentIdWithSkillIds(assessmentId) {
     return BookshelfCampaignParticipation
       .query((qb) => {

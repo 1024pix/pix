@@ -36,6 +36,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.fill-in-id-pix-form__section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   @include device-is('tablet') {
     display: block;
