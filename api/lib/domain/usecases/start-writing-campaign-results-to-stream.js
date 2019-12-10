@@ -209,20 +209,19 @@ function headerPropertyMapForSkills({ skills, knowledgeElements }) {
   });
 }
   
-module.exports = async function startWritingCampaignResultsToStream(
-  {
-    userId,
-    campaignId,
-    writableStream,
-    campaignRepository,
-    userRepository,
-    targetProfileRepository,
-    competenceRepository,
-    campaignParticipationRepository,
-    organizationRepository,
-    smartPlacementAssessmentRepository,
-    knowledgeElementRepository,
-  }) {
+module.exports = async function startWritingCampaignResultsToStream({
+  userId,
+  campaignId,
+  writableStream,
+  campaignRepository,
+  userRepository,
+  targetProfileRepository,
+  competenceRepository,
+  campaignParticipationRepository,
+  organizationRepository,
+  smartPlacementAssessmentRepository,
+  knowledgeElementRepository,
+}) {
 
   const campaign = await campaignRepository.get(campaignId);
 
@@ -262,19 +261,6 @@ module.exports = async function startWritingCampaignResultsToStream(
 
     const line = _initLineWithPlaceholders(headers);
 
-    let rawData = {
-      organizationName: organization.name,
-      campaignId,
-      campaignName: campaign.name,
-      targetProfileName: targetProfile.name,
-      userFirstName: user.firstName,
-      userLastName: user.lastName,
-      campaignLabel: campaignParticipation.participantExternalId,
-      progression: assessment.isCompleted ? 1 : enhancedTargetProfile.getProgression(allKnowledgeElements),
-      startedAt: moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
-      isShared: campaignParticipation.isShared ? 'Oui' : 'Non',
-    };
-
     if (campaignParticipation.isShared) {
       dynamicHeadersPropertyMap = [
         ...dynamicHeadersPropertyMap,
@@ -283,13 +269,11 @@ module.exports = async function startWritingCampaignResultsToStream(
         ...headerPropertyMapForAreas(enhancedTargetProfile),
         ...headerPropertyMapForSkills(enhancedTargetProfile),
       ];
-      rawData = {
-        ...rawData,
-        sharedAt: moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'),
-        knowledgeElementsValidatedPercentage: enhancedTargetProfile.getKnowledgeElementsValidatedPercentage(enhancedTargetProfile.knowledgeElements),
-      };
+      const rawData = _extractRawDataForSharedCampaign({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile, allKnowledgeElements });
       csvService.updateCsvLine({ line, rawData, headerPropertyMap: dynamicHeadersPropertyMap });
     } else {
+
+      const rawData = _extractRawData({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile, allKnowledgeElements });
       csvService.updateCsvLine({ line, rawData, headerPropertyMap: dynamicHeadersPropertyMap });
     }
     csvService.addDoubleQuotesToPlaceholders({ line, placeholder: PLACEHOLDER });
@@ -305,3 +289,25 @@ module.exports = async function startWritingCampaignResultsToStream(
   const fileName = `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
   return { fileName };
 };
+
+function _extractRawData({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile, allKnowledgeElements }) {
+  return {
+    organizationName: organization.name,
+    campaignId: campaign.id,
+    campaignName: campaign.name,
+    targetProfileName: enhancedTargetProfile.name,
+    userFirstName: user.firstName,
+    userLastName: user.lastName,
+    campaignLabel: campaignParticipation.participantExternalId,
+    progression: assessment.isCompleted ? 1 : enhancedTargetProfile.getProgression(allKnowledgeElements),
+    startedAt: moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
+    isShared: campaignParticipation.isShared ? 'Oui' : 'Non',
+  };
+}
+/* eslint-disable no-unused-vars */
+function _extractRawDataForSharedCampaign({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile, allKnowledgeElements }) {
+  const rawData = _extractRawData(...arguments);
+  rawData.sharedAt = moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD');
+  rawData.knowledgeElementsValidatedPercentage = enhancedTargetProfile.getKnowledgeElementsValidatedPercentage(enhancedTargetProfile.knowledgeElements);
+  return rawData;
+}
