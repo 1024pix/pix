@@ -8,10 +8,11 @@ export default Route.extend(AuthenticatedRouteMixin, {
   currentUser: service(),
 
   async beforeModel(transition) {
-    const student = await this.store.queryRecord('student', { userId: this.currentUser.user.id });
+    const campaignCode = transition.to.params.campaign_code;
+    const student = await this.store.queryRecord('student-user-association', { userId: this.currentUser.user.id, campaignCode });
 
     if (!isEmpty(student)) {
-      return this.replaceWith('campaigns.start-or-resume', transition.to.params.campaign_code, {
+      return this.replaceWith('campaigns.start-or-resume', campaignCode, {
         queryParams: { associationDone: true }
       });
     }
