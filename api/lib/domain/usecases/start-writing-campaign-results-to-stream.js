@@ -12,64 +12,20 @@ const {
 } = require('../errors');
 
 const headerPropertyMap = [
-  {
-    headerName: 'Nom de l\'organisation',
-    propertyName: 'organizationName',
-    type: csvService.valueTypes.TEXT,
-  },
-  {
-    headerName: 'ID Campagne',
-    propertyName: 'campaignId',
-    type: csvService.valueTypes.NUMBER,
-  },
-  {
-    headerName: 'Nom de la campagne',
-    propertyName: 'campaignName',
-    type: csvService.valueTypes.TEXT,
-  },
-  {
-    headerName: 'Nom du Profil Cible',
-    propertyName: 'targetProfileName',
-    type: csvService.valueTypes.TEXT,
-  },
-  {
-    headerName: 'Nom du Participant',
-    propertyName: 'userLastName',
-    type: csvService.valueTypes.TEXT,
-  },
-  {
-    headerName: 'Prénom du Participant',
-    propertyName: 'userFirstName',
-    type: csvService.valueTypes.TEXT,
-  },
-  {
-    headerName: '% de progression',
-    propertyName: 'progression',
-    type: csvService.valueTypes.NUMBER,
-  },
-  {
-    headerName: 'Date de début',
-    propertyName: 'startedAt',
-    type: csvService.valueTypes.NUMBER,
-  },
-  {
-    headerName: 'Partage (O/N)',
-    propertyName: 'isShared',
-    type: csvService.valueTypes.TEXT,
-  },
+  { headerName: 'Nom de l\'organisation', propertyName: 'organizationName', type: csvService.valueTypes.TEXT },
+  { headerName: 'ID Campagne', propertyName: 'campaignId', type: csvService.valueTypes.NUMBER },
+  { headerName: 'Nom de la campagne', propertyName: 'campaignName', type: csvService.valueTypes.TEXT },
+  { headerName: 'Nom du Profil Cible', propertyName: 'targetProfileName', type: csvService.valueTypes.TEXT },
+  { headerName: 'Nom du Participant', propertyName: 'userLastName', type: csvService.valueTypes.TEXT },
+  { headerName: 'Prénom du Participant', propertyName: 'userFirstName', type: csvService.valueTypes.TEXT },
+  { headerName: '% de progression', propertyName: 'progression', type: csvService.valueTypes.NUMBER },
+  { headerName: 'Date de début', propertyName: 'startedAt', type: csvService.valueTypes.NUMBER },
+  { headerName: 'Partage (O/N)', propertyName: 'isShared', type: csvService.valueTypes.TEXT },
 ];
 
 const headerPropertyMapForSharedCampaign = [
-  {
-    headerName: 'Date du partage',
-    propertyName: 'sharedAt',
-    type: csvService.valueTypes.NUMBER,
-  },
-  {
-    headerName: '% maitrise de l\'ensemble des acquis du profil',
-    propertyName: 'knowledgeElementsValidatedPercentage',
-    type: csvService.valueTypes.NUMBER,
-  },
+  { headerName: 'Date du partage', propertyName: 'sharedAt', type: csvService.valueTypes.NUMBER },
+  { headerName: '% maitrise de l\'ensemble des acquis du profil', propertyName: 'knowledgeElementsValidatedPercentage', type: csvService.valueTypes.NUMBER },
 ];
 
 async function _fetchUserIfHeHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
@@ -270,7 +226,7 @@ module.exports = async function startWritingCampaignResultsToStream(
 
   const campaign = await campaignRepository.get(campaignId);
 
-  const [user, targetProfile, competences, organization, listCampaignParticipation] = await Promise.all([
+  const [user, targetProfile, competences, organization, campaignParticipations] = await Promise.all([
     _fetchUserIfHeHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository),
     targetProfileRepository.get(campaign.targetProfileId),
     competenceRepository.list(),
@@ -279,9 +235,7 @@ module.exports = async function startWritingCampaignResultsToStream(
   ]);
 
   const enhancedTargetProfile = enhanceTargetProfile(targetProfile, competences);
-
-  const headers = createCsvHeader(enhancedTargetProfile, campaign.idPixLabel);
-
+  
   let dynamicHeadersPropertyMap = _.cloneDeep(headerPropertyMap);
 
   if (campaign.idPixLabel) {
@@ -293,8 +247,10 @@ module.exports = async function startWritingCampaignResultsToStream(
     dynamicHeadersPropertyMap = csvService.insert(item).into(headerPropertyMap).after('Prénom du Participant');
   }
 
+  const headers = createCsvHeader(enhancedTargetProfile, campaign.idPixLabel);
   writableStream.write(csvService.getHeaderLine(headers));
-  bluebird.mapSeries(listCampaignParticipation, async (campaignParticipation) => {
+
+  bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
 
     const [assessment, allKnowledgeElements] = await Promise.all([
       smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId),
