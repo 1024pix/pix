@@ -36,7 +36,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         await click('.campaign-landing-page__start-button');
       });
 
-      it('should propose to signup', async function() {
+      it('should propose to signup', function() {
         expect(currentURL()).to.contains('/inscription');
       });
 
