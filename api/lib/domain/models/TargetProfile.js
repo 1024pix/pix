@@ -33,7 +33,7 @@ class TargetProfile {
   }
 
   getKnowledgeElementsValidatedPercentage(knowledgeElements) {
-    const totalValidatedSkills = _.sumBy(knowledgeElements, 'isValidated');
+    const totalValidatedSkills = _.countBy(knowledgeElements, 'isValidated')[true];
     return _.round(totalValidatedSkills / this.skills.length, 2);
   }
 

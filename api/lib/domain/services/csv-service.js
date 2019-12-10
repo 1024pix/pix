@@ -5,9 +5,23 @@ const valueTypes = {
   NUMBER: 'number',
 };
 
+function getCsvLine({ rawData, headerPropertyMap, headers, placeholder }) {
+  const line = _.map(headers, () => placeholder);
+  headerPropertyMap = sanitizeHeaderNames(headerPropertyMap);
+  updateCsvLine({ line, rawData, headerPropertyMap });
+  addDoubleQuotesToPlaceholders({ line, placeholder });
+  return serializeLineWithPonctuationMarks(line);
+}
+
+function sanitizeHeaderNames(headerPropertyMap) {
+  return _.map(headerPropertyMap, (item) => {
+    item.headerName = removeDoubleQuotes(item.headerName);
+    return item;
+  });
+}
+
 function updateCsvLine({ line, rawData, headerPropertyMap }) {
   const headers =  _.map(headerPropertyMap, 'headerName');
-
   _.each(headerPropertyMap, (csvParams) => {
     line = updateCsvLineByProperty({ line, rawData, csvParams, headers });
   });
@@ -98,11 +112,8 @@ function serializeLineWithPonctuationMarks(line) {
 }
 
 module.exports = {
-  serializeLineWithPonctuationMarks,
-  addDoubleQuotesToPlaceholders,
-  removeDoubleQuotes,
-  updateCsvLine,
   getHeaderLine,
+  getCsvLine,
   valueTypes,
   insert,
 };

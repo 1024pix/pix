@@ -72,20 +72,20 @@ function createCsvHeader(enhancedTargetProfile, idPixLabel) {
 }
 
 function _getBaseHeaders(idPixLabel) {
-  return [
+  return _.compact([
     'Nom de l\'organisation',
     'ID Campagne',
     'Nom de la campagne',
     'Nom du Profil Cible',
     'Nom du Participant',
     'Prénom du Participant',
-    idPixLabel ? csvService.removeDoubleQuotes(idPixLabel) : null,
+    idPixLabel ? idPixLabel : null,
     '% de progression',
     'Date de début',
     'Partage (O/N)',
     'Date du partage',
     '% maitrise de l\'ensemble des acquis du profil',
-  ].filter(Boolean);
+  ]);
 }
 
 function _getCompetencesHeaders(competences) {
@@ -161,10 +161,6 @@ function enhanceTargetProfileCompetencesAndAreas(enhancedTargetProfile) {
   });
 }
 
-function _initLineWithPlaceholders(headers) {
-  return headers.map(() => PLACEHOLDER);
-}
-
 function enhanceTargetProfile(targetProfile, competences) {
   const enhancedTargetProfile = _.assign(targetProfile, {
     skillNames: _.map(targetProfile.skills, 'name'),
@@ -205,7 +201,7 @@ module.exports = async function startWritingCampaignResultsToStream({
 
   if (campaign.idPixLabel) {
     const item = {
-      headerName: csvService.removeDoubleQuotes(campaign.idPixLabel),
+      headerName: campaign.idPixLabel,
       propertyName: 'campaignLabel',
       type: csvService.valueTypes.TEXT,
     };
@@ -225,20 +221,17 @@ module.exports = async function startWritingCampaignResultsToStream({
     enhancedTargetProfile.knowledgeElements = allKnowledgeElements.filter(_knowledgeElementRelatedTo(targetProfile.skills));
     enhanceTargetProfileCompetencesAndAreas(enhancedTargetProfile);
 
-    const line = _initLineWithPlaceholders(headers);
-
+    let line;
     if (campaignParticipation.isShared) {
-      dynamicHeadersPropertyMap = _getDynamicHeadersPropertyMapForSharedCampaign(dynamicHeadersPropertyMap, enhancedTargetProfile);
       const rawData = _extractRawDataForSharedCampaign({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile, allKnowledgeElements });
-      csvService.updateCsvLine({ line, rawData, headerPropertyMap: dynamicHeadersPropertyMap });
+      dynamicHeadersPropertyMap = _getDynamicHeadersPropertyMapForSharedCampaign(dynamicHeadersPropertyMap, enhancedTargetProfile);
+      line = csvService.getCsvLine({ rawData, headers, headerPropertyMap: dynamicHeadersPropertyMap, placeholder: PLACEHOLDER });
     } else {
-
       const rawData = _extractRawData({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile, allKnowledgeElements });
-      csvService.updateCsvLine({ line, rawData, headerPropertyMap: dynamicHeadersPropertyMap });
+      line = csvService.getCsvLine({ rawData, headers, headerPropertyMap: dynamicHeadersPropertyMap, placeholder: PLACEHOLDER });
     }
-    csvService.addDoubleQuotesToPlaceholders({ line, placeholder: PLACEHOLDER });
 
-    writableStream.write(csvService.serializeLineWithPonctuationMarks(line));
+    writableStream.write(line);
   }).then(() => {
     writableStream.end();
   }).catch((error) => {
