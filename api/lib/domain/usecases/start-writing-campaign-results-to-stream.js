@@ -12,15 +12,15 @@ const {
 } = require('../errors');
 
 const headerPropertyMap = [
-  { headerName: 'Nom de l\'organisation', propertyName: 'organizationName', type: csvService.valueTypes.TEXT },
+  { headerName: 'Nom de l\'organisation', propertyName: 'organizationName' },
   { headerName: 'ID Campagne', propertyName: 'campaignId', type: csvService.valueTypes.NUMBER },
-  { headerName: 'Nom de la campagne', propertyName: 'campaignName', type: csvService.valueTypes.TEXT },
-  { headerName: 'Nom du Profil Cible', propertyName: 'targetProfileName', type: csvService.valueTypes.TEXT },
-  { headerName: 'Nom du Participant', propertyName: 'userLastName', type: csvService.valueTypes.TEXT },
-  { headerName: 'Prénom du Participant', propertyName: 'userFirstName', type: csvService.valueTypes.TEXT },
+  { headerName: 'Nom de la campagne', propertyName: 'campaignName' },
+  { headerName: 'Nom du Profil Cible', propertyName: 'targetProfileName' },
+  { headerName: 'Nom du Participant', propertyName: 'userLastName' },
+  { headerName: 'Prénom du Participant', propertyName: 'userFirstName' },
   { headerName: '% de progression', propertyName: 'progression', type: csvService.valueTypes.NUMBER },
   { headerName: 'Date de début', propertyName: 'startedAt', type: csvService.valueTypes.NUMBER },
-  { headerName: 'Partage (O/N)', propertyName: 'isShared', type: csvService.valueTypes.TEXT },
+  { headerName: 'Partage (O/N)', propertyName: 'isShared' },
 ];
 
 const headerPropertyMapForSharedCampaign = [
@@ -46,7 +46,7 @@ function headerPropertyMapForAreas({ areas }) {
 
 function headerPropertyMapForSkills({ skills, knowledgeElements }) {
   return _.flatMap(skills, (skill) => [
-    { headerName: skill.name, value: _stateOfSkill(skill.id, knowledgeElements), type: csvService.valueTypes.TEXT }
+    { headerName: skill.name, value: _stateOfSkill(skill.id, knowledgeElements) }
   ]);
 }
 

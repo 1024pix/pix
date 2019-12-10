@@ -20,11 +20,12 @@ function updateCsvLineByProperty({ line, rawData, csvParams, headers }) {
   // possible that the value is already known at the same moment. Therefore, the csv
   // service tries to look for such a pre-computed value first.
   const valueToInsert = value || rawData[propertyName];
+  const typeToSelect = type || valueTypes.TEXT;
 
-  if (type === valueTypes.TEXT) {
+  if (typeToSelect === valueTypes.TEXT) {
     return addTextCell(headerName, valueToInsert, headers)(line);
   }
-  if (type === valueTypes.NUMBER) {
+  if (typeToSelect === valueTypes.NUMBER) {
     return addNumberCell(headerName, valueToInsert, headers)(line);
   }
   throw new Error(`Missing value type: ${type} for property: ${propertyName}`);
