@@ -29,7 +29,7 @@ const validation = {
 };
 
 function _pad(num, size) {
-  let s = num + '';
+  let s = parseInt(num) + '';
   while (s.length < size) s = '0' + s;
   return s;
 }
@@ -52,9 +52,9 @@ export default Controller.extend({
   monthOfBirth: '',
   yearOfBirth: '',
   birthdate: computed('yearOfBirth', 'monthOfBirth', 'dayOfBirth', function() {
-    const monthOfBirth = _pad(this.monthOfBirth, 2);
-    const dayOfBirth = _pad(this.dayOfBirth, 2);
-    return [this.yearOfBirth, monthOfBirth, dayOfBirth].join('-');
+    const monthOfBirth = _pad(this.monthOfBirth.trim(), 2);
+    const dayOfBirth = _pad(this.dayOfBirth.trim(), 2);
+    return [this.yearOfBirth.trim(), monthOfBirth, dayOfBirth].join('-');
   }),
 
   isFormNotValid: computed('firstName', 'lastName', 'yearOfBirth', 'monthOfBirth', 'dayOfBirth', function() {
@@ -107,7 +107,7 @@ export default Controller.extend({
           if (error.status === '404') {
             return this.set('errorMessage', 'Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
           }
-          throw (error);
+          return this.set('errorMessage', error.detail);
         });
         this.set('isLoading', false);
       });
@@ -118,16 +118,20 @@ export default Controller.extend({
     },
 
     triggerInputDayValidation(key, value) {
+      value = value.trim();
       this._padNumberInInput('dayOfBirth', value);
       this._validateInputDay(key, value);
     },
 
     triggerInputMonthValidation(key, value) {
+      value = value.trim();
       this._padNumberInInput('monthOfBirth', value);
       this._validateInputMonth(key, value);
     },
 
     triggerInputYearValidation(key, value) {
+      value = value.trim();
+      this.set('yearOfBirth', value);
       this._validateInputYear(key, value);
     },
   },
@@ -156,7 +160,7 @@ export default Controller.extend({
   },
 
   _padNumberInInput(attribute, value) {
-    if (value.trim()) {
+    if (value) {
       this.set(attribute, _pad(value, 2));
     }
   }
