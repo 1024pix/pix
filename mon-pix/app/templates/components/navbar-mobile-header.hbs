@@ -1,7 +1,7 @@
 <div class="navbar-mobile-header__container">
   {{#if burger}}
     {{#if isUserLogged}}
-      <span class="icon-button navbar-mobile-header__burger-icon" {{action burger.state.actions.toggle}}>
+      <span class="navbar-mobile-header__burger-icon" {{action burger.state.actions.toggle}}>
         {{#if burger.state.open}}
           {{fa-icon 'times'}}
         {{else}}
