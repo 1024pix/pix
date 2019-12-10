@@ -28,6 +28,28 @@ const headerPropertyMapForSharedCampaign = [
   { headerName: '% maitrise de l\'ensemble des acquis du profil', propertyName: 'knowledgeElementsValidatedPercentage', type: csvService.valueTypes.NUMBER },
 ];
 
+function headerPropertyMapForCompetences({ competences }) {
+  return _.flatMap(competences, (competence) => [
+    { headerName: `% de maitrise des acquis de la compétence ${competence.name}`, value: competence.percentage, type: csvService.valueTypes.NUMBER },
+    { headerName: `Nombre d'acquis du profil cible dans la compétence ${competence.name}`, value: competence.skillsForThisCompetence.length, type: csvService.valueTypes.NUMBER },
+    { headerName: `Acquis maitrisés dans la compétence ${competence.name}`, value: competence.numberOfSkillsValidatedForThisCompetence, type: csvService.valueTypes.NUMBER },
+  ]);
+}
+
+function headerPropertyMapForAreas({ areas }) {
+  return _.flatMap(areas, (area) => [
+    { headerName: `% de maitrise des acquis du domaine ${area.title}`, value:_.round(area.numberSkillsValidated / area.numberSkillsTested, 2), type: csvService.valueTypes.NUMBER },
+    { headerName: `Nombre d'acquis du profil cible du domaine ${area.title}`, value: area.numberSkillsTested, type: csvService.valueTypes.NUMBER },
+    { headerName: `Acquis maitrisés du domaine ${area.title}`, value: area.numberSkillsValidated, type: csvService.valueTypes.NUMBER },
+  ]);
+}
+
+function headerPropertyMapForSkills({ skills, knowledgeElements }) {
+  return _.flatMap(skills, (skill) => [
+    { headerName: skill.name, value: _stateOfSkill(skill.id, knowledgeElements), type: csvService.valueTypes.TEXT }
+  ]);
+}
+
 async function _fetchUserIfHeHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   if (_.isNil(organizationId)) {
     throw new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`);
@@ -151,62 +173,6 @@ function enhanceTargetProfile(targetProfile, competences) {
   enhancedTargetProfile.competences = competences.filter(_competenceRelatedTo(enhancedTargetProfile.skillIds));
   enhancedTargetProfile.areas = _(enhancedTargetProfile.competences).map('area').map(addProperties({ numberSkillsValidated: 0, numberSkillsTested: 0 })).value();
   return enhancedTargetProfile;
-}
-
-function headerPropertyMapForCompetences({ competences }) {
-  return _.flatMap(competences, (competence) => {
-    return [
-      {
-        headerName: `% de maitrise des acquis de la compétence ${competence.name}`,
-        value: competence.percentage,
-        type: csvService.valueTypes.NUMBER,
-      },
-      {
-        headerName: `Nombre d'acquis du profil cible dans la compétence ${competence.name}`,
-        value: competence.skillsForThisCompetence.length,
-        type: csvService.valueTypes.NUMBER,
-      },
-      {
-        headerName: `Acquis maitrisés dans la compétence ${competence.name}`,
-        value: competence.numberOfSkillsValidatedForThisCompetence,
-        type: csvService.valueTypes.NUMBER,
-      },
-    ];
-  });
-}
-
-function headerPropertyMapForAreas({ areas }) {
-  return _.flatMap(areas, (area) => {
-    return [
-      {
-        headerName: `% de maitrise des acquis du domaine ${area.title}`,
-        value:_.round(area.numberSkillsValidated / area.numberSkillsTested, 2),
-        type: csvService.valueTypes.NUMBER,
-      },
-      {
-        headerName: `Nombre d'acquis du profil cible du domaine ${area.title}`,
-        value: area.numberSkillsTested,
-        type: csvService.valueTypes.NUMBER,
-      },
-      {
-        headerName: `Acquis maitrisés du domaine ${area.title}`,
-        value: area.numberSkillsValidated,
-        type: csvService.valueTypes.NUMBER,
-      },
-    ];
-  });
-}
-
-function headerPropertyMapForSkills({ skills, knowledgeElements }) {
-  return _.flatMap(skills, (skill) => {
-    return [
-      {
-        headerName: skill.name,
-        value: _stateOfSkill(skill.id, knowledgeElements),
-        type: csvService.valueTypes.TEXT,
-      }
-    ];
-  });
 }
   
 module.exports = async function startWritingCampaignResultsToStream({
