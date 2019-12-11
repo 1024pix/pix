@@ -130,25 +130,29 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
           lastName: 'Gallagher', firstName: 'Jack',
           birthdate: '2010-10-01', birthCity: 'Londres',
           birthCountry: 'France', birthProvinceCode: '66',
-          externalId: null, extraTimePercentage: 0.15, sessionId,
+          email: 'jack@d.it', externalId: null,
+          extraTimePercentage: 0.15, sessionId,
         },
         {
           lastName: 'Jackson', firstName: 'Janet',
           birthdate: '2018-09-25', birthCity: 'Milan',
           birthCountry: 'France', birthProvinceCode: '971',
-          externalId: 'DEF456', extraTimePercentage: null, sessionId,
+          email: 'jackson@gmail.com', externalId: 'DEF456',
+          extraTimePercentage: null, sessionId,
         },
         {
           lastName: 'Jackson', firstName: 'Michael',
           birthdate: '1995-01-15', birthCity: 'Paris',
           birthCountry: 'Cameroun', birthProvinceCode: '99',
-          externalId: 'ABC123', extraTimePercentage: 0.6, sessionId,
+          email: 'jaja@hotmail.fr', externalId: 'ABC123',
+          extraTimePercentage: 0.6, sessionId,
         },
         {
           lastName: 'Mercury', firstName: 'Freddy',
           birthdate: '1925-06-14', birthCity: 'Barcelone',
           birthCountry: 'Planète Mars', birthProvinceCode: '2A',
-          externalId: 'GHI789', extraTimePercentage: 1.5, sessionId,
+          email: null, externalId: 'GHI789',
+          extraTimePercentage: 1.5, sessionId,
         },
       ], (candidate) => new CertificationCandidate(candidate));
 
