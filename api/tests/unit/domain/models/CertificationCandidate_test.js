@@ -16,6 +16,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         birthProvinceCode: '13',
         birthCountry: 'France',
         externalId: 'QVGDM',
+        email: 'jp@fou.cau',
         birthdate: '1940-05-05',
         extraTimePercentage: 0.3,
         sessionId: 1,
@@ -30,6 +31,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       expect(certificationCandidate.birthCity).to.equal('Marseille');
       expect(certificationCandidate.birthProvinceCode).to.equal('13');
       expect(certificationCandidate.birthCountry).to.equal('France');
+      expect(certificationCandidate.email).to.equal('jp@fou.cau');
       expect(certificationCandidate.externalId).to.equal('QVGDM');
       expect(certificationCandidate.birthdate).to.equal('1940-05-05');
       expect(certificationCandidate.extraTimePercentage).to.equal(0.3);
@@ -190,6 +192,19 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       it('should return an error if birthCountry is not a string', () => {
         // given
         const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthCountry: 123 });
+
+        // when
+        try {
+          certificationCandidate.validate();
+          expect.fail('Expected error to have been thrown');
+        } catch (err) { // then
+          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+        }
+      });
+
+      it('should return an error if email is not an email type of string', () => {
+        // given
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({ email: 'Je mange des saucisses' });
 
         // when
         try {
@@ -548,7 +563,6 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       });
     });
   });
-
 
   describe('validateParticipation', () => {
 
