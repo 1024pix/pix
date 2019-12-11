@@ -137,10 +137,7 @@ module.exports = async function startWritingCampaignResultsToStream({
 
   bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
 
-    const [assessment, allKnowledgeElements] = await Promise.all([
-      smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId),
-      knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt })
-    ]);
+    const [assessment, allKnowledgeElements] = await _fetchIndividualDatas({ campaignParticipation, smartPlacementAssessmentRepository, knowledgeElementRepository });
 
     if (!campaignParticipation.isShared) {
       campaignIndividualResult.addIndividualStatistics({ assessment, campaignParticipation, allKnowledgeElements });
@@ -173,4 +170,11 @@ function _getDynamicHeadersPropertyMapForSharedCampaign(dynamicHeadersPropertyMa
     ...headerPropertyMapForAreas(targeted),
     ...headerPropertyMapForSkills(targeted),
   ];
+}
+
+function _fetchIndividualDatas({ campaignParticipation, smartPlacementAssessmentRepository, knowledgeElementRepository }) {
+  return Promise.all([
+    smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId),
+    knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt })
+  ]);
 }
