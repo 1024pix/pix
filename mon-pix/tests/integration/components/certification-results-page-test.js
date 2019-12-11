@@ -1,10 +1,8 @@
-import { alias } from '@ember/object/computed';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
 import { find, click, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import LinkComponent from '@ember/routing/link-component';
 
 describe('Integration | Component | certification results template', function() {
   setupRenderingTest();
@@ -36,11 +34,6 @@ describe('Integration | Component | certification results template', function() 
     });
 
     it('should have a button to logout at the end of certification', async function() {
-      // given
-      LinkComponent.reopen({
-        href: alias('qualifiedRouteName')
-      });
-
       // when
       await render(hbs`{{certification-results-page certificationNumber=certificationNumber}}`);
       await click('#validSupervisor');
@@ -49,7 +42,6 @@ describe('Integration | Component | certification results template', function() 
       // then
       expect(find('.result-content__logout-button')).to.exist;
       expect(find('.result-content__logout-button').textContent).to.equal('Se déconnecter');
-      expect(find('.result-content__logout-button').getAttribute('href')).to.equal('logout');
     });
 
   });
