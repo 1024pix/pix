@@ -98,17 +98,18 @@ function _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLa
 }
 
 async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1(certificationProfile) {
+  const certificationProfileToFill = _.clone(certificationProfile);
   const [allCompetences, allAdaptativeCourses] = await Promise.all([
     competenceRepository.list(),
     courseRepository.getAdaptiveCourses()
   ]);
   const userLastAssessments = await assessmentRepository
     .findLastCompletedAssessmentsForEachCoursesByUser(certificationProfile.userId, certificationProfile.profileDate);
-  certificationProfile.userCompetences = _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLastAssessments });
+  certificationProfileToFill.userCompetences = _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLastAssessments });
   const correctAnswers = await _findCorrectAnswersByAssessments(userLastAssessments);
-  certificationProfile.challengeIdsCorrectlyAnswered = _.map(correctAnswers, 'challengeId');
+  certificationProfileToFill.challengeIdsCorrectlyAnswered = _.map(correctAnswers, 'challengeId');
 
-  return certificationProfile;
+  return certificationProfileToFill;
 }
 
 function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCompetences }) {
@@ -129,18 +130,19 @@ function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCo
 }
 
 async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2(certificationProfile) {
+  const certificationProfileToFill = _.clone(certificationProfile);
   const allCompetences = await competenceRepository.list();
 
   const knowledgeElementsByCompetence = await knowledgeElementRepository
     .findUniqByUserIdGroupedByCompetenceId({ userId: certificationProfile.userId, limitDate: certificationProfile.profileDate });
-  certificationProfile.userCompetences = _createUserCompetencesV2({ userId: certificationProfile.userId, knowledgeElementsByCompetence, allCompetences });
+  certificationProfileToFill.userCompetences = _createUserCompetencesV2({ userId: certificationProfile.userId, knowledgeElementsByCompetence, allCompetences });
 
   const knowledgeElements = KnowledgeElement.findDirectlyValidatedFromGroups(knowledgeElementsByCompetence);
   const answerIds = _.map(knowledgeElements, 'answerId');
 
-  certificationProfile.challengeIdsCorrectlyAnswered = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
+  certificationProfileToFill.challengeIdsCorrectlyAnswered = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
 
-  return certificationProfile;
+  return certificationProfileToFill;
 }
 
 module.exports = {

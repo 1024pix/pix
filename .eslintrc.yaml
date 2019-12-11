@@ -35,8 +35,6 @@ rules:
   no-multiple-empty-lines:
     - 2
     - { max: 1, maxEOF: 1 }
-  no-prototype-builtins:
-    - 0
   no-unused-vars:
     - 2
     - { argsIgnorePattern: "_" }
@@ -50,8 +48,6 @@ rules:
   quotes:
     - 2
     - single
-  require-atomic-updates:
-    - 0
   semi:
     - 2
     - always
