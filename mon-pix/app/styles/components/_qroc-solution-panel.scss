@@ -10,24 +10,32 @@
   box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
   border: solid 1px $alto-grey;
   padding: 0 10px;
-}
+  font-size: 1.6rem;
 
-.correction-qroc-box__input-right-answer {
-  font-size: 16px;
-  font-weight: $font-bold;
-  color: $caribbean-green;
-}
+  &--paragraph {
+    width: 100%;
+    height: auto;
+    resize: vertical;
+  }
 
-.correction-qroc-box__input-wrong-answer {
-  font-size: 16px;
-  color: $charcoal-grey;
-  text-decoration: line-through;
-}
+  &--sentence {
+    width: 100%;
+  }
 
-.correction-qroc-box__input-no-answer {
-  font-size: 16px;
-  color: $charcoal-grey;
-  font-style: italic;
+  &--correct {
+    font-weight: $font-bold;
+    color: $caribbean-green;
+  }
+
+  &--wrong {
+    color: $charcoal-grey;
+    text-decoration: line-through;
+  }
+
+  &--aband {
+    color: $charcoal-grey;
+    font-style: italic;
+  }
 }
 
 .correction-qroc-box__solution {
@@ -37,7 +45,7 @@
 }
 
 .correction-qroc-box__solution-text {
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: $font-bold;
   color: $caribbean-green;
   display: flex;
