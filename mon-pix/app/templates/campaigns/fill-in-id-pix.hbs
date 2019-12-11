@@ -10,7 +10,7 @@
       <div class="fill-in-id-pix-form__section">
         <div class="fill-in-id-pix__form-field">
           <label for="id-pix-label">{{model.idPixLabel}} :</label>
-          {{input required id="id-pix-label" value=participantExternalId}}
+          <Input required @id="id-pix-label" @value={{participantExternalId}} />
         </div>
         {{#if isLoading}}
           <button type="button" disabled class="button button--big">
