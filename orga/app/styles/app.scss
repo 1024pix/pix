@@ -1,8 +1,16 @@
 @charset "utf-8";
 
 // Voir la documentation pour surcharger le css https://ember-power-select.com/docs/styles
-$ember-power-select-border-color: #666666;
-$ember-power-select-border-radius: 4px;
+$ember-power-select-line-height: 2 !default;
+$ember-power-select-border-color: #dddddd !default;
+$ember-power-select-trigger-icon-color: #666666 !default;
+$ember-power-select-focus-outline: 0 !default;
+
+$ember-power-select-highlighted-color: #666666 !default;
+$ember-power-select-highlighted-background: #666666 !default;
+$ember-power-select-selected-background: #f2f3f4 !default;
+$ember-power-select-focus-border-color: #666666 !default;
+
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
 @import "ember-power-select";
