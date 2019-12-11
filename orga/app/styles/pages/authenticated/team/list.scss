@@ -28,6 +28,15 @@
   line-height: 3;
 }
 
+.ember-power-select-option[aria-current="true"] {
+  background-color: #f2f3f4;
+  color: #666666;
+}
+
+.ember-power-select-option {
+  color: #666666;
+  font-size: 13px;
+}
 .list-team-page-header {
 
   &__add-member-button {
