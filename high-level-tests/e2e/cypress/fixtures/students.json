@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "firstName": "Daenerys",
+    "middleName": "Khaleesi",
+    "thirdName": "Mother of Dragons",
+    "lastName": "Stormborn",
+    "preferredLastName": "Targaryen",
+    "birthdate": "1986-10-23",
+    "organizationId": 2,
+    "userId": null
+  }
+]
