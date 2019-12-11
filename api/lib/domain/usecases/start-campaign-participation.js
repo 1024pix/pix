@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const Assessment = require('../models/Assessment');
 
 const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../domain/errors');
@@ -32,11 +34,12 @@ async function _createSmartPlacementAssessment(userId, assessmentRepository, cam
 
 async function _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository) {
   const campaignId = campaignParticipation.campaignId;
-  const alreadyExistingCampaignParticipation = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
+  const result = _.clone(campaignParticipation);
+  const alreadyExistingCampaignParticipation =
+    await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
   if (alreadyExistingCampaignParticipation) {
     throw new AlreadyExistingCampaignParticipationError(`User ${userId} has already a campaign participation with campaign ${campaignId}`);
   }
-  campaignParticipation.userId = userId;
-  return campaignParticipationRepository.save(campaignParticipation);
+  result.userId = userId;
+  return campaignParticipationRepository.save(result);
 }
-

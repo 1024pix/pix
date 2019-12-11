@@ -73,7 +73,7 @@ describe('Unit | Domain | Services | campaign code generator', function() {
       // then
       return promise.then(() => {
         const firstCallArgumentsForLetters = randomString.generate.getCall(0).args[0];
-        expect(firstCallArgumentsForLetters.hasOwnProperty('readable')).to.be.true;
+        expect(firstCallArgumentsForLetters.readable).to.be.true;
       });
     });
 
@@ -84,7 +84,7 @@ describe('Unit | Domain | Services | campaign code generator', function() {
       // then
       return promise.then(() => {
         const secondCallArgumentsForNumbers = randomString.generate.getCall(1).args[0];
-        expect(secondCallArgumentsForNumbers.hasOwnProperty('readable')).to.be.true;
+        expect(secondCallArgumentsForNumbers.readable).to.be.true;
       });
     });
 

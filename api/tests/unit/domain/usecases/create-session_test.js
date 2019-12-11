@@ -11,7 +11,7 @@ describe('Unit | UseCase | create-session', () => {
   describe('#save', () => {
 
     let certificationCenter, certificationCenterId, certificationCenterName, expectedSavedSession, sessionWithCodeAndName,
-      sessionAccessCode, sessionId, sessionToSave, sessionWithCode, userId;
+      sessionAccessCode, sessionId, sessionToSave, userId;
 
     let certificationCenterRepository, sessionRepository, userRepository;
 
@@ -25,9 +25,6 @@ describe('Unit | UseCase | create-session', () => {
       certificationCenter = domainBuilder.buildCertificationCenter({ id: certificationCenterId, name: certificationCenterName });
       sessionToSave = domainBuilder.buildSession({ id: sessionId, certificationCenterId, certificationCenter: null, accessCode: null });
       expectedSavedSession = domainBuilder.buildSession();
-
-      sessionWithCode = new Session({ ...sessionToSave });
-      sessionWithCode.accessCode = sessionAccessCode;
 
       sessionWithCodeAndName = new Session({ ...sessionToSave });
       sessionWithCodeAndName.certificationCenter = certificationCenterName;
@@ -72,31 +69,35 @@ describe('Unit | UseCase | create-session', () => {
       });
 
       context('and the user is PIX MASTER', () => {
+        let sessionWithCode;
 
         beforeEach(() => {
           const userPixMaster = domainBuilder.buildUser({ pixRoles: [domainBuilder.buildPixRole({ name: 'PIX_MASTER' })] });
           userRepository.get.withArgs(userId).resolves(userPixMaster);
+          sessionWithCode = new Session({
+            ...sessionToSave,
+            accessCode: sessionAccessCode,
+          });
         });
 
         context('and there is no certification ID given', () => {
 
-          it('should save the session without overriding the name of the certification center in the session', async () => {
-            // given
+          beforeEach(() => {
             sessionToSave.certificationCenterId = null;
-            sessionRepository.save.withArgs(sessionToSave).resolves();
-            sessionRepository.save.withArgs(sessionWithCodeAndName).rejects();
+            sessionWithCode.certificationCenterId = null;
+          });
 
+          it('should save the session without overriding the name of the certification center in the session', async () => {
             // when
             await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
 
             // then
-            expect(sessionRepository.save).to.have.been.calledWithExactly(sessionToSave);
+            expect(sessionRepository.save).to.have.been.calledWithExactly(sessionWithCode);
           });
 
           it('should return the saved session', async () => {
             // given
-            sessionToSave.certificationCenterId = null;
-            sessionRepository.save.withArgs(sessionToSave).resolves(expectedSavedSession);
+            sessionRepository.save.withArgs(sessionWithCode).resolves(expectedSavedSession);
 
             // when
             const savedSession = await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
@@ -112,8 +113,6 @@ describe('Unit | UseCase | create-session', () => {
           it('should add an accessCode and override the certification center name in the session in order to avoid inconsistencies, and save the session', async () => {
             // given
             certificationCenterRepository.get.resolves(certificationCenter);
-            sessionRepository.save.withArgs(sessionWithCode).rejects();
-            sessionRepository.save.withArgs(sessionWithCodeAndName).resolves();
 
             // when
             await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
