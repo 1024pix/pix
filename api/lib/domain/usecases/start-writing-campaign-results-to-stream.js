@@ -96,32 +96,6 @@ function createCsvHeader({ competences, areas, skillNames }, idPixLabel) {
   ]).flatMap().compact().value();
 }
 
-function _getValidatedSkillsForCompetence(competenceSkills, knowledgeElements) {
-  return _(knowledgeElements)
-    .filter('isValidated')
-    .filter(_knowledgeElementRelatedTo(competenceSkills))
-    .size();
-}
-
-function _knowledgeElementRelatedTo(skills) {
-  return (knowledgeElement) => _(skills).map('id').includes(knowledgeElement.skillId);
-}
-
-function enhanceTargetProfileCompetencesAndAreas(enhancedTargetProfile) {
-  return _.each(enhancedTargetProfile.competences, (competence) => {
-    const skillsForThisCompetence = enhancedTargetProfile.getSkillsInCompetence(competence);
-    const numberOfSkillsValidatedForThisCompetence = _getValidatedSkillsForCompetence(skillsForThisCompetence, enhancedTargetProfile.knowledgeElements);
-
-    competence.skillsForThisCompetence = enhancedTargetProfile.getSkillsInCompetence(competence);
-    competence.numberOfSkillsValidatedForThisCompetence = numberOfSkillsValidatedForThisCompetence;
-    competence.percentage = _.round(competence.numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
-
-    const areaForThisCompetence = enhancedTargetProfile.areas.find((area) => area.title === competence.area.title);
-    areaForThisCompetence.numberSkillsValidated += numberOfSkillsValidatedForThisCompetence;
-    areaForThisCompetence.numberSkillsTested = areaForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
-  });
-}
-  
 module.exports = async function startWritingCampaignResultsToStream({
   userId,
   campaignId,
@@ -168,20 +142,20 @@ module.exports = async function startWritingCampaignResultsToStream({
       knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt })
     ]);
 
-    campaignIndividualResult.enhancedTargetProfile.knowledgeElements = allKnowledgeElements.filter(_knowledgeElementRelatedTo(targetProfile.skills));
-    enhanceTargetProfileCompetencesAndAreas(campaignIndividualResult.enhancedTargetProfile);
+    if (!campaignParticipation.isShared) {
+      campaignIndividualResult.addIndividualStatistics({ assessment, campaignParticipation, allKnowledgeElements });
+      const rawData = campaignIndividualResult.getRawData();
+      const line = csvService.getCsvLine({ rawData, headers, headerPropertyMap: dynamicHeadersPropertyMap, placeholder: PLACEHOLDER });
+      return writableStream.write(line);
 
-    let line;
-    if (campaignParticipation.isShared) {
-      const rawData = _extractRawDataForSharedCampaign({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile: campaignIndividualResult.enhancedTargetProfile, allKnowledgeElements });
-      dynamicHeadersPropertyMap = _getDynamicHeadersPropertyMapForSharedCampaign(dynamicHeadersPropertyMap, campaignIndividualResult.enhancedTargetProfile);
-      line = csvService.getCsvLine({ rawData, headers, headerPropertyMap: dynamicHeadersPropertyMap, placeholder: PLACEHOLDER });
     } else {
-      const rawData = _extractRawData({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile: campaignIndividualResult.enhancedTargetProfile, allKnowledgeElements });
-      line = csvService.getCsvLine({ rawData, headers, headerPropertyMap: dynamicHeadersPropertyMap, placeholder: PLACEHOLDER });
+      campaignIndividualResult.addIndividualStatisticsWhenShared({ assessment, campaignParticipation, allKnowledgeElements });
+      const rawData = campaignIndividualResult.getRawData();
+      dynamicHeadersPropertyMap = _getDynamicHeadersPropertyMapForSharedCampaign(dynamicHeadersPropertyMap, campaignIndividualResult.enhancedTargetProfile);
+      const line = csvService.getCsvLine({ rawData, headers, headerPropertyMap: dynamicHeadersPropertyMap, placeholder: PLACEHOLDER });
+      return writableStream.write(line);
     }
 
-    writableStream.write(line);
   }).then(() => {
     writableStream.end();
   }).catch((error) => {
@@ -192,28 +166,6 @@ module.exports = async function startWritingCampaignResultsToStream({
   const fileName = `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
   return { fileName };
 };
-
-function _extractRawData({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile, allKnowledgeElements }) {
-  return {
-    organizationName: organization.name,
-    campaignId: campaign.id,
-    campaignName: campaign.name,
-    targetProfileName: enhancedTargetProfile.name,
-    userFirstName: user.firstName,
-    userLastName: user.lastName,
-    campaignLabel: campaignParticipation.participantExternalId,
-    progression: assessment.isCompleted ? 1 : enhancedTargetProfile.getProgression(allKnowledgeElements),
-    startedAt: moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
-    isShared: campaignParticipation.isShared ? 'Oui' : 'Non',
-  };
-}
-/* eslint-disable no-unused-vars */
-function _extractRawDataForSharedCampaign({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile, allKnowledgeElements }) {
-  const rawData = _extractRawData(...arguments);
-  rawData.sharedAt = moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD');
-  rawData.knowledgeElementsValidatedPercentage = enhancedTargetProfile.getKnowledgeElementsValidatedPercentage(enhancedTargetProfile.knowledgeElements);
-  return rawData;
-}
 
 function _getDynamicHeadersPropertyMapForSharedCampaign(dynamicHeadersPropertyMap, enhancedTargetProfile) {
   return [
