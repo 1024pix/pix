@@ -51,7 +51,6 @@
   right: -10px; /*XXX : right alignment, found no other way to achieve it;*/
   margin-right: 0;
   height: 17px;
-  font-family: $font-lato;
   font-size: 14px;
   border: none;
   background-color: transparent;
@@ -82,10 +81,9 @@
   display: flex;
   margin-left: 9px;
   max-width: 618.5px;
-  font-family: $font-lato;
+  font-family: $font-open-sans;
   font-size: 18px;
   font-weight: $font-heavy;
-  font-style: italic;
   color: $charcoal-grey;
 }
 
@@ -119,7 +117,7 @@
 }
 
 .comparison-windows__default-message-title {
-  font-family: $font-raleway;
+  font-family: $font-open-sans;
   font-size: 17px;
   text-align: center;
   color: $black;

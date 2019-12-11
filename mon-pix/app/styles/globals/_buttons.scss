@@ -1,7 +1,6 @@
 .button {
   padding: 14px 20px;
   font-size: 1.6rem;
-  font-family: $font-lato;
   font-weight: 500;
   letter-spacing: 0.019rem;
   text-align: center;
@@ -29,6 +28,7 @@
   &--uppercase {
     text-transform: uppercase;
     font-size: 1.3rem;
+    letter-spacing: 0.5px;
   }
 
   &--round {

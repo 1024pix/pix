@@ -1,5 +1,4 @@
 .user-certifications-detail-result {
-  font-family: $font-lato;
   background-color: $white;
   padding: 20px;
   display: flex;
@@ -39,7 +38,6 @@
     height: 1.75rem;
     width: 2.81rem;
     color: $tundora-grey;
-    font-family: $font-lato;
     font-size: 3rem;
     font-weight: bold;
     line-height: 2.06rem;
@@ -50,7 +48,6 @@
 
 .user-certifications-detail-result__pix-certified {
   color: $tundora-grey;
-  font-family: $font-lato;
   font-size: 2.5rem;
   font-weight: bold;
   line-height: 1.75rem;
@@ -77,7 +74,7 @@
 
 .user-certifications-detail-result__title-comment-jury {
   color: #7D808A;
-  font-family: $font-raleway;
+  font-family: $font-open-sans;
   font-size: 1.6rem;
   font-weight: 500;
   line-height: 2.6rem;
