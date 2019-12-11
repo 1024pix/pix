@@ -49,9 +49,11 @@ function headerPropertyMapForAreas({ areas }) {
 }
 
 function headerPropertyMapForSkills({ skills, knowledgeElements }) {
-  return _.flatMap(skills, (skill) => [
-    { headerName: skill.name, value: _stateOfSkill(skill.id, knowledgeElements) }
-  ]);
+  return _.flatMap(skills, (skill) => {
+    const knowledgeElementForSkill = _.find(knowledgeElements, { skillId: skill.id });
+    const value = !knowledgeElementForSkill ? 'Non testé' : knowledgeElementForSkill.isValidated ? 'OK' : 'KO';
+    return { headerName: skill.name, value };
+  });
 }
 
 async function _fetchUserIfHeHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
@@ -92,15 +94,6 @@ function createCsvHeader({ competences, areas, skillNames }, idPixLabel) {
     ]),
     _.map(skillNames, (skillName) => `${skillName}`),
   ]).flatMap().compact().value();
-}
-
-function _stateOfSkill(skillId, knowledgeElements) {
-  const knowledgeElementForSkill = _.find(knowledgeElements, { skillId });
-  if (knowledgeElementForSkill) {
-    return knowledgeElementForSkill.isValidated ? 'OK' : 'KO';
-  } else {
-    return 'Non testé';
-  }
 }
 
 function _getValidatedSkillsForCompetence(competenceSkills, knowledgeElements) {
