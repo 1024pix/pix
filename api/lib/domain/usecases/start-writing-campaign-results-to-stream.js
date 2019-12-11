@@ -132,7 +132,7 @@ module.exports = async function startWritingCampaignResultsToStream({
       .after('Prénom du Participant');
   }
 
-  const headers = createCsvHeader(campaignIndividualResult.enhancedTargetProfile, campaign.idPixLabel);
+  const headers = createCsvHeader(campaignIndividualResult.targeted, campaign.idPixLabel);
   writableStream.write(csvService.getHeaderLine(headers));
 
   bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
@@ -144,15 +144,13 @@ module.exports = async function startWritingCampaignResultsToStream({
 
     if (!campaignParticipation.isShared) {
       campaignIndividualResult.addIndividualStatistics({ assessment, campaignParticipation, allKnowledgeElements });
-      const rawData = campaignIndividualResult.getRawData();
-      const line = csvService.getCsvLine({ rawData, headers, headerPropertyMap: dynamicHeadersPropertyMap, placeholder: PLACEHOLDER });
+      const line = csvService.getCsvLine({ rawData: campaignIndividualResult, headers, headerPropertyMap: dynamicHeadersPropertyMap, placeholder: PLACEHOLDER });
       return writableStream.write(line);
 
     } else {
       campaignIndividualResult.addIndividualStatisticsWhenShared({ assessment, campaignParticipation, allKnowledgeElements });
-      const rawData = campaignIndividualResult.getRawData();
-      dynamicHeadersPropertyMap = _getDynamicHeadersPropertyMapForSharedCampaign(dynamicHeadersPropertyMap, campaignIndividualResult.enhancedTargetProfile);
-      const line = csvService.getCsvLine({ rawData, headers, headerPropertyMap: dynamicHeadersPropertyMap, placeholder: PLACEHOLDER });
+      dynamicHeadersPropertyMap = _getDynamicHeadersPropertyMapForSharedCampaign(dynamicHeadersPropertyMap, campaignIndividualResult.targeted);
+      const line = csvService.getCsvLine({ rawData: campaignIndividualResult, headers, headerPropertyMap: dynamicHeadersPropertyMap, placeholder: PLACEHOLDER });
       return writableStream.write(line);
     }
 
@@ -167,12 +165,12 @@ module.exports = async function startWritingCampaignResultsToStream({
   return { fileName };
 };
 
-function _getDynamicHeadersPropertyMapForSharedCampaign(dynamicHeadersPropertyMap, enhancedTargetProfile) {
+function _getDynamicHeadersPropertyMapForSharedCampaign(dynamicHeadersPropertyMap, targeted) {
   return [
     ...dynamicHeadersPropertyMap,
     ...headerPropertyMapForSharedCampaign,
-    ...headerPropertyMapForCompetences(enhancedTargetProfile),
-    ...headerPropertyMapForAreas(enhancedTargetProfile),
-    ...headerPropertyMapForSkills(enhancedTargetProfile),
+    ...headerPropertyMapForCompetences(targeted),
+    ...headerPropertyMapForAreas(targeted),
+    ...headerPropertyMapForSkills(targeted),
   ];
 }
