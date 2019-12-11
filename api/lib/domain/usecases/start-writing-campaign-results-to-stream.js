@@ -66,17 +66,8 @@ async function _fetchUserIfHeHasAccessToCampaignOrganization(userId, organizatio
   return user;
 }
 
-function createCsvHeader(enhancedTargetProfile, idPixLabel) {
-  return _.concat(
-    _getBaseHeaders(idPixLabel),
-    _getCompetencesHeaders(enhancedTargetProfile.competences),
-    _getAreasHeaders(enhancedTargetProfile.areas),
-    _getSkillsHeaders(enhancedTargetProfile.skillNames),
-  );
-}
-
-function _getBaseHeaders(idPixLabel) {
-  return _.compact([
+function createCsvHeader({ competences, areas, skillNames }, idPixLabel) {
+  return _([
     'Nom de l\'organisation',
     'ID Campagne',
     'Nom de la campagne',
@@ -89,41 +80,18 @@ function _getBaseHeaders(idPixLabel) {
     'Partage (O/N)',
     'Date du partage',
     '% maitrise de l\'ensemble des acquis du profil',
-  ]);
-}
-
-function _getCompetencesHeaders(competences) {
-  return _.flatMap(competences, _getCompetenceHeaders);
-}
-
-function _getCompetenceHeaders(competence) {
-  return [
-    `% de maitrise des acquis de la compétence ${competence.name}`,
-    `Nombre d'acquis du profil cible dans la compétence ${competence.name}`,
-    `Acquis maitrisés dans la compétence ${competence.name}`,
-  ];
-}
-
-function _getAreasHeaders(areas) {
-  return _.flatMap(areas, _getAreaHeaders);
-}
-
-function _getAreaHeaders(area) {
-  return [
-    `% de maitrise des acquis du domaine ${area.title}`,
-    `Nombre d'acquis du profil cible du domaine ${area.title}`,
-    `Acquis maitrisés du domaine ${area.title}`,
-  ];
-}
-
-function _getSkillsHeaders(skillNames) {
-  return _.flatMap(skillNames, _getSkillHeaders);
-}
-
-function _getSkillHeaders(skillName) {
-  return [
-    `${skillName}`,
-  ];
+    _.flatMap(competences, (competence) => [
+      `% de maitrise des acquis de la compétence ${competence.name}`,
+      `Nombre d'acquis du profil cible dans la compétence ${competence.name}`,
+      `Acquis maitrisés dans la compétence ${competence.name}`,
+    ]),
+    _.flatMap(areas, (area) => [
+      `% de maitrise des acquis du domaine ${area.title}`,
+      `Nombre d'acquis du profil cible du domaine ${area.title}`,
+      `Acquis maitrisés du domaine ${area.title}`,
+    ]),
+    _.map(skillNames, (skillName) => `${skillName}`),
+  ]).flatMap().compact().value();
 }
 
 function _stateOfSkill(skillId, knowledgeElements) {
