@@ -10,6 +10,7 @@ const certificationCandidateValidationJoiSchema_v1_1 = Joi.object({
   birthCity: Joi.string().required(),
   birthProvinceCode: Joi.string().required(),
   birthCountry: Joi.string().required(),
+  email: Joi.string().optional(),
   externalId: Joi.string().allow(null).optional(),
   birthdate: Joi.string().length(10).required(),
   createdAt: Joi.any().allow(null).optional(),
@@ -25,6 +26,7 @@ const certificationCandidateValidationJoiSchema_v1_2 = Joi.object({
   birthCity: Joi.string().required(),
   birthProvinceCode: Joi.string().required(),
   birthCountry: Joi.string().required(),
+  email: Joi.string().email().allow(null).optional(),
   externalId: Joi.string().allow(null).optional(),
   birthdate: Joi.string().length(10).required(),
   createdAt: Joi.any().allow(null).optional(),
@@ -40,6 +42,7 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
   birthCity: Joi.any().allow(null).optional(),
   birthProvinceCode: Joi.any().allow(null).optional(),
   birthCountry: Joi.any().allow(null).optional(),
+  email: Joi.any().allow(null).optional(),
   externalId: Joi.any().allow(null).optional(),
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required(),
   createdAt: Joi.any().allow(null).optional(),
@@ -58,6 +61,7 @@ class CertificationCandidate {
       birthCity,
       birthProvinceCode,
       birthCountry,
+      email,
       externalId,
       birthdate,
       createdAt,
@@ -74,6 +78,7 @@ class CertificationCandidate {
     this.birthCity = birthCity;
     this.birthProvinceCode = birthProvinceCode;
     this.birthCountry = birthCountry;
+    this.email = email;
     this.externalId = externalId;
     this.birthdate = birthdate;
     this.createdAt = createdAt;
