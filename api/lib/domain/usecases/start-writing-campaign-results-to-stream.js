@@ -23,6 +23,10 @@ const headerPropertyMap = [
   { headerName: 'Partage (O/N)', propertyName: 'isShared' },
 ];
 
+const headerPropertyMapIdPixLabel = (campaign) => {
+  return { headerName: campaign.idPixLabel, propertyName: 'campaignLabel' };
+};
+
 const headerPropertyMapForSharedCampaign = [
   { headerName: 'Date du partage', propertyName: 'sharedAt', type: csvService.valueTypes.NUMBER },
   { headerName: '% maitrise de l\'ensemble des acquis du profil', propertyName: 'knowledgeElementsValidatedPercentage', type: csvService.valueTypes.NUMBER },
@@ -200,12 +204,9 @@ module.exports = async function startWritingCampaignResultsToStream({
   let dynamicHeadersPropertyMap = _.cloneDeep(headerPropertyMap);
 
   if (campaign.idPixLabel) {
-    const item = {
-      headerName: campaign.idPixLabel,
-      propertyName: 'campaignLabel',
-      type: csvService.valueTypes.TEXT,
-    };
-    dynamicHeadersPropertyMap = csvService.insert(item).into(headerPropertyMap).after('Prénom du Participant');
+    dynamicHeadersPropertyMap = csvService.insert(headerPropertyMapIdPixLabel(campaign))
+      .into(dynamicHeadersPropertyMap)
+      .after('Prénom du Participant');
   }
 
   const headers = createCsvHeader(enhancedTargetProfile, campaign.idPixLabel);
