@@ -1,7 +1,9 @@
 const { knex } = require('../../../../api/db/knex-database-connection');
 const cucumber = require('cypress-cucumber-preprocessor').default;
 
-module.exports = (on) => {
+module.exports = (on, config) => {
+  config.env.AUTH_SECRET = process.env.AUTH_SECRET;
+
   on('file:preprocessor', cucumber());
   on('task', {
     async 'db:fixture' (data) {
@@ -14,5 +16,6 @@ module.exports = (on) => {
       return file;
     }
   });
+  return config;
 };
 
