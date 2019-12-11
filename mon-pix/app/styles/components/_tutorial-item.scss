@@ -13,7 +13,6 @@
 .tutorial-item__tutorial-details {
   display: flex;
   color: $raven-grey;
-  font-family: $font-lato;
   font-size: 1.3rem;
   line-height: 1.2rem;
   word-spacing: 0.3rem;
@@ -27,7 +26,7 @@
 
 .tutorial-item__tutorial-title {
   color: $pix-blue;
-  font-family: $font-lato;
+  font-family: $font-open-sans;
   font-size: 1.7rem;
   font-weight: bold;
   line-height: 1.7rem;

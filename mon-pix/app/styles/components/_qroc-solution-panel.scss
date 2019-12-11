@@ -4,14 +4,12 @@
 
 .correction-qroc-box-answer {
   height: 26px;
-  line-height: 26px;
+  line-height: 2.4rem;
   border-radius: 3px;
   background-color: $white;
   box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
   border: solid 1px $alto-grey;
   padding: 0 10px;
-
-  font-family: $font-lato;
   font-size: 1.6rem;
 
   &--paragraph {
@@ -38,7 +36,6 @@
     color: $charcoal-grey;
     font-style: italic;
   }
-
 }
 
 .correction-qroc-box__solution {
@@ -48,8 +45,7 @@
 }
 
 .correction-qroc-box__solution-text {
-  font-family: $font-lato;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: $font-bold;
   color: $caribbean-green;
   display: flex;

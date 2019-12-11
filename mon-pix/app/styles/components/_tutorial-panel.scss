@@ -30,14 +30,13 @@
 
 .tutorial-panel__tutorial-info {
   color: $raven-grey;
-  font-family: $font-lato;
   font-size: 1.3rem;
   line-height: 2rem;
   margin: -5px 5px 0;
 }
 
 .tutorial-panel__hint-title {
-  font-family: $font-raleway;
+  font-family: $font-open-sans;
   font-size: 2.2rem;
   text-align: center;
   color: $charcoal-grey;
@@ -70,7 +69,12 @@
 }
 
 .tutorial-panel__hint-content {
-  font-size: 20px;
+  font-size: 1.8rem;
+  font-family: $font-open-sans;
+
+  & p {
+    padding-top: 12px;
+  }
 }
 
 .tutorial-panel__hint-picto-container {

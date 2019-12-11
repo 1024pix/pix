@@ -39,7 +39,6 @@
   height: 48px;
   background-color: $mercury-grey;
   color: $charcoal-grey;
-  font-family: $font-lato;
   font-size: 14px;
   box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
   border: solid 1px $white;
@@ -70,7 +69,7 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .assessment-results__title {
   font-weight: $font-medium;
-  font-family: $font-raleway;
+  font-family: $font-open-sans;
   margin: 0 0 30px;
   text-transform: uppercase;
 }

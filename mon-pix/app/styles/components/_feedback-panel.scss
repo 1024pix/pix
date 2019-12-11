@@ -1,21 +1,18 @@
 .feedback-panel {
   color: $charcoal-grey;
   font-size: 1.5rem;
+  margin-top: -18px;
 }
 
 /* "Link" view
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-.feedback-panel__view--link {
-  margin-bottom: 10px;
-}
-
 .feedback-panel__open-link {
   cursor: pointer;
-  color: $dove-gray;
+  color: $dusty-grey;
   font-family: $font-roboto;
   font-weight: $font-medium;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   line-height: 20px;
 }
 
@@ -35,6 +32,8 @@
 
 .feedback-panel__form-description p {
   margin: 0;
+  font-size: 1.5rem;
+  font-family: $font-open-sans;
 }
 
 .feedback-panel__form-wrapper {
@@ -43,7 +42,6 @@
 
 .feedback-panel__form {
   width: 100%;
-  margin-bottom: 20px;
 }
 
 .feedback-panel__group {
@@ -131,7 +129,6 @@
 
 .feedback-panel__view--mercix {
   text-align: center;
-  font-family: $font-lato;
   font-size: 1.8rem;
   color: $charcoal-grey;
   padding-top: 20px;
