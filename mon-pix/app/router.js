@@ -15,7 +15,7 @@ const Router = EmberRouter.extend({
 });
 
 /* eslint-disable max-statements */
-export default Router.map(function() {
+Router.map(function() {
   this.route('index', { path: '/' });
   this.route('inscription');
   this.route('profile', { path: '/profil' });
@@ -64,3 +64,5 @@ export default Router.map(function() {
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
   this.route('not-found', { path: '/*path' });
 });
+
+export default Router;
