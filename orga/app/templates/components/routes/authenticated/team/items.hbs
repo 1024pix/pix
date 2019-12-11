@@ -24,11 +24,8 @@
                   options=organizationRoles
                   selected=selectedNewRole
                   searchEnabled=false
-                  class=selectClass
-                  dropdownClass=selectClass
                   onchange=(action "setRoleSelection")
-                  onclose=(action "verifyPresence")
-                  placeholder='Selectionner le rôle'
+                  placeholder=membership.displayRole
           as |organizationRole|}}
             {{organizationRole.label}}
           {{/power-select}}

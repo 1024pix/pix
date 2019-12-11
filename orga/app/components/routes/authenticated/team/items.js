@@ -54,10 +54,6 @@ export default Component.extend({
       return membership.save();
     },
 
-    verifyPresence: function() {
-      if (null === this.get('selectedNewRole')) return false;
-    },
-
     cancelUpdateRoleOfMember: function() {
       this.set('isEditionMode', false);
       this._clearState();
