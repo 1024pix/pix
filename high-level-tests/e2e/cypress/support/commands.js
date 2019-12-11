@@ -1,3 +1,5 @@
+const jsonwebtoken = require('jsonwebtoken');
+
 Cypress.Commands.add('login', (username, password) => {
   cy.server();
   cy.route('/api/users/me').as('getCurrentUser');
@@ -46,20 +48,15 @@ Cypress.Commands.add('loginAdmin', (username, password) => {
   cy.wait(['@getCurrentUser']);
 });
 
-Cypress.Commands.add('loginToken', (username, password) => {
+Cypress.Commands.add('loginExternalPlatform', () => {
   cy.server();
   cy.route('/api/users/me').as('getCurrentUser');
-  cy.request({
-    url: `${Cypress.env('API_URL')}/api/token`,
-    method: 'POST',
-    form: true,
-    body: {
-      username,
-      password,
-    }
-  }).then((response) => {
-    cy.visitMonPix(`/?token=${response.body.access_token}`)
-  });
+  const token = jsonwebtoken.sign(
+    { user_id: 1, source: 'external' },
+    Cypress.env('AUTH_SECRET'),
+    { expiresIn: '1h' }
+  );
+  cy.visitMonPix(`/?token=${token}`);
   cy.wait(['@getCurrentUser']);
 });
 
