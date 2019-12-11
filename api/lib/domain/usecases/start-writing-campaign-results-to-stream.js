@@ -1,7 +1,7 @@
+const CampaignIndividualResult = require('../models/CampaignIndividualResult');
 const moment = require('moment');
 const bluebird = require('bluebird');
 const csvService = require('../services/csv-service');
-const { assign: addProperties } = require('lodash/fp');
 const _ = require('lodash');
 
 const PLACEHOLDER = 'NA';
@@ -107,10 +107,6 @@ function _knowledgeElementRelatedTo(skills) {
   return (knowledgeElement) => _(skills).map('id').includes(knowledgeElement.skillId);
 }
 
-function _competenceRelatedTo(skillIds) {
-  return (competence) => skillIds.some((skillId) => competence.skills.includes(skillId));
-}
-
 function enhanceTargetProfileCompetencesAndAreas(enhancedTargetProfile) {
   return _.each(enhancedTargetProfile.competences, (competence) => {
     const skillsForThisCompetence = enhancedTargetProfile.getSkillsInCompetence(competence);
@@ -124,16 +120,6 @@ function enhanceTargetProfileCompetencesAndAreas(enhancedTargetProfile) {
     areaForThisCompetence.numberSkillsValidated += numberOfSkillsValidatedForThisCompetence;
     areaForThisCompetence.numberSkillsTested = areaForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
   });
-}
-
-function enhanceTargetProfile(targetProfile, competences) {
-  const enhancedTargetProfile = _.assign(targetProfile, {
-    skillNames: _.map(targetProfile.skills, 'name'),
-    skillIds: _.map(targetProfile.skills, 'id'),
-  });
-  enhancedTargetProfile.competences = competences.filter(_competenceRelatedTo(enhancedTargetProfile.skillIds));
-  enhancedTargetProfile.areas = _(enhancedTargetProfile.competences).map('area').map(addProperties({ numberSkillsValidated: 0, numberSkillsTested: 0 })).value();
-  return enhancedTargetProfile;
 }
   
 module.exports = async function startWritingCampaignResultsToStream({
@@ -160,7 +146,9 @@ module.exports = async function startWritingCampaignResultsToStream({
     campaignParticipationRepository.findByCampaignId(campaign.id),
   ]);
 
-  const enhancedTargetProfile = enhanceTargetProfile(targetProfile, competences);
+  const campaignIndividualResult = CampaignIndividualResult.buildFrom({
+    campaign, user, targetProfile, competences, organization,
+  });
   
   let dynamicHeadersPropertyMap = _.cloneDeep(headerPropertyMap);
 
@@ -170,7 +158,7 @@ module.exports = async function startWritingCampaignResultsToStream({
       .after('Prénom du Participant');
   }
 
-  const headers = createCsvHeader(enhancedTargetProfile, campaign.idPixLabel);
+  const headers = createCsvHeader(campaignIndividualResult.enhancedTargetProfile, campaign.idPixLabel);
   writableStream.write(csvService.getHeaderLine(headers));
 
   bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
@@ -180,16 +168,16 @@ module.exports = async function startWritingCampaignResultsToStream({
       knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt })
     ]);
 
-    enhancedTargetProfile.knowledgeElements = allKnowledgeElements.filter(_knowledgeElementRelatedTo(targetProfile.skills));
-    enhanceTargetProfileCompetencesAndAreas(enhancedTargetProfile);
+    campaignIndividualResult.enhancedTargetProfile.knowledgeElements = allKnowledgeElements.filter(_knowledgeElementRelatedTo(targetProfile.skills));
+    enhanceTargetProfileCompetencesAndAreas(campaignIndividualResult.enhancedTargetProfile);
 
     let line;
     if (campaignParticipation.isShared) {
-      const rawData = _extractRawDataForSharedCampaign({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile, allKnowledgeElements });
-      dynamicHeadersPropertyMap = _getDynamicHeadersPropertyMapForSharedCampaign(dynamicHeadersPropertyMap, enhancedTargetProfile);
+      const rawData = _extractRawDataForSharedCampaign({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile: campaignIndividualResult.enhancedTargetProfile, allKnowledgeElements });
+      dynamicHeadersPropertyMap = _getDynamicHeadersPropertyMapForSharedCampaign(dynamicHeadersPropertyMap, campaignIndividualResult.enhancedTargetProfile);
       line = csvService.getCsvLine({ rawData, headers, headerPropertyMap: dynamicHeadersPropertyMap, placeholder: PLACEHOLDER });
     } else {
-      const rawData = _extractRawData({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile, allKnowledgeElements });
+      const rawData = _extractRawData({ user, organization, assessment, campaign, campaignParticipation, enhancedTargetProfile: campaignIndividualResult.enhancedTargetProfile, allKnowledgeElements });
       line = csvService.getCsvLine({ rawData, headers, headerPropertyMap: dynamicHeadersPropertyMap, placeholder: PLACEHOLDER });
     }
 
