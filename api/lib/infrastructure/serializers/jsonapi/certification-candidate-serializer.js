@@ -20,6 +20,7 @@ module.exports = {
         'birthProvinceCode',
         'birthCity',
         'birthCountry',
+        'email',
         'externalId',
         'extraTimePercentage',
         'isLinked',

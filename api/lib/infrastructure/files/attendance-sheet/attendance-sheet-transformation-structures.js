@@ -138,6 +138,11 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_2 = [
     property: 'birthCountry',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
+  {
+    header: 'Adresse email',
+    property: 'email',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
 ];
 
 const _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_2 = [

@@ -56,6 +56,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
           'birth-city': certificationCandidate.birthCity,
           'birth-province-code': certificationCandidate.birthProvinceCode,
           'birth-country': certificationCandidate.birthCountry,
+          'email': certificationCandidate.email,
           'external-id': certificationCandidate.externalId,
           'extra-time-percentage': certificationCandidate.extraTimePercentage,
           'is-linked': true,
