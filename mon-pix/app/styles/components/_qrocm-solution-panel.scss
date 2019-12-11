@@ -7,7 +7,7 @@
   }
 
   &__answer {
-    line-height: 26px;
+    line-height: 2.6rem;
     border-radius: 3px;
     background-color: $white;
     box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
@@ -49,7 +49,7 @@
     &-text {
       font-weight: $font-bold;
       color: $caribbean-green;
-      font-size: 16px;
+      font-size: 1.6rem;
       margin-left: 3px;
       padding-bottom: 1px;
     }
