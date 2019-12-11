@@ -2,7 +2,9 @@ const moment = require('moment');
 const csvService = require('../csv-service');
 const _ = require('lodash');
 
-function createCsvHeader({ competences, areas, skillNames }, idPixLabel) {
+const CAMPAIGN_CSV_PLACEHOLDER = 'NA';
+
+function createCsvHeader(campaign, { competences, areas, skillNames }) {
   return _([
     'Nom de l\'organisation',
     'ID Campagne',
@@ -10,7 +12,7 @@ function createCsvHeader({ competences, areas, skillNames }, idPixLabel) {
     'Nom du Profil Cible',
     'Nom du Participant',
     'Prénom du Participant',
-    idPixLabel ? idPixLabel : null,
+    campaign.idPixLabel ? campaign.idPixLabel : null,
     '% de progression',
     'Date de début',
     'Partage (O/N)',
@@ -30,9 +32,7 @@ function createCsvHeader({ competences, areas, skillNames }, idPixLabel) {
   ]).flatMap().compact().value();
 }
 
-const CAMPAIGN_CSV_PLACEHOLDER = 'NA';
-
-const headerPropertyMap = [
+const _headerPropertyMap = [
   { headerName: 'Nom de l\'organisation', propertyName: 'organizationName' },
   { headerName: 'ID Campagne', propertyName: 'campaignId', type: csvService.valueTypes.NUMBER },
   { headerName: 'Nom de la campagne', propertyName: 'campaignName' },
@@ -44,66 +44,61 @@ const headerPropertyMap = [
   { headerName: 'Partage (O/N)', propertyName: 'isShared' },
 ];
 
-const headerPropertyMapIdPixLabel = (campaign) => {
-  return { headerName: campaign.idPixLabel, propertyName: 'campaignLabel' };
-};
-
-const headerPropertyMapForSharedCampaign = [
-  { headerName: 'Date du partage', propertyName: 'sharedAt', type: csvService.valueTypes.NUMBER },
-  { headerName: '% maitrise de l\'ensemble des acquis du profil', propertyName: 'knowledgeElementsValidatedPercentage', type: csvService.valueTypes.NUMBER },
-];
-
-function headerPropertyMapForCompetences({ competences }) {
-  return _.flatMap(competences, (competence) => [
-    { headerName: `% de maitrise des acquis de la compétence ${competence.name}`, value: competence.percentage, type: csvService.valueTypes.NUMBER },
-    { headerName: `Nombre d'acquis du profil cible dans la compétence ${competence.name}`, value: competence.skillsForThisCompetence.length, type: csvService.valueTypes.NUMBER },
-    { headerName: `Acquis maitrisés dans la compétence ${competence.name}`, value: competence.numberOfSkillsValidatedForThisCompetence, type: csvService.valueTypes.NUMBER },
-  ]);
-}
-
-function headerPropertyMapForAreas({ areas }) {
-  return _.flatMap(areas, (area) => [
-    { headerName: `% de maitrise des acquis du domaine ${area.title}`, value:_.round(area.numberSkillsValidated / area.numberSkillsTested, 2), type: csvService.valueTypes.NUMBER },
-    { headerName: `Nombre d'acquis du profil cible du domaine ${area.title}`, value: area.numberSkillsTested, type: csvService.valueTypes.NUMBER },
-    { headerName: `Acquis maitrisés du domaine ${area.title}`, value: area.numberSkillsValidated, type: csvService.valueTypes.NUMBER },
-  ]);
-}
-
-function headerPropertyMapForSkills({ skills, knowledgeElements }) {
-  return _.flatMap(skills, (skill) => {
-    const knowledgeElementForSkill = _.find(knowledgeElements, { skillId: skill.id });
-    const value = !knowledgeElementForSkill ? 'Non testé' : knowledgeElementForSkill.isValidated ? 'OK' : 'KO';
-    return { headerName: skill.name, value };
-  });
-}
-
-function getHeadersPropertyMap(campaign) {
-  let dynamicHeadersPropertyMap =  _.cloneDeep(headerPropertyMap);
+function getHeaderPropertyMap(campaign) {
+  let dynamicHeadersPropertyMap =  _.cloneDeep(_headerPropertyMap);
   if (campaign.idPixLabel) {
-    dynamicHeadersPropertyMap = csvService.insert(headerPropertyMapIdPixLabel(campaign))
+    const headerMapItem = { headerName: campaign.idPixLabel, propertyName: 'campaignLabel' };
+    dynamicHeadersPropertyMap = _insert(headerMapItem)
       .into(dynamicHeadersPropertyMap)
       .after('Prénom du Participant');
   }
   return dynamicHeadersPropertyMap;
 }
 
-function getHeadersPropertyMapWhenShared(campaign, targeted) {
-  return [
-    ...getHeadersPropertyMap(campaign),
-    ...headerPropertyMapForSharedCampaign,
-    ...headerPropertyMapForCompetences(targeted),
-    ...headerPropertyMapForAreas(targeted),
-    ...headerPropertyMapForSkills(targeted),
-  ];
+function getHeaderPropertyMapWhenShared(campaign, { competences, areas, skills, knowledgeElements }) {
+  return _.flatMap([
+    getHeaderPropertyMap(campaign),
+    { headerName: 'Date du partage', propertyName: 'sharedAt', type: csvService.valueTypes.NUMBER },
+    { headerName: '% maitrise de l\'ensemble des acquis du profil', propertyName: 'knowledgeElementsValidatedPercentage', type: csvService.valueTypes.NUMBER },
+    _.flatMap(competences, (competence) => [
+      { headerName: `% de maitrise des acquis de la compétence ${competence.name}`, value: competence.percentage, type: csvService.valueTypes.NUMBER },
+      { headerName: `Nombre d'acquis du profil cible dans la compétence ${competence.name}`, value: competence.skillsForThisCompetence.length, type: csvService.valueTypes.NUMBER },
+      { headerName: `Acquis maitrisés dans la compétence ${competence.name}`, value: competence.numberOfSkillsValidatedForThisCompetence, type: csvService.valueTypes.NUMBER },
+    ]),
+    _.flatMap(areas, (area) => [
+      { headerName: `% de maitrise des acquis du domaine ${area.title}`, value:_.round(area.numberSkillsValidated / area.numberSkillsTested, 2), type: csvService.valueTypes.NUMBER },
+      { headerName: `Nombre d'acquis du profil cible du domaine ${area.title}`, value: area.numberSkillsTested, type: csvService.valueTypes.NUMBER },
+      { headerName: `Acquis maitrisés du domaine ${area.title}`, value: area.numberSkillsValidated, type: csvService.valueTypes.NUMBER },
+    ]),
+    _.flatMap(skills, (skill) => {
+      const knowledgeElementForSkill = _.find(knowledgeElements, { skillId: skill.id });
+      const value = !knowledgeElementForSkill ? 'Non testé' : knowledgeElementForSkill.isValidated ? 'OK' : 'KO';
+      return { headerName: skill.name, value };
+    })
+  ]);
 }
 
 const fileName = (campaign) =>  `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
 
+const _insert = (item) => {
+  return {
+    into: (array) => {
+      return {
+        after: (header) => {
+          const idx = _.findIndex(array, { headerName: header });
+          const firstSlice = _.slice(array, 0, idx + 1);
+          const secondSlice = _.slice(array, idx + 1);
+          return _.concat(firstSlice, item, secondSlice);
+        }
+      };
+    }
+  };
+};
+
 module.exports = {
   CAMPAIGN_CSV_PLACEHOLDER,
   fileName,
-  headerPropertyMap,
-  getHeadersPropertyMap,
-  getHeadersPropertyMapWhenShared,
+  getHeaderPropertyMap,
+  getHeaderPropertyMapWhenShared,
   createCsvHeader,
 };

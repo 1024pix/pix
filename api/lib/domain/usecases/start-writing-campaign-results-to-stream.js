@@ -7,8 +7,8 @@ const {
   CAMPAIGN_CSV_PLACEHOLDER: placeholder,
   fileName,
   createCsvHeader,
-  getHeadersPropertyMap,
-  getHeadersPropertyMapWhenShared,
+  getHeaderPropertyMap,
+  getHeaderPropertyMapWhenShared,
 } = require('../services/campaigns/campaign-csv-result-service');
 
 const {
@@ -56,7 +56,7 @@ module.exports = async function startWritingCampaignResultsToStream({
     campaign, user, targetProfile, competences, organization,
   });
 
-  const headers = createCsvHeader(campaignIndividualResult.targeted, campaign.idPixLabel);
+  const headers = createCsvHeader(campaign, campaignIndividualResult.targeted);
   writableStream.write(csvService.getHeaderLine(headers));
 
   bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
@@ -70,7 +70,7 @@ module.exports = async function startWritingCampaignResultsToStream({
       campaignIndividualResult.addIndividualStatistics({ assessment, campaignParticipation, allKnowledgeElements });
       line = csvService.getCsvLine({
         rawData: campaignIndividualResult,
-        headerPropertyMap: getHeadersPropertyMap(campaign),
+        headerPropertyMap: getHeaderPropertyMap(campaign),
         placeholder,
         headers,
       });
@@ -79,7 +79,7 @@ module.exports = async function startWritingCampaignResultsToStream({
       campaignIndividualResult.addIndividualStatisticsWhenShared({ assessment, campaignParticipation, allKnowledgeElements });
       line = csvService.getCsvLine({
         rawData: campaignIndividualResult,
-        headerPropertyMap: getHeadersPropertyMapWhenShared(campaign, campaignIndividualResult.targeted),
+        headerPropertyMap: getHeaderPropertyMapWhenShared(campaign, campaignIndividualResult.targeted),
         placeholder,
         headers,
       });

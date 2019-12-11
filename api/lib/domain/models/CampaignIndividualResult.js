@@ -55,7 +55,6 @@ class CampaignIndividualResult {
     // Represents all the competences, areas and skills that were targeted by this campaign
     const targeted = _rescopeTargetProfile(targetProfile, competences);
 
-    // return object
     return new CampaignIndividualResult({
       organizationName: organization.name,
       campaignId: campaign.id,
