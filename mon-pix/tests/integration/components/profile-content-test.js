@@ -59,7 +59,7 @@ describe('Integration | Component | Profile-content', function() {
     context('When user is on tablet/desktop ', function() {
       it('should be rendered in tablet/desktop mode with big cards', async function() {
         // when
-        setBreakpointForIntegrationTest(this, 'desktop');
+        setBreakpointForIntegrationTest(this, 'tablet');
         this.set('model', model);
         this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
         await render(hbs`{{profile-content model=model media=media}}`);
