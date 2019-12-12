@@ -20,6 +20,7 @@
 
 {{#if isEditionMode }}
     <td>
+        <div id="selectOrganizationRole">
           {{#power-select
                   options=organizationRoles
                   selected=selectedNewRole
@@ -29,6 +30,7 @@
           as |organizationRole|}}
             {{organizationRole.label}}
           {{/power-select}}
+        </div>
     </td>
     <td>
             <div class="zone-save-cancel-role">
