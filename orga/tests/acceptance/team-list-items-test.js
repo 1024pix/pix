@@ -3,7 +3,7 @@ import { currentURL, visit, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserMembershipWithRole, createAdminMembershipWithNbMembers } from '../helpers/test-init';
-
+import { selectChoose } from 'ember-power-select/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Accept | Team List | Items', function(hooks) {
@@ -111,7 +111,7 @@ module('Accept | Team List | Items', function(hooks) {
       });
     });
 
-    module('When admin click on update role for a membership with member role', function(hooks) {
+    module('When admin change the role then click on update member role', function(hooks) {
 
       hooks.beforeEach(async () => {
         user = createAdminMembershipWithNbMembers(2);
@@ -124,7 +124,7 @@ module('Accept | Team List | Items', function(hooks) {
         });
       });
 
-      test('it should save the value and hide the save button, and show the edit role', async function(assert) {
+      test('it should change the value of the drop down to Membre and save with the new value', async function(assert) {
         // when
         await visit('/equipe');
 
@@ -140,17 +140,90 @@ module('Accept | Team List | Items', function(hooks) {
         assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Selectionner le rôle');
         assert.dom('#table-members tbody tr:last-child td:nth-child(4)').hasText('Enregistrer');
 
+        await selectChoose('#selectOrganizationRole', 'Membre');
+
+        assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Membre');
+
         await click('#save-organization-role');
 
         assert.dom('#table-members tbody tr td').exists({ count: 8 });
         assert.dom('.zone-edit-role').exists({ count: 1 });
         assert.dom('#edit-organization-role').exists({ count: 1 });
 
+        assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Membre');
         assert.dom('#table-members tbody tr:last-child td:nth-child(4)').hasText('Modifier le rôle');
 
         assert.dom('.zone-save-cancel-role').doesNotExist();
         assert.dom('#save-organization-role').doesNotExist();
         assert.dom('#cancel-update-organization-role').doesNotExist();
+
+      });
+
+      test('it should change the value to Administrateur and save with the new value', async function(assert) {
+        // when
+        await visit('/equipe');
+
+        await click('#edit-organization-role');
+
+        // then
+        assert.equal(currentURL(), '/equipe');
+        assert.dom('#table-members tbody tr').exists({ count: 2 });
+
+        assert.dom('#table-members tbody tr:first-child td:nth-child(3)').hasText('Administrateur');
+        assert.dom('#table-members tbody tr:first-child td:nth-child(4)').hasText('');
+
+        assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Selectionner le rôle');
+        assert.dom('#table-members tbody tr:last-child td:nth-child(4)').hasText('Enregistrer');
+
+        await selectChoose('#selectOrganizationRole', 'Administrateur');
+
+        assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Administrateur');
+
+        await click('#save-organization-role');
+
+        assert.dom('#table-members tbody tr td').exists({ count: 8 });
+        assert.dom('.zone-edit-role').exists({ count: 1 });
+        assert.dom('#edit-organization-role').exists({ count: 1 });
+
+        assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Administrateur');
+        assert.dom('#table-members tbody tr:last-child td:nth-child(4)').hasText('Modifier le rôle');
+
+        assert.dom('.zone-save-cancel-role').doesNotExist();
+        assert.dom('#save-organization-role').doesNotExist();
+        assert.dom('#cancel-update-organization-role').doesNotExist();
+
+      });
+
+      test('it should cancel the update if the admin click on the cancel button', async function(assert) {
+        // when
+        await visit('/equipe');
+
+        await click('#edit-organization-role');
+
+        // then
+        assert.equal(currentURL(), '/equipe');
+        assert.dom('#table-members tbody tr').exists({ count: 2 });
+
+        assert.dom('#table-members tbody tr:first-child td:nth-child(3)').hasText('Administrateur');
+        assert.dom('#table-members tbody tr:first-child td:nth-child(4)').hasText('');
+
+        assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Selectionner le rôle');
+        assert.dom('#table-members tbody tr:last-child td:nth-child(4)').hasText('Enregistrer');
+
+        await selectChoose('#selectOrganizationRole', 'Membre');
+
+        await click('#cancel-update-organization-role');
+
+        assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Administrateur');
+
+        assert.dom('#table-members tbody tr td').exists({ count: 8 });
+        assert.dom('.zone-edit-role').exists({ count: 1 });
+        assert.dom('#edit-organization-role').exists({ count: 1 });
+        assert.dom('#table-members tbody tr:last-child td:nth-child(4)').hasText('Modifier le rôle');
+        assert.dom('.zone-save-cancel-role').doesNotExist();
+        assert.dom('#save-organization-role').doesNotExist();
+        assert.dom('#cancel-update-organization-role').doesNotExist();
+
       });
     });
   });
