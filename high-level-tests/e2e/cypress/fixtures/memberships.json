@@ -3,5 +3,9 @@
     "userId": 1,
     "organizationId": 1,
     "organizationRole": "ADMIN"
+  }, {
+    "userId": 3 ,
+    "organizationId": 2,
+    "organizationRole": "ADMIN"
   }
 ]

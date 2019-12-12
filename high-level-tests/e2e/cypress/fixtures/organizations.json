@@ -4,5 +4,10 @@
     "type": "PRO",
     "name": "Dragon & Co",
     "code": "ICEFIR"
+  }, {
+    "id": 2,
+    "type": "SCO",
+    "name": "The Night Watch",
+    "isManagingStudents": true
   }
 ]
