@@ -23,6 +23,7 @@ module.exports = function(environment) {
       // when it is created
       API_HOST: process.env.API_HOST || '',
       HOME_HOST: process.env.HOME_HOST || 'https://pix.fr',
+      apiVersionHeader: 'x-api-version',
       isChallengeTimerEnable: true,
       MESSAGE_DISPLAY_DURATION: 1500,
       isMobileSimulationEnabled: false,
