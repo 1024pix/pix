@@ -48,9 +48,9 @@ module.exports = {
       .then((student) => bookshelfToDomainConverter.buildDomainObject(BookshelfStudent, student));
   },
 
-  getByUserId({ userId }) {
+  findOneByUserIdAndOrganizationId({ userId, organizationId }) {
     return BookshelfStudent
-      .where({ userId })
+      .where({ userId, organizationId })
       .fetch()
       .then((student) => bookshelfToDomainConverter.buildDomainObject(BookshelfStudent, student));
   }

@@ -10,7 +10,6 @@
 }
 
 .modal-mobile .modal-body {
-  font-family: $font-lato;
   font-size: 22px;
   font-weight: $font-light;
   text-align: center;
@@ -56,7 +55,6 @@
 
 .modal-mobile__dismiss-link {
   cursor: pointer;
-  font-family: $font-lato;
   color: $charcoal-grey;
   font-weight: $font-bold;
   margin-top: 38px;
@@ -65,4 +63,3 @@
   text-decoration: underline;
 
 }
-

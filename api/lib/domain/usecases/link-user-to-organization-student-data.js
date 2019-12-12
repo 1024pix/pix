@@ -1,31 +1,30 @@
-const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
+const { CampaignCodeError, NotFoundError } = require('../../domain/errors');
 
 module.exports = async function linkUserToOrganizationStudentData({
   campaignCode,
-  user,
+  user: { id: userId, firstName, lastName, birthdate },
   campaignRepository,
   studentRepository,
   userReconciliationService,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
-  const organizationId = campaign.organizationId;
+  if (!campaign || !campaign.organizationId) {
+    throw new CampaignCodeError();
+  }
+  const students = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
+    organizationId: campaign.organizationId,
+    birthdate,
+  });
 
-  if (user.id === null) {
-    throw new UserNotAuthorizedToAccessEntity('User is not part of the organization student list');
+  if (students.length === 0) {
+    throw new NotFoundError('There were no students matching');
   }
 
-  const studentsNotLinkedYetWithMatchingBirthdateAndOrganizationId = await studentRepository
-    .findNotLinkedYetByOrganizationIdAndUserBirthdate({ organizationId, birthdate: user.birthdate });
+  const studentId = userReconciliationService.findMatchingCandidateIdForGivenUser(students, { firstName, lastName });
 
-  if (studentsNotLinkedYetWithMatchingBirthdateAndOrganizationId.length === 0) {
-    throw new NotFoundError('Not found only 1 student');
+  if (!studentId) {
+    throw new NotFoundError('There were not exactly one student match for this user and organization');
   }
 
-  const matchingStudentId = userReconciliationService.findMatchingCandidateIdForGivenUser(studentsNotLinkedYetWithMatchingBirthdateAndOrganizationId, user);
-
-  if (matchingStudentId === null) {
-    throw new NotFoundError('Not found only 1 student');
-  }
-
-  return studentRepository.associateUserAndStudent({ userId: user.id, studentId: matchingStudentId });
+  return studentRepository.associateUserAndStudent({ userId, studentId });
 };

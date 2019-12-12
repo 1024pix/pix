@@ -28,7 +28,15 @@ export default Service.extend({
     const data = _buildSessionExportFileData(session);
     const fileHeaders = _buildSessionExportFileHeaders();
     const csv = json2csv.parse(data, { fields: fileHeaders, delimiter: ';', withBOM: true });
-    const fileName = 'resultats_session_' + session.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
+    const sessionDateTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
+    const { day, month, year, hour, minute } = {
+      day: sessionDateTime.format('DD'),
+      month: sessionDateTime.format('MM'),
+      year: sessionDateTime.format('YYYY'),
+      hour: sessionDateTime.format('HH'),
+      minute: sessionDateTime.format('mm'),
+    };
+    const fileName = `${year}${month}${day}_${hour}${minute}_resultats_session_${session.id}.csv`;
     this.fileSaver.saveAs(csv + '\n', fileName);
   },
 

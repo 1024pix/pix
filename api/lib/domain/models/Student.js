@@ -17,10 +17,9 @@ class Student {
     status,
     nationalStudentId,
     division,
-    // includes
-    organization,
     // references
     userId,
+    organizationId,
   } = {}) {
     this.id = id;
     // attributes
@@ -38,10 +37,9 @@ class Student {
     this.status = status;
     this.nationalStudentId = nationalStudentId;
     this.division = division;
-    // includes
-    this.organization = organization;
     // references
     this.userId = userId;
+    this.organizationId = organizationId;
   }
 }
 

@@ -36,6 +36,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.fill-in-id-pix-form__section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   @include device-is('tablet') {
     display: block;
@@ -44,7 +50,6 @@
 
 .fill-in-id-pix__form label {
   display: block;
-  font-family: $font-lato;
   font-weight: $font-bold;
 }
 

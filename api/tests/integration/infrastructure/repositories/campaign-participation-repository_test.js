@@ -252,6 +252,54 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
+  describe('#findOneByCampaignIdAndUserId', () => {
+
+    let userId;
+    let campaignId;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser().id;
+      const otherUserId = databaseBuilder.factory.buildUser().id;
+
+      campaignId = databaseBuilder.factory.buildCampaign().id;
+      const otherCampaignId = databaseBuilder.factory.buildCampaign().id;
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        userId: otherUserId,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: otherCampaignId,
+        userId,
+      });
+      await databaseBuilder.commit();
+    });
+
+    it('should return the campaign participation found', async () => {
+      // given
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        userId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
+
+      // then
+      expect(response).to.be.instanceOf(CampaignParticipation);
+      expect(response.id).to.deep.equal(campaignParticipation.id);
+    });
+
+    it('should return no campaign participation', async () => {
+      // when
+      const response = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
+
+      // then
+      expect(response).to.equal(null);
+    });
+  });
+
   describe('#findOneByAssessmentIdWithSkillIds', () => {
 
     const assessmentId = 12345;

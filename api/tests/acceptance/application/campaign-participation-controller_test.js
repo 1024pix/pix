@@ -564,23 +564,32 @@ describe('Acceptance | API | Campaign Participations', () => {
       expect(response.result.data.id).to.exist;
     });
 
-    it('should return 404 error if the campaign related to the participation does not exist', () => {
+    it('should return 404 error if the campaign related to the participation does not exist', async () => {
       // given
       options.payload.data.relationships.campaign.data.id = null;
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(404);
-      });
-
+      expect(response.statusCode).to.equal(404);
     });
 
+    it('should return 421 error if the user has already participated to the campaign', async () => {
+      // given
+      options.payload.data.relationships.campaign.data.id = campaignId;
+      databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, campaignId });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(421);
+    });
   });
 
-  describe('PATH /api/campaign-participations/{id}/begin-improvement', () => {
+  describe('PATCH /api/campaign-participations/{id}/begin-improvement', () => {
     let user, campaignParticipation;
     beforeEach(async () => {
       user = databaseBuilder.factory.buildUser();
@@ -651,6 +660,26 @@ describe('Acceptance | API | Campaign Participations', () => {
         return promise.then((response) => {
           expect(response.statusCode).to.equal(403);
         });
+      });
+    });
+
+    context('when user is connected but has already shared his results so he/she cannot improve it', () => {
+      beforeEach(async () => {
+        const sharedCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, isShared: true });
+        await databaseBuilder.commit();
+        options = {
+          method: 'PATCH',
+          url: `/api/campaign-participations/${sharedCampaignParticipation.id}/begin-improvement`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        };
+      });
+
+      it('should return 421 HTTP status code', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(421);
       });
     });
   });

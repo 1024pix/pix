@@ -1,13 +1,13 @@
 const usecases = require('../../domain/usecases');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
+const studentSerializer = require('../../infrastructure/serializers/jsonapi/student-serializer');
 
 module.exports = {
 
   async associate(request, h) {
     const payload = request.payload.data.attributes;
-    const userId = requestResponseUtils.extractUserIdFromRequest(request);
+    const authenticatedUserId = request.auth.credentials.userId;
     const user = {
-      id: userId,
+      id: authenticatedUserId,
       firstName: payload['first-name'],
       lastName: payload['last-name'],
       birthdate: payload['birthdate'],
@@ -15,5 +15,14 @@ module.exports = {
 
     await usecases.linkUserToOrganizationStudentData({ campaignCode: payload['campaign-code'], user });
     return h.response().code(204);
+  },
+
+  findAssociation(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+    const requestedUserId = parseInt(request.query.userId);
+    const campaignCode = request.query.campaignCode;
+
+    return usecases.findAssociationBetweenUserAndOrganizationStudent({ authenticatedUserId, requestedUserId, campaignCode })
+      .then(studentSerializer.serialize);
   }
 };

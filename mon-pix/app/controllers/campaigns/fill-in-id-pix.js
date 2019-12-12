@@ -3,7 +3,7 @@ import Controller from '@ember/controller';
 export default Controller.extend({
 
   participantExternalId: null,
-  loading: false,
+  isLoading: false,
   errorMessage: null,
 
   actions: {
@@ -14,7 +14,7 @@ export default Controller.extend({
       const participantExternalId = this.participantExternalId;
 
       if (participantExternalId) {
-        this.set('loading', true);
+        this.set('isLoading', true);
         return this.start(this.model, participantExternalId);
       } else {
         return this.set('errorMessage', `Merci de renseigner votre ${this.get('model.idPixLabel')}.`);
@@ -23,7 +23,7 @@ export default Controller.extend({
 
     cancel() {
       this.set('errorMessage', null);
-      
+
       return this.transitionToRoute('campaigns.campaign-landing-page', this.model.code);
     },
   }

@@ -1,39 +1,46 @@
 .logged-user-details {
   width: 220px;
-  margin-top: 0px;
   position: relative;
 }
 
 .logged-user-name__link {
   text-decoration: none;
-  color: $charcoal-grey;
+  color: $dove-gray;
   cursor: pointer;
 
-  &:hover,
   &:visited,
   &:focus,
   &:active {
     text-decoration: none;
-    color: $charcoal-grey;
+    color: $dove-gray;
+  }
+
+  &:hover {
+    text-decoration: none;
+    color: $dogder-blue;
+
+    > .caret {
+      border-color: $dogder-blue transparent transparent transparent;
+    }
   }
 }
 
 .logged-user-name {
-  font-family: $font-lato;
-  font-size: 14px;
-  font-weight: $font-bold;
-  letter-spacing: 0.5px;
+  word-break: break-all;
+  font-family: $font-roboto;
+  font-size: 1.6rem;
+  letter-spacing: 0.05rem;
   text-align: right;
-  color: $charcoal-grey;
+  color: $dove-gray;
   text-transform: capitalize;
   max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   @include device-is('tablet') {
     max-width: none;
   }
-}
-
-.index-page-hero__navbar-header .logged-user-name__link {
-  color: $white;
 }
 
 .caret {
@@ -41,11 +48,7 @@
   height: 0;
   border-style: solid;
   border-width: 4px 4px 0 4px;
-  border-color: $charcoal-grey transparent transparent transparent;
-}
-
-.index-page-hero__navbar-header .caret {
-  border-color: $white transparent transparent transparent;
+  border-color: $dove-gray transparent transparent transparent;
 }
 
 .logged-user-menu {
@@ -53,77 +56,53 @@
   right: 0;
   top: 30px;
   z-index: 999;
-}
-
-.logged-user-menu__list {
-  margin: 0px;
-  padding: 0px;
-  width: 290px;
   background-color: $white;
-  box-shadow: 0 4px 7px 0 rgba(0, 0, 0, 0.3);
+  max-width: 380px;
+  min-width: 240px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 1px 0 rgba(60, 64, 67, 0.08), 0 1px 3px 1px rgba(60, 64, 67, 0.16);
 }
 
-.logged-user-menu__item {
-  margin: 2px auto;
-  width: 288px;
-  list-style: none;
-  padding-left: 10px;
+.logged-user-menu__details {
+  color: $charcoal-grey;
+  background-color: $porcelain-grey;
+  padding: 12px 16px;
+  border-bottom: 1px solid $mercury-grey;
+}
 
-  @include device-is('tablet') {
-    padding-left: 26px;
+.logged-user-menu-details__fullname {
+  font-size: 1.6rem;
+  font-weight: $font-bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.logged-user-menu-details__email {
+  font-size: 1.3rem;
+  color: $dove-gray;
+}
+
+.logged-user-menu__link {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  padding: 12px 16px;
+  color: $charcoal-grey;
+  transition: background-color 0.1s linear;
+
+  &:hover {
+    text-decoration: none;
+    color: $charcoal-grey;
+    background-color: $porcelain-grey;
   }
 }
 
-.user-menu-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: $porcelain-grey;
+.logged-user-menu__icon {
+  margin-right: 8px;
 }
 
-.user-menu-item__details-firstname {
-  display:flex;
-  font-family: $font-lato;
-  font-size: 18px;
-  letter-spacing: 1px;
-  color: $charcoal-grey;
-  text-transform: capitalize;
-  margin-top: 10px;
-}
-
-.user-menu-item__details-email {
-  display:flex;
-  font-family: $font-lato;
-  letter-spacing: 0.3px;
-  color: $slate-grey;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.user-menu-item__link {
-  background-color: white;
-  font-size: 13px;
-  line-height: 16px;
-  height: 35px;
-}
-.user-menu-item__link--first {
-  margin-top:25px;
-}
-
-.user-menu-item__link a{
-  color: $dove-gray;
-  font-family: $font-lato;
-  font-size: 13px;
-}
-
-
-.user-menu-item__logout {
-  display: flex;
-  align-items: center;
-  height: 65px;
-}
-
-.logout__button {
-  height: 36px;
-  width: 150px;
+.logged-user-menu__link--last {
+  border-top: 1px solid $mercury-grey;
 }

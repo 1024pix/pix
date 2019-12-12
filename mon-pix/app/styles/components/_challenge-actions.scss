@@ -30,6 +30,9 @@
   @include button-background-transition();
   border-radius: 23px;
   border: 1px solid $slate-grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: $silver-grey;
@@ -42,8 +45,7 @@
 
 .challenge-actions__action-skip-text {
   text-align: center;
-  line-height: 46px;
-  font-family: $font-lato;
+  flex-grow: 1;
   font-size: 16px;
   font-weight: $font-semi-bold;
   color: $slate-grey;
@@ -75,6 +77,9 @@
   border-radius: 23px;
   background-color: $mountain-meadow;
   color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   @include button-background-transition();
   text-decoration: none;
   &:hover{
@@ -92,8 +97,7 @@
 
 .challenge-actions__action-validate-text {
   width: 76px;
-  line-height: 46px;
-  font-family: $font-lato, sans-serif;
+  flex-grow: 1;
   font-size: 16px;
   font-weight: $font-semi-bold;
   text-transform: uppercase;

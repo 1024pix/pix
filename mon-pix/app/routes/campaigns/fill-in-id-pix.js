@@ -11,7 +11,7 @@ export default Route.extend({
 
   deactivate() {
     this.controller.set('participantExternalId', null);
-    this.controller.set('loading', false);
+    this.controller.set('isLoading', false);
   },
 
   async beforeModel(transition) {
@@ -49,14 +49,14 @@ export default Route.extend({
   start(campaign, participantExternalId = null) {
     return this.store.createRecord('campaign-participation', { campaign, participantExternalId })
       .save()
-      .catch((err) => {
-        if (_.get(err, 'errors[0].status') === 403) {
-          return this.session.invalidate();
-        }
-        return this.send('error');
-      })
       .then(() => {
         return this.transitionTo('campaigns.start-or-resume', campaign.code);
+      }, (err) => {
+        if (_.get(err, 'errors[0].status') === 403) {
+          this.session.invalidate();
+          return this.transitionTo('campaigns.start-or-resume', campaign.code);
+        }
+        return this.send('error', err, this.transitionTo('campaigns.start-or-resume', campaign.code));
       });
   },
 }, AuthenticatedRouteMixin);

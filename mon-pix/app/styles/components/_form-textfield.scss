@@ -4,16 +4,16 @@
 }
 
 .form-textfield__label {
-  font-family: $font-lato;
   font-size: 1.5rem;
-  letter-spacing: 0.2px;
-  font-weight: bold;
+  font-weight: $font-medium;
   color: $charcoal-grey;
+  letter-spacing: 0.05rem;
 }
 
 .form-textfield__help {
   text-transform: none;
   font-weight: normal;
+  letter-spacing: normal;
 }
 
 .form-textfield__message {
@@ -140,4 +140,3 @@
     }
   }
 }
-

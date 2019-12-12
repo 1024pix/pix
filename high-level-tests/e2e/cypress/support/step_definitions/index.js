@@ -25,7 +25,7 @@ given('j\'accède à mon profil', () => {
 });
 
 given('je suis connecté à Pix en tant que {string}', (user) => {
-  if(user === 'John Snow') {
+  if (user === 'John Snow') {
     cy.login('john.snow@pix.fr', 'pix123');
   } else {
     cy.login('daenerys.targaryen@pix.fr', 'pix123');
