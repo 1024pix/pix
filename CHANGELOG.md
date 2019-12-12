@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.94.0 (12/12/2019)
+
+- [#903](https://github.com/1024pix/pix/pull/903) [FEATURE] Modification du nom de fichier de résultats de la session dans PixAdmin (PA-130)
+- [#819](https://github.com/1024pix/pix/pull/819) [FEATURE] Empêcher les élèves réconciliés d'accéder à une campagne d'une autre organisation (PF-905).
+- [#906](https://github.com/1024pix/pix/pull/906) [BUGFIX] Aligner les règles css sur tablettes avec celles sur desktop (PF-978).
+- [#897](https://github.com/1024pix/pix/pull/897) [BUGFIX] Empêcher l'erreur d'unicité des CampaignParticipation d'arriver jusqu'en base de données (PO-299). 
+- [#797](https://github.com/1024pix/pix/pull/797) [TECH] Corrections de design (PF-896).
+- [#825](https://github.com/1024pix/pix/pull/825) [TECH] Ajuster le design du menu de mon-pix (PF-925)
+
 ## v2.93.0 (09/12/2019)
 
 - [#895](https://github.com/1024pix/pix/pull/895) [FEATURE] Affichage du commentaire global de la session dans la page de détails de session dans PixAdmin (PA-121)
