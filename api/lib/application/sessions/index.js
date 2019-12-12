@@ -25,6 +25,11 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/sessions/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
         pre: [{
           method: sessionAuthorization.verify,
           assign: 'authorizationCheck'
@@ -62,6 +67,11 @@ exports.register = async (server) => {
       method: 'PUT',
       path: '/api/sessions/{id}/finalization',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
         pre: [{
           method: sessionAuthorization.verify,
           assign: 'authorizationCheck'
@@ -78,6 +88,11 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/sessions/{id}/certification-candidates/import',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
         payload: {
           allow: 'multipart/form-data',
           maxBytes: 1048576 * 10, // 10MB
@@ -111,6 +126,11 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/sessions/{id}/certification-candidates',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
         pre: [{
           method: sessionAuthorization.verify,
           assign: 'authorizationCheck'

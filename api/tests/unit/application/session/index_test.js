@@ -16,6 +16,7 @@ describe('Unit | Application | Sessions | Routes', () => {
   });
 
   describe('GET /api/sessions/{id}', () => {
+    let sessionId;
 
     beforeEach(() => {
       sinon.stub(sessionAuthorization, 'verify').returns(null);
@@ -24,8 +25,22 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'GET', url: '/api/sessions/{id}' });
+      // given
+      sessionId = 3;
+
+      const res = await server.inject({ method: 'GET', url: `/api/sessions/${sessionId}` });
       expect(res.statusCode).to.equal(200);
+    });
+
+    context('when session ID params is not a number', () => {
+
+      it('should return 400', async () => {
+        // given
+        sessionId = 'salut';
+
+        const res = await server.inject({ method: 'GET', url: `/api/sessions/${sessionId}` });
+        expect(res.statusCode).to.equal(400);
+      });
     });
   });
 
@@ -71,6 +86,7 @@ describe('Unit | Application | Sessions | Routes', () => {
   });
 
   describe('POST /api/sessions/{id}/certification-candidates/import', () => {
+    let sessionId;
 
     const testFilePath = `${__dirname}/testFile_temp.ods`;
     let options;
@@ -84,7 +100,6 @@ describe('Unit | Application | Sessions | Routes', () => {
       const payload = await streamToPromise(form);
       options = {
         method: 'POST',
-        url: '/api/sessions/{id}/certification-candidates/import',
         headers: form.getHeaders(),
         payload,
       };
@@ -97,6 +112,10 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
 
     it('should exist', async () => {
+      // given
+      sessionId = 3;
+      options.url = `/api/sessions/${sessionId}/certification-candidates/import`;
+
       // when
       const res = await server.inject(options);
 
@@ -104,9 +123,25 @@ describe('Unit | Application | Sessions | Routes', () => {
       expect(res.statusCode).to.equal(200);
     });
 
+    context('when session ID params is not a number', () => {
+
+      it('should return 400', async () => {
+        // given
+        sessionId = 'salut';
+        options.url = `/api/sessions/${sessionId}/certification-candidates/import`;
+
+        // when
+        const res = await server.inject(options);
+
+        // then
+        expect(res.statusCode).to.equal(400);
+      });
+    });
+
   });
 
   describe('GET /api/sessions/{id}/certification-candidates', () => {
+    let sessionId;
 
     beforeEach(() => {
       sinon.stub(sessionAuthorization, 'verify').returns(null);
@@ -115,8 +150,22 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'GET', url: '/api/sessions/{id}/certification-candidates' });
+      //given
+      sessionId = 3;
+
+      const res = await server.inject({ method: 'GET', url: `/api/sessions/${sessionId}/certification-candidates` });
       expect(res.statusCode).to.equal(200);
+    });
+
+    context('when session ID params is not a number', () => {
+
+      it('should return 400', async () => {
+        // given
+        sessionId = 'salut';
+
+        const res = await server.inject({ method: 'GET', url: `/api/sessions/${sessionId}/certification-candidates` });
+        expect(res.statusCode).to.equal(400);
+      });
     });
   });
 
@@ -148,6 +197,8 @@ describe('Unit | Application | Sessions | Routes', () => {
   });
 
   describe('PUT /api/sessions/{id}/finalization', () => {
+    let sessionId;
+
     beforeEach(() => {
       sinon.stub(sessionAuthorization, 'verify').returns(null);
       sinon.stub(sessionController, 'finalize').returns('ok');
@@ -155,8 +206,22 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'PUT', url: '/api/sessions/{id}/finalization' });
+      // given
+      sessionId = 3;
+
+      const res = await server.inject({ method: 'PUT', url: `/api/sessions/${sessionId}/finalization` });
       expect(res.statusCode).to.equal(200);
+    });
+
+    context('when session ID params is not a number', () => {
+
+      it('should return 400', async () => {
+        // given
+        sessionId = 'salut';
+
+        const res = await server.inject({ method: 'PUT', url: `/api/sessions/${sessionId}/finalization` });
+        expect(res.statusCode).to.equal(400);
+      });
     });
   });
 });
