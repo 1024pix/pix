@@ -36,12 +36,12 @@ Router.map(function() {
   this.route('board');
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
+
   this.route('certifications', function() {
     this.route('start', { path: '/' });
     this.route('resume', { path: '/:certification_course_id' });
     this.route('results', { path: '/:certification_number/results' });
   });
-
   this.route('user-certifications', { path: 'mes-certifications' }, function() {
     this.route('get', { path: '/:id' });
   });
