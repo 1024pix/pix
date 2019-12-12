@@ -116,9 +116,16 @@
 .competence-card__score-value {
   min-height: 44px;
   font-size: 3.5rem;
+
+  &--congrats {
+    color: $white;
+    font-weight: $font-bold;
+  }
 }
 
 .competence-card__congrats {
+  width: 120px;
+  height: 120px;
   background: url('/images/scorecard-congrats.svg') no-repeat center center;
   background-size: contain;
 
@@ -133,7 +140,6 @@
   }
 }
 
-.competence-card__score-value--congrats {
+.competence-card__score-label--congrats {
   color: $white;
-  font-weight: $font-bold;
 }
