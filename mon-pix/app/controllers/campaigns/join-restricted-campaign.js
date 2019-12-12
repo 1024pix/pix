@@ -3,12 +3,20 @@ import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 const ERROR_INPUT_MESSAGE_MAP = {
+  firstName: 'Votre prénom n’est pas renseigné.',
+  lastName: 'Votre nom n’est pas renseigné.',
   dayOfBirth: 'Votre jour de naissance n’est pas valide.',
   monthOfBirth: 'Votre mois de naissance n’est pas valide.',
   yearOfBirth: 'Votre année de naissance n’est pas valide.',
 };
 
 const validation = {
+  firstName: {
+    message: null
+  },
+  lastName: {
+    message: null
+  },
   dayOfBirth: {
     message: null
   },
@@ -29,12 +37,14 @@ function _pad(num, size) {
 const isDayValid = (value) => value > 0 && value <= 31;
 const isMonthValid = (value) => value > 0 && value <= 12;
 const isYearValid = (value) => value > 999 && value <= 9999;
+const isStringValid = (value) => !!value.trim();
 
 export default Controller.extend({
   queryParams: ['participantExternalId'],
   participantExternalId: null,
 
   store: service(),
+  session: service(),
 
   firstName: '',
   lastName: '',
@@ -47,8 +57,13 @@ export default Controller.extend({
     return [this.yearOfBirth, monthOfBirth, dayOfBirth].join('-');
   }),
 
-  isFormNotValid: computed('yearOfBirth', 'monthOfBirth', 'dayOfBirth', function() {
-    return !isDayValid(this.dayOfBirth) || !isMonthValid(this.monthOfBirth) || !isYearValid(this.yearOfBirth);
+  isFormNotValid: computed('firstName', 'lastName', 'yearOfBirth', 'monthOfBirth', 'dayOfBirth', function() {
+    return !isStringValid(this.firstName) || !isStringValid(this.lastName)
+    || !isDayValid(this.dayOfBirth) || !isMonthValid(this.monthOfBirth) || !isYearValid(this.yearOfBirth);
+  }),
+
+  isDisabled: computed('session.data.authenticated.source', function() {
+    return this.session.data.authenticated.source === 'external';
   }),
 
   isLoading: false,
@@ -63,6 +78,8 @@ export default Controller.extend({
     attemptNext() {
       this.set('errorMessage', null);
       this.set('isLoading', true);
+      this._validateInputName('firstName', this.firstName);
+      this._validateInputName('lastName', this.lastName);
       this._validateInputDay('dayOfBirth', this.dayOfBirth);
       this._validateInputMonth('monthOfBirth', this.monthOfBirth);
       this._validateInputYear('yearOfBirth', this.yearOfBirth);
@@ -96,6 +113,10 @@ export default Controller.extend({
       });
     },
 
+    triggerInputStringValidation(key, value) {
+      this._validateInputName(key, value);
+    },
+
     triggerInputDayValidation(key, value) {
       this._padNumberInInput('dayOfBirth', value);
       this._validateInputDay(key, value);
@@ -116,6 +137,10 @@ export default Controller.extend({
     const message = isInvalidInput ? ERROR_INPUT_MESSAGE_MAP[key] : null;
     const messageObject = 'validation.' + key + '.message';
     return this.set(messageObject, message);
+  },
+
+  _validateInputName(key, value) {
+    this._executeFieldValidation(key, value, isStringValid);
   },
 
   _validateInputDay(key, value) {

@@ -1,7 +1,7 @@
 import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsSimpleUser, startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/testing';
+import { authenticateAsSimpleUser, authenticateAsSimpleExternalUser, startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -93,6 +93,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               await click('.button');
 
               // when
+              await fillIn('#firstName', 'Jane');
+              await fillIn('#lastName', 'Acme');
               await fillIn('#dayOfBirth', '10');
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
@@ -248,6 +250,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               await click('#pix-cgu');
               await click('.button');
 
+              await fillIn('#firstName', 'Jane');
+              await fillIn('#lastName', 'Acme');
               await fillIn('#dayOfBirth', '10');
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
@@ -342,13 +346,13 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
             expect(find('.join-restricted-campaign')).to.exist;
           });
 
-          it('should set by default firstName and lastName', async function() {
+          it('should not set any field by default', async function() {
             // when
             await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
 
             //then
-            expect(find('#firstName').value).to.equal('Jane');
-            expect(find('#lastName').value).to.equal('Doe');
+            expect(find('#firstName').value).to.equal('');
+            expect(find('#lastName').value).to.equal('');
           });
 
           it('should redirect to landing page when fields are filled in', async function() {
@@ -356,6 +360,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
             await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
 
             // when
+            await fillIn('#firstName', 'Robert');
+            await fillIn('#lastName', 'Smith');
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
@@ -369,6 +375,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           it('should redirect to fill-in-id-pix page', async function() {
             // given
             await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+            await fillIn('#firstName', 'Robert');
+            await fillIn('#lastName', 'Smith');
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
@@ -384,6 +392,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           it('should redirect to tutoriel page', async function() {
             // given
             await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+            await fillIn('#firstName', 'Robert');
+            await fillIn('#lastName', 'Smith');
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
@@ -583,5 +593,58 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
     });
 
+    context('When user is logged in with an external platform', function() {
+      beforeEach(async function() {
+        await authenticateAsSimpleExternalUser();
+      });
+
+      context('When campaign is restricted', function() {
+        const campaignCode = 'AZERTY4';
+
+        context('When association is not already done', function() {
+
+          it('should set by default firstName and lastName', async function() {
+            // when
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+
+            //then
+            expect(find('#firstName').value).to.equal('JaneExternal');
+            expect(find('#lastName').value).to.equal('Doe');
+          });
+
+          it('should redirect to landing page when fields are filled in', async function() {
+            // given
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+
+            // when
+            await fillIn('#dayOfBirth', '10');
+            await fillIn('#monthOfBirth', '12');
+            await fillIn('#yearOfBirth', '2000');
+
+            await click('.button');
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
+          });
+        });
+
+        context('When association is already done', function() {
+
+          beforeEach(async function() {
+            server.create('student', {
+              userId: 3,
+            });
+          });
+
+          it('should redirect to landing page', async function() {
+            // when
+            await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
+          });
+        });
+      });
+    });
   });
 });
