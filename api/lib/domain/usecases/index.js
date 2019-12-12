@@ -39,6 +39,7 @@ const dependencies = {
   settings: require('../../config'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
   smartPlacementAssessmentRepository: require('../../infrastructure/repositories/smart-placement-assessment-repository'),
+  sessionAuthorizationService: require('../../domain/services/session-authorization-service'),
   sessionRepository: require('../../infrastructure/repositories/session-repository'),
   snapshotsCsvConverter: require('../../infrastructure/converter/snapshots-csv-converter'),
   snapshotRepository: require('../../infrastructure/repositories/snapshot-repository'),
