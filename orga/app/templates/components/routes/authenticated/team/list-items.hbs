@@ -33,16 +33,13 @@
           <th>Nom</th>
           <th>Prénom</th>
           <th>Rôle</th>
+          <th></th>
         </tr>
       </thead>
       {{#if memberships}}
         <tbody>
           {{#each memberships as |membership|}}
-            <tr>
-              <td>{{membership.user.lastName}}</td>
-              <td>{{membership.user.firstName}}</td>
-              <td>{{membership.displayRole}}</td>
-            </tr>
+            {{routes/authenticated/team/items membership=membership}}
           {{/each}}
         </tbody>
       {{/if}}
