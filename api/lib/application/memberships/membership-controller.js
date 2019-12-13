@@ -1,4 +1,3 @@
-const logger = require('../../infrastructure/logger');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const usecases = require('../../domain/usecases');
 
@@ -17,8 +16,6 @@ module.exports = {
   update(request, h) {
     const membershipId = request.params.id;
     const { 'organization-role': organizationRole } = request.payload.data.attributes;
-
-    logger.debug('update membership for id %s with role %s', membershipId, organizationRole);
 
     return usecases.updateMembershipRole({ membershipId, organizationRole })
       .then((membership) => {
