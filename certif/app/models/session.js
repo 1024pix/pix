@@ -17,6 +17,7 @@ export default DS.Model.extend({
   session: service(),
   status: DS.attr(),
   isFinalized: equal('status', 'finalized'),
+  examinerComment: DS.attr(),
 
   urlToDownload: computed('id', function() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.get('id')}/attendance-sheet?accessToken=${this.get('session.data.authenticated.access_token')}`;
@@ -26,8 +27,8 @@ export default DS.Model.extend({
     return `${ENV.APP.API_HOST}/api/sessions/${this.get('id')}/certification-candidates/import`;
   }),
 
-  finalize(data) {
-    return this.store.adapterFor('session').finalize(this, data);
+  finalize() {
+    return this.store.adapterFor('session').finalize(this);
   },
 
 });
