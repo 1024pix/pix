@@ -79,39 +79,6 @@
   }
 }
 
-.alert-zone {
-  display: inline-flex;
-  align-items: center;
-  height: 44px;
-  border-radius: 4px;
-  margin-bottom: 40px;
-  padding-right: 10px;
-  color: $white;
-
-  &--error {
-    background-color: $vermilion;
-  }
-
-  &--warning {
-    background-color: $amber;
-  }
-
-  &--success {
-    background-color: $mountain-meadow;
-  }
-
-  &__message {
-    font-family: $open-sans;
-    font-size: 1rem;
-    font-weight: 700;
-    margin-left: 10px;
-  }
-
-  &__icon {
-    padding-left: 10px;
-  }
-}
-
 .alert-input {
   position: relative;
   text-align: right;
