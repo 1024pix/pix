@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
   let result;
   const userId = 'dummyUserId';
   const sessionId = 'dummySessionId';
-  const sessionRepository = { getWithCertificationCandidates: _.noop, ensureUserHasAccessToSession: _.noop };
+  const sessionRepository = { getWithCertificationCandidates: _.noop, doesUserHaveCertificationCenterMembershipForSession: _.noop };
 
   const sessionWithCandidates = {
     id: 1,
@@ -104,7 +104,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
 
     context('user has access to the session', () => {
       beforeEach(async () => {
-        sinon.stub(sessionRepository, 'ensureUserHasAccessToSession').resolves();
+        sinon.stub(sessionRepository, 'doesUserHaveCertificationCenterMembershipForSession').resolves(true);
         result = await getAttendanceSheet({ userId, sessionId, sessionRepository });
       });
       // then
@@ -130,7 +130,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
 
     context('user does not have access to the session', () => {
       beforeEach(async () => {
-        sinon.stub(sessionRepository, 'ensureUserHasAccessToSession').rejects(new UserNotAuthorizedToAccessEntity());
+        sinon.stub(sessionRepository, 'doesUserHaveCertificationCenterMembershipForSession').resolves(false);
         try {
           result = await getAttendanceSheet({ userId, sessionId, sessionRepository });
         } catch (err) {

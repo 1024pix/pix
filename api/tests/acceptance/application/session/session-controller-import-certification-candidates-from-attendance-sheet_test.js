@@ -13,7 +13,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
   });
 
   describe('POST /api/sessions/{id}/certification-candidates/import', () => {
-    let user, sessionIdAllowed, sessionIdNotAllowed;
+    let user, sessionIdAllowed;
 
     beforeEach(async () => {
       // given
@@ -26,7 +26,6 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
       databaseBuilder.factory.buildCertificationCenterMembership({ userId: otherUserId, certificationCenterId: otherCertificationCenterId });
 
       sessionIdAllowed = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
-      sessionIdNotAllowed = databaseBuilder.factory.buildSession({ certificationCenterId: otherCertificationCenterId });
 
       await databaseBuilder.commit();
     });
@@ -169,39 +168,6 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
 
         // then
         expect(response.statusCode).to.equal(400);
-      });
-
-    });
-
-    context('The user can\'t access the session', () => {
-
-      const odsFileName = 'files/import-certification-candidates-test-ok.ods';
-      const odsFilePath = `${__dirname}/${odsFileName}`;
-      let options;
-
-      beforeEach(async () => {
-        // given
-        const form = new FormData();
-        form.append('file', fs.createReadStream(odsFilePath), { knownLength: fs.statSync(odsFilePath).size });
-        const payload = await streamToPromise(form);
-        const authHeader = generateValidRequestAuthorizationHeader(user.id);
-        const token = authHeader.replace('Bearer ', '');
-        const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
-        options = {
-          method: 'POST',
-          url: `/api/sessions/${sessionIdNotAllowed}/certification-candidates/import`,
-          headers,
-          payload,
-        };
-
-      });
-
-      it('should respond with a 403 when user cant access the session', async () => {
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(403);
       });
 
     });
