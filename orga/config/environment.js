@@ -49,6 +49,12 @@ module.exports = function(environment) {
     matomo: {
       url: 'https://stats.pix.fr/js/container_jKDD76j4.js',
     },
+
+    'ember-cli-notifications': {
+      autoClear: true,
+      clearDuration: 5000,
+      includeFontAwesome: true,
+    },
   };
 
   if (environment === 'development') {
@@ -74,6 +80,11 @@ module.exports = function(environment) {
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
+
+    ENV['ember-cli-notifications'] = {
+      autoClear: null,
+      clearDuration: null,
+    };
   }
 
   if (environment === 'production') {
