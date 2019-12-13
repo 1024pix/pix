@@ -1,22 +1,12 @@
 @charset "utf-8";
 
-// Voir la documentation pour surcharger le css https://ember-power-select.com/docs/styles
-$ember-power-select-line-height: 2 !default;
-$ember-power-select-border-color: #dddddd !default;
-$ember-power-select-trigger-icon-color: #666666 !default;
-$ember-power-select-focus-outline: 0 !default;
-
-$ember-power-select-highlighted-color: #666666 !default;
-$ember-power-select-highlighted-background: #666666 !default;
-$ember-power-select-selected-background: #f2f3f4 !default;
-$ember-power-select-focus-border-color: #666666 !default;
-
+@import "globals/colors";
+@import "globals/ember-power-select-custom";
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
 @import "ember-power-select";
 @import 'ember-power-select/themes/bootstrap';
 @import "globals/breakpoints";
-@import "globals/colors";
 @import "globals/fonts";
 @import "globals/buttons";
 @import "globals/errors";
@@ -56,6 +46,7 @@ $ember-power-select-focus-border-color: #666666 !default;
 @import "pages/authenticated/terms-of-service";
 @import "pages/authenticated/students";
 @import "pages/authenticated/students/list";
+
 
 body, html {
   margin: 0;
