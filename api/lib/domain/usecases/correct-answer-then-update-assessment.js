@@ -22,26 +22,14 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     smartPlacementAssessmentRepository,
     knowledgeElementRepository,
   } = {}) {
-  let scorecardBeforeAnswer;
-  const answersFind = await answerRepository.findByChallengeAndAssessment({
-    assessmentId: answer.assessmentId,
-    challengeId: answer.challengeId,
-  });
-
   const assessment = await assessmentRepository.get(answer.assessmentId);
-
   if (assessment.userId !== userId) {
     throw new ForbiddenAccess('User is not allowed to add an answer for this assessment.');
   }
 
-  if (answersFind) {
-    throw new ChallengeAlreadyAnsweredError();
-  }
-
   const challenge = await challengeRepository.get(answer.challengeId);
-
   const correctedAnswer = evaluateAnswer(challenge, answer);
-
+  let scorecardBeforeAnswer;
   if (correctedAnswer.result.isOK() && (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement())) {
     scorecardBeforeAnswer = await scorecardService.computeScorecard({
       userId,
@@ -51,6 +39,14 @@ module.exports = async function correctAnswerThenUpdateAssessment(
       knowledgeElementRepository,
       blockReachablePixAndLevel: true,
     });
+  }
+
+  const answersFind = await answerRepository.findByChallengeAndAssessment({
+    assessmentId: answer.assessmentId,
+    challengeId: answer.challengeId,
+  });
+  if (answersFind) {
+    throw new ChallengeAlreadyAnsweredError();
   }
 
   const answerSaved = await answerRepository.save(correctedAnswer);
