@@ -55,6 +55,13 @@
     height: inherit;
     justify-content: flex-end;
     padding-right: 25px;
+
+}
+
+.button-edit-role {
+  &>svg {
+    padding-right: 14.5px;
+  }
 }
 
 .zone-save-cancel-role {
