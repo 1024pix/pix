@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-number';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'Votre prénom n’est pas renseigné.',
@@ -28,12 +29,6 @@ const validation = {
   }
 };
 
-function _pad(num, size) {
-  let s = parseInt(num) + '';
-  while (s.length < size) s = '0' + s;
-  return s;
-}
-
 const isDayValid = (value) => value > 0 && value <= 31;
 const isMonthValid = (value) => value > 0 && value <= 12;
 const isYearValid = (value) => value > 999 && value <= 9999;
@@ -52,9 +47,10 @@ export default Controller.extend({
   monthOfBirth: '',
   yearOfBirth: '',
   birthdate: computed('yearOfBirth', 'monthOfBirth', 'dayOfBirth', function() {
-    const monthOfBirth = _pad(this.monthOfBirth.trim(), 2);
-    const dayOfBirth = _pad(this.dayOfBirth.trim(), 2);
-    return [this.yearOfBirth.trim(), monthOfBirth, dayOfBirth].join('-');
+    const dayOfBirth = standardizeNumberInTwoDigitFormat(this.dayOfBirth.trim());
+    const monthOfBirth = standardizeNumberInTwoDigitFormat(this.monthOfBirth.trim());
+    const yearOfBirth = this.yearOfBirth.trim();
+    return [yearOfBirth, monthOfBirth, dayOfBirth].join('-');
   }),
 
   isFormNotValid: computed('firstName', 'lastName', 'yearOfBirth', 'monthOfBirth', 'dayOfBirth', function() {
@@ -119,13 +115,13 @@ export default Controller.extend({
 
     triggerInputDayValidation(key, value) {
       value = value.trim();
-      this._padNumberInInput('dayOfBirth', value);
+      this._standardizeNumberInInput('dayOfBirth', value);
       this._validateInputDay(key, value);
     },
 
     triggerInputMonthValidation(key, value) {
       value = value.trim();
-      this._padNumberInInput('monthOfBirth', value);
+      this._standardizeNumberInInput('monthOfBirth', value);
       this._validateInputMonth(key, value);
     },
 
@@ -159,9 +155,9 @@ export default Controller.extend({
     this._executeFieldValidation(key, value, isYearValid);
   },
 
-  _padNumberInInput(attribute, value) {
+  _standardizeNumberInInput(attribute, value) {
     if (value) {
-      this.set(attribute, _pad(value, 2));
+      this.set(attribute, standardizeNumberInTwoDigitFormat(value));
     }
   }
 });
