@@ -27,7 +27,12 @@ module('Acceptance | Student List', function(hooks) {
     });
   });
 
-  module('When user is logged in', function() {
+  module('When user is logged in', function(hooks) {
+
+    hooks.afterEach(function() {
+      const notificationMessagesService = this.owner.lookup('service:notification-messages');
+      notificationMessagesService.clearAll();
+    });
 
     module('When organization is not managing students or is not SCO', function(hooks) {
 
@@ -123,9 +128,8 @@ module('Acceptance | Student List', function(hooks) {
           await triggerEvent(input, 'change', { files: [file] });
 
           // then
-          assert.dom('.alert-zone--success').exists();
-          assert.dom('.fa-check-circle').exists();
-          assert.dom('.alert-zone--success').hasText('La liste a été importée avec succès.');
+          assert.dom('[data-test-notification-message="success"]').exists();
+          assert.dom('[data-test-notification-message="success"]').hasText('La liste a été importée avec succès.');
           assert.dom('.table tbody tr').exists({ count: 1 });
           assert.dom('.table tbody tr td:first-child').hasText('Cover');
           assert.dom('.table tbody tr td:nth-child(2)').hasText('Harry');
@@ -142,9 +146,8 @@ module('Acceptance | Student List', function(hooks) {
           await triggerEvent(input, 'change', { files: [file] });
 
           // then
-          assert.dom('.alert-zone--error').exists();
-          assert.dom('.fa-exclamation-triangle').exists();
-          assert.dom('.alert-zone--error').hasText('422 - Le détail affiché est envoyé par le back');
+          assert.dom('[data-test-notification-message="error"]').exists();
+          assert.dom('[data-test-notification-message="error"]').hasText('422 - Le détail affiché est envoyé par le back');
         });
 
         test('it should display a warning message when uploading an invalid file', async function(assert) {
@@ -158,9 +161,8 @@ module('Acceptance | Student List', function(hooks) {
           await triggerEvent(input, 'change', { files: [file] });
 
           // then
-          assert.dom('.alert-zone--warning').exists();
-          assert.dom('.fa-exclamation-triangle').exists();
-          assert.dom('.alert-zone--warning').hasText('409 - Le détail affiché est envoyé par le back');
+          assert.dom('[data-test-notification-message="warning"]').exists();
+          assert.dom('[data-test-notification-message="warning"]').hasText('409 - Le détail affiché est envoyé par le back');
         });
 
         test('it should display an error message when something unexpected went wrong on the server', async function(assert) {
@@ -174,9 +176,8 @@ module('Acceptance | Student List', function(hooks) {
           await triggerEvent(input, 'change', { files: [file] });
 
           // then
-          assert.dom('.alert-zone--error').exists();
-          assert.dom('.fa-exclamation-triangle').exists();
-          assert.dom('.alert-zone--error').hasText('Quelque chose s\'est mal passé. Veuillez réessayer.');
+          assert.dom('[data-test-notification-message="error"]').exists();
+          assert.dom('[data-test-notification-message="error"]').hasText('Quelque chose s\'est mal passé. Veuillez réessayer.');
         });
       });
 

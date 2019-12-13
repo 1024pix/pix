@@ -13,19 +13,6 @@
   {{/if}}
 </div>
 
-{{#if message}}
-  <div class={{concat "alert-zone alert-zone--" message.type}} aria-live="polite">
-    {{fa-icon (if isSuccessMessage 'check-circle' 'exclamation-triangle') class="alert-zone__icon"}}
-    <p class="alert-zone__message">
-      {{#if isSuccessMessage}}
-        La liste a été importée avec succès.
-      {{else}}
-        {{if message.detail message.detail 'Quelque chose s\'est mal passé. Veuillez réessayer.'}}
-      {{/if}}
-    </p>
-  </div>
-{{/if}}
-
 <div class="panel">
   <div class="table content-text content-text--small">
     <table>
