@@ -43,7 +43,7 @@ export default function() {
   });
 
   this.patch('/users/:id/pix-orga-terms-of-service-acceptance', (schema, request) => {
-    const user =  schema.users.find(request.params.id);
+    const user = schema.users.find(request.params.id);
     user.pixOrgaTermsOfServiceAccepted = true;
     return user;
   });
@@ -51,6 +51,11 @@ export default function() {
   this.get('/users/:id/memberships', (schema, request) => {
     const userId = request.params.id;
     return schema.memberships.where({ userId });
+  });
+
+  this.patch('/memberships/:id', (schema, request) => {
+    const id = request.params.id;
+    return schema.memberships.where({ id });
   });
 
   this.get('/organizations/:id/campaigns', (schema) => {

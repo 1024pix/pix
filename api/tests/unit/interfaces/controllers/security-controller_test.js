@@ -1,4 +1,5 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
+
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const checkUserIsAuthenticatedUseCase = require('../../../../lib/application/usecases/checkUserIsAuthenticated');

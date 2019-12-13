@@ -1,9 +1,12 @@
 @charset "utf-8";
 
+@import "globals/colors";
+@import "globals/ember-power-select-custom";
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
+@import "ember-power-select";
+@import 'ember-power-select/themes/bootstrap';
 @import "globals/breakpoints";
-@import "globals/colors";
 @import "globals/fonts";
 @import "globals/buttons";
 @import "globals/errors";
@@ -43,6 +46,7 @@
 @import "pages/authenticated/terms-of-service";
 @import "pages/authenticated/students";
 @import "pages/authenticated/students/list";
+
 
 body, html {
   margin: 0;
