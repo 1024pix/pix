@@ -30,7 +30,7 @@ exports.register = async function(server) {
       path: '/api/memberships/{id}',
       config: {
         pre: [{
-          method: securityController.checkUserIsAdminInMembershipOrganization,
+          method: securityController.checkUserIsAdminInOrganization,
           assign: 'isAdminInOrganization'
         }],
         handler: membershipController.update,
