@@ -46,13 +46,6 @@ module.exports = {
       .then((challenges) => challenges.models.map(_toDomain));
   },
 
-  /**
-   * @deprecated use findByCertificationCourseId instead
-   */
-  findChallengesByCertificationCourseId(courseId) {
-    return this.findByCertificationCourseId(courseId);
-  },
-
   getNonAnsweredChallengeByCourseId(assessmentId, courseId) {
 
     const answeredChallengeIds = Bookshelf.knex('answers')
