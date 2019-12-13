@@ -21,7 +21,7 @@ module('Integration | Component | routes/authenticated/session | certification-c
   test('it should display the list of certification candidates', async function(assert) {
     // given
     const certificationCandidates = _.map([
-      { firstName: 'A', lastName: 'B', birthdate: '1990-01-01', birthCity: 'Ville', birthProvinceCode: 'Dep01', birthCountry: 'Pays', extraTimePercentage: 0.3 },
+      { firstName: 'A', lastName: 'B', birthdate: '1990-01-01', birthCity: 'Ville', email: 'a@b.c', birthProvinceCode: 'Dep01', birthCountry: 'Pays', extraTimePercentage: 0.3 },
       { firstName: 'C', lastName: 'D', birthdate: '1990-12-25', birthCity: 'LABA', externalId: 'CDLABA' }
     ], (certificationCandidate) => run(() => store.createRecord('certification-candidate', certificationCandidate)));
     this.set('certificationCandidates', certificationCandidates);
@@ -30,22 +30,24 @@ module('Integration | Component | routes/authenticated/session | certification-c
     await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=true importCertificationCandidates=importCertificationCandidatesSpy}}`);
 
     // then
-    assert.dom('table tbody tr:first-child td:first-child').hasText('B');
-    assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('A');
-    assert.dom('table tbody tr:first-child td:nth-child(3)').hasText('01/01/1990');
-    assert.dom('table tbody tr:first-child td:nth-child(4)').hasText('Ville');
-    assert.dom('table tbody tr:first-child td:nth-child(5)').hasText('Dep01');
-    assert.dom('table tbody tr:first-child td:nth-child(6)').hasText('Pays');
-    assert.dom('table tbody tr:first-child td:nth-child(7)').hasText('');
-    assert.dom('table tbody tr:first-child td:nth-child(8)').hasText('30 %');
-    assert.dom('table tbody tr:nth-child(2) td:first-child').hasText('D');
-    assert.dom('table tbody tr:nth-child(2) td:nth-child(2)').hasText('C');
-    assert.dom('table tbody tr:nth-child(2) td:nth-child(3)').hasText('25/12/1990');
-    assert.dom('table tbody tr:nth-child(2) td:nth-child(4)').hasText('LABA');
-    assert.dom('table tbody tr:nth-child(2) td:nth-child(5)').hasText('');
-    assert.dom('table tbody tr:nth-child(2) td:nth-child(6)').hasText('');
-    assert.dom('table tbody tr:nth-child(2) td:nth-child(7)').hasText('CDLABA');
-    assert.dom('table tbody tr:nth-child(2) td:nth-child(8)').hasText('');
+    assert.dom('[data-test-id="panel-candidate__lastName"]').hasText('B');
+    assert.dom('[data-test-id="panel-candidate__firstName"]').hasText('A');
+    assert.dom('[data-test-id="panel-candidate__birthdate"]').hasText('01/01/1990');
+    assert.dom('[data-test-id="panel-candidate__birthCity"]').hasText('Ville');
+    assert.dom('[data-test-id="panel-candidate__birthProvinceCode"]').hasText('Dep01');
+    assert.dom('[data-test-id="panel-candidate__birthCountry"]').hasText('Pays');
+    assert.dom('[data-test-id="panel-candidate__email"]').hasText('a@b.c');
+    assert.dom('[data-test-id="panel-candidate__externalId"]').hasText('');
+    assert.dom('[data-test-id="panel-candidate__extraTimePercentage"]').hasText('30 %');
+    assert.dom('tr:nth-child(2) [data-test-id="panel-candidate__lastName"]').hasText('D');
+    assert.dom('tr:nth-child(2) [data-test-id="panel-candidate__firstName"]').hasText('C');
+    assert.dom('tr:nth-child(2) [data-test-id="panel-candidate__birthdate"]').hasText('25/12/1990');
+    assert.dom('tr:nth-child(2) [data-test-id="panel-candidate__birthCity"]').hasText('LABA');
+    assert.dom('tr:nth-child(2) [data-test-id="panel-candidate__birthProvinceCode"]').hasText('');
+    assert.dom('tr:nth-child(2) [data-test-id="panel-candidate__birthCountry"]').hasText('');
+    assert.dom('tr:nth-child(2) [data-test-id="panel-candidate__email"]').hasText('');
+    assert.dom('tr:nth-child(2) [data-test-id="panel-candidate__externalId"]').hasText('CDLABA');
+    assert.dom('tr:nth-child(2) [data-test-id="panel-candidate__extraTimePercentage"]').hasText('');
   });
 
   test('it should display a sentence when there is no certification candidates yet', async function(assert) {
