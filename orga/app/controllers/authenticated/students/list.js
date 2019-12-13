@@ -6,13 +6,14 @@ export default Controller.extend({
 
   session: service(),
   currentUser: service(),
-  message: null,
+  notifications: service('notifications'),
+
   isLoading: false,
 
   actions: {
     async importStudents(file) {
-      this.set('message', null);
       this.set('isLoading', true);
+      this.get('notifications').clearAll();
       const { access_token } = this.get('session.data.authenticated');
 
       try {
@@ -23,22 +24,22 @@ export default Controller.extend({
         });
         await this.model.reload();
         this.set('isLoading', false);
-        this.set('message', { type: 'success' });
+        this.get('notifications').sendSuccess('La liste a été importée avec succès.');
 
       } catch (errorResponse) {
         this.set('isLoading', false);
 
         if (!errorResponse.body.errors) {
-          return this.set('message', { type: 'error' });
+          return this.get('notifications').sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
         }
 
         errorResponse.body.errors.forEach((error) => {
           if (error.status === '409') {
-            return this.set('message', { type: 'warning', detail: error.detail });
+            return this.get('notifications').sendWarning(error.detail);
           } else if (error.status === '422') {
-            return this.set('message', { type: 'error', detail: error.detail });
+            return this.get('notifications').sendError(error.detail);
           }
-          return this.set('message', { type: 'error' });
+          return this.get('notifications').sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
         });
       }
     }
