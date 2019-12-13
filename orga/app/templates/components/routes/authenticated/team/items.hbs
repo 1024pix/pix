@@ -7,9 +7,9 @@
     {{#if (not-eq membership.user.id currentUser.user.id) }}
         <td>
                 <div class="zone-edit-role">
-                    <button id='edit-organization-role' class="button button--with-icon-and-text"
+                    <button id='edit-organization-role' class="button button--with-icon-and-text button-edit-role"
                             type="button" onclick={{action "editRoleOfMember" membership }}>
-                        <img src="/icons/edit.svg">Modifier le rôle
+                            {{fa-icon "edit"}} Modifier le rôle
                     </button>
                 </div>
             </td>
