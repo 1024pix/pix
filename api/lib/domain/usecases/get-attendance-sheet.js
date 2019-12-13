@@ -1,6 +1,7 @@
 const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils');
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
 const sessionXmlService = require('../services/session-xml-service');
+const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
   ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
@@ -11,7 +12,10 @@ const _ = require('lodash');
 
 module.exports = async function getAttendanceSheet({ userId, sessionId, sessionRepository }) {
 
-  await sessionRepository.ensureUserHasAccessToSession(userId, sessionId);
+  const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
+  if (!hasMembership) {
+    throw new UserNotAuthorizedToAccessEntity('User is not allowed to access session.');
+  }
 
   const [ stringifiedXml, session ] = await Promise.all([
     readOdsUtils.getContentXml({ odsFilePath: _getAttendanceTemplatePath() }),
