@@ -29,12 +29,12 @@
 }
 
 .ember-power-select-option[aria-current="true"] {
-  background-color: #f2f3f4;
-  color: #666666;
+  background-color: $porcelain;
+  color: $dove-gray;
 }
 
 .ember-power-select-option {
-  color: #666666;
+  color: $dove-gray;
   font-size: 13px;
 }
 .list-team-page-header {
