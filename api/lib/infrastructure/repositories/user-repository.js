@@ -265,11 +265,6 @@ module.exports = {
       .then(_toDomain);
   },
 
-  hasRolePixMaster(userId) {
-    return this.get(userId)
-      .then((user) => user.hasRolePixMaster);
-  },
-
   async isPixMaster(id) {
     const user = await BookshelfUser
       .where({ 'users.id': id, 'users_pix_roles.user_id': id })
