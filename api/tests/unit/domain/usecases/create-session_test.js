@@ -32,7 +32,7 @@ describe('Unit | UseCase | create-session', () => {
 
       certificationCenterRepository = { get: sinon.stub() };
       sessionRepository = { save: sinon.stub() };
-      userRepository = { get: sinon.stub(), getWithCertificationCenterMemberships: sinon.stub() };
+      userRepository = { isPixMaster: sinon.stub(), getWithCertificationCenterMemberships: sinon.stub() };
       sinon.stub(sessionValidator, 'validate');
       sinon.stub(sessionCodeService, 'getNewSessionCode');
     });
@@ -55,25 +55,11 @@ describe('Unit | UseCase | create-session', () => {
         sessionCodeService.getNewSessionCode.resolves(sessionAccessCode);
       });
 
-      it('should forward the error if an error occurs while retrieving the user', () => {
-        // given
-        userRepository.get.withArgs(userId).rejects(testErr);
-
-        // when
-        const promise = createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
-
-        // then
-        return promise.catch((err) => {
-          expect(err).to.deep.equal(testErr);
-        });
-      });
-
       context('and the user is PIX MASTER', () => {
         let sessionWithCode;
 
         beforeEach(() => {
-          const userPixMaster = domainBuilder.buildUser({ pixRoles: [domainBuilder.buildPixRole({ name: 'PIX_MASTER' })] });
-          userRepository.get.withArgs(userId).resolves(userPixMaster);
+          userRepository.isPixMaster.withArgs(userId).resolves(true);
           sessionWithCode = new Session({
             ...sessionToSave,
             accessCode: sessionAccessCode,
@@ -128,8 +114,7 @@ describe('Unit | UseCase | create-session', () => {
       context('and the user is not PIX MASTER', () => {
 
         beforeEach(() => {
-          const userPixMember = domainBuilder.buildUser({ pixRoles: [domainBuilder.buildPixRole({ name: 'PIX_MEMBER' })] });
-          userRepository.get.withArgs(userId).resolves(userPixMember);
+          userRepository.isPixMaster.withArgs(userId).resolves(false);
         });
 
         context('and the user has not access to the sessions certification center', () => {
