@@ -14,7 +14,7 @@ describe('Unit | Service | SessionAuthorizationService', () => {
     });
 
     beforeEach(() => {
-      sinon.stub(userRepository, 'hasRolePixMaster');
+      sinon.stub(userRepository, 'isPixMaster');
       sinon.stub(sessionRepository, 'doesUserHaveCertificationCenterMembershipForSession');
     });
 
@@ -42,7 +42,7 @@ describe('Unit | Service | SessionAuthorizationService', () => {
 
         it('should return true', async () => {
           // given
-          userRepository.hasRolePixMaster.withArgs(userId).returns(true);
+          userRepository.isPixMaster.withArgs(userId).resolves(true);
 
           // when
           const isAuthorized = await sessionAuthorizationService.isAuthorizedToAccessSession({ userId, sessionId });
@@ -56,7 +56,7 @@ describe('Unit | Service | SessionAuthorizationService', () => {
 
         it('should return false', async () => {
           // given
-          userRepository.hasRolePixMaster.withArgs(userId).returns(false);
+          userRepository.isPixMaster.withArgs(userId).resolves(false);
 
           // when
           const isAuthorized = await sessionAuthorizationService.isAuthorizedToAccessSession({ userId, sessionId });
