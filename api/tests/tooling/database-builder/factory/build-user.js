@@ -2,11 +2,12 @@ const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
 const Membership = require('../../../../lib/domain/models/Membership');
 const encrypt = require('../../../../lib/domain/services/encryption-service');
-const buildPixRole = require('./build-pix-role');
 const buildUserPixRole = require('./build-user-pix-role');
 const buildOrganization = require('./build-organization');
 const buildMembership = require('./build-membership');
 const _ = require('lodash');
+
+const PIX_MASTER_ROLE_ID = 1;
 
 const buildUser = function buildUser({
   id,
@@ -80,14 +81,12 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions
   };
 
-  const pixRolePixMaster = buildPixRole({ name: 'PIX_MASTER' });
-
   const user = databaseBuffer.pushInsertable({
     tableName: 'users',
     values,
   });
 
-  buildUserPixRole({ userId: user.id, pixRoleId: pixRolePixMaster.id });
+  buildUserPixRole({ userId: user.id, pixRoleId: PIX_MASTER_ROLE_ID });
 
   return user;
 };
