@@ -133,6 +133,23 @@ module.exports = {
       });
   },
 
+  async getPersonalInfo(userId) {
+    try {
+      const user = await BookshelfUser
+        .where({ id :userId })
+        .fetch({
+          require: true,
+          columns: ['id', 'firstName', 'lastName', 'email'],
+        });
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
+    } catch (err) {
+      if (err instanceof BookshelfUser.NotFoundError) {
+        throw new UserNotFoundError(`User not found for ID ${userId}`);
+      }
+      throw err;
+    }
+  },
+
   findPaginatedFiltered({ filter, page }) {
     return BookshelfUser
       .query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
