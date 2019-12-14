@@ -10,6 +10,8 @@ const CertificationCenterMembership = require('../../domain/models/Certification
 const Organization = require('../../domain/models/Organization');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
+const PIX_MASTER_ROLE_ID = 1;
+
 function _toCertificationCenterMembershipsDomain(certificationCenterMembershipBookshelf) {
   return certificationCenterMembershipBookshelf.map((bookshelf) => {
     return new CertificationCenterMembership({
@@ -266,6 +268,16 @@ module.exports = {
   hasRolePixMaster(userId) {
     return this.get(userId)
       .then((user) => user.hasRolePixMaster);
-  }
+  },
 
+  async isPixMaster(id) {
+    const user = await BookshelfUser
+      .where({ 'users.id': id, 'users_pix_roles.user_id': id })
+      .query((qb) => {
+        qb.innerJoin('users_pix_roles', 'users_pix_roles.user_id', 'users.id');
+        qb.where({ 'users_pix_roles.pix_role_id': PIX_MASTER_ROLE_ID });
+      })
+      .fetch({ columns: 'users.id' });
+    return Boolean(user);
+  },
 };
