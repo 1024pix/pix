@@ -765,4 +765,40 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
+  describe('#isPixMaster', () => {
+    let userId;
+
+    context('when user is pix master', () => {
+      beforeEach(() => {
+        userId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+        return databaseBuilder.commit();
+      });
+
+      it('should return true', async () => {
+        // when
+        const isPixMaster = await userRepository.isPixMaster(userId);
+
+        // then
+        expect(isPixMaster).to.be.true;
+      });
+
+    });
+
+    context('when user is not pix master', () => {
+      beforeEach(() => {
+        userId = databaseBuilder.factory.buildUser().id;
+        return databaseBuilder.commit();
+      });
+
+      it('should return false', async () => {
+        // when
+        const isPixMaster = await userRepository.isPixMaster(userId);
+
+        // then
+        expect(isPixMaster).to.be.false;
+      });
+    });
+
+  });
+
 });
