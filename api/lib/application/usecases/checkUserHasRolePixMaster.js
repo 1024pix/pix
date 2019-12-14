@@ -3,8 +3,7 @@ const userRepository = require('../../infrastructure/repositories/user-repositor
 module.exports = {
 
   execute(userId) {
-    return userRepository.get(userId)
-      .then((user) => user.hasRolePixMaster);
+    return userRepository.isPixMaster(userId);
   }
 
 };
