@@ -27,7 +27,7 @@ describe('Unit | UseCase | update-user-password', () => {
     sinon.stub(resetPasswordService, 'invalidateOldResetPasswordDemand');
     sinon.stub(validationErrorSerializer, 'serialize');
     sinon.stub(userRepository, 'updatePassword');
-    sinon.stub(userRepository, 'get').resolves(user);
+    sinon.stub(userRepository, 'getPersonalInfo').resolves(user);
     sinon.stub(encryptionService, 'hashPassword');
   });
 
@@ -50,8 +50,8 @@ describe('Unit | UseCase | update-user-password', () => {
 
     // then
     return promise.then(() => {
-      sinon.assert.calledOnce(userRepository.get);
-      sinon.assert.calledWith(userRepository.get, userId);
+      sinon.assert.calledOnce(userRepository.getPersonalInfo);
+      sinon.assert.calledWith(userRepository.getPersonalInfo, userId);
     });
   });
 
