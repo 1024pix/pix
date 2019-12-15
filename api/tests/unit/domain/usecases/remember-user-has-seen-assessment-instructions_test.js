@@ -5,20 +5,20 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 describe('Unit | UseCase | remember-user-has-seen-assessment-instructions', () => {
 
   beforeEach(() => {
-    sinon.stub(userRepository, 'get');
-    sinon.stub(userRepository, 'updateUser');
+    sinon.stub(userRepository, 'updateHasSeenAssessmentInstructionsToTrue');
   });
 
-  it('should update user hasSeenAssessmentInstructions', async () => {
+  it('should update has seen assessment instructions', async () => {
     // given
-    const userId = 1;
-    userRepository.get.withArgs(userId).resolves({ id: 1 });
-    userRepository.updateUser.withArgs({ id: 1, hasSeenAssessmentInstructions: true }).resolves('ok');
+    const userId = 'userId';
+    const updatedUser = Symbol('updateduser');
+    userRepository.updateHasSeenAssessmentInstructionsToTrue.resolves(updatedUser);
 
     // when
-    const result = await rememberUserHasSeenAssessmentInstructions({ userId, userRepository });
+    const actualUpdatedUser = await rememberUserHasSeenAssessmentInstructions({ userId, userRepository });
 
     // then
-    expect(result).to.be.equal('ok');
+    expect(userRepository.updateHasSeenAssessmentInstructionsToTrue).to.have.been.calledWith(userId);
+    expect(actualUpdatedUser).to.equal(updatedUser);
   });
 });
