@@ -82,6 +82,14 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   }
 }
 
+function _adaptModelToDb(user) {
+  return _.omit(user, [
+    'organizations', 'campaignParticipations', 'pixRoles', 'memberships',
+    'certificationCenterMemberships', 'pixScore', 'knowledgeElements',
+    'scorecards',
+  ]);
+}
+
 module.exports = {
 
   // TODO use _toDomain()
@@ -207,12 +215,8 @@ module.exports = {
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 
-  create(domainUser) {
-    const userToCreate = _.omit(domainUser, [
-      'organizations', 'campaignParticipations', 'pixRoles', 'memberships',
-      'certificationCenterMemberships', 'pixScore', 'knowledgeElements',
-      'scorecards',
-    ]);
+  create(user) {
+    const userToCreate = _adaptModelToDb(user);
     return new BookshelfUser(userToCreate)
       .save()
       .then((bookshelfUser) => bookshelfUser.toDomainEntity());
@@ -251,13 +255,9 @@ module.exports = {
       .then((bookshelfUser) => bookshelfUser.toDomainEntity());
   },
 
-  updateUser(domainUser) {
-    const userToUpdate = _.omit(domainUser, [
-      'organizations', 'campaignParticipations', 'pixRoles', 'memberships',
-      'certificationCenterMemberships', 'pixScore', 'knowledgeElements',
-      'scorecards',
-    ]);
-    return BookshelfUser.where({ id: domainUser.id })
+  updateUser(user) {
+    const userToUpdate = _adaptModelToDb(user);
+    return BookshelfUser.where({ id: user.id })
       .save(userToUpdate, {
         patch: true,
         method: 'update',
@@ -274,5 +274,29 @@ module.exports = {
       })
       .fetch({ columns: 'users.id' });
     return Boolean(user);
+  },
+
+  async updateHasSeenAssessmentInstructionsToTrue(id) {
+    let updatedUser = await BookshelfUser
+      .where({ id })
+      .save({ 'hasSeenAssessmentInstructions': true }, { patch: true, method: 'update' });
+    updatedUser = await updatedUser.refresh();
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
+  },
+
+  async updatePixOrgaTermsOfServiceAcceptedToTrue(id) {
+    let updatedUser = await BookshelfUser
+      .where({ id })
+      .save({ 'pixOrgaTermsOfServiceAccepted': true }, { patch: true, method: 'update' });
+    updatedUser = await updatedUser.refresh();
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
+  },
+
+  async updatePixCertifTermsOfServiceAcceptedToTrue(id) {
+    let updatedUser = await BookshelfUser
+      .where({ id })
+      .save({ 'pixCertifTermsOfServiceAccepted': true }, { patch: true, method: 'update' });
+    updatedUser = await updatedUser.refresh();
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
   },
 };
