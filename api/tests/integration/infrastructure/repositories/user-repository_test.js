@@ -142,7 +142,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(user.lastName).to.equal(userInDb.lastName);
         expect(user.email).to.equal(userInDb.email);
         expect(user.cgu).to.be.true;
-        expect(user.pixRoles).to.be.an('array');
       });
 
       it('should return a UserNotFoundError if no user is found', async () => {
