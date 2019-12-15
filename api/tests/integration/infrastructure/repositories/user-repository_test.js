@@ -497,50 +497,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#updateUser', () => {
-
-    let userToUpdate;
-
-    beforeEach(async () => {
-      userToUpdate = databaseBuilder.factory.buildUser({
-        pixOrgaTermsOfServiceAccepted: false,
-        pixCertifTermsOfServiceAccepted: false
-      });
-
-      await databaseBuilder.commit();
-    });
-
-    it('should update pixOrgaTermsOfServiceAccepted field', async () => {
-      // given
-      userToUpdate.pixOrgaTermsOfServiceAccepted = true;
-
-      // when
-      const user = await userRepository.updateUser(userToUpdate);
-
-      // then
-      expect(user).be.instanceOf(User);
-      expect(user.pixOrgaTermsOfServiceAccepted).to.be.true;
-
-      const usersSaved = await userRepository.get(userToUpdate.id);
-      expect(usersSaved.pixOrgaTermsOfServiceAccepted).to.be.true;
-    });
-
-    it('should update pixCertifTermsOfServiceAccepted field', async () => {
-      // given
-      userToUpdate.pixCertifTermsOfServiceAccepted = true;
-
-      // when
-      const user = await userRepository.updateUser(userToUpdate);
-
-      // then
-      expect(user).be.instanceOf(User);
-      expect(user.pixCertifTermsOfServiceAccepted).to.be.true;
-
-      const usersSaved = await userRepository.get(userToUpdate.id);
-      expect(usersSaved.pixCertifTermsOfServiceAccepted).to.be.true;
-    });
-  });
-
   describe('#isUserExistingByEmail', () => {
     const email = 'shi@fu.fr';
 
