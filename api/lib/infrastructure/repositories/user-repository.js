@@ -255,16 +255,6 @@ module.exports = {
       .then((bookshelfUser) => bookshelfUser.toDomainEntity());
   },
 
-  updateUser(user) {
-    const userToUpdate = _adaptModelToDb(user);
-    return BookshelfUser.where({ id: user.id })
-      .save(userToUpdate, {
-        patch: true,
-        method: 'update',
-      })
-      .then(_toDomain);
-  },
-
   async isPixMaster(id) {
     const user = await BookshelfUser
       .where({ 'users.id': id, 'users_pix_roles.user_id': id })
