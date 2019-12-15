@@ -132,7 +132,7 @@ module.exports = {
       .where({ id: userId })
       .fetch({
         require: true,
-        withRelated: ['pixRoles', 'organizations']
+        withRelated: ['organizations']
       })
       .then((bookshelfUser) => bookshelfUser.toDomainEntity())
       .catch((err) => {
