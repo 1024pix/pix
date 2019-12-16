@@ -7,7 +7,7 @@ const {
   CampaignWithoutOrganizationError
 } = require('../errors');
 
-async function _fetchUserHavingAccessToCampaignOrganization(userId, organizationId, userRepository) {
+async function _ensureUserHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   if (_.isNil(organizationId)) {
     throw new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`);
   }
@@ -16,7 +16,6 @@ async function _fetchUserHavingAccessToCampaignOrganization(userId, organization
   if (!user.hasAccessToOrganization(organizationId)) {
     throw new UserNotAuthorizedToGetCampaignResultsError(`User does not have an access to the organization ${organizationId}`);
   }
-  return user;
 }
 
 module.exports = async function startWritingCampaignResultsToStream({
@@ -45,16 +44,16 @@ module.exports = async function startWritingCampaignResultsToStream({
 
   const campaign = await campaignRepository.get(campaignId);
 
-  const [user, targetProfile, competences, organization, campaignParticipations] = await Promise.all([
-    _fetchUserHavingAccessToCampaignOrganization(userId, campaign.organizationId, userRepository),
+  const [targetProfile, competences, organization, campaignParticipations] = await Promise.all([
     targetProfileRepository.get(campaign.targetProfileId),
     competenceRepository.list(),
     organizationRepository.get(campaign.organizationId),
     campaignParticipationRepository.findByCampaignId(campaign.id),
+    _ensureUserHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository),
   ]);
 
   const campaignIndividualResult = CampaignIndividualResult.buildFrom({
-    campaign, user, targetProfile, competences, organization,
+    campaign, targetProfile, competences, organization,
   });
 
   const headers = createCsvHeader(campaign, campaignIndividualResult.targeted);
@@ -62,13 +61,14 @@ module.exports = async function startWritingCampaignResultsToStream({
 
   bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
 
-    const [assessment, allKnowledgeElements] = await _fetchIndividualDatas({ campaignParticipation, smartPlacementAssessmentRepository, knowledgeElementRepository });
+    const [assessment, user, allKnowledgeElements] = await _fetchIndividualDatas({ campaignParticipation,
+      userRepository, smartPlacementAssessmentRepository, knowledgeElementRepository });
 
     // CSV lines are very different whether the participant has shared its campaign or not
     // When the campaign is shared, we can display *a lot* more informations about his results.
     let line;
     if (!campaignParticipation.isShared) {
-      campaignIndividualResult.addIndividualStatistics({ assessment, campaignParticipation, allKnowledgeElements });
+      campaignIndividualResult.addIndividualStatistics({ assessment, user, campaignParticipation, allKnowledgeElements });
       line = csvService.getCsvLine({
         rawData: campaignIndividualResult,
         headerPropertyMap: getHeaderPropertyMap(campaign),
@@ -77,7 +77,7 @@ module.exports = async function startWritingCampaignResultsToStream({
       });
 
     } else {
-      campaignIndividualResult.addIndividualStatisticsWhenShared({ assessment, campaignParticipation, allKnowledgeElements });
+      campaignIndividualResult.addIndividualStatisticsWhenShared({ assessment, user, campaignParticipation, allKnowledgeElements });
       line = csvService.getCsvLine({
         rawData: campaignIndividualResult,
         headerPropertyMap: getHeaderPropertyMapWhenShared(campaign, campaignIndividualResult.targeted),
@@ -98,9 +98,10 @@ module.exports = async function startWritingCampaignResultsToStream({
   return { fileName: makeCSVResultFileName(campaign) };
 };
 
-function _fetchIndividualDatas({ campaignParticipation, smartPlacementAssessmentRepository, knowledgeElementRepository }) {
+function _fetchIndividualDatas({ campaignParticipation, userRepository, smartPlacementAssessmentRepository, knowledgeElementRepository }) {
   return Promise.all([
     smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId),
+    userRepository.get(campaignParticipation.userId),
     knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt })
   ]);
 }

@@ -24,6 +24,8 @@ class CampaignIndividualResult {
     this.targeted = targeted;
 
     // Added after fetching individual informations
+    this.userFirstName = null;
+    this.userLastName = null;
     this.campaignLabel = null;
     this.progression = null;
     this.startedAt = null;
@@ -34,7 +36,9 @@ class CampaignIndividualResult {
     this.knowledgeElementsValidatedPercentage = null;
   }
 
-  addIndividualStatistics({ assessment, campaignParticipation, allKnowledgeElements }) {
+  addIndividualStatistics({ assessment, user, campaignParticipation, allKnowledgeElements }) {
+    this.userFirstName = user.firstName;
+    this.userLastName = user.lastName;
     this.startedAt = moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
     this.progression = assessment.isCompleted ? 1 : this.targeted.getProgression(allKnowledgeElements),
     this.campaignLabel = campaignParticipation.participantExternalId,
@@ -44,13 +48,13 @@ class CampaignIndividualResult {
     _rescopeTargetProfileCompetencesAndAreas(this.targeted);
   }
 
-  addIndividualStatisticsWhenShared({ assessment, campaignParticipation, allKnowledgeElements }) {
-    this.addIndividualStatistics({ assessment, campaignParticipation, allKnowledgeElements });
+  addIndividualStatisticsWhenShared({ assessment, user, campaignParticipation, allKnowledgeElements }) {
+    this.addIndividualStatistics({ assessment, user, campaignParticipation, allKnowledgeElements });
     this.sharedAt = moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD');
     this.knowledgeElementsValidatedPercentage = this.targeted.getKnowledgeElementsValidatedPercentage(this.targeted.knowledgeElements);
   }
 
-  static buildFrom({ campaign, user, targetProfile, competences, organization }) {
+  static buildFrom({ campaign, targetProfile, competences, organization }) {
 
     // Represents all the competences, areas and skills that were targeted by this campaign
     const targeted = _rescopeTargetProfile(targetProfile, competences);
@@ -60,8 +64,6 @@ class CampaignIndividualResult {
       campaignId: campaign.id,
       campaignName: campaign.name,
       targetProfileName: targetProfile.name,
-      userFirstName: user.firstName,
-      userLastName: user.lastName,
       targeted,
     });
   }

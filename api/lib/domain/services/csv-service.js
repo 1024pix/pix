@@ -74,7 +74,7 @@ function toCsvNumber(input) {
 }
 
 function addDoubleQuotesToPlaceholders({ line, placeholder }) {
-  _.each((line), (element, i) => {
+  _.each(line, (element, i) => {
     if (_.isEqual(element, placeholder)) {
       line[i] = _surroundWith('"')(placeholder);
     }
