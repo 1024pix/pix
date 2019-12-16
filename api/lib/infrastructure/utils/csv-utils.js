@@ -33,7 +33,7 @@ function updateCsvLineByProperty({ line, rawData, csvParams, headers }) {
   // When the csv header to property map is dynaically generated, it is often
   // possible that the value is already known at the same moment. Therefore, the csv
   // service tries to look for such a pre-computed value first.
-  const valueToInsert = value || rawData[propertyName];
+  const valueToInsert =  _.isNil(value) ? rawData[propertyName] : value;
   const typeToSelect = type || valueTypes.TEXT;
 
   if (typeToSelect === valueTypes.TEXT) {
