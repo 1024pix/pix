@@ -33,15 +33,15 @@ function createCsvHeader(campaign, { competences, areas, skillNames }) {
 }
 
 const _headerPropertyMap = [
-  { headerName: 'Nom de l\'organisation', propertyName: 'organizationName' },
-  { headerName: 'ID Campagne', propertyName: 'campaignId', type: csvUtils.valueTypes.NUMBER },
-  { headerName: 'Nom de la campagne', propertyName: 'campaignName' },
-  { headerName: 'Nom du Profil Cible', propertyName: 'targetProfileName' },
-  { headerName: 'Nom du Participant', propertyName: 'userLastName' },
-  { headerName: 'Prénom du Participant', propertyName: 'userFirstName' },
-  { headerName: '% de progression', propertyName: 'progression', type: csvUtils.valueTypes.NUMBER },
-  { headerName: 'Date de début', propertyName: 'startedAt', type: csvUtils.valueTypes.NUMBER },
-  { headerName: 'Partage (O/N)', propertyName: 'isShared' },
+  { propertyName: 'organizationName' },
+  { propertyName: 'campaignId', type: csvUtils.valueTypes.NUMBER },
+  { propertyName: 'campaignName' },
+  { propertyName: 'targetProfileName' },
+  { propertyName: 'userLastName' },
+  { propertyName: 'userFirstName' },
+  { propertyName: 'progression', type: csvUtils.valueTypes.NUMBER },
+  { propertyName: 'startedAt', type: csvUtils.valueTypes.NUMBER },
+  { propertyName: 'isShared' },
 ];
 
 function getHeaderPropertyMap(campaign) {
@@ -50,7 +50,7 @@ function getHeaderPropertyMap(campaign) {
     const headerMapItem = { headerName: campaign.idPixLabel, propertyName: 'campaignLabel' };
     dynamicHeadersPropertyMap = _insertItem(headerMapItem)
       .intoArray(dynamicHeadersPropertyMap)
-      .afterElement('Prénom du Participant');
+      .afterProperty('userFirstName');
   }
   return dynamicHeadersPropertyMap;
 }
@@ -58,17 +58,17 @@ function getHeaderPropertyMap(campaign) {
 function getHeaderPropertyMapWhenShared(campaign, { competences, areas, skills, knowledgeElements }) {
   return _.flatMap([
     getHeaderPropertyMap(campaign),
-    { headerName: 'Date du partage', propertyName: 'sharedAt', type: csvUtils.valueTypes.NUMBER },
-    { headerName: '% maitrise de l\'ensemble des acquis du profil', propertyName: 'knowledgeElementsValidatedPercentage', type: csvUtils.valueTypes.NUMBER },
+    { propertyName: 'sharedAt', type: csvUtils.valueTypes.NUMBER },
+    { propertyName: 'knowledgeElementsValidatedPercentage', type: csvUtils.valueTypes.NUMBER },
     _.flatMap(competences, (competence) => [
-      { headerName: `% de maitrise des acquis de la compétence ${competence.name}`, value: competence.percentage, type: csvUtils.valueTypes.NUMBER },
-      { headerName: `Nombre d'acquis du profil cible dans la compétence ${competence.name}`, value: competence.skillsForThisCompetence.length, type: csvUtils.valueTypes.NUMBER },
-      { headerName: `Acquis maitrisés dans la compétence ${competence.name}`, value: competence.numberOfSkillsValidatedForThisCompetence, type: csvUtils.valueTypes.NUMBER },
+      { value: competence.percentage, type: csvUtils.valueTypes.NUMBER },
+      { value: competence.skillsForThisCompetence.length, type: csvUtils.valueTypes.NUMBER },
+      { value: competence.numberOfSkillsValidatedForThisCompetence, type: csvUtils.valueTypes.NUMBER },
     ]),
     _.flatMap(areas, (area) => [
-      { headerName: `% de maitrise des acquis du domaine ${area.title}`, value:_.round(area.numberSkillsValidated / area.numberSkillsTested, 2), type: csvUtils.valueTypes.NUMBER },
-      { headerName: `Nombre d'acquis du profil cible du domaine ${area.title}`, value: area.numberSkillsTested, type: csvUtils.valueTypes.NUMBER },
-      { headerName: `Acquis maitrisés du domaine ${area.title}`, value: area.numberSkillsValidated, type: csvUtils.valueTypes.NUMBER },
+      { value:_.round(area.numberSkillsValidated / area.numberSkillsTested, 2), type: csvUtils.valueTypes.NUMBER },
+      { value: area.numberSkillsTested, type: csvUtils.valueTypes.NUMBER },
+      { value: area.numberSkillsValidated, type: csvUtils.valueTypes.NUMBER },
     ]),
     _.flatMap(skills, (skill) => {
       const knowledgeElementForSkill = _.find(knowledgeElements, { skillId: skill.id });
@@ -84,8 +84,8 @@ const _insertItem = (item) => {
   return {
     intoArray: (array) => {
       return {
-        afterElement: (header) => {
-          const idx = _.findIndex(array, { headerName: header });
+        afterProperty: (propertyName) => {
+          const idx = _.findIndex(array, { propertyName });
           const firstSlice = _.slice(array, 0, idx + 1);
           const secondSlice = _.slice(array, idx + 1);
           return _.concat(firstSlice, item, secondSlice);
