@@ -79,7 +79,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
 
     it('should have fetched the next challenge with only most recent knowledge elements', () => {
       expect(smartRandom.getNextChallenge).to.have.been.calledWithExactly({
-        lastAnswer, challenges, targetSkills: targetProfile.skills, knowledgeElements: recentKnowledgeElements, choosingChallengeKey: assessmentId
+        lastAnswer,
+        challenges,
+        targetSkills: targetProfile.skills,
+        knowledgeElements: recentKnowledgeElements,
+        choosingChallengeKey: assessmentId
       });
     });
 

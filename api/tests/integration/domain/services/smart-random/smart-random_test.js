@@ -775,12 +775,12 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
       });
 
-      it('should aways return the same challenge at every call', () => {
+      it('still return the same result at every call for another challenge', () => {
         targetSkills = [web2, url2, cnil2];
         challenges = [challengeWeb_2, challengeWeb_2_bis, challengeUrl_2, challengeCnil_2];
         lastAnswer = [];
         knowledgeElements = [];
-        choosingChallengeKey = 9;
+        choosingChallengeKey = 8;
 
         for (let i = 0; i < 5; i++) {
           // when
