@@ -16,7 +16,10 @@ export default Component.extend({
     savePasswordResetDemand() {
       this.set('_displayErrorMessage', false);
       this.set('_displaySuccessMessage', false);
-      this.store.createRecord('password-reset-demand', { email: this.email })
+
+      const trimedEmail = this.email ? this.email.trim() : '';
+
+      this.store.createRecord('password-reset-demand', { email: trimedEmail })
         .save()
         .then(() => {
           this.set('_displaySuccessMessage', true);
