@@ -5,18 +5,13 @@ import Component from '@ember/component';
 export default Component.extend({
   textareaMaxLength: 500,
 
-  init() {
-    this._super(...arguments);
-    this.set('examinerComment', '');
-  },
-
   actions: {
     updateTextareaValue(text) {
       const textareaMaxLength = this.get('textareaMaxLength');
 
       if (text.length <= textareaMaxLength) {
-        this.set('examinerComment', text);
+        this.get('session').set('examinerComment', text);
       }
-    }
-  }
+    },
+  },
 });
