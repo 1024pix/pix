@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 const {
   CAMPAIGN_CSV_PLACEHOLDER: placeholder,
-  fileName,
+  makeCSVResultFileName,
   createCsvHeader,
   getHeaderPropertyMap,
   getHeaderPropertyMapWhenShared,
@@ -57,7 +57,7 @@ module.exports = async function startWritingCampaignResultsToStream({
   });
 
   const headers = createCsvHeader(campaign, campaignIndividualResult.targeted);
-  writableStream.write(csvService.getHeaderLine(headers));
+  writableStream.write(csvService.getHeadersLine(headers));
 
   bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
 
@@ -94,7 +94,7 @@ module.exports = async function startWritingCampaignResultsToStream({
     throw error;
   });
 
-  return { fileName: fileName(campaign) };
+  return { fileName: makeCSVResultFileName(campaign) };
 };
 
 function _fetchIndividualDatas({ campaignParticipation, smartPlacementAssessmentRepository, knowledgeElementRepository }) {

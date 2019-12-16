@@ -10,7 +10,7 @@ function getCsvLine({ rawData, headerPropertyMap, headers, placeholder }) {
   headerPropertyMap = sanitizeHeaderNames(headerPropertyMap);
   updateCsvLine({ line, rawData, headerPropertyMap });
   addDoubleQuotesToPlaceholders({ line, placeholder });
-  return serializeLineWithPonctuationMarks(line);
+  return serializeLineWithPunctuationMarks(line);
 }
 
 function sanitizeHeaderNames(headerPropertyMap) {
@@ -59,7 +59,7 @@ function addTextCell(title, data, headers) {
   };
 }
 
-const _surroundWith = (outterString) => (innerString) => [outterString, innerString, outterString].join('');
+const _surroundWith = (outerString) => (innerString) => [outerString, innerString, outerString].join('');
 
 function getHeadersWithQuotes(headers) {
   return _.map(headers, _surroundWith('"'));
@@ -88,16 +88,17 @@ function removeDoubleQuotes(text) {
 // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
 // - https://en.wikipedia.org/wiki/Byte_order_mark
 // - https://stackoverflow.com/a/38192870
-function getHeaderLine(headers) {
-  return '\uFEFF' + getHeadersWithQuotes(headers).join(';') + '\n';
+function getHeadersLine(headers) {
+  const BYTE_ORDER_MARK = '\uFEFF';
+  return BYTE_ORDER_MARK + serializeLineWithPunctuationMarks(getHeadersWithQuotes(headers));
 }
 
-function serializeLineWithPonctuationMarks(line) {
+function serializeLineWithPunctuationMarks(line) {
   return line.join(';') + '\n';
 }
 
 module.exports = {
-  getHeaderLine,
+  getHeadersLine,
   getCsvLine,
   valueTypes,
 };

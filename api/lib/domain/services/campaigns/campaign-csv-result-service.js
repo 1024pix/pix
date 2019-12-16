@@ -78,7 +78,7 @@ function getHeaderPropertyMapWhenShared(campaign, { competences, areas, skills, 
   ]);
 }
 
-const fileName = (campaign) =>  `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
+const makeCSVResultFileName = (campaign) =>  `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
 
 const _insertItem = (item) => {
   return {
@@ -97,7 +97,7 @@ const _insertItem = (item) => {
 
 module.exports = {
   CAMPAIGN_CSV_PLACEHOLDER,
-  fileName,
+  makeCSVResultFileName,
   getHeaderPropertyMap,
   getHeaderPropertyMapWhenShared,
   createCsvHeader,
