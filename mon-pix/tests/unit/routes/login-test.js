@@ -12,41 +12,59 @@ describe('Unit | Route | login page', function() {
 
     context('when user is not authenticated', function() {
 
-      const authenticateStub = sinon.stub();
-      const queryRecordStub = sinon.stub();
+      const authenticateStub = sinon.stub().resolves();
 
-      const sessionStub = Service.create({
-        authenticate: authenticateStub,
-      });
-      const storeStub = Service.create({
-        queryRecord: queryRecordStub
-      });
+      let sessionStub;
+      let storeStub;
+      let route;
 
       const foundUser = EmberObject.create({ id: 12 });
-
       const expectedAuthenticator = 'authenticator:oauth2';
-      const email = 'email@example.net';
       const password = 'azerty';
       const scope = 'mon-pix';
 
-      it('should authenticate the user given email and password', async function() {
-        // Given
-        authenticateStub.resolves();
-        queryRecordStub.resolves(foundUser);
+      beforeEach(async function() {
+        sessionStub = Service.create({
+          authenticate: authenticateStub,
+        });
+        const queryRecordStub = sinon.stub().resolves(foundUser);
+        storeStub = Service.create({
+          queryRecord: queryRecordStub
+        });
 
-        const route = this.owner.lookup('route:login');
+        route = this.owner.lookup('route:login');
         route.set('store', storeStub);
         route.set('session', sessionStub);
         sinon.stub(route, 'transitionTo').throws('Must not be called');
         await route.beforeModel({ to: {} });
+      });
 
-        // When
+      it('should authenticate the user given email and password', async function() {
+        // given
+        const email = 'email@example.net';
+
+        // when
         await route.actions.authenticate.call(route, email, password);
 
-        // Then
+        // then
         sinon.assert.calledWith(authenticateStub,
           expectedAuthenticator,
           { email, password, scope }
+        );
+      });
+
+      it('should authenticate the user even if email contains spaces', async function() {
+        // given
+        const emailWithSpaces = '  email@example.net  ';
+        const trimedEmail = emailWithSpaces.trim();
+
+        // when
+        await route.actions.authenticate.call(route, emailWithSpaces, password);
+
+        // then
+        sinon.assert.calledWith(authenticateStub,
+          expectedAuthenticator,
+          { email: trimedEmail, password, scope }
         );
       });
     });
