@@ -80,7 +80,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
 
       it('should have fetched the next challenge with only most recent knowledge elements', () => {
         expect(smartRandom.getNextChallenge).to.have.been.calledWithExactly({
-          lastAnswer, challenges, targetSkills, knowledgeElements: recentKnowledgeElements, assessmentId
+          lastAnswer, challenges, targetSkills, knowledgeElements: recentKnowledgeElements, choosingChallengeKey: assessmentId
         });
       });
 

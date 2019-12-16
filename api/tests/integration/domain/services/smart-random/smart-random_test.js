@@ -30,7 +30,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     challengeUrl_2, challengeUrl_3, challengeUrl_4, challengeUrl_5, challengeUrl_6, challengeRechInfo_5,
     challengeRechInfo_7, challengeInfo_2, challengeCnil_2;
 
-  let assessmentId = 1;
+  let choosingChallengeKey = 1;
   beforeEach(() => {
     targetSkills = null;
     knowledgeElements = null;
@@ -93,7 +93,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         challenges,
         knowledgeElements: [],
         lastAnswer,
-        assessmentId
+        choosingChallengeKey
       });
 
       // then
@@ -113,7 +113,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements: [],
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -134,7 +134,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements: [],
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -152,7 +152,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements: [],
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -170,7 +170,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements: [],
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -189,7 +189,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements: [],
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -234,7 +234,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -266,7 +266,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -303,7 +303,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -340,7 +340,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -411,7 +411,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -464,7 +464,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -510,7 +510,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -543,7 +543,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -569,7 +569,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -595,7 +595,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -634,7 +634,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -667,7 +667,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -712,7 +712,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -744,7 +744,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           challenges,
           knowledgeElements,
           lastAnswer,
-          assessmentId
+          choosingChallengeKey
         });
 
         // then
@@ -766,7 +766,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
             challenges,
             knowledgeElements,
             lastAnswer,
-            assessmentId
+            choosingChallengeKey
           });
 
           // then
@@ -780,7 +780,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         challenges = [challengeWeb_2, challengeWeb_2_bis, challengeUrl_2, challengeCnil_2];
         lastAnswer = [];
         knowledgeElements = [];
-        assessmentId = 9;
+        choosingChallengeKey = 9;
 
         for (let i = 0; i < 5; i++) {
           // when
@@ -789,7 +789,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
             challenges,
             knowledgeElements,
             lastAnswer,
-            assessmentId
+            choosingChallengeKey
           });
 
           // then

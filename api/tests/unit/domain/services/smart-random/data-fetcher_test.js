@@ -63,7 +63,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       expect(data.targetSkills).to.deep.equal(targetProfile.skills);
       expect(data.challenges).to.deep.equal(challenges);
       expect(data.knowledgeElements).to.deep.equal(knowledgeElements);
-      expect(data.assessmentId).to.equal(assessment.id);
+      expect(data.choosingChallengeKey).to.equal(assessment.id);
     });
 
   });
@@ -123,7 +123,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       expect(data.targetSkills).to.deep.equal(skills);
       expect(data.challenges).to.deep.equal(challenges);
       expect(data.knowledgeElements).to.deep.equal(knowledgeElements);
-      expect(data.assessmentId).to.deep.equal(assessment.id);
+      expect(data.choosingChallengeKey).to.deep.equal(assessment.id);
     });
   });
 
