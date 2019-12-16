@@ -103,12 +103,19 @@ export default Component.extend({
     });
   },
 
-  _executeFieldValidation: function(key, isValid) {
+  _executeFieldValidation(key, isValid) {
     const modelAttrValue = this._getModelAttributeValueFromKey(key);
     const isValidInput = !isValid(modelAttrValue);
     const status = getValidationStatus(isValidInput);
     const message = getErrorMessage(status, key);
     this._updateValidationStatus(key, status, message);
+  },
+
+  _trimNamesAndEmailOfUser() {
+    const { firstName, lastName, email } = this.get('user');
+    this.set('user.firstName', firstName.trim());
+    this.set('user.lastName', lastName.trim());
+    this.set('user.email', email.trim());
   },
 
   actions: {
@@ -132,6 +139,9 @@ export default Component.extend({
     signup() {
       this.set('_notificationMessage', null);
       this.set('isLoading', true);
+
+      this._trimNamesAndEmailOfUser();
+
       this.user.save().then(() => {
         const credentials = { email: this.get('user.email'), password: this.get('user.password') };
         this.authenticateUser(credentials);
