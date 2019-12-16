@@ -48,9 +48,9 @@ function getHeaderPropertyMap(campaign) {
   let dynamicHeadersPropertyMap =  _.cloneDeep(_headerPropertyMap);
   if (campaign.idPixLabel) {
     const headerMapItem = { headerName: campaign.idPixLabel, propertyName: 'campaignLabel' };
-    dynamicHeadersPropertyMap = _insert(headerMapItem)
-      .into(dynamicHeadersPropertyMap)
-      .after('Prénom du Participant');
+    dynamicHeadersPropertyMap = _insertItem(headerMapItem)
+      .intoArray(dynamicHeadersPropertyMap)
+      .afterElement('Prénom du Participant');
   }
   return dynamicHeadersPropertyMap;
 }
@@ -80,11 +80,11 @@ function getHeaderPropertyMapWhenShared(campaign, { competences, areas, skills, 
 
 const fileName = (campaign) =>  `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
 
-const _insert = (item) => {
+const _insertItem = (item) => {
   return {
-    into: (array) => {
+    intoArray: (array) => {
       return {
-        after: (header) => {
+        afterElement: (header) => {
           const idx = _.findIndex(array, { headerName: header });
           const firstSlice = _.slice(array, 0, idx + 1);
           const secondSlice = _.slice(array, idx + 1);
