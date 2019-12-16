@@ -24,13 +24,12 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/assessments/{id}/next/{challengeId?}',
+      path: '/api/assessments/{id}/next',
       config: {
         auth: false,
         handler: assessmentController.getNextChallenge,
         notes: [
-          '- Récupération de la question suivante pour l\'évaluation donnée\n' +
-          '- L\'utilisation de **challengeId** est déprécié'
+          '- Récupération de la question suivante pour l\'évaluation donnée'
         ],
         tags: ['api']
       }
