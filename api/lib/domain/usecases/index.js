@@ -25,7 +25,6 @@ const dependencies = {
   correctionRepository: require('../../infrastructure/repositories/correction-repository'),
   courseRepository: require('../../infrastructure/repositories/course-repository'),
   encryptionService: require('../../domain/services/encryption-service'),
-  csvService: require('../../domain/services/csv-service'),
   campaignCsvResultService: require('../../domain/services/campaigns/campaign-csv-result-service'),
   improvementService: require('../../domain/services/improvement-service'),
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),

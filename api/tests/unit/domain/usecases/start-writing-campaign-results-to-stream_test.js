@@ -3,7 +3,6 @@ const moment = require('moment');
 
 const { expect, sinon, domainBuilder, streamToPromise } = require('../../../test-helper');
 
-const csvService = require('../../../../lib/domain/services/csv-service');
 const campaignCsvResultService = require('../../../../lib/domain/services/campaigns/campaign-csv-result-service');
 const startWritingCampaignResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-results-to-stream');
 const Area = require('../../../../lib/domain/models/Area');
@@ -169,7 +168,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
         campaignParticipationRepository,
         smartPlacementAssessmentRepository,
         knowledgeElementRepository,
-        csvService,
         campaignCsvResultService,
       });
 
@@ -224,7 +222,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           campaignParticipationRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
-          csvService,
           campaignCsvResultService,
         });
 
@@ -284,7 +281,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           campaignParticipationRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
-          csvService,
           campaignCsvResultService,
         });
 
@@ -350,7 +346,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           campaignParticipationRepository,
           smartPlacementAssessmentRepository,
           knowledgeElementRepository,
-          csvService,
           campaignCsvResultService,
         });
 

@@ -1,3 +1,4 @@
+const csvUtils = require('../../infrastructure/utils/csv-utils');
 const CampaignIndividualResult = require('../models/CampaignIndividualResult');
 const bluebird = require('bluebird');
 const _ = require('lodash');
@@ -30,7 +31,6 @@ module.exports = async function startWritingCampaignResultsToStream({
   organizationRepository,
   smartPlacementAssessmentRepository,
   knowledgeElementRepository,
-  csvService,
   campaignCsvResultService,
 }) {
 
@@ -57,7 +57,7 @@ module.exports = async function startWritingCampaignResultsToStream({
   });
 
   const headers = createCsvHeader(campaign, campaignIndividualResult.targeted);
-  writableStream.write(csvService.getHeadersLine(headers));
+  writableStream.write(csvUtils.getHeadersLine(headers));
 
   bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
 
@@ -69,7 +69,7 @@ module.exports = async function startWritingCampaignResultsToStream({
     let line;
     if (!campaignParticipation.isShared) {
       campaignIndividualResult.addIndividualStatistics({ assessment, user, campaignParticipation, allKnowledgeElements });
-      line = csvService.getCsvLine({
+      line = csvUtils.getCsvLine({
         rawData: campaignIndividualResult,
         headerPropertyMap: getHeaderPropertyMap(campaign),
         placeholder,
@@ -78,7 +78,7 @@ module.exports = async function startWritingCampaignResultsToStream({
 
     } else {
       campaignIndividualResult.addIndividualStatisticsWhenShared({ assessment, user, campaignParticipation, allKnowledgeElements });
-      line = csvService.getCsvLine({
+      line = csvUtils.getCsvLine({
         rawData: campaignIndividualResult,
         headerPropertyMap: getHeaderPropertyMapWhenShared(campaign, campaignIndividualResult.targeted),
         placeholder,
