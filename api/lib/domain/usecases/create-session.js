@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { ForbiddenAccess } = require('../errors');
 const sessionValidator = require('../validators/session-validator');
 
@@ -28,17 +29,18 @@ function _setCertifCenterNameInSessionAndSave(session, certificationCenterId, ce
 module.exports = async function createSession({ userId, session, certificationCenterRepository, sessionRepository, userRepository }) {
   sessionValidator.validate(session);
 
+  const sessionWithCode = _.clone(session);
   const sessionCode = await sessionCodeService.getNewSessionCode();
-  session.accessCode = sessionCode;
+  sessionWithCode.accessCode = sessionCode;
 
-  const certificationCenterId = session.certificationCenterId;
+  const certificationCenterId = sessionWithCode.certificationCenterId;
   const user = await userRepository.get(userId);
 
   // We keep this code here so that PIX-MASTER can still create the sessions the old way through Postman, for now :)
   // To remove when we will not create sessions with no certifCenterId through Postman anymore
   if (user.hasRolePixMaster) {
-    return _createSessionAsPixMaster(certificationCenterId, session, certificationCenterRepository, sessionRepository);
+    return _createSessionAsPixMaster(certificationCenterId, sessionWithCode, certificationCenterRepository, sessionRepository);
   }
 
-  return _createSessionAsNormalUser(userId, certificationCenterId, session, certificationCenterRepository, sessionRepository, userRepository);
+  return _createSessionAsNormalUser(userId, certificationCenterId, sessionWithCode, certificationCenterRepository, sessionRepository, userRepository);
 };
