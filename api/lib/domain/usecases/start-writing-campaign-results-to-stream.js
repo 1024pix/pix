@@ -1,22 +1,13 @@
 const CampaignIndividualResult = require('../models/CampaignIndividualResult');
 const bluebird = require('bluebird');
-const csvService = require('../services/csv-service');
 const _ = require('lodash');
-
-const {
-  CAMPAIGN_CSV_PLACEHOLDER: placeholder,
-  makeCSVResultFileName,
-  createCsvHeader,
-  getHeaderPropertyMap,
-  getHeaderPropertyMapWhenShared,
-} = require('../services/campaigns/campaign-csv-result-service');
 
 const {
   UserNotAuthorizedToGetCampaignResultsError,
   CampaignWithoutOrganizationError
 } = require('../errors');
 
-async function _fetchUserIfHeHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
+async function _fetchUserHavingAccessToCampaignOrganization(userId, organizationId, userRepository) {
   if (_.isNil(organizationId)) {
     throw new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`);
   }
@@ -40,12 +31,22 @@ module.exports = async function startWritingCampaignResultsToStream({
   organizationRepository,
   smartPlacementAssessmentRepository,
   knowledgeElementRepository,
+  csvService,
+  campaignCsvResultService,
 }) {
+
+  const {
+    CAMPAIGN_CSV_PLACEHOLDER: placeholder,
+    makeCSVResultFileName,
+    createCsvHeader,
+    getHeaderPropertyMap,
+    getHeaderPropertyMapWhenShared,
+  } = campaignCsvResultService;
 
   const campaign = await campaignRepository.get(campaignId);
 
   const [user, targetProfile, competences, organization, campaignParticipations] = await Promise.all([
-    _fetchUserIfHeHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository),
+    _fetchUserHavingAccessToCampaignOrganization(userId, campaign.organizationId, userRepository),
     targetProfileRepository.get(campaign.targetProfileId),
     competenceRepository.list(),
     organizationRepository.get(campaign.organizationId),
