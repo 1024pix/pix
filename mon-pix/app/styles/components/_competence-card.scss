@@ -124,19 +124,19 @@
 }
 
 .competence-card__congrats {
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 140px;
   background: url('/images/scorecard-congrats.svg') no-repeat center center;
   background-size: contain;
+  margin: -10px -5px;
 
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 
   &--small {
-    width: 80px;
-    height: 90px;
+    width: 90px;
+    height: 100px;
   }
 }
 
