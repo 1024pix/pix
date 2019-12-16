@@ -20,7 +20,7 @@ export default Component.extend({
   actions: {
     async authenticate() {
       this.set('isLoading', true);
-      const email = this.email;
+      const email = this.email ? this.email.trim() : '';
       const password = this.password;
 
       if (this.isWithInvitation) {
@@ -34,6 +34,7 @@ export default Component.extend({
           });
         }
       }
+
       return this._authenticate(password, email);
     },
 
