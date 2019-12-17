@@ -74,11 +74,6 @@ function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
   return headers;
 }
 
-function _addCellByHeadersTitle(title, data, line, headers) {
-  line[headers.indexOf(title)] = data;
-  return line;
-}
-
 function _totalValidatedSkills(knowledgeElements) {
   const sumValidatedSkills = _.reduce(knowledgeElements, function(validatedSkill, knowledgeElement) {
     if (knowledgeElement.isValidated) {
@@ -133,7 +128,7 @@ function _createOneLineOfCSV(
   smartPlacementAssessmentRepository,
   knowledgeElementRepository,
 ) {
-  const line = headers.map(() => 'NA');
+  const lineMap = _.fromPairs(headers.map((h) => [h, 'NA']));
 
   return Promise.all([
     smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId),
@@ -142,16 +137,16 @@ function _createOneLineOfCSV(
   ])
     .then(([assessment, user, allKnowledgeElements]) => {
 
-      _addCellByHeadersTitle('Nom de l\'organisation', organization.name, line, headers);
-      _addCellByHeadersTitle('ID Campagne', parseInt(campaign.id), line, headers);
-      _addCellByHeadersTitle('Nom de la campagne', campaign.name, line, headers);
-      _addCellByHeadersTitle('Nom du Profil Cible', targetProfile.name, line, headers);
+      lineMap['Nom de l\'organisation'] = organization.name;
+      lineMap['ID Campagne'] = parseInt(campaign.id);
+      lineMap['Nom de la campagne'] = campaign.name;
+      lineMap['Nom du Profil Cible'] = targetProfile.name;
 
-      _addCellByHeadersTitle('Nom du Participant', user.lastName, line, headers);
-      _addCellByHeadersTitle('Prénom du Participant', user.firstName, line, headers);
+      lineMap['Nom du Participant'] = user.lastName;
+      lineMap['Prénom du Participant'] = user.firstName;
 
       if (campaign.idPixLabel) {
-        _addCellByHeadersTitle(campaign.idPixLabel, campaignParticipation.participantExternalId, line, headers);
+        lineMap[campaign.idPixLabel] = campaignParticipation.participantExternalId;
       }
 
       const knowledgeElements = allKnowledgeElements
@@ -162,27 +157,17 @@ function _createOneLineOfCSV(
         3,
       );
       const percentageProgression = (assessment.isCompleted) ? 1 : notCompletedPercentageProgression;
-      _addCellByHeadersTitle('% de progression', percentageProgression, line, headers);
-      _addCellByHeadersTitle(
-        'Date de début',
-        moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
-        line,
-        headers,
-      );
+      lineMap['% de progression'] = percentageProgression;
+      lineMap['Date de début'] = moment.utc(assessment.createdAt).format('YYYY-MM-DD');
 
       const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
-      _addCellByHeadersTitle('Partage (O/N)', textForParticipationShared, line, headers);
+      lineMap['Partage (O/N)'] = textForParticipationShared;
 
       if (campaignParticipation.isShared) {
 
-        _addCellByHeadersTitle('Date du partage', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), line, headers);
+        lineMap['Date du partage'] = moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD');
 
-        _addCellByHeadersTitle(
-          '% maitrise de l\'ensemble des acquis du profil',
-          _percentageSkillsValidated(knowledgeElements, targetProfile),
-          line,
-          headers,
-        );
+        lineMap['% maitrise de l\'ensemble des acquis du profil'] = _percentageSkillsValidated(knowledgeElements, targetProfile);
 
         const areaSkills = listArea.map((area) => {
           return {
@@ -198,24 +183,9 @@ function _createOneLineOfCSV(
           const numberOfSkillsValidatedForThisCompetence = _getSkillsValidatedForCompetence(skillsForThisCompetence,
             knowledgeElements);
           const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
-          _addCellByHeadersTitle(
-            `% de maitrise des acquis de la compétence ${competence.name}`,
-            percentage,
-            line,
-            headers,
-          );
-          _addCellByHeadersTitle(
-            `Nombre d'acquis du profil cible dans la compétence ${competence.name}`,
-            skillsForThisCompetence.length,
-            line,
-            headers,
-          );
-          _addCellByHeadersTitle(
-            `Acquis maitrisés dans la compétence ${competence.name}`,
-            numberOfSkillsValidatedForThisCompetence,
-            line,
-            headers,
-          );
+          lineMap[`% de maitrise des acquis de la compétence ${competence.name}`] = percentage;
+          lineMap[`Nombre d'acquis du profil cible dans la compétence ${competence.name}`] = skillsForThisCompetence.length;
+          lineMap[`Acquis maitrisés dans la compétence ${competence.name}`] = numberOfSkillsValidatedForThisCompetence;
           // Add on Area
           const areaSkillsForThisCompetence = areaSkills.find((area) => area.title === competence.area.title);
           areaSkillsForThisCompetence.numberSkillsValidated =
@@ -228,36 +198,26 @@ function _createOneLineOfCSV(
         _.forEach(areaSkills, (area) => {
           const percentage = _.round(area.numberSkillsValidated / area.numberSkillsTested, 2);
 
-          _addCellByHeadersTitle(`% de maitrise des acquis du domaine ${area.title}`,
-            percentage,
-            line,
-            headers);
-          _addCellByHeadersTitle(
-            `Nombre d'acquis du profil cible du domaine ${area.title}`,
-            area.numberSkillsTested,
-            line,
-            headers,
-          );
-          _addCellByHeadersTitle(
-            `Acquis maitrisés du domaine ${area.title}`,
-            area.numberSkillsValidated,
-            line,
-            headers,
-          );
+          lineMap[`% de maitrise des acquis du domaine ${area.title}`] = percentage;
+          lineMap[`Nombre d'acquis du profil cible du domaine ${area.title}`] = area.numberSkillsTested;
+          lineMap[`Acquis maitrisés du domaine ${area.title}`] = area.numberSkillsValidated;
 
         });
 
         // By Skills
         _.forEach(targetProfile.skills, (skill) => {
-          _addCellByHeadersTitle(`${skill.name}`,
-            _stateOfSkill(skill.id, knowledgeElements),
-            line,
-            headers);
+          lineMap[skill.name] = _stateOfSkill(skill.id, knowledgeElements);
         });
       }
-      return line;
+      return lineMap;
     })
-    .then(_csvSerializeLine);
+    .then((lineMap) => {
+      const lineArray = headers.map((title) => {
+        return lineMap[title];
+      });
+
+      return _csvSerializeLine(lineArray);
+    });
 }
 
 module.exports = async function startWritingCampaignResultsToStream(
