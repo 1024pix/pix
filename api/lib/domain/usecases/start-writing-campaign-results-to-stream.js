@@ -38,7 +38,7 @@ function _csvSerializeLine(line) {
   return line.map(_csvSerializeValue).join(';') + '\n';
 }
 
-function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
+function _createHeaderOfCSV(skills, competences, areas, idPixLabel) {
   return [
     'Nom de l\'organisation',
     'ID Campagne',
@@ -67,7 +67,7 @@ function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
       `Acquis maitrisés du domaine ${area.title}`,
     ])),
 
-    ...skillNames,
+    ...(_.map(skills, 'name')),
   ];
 }
 
@@ -243,7 +243,6 @@ module.exports = async function startWritingCampaignResultsToStream(
     campaignParticipationRepository.findByCampaignId(campaign.id),
   ]);
 
-  const listSkillsName = targetProfile.skills.map((skill) => skill.name);
   const listSkillsId = targetProfile.skills.map((skill) => skill.id);
 
   const competences = listAllCompetences.filter((competence) => {
@@ -253,7 +252,7 @@ module.exports = async function startWritingCampaignResultsToStream(
   const areas = _.uniqBy(competences.map((competence) => competence.area), 'code');
 
   //Create HEADER of CSV
-  const headersAsArray = _createHeaderOfCSV(listSkillsName, competences, areas, campaign.idPixLabel);
+  const headersAsArray = _createHeaderOfCSV(targetProfile.skills, competences, areas, campaign.idPixLabel);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
