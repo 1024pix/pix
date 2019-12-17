@@ -147,7 +147,7 @@ function _getCommonColumns({
     participantLastName: user.lastName,
     participantFirstName: user.firstName,
     percentageProgression: assessment.isCompleted ? 1 : notCompletedPercentageProgression,
-    createdAt: moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
+    createdAt: moment.utc(campaignParticipation.createdAt).format('YYYY-MM-DD'),
     isShared: campaignParticipation.isShared ? 'Oui' : 'Non',
     ...(campaign.idPixLabel ? { participantExternalId: campaignParticipation.participantExternalId } : {}),
   };
