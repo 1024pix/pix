@@ -4,20 +4,18 @@ const bluebird = require('bluebird');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
 
-function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
+async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   if (_.isNil(organizationId)) {
-    return Promise.reject(new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`));
+    throw new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`);
   }
 
-  return userRepository.getWithMemberships(userId)
-    .then((user) => {
-      if (user.hasAccessToOrganization(organizationId)) {
-        return Promise.resolve();
-      }
-      return Promise.reject(
-        new UserNotAuthorizedToGetCampaignResultsError(`User does not have an access to the organization ${organizationId}`),
-      );
-    });
+  const user = await userRepository.getWithMemberships(userId);
+
+  if (!user.hasAccessToOrganization(organizationId)) {
+    throw new UserNotAuthorizedToGetCampaignResultsError(
+      `User does not have an access to the organization ${organizationId}`
+    );
+  }
 }
 
 function _csvSerializeValue(data) {
