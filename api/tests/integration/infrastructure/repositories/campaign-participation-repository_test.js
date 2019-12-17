@@ -184,18 +184,24 @@ describe('Integration | Repository | Campaign Participation', () => {
     let campaign1;
     let campaign2;
     let campaignParticipation1;
+    let userId;
 
     beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser({
+        firstName: 'First',
+        lastName: 'Last',
+      }).id;
       campaign1 = databaseBuilder.factory.buildCampaign({});
       campaign2 = databaseBuilder.factory.buildCampaign({});
 
       campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign1.id,
-        isShared: true
+        userId,
+        isShared: true,
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign2.id,
-        isShared: true
+        isShared: true,
       });
       await databaseBuilder.commit();
     });
@@ -217,6 +223,9 @@ describe('Integration | Repository | Campaign Participation', () => {
           createdAt: campaignParticipation1.createdAt,
           participantExternalId: campaignParticipation1.participantExternalId,
           userId: campaignParticipation1.userId,
+
+          participantFirstName: 'First',
+          participantLastName: 'Last',
         }
       ]);
     });
