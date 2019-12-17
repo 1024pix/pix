@@ -84,16 +84,6 @@ function _addCellByHeadersTitleForText(title, data, line, headers) {
   return line;
 }
 
-/*function _totalPixScore(knowledgeElements) {
- const sumTotalPixScore = _.reduce(knowledgeElements, function(sumPix, knowledgeElement) {
- if (knowledgeElement.isValidated) {
- return sumPix + knowledgeElement.pixScore;
- }
- return sumPix;
- }, 0);
- return sumTotalPixScore;
- }*/
-
 function _totalValidatedSkills(knowledgeElements) {
   const sumValidatedSkills = _.reduce(knowledgeElements, function(validatedSkill, knowledgeElement) {
     if (knowledgeElement.isValidated) {
