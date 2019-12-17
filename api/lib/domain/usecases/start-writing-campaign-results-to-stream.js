@@ -111,19 +111,6 @@ function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
 
 }
 
-function _fetchParticipantData(
-  campaignParticipationResultData,
-
-  knowledgeElementRepository,
-) {
-  return bluebird.props({
-    participantKnowledgeElements: knowledgeElementRepository.findUniqByUserId({
-      userId: campaignParticipationResultData.userId,
-      limitDate: campaignParticipationResultData.sharedAt,
-    }),
-  });
-}
-
 function _getCommonColumns({
   organization,
   campaign,
@@ -310,11 +297,10 @@ module.exports = async function startWritingCampaignResultsToStream(
   // function, node will keep all the data in memory until the end of the
   // complete operation.
   bluebird.mapSeries(campaignParticipationResultDatas, async (campaignParticipationResultData) => {
-    const { participantKnowledgeElements } = await _fetchParticipantData(
-      campaignParticipationResultData,
-
-      knowledgeElementRepository,
-    );
+    const participantKnowledgeElements = await knowledgeElementRepository.findUniqByUserId({
+      userId: campaignParticipationResultData.userId,
+      limitDate: campaignParticipationResultData.sharedAt,
+    });
 
     const csvLine = _createOneLineOfCSV({
       headers,
