@@ -117,8 +117,8 @@ function _createOneLineOfCSV(
   headers,
   organization,
   campaign,
-  listCompetences,
-  listArea,
+  competences,
+  areas,
   campaignParticipation,
   targetProfile,
   userRepository,
@@ -166,7 +166,7 @@ function _createOneLineOfCSV(
 
         lineMap['% maitrise de l\'ensemble des acquis du profil'] = _percentageSkillsValidated(knowledgeElements, targetProfile);
 
-        const areaSkills = listArea.map((area) => {
+        const areaSkills = areas.map((area) => {
           return {
             title: area.title,
             numberSkillsValidated: 0,
@@ -175,7 +175,7 @@ function _createOneLineOfCSV(
         });
 
         // By Competences
-        _.forEach(listCompetences, (competence) => {
+        _.forEach(competences, (competence) => {
           const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
           const numberOfSkillsValidatedForThisCompetence = _getSkillsValidatedForCompetence(skillsForThisCompetence,
             knowledgeElements);
@@ -246,14 +246,14 @@ module.exports = async function startWritingCampaignResultsToStream(
   const listSkillsName = targetProfile.skills.map((skill) => skill.name);
   const listSkillsId = targetProfile.skills.map((skill) => skill.id);
 
-  const listCompetences = listAllCompetences.filter((competence) => {
+  const competences = listAllCompetences.filter((competence) => {
     return listSkillsId.some((skillId) => competence.skills.includes(skillId));
   });
 
-  const listArea = _.uniqBy(listCompetences.map((competence) => competence.area), 'code');
+  const areas = _.uniqBy(competences.map((competence) => competence.area), 'code');
 
   //Create HEADER of CSV
-  const headersAsArray = _createHeaderOfCSV(listSkillsName, listCompetences, listArea, campaign.idPixLabel);
+  const headersAsArray = _createHeaderOfCSV(listSkillsName, competences, areas, campaign.idPixLabel);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -267,8 +267,8 @@ module.exports = async function startWritingCampaignResultsToStream(
       headersAsArray,
       organization,
       campaign,
-      listCompetences,
-      listArea,
+      competences,
+      areas,
       campaignParticipation,
       targetProfile,
       userRepository,
