@@ -115,11 +115,9 @@ function _fetchUserData(
   campaignParticipation,
 
   userRepository,
-  smartPlacementAssessmentRepository,
   knowledgeElementRepository,
 ) {
   return bluebird.props({
-    assessment: smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId),
     user: userRepository.get(campaignParticipation.userId),
     userKnowledgeElements: knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
   });
@@ -130,11 +128,10 @@ function _getCommonColumns({
   campaign,
   targetProfile,
   user,
-  assessment,
   campaignParticipation,
   knowledgeElements,
 }) {
-  const notCompletedPercentageProgression = _.round(
+  const percentageProgression = _.round(
     knowledgeElements.length / (targetProfile.skills.length),
     3,
   );
@@ -146,7 +143,7 @@ function _getCommonColumns({
     targetProfileName: targetProfile.name,
     participantLastName: user.lastName,
     participantFirstName: user.firstName,
-    percentageProgression: assessment.isCompleted ? 1 : notCompletedPercentageProgression,
+    percentageProgression: percentageProgression,
     createdAt: moment.utc(campaignParticipation.createdAt).format('YYYY-MM-DD'),
     isShared: campaignParticipation.isShared ? 'Oui' : 'Non',
     ...(campaign.idPixLabel ? { participantExternalId: campaignParticipation.participantExternalId } : {}),
@@ -215,7 +212,6 @@ function _createOneLineOfCSV({
   campaignParticipation,
   targetProfile,
 
-  assessment,
   user,
   userKnowledgeElements,
 }) {
@@ -227,7 +223,6 @@ function _createOneLineOfCSV({
     campaign,
     targetProfile,
     user,
-    assessment,
     campaignParticipation,
     knowledgeElements,
   });
@@ -272,7 +267,6 @@ module.exports = async function startWritingCampaignResultsToStream(
     competenceRepository,
     campaignParticipationRepository,
     organizationRepository,
-    smartPlacementAssessmentRepository,
     knowledgeElementRepository,
   }) {
 
@@ -306,12 +300,11 @@ module.exports = async function startWritingCampaignResultsToStream(
   // function, node will keep all the data in memory until the end of the
   // complete operation.
   bluebird.mapSeries(listCampaignParticipation, async (campaignParticipation) => {
-    const { assessment, user, userKnowledgeElements } = await _fetchUserData(
+    const { user, userKnowledgeElements } = await _fetchUserData(
       campaignParticipation,
 
       userRepository,
-      smartPlacementAssessmentRepository,
-      knowledgeElementRepository
+      knowledgeElementRepository,
     );
 
     const csvLine = _createOneLineOfCSV({
@@ -323,7 +316,6 @@ module.exports = async function startWritingCampaignResultsToStream(
       campaignParticipation,
       targetProfile,
 
-      assessment,
       user,
       userKnowledgeElements,
     });
