@@ -127,6 +127,61 @@ function _fetchUserData(
   });
 }
 
+function _getSharedColumns({
+  competences,
+  targetProfile,
+  areas,
+  campaignParticipation,
+  knowledgeElements,
+}) {
+  const competenceStats = _.map(competences, (competence) => {
+    const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
+    const skillCount = skillsForThisCompetence.length;
+    const validatedSkillCount = _getSkillsValidatedForCompetence(skillsForThisCompetence, knowledgeElements);
+
+    return {
+      id: competence.id,
+      areaId: competence.area.id,
+      skillCount,
+      validatedSkillCount,
+    };
+  });
+
+  const areaStats = _.map(areas, ({ id }) => {
+    const areaCompetenceStats = _.filter(competenceStats, { areaId: id });
+    const skillCount = _.sumBy(areaCompetenceStats, 'skillCount');
+    const validatedSkillCount  = _.sumBy(areaCompetenceStats, 'validatedSkillCount');
+
+    return {
+      id,
+      skillCount,
+      validatedSkillCount,
+    };
+  });
+
+  const lineMap = {
+    sharedAt: moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'),
+    percentageSkillValidated: _percentageSkillsValidated(knowledgeElements, targetProfile),
+  };
+
+  const addStatsColumns = (prefix) => ({ id, skillCount, validatedSkillCount }) => {
+    _.assign(lineMap, {
+      [`${prefix}_${id}_percentageValidated`]: _.round(validatedSkillCount / skillCount, 2),
+      [`${prefix}_${id}_skillCount`]: skillCount,
+      [`${prefix}_${id}_validatedSkillCount`]: validatedSkillCount,
+    });
+  };
+
+  _.forEach(competenceStats, addStatsColumns('competence'));
+  _.forEach(areaStats, addStatsColumns('area'));
+
+  _.forEach(targetProfile.skills, ({ id }) => {
+    lineMap[`skill_${id}`] = _stateOfSkill(id, knowledgeElements);
+  });
+
+  return lineMap;
+}
+
 function _createOneLineOfCSV({
   headers,
   organization,
@@ -165,51 +220,13 @@ function _createOneLineOfCSV({
   }
 
   if (campaignParticipation.isShared) {
-
-    const competenceStats = _.map(competences, (competence) => {
-      const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
-      const skillCount = skillsForThisCompetence.length;
-      const validatedSkillCount = _getSkillsValidatedForCompetence(skillsForThisCompetence, knowledgeElements);
-
-      return {
-        id: competence.id,
-        areaId: competence.area.id,
-        skillCount,
-        validatedSkillCount,
-      };
-    });
-
-    const areaStats = _.map(areas, ({ id }) => {
-      const areaCompetenceStats = _.filter(competenceStats, { areaId: id });
-      const skillCount = _.sumBy(areaCompetenceStats, 'skillCount');
-      const validatedSkillCount  = _.sumBy(areaCompetenceStats, 'validatedSkillCount');
-
-      return {
-        id,
-        skillCount,
-        validatedSkillCount,
-      };
-    });
-
-    _.assign(lineMap, {
-      sharedAt: moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'),
-      percentageSkillValidated: _percentageSkillsValidated(knowledgeElements, targetProfile),
-    });
-
-    const addStatsColumns = (prefix) => ({ id, skillCount, validatedSkillCount }) => {
-      _.assign(lineMap, {
-        [`${prefix}_${id}_percentageValidated`]: _.round(validatedSkillCount / skillCount, 2),
-        [`${prefix}_${id}_skillCount`]: skillCount,
-        [`${prefix}_${id}_validatedSkillCount`]: validatedSkillCount,
-      });
-    };
-
-    _.forEach(competenceStats, addStatsColumns('competence'));
-    _.forEach(areaStats, addStatsColumns('area'));
-
-    _.forEach(targetProfile.skills, ({ id }) => {
-      lineMap[`skill_${id}`] = _stateOfSkill(id, knowledgeElements);
-    });
+    _.assign(lineMap, _getSharedColumns({
+      competences,
+      targetProfile,
+      areas,
+      campaignParticipation,
+      knowledgeElements,
+    }));
   }
 
   const lineArray = headers.map(({ property }) => {
