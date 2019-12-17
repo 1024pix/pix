@@ -111,7 +111,7 @@ function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
 
 }
 
-function _fetchUserData(
+function _fetchParticipantData(
   campaignParticipation,
 
   userRepository,
@@ -300,7 +300,7 @@ module.exports = async function startWritingCampaignResultsToStream(
   // function, node will keep all the data in memory until the end of the
   // complete operation.
   bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
-    const { user, userKnowledgeElements } = await _fetchUserData(
+    const { user, userKnowledgeElements } = await _fetchParticipantData(
       campaignParticipation,
 
       userRepository,
