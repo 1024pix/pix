@@ -1,8 +1,10 @@
 const _ = require('lodash');
+const CertificationCandidate = require('../models/CertificationCandidate');
 const {
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
+  CertificationCandidatePersonalInfoWrongFormat,
   CertificationCandidatePersonalInfoFieldMissingError,
   UserAlreadyLinkedToCandidateInSessionError,
 } = require('../errors');
@@ -10,26 +12,34 @@ const {
 module.exports = async function linkUserToSessionCertificationCandidate({
   userId,
   sessionId,
-  certificationCandidateWithPersonalInfoOnly,
+  firstName,
+  lastName,
+  birthdate,
   certificationCandidateRepository,
 }) {
-  const { firstName, lastName, birthdate } = certificationCandidateWithPersonalInfoOnly;
   const trimmedFirstName = firstName
     ? firstName.trim()
     : firstName;
   const trimmedLastName = lastName
     ? lastName.trim()
     : lastName;
+  const participatingCertificationCandidate = new CertificationCandidate({
+    firstName: trimmedFirstName, lastName: trimmedLastName, birthdate, sessionId });
 
-  if (!_.every([sessionId, trimmedFirstName, trimmedLastName, birthdate])) {
-    throw new CertificationCandidatePersonalInfoFieldMissingError('One of mandatory personal info field is missing.');
+  try {
+    participatingCertificationCandidate.validateParticipation();
+  } catch (err) {
+    if (_.endsWith(err.details.type, 'required')) {
+      throw new CertificationCandidatePersonalInfoFieldMissingError();
+    }
+    throw new CertificationCandidatePersonalInfoWrongFormat();
   }
 
   const certificationCandidate = await _getSessionCertificationCandidateByPersonalInfo({
     sessionId,
-    firstName: trimmedFirstName,
-    lastName: trimmedLastName,
-    birthdate,
+    firstName: participatingCertificationCandidate.firstName,
+    lastName: participatingCertificationCandidate.lastName,
+    birthdate: participatingCertificationCandidate.birthdate,
     certificationCandidateRepository
   });
 
