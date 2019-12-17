@@ -174,40 +174,43 @@ function _createOneLineOfCSV({
 
     lineMap.percentageSkillValidated = _percentageSkillsValidated(knowledgeElements, targetProfile);
 
-    const areaSkills = areas.map(({ id }) => {
-      return {
-        id,
-        numberSkillsValidated: 0,
-        numberSkillsTested: 0,
-      };
-    });
-
-    _.forEach(competences, (competence) => {
+    const competenceStats = _.map(competences, (competence) => {
       const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
 
       const skillCount = skillsForThisCompetence.length;
       const validatedSkillCount = _getSkillsValidatedForCompetence(skillsForThisCompetence, knowledgeElements);
-      const percentageValidated = _.round(validatedSkillCount / skillCount, 2);
 
-      lineMap[`competence_${competence.id}_percentageValidated`] = percentageValidated;
-      lineMap[`competence_${competence.id}_skillCount`] = skillCount;
-      lineMap[`competence_${competence.id}_validatedSkillCount`] = validatedSkillCount;
-
-      const areaSkillsForThisCompetence = _.find(areaSkills, { id: competence.area.id });
-      areaSkillsForThisCompetence.numberSkillsValidated =
-        areaSkillsForThisCompetence.numberSkillsValidated + validatedSkillCount;
-      areaSkillsForThisCompetence.numberSkillsTested =
-        areaSkillsForThisCompetence.numberSkillsTested + skillCount;
+      return {
+        id: competence.id,
+        areaId: competence.area.id,
+        skillCount,
+        validatedSkillCount,
+      };
     });
 
-    _.forEach(areaSkills, (areaSkill) => {
-      const skillCount = areaSkill.numberSkillsTested;
-      const validatedSkillCount  = areaSkill.numberSkillsValidated;
-      const percentageValidated = _.round(validatedSkillCount / skillCount, 2);
+    _.forEach(competenceStats, ({ id, skillCount, validatedSkillCount }) => {
+      lineMap[`competence_${id}_percentageValidated`] = _.round(validatedSkillCount / skillCount, 2);
+      lineMap[`competence_${id}_skillCount`] = skillCount;
+      lineMap[`competence_${id}_validatedSkillCount`] = validatedSkillCount;
+    });
 
-      lineMap[`area_${areaSkill.id}_percentageValidated`] = percentageValidated;
-      lineMap[`area_${areaSkill.id}_skillCount`] = skillCount;
-      lineMap[`area_${areaSkill.id}_validatedSkillCount`] = validatedSkillCount;
+    const areaStats = _.map(areas, ({ id }) => {
+      const areaCompetences = _.filter(competenceStats, { areaId: id });
+
+      const skillCount = _.sumBy(areaCompetences, 'skillCount');
+      const validatedSkillCount  = _.sumBy(areaCompetences, 'validatedSkillCount');
+
+      return {
+        id,
+        skillCount,
+        validatedSkillCount,
+      };
+    });
+
+    _.forEach(areaStats, ({ id, skillCount, validatedSkillCount }) => {
+      lineMap[`area_${id}_percentageValidated`] = _.round(validatedSkillCount / skillCount, 2);
+      lineMap[`area_${id}_skillCount`] = skillCount;
+      lineMap[`area_${id}_validatedSkillCount`] = validatedSkillCount;
     });
 
     _.forEach(targetProfile.skills, ({ id }) => {
