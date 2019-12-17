@@ -95,6 +95,7 @@ describe('Integration | Infrastructure | airtable', () => {
       });
     });
   });
+
   describe('#findRecords{SkipCache}', () => {
 
     const tableName = 'Tests';
@@ -109,7 +110,7 @@ describe('Integration | Infrastructure | airtable', () => {
     }, {
       id: 'recId2',
       fields: {
-        foo:'bar',
+        foo: 'bar',
         titi: 'toto',
         toto: 'titi'
       }
@@ -238,6 +239,47 @@ describe('Integration | Infrastructure | airtable', () => {
         // then
         return expect(promise).to.have.been.rejectedWith(error);
       });
+    });
+  });
+
+  describe('#preload', () => {
+
+    const tableName = 'Tests';
+
+    const airtableRecordsJsonWithSpecificFields = [{
+      id: 'recId1',
+      fields: {
+        field_A: 'Foo_1',
+        field_B: 'Bar_1'
+      }
+    }, {
+      id: 'recId2',
+      fields: {
+        field_A: 'Foo_2',
+        field_B: 'Bar_2'
+      }
+    }];
+
+    beforeEach(() => {
+      airtableBuilder
+        .mockList({ tableName })
+        .respondsToQuery({
+          'fields[]': ['field_A', 'field_B']
+        })
+        .returns(airtableRecordsJsonWithSpecificFields)
+        .activate();
+    });
+
+    it('should load all the table records and cache all Airtable Records (with the list indexed one)', async () => {
+      // given
+      const usedFields = ['field_A', 'field_B'];
+
+      // when
+      const success = await airtable.preload(tableName, usedFields);
+
+      // then
+      expect(success).to.be.true;
+      expect(cache.set).to.have.been.calledThrice;
     });
   });
 

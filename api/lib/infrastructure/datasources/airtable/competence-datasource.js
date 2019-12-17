@@ -1,44 +1,31 @@
-const airtable = require('../../airtable');
+const datasource = require('./datasource');
 
-const tableName = 'Competences';
+module.exports = datasource.extend({
 
-const usedFields = [
-  'Titre',
-  'Sous-domaine',
-  'Description',
-  'Domaine',
-  'Tests',
-  'Acquis (via Tubes)'
-];
+  modelName: 'Competence',
 
-function fromAirTableObject(rawAirtableCompetence) {
-  return {
-    id: rawAirtableCompetence.getId(),
-    name: rawAirtableCompetence.get('Titre'),
-    index: rawAirtableCompetence.get('Sous-domaine'),
-    description: rawAirtableCompetence.get('Description'),
-    areaId: rawAirtableCompetence.get('Domaine') ? rawAirtableCompetence.get('Domaine')[0] : '',
-    courseId: rawAirtableCompetence.get('Tests') ? rawAirtableCompetence.get('Tests')[0] : '',
-    skillIds: rawAirtableCompetence.get('Acquis (via Tubes)') || [],
-  };
-}
+  tableName: 'Competences',
 
-module.exports = {
+  usedFields: [
+    'Titre',
+    'Sous-domaine',
+    'Description',
+    'Domaine',
+    'Tests',
+    'Acquis (via Tubes)'
+  ],
 
-  tableName,
-
-  usedFields,
-
-  fromAirTableObject,
-
-  list() {
-    return airtable.findRecords(tableName, usedFields)
-      .then((airtableRawObjects) => airtableRawObjects.map(fromAirTableObject));
+  fromAirTableObject(airtableRecord) {
+    return {
+      id: airtableRecord.getId(),
+      name: airtableRecord.get('Titre'),
+      index: airtableRecord.get('Sous-domaine'),
+      description: airtableRecord.get('Description'),
+      areaId: airtableRecord.get('Domaine') ? airtableRecord.get('Domaine')[0] : '',
+      courseId: airtableRecord.get('Tests') ? airtableRecord.get('Tests')[0] : '',
+      skillIds: airtableRecord.get('Acquis (via Tubes)') || [],
+    };
   },
 
-  get(id) {
-    return airtable.getRecord(tableName, id)
-      .then(fromAirTableObject);
-  }
-};
+});
 
