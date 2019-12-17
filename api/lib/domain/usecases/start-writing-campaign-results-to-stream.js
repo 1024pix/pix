@@ -176,7 +176,6 @@ function _createOneLineOfCSV({
 
     const competenceStats = _.map(competences, (competence) => {
       const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
-
       const skillCount = skillsForThisCompetence.length;
       const validatedSkillCount = _getSkillsValidatedForCompetence(skillsForThisCompetence, knowledgeElements);
 
@@ -188,17 +187,10 @@ function _createOneLineOfCSV({
       };
     });
 
-    _.forEach(competenceStats, ({ id, skillCount, validatedSkillCount }) => {
-      lineMap[`competence_${id}_percentageValidated`] = _.round(validatedSkillCount / skillCount, 2);
-      lineMap[`competence_${id}_skillCount`] = skillCount;
-      lineMap[`competence_${id}_validatedSkillCount`] = validatedSkillCount;
-    });
-
     const areaStats = _.map(areas, ({ id }) => {
-      const areaCompetences = _.filter(competenceStats, { areaId: id });
-
-      const skillCount = _.sumBy(areaCompetences, 'skillCount');
-      const validatedSkillCount  = _.sumBy(areaCompetences, 'validatedSkillCount');
+      const areaCompetenceStats = _.filter(competenceStats, { areaId: id });
+      const skillCount = _.sumBy(areaCompetenceStats, 'skillCount');
+      const validatedSkillCount  = _.sumBy(areaCompetenceStats, 'validatedSkillCount');
 
       return {
         id,
@@ -207,11 +199,14 @@ function _createOneLineOfCSV({
       };
     });
 
-    _.forEach(areaStats, ({ id, skillCount, validatedSkillCount }) => {
-      lineMap[`area_${id}_percentageValidated`] = _.round(validatedSkillCount / skillCount, 2);
-      lineMap[`area_${id}_skillCount`] = skillCount;
-      lineMap[`area_${id}_validatedSkillCount`] = validatedSkillCount;
-    });
+    const addStatsColumns = (prefix) => ({ id, skillCount, validatedSkillCount }) => {
+      lineMap[`${prefix}_${id}_percentageValidated`] = _.round(validatedSkillCount / skillCount, 2);
+      lineMap[`${prefix}_${id}_skillCount`] = skillCount;
+      lineMap[`${prefix}_${id}_validatedSkillCount`] = validatedSkillCount;
+    };
+
+    _.forEach(competenceStats, addStatsColumns('competence'));
+    _.forEach(areaStats, addStatsColumns('area'));
 
     _.forEach(targetProfile.skills, ({ id }) => {
       lineMap[`skill_${id}`] = _stateOfSkill(id, knowledgeElements);
