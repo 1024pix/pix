@@ -251,7 +251,13 @@ function _extractCompetences(allCompetences, skills) {
   return _(skills)
     .map('competenceId')
     .uniq()
-    .map((competenceId) => _.find(allCompetences, { id: competenceId }))
+    .map((competenceId) => {
+      const competence = _.find(allCompetences, { id: competenceId });
+      if (!competence) {
+        throw new Error(`Unknown competence ${competenceId}`);
+      }
+      return competence;
+    })
     .value();
 }
 
