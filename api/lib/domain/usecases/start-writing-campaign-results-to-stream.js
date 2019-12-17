@@ -113,7 +113,21 @@ function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
 
 }
 
-async function _createOneLineOfCSV(
+function _fetchUserData(
+  campaignParticipation,
+
+  userRepository,
+  smartPlacementAssessmentRepository,
+  knowledgeElementRepository,
+) {
+  return bluebird.props({
+    assessment: smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId),
+    user: userRepository.get(campaignParticipation.userId),
+    userKnowledgeElements: knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
+  });
+}
+
+function _createOneLineOfCSV({
   headers,
   organization,
   campaign,
@@ -122,17 +136,11 @@ async function _createOneLineOfCSV(
   campaignParticipation,
   targetProfile,
 
-  userRepository,
-  smartPlacementAssessmentRepository,
-  knowledgeElementRepository,
-) {
+  assessment,
+  user,
+  userKnowledgeElements,
+}) {
   const lineMap = _.fromPairs(headers.map((h) => [h, 'NA']));
-
-  const [assessment, user, allKnowledgeElements] = await Promise.all([
-    smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId),
-    userRepository.get(campaignParticipation.userId),
-    knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
-  ]);
 
   lineMap['Nom de l\'organisation'] = organization.name;
   lineMap['ID Campagne'] = parseInt(campaign.id);
@@ -146,7 +154,7 @@ async function _createOneLineOfCSV(
     lineMap[campaign.idPixLabel] = campaignParticipation.participantExternalId;
   }
 
-  const knowledgeElements = allKnowledgeElements
+  const knowledgeElements = userKnowledgeElements
     .filter((ke) => targetProfile.skills.find((skill) => skill.id === ke.skillId));
 
   const notCompletedPercentageProgression = _.round(
@@ -257,28 +265,37 @@ module.exports = async function startWritingCampaignResultsToStream(
   const areas = _extractAreas(competences);
 
   //Create HEADER of CSV
-  const headersAsArray = _createHeaderOfCSV(targetProfile.skills, competences, areas, campaign.idPixLabel);
+  const headers = _createHeaderOfCSV(targetProfile.skills, competences, areas, campaign.idPixLabel);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
   // - https://stackoverflow.com/a/38192870
-  const headerLine = '\uFEFF' + _csvSerializeLine(headersAsArray);
+  const headerLine = '\uFEFF' + _csvSerializeLine(headers);
 
   writableStream.write(headerLine);
 
   bluebird.mapSeries(listCampaignParticipation, async (campaignParticipation) => {
-    const csvLine = await _createOneLineOfCSV(
-      headersAsArray,
+    const { assessment, user, userKnowledgeElements } = await _fetchUserData(
+      campaignParticipation,
+
+      userRepository,
+      smartPlacementAssessmentRepository,
+      knowledgeElementRepository
+    );
+
+    const csvLine = _createOneLineOfCSV({
+      headers,
       organization,
       campaign,
       competences,
       areas,
       campaignParticipation,
       targetProfile,
-      userRepository,
-      smartPlacementAssessmentRepository,
-      knowledgeElementRepository
-    );
+
+      assessment,
+      user,
+      userKnowledgeElements,
+    });
 
     writableStream.write(csvLine);
   }).then(() => {
