@@ -301,6 +301,10 @@ module.exports = async function startWritingCampaignResultsToStream(
 
   writableStream.write(headerLine);
 
+  // No return/await here, we need the writing to continue in the background
+  // after this function's returned promise resolves. If we await the mapSeries
+  // function, node will keep all the data in memory until the end of the
+  // complete operation.
   bluebird.mapSeries(listCampaignParticipation, async (campaignParticipation) => {
     const { assessment, user, userKnowledgeElements } = await _fetchUserData(
       campaignParticipation,
