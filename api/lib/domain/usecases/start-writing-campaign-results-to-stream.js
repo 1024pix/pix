@@ -182,7 +182,6 @@ function _createOneLineOfCSV({
       };
     });
 
-    // By Competences
     _.forEach(competences, (competence) => {
       const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
 
@@ -194,7 +193,6 @@ function _createOneLineOfCSV({
       lineMap[`competence_${competence.id}_skillCount`] = skillCount;
       lineMap[`competence_${competence.id}_validatedSkillCount`] = validatedSkillCount;
 
-      // Add on Area
       const areaSkillsForThisCompetence = _.find(areaSkills, { id: competence.area.id });
       areaSkillsForThisCompetence.numberSkillsValidated =
         areaSkillsForThisCompetence.numberSkillsValidated + validatedSkillCount;
@@ -202,7 +200,6 @@ function _createOneLineOfCSV({
         areaSkillsForThisCompetence.numberSkillsTested + skillCount;
     });
 
-    // By Area
     _.forEach(areaSkills, (areaSkill) => {
       const skillCount = areaSkill.numberSkillsTested;
       const validatedSkillCount  = areaSkill.numberSkillsValidated;
@@ -213,7 +210,6 @@ function _createOneLineOfCSV({
       lineMap[`area_${areaSkill.id}_validatedSkillCount`] = validatedSkillCount;
     });
 
-    // By Skills
     _.forEach(targetProfile.skills, ({ id }) => {
       lineMap[`skill_${id}`] = _stateOfSkill(id, knowledgeElements);
     });
