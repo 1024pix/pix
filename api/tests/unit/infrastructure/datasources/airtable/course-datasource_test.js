@@ -19,6 +19,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
             'recChallenge1',
             'recChallenge2',
           ],
+          'Statut': 'Publié',
           'Competence': ['recCompetence123'],
           'Image': [
             {
@@ -36,6 +37,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
         id: 'recCourse123',
         name: 'course-name',
         adaptive: false,
+        status: 'Publié',
 
         competences: ['recCompetence123'],
         description: 'course-description',
@@ -48,7 +50,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
     });
   });
 
-  describe('#getAdaptiveCourses', () => {
+  describe('#findAdaptiveCourses', () => {
 
     it('should call airtable on Tests table, filter and return Course dataObjects', () => {
       // given
@@ -59,7 +61,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
       ]);
 
       // when
-      const promise = courseDatasource.getAdaptiveCourses();
+      const promise = courseDatasource.findAdaptiveCourses();
 
       // then
       return promise.then((courses) => {

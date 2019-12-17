@@ -43,7 +43,7 @@ module.exports = {
 };
 
 function _generateChallengeDomainModels(challengeDataObjects) {
-  return skillDatasource.list().then((allSkills) => {
+  return skillDatasource.findActiveSkills().then((allSkills) => {
     const lookupSkill = (id) => _.find(allSkills, { id });
 
     return challengeDataObjects.map((challengeDataObject) => {

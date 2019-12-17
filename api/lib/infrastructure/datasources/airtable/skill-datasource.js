@@ -1,67 +1,60 @@
 const _ = require('lodash');
-const airtable = require('../../airtable');
+const datasource = require('./datasource');
 
-const tableName = 'Acquis';
+const ACTIVATED_STATUS = 'actif';
 
-const usedFields = [
-  'Nom',
-  'Indice',
-  'Statut de l\'indice',
-  'Comprendre',
-  'En savoir plus',
-  'PixValue',
-  'Compétence (via Tube)',
-  'Status',
-];
+module.exports = datasource.extend({
 
-const ACTIVATED_STATUS = ['actif'];
+  modelName: 'Skill',
 
-function fromAirTableObject(airtableSkillObject) {
-  return {
-    id: airtableSkillObject.getId(),
-    name: airtableSkillObject.get('Nom'),
-    hint: airtableSkillObject.get('Indice'),
-    hintStatus: airtableSkillObject.get('Statut de l\'indice') || 'no status',
-    tutorialIds: airtableSkillObject.get('Comprendre') || [],
-    learningMoreTutorialIds: airtableSkillObject.get('En savoir plus') || [],
-    pixValue: airtableSkillObject.get('PixValue'),
-    competenceId: airtableSkillObject.get('Compétence (via Tube)')[0],
-  };
-}
+  tableName: 'Acquis',
 
-function _doQuery(filter) {
-  return airtable.findRecords(tableName, usedFields)
-    .then((rawSkills) => {
-      return _(rawSkills)
-        .filter(filter)
-        .filter((rawSkill) => _.includes(rawSkill.fields['Status'], ACTIVATED_STATUS))
-        .map(fromAirTableObject)
-        .value();
-    });
-}
+  usedFields: [
+    'Nom',
+    'Indice',
+    'Statut de l\'indice',
+    'Comprendre',
+    'En savoir plus',
+    'PixValue',
+    'Compétence (via Tube)',
+    'Status',
+  ],
 
-module.exports = {
+  fromAirTableObject(airtableRecord) {
 
-  tableName,
+    let competenceId;
+    if (airtableRecord.get('Compétence (via Tube)')) {
+      competenceId = airtableRecord.get('Compétence (via Tube)')[0];
+    }
 
-  usedFields,
-
-  fromAirTableObject,
-
-  get(id) {
-    return airtable.getRecord(tableName, id)
-      .then(fromAirTableObject);
+    return {
+      id: airtableRecord.getId(),
+      name: airtableRecord.get('Nom'),
+      hint: airtableRecord.get('Indice'),
+      hintStatus: airtableRecord.get('Statut de l\'indice') || 'no status',
+      tutorialIds: airtableRecord.get('Comprendre') || [],
+      learningMoreTutorialIds: airtableRecord.get('En savoir plus') || [],
+      pixValue: airtableRecord.get('PixValue'),
+      competenceId,
+      status: airtableRecord.get('Status'),
+    };
   },
 
-  findByRecordIds(skillRecordIds) {
-    return _doQuery((rawSkill) => _.includes(skillRecordIds, rawSkill.id));
+  async findActiveSkills() {
+    const skills = await this.list();
+    return _.filter(skills, { status: ACTIVATED_STATUS });
   },
 
-  findByCompetenceId(competenceId) {
-    return _doQuery((rawSkill) => _.includes(rawSkill.fields['Compétence (via Tube)'], competenceId));
+  async findByRecordIds(skillIds) {
+    const skills = await this.list();
+    return skills.filter((skillData) =>
+      skillData.status === ACTIVATED_STATUS &&
+      _.includes(skillIds, skillData.id));
   },
 
-  list() {
-    return _doQuery({});
-  }
-};
+  async findByCompetenceId(competenceId) {
+    const skills = await this.list();
+    return _.filter(skills, { status: ACTIVATED_STATUS, competenceId });
+  },
+
+});

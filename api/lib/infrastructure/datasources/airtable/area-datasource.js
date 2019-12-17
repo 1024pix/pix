@@ -1,37 +1,27 @@
-const airtable = require('../../airtable');
+const datasource = require('./datasource');
 
-const tableName = 'Domaines';
+module.exports = datasource.extend({
 
-const usedFields = [
-  'Code',
-  'Nom',
-  'Titre',
-  'Competences (identifiants)',
-];
+  modelName: 'Area',
 
-function fromAirTableObject(airtableDomaineObject) {
-  return {
-    id: airtableDomaineObject.getId(),
-    code: airtableDomaineObject.get('Code'),
-    name: airtableDomaineObject.get('Nom'),
-    title: airtableDomaineObject.get('Titre'),
-    competenceIds: airtableDomaineObject.get('Competences (identifiants)'),
-  };
-}
+  tableName: 'Domaines',
 
-module.exports = {
+  usedFields: [
+    'Code',
+    'Nom',
+    'Titre',
+    'Competences (identifiants)',
+  ],
 
-  tableName,
-
-  usedFields,
-
-  fromAirTableObject,
-
-  list() {
-    return airtable.findRecords(tableName, usedFields)
-      .then((airtableRawObjects) => {
-        return airtableRawObjects.map(fromAirTableObject);
-      });
+  fromAirTableObject(airtableRecord) {
+    return {
+      id: airtableRecord.getId(),
+      code: airtableRecord.get('Code'),
+      name: airtableRecord.get('Nom'),
+      title: airtableRecord.get('Titre'),
+      competenceIds: airtableRecord.get('Competences (identifiants)'),
+    };
   },
-};
+
+});
 

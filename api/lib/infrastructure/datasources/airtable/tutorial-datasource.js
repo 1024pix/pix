@@ -1,59 +1,35 @@
 const _ = require('lodash');
-const airtable = require('../../airtable');
-const AirtableResourceNotFound = require('./AirtableResourceNotFound');
+const datasource = require('./datasource');
 
-const tableName = 'Tutoriels';
+module.exports = datasource.extend({
 
-const usedFields = [
-  'Durée',
-  'Format',
-  'Lien',
-  'Source',
-  'Titre',
-];
+  modelName: 'Tutorial',
 
-function fromAirTableObject(airtableTutorialObject) {
-  return {
-    id: airtableTutorialObject.getId(),
-    duration: airtableTutorialObject.get('Durée'),
-    format: airtableTutorialObject.get('Format'),
-    link: airtableTutorialObject.get('Lien'),
-    source: airtableTutorialObject.get('Source'),
-    title: airtableTutorialObject.get('Titre'),
-  };
-}
+  tableName: 'Tutoriels',
 
-function _doQuery(filter) {
-  return airtable.findRecords(tableName, usedFields)
-    .then((rawTutorials) => {
-      return _(rawTutorials)
-        .filter(filter)
-        .map(fromAirTableObject)
-        .value();
-    });
-}
+  usedFields: [
+    'Durée',
+    'Format',
+    'Lien',
+    'Source',
+    'Titre',
+  ],
 
-module.exports = {
-
-  tableName,
-
-  usedFields,
-
-  fromAirTableObject,
-
-  findByRecordIds(tutorialRecordIds) {
-    return _doQuery((rawTutorial) => _.includes(tutorialRecordIds, rawTutorial.id));
+  fromAirTableObject(airtableRecord) {
+    return {
+      id: airtableRecord.getId(),
+      duration: airtableRecord.get('Durée'),
+      format: airtableRecord.get('Format'),
+      link: airtableRecord.get('Lien'),
+      source: airtableRecord.get('Source'),
+      title: airtableRecord.get('Titre'),
+    };
   },
 
-  get(id) {
-    return airtable.getRecord(tableName, id)
-      .then(fromAirTableObject)
-      .catch((err) => {
-        if (err.error === 'NOT_FOUND') {
-          throw new AirtableResourceNotFound();
-        }
-        throw err;
-      });
+  async findByRecordIds(tutorialRecordIds) {
+    const tutorials = await this.list();
+    return tutorials.filter((tutorialData) => _.includes(tutorialRecordIds, tutorialData.id));
   },
-};
+
+});
 
