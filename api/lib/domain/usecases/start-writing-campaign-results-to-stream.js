@@ -243,11 +243,11 @@ module.exports = async function startWritingCampaignResultsToStream(
     campaignParticipationRepository.findByCampaignId(campaign.id),
   ]);
 
-  const listSkillsId = targetProfile.skills.map((skill) => skill.id);
-
-  const competences = allCompetences.filter((competence) => {
-    return listSkillsId.some((skillId) => competence.skills.includes(skillId));
-  });
+  const competences = _(targetProfile.skills)
+    .map('competenceId')
+    .uniq()
+    .map((competenceId) => _.find(allCompetences, { id: competenceId }))
+    .value();
 
   const areas = _.uniqBy(competences.map((competence) => competence.area), 'code');
 
