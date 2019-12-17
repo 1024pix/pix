@@ -97,7 +97,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
     ];
 
     const campaignRepository = { get: () => undefined };
-    const userRepository = { getWithMemberships: () => undefined, get: () => undefined };
+    const userRepository = { getWithMemberships: () => undefined };
     const targetProfileRepository = { get: () => undefined };
     const competenceRepository = { list: () => undefined };
     const organizationRepository = { get: () => undefined };
@@ -116,7 +116,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
       sinon.stub(targetProfileRepository, 'get').resolves(targetProfile);
       sinon.stub(userRepository, 'getWithMemberships').resolves(user);
       sinon.stub(organizationRepository, 'get').resolves(organization);
-      sinon.stub(userRepository, 'get').resolves(user);
       sinon.stub(knowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
       findResultDataByCampaignIdStub = sinon.stub(campaignParticipationRepository, 'findResultDataByCampaignId');
 
@@ -182,6 +181,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           sharedAt: new Date('2019-03-01T23:04:05Z'),
           participantExternalId: 'Mon mail pro',
           userId: 123,
+          participantFirstName: user.firstName,
+          participantLastName: user.lastName,
         };
         findResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
 
@@ -243,6 +244,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           sharedAt: new Date('2019-03-01T23:04:05Z'),
           participantExternalId: 'Mon mail pro',
           userId: 123,
+          participantFirstName: user.firstName,
+          participantLastName: user.lastName,
         };
 
         findResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
@@ -301,6 +304,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           isShared: false,
           createdAt: new Date('2019-02-25T10:00:00Z'),
           userId: 123,
+          participantFirstName: user.firstName,
+          participantLastName: user.lastName,
         };
 
         findResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
