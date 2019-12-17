@@ -113,7 +113,7 @@ function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
 
 }
 
-function _createOneLineOfCSV(
+async function _createOneLineOfCSV(
   headers,
   organization,
   campaign,
@@ -121,100 +121,97 @@ function _createOneLineOfCSV(
   areas,
   campaignParticipation,
   targetProfile,
+
   userRepository,
   smartPlacementAssessmentRepository,
   knowledgeElementRepository,
 ) {
   const lineMap = _.fromPairs(headers.map((h) => [h, 'NA']));
 
-  return Promise.all([
+  const [assessment, user, allKnowledgeElements] = await Promise.all([
     smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId),
     userRepository.get(campaignParticipation.userId),
     knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
-  ])
-    .then(([assessment, user, allKnowledgeElements]) => {
+  ]);
 
-      lineMap['Nom de l\'organisation'] = organization.name;
-      lineMap['ID Campagne'] = parseInt(campaign.id);
-      lineMap['Nom de la campagne'] = campaign.name;
-      lineMap['Nom du Profil Cible'] = targetProfile.name;
+  lineMap['Nom de l\'organisation'] = organization.name;
+  lineMap['ID Campagne'] = parseInt(campaign.id);
+  lineMap['Nom de la campagne'] = campaign.name;
+  lineMap['Nom du Profil Cible'] = targetProfile.name;
 
-      lineMap['Nom du Participant'] = user.lastName;
-      lineMap['Prénom du Participant'] = user.firstName;
+  lineMap['Nom du Participant'] = user.lastName;
+  lineMap['Prénom du Participant'] = user.firstName;
 
-      if (campaign.idPixLabel) {
-        lineMap[campaign.idPixLabel] = campaignParticipation.participantExternalId;
-      }
+  if (campaign.idPixLabel) {
+    lineMap[campaign.idPixLabel] = campaignParticipation.participantExternalId;
+  }
 
-      const knowledgeElements = allKnowledgeElements
-        .filter((ke) => targetProfile.skills.find((skill) => skill.id === ke.skillId));
+  const knowledgeElements = allKnowledgeElements
+    .filter((ke) => targetProfile.skills.find((skill) => skill.id === ke.skillId));
 
-      const notCompletedPercentageProgression = _.round(
-        knowledgeElements.length / (targetProfile.skills.length),
-        3,
-      );
-      const percentageProgression = (assessment.isCompleted) ? 1 : notCompletedPercentageProgression;
-      lineMap['% de progression'] = percentageProgression;
-      lineMap['Date de début'] = moment.utc(assessment.createdAt).format('YYYY-MM-DD');
+  const notCompletedPercentageProgression = _.round(
+    knowledgeElements.length / (targetProfile.skills.length),
+    3,
+  );
+  const percentageProgression = (assessment.isCompleted) ? 1 : notCompletedPercentageProgression;
+  lineMap['% de progression'] = percentageProgression;
+  lineMap['Date de début'] = moment.utc(assessment.createdAt).format('YYYY-MM-DD');
 
-      const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
-      lineMap['Partage (O/N)'] = textForParticipationShared;
+  const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
+  lineMap['Partage (O/N)'] = textForParticipationShared;
 
-      if (campaignParticipation.isShared) {
+  if (campaignParticipation.isShared) {
 
-        lineMap['Date du partage'] = moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD');
+    lineMap['Date du partage'] = moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD');
 
-        lineMap['% maitrise de l\'ensemble des acquis du profil'] = _percentageSkillsValidated(knowledgeElements, targetProfile);
+    lineMap['% maitrise de l\'ensemble des acquis du profil'] = _percentageSkillsValidated(knowledgeElements, targetProfile);
 
-        const areaSkills = areas.map((area) => {
-          return {
-            title: area.title,
-            numberSkillsValidated: 0,
-            numberSkillsTested: 0,
-          };
-        });
-
-        // By Competences
-        _.forEach(competences, (competence) => {
-          const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
-          const numberOfSkillsValidatedForThisCompetence = _getSkillsValidatedForCompetence(skillsForThisCompetence,
-            knowledgeElements);
-          const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
-          lineMap[`% de maitrise des acquis de la compétence ${competence.name}`] = percentage;
-          lineMap[`Nombre d'acquis du profil cible dans la compétence ${competence.name}`] = skillsForThisCompetence.length;
-          lineMap[`Acquis maitrisés dans la compétence ${competence.name}`] = numberOfSkillsValidatedForThisCompetence;
-          // Add on Area
-          const areaSkillsForThisCompetence = areaSkills.find((area) => area.title === competence.area.title);
-          areaSkillsForThisCompetence.numberSkillsValidated =
-            areaSkillsForThisCompetence.numberSkillsValidated + numberOfSkillsValidatedForThisCompetence;
-          areaSkillsForThisCompetence.numberSkillsTested =
-            areaSkillsForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
-        });
-
-        // By Area
-        _.forEach(areaSkills, (area) => {
-          const percentage = _.round(area.numberSkillsValidated / area.numberSkillsTested, 2);
-
-          lineMap[`% de maitrise des acquis du domaine ${area.title}`] = percentage;
-          lineMap[`Nombre d'acquis du profil cible du domaine ${area.title}`] = area.numberSkillsTested;
-          lineMap[`Acquis maitrisés du domaine ${area.title}`] = area.numberSkillsValidated;
-
-        });
-
-        // By Skills
-        _.forEach(targetProfile.skills, (skill) => {
-          lineMap[skill.name] = _stateOfSkill(skill.id, knowledgeElements);
-        });
-      }
-      return lineMap;
-    })
-    .then((lineMap) => {
-      const lineArray = headers.map((title) => {
-        return lineMap[title];
-      });
-
-      return _csvSerializeLine(lineArray);
+    const areaSkills = areas.map((area) => {
+      return {
+        title: area.title,
+        numberSkillsValidated: 0,
+        numberSkillsTested: 0,
+      };
     });
+
+    // By Competences
+    _.forEach(competences, (competence) => {
+      const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
+      const numberOfSkillsValidatedForThisCompetence = _getSkillsValidatedForCompetence(skillsForThisCompetence,
+        knowledgeElements);
+      const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
+      lineMap[`% de maitrise des acquis de la compétence ${competence.name}`] = percentage;
+      lineMap[`Nombre d'acquis du profil cible dans la compétence ${competence.name}`] = skillsForThisCompetence.length;
+      lineMap[`Acquis maitrisés dans la compétence ${competence.name}`] = numberOfSkillsValidatedForThisCompetence;
+      // Add on Area
+      const areaSkillsForThisCompetence = areaSkills.find((area) => area.title === competence.area.title);
+      areaSkillsForThisCompetence.numberSkillsValidated =
+        areaSkillsForThisCompetence.numberSkillsValidated + numberOfSkillsValidatedForThisCompetence;
+      areaSkillsForThisCompetence.numberSkillsTested =
+        areaSkillsForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
+    });
+
+    // By Area
+    _.forEach(areaSkills, (area) => {
+      const percentage = _.round(area.numberSkillsValidated / area.numberSkillsTested, 2);
+
+      lineMap[`% de maitrise des acquis du domaine ${area.title}`] = percentage;
+      lineMap[`Nombre d'acquis du profil cible du domaine ${area.title}`] = area.numberSkillsTested;
+      lineMap[`Acquis maitrisés du domaine ${area.title}`] = area.numberSkillsValidated;
+
+    });
+
+    // By Skills
+    _.forEach(targetProfile.skills, (skill) => {
+      lineMap[skill.name] = _stateOfSkill(skill.id, knowledgeElements);
+    });
+  }
+
+  const lineArray = headers.map((title) => {
+    return lineMap[title];
+  });
+
+  return _csvSerializeLine(lineArray);
 }
 
 function _extractCompetences(allCompetences, skills) {
