@@ -24,6 +24,10 @@
   &__row {
     padding: 20px;
   }
+
+  &__row label {
+    display: inline;
+  }
 }
 
 .rounded-panel hr {
