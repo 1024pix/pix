@@ -179,7 +179,7 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('#findByCampaignId', () => {
+  describe('#findResultDataByCampaignId', () => {
 
     let campaign1;
     let campaign2;
@@ -214,7 +214,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       const campaignId = campaign1.id;
 
       // when
-      const promise = campaignParticipationRepository.findByCampaignId(campaignId);
+      const promise = campaignParticipationRepository.findResultDataByCampaignId(campaignId);
 
       // then
       return promise.then((campaignParticipationsFind) => {

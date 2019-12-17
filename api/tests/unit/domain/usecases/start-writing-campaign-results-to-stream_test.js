@@ -107,7 +107,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
     const targetProfileRepository = { get: () => undefined };
     const competenceRepository = { list: () => undefined };
     const organizationRepository = { get: () => undefined };
-    const campaignParticipationRepository = { findByCampaignId: () => undefined };
+    const campaignParticipationRepository = { findResultDataByCampaignId: () => undefined };
     const smartPlacementAssessmentRepository = { get: () => undefined };
     const knowledgeElementRepository = { findUniqByUserId: () => undefined };
 
@@ -126,7 +126,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
       sinon.stub(userRepository, 'get').resolves(user);
       sinon.stub(smartPlacementAssessmentRepository, 'get').resolves(assessment);
       sinon.stub(knowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
-      findCampaignParticipationStub = sinon.stub(campaignParticipationRepository, 'findByCampaignId');
+      findCampaignParticipationStub = sinon.stub(campaignParticipationRepository, 'findResultDataByCampaignId');
 
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
