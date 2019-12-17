@@ -1,57 +1,47 @@
 const _ = require('lodash');
 const airtable = require('../../airtable');
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
-const cache = require('../../caches/cache');
+const cache = require('../../caches/learning-content-cache');
 
 const _DatasourcePrototype = {
 
-  _generateCacheKey(modelName, id) {
-    return id ? `${modelName}_${id}` : `${modelName}`;
+  async _doList() {
+    const airtableRawObjects = await airtable.findRecords(this.tableName, this.usedFields);
+    return airtableRawObjects.map(this.fromAirTableObject);
   },
 
-  _doGet(id) {
-    return airtable.getRecord(this.tableName, id).then(this.fromAirTableObject).catch((err) => {
-      if (err.error === 'NOT_FOUND') {
-        throw new AirtableResourceNotFound();
-      }
-      throw err;
-    });
+  async get(id) {
+    const modelObjects = await this.list();
+    const matchingObject = _.find(modelObjects, { id });
+
+    if (!matchingObject) {
+      throw new AirtableResourceNotFound();
+    }
+
+    return matchingObject;
   },
 
-  _doList() {
-    return airtable.findRecords(this.tableName, this.usedFields)
-      .then((airtableRawObjects) => {
-        return airtableRawObjects.map(this.fromAirTableObject);
-      });
-  },
-
-  get(id) {
-    const key = this._generateCacheKey(this.modelName, id);
-    const generator = () => this._doGet(id);
-    return cache.get(key, generator);
-  },
-
-  list() {
-    const key = this._generateCacheKey(this.modelName);
+  async list() {
+    const key = this.modelName;
     const generator = () => this._doList();
     return cache.get(key, generator);
   },
 
   async loadEntries() {
-    const cacheKeyList = this._generateCacheKey(this.modelName);
+    const cacheKeyList = this.modelName;
     const results = await this._doList();
     await cache.set(cacheKeyList, results);
-
-    return Promise.all(results.map((record) => {
-      const cacheKey = this._generateCacheKey(this.modelName, record.id);
-      return cache.set(cacheKey, record);
-    })).then(() => true);
+    return results;
   },
 
   async loadEntry(id) {
-    const key = this._generateCacheKey(this.modelName, id);
+    const cacheKeyList = this.modelName;
     const airtableRecord = await airtable.getRecord(this.tableName, id);
-    return cache.set(key, this.fromAirTableObject(airtableRecord));
+    const newEntry = this.fromAirTableObject(airtableRecord);
+    const currentList = await this.list();
+    const newList = _.reject(currentList, { id }).concat([newEntry]);
+    await cache.set(cacheKeyList, newList);
+    return newEntry;
   },
 
 };

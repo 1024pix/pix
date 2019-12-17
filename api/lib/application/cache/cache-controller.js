@@ -1,4 +1,4 @@
-const cache = require('../../infrastructure/caches/cache');
+const cache = require('../../infrastructure/caches/learning-content-cache');
 const AirtableDatasources = require('../../infrastructure/datasources/airtable');
 const _ = require('lodash');
 

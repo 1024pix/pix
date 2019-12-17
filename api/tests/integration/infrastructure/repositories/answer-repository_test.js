@@ -4,6 +4,7 @@ const answerStatusDatabaseAdapter = require('../../../../lib/infrastructure/adap
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 const moment = require('moment');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
@@ -17,6 +18,10 @@ describe('Integration | Repository | AnswerRepository', () => {
     assessmentId = databaseBuilder.factory.buildAssessment().id;
     otherAssessmentId = databaseBuilder.factory.buildAssessment().id;
     return databaseBuilder.commit();
+  });
+
+  afterEach(() => {
+    cache.flushAll();
   });
 
   describe('#get', () => {

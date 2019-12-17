@@ -2,7 +2,7 @@ const _ = require('lodash');
 const faker = require('faker');
 const createServer = require('../../../server');
 const Assessment = require('../../../lib/domain/models/Assessment');
-const cache = require('../../../lib/infrastructure/caches/cache');
+const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
 
 describe('Acceptance | API | Campaign Participations', () => {
@@ -258,8 +258,8 @@ describe('Acceptance | API | Campaign Participations', () => {
       };
     });
 
-    afterEach(async () => {
-      await cache.flushAll();
+    afterEach(() => {
+      cache.flushAll();
       return airtableBuilder.cleanAll();
     });
 

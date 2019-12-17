@@ -1,5 +1,5 @@
 const { airtableBuilder, databaseBuilder, expect, knex, generateValidRequestAuthorizationHeader } = require('../../test-helper');
-const cache = require('../../../lib/infrastructure/caches/cache');
+const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 
 const createServer = require('../../../server');
@@ -90,8 +90,8 @@ describe('Acceptance | Controller | scorecard-controller', () => {
           .returns([area])
           .activate();
 
-        airtableBuilder.mockGet({ tableName: 'Competences' })
-          .returns(competence)
+        airtableBuilder.mockList({ tableName: 'Competences' })
+          .returns([competence])
           .activate();
 
         knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
@@ -243,7 +243,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
 
         area = airtableBuilder.factory.buildArea();
 
-        airtableBuilder.mockGet({ tableName: 'Competences' }).returns(competence).activate();
+        airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence]).activate();
         airtableBuilder.mockList({ tableName: 'Acquis' }).returns(skills).activate();
         airtableBuilder.mockList({ tableName: 'Domaines' }).returns([area]).activate();
         airtableBuilder.mockList({ tableName: 'Tubes' }).returns(tubes).activate();

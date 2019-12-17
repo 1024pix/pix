@@ -3,7 +3,7 @@ const { expect, databaseBuilder, airtableBuilder } = require('../../test-helper'
 const settings = require('../../../lib/config');
 const jwt = require('jsonwebtoken');
 const Membership = require('../../../lib/domain/models/Membership');
-const cache = require('../../../lib/infrastructure/caches/cache');
+const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | API | Campaign Controller', () => {
 
@@ -165,7 +165,7 @@ describe('Acceptance | API | Campaign Controller', () => {
 
     afterEach(async () => {
       await airtableBuilder.cleanAll();
-      await cache.flushAll();
+      cache.flushAll();
     });
 
     it('should return csv file with statusCode 200', async ()=> {

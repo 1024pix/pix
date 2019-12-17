@@ -1,11 +1,11 @@
+const { Record: AirtableRecord } = require('airtable');
+const _ = require('lodash');
 const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const tubeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/tube-datasource');
 const tubeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/tubeRawAirTableFixture');
 const tubeAirtableDataModelFixture = require('../../../../tooling/fixtures/infrastructure/tubeAirtableDataObjectFixture');
-const { Record: AirtableRecord } = require('airtable');
-const _ = require('lodash');
-const cache = require('../../../../../lib/infrastructure/caches/cache');
+const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 function makeAirtableFake(records) {
   return async (tableName, fieldList) => {
