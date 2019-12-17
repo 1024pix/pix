@@ -217,6 +217,18 @@ function _createOneLineOfCSV(
     });
 }
 
+function _extractCompetences(allCompetences, skills) {
+  return _(skills)
+    .map('competenceId')
+    .uniq()
+    .map((competenceId) => _.find(allCompetences, { id: competenceId }))
+    .value();
+}
+
+function _extractAreas(competences) {
+  return _.uniqBy(competences.map((competence) => competence.area), 'code');
+}
+
 module.exports = async function startWritingCampaignResultsToStream(
   {
     userId,
@@ -243,13 +255,9 @@ module.exports = async function startWritingCampaignResultsToStream(
     campaignParticipationRepository.findByCampaignId(campaign.id),
   ]);
 
-  const competences = _(targetProfile.skills)
-    .map('competenceId')
-    .uniq()
-    .map((competenceId) => _.find(allCompetences, { id: competenceId }))
-    .value();
+  const competences = _extractCompetences(allCompetences, targetProfile.skills);
 
-  const areas = _.uniqBy(competences.map((competence) => competence.area), 'code');
+  const areas = _extractAreas(competences);
 
   //Create HEADER of CSV
   const headersAsArray = _createHeaderOfCSV(targetProfile.skills, competences, areas, campaign.idPixLabel);
