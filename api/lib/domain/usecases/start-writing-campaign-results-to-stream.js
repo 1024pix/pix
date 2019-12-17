@@ -119,7 +119,7 @@ function _fetchParticipantData(
 ) {
   return bluebird.props({
     user: userRepository.get(campaignParticipation.userId),
-    userKnowledgeElements: knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
+    participantKnowledgeElements: knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
   });
 }
 
@@ -127,7 +127,8 @@ function _getCommonColumns({
   organization,
   campaign,
   targetProfile,
-  user,
+  participantFirstName,
+  participantLastName,
   campaignParticipation,
   knowledgeElements,
 }) {
@@ -141,8 +142,8 @@ function _getCommonColumns({
     campaignId: campaign.id,
     campaignName: campaign.name,
     targetProfileName: targetProfile.name,
-    participantLastName: user.lastName,
-    participantFirstName: user.firstName,
+    participantLastName,
+    participantFirstName,
     percentageProgression: percentageProgression,
     createdAt: moment.utc(campaignParticipation.createdAt).format('YYYY-MM-DD'),
     isShared: campaignParticipation.isShared ? 'Oui' : 'Non',
@@ -212,17 +213,19 @@ function _createOneLineOfCSV({
   campaignParticipation,
   targetProfile,
 
-  user,
-  userKnowledgeElements,
+  participantFirstName,
+  participantLastName,
+  participantKnowledgeElements,
 }) {
-  const knowledgeElements = userKnowledgeElements
+  const knowledgeElements = participantKnowledgeElements
     .filter((ke) => _.find(targetProfile.skills, { id: ke.skillId }));
 
   const lineMap = _getCommonColumns({
     organization,
     campaign,
     targetProfile,
-    user,
+    participantFirstName,
+    participantLastName,
     campaignParticipation,
     knowledgeElements,
   });
@@ -300,12 +303,17 @@ module.exports = async function startWritingCampaignResultsToStream(
   // function, node will keep all the data in memory until the end of the
   // complete operation.
   bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
-    const { user, userKnowledgeElements } = await _fetchParticipantData(
+    const { user, participantKnowledgeElements } = await _fetchParticipantData(
       campaignParticipation,
 
       userRepository,
       knowledgeElementRepository,
     );
+
+    _.assign(campaignParticipation, {
+      participantFirstName: user.firstName,
+      participantLastName: user.lastName,
+    });
 
     const csvLine = _createOneLineOfCSV({
       headers,
@@ -316,8 +324,9 @@ module.exports = async function startWritingCampaignResultsToStream(
       campaignParticipation,
       targetProfile,
 
-      user,
-      userKnowledgeElements,
+      participantFirstName: campaignParticipation.participantFirstName,
+      participantLastName: campaignParticipation.participantLastName,
+      participantKnowledgeElements,
     });
 
     writableStream.write(csvLine);
