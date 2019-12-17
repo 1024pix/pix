@@ -20,8 +20,22 @@ function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, us
     });
 }
 
-function _cleanText(text) {
-  return `"${text.replace(/"/g, '""')}"`;
+function _csvSerializeValue(data) {
+  if (typeof data === 'number') {
+    return data.toString().replace(/\./, ',');
+  } else if (typeof data === 'string') {
+    if (/^[0-9-]+$/.test(data)) {
+      return data;
+    } else {
+      return `"${data.replace(/"/g, '""')}"`;
+    }
+  } else {
+    throw new Error(`Unknown value type in _csvSerializeValue: ${typeof data}`);
+  }
+}
+
+function _csvSerializeLine(line) {
+  return line.map(_csvSerializeValue).join(';') + '\n';
 }
 
 function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
@@ -57,16 +71,16 @@ function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
     headers.push(skillName);
   });
 
-  return headers.map(_cleanText);
+  return headers;
 }
 
 function _addCellByHeadersTitleForNumber(title, data, line, headers) {
-  line[headers.indexOf(title)] = data.toString().replace('.', ',');
+  line[headers.indexOf(title)] = data;
   return line;
 }
 
 function _addCellByHeadersTitleForText(title, data, line, headers) {
-  line[headers.indexOf(title)] = _cleanText(data.toString());
+  line[headers.indexOf(title)] = data.toString();
   return line;
 }
 
@@ -134,7 +148,7 @@ function _createOneLineOfCSV(
   smartPlacementAssessmentRepository,
   knowledgeElementRepository,
 ) {
-  let line = headers.map(() => '"NA"');
+  let line = headers.map(() => 'NA');
 
   return smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId)
     .then((assessment) => {
@@ -146,16 +160,16 @@ function _createOneLineOfCSV(
     })
     .then(([assessment, user, allKnowledgeElements]) => {
 
-      line = _addCellByHeadersTitleForText('"Nom de l\'organisation"', organization.name, line, headers);
-      line = _addCellByHeadersTitleForNumber('"ID Campagne"', campaign.id, line, headers);
-      line = _addCellByHeadersTitleForText('"Nom de la campagne"', campaign.name, line, headers);
-      line = _addCellByHeadersTitleForText('"Nom du Profil Cible"', targetProfile.name, line, headers);
+      line = _addCellByHeadersTitleForText('Nom de l\'organisation', organization.name, line, headers);
+      line = _addCellByHeadersTitleForNumber('ID Campagne', parseInt(campaign.id), line, headers);
+      line = _addCellByHeadersTitleForText('Nom de la campagne', campaign.name, line, headers);
+      line = _addCellByHeadersTitleForText('Nom du Profil Cible', targetProfile.name, line, headers);
 
-      line = _addCellByHeadersTitleForText('"Nom du Participant"', user.lastName, line, headers);
-      line = _addCellByHeadersTitleForText('"Prénom du Participant"', user.firstName, line, headers);
+      line = _addCellByHeadersTitleForText('Nom du Participant', user.lastName, line, headers);
+      line = _addCellByHeadersTitleForText('Prénom du Participant', user.firstName, line, headers);
 
       if (campaign.idPixLabel) {
-        line = _addCellByHeadersTitleForText(_cleanText(campaign.idPixLabel), campaignParticipation.participantExternalId, line, headers);
+        line = _addCellByHeadersTitleForText(campaign.idPixLabel, campaignParticipation.participantExternalId, line, headers);
       }
 
       const knowledgeElements = allKnowledgeElements
@@ -166,23 +180,23 @@ function _createOneLineOfCSV(
         3,
       );
       const percentageProgression = (assessment.isCompleted) ? 1 : notCompletedPercentageProgression;
-      line = _addCellByHeadersTitleForNumber('"% de progression"', percentageProgression, line, headers);
+      line = _addCellByHeadersTitleForNumber('% de progression', percentageProgression, line, headers);
       line = _addCellByHeadersTitleForNumber(
-        '"Date de début"',
+        'Date de début',
         moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
         line,
         headers,
       );
 
       const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
-      line = _addCellByHeadersTitleForText('"Partage (O/N)"', textForParticipationShared, line, headers);
+      line = _addCellByHeadersTitleForText('Partage (O/N)', textForParticipationShared, line, headers);
 
       if (assessment.isCompleted && campaignParticipation.isShared) {
 
-        line = _addCellByHeadersTitleForNumber('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), line, headers);
+        line = _addCellByHeadersTitleForNumber('Date du partage', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), line, headers);
 
         line = _addCellByHeadersTitleForNumber(
-          '"% maitrise de l\'ensemble des acquis du profil"',
+          '% maitrise de l\'ensemble des acquis du profil',
           _percentageSkillsValidated(knowledgeElements, targetProfile),
           line,
           headers,
@@ -203,19 +217,19 @@ function _createOneLineOfCSV(
             knowledgeElements);
           const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
           line = _addCellByHeadersTitleForNumber(
-            `"% de maitrise des acquis de la compétence ${competence.name}"`,
+            `% de maitrise des acquis de la compétence ${competence.name}`,
             percentage,
             line,
             headers,
           );
           line = _addCellByHeadersTitleForNumber(
-            `"Nombre d'acquis du profil cible dans la compétence ${competence.name}"`,
+            `Nombre d'acquis du profil cible dans la compétence ${competence.name}`,
             skillsForThisCompetence.length,
             line,
             headers,
           );
           line = _addCellByHeadersTitleForNumber(
-            `"Acquis maitrisés dans la compétence ${competence.name}"`,
+            `Acquis maitrisés dans la compétence ${competence.name}`,
             numberOfSkillsValidatedForThisCompetence,
             line,
             headers,
@@ -232,18 +246,18 @@ function _createOneLineOfCSV(
         _.forEach(areaSkills, (area) => {
           const percentage = _.round(area.numberSkillsValidated / area.numberSkillsTested, 2);
 
-          line = _addCellByHeadersTitleForNumber(`"% de maitrise des acquis du domaine ${area.title}"`,
+          line = _addCellByHeadersTitleForNumber(`% de maitrise des acquis du domaine ${area.title}`,
             percentage,
             line,
             headers);
           line = _addCellByHeadersTitleForNumber(
-            `"Nombre d'acquis du profil cible du domaine ${area.title}"`,
+            `Nombre d'acquis du profil cible du domaine ${area.title}`,
             area.numberSkillsTested,
             line,
             headers,
           );
           line = _addCellByHeadersTitleForNumber(
-            `"Acquis maitrisés du domaine ${area.title}"`,
+            `Acquis maitrisés du domaine ${area.title}`,
             area.numberSkillsValidated,
             line,
             headers,
@@ -253,16 +267,15 @@ function _createOneLineOfCSV(
 
         // By Skills
         _.forEach(targetProfile.skills, (skill) => {
-          line = _addCellByHeadersTitleForText(`"${skill.name}"`,
+          line = _addCellByHeadersTitleForText(`${skill.name}`,
             _stateOfSkill(skill.id, knowledgeElements),
             line,
             headers);
         });
       }
+      return line;
     })
-    .then(() => {
-      return line.join(';') + '\n';
-    });
+    .then(_csvSerializeLine);
 }
 
 module.exports = async function startWritingCampaignResultsToStream(
@@ -306,7 +319,7 @@ module.exports = async function startWritingCampaignResultsToStream(
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
   // - https://stackoverflow.com/a/38192870
-  const headerLine = '\uFEFF' + headersAsArray.join(';') + '\n';
+  const headerLine = '\uFEFF' + _csvSerializeLine(headersAsArray);
 
   writableStream.write(headerLine);
 
