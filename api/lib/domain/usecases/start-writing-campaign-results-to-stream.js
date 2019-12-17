@@ -274,7 +274,7 @@ module.exports = async function startWritingCampaignResultsToStream(
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-  const [targetProfile, allCompetences, organization, listCampaignParticipation] = await Promise.all([
+  const [targetProfile, allCompetences, organization, campaignParticipations] = await Promise.all([
     targetProfileRepository.get(campaign.targetProfileId),
     competenceRepository.list(),
     organizationRepository.get(campaign.organizationId),
@@ -299,7 +299,7 @@ module.exports = async function startWritingCampaignResultsToStream(
   // after this function's returned promise resolves. If we await the mapSeries
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  bluebird.mapSeries(listCampaignParticipation, async (campaignParticipation) => {
+  bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
     const { user, userKnowledgeElements } = await _fetchUserData(
       campaignParticipation,
 
