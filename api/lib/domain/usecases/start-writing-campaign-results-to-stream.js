@@ -140,18 +140,18 @@ function _createOneLineOfCSV({
   user,
   userKnowledgeElements,
 }) {
-  const lineMap = _.fromPairs(headers.map((h) => [h.title, 'NA']));
+  const lineMap = _.fromPairs(headers.map((h) => [ h.property, 'NA' ]));
 
-  lineMap['Nom de l\'organisation'] = organization.name;
-  lineMap['ID Campagne'] = parseInt(campaign.id);
-  lineMap['Nom de la campagne'] = campaign.name;
-  lineMap['Nom du Profil Cible'] = targetProfile.name;
+  lineMap.organizationName = organization.name;
+  lineMap.campaignId = parseInt(campaign.id);
+  lineMap.campaignName = campaign.name;
+  lineMap.targetProfileName = targetProfile.name;
 
-  lineMap['Nom du Participant'] = user.lastName;
-  lineMap['Prénom du Participant'] = user.firstName;
+  lineMap.participantLastName = user.lastName;
+  lineMap.participantFirstName = user.firstName;
 
   if (campaign.idPixLabel) {
-    lineMap[campaign.idPixLabel] = campaignParticipation.participantExternalId;
+    lineMap.participantExternalId = campaignParticipation.participantExternalId;
   }
 
   const knowledgeElements = userKnowledgeElements
@@ -162,20 +162,21 @@ function _createOneLineOfCSV({
     3,
   );
   const percentageProgression = (assessment.isCompleted) ? 1 : notCompletedPercentageProgression;
-  lineMap['% de progression'] = percentageProgression;
-  lineMap['Date de début'] = moment.utc(assessment.createdAt).format('YYYY-MM-DD');
+  lineMap.percentageProgression = percentageProgression;
+  lineMap.createdAt = moment.utc(assessment.createdAt).format('YYYY-MM-DD');
 
   const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
-  lineMap['Partage (O/N)'] = textForParticipationShared;
+  lineMap.isShared = textForParticipationShared;
 
   if (campaignParticipation.isShared) {
 
-    lineMap['Date du partage'] = moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD');
+    lineMap.sharedAt = moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD');
 
-    lineMap['% maitrise de l\'ensemble des acquis du profil'] = _percentageSkillsValidated(knowledgeElements, targetProfile);
+    lineMap.percentageSkillValidated = _percentageSkillsValidated(knowledgeElements, targetProfile);
 
     const areaSkills = areas.map((area) => {
       return {
+        id: area.id,
         title: area.title,
         numberSkillsValidated: 0,
         numberSkillsTested: 0,
@@ -188,11 +189,12 @@ function _createOneLineOfCSV({
       const numberOfSkillsValidatedForThisCompetence = _getSkillsValidatedForCompetence(skillsForThisCompetence,
         knowledgeElements);
       const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
-      lineMap[`% de maitrise des acquis de la compétence ${competence.name}`] = percentage;
-      lineMap[`Nombre d'acquis du profil cible dans la compétence ${competence.name}`] = skillsForThisCompetence.length;
-      lineMap[`Acquis maitrisés dans la compétence ${competence.name}`] = numberOfSkillsValidatedForThisCompetence;
+      lineMap[`competence_${competence.id}_percentageValidated`] = percentage;
+      lineMap[`competence_${competence.id}_skillCount`] = skillsForThisCompetence.length;
+      lineMap[`competence_${competence.id}_validatedSkillCount`] = numberOfSkillsValidatedForThisCompetence;
+
       // Add on Area
-      const areaSkillsForThisCompetence = areaSkills.find((area) => area.title === competence.area.title);
+      const areaSkillsForThisCompetence = _.find(areaSkills, { id: competence.area.id });
       areaSkillsForThisCompetence.numberSkillsValidated =
         areaSkillsForThisCompetence.numberSkillsValidated + numberOfSkillsValidatedForThisCompetence;
       areaSkillsForThisCompetence.numberSkillsTested =
@@ -200,23 +202,22 @@ function _createOneLineOfCSV({
     });
 
     // By Area
-    _.forEach(areaSkills, (area) => {
-      const percentage = _.round(area.numberSkillsValidated / area.numberSkillsTested, 2);
+    _.forEach(areaSkills, (areaSkill) => {
+      const percentage = _.round(areaSkill.numberSkillsValidated / areaSkill.numberSkillsTested, 2);
 
-      lineMap[`% de maitrise des acquis du domaine ${area.title}`] = percentage;
-      lineMap[`Nombre d'acquis du profil cible du domaine ${area.title}`] = area.numberSkillsTested;
-      lineMap[`Acquis maitrisés du domaine ${area.title}`] = area.numberSkillsValidated;
-
+      lineMap[`area_${areaSkill.id}_percentageValidated`] = percentage;
+      lineMap[`area_${areaSkill.id}_skillCount`] = areaSkill.numberSkillsTested;
+      lineMap[`area_${areaSkill.id}_validatedSkillCount`] = areaSkill.numberSkillsValidated;
     });
 
     // By Skills
     _.forEach(targetProfile.skills, (skill) => {
-      lineMap[skill.name] = _stateOfSkill(skill.id, knowledgeElements);
+      lineMap[`skill_${skill.id}`] = _stateOfSkill(skill.id, knowledgeElements);
     });
   }
 
-  const lineArray = headers.map(({ title }) => {
-    return lineMap[title];
+  const lineArray = headers.map(({ property }) => {
+    return lineMap[property];
   });
 
   return _csvSerializeLine(lineArray);
