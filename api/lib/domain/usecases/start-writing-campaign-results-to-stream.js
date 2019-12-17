@@ -40,34 +40,34 @@ function _csvSerializeLine(line) {
 
 function _createHeaderOfCSV(skills, competences, areas, idPixLabel) {
   return [
-    'Nom de l\'organisation',
-    'ID Campagne',
-    'Nom de la campagne',
-    'Nom du Profil Cible',
-    'Nom du Participant',
-    'Prénom du Participant',
+    { title: 'Nom de l\'organisation' },
+    { title: 'ID Campagne' },
+    { title: 'Nom de la campagne' },
+    { title: 'Nom du Profil Cible' },
+    { title: 'Nom du Participant' },
+    { title: 'Prénom du Participant' },
 
-    ...(idPixLabel ? [ idPixLabel ] : []),
+    ...(idPixLabel ? [ { title: idPixLabel } ] : []),
 
-    '% de progression',
-    'Date de début',
-    'Partage (O/N)',
-    'Date du partage',
-    '% maitrise de l\'ensemble des acquis du profil',
+    { title: '% de progression' },
+    { title: 'Date de début' },
+    { title: 'Partage (O/N)' },
+    { title: 'Date du partage' },
+    { title: '% maitrise de l\'ensemble des acquis du profil' },
 
     ...(_.flatMap(competences, (competence) => [
-      `% de maitrise des acquis de la compétence ${competence.name}`,
-      `Nombre d'acquis du profil cible dans la compétence ${competence.name}`,
-      `Acquis maitrisés dans la compétence ${competence.name}`,
+      { title: `% de maitrise des acquis de la compétence ${competence.name}` },
+      { title: `Nombre d'acquis du profil cible dans la compétence ${competence.name}` },
+      { title: `Acquis maitrisés dans la compétence ${competence.name}` },
     ])),
 
     ...(_.flatMap(areas, (area) => [
-      `% de maitrise des acquis du domaine ${area.title}`,
-      `Nombre d'acquis du profil cible du domaine ${area.title}`,
-      `Acquis maitrisés du domaine ${area.title}`,
+      { title: `% de maitrise des acquis du domaine ${area.title}` },
+      { title: `Nombre d'acquis du profil cible du domaine ${area.title}` },
+      { title: `Acquis maitrisés du domaine ${area.title}` },
     ])),
 
-    ...(_.map(skills, 'name')),
+    ...(_.map(skills, (skill) => ({ title: `${skill.name}` }))),
   ];
 }
 
@@ -140,7 +140,7 @@ function _createOneLineOfCSV({
   user,
   userKnowledgeElements,
 }) {
-  const lineMap = _.fromPairs(headers.map((h) => [h, 'NA']));
+  const lineMap = _.fromPairs(headers.map((h) => [h.title, 'NA']));
 
   lineMap['Nom de l\'organisation'] = organization.name;
   lineMap['ID Campagne'] = parseInt(campaign.id);
@@ -215,7 +215,7 @@ function _createOneLineOfCSV({
     });
   }
 
-  const lineArray = headers.map((title) => {
+  const lineArray = headers.map(({ title }) => {
     return lineMap[title];
   });
 
@@ -270,7 +270,7 @@ module.exports = async function startWritingCampaignResultsToStream(
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
   // - https://stackoverflow.com/a/38192870
-  const headerLine = '\uFEFF' + _csvSerializeLine(headers);
+  const headerLine = '\uFEFF' + _csvSerializeLine(_.map(headers, 'title'));
 
   writableStream.write(headerLine);
 
