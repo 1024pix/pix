@@ -135,14 +135,11 @@ function _createOneLineOfCSV(
 ) {
   const line = headers.map(() => 'NA');
 
-  return smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId)
-    .then((assessment) => {
-      return Promise.all([
-        assessment,
-        userRepository.get(assessment.userId),
-        knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId, limitDate: campaignParticipation.sharedAt })
-      ]);
-    })
+  return Promise.all([
+    smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId),
+    userRepository.get(campaignParticipation.userId),
+    knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
+  ])
     .then(([assessment, user, allKnowledgeElements]) => {
 
       _addCellByHeadersTitle('Nom de l\'organisation', organization.name, line, headers);
