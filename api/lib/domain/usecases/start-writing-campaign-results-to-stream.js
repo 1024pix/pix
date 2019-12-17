@@ -40,34 +40,34 @@ function _csvSerializeLine(line) {
 
 function _createHeaderOfCSV(skills, competences, areas, idPixLabel) {
   return [
-    { title: 'Nom de l\'organisation' },
-    { title: 'ID Campagne' },
-    { title: 'Nom de la campagne' },
-    { title: 'Nom du Profil Cible' },
-    { title: 'Nom du Participant' },
-    { title: 'Prénom du Participant' },
+    { title: 'Nom de l\'organisation', property: 'organizationName' },
+    { title: 'ID Campagne', property: 'campaignId' },
+    { title: 'Nom de la campagne', property: 'campaignName' },
+    { title: 'Nom du Profil Cible', property: 'targetProfileName' },
+    { title: 'Nom du Participant', property: 'participantLastName' },
+    { title: 'Prénom du Participant', property: 'participantFirstName' },
 
-    ...(idPixLabel ? [ { title: idPixLabel } ] : []),
+    ...(idPixLabel ? [ { title: idPixLabel, property: 'participantExternalId' } ] : []),
 
-    { title: '% de progression' },
-    { title: 'Date de début' },
-    { title: 'Partage (O/N)' },
-    { title: 'Date du partage' },
-    { title: '% maitrise de l\'ensemble des acquis du profil' },
+    { title: '% de progression', property: 'percentageProgression' },
+    { title: 'Date de début', property: 'createdAt' },
+    { title: 'Partage (O/N)', property: 'isShared' },
+    { title: 'Date du partage', property: 'sharedAt' },
+    { title: '% maitrise de l\'ensemble des acquis du profil', property: 'percentageSkillValidated' },
 
     ...(_.flatMap(competences, (competence) => [
-      { title: `% de maitrise des acquis de la compétence ${competence.name}` },
-      { title: `Nombre d'acquis du profil cible dans la compétence ${competence.name}` },
-      { title: `Acquis maitrisés dans la compétence ${competence.name}` },
+      { title: `% de maitrise des acquis de la compétence ${competence.name}`, property: `competence_${competence.id}_percentageValidated` },
+      { title: `Nombre d'acquis du profil cible dans la compétence ${competence.name}`, property: `competence_${competence.id}_skillCount` },
+      { title: `Acquis maitrisés dans la compétence ${competence.name}`, property: `competence_${competence.id}_validatedSkillCount` },
     ])),
 
     ...(_.flatMap(areas, (area) => [
-      { title: `% de maitrise des acquis du domaine ${area.title}` },
-      { title: `Nombre d'acquis du profil cible du domaine ${area.title}` },
-      { title: `Acquis maitrisés du domaine ${area.title}` },
+      { title: `% de maitrise des acquis du domaine ${area.title}`, property: `area_${area.id}_percentageValidated` },
+      { title: `Nombre d'acquis du profil cible du domaine ${area.title}`, property: `area_${area.id}_skillCount` },
+      { title: `Acquis maitrisés du domaine ${area.title}`, property: `area_${area.id}_validatedSkillCount` },
     ])),
 
-    ...(_.map(skills, (skill) => ({ title: `${skill.name}` }))),
+    ...(_.map(skills, (skill) => ({ title: `${skill.name}`, property: `skill_${skill.id}` }))),
   ];
 }
 
