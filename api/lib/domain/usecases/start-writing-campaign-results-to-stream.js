@@ -112,14 +112,14 @@ function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
 }
 
 function _fetchParticipantData(
-  campaignParticipation,
+  campaignParticipationResultData,
 
   userRepository,
   knowledgeElementRepository,
 ) {
   return bluebird.props({
-    user: userRepository.get(campaignParticipation.userId),
-    participantKnowledgeElements: knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
+    user: userRepository.get(campaignParticipationResultData.userId),
+    participantKnowledgeElements: knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipationResultData.userId, limitDate: campaignParticipationResultData.sharedAt }),
   });
 }
 
@@ -129,7 +129,7 @@ function _getCommonColumns({
   targetProfile,
   participantFirstName,
   participantLastName,
-  campaignParticipation,
+  campaignParticipationResultData,
   knowledgeElements,
 }) {
   const percentageProgression = _.round(
@@ -145,9 +145,9 @@ function _getCommonColumns({
     participantLastName,
     participantFirstName,
     percentageProgression: percentageProgression,
-    createdAt: moment.utc(campaignParticipation.createdAt).format('YYYY-MM-DD'),
-    isShared: campaignParticipation.isShared ? 'Oui' : 'Non',
-    ...(campaign.idPixLabel ? { participantExternalId: campaignParticipation.participantExternalId } : {}),
+    createdAt: moment.utc(campaignParticipationResultData.createdAt).format('YYYY-MM-DD'),
+    isShared: campaignParticipationResultData.isShared ? 'Oui' : 'Non',
+    ...(campaign.idPixLabel ? { participantExternalId: campaignParticipationResultData.participantExternalId } : {}),
   };
 }
 
@@ -155,7 +155,7 @@ function _getSharedColumns({
   competences,
   targetProfile,
   areas,
-  campaignParticipation,
+  campaignParticipationResultData,
   knowledgeElements,
 }) {
   const competenceStats = _.map(competences, (competence) => {
@@ -184,7 +184,7 @@ function _getSharedColumns({
   });
 
   const lineMap = {
-    sharedAt: moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'),
+    sharedAt: moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD'),
     percentageSkillValidated: _percentageSkillsValidated(knowledgeElements, targetProfile),
   };
 
@@ -210,7 +210,7 @@ function _createOneLineOfCSV({
   campaign,
   competences,
   areas,
-  campaignParticipation,
+  campaignParticipationResultData,
   targetProfile,
 
   participantFirstName,
@@ -226,16 +226,16 @@ function _createOneLineOfCSV({
     targetProfile,
     participantFirstName,
     participantLastName,
-    campaignParticipation,
+    campaignParticipationResultData,
     knowledgeElements,
   });
 
-  if (campaignParticipation.isShared) {
+  if (campaignParticipationResultData.isShared) {
     _.assign(lineMap, _getSharedColumns({
       competences,
       targetProfile,
       areas,
-      campaignParticipation,
+      campaignParticipationResultData,
       knowledgeElements,
     }));
   }
@@ -283,11 +283,11 @@ module.exports = async function startWritingCampaignResultsToStream(
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-  const [targetProfile, allCompetences, organization, campaignParticipations] = await Promise.all([
+  const [targetProfile, allCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
     targetProfileRepository.get(campaign.targetProfileId),
     competenceRepository.list(),
     organizationRepository.get(campaign.organizationId),
-    campaignParticipationRepository.findByCampaignId(campaign.id),
+    campaignParticipationRepository.findResultDataByCampaignId(campaign.id),
   ]);
 
   const competences = _extractCompetences(allCompetences, targetProfile.skills);
@@ -308,15 +308,15 @@ module.exports = async function startWritingCampaignResultsToStream(
   // after this function's returned promise resolves. If we await the mapSeries
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
+  bluebird.mapSeries(campaignParticipationResultDatas, async (campaignParticipationResultData) => {
     const { user, participantKnowledgeElements } = await _fetchParticipantData(
-      campaignParticipation,
+      campaignParticipationResultData,
 
       userRepository,
       knowledgeElementRepository,
     );
 
-    _.assign(campaignParticipation, {
+    _.assign(campaignParticipationResultData, {
       participantFirstName: user.firstName,
       participantLastName: user.lastName,
     });
@@ -327,11 +327,11 @@ module.exports = async function startWritingCampaignResultsToStream(
       campaign,
       competences,
       areas,
-      campaignParticipation,
+      campaignParticipationResultData,
       targetProfile,
 
-      participantFirstName: campaignParticipation.participantFirstName,
-      participantLastName: campaignParticipation.participantLastName,
+      participantFirstName: campaignParticipationResultData.participantFirstName,
+      participantLastName: campaignParticipationResultData.participantLastName,
       participantKnowledgeElements,
     });
 

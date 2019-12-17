@@ -44,7 +44,7 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findByCampaignId(campaignId) {
+  findResultDataByCampaignId(campaignId) {
     return BookshelfCampaignParticipation
       .where({ campaignId })
       .fetchAll({ withRelated: ['campaign', 'assessments'] })
