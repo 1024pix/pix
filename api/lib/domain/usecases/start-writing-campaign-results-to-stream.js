@@ -26,38 +26,38 @@ function _cleanText(text) {
 
 function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
   const headers = [];
-  headers.push('"Nom de l\'organisation"');
-  headers.push('"ID Campagne"');
-  headers.push('"Nom de la campagne"');
-  headers.push('"Nom du Profil Cible"');
-  headers.push('"Nom du Participant"');
-  headers.push('"Prénom du Participant"');
+  headers.push('Nom de l\'organisation');
+  headers.push('ID Campagne');
+  headers.push('Nom de la campagne');
+  headers.push('Nom du Profil Cible');
+  headers.push('Nom du Participant');
+  headers.push('Prénom du Participant');
   if (idPixLabel) {
-    headers.push(_cleanText(idPixLabel));
+    headers.push(idPixLabel);
   }
-  headers.push('"% de progression"');
-  headers.push('"Date de début"');
-  headers.push('"Partage (O/N)"');
-  headers.push('"Date du partage"');
-  headers.push('"% maitrise de l\'ensemble des acquis du profil"');
+  headers.push('% de progression');
+  headers.push('Date de début');
+  headers.push('Partage (O/N)');
+  headers.push('Date du partage');
+  headers.push('% maitrise de l\'ensemble des acquis du profil');
 
   competences.forEach((competence) => {
-    headers.push(`"% de maitrise des acquis de la compétence ${competence.name}"`);
-    headers.push(`"Nombre d'acquis du profil cible dans la compétence ${competence.name}"`);
-    headers.push(`"Acquis maitrisés dans la compétence ${competence.name}"`);
+    headers.push(`% de maitrise des acquis de la compétence ${competence.name}`);
+    headers.push(`Nombre d'acquis du profil cible dans la compétence ${competence.name}`);
+    headers.push(`Acquis maitrisés dans la compétence ${competence.name}`);
   });
 
   areas.forEach((area) => {
-    headers.push(`"% de maitrise des acquis du domaine ${area.title}"`);
-    headers.push(`"Nombre d'acquis du profil cible du domaine ${area.title}"`);
-    headers.push(`"Acquis maitrisés du domaine ${area.title}"`);
+    headers.push(`% de maitrise des acquis du domaine ${area.title}`);
+    headers.push(`Nombre d'acquis du profil cible du domaine ${area.title}`);
+    headers.push(`Acquis maitrisés du domaine ${area.title}`);
   });
 
   skillNames.forEach((skillName) => {
-    headers.push(`"${skillName}"`);
+    headers.push(skillName);
   });
 
-  return headers;
+  return headers.map(_cleanText);
 }
 
 function _addCellByHeadersTitleForNumber(title, data, line, headers) {
@@ -66,7 +66,7 @@ function _addCellByHeadersTitleForNumber(title, data, line, headers) {
 }
 
 function _addCellByHeadersTitleForText(title, data, line, headers) {
-  line[headers.indexOf(title)] = `"${data.toString().replace(/"/g, '""')}"`;
+  line[headers.indexOf(title)] = _cleanText(data.toString());
   return line;
 }
 
