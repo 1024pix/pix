@@ -184,7 +184,11 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
 
       it('should return the complete line with user results for her participation', async () => {
         // given
-        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: true, sharedAt: new Date('2019-03-01T23:04:05Z') });
+        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({
+          isShared: true,
+          createdAt: new Date('2019-02-25T10:00:00Z'),
+          sharedAt: new Date('2019-03-01T23:04:05Z'),
+        });
         factoryCampaignParticipation.assessmentId = domainBuilder.buildAssessment({ campaignParticipationId: factoryCampaignParticipation.id }).id;
         findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
 
@@ -196,7 +200,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           `"${user.firstName}";` +
           `"${factoryCampaignParticipation.participantExternalId}";` +
           '1;' +
-          '2017-05-09;' +
+          '2019-02-25;' +
           '"Oui";' +
           '2019-03-01;' +
           '0,6;' +
@@ -240,7 +244,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
       it('should return the beginning of the line with user information for her participation', async () => {
         // given
 
-        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: false });
+        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({
+          isShared: false,
+          createdAt: new Date('2019-02-25T10:00:00Z'),
+        });
         factoryCampaignParticipation.assessmentId = domainBuilder.buildAssessment({ campaignParticipationId: factoryCampaignParticipation.id }).id;
 
         findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
@@ -254,7 +261,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           `"${user.firstName}";` +
           `"${factoryCampaignParticipation.participantExternalId}";` +
           '1;' +
-          '2017-05-09;' +
+          '2019-02-25;' +
           '"Non";' +
           '"NA";' +
           '"NA";' +
