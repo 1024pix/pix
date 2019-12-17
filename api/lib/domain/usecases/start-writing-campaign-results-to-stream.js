@@ -127,6 +127,34 @@ function _fetchUserData(
   });
 }
 
+function _getCommonColumns({
+  organization,
+  campaign,
+  targetProfile,
+  user,
+  assessment,
+  campaignParticipation,
+  knowledgeElements,
+}) {
+  const notCompletedPercentageProgression = _.round(
+    knowledgeElements.length / (targetProfile.skills.length),
+    3,
+  );
+
+  return {
+    organizationName: organization.name,
+    campaignId: campaign.id,
+    campaignName: campaign.name,
+    targetProfileName: targetProfile.name,
+    participantLastName: user.lastName,
+    participantFirstName: user.firstName,
+    percentageProgression: assessment.isCompleted ? 1 : notCompletedPercentageProgression,
+    createdAt: moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
+    isShared: campaignParticipation.isShared ? 'Oui' : 'Non',
+    ...(campaign.idPixLabel ? { participantExternalId: campaignParticipation.participantExternalId } : {}),
+  };
+}
+
 function _getSharedColumns({
   competences,
   targetProfile,
@@ -196,26 +224,15 @@ function _createOneLineOfCSV({
   const knowledgeElements = userKnowledgeElements
     .filter((ke) => _.find(targetProfile.skills, { id: ke.skillId }));
 
-  const notCompletedPercentageProgression = _.round(
-    knowledgeElements.length / (targetProfile.skills.length),
-    3,
-  );
-
-  const lineMap = {
-    organizationName: organization.name,
-    campaignId: campaign.id,
-    campaignName: campaign.name,
-    targetProfileName: targetProfile.name,
-    participantLastName: user.lastName,
-    participantFirstName: user.firstName,
-    percentageProgression: assessment.isCompleted ? 1 : notCompletedPercentageProgression,
-    createdAt: moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
-    isShared: campaignParticipation.isShared ? 'Oui' : 'Non',
-  };
-
-  if (campaign.idPixLabel) {
-    lineMap.participantExternalId = campaignParticipation.participantExternalId;
-  }
+  const lineMap = _getCommonColumns({
+    organization,
+    campaign,
+    targetProfile,
+    user,
+    assessment,
+    campaignParticipation,
+    knowledgeElements,
+  });
 
   if (campaignParticipation.isShared) {
     _.assign(lineMap, _getSharedColumns({
