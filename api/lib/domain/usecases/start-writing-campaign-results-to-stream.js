@@ -165,11 +165,9 @@ function _getSharedColumns({
   };
 
   const addStatsColumns = (prefix) => ({ id, skillCount, validatedSkillCount }) => {
-    _.assign(lineMap, {
-      [`${prefix}_${id}_percentageValidated`]: _.round(validatedSkillCount / skillCount, 2),
-      [`${prefix}_${id}_skillCount`]: skillCount,
-      [`${prefix}_${id}_validatedSkillCount`]: validatedSkillCount,
-    });
+    lineMap[`${prefix}_${id}_percentageValidated`] = _.round(validatedSkillCount / skillCount, 2);
+    lineMap[`${prefix}_${id}_skillCount`] = skillCount;
+    lineMap[`${prefix}_${id}_validatedSkillCount`] = validatedSkillCount;
   };
 
   _.forEach(competenceStats, addStatsColumns('competence'));
