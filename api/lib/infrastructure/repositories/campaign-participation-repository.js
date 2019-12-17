@@ -47,7 +47,11 @@ module.exports = {
   async findResultDataByCampaignId(campaignId) {
     const { models } = await BookshelfCampaignParticipation
       .where({ campaignId })
-      .fetchAll({});
+      .fetchAll({
+        withRelated: {
+          user: (qb) => { qb.columns('id', 'firstName', 'lastName'); }
+        }
+      });
 
     return models.map((bookshelfCampaignParticipation) => {
       return {
@@ -58,6 +62,9 @@ module.exports = {
         createdAt: new Date(bookshelfCampaignParticipation.get('createdAt')),
         participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
         userId: bookshelfCampaignParticipation.get('userId'),
+
+        participantFirstName: bookshelfCampaignParticipation.related('user').get('firstName'),
+        participantLastName: bookshelfCampaignParticipation.related('user').get('lastName'),
       };
     });
   },
