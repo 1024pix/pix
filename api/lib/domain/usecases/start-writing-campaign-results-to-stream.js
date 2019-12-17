@@ -236,7 +236,7 @@ module.exports = async function startWritingCampaignResultsToStream(
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-  const [targetProfile, listAllCompetences, organization, listCampaignParticipation] = await Promise.all([
+  const [targetProfile, allCompetences, organization, listCampaignParticipation] = await Promise.all([
     targetProfileRepository.get(campaign.targetProfileId),
     competenceRepository.list(),
     organizationRepository.get(campaign.organizationId),
@@ -245,7 +245,7 @@ module.exports = async function startWritingCampaignResultsToStream(
 
   const listSkillsId = targetProfile.skills.map((skill) => skill.id);
 
-  const competences = listAllCompetences.filter((competence) => {
+  const competences = allCompetences.filter((competence) => {
     return listSkillsId.some((skillId) => competence.skills.includes(skillId));
   });
 
