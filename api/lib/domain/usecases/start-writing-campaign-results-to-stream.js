@@ -140,20 +140,6 @@ function _createOneLineOfCSV({
   user,
   userKnowledgeElements,
 }) {
-  const lineMap = _.fromPairs(headers.map((h) => [ h.property, 'NA' ]));
-
-  lineMap.organizationName = organization.name;
-  lineMap.campaignId = parseInt(campaign.id);
-  lineMap.campaignName = campaign.name;
-  lineMap.targetProfileName = targetProfile.name;
-
-  lineMap.participantLastName = user.lastName;
-  lineMap.participantFirstName = user.firstName;
-
-  if (campaign.idPixLabel) {
-    lineMap.participantExternalId = campaignParticipation.participantExternalId;
-  }
-
   const knowledgeElements = userKnowledgeElements
     .filter((ke) => _.find(targetProfile.skills, { id: ke.skillId }));
 
@@ -161,18 +147,24 @@ function _createOneLineOfCSV({
     knowledgeElements.length / (targetProfile.skills.length),
     3,
   );
-  const percentageProgression = (assessment.isCompleted) ? 1 : notCompletedPercentageProgression;
-  lineMap.percentageProgression = percentageProgression;
-  lineMap.createdAt = moment.utc(assessment.createdAt).format('YYYY-MM-DD');
 
-  const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
-  lineMap.isShared = textForParticipationShared;
+  const lineMap = {
+    organizationName: organization.name,
+    campaignId: campaign.id,
+    campaignName: campaign.name,
+    targetProfileName: targetProfile.name,
+    participantLastName: user.lastName,
+    participantFirstName: user.firstName,
+    percentageProgression: assessment.isCompleted ? 1 : notCompletedPercentageProgression,
+    createdAt: moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
+    isShared: campaignParticipation.isShared ? 'Oui' : 'Non',
+  };
+
+  if (campaign.idPixLabel) {
+    lineMap.participantExternalId = campaignParticipation.participantExternalId;
+  }
 
   if (campaignParticipation.isShared) {
-
-    lineMap.sharedAt = moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD');
-
-    lineMap.percentageSkillValidated = _percentageSkillsValidated(knowledgeElements, targetProfile);
 
     const competenceStats = _.map(competences, (competence) => {
       const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
@@ -199,10 +191,17 @@ function _createOneLineOfCSV({
       };
     });
 
+    _.assign(lineMap, {
+      sharedAt: moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'),
+      percentageSkillValidated: _percentageSkillsValidated(knowledgeElements, targetProfile),
+    });
+
     const addStatsColumns = (prefix) => ({ id, skillCount, validatedSkillCount }) => {
-      lineMap[`${prefix}_${id}_percentageValidated`] = _.round(validatedSkillCount / skillCount, 2);
-      lineMap[`${prefix}_${id}_skillCount`] = skillCount;
-      lineMap[`${prefix}_${id}_validatedSkillCount`] = validatedSkillCount;
+      _.assign(lineMap, {
+        [`${prefix}_${id}_percentageValidated`]: _.round(validatedSkillCount / skillCount, 2),
+        [`${prefix}_${id}_skillCount`]: skillCount,
+        [`${prefix}_${id}_validatedSkillCount`]: validatedSkillCount,
+      });
     };
 
     _.forEach(competenceStats, addStatsColumns('competence'));
@@ -214,7 +213,7 @@ function _createOneLineOfCSV({
   }
 
   const lineArray = headers.map(({ property }) => {
-    return lineMap[property];
+    return property in lineMap ? lineMap[property] : 'NA';
   });
 
   return _csvSerializeLine(lineArray);
