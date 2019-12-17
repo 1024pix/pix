@@ -61,12 +61,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
 
     ];
 
-    const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({
-      state: 'completed',
-      createdAt: new Date('2017-05-09T00:30:00Z'),
-      knowledgeElements
-    });
-
     const targetProfile = domainBuilder.buildTargetProfile({ skills: listSkills, name: 'Profile 1' });
 
     const campaign = domainBuilder.buildCampaign({
@@ -108,10 +102,9 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
     const competenceRepository = { list: () => undefined };
     const organizationRepository = { get: () => undefined };
     const campaignParticipationRepository = { findResultDataByCampaignId: () => undefined };
-    const smartPlacementAssessmentRepository = { get: () => undefined };
     const knowledgeElementRepository = { findUniqByUserId: () => undefined };
 
-    let findCampaignParticipationStub;
+    let findResultDataByCampaignIdStub;
 
     let writableStream;
     let csvPromise;
@@ -124,9 +117,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
       sinon.stub(userRepository, 'getWithMemberships').resolves(user);
       sinon.stub(organizationRepository, 'get').resolves(organization);
       sinon.stub(userRepository, 'get').resolves(user);
-      sinon.stub(smartPlacementAssessmentRepository, 'get').resolves(assessment);
       sinon.stub(knowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
-      findCampaignParticipationStub = sinon.stub(campaignParticipationRepository, 'findResultDataByCampaignId');
+      findResultDataByCampaignIdStub = sinon.stub(campaignParticipationRepository, 'findResultDataByCampaignId');
 
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
@@ -157,7 +149,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
         '"web3";' +
         '"web4";' +
         '"web5"\n';
-      findCampaignParticipationStub.resolves([]);
+      findResultDataByCampaignIdStub.resolves([]);
 
       // when
       startWritingCampaignResultsToStream({
@@ -170,7 +162,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
         competenceRepository,
         organizationRepository,
         campaignParticipationRepository,
-        smartPlacementAssessmentRepository,
         knowledgeElementRepository,
       });
 
@@ -184,13 +175,15 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
 
       it('should return the complete line with user results for her participation', async () => {
         // given
-        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({
+        const campaignParticipationResultData = {
+          id: 1,
           isShared: true,
           createdAt: new Date('2019-02-25T10:00:00Z'),
           sharedAt: new Date('2019-03-01T23:04:05Z'),
-        });
-        factoryCampaignParticipation.assessmentId = domainBuilder.buildAssessment({ campaignParticipationId: factoryCampaignParticipation.id }).id;
-        findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
+          participantExternalId: 'Mon mail pro',
+          userId: 123,
+        };
+        findResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
 
         const csvSecondLine = `"${organization.name}";` +
           `${campaign.id};` +
@@ -198,7 +191,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           `"${targetProfile.name}";` +
           `"${user.lastName}";` +
           `"${user.firstName}";` +
-          `"${factoryCampaignParticipation.participantExternalId}";` +
+          `"${campaignParticipationResultData.participantExternalId}";` +
           '1;' +
           '2019-02-25;' +
           '"Oui";' +
@@ -227,7 +220,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           competenceRepository,
           organizationRepository,
           campaignParticipationRepository,
-          smartPlacementAssessmentRepository,
           knowledgeElementRepository,
         });
 
@@ -244,13 +236,16 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
       it('should return the beginning of the line with user information for her participation', async () => {
         // given
 
-        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({
+        const campaignParticipationResultData = {
+          id: 1,
           isShared: false,
           createdAt: new Date('2019-02-25T10:00:00Z'),
-        });
-        factoryCampaignParticipation.assessmentId = domainBuilder.buildAssessment({ campaignParticipationId: factoryCampaignParticipation.id }).id;
+          sharedAt: new Date('2019-03-01T23:04:05Z'),
+          participantExternalId: 'Mon mail pro',
+          userId: 123,
+        };
 
-        findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
+        findResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
 
         const csvSecondLine =
           `"${organization.name}";` +
@@ -259,7 +254,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           `"${targetProfile.name}";` +
           `"${user.lastName}";` +
           `"${user.firstName}";` +
-          `"${factoryCampaignParticipation.participantExternalId}";` +
+          `"${campaignParticipationResultData.participantExternalId}";` +
           '1;' +
           '2019-02-25;' +
           '"Non";' +
@@ -288,7 +283,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           competenceRepository,
           organizationRepository,
           campaignParticipationRepository,
-          smartPlacementAssessmentRepository,
           knowledgeElementRepository,
         });
 
@@ -302,10 +296,14 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
     context('when campaign do not have a idPixLabel', () => {
 
       beforeEach(() => {
-        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: false });
-        factoryCampaignParticipation.assessmentId = domainBuilder.buildAssessment({ campaignParticipationId: factoryCampaignParticipation.id }).id;
+        const campaignParticipationResultData = {
+          id: 1,
+          isShared: false,
+          createdAt: new Date('2019-02-25T10:00:00Z'),
+          userId: 123,
+        };
 
-        findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
+        findResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
 
         const campaignWithoutIdPixLabel = domainBuilder.buildCampaign({
           name: 'CampaignName',
@@ -352,7 +350,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           competenceRepository,
           organizationRepository,
           campaignParticipationRepository,
-          smartPlacementAssessmentRepository,
           knowledgeElementRepository,
         });
 

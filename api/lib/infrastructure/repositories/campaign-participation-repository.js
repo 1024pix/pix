@@ -56,10 +56,10 @@ module.exports = {
     return models.map((bookshelfCampaignParticipation) => {
       return {
         id: bookshelfCampaignParticipation.get('id'),
+        createdAt: new Date(bookshelfCampaignParticipation.get('createdAt')),
 
         isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
         sharedAt: bookshelfCampaignParticipation.get('sharedAt'),
-        createdAt: new Date(bookshelfCampaignParticipation.get('createdAt')),
         participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
         userId: bookshelfCampaignParticipation.get('userId'),
 
