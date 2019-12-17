@@ -30,7 +30,7 @@ function _csvSerializeValue(data) {
       return `"${data.replace(/"/g, '""')}"`;
     }
   } else {
-    throw new Error(`Unknown value type in _csvSerializeValue: ${typeof data}`);
+    throw new Error(`Unknown value type in _csvSerializeValue: ${typeof data}: ${data}`);
   }
 }
 
@@ -39,39 +39,36 @@ function _csvSerializeLine(line) {
 }
 
 function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
-  const headers = [];
-  headers.push('Nom de l\'organisation');
-  headers.push('ID Campagne');
-  headers.push('Nom de la campagne');
-  headers.push('Nom du Profil Cible');
-  headers.push('Nom du Participant');
-  headers.push('Prénom du Participant');
-  if (idPixLabel) {
-    headers.push(idPixLabel);
-  }
-  headers.push('% de progression');
-  headers.push('Date de début');
-  headers.push('Partage (O/N)');
-  headers.push('Date du partage');
-  headers.push('% maitrise de l\'ensemble des acquis du profil');
+  return [
+    'Nom de l\'organisation',
+    'ID Campagne',
+    'Nom de la campagne',
+    'Nom du Profil Cible',
+    'Nom du Participant',
+    'Prénom du Participant',
 
-  competences.forEach((competence) => {
-    headers.push(`% de maitrise des acquis de la compétence ${competence.name}`);
-    headers.push(`Nombre d'acquis du profil cible dans la compétence ${competence.name}`);
-    headers.push(`Acquis maitrisés dans la compétence ${competence.name}`);
-  });
+    ...(idPixLabel ? [ idPixLabel ] : []),
 
-  areas.forEach((area) => {
-    headers.push(`% de maitrise des acquis du domaine ${area.title}`);
-    headers.push(`Nombre d'acquis du profil cible du domaine ${area.title}`);
-    headers.push(`Acquis maitrisés du domaine ${area.title}`);
-  });
+    '% de progression',
+    'Date de début',
+    'Partage (O/N)',
+    'Date du partage',
+    '% maitrise de l\'ensemble des acquis du profil',
 
-  skillNames.forEach((skillName) => {
-    headers.push(skillName);
-  });
+    ...(_.flatMap(competences, (competence) => [
+      `% de maitrise des acquis de la compétence ${competence.name}`,
+      `Nombre d'acquis du profil cible dans la compétence ${competence.name}`,
+      `Acquis maitrisés dans la compétence ${competence.name}`,
+    ])),
 
-  return headers;
+    ...(_.flatMap(areas, (area) => [
+      `% de maitrise des acquis du domaine ${area.title}`,
+      `Nombre d'acquis du profil cible du domaine ${area.title}`,
+      `Acquis maitrisés du domaine ${area.title}`,
+    ])),
+
+    ...skillNames,
+  ];
 }
 
 function _totalValidatedSkills(knowledgeElements) {
