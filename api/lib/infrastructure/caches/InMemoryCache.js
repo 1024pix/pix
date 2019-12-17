@@ -1,8 +1,10 @@
 const NodeCache = require('node-cache');
+const Cache = require('./Cache');
 
-class InMemoryCache {
+class InMemoryCache extends Cache {
 
   constructor() {
+    super();
     this._cache = new NodeCache({ useClones: false });
   }
 
@@ -18,7 +20,7 @@ class InMemoryCache {
   }
 
   async flushAll() {
-    this._cache.flushAll();
+    return this._cache.flushAll();
   }
 
 }

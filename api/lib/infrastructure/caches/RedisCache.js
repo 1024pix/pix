@@ -1,14 +1,16 @@
 const { using } = require('bluebird');
+const Redlock = require('redlock');
+const Cache = require('./Cache');
+const RedisClient = require('./RedisClient');
 const logger = require('../logger');
 const settings = require('../../config');
-const RedisClient = require('./RedisClient');
-const Redlock = require('redlock');
 
 const REDIS_LOCK_PREFIX = 'locks:';
 
-class RedisCache {
+class RedisCache extends Cache {
 
   constructor(redis_url) {
+    super();
     this._client = RedisCache.createClient(redis_url);
   }
 

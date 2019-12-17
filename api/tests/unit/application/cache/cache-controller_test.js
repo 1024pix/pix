@@ -1,5 +1,5 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/cache');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const cacheController = require('../../../../lib/application/cache/cache-controller');
 const AirtableDatasources = require('../../../../lib/infrastructure/datasources/airtable');
 const _ = require('lodash');

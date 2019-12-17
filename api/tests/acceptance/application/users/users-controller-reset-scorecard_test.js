@@ -136,8 +136,8 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
           .returns([area])
           .activate();
 
-        airtableBuilder.mockGet({ tableName: 'Competences' })
-          .returns(competence)
+        airtableBuilder.mockList({ tableName: 'Competences' })
+          .returns([competence])
           .activate();
 
         _.each([

@@ -1,6 +1,6 @@
 const createServer = require('../../../server');
 const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder, knex } = require('../../test-helper');
-const cache = require('../../../lib/infrastructure/caches/cache');
+const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | API | Competence Evaluations', () => {
 
@@ -32,8 +32,8 @@ describe('Acceptance | API | Competence Evaluations', () => {
             id: competenceId,
           });
           airtableBuilder
-            .mockGet({ tableName: 'Competences' })
-            .returns(airtableCompetence)
+            .mockList({ tableName: 'Competences' })
+            .returns([airtableCompetence])
             .activate();
           airtableBuilder
             .mockList({ tableName: 'Domaines' })
@@ -43,7 +43,7 @@ describe('Acceptance | API | Competence Evaluations', () => {
 
         afterEach(async () => {
           airtableBuilder.cleanAll();
-          await cache.flushAll();
+          cache.flushAll();
           await knex('competence-evaluations').delete();
           return knex('assessments').delete();
         });

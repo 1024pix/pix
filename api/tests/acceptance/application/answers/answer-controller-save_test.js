@@ -60,18 +60,18 @@ describe('Acceptance | Controller | answer-controller-save', () => {
           .activate();
 
         airtableBuilder
-          .mockGet({ tableName: 'Competences' })
-          .returns(competence)
+          .mockList({ tableName: 'Competences' })
+          .returns([competence])
           .activate();
 
         airtableBuilder
-          .mockGet({ tableName: 'Acquis' })
-          .returns(skill)
+          .mockList({ tableName: 'Acquis' })
+          .returns([skill])
           .activate();
 
         airtableBuilder
-          .mockGet({ tableName: 'Epreuves' })
-          .returns(challenge)
+          .mockList({ tableName: 'Epreuves' })
+          .returns([challenge])
           .activate();
 
         options = {

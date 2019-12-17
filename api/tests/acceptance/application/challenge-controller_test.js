@@ -1,5 +1,6 @@
 const { airtableBuilder, expect, nock } = require('../../test-helper');
 const createServer = require('../../../server');
+const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | API | ChallengeController', () => {
 
@@ -34,12 +35,13 @@ describe('Acceptance | API | ChallengeController', () => {
         acquix: [],
       });
       airtableBuilder
-        .mockGet({ tableName: 'Epreuves' })
-        .returns(airtableChallenge)
+        .mockList({ tableName: 'Epreuves' })
+        .returns([airtableChallenge])
         .activate();
     });
 
     afterEach(() => {
+      cache.flushAll();
       airtableBuilder.cleanAll();
     });
 

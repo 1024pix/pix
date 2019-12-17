@@ -1,6 +1,9 @@
-class LayeredCache {
+const Cache = require('./Cache');
+
+class LayeredCache extends Cache {
 
   constructor(level1Cache, level2Cache) {
+    super();
     this._level1Cache = level1Cache;
     this._level2Cache = level2Cache;
   }

@@ -1,5 +1,5 @@
 const { expect, databaseBuilder, knex, airtableBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../test-helper');
-const cache = require('../../../lib/infrastructure/caches/cache');
+const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 const createServer = require('../../../server');
 
 const Assessment = require('../../../lib/domain/models/Assessment');

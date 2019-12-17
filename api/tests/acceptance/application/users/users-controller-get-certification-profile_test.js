@@ -1,6 +1,6 @@
 const { airtableBuilder, expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const cache = require('../../../../lib/infrastructure/caches/cache');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | users-controller-get-certification-profile', () => {
 
