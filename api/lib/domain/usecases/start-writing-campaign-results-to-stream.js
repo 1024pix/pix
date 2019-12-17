@@ -176,7 +176,7 @@ function _createOneLineOfCSV(
       const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
       _addCellByHeadersTitle('Partage (O/N)', textForParticipationShared, line, headers);
 
-      if (assessment.isCompleted && campaignParticipation.isShared) {
+      if (campaignParticipation.isShared) {
 
         _addCellByHeadersTitle('Date du partage', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), line, headers);
 
