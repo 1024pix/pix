@@ -3,7 +3,7 @@ const _ = require('lodash');
 const BookshelfSession = require('../data/session');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
-const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
+const { NotFoundError } = require('../../domain/errors');
 const { statuses } = require('../../domain/models/Session');
 
 module.exports = {
@@ -122,18 +122,15 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSession, foundSessions);
   },
 
-  async ensureUserHasAccessToSession(userId, sessionId) {
-    try {
-      await BookshelfSession
-        .where({ 'sessions.id': sessionId, 'certification-center-memberships.userId': userId })
-        .query((qb) => {
-          qb.innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId');
-          qb.innerJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id');
-        })
-        .fetch({ require: true });
-    } catch (_err) {
-      throw new UserNotAuthorizedToAccessEntity(sessionId);
-    }
+  async doesUserHaveCertificationCenterMembershipForSession(userId, sessionId) {
+    const session = await BookshelfSession
+      .where({ 'sessions.id': sessionId, 'certification-center-memberships.userId': userId })
+      .query((qb) => {
+        qb.innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId');
+        qb.innerJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id');
+      })
+      .fetch({ columns: 'sessions.id' });
+    return Boolean(session);
   },
 
   async updateStatusAndExaminerComment(session) {

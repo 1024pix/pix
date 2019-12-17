@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.95.0 (17/12/2019)
+
+- [#885](https://github.com/1024pix/pix/pull/885) [FEATURE] ETQ PixOrga Admin, je veux pouvoir changer le rôle des users de mon équipe (PO-215).
+- [#899](https://github.com/1024pix/pix/pull/899) [FEATURE] Permettre aux utilisateurs non connectés via le GAR de saisir leur nom et prénom lors de la réconciliation (PF-886).
+- [#919](https://github.com/1024pix/pix/pull/919) [BUGFIX] Enlever le retour à la ligne après les inputs dans la zone de réponse
+- [#913](https://github.com/1024pix/pix/pull/913) [BUGFIX] Ne plus afficher d'ancients examinerComment dans le champs de text prévu à cet effet. (PC-93)
+- [#911](https://github.com/1024pix/pix/pull/911) [TECH] BSR - Suppression de l'usage déprécié du ChallengeId lors de l'appel à la route /assessments/:id/next.
+- [#865](https://github.com/1024pix/pix/pull/865) [TECH] MaJ des dépendances de l'API (PC-89)
+- [#896](https://github.com/1024pix/pix/pull/896) [TECH] Ajout d'un prehandler de vérification d'accès à une session (PC-92)
+
 ## v2.94.0 (12/12/2019)
 
 - [#903](https://github.com/1024pix/pix/pull/903) [FEATURE] Modification du nom de fichier de résultats de la session dans PixAdmin (PA-130)

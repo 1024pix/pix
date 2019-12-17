@@ -1,0 +1,52 @@
+
+    <td>{{membership.user.lastName}}</td>
+    <td>{{membership.user.firstName}}</td>
+
+{{#if (not isEditionMode) }}
+    <td>{{membership.displayRole}}</td>
+    {{#if (not-eq membership.user.id currentUser.user.id) }}
+        <td>
+                <div class="zone-edit-role">
+                    <button id='edit-organization-role' class="button button--with-icon-and-text button-edit-role"
+                            type="button" onclick={{action "editRoleOfMember" membership }}>
+                            {{fa-icon "edit"}} Modifier le rôle
+                    </button>
+                </div>
+            </td>
+    {{else}}
+            <td></td>
+    {{/if}}
+{{/if}}
+
+{{#if isEditionMode }}
+    <td>
+        <div id="selectOrganizationRole">
+          {{#power-select
+                  options=organizationRoles
+                  selected=selectedNewRole
+                  searchEnabled=false
+                  onchange=(action "setRoleSelection")
+                  placeholder="Selectionner le rôle"
+          as |organizationRole|}}
+            {{organizationRole.label}}
+          {{/power-select}}
+        </div>
+    </td>
+    <td>
+            <div class="zone-save-cancel-role">
+                <button id='save-organization-role'
+                        type="button"
+                        class="button"
+                        onclick={{action "updateRoleOfMember" membership }}>
+                    Enregistrer
+                </button>
+                <button id='cancel-update-organization-role'
+                        type="button"
+                        class="button button--with-icon-and-text list-team-page__cancel-update-role"
+                        onclick={{action "cancelUpdateRoleOfMember"}}>
+                  {{fa-icon 'times'}}
+                </button>
+            </div>
+    </td>
+    {{/if}}
+

@@ -1,5 +1,5 @@
 const BookshelfMembership = require('../data/membership');
-const { MembershipCreationError } = require('../../domain/errors');
+const { MembershipCreationError, MembershipUpdateError } = require('../../domain/errors');
 const Membership = require('../../domain/models/Membership');
 const User = require('../../domain/models/User');
 const bookshelfUtils = require('../utils/bookshelf-utils');
@@ -22,7 +22,7 @@ module.exports = {
       .then(_toDomain)
       .catch((err) => {
         if (bookshelfUtils.isUniqConstraintViolated(err)) {
-          throw new MembershipCreationError();
+          throw new MembershipCreationError(err.message);
         }
         throw err;
       });
@@ -61,4 +61,19 @@ module.exports = {
       .catch(() => false);
   },
 
+  updateRoleById({ id, organizationRole }) {
+    return new BookshelfMembership({ id })
+      .save({ organizationRole }, { patch: true, method: 'update', require: true })
+      .then((updatedMembership) => updatedMembership.refresh({
+        withRelated: ['user', 'organization']
+      }))
+      .then(
+        (membership) => bookshelfToDomainConverter.buildDomainObject(BookshelfMembership, membership),
+        (err) => {
+          throw new MembershipUpdateError(err.message);
+        }
+      );
+  },
+
 };
+

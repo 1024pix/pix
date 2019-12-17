@@ -71,7 +71,7 @@ module('Acceptance | Session Finalization', function(hooks) {
         await fillIn('#examiner-comment', 'You are a wizard Harry!');
 
         // then
-        assert.equal(finalizeController.examinerComment, expectedComment);
+        assert.equal(finalizeController.model.examinerComment, expectedComment);
         assert.dom('.session-finalization-examiner-comment-step__characters-information').exists();
         assert.dom('.session-finalization-examiner-comment-step__characters-information').hasText(expectedIndicator);
       });

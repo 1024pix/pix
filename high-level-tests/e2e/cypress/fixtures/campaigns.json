@@ -14,5 +14,12 @@
     "organizationId": 1,
     "creatorId": 1,
     "targetProfileId": 1
+  }, {
+    "id": 3,
+    "name": "Campagne de Winterfell",
+    "code": "WINTER",
+    "organizationId": 2,
+    "creatorId": 3,
+    "targetProfileId": 1
   }
 ]

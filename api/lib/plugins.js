@@ -1,6 +1,21 @@
 const Pack = require('../package');
 const Metrics = require('./infrastructure/plugins/metrics');
 const settings = require('./config');
+const Blipp = require('blipp');
+const Inert = require('@hapi/inert');
+const Vision = require('@hapi/vision');
+const HapiSwagger = require('hapi-swagger');
+
+const swaggerOptions = {
+
+  basePath: '/api',
+  grouping: 'tags',
+  info: {
+    'title': 'Welcome to the Pix api catalog',
+    'version': Pack.version
+  },
+  documentationPath: '/api/documentation'
+};
 
 const isProduction = ['production', 'staging'].includes(process.env.NODE_ENV);
 
@@ -38,20 +53,12 @@ if (settings.logging.enabled) {
 
 const plugins = [
   Metrics,
-  require('@hapi/inert'),
-  require('vision'),
-  require('blipp'),
+  Inert,
+  Vision,
+  Blipp,
   {
-    plugin: require('hapi-swagger'),
-    options: {
-      basePath: '/api',
-      grouping: 'tags',
-      info: {
-        'title': 'PIX API Documentation',
-        'version': Pack.version
-      },
-      documentationPath: '/api/documentation'
-    }
+    plugin: HapiSwagger,
+    options: swaggerOptions
   },
   {
     plugin: require('good'),

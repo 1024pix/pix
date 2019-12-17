@@ -57,7 +57,10 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     expect(campaignParticipationRepository.save).to.have.been.called;
     const campaignParticipationToSave = campaignParticipationRepository.save.firstCall.args[0];
     expect(campaignParticipationToSave.userId).to.equal(userId);
-    expect(campaignParticipationToSave).to.deep.equal(campaignParticipation);
+    expect(campaignParticipationToSave).to.deep.equal({
+      ...campaignParticipation,
+      userId,
+    });
   });
 
   it('should create a smart placement assessment', async () => {

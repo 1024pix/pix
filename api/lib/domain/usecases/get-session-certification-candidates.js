@@ -1,5 +1,3 @@
-module.exports = async function getSessionCertificationCandidates({ userId, sessionId, sessionRepository, certificationCandidateRepository }) {
-  await sessionRepository.ensureUserHasAccessToSession(userId, sessionId);
-
+module.exports = function getSessionCertificationCandidates({ sessionId, certificationCandidateRepository }) {
   return certificationCandidateRepository.findBySessionId(sessionId);
 };

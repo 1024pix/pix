@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, fillIn, find } from '@ember/test-helpers';
+import Object from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | session-finalization-examiner-comment-step', function(hooks) {
@@ -11,9 +12,9 @@ module('Integration | Component | session-finalization-examiner-comment-step', f
   hooks.beforeEach(async function() {
     firstComment = 'You are a wizard Harry !';
     this.set('textareaMaxLength', 500);
-    this.set('examinerComment', firstComment);
+    this.set('session', Object.create({ examinerComment: '' }));
 
-    await render(hbs`<SessionFinalizationExaminerCommentStep @examinerComment={{this.examinerComment}}  />`);
+    await render(hbs`<SessionFinalizationExaminerCommentStep @session={{this.session}}  />`);
     await fillIn('#examiner-comment', firstComment);
   });
 
@@ -24,7 +25,7 @@ module('Integration | Component | session-finalization-examiner-comment-step', f
     );
     assert.equal(
       find('div.session-finalization-examiner-comment-step__characters-information').textContent.trim(),
-      this.examinerComment.length + ' / ' + this.textareaMaxLength
+      this.session.examinerComment.length + ' / ' + this.textareaMaxLength
     );
     assert.equal(
       find('textarea').value.trim(),
@@ -37,7 +38,7 @@ module('Integration | Component | session-finalization-examiner-comment-step', f
       await fillIn('#examiner-comment', 'You are no more a wizard Harry!');
       assert.equal(
         find('div.session-finalization-examiner-comment-step__characters-information').textContent.trim(),
-        this.examinerComment.length + ' / ' + this.textareaMaxLength
+        this.session.examinerComment.length + ' / ' + this.textareaMaxLength
       );
       assert.equal(find('#examiner-comment').value.trim(),
         'You are no more a wizard Harry!'

@@ -6,6 +6,7 @@ import { isEmpty } from '@ember/utils';
 export default Route.extend(AuthenticatedRouteMixin, {
 
   currentUser: service(),
+  session: service(),
 
   async beforeModel(transition) {
     const campaignCode = transition.to.params.campaign_code;
@@ -24,7 +25,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   setupController(controller) {
     this._super(...arguments);
-    controller.set('firstName', this.currentUser.user.firstName);
-    controller.set('lastName', this.currentUser.user.lastName);
+    if (this.session.data.authenticated.source === 'external') {
+      controller.set('firstName', this.currentUser.user.firstName);
+      controller.set('lastName', this.currentUser.user.lastName);
+    }
   },
 });

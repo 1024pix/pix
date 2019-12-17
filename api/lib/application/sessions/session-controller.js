@@ -15,9 +15,8 @@ module.exports = {
   },
 
   async get(request) {
-    const userId = request.auth.credentials.userId;
     const sessionId = parseInt(request.params.id);
-    const session = await usecases.getSession({ userId, sessionId });
+    const session = await usecases.getSession({ sessionId });
 
     return sessionSerializer.serialize(session);
   },
@@ -54,9 +53,8 @@ module.exports = {
 
   async getCertificationCandidates(request) {
     const sessionId = request.params.id;
-    const userId = request.auth.credentials.userId;
 
-    return usecases.getSessionCertificationCandidates({ userId, sessionId })
+    return usecases.getSessionCertificationCandidates({ sessionId })
       .then((certificationCandidates) => certificationCandidateSerializer.serialize(certificationCandidates));
   },
 
@@ -68,12 +66,11 @@ module.exports = {
   },
 
   async importCertificationCandidatesFromAttendanceSheet(request) {
-    const userId = request.auth.credentials.userId;
     const sessionId = request.params.id;
     const odsBuffer = request.payload.file;
 
     try {
-      await usecases.importCertificationCandidatesFromAttendanceSheet({ userId, sessionId, odsBuffer });
+      await usecases.importCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
     }
     catch (err) {
       if (err instanceof CertificationCandidateAlreadyLinkedToUserError) {
@@ -100,11 +97,10 @@ module.exports = {
   },
 
   finalize(request) {
-    const userId = request.auth.credentials.userId;
     const sessionId = request.params.id;
     const examinerComment = request.payload.data.attributes['examiner-comment'];
 
-    return usecases.finalizeSession({ userId, sessionId, examinerComment })
+    return usecases.finalizeSession({ sessionId, examinerComment })
       .then((updatedSession) => sessionSerializer.serializeForFinalization(updatedSession));
   },
 

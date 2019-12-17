@@ -14,7 +14,7 @@ given(`je m'inscris avec le prénom {string}, le nom {string}, le mail {string} 
 });
 
 when('je vais sur Pix via un organisme externe', () => {
-  cy.loginToken('daenerys.targaryen@pix.fr', 'pix123');
+  cy.loginExternalPlatform();
 });
 
 when(`je vais sur l'inscription de Pix`, () => {

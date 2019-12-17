@@ -77,6 +77,22 @@
       padding-left: 5px;
     }
   }
+
+  &--with-icon-and-text {
+    color: $dove-gray;
+    background-color: $porcelain;
+    display: flex;
+    align-items: center;
+
+    &>img {
+      padding-right: 8.5px;
+    }
+  }
+
+  &--with-icon-and-text:hover {
+    background-color: $alto;
+  }
+
 }
 
 .loader-in-button {

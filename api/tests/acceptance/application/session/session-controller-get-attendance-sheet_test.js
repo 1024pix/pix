@@ -22,7 +22,7 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', ()
       databaseBuilder.factory.buildCertificationCenterMembership({ userId: otherUserId, certificationCenterId: otherCertificationCenterId });
 
       sessionIdAllowed = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
-      sessionIdNotAllowed = databaseBuilder.factory.buildSession({ certificationCenterId: otherCertificationCenterId });
+      sessionIdNotAllowed = databaseBuilder.factory.buildSession({ certificationCenterId: otherCertificationCenterId }).id;
 
       await databaseBuilder.commit();
     });

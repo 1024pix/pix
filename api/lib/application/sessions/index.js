@@ -1,6 +1,7 @@
 const Joi = require('@hapi/joi');
 const securityController = require('../../interfaces/controllers/security-controller');
 const sessionController = require('./session-controller');
+const sessionAuthorization = require('../preHandlers/session-authorization');
 
 exports.register = async (server) => {
   server.route([
@@ -24,6 +25,15 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/sessions/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
+        pre: [{
+          method: sessionAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
         handler: sessionController.get,
         tags: ['api']
       }
@@ -57,6 +67,15 @@ exports.register = async (server) => {
       method: 'PUT',
       path: '/api/sessions/{id}/finalization',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
+        pre: [{
+          method: sessionAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
         handler: sessionController.finalize,
         tags: ['api', 'sessions'],
         notes: [
@@ -69,10 +88,19 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/sessions/{id}/certification-candidates/import',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
         payload: {
           allow: 'multipart/form-data',
           maxBytes: 1048576 * 10, // 10MB
         },
+        pre: [{
+          method: sessionAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
         handler: sessionController.importCertificationCandidatesFromAttendanceSheet,
         tags: ['api', 'sessions'],
         notes: [
@@ -98,6 +126,15 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/sessions/{id}/certification-candidates',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
+        pre: [{
+          method: sessionAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
         handler: sessionController.getCertificationCandidates,
         tags: ['api', 'sessions', 'certification-candidates'],
         notes: [
