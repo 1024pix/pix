@@ -54,15 +54,15 @@ function _findAnyChallenge({ knowledgeElements, targetSkills, courseTubes, isLas
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
   const availableSkills = getFilteredSkillsForNextChallenge({ knowledgeElements, courseTubes, predictedLevel, isLastChallengeTimed, targetSkills });
   const maxRewardingSkills = catAlgorithm.findMaxRewardingSkills({ availableSkills, predictedLevel, courseTubes, knowledgeElements });
-  return { nextChallenge: _pickRandomChallenge(maxRewardingSkills, choosingChallengeKey), levelEstimated: predictedLevel };
+  return { nextChallenge: _pickChallenges(maxRewardingSkills, choosingChallengeKey), levelEstimated: predictedLevel };
 }
 
 function _findFirstChallenge({ knowledgeElements, targetSkills, courseTubes, choosingChallengeKey }) {
   const filteredSkillsForFirstChallenge = getFilteredSkillsForFirstChallenge({ knowledgeElements, courseTubes, targetSkills });
-  return { nextChallenge: _pickRandomChallenge(filteredSkillsForFirstChallenge, choosingChallengeKey), levelEstimated: 2 };
+  return { nextChallenge: _pickChallenges(filteredSkillsForFirstChallenge, choosingChallengeKey), levelEstimated: 2 };
 }
 
-function _pickRandomChallenge(skills, choosingChallengeKey) {
+function _pickChallenges(skills, choosingChallengeKey) {
   if (_.isEmpty(skills)) { return UNEXISTING_ITEM; }
   const key = hashInt(choosingChallengeKey);
   const chosenSkill = skills[key % skills.length];
