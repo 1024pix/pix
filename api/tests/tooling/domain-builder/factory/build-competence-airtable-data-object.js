@@ -16,6 +16,7 @@ module.exports = function buildCompetenceAirtableDataObject({
     'recRV35kIeqUQj8cI',
     'rec50NXHkatsRkjVQ',
   ],
+  origin = 'Pix'
 } = {}) {
 
   return {
@@ -26,5 +27,6 @@ module.exports = function buildCompetenceAirtableDataObject({
     courseId,
     skillIds,
     description,
+    origin
   };
 };
