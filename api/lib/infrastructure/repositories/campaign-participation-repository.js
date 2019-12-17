@@ -44,12 +44,22 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findResultDataByCampaignId(campaignId) {
-    return BookshelfCampaignParticipation
+  async findResultDataByCampaignId(campaignId) {
+    const { models } = await BookshelfCampaignParticipation
       .where({ campaignId })
-      .fetchAll({ withRelated: ['campaign', 'assessments'] })
-      .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
-      .then(fp.map(_toDomain));
+      .fetchAll({});
+
+    return models.map((bookshelfCampaignParticipation) => {
+      return {
+        id: bookshelfCampaignParticipation.get('id'),
+
+        isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
+        sharedAt: bookshelfCampaignParticipation.get('sharedAt'),
+        createdAt: new Date(bookshelfCampaignParticipation.get('createdAt')),
+        participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
+        userId: bookshelfCampaignParticipation.get('userId'),
+      };
+    });
   },
 
   findByUserId(userId) {

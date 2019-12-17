@@ -119,7 +119,10 @@ function _fetchParticipantData(
 ) {
   return bluebird.props({
     user: userRepository.get(campaignParticipationResultData.userId),
-    participantKnowledgeElements: knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipationResultData.userId, limitDate: campaignParticipationResultData.sharedAt }),
+    participantKnowledgeElements: knowledgeElementRepository.findUniqByUserId({
+      userId: campaignParticipationResultData.userId,
+      limitDate: campaignParticipationResultData.sharedAt,
+    }),
   });
 }
 
