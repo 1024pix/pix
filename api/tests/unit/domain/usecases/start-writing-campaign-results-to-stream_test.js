@@ -13,6 +13,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
     const user = domainBuilder.buildUser();
     const organization = user.memberships[0].organization;
     const listSkills = domainBuilder.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 5 });
+    listSkills.forEach((skill) => { skill.competenceId = 'recCompetence1'; });
     const listSkillsNotInTargetProfile = domainBuilder.buildSkillCollection({ name: 'url', minLevel: 1, maxLevel: 2 });
     const [skillWeb1, skillWeb2, skillWeb3, skillWeb4, skillWeb5] = listSkills;
     const [skillUrl1, skillUrl2] = listSkillsNotInTargetProfile;
@@ -76,6 +77,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
     });
     const competences = [
       {
+        id: 'recCompetence1',
         name: 'Competence1',
         index: '1.1',
         courseId: 'recComp1',
@@ -86,6 +88,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
         }),
       },
       {
+        id: 'recCompetence2',
         name: 'Competence2',
         index: '3.2',
         courseId: 'recComp2',
