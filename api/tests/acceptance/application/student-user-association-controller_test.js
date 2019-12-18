@@ -123,6 +123,34 @@ describe('Acceptance | Controller | Student-user-associations', () => {
         expect(response.statusCode).to.equal(401);
       });
     });
+
+    context('when a field is not valid', () => {
+
+      it('should respond with a 422 - Unprocessable Entity', async () => {
+        // given
+        const options = {
+          method: 'POST',
+          url: '/api/student-user-associations',
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              attributes: {
+                'campaign-code': campaign.code,
+                'first-name': ' ',
+                'last-name': student.lastName,
+                'birthdate': student.birthdate
+              }
+            }
+          }
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(422);
+      });
+    });
   });
 
   describe('GET /api/student-user-associations', () => {
