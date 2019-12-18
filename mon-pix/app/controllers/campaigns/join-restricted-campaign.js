@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-number';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'Votre prénom n’est pas renseigné.',
@@ -28,12 +29,6 @@ const validation = {
   }
 };
 
-function _pad(num, size) {
-  let s = num + '';
-  while (s.length < size) s = '0' + s;
-  return s;
-}
-
 const isDayValid = (value) => value > 0 && value <= 31;
 const isMonthValid = (value) => value > 0 && value <= 12;
 const isYearValid = (value) => value > 999 && value <= 9999;
@@ -52,9 +47,10 @@ export default Controller.extend({
   monthOfBirth: '',
   yearOfBirth: '',
   birthdate: computed('yearOfBirth', 'monthOfBirth', 'dayOfBirth', function() {
-    const monthOfBirth = _pad(this.monthOfBirth, 2);
-    const dayOfBirth = _pad(this.dayOfBirth, 2);
-    return [this.yearOfBirth, monthOfBirth, dayOfBirth].join('-');
+    const dayOfBirth = standardizeNumberInTwoDigitFormat(this.dayOfBirth.trim());
+    const monthOfBirth = standardizeNumberInTwoDigitFormat(this.monthOfBirth.trim());
+    const yearOfBirth = this.yearOfBirth.trim();
+    return [yearOfBirth, monthOfBirth, dayOfBirth].join('-');
   }),
 
   isFormNotValid: computed('firstName', 'lastName', 'yearOfBirth', 'monthOfBirth', 'dayOfBirth', function() {
@@ -107,7 +103,7 @@ export default Controller.extend({
           if (error.status === '404') {
             return this.set('errorMessage', 'Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
           }
-          throw (error);
+          return this.set('errorMessage', error.detail);
         });
         this.set('isLoading', false);
       });
@@ -118,16 +114,20 @@ export default Controller.extend({
     },
 
     triggerInputDayValidation(key, value) {
-      this._padNumberInInput('dayOfBirth', value);
+      value = value.trim();
+      this._standardizeNumberInInput('dayOfBirth', value);
       this._validateInputDay(key, value);
     },
 
     triggerInputMonthValidation(key, value) {
-      this._padNumberInInput('monthOfBirth', value);
+      value = value.trim();
+      this._standardizeNumberInInput('monthOfBirth', value);
       this._validateInputMonth(key, value);
     },
 
     triggerInputYearValidation(key, value) {
+      value = value.trim();
+      this.set('yearOfBirth', value);
       this._validateInputYear(key, value);
     },
   },
@@ -155,9 +155,9 @@ export default Controller.extend({
     this._executeFieldValidation(key, value, isYearValid);
   },
 
-  _padNumberInInput(attribute, value) {
-    if (value.trim()) {
-      this.set(attribute, _pad(value, 2));
+  _standardizeNumberInInput(attribute, value) {
+    if (value) {
+      this.set(attribute, standardizeNumberInTwoDigitFormat(value));
     }
   }
 });
