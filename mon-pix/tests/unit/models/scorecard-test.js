@@ -69,6 +69,60 @@ describe('Unit | Model | Scorecard model', function() {
     });
   });
 
+  describe('isFinishedWithMaxLevel', function() {
+    context('when max level is reached', function() {
+      it('should return true', function() {
+        // given
+        scorecard.set('level', 5);
+        scorecard.set('status', 'COMPLETED');
+
+        // when
+        const isFinishedWithMaxLevel = scorecard.get('isFinishedWithMaxLevel');
+
+        // then
+        expect(isFinishedWithMaxLevel).to.be.true;
+      });
+
+      it('should return false', function() {
+        // given
+        scorecard.set('level', 5);
+        scorecard.set('status', 'STARTED');
+
+        // when
+        const isFinishedWithMaxLevel = scorecard.get('isFinishedWithMaxLevel');
+
+        // then
+        expect(isFinishedWithMaxLevel).to.be.false;
+      });
+    });
+
+    context('when max level is not reached', function() {
+      it('should return true', function() {
+        // given
+        scorecard.set('level', 3);
+        scorecard.set('status', 'COMPLETED');
+
+        // when
+        const isFinishedWithMaxLevel = scorecard.get('isFinishedWithMaxLevel');
+
+        // then
+        expect(isFinishedWithMaxLevel).to.be.false;
+      });
+
+      it('should return false', function() {
+        // given
+        scorecard.set('level', 3);
+        scorecard.set('status', 'STARTED');
+
+        // when
+        const isFinishedWithMaxLevel = scorecard.get('isFinishedWithMaxLevel');
+
+        // then
+        expect(isFinishedWithMaxLevel).to.be.false;
+      });
+    });
+  });
+
   describe('hasNotEarnAnything', function() {
     it('should return true', function() {
       // given

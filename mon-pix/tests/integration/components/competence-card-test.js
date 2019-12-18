@@ -80,5 +80,44 @@ describe('Integration | Component | competence-card', function() {
       expect(find('.score-value').textContent).to.equal(scorecard.level.toString());
     });
 
+    context('when user can continue the competence', async function() {
+
+      context('and the user has reached the maximum level', function() {
+        beforeEach(async function() {
+          // given
+          const scorecard = { area, isFinishedWithMaxLevel: false, isStarted: true };
+          this.set('scorecard', scorecard);
+
+          // when
+          await render(hbs`{{competence-card scorecard=scorecard}}`);
+        });
+
+        it('should not show congrats design', function() {
+          // then
+          expect(find('.competence-card__congrats')).to.not.exist;
+        });
+
+      });
+    });
+
+    context('when user has finished the competence', async function() {
+
+      context('and the user has reached the maximum level', function() {
+        beforeEach(async function() {
+          // given
+          const scorecard = { area, isFinishedWithMaxLevel: true };
+          this.set('scorecard', scorecard);
+
+          // when
+          await render(hbs`{{competence-card scorecard=scorecard}}`);
+        });
+
+        it('should show congrats design', function() {
+          // then
+          expect(find('.competence-card__congrats')).to.exist;
+        });
+
+      });
+    });
   });
 });
