@@ -22,12 +22,15 @@ const createServer = async () => {
         failAction: async (request, h, err) => {
           if (process.env.NODE_ENV === 'production') {
             // In prod, log a limited error message and throw the default Bad Request error.
-            console.error('ValidationError:', err.message);
             throw Boom.badRequest('The server could not understand the request due to invalid syntax.');
           } else {
             // During development, log and respond with the full error.
-            console.error(err);
-            throw err;
+            if (err.isJoi && Array.isArray(err.details) && err.details.length > 0) {
+              const invalidItem = err.details[0];
+              return h.response(`Pix Data Validation Error. Schema violation. <${invalidItem.path}> \nDetails: ${JSON.stringify(err.details)}`)
+                .code(400)
+                .takeover();
+            }
           }
         }
       },
