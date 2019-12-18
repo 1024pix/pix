@@ -18,16 +18,7 @@ exports.register = async (server) => {
             username: Joi.string().email().required(),
             password: Joi.string().required(),
             scope: Joi.string(),
-          }),
-          failAction: (request, h) => {
-            const errorHttpStatusCode = 400;
-            const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
-              title: 'Bad request',
-              detail: 'The server could not understand the request due to invalid syntax.',
-            });
-            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-          }
+          })
         },
         handler: AuthenticationController.authenticateUser,
         tags: ['api']

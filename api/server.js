@@ -12,11 +12,25 @@ const routes = require('./lib/routes');
 const plugins = require('./lib/plugins');
 const config = require('./lib/config');
 const security = require('./lib/infrastructure/security');
+const Boom = require('boom');
 
 const createServer = async () => {
 
   const server = new Hapi.server({
     routes: {
+      validate: {
+        failAction: async (request, h, err) => {
+          if (process.env.NODE_ENV === 'production') {
+            // In prod, log a limited error message and throw the default Bad Request error.
+            console.error('ValidationError:', err.message);
+            throw Boom.badRequest('The server could not understand the request due to invalid syntax.');
+          } else {
+            // During development, log and respond with the full error.
+            console.error(err);
+            throw err;
+          }
+        }
+      },
       cors: {
         origin: ['*'],
         additionalHeaders: ['X-Requested-With']
