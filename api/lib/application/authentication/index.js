@@ -20,6 +20,11 @@ exports.register = async (server) => {
             scope: Joi.string(),
           })
         },
+        plugins: {
+          'hapi-swagger': {
+            payloadType: 'form'
+          }
+        },
         handler: AuthenticationController.authenticateUser,
         tags: ['api']
       }
