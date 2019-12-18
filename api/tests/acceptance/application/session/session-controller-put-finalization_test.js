@@ -62,7 +62,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
         });
       });
 
-      it('should respond with a 403 Unauthorized the if user is not authorized', async () => {
+      it('should respond with a 404 NotFound the if user is not authorized (to keep opacity on whether forbidden or not found)', async () => {
         // given
         userId = databaseBuilder.factory.buildUser().id;
         sessionId = databaseBuilder.factory.buildSession(sessionDomain).id;
@@ -77,7 +77,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
 
         // then
         return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
+          expect(response.statusCode).to.equal(404);
         });
       });
     });

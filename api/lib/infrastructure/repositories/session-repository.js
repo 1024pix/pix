@@ -51,7 +51,7 @@ module.exports = {
       return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, session);
     } catch (err) {
       if (err instanceof BookshelfSession.NotFoundError) {
-        throw new NotFoundError();
+        throw new NotFoundError('La session n\'existe pas ou son accès est restreint');
       }
       throw err;
     }
@@ -74,7 +74,7 @@ module.exports = {
       return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, session);
     } catch (err) {
       if (err instanceof BookshelfSession.NotFoundError) {
-        throw new NotFoundError();
+        throw new NotFoundError('La session n\'existe pas ou son accès est restreint');
       }
       throw err;
     }
