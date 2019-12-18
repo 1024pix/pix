@@ -4,20 +4,38 @@
       <span class="competence-card__area-name">{{scorecard.area.title}}</span>
       <span class="competence-card__competence-name">{{scorecard.name}}</span>
     </header>
+
     <div class="competence-card__body">
-      {{#link-to "competence-details" scorecard.id class="competence-card__link"}}
-        {{#circle-chart value=scorecard.percentageAheadOfNextLevel
-                        sliceColor=scorecard.areaColor
-                        chartClass='circle-chart__content--big'
-                        thicknessClass='circle--thick'}}
-          <div class="competence-card__level">
-            <span class="score-label">Niveau</span>
-            <span class="score-value competence-card__score-value">{{replace-zero-by-dash displayedLevel}}</span>
-            <span class="competence-card__score-details">détail</span>
+      {{#if scorecard.isFinishedWithMaxLevel}}
+        {{#link-to "competence-details" scorecard.id}}
+          <div class="competence-card__congrats competence-card__congrats--with-magnification">
+            <div class="competence-card__level competence-card__level--congrats">
+              <span class="score-label competence-card__score-label--congrats">Niveau</span>
+              <span class="score-value competence-card__score-value competence-card__score-value--congrats">{{displayedLevel}}</span>
+            </div>
           </div>
-        {{/circle-chart}}
-      {{/link-to}}
+        {{/link-to}}
+      {{else}}
+        {{#link-to "competence-details" scorecard.id class="competence-card__link"}}
+          {{#circle-chart value=scorecard.percentageAheadOfNextLevel
+                          sliceColor=scorecard.areaColor
+                          chartClass='circle-chart__content--big'
+                          thicknessClass='circle--thick'}}
+            <div class="competence-card__level">
+              <span class="score-label">Niveau</span>
+              <span class="score-value competence-card__score-value">{{replace-zero-by-dash displayedLevel}}</span>
+              <span class="competence-card__score-details">détail</span>
+            </div>
+          {{/circle-chart}}
+        {{/link-to}}
+      {{/if}}
     </div>
+
+  {{#if scorecard.isFinishedWithMaxLevel}}
+    <footer class="competence-card__congrats-message">
+      Bravo !
+    </footer>
+  {{else}}
     <footer class="competence-card__footer">
       {{#unless scorecard.isFinished}}
         {{#link-to "competences.resume" scorecard.competenceId
@@ -35,4 +53,5 @@
         {{/link-to}}
       {{/unless}}
     </footer>
+  {{/if}}
 </article>

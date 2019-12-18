@@ -82,14 +82,17 @@
   justify-content: center;
   align-items: center;
   margin: 10px;
-  padding: 5px;
-  background-color: $white;
-  background-clip: padding-box;
   border: 0 solid rgba($white, 0.4);
-  border-radius: 50%;
   transition: border 0.1s ease-in;
   z-index: 1;
   height: 80px;
+
+  &--white-background {
+    background-color: $white;
+    background-clip: padding-box;
+    border-radius: 50%;
+    padding: 5px;
+  }
 }
 
 .competence-card__link {
@@ -113,4 +116,30 @@
 .competence-card__score-value {
   min-height: 44px;
   font-size: 3.5rem;
+
+  &--congrats {
+    color: $white;
+    font-weight: $font-bold;
+  }
+}
+
+.competence-card__congrats {
+  width: 130px;
+  height: 140px;
+  background: url('/images/scorecard-congrats.svg') no-repeat center center;
+  background-size: contain;
+  margin: -10px -5px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &--small {
+    width: 90px;
+    height: 100px;
+  }
+}
+
+.competence-card__score-label--congrats {
+  color: $white;
 }

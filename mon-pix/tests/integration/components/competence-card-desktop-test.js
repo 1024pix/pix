@@ -109,6 +109,27 @@ describe('Integration | Component | competence-card-desktop', function() {
         // then
         expect(find('.competence-card__button').textContent).to.contains('Reprendre');
       });
+
+      context('and the user has reached the maximum level', function() {
+        beforeEach(async function() {
+          // given
+          const scorecard = { area, isFinishedWithMaxLevel: false, isStarted: true };
+          this.set('scorecard', scorecard);
+
+          // when
+          await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+        });
+
+        it('should not show congrats design', function() {
+          // then
+          expect(find('.competence-card__congrats')).to.not.exist;
+        });
+
+        it('should not show congrats message in the footer', function() {
+          // then
+          expect(find('.competence-card-footer__congrats-message')).to.not.exist;
+        });
+      });
     });
 
     context('when user has finished the competence', async function() {
@@ -123,6 +144,27 @@ describe('Integration | Component | competence-card-desktop', function() {
 
         // then
         expect(find('.competence-card__button')).to.be.null;
+      });
+
+      context('and the user has reached the maximum level', function() {
+        beforeEach(async function() {
+          // given
+          const scorecard = { area, isFinishedWithMaxLevel: true };
+          this.set('scorecard', scorecard);
+
+          // when
+          await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+        });
+
+        it('should show congrats design', function() {
+          // then
+          expect(find('.competence-card__congrats')).to.exist;
+        });
+
+        it('should show congrats message in the footer', function() {
+          // then
+          expect(find('.competence-card__congrats-message')).to.exist;
+        });
       });
     });
   });
