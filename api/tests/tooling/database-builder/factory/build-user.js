@@ -13,6 +13,7 @@ const buildUser = function buildUser({
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
   email,
+  username = firstName + '.' + lastName + faker.random.number({ min: 1000, max: 9999 }),
   password,
   cgu = true,
   pixOrgaTermsOfServiceAccepted = false,
@@ -25,7 +26,7 @@ const buildUser = function buildUser({
   email = _.isUndefined(email) ? faker.internet.exampleEmail().toLowerCase() : email.toLowerCase();
 
   const values = {
-    id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
+    id, firstName, lastName, email, username, password, cgu, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId,
   };
 

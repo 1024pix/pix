@@ -53,6 +53,7 @@ function _toDomain(userBookshelf) {
     firstName: userBookshelf.get('firstName'),
     lastName: userBookshelf.get('lastName'),
     email: userBookshelf.get('email'),
+    username: userBookshelf.get('username'),
     password: userBookshelf.get('password'),
     cgu: Boolean(userBookshelf.get('cgu')),
     pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
@@ -100,6 +101,25 @@ module.exports = {
   findByEmailWithRoles(email) {
     return BookshelfUser
       .where({ email })
+      .fetch({
+        withRelated: [
+          'memberships',
+          'memberships.organization',
+          'pixRoles',
+          'certificationCenterMemberships.certificationCenter',
+        ]
+      })
+      .then((foundUser) => {
+        if (foundUser === null) {
+          return Promise.reject(new UserNotFoundError());
+        }
+        return _toDomain(foundUser);
+      });
+  },
+
+  getByUsernameOrEmailWithRoles(username) {
+    return BookshelfUser
+      .query((qb) => { qb.whereRaw('LOWER("email") LIKE ?', `${username.toLowerCase()}`).orWhere({ 'username': username }); })
       .fetch({
         withRelated: [
           'memberships',
