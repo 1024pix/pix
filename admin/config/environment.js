@@ -77,7 +77,7 @@ module.exports = function(environment) {
     };
   }
 
-  ENV.APP.ODS_PARSING_URL = 'api/certifications/attendance-sheet/parsing';
+  ENV.APP.ODS_PARSING_URL = 'api/certifications/attendance-sheet/analyze';
 
   if (environment === 'production') {
     // here you can enable a production-specific feature

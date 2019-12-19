@@ -38,7 +38,7 @@ export default function() {
   this.get('/sessions/:id');
   this.get('/admin/certifications/:id');
   this.get('/users', findUsers);
-  this.put('/certifications/attendance-sheet/parsing', upload(function() {
+  this.put('/certifications/attendance-sheet/analyze', upload(function() {
     return [
       { lastName: 'Lantier',
         firstName: 'Étienne',

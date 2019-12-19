@@ -46,7 +46,7 @@ exports.register = async function(server) {
     },
     {
       method: 'PUT',
-      path: '/api/certifications/attendance-sheet/parsing',
+      path: '/api/certifications/attendance-sheet/analyze',
       config: {
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
@@ -56,7 +56,7 @@ exports.register = async function(server) {
           allow: 'multipart/form-data',
           maxBytes: 1048576 * 10, // 10MB
         },
-        handler: certificationController.parseFromAttendanceSheet,
+        handler: certificationController.analyzeFromAttendanceSheet,
         tags: ['api', 'certifications'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +

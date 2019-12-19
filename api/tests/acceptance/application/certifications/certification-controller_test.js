@@ -683,7 +683,7 @@ describe('Acceptance | API | Certifications', () => {
     });
   });
 
-  describe('PUT /api/certifications/attendance-sheet/parsing', () => {
+  describe('PUT /api/certifications/attendance-sheet/analyse', () => {
     const odsFileName = 'files/parse-from-attendance-sheet-test-ok.ods';
     const odsFilePath = `${__dirname}/${odsFileName}`;
     let options;
@@ -701,7 +701,7 @@ describe('Acceptance | API | Certifications', () => {
         const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
         options = {
           method: 'PUT',
-          url: '/api/certifications/attendance-sheet/parsing',
+          url: '/api/certifications/attendance-sheet/analyze',
           payload,
           headers,
         };
@@ -732,7 +732,7 @@ describe('Acceptance | API | Certifications', () => {
         const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
         options = {
           method: 'PUT',
-          url: '/api/certifications/attendance-sheet/parsing',
+          url: '/api/certifications/attendance-sheet/analyze',
           headers,
           payload,
         };
@@ -751,7 +751,7 @@ describe('Acceptance | API | Certifications', () => {
           signature: 'x',
           certificationId: '1',
           lastScreen: null,
-          comments: null
+          comments: null,
         },
         {
           lastName: 'Lantier',
@@ -763,7 +763,7 @@ describe('Acceptance | API | Certifications', () => {
           signature: 'x',
           certificationId: '2',
           lastScreen: 'x',
-          comments: null
+          comments: null,
         },
         {
           lastName: 'Ranou',
@@ -775,7 +775,7 @@ describe('Acceptance | API | Certifications', () => {
           signature: null,
           certificationId: '3',
           lastScreen: 'x',
-          comments: 'Commentaire'
+          comments: 'Commentaire',
         }];
         // when
         const response = await server.inject(options);
