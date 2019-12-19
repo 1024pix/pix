@@ -28,7 +28,7 @@ describe('Unit | Application | Controller | Authentication', () => {
 
     it('should check user credentials', async () => {
       // given
-      const userEmail = 'user@email.com';
+      const username = 'user@email.com';
       const password = 'user_password';
       const scope = 'pix-orga';
 
@@ -37,7 +37,7 @@ describe('Unit | Application | Controller | Authentication', () => {
 
       // then
       expect(usecases.authenticateUser).to.have.been.calledWith({
-        userEmail,
+        username,
         password,
         scope,
       });
