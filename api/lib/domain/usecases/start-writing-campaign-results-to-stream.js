@@ -132,7 +132,7 @@ function _getCommonColumns({
     targetProfileName: targetProfile.name,
     participantLastName,
     participantFirstName,
-    percentageProgression: percentageProgression,
+    percentageProgression,
     createdAt: moment.utc(campaignParticipationResultData.createdAt).format('YYYY-MM-DD'),
     isShared: campaignParticipationResultData.isShared ? 'Oui' : 'Non',
     ...(campaign.idPixLabel ? { participantExternalId: campaignParticipationResultData.participantExternalId } : {}),
