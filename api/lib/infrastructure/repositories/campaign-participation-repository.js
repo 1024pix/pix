@@ -44,12 +44,29 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findByCampaignId(campaignId) {
-    return BookshelfCampaignParticipation
+  async findResultDataByCampaignId(campaignId) {
+    const { models } = await BookshelfCampaignParticipation
       .where({ campaignId })
-      .fetchAll({ withRelated: ['campaign', 'assessments'] })
-      .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
-      .then(fp.map(_toDomain));
+      .fetchAll({
+        withRelated: {
+          user: (qb) => { qb.columns('id', 'firstName', 'lastName'); }
+        }
+      });
+
+    return models.map((bookshelfCampaignParticipation) => {
+      return {
+        id: bookshelfCampaignParticipation.get('id'),
+        createdAt: new Date(bookshelfCampaignParticipation.get('createdAt')),
+
+        isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
+        sharedAt: bookshelfCampaignParticipation.get('sharedAt'),
+        participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
+        userId: bookshelfCampaignParticipation.get('userId'),
+
+        participantFirstName: bookshelfCampaignParticipation.related('user').get('firstName'),
+        participantLastName: bookshelfCampaignParticipation.related('user').get('lastName'),
+      };
+    });
   },
 
   findByUserId(userId) {
