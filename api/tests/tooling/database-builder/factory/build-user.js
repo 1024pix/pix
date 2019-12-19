@@ -23,7 +23,7 @@ const buildUser = function buildUser({
 } = {}) {
 
   password = _.isUndefined(password) ? encrypt.hashPasswordSync(faker.internet.password()) : encrypt.hashPasswordSync(password);
-  email = _.isUndefined(email) ? faker.internet.exampleEmail().toLowerCase() : email.toLowerCase();
+  email = _.isUndefined(email) ? faker.internet.exampleEmail(firstName, lastName).toLowerCase() : email.toLowerCase();
 
   const values = {
     id, firstName, lastName, email, username, password, cgu, pixOrgaTermsOfServiceAccepted,
