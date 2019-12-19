@@ -17,7 +17,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
   const userPassword = 'user_password';
 
   beforeEach(() => {
-    userRepository = { findByEmailWithRoles: sinon.stub() };
+    userRepository = { getByUsernameOrEmailWithRoles: sinon.stub() };
     tokenService = { createTokenFromUser: sinon.stub() };
     sinon.stub(encryptionService, 'check');
   });
@@ -26,44 +26,29 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     // given
     const accessToken = 'jwt.access.token';
     const user = domainBuilder.buildUser({ email: userEmail, password: userPassword });
-    userRepository.findByEmailWithRoles.resolves(user);
+    userRepository.getByUsernameOrEmailWithRoles.resolves(user);
     encryptionService.check.resolves();
     tokenService.createTokenFromUser.returns(accessToken);
 
     // when
-    const promise = authenticateUser({ userEmail, userPassword, userRepository, tokenService });
+    const promise = authenticateUser({ username: userEmail, userPassword, userRepository, tokenService });
 
     // then
     return promise.then((accessToken) => {
-      expect(userRepository.findByEmailWithRoles).to.have.been.calledWithExactly(userEmail);
+      expect(userRepository.getByUsernameOrEmailWithRoles).to.have.been.calledWithExactly(userEmail);
       expect(tokenService.createTokenFromUser).to.have.been.calledWithExactly(user, 'pix');
       expect(accessToken).to.equal(accessToken);
     });
-  });
-
-  it('should verify user existence with email in lowercase', () => {
-    // given
-    const emailCamelCase = 'uSeR@example.net';
-    const user = new User({ email: userEmail, password: userPassword });
-    userRepository.findByEmailWithRoles.resolves(user);
-
-    // when
-    const promise = authenticateUser({ userEmail: emailCamelCase, userPassword, userRepository, tokenService });
-
-    // then
-    return promise.then(() =>
-      expect(userRepository.findByEmailWithRoles).to.have.been.calledWithExactly(userEmail)
-    );
   });
 
   it('should rejects an error when given username (email) does not match an existing one', () => {
     // given
     const unknownUserEmail = 'unknown_user_email@example.net';
     const error = new Error('Simulates BookshelfUser.NotFoundError');
-    userRepository.findByEmailWithRoles.rejects(error);
+    userRepository.getByUsernameOrEmailWithRoles.rejects(error);
 
     // when
-    const promise = authenticateUser({ userEmail: unknownUserEmail, userPassword, userRepository, tokenService });
+    const promise = authenticateUser({ username: unknownUserEmail, userPassword, userRepository, tokenService });
 
     // then
     return _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise);
@@ -72,7 +57,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
   it('should rejects an error when given password does not match the found user’s one', () => {
     // given
     const user = new User({ email: userEmail, password: userPassword });
-    userRepository.findByEmailWithRoles.resolves(user);
+    userRepository.getByUsernameOrEmailWithRoles.resolves(user);
     encryptionService.check.rejects(new PasswordNotMatching());
 
     // when
@@ -89,7 +74,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       const wrongUserPassword = 'wrong_password';
       const scope = 'pix-orga';
       const user = new User({ email: userEmail, password: userPassword, memberships: [] });
-      userRepository.findByEmailWithRoles.resolves(user);
+      userRepository.getByUsernameOrEmailWithRoles.resolves(user);
 
       // when
       const promise = authenticateUser({ userEmail, wrongUserPassword, scope, userRepository, tokenService });
@@ -102,7 +87,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       // given
       const scope = 'pix-admin';
       const user = new User({ email: userEmail, password: userPassword, pixRoles: [] });
-      userRepository.findByEmailWithRoles.resolves(user);
+      userRepository.getByUsernameOrEmailWithRoles.resolves(user);
 
       // when
       const promise = authenticateUser({ userEmail, userPassword, scope, userRepository, tokenService });
@@ -115,7 +100,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       // given
       const scope = 'pix-certif';
       const user = domainBuilder.buildUser({ email: userEmail, password: userPassword, certificationCenterMemberships: [] });
-      userRepository.findByEmailWithRoles.resolves(user);
+      userRepository.getByUsernameOrEmailWithRoles.resolves(user);
 
       // when
       const promise = authenticateUser({ userEmail, userPassword, scope, userRepository, tokenService });
