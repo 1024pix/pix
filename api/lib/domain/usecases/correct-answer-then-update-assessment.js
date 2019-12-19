@@ -22,26 +22,14 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     smartPlacementAssessmentRepository,
     knowledgeElementRepository,
   } = {}) {
-  let scorecardBeforeAnswer;
-  const answersFind = await answerRepository.findByChallengeAndAssessment({
-    assessmentId: answer.assessmentId,
-    challengeId: answer.challengeId,
-  });
-
   const assessment = await assessmentRepository.get(answer.assessmentId);
-
   if (assessment.userId !== userId) {
     throw new ForbiddenAccess('User is not allowed to add an answer for this assessment.');
   }
 
-  if (answersFind) {
-    throw new ChallengeAlreadyAnsweredError();
-  }
-
   const challenge = await challengeRepository.get(answer.challengeId);
-
-  const correctedAnswer = evaluateAnswer(challenge, answer);
-
+  const correctedAnswer = _evaluateAnswer(challenge, answer);
+  let scorecardBeforeAnswer;
   if (correctedAnswer.result.isOK() && (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement())) {
     scorecardBeforeAnswer = await scorecardService.computeScorecard({
       userId,
@@ -53,10 +41,18 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     });
   }
 
+  const answersFind = await answerRepository.findByChallengeAndAssessment({
+    assessmentId: answer.assessmentId,
+    challengeId: answer.challengeId,
+  });
+  if (answersFind) {
+    throw new ChallengeAlreadyAnsweredError();
+  }
+
   const answerSaved = await answerRepository.save(correctedAnswer);
   let savedKnowledgeElements = [];
   if (assessment.isCompetenceEvaluation()) {
-    savedKnowledgeElements = await saveKnowledgeElementsForCompetenceEvaluation({
+    savedKnowledgeElements = await _saveKnowledgeElementsForCompetenceEvaluation({
       assessment,
       answer: answerSaved,
       challenge,
@@ -67,7 +63,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   }
 
   if (assessment.isSmartPlacement()) {
-    savedKnowledgeElements = await saveKnowledgeElementsForSmartPlacement({
+    savedKnowledgeElements = await _saveKnowledgeElementsForSmartPlacement({
       answer: answerSaved,
       challenge,
       smartPlacementAssessmentRepository,
@@ -92,16 +88,16 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   return answerSaved;
 };
 
-function evaluateAnswer(challenge, answer) {
+function _evaluateAnswer(challenge, answer) {
   const examiner = new Examiner({ validator: challenge.validator });
   return examiner.evaluate(answer);
 }
 
-async function saveKnowledgeElementsForSmartPlacement({ answer, challenge, smartPlacementAssessmentRepository, knowledgeElementRepository }) {
+async function _saveKnowledgeElementsForSmartPlacement({ answer, challenge, smartPlacementAssessmentRepository, knowledgeElementRepository }) {
 
   const smartPlacementAssessment = await smartPlacementAssessmentRepository.get(answer.assessmentId);
 
-  return saveKnowledgeElements({
+  return _saveKnowledgeElements({
     userId: smartPlacementAssessment.userId,
     targetSkills: smartPlacementAssessment.targetProfile.skills,
     knowledgeElements: smartPlacementAssessment.knowledgeElements,
@@ -111,7 +107,7 @@ async function saveKnowledgeElementsForSmartPlacement({ answer, challenge, smart
   });
 }
 
-async function saveKnowledgeElementsForCompetenceEvaluation({ assessment, answer, challenge, competenceEvaluationRepository, skillRepository, knowledgeElementRepository }) {
+async function _saveKnowledgeElementsForCompetenceEvaluation({ assessment, answer, challenge, competenceEvaluationRepository, skillRepository, knowledgeElementRepository }) {
 
   const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
   const [targetSkills, knowledgeElements] = await Promise.all([
@@ -119,7 +115,7 @@ async function saveKnowledgeElementsForCompetenceEvaluation({ assessment, answer
     knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId })]
   );
 
-  return saveKnowledgeElements({
+  return _saveKnowledgeElements({
     userId: assessment.userId,
     targetSkills,
     knowledgeElements,
@@ -129,7 +125,7 @@ async function saveKnowledgeElementsForCompetenceEvaluation({ assessment, answer
   });
 }
 
-function saveKnowledgeElements({ userId, targetSkills, knowledgeElements, answer, challenge, knowledgeElementRepository }) {
+function _saveKnowledgeElements({ userId, targetSkills, knowledgeElements, answer, challenge, knowledgeElementRepository }) {
 
   const knowledgeElementsToCreate = KnowledgeElement.createKnowledgeElementsForAnswer({
     answer,
