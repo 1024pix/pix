@@ -62,15 +62,6 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include('30%');
       });
 
-      it.skip('should display the button to retry', async function() {
-        // when
-        await resumeCampaignByCode('AZERTY2');
-        await completeCampaignAndSeeResultsByCode('AZERTY2');
-
-        // then
-        expect(find('.skill-review__improvement-button')).to.exist;
-      });
-
       it('should share the results', async function() {
         // when
         await resumeCampaignByCode('AZERTY2');
