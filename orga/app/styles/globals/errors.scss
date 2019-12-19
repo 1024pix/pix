@@ -1,3 +1,84 @@
+.notification {
+  font-family: $roboto;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1.5px solid $dove-gray;
+  color: $gun-powder;
+  line-height: 1.3125rem;
+
+  div:first-child {
+    background-color: $dove-gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  div:nth-child(2) {
+    background-color: $alto;
+    padding: 8px 12px;
+    align-items: center;
+
+    div {
+      align-self: center;
+      padding-right: 0;
+      background-color: inherit;
+    }
+  }
+
+  .fa {
+    font-size: 1.375rem;
+  }
+
+  .fa-exclamation-circle {
+    color: white;
+  }
+
+  .fa-times {
+    color: $dove-gray;
+
+    &:hover, &:active {
+      color: $tundora;
+    }
+  }
+
+  &--error {
+    border: 1.5px solid $vermilion;
+
+    div:first-child {
+      background-color: $vermilion;
+    }
+
+    div:nth-child(2) {
+      background-color: $vermilion-light;
+    }
+  }
+
+  &--warning {
+    border: 1.5px solid $amber;
+
+    div:first-child {
+      background-color: $amber;
+    }
+
+    div:nth-child(2) {
+      background-color: $amber-light;
+    }
+  }
+
+  &--success {
+    border: 1.5px solid $emerald;
+
+    div:first-child {
+      background-color: $emerald;
+    }
+
+    div:nth-child(2) {
+      background-color: $emerald-light;
+    }
+  }
+}
+
 .alert-zone {
   display: inline-flex;
   align-items: center;
