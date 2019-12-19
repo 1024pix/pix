@@ -142,7 +142,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
     beforeEach(() => {
       cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
       sinon.stub(cache, 'set');
-      sinon.stub(airtable, 'preload').withArgs(someDatasource.tableName, someDatasource.usedFields).resolves(true);
       sinon.stub(airtable, 'findRecords').resolves([
         { id: 'rec1', tableName: 'Airtable_table', fields: 'value1' },
         { id: 'rec2', tableName: 'Airtable_table', fields: 'value2' }
@@ -177,7 +176,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
         tableName: someDatasource.tableName,
         fields: []
       };
-      sinon.stub(airtable, 'getRecordSkipCache')
+      sinon.stub(airtable, 'getRecord')
         .withArgs(someDatasource.tableName, airtableRecord.id)
         .resolves(airtableRecord);
       sinon.stub(cache, 'set').callsFake((key, value) => value);
