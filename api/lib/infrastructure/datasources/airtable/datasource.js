@@ -38,8 +38,6 @@ const _DatasourcePrototype = {
   },
 
   async loadEntries() {
-    await airtable.preload(this.tableName, this.usedFields);
-
     const cacheKeyList = this._generateCacheKey(this.modelName);
     const results = await this._doList();
     await cache.set(cacheKeyList, results);
@@ -52,7 +50,7 @@ const _DatasourcePrototype = {
 
   async loadEntry(id) {
     const key = this._generateCacheKey(this.modelName, id);
-    const airtableRecord = await airtable.getRecordSkipCache(this.tableName, id);
+    const airtableRecord = await airtable.getRecord(this.tableName, id);
     return cache.set(key, this.fromAirTableObject(airtableRecord));
   },
 
