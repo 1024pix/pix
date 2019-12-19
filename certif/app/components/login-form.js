@@ -18,7 +18,7 @@ export default Component.extend({
   actions: {
 
     authenticate() {
-      const email = this.email;
+      const email = this.email ? this.email.trim() : '';
       const password = this.password;
       const scope = 'pix-certif';
       return this.session.authenticate('authenticator:oauth2', email, password, scope)
