@@ -127,17 +127,16 @@ describe('Unit | Controller | certifications-controller', () => {
       sinon.stub(usecases, 'parseCertificationsDataFromAttendanceSheet').resolves();
     });
 
-    it('should call the usecase to parse certifications data', async () => {
+    it('should return certifications data for PV analysis', async () => {
       // given
-      usecases.parseCertificationsDataFromAttendanceSheet.resolves();
+      const parseResult = Symbol('attendance sheet parse result');
+      usecases.parseCertificationsDataFromAttendanceSheet.resolves(parseResult);
 
       // when
-      await certificationController.parseFromAttendanceSheet(request);
+      const result = await certificationController.parseFromAttendanceSheet(request);
 
       // then
-      expect(usecases.parseCertificationsDataFromAttendanceSheet).to.have.been.calledWith({
-        odsBuffer,
-      });
+      expect(result).to.equal(parseResult);
     });
   });
 });
