@@ -94,11 +94,10 @@ module.exports = {
       .then((answers) => answers.models.map(_toDomain));
   },
 
-  save(answer) {
-    return Promise.resolve(answer)
-      .then(_adaptModelToDb)
-      .then((rawDBAnswerModel) => new BookshelfAnswer(rawDBAnswerModel))
-      .then((answerBookshelf) => answerBookshelf.save())
-      .then(_toDomain);
+  async save(answer) {
+    const answerForDB = _adaptModelToDb(answer);
+    const newAnswer = await new BookshelfAnswer(answerForDB)
+      .save(null, { require: true, method: 'insert' });
+    return _toDomain(newAnswer);
   },
 };
