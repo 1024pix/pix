@@ -61,6 +61,7 @@ function injectDependencies(usecases) {
 module.exports = injectDependencies({
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
   acceptPixOrgaTermsOfService: require('./accept-pix-orga-terms-of-service'),
+  analyzeAttendanceSheet: require('./analyze-attendance-sheet'),
   answerToOrganizationInvitation: require('./answer-to-organization-invitation'),
   authenticateUser: require('./authenticate-user'),
   beginCampaignParticipationImprovement: require('./begin-campaign-participation-improvement'),
@@ -132,7 +133,6 @@ module.exports = injectDependencies({
   importStudentsFromSIECLE: require('./import-students-from-siecle'),
   linkUserToOrganizationStudentData: require('./link-user-to-organization-student-data'),
   linkUserToSessionCertificationCandidate: require('./link-user-to-session-certification-candidate'),
-  parseCertificationsDataFromAttendanceSheet: require('./parse-certifications-data-from-attendance-sheet'),
   rememberUserHasSeenAssessmentInstructions: require('./remember-user-has-seen-assessment-instructions'),
   resetScorecard: require('./reset-scorecard'),
   retrieveCampaignInformation: require('./retrieve-campaign-information'),

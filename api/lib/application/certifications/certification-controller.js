@@ -43,9 +43,9 @@ module.exports = {
       .then((certification) => certificationSerializer.serialize(certification));
   },
 
-  async analyzeFromAttendanceSheet(request) {
+  async analyzeAttendanceSheet(request) {
     const odsBuffer = request.payload.file;
 
-    return usecases.parseCertificationsDataFromAttendanceSheet({ odsBuffer });
+    return usecases.analyzeAttendanceSheet({ odsBuffer });
   }
 };

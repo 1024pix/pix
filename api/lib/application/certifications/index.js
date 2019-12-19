@@ -56,7 +56,7 @@ exports.register = async function(server) {
           allow: 'multipart/form-data',
           maxBytes: 1048576 * 10, // 10MB
         },
-        handler: certificationController.analyzeFromAttendanceSheet,
+        handler: certificationController.analyzeAttendanceSheet,
         tags: ['api', 'certifications'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
