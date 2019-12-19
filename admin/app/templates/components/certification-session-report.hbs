@@ -132,9 +132,9 @@
             </div>
           {{#if (and noLastScreenSeenCertifications.length displayNoLastScreenSeenCertifications)}}
               <div class="row mb-4">
-                  <div class="col-8 data-section__certification-ids">
+                  <div class="col-8 data-section__candidates-names">
                     {{#each noLastScreenSeenCertifications as |item|}}
-                        <span class="data-section__certification-id">{{item.id}}</span>
+                        <span class="data-section__candidate-names">{{item.lastName}} {{item.firstName}}</span>
                     {{/each}}
                   </div>
               </div>

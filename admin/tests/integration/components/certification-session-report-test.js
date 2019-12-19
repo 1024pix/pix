@@ -34,7 +34,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       buildCertification({ id: 4 }),
       buildCertification({ id: 4 }),
       buildCertification({ id: 5, isInSession: false }),
-      buildCertification({ id: 6, hasSeenLastScreen: false }),
+      buildCertification({ id: 6, firstName: 'Jean', lastName: 'Dupont', hasSeenLastScreen: false }),
       buildCertification({ id: 7, examinerComment: 'comment' }),
     ];
     this.set('certificationsInSessionReport', certifications);
@@ -96,15 +96,17 @@ module('Integration | Component | certification-session-report', function(hooks)
       assert.equal(certificationIds, '5');
     });
 
-    test('it counts and displays has not seen last screen certification ids', async function(assert) {
-      // when
-      await click('.data-section--has-not-seen-last-screen-certifications .data-section__switch');
+    module('on click on "Ecrans de fin de tests non vus"', function() {
+      test('it counts and displays has not seen last screen certification ids', async function(assert) {
+        // when
+        await click('.data-section--has-not-seen-last-screen-certifications .data-section__switch');
 
-      // then
-      assert.dom('.data-section--has-not-seen-last-screen-certifications .data-section__counter').hasText('1');
-      const certificationsIdsElement = find('.data-section--has-not-seen-last-screen-certifications .data-section__certification-ids');
-      const certificationIds = certificationsIdsElement.textContent.trim().replace(/\s/g, '');
-      assert.equal(certificationIds, '6');
+        // then
+        assert.dom('.data-section--has-not-seen-last-screen-certifications .data-section__counter').hasText('1');
+        const candidateElement = find('.data-section--has-not-seen-last-screen-certifications .data-section__candidate-names');
+        const candidateNames = candidateElement.textContent.trim();
+        assert.equal(candidateNames, 'Dupont Jean');
+      });
     });
 
     test('it counts and displays certification ids that have examiner comment', async function(assert) {
