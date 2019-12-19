@@ -124,19 +124,19 @@ describe('Unit | Controller | certifications-controller', () => {
         payload: { file: odsBuffer },
       };
 
-      sinon.stub(usecases, 'parseCertificationsDataFromAttendanceSheet').resolves();
+      sinon.stub(usecases, 'analyzeAttendanceSheet').resolves();
     });
 
     it('should return certifications data for PV analysis', async () => {
       // given
-      const parseResult = Symbol('attendance sheet parse result');
-      usecases.parseCertificationsDataFromAttendanceSheet.resolves(parseResult);
+      const analyzeResult = Symbol('attendance sheet analyze result');
+      usecases.analyzeAttendanceSheet.resolves(analyzeResult);
 
       // when
-      const result = await certificationController.analyzeFromAttendanceSheet(request);
+      const result = await certificationController.analyzeAttendanceSheet(request);
 
       // then
-      expect(result).to.equal(parseResult);
+      expect(result).to.equal(analyzeResult);
     });
   });
 });

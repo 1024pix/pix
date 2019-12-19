@@ -1,4 +1,4 @@
-module.exports = function parseCertificationsDataFromAttendanceSheet({
+module.exports = function analyzeAttendanceSheet({
   odsBuffer,
   certificationsOdsService,
 }) {
