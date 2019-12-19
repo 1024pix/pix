@@ -14,9 +14,4 @@ export default Route.extend({
       organizationInvitation: this.store.createRecord('organizationInvitation', { organizationId: organization.id })
     });
   },
-
-  setupController(controller) {
-    this._super(...arguments);
-    controller.set('errorMessage', null);
-  },
 });

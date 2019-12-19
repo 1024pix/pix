@@ -1,33 +1,81 @@
-.alert-zone {
-  display: inline-flex;
-  align-items: center;
-  height: 44px;
-  border-radius: 4px;
-  margin-bottom: 40px;
-  padding-right: 10px;
-  color: $white;
+.notification {
+  font-family: $roboto;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1.5px solid $dove-gray;
+  color: $gun-powder;
+  line-height: 1.3125rem;
+
+  div:first-child {
+    background-color: $dove-gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  div:nth-child(2) {
+    background-color: $alto;
+    padding: 8px 12px;
+    align-items: center;
+
+    div {
+      align-self: center;
+      padding-right: 0;
+      background-color: inherit;
+    }
+  }
+
+  .fa {
+    font-size: 1.375rem;
+  }
+
+  .fa-exclamation-circle {
+    color: white;
+  }
+
+  .fa-times {
+    color: $dove-gray;
+
+    &:hover, &:active {
+      color: $tundora;
+    }
+  }
 
   &--error {
-    background-color: $vermilion;
+    border: 1.5px solid $vermilion;
+
+    div:first-child {
+      background-color: $vermilion;
+    }
+
+    div:nth-child(2) {
+      background-color: $vermilion-light;
+    }
   }
 
   &--warning {
-    background-color: $amber;
+    border: 1.5px solid $amber;
+
+    div:first-child {
+      background-color: $amber;
+    }
+
+    div:nth-child(2) {
+      background-color: $amber-light;
+    }
   }
 
   &--success {
-    background-color: $mountain-meadow;
-  }
+    border: 1.5px solid $emerald;
 
-  &__message {
-    font-family: $open-sans;
-    font-size: 1rem;
-    font-weight: 700;
-    margin-left: 10px;
-  }
+    div:first-child {
+      background-color: $emerald;
+    }
 
-  &__icon {
-    padding-left: 10px;
+    div:nth-child(2) {
+      background-color: $emerald-light;
+    }
   }
 }
 
