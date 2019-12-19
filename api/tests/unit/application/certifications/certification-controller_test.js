@@ -114,7 +114,7 @@ describe('Unit | Controller | certifications-controller', () => {
     });
   });
 
-  describe('#parseFromAttendanceSheet', () => {
+  describe('#analyzeFromAttendanceSheet', () => {
 
     let request;
     const odsBuffer = 'File Buffer';
@@ -133,7 +133,7 @@ describe('Unit | Controller | certifications-controller', () => {
       usecases.parseCertificationsDataFromAttendanceSheet.resolves(parseResult);
 
       // when
-      const result = await certificationController.parseFromAttendanceSheet(request);
+      const result = await certificationController.analyzeFromAttendanceSheet(request);
 
       // then
       expect(result).to.equal(parseResult);
