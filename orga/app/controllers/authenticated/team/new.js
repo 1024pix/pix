@@ -1,14 +1,14 @@
 import Controller from '@ember/controller';
-import { inject } from '@ember/service';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
 
-  store: inject(),
-  errorMessage: null,
+  store: service(),
+  notifications: service('notifications'),
 
   actions: {
     async createOrganizationInvitation(organizationInvitation) {
-      this.set('errorMessage', null);
+      this.get('notifications').clearAll();
 
       return organizationInvitation.save({ adapterOptions: { organizationId: organizationInvitation.organizationId } })
         .then(() => {
@@ -17,20 +17,19 @@ export default Controller.extend({
         .catch((errorResponse) => {
           errorResponse.errors.forEach((error) => {
             if (error.status === '421') {
-              return this.set('errorMessage', 'Ce membre a déjà été ajouté.');
+              return this.get('notifications').sendError('Ce membre a déjà été ajouté.');
             }
             if (error.status === '404') {
-              return this.set('errorMessage', 'Cet email n\'appartient à aucun utilisateur.');
+              return this.get('notifications').sendError('Cet email n\'appartient à aucun utilisateur.');
             }
             if (error.status === '500') {
-              return this.set('errorMessage', error.title);
+              return this.get('notifications').sendError(error.title);
             }
           });
         });
     },
 
     cancel() {
-      this.set('errorMessage', null);
       this.transitionToRoute('authenticated.team');
     },
   }
