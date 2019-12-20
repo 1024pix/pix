@@ -98,25 +98,6 @@ module.exports = {
       });
   },
 
-  findByEmailWithRoles(email) {
-    return BookshelfUser
-      .where({ email })
-      .fetch({
-        withRelated: [
-          'memberships',
-          'memberships.organization',
-          'pixRoles',
-          'certificationCenterMemberships.certificationCenter',
-        ]
-      })
-      .then((foundUser) => {
-        if (foundUser === null) {
-          return Promise.reject(new UserNotFoundError());
-        }
-        return _toDomain(foundUser);
-      });
-  },
-
   getByUsernameOrEmailWithRoles(username) {
     return BookshelfUser
       .query((qb) => { qb.whereRaw('LOWER("email") LIKE ?', `${username.toLowerCase()}`).orWhere({ 'username': username }); })
