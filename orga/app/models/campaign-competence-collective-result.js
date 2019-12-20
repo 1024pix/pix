@@ -25,7 +25,7 @@ export default Model.extend({
   }),
 
   domainColorStyle: computed('areaCode', function() {
-    const foundDomain = domainColors.find((colors) => colors.domain === this.areaCode);
+    const foundDomain = domainColors.find((colors) => colors.domain === this.areaCode) || 'black';
     return htmlSafe(`color: ${foundDomain.color}`);
   }),
 

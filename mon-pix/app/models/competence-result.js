@@ -22,7 +22,7 @@ export default Model.extend({
 
   areaColor: computed('index', function() {
     const areaIndex = this.index.charAt(0);
-    const foundArea = areaColors.find((colors) => colors.area === areaIndex);
+    const foundArea = areaColors.find((colors) => colors.area === areaIndex) || 'black';
     return foundArea.color;
   }),
 });
