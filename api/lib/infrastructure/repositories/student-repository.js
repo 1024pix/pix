@@ -16,14 +16,6 @@ module.exports = {
       .then((students) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStudent, students));
   },
 
-  async checkIfAtLeastOneStudentIsInOrganization({ nationalStudentIds, organizationId }) {
-    const anyMatchingStudent = await BookshelfStudent
-      .where('nationalStudentId', 'IN', nationalStudentIds)
-      .where('organizationId', organizationId)
-      .fetch({ columns: 'id' });
-    return Boolean(anyMatchingStudent);
-  },
-
   batchCreate(studentsToSave) {
     const bookshelfStudents = studentsToSave.map((studentToSave) => _.omit(studentToSave, ['id']));
     return Bookshelf.knex.batchInsert('students', bookshelfStudents).then(() => undefined);
