@@ -7,6 +7,7 @@ module.exports = function SkillAirtableDataObjectFixture({
   learningMoreTutorialIds = ['recQbjXNAPsVJthXh', 'rec3DkUX0a6RNi2Hz'],
   competenceId = 'recofJCxg0NqTqTdP',
   pixValue = 2.4,
+  status = 'actif',
 } = {}) {
   return {
     id,
@@ -16,6 +17,7 @@ module.exports = function SkillAirtableDataObjectFixture({
     tutorialIds,
     learningMoreTutorialIds,
     competenceId,
-    pixValue
+    pixValue,
+    status,
   };
 };

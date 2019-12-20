@@ -19,10 +19,15 @@ module('Acceptance | Team Creation', function(hooks) {
     assert.equal(currentURL(), '/connexion');
   });
 
-  module('When user is logged in', function() {
+  module('When user is logged in', function(hooks) {
 
     let user;
     let organizationId;
+
+    hooks.afterEach(function() {
+      const notificationMessagesService = this.owner.lookup('service:notification-messages');
+      notificationMessagesService.clearAll();
+    });
 
     module('When user is a member', function(hooks) {
 
@@ -125,8 +130,8 @@ module('Acceptance | Team Creation', function(hooks) {
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
-        assert.dom('.alert-zone--error').exists();
-        assert.dom('.alert-zone--error').hasText('Internal Server Error');
+        assert.dom('[data-test-notification-message="error"]').exists();
+        assert.dom('[data-test-notification-message="error"]').hasText('Internal Server Error');
       });
 
       test('it should display error on global form when error 421 is returned from backend', async function(assert) {
@@ -149,8 +154,8 @@ module('Acceptance | Team Creation', function(hooks) {
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
-        assert.dom('.alert-zone--error').exists();
-        assert.dom('.alert-zone--error').hasText('Ce membre a déjà été ajouté.');
+        assert.dom('[data-test-notification-message="error"]').exists();
+        assert.dom('[data-test-notification-message="error"]').hasText('Ce membre a déjà été ajouté.');
       });
 
       test('it should display error on global form when error 404 is returned from backend', async function(assert) {
@@ -173,8 +178,8 @@ module('Acceptance | Team Creation', function(hooks) {
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
-        assert.dom('.alert-zone--error').exists();
-        assert.dom('.alert-zone--error').hasText('Cet email n\'appartient à aucun utilisateur.');
+        assert.dom('[data-test-notification-message="error"]').exists();
+        assert.dom('[data-test-notification-message="error"]').hasText('Cet email n\'appartient à aucun utilisateur.');
       });
     });
   });

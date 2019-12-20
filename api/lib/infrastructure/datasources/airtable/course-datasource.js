@@ -1,56 +1,43 @@
-const _ = require('lodash');
-const airtable = require('../../airtable');
+const datasource = require('./datasource');
 
-const tableName = 'Tests';
+module.exports = datasource.extend({
 
-const usedFields = [
-  'Nom',
-  'Description',
-  'Adaptatif ?',
-  'Competence',
-  'Épreuves',
-  'Image',
-];
+  modelName: 'Course',
 
-function fromAirTableObject(airtableRecord) {
-  let imageUrl;
-  if (airtableRecord.get('Image')) {
-    imageUrl = airtableRecord.get('Image')[0].url;
-  }
+  tableName: 'Tests',
 
-  return {
-    id: airtableRecord.getId(),
-    name: airtableRecord.get('Nom'),
-    description: airtableRecord.get('Description'),
-    adaptive: airtableRecord.get('Adaptatif ?'),
-    competences: airtableRecord.get('Competence'),
-    challenges: airtableRecord.get('Épreuves'),
-    imageUrl,
-  };
-}
+  usedFields: [
+    'Nom',
+    'Description',
+    'Adaptatif ?',
+    'Competence',
+    'Épreuves',
+    'Image',
+  ],
 
-module.exports = {
+  fromAirTableObject(airtableRecord) {
+    let imageUrl;
+    if (airtableRecord.get('Image')) {
+      imageUrl = airtableRecord.get('Image')[0].url;
+    }
 
-  tableName,
-
-  usedFields,
-
-  fromAirTableObject,
-
-  getAdaptiveCourses() {
-    return airtable.findRecords(tableName, usedFields)
-      .then((airtableRawObjects) => {
-        return _.filter(airtableRawObjects, {
-          fields: {
-            'Adaptatif ?': true,
-            'Statut': 'Publié',
-          }
-        }).map(fromAirTableObject);
-      });
+    return {
+      id: airtableRecord.getId(),
+      name: airtableRecord.get('Nom'),
+      description: airtableRecord.get('Description'),
+      adaptive: airtableRecord.get('Adaptatif ?'),
+      competences: airtableRecord.get('Competence'),
+      challenges: airtableRecord.get('Épreuves'),
+      status: airtableRecord.get('Statut'),
+      imageUrl,
+    };
   },
 
-  get(id) {
-    return airtable.getRecord(tableName, id)
-      .then(fromAirTableObject);
-  }
-};
+  async findAdaptiveCourses() {
+    const courses = await this.list();
+    return courses.filter((courseData) =>
+      courseData.adaptive &&
+      courseData.status === 'Publié');
+  },
+
+});

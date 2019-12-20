@@ -179,51 +179,55 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('#findByCampaignId', () => {
+  describe('#findResultDataByCampaignId', () => {
 
     let campaign1;
     let campaign2;
     let campaignParticipation1;
-    let campaignParticipation2;
-    let assessmentId1;
-    let assessmentId2;
+    let userId;
 
     beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser({
+        firstName: 'First',
+        lastName: 'Last',
+      }).id;
       campaign1 = databaseBuilder.factory.buildCampaign({});
       campaign2 = databaseBuilder.factory.buildCampaign({});
 
       campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign1.id,
-        isShared: true
+        userId,
+        isShared: true,
       });
-      campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({
-        campaignId: campaign1.id,
-        isShared: true
-      });
-      assessmentId1 = databaseBuilder.factory.buildAssessment({ campaignParticipationId: campaignParticipation1.id }).id;
-      assessmentId2 = databaseBuilder.factory.buildAssessment({ campaignParticipationId: campaignParticipation2.id }).id;
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign2.id,
-        isShared: true
+        isShared: true,
       });
       await databaseBuilder.commit();
     });
 
-    it('should return all the campaign-participation links to the given campaign', () => {
+    it('should return all the campaign-participation links to the given campaign', async () => {
       // given
       const campaignId = campaign1.id;
 
       // when
-      const promise = campaignParticipationRepository.findByCampaignId(campaignId);
+      const participationResultDatas = await campaignParticipationRepository.findResultDataByCampaignId(campaignId);
 
       // then
-      return promise.then((campaignParticipationsFind) => {
-        expect(campaignParticipationsFind.length).to.equal(2);
-        expect(campaignParticipationsFind[0].campaign.id).to.equal(campaignParticipation1.campaignId);
-        expect(campaignParticipationsFind[1].campaign.id).to.equal(campaignParticipation2.campaignId);
-        expect(campaignParticipationsFind[0].assessmentId).to.equal(assessmentId1);
-        expect(campaignParticipationsFind[1].assessmentId).to.equal(assessmentId2);
-      });
+      expect(participationResultDatas).to.deep.equal([
+        {
+          id: campaignParticipation1.id,
+
+          isShared: true,
+          sharedAt: campaignParticipation1.sharedAt,
+          createdAt: campaignParticipation1.createdAt,
+          participantExternalId: campaignParticipation1.participantExternalId,
+          userId: campaignParticipation1.userId,
+
+          participantFirstName: 'First',
+          participantLastName: 'Last',
+        }
+      ]);
     });
   });
 

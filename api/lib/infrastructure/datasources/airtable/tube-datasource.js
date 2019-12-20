@@ -1,62 +1,34 @@
 const _ = require('lodash');
-const airtable = require('../../airtable');
-const AirtableResourceNotFound = require('./AirtableResourceNotFound');
+const datasource = require('./datasource');
 
-const tableName = 'Tubes';
+module.exports = datasource.extend({
 
-const usedFields = [
-  'Nom',
-  'Titre',
-  'Description',
-  'Titre pratique',
-  'Description pratique',
-];
+  modelName: 'Tube',
 
-function fromAirTableObject(airtableRecord) {
-  return {
-    id: airtableRecord.getId(),
-    name: airtableRecord.get('Nom'),
-    title: airtableRecord.get('Titre'),
-    description: airtableRecord.get('Description'),
-    practicalTitle: airtableRecord.get('Titre pratique'),
-    practicalDescription: airtableRecord.get('Description pratique'),
-  };
-}
+  tableName: 'Tubes',
 
-function _doQuery(filter) {
-  return airtable.findRecords(tableName, usedFields)
-    .then((rawTubes) => {
-      return _(rawTubes)
-        .filter(filter)
-        .map(fromAirTableObject)
-        .value();
-    });
-}
+  usedFields: [
+    'Nom',
+    'Titre',
+    'Description',
+    'Titre pratique',
+    'Description pratique',
+  ],
 
-module.exports = {
-
-  tableName,
-
-  usedFields,
-
-  fromAirTableObject,
-
-  findByNames(tubeNames) {
-    return _doQuery((rawTube) => _.includes(tubeNames, rawTube.fields['Nom']));
+  fromAirTableObject(airtableRecord) {
+    return {
+      id: airtableRecord.getId(),
+      name: airtableRecord.get('Nom'),
+      title: airtableRecord.get('Titre'),
+      description: airtableRecord.get('Description'),
+      practicalTitle: airtableRecord.get('Titre pratique'),
+      practicalDescription: airtableRecord.get('Description pratique'),
+    };
   },
 
-  get(id) {
-    return airtable.getRecord(tableName, id)
-      .then(fromAirTableObject)
-      .catch((err) => {
-        if (err.error === 'NOT_FOUND') {
-          throw new AirtableResourceNotFound();
-        }
-        throw err;
-      });
+  async findByNames(tubeNames) {
+    const tubes = await this.list();
+    return tubes.filter((tubeData) => _.includes(tubeNames, tubeData.name));
   },
 
-  list() {
-    return _doQuery({});
-  },
-};
+});

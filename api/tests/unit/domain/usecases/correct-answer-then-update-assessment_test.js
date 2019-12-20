@@ -1,14 +1,20 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-
 const correctAnswerThenUpdateAssessment = require('../../../../lib/domain/usecases/correct-answer-then-update-assessment');
 
 const { ChallengeAlreadyAnsweredError, NotFoundError, ForbiddenAccess } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', () => {
+  const userId = 1;
+  let assessment;
+  let challenge;
+  let solution;
+  let validator;
+  let correctAnswerValue;
+  let answer;
 
   const answerRepository = {
     findByChallengeAndAssessment: () => undefined,
@@ -37,22 +43,30 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     sinon.stub(knowledgeElementRepository, 'save');
     sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
+    assessment = domainBuilder.buildAssessment({ userId });
+    answer = domainBuilder.buildAnswer({ assessmentId: assessment.id, value: correctAnswerValue });
+    answer.id = undefined;
+    answer.result = undefined;
+    answer.resultDetails = undefined;
+    correctAnswerValue = '1';
+    solution = domainBuilder.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
+    validator = domainBuilder.buildValidator.ofTypeQCU({ solution });
+    challenge = domainBuilder.buildChallenge({ id: answer.challengeId, validator });
+    challengeRepository.get.resolves(challenge);
   });
-  const userId = 1;
 
   context('when an answer for that challenge and that assessment already exists', () => {
 
-    let answer;
-    let result;
-
     beforeEach(() => {
       // given
-      answer = domainBuilder.buildAnswer();
-      answerRepository.findByChallengeAndAssessment.resolves(true);
-      assessmentRepository.get.resolves({ userId });
+      assessment.type = Assessment.types.CERTIFICATION;
+      assessmentRepository.get.resolves(assessment);
+      answerRepository.findByChallengeAndAssessment.withArgs({ assessmentId: assessment.id, challengeId: challenge.id }).resolves(true);
+    });
 
+    it('should fail because Challenge Already Answered', async () => {
       // when
-      result = correctAnswerThenUpdateAssessment({
+      const error = await catchErr(correctAnswerThenUpdateAssessment)({
         answer,
         userId,
         answerRepository,
@@ -62,78 +76,50 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         knowledgeElementRepository,
         scorecardService,
       });
-    });
 
-    it('should call the answer repository to check if challenge has already been answered', () => {
       // then
-      const expectedArguments = {
-        assessmentId: answer.assessmentId,
-        challengeId: answer.challengeId,
-      };
-      return result.catch((error) => error)
-        .then(() => {
-          return expect(answerRepository.findByChallengeAndAssessment).to.have.been.calledWith(expectedArguments);
-        });
-    });
-    it('should fail because Challenge Already Answered', () => {
-      // then
-      return expect(result).to.be.rejectedWith(ChallengeAlreadyAnsweredError);
+      return expect(error).to.be.an.instanceOf(ChallengeAlreadyAnsweredError);
     });
   });
 
   context('when no answer already exists', () => {
+    let completedAnswer;
+    let savedAnswer;
+
+    beforeEach(() => {
+      answerRepository.findByChallengeAndAssessment.withArgs({ assessmentId: assessment.id, challengeId: challenge.id }).resolves(false);
+      completedAnswer = domainBuilder.buildAnswer(answer);
+      completedAnswer.id = undefined;
+      completedAnswer.result = AnswerStatus.OK;
+      completedAnswer.resultDetails = null;
+      savedAnswer = domainBuilder.buildAnswer(completedAnswer);
+      answerRepository.save.resolves(savedAnswer);
+    });
 
     context('and assessment is a COMPETENCE_EVALUATION', () => {
 
-      let answer;
-      let assessment;
-      let challenge;
       let competenceEvaluation;
       let knowledgeElement;
       let firstCreatedKnowledgeElement;
       let secondCreatedKnowledgeElement;
       let skills;
-      let completedAnswer;
-      let correctAnswerValue;
-      let savedAnswer;
-      let solution;
-      let validator;
       let scorecard;
 
       beforeEach(() => {
         // given
-        correctAnswerValue = '1';
+        assessment.type = Assessment.types.COMPETENCE_EVALUATION;
+        assessmentRepository.get.resolves(assessment);
 
-        answer = domainBuilder.buildAnswer({ value: correctAnswerValue });
-        answer.id = undefined;
-        answer.result = undefined;
-        answer.resultDetails = undefined;
-
-        solution = domainBuilder.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
-        validator = domainBuilder.buildValidator.ofTypeQCU({ solution });
-        challenge = domainBuilder.buildChallenge({ id: answer.challengeId, validator });
-        assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.COMPETENCE_EVALUATION });
         competenceEvaluation = domainBuilder.buildCompetenceEvaluation();
         knowledgeElement = domainBuilder.buildKnowledgeElement();
         firstCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
         secondCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1 });
         skills = domainBuilder.buildSkillCollection();
 
-        completedAnswer = domainBuilder.buildAnswer(answer);
-        completedAnswer.id = undefined;
-        completedAnswer.result = AnswerStatus.OK;
-        completedAnswer.resultDetails = null;
-
-        savedAnswer = domainBuilder.buildAnswer(completedAnswer);
-
         scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 22, exactlyEarnedPix: 22 });
-        answerRepository.findByChallengeAndAssessment.resolves(false);
-        assessmentRepository.get.resolves(assessment);
-        challengeRepository.get.resolves(challenge);
-        answerRepository.save.resolves(savedAnswer);
-        competenceEvaluationRepository.getByAssessmentId.resolves(competenceEvaluation);
-        skillRepository.findByCompetenceId.resolves(skills);
-        knowledgeElementRepository.findUniqByUserId.resolves([knowledgeElement]);
+        competenceEvaluationRepository.getByAssessmentId.withArgs(assessment.id).resolves(competenceEvaluation);
+        skillRepository.findByCompetenceId.withArgs(competenceEvaluation.competenceId).resolves(skills);
+        knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([knowledgeElement]);
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstCreatedKnowledgeElement, secondCreatedKnowledgeElement,
         ]);
@@ -142,30 +128,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           .onSecondCall().resolves(secondCreatedKnowledgeElement);
         smartPlacementAssessmentRepository.get.rejects(new NotFoundError());
         scorecardService.computeScorecard.resolves(scorecard);
-
-      });
-
-      it('should call the answer repository to check if challenge has already been answered', async () => {
-        // when
-        await correctAnswerThenUpdateAssessment({
-          answer,
-          userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          smartPlacementAssessmentRepository,
-          knowledgeElementRepository,
-          scorecardService,
-        });
-
-        // then
-        const expectedArguments = {
-          assessmentId: answer.assessmentId,
-          challengeId: answer.challengeId,
-        };
-        expect(answerRepository.findByChallengeAndAssessment).to.have.been.calledWith(expectedArguments);
       });
 
       it('should call the answer repository to save the answer', async () => {
@@ -308,50 +270,20 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     });
 
     context('and assessment is a SMART_PLACEMENT', () => {
-
-      let answer;
-      let assessment;
       let smartPlacementAssessment;
-      let challenge;
-      let completedAnswer;
-      let correctAnswerValue;
       let firstKnowledgeElement;
-      let savedAnswer;
       let secondKnowledgeElement;
-      let solution;
-      let validator;
       let scorecard;
 
       beforeEach(() => {
         // given
-        correctAnswerValue = '1';
+        assessment.type = Assessment.types.SMARTPLACEMENT;
+        assessmentRepository.get.resolves(assessment);
 
-        answer = domainBuilder.buildAnswer();
-        answer.id = undefined;
-        answer.result = undefined;
-        answer.resultDetails = undefined;
-
-        solution = domainBuilder.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
-        validator = domainBuilder.buildValidator.ofTypeQCU({ solution });
-        challenge = domainBuilder.buildChallenge({ id: answer.challengeId, validator });
-
-        completedAnswer = domainBuilder.buildAnswer(answer);
-        completedAnswer.id = undefined;
-        completedAnswer.result = AnswerStatus.OK;
-        completedAnswer.resultDetails = null;
-
-        savedAnswer = domainBuilder.buildAnswer(completedAnswer);
-
-        assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.SMARTPLACEMENT });
         smartPlacementAssessment = domainBuilder.buildSmartPlacementAssessment();
         firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
         secondKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1.8 });
         scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 20, exactlyEarnedPix: 20.2 });
-
-        answerRepository.findByChallengeAndAssessment.resolves(false);
-        assessmentRepository.get.resolves(assessment);
-        challengeRepository.get.resolves(challenge);
-        answerRepository.save.resolves(savedAnswer);
         smartPlacementAssessmentRepository.get.resolves(smartPlacementAssessment);
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstKnowledgeElement, secondKnowledgeElement,
@@ -359,32 +291,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         knowledgeElementRepository.save
           .onFirstCall().resolves(firstKnowledgeElement)
           .onSecondCall().resolves(secondKnowledgeElement);
-
         scorecardService.computeScorecard.resolves(scorecard);
-
-      });
-
-      it('should call the answer repository to check if challenge has already been answered', async () => {
-        // when
-        await correctAnswerThenUpdateAssessment({
-          answer,
-          userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          smartPlacementAssessmentRepository,
-          knowledgeElementRepository,
-          scorecardService,
-        });
-
-        // then
-        const expectedArguments = {
-          assessmentId: answer.assessmentId,
-          challengeId: answer.challengeId,
-        };
-        expect(answerRepository.findByChallengeAndAssessment).to.have.been.calledWith(expectedArguments);
       });
 
       it('should call the answer repository to save the answer', async () => {
@@ -631,7 +538,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.CERTIFICATION });
 
-        answerRepository.findByChallengeAndAssessment.resolves(false);
         assessmentRepository.get.resolves(assessment);
         challengeRepository.get.resolves(challenge);
         answerRepository.save.resolves(savedAnswer);
@@ -748,7 +654,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
     beforeEach(() => {
       answer = domainBuilder.buildAnswer();
-      answerRepository.findByChallengeAndAssessment.resolves(false);
       assessment = domainBuilder.buildAssessment({ userId: (userId + 1) });
       assessmentRepository.get.resolves(assessment);
     });

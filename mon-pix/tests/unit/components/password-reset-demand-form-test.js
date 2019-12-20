@@ -1,10 +1,11 @@
-import Service from '@ember/service';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
+
+import Service from '@ember/service';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | password-reset-demand-form', function() {
+describe('Unit | Component | password-reset-demand-form', () => {
 
   setupTest();
 
@@ -12,10 +13,9 @@ describe('Unit | Component | password-reset-demand-form', function() {
   const sentEmail = 'dumb@people.com';
   let createRecordStub, saveStub;
 
-  describe('success save of password Reset Demand', function() {
+  describe('#savePasswordResetDemand', () => {
 
     beforeEach(function() {
-
       saveStub = sinon.stub().resolves();
       createRecordStub = sinon.stub().returns({
         save: saveStub
@@ -28,7 +28,7 @@ describe('Unit | Component | password-reset-demand-form', function() {
       component.set('email', sentEmail);
     });
 
-    it('should create a passwordResetDemand Record', function() {
+    it('should create a passwordResetDemand Record', () => {
       // when
       component.send('savePasswordResetDemand');
 
@@ -37,7 +37,20 @@ describe('Unit | Component | password-reset-demand-form', function() {
       sinon.assert.calledWith(createRecordStub, 'password-reset-demand', { email: sentEmail });
     });
 
-    it('should save the password reset demand', function() {
+    it('should save email without spaces', () => {
+      // given
+      const emailWithSpaces = '    user@example.net   ';
+      component.set('email', emailWithSpaces);
+      const expectedEmail = emailWithSpaces.trim();
+
+      // when
+      component.send('savePasswordResetDemand');
+
+      // then
+      sinon.assert.calledWith(createRecordStub, 'password-reset-demand', { email: expectedEmail });
+    });
+
+    it('should save the password reset demand', () => {
       // when
       component.send('savePasswordResetDemand');
 
@@ -45,7 +58,7 @@ describe('Unit | Component | password-reset-demand-form', function() {
       sinon.assert.called(saveStub);
     });
 
-    it('should display success message when save resolves', async function() {
+    it('should display success message when save resolves', async () => {
       // when
       await component.send('savePasswordResetDemand');
 
@@ -53,7 +66,6 @@ describe('Unit | Component | password-reset-demand-form', function() {
       expect(component.get('_displaySuccessMessage')).to.be.true;
       expect(component.get('_displayErrorMessage')).to.be.false;
     });
-
   });
 
 });

@@ -19,12 +19,12 @@ module('Acceptance | Campaign Creation', function(hooks) {
     assert.equal(currentURL(), '/connexion');
   });
 
-  module('when the user is authenticated', ({ beforeEach }) => {
+  module('when the user is authenticated', (hooks) => {
 
     let availableTargetProfiles;
     let user;
 
-    beforeEach(async function() {
+    hooks.beforeEach(async function() {
       user = createUserWithMembership();
       availableTargetProfiles = server.createList('target-profile', 2);
       await authenticateSession({
@@ -33,6 +33,11 @@ module('Acceptance | Campaign Creation', function(hooks) {
         expires_in: 3600,
         token_type: 'Bearer token type',
       });
+    });
+
+    hooks.afterEach(function() {
+      const notificationMessagesService = this.owner.lookup('service:notification-messages');
+      notificationMessagesService.clearAll();
     });
 
     test('it should be accessible for an authenticated user', async function(assert) {
@@ -120,8 +125,8 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
       // then
       assert.equal(currentURL(), '/campagnes/creation');
-      assert.dom('.alert-zone--error').exists();
-      assert.dom('.alert-zone--error').hasText('Internal Server Error');
+      assert.dom('[data-test-notification-message="error"]').exists();
+      assert.dom('[data-test-notification-message="error"]').hasText('Internal Server Error');
     });
   });
 });

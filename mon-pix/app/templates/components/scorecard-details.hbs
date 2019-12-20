@@ -24,15 +24,25 @@
 
     {{#unless scorecard.isNotStarted}}
       <div class="scorecard-details-content-right__score-container">
-        {{#circle-chart value=scorecard.percentageAheadOfNextLevel
-                        sliceColor=scorecard.areaColor
-                        chartClass='circle-chart__content--big'
-                        thicknessClass='circle--thick'}}
-          <div class="competence-card__level">
-            <span class="score-label">Niveau</span>
-            <span class="score-value">{{replace-zero-by-dash level}}</span>
+        {{#if scorecard.isFinishedWithMaxLevel}}
+          <div class="competence-card__congrats">
+            <div class="competence-card__level competence-card__level--congrats">
+              <span class="score-label competence-card__score-label--congrats">Niveau</span>
+              <span class="score-value competence-card__score-value competence-card__score-value--congrats">{{level}}</span>
+            </div>
           </div>
-        {{/circle-chart}}
+        {{else}}
+          {{#circle-chart value=scorecard.percentageAheadOfNextLevel
+                          sliceColor=scorecard.areaColor
+                          chartClass='circle-chart__content--big'
+                          thicknessClass='circle--thick'}}
+            <div class="competence-card__level">
+              <span class="score-label">Niveau</span>
+              <span class="score-value">{{replace-zero-by-dash level}}</span>
+            </div>
+          {{/circle-chart}}
+        {{/if}}
+
         <div class="scorecard-details-content-right-score-container__pix-earned">
           <div class="score-label">pix</div>
           <div class="score-value">{{replace-zero-by-dash scorecard.earnedPix}}</div>
