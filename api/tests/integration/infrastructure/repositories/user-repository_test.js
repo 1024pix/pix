@@ -88,77 +88,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(user.email).to.equal(userInDb.email);
       });
     });
-
-    describe('#findByEmailWithRoles', () => {
-
-      beforeEach(() => {
-        return _insertUserWithOrganizationsAndCertificationCenterAccesses();
-      });
-
-      it('should return user informations for the given email', async () => {
-        // given
-        const expectedUser = new User(userInDB);
-
-        // when
-        const user = await userRepository.findByEmailWithRoles(userInDB.email);
-
-        // then
-        expect(user).to.be.an.instanceof(User);
-        expect(user.id).to.equal(expectedUser.id);
-        expect(user.firstName).to.equal(expectedUser.firstName);
-        expect(user.lastName).to.equal(expectedUser.lastName);
-        expect(user.email).to.equal(expectedUser.email);
-        expect(user.password).to.equal(expectedUser.password);
-        expect(user.cgu).to.equal(expectedUser.cgu);
-      });
-
-      it('should return membership associated to the user', async () => {
-        // when
-        const user = await userRepository.findByEmailWithRoles(userInDB.email);
-
-        // then
-        expect(user.memberships).to.be.an('array');
-        expect(user.memberships).to.have.lengthOf(1);
-
-        const firstMembership = user.memberships[0];
-        expect(firstMembership).to.be.an.instanceof(Membership);
-        expect(firstMembership.id).to.equal(membershipInDB.id);
-
-        const associatedOrganization = firstMembership.organization;
-        expect(associatedOrganization).to.be.an.instanceof(Organization);
-        expect(associatedOrganization.id).to.equal(organizationInDB.id);
-        expect(associatedOrganization.code).to.equal(organizationInDB.code);
-        expect(associatedOrganization.name).to.equal(organizationInDB.name);
-        expect(associatedOrganization.type).to.equal(organizationInDB.type);
-
-        expect(firstMembership.organizationRole).to.equal(membershipInDB.organizationRole);
-      });
-
-      it('should return certification center membership associated to the user', async () => {
-        // when
-        const user = await userRepository.findByEmailWithRoles(userInDB.email);
-
-        // then
-        expect(user.certificationCenterMemberships).to.be.an('array');
-
-        const firstMembership = user.certificationCenterMemberships[0];
-        expect(firstMembership).to.be.an.instanceof(CertificationCenterMembership);
-        expect(firstMembership.certificationCenter.id).to.equal(certificationCenterInDB.id);
-        expect(firstMembership.certificationCenter.name).to.equal(certificationCenterInDB.name);
-      });
-
-      it('should reject with a UserNotFound error when no user was found with this email', async () => {
-        // given
-        const unusedEmail = 'kikou@pix.fr';
-
-        // when
-        const result = await catchErr(userRepository.findByEmailWithRoles)(unusedEmail);
-
-        // then
-        expect(result).to.be.instanceOf(UserNotFoundError);
-      });
-    });
-
+    
     describe('#getBySamlId', () => {
 
       let userInDb;
