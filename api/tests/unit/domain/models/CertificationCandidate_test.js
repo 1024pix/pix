@@ -1,6 +1,7 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
 const { InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
+const { ValidationError } = require('@hapi/joi');
 
 describe('Unit | Domain | Models | Certification Candidate', () => {
 
@@ -42,18 +43,24 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
 
-      // when/then
-      return expect(() => certificationCandidate.validate())
-        .not.to.throw;
+      // when
+      certificationCandidate.validate();
+
+      // then
+      expect(true).to.be.true;
     });
 
     it('should return an error if id is not a number nor undefined', () => {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ id: 'salut' });
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if firstName is not defined', () => {
@@ -61,18 +68,26 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
       certificationCandidate.firstName = undefined;
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if firstName is not a string', () => {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ firstName: 123 });
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if lastName is not defined', () => {
@@ -80,18 +95,26 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
       certificationCandidate.lastName = undefined;
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if lastName is not a string', () => {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ lastName: 123 });
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if birthCity is not defined', () => {
@@ -99,18 +122,26 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
       certificationCandidate.birthCity = undefined;
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if birthCity is not a string', () => {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthCity: 123 });
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if birthProvinceCode is not defined', () => {
@@ -118,18 +149,26 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
       certificationCandidate.birthProvinceCode = undefined;
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if birthProvinceCode is not a string', () => {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthProvinceCode: 123 });
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if birthCountry is not defined', () => {
@@ -137,74 +176,52 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
       certificationCandidate.birthCountry = undefined;
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if birthCountry is not a string', () => {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthCountry: 123 });
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
-    });
-
-    it('should not throw an error if externalId is null', () => {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ externalId: null });
-
-      // then
-      return expect(() => certificationCandidate.validate())
-        .not.to.throw;
-    });
-
-    it('should not throw an error if externalId is undefined', () => {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({});
-      certificationCandidate.externalId = undefined;
-
-      // then
-      return expect(() => certificationCandidate.validate())
-        .not.to.throw;
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if externalId is not a string', () => {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ externalId: 123 });
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
-    });
-
-    it('should not throw an error if extraTimePercentage is null', () => {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ extraTimePercentage: null });
-
-      // then
-      return expect(() => certificationCandidate.validate())
-        .not.to.throw;
-    });
-
-    it('should not throw an error if extraTimePercentage is undefined', () => {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({});
-      certificationCandidate.extraTimePercentage = undefined;
-
-      // then
-      return expect(() => certificationCandidate.validate())
-        .not.to.throw;
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if extraTimePercentage is not a number', () => {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ extraTimePercentage: 'aaa' });
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if birthdate is not defined', () => {
@@ -212,27 +229,39 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
       certificationCandidate.birthdate = undefined;
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if birthdate is not a string', () => {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: 123 });
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if birthdate is not of size 10 (to ensure YYY-MM-DD)', () => {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: 'salut' });
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if sessionId is not defined', () => {
@@ -240,37 +269,175 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
       certificationCandidate.sessionId = undefined;
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
     it('should return an error if sessionId is not a number', () => {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: 'a' });
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .to.throw(InvalidCertificationCandidate);
+      // when
+      try {
+        certificationCandidate.validate();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+      }
     });
 
-    it('should not throw an error if createdAt is null', () => {
+  });
+
+  describe('validateParticipation', () => {
+
+    it('should not throw when the object is valid', () => {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ createdAt: null });
+      const certificationCandidate = domainBuilder.buildCertificationCandidate();
+
+      // when
+      certificationCandidate.validateParticipation();
 
       // then
-      return expect(() => certificationCandidate.validate())
-        .not.to.throw;
+      expect(true).to.be.true;
     });
 
-    it('should not throw an error if createdAt is undefined', () => {
+    it('should return an error if firstName is not defined', () => {
       // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({});
-      certificationCandidate.createdAt = undefined;
+      const certificationCandidate = domainBuilder.buildCertificationCandidate();
+      certificationCandidate.firstName = undefined;
 
-      // then
-      return expect(() => certificationCandidate.validate())
-        .not.to.throw;
+      // when
+      try {
+        certificationCandidate.validateParticipation();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(ValidationError);
+      }
+    });
+
+    it('should return an error if firstName is not a string', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ firstName: 123 });
+
+      // when
+      try {
+        certificationCandidate.validateParticipation();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(ValidationError);
+      }
+    });
+
+    it('should return an error if lastName is not defined', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate();
+      certificationCandidate.lastName = undefined;
+
+      // when
+      try {
+        certificationCandidate.validateParticipation();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(ValidationError);
+      }
+    });
+
+    it('should return an error if lastName is not a string', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ lastName: 123 });
+
+      // when
+      try {
+        certificationCandidate.validateParticipation();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(ValidationError);
+      }
+    });
+
+    it('should return an error if birthdate is not defined', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate();
+      certificationCandidate.birthdate = undefined;
+
+      // when
+      try {
+        certificationCandidate.validateParticipation();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(ValidationError);
+      }
+    });
+
+    it('should return an error if birthdate is not a date in iso format', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '04/01/1990' });
+
+      // when
+      try {
+        certificationCandidate.validateParticipation();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(ValidationError);
+      }
+    });
+
+    it('should return an error if birthdate not greater than 1900-01-01', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '1899-06-06' });
+
+      // when
+      try {
+        certificationCandidate.validateParticipation();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(ValidationError);
+      }
+    });
+
+    it('should return an error if birthdate does not exist (such as 31th November)', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '1999-11-31' });
+
+      // when
+      try {
+        certificationCandidate.validateParticipation();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(ValidationError);
+      }
+    });
+
+    it('should return an error if sessionId is not defined', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate();
+      certificationCandidate.sessionId = undefined;
+
+      // when
+      try {
+        certificationCandidate.validateParticipation();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(ValidationError);
+      }
+    });
+
+    it('should return an error if sessionId is not a number', () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: 'a' });
+
+      // when
+      try {
+        certificationCandidate.validateParticipation();
+        expect.fail('Expected error to have been thrown');
+      } catch (err) { // then
+        expect(err).to.be.instanceOf(ValidationError);
+      }
     });
 
   });

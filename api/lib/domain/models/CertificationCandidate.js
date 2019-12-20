@@ -1,5 +1,6 @@
 const _ = require('lodash');
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joi')
+  .extend(require('@hapi/joi-date'));
 const { InvalidCertificationCandidate } = require('../errors');
 
 const certificationCandidateValidationJoiSchema_v1 = Joi.object({
@@ -30,6 +31,21 @@ const certificationCandidateValidationJoiSchema_v2 = Joi.object({
   extraTimePercentage: Joi.number().allow(null).optional(),
   sessionId: Joi.number().required(),
   userId: Joi.number().allow(null).optional(),
+});
+
+const certificationCandidateParticipationJoiSchema = Joi.object({
+  id: Joi.any().allow(null).optional(),
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required(),
+  birthCity: Joi.any().allow(null).optional(),
+  birthProvinceCode: Joi.any().allow(null).optional(),
+  birthCountry: Joi.any().allow(null).optional(),
+  externalId: Joi.any().allow(null).optional(),
+  birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required(),
+  createdAt: Joi.any().allow(null).optional(),
+  extraTimePercentage: Joi.any().allow(null).optional(),
+  sessionId: Joi.number().required(),
+  userId: Joi.any().allow(null).optional(),
 });
 
 class CertificationCandidate {
@@ -84,6 +100,13 @@ class CertificationCandidate {
     const { error } = usedSchema.validate(this);
     if (error) {
       throw new InvalidCertificationCandidate();
+    }
+  }
+
+  validateParticipation() {
+    const { error } = certificationCandidateParticipationJoiSchema.validate(this);
+    if (error) {
+      throw error;
     }
   }
 }
