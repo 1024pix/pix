@@ -1,8 +1,27 @@
-.challenge-embed-simulator {
+.embed {
   position: relative;
+  height: 100%;
+
+  &.hidden-class {
+    visibility: hidden;
+  }
+
+  &.placeholder{
+    width: 100%;
+    background-color: $mercury-grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7rem;
+    color: $raven-grey;
+  }
+
+  .rounded-panel {
+    display: block;
+  }
 }
 
-.challenge-embed-simulator__aknowledgment-overlay {
+.embed__aknowledgment-overlay {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -18,7 +37,7 @@
   justify-content: center;
 }
 
-.challenge-embed-simulator__launch-simulator-button {
+.embed__launch-simulator-button {
   background-color: #3D68FF;
   color: #ffffff;
   box-shadow: 0 2px 6px 0 rgba(12,22,58,0.11), 0 1px 3px 0 rgba(0,0,0,0.08);
@@ -33,21 +52,21 @@
   padding: 0 36px;
 }
 
-.challenge-embed-simulator__simulator {
+.embed__simulator {
   height: 100%;
 
   &.blurred {
     filter: blur(5px);
   }
 }
-.challenge-embed-simulator__iframe {
+.embed__iframe {
   position: relative;
   border: none;
   width: 100%;
   height: 100%;
 }
 
-.challenge-embed-simulator__reload-button {
+.embed__reload-button {
   position: absolute;
   bottom: 20px;
   right: 20px;
