@@ -2,6 +2,7 @@ const BookshelfStudent = require('../data/student');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const _ = require('lodash');
+const bluebird = require('bluebird');
 
 module.exports = {
 
@@ -26,6 +27,21 @@ module.exports = {
   batchSave(studentsToSave) {
     const bookshelfStudents = studentsToSave.map((studentToSave) => _.omit(studentToSave, ['id']));
     return Bookshelf.knex.batchInsert('students', bookshelfStudents).then(() => undefined);
+  },
+
+  async batchUpdateWithOrganizationId(studentsToUpdate, organizationId) {
+    const trx = await Bookshelf.knex.transaction();
+
+    return bluebird.map(studentsToUpdate, (studentToUpdate) => {
+      return trx('students')
+        .where({
+          'organizationId': organizationId,
+          'nationalStudentId': studentToUpdate.nationalStudentId
+        })
+        .update(_.omit(studentToUpdate, ['id', 'createdAt']));
+    })
+      .then(trx.commit)
+      .catch(trx.rollback);
   },
 
   findNotLinkedYetByOrganizationIdAndUserBirthdate({ organizationId, birthdate }) {
