@@ -29,7 +29,7 @@ module.exports = async function shareCampaignResult({
     improvementService,
   });
 
-  const { hasAssessmentEnded } = smartRandom.getNextChallenge(getNextChallengeData);
+  const { hasAssessmentEnded } = smartRandom.getPossibleSkillsForNextChallenge(getNextChallengeData);
 
   if (!hasAssessmentEnded) {
     throw new AssessmentNotCompletedError();

@@ -26,7 +26,6 @@ async function fetchForCampaigns({
     targetSkills,
     challenges,
     knowledgeElements,
-    choosingChallengeKey: assessment.id
   };
 }
 
@@ -75,7 +74,6 @@ async function fetchForCompetenceEvaluations({
     targetSkills,
     challenges,
     knowledgeElements,
-    choosingChallengeKey: assessment.id
   };
 }
 
