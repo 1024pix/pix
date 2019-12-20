@@ -200,7 +200,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       // given
       const errors = {
         data: {
-          '': [ 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.' ]
+          '': [ 'L\'adresse e-mail ou l\'identifiant et/ou le mot de passe saisi(s) sont incorrects.' ]
         }
       };
 
@@ -209,7 +209,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
           {
             'status': '400',
             'title': 'Invalid Payload',
-            'detail': 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.',
+            'detail': 'L\'adresse e-mail ou l\'identifiant et/ou le mot de passe saisi(s) sont incorrects.',
             'source': { 'pointer': '/data/attributes' }
           }
         ]

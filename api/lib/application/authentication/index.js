@@ -15,7 +15,7 @@ exports.register = async (server) => {
         validate: {
           payload: Joi.object().required().keys({
             grant_type: 'password',
-            username: Joi.string().email().required(),
+            username: Joi.string().required(),
             password: Joi.string().required(),
             scope: Joi.string(),
           }),
