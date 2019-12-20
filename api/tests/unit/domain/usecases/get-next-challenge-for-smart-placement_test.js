@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const getNextChallengeForSmartPlacement = require('../../../../lib/domain/usecases/get-next-challenge-for-smart-placement');
 const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
@@ -10,14 +10,14 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
     let userId, assessmentId, targetProfileId, campaignParticipation,
       assessment, lastAnswer, answerRepository, challengeRepository, challenges,
       knowledgeElementRepository, recentKnowledgeElements,
-      targetProfileRepository, targetProfile, skills, expectedNextChallenge, actualNextChallenge,
+      targetProfileRepository, targetProfile, skills, actualNextChallenge,
       improvementService;
 
     beforeEach(async () => {
 
       userId = 'dummyUserId';
       targetProfileId = 'dummyTargetProfileId';
-      assessmentId = 'dummyAssessmentId';
+      assessmentId = 21;
       lastAnswer = null;
 
       answerRepository = { findLastByAssessment: sinon.stub().resolves(lastAnswer) };
@@ -32,11 +32,17 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
       knowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
-      expectedNextChallenge = { some: 'next challenge' };
 
-      sinon.stub(smartRandom, 'getNextChallenge').returns({
+      const web2 = domainBuilder.buildSkill({ name: '@web2' });
+      web2.challenges = [domainBuilder.buildChallenge({ id: 'challenge_web2_1' }), domainBuilder.buildChallenge({ id: 'challenge_web2_2' })];
+      const url2 = domainBuilder.buildSkill({ name: '@url2' });
+      url2.challenges = [domainBuilder.buildChallenge({ id: 'challenge_url2_1' }), domainBuilder.buildChallenge({ id: 'challenge_url2_2' })];
+      const search2 = domainBuilder.buildSkill({ name: '@search2' });
+      search2.challenges = [domainBuilder.buildChallenge({ id: 'challenge_search2_1' }), domainBuilder.buildChallenge({ id: 'challenge_search2_2' })];
+
+      sinon.stub(smartRandom, 'getPossibleSkillsForNextChallenge').returns({
         hasAssessmentEnded: false,
-        nextChallenge: expectedNextChallenge,
+        possibleSkillsForNextChallenge: [web2, url2, search2],
       });
 
       actualNextChallenge = await getNextChallengeForSmartPlacement({
@@ -78,17 +84,18 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
     });
 
     it('should have fetched the next challenge with only most recent knowledge elements', () => {
-      expect(smartRandom.getNextChallenge).to.have.been.calledWithExactly({
+      expect(smartRandom.getPossibleSkillsForNextChallenge).to.have.been.calledWithExactly({
         lastAnswer,
         challenges,
         targetSkills: targetProfile.skills,
         knowledgeElements: recentKnowledgeElements,
-        choosingChallengeKey: assessmentId
       });
     });
 
     it('should have returned the next challenge', () => {
-      expect(actualNextChallenge).to.deep.equal(expectedNextChallenge);
+      for (let i = 0; i < 5; i++) {
+        expect(actualNextChallenge.id).to.equal('challenge_web2_2');
+      }
     });
   });
 
