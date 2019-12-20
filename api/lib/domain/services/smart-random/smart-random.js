@@ -2,7 +2,7 @@ const Course = require('../../models/Course');
 const catAlgorithm = require('./cat-algorithm');
 const { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } = require('./skills-filter');
 const _ = require('lodash');
-const { hashInt } = require('../../../infrastructure/utils/hash');
+const hashInt = require('hash-int');
 
 const UNEXISTING_ITEM = null;
 
@@ -64,7 +64,7 @@ function _findFirstChallenge({ knowledgeElements, targetSkills, courseTubes, cho
 
 function _pickChallenges(skills, choosingChallengeKey) {
   if (_.isEmpty(skills)) { return UNEXISTING_ITEM; }
-  const key = hashInt(choosingChallengeKey);
+  const key = Math.abs(hashInt(choosingChallengeKey));
   const chosenSkill = skills[key % skills.length];
   return chosenSkill.challenges[key % chosenSkill.challenges.length];
 }
