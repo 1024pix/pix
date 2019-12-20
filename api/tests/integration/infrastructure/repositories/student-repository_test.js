@@ -80,51 +80,6 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
     });
   });
 
-  describe('#checkIfAtLeastOneStudentHasAlreadyBeenImported', () => {
-
-    it('should not find any student if none match both organizationId and nationalStudentId', async () => {
-      // given
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-      databaseBuilder.factory.buildStudent({
-        organizationId: otherOrganizationId,
-        userId: null,
-        nationalStudentId: 'INE',
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const result = await studentRepository.checkIfAtLeastOneStudentIsInOrganization({ nationalStudentIds: ['INE'], organizationId });
-
-      // then
-      expect(result).to.be.false;
-    });
-
-    it('should find at least a student matching with organizationId and nationalStudentId', async () => {
-      // given
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const student = databaseBuilder.factory.buildStudent({
-        organizationId,
-        userId: null,
-        nationalStudentId: 'BTDY53Y68',
-      });
-      databaseBuilder.factory.buildStudent({
-        organizationId,
-        userId: null,
-        nationalStudentId: '67482FBEH',
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const result = await studentRepository.checkIfAtLeastOneStudentIsInOrganization({ nationalStudentIds: ['WRONG123', student.nationalStudentId], organizationId });
-
-      // then
-      expect(result).to.be.true;
-    });
-  });
-
   describe('#batchCreate', () => {
 
     afterEach(() => {
