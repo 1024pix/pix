@@ -85,7 +85,6 @@ describe('Acceptance | Controller | users-controller', () => {
             expect(users[0]).to.include(expectedUserWithNoPasswordNorId);
             expect(users[0].cgu).to.be.ok;
             expect(users[0].password).to.exist;
-            expect(users[0].isProfileV2).to.be.ok;
           });
       });
 
