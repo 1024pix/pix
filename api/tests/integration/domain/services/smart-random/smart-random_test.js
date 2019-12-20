@@ -770,7 +770,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           });
 
           // then
-          expect(nextChallenge).to.deep.equal(challengeUrl_2);
+          expect(nextChallenge).to.deep.equal(challengeWeb_2_bis);
         }
 
       });
