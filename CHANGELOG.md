@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.96.0 (20/12/2019)
+
+- [#927](https://github.com/1024pix/pix/pull/927) [FEATURE] Améliorer les performances de l'export CSV (PO-296).
+- [#915](https://github.com/1024pix/pix/pull/915) [FEATURE] Mettre en place un système de notifications sur Pix Orga (PO-236).
+- [#918](https://github.com/1024pix/pix/pull/918) [FEATURE] Suppression des espaces inutiles (e-mail, prénom et nom) lors des connexion, inscription et changement de mdp (PF-847).
+- [#904](https://github.com/1024pix/pix/pull/904) [FEATURE] Contextualiser les cartes de compétences (PF-770).
+- [#908](https://github.com/1024pix/pix/pull/908) [FEATURE] Ne pas prendre en compte les caractères en trop lors de la réconciliation (PF-935).
+- [#914](https://github.com/1024pix/pix/pull/914) [BUGFIX] Limiter le bug de multiples réponses à un même couple challengeId/assessmentId (PF-964)
+- [#898](https://github.com/1024pix/pix/pull/898) [TECH] Préparation à l'ajout d'un cache de second niveau pour les objets Airtable Datasources.
+
 ## v2.95.0 (17/12/2019)
 
 - [#885](https://github.com/1024pix/pix/pull/885) [FEATURE] ETQ PixOrga Admin, je veux pouvoir changer le rôle des users de mon équipe (PO-215).
