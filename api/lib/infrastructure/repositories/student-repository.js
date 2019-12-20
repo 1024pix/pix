@@ -24,7 +24,7 @@ module.exports = {
     return Boolean(anyMatchingStudent);
   },
 
-  batchSave(studentsToSave) {
+  batchCreate(studentsToSave) {
     const bookshelfStudents = studentsToSave.map((studentToSave) => _.omit(studentToSave, ['id']));
     return Bookshelf.knex.batchInsert('students', bookshelfStudents).then(() => undefined);
   },
