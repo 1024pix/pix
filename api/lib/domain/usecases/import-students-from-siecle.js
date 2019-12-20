@@ -1,4 +1,4 @@
-const { FileValidationError, ObjectAlreadyExisting } = require('../errors');
+const { FileValidationError } = require('../errors');
 const _ = require('lodash');
 
 module.exports = async function importStudentsFromSIECLE({ organizationId, buffer, studentsXmlService, studentRepository }) {
@@ -8,13 +8,17 @@ module.exports = async function importStudentsFromSIECLE({ organizationId, buffe
     throw new FileValidationError('Aucun élève n\'a pu être importé depuis ce fichier. Vérifiez sa conformité.');
   }
 
-  const nationalStudentIds = students.map((student) => student.nationalStudentId);
+  const studentsFromOrganization = await studentRepository.findByOrganizationId({ organizationId });
+  const nationalStudentIdsFromOrganization = _.map(studentsFromOrganization, 'nationalStudentId');
+  const studentsToUpdate = _.filter(students, (student) => _.includes(nationalStudentIdsFromOrganization, student.nationalStudentId));
 
-  if (await studentRepository.checkIfAtLeastOneStudentIsInOrganization({ nationalStudentIds, organizationId })) {
-    throw new ObjectAlreadyExisting('La mise à jour de la liste n\'a pas été réalisée. Le fichier contient des élèves déjà importés.');
+  if (!_.isEmpty(studentsToUpdate)) await studentRepository.batchUpdateWithOrganizationId(studentsToUpdate, organizationId);
+
+  const studentsToCreate = _.difference(students, studentsToUpdate);
+  if (!_.isEmpty(studentsToCreate)) {
+    const studentsToCreateWithOrganizationId = _.map(studentsToCreate, (student) => ({ ...student, organizationId }));
+
+    await studentRepository.batchSave(studentsToCreateWithOrganizationId);
   }
 
-  const studentsWithOrganizationId = students.map((student) => ({ ...student, organizationId }));
-
-  return studentRepository.batchSave(studentsWithOrganizationId);
 };

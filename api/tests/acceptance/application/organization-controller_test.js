@@ -1152,52 +1152,6 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(422);
         expect(response.result.errors[0].detail).to.equal('Aucun élève n\'a pu être importé depuis ce fichier. Vérifiez sa conformité.');
       });
-
-      it('should return a 409 - Conflict - when a student has already been imported with same nationalStudentId and organizationId', async () => {
-        // given
-        databaseBuilder.factory.buildStudent({ nationalStudentId: '00000000124', organizationId: organization.id });
-        await databaseBuilder.commit();
-
-        const buffer = iconv.encode(
-          '<?xml version="1.0" encoding="ISO-8859-15"?>' +
-          '<BEE_ELEVES VERSION="2.1">' +
-          '<DONNEES>' +
-          '<ELEVES>' +
-          '<ELEVE ELEVE_ID="0001">' +
-          '<ID_NATIONAL>00000000124</ID_NATIONAL>' +
-          '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
-          '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
-          '<PRENOM>Harry</PRENOM>' +
-          '<PRENOM2>Coco</PRENOM2>' +
-          '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
-          '<CODE_PAYS>132</CODE_PAYS>' +
-          '<VILLE_NAISS>LONDRES</VILLE_NAISS>' +
-          '<CODE_MEF>12341234</CODE_MEF>' +
-          '<CODE_STATUT>ST</CODE_STATUT>' +
-          '</ELEVE>' +
-          '</ELEVES>' +
-          '<STRUCTURES>' +
-          '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
-          '<STRUCTURE>' +
-          '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-          '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-          '</STRUCTURE>' +
-          '</STRUCTURES_ELEVE>' +
-          '</STRUCTURES>' +
-          '</DONNEES>' +
-          '</BEE_ELEVES>', 'ISO-8859-15');
-
-        options.payload = buffer;
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        const students = await knex('students').where({ organizationId: organization.id });
-        expect(students).to.have.lengthOf(1);
-        expect(response.statusCode).to.equal(409);
-        expect(response.result.errors[0].detail).to.equal('La mise à jour de la liste n\'a pas été réalisée. Le fichier contient des élèves déjà importés.');
-      });
     });
 
     context('Resource access management', () => {
