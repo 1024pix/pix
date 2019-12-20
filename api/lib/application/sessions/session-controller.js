@@ -106,4 +106,10 @@ module.exports = {
       .then((updatedSession) => sessionSerializer.serializeForFinalization(updatedSession));
   },
 
+  async analyzeAttendanceSheet(request) {
+    const odsBuffer = request.payload.file;
+
+    return usecases.analyzeAttendanceSheet({ odsBuffer });
+  }
+
 };

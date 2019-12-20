@@ -113,30 +113,4 @@ describe('Unit | Controller | certifications-controller', () => {
       expect(response).to.deep.equal(serializedCertification);
     });
   });
-
-  describe('#analyzeFromAttendanceSheet', () => {
-
-    let request;
-    const odsBuffer = 'File Buffer';
-    beforeEach(() => {
-      // given
-      request = {
-        payload: { file: odsBuffer },
-      };
-
-      sinon.stub(usecases, 'analyzeAttendanceSheet').resolves();
-    });
-
-    it('should return certifications data for PV analysis', async () => {
-      // given
-      const analyzeResult = Symbol('attendance sheet analyze result');
-      usecases.analyzeAttendanceSheet.resolves(analyzeResult);
-
-      // when
-      const result = await certificationController.analyzeAttendanceSheet(request);
-
-      // then
-      expect(result).to.equal(analyzeResult);
-    });
-  });
 });

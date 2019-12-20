@@ -54,7 +54,7 @@ export default Controller.extend({
 
   _parseSessionReportData(file) {
     const { access_token } = this.get('session.data.authenticated');
-    const url = `${ENV.APP.API_HOST}/${ENV.APP.ODS_PARSING_URL}`;
+    const url = (`${ENV.APP.API_HOST}/${ENV.APP.ODS_PARSING_URL}`).replace('session_id', this.model.id);
     return file.upload(url, {
       headers: { Authorization: `Bearer ${access_token}` },
       method: 'PUT',

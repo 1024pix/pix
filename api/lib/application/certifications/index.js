@@ -44,26 +44,6 @@ exports.register = async function(server) {
         tags: ['api', 'certifications'],
       },
     },
-    {
-      method: 'PUT',
-      path: '/api/certifications/attendance-sheet/analyze',
-      config: {
-        pre: [{
-          method: securityController.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
-        payload: {
-          allow: 'multipart/form-data',
-          maxBytes: 1048576 * 10, // 10MB
-        },
-        handler: certificationController.analyzeAttendanceSheet,
-        tags: ['api', 'certifications'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de lire et de retourner des données sur les certifications présentes dans le PV de session transmis en buffer',
-        ]
-      }
-    },
   ]);
 };
 
