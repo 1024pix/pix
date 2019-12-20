@@ -313,6 +313,17 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(400);
     });
 
+    it('should return 400 on domain CertificationCandidatePersonalInfoWrongFormat', function() {
+      // given
+      const error = new DomainErrors.CertificationCandidatePersonalInfoWrongFormat();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
     it('should return 400 on domain CertificationCenterMembershipCreationError', function() {
       // given
       const error = new DomainErrors.CertificationCenterMembershipCreationError();

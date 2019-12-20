@@ -163,11 +163,6 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/sessions/{id}/candidate-participation',
       config: {
-        validate: {
-          params: Joi.object({
-            id: Joi.number().required()
-          }),
-        },
         handler: sessionController.createCandidateParticipation,
         tags: ['api', 'sessions', 'certification-candidates'],
         notes: [
