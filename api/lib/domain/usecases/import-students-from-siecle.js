@@ -18,7 +18,7 @@ module.exports = async function importStudentsFromSIECLE({ organizationId, buffe
   if (!_.isEmpty(studentsToCreate)) {
     const studentsToCreateWithOrganizationId = _.map(studentsToCreate, (student) => ({ ...student, organizationId }));
 
-    await studentRepository.batchSave(studentsToCreateWithOrganizationId);
+    await studentRepository.batchCreate(studentsToCreateWithOrganizationId);
   }
 
 };

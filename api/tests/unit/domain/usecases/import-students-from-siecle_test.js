@@ -13,7 +13,7 @@ describe('Unit | UseCase | import-students-from-siecle', () => {
     organizationId = 1234;
     buffer = null;
     studentsXmlServiceStub = { extractStudentsInformationFromSIECLE: sinon.stub() };
-    studentRepositoryStub = { batchSave: sinon.stub(), batchUpdateWithOrganizationId: sinon.stub(), findByOrganizationId: sinon.stub() };
+    studentRepositoryStub = { batchCreate: sinon.stub(), batchUpdateWithOrganizationId: sinon.stub(), findByOrganizationId: sinon.stub() };
   });
 
   context('when all students in the file are not imported yet in the organisation', () => {
@@ -21,14 +21,14 @@ describe('Unit | UseCase | import-students-from-siecle', () => {
     it('should add students to the organization', async () => {
       // given
       studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([ { lastName: 'Student1', nationalStudentId: 'INE1' }, { lastName: 'Student2', nationalStudentId: 'INE2' } ]);
-      studentRepositoryStub.batchSave.resolves();
+      studentRepositoryStub.batchCreate.resolves();
 
       // when
       await importStudentsFromSIECLE({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
 
       // then
       expect(studentsXmlServiceStub.extractStudentsInformationFromSIECLE).to.have.been.calledWith(buffer);
-      expect(studentRepositoryStub.batchSave).to.have.been.calledWith([ { lastName: 'Student1', nationalStudentId: 'INE1', organizationId }, { lastName: 'Student2', nationalStudentId: 'INE2', organizationId } ]);
+      expect(studentRepositoryStub.batchCreate).to.have.been.calledWith([ { lastName: 'Student1', nationalStudentId: 'INE1', organizationId }, { lastName: 'Student2', nationalStudentId: 'INE2', organizationId } ]);
     });
   });
 
@@ -80,7 +80,7 @@ describe('Unit | UseCase | import-students-from-siecle', () => {
       studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([...studentsToUpdate, ...studentsToCreate ]);
       studentRepositoryStub.findByOrganizationId.resolves(students);
       studentRepositoryStub.batchUpdateWithOrganizationId.resolves();
-      studentRepositoryStub.batchSave.resolves();
+      studentRepositoryStub.batchCreate.resolves();
 
       // when
       await importStudentsFromSIECLE({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
@@ -88,7 +88,7 @@ describe('Unit | UseCase | import-students-from-siecle', () => {
       // then
       expect(studentsXmlServiceStub.extractStudentsInformationFromSIECLE).to.have.been.calledWith(buffer);
       expect(studentRepositoryStub.batchUpdateWithOrganizationId).to.have.been.calledWith(studentsToUpdate, organizationId);
-      expect(studentRepositoryStub.batchSave).to.have.been.calledWith([{ lastName: 'CreatedStudent2', nationalStudentId: 'INE2', organizationId }]);
+      expect(studentRepositoryStub.batchCreate).to.have.been.calledWith([{ lastName: 'CreatedStudent2', nationalStudentId: 'INE2', organizationId }]);
     });
   });
 

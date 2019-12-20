@@ -125,7 +125,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
     });
   });
 
-  describe('#batchSave', () => {
+  describe('#batchCreate', () => {
 
     afterEach(() => {
       return knex('students').delete();
@@ -151,7 +151,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       const studentsToSave = [student_1, student_2];
 
       // when
-      await studentRepository.batchSave(studentsToSave);
+      await studentRepository.batchCreate(studentsToSave);
 
       // then
       const students = await knex('students').where({ organizationId: organization.id });
