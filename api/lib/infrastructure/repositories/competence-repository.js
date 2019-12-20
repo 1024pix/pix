@@ -27,6 +27,15 @@ module.exports = {
   list() {
     return Promise.all([competenceDatasource.list(), areaDatasource.list()])
       .then(([competenceDatas, areaDatas]) => {
+        return _.sortBy(
+          competenceDatas.map((competenceData) => _toDomain(competenceData, areaDatas)),
+          'index'
+        );
+      });
+  },
+  listForPixCompetence() {
+    return Promise.all([competenceDatasource.list(), areaDatasource.list()])
+      .then(([competenceDatas, areaDatas]) => {
         const onlyPixCompetenceDatas = _.filter(competenceDatas, { origin: 'Pix' });
         return _.sortBy(
           onlyPixCompetenceDatas.map((competenceData) => _toDomain(competenceData, areaDatas)),
