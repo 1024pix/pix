@@ -40,6 +40,7 @@ export default Controller.extend({
         externalId: certificationFromReport.externalId,
         extraTimePercentage: certificationFromReport.extraTimePercentage,
         hasSeenLastScreen: !_.isEmpty(certificationFromReport.lastScreen),
+        hasSeenLastScreenEnhanced: certificationFromReport.lastScreenEnhanced,
         isInSession: _.includes(certificationsIdsInSession, certificationFromReport.certificationId),
       });
     });
