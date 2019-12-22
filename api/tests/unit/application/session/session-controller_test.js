@@ -398,12 +398,16 @@ describe('Unit | Controller | sessionController', () => {
   });
 
   describe('#analyzeFromAttendanceSheet', () => {
+    const sessionId = 3;
 
     let request;
     const odsBuffer = 'File Buffer';
     beforeEach(() => {
       // given
       request = {
+        params: {
+          id: sessionId,
+        },
         payload: { file: odsBuffer },
       };
 

@@ -107,9 +107,10 @@ module.exports = {
   },
 
   async analyzeAttendanceSheet(request) {
+    const sessionId = request.params.id;
     const odsBuffer = request.payload.file;
 
-    return usecases.analyzeAttendanceSheet({ odsBuffer });
+    return usecases.analyzeAttendanceSheet({ sessionId, odsBuffer });
   }
 
 };
