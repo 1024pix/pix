@@ -19,6 +19,30 @@
       background-color: #F1F1F1;
       padding: 4px 10px;
       line-height: 2rem;
+
+      &__not-linked {
+        white-space: nowrap;
+        border-radius: 20px;
+        background-color: #EEB14B;
+        padding: 4px 10px;
+        line-height: 2rem;
+      }
+
+      &__linked {
+        white-space: nowrap;
+        border-radius: 20px;
+        background-color: #6B8333;
+        padding: 4px 10px;
+        line-height: 2rem;
+      }
+
+      &__not-in-session {
+        white-space: nowrap;
+        border-radius: 20px;
+        background-color: #FF3112;
+        padding: 4px 10px;
+        line-height: 2rem;
+      }
     }
 
     &__status {
