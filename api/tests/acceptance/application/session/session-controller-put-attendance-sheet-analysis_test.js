@@ -31,7 +31,7 @@ describe('PUT /api/sessions/:id/certifications/attendance-sheet-analysis', () =>
       const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
       options = {
         method: 'PUT',
-        url: '/api/certifications/attendance-sheet/analyze',
+        url: '/api/sessions/1/certifications/attendance-sheet-analysis',
         payload,
         headers,
       };
@@ -50,10 +50,15 @@ describe('PUT /api/sessions/:id/certifications/attendance-sheet-analysis', () =>
   });
 
   context('User has role PixMaster', () => {
+    let sessionId;
 
     beforeEach(async () => {
       // given
       const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      sessionId = databaseBuilder.factory.buildSession().id;
+
+      databaseBuilder.factory.buildCertificationCandidate({ sessionId, firstName: 'Étienne', lastName: 'Lantier', birthdate: '1990-01-04', userId: null });
+      databaseBuilder.factory.buildCertificationCandidate({ sessionId, firstName: 'Liam', lastName: 'Ranou', birthdate: '2000-10-22' });
       const form = new FormData();
       form.append('file', fs.createReadStream(odsFilePath), { knownLength: fs.statSync(odsFilePath).size });
       const payload = await streamToPromise(form);
@@ -62,7 +67,7 @@ describe('PUT /api/sessions/:id/certifications/attendance-sheet-analysis', () =>
       const headers = Object.assign({}, form.getHeaders(), { 'authorization': `Bearer ${token}` });
       options = {
         method: 'PUT',
-        url: '/api/certifications/attendance-sheet/analyze',
+        url: `/api/sessions/${sessionId}/certifications/attendance-sheet-analysis`,
         headers,
         payload,
       };
@@ -80,7 +85,7 @@ describe('PUT /api/sessions/:id/certifications/attendance-sheet-analysis', () =>
         extraTimePercentage: 0.3,
         signature: 'x',
         certificationId: '1',
-        lastScreen: null,
+        lastScreen: 'x',
         comments: null,
       },
       {
@@ -92,7 +97,8 @@ describe('PUT /api/sessions/:id/certifications/attendance-sheet-analysis', () =>
         extraTimePercentage: null,
         signature: 'x',
         certificationId: '2',
-        lastScreen: 'x',
+        lastScreen: null,
+        lastScreenEnhanced: 'NOT_LINKED',
         comments: null,
       },
       {
@@ -104,8 +110,22 @@ describe('PUT /api/sessions/:id/certifications/attendance-sheet-analysis', () =>
         extraTimePercentage: null,
         signature: null,
         certificationId: '3',
-        lastScreen: 'x',
+        lastScreen: null,
+        lastScreenEnhanced: 'LINKED',
         comments: 'Commentaire',
+      },
+      {
+        lastName: 'Bergoens',
+        firstName: 'Laura',
+        birthdate: '1998-08-06',
+        birthplace: 'Perpignan',
+        externalId: null,
+        extraTimePercentage: null,
+        signature: null,
+        certificationId: null,
+        lastScreen: null,
+        lastScreenEnhanced: 'NOT_IN_SESSION',
+        comments: null,
       }];
       // when
       const response = await server.inject(options);
