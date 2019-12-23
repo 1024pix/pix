@@ -81,26 +81,6 @@ describe('Acceptance | Displaying a QCU', function() {
     expect(find('.alert').textContent.trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
   });
 
-  it('should not be possible to select multiple radio buttons', async function() {
-    // when
-    await visitWithAbortedTransition('/assessments/' + assessment.id + '/challenges/' + challenge.id);
-    await click(findAll('input[type=radio][name="radio"]')[1]);
-
-    expect(findAll('input[type=radio][name="radio"]')[0].checked).to.equal(false);
-    expect(findAll('input[type=radio][name="radio"]')[1].checked).to.equal(true);
-    expect(findAll('input[type=radio][name="radio"]')[2].checked).to.equal(false);
-    expect(findAll('input[type=radio][name="radio"]')[3].checked).to.equal(false);
-
-    // When
-    await click(findAll('.label-checkbox-proposal')[0]);
-
-    // Then
-    expect(findAll('input[type=radio][name="radio"]')[0].checked).to.equal(true);
-    expect(findAll('input[type=radio][name="radio"]')[1].checked).to.equal(false);
-    expect(findAll('input[type=radio][name="radio"]')[2].checked).to.equal(false);
-    expect(findAll('input[type=radio][name="radio"]')[3].checked).to.equal(false);
-  });
-
   it('should send an api request to save the users answer when clicking the validate button', async function() {
     // Given
     this.server.post('/answers', (schema, request) => {
