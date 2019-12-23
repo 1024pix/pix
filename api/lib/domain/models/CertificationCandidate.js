@@ -15,6 +15,8 @@ const certificationCandidateValidationJoiSchema_v1_1 = Joi.object({
   birthdate: Joi.string().length(10).required(),
   createdAt: Joi.any().allow(null).optional(),
   extraTimePercentage: Joi.number().allow(null).optional(),
+  examinerComment: Joi.string().max(500).allow(null).optional(),
+  hasSeenEndTestScreen: Joi.boolean().optional(),
   sessionId: Joi.number().required(),
   userId: Joi.number().allow(null).optional(),
 });
@@ -31,6 +33,8 @@ const certificationCandidateValidationJoiSchema_v1_2 = Joi.object({
   birthdate: Joi.string().length(10).required(),
   createdAt: Joi.any().allow(null).optional(),
   extraTimePercentage: Joi.number().allow(null).optional(),
+  examinerComment: Joi.string().max(500).allow(null).optional(),
+  hasSeenEndTestScreen: Joi.boolean().optional(),
   sessionId: Joi.number().required(),
   userId: Joi.number().allow(null).optional(),
 });
@@ -47,6 +51,8 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required(),
   createdAt: Joi.any().allow(null).optional(),
   extraTimePercentage: Joi.any().allow(null).optional(),
+  examinerComment: Joi.any().allow(null).optional(),
+  hasSeenEndTestScreen: Joi.any().allow(null).optional(),
   sessionId: Joi.number().required(),
   userId: Joi.any().allow(null).optional(),
 });
@@ -64,8 +70,10 @@ class CertificationCandidate {
       email,
       externalId,
       birthdate,
-      createdAt,
       extraTimePercentage,
+      examinerComment,
+      hasSeenEndTestScreen,
+      createdAt,
       // includes
       // references
       sessionId,
@@ -81,8 +89,10 @@ class CertificationCandidate {
     this.email = email;
     this.externalId = externalId;
     this.birthdate = birthdate;
-    this.createdAt = createdAt;
     this.extraTimePercentage = !_.isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : extraTimePercentage;
+    this.examinerComment = examinerComment;
+    this.hasSeenEndTestScreen = hasSeenEndTestScreen;
+    this.createdAt = createdAt;
     // includes
     // references
     this.sessionId = sessionId;

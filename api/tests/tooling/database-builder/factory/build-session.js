@@ -18,7 +18,7 @@ module.exports = function buildSession({
   description = faker.random.words(),
   createdAt = faker.date.recent(),
   status = Session.statuses.STARTED,
-  examinerComment,
+  examinerComment = '',
 } = {}) {
 
   if (_.isUndefined(certificationCenterId)) {
@@ -46,4 +46,3 @@ module.exports = function buildSession({
     values,
   });
 };
-
