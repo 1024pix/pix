@@ -1,5 +1,5 @@
 given(`je me connecte avec le compte {string}`, (email) => {
-  cy.get('input[type=email]').type(email);
+  cy.get('input[type=text]').type(email);
   cy.get('input[type=password]').type('pix123');
   cy.get('button[type=submit]').click();
 });
