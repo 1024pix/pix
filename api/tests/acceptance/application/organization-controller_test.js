@@ -862,7 +862,7 @@ describe('Acceptance | Application | organization-controller', () => {
 
   describe('POST /api/organizations/{id}/import-students', () => {
 
-    let organization;
+    let organizationId;
     let options;
 
     const buffer = iconv.encode(
@@ -917,13 +917,13 @@ describe('Acceptance | Application | organization-controller', () => {
 
     beforeEach(async () => {
       const connectedUser = databaseBuilder.factory.buildUser();
-      organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.ADMIN });
+      organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+      databaseBuilder.factory.buildMembership({ organizationId, userId: connectedUser.id, organizationRole: Membership.roles.ADMIN });
       await databaseBuilder.commit();
 
       options = {
         method: 'POST',
-        url: `/api/organizations/${organization.id}/import-students`,
+        url: `/api/organizations/${organizationId}/import-students`,
         headers: {
           authorization: generateValidRequestAuthorizationHeader(connectedUser.id),
         },
@@ -950,7 +950,7 @@ describe('Acceptance | Application | organization-controller', () => {
         await server.inject(options);
 
         // then
-        const students = await knex('students').where({ organizationId: organization.id });
+        const students = await knex('students').where({ organizationId });
         expect(students).to.have.lengthOf(2);
         expect(_.map(students, 'firstName')).to.have.members(['Luciole', 'Harry']);
       });
@@ -1058,7 +1058,7 @@ describe('Acceptance | Application | organization-controller', () => {
         await server.inject(options);
 
         // then
-        const students = await knex('students').where({ organizationId: organization.id });
+        const students = await knex('students').where({ organizationId });
         expect(students).to.have.lengthOf(1);
         expect(students[0].lastName).to.equal('HANDMADE');
       });
@@ -1109,6 +1109,81 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(204);
       });
 
+      it('should not update any student when a student cant be updated', async () => {
+
+        // given
+        const studentThatCantBeUpdatedBecauseBirthdateIsMissing =
+          '<ELEVE ELEVE_ID="0001">' +
+            '<ID_NATIONAL>456</ID_NATIONAL>' +
+            '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
+            '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
+            '<PRENOM>Harry</PRENOM>' +
+            '<PRENOM2>Coco</PRENOM2>' +
+            '<PRENOM3></PRENOM3>' +
+            '<DATE_NAISS></DATE_NAISS>' +
+            '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+            '<CODE_MEF>12341234</CODE_MEF>' +
+            '<CODE_STATUT>ST</CODE_STATUT>' +
+          '</ELEVE>';
+
+        const studentThatCouldBeUpdated =
+          '<ELEVE ELEVE_ID="0002">' +
+            '<ID_NATIONAL>123</ID_NATIONAL>' +
+            '<NOM_DE_FAMILLE>JAUNE</NOM_DE_FAMILLE>' +
+            '<NOM_USAGE></NOM_USAGE>' +
+            '<PRENOM>ATTEND</PRENOM>' +
+            '<PRENOM2></PRENOM2>' +
+            '<PRENOM3></PRENOM3>' +
+            '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+            '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+            '<CODE_MEF>12341234</CODE_MEF>' +
+            '<CODE_STATUT>ST</CODE_STATUT>' +
+          '</ELEVE>';
+
+        const bufferWithMalformedStudent = iconv.encode(
+          '<?xml version="1.0" encoding="ISO-8859-15"?>' +
+          '<BEE_ELEVES VERSION="2.1">' +
+            '<DONNEES>' +
+              '<ELEVES>' +
+                studentThatCantBeUpdatedBecauseBirthdateIsMissing +
+                studentThatCouldBeUpdated +
+              '</ELEVES>' +
+              '<STRUCTURES>' +
+                '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+                  '<STRUCTURE>' +
+                    '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+                    '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+                  '</STRUCTURE>' +
+                '</STRUCTURES_ELEVE>' +
+                '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
+                  '<STRUCTURE>' +
+                    '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+                    '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+                  '</STRUCTURE>' +
+                '</STRUCTURES_ELEVE>' +
+              '</STRUCTURES>' +
+            '</DONNEES>' +
+          '</BEE_ELEVES>', 'ISO-8859-15');
+
+        options.payload = bufferWithMalformedStudent;
+
+        databaseBuilder.factory.buildStudent({ lastName: 'LALOUX', firstName: 'RENE', nationalStudentId: '123', organizationId });
+        databaseBuilder.factory.buildStudent({ lastName: 'UEMATSU', firstName: 'NOBUO', nationalStudentId: '456', organizationId });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        const students = await knex('students').where({ organizationId });
+        expect(_.map(students, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
+        expect(response.statusCode).to.equal(500);
+      });
+
       it('should return a 422 - Unprocessable Entity - when no student could be imported', async () => {
         // given
         const malformedStudentsBuffer = iconv.encode(
@@ -1129,7 +1204,7 @@ describe('Acceptance | Application | organization-controller', () => {
         const response = await server.inject(options);
 
         // then
-        const students = await knex('students').where({ organizationId: organization.id });
+        const students = await knex('students').where({ organizationId });
         expect(students).to.have.lengthOf(0);
         expect(response.statusCode).to.equal(422);
         expect(response.result.errors[0].detail).to.equal('Aucun élève n\'a pu être importé depuis ce fichier. Vérifiez sa conformité.');
@@ -1147,7 +1222,7 @@ describe('Acceptance | Application | organization-controller', () => {
         const response = await server.inject(options);
 
         // then
-        const students = await knex('students').where({ organizationId: organization.id });
+        const students = await knex('students').where({ organizationId });
         expect(students).to.have.lengthOf(0);
         expect(response.statusCode).to.equal(422);
         expect(response.result.errors[0].detail).to.equal('Aucun élève n\'a pu être importé depuis ce fichier. Vérifiez sa conformité.');
