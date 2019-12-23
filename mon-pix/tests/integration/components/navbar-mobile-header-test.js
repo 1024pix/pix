@@ -59,8 +59,17 @@ describe('Integration | Component | navbar-mobile-header', function() {
     });
 
     it('should display the burger icon', async function() {
+      // given
+      this.set('burger', {
+        state: {
+          actions: {
+            toggle: () => true
+          }
+        }
+      });
+
       // when
-      await render(hbs`{{navbar-mobile-header media=media burger="burger"}}`);
+      await render(hbs`{{navbar-mobile-header media=media burger=burger}}`);
 
       // then
       expect(find('.navbar-mobile-header__burger-icon')).to.exist;

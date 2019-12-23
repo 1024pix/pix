@@ -30,7 +30,14 @@ describe('Integration | Component | navbar-header', function() {
     it('should be rendered in mobile/tablet mode with a burger', async function() {
       // when
       this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
-      await render(hbs`{{navbar-header media=media burger="stubbed-burger"}}`);
+      this.set('burger', {
+        state: {
+          actions: {
+            toggle: () => true
+          }
+        }
+      });
+      await render(hbs`{{navbar-header media=media burger=burger }}`);
       // then
       expect(find('.navbar-mobile-header__container')).to.exist;
       expect(find('.navbar-mobile-header__burger-icon')).to.exist;
