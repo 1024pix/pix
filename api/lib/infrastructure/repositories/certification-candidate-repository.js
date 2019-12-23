@@ -1,27 +1,55 @@
+const _ = require('lodash');
+const Bookshelf = require('../bookshelf');
 const CertificationCandidateBookshelf = require('../data/certification-candidate');
 const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
+const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 const {
   NotFoundError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
 } = require('../../domain/errors');
-const _ = require('lodash');
-const Bookshelf = require('../bookshelf');
-const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
 module.exports = {
 
   save(certificationCandidateToSave) {
-    const certificationCandidateBookshelf = new CertificationCandidateBookshelf(_.omit(certificationCandidateToSave, ['createdAt']));
+    const certificationCandidateBookshelf = new CertificationCandidateBookshelf(_adaptModelToDb(certificationCandidateToSave));
+
     return certificationCandidateBookshelf.save()
       .then((savedCertificationCandidate) => bookshelfToDomainConverter.buildDomainObject(CertificationCandidateBookshelf, savedCertificationCandidate))
       .catch((bookshelfError) => {
         if (bookshelfError.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
           throw new CertificationCandidateMultipleUserLinksWithinSessionError('A user cannot be linked to several certification candidates within the same session');
         }
+
         throw new CertificationCandidateCreationOrUpdateError('An error occurred while saving the certification candidate');
       });
+  },
+
+  async finalizeAll(certificationCandidates) {
+    try {
+      await Bookshelf.transaction((trx) => {
+        return Promise.all(certificationCandidates.map((certificationCandidate) => {
+          return this.finalize({ certificationCandidate, transaction: trx });
+        }));
+      });
+    } catch (err) {
+      throw new CertificationCandidateCreationOrUpdateError('An error occurred while finalizing the certification candidates');
+    }
+  },
+
+  async finalize({ certificationCandidate, transaction = undefined }) {
+    const saveOptions = { patch: true, method: 'update' };
+    if (transaction) {
+      saveOptions.transacting = transaction;
+    }
+
+    const candidateDataToUpdate = _.pick(certificationCandidate, [
+      'hasSeenEndTestScreen',
+      'examinerComment',
+    ]);
+    return new CertificationCandidateBookshelf({ id: certificationCandidate.id })
+      .save(candidateDataToUpdate, saveOptions);
   },
 
   delete(certificationCandidateId) {
@@ -33,6 +61,20 @@ module.exports = {
       })
       .catch(() => {
         throw new CertificationCandidateDeletionError('An error occurred while deleting the certification candidate');
+      });
+  },
+
+  getBySessionIdAndUserId({ sessionId, userId }) {
+    return CertificationCandidateBookshelf
+      .where({ sessionId, userId })
+      .fetch({ require: true })
+      .then((result) => bookshelfToDomainConverter.buildDomainObject(CertificationCandidateBookshelf, result))
+      .catch((error) => {
+        if (error instanceof CertificationCandidateBookshelf.NotFoundError) {
+          throw new NotFoundError(`Candidate not found for certification session id ${sessionId} and user id ${userId}`);
+        }
+
+        throw error;
       });
   },
 
@@ -57,20 +99,6 @@ module.exports = {
       })
       .fetchAll()
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results));
-  },
-
-  getBySessionIdAndUserId({ sessionId, userId }) {
-    return CertificationCandidateBookshelf
-      .where({ sessionId, userId })
-      .fetch({ require: true })
-      .then((result) => bookshelfToDomainConverter.buildDomainObject(CertificationCandidateBookshelf, result))
-      .catch((error) => {
-        if (error instanceof CertificationCandidateBookshelf.NotFoundError) {
-          throw new NotFoundError(`Candidate not found for certification session id ${sessionId} and user id ${userId}`);
-        }
-
-        throw error;
-      });
   },
 
   findOneBySessionIdAndUserId({ sessionId, userId }) {
@@ -111,3 +139,7 @@ module.exports = {
   },
 
 };
+
+function _adaptModelToDb(certificationCandidateToSave) {
+  return _.omit(certificationCandidateToSave, ['createdAt']);
+}
