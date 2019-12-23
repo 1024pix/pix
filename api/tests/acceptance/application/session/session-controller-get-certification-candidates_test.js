@@ -60,6 +60,8 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
           'external-id': certificationCandidate.externalId,
           'extra-time-percentage': certificationCandidate.extraTimePercentage,
           'is-linked': true,
+          'examiner-comment': certificationCandidate.examinerComment,
+          'has-seen-end-test-screen': certificationCandidate.hasSeenEndTestScreen,
         };
         userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });

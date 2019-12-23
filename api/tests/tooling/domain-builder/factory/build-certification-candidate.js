@@ -13,9 +13,11 @@ module.exports = function buildCertificationCandidate(
     birthCountry = faker.address.country(),
     email = faker.internet.email(),
     birthdate = moment(faker.date.past(10)).format('YYYY-MM-DD'),
-    createdAt = faker.date.past(1),
     extraTimePercentage = 0.3,
     externalId = faker.random.uuid(),
+    examinerComment = faker.lorem.sentence(),
+    hasSeendEndTestScreen = false,
+    createdAt = faker.date.past(1),
     // includes
     // references
     sessionId = faker.random.number(),
@@ -34,6 +36,8 @@ module.exports = function buildCertificationCandidate(
     sessionId,
     externalId,
     extraTimePercentage,
+    examinerComment,
+    hasSeendEndTestScreen,
     createdAt,
     userId,
   });
