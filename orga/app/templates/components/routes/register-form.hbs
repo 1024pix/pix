@@ -1,20 +1,6 @@
 <div class="register-form">
   <form {{action 'register' on='submit'}}>
 
-    <div id="register-lastName-container" class="input-container">
-      <label for="register-lastName" class="label">Nom</label>
-      <div class="{{if validation.lastName.message 'alert-input alert-input--error'}}" role="alert">{{validation.lastName.message}}</div>
-      <Input
-        @id="register-lastName"
-        @name="lastName"
-        @type="lastName"
-        @class="input {{if validation.lastName.message 'input--error'}}"
-        @value={{user.lastName}}
-        @focusOut={{action "validateInput" "lastName" user.lastName}}
-        @autocomplete="lastname"
-      />
-    </div>
-
     <div id="register-firstName-container" class="input-container">
       <label for="register-firstName" class="label">Prénom</label>
       <div class="{{if validation.firstName.message 'alert-input alert-input--error'}}" role="alert">{{validation.firstName.message}}</div>
@@ -26,6 +12,20 @@
         @value={{user.firstName}}
         @focusOut={{action "validateInput" "firstName" user.firstName}}
         @autocomplete="firstname"
+      />
+    </div>
+
+    <div id="register-lastName-container" class="input-container">
+      <label for="register-lastName" class="label">Nom</label>
+      <div class="{{if validation.lastName.message 'alert-input alert-input--error'}}" role="alert">{{validation.lastName.message}}</div>
+      <Input
+        @id="register-lastName"
+        @name="lastName"
+        @type="lastName"
+        @class="input {{if validation.lastName.message 'input--error'}}"
+        @value={{user.lastName}}
+        @focusOut={{action "validateInput" "lastName" user.lastName}}
+        @autocomplete="lastname"
       />
     </div>
 
