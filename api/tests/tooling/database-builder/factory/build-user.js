@@ -41,6 +41,7 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
   email = faker.internet.exampleEmail().toLowerCase(),
+  username,
   rawPassword = faker.internet.password(),
   cgu = true,
   pixOrgaTermsOfServiceAccepted = false,
@@ -52,7 +53,7 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   const password = encrypt.hashPasswordSync(rawPassword);
 
   const values = {
-    id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
+    id, firstName, lastName, email, username, password, cgu, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId,
   };
 
