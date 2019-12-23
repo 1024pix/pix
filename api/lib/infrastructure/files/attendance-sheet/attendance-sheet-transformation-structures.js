@@ -139,7 +139,7 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_2 = [
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: 'Adresse email',
+    header: 'Adresse e-mail de convocation',
     property: 'email',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
