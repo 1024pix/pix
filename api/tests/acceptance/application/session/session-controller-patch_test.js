@@ -76,22 +76,7 @@ describe('Acceptance | Controller | session-controller-patch', () => {
         });
     });
 
-    it('should return 404 HTTP status code when session cannot be found', () => {
-      // when
-      const promise = server.inject({
-        method: 'PATCH',
-        url: '/api/sessions/2',
-        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        payload
-      });
-
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(404);
-      });
-    });
-
-    it('should respond with a 403 when user is not authorized to update the session', function() {
+    it('should respond with a 404 when user is not authorized to update the session (to keep opacity on whether forbidden or not found)', function() {
       const options = {
         method: 'PATCH',
         url: `/api/sessions/${session.id}`,
@@ -104,7 +89,7 @@ describe('Acceptance | Controller | session-controller-patch', () => {
 
       // then
       return promise.then((response) => {
-        expect(response.statusCode).to.equal(403);
+        expect(response.statusCode).to.equal(404);
       });
     });
 

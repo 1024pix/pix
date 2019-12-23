@@ -1,13 +1,10 @@
 const { expect, sinon } = require('../../../test-helper');
 const updateSession = require('../../../../lib/domain/usecases/update-session');
 const sessionValidator = require('../../../../lib/domain/validators/session-validator');
-const { UserNotAuthorizedToUpdateResourceError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | update-session', () => {
   let originalSession;
-  let userWithCertificationCenterMemberships;
   let sessionRepository;
-  let userRepository;
 
   const certificationCenterId = 1;
 
@@ -24,23 +21,15 @@ describe('Unit | UseCase | update-session', () => {
       description: 'miam',
       accessCode: 'ABCD12'
     };
-    userWithCertificationCenterMemberships = {
-      id: 1,
-      certificationCenterMemberships: [{ certificationCenter: { id: certificationCenterId } }],
-      hasAccessToCertificationCenter: sinon.stub(),
-    };
-    userRepository = { getWithCertificationCenterMemberships: sinon.stub() };
     sessionRepository = {
       get: sinon.stub(),
-      update: sinon.stub()
+      update: sinon.stub(),
     };
     sinon.stub(sessionValidator, 'validate');
 
     sessionRepository.get.withArgs(originalSession.id).resolves(originalSession);
     sessionRepository.update.callsFake((updatedSession) => updatedSession);
     sessionValidator.validate.withArgs(originalSession).returns();
-    userRepository.getWithCertificationCenterMemberships.withArgs(userWithCertificationCenterMemberships.id).resolves(userWithCertificationCenterMemberships);
-    userWithCertificationCenterMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
   });
 
   context('when session exists', () => {
@@ -61,9 +50,7 @@ describe('Unit | UseCase | update-session', () => {
 
       // when
       const promise = updateSession({
-        userId: userWithCertificationCenterMemberships.id,
         session: updatedSession,
-        userRepository,
         sessionRepository: sessionRepository,
       });
 
@@ -91,9 +78,7 @@ describe('Unit | UseCase | update-session', () => {
 
       // when
       const promise = updateSession({
-        userId: userWithCertificationCenterMemberships.id,
         session: updatedSession,
-        userRepository,
         sessionRepository: sessionRepository,
       });
 
@@ -112,9 +97,7 @@ describe('Unit | UseCase | update-session', () => {
 
       // when
       const promise = updateSession({
-        userId: userWithCertificationCenterMemberships.id,
         session: originalSession,
-        userRepository,
         sessionRepository: sessionRepository,
       });
 
@@ -128,46 +111,12 @@ describe('Unit | UseCase | update-session', () => {
 
       // when
       const promise = updateSession({
-        userId: userWithCertificationCenterMemberships.id,
         session: originalSession,
-        userRepository,
         sessionRepository: sessionRepository,
       });
 
       // then
       return expect(promise).to.be.rejected;
-    });
-
-    it('should throw an error when the user with memberships could not be retrieved', () => {
-      // given
-      userRepository.getWithCertificationCenterMemberships.withArgs(userWithCertificationCenterMemberships.id).rejects();
-
-      // when
-      const promise = updateSession({
-        userId: userWithCertificationCenterMemberships.id,
-        session: originalSession,
-        userRepository,
-        sessionRepository: sessionRepository,
-      });
-
-      // then
-      return expect(promise).to.be.rejected;
-    });
-
-    it('should throw an error when the user does not have an access to the session organization', () => {
-      // given
-      userWithCertificationCenterMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(false);
-
-      // when
-      const promise = updateSession({
-        userId: userWithCertificationCenterMemberships.id,
-        session: originalSession,
-        userRepository,
-        sessionRepository: sessionRepository,
-      });
-
-      // then
-      return expect(promise).to.be.rejectedWith(UserNotAuthorizedToUpdateResourceError);
     });
 
     it('should throw an error when the session could not be updated', () => {
@@ -176,9 +125,7 @@ describe('Unit | UseCase | update-session', () => {
 
       // when
       const promise = updateSession({
-        userId: userWithCertificationCenterMemberships.id,
         session: originalSession,
-        userRepository,
         sessionRepository: sessionRepository,
       });
 

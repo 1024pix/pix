@@ -1,5 +1,5 @@
 const sessionAuthorizationService = require('../../domain/services/session-authorization-service');
-const { ForbiddenError } = require('../../infrastructure/errors');
+const { NotFoundError } = require('../../infrastructure/errors');
 
 module.exports = {
   async verify(request) {
@@ -9,7 +9,7 @@ module.exports = {
     const isAuthorized = await sessionAuthorizationService.isAuthorizedToAccessSession({ userId, sessionId });
 
     if (!isAuthorized) {
-      throw new ForbiddenError('Vous n\'êtes pas autorisé à accéder à cette session.');
+      throw new NotFoundError('La session n\'existe pas ou son accès est restreint');
     }
 
     return isAuthorized;
