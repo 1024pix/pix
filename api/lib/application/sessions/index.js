@@ -113,6 +113,15 @@ exports.register = async (server) => {
       method: 'PATCH',
       path: '/api/sessions/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
+        pre: [{
+          method: sessionAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
         handler: sessionController.update,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +

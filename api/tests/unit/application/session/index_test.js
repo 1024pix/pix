@@ -85,6 +85,34 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
+  describe('PATCH /api/sessions/{id}', () => {
+    let sessionId;
+
+    beforeEach(() => {
+      sessionId = 1;
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
+      sinon.stub(sessionController, 'update').returns('ok');
+      return server.register(route);
+    });
+
+    it('should exist', async () => {
+      const res = await server.inject({ method: 'PATCH', url: `/api/sessions/${sessionId}` });
+
+      expect(res.statusCode).to.equal(200);
+    });
+
+    context('when session ID params is not a number', () => {
+
+      it('should return 400', async () => {
+        // given
+        sessionId = 'salut';
+
+        const res = await server.inject({ method: 'PATCH', url: `/api/sessions/${sessionId}` });
+        expect(res.statusCode).to.equal(400);
+      });
+    });
+  });
+
   describe('POST /api/sessions/{id}/certification-candidates/import', () => {
     let sessionId;
 

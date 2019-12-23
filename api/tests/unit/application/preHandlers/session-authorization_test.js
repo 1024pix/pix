@@ -1,7 +1,7 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const SessionAuthorization = require('../../../../lib/application/preHandlers/session-authorization');
 const sessionAuthorizationService = require('../../../../lib/domain/services/session-authorization-service');
-const { ForbiddenError } = require('../../../../lib/infrastructure/errors');
+const { NotFoundError } = require('../../../../lib/infrastructure/errors');
 
 describe('Unit | Pre-handler | Session Authorization', () => {
   const userId = 1;
@@ -40,7 +40,7 @@ describe('Unit | Pre-handler | Session Authorization', () => {
 
     context('when user has no access to session', () => {
 
-      it('should throw a ForbiddenError', async () => {
+      it('should throw a NotFoundError', async () => {
         // given
         sessionAuthorizationService.isAuthorizedToAccessSession.withArgs({ userId, sessionId }).resolves(false);
 
@@ -48,7 +48,7 @@ describe('Unit | Pre-handler | Session Authorization', () => {
         const error = await catchErr(SessionAuthorization.verify)(request);
 
         // then
-        expect(error).to.be.instanceOf(ForbiddenError);
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
   });

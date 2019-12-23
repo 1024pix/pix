@@ -28,7 +28,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
         return databaseBuilder.commit();
       });
 
-      it('should return 403 HTTP status code', async () => {
+      it('should return 404 HTTP status code (to keep opacity on whether forbidden or not found)', async () => {
         // when
         const response = await server.inject({
           method: 'GET',
@@ -38,7 +38,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
         });
 
         // then
-        expect(response.statusCode).to.equal(403);
+        expect(response.statusCode).to.equal(404);
       });
 
     });
