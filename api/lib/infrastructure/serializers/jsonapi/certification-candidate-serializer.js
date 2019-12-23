@@ -24,12 +24,14 @@ module.exports = {
         'externalId',
         'extraTimePercentage',
         'isLinked',
+        'examinerComment',
+        'hasSeenEndTestScreen',
       ],
     }).serialize(certificationCandidates);
   },
 
   deserialize(json) {
-    if (!isValidDate(json.data.attributes.birthdate, 'YYYY-MM-DD')) {
+    if (json.data.attributes.birthdate && !isValidDate(json.data.attributes.birthdate, 'YYYY-MM-DD')) {
       throw new WrongDateFormatError('La date de naissance du candidate à la certification n\'a pas un format valide du type JJ/MM/AAAA');
     }
 
