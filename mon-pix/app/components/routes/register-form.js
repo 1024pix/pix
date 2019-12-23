@@ -28,6 +28,10 @@ const validation = {
   password: {
     status: 'default',
     message: null
+  },
+  cgu: {
+    status: 'default',
+    message: null
   }
 };
 

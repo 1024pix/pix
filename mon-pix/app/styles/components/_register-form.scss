@@ -11,12 +11,54 @@
     font-weight: $font-normal;
   }
 
+  &__cgu-container {
+    max-width: 449px;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 6px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    @include device-is('tablet') {
+      margin-top: 15px;
+      margin-bottom: 0;
+      padding: 0;
+    }
+  }
+
+  &__cgu {
+    font-size: 1.6rem;
+    font-weight: $font-medium;
+  }
+
+  &__cgu-label {
+    position: relative;
+    margin-bottom: 0;
+  }
+
+  &__cgu-label input[type=checkbox] {
+    margin: 3px 10px;
+  }
+
+  &__cgu-label span {
+    color: $charcoal-grey;
+    font-size: 1.3rem;
+    @include device-is('tablet') {
+      font-size: 1.4rem;
+    }
+  }
+
   &__legal-text {
     color: $dove-gray;
     font-family: $font-roboto;
     font-size: 1.1rem;
     font-weight: $font-light;
     padding: 10px 0;
+  }
+
+  &__validation-error {
+    color: $red-error;
+    font-weight: normal;
   }
 
   .register-button-container {
