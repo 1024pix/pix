@@ -369,6 +369,16 @@ describe('Unit | Controller | sessionController', () => {
     const updatedSession = Symbol('updatedSession');
     const serializedUpdatedSession = Symbol('updated session serialized');
     const examinerComment = 'It was a fine session my dear';
+    const serializedCertifcationCandidates = [
+      {
+        id: 1,
+        type: 'certification-candidates',
+        attributes: {
+          'has-seen-end-test-screen': false,
+          'examiner-comment': 'What a fine lad this one',
+        },
+      },
+    ];
 
     beforeEach(() => {
       // given
@@ -381,10 +391,12 @@ describe('Unit | Controller | sessionController', () => {
             attributes: {
               'examiner-comment': examinerComment,
             },
+            included: serializedCertifcationCandidates,
           },
         },
       };
-      sinon.stub(usecases, 'finalizeSession').withArgs({ sessionId, examinerComment }).resolves(updatedSession);
+
+      sinon.stub(usecases, 'finalizeSession').resolves(updatedSession);
       sinon.stub(sessionSerializer, 'serializeForFinalization').withArgs(updatedSession).resolves(serializedUpdatedSession);
     });
 

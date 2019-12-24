@@ -52,7 +52,7 @@ module.exports = {
   },
 
   async getCertificationCandidates(request) {
-    const sessionId = request.params.id;
+    const sessionId = parseInt(request.params.id);
 
     return usecases.getSessionCertificationCandidates({ sessionId })
       .then((certificationCandidates) => certificationCandidateSerializer.serialize(certificationCandidates));
@@ -66,7 +66,7 @@ module.exports = {
   },
 
   async importCertificationCandidatesFromAttendanceSheet(request) {
-    const sessionId = request.params.id;
+    const sessionId = parseInt(request.params.id);
     const odsBuffer = request.payload.file;
 
     try {
@@ -98,12 +98,18 @@ module.exports = {
     return linkCreated ? h.response(serialized).created() : serialized;
   },
 
-  finalize(request) {
+  async finalize(request) {
     const sessionId = request.params.id;
     const examinerComment = request.payload.data.attributes['examiner-comment'];
+    const certificationCandidates = await Promise.all(
+      (request.payload.data.included || [])
+        .filter((data) => data.type === 'certification-candidates')
+        .map((data) => certificationCandidateSerializer.deserialize({ data }))
+    );
 
-    return usecases.finalizeSession({ sessionId, examinerComment })
-      .then((updatedSession) => sessionSerializer.serializeForFinalization(updatedSession));
+    const session = await usecases.finalizeSession({ sessionId, examinerComment, certificationCandidates });
+
+    return sessionSerializer.serializeForFinalization(session);
   },
 
   async analyzeAttendanceSheet(request) {
