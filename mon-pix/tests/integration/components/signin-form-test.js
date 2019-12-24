@@ -15,7 +15,7 @@ describe('Integration | Component | signin form', function() {
       await render(hbs`{{signin-form}}`);
 
       // then
-      expect(document.querySelector('input#text')).to.exist;
+      expect(document.querySelector('input#login')).to.exist;
     });
 
     it('should display an input for password field', async function() {
@@ -78,8 +78,8 @@ describe('Integration | Component | signin form', function() {
 
       await render(hbs`{{signin-form authenticateUser=(action onSubmitAction)}}`);
 
-      await fillIn('input#text', expectedEmail);
-      await triggerEvent('input#text', 'change');
+      await fillIn('input#login', expectedEmail);
+      await triggerEvent('input#login', 'change');
       await fillIn('input#password', expectedPassword);
       await triggerEvent('input#password', 'change');
 
