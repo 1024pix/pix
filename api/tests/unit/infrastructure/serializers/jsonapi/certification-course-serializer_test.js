@@ -13,7 +13,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         'id': 'assessment_id',
       });
 
-      const certificationCourse = CertificationCourse.fromAttributes({
+      const certificationCourse = new CertificationCourse({
         id: 'certification_id',
         assessment: assessment,
         challenges: ['challenge1', 'challenge2'],
