@@ -35,7 +35,7 @@ exports.register = async (server) => {
           assign: 'authorizationCheck'
         }],
         handler: sessionController.get,
-        tags: ['api']
+        tags: ['api', 'sessions']
       }
     },
     {
@@ -44,7 +44,7 @@ exports.register = async (server) => {
       config: {
         auth: false,
         handler: sessionController.getAttendanceSheet,
-        tags: ['api'],
+        tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs appartenant à un centre de certification ayant créé la session**\n' +
           '- Cette route permet de télécharger le pv de session pré-rempli au format ods'
