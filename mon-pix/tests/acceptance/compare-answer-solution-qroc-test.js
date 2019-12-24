@@ -25,9 +25,9 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
     });
 
     it('should not yet display the modal nor its content', async function() {
-      expect(find('.comparison-window')).to.not.exist;
-      expect(find('.comparison-window__header .comparison-window__result-item-index')).to.notexist;
-      expect(find('.comparison-window__header .comparison-window__title .comparison-window__title-text')).to.not.exist;
+      expect(find('.comparison-window')).to.be.null;
+      expect(find('.comparison-window__header .comparison-window__result-item-index')).to.be.null;
+      expect(find('.comparison-window__header .comparison-window__title .comparison-window__title-text')).to.be.null;
     });
 
   });
