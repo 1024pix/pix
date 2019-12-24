@@ -43,49 +43,4 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
       expect(json).to.deep.equal(jsonCertificationCourseWithAssessment);
     });
   });
-
-  describe('#serializeResult', function() {
-
-    it('should serialize results of a certification', function() {
-      // given
-      const certificationCourse = CertificationCourse.fromAttributes({
-        pixScore: 30,
-        createdAt: new Date('2017-02-20T01:02:03Z'),
-        completedAt: new Date('2017-02-20T01:02:03Z'),
-        competencesWithMark: [],
-        firstName: 'Guy-Manuel',
-        lastName: 'De Homem Christo',
-        birthdate: '1974-02-08',
-        birthplace: 'Neuilly-Sur-Seine',
-        sessionId: '#DaftPunk',
-        externalId: 'Grammys2016',
-        isPublished: true,
-        isV2Certification: true,
-      });
-
-      // when
-      const serializedCertificationCourse = serializer.serializeResult(certificationCourse);
-
-      // then
-      expect(serializedCertificationCourse).to.deep.equal({
-        'data': {
-          'type': 'results',
-          'attributes': {
-            'competences-with-mark': [],
-            'completed-at': new Date('2017-02-20T01:02:03Z'),
-            'created-at': new Date('2017-02-20T01:02:03Z'),
-            'pix-score': 30,
-            'first-name': 'Guy-Manuel',
-            'last-name': 'De Homem Christo',
-            'birthdate': '1974-02-08',
-            'birthplace': 'Neuilly-Sur-Seine',
-            'session-id': '#DaftPunk',
-            'external-id': 'Grammys2016',
-            'is-published': true,
-            'is-v2-certification': true,
-          },
-        },
-      });
-    });
-  });
 });

@@ -1,5 +1,6 @@
 const certificationService = require('../../domain/services/certification-service');
 const certificationCourseService = require('../../domain/services/certification-course-service');
+const certificationResultSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-serializer');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const usecases = require('../../domain/usecases');
@@ -15,7 +16,7 @@ module.exports = {
   getResult(request) {
     const certificationCourseId = request.params.id;
     return certificationService.getCertificationResult(certificationCourseId)
-      .then(certificationCourseSerializer.serializeResult);
+      .then(certificationResultSerializer.serialize);
   },
 
   update(request) {

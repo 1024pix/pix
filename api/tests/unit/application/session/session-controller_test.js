@@ -6,7 +6,7 @@ const Session = require('../../../../lib/domain/models/Session');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
-const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
+const certificationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-result-serializer');
 const _ = require('lodash');
 
 describe('Unit | Controller | sessionController', () => {
@@ -272,7 +272,7 @@ describe('Unit | Controller | sessionController', () => {
         },
       };
       sinon.stub(usecases, 'getSessionCertifications').withArgs({ sessionId }).resolves(certifications);
-      sinon.stub(certificationCourseSerializer, 'serializeResult').withArgs(certifications).returns(certificationsJsonApi);
+      sinon.stub(certificationResultSerializer, 'serialize').withArgs(certifications).returns(certificationsJsonApi);
     });
 
     it('should return certifications', async () => {
