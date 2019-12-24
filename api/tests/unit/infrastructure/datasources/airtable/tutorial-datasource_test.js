@@ -4,8 +4,8 @@ const airtable = require('../../../../../lib/infrastructure/airtable');
 const tutorialDatasource = require('../../../../../lib/infrastructure/datasources/airtable/tutorial-datasource');
 const tutorialAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/tutorialAirtableDataObjectFixture');
 const tutorialRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/tutorialRawAirtableFixture');
-const { Record: AirtableRecord, Error: AirtableError } = require('airtable');
-const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
+const { Record: AirtableRecord } = require('airtable');
+const cache = require('../../../../../lib/infrastructure/caches/cache');
 
 function makeAirtableFake(records) {
   return async (tableName, fieldList) => {
@@ -18,6 +18,10 @@ function makeAirtableFake(records) {
 }
 
 describe('Unit | Infrastructure | Datasource | Airtable | TutorialDatasource', () => {
+
+  beforeEach(() => {
+    sinon.stub(cache, 'get').callsFake((key, generator) => generator());
+  });
 
   describe('#fromAirTableObject', () => {
 
@@ -62,49 +66,4 @@ describe('Unit | Infrastructure | Datasource | Airtable | TutorialDatasource', (
     });
   });
 
-  describe('#get', () => {
-
-    it('should call airtable on Tutoriels table with the id and return a datamodel Tutorial object', () => {
-      // given
-      const givenAirtableTutorial = tutorialRawAirTableFixture();
-      sinon.stub(airtable, 'getRecord').resolves(givenAirtableTutorial);
-
-      // when
-      const promise = tutorialDatasource.get(givenAirtableTutorial.getId());
-
-      // then
-      return promise.then((tuto) => {
-        expect(airtable.getRecord).to.have.been.calledWith('Tutoriels', givenAirtableTutorial.getId());
-
-        expect(tuto.title).to.equal(givenAirtableTutorial.fields['Titre']);
-        expect(tuto.source).to.equal(givenAirtableTutorial.fields['Source']);
-      });
-    });
-
-    context('when airtable client throw an error', () => {
-
-      it('should reject with a specific error when resource not found', () => {
-        // given
-        sinon.stub(airtable, 'getRecord').rejects(new AirtableError('NOT_FOUND'));
-
-        // when
-        const promise = tutorialDatasource.get('243');
-
-        // then
-        return expect(promise).to.have.been.rejectedWith(AirtableResourceNotFound);
-      });
-
-      it('should reject with the original error in any other case', () => {
-        // given
-        sinon.stub(airtable, 'getRecord').rejects(new AirtableError('SERVICE_UNAVAILABLE'));
-
-        // when
-        const promise = tutorialDatasource.get('243');
-
-        // then
-        return expect(promise).to.have.been.rejectedWith(new AirtableError('SERVICE_UNAVAILABLE'));
-      });
-    });
-
-  });
 });

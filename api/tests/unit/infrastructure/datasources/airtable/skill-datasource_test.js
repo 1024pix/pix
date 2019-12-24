@@ -5,6 +5,7 @@ const skillAirtableDataObjectFixture = require('../../../../tooling/fixtures/inf
 const skillRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
 const AirtableRecord = require('airtable').Record;
 const _ = require('lodash');
+const cache = require('../../../../../lib/infrastructure/caches/cache');
 
 function makeAirtableFake(records) {
   return async (tableName, fieldList) => {
@@ -18,6 +19,10 @@ function makeAirtableFake(records) {
 
 describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () => {
 
+  beforeEach(() => {
+    sinon.stub(cache, 'get').callsFake((key, generator) => generator());
+  });
+
   describe('#fromAirTableObject', () => {
 
     it('should create a Skill from the AirtableRecord', () => {
@@ -29,25 +34,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
       // then
       expect(skill).to.deep.equal(expectedSkill);
-    });
-  });
-
-  describe('#get', () => {
-
-    it('should call airtable on Acquis table with the id and return a datamodel Skill object', () => {
-      // given
-      const rawSkill = skillRawAirTableFixture();
-      sinon.stub(airtable, 'getRecord').withArgs('Acquis', rawSkill.id).resolves(rawSkill);
-
-      // when
-      const promise = skillDatasource.get(rawSkill.id);
-
-      // then
-      return promise.then((skill) => {
-        expect(airtable.getRecord).to.have.been.calledWith('Acquis', rawSkill.id);
-
-        expect(skill.id).to.equal(rawSkill.id);
-      });
     });
   });
 

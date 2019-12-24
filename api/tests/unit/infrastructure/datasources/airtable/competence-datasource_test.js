@@ -1,5 +1,4 @@
-const { expect, sinon, domainBuilder } = require('../../../../test-helper');
-const airtable = require('../../../../../lib/infrastructure/airtable');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const competenceDatasource = require('../../../../../lib/infrastructure/datasources/airtable/competence-datasource');
 const competenceRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/competenceRawAirTableFixture');
 
@@ -19,37 +18,4 @@ describe('Unit | Infrastructure | Datasource | Airtable | CompetenceDatasource',
     });
   });
 
-  describe('#get', () => {
-
-    it('should call airtable on Competences table with the id and return a Competence data object', async () => {
-      // given
-      sinon.stub(airtable, 'getRecord')
-        .withArgs('Competences', 'recsvLz0W2ShyfD63')
-        .resolves(competenceRawAirTableFixture());
-
-      // when
-      const competence = await competenceDatasource.get('recsvLz0W2ShyfD63');
-
-      // then
-      expect(competence.id).to.equal('recsvLz0W2ShyfD63');
-      expect(competence.name).to.equal('Mener une recherche et une veille d’information');
-    });
-  });
-
-  describe('#list', () => {
-
-    it('should call airtable on Competences table to retrieve all Competences', async () => {
-      // given
-      sinon.stub(airtable, 'findRecords')
-        .withArgs('Competences', competenceDatasource.usedFields)
-        .resolves([competenceRawAirTableFixture()]);
-
-      // when
-      const competences = await competenceDatasource.list();
-
-      // then
-      expect(competences[0].id).to.equal('recsvLz0W2ShyfD63');
-      expect(competences[0].name).to.equal('Mener une recherche et une veille d’information');
-    });
-  });
 });
