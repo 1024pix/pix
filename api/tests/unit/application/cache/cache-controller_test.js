@@ -1,9 +1,8 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
 const cache = require('../../../../lib/infrastructure/caches/cache');
-const preloader = require('../../../../lib/infrastructure/caches/preloader');
-const logger = require('../../../../lib/infrastructure/logger');
 const cacheController = require('../../../../lib/application/cache/cache-controller');
+const AirtableDatasources = require('../../../../lib/infrastructure/datasources/airtable');
+const _ = require('lodash');
 
 describe('Unit | Controller | cache-controller', () => {
 
@@ -16,30 +15,26 @@ describe('Unit | Controller | cache-controller', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'reloadCacheEntry');
+      sinon.stub(AirtableDatasources.ChallengeDatasource, 'loadEntry');
     });
 
     it('should reply with null when the cache key exists', async () => {
       // given
       const numberOfDeletedKeys = 1;
-      usecases.reloadCacheEntry.resolves(numberOfDeletedKeys);
+      AirtableDatasources.ChallengeDatasource.loadEntry.resolves(numberOfDeletedKeys);
 
       // when
       const response = await cacheController.reloadCacheEntry(request, hFake);
 
       // then
-      expect(usecases.reloadCacheEntry).to.have.been.calledWith({
-        preloader,
-        tableName: 'Epreuves',
-        recordId: 'recABCDEF'
-      });
+      expect(AirtableDatasources.ChallengeDatasource.loadEntry).to.have.been.calledWithExactly('recABCDEF');
       expect(response).to.be.null;
     });
 
     it('should reply with null when the cache key does not exist', async () => {
       // given
       const numberOfDeletedKeys = 0;
-      usecases.reloadCacheEntry.resolves(numberOfDeletedKeys);
+      AirtableDatasources.ChallengeDatasource.loadEntry.resolves(numberOfDeletedKeys);
 
       // when
       const response = await cacheController.reloadCacheEntry(request, hFake);
@@ -47,61 +42,38 @@ describe('Unit | Controller | cache-controller', () => {
       // Then
       expect(response).to.be.null;
     });
+  });
 
-    it('should allow a table name without a record id', async () => {
+  describe('#removeCacheEntries', () => {
+
+    const request = {};
+
+    it('should reply with null when there is no error', async () => {
       // given
-      const numberOfDeletedKeys = 1;
-      usecases.reloadCacheEntry.resolves(numberOfDeletedKeys);
+      sinon.stub(cache, 'flushAll').resolves();
 
       // when
-      const response = await cacheController.reloadCacheEntry({ params: { cachekey: 'Epreuves' } }, hFake);
+      const response = await cacheController.removeCacheEntries(request, hFake);
 
       // Then
-      expect(usecases.reloadCacheEntry).to.have.been.calledWith({
-        preloader,
-        tableName: 'Epreuves',
-        recordId: undefined
-      });
+      expect(cache.flushAll).to.have.been.calledOnce;
       expect(response).to.be.null;
     });
   });
 
-  describe('#removeAllCacheEntries', () => {
-    const request = {};
+  describe('#reloadCacheEntries', () => {
 
-    beforeEach(() => {
-      sinon.stub(usecases, 'removeAllCacheEntries');
-    });
+    const request = {};
 
     it('should reply with null when there is no error', async () => {
       // given
-      usecases.removeAllCacheEntries.resolves();
+      _.map(AirtableDatasources, (datasource) => sinon.stub(datasource, 'loadEntries'));
 
       // when
-      const response = await cacheController.removeAllCacheEntries(request, hFake);
+      const response = await cacheController.reloadCacheEntries(request, hFake);
 
       // Then
-      expect(usecases.removeAllCacheEntries).to.have.been.calledWith({ cache });
-      expect(response).to.be.null;
-    });
-  });
-
-  describe('#preloadCacheEntries', () => {
-    const request = {};
-
-    beforeEach(() => {
-      sinon.stub(usecases, 'preloadCacheEntries');
-    });
-
-    it('should reply with null when there is no error', async () => {
-      // given
-      usecases.preloadCacheEntries.resolves();
-
-      // when
-      const response = await cacheController.preloadCacheEntries(request, hFake);
-
-      // Then
-      expect(usecases.preloadCacheEntries).to.have.been.calledWith({ preloader, logger });
+      _.map(AirtableDatasources, (datasource) => expect(datasource.loadEntries).to.have.been.calledOnce);
       expect(response).to.be.null;
     });
   });
