@@ -14,7 +14,7 @@
         <form class="fill-in-campaign-code__form" autocomplete="off">
 
           <div class="fill-in-campaign-code__form-field">
-            {{input required type="text" id="campaign-code" value=campaignCode maxlength="9" key-down=(action 'clearErrorMessage')}}
+            <Input required @type="text" @id="campaign-code" @value={{campaignCode}} @maxlength="9" @key-down={{action "clearErrorMessage"}} />
           </div>
 
           {{#if errorMessage}}

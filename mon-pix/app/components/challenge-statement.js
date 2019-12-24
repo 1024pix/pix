@@ -28,6 +28,7 @@ export default Component.extend({
         height: this.get('challenge.embedHeight')
       };
     }
+    return undefined;
   }),
 
   init() {
