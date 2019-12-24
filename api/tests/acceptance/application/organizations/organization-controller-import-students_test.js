@@ -342,6 +342,12 @@ describe('Acceptance | Application | organization-controller-import-students', (
                       '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
                     '</STRUCTURE>' +
                   '</STRUCTURES_ELEVE>' +
+                  '<STRUCTURES_ELEVE ELEVE_ID="0003">' +
+                    '<STRUCTURE>' +
+                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+                    '</STRUCTURE>' +
+                  '</STRUCTURES_ELEVE>' +
                 '</STRUCTURES>' +
               '</DONNEES>' +
             '</BEE_ELEVES>', 'ISO-8859-15');
@@ -373,6 +379,113 @@ describe('Acceptance | Application | organization-controller-import-students', (
           expect(_.map(students, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
           expect(response.statusCode).to.equal(409);
           expect(response.result.errors[0].detail).to.equal('L\'enregistrement des élèves a rencontré une erreur.');
+        });
+      });
+
+      context('when a student cant be updated but another could be created', () => {
+        beforeEach(async () => {
+          // given
+          const studentThatCouldBeCreated =
+            '<ELEVE ELEVE_ID="0001">' +
+              '<ID_NATIONAL>123</ID_NATIONAL>' +
+              '<NOM_DE_FAMILLE>COLAGRECO</NOM_DE_FAMILLE>' +
+              '<NOM_USAGE>PEPSIGRECO</NOM_USAGE>' +
+              '<PRENOM>ARNAUD</PRENOM>' +
+              '<PRENOM2></PRENOM2>' +
+              '<PRENOM3></PRENOM3>' +
+              '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+              '<CODE_PAYS>100</CODE_PAYS>' +
+              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+              '<CODE_MEF>12341234</CODE_MEF>' +
+              '<CODE_STATUT>ST</CODE_STATUT>' +
+            '</ELEVE>';
+
+          const studentThatCantBeUpdatedBecauseBirthdateIsMissing =
+            '<ELEVE ELEVE_ID="0002">' +
+              '<ID_NATIONAL>456</ID_NATIONAL>' +
+              '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
+              '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
+              '<PRENOM>Harry</PRENOM>' +
+              '<PRENOM2>Coco</PRENOM2>' +
+              '<PRENOM3></PRENOM3>' +
+              '<DATE_NAISS></DATE_NAISS>' +
+              '<CODE_PAYS>100</CODE_PAYS>' +
+              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+              '<CODE_MEF>12341234</CODE_MEF>' +
+              '<CODE_STATUT>ST</CODE_STATUT>' +
+            '</ELEVE>';
+
+          const studentThatCouldBeUpdated =
+            '<ELEVE ELEVE_ID="0003">' +
+              '<ID_NATIONAL>789</ID_NATIONAL>' +
+              '<NOM_DE_FAMILLE>JAUNE</NOM_DE_FAMILLE>' +
+              '<NOM_USAGE></NOM_USAGE>' +
+              '<PRENOM>ATTEND</PRENOM>' +
+              '<PRENOM2></PRENOM2>' +
+              '<PRENOM3></PRENOM3>' +
+              '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+              '<CODE_PAYS>100</CODE_PAYS>' +
+              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+              '<CODE_MEF>12341234</CODE_MEF>' +
+              '<CODE_STATUT>ST</CODE_STATUT>' +
+            '</ELEVE>';
+
+          const buffer = iconv.encode(
+            '<?xml version="1.0" encoding="ISO-8859-15"?>' +
+            '<BEE_ELEVES VERSION="2.1">' +
+              '<DONNEES>' +
+                '<ELEVES>' +
+                  studentThatCouldBeCreated +
+                  studentThatCantBeUpdatedBecauseBirthdateIsMissing +
+                  studentThatCouldBeUpdated +
+                '</ELEVES>' +
+                '<STRUCTURES>' +
+                  '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+                    '<STRUCTURE>' +
+                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+                    '</STRUCTURE>' +
+                  '</STRUCTURES_ELEVE>' +
+                  '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
+                    '<STRUCTURE>' +
+                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+                    '</STRUCTURE>' +
+                  '</STRUCTURES_ELEVE>' +
+                '</STRUCTURES>' +
+              '</DONNEES>' +
+            '</BEE_ELEVES>', 'ISO-8859-15');
+
+          options.payload = buffer;
+
+          databaseBuilder.factory.buildStudent({
+            lastName: 'LALOUX',
+            firstName: 'RENE',
+            nationalStudentId: '456',
+            organizationId
+          });
+          databaseBuilder.factory.buildStudent({
+            lastName: 'UEMATSU',
+            firstName: 'NOBUO',
+            nationalStudentId: '789',
+            organizationId
+          });
+
+          await databaseBuilder.commit();
+        });
+
+        it('should not update and create anyone, and return a 409 - Conflict', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          const students = await knex('students').where({ organizationId });
+          expect(students).to.have.lengthOf(2);
+          expect(_.map(students, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
+          expect(response.statusCode).to.equal(409);
         });
       });
 
