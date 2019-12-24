@@ -50,7 +50,7 @@ describe('Acceptance | Authentication', function() {
     it('should stay in /connexion , when authentication failed', async function() {
       // given
       await visitWithAbortedTransition('/connexion');
-      await fillIn('#text', 'anyone@pix.world');
+      await fillIn('#login', 'anyone@pix.world');
       await fillIn('#password', 'Pix20!!');
 
       // when
