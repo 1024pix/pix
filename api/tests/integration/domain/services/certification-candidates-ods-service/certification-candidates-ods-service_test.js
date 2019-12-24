@@ -18,76 +18,6 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
     await databaseBuilder.commit();
   });
 
-  context('When attendance sheet is of version 1.0', () => {
-
-    it('should throw a InvalidCertificationCandidate if any of the candidate data is missing a mandatory field', async () => {
-      // given
-      const odsFilePath = `${__dirname}/attendance_sheet_1-0_extract_mandatory_ko_test.ods`;
-      const odsBuffer = fs.readFileSync(odsFilePath);
-
-      // when
-      try {
-        await certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
-      } catch (error) {
-        // then
-        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-      }
-    });
-
-    it('should throw a InvalidCertificationCandidate if any of the candidate data is invalid and cannot be casted', async () => {
-      // given
-      const odsFilePath = `${__dirname}/attendance_sheet_1-0_extract_wrongvalue_ko_test.ods`;
-      const odsBuffer = fs.readFileSync(odsFilePath);
-
-      // when
-      try {
-        await certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
-      } catch (error) {
-        // then
-        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-      }
-    });
-
-    it('should return extracted and validated certification candidates', async () => {
-      // given
-      const odsFilePath = `${__dirname}/attendance_sheet_1-0_extract_ok_test.ods`;
-      const odsBuffer = fs.readFileSync(odsFilePath);
-      const expectedCertificationCandidates = _.map([
-        {
-          lastName: 'Gallagher', firstName: 'Jack',
-          birthdate: '2010-10-01', birthCity: 'Londres',
-          externalId: null, extraTimePercentage: 0.15, sessionId,
-        },
-        {
-          lastName: 'Jackson', firstName: 'Janet',
-          birthdate: '2018-09-25', birthCity: 'Milan',
-          externalId: 'DEF456', extraTimePercentage: null, sessionId,
-        },
-        {
-          lastName: 'Jackson', firstName: 'Michael',
-          birthdate: '1995-01-15', birthCity: 'Paris',
-          externalId: 'ABC123', extraTimePercentage: 0.6, sessionId,
-        },
-        {
-          lastName: 'Mercury', firstName: 'Freddy',
-          birthdate: '1925-06-14', birthCity: 'Barcelone',
-          externalId: 'GHI789', extraTimePercentage: 1.5, sessionId,
-        },
-      ], (candidate) => new CertificationCandidate(candidate));
-
-      // when
-      const actualCertificationCandidates =
-        await certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet({
-          sessionId,
-          odsBuffer,
-        });
-
-      // then
-      expect(actualCertificationCandidates).to.deep.equal(expectedCertificationCandidates);
-    });
-
-  });
-
   context('When attendance sheet is of version 1.1', () => {
 
     it('should throw a InvalidCertificationCandidate if any of the candidate data is missing a mandatory field', async () => {
@@ -146,6 +76,83 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
           birthdate: '1925-06-14', birthCity: 'Barcelone',
           birthCountry: 'Planète Mars', birthProvinceCode: '2A',
           externalId: 'GHI789', extraTimePercentage: 1.5, sessionId,
+        },
+      ], (candidate) => new CertificationCandidate(candidate));
+
+      // when
+      const actualCertificationCandidates =
+        await certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet({
+          sessionId,
+          odsBuffer,
+        });
+
+      // then
+      expect(actualCertificationCandidates).to.deep.equal(expectedCertificationCandidates);
+    });
+
+  });
+  context('When attendance sheet is of version 1.2', () => {
+
+    it('should throw a InvalidCertificationCandidate if any of the candidate data is missing a mandatory field', async () => {
+      // given
+      const odsFilePath = `${__dirname}/attendance_sheet_1-2_extract_mandatory_ko_test.ods`;
+      const odsBuffer = fs.readFileSync(odsFilePath);
+
+      // when
+      try {
+        await certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
+      } catch (error) {
+        // then
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+      }
+    });
+
+    it('should throw a InvalidCertificationCandidate if any of the candidate data is invalid and cannot be casted', async () => {
+      // given
+      const odsFilePath = `${__dirname}/attendance_sheet_1-2_extract_wrongvalue_ko_test.ods`;
+      const odsBuffer = fs.readFileSync(odsFilePath);
+
+      // when
+      try {
+        await certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
+      } catch (error) {
+        // then
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+      }
+    });
+
+    it('should return extracted and validated certification candidates', async () => {
+      // given
+      const odsFilePath = `${__dirname}/attendance_sheet_1-2_extract_ok_test.ods`;
+      const odsBuffer = fs.readFileSync(odsFilePath);
+      const expectedCertificationCandidates = _.map([
+        {
+          lastName: 'Gallagher', firstName: 'Jack',
+          birthdate: '2010-10-01', birthCity: 'Londres',
+          birthCountry: 'Angleterre', birthProvinceCode: '66',
+          email: 'jack@d.it', externalId: null,
+          extraTimePercentage: 0.15, sessionId,
+        },
+        {
+          lastName: 'Jackson', firstName: 'Janet',
+          birthdate: '2018-09-25', birthCity: 'Milan',
+          birthCountry: 'France', birthProvinceCode: '971',
+          email: 'jaja@hotmail.fr', externalId: 'DEF456',
+          extraTimePercentage: null, sessionId,
+        },
+        {
+          lastName: 'Jackson', firstName: 'Michael',
+          birthdate: '1995-01-15', birthCity: 'Paris',
+          birthCountry: 'France', birthProvinceCode: '99',
+          email: 'jackson@gmail.com', externalId: 'ABC123',
+          extraTimePercentage: 0.6, sessionId,
+        },
+        {
+          lastName: 'Mercury', firstName: 'Freddy',
+          birthdate: '1925-06-14', birthCity: 'Barcelone',
+          birthCountry: 'France', birthProvinceCode: '2A',
+          email: null, externalId: 'GHI789',
+          extraTimePercentage: 1.5, sessionId,
         },
       ], (candidate) => new CertificationCandidate(candidate));
 
