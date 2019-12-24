@@ -37,14 +37,6 @@ class CertificationCourse {
     this.userId = userId;
     this.sessionId = sessionId;
   }
-
-  /**
-   * @deprecated
-   */
-  static fromAttributes(attributes) {
-    const certificationCourse = new CertificationCourse();
-    return Object.assign(certificationCourse, attributes);
-  }
 }
 
 module.exports = CertificationCourse;
