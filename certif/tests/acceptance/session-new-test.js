@@ -36,7 +36,7 @@ module('Acceptance | Session creation', function(hooks) {
 
     test('it should create a session and redirect to session details', async function(assert) {
       // given
-      const sessionDate = '2019-12-25';
+      const sessionDate = '2029-12-25';
       const sesionFormattedTime = '02/02/2019 13:45';
       const sessionTime = new Date(sesionFormattedTime);
 
