@@ -109,7 +109,7 @@ module.exports = {
   },
 
   async setSessionCandidates(sessionId, certificationCandidates) {
-    const certificationCandidatesToInsert = certificationCandidates.map((candidate) => _.omit(candidate, ['createdAt']));
+    const certificationCandidatesToInsert = certificationCandidates.map(_adaptModelToDb);
 
     return Bookshelf.knex.transaction(async (trx) => {
       try {
@@ -141,5 +141,5 @@ module.exports = {
 };
 
 function _adaptModelToDb(certificationCandidateToSave) {
-  return _.omit(certificationCandidateToSave, ['createdAt']);
+  return _.omit(certificationCandidateToSave, ['createdAt', 'certificationCourse']);
 }
