@@ -34,9 +34,14 @@ module('Integration | Component | certification-session-report', function(hooks)
       buildCertification({ id: 4 }),
       buildCertification({ id: 4 }),
       buildCertification({ id: 5, isInSession: false }),
-      buildCertification({ id: 6, hasSeenLastScreen: false }),
-      buildCertification({ id: 7, examinerComment: 'comment' }),
+      buildCertification({ id: 6, firstName: 'Jean', lastName: 'Padansession', hasSeenLastScreen: false }),
+      buildCertification({ id: 7, firstName: 'Jean', lastName: 'Palié', hasSeenLastScreen: false }),
+      buildCertification({ id: 8, firstName: 'Jean', lastName: 'Lié', hasSeenLastScreen: false }),
+      buildCertification({ id: 9, examinerComment: 'comment' }),
     ];
+    certifications[7].hasSeenLastScreenEnhanced = 'NOT_IN_SESSION';
+    certifications[8].hasSeenLastScreenEnhanced = 'NOT_LINKED';
+    certifications[9].hasSeenLastScreenEnhanced = 'LINKED';
     this.set('certificationsInSessionReport', certifications);
     return render(hbs`{{certification-session-report 
       show=visible hide=onHide onDownloadJuryFile=onGetJuryFile 
@@ -57,10 +62,10 @@ module('Integration | Component | certification-session-report', function(hooks)
       await click('.data-section--total-certifications .data-section__switch');
 
       // then
-      assert.dom('.data-section--total-certifications .data-section__counter').hasText('9');
+      assert.dom('.data-section--total-certifications .data-section__counter').hasText('11');
       const certificationsIdsElement = find('.data-section--total-certifications .data-section__certification-ids');
       const certificationIds = certificationsIdsElement.textContent.trim().replace(/\s/g, '');
-      assert.equal(certificationIds, '123344567');
+      assert.equal(certificationIds, '12334456789');
     });
 
     test('it counts and displays incomplete certifications', async function(assert) {
@@ -96,15 +101,41 @@ module('Integration | Component | certification-session-report', function(hooks)
       assert.equal(certificationIds, '5');
     });
 
-    test('it counts and displays has not seen last screen certification ids', async function(assert) {
-      // when
-      await click('.data-section--has-not-seen-last-screen-certifications .data-section__switch');
+    module('on click on "Ecrans de fin de tests non vus"', function() {
+      test('it counts has not seen last screen certifications', async function(assert) {
+        // when
+        await click('.data-section--has-not-seen-last-screen-certifications .data-section__switch');
 
-      // then
-      assert.dom('.data-section--has-not-seen-last-screen-certifications .data-section__counter').hasText('1');
-      const certificationsIdsElement = find('.data-section--has-not-seen-last-screen-certifications .data-section__certification-ids');
-      const certificationIds = certificationsIdsElement.textContent.trim().replace(/\s/g, '');
-      assert.equal(certificationIds, '6');
+        // then
+        assert.dom('.data-section--has-not-seen-last-screen-certifications .data-section__counter').hasText('3');
+      });
+      test('it displays the ones that have no last screen seen and not in session in a specific way', async function(assert) {
+        // when
+        await click('.data-section--has-not-seen-last-screen-certifications .data-section__switch');
+
+        // then
+        const candidateElement = find('.data-section--has-not-seen-last-screen-certifications .data-section__candidate-names__not-in-session');
+        const candidateNames = candidateElement.textContent.trim();
+        assert.equal(candidateNames, 'Padansession Jean');
+      });
+      test('it displays the ones that have no last screen seen and not linked in a specific way', async function(assert) {
+        // when
+        await click('.data-section--has-not-seen-last-screen-certifications .data-section__switch');
+
+        // then
+        const candidateElement = find('.data-section--has-not-seen-last-screen-certifications .data-section__candidate-names__not-linked');
+        const candidateNames = candidateElement.textContent.trim();
+        assert.equal(candidateNames, 'Palié Jean');
+      });
+      test('it displays the ones that have no last screen seen and linked in a specific way', async function(assert) {
+        // when
+        await click('.data-section--has-not-seen-last-screen-certifications .data-section__switch');
+
+        // then
+        const candidateElement = find('.data-section--has-not-seen-last-screen-certifications .data-section__candidate-names__linked');
+        const candidateNames = candidateElement.textContent.trim();
+        assert.equal(candidateNames, 'Lié Jean');
+      });
     });
 
     test('it counts and displays certification ids that have examiner comment', async function(assert) {
@@ -115,7 +146,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       assert.dom('.data-section--has-examiner-comment-screen-certifications .data-section__counter').hasText('1');
       const certificationsIdsElement = find('.data-section--has-examiner-comment-screen-certifications .data-section__certification-ids');
       const certificationIds = certificationsIdsElement.textContent.trim().replace(/\s/g, '');
-      assert.equal(certificationIds, '7');
+      assert.equal(certificationIds, '9');
     });
   });
 });
