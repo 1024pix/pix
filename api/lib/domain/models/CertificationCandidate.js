@@ -2,6 +2,7 @@ const _ = require('lodash');
 const Joi = require('@hapi/joi')
   .extend(require('@hapi/joi-date'));
 const { InvalidCertificationCandidate } = require('../errors');
+const CertificationCourse = require('./CertificationCourse');
 
 const certificationCandidateValidationJoiSchema_v1_1 = Joi.object({
   id: Joi.number().optional(),
@@ -17,6 +18,7 @@ const certificationCandidateValidationJoiSchema_v1_1 = Joi.object({
   extraTimePercentage: Joi.number().allow(null).optional(),
   examinerComment: Joi.string().max(500).allow(null).optional(),
   hasSeenEndTestScreen: Joi.boolean().optional(),
+  certificationCourse: Joi.object().instance(CertificationCourse).allow(null).optional(),
   sessionId: Joi.number().required(),
   userId: Joi.number().allow(null).optional(),
 });
@@ -35,6 +37,7 @@ const certificationCandidateValidationJoiSchema_v1_2 = Joi.object({
   extraTimePercentage: Joi.number().allow(null).optional(),
   examinerComment: Joi.string().max(500).allow(null).optional(),
   hasSeenEndTestScreen: Joi.boolean().optional(),
+  certificationCourse: Joi.object().instance(CertificationCourse).allow(null).optional(),
   sessionId: Joi.number().required(),
   userId: Joi.number().allow(null).optional(),
 });
@@ -53,6 +56,7 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
   extraTimePercentage: Joi.any().allow(null).optional(),
   examinerComment: Joi.any().allow(null).optional(),
   hasSeenEndTestScreen: Joi.any().allow(null).optional(),
+  certificationCourse: Joi.object().instance(CertificationCourse).allow(null).optional(),
   sessionId: Joi.number().required(),
   userId: Joi.any().allow(null).optional(),
 });
@@ -75,6 +79,7 @@ class CertificationCandidate {
       hasSeenEndTestScreen,
       createdAt,
       // includes
+      certificationCourse,
       // references
       sessionId,
       userId,
@@ -94,6 +99,7 @@ class CertificationCandidate {
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     this.createdAt = createdAt;
     // includes
+    this.certificationCourse = certificationCourse;
     // references
     this.sessionId = sessionId;
     this.userId = userId;

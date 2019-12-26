@@ -1,6 +1,8 @@
 const faker = require('faker');
 const moment = require('moment');
+const _ = require('lodash');
 const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
+const buildCertificationCourse = require('./build-certification-course');
 
 module.exports = function buildCertificationCandidate(
   {
@@ -19,10 +21,14 @@ module.exports = function buildCertificationCandidate(
     hasSeendEndTestScreen = false,
     createdAt = faker.date.past(1),
     // includes
+    certificationCourse,
     // references
     sessionId = faker.random.number(),
     userId = faker.random.number(),
   } = {}) {
+
+  certificationCourse = _.isUndefined(certificationCourse) ?
+    buildCertificationCourse({ sessionId, userId }) : certificationCourse;
 
   const certificationCandidate = new CertificationCandidate({
     id,
@@ -40,6 +46,7 @@ module.exports = function buildCertificationCandidate(
     hasSeendEndTestScreen,
     createdAt,
     userId,
+    certificationCourse,
   });
 
   return certificationCandidate;
