@@ -132,11 +132,25 @@
             </div>
           {{#if (and noLastScreenSeenCertifications.length displayNoLastScreenSeenCertifications)}}
               <div class="row mb-4">
-                  <div class="col-8 data-section__certification-ids">
+                  <div class="col-8 data-section__candidates-names">
                     {{#each noLastScreenSeenCertifications as |item|}}
-                        <span class="data-section__certification-id">{{item.id}}</span>
+                    {{#if (eq item.hasSeenLastScreenEnhanced "NOT_LINKED")}}
+                        <span class="data-section__candidate-names__not-linked">{{item.lastName}} {{item.firstName}}</span>
+                    {{else if (eq item.hasSeenLastScreenEnhanced 'NOT_IN_SESSION')}}
+                        <span class="data-section__candidate-names__not-in-session">{{item.lastName}} {{item.firstName}}</span>
+                    {{else if (eq item.hasSeenLastScreenEnhanced 'LINKED')}}
+                        <span class="data-section__candidate-names__linked">{{item.lastName}} {{item.firstName}}</span>
+                    {{else}}
+                        <span class="data-section__candidate-names">{{item.lastName}} {{item.firstName}}</span>
+                    {{/if}}
                     {{/each}}
                   </div>
+              </div>
+              <div>
+              Légende :
+                  <div>Candidat lié : <span class="data-section__candidate-names__linked"/></div>
+                  <div>Candidat non lié : <span class="data-section__candidate-names__not-linked"/></div>
+                  <div>Candidat non trouvé dans la liste des inscrits : <span class="data-section__candidate-names__not-in-session"/></div>
               </div>
           {{/if}}
         </section>
