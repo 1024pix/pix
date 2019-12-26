@@ -63,14 +63,14 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 
               // then
-              expect(currentURL()).to.equal('/identification');
+              expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
             });
 
             it('should redirect to join restricted campaign page when registration is done', async function() {
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 
-              expect(currentURL()).to.equal('/identification');
+              expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
 
               // when
               await fillIn('#firstName', 'Jane');
@@ -87,7 +87,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 
-              expect(currentURL()).to.equal('/identification');
+              expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
 
               // when
               await click('#login');
@@ -103,7 +103,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 
-              expect(currentURL()).to.equal('/identification');
+              expect(currentURL()).to.equal(`/campagnes/${campaignCode}/identification`);
 
               await click('#login');
               await fillIn('#email', 'jane@acme.com');
@@ -264,7 +264,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
             beforeEach(async function() {
               await visitWithAbortedTransition('/campagnes/AZERTY4?participantExternalId=a73at01r3');
 
-              expect(currentURL()).to.equal('/identification');
+              expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
 
               await fillIn('#firstName', 'Jane');
               await fillIn('#lastName', 'Acme');

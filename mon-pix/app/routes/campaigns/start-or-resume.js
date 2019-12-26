@@ -19,6 +19,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   authenticationRoute: 'inscription',
 
   beforeModel(transition) {
+
     this.set('campaignCode', transition.to.params.campaign_code);
     this.set('associationDone', transition.to.queryParams.associationDone);
     this.set('campaignIsRestricted', transition.to.queryParams.campaignIsRestricted);
@@ -28,6 +29,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     if (this._userIsUnauthenticated() && !this.userHasSeenLanding && this.campaignIsRestricted) {
       this.set('authenticationRoute', 'login-or-register-to-access-restricted-campaign');
+      this.transitionTo('login-or-register-to-access-restricted-campaign',this.campaignCode);
     }
     if (this._userIsUnauthenticated() && !this.userHasSeenLanding && !this.campaignIsRestricted) {
       return this.replaceWith('campaigns.campaign-landing-page', this.campaignCode, { queryParams: transition.to.queryParams });
