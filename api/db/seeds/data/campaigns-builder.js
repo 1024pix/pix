@@ -30,4 +30,13 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     creatorId: 2,
     targetProfileId: 1,
   });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 4,
+    name: 'Campagne restreinte',
+    code: 'RESTRICTD',
+    organizationId: 3,
+    creatorId: 4,
+    targetProfileId: 1,
+  });
 };
