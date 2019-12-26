@@ -44,24 +44,43 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
     });
 
     context('when user has access to session resources', () => {
-      let expectedCertificationCandidateAttributes;
+      let expectedCertificationCandidateAAttributes;
+      let expectedCertificationCandidateBAttributes;
 
       beforeEach(() => {
-        const certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId });
+        const certificationCandidateA = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'A', sessionId });
+        const certificationCandidateB = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'B', sessionId });
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId, userId: certificationCandidateB.userId }).id;
         _.times(5, databaseBuilder.factory.buildCertificationCandidate());
-        expectedCertificationCandidateAttributes = {
-          'first-name': certificationCandidate.firstName,
-          'last-name': certificationCandidate.lastName,
-          'birthdate': certificationCandidate.birthdate,
-          'birth-city': certificationCandidate.birthCity,
-          'birth-province-code': certificationCandidate.birthProvinceCode,
-          'birth-country': certificationCandidate.birthCountry,
-          'email': certificationCandidate.email,
-          'external-id': certificationCandidate.externalId,
-          'extra-time-percentage': certificationCandidate.extraTimePercentage,
+        expectedCertificationCandidateAAttributes = {
+          'first-name': certificationCandidateA.firstName,
+          'last-name': certificationCandidateA.lastName,
+          'birthdate': certificationCandidateA.birthdate,
+          'birth-city': certificationCandidateA.birthCity,
+          'birth-province-code': certificationCandidateA.birthProvinceCode,
+          'birth-country': certificationCandidateA.birthCountry,
+          'email': certificationCandidateA.email,
+          'external-id': certificationCandidateA.externalId,
+          'extra-time-percentage': certificationCandidateA.extraTimePercentage,
           'is-linked': true,
-          'examiner-comment': certificationCandidate.examinerComment,
-          'has-seen-end-test-screen': certificationCandidate.hasSeenEndTestScreen,
+          'certification-course-id': undefined,
+          'examiner-comment': certificationCandidateA.examinerComment,
+          'has-seen-end-test-screen': certificationCandidateA.hasSeenEndTestScreen,
+        };
+        expectedCertificationCandidateBAttributes = {
+          'first-name': certificationCandidateB.firstName,
+          'last-name': certificationCandidateB.lastName,
+          'birthdate': certificationCandidateB.birthdate,
+          'birth-city': certificationCandidateB.birthCity,
+          'birth-province-code': certificationCandidateB.birthProvinceCode,
+          'birth-country': certificationCandidateB.birthCountry,
+          'email': certificationCandidateB.email,
+          'external-id': certificationCandidateB.externalId,
+          'extra-time-percentage': certificationCandidateB.extraTimePercentage,
+          'is-linked': true,
+          'certification-course-id': certificationCourseId,
+          'examiner-comment': certificationCandidateB.examinerComment,
+          'has-seen-end-test-screen': certificationCandidateB.hasSeenEndTestScreen,
         };
         userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
@@ -92,7 +111,8 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
         });
 
         // then
-        expect(response.result.data[0].attributes).to.deep.equal(expectedCertificationCandidateAttributes);
+        expect(response.result.data[0].attributes).to.deep.equal(expectedCertificationCandidateAAttributes);
+        expect(response.result.data[1].attributes).to.deep.equal(expectedCertificationCandidateBAttributes);
       });
 
     });
