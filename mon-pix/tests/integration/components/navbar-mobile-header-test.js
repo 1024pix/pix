@@ -4,7 +4,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { setBreakpointForIntegrationTest } from '../../helpers/responsive';
+import { setBreakpoint } from 'ember-responsive/test-support';
 
 describe('Integration | Component | navbar-mobile-header', function() {
 
@@ -13,7 +13,7 @@ describe('Integration | Component | navbar-mobile-header', function() {
   context('when user is not logged', function() {
     beforeEach(async function() {
       this.owner.register('service:session', Service.extend({ isAuthenticated: false }));
-      setBreakpointForIntegrationTest(this, 'tablet');
+      setBreakpoint('tablet');
       await render(hbs`{{navbar-mobile-header media=media}}`);
     });
 
@@ -38,7 +38,7 @@ describe('Integration | Component | navbar-mobile-header', function() {
 
     beforeEach(function() {
       this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
-      setBreakpointForIntegrationTest(this, 'tablet');
+      setBreakpoint('tablet');
     });
 
     it('should be rendered', async function() {
@@ -59,8 +59,17 @@ describe('Integration | Component | navbar-mobile-header', function() {
     });
 
     it('should display the burger icon', async function() {
+      // given
+      this.set('burger', {
+        state: {
+          actions: {
+            toggle: () => true
+          }
+        }
+      });
+
       // when
-      await render(hbs`{{navbar-mobile-header media=media burger="burger"}}`);
+      await render(hbs`{{navbar-mobile-header media=media burger=burger}}`);
 
       // then
       expect(find('.navbar-mobile-header__burger-icon')).to.exist;

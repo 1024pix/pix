@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v2.97.0 (26/12/2019)
+
+- [#926](https://github.com/1024pix/pix/pull/926) [FEATURE] Ajout noms candidats non réconciliés sur la popup PV session (PA-131)
+- [#905](https://github.com/1024pix/pix/pull/905) [FEATURE] Mise à jour du PV de session V1.2 (PC-94)
+- [#928](https://github.com/1024pix/pix/pull/928) [FEATURE] Inversion des champs "Nom" et "Prénom" dans page permettant de rejoindre une Orga via invitation (PO-295)
+- [#937](https://github.com/1024pix/pix/pull/937) [BUGFIX] Date dépassée dans le test d'acceptance de la création de session
+- [#921](https://github.com/1024pix/pix/pull/921) [BUGFIX] Correction de l'erreur 500 quand la date de naissance est hors limite lors de la réconciliation en certification (PF-984)
+- [#902](https://github.com/1024pix/pix/pull/902) [TECH] Ajout d'un cache de second niveau au niveau des Datasources.
+- [#930](https://github.com/1024pix/pix/pull/930) [TECH] Mise à jour de PixApp en Ember 3.10
+- [#916](https://github.com/1024pix/pix/pull/916) [TECH] Utiliser le pré handler d'autorisation de session pour la route PATCH sessions/:id
+- [#931](https://github.com/1024pix/pix/pull/931) [TECH] Suppression du code de la modale pour mobile.
+
 ## v2.96.0 (20/12/2019)
 
 - [#927](https://github.com/1024pix/pix/pull/927) [FEATURE] Améliorer les performances de l'export CSV (PO-296).

@@ -85,10 +85,12 @@ module.exports = {
   async createCandidateParticipation(request, h) {
     const userId = request.auth.credentials.userId;
     const sessionId = request.params.id;
-    const certificationCandidateWithPersonalInfoOnly = await certificationCandidateSerializer.deserialize(request.payload);
+    const firstName = request.payload.data.attributes['first-name'];
+    const lastName = request.payload.data.attributes['last-name'];
+    const birthdate = request.payload.data.attributes['birthdate'];
 
     const { linkCreated, certificationCandidate } = await usecases.linkUserToSessionCertificationCandidate({
-      userId, sessionId, certificationCandidateWithPersonalInfoOnly,
+      userId, sessionId, firstName, lastName, birthdate,
     });
 
     const serialized = await certificationCandidateSerializer.serialize(certificationCandidate);
@@ -103,5 +105,12 @@ module.exports = {
     return usecases.finalizeSession({ sessionId, examinerComment })
       .then((updatedSession) => sessionSerializer.serializeForFinalization(updatedSession));
   },
+
+  async analyzeAttendanceSheet(request) {
+    const sessionId = request.params.id;
+    const odsBuffer = request.payload.file;
+
+    return usecases.analyzeAttendanceSheet({ sessionId, odsBuffer });
+  }
 
 };

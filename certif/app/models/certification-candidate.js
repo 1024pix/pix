@@ -7,6 +7,7 @@ export default DS.Model.extend({
   birthCity: DS.attr('string'),
   birthProvinceCode: DS.attr('string'),
   birthCountry: DS.attr('string'),
+  email: DS.attr('string'),
   externalId: DS.attr('string'),
   extraTimePercentage: DS.attr('number'),
   isLinked: DS.attr('boolean'),

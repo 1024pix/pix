@@ -63,6 +63,10 @@ const ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES = [
     propertyName: 'birthCountry',
   },
   {
+    placeholder: 'NOM@EXEMPLE.FR',
+    propertyName: 'email',
+  },
+  {
     placeholder: 'EXTERNAL_ID',
     propertyName: 'externalId',
   },

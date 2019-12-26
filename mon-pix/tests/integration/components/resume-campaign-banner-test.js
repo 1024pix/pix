@@ -1,10 +1,8 @@
-import { alias } from '@ember/object/computed';
 import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import LinkComponent from '@ember/routing/link-component';
 import EmberObject from '@ember/object';
 
 describe('Integration | Component | resume-campaign-banner', function() {
@@ -37,11 +35,6 @@ describe('Integration | Component | resume-campaign-banner', function() {
         isCompleted: true,
       }),
     });
-    beforeEach(function() {
-      LinkComponent.reopen({
-        href: alias('qualifiedRouteName'),
-      });
-    });
 
     context('when campaign is not finished and not shared', function() {
 
@@ -66,7 +59,6 @@ describe('Integration | Component | resume-campaign-banner', function() {
         // then
         expect(find('.resume-campaign-banner__button')).to.exist;
         expect(find('.resume-campaign-banner__button').textContent).to.equal('Reprendre');
-        expect(find('.resume-campaign-banner__button').getAttribute('href')).to.contains('campaigns.start-or-resume');
       });
 
       it('should display a sentence to ask user to resume with the title of campaign', async function() {
@@ -129,7 +121,6 @@ describe('Integration | Component | resume-campaign-banner', function() {
         // then
         expect(find('.resume-campaign-banner__button')).to.exist;
         expect(find('.resume-campaign-banner__button').textContent).to.equal('Continuer');
-        expect(find('.resume-campaign-banner__button').getAttribute('href')).to.contains('campaigns.start-or-resume');
       });
 
       it('should display a sentence to ask user to share his results with the title of campaign', async function() {

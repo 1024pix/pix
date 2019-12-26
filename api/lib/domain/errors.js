@@ -137,6 +137,12 @@ class CertificationCandidatePersonalInfoFieldMissingError extends DomainError {
   }
 }
 
+class CertificationCandidatePersonalInfoWrongFormat extends DomainError {
+  constructor(message = 'Information transmise par le candidat de certification au mauvais format.') {
+    super(message);
+  }
+}
+
 class CertificationComputeError extends DomainError {
   constructor(message = 'Erreur lors du calcul de la certification.') {
     super(message);
@@ -378,6 +384,7 @@ module.exports = {
   CertificationCandidateDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
   CertificationCandidatePersonalInfoFieldMissingError,
+  CertificationCandidatePersonalInfoWrongFormat,
   CertificationCenterMembershipCreationError,
   CertificationComputeError,
   ChallengeAlreadyAnsweredError,

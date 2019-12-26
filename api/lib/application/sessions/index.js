@@ -113,6 +113,15 @@ exports.register = async (server) => {
       method: 'PATCH',
       path: '/api/sessions/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
+        pre: [{
+          method: sessionAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
         handler: sessionController.update,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -163,17 +172,37 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/sessions/{id}/candidate-participation',
       config: {
-        validate: {
-          params: Joi.object({
-            id: Joi.number().required()
-          }),
-        },
         handler: sessionController.createCandidateParticipation,
         tags: ['api', 'sessions', 'certification-candidates'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
           'Elle associe un candidat de certification à une session\n' +
           'à un utilisateur à l\'aide des informations d\'identité de celui-ci (nom, prénom et date de naissance).',
+        ]
+      }
+    },
+    {
+      method: 'PUT',
+      path: '/api/sessions/{id}/certifications/attendance-sheet-analysis',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required(),
+          }),
+        },
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        payload: {
+          allow: 'multipart/form-data',
+          maxBytes: 1048576 * 10, // 10MB
+        },
+        handler: sessionController.analyzeAttendanceSheet,
+        tags: ['api', 'certifications'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de lire et de retourner des données sur les certifications présentes dans le PV de session transmis en buffer',
         ]
       }
     },
