@@ -8,8 +8,16 @@
   <div class="session-finalizer__subtitle">
     Pour finaliser la session, complétez les trois étapes puis validez.
   </div>
-  <SessionFinalizationStepContainer
+    <SessionFinalizationStepContainer
           @number="1"
+          @title="Renseigner les informations de vos candidats"
+          @icon="/icons/session-finalization-user.svg"
+          @iconAlt="">
+      <SessionFinalizationCandidatesInformationsStep
+            @certificationCandidates={{session.certificationCandidates}} />
+  </SessionFinalizationStepContainer>
+  <SessionFinalizationStepContainer
+          @number="2"
           @title="Transmettre le PV de session"
           @icon="/icons/session-finalization-send.svg"
           @iconAlt="">

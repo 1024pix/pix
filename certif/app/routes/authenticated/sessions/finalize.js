@@ -6,8 +6,12 @@ import config from '../../../config/environment';
 export default Route.extend({
   notifications: service('notification-messages'),
 
-  model({ session_id }) {
-    return this.store.findRecord('session', session_id, { reload: true });
+  async model({ session_id }) {
+    return this.store.findRecord('session', session_id, { reload: true })
+      .then(async (session) => {
+        await session.certificationCandidates;
+        return session;
+      });
   },
 
   async afterModel(model, transition) {
