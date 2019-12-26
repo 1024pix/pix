@@ -1,0 +1,79 @@
+<div class="session-finalization-candidates-informations-step">
+  <table class="table session-finalization-candidates-informations-step__table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>N° de certification</th>
+        <th>Commentaire (facultatif)</th>
+        <th>
+          <div class="session-finalization-candidates-informations-step__row">
+            <div class="session-finalization-candidates-informations-step__checker" onClick={{action "toggleAllHasSeenEndTestScreen" }}>
+              {{#if hasCheckedEverything}}
+                <div class="checkbox checkbox--checked">
+                  <img
+                    src="/icons/icon-done.svg"
+                    class="session-finalization-candidates-informations-step__done-icon"
+                    alt="checkbox" >
+                </div>
+              {{else if hasCheckedSomething}}
+                <div class="checkbox checkbox--unchecked">
+                  <div class="session-finalization-candidates-informations-step__dash-icon"></div>
+                </div>
+              {{else}}
+                <div class="checkbox checkbox--unchecked">
+                </div>
+              {{/if}}
+            </div>
+            Écran de fin du test vu
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each certificationCandidates as |candidate|}}
+        <tr>
+          <td data-test-id="finalization-candidate-last-name_{{candidate.id}}">{{candidate.lastName}}</td>
+          <td data-test-id="finalization-candidate-first-name_{{candidate.id}}">{{candidate.firstName}}</td>
+          <td data-test-id="finalization-candidate-certification-number_{{candidate.id}}">{{candidate.certificationCourseIdReadable}}</td>
+          <td>
+            <textarea
+              data-test-id="finalization-candidate-examiner-comment_{{candidate.id}}"
+              class="session-finalization-candidates-informations-step__textarea"
+              value={{candidate.examinerComment}}
+              oninput={{action (mut candidate.examinerComment) value="target.value"}}
+              maxlength={{textareaMaxLength}}
+            />
+          </td>
+          <td>
+            {{#if (not candidate.isMissing)}}
+              {{#if candidate.hasSeenEndTestScreen}}
+                <div
+                  data-test-id="finalization-candidate-has-seen-end-test-screen_{{candidate.id}}"
+                  class="checkbox checkbox--checked"
+                  onClick={{action (toggle "hasSeenEndTestScreen" candidate)}}
+                >
+                  <img
+                    src="/icons/icon-done.svg"
+                    class="session-finalization-candidates-informations-step__done-icon"
+                    alt="checkbox" >
+                </div>
+              {{else}}
+                <div
+                  data-test-id="finalization-candidate-has-seen-end-test-screen_{{candidate.id}}"
+                  class="checkbox checkbox--unchecked"
+                  onClick={{action (toggle "hasSeenEndTestScreen" candidate)}}/>
+              {{/if}}
+            {{else}}
+              <div
+                data-test-id="finalization-candidate-has-seen-end-test-screen_{{candidate.id}}"
+                class="checkbox checkbox--unchecked checkbox--disabled"
+                onClick={{action (toggle "hasSeenEndTestScreen" candidate)}}
+              />
+            {{/if}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
