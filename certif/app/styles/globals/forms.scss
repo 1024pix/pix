@@ -175,3 +175,32 @@
   box-shadow: 0 0 0 2px $dodger-blue;
   background-color: $dodger-blue;
 }
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  user-select: none;
+  cursor: pointer;
+
+  &--unchecked {
+    border: 2px solid $alto;
+
+    &:hover {
+      background-color: $porcelain;
+    }
+  }
+
+  &--checked {
+    background-color: $aqua;
+    border: 2px solid $aqua;
+  }
+
+  &--disabled {
+    background-color: $porcelain;
+    cursor: not-allowed;
+  }
+}
