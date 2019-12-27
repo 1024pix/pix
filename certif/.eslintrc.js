@@ -5,8 +5,11 @@ module.exports = {
     server: true,
   },
   parserOptions: {
-    ecmaVersion: 2017,
-    sourceType: 'module'
+    ecmaVersion: 2018,
+    sourceType: 'module',
+    ecmaFeatures: {
+      legacyDecorators: true
+    }
   },
   plugins: [
     'ember',
@@ -34,8 +37,7 @@ module.exports = {
         'server/**/*.js'
       ],
       parserOptions: {
-        sourceType: 'script',
-        ecmaVersion: 2015
+        sourceType: 'script'
       },
       env: {
         browser: false,
