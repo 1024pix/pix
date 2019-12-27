@@ -61,7 +61,7 @@
     "ember-flatpickr": "^2.15.3",
     "ember-keyboard": "^5.0.0",
     "ember-load-initializers": "^2.1.1",
-    "ember-modal-dialog": "^2.4.4",
+    "ember-modal-dialog": "^3.0.0-beta.4",
     "ember-moment": "^8.0.0",
     "ember-qunit": "^4.6.0",
     "ember-resolver": "^7.0.0",
