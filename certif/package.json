@@ -64,7 +64,7 @@
     "ember-modal-dialog": "^2.4.4",
     "ember-moment": "^8.0.0",
     "ember-qunit": "^4.6.0",
-    "ember-resolver": "^5.3.0",
+    "ember-resolver": "^7.0.0",
     "ember-simple-auth": "^2.1.1",
     "ember-sinon": "^4.1.1",
     "ember-source": "~3.14.1",
