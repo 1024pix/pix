@@ -6,5 +6,4 @@ export default DS.Model.extend({
   lastName: DS.attr(),
   pixCertifTermsOfServiceAccepted: DS.attr(),
   certificationCenterMemberships: DS.hasMany('certificationCenterMembership')
-
 });

@@ -17,14 +17,15 @@ export default Component.extend({
 
   actions: {
 
-    authenticate() {
+    async authenticate() {
       const email = this.email ? this.email.trim() : '';
       const password = this.password;
       const scope = 'pix-certif';
-      return this.session.authenticate('authenticator:oauth2', email, password, scope)
-        .catch(() => {
-          this.set('isErrorMessagePresent', true);
-        });
+      try {
+        await this.session.authenticate('authenticator:oauth2', email, password, scope);
+      } catch (err) {
+        this.set('isErrorMessagePresent', true);
+      }
     },
 
     togglePasswordVisibility() {
