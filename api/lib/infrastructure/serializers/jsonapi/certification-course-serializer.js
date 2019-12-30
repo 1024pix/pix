@@ -28,40 +28,12 @@ module.exports = {
     }).serialize(certificationCourse);
   },
 
-  serializeResult(certificationCourseResult) {
-    return new Serializer('results', {
-      attributes: [
-        'assessmentId',
-        'level',
-        'pixScore',
-        'createdAt',
-        'resultCreatedAt',
-        'status',
-        'completedAt',
-        'emitter',
-        'juryId',
-        'commentForCandidate',
-        'commentForOrganization',
-        'commentForJury',
-        'competencesWithMark',
-        'firstName',
-        'lastName',
-        'birthdate',
-        'birthplace',
-        'sessionId',
-        'externalId',
-        'isPublished',
-        'isV2Certification',
-      ],
-    }).serialize(certificationCourseResult);
-  },
-
   deserialize(json) {
     if (!isValidDate(json.data.attributes.birthdate, 'YYYY-MM-DD')) {
       throw new WrongDateFormatError();
     }
 
-    return CertificationCourse.fromAttributes({
+    return new CertificationCourse({
       id: json.data.id,
       createdAt: json.data.attributes.createdAt,
       updatedAt: json.data.attributes.updatedAt,

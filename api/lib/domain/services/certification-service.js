@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const CertificationResult = require('../models/CertificationResult');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
@@ -43,17 +43,30 @@ module.exports = {
       lastAssessmentResultFull = await assessmentResultRepository.get(lastAssessmentResult.id);
     }
 
-    // TODO: Back this unnamed composite object with a real domain object
-    // TODO: model and do the necessary adjustements in PixAdmin.
-    return {
-      ..._.pick(certification, ['id', 'createdAt', 'completedAt', 'firstName', 'lastName',
-        'birthdate', 'birthplace', 'sessionId', 'externalId', 'isPublished', 'isV2Certification']),
-      ..._.pick(lastAssessmentResultFull, ['level', 'emitter', 'commentForJury', 'commentForCandidate',
-        'commentForOrganization', 'status', 'pixScore', 'juryId']),
-      assessmentId: assessment ? assessment.id : null,
+    return new CertificationResult({
+      id: certification.id,
+      firstName: certification.firstName,
+      lastName: certification.lastName,
+      birthdate: certification.birthdate,
+      birthplace: certification.birthplace,
+      externalId: certification.externalId,
+      completedAt: certification.completedAt,
+      createdAt: certification.createdAt,
       resultCreatedAt: lastAssessmentResultFull.createdAt,
+      isPublished: certification.isPublished,
+      isV2Certification: certification.isV2Certification,
+      pixScore: lastAssessmentResultFull.pixScore,
+      status: lastAssessmentResultFull.status,
+      level: lastAssessmentResultFull.level,
+      emitter: lastAssessmentResultFull.emitter,
+      commentForCandidate: lastAssessmentResultFull.commentForCandidate,
+      commentForJury: lastAssessmentResultFull.commentForJury,
+      commentForOrganization: lastAssessmentResultFull.commentForOrganization,
       competencesWithMark: lastAssessmentResultFull.competenceMarks,
-    };
+      assessmentId: assessment ? assessment.id : null,
+      juryId: lastAssessmentResultFull.juryId,
+      sessionId: certification.sessionId,
+    });
   },
 
   _computeAnswersSuccessRate,

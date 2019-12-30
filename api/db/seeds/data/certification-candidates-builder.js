@@ -110,22 +110,46 @@ module.exports = function sessionsBuilder({ databaseBuilder }) {
   });
 
   const originLocale = faker.locale;
+
   faker.locale = 'fr';
+
   for (let i = 0; i < CANDIDATE_COUNT; ++i) {
-    const extraTimePercentage = i % 2 === 0 ? null : (faker.random.number(99) / 100);
-    databaseBuilder.factory.buildCertificationCandidate({
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
+    buildCertificationCandidateAndCourseForSession(4);
+    buildCertificationCandidateAndCourseForSession(5);
+  }
+
+  faker.locale = originLocale;
+
+  function buildCertificationCandidateAndCourseForSession(sessionId) {
+    const firstName = faker.name.firstName();
+    const lastName = faker.name.lastName();
+
+    const user = databaseBuilder.factory.buildUser({
+      email: Math.random().toString().slice(2) + faker.internet.exampleEmail(firstName, lastName),
+      firstName,
+      lastName,
+    });
+
+    const data = {
+      firstName,
+      lastName,
       birthCity: faker.address.city(),
       birthProvinceCode: faker.random.alphaNumeric(3),
       birthCountry: faker.address.country(),
       email: faker.internet.email(),
       birthdate: moment(faker.date.past(90)).format('YYYY-MM-DD'),
       externalId: faker.random.alphaNumeric(6),
-      extraTimePercentage,
-      sessionId: 4,
-    });
-  }
+      extraTimePercentage: Math.random() < 0.5 ? null : faker.random.number(99) / 100,
+      userId: user.id,
+      sessionId,
+    };
 
-  faker.locale = originLocale;
+    databaseBuilder.factory.buildCertificationCandidate(data);
+
+    // Randomly build a certification-course for the candidate
+    // With a 10% chance of being absent
+    if (Math.random() < 0.9) {
+      databaseBuilder.factory.buildCertificationCourse(data);
+    }
+  }
 };

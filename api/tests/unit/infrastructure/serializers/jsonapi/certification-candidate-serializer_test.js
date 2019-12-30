@@ -24,6 +24,10 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
           'external-id': certificationCandidate.externalId,
           'extra-time-percentage': certificationCandidate.extraTimePercentage,
           'is-linked': !_.isNil(certificationCandidate.userId),
+          'certification-course-id': !_.isUndefined(certificationCandidate.certificationCourse) ?
+            certificationCandidate.certificationCourse.id : undefined,
+          'examiner-comment': certificationCandidate.examinerComment,
+          'has-seen-end-test-screen': certificationCandidate.hasSeenEndTestScreen,
         },
       }
     };
@@ -50,8 +54,10 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
       // then
       delete certificationCandidate.createdAt;
       delete certificationCandidate.sessionId;
+      delete certificationCandidate.userId;
+      delete certificationCandidate.certificationCourse;
       certificationCandidate.id += '';
-      expect(json).to.deep.equal(_.omit(certificationCandidate, ['userId']));
+      expect(json).to.deep.equal(certificationCandidate, ['userId']);
     });
 
   });

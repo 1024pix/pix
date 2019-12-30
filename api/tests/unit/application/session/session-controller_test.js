@@ -6,7 +6,7 @@ const Session = require('../../../../lib/domain/models/Session');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
-const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
+const certificationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-result-serializer');
 const _ = require('lodash');
 
 describe('Unit | Controller | sessionController', () => {
@@ -272,7 +272,7 @@ describe('Unit | Controller | sessionController', () => {
         },
       };
       sinon.stub(usecases, 'getSessionCertifications').withArgs({ sessionId }).resolves(certifications);
-      sinon.stub(certificationCourseSerializer, 'serializeResult').withArgs(certifications).returns(certificationsJsonApi);
+      sinon.stub(certificationResultSerializer, 'serialize').withArgs(certifications).returns(certificationsJsonApi);
     });
 
     it('should return certifications', async () => {
@@ -369,6 +369,16 @@ describe('Unit | Controller | sessionController', () => {
     const updatedSession = Symbol('updatedSession');
     const serializedUpdatedSession = Symbol('updated session serialized');
     const examinerComment = 'It was a fine session my dear';
+    const serializedCertifcationCandidates = [
+      {
+        id: 1,
+        type: 'certification-candidates',
+        attributes: {
+          'has-seen-end-test-screen': false,
+          'examiner-comment': 'What a fine lad this one',
+        },
+      },
+    ];
 
     beforeEach(() => {
       // given
@@ -381,10 +391,12 @@ describe('Unit | Controller | sessionController', () => {
             attributes: {
               'examiner-comment': examinerComment,
             },
+            included: serializedCertifcationCandidates,
           },
         },
       };
-      sinon.stub(usecases, 'finalizeSession').withArgs({ sessionId, examinerComment }).resolves(updatedSession);
+
+      sinon.stub(usecases, 'finalizeSession').resolves(updatedSession);
       sinon.stub(sessionSerializer, 'serializeForFinalization').withArgs(updatedSession).resolves(serializedUpdatedSession);
     });
 

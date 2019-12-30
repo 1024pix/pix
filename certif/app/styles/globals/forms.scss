@@ -175,3 +175,37 @@
   box-shadow: 0 0 0 2px $dodger-blue;
   background-color: $dodger-blue;
 }
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  user-select: none;
+  cursor: pointer;
+  transition: box-shadow .1s linear;
+
+  &--unchecked {
+    border: 2px solid $alto;
+
+    &:hover:not(.checkbox--disabled) {
+      background-color: $porcelain;
+      box-shadow: 0 0px 0px 8px rgba($grey, 0.1);
+      border-color: $grey;
+    }
+  }
+
+  &--checked {
+    background-color: $aqua;
+    border: 2px solid $aqua;
+  }
+
+  &--disabled {
+    background-color: $nobel;
+    border-color: $nobel;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}

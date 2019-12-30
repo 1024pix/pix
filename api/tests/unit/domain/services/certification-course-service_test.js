@@ -14,7 +14,7 @@ describe('Unit | Service | Certification Course Service', function() {
 
   describe('#updatedCertifcationCourse', () => {
 
-    const certificationCourse = CertificationCourse.fromAttributes({
+    const certificationCourse = new CertificationCourse({
       firstName: 'Freezer',
       lastName: 'The all mighty',
       birthplace: 'Namek',
