@@ -38,18 +38,28 @@
       </div>
   </div>
 
+  {{#if session.isFinalized}}
   <div class="certifications-session-info__stats">
+    <div class='row'>
+        <div class='col'>Nombre de signalements :</div>
+        <div class='col' data-test-id='certifications-session-info__count-commentaries'>{{session.countExaminerComment}}</div>
+    </div>
+    <div class='row'>
+        <div class='col'>Nombre d'écrans de fin de test non renseignés :</div>
+        <div class='col' data-test-id='certifications-session-info__count-not-checked-end-screen'>{{session.countNotCheckedEndScreen}}</div>
+    </div>
     <div class='row'>
         <div class='col'>Nombre de certifications non terminées :</div>
         <div class='col' data-test-id='certifications-session-info__count-non-validated-certifications'>{{session.countNonValidatedCertifications}}</div>
     </div>
-    {{#if (and session.isFinalized session.hasExaminerGlobalComment)}}
+    {{#if session.hasExaminerGlobalComment}}
     <div class='row'>
         <div class='col'>Commentaire global :</div>
         <div class='col' data-test-id='certifications-session-info__examiner-global-comment'>{{session.examinerGlobalComment}}</div>
     </div>
     {{/if}}
   </div>
+  {{/if}}
 
   <div class="certifications-session-info__actions">
     <div class='row row--btn'>

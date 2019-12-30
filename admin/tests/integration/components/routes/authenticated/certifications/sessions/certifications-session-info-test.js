@@ -9,22 +9,35 @@ module('Integration | Component | certifications-session-info', function(hooks) 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
+  let sessionId;
   let session;
   let sessionData;
 
   hooks.beforeEach(async function() {
     await authenticateSession({ userId: 1 });
+    sessionId = 1;
+
+    this.server.create('certification', { sessionId, examinerComment: 'ok', status: 'validated', hasSeenEndTestScreen: 'false' });
+    this.server.create('certification', { sessionId, status: 'validated', hasSeenEndTestScreen: 'true' });
+
     sessionData = {
-      id: 1,
+      id: sessionId,
       certificationCenter: 'Tour Gamma',
       address: '3 rue du tout',
       room: 'room',
       examiner: 'poulet',
       date: '1999-01-01',
       time: '14:00:00',
+      status: 'finalized',
       description: 'pouet',
       accessCode: '123',
-      certifications: [],
+      relationships: {
+        certifications: {
+          links: {
+            related: `/api/sessions/${sessionId}/certifications`
+          }
+        }
+      },
     };
   });
 
@@ -33,10 +46,10 @@ module('Integration | Component | certifications-session-info', function(hooks) 
     session = this.server.create('session', sessionData);
 
     // when
-    await visit(`/certifications/sessions/${session.id}`);
+    await visit(`/certifications/sessions/${sessionId}`);
 
     // then
-    assert.equal(currentURL(), `/certifications/sessions/${session.id}`);
+    assert.equal(currentURL(), `/certifications/sessions/${sessionId}`);
     assert.dom('[data-test-id="certifications-session-info__certification-center"]').hasText(session.certificationCenter);
     assert.dom('[data-test-id="certifications-session-info__address"]').hasText(session.address);
     assert.dom('[data-test-id="certifications-session-info__room"]').hasText(session.room);
@@ -45,6 +58,8 @@ module('Integration | Component | certifications-session-info', function(hooks) 
     assert.dom('[data-test-id="certifications-session-info__time"]').hasText(session.time);
     assert.dom('[data-test-id="certifications-session-info__description"]').hasText(session.description);
     assert.dom('[data-test-id="certifications-session-info__access-code"]').hasText(session.accessCode);
+    assert.dom('[data-test-id="certifications-session-info__count-commentaries"]').hasText('1');
+    assert.dom('[data-test-id="certifications-session-info__count-not-checked-end-screen"]').hasText('1');
     assert.dom('[data-test-id="certifications-session-info__count-non-validated-certifications"]').hasText('0');
   });
 
@@ -56,7 +71,7 @@ module('Integration | Component | certifications-session-info', function(hooks) 
       session = this.server.create('session', sessionData);
 
       // when
-      await visit(`/certifications/sessions/${session.id}`);
+      await visit(`/certifications/sessions/${sessionId}`);
 
       // then
       assert.dom('[data-test-id="certifications-session-info__is-finalized"]').hasText('Finalisée');
@@ -69,7 +84,7 @@ module('Integration | Component | certifications-session-info', function(hooks) 
       session = this.server.create('session', sessionData);
 
       // when
-      await visit(`/certifications/sessions/${session.id}`);
+      await visit(`/certifications/sessions/${sessionId}`);
 
       assert.dom('[data-test-id="certifications-session-info__examiner-global-comment"]').hasText(session.examinerGlobalComment);
     });
@@ -81,7 +96,7 @@ module('Integration | Component | certifications-session-info', function(hooks) 
       session = this.server.create('session', sessionData);
 
       // when
-      await visit(`/certifications/sessions/${session.id}`);
+      await visit(`/certifications/sessions/${sessionId}`);
 
       assert.equal(find('[data-test-id="certifications-session-info__examiner-comment"]'), undefined);
     });
@@ -95,7 +110,7 @@ module('Integration | Component | certifications-session-info', function(hooks) 
       session = this.server.create('session', sessionData);
 
       // when
-      await visit(`/certifications/sessions/${session.id}`);
+      await visit(`/certifications/sessions/${sessionId}`);
 
       // then
       assert.dom('[data-test-id="certifications-session-info__is-finalized"]').hasText('Prête');
@@ -108,7 +123,7 @@ module('Integration | Component | certifications-session-info', function(hooks) 
       session = this.server.create('session', sessionData);
 
       // when
-      await visit(`/certifications/sessions/${session.id}`);
+      await visit(`/certifications/sessions/${sessionId}`);
 
       assert.equal(find('[data-test-id="certifications-session-info__examiner-comment"]'), undefined);
     });
