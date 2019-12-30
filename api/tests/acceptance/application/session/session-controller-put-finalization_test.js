@@ -6,25 +6,14 @@ describe('Acceptance | Controller | sessions-controller', () => {
 
   let options;
   let server;
-  let userId;
-  let certificationCenterId;
-  let sessionId;
+  let session;
   const examinerComment = 'It was a fine session my dear';
-
-  const sessionDomain = {
-    accessCode: 'ABC123',
-    address: '42 rue des anges',
-    certificationCenter: 'Tour Gamma',
-    date: '2012-12-12',
-    description: 'Désobéissance civile',
-    examiner: 'Forster Nakamura',
-    room: 'B',
-    time: '14:40:00',
-    status: 'started',
-  };
 
   beforeEach(async () => {
     server = await createServer();
+    session = databaseBuilder.factory.buildSession({ status: 'started' });
+    const candidate1Id = databaseBuilder.factory.buildCertificationCandidate({ sessionId: session.id }).id;
+    const candidate2Id = databaseBuilder.factory.buildCertificationCandidate({ sessionId: session.id }).id;
 
     options = {
       method: 'PUT',
@@ -33,10 +22,31 @@ describe('Acceptance | Controller | sessions-controller', () => {
           attributes: {
             'examiner-comment': examinerComment,
           },
+          included: [
+            {
+              id: candidate1Id,
+              type: 'certification-candidates',
+              attributes: {
+                'has-seen-end-test-screen': false,
+                'examiner-comment': 'What a fine lad this one',
+              },
+            },
+            {
+              id: candidate2Id,
+              type: 'certification-candidates',
+              attributes: {
+                'has-seen-end-test-screen': true,
+                'examiner-comment': 'What a fine lad this two',
+              },
+            },
+          ],
         },
       },
       headers: {},
+      url: `/api/sessions/${session.id}/finalization`,
     };
+
+    return databaseBuilder.commit();
   });
 
   describe('PUT /sessions/{id}/finalization', () => {
@@ -45,40 +55,26 @@ describe('Acceptance | Controller | sessions-controller', () => {
 
       it('should respond with a 401 Forbidden if the user is not authenticated', async () => {
         // given
-        userId = databaseBuilder.factory.buildUser().id;
-        sessionId = databaseBuilder.factory.buildSession(sessionDomain).id;
-
         options.headers.authorization = 'invalid.access.token';
-        options.url = `/api/sessions/${sessionId}/finalization`;
-
-        await databaseBuilder.commit();
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
 
       it('should respond with a 404 NotFound the if user is not authorized (to keep opacity on whether forbidden or not found)', async () => {
         // given
-        userId = databaseBuilder.factory.buildUser().id;
-        sessionId = databaseBuilder.factory.buildSession(sessionDomain).id;
-
+        const userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
-
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
-        options.url = `/api/sessions/${sessionId}/finalization`;
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(404);
-        });
+        expect(response.statusCode).to.equal(404);
       });
     });
 
@@ -86,29 +82,24 @@ describe('Acceptance | Controller | sessions-controller', () => {
 
       it('should return the serialized updated session', async () => {
         // given
-        userId = databaseBuilder.factory.buildUser().id;
-        certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-        sessionId = databaseBuilder.factory.buildSession({ ...sessionDomain, ...{ certificationCenterId } }).id;
-
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId: session.certificationCenterId });
         await databaseBuilder.commit();
-
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
-        options.url = `/api/sessions/${sessionId}/finalization`;
 
         const expectedSessionJSONAPI = {
           data: {
             type: 'sessions',
-            id: sessionId + '',
+            id: session.id.toString(),
             attributes: {
-              'access-code': sessionDomain.accessCode,
-              'address': sessionDomain.address,
-              'certification-center': sessionDomain.certificationCenter,
-              'description': sessionDomain.description,
-              'examiner': sessionDomain.examiner,
-              'date': sessionDomain.date,
-              'time': sessionDomain.time,
-              'room': sessionDomain.room,
+              'access-code': session.accessCode,
+              'address': session.address,
+              'certification-center': session.certificationCenter,
+              'description': session.description,
+              'examiner': session.examiner,
+              'date': session.date,
+              'time': session.time,
+              'room': session.room,
               'status': 'finalized',
               'examiner-comment': examinerComment,
             },
@@ -116,13 +107,11 @@ describe('Acceptance | Controller | sessions-controller', () => {
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.result.data).to.deep.equal(expectedSessionJSONAPI.data);
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.result.data).to.deep.equal(expectedSessionJSONAPI.data);
+        expect(response.statusCode).to.equal(200);
       });
     });
   });

@@ -67,7 +67,6 @@ describe('Integration | Repository | Certification Course', function() {
 
         // then
         expect(actualCertificationCourse.id).to.equal(expectedCertificationCourse.id);
-        expect(actualCertificationCourse.type).to.equal('CERTIFICATION');
         expect(actualCertificationCourse.completedAt).to.equal(expectedCertificationCourse.completedAt);
         expect(actualCertificationCourse.firstName).to.equal(expectedCertificationCourse.firstName);
         expect(actualCertificationCourse.lastName).to.equal(expectedCertificationCourse.lastName);
@@ -294,4 +293,3 @@ describe('Integration | Repository | Certification Course', function() {
     });
   });
 });
-

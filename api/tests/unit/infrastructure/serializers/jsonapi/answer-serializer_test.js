@@ -5,34 +5,6 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 
 describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
 
-  const jsonAnswer = {
-    data: {
-      type: 'answers',
-      id: 'answer_id',
-      attributes: {
-        value: 'answer_value',
-        'result-details': 'resultDetails_value',
-        timeout: 8,
-        'elapsed-time': 30,
-        result: 'result_value',
-      },
-      relationships: {
-        assessment: {
-          data: {
-            type: 'assessments',
-            id: 'assessment_id',
-          },
-        },
-        challenge: {
-          data: {
-            type: 'challenges',
-            id: 'challenge_id',
-          },
-        }
-      },
-    },
-  };
-
   describe('#serialize', () => {
 
     const answerId = 1232345;
@@ -97,24 +69,6 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
 
       // then
       expect(json).to.deep.equal(expectedJSON);
-    });
-  });
-
-  describe('#deserializeToBookshelfAnswer()', () => {
-
-    it('should convert JSON API data into an Answer model object', () => {
-      // when
-      const answer = serializer.deserializeToBookshelfAnswer(jsonAnswer);
-
-      // then
-      expect(answer.id).to.equal(jsonAnswer.data.id);
-      expect(answer.get('assessmentId')).to.equal(jsonAnswer.data.relationships.assessment.data.id);
-      expect(answer.get('challengeId')).to.equal(jsonAnswer.data.relationships.challenge.data.id);
-      expect(answer.get('value')).to.equal(jsonAnswer.data.attributes.value);
-      expect(answer.get('result')).to.equal(jsonAnswer.data.attributes.result);
-      expect(answer.get('resultDetails')).to.equal(jsonAnswer.data.attributes['result-details']);
-      expect(answer.get('timeout')).to.equal(jsonAnswer.data.attributes.timeout);
-      expect(answer.get('elapsedTime')).to.equal(jsonAnswer.data.attributes['elapsed-time']);
     });
   });
 });

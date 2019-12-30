@@ -72,7 +72,7 @@ describe('Unit | Controller | certification-course-controller', () => {
 
   describe('#update', () => {
 
-    const updatedCertificationCourse = CertificationCourse.fromAttributes();
+    const updatedCertificationCourse = new CertificationCourse();
 
     const JsonAPISavedCertification = {
       data: {
