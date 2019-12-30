@@ -17,10 +17,23 @@ export default Model.extend({
   isFinalized: equal('status', 'finalized'),
   examinerGlobalComment: attr(),
   certifications: hasMany('certification'),
+  countExaminerComment : computed('certifications.[]', function() {
+    return _.sumBy(
+      this.certifications.toArray(),
+      (certif) => certif.examinerComment ? Number(certif.examinerComment.trim().length > 0) : 0
+    );
+  }),
+  countNotCheckedEndScreen : computed('certifications.[]', function() {
+    return _.sumBy(
+      this.certifications.toArray(),
+      (certif) => !certif.hasSeenEndTestScreen
+    );
+  }),
   countNonValidatedCertifications : computed('certifications.[]', function() {
-    return _.reduce(this.certifications.toArray(), (count, certification) => {
-      return certification.status !== 'validated' ? ++count : count;
-    }, 0);
+    return _.sumBy(
+      this.certifications.toArray(),
+      (certif) => Number(certif.status !== 'validated')
+    );
   }),
   hasExaminerGlobalComment : computed('examinerGlobalComment', function() {
     return this.examinerGlobalComment && this.examinerGlobalComment.trim().length > 0;

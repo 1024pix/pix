@@ -1,5 +1,6 @@
 import { createMembership } from './handlers/memberships';
 import { getOrganizationMemberships } from './handlers/organizations';
+import { getCertificationsBySessionId } from './handlers/certifications-by-session-id';
 import { findUsers } from './handlers/users';
 import { upload } from 'ember-file-upload/mirage';
 
@@ -32,12 +33,16 @@ export default function() {
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
 
+  this.get('/users', findUsers);
+
   this.post('/memberships', createMembership);
   this.get('/organizations/:id');
   this.get('/organizations/:id/memberships', getOrganizationMemberships);
+
   this.get('/sessions/:id');
+  this.get('/sessions/:id/certifications', getCertificationsBySessionId);
   this.get('/admin/certifications/:id');
-  this.get('/users', findUsers);
+
   this.put('/sessions/:id/certifications/attendance-sheet-analysis', upload(function() {
     return [
       { lastName: 'Lantier',
