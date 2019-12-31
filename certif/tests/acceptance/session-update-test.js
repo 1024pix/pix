@@ -21,9 +21,9 @@ module('Acceptance | Session Update', function(hooks) {
     });
   });
 
-  test('it should allow to update a session and redirect to the session #1 details', async function(assert) {
+  test('it should allow to update a session and redirect to the session details', async function(assert) {
     // given
-    const session = server.create('session', { id: 1, date: '2010-10-12', time: '13:00' });
+    const session = server.create('session', { room: 'beforeRoom', examiner: 'beforeExaminer' });
     const newRoom = 'New room';
     const newExaminer = 'New examiner';
 
@@ -35,14 +35,15 @@ module('Acceptance | Session Update', function(hooks) {
     await click('button[type="submit"]');
 
     // then
-    assert.equal(server.db.sessions.find(1).room, newRoom);
-    assert.equal(server.db.sessions.find(1).examiner, newExaminer);
+    session.reload();
+    assert.equal(session.room, newRoom);
+    assert.equal(session.examiner, newExaminer);
     assert.equal(currentURL(), `/sessions/${session.id}`);
   });
 
   test('it should not update a session when cancel button is clicked and redirect to the session #1 details', async function(assert) {
     // given
-    const session = server.create('session', { id: 1, room: 'current room', examiner: 'current examiner', date: '2010-10-12', time: '13:00' });
+    const session = server.create('session', { room: 'beforeRoom', examiner: 'beforeExaminer' });
     const newRoom = 'New room';
     const newExaminer = 'New examiner';
 
@@ -54,8 +55,9 @@ module('Acceptance | Session Update', function(hooks) {
     await click('button[data-action="cancel"]');
 
     // then
-    assert.equal(server.db.sessions.find(1).room, 'current room');
-    assert.equal(server.db.sessions.find(1).examiner, 'current examiner');
+    session.reload();
+    assert.equal(session.room, 'beforeRoom');
+    assert.equal(session.examiner, 'beforeExaminer');
     assert.equal(currentURL(), `/sessions/${session.id}`);
   });
 });

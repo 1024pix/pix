@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, visit, find } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { createUserWithMembership } from '../helpers/test-init';
+import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 import { upload } from 'ember-file-upload/test-support';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -13,10 +13,12 @@ module('Acceptance | Session Details', function(hooks) {
   setupMirage(hooks);
 
   let user;
+  let session;
 
   hooks.beforeEach(function() {
-    user = createUserWithMembership();
-    server.create('session', { id: 1 });
+    user = createUserWithMembershipAndTermsOfServiceAccepted();
+    const certificationCenterId = user.certificationCenterMemberships.models[0].certificationCenterId;
+    session = server.create('session', { certificationCenterId });
   });
 
   hooks.afterEach(function() {
@@ -28,7 +30,7 @@ module('Acceptance | Session Details', function(hooks) {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
-      await visit('/sessions/1/candidates');
+      await visit(`/sessions/${session.id}/candidats`);
 
       // then
       assert.equal(currentURL(), '/connexion');
@@ -48,7 +50,7 @@ module('Acceptance | Session Details', function(hooks) {
 
     test('it should redirect to update page on click on return button', async function(assert) {
       // given
-      await visit('/sessions/1');
+      await visit(`/sessions/${session.id}`);
 
       // when
       await click('.session-details-content__return-button');
@@ -57,29 +59,11 @@ module('Acceptance | Session Details', function(hooks) {
       assert.equal(currentURL(), '/sessions/liste');
     });
 
-    test('it should display a download button', async function(assert) {
-      // when
-      await visit('/sessions/1/candidats');
-
-      // then
-      assert.dom('[data-test-id="attendance_sheet_download_button"]').exists();
-      assert.dom('[data-test-id="attendance_sheet_download_button"]').hasText('Télécharger (.ods)');
-    });
-
-    test('it should display an upload button', async function(assert) {
-      // when
-      await visit('/sessions/1/candidats');
-
-      // then
-      assert.dom('[data-test-id="attendance_sheet_upload_button"]').exists();
-      assert.dom('[data-test-id="attendance_sheet_upload_button"]').hasText('Importer (.ods)');
-    });
-
     module('notifications', function() {
 
       test('it should display a success message when uploading a valid file', async function(assert) {
         // given
-        await visit('/sessions/1/candidats');
+        await visit(`/sessions/${session.id}/candidats`);
         const file = new File(['foo'], 'valid-file');
 
         // when
@@ -91,7 +75,7 @@ module('Acceptance | Session Details', function(hooks) {
 
       test('it should display a generic error message when uploading an invalid file', async function(assert) {
         // given
-        await visit('/sessions/1/candidats');
+        await visit(`/sessions/${session.id}/candidats`);
         const file = new File(['foo'], 'invalid-file');
 
         // when
@@ -103,7 +87,7 @@ module('Acceptance | Session Details', function(hooks) {
 
       test('it should display a specific error message when importing is forbidden', async function(assert) {
         // given
-        await visit('/sessions/1/candidats');
+        await visit(`/sessions/${session.id}/candidats`);
         const file = new File(['foo'], 'forbidden-import');
 
         // when

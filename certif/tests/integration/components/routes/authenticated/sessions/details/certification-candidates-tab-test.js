@@ -18,6 +18,24 @@ module('Integration | Component | routes/authenticated/session | certification-c
     });
   });
 
+  test('it should display a download button', async function(assert) {
+    // when
+    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=true importCertificationCandidates=importCertificationCandidatesSpy}}`);
+
+    // then
+    assert.dom('[data-test-id="attendance_sheet_download_button"]').exists();
+    assert.dom('[data-test-id="attendance_sheet_download_button"]').hasText('Télécharger (.ods)');
+  });
+
+  test('it should display an upload button', async function(assert) {
+    // when
+    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=true importCertificationCandidates=importCertificationCandidatesSpy}}`);
+
+    // then
+    assert.dom('[data-test-id="attendance_sheet_upload_button"]').exists();
+    assert.dom('[data-test-id="attendance_sheet_upload_button"]').hasText('Importer (.ods)');
+  });
+
   test('it should display the list of certification candidates', async function(assert) {
     // given
     const certificationCandidates = _.map([

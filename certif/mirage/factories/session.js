@@ -1,10 +1,11 @@
-import { Factory } from 'ember-cli-mirage';
+import { Factory, association } from 'ember-cli-mirage';
 import faker from 'faker';
+import moment from 'moment';
 
 export default Factory.extend({
 
-  examiner() {
-    return faker.company.companyName();
+  address() {
+    return faker.address.streetName();
   },
 
   accessCode() {
@@ -12,15 +13,38 @@ export default Factory.extend({
   },
 
   date() {
-    return '2019-02-23';
+    return moment(faker.date.recent()).format('YYYY-MM-DD');
+  },
+
+  description() {
+    return faker.random.words();
+  },
+
+  examiner() {
+    return faker.company.companyName();
+  },
+
+  room() {
+    return faker.random.alphaNumeric(9);
   },
 
   time() {
-    return '14:00';
+    return faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') +
+    ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0') +
+    ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0');
   },
 
-  createdAt() {
-    return faker.date.recent();
+  status() {
+    return 'started';
   },
 
+  examinerComment(i) {
+    if (i % 2 === 0) {
+      return faker.random.words();
+    }
+
+    return '';
+  },
+
+  certificationCenter: association(),
 });
