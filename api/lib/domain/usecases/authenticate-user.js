@@ -15,11 +15,11 @@ module.exports = function authenticateUser({
   password,
   scope,
   tokenService,
-  userEmail,
+  username,
   userRepository,
 }) {
   let user;
-  return userRepository.findByEmailWithRoles(userEmail.toLowerCase())
+  return userRepository.getByUsernameOrEmailWithRoles(username)
     .then((foundUser) => (user = foundUser))
     .then(() => _checkUserAccessScope(scope, user))
     .then(() => encryptionService.check(password, user.password))

@@ -9,7 +9,7 @@ module.exports = {
   authenticateUser(request, h) {
     const { username, password, scope } = request.payload;
 
-    return usecases.authenticateUser({ userEmail: username, password, scope })
+    return usecases.authenticateUser({ username, password, scope })
       .then((accessToken) => {
         return h.response({
           token_type: 'bearer',

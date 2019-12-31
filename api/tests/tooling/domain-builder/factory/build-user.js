@@ -9,6 +9,7 @@ module.exports = function buildUser(
     firstName = 'Jean',
     lastName = 'Bono',
     email = 'jean.bono@example.net',
+    username = 'jean.bono1234',
     password = 'liuehrfi128743KUUKNSUkuz12Ukun',
     cgu = true,
     pixOrgaTermsOfServiceAccepted = false,
@@ -20,7 +21,7 @@ module.exports = function buildUser(
   } = {}) {
 
   return new User({
-    id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
+    id, firstName, lastName, email, username, password, cgu, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
     pixRoles, memberships, certificationCenterMemberships,
   });
