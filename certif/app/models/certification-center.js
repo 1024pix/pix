@@ -1,6 +1,6 @@
-import DS from 'ember-data';
+import Model, { attr, hasMany } from '@ember-data/model';
 
-export default DS.Model.extend({
-  name: DS.attr(),
-  sessions: DS.hasMany('session')
+export default Model.extend({
+  name: attr(),
+  sessions: hasMany('session')
 });

@@ -7,10 +7,10 @@ export default Component.extend({
 
   actions: {
     updateTextareaValue(text) {
-      const textareaMaxLength = this.get('textareaMaxLength');
+      const textareaMaxLength = this.textareaMaxLength;
 
       if (text.length <= textareaMaxLength) {
-        this.get('session').set('examinerComment', text);
+        this.session.set('examinerComment', text);
       }
     },
   },

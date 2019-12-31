@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
 import ENV from 'pix-certif/config/environment';
@@ -9,30 +9,30 @@ const statusToDisplayName = {
   finalized: 'Finalisée',
 };
 
-export default DS.Model.extend({
-  address: DS.attr(),
-  accessCode: DS.attr(),
-  date: DS.attr('date-only'),
-  description: DS.attr(),
-  examiner: DS.attr(),
-  room: DS.attr(),
-  time: DS.attr(),
-  certificationCenter: DS.belongsTo('certificationCenter'),
-  certificationCandidates: DS.hasMany('certificationCandidate'),
+export default Model.extend({
+  address: attr(),
+  accessCode: attr(),
+  date: attr('date-only'),
+  description: attr(),
+  examiner: attr(),
+  room: attr(),
+  time: attr(),
+  certificationCenter: belongsTo('certificationCenter'),
+  certificationCandidates: hasMany('certificationCandidate'),
   session: service(),
-  status: DS.attr(),
-  examinerComment: DS.attr(),
+  status: attr(),
+  examinerComment: attr(),
   isFinalized: equal('status', 'finalized'),
   hasStarted: computed('certificationCandidates.@each.isLinked', function() {
     return this.certificationCandidates.isAny('isLinked');
   }),
 
   urlToDownload: computed('id', function() {
-    return `${ENV.APP.API_HOST}/api/sessions/${this.get('id')}/attendance-sheet?accessToken=${this.get('session.data.authenticated.access_token')}`;
+    return `${ENV.APP.API_HOST}/api/sessions/${this.id}/attendance-sheet?accessToken=${this.get('session.data.authenticated.access_token')}`;
   }),
 
   urlToUpload: computed('id', function() {
-    return `${ENV.APP.API_HOST}/api/sessions/${this.get('id')}/certification-candidates/import`;
+    return `${ENV.APP.API_HOST}/api/sessions/${this.id}/certification-candidates/import`;
   }),
 
   displayStatus: computed('status', function() {

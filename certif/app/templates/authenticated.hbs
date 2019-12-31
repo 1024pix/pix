@@ -20,8 +20,8 @@
   <div class="app__main-content main-content">
 
     <div class="main-content__topbar topbar">
-      <div class="topbar__user-identification">{{user-identification}}</div>
-      <div class="topbar__disconnect">{{#link-to "logout"}}Se déconnecter{{/link-to}}</div>
+      <div class="topbar__user-identification"><UserIdentification /></div>
+      <div class="topbar__disconnect"><LinkTo @route="logout">Se déconnecter</LinkTo></div>
     </div>
 
     <div class="main-content__body page">
