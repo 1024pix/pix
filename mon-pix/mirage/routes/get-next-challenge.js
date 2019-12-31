@@ -2,6 +2,7 @@ import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
 import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
 import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
 import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
+import refQcmNotYetAnsweredChallengeFull from '../data/challenges/ref-qcm-challenge_not_yet_answered';
 import refTimedChallengeBis from '../data/challenges/ref-timed-challenge-bis';
 import { challengeIds } from '../data/challenges/challenge-ids';
 
@@ -18,13 +19,14 @@ function getNextChallengeForDynamicAssessment(assessment, challenges) {
 function getNextChallengeForTestingAssessment(assessmentId, currentChallengeId) {
   // case 1 : we're trying to reach the first challenge for a given assessment
   if (!currentChallengeId) {
-    return refQcmChallengeFull;
+    return refQcmNotYetAnsweredChallengeFull;
   }
 
   // case 2 : test already started, challenge exists.
   const nextChallenge = {
 
     // ref_course
+    'ref_qcm_challenge_id_not_yet_answered': refQcmChallengeFull,
     'ref_qcm_challenge_id': refQcuChallengeFull,
     'ref_qcu_challenge_id': refQrocChallengeFull,
     'ref_qroc_challenge_id': refQrocmChallengeFull,

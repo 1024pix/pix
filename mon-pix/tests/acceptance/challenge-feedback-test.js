@@ -33,16 +33,18 @@ describe('Acceptance | Giving feedback about a challenge', function() {
       assertThatFeedbackPanelExist();
     });
 
-    it('should always reset the feedback form between two consecutive challenges', async () => {
-      // In our Mirage data set, in the "ref course", the QCU challenge is followed by a QRU's one
-      await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
-      assertThatFeedbackFormIsClosed();
+    it('should always reset the feedback form between two consecutive challenges', async function() {
+      this.server.create('assessment', {
+        id: 'ref_assessment_id',
+      });
 
+      // In our Mirage data set, in the "ref course", the QCU challenge is followed by a QRU's one
+      await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id_not_yet_answered');
+      assertThatFeedbackFormIsClosed();
       await click('.feedback-panel__open-link');
       assertThatFeedbackFormIsOpen();
 
       await click('.challenge-actions__action-skip');
-      await click('.challenge-item-warning button');
       assertThatFeedbackFormIsClosed();
     });
   });
