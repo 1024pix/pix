@@ -31,7 +31,7 @@ class User {
     // attributes
     this.firstName = firstName;
     this.lastName = lastName;
-    this.username = username ? username : null;
+    this.username = username;
     this.email = email ? _.toLower(email) : null;
     this.password = password;
     this.cgu = cgu;
