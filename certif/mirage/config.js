@@ -11,10 +11,18 @@ function parseQueryString(queryString) {
 }
 
 export default function() {
-
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
   this.timing = 0;
+  this.logging = true;
+
+  this.get('/certification-centers/:id/sessions', (schema, request) => {
+    const certificationCenterId = request.params.id;
+
+    return schema.sessions.where({ certificationCenterId });
+  });
+
+  this.post('/revoke', () => {});
 
   this.post('/token', (schema, request) => {
     const params = parseQueryString(request.requestBody);
@@ -32,33 +40,13 @@ export default function() {
     }
   });
 
-  this.post('/revoke', () => {});
-
-  this.get('/users/me', (schema, request) => {
-    const userToken = request.requestHeaders.Authorization.replace('Bearer ', '');
-    const userId = JSON.parse(atob(userToken.split('.')[1])).user_id;
-
-    return schema.users.find(userId);
-  });
-
-  this.patch('/users/:id/pix-certif-terms-of-service-acceptance', (schema, request) => {
-    const user =  schema.users.find(request.params.id);
-    user.pixCertifTermsOfServiceAccepted = true;
-    return user;
-  });
-
-  this.get('/users/:id/certification-center-memberships', (schema, request) => {
-    const userId = request.params.id;
-    return schema.certificationCenterMemberships.where({ userId });
-  });
-
-  this.get('/certification-centers/:id/sessions', (schema) => {
-    return schema.sessions.all();
-  });
-
   this.post('/sessions');
 
-  this.get('/sessions/:id');
+  this.get('/sessions/:id', function(schema, request) {
+    const sessionId = request.params.id;
+
+    return schema.sessions.find(sessionId);
+  });
 
   this.patch('/sessions/:id');
 
@@ -75,8 +63,30 @@ export default function() {
 
   this.put('/sessions/:id/finalization', (schema, request) => {
     const sessionId = request.params.id;
-    const session = schema.sessions.where({ id: sessionId });
-    session.status = 'finalized';
+    const session = schema.sessions.find(sessionId);
+    session.update({ status: 'finalized' });
+
     return session;
+  });
+
+  this.get('/users/me', (schema, request) => {
+    const userToken = request.requestHeaders.Authorization.replace('Bearer ', '');
+    const userId = JSON.parse(atob(userToken.split('.')[1])).user_id;
+
+    return schema.users.find(userId);
+  });
+
+  this.get('/users/:id/certification-center-memberships', (schema, request) => {
+    const userId = request.params.id;
+
+    return schema.certificationCenterMemberships.where({ userId });
+  });
+
+  this.patch('/users/:id/pix-certif-terms-of-service-acceptance', (schema, request) => {
+    const userId = request.params.id;
+    const user = schema.users.find(userId);
+    user.update({ pixCertifTermsOfServiceAccepted: true });
+
+    return user;
   });
 }

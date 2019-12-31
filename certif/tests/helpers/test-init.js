@@ -1,17 +1,20 @@
 export function createUserWithMembership() {
-  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixCertifTermsOfServiceAccepted': false });
-
+  const user = server.create('user', {
+    firstName: 'Harry',
+    lastName: 'Cover',
+    email: 'harry@cover.com',
+    'pixCertifTermsOfServiceAccepted': false,
+  });
   const certificationCenter = server.create('certificationCenter', {
-    name: 'Centre de certification du pix'
+    name: 'Centre de certification du pix',
   });
-
-  const memberships = server.create('certificationCenterMembership', {
-    certificationCenterId: certificationCenter.id,
+  const certificationCenterMembership = server.create('certificationCenterMembership', {
     certificationCenter,
-    userId: user.id
+    user,
   });
+  user.certificationCenterMemberships = [certificationCenterMembership];
+  user.save();
 
-  user.certificationCenterMemberships = [memberships];
   return user;
 }
 
@@ -20,18 +23,17 @@ export function createUserWithMembershipAndTermsOfServiceAccepted() {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
-    'pixCertifTermsOfServiceAccepted': true
+    'pixCertifTermsOfServiceAccepted': true,
   });
-
   const certificationCenter = server.create('certificationCenter', {
-    name: 'Centre de certification du pix'
+    name: 'Centre de certification du pix',
   });
-
-  const memberships = server.create('certificationCenterMembership', {
-    certificationCenterId: certificationCenter.id,
-    userId: user.id
+  const certificationCenterMembership = server.create('certificationCenterMembership', {
+    certificationCenter,
+    user,
   });
+  user.certificationCenterMemberships = [certificationCenterMembership];
+  user.save();
 
-  user.certificationCenterMemberships = [memberships];
   return user;
 }

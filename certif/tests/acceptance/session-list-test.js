@@ -3,7 +3,6 @@ import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembership } from '../helpers/test-init';
-import { waitFor } from '@ember/test-helpers';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -13,6 +12,7 @@ module('Acceptance | Session List', function(hooks) {
   setupMirage(hooks);
 
   let user;
+  let certificationCenterId;
 
   module('When user is not authenticated', function() {
 
@@ -30,6 +30,7 @@ module('Acceptance | Session List', function(hooks) {
 
     hooks.beforeEach(async () => {
       user = createUserWithMembership();
+      certificationCenterId = user.certificationCenterMemberships.models[0].certificationCenterId;
 
       await authenticateSession({
         user_id: user.id,
@@ -57,7 +58,7 @@ module('Acceptance | Session List', function(hooks) {
 
     test('it should list the sessions', async function(assert) {
       // given
-      server.createList('session', 12);
+      server.createList('session', 12, { certificationCenterId });
 
       // when
       await visit('/sessions/liste');
@@ -68,16 +69,15 @@ module('Acceptance | Session List', function(hooks) {
 
     test('it should redirect to detail page of session id 1 on click on first row', async function(assert) {
       // given
-      server.createList('session', 2);
+      const sessions = server.createList('session', 2, { certificationCenterId });
 
       await visit('/sessions/liste');
-      await waitFor('table tbody tr');
 
       // when
-      await click('table tbody tr:nth-child(1)');
+      await click(`[data-test-id="session-list-row__${sessions[0].id}"]`);
 
       // then
-      assert.equal(currentURL(), '/sessions/1');
+      assert.equal(currentURL(), `/sessions/${sessions[0].id}`);
     });
   });
 });
