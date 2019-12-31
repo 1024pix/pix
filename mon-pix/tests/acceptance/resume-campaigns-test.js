@@ -40,19 +40,18 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         expect(currentURL()).to.contains('/inscription');
       });
 
-      it('should redirect to assessment when user is signing up', async function() {
+      it('should redirect to assessment when user logs in', async function() {
         // given
-        await fillIn('#firstName', 'Jane');
-        await fillIn('#lastName', 'Acme');
-        await fillIn('#email', 'jane@acme.com');
+        await click('.sign-form-header__subtitle [href="/connexion"]');
+        await fillIn('#login', 'jane@acme.com');
         await fillIn('#password', 'Jane1234');
-        await click('#pix-cgu');
 
         // when
-        await click('.button');
+        await click('.sign-form-body__bottom-button button');
 
+        // then
         expect(currentURL()).to.contains('/assessments/');
-        expect(findAll('.progress-bar-stepnum.active').length).to.equals(1);
+        expect(findAll('.progress-bar-stepnum.active').length).to.equals(2);
       });
 
     });
@@ -67,7 +66,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
           // then
           expect(currentURL()).to.contains('/assessments/');
-          expect(findAll('.progress-bar-stepnum.active').length).to.equals(1);
+          expect(findAll('.progress-bar-stepnum.active').length).to.equals(2);
         });
       });
 
@@ -79,7 +78,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
           // then
           expect(currentURL()).to.contains('/assessments/');
-          expect(findAll('.progress-bar-stepnum.active').length).to.equals(1);
+          expect(findAll('.progress-bar-stepnum.active').length).to.equals(2);
         });
       });
 
