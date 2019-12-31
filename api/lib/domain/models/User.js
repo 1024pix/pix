@@ -9,6 +9,7 @@ class User {
     pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted,
     email,
+    username,
     firstName,
     knowledgeElements,
     lastName,
@@ -30,6 +31,7 @@ class User {
     // attributes
     this.firstName = firstName;
     this.lastName = lastName;
+    this.username = username;
     this.email = email ? _.toLower(email) : null;
     this.password = password;
     this.cgu = cgu;
