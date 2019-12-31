@@ -19,14 +19,10 @@ module('Integration | Component | session-finalization-examiner-comment-step', f
   });
 
   test('it renders', async function(assert) {
-    assert.equal(
-      find('label').textContent.trim(),
+    assert.dom('label').hasText(
       'Vous pouvez indiquer un commentaire global sur cette session, par exemple si vous avez rencontré un problème technique qui a impacté le déroulement de la session.'
     );
-    assert.equal(
-      find('div.session-finalization-examiner-comment-step__characters-information').textContent.trim(),
-      this.session.examinerComment.length + ' / ' + this.textareaMaxLength
-    );
+    assert.dom('div.session-finalization-examiner-comment-step__characters-information').hasText(this.session.examinerComment.length + ' / ' + this.textareaMaxLength);
     assert.equal(
       find('textarea').value.trim(),
       firstComment
@@ -36,10 +32,7 @@ module('Integration | Component | session-finalization-examiner-comment-step', f
   module('when changing textarea content', function() {
     test('it changes the textarea content and characters indicator', async function(assert) {
       await fillIn('#examiner-comment', 'You are no more a wizard Harry!');
-      assert.equal(
-        find('div.session-finalization-examiner-comment-step__characters-information').textContent.trim(),
-        this.session.examinerComment.length + ' / ' + this.textareaMaxLength
-      );
+      assert.dom('div.session-finalization-examiner-comment-step__characters-information').hasText(this.session.examinerComment.length + ' / ' + this.textareaMaxLength);
       assert.equal(find('#examiner-comment').value.trim(),
         'You are no more a wizard Harry!'
       );

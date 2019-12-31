@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import _ from 'lodash';
 import hbs from 'htmlbars-inline-precompile';
@@ -87,8 +87,9 @@ module('Integration | Component | routes/authenticated/session | certification-c
     await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=false importCertificationCandidates=importCertificationCandidatesSpy}}`);
 
     // then
-    assert.equal(find('.panel-actions__warning strong').textContent.trim(),
-      'La session a débuté, il n\'est plus possible de modifier la liste des candidats.');
+    assert.dom('.panel-actions__warning strong').hasText(
+      'La session a débuté, il n\'est plus possible de modifier la liste des candidats.'
+    );
   });
 
 });

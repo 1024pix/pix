@@ -11,7 +11,7 @@ module('Integration | Helper | format-percentage', function(hooks) {
 
     await render(hbs`{{format-percentage value}}`);
 
-    assert.equal(this.element.textContent.trim(), '30 %');
+    assert.dom(this.element).hasText('30 %');
   });
 
   test('it renders an empty string', async function(assert) {
@@ -19,6 +19,6 @@ module('Integration | Helper | format-percentage', function(hooks) {
 
     await render(hbs`{{format-percentage value}}`);
     
-    assert.equal(this.element.textContent.trim(), '');
+    assert.dom(this.element).hasText('');
   });
 });

@@ -1,6 +1,6 @@
-import DS from 'ember-data';
+import Model, { belongsTo } from '@ember-data/model';
 
-export default DS.Model.extend({
-  user: DS.belongsTo('user'),
-  certificationCenter: DS.belongsTo('certificationCenter')
+export default Model.extend({
+  user: belongsTo('user'),
+  certificationCenter: belongsTo('certificationCenter')
 });

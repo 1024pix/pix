@@ -4,10 +4,10 @@
 
 <div class="panel">
   <div class="session-list__header">
-    {{#link-to 'authenticated.sessions.new' class="button button--link button--with-icon"}}
+    <LinkTo @route="authenticated.sessions.new" class="button button--link button--with-icon">
       Créer une session
       {{fa-icon 'plus'}}
-    {{/link-to}}
+    </LinkTo>
   </div>
 
   <div class="table content-text content-text--small">
