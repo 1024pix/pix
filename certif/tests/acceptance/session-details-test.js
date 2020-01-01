@@ -106,19 +106,40 @@ module('Acceptance | Session Details', function(hooks) {
       });
 
       module('when the session is not finalized', function() {
-        test('it should redirect to finalize page on click on finalize button', async function(assert) {
-          // given
-          await visit(`/sessions/${sessionNotFinalized.id}`);
 
-          // when
-          await click('.session-details-content__finalize-button');
+        module('when the session has not started', function() {
+          test('it should not display the finalize button', async function(assert) {
+            // when
+            await visit(`/sessions/${sessionNotFinalized.id}`);
 
-          // then
-          assert.equal(currentURL(), `/sessions/${sessionNotFinalized.id}/finalisation`);
+            // then
+            assert.dom('.session-details-content__finalize-button').doesNotExist();
+          });
+        });
+
+        module('when the session has started', function() {
+          test('it should redirect to finalize page on click on finalize button', async function(assert) {
+            // given
+            const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
+            sessionNotFinalized.update({ certificationCandidates: candidatesWithStartingCertif });
+            await visit(`/sessions/${sessionNotFinalized.id}`);
+
+            // when
+            await click('.session-details-content__finalize-button');
+
+            // then
+            assert.equal(currentURL(), `/sessions/${sessionNotFinalized.id}/finalisation`);
+          });
         });
       });
 
       module('when the session is finalized', function() {
+
+        hooks.beforeEach(async function() {
+          const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
+          sessionFinalized.update({ certificationCandidates: candidatesWithStartingCertif });
+        });
+
         test('it should not redirect to finalize page on click on finalize button', async function(assert) {
           // given
           await visit(`/sessions/${sessionFinalized.id}`);
