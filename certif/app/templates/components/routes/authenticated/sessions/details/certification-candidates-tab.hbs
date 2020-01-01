@@ -87,15 +87,15 @@
         <tbody>
           {{#each certificationCandidates as |candidate|}}
             <tr>
-              <td data-test-id='panel-candidate__lastName'>{{candidate.lastName}}</td>
-              <td data-test-id='panel-candidate__firstName'>{{candidate.firstName}}</td>
-              <td data-test-id='panel-candidate__birthdate'>{{moment-format candidate.birthdate 'DD/MM/YYYY'}}</td>
-              <td data-test-id='panel-candidate__birthCity'>{{candidate.birthCity}}</td>
-              <td data-test-id='panel-candidate__birthProvinceCode'>{{candidate.birthProvinceCode}}</td>
-              <td data-test-id='panel-candidate__birthCountry'>{{candidate.birthCountry}}</td>
-              <td data-test-id='panel-candidate__email'>{{candidate.email}}</td>
-              <td data-test-id='panel-candidate__externalId'>{{candidate.externalId}}</td>
-              <td data-test-id='panel-candidate__extraTimePercentage'>{{format-percentage candidate.extraTimePercentage}}</td>
+              <td data-test-id='panel-candidate__lastName__{{candidate.id}}'>{{candidate.lastName}}</td>
+              <td data-test-id='panel-candidate__firstName__{{candidate.id}}'>{{candidate.firstName}}</td>
+              <td data-test-id='panel-candidate__birthdate__{{candidate.id}}'>{{moment-format candidate.birthdate 'DD/MM/YYYY'}}</td>
+              <td data-test-id='panel-candidate__birthCity__{{candidate.id}}'>{{candidate.birthCity}}</td>
+              <td data-test-id='panel-candidate__birthProvinceCode__{{candidate.id}}'>{{candidate.birthProvinceCode}}</td>
+              <td data-test-id='panel-candidate__birthCountry__{{candidate.id}}'>{{candidate.birthCountry}}</td>
+              <td data-test-id='panel-candidate__email__{{candidate.id}}'>{{candidate.email}}</td>
+              <td data-test-id='panel-candidate__externalId__{{candidate.id}}'>{{candidate.externalId}}</td>
+              <td data-test-id='panel-candidate__extraTimePercentage__{{candidate.id}}'>{{format-percentage candidate.extraTimePercentage}}</td>
             </tr>
           {{/each}}
         </tbody>
