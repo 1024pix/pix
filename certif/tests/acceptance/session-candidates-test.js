@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit, find } from '@ember/test-helpers';
+import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
@@ -59,6 +59,36 @@ module('Acceptance | Session Details', function(hooks) {
       assert.equal(currentURL(), '/sessions/liste');
     });
 
+    module('candidates list', function() {
+      let existingCandidates;
+
+      hooks.beforeEach(function() {
+        existingCandidates = server.createList('certification-candidate', 4, { isLinked: false });
+        session.update({ certificationCandidates : existingCandidates });
+      });
+
+      test('it should list the existing candidates in the session', async function(assert) {
+        // when
+        await visit(`/sessions/${session.id}/candidats`);
+
+        // then
+        assert.dom('table tbody tr').exists({ count: 4 });
+      });
+
+      test('it should replace the candidates list with the imported ones', async function(assert) {
+        // given
+        await visit(`/sessions/${session.id}/candidats`);
+        const file = new File(['foo'], `${session.id}.addTwoCandidates`);
+
+        // when
+        await upload('#upload-attendance-sheet', file);
+
+        // then
+        assert.dom('table tbody tr').exists({ count: 2 });
+      });
+
+    });
+
     module('notifications', function() {
 
       test('it should display a success message when uploading a valid file', async function(assert) {
@@ -95,8 +125,8 @@ module('Acceptance | Session Details', function(hooks) {
 
         // then
         assert.dom('[data-test-notification-message="error"]').exists();
-        assert.equal(find('[data-test-notification-message="error"]').textContent.trim(),
-          'La session a débuté, il n\'est plus possible de modifier la liste des candidats.');
+        assert.dom('[data-test-notification-message="error"]')
+          .hasText('La session a débuté, il n\'est plus possible de modifier la liste des candidats.');
       });
 
     });

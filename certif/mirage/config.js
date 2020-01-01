@@ -50,13 +50,25 @@ export default function() {
 
   this.patch('/sessions/:id');
 
-  this.post('/sessions/:id/certification-candidates/import', upload(function(_, request) {
+  this.get('/sessions/:id/certification-candidates', function(schema, request) {
+    const sessionId = request.params.id;
+
+    return schema.sessions.find(sessionId).certificationCandidates;
+  });
+
+  this.post('/sessions/:id/certification-candidates/import', upload(function(schema, request) {
     const { name } = request.requestBody.file;
     if (name === 'invalid-file') {
       return new Response(422, { some: 'header' }, { errors: [ 'generic error'] });
     }
     if (name === 'forbidden-import') {
       return new Response(403, { some: 'header' }, { errors: [{ status: '403', title: 'Forbidden', detail: 'At least one candidate is already linked to a user' }] });
+    }
+    if (name.endsWith('addTwoCandidates')) {
+      const sessionId = name.split('.')[0];
+      const newCandidates = server.createList('certification-candidate', 2, { isLinked: false });
+      const session = schema.sessions.find(sessionId);
+      session.update({ certificationCandidates: newCandidates });
     }
     return new Response(204);
   }));
