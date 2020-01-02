@@ -56,7 +56,7 @@ module('Acceptance | Session List', function(hooks) {
       assert.dom('.page-title').hasText('Créez votre première session de certification');
     });
 
-    test('it should list the sessions', async function(assert) {
+    test('it should list the sessions and their attributes', async function(assert) {
       // given
       server.createList('session', 12, { certificationCenterId });
 
@@ -65,6 +65,7 @@ module('Acceptance | Session List', function(hooks) {
 
       // then
       assert.dom('table tbody tr').exists({ count: 12 });
+      assert.dom('table tbody tr:first-child').hasText('1 Centre Mozart Salle Timbanque 23/02/2019 14:00 Leslie Prête');
     });
 
     test('it should redirect to detail page of session id 1 on click on first row', async function(assert) {
