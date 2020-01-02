@@ -37,8 +37,8 @@ module('Acceptance | Session creation', function(hooks) {
     test('it should create a session and redirect to session details', async function(assert) {
       // given
       const sessionDate = '2029-12-25';
-      const sesionFormattedTime = '02/02/2019 13:45';
-      const sessionTime = new Date(sesionFormattedTime);
+      const sessionFormattedTime = '02/02/2019 13:45';
+      const sessionTime = new Date(sessionFormattedTime);
 
       await visit('/sessions/creation');
       await fillIn('#session-address', 'My address');
@@ -52,7 +52,7 @@ module('Acceptance | Session creation', function(hooks) {
       await click('button[type="submit"]');
 
       // then
-      const session = server.db.sessions[0];
+      const session = server.schema.sessions.findBy({ date: sessionDate });
       assert.equal(session.address, 'My address');
       assert.equal(session.room, 'My room');
       assert.equal(session.examiner, 'My examiner');
@@ -62,15 +62,18 @@ module('Acceptance | Session creation', function(hooks) {
       assert.equal(currentURL(), `/sessions/${session.id}`);
     });
 
-    test('it should go back to sessions list on cancel', async function(assert) {
+    test('it should go back to sessions list on cancel without creating any sessions', async function(assert) {
       // given
+      const previousSessionsCount = server.schema.sessions.all().length;
       await visit('/sessions/creation');
 
       // when
       await click('.button--no-color');
 
       // then
+      const actualSessionsCount = server.schema.sessions.all().length;
       assert.equal(currentURL(), '/sessions/liste');
+      assert.equal(previousSessionsCount, actualSessionsCount);
     });
   });
 });

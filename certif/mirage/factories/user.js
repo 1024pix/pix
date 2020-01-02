@@ -1,4 +1,5 @@
-import { Factory, faker } from 'ember-cli-mirage';
+import { Factory } from 'ember-cli-mirage';
+import faker from 'faker';
 
 export default Factory.extend({
 
@@ -16,6 +17,5 @@ export default Factory.extend({
 
   pixCertifTermsOfServiceAccepted() {
     return faker.random.boolean();
-  }
-
+  },
 });

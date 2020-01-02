@@ -16,7 +16,6 @@ export default DS.Model.extend({
   certificationCourseId: DS.attr('number'),
   examinerComment: DS.attr(),
   hasSeenEndTestScreen: DS.attr('boolean'),
-  user: DS.belongsTo('user'),
 
   certificationCourseIdReadable: computed('certificationCourseId', function() {
     if (this.certificationCourseId) {

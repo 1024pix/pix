@@ -1,10 +1,10 @@
 import ApplicationSerializer from './application';
 
 export default ApplicationSerializer.extend({
-  links(certificationCenter) {
+  links(session) {
     return {
-      'sessions': {
-        related: `/api/certification-centers/${certificationCenter.id}/sessions`
+      'certificationCandidates': {
+        related: `/api/sessions/${session.id}/certification-candidates`,
       }
     };
   }
