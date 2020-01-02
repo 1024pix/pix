@@ -3,6 +3,7 @@ import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembership } from '../helpers/test-init';
+import moment from 'moment';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -12,7 +13,6 @@ module('Acceptance | Session List', function(hooks) {
   setupMirage(hooks);
 
   let user;
-  let certificationCenterId;
 
   module('When user is not authenticated', function() {
 
@@ -27,8 +27,9 @@ module('Acceptance | Session List', function(hooks) {
   });
 
   module('When user is authenticated', function(hooks) {
+    let certificationCenterId;
 
-    hooks.beforeEach(async () => {
+    hooks.beforeEach(async function() {
       user = createUserWithMembership();
       certificationCenterId = user.certificationCenterMemberships.models[0].certificationCenterId;
 
@@ -38,6 +39,8 @@ module('Acceptance | Session List', function(hooks) {
         expires_in: 3600,
         token_type: 'Bearer token type',
       });
+      const controller = this.owner.lookup('controller:authenticated.sessions.list');
+      controller.set('isSessionFinalizationActive', false);
     });
 
     test('it should be accessible', async function(assert) {
@@ -56,29 +59,55 @@ module('Acceptance | Session List', function(hooks) {
       assert.dom('.page-title').hasText('Créez votre première session de certification');
     });
 
-    test('it should list the sessions and their attributes', async function(assert) {
-      // given
-      server.createList('session', 12, { certificationCenterId });
+    module('when some sessions exist', function() {
+      const nbExtraSessions = 11;
 
-      // when
-      await visit('/sessions/liste');
+      test('it should list the sessions and their attributes', async function(assert) {
+        // given
+        const firstSession = server.create('session', { address: 'Adresse', certificationCenterId, date: '2020-01-01', time: '14:00' });
+        server.createList('session', nbExtraSessions, { certificationCenterId, date: '2019-01-01' });
 
-      // then
-      assert.dom('table tbody tr').exists({ count: 12 });
-      assert.dom('table tbody tr:first-child').hasText('1 Centre Mozart Salle Timbanque 23/02/2019 14:00 Leslie Prête');
-    });
+        // when
+        await visit('/sessions/liste');
 
-    test('it should redirect to detail page of session id 1 on click on first row', async function(assert) {
-      // given
-      const sessions = server.createList('session', 2, { certificationCenterId });
+        // then
+        const formattedDate = moment(firstSession.date, 'YYYY-MM-DD').format('DD/MM/YYYY');
+        assert.dom('table tbody tr').exists({ count: nbExtraSessions + 1 });
+        assert.dom('table tbody tr:first-child').hasText(`${firstSession.id} ${firstSession.address} ${firstSession.room} ${formattedDate} ${firstSession.time} ${firstSession.examiner}`);
+      });
 
-      await visit('/sessions/liste');
+      test('it should redirect to detail page of session id 1 on click on first row', async function(assert) {
+        // given
+        const firstSession = server.create('session', { address: 'Adresse', certificationCenterId, date: '2020-01-01', time: '14:00' });
+        server.createList('session', nbExtraSessions, { certificationCenterId, date: '2019-01-01' });
+        await visit('/sessions/liste');
 
-      // when
-      await click(`[data-test-id="session-list-row__${sessions[0].id}"]`);
+        // when
+        await click(`[data-test-id="session-list-row__${firstSession.id}"]`);
 
-      // then
-      assert.equal(currentURL(), `/sessions/${sessions[0].id}`);
+        // then
+        assert.equal(currentURL(), `/sessions/${firstSession.id}`);
+      });
+
+      module('When finalization feature is active', function() {
+
+        test('it should list the sessions and their attributes with statut', async function(assert) {
+          // given
+          const controller = this.owner.lookup('controller:authenticated.sessions.list');
+          controller.set('isSessionFinalizationActive', true);
+          const firstSession = server.create('session', { address: 'Adresse', certificationCenterId, date: '2020-01-01', time: '14:00' });
+          server.createList('session', nbExtraSessions, { certificationCenterId, date: '2019-01-01' });
+
+          // when
+          await visit('/sessions/liste');
+
+          // then
+          const formattedDate = moment(firstSession.date, 'YYYY-MM-DD').format('DD/MM/YYYY');
+          assert.dom('table tbody tr').exists({ count: nbExtraSessions + 1 });
+          assert.dom('table tbody tr:first-child').hasText(`${firstSession.id} ${firstSession.address} ${firstSession.room} ${formattedDate} ${firstSession.time} ${firstSession.examiner} Prête`);
+        });
+      });
+
     });
   });
 });
