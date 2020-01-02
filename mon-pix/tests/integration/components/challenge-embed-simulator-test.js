@@ -16,7 +16,7 @@ describe('Integration | Component | challenge embed simulator', function() {
       await render(hbs`{{challenge-embed-simulator}}`);
 
       // then
-      expect(find('.embed__aknowledgment-overlay')).to.exist;
+      expect(find('.embed__acknowledgment-overlay')).to.exist;
     });
 
     it('should contain a button to launch the simulator', async function() {
@@ -24,7 +24,7 @@ describe('Integration | Component | challenge embed simulator', function() {
       await render(hbs`{{challenge-embed-simulator}}`);
 
       // then
-      expect(find('.embed__aknowledgment-overlay .embed__launch-simulator-button')).to.exist;
+      expect(find('.embed__acknowledgment-overlay .embed__launch-simulator-button')).to.exist;
     });
   });
 
@@ -35,7 +35,7 @@ describe('Integration | Component | challenge embed simulator', function() {
       await render(hbs`{{challenge-embed-simulator}}`);
 
       // then
-      expect(find('.embed__aknowledgment-overlay .embed__launch-simulator-button').textContent).to.equal('Je lance l’application');
+      expect(find('.embed__acknowledgment-overlay .embed__launch-simulator-button').textContent).to.equal('Je lance l’application');
     });
 
     it('should close the aknowledgment overlay when clicked', async function() {
@@ -46,7 +46,7 @@ describe('Integration | Component | challenge embed simulator', function() {
       await click('.embed__launch-simulator-button');
 
       // then
-      expect(find('.embed__aknowledgment-overlay')).to.not.exist;
+      expect(find('.embed__acknowledgment-overlay')).to.not.exist;
     });
   });
 
