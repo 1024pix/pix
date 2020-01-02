@@ -490,7 +490,6 @@ describe('Acceptance | API | Certification Course', () => {
         await knex('knowledge-elements').delete();
         await knex('answers').delete();
         await knex('assessments').delete();
-        await databaseBuilder.clean();
         airtableBuilder.cleanAll();
         cache.flushAll();
       });
@@ -529,10 +528,6 @@ describe('Acceptance | API | Certification Course', () => {
 
         // when
         response = await server.inject(options);
-      });
-
-      afterEach(() => {
-        return databaseBuilder.clean();
       });
 
       it('should respond with 200 status code', () => {
