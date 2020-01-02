@@ -24,5 +24,9 @@ module.exports = {
 
     return usecases.findAssociationBetweenUserAndOrganizationStudent({ authenticatedUserId, requestedUserId, campaignCode })
       .then(studentSerializer.serialize);
+  },
+
+  findAssociationPossibilities() {
+    return null;
   }
 };
