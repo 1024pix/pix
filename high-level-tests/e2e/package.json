@@ -25,7 +25,7 @@
     "start:orga": "cd ../../orga && npx ember serve --proxy"
   },
   "devDependencies": {
-    "cypress": "^3.4.1",
+    "cypress": "^3.8.1",
     "cypress-cucumber-preprocessor": "^1.16.0",
     "eslint": "^5.13.0",
     "eslint-plugin-cypress": "^2.6.1",
