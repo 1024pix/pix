@@ -18,7 +18,11 @@ module.exports = {
 
   batchCreate(studentsToSave) {
     const bookshelfStudents = studentsToSave.map((studentToSave) => _.omit(studentToSave, ['id']));
-    return Bookshelf.knex.batchInsert('students', bookshelfStudents).then(() => undefined);
+    return Bookshelf.knex.batchInsert('students', bookshelfStudents)
+      .then(() => undefined)
+      .catch((err) => {
+        throw err;
+      });
   },
 
   async batchUpdateWithOrganizationId(studentsToUpdate, organizationId) {
@@ -33,7 +37,10 @@ module.exports = {
         .update(_.omit(studentToUpdate, ['id', 'createdAt']));
     })
       .then(trx.commit)
-      .catch(trx.rollback);
+      .catch(async (err) => {
+        await trx.rollback;
+        throw err;
+      });
   },
 
   findNotLinkedYetByOrganizationIdAndUserBirthdate({ organizationId, birthdate }) {

@@ -40,6 +40,12 @@ class AlreadySharedCampaignParticipationError extends DomainError {
   }
 }
 
+class BatchSaveError extends DomainError {
+  constructor(message = 'Erreur lors de l\'enregistrement groupé') {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToCreateCampaignError extends DomainError {
   constructor(message = 'Cet utilisateur n\'est pas autorisé à créer une campagne.') {
     super(message);
@@ -375,6 +381,7 @@ module.exports = {
   AlreadySharedCampaignParticipationError,
   AssessmentEndedError,
   AssessmentNotCompletedError,
+  BatchSaveError,
   CampaignCodeError,
   CampaignWithoutOrganizationError,
   CertificationCandidateAlreadyLinkedToUserError,
