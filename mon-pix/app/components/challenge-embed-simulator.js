@@ -32,10 +32,6 @@ export default Component.extend({
     reloadSimulator() {
       this._reloadSimulator();
     },
-
-    onEmbedLoaded() {
-      this._removePlaceholder();
-    },
   },
 
   // Internals
