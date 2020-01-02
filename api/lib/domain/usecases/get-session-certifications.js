@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const certificationService = require('../../domain/services/certification-service');
 
-module.exports = async function getSessionCertificationCandidates({
+module.exports = async function getSessionCertifications({
   sessionId,
   certificationCourseRepository,
 }) {
