@@ -3,7 +3,13 @@ const sendinblue = require('../../infrastructure/sendinblue');
 const settings = require('../../config');
 
 function sendAccountCreationEmail(email) {
-  sendinblue.sendEmail();
+  sendinblue.sendEmail({
+    to: email,
+    template: settings.mailing_mailjet.mailjetAccountCreationTemplateId,
+    from: 'ne-pas-repondre@pix.fr',
+    fromName: 'PIX - Ne pas répondre',
+    subject: 'Création de votre compte PIX'
+  });
   return mailJet.sendEmail({
     to: email,
     template: settings.mailing_mailjet.mailjetAccountCreationTemplateId,
