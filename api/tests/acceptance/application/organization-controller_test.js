@@ -1109,7 +1109,7 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(204);
       });
 
-      it('should not update any student when a student cant be updated', async () => {
+      it('should not update any student and return a 409 - Conflict - when a student cant be updated', async () => {
 
         // given
         const studentThatCantBeUpdatedBecauseBirthdateIsMissing =
@@ -1181,10 +1181,11 @@ describe('Acceptance | Application | organization-controller', () => {
         // then
         const students = await knex('students').where({ organizationId });
         expect(_.map(students, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
-        expect(response.statusCode).to.equal(500);
+        expect(response.statusCode).to.equal(409);
+        expect(response.result.errors[0].detail).to.equal('L\'enregistrement des informations d\'élèves a rencontrée une erreur. Vérifiez la conformité du fichier.');
       });
 
-      it('should return a 422 - Unprocessable Entity - when no student could be imported', async () => {
+      it('should return a 409 - Conflict - when a student cant be imported', async () => {
         // given
         const malformedStudentsBuffer = iconv.encode(
           '<?xml version="1.0" encoding="ISO-8859-15"?>' +
@@ -1192,10 +1193,19 @@ describe('Acceptance | Application | organization-controller', () => {
           '<DONNEES>' +
           '<ELEVES>' +
           '<ELEVE ELEVE_ID="0001">' +
+          '<ID_NATIONAL>123</ID_NATIONAL>' +
           '<NOM_DE_FAMILLE>WRONG</NOM_DE_FAMILLE>' +
           '<PRENOM>Person</PRENOM>' +
           '</ELEVE>' +
           '</ELEVES>' +
+          '<STRUCTURES>' +
+          '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+          '<STRUCTURE>' +
+          '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+          '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+          '</STRUCTURE>' +
+          '</STRUCTURES_ELEVE>' +
+          '</STRUCTURES>' +
           '</DONNEES>' +
           '</BEE_ELEVES>', 'ISO-8859-15');
         options.payload = malformedStudentsBuffer;
@@ -1206,8 +1216,8 @@ describe('Acceptance | Application | organization-controller', () => {
         // then
         const students = await knex('students').where({ organizationId });
         expect(students).to.have.lengthOf(0);
-        expect(response.statusCode).to.equal(422);
-        expect(response.result.errors[0].detail).to.equal('Aucun élève n\'a pu être importé depuis ce fichier. Vérifiez sa conformité.');
+        expect(response.statusCode).to.equal(409);
+        expect(response.result.errors[0].detail).to.equal('L\'enregistrement des informations d\'élèves a rencontrée une erreur. Vérifiez la conformité du fichier.');
       });
 
       it('should return a 422 - Unprocessable Entity - when file in not properly formated', async () => {

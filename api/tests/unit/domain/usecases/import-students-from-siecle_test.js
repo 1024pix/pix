@@ -1,6 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const importStudentsFromSIECLE = require('../../../../lib/domain/usecases/import-students-from-siecle');
-const { FileValidationError } = require('../../../../lib/domain/errors');
+const { FileValidationError, BatchSaveError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | import-students-from-siecle', () => {
 
@@ -89,6 +89,61 @@ describe('Unit | UseCase | import-students-from-siecle', () => {
       expect(studentsXmlServiceStub.extractStudentsInformationFromSIECLE).to.have.been.calledWith(buffer);
       expect(studentRepositoryStub.batchUpdateWithOrganizationId).to.have.been.calledWith(studentsToUpdate, organizationId);
       expect(studentRepositoryStub.batchCreate).to.have.been.calledWith([{ lastName: 'CreatedStudent2', nationalStudentId: 'INE2', organizationId }]);
+    });
+  });
+
+  context('when update fails', () => {
+
+    let result;
+
+    beforeEach(async () => {
+      // given
+      const students = [
+        { lastName: 'Student1', nationalStudentId: 'INE1' }
+      ];
+
+      const studentsToUpdate = [
+        { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' }
+      ];
+
+      studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([...studentsToUpdate ]);
+      studentRepositoryStub.findByOrganizationId.resolves(students);
+      studentRepositoryStub.batchUpdateWithOrganizationId.rejects();
+      studentRepositoryStub.batchCreate.resolves();
+    });
+
+    it('should throw a BatchSaveError', async () => {
+      // when
+      result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
+
+      // then
+      expect(result).to.be.instanceOf(BatchSaveError);
+    });
+  });
+
+  context('when create fails', () => {
+
+    let result;
+
+    beforeEach(async () => {
+      // given
+
+      const studentsToCreate = [
+        { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' }
+      ];
+
+      studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([...studentsToCreate ]);
+      studentRepositoryStub.findByOrganizationId.resolves();
+      studentRepositoryStub.batchUpdateWithOrganizationId.resolves();
+      studentRepositoryStub.batchCreate.rejects();
+    });
+
+    it('should throw a BatchSaveError', async () => {
+      // when
+      result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
+
+      // then
+      expect(result).to.be.instanceOf(BatchSaveError);
     });
   });
 

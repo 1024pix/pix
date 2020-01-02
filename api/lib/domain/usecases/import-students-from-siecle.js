@@ -1,4 +1,4 @@
-const { FileValidationError } = require('../errors');
+const { FileValidationError, BatchSaveError } = require('../errors');
 const _ = require('lodash');
 
 module.exports = async function importStudentsFromSIECLE({ organizationId, buffer, studentsXmlService, studentRepository }) {
@@ -11,14 +11,13 @@ module.exports = async function importStudentsFromSIECLE({ organizationId, buffe
   const studentsFromOrganization = await studentRepository.findByOrganizationId({ organizationId });
   const nationalStudentIdsFromOrganization = _.map(studentsFromOrganization, 'nationalStudentId');
   const studentsToUpdate = _.filter(students, (student) => _.includes(nationalStudentIdsFromOrganization, student.nationalStudentId));
-
-  if (!_.isEmpty(studentsToUpdate)) await studentRepository.batchUpdateWithOrganizationId(studentsToUpdate, organizationId);
-
   const studentsToCreate = _.difference(students, studentsToUpdate);
-  if (!_.isEmpty(studentsToCreate)) {
-    const studentsToCreateWithOrganizationId = _.map(studentsToCreate, (student) => ({ ...student, organizationId }));
+  const studentsToCreateWithOrganizationId = _.map(studentsToCreate, (student) => ({ ...student, organizationId }));
 
+  try {
+    await studentRepository.batchUpdateWithOrganizationId(studentsToUpdate, organizationId);
     await studentRepository.batchCreate(studentsToCreateWithOrganizationId);
+  } catch (err) {
+    throw new BatchSaveError('L\'enregistrement des élèves a rencontré une erreur.');
   }
-
 };

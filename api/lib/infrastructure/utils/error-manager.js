@@ -95,6 +95,9 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.FileValidationError) {
     return new InfraErrors.UnprocessableEntityError(error.message);
   }
+  if (error instanceof DomainErrors.BatchSaveError) {
+    return new InfraErrors.ConflictError(error.message);
+  }
   if (error instanceof DomainErrors.ObjectAlreadyExisting) {
     return new InfraErrors.ConflictError(error.message);
   }
