@@ -4,6 +4,10 @@ const usecases = require('../../../../lib/domain/usecases');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const moduleUnderTest = require('../../../../lib/application/organization-invitations');
 
+const {
+  AlreadyExistingOrganizationInvitationError, NotFoundError, UserNotFoundError
+} = require('../../../../lib/domain/errors');
+
 describe('Integration | Application | Organization-invitations | organization-invitation-controller', () => {
 
   let sandbox;
@@ -49,8 +53,41 @@ describe('Integration | Application | Organization-invitations | organization-in
       });
     });
 
-    // TODO HTTP Error cases
+    context('Error cases', () => {
 
+      it('should respond an HTTP response with status code 421 when AlreadyExistingOrganizationInvitationError', async () => {
+        // given
+        usecases.answerToOrganizationInvitation.rejects(new AlreadyExistingOrganizationInvitationError());
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
+
+        // then
+        expect(response.statusCode).to.equal(421);
+      });
+
+      it('should respond an HTTP response with status code 404 when NotFoundError', async () => {
+        // given
+        usecases.answerToOrganizationInvitation.rejects(new NotFoundError());
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+
+      it('should respond an HTTP response with status code 404 when UserNotFoundError', async () => {
+        // given
+        usecases.answerToOrganizationInvitation.rejects(new UserNotFoundError());
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organization-invitations/1/response', payload);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+    });
   });
 
 });
