@@ -53,6 +53,43 @@ exports.register = async function(server) {
         tags: ['api', 'studentUserAssociation']
       }
     },
+    {
+      method: 'PUT',
+      path: '/api/student-user-associations/possibilities',
+      config: {
+        auth: false,
+        handler: studentUserAssociationController.findAssociationPossibilities,
+        validate: {
+          options: {
+            allowUnknown: true
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'birthdate':Joi.date().iso().required(),
+                'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+              },
+            },
+          }),
+          failAction: (request, h) => {
+            const errorHttpStatusCode = 422;
+            const jsonApiError = new JSONAPIError({
+              status: errorHttpStatusCode.toString(),
+              title: 'Unprocessable entity',
+              detail: 'Un des champs saisis n’est pas valide.',
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+          }
+        },
+        notes: [
+          '- Elle permet de savoir si un élève identifié par son nom, prénom et date de naissance est présent au sein ' +
+          'de l\'organisation détenant la campagne et qui n\'est pas encore associé.'
+        ],
+        tags: ['api', 'studentUserAssociation']
+      }
+    }
   ]);
 };
 
