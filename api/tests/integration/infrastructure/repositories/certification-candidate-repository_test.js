@@ -635,10 +635,6 @@ describe('Integration | Repository | CertificationCandidate', function() {
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return databaseBuilder.clean();
-    });
-
     context('when there are candidates in the session that are already linked to a user', () => {
 
       beforeEach(() => {
