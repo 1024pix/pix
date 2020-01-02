@@ -29,14 +29,14 @@ module.exports = class DatabaseBuilder {
   }
 
   async clean() {
-    if (this.databaseBuffer.tablesToDelete.length > 0) {
-      const trx = await this.knex.transaction();
-      for (const table of this.databaseBuffer.tablesToDelete) {
-        await trx(table).delete();
-      }
+    let rawQuery = '';
+    _.times(this.databaseBuffer.tablesToDelete.length, () => {
+      rawQuery += 'DELETE FROM ??;';
+    });
+    if (rawQuery !== '') {
+      await this.knex.raw(rawQuery, this.databaseBuffer.tablesToDelete);
       this.databaseBuffer.purge();
       this._purgeDirtiness();
-      await trx.commit();
     }
   }
 
