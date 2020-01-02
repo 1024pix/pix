@@ -3,5 +3,6 @@
   "env": {
     "API_URL": "http://localhost:3000"
   },
+  "video": false,
   "blacklistHosts": "*stats.pix.fr*"
 }
