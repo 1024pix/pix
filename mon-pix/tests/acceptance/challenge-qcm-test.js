@@ -19,7 +19,7 @@ describe('Acceptance | Displaying a QCM', function() {
     defaultScenario(this.server);
   });
 
-  context('Challenge answered', function() {
+  context('Challenge answered: the answers checkboxes should be disabled', function() {
     beforeEach(async function() {
       server.create('assessment', {
         id: 'ref_assessment_id'
@@ -40,6 +40,8 @@ describe('Acceptance | Displaying a QCM', function() {
       expect(findAll('input[type="checkbox"]')[1].checked).to.be.true;
       expect(findAll('input[type="checkbox"]')[2].checked).to.be.false;
       expect(findAll('input[type="checkbox"]')[3].checked).to.be.true;
+
+      findAll('input[type=checkbox]').forEach((checkbox) => expect(checkbox.disabled).to.equal(true));
     });
 
   });
