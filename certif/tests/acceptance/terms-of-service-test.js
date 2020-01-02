@@ -9,12 +9,10 @@ import {
   createUserWithMembership,
   createUserWithMembershipAndTermsOfServiceAccepted
 } from '../helpers/test-init';
-import { Response } from 'ember-cli-mirage';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | terms-of-service', function(hooks) {
-
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -44,25 +42,17 @@ module('Acceptance | terms-of-service', function(hooks) {
 
     test('it should send request for saving Pix-certif terms of service acceptation when submitting', async function(assert) {
       // given
-      let pixCertifTermsOfServiceAccepted = null;
-      server.patch('/users/:id/pix-certif-terms-of-service-acceptance', () => {
-        pixCertifTermsOfServiceAccepted = true;
-        return new Response(200, { some: 'header' }, {
-          data: [{
-            type: 'users',
-            id: user.id,
-            attributes: { 'pix-certif-terms-of-service-accepted': pixCertifTermsOfServiceAccepted }
-          }]
-        });
-      });
-
+      const previousPixCertifTermsOfServiceVal = user.pixCertifTermsOfServiceAccepted;
       await visit('/cgu');
 
       // when
       await click('button[type=submit]');
 
       // then
-      assert.equal(pixCertifTermsOfServiceAccepted, true);
+      user.reload();
+      const actualPixCertifTermsOfServiceVal = user.pixCertifTermsOfServiceAccepted;
+      assert.equal(actualPixCertifTermsOfServiceVal, true);
+      assert.equal(previousPixCertifTermsOfServiceVal, false);
     });
 
     test('it should redirect to session list after saving terms of service acceptation', async function(assert) {

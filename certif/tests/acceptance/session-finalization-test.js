@@ -12,10 +12,12 @@ module('Acceptance | Session Finalization', function(hooks) {
   setupMirage(hooks);
 
   let user;
+  let session;
 
   hooks.beforeEach(function() {
     user = createUserWithMembership();
-    server.create('session', { id: 1 });
+    const certificationCenterId = user.certificationCenterMemberships.models[0].certificationCenterId;
+    session = server.create('session', { certificationCenterId });
   });
 
   hooks.afterEach(function() {
@@ -27,7 +29,7 @@ module('Acceptance | Session Finalization', function(hooks) {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
-      await visit('/sessions/1/finalisation');
+      await visit(`/sessions/${session.id}/finalisation`);
 
       // then
       assert.equal(currentURL(), '/connexion');
@@ -47,10 +49,10 @@ module('Acceptance | Session Finalization', function(hooks) {
 
     test('it should be accessible for an authenticated user', async function(assert) {
       // when
-      await visit('/sessions/1/finalisation');
+      await visit(`/sessions/${session.id}/finalisation`);
 
       // then
-      assert.equal(currentURL(), '/sessions/1/finalisation');
+      assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
     });
 
     module('When user click on "Finaliser" button', function(hooks) {
@@ -59,7 +61,7 @@ module('Acceptance | Session Finalization', function(hooks) {
 
       hooks.beforeEach(function() {
         finalizeController = this.owner.lookup('controller:authenticated.sessions.finalize');
-        return visit('/sessions/1/finalisation');
+        return visit(`/sessions/${session.id}/finalisation`);
       });
 
       test('it should allow the user to comment the session in textarea', async function(assert) {
@@ -82,7 +84,7 @@ module('Acceptance | Session Finalization', function(hooks) {
 
         // then
         assert.equal(finalizeController.showConfirmModal, true);
-        assert.equal(currentURL(), '/sessions/1/finalisation');
+        assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
       });
 
       module('when confirm modal is open', function(hooks) {
@@ -96,7 +98,7 @@ module('Acceptance | Session Finalization', function(hooks) {
 
           // then
           assert.equal(finalizeController.showConfirmModal, false);
-          assert.equal(currentURL(), '/sessions/1/finalisation');
+          assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
         });
 
         test('it should close the modal on cancel button click', async function(assert) {
@@ -105,7 +107,7 @@ module('Acceptance | Session Finalization', function(hooks) {
 
           // then
           assert.equal(finalizeController.showConfirmModal, false);
-          assert.equal(currentURL(), '/sessions/1/finalisation');
+          assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
         });
 
         test('it should close the modal on confirm button click', async function(assert) {
@@ -121,7 +123,7 @@ module('Acceptance | Session Finalization', function(hooks) {
           await click('[data-test-id="finalize-session-modal__confirm-button"]');
 
           // then
-          assert.equal(currentURL(), '/sessions/1');
+          assert.equal(currentURL(), `/sessions/${session.id}`);
         });
 
         test('it should show a success notification on session details page', async function(assert) {
