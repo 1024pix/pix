@@ -34,9 +34,7 @@ export default Controller.extend({
         }
 
         errorResponse.body.errors.forEach((error) => {
-          if (error.status === '409') {
-            return this.get('notifications').sendWarning(error.detail);
-          } else if (error.status === '422') {
+          if (error.status === '409' || error.status === '422') {
             return this.get('notifications').sendError(error.detail);
           }
           return this.get('notifications').sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');

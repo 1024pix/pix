@@ -131,7 +131,7 @@ export default function() {
       return new Promise((resolve) => {
         resolve(new Response(422, {}, { errors: [ { status: '422', detail: '422 - Le détail affiché est envoyé par le back' } ] }));
       });
-    } else if (type === 'already-imported-file') {
+    } else if (type === 'file-with-students-info-problems') {
       return new Promise((resolve) => {
         resolve(new Response(409, {}, { errors: [ { status: '409', detail: '409 - Le détail affiché est envoyé par le back' } ] }));
       });
