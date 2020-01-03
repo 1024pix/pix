@@ -1,0 +1,36 @@
+.pix-toogle {
+
+  margin-top: 20px;
+  font-family:  Roboto,sans-serif;
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: 0.45px;
+  color: #585F75;
+  border: 2px solid RGB(221,221,221);
+  height: 44px;
+  width: 359px;
+  display: flex;
+  text-align: center;
+  border-radius: 12px;
+  cursor: pointer;
+
+  &__on{
+    width: 50%;
+    vertical-align: middle;
+    line-height: 4.4rem;
+    background-color: #585f75;
+    border-radius: 10px;
+    color: white;
+  }
+
+  &__off{
+    width: 50%;
+    vertical-align: middle;
+    line-height: 4.4rem;
+    border-radius: 10px;
+
+      &:hover {
+      color:#253858;
+    }
+  }
+}

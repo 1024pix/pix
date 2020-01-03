@@ -24,6 +24,11 @@
               autocomplete="lastname"}}
     </div>
 
+    <div id="login-mode-container">
+              {{pix-toggle onToggle='updateLoginMode' valueFirstLabel='Mon adresse e-mail' valueSecondLabel='Mon identifiant'}}
+    </div>
+
+    {{#if loginWithEmail}}
     <div id="register-email-container">
       {{form-textfield
               label="Adresse e-mail"
@@ -35,7 +40,19 @@
               validationMessage=validation.email.message
               autocomplete="email"}}
     </div>
-
+    {{else}}
+    <div id="register-username-container">
+      {{form-textfield
+              label="Mon identifiant"
+              textfieldName="username"
+              validationStatus=validation.username.status
+              onValidate=(action "validateInputUsername" "username" user.username)
+              inputBindingValue=username
+              validationMessage=validation.username.message
+              autocomplete="username"
+              disabled=true}}
+    </div>
+    {{/if}}
     <div id="register-password-container">
       {{form-textfield
               label="Mot de passe"
