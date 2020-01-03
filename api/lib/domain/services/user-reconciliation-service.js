@@ -1,5 +1,6 @@
-const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
+const { NotFoundError } = require('../errors');
 const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
+const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
 const { pipe } = require('lodash/fp');
 const _ = require('lodash');
 
@@ -11,13 +12,32 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
 
   return _(['firstName', 'middleName', 'thirdName'])
     .map(_findCandidatesMatchingWithUser(standardizedMatchingUserCandidates, standardizedUser))
-    .filter(containsOneElement)
+    .filter(_containsOneElement)
     .flatten()
     .map('id')
     .first() || null;
 }
 
-function containsOneElement(arr) {
+async function findMatchingOrganizationStudentIdForGivenUser({ organizationId, user: { firstName, lastName, birthdate }, studentRepository }) {
+  const students = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
+    organizationId,
+    birthdate,
+  });
+
+  if (students.length === 0) {
+    throw new NotFoundError('There were no students matching');
+  }
+
+  const studentId = findMatchingCandidateIdForGivenUser(students, { firstName, lastName });
+
+  if (!studentId) {
+    throw new NotFoundError('There were not exactly one student match for this user and organization');
+  }
+
+  return studentId;
+}
+
+function _containsOneElement(arr) {
   return _.size(arr) === 1;
 }
 
@@ -62,4 +82,5 @@ function _candidateHasSimilarLastName({ lastName }) {
 
 module.exports = {
   findMatchingCandidateIdForGivenUser,
+  findMatchingOrganizationStudentIdForGivenUser,
 };
