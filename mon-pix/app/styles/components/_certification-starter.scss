@@ -36,6 +36,7 @@
   $space-between-dashes: 0.6ch;
   $nb-characters: 6;
   $total-width: $nb-characters * (1ch + $space-between-dashes);
+  text-transform: uppercase;
   box-sizing: content-box;
   border: solid 2px $alto-grey;
   border-radius: 3px;
