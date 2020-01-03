@@ -16,8 +16,11 @@ export default DS.Model.extend({
   certificationCandidates: DS.hasMany('certificationCandidate'),
   session: service(),
   status: DS.attr(),
-  isFinalized: equal('status', 'finalized'),
   examinerComment: DS.attr(),
+  isFinalized: equal('status', 'finalized'),
+  hasStarted: computed('certificationCandidates.@each.isLinked', function() {
+    return this.certificationCandidates.isAny('isLinked');
+  }),
 
   urlToDownload: computed('id', function() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.get('id')}/attendance-sheet?accessToken=${this.get('session.data.authenticated.access_token')}`;

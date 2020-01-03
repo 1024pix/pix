@@ -10,12 +10,12 @@ describe('Integration | Component | signin form', function() {
 
   describe('Rendering', async function() {
 
-    it('should display an input for email field', async function() {
+    it('should display an input for identifiant field', async function() {
       // when
       await render(hbs`{{signin-form}}`);
 
       // then
-      expect(document.querySelector('input#email')).to.exist;
+      expect(document.querySelector('input#login')).to.exist;
     });
 
     it('should display an input for password field', async function() {
@@ -78,8 +78,8 @@ describe('Integration | Component | signin form', function() {
 
       await render(hbs`{{signin-form authenticateUser=(action onSubmitAction)}}`);
 
-      await fillIn('input#email', expectedEmail);
-      await triggerEvent('input#email', 'change');
+      await fillIn('input#login', expectedEmail);
+      await triggerEvent('input#login', 'change');
       await fillIn('input#password', expectedPassword);
       await triggerEvent('input#password', 'change');
 

@@ -139,6 +139,10 @@
       @include device-is('desktop') {
         margin: 30px auto;
       }
+
+      @include device-is('mobile') {
+        width: 280px;
+      }
     }
 
     &--margin-top {

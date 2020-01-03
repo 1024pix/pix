@@ -11,10 +11,18 @@ function parseQueryString(queryString) {
 }
 
 export default function() {
-
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
   this.timing = 0;
+  this.logging = true;
+
+  this.get('/certification-centers/:id/sessions', (schema, request) => {
+    const certificationCenterId = request.params.id;
+
+    return schema.sessions.where({ certificationCenterId });
+  });
+
+  this.post('/revoke', () => {});
 
   this.post('/token', (schema, request) => {
     const params = parseQueryString(request.requestBody);
@@ -32,7 +40,46 @@ export default function() {
     }
   });
 
-  this.post('/revoke', () => {});
+  this.post('/sessions');
+
+  this.get('/sessions/:id', function(schema, request) {
+    const sessionId = request.params.id;
+
+    return schema.sessions.find(sessionId);
+  });
+
+  this.patch('/sessions/:id');
+
+  this.get('/sessions/:id/certification-candidates', function(schema, request) {
+    const sessionId = request.params.id;
+
+    return schema.sessions.find(sessionId).certificationCandidates;
+  });
+
+  this.post('/sessions/:id/certification-candidates/import', upload(function(schema, request) {
+    const { name } = request.requestBody.file;
+    if (name === 'invalid-file') {
+      return new Response(422, { some: 'header' }, { errors: [ 'generic error'] });
+    }
+    if (name === 'forbidden-import') {
+      return new Response(403, { some: 'header' }, { errors: [{ status: '403', title: 'Forbidden', detail: 'At least one candidate is already linked to a user' }] });
+    }
+    if (name.endsWith('addTwoCandidates')) {
+      const sessionId = name.split('.')[0];
+      const newCandidates = server.createList('certification-candidate', 2, { isLinked: false });
+      const session = schema.sessions.find(sessionId);
+      session.update({ certificationCandidates: newCandidates });
+    }
+    return new Response(204);
+  }));
+
+  this.put('/sessions/:id/finalization', (schema, request) => {
+    const sessionId = request.params.id;
+    const session = schema.sessions.find(sessionId);
+    session.update({ status: 'finalized' });
+
+    return session;
+  });
 
   this.get('/users/me', (schema, request) => {
     const userToken = request.requestHeaders.Authorization.replace('Bearer ', '');
@@ -41,42 +88,17 @@ export default function() {
     return schema.users.find(userId);
   });
 
-  this.patch('/users/:id/pix-certif-terms-of-service-acceptance', (schema, request) => {
-    const user =  schema.users.find(request.params.id);
-    user.pixCertifTermsOfServiceAccepted = true;
-    return user;
-  });
-
   this.get('/users/:id/certification-center-memberships', (schema, request) => {
     const userId = request.params.id;
+
     return schema.certificationCenterMemberships.where({ userId });
   });
 
-  this.get('/certification-centers/:id/sessions', (schema) => {
-    return schema.sessions.all();
-  });
+  this.patch('/users/:id/pix-certif-terms-of-service-acceptance', (schema, request) => {
+    const userId = request.params.id;
+    const user = schema.users.find(userId);
+    user.update({ pixCertifTermsOfServiceAccepted: true });
 
-  this.post('/sessions');
-
-  this.get('/sessions/:id');
-
-  this.patch('/sessions/:id');
-
-  this.post('/sessions/:id/certification-candidates/import', upload(function(_, request) {
-    const { name } = request.requestBody.file;
-    if (name === 'invalid-file') {
-      return new Response(422, { some: 'header' }, { errors: [ 'generic error'] });
-    }
-    if (name === 'forbidden-import') {
-      return new Response(403, { some: 'header' }, { errors: [{ status: '403', title: 'Forbidden', detail: 'At least one candidate is already linked to a user' }] });
-    }
-    return new Response(204);
-  }));
-
-  this.put('/sessions/:id/finalization', (schema, request) => {
-    const sessionId = request.params.id;
-    const session = schema.sessions.where({ id: sessionId });
-    session.status = 'finalized';
-    return session;
+    return user;
   });
 }

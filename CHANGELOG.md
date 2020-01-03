@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.98.0 (03/01/2020)
+
+- [#942](https://github.com/1024pix/pix/pull/942) [FEATURE] Cacher le bouton de finalisation de session tant qu'il n'existe pas au moins un candidat lié (PC-97)
+- [#912](https://github.com/1024pix/pix/pull/912) [FEATURE] Ajout d'une page de connexion/inscription après avoir renseigné un code parcours (PF-942).
+- [#934](https://github.com/1024pix/pix/pull/934) [FEATURE] Pouvoir se connecter avec un identifiant (PF-982).
+- [#909](https://github.com/1024pix/pix/pull/909) [FEATURE] Ajout des commentaires de fin de test sur les certification-candidates. (PC-84)
+- [#924](https://github.com/1024pix/pix/pull/924) [TECH] Ajouter la preResponse dans HttpTestServer
+
 ## v2.97.0 (26/12/2019)
 
 - [#926](https://github.com/1024pix/pix/pull/926) [FEATURE] Ajout noms candidats non réconciliés sur la popup PV session (PA-131)

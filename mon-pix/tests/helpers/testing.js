@@ -3,7 +3,7 @@ import visitWithAbortedTransition from './visit';
 
 export async function authenticateAsSimpleUser() {
   await visitWithAbortedTransition('/connexion');
-  await fillIn('#email', 'jane@acme.com');
+  await fillIn('#login', 'jane@acme.com');
   await fillIn('#password', 'Jane1234');
   await click('.button');
 }
@@ -14,7 +14,7 @@ export async function authenticateAsSimpleExternalUser() {
 
 export async function authenticateAsPrescriber() {
   await visitWithAbortedTransition('/connexion');
-  await fillIn('#email', 'john@acme.com');
+  await fillIn('#login', 'john@acme.com');
   await fillIn('#password', 'John1234');
   await click('.button');
 }

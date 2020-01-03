@@ -25,7 +25,7 @@
 
       <tbody>
         {{#each sortedSessions as |session|}}
-          <tr onclick={{action goToDetails session}}>
+          <tr data-test-id="session-list-row__{{session.id}}" onclick={{action goToDetails session}}>
             <td>{{session.id}}</td>
             <td>{{session.address}}</td>
             <td>{{session.room}}</td>

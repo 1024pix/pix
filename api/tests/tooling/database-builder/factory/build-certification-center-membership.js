@@ -1,4 +1,4 @@
-const buildCertficationCenter = require('./build-certification-center');
+const buildCertificationCenter = require('./build-certification-center');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
@@ -12,7 +12,7 @@ module.exports = function buildCertificationCenterMembership({
 } = {}) {
 
   userId = _.isUndefined(userId) ? buildUser().id : userId;
-  certificationCenterId = _.isUndefined(certificationCenterId) ? buildCertficationCenter().id : certificationCenterId;
+  certificationCenterId = _.isUndefined(certificationCenterId) ? buildCertificationCenter().id : certificationCenterId;
 
   const values = {
     id,

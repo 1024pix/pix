@@ -34,7 +34,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
         },
         payload: querystring.stringify({
           grant_type: 'password',
-          username: 'user@email.com',
+          username: 'user.username2453  ',
           password: 'user_password',
           scope: 'pix-orga'
         })

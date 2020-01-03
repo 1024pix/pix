@@ -32,7 +32,7 @@ const badUser = {
   errors: [
     { status:'400',
       title:'Invalid Payload',
-      detail: 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.'
+      detail: 'L\'adresse e-mail ou l\'identifiant et/ou le mot de passe saisi(s) sont incorrects.'
     }
   ]
 };

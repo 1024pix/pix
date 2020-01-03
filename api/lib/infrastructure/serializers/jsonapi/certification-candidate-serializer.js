@@ -8,9 +8,12 @@ module.exports = {
   serialize(certificationCandidates) {
     return new Serializer('certification-candidate', {
       transform: function(certificationCandidate) {
+        const certificationCourseId = !_.isUndefined(certificationCandidate.certificationCourse) ?
+          certificationCandidate.certificationCourse.id : undefined;
         return {
           ...certificationCandidate,
           isLinked: !_.isNil(certificationCandidate.userId),
+          certificationCourseId,
         };
       },
       attributes: [
@@ -24,16 +27,20 @@ module.exports = {
         'externalId',
         'extraTimePercentage',
         'isLinked',
+        'certificationCourseId',
+        'examinerComment',
+        'hasSeenEndTestScreen',
       ],
     }).serialize(certificationCandidates);
   },
 
   deserialize(json) {
-    if (!isValidDate(json.data.attributes.birthdate, 'YYYY-MM-DD')) {
+    if (json.data.attributes.birthdate && !isValidDate(json.data.attributes.birthdate, 'YYYY-MM-DD')) {
       throw new WrongDateFormatError('La date de naissance du candidate à la certification n\'a pas un format valide du type JJ/MM/AAAA');
     }
 
     delete json.data.attributes['is-linked'];
+    delete json.data.attributes['certification-course-id'];
 
     return new Deserializer({ keyForAttribute: 'camelCase' })
       .deserialize(json);

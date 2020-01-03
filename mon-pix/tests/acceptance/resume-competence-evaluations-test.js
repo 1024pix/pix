@@ -29,7 +29,7 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
 
       it('should redirect to assessment after signin', async function() {
         // when
-        await fillIn('#email', 'jane@acme.com');
+        await fillIn('#login', 'jane@acme.com');
         await fillIn('#password', 'Jane1234');
         await click('.button');
 

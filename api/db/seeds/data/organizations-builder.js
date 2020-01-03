@@ -38,8 +38,9 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildStudent({
     id: 1,
-    firstName: 'Eddison',
-    lastName: 'Tollett',
+    firstName: 'First',
+    lastName: 'Last',
+    birthdate: '2010-10-10',
     organizationId: 3,
     userId: null
   });

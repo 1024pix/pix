@@ -35,4 +35,13 @@ module.exports = function usersBuilder({ databaseBuilder }) {
     rawPassword: 'pix123',
     cgu: true,
   });
+
+  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    id: 10,
+    firstName: 'Lance',
+    lastName: 'Low',
+    username: 'lance.low1234',
+    rawPassword: 'pix123',
+    cgu: true,
+  });
 };
