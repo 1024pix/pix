@@ -24,7 +24,7 @@ describe('Unit | UseCase | get-or-create-saml-user', () => {
     lastName: 'Lopez',
     samlId: 'saml-id-for-adele',
     password: '',
-    cgu: true,
+    cgu: false,
   });
 
   const settings = {

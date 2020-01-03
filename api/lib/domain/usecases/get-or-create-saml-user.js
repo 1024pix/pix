@@ -25,7 +25,7 @@ module.exports = async function getOrCreateSamlUser({
       lastName: _getLastName(userAttributes),
       samlId: _getSamlId(userAttributes),
       password: '',
-      cgu: true
+      cgu: false
     });
 
     return user;
