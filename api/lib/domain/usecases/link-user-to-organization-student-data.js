@@ -1,8 +1,8 @@
-const { CampaignCodeError, NotFoundError } = require('../../domain/errors');
+const { CampaignCodeError } = require('../../domain/errors');
 
 module.exports = async function linkUserToOrganizationStudentData({
   campaignCode,
-  user: { id: userId, firstName, lastName, birthdate },
+  user,
   campaignRepository,
   studentRepository,
   userReconciliationService,
@@ -11,20 +11,8 @@ module.exports = async function linkUserToOrganizationStudentData({
   if (!campaign || !campaign.organizationId) {
     throw new CampaignCodeError();
   }
-  const students = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
-    organizationId: campaign.organizationId,
-    birthdate,
-  });
 
-  if (students.length === 0) {
-    throw new NotFoundError('There were no students matching');
-  }
+  const studentId = await userReconciliationService.findMatchingOrganizationStudentIdForGivenUser({ organizationId: campaign.organizationId, user, studentRepository });
 
-  const studentId = userReconciliationService.findMatchingCandidateIdForGivenUser(students, { firstName, lastName });
-
-  if (!studentId) {
-    throw new NotFoundError('There were not exactly one student match for this user and organization');
-  }
-
-  return studentRepository.associateUserAndStudent({ userId, studentId });
+  return studentRepository.associateUserAndStudent({ userId: user.id, studentId });
 };
