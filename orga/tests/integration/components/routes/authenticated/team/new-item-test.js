@@ -18,6 +18,7 @@ module('Integration | Component | routes/authenticated/team/new-item', function(
 
     // then
     assert.dom('#email').exists();
+    assert.dom('#email').isRequired();
     assert.dom('button[type="submit"]').exists();
   });
 
