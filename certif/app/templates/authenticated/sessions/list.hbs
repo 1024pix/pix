@@ -3,6 +3,7 @@
     {{routes/authenticated/sessions/list-items
       sessions=model
       goToDetails=(action 'goToDetails')
+      isSessionFinalizationActive=isSessionFinalizationActive
     }}
   {{else}}
     {{routes/authenticated/sessions/no-session-panel}}

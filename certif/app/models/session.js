@@ -4,6 +4,11 @@ import { equal } from '@ember/object/computed';
 import ENV from 'pix-certif/config/environment';
 import { inject as service } from '@ember/service';
 
+const statusToDisplayName = {
+  started: 'Prête',
+  finalized: 'Finalisée',
+};
+
 export default DS.Model.extend({
   address: DS.attr(),
   accessCode: DS.attr(),
@@ -28,6 +33,10 @@ export default DS.Model.extend({
 
   urlToUpload: computed('id', function() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.get('id')}/certification-candidates/import`;
+  }),
+
+  displayStatus: computed('status', function() {
+    return statusToDisplayName[this.status];
   }),
 
   finalize() {
