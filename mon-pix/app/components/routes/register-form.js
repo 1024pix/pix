@@ -3,6 +3,7 @@ import { computed } from '@ember/object';
 import { inject } from '@ember/service';
 
 import isEmailValid from '../../utils/email-validator';
+import isUsernameValid from '../../utils/username-validator';
 import isPasswordValid from '../../utils/password-validator';
 
 const ERROR_INPUT_MESSAGE_MAP = {
@@ -25,6 +26,10 @@ const validation = {
     status: 'default',
     message: null
   },
+  username: {
+    status: 'default',
+    message: null
+  },
   password: {
     status: 'default',
     message: null
@@ -44,9 +49,14 @@ export default Component.extend({
   isLoading: false,
   validation: validation,
   isPasswordVisible: false,
+  loginWithEmail: true,
 
   passwordInputType: computed('isPasswordVisible', function() {
     return this.isPasswordVisible ? 'text' : 'password';
+  }),
+  username: computed('user.{firstName,lastName}', function() {
+
+    return `${this.get('user.firstName')}${this.get('user.lastName')}`;
   }),
 
   init() {
@@ -55,11 +65,16 @@ export default Component.extend({
       lastName: '',
       firstName: '',
       email: '',
+      username: '',
       password: ''
     });
   },
 
   actions: {
+
+    updateLoginMode(data) {
+      this.set('loginWithEmail',data);
+    },
     async register() {
       this.set('isLoading', true);
       try {
@@ -87,7 +102,9 @@ export default Component.extend({
     validateInputEmail(key, value) {
       this._executeFieldValidation(key, value, isEmailValid);
     },
-
+    validateInputUsername(key, value) {
+      this._executeFieldValidation(key, value, isUsernameValid);
+    },
     validateInputPassword(key, value) {
       this._executeFieldValidation(key, value, isPasswordValid);
     },
