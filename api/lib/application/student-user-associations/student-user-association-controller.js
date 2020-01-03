@@ -26,7 +26,15 @@ module.exports = {
       .then(studentSerializer.serialize);
   },
 
-  findAssociationPossibilities() {
-    return null;
+  async findAssociationPossibilities(request, h) {
+    const payload = request.payload.data.attributes;
+    const user = {
+      firstName: payload['first-name'],
+      lastName: payload['last-name'],
+      birthdate: payload['birthdate'],
+    };
+
+    await usecases.findAssociationPossibilities({ campaignCode: payload['campaign-code'], user });
+    return h.response().code(204);
   }
 };
