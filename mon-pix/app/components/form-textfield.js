@@ -36,6 +36,7 @@ export default Component.extend({
   isPasswordVisible: false,
   require: false,
   help: '',
+  disabled: false,
 
   onValidate: () => {},
 

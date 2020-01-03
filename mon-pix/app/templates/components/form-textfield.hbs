@@ -14,7 +14,9 @@
           classBinding="inputValidationStatus"
           autocomplete=autocomplete
           ariaDescribedBy='validationMessage'
-          required=require}}
+          required=require
+          disabled=disabled
+          }}
     <div class="form-textfield__icon">
       {{#if isPassword}}
           <button type="button" aria-label="rendre le mot de passe lisible" class="form-textfield-icon__button" {{action 'togglePasswordVisibility'}}>
