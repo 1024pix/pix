@@ -2,8 +2,8 @@ when('je vais sur la page de connexion', () => {
   cy.visitMonPix('/connexion');
 });
 
-when(`je vais sur la compétence {string} avec scorecard {string}`, (competenceId, scorecardId) => {
-  cy.visitMonPix(`/competences/${competenceId}/scorecard/${scorecardId}`);
+when(`je vais sur la compétence {string}`, (competenceId) => {
+  cy.visitMonPix(`/competences/${competenceId}/details`);
 });
 
 then(`je vois le titre de la page {string}`, (pageTitle) => {

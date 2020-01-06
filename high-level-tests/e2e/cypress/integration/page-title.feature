@@ -15,5 +15,5 @@ Feature: Titre des pages
     Given tous les comptes sont créés
     And je vais sur Pix
     And je suis connecté à Pix en tant que "Daenerys Targaryen"
-    When je vais sur la compétence "recsvLz0W2ShyfD63" avec scorecard "1_recsvLz0W2ShyfD63"
+    When je vais sur la compétence "recsvLz0W2ShyfD63"
     Then je vois le titre de la page "Compétence | Mener une recherche et une veille d’information | Pix"

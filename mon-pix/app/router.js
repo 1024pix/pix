@@ -57,7 +57,7 @@ Router.map(function() {
   });
 
   this.route('competences', { path: '/competences/:competence_id' }, function() {
-    this.route('details', { path: '/scorecard/:scorecard_id' });
+    this.route('details');
     this.route('results', { path: '/resultats/:assessment_id' });
     this.route('resume', { path: '/evaluer' });
   });
