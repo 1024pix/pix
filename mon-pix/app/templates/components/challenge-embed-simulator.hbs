@@ -1,13 +1,22 @@
-{{#if _isSimulatorNotYetLaunched}}
-  <div class="challenge-embed-simulator__aknowledgment-overlay">
-    <button class="challenge-embed-simulator__launch-simulator-button" {{action "launchSimulator"}}>Je lance l’application</button>
+{{#if _hiddenSimulatorClass}}
+  <div class="embed placeholder" aria-label="Chargement de l'application en cours">
+    {{fa-icon 'image'}}
   </div>
 {{/if}}
 
-<div class="challenge-embed-simulator__simulator blurred">
-  <iframe class="challenge-embed-simulator__iframe"
-          src="{{embedDocument.url}}"
-          title="{{embedDocument.title}}">
-  </iframe>
-  <button class="challenge-embed-simulator__reload-button" {{action "reloadSimulator"}}>Recharger l’application</button>
+<div class="embed rounded-panel {{_hiddenSimulatorClass}}">
+  {{#if _isSimulatorNotYetLaunched}}
+    <div class="embed__acknowledgment-overlay">
+      <button class="embed__launch-simulator-button" {{action "launchSimulator"}}>Je lance l’application</button>
+    </div>
+  {{/if}}
+
+  <div class="embed__simulator blurred">
+    <iframe class="embed__iframe"
+            src="{{embedDocument.url}}"
+            title="{{embedDocument.title}}">
+    </iframe>
+    <button class="embed__reload-button" {{action "reloadSimulator"}}>Recharger l’application</button>
+  </div>
 </div>
+

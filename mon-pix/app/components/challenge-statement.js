@@ -12,6 +12,10 @@ export default Component.extend({
   challenge: null,
   assessment: null,
 
+  didReceiveAttrs() {
+    this.set('selectedAttachmentUrl', this.get('challenge.attachments.firstObject'));
+  },
+
   challengeInstruction: computed('challenge.instruction', function() {
     const instruction = this.get('challenge.instruction');
     if (!instruction) {
@@ -36,11 +40,7 @@ export default Component.extend({
     this.id = 'challenge_statement_' + this.get('challenge.id');
   },
 
-  selectedAttachmentUrl: computed('challenge.attachments', function() {
-    return this.get('challenge.attachments.firstObject');
-  }),
-
-  attachmentsData: computed('challenge.attachements', function() {
+  attachmentsData: computed('challenge.attachments', function() {
     return this.get('challenge.attachments');
   }),
 

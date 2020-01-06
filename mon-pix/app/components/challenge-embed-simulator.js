@@ -5,7 +5,7 @@ import { htmlSafe } from '@ember/string';
 export default Component.extend({
 
   // Element
-  classNames: ['challenge-embed-simulator rounded-panel'],
+  classNames: ['challenge-embed-simulator'],
   attributeBindings: ['embedDocumentHeightStyle:style'],
 
   // Data props
@@ -31,14 +31,34 @@ export default Component.extend({
 
     reloadSimulator() {
       this._reloadSimulator();
-    }
+    },
   },
 
   // Internals
   _isSimulatorNotYetLaunched: true,
+  _hiddenSimulatorClass: null,
+
+  didUpdateAttrs() {
+    this.set('_isSimulatorNotYetLaunched', true);
+    this.set('_hiddenSimulatorClass', 'hidden-class');
+  },
+
+  didRender() {
+    this._super(...arguments);
+    const iframe = this._getIframe();
+    iframe.onload = () => {
+      this._removePlaceholder();
+    };
+  },
+
+  _removePlaceholder() {
+    if (this.embedDocument.url) {
+      this.set('_hiddenSimulatorClass', null);
+    }
+  },
 
   _getIframe() {
-    return this.element.querySelector('.challenge-embed-simulator__iframe');
+    return this.element.querySelector('.embed__iframe');
   },
 
   /* This method is not tested because it would be too difficult (add an observer on a complicated stubbed DOM API element!) */
@@ -59,7 +79,7 @@ export default Component.extend({
   },
 
   _unblurSimulator() {
-    const $simulatorPanel = this.element.getElementsByClassName('challenge-embed-simulator__simulator').item(0);
+    const $simulatorPanel = this.element.getElementsByClassName('embed__simulator').item(0);
     $simulatorPanel.classList.remove('blurred');
   }
 });
