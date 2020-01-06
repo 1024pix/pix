@@ -1,78 +1,110 @@
-const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
+const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const usecases = require ('../../../../lib/domain/usecases');
 
-let server;
-
-function startServer() {
-  server = Hapi.server();
-  return server.register(require('../../../../lib/application/organizations'));
-}
+const moduleUnderTest = require('../../../../lib/application/organizations');
 
 describe('Unit | Router | organization-router', () => {
 
+  let httpTestServer;
+
   beforeEach(() => {
+    sinon.stub(usecases, 'findPendingOrganizationInvitations').resolves([]);
+
     sinon.stub(securityController, 'checkUserIsAdminInOrganization').returns(true);
     sinon.stub(securityController, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').returns(true);
+
     sinon.stub(organizationController, 'find').returns('ok');
     sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
 
-    startServer();
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('GET /api/organizations', () => {
 
-    it('should exist', () => {
+    it('should exist', async () => {
       // given
-      const options = {
-        method: 'GET',
-        url: '/api/organizations?name=DRA&code=AZ&type=SCO&page=3&pageSize=25',
-      };
+      const method = 'GET';
+      const url = '/api/organizations?name=DRA&code=AZ&type=SCO&page=3&pageSize=25';
 
       // when
-      const promise = server.inject(options);
+      const response = await httpTestServer.request(method, url);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('POST /api/organizations/{id}/invitations', () => {
 
-    it('should exist', async () => {
-      // given
-      const options = {
-        method: 'POST',
-        url: '/api/organizations/1/invitations'
-      };
+    const method = 'POST';
+    const url = '/api/organizations/1/invitations';
+    let payload;
 
+    beforeEach(() => {
+      payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'user1@organization.org'
+          },
+        }
+      };
+    });
+
+    it('should exist', async () => {
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url, payload);
 
       // then
       expect(response.statusCode).to.equal(201);
+    });
+
+    it('should accept multiple emails', async () => {
+      // given
+      payload.data.attributes.email = 'user1@organization.org, user2@organization.org';
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(201);
+    });
+
+    it('should reject request with HTTP code 400, when email is empty', async () => {
+      // given
+      payload.data.attributes.email = '';
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should reject request with HTTP code 400, when input is not a email', async () => {
+      // given
+      payload.data.attributes.email = 'azerty';
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
   });
 
   describe('GET /api/organizations/{id}/invitations', () => {
 
-    beforeEach(() => {
-      sinon.stub(usecases, 'findPendingOrganizationInvitations').resolves([]);
-    });
-
     it('should return an empty list when no organization is found', async () => {
       // given
-      const options = {
-        method: 'GET',
-        url: '/api/organizations/1/invitations'
-      };
+      const method = 'GET';
+      const url = '/api/organizations/1/invitations';
 
       // when
-      const response = await server.inject(options);
+      const response = await httpTestServer.request(method, url);
 
       // then
       expect(response.statusCode).to.equal(200);
