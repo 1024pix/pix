@@ -1,32 +1,69 @@
 const { sinon, expect } = require('../../../test-helper');
 const mailJet = require('../../../../lib/infrastructure/mailjet');
+const sendinblue = require('../../../../lib/infrastructure/sendinblue');
 const mailService = require('../../../../lib/domain/services/mail-service');
+const mailerConfig = require('../../../../lib/config').mailer_service;
 
 describe('Unit | Service | MailService', () => {
 
   describe('#sendAccountCreationEmail', () => {
 
-    let sendEmailStub;
+    context('with mailjet', () => {
 
-    beforeEach(() => {
-      sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
+      let sendEmailStub;
+
+      beforeEach(() => {
+        sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
+        mailerConfig.enabled = true;
+        mailerConfig.provider = 'mailJet';
+      });
+
+      it('should use mailJet to send an email', () => {
+        // given
+        const email = 'text@example.net';
+
+        // when
+        const promise = mailService.sendAccountCreationEmail(email);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledWith(sendEmailStub, {
+            to: email,
+            template: 'test-account-creation-template-id',
+            from: 'ne-pas-repondre@pix.fr',
+            fromName: 'PIX - Ne pas répondre',
+            subject: 'Création de votre compte PIX'
+          });
+        });
+      });
     });
 
-    it('should use mailJet to send an email', () => {
-      // given
-      const email = 'text@example.net';
+    context('with sendinblue', () => {
 
-      // when
-      const promise = mailService.sendAccountCreationEmail(email);
+      let sendEmailStub;
 
-      // then
-      return promise.then(() => {
-        sinon.assert.calledWith(sendEmailStub, {
-          to: email,
-          template: 'test-account-creation-template-id',
-          from: 'ne-pas-repondre@pix.fr',
-          fromName: 'PIX - Ne pas répondre',
-          subject: 'Création de votre compte PIX'
+      beforeEach(() => {
+        sendEmailStub = sinon.stub(sendinblue, 'sendEmail').resolves();
+        mailerConfig.enabled = true;
+        mailerConfig.provider = 'sendinBlue';
+      });
+
+      it('should use mailJet to send an email', () => {
+        // given
+        const email = 'text@example.net';
+
+        // when
+        const promise = mailService.sendAccountCreationEmail(email);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledWith(sendEmailStub, {
+            to: email,
+            template: 'test-account-creation-template-id',
+            from: 'ne-pas-repondre@pix.fr',
+            fromName: 'PIX - Ne pas répondre',
+            subject: 'Création de votre compte PIX'
+          });
         });
       });
     });
