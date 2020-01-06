@@ -1,112 +1,109 @@
-const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
+const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const organisationController = require('../../../../lib/application/organizations/organization-controller');
-const route = require('../../../../lib/application/organizations/index');
+const moduleUnderTest = require('../../../../lib/application/organizations');
 
 describe('Integration | Application | Organizations | Routes', () => {
 
-  let server;
+  let httpTestServer;
 
   beforeEach(() => {
-    server = Hapi.server();
+    sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sinon.stub(securityController, 'checkUserIsAdminInScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
+    sinon.stub(securityController, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sinon.stub(securityController, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
+
+    sinon.stub(organisationController, 'create').returns('ok');
+    sinon.stub(organisationController, 'find').returns('ok');
+    sinon.stub(organisationController, 'getCampaigns').returns('ok');
+    sinon.stub(organisationController, 'importStudentsFromSIECLE').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(organisationController, 'sendInvitations').callsFake((request, h) => h.response().created());
+    sinon.stub(organisationController, 'findPendingInvitations').returns('ok');
+
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('POST /api/organizations', () => {
 
-    beforeEach(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-      sinon.stub(organisationController, 'create').returns('ok');
-      return server.register(route);
-    });
+    it('should exist', async () => {
+      // given
+      const method = 'POST';
+      const url = '/api/organizations';
 
-    it('should exist', () => {
-      return server.inject({ method: 'POST', url: '/api/organizations' }).then((res) => {
-        expect(res.statusCode).to.equal(200);
-      });
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('GET /api/organizations', () => {
 
-    beforeEach(() => {
-      sinon.stub(organisationController, 'find').returns('ok');
-      return server.register(route);
-    });
+    it('should exist', async () => {
+      // given
+      const method = 'GET';
+      const url = '/api/organizations';
 
-    it('should exist', () => {
-      server.inject({ method: 'GET', url: '/api/organizations' }).then((res) => {
-        expect(res.statusCode).to.equal(200);
-      });
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('GET /api/organizations/:id/campaigns', () => {
 
-    beforeEach(() => {
-      sinon.stub(organisationController, 'getCampaigns').returns('ok');
-      return server.register(route);
-    });
+    it('should call the organization controller to get the campaigns', async () => {
+      // given
+      const method = 'GET';
+      const url = '/api/organizations/:id/campaigns';
 
-    it('should call the organization controller to get the campaigns', () => {
       // when
-      const promise = server.inject({ method: 'GET', url: '/api/organizations/:id/campaigns' });
+      const response = await httpTestServer.request(method, url);
 
       // then
-      return promise.then((resp) => {
-        expect(resp.statusCode).to.equal(200);
-        expect(organisationController.getCampaigns).to.have.been.calledOnce;
-      });
+      expect(response.statusCode).to.equal(200);
+      expect(organisationController.getCampaigns).to.have.been.calledOnce;
     });
   });
 
   describe('POST /api/organizations/:id/import-students', () => {
 
-    beforeEach(() => {
-      sinon.stub(securityController, 'checkUserIsAdminInScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
-      sinon.stub(organisationController, 'importStudentsFromSIECLE').callsFake((request, h) => h.response('ok').code(201));
-      return server.register(route);
-    });
+    it('should call the organization controller to import students', async () => {
+      // given
+      const method = 'POST';
+      const url = '/api/organizations/:id/import-students';
+      const payload = {};
 
-    it('should call the organization controller to import students', () => {
       // when
-      const promise = server.inject({
-        method: 'POST',
-        url: '/api/organizations/:id/import-students',
-        payload: {}
-      });
+      const response = await httpTestServer.request(method, url, payload);
 
       // then
-      return promise.then((resp) => {
-        expect(resp.statusCode).to.equal(201);
-        expect(organisationController.importStudentsFromSIECLE).to.have.been.calledOnce;
-      });
+      expect(response.statusCode).to.equal(201);
+      expect(organisationController.importStudentsFromSIECLE).to.have.been.calledOnce;
     });
   });
 
   describe('POST /api/organizations/:id/invitations', () => {
 
-    beforeEach(() => {
-      sinon.stub(securityController, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').callsFake((request, h) => h.response(true));
-      sinon.stub(organisationController, 'sendInvitations').callsFake((request, h) => h.response().created());
-
-      return server.register(route);
-    });
-
     it('should call the organization controller to send invitations', async () => {
-      // when
-      const response = await server.inject({
-        method: 'POST',
-        url: '/api/organizations/:id/invitations',
-        payload: {
-          data: {
-            type: 'organization-invitations',
-            attributes: {
-              emails: ['member@organization.org']
-            },
-          }
+      // given
+      const method = 'POST';
+      const url = '/api/organizations/:id/invitations';
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'member@organization.org'
+          },
         }
-      });
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
 
       // then
       expect(response.statusCode).to.equal(201);
@@ -116,15 +113,15 @@ describe('Integration | Application | Organizations | Routes', () => {
 
   describe('GET /api/organizations/:id/invitations', () => {
 
-    beforeEach(() => {
-      sinon.stub(securityController, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
-      sinon.stub(organisationController, 'findPendingInvitations').returns('ok');
-      return server.register(route);
-    });
-
     it('should exist', async () => {
-      const response = await server.inject({ method: 'GET', url: '/api/organizations/:id/invitations' });
+      // given
+      const method = 'GET';
+      const url = '/api/organizations/:id/invitations';
 
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
       expect(response.statusCode).to.equal(200);
       expect(organisationController.findPendingInvitations).to.have.been.calledOnce;
     });
