@@ -22,7 +22,6 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
 
   describe('Authenticated cases as simple user', () => {
 
-    let scorecard;
     let area;
     let earnedPix;
     let level;
@@ -37,12 +36,12 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       area = server.schema.areas.find(1);
     });
 
-    it(`should be able to visit /competences/${competenceId}/scorecard/${scorecardId}`, async () => {
+    it(`should be able to visit /competences/${competenceId}/details`, async () => {
       // when
-      await visitWithAbortedTransition(`/competences/${competenceId}/scorecard/${scorecardId}`);
+      await visitWithAbortedTransition(`/competences/${competenceId}/details`);
 
       // then
-      expect(currentURL()).to.equal(`/competences/${competenceId}/scorecard/${scorecardId}`);
+      expect(currentURL()).to.equal(`/competences/${competenceId}/details`);
     });
 
     it(`should not be able to visit /competences/${competenceId}/tutorials`, async () => {
@@ -55,7 +54,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
 
     it('should display the competence details', async () => {
       // given
-      scorecard = server.create('scorecard', {
+      server.create('scorecard', {
         id: scorecardId,
         name,
         description,
@@ -68,7 +67,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       });
 
       // when
-      await visitWithAbortedTransition(`/competences/${competenceId}/scorecard/${scorecard.id}`);
+      await visitWithAbortedTransition(`/competences/${competenceId}/details`);
 
       // then
       expect(find('.scorecard-details-content-left__area').textContent).to.contain(area.title);
@@ -79,7 +78,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
 
     it('should transition to /profil when the user clicks on return', async () => {
       // given
-      await visitWithAbortedTransition(`/competences/${competenceId}/scorecard/${scorecardId}`);
+      await visitWithAbortedTransition(`/competences/${competenceId}/details`);
 
       // when
       await click('.scorecard-details-header__return-button');
@@ -100,7 +99,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
 
       it('should not display level or score', async () => {
         // given
-        scorecard = server.create('scorecard', {
+        server.create('scorecard', {
           id: scorecardId,
           name,
           description,
@@ -113,7 +112,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
         });
 
         // when
-        await visitWithAbortedTransition(`/competences/${competenceId}/scorecard/${scorecard.id}`);
+        await visitWithAbortedTransition(`/competences/${competenceId}/details`);
 
         // then
         expect(findAll('.competence-card__level .score-value')).to.have.lengthOf(0);
@@ -123,7 +122,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
 
       it('should not display reset button nor reset sentence', async () => {
         // given
-        scorecard = server.create('scorecard', {
+        server.create('scorecard', {
           id: scorecardId,
           name,
           description,
@@ -136,7 +135,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
         });
 
         // when
-        await visitWithAbortedTransition(`/competences/${competenceId}/scorecard/${scorecard.id}`);
+        await visitWithAbortedTransition(`/competences/${competenceId}/details`);
 
         // then
         expect(findAll('.scorecard-details__reset-button')).to.have.lengthOf(0);
@@ -154,7 +153,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       });
       it('should display level and score', async () => {
         // given
-        scorecard = server.create('scorecard', {
+        server.create('scorecard', {
           id: scorecardId,
           name,
           description,
@@ -167,7 +166,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
         });
 
         // when
-        await visitWithAbortedTransition(`/competences/${competenceId}/scorecard/${scorecard.id}`);
+        await visitWithAbortedTransition(`/competences/${competenceId}/details`);
 
         // then
         expect(find('.competence-card__level .score-value').textContent).to.equal(level.toString());
@@ -177,7 +176,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
 
       it('should not display pixScoreAheadOfNextLevel when next level is over the max level', async () => {
         // given
-        scorecard = server.create('scorecard', {
+        server.create('scorecard', {
           id: scorecardId,
           name: 'Super compétence',
           earnedPix: 7,
@@ -187,7 +186,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
         });
 
         // when
-        await visitWithAbortedTransition(`/competence/${competenceId}/scorecard/${scorecard.id}`);
+        await visitWithAbortedTransition(`/competence/${competenceId}/details`);
 
         // then
         expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
@@ -195,7 +194,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
 
       it('should display relevant tutorials when there are invalidated knowledge elements', async () => {
         // given
-        scorecard = server.create('scorecard', {
+        server.create('scorecard', {
           id: scorecardId,
           name: 'Super compétence',
           earnedPix: 7,
@@ -205,7 +204,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
         });
 
         // when
-        await visitWithAbortedTransition(`/competences/${competenceId}/scorecard/${scorecard.id}`);
+        await visitWithAbortedTransition(`/competences/${competenceId}/details`);
 
         // then
         expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
@@ -221,7 +220,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
 
         it('should display remaining days before reset', async () => {
           // given
-          scorecard = server.create('scorecard', {
+          server.create('scorecard', {
             id: scorecardId,
             name,
             description,
@@ -234,7 +233,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
           });
 
           // when
-          await visitWithAbortedTransition(`/competences/${competenceId}/scorecard/${scorecard.id}`);
+          await visitWithAbortedTransition(`/competences/${competenceId}/details`);
 
           // then
           expect(find('.scorecard-details-content-right__reset-message').textContent).to.contain(`Remise à zéro disponible dans ${remainingDaysBeforeReset} jours`);
@@ -250,7 +249,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
 
         it('should display reset button', async () => {
           // given
-          scorecard = server.create('scorecard', {
+          server.create('scorecard', {
             id: scorecardId,
             name,
             description,
@@ -263,7 +262,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
           });
 
           // when
-          await visitWithAbortedTransition(`/competences/${competenceId}/scorecard/${scorecard.id}`);
+          await visitWithAbortedTransition(`/competences/${competenceId}/details`);
 
           // then
           expect(find('.scorecard-details__reset-button').textContent).to.contain('Remettre à zéro');
@@ -272,7 +271,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
 
         it('should display popup to validate reset', async () => {
           // given
-          scorecard = server.create('scorecard', {
+          server.create('scorecard', {
             id: scorecardId,
             name,
             description,
@@ -283,7 +282,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
             status,
             remainingDaysBeforeReset,
           });
-          await visitWithAbortedTransition(`/competences/${competenceId}/scorecard/${scorecard.id}`);
+          await visitWithAbortedTransition(`/competences/${competenceId}/details`);
 
           // when
           await click('.scorecard-details__reset-button');
@@ -294,7 +293,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
 
         it('should reset competence when user clicks on reset', async () => {
           // given
-          scorecard = server.create('scorecard', {
+          server.create('scorecard', {
             id: '1_1',
             name,
             description,
@@ -306,7 +305,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
             remainingDaysBeforeReset,
             competenceId: 1,
           });
-          await visitWithAbortedTransition(`/competences/1/scorecard/${scorecard.id}`);
+          await visitWithAbortedTransition('/competences/1/details');
           await click('.scorecard-details__reset-button');
 
           // when
@@ -325,7 +324,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
   describe('Not authenticated cases', () => {
     it('should redirect to home, when user is not authenticated', async () => {
       // when
-      await visitWithAbortedTransition(`/competences/${competenceId}/scorecard/${scorecardId}`);
+      await visitWithAbortedTransition(`/competences/${competenceId}/details`);
 
       // then
       expect(currentURL()).to.equal('/connexion');

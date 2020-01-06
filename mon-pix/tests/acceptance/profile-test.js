@@ -75,7 +75,7 @@ describe('Acceptance | Profile', function() {
       await click('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .competence-card__link');
 
       // then
-      expect(currentURL()).to.equal('/competences/2/scorecard/1_2');
+      expect(currentURL()).to.equal('/competences/2/details');
     });
 
     it('should display first competence card of second area', async function() {
