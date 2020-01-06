@@ -44,8 +44,12 @@ module.exports = (function() {
       logLevel: (process.env.LOG_LEVEL || 'info'),
     },
 
-    mailing_mailjet: {
+    mailer_service: {
       enabled: isFeatureEnabled(process.env.MAILING_ENABLED),
+      provider: process.env.MAILER_SERVICE || 'mailJet',
+    },
+
+    mailing_mailjet: {
       mailjetApiKey: process.env.MAILJET_KEY,
       mailjetApiSecret: process.env.MAILJET_SECRET,
       mailjetAccountCreationTemplateId: process.env.MAILJET_ACCOUNT_CREATION_TEMPLATE_ID,

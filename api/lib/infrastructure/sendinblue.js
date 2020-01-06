@@ -1,6 +1,7 @@
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 const defaultClient = SibApiV3Sdk.ApiClient.instance;
 const mailingConfig = require('../config').mailing_sendinblue;
+const mailerConfig = require('../config').mailer_service;
 const API_KEY = mailingConfig.sendinblueApiKey;
 const mailCheck = require('./mail-check');
 
@@ -20,7 +21,7 @@ function _formatPayload(options) {
 }
 
 async function sendEmail(options) {
-  if (!mailingConfig) {
+  if (!mailerConfig.enabled) {
     return Promise.resolve();
   }
   const apiInstance = new SibApiV3Sdk.SMTPApi();

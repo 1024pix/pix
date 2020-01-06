@@ -1,10 +1,9 @@
 const { sinon, expect } = require('../../test-helper');
 const Mailjet = require('../../../lib/infrastructure/mailjet');
-
 const nodeMailjet = require('node-mailjet');
 const mailCheck = require('../../../lib/infrastructure/mail-check');
+const mailerConfig = require('../../../lib/config').mailer_service;
 const logger = require('../../../lib/infrastructure/logger');
-const mailingConfig = require('../../../lib/config').mailing_mailjet;
 
 describe('Unit | Class | Mailjet', function() {
 
@@ -22,7 +21,7 @@ describe('Unit | Class | Mailjet', function() {
 
       beforeEach(() => {
         sinon.stub(mailCheck, 'checkMail').resolves();
-        mailingConfig.enabled = false;
+        mailerConfig.enabled = false;
       });
 
       afterEach(() => {
@@ -44,11 +43,11 @@ describe('Unit | Class | Mailjet', function() {
   context('when mail sending is enabled', () => {
 
     beforeEach(() => {
-      mailingConfig.enabled = true;
+      mailerConfig.enabled = true;
     });
 
     afterEach(() => {
-      mailingConfig.enabled = false;
+      mailerConfig.enabled = false;
     });
 
     context('when email check fails', () => {

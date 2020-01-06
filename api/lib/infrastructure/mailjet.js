@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const mailingConfig = require('../config').mailing_mailjet;
+const mailerConfig = require('../config').mailer_service;
 const nodeMailjet = require('node-mailjet');
 const logger = require('./logger');
 const mailCheck = require('./mail-check');
@@ -25,7 +26,7 @@ function _formatPayload(options) {
 }
 
 function sendEmail(options) {
-  if (!mailingConfig.enabled) {
+  if (!mailerConfig.enabled) {
     return Promise.resolve();
   }
 
