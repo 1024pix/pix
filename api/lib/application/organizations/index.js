@@ -1,3 +1,5 @@
+const Joi = require('@hapi/joi');
+
 const securityController = require('../../interfaces/controllers/security-controller');
 const organisationController = require('./organization-controller');
 const snapshotsAuthorization = require('../../application/preHandlers/snapshot-authorization');
@@ -162,6 +164,18 @@ exports.register = async (server) => {
           assign: 'isAdminInOrganizationOrHasRolePixMaster'
         }],
         handler: organisationController.sendInvitations,
+        validate: {
+          options: {
+            allowUnknown: true
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                email: Joi.string().email({ multiple: true }).required(),
+              }
+            }
+          })
+        },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés en tant que responsables de l\'organisation ou ayant le rôle Pix Master**\n' +
           '- Elle permet d\'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d\'une organisation, via leur **email**'
