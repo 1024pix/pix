@@ -35,7 +35,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
     sinon.stub(smartPlacementAssessmentRepository, 'checkIfAssessmentBelongToUser');
     sinon.stub(assessmentRepository, 'getByCampaignParticipationId').resolves();
     sinon.stub(dataFetcher, 'fetchForCampaigns').resolves();
-    sinon.stub(smartRandom, 'getNextChallenge').returns({ hasAssessmentEnded: true });
+    sinon.stub(smartRandom, 'getPossibleSkillsForNextChallenge').returns({ hasAssessmentEnded: true });
   });
 
   context('when the share request comes from the owner of the assessment', () => {
