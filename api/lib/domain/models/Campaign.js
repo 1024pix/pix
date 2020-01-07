@@ -9,6 +9,7 @@ class Campaign {
     idPixLabel,
     createdAt,
     organizationLogoUrl,
+    organizationName,
     customLandingPageText,
     isRestricted = false,
     // includes
@@ -28,6 +29,7 @@ class Campaign {
     this.idPixLabel = idPixLabel;
     this.createdAt = createdAt;
     this.organizationLogoUrl = organizationLogoUrl;
+    this.organizationName = organizationName;
     this.customLandingPageText = customLandingPageText;
     this.isRestricted = isRestricted;
     // includes

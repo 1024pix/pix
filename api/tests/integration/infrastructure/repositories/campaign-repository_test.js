@@ -78,12 +78,14 @@ describe('Integration | Repository | Campaign', () => {
 
     let creatorId, organizationId, targetProfileId;
     let savedCampaign, campaignToSave;
+
     beforeEach(async () => {
       // given
       creatorId = databaseBuilder.factory.buildUser({}).id;
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
       targetProfileId = databaseBuilder.factory.buildTargetProfile({}).id;
       await databaseBuilder.commit();
+
       campaignToSave = domainBuilder.buildCampaign({
         name: 'Evaluation niveau 1 recherche internet',
         code: 'BCTERD153',
