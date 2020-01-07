@@ -1,5 +1,5 @@
 
-{{notification-container position="bottom-right"}}
+<NotificationContainer @position="bottom-right" />
 
 <div class="panel panel--strong-shadow session-details-container">
     <div class="session-details-row">
@@ -31,12 +31,9 @@
               {{#if (is-clipboard-supported)}}
                   <div class="tooltip">
                       <span class="tooltip__text tooltip-text session-details-content__tooltip-text">{{this.tooltipText}}</span>
-                    {{#copy-button clipboardText=session.accessCode
-                                   success=(action 'clipboardSuccess')
-                                   mouseLeave=(action 'clipboardOut')
-                                   classNames="icon-button session-details-content__clipboard-button"}}
+                    <CopyButton @clipboardText={{session.accessCode}} @success={{action "clipboardSuccess"}} @mouseLeave={{action "clipboardOut"}} @classNames="icon-button session-details-content__clipboard-button">
                       {{fa-icon 'copy' prefix='far'}}
-                    {{/copy-button}}
+                    </CopyButton>
                   </div>
               {{/if}}
             </div>
@@ -55,23 +52,20 @@
     <div class="session-details-row">
       {{#if (and isSessionFinalizationActive session.hasStarted) }}
         <div class="session-details-buttons">
-          {{#link-to "authenticated.sessions.update" session.id
-                     class="button button--regular button--grey button--link session-details-content__update-button"}}
+          <LinkTo @route="authenticated.sessions.update" @model={{session.id}} class="button button--regular button--grey button--link session-details-content__update-button">
               Modifier
-          {{/link-to}}
+          </LinkTo>
         </div>
         <div class="session-details-buttons session-details-buttons--push-right {{if session.isFinalized "button--disabled"}}">
-            {{#link-to "authenticated.sessions.finalize" session.id
-                             class="button button--regular button--link session-details-content__finalize-button push-right"}}
+            <LinkTo @route="authenticated.sessions.finalize" @model={{session.id}} class="button button--regular button--link session-details-content__finalize-button push-right">
                       Finaliser la session
-            {{/link-to}}
+            </LinkTo>
         </div>
       {{else}}
         <div class="session-details-buttons">
-          {{#link-to "authenticated.sessions.update" session.id
-                     class="button button--regular button--link session-details-content__update-button"}}
+          <LinkTo @route="authenticated.sessions.update" @model={{session.id}} class="button button--regular button--link session-details-content__update-button">
               Modifier
-          {{/link-to}}
+          </LinkTo>
         </div>
       {{/if}}
     </div>

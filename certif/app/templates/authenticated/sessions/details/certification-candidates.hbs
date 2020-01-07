@@ -1,6 +1,1 @@
-{{routes/authenticated/sessions/details/certification-candidates-tab
-  session=model
-  certificationCandidates=model.certificationCandidates
-  importAllowed=importAllowed
-  importCertificationCandidates=(action 'importCertificationCandidates')
-}}
+<Routes::Authenticated::Sessions::Details::CertificationCandidatesTab @session={{model}} @certificationCandidates={{model.certificationCandidates}} @importAllowed={{importAllowed}} @importCertificationCandidates={{action "importCertificationCandidates"}} />

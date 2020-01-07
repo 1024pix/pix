@@ -1,8 +1,8 @@
 <div class="page__title session-details__header">
   <div class="session-details-header__title">
-    {{#link-to "authenticated.sessions.list" class="icon-button session-details-content__return-button"}}
+    <LinkTo @route="authenticated.sessions.list" class="icon-button session-details-content__return-button">
       {{fa-icon 'arrow-left'}}
-    {{/link-to}}
+    </LinkTo>
     <h1 class="page-title">Session {{session.id}}</h1>
   </div>
 
@@ -25,16 +25,16 @@
 
 <div class="panel session-details__controls">
   <nav class="navbar session-details-controls__navbar-tabs">
-    {{#link-to 'authenticated.sessions.details.parameters' class="navbar-item"}}
+    <LinkTo @route="authenticated.sessions.details.parameters" class="navbar-item">
         Détails
-    {{/link-to}}
-    {{#link-to 'authenticated.sessions.details.certification-candidates' class="navbar-item"}}
+    </LinkTo>
+    <LinkTo @route="authenticated.sessions.details.certification-candidates" class="navbar-item">
         Candidats {{certificationCandidatesCount}}
-    {{/link-to}}
+    </LinkTo>
   </nav>
 
 </div>
 
-{{notification-container position="bottom-right"}}
+<NotificationContainer @position="bottom-right" />
 
 {{outlet}}

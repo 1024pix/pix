@@ -3,7 +3,8 @@ import { visit, currentURL, fillIn, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   authenticateSession,
-  currentSession
+  currentSession,
+  invalidateSession,
 } from 'ember-simple-auth/test-support';
 import {
   createUserWithMembership,
@@ -22,6 +23,9 @@ module('Acceptance | authentication', function(hooks) {
   module('When user is not logged in', function() {
 
     test('it should redirect user to login page', async function(assert) {
+      // given
+      await invalidateSession();
+
       // when
       await visit('/');
 
@@ -33,7 +37,8 @@ module('Acceptance | authentication', function(hooks) {
 
   module('When user is logging in but has not accepted terms of service yet', function(hooks) {
 
-    hooks.beforeEach(() => {
+    hooks.beforeEach(async () => {
+      await invalidateSession();
       user = createUserWithMembership();
     });
 
@@ -70,7 +75,8 @@ module('Acceptance | authentication', function(hooks) {
 
   module('When user is logging in and has accepted terms of service', function(hooks) {
 
-    hooks.beforeEach(() => {
+    hooks.beforeEach(async () => {
+      await invalidateSession();
       user = createUserWithMembershipAndTermsOfServiceAccepted();
     });
 

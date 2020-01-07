@@ -1,7 +1,1 @@
-{{routes/authenticated/sessions/session-finalizer
-  session=model
-  finalizeSession=(action 'finalizeSession')
-  openModal=(action 'openModal')
-  closeModal=(action 'closeModal')
-  showConfirmModal=showConfirmModal
-}}
+<Routes::Authenticated::Sessions::SessionFinalizer @session={{model}} @finalizeSession={{action "finalizeSession"}} @openModal={{action "openModal"}} @closeModal={{action "closeModal"}} @showConfirmModal={{showConfirmModal}} />

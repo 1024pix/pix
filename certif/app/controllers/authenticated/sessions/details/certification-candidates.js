@@ -18,7 +18,7 @@ export default Controller.extend({
   actions: {
     async importCertificationCandidates(file) {
       const { access_token } = this.get('session.data.authenticated');
-      this.get('notifications').clearAll();
+      this.notifications.clearAll();
 
       const autoClear = config.notifications.autoClear;
       const clearDuration = config.notifications.clearDuration;
@@ -27,8 +27,8 @@ export default Controller.extend({
         await file.upload(this.model.urlToUpload, {
           headers: { Authorization: `Bearer ${access_token}` },
         });
-        this.get('model').certificationCandidates.reload();
-        this.get('notifications').success('La liste des candidats a été importée avec succès', {
+        this.model.certificationCandidates.reload();
+        this.notifications.success('La liste des candidats a été importée avec succès', {
           autoClear,
           clearDuration,
         });
@@ -36,12 +36,12 @@ export default Controller.extend({
       catch (err) {
         const errorDetail = err.body.errors[0].detail ? err.body.errors[0].detail : null;
         if (errorDetail === 'At least one candidate is already linked to a user') {
-          this.get('notifications').error('La session a débuté, il n\'est plus possible de modifier la liste des candidats.', {
+          this.notifications.error('La session a débuté, il n\'est plus possible de modifier la liste des candidats.', {
             autoClear,
             clearDuration,
           });
         } else {
-          this.get('notifications').error('Une erreur s\'est produite lors de l\'import des candidats', {
+          this.notifications.error('Une erreur s\'est produite lors de l\'import des candidats', {
             autoClear,
             clearDuration,
           });

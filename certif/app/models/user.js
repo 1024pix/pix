@@ -1,10 +1,9 @@
-import DS from 'ember-data';
+import Model, { attr, hasMany } from '@ember-data/model';
 
-export default DS.Model.extend({
-  email: DS.attr(),
-  firstName: DS.attr(),
-  lastName: DS.attr(),
-  pixCertifTermsOfServiceAccepted: DS.attr(),
-  certificationCenterMemberships: DS.hasMany('certificationCenterMembership')
-
+export default Model.extend({
+  email: attr(),
+  firstName: attr(),
+  lastName: attr(),
+  pixCertifTermsOfServiceAccepted: attr(),
+  certificationCenterMemberships: hasMany('certificationCenterMembership')
 });

@@ -14,7 +14,6 @@ export default function() {
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
   this.timing = 0;
-  this.logging = true;
 
   this.get('/certification-centers/:id/sessions', (schema, request) => {
     const certificationCenterId = request.params.id;
@@ -82,7 +81,7 @@ export default function() {
   });
 
   this.get('/users/me', (schema, request) => {
-    const userToken = request.requestHeaders.Authorization.replace('Bearer ', '');
+    const userToken = request.requestHeaders.authorization.replace('Bearer ', '');
     const userId = JSON.parse(atob(userToken.split('.')[1])).user_id;
 
     return schema.users.find(userId);
@@ -90,7 +89,7 @@ export default function() {
 
   this.get('/users/:id/certification-center-memberships', (schema, request) => {
     const userId = request.params.id;
-
+    
     return schema.certificationCenterMemberships.where({ userId });
   });
 

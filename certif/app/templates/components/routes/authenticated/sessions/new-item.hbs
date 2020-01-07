@@ -38,16 +38,7 @@
 
   <div class="session-form__field">
     <label for="session-date" class="label">Date de début</label>
-    {{ember-flatpickr id='session-date'
-                      altFormat='d/m/Y'
-                      altInput=true
-                      onChange=(action onDatePicked)
-                      dateFormat='Y-m-d'
-                      locale='fr'
-                      minDate='today'
-                      name='session-date'
-                      class='input input--small'
-    }}
+    <EmberFlatpickr @id="session-date" @altFormat="d/m/Y" @altInput={{true}} @onChange={{action onDatePicked}} @dateFormat="Y-m-d" @locale="fr" @minDate="today" @name="session-date" @class="input input--small" />
     {{#each session.errors.date as |error|}}
       <div class='session-form__error error-message'>
         {{error.message}}
@@ -57,17 +48,7 @@
 
   <div class="session-form__field">
     <label for="session-time" class="label">Heure de début (heure locale)</label>
-    {{ember-flatpickr id='session-time'
-                      onChange=(action onTimePicked)
-                      onClose=(action onTimePicked)
-                      enableTime=true
-                      noCalendar=true
-                      dateFormat='H:i'
-                      time_24hr=true
-                      enableSeconds=false
-                      name='session-time'
-                      class='input input--small'
-    }}
+    <EmberFlatpickr @id="session-time" @onChange={{action onTimePicked}} @onClose={{action onTimePicked}} @enableTime={{true}} @noCalendar={{true}} @dateFormat="H:i" @time_24hr={{true}} @enableSeconds={{false}} @name="session-time" @class="input input--small" />
     {{#each session.errors.time as |error|}}
       <div class='session-form__error error-message'>
         {{error.message}}
@@ -94,13 +75,7 @@
 
   <div class="session-form__field">
     <label for="session-description" class="label">Observations (optionnel)</label>
-    {{textarea id='session-description'
-            name='session-description'
-            maxlength='350'
-            rows=8
-            value=session.description
-            class='textarea'
-    }}
+    <Textarea @id="session-description" @name="session-description" @maxlength="350" @rows={{8}} @value={{session.description}} class="textarea" />
   </div>
 
   <div class="session-form__validation">

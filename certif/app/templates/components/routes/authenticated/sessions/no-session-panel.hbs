@@ -4,10 +4,10 @@
     <h1 class="page-title">Créez votre première session de certification</h1>
 
     <div class="no-session-panel__link-to-create">
-      {{#link-to 'authenticated.sessions.new' class="button button--link button--with-icon"}}
+      <LinkTo @route="authenticated.sessions.new" class="button button--link button--with-icon">
         Créer une session
         {{fa-icon 'plus'}}
-      {{/link-to}}
+      </LinkTo>
     </div>
   </div>
 </div>
