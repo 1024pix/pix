@@ -7,6 +7,7 @@ export default Model.extend({
   idPixLabel: attr('string'),
   title: attr('string'),
   organizationLogoUrl: attr('string'),
+  organizationName: attr('string'),
   customLandingPageText: attr('string'),
   isRestricted: attr('boolean'),
   targetProfile: belongsTo('targetProfile'),

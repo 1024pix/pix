@@ -131,6 +131,16 @@ export default function(server) {
     isRestricted: true,
   });
 
+  const campaign5 = server.create('campaign', {
+    id: 5,
+    name: 'Campagne 5 resteinte',
+    code: 'RESTRICTD',
+    idPixLabel: 'Mail Pro',
+    organizationLogoUrl: 'data:jpeg;base64=somelogo',
+    organizationName: 'College Victor Hugo',
+    isRestricted: true,
+  });
+
   const targetProfile = server.create('target-profile', {
     name: 'Target Profile'
   });
@@ -138,6 +148,7 @@ export default function(server) {
   campaign2.targetProfile = targetProfile;
   campaign3.targetProfile = targetProfile;
   campaign4.targetProfile = targetProfile;
+  campaign5.targetProfile = targetProfile;
 
   server.create('password-reset-demand', {
     temporaryKey: 'temporaryKey',
