@@ -84,7 +84,7 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
 
 function _adaptModelToDb(user) {
   return _.omit(user, [
-    'organizations', 'campaignParticipations', 'pixRoles', 'memberships',
+    'campaignParticipations', 'pixRoles', 'memberships',
     'certificationCenterMemberships', 'pixScore', 'knowledgeElements',
     'scorecards',
   ]);
@@ -130,34 +130,14 @@ module.exports = {
   get(userId) {
     return BookshelfUser
       .where({ id: userId })
-      .fetch({
-        require: true,
-        withRelated: ['organizations']
-      })
-      .then((bookshelfUser) => bookshelfUser.toDomainEntity())
+      .fetch({ require: true })
+      .then((user) => bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
         }
         throw err;
       });
-  },
-
-  async getPersonalInfo(userId) {
-    try {
-      const user = await BookshelfUser
-        .where({ id :userId })
-        .fetch({
-          require: true,
-          columns: ['id', 'firstName', 'lastName', 'email'],
-        });
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
-    } catch (err) {
-      if (err instanceof BookshelfUser.NotFoundError) {
-        throw new UserNotFoundError(`User not found for ID ${userId}`);
-      }
-      throw err;
-    }
   },
 
   findPaginatedFiltered({ filter, page }) {

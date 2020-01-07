@@ -88,7 +88,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(user.email).to.equal(userInDb.email);
       });
     });
-    
+
     describe('#getBySamlId', () => {
 
       let userInDb;
@@ -250,38 +250,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
         // when
         const result = await catchErr(userRepository.getByUsernameOrEmailWithRoles)(unusedUsername);
-
-        // then
-        expect(result).to.be.instanceOf(UserNotFoundError);
-      });
-    });
-
-    describe('#getPersonalInfo', () => {
-      let expectedUser;
-
-      beforeEach(() => {
-        expectedUser = databaseBuilder.factory.buildUser();
-        return databaseBuilder.commit();
-      });
-
-      it('should return the found user with its personal info', async () => {
-        // when
-        const actualUser = await userRepository.getPersonalInfo(expectedUser.id);
-
-        // then
-        expect(actualUser).to.be.an.instanceOf(User);
-        expect(actualUser.id).to.equal(expectedUser.id);
-        expect(actualUser.firstName).to.equal(expectedUser.firstName);
-        expect(actualUser.lastName).to.equal(expectedUser.lastName);
-        expect(actualUser.email).to.equal(expectedUser.email);
-      });
-
-      it('should return a UserNotFoundError if no user is found', async () => {
-        // given
-        const nonExistentUserId = 678;
-
-        // when
-        const result = await catchErr(userRepository.get)(nonExistentUserId);
 
         // then
         expect(result).to.be.instanceOf(UserNotFoundError);
