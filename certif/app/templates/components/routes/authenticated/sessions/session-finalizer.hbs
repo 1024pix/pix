@@ -1,8 +1,8 @@
 <div class="page__title session-finalizer">
   <div class="session-finalizer__title">
-    {{#link-to "authenticated.sessions.details" session.id class="icon-button session-details-content__return-button"}}
+    <LinkTo @route="authenticated.sessions.details" @model={{session.id}} class="icon-button session-details-content__return-button">
       {{fa-icon 'arrow-left'}}
-    {{/link-to}}
+    </LinkTo>
     <h1 class="page-title">Finaliser la session {{session.id}}</h1>
   </div>
   <div class="session-finalizer__subtitle">
@@ -40,7 +40,7 @@
 </div>
 
 {{#if showConfirmModal}}
-  {{#app-modal containerClass="pix-modal-dialog--wide" onClose=closeModal }}
+  <AppModal @containerClass="pix-modal-dialog--wide" @onClose={{closeModal}}>
 
     <div class="pix-modal__close-link">
       <a href="#" data-test-id="finalize-session-modal__close-cross" {{action closeModal}}>Fermer
@@ -67,5 +67,5 @@
           {{action closeModal}}>Annuler</button>
       </div>
     </div>
-  {{/app-modal}}
+  </AppModal>
 {{/if}}

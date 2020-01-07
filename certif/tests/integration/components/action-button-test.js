@@ -12,7 +12,7 @@ module('Integration | Component | action-btn', function(hooks) {
         Finalize
       </ActionButton>
     `);
-    assert.equal(this.element.textContent.trim(), 'Finalize');
+    assert.dom(this.element).hasText('Finalize');
   });
   test('it renders a loader when in a loading state', async function(assert) {
     this.set('isLoading', true);
@@ -21,6 +21,6 @@ module('Integration | Component | action-btn', function(hooks) {
         Finalize
       </ActionButton>
     `);
-    assert.ok(this.element.firstElementChild.firstElementChild.classList.contains('button__loader'));
+    assert.dom(this.element.firstElementChild.firstElementChild).hasClass('button__loader');
   });
 });

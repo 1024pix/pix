@@ -17,7 +17,7 @@ export default Route.extend({
   async afterModel(model, transition) {
     if (model.isFinalized) {
       const { autoClear, clearDuration } = config.notifications;
-      this.get('notifications')
+      this.notifications
         .error('Cette session a déjà été finalisée.', { autoClear, clearDuration });
 
       transition.abort();

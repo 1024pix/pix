@@ -43,17 +43,12 @@
       </div>
         {{#if importAllowed}}
           <div class="panel-actions__button">
-            {{#file-upload name="file-upload"
-              for="upload-attendance-sheet"
-              accept=".ods"
-              multiple=false
-              onfileadd=(action importCertificationCandidates)
-            }}
+            <FileUpload @name="file-upload" @for="upload-attendance-sheet" @accept=".ods" @multiple={{false}} @onfileadd={{action importCertificationCandidates}}>
               <span data-test-id="attendance_sheet_upload_button"
                     class="button button--with-icon"
                     role="button"
                     tabindex=0>Importer (.ods){{fa-icon 'cloud-upload-alt'}}</span>
-            {{/file-upload}}
+            </FileUpload>
           </div>
         {{else}}
           <div class="panel-actions__button">

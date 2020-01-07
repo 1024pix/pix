@@ -1,21 +1,21 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { none } from '@ember/object/computed';
 
-export default DS.Model.extend({
-  firstName: DS.attr(),
-  lastName: DS.attr(),
-  birthdate: DS.attr('date-only'),
-  birthCity: DS.attr('string'),
-  birthProvinceCode: DS.attr('string'),
-  birthCountry: DS.attr('string'),
-  email: DS.attr('string'),
-  externalId: DS.attr('string'),
-  extraTimePercentage: DS.attr('number'),
-  isLinked: DS.attr('boolean'),
-  certificationCourseId: DS.attr('number'),
-  examinerComment: DS.attr(),
-  hasSeenEndTestScreen: DS.attr('boolean'),
+export default Model.extend({
+  firstName: attr(),
+  lastName: attr(),
+  birthdate: attr('date-only'),
+  birthCity: attr('string'),
+  birthProvinceCode: attr('string'),
+  birthCountry: attr('string'),
+  email: attr('string'),
+  externalId: attr('string'),
+  extraTimePercentage: attr('number'),
+  isLinked: attr('boolean'),
+  certificationCourseId: attr('number'),
+  examinerComment: attr(),
+  hasSeenEndTestScreen: attr('boolean'),
 
   certificationCourseIdReadable: computed('certificationCourseId', function() {
     if (this.certificationCourseId) {

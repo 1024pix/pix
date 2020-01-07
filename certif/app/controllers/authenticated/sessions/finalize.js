@@ -11,12 +11,12 @@ export default Controller.extend({
 
   showErrorNotification(message) {
     const { autoClear, clearDuration } = config.notifications;
-    this.get('notifications').error(message, { autoClear, clearDuration });
+    this.notifications.error(message, { autoClear, clearDuration });
   },
 
   showSuccessNotification(message) {
     const { autoClear, clearDuration } = config.notifications;
-    this.get('notifications').success(message, { autoClear, clearDuration });
+    this.notifications.success(message, { autoClear, clearDuration });
   },
 
   actions: {
