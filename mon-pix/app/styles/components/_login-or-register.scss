@@ -36,6 +36,15 @@
     width: 159px;
   }
 
+  &__invitation {
+    font-family: $font-roboto;
+    font-size: 2rem;
+    font-weight: 500;
+    color: $dove-gray;
+    text-align: center;
+    margin-top: 24px;
+  }
+
   &__forms-container {
     display: flex;
     margin-top: 10px;
