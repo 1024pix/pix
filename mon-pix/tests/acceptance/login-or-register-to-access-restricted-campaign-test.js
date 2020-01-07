@@ -15,6 +15,15 @@ describe('Acceptance | login-or-register-to-access-restricted-campaign', functio
     defaultScenario(this.server);
   });
 
+  it('should contain the organization name', async function() {
+    // when
+    await visitWithAbortedTransition('/campagnes/RESTRICTD/identification');
+
+    // then
+    expect(find('.login-or-register-panel__invitation').textContent)
+      .to.equal('College Victor Hugo vous invite à rejoindre Pix');
+  });
+
   it('should contain an open register form and closed login form', async function() {
     // when
     await visitWithAbortedTransition('/campagnes/AZERTY1/identification');
