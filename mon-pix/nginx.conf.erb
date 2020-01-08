@@ -44,4 +44,10 @@ location /api/ {
   proxy_redirect default;
 }
 
+location ~ /robots.txt {
+  if ($host != 'app.pix.fr') {
+    return 404;
+  }
+}
+
 <% end %>
