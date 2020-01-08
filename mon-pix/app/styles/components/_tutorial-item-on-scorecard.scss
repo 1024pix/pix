@@ -15,7 +15,7 @@
 
   @include device-is('desktop') {
     width: 32%;
-    margin: 0;
+    margin: 8px 0;
 
     &:nth-child(3n+2) {
       margin-right: auto;
