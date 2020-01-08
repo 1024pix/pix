@@ -13,148 +13,80 @@ describe('Unit | UseCase | import-students-from-siecle', () => {
     organizationId = 1234;
     buffer = null;
     studentsXmlServiceStub = { extractStudentsInformationFromSIECLE: sinon.stub() };
-    studentRepositoryStub = { batchCreate: sinon.stub(), batchUpdateWithOrganizationId: sinon.stub(), findByOrganizationId: sinon.stub() };
+    studentRepositoryStub = { addOrUpdateOrganizationStudents: sinon.stub(), findByOrganizationId: sinon.stub() };
   });
 
-  context('when all students in the file are not imported yet in the organisation', () => {
+  context('when extracted students informations can be imported', () => {
 
-    it('should add students to the organization', async () => {
-      // given
-      studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([ { lastName: 'Student1', nationalStudentId: 'INE1' }, { lastName: 'Student2', nationalStudentId: 'INE2' } ]);
-      studentRepositoryStub.batchCreate.resolves();
-
-      // when
-      await importStudentsFromSIECLE({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
-
-      // then
-      expect(studentsXmlServiceStub.extractStudentsInformationFromSIECLE).to.have.been.calledWith(buffer);
-      expect(studentRepositoryStub.batchCreate).to.have.been.calledWith([ { lastName: 'Student1', nationalStudentId: 'INE1', organizationId }, { lastName: 'Student2', nationalStudentId: 'INE2', organizationId } ]);
-    });
-  });
-
-  context('when all students in the file are already imported in the organization', () => {
-
-    it('should update these students', async () => {
+    it('should save these informations', async () => {
 
       // given
-      const students = [
+      const extractedStudentsInformations = [
+        { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' },
+        { lastName: 'UpdatedStudent2', nationalStudentId: 'INE2' },
+        { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
+      ];
+      studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns(extractedStudentsInformations);
+
+      const studentsToUpdate = [
         { lastName: 'Student1', nationalStudentId: 'INE1' },
         { lastName: 'Student2', nationalStudentId: 'INE2' }
       ];
+      studentRepositoryStub.findByOrganizationId.resolves(studentsToUpdate);
 
-      const studentsToUpdate = [
+      // when
+      await importStudentsFromSIECLE({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
+
+      // then
+      const students = [
         { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' },
-        { lastName: 'UpdatedStudent2', nationalStudentId: 'INE2' }
+        { lastName: 'UpdatedStudent2', nationalStudentId: 'INE2' },
+        { lastName: 'StudentToCreate', nationalStudentId: 'INE3' }
       ];
 
-      studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns(studentsToUpdate);
-      studentRepositoryStub.findByOrganizationId.resolves(students);
-      studentRepositoryStub.batchUpdateWithOrganizationId.resolves();
-
-      // when
-      await importStudentsFromSIECLE({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
-
-      // then
       expect(studentsXmlServiceStub.extractStudentsInformationFromSIECLE).to.have.been.calledWith(buffer);
-      expect(studentRepositoryStub.batchUpdateWithOrganizationId).to.have.been.calledWith(studentsToUpdate, organizationId);
+      expect(studentRepositoryStub.addOrUpdateOrganizationStudents).to.have.been.calledWith(students, organizationId);
+      expect(studentRepositoryStub.addOrUpdateOrganizationStudents).to.not.throw();
     });
   });
 
-  context('when some students in the file are already imported in the organization, and others are not', () => {
-
-    it('should update and create these students', async () => {
-
-      // given
-      const students = [
-        { lastName: 'Student1', nationalStudentId: 'INE1' }
-      ];
-
-      const studentsToUpdate = [
-        { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' }
-      ];
-
-      const studentsToCreate = [
-        { lastName: 'CreatedStudent2', nationalStudentId: 'INE2' }
-      ];
-
-      studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([...studentsToUpdate, ...studentsToCreate ]);
-      studentRepositoryStub.findByOrganizationId.resolves(students);
-      studentRepositoryStub.batchUpdateWithOrganizationId.resolves();
-      studentRepositoryStub.batchCreate.resolves();
-
-      // when
-      await importStudentsFromSIECLE({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
-
-      // then
-      expect(studentsXmlServiceStub.extractStudentsInformationFromSIECLE).to.have.been.calledWith(buffer);
-      expect(studentRepositoryStub.batchUpdateWithOrganizationId).to.have.been.calledWith(studentsToUpdate, organizationId);
-      expect(studentRepositoryStub.batchCreate).to.have.been.calledWith([{ lastName: 'CreatedStudent2', nationalStudentId: 'INE2', organizationId }]);
-    });
-  });
-
-  context('when update fails', () => {
+  context('when the import fails', () => {
 
     let result;
 
-    beforeEach(async () => {
-      // given
-      const students = [
-        { lastName: 'Student1', nationalStudentId: 'INE1' }
-      ];
+    context('because the file is not valid', () => {
+      beforeEach(() => {
+        // given
+        studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([]);
+      });
 
-      const studentsToUpdate = [
-        { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' }
-      ];
+      it('should throw a FileValidationError', async () => {
+        // when
+        const result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
 
-      studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([...studentsToUpdate ]);
-      studentRepositoryStub.findByOrganizationId.resolves(students);
-      studentRepositoryStub.batchUpdateWithOrganizationId.rejects();
-      studentRepositoryStub.batchCreate.resolves();
+        // then
+        expect(result).to.be.instanceOf(FileValidationError);
+      });
     });
 
-    it('should throw a BatchSaveError', async () => {
-      // when
-      result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
+    context('because informations cannot be saved', () => {
+      beforeEach(async () => {
+        // given
+        const extractedStudentsInformations = [
+          { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1', organizationId },
+        ];
+        studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns(extractedStudentsInformations);
+        studentRepositoryStub.findByOrganizationId.resolves();
+        studentRepositoryStub.addOrUpdateOrganizationStudents.rejects();
+      });
 
-      // then
-      expect(result).to.be.instanceOf(BatchSaveError);
+      it('should throw a BatchSaveError', async () => {
+        // when
+        result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
+
+        // then
+        expect(result).to.be.instanceOf(BatchSaveError);
+      });
     });
-  });
-
-  context('when create fails', () => {
-
-    let result;
-
-    beforeEach(async () => {
-      // given
-
-      const studentsToCreate = [
-        { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' }
-      ];
-
-      studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([...studentsToCreate ]);
-      studentRepositoryStub.findByOrganizationId.resolves();
-      studentRepositoryStub.batchUpdateWithOrganizationId.resolves();
-      studentRepositoryStub.batchCreate.rejects();
-    });
-
-    it('should throw a BatchSaveError', async () => {
-      // when
-      result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
-
-      // then
-      expect(result).to.be.instanceOf(BatchSaveError);
-    });
-  });
-
-  it('should throw a FileValidationError when file is not valid', async () => {
-    // given
-    studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([]);
-
-    // when
-    const result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
-
-    // then
-    expect(result).to.be.instanceOf(FileValidationError);
   });
 });
