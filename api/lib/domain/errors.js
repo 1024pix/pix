@@ -259,6 +259,12 @@ class ObjectValidationError extends DomainError {
   }
 }
 
+class OrganizationStudentAlreadyLinkedToUserError extends DomainError {
+  constructor(message = 'L\'élève est déjà rattaché à un compte utilisateur.') {
+    super(message);
+  }
+}
+
 class FileValidationError extends DomainError {
   constructor(message = 'Erreur, fichier non valide.') {
     super(message);
@@ -402,6 +408,7 @@ module.exports = {
   MissingOrInvalidCredentialsError,
   NotFoundError,
   ObjectValidationError,
+  OrganizationStudentAlreadyLinkedToUserError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   SessionAlreadyFinalizedError,
