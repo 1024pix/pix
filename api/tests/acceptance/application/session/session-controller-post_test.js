@@ -13,9 +13,9 @@ describe('Acceptance | Controller | session-controller-post', () => {
     let options;
 
     beforeEach(() => {
-      const pixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Tour Gamma' }).id;
-      databaseBuilder.factory.buildCertificationCenterMembership({ userId: pixMaster.id, certificationCenterId });
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
       options = {
         method: 'POST',
         url: '/api/sessions',
@@ -23,18 +23,24 @@ describe('Acceptance | Controller | session-controller-post', () => {
           data: {
             type: 'sessions',
             attributes: {
-              'certification-center': 'Tour Gamma',
-              'certification-center-id': certificationCenterId,
               address: 'Nice',
-              room: '28D',
-              examiner: 'Michel Essentiel',
               date: '2017-12-08',
+              description: '',
+              examiner: 'Michel Essentiel',
+              room: '28D',
               time: '14:30',
-              description: ''
-            }
+            },
+            relationships: {
+              'certification-center': {
+                data: {
+                  type: 'certification-centers',
+                  id: certificationCenterId,
+                },
+              },
+            },
           }
         },
-        headers: { authorization: generateValidRequestAuthorizationHeader(pixMaster.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
       return databaseBuilder.commit();
     });
@@ -43,34 +49,27 @@ describe('Acceptance | Controller | session-controller-post', () => {
       return knex('sessions').delete();
     });
 
-    it('should return an OK status after saving in database', () => {
+    it('should return an OK status after saving in database', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise
-        .then((response) => {
-          expect(response.statusCode).to.equal(200);
-        })
-        .then(() => knex('sessions').select())
-        .then((sessions) => {
-          expect(sessions).to.have.lengthOf(1);
-        });
+      const sessions = await knex('sessions').select();
+      expect(response.statusCode).to.equal(200);
+      expect(sessions).to.have.lengthOf(1);
     });
 
     describe('Resource access management', () => {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
         // given
         options.headers.authorization = 'invalid.access.token';
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
 
     });
