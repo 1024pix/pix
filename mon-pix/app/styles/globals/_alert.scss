@@ -2,10 +2,14 @@
   outline: none;
   border-radius: 0.3125em;
   padding: 9px;
-  vertical-align: middle;
   margin-bottom: 11px;
-  color: white;
+  color: $white;
   text-shadow: none;
+  font-size: 1.4rem;
+}
+
+.challenge-response + .alert {
+  margin: 0 5px;
 }
 
 .alert-success {
