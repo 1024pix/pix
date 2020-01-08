@@ -198,10 +198,6 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
         return databaseBuilder.commit();
       });
 
-      afterEach(() => {
-        return databaseBuilder.clean();
-      });
-
       it('should respond with a 400 when user cant import the candidates', async () => {
         // when
         const response = await server.inject(options);
