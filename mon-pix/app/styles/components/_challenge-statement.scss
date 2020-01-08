@@ -31,6 +31,11 @@
   font-family: $font-open-sans;
   margin-bottom: 20px;
 
+  hr {
+    border-top: 1px solid $mercury-grey;
+    border-bottom: none;
+  }
+
   @include device-is('desktop') {
     font-size: 20px;
   }
@@ -145,6 +150,16 @@
   list-style-type: none;
   display: inline-block;
   padding: 0 15px;
+
+  input[type=radio]:before {
+    top: -4px;
+    left: -4px;
+  }
+
+  input[type=radio]:checked:after {
+    top: -19px;
+    left: 2px;
+  }
 }
 
 .challenge-statement__file-option-label {
