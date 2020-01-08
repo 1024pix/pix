@@ -48,7 +48,7 @@ async function fillCertificationProfileWithCertificationChallenges(certification
   certificationProfile.userCompetences.forEach((userCompetence) => {
     const testedSkills = [];
     userCompetence.skills.forEach((skill) => {
-      if (userCompetence.hasEnoughChallenges()) {
+      if (!userCompetence.hasEnoughChallenges()) {
         const challengesToValidateCurrentSkill = Challenge.findPublishedBySkill(allChallenges, skill);
         const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
 
