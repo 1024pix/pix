@@ -30,13 +30,10 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
         lastName: 'Skywalker',
         email: 'lskywalker@deathstar.empire',
         cgu: true,
-        isProfileV2: false,
         pixOrgaTermsOfServiceAccepted: false,
         pixCertifTermsOfServiceAccepted: false,
         hasSeenAssessmentInstructions: false,
         password: '',
-        hasSeenMigration: false,
-        isMigratedToV2: false,
       });
 
       // when
@@ -50,7 +47,6 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             'last-name': 'Skywalker',
             'email': 'lskywalker@deathstar.empire',
             'cgu': true,
-            'is-profile-v2': false,
             'pix-orga-terms-of-service-accepted': false,
             'pix-certif-terms-of-service-accepted': false,
             'has-seen-assessment-instructions': false,
