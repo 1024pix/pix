@@ -98,9 +98,6 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.BatchSaveError) {
     return new InfraErrors.ConflictError(error.message);
   }
-  if (error instanceof DomainErrors.ObjectAlreadyExisting) {
-    return new InfraErrors.ConflictError(error.message);
-  }
   if (error instanceof DomainErrors.InvalidCertificationCandidate) {
     return new InfraErrors.BadRequestError(error.message);
   }
