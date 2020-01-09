@@ -30,7 +30,7 @@ class User {
     this.firstName = firstName;
     this.lastName = lastName;
     this.username = username;
-    this.email = email ? _.toLower(email) : null;
+    this.email = email ? _.toLower(email) : undefined;
     this.password = password;
     this.cgu = cgu;
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;

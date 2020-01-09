@@ -212,7 +212,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(userObject.email).to.equal('testmail@gmail.com');
     });
 
-    it('should default email to null', () => {
+    it('should default email to undefined', () => {
       // given
       const userData = {
         firstName: 'Bob',
@@ -222,7 +222,7 @@ describe('Unit | Domain | Models | User', () => {
       const userObject = new User(userData);
 
       // then
-      expect(userObject.email).to.be.null;
+      expect(userObject.email).to.be.undefined;
     });
   });
 
