@@ -11,7 +11,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   model(params, transition) {
     const competenceId = transition.to.parent.params.competence_id;
-    return this.store.queryRecord('competenceEvaluation', { competenceId: competenceId, startOrResume: true });
+    return this.store.queryRecord('competenceEvaluation', { competenceId, startOrResume: true });
   },
 
   afterModel(competenceEvaluation) {

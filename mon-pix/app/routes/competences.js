@@ -8,9 +8,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
   currentUser: service(),
 
   model(params) {
+    const scorecardId = this.currentUser.user.id + '_' + params.competence_id;
     return this.store.findRecord(
       'scorecard',
-      this.currentUser.user.id + '_' + params.competence_id
+      scorecardId
     );
   },
 
