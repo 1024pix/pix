@@ -88,7 +88,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(user.email).to.equal(userInDb.email);
       });
     });
-    
+
     describe('#getBySamlId', () => {
 
       let userInDb;
@@ -142,7 +142,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(user.lastName).to.equal(userInDb.lastName);
         expect(user.email).to.equal(userInDb.email);
         expect(user.cgu).to.be.true;
-        expect(user.pixRoles).to.be.an('array');
       });
 
       it('should return a UserNotFoundError if no user is found', async () => {
@@ -465,50 +464,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#updateUser', () => {
-
-    let userToUpdate;
-
-    beforeEach(async () => {
-      userToUpdate = databaseBuilder.factory.buildUser({
-        pixOrgaTermsOfServiceAccepted: false,
-        pixCertifTermsOfServiceAccepted: false
-      });
-
-      await databaseBuilder.commit();
-    });
-
-    it('should update pixOrgaTermsOfServiceAccepted field', async () => {
-      // given
-      userToUpdate.pixOrgaTermsOfServiceAccepted = true;
-
-      // when
-      const user = await userRepository.updateUser(userToUpdate);
-
-      // then
-      expect(user).be.instanceOf(User);
-      expect(user.pixOrgaTermsOfServiceAccepted).to.be.true;
-
-      const usersSaved = await userRepository.get(userToUpdate.id);
-      expect(usersSaved.pixOrgaTermsOfServiceAccepted).to.be.true;
-    });
-
-    it('should update pixCertifTermsOfServiceAccepted field', async () => {
-      // given
-      userToUpdate.pixCertifTermsOfServiceAccepted = true;
-
-      // when
-      const user = await userRepository.updateUser(userToUpdate);
-
-      // then
-      expect(user).be.instanceOf(User);
-      expect(user.pixCertifTermsOfServiceAccepted).to.be.true;
-
-      const usersSaved = await userRepository.get(userToUpdate.id);
-      expect(usersSaved.pixCertifTermsOfServiceAccepted).to.be.true;
-    });
-  });
-
   describe('#isUserExistingByEmail', () => {
     const email = 'shi@fu.fr';
 
@@ -729,6 +684,96 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(_.map(matchingUsers, 'id')).to.have.members([firstUserId, secondUserId]);
         expect(pagination).to.deep.equal(expectedPagination);
       });
+    });
+
+  });
+
+  describe('#isPixMaster', () => {
+    let userId;
+
+    context('when user is pix master', () => {
+      beforeEach(() => {
+        userId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+        return databaseBuilder.commit();
+      });
+
+      it('should return true', async () => {
+        // when
+        const isPixMaster = await userRepository.isPixMaster(userId);
+
+        // then
+        expect(isPixMaster).to.be.true;
+      });
+
+    });
+
+    context('when user is not pix master', () => {
+      beforeEach(() => {
+        userId = databaseBuilder.factory.buildUser().id;
+        return databaseBuilder.commit();
+      });
+
+      it('should return false', async () => {
+        // when
+        const isPixMaster = await userRepository.isPixMaster(userId);
+
+        // then
+        expect(isPixMaster).to.be.false;
+      });
+    });
+
+  });
+
+  describe('#updateHasSeenAssessmentInstructionsToTrue', () => {
+    let userId;
+
+    beforeEach(() => {
+      userId = databaseBuilder.factory.buildUser({ hasSeenAssessmentInstructions: false }).id;
+      return databaseBuilder.commit();
+    });
+
+    it('should return the model with hasSeenAssessmentInstructions flag updated to true', async () => {
+      // when
+      const actualUser = await userRepository.updateHasSeenAssessmentInstructionsToTrue(userId);
+
+      // then
+      expect(actualUser.hasSeenAssessmentInstructions).to.be.true;
+    });
+
+  });
+
+  describe('#updatePixOrgaTermsOfServiceAcceptedToTrue', () => {
+    let userId;
+
+    beforeEach(() => {
+      userId = databaseBuilder.factory.buildUser({ pixOrgaTermsOfServiceAccepted: false }).id;
+      return databaseBuilder.commit();
+    });
+
+    it('should return the model with pixOrgaTermsOfServiceAccepted flag updated to true', async () => {
+      // when
+      const actualUser = await userRepository.updatePixOrgaTermsOfServiceAcceptedToTrue(userId);
+
+      // then
+      expect(actualUser.pixOrgaTermsOfServiceAccepted).to.be.true;
+    });
+
+  });
+
+  describe('#updatePixCertifTermsOfServiceAcceptedToTrue', () => {
+    let userId;
+
+    beforeEach(() => {
+      userId = databaseBuilder.factory.buildUser({ pixCertifTermsOfServiceAccepted: false }).id;
+      return databaseBuilder.commit();
+    });
+
+    it('should return the model with pixCertifTermsOfServiceAccepted flag updated to true', async () => {
+      // when
+      const actualUser = await userRepository.updatePixCertifTermsOfServiceAcceptedToTrue(userId);
+
+      // then
+      expect(actualUser.pixCertifTermsOfServiceAccepted).to.be.true;
     });
 
   });
