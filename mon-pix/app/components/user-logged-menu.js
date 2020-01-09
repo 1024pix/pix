@@ -16,12 +16,15 @@ export default Component.extend(EmberKeyboardMixin, {
 
   keyboardActivated: true,
   _canDisplayMenu: false,
-  _user: null,
 
   canDisplayLinkToProfile: computed('routing.currentRouteName', function() {
     const currentRouteName = this.get('routing.currentRouteName');
 
     return currentRouteName !== 'profile' && currentRouteName !== 'board';
+  }),
+
+  displayedIdentifier: computed('currentUser.user.email', function() {
+    return this.currentUser.user.email ? this.currentUser.user.email : this.currentUser.user.username;
   }),
 
   closeOnEsc: on(keyDown('Escape'), function() {

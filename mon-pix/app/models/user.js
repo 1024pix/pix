@@ -7,6 +7,7 @@ export default Model.extend({
   firstName: attr('string'),
   lastName: attr('string'),
   email: attr('string'),
+  username: attr('string'),
   password: attr('string'),
   cgu: attr('boolean'),
   hasSeenAssessmentInstructions: attr('boolean'),
