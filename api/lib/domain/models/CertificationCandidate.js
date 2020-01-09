@@ -105,9 +105,10 @@ class CertificationCandidate {
     this.userId = userId;
   }
 
-  validate(version = '1.2') {
+  validate(version = '1.3') {
     let usedSchema = null;
     switch (version) {
+      case '1.3':
       case '1.2':
         usedSchema = certificationCandidateValidationJoiSchema_v1_2;
         break;
