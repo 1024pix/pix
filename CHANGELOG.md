@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.100.0 (09/01/2020)
+
+- [#954](https://github.com/1024pix/pix/pull/954) [FEATURE] Afficher une phrase de contexte (SCO) en haut de la double mire de connexion (PF-992).
+- [#952](https://github.com/1024pix/pix/pull/952) [FEATURE] Script de migration permettant d'invalider les CGU pour les utilisateurs provenant du GAR (PF-821).
+- [#948](https://github.com/1024pix/pix/pull/948) [FEATURE] Non validation des CGU lors de la création d'un utilisateur provenant du GAR (PF-820).
+- [#957](https://github.com/1024pix/pix/pull/957) [TECH] Corriger `UserCompetence.hasEnoughChallenges()` (PF-1026).
+- [#917](https://github.com/1024pix/pix/pull/917) [TECH] Modifier/simplifier l'usage de userRepository.get() (PF-1008).
+
 ## v2.99.0 (09/01/2020)
 
 - [#901](https://github.com/1024pix/pix/pull/901) [FEATURE] Toujours poser la même épreuve au sein d'une évaluation (PF-959).
