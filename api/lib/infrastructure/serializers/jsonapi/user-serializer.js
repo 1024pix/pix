@@ -12,10 +12,9 @@ module.exports = {
       },
       attributes: [
         'firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted',
-        'pixCertifTermsOfServiceAccepted', 'usesProfileV2', 'memberships',
+        'pixCertifTermsOfServiceAccepted', 'memberships',
         'certificationCenterMemberships', 'pixScore', 'scorecards',
-        'campaignParticipations', 'isProfileV2',
-        'hasSeenAssessmentInstructions', 'certificationProfile',
+        'campaignParticipations', 'hasSeenAssessmentInstructions', 'certificationProfile',
       ],
       memberships: {
         ref: 'id',
