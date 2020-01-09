@@ -34,11 +34,11 @@ module.exports = async function createSession({ userId, session, certificationCe
   sessionWithCode.accessCode = sessionCode;
 
   const certificationCenterId = sessionWithCode.certificationCenterId;
-  const user = await userRepository.get(userId);
+  const isPixMaster = await userRepository.isPixMaster(userId);
 
   // We keep this code here so that PIX-MASTER can still create the sessions the old way through Postman, for now :)
   // To remove when we will not create sessions with no certifCenterId through Postman anymore
-  if (user.hasRolePixMaster) {
+  if (isPixMaster) {
     return _createSessionAsPixMaster(certificationCenterId, sessionWithCode, certificationCenterRepository, sessionRepository);
   }
 

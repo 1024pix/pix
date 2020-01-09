@@ -10,6 +10,8 @@ const CertificationCenterMembership = require('../../domain/models/Certification
 const Organization = require('../../domain/models/Organization');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
+const PIX_MASTER_ROLE_ID = 1;
+
 function _toCertificationCenterMembershipsDomain(certificationCenterMembershipBookshelf) {
   return certificationCenterMembershipBookshelf.map((bookshelf) => {
     return new CertificationCenterMembership({
@@ -80,6 +82,14 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   }
 }
 
+function _adaptModelToDb(user) {
+  return _.omit(user, [
+    'campaignParticipations', 'pixRoles', 'memberships',
+    'certificationCenterMemberships', 'pixScore', 'knowledgeElements',
+    'scorecards',
+  ]);
+}
+
 module.exports = {
 
   // TODO use _toDomain()
@@ -120,11 +130,8 @@ module.exports = {
   get(userId) {
     return BookshelfUser
       .where({ id: userId })
-      .fetch({
-        require: true,
-        withRelated: ['pixRoles', 'organizations']
-      })
-      .then((bookshelfUser) => bookshelfUser.toDomainEntity())
+      .fetch({ require: true })
+      .then((user) => bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
@@ -188,12 +195,8 @@ module.exports = {
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 
-  create(domainUser) {
-    const userToCreate = _.omit(domainUser, [
-      'organizations', 'campaignParticipations', 'pixRoles', 'memberships',
-      'certificationCenterMemberships', 'pixScore', 'knowledgeElements',
-      'scorecards',
-    ]);
+  create(user) {
+    const userToCreate = _adaptModelToDb(user);
     return new BookshelfUser(userToCreate)
       .save()
       .then((bookshelfUser) => bookshelfUser.toDomainEntity());
@@ -232,23 +235,38 @@ module.exports = {
       .then((bookshelfUser) => bookshelfUser.toDomainEntity());
   },
 
-  updateUser(domainUser) {
-    const userToUpdate = _.omit(domainUser, [
-      'organizations', 'campaignParticipations', 'pixRoles', 'memberships',
-      'certificationCenterMemberships', 'pixScore', 'knowledgeElements',
-      'scorecards',
-    ]);
-    return BookshelfUser.where({ id: domainUser.id })
-      .save(userToUpdate, {
-        patch: true,
-        method: 'update',
+  async isPixMaster(id) {
+    const user = await BookshelfUser
+      .where({ 'users.id': id, 'users_pix_roles.user_id': id })
+      .query((qb) => {
+        qb.innerJoin('users_pix_roles', 'users_pix_roles.user_id', 'users.id');
+        qb.where({ 'users_pix_roles.pix_role_id': PIX_MASTER_ROLE_ID });
       })
-      .then(_toDomain);
+      .fetch({ columns: 'users.id' });
+    return Boolean(user);
   },
 
-  hasRolePixMaster(userId) {
-    return this.get(userId)
-      .then((user) => user.hasRolePixMaster);
-  }
+  async updateHasSeenAssessmentInstructionsToTrue(id) {
+    let updatedUser = await BookshelfUser
+      .where({ id })
+      .save({ 'hasSeenAssessmentInstructions': true }, { patch: true, method: 'update' });
+    updatedUser = await updatedUser.refresh();
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
+  },
 
+  async updatePixOrgaTermsOfServiceAcceptedToTrue(id) {
+    let updatedUser = await BookshelfUser
+      .where({ id })
+      .save({ 'pixOrgaTermsOfServiceAccepted': true }, { patch: true, method: 'update' });
+    updatedUser = await updatedUser.refresh();
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
+  },
+
+  async updatePixCertifTermsOfServiceAcceptedToTrue(id) {
+    let updatedUser = await BookshelfUser
+      .where({ id })
+      .save({ 'pixCertifTermsOfServiceAccepted': true }, { patch: true, method: 'update' });
+    updatedUser = await updatedUser.refresh();
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
+  },
 };

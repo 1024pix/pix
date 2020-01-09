@@ -6,7 +6,7 @@ module.exports = {
   async isAuthorizedToAccessSession({ userId, sessionId }) {
     const hasMembershipAccess = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
     if (!hasMembershipAccess) {
-      const isPixMaster = await userRepository.hasRolePixMaster(userId);
+      const isPixMaster = await userRepository.isPixMaster(userId);
       if (!isPixMaster) {
         return false;
       }
