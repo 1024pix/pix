@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
@@ -11,7 +11,7 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
   let campaignRepoStub;
   let orgaRepoStub;
   const organizationId = 'organizationId';
-  const organization = { id: organizationId, logoUrl: 'a logo url', type: 'SCO' };
+  const organization = { id: organizationId, logoUrl: 'a logo url', type: 'SCO', name: 'College Victor Hugo' };
   const campaignCode = 'QWERTY123';
   const user = { id: 1, firstName: 'John', lastName: 'Snow' };
 
@@ -21,10 +21,6 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
     orgaRepoStub = sinon.stub(organizationRepository, 'get').resolves(organization);
   });
 
-  afterEach(() => {
-    sinon.restore();
-  });
-
   context('the campaign does not exist', async () => {
 
     it('should throw a NotFound error', async () => {
@@ -32,14 +28,10 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
       campaignRepoStub.resolves(null);
 
       // when
-      try {
-        await usecases.retrieveCampaignInformation({ code: campaignCode, userId: user.id });
-      }
+      const error = await catchErr(usecases.retrieveCampaignInformation)({ code: campaignCode, userId: user.id });
 
       // then
-      catch (error) {
-        expect(error).to.be.instanceOf(NotFoundError);
-      }
+      expect(error).to.be.instanceOf(NotFoundError);
     });
   });
 
@@ -60,16 +52,16 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
 
     context('The related organization exist', () => {
 
-      it('should return the same campaign with adding the organization logo url', async () => {
+      it('should return the same campaign with adding the organization logo url and name', async () => {
         // given
-        const augmentedCampaign = Object.assign({}, campaign, { organizationLogoUrl: organization.logoUrl });
-        orgaRepoStub.resolves(organization);
+        const { logoUrl: organizationLogoUrl, name: organizationName } = organization;
+        const augmentedCampaign = { ...campaign, organizationLogoUrl, organizationName };
 
         // when
-        const campaignRes = await usecases.retrieveCampaignInformation({ code: campaignCode });
+        const foundCampaign = await usecases.retrieveCampaignInformation({ code: campaignCode });
 
         // then
-        expect(campaignRes).to.be.deep.equal(augmentedCampaign);
+        expect(foundCampaign).to.deep.equal(augmentedCampaign);
       });
 
       context('Organization of the campaign is managing student', () => {
@@ -79,17 +71,13 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
         });
 
         it('return a campaign with isRestricted equal true', async () => {
-          // given
-
           // when
           const result = await usecases.retrieveCampaignInformation({ code: campaignCode });
 
           // then
           expect(result).to.be.instanceof(Campaign);
           expect(result.isRestricted).to.be.true;
-
         });
-
       });
 
       context('Organization of the campaign is not managing student', () => {
@@ -109,4 +97,5 @@ describe('Unit | UseCase | retrieve-campaign-information', () => {
       });
     });
   });
+
 });
