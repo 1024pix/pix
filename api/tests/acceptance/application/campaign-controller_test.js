@@ -81,6 +81,7 @@ describe('Acceptance | API | Campaign Controller', () => {
         expect(response.statusCode).to.equal(200);
         expect(response.result.data[0].attributes.code).to.equal(campaign.code);
         expect(response.result.data[0].attributes['organization-logo-url']).to.equal(organization.logoUrl);
+        expect(response.result.data[0].attributes['organization-name']).to.equal(organization.name);
         expect(response.result.data[0].attributes['is-restricted']).to.be.false;
       });
     });
@@ -107,6 +108,7 @@ describe('Acceptance | API | Campaign Controller', () => {
         expect(response.statusCode).to.equal(200);
         expect(response.result.data[0].attributes.code).to.equal(campaign.code);
         expect(response.result.data[0].attributes['organization-logo-url']).to.equal(organization.logoUrl);
+        expect(response.result.data[0].attributes['organization-name']).to.equal(organization.name);
         expect(response.result.data[0].attributes['is-restricted']).to.be.true;
       });
     });
