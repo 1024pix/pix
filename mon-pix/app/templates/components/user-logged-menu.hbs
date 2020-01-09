@@ -11,7 +11,7 @@
       <div class="logged-user-menu">
         <div class="logged-user-menu__details">
           <div class="logged-user-menu-details__fullname">{{currentUser.user.fullName}}</div>
-          <div class="logged-user-menu-details__email">{{currentUser.user.email}}</div>
+          <div class="logged-user-menu-details__identifier">{{displayedIdentifier}}</div>
         </div>
         {{#link-to 'user-certifications' class="logged-user-menu__link"}}
           Mes certifications
