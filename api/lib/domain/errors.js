@@ -265,12 +265,6 @@ class FileValidationError extends DomainError {
   }
 }
 
-class ObjectAlreadyExisting extends DomainError {
-  constructor(message = 'La ressource existe déjà.') {
-    super(message);
-  }
-}
-
 class PasswordNotMatching extends DomainError {
   constructor(message = 'Mauvais mot de passe.') {
     super(message);
@@ -407,7 +401,6 @@ module.exports = {
   MembershipUpdateError,
   MissingOrInvalidCredentialsError,
   NotFoundError,
-  ObjectAlreadyExisting,
   ObjectValidationError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
