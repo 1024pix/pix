@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.99.0 (09/01/2020)
+
+- [#901](https://github.com/1024pix/pix/pull/901) [FEATURE] Toujours poser la même épreuve au sein d'une évaluation (PF-959).
+- [#945](https://github.com/1024pix/pix/pull/945) [FEATURE] Ajouter la colonne "Statut" à la liste des sessions de Certif (PC-96).
+- [#947](https://github.com/1024pix/pix/pull/947) [FEATURE] Forcer la mise en majuscule du code d'accès à la session (PF-885)
+- [#950](https://github.com/1024pix/pix/pull/950) [BUGFIX] Modifier l'affichage du bouton "Connectez-vous" afin qu'il n'apparaisse pas sur deux lignes (PF-1006)
+- [#949](https://github.com/1024pix/pix/pull/949) [BUGFIX] Rendre le champ e-mail obligatoire lors d'une invitation (PO-319).
+- [#935](https://github.com/1024pix/pix/pull/935) [BUGFIX] Gestion de deux mêmes types de challenge à la suite (PF-828)
+- [#946](https://github.com/1024pix/pix/pull/946) [TECH] Tentative d'amélioration du temps pris par les tests auto API
+- [#940](https://github.com/1024pix/pix/pull/940) [TECH] Mise à jour d'Ember vers 3.14 sur PixCertif + dépendances (PC-100)
+
 ## v2.98.0 (03/01/2020)
 
 - [#942](https://github.com/1024pix/pix/pull/942) [FEATURE] Cacher le bouton de finalisation de session tant qu'il n'existe pas au moins un candidat lié (PC-97)
