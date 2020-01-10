@@ -56,7 +56,7 @@ describe('Acceptance | Controller | Student-dependent-user', () => {
 
     context('when no student not linked yet found', () => {
 
-      it('should return an 404 NotFoundError error', async () => {
+      it('should respond with a 409 - Conflict', async () => {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const studentAlreadyLinked = databaseBuilder.factory.buildStudent({ organizationId: organization.id, userId });
@@ -70,7 +70,8 @@ describe('Acceptance | Controller | Student-dependent-user', () => {
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(404);
+        expect(response.statusCode).to.equal(409);
+        expect(response.result.errors[0].detail).to.equal('L\'élève est déjà rattaché à un compte utilisateur.');
       });
     });
 

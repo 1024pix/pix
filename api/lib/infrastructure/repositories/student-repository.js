@@ -45,11 +45,10 @@ module.exports = {
     }
   },
 
-  findNotLinkedYetByOrganizationIdAndUserBirthdate({ organizationId, birthdate }) {
+  findByOrganizationIdAndUserBirthdate({ organizationId, birthdate }) {
     return BookshelfStudent
       .query((qb) => {
         qb.where('organizationId', organizationId);
-        qb.whereNull('userId');
         qb.where('birthdate', birthdate);
       })
       .fetchAll()

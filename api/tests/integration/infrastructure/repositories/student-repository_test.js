@@ -301,7 +301,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
 
   });
 
-  describe('#findNotLinkedYetByOrganizationIdAndUserBirthdate', () => {
+  describe('#findByOrganizationIdAndUserBirthdate', () => {
 
     afterEach(() => {
       return knex('students').delete();
@@ -336,7 +336,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       const user = { firstName: 'Sttan', lastName: 'Lee', birthdate: '2000-03-31' };
 
       // when
-      const result = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
+      const result = await studentRepository.findByOrganizationIdAndUserBirthdate({
         organizationId: organization.id, birthdate: user.birthdate
       });
 
@@ -350,7 +350,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       const user = { firstName: 'Sttan', lastName: 'Lee', birthdate: '2001-03-31' };
 
       // when
-      const result = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
+      const result = await studentRepository.findByOrganizationIdAndUserBirthdate({
         organizationId: organization.id, birthdate: user.birthdate
       });
 
@@ -364,28 +364,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       const user = { firstName: 'Sttan', lastName: 'Lee', birthdate: '2000-03-31' };
 
       // when
-      const result = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
-        organizationId: '999', birthdate: user.birthdate
-      });
-
-      // then
-      expect(result).to.be.an('array');
-      expect(result.length).to.be.equal(0);
-    });
-
-    it('should return empty array when userId is not null', async () => {
-      // given
-      databaseBuilder.factory.buildStudent({
-        organizationId: organization.id,
-        lastName: 'See',
-        firstName: 'Johnny',
-        birthdate: '1999-05-05',
-      });
-      await databaseBuilder.commit();
-      const user = { firstName: 'Sttan', lastName: 'Lee', birthdate: '1999-05-05' };
-
-      // when
-      const result = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
+      const result = await studentRepository.findByOrganizationIdAndUserBirthdate({
         organizationId: '999', birthdate: user.birthdate
       });
 

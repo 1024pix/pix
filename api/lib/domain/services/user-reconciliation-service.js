@@ -2,7 +2,7 @@ const _ = require('lodash');
 const { pipe } = require('lodash/fp');
 const randomString = require('randomstring');
 
-const { NotFoundError } = require('../errors');
+const { NotFoundError, OrganizationStudentAlreadyLinkedToUserError } = require('../errors');
 const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
 const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
 
@@ -21,7 +21,7 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
 }
 
 async function findMatchingOrganizationStudentIdForGivenUser({ organizationId, user: { firstName, lastName, birthdate }, studentRepository }) {
-  const students = await studentRepository.findNotLinkedYetByOrganizationIdAndUserBirthdate({
+  const students = await studentRepository.findByOrganizationIdAndUserBirthdate({
     organizationId,
     birthdate,
   });
@@ -34,6 +34,11 @@ async function findMatchingOrganizationStudentIdForGivenUser({ organizationId, u
 
   if (!studentId) {
     throw new NotFoundError('There were not exactly one student match for this user and organization');
+  }
+
+  const matchingStudent = _.find(students, { 'id': studentId });
+  if (!_.isNil(matchingStudent.userId)) {
+    throw new OrganizationStudentAlreadyLinkedToUserError();
   }
 
   return studentId;

@@ -334,9 +334,9 @@ describe('Acceptance | Controller | Student-user-associations', () => {
         });
       });
 
-      context('when no student found to associate because student is already associated in the same organization', () => {
+      context('when student is already associated in the same organization', () => {
 
-        it('should respond with a 404 - Not Found', async () => {
+        it('should respond with a 409 - Conflict', async () => {
           // given
           const studentAlreadyMatched = databaseBuilder.factory.buildStudent({ organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, userId: user.id });
           await databaseBuilder.commit();
@@ -348,8 +348,8 @@ describe('Acceptance | Controller | Student-user-associations', () => {
           const response = await server.inject(options);
 
           // then
-          expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].detail).to.equal('There were no students matching');
+          expect(response.statusCode).to.equal(409);
+          expect(response.result.errors[0].detail).to.equal('L\'élève est déjà rattaché à un compte utilisateur.');
         });
       });
 
