@@ -55,8 +55,8 @@ async function listTablesByDependencyOrderDesc() {
     'select t.oid as reloid, ' +
     't.relname as table_name, ' +
     's.nspname as schema_name, ' +
-    'null::text as referenced_table_name, ' +
-    'null::text as referenced_schema_name, ' +
+    'null::name as referenced_table_name, ' +
+    'null::name as referenced_schema_name, ' +
     '1 as level ' +
     'from pg_class t ' +
     'join pg_namespace s on s.oid = t.relnamespace ' +
