@@ -31,7 +31,7 @@ describe('Unit | Route | Assessments | Resume', function() {
     let assessment;
 
     beforeEach(function() {
-      assessment = EmberObject.create({ id: 123, isDemo: true });
+      assessment = EmberObject.create({ id: 123, isDemo: true, competenceId: 'recCompetenceId' });
       assessment.save = sinon.stub().resolves();
     });
 
@@ -248,11 +248,12 @@ describe('Unit | Route | Assessments | Resume', function() {
 
         it('should redirect to competences.results page', function() {
           // when
+          const competenceId = 'recCompetenceId';
           const promise = route.afterModel(assessment);
 
           // then
           return promise.then(() => {
-            sinon.assert.calledWith(route.replaceWith, 'competences.results', 123);
+            sinon.assert.calledWith(route.replaceWith, 'competences.results', competenceId, 123);
           });
         });
       });

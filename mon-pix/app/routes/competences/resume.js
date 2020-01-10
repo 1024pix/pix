@@ -6,10 +6,12 @@ import Route from '@ember/routing/route';
 export default Route.extend(AuthenticatedRouteMixin, {
 
   session: service(),
+  router: service(),
   competenceId: null,
 
-  model(params) {
-    return this.store.queryRecord('competenceEvaluation', { competenceId: params.competence_id, startOrResume: true });
+  model(params, transition) {
+    const competenceId = transition.to.parent.params.competence_id;
+    return this.store.queryRecord('competenceEvaluation', { competenceId, startOrResume: true });
   },
 
   afterModel(competenceEvaluation) {

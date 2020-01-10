@@ -17,9 +17,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
   userHasSeenLanding: false,
   userHasJustConsultedTutorial: false,
   authenticationRoute: 'inscription',
+  _isReady: false,
 
   beforeModel(transition) {
-
+    this.set('_isReady', false);
     this.set('campaignCode', transition.to.params.campaign_code);
     this.set('associationDone', transition.to.queryParams.associationDone);
     this.set('campaignIsRestricted', transition.to.queryParams.campaignIsRestricted);
@@ -48,6 +49,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
       'assessment',
       { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.campaignCode } },
     );
+    this.set('_isReady', true);
 
     if (this._thereIsNoAssessment(smartPlacementAssessments)) {
       if (this.userHasSeenLanding) {
@@ -83,5 +85,11 @@ export default Route.extend(AuthenticatedRouteMixin, {
       && !assessment.isCompleted
       && !this.currentUser.user.hasSeenAssessmentInstructions
     );
+  },
+
+  actions: {
+    loading() {
+      return this.get('_isReady');
+    }
   },
 });
