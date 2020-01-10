@@ -19,9 +19,9 @@
 
     <div class="assessment-results__index-link-container">
       {{#if model.isDemo}}
-        <a href={{urlHome}} class="assessment-results__index-link__element assessment-results__index-a-link">
-          <span class="assessment-results__link-back">Revenir à l'accueil</span>
-        </a>
+        {{#link-to 'inscription' class='assessment-results__index-link__element assessment-results__index-a-link' tagName='button'}}
+          <span class="assessment-results__link-back">Continuer mon expérience Pix</span>
+        {{/link-to}}
       {{else}}
         {{#link-to 'index' class='assessment-results__index-link__element' tagName='button'}}
           <span class="assessment-results__link-back">Revenir à l'accueil</span>
