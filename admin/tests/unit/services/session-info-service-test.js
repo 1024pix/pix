@@ -161,7 +161,7 @@ module('Unit | Service | session-info-service', function(hooks) {
 
       // then
       assert.equal(fileSaverStub.getContent(), '\uFEFF' +
-        '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Commentaire surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
+        '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Signalement surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
         '5;"2";"started";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";;100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
         '5;"3";"rejected";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";;100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
         '5;"4";"error";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";;100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
@@ -183,7 +183,7 @@ module('Unit | Service | session-info-service', function(hooks) {
 
       // then
       assert.equal(fileSaverStub.getContent(), '\uFEFF' +
-        '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Commentaire surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
+        '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Signalement surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
         '5;"1";"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";"examiner comment";"jury";;100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
         '');
     });

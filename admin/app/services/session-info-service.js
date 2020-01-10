@@ -113,7 +113,7 @@ function _buildJuryFileHeaders() {
       'Statut de la certification',
       'Date de debut',
       'Date de fin',
-      'Commentaire surveillant',
+      'Signalement surveillant',
       'Commentaire pour le jury',
       'Ecran de fin non renseigné',
       'Note Pix'
@@ -130,7 +130,7 @@ function _buildJuryFileData(certifications) {
       'Statut de la certification': certification.status,
       'Date de debut': certification.creationDate,
       'Date de fin': certification.completionDate,
-      'Commentaire surveillant': certification.examinerComment,
+      'Signalement surveillant': certification.examinerComment,
       'Commentaire pour le jury': certification.commentForJury,
       'Ecran de fin non renseigné': certification.hasSeenLastScreen ? null : 'non renseigné',
       'Note Pix': certification.pixScore,
