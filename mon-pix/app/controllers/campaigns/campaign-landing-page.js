@@ -4,6 +4,7 @@ export default Controller.extend({
   queryParams: ['participantExternalId'],
   participantExternalId: null,
   isLoading: false,
+  pageTitle: 'Présentation',
 
   actions: {
     startCampaignParticipation() {

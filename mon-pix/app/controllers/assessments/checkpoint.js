@@ -29,6 +29,10 @@ export default Controller.extend({
     return !!this.get('model.answersSinceLastCheckpoints.length');
   }),
 
+  pageTitle: computed('finalCheckpoint', function() {
+    return this.finalCheckpoint ? 'Fin de votre évaluation' : 'Avancement de l\'évaluation';
+  }),
+
   actions: {
     openComparisonWindow(answer) {
       this.set('answer', answer);
