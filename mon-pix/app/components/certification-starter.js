@@ -1,4 +1,5 @@
 import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
 import Component from '@ember/component';
 
 export default Component.extend({
@@ -8,7 +9,10 @@ export default Component.extend({
   currentUser: service(),
 
   isLoading: false,
-  accessCode: null,
+  inputAccessCode: null,
+  accessCode: computed('inputAccessCode', function() {
+    return this.inputAccessCode.toUpperCase();
+  }),
   errorMessage: null,
   classNames: [],
 
