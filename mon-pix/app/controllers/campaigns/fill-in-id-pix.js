@@ -5,6 +5,7 @@ export default Controller.extend({
   participantExternalId: null,
   isLoading: false,
   errorMessage: null,
+  pageTitle: 'Saisir mon identifiant',
 
   actions: {
 

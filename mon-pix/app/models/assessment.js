@@ -16,6 +16,7 @@ export default Model.extend({
   type: attr('string'),
   certificationNumber: attr('string'),
   participantExternalId: attr('string'),
+  competenceId: attr('string'),
 
   // includes
   answers: hasMany('answer'),

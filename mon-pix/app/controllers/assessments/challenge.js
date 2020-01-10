@@ -10,4 +10,5 @@ export default Controller.extend({
   competenceLeveled: null,
 
   showLevelup: and('model.assessment.showLevelup', 'newLevel'),
+  pageTitle: 'Évaluation en cours',
 });

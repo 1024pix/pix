@@ -7,6 +7,7 @@ export default Controller.extend({
 
   isShowingModal: false,
   answer: null,
+  pageTitle: 'Fin de test de démo',
 
   actions: {
     openComparisonWindow(answer) {

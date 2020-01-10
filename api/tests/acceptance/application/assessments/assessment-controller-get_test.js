@@ -181,6 +181,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
             'title': '',
             'type': null,
             'certification-number': null,
+            'competence-id': 'recCompetenceId',
           },
           'relationships': {
             'course': {
@@ -302,6 +303,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
             'title': '',
             'type': null,
             'certification-number': null,
+            'competence-id': 'recCompetenceId',
           },
           'relationships': {
             'course': { 'data': { 'type': 'courses', 'id': courseId } },
@@ -395,6 +397,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'type': 'SMART_PLACEMENT',
           'certification-number': null,
           'code-campaign': 'TESTCODE',
+          'competence-id': 'recCompetenceId',
         },
         'relationships': {
           'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
