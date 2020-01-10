@@ -46,6 +46,8 @@ export default Controller.extend({
   dayOfBirth: '',
   monthOfBirth: '',
   yearOfBirth: '',
+  pageTitle: 'Rejoindre',
+
   birthdate: computed('yearOfBirth', 'monthOfBirth', 'dayOfBirth', function() {
     const dayOfBirth = standardizeNumberInTwoDigitFormat(this.dayOfBirth.trim());
     const monthOfBirth = standardizeNumberInTwoDigitFormat(this.monthOfBirth.trim());
