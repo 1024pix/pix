@@ -1,4 +1,4 @@
-import { currentURL, find, findAll } from '@ember/test-helpers';
+import { click, currentURL, find, findAll } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
@@ -48,6 +48,15 @@ describe('Acceptance | Course ending screen', function() {
 
   it('should display the course banner', function() {
     expect(find('.assessment-results__assessment-banner')).to.exist;
+  });
+
+  it('should display a button that redirect to inscription page', async function() {
+    expect(find('.assessment-results__index-link__element')).to.exist;
+    expect(find('.assessment-results__link-back').textContent).to.contains('Continuer mon expérience Pix');
+
+    await click(find('.assessment-results__index-link__element'));
+
+    expect(currentURL()).to.equal('/inscription');
   });
 
 });
