@@ -32,7 +32,7 @@ describe('Unit | UseCase | create-session', () => {
 
       certificationCenterRepository = { get: sinon.stub() };
       sessionRepository = { save: sinon.stub() };
-      userRepository = { isPixMaster: sinon.stub(), getWithCertificationCenterMemberships: sinon.stub() };
+      userRepository = { getWithCertificationCenterMemberships: sinon.stub() };
       sinon.stub(sessionValidator, 'validate');
       sinon.stub(sessionCodeService, 'getNewSessionCode');
     });
@@ -55,146 +55,95 @@ describe('Unit | UseCase | create-session', () => {
         sessionCodeService.getNewSessionCode.resolves(sessionAccessCode);
       });
 
-      context('and the user is PIX MASTER', () => {
-        let sessionWithCode;
+      it('should forward the error if an error occurs while retrieving the user', () => {
+        // given
+        userRepository.getWithCertificationCenterMemberships.withArgs(userId).rejects(testErr);
 
-        beforeEach(() => {
-          userRepository.isPixMaster.withArgs(userId).resolves(true);
-          sessionWithCode = new Session({
-            ...sessionToSave,
-            accessCode: sessionAccessCode,
-          });
+        // when
+        const promise = createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
+
+        // then
+        return promise.catch((err) => {
+          expect(err).to.deep.equal(testErr);
         });
+      });
 
-        context('and there is no certification ID given', () => {
+      context('and the user has not access to the sessions certification center', () => {
 
-          beforeEach(() => {
-            sessionToSave.certificationCenterId = null;
-            sessionWithCode.certificationCenterId = null;
-          });
+        it('should throw an error', () => {
+          // given
+          const userWithNoCertifCenterMemberships = domainBuilder.buildUser({ certificationCenterMemberships: [] });
 
-          it('should save the session without overriding the name of the certification center in the session', async () => {
-            // when
-            await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
+          userRepository.getWithCertificationCenterMemberships.withArgs(userId).resolves(userWithNoCertifCenterMemberships);
 
-            // then
-            expect(sessionRepository.save).to.have.been.calledWithExactly(sessionWithCode);
-          });
+          // when
+          const promise = createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
 
-          it('should return the saved session', async () => {
-            // given
-            sessionRepository.save.withArgs(sessionWithCode).resolves(expectedSavedSession);
-
-            // when
-            const savedSession = await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
-
-            // then
-            expect(savedSession).to.deep.equal(expectedSavedSession);
-          });
-
-        });
-
-        context('and the certification ID is given', () => {
-
-          it('should add an accessCode and override the certification center name in the session in order to avoid inconsistencies, and save the session', async () => {
-            // given
-            certificationCenterRepository.get.resolves(certificationCenter);
-
-            // when
-            await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
-
-            // then
-            expect(sessionRepository.save).to.have.been.calledWithExactly(sessionWithCodeAndName);
-          });
-
+          // then
+          return expect(promise).to.have.been.rejectedWith(ForbiddenAccess);
         });
 
       });
 
-      context('and the user is not PIX MASTER', () => {
+      context('and the user has access to the sessions certification center', () => {
 
         beforeEach(() => {
-          userRepository.isPixMaster.withArgs(userId).resolves(false);
+          const userWithMembershipToCertificationCenter = domainBuilder.buildUser({
+            certificationCenterMemberships: [{ certificationCenter: { id: certificationCenterId } }]
+          });
+          userRepository.getWithCertificationCenterMemberships.withArgs(userId).resolves(userWithMembershipToCertificationCenter);
         });
 
-        context('and the user has not access to the sessions certification center', () => {
-
-          it('should throw an error', () => {
-            // given
-            const userWithNoCertifCenterMemberships = domainBuilder.buildUser({ certificationCenterMemberships: [] });
-
-            userRepository.getWithCertificationCenterMemberships.withArgs(userId).resolves(userWithNoCertifCenterMemberships);
-
-            // when
-            const promise = createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
-
-            // then
-            return expect(promise).to.have.been.rejectedWith(ForbiddenAccess);
-          });
-
-        });
-
-        context('and the user has access to the sessions certification center', () => {
-
-          beforeEach(() => {
-            const userWithMembershipToCertificationCenter = domainBuilder.buildUser({
-              certificationCenterMemberships: [{ certificationCenter: { id: certificationCenterId } }]
-            });
-            userRepository.getWithCertificationCenterMemberships.withArgs(userId).resolves(userWithMembershipToCertificationCenter);
-          });
-
-          it('should add an accessCode and add the certif center name to the session in order not to break pixAdmin' +
+        it('should add an accessCode and add the certif center name to the session in order not to break pixAdmin' +
             'and user certifications details, and save the new session', async () => {
-            // given
-            certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
-            sessionRepository.save.resolves();
+          // given
+          certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
+          sessionRepository.save.resolves();
 
-            // when
-            await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
+          // when
+          await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
 
-            // then
-            expect(sessionRepository.save).to.have.been.calledWithExactly(sessionWithCodeAndName);
+          // then
+          expect(sessionRepository.save).to.have.been.calledWithExactly(sessionWithCodeAndName);
+        });
+
+        it('should return the saved session', async () => {
+          // given
+          certificationCenterRepository.get.resolves(certificationCenter);
+          sessionRepository.save.withArgs(sessionWithCodeAndName).resolves(expectedSavedSession);
+
+          // when
+          const savedSession = await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
+
+          // then
+          expect(savedSession).to.deep.equal(expectedSavedSession);
+        });
+
+        it('should forward the error if an error occurs while retrieveing the certification center', () => {
+          // given
+          certificationCenterRepository.get.withArgs(certificationCenterId).rejects(testErr);
+
+          // when
+          const promise = createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
+
+          // then
+          return promise.catch((err) => {
+            expect(err).to.deep.equal(testErr);
           });
+        });
 
-          it('should return the saved session', async () => {
-            // given
-            certificationCenterRepository.get.resolves(certificationCenter);
-            sessionRepository.save.withArgs(sessionWithCodeAndName).resolves(expectedSavedSession);
+        it('should forward the error if an error occurs while saving the session', () => {
+          // given
+          certificationCenterRepository.get.resolves(certificationCenter);
+          sessionRepository.save.withArgs(sessionWithCodeAndName).rejects(testErr);
 
-            // when
-            const savedSession = await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
+          // when
+          const promise = createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
 
-            // then
-            expect(savedSession).to.deep.equal(expectedSavedSession);
+          // then
+          return promise.catch((err) => {
+            expect(err).to.deep.equal(testErr);
           });
-
-          it('should forward the error if an error occurs while retrieveing the certification center', () => {
-            // given
-            certificationCenterRepository.get.withArgs(certificationCenterId).rejects(testErr);
-
-            // when
-            const promise = createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
-
-            // then
-            return promise.catch((err) => {
-              expect(err).to.deep.equal(testErr);
-            });
-          });
-
-          it('should forward the error if an error occurs while saving the session', () => {
-            // given
-            certificationCenterRepository.get.resolves(certificationCenter);
-            sessionRepository.save.withArgs(sessionWithCodeAndName).rejects(testErr);
-
-            // when
-            const promise = createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
-
-            // then
-            return promise.catch((err) => {
-              expect(err).to.deep.equal(testErr);
-            });
-          });
-
         });
 
       });
