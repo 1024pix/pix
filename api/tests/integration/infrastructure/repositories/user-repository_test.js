@@ -839,7 +839,33 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(foundUser).to.have.lengthOf(0);
       });
     });
+  });
 
+  describe('#isUsernameAvailable', () => {
+
+    const username = 'abc.def0101';
+
+    it('should return username when it doesn\'t exist', async () => {
+      // when
+      const result = await userRepository.isUsernameAvailable(username);
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should throw AlreadyRegisteredUsernameError when username already exist', async () => {
+      // given
+      databaseBuilder.factory.buildUser({
+        username
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await userRepository.isUsernameAvailable(username);
+
+      // then
+      expect(result).to.be.false;
+    });
   });
 
 });

@@ -291,5 +291,13 @@ module.exports = {
       await trx.rollback();
       throw error;
     }
+  },
+
+  async isUsernameAvailable(username) {
+    const foundUser = await BookshelfUser
+      .where({ username })
+      .fetch();
+    return foundUser ? false : true;
   }
+
 };
