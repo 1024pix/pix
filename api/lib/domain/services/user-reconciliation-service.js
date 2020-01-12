@@ -1,8 +1,10 @@
+const _ = require('lodash');
+const { pipe } = require('lodash/fp');
+const randomString = require('randomstring');
+
 const { NotFoundError } = require('../errors');
 const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
 const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
-const { pipe } = require('lodash/fp');
-const _ = require('lodash');
 
 const MAX_ACCEPTABLE_RATIO = 0.25;
 
@@ -80,7 +82,47 @@ function _candidateHasSimilarLastName({ lastName }) {
   };
 }
 
+// TODO Export all functions generating random codes to an appropriate service
+const _generateCode = () => {
+  return randomString.generate({ length: 4, charset: 'numeric' });
+};
+
+async function generateUsernameUntilAvailable({ firstPart, secondPart, userRepository }) {
+  let randomPart = secondPart;
+
+  let username;
+  let isUsernameAvailable;
+
+  do {
+    username = firstPart + randomPart;
+    isUsernameAvailable = true;
+
+    try {
+      await userRepository.isUsernameAvailable(username);
+    } catch (err) {
+      isUsernameAvailable = false;
+      randomPart = _generateCode();
+    }
+  } while (!isUsernameAvailable);
+
+  return username;
+}
+
+async function createUsernameByUser({ user: { firstName, lastName, birthdate }, userRepository }) {
+  const standardizeUser = _standardizeUser({ firstName, lastName });
+  const [ , month, day ] = birthdate.split('-');
+
+  const firstPart = standardizeUser.firstName + '.' + standardizeUser.lastName;
+  const secondPart = day + month;
+
+  const username = await generateUsernameUntilAvailable({ firstPart, secondPart, userRepository });
+
+  return username;
+}
+
 module.exports = {
+  generateUsernameUntilAvailable,
+  createUsernameByUser,
   findMatchingCandidateIdForGivenUser,
   findMatchingOrganizationStudentIdForGivenUser,
 };

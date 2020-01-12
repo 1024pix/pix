@@ -1,6 +1,8 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const {
+  NotFoundError, OrganizationStudentAlreadyLinkedToUserError, AlreadyRegisteredUsernameError
+} = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | user-reconciliation-service', () => {
 
@@ -267,7 +269,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
         domainBuilder.buildStudent(),
       ];
       organizationId = domainBuilder.buildOrganization().id;
-      studentRepositoryStub = { findNotLinkedYetByOrganizationIdAndUserBirthdate: sinon.stub() };
+      studentRepositoryStub = { findByOrganizationIdAndUserBirthdate: sinon.stub() };
     });
 
     afterEach(() => {
@@ -277,7 +279,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
     context('When student list is not empty', () => {
 
       beforeEach(() => {
-        studentRepositoryStub.findNotLinkedYetByOrganizationIdAndUserBirthdate.resolves(students);
+        studentRepositoryStub.findByOrganizationIdAndUserBirthdate.resolves(students);
       });
 
       context('When no student matched on names', () => {
@@ -300,27 +302,44 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
       context('When one student matched on names', () => {
 
-        it('should return studentId', async () => {
-          // given
+        beforeEach(() => {
           user = {
             firstName: students[0].firstName,
             lastName: students[0].lastName,
           };
-
-          // when
-          const result = await userReconciliationService.findMatchingOrganizationStudentIdForGivenUser({ organizationId, user, studentRepository: studentRepositoryStub });
-
-          // then
-          expect(result).to.equal(students[0].id);
         });
 
+        context('When student is already linked', () => {
+
+          it('should throw OrganizationStudentAlreadyLinkedToUserError', async () => {
+            // given
+            studentRepositoryStub.findByOrganizationIdAndUserBirthdate.rejects(new OrganizationStudentAlreadyLinkedToUserError());
+
+            // when
+            const result = await catchErr(userReconciliationService.findMatchingOrganizationStudentIdForGivenUser)({ organizationId, user, studentRepository: studentRepositoryStub });
+
+            // then
+            expect(result).to.be.instanceOf(OrganizationStudentAlreadyLinkedToUserError, 'There were not exactly one student match for this user and organization');
+          });
+        });
+
+        context('When student is not already linked', () => {
+
+          it('should return studentId', async () => {
+            // when
+            const result = await userReconciliationService.findMatchingOrganizationStudentIdForGivenUser({ organizationId, user, studentRepository: studentRepositoryStub });
+
+            // then
+            expect(result).to.equal(students[0].id);
+          });
+        });
       });
     });
 
     context('When student list is empty', () => {
 
       beforeEach(() => {
-        studentRepositoryStub.findNotLinkedYetByOrganizationIdAndUserBirthdate.resolves([]);
+        studentRepositoryStub.findByOrganizationIdAndUserBirthdate.resolves([]);
       });
 
       it('should throw NotFoundError', async () => {
@@ -336,7 +355,94 @@ describe('Unit | Service | user-reconciliation-service', () => {
         // then
         expect(result).to.be.instanceOf(NotFoundError, 'There were no students matching');
       });
+    });
+  });
 
+  describe('#generateUsernameUntilAvailable', () => {
+
+    let userRepository;
+
+    beforeEach(() => {
+      userRepository = {
+        isUsernameAvailable: sinon.stub()
+      };
+    });
+
+    it('should generate a username with original inputs', async () => {
+      // given
+      const firstPart = 'firstname.lastname';
+      const secondPart = '0101';
+
+      userRepository.isUsernameAvailable.resolves();
+      const expectedUsername = firstPart + secondPart;
+
+      // when
+      const result = await userReconciliationService.generateUsernameUntilAvailable({ firstPart, secondPart, userRepository });
+
+      // then
+      expect(result).to.equal(expectedUsername);
+    });
+
+    it('should generate a other username when exist whith original inputs', async () => {
+      // given
+      const firstPart = 'firstname.lastname';
+      const secondPart = '0101';
+
+      userRepository.isUsernameAvailable
+        .onFirstCall().rejects(new AlreadyRegisteredUsernameError())
+        .onSecondCall().resolves();
+
+      const originalUsername = firstPart + secondPart;
+
+      // when
+      const result = await userReconciliationService.generateUsernameUntilAvailable({ firstPart, secondPart, userRepository });
+
+      // then
+      expect(result).to.not.equal(originalUsername);
+    });
+
+  });
+
+  describe('#createUsernameByUserAndStudentId', () => {
+
+    let userRepository;
+    let originaldUsername;
+
+    beforeEach(() => {
+      user = {
+        firstName: 'fakeFirst-Name',
+        lastName: 'fake LastName',
+        birthdate: '2008-03-01'
+      };
+      originaldUsername = 'fakefirstname.fakelastname0103';
+
+      userRepository = {
+        isUsernameAvailable: sinon.stub()
+      };
+    });
+
+    it('should generate a username with original user properties', async () => {
+      // given
+      userRepository.isUsernameAvailable.resolves();
+
+      // when
+      const result = await userReconciliationService.createUsernameByUser({ user, userRepository });
+
+      // then
+      expect(result).to.equal(originaldUsername);
+    });
+
+    it('should generate a other username when exist whith original inputs', async () => {
+      // given
+      userRepository.isUsernameAvailable
+        .onFirstCall().rejects(new AlreadyRegisteredUsernameError())
+        .onSecondCall().resolves();
+
+      // when
+      const result = await userReconciliationService.createUsernameByUser({ user, userRepository });
+
+      // then
+      expect(result).to.not.equal(originaldUsername);
     });
   });
 
