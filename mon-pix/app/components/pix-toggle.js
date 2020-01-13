@@ -8,16 +8,16 @@ export default Component.extend({
   isFirstOn: true,
 
   firstButtonClass: computed ('isFirstOn', function() {
-    return this.get('isFirstOn') ? 'pix-toogle__on' : 'pix-toogle__off';
+    return this.get('isFirstOn') ? 'pix-toggle__on' : 'pix-toggle__off';
   }),
 
   secondButtonClass: computed ('isFirstOn', function() {
-    return this.get('isFirstOn') ? 'pix-toogle__off' : 'pix-toogle__on';
+    return this.get('isFirstOn') ? 'pix-toggle__off' : 'pix-toggle__on';
   }),
 
   click: function(e) {
 
-    if (e.target.className === 'pix-toogle__off') {
+    if (e.target.className === 'pix-toggle__off') {
       this.toggleProperty('isFirstOn');
     }
 
