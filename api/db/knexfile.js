@@ -7,6 +7,7 @@ function localPostgresEnv(databaseUrl) {
     pool: {
       min: 1,
       max: 4,
+      propagateCreateError: false,
     },
     migrations: {
       tableName: 'knex_migrations',
@@ -30,6 +31,7 @@ module.exports = {
     pool: {
       min: 1,
       max: (parseInt(process.env.DATABASE_CONNECTION_POOL_MAX_SIZE, 10) || 4),
+      propagateCreateError: false,
     },
     migrations: {
       tableName: 'knex_migrations',
@@ -46,6 +48,7 @@ module.exports = {
     pool: {
       min: 1,
       max: (parseInt(process.env.DATABASE_CONNECTION_POOL_MAX_SIZE, 10) || 4),
+      propagateCreateError: false,
     },
     migrations: {
       tableName: 'knex_migrations',
