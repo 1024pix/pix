@@ -12,7 +12,7 @@
         {{/unless}}
         <div class={{concat "login-or-register-panel-form__expandable" (if displayRegisterForm " login-or-register-panel-form__expandable--expanded")}}>
           {{#if displayRegisterForm}}
-            {{routes/register-form}}
+            {{routes/register-form campaignCode=campaignCode}}
           {{/if}}
         </div>
       </div>
