@@ -4,6 +4,7 @@ const mailingConfig = require('../config').mailing_sendinblue;
 const mailerConfig = require('../config').mailer_service;
 const API_KEY = mailingConfig.sendinblueApiKey;
 const mailCheck = require('./mail-check');
+const logger = require('./logger');
 
 // Configure API key authorization: api-key
 const apiKey = defaultClient.authentications['api-key'];
@@ -11,7 +12,9 @@ apiKey.apiKey = API_KEY;
 
 function _formatPayload(options) {
   return {
-    to: 'david.riviere@pix.fr', //TODO change in options.email
+    to: [{
+      email: options.to,
+    }],
     templateId: 1,
     headers: {
       'content-type': 'application/json',
@@ -27,13 +30,17 @@ async function sendEmail(options) {
   const apiInstance = new SibApiV3Sdk.SMTPApi();
 
   const payload = _formatPayload(options);
-  await mailCheck.checkMail(options.to);
+  return mailCheck.checkMail(options.to)
+    .then(() => {
+      apiInstance.sendTransacEmail(payload)
+        .catch((err) => {
+          logger.warn({ err }, `Could not send email to '${options.to}'`);
+        });
+    })
+    .catch((err) => {
+      logger.warn({ err }, `Email is not valid '${options.to}'`);
+    });
 
-  apiInstance.sendTransacEmail(payload).then(function(data) {
-    console.log('API called successfully. Returned data: ' + data);
-  }, function(error) {
-    console.error(error);
-  });
 }
 
 module.exports = {
