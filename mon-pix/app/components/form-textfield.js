@@ -31,6 +31,7 @@ export default Component.extend({
   label: '',
   textfieldName: '',
   validationMessage: '',
+  validationStatus: 'default',
   isPassword: computed.equal('textfieldName','password'),
   isEmail: computed.equal('textfieldName','email'),
   isPasswordVisible: false,
