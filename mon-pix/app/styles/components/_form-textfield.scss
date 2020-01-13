@@ -16,6 +16,18 @@
   letter-spacing: normal;
 }
 
+.form-textfield__date {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  & .form-textfield__input-field-container, input {
+    text-align: center;
+    width: 30%;
+  }
+}
+
 .form-textfield__message {
   text-transform: none;
 }
