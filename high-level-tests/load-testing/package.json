@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "author": "GIP Pix",
   "engines": {
-    "node": "10.15.3"
+    "node": "12.14.1",
+    "npm": "6.13.4"
   },
   "scripts": {
     "report": "artillery report report/index.json",
     "start": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-placement.yml"
   },
-  "author": "",
   "license": "ISC",
   "devDependencies": {
     "artillery": "^1.6.0-27",
