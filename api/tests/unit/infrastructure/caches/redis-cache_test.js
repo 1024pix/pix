@@ -186,36 +186,6 @@ describe('Unit | Infrastructure | Cache | redis-cache', () => {
     });
   });
 
-  describe('#del', () => {
-
-    beforeEach(() => {
-      stubbedClient.del = sinon.stub();
-    });
-
-    it('should resolve', () => {
-      // given
-      const numberOfDeletedKeys = 1;
-      stubbedClient.del.resolves(numberOfDeletedKeys);
-
-      // when
-      const promise = redisCache.del(CACHE_KEY);
-
-      // then
-      return expect(promise).to.have.been.fulfilled;
-    });
-
-    it('should reject when the Redis cache client throws an error', () => {
-      // given
-      stubbedClient.del.rejects(REDIS_CLIENT_ERROR);
-
-      // when
-      const promise = redisCache.del(CACHE_KEY);
-
-      // then
-      return expect(promise).to.have.been.rejectedWith(REDIS_CLIENT_ERROR);
-    });
-  });
-
   describe('#flushAll', () => {
 
     beforeEach(() => {

@@ -58,12 +58,6 @@ class RedisCache {
     return object;
   }
 
-  del(key) {
-    logger.info({ key }, 'Removing Redis key');
-
-    return this._client.del(key);
-  }
-
   flushAll() {
     logger.info('Flusing Redis database');
 
