@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const NodeCache = require('node-cache');
-const InMemoryCache = require('../../../../lib/infrastructure/caches/in-memory-cache');
+const InMemoryCache = require('../../../../lib/infrastructure/caches/InMemoryCache');
 
 describe('Unit | Infrastructure | Cache | in-memory-cache', () => {
 

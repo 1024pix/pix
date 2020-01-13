@@ -1,5 +1,5 @@
-const InMemoryCache = require('./in-memory-cache');
-const RedisCache = require('./redis-cache');
+const InMemoryCache = require('./InMemoryCache');
+const RedisCache = require('./RedisCache');
 const settings = require('../../config');
 
 class Cache {
