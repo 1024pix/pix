@@ -54,8 +54,8 @@ export default Component.extend({
     return this.validationStatus !== 'default';
   },
 
-  hasIcon: computed('validationStatus', 'user.errors.content', function() {
-    return this._isValidationStatusNotDefault();
+  hasIcon: computed('validationStatus', 'user.errors.content', 'disabled', function() {
+    return this._isValidationStatusNotDefault() && !this.disabled;
   }),
 
   inputContainerStatusClass: computed('validationStatus', function() {
