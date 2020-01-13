@@ -3,7 +3,7 @@ const faker = require('faker');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 
-const { AlreadyRegisteredEmailError, OrganizationStudentAlreadyLinkedToUserError, NotFoundError, UserNotFoundError } = require('../../../../lib/domain/errors');
+const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, OrganizationStudentAlreadyLinkedToUserError, NotFoundError, UserNotFoundError } = require('../../../../lib/domain/errors');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../../lib/domain/models/User');
 const Membership = require('../../../../lib/domain/models/Membership');
@@ -850,7 +850,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       const result = await userRepository.isUsernameAvailable(username);
 
       // then
-      expect(result).to.be.true;
+      expect(result).to.equal(username);
     });
 
     it('should throw AlreadyRegisteredUsernameError when username already exist', async () => {
@@ -861,10 +861,10 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const result = await userRepository.isUsernameAvailable(username);
+      const error = await catchErr(userRepository.isUsernameAvailable)(username);
 
       // then
-      expect(result).to.be.false;
+      expect(error).to.be.instanceOf(AlreadyRegisteredUsernameError);
     });
   });
 

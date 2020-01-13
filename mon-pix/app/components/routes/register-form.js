@@ -139,7 +139,6 @@ export default Component.extend({
           this.set('matchingStudentFound', true);
           this.set('isLoading', false);
           return this.studentDependentUser = this.store.createRecord('student-dependent-user', {
-            id: this.campaignCode + '_' + this.lastName,
             campaignCode: this.campaignCode,
             firstName: this.firstName,
             lastName: this.lastName,
@@ -162,7 +161,14 @@ export default Component.extend({
 
     async register() {
       this.set('isLoading', true);
+      this.set('studentDependentUser.withUsername', !this.loginWithEmail);
       try {
+        if (this.loginWithEmail) {
+          this.set('studentDependentUser.username', undefined);
+        } else {
+          this.set('studentDependentUser.email', undefined);
+          this.set('studentDependentUser.username', this.username);
+        }
         await this.studentDependentUser.save();
       } catch (error) {
         this.studentDependentUser.unloadRecord();
@@ -181,7 +187,7 @@ export default Component.extend({
     },
 
     onToggle(data) {
-      this.set('loginWithEmail',data);
+      this.set('loginWithEmail', data);
     },
 
     togglePasswordVisibility() {
