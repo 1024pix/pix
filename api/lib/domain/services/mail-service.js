@@ -1,5 +1,5 @@
-const mailjet = require('../../infrastructure/mailjet');
-const sendinblue = require('../../infrastructure/sendinblue');
+const mailjet = require('../../infrastructure/mailjet');        // eslint-disable-line
+const sendinblue = require('../../infrastructure/sendinblue');  // eslint-disable-line
 const settings = require('../../config');
 const EMAIL_SERVICE = eval(settings.mailer_service.provider.toLowerCase());
 
@@ -14,7 +14,7 @@ function sendAccountCreationEmail(email) {
 }
 
 function sendResetPasswordDemandEmail(email, baseUrl, temporaryKey) {
-  return mailjet.sendEmail({
+  return EMAIL_SERVICE.sendEmail({
     to: email,
     template: settings.mailing_mailjet.mailjetPasswordResetTemplateId,
     from: 'ne-pas-repondre@pix.fr',
@@ -25,11 +25,14 @@ function sendResetPasswordDemandEmail(email, baseUrl, temporaryKey) {
 }
 
 function sendOrganizationInvitationEmail({
-  email, organizationName, organizationInvitationId, code
+  email,
+  organizationName,
+  organizationInvitationId,
+  code
 }) {
   const pixOrgaBaseUrl = settings.pixOrgaUrl;
 
-  return mailjet.sendEmail({
+  return EMAIL_SERVICE.sendEmail({
     to: email,
     template: settings.mailing_mailjet.mailjetOrganizationInvitationTemplateId,
     from: 'ne-pas-repondre@pix.fr',
