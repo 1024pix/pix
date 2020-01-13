@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.101.0 (13/01/2020)
+
+- [#968](https://github.com/1024pix/pix/pull/968) [BUGFIX] Le code d'accès à la session était forcé en majuscules seulement à l'affichage, mais pas lors de l'envoi du formulaire (PF-1032)
+- [#964](https://github.com/1024pix/pix/pull/964) [BUGFIX] Echec du déploiement des seeds en RA (PF-1028)
+- [#956](https://github.com/1024pix/pix/pull/956) [TECH] Retrait du code lié à la création de session via POSTMAN (PF-1025)
+- [#932](https://github.com/1024pix/pix/pull/932) [TECH] Retirer les colonnes users liés à la migration du profile (PF-1010).
+- [#944](https://github.com/1024pix/pix/pull/944) [A11Y] Ajouter des titres aux pages (PF-655)
+- [#953](https://github.com/1024pix/pix/pull/953) [A11Y] Ajouter des attributs ALT aux images (PF-669).
+
 ## v2.100.0 (09/01/2020)
 
 - [#954](https://github.com/1024pix/pix/pull/954) [FEATURE] Afficher une phrase de contexte (SCO) en haut de la double mire de connexion (PF-992).
