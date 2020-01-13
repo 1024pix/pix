@@ -1,4 +1,4 @@
-const { AlreadyRegisteredEmailError, CampaignCodeError, EntityValidationError } = require('../errors');
+const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, CampaignCodeError, EntityValidationError } = require('../errors');
 const User = require('../models/User');
 
 const userValidator = require('../validators/user-validator');
@@ -18,6 +18,7 @@ function _createDomainUser(userAttributes, encryptedPawsword) {
     firstName: userAttributes.firstName,
     lastName: userAttributes.lastName,
     email: userAttributes.email,
+    username: userAttributes.username,
     password: encryptedPawsword,
     cgu: false
   });
@@ -25,6 +26,10 @@ function _createDomainUser(userAttributes, encryptedPawsword) {
 
 function  _manageEmailAvailabilityError(error) {
   return _manageError(error, AlreadyRegisteredEmailError, 'email', 'Cette adresse e-mail est déjà enregistrée, connectez-vous.');
+}
+
+function  _manageUsernameAvailabilityError(error) {
+  return _manageError(error, AlreadyRegisteredUsernameError, 'username', 'Cet identifiant est déjà utilisé, rechargez la page.');
 }
 
 function _manageError(error, errorType, attribute, message) {
@@ -37,9 +42,13 @@ function _manageError(error, errorType, attribute, message) {
   throw error;
 }
 
-async function _validateData(userAttributes, userRepository, userValidator) {
+function _emptyOtherMode(isUsernameMode, userAttributes) {
+  return isUsernameMode ? { ...userAttributes, email: undefined } : { ...userAttributes, username: undefined };
+}
+
+async function _validateData(isUsernameMode, userAttributes, userRepository, userValidator) {
   const validationErrors = await Promise.all([
-    userRepository.isEmailAvailable(userAttributes.email).catch(_manageEmailAvailabilityError),
+    isUsernameMode ? userRepository.isUsernameAvailable(userAttributes.username).catch(_manageUsernameAvailabilityError) : userRepository.isEmailAvailable(userAttributes.email).catch(_manageEmailAvailabilityError),
     userValidator.validate({ user: userAttributes, cguRequired: false }).catch((error) => error),
   ]);
   // Promise.all returns the return value of all promises, even if the return value is undefined
@@ -66,14 +75,16 @@ module.exports = async function createAndAssociateUserToStudent({
 
   const studentId = await userReconciliationService.findMatchingOrganizationStudentIdForGivenUser({ organizationId: campaign.organizationId, user: userAttributes, studentRepository });
 
-  await _validateData(userAttributes, userRepository, userValidator);
+  const isUsernameMode = userAttributes.withUsername;
+  const cleanedUserAttributes = _emptyOtherMode(isUsernameMode, userAttributes);
+  await _validateData(isUsernameMode, cleanedUserAttributes, userRepository, userValidator);
 
-  const encryptedPassword = await _encryptPassword(userAttributes.password, encryptionService);
-  const domainUser = _createDomainUser(userAttributes, encryptedPassword);
+  const encryptedPassword = await _encryptPassword(cleanedUserAttributes.password, encryptionService);
+  const domainUser = _createDomainUser(cleanedUserAttributes, encryptedPassword);
 
   const userId = await userRepository.createAndAssociateUserToStudent({ domainUser, studentId });
 
   const createdUser = await userRepository.get(userId);
-  await mailService.sendAccountCreationEmail(createdUser.email);
+  if (!isUsernameMode) await mailService.sendAccountCreationEmail(createdUser.email);
   return createdUser;
 };

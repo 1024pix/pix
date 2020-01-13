@@ -8,4 +8,5 @@ export default DS.Model.extend({
   email: DS.attr('string'),
   username: DS.attr('string'),
   password: DS.attr('string'),
+  withUsername: DS.attr('boolean'),
 });

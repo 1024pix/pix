@@ -10,7 +10,9 @@ module.exports = {
       lastName: payload['last-name'],
       birthdate: payload['birthdate'],
       email: payload.email,
+      username: payload.username,
       password: payload.password,
+      withUsername: payload['with-username']
     };
 
     const createdUser = await usecases.createAndAssociateUserToStudent({ userAttributes, campaignCode: payload['campaign-code'] });

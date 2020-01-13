@@ -28,6 +28,12 @@ class AlreadyRegisteredEmailError extends DomainError {
   }
 }
 
+class AlreadyRegisteredUsernameError extends DomainError {
+  constructor(message = 'Cet identifiant est déjà utilisé.') {
+    super(message);
+  }
+}
+
 class AlreadyExistingCampaignParticipationError extends DomainError {
   constructor(message = 'Une participation à cette campagne existe déjà.') {
     super(message);
@@ -378,6 +384,7 @@ module.exports = {
   AlreadyExistingOrganizationInvitationError,
   AlreadyRatedAssessmentError,
   AlreadyRegisteredEmailError,
+  AlreadyRegisteredUsernameError,
   AlreadySharedCampaignParticipationError,
   AssessmentEndedError,
   AssessmentNotCompletedError,

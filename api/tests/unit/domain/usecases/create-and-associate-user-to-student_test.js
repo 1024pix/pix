@@ -6,7 +6,7 @@ const userReconciliationService = require('../../../../lib/domain/services/user-
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
-const { AlreadyRegisteredEmailError, CampaignCodeError, EntityValidationError, OrganizationStudentAlreadyLinkedToUserError, NotFoundError } = require('../../../../lib/domain/errors');
+const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, CampaignCodeError, EntityValidationError, OrganizationStudentAlreadyLinkedToUserError, NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | create-and-associate-user-to-student', () => {
 
@@ -28,15 +28,13 @@ describe('Unit | UseCase | create-and-associate-user-to-student', () => {
       lastName: 'Poe',
       birthdate: '02/02/1992',
       password: 'P@ssw0rd',
-      email: 'joe.doe@example.net',
     };
 
     getCampaignStub = sinon.stub(campaignRepository, 'getByCode')
       .withArgs(campaignCode)
       .resolves({ organizationId });
 
-    findMatchingOrganizationStudentIdForGivenUserStub = sinon.stub(userReconciliationService,'findMatchingOrganizationStudentIdForGivenUser');
-
+    findMatchingOrganizationStudentIdForGivenUserStub = sinon.stub(userReconciliationService, 'findMatchingOrganizationStudentIdForGivenUser');
   });
 
   context('When there is no campaign with the given code', () => {
@@ -80,91 +78,47 @@ describe('Unit | UseCase | create-and-associate-user-to-student', () => {
 
     beforeEach(() => {
       createdUser = domainBuilder.buildUser({ studentId });
-      sinon.stub(userRepository, 'isEmailAvailable');
       sinon.stub(userRepository, 'createAndAssociateUserToStudent');
       sinon.stub(userRepository, 'get');
       sinon.stub(userValidator, 'validate');
       sinon.stub(encryptionService, 'hashPassword');
-      sinon.stub(mailService, 'sendAccountCreationEmail');
 
       findMatchingOrganizationStudentIdForGivenUserStub.resolves(studentId);
       encryptionService.hashPassword.resolves(encryptedPassword);
       userRepository.createAndAssociateUserToStudent.resolves(createdUser.id);
       userRepository.get.withArgs(createdUser.id).resolves(createdUser);
       userValidator.validate.resolves();
-      userRepository.isEmailAvailable.resolves();
-      mailService.sendAccountCreationEmail.resolves();
     });
 
-    context('When a field is not valid', () => {
-
-      it('should throw EntityValidationError', async () => {
-        // given
-        const expectedValidationError = new EntityValidationError({
-          invalidAttributes: [
-            {
-              attribute: 'firstName',
-              message: 'Votre prénom n’est pas renseigné.',
-            },
-            {
-              attribute: 'password',
-              message: 'Votre mot de passe n’est pas renseigné.',
-            },
-          ]
-        });
-        userValidator.validate.rejects(expectedValidationError);
-
-        // when
-        const error = await catchErr(usecases.createAndAssociateUserToStudent)({
-          userAttributes,
-          campaignCode,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
-      });
-
-    });
-
-    context('When email is not available', () => {
+    context('When creation is with email', () => {
 
       beforeEach(() => {
-        userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
+        userAttributes.email = 'joe.doe@example.net';
+        userAttributes.withUsername = false;
+        sinon.stub(userRepository, 'isEmailAvailable');
+        sinon.stub(mailService, 'sendAccountCreationEmail');
+        userRepository.isEmailAvailable.resolves();
+        mailService.sendAccountCreationEmail.resolves();
       });
 
-      it('should throw EntityValidationError', async () => {
-        // when
-        const error = await catchErr(usecases.createAndAssociateUserToStudent)({
-          userAttributes,
-          campaignCode,
-        });
+      context('When a field is not valid', () => {
 
-        // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-      });
-    });
+        it('should throw EntityValidationError', async () => {
+          // given
+          const expectedValidationError = new EntityValidationError({
+            invalidAttributes: [
+              {
+                attribute: 'firstName',
+                message: 'Votre prénom n’est pas renseigné.',
+              },
+              {
+                attribute: 'password',
+                message: 'Votre mot de passe n’est pas renseigné.',
+              },
+            ]
+          });
+          userValidator.validate.rejects(expectedValidationError);
 
-    context('When email is available', () => {
-
-      it('should create user and associate student', async () => {
-        // when
-        const result = await usecases.createAndAssociateUserToStudent({
-          userAttributes,
-          campaignCode,
-        });
-
-        // then
-        expect(result).to.equal(createdUser);
-      });
-
-      context('But association is already done', () => {
-
-        beforeEach(() => {
-          userRepository.createAndAssociateUserToStudent.throws(new OrganizationStudentAlreadyLinkedToUserError('Error message'));
-        });
-
-        it('should nor create nor associate student', async () => {
           // when
           const error = await catchErr(usecases.createAndAssociateUserToStudent)({
             userAttributes,
@@ -172,7 +126,122 @@ describe('Unit | UseCase | create-and-associate-user-to-student', () => {
           });
 
           // then
-          expect(error).to.be.instanceOf(OrganizationStudentAlreadyLinkedToUserError);
+          expect(error).to.be.instanceOf(EntityValidationError);
+          expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
+        });
+
+      });
+
+      context('When email is not available', () => {
+
+        beforeEach(() => {
+          userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
+        });
+
+        it('should throw EntityValidationError', async () => {
+          // when
+          const error = await catchErr(usecases.createAndAssociateUserToStudent)({
+            userAttributes,
+            campaignCode,
+          });
+
+          // then
+          expect(error).to.be.instanceOf(EntityValidationError);
+        });
+      });
+
+      context('When email is available', () => {
+
+        it('should create user and associate student', async () => {
+          // when
+          const result = await usecases.createAndAssociateUserToStudent({
+            userAttributes,
+            campaignCode,
+          });
+
+          // then
+          expect(result).to.deep.equal(createdUser);
+        });
+
+        context('But association is already done', () => {
+
+          beforeEach(() => {
+            userRepository.createAndAssociateUserToStudent.throws(new OrganizationStudentAlreadyLinkedToUserError('Error message'));
+          });
+
+          it('should nor create nor associate student', async () => {
+            // when
+            const error = await catchErr(usecases.createAndAssociateUserToStudent)({
+              userAttributes,
+              campaignCode,
+            });
+
+            // then
+            expect(error).to.be.instanceOf(OrganizationStudentAlreadyLinkedToUserError);
+          });
+        });
+      });
+    });
+
+    context('When creation is with username', () => {
+
+      beforeEach(() => {
+        userAttributes.username = 'joepoe';
+        userAttributes.withUsername = true;
+        sinon.stub(userRepository, 'isUsernameAvailable');
+      });
+
+      context('When username is not available', () => {
+
+        beforeEach(() => {
+          userRepository.isUsernameAvailable.rejects(new AlreadyRegisteredUsernameError());
+        });
+
+        it('should throw EntityValidationError', async () => {
+          // when
+          const error = await catchErr(usecases.createAndAssociateUserToStudent)({
+            userAttributes,
+            campaignCode,
+          });
+
+          // then
+          expect(error).to.be.instanceOf(EntityValidationError);
+        });
+      });
+
+      context('When username is available', () => {
+
+        beforeEach(() => {
+          userRepository.isUsernameAvailable.resolves();
+        });
+
+        it('should create user and associate student', async () => {
+          // when
+          const result = await usecases.createAndAssociateUserToStudent({
+            userAttributes,
+            campaignCode,
+          });
+
+          // then
+          expect(result).to.deep.equal(createdUser);
+        });
+
+        context('But association is already done', () => {
+
+          beforeEach(() => {
+            userRepository.createAndAssociateUserToStudent.throws(new OrganizationStudentAlreadyLinkedToUserError('Error message'));
+          });
+
+          it('should nor create nor associate student', async () => {
+            // when
+            const error = await catchErr(usecases.createAndAssociateUserToStudent)({
+              userAttributes,
+              campaignCode,
+            });
+
+            // then
+            expect(error).to.be.instanceOf(OrganizationStudentAlreadyLinkedToUserError);
+          });
         });
       });
     });

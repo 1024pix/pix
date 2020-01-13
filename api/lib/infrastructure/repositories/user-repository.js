@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
 const BookshelfUser = require('../data/user');
-const { AlreadyRegisteredEmailError, OrganizationStudentAlreadyLinkedToUserError, UserNotFoundError } = require('../../domain/errors');
+const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, OrganizationStudentAlreadyLinkedToUserError, UserNotFoundError } = require('../../domain/errors');
 const User = require('../../domain/models/User');
 const PixRole = require('../../domain/models/PixRole');
 const Membership = require('../../domain/models/Membership');
@@ -297,7 +297,10 @@ module.exports = {
     const foundUser = await BookshelfUser
       .where({ username })
       .fetch();
-    return foundUser ? false : true;
+    if (foundUser) {
+      throw new AlreadyRegisteredUsernameError();
+    }
+    return username;
   }
 
 };
