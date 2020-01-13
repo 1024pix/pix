@@ -75,6 +75,11 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               // when
               await fillIn('#firstName', 'Jane');
               await fillIn('#lastName', 'Acme');
+              await fillIn('#dayOfBirth', '10');
+              await fillIn('#monthOfBirth', '12');
+              await fillIn('#yearOfBirth', '2000');
+              await click('#submit-search');
+
               await fillIn('#email', 'jane@acme.com');
               await fillIn('#password', 'Jane1234');
               await click('#submit-registration');
@@ -266,11 +271,11 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
               expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
 
-              await fillIn('#firstName', 'Jane');
-              await fillIn('#lastName', 'Acme');
+              await click('#login');
+
               await fillIn('#email', 'jane@acme.com');
               await fillIn('#password', 'Jane1234');
-              await click('#submit-registration');
+              await click('#submit-connexion');
 
               await fillIn('#firstName', 'Jane');
               await fillIn('#lastName', 'Acme');
@@ -278,7 +283,6 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
               await click('.button');
-
               await click('.campaign-landing-page__start-button');
             });
 
