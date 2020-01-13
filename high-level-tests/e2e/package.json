@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "description": "Permet d'exécuter des tests de bout en bout sur la plateforme Pix",
   "homepage": "https://github.com/1024pix/pix#readme",
-  "author": "Pix",
+  "author": "GIP Pix",
+  "engines": {
+    "node": "12.14.1",
+    "npm": "6.13.4"
+  },
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
