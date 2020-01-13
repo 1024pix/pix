@@ -15,11 +15,17 @@ function _formatPayload(options) {
     to: [{
       email: options.to,
     }],
+    sender: {
+      name: options.fromName,
+      email: options.from,
+    },
+    subject: options.subject || '',
     templateId: 1,
     headers: {
       'content-type': 'application/json',
       'accept': 'application/json',
-    }
+    },
+    params: options.variables || undefined
   };
 }
 
