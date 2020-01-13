@@ -48,4 +48,15 @@
     margin: 20px 0;
   }
 
+  &__return-button {
+    display: inline-flex;
+    align-items: center;
+    margin: 4px 0;
+  }
+
+  &__return-button:hover {
+    > .register-form-return-button__icon {
+      background-color: $alto-grey;
+    }
+  }
 }
