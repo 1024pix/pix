@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.102.0 (13/01/2020)
+
+- [#955](https://github.com/1024pix/pix/pull/955) [TECH] Mettre à jour node en v12.14.1 et npm en v6.13.4 (LTS) (PF-1009).
+
 ## v2.101.0 (13/01/2020)
 
 - [#968](https://github.com/1024pix/pix/pull/968) [BUGFIX] Le code d'accès à la session était forcé en majuscules seulement à l'affichage, mais pas lors de l'envoi du formulaire (PF-1032)
