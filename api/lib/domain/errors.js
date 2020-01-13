@@ -40,8 +40,8 @@ class AlreadySharedCampaignParticipationError extends DomainError {
   }
 }
 
-class BatchSaveError extends DomainError {
-  constructor(message = 'Erreur lors de l\'enregistrement groupé') {
+class StudentsCouldNotBeSavedError extends DomainError {
+  constructor(message = 'Une erreur est survenue durant le traitement. Veuillez réessayer ou contacter le support via l\'adresse support@pix.fr') {
     super(message);
   }
 }
@@ -375,7 +375,7 @@ module.exports = {
   AlreadySharedCampaignParticipationError,
   AssessmentEndedError,
   AssessmentNotCompletedError,
-  BatchSaveError,
+  StudentsCouldNotBeSavedError,
   CampaignCodeError,
   CampaignWithoutOrganizationError,
   CertificationCandidateAlreadyLinkedToUserError,

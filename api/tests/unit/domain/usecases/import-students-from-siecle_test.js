@@ -1,6 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const importStudentsFromSIECLE = require('../../../../lib/domain/usecases/import-students-from-siecle');
-const { FileValidationError, BatchSaveError } = require('../../../../lib/domain/errors');
+const { FileValidationError, StudentsCouldNotBeSavedError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | import-students-from-siecle', () => {
 
@@ -80,12 +80,12 @@ describe('Unit | UseCase | import-students-from-siecle', () => {
         studentRepositoryStub.addOrUpdateOrganizationStudents.rejects();
       });
 
-      it('should throw a BatchSaveError', async () => {
+      it('should throw a StudentsCouldNotBeSavedError', async () => {
         // when
         result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
 
         // then
-        expect(result).to.be.instanceOf(BatchSaveError);
+        expect(result).to.be.instanceOf(StudentsCouldNotBeSavedError);
       });
     });
   });
