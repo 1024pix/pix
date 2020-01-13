@@ -115,36 +115,6 @@ describe('Unit | Infrastructure | Cache | in-memory-cache', () => {
     });
   });
 
-  describe('#del', () => {
-
-    beforeEach(() => {
-      cache.del = sinon.stub();
-    });
-
-    it('should resolve', () => {
-      // given
-      const numberOfDeletedEntries = 1;
-      cache.del.returns(numberOfDeletedEntries);
-
-      // when
-      const promise = inMemoryCache.del(CACHE_KEY);
-
-      // then
-      return expect(promise).to.have.been.fulfilled;
-    });
-
-    it('should reject when the Node cache throws an error', () => {
-      // given
-      cache.del.throws(NODE_CACHE_ERROR);
-
-      // when
-      const promise = inMemoryCache.del(CACHE_KEY);
-
-      // then
-      return expect(promise).to.have.been.rejectedWith(NODE_CACHE_ERROR);
-    });
-  });
-
   describe('#flushAll', () => {
 
     beforeEach(() => {

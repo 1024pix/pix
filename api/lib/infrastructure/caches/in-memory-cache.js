@@ -17,10 +17,6 @@ class InMemoryCache {
     return value;
   }
 
-  async del(key) {
-    return this._cache.del(key);
-  }
-
   async flushAll() {
     this._cache.flushAll();
   }

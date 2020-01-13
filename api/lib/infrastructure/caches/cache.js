@@ -20,10 +20,6 @@ class Cache {
     return this._cache.set(key, object);
   }
 
-  del(key) {
-    return this._cache.del(key);
-  }
-
   flushAll() {
     return this._cache.flushAll();
   }

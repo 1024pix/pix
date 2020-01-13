@@ -52,25 +52,6 @@ describe('Unit | Infrastructure | Cache', () => {
     });
   });
 
-  describe('#del', () => {
-
-    const cacheKey = 'cache_key';
-
-    it('should delete an entry from the cache', () => {
-      // given
-      cache._cache.del.withArgs(cacheKey).resolves();
-
-      // when
-      const promise = cache.del(cacheKey);
-
-      // then
-      return expect(promise).to.have.been.fulfilled
-        .then((result) => {
-          expect(result).to.be.undefined;
-        });
-    });
-  });
-
   describe('#flushAll', () => {
 
     it('should delete all entries from the cache', () => {
