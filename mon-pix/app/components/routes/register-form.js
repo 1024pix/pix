@@ -72,7 +72,7 @@ export default Component.extend({
 
   actions: {
 
-    updateLoginMode(data) {
+    onToggle(data) {
       this.set('loginWithEmail',data);
     },
     async register() {
