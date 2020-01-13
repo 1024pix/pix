@@ -6,7 +6,8 @@
   "license": "AGPL-3.0",
   "author": "GIP Pix",
   "engines": {
-    "node": "10.15.3"
+    "node": "12.14.1",
+    "npm": "6.13.4"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,7 @@
     "clean": "rm -rf tmp dist node_modules",
     "dev": "ember serve",
     "lint": "eslint .",
-    "preinstall": "test \"$(npm --version)\" = 6.4.1",
+    "preinstall": "test \"$(npm --version)\" = 6.13.4",
     "scalingo-post-ra-creation": "echo 'nothing to do'",
     "start": "ember serve --proxy",
     "test": "ember exam",

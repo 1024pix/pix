@@ -1,6 +1,4 @@
-function _byLowestSkillName(hintA, hintB) {
-  return hintA.skillName > hintB.skillName;
-}
+const _ = require('lodash');
 
 class Correction {
 
@@ -26,7 +24,7 @@ class Correction {
 
   get relevantHint() {
     const hintsToSort = Array.from(this.hints);
-    return hintsToSort.sort(_byLowestSkillName)[0];
+    return _.minBy(hintsToSort, 'skillName');
   }
 }
 
