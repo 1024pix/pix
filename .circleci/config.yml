@@ -30,8 +30,6 @@ workflows:
             branches:
               ignore:
                 - master
-                - math
-                - preview
                 - gh-pages
                 - /release-.*/
 
