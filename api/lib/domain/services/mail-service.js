@@ -1,9 +1,10 @@
 const mailjet = require('../../infrastructure/mailjet');
 const sendinblue = require('../../infrastructure/sendinblue');
 const settings = require('../../config');
+const EMAIL_SERVICE = eval(settings.mailer_service.provider.toLowerCase());
 
 function sendAccountCreationEmail(email) {
-  return eval(settings.mailer_service.provider.toLowerCase()).sendEmail({
+  return EMAIL_SERVICE.sendEmail({
     to: email,
     template: settings.mailing_mailjet.mailjetAccountCreationTemplateId,
     from: 'ne-pas-repondre@pix.fr',
