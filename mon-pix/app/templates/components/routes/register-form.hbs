@@ -1,101 +1,124 @@
 <div class="register-form">
-  <form {{action 'register' on='submit'}}>
-    <span class="register-form__required-inputs">Tous les champs sont requis</span>
+  <form {{action 'searchForMatchingStudent' on='submit'}}>
+    <span class="register-form__required-inputs">Les champs marqués de <abbr title="obligatoire">*</abbr> sont obligatoires.</span>
 
     <div id="register-firstName-container">
       {{form-textfield
-              label="Prénom"
-              textfieldName="firstName"
-              inputBindingValue=user.firstName
-              onValidate=(action "validateInput" "firstName" user.firstName)
-              validationStatus=validation.firstName.status
-              validationMessage=validation.firstName.message
-              autocomplete="firstname"}}
+        label="Prénom"
+        textfieldName="firstName"
+        inputBindingValue=firstName
+        onValidate=(action "triggerInputStringValidation" "firstName" firstName)
+        validationStatus=validation.firstName.status
+        validationMessage=validation.firstName.message
+        autocomplete="firstname"
+        disabled=matchingStudentFound}}
     </div>
 
     <div id="register-lastName-container">
       {{form-textfield
-              label="Nom"
-              textfieldName="lastName"
-              inputBindingValue=user.lastName
-              onValidate=(action "validateInput" "lastName" user.lastName)
-              validationStatus=validation.lastName.status
-              validationMessage=validation.lastName.message
-              autocomplete="lastname"}}
+        label="Nom"
+        textfieldName="lastName"
+        inputBindingValue=lastName
+        onValidate=(action "triggerInputStringValidation" "lastName" lastName)
+        validationStatus=validation.lastName.status
+        validationMessage=validation.lastName.message
+        autocomplete="lastname"
+        disabled=matchingStudentFound}}
     </div>
 
+    <div id="register-birthdate-container">
+      {{form-textfield-date
+        label="Date de naissance (JJ/MM/AAAA)"
+        dayTextfieldName="dayOfBirth"
+        monthTextfieldName="monthOfBirth"
+        yearTextfieldName="yearOfBirth"
+        dayInputBindingValue=dayOfBirth
+        monthInputBindingValue=monthOfBirth
+        yearInputBindingValue=yearOfBirth
+        onValidateDay=(action "triggerInputDayValidation" "dayOfBirth" dayOfBirth)
+        onValidateMonth=(action "triggerInputMonthValidation" "monthOfBirth" monthOfBirth)
+        onValidateYear=(action "triggerInputYearValidation" "yearOfBirth" yearOfBirth)
+        dayValidationStatus=validation.dayOfBirth.status
+        monthValidationStatus=validation.monthOfBirth.status
+        yearValidationStatus=validation.yearOfBirth.status
+        dayValidationMessage=validation.dayOfBirth.message
+        monthValidationMessage=validation.monthOfBirth.message
+        yearValidationMessage=validation.yearOfBirth.message
+        disabled=matchingStudentFound}}
+    </div>
+
+    {{#if errorMessage}}
+      <div class="join-restricted-campaign__error" aria-live="polite">{{errorMessage}}</div>
+    {{/if}}
+
+    {{#unless matchingStudentFound}}
+      <div class="register-button-container">
+        {{#if isLoading}}
+          <button type="submit" class="button"><span class="loader-in-button">&nbsp;</span></button>
+        {{else}}
+          <button id="submit-search" type="submit" class="button button--uppercase">Je m'inscris</button>
+        {{/if}}
+      </div>
+    {{/unless}}
+
+  </form>
+
+  {{#if matchingStudentFound}}
+
+    <hr>
+
+    <label>Je m'inscris avec :</label>
     <div id="login-mode-container">
               {{pix-toggle onToggle=(action 'onToggle') valueFirstLabel='Mon adresse e-mail' valueSecondLabel='Mon identifiant'}}
     </div>
 
-    {{#if loginWithEmail}}
-    <div id="register-email-container">
-      {{form-textfield
-              label="Adresse e-mail"
-              help="(ex: nom@exemple.fr)"
-              textfieldName="email"
-              validationStatus=validation.email.status
-              onValidate=(action "validateInputEmail" "email" user.email)
-              inputBindingValue=user.email
-              validationMessage=validation.email.message
-              autocomplete="email"}}
-    </div>
-    {{else}}
-    <div id="register-username-container">
-      {{form-textfield
-              label="Mon identifiant"
-              textfieldName="username"
-              validationStatus=validation.username.status
-              onValidate=(action "validateInputUsername" "username" user.username)
-              inputBindingValue=username
-              validationMessage=validation.username.message
-              autocomplete="username"
-              disabled=true}}
-    </div>
-    {{/if}}
-    <div id="register-password-container">
-      {{form-textfield
-              label="Mot de passe"
-              help="(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)"
-              textfieldName="password"
-              validationStatus=validation.password.status
-              onValidate=(action "validateInputPassword" "password" user.password)
-              inputBindingValue=user.password
-              validationMessage=validation.password.message
-              autocomplete="current-password"}}
-    </div>
+    <form {{action 'register' on='submit'}}>
+      {{#if loginWithEmail}}
 
-    <div class="register-form__cgu-container">
-      <label for="pix-cgu" class="register-form__cgu-label">
-        <div class="register-form__cgu">
-          {{input type="checkbox" id='pix-cgu' checked=user.cgu}}
-          <abbr title="obligatoire">*</abbr> J'accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="link" target="_blank">conditions d'utilisation de Pix</a>
+        <div id="register-email-container">
+          {{form-textfield
+            label="Adresse e-mail"
+            help="(ex: nom@exemple.fr)"
+            textfieldName="email"
+            inputBindingValue=studentDependentUser.email
+            onValidate=(action "triggerInputEmailValidation" "email" studentDependentUser.email)
+            validationStatus=validation.email.status
+            validationMessage=validation.email.message
+            autocomplete="email"}}
         </div>
-
-        {{#if user.errors.cgu}}
-          <div class="register-form__validation-error">
-            {{user.errors.cgu.firstObject.message}}
-          </div>
-        {{/if}}
-      </label>
-    </div>
-
-    <div class="register-button-container">
-      {{#if isLoading}}
-        <button type="submit" class="button"><span class="loader-in-button">&nbsp;</span></button>
       {{else}}
-        <button id="submit-registration" type="submit" class="button button--uppercase">Je m'inscris</button>
+        <div id="register-username-container">
+          {{form-textfield
+            label="Mon identifiant"
+            textfieldName="username"
+            inputBindingValue=username
+            onValidate=(action "triggerInputUsernameValidation" "username" studentDependentUser.username)
+            validationStatus=validation.username.status
+            validationMessage=validation.username.message
+            autocomplete="username"
+            disabled=true}}
+        </div>
       {{/if}}
-    </div>
+      <div id="register-password-container">
+        {{form-textfield
+          label="Mot de passe"
+          help="(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)"
+          textfieldName="password"
+          inputBindingValue=studentDependentUser.password
+          onValidate=(action "triggerInputPasswordValidation" "password" studentDependentUser.password)
+          validationStatus=validation.password.status
+          validationMessage=validation.password.message
+          autocomplete="current-password"}}
+      </div>
+
+      <div class="register-button-container">
+        {{#if isLoading}}
+          <button type="submit" class="button"><span class="loader-in-button">&nbsp;</span></button>
+        {{else}}
+          <button id="submit-registration" type="submit" class="button button--uppercase">Je m'inscris</button>
+        {{/if}}
+      </div>
 
   </form>
 
-  <div class="register-form__legal-text">
-    Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour
-    permettre l’accès au service offert. Elles sont conservées pendant la durée d’utilisation du service et sont
-    destinées à Pix. Les résultats des tests pourront être communiqués à des tiers, avec votre consentement, dans le
-    cas où vous avez été invité à suivre un parcours spécifique. Conformément à la loi « informatique et libertés »,
-    vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant le
-    Délégué à la Protection des Données de Pix à dpo@pix.fr.
-  </div>
 </div>
