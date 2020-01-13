@@ -3,7 +3,7 @@ const NodeCache = require('node-cache');
 class InMemoryCache {
 
   constructor() {
-    this._cache = new NodeCache();
+    this._cache = new NodeCache({ useClones: false });
   }
 
   async get(key, generator) {
