@@ -15,12 +15,18 @@ export default Component.extend({
     return this.get('isFirstOn') ? 'pix-toogle__off' : 'pix-toogle__on';
   }),
 
+  click: function(e) {
+
+    if (e.target.className === 'pix-toogle__off') {
+      this.toggleProperty('isFirstOn');
+    }
+
+    this.onToggle(this.get('isFirstOn'));
+  },
+
   actions: {
-    onToggle: function(e) {
-      if (e.target.className === 'pix-toogle__off') {
-        this.toggleProperty('isFirstOn');
-        //this.sendAction('onToggle', this.get('isFirstOn'));
-      }
+    onToggle: function() {
+
     },
   }
 });

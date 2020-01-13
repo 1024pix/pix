@@ -25,7 +25,7 @@
     </div>
 
     <div id="login-mode-container">
-              {{pix-toggle onToggle='updateLoginMode' valueFirstLabel='Mon adresse e-mail' valueSecondLabel='Mon identifiant'}}
+              {{pix-toggle onToggle=(action 'onToggle') valueFirstLabel='Mon adresse e-mail' valueSecondLabel='Mon identifiant'}}
     </div>
 
     {{#if loginWithEmail}}
