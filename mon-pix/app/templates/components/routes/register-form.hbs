@@ -119,6 +119,14 @@
         {{/if}}
       </div>
 
-  </form>
+      {{#link-to "campaigns.start-or-resume" campaignCode class="link link--underline register-form__return-button"}}
+        <span class="icon-button register-form-return-button__icon">
+          {{fa-icon 'arrow-left'}}
+        </span>
+        Ce n'est pas moi
+      {{/link-to}}
+
+    </form>
+  {{/if}}
 
 </div>
