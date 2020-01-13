@@ -1,4 +1,4 @@
-const { FileValidationError, BatchSaveError } = require('../errors');
+const { FileValidationError, StudentsCouldNotBeSavedError } = require('../errors');
 const _ = require('lodash');
 
 module.exports = async function importStudentsFromSIECLE({ organizationId, buffer, studentsXmlService, studentRepository }) {
@@ -11,6 +11,6 @@ module.exports = async function importStudentsFromSIECLE({ organizationId, buffe
   try {
     await studentRepository.addOrUpdateOrganizationStudents(studentDatas, organizationId);
   } catch (err) {
-    throw new BatchSaveError('L\'enregistrement des élèves a rencontré une erreur.');
+    throw new StudentsCouldNotBeSavedError();
   }
 };

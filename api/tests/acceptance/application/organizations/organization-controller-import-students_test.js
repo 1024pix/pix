@@ -378,7 +378,7 @@ describe('Acceptance | Application | organization-controller-import-students', (
           const students = await knex('students').where({ organizationId });
           expect(_.map(students, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
           expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0].detail).to.equal('L\'enregistrement des élèves a rencontré une erreur.');
+          expect(response.result.errors[0].detail).to.equal('Une erreur est survenue durant le traitement. Veuillez réessayer ou contacter le support via l\'adresse support@pix.fr');
         });
       });
 
@@ -631,7 +631,7 @@ describe('Acceptance | Application | organization-controller-import-students', (
           const students = await knex('students').where({ organizationId });
           expect(students).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0].detail).to.equal('L\'enregistrement des élèves a rencontré une erreur.');
+          expect(response.result.errors[0].detail).to.equal('Une erreur est survenue durant le traitement. Veuillez réessayer ou contacter le support via l\'adresse support@pix.fr');
         });
       });
 
