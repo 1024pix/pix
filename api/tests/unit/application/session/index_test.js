@@ -197,6 +197,41 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
+  describe('POST /api/sessions/{id}/certification-candidates', () => {
+    let sessionId;
+
+    beforeEach(() => {
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
+      sinon.stub(sessionController, 'addCertificationCandidate').returns('ok');
+      return server.register(route);
+    });
+
+    it('should exist', async () => {
+      // given
+      sessionId = 3;
+
+      // when
+      const res = await server.inject({ method: 'POST', url: `/api/sessions/${sessionId}/certification-candidates` });
+
+      // then
+      expect(res.statusCode).to.equal(200);
+    });
+
+    context('when session ID params is not a number', () => {
+
+      it('should return 400', async () => {
+        // given
+        sessionId = 'salut';
+
+        // when
+        const res = await server.inject({ method: 'GET', url: `/api/sessions/${sessionId}/certification-candidates` });
+
+        // then
+        expect(res.statusCode).to.equal(400);
+      });
+    });
+  });
+
   describe('GET /api/sessions/{id}/certifications', () => {
 
     beforeEach(() => {

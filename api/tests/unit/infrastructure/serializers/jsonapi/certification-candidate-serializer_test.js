@@ -1,4 +1,5 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
+const CertificationCandidate = require('../../../../../lib/domain/models/CertificationCandidate');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
 const _ = require('lodash');
 
@@ -49,15 +50,21 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
 
     it('should convert JSON API data into a CertificationCandidate model object', async function() {
       // when
-      const json = await serializer.deserialize(jsonApiData);
+      const deserializedCertificationCandidate = await serializer.deserialize(jsonApiData);
 
       // then
-      delete certificationCandidate.createdAt;
-      delete certificationCandidate.sessionId;
-      delete certificationCandidate.userId;
-      delete certificationCandidate.certificationCourse;
-      certificationCandidate.id += '';
-      expect(json).to.deep.equal(certificationCandidate, ['userId']);
+      expect(deserializedCertificationCandidate).to.be.instanceOf(CertificationCandidate);
+      expect(deserializedCertificationCandidate.firstName).to.equal(certificationCandidate.firstName);
+      expect(deserializedCertificationCandidate.lastName).to.equal(certificationCandidate.lastName);
+      expect(deserializedCertificationCandidate.birthdate).to.equal(certificationCandidate.birthdate);
+      expect(deserializedCertificationCandidate.birthProvinceCode).to.equal(certificationCandidate.birthProvinceCode);
+      expect(deserializedCertificationCandidate.birthCity).to.equal(certificationCandidate.birthCity);
+      expect(deserializedCertificationCandidate.birthCountry).to.equal(certificationCandidate.birthCountry);
+      expect(deserializedCertificationCandidate.extraTimePercentage).to.equal(certificationCandidate.extraTimePercentage);
+      expect(deserializedCertificationCandidate.externalId).to.equal(certificationCandidate.externalId);
+      expect(deserializedCertificationCandidate.email).to.equal(certificationCandidate.email);
+      expect(deserializedCertificationCandidate.hasSeenEndTestScreen).to.equal(certificationCandidate.hasSeenEndTestScreen);
+      expect(deserializedCertificationCandidate.examinerComment).to.equal(certificationCandidate.examinerComment);
     });
 
   });
