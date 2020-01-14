@@ -17,41 +17,6 @@ const ERROR_INPUT_MESSAGE_MAP = {
   password: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.'
 };
 
-const validation = {
-  lastName: {
-    status: 'default',
-    message: null
-  },
-  firstName: {
-    status: 'default',
-    message: null
-  },
-  dayOfBirth: {
-    status: 'default',
-    message: null
-  },
-  monthOfBirth: {
-    status: 'default',
-    message: null
-  },
-  yearOfBirth: {
-    status: 'default',
-    message: null
-  },
-  email: {
-    status: 'default',
-    message: null
-  },
-  username: {
-    status: 'default',
-    message: null
-  },
-  password: {
-    status: 'default',
-    message: null
-  },
-};
-
 const isDayValid = (value) => value > 0 && value <= 31;
 const isMonthValid = (value) => value > 0 && value <= 12;
 const isYearValid = (value) => value > 999 && value <= 9999;
@@ -102,7 +67,42 @@ export default Component.extend({
   }),
 
   init() {
-    this.validation = validation;
+    const validation = {
+      lastName: {
+        status: 'default',
+        message: null
+      },
+      firstName: {
+        status: 'default',
+        message: null
+      },
+      dayOfBirth: {
+        status: 'default',
+        message: null
+      },
+      monthOfBirth: {
+        status: 'default',
+        message: null
+      },
+      yearOfBirth: {
+        status: 'default',
+        message: null
+      },
+      email: {
+        status: 'default',
+        message: null
+      },
+      username: {
+        status: 'default',
+        message: null
+      },
+      password: {
+        status: 'default',
+        message: null
+      },
+    };
+
+    this.set('validation', validation);
     this._super(...arguments);
   },
 
