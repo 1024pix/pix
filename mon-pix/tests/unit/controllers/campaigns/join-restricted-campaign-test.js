@@ -463,7 +463,7 @@ describe('Unit | Controller | campaigns/join-restricted-campaign', function() {
 
       // then
       sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
-      expect(controller.get('errorMessage')).to.equal('Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
+      expect(controller.get('errorMessage')).to.equal('Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
       sinon.assert.notCalled(controller.transitionToRoute);
       expect(controller.get('isLoading')).to.equal(false);
     });

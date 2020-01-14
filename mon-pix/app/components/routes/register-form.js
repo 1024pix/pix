@@ -151,7 +151,10 @@ export default Component.extend({
           this.set('isLoading', false);
           errorResponse.errors.forEach((error) => {
             if (error.status === '404') {
-              return this.set('errorMessage', 'Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
+              return this.set('errorMessage', 'Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
+            }
+            if (error.status === '409') {
+              return this.set('errorMessage', 'Vous possédez déjà un compte Pix. Veuillez vous connecter.');
             }
             return this.set('errorMessage', error.detail);
           });
