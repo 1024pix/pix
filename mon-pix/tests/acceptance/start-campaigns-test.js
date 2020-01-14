@@ -72,7 +72,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
             });
 
-            it('should redirect to landing page page when reconciliation and registration are done', async function() {
+            it.skip('should redirect to landing page page when reconciliation and registration are done', async function() {
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 
@@ -85,6 +85,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
               await click('#submit-search');
+
+              await click('.pix-toggle__off');
 
               await fillIn('#email', 'tom@acme.com');
               await fillIn('#password', 'Tom12345');

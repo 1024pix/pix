@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
@@ -10,10 +10,8 @@ describe('Unit | UseCase | find-association-possibilities', () => {
   let findMatchingOrganizationStudentIdForGivenUserStub;
   let createUsernameByUserServiceStub;
   let getCampaignStub;
-  let student;
   let user;
   const organizationId = 1;
-  const studentId = 1;
 
   afterEach(() => {
     sinon.restore();
@@ -21,7 +19,7 @@ describe('Unit | UseCase | find-association-possibilities', () => {
 
   beforeEach(() => {
     campaignCode = 'ABCD12';
-    student = domainBuilder.buildStudent({ organizationId, id: studentId });
+
     user = {
       id: 1,
       firstName: 'Joe',

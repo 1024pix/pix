@@ -72,35 +72,34 @@
 
     <label>Je m'inscris avec :</label>
     <div id="login-mode-container">
-              {{pix-toggle onToggle=(action 'onToggle') valueFirstLabel='Mon adresse e-mail' valueSecondLabel='Mon identifiant'}}
+              {{pix-toggle onToggle=(action 'onToggle') valueFirstLabel='Mon identifiant' valueSecondLabel='Mon adresse e-mail'}}
     </div>
 
     <form {{action 'register' on='submit'}} autocomplete="off">
-      {{#if loginWithEmail}}
-
-        <div id="register-email-container">
-          {{form-textfield
-            label="Adresse e-mail"
-            help="(ex: nom@exemple.fr)"
-            textfieldName="email"
-            inputBindingValue=studentDependentUser.email
-            onValidate=(action "triggerInputEmailValidation" "email" studentDependentUser.email)
-            validationStatus=validation.email.status
-            validationMessage=validation.email.message
-            require=true}}
-        </div>
+      {{#if loginWithUsername}}
+          <div id="register-username-container">
+            {{form-textfield
+                    label="Mon identifiant"
+                    textfieldName="username"
+                    inputBindingValue=username
+                    onValidate=(action "triggerInputUsernameValidation" "username" studentDependentUser.username)
+                    validationStatus=validation.username.status
+                    validationMessage=validation.username.message
+                    disabled=true
+                    require=true}}
+          </div>
       {{else}}
-        <div id="register-username-container">
-          {{form-textfield
-            label="Mon identifiant"
-            textfieldName="username"
-            inputBindingValue=username
-            onValidate=(action "triggerInputUsernameValidation" "username" studentDependentUser.username)
-            validationStatus=validation.username.status
-            validationMessage=validation.username.message
-            disabled=true
-            require=true}}
-        </div>
+          <div id="register-email-container">
+            {{form-textfield
+                    label="Adresse e-mail"
+                    help="(ex: nom@exemple.fr)"
+                    textfieldName="email"
+                    inputBindingValue=studentDependentUser.email
+                    onValidate=(action "triggerInputEmailValidation" "email" studentDependentUser.email)
+                    validationStatus=validation.email.status
+                    validationMessage=validation.email.message
+                    require=true}}
+          </div>
       {{/if}}
       <div id="register-password-container">
         {{form-textfield

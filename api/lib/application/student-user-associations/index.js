@@ -68,7 +68,7 @@ exports.register = async function(server) {
               attributes: {
                 'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                'birthdate': Joi.date().format('YYYY-MM-DD').required(),
+                'birthdate': Joi.date().format('YYYY-MM-DD').raw().required(),
                 'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
               },
             },

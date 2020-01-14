@@ -33,7 +33,7 @@ export default Component.extend({
   errorMessage: null,
   matchingStudentFound: false,
   isPasswordVisible: false,
-  loginWithEmail: true,
+  loginWithUsername: true,
 
   passwordInputType: computed('isPasswordVisible', function() {
     return this.isPasswordVisible ? 'text' : 'password';
@@ -189,7 +189,7 @@ export default Component.extend({
     },
 
     onToggle(data) {
-      this.set('loginWithEmail', data);
+      this.set('loginWithUsername', data);
     },
 
     togglePasswordVisibility() {

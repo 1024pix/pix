@@ -204,7 +204,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
     describe('Success case', () => {
 
-      it.skip('should return the student linked to the user and a 200 status code response', async () => {
+      it('should return the student linked to the user and a 200 status code response', async () => {
         // when
         const response = await server.inject(options);
 
@@ -293,7 +293,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
     describe('Success case', () => {
 
-      it.skip('should return the student linked to the user and a 200 status code response', async () => {
+      it('should return the student linked to the user and a 200 status code response', async () => {
         // when
         const response = await server.inject(options);
 
