@@ -11,6 +11,86 @@ const _ = require('lodash');
 
 describe('Integration | Repository | CertificationCandidate', function() {
 
+  describe('#saveInSession', () => {
+    let certificationCandidate;
+    let sessionId;
+
+    beforeEach(() => {
+      // given
+      sessionId = databaseBuilder.factory.buildSession().id;
+
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return knex('certification-candidates').delete();
+    });
+
+    context('when a proper candidate is being saved', () => {
+
+      beforeEach(async () => {
+        certificationCandidate = domainBuilder.buildCertificationCandidate({
+          firstName: 'Pix',
+          lastName: 'Lover',
+          birthCity: 'HaussmanPolis',
+          externalId: 'ABCDEF123',
+          birthdate: '1990-07-12',
+          extraTimePercentage: '0.05',
+        });
+
+        delete certificationCandidate.id;
+      });
+
+      it('should save the Certification candidate in session', async () => {
+        // when
+        await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
+
+        // then
+        const certificationCandidatesInSession = await knex('certification-candidates')
+          .where({ sessionId }).select('firstName');
+        expect(certificationCandidatesInSession[0].firstName).to.equal(certificationCandidate.firstName);
+      });
+
+      context('when adding a new candidate', () => {
+        it('should add a single row in the table', async () => {
+          // given
+          const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
+
+          // when
+          await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
+
+          // then
+          const nbCertifCandidatesAfterSave = await BookshelfCertificationCandidate.count();
+
+          expect(nbCertifCandidatesAfterSave).to.equal(nbCertifCandidatesBeforeSave + 1);
+        });
+      });
+
+      context('when updating the candidate', () => {
+
+        beforeEach(() => {
+          certificationCandidate.id = databaseBuilder.factory.buildCertificationCandidate().id;
+          return databaseBuilder.commit();
+        });
+
+        it('should not add a row in the table', async () => {
+          // given
+          const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
+
+          // when
+          await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
+
+          // then
+          const nbCertifCandidatesAfterSave = await BookshelfCertificationCandidate.count();
+
+          expect(nbCertifCandidatesAfterSave).to.equal(nbCertifCandidatesBeforeSave);
+        });
+      });
+
+    });
+
+  });
+
   describe('linkToUser', () => {
     let certificationCandidate;
     let userId;

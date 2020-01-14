@@ -24,6 +24,18 @@ module.exports = {
     }
   },
 
+  async saveInSession({ certificationCandidate, sessionId }) {
+    const certificationCandidateDataToSave = _.pick(certificationCandidate,
+      ['id', 'firstName', 'lastName', 'birthCity', 'birthProvinceCode',
+        'birthCountry', 'email', 'externalId', 'birthdate', 'extraTimePercentage']);
+
+    try {
+      await new CertificationCandidateBookshelf({ ...certificationCandidateDataToSave, sessionId }).save();
+    } catch (bookshelfError) {
+      throw new CertificationCandidateCreationOrUpdateError('An error occurred while saving the certification candidate in a session');
+    }
+  },
+
   async finalizeAll(certificationCandidates) {
     try {
       await Bookshelf.transaction((trx) => {
