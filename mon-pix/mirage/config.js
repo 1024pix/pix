@@ -173,7 +173,8 @@ export default function() {
     };
 
     const userId = schema.users.create(newUser).id;
-    return schema.students.update({ firstName, lastName }, { userId, organizationId });
+    const student = schema.students.findBy({ firstName, lastName });
+    return student.update({ userId, organizationId });
   });
 
   this.get('/student-user-associations', (schema, request) => {
