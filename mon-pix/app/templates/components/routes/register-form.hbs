@@ -75,7 +75,7 @@
               {{pix-toggle onToggle=(action 'onToggle') valueFirstLabel='Mon adresse e-mail' valueSecondLabel='Mon identifiant'}}
     </div>
 
-    <form {{action 'register' on='submit'}}>
+    <form {{action 'register' on='submit'}} autocomplete="off">
       {{#if loginWithEmail}}
 
         <div id="register-email-container">
@@ -87,7 +87,6 @@
             onValidate=(action "triggerInputEmailValidation" "email" studentDependentUser.email)
             validationStatus=validation.email.status
             validationMessage=validation.email.message
-            autocomplete="email"
             require=true}}
         </div>
       {{else}}
@@ -99,7 +98,6 @@
             onValidate=(action "triggerInputUsernameValidation" "username" studentDependentUser.username)
             validationStatus=validation.username.status
             validationMessage=validation.username.message
-            autocomplete="username"
             disabled=true
             require=true}}
         </div>
@@ -113,7 +111,6 @@
           onValidate=(action "triggerInputPasswordValidation" "password" studentDependentUser.password)
           validationStatus=validation.password.status
           validationMessage=validation.password.message
-          autocomplete="current-password"
           require=true}}
       </div>
 
