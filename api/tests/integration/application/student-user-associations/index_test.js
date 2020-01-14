@@ -8,7 +8,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
   beforeEach(() => {
     sinon.stub(studentUserAssociationController, 'associate').callsFake((request, h) => h.response('ok').code(204));
     sinon.stub(studentUserAssociationController, 'findAssociation').callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(studentUserAssociationController, 'findAssociationPossibilities').callsFake((request, h) => h.response('ok').code(204));
+    sinon.stub(studentUserAssociationController, 'generateUsername').callsFake((request, h) => h.response('ok').code(204));
     server = Hapi.server();
     return server.register(require('../../../../lib/application/student-user-associations'));
   });

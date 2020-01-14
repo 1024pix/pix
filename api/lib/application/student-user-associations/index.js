@@ -1,5 +1,5 @@
 const studentUserAssociationController = require('./student-user-association-controller');
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 exports.register = async function(server) {
@@ -18,7 +18,7 @@ exports.register = async function(server) {
               attributes: {
                 'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                'birthdate':Joi.date().iso().required(),
+                'birthdate': Joi.date().format('YYYY-MM-DD').required(),
                 'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
               },
             },
@@ -58,7 +58,7 @@ exports.register = async function(server) {
       path: '/api/student-user-associations/possibilities',
       config: {
         auth: false,
-        handler: studentUserAssociationController.findAssociationPossibilities,
+        handler: studentUserAssociationController.generateUsername,
         validate: {
           options: {
             allowUnknown: true
@@ -68,7 +68,7 @@ exports.register = async function(server) {
               attributes: {
                 'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                'birthdate':Joi.date().iso().required(),
+                'birthdate': Joi.date().format('YYYY-MM-DD').required(),
                 'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
               },
             },

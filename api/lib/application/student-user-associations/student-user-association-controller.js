@@ -26,7 +26,7 @@ module.exports = {
       .then(studentSerializer.serialize);
   },
 
-  async findAssociationPossibilities(request, h) {
+  async generateUsername(request, h) {
     const payload = request.payload.data.attributes;
     const user = {
       firstName: payload['first-name'],
@@ -34,7 +34,7 @@ module.exports = {
       birthdate: payload['birthdate'],
     };
 
-    await usecases.findAssociationPossibilities({ campaignCode: payload['campaign-code'], user });
+    const username = await usecases.generateUsername({ campaignCode: payload['campaign-code'], user });
 
     // we don't persist this ressource, we simulate response by adding the generated username
     const studentWithUsernameResponse = {
@@ -44,7 +44,7 @@ module.exports = {
           'first-name':payload['first-name'],
           'birthdate':payload['birthdate'],
           'campaign-code':request.query.campaignCode,
-          'username':'firstlast1010',
+          'username':username,
         },
         'type':'student-user-associations'
       }
