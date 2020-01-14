@@ -29,7 +29,7 @@ function  _manageEmailAvailabilityError(error) {
 }
 
 function  _manageUsernameAvailabilityError(error) {
-  return _manageError(error, AlreadyRegisteredUsernameError, 'username', 'Cet identifiant est déjà utilisé, rechargez la page.');
+  return _manageError(error, AlreadyRegisteredUsernameError, 'username', 'Cet identifiant n’est plus disponible, merci de recharger la page.');
 }
 
 function _manageError(error, errorType, attribute, message) {

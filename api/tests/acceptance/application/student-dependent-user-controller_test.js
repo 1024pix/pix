@@ -132,7 +132,7 @@ describe('Acceptance | Controller | Student-dependent-user', () => {
 
           // then
           expect(response.statusCode).to.equal(422);
-          expect(response.result.errors[0].detail).to.equal('Cet identifiant est déjà utilisé, rechargez la page.');
+          expect(response.result.errors[0].detail).to.equal('Cet identifiant n’est plus disponible, merci de recharger la page.');
         });
       });
     });

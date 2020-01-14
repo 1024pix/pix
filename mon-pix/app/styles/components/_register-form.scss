@@ -59,4 +59,15 @@
       background-color: $alto-grey;
     }
   }
+
+  &__error {
+    text-align: center;
+    color: $pure-orange;
+    font-size: 1.5rem;
+    padding: 4px 10px;
+
+    @include device-is('tablet') {
+      padding: 10px 10px 0 10px;
+    }
+  }
 }
