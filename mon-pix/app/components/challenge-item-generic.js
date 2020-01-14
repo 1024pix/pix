@@ -101,6 +101,10 @@ const ChallengeItemGeneric = Component.extend({
       }
     },
 
+    resumeAssessment() {
+      return this.resumeAssessment(this.assessment);
+    },
+
     skipChallenge() {
       if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
         this.set('errorMessage', null);

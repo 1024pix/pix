@@ -9,7 +9,8 @@
          data-value="{{inc index}}"
          id="radio_{{inc index}}"
          checked={{labeledRadio.[1]}}
-         onclick={{action "radioClicked" index}}>
+         onclick={{action "radioClicked" index}}
+         disabled={{if answer true}}>
 
   {{!-- Surrounding label --}}
   <label for="radio_{{inc index}}"

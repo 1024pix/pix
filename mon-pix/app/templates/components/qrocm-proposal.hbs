@@ -13,7 +13,8 @@
                 placeholder={{block.placeholder}}
                 autocomplete="off"
                 id="{{block.text}}"
-                value={{property-of answersValue block.input}}>
+                value={{property-of answersValue block.input}}
+                disabled={{if answer true}}>
       </textarea>
     {{else if (eq format 'phrase')}}
       <input class="challenge-response__proposal challenge-response__proposal--sentence"
@@ -23,7 +24,8 @@
              placeholder={{block.placeholder}}
              autocomplete="off"
              id="{{block.text}}"
-             value={{property-of answersValue block.input}}>
+             value={{property-of answersValue block.input}}
+             disabled={{if answer true}}>
     {{else}}
       <input class="challenge-response__proposal"
              size="{{get-qroc-input-size format}}"
@@ -33,7 +35,8 @@
              placeholder={{block.placeholder}}
              autocomplete="off"
              id="{{block.text}}"
-             value={{property-of answersValue block.input}}>
+             value={{property-of answersValue block.input}}
+             disabled={{if answer true}}>
     {{/if}}
 
   {{/if}}

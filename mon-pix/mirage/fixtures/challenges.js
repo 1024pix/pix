@@ -72,5 +72,16 @@ export default [
     timer: 10,
     instruction: 'L\'URL suivante, censée aboutir à un article, donne lieu à une redirection vers la page d\'accueil du site. Retrouvez la page recherchée. Reportez le titre de l’article et son auteur.  \n' + '\n' + '> https://www.cairn.info/revue-reseaux-2011-numero1-page-137.htm',
     proposals: 'Titre : ${titre}\n' + 'Auteur : ${auteur}'
+  },
+  {
+    id: 'ref_qcm_challenge_id_not_yet_answered',
+    type: 'QCM',
+    instruction: 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)',
+    attachments: ['http://example_of_url'],
+    'illustration-url': 'http://fakeimg.pl/350x200/?text=PictureOfQCM',
+    proposals: '- possibilite 1, et/ou' +
+    '\n - possibilite 2, et/ou' +
+    '\n - possibilite 3, et/ou' +
+    '\n - possibilite 4'
   }
 ];

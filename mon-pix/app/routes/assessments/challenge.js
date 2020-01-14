@@ -79,6 +79,10 @@ export default Route.extend({
       }
     },
 
+    resumeAssessment(assessment) {
+      return this.transitionTo('assessments.resume', assessment.get('id'));
+    },
+
     error() {
       return true;
     }
