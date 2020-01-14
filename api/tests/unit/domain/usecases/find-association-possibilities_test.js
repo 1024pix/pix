@@ -8,6 +8,7 @@ describe('Unit | UseCase | find-association-possibilities', () => {
 
   let campaignCode;
   let findMatchingOrganizationStudentIdForGivenUserStub;
+  let createUsernameByUserServiceStub;
   let getCampaignStub;
   let student;
   let user;
@@ -33,6 +34,7 @@ describe('Unit | UseCase | find-association-possibilities', () => {
       .resolves({ organizationId });
 
     findMatchingOrganizationStudentIdForGivenUserStub = sinon.stub(userReconciliationService,'findMatchingOrganizationStudentIdForGivenUser');
+    createUsernameByUserServiceStub = sinon.stub(userReconciliationService,'createUsernameByUser');
   });
 
   context('When there is no campaign with the given code', () => {
@@ -42,7 +44,7 @@ describe('Unit | UseCase | find-association-possibilities', () => {
       getCampaignStub.withArgs(campaignCode).resolves(null);
 
       // when
-      const result = await catchErr(usecases.findAssociationPossibilities)({
+      const result = await catchErr(usecases.generateUsername)({
         user,
         campaignCode
       });
@@ -59,7 +61,7 @@ describe('Unit | UseCase | find-association-possibilities', () => {
       findMatchingOrganizationStudentIdForGivenUserStub.throws(new NotFoundError('Error message'));
 
       // when
-      const result = await catchErr(usecases.findAssociationPossibilities)({
+      const result = await catchErr(usecases.generateUsername)({
         user,
         campaignCode,
       });
@@ -74,19 +76,24 @@ describe('Unit | UseCase | find-association-possibilities', () => {
 
     it('should return student ID found', async () => {
       // given
-      student.userId = user.id;
-      student.firstName = user.firstName;
-      student.lastName = user.lastName;
-      findMatchingOrganizationStudentIdForGivenUserStub.resolves(studentId);
+      const user = {
+        firstName: 'fist',
+        lastName: 'last',
+        birthdate: '2008-12-01'
+      };
+      const username = user.firstName + '.' + user.lastName + '0112';
+
+      findMatchingOrganizationStudentIdForGivenUserStub.resolves();
+      createUsernameByUserServiceStub.resolves(username);
 
       // when
-      const result = await usecases.findAssociationPossibilities({
+      const result = await usecases.generateUsername({
         user,
         campaignCode,
       });
 
       // then
-      expect(result).to.be.equal(studentId);
+      expect(result).to.be.equal(username);
     });
   });
 });

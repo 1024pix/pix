@@ -12,7 +12,7 @@ describe('Integration | Application | Student-user-association | student-user-as
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox.stub(usecases, 'findAssociationPossibilities').rejects(new Error('not expected error'));
+    sandbox.stub(usecases, 'generateUsername').rejects(new Error('not expected error'));
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
@@ -20,7 +20,7 @@ describe('Integration | Application | Student-user-association | student-user-as
     sandbox.restore();
   });
 
-  describe('#findAssociationPossibilities', () => {
+  describe('#generateUsername', () => {
     const campaignCode = 'CODE';
     const payload = {
       data: {
@@ -37,15 +37,15 @@ describe('Integration | Application | Student-user-association | student-user-as
 
       const student = domainBuilder.buildStudent();
 
-      it('should return an HTTP response with status code 204', async () => {
+      it('should return an HTTP response with status code 200', async () => {
         // given
-        usecases.findAssociationPossibilities.resolves([student]);
+        usecases.generateUsername.resolves([student]);
 
         // when
         const response = await httpTestServer.request('PUT', '/api/student-user-associations/possibilities', payload);
 
         // then
-        expect(response.statusCode).to.equal(204);
+        expect(response.statusCode).to.equal(200);
       });
 
     });
@@ -56,7 +56,7 @@ describe('Integration | Application | Student-user-association | student-user-as
 
         it('should resolve a 404 HTTP response', async () => {
           // given
-          usecases.findAssociationPossibilities.rejects(new NotFoundError());
+          usecases.generateUsername.rejects(new NotFoundError());
 
           // when
           const response = await httpTestServer.request('PUT', '/api/student-user-associations/possibilities', payload);
