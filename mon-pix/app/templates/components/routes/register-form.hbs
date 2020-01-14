@@ -11,7 +11,8 @@
         validationStatus=validation.firstName.status
         validationMessage=validation.firstName.message
         autocomplete="firstname"
-        disabled=matchingStudentFound}}
+        disabled=matchingStudentFound
+        require=true}}
     </div>
 
     <div id="register-lastName-container">
@@ -23,7 +24,8 @@
         validationStatus=validation.lastName.status
         validationMessage=validation.lastName.message
         autocomplete="lastname"
-        disabled=matchingStudentFound}}
+        disabled=matchingStudentFound
+        require=true}}
     </div>
 
     <div id="register-birthdate-container">
@@ -44,7 +46,8 @@
         dayValidationMessage=validation.dayOfBirth.message
         monthValidationMessage=validation.monthOfBirth.message
         yearValidationMessage=validation.yearOfBirth.message
-        disabled=matchingStudentFound}}
+        disabled=matchingStudentFound
+        require=true}}
     </div>
 
     {{#if errorMessage}}
@@ -84,7 +87,8 @@
             onValidate=(action "triggerInputEmailValidation" "email" studentDependentUser.email)
             validationStatus=validation.email.status
             validationMessage=validation.email.message
-            autocomplete="email"}}
+            autocomplete="email"
+            require=true}}
         </div>
       {{else}}
         <div id="register-username-container">
@@ -96,7 +100,8 @@
             validationStatus=validation.username.status
             validationMessage=validation.username.message
             autocomplete="username"
-            disabled=true}}
+            disabled=true
+            require=true}}
         </div>
       {{/if}}
       <div id="register-password-container">
@@ -108,7 +113,8 @@
           onValidate=(action "triggerInputPasswordValidation" "password" studentDependentUser.password)
           validationStatus=validation.password.status
           validationMessage=validation.password.message
-          autocomplete="current-password"}}
+          autocomplete="current-password"
+          require=true}}
       </div>
 
       <div class="register-button-container">
