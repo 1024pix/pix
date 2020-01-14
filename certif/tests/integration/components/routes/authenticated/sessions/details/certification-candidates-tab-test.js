@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import _ from 'lodash';
 import hbs from 'htmlbars-inline-precompile';
@@ -14,12 +14,13 @@ module('Integration | Component | routes/authenticated/session | certification-c
     run(() => {
       store = this.owner.lookup('service:store');
       this.set('importCertificationCandidatesSpy', () => {});
+      this.set('saveCertificationCandidateSpy', () => {});
     });
   });
 
   test('it should display a download button', async function(assert) {
     // when
-    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=true importCertificationCandidates=importCertificationCandidatesSpy}}`);
+    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=true importCertificationCandidates=importCertificationCandidatesSpy saveCertificationCandidate=saveCertificationCandidateSpy}}`);
 
     // then
     assert.dom('[data-test-id="attendance_sheet_download_button"]').exists();
@@ -28,7 +29,7 @@ module('Integration | Component | routes/authenticated/session | certification-c
 
   test('it should display an upload button', async function(assert) {
     // when
-    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=true importCertificationCandidates=importCertificationCandidatesSpy}}`);
+    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=true importCertificationCandidates=importCertificationCandidatesSpy saveCertificationCandidate=saveCertificationCandidateSpy}}`);
 
     // then
     assert.dom('[data-test-id="attendance_sheet_upload_button"]').exists();
@@ -44,7 +45,7 @@ module('Integration | Component | routes/authenticated/session | certification-c
     this.set('certificationCandidates', certificationCandidates);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=true importCertificationCandidates=importCertificationCandidatesSpy}}`);
+    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=true importCertificationCandidates=importCertificationCandidatesSpy saveCertificationCandidate=saveCertificationCandidateSpy}}`);
 
     // then
     assert.dom('[data-test-id="panel-candidate__lastName__1"]').hasText('B');
@@ -72,7 +73,7 @@ module('Integration | Component | routes/authenticated/session | certification-c
     this.set('certificationCandidates', []);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=true importCertificationCandidates=importCertificationCandidatesSpy}}`);
+    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=true importCertificationCandidates=importCertificationCandidatesSpy saveCertificationCandidate=saveCertificationCandidateSpy}}`);
 
     // then
     assert.dom('table tbody').doesNotExist();
@@ -84,12 +85,54 @@ module('Integration | Component | routes/authenticated/session | certification-c
     this.set('certificationCandidates', []);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=false importCertificationCandidates=importCertificationCandidatesSpy}}`);
+    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=false importCertificationCandidates=importCertificationCandidatesSpy saveCertificationCandidate=saveCertificationCandidateSpy}}`);
 
     // then
     assert.dom('.panel-actions__warning strong').hasText(
       'La session a débuté, il n\'est plus possible de modifier la liste des candidats.'
     );
+  });
+
+  test('it should display a "Ajouter un candidat" button', async function(assert) {
+    // given
+    this.set('certificationCandidates', []);
+
+    // when
+    await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=false importCertificationCandidates=importCertificationCandidatesSpy saveCertificationCandidate=saveCertificationCandidateSpy}}`);
+
+    // then
+    assert.dom('.certification-candidates-add-button__text').hasText('Ajouter un candidat');
+  });
+
+  module('when adding a candidate in staging for saving', () => {
+
+    test('it should add a new line when we click on "Ajouter un candidat" button', async function(assert) {
+      // given
+      const certificationCandidates = run(() => store.createRecord('certification-candidate', { id: 1, firstName: 'A', lastName: 'B', birthdate: '1990-01-01', birthCity: 'Ville', email: 'a@b.c', birthProvinceCode: 'Dep01', birthCountry: 'Pays', extraTimePercentage: 0.3 }));
+      this.set('certificationCandidates', certificationCandidates);
+
+      // when
+      await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=false importCertificationCandidates=importCertificationCandidatesSpy saveCertificationCandidate=saveCertificationCandidateSpy session=session}}`);
+      await click('[data-test-id="add-certification-candidate-staging__button"]');
+
+      // then
+      assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').exists();
+    });
+
+    test('it should remove the line when clicking on cancel button', async function(assert) {
+      // given
+      const certificationCandidates = run(() => store.createRecord('certification-candidate', { id: 1, firstName: 'A', lastName: 'B', birthdate: '1990-01-01', birthCity: 'Ville', email: 'a@b.c', birthProvinceCode: 'Dep01', birthCountry: 'Pays', extraTimePercentage: 0.3 }));
+      this.set('certificationCandidates', certificationCandidates);
+
+      // when
+      await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=false importCertificationCandidates=importCertificationCandidatesSpy saveCertificationCandidate=saveCertificationCandidateSpy session=session}}`);
+
+      // then
+      await click('[data-test-id="add-certification-candidate-staging__button"]');
+      assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').exists();
+      await click('[data-test-id="panel-candidate__action__cancel"]');
+      assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').doesNotExist();
+    });
   });
 
 });

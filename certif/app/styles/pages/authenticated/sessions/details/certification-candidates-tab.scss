@@ -26,6 +26,7 @@
   width: 1.75rem;
   height: 1.75rem;
   display: flex;
+  align-items: center;
   justify-content: center;
   border: 0.18rem solid;
   border-radius: 0.13rem;
@@ -84,4 +85,81 @@
   color: $orange;
   margin-right: 8px;
   font-size: 1.0rem;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  color: $grey;
+  padding: 16px 0px;
+
+  &__title {
+    margin-left: 30px;
+    font-size: 0.9rem;
+    flex-grow: 1;
+  }
+
+  &__action {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+    cursor: pointer;
+  }
+}
+
+.certification-candidates-add-button {
+  &__text  {
+    margin-right: 16px;
+    font-weight: bold;
+    font-size: 0.95rem;
+  }
+
+  &__icon {
+    font-size: 1.25rem;
+    color: $dusty-gray;
+  }
+}
+
+.certification-candidates-input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.certification-candidates-input {
+  background: $sublte;
+  border-radius: 4px;
+  border: 1px solid $alto;
+  height: 35px;
+  min-width: 24px;
+  flex-grow: 1;
+  padding-left: 6px;
+  font-size: .8125rem;
+}
+
+.certification-candidates-percentage {
+  margin-left: 8px;
+}
+
+.certification-candidates-row-actions {
+  justify-content: flex-end;
+  padding-right: 30px;
+
+  &__close {
+    margin-left: 8px;
+  }
+}
+
+.button--row-item {
+  padding-top: 11px;
+  height: 38px;
+}
+
+.certification-candidates-table > table > tbody > tr > td,
+.certification-candidates-table > table > thead > tr > th {
+  padding-left: 15px;
+}
+
+.certification-candidates-table > table > tbody > tr > td:first-child,
+.certification-candidates-table > table > thead > tr > th:first-child {
+  padding-left: 30px;
 }

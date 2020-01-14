@@ -63,8 +63,21 @@
 </div>
 
 <div class="panel">
-  <div class="table content-text content-text--small">
-    {{#if certificationCandidates}}
+  <div class="panel-header">
+    <div class="panel-header__title">
+      Liste des candidats ({{certificationCandidates.length}})
+    </div>
+    <div data-test-id="add-certification-candidate-staging__button" class="panel-header__action" onclick={{action "addCertificationCandidateInStaging"}}>
+      <div class="certification-candidates-add-button__text">
+        Ajouter un candidat
+      </div>
+      <button class="button button--square button--lightgrey">
+          {{fa-icon "plus" class="fa-fw certification-candidates-add-button__icon"}}
+      </button>
+    </div>
+  </div>
+  <div class="table content-text content-text--small certification-candidates-table">
+    {{#if (or certificationCandidates this.candidatesInStaging)}}
       <table>
         <thead>
           <tr>
@@ -77,9 +90,17 @@
             <th>Adresse e-mail de convocation</th>
             <th>Identifiant externe</th>
             <th>Temps majoré</th>
+            <th width="185"></th>
           </tr>
         </thead>
         <tbody>
+          {{#each this.candidatesInStaging as |candidateInStaging|}}
+            <CertificationCandidateInStagingItem
+                @candidateData={{candidateInStaging}}
+                @onClickSave={{action "addCertificationCandidate"}}
+                @onClickCancel={{action "removeCertificationCandidateFromStaging"}}
+            />
+          {{/each}}
           {{#each certificationCandidates as |candidate|}}
             <tr>
               <td data-test-id='panel-candidate__lastName__{{candidate.id}}'>{{candidate.lastName}}</td>
@@ -91,6 +112,7 @@
               <td data-test-id='panel-candidate__email__{{candidate.id}}'>{{candidate.email}}</td>
               <td data-test-id='panel-candidate__externalId__{{candidate.id}}'>{{candidate.externalId}}</td>
               <td data-test-id='panel-candidate__extraTimePercentage__{{candidate.id}}'>{{format-percentage candidate.extraTimePercentage}}</td>
+              <td></td>
             </tr>
           {{/each}}
         </tbody>
