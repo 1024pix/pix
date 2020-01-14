@@ -1,10 +1,10 @@
 .pix-toggle {
-  font-family:  Roboto,sans-serif;
+  font-family: $font-roboto;
   font-size: 1.6rem;
-  font-weight: 500;
+  font-weight: $font-medium;
   letter-spacing: 0.45px;
-  color: #585F75;
-  border: 2px solid RGB(221,221,221);
+  color: $pix-grey;
+  border: 2px solid $alto-grey;
   height: 44px;
   width: 359px;
   display: flex;
@@ -12,23 +12,21 @@
   border-radius: 12px;
   cursor: pointer;
 
-  &__on{
+  span {
     width: 50%;
     vertical-align: middle;
     line-height: 4.4rem;
-    background-color: #585f75;
     border-radius: 10px;
+  }
+
+  &__on {
+    background-color: $pix-grey;
     color: white;
   }
 
-  &__off{
-    width: 50%;
-    vertical-align: middle;
-    line-height: 4.4rem;
-    border-radius: 10px;
-
+  &__off {
       &:hover {
-      color:#253858;
+      color: $pix-grey-hover;
     }
   }
 }
