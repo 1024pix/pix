@@ -251,52 +251,35 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         certificationCandidate.birthdate = undefined;
 
         // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
+        return expect(() => certificationCandidate.validate())
+          .to.throw(InvalidCertificationCandidate);
       });
 
-      it('should return an error if birthdate is not a string', () => {
+      it('should return an error if birthdate is not a date in iso format', () => {
         // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: 123 });
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '04/01/1990' });
 
         // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
+        return expect(() => certificationCandidate.validate())
+          .to.throw(InvalidCertificationCandidate);
       });
 
-      it('should return an error if birthdate is not of size 10 (to ensure YYY-MM-DD)', () => {
+      it('should return an error if birthdate not greater than 1900-01-01', () => {
         // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: 'salut' });
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '1899-06-06' });
 
         // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
+        return expect(() => certificationCandidate.validate())
+          .to.throw(InvalidCertificationCandidate);
       });
 
-      it('should return an error if sessionId is not defined', () => {
+      it('should return an error if birthdate does not exist (such as 31th November)', () => {
         // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate();
-        certificationCandidate.sessionId = undefined;
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '1999-11-31' });
 
         // when
-        try {
-          certificationCandidate.validate();
-          expect.fail('Expected error to have been thrown');
-        } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
-        }
+        return expect(() => certificationCandidate.validate())
+          .to.throw(InvalidCertificationCandidate);
       });
 
       it('should return an error if sessionId is not a number', () => {
@@ -513,9 +496,9 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         }
       });
 
-      it('should return an error if birthdate is not a string', () => {
+      it('should return an error if birthdate is not a date in iso format', () => {
         // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: 123 });
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '04/01/1990' });
 
         // when
         try {
@@ -526,9 +509,9 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         }
       });
 
-      it('should return an error if birthdate is not of size 10 (to ensure YYY-MM-DD)', () => {
+      it('should return an error if birthdate not greater than 1900-01-01', () => {
         // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: 'salut' });
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '1899-06-06' });
 
         // when
         try {
@@ -539,10 +522,9 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         }
       });
 
-      it('should return an error if sessionId is not defined', () => {
+      it('should return an error if birthdate does not exist (such as 31th November)', () => {
         // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate();
-        certificationCandidate.sessionId = undefined;
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '1999-11-31' });
 
         // when
         try {
@@ -763,50 +745,49 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
 
         // when
         try {
-          certificationCandidate.validate(version);
+          certificationCandidate.validateParticipation();
           expect.fail('Expected error to have been thrown');
         } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+          expect(err).to.be.instanceOf(ValidationError);
         }
       });
 
-      it('should return an error if birthdate is not a string', () => {
+      it('should return an error if birthdate is not a date in iso format', () => {
         // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: 123 });
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '04/01/1990' });
 
         // when
         try {
-          certificationCandidate.validate(version);
+          certificationCandidate.validateParticipation();
           expect.fail('Expected error to have been thrown');
         } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+          expect(err).to.be.instanceOf(ValidationError);
         }
       });
 
-      it('should return an error if birthdate is not of size 10 (to ensure YYY-MM-DD)', () => {
+      it('should return an error if birthdate not greater than 1900-01-01', () => {
         // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: 'salut' });
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '1899-06-06' });
 
         // when
         try {
-          certificationCandidate.validate(version);
+          certificationCandidate.validateParticipation();
           expect.fail('Expected error to have been thrown');
         } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+          expect(err).to.be.instanceOf(ValidationError);
         }
       });
 
-      it('should return an error if sessionId is not defined', () => {
+      it('should return an error if birthdate does not exist (such as 31th November)', () => {
         // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate();
-        certificationCandidate.sessionId = undefined;
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '1999-11-31' });
 
         // when
         try {
-          certificationCandidate.validate(version);
+          certificationCandidate.validateParticipation();
           expect.fail('Expected error to have been thrown');
         } catch (err) { // then
-          expect(err).to.be.instanceOf(InvalidCertificationCandidate);
+          expect(err).to.be.instanceOf(ValidationError);
         }
       });
 
