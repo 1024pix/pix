@@ -5,11 +5,11 @@ import { setupRenderingTest } from 'ember-mocha';
 import { click, find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | challenge embed simulator', function() {
+describe('Integration | Component | Challenge Embed Simulator', function() {
 
   setupRenderingTest();
 
-  describe('Aknowledgment overlay', function() {
+  describe('Acknowledgment overlay', function() {
 
     it('should be displayed when component has just been rendered', async function() {
       // when
@@ -38,7 +38,7 @@ describe('Integration | Component | challenge embed simulator', function() {
       expect(find('.embed__acknowledgment-overlay .embed__launch-simulator-button').textContent).to.equal('Je lance l’application');
     });
 
-    it('should close the aknowledgment overlay when clicked', async function() {
+    it('should close the acknowledgment overlay when clicked', async function() {
       // given
       await render(hbs`{{challenge-embed-simulator}}`);
 
@@ -52,25 +52,25 @@ describe('Integration | Component | challenge embed simulator', function() {
 
   describe('Reload simulator button', () => {
 
-    it('should have text "Recharger le simulateur"', async function() {
+    it('should have text "Réinitialiser"', async function() {
       // when
       await render(hbs`{{challenge-embed-simulator}}`);
 
       // then
-      expect(find('.embed__reload-simulator').textContent).to.equal('Recharger l’application');
+      expect(find('.embed__reboot').textContent.trim()).to.equal('Réinitialiser');
     });
 
     it('should reload simulator when user clicked on button reload', async function() {
       // given
-      const stubReloadSimulator = sinon.stub();
-      this.set('stubReloadSimulator', stubReloadSimulator);
-      await render(hbs`{{challenge-embed-simulator _reloadSimulator=stubReloadSimulator}}`);
+      const stubRebootSimulator = sinon.stub();
+      this.set('stubRebootSimulator', stubRebootSimulator);
+      await render(hbs`{{challenge-embed-simulator _rebootSimulator=stubRebootSimulator}}`);
 
       // when
-      await click('.embed__reload-simulator');
+      await click('.embed-reboot__content');
 
       // then
-      sinon.assert.calledOnce(stubReloadSimulator);
+      sinon.assert.calledOnce(stubRebootSimulator);
     });
   });
 

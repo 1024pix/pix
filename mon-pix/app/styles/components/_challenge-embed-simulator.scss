@@ -73,14 +73,14 @@
   height: 100%;
 }
 
-.embed__reload-simulator {
+.embed__reboot {
   display:flex;
   justify-content: flex-end;
   position:relative;
   bottom: 6px;
 }
 
-.embed-reload-simulator__content {
+.embed-reboot__content {
   display:flex;
   justify-content: space-between;
   align-items: center;
@@ -91,7 +91,7 @@
   }
 }
 
-.embed-reload-simulator-content__text {
+.embed-reboot-content__text {
   font-family: $font-roboto;
   font-size: 1.5rem;
   text-decoration: underline;
