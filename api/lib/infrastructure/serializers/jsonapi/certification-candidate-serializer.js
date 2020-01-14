@@ -1,5 +1,5 @@
 const { Serializer, Deserializer } = require('jsonapi-serializer');
-
+const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
 const { WrongDateFormatError } = require('../../../domain/errors');
 const { isValidDate } = require('../../utils/date-utils');
 const _ = require('lodash');
@@ -34,7 +34,7 @@ module.exports = {
     }).serialize(certificationCandidates);
   },
 
-  deserialize(json) {
+  async deserialize(json) {
     if (json.data.attributes.birthdate && !isValidDate(json.data.attributes.birthdate, 'YYYY-MM-DD')) {
       throw new WrongDateFormatError('La date de naissance du candidate à la certification n\'a pas un format valide du type JJ/MM/AAAA');
     }
@@ -42,7 +42,8 @@ module.exports = {
     delete json.data.attributes['is-linked'];
     delete json.data.attributes['certification-course-id'];
 
-    return new Deserializer({ keyForAttribute: 'camelCase' })
-      .deserialize(json);
+    const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
+    const deserializedCandidate = await deserializer.deserialize(json);
+    return new CertificationCandidate(deserializedCandidate);
   },
 };

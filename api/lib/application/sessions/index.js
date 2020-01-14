@@ -153,6 +153,27 @@ exports.register = async (server) => {
       }
     },
     {
+      method: 'POST',
+      path: '/api/sessions/{id}/certification-candidates',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
+        pre: [{
+          method: sessionAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
+        handler: sessionController.addCertificationCandidate,
+        tags: ['api', 'sessions', 'certification-candidates'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle ajoute un candidat de certification à la session.',
+        ]
+      }
+    },
+    {
       method: 'GET',
       path: '/api/sessions/{id}/certifications',
       config: {
