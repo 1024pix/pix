@@ -61,7 +61,9 @@ module('Integration | Component | certification-candidate-in-staging-item', func
       await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
       await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
       await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
-      await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', 'MaDate');
+      await fillIn('[data-test-id="date-input__day"]', '04');
+      await fillIn('[data-test-id="date-input__month"]', '04');
+      await fillIn('[data-test-id="date-input__year"]', '1994');
     });
 
     test('it render a clickable save button', async function(assert) {
