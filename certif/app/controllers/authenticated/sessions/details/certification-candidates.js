@@ -74,12 +74,12 @@ export default Controller.extend({
         await certificationCandidate
           .save({ adapterOptions: { registerToSession: true, sessionId } });
         this.model.certificationCandidates.pushObject(certificationCandidate);
-        this.notifications.success('L\'ajout ou la mise à jour du candidat est un succès.', {
+        this.notifications.success('Le candidat a été ajouté avec succès.', {
           autoClear,
           clearDuration,
         });
       } catch (err) {
-        this.notifications.error('L\'ajout ou la mise à jour du candidat à échoué', {
+        this.notifications.error('Une erreur s\'est produite lors de l\'ajout du candidat.', {
           autoClear,
           clearDuration,
         });
