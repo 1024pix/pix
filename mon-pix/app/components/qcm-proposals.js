@@ -19,7 +19,7 @@ export default Component.extend({
   }),
 
   actions: {
-    checkboxCliked() {
+    checkboxClicked() {
       this.answerChanged();
     }
   }
