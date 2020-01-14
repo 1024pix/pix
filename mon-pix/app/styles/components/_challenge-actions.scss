@@ -50,7 +50,7 @@
   font-weight: $font-semi-bold;
   color: $slate-grey;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.05rem;
 }
 .challenge-actions__action-skip__loader {
   margin-right: 15px;
@@ -102,7 +102,7 @@
   font-size: 1.6rem;
   font-weight: $font-semi-bold;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.15rem;
   color: white;
   text-decoration: none;
 }
@@ -133,7 +133,7 @@
   font-size: 1.6rem;
   font-weight: 600;
   color: $tundora-grey;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.05rem;
   margin-right: 20px;
 }
 
@@ -162,12 +162,12 @@
 
 .challenge-actions__action-continue-text {
   width: 76px;
-  line-height: 46px;
+  line-height: 4.6rem;
   font-family: $font-roboto;
   font-size: 1.6rem;
   font-weight: $font-semi-bold;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.15rem;
   color: white;
   text-decoration: none;
 }
