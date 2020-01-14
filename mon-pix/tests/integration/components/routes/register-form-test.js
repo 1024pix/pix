@@ -9,6 +9,9 @@ import hbs from 'htmlbars-inline-precompile';
 
 const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
 const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
+const INVALID_DAY_OF_BIRTH_ERROR_MESSAGE = 'Votre jour de naissance n’est pas valide.';
+const INVALID_MONTH_OF_BIRTH_ERROR_MESSAGE = 'Votre mois de naissance n’est pas valide.';
+const INVALID_YEAR_OF_BIRTH_ERROR_MESSAGE = 'Votre année de naissance n’est pas valide.';
 const EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
 
@@ -42,6 +45,9 @@ describe('Integration | Component | routes/register-form', function() {
         return EmberObject.create({
           save() {
             return resolve();
+          },
+          unloadRecord() {
+            return resolve();
           }
         });
       };
@@ -53,7 +59,7 @@ describe('Integration | Component | routes/register-form', function() {
         return resolve();
       };
     });
-/*
+
     it('should call authentication service with appropriate parameters, when all things are ok and form is submitted', async function() {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
@@ -74,11 +80,12 @@ describe('Integration | Component | routes/register-form', function() {
 
       // then
       expect(find('.form-textfield__input--error')).to.not.exist;
+      expect(find('.join-restricted-campaign__error')).to.not.exist;
       expect(sessionServiceObserver.authenticator).to.equal('authenticator:oauth2');
       expect(sessionServiceObserver.email).to.equal('shi@fu.me');
       expect(sessionServiceObserver.password).to.equal('Mypassword1');
       expect(sessionServiceObserver.scope).to.equal('mon-pix');
-    });*/
+    });
   });
 
   context('errors management', function() {
@@ -119,14 +126,73 @@ describe('Integration | Component | routes/register-form', function() {
       });
     });
 
+    [{ stringFilledIn: '' },
+      { stringFilledIn: 'a' },
+      { stringFilledIn: '32' },
+    ].forEach(function({ stringFilledIn }) {
+
+      it(`should display an error message on dayOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function() {
+        // given
+        await render(hbs`{{routes/register-form}}`);
+
+        // when
+        await fillIn('#dayOfBirth', stringFilledIn);
+        await triggerEvent('#dayOfBirth', 'blur');
+
+        // then
+        expect(find('#register-birthdate-container #dayValidationMessage').textContent).to.equal(INVALID_DAY_OF_BIRTH_ERROR_MESSAGE);
+        expect(find('#register-birthdate-container .form-textfield__input-container--error')).to.exist;
+      });
+    });
+
+    [{ stringFilledIn: '' },
+      { stringFilledIn: 'a' },
+      { stringFilledIn: '13' },
+    ].forEach(function({ stringFilledIn }) {
+
+      it(`should display an error message on monthOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function() {
+        // given
+        await render(hbs`{{routes/register-form}}`);
+
+        // when
+        await fillIn('#monthOfBirth', stringFilledIn);
+        await triggerEvent('#monthOfBirth', 'blur');
+
+        // then
+        expect(find('#register-birthdate-container #monthValidationMessage').textContent).to.equal(INVALID_MONTH_OF_BIRTH_ERROR_MESSAGE);
+        expect(find('#register-birthdate-container .form-textfield__input-container--error')).to.exist;
+      });
+    });
+
+    [{ stringFilledIn: '' },
+      { stringFilledIn: 'a' },
+      { stringFilledIn: '10000' },
+    ].forEach(function({ stringFilledIn }) {
+
+      it(`should display an error message on yearOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function() {
+        // given
+        await render(hbs`{{routes/register-form}}`);
+
+        // when
+        await fillIn('#yearOfBirth', stringFilledIn);
+        await triggerEvent('#yearOfBirth', 'blur');
+
+        // then
+        expect(find('#register-birthdate-container #yearValidationMessage').textContent).to.equal(INVALID_YEAR_OF_BIRTH_ERROR_MESSAGE);
+        expect(find('#register-birthdate-container .form-textfield__input-container--error')).to.exist;
+      });
+    });
+
     [{ stringFilledIn: ' ' },
       { stringFilledIn: 'a' },
       { stringFilledIn: 'shi.fu' },
     ].forEach(function({ stringFilledIn }) {
 
-/*      it(`should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function() {
+      it(`should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
-        await render(hbs`{{routes/register-form}}`);
+        this.set('matchingStudentFound', true);
+        this.set('studentDependentUser', EmberObject.create({ email : stringFilledIn , unloadRecord() {return resolve();}  }));
+        await render(hbs`{{routes/register-form matchingStudentFound=true studentDependentUser=studentDependentUser}}`);
 
         // when
         await fillIn('#email', stringFilledIn);
@@ -135,7 +201,7 @@ describe('Integration | Component | routes/register-form', function() {
         // then
         expect(find('#register-email-container #validationMessage').textContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
         expect(find('#register-email-container .form-textfield__input-container--error')).to.exist;
-      });*/
+      });
     });
 
     [{ stringFilledIn: ' ' },
@@ -144,9 +210,11 @@ describe('Integration | Component | routes/register-form', function() {
       { stringFilledIn: 'Password' },
     ].forEach(function({ stringFilledIn }) {
 
-/*      it(`should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function() {
+      it(`should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
-        await render(hbs`{{routes/register-form}}`);
+        this.set('matchingStudentFound', true);
+        this.set('studentDependentUser', EmberObject.create({ password : stringFilledIn , unloadRecord() {return resolve();}  }));
+        await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound studentDependentUser=studentDependentUser}}`);
 
         // when
         await fillIn('#password', stringFilledIn);
@@ -155,7 +223,7 @@ describe('Integration | Component | routes/register-form', function() {
         // then
         expect(find('#register-password-container #validationMessage').textContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
         expect(find('#register-password-container .form-textfield__input-container--error')).to.exist;
-      });*/
+      });
     });
   });
 });

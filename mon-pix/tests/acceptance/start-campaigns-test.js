@@ -18,6 +18,12 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
   beforeEach(function() {
     defaultScenario(this.server);
+    this.server.schema.students.create({
+      firstName: 'Tom',
+      lastName: 'Acme',
+      userId: null,
+      organizationId: null
+    });
   });
 
   describe('Start a campaigns course', function() {
@@ -66,26 +72,26 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
             });
 
-            it('should redirect to join restricted campaign page when registration is done', async function() {
+            it('should redirect to landing page page when reconciliation and registration are done', async function() {
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 
               expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
 
               // when
-              await fillIn('#firstName', 'Jane');
+              await fillIn('#firstName', 'Tom');
               await fillIn('#lastName', 'Acme');
               await fillIn('#dayOfBirth', '10');
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
               await click('#submit-search');
 
-              await fillIn('#email', 'jane@acme.com');
-              await fillIn('#password', 'Jane1234');
+              await fillIn('#email', 'tom@acme.com');
+              await fillIn('#password', 'Tom12345');
               await click('#submit-registration');
 
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
+              expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
             });
 
             it('should redirect to join restricted campaign page when connexion is done', async function() {
