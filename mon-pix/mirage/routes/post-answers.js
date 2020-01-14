@@ -1,6 +1,7 @@
 import _ from 'mon-pix/utils/lodash-custom';
 
 import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
+import refQcmNotYetAnsweredChallengeFull from '../data/challenges/ref-qcm-challenge_not_yet_answered';
 import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
 import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
 import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
@@ -26,7 +27,8 @@ export default function(schema, request) {
     refQrocChallengeFull,
     refQrocmChallengeFull,
     refTimedChallenge,
-    refTimedChallengeBis
+    refTimedChallengeBis,
+    refQcmNotYetAnsweredChallengeFull,
   ];
 
   const allAnswers = [
@@ -44,8 +46,8 @@ export default function(schema, request) {
 
   const finalAnswer = _.find(answers, { id: challengeId });
 
-  if (finalAnswer) {
-    return finalAnswer.obj;
+  if (finalAnswer && finalAnswer.obj) {
+    return new Response(409);
   } else {
     const newAnswer = this.normalizedRequestAttrs();
     return schema.answers.create(newAnswer);
