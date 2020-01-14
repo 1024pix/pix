@@ -10,7 +10,7 @@
 </td>
 <td data-test-id='panel-candidate__birthdate__add-staging'>
   <div class="certification-candidates-input-wrapper">
-    <Input @value={{@candidateData.birthdate}} class="certification-candidates-input" />
+    <DateInput @onSubmit={{action (mut @candidateData.birthdate)}} class="certification-candidates-input" />
   </div>
 </td>
 <td data-test-id='panel-candidate__birthCity__add-staging'>

@@ -1,0 +1,38 @@
+.date-input {
+  display: flex;
+  align-items: center;
+
+  &__input {
+    padding: 0px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+
+    &::placeholder {
+      font-size: 0.6rem;
+    }
+  }
+
+  &__input-day {
+    margin-left: 2px;
+    margin-right: 0px;
+    min-width: 16px;
+    max-width: 16px;
+    width: 16px; // The 3 width properties are needed for browser comptability
+  }
+
+  &__input-month {
+    margin-left: 4px;
+    min-width: 20px;
+    max-width: 20px;
+    width: 20px;
+  }
+
+  &__input-year {
+    margin-left: 4px;
+    margin-right: 4px;
+    min-width: 32px;
+    max-width: 32px;
+    width: 32px;
+  }
+}
