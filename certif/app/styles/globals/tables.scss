@@ -8,6 +8,12 @@
     box-sizing: border-box;
   }
 
+  &--with-row-clickable tbody tr {
+    &:hover, &:focus, &:active {
+      cursor: pointer;
+    }
+  }
+
   thead {
     color: $mine-shaft;
   }
@@ -20,7 +26,6 @@
         color: $nero;
         background-color: $wild-sand;
         transition: 0.25s ease;
-        cursor: pointer;
       }
       &:hover .checkbox--unchecked:not(.checkbox--disabled) {
         border-color: $grey;
