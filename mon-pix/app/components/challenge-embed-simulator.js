@@ -29,8 +29,8 @@ export default Component.extend({
       this._unblurSimulator();
     },
 
-    reloadSimulator() {
-      this._reloadSimulator();
+    rebootSimulator() {
+      this._rebootSimulator();
     },
   },
 
@@ -62,7 +62,7 @@ export default Component.extend({
   },
 
   /* This method is not tested because it would be too difficult (add an observer on a complicated stubbed DOM API element!) */
-  _reloadSimulator() {
+  _rebootSimulator() {
     const iframe = this._getIframe();
     const tmpSrc = iframe.src;
 
