@@ -35,6 +35,20 @@ module.exports = {
     };
 
     await usecases.findAssociationPossibilities({ campaignCode: payload['campaign-code'], user });
-    return h.response().code(204);
+
+    // we don't persist this ressource, we simulate response by adding the generated username
+    const studentWithUsernameResponse = {
+      'data':{
+        'attributes':{
+          'last-name':payload['last-name'],
+          'first-name':payload['first-name'],
+          'birthdate':payload['birthdate'],
+          'campaign-code':request.query.campaignCode,
+          'username':'firstlast1010',
+        },
+        'type':'student-user-associations'
+      }
+    };
+    return h.response(studentWithUsernameResponse).code(200);
   }
 };

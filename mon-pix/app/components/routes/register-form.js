@@ -38,9 +38,7 @@ export default Component.extend({
   passwordInputType: computed('isPasswordVisible', function() {
     return this.isPasswordVisible ? 'text' : 'password';
   }),
-  username: computed('studentDependentUser.{firstName,lastName}', function() {
-    return `${this.get('studentDependentUser.firstName')}${this.get('studentDependentUser.lastName')}`;
-  }),
+  username: '',
 
   firstName: '',
   lastName: '',
@@ -135,16 +133,17 @@ export default Component.extend({
       });
 
       return this.studentUserAssociation.save({ adapterOptions: { searchForMatchingStudent: true } })
-        .then(() => {
+        .then((response) => {
           this.set('matchingStudentFound', true);
           this.set('isLoading', false);
+          this.set('username',response.username);
           return this.studentDependentUser = this.store.createRecord('student-dependent-user', {
             campaignCode: this.campaignCode,
             firstName: this.firstName,
             lastName: this.lastName,
             birthdate: this.birthdate,
             email: '',
-            username: '',
+            username: this.get('username'),
             password: ''
           });
         }, (errorResponse) => {
