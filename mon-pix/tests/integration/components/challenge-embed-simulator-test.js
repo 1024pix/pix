@@ -57,7 +57,7 @@ describe('Integration | Component | challenge embed simulator', function() {
       await render(hbs`{{challenge-embed-simulator}}`);
 
       // then
-      expect(find('.embed__reload-button').textContent).to.equal('Recharger l’application');
+      expect(find('.embed__reload-simulator').textContent).to.equal('Recharger l’application');
     });
 
     it('should reload simulator when user clicked on button reload', async function() {
@@ -67,7 +67,7 @@ describe('Integration | Component | challenge embed simulator', function() {
       await render(hbs`{{challenge-embed-simulator _reloadSimulator=stubReloadSimulator}}`);
 
       // when
-      await click('.embed__reload-button');
+      await click('.embed__reload-simulator');
 
       // then
       sinon.assert.calledOnce(stubReloadSimulator);
