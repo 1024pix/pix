@@ -229,10 +229,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
       });
 
       context('when the user is not linked to any candidate in this session', () => {
-        let linkedCertificationCandidate;
 
         beforeEach(() => {
-          certificationCandidate = { userId: null };
+          certificationCandidate = { userId: null, id: 'candidateId' };
           sinon.stub(certificationCandidateRepository, 'findBySessionIdAndPersonalInfo')
             .withArgs({
               sessionId,
@@ -246,9 +245,8 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
             .withArgs({ sessionId, userId })
             .resolves(undefined);
 
-          linkedCertificationCandidate = { userId };
-          sinon.stub(certificationCandidateRepository, 'save')
-            .resolves(linkedCertificationCandidate);
+          sinon.stub(certificationCandidateRepository, 'linkToUser')
+            .resolves();
         });
 
         it('should create a link and return the linked certification candidate', async () => {
@@ -264,7 +262,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
 
           // then
           expect(result.linkCreated).to.be.true;
-          sinon.assert.calledWith(certificationCandidateRepository.save, linkedCertificationCandidate);
+          sinon.assert.calledWith(certificationCandidateRepository.linkToUser, { id: certificationCandidate.id, userId });
         });
 
         it('should trim spaces in first and last name when searching for a candidate', async () => {
@@ -284,7 +282,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
 
           // then
           expect(result.linkCreated).to.be.true;
-          sinon.assert.calledWith(certificationCandidateRepository.save, linkedCertificationCandidate);
+          sinon.assert.calledWith(certificationCandidateRepository.linkToUser, { id: certificationCandidate.id, userId });
         });
       });
     });

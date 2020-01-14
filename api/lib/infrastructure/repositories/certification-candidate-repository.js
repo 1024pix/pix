@@ -12,18 +12,16 @@ const {
 
 module.exports = {
 
-  save(certificationCandidateToSave) {
-    const certificationCandidateBookshelf = new CertificationCandidateBookshelf(_adaptModelToDb(certificationCandidateToSave));
-
-    return certificationCandidateBookshelf.save()
-      .then((savedCertificationCandidate) => bookshelfToDomainConverter.buildDomainObject(CertificationCandidateBookshelf, savedCertificationCandidate))
-      .catch((bookshelfError) => {
-        if (bookshelfError.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
-          throw new CertificationCandidateMultipleUserLinksWithinSessionError('A user cannot be linked to several certification candidates within the same session');
-        }
-
-        throw new CertificationCandidateCreationOrUpdateError('An error occurred while saving the certification candidate');
-      });
+  async linkToUser({ id, userId }) {
+    try {
+      const certificationCandidateBookshelf = new CertificationCandidateBookshelf({ id });
+      await certificationCandidateBookshelf.save({ userId }, { patch: true, method: 'update' });
+    } catch (bookshelfError) {
+      if (bookshelfError.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
+        throw new CertificationCandidateMultipleUserLinksWithinSessionError('A user cannot be linked to several certification candidates within the same session');
+      }
+      throw new CertificationCandidateCreationOrUpdateError('An error occurred while linking the certification candidate to a user');
+    }
   },
 
   async finalizeAll(certificationCandidates) {

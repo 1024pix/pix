@@ -11,128 +11,44 @@ const _ = require('lodash');
 
 describe('Integration | Repository | CertificationCandidate', function() {
 
-  describe('#save', () => {
+  describe('linkToUser', () => {
     let certificationCandidate;
-    let sessionId;
     let userId;
 
     beforeEach(() => {
       // given
-      sessionId = databaseBuilder.factory.buildSession().id;
+      certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({ userId: null });
       userId = databaseBuilder.factory.buildUser().id;
 
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('certification-candidates').delete();
+    context('when the user is not linked to any candidate in the same session', () => {
+
+      it('should successfully link the candidate to the user', async () => {
+        // when
+        await certificationCandidateRepository.linkToUser({ id: certificationCandidate.id, userId });
+
+        // then
+        const linkedCertificationCandidate = await knex('certification-candidates')
+          .where({ id: certificationCandidate.id }).select('userId');
+        expect(linkedCertificationCandidate[0].userId).to.equal(userId);
+      });
     });
 
-    context('when a proper candidate is being saved', () => {
+    context('when the user is already linked to a candidate in the same session', () => {
 
-      context('when there are no conflicting candidates already in database', () => {
-
-        beforeEach(async () => {
-          certificationCandidate = domainBuilder.buildCertificationCandidate({
-            firstName: 'Pix',
-            lastName: 'Lover',
-            birthCity: 'HaussmanPolis',
-            externalId: 'ABCDEF123',
-            birthdate: '1990-07-12',
-            extraTimePercentage: '0.05',
-            sessionId,
-            userId,
-          });
-
-          delete certificationCandidate.id;
-        });
-
-        it('should return the saved Certification candidate', async () => {
-          // when
-          const certificationCandidateSaved = await certificationCandidateRepository.save(certificationCandidate);
-
-          // then
-          expect(certificationCandidateSaved).to.have.property('id').and.not.null;
-          expect(certificationCandidateSaved.sessionId).to.equal(sessionId);
-        });
-
-        it('should add a single row in the table', async () => {
-          // given
-          const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
-
-          // when
-          await certificationCandidateRepository.save(certificationCandidate);
-
-          // then
-          const nbCertifCandidatesAfterSave = await BookshelfCertificationCandidate.count();
-
-          expect(nbCertifCandidatesAfterSave).to.equal(nbCertifCandidatesBeforeSave + 1);
-        });
+      beforeEach(() => {
+        databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId: certificationCandidate.sessionId });
+        return databaseBuilder.commit();
       });
 
-      context('when two candidates with the same sessionId and userId are saved', () => {
+      it('should throw a CertificationCandidateMultipleUserLinksWithinSessionError', async () => {
+        // when
+        const result = await catchErr(certificationCandidateRepository.linkToUser)({ id: certificationCandidate.id, userId });
 
-        context('when there is a NULL in the constraint couple', () => {
-
-          beforeEach(async () => {
-            databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: null });
-            certificationCandidate = domainBuilder.buildCertificationCandidate({
-              firstName: 'Pix',
-              lastName: 'Lover',
-              birthCity: 'HaussmanPolis',
-              externalId: 'ABCDEF123',
-              birthdate: '1990-07-12',
-              extraTimePercentage: '0.05',
-              sessionId,
-              userId: null,
-            });
-            delete certificationCandidate.id;
-
-            return databaseBuilder.commit();
-          });
-
-          it('should successfully save the candidate', async () => {
-            // given
-            const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
-
-            // when
-            await certificationCandidateRepository.save(certificationCandidate);
-
-            // then
-            const nbCertifCandidatesAfterSave = await BookshelfCertificationCandidate.count();
-
-            expect(nbCertifCandidatesAfterSave).to.equal(nbCertifCandidatesBeforeSave + 1);
-          });
-        });
-
-        context('when both values in the constraint values are not null', () => {
-
-          beforeEach(async () => {
-            databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
-            certificationCandidate = domainBuilder.buildCertificationCandidate({
-              firstName: 'Pix',
-              lastName: 'Lover',
-              birthCity: 'HaussmanPolis',
-              externalId: 'ABCDEF123',
-              birthdate: '1990-07-12',
-              extraTimePercentage: '0.05',
-              sessionId,
-              userId,
-            });
-            delete certificationCandidate.id;
-
-            return databaseBuilder.commit();
-          });
-
-          it('should throw a CertificationCandidateMultipleUserLinksWithinSessionError', async () => {
-            // when
-            const result = await catchErr(certificationCandidateRepository.save)(certificationCandidate);
-
-            // then
-            expect(result).to.be.instanceOf(CertificationCandidateMultipleUserLinksWithinSessionError);
-          });
-        });
-
+        // then
+        expect(result).to.be.instanceOf(CertificationCandidateMultipleUserLinksWithinSessionError);
       });
 
     });
