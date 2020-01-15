@@ -12,15 +12,18 @@ module('Integration | Component | action-btn', function(hooks) {
         Finalize
       </ActionButton>
     `);
-    assert.dom(this.element).hasText('Finalize');
+
+    assert.dom('[data-test-id="action-button"]').hasText('Finalize');
   });
+
   test('it renders a loader when in a loading state', async function(assert) {
     this.set('isLoading', true);
     await render(hbs`
-      <ActionButton @isLoading={{true}}>
+      <ActionButton @isLoading={{this.isLoading}}>
         Finalize
       </ActionButton>
     `);
-    assert.dom(this.element.firstElementChild.firstElementChild).hasClass('button__loader');
+
+    assert.dom('[data-test-id="action-button"] > span').hasClass('button__loader');
   });
 });

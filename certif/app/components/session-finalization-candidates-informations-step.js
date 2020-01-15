@@ -5,7 +5,7 @@ export default Component.extend({
   textareaMaxLength: 500,
 
   hasCheckedEverything: computed('certificationCandidates.@each.hasSeenEndTestScreen', function() {
-    if (this.certificationCandidates.length === 0) {
+    if (!this.certificationCandidates || this.certificationCandidates.length === 0) {
       return false;
     }
 
@@ -20,7 +20,7 @@ export default Component.extend({
   }),
 
   hasCheckedSomething: computed('certificationCandidates.@each.hasSeenEndTestScreen', function() {
-    if (this.certificationCandidates.length === 0) {
+    if (!this.certificationCandidates || this.certificationCandidates.length === 0) {
       return false;
     }
 

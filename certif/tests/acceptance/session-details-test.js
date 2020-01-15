@@ -22,7 +22,7 @@ module('Acceptance | Session Details', function(hooks) {
   });
 
   hooks.afterEach(function() {
-    const notificationMessagesService = this.owner.lookup('service:notification-messages');
+    const notificationMessagesService = this.owner.lookup('service:notifications');
     notificationMessagesService.clearAll();
   });
 
