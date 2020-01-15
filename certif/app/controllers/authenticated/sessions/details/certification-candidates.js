@@ -7,7 +7,7 @@ import config from '../../../../config/environment';
 
 export default Controller.extend({
   session: service(),
-  notifications: service('notification-messages'),
+  notifications: service('notifications'),
 
   importAllowed: computed('model.certificationCandidates.{[],@each.isLinked}', function() {
     return _.every(this.model.certificationCandidates.toArray(), (certificationCandidate) => {
