@@ -1,7 +1,9 @@
+const Student = require('../../domain/models/Student');
 const BookshelfStudent = require('../data/student');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const _ = require('lodash');
+const bluebird = require('bluebird');
 
 module.exports = {
 
@@ -15,17 +17,32 @@ module.exports = {
       .then((students) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStudent, students));
   },
 
-  async checkIfAtLeastOneStudentIsInOrganization({ nationalStudentIds, organizationId }) {
-    const anyMatchingStudent = await BookshelfStudent
-      .where('nationalStudentId', 'IN', nationalStudentIds)
-      .where('organizationId', organizationId)
-      .fetch({ columns: 'id' });
-    return Boolean(anyMatchingStudent);
-  },
+  async addOrUpdateOrganizationStudents(studentDatas, organizationId) {
+    const trx = await Bookshelf.knex.transaction();
 
-  batchSave(studentsToSave) {
-    const bookshelfStudents = studentsToSave.map((studentToSave) => _.omit(studentToSave, ['id']));
-    return Bookshelf.knex.batchInsert('students', bookshelfStudents).then(() => undefined);
+    try {
+
+      const students = _.map(studentDatas, (studentData) => new Student({ ...studentData, organizationId }));
+      const studentsFromOrganization = await this.findByOrganizationId({ organizationId });
+      const nationalStudentIdsFromOrganization = _.map(studentsFromOrganization, 'nationalStudentId');
+      const [ studentsToUpdate, studentsToCreate ] = _.partition(students, (student) => _.includes(nationalStudentIdsFromOrganization, student.nationalStudentId));
+
+      await bluebird.mapSeries(studentsToUpdate, async (studentToUpdate) => {
+        await trx('students')
+          .where({
+            'organizationId': organizationId,
+            'nationalStudentId': studentToUpdate.nationalStudentId,
+          })
+          .update(_.omit(studentToUpdate, ['id', 'createdAt']));
+      });
+
+      await Bookshelf.knex.batchInsert('students', studentsToCreate);
+
+      await trx.commit();
+    } catch (err) {
+      await trx.rollback();
+      throw err;
+    }
   },
 
   findNotLinkedYetByOrganizationIdAndUserBirthdate({ organizationId, birthdate }) {
