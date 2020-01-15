@@ -7,10 +7,10 @@ export default Route.extend(UnauthenticatedRouteMixin, {
   session: service(),
 
   actions: {
-    authenticate(email, password) {
+    authenticate(login, password) {
       const scope = 'mon-pix';
-      const trimedEmail = email ? email.trim() : '';
-      return this.session.authenticate('authenticator:oauth2', { email: trimedEmail, password, scope });
+      const trimedLogin = login ? login.trim() : '';
+      return this.session.authenticate('authenticator:oauth2', { login: trimedLogin, password, scope });
     }
   }
 });
