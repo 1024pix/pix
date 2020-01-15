@@ -1,14 +1,18 @@
-import { notEmpty } from '@ember/object/computed';
 import Controller from '@ember/controller';
+import { notEmpty } from '@ember/object/computed';
 import config from '../../../config/environment';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  hasSession: notEmpty('model'),
-  isSessionFinalizationActive: config.APP.isSessionFinalizationActive,
+export default class AuthenticatedSessionsListController extends Controller {
+  @notEmpty('model') hasSession;
 
-  actions: {
-    goToDetails(sessionId) {
-      this.transitionToRoute('authenticated.sessions.details', sessionId);
-    },
-  },
-});
+  constructor() {
+    super(...arguments);
+    this.isSessionFinalizationActive = config.APP.isSessionFinalizationActive;
+  }
+
+  @action
+  goToDetails(sessionId) {
+    this.transitionToRoute('authenticated.sessions.details', sessionId);
+  }
+}
