@@ -22,13 +22,14 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
 
   describe('#serialize', () => {
 
-    it('should serialize excluding email and password', () => {
+    it('should serialize excluding password', () => {
       // given
       const modelObject = new User({
         id: '234567',
         firstName: 'Luke',
         lastName: 'Skywalker',
         email: 'lskywalker@deathstar.empire',
+        username: 'luke.skywalker1234',
         cgu: true,
         pixOrgaTermsOfServiceAccepted: false,
         pixCertifTermsOfServiceAccepted: false,
@@ -46,6 +47,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             'first-name': 'Luke',
             'last-name': 'Skywalker',
             'email': 'lskywalker@deathstar.empire',
+            'username': 'luke.skywalker1234',
             'cgu': true,
             'pix-orga-terms-of-service-accepted': false,
             'pix-certif-terms-of-service-accepted': false,

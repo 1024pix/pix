@@ -11,7 +11,7 @@ module.exports = {
         return user;
       },
       attributes: [
-        'firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted',
+        'firstName', 'lastName', 'email', 'username', 'cgu', 'pixOrgaTermsOfServiceAccepted',
         'pixCertifTermsOfServiceAccepted', 'memberships',
         'certificationCenterMemberships', 'pixScore', 'scorecards',
         'campaignParticipations', 'hasSeenAssessmentInstructions', 'certificationProfile',
