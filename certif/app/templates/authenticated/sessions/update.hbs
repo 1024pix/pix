@@ -1,3 +1,7 @@
 <div class="update-session-page">
-  <Routes::Authenticated::Sessions::UpdateItem @session={{model}} @updateSession={{action "updateSession"}} @cancel={{action "cancel"}} />
+  <Routes::Authenticated::Sessions::UpdateItem
+          @session={{this.model}}
+          @updateSession={{this.updateSession}}
+          @cancel={{this.cancel}}
+  />
 </div>
