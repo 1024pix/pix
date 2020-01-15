@@ -80,84 +80,225 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
     });
   });
 
-  describe('#checkIfAtLeastOneStudentHasAlreadyBeenImported', () => {
+  describe('#addOrUpdateOrganizationStudents', () => {
 
-    it('should not find any student if none match both organizationId and nationalStudentId', async () => {
-      // given
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-      databaseBuilder.factory.buildStudent({
-        organizationId: otherOrganizationId,
-        userId: null,
-        nationalStudentId: 'INE',
+    context('when there are only students to create', () => {
+      
+      let students;
+      let organizationId;
+      let student_1, student_2;
+
+      beforeEach(async () => {
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        await databaseBuilder.commit();
+  
+        student_1 = new Student({
+          firstName: 'Lucy',
+          lastName: 'Handmade',
+          birthdate: '1990-12-31',
+          nationalStudentId: 'INE1',
+          organizationId,
+        });
+  
+        student_2 = new Student({
+          firstName: 'Harry',
+          lastName: 'Covert',
+          birthdate: '1990-01-01',
+          nationalStudentId: 'INE2',
+          organizationId,
+        });
+        
+        students = [student_1, student_2];
       });
 
-      await databaseBuilder.commit();
-
-      // when
-      const result = await studentRepository.checkIfAtLeastOneStudentIsInOrganization({ nationalStudentIds: ['INE'], organizationId });
-
-      // then
-      expect(result).to.be.false;
-    });
-
-    it('should find at least a student matching with organizationId and nationalStudentId', async () => {
-      // given
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const student = databaseBuilder.factory.buildStudent({
-        organizationId,
-        userId: null,
-        nationalStudentId: 'BTDY53Y68',
-      });
-      databaseBuilder.factory.buildStudent({
-        organizationId,
-        userId: null,
-        nationalStudentId: '67482FBEH',
+      afterEach(() => {
+        return knex('students').delete();
       });
 
-      await databaseBuilder.commit();
-
-      // when
-      const result = await studentRepository.checkIfAtLeastOneStudentIsInOrganization({ nationalStudentIds: ['WRONG123', student.nationalStudentId], organizationId });
-
-      // then
-      expect(result).to.be.true;
-    });
-  });
-
-  describe('#batchSave', () => {
-
-    afterEach(() => {
-      return knex('students').delete();
+      it('should create all students', async function() {
+        // when
+        await studentRepository.addOrUpdateOrganizationStudents(students, organizationId);
+  
+        // then
+        const actualStudents = await knex('students').where({ organizationId });
+        expect(actualStudents).to.have.lengthOf(2);
+        expect(_.map(actualStudents, 'firstName')).to.have.members([student_1.firstName, student_2.firstName]);
+      });
     });
 
-    it('should save all students', async function() {
-      // given
-      const organization = databaseBuilder.factory.buildOrganization();
-      await databaseBuilder.commit();
+    context('when there are only students to update', () => {
+      let student_1;
+      let student_2;
+      let organizationId;
 
-      const student_1 = {
-        firstName: 'Lucy',
-        lastName: 'Handmade',
-        birthdate: '1990-12-31',
-        organizationId: organization.id
-      };
-      const student_2 = {
-        firstName: 'Harry',
-        lastName: 'Covert',
-        birthdate: '1990-01-01',
-        organizationId: organization.id
-      };
-      const studentsToSave = [student_1, student_2];
+      beforeEach(async () => {
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        student_1 = {
+          firstName: 'Lucy',
+          lastName: 'Handmade',
+          birthdate: '1990-12-31',
+          nationalStudentId: 'INE1',
+          organizationId,
+        };
+        student_2 = {
+          firstName: 'Harry',
+          lastName: 'Covert',
+          birthdate: '1990-01-01',
+          nationalStudentId: 'INE2',
+          organizationId,
+        };
+        _.each([student_1, student_2], (student) => databaseBuilder.factory.buildStudent(student));
 
-      // when
-      await studentRepository.batchSave(studentsToSave);
+        await databaseBuilder.commit();
+      });
 
-      // then
-      const students = await knex('students').where({ organizationId: organization.id });
-      expect(students).to.have.lengthOf(2);
-      expect(_.map(students, 'firstName')).to.have.members([student_1.firstName, student_2.firstName]);
+      context('when a student is already imported', async function() {
+
+        let student_1_updated, student_2_updated;
+        let students;
+
+        beforeEach(() => {
+          // given
+          student_1_updated = new Student({
+            firstName: 'Lili',
+            lastName: student_1.lastName,
+            birthdate: student_1.birthdate,
+            nationalStudentId: student_1.nationalStudentId,
+            organizationId,
+          });
+          student_2_updated = new Student({
+            firstName: 'Mimi',
+            lastName: student_2.lastName,
+            birthdate: student_2.birthdate,
+            nationalStudentId: student_2.nationalStudentId,
+            organizationId,
+          });
+
+          students = [student_1_updated, student_2_updated];
+        });
+
+        it('should update students attributes', async () => {
+          // when
+          await studentRepository.addOrUpdateOrganizationStudents(students, organizationId);
+  
+          // then
+          const updated_organization_students = await knex('students').where({ organizationId });
+  
+          expect(updated_organization_students).to.have.lengthOf(2);
+          expect(_.find(updated_organization_students, { 'nationalStudentId': student_1.nationalStudentId }).firstName).to.equal('Lili');
+          expect(_.find(updated_organization_students, { 'nationalStudentId': student_2.nationalStudentId }).firstName).to.equal('Mimi');
+        });
+      });
+
+      context('when a student is already imported in several organizations', async () => {
+
+        let student_1_updated;
+        let student_2_updated;
+        let student_1_bis;
+        let otherOrganizationId;
+        let students;
+  
+        beforeEach(async () => {
+          otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+          student_1_bis = databaseBuilder.factory.buildStudent({
+            firstName: 'Lucie',
+            lastName: 'Handmad',
+            birthdate: '1990-12-31',
+            nationalStudentId: student_1.nationalStudentId,
+            organizationId: otherOrganizationId,
+          });
+  
+          await databaseBuilder.commit();
+  
+          student_1_updated = new Student({
+            firstName: 'Lili',
+            lastName: student_1.lastName,
+            birthdate: student_1.birthdate,
+            nationalStudentId: student_1.nationalStudentId,
+            organizationId,
+          });
+          student_2_updated = new Student({
+            firstName: 'Mimi',
+            lastName: student_2.lastName,
+            birthdate: student_2.birthdate,
+            nationalStudentId: student_2.nationalStudentId,
+            organizationId,
+          });
+
+          students = [student_1_updated, student_2_updated];
+        });
+  
+        it('should update the student only in the organization that imports the file', async () => {
+          // when
+          await studentRepository.addOrUpdateOrganizationStudents(students, organizationId);
+  
+          // then
+          const updated_organization_students = await knex('students').where({ organizationId });
+  
+          expect(updated_organization_students).to.have.lengthOf(2);
+          expect(_.find(updated_organization_students, { 'nationalStudentId': student_1.nationalStudentId }).firstName).to.equal(student_1_updated.firstName);
+          expect(_.find(updated_organization_students, { 'nationalStudentId': student_2.nationalStudentId }).firstName).to.equal(student_2_updated.firstName);
+  
+          const not_updated_organization_students = await knex('students').where({ organizationId: otherOrganizationId });
+  
+          expect(not_updated_organization_students).to.have.lengthOf(1);
+          expect(not_updated_organization_students[0].firstName).to.equal(student_1_bis.firstName);
+        });
+      });
+  
     });
+
+    context('when there are students to create and students to update', () => {
+
+      let students;
+      let organizationId;
+      let studentToCreate, studentUpdated;
+
+      beforeEach(async () => {
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildStudent({
+          firstName: 'Lucy',
+          lastName: 'Handmade',
+          birthdate: '1990-12-31',
+          nationalStudentId: 'INE1',
+          organizationId,
+        });
+        await databaseBuilder.commit();
+
+        studentUpdated = new Student({
+          firstName: 'Lucy',
+          lastName: 'Handmade',
+          birthdate: '1990-12-31',
+          nationalStudentId: 'INE1',
+          organizationId,
+        });
+
+        studentToCreate = new Student({
+          firstName: 'Harry',
+          lastName: 'Covert',
+          birthdate: '1990-01-01',
+          nationalStudentId: 'INE2',
+          organizationId,
+        });
+
+        students = [studentUpdated, studentToCreate];
+      });
+
+      afterEach(() => {
+        return knex('students').delete();
+      });
+
+      it('should update and create all students', async function() {
+        // when
+        await studentRepository.addOrUpdateOrganizationStudents(students, organizationId);
+
+        // then
+        const actualStudents = await knex('students').where({ organizationId });
+        expect(actualStudents).to.have.lengthOf(2);
+        expect(_.map(actualStudents, 'firstName')).to.have.members([studentUpdated.firstName, studentToCreate.firstName]);
+      });
+    });
+
   });
 
   describe('#findNotLinkedYetByOrganizationIdAndUserBirthdate', () => {

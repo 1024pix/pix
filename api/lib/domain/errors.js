@@ -40,6 +40,12 @@ class AlreadySharedCampaignParticipationError extends DomainError {
   }
 }
 
+class StudentsCouldNotBeSavedError extends DomainError {
+  constructor(message = 'Une erreur est survenue durant le traitement. Veuillez réessayer ou contacter le support via l\'adresse support@pix.fr') {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToCreateCampaignError extends DomainError {
   constructor(message = 'Cet utilisateur n\'est pas autorisé à créer une campagne.') {
     super(message);
@@ -259,12 +265,6 @@ class FileValidationError extends DomainError {
   }
 }
 
-class ObjectAlreadyExisting extends DomainError {
-  constructor(message = 'La ressource existe déjà.') {
-    super(message);
-  }
-}
-
 class PasswordNotMatching extends DomainError {
   constructor(message = 'Mauvais mot de passe.') {
     super(message);
@@ -375,6 +375,7 @@ module.exports = {
   AlreadySharedCampaignParticipationError,
   AssessmentEndedError,
   AssessmentNotCompletedError,
+  StudentsCouldNotBeSavedError,
   CampaignCodeError,
   CampaignWithoutOrganizationError,
   CertificationCandidateAlreadyLinkedToUserError,
@@ -400,7 +401,6 @@ module.exports = {
   MembershipUpdateError,
   MissingOrInvalidCredentialsError,
   NotFoundError,
-  ObjectAlreadyExisting,
   ObjectValidationError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,

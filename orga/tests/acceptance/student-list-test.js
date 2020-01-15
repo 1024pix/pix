@@ -150,19 +150,19 @@ module('Acceptance | Student List', function(hooks) {
           assert.dom('[data-test-notification-message="error"]').hasText('422 - Le détail affiché est envoyé par le back');
         });
 
-        test('it should display a warning message when uploading an invalid file', async function(assert) {
+        test('it should display an error message when uploading a file with students informations problems', async function(assert) {
           // given
           await visit('/eleves');
 
-          const file = new Blob(['foo'], { type: 'already-imported-file' });
+          const file = new Blob(['foo'], { type: 'file-with-students-info-problems' });
 
           // when
           const input = find('#students-file-upload');
           await triggerEvent(input, 'change', { files: [file] });
 
           // then
-          assert.dom('[data-test-notification-message="warning"]').exists();
-          assert.dom('[data-test-notification-message="warning"]').hasText('409 - Le détail affiché est envoyé par le back');
+          assert.dom('[data-test-notification-message="error"]').exists();
+          assert.dom('[data-test-notification-message="error"]').hasText('409 - Le détail affiché est envoyé par le back');
         });
 
         test('it should display an error message when something unexpected went wrong on the server', async function(assert) {

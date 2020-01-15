@@ -1,58 +1,92 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const importStudentsFromSIECLE = require('../../../../lib/domain/usecases/import-students-from-siecle');
-const { FileValidationError, ObjectAlreadyExisting } = require('../../../../lib/domain/errors');
+const { FileValidationError, StudentsCouldNotBeSavedError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | import-students-from-siecle', () => {
 
   let organizationId;
   let buffer;
-  let expectedResult;
   let studentsXmlServiceStub;
   let studentRepositoryStub;
 
   beforeEach(() => {
     organizationId = 1234;
     buffer = null;
-    expectedResult = Symbol('batch save result');
     studentsXmlServiceStub = { extractStudentsInformationFromSIECLE: sinon.stub() };
-    studentRepositoryStub = { batchSave: sinon.stub(), checkIfAtLeastOneStudentIsInOrganization: sinon.stub().throws('unexpected call') };
+    studentRepositoryStub = { addOrUpdateOrganizationStudents: sinon.stub(), findByOrganizationId: sinon.stub() };
   });
 
-  it('should succeed', async () => {
-    // given
-    studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([ { lastName: 'Student1', nationalStudentId: 'INE1' }, { lastName: 'Student2', nationalStudentId: 'INE2' } ]);
-    studentRepositoryStub.checkIfAtLeastOneStudentIsInOrganization.withArgs({ nationalStudentIds: [ 'INE1', 'INE2' ], organizationId }).resolves(false);
-    studentRepositoryStub.batchSave.resolves(expectedResult);
+  context('when extracted students informations can be imported', () => {
 
-    // when
-    const result = await importStudentsFromSIECLE({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
+    it('should save these informations', async () => {
 
-    // then
-    expect(studentsXmlServiceStub.extractStudentsInformationFromSIECLE).to.have.been.calledWith(buffer);
-    expect(studentRepositoryStub.batchSave).to.have.been.calledWith([ { lastName: 'Student1', nationalStudentId: 'INE1', organizationId }, { lastName: 'Student2', nationalStudentId: 'INE2', organizationId } ]);
-    expect(result).to.equal(expectedResult);
+      // given
+      const extractedStudentsInformations = [
+        { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' },
+        { lastName: 'UpdatedStudent2', nationalStudentId: 'INE2' },
+        { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
+      ];
+      studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns(extractedStudentsInformations);
+
+      const studentsToUpdate = [
+        { lastName: 'Student1', nationalStudentId: 'INE1' },
+        { lastName: 'Student2', nationalStudentId: 'INE2' }
+      ];
+      studentRepositoryStub.findByOrganizationId.resolves(studentsToUpdate);
+
+      // when
+      await importStudentsFromSIECLE({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
+
+      // then
+      const students = [
+        { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' },
+        { lastName: 'UpdatedStudent2', nationalStudentId: 'INE2' },
+        { lastName: 'StudentToCreate', nationalStudentId: 'INE3' }
+      ];
+
+      expect(studentsXmlServiceStub.extractStudentsInformationFromSIECLE).to.have.been.calledWith(buffer);
+      expect(studentRepositoryStub.addOrUpdateOrganizationStudents).to.have.been.calledWith(students, organizationId);
+      expect(studentRepositoryStub.addOrUpdateOrganizationStudents).to.not.throw();
+    });
   });
 
-  it('should throw a FileValidationError when file is not valid', async () => {
-    // given
-    studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([]);
+  context('when the import fails', () => {
 
-    // when
-    const result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
+    let result;
 
-    // then
-    expect(result).to.be.instanceOf(FileValidationError);
-  });
+    context('because the file is not valid', () => {
+      beforeEach(() => {
+        // given
+        studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([]);
+      });
 
-  it('should throw a ObjectAlreadyExisting when a student is already imported in the same organization', async () => {
-    // given
-    studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns([ { lastName: 'Student1', nationalStudentId: 'INE1' }, { lastName: 'Student2', nationalStudentId: 'INE2' } ]);
-    studentRepositoryStub.checkIfAtLeastOneStudentIsInOrganization.withArgs({ nationalStudentIds: [ 'INE1', 'INE2' ], organizationId }).resolves(true);
+      it('should throw a FileValidationError', async () => {
+        // when
+        const result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
 
-    // when
-    const result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
+        // then
+        expect(result).to.be.instanceOf(FileValidationError);
+      });
+    });
 
-    // then
-    expect(result).to.be.instanceOf(ObjectAlreadyExisting);
+    context('because informations cannot be saved', () => {
+      beforeEach(async () => {
+        // given
+        const extractedStudentsInformations = [
+          { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1', organizationId },
+        ];
+        studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns(extractedStudentsInformations);
+        studentRepositoryStub.findByOrganizationId.resolves();
+        studentRepositoryStub.addOrUpdateOrganizationStudents.rejects();
+      });
+
+      it('should throw a StudentsCouldNotBeSavedError', async () => {
+        // when
+        result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
+
+        // then
+        expect(result).to.be.instanceOf(StudentsCouldNotBeSavedError);
+      });
+    });
   });
 });

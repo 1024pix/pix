@@ -1,20 +1,16 @@
-const { FileValidationError, ObjectAlreadyExisting } = require('../errors');
+const { FileValidationError, StudentsCouldNotBeSavedError } = require('../errors');
 const _ = require('lodash');
 
 module.exports = async function importStudentsFromSIECLE({ organizationId, buffer, studentsXmlService, studentRepository }) {
-  const students = studentsXmlService.extractStudentsInformationFromSIECLE(buffer);
+  const studentDatas = studentsXmlService.extractStudentsInformationFromSIECLE(buffer);
 
-  if (_.isEmpty(students)) {
+  if (_.isEmpty(studentDatas)) {
     throw new FileValidationError('Aucun élève n\'a pu être importé depuis ce fichier. Vérifiez sa conformité.');
   }
 
-  const nationalStudentIds = students.map((student) => student.nationalStudentId);
-
-  if (await studentRepository.checkIfAtLeastOneStudentIsInOrganization({ nationalStudentIds, organizationId })) {
-    throw new ObjectAlreadyExisting('La mise à jour de la liste n\'a pas été réalisée. Le fichier contient des élèves déjà importés.');
+  try {
+    await studentRepository.addOrUpdateOrganizationStudents(studentDatas, organizationId);
+  } catch (err) {
+    throw new StudentsCouldNotBeSavedError();
   }
-
-  const studentsWithOrganizationId = students.map((student) => ({ ...student, organizationId }));
-
-  return studentRepository.batchSave(studentsWithOrganizationId);
 };
