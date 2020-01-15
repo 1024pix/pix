@@ -2,7 +2,7 @@ const { sinon, expect } = require('../../../test-helper');
 const mailJet = require('../../../../lib/infrastructure/mailjet');
 const sendinblue = require('../../../../lib/infrastructure/sendinblue');
 const mailService = require('../../../../lib/domain/services/mail-service');
-const mailerConfig = require('../../../../lib/config').mailer_service;
+const { mailer_service } = require('../../../../lib/config');
 
 describe('Unit | Service | MailService', () => {
 
@@ -10,12 +10,11 @@ describe('Unit | Service | MailService', () => {
 
     context('with mailjet', () => {
 
-      let sendEmailStub;
+      let mailJetSendEmailStub;
 
       beforeEach(() => {
-        sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
-        mailerConfig.enabled = true;
-        mailerConfig.provider = 'mailJet';
+        sinon.stub(mailer_service, 'provider').value('mailjet');
+        mailJetSendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
       });
 
       it('should use mailJet to send an email', () => {
@@ -27,7 +26,7 @@ describe('Unit | Service | MailService', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledWith(sendEmailStub, {
+          sinon.assert.calledWith(mailJetSendEmailStub, {
             to: email,
             template: 'test-account-creation-template-id',
             from: 'ne-pas-repondre@pix.fr',
@@ -40,12 +39,11 @@ describe('Unit | Service | MailService', () => {
 
     context('with sendinblue', () => {
 
-      let sendEmailStub;
+      let sendinblueSendEmailStub;
 
       beforeEach(() => {
-        sendEmailStub = sinon.stub(sendinblue, 'sendEmail').resolves();
-        mailerConfig.enabled = true;
-        mailerConfig.provider = 'sendinBlue';
+        sinon.stub(mailer_service, 'provider').value('sendinblue');
+        sendinblueSendEmailStub = sinon.stub(sendinblue, 'sendEmail').resolves();
       });
 
       it('should use mailJet to send an email', () => {
@@ -57,7 +55,7 @@ describe('Unit | Service | MailService', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledWith(sendEmailStub, {
+          sinon.assert.calledWith(sendinblueSendEmailStub, {
             to: email,
             template: 'test-account-creation-template-id',
             from: 'ne-pas-repondre@pix.fr',
@@ -71,38 +69,73 @@ describe('Unit | Service | MailService', () => {
 
   describe('#sendResetPasswordDemandEmail', () => {
 
-    let sendEmailStub;
+    context('with mailjet', () => {
 
-    beforeEach(() => {
-      sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
+      let mailJetSendEmailStub;
+
+      beforeEach(() => {
+        sinon.stub(mailer_service, 'provider').value('mailjet');
+        mailJetSendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
+      });
+
+      describe('when provided passwordResetDemandBaseUrl is not production', () => {
+        it('should call Mailjet with a sub-domain prefix', () => {
+          // given
+          const email = 'text@example.net';
+          const fakeTemporaryKey = 'token';
+          const passwordResetDemandBaseUrl = 'http://dev.pix.fr';
+
+          // when
+          const promise = mailService.sendResetPasswordDemandEmail(email, passwordResetDemandBaseUrl, fakeTemporaryKey);
+
+          // then
+          return promise.then(() => {
+            sinon.assert.calledWith(mailJetSendEmailStub, {
+              to: email,
+              template: 'test-password-reset-template-id',
+              from: 'ne-pas-repondre@pix.fr',
+              fromName: 'PIX - Ne pas répondre',
+              subject: 'Demande de réinitialisation de mot de passe PIX',
+              variables: {
+                resetUrl: `${passwordResetDemandBaseUrl}/changer-mot-de-passe/${fakeTemporaryKey}`
+              }
+            });
+          });
+        });
+      });
     });
 
-    it('should be a function', () => {
-      // then
-      expect(mailService.sendResetPasswordDemandEmail).to.be.a('function');
-    });
+    context('with sendinblue', () => {
 
-    describe('when provided passwordResetDemandBaseUrl is not production', () => {
-      it('should call Mailjet with a sub-domain prefix', () => {
-        // given
-        const email = 'text@example.net';
-        const fakeTemporaryKey = 'token';
-        const passwordResetDemandBaseUrl = 'http://dev.pix.fr';
+      let sendinblueSendEmailStub;
 
-        // when
-        const promise = mailService.sendResetPasswordDemandEmail(email, passwordResetDemandBaseUrl, fakeTemporaryKey);
+      beforeEach(() => {
+        sinon.stub(mailer_service, 'provider').value('sendinblue');
+        sendinblueSendEmailStub = sinon.stub(sendinblue, 'sendEmail').resolves();
+      });
 
-        // then
-        return promise.then(() => {
-          sinon.assert.calledWith(sendEmailStub, {
-            to: email,
-            template: 'test-password-reset-template-id',
-            from: 'ne-pas-repondre@pix.fr',
-            fromName: 'PIX - Ne pas répondre',
-            subject: 'Demande de réinitialisation de mot de passe PIX',
-            variables: {
-              resetUrl: `${passwordResetDemandBaseUrl}/changer-mot-de-passe/${fakeTemporaryKey}`
-            }
+      describe('when provided passwordResetDemandBaseUrl is not production', () => {
+        it('should call Sendinblue with a sub-domain prefix', () => {
+          // given
+          const email = 'text@example.net';
+          const fakeTemporaryKey = 'token';
+          const passwordResetDemandBaseUrl = 'http://dev.pix.fr';
+
+          // when
+          const promise = mailService.sendResetPasswordDemandEmail(email, passwordResetDemandBaseUrl, fakeTemporaryKey);
+
+          // then
+          return promise.then(() => {
+            sinon.assert.calledWith(sendinblueSendEmailStub, {
+              to: email,
+              template: 'test-password-reset-template-id',
+              from: 'ne-pas-repondre@pix.fr',
+              fromName: 'PIX - Ne pas répondre',
+              subject: 'Demande de réinitialisation de mot de passe PIX',
+              variables: {
+                resetUrl: `${passwordResetDemandBaseUrl}/changer-mot-de-passe/${fakeTemporaryKey}`
+              }
+            });
           });
         });
       });
@@ -111,43 +144,78 @@ describe('Unit | Service | MailService', () => {
 
   describe('#sendOrganizationInvitationEmail', () => {
 
-    let sendEmailStub;
+    context('with mailjet', () => {
 
-    beforeEach(() => {
-      sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
-    });
+      let mailJetSendEmailStub;
 
-    it('should be a function', () => {
-      // then
-      expect(mailService.sendOrganizationInvitationEmail).to.be.a('function');
-    });
-
-    it('should call Mailjet with pix-orga url, organization-invitation id and code', async () => {
-      // given
-      const email = 'user@organization.org';
-      const organizationName = 'Organization Name';
-      const pixOrgaBaseUrl = 'http://dev.pix-orga.fr';
-      const organizationInvitationId = 1;
-      const code = 'ABCDEFGH01';
-
-      // when
-      await mailService.sendOrganizationInvitationEmail({
-        email, organizationName, organizationInvitationId, code
+      beforeEach(() => {
+        sinon.stub(mailer_service, 'provider').value('mailjet');
+        mailJetSendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
       });
 
-      // then
-      sinon.assert.calledWith(sendEmailStub, {
-        to: email,
-        template: 'test-organization-invitation-demand-template-id',
-        from: 'ne-pas-repondre@pix.fr',
-        fromName: 'Pix Orga - Ne pas répondre',
-        subject: 'Invitation à rejoindre Pix Orga',
-        variables: {
-          organizationName,
-          responseUrl: `${pixOrgaBaseUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
-        }
+      it('should call Mailjet with pix-orga url, organization-invitation id and code', async () => {
+        // given
+        const email = 'user@organization.org';
+        const organizationName = 'Organization Name';
+        const pixOrgaBaseUrl = 'http://dev.pix-orga.fr';
+        const organizationInvitationId = 1;
+        const code = 'ABCDEFGH01';
+
+        // when
+        await mailService.sendOrganizationInvitationEmail({
+          email, organizationName, organizationInvitationId, code
+        });
+
+        // then
+        sinon.assert.calledWith(mailJetSendEmailStub, {
+          to: email,
+          template: 'test-organization-invitation-demand-template-id',
+          from: 'ne-pas-repondre@pix.fr',
+          fromName: 'Pix Orga - Ne pas répondre',
+          subject: 'Invitation à rejoindre Pix Orga',
+          variables: {
+            organizationName,
+            responseUrl: `${pixOrgaBaseUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
+          }
+        });
+      });
+    });
+
+    context('with sendinblue', () => {
+
+      let sendinblueSendEmailStub;
+
+      beforeEach(() => {
+        sinon.stub(mailer_service, 'provider').value('sendinblue');
+        sendinblueSendEmailStub = sinon.stub(sendinblue, 'sendEmail').resolves();
+      });
+
+      it('should call Mailjet with pix-orga url, organization-invitation id and code', async () => {
+        // given
+        const email = 'user@organization.org';
+        const organizationName = 'Organization Name';
+        const pixOrgaBaseUrl = 'http://dev.pix-orga.fr';
+        const organizationInvitationId = 1;
+        const code = 'ABCDEFGH01';
+
+        // when
+        await mailService.sendOrganizationInvitationEmail({
+          email, organizationName, organizationInvitationId, code
+        });
+
+        // then
+        sinon.assert.calledWith(sendinblueSendEmailStub, {
+          to: email,
+          template: 'test-organization-invitation-demand-template-id',
+          from: 'ne-pas-repondre@pix.fr',
+          fromName: 'Pix Orga - Ne pas répondre',
+          subject: 'Invitation à rejoindre Pix Orga',
+          variables: {
+            organizationName,
+            responseUrl: `${pixOrgaBaseUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
+          }
+        });
       });
     });
   });
-
 });
