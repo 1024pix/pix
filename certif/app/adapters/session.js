@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default ApplicationAdapter.extend({
+export default class SessionAdapter extends ApplicationAdapter {
 
   finalize(model) {
     const url = `${this.buildURL('session', model.id)}/finalization`;
@@ -23,6 +23,5 @@ export default ApplicationAdapter.extend({
         },
       },
     });
-  },
-
-});
+  }
+}

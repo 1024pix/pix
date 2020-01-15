@@ -33,4 +33,26 @@ module('Unit | Adapters | user', function(hooks) {
       assert.equal(url.endsWith('/users/123/pix-certif-terms-of-service-acceptance'), true);
     });
   });
+
+  module('#urlForQueryRecord', function() {
+
+    test('it should build query url normally', async function(assert) {
+      // when
+      const query = {};
+      const url = await adapter.urlForQueryRecord(query, 'user');
+
+      // then
+      assert.equal(url.endsWith('/users'), true);
+    });
+
+    test('it should build query URL with suffix /me', async function(assert) {
+      // when
+      const query = { me: 'anything' };
+      const url = await adapter.urlForQueryRecord(query, 'user');
+
+      // then
+      assert.equal(url.endsWith('/users/me'), true);
+    });
+
+  });
 });
