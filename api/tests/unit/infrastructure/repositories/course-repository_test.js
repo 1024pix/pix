@@ -34,7 +34,7 @@ describe('Unit | Repository | course-repository', function() {
         expect(course.type).to.equal('PLACEMENT');
         expect(course.description).to.equal('course-description');
         expect(course.imageUrl).to.equal('http://example.org/course.png');
-        expect(course.challenges).to.deep.equal(['recChallenge2', 'recChallenge1']);
+        expect(course.challenges).to.deep.equal(['recChallenge1', 'recChallenge2']);
         expect(course.competences).to.deep.equal(['recCompetence']);
       });
     });

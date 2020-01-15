@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const datasource = require('./datasource');
 
 module.exports = datasource.extend({
@@ -27,7 +28,7 @@ module.exports = datasource.extend({
       description: airtableRecord.get('Description'),
       adaptive: airtableRecord.get('Adaptatif ?'),
       competences: airtableRecord.get('Competence'),
-      challenges: airtableRecord.get('Épreuves'),
+      challenges: _.reverse(airtableRecord.get('Épreuves')),
       status: airtableRecord.get('Statut'),
       imageUrl,
     };

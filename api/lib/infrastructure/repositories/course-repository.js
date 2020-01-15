@@ -1,6 +1,5 @@
 const Course = require('../../domain/models/Course');
 const courseDatasource = require('../datasources/airtable/course-datasource');
-const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(courseDataObject) {
@@ -10,7 +9,7 @@ function _toDomain(courseDataObject) {
     name: courseDataObject.name,
     description: courseDataObject.description,
     imageUrl: courseDataObject.imageUrl,
-    challenges: _.reverse(courseDataObject.challenges),
+    challenges: courseDataObject.challenges,
     competences: courseDataObject.competences,
   });
 }
