@@ -1,6 +1,11 @@
 import Controller from '@ember/controller';
 import config from '../../../../config/environment';
 
-export default Controller.extend({
-  isSessionFinalizationActive: config.APP.isSessionFinalizationActive,
-});
+export default class AuthenticatedSessionsDetailsParametersController extends Controller {
+
+  constructor() {
+    super(...arguments);
+
+    this.isSessionFinalizationActive = config.APP.isSessionFinalizationActive;
+  }
+}

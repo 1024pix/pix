@@ -6,8 +6,15 @@ import config from '../../../config/environment';
 
 export default class AuthenticatedSessionsFinalizeController extends Controller {
   @service notifications;
-  @tracked isLoading = false;
-  @tracked showConfirmModal = false;
+  @tracked isLoading;
+  @tracked showConfirmModal;
+
+  constructor() {
+    super(...arguments);
+
+    this.isLoading = false;
+    this.showConfirmModal = false;
+  }
 
   showErrorNotification(message) {
     const { autoClear, clearDuration } = config.notifications;

@@ -1,14 +1,13 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-export default Controller.extend({
+export default class AuthenticatedTermsOfServiceController extends Controller {
+  @service currentUser;
 
-  currentUser: service(),
-
-  actions: {
-    async submit() {
-      await this.currentUser.user.save({ adapterOptions: { acceptPixCertifTermsOfService: true } });
-      return this.transitionToRoute('authenticated.sessions.list');
-    }
+  @action
+  async submit() {
+    await this.currentUser.user.save({ adapterOptions: { acceptPixCertifTermsOfService: true } });
+    return this.transitionToRoute('authenticated.sessions.list');
   }
-});
+}
