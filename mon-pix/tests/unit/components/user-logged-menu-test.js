@@ -81,4 +81,60 @@ describe('Unit | Component | User logged Menu', function() {
       expect(result).to.be.true;
     });
   });
+
+  describe('displayedIdentifier', function() {
+
+    it('should return user\'s email if not undefined', function() {
+      // given
+      const component = this.owner.lookup('component:user-logged-menu');
+      component.set('currentUser', Service.create({
+        user: {
+          email: 'email@example.net'
+        }
+      }));
+
+      // then
+      expect(component.get('displayedIdentifier')).to.equal('email@example.net');
+    });
+
+    it('should return user\'s username if not undefined and no email defined', function() {
+      // given
+      const component = this.owner.lookup('component:user-logged-menu');
+      component.set('currentUser', Service.create({
+        user: {
+          username: 'my username'
+        }
+      }));
+
+      // then
+      expect(component.get('displayedIdentifier')).to.equal('my username');
+    });
+
+    it('should return user\'s email if email and username are defined', function() {
+      // given
+      const component = this.owner.lookup('component:user-logged-menu');
+      component.set('currentUser', Service.create({
+        user: {
+          email: 'email@example.net',
+          username: 'my username'
+        }
+      }));
+
+      // then
+      expect(component.get('displayedIdentifier')).to.equal('email@example.net');
+    });
+
+    it('should return undefined if no email or username are defined', function() {
+      // given
+      const component = this.owner.lookup('component:user-logged-menu');
+      component.set('currentUser', Service.create({
+        user: {
+
+        }
+      }));
+
+      // then
+      expect(component.get('displayedIdentifier')).to.equal(undefined);
+    });
+  });
 });
