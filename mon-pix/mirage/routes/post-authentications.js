@@ -46,17 +46,17 @@ const badUser = {
 
 export default function(schema, request) {
   const params = parseQueryString(request.requestBody);
-  const { username:email, password, token } = params;
+  const { username: login, password, token } = params;
 
-  if (email === 'jane@acme.com' && password === 'Jane1234')  {
+  if (login === 'jane@acme.com' && password === 'Jane1234')  {
     return simpleUserAuthentication;
   }
 
-  if (email === 'john@acme.com' && password === 'John1234') {
+  if (login === 'john@acme.com' && password === 'John1234') {
     return prescriberAuthentication;
   }
 
-  if (email === 'tom@acme.com' && password === 'Tom12345') {
+  if ((login === 'tom@acme.com' || login === 'tom.acme1012') && password === 'Tom12345') {
     return newlyCreatedUserAuthentication;
   }
 

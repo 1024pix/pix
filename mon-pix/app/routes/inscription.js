@@ -24,9 +24,9 @@ export default Route.extend(UnauthenticatedRouteMixin, {
     },
 
     authenticateUser(credentials) {
-      const { email, password } = credentials;
+      const { login, password } = credentials;
       const scope = 'mon-pix';
-      return this.session.authenticate('authenticator:oauth2', { email, password, scope });
+      return this.session.authenticate('authenticator:oauth2', { login, password, scope });
     },
   }
 });

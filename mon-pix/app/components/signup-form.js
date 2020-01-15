@@ -143,7 +143,7 @@ export default Component.extend({
       this._trimNamesAndEmailOfUser();
 
       this.user.save().then(() => {
-        const credentials = { email: this.get('user.email'), password: this.get('user.password') };
+        const credentials = { login: this.get('user.email'), password: this.get('user.password') };
         this.authenticateUser(credentials);
         this.set('_tokenHasBeenUsed', true);
         this.set('user.password', null);

@@ -164,7 +164,7 @@ describe('Integration | Component | signup form', function() {
         // then
         return wait().then(() => {
           sinon.assert.calledOnce(authenticateUserStub);
-          sinon.assert.calledWith(authenticateUserStub, { email: 'toto@pix.fr', password: 'gipix2017' });
+          sinon.assert.calledWith(authenticateUserStub, { login: 'toto@pix.fr', password: 'gipix2017' });
           expect(user.password).to.be.null;
         });
       });

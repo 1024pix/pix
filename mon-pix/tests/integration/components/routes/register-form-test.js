@@ -23,7 +23,6 @@ describe('Integration | Component | routes/register-form', function() {
 
   beforeEach(function() {
     this.set('user', EmberObject.create({}));
-    this.set('loginWithUsername',false);
     sessionStub = Service.extend({});
     storeStub = Service.extend({});
     this.owner.register('service:session', sessionStub);
@@ -40,12 +39,14 @@ describe('Integration | Component | routes/register-form', function() {
   context('successful cases', function() {
 
     beforeEach(function() {
-      this.set('loginWithUsername',false);
       this.owner.unregister('service:store');
       this.owner.register('service:store', storeStub);
       storeStub.prototype.createRecord = () => {
         return EmberObject.create({
-          save() {
+          save(options) {
+            if (options && options.adapterOptions && options.adapterOptions.searchForMatchingStudent) {
+              return resolve({ username: 'pix.pix1010' });
+            }
             return resolve();
           },
           unloadRecord() {
@@ -53,19 +54,21 @@ describe('Integration | Component | routes/register-form', function() {
           }
         });
       };
-      sessionStub.prototype.authenticate = function(authenticator, { email, password, scope }) {
+      sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
         this.authenticator = authenticator;
-        this.email = email;
+        this.login = login;
         this.password = password;
         this.scope = scope;
         return resolve();
       };
     });
 
-    it.skip('should call authentication service with appropriate parameters, when all things are ok and form is submitted', async function() {
+    it('should call authentication service by email with appropriate parameters, when all things are ok and form is submitted', async function() {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
-      await render(hbs`{{routes/register-form}}`);
+      this.set('loginWithUsername', false);
+
+      await render(hbs`{{routes/register-form loginWithUsername=loginWithUsername}}`);
 
       await fillIn('#firstName', 'pix');
       await fillIn('#lastName', 'pix');
@@ -74,9 +77,6 @@ describe('Integration | Component | routes/register-form', function() {
       await fillIn('#yearOfBirth', '2010');
 
       await click('#submit-search');
-
-      this.set('loginWithUsername',false);
-      this.$('.pix-toggle__off').click();
 
       await fillIn('#email', 'shi@fu.me');
       await fillIn('#password', 'Mypassword1');
@@ -88,7 +88,36 @@ describe('Integration | Component | routes/register-form', function() {
       expect(find('.form-textfield__input--error')).to.not.exist;
       expect(find('.join-restricted-campaign__error')).to.not.exist;
       expect(sessionServiceObserver.authenticator).to.equal('authenticator:oauth2');
-      expect(sessionServiceObserver.email).to.equal('shi@fu.me');
+      expect(sessionServiceObserver.login).to.equal('shi@fu.me');
+      expect(sessionServiceObserver.password).to.equal('Mypassword1');
+      expect(sessionServiceObserver.scope).to.equal('mon-pix');
+    });
+
+    it('should call authentication service by username with appropriate parameters, when all things are ok and form is submitted', async function() {
+      // given
+      const sessionServiceObserver = this.owner.lookup('service:session');
+      this.set('loginWithUsername', true);
+
+      await render(hbs`{{routes/register-form loginWithUsername=loginWithUsername}}`);
+
+      await fillIn('#firstName', 'pix');
+      await fillIn('#lastName', 'pix');
+      await fillIn('#dayOfBirth', '10');
+      await fillIn('#monthOfBirth', '10');
+      await fillIn('#yearOfBirth', '2010');
+
+      await click('#submit-search');
+
+      await fillIn('#password', 'Mypassword1');
+
+      // when
+      await click('#submit-registration');
+
+      // then
+      expect(find('.form-textfield__input--error')).to.not.exist;
+      expect(find('.join-restricted-campaign__error')).to.not.exist;
+      expect(sessionServiceObserver.authenticator).to.equal('authenticator:oauth2');
+      expect(sessionServiceObserver.login).to.equal('pix.pix1010');
       expect(sessionServiceObserver.password).to.equal('Mypassword1');
       expect(sessionServiceObserver.scope).to.equal('mon-pix');
     });
@@ -199,8 +228,9 @@ describe('Integration | Component | routes/register-form', function() {
         this.set('matchingStudentFound', true);
         this.set('studentDependentUser', EmberObject.create({ email : stringFilledIn , unloadRecord() {return resolve();}  }));
         await render(hbs`{{routes/register-form matchingStudentFound=true studentDependentUser=studentDependentUser}}`);
-        this.$('.pix-toggle__off').click();
+
         // when
+        await click('.pix-toggle__off');
         await fillIn('#email', stringFilledIn);
         await triggerEvent('#email', 'blur');
 

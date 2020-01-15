@@ -72,7 +72,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
             });
 
-            it.skip('should redirect to landing page page when reconciliation and registration are done', async function() {
+            it('should redirect to landing page page when reconciliation and registration are done', async function() {
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 
@@ -86,9 +86,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               await fillIn('#yearOfBirth', '2000');
               await click('#submit-search');
 
-              await click('.pix-toggle__off');
-
-              await fillIn('#email', 'tom@acme.com');
+              await fillIn('#username', 'tom.acme1012');
               await fillIn('#password', 'Tom12345');
               await click('#submit-registration');
 
@@ -96,7 +94,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
             });
 
-            it.skip('should redirect to join restricted campaign page when connexion is done', async function() {
+            it('should redirect to join restricted campaign page when connexion is done', async function() {
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 
@@ -112,7 +110,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
             });
 
-            it.skip('should redirect to landing page when fields are filled in', async function() {
+            it('should redirect to landing page when fields are filled in', async function() {
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 
@@ -273,7 +271,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
             });
           });
 
-          context.skip('When campaign is restricted', function() {
+          context('When campaign is restricted', function() {
             beforeEach(async function() {
               await visitWithAbortedTransition('/campagnes/AZERTY4?participantExternalId=a73at01r3');
 

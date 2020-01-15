@@ -6,7 +6,7 @@ export default OAuth2PasswordGrant.extend({
   serverTokenEndpoint: `${ENV.APP.API_HOST}/api/token`,
   serverTokenRevocationEndpoint: `${ENV.APP.API_HOST}/api/revoke`,
 
-  authenticate({ email, password, scope, token }) {
+  authenticate({ login, password, scope, token }) {
     if (token) {
       const token_type = 'bearer';
       const user_id = this.extractDataFromToken(token).user_id;
@@ -18,7 +18,7 @@ export default OAuth2PasswordGrant.extend({
         source });
     }
 
-    return this._super(email, password, scope);
+    return this._super(login, password, scope);
   },
 
   extractDataFromToken(token) {
