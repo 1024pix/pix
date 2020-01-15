@@ -1,6 +1,9 @@
 <div class="session-list-page">
-  {{#if hasSession}}
-    <Routes::Authenticated::Sessions::ListItems @sessions={{model}} @goToDetails={{action "goToDetails"}} @isSessionFinalizationActive={{isSessionFinalizationActive}} />
+  {{#if this.hasSession}}
+    <Routes::Authenticated::Sessions::ListItems
+            @sessions={{this.model}}
+            @goToDetails={{this.goToDetails}}
+            @isSessionFinalizationActive={{this.isSessionFinalizationActive}} />
   {{else}}
     <Routes::Authenticated::Sessions::NoSessionPanel />
   {{/if}}

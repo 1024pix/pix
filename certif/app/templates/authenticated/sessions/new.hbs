@@ -1,3 +1,7 @@
 <div class="new-campaign-page">
-  <Routes::Authenticated::Sessions::NewItem @session={{model}} @createSession={{action "createSession"}} @cancel={{action "cancel"}} />
+  <Routes::Authenticated::Sessions::NewItem
+          @session={{this.model}}
+          @createSession={{this.createSession}}
+          @cancel={{this.cancel}}
+  />
 </div>
