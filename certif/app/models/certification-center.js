@@ -1,6 +1,8 @@
-import Model, { attr, hasMany } from '@ember-data/model';
+import DS from 'ember-data';
 
-export default Model.extend({
-  name: attr(),
-  sessions: hasMany('session')
-});
+const { Model, attr, hasMany } = DS;
+
+export default class CertificationCenter extends Model {
+  @attr('string') name;
+  @hasMany('session') sessions;
+}

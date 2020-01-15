@@ -39,10 +39,10 @@ module('Integration | Component | session-finalization-candidates-informations-s
   test('it renders', function(assert) {
     assert.dom(`[data-test-id="finalization-candidate-last-name_${candidateA.id}"]`).hasText(candidateA.lastName);
     assert.dom(`[data-test-id="finalization-candidate-first-name_${candidateA.id}"]`).hasText(candidateA.firstName);
-    assert.dom(`[data-test-id="finalization-candidate-certification-number_${candidateA.id}"]`).hasText(candidateA.certificationCourseIdReadable);
+    assert.dom(`[data-test-id="finalization-candidate-certification-number_${candidateA.id}"]`).hasText(candidateA.readableCertificationCourseId);
     assert.dom(`[data-test-id="finalization-candidate-last-name_${candidateB.id}"]`).hasText(candidateB.lastName);
     assert.dom(`[data-test-id="finalization-candidate-first-name_${candidateB.id}"]`).hasText(candidateB.firstName);
-    assert.dom(`[data-test-id="finalization-candidate-certification-number_${candidateB.id}"]`).hasText(candidateB.certificationCourseIdReadable);
+    assert.dom(`[data-test-id="finalization-candidate-certification-number_${candidateB.id}"]`).hasText(candidateB.readableCertificationCourseId);
   });
 
   test('it fills in the examinerComment', async function(assert) {
