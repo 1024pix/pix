@@ -178,10 +178,10 @@ export default Component.extend({
         return this._updateInputsStatus();
       }
 
-      if (this.loginWithEmail) {
-        await this._authenticate(this.get('studentDependentUser.email'), this.get('studentDependentUser.password'));
-      } else {
+      if (this.loginWithUsername) {
         await this._authenticate(this.get('studentDependentUser.username'), this.get('studentDependentUser.password'));
+      } else {
+        await this._authenticate(this.get('studentDependentUser.email'), this.get('studentDependentUser.password'));
       }
 
       this.set('studentDependentUser.password', null);
@@ -279,9 +279,9 @@ export default Component.extend({
     }
   },
 
-  _authenticate(email, password) {
+  _authenticate(login, password) {
     const scope = 'mon-pix';
-    return this.session.authenticate('authenticator:oauth2', { email, password, scope });
+    return this.session.authenticate('authenticator:oauth2', { login, password, scope });
   },
 
 });
