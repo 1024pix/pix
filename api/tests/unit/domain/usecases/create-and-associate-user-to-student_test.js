@@ -17,10 +17,6 @@ describe('Unit | UseCase | create-and-associate-user-to-student', () => {
   const organizationId = 1;
   const studentId = 1;
 
-  afterEach(() => {
-    sinon.restore();
-  });
-
   beforeEach(() => {
     campaignCode = 'ABCD12';
     userAttributes = {

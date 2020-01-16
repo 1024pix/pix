@@ -23,10 +23,6 @@ describe('Unit | UseCase | find-association-between-user-and-organization-studen
     studentReceivedStub = sinon.stub(studentRepository, 'findOneByUserIdAndOrganizationId').throws('unexpected call');
   });
 
-  afterEach(() => {
-    sinon.restore();
-  });
-
   describe('There is a student linked to the given userId', () => {
 
     it('should call findOneByUserIdAndOrganizationId', async () => {
