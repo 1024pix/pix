@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.103.0 (16/01/2020)
+
+- [#961](https://github.com/1024pix/pix/pull/961) [FEATURE] Afficher le nom d'utilisateur dans le menu utilisateur (PF-1022) 
+- [#967](https://github.com/1024pix/pix/pull/967) [FEATURE] Modification du lien de la page de résultat d'une démo d'évaluation (PF-1031)
+- [#936](https://github.com/1024pix/pix/pull/936) [FEATURE] Ré-import du fichier SIECLE (PO-219)
+- [#963](https://github.com/1024pix/pix/pull/963) [FEATURE] Amélioration du message de la page d'erreur (PF-1023)
+- [#933](https://github.com/1024pix/pix/pull/933) [FEATURE] Indiquer à l'utilisateur qu'il a déjà répondu (PF-749).
+
 ## v2.102.0 (13/01/2020)
 
 - [#955](https://github.com/1024pix/pix/pull/955) [TECH] Mettre à jour node en v12.14.1 et npm en v6.13.4 (LTS) (PF-1009).
