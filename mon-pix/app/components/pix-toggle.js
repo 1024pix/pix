@@ -25,8 +25,6 @@ export default Component.extend({
   },
 
   actions: {
-    onToggle: function() {
-
-    },
+    onToggle: () => {},
   }
 });
