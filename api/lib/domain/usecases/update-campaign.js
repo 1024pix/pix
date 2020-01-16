@@ -6,6 +6,7 @@ module.exports = async function updateCampaign(
     campaignId,
     title,
     customLandingPageText,
+    archivedAt,
     userRepository,
     campaignRepository,
   }) {
@@ -23,6 +24,7 @@ module.exports = async function updateCampaign(
 
   if (typeof title !== 'undefined') campaign.title = title;
   if (typeof customLandingPageText !== 'undefined') campaign.customLandingPageText = customLandingPageText;
+  if (typeof archivedAt !== 'undefined') campaign.archivedAt = archivedAt;
 
   await campaignRepository.update(campaign);
 

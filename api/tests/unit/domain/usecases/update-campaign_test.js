@@ -15,7 +15,8 @@ describe('Unit | UseCase | update-campaign', () => {
       id: 1,
       title: 'Old title',
       customLandingPageText: 'Old text',
-      organizationId: organizationId,
+      archivedAt: new Date('2019-03-01T23:04:05Z'),
+      organizationId,
     };
     userWithMembership = {
       id: 1,
@@ -42,6 +43,7 @@ describe('Unit | UseCase | update-campaign', () => {
         id: originalCampaign.id,
         title: 'New title',
         customLandingPageText: originalCampaign.customLandingPageText,
+        archivedAt: originalCampaign.archivedAt,
         organizationId,
       };
 
@@ -59,6 +61,7 @@ describe('Unit | UseCase | update-campaign', () => {
         expect(campaignRepository.update).to.have.been.calledWithExactly(updatedCampaign);
         expect(resultCampaign.title).to.equal(updatedCampaign.title);
         expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
+        expect(resultCampaign.archivedAt).to.equal(originalCampaign.archivedAt);
       });
     });
 
@@ -68,6 +71,7 @@ describe('Unit | UseCase | update-campaign', () => {
         id: originalCampaign.id,
         title: originalCampaign.title,
         customLandingPageText: 'New text',
+        archivedAt: originalCampaign.archivedAt,
         organizationId,
       };
 
@@ -85,6 +89,35 @@ describe('Unit | UseCase | update-campaign', () => {
         expect(campaignRepository.update).to.have.been.calledWithExactly(updatedCampaign);
         expect(resultCampaign.title).to.equal(originalCampaign.title);
         expect(resultCampaign.customLandingPageText).to.equal(updatedCampaign.customLandingPageText);
+        expect(resultCampaign.archivedAt).to.equal(originalCampaign.archivedAt);
+      });
+    });
+
+    it('should update the campaign archive date only', () => {
+      // given
+      const updatedCampaign = {
+        id: originalCampaign.id,
+        title: originalCampaign.title,
+        customLandingPageText: originalCampaign.customLandingPageText,
+        archivedAt: new Date('2019-03-01T23:04:05Z'),
+        organizationId,
+      };
+
+      // when
+      const promise = updateCampaign({
+        userId: userWithMembership.id,
+        campaignId: updatedCampaign.id,
+        archivedAt: updatedCampaign.archivedAt,
+        userRepository,
+        campaignRepository,
+      });
+
+      // then
+      return promise.then((resultCampaign) => {
+        expect(campaignRepository.update).to.have.been.calledWithExactly(updatedCampaign);
+        expect(resultCampaign.title).to.equal(originalCampaign.title);
+        expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
+        expect(resultCampaign.archivedAt).to.equal(updatedCampaign.archivedAt);
       });
     });
   });

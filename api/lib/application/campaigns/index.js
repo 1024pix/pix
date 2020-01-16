@@ -2,7 +2,6 @@ const campaignController = require('./campaign-controller');
 
 exports.register = async function(server) {
   server.route([
-
     {
       method: 'POST',
       path: '/api/campaigns',
@@ -85,12 +84,33 @@ exports.register = async function(server) {
         handler: campaignController.getCollectiveResult,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération d\'une campaign-collective-result par l\'id de campagne',
+          '- Récupération des résultats collectifs de la campagne par son id',
         ],
         tags: ['api', 'campaign']
       }
     },
-
+    {
+      method: 'PUT',
+      path: '/api/campaigns/{id}/archive',
+      config: {
+        handler: campaignController.archiveCampaign,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Archivage d\'une campagne son id',
+        ],
+      }
+    },
+    {
+      method: 'DELETE',
+      path: '/api/campaigns/{id}/archive',
+      config: {
+        handler: campaignController.unarchiveCampaign,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Désarchivage d\'une campagne son id',
+        ],
+      }
+    }
   ]);
 };
 

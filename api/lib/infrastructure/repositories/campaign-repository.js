@@ -18,7 +18,8 @@ function _toDomain(bookshelfCampaign) {
     'targetProfileId',
     'customLandingPageText',
     'idPixLabel',
-    'title'
+    'title',
+    'archivedAt',
   ]));
 }
 
@@ -35,7 +36,8 @@ function _fromBookshelfCampaignWithReportDataToDomain(campaignWithReportData) {
     'targetProfileId',
     'customLandingPageText',
     'idPixLabel',
-    'title'
+    'title',
+    'archivedAt',
   ]);
 
   campaignWithReport.campaignReport = new CampaignReport({
@@ -107,7 +109,7 @@ module.exports = {
   },
 
   save(domainCampaign) {
-    const repositoryCampaign = _.omit(domainCampaign, ['createdAt', 'organizationLogoUrl', 'organizationName', 'targetProfile', 'campaignReport', 'campaignCollectiveResult', 'isRestricted', 'creator']);
+    const repositoryCampaign = _.omit(domainCampaign, ['createdAt', 'archivedAt', 'organizationLogoUrl', 'organizationName', 'targetProfile', 'campaignReport', 'campaignCollectiveResult', 'isRestricted', 'creator' ]);
     return new BookshelfCampaign(repositoryCampaign)
       .save()
       .then(_toDomain);
@@ -115,7 +117,7 @@ module.exports = {
 
   update(campaign) {
 
-    const campaignRawData = _.pick(campaign, ['title', 'customLandingPageText']);
+    const campaignRawData = _.pick(campaign, ['title', 'customLandingPageText', 'archivedAt']);
 
     return new BookshelfCampaign({ id: campaign.id })
       .save(campaignRawData, { patch: true })
