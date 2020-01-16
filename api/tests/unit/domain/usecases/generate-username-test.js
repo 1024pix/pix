@@ -18,7 +18,7 @@ describe('Unit | UseCase | generate-username', () => {
   });
 
   beforeEach(() => {
-    campaignCode = 'ABCD12';
+    campaignCode = 'RESTRICTD';
 
     user = {
       id: 1,
