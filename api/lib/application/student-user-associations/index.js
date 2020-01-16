@@ -85,7 +85,7 @@ exports.register = async function(server) {
         },
         notes: [
           '- Elle permet de savoir si un élève identifié par son nom, prénom et date de naissance est présent au sein ' +
-          'de l\'organisation détenant la campagne et qui n\'est pas encore associé.'
+          'de l\'organisation détenant la campagne. Cet élève n\'est, de plus, pas encore associé à l\'organisation.'
         ],
         tags: ['api', 'studentUserAssociation']
       }
