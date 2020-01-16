@@ -22,7 +22,7 @@ describe('Unit | UseCase | create-and-associate-user-to-student', () => {
     userAttributes = {
       firstName: 'Joe',
       lastName: 'Poe',
-      birthdate: '02/02/1992',
+      birthdate: '02-02-1992',
       password: 'P@ssw0rd',
     };
 
