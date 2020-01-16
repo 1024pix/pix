@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.104.0 (16/01/2020)
+
+- [#973](https://github.com/1024pix/pix/pull/973) [FEATURE] Créer un compte et l'associer à un élève lors de l'accès à une campagne restreinte (PF-966).
+
 ## v2.103.0 (16/01/2020)
 
 - [#961](https://github.com/1024pix/pix/pull/961) [FEATURE] Afficher le nom d'utilisateur dans le menu utilisateur (PF-1022) 
