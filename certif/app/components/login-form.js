@@ -1,37 +1,43 @@
-import Component from '@ember/component';
-import { computed } from '@ember/object';
-import { inject } from '@ember/service';
+import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
-export default Component.extend({
+export default class LoginForm extends Component {
 
-  session: inject(),
+  @service session;
+  @tracked isPasswordVisible;
+  @tracked isErrorMessagePresent;
 
-  email: null,
-  password: null,
-  isPasswordVisible: false,
-  passwordInputType: computed('isPasswordVisible', function() {
-    return this.isPasswordVisible ? 'text' : 'password';
-  }),
+  constructor() {
+    super(...arguments);
 
-  isErrorMessagePresent: false,
-
-  actions: {
-
-    async authenticate() {
-      const email = this.email ? this.email.trim() : '';
-      const password = this.password;
-      const scope = 'pix-certif';
-      try {
-        await this.session.authenticate('authenticator:oauth2', email, password, scope);
-      } catch (err) {
-        this.set('isErrorMessagePresent', true);
-      }
-    },
-
-    togglePasswordVisibility() {
-      this.toggleProperty('isPasswordVisible');
-    }
-
+    this.email = null;
+    this.password = null;
+    this.isPasswordVisible = false;
+    this.isErrorMessagePresent = false;
   }
 
-});
+  get passwordInputType() {
+    return this.isPasswordVisible ? 'text' : 'password';
+  }
+
+  @action
+  async authenticate(event) {
+    event.preventDefault();
+    const email = this.email ? this.email.trim() : '';
+    const password = this.password;
+    const scope = 'pix-certif';
+    try {
+      await this.session.authenticate('authenticator:oauth2', email, password, scope);
+    } catch (err) {
+      this.isErrorMessagePresent =  true;
+    }
+  }
+
+  @action
+  togglePasswordVisibility() {
+    this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+}

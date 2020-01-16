@@ -49,7 +49,7 @@ module('Acceptance | Session creation', function(hooks) {
       await setFlatpickrDate('#session-time', sessionTime);
 
       // when
-      await click('button[type="submit"]');
+      await click('[data-test-id="session-form__submit-button"]');
 
       // then
       const session = server.schema.sessions.findBy({ date: sessionDate });
@@ -68,7 +68,7 @@ module('Acceptance | Session creation', function(hooks) {
       await visit('/sessions/creation');
 
       // when
-      await click('.button--no-color');
+      await click('[data-test-id="session-form__cancel-button"]');
 
       // then
       const actualSessionsCount = server.schema.sessions.all().length;

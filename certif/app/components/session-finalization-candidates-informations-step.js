@@ -1,15 +1,26 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { computed } from '@ember/object';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
-export default Component.extend({
-  textareaMaxLength: 500,
+export default class SessionFinalizationCandidatesInformationsStep extends Component {
 
-  hasCheckedEverything: computed('certificationCandidates.@each.hasSeenEndTestScreen', function() {
-    if (!this.certificationCandidates || this.certificationCandidates.length === 0) {
+  @tracked hasCheckedEverything;
+
+  constructor() {
+    super(...arguments);
+
+    this.textareaMaxLength = 500;
+    this.hasCheckedEverything = false;
+  }
+
+  @computed('args.certificationCandidates.@each.hasSeenEndTestScreen')
+  get hasCheckedEverything() {
+    if (!this.args.certificationCandidates || this.args.certificationCandidates.length === 0) {
       return false;
     }
 
-    const presentCertificationCandidates = this.certificationCandidates
+    const presentCertificationCandidates = this.args.certificationCandidates
       .filter((certificationCandidate) => !certificationCandidate.isMissing);
 
     if (presentCertificationCandidates.length === 0) {
@@ -17,26 +28,26 @@ export default Component.extend({
     }
 
     return presentCertificationCandidates.every((certificationCandidate) => certificationCandidate.hasSeenEndTestScreen);
-  }),
+  }
 
-  hasCheckedSomething: computed('certificationCandidates.@each.hasSeenEndTestScreen', function() {
-    if (!this.certificationCandidates || this.certificationCandidates.length === 0) {
+  @computed('args.certificationCandidates.@each.hasSeenEndTestScreen')
+  get hasCheckedSomething() {
+    if (!this.args.certificationCandidates || this.args.certificationCandidates.length === 0) {
       return false;
     }
 
-    return this.certificationCandidates.any((certificationCandidate) => certificationCandidate.hasSeenEndTestScreen);
-  }),
+    return this.args.certificationCandidates.any((certificationCandidate) => certificationCandidate.hasSeenEndTestScreen);
+  }
 
-  actions: {
-    toggleAllHasSeenEndTestScreen() {
-      const toggled = !this.get('hasCheckedEverything');
+  @action
+  toggleAllHasSeenEndTestScreen() {
+    const toggled = !this.hasCheckedSomething;
 
-      this.certificationCandidates.forEach((certificationCandidate) => {
-        if (!certificationCandidate.isMissing) {
-          certificationCandidate.set('hasSeenEndTestScreen', toggled);
-        }
-      });
-    }
-  },
+    this.args.certificationCandidates.forEach((certificationCandidate) => {
+      if (!certificationCandidate.isMissing) {
+        certificationCandidate.hasSeenEndTestScreen = toggled;
+      }
+    });
+  }
 
-});
+}

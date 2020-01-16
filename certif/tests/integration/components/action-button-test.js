@@ -7,8 +7,10 @@ module('Integration | Component | action-btn', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders the text passed in when not in a loading state by default', async function(assert) {
+    const fakeFunc = () => {};
+    this.set('fakeFunc', fakeFunc);
     await render(hbs`
-      <ActionButton>
+      <ActionButton @handleClick={{this.fakeFunc}}>
         Finalize
       </ActionButton>
     `);
@@ -17,9 +19,11 @@ module('Integration | Component | action-btn', function(hooks) {
   });
 
   test('it renders a loader when in a loading state', async function(assert) {
+    const fakeFunc = () => {};
     this.set('isLoading', true);
+    this.set('fakeFunc', fakeFunc);
     await render(hbs`
-      <ActionButton @isLoading={{this.isLoading}}>
+      <ActionButton @isLoading={{this.isLoading}} @handleClick={{this.fakeFunc}}>
         Finalize
       </ActionButton>
     `);

@@ -20,22 +20,22 @@
           <th class="table__column">Date</th>
           <th class="table__column table__column--small">Heure</th>
           <th class="table__column table__column--wide">Surveillant(s)</th>
-          {{#if isSessionFinalizationActive }}
+          {{#if @isSessionFinalizationActive }}
             <th class="table__column table__column--wide">Statut</th>
           {{/if}}
         </tr>
       </thead>
 
       <tbody>
-        {{#each sortedSessions as |session|}}
-          <tr data-test-id="session-list-row__{{session.id}}" onclick={{action goToDetails session}}>
+        {{#each this.sortedSessions as |session|}}
+          <tr data-test-id="session-list-row__{{session.id}}" {{on 'click' (fn @goToDetails session)}}>
             <td>{{session.id}}</td>
             <td>{{session.address}}</td>
             <td>{{session.room}}</td>
             <td>{{moment-format session.date 'DD/MM/YYYY' allow-empty=true}}</td>
             <td>{{moment-format session.time 'HH:mm' 'HH:mm:ss' allow-empty=true}}</td>
             <td>{{session.examiner}}</td>
-            {{#if isSessionFinalizationActive }}
+            {{#if @isSessionFinalizationActive }}
               <td>{{session.displayStatus}}</td>
             {{/if}}
           </tr>

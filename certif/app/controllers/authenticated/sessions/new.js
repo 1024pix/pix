@@ -3,9 +3,10 @@ import { action } from '@ember/object';
 
 export default class AuthenticatedSessionsNewController extends Controller {
   @action
-  async createSession(session) {
-    await session.save();
-    this.transitionToRoute('authenticated.sessions.details', session.id);
+  async createSession(event) {
+    event.preventDefault();
+    await this.model.save();
+    this.transitionToRoute('authenticated.sessions.details', this.model.id);
   }
 
   @action

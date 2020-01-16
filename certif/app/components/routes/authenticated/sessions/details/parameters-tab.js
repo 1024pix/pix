@@ -1,22 +1,21 @@
-import Component from '@ember/component';
-import { equal } from '@ember/object/computed';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 
-export default Component.extend({
+export default class RoutesAuthenticatedSessionsDetailsParametersTab extends Component {
 
-  isSessionFinalizationActive: null,
+  constructor() {
+    super(...arguments);
 
-  tooltipText: 'Copier le lien direct',
-
-  isSuccessMessage: equal('message.type', 'success'),
-  isErrorMessage: equal('message.type', 'error'),
-
-  actions: {
-    clipboardSuccess() {
-      this.set('tooltipText', 'Copié !');
-    },
-
-    clipboardOut() {
-      this.set('tooltipText', 'Copier le code d\'accès');
-    }
+    this.tooltipText = 'Copier le lien direct';
   }
-});
+
+  @action
+  clipboardSuccess() {
+    this.tooltipText = 'Copié !';
+  }
+
+    @action
+  clipboardOut() {
+    this.tooltipText = 'Copier le code d\'accès';
+  }
+}

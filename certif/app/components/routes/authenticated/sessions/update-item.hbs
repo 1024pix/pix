@@ -1,6 +1,6 @@
 <h1 class="page__title page-title">Modification d'une session de certification</h1>
 
-<form {{action updateSession session on='submit'}} class="session-form">
+<form {{on 'submit' @updateSession}} class="session-form">
 
   <div class="session-form__field">
     <label for="session-address" class="label">Nom du site</label>
@@ -10,9 +10,9 @@
       @type="text"
       @maxlength="255"
       @class="input"
-      @value={{session.address}}
+      @value={{@session.address}}
     />
-    {{#each session.errors.address as |error|}}
+    {{#each @session.errors.address as |error|}}
       <div class='session-form__error error-message'>
         {{error.message}}
       </div>
@@ -27,9 +27,9 @@
       @type="text"
       @maxlength="255"
       @class="input"
-      @value={{session.room}}
+      @value={{@session.room}}
     />
-    {{#each session.errors.room as |error|}}
+    {{#each @session.errors.room as |error|}}
       <div class='session-form__error error-message'>
         {{error.message}}
       </div>
@@ -38,7 +38,7 @@
 
   <div class="session-form__field">
     <label for="session-date" class="label">Date de début</label>
-    <EmberFlatpickr @id="session-date" @altFormat="d/m/Y" @altInput={{true}} @onChange={{action onDatePicked}} @dateFormat="Y-m-d" @locale="fr" @name="session-date" @class="input input--small" @date={{readonly session.date}} />
+    <EmberFlatpickr @id="session-date" @altFormat="d/m/Y" @altInput={{true}} @onChange={{this.onDatePicked}} @dateFormat="Y-m-d" @locale="fr" @name="session-date" @class="input input--small" @date={{readonly @session.date}} />
     {{#each session.errors.date as |error|}}
       <div class='session-form__error error-message'>
         {{error.message}}
@@ -48,8 +48,8 @@
 
   <div class="session-form__field">
     <label for="session-time" class="label">Heure de début (heure locale)</label>
-    <EmberFlatpickr @id="session-time" @onChange={{action onTimePicked}} @onClose={{action onTimePicked}} @enableTime={{true}} @noCalendar={{true}} @dateFormat="H:i" @time_24hr={{true}} @enableSeconds={{false}} @name="session-time" @class="input input--small" @date={{readonly session.time}} />
-    {{#each session.errors.time as |error|}}
+    <EmberFlatpickr @id="session-time" @onChange={{this.onTimePicked}} @onClose={{this.onTimePicked}} @enableTime={{true}} @noCalendar={{true}} @dateFormat="H:i" @time_24hr={{true}} @enableSeconds={{false}} @name="session-time" @class="input input--small" @date={{readonly @session.time}} />
+    {{#each @session.errors.time as |error|}}
       <div class='session-form__error error-message'>
         {{error.message}}
       </div>
@@ -64,9 +64,9 @@
       @type="text"
       @maxlength="255"
       @class="input"
-      @value={{session.examiner}}
+      @value={{@session.examiner}}
     />
-    {{#each session.errors.examiner as |error|}}
+    {{#each @session.errors.examiner as |error|}}
       <div class='session-form__error error-message'>
         {{error.message}}
       </div>
@@ -75,12 +75,12 @@
 
   <div class="session-form__field">
     <label for="session-description" class="label">Observations (optionnel)</label>
-    <Textarea @id="session-description" @name="session-description" @maxlength="350" @rows={{8}} @value={{session.description}} class="textarea" />
+    <Textarea @id="session-description" @name="session-description" @maxlength="350" @rows={{8}} @value={{@session.description}} class="textarea" />
   </div>
 
   <div class="session-form__validation">
-    <button class="button button--no-color" data-action="cancel" {{action cancel session}}>Annuler</button>
-    <button class="button" type="submit">Modifier la session</button>
+    <button data-test-id="session-form__cancel-button" class="button button--no-color" type="button" {{on 'click' @cancel}}>Annuler</button>
+    <button data-test-id="session-form__submit-button" class="button" type="submit">Modifier la session</button>
   </div>
 
 </form>

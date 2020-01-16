@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
+import { skip, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Components | routes/authenticated/sessions/new-item', function(hooks) {
+skip('Unit | Components | routes/authenticated/sessions/new-item', function(hooks) {
   setupTest(hooks);
 
   let component;
