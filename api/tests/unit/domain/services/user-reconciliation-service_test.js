@@ -315,7 +315,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
             const result = await catchErr(userReconciliationService.findMatchingOrganizationStudentIdForGivenUser)({ organizationId, user, studentRepository: studentRepositoryStub });
 
             // then
-            expect(result).to.be.instanceOf(OrganizationStudentAlreadyLinkedToUserError, 'There were not exactly one student match for this user and organization');
+            expect(result).to.be.instanceOf(OrganizationStudentAlreadyLinkedToUserError);
           });
         });
 
