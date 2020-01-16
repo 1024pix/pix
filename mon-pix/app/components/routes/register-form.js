@@ -4,7 +4,6 @@ import { inject } from '@ember/service';
 import { standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-number';
 
 import isEmailValid from '../../utils/email-validator';
-import isUsernameValid from '../../utils/username-validator';
 import isPasswordValid from '../../utils/password-validator';
 
 const ERROR_INPUT_MESSAGE_MAP = {
@@ -58,10 +57,10 @@ export default Component.extend({
   }),
 
   isCreationFormNotValid: computed('studentDependentUser.{email,username,password}', function() {
-    if (this.loginWithEmail) {
-      return !isEmailValid(this.get('studentDependentUser.email')) || !isPasswordValid(this.get('studentDependentUser.password'));
+    if (this.loginWithUsername) {
+      return !isStringValid(this.get('studentDependentUser.username')) || !isPasswordValid(this.get('studentDependentUser.password'));
     }
-    return !isUsernameValid(this.get('studentDependentUser.username')) || !isPasswordValid(this.get('studentDependentUser.password'));
+    return !isEmailValid(this.get('studentDependentUser.email')) || !isPasswordValid(this.get('studentDependentUser.password'));
   }),
 
   init() {
@@ -266,7 +265,7 @@ export default Component.extend({
   },
 
   _validateInputUsername(key, value) {
-    this._executeFieldValidation(key, value, isUsernameValid);
+    this._executeFieldValidation(key, value, isStringValid);
   },
 
   _validateInputPassword(key, value) {
