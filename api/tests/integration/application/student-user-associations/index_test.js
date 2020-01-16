@@ -8,7 +8,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
   beforeEach(() => {
     sinon.stub(studentUserAssociationController, 'associate').callsFake((request, h) => h.response('ok').code(204));
     sinon.stub(studentUserAssociationController, 'findAssociation').callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(studentUserAssociationController, 'generateUsername').callsFake((request, h) => h.response('ok').code(204));
+    sinon.stub(studentUserAssociationController, 'generateUsername').callsFake((request, h) => h.response('ok').code(200));
     server = Hapi.server();
     return server.register(require('../../../../lib/application/student-user-associations'));
   });
@@ -237,7 +237,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
 
       // then
       return promise.then((res) => {
-        expect(res.statusCode).to.equal(204);
+        expect(res.statusCode).to.equal(200);
       });
     });
 
@@ -256,7 +256,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
 
       // then
       return promise.then((res) => {
-        expect(res.statusCode).to.equal(204);
+        expect(res.statusCode).to.equal(200);
         expect(res.request.payload.data.attributes['first-name']).to.equal('Robert ');
       });
     });
