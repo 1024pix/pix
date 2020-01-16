@@ -21,7 +21,7 @@ describe('Integration | Application | Student-user-association | student-user-as
   });
 
   describe('#generateUsername', () => {
-    const campaignCode = 'CODE';
+    const campaignCode = 'RESTRICTD';
     const payload = {
       data: {
         attributes: {

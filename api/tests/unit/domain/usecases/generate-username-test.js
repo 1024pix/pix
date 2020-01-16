@@ -4,7 +4,7 @@ const userReconciliationService = require('../../../../lib/domain/services/user-
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const { CampaignCodeError, NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | find-association-possibilities', () => {
+describe('Unit | UseCase | generate-username', () => {
 
   let campaignCode;
   let findMatchingOrganizationStudentIdForGivenUserStub;
