@@ -268,10 +268,6 @@ describe('Unit | Service | user-reconciliation-service', () => {
       studentRepositoryStub = { findByOrganizationIdAndUserBirthdate: sinon.stub() };
     });
 
-    afterEach(() => {
-      sinon.restore();
-    });
-
     context('When student list is not empty', () => {
 
       beforeEach(() => {

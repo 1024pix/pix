@@ -17,10 +17,6 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
   const organizationId = 1;
   const studentId = 1;
 
-  afterEach(() => {
-    sinon.restore();
-  });
-
   beforeEach(() => {
     campaignCode = 'ABCD12';
     student = domainBuilder.buildStudent({ organizationId, id: studentId });
