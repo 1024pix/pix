@@ -24,7 +24,7 @@ describe('Unit | UseCase | generate-username', () => {
       id: 1,
       firstName: 'Joe',
       lastName: 'Poe',
-      birthdate: '02-02-1992',
+      birthdate: '1992-02-02',
     };
 
     getCampaignStub = sinon.stub(campaignRepository, 'getByCode')
