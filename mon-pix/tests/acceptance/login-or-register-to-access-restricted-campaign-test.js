@@ -36,7 +36,7 @@ describe('Acceptance | login-or-register-to-access-restricted-campaign', functio
   it('should open the login panel and close the register panel when clicking on login button', async function() {
     // when
     await visitWithAbortedTransition('/campagnes/AZERTY1/identification');
-    await click('#login');
+    await click('#login-button');
 
     // then
     expect(find('.register-form')).to.not.exist;
@@ -47,8 +47,8 @@ describe('Acceptance | login-or-register-to-access-restricted-campaign', functio
     // when
     await visitWithAbortedTransition('/campagnes/AZERTY1/identification');
 
-    await click('#login');
-    await click('#register');
+    await click('#login-button');
+    await click('#register-button');
 
     // then
     expect(find('.register-form')).to.exist;

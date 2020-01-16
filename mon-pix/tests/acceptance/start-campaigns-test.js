@@ -101,7 +101,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
 
               // when
-              await click('#login');
+              await click('#login-button');
               await fillIn('#login', 'jane@acme.com');
               await fillIn('#password', 'Jane1234');
               await click('#submit-connexion');
@@ -116,7 +116,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
               expect(currentURL()).to.equal(`/campagnes/${campaignCode}/identification`);
 
-              await click('#login');
+              await click('#login-button');
               await fillIn('#login', 'jane@acme.com');
               await fillIn('#password', 'Jane1234');
               await click('#submit-connexion');
@@ -277,7 +277,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
               expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
 
-              await click('#login');
+              await click('#login-button');
 
               await fillIn('#login', 'jane@acme.com');
               await fillIn('#password', 'Jane1234');
