@@ -1,9 +1,15 @@
+import Component from '@glimmer/component';
 import { sort } from '@ember/object/computed';
-import Component from '@ember/component';
 
 const SORTING_ORDER = ['date:desc', 'time:desc'];
 
-export default Component.extend({
-  sortingOrder: SORTING_ORDER,
-  sortedSessions: sort('sessions', 'sortingOrder'),
-});
+export default class RoutesAuthenticatedSessionsListItem extends Component {
+
+  constructor() {
+    super(...arguments);
+
+    this.sortingOrder = SORTING_ORDER;
+  }
+
+  @sort('args.sessions', 'sortingOrder') sortedSessions;
+}

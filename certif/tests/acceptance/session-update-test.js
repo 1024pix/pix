@@ -32,7 +32,7 @@ module('Acceptance | Session Update', function(hooks) {
     await fillIn('#session-examiner', newExaminer);
 
     // when
-    await click('button[type="submit"]');
+    await click('[data-test-id="session-form__submit-button"]');
 
     // then
     session.reload();
@@ -52,7 +52,7 @@ module('Acceptance | Session Update', function(hooks) {
     await fillIn('#session-examiner', newExaminer);
 
     // when
-    await click('button[data-action="cancel"]');
+    await click('[data-test-id="session-form__cancel-button"]');
 
     // then
     session.reload();

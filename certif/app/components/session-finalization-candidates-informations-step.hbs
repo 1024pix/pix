@@ -8,15 +8,15 @@
         <th>Signalement (facultatif)</th>
         <th>
           <div class="session-finalization-candidates-informations-step__row">
-            <div class="session-finalization-candidates-informations-step__checker" onClick={{action "toggleAllHasSeenEndTestScreen" }}>
-              {{#if hasCheckedEverything}}
+            <div class="session-finalization-candidates-informations-step__checker" {{on 'click' this.toggleAllHasSeenEndTestScreen}}>
+              {{#if this.hasCheckedEverything}}
                 <div class="checkbox checkbox--checked">
                   <img
                     src="/icons/icon-done.svg"
                     class="session-finalization-candidates-informations-step__done-icon"
                     alt="checkbox" >
                 </div>
-              {{else if hasCheckedSomething}}
+              {{else if this.hasCheckedSomething}}
                 <div class="checkbox checkbox--unchecked">
                   <div class="session-finalization-candidates-informations-step__dash-icon"></div>
                 </div>
@@ -31,7 +31,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each certificationCandidates as |candidate|}}
+      {{#each @certificationCandidates as |candidate|}}
         <tr>
           <td data-test-id="finalization-candidate-last-name_{{candidate.id}}">{{candidate.lastName}}</td>
           <td data-test-id="finalization-candidate-first-name_{{candidate.id}}">{{candidate.firstName}}</td>
@@ -42,7 +42,7 @@
               class="session-finalization-candidates-informations-step__textarea"
               value={{candidate.examinerComment}}
               oninput={{action (mut candidate.examinerComment) value="target.value"}}
-              maxlength={{textareaMaxLength}}
+              maxlength={{this.textareaMaxLength}}
             />
           </td>
           <td>
@@ -51,8 +51,7 @@
                 <div
                   data-test-id="finalization-candidate-has-seen-end-test-screen_{{candidate.id}}"
                   class="checkbox checkbox--checked"
-                  onClick={{action (toggle "hasSeenEndTestScreen" candidate)}}
-                >
+                  {{on 'click' (toggle 'hasSeenEndTestScreen' candidate)}}>
                   <img
                     src="/icons/icon-done.svg"
                     class="session-finalization-candidates-informations-step__done-icon"
@@ -62,14 +61,13 @@
                 <div
                   data-test-id="finalization-candidate-has-seen-end-test-screen_{{candidate.id}}"
                   class="checkbox checkbox--unchecked"
-                  onClick={{action (toggle "hasSeenEndTestScreen" candidate)}}/>
+                  {{on 'click' (toggle 'hasSeenEndTestScreen' candidate)}}/>
               {{/if}}
             {{else}}
               <div
                 data-test-id="finalization-candidate-has-seen-end-test-screen_{{candidate.id}}"
                 class="checkbox checkbox--unchecked checkbox--disabled"
-                onClick={{action (toggle "hasSeenEndTestScreen" candidate)}}
-              />
+                {{on 'click' (toggle 'hasSeenEndTestScreen' candidate)}}/>
             {{/if}}
           </td>
         </tr>

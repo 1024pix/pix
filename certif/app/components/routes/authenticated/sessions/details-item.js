@@ -1,9 +1,9 @@
-import Component from '@ember/component';
-import { computed } from '@ember/object';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-  certificationCandidatesCount: computed('session.certificationCandidates.length', function() {
-    const certificationCandidatesCount = this.get('session.certificationCandidates.length');
+export default class RoutesAuthenticatedSessionsDetailsItem extends Component {
+
+  get certificationCandidatesCount() {
+    const certificationCandidatesCount = this.args.session.certificationCandidates.length;
     return certificationCandidatesCount > 0 ? `(${certificationCandidatesCount})`  : '';
-  }),
-});
+  }
+}

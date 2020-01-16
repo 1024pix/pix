@@ -3,13 +3,14 @@ import { action } from '@ember/object';
 
 export default class AuthenticatedSessionsUpdateController extends Controller {
   @action
-  async updateSession(session) {
-    await session.save();
-    this.transitionToRoute('authenticated.sessions.details', session.id);
+  async updateSession(event) {
+    event.preventDefault();
+    await this.model.save();
+    this.transitionToRoute('authenticated.sessions.details', this.model.id);
   }
 
   @action
-  cancel(session) {
-    this.transitionToRoute('authenticated.sessions.details', session.id);
+  cancel() {
+    this.transitionToRoute('authenticated.sessions.details', this.model.id);
   }
 }

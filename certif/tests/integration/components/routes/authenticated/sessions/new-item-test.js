@@ -3,22 +3,31 @@ import { setupRenderingTest } from 'ember-qunit';
 import { click, fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
+import sinon from 'sinon';
 
 module('Integration | Component | routes/authenticated/session | new-item', function(hooks) {
   setupRenderingTest(hooks);
   let session;
+  let createSessionStub;
 
   hooks.beforeEach(function() {
     session = EmberObject.create({});
-    this.set('createSessionSpy', (newSession) => {
-      session = newSession;
+    createSessionStub = sinon.stub().callsFake(function fakeFn(event) {
+      event.preventDefault();
     });
+    this.set('createSessionSpy', createSessionStub);
     this.set('cancelSpy', () => {});
+    this.set('model', session);
   });
 
   test('it should contain inputs, attributes and validation button', async function(assert) {
     // when
-    await render(hbs`{{routes/authenticated/sessions/new-item createSession=(action createSessionSpy) cancel=(action cancelSpy)}}`);
+    await render(hbs`
+        <Routes::Authenticated::Sessions::NewItem
+          @session={{this.model}}
+          @createSession={{this.createSessionSpy}}
+          @cancel={{this.cancelSpy}}
+        />`);
 
     // then
     assert.dom('#session-address').exists();
@@ -32,16 +41,18 @@ module('Integration | Component | routes/authenticated/session | new-item', func
   });
 
   test('it should send session new action when submitted', async function(assert) {
-    // given
-    this.set('model', session);
-
     // when
-    await render(hbs`{{routes/authenticated/sessions/new-item session=model createSession=(action createSessionSpy) cancel=(action cancelSpy)}}`);
+    await render(hbs`
+        <Routes::Authenticated::Sessions::NewItem
+          @session={{this.model}}
+          @createSession={{this.createSessionSpy}}
+          @cancel={{this.cancelSpy}}
+        />`);
 
     // then
     await fillIn('#session-address', 'New address');
-    await click('button[type="submit"]');
+    await click('[data-test-id="session-form__submit-button"]');
 
-    assert.deepEqual(session.get('address'), 'New address');
+    assert.equal(createSessionStub.called, true);
   });
 });

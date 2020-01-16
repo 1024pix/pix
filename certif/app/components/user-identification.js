@@ -1,14 +1,10 @@
-import Component from '@ember/component';
-
+import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 
-export default Component.extend({
-
+export default class UserIdentification extends Component {
   /*
   * XXX Composant amené à disparaitre. Utilisé actuellement uniquement pour afficher le nom prénom de l'utilisateur
   * connecté
   * */
-
-  currentUser: service('current-user'),
-
-});
+  @service currentUser;
+}

@@ -1,37 +1,36 @@
-
 <NotificationContainer @position="bottom-right" />
 
 <div class="panel panel--strong-shadow session-details-container">
     <div class="session-details-row">
         <div class="session-details-content session-details-content--multiple">
             <h4 class="label-text session-details-content__label">ID session</h4>
-            <span class="content-text session-details-content__text">{{session.id}}</span>
+            <span class="content-text session-details-content__text">{{@session.id}}</span>
         </div>
 
         <div class="session-details-content session-details-content--multiple">
             <h4 class="label-text session-details-content__label">Nom du site</h4>
-            <span class="content-text session-details-content__text">{{session.address}}</span>
+            <span class="content-text session-details-content__text">{{@session.address}}</span>
         </div>
 
         <div class="session-details-content session-details-content--multiple">
             <h4 class="label-text session-details-content__label">Salle</h4>
-            <span class="content-text session-details-content__text">{{session.room}}</span>
+            <span class="content-text session-details-content__text">{{@session.room}}</span>
         </div>
 
         <div class="session-details-content session-details-content--multiple">
             <h4 class="label-text session-details-content__label">Surveillant(s)</h4>
-            <span class="content-text session-details-content__text">{{session.examiner}}</span>
+            <span class="content-text session-details-content__text">{{@session.examiner}}</span>
         </div>
 
         <div class="session-details-content session-details-content--multiple">
             <h4 class="label-text session-details-content__label">Code d'accès</h4>
             <div class="session-details-content__clipboard">
-                <span class="content-text content-text--bold session-details-content__text">{{session.accessCode}}</span>
+                <span class="content-text content-text--bold session-details-content__text">{{@session.accessCode}}</span>
 
               {{#if (is-clipboard-supported)}}
                   <div class="tooltip">
                       <span class="tooltip__text tooltip-text session-details-content__tooltip-text">{{this.tooltipText}}</span>
-                    <CopyButton @clipboardText={{session.accessCode}} @success={{action "clipboardSuccess"}} @mouseLeave={{action "clipboardOut"}} @classNames="icon-button session-details-content__clipboard-button">
+                    <CopyButton @clipboardText={{@session.accessCode}} @success={{this.clipboardSuccess}} @mouseLeave={{this.clipboardOut}} @classNames="icon-button session-details-content__clipboard-button">
                       {{fa-icon 'copy' prefix='far'}}
                     </CopyButton>
                   </div>
@@ -44,26 +43,26 @@
         <div class="session-details-content session-details-content--single">
             <h4 class="label-text session-details-content__label">Observations</h4>
             <p class="content-text session-details-content__text">
-              {{session.description}}
+              {{@session.description}}
             </p>
         </div>
     </div>
 
     <div class="session-details-row">
-      {{#if (and isSessionFinalizationActive session.hasStarted) }}
+      {{#if (and @isSessionFinalizationActive @session.hasStarted) }}
         <div class="session-details-buttons">
-          <LinkTo @route="authenticated.sessions.update" @model={{session.id}} class="button button--regular button--grey button--link session-details-content__update-button">
+          <LinkTo @route="authenticated.sessions.update" @model={{@session.id}} class="button button--regular button--grey button--link session-details-content__update-button">
               Modifier
           </LinkTo>
         </div>
-        <div class="session-details-buttons session-details-buttons--push-right {{if session.isFinalized "button--disabled"}}">
-            <LinkTo @route="authenticated.sessions.finalize" @model={{session.id}} class="button button--regular button--link session-details-content__finalize-button push-right">
+        <div class="session-details-buttons session-details-buttons--push-right {{if @session.isFinalized "button--disabled"}}">
+            <LinkTo @route="authenticated.sessions.finalize" @model={{@session.id}} class="button button--regular button--link session-details-content__finalize-button push-right">
                       Finaliser la session
             </LinkTo>
         </div>
       {{else}}
         <div class="session-details-buttons">
-          <LinkTo @route="authenticated.sessions.update" @model={{session.id}} class="button button--regular button--link session-details-content__update-button">
+          <LinkTo @route="authenticated.sessions.update" @model={{@session.id}} class="button button--regular button--link session-details-content__update-button">
               Modifier
           </LinkTo>
         </div>
