@@ -6,6 +6,7 @@ module.exports = function buildArea({
   code = faker.random.number(),
   title = faker.lorem.words(),
   competences = [],
+  color = faker.lorem.word(),
   // optional
   name
 } = {}) {
@@ -16,5 +17,6 @@ module.exports = function buildArea({
     code,
     title,
     competences,
+    color,
   });
 };
