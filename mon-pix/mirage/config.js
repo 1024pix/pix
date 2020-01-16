@@ -152,6 +152,31 @@ export default function() {
     return new Response(204);
   });
 
+  this.put('/student-user-associations/possibilities', () => {
+    return new Response(204);
+  });
+
+  this.post('/student-dependent-users', (schema, request) => {
+    const params = JSON.parse(request.requestBody);
+
+    const campaignCode = params.data.attributes['campaign-code'];
+    const organizationId = schema.campaigns.findBy({ code: campaignCode }).organizationId;
+
+    const firstName = params.data.attributes['first-name'];
+    const lastName = params.data.attributes['last-name'];
+    const newUser = {
+      firstName,
+      lastName,
+      email: params.data.attributes['email'],
+      username: params.data.attributes['username'],
+      password: params.data.attributes['password'],
+    };
+
+    const userId = schema.users.create(newUser).id;
+    const student = schema.students.findBy({ firstName, lastName });
+    return student.update({ userId, organizationId });
+  });
+
   this.get('/student-user-associations', (schema, request) => {
     const userId =  request.queryParams.userId;
     const student = schema.students.findBy({ userId });

@@ -1,5 +1,6 @@
 import { computed } from '@ember/object';
 import Component from '@ember/component';
+import { isEmpty } from '@ember/utils';
 
 const INPUT_VALIDATION_STATUS_MAP = {
   default: 'form-textfield__input--default',
@@ -31,11 +32,13 @@ export default Component.extend({
   label: '',
   textfieldName: '',
   validationMessage: '',
+  validationStatus: 'default',
   isPassword: computed.equal('textfieldName','password'),
   isEmail: computed.equal('textfieldName','email'),
   isPasswordVisible: false,
   require: false,
   help: '',
+  disabled: false,
 
   onValidate: () => {},
 
@@ -53,8 +56,12 @@ export default Component.extend({
     return this.validationStatus !== 'default';
   },
 
-  hasIcon: computed('validationStatus', 'user.errors.content', function() {
-    return this._isValidationStatusNotDefault();
+  hasIcon: computed('validationStatus', 'user.errors.content', 'disabled', function() {
+    return this._isValidationStatusNotDefault() && !this.disabled;
+  }),
+
+  displayMessage: computed('hasIcon', 'validationMessage', function() {
+    return !isEmpty(this.validationMessage) || this.hasIcon;
   }),
 
   inputContainerStatusClass: computed('validationStatus', function() {

@@ -13,12 +13,12 @@ describe('Integration | Authenticator | oauth2', function() {
 
   it('should retrieve token type and token', async function() {
     // Given
-    const email = 'jane@acme.com';
+    const login = 'jane@acme.com';
     const password = 'Jane1234';
     const authenticator = this.owner.lookup('authenticator:oauth2');
 
     // When
-    const data = await authenticator.authenticate({ email, password, scope });
+    const data = await authenticator.authenticate({ login, password, scope });
 
     // Then
     expect(data.token_type).to.equal(tokenType);
@@ -27,13 +27,13 @@ describe('Integration | Authenticator | oauth2', function() {
 
   it('should extract user_id and source from token', async function() {
     // Given
-    const email = 'john@acme.com';
+    const login = 'john@acme.com';
     const password = 'John1234';
     const expectedUserId = 2;
     const authenticator = this.owner.lookup('authenticator:oauth2');
 
     // When
-    const data = await authenticator.authenticate({ email, password, scope });
+    const data = await authenticator.authenticate({ login, password, scope });
 
     // Then
     const tokenData = authenticator.extractDataFromToken(data.access_token);

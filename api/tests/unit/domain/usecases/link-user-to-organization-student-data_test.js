@@ -10,17 +10,12 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
 
   let associateUserAndStudentStub;
   let campaignCode;
-  let findStudentStub;
-  let findMatchingCandidateIdForGivenUserStub;
+  let findMatchingOrganizationStudentIdForGivenUserStub;
   let getCampaignStub;
   let student;
   let user;
   const organizationId = 1;
   const studentId = 1;
-
-  afterEach(() => {
-    sinon.restore();
-  });
 
   beforeEach(() => {
     campaignCode = 'ABCD12';
@@ -36,13 +31,8 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
       .withArgs(campaignCode)
       .resolves({ organizationId });
 
-    findStudentStub = sinon.stub(studentRepository, 'findNotLinkedYetByOrganizationIdAndUserBirthdate')
-      .withArgs({
-        organizationId,
-        birthdate: user.birthdate
-      }).resolves([student]);
-
     associateUserAndStudentStub = sinon.stub(studentRepository, 'associateUserAndStudent');
+    findMatchingOrganizationStudentIdForGivenUserStub = sinon.stub(userReconciliationService,'findMatchingOrganizationStudentIdForGivenUser');
   });
 
   context('When there is no campaign with the given code', () => {
@@ -62,11 +52,11 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
     });
   });
 
-  context('When no student found based on birthdate and organizationId', () => {
+  context('When no student found', () => {
 
     it('should throw a Not Found error', async () => {
       // given
-      findStudentStub.resolves([]);
+      findMatchingOrganizationStudentIdForGivenUserStub.throws(new NotFoundError('Error message'));
 
       // when
       const result = await catchErr(usecases.linkUserToOrganizationStudentData)({
@@ -76,58 +66,29 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
 
       // then
       expect(result).to.be.instanceof(NotFoundError);
-      expect(result.message).to.equal('There were no students matching');
+      expect(result.message).to.equal('Error message');
     });
   });
 
-  context('When at least one student found based on birthdate and organizationId', () => {
+  context('When one student matched on names', () => {
 
-    beforeEach(() => {
-      findMatchingCandidateIdForGivenUserStub = sinon.stub(userReconciliationService,'findMatchingCandidateIdForGivenUser');
-    });
+    it('should associate user with student', async () => {
+      // given
+      student.userId = user.id;
+      student.firstName = user.firstName;
+      student.lastName = user.lastName;
+      findMatchingOrganizationStudentIdForGivenUserStub.resolves(studentId);
+      associateUserAndStudentStub.withArgs({ userId: user.id, studentId }).resolves(student);
 
-    context('When no student matched on names', () => {
-
-      it('should throw a Not Found error', async () => {
-        // given
-        user.firstName = 'Sam';
-
-        student.firstName = 'Joe';
-        student.lastName = user.lastName;
-        findMatchingCandidateIdForGivenUserStub.withArgs([student], user).returns(null);
-
-        // when
-        const result = await catchErr(usecases.linkUserToOrganizationStudentData)({
-          user,
-          campaignCode,
-        });
-
-        // then
-        expect(result).to.be.instanceof(NotFoundError);
-        expect(result.message).to.equal('There were not exactly one student match for this user and organization');
+      // when
+      const result = await usecases.linkUserToOrganizationStudentData({
+        user,
+        campaignCode,
       });
-    });
 
-    context('When one student matched on names', () => {
-
-      it('should associate user with student', async () => {
-        // given
-        student.userId = user.id;
-        student.firstName = user.firstName;
-        student.lastName = user.lastName;
-        findMatchingCandidateIdForGivenUserStub.withArgs([student], { firstName: user.firstName, lastName: user.lastName }).returns(studentId);
-        associateUserAndStudentStub.withArgs({ userId: user.id, studentId }).resolves(student);
-
-        // when
-        const result = await usecases.linkUserToOrganizationStudentData({
-          user,
-          campaignCode,
-        });
-
-        // then
-        expect(result).to.be.instanceof(Student);
-        expect(result.userId).to.be.equal(user.id);
-      });
+      // then
+      expect(result).to.be.instanceOf(Student);
+      expect(result.userId).to.be.equal(user.id);
     });
   });
 });

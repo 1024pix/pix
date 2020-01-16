@@ -24,7 +24,7 @@ function _manageError(error, errorType, attribute, message) {
 function _validateData(user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator) {
   return Promise.all([
     userRepository.isEmailAvailable(user.email).catch(_manageEmailAvailabilityError),
-    userValidator.validate(user).catch((error) => error),
+    userValidator.validate({ user }).catch((error) => error),
     reCaptchaValidator.verify(reCaptchaToken).catch(_manageReCaptchaTokenError)
   ])
     .then((validationErrors) => {

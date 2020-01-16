@@ -257,4 +257,115 @@ describe('Acceptance | Controller | Student-user-associations', () => {
       });
     });
   });
+
+  describe('PUT /api/student-user-associations/possibilities', () => {
+    let options;
+    let server;
+    let user;
+    let organization;
+    let student;
+    let campaignCode;
+
+    beforeEach(async () => {
+      server = await createServer();
+
+      organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
+      campaignCode = databaseBuilder.factory.buildCampaign({ organizationId: organization.id }).code;
+      user = databaseBuilder.factory.buildUser();
+      student = databaseBuilder.factory.buildStudent({ organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, userId: null });
+      await databaseBuilder.commit();
+      options = {
+        method: 'PUT',
+        url: '/api/student-user-associations/possibilities',
+        headers: {},
+        payload: {
+          data: {
+            attributes: {
+              'campaign-code': campaignCode,
+              'first-name': student.firstName,
+              'last-name': student.lastName,
+              birthdate: student.birthdate
+            }
+          }
+        }
+      };
+    });
+
+    describe('Success case', () => {
+
+      it('should return the student linked to the user and a 200 status code response', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    describe('Error cases', () => {
+
+      context('when no student found to associate because birthdate does not match', () => {
+
+        it('should respond with a 404 - Not Found', async () => {
+          // given
+          options.payload.data.attributes.birthdate = '1990-03-01';
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(404);
+          expect(response.result.errors[0].detail).to.equal('There were no students matching');
+        });
+      });
+
+      context('when no student found to associate because names does not match', () => {
+
+        it('should respond with a 404 - Not Found', async () => {
+          // given
+          options.payload.data.attributes['first-name'] = 'wrong firstName';
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(404);
+          expect(response.result.errors[0].detail).to.equal('There were not exactly one student match for this user and organization');
+        });
+      });
+
+      context('when student is already associated in the same organization', () => {
+
+        it('should respond with a 409 - Conflict', async () => {
+          // given
+          const studentAlreadyMatched = databaseBuilder.factory.buildStudent({ organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, userId: user.id });
+          await databaseBuilder.commit();
+          options.payload.data.attributes['first-name'] = studentAlreadyMatched.firstName;
+          options.payload.data.attributes['last-name'] = studentAlreadyMatched.lastName;
+          options.payload.data.attributes.birthdate = studentAlreadyMatched.birthdate;
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(409);
+          expect(response.result.errors[0].detail).to.equal('L\'élève est déjà rattaché à un compte utilisateur.');
+        });
+      });
+
+      context('when a field is not valid', () => {
+
+        it('should respond with a 422 - Unprocessable Entity', async () => {
+          // given
+          options.payload.data.attributes['last-name'] = ' ';
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(422);
+        });
+      });
+    });
+  });
 });

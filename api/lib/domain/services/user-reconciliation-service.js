@@ -1,7 +1,10 @@
-const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
-const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
-const { pipe } = require('lodash/fp');
 const _ = require('lodash');
+const { pipe } = require('lodash/fp');
+const randomString = require('randomstring');
+
+const { NotFoundError, OrganizationStudentAlreadyLinkedToUserError } = require('../errors');
+const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
+const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
 
 const MAX_ACCEPTABLE_RATIO = 0.25;
 
@@ -11,13 +14,37 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
 
   return _(['firstName', 'middleName', 'thirdName'])
     .map(_findCandidatesMatchingWithUser(standardizedMatchingUserCandidates, standardizedUser))
-    .filter(containsOneElement)
+    .filter(_containsOneElement)
     .flatten()
     .map('id')
     .first() || null;
 }
 
-function containsOneElement(arr) {
+async function findMatchingOrganizationStudentIdForGivenUser({ organizationId, user: { firstName, lastName, birthdate }, studentRepository }) {
+  const students = await studentRepository.findByOrganizationIdAndUserBirthdate({
+    organizationId,
+    birthdate,
+  });
+
+  if (students.length === 0) {
+    throw new NotFoundError('There were no students matching');
+  }
+
+  const studentId = findMatchingCandidateIdForGivenUser(students, { firstName, lastName });
+
+  if (!studentId) {
+    throw new NotFoundError('There were not exactly one student match for this user and organization');
+  }
+
+  const matchingStudent = _.find(students, { 'id': studentId });
+  if (!_.isNil(matchingStudent.userId)) {
+    throw new OrganizationStudentAlreadyLinkedToUserError();
+  }
+
+  return studentId;
+}
+
+function _containsOneElement(arr) {
   return _.size(arr) === 1;
 }
 
@@ -60,6 +87,47 @@ function _candidateHasSimilarLastName({ lastName }) {
   };
 }
 
+// TODO Export all functions generating random codes to an appropriate service
+const _generateCode = () => {
+  return randomString.generate({ length: 4, charset: 'numeric' });
+};
+
+async function generateUsernameUntilAvailable({ firstPart, secondPart, userRepository }) {
+  let randomPart = secondPart;
+
+  let username;
+  let isUsernameAvailable;
+
+  do {
+    username = firstPart + randomPart;
+    isUsernameAvailable = true;
+
+    try {
+      await userRepository.isUsernameAvailable(username);
+    } catch (err) {
+      isUsernameAvailable = false;
+      randomPart = _generateCode();
+    }
+  } while (!isUsernameAvailable);
+
+  return username;
+}
+
+async function createUsernameByUser({ user: { firstName, lastName, birthdate }, userRepository }) {
+  const standardizeUser = _standardizeUser({ firstName, lastName });
+  const [ , month, day ] = birthdate.split('-');
+
+  const firstPart = standardizeUser.firstName + '.' + standardizeUser.lastName;
+  const secondPart = day + month;
+
+  const username = await generateUsernameUntilAvailable({ firstPart, secondPart, userRepository });
+
+  return username;
+}
+
 module.exports = {
+  generateUsernameUntilAvailable,
+  createUsernameByUser,
   findMatchingCandidateIdForGivenUser,
+  findMatchingOrganizationStudentIdForGivenUser,
 };

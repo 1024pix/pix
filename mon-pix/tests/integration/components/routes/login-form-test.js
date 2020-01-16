@@ -20,12 +20,12 @@ describe('Integration | Component | routes/login-form', function() {
     this.owner.register('service:store', storeStub);
   });
 
-  it('should ask for email and password', async function() {
+  it('should ask for login and password', async function() {
     // when
     await render(hbs`{{routes/login-form}}`);
 
     // then
-    expect(find('#email')).to.exist;
+    expect(find('#login')).to.exist;
     expect(find('#password')).to.exist;
   });
 
@@ -40,9 +40,9 @@ describe('Integration | Component | routes/login-form', function() {
   context('When there is no invitation', function() {
 
     beforeEach(function() {
-      sessionStub.prototype.authenticate = function(authenticator, { email, password, scope }) {
+      sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
         this.authenticator = authenticator;
-        this.email = email;
+        this.login = login;
         this.password = password;
         this.scope = scope;
         return resolve();
@@ -53,7 +53,7 @@ describe('Integration | Component | routes/login-form', function() {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
       await render(hbs`{{routes/login-form}}`);
-      await fillIn('#email', 'pix@example.net');
+      await fillIn('#login', 'pix@example.net');
       await fillIn('#password', 'JeMeLoggue1024');
 
       //  when
@@ -62,7 +62,7 @@ describe('Integration | Component | routes/login-form', function() {
       // then
       expect(find('.form-textfield__input--error')).to.not.exist;
       expect(sessionServiceObserver.authenticator).to.equal('authenticator:oauth2');
-      expect(sessionServiceObserver.email).to.equal('pix@example.net');
+      expect(sessionServiceObserver.login).to.equal('pix@example.net');
       expect(sessionServiceObserver.password).to.equal('JeMeLoggue1024');
       expect(sessionServiceObserver.scope).to.equal('mon-pix');
     });
@@ -78,9 +78,9 @@ describe('Integration | Component | routes/login-form', function() {
           }
         });
       };
-      sessionStub.prototype.authenticate = function(authenticator, { email, password, scope }) {
+      sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
         this.authenticator = authenticator;
-        this.email = email;
+        this.login = login;
         this.password = password;
         this.scope = scope;
         return resolve();
@@ -91,7 +91,7 @@ describe('Integration | Component | routes/login-form', function() {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
       await render(hbs`{{routes/login-form}}`);
-      await fillIn('#email', 'pix@example.net');
+      await fillIn('#login', 'pix@example.net');
       await fillIn('#password', 'JeMeLoggue1024');
 
       //  when
@@ -100,7 +100,7 @@ describe('Integration | Component | routes/login-form', function() {
       // then
       expect(find('.form-textfield__input--error')).to.not.exist;
       expect(sessionServiceObserver.authenticator).to.equal('authenticator:oauth2');
-      expect(sessionServiceObserver.email).to.equal('pix@example.net');
+      expect(sessionServiceObserver.login).to.equal('pix@example.net');
       expect(sessionServiceObserver.password).to.equal('JeMeLoggue1024');
       expect(sessionServiceObserver.scope).to.equal('mon-pix');
     });
@@ -110,7 +110,7 @@ describe('Integration | Component | routes/login-form', function() {
     // given
     sessionStub.prototype.authenticate = () => reject();
     await render(hbs`{{routes/login-form}}`);
-    await fillIn('#email', 'pix@example.net');
+    await fillIn('#login', 'pix@example.net');
     await fillIn('#password', 'Mauvais mot de passe');
 
     //  when
@@ -118,7 +118,7 @@ describe('Integration | Component | routes/login-form', function() {
 
     // then
     expect(find('#login-form-error-message')).to.exist;
-    expect(find('#login-form-error-message').textContent).to.equal('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
+    expect(find('#login-form-error-message').textContent).to.equal('L\'adresse e-mail ou l\'identifiant et/ou le mot de passe saisis sont incorrects');
   });
 
   context('when password is hidden', function() {
