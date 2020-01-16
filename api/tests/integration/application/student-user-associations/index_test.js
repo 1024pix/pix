@@ -28,7 +28,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
           'first-name': 'Robert',
           'last-name': 'Smith',
           birthdate: '2012-12-12',
-          'campaign-code': 'CODE',
+          'campaign-code': 'RESTRICTD',
         } } },
       });
 
@@ -47,7 +47,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
           'first-name': 'Robert ',
           'last-name': 'Smith',
           birthdate: '2012-12-12',
-          'campaign-code': 'CODE',
+          'campaign-code': 'RESTRICTD',
         } } },
       });
 
@@ -83,7 +83,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
           'first-name': INVALID_FIRSTNAME,
           'last-name': 'Smith',
           birthdate: '2012-12-12',
-          'campaign-code': 'CODE',
+          'campaign-code': 'RESTRICTD',
         } } },
       });
 
@@ -105,7 +105,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
           'first-name': 'Robert',
           'last-name': INVALID_LASTNAME,
           birthdate: '2012-12-12',
-          'campaign-code': 'CODE',
+          'campaign-code': 'RESTRICTD',
         } } },
       });
 
@@ -127,7 +127,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
           'first-name': 'Robert',
           'last-name': 'Smith',
           birthdate: INVALID_BIRTHDATE,
-          'campaign-code': 'CODE',
+          'campaign-code': 'RESTRICTD',
         } } },
       });
 
@@ -149,7 +149,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
           'first-name': 'Robert',
           'last-name': 'Smith',
           birthdate: INVALID_BIRTHDATE,
-          'campaign-code': 'CODE',
+          'campaign-code': 'RESTRICTD',
         } } },
       });
 
@@ -171,7 +171,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
           'first-name': 'Robert',
           'last-name': 'Smith',
           birthdate: INVALID_BIRTHDATE,
-          'campaign-code': 'CODE',
+          'campaign-code': 'RESTRICTD',
         } } },
       });
 
@@ -231,7 +231,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
           'first-name': 'Robert',
           'last-name': 'Smith',
           birthdate: '2012-12-12',
-          'campaign-code': 'CODE',
+          'campaign-code': 'RESTRICTD',
         } } },
       });
 
@@ -250,7 +250,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
           'first-name': 'Robert ',
           'last-name': 'Smith',
           birthdate: '2012-12-12',
-          'campaign-code': 'CODE',
+          'campaign-code': 'RESTRICTD',
         } } },
       });
 
@@ -286,7 +286,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
           'first-name': INVALID_FIRSTNAME,
           'last-name': 'Smith',
           birthdate: '2012-12-12',
-          'campaign-code': 'CODE',
+          'campaign-code': 'RESTRICTD',
         } } },
       });
 
@@ -308,7 +308,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
           'first-name': 'Robert',
           'last-name': INVALID_LASTNAME,
           birthdate: '2012-12-12',
-          'campaign-code': 'CODE',
+          'campaign-code': 'RESTRICTD',
         } } },
       });
 
@@ -330,7 +330,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
           'first-name': 'Robert',
           'last-name': 'Smith',
           birthdate: INVALID_BIRTHDATE,
-          'campaign-code': 'CODE',
+          'campaign-code': 'RESTRICTD',
         } } },
       });
 
@@ -352,7 +352,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
           'first-name': 'Robert',
           'last-name': 'Smith',
           birthdate: INVALID_BIRTHDATE,
-          'campaign-code': 'CODE',
+          'campaign-code': 'RESTRICTD',
         } } },
       });
 
@@ -374,7 +374,7 @@ describe('Integration | Application | Route | student-user-associations', () => 
           'first-name': 'Robert',
           'last-name': 'Smith',
           birthdate: INVALID_BIRTHDATE,
-          'campaign-code': 'CODE',
+          'campaign-code': 'RESTRICTD',
         } } },
       });
 
