@@ -375,7 +375,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
       expect(result).to.equal(expectedUsername);
     });
 
-    it('should generate a other username when exist whith original inputs', async () => {
+    it('should generate an other username when exist with original inputs', async () => {
       // given
       const firstPart = 'firstname.lastname';
       const secondPart = '0101';
