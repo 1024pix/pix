@@ -17,6 +17,7 @@ module.exports = function areaRawAirTableFixture() {
         '1.3 Traiter des données',
         '1.2 Gérer des données',
       ],
+      'Couleur': 'jaffa',
     },
     'createdTime': '2017-06-13T13:15:26.000Z',
   });
