@@ -1,5 +1,6 @@
 import { computed } from '@ember/object';
 import Component from '@ember/component';
+import { isEmpty } from '@ember/utils';
 
 const INPUT_VALIDATION_STATUS_MAP = {
   default: 'form-textfield__input--default',
@@ -57,6 +58,10 @@ export default Component.extend({
 
   hasIcon: computed('validationStatus', 'user.errors.content', 'disabled', function() {
     return this._isValidationStatusNotDefault() && !this.disabled;
+  }),
+
+  displayMessage: computed('hasIcon', 'validationMessage', function() {
+    return !isEmpty(this.validationMessage) || this.hasIcon;
   }),
 
   inputContainerStatusClass: computed('validationStatus', function() {
