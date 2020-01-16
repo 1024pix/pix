@@ -1,7 +1,7 @@
 const _ = require('lodash');
+const Bookshelf = require('../bookshelf');
 const BookshelfUser = require('../data/user');
-const { AlreadyRegisteredEmailError } = require('../../domain/errors');
-const { UserNotFoundError } = require('../../domain/errors');
+const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, OrganizationStudentAlreadyLinkedToUserError, UserNotFoundError } = require('../../domain/errors');
 const User = require('../../domain/models/User');
 const PixRole = require('../../domain/models/PixRole');
 const Membership = require('../../domain/models/Membership');
@@ -83,7 +83,7 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
 
 function _adaptModelToDb(user) {
   return _.omit(user, [
-    'campaignParticipations', 'pixRoles', 'memberships',
+    'id', 'campaignParticipations', 'pixRoles', 'memberships',
     'certificationCenterMemberships', 'pixScore', 'knowledgeElements',
     'scorecards',
   ]);
@@ -268,4 +268,39 @@ module.exports = {
     updatedUser = await updatedUser.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
   },
+
+  async createAndAssociateUserToStudent({ domainUser, studentId }) {
+    const userToCreate = _adaptModelToDb(domainUser);
+
+    const trx = await Bookshelf.knex.transaction();
+    try {
+      const [ userId ] = await trx('users').insert(userToCreate, 'id');
+
+      const updatedStudentsCount = await trx('students')
+        .where('id', studentId)
+        .whereNull('userId')
+        .update({ userId });
+
+      if (updatedStudentsCount !== 1) {
+        throw new OrganizationStudentAlreadyLinkedToUserError(`L'élève ${studentId} est déjà rattaché à un compte utilisateur.`);
+      }
+
+      await trx.commit();
+      return userId;
+    } catch (error) {
+      await trx.rollback();
+      throw error;
+    }
+  },
+
+  async isUsernameAvailable(username) {
+    const foundUser = await BookshelfUser
+      .where({ username })
+      .fetch();
+    if (foundUser) {
+      throw new AlreadyRegisteredUsernameError();
+    }
+    return username;
+  }
+
 };

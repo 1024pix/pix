@@ -4,7 +4,7 @@
     <br><span class="form-textfield__help">{{help}}</span>
 </label>
 
-<div class="form-textfield__input-field-container {{inputContainerStatusClass}}">
+<div class="form-textfield__input-field-container {{if disabled "form-textfield__input-container--disabled" inputContainerStatusClass}}">
   {{input type=textfieldType
           id=textfieldName
           name=textfieldName
@@ -14,7 +14,9 @@
           classBinding="inputValidationStatus"
           autocomplete=autocomplete
           ariaDescribedBy='validationMessage'
-          required=require}}
+          required=require
+          disabled=disabled
+          }}
     <div class="form-textfield__icon">
       {{#if isPassword}}
           <button type="button" aria-label="rendre le mot de passe lisible" class="form-textfield-icon__button" {{action 'togglePasswordVisibility'}}>
@@ -35,6 +37,6 @@
     </div>
 
 </div>
-{{#if hasIcon}}
+{{#if displayMessage}}
     <div id="validationMessage" class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}" role="alert">{{validationMessage}}</div>
 {{/if}}

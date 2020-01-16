@@ -27,6 +27,7 @@ module.exports = [
   require('./application/simulateErrors'),
   require('./application/progressions'),
   require('./application/snapshots'),
+  require('./application/student-dependent-users'),
   require('./application/student-user-associations'),
   require('./application/system'),
   require('./application/users'),

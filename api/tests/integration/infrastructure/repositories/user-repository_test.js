@@ -3,7 +3,7 @@ const faker = require('faker');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 
-const { NotFoundError, AlreadyRegisteredEmailError, UserNotFoundError } = require('../../../../lib/domain/errors');
+const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, OrganizationStudentAlreadyLinkedToUserError, NotFoundError, UserNotFoundError } = require('../../../../lib/domain/errors');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../../lib/domain/models/User');
 const Membership = require('../../../../lib/domain/models/Membership');
@@ -776,6 +776,96 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(actualUser.pixCertifTermsOfServiceAccepted).to.be.true;
     });
 
+  });
+
+  describe('#createAndAssociateUserToStudent', () => {
+    const email = 'jojo.lapointe@example.net';
+    let studentId;
+    let organizationId;
+    let domainUser;
+
+    beforeEach(() => {
+      // given
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      studentId = databaseBuilder.factory.buildStudent({ userId: null, organizationId }).id;
+      domainUser = domainBuilder.buildUser({ email });
+
+      return databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await knex('students').delete();
+      await knex('users').delete();
+    });
+
+    context('when all goes well', function() {
+
+      it('should create user', async () => {
+        // when
+        const result = await userRepository.createAndAssociateUserToStudent({ domainUser, studentId });
+
+        // then
+        const foundUser = await knex('users').where({ email });
+        expect(foundUser).to.have.lengthOf(1);
+        expect(result).to.equal(foundUser[0].id);
+      });
+
+      it('should associate user to student', async () => {
+        // when
+        await userRepository.createAndAssociateUserToStudent({ domainUser, studentId });
+
+        // then
+        const foundStudents = await knex('students').where('id', studentId);
+        expect(foundStudents[0].userId).to.not.be.undefined;
+      });
+    });
+
+    context('when creation succeeds and association fails', () => {
+
+      it('should rollback after association fails', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        studentId = databaseBuilder.factory.buildStudent({ userId, organizationId }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(userRepository.createAndAssociateUserToStudent)({ domainUser, studentId });
+
+        // then
+        expect(error).to.be.instanceOf(OrganizationStudentAlreadyLinkedToUserError);
+        const foundStudents = await knex('students').where('id', studentId);
+        expect(foundStudents[0].userId).to.equal(userId);
+        const foundUser = await knex('users').where({ email });
+        expect(foundUser).to.have.lengthOf(0);
+      });
+    });
+  });
+
+  describe('#isUsernameAvailable', () => {
+
+    const username = 'abc.def0101';
+
+    it('should return username when it doesn\'t exist', async () => {
+      // when
+      const result = await userRepository.isUsernameAvailable(username);
+
+      // then
+      expect(result).to.equal(username);
+    });
+
+    it('should throw AlreadyRegisteredUsernameError when username already exist', async () => {
+      // given
+      databaseBuilder.factory.buildUser({
+        username
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(userRepository.isUsernameAvailable)(username);
+
+      // then
+      expect(error).to.be.instanceOf(AlreadyRegisteredUsernameError);
+    });
   });
 
 });

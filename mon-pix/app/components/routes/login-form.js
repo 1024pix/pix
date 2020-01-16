@@ -7,7 +7,7 @@ export default Component.extend({
   session: inject(),
   store: inject(),
 
-  email: null,
+  login: null,
   password: null,
   isLoading: false,
   isPasswordVisible: false,
@@ -20,10 +20,10 @@ export default Component.extend({
   actions: {
     authenticate() {
       this.set('isLoading', true);
-      const email = this.email;
+      const login = this.login;
       const password = this.password;
 
-      this._authenticate(password, email);
+      this._authenticate(password, login);
     },
 
     togglePasswordVisibility() {
@@ -32,10 +32,10 @@ export default Component.extend({
 
   },
 
-  async _authenticate(password, email) {
+  async _authenticate(password, login) {
     const scope = 'mon-pix';
     try {
-      await this.session.authenticate('authenticator:oauth2', { email, password, scope });
+      await this.session.authenticate('authenticator:oauth2', { login, password, scope });
     } catch (e) {
       this.set('isErrorMessagePresent', true);
     }

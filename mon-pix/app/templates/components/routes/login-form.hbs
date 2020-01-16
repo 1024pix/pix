@@ -1,16 +1,16 @@
 <div class="login-form">
   {{#if isErrorMessagePresent}}
-    <div id="login-form-error-message" class="login-form__error-message error-message">L'adresse e-mail et/ou le mot de passe saisis sont incorrects.</div>
+    <div id="login-form-error-message" class="login-form__error-message error-message">L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects</div>
   {{/if}}
 
   <form {{action 'authenticate' on='submit'}}>
 
     <div id="login-email-container">
       {{form-textfield
-              label="Adresse e-mail"
-              textfieldName="email"
+              label="Adresse e-mail ou identifiant"
+              textfieldName="login"
               validationStatus="default"
-              inputBindingValue=email
+              inputBindingValue=login
               autocomplete="username"}}
     </div>
 

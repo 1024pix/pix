@@ -22,10 +22,14 @@ const userValidationJoiSchema = Joi.object({
 
   email: Joi.string()
     .email()
-    .required()
     .messages({
       'string.empty': 'Votre adresse e-mail n’est pas renseignée.',
       'string.email': 'Votre adresse e-mail n’est pas correcte.',
+    }),
+
+  username: Joi.string()
+    .messages({
+      'string.empty': 'Votre identifiant n’est pas renseigné.',
     }),
 
   password: Joi.string()
@@ -37,19 +41,27 @@ const userValidationJoiSchema = Joi.object({
     }),
 
   cgu: Joi.boolean()
-    .required()
+    .when('$cguRequired', {
+      is: Joi.boolean().required().valid(true),
+      then: Joi.required(),
+      otherwise: Joi.optional()
+    })
     .valid(true)
     .messages({
       'boolean.base': 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.',
       'any.only': 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.',
     }),
-});
+}).oxor('username', 'email')
+  .required()
+  .messages({
+    'any.required': 'Aucun champ n\'est renseigné.',
+  });
 
 module.exports = {
 
-  validate(user) {
+  validate({ user, cguRequired = true }) {
 
-    const { error } = userValidationJoiSchema.validate(user, validationConfiguration);
+    const { error } = userValidationJoiSchema.validate(user, { ...validationConfiguration, context: { cguRequired } });
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
     } else {

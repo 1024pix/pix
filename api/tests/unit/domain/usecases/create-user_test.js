@@ -68,7 +68,7 @@ describe('Unit | UseCase | create-user', () => {
       //then
       return promise
         .then(() => {
-          expect(userValidator.validate).to.have.been.calledWith(user);
+          expect(userValidator.validate).to.have.been.calledWith({ user });
         });
     });
 

@@ -26,36 +26,6 @@
     }
   }
 
-  &__cgu {
-    font-size: 1.6rem;
-    font-weight: $font-medium;
-  }
-
-  &__cgu-label {
-    position: relative;
-    margin-bottom: 0;
-  }
-
-  &__cgu-label input[type=checkbox] {
-    margin: 3px 10px;
-  }
-
-  &__cgu-label span {
-    color: $charcoal-grey;
-    font-size: 1.3rem;
-    @include device-is('tablet') {
-      font-size: 1.4rem;
-    }
-  }
-
-  &__legal-text {
-    color: $dove-gray;
-    font-family: $font-roboto;
-    font-size: 1.1rem;
-    font-weight: $font-light;
-    padding: 10px 0;
-  }
-
   &__validation-error {
     color: $red-error;
     font-weight: normal;
@@ -67,6 +37,37 @@
     .button {
       flex-grow: 1;
       margin-top: 25px;
+    }
+  }
+
+  hr {
+    height: 2px;
+    border: none;
+    color: $alto-grey;
+    background-color: $alto-grey;
+    margin: 20px 0;
+  }
+
+  &__return-button {
+    display: inline-flex;
+    align-items: center;
+    margin: 4px 0;
+  }
+
+  &__return-button:hover {
+    > .register-form-return-button__icon {
+      background-color: $alto-grey;
+    }
+  }
+
+  &__error {
+    text-align: center;
+    color: $pure-orange;
+    font-size: 1.5rem;
+    padding: 4px 10px;
+
+    @include device-is('tablet') {
+      padding: 10px 10px 0 10px;
     }
   }
 }

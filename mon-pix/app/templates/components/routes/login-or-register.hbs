@@ -8,11 +8,11 @@
       <div class="login-or-register-panel__form">
         <h1 class="form-title">Je m’inscris sur Pix</h1>
         {{#unless displayRegisterForm}}
-          <button id="register" {{action "toggleFormsVisibility"}} class="button button--white button--bordered button--uppercase">S'inscrire</button>
+          <button id="register-button" {{action "toggleFormsVisibility"}} class="button button--white button--bordered button--uppercase">S'inscrire</button>
         {{/unless}}
         <div class={{concat "login-or-register-panel-form__expandable" (if displayRegisterForm " login-or-register-panel-form__expandable--expanded")}}>
           {{#if displayRegisterForm}}
-            {{routes/register-form}}
+            {{routes/register-form campaignCode=campaignCode}}
           {{/if}}
         </div>
       </div>
@@ -20,7 +20,7 @@
       <div class="login-or-register-panel__form">
         <h1 class="form-title">J’ai déjà un compte Pix</h1>
         {{#if displayRegisterForm}}
-          <button id="login" {{action "toggleFormsVisibility"}} class="button button--white button--bordered button--uppercase">Se connecter</button>
+          <button id="login-button" {{action "toggleFormsVisibility"}} class="button button--white button--bordered button--uppercase">Se connecter</button>
         {{/if}}
         <div class={{concat "login-or-register-panel-form__expandable" (if (not displayRegisterForm) " login-or-register-panel-form__expandable--expanded")}}>
           {{#unless displayRegisterForm}}

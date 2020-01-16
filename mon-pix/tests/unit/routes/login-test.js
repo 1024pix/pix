@@ -41,15 +41,15 @@ describe('Unit | Route | login page', function() {
 
       it('should authenticate the user given email and password', async function() {
         // given
-        const email = 'email@example.net';
+        const login = 'email@example.net';
 
         // when
-        await route.actions.authenticate.call(route, email, password);
+        await route.actions.authenticate.call(route, login, password);
 
         // then
         sinon.assert.calledWith(authenticateStub,
           expectedAuthenticator,
-          { email, password, scope }
+          { login, password, scope }
         );
       });
 
@@ -64,7 +64,7 @@ describe('Unit | Route | login page', function() {
         // then
         sinon.assert.calledWith(authenticateStub,
           expectedAuthenticator,
-          { email: trimedEmail, password, scope }
+          { login: trimedEmail, password, scope }
         );
       });
     });

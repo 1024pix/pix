@@ -28,6 +28,13 @@ const simpleExternalUserAuthentication = {
   user_id: 3
 };
 
+const newlyCreatedUserAuthentication = {
+  token_type: 'bearer',
+  expires_in: '',
+  access_token: 'aaa.' + btoa('{"user_id":4,"source":"mon-pix","iat":1545321469,"exp":4702193958}') + '.bbb',
+  user_id: 4
+};
+
 const badUser = {
   errors: [
     { status:'400',
@@ -39,14 +46,18 @@ const badUser = {
 
 export default function(schema, request) {
   const params = parseQueryString(request.requestBody);
-  const { username:email, password, token } = params;
+  const { username: login, password, token } = params;
 
-  if (email === 'jane@acme.com' && password === 'Jane1234')  {
+  if (login === 'jane@acme.com' && password === 'Jane1234')  {
     return simpleUserAuthentication;
   }
 
-  if (email === 'john@acme.com' && password === 'John1234') {
+  if (login === 'john@acme.com' && password === 'John1234') {
     return prescriberAuthentication;
+  }
+
+  if ((login === 'tom@acme.com' || login === 'tom.acme1012') && password === 'Tom12345') {
+    return newlyCreatedUserAuthentication;
   }
 
   const userId = JSON.parse(atob(token.split('.')[1])).user_id;

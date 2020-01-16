@@ -28,6 +28,12 @@ class AlreadyRegisteredEmailError extends DomainError {
   }
 }
 
+class AlreadyRegisteredUsernameError extends DomainError {
+  constructor(message = 'Cet identifiant est déjà utilisé.') {
+    super(message);
+  }
+}
+
 class AlreadyExistingCampaignParticipationError extends DomainError {
   constructor(message = 'Une participation à cette campagne existe déjà.') {
     super(message);
@@ -259,6 +265,12 @@ class ObjectValidationError extends DomainError {
   }
 }
 
+class OrganizationStudentAlreadyLinkedToUserError extends DomainError {
+  constructor(message = 'L\'élève est déjà rattaché à un compte utilisateur.') {
+    super(message);
+  }
+}
+
 class FileValidationError extends DomainError {
   constructor(message = 'Erreur, fichier non valide.') {
     super(message);
@@ -372,6 +384,7 @@ module.exports = {
   AlreadyExistingOrganizationInvitationError,
   AlreadyRatedAssessmentError,
   AlreadyRegisteredEmailError,
+  AlreadyRegisteredUsernameError,
   AlreadySharedCampaignParticipationError,
   AssessmentEndedError,
   AssessmentNotCompletedError,
@@ -402,6 +415,7 @@ module.exports = {
   MissingOrInvalidCredentialsError,
   NotFoundError,
   ObjectValidationError,
+  OrganizationStudentAlreadyLinkedToUserError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   SessionAlreadyFinalizedError,
