@@ -27,7 +27,7 @@ describe('Integration | Application | Route | student-dependent-users', () => {
           'last-name': 'Smith',
           birthdate: '2012-12-12',
           'campaign-code': 'CODE',
-          username: 'us3rnam3',
+          username: 'robert.smith1212',
           password: 'P@ssw0rd',
         } } },
       });
