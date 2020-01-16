@@ -405,6 +405,7 @@ describe('Integration | Repository | Campaign', () => {
         id: 1,
         title: 'Title',
         customLandingPageText: 'Text',
+        archivedAt: new Date('2019-03-01T23:04:05Z'),
       });
       campaign = domainBuilder.buildCampaign(bookshelfCampaign);
       return databaseBuilder.commit();
@@ -434,6 +435,7 @@ describe('Integration | Repository | Campaign', () => {
       // given
       campaign.title = 'New title';
       campaign.customLandingPageText = 'New text';
+      campaign.archivedAt = new Date('2020-12-12T06:07:08Z');
 
       // when
       const campaignSaved = await campaignRepository.update(campaign);
@@ -442,6 +444,7 @@ describe('Integration | Repository | Campaign', () => {
       expect(campaignSaved.id).to.equal(campaign.id);
       expect(campaignSaved.title).to.equal('New title');
       expect(campaignSaved.customLandingPageText).to.equal('New text');
+      expect(campaignSaved.archivedAt).to.deep.equal(new Date('2020-12-12T06:07:08Z'));
     });
   });
 

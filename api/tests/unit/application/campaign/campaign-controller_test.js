@@ -222,6 +222,7 @@ describe('Unit | Application | Controller | Campaign', () => {
             attributes: {
               title: 'New title',
               'custom-landing-page-text': 'New text',
+              'archived-at': '2012-12-12',
             }
           }
         }
@@ -323,6 +324,71 @@ describe('Unit | Application | Controller | Campaign', () => {
 
       // then
       expect(errorCatched).to.be.instanceof(UserNotAuthorizedToAccessEntity);
+    });
+
+  });
+
+  describe('archiveCampaign', async () => {
+    let updatedCampaign;
+    let serializedCampaign;
+
+    const campaignId = 1;
+    const userId = 1;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'updateCampaign');
+      sinon.stub(campaignSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
+      updatedCampaign = Symbol('updated campaign');
+      serializedCampaign = Symbol('serialized campaign');
+    });
+
+    it('should return the updated campaign properly serialized', async () => {
+      // given
+      usecases.updateCampaign.withArgs({ userId, campaignId, archivedAt: sinon.match.instanceOf(Date) }).resolves(updatedCampaign);
+      campaignSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
+
+      // when
+      const response = await campaignController.archiveCampaign({
+        params: { id: campaignId },
+        auth: {
+          credentials: { userId }
+        }
+      });
+
+      // then
+      expect(response).to.be.equal(serializedCampaign);
+    });
+
+  });
+  describe('unarchiveCampaign', async () => {
+    let updatedCampaign;
+    let serializedCampaign;
+
+    const campaignId = 1;
+    const userId = 1;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'updateCampaign');
+      sinon.stub(campaignSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
+      updatedCampaign = Symbol('updated campaign');
+      serializedCampaign = Symbol('serialized campaign');
+    });
+
+    it('should return the updated campaign properly serialized', async () => {
+      // given
+      usecases.updateCampaign.withArgs({ userId, campaignId, archivedAt: null }).resolves(updatedCampaign);
+      campaignSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
+
+      // when
+      const response = await campaignController.unarchiveCampaign({
+        params: { id: campaignId },
+        auth: {
+          credentials: { userId }
+        }
+      });
+
+      // then
+      expect(response).to.be.equal(serializedCampaign);
     });
 
   });

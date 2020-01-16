@@ -50,6 +50,9 @@ describe('Unit | Domain | Errors', () => {
   it('should export a UserAlreadyLinkedToCandidateInSessionError', () => {
     expect(errors.UserAlreadyLinkedToCandidateInSessionError).to.exist;
   });
+  it('should export a CampaignAlreadyArchivedError,',() => {
+    expect(errors.CampaignAlreadyArchivedError).to.exist;
+  });
 
   it('should export a UserNotAuthorizedToUpdateStudentPassword', () => {
     expect(errors.UserNotAuthorizedToUpdateStudentPasswordError).to.exist;
