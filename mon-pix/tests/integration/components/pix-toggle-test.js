@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import { find, render } from '@ember/test-helpers';
+import { find, render , click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | pix-toggle', function() {
@@ -42,12 +42,12 @@ describe('Integration | Component | pix-toggle', function() {
 
   it('should change the value of toggleOn when toggle off', async function() {
 
-    this.$('.pix-toggle__off').click();
+    await click('.pix-toggle__off');
 
     expect(find('.pix-toggle__on').textContent).to.equal('valueSecondLabel');
     expect(find('.pix-toggle__off').textContent).to.equal('valueFirstLabel');
 
-    this.$('.pix-toggle__off').click();
+    await click('.pix-toggle__off');
 
     expect(find('.pix-toggle__on').textContent).to.equal('valueFirstLabel');
     expect(find('.pix-toggle__off').textContent).to.equal('valueSecondLabel');
