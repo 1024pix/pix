@@ -68,67 +68,67 @@
 
   {{#if matchingStudentFound}}
 
-    <hr>
+  <hr>
 
-    <label>Je m'inscris avec :</label>
-    <div id="login-mode-container">
-              {{pix-toggle onToggle=(action 'onToggle') valueFirstLabel='Mon identifiant' valueSecondLabel='Mon adresse e-mail'}}
+  <label>Je m'inscris avec :</label>
+  <div id="login-mode-container">
+            {{pix-toggle onToggle=(action 'onToggle') valueFirstLabel='Mon identifiant' valueSecondLabel='Mon adresse e-mail'}}
+  </div>
+
+  <form {{action 'register' on='submit'}} autocomplete="off">
+    {{#if loginWithUsername}}
+        <div id="register-username-container">
+          {{form-textfield
+                  label="Mon identifiant"
+                  textfieldName="username"
+                  inputBindingValue=studentDependentUser.username
+                  onValidate=(action "triggerInputStringValidation" "username" studentDependentUser.username)
+                  validationStatus=validation.username.status
+                  validationMessage=validation.username.message
+                  disabled=true
+                  require=true}}
+        </div>
+    {{else}}
+        <div id="register-email-container">
+          {{form-textfield
+                  label="Adresse e-mail"
+                  help="(ex: nom@exemple.fr)"
+                  textfieldName="email"
+                  inputBindingValue=studentDependentUser.email
+                  onValidate=(action "triggerInputEmailValidation" "email" studentDependentUser.email)
+                  validationStatus=validation.email.status
+                  validationMessage=validation.email.message
+                  require=true}}
+        </div>
+    {{/if}}
+    <div id="register-password-container">
+      {{form-textfield
+        label="Mot de passe"
+        help="(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)"
+        textfieldName="password"
+        inputBindingValue=studentDependentUser.password
+        onValidate=(action "triggerInputPasswordValidation" "password" studentDependentUser.password)
+        validationStatus=validation.password.status
+        validationMessage=validation.password.message
+        require=true}}
     </div>
 
-    <form {{action 'register' on='submit'}} autocomplete="off">
-      {{#if loginWithUsername}}
-          <div id="register-username-container">
-            {{form-textfield
-                    label="Mon identifiant"
-                    textfieldName="username"
-                    inputBindingValue=studentDependentUser.username
-                    onValidate=(action "triggerInputStringValidation" "username" studentDependentUser.username)
-                    validationStatus=validation.username.status
-                    validationMessage=validation.username.message
-                    disabled=true
-                    require=true}}
-          </div>
+    <div class="register-button-container">
+      {{#if isLoading}}
+        <button type="submit" class="button"><span class="loader-in-button">&nbsp;</span></button>
       {{else}}
-          <div id="register-email-container">
-            {{form-textfield
-                    label="Adresse e-mail"
-                    help="(ex: nom@exemple.fr)"
-                    textfieldName="email"
-                    inputBindingValue=studentDependentUser.email
-                    onValidate=(action "triggerInputEmailValidation" "email" studentDependentUser.email)
-                    validationStatus=validation.email.status
-                    validationMessage=validation.email.message
-                    require=true}}
-          </div>
+        <button id="submit-registration" type="submit" class="button button--uppercase">Je m'inscris</button>
       {{/if}}
-      <div id="register-password-container">
-        {{form-textfield
-          label="Mot de passe"
-          help="(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)"
-          textfieldName="password"
-          inputBindingValue=studentDependentUser.password
-          onValidate=(action "triggerInputPasswordValidation" "password" studentDependentUser.password)
-          validationStatus=validation.password.status
-          validationMessage=validation.password.message
-          require=true}}
-      </div>
+    </div>
 
-      <div class="register-button-container">
-        {{#if isLoading}}
-          <button type="submit" class="button"><span class="loader-in-button">&nbsp;</span></button>
-        {{else}}
-          <button id="submit-registration" type="submit" class="button button--uppercase">Je m'inscris</button>
-        {{/if}}
-      </div>
+    {{#link-to "campaigns.start-or-resume" campaignCode class="link link--underline register-form__return-button"}}
+      <span class="icon-button register-form-return-button__icon">
+        {{fa-icon 'arrow-left'}}
+      </span>
+      Ce n'est pas moi
+    {{/link-to}}
 
-      {{#link-to "campaigns.start-or-resume" campaignCode class="link link--underline register-form__return-button"}}
-        <span class="icon-button register-form-return-button__icon">
-          {{fa-icon 'arrow-left'}}
-        </span>
-        Ce n'est pas moi
-      {{/link-to}}
-
-    </form>
+  </form>
   {{/if}}
 
 </div>
