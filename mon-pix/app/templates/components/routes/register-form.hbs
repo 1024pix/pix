@@ -81,8 +81,8 @@
             {{form-textfield
                     label="Mon identifiant"
                     textfieldName="username"
-                    inputBindingValue=username
-                    onValidate=(action "triggerInputUsernameValidation" "username" studentDependentUser.username)
+                    inputBindingValue=studentDependentUser.username
+                    onValidate=(action "triggerInputStringValidation" "username" studentDependentUser.username)
                     validationStatus=validation.username.status
                     validationMessage=validation.username.message
                     disabled=true

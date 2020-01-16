@@ -14,7 +14,7 @@ describe('Integration | Component | form textfield', function() {
   const MESSAGE = '.form-textfield__message';
   const MESSAGE_ERROR_STATUS = 'form-textfield__message--error';
   const MESSAGE_SUCCESS_STATUS = 'form-textfield__message--success';
-  const MESSAGE_TEXT = '';
+  const MESSAGE_TEXT = 'MESSAGE';
 
   const INPUT = '.form-textfield__input';
   const INPUT_DEFAULT_CLASS = 'form-textfield__input--default';
@@ -25,10 +25,11 @@ describe('Integration | Component | form textfield', function() {
     beforeEach(async function() {
       this.set('label', 'nom');
       this.set('validationStatus', '');
+      this.set('validationMessage', MESSAGE_TEXT);
       this.set('textfieldName', 'firstname');
 
       // When
-      await render(hbs`{{form-textfield label=label validationStatus=validationStatus textfieldName=textfieldName}}`);
+      await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
     });
 
     [
@@ -57,7 +58,6 @@ describe('Integration | Component | form textfield', function() {
 
   });
 
-  //behavior
   describe('#Component Interactions', function() {
 
     it('should handle action <validate> when input lost focus', async function() {
@@ -73,9 +73,10 @@ describe('Integration | Component | form textfield', function() {
 
       this.set('label', 'nom');
       this.set('validationStatus', '');
+      this.set('validationMessage', 'message');
       this.set('textfieldName', 'firstname');
 
-      await render(hbs`{{form-textfield label=label validationStatus=validationStatus textfieldName=textfieldName onValidate=(action validate)}}`);
+      await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName onValidate=(action validate)}}`);
       // when
       await fillIn(INPUT, 'pix');
       await triggerEvent(INPUT, 'blur');
@@ -91,7 +92,7 @@ describe('Integration | Component | form textfield', function() {
         this.set('label', 'nom');
         this.set('validationStatus', 'default');
         this.set('textfieldName', 'firstname');
-        this.set('validationMessage', '');
+        this.set('validationMessage', 'message');
 
         // When
         await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
@@ -108,114 +109,107 @@ describe('Integration | Component | form textfield', function() {
         expect(input.getAttribute('class')).to.contain(INPUT_DEFAULT_CLASS);
         expect(input.value).to.contain('');
       });
+    });
 
-      it('should not show a div for message validation status  when validationStatus is default', function() {
+    describe('#When validationStatus gets "error", Component should ', function() {
+      beforeEach(async function() {
+        this.set('label', 'nom');
+        this.set('validationStatus', 'error');
+        this.set('textfieldName', 'firstname');
+        this.set('validationMessage', 'message');
+
+        // When
+        await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
+      });
+
+      it('return true if any img does exist', function() {
         // then
-        expect(find(MESSAGE)).to.not.exist;
+        return wait().then(() => {
+          expect(findAll('img')).to.have.lengthOf(1);
+          expect(find('img').getAttribute('class')).to.contain('form-textfield-icon__state--error');
+        });
+      });
+
+      [
+
+        { item: 'Input', itemSelector: INPUT, expectedClass: INPUT_ERROR_CLASS },
+        { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_ERROR_STATUS },
+
+      ].forEach(({ item, itemSelector, expectedClass }) => {
+        it(`contain an ${item} with an additional class ${expectedClass}`, function() {
+          // then
+          expect(find(itemSelector).getAttribute('class')).to.contain(expectedClass);
+        });
       });
 
     });
 
-  });
+    describe('#When validationStatus gets "success", Component should ', function() {
+      beforeEach(async function() {
+        this.set('label', 'nom');
+        this.set('validationStatus', 'success');
+        this.set('validationMessage', 'message');
+        this.set('textfieldName', 'firstname');
 
-  describe('#When validationStatus gets "error", Component should ', function() {
-    beforeEach(async function() {
-      this.set('label', 'nom');
-      this.set('validationStatus', 'error');
-      this.set('textfieldName', 'firstname');
+        // When
+        await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
+      });
 
-      // When
-      await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
-      this.set('validationMessage', '');
-    });
-
-    it('return true if any img does exist', function() {
-      // then
-      return wait().then(() => {
+      it('return true if any img does exist', function() {
+        // then
         expect(findAll('img')).to.have.lengthOf(1);
-        expect(find('img').getAttribute('class')).to.contain('form-textfield-icon__state--error');
+        expect(find('img').getAttribute('class')).to.contain('form-textfield-icon__state--success');
+      });
+
+      [
+        { item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS },
+        { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS },
+
+      ].forEach(({ item, itemSelector, expectedClass }) => {
+        it(`contain an ${item} with an additional class ${expectedClass}`, function() {
+          // then
+          expect(find(itemSelector).getAttribute('class')).to.contain(expectedClass);
+        });
       });
     });
 
-    [
+    describe('#When password is hidden', function() {
+      this.beforeEach(async function() {
+        this.set('label', 'Mot de passe');
+        this.set('validationStatus', 'default');
+        this.set('validationMessage', 'message');
+        this.set('textfieldName', 'password');
 
-      { item: 'Input', itemSelector: INPUT, expectedClass: INPUT_ERROR_CLASS },
-      { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_ERROR_STATUS },
+        // given
+        await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName value=inputValue}}`);
+      });
 
-    ].forEach(({ item, itemSelector, expectedClass }) => {
-      it(`contain an ${item} with an additional class ${expectedClass}`, function() {
+      it('should change type when user click on eye icon', async function() {
+        // when
+        await click('.form-textfield-icon__button');
+
         // then
-        expect(find(itemSelector).getAttribute('class')).to.contain(expectedClass);
+        expect(find('input').getAttribute('type')).to.equal('text');
       });
-    });
 
-  });
+      it('should change icon when user click on it', async function() {
+        // when
+        expect(find('.fa-eye-slash')).to.exist;
+        await click('.form-textfield-icon__button');
 
-  describe('#When validationStatus gets "success", Component should ', function() {
-    beforeEach(async function() {
-      this.set('label', 'nom');
-      this.set('validationStatus', 'success');
-      this.set('validationMessage', '');
-      this.set('textfieldName', 'firstname');
-
-      // When
-      await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
-    });
-
-    it('return true if any img does exist', function() {
-      // then
-      expect(findAll('img')).to.have.lengthOf(1);
-      expect(find('img').getAttribute('class')).to.contain('form-textfield-icon__state--success');
-    });
-
-    [
-      { item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS },
-      { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS },
-
-    ].forEach(({ item, itemSelector, expectedClass }) => {
-      it(`contain an ${item} with an additional class ${expectedClass}`, function() {
         // then
-        expect(find(itemSelector).getAttribute('class')).to.contain(expectedClass);
+        expect(find('.fa-eye')).to.exist;
       });
-    });
-  });
 
-  describe('#When password is hidden', function() {
-    this.beforeEach(async function() {
-      this.set('label', 'Mot de passe');
-      this.set('validationStatus', 'default');
-      this.set('validationMessage', '');
-      this.set('textfieldName', 'password');
+      it('should not change icon when user keeps typing his password', async function() {
+        // given
+        await fillIn(INPUT, 'test');
 
-      // given
-      await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName value=inputValue}}`);
-    });
-
-    it('should change type when user click on eye icon', async function() {
-      // when
-      await click('.form-textfield-icon__button');
-
-      // then
-      expect(find('input').getAttribute('type')).to.equal('text');
-    });
-
-    it('should change icon when user click on it', async function() {
-      // when
-      expect(find('.fa-eye-slash')).to.exist;
-      await click('.form-textfield-icon__button');
-
-      // then
-      expect(find('.fa-eye')).to.exist;
-    });
-
-    it('should not change icon when user keeps typing his password', async function() {
-      // given
-      await fillIn(INPUT, 'test');
-
-      // when
-      expect(find('.fa-eye-slash')).to.exist;
-      await click('.form-textfield-icon__button');
-      await fillIn(INPUT, 'test');
+        // when
+        expect(find('.fa-eye-slash')).to.exist;
+        await click('.form-textfield-icon__button');
+        await fillIn(INPUT, 'test');
+      });
     });
   });
 });

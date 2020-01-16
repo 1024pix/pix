@@ -22,7 +22,6 @@ describe('Integration | Component | routes/register-form', function() {
   let storeStub;
 
   beforeEach(function() {
-    this.set('user', EmberObject.create({}));
     sessionStub = Service.extend({});
     storeStub = Service.extend({});
     this.owner.register('service:session', sessionStub);
@@ -43,6 +42,8 @@ describe('Integration | Component | routes/register-form', function() {
       this.owner.register('service:store', storeStub);
       storeStub.prototype.createRecord = () => {
         return EmberObject.create({
+          username: 'pix.pix1010',
+
           save(options) {
             if (options && options.adapterOptions && options.adapterOptions.searchForMatchingStudent) {
               return resolve({ username: 'pix.pix1010' });

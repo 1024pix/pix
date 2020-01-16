@@ -57,10 +57,13 @@ export default Component.extend({
   }),
 
   isCreationFormNotValid: computed('studentDependentUser.{email,username,password}', function() {
+    const isPasswordNotValid = !isPasswordValid(this.get('studentDependentUser.password'));
+    const isUsernameNotValid = !isStringValid(this.get('studentDependentUser.username'));
+    const isEmailNotValid = !isEmailValid(this.get('studentDependentUser.email'));
     if (this.loginWithUsername) {
-      return !isStringValid(this.get('studentDependentUser.username')) || !isPasswordValid(this.get('studentDependentUser.password'));
+      return isUsernameNotValid || isPasswordNotValid;
     }
-    return !isEmailValid(this.get('studentDependentUser.email')) || !isPasswordValid(this.get('studentDependentUser.password'));
+    return isEmailNotValid || isPasswordNotValid;
   }),
 
   init() {
@@ -166,13 +169,11 @@ export default Component.extend({
       try {
         if (this.loginWithUsername) {
           this.set('studentDependentUser.email', undefined);
-          this.set('studentDependentUser.username', this.username);
         } else {
           this.set('studentDependentUser.username', undefined);
         }
         await this.studentDependentUser.save();
       } catch (error) {
-        this.studentDependentUser.unloadRecord();
         this.set('isLoading', false);
         return this._updateInputsStatus();
       }
@@ -215,9 +216,6 @@ export default Component.extend({
     },
     triggerInputEmailValidation(key, value) {
       this._validateInputEmail(key, value);
-    },
-    triggerInputUsernameValidation(key, value) {
-      this._validateInputUsername(key, value);
     },
     triggerInputPasswordValidation(key, value) {
       this._validateInputPassword(key, value);
@@ -262,10 +260,6 @@ export default Component.extend({
 
   _validateInputEmail(key, value) {
     this._executeFieldValidation(key, value, isEmailValid);
-  },
-
-  _validateInputUsername(key, value) {
-    this._executeFieldValidation(key, value, isStringValid);
   },
 
   _validateInputPassword(key, value) {
