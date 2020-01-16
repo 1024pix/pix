@@ -19,7 +19,7 @@ describe('Integration | Component | pix-toggle', function() {
     await render(hbs`{{pix-toggle onToggle=onToggle valueFirstLabel=valueFirstLabel valueSecondLabel=valueSecondLabel}}`);
   });
 
-  it('Default Render', async function() {
+  it('Default Render',  function() {
 
     expect(find('.pix-toggle')).to.exist;
 
