@@ -21,10 +21,6 @@ describe('Unit | Service | user-reconciliation-service', () => {
       };
     });
 
-    afterEach(() => {
-      sinon.restore();
-    });
-
     context('When student list is not empty', () => {
 
       context('When no student matched on names', () => {
