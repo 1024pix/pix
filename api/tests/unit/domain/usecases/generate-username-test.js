@@ -6,16 +6,13 @@ const { CampaignCodeError, NotFoundError } = require('../../../../lib/domain/err
 
 describe('Unit | UseCase | generate-username', () => {
 
+  const organizationId = 1;
+
   let campaignCode;
-  let findMatchingOrganizationStudentIdForGivenUserStub;
+  let findMatchingStudentIdForGivenOrganizationIdAndUserStub;
   let createUsernameByUserServiceStub;
   let getCampaignStub;
   let user;
-  const organizationId = 1;
-
-  afterEach(() => {
-    sinon.restore();
-  });
 
   beforeEach(() => {
     campaignCode = 'RESTRICTD';
@@ -31,7 +28,7 @@ describe('Unit | UseCase | generate-username', () => {
       .withArgs(campaignCode)
       .resolves({ organizationId });
 
-    findMatchingOrganizationStudentIdForGivenUserStub = sinon.stub(userReconciliationService,'findMatchingOrganizationStudentIdForGivenUser');
+    findMatchingStudentIdForGivenOrganizationIdAndUserStub = sinon.stub(userReconciliationService,'findMatchingStudentIdForGivenOrganizationIdAndUser');
     createUsernameByUserServiceStub = sinon.stub(userReconciliationService,'createUsernameByUser');
   });
 
@@ -56,7 +53,7 @@ describe('Unit | UseCase | generate-username', () => {
 
     it('should throw a Not Found error', async () => {
       // given
-      findMatchingOrganizationStudentIdForGivenUserStub.throws(new NotFoundError('Error message'));
+      findMatchingStudentIdForGivenOrganizationIdAndUserStub.throws(new NotFoundError('Error message'));
 
       // when
       const result = await catchErr(usecases.generateUsername)({
@@ -81,7 +78,7 @@ describe('Unit | UseCase | generate-username', () => {
       };
       const username = user.firstName + '.' + user.lastName + '0112';
 
-      findMatchingOrganizationStudentIdForGivenUserStub.resolves();
+      findMatchingStudentIdForGivenOrganizationIdAndUserStub.resolves();
       createUsernameByUserServiceStub.resolves(username);
 
       // when
