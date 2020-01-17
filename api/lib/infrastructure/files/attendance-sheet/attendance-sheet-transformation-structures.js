@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { convertDateValue } = require('../../utils/date-utils');
 
-const CURRENT_ATTENDANCE_SHEET_VERSION = '1.2';
+const CURRENT_ATTENDANCE_SHEET_VERSION = '1.3';
 // These are transformation structures. They provide all the necessary info
 // on how to transform cell values in an attendance sheet into a target JS object.
 // Such a structure is an array holding objects with 3 properties. One object
@@ -174,6 +174,39 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_2 = [
   },
 ];
 
+// V1.3
+const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_3 = 
+  _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_2;
+
+const _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_3 = [
+  ..._TRANSFORMATION_STRUCT_COMMON_V1_2,
+  {
+    header: 'Commune de naissance',
+    property: 'birthplace',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Signature',
+    property: 'signature',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Numéro de certification\n(sans le #)',
+    property: 'certificationId',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Ecran de fin de test vu\n(cocher)',
+    property: 'lastScreen',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Signalements\n(test non achevé, incident technique, fraude, etc.)\nà compléter par un rapport si nécessaire',
+    property: 'comments',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+];
+
 // ALL
 const TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION = {
   '1.1': {
@@ -185,7 +218,12 @@ const TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION = {
     version: '1.2',
     transformStruct : _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_2,
     headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_2),
-  }
+  },
+  '1.3': {
+    version: '1.3',
+    transformStruct : _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_3,
+    headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_3),
+  },
 };
 
 const TRANSFORMATION_STRUCTS_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_BY_VERSION = {
@@ -198,7 +236,12 @@ const TRANSFORMATION_STRUCTS_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_BY_VERSION = {
     version: '1.2',
     transformStruct : _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_2,
     headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_2),
-  }
+  },
+  '1.3': {
+    version: '1.3',
+    transformStruct : _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_3,
+    headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_3),
+  },
 };
 
 function _toNotEmptyTrimmedStringOrNull(val) {

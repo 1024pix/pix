@@ -45,7 +45,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
 
   describe('validate', () => {
 
-    context('current version 1.2', () => {
+    context('current version 1.3 (same as 1.2 version)', () => {
 
       it('should not throw when the object is valid', () => {
         // given
