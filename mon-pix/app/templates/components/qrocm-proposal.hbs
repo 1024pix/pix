@@ -6,9 +6,9 @@
 
   {{#if block.input}}
     {{#if (eq format 'paragraphe')}}
+      <label for="{{block.text}}">{{block.text}}</label>
       <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
                 rows="5"
-                for="qrocm_input"
                 name={{block.input}}
                 placeholder={{block.placeholder}}
                 autocomplete="off"
@@ -19,7 +19,6 @@
     {{else if (eq format 'phrase')}}
       <input class="challenge-response__proposal challenge-response__proposal--sentence"
              type="text"
-             for="qrocm_input"
              name={{block.input}}
              placeholder={{block.placeholder}}
              autocomplete="off"
@@ -30,13 +29,13 @@
       <input class="challenge-response__proposal"
              size="{{get-qroc-input-size format}}"
              type="text"
-             for="qrocm_input"
              name={{block.input}}
              placeholder={{block.placeholder}}
              autocomplete="off"
              id="{{block.text}}"
              value={{property-of answersValue block.input}}
-             disabled={{if answer true}}>
+             disabled={{if answer true}}
+             aria-label={{block.label}}>
     {{/if}}
 
   {{/if}}
