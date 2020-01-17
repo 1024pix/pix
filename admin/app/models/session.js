@@ -23,6 +23,6 @@ export default Model.extend({
     }, 0);
   }),
   hasExaminerComment : computed('examinerComment', function() {
-    return this.examinerComment && this.examinerComment.length > 0;
+    return this.examinerComment && this.examinerComment.trim().length > 0;
   }),
 });
