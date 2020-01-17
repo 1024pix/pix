@@ -78,7 +78,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
 
   after(() => {
     nock.cleanAll();
-    cache.flushAll();
+    return cache.flushAll();
   });
 
   describe('(non-adaptive) GET /api/assessments/:assessment_id/next', () => {

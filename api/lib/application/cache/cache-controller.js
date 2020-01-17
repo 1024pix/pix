@@ -5,7 +5,7 @@ const _ = require('lodash');
 module.exports = {
 
   reloadCacheEntries() {
-    return Promise.all(_.map(AirtableDatasources, (datasource) => datasource.loadEntries()))
+    return Promise.all(_.map(AirtableDatasources, (datasource) => datasource.loadAirtableRecordsIntoCache()))
       .then(() => null);
   },
 
@@ -13,7 +13,7 @@ module.exports = {
     const cacheKey = request.params.cachekey || '';
     const [tableName, recordId] = cacheKey.split('_');
     const datasource = AirtableDatasources[_.findKey(AirtableDatasources, { tableName })];
-    return datasource.loadEntry(recordId)
+    return datasource.loadAirtableRecordIntoCache(recordId)
       .then(() => null);
   },
 

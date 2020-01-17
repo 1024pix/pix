@@ -52,7 +52,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
 
     after(() => {
       nock.cleanAll();
-      cache.flushAll();
+      return cache.flushAll();
     });
 
     beforeEach(async () => {
@@ -123,5 +123,4 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       expect(response.statusCode).to.equal(403);
     });
   });
-})
-;
+});

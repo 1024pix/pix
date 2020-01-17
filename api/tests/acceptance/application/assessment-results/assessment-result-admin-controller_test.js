@@ -56,7 +56,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
     });
 
     afterEach(async () => {
-      cache.flushAll();
+      await cache.flushAll();
       await knex('competence-marks').delete();
       return knex('assessment-results').delete();
     });

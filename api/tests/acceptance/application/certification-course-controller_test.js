@@ -491,7 +491,7 @@ describe('Acceptance | API | Certification Course', () => {
         await knex('answers').delete();
         await knex('assessments').delete();
         airtableBuilder.cleanAll();
-        cache.flushAll();
+        return cache.flushAll();
       });
 
       it('should respond with 201 status code', () => {

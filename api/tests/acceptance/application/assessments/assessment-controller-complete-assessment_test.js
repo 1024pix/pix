@@ -28,8 +28,8 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
     };
   });
 
-  afterEach(() => {
-    cache.flushAll();
+  afterEach(async () => {
+    await cache.flushAll();
     return knex('assessment-results').delete();
   });
 
