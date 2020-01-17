@@ -12,7 +12,7 @@ module.exports = async function linkUserToOrganizationStudentData({
     throw new CampaignCodeError();
   }
 
-  const studentId = await userReconciliationService.findMatchingOrganizationStudentIdForGivenUser({ organizationId: campaign.organizationId, user, studentRepository });
+  const studentId = await userReconciliationService.findMatchingStudentIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user, studentRepository });
 
   return studentRepository.associateUserAndStudent({ userId: user.id, studentId });
 };

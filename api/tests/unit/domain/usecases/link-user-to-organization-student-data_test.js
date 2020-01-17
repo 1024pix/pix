@@ -10,7 +10,7 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
 
   let associateUserAndStudentStub;
   let campaignCode;
-  let findMatchingOrganizationStudentIdForGivenUserStub;
+  let findMatchingStudentIdForGivenOrganizationIdAndUserStub;
   let getCampaignStub;
   let student;
   let user;
@@ -32,7 +32,7 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
       .resolves({ organizationId });
 
     associateUserAndStudentStub = sinon.stub(studentRepository, 'associateUserAndStudent');
-    findMatchingOrganizationStudentIdForGivenUserStub = sinon.stub(userReconciliationService,'findMatchingOrganizationStudentIdForGivenUser');
+    findMatchingStudentIdForGivenOrganizationIdAndUserStub = sinon.stub(userReconciliationService,'findMatchingStudentIdForGivenOrganizationIdAndUser');
   });
 
   context('When there is no campaign with the given code', () => {
@@ -56,7 +56,7 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
 
     it('should throw a Not Found error', async () => {
       // given
-      findMatchingOrganizationStudentIdForGivenUserStub.throws(new NotFoundError('Error message'));
+      findMatchingStudentIdForGivenOrganizationIdAndUserStub.throws(new NotFoundError('Error message'));
 
       // when
       const result = await catchErr(usecases.linkUserToOrganizationStudentData)({
@@ -77,7 +77,7 @@ describe('Unit | UseCase | link-user-to-organization-student-data', () => {
       student.userId = user.id;
       student.firstName = user.firstName;
       student.lastName = user.lastName;
-      findMatchingOrganizationStudentIdForGivenUserStub.resolves(studentId);
+      findMatchingStudentIdForGivenOrganizationIdAndUserStub.resolves(studentId);
       associateUserAndStudentStub.withArgs({ userId: user.id, studentId }).resolves(student);
 
       // when
