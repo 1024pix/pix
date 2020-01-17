@@ -70,12 +70,12 @@ module('Acceptance | Session Finalization', function(hooks) {
         const expectedIndicator = expectedComment.length + ' / 500';
 
         // when
-        await fillIn('#examiner-comment', 'You are a wizard Harry!');
+        await fillIn('#examiner-global-comment', 'You are a wizard Harry!');
 
         // then
-        assert.equal(finalizeController.model.examinerComment, expectedComment);
-        assert.dom('.session-finalization-examiner-comment-step__characters-information').exists();
-        assert.dom('.session-finalization-examiner-comment-step__characters-information').hasText(expectedIndicator);
+        assert.equal(finalizeController.model.examinerGlobalComment, expectedComment);
+        assert.dom('.session-finalization-examiner-global-comment-step__characters-information').exists();
+        assert.dom('.session-finalization-examiner-global-comment-step__characters-information').hasText(expectedIndicator);
       });
 
       test('it should open the confirm modal', async function(assert) {
