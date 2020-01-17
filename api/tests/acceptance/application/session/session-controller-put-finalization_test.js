@@ -12,8 +12,8 @@ describe('Acceptance | Controller | sessions-controller', () => {
   beforeEach(async () => {
     server = await createServer();
     session = databaseBuilder.factory.buildSession({ status: 'started' });
-    const candidate1Id = databaseBuilder.factory.buildCertificationCandidate({ sessionId: session.id }).id;
-    const candidate2Id = databaseBuilder.factory.buildCertificationCandidate({ sessionId: session.id }).id;
+    const course1Id = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id }).id;
+    const course2Id = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id }).id;
 
     options = {
       method: 'PUT',
@@ -24,19 +24,21 @@ describe('Acceptance | Controller | sessions-controller', () => {
           },
           included: [
             {
-              id: candidate1Id,
-              type: 'certification-candidates',
+              id: course1Id,
+              type: 'certification-courses',
               attributes: {
-                'has-seen-end-test-screen': false,
-                'examiner-comment': 'What a fine lad this one',
+                birthdate: '2000-12-01',
+                'examinerComment': 'What a fine lad this one',
+                'hasSeenEndTestScreen': false,
               },
             },
             {
-              id: candidate2Id,
-              type: 'certification-candidates',
+              id: course2Id,
+              type: 'certification-courses',
               attributes: {
-                'has-seen-end-test-screen': true,
-                'examiner-comment': 'What a fine lad this two',
+                birthdate: '2001-11-01',
+                'examinerComment': 'What a fine lad this two',
+                'hasSeenEndTestScreen': true,
               },
             },
           ],

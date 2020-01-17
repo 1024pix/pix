@@ -15,7 +15,12 @@ module.exports = {
 
         return certificationCourse;
       },
-      attributes: ['assessment', 'nbChallenges'],
+      attributes: [
+        'assessment',
+        'nbChallenges',
+        'examinerComment',
+        'hasSeenEndTestScreen',
+      ],
       assessment: {
         ref: 'id',
         ignoreRelationshipData: true,
@@ -44,6 +49,8 @@ module.exports = {
       birthdate: json.data.attributes.birthdate,
       birthplace: json.data.attributes.birthplace,
       isV2Certification: json.data.attributes.isV2Certification,
+      examinerComment: json.data.attributes.examinerComment,
+      hasSeenEndTestScreen: json.data.attributes.hasSeenEndTestScreen,
     });
   },
 };

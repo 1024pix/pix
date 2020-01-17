@@ -16,6 +16,8 @@ module.exports = function buildCertificationCourse(
     lastName = faker.name.lastName(),
     nbChallenges = faker.random.number(40),
     isV2Certification = false,
+    examinerComment = faker.lorem.sentence(),
+    hasSeenEndTestScreen = false,
     // includes
     // references
     userId = faker.random.number(),
@@ -34,6 +36,8 @@ module.exports = function buildCertificationCourse(
     lastName,
     nbChallenges,
     isV2Certification,
+    hasSeenEndTestScreen,
+    examinerComment,
     sessionId,
     userId,
   });

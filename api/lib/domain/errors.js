@@ -76,6 +76,18 @@ class UserNotAuthorizedToGetCertificationCoursesError extends DomainError {
   }
 }
 
+class CertificationCourseUpdateError extends DomainError {
+  constructor(message = 'Echec lors la création ou de la mise à jour du test de certification.') {
+    super(message);
+  }
+}
+
+class InvalidCertificationCourseForFinalization extends DomainError {
+  constructor(message = 'Echec lors de la validation du certification course') {
+    super(message);
+  }
+}
+
 class CampaignWithoutOrganizationError extends DomainError {
   constructor(message = 'L\'organisation de la campagne n\'a pas été trouvée.') {
     super(message);
@@ -425,6 +437,8 @@ module.exports = {
   UserNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToGetCampaignResultsError,
   UserNotAuthorizedToGetCertificationCoursesError,
+  CertificationCourseUpdateError,
+  InvalidCertificationCourseForFinalization,
   UserNotAuthorizedToUpdateResourceError,
   UserNotFoundError,
   WrongDateFormatError,
