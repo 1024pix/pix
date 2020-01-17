@@ -28,36 +28,59 @@ function stringHasPlaceholder(input) {
   return 1 <= input.indexOf('#');
 }
 
+function isLastLine(currentIdx, lines) {
+  return currentIdx === (lines.length - 1);
+}
+
+class ChallengeResponseTemplate {
+
+  constructor() {
+    this._template = [];
+  }
+
+  addLineBreakIfIsNotLastLine({ lineIdx, lines }) {
+    if (!isLastLine(lineIdx, lines)) {
+      this._template.push({ breakline: true });
+    }
+  }
+
+  addAsNewLine(block) {
+    this._template.push(block);
+  }
+
+  get() {
+    return this._template;
+  }
+}
+
+function attachInputAndPlaceholderIfExist(block) {
+  if (block.input && stringHasPlaceholder(block.input)) {
+    const inputParts = block.input.split('#');
+    block.input = inputParts[0];
+    block.placeholder = inputParts[1];
+  }
+}
+
 export default function proposalsAsBlocks(proposals) {
 
   if (isEmpty(proposals)) {
     return [];
   }
 
-  const result = [];
+  const challengeResponseTemplate = new ChallengeResponseTemplate();
 
   const lines = proposals.split(/[\r|\n]+/);
-  lines.forEach((line, index) => {
+  lines.forEach((line, lineIdx) => {
     const parts = line.split(/\s*(\${)|}\s*/);
     for (let j = 0; j < parts.length; j += 1) {
       const { lastIsOpening, block } = parseInput((lastIsOpening || false), parts[j]);
       if (!block) {
         continue;
       }
-      if (block.input && stringHasPlaceholder(block.input)) {
-
-        const inputParts = block.input.split('#');
-        const variable = inputParts[0];
-        const placeholder = inputParts[1];
-
-        block.input = variable;
-        block.placeholder = placeholder;
-      }
-      result.push(block);
+      attachInputAndPlaceholderIfExist(block);
+      challengeResponseTemplate.addAsNewLine(block);
     }
-    if (index !== (lines.length - 1)) {
-      result.push({ breakline: true });
-    }
+    challengeResponseTemplate.addLineBreakIfIsNotLastLine({ lineIdx, lines });
   });
-  return result;
+  return challengeResponseTemplate.get();
 }
