@@ -16,7 +16,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     description: '',
     accessCode: '',
     status: 'created',
-    examinerComment: 'It was a fine session my dear',
+    examinerGlobalComment: 'It was a fine session my dear',
   });
 
   let jsonApiSession;
@@ -36,7 +36,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           time: '14:30',
           status: 'created',
           description: '',
-          'examiner-comment': 'It was a fine session my dear'
+          'examiner-global-comment': 'It was a fine session my dear'
         },
         relationships: {
           certifications: {
@@ -92,7 +92,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       expect(session.date).to.equal('2017-01-20');
       expect(session.time).to.equal('14:30');
       expect(session.description).to.equal('');
-      expect(session.examinerComment).to.equal('It was a fine session my dear');
+      expect(session.examinerGlobalComment).to.equal('It was a fine session my dear');
     });
 
     context('when there is no certification center ID', () => {

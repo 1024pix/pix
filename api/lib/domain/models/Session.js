@@ -18,7 +18,7 @@ class Session {
     room,
     time,
     status,
-    examinerComment,
+    examinerGlobalComment,
     // includes
     certificationCandidates,
     // references
@@ -35,7 +35,7 @@ class Session {
     this.room = room;
     this.time = time;
     this.status = status;
-    this.examinerComment = examinerComment;
+    this.examinerGlobalComment = examinerGlobalComment;
     // includes
     this.certificationCandidates = certificationCandidates;
     // references
