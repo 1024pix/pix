@@ -62,22 +62,22 @@ module('Integration | Component | certifications-session-info', function(hooks) 
       assert.dom('[data-test-id="certifications-session-info__is-finalized"]').hasText('Finalisée');
     });
 
-    test('it renders the examinerComment if any', async function(assert) {
+    test('it renders the examinerGlobalComment if any', async function(assert) {
       // given
       sessionData.status = 'finalized';
-      sessionData.examinerComment = 'Bonjour je suis le commentaire du surveillant';
+      sessionData.examinerGlobalComment = 'Bonjour je suis le commentaire du surveillant';
       session = this.server.create('session', sessionData);
 
       // when
       await visit(`/certifications/sessions/${session.id}`);
 
-      assert.dom('[data-test-id="certifications-session-info__examiner-comment"]').hasText(session.examinerComment);
+      assert.dom('[data-test-id="certifications-session-info__examiner-global-comment"]').hasText(session.examinerGlobalComment);
     });
 
-    test('it does not render the examinerComment row if no comment', async function(assert) {
+    test('it does not render the examinerGlobalComment row if no comment', async function(assert) {
       // given
       sessionData.status = 'finalized';
-      sessionData.examinerComment = '';
+      sessionData.examinerGlobalComment = '';
       session = this.server.create('session', sessionData);
 
       // when
@@ -101,10 +101,10 @@ module('Integration | Component | certifications-session-info', function(hooks) 
       assert.dom('[data-test-id="certifications-session-info__is-finalized"]').hasText('Prête');
     });
 
-    test('it does not render the examinerComment row', async function(assert) {
+    test('it does not render the examinerGlobalComment row', async function(assert) {
       // given
       sessionData.status = 'started';
-      sessionData.examinerComment = 'AAA';
+      sessionData.examinerGlobalComment = 'AAA';
       session = this.server.create('session', sessionData);
 
       // when
