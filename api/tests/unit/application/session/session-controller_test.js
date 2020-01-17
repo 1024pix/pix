@@ -397,11 +397,12 @@ describe('Unit | Controller | sessionController', () => {
     const updatedSession = Symbol('updatedSession');
     const serializedUpdatedSession = Symbol('updated session serialized');
     const examinerGlobalComment = 'It was a fine session my dear';
-    const serializedCertifcationCandidates = [
+    const serializedCertificationCourses = [
       {
         id: 1,
-        type: 'certification-candidates',
+        type: 'certification-courses',
         attributes: {
+          birthdate: '2019-01-01',
           'has-seen-end-test-screen': false,
           'examiner-comment': 'What a fine lad this one',
         },
@@ -419,7 +420,7 @@ describe('Unit | Controller | sessionController', () => {
             attributes: {
               'examiner-global-comment': examinerGlobalComment,
             },
-            included: serializedCertifcationCandidates,
+            included: serializedCertificationCourses,
           },
         },
       };

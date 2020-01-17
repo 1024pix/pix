@@ -18,8 +18,6 @@ module.exports = function buildCertificationCandidate({
   externalId = faker.random.uuid(),
   createdAt = faker.date.past(),
   extraTimePercentage = 0.3,
-  examinerComment = faker.lorem.sentence(),
-  hasSeenEndTestScreen = false,
   userId,
 } = {}) {
 
@@ -38,8 +36,6 @@ module.exports = function buildCertificationCandidate({
     sessionId,
     externalId,
     extraTimePercentage,
-    hasSeenEndTestScreen,
-    examinerComment,
     createdAt,
     userId,
   };

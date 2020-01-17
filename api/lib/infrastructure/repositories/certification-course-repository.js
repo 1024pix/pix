@@ -1,11 +1,13 @@
 const { _ } = require('lodash');
 
+const Bookshelf = require('../bookshelf');
+
 const CertificationCourseBookshelf = require('../data/certification-course');
 const AssessmentBookshelf = require('../data/assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
 const Assessment = require('../../domain/models/Assessment');
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError, CertificationCourseUpdateError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -71,6 +73,32 @@ module.exports = {
       .fetchAll({ columns: ['id'] });
 
     return _.map(result.models, 'id');
+  },
+
+  async finalize({ certificationCourse, transaction = undefined }) {
+    const saveOptions = { patch: true, method: 'update' };
+    if (transaction) {
+      saveOptions.transacting = transaction;
+    }
+
+    const courseDataToUpdate = _.pick(certificationCourse, [
+      'hasSeenEndTestScreen',
+      'examinerComment',
+    ]);
+    return new CertificationCourseBookshelf({ id: certificationCourse.id })
+      .save(courseDataToUpdate, saveOptions);
+  },
+
+  async finalizeAll(certificationCourses) {
+    try {
+      await Bookshelf.transaction((trx) => {
+        return Promise.all(certificationCourses.map((certificationCourse) => {
+          return this.finalize({ certificationCourse, transaction: trx });
+        }));
+      });
+    } catch (err) {
+      throw new CertificationCourseUpdateError('An error occurred while finalizing the certification courses');
+    }
   },
 
 };

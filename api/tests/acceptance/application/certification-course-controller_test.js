@@ -348,6 +348,8 @@ describe('Acceptance | API | Certification Course', () => {
         type: 'certification-courses',
         id: certificationCourse.id.toString(),
         attributes: {
+          'examiner-comment': undefined,
+          'has-seen-end-test-screen': undefined,
           'nb-challenges': 0,
         },
         relationships: {

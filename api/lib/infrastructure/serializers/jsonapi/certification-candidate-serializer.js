@@ -28,8 +28,6 @@ module.exports = {
         'extraTimePercentage',
         'isLinked',
         'certificationCourseId',
-        'examinerComment',
-        'hasSeenEndTestScreen',
       ],
     }).serialize(certificationCandidates);
   },
