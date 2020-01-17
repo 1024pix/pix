@@ -2,27 +2,26 @@ const Cache = require('./Cache');
 
 class LayeredCache extends Cache {
 
-  constructor(level1Cache, level2Cache) {
+  constructor(firstLevelCache, secondLevelCache) {
     super();
-    this._level1Cache = level1Cache;
-    this._level2Cache = level2Cache;
+    this._firstLevelCache = firstLevelCache;
+    this._secondLevelCache = secondLevelCache;
   }
 
   get(key, generator) {
-    const level2CacheGenerator = () => {
-      return this._level2Cache.get(key, generator);
-    };
-    return this._level1Cache.get(key, level2CacheGenerator);
+    return this._firstLevelCache.get(key, () => {
+      return this._secondLevelCache.get(key, generator);
+    });
   }
 
   async set(key, object) {
-    await this._level1Cache.flushAll();
-    return await this._level2Cache.set(key, object);
+    await this._firstLevelCache.flushAll();
+    return this._secondLevelCache.set(key, object);
   }
 
   async flushAll() {
-    await this._level1Cache.flushAll();
-    return this._level2Cache.flushAll();
+    await this._firstLevelCache.flushAll();
+    return this._secondLevelCache.flushAll();
   }
 
 }

@@ -1,9 +1,9 @@
 const Cache = require('./Cache');
+const DistributedCache = require('./DistributedCache');
 const InMemoryCache = require('./InMemoryCache');
+const LayeredCache = require('./LayeredCache');
 const RedisCache = require('./RedisCache');
 const settings = require('../../config');
-const LayeredCache = require('./LayeredCache');
-const DistributedCache = require('./DistributedCache');
 
 const LEARNING_CONTENT_CHANNEL = 'Learning content';
 

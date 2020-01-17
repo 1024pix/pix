@@ -21,7 +21,7 @@ describe('Integration | Repository | AnswerRepository', () => {
   });
 
   afterEach(() => {
-    cache.flushAll();
+    return cache.flushAll();
   });
 
   describe('#get', () => {

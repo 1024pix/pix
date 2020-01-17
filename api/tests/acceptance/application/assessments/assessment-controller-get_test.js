@@ -110,7 +110,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
   after(() => {
     nock.cleanAll();
-    cache.flushAll();
+    return cache.flushAll();
   });
 
   describe('(no provided answer) GET /api/assessments/:id', () => {

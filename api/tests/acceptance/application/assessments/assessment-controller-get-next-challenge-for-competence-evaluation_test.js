@@ -95,8 +95,8 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
   });
 
   afterEach(() => {
-    cache.flushAll();
     airtableBuilder.cleanAll();
+    return cache.flushAll();
   });
 
   describe('GET /api/assessments/:assessment_id/next', () => {

@@ -165,7 +165,7 @@ describe('Acceptance | API | Campaign Controller', () => {
 
     afterEach(async () => {
       await airtableBuilder.cleanAll();
-      cache.flushAll();
+      return cache.flushAll();
     });
 
     it('should return csv file with statusCode 200', async ()=> {

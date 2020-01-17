@@ -43,9 +43,9 @@ describe('Acceptance | API | Competence Evaluations', () => {
 
         afterEach(async () => {
           airtableBuilder.cleanAll();
-          cache.flushAll();
           await knex('competence-evaluations').delete();
-          return knex('assessments').delete();
+          await knex('assessments').delete();
+          return cache.flushAll();
         });
 
         it('should return 201 and the competence evaluation when it has been successfully created', async () => {

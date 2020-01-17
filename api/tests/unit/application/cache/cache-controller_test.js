@@ -15,26 +15,26 @@ describe('Unit | Controller | cache-controller', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(AirtableDatasources.ChallengeDatasource, 'loadEntry');
+      sinon.stub(AirtableDatasources.ChallengeDatasource, 'loadAirtableRecordIntoCache');
     });
 
     it('should reply with null when the cache key exists', async () => {
       // given
       const numberOfDeletedKeys = 1;
-      AirtableDatasources.ChallengeDatasource.loadEntry.resolves(numberOfDeletedKeys);
+      AirtableDatasources.ChallengeDatasource.loadAirtableRecordIntoCache.resolves(numberOfDeletedKeys);
 
       // when
       const response = await cacheController.reloadCacheEntry(request, hFake);
 
       // then
-      expect(AirtableDatasources.ChallengeDatasource.loadEntry).to.have.been.calledWithExactly('recABCDEF');
+      expect(AirtableDatasources.ChallengeDatasource.loadAirtableRecordIntoCache).to.have.been.calledWithExactly('recABCDEF');
       expect(response).to.be.null;
     });
 
     it('should reply with null when the cache key does not exist', async () => {
       // given
       const numberOfDeletedKeys = 0;
-      AirtableDatasources.ChallengeDatasource.loadEntry.resolves(numberOfDeletedKeys);
+      AirtableDatasources.ChallengeDatasource.loadAirtableRecordIntoCache.resolves(numberOfDeletedKeys);
 
       // when
       const response = await cacheController.reloadCacheEntry(request, hFake);
@@ -67,13 +67,13 @@ describe('Unit | Controller | cache-controller', () => {
 
     it('should reply with null when there is no error', async () => {
       // given
-      _.map(AirtableDatasources, (datasource) => sinon.stub(datasource, 'loadEntries'));
+      _.map(AirtableDatasources, (datasource) => sinon.stub(datasource, 'loadAirtableRecordsIntoCache'));
 
       // when
       const response = await cacheController.reloadCacheEntries(request, hFake);
 
       // Then
-      _.map(AirtableDatasources, (datasource) => expect(datasource.loadEntries).to.have.been.calledOnce);
+      _.map(AirtableDatasources, (datasource) => expect(datasource.loadAirtableRecordsIntoCache).to.have.been.calledOnce);
       expect(response).to.be.null;
     });
   });

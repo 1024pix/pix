@@ -45,7 +45,7 @@ describe('Acceptance | users-controller-get-certification-profile', () => {
   });
 
   after(() => {
-    cache.flushAll();
+    return cache.flushAll();
   });
 
   describe('GET /users/:id/certification-profile', () => {

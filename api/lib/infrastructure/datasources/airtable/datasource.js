@@ -12,13 +12,13 @@ const _DatasourcePrototype = {
 
   async get(id) {
     const modelObjects = await this.list();
-    const matchingObject = _.find(modelObjects, { id });
+    const foundObject = _.find(modelObjects, { id });
 
-    if (!matchingObject) {
+    if (!foundObject) {
       throw new AirtableResourceNotFound();
     }
 
-    return matchingObject;
+    return foundObject;
   },
 
   async list() {
@@ -27,14 +27,14 @@ const _DatasourcePrototype = {
     return cache.get(key, generator);
   },
 
-  async loadEntries() {
+  async loadAirtableRecordsIntoCache() {
     const cacheKeyList = this.modelName;
     const results = await this._doList();
     await cache.set(cacheKeyList, results);
     return results;
   },
 
-  async loadEntry(id) {
+  async loadAirtableRecordIntoCache(id) {
     const cacheKeyList = this.modelName;
     const airtableRecord = await airtable.getRecord(this.tableName, id);
     const newEntry = this.fromAirTableObject(airtableRecord);

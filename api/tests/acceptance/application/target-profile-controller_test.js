@@ -11,7 +11,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
   });
 
   afterEach(() => {
-    cache.flushAll();
+    return cache.flushAll();
   });
 
   describe('GET /organizations/{id}/target-profiles', () => {

@@ -26,7 +26,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
   });
 
   after(() => {
-    cache.flushAll();
+    return cache.flushAll();
   });
 
   let area;

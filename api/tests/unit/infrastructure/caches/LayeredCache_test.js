@@ -6,12 +6,12 @@ describe('Unit | Infrastructure | Caches | LayeredCache', () => {
   const layeredCacheInstance = new LayeredCache();
 
   beforeEach(() => {
-    layeredCacheInstance._level1Cache = {
+    layeredCacheInstance._firstLevelCache = {
       get: sinon.stub(),
       set: sinon.stub(),
       flushAll: sinon.stub(),
     };
-    layeredCacheInstance._level2Cache = {
+    layeredCacheInstance._secondLevelCache = {
       get: sinon.stub(),
       set: sinon.stub(),
       flushAll: sinon.stub(),
@@ -26,8 +26,8 @@ describe('Unit | Infrastructure | Caches | LayeredCache', () => {
 
     it('should delegate to first level cache, by passing it the second level cache as generator', async () => {
       // given
-      layeredCacheInstance._level1Cache.get.withArgs(cacheKey).callsFake((key, generator) => generator());
-      layeredCacheInstance._level2Cache.get.withArgs(cacheKey, generator).callsFake((key, generator) => generator());
+      layeredCacheInstance._firstLevelCache.get.withArgs(cacheKey).callsFake((key, generator) => generator());
+      layeredCacheInstance._secondLevelCache.get.withArgs(cacheKey, generator).callsFake((key, generator) => generator());
 
       // when
       const result = await layeredCacheInstance.get(cacheKey, generator);
@@ -44,28 +44,28 @@ describe('Unit | Infrastructure | Caches | LayeredCache', () => {
 
     it('should delegate to first level cache, by passing it the second level cache as generator', async () => {
       // given
-      layeredCacheInstance._level2Cache.set.withArgs(cacheKey, objectToCache).resolves(objectToCache);
+      layeredCacheInstance._secondLevelCache.set.withArgs(cacheKey, objectToCache).resolves(objectToCache);
 
       // when
       const result = await layeredCacheInstance.set(cacheKey, objectToCache);
 
       // then
-      expect(layeredCacheInstance._level1Cache.flushAll).to.have.been.calledOnce;
+      expect(layeredCacheInstance._firstLevelCache.flushAll).to.have.been.calledOnce;
       expect(result).to.deep.equal(objectToCache);
     });
   });
 
   describe('#flushAll', () => {
 
-    it('shoud flush all entries for both first and second level cache', async () => {
+    it('should flush all entries for both first and second level caches', async () => {
       // given
 
       // when
       await layeredCacheInstance.flushAll();
 
       // then
-      expect(layeredCacheInstance._level1Cache.flushAll).to.have.been.calledOnce;
-      expect(layeredCacheInstance._level2Cache.flushAll).to.have.been.calledOnce;
+      expect(layeredCacheInstance._firstLevelCache.flushAll).to.have.been.calledOnce;
+      expect(layeredCacheInstance._secondLevelCache.flushAll).to.have.been.calledOnce;
     });
   });
 });

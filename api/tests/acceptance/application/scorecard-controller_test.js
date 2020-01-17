@@ -16,7 +16,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
   const competenceReference = '1.1 Mener une recherche et une veille d’information';
 
   beforeEach(async () => {
-    cache.flushAll();
+    await cache.flushAll();
     server = await createServer();
     userId = databaseBuilder.factory.buildUser({}).id;
     await databaseBuilder.commit();
@@ -32,7 +32,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
   });
 
   after(() => {
-    cache.flushAll();
+    return cache.flushAll();
   });
 
   let area;

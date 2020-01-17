@@ -58,8 +58,8 @@ describe('Acceptance | API | Courses', () => {
     });
 
     after(() => {
-      cache.flushAll();
       nock.cleanAll();
+      return cache.flushAll();
     });
 
     const options = {

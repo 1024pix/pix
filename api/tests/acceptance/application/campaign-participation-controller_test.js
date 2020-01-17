@@ -259,8 +259,8 @@ describe('Acceptance | API | Campaign Participations', () => {
     });
 
     afterEach(() => {
-      cache.flushAll();
-      return airtableBuilder.cleanAll();
+      airtableBuilder.cleanAll();
+      return cache.flushAll();
     });
 
     it('should return the campaign participation of a given campaign with each campaign participation result', () => {
@@ -436,7 +436,7 @@ describe('Acceptance | API | Campaign Participations', () => {
     });
 
     after(() => {
-      cache.flushAll();
+      return cache.flushAll();
     });
 
     context('when there is no remaining challenges', () => {

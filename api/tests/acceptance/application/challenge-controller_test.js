@@ -41,8 +41,8 @@ describe('Acceptance | API | ChallengeController', () => {
     });
 
     afterEach(() => {
-      cache.flushAll();
       airtableBuilder.cleanAll();
+      return cache.flushAll();
     });
 
     const options = {
