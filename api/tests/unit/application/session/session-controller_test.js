@@ -396,7 +396,7 @@ describe('Unit | Controller | sessionController', () => {
     const sessionId = 1;
     const updatedSession = Symbol('updatedSession');
     const serializedUpdatedSession = Symbol('updated session serialized');
-    const examinerComment = 'It was a fine session my dear';
+    const examinerGlobalComment = 'It was a fine session my dear';
     const serializedCertifcationCandidates = [
       {
         id: 1,
@@ -417,7 +417,7 @@ describe('Unit | Controller | sessionController', () => {
         payload: {
           data: {
             attributes: {
-              'examiner-comment': examinerComment,
+              'examiner-global-comment': examinerGlobalComment,
             },
             included: serializedCertifcationCandidates,
           },

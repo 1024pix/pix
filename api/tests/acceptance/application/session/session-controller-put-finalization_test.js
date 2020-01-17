@@ -7,7 +7,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
   let options;
   let server;
   let session;
-  const examinerComment = 'It was a fine session my dear';
+  const examinerGlobalComment = 'It was a fine session my dear';
 
   beforeEach(async () => {
     server = await createServer();
@@ -20,7 +20,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
       payload: {
         data: {
           attributes: {
-            'examiner-comment': examinerComment,
+            'examiner-global-comment': examinerGlobalComment,
           },
           included: [
             {
@@ -101,7 +101,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
               'time': session.time,
               'room': session.room,
               'status': 'finalized',
-              'examiner-comment': examinerComment,
+              'examiner-global-comment': examinerGlobalComment,
             },
           },
         };

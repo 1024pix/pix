@@ -3,7 +3,7 @@ const { statuses } = require('../../domain/models/Session');
 
 module.exports = async function finalizeSession({
   sessionId,
-  examinerComment,
+  examinerGlobalComment,
   certificationCandidates,
   sessionRepository,
   certificationCandidateRepository,
@@ -16,9 +16,9 @@ module.exports = async function finalizeSession({
 
   await certificationCandidateRepository.finalizeAll(certificationCandidates);
 
-  return sessionRepository.updateStatusAndExaminerComment({
+  return sessionRepository.updateStatusAndExaminerGlobalComment({
     id: sessionId,
     status: statuses.FINALIZED,
-    examinerComment,
+    examinerGlobalComment,
   });
 };

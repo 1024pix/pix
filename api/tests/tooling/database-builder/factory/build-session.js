@@ -18,7 +18,7 @@ module.exports = function buildSession({
   description = faker.random.words(),
   createdAt = faker.date.recent(),
   status = Session.statuses.STARTED,
-  examinerComment = '',
+  examinerGlobalComment = '',
 } = {}) {
 
   if (_.isUndefined(certificationCenterId)) {
@@ -39,7 +39,7 @@ module.exports = function buildSession({
     description,
     createdAt,
     status,
-    examinerComment,
+    examinerGlobalComment,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'sessions',

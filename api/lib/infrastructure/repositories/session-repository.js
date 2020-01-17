@@ -90,7 +90,7 @@ module.exports = {
       'time',
       'description',
       'status',
-      'examinerComment',
+      'examinerGlobalComment',
     ]);
 
     let updatedSession = await new BookshelfSession({ id: session.id })
@@ -133,10 +133,10 @@ module.exports = {
     return Boolean(session);
   },
 
-  async updateStatusAndExaminerComment(session) {
+  async updateStatusAndExaminerGlobalComment(session) {
     const sessionDataToUpdate = _.pick(session, [
       'status',
-      'examinerComment',
+      'examinerGlobalComment',
     ]);
 
     let updatedSession = await new BookshelfSession({ id: session.id })

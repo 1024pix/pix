@@ -108,14 +108,14 @@ module.exports = {
 
   async finalize(request) {
     const sessionId = request.params.id;
-    const examinerComment = request.payload.data.attributes['examiner-comment'];
+    const examinerGlobalComment = request.payload.data.attributes['examiner-global-comment'];
     const certificationCandidates = await Promise.all(
       (request.payload.data.included || [])
         .filter((data) => data.type === 'certification-candidates')
         .map((data) => certificationCandidateSerializer.deserialize({ data }))
     );
 
-    const session = await usecases.finalizeSession({ sessionId, examinerComment, certificationCandidates });
+    const session = await usecases.finalizeSession({ sessionId, examinerGlobalComment, certificationCandidates });
 
     return sessionSerializer.serializeForFinalization(session);
   },
