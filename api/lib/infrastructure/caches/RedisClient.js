@@ -1,7 +1,7 @@
 const redis = require('redis');
 const Redlock = require('redlock');
-const logger = require('../logger');
 const { promisify } = require('util');
+const logger = require('../logger');
 
 const REDIS_CLIENT_OPTIONS = {
   // To avoid a "thundering herd" effect on the Redis server when it comes back
@@ -15,11 +15,15 @@ const REDIS_CLIENT_OPTIONS = {
 
 module.exports = class RedisClient {
 
-  constructor(redis_url) {
-    this._client = redis.createClient(redis_url, REDIS_CLIENT_OPTIONS);
-    this._client.on('error', (err) => {
-      logger.warn({ err }, 'Redis connection error');
-    });
+  constructor(redisUrl, clientName) {
+    this._clientName = clientName;
+
+    this._client = redis.createClient(redisUrl, REDIS_CLIENT_OPTIONS);
+
+    this._client.on('connect', () => logger.info({ redisClient: this._clientName }, 'Connected to server'));
+    this._client.on('end', () => logger.info({ redisClient: this._clientName }, 'Disconnected from server'));
+    this._client.on('error', (err) => logger.warn({ redisClient: this._clientName, err }, 'Error encountered'));
+
     this._clientWithLock = new Redlock(
       [this._client],
       // As said in the doc, setting retryCount to 0 and treating a failure as the resource being "locked"
@@ -34,11 +38,11 @@ module.exports = class RedisClient {
   }
 
   subscribe(channel) {
-    this._client.subscribe(channel);
+    this._client.subscribe(channel, () => logger.info({ redisClient: this._clientName }, `Subscribed to channel '${channel}'`));
   }
 
   publish(channel, message) {
-    return this._client.publish(channel, message);
+    this._client.publish(channel, message, () => logger.info({ redisClient: this._clientName }, `Published on channel '${channel}'`));
   }
 
   on(event, callback) {
