@@ -15,7 +15,7 @@ class RedisCache extends Cache {
   }
 
   static createClient(redis_url) {
-    return new RedisClient(redis_url);
+    return new RedisClient(redis_url, 'redis-cache-query-client');
   }
 
   async get(key, generator) {

@@ -8,13 +8,13 @@ class DistributedCache extends Cache {
 
     this._underlyingCache = underlyingCache;
 
-    this._redisClientPublisher = new RedisClient(redisUrl);
-    this._redisClientSubscriber = new RedisClient(redisUrl);
+    this._redisClientPublisher = new RedisClient(redisUrl, 'distributed-cache-publisher');
+    this._redisClientSubscriber = new RedisClient(redisUrl, 'distributed-cache-subscriber');
     this._channel = channel;
+
     this._redisClientSubscriber.on('ready', () => {
       this._redisClientSubscriber.subscribe(this._channel);
     });
-
     this._redisClientSubscriber.on('message', () => {
       return this._underlyingCache.flushAll();
     });
