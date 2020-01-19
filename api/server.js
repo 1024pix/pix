@@ -3,7 +3,7 @@
 require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 
-const preResponseUtils = require('./lib/infrastructure/utils/pre-response-utils')
+const preResponseUtils = require('./lib/infrastructure/utils/pre-response-utils');
 
 const routes = require('./lib/routes');
 const plugins = require('./lib/plugins');
