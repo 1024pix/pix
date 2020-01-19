@@ -2,23 +2,43 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 import { action } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { tracked } from '@glimmer/tracking';
 import _ from 'lodash';
 
 import config from '../../../../config/environment';
 
 export default class AuthenticatedSessionsDetailsCertificationCandidatesController extends Controller {
+
+  @alias('model') currentSession;
+  @tracked candidatesInStaging;
   @service session;
   @service notifications;
 
-  @computed('model.certificationCandidates.{[],@each.isLinked}')
+  constructor() {
+    super(...arguments);
+
+    this.candidatesInStaging = [];
+  }
+
+  @computed('currentSession.certificationCandidates.{[],@each.isLinked}')
   get importAllowed() {
-    return _.every(this.model.certificationCandidates.toArray(), (certificationCandidate) => {
+    return _.every(this.currentSession.certificationCandidates.toArray(), (certificationCandidate) => {
       return !certificationCandidate.isLinked;
     });
   }
 
+  get isCandidateBeingAdded() {
+    return this.candidatesInStaging.length > 0;
+  }
+
   _trimOrUndefinedIfFalsy(str) {
     return str ? str.trim() : undefined;
+  }
+
+  _fromPercentageStringToDecimal(value) {
+    return value ?
+      _.toNumber(value) / 100 : value;
   }
 
   @action
@@ -30,10 +50,10 @@ export default class AuthenticatedSessionsDetailsCertificationCandidatesControll
     const clearDuration = config.notifications.clearDuration;
 
     try {
-      await file.upload(this.model.urlToUpload, {
+      await file.upload(this.currentSession.urlToUpload, {
         headers: { Authorization: `Bearer ${access_token}` },
       });
-      this.model.certificationCandidates.reload();
+      this.currentSession.certificationCandidates.reload();
       this.notifications.success('La liste des candidats a été importée avec succès', {
         autoClear,
         clearDuration,
@@ -90,6 +110,29 @@ export default class AuthenticatedSessionsDetailsCertificationCandidatesControll
     }
 
     return true;
+  }
+
+  @action
+  addCertificationCandidateInStaging() {
+    this.candidatesInStaging.pushObject({
+      firstName: '', lastName: '', birthdate: '', birthCity: '',
+      birthProvinceCode: '', birthCountry: '', email: '', externalId: '',
+      extraTimePercentage: '' });
+  }
+
+  @action
+  async addCertificationCandidate(candidate) {
+    const realCertificationCandidateData = { ...candidate };
+    realCertificationCandidateData.extraTimePercentage = this._fromPercentageStringToDecimal(candidate.extraTimePercentage);
+    const success = await this.saveCertificationCandidate(realCertificationCandidateData);
+    if (success) {
+      this.candidatesInStaging.removeObject(candidate);
+    }
+  }
+
+  @action
+  removeCertificationCandidateFromStaging(candidate) {
+    this.candidatesInStaging.removeObject(candidate);
   }
 }
 

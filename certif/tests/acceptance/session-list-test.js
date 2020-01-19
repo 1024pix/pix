@@ -76,6 +76,22 @@ module('Acceptance | Session List', function(hooks) {
         assert.dom('table tbody tr:first-child').hasText(`${firstSession.id} ${firstSession.address} ${firstSession.room} ${formattedDate} ${firstSession.time} ${firstSession.examiner}`);
       });
 
+      test('it should sort the sessions from recent to older', async function(assert) {
+        // given
+        const lessLessRecentSession = server.create('session', { address: 'Adresse', certificationCenterId, date: '2019-01-01', time: '13:00' });
+        const mostRecentSession = server.create('session', { address: 'Adresse', certificationCenterId, date: '2020-01-01', time: '14:00' });
+        const lessRecentSession = server.create('session', { address: 'Adresse', certificationCenterId, date: '2019-01-01', time: '14:00' });
+
+        // when
+        await visit('/sessions/liste');
+
+        // then
+        assert.dom('table tbody tr').exists({ count: 3 });
+        assert.dom('table tbody tr:nth-child(1) td').hasText(`${mostRecentSession.id}`);
+        assert.dom('table tbody tr:nth-child(2) td').hasText(`${lessRecentSession.id}`);
+        assert.dom('table tbody tr:nth-child(3) td').hasText(`${lessLessRecentSession.id}`);
+      });
+
       test('it should redirect to detail page of session id 1 on click on first row', async function(assert) {
         // given
         const firstSession = server.create('session', { address: 'Adresse', certificationCenterId, date: '2020-01-01', time: '14:00' });

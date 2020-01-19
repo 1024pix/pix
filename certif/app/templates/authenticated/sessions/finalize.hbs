@@ -1,8 +1,73 @@
-<Routes::Authenticated::Sessions::SessionFinalizer
-        @session={{this.model}}
-        @isLoading={{this.isLoading}}
-        @finalizeSession={{this.finalizeSession}}
-        @openModal={{this.openModal}}
-        @closeModal={{this.closeModal}}
-        @showConfirmModal={{this.showConfirmModal}}
-/>
+<div class="page__title session-finalizer">
+  <div class="session-finalizer__title">
+    <LinkTo @route="authenticated.sessions.details" @model={{this.session.id}} class="icon-button session-details-content__return-button">
+      {{fa-icon 'arrow-left'}}
+    </LinkTo>
+    <h1 class="page-title">Finaliser la session {{this.session.id}}</h1>
+  </div>
+  <div class="session-finalizer__subtitle">
+      Pour finaliser la session, complétez les trois étapes puis validez.
+  </div>
+  <SessionFinalizationStepContainer
+          @number="1"
+          @title="Renseigner les informations de vos candidats"
+          @icon="/icons/session-finalization-user.svg"
+          @iconAlt="">
+      <SessionFinalizationCandidatesInformationsStep
+              @certificationCandidates={{this.session.certificationCandidates}} />
+  </SessionFinalizationStepContainer>
+  <SessionFinalizationStepContainer
+          @number="2"
+          @title="Transmettre le PV de session"
+          @icon="/icons/session-finalization-send.svg"
+          @iconAlt="">
+      <SessionFinalizationFormbuilderLinkStep/>
+  </SessionFinalizationStepContainer>
+  <SessionFinalizationStepContainer
+          @number="3"
+          @title="Commenter la session (facultatif)"
+          @icon="/icons/session-finalization-edit.svg"
+          @iconAlt="">
+      <SessionFinalizationExaminerCommentStep @session={{this.session}} />
+  </SessionFinalizationStepContainer>
+  <ActionButton
+          class="session-finalizer__button"
+          data-test-id="session-finalizer__button"
+          @isLoading={{this.isLoading}}
+          @handleClick={{this.openModal}} >
+      Finaliser
+  </ActionButton>
+</div>
+
+{{#if this.showConfirmModal}}
+  <AppModal @containerClass="pix-modal-dialog--wide" @onClose={{this.closeModal}}>
+
+    <div class="pix-modal__close-link">
+      <a href="#" data-test-id="finalize-session-modal__close-cross" {{on "click" this.closeModal}}>Fermer
+        <img src="/icons/icon-close-modal.svg" alt="Fermer la fenêtre de confirmation" width="24" height="24">
+      </a>
+    </div>
+
+    <div class="pix-modal__container pix-modal__container--white pix-modal__container--with-padding">
+      <div class="pix-modal-body pix-modal-body--with-padding">
+        <div class="app-modal-body__attention">Vous êtes sur le point de finaliser cette session.</div>
+        <div class="app-modal-body__warning">
+          <p>Attention : il ne vous sera plus possible de modifier ces informations par la suite.</p>
+        </div>
+      </div>
+
+      <div class="pix-modal-footer pix-modal-footer--with-centered-buttons">
+        <button
+                type="button"
+                class="button button--big button--extra-thin button--red"
+                data-test-id="finalize-session-modal__confirm-button"
+          {{on "click" this.finalizeSession}}>Confirmer</button>
+        <button
+                type="button"
+                class="button button--regular button--extra-thin button--grey"
+                data-test-id="finalize-session-modal__cancel-button"
+          {{on "click" this.closeModal}}>Annuler</button>
+      </div>
+    </div>
+  </AppModal>
+{{/if}}

@@ -30,7 +30,6 @@ export default Factory.extend({
 
   time() {
     return faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') +
-    ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0') +
     ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0');
   },
 
