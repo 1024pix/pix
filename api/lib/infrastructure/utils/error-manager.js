@@ -62,6 +62,9 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.CertificationCandidatePersonalInfoWrongFormat) {
     return new InfraErrors.BadRequestError('Un ou plusieurs champs d\'informations d\'identité sont au mauvais format.');
   }
+  if (error instanceof DomainErrors.CertificationCandidateForbiddenDeletionError) {
+    return new InfraErrors.ForbiddenError(error.message);
+  }
   if (error instanceof DomainErrors.CertificationCenterMembershipCreationError) {
     return new InfraErrors.BadRequestError('Le membre ou le centre de certification n\'existe pas.');
   }
