@@ -41,14 +41,21 @@ module('Acceptance | Session creation', function(hooks) {
       const sessionTime = new Date(sessionFormattedTime);
 
       await visit('/sessions/creation');
+      assert.dom('#session-address').exists();
+      assert.dom('#session-room').exists();
+      assert.dom('#session-date').exists();
+      assert.dom('#session-time').exists();
+      assert.dom('#session-examiner').exists();
+      assert.dom('#session-description').exists();
+      assert.dom('[data-test-id="session-form__submit-button"]').exists();
+      assert.dom('#session-description').hasAttribute('maxLength', '350');
+
       await fillIn('#session-address', 'My address');
       await fillIn('#session-room', 'My room');
       await fillIn('#session-examiner', 'My examiner');
       await fillIn('#session-description', 'My description');
       await setFlatpickrDate('#session-date', sessionDate);
       await setFlatpickrDate('#session-time', sessionTime);
-
-      // when
       await click('[data-test-id="session-form__submit-button"]');
 
       // then

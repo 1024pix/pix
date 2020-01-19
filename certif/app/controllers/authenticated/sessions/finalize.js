@@ -1,10 +1,13 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
 import config from '../../../config/environment';
 
 export default class AuthenticatedSessionsFinalizeController extends Controller {
+
+  @alias('model') session;
   @service notifications;
   @tracked isLoading;
   @tracked showConfirmModal;
@@ -31,7 +34,7 @@ export default class AuthenticatedSessionsFinalizeController extends Controller 
     this.isLoading = true;
 
     try {
-      await this.model.finalize();
+      await this.session.finalize();
       this.showSuccessNotification('Les informations de la session ont été transmises avec succès.');
     } catch (err) {
       (err.errors && err.errors[0] && err.errors[0].status === '400')
@@ -40,7 +43,7 @@ export default class AuthenticatedSessionsFinalizeController extends Controller 
     }
     this.isLoading = false;
     this.showConfirmModal = false;
-    this.transitionToRoute('authenticated.sessions.details', this.model.id);
+    this.transitionToRoute('authenticated.sessions.details', this.session.id);
   }
 
   @action

@@ -1,10 +1,52 @@
 <div class="session-list-page">
   {{#if this.hasSession}}
-    <Routes::Authenticated::Sessions::ListItems
-            @sessions={{this.model}}
-            @goToDetails={{this.goToDetails}}
-            @isSessionFinalizationActive={{this.isSessionFinalizationActive}} />
+    <div class="session-list-page__header">
+      <h1 class="page__title page-title">Sessions de certification</h1>
+    </div>
+
+    <div class="panel">
+      <div class="session-list__header">
+          <LinkTo @route="authenticated.sessions.new" class="button button--link button--with-icon">
+            Créer une session
+            {{fa-icon 'plus'}}
+          </LinkTo>
+      </div>
+
+      <div class="table content-text content-text--small">
+        <table>
+          <thead>
+          <tr>
+            <th class="table__column table__column--small">ID session</th>
+            <th class="table__column table__column--wide">Nom du site</th>
+            <th class="table__column table__column--wide">Salle</th>
+            <th class="table__column">Date</th>
+            <th class="table__column table__column--small">Heure</th>
+            <th class="table__column table__column--wide">Surveillant(s)</th>
+          {{#if this.isSessionFinalizationActive }}
+              <th class="table__column table__column--wide">Statut</th>
+          {{/if}}
+          </tr>
+          </thead>
+
+          <tbody>
+          {{#each this.sortedSessions as |session|}}
+            <tr data-test-id="session-list-row__{{session.id}}" {{on 'click' (fn this.goToDetails session)}}>
+                <td>{{session.id}}</td>
+                <td>{{session.address}}</td>
+                <td>{{session.room}}</td>
+                <td>{{moment-format session.date 'DD/MM/YYYY' allow-empty=true}}</td>
+                <td>{{moment-format session.time 'HH:mm' 'HH:mm:ss' allow-empty=true}}</td>
+                <td>{{session.examiner}}</td>
+              {{#if this.isSessionFinalizationActive }}
+                  <td>{{session.displayStatus}}</td>
+              {{/if}}
+            </tr>
+          {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
   {{else}}
-    <Routes::Authenticated::Sessions::NoSessionPanel />
+    <NoSessionPanel />
   {{/if}}
 </div>
