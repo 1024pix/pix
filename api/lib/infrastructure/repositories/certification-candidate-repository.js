@@ -36,14 +36,49 @@ module.exports = {
     }
   },
 
-  delete(certificationCandidateId) {
-    return CertificationCandidateBookshelf
-      .where({ id: certificationCandidateId })
-      .destroy({ require: true })
-      .then(() => true)
-      .catch(() => {
-        throw new CertificationCandidateDeletionError('An error occurred while deleting the certification candidate');
+  async finalizeAll(certificationCandidates) {
+    try {
+      await Bookshelf.transaction((trx) => {
+        return Promise.all(certificationCandidates.map((certificationCandidate) => {
+          return this.finalize({ certificationCandidate, transaction: trx });
+        }));
       });
+    } catch (err) {
+      throw new CertificationCandidateCreationOrUpdateError('An error occurred while finalizing the certification candidates');
+    }
+  },
+
+  async finalize({ certificationCandidate, transaction = undefined }) {
+    const saveOptions = { patch: true, method: 'update' };
+    if (transaction) {
+      saveOptions.transacting = transaction;
+    }
+
+    const candidateDataToUpdate = _.pick(certificationCandidate, [
+      'hasSeenEndTestScreen',
+      'examinerComment',
+    ]);
+    return new CertificationCandidateBookshelf({ id: certificationCandidate.id })
+      .save(candidateDataToUpdate, saveOptions);
+  },
+
+  async delete(certificationCandidateId) {
+    try {
+      await CertificationCandidateBookshelf
+        .where({ id: certificationCandidateId })
+        .destroy({ require: true });
+      return true;
+    } catch (err) {
+      throw new CertificationCandidateDeletionError('An error occurred while deleting the certification candidate');
+    }
+  },
+
+  async isNotLinked(certificationCandidateId) {
+    const notLinkedCandidate = await CertificationCandidateBookshelf
+      .where({ id: certificationCandidateId, userId: null })
+      .fetch({ columns: ['id'] });
+
+    return !!notLinkedCandidate;
   },
 
   getBySessionIdAndUserId({ sessionId, userId }) {
