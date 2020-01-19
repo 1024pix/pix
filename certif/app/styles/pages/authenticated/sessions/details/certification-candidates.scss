@@ -97,10 +97,10 @@
   align-items: center;
   color: $grey;
   padding: 16px 0px;
+  margin: 0px 30px 0px 30px;
 
   &__title {
     display: flex;
-    margin-left: 30px;
     flex-grow: 1;
     font-size: 1rem;
     font-weight: bold;
@@ -109,7 +109,6 @@
   &__action {
     display: flex;
     align-items: center;
-    margin-right: 30px;
     cursor: pointer;
   }
 
@@ -157,7 +156,7 @@
 
 .certification-candidates-row-actions {
   justify-content: flex-end;
-  padding-right: 20px;
+  padding-right: 30px;
 
   &__close {
     margin-left: 8px;
@@ -177,12 +176,46 @@
   width: 50px;
 }
 
-.certification-candidates-table > table > tbody > tr > td,
-.certification-candidates-table > table > thead > tr > th {
-  padding-left: 15px;
-}
+.certification-candidates-actions {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 30px;
 
-.certification-candidates-table > table > tbody > tr > td:first-child,
-.certification-candidates-table > table > thead > tr > th:first-child {
-  padding-left: 30px;
+  &__delete {
+
+    &__button {
+      font-size: 1rem;
+      color: $dusty-gray;
+
+      &--disabled {
+        font-size: 1rem;
+        background-color: $idol;
+        color: $white;
+
+        &:hover, &:active, &:focus {
+          background-color: $dusty-gray;
+        }
+      }
+    }
+
+    &__tooltip {
+      visibility: hidden;
+      position: absolute;
+      top: 40px;
+      right: 30px;
+      z-index: 99;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.65rem;
+      color: $white;
+      background-color: rgba(118, 118, 118, 0.9);
+    }
+  }
+
+  &__delete:hover > &__delete__tooltip {
+    visibility: visible;
+  }
 }

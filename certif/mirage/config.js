@@ -65,6 +65,18 @@ export default function() {
     return schema.sessions.find(sessionId).certificationReports;
   });
 
+  this.delete('/sessions/:id/certification-candidates/:candidateId', function(schema, request) {
+    const certificationCandidateId = request.params.candidateId;
+
+    const certificationCandidate = schema.certificationCandidates.find(certificationCandidateId);
+    if (certificationCandidate.isLinked) {
+      return new Response(403);
+    }
+
+    certificationCandidate.destroy();
+    return { data: null };
+  });
+
   this.post('/sessions/:id/certification-candidates/import', upload(function(schema, request) {
     const { name } = request.requestBody.file;
     if (name === 'invalid-file') {

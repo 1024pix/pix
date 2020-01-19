@@ -112,6 +112,31 @@ export default class AuthenticatedSessionsDetailsCertificationCandidatesControll
   }
 
   @action
+  async deleteCertificationCandidate(certificationCandidate) {
+    this.notifications.clearAll();
+    const autoClear = config.notifications.autoClear;
+    const clearDuration = config.notifications.clearDuration;
+    const sessionId = this.model.id;
+
+    try {
+      await certificationCandidate.destroyRecord({ adapterOptions: { sessionId } });
+      this.notifications.success('Le candidat a été supprimé avec succès.', {
+        autoClear,
+        clearDuration,
+      });
+    } catch (err) {
+      let errorText = 'Une erreur s\'est produite lors de la suppression du candidat';
+      if (_.get(err, 'errors[0].code') === 403) {
+        errorText = 'Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.';
+      }
+      this.notifications.error(errorText, {
+        autoClear,
+        clearDuration,
+      });
+    }
+  }
+
+  @action
   addCertificationCandidateInStaging() {
     this.candidatesInStaging.pushObject(EmberObject.create({
       firstName: '', lastName: '', birthdate: '', birthCity: '',
