@@ -17,6 +17,7 @@ export default class AuthenticatedSessionsFinalizeController extends Controller 
 
     this.isLoading = false;
     this.showConfirmModal = false;
+    this.examinerCommentMaxLength = 500;
   }
 
   showErrorNotification(message) {
@@ -44,6 +45,38 @@ export default class AuthenticatedSessionsFinalizeController extends Controller 
     this.isLoading = false;
     this.showConfirmModal = false;
     this.transitionToRoute('authenticated.sessions.details', this.session.id);
+  }
+
+  @action
+  updateExaminerComment(event) {
+    const inputText = event.target.value;
+    if (inputText.length <= this.examinerCommentMaxLength) {
+      this.session.examinerComment = inputText;
+    }
+  }
+
+  @action
+  updateCertificationCandidateExaminerComment(certificationCandidate, event) {
+    const inputText = event.target.value;
+    if (inputText.length <= this.examinerCommentMaxLength) {
+      certificationCandidate.examinerComment = inputText;
+    }
+  }
+
+  @action
+  toggleCertificationCandidateHasSeenEndTestScreen(certificationCandidate) {
+    certificationCandidate.hasSeenEndTestScreen = !certificationCandidate.hasSeenEndTestScreen;
+  }
+
+  @action
+  toggleAllCertificationCandidatesHasSeenEndTestScreen(someWereChecked) {
+    const newState = !someWereChecked;
+
+    this.session.certificationCandidates.forEach((certificationCandidate) => {
+      if (!certificationCandidate.isMissing) {
+        certificationCandidate.hasSeenEndTestScreen = newState;
+      }
+    });
   }
 
   @action

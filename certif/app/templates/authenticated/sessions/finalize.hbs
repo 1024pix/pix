@@ -14,7 +14,11 @@
           @icon="/icons/session-finalization-user.svg"
           @iconAlt="">
       <SessionFinalizationCandidatesInformationsStep
-              @certificationCandidates={{this.session.certificationCandidates}} />
+              @certificationCandidates={{this.session.certificationCandidates}}
+              @updateCertificationCandidateExaminerComment={{this.updateCertificationCandidateExaminerComment}}
+              @examinerCommentMaxLength={{this.examinerCommentMaxLength}}
+              @toggleCertificationCandidateHasSeenEndTestScreen={{this.toggleCertificationCandidateHasSeenEndTestScreen}}
+              @toggleAllCertificationCandidatesHasSeenEndTestScreen={{this.toggleAllCertificationCandidatesHasSeenEndTestScreen}} />
   </SessionFinalizationStepContainer>
   <SessionFinalizationStepContainer
           @number="2"
@@ -28,7 +32,10 @@
           @title="Commenter la session (facultatif)"
           @icon="/icons/session-finalization-edit.svg"
           @iconAlt="">
-      <SessionFinalizationExaminerCommentStep @session={{this.session}} />
+      <SessionFinalizationExaminerCommentStep
+              @session={{this.session}}
+              @updateExaminerComment={{this.updateExaminerComment}}
+              @examinerCommentMaxLength={{this.examinerCommentMaxLength}} />
   </SessionFinalizationStepContainer>
   <ActionButton
           class="session-finalizer__button"

@@ -11,7 +11,7 @@
     id="examiner-comment"
     class="session-finalization-examiner-comment-step__textarea"
     value={{@session.examinerComment}}
-    oninput={{action this.updateTextareaValue value="target.value"}}
-    maxlength={{this.textareaMaxLength}}
+    {{on 'input' @updateExaminerComment}}
+    maxlength={{@examinerCommentMaxLength}}
   />
 </div>
