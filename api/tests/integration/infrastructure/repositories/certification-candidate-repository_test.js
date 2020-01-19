@@ -181,7 +181,49 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('#findBySessionId', () => {
+  describe('#isNotLinked', () => {
+
+    context('when the candidate is linked', () => {
+      let certificationCandidateId;
+
+      beforeEach(() => {
+        // given
+        certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate().id;
+        return databaseBuilder.commit();
+      });
+
+      it('should return false', async () => {
+        // when
+        const isNotLinked = await certificationCandidateRepository.isNotLinked(certificationCandidateId);
+
+        // then
+        expect(isNotLinked).to.be.false;
+      });
+
+    });
+
+    context('when the candidate is not linked', () => {
+      let certificationCandidateToDeleteId;
+
+      beforeEach(() => {
+        // given
+        certificationCandidateToDeleteId = databaseBuilder.factory.buildCertificationCandidate({ userId: null }).id;
+        return databaseBuilder.commit();
+      });
+
+      it('should return true', async () => {
+        // when
+        const isNotLinked = await certificationCandidateRepository.isNotLinked(certificationCandidateToDeleteId);
+
+        // then
+        expect(isNotLinked).to.be.true;
+      });
+
+    });
+
+  });
+
+  describe('#findBySessionIdWithCertificationCourse', () => {
     let sessionId;
 
     beforeEach(async () => {
