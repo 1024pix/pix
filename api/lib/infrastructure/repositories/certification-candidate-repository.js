@@ -40,9 +40,7 @@ module.exports = {
     return CertificationCandidateBookshelf
       .where({ id: certificationCandidateId })
       .destroy({ require: true })
-      .then((destroyedCertificationCandidate) => {
-        return bookshelfToDomainConverter.buildDomainObject(CertificationCandidateBookshelf, destroyedCertificationCandidate);
-      })
+      .then(() => true)
       .catch(() => {
         throw new CertificationCandidateDeletionError('An error occurred while deleting the certification candidate');
       });

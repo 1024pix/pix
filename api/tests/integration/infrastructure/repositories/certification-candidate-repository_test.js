@@ -140,21 +140,19 @@ describe('Integration | Repository | CertificationCandidate', function() {
     context('when the record to delete is in the table', () => {
       let certificationCandidateToDeleteId;
 
-      beforeEach(async () => {
+      beforeEach(() => {
         // given
         certificationCandidateToDeleteId = databaseBuilder.factory.buildCertificationCandidate().id;
         _.times(5, databaseBuilder.factory.buildCertificationCandidate);
-        await databaseBuilder.commit();
+        return databaseBuilder.commit();
       });
 
-      it('should return the deleted certification candidate with all its attributes undefined', async () => {
+      it('should return true when deletion goes well', async () => {
         // when
-        const certificationCandidateDeleted = await certificationCandidateRepository.delete(certificationCandidateToDeleteId);
+        const isDeleted = await certificationCandidateRepository.delete(certificationCandidateToDeleteId);
 
         // then
-        _.each(certificationCandidateDeleted, (attributeValue) => {
-          expect(attributeValue).to.equal(undefined);
-        });
+        expect(isDeleted).to.be.true;
       });
 
       it('should delete a single row in the table', async () => {
