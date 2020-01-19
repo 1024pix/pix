@@ -295,6 +295,17 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(400);
     });
 
+    it('should return 403 on domain CertificationCandidateForbiddenDeletionError', function() {
+      // given
+      const error = new DomainErrors.CertificationCandidateForbiddenDeletionError();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(403);
+    });
+
     it('should return 400 on domain CertificationCandidatePersonalInfoWrongFormat', function() {
       // given
       const error = new DomainErrors.CertificationCandidatePersonalInfoWrongFormat();
