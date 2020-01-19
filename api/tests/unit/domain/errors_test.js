@@ -35,6 +35,10 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.CertificationCandidatePersonalInfoWrongFormat).to.exist;
   });
 
+  it('should export a CertificationCandidateForbiddenDeletionError', () => {
+    expect(errors.CertificationCandidateForbiddenDeletionError).to.exist;
+  });
+
   it('should export a NotFoundError', () => {
     expect(errors.NotFoundError).to.exist;
   });

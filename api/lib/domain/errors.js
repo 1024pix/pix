@@ -167,6 +167,12 @@ class CertificationCandidatePersonalInfoWrongFormat extends DomainError {
   }
 }
 
+class CertificationCandidateForbiddenDeletionError extends DomainError {
+  constructor(message = 'Il est interdit de supprimer un candidat de certification déjà lié à un utilisateur.') {
+    super(message);
+  }
+}
+
 class CertificationComputeError extends DomainError {
   constructor(message = 'Erreur lors du calcul de la certification.') {
     super(message);
@@ -403,6 +409,7 @@ module.exports = {
   StudentsCouldNotBeSavedError,
   CampaignCodeError,
   CampaignWithoutOrganizationError,
+  CertificationCandidateForbiddenDeletionError,
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
