@@ -8,7 +8,7 @@
         <th>Signalement (facultatif)</th>
         <th>
           <div class="session-finalization-candidates-informations-step__row">
-            <div class="session-finalization-candidates-informations-step__checker" {{on 'click' this.toggleAllHasSeenEndTestScreen}}>
+            <div class="session-finalization-candidates-informations-step__checker" {{on 'click' (fn @toggleAllCertificationCandidatesHasSeenEndTestScreen this.hasCheckedSomething)}}>
               {{#if this.hasCheckedEverything}}
                 <div class="checkbox checkbox--checked">
                   <img
@@ -41,8 +41,8 @@
               data-test-id="finalization-candidate-examiner-comment_{{candidate.id}}"
               class="session-finalization-candidates-informations-step__textarea"
               value={{candidate.examinerComment}}
-              oninput={{action (mut candidate.examinerComment) value="target.value"}}
-              maxlength={{this.textareaMaxLength}}
+              {{on 'input' (fn @updateCertificationCandidateExaminerComment candidate)}}
+              maxlength={{@examinerCommentMaxLength}}
             />
           </td>
           <td>
@@ -51,7 +51,7 @@
                 <div
                   data-test-id="finalization-candidate-has-seen-end-test-screen_{{candidate.id}}"
                   class="checkbox checkbox--checked"
-                  {{on 'click' (toggle 'hasSeenEndTestScreen' candidate)}}>
+                  {{on 'click' (fn @toggleCertificationCandidateHasSeenEndTestScreen candidate)}}>
                   <img
                     src="/icons/icon-done.svg"
                     class="session-finalization-candidates-informations-step__done-icon"
@@ -61,13 +61,12 @@
                 <div
                   data-test-id="finalization-candidate-has-seen-end-test-screen_{{candidate.id}}"
                   class="checkbox checkbox--unchecked"
-                  {{on 'click' (toggle 'hasSeenEndTestScreen' candidate)}}/>
+                  {{on 'click' (fn @toggleCertificationCandidateHasSeenEndTestScreen candidate)}}/>
               {{/if}}
             {{else}}
               <div
                 data-test-id="finalization-candidate-has-seen-end-test-screen_{{candidate.id}}"
-                class="checkbox checkbox--unchecked checkbox--disabled"
-                {{on 'click' (toggle 'hasSeenEndTestScreen' candidate)}}/>
+                class="checkbox checkbox--unchecked checkbox--disabled"/>
             {{/if}}
           </td>
         </tr>
