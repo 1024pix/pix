@@ -7,6 +7,8 @@ const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizat
 
 describe('Acceptance | API | Campaign Participations', () => {
 
+  const JAFFA_COLOR = 'jaffa';
+
   let server,
     options,
     user,
@@ -196,9 +198,32 @@ describe('Acceptance | API | Campaign Participations', () => {
       const dataSourceSkills = _.times(10, (i) => airtableBuilder.factory.buildSkill({ id: `recTIddrkopID28Ep_${i}` }));
       const skillIds = _.map(dataSourceSkills, 'id');
       const [ skillIds1, skillIds2, skillIds3 ] = _.chunk(skillIds, 4);
-      const competence1 = airtableBuilder.factory.buildCompetence({ id: 1, titre: 'Liberticide', acquisViaTubes: skillIds1 });
-      const competence2 = airtableBuilder.factory.buildCompetence({ id: 2, titre: 'Inéquités, inégalités', acquisViaTubes: skillIds2, });
-      const competence3 = airtableBuilder.factory.buildCompetence({ id: 3, titre: 'Le capital au XXIème siècle', acquisViaTubes: skillIds3, });
+
+      const jaffaArea = airtableBuilder.factory.buildArea({
+        id: 1,
+        competenceIds: ['1', '2', '3'],
+        couleur: JAFFA_COLOR
+      });
+      const areas = [jaffaArea];
+
+      const competence1 = airtableBuilder.factory.buildCompetence({
+        id: 1,
+        titre: 'Liberticide',
+        acquisViaTubes: skillIds1,
+        domaine: [jaffaArea.id],
+      });
+      const competence2 = airtableBuilder.factory.buildCompetence({
+        id: 2,
+        titre: 'Inéquités, inégalités',
+        acquisViaTubes: skillIds2,
+        domaine: [jaffaArea.id],
+      });
+      const competence3 = airtableBuilder.factory.buildCompetence({
+        id: 3,
+        titre: 'Le capital au XXIème siècle',
+        acquisViaTubes: skillIds3,
+        domaine: [jaffaArea.id],
+      });
       const competences = [ competence1, competence2, competence3 ];
 
       // Build a target profile targeting the full competence 1, partly competence 2, and nothing in competence 3
@@ -247,7 +272,7 @@ describe('Acceptance | API | Campaign Participations', () => {
 
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns(dataSourceSkills).activate();
       airtableBuilder.mockList({ tableName: 'Competences' }).returns(competences).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
+      airtableBuilder.mockList({ tableName: 'Domaines' }).returns(areas).activate();
 
       await databaseBuilder.commit();
 
@@ -319,6 +344,7 @@ describe('Acceptance | API | Campaign Participations', () => {
                   id: 1,
                   index: '1.1',
                   name: 'Liberticide',
+                  areaColor: JAFFA_COLOR,
                   testedSkillsCount: 4,
                   totalSkillsCount: 4,
                   validatedSkillsCount: 3,
@@ -327,6 +353,7 @@ describe('Acceptance | API | Campaign Participations', () => {
                   id: 2,
                   index: '1.1',
                   name: 'Inéquités, inégalités',
+                  areaColor: JAFFA_COLOR,
                   testedSkillsCount: 3,
                   totalSkillsCount: 3,
                   validatedSkillsCount: 2,

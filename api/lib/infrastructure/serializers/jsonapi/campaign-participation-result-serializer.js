@@ -6,7 +6,7 @@ module.exports = {
       attributes: ['totalSkillsCount', 'testedSkillsCount', 'validatedSkillsCount', 'isCompleted', 'competenceResults'],
       competenceResults: {
         ref: 'id',
-        attributes: ['name', 'index', 'totalSkillsCount', 'testedSkillsCount', 'validatedSkillsCount'],
+        attributes: ['name', 'index', 'areaColor', 'totalSkillsCount', 'testedSkillsCount', 'validatedSkillsCount'],
       },
     }).serialize(results);
   },
