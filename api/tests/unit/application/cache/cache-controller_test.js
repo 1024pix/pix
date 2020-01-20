@@ -6,7 +6,7 @@ const _ = require('lodash');
 
 describe('Unit | Controller | cache-controller', () => {
 
-  describe('#reloadCacheEntry', () => {
+  describe('#refreshCacheEntry', () => {
 
     const request = {
       params: {
@@ -15,29 +15,29 @@ describe('Unit | Controller | cache-controller', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(AirtableDatasources.ChallengeDatasource, 'loadAirtableRecordIntoCache');
+      sinon.stub(AirtableDatasources.ChallengeDatasource, 'refreshAirtableCacheRecord');
     });
 
     it('should reply with null when the cache key exists', async () => {
       // given
       const numberOfDeletedKeys = 1;
-      AirtableDatasources.ChallengeDatasource.loadAirtableRecordIntoCache.resolves(numberOfDeletedKeys);
+      AirtableDatasources.ChallengeDatasource.refreshAirtableCacheRecord.resolves(numberOfDeletedKeys);
 
       // when
-      const response = await cacheController.reloadCacheEntry(request, hFake);
+      const response = await cacheController.refreshCacheEntry(request, hFake);
 
       // then
-      expect(AirtableDatasources.ChallengeDatasource.loadAirtableRecordIntoCache).to.have.been.calledWithExactly('recABCDEF');
+      expect(AirtableDatasources.ChallengeDatasource.refreshAirtableCacheRecord).to.have.been.calledWithExactly('recABCDEF');
       expect(response).to.be.null;
     });
 
     it('should reply with null when the cache key does not exist', async () => {
       // given
       const numberOfDeletedKeys = 0;
-      AirtableDatasources.ChallengeDatasource.loadAirtableRecordIntoCache.resolves(numberOfDeletedKeys);
+      AirtableDatasources.ChallengeDatasource.refreshAirtableCacheRecord.resolves(numberOfDeletedKeys);
 
       // when
-      const response = await cacheController.reloadCacheEntry(request, hFake);
+      const response = await cacheController.refreshCacheEntry(request, hFake);
 
       // Then
       expect(response).to.be.null;
@@ -61,19 +61,19 @@ describe('Unit | Controller | cache-controller', () => {
     });
   });
 
-  describe('#reloadCacheEntries', () => {
+  describe('#refreshCacheEntries', () => {
 
     const request = {};
 
     it('should reply with null when there is no error', async () => {
       // given
-      _.map(AirtableDatasources, (datasource) => sinon.stub(datasource, 'loadAirtableRecordsIntoCache'));
+      _.map(AirtableDatasources, (datasource) => sinon.stub(datasource, 'refreshAirtableCacheRecords'));
 
       // when
-      const response = await cacheController.reloadCacheEntries(request, hFake);
+      const response = await cacheController.refreshCacheEntries(request, hFake);
 
       // Then
-      _.map(AirtableDatasources, (datasource) => expect(datasource.loadAirtableRecordsIntoCache).to.have.been.calledOnce);
+      _.map(AirtableDatasources, (datasource) => expect(datasource.refreshAirtableCacheRecords).to.have.been.calledOnce);
       expect(response).to.be.null;
     });
   });

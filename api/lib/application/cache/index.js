@@ -11,7 +11,7 @@ exports.register = async function(server) {
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
-        handler: CacheController.reloadCacheEntry,
+        handler: CacheController.refreshCacheEntry,
         tags: ['api', 'cache'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master',
@@ -43,7 +43,7 @@ exports.register = async function(server) {
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
-        handler: CacheController.reloadCacheEntries,
+        handler: CacheController.refreshCacheEntries,
         tags: ['api', 'cache'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master',

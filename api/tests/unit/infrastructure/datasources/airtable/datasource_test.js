@@ -137,7 +137,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
     });
   });
 
-  describe('#loadAirtableRecordsIntoCache', () => {
+  describe('#refreshAirtableCacheRecords', () => {
 
     beforeEach(() => {
       cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
@@ -150,7 +150,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
     it('should load all the Airtable table content in the cache (and return them)', async () => {
       // when
-      const results = await someDatasource.loadAirtableRecordsIntoCache();
+      const results = await someDatasource.refreshAirtableCacheRecords();
 
       // then
       expect(results.length).to.equal(2);
@@ -158,14 +158,14 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
     it('should preload cache', async () => {
       // when
-      await someDatasource.loadAirtableRecordsIntoCache();
+      await someDatasource.refreshAirtableCacheRecords();
 
       // then
       expect(cache.set).to.have.been.calledWith('AirtableModel');
     });
   });
 
-  describe('#loadAirtableRecordIntoCache', () => {
+  describe('#refreshAirtableCacheRecord', () => {
 
     it('should force Airtable to reload the record and store or replace it in the cache', async () => {
       // given
@@ -180,7 +180,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
       sinon.stub(cache, 'set').callsFake((key, value) => value);
 
       // when
-      const entry = await someDatasource.loadAirtableRecordIntoCache(airtableRecord.id);
+      const entry = await someDatasource.refreshAirtableCacheRecord(airtableRecord.id);
 
       // then
       expect(entry).to.deep.equal({
