@@ -10,10 +10,10 @@
   color: $pix-grey-hover;
   animation-duration: 1s;
   animation-name: slidein;
+  user-select: none;
+  background-color: rgba(255,255,255,0.92);
 
-  background-color: rgba(255,255,255,0.90);
-
-  @include device-is('desktop') {
+  @include device-is('tablet') {
     width: 362px;
   }
 
@@ -30,18 +30,26 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 10px 0;
+    padding: 10px 10px 10px 0;
   }
 
   &__close {
-    margin: 5px;
+    background-color: transparent;
     cursor: pointer;
-    opacity: 0.5;
-    height: 30px;
+    color: $slate-grey;
+    font-size: 2.4rem;
+    width: 70px;
+    border: none;
+    border-left: 1px solid $alto-grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    &:active, &:hover {
-      background-color: transparent;
-      opacity: 1;
+    &:hover, &:focus, &:active {
+      color: $tundora-grey;
+      background-color: $mercury-grey;
+      border-bottom-right-radius: 5px;
+      border-top-right-radius: 5px;
     }
   }
 }
@@ -53,12 +61,20 @@
     font-family: $font-open-sans;
     text-transform: uppercase;
     margin-bottom: 2px;
+
+    @include device-is('mobile') {
+      font-size: 1.4rem;
+    }
   }
 
   &__name {
     font-size: 1.4rem;
     line-height: 1.8rem;
     font-family: $font-roboto;
+
+    @include device-is('mobile') {
+      font-size: 1.3rem;
+    }
   }
 }
 
