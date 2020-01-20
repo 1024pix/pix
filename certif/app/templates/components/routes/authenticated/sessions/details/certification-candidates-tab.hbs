@@ -25,39 +25,40 @@
       </div>
     </div>
     <div class="panel-actions__action-row">
-      <div class="panel-actions__action-icon">
-        {{fa-icon "cloud-upload-alt"}}
-      </div>
-      <div class="panel-actions__description">
-        <div class="panel-actions__title">Importer le PV de session</div>
-        <div class="panel-actions__subtitle">
-          Sélectionnez le PV de session préalablement rempli.
-          <br> <strong>Attention, tout nouvel import efface la liste des candidats existante.</strong>
+      {{#if importAllowed}}
+        <div class="panel-actions__action-icon">
+          {{fa-icon "cloud-upload-alt"}}
         </div>
-        {{#unless importAllowed}}
-          <div class="panel-actions__warning">
-              <br> <strong>{{fa-icon 'exclamation-circle' class="panel-actions__warning-icon"}}
-              La session a débuté, il n'est plus possible de modifier la liste des candidats.</strong>
+        <div class="panel-actions__description">
+          <div class="panel-actions__title">Importer le PV de session</div>
+          <div class="panel-actions__subtitle">
+            Sélectionnez le PV de session préalablement rempli.
+            <br>
+            <strong>
+              Attention, tout nouvel import efface la liste des candidats existante.
+            </strong>
           </div>
-        {{/unless}}
-      </div>
-        {{#if importAllowed}}
-          <div class="panel-actions__button">
-            <FileUpload @name="file-upload" @for="upload-attendance-sheet" @accept=".ods" @multiple={{false}} @onfileadd={{action importCertificationCandidates}}>
-              <span data-test-id="attendance_sheet_upload_button"
-                    class="button button--with-icon"
-                    role="button"
-                    tabindex=0>Importer (.ods){{fa-icon 'cloud-upload-alt'}}</span>
-            </FileUpload>
-          </div>
-        {{else}}
-          <div class="panel-actions__button">
+        </div>
+        <div class="panel-actions__button">
+          <FileUpload @name="file-upload" @for="upload-attendance-sheet" @accept=".ods" @multiple={{false}} @onfileadd={{action importCertificationCandidates}}>
             <span data-test-id="attendance_sheet_upload_button"
-                  class="button button--with-icon button--disabled"
+                  class="button button--with-icon"
                   role="button"
-                  tabindex=0>Importer (.ods){{fa-icon 'cloud-upload-alt'}}</span>
-          </div>
-        {{/if}}
+                  tabindex=0>
+              Importer (.ods){{fa-icon 'cloud-upload-alt'}}
+            </span>
+          </FileUpload>
+        </div>
+      {{else}}
+        <div class="panel-actions__action-icon">
+          {{fa-icon 'exclamation-circle' class="panel-actions__warning-icon"}}
+        </div>
+        <div class="panel-actions__description">
+          <strong class="panel-actions__warning">
+            La session a débuté, vous ne pouvez plus importer une liste de candidats.<br>Si vous souhaitez modifier la liste, vous pouvez ajouter un candidat directement dans le tableau ci-dessous.
+          </strong>
+        </div>
+      {{/if}}
     </div>
   </div>
 </div>
@@ -72,7 +73,7 @@
         Ajouter un candidat
       </div>
       <button class="button button--square button--lightgrey">
-          {{fa-icon "plus" class="fa-fw certification-candidates-add-button__icon"}}
+        {{fa-icon "plus" class="fa-fw certification-candidates-add-button__icon"}}
       </button>
     </div>
   </div>
@@ -81,15 +82,42 @@
       <table>
         <thead>
           <tr>
-            <th>Nom de naissance</th>
-            <th>Prénom</th>
-            <th>Date de naissance</th>
-            <th>Commune de naissance</th>
-            <th>Département de naissance</th>
-            <th>Pays de naissance</th>
+            <th class="certification-candidates-table__column-name">
+              Nom de naissance
+              {{#if this.candidatesInStaging.length}}
+                *
+              {{/if}}
+            </th>
+            <th class="certification-candidates-table__column-name">
+              Prénom
+              {{#if this.candidatesInStaging.length}}
+                *
+              {{/if}}
+            </th>
+            <th>
+              Date de naissance
+              {{#if this.candidatesInStaging.length}}
+                *
+              {{/if}}
+            </th>
+            <th>Commune de naissance
+              {{#if this.candidatesInStaging.length}}
+                  *
+              {{/if}}
+            </th>
+            <th>Département de naissance
+              {{#if this.candidatesInStaging.length}}
+                  *
+              {{/if}}
+            </th>
+            <th>Pays de naissance
+              {{#if this.candidatesInStaging.length}}
+                  *
+              {{/if}}
+            </th>
             <th>Adresse e-mail de convocation</th>
             <th>Identifiant externe</th>
-            <th>Temps majoré</th>
+            <th class="certification-candidates-table__column-time">Temps majoré</th>
             <th width="185"></th>
           </tr>
         </thead>

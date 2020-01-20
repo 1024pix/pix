@@ -88,8 +88,8 @@ module('Integration | Component | routes/authenticated/session | certification-c
     await render(hbs`{{routes/authenticated/sessions/details/certification-candidates-tab certificationCandidates=certificationCandidates importAllowed=false importCertificationCandidates=importCertificationCandidatesSpy saveCertificationCandidate=saveCertificationCandidateSpy}}`);
 
     // then
-    assert.dom('.panel-actions__warning strong').hasText(
-      'La session a débuté, il n\'est plus possible de modifier la liste des candidats.'
+    assert.dom('.panel-actions__warning').hasText(
+      'La session a débuté, vous ne pouvez plus importer une liste de candidats.Si vous souhaitez modifier la liste, vous pouvez ajouter un candidat directement dans le tableau ci-dessous.'
     );
   });
 
