@@ -11,6 +11,6 @@ export default Component.extend({
   actions: {
     close: function() {
       this.set('closeLevelup', true);
-    }
+    },
   },
 });
