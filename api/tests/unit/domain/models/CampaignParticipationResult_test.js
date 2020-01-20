@@ -1,5 +1,6 @@
 const { expect } = require('../../../test-helper');
 const CampaignParticipationResult = require('../../../../lib/domain/models/CampaignParticipationResult');
+const Area = require('../../../../lib/domain/models/Area');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
 describe('Unit | Domain | Models | CampaignParticipationResult', () => {
@@ -17,10 +18,13 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
       new KnowledgeElement({ skillId: 7, status: 'validated' }),
     ];
 
+    const jaffaArea = new Area({ color: 'jaffa' });
+    const wildStrawberryArea = new Area({ color: 'wild-strawberry' });
+
     const competences = [
-      { id: 1, name: 'Economie symbiotique', index: '5.1', skills: [1] },
-      { id: 2, name: 'Désobéissance civile', index: '6.9', skills: [2, 3, 4] },
-      { id: 3, name: 'Démocratie liquide', index: '8.6', skills: [5, 6] },
+      { id: 1, name: 'Economie symbiotique', index: '5.1', skills: [1], area: jaffaArea },
+      { id: 2, name: 'Désobéissance civile', index: '6.9', skills: [2, 3, 4], area: wildStrawberryArea },
+      { id: 3, name: 'Démocratie liquide', index: '8.6', skills: [5, 6], area: wildStrawberryArea },
     ];
 
     const targetProfile = {
@@ -50,6 +54,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           id: 1,
           name: 'Economie symbiotique',
           index: '5.1',
+          areaColor: 'jaffa',
           totalSkillsCount: 1,
           testedSkillsCount: 1,
           validatedSkillsCount: 1,
@@ -57,6 +62,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           id: 2,
           name: 'Désobéissance civile',
           index: '6.9',
+          areaColor: 'wild-strawberry',
           totalSkillsCount: 3,
           testedSkillsCount: 1,
           validatedSkillsCount: 0,

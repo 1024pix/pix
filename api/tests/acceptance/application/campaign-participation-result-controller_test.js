@@ -5,6 +5,10 @@ const _ = require('lodash');
 
 describe('Acceptance | API | Campaign Participation Result', () => {
 
+  const JAFFA_COLOR = 'jaffa';
+  const EMERALD_COLOR = 'emerald';
+  const WILD_STRAWBERRY_COLOR = 'wild-strawberry';
+
   let user,
     campaign,
     assessment,
@@ -12,6 +16,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
     targetProfile,
     targetProfileSkills,
     skills,
+    areas,
     competences;
 
   let server;
@@ -69,30 +74,39 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       createdAt: oldDate,
     });
 
+    const jaffaArea = airtableBuilder.factory.buildArea({ id: 1, competenceIds: ['1'], couleur: JAFFA_COLOR });
+    const emeraldArea = airtableBuilder.factory.buildArea({ id: 2, competenceIds: ['2', '3'], couleur: EMERALD_COLOR });
+    const wildStrawberryArea = airtableBuilder.factory.buildArea({ id:3, competenceIds: ['4'], couleur: WILD_STRAWBERRY_COLOR });
+    areas = [jaffaArea, emeraldArea, wildStrawberryArea];
+
     competences = [
       airtableBuilder.factory.buildCompetence({
         id: 1,
         titre: 'Agir collectivement',
         sousDomaine: '1.2',
         acquisViaTubes: [skills[0].id],
+        domaine: [areas[0].id],
       }),
       airtableBuilder.factory.buildCompetence({
         id: 2,
         titre: 'Nécessité de la pensée radicale',
         sousDomaine: '2.1',
         acquisViaTubes: [skills[1].id, skills[2].id, skills[3].id],
+        domaine: [areas[1].id],
       }),
       airtableBuilder.factory.buildCompetence({
         id: 3,
         titre: 'Changer efficacement le monde',
         sousDomaine: '2.2',
         acquisViaTubes: [skills[4].id, skills[5].id, skills[6].id, skills[7].id],
+        domaine: [areas[1].id],
       }),
       airtableBuilder.factory.buildCompetence({
         id: 4,
         titre: 'Oser la paresse',
         sousDomaine: '4.3',
         acquisViaTubes: ['notIncludedSkillId'],
+        domaine: [areas[2].id],
       }),
     ];
 
@@ -108,7 +122,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
 
     airtableBuilder
       .mockList({ tableName: 'Domaines' })
-      .returns([])
+      .returns(areas)
       .activate();
 
     await databaseBuilder.commit();
@@ -166,6 +180,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'total-skills-count': 1,
             'tested-skills-count': 0,
             'validated-skills-count': 0,
+            'area-color': JAFFA_COLOR,
           },
         }, {
           type: 'competenceResults',
@@ -176,6 +191,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'total-skills-count': 3,
             'tested-skills-count': 2,
             'validated-skills-count': 2,
+            'area-color': EMERALD_COLOR,
           },
         }, {
           type: 'competenceResults',
@@ -186,6 +202,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'total-skills-count': 4,
             'tested-skills-count': 3,
             'validated-skills-count': 1,
+            'area-color': EMERALD_COLOR,
           },
         }],
       };

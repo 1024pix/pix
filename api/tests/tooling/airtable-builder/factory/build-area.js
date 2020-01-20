@@ -1,21 +1,33 @@
-module.exports = function buildArea() {
+const buildArea = function buildArea({
+  id = 'recvoGdo7z2z7pXWa',
+  competenceIds = [
+    'recsvLz0W2ShyfD63',
+    'recNv8qhaY887jQb2',
+    'recIkYm646lrGvLNT',
+  ],
+  couleur = 'jaffa',
+  code = '1',
+  titre = 'Information et données',
+  nom = '1. Information et données',
+  nomCompetences = [
+    '1.1 Mener une recherche et une veille d’information',
+    '1.3 Traiter des données',
+    '1.2 Gérer des données',
+  ],
+  createdTime = '2017-06-13T13:15:26.000Z',
+} = {}) {
   return {
-    'id': 'recvoGdo7z2z7pXWa',
+    'id': id,
     'fields': {
-      'Competences (identifiants)': [
-        'recsvLz0W2ShyfD63',
-        'recNv8qhaY887jQb2',
-        'recIkYm646lrGvLNT',
-      ],
-      'Code': '1',
-      'Titre': 'Information et données',
-      'Nom': '1. Information et données',
-      'Competences (nom complet)': [
-        '1.1 Mener une recherche et une veille d’information',
-        '1.3 Traiter des données',
-        '1.2 Gérer des données',
-      ],
+      'Competences (identifiants)': competenceIds,
+      'Couleur': couleur,
+      'Code': code,
+      'Titre': titre,
+      'Nom': nom,
+      'Competences (nom complet)': nomCompetences,
     },
-    'createdTime': '2017-06-13T13:15:26.000Z',
+    'createdTime': createdTime,
   };
 };
+
+module.exports = buildArea;
