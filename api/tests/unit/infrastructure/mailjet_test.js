@@ -2,7 +2,7 @@ const { sinon, expect } = require('../../test-helper');
 const Mailjet = require('../../../lib/infrastructure/mailjet');
 const nodeMailjet = require('node-mailjet');
 const mailCheck = require('../../../lib/infrastructure/mail-check');
-const mailerConfig = require('../../../lib/config').mailer_service;
+const { mailing } = require('../../../lib/config');
 const logger = require('../../../lib/infrastructure/logger');
 
 describe('Unit | Class | Mailjet', function() {
@@ -11,21 +11,13 @@ describe('Unit | Class | Mailjet', function() {
     sinon.stub(nodeMailjet, 'connect');
   });
 
-  afterEach(() => {
-    nodeMailjet.connect.restore();
-  });
-
   describe('#sendEmail', () => {
 
     context('when mail sending is disabled', () => {
 
       beforeEach(() => {
+        sinon.stub(mailing, 'enabled').value(false);
         sinon.stub(mailCheck, 'checkMail').resolves();
-        mailerConfig.enabled = false;
-      });
-
-      afterEach(() => {
-        mailCheck.checkMail.restore();
       });
 
       it('should only return an empty promise when mail sending is disabled', () => {
@@ -43,11 +35,8 @@ describe('Unit | Class | Mailjet', function() {
   context('when mail sending is enabled', () => {
 
     beforeEach(() => {
-      mailerConfig.enabled = true;
-    });
-
-    afterEach(() => {
-      mailerConfig.enabled = false;
+      sinon.stub(mailing, 'enabled').value(true);
+      sinon.stub(mailing, 'provider').value('mailjet');
     });
 
     context('when email check fails', () => {
@@ -90,7 +79,7 @@ describe('Unit | Class | Mailjet', function() {
         await Mailjet.sendEmail({ to: 'test@example.net' });
 
         // then
-        sinon.assert.calledWith(nodeMailjet.connect, 'test-api-ket', 'test-api-secret');
+        sinon.assert.calledWith(nodeMailjet.connect, 'test-api-key', 'test-api-secret');
       });
 
       it('should post a send instruction', async () => {
@@ -176,6 +165,5 @@ describe('Unit | Class | Mailjet', function() {
         });
       });
     });
-
   });
 });

@@ -2,7 +2,7 @@ const { sinon, expect } = require('../../../test-helper');
 const mailJet = require('../../../../lib/infrastructure/mailjet');
 const sendinblue = require('../../../../lib/infrastructure/sendinblue');
 const mailService = require('../../../../lib/domain/services/mail-service');
-const { mailer_service } = require('../../../../lib/config');
+const { mailing } = require('../../../../lib/config');
 
 describe('Unit | Service | MailService', () => {
 
@@ -13,7 +13,7 @@ describe('Unit | Service | MailService', () => {
       let mailJetSendEmailStub;
 
       beforeEach(() => {
-        sinon.stub(mailer_service, 'provider').value('mailjet');
+        sinon.stub(mailing, 'provider').value('mailjet');
         mailJetSendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
       });
 
@@ -40,7 +40,7 @@ describe('Unit | Service | MailService', () => {
       let sendinblueSendEmailStub;
 
       beforeEach(() => {
-        sinon.stub(mailer_service, 'provider').value('sendinblue');
+        sinon.stub(mailing, 'provider').value('sendinblue');
         sendinblueSendEmailStub = sinon.stub(sendinblue, 'sendEmail').resolves();
       });
 
@@ -70,7 +70,7 @@ describe('Unit | Service | MailService', () => {
       let mailJetSendEmailStub;
 
       beforeEach(() => {
-        sinon.stub(mailer_service, 'provider').value('mailjet');
+        sinon.stub(mailing, 'provider').value('mailjet');
         mailJetSendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
       });
 
@@ -105,7 +105,7 @@ describe('Unit | Service | MailService', () => {
       let sendinblueSendEmailStub;
 
       beforeEach(() => {
-        sinon.stub(mailer_service, 'provider').value('sendinblue');
+        sinon.stub(mailing, 'provider').value('sendinblue');
         sendinblueSendEmailStub = sinon.stub(sendinblue, 'sendEmail').resolves();
       });
 
@@ -143,7 +143,7 @@ describe('Unit | Service | MailService', () => {
       let mailJetSendEmailStub;
 
       beforeEach(() => {
-        sinon.stub(mailer_service, 'provider').value('mailjet');
+        sinon.stub(mailing, 'provider').value('mailjet');
         mailJetSendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
       });
 
@@ -180,7 +180,7 @@ describe('Unit | Service | MailService', () => {
       let sendinblueSendEmailStub;
 
       beforeEach(() => {
-        sinon.stub(mailer_service, 'provider').value('sendinblue');
+        sinon.stub(mailing, 'provider').value('sendinblue');
         sendinblueSendEmailStub = sinon.stub(sendinblue, 'sendEmail').resolves();
       });
 
