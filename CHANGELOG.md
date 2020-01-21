@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.105.0 (21/01/2020)
+
+- [#966](https://github.com/1024pix/pix/pull/966) [FEATURE] Ajout d'une cellule "N° de session" au PV de session (PC-101).
+- [#962](https://github.com/1024pix/pix/pull/962) [FEATURE] Changer le label "commentaire" en "signalement" (PC-102).
+- [#975](https://github.com/1024pix/pix/pull/975) [BUGFIX] Design page finalisation session KO (pc-105).
+- [#910](https://github.com/1024pix/pix/pull/910) [TECH] utiliser un Airtable minimal pour nos tests e2e (Cypress).
+- [#971](https://github.com/1024pix/pix/pull/971) [TECH] Supprime les mises à jour des branches preview et maths.
+- [#922](https://github.com/1024pix/pix/pull/922) [PERF] Ajout d'un cache en mémoire et distribué (PF-969).
+
 ## v2.104.0 (16/01/2020)
 
 - [#973](https://github.com/1024pix/pix/pull/973) [FEATURE] Créer un compte et l'associer à un élève lors de l'accès à une campagne restreinte (PF-966).
