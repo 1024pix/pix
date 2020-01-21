@@ -8,8 +8,8 @@ describe('Unit | Router | cache-router', () => {
   let server;
 
   beforeEach(() => {
-    sinon.stub(cacheController, 'reloadCacheEntries').callsFake((request, h) => h.response().code(204));
-    sinon.stub(cacheController, 'reloadCacheEntry').callsFake((request, h) => h.response().code(204));
+    sinon.stub(cacheController, 'refreshCacheEntries').callsFake((request, h) => h.response().code(204));
+    sinon.stub(cacheController, 'refreshCacheEntry').callsFake((request, h) => h.response().code(204));
     sinon.stub(cacheController, 'removeCacheEntries').callsFake((request, h) => h.response().code(204));
     sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
 

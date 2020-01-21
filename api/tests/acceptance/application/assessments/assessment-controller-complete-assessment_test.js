@@ -1,6 +1,7 @@
 const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const createServer = require('../../../../server');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | Controller | assessment-controller-complete-assessment', () => {
 
@@ -27,7 +28,8 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
     };
   });
 
-  afterEach(() => {
+  afterEach(async () => {
+    await cache.flushAll();
     return knex('assessment-results').delete();
   });
 

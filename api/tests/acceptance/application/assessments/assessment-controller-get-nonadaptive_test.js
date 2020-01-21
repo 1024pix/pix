@@ -1,5 +1,5 @@
 const { expect, nock, databaseBuilder } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/cache');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const createServer = require('../../../../server');
 
 describe('Acceptance | API | assessment-controller-get-nonadaptive', function() {
@@ -14,74 +14,71 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
     nock.cleanAll();
 
     nock('https://api.airtable.com')
-      .get('/v0/test-base/Tests/a_non_adaptive_course_id')
+      .get('/v0/test-base/Tests')
       .query(true)
       .times(4)
       .reply(200, {
-        'id': 'a_non_adaptive_course_id',
-        'fields': {
-          // a bunch of fields
-          'Adaptatif ?': false,
-          'Competence': ['competence_id'],
-          '\u00c9preuves': [
-            'second_challenge',
-            'first_challenge',
-          ],
-        },
+        records: [{
+          'id': 'a_non_adaptive_course_id',
+          'fields': {
+            // a bunch of fields
+            'Adaptatif ?': false,
+            'Competence': ['competence_id'],
+            '\u00c9preuves': [
+              'second_challenge',
+              'first_challenge',
+            ],
+          },
+        }]
       });
 
     nock('https://api.airtable.com')
-      .get('/v0/test-base/Competences/competence_id')
+      .get('/v0/test-base/Competences')
       .query(true)
       .reply(200, {
-        'id': 'competence_id',
-        'fields': {
-          'Titre': 'Mener une recherche et une veille d\'information',
-          'Sous-domaine': '1.1',
-          'Référence': '1.1 Mener une recherche et une veille d\'information',
-          'Domaine': '1. Information et données',
-          'Statut': 'validé',
-          'Acquis': ['@web1']
-        }
+        records: [{
+          'id': 'competence_id',
+          'fields': {
+            'Titre': 'Mener une recherche et une veille d\'information',
+            'Sous-domaine': '1.1',
+            'Référence': '1.1 Mener une recherche et une veille d\'information',
+            'Domaine': '1. Information et données',
+            'Statut': 'validé',
+            'Acquis': ['@web1']
+          }
+        }]
       });
 
     nock('https://api.airtable.com')
-      .get('/v0/test-base/Epreuves/first_challenge')
+      .get('/v0/test-base/Epreuves')
       .query(true)
       .reply(200, {
-        'id': 'first_challenge',
-        'fields': {
-          'competences': ['competence_id'],
-          // a bunch of fields
-        },
-      });
-
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Epreuves/second_challenge')
-      .query(true)
-      .reply(200, {
-        'id': 'second_challenge',
-        'fields': {
-          'competences': ['competence_id'],
-          // a bunch of fields
-        },
-      });
-
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Epreuves/third_challenge')
-      .query(true)
-      .reply(200, {
-        'id': 'third_challenge',
-        'fields': {
-          'competences': ['competence_id'],
-          // a bunch of fields
-        },
+        records:
+          [{
+            'id': 'first_challenge',
+            'fields': {
+              'competences': ['competence_id'],
+              // a bunch of fields
+            },
+          }, {
+            'id': 'second_challenge',
+            'fields': {
+              'competences': ['competence_id'],
+              // a bunch of fields
+            },
+          }, {
+            'id': 'third_challenge',
+            'fields': {
+              'competences': ['competence_id'],
+              // a bunch of fields
+            },
+          }]
       });
   });
 
   after(() => {
     nock.cleanAll();
-    cache.flushAll();
+    return cache.flushAll();
   });
 
   describe('(non-adaptive) GET /api/assessments/:assessment_id/next', () => {
@@ -91,7 +88,11 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
     context('when no challenge is answered', function() {
 
       beforeEach(() => {
-        databaseBuilder.factory.buildAssessment({ id: assessmentId, type: 'DEMO', courseId: 'a_non_adaptive_course_id' });
+        databaseBuilder.factory.buildAssessment({
+          id: assessmentId,
+          type: 'DEMO',
+          courseId: 'a_non_adaptive_course_id'
+        });
         return databaseBuilder.commit();
       });
 
@@ -144,7 +145,11 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
 
     context('when the first challenge is already answered', function() {
       beforeEach(() => {
-        databaseBuilder.factory.buildAssessment({ id: assessmentId, type: 'DEMO', courseId: 'a_non_adaptive_course_id' });
+        databaseBuilder.factory.buildAssessment({
+          id: assessmentId,
+          type: 'DEMO',
+          courseId: 'a_non_adaptive_course_id'
+        });
         databaseBuilder.factory.buildAnswer({ challengeId: 'first_challenge', assessmentId });
         return databaseBuilder.commit();
       });
@@ -168,7 +173,11 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
 
     context('when all challenges are answered', function() {
       beforeEach(() => {
-        databaseBuilder.factory.buildAssessment({ id: assessmentId, type: 'DEMO', courseId: 'a_non_adaptive_course_id' });
+        databaseBuilder.factory.buildAssessment({
+          id: assessmentId,
+          type: 'DEMO',
+          courseId: 'a_non_adaptive_course_id'
+        });
         databaseBuilder.factory.buildAnswer({ challengeId: 'first_challenge', assessmentId });
         databaseBuilder.factory.buildAnswer({ challengeId: 'second_challenge', assessmentId });
         return databaseBuilder.commit();

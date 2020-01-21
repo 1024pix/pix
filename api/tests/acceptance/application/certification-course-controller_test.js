@@ -1,5 +1,5 @@
 const { expect, databaseBuilder, knex, airtableBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../test-helper');
-const cache = require('../../../lib/infrastructure/caches/cache');
+const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 const createServer = require('../../../server');
 
 const Assessment = require('../../../lib/domain/models/Assessment');
@@ -491,7 +491,7 @@ describe('Acceptance | API | Certification Course', () => {
         await knex('answers').delete();
         await knex('assessments').delete();
         airtableBuilder.cleanAll();
-        cache.flushAll();
+        return cache.flushAll();
       });
 
       it('should respond with 201 status code', () => {

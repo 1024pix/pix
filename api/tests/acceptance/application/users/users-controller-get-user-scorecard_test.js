@@ -1,5 +1,5 @@
 const { airtableBuilder, databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/cache');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
 const createServer = require('../../../../server');
 
@@ -26,7 +26,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
   });
 
   after(() => {
-    cache.flushAll();
+    return cache.flushAll();
   });
 
   let area;

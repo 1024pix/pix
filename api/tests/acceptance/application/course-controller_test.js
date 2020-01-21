@@ -1,5 +1,6 @@
 const { expect, nock, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
+const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | API | Courses', () => {
 
@@ -16,44 +17,49 @@ describe('Acceptance | API | Courses', () => {
       nock.cleanAll();
 
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Tests/rec_course_id')
+        .get('/v0/test-base/Tests')
         .query(true)
         .times(3)
         .reply(200, {
-          id: 'rec_course_id',
-          fields: {
-            'Nom': 'A la recherche de l\'information #01',
-            'Description': 'Mener une recherche et une veille d\'information',
-            'Image': [{
-              'id': 'attmP7vjRHdp5UcQA',
-              'url': 'https://dl.airtable.com/x5gtLtMTpyJBg9dJov82_keyboard-824317_960_720.jpg',
-              'filename': 'keyboard-824317_960_720.jpg',
-              'type': 'image/jpeg'
-            }],
-            'Durée': 13,
-            'Épreuves': [
-              'k_challenge_id',
-            ],
-            'Ordre affichage': 2,
-            'Preview': 'http://development.pix.fr/courses/rec_course_id/preview',
-            'Nb d\'épreuves': 10,
-            'Acquis': '#ordonnancement,#source,#rechercheInfo,#moteur,#wikipedia,#syntaxe,#sponsor,#rechercheInfo,#cult1.1,#rechercheInfo'
-          },
-          createdTime: '2016-08-09T15:17:53.000Z'
+          records: [{
+            id: 'rec_course_id',
+            fields: {
+              'Nom': 'A la recherche de l\'information #01',
+              'Description': 'Mener une recherche et une veille d\'information',
+              'Image': [{
+                'id': 'attmP7vjRHdp5UcQA',
+                'url': 'https://dl.airtable.com/x5gtLtMTpyJBg9dJov82_keyboard-824317_960_720.jpg',
+                'filename': 'keyboard-824317_960_720.jpg',
+                'type': 'image/jpeg'
+              }],
+              'Durée': 13,
+              'Épreuves': [
+                'k_challenge_id',
+              ],
+              'Ordre affichage': 2,
+              'Preview': 'http://development.pix.fr/courses/rec_course_id/preview',
+              'Nb d\'épreuves': 10,
+              'Acquis': '#ordonnancement,#source,#rechercheInfo,#moteur,#wikipedia,#syntaxe,#sponsor,#rechercheInfo,#cult1.1,#rechercheInfo'
+            },
+            createdTime: '2016-08-09T15:17:53.000Z'
+          }]
         });
 
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Epreuves/k_challenge_id')
+        .get('/v0/test-base/Epreuves')
         .query(true)
         .times(3)
         .reply(200, {
-          id: 'k_challenge_id',
-          fields: {},
+          records: [{
+            id: 'k_challenge_id',
+            fields: {},
+          }]
         });
     });
 
     after(() => {
       nock.cleanAll();
+      return cache.flushAll();
     });
 
     const options = {

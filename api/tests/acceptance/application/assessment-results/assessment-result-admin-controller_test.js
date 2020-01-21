@@ -1,5 +1,6 @@
 const { expect, knex, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../../test-helper');
 const createServer = require('../../../../server');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
@@ -55,6 +56,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
     });
 
     afterEach(async () => {
+      await cache.flushAll();
       await knex('competence-marks').delete();
       return knex('assessment-results').delete();
     });

@@ -1,10 +1,10 @@
+const _ = require('lodash');
 const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const challengeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const challengeAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
 const challengeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/challengeRawAirTableFixture');
-const _ = require('lodash');
-const cache = require('../../../../../lib/infrastructure/caches/cache');
+const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', () => {
 

@@ -1,7 +1,7 @@
 const { expect, databaseBuilder, domainBuilder, airtableBuilder } = require('../../../test-helper');
 const campaignCollectiveResultRepository = require('../../../../lib/infrastructure/repositories/campaign-collective-result-repository');
 const CampaignCollectiveResult = require('../../../../lib/domain/models/CampaignCollectiveResult');
-const cache = require('../../../../lib/infrastructure/caches/cache');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const _ = require('lodash');
 
 function _createUserWithSharedCampaignParticipation(userName, campaignId, sharedAt) {
@@ -66,9 +66,9 @@ describe('Integration | Repository | Service | Campaign collective result reposi
       .activate();
   });
 
-  afterEach(async () => {
-    await cache.flushAll();
-    return airtableBuilder.cleanAll();
+  afterEach(() => {
+    airtableBuilder.cleanAll();
+    return cache.flushAll();
   });
 
   describe('#getCampaignCollectiveResults', () => {

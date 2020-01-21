@@ -1,19 +1,21 @@
 const { using } = require('bluebird');
+const Redlock = require('redlock');
+const Cache = require('./Cache');
+const RedisClient = require('./RedisClient');
 const logger = require('../logger');
 const settings = require('../../config');
-const RedisClient = require('./redis-client');
-const Redlock = require('redlock');
 
 const REDIS_LOCK_PREFIX = 'locks:';
 
-class RedisCache {
+class RedisCache extends Cache {
 
   constructor(redis_url) {
+    super();
     this._client = RedisCache.createClient(redis_url);
   }
 
   static createClient(redis_url) {
-    return new RedisClient(redis_url);
+    return new RedisClient(redis_url, 'redis-cache-query-client');
   }
 
   async get(key, generator) {
@@ -56,12 +58,6 @@ class RedisCache {
     await this._client.set(key, objectAsString);
 
     return object;
-  }
-
-  del(key) {
-    logger.info({ key }, 'Removing Redis key');
-
-    return this._client.del(key);
   }
 
   flushAll() {
