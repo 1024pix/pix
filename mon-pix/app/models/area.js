@@ -8,4 +8,5 @@ export default Model.extend({
   competences: hasMany('competence'),
   resultCompetences: hasMany('resultCompetence'),
   code: attr('number'),
+  color: attr('string'),
 });

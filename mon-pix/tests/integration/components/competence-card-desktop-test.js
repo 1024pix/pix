@@ -13,7 +13,10 @@ describe('Integration | Component | competence-card-desktop', function() {
     let area;
 
     beforeEach(function() {
-      area = EmberObject.create({ code: 1 });
+      area = EmberObject.create({
+        code: 1,
+        color: 'jaffa',
+      });
     });
 
     it('should render component', async function() {
@@ -30,10 +33,7 @@ describe('Integration | Component | competence-card-desktop', function() {
 
     it('should display the competence card header with scorecard color', async function() {
       // given
-      const scorecard = EmberObject.create({
-        areaColor: 'jaffa'
-      });
-
+      const scorecard = { area };
       this.set('scorecard', scorecard);
 
       // when

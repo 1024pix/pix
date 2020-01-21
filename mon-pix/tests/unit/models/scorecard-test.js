@@ -216,28 +216,4 @@ describe('Unit | Model | Scorecard model', function() {
       expect(hasReachAtLeastLevelOne).to.be.false;
     });
   });
-
-  describe('areaColor', function() {
-    [
-      { code: 1, expectedColor: 'jaffa' },
-      { code: 2, expectedColor: 'emerald' },
-      { code: 3, expectedColor: 'cerulean' },
-      { code: 4, expectedColor: 'wild-strawberry' },
-      { code: 5, expectedColor: 'butterfly-bush' }
-    ].forEach((data) => {
-      it(`should return ${data.expectedColor} when area.code is ${data.code}`, function() {
-        // given
-        const area = run(() => this.owner.lookup('service:store').createRecord('area', {
-          code: data.code,
-        }));
-        scorecard.set('area', area);
-
-        // when
-        const areaColor = scorecard.areaColor;
-
-        // then
-        expect(areaColor).to.equal(data.expectedColor);
-      });
-    });
-  });
 });
