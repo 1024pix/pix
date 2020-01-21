@@ -51,6 +51,16 @@ describe('Integration | Repository | CertificationCandidate', function() {
         expect(certificationCandidatesInSession[0].firstName).to.equal(certificationCandidate.firstName);
       });
 
+      it('should return the saved candidate', async () => {
+        // when
+        const actualCandidate = await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
+
+        // then
+        const checkedAttrs = ['firstName', 'lastName', 'birthCity', 'birthProvinceCode', 'birthCity', 'birthdate', 'email', 'externalId', 'extraTimePercentage'];
+        expect(_.pick(actualCandidate, checkedAttrs)).to.deep.equal(_.pick(certificationCandidate, checkedAttrs));
+        expect(actualCandidate.id).to.not.be.undefined;
+      });
+
       context('when adding a new candidate', () => {
         it('should add a single row in the table', async () => {
           // given
