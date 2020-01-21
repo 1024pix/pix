@@ -57,7 +57,7 @@
           <div class="join-restricted-campaign__error" aria-live="polite">{{errorMessage}}</div>
         {{/if}}
         {{#if isLoading}}
-          <button class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
+          <button type="button" disabled class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
         {{else}}
           <button type="submit" class="button button--big" {{action "attemptNext"}}>
             C'est parti !
