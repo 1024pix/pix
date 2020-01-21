@@ -158,5 +158,13 @@ module.exports = {
       })
       .then(() => true)
       .catch(() => false);
-  }
+  },
+
+  async checkIfCampaignIsArchived(campaignId) {
+    const bookshelfCampaign = await BookshelfCampaign
+      .where({ id: campaignId })
+      .fetch({ require: true });
+
+    return Boolean(_toDomain(bookshelfCampaign).archivedAt);
+  },
 };

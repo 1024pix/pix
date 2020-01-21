@@ -448,7 +448,7 @@ describe('Integration | Repository | Campaign', () => {
     });
   });
 
-  describe('checkIfUserOrganizationHasAccessToCampaign', () => {
+  describe('#checkIfUserOrganizationHasAccessToCampaign', () => {
     let userId, ownerId, organizationId, forbiddenUserId, forbiddenOrganizationId, campaignId;
     beforeEach(async () => {
 
@@ -482,6 +482,32 @@ describe('Integration | Repository | Campaign', () => {
       //then
       expect(access).to.be.false;
     });
+  });
 
+  describe('#checkIfCampaignIsArchived', () => {
+    let campaignId;
+
+    it('should return true when the campaign is archived', async () => {
+      // given
+      campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: new Date() }).id;
+      await databaseBuilder.commit();
+      // when
+      const campaignIsArchived = await campaignRepository.checkIfCampaignIsArchived(campaignId);
+
+      // then
+      expect(campaignIsArchived).to.be.true;
+    });
+
+    it('should return false when the campaign is not archived', async () => {
+      // given
+      campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null}).id;
+      await databaseBuilder.commit();
+
+      // when
+      const campaignIsArchived = await campaignRepository.checkIfCampaignIsArchived(campaignId);
+
+      // then
+      expect(campaignIsArchived).to.be.false;
+    });
   });
 });
