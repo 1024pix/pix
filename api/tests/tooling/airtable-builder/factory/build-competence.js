@@ -1,6 +1,6 @@
 module.exports = function buildCompetence({
   id = 'recsvLz0W2ShyfD63',
-  domaine = [
+  domaineIds = [
     'recvoGdo7z2z7pXWa',
   ],
   epreuves = [
@@ -68,7 +68,7 @@ module.exports = function buildCompetence({
   return {
     'id': id,
     'fields': {
-      'Domaine': domaine,
+      'Domaine': domaineIds,
       'Epreuves': epreuves,
       'Sous-domaine': sousDomaine,
       'Titre': titre,

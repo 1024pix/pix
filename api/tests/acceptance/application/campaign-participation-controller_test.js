@@ -210,19 +210,19 @@ describe('Acceptance | API | Campaign Participations', () => {
         id: 1,
         titre: 'Liberticide',
         acquisViaTubes: skillIds1,
-        domaine: [jaffaArea.id],
+        domaineIds: [jaffaArea.id],
       });
       const competence2 = airtableBuilder.factory.buildCompetence({
         id: 2,
         titre: 'Inéquités, inégalités',
         acquisViaTubes: skillIds2,
-        domaine: [jaffaArea.id],
+        domaineIds: [jaffaArea.id],
       });
       const competence3 = airtableBuilder.factory.buildCompetence({
         id: 3,
         titre: 'Le capital au XXIème siècle',
         acquisViaTubes: skillIds3,
-        domaine: [jaffaArea.id],
+        domaineIds: [jaffaArea.id],
       });
       const competences = [ competence1, competence2, competence3 ];
 

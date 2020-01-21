@@ -85,28 +85,28 @@ describe('Acceptance | API | Campaign Participation Result', () => {
         titre: 'Agir collectivement',
         sousDomaine: '1.2',
         acquisViaTubes: [skills[0].id],
-        domaine: [areas[0].id],
+        domaineIds: [areas[0].id],
       }),
       airtableBuilder.factory.buildCompetence({
         id: 2,
         titre: 'Nécessité de la pensée radicale',
         sousDomaine: '2.1',
         acquisViaTubes: [skills[1].id, skills[2].id, skills[3].id],
-        domaine: [areas[1].id],
+        domaineIds: [areas[1].id],
       }),
       airtableBuilder.factory.buildCompetence({
         id: 3,
         titre: 'Changer efficacement le monde',
         sousDomaine: '2.2',
         acquisViaTubes: [skills[4].id, skills[5].id, skills[6].id, skills[7].id],
-        domaine: [areas[1].id],
+        domaineIds: [areas[1].id],
       }),
       airtableBuilder.factory.buildCompetence({
         id: 4,
         titre: 'Oser la paresse',
         sousDomaine: '4.3',
         acquisViaTubes: ['notIncludedSkillId'],
-        domaine: [areas[2].id],
+        domaineIds: [areas[2].id],
       }),
     ];
 
