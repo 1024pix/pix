@@ -327,6 +327,12 @@ class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
   }
 }
 
+class CampaignAlreadyArchivedError extends DomainError {
+  constructor(message = 'Cette campagne est déjà archivée.') {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToAccessEntity extends DomainError {
   constructor(message = 'User is not authorized to access ressource') {
     super(message);
@@ -413,6 +419,7 @@ module.exports = {
   AssessmentEndedError,
   AssessmentNotCompletedError,
   StudentsCouldNotBeSavedError,
+  CampaignAlreadyArchivedError,
   CampaignCodeError,
   CampaignWithoutOrganizationError,
   CertificationCandidateForbiddenDeletionError,

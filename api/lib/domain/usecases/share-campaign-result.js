@@ -1,4 +1,4 @@
-const { UserNotAuthorizedToAccessEntity, AssessmentNotCompletedError } = require('../errors');
+const { UserNotAuthorizedToAccessEntity, AssessmentNotCompletedError, CampaignAlreadyArchivedError } = require('../errors');
 const smartRandom = require('../services/smart-random/smart-random');
 const dataFetcher = require('../services/smart-random/data-fetcher');
 
@@ -13,11 +13,19 @@ module.exports = async function shareCampaignResult({
   knowledgeElementRepository,
   targetProfileRepository,
   improvementService,
+  campaignRepository,
 }) {
   const assessment = await assessmentRepository.getByCampaignParticipationId(campaignParticipationId);
 
   if (!(await smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser(assessment.id, userId))) {
     throw new UserNotAuthorizedToAccessEntity('User does not have an access to this campaign participation');
+  }
+
+  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
+
+  const isCampaignArchived = await campaignRepository.checkIfCampaignIsArchived(campaignParticipation.campaignId);
+  if (isCampaignArchived) {
+    throw new CampaignAlreadyArchivedError();
   }
 
   const getNextChallengeData = await dataFetcher.fetchForCampaigns({
