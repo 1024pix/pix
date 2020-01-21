@@ -7,6 +7,10 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | routes/authenticated/campaign | list-items', function(hooks) {
   setupRenderingTest(hooks);
 
+  hooks.beforeEach(function() {
+    this.set('goToCampaignPageSpy', () => {});
+  });
+
   test('it should display a list of campaigns', async function(assert) {
     // given
     const campaigns = [
@@ -17,11 +21,11 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns}}`);
+    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns goToCampaignPage=goToCampaignPageSpy}}`);
 
     // then
     assert.dom('.campaign-list').exists();
-    assert.dom('.campaign-list__item').exists({ count: 2 });
+    assert.dom('.campaign-list .table tbody tr').exists({ count: 2 });
   });
 
   test('it should display the name of the campaigns', async function(assert) {
@@ -42,10 +46,10 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns}}`);
+    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns goToCampaignPage=goToCampaignPageSpy}}`);
 
     // then
-    assert.dom('.campaign-list__item:first-child .campaign-name').hasText('campagne 1');
+    assert.dom('.campaign-list .table tbody tr:first-child td:first-child').hasText('campagne 1');
   });
 
   test('it should display the participations count', async function(assert) {
@@ -69,10 +73,10 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns}}`);
+    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns goToCampaignPage=goToCampaignPageSpy}}`);
 
     // then
-    assert.dom('.participations-counts__item .participations-counts__value').hasText('10');
+    assert.dom('.campaign-list .table tbody tr:first-child td:nth-child(2)').hasText('10');
   });
 
   test('it should display the shared participations count', async function(assert) {
@@ -96,9 +100,9 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns}}`);
+    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns goToCampaignPage=goToCampaignPageSpy}}`);
 
     // then
-    assert.dom('.participations-counts__item:nth-child(2) .participations-counts__value').hasText('4');
+    assert.dom('.campaign-list .table tbody tr:first-child td:nth-child(3)').hasText('4');
   });
 });

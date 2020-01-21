@@ -61,7 +61,7 @@ module('Acceptance | Campaign List', function(hooks) {
       await visit('/campagnes');
 
       // then
-      assert.dom('.campaign-item').exists({ count: 12 });
+      assert.dom('.campaign-list .table tbody tr').exists({ count: 12 });
     });
 
     test('it should redirect to campaign details on click', async function(assert) {
@@ -70,7 +70,7 @@ module('Acceptance | Campaign List', function(hooks) {
       await visit('/campagnes');
 
       // when
-      await click('.campaign-item');
+      await click('.campaign-list .table tbody tr:first-child');
 
       // then
       assert.equal(currentURL(), '/campagnes/1');
