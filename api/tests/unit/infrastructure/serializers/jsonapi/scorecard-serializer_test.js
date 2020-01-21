@@ -44,6 +44,7 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
           attributes: {
             code: scorecardObject.area.code,
             title: scorecardObject.area.title,
+            color: scorecardObject.area.color,
           },
           id: scorecardObject.area.id,
           type: 'areas'

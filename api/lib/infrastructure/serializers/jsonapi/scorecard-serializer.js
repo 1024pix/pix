@@ -20,7 +20,7 @@ module.exports = {
 
       area: {
         ref: ['id'],
-        attributes: ['code', 'title']
+        attributes: ['code', 'title', 'color']
       },
       tutorials: {
         ref: 'id',

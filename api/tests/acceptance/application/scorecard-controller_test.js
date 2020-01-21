@@ -158,6 +158,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
               attributes: {
                 code: area.fields.Code,
                 title: area.fields.Titre,
+                color: area.fields.Couleur,
               },
               id: area.id,
               type: 'areas'
