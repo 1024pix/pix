@@ -8,7 +8,7 @@ describe('Unit | UseCase | find-organization-students', () => {
     // given
     const organizationId = 1234;
     const studentRepositoryStub = { findByOrganizationId: sinon.stub() };
-    studentRepositoryStub.findByOrganizationId.resolves();
+    studentRepositoryStub.findByOrganizationId.resolves([]);
 
     // when
     await findOrganizationStudents({ organizationId, studentRepository: studentRepositoryStub });
@@ -28,6 +28,28 @@ describe('Unit | UseCase | find-organization-students', () => {
 
     // when
     const students = await findOrganizationStudents({ organizationId, studentRepository: studentRepositoryStub });
+
+    // then
+    expect(students).to.have.length(1);
+    expect(students[0]).to.be.an.instanceOf(Student);
+    expect(students).to.deep.equal(foundStudents);
+  });
+
+  it('should return the user\'s username if student userId is defined', async () => {
+    // given
+    const organizationId = 1234;
+
+    const foundUser = domainBuilder.buildUser();
+    const foundStudents = [domainBuilder.buildStudent({ organizationId, userId:  foundUser.id })];
+    const studentRepositoryStub = {
+      findByOrganizationId: sinon.stub().resolves(foundStudents)
+    };
+    const userRepositoryStub = {
+      get: sinon.stub().resolves(foundUser)
+    };
+
+    // when
+    const students = await findOrganizationStudents({ organizationId, studentRepository: studentRepositoryStub , userRepository: userRepositoryStub });
 
     // then
     expect(students).to.have.length(1);

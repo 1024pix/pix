@@ -746,19 +746,20 @@ describe('Acceptance | Application | organization-controller', () => {
 
   describe('GET /api/organizations/{id}/students', () => {
 
+    let user;
     let organization;
     let options;
 
     beforeEach(async () => {
-      const connectedUser = databaseBuilder.factory.buildUser();
+      user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id });
+      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
       await databaseBuilder.commit();
 
       options = {
         method: 'GET',
         url: `/api/organizations/${organization.id}/students`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(connectedUser.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
     });
 
@@ -769,6 +770,7 @@ describe('Acceptance | Application | organization-controller', () => {
       beforeEach(async () => {
         student = databaseBuilder.factory.buildStudent({
           organizationId: organization.id,
+          userId: user.id
         });
 
         await databaseBuilder.commit();
@@ -783,6 +785,7 @@ describe('Acceptance | Application | organization-controller', () => {
                 'last-name': student.lastName,
                 'first-name': student.firstName,
                 'birthdate': student.birthdate,
+                'username': user.username
               },
               'id': student.id.toString(),
               'type': 'students'
