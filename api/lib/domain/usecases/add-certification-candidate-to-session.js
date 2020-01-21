@@ -5,6 +5,5 @@ module.exports = async function addCertificationCandidateToSession({
 }) {
   certificationCandidate.sessionId = sessionId;
   certificationCandidate.validate();
-  await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId: certificationCandidate.sessionId });
-  return certificationCandidate;
+  return certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId: certificationCandidate.sessionId });
 };

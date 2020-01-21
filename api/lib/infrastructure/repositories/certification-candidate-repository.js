@@ -30,7 +30,8 @@ module.exports = {
         'birthCountry', 'email', 'externalId', 'birthdate', 'extraTimePercentage']);
 
     try {
-      await new CertificationCandidateBookshelf({ ...certificationCandidateDataToSave, sessionId }).save();
+      const addedCertificationCandidate = await new CertificationCandidateBookshelf({ ...certificationCandidateDataToSave, sessionId }).save();
+      return bookshelfToDomainConverter.buildDomainObject(CertificationCandidateBookshelf, addedCertificationCandidate);
     } catch (bookshelfError) {
       throw new CertificationCandidateCreationOrUpdateError('An error occurred while saving the certification candidate in a session');
     }
