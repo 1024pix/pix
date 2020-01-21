@@ -7,4 +7,10 @@ export default Controller.extend({
   sortingOrder: SORTING_ORDER,
   sortedCampaigns: sort('model', 'sortingOrder'),
   hasCampaign: notEmpty('model'),
+
+  actions: {
+    goToCampaignPage(campaignId) {
+      this.transitionToRoute('authenticated.campaigns.details', campaignId);
+    }
+  }
 });
