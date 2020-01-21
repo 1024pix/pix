@@ -1,8 +1,8 @@
+const AirtableRecord = require('airtable').Record;
 const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const courseDatasource = require('../../../../../lib/infrastructure/datasources/airtable/course-datasource');
-const AirtableRecord = require('airtable').Record;
-const cache = require('../../../../../lib/infrastructure/caches/cache');
+const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () => {
 
@@ -12,7 +12,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
 
   describe('#fromAirTableObject', () => {
 
-    it('should create a Course from the AirtableRecord', () => {
+    it('should create a Course from the AirtableRecord (challenges should be reversed in order to match the order in the UI)', () => {
       // given
       const airtableRecord = new AirtableRecord('Course', 'recCourse123', {
         'id': 'recCourse123',
@@ -48,7 +48,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
         description: 'course-description',
         imageUrl: 'https://example.org/course.png',
 
-        challenges: ['recChallenge1', 'recChallenge2'],
+        challenges: ['recChallenge2', 'recChallenge1'],
       };
 
       expect(course).to.deep.equal(expectedCourse);

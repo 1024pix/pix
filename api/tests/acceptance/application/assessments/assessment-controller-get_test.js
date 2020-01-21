@@ -1,5 +1,5 @@
 const { airtableBuilder, expect, nock, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/cache');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const createServer = require('../../../../server');
 
 describe('Acceptance | API | assessment-controller-get', () => {
@@ -76,8 +76,8 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
   beforeEach(async () => {
     airtableBuilder
-      .mockGet({ tableName: 'Tests' })
-      .returns(course)
+      .mockList({ tableName: 'Tests' })
+      .returns([course])
       .activate();
 
     airtableBuilder
@@ -86,28 +86,13 @@ describe('Acceptance | API | assessment-controller-get', () => {
       .activate();
 
     airtableBuilder
-      .mockGet({ tableName: 'Competences' })
-      .returns(competence)
+      .mockList({ tableName: 'Competences' })
+      .returns([competence])
       .activate();
 
     airtableBuilder
       .mockList({ tableName: 'Epreuves' })
       .returns([firstChallenge, secondChallenge, thirdChallenge])
-      .activate();
-
-    airtableBuilder
-      .mockGet({ tableName: 'Epreuves' })
-      .returns(firstChallenge)
-      .activate();
-
-    airtableBuilder
-      .mockGet({ tableName: 'Epreuves' })
-      .returns(secondChallenge)
-      .activate();
-
-    airtableBuilder
-      .mockGet({ tableName: 'Epreuves' })
-      .returns(thirdChallenge)
       .activate();
 
     airtableBuilder
@@ -125,7 +110,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
   after(() => {
     nock.cleanAll();
-    cache.flushAll();
+    return cache.flushAll();
   });
 
   describe('(no provided answer) GET /api/assessments/:id', () => {

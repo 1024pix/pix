@@ -2,7 +2,7 @@ const _ = require('lodash');
 const faker = require('faker');
 const createServer = require('../../../server');
 const Assessment = require('../../../lib/domain/models/Assessment');
-const cache = require('../../../lib/infrastructure/caches/cache');
+const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
 
 describe('Acceptance | API | Campaign Participations', () => {
@@ -258,9 +258,9 @@ describe('Acceptance | API | Campaign Participations', () => {
       };
     });
 
-    afterEach(async () => {
-      await cache.flushAll();
-      return airtableBuilder.cleanAll();
+    afterEach(() => {
+      airtableBuilder.cleanAll();
+      return cache.flushAll();
     });
 
     it('should return the campaign participation of a given campaign with each campaign participation result', () => {
@@ -436,7 +436,7 @@ describe('Acceptance | API | Campaign Participations', () => {
     });
 
     after(() => {
-      cache.flushAll();
+      return cache.flushAll();
     });
 
     context('when there is no remaining challenges', () => {

@@ -2,7 +2,7 @@ const { expect, sinon } = require('../../../../test-helper');
 const dataSource = require('../../../../../lib/infrastructure/datasources/airtable/datasource');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
-const cache = require('../../../../../lib/infrastructure/caches/cache');
+const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
@@ -28,7 +28,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
   describe('#get', () => {
 
     const recordId = 'some-record-id';
-    const cacheKey = `${someDatasource.modelName}_${recordId}`;
+    const cacheKey = someDatasource.modelName;
 
     beforeEach(() => {
       cache.get.withArgs(cacheKey).callsFake((cacheKey, generator) => generator());
@@ -37,8 +37,8 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
     context('(success cases)', () => {
 
       beforeEach(() => {
-        sinon.stub(airtable, 'getRecord').callsFake(async (tableName, id) => {
-          return { tableName, id, fields: { foo: 'bar' } };
+        sinon.stub(airtable, 'findRecords').callsFake(async (tableName) => {
+          return [{ tableName, id: recordId, fields: { foo: 'bar' } }];
         });
       });
 
@@ -74,12 +74,12 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
       it('should throw an AirtableResourceNotFound if record was not found', () => {
         // given
-        const err = new Error();
-        err.error = 'NOT_FOUND';
-        sinon.stub(airtable, 'getRecord').rejects(err);
+        sinon.stub(airtable, 'findRecords').callsFake(async (tableName) => {
+          return [{ tableName, id: recordId, fields: { foo: 'bar' } }];
+        });
 
         // when
-        const promise = someDatasource.get(recordId);
+        const promise = someDatasource.get('UNKNOWN_RECORD_ID');
 
         // then
         return expect(promise).to.have.been.rejectedWith(AirtableResourceNotFound);
@@ -88,7 +88,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
       it('should dispatch error in case of generic error', () => {
         // given
         const err = new Error();
-        sinon.stub(airtable, 'getRecord').rejects(err);
+        sinon.stub(airtable, 'findRecords').rejects(err);
 
         // when
         const promise = someDatasource.get(recordId);
@@ -137,7 +137,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
     });
   });
 
-  describe('#loadEntries', () => {
+  describe('#refreshAirtableCacheRecords', () => {
 
     beforeEach(() => {
       cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
@@ -150,24 +150,22 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
     it('should load all the Airtable table content in the cache (and return them)', async () => {
       // when
-      const success = await someDatasource.loadEntries();
+      const results = await someDatasource.refreshAirtableCacheRecords();
 
       // then
-      expect(success).to.be.true;
+      expect(results.length).to.equal(2);
     });
 
     it('should preload cache', async () => {
       // when
-      await someDatasource.loadEntries();
+      await someDatasource.refreshAirtableCacheRecords();
 
       // then
       expect(cache.set).to.have.been.calledWith('AirtableModel');
-      expect(cache.set).to.have.been.calledWith('AirtableModel_rec1');
-      expect(cache.set).to.have.been.calledWith('AirtableModel_rec2');
     });
   });
 
-  describe('#loadEntry', () => {
+  describe('#refreshAirtableCacheRecord', () => {
 
     it('should force Airtable to reload the record and store or replace it in the cache', async () => {
       // given
@@ -182,7 +180,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
       sinon.stub(cache, 'set').callsFake((key, value) => value);
 
       // when
-      const entry = await someDatasource.loadEntry(airtableRecord.id);
+      const entry = await someDatasource.refreshAirtableCacheRecord(airtableRecord.id);
 
       // then
       expect(entry).to.deep.equal({

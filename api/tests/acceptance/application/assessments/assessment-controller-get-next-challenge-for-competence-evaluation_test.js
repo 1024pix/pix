@@ -1,5 +1,5 @@
 const { airtableBuilder, expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/cache');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const createServer = require('../../../../server');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -76,56 +76,27 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
 
   beforeEach(async () => {
     server = await createServer();
-  });
 
-  beforeEach(() => {
     airtableBuilder.mockList({ tableName: 'Domaines' })
       .returns([airtableBuilder.factory.buildArea()])
       .activate();
 
-    airtableBuilder.mockGet({ tableName: 'Competences' })
-      .returns(competence)
+    airtableBuilder.mockList({ tableName: 'Competences' })
+      .returns([competence])
       .activate();
 
     airtableBuilder.mockList({ tableName: 'Epreuves' })
       .returns([firstChallenge, secondChallenge, thirdChallenge, otherChallenge])
       .activate();
 
-    airtableBuilder.mockGet({ tableName: 'Epreuves' })
-      .returns(firstChallenge)
-      .activate();
-
-    airtableBuilder.mockGet({ tableName: 'Epreuves' })
-      .returns(secondChallenge)
-      .activate();
-
-    airtableBuilder.mockGet({ tableName: 'Epreuves' })
-      .returns(thirdChallenge)
-      .activate();
-
     airtableBuilder.mockList({ tableName: 'Acquis' })
       .returns([skillWeb1, skillWeb2, skillWeb3])
-      .activate();
-
-    airtableBuilder.mockGet({ tableName: 'Acquis' })
-      .returns(skillWeb1)
-      .activate();
-
-    airtableBuilder.mockGet({ tableName: 'Acquis' })
-      .returns(skillWeb2)
-      .activate();
-
-    airtableBuilder.mockGet({ tableName: 'Acquis' })
-      .returns(skillWeb3)
       .activate();
   });
 
   afterEach(() => {
     airtableBuilder.cleanAll();
-  });
-
-  after(() => {
-    cache.flushAll();
+    return cache.flushAll();
   });
 
   describe('GET /api/assessments/:assessment_id/next', () => {

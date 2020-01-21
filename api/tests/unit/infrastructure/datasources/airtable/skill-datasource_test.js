@@ -1,11 +1,11 @@
+const AirtableRecord = require('airtable').Record;
+const _ = require('lodash');
 const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const skillDatasource = require('../../../../../lib/infrastructure/datasources/airtable/skill-datasource');
 const skillAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/skillAirtableDataObjectFixture');
 const skillRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
-const AirtableRecord = require('airtable').Record;
-const _ = require('lodash');
-const cache = require('../../../../../lib/infrastructure/caches/cache');
+const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 function makeAirtableFake(records) {
   return async (tableName, fieldList) => {
@@ -42,16 +42,16 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
     it('should return an array of airtable skill data objects -- PARTS II -- ', function() {
       // given
       const rawSkill1 = skillRawAirTableFixture();
-      rawSkill1.id = 'FAKE_REC_ID_RAW_SKILL_1' ;
+      rawSkill1.id = 'FAKE_REC_ID_RAW_SKILL_1';
 
       const rawSkill2 = skillRawAirTableFixture();
-      rawSkill2.id = 'FAKE_REC_ID_RAW_SKILL_2' ;
+      rawSkill2.id = 'FAKE_REC_ID_RAW_SKILL_2';
 
       const rawSkill3 = skillRawAirTableFixture();
-      rawSkill3.id = 'FAKE_REC_ID_RAW_SKILL_3' ;
+      rawSkill3.id = 'FAKE_REC_ID_RAW_SKILL_3';
 
       const rawSkill4 = skillRawAirTableFixture();
-      rawSkill4.id = 'FAKE_REC_ID_RAW_SKILL_4' ;
+      rawSkill4.id = 'FAKE_REC_ID_RAW_SKILL_4';
       rawSkill4.fields['Status'] = 'périmé';
 
       const records = [rawSkill1, rawSkill2, rawSkill3, rawSkill4];
@@ -123,10 +123,34 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
   describe('#findByCompetenceId', function() {
 
     beforeEach(() => {
-      const acquix1 = new AirtableRecord('Acquis', 'recAcquix1', { fields: { 'Nom': '@acquix1', 'Status': 'actif', 'Compétence (via Tube)': [ 'recCompetence' ] } });
-      const acquix2 = new AirtableRecord('Acquis', 'recAcquix2', { fields: { 'Nom': '@acquix2', 'Status': 'actif', 'Compétence (via Tube)': [ 'recCompetence' ] } });
-      const acquix3 = new AirtableRecord('Acquis', 'recAcquix2', { fields: { 'Nom': '@acquix3', 'Status': 'en construction', 'Compétence (via Tube)': [ 'recCompetence' ] } });
-      const acquix4 = new AirtableRecord('Acquis', 'recAcquix4', { fields: { 'Nom': '@acquix4', 'Status': 'actif', 'Compétence (via Tube)': [ 'recOtherCompetence' ] } });
+      const acquix1 = new AirtableRecord('Acquis', 'recAcquix1', {
+        fields: {
+          'Nom': '@acquix1',
+          'Status': 'actif',
+          'Compétence (via Tube)': ['recCompetence']
+        }
+      });
+      const acquix2 = new AirtableRecord('Acquis', 'recAcquix2', {
+        fields: {
+          'Nom': '@acquix2',
+          'Status': 'actif',
+          'Compétence (via Tube)': ['recCompetence']
+        }
+      });
+      const acquix3 = new AirtableRecord('Acquis', 'recAcquix2', {
+        fields: {
+          'Nom': '@acquix3',
+          'Status': 'en construction',
+          'Compétence (via Tube)': ['recCompetence']
+        }
+      });
+      const acquix4 = new AirtableRecord('Acquis', 'recAcquix4', {
+        fields: {
+          'Nom': '@acquix4',
+          'Status': 'actif',
+          'Compétence (via Tube)': ['recOtherCompetence']
+        }
+      });
       sinon.stub(airtable, 'findRecords')
         .withArgs('Acquis')
         .callsFake(makeAirtableFake([acquix1, acquix2, acquix3, acquix4]));
@@ -138,7 +162,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
       // then
       return promise.then((skills) => {
-        expect(_.map(skills, 'id')).to.have.members([ 'recAcquix1', 'recAcquix2' ]);
+        expect(_.map(skills, 'id')).to.have.members(['recAcquix1', 'recAcquix2']);
       });
     });
   });

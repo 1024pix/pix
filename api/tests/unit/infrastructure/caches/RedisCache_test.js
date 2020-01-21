@@ -1,7 +1,7 @@
+const Redlock = require('redlock');
 const { expect, sinon } = require('../../../test-helper');
 const settings = require('../../../../lib/config');
-const Redlock = require('redlock');
-const RedisCache = require('../../../../lib/infrastructure/caches/redis-cache');
+const RedisCache = require('../../../../lib/infrastructure/caches/RedisCache');
 
 describe('Unit | Infrastructure | Cache | redis-cache', () => {
 
@@ -180,36 +180,6 @@ describe('Unit | Infrastructure | Cache | redis-cache', () => {
 
       // when
       const promise = redisCache.set(CACHE_KEY, objectToCache);
-
-      // then
-      return expect(promise).to.have.been.rejectedWith(REDIS_CLIENT_ERROR);
-    });
-  });
-
-  describe('#del', () => {
-
-    beforeEach(() => {
-      stubbedClient.del = sinon.stub();
-    });
-
-    it('should resolve', () => {
-      // given
-      const numberOfDeletedKeys = 1;
-      stubbedClient.del.resolves(numberOfDeletedKeys);
-
-      // when
-      const promise = redisCache.del(CACHE_KEY);
-
-      // then
-      return expect(promise).to.have.been.fulfilled;
-    });
-
-    it('should reject when the Redis cache client throws an error', () => {
-      // given
-      stubbedClient.del.rejects(REDIS_CLIENT_ERROR);
-
-      // when
-      const promise = redisCache.del(CACHE_KEY);
 
       // then
       return expect(promise).to.have.been.rejectedWith(REDIS_CLIENT_ERROR);
