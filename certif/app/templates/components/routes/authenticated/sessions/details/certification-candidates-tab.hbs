@@ -67,6 +67,9 @@
   <div class="panel-header">
     <div class="panel-header__title">
       Liste des candidats ({{certificationCandidates.length}})
+      {{#if isCandidateBeingAdded}}
+          <div class="panel-header__mandatory-warning">Les champs marqués de * sont obligatoires</div>
+      {{/if}}
     </div>
     <div data-test-id="add-certification-candidate-staging__button" class="panel-header__action" onclick={{action "addCertificationCandidateInStaging"}}>
       <div class="certification-candidates-add-button__text">
@@ -83,37 +86,40 @@
         <thead>
           <tr>
             <th class="certification-candidates-table__column-name">
-              Nom de naissance
               {{#if isCandidateBeingAdded}}
-                *
+                  *
               {{/if}}
+              Nom de naissance
             </th>
             <th class="certification-candidates-table__column-name">
-              Prénom
               {{#if isCandidateBeingAdded}}
-                *
+                  *
               {{/if}}
+              Prénom
             </th>
             <th>
+              {{#if isCandidateBeingAdded}}
+                  *
+              {{/if}}
               Date de naissance
-              {{#if isCandidateBeingAdded}}
-                *
-              {{/if}}
             </th>
-            <th>Commune de naissance
+            <th>
               {{#if isCandidateBeingAdded}}
                   *
               {{/if}}
+              Commune de naissance
             </th>
-            <th>Département de naissance
+            <th>
               {{#if isCandidateBeingAdded}}
                   *
               {{/if}}
+              Département de naissance
             </th>
-            <th>Pays de naissance
+            <th>
               {{#if isCandidateBeingAdded}}
                   *
               {{/if}}
+              Pays de naissance
             </th>
             <th>Adresse e-mail de convocation</th>
             <th>Identifiant externe</th>

@@ -99,9 +99,11 @@
   padding: 16px 0px;
 
   &__title {
+    display: flex;
     margin-left: 30px;
-    font-size: 0.9rem;
     flex-grow: 1;
+    font-size: 1rem;
+    font-weight: bold;
   }
 
   &__action {
@@ -110,13 +112,21 @@
     margin-right: 30px;
     cursor: pointer;
   }
+
+  &__mandatory-warning {
+    padding-top: 4px;
+    margin-left: 16px;
+    font-size: 0.82rem;
+    font-weight: normal;
+    color: $dove-gray;
+  }
 }
 
 .certification-candidates-add-button {
   &__text  {
     margin-right: 16px;
+    font-size: 1rem;
     font-weight: bold;
-    font-size: 0.95rem;
   }
 
   &__icon {
