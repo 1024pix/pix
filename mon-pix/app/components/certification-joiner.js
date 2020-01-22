@@ -80,6 +80,26 @@ export default Component.extend({
         this.set('errorMessage',
           'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.');
       }
+    },
+
+    handleDayInputChange(event) {
+      const { value } = event.target;
+
+      if (value.length === 2) {
+        document.getElementById('monthOfBirth').focus();
+      }
+    },
+
+    handleMonthInputChange(event) {
+      const { value } = event.target;
+
+      if (value.length === 2) {
+        document.getElementById('yearOfBirth').focus();
+      }
+    },
+
+    handleInputFocus(value, event) {
+      event.target.select();
     }
   },
 });
