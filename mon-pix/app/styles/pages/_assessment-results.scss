@@ -30,36 +30,6 @@
   box-shadow: 0 7px 14px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
 }
 
-/* Forces bootstrap's default by including bootstrap props into .assessment-results container */
-.assessment-results .tooltip-inner {
-  padding-top: 13px;
-  width: auto;
-  padding-left: 16px;
-  padding-right: 16px;
-  height: 48px;
-  background-color: $mercury-grey;
-  color: $charcoal-grey;
-  font-size: 14px;
-  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
-  border: solid 1px $white;
-}
-
-.assessment-results .tooltip.top .tooltip-arrow {
-  border-top-color: $mercury-grey;
-}
-
-.assessment-results .tooltip.in {
-  opacity: 1;
-  transition: opacity 1s ease;
-}
-
-.assessment-results .tooltip.top .tooltip-arrow {
-  bottom: -4px;
-  left: 50%;
-  margin-left: -13px;
-  border-width: 10px 13px 0;
-}
-
 /* XXX : See https://github.com/sgmap/pix/issues/211 */
 .assessment-results [data-lines="2"] + div .tooltip-inner {
   padding-top: 3px;
