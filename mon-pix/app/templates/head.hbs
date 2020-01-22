@@ -4,3 +4,6 @@ here. The 'model' available in this template can be populated by
 setting values on the 'head-data' service.
 --}}
 <title>{{model.title}}</title>
+{{#if model.disallowRobotIndexing}}
+  <meta name="robots" content="noindex" />
+{{/if}}

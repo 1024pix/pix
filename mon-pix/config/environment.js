@@ -34,6 +34,7 @@ module.exports = function(environment) {
       NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS: 5,
       IS_RECAPTCHA_ENABLED: process.env.IS_RECAPTCHA_ENABLED === 'true',
       IS_WARNING_BANNER_ENABLED: process.env.IS_WARNING_BANNER_ENABLED === 'true',
+      DISALLOW_ROBOT_INDEXING: process.env.DISALLOW_ROBOT_INDEXING === 'true',
     },
 
     googleFonts: [

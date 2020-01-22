@@ -1,12 +1,15 @@
 import { inject as service } from '@ember/service';
+import { set } from '@ember/object';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 import Route from '@ember/routing/route';
+import ENV from 'mon-pix/config/environment';
 
 export default Route.extend(ApplicationRouteMixin, {
 
   splash: service(),
   currentUser: service(),
   session: service(),
+  headData: service(),
 
   activate() {
     this.splash.hide();
@@ -23,6 +26,10 @@ export default Route.extend(ApplicationRouteMixin, {
   async beforeModel(transition) {
     await this._checkForURLAuthentication(transition);
     return this._loadCurrentUser();
+  },
+
+  afterModel() {
+    set(this, 'headData.disallowRobotIndexing', ENV.APP.DISALLOW_ROBOT_INDEXING);
   },
 
   async sessionAuthenticated() {
