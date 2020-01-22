@@ -106,9 +106,7 @@ module('Acceptance | Session Details', function(hooks) {
             await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
             await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
             await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
-            await fillIn('[data-test-id="date-input__day"]', '99');
-            await fillIn('[data-test-id="date-input__month"]', '99');
-            await fillIn('[data-test-id="date-input__year"]', '9999');
+            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
             await click('[data-test-id="panel-candidate__action__save"]');
 
             // then
@@ -126,9 +124,7 @@ module('Acceptance | Session Details', function(hooks) {
             await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
             await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
             await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
-            await fillIn('[data-test-id="date-input__day"]', '99');
-            await fillIn('[data-test-id="date-input__month"]', '99');
-            await fillIn('[data-test-id="date-input__year"]', '9999');
+            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
             await click('[data-test-id="panel-candidate__action__save"]');
 
             // then
@@ -146,9 +142,7 @@ module('Acceptance | Session Details', function(hooks) {
             await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
             await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
             await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
-            await fillIn('[data-test-id="date-input__day"]', '04');
-            await fillIn('[data-test-id="date-input__month"]', '04');
-            await fillIn('[data-test-id="date-input__year"]', '1994');
+            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
             await click('[data-test-id="panel-candidate__action__save"]');
 
             // then
@@ -163,9 +157,7 @@ module('Acceptance | Session Details', function(hooks) {
             await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
             await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
             await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
-            await fillIn('[data-test-id="date-input__day"]', '04');
-            await fillIn('[data-test-id="date-input__month"]', '04');
-            await fillIn('[data-test-id="date-input__year"]', '1994');
+            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
             await click('[data-test-id="panel-candidate__action__save"]');
 
             // then
@@ -180,9 +172,7 @@ module('Acceptance | Session Details', function(hooks) {
             await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
             await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
             await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
-            await fillIn('[data-test-id="date-input__day"]', '04');
-            await fillIn('[data-test-id="date-input__month"]', '04');
-            await fillIn('[data-test-id="date-input__year"]', '1994');
+            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
             await click('[data-test-id="panel-candidate__action__save"]');
 
             // then
