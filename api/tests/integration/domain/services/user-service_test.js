@@ -93,7 +93,7 @@ describe('Integration | Service | User Service | #getCertificationProfile', func
       challengeRecordWithoutSkills,
       oldChallengeWithAlreadyValidatedSkill
     ]);
-    sinon.stub(competenceRepository, 'list').resolves([
+    sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves([
       competenceFlipper,
       competenceDauphin
     ]);
@@ -148,7 +148,7 @@ describe('Integration | Service | User Service | #getCertificationProfile', func
         await userService.getCertificationProfile({ userId, isV2Certification: false });
 
         // then
-        sinon.assert.calledOnce(competenceRepository.list);
+        sinon.assert.calledOnce(competenceRepository.listPixCompetencesOnly);
       });
 
       it('should return the appropriate challenge IDS depending on answers', async () => {

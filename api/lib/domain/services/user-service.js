@@ -100,7 +100,7 @@ function _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLa
 async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1(certificationProfile) {
   const certificationProfileToFill = _.clone(certificationProfile);
   const [allCompetences, allAdaptativeCourses] = await Promise.all([
-    competenceRepository.list(),
+    competenceRepository.listPixCompetencesOnly(),
     courseRepository.getAdaptiveCourses()
   ]);
   const userLastAssessments = await assessmentRepository
@@ -131,7 +131,7 @@ function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCo
 
 async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV2(certificationProfile) {
   const certificationProfileToFill = _.clone(certificationProfile);
-  const allCompetences = await competenceRepository.list();
+  const allCompetences = await competenceRepository.listPixCompetencesOnly();
 
   const knowledgeElementsByCompetence = await knowledgeElementRepository
     .findUniqByUserIdGroupedByCompetenceId({ userId: certificationProfile.userId, limitDate: certificationProfile.profileDate });
