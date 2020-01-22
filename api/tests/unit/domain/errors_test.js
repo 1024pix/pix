@@ -51,6 +51,10 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.UserAlreadyLinkedToCandidateInSessionError).to.exist;
   });
 
+  it('should export a UserNotAuthorizedToUpdateStudentPassword', () => {
+    expect(errors.UserNotAuthorizedToUpdateStudentPasswordError).to.exist;
+  });
+
   describe('#UserNotFoundError', () => {
     it('should export a UserNotFoundError', () => {
       expect(errors.UserNotFoundError).to.exist;

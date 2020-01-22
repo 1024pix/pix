@@ -1,4 +1,4 @@
-const { expect, databaseBuilder } = require('../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | Student-dependent-user', () => {
@@ -137,4 +137,95 @@ describe('Acceptance | Controller | Student-dependent-user', () => {
       });
     });
   });
+
+  describe('POST /api/student-dependent-user/password-update', () => {
+
+    let organizationId;
+    let options;
+
+    beforeEach(async () => {
+      organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({ organizationId, userId });
+
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'POST',
+        url: '/api/student-dependent-users/password-update',
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        payload: {
+          data: {
+            attributes: {
+              'organization-id': organizationId,
+              'password': 'P@ssw0rd',
+              'student-id': null,
+            }
+          }
+        }
+      };
+    });
+
+    it('should return a 200 status after having successfully updated the password', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const studentId = databaseBuilder.factory.buildStudent({
+        organizationId, userId
+      }).id;
+      options.payload.data.attributes['student-id'] = studentId;
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return a 404 status when student does not exist', async () => {
+      // given
+      options.payload.data.attributes['student-id'] = 0;
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+
+    it('should return a 404 status when student\'s userId does not exist', async () => {
+      // given
+      const studentId = databaseBuilder.factory.buildStudent({
+        organizationId, userId: null
+      }).id;
+      options.payload.data.attributes['student-id'] = studentId;
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+
+    it('should return a 403 status when student does not belong to the right organization', async () => {
+      // given
+      const wrongOrganization = databaseBuilder.factory.buildOrganization();
+      const studentWithWrongOrganization = databaseBuilder.factory.buildStudent({
+        organizationId: wrongOrganization.id
+      });
+      await databaseBuilder.commit();
+
+      options.payload.data.attributes['student-id'] = studentWithWrongOrganization.id;
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
 });

@@ -4,6 +4,7 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 const Bookshelf = require('../bookshelf');
 const _ = require('lodash');
 const bluebird = require('bluebird');
+const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -69,5 +70,18 @@ module.exports = {
       .where({ userId, organizationId })
       .fetch()
       .then((student) => bookshelfToDomainConverter.buildDomainObject(BookshelfStudent, student));
+  },
+
+  get(studentId) {
+    return BookshelfStudent
+      .where({ id: studentId })
+      .fetch({ require: true })
+      .then((student) => bookshelfToDomainConverter.buildDomainObject(BookshelfStudent, student))
+      .catch((err) => {
+        if (err instanceof BookshelfStudent.NotFoundError) {
+          throw new NotFoundError(`Student not found for ID ${studentId}`);
+        }
+        throw err;
+      });
   }
 };

@@ -128,7 +128,7 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
+  const organizationId = parseInt(request.params.id) || parseInt(request.payload.data.attributes['organization-id']);
 
   let belongsToScoOrganizationAndManageStudents;
   try {
