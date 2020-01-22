@@ -1,9 +1,9 @@
-const { sinon, expect } = require('../../test-helper');
-const Mailjet = require('../../../lib/infrastructure/mailjet');
+const { sinon, expect } = require('../../../test-helper');
+const Mailjet = require('../../../../lib/infrastructure/mailers/mailjet');
 const nodeMailjet = require('node-mailjet');
-const mailCheck = require('../../../lib/infrastructure/mail-check');
-const { mailing } = require('../../../lib/config');
-const logger = require('../../../lib/infrastructure/logger');
+const mailCheck = require('../../../../lib/infrastructure/mail-check');
+const { mailing } = require('../../../../lib/config');
+const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Unit | Class | Mailjet', function() {
 

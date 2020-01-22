@@ -1,5 +1,5 @@
 const { expect, sinon, knex, nock } = require('../../../test-helper');
-const mailJet = require('../../../../lib/infrastructure/mailjet');
+const mailJet = require('../../../../lib/infrastructure/mailers/mailjet');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller', () => {

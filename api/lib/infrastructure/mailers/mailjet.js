@@ -1,8 +1,8 @@
 const _ = require('lodash');
-const { mailing } = require('../config');
+const { mailing } = require('../../config');
 const nodeMailjet = require('node-mailjet');
-const logger = require('./logger');
-const mailCheck = require('./mail-check');
+const logger = require('../logger');
+const mailCheck = require('../mail-check');
 
 function _formatPayload(options) {
 
