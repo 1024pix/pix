@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
+const { knex } = require('../bookshelf');
 
 const BookshelfCampaign = require('../data/campaign');
 const Campaign = require('../../domain/models/Campaign');
@@ -22,7 +22,9 @@ function _toDomain(bookshelfCampaign) {
   ]));
 }
 
-function _fromJsonWithReportDataToDomain(jsonCampaignWithReportData) {
+function _fromBookshelfCampaignWithReportDataToDomain(campaignWithReportData) {
+  const jsonCampaignWithReportData = campaignWithReportData.toJSON();
+
   const campaignWithReport = _.pick(jsonCampaignWithReportData, [
     'id',
     'name',
@@ -43,6 +45,29 @@ function _fromJsonWithReportDataToDomain(jsonCampaignWithReportData) {
   });
 
   return new Campaign(campaignWithReport);
+}
+
+function _countSharedCampaignParticipations(qb) {
+  return qb.leftJoin(
+    knex('campaign-participations')
+      .select('campaignId')
+      .count('* as sharedParticipationsCount')
+      .groupBy('campaignId', 'isShared')
+      .having('isShared', '=', true)
+      .as('isShared'),
+    'campaigns.id', 'isShared.campaignId'
+  );
+}
+
+function _countCampaignParticipations(qb) {
+  return qb.leftJoin(
+    knex('campaign-participations')
+      .select('campaignId')
+      .count('* as participationsCount')
+      .groupBy('campaignId')
+      .as('participations'),
+    'campaigns.id', 'participations.campaignId'
+  );
 }
 
 module.exports = {
@@ -93,31 +118,15 @@ module.exports = {
   },
 
   findByOrganizationIdWithCampaignReports(organizationId) {
-    return knex('campaigns')
-      .select(
-        'campaigns.*',
-        'participations.participationsCount',
-        'isShared.sharedParticipationsCount'
-      )
-      .leftJoin(
-        knex('campaign-participations')
-          .select('campaignId')
-          .count('* as participationsCount')
-          .groupBy('campaignId')
-          .as('participations'),
-        'campaigns.id', 'participations.campaignId'
-      )
-      .leftJoin(
-        knex('campaign-participations')
-          .select('campaignId')
-          .count('* as sharedParticipationsCount')
-          .groupBy('campaignId', 'isShared')
-          .having('isShared', '=', true)
-          .as('isShared'),
-        'campaigns.id', 'isShared.campaignId'
-      )
-      .where('campaigns.organizationId', organizationId)
-      .then((campaignsWithCampaignReports) => campaignsWithCampaignReports.map(_fromJsonWithReportDataToDomain));
+    return BookshelfCampaign
+      .query((qb) => {
+        qb.select('campaigns.*', 'participations.participationsCount', 'isShared.sharedParticipationsCount')
+          .where('campaigns.organizationId', organizationId)
+          .modify(_countCampaignParticipations)
+          .modify(_countSharedCampaignParticipations);
+      })
+      .fetchAll()
+      .then((campaignsWithCampaignReports) => campaignsWithCampaignReports.map(_fromBookshelfCampaignWithReportDataToDomain));
   },
 
   checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {
