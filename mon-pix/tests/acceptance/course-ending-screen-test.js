@@ -30,10 +30,6 @@ describe('Acceptance | Course ending screen', function() {
     expect(findAll('.result-item')[3].textContent).to.contain('Un QROCM est une question ouverte');
   });
 
-  it('should provide a valid answer when the user answered wrongly', function() {
-    expect(findAll('div[data-toggle="tooltip"]')[0].getAttribute('data-original-title')).to.equal('Réponse incorrecte');
-  });
-
   it('should display the course name', function() {
     expect(find('.assessment-banner__title').textContent).to.contain('First Course');
   });

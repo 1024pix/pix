@@ -81,40 +81,6 @@ describe('Integration | Component | result item', function() {
       expect(find('.result-item__correction-button').textContent.trim()).to.deep.equal('Réponses et tutos');
     });
 
-    it('should render tooltip for the answer', async function() {
-      // given
-      this.set('answer', answer);
-
-      // when
-      await render(hbs`{{result-item answer=answer openAnswerDetails=(action openComparisonWindow)}}`);
-
-      // then
-      expect(find('div[data-toggle="tooltip"]').getAttribute('data-original-title').trim()).to.equal('Réponse incorrecte');
-    });
-
-    it('should not render a tooltip when the answer is being retrieved', async function() {
-      // given
-      this.set('answer', null);
-
-      // when
-      await render(hbs`{{result-item answer=answer}}`);
-
-      // then
-      expect(find('div[data-toggle="tooltip"]').getAttribute('data-original-title')).to.not.exist;
-    });
-
-    it('should update the tooltip when the answer is eventually retrieved', async function() {
-      // given
-      this.set('answer', null);
-      await render(hbs`{{result-item answer=answer openAnswerDetails=(action openComparisonWindow)}}`);
-
-      // when
-      this.set('answer', answer);
-
-      // then
-      expect(find('div[data-toggle="tooltip"]').getAttribute('data-original-title').trim()).to.equal('Réponse incorrecte');
-    });
-
     it('should render tooltip with an image', async function() {
       // given
       this.set('answer', answer);
