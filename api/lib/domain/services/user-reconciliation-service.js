@@ -2,7 +2,9 @@ const _ = require('lodash');
 const { pipe } = require('lodash/fp');
 const randomString = require('randomstring');
 
-const { NotFoundError, OrganizationStudentAlreadyLinkedToUserError } = require('../errors');
+const {
+  NotFoundError, OrganizationStudentAlreadyLinkedToUserError, AlreadyRegisteredUsernameError
+} = require('../errors');
 const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
 const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
 
@@ -20,20 +22,20 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
     .first() || null;
 }
 
-async function findMatchingOrganizationStudentIdForGivenUser({ organizationId, user: { firstName, lastName, birthdate }, studentRepository }) {
+async function findMatchingStudentIdForGivenOrganizationIdAndUser({ organizationId, user: { firstName, lastName, birthdate }, studentRepository }) {
   const students = await studentRepository.findByOrganizationIdAndUserBirthdate({
     organizationId,
     birthdate,
   });
 
   if (students.length === 0) {
-    throw new NotFoundError('There were no students matching');
+    throw new NotFoundError('There were no students matching with organization and birthdate');
   }
 
   const studentId = findMatchingCandidateIdForGivenUser(students, { firstName, lastName });
 
   if (!studentId) {
-    throw new NotFoundError('There were not exactly one student match for this user and organization');
+    throw new NotFoundError('There were no students matching with names');
   }
 
   const matchingStudent = _.find(students, { 'id': studentId });
@@ -104,9 +106,13 @@ async function generateUsernameUntilAvailable({ firstPart, secondPart, userRepos
 
     try {
       await userRepository.isUsernameAvailable(username);
-    } catch (err) {
-      isUsernameAvailable = false;
-      randomPart = _generateCode();
+    } catch (error) {
+      if (error instanceof AlreadyRegisteredUsernameError) {
+        isUsernameAvailable = false;
+        randomPart = _generateCode();
+      } else {
+        throw error;
+      }
     }
   } while (!isUsernameAvailable);
 
@@ -129,5 +135,5 @@ module.exports = {
   generateUsernameUntilAvailable,
   createUsernameByUser,
   findMatchingCandidateIdForGivenUser,
-  findMatchingOrganizationStudentIdForGivenUser,
+  findMatchingStudentIdForGivenOrganizationIdAndUser,
 };

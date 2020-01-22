@@ -57,7 +57,7 @@ describe('Integration | UseCases | create-and-associate-user-to-student', () => 
 
       // then
       expect(error).to.be.instanceof(NotFoundError);
-      expect(error.message).to.equal('There were no students matching');
+      expect(error.message).to.equal('There were no students matching with organization and birthdate');
     });
   });
 
@@ -165,7 +165,7 @@ describe('Integration | UseCases | create-and-associate-user-to-student', () => 
             }]
           });
 
-          databaseBuilder.commit();
+          await databaseBuilder.commit();
 
           // when
           const error = await catchErr(createAndAssociateUserToStudent)({

@@ -77,7 +77,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
         // then
         expect(response.statusCode).to.equal(404);
-        expect(response.result.errors[0].detail).to.equal('There were no students matching');
+        expect(response.result.errors[0].detail).to.equal('There were no students matching with organization and birthdate');
       });
     });
 
@@ -106,7 +106,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
         // then
         expect(response.statusCode).to.equal(404);
-        expect(response.result.errors[0].detail).to.equal('There were not exactly one student match for this user and organization');
+        expect(response.result.errors[0].detail).to.equal('There were no students matching with names');
       });
     });
 
@@ -315,7 +315,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
           // then
           expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].detail).to.equal('There were no students matching');
+          expect(response.result.errors[0].detail).to.equal('There were no students matching with organization and birthdate');
         });
       });
 
@@ -330,7 +330,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
           // then
           expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].detail).to.equal('There were not exactly one student match for this user and organization');
+          expect(response.result.errors[0].detail).to.equal('There were no students matching with names');
         });
       });
 

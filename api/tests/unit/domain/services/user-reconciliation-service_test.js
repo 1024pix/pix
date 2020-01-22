@@ -255,7 +255,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
     });
   });
 
-  describe('#findMatchingOrganizationStudentIdForGivenUser', () => {
+  describe('#findMatchingStudentIdForGivenOrganizationIdAndUser', () => {
     let organizationId;
     let studentRepositoryStub;
 
@@ -284,7 +284,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
           };
 
           // when
-          const result = await catchErr(userReconciliationService.findMatchingOrganizationStudentIdForGivenUser)({ organizationId, user, studentRepository: studentRepositoryStub });
+          const result = await catchErr(userReconciliationService.findMatchingStudentIdForGivenOrganizationIdAndUser)({ organizationId, user, studentRepository: studentRepositoryStub });
 
           // then
           expect(result).to.be.instanceOf(NotFoundError, 'There were not exactly one student match for this user and organization');
@@ -308,7 +308,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
             studentRepositoryStub.findByOrganizationIdAndUserBirthdate.rejects(new OrganizationStudentAlreadyLinkedToUserError());
 
             // when
-            const result = await catchErr(userReconciliationService.findMatchingOrganizationStudentIdForGivenUser)({ organizationId, user, studentRepository: studentRepositoryStub });
+            const result = await catchErr(userReconciliationService.findMatchingStudentIdForGivenOrganizationIdAndUser)({ organizationId, user, studentRepository: studentRepositoryStub });
 
             // then
             expect(result).to.be.instanceOf(OrganizationStudentAlreadyLinkedToUserError);
@@ -319,7 +319,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
           it('should return studentId', async () => {
             // when
-            const result = await userReconciliationService.findMatchingOrganizationStudentIdForGivenUser({ organizationId, user, studentRepository: studentRepositoryStub });
+            const result = await userReconciliationService.findMatchingStudentIdForGivenOrganizationIdAndUser({ organizationId, user, studentRepository: studentRepositoryStub });
 
             // then
             expect(result).to.equal(students[0].id);
@@ -342,7 +342,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
         };
 
         // when
-        const result = await catchErr(userReconciliationService.findMatchingOrganizationStudentIdForGivenUser)({ organizationId, user, studentRepository: studentRepositoryStub });
+        const result = await catchErr(userReconciliationService.findMatchingStudentIdForGivenOrganizationIdAndUser)({ organizationId, user, studentRepository: studentRepositoryStub });
 
         // then
         expect(result).to.be.instanceOf(NotFoundError, 'There were no students matching');
