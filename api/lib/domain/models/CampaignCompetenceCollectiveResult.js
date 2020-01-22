@@ -6,6 +6,7 @@ class CampaignCompetenceCollectiveResult {
     competenceId,
     competenceIndex,
     competenceName,
+    areaColor,
     totalSkillsCount,
     averageValidatedSkills,
   } = {}) {
@@ -14,6 +15,7 @@ class CampaignCompetenceCollectiveResult {
     this.competenceId = competenceId;
     this.competenceIndex = competenceIndex;
     this.competenceName = competenceName;
+    this.areaColor = areaColor;
     this.totalSkillsCount = totalSkillsCount;
     this.averageValidatedSkills = averageValidatedSkills;
   }

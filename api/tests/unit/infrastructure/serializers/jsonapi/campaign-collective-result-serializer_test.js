@@ -18,6 +18,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             competenceId: 'rec1',
             competenceIndex: '1.2',
             competenceName: 'Cuisson des legumes d’automne',
+            areaColor: 'jaffa',
             totalSkillsCount: 3,
           }),
           domainBuilder.buildCampaignCompetenceCollectiveResult({
@@ -26,6 +27,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             competenceId: 'rec2',
             competenceIndex: '3.4',
             competenceName: 'Tourner un champignon',
+            areaColor: 'cerulean',
             totalSkillsCount: 4,
           }),
         ]
@@ -56,6 +58,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             'competence-id': 'rec1',
             'competence-name': 'Cuisson des legumes d’automne',
             'area-code': '1',
+            'area-color': 'jaffa',
             'total-skills-count': 3,
           }
         }, {
@@ -66,6 +69,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             'competence-id': 'rec2',
             'competence-name': 'Tourner un champignon',
             'area-code': '3',
+            'area-color': 'cerulean',
             'total-skills-count': 4,
           }
         }]

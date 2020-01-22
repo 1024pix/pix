@@ -137,6 +137,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceId: 'recCompetenceA',
               competenceName: 'Competence A',
               competenceIndex: '1.1',
+              areaColor: 'jaffa',
               totalSkillsCount: 5,
             },
             {
@@ -145,6 +146,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceId: 'recCompetenceB',
               competenceName: 'Competence B',
               competenceIndex: '1.2',
+              areaColor: 'jaffa',
               totalSkillsCount: 4,
             },
             {
@@ -153,6 +155,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceId: 'recCompetenceC',
               competenceName: 'Competence C',
               competenceIndex: '1.3',
+              areaColor: 'jaffa',
               totalSkillsCount: 1,
             },
             {
@@ -161,6 +164,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceId: 'recCompetenceE',
               competenceName: 'Competence E',
               competenceIndex: '2.2',
+              areaColor: 'emerald',
               totalSkillsCount: 1,
             },
             {
@@ -169,6 +173,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceId: 'recCompetenceF',
               competenceName: 'Competence F',
               competenceIndex: '2.3',
+              areaColor: 'emerald',
               totalSkillsCount: 1,
             }
           ],
@@ -206,7 +211,14 @@ describe('Integration | Repository | Service | Campaign collective result reposi
             isShared: false,
           });
 
-          databaseBuilder.factory.buildKnowledgeElement({ userId: goliathId, competenceId: 'recCompetenceA', skillId: url1Id, status: 'validated', campaignId, createdAt: new Date('2019-02-01') });
+          databaseBuilder.factory.buildKnowledgeElement({
+            userId: goliathId,
+            competenceId: 'recCompetenceA',
+            skillId: url1Id,
+            status: 'validated',
+            campaignId,
+            createdAt: new Date('2019-02-01')
+          });
 
           await databaseBuilder.commit();
         });
@@ -261,6 +273,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceA',
                 competenceName: 'Competence A',
                 competenceIndex: '1.1',
+                areaColor: 'jaffa',
                 totalSkillsCount: 5,
               },
               {
@@ -269,6 +282,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceB',
                 competenceName: 'Competence B',
                 competenceIndex: '1.2',
+                areaColor: 'jaffa',
                 totalSkillsCount: 4,
               },
               {
@@ -277,6 +291,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceC',
                 competenceName: 'Competence C',
                 competenceIndex: '1.3',
+                areaColor: 'jaffa',
                 totalSkillsCount: 1,
               },
               {
@@ -285,6 +300,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceE',
                 competenceName: 'Competence E',
                 competenceIndex: '2.2',
+                areaColor: 'emerald',
                 totalSkillsCount: 1,
               },
               {
@@ -293,6 +309,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceF',
                 competenceName: 'Competence F',
                 competenceIndex: '2.3',
+                areaColor: 'emerald',
                 totalSkillsCount: 1,
               }
             ],
@@ -426,6 +443,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceA',
                 competenceName: 'Competence A',
                 competenceIndex: '1.1',
+                areaColor: 'jaffa',
                 totalSkillsCount: 5,
               },
               {
@@ -434,6 +452,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceB',
                 competenceName: 'Competence B',
                 competenceIndex: '1.2',
+                areaColor: 'jaffa',
                 totalSkillsCount: 4,
               },
               {
@@ -442,6 +461,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceC',
                 competenceName: 'Competence C',
                 competenceIndex: '1.3',
+                areaColor: 'jaffa',
                 totalSkillsCount: 1,
               },
               {
@@ -450,6 +470,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceE',
                 competenceName: 'Competence E',
                 competenceIndex: '2.2',
+                areaColor: 'emerald',
                 totalSkillsCount: 1,
               },
               {
@@ -458,6 +479,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceF',
                 competenceName: 'Competence F',
                 competenceIndex: '2.3',
+                areaColor: 'emerald',
                 totalSkillsCount: 1,
               }
             ],
