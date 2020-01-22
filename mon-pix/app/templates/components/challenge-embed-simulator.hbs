@@ -16,7 +16,12 @@
             src="{{embedDocument.url}}"
             title="{{embedDocument.title}}">
     </iframe>
-    <button class="embed__reload-button" {{action "reloadSimulator"}}>Recharger l’application</button>
   </div>
 </div>
 
+<div class="link link--grey embed__reboot">
+  <div class="embed-reboot__content" {{action "rebootSimulator"}}>
+    <Fa-Icon @icon="redo-alt"></Fa-Icon>
+    <div class="embed-reboot-content__text"> Réinitialiser </div>
+  </div>
+</div>
