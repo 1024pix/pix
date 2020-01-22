@@ -13,6 +13,7 @@ module.exports = function buildCompetence({
   // relationships
   area = buildArea(),
   skills = [],
+  origin = 'Pix',
 } = {}) {
 
   return new Competence({
@@ -22,6 +23,7 @@ module.exports = function buildCompetence({
     index,
     courseId,
     description,
+    origin,
     // relationships
     area,
     skills,
