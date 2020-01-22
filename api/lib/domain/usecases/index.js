@@ -152,6 +152,7 @@ module.exports = injectDependencies({
   updateMembershipRole: require('./update-membership-role'),
   updateOrganizationInformation: require('./update-organization-information'),
   updateSession: require('./update-session'),
+  updateStudentDependentUserPassword: require('./update-student-dependent-user-password'),
   updateUserPassword: require('./update-user-password'),
   writeOrganizationSharedProfilesAsCsvToStream: require('./write-organization-shared-profiles-as-csv-to-stream'),
 });

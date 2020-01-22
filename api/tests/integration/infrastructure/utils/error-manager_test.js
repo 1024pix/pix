@@ -372,6 +372,16 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(400);
     });
 
+    it('should return 403 on domain UserNotAuthorizedToUpdateStudentPasswordError', function() {
+      // given
+      const error = new DomainErrors.UserNotAuthorizedToUpdateStudentPasswordError();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(403);
+    });
   });
 
 });

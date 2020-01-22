@@ -20,8 +20,8 @@ class HttpTestServer {
     this.hapiServer.register(moduleUnderTest);
   }
 
-  request(method, url, payload) {
-    return this.hapiServer.inject({ method, url, payload });
+  request(method, url, payload, auth) {
+    return this.hapiServer.inject({ method, url, payload, auth });
   }
 }
 

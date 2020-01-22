@@ -227,11 +227,14 @@ module.exports = {
   updatePassword(id, hashedPassword) {
     return BookshelfUser
       .where({ id })
-      .save({ password: hashedPassword }, {
-        patch: true,
-        require: false
-      })
-      .then((bookshelfUser) => bookshelfUser.toDomainEntity());
+      .save({ password: hashedPassword }, { patch: true, method: 'update' })
+      .then((bookshelfUser) => bookshelfUser.toDomainEntity())
+      .catch((err) => {
+        if (err instanceof BookshelfUser.NoRowsUpdatedError) {
+          throw new UserNotFoundError(`User not found for ID ${id}`);
+        }
+        throw err;
+      });
   },
 
   async isPixMaster(id) {

@@ -347,6 +347,12 @@ class UserNotAuthorizedToCertifyError extends DomainError {
   }
 }
 
+class UserNotAuthorizedToUpdateStudentPasswordError extends DomainError {
+  constructor(message = 'Cet utilisateur n\'est pas autorisé à mettre à jour le mot de passe de l\'étudiant.') {
+    super(message);
+  }
+}
+
 class UserNotFoundError extends NotFoundError {
   constructor(message = 'Ce compte est introuvable.') {
     super(message);
@@ -447,6 +453,7 @@ module.exports = {
   CertificationCourseUpdateError,
   InvalidCertificationReportForFinalization,
   UserNotAuthorizedToUpdateResourceError,
+  UserNotAuthorizedToUpdateStudentPasswordError,
   UserNotFoundError,
   WrongDateFormatError,
 };
