@@ -57,7 +57,7 @@ describe('Unit | Component | result-item-component', function() {
       component.set('answer', answerWithOkResult);
 
       // then
-      expect(component.get('resultItem.tooltip')).to.equal('Réponse correcte');
+      expect(component.get('resultItem.title')).to.equal('Réponse correcte');
       expect(component.get('resultItem.color')).to.equal('green');
       expect(component.get('resultItem.icon')).to.equal('check-circle');
     });
@@ -70,7 +70,7 @@ describe('Unit | Component | result-item-component', function() {
       component.set('answer', answerWithKoResult);
 
       // then
-      expect(component.get('resultItem.tooltip')).to.equal('Réponse incorrecte');
+      expect(component.get('resultItem.title')).to.equal('Réponse incorrecte');
       expect(component.get('resultItem.color')).to.equal('red');
       expect(component.get('resultItem.icon')).to.equal('times-circle');
     });
@@ -83,7 +83,7 @@ describe('Unit | Component | result-item-component', function() {
       component.set('answer', answerWithTimedoutResult);
 
       // then
-      expect(component.get('resultItem.tooltip')).to.equal('Temps dépassé');
+      expect(component.get('resultItem.title')).to.equal('Temps dépassé');
       expect(component.get('resultItem.color')).to.equal('red');
       expect(component.get('resultItem.icon')).to.equal('times-circle');
     });
@@ -96,7 +96,7 @@ describe('Unit | Component | result-item-component', function() {
       component.set('answer', answerWithPartiallyResult);
 
       // then
-      expect(component.get('resultItem.tooltip')).to.equal('Réponse partielle');
+      expect(component.get('resultItem.title')).to.equal('Réponse partielle');
       expect(component.get('resultItem.color')).to.equal('orange');
       expect(component.get('resultItem.icon')).to.equal('check-circle');
     });
@@ -109,7 +109,7 @@ describe('Unit | Component | result-item-component', function() {
       component.set('answer', answerWithAbandResult);
 
       // then
-      expect(component.get('resultItem.tooltip')).to.equal('Sans réponse');
+      expect(component.get('resultItem.title')).to.equal('Sans réponse');
       expect(component.get('resultItem.color')).to.equal('grey');
       expect(component.get('resultItem.icon')).to.equal('times-circle');
     });
