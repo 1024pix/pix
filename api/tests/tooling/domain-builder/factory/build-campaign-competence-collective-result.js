@@ -6,6 +6,7 @@ module.exports = function buildCampaignCompetenceCollectiveResult(
     competenceId,
     competenceName,
     competenceIndex,
+    areaColor,
     totalSkillsCount,
     averageValidatedSkills,
   } = {}) {
@@ -14,6 +15,7 @@ module.exports = function buildCampaignCompetenceCollectiveResult(
     competenceId,
     competenceName,
     competenceIndex,
+    areaColor,
     totalSkillsCount,
     averageValidatedSkills,
   });
