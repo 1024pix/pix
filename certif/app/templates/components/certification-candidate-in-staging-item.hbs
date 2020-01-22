@@ -52,14 +52,7 @@
 </td>
 <td>
   <div class="certification-candidates-input-wrapper certification-candidates-row-actions">
-    {{#if (and
-                  @candidateData.firstName
-                  @candidateData.lastName
-                  (is-after @candidateData.birthdate '1900-01-01')
-                  @candidateData.birthCity
-                  @candidateData.birthProvinceCode
-                  @candidateData.birthCountry
-          )}}
+    {{#if this.isCandidateDataValid}}
         <button data-test-id='panel-candidate__action__save' class="button button--row-item"  {{on "click" (fn @onClickSave @candidateData)}}>
             Enregistrer
         </button>
