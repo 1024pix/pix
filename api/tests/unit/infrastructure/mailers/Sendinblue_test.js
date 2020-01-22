@@ -1,8 +1,8 @@
-const { sinon, expect, nock } = require('../../test-helper');
-const Sendinblue = require('../../../lib/infrastructure/sendinblue');
-const mailCheck = require('../../../lib/infrastructure/mail-check');
-const { mailing } = require('../../../lib/config');
-const logger = require('../../../lib/infrastructure/logger');
+const { sinon, expect, nock } = require('../../../test-helper');
+const Sendinblue = require('../../../../lib/infrastructure/mailers/Sendinblue');
+const mailCheck = require('../../../../lib/infrastructure/mail-check');
+const { mailing } = require('../../../../lib/config');
+const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Unit | Class | Sendinblue', () => {
 
@@ -14,17 +14,22 @@ describe('Unit | Class | Sendinblue', () => {
 
   describe('#sendEmail', () => {
 
+    const recipient = 'test@example.net';
+
     context('when mail sending is disabled', () => {
 
       beforeEach(() => {
-        sinon.stub(mailCheck, 'checkMail').resolves();
+        sinon.stub(mailCheck, 'checkMail').withArgs(recipient).resolves();
         sinon.stub(mailing, 'enabled').value(false);
         sinon.stub(mailing, 'provider').value('sendinblue');
       });
 
       it('should only return an empty promise when mail sending is disabled', () => {
+        // given
+        const mailer = new Sendinblue();
+
         // when
-        const promise = Sendinblue.sendEmail({ to: 'test@example.net' });
+        const promise = mailer.sendEmail({ to: recipient });
 
         // then
         return expect(promise).to.be.fulfilled.then(() => {
@@ -54,9 +59,10 @@ describe('Unit | Class | Sendinblue', () => {
           // given
           const stubbedSibSMTPApi = { sendTransacEmail: sinon.stub() };
           Sendinblue.createSendinblueSMTPApi.returns(stubbedSibSMTPApi);
+          const mailer = new Sendinblue();
 
           // when
-          await Sendinblue.sendEmail({ to: 'test@example.net' });
+          await mailer.sendEmail({ to: recipient });
 
           // then
           expect(stubbedSibSMTPApi.sendTransacEmail).to.not.have.been.called;
@@ -68,13 +74,17 @@ describe('Unit | Class | Sendinblue', () => {
 
         beforeEach(() => {
           sinon.stub(Sendinblue, 'createSendinblueSMTPApi');
-          sinon.stub(mailCheck, 'checkMail').resolves();
+          sinon.stub(mailCheck, 'checkMail').withArgs(recipient).resolves();
         });
 
         it('should call the given sendinblue api instance', async () => {
           // given
+          const stubbedSibSMTPApi = { sendTransacEmail: sinon.stub() };
+          Sendinblue.createSendinblueSMTPApi.returns(stubbedSibSMTPApi);
+          const mailer = new Sendinblue();
+
           const from = 'no-reply@example.net';
-          const email = 'test@example.net';
+          const email = recipient;
           const expectedPayload = {
             to: [{
               email,
@@ -91,12 +101,8 @@ describe('Unit | Class | Sendinblue', () => {
             }
           };
 
-          const stubbedSibSMTPApi = { sendTransacEmail: sinon.stub() };
-          stubbedSibSMTPApi.sendTransacEmail.resolves();
-          Sendinblue.createSendinblueSMTPApi.returns(stubbedSibSMTPApi);
-
           // when
-          await Sendinblue.sendEmail({
+          await mailer.sendEmail({
             from,
             to: email,
             fromName: 'Ne pas repondre',

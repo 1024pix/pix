@@ -1,6 +1,6 @@
 const { sinon, expect } = require('../../../test-helper');
-const mailJet = require('../../../../lib/infrastructure/mailjet');
-const sendinblue = require('../../../../lib/infrastructure/sendinblue');
+const mailJet = require('../../../../lib/infrastructure/mailers/mailjet');
+const sendinblue = require('../../../../lib/infrastructure/mailers/sendinblue');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const { mailing } = require('../../../../lib/config');
 
@@ -37,11 +37,12 @@ describe('Unit | Service | MailService', () => {
 
     context('with sendinblue', () => {
 
-      let sendinblueSendEmailStub;
+      let sendinblueStub;
 
       beforeEach(() => {
         sinon.stub(mailing, 'provider').value('sendinblue');
-        sendinblueSendEmailStub = sinon.stub(sendinblue, 'sendEmail').resolves();
+        sendinblueStub = new sendinblue();
+        sendinblueStub.sendEmail = sinon.stub().resolves();
       });
 
       it('should use mailJet to send an email', async () => {
@@ -52,7 +53,7 @@ describe('Unit | Service | MailService', () => {
         await mailService.sendAccountCreationEmail(email);
 
         // then
-        expect(sendinblueSendEmailStub).to.have.been.calledWith({
+        expect(sendinblueStub.sendEmail).to.have.been.calledWith({
           to: email,
           template: 'test-account-creation-template-id',
           from: 'ne-pas-repondre@pix.fr',
