@@ -1,8 +1,6 @@
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 const Mailer = require('./Mailer');
 const { mailing } = require('../../config');
-const mailCheck = require('../mail-check');
-const logger = require('../logger');
 
 function _formatPayload(options) {
   const payload = {
@@ -45,23 +43,6 @@ class Sendinblue extends Mailer {
   _doSendEmail(options) {
     const payload = _formatPayload(options);
     return this._apiInstance.sendTransacEmail(payload);
-  }
-
-  sendEmail(options) {
-    if (!mailing.enabled) {
-      return Promise.resolve();
-    }
-
-    return mailCheck.checkMail(options.to)
-      .then(() => {
-        return this._doSendEmail(options)
-          .catch((err) => {
-            logger.warn({ err }, `Could not send email to '${options.to}'`);
-          });
-      })
-      .catch((err) => {
-        logger.warn({ err }, `Email is not valid '${options.to}'`);
-      });
   }
 }
 
