@@ -2,8 +2,6 @@ const _ = require('lodash');
 const Mailer = require('./Mailer');
 const { mailing } = require('../../config');
 const nodeMailjet = require('node-mailjet');
-const logger = require('../logger');
-const mailCheck = require('../mail-check');
 
 function _formatPayload(options) {
 
@@ -37,23 +35,6 @@ class Mailjet extends Mailer {
   _doSendEmail(options) {
     const payload = _formatPayload(options);
     return this._apiInstance.post('send').request(payload);
-  }
-
-  sendEmail(options) {
-    if (!mailing.enabled) {
-      return Promise.resolve();
-    }
-
-    return mailCheck.checkMail(options.to)
-      .then(() => {
-        return this._doSendEmail(options)
-          .catch((err) => {
-            logger.warn({ err }, `Could not send email to '${options.to}'`);
-          });
-      })
-      .catch((err) => {
-        logger.warn({ err }, `Email is not valid '${options.to}'`);
-      });
   }
 }
 

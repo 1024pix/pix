@@ -1,9 +1,8 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon } = require('../../../test-helper');
 const Mailjet = require('../../../../lib/infrastructure/mailers/mailjet');
 const nodeMailjet = require('node-mailjet');
 const mailCheck = require('../../../../lib/infrastructure/mail-check');
 const { mailing } = require('../../../../lib/config');
-const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Unit | Class | Mailjet', function() {
 
@@ -15,28 +14,6 @@ describe('Unit | Class | Mailjet', function() {
 
     const recipient = 'test@example.net';
 
-    context('when mail sending is disabled', () => {
-
-      beforeEach(() => {
-        sinon.stub(mailing, 'enabled').value(false);
-        sinon.stub(mailCheck, 'checkMail').withArgs(recipient).resolves();
-      });
-
-      it('should only return an empty promise when mail sending is disabled', () => {
-        // given
-        const mailer = new Mailjet();
-
-        // when
-        const promise = mailer.sendEmail({ to: recipient });
-
-        // then
-        return expect(promise).to.be.fulfilled.then(() => {
-          expect(mailCheck.checkMail).to.not.have.been.calledOnce;
-        });
-      });
-    });
-
-
     context('when mail sending is enabled', () => {
 
       beforeEach(() => {
@@ -44,63 +21,10 @@ describe('Unit | Class | Mailjet', function() {
         sinon.stub(mailing, 'provider').value('mailjet');
       });
 
-      context('when email check fails', () => {
-        let error;
-
-        beforeEach(() => {
-          error = new Error('fail');
-          sinon.stub(mailCheck, 'checkMail').rejects(error);
-          sinon.stub(logger, 'warn');
-        });
-
-        it('should log a warning, not send email and resolve', async () => {
-          // given
-          const mailer = new Mailjet();
-
-          // when
-          await mailer.sendEmail({ to: recipient });
-
-          // then
-          expect(logger.warn).to.have.been.calledWith({ err: error }, 'Email is not valid \'test@example.net\'');
-        });
-      });
-
       context('when email check succeeds', () => {
 
         beforeEach(() => {
           sinon.stub(mailCheck, 'checkMail').withArgs(recipient).resolves();
-        });
-
-        it('should create an instance of mailJet', async () => {
-          // given
-          const mailer = new Mailjet();
-          nodeMailjet.connect.returns({
-            post: () => {
-              return {
-                request: () => {
-                }
-              };
-            }
-          });
-
-          // when
-          await mailer.sendEmail({ to: recipient });
-
-          // then
-          sinon.assert.calledWith(nodeMailjet.connect, 'test-api-key', 'test-api-secret');
-        });
-
-        it('should post a send instruction', async () => {
-          // given
-          const postStub = sinon.stub().returns({ request: (_) => Promise.resolve() });
-          nodeMailjet.connect.returns({ post: postStub });
-          const mailer = new Mailjet();
-
-          // when
-          await mailer.sendEmail({ to: recipient });
-
-          // then
-          sinon.assert.calledWith(postStub, 'send');
         });
 
         it('should request with a payload', async () => {
