@@ -42,15 +42,19 @@ class Sendinblue extends Mailer {
     return new SibApiV3Sdk.SMTPApi();
   }
 
+  _doSendEmail(options) {
+    const payload = _formatPayload(options);
+    return this._apiInstance.sendTransacEmail(payload);
+  }
+
   sendEmail(options) {
     if (!mailing.enabled) {
       return Promise.resolve();
     }
 
-    const payload = _formatPayload(options);
     return mailCheck.checkMail(options.to)
       .then(() => {
-        return this._apiInstance.sendTransacEmail(payload)
+        return this._doSendEmail(options)
           .catch((err) => {
             logger.warn({ err }, `Could not send email to '${options.to}'`);
           });

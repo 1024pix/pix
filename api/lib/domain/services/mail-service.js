@@ -1,5 +1,5 @@
 const providers = {
-  mailjet: require('../../infrastructure/mailers/mailjet'),
+  mailjet: require('../../infrastructure/mailers/Mailjet'),
   sendinblue: require('../../infrastructure/mailers/Sendinblue'),
 };
 const settings = require('../../config');
