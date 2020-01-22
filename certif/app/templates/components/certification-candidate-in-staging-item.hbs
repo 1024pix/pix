@@ -9,9 +9,13 @@
   </div>
 </td>
 <td data-test-id='panel-candidate__birthdate__add-staging'>
-  <div class="certification-candidates-input-wrapper">
-    <DateInput @onSubmit={{action (mut @candidateData.birthdate)}} class="certification-candidates-input" />
-  </div>
+    <div class="certification-candidates-input-wrapper">
+      {{one-way-date-mask
+          placeholder='dd/mm/yyyy'
+          options=(hash inputFormat='dd/mm/yyyy' outputFormat='yyyy-mm-dd')
+          class='certification-candidates-input'
+          update=(action (mut @candidateData.birthdate))}}
+    </div>
 </td>
 <td data-test-id='panel-candidate__birthCity__add-staging'>
   <div class="certification-candidates-input-wrapper">
@@ -51,7 +55,7 @@
     {{#if (and
                   @candidateData.firstName
                   @candidateData.lastName
-                  @candidateData.birthdate
+                  (is-after @candidateData.birthdate '1900-01-01')
                   @candidateData.birthCity
                   @candidateData.birthProvinceCode
                   @candidateData.birthCountry
