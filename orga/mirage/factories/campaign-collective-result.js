@@ -6,6 +6,7 @@ export default Factory.extend({
     afterCreate(campaignCollectiveResult, server) {
       const competenceCollectiveResult_1 = server.create('campaign-competence-collective-result', {
         areaCode: '1',
+        areaColor: 'jaffa',
         competenceName: 'Competence A',
         competenceId: 'recCompA',
         averageValidatedSkills: '5',
@@ -13,6 +14,7 @@ export default Factory.extend({
       });
       const competenceCollectiveResult_2 = server.create('campaign-competence-collective-result', {
         areaCode: '2',
+        areaColor: 'emerald',
         competenceName: 'Competence B',
         competenceId: 'recCompB',
         averageValidatedSkills: '0',
