@@ -69,7 +69,6 @@
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
   border-radius:3px;
   z-index: 300;
-  display: none;
 
   width: 300px;
   padding: 20px 36px;
@@ -104,9 +103,20 @@
       border-right: none;
     }
   }
+  &--show {
+    display: block;
+  }
+  &--hide {
+    display: none;
+  }
 
 }
 
-.hexagon-score:hover > .hexagon-score__information{
-  display: block;
+.hexagon-score-information__close {
+  float: right;
+  font-size: 2rem;
+  @include device-is('desktop') {
+    display: none;
+  }
 }
+
