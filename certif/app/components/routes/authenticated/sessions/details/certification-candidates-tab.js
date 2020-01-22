@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 import _ from 'lodash';
 
 export default Component.extend({
@@ -6,6 +7,10 @@ export default Component.extend({
     this._super(...arguments);
     this.candidatesInStaging = [];
   },
+
+  isCandidateBeingAdded: computed('candidatesInStaging.[]', function() {
+    return this.candidatesInStaging.length > 0;
+  }),
 
   _fromPercentageStringToDecimal(value) {
     return value ?
