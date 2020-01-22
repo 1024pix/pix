@@ -12,6 +12,7 @@ function _toDomain(competenceData, areaDatas) {
     name: competenceData.name,
     index: competenceData.index,
     description: competenceData.description,
+    origin: competenceData.origin,
     courseId: competenceData.courseId,
     skills: competenceData.skillIds,
     area: areaData && new Area({
@@ -26,13 +27,13 @@ function _toDomain(competenceData, areaDatas) {
 module.exports = {
 
   list() {
-    return Promise.all([competenceDatasource.list(), areaDatasource.list()])
-      .then(([competenceDatas, areaDatas]) => {
-        return _.sortBy(
-          competenceDatas.map((competenceData) => _toDomain(competenceData, areaDatas)),
-          'index'
-        );
-      });
+    return _list();
+  },
+
+  listPixCompetencesOnly() {
+    return _list().then((competences) =>
+      competences.filter((competence) => competence.origin === 'Pix')
+    );
   },
 
   get(id) {
@@ -50,3 +51,13 @@ module.exports = {
       });
   }
 };
+
+function _list() {
+  return Promise.all([competenceDatasource.list(), areaDatasource.list()])
+    .then(([competenceDatas, areaDatas]) => {
+      return _.sortBy(
+        competenceDatas.map((competenceData) => _toDomain(competenceData, areaDatas)),
+        'index'
+      );
+    });
+}
