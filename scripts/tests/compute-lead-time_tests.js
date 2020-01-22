@@ -10,7 +10,7 @@ describe('Unit | Script | Lead time computation', () => {
 
     const leadTimes = computeLeadTimes(tagDate, commitDates);
 
-    expect(leadTimes).to.deep.equal([{leadTime: 1}])
+    expect(leadTimes).to.deep.equal([{ leadTime: 1 }]);
   });
 
   it('computes a lead time of two days', () => {
@@ -19,7 +19,18 @@ describe('Unit | Script | Lead time computation', () => {
 
     const leadTimes = computeLeadTimes(tagDate, commitDates);
 
-    expect(leadTimes).to.deep.equal([{leadTime: 2}])
+    expect(leadTimes).to.deep.equal([{ leadTime: 2 }]);
   });
 
+  it('computes a lead time for two commits', () => {
+    const tagDate = '2020-01-21 00:00:00 +0100';
+    const commitDates = ['2020-01-20 00:00:00 +0100', '2020-01-19 00:00:00 +0100'];
+
+    const leadTimes = computeLeadTimes(tagDate, commitDates);
+
+    expect(leadTimes).to.deep.equal([
+      { leadTime: 1 },
+      { leadTime: 2 }
+    ]);
+  });
 });
