@@ -1,0 +1,5 @@
+[
+  "unit/**/*",
+  "integration/**/*",
+  "acceptance/**/*"
+]
