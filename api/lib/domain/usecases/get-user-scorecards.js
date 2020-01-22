@@ -4,7 +4,7 @@ const Scorecard = require('../models/Scorecard');
 module.exports = async function getUserScorecards({ userId, knowledgeElementRepository, competenceRepository, competenceEvaluationRepository }) {
   const [knowledgeElementsGroupedByCompetenceId, competencesWithArea, competenceEvaluations] = await Promise.all([
     knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId }),
-    competenceRepository.list(),
+    competenceRepository.listPixCompetencesOnly(),
     competenceEvaluationRepository.findByUserId(userId),
   ]);
 
