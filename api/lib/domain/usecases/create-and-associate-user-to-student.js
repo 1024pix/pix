@@ -73,7 +73,7 @@ module.exports = async function createAndAssociateUserToStudent({
     throw new CampaignCodeError();
   }
 
-  const studentId = await userReconciliationService.findMatchingOrganizationStudentIdForGivenUser({ organizationId: campaign.organizationId, user: userAttributes, studentRepository });
+  const studentId = await userReconciliationService.findMatchingStudentIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user: userAttributes, studentRepository });
 
   const isUsernameMode = userAttributes.withUsername;
   const cleanedUserAttributes = _emptyOtherMode(isUsernameMode, userAttributes);

@@ -11,7 +11,7 @@ const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, CampaignCod
 describe('Unit | UseCase | create-and-associate-user-to-student', () => {
 
   let campaignCode;
-  let findMatchingOrganizationStudentIdForGivenUserStub;
+  let findMatchingStudentIdForGivenOrganizationIdAndUserStub;
   let getCampaignStub;
   let userAttributes;
   const organizationId = 1;
@@ -22,7 +22,7 @@ describe('Unit | UseCase | create-and-associate-user-to-student', () => {
     userAttributes = {
       firstName: 'Joe',
       lastName: 'Poe',
-      birthdate: '02-02-1992',
+      birthdate: '1992-02-02',
       password: 'P@ssw0rd',
     };
 
@@ -30,7 +30,7 @@ describe('Unit | UseCase | create-and-associate-user-to-student', () => {
       .withArgs(campaignCode)
       .resolves({ organizationId });
 
-    findMatchingOrganizationStudentIdForGivenUserStub = sinon.stub(userReconciliationService, 'findMatchingOrganizationStudentIdForGivenUser');
+    findMatchingStudentIdForGivenOrganizationIdAndUserStub = sinon.stub(userReconciliationService, 'findMatchingStudentIdForGivenOrganizationIdAndUser');
   });
 
   context('When there is no campaign with the given code', () => {
@@ -54,7 +54,7 @@ describe('Unit | UseCase | create-and-associate-user-to-student', () => {
 
     it('should throw a Not Found error', async () => {
       // given
-      findMatchingOrganizationStudentIdForGivenUserStub.throws(new NotFoundError('Error message'));
+      findMatchingStudentIdForGivenOrganizationIdAndUserStub.throws(new NotFoundError('Error message'));
 
       // when
       const result = await catchErr(usecases.createAndAssociateUserToStudent)({
@@ -79,7 +79,7 @@ describe('Unit | UseCase | create-and-associate-user-to-student', () => {
       sinon.stub(userValidator, 'validate');
       sinon.stub(encryptionService, 'hashPassword');
 
-      findMatchingOrganizationStudentIdForGivenUserStub.resolves(studentId);
+      findMatchingStudentIdForGivenOrganizationIdAndUserStub.resolves(studentId);
       encryptionService.hashPassword.resolves(encryptedPassword);
       userRepository.createAndAssociateUserToStudent.resolves(createdUser.id);
       userRepository.get.withArgs(createdUser.id).resolves(createdUser);

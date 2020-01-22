@@ -10,10 +10,10 @@ module.exports = async function generateUsername({
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
   if (!campaign || !campaign.organizationId) {
-    throw new CampaignCodeError();
+    throw new CampaignCodeError(`Le code campagne ${campaignCode} n'existe pas.`);
   }
 
-  await userReconciliationService.findMatchingOrganizationStudentIdForGivenUser({ organizationId: campaign.organizationId, user, studentRepository });
+  await userReconciliationService.findMatchingStudentIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user, studentRepository });
 
   return userReconciliationService.createUsernameByUser({ user , userRepository });
 

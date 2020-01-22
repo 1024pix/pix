@@ -1,39 +1,41 @@
-const { expect, sinon } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
+const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+
 const studentUserAssociationController = require('../../../../lib/application/student-dependent-users/student-dependent-user-controller');
+const moduleUnderTest = require('../../../../lib/application/student-dependent-users');
 
 describe('Integration | Application | Route | student-dependent-users', () => {
-  let server;
+
+  let httpTestServer;
 
   beforeEach(() => {
     sinon.stub(studentUserAssociationController, 'createAndAssociateUserToStudent').callsFake((request, h) => h.response('ok').code(201));
-    server = Hapi.server();
-    return server.register(require('../../../../lib/application/student-dependent-users'));
-  });
-
-  afterEach(() => {
-    server.stop();
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('POST /api/student-dependent-users', () => {
 
     it('should succeed', async () => {
+      // given
+      const method = 'POST';
+      const url = '/api/student-dependent-users';
+      const payload = {
+        data: {
+          attributes: {
+            'campaign-code': 'RESTRICD',
+            'first-name': 'Robert',
+            'last-name': 'Smith',
+            birthdate: '2012-12-12',
+            username: 'robert.smith1212',
+            password: 'P@ssw0rd'
+          }
+        }
+      };
+
       // when
-      const result = await server.inject({
-        method: 'POST',
-        url: '/api/student-dependent-users',
-        payload: { data: { attributes: {
-          'first-name': 'Robert',
-          'last-name': 'Smith',
-          birthdate: '2012-12-12',
-          'campaign-code': 'CODE',
-          username: 'robert.smith1212',
-          password: 'P@ssw0rd',
-        } } },
-      });
+      const response = await httpTestServer.request(method, url, payload);
 
       // then
-      expect(result.statusCode).to.equal(201);
+      expect(response.statusCode).to.equal(201);
     });
   });
 
