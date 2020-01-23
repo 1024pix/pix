@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.107.0 (23/01/2020)
+
+- [#960](https://github.com/1024pix/pix/pull/960) [FEATURE] Ajouter un candidat à la liste des candidats d'une session (PC-71)
+- [#993](https://github.com/1024pix/pix/pull/993) [TECH] Supprimer les logs non utiles
+- [#997](https://github.com/1024pix/pix/pull/997) Ajout de Sendinblue en tant que fournisseur d'emailing (PF-972).
+
 ## v2.106.0 (23/01/2020)
 
 - [#974](https://github.com/1024pix/pix/pull/974) [FEATURE] Actualiser le design des embed (1/2) (PF-563).
