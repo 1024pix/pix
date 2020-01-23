@@ -5,6 +5,8 @@ const areaDatasource = require('../datasources/airtable/area-datasource');
 const Area = require('../../domain/models/Area');
 const { NotFoundError } = require('../../domain/errors');
 
+const PixOriginName = 'Pix';
+
 function _toDomain(competenceData, areaDatas) {
   const areaData = competenceData.areaId && _.find(areaDatas, { id: competenceData.areaId });
   return new Competence({
@@ -31,8 +33,9 @@ module.exports = {
   },
 
   listPixCompetencesOnly() {
+
     return _list().then((competences) =>
-      competences.filter((competence) => competence.origin === 'Pix')
+      competences.filter((competence) => competence.origin === PixOriginName)
     );
   },
 
