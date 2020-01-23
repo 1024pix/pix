@@ -1,5 +1,5 @@
 const SibApiV3Sdk = require('sib-api-v3-sdk');
-const Mailer = require('./Mailer');
+const MailingClient = require('./MailingProvider');
 const { mailing } = require('../../config');
 
 function _formatPayload(options) {
@@ -24,7 +24,7 @@ function _formatPayload(options) {
   return payload;
 }
 
-class Sendinblue extends Mailer {
+class SendinblueProvider extends MailingClient {
 
   constructor() {
     super();
@@ -33,7 +33,7 @@ class Sendinblue extends Mailer {
     const defaultClient = SibApiV3Sdk.ApiClient.instance;
     defaultClient.authentications['api-key'].apiKey = mailing[provider].apiKey;
 
-    this._apiInstance = Sendinblue.createSendinblueSMTPApi();
+    this._apiInstance = SendinblueProvider.createSendinblueSMTPApi();
   }
 
   static createSendinblueSMTPApi() {
@@ -46,4 +46,4 @@ class Sendinblue extends Mailer {
   }
 }
 
-module.exports = Sendinblue;
+module.exports = SendinblueProvider;

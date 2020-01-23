@@ -1,9 +1,9 @@
 const { sinon, expect, nock } = require('../../../test-helper');
-const Sendinblue = require('../../../../lib/infrastructure/mailers/Sendinblue');
+const SendinblueProvider = require('../../../../lib/infrastructure/mailers/SendinblueProvider');
 const mailCheck = require('../../../../lib/infrastructure/mail-check');
 const { mailing } = require('../../../../lib/config');
 
-describe('Unit | Class | Sendinblue', () => {
+describe('Unit | Class | SendinblueProvider', () => {
 
   beforeEach(() => {
     nock('https://api.sendinblue.com:443')
@@ -14,6 +14,7 @@ describe('Unit | Class | Sendinblue', () => {
   describe('#sendEmail', () => {
 
     const recipient = 'test@example.net';
+
     context('when mail sending is enabled', () => {
 
       beforeEach(() => {
@@ -24,15 +25,15 @@ describe('Unit | Class | Sendinblue', () => {
       context('when email check succeeds', () => {
 
         beforeEach(() => {
-          sinon.stub(Sendinblue, 'createSendinblueSMTPApi');
+          sinon.stub(SendinblueProvider, 'createSendinblueSMTPApi');
           sinon.stub(mailCheck, 'checkMail').withArgs(recipient).resolves();
         });
 
         it('should call the given sendinblue api instance', async () => {
           // given
           const stubbedSibSMTPApi = { sendTransacEmail: sinon.stub() };
-          Sendinblue.createSendinblueSMTPApi.returns(stubbedSibSMTPApi);
-          const mailer = new Sendinblue();
+          SendinblueProvider.createSendinblueSMTPApi.returns(stubbedSibSMTPApi);
+          const mailingProvider = new SendinblueProvider();
 
           const from = 'no-reply@example.net';
           const email = recipient;
@@ -53,7 +54,7 @@ describe('Unit | Class | Sendinblue', () => {
           };
 
           // when
-          await mailer.sendEmail({
+          await mailingProvider.sendEmail({
             from,
             to: email,
             fromName: 'Ne pas repondre',

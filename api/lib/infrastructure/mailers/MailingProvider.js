@@ -2,7 +2,7 @@ const { mailing } = require('../../config');
 const logger = require('../logger');
 const mailCheck = require('../mail-check');
 
-class Mailer {
+class MailingProvider {
 
   async _doSendEmail(/* options */) {
     throw new Error('Method #_doSendEmail(options) must be overridden');
@@ -26,4 +26,4 @@ class Mailer {
   }
 }
 
-module.exports = Mailer;
+module.exports = MailingProvider;
