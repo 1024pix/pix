@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.106.0 (23/01/2020)
+
+- [#974](https://github.com/1024pix/pix/pull/974) [FEATURE] Actualiser le design des embed (1/2) (PF-563).
+- [#986](https://github.com/1024pix/pix/pull/986) [FEATURE] Placer le focus sur l'input suivante sur la page de démarrage d'une session de certification. (PF-903).
+- [#982](https://github.com/1024pix/pix/pull/982) [BUGFIX] Corriger l'affichage d'un bouton de mon-pix sous Safari. (PF-1042)
+- [#980](https://github.com/1024pix/pix/pull/980) [TECH] Prise en compte des derniers retours de la PR #913 (prereconciliation) (PF-1038).
+- [#970](https://github.com/1024pix/pix/pull/970) [FEATURE] Homogénéiser le comportement de cloture des notifications de succès mobile et desktop (PF-899).
+
 ## v2.105.0 (21/01/2020)
 
 - [#966](https://github.com/1024pix/pix/pull/966) [FEATURE] Ajout d'une cellule "N° de session" au PV de session (PC-101).
