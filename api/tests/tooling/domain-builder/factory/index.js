@@ -12,6 +12,7 @@ module.exports = {
   buildCampaignReport: require('./build-campaign-report'),
   buildCertification: require('./build-certification'),
   buildCertificationCandidate: require('./build-certification-candidate'),
+  buildCertificationReport: require('./build-certification-report'),
   buildCertificationCenter: require('./build-certification-center'),
   buildCertificationCenterMembership: require('./build-certification-center-membership'),
   buildCertificationChallenge: require('./build-certification-challenge'),
