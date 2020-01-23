@@ -1,0 +1,102 @@
+<tr>
+  <td data-test-id='panel-candidate__lastName__add-staging'>
+    <div class="certification-candidates-input-wrapper">
+      <input
+        value="{{@candidateData.lastName}}"
+        class="certification-candidates-input"
+        {{on 'input' (fn @updateCandidateData @candidateData 'lastName')}} >
+    </div>
+  </td>
+  <td data-test-id='panel-candidate__firstName__add-staging'>
+    <div class="certification-candidates-input-wrapper">
+        <input
+          value="{{@candidateData.firstName}}"
+          class="certification-candidates-input"
+          {{on 'input' (fn @updateCandidateData @candidateData 'firstName')}} >
+    </div>
+  </td>
+  <td data-test-id='panel-candidate__birthdate__add-staging'>
+      <div class="certification-candidates-input-wrapper">
+        <OneWayDateMask
+            @placeholder='dd/mm/yyyy'
+            @options={{hash inputFormat='dd/mm/yyyy' outputFormat='yyyy-mm-dd'}}
+            @class='certification-candidates-input'
+            @update={{this.updateCandidateDataBirthdate}}>
+        </OneWayDateMask>
+      </div>
+  </td>
+  <td data-test-id='panel-candidate__birthCity__add-staging'>
+    <div class="certification-candidates-input-wrapper">
+        <input
+          value="{{@candidateData.birthCity}}"
+          class="certification-candidates-input"
+          {{on 'input' (fn @updateCandidateData @candidateData 'birthCity')}} >
+    </div>
+  </td>
+  <td data-test-id='panel-candidate__birthProvinceCode__add-staging'>
+    <div class="certification-candidates-input-wrapper">
+        <input
+          value="{{@candidateData.birthProvinceCode}}"
+          class="certification-candidates-input"
+          {{on 'input' (fn @updateCandidateData @candidateData 'birthProvinceCode')}} >
+    </div>
+  </td>
+  <td data-test-id='panel-candidate__birthCountry__add-staging'>
+    <div class="certification-candidates-input-wrapper">
+        <input
+          value="{{@candidateData.birthCountry}}"
+          class="certification-candidates-input"
+          {{on 'input' (fn @updateCandidateData @candidateData 'birthCountry')}} >
+    </div>
+  </td>
+  <td data-test-id='panel-candidate__email__add-staging'>
+    <div class="certification-candidates-input-wrapper">
+        <input
+          value="{{@candidateData.email}}"
+          class="certification-candidates-input"
+          {{on 'input' (fn @updateCandidateData @candidateData 'email')}} >
+    </div>
+  </td>
+  <td data-test-id='panel-candidate__externalId__add-staging'>
+    <div class="certification-candidates-input-wrapper">
+        <input
+          value="{{@candidateData.externalId}}"
+          class="certification-candidates-input"
+          {{on 'input' (fn @updateCandidateData @candidateData 'externalId')}} >
+    </div>
+  </td>
+  <td data-test-id='panel-candidate__extraTimePercentage__add-staging'>
+    <div class="certification-candidates-input-wrapper">
+        <input
+          value="{{@candidateData.extraTimePercentage}}"
+          class="certification-candidates-input"
+          {{on 'input' (fn @updateCandidateData @candidateData 'extraTimePercentage')}} >
+      <span class="certification-candidates-percentage">
+        %
+      </span>
+    </div>
+  </td>
+  <td>
+    <div class="certification-candidates-input-wrapper certification-candidates-row-actions">
+{{#if (and
+        @candidateData.firstName
+        @candidateData.lastName
+        (is-after @candidateData.birthdate '1900-01-01')
+        @candidateData.birthCity
+        @candidateData.birthProvinceCode
+        @candidateData.birthCountry
+        )}}
+          <button data-test-id='panel-candidate__action__save' class="button button--row-item" type="button" {{on "click" (fn @onClickSave @candidateData)}}>
+              Enregistrer
+          </button>
+      {{else}}
+          <button data-test-id='panel-candidate__action__save' class="button button--row-item button--disabled" type="button" disabled="true">
+              Enregistrer
+          </button>
+      {{/if}}
+        <button data-test-id='panel-candidate__action__cancel' class="button button--square button--lightgrey certification-candidates-row-actions__close" type="button" {{on "click" (fn @onClickCancel @candidateData)}}>
+          {{fa-icon "times" class="fa-fw certification-candidates-add-button__icon"}}
+        </button>
+    </div>
+  </td>
+</tr>

@@ -1,7 +1,6 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
-import { action } from '@ember/object';
+import EmberObject, { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
 import _ from 'lodash';
@@ -114,10 +113,10 @@ export default class AuthenticatedSessionsDetailsCertificationCandidatesControll
 
   @action
   addCertificationCandidateInStaging() {
-    this.candidatesInStaging.pushObject({
+    this.candidatesInStaging.pushObject(EmberObject.create({
       firstName: '', lastName: '', birthdate: '', birthCity: '',
       birthProvinceCode: '', birthCountry: '', email: '', externalId: '',
-      extraTimePercentage: '' });
+      extraTimePercentage: '' }));
   }
 
   @action
@@ -133,6 +132,17 @@ export default class AuthenticatedSessionsDetailsCertificationCandidatesControll
   @action
   removeCertificationCandidateFromStaging(candidate) {
     this.candidatesInStaging.removeObject(candidate);
+  }
+
+  @action
+  updateCertificationCandidateInStagingBirthdate(candidateInStaging, value) {
+    candidateInStaging.set('birthdate', value);
+  }
+
+  @action
+  updateCertificationCandidateInStagingField(candidateInStaging, field, ev) {
+    const { value } = ev.target;
+    candidateInStaging.set(field, value);
   }
 }
 

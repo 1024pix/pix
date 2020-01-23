@@ -77,7 +77,7 @@ module('Acceptance | Session Details', function(hooks) {
 
       hooks.beforeEach(function() {
         sessionWithCandidates = server.create('session');
-        candidateInSession = server.create('certification-candidate');
+        candidateInSession = server.create('certification-candidate', { isLinked: false });
         sessionWithCandidates.update({ certificationCandidates : [candidateInSession] });
         sessionWithImportNotAllowed = server.create('session');
         const candidateLinked = server.create('certification-candidate', { isLinked: true });
@@ -131,9 +131,39 @@ module('Acceptance | Session Details', function(hooks) {
         await visit(`/sessions/${sessionWithImportNotAllowed.id}/candidats`);
 
         // then
-        assert.dom('.panel-actions__warning strong').hasText(
-          'La session a débuté, il n\'est plus possible de modifier la liste des candidats.'
-        );
+        assert.dom('.panel-actions__warning').hasText(
+          'La session a débuté, vous ne pouvez plus importer une liste de candidats.Si vous souhaitez modifier la liste, vous pouvez ajouter un candidat directement dans le tableau ci-dessous.');
+      });
+
+      test('it should display a "Ajouter un candidat" button', async function(assert) {
+        // when
+        await visit(`/sessions/${sessionWithImportNotAllowed.id}/candidats`);
+
+        // then
+        assert.dom('.certification-candidates-add-button__text').hasText('Ajouter un candidat');
+      });
+
+      module('when adding a candidate in staging for saving', () => {
+
+        test('it should add a new line when we click on "Ajouter un candidat" button', async function(assert) {
+          // when
+          await visit(`/sessions/${sessionWithImportNotAllowed.id}/candidats`);
+          await click('[data-test-id="add-certification-candidate-staging__button"]');
+
+          // then
+          assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').exists();
+        });
+
+        test('it should remove the line when clicking on cancel button', async function(assert) {
+          // when
+          await visit(`/sessions/${sessionWithImportNotAllowed.id}/candidats`);
+          await click('[data-test-id="add-certification-candidate-staging__button"]');
+
+          // then
+          assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').exists();
+          await click('[data-test-id="panel-candidate__action__cancel"]');
+          assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').doesNotExist();
+        });
       });
     });
 
