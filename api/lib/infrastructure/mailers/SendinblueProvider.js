@@ -29,20 +29,19 @@ class SendinblueProvider extends MailingClient {
   constructor() {
     super();
 
-    const provider = mailing.provider;
     const defaultClient = SibApiV3Sdk.ApiClient.instance;
-    defaultClient.authentications['api-key'].apiKey = mailing[provider].apiKey;
+    defaultClient.authentications['api-key'].apiKey = mailing.sendinblue.apiKey;
 
-    this._apiInstance = SendinblueProvider.createSendinblueSMTPApi();
+    this._client = SendinblueProvider.createSendinblueSMTPApi();
   }
 
   static createSendinblueSMTPApi() {
     return new SibApiV3Sdk.SMTPApi();
   }
 
-  _doSendEmail(options) {
+  sendEmail(options) {
     const payload = _formatPayload(options);
-    return this._apiInstance.sendTransacEmail(payload);
+    return this._client.sendTransacEmail(payload);
   }
 }
 
