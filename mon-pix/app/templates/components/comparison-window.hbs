@@ -1,9 +1,8 @@
 {{#pix-modal class="comparison-window-modal" onClose=closeComparisonWindow}}
 
-  <div class="pix-modal__close-link">
-    <a href="#" {{action (action closeComparisonWindow)}}>Fermer
-      <img src="/images/icon-close-modal.svg" alt="Fermer la fenêtre modale" width="24" height="24">
-    </a>
+  <div class="pix-modal__close-link" aria-label="Fermer" {{action (action closeComparisonWindow)}}>
+    <span>Fermer</span>
+    <Fa-Icon @icon="times-circle" @class="logged-user-menu__icon"></Fa-Icon>
   </div>
 
   <div class="pix-modal__container comparison-window">
