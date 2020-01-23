@@ -1,29 +1,11 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
+const { expect, hFake } = require('../../../test-helper');
 const { send } = require('../../../../lib/infrastructure/utils/error-manager');
 const DomainErrors = require('../../../../lib/domain/errors');
 const InfraErrors = require('../../../../lib/infrastructure/errors');
-const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Integration | Utils | Error Manager', function() {
 
-  let loggerStub;
-
-  beforeEach(() => {
-    loggerStub = sinon.stub(logger, 'error').returns();
-  });
-
   describe('#send', function() {
-
-    it('should log the error', function() {
-      // given
-      const error = new Error();
-
-      // when
-      send(hFake, error);
-
-      // then
-      sinon.assert.calledOnce(loggerStub);
-    });
 
     it('should return 422 on EntityValidationError', function() {
       // given
