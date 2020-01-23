@@ -1,8 +1,7 @@
 const _ = require('lodash');
-const mailingConfig = require('../config').mailing;
 const nodeMailjet = require('node-mailjet');
-const logger = require('./logger');
-const mailCheck = require('./mail-check');
+const MailingProvider = require('./MailingProvider');
+const { mailing } = require('../../config');
 
 function _formatPayload(options) {
 
@@ -24,24 +23,17 @@ function _formatPayload(options) {
   };
 }
 
-function sendEmail(options) {
-  if (!mailingConfig.enabled) {
-    return Promise.resolve();
+class MailjetProvider extends MailingProvider {
+
+  constructor() {
+    super();
+    this._client = nodeMailjet.connect(mailing.mailjet.apiKey, mailing.mailjet.apiSecret);
   }
 
-  return mailCheck.checkMail(options.to)
-    .then(() => {
-      const mailjet = nodeMailjet.connect(mailingConfig.mailjetApiKey, mailingConfig.mailjetApiSecret);
-
-      return mailjet
-        .post('send')
-        .request(_formatPayload(options));
-    })
-    .catch((err) => {
-      logger.warn({ err }, `Could not send email to '${options.to}'`);
-    });
+  sendEmail(options) {
+    const payload = _formatPayload(options);
+    return this._client.post('send').request(payload);
+  }
 }
 
-module.exports = {
-  sendEmail,
-};
+module.exports = MailjetProvider;

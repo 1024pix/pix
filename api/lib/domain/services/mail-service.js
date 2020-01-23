@@ -1,10 +1,10 @@
-const mailJet = require('../../infrastructure/mailjet');
 const settings = require('../../config');
+const mailer = require('../../infrastructure/mailers/mailer');
 
 function sendAccountCreationEmail(email) {
-  return mailJet.sendEmail({
+  return mailer.sendEmail({
+    template: mailer.accountCreationTemplateId,
     to: email,
-    template: settings.mailing.mailjetAccountCreationTemplateId,
     from: 'ne-pas-repondre@pix.fr',
     fromName: 'PIX - Ne pas répondre',
     subject: 'Création de votre compte PIX'
@@ -12,9 +12,9 @@ function sendAccountCreationEmail(email) {
 }
 
 function sendResetPasswordDemandEmail(email, baseUrl, temporaryKey) {
-  return mailJet.sendEmail({
+  return mailer.sendEmail({
+    template: mailer.passwordResetTemplateId,
     to: email,
-    template: settings.mailing.mailjetPasswordResetTemplateId,
     from: 'ne-pas-repondre@pix.fr',
     fromName: 'PIX - Ne pas répondre',
     subject: 'Demande de réinitialisation de mot de passe PIX',
@@ -23,13 +23,15 @@ function sendResetPasswordDemandEmail(email, baseUrl, temporaryKey) {
 }
 
 function sendOrganizationInvitationEmail({
-  email, organizationName, organizationInvitationId, code
+  email,
+  organizationName,
+  organizationInvitationId,
+  code
 }) {
   const pixOrgaBaseUrl = settings.pixOrgaUrl;
-
-  return mailJet.sendEmail({
+  return mailer.sendEmail({
+    template: mailer.organizationInvitationTemplateId,
     to: email,
-    template: settings.mailing.mailjetOrganizationInvitationTemplateId,
     from: 'ne-pas-repondre@pix.fr',
     fromName: 'Pix Orga - Ne pas répondre',
     subject: 'Invitation à rejoindre Pix Orga',

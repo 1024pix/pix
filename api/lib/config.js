@@ -46,11 +46,24 @@ module.exports = (function() {
 
     mailing: {
       enabled: isFeatureEnabled(process.env.MAILING_ENABLED),
-      mailjetApiKey: process.env.MAILJET_KEY,
-      mailjetApiSecret: process.env.MAILJET_SECRET,
-      mailjetAccountCreationTemplateId: process.env.MAILJET_ACCOUNT_CREATION_TEMPLATE_ID,
-      mailjetOrganizationInvitationTemplateId: process.env.MAILJET_ORGANIZATION_INVITATION_TEMPLATE_ID,
-      mailjetPasswordResetTemplateId: process.env.MAILJET_PASSWORD_RESET_TEMPLATE_ID,
+      provider: process.env.MAILING_PROVIDER || 'mailjet', /* sendinblue */
+      mailjet: {
+        apiKey: process.env.MAILJET_API_KEY,
+        apiSecret: process.env.MAILJET_API_SECRET,
+        templates: {
+          accountCreationTemplateId: process.env.MAILJET_ACCOUNT_CREATION_TEMPLATE_ID,
+          organizationInvitationTemplateId: process.env.MAILJET_ORGANIZATION_INVITATION_TEMPLATE_ID,
+          passwordResetTemplateId: process.env.MAILJET_PASSWORD_RESET_TEMPLATE_ID
+        },
+      },
+      sendinblue: {
+        apiKey: process.env.SENDINBLUE_API_KEY,
+        templates: {
+          accountCreationTemplateId: process.env.SENDINBLUE_ACCOUNT_CREATION_TEMPLATE_ID,
+          organizationInvitationTemplateId: process.env.SENDINBLUE_ORGANIZATION_INVITATION_TEMPLATE_ID,
+          passwordResetTemplateId: process.env.SENDINBLUE_PASSWORD_RESET_TEMPLATE_ID
+        },
+      },
     },
 
     captcha: {
@@ -119,11 +132,17 @@ module.exports = (function() {
     config.airtable.base = 'test-base';
 
     config.mailing.enabled = false;
-    config.mailing.mailjetApiKey = 'test-api-ket';
-    config.mailing.mailjetApiSecret = 'test-api-secret';
-    config.mailing.mailjetAccountCreationTemplateId = 'test-account-creation-template-id';
-    config.mailing.mailjetOrganizationInvitationTemplateId = 'test-organization-invitation-demand-template-id';
-    config.mailing.mailjetPasswordResetTemplateId = 'test-password-reset-template-id';
+    config.mailing.provider = 'mailjet';
+    config.mailing.mailjet.apiKey = 'test-api-key';
+    config.mailing.mailjet.apiSecret = 'test-api-secret';
+    config.mailing.mailjet.templates.accountCreationTemplateId = 'test-account-creation-template-id';
+    config.mailing.mailjet.templates.organizationInvitationTemplateId = 'test-organization-invitation-demand-template-id';
+    config.mailing.mailjet.templates.passwordResetTemplateId = 'test-password-reset-template-id';
+
+    config.mailing.sendinblue.apiKey = 'test-api-key';
+    config.mailing.sendinblue.templates.accountCreationTemplateId = 'test-account-creation-template-id';
+    config.mailing.sendinblue.templates.organizationInvitationTemplateId = 'test-organization-invitation-demand-template-id';
+    config.mailing.sendinblue.templates.passwordResetTemplateId = 'test-password-reset-template-id';
 
     config.captcha.enabled = false;
     config.captcha.googleRecaptchaSecret = 'test-recaptcha-key';
