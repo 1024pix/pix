@@ -19,7 +19,7 @@
       <div class="panel-actions__button">
         <a data-test-id="attendance_sheet_download_button"
            class="button button--link button--with-icon"
-           href="{{this.currentSession.urlToDownload}}" target="_blank" download>
+           href="{{this.currentSession.urlToDownload}}" target="_blank" rel="noopener noreferrer" download>
             Télécharger (.ods){{fa-icon 'file-download'}}
         </a>
       </div>
@@ -44,7 +44,7 @@
           <span data-test-id="attendance_sheet_upload_button"
                 class="button button--with-icon"
                 role="button"
-                tabindex=0>
+                tabindex="0">
             Importer (.ods){{fa-icon 'cloud-upload-alt'}}
           </span>
           </FileUpload>
@@ -75,7 +75,7 @@
       <div class="certification-candidates-add-button__text">
           Ajouter un candidat
       </div>
-      <button class="button button--square button--lightgrey">
+      <button type="button" class="button button--square button--lightgrey">
         {{fa-icon "plus" class="fa-fw certification-candidates-add-button__icon"}}
       </button>
     </div>
@@ -133,6 +133,8 @@
                     @candidateData={{candidateInStaging}}
                     @onClickSave={{this.addCertificationCandidate}}
                     @onClickCancel={{this.removeCertificationCandidateFromStaging}}
+                    @updateCandidateBirthdate={{this.updateCertificationCandidateInStagingBirthdate}}
+                    @updateCandidateData={{this.updateCertificationCandidateInStagingField}}
             />
           {{/each}}
           {{#each this.currentSession.certificationCandidates as |candidate|}}
