@@ -1,5 +1,5 @@
 const { expect, sinon, knex, nock } = require('../../../test-helper');
-const mailJet = require('../../../../lib/infrastructure/mailjet');
+const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller', () => {
@@ -34,7 +34,7 @@ describe('Acceptance | Controller | users-controller', () => {
       };
 
       beforeEach(() => {
-        sinon.stub(mailJet, 'sendEmail');
+        sinon.stub(mailer, 'sendEmail');
 
         nock('https://www.google.com')
           .post('/recaptcha/api/siteverify')
@@ -103,7 +103,7 @@ describe('Acceptance | Controller | users-controller', () => {
 
         // then
         return promise
-          .then(() => expect(mailJet.sendEmail).to.have.been.calledWith(expectedMail));
+          .then(() => expect(mailer.sendEmail).to.have.been.calledWith(expectedMail));
       });
     });
   });
