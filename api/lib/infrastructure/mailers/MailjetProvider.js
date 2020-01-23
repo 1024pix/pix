@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const nodeMailjet = require('node-mailjet');
-const MailingClient = require('./MailingProvider');
+const MailingProvider = require('./MailingProvider');
 const { mailing } = require('../../config');
 
 function _formatPayload(options) {
@@ -23,7 +23,7 @@ function _formatPayload(options) {
   };
 }
 
-class MailjetProvider extends MailingClient {
+class MailjetProvider extends MailingProvider {
 
   constructor() {
     super();
