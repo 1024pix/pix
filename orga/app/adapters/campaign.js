@@ -11,5 +11,13 @@ export default ApplicationAdapter.extend({
     }
     return this._super(...arguments);
   },
+  archive(model) {
+    const url = this.buildURL('campaign', model.id) + '/archive';
+    return this.ajax(url, 'PUT');
+  },
+  unarchive(model) {
+    const url = this.buildURL('campaign', model.id) + '/archive';
+    return this.ajax(url, 'DELETE');
+  },
 
 });

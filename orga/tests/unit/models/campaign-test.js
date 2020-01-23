@@ -31,4 +31,23 @@ module('Unit | Model | campaign', function(hooks) {
     }));
     assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csvResults?accessToken=token');
   });
+
+  test('it should compute the isArchived property from the archivation date at creation', function(assert) {
+    const store = this.owner.lookup('service:store');
+    const model = run(() => store.createRecord('campaign', {
+      id: 1,
+      archivedAt: new Date('2010-10-10'),
+    }));
+    assert.equal(model.isArchived, true);
+  });
+
+  test('it should compute the isArchived property from the archivation date when set to null', function(assert) {
+    const store = this.owner.lookup('service:store');
+    const model = run(() => store.createRecord('campaign', {
+      id: 1,
+      archivedAt: new Date('2010-10-10'),
+    }));
+    model.set('archivedAt', null);
+    assert.equal(model.isArchived, false);
+  });
 });

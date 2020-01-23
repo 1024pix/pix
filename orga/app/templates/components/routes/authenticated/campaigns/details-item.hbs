@@ -30,6 +30,16 @@
   </div>
 </div>
 
+{{#if campaign.isArchived}}
+  <div class="campaign-archived-banner">
+    <div class="campaign-archived-banner__icon">
+      {{fa-icon 'archive'}}
+    </div>
+    <div class="campaign-archived-banner__text">Campagne archivée</div>
+    <button class="button button--link campaign-archived-banner__unarchive-button" {{action "unarchiveCampaign" campaign.id}}>Désarchiver la campagne</button>
+  </div>
+{{/if}}
+
 <div class="panel campaign-details__controls">
   <nav class="navbar campaign-details-controls__navbar-tabs">
     {{#link-to 'authenticated.campaigns.details.parameters' class="navbar-item"}}

@@ -8,6 +8,7 @@ export default DS.Model.extend({
   title: DS.attr('string'),
   createdAt: DS.attr('date'),
   creator: DS.belongsTo('user'),
+  archivedAt: DS.attr('date'),
   idPixLabel: DS.attr('string'),
   customLandingPageText: DS.attr('string'),
   // TODO remove organizationId and work only with the relationship
@@ -26,4 +27,18 @@ export default DS.Model.extend({
   urlToResult: computed('id', 'tokenForCampaignResults', function() {
     return `${ENV.APP.API_HOST}/api/campaigns/${this.id}/csvResults?accessToken=${this.tokenForCampaignResults}`;
   }),
+
+  isArchived: computed('archivedAt', function() {
+    return Boolean(this.archivedAt);
+  }),
+
+  async archive() {
+    await this.store.adapterFor('campaign').archive(this);
+    return this.reload();
+  },
+
+  async unarchive() {
+    await this.store.adapterFor('campaign').unarchive(this);
+    return this.reload();
+  }
 });
