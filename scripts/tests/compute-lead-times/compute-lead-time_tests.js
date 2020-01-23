@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 
-const { computeLeadTimes } = require('../compute-lead-times');
+const { computeLeadTimes } = require('../../compute-lead-times/compute-lead-times');
 
 describe('Unit | Script | Lead time computation', () => {
 
