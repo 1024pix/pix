@@ -21,10 +21,13 @@ async function extractCertificationCandidatesFromAttendanceSheet({ sessionId, od
   certificationCandidatesData = _filterOutEmptyCandidateData(certificationCandidatesData);
 
   const certificationCandidates = _.map(certificationCandidatesData, (certificationCandidateData) => {
-    return new CertificationCandidate({ ...certificationCandidateData, sessionId });
+    return new CertificationCandidate(certificationCandidateData);
   });
 
-  _.each(certificationCandidates, (c) => c.validate(version));
+  _.each(certificationCandidates, (c) => {
+    c.validate(version);
+    c.sessionId = sessionId;
+  });
 
   return certificationCandidates;
 }

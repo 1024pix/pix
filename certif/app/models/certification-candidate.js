@@ -3,8 +3,8 @@ import { computed } from '@ember/object';
 import { none } from '@ember/object/computed';
 
 export default Model.extend({
-  firstName: attr(),
-  lastName: attr(),
+  firstName: attr('string'),
+  lastName: attr('string'),
   birthdate: attr('date-only'),
   birthCity: attr('string'),
   birthProvinceCode: attr('string'),

@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
@@ -85,6 +85,100 @@ module('Acceptance | Session Details', function(hooks) {
 
         // then
         assert.dom('table tbody tr').exists({ count: 2 });
+      });
+
+      module('add candidate', function() {
+
+        hooks.beforeEach(async function() {
+          await visit(`/sessions/${session.id}/candidats`);
+        });
+
+        module('when candidate data not valid', function() {
+
+          test('it should leave the line up for modification', async function(assert) {
+            this.server.post('/sessions/:id/certification-candidates', () => ({
+              errors: [ 'Invalid data' ]
+            }), 400);
+            // when
+            await click('[data-test-id="add-certification-candidate-staging__button"]');
+            await fillIn('[data-test-id="panel-candidate__lastName__add-staging"] > div > input', 'MonNom');
+            await fillIn('[data-test-id="panel-candidate__firstName__add-staging"] > div > input', 'MonPrenom');
+            await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
+            await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
+            await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
+            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
+            await click('[data-test-id="panel-candidate__action__save"]');
+
+            // then
+            assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').exists();
+          });
+
+          test('it should display notification error', async function(assert) {
+            this.server.post('/sessions/:id/certification-candidates', () => ({
+              errors: [ 'Invalid data' ]
+            }), 400);
+            // when
+            await click('[data-test-id="add-certification-candidate-staging__button"]');
+            await fillIn('[data-test-id="panel-candidate__lastName__add-staging"] > div > input', 'MonNom');
+            await fillIn('[data-test-id="panel-candidate__firstName__add-staging"] > div > input', 'MonPrenom');
+            await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
+            await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
+            await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
+            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
+            await click('[data-test-id="panel-candidate__action__save"]');
+
+            // then
+            assert.dom('[data-test-notification-message="error"]').exists();
+          });
+        });
+
+        module('when candidate data is valid', function() {
+
+          test('it remove the editable line', async function(assert) {
+            // when
+            await click('[data-test-id="add-certification-candidate-staging__button"]');
+            await fillIn('[data-test-id="panel-candidate__lastName__add-staging"] > div > input', 'MonNom');
+            await fillIn('[data-test-id="panel-candidate__firstName__add-staging"] > div > input', 'MonPrenom');
+            await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
+            await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
+            await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
+            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
+            await click('[data-test-id="panel-candidate__action__save"]');
+
+            // then
+            assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').doesNotExist();
+          });
+
+          test('it should display notification success', async function(assert) {
+            // when
+            await click('[data-test-id="add-certification-candidate-staging__button"]');
+            await fillIn('[data-test-id="panel-candidate__lastName__add-staging"] > div > input', 'MonNom');
+            await fillIn('[data-test-id="panel-candidate__firstName__add-staging"] > div > input', 'MonPrenom');
+            await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
+            await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
+            await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
+            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
+            await click('[data-test-id="panel-candidate__action__save"]');
+
+            // then
+            assert.dom('[data-test-notification-message="success"]').exists();
+          });
+
+          test('it should add a new candidate entry', async function(assert) {
+            // when
+            await click('[data-test-id="add-certification-candidate-staging__button"]');
+            await fillIn('[data-test-id="panel-candidate__lastName__add-staging"] > div > input', 'MonNom');
+            await fillIn('[data-test-id="panel-candidate__firstName__add-staging"] > div > input', 'MonPrenom');
+            await fillIn('[data-test-id="panel-candidate__birthCity__add-staging"] > div > input', 'MaVille');
+            await fillIn('[data-test-id="panel-candidate__birthProvinceCode__add-staging"] > div > input', 'MonDép');
+            await fillIn('[data-test-id="panel-candidate__birthCountry__add-staging"] > div > input', 'MonPays');
+            await fillIn('[data-test-id="panel-candidate__birthdate__add-staging"] > div > input', '01021990');
+            await click('[data-test-id="panel-candidate__action__save"]');
+
+            // then
+            assert.dom('table tbody tr').exists({ count: 5 });
+          });
+        });
       });
 
     });

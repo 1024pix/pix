@@ -96,5 +96,6 @@ async function _linkUserToCandidate({
   }
 
   certificationCandidate.userId = userId;
-  return certificationCandidateRepository.save(certificationCandidate);
+  await certificationCandidateRepository.linkToUser({ id: certificationCandidate.id, userId: certificationCandidate.userId });
+  return certificationCandidate;
 }

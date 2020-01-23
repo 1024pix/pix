@@ -10,12 +10,6 @@
     align-items: center;
   }
 
-  &__table {
-    > tbody > tr:hover {
-      cursor: initial ;
-    }
-  }
-
   &__textarea {
     font-family: $roboto;
     font-size: 0.8125rem;
