@@ -55,6 +55,10 @@ export default function() {
     return schema.sessions.find(sessionId).certificationCandidates;
   });
 
+  this.post('/sessions/:id/certification-candidates', function(schema) {
+    return schema.certificationCandidates.create();
+  });
+
   this.post('/sessions/:id/certification-candidates/import', upload(function(schema, request) {
     const { name } = request.requestBody.file;
     if (name === 'invalid-file') {
@@ -89,7 +93,7 @@ export default function() {
 
   this.get('/users/:id/certification-center-memberships', (schema, request) => {
     const userId = request.params.id;
-    
+
     return schema.certificationCenterMemberships.where({ userId });
   });
 

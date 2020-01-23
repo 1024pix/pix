@@ -15,6 +15,10 @@ export default Controller.extend({
     });
   }),
 
+  _trimOrUndefinedIfFalsy(str) {
+    return str ? str.trim() : undefined;
+  },
+
   actions: {
     async importCertificationCandidates(file) {
       const { access_token } = this.get('session.data.authenticated');
@@ -47,6 +51,42 @@ export default Controller.extend({
           });
         }
       }
+    },
+
+    async saveCertificationCandidate(certificationCandidateData) {
+      this.notifications.clearAll();
+      const autoClear = config.notifications.autoClear;
+      const clearDuration = config.notifications.clearDuration;
+      const sessionId = this.model.id;
+      const certificationCandidate = this.store.createRecord('certification-candidate', {
+        firstName: this._trimOrUndefinedIfFalsy(certificationCandidateData.firstName),
+        lastName: this._trimOrUndefinedIfFalsy(certificationCandidateData.lastName),
+        birthdate: certificationCandidateData.birthdate,
+        birthCity: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthCity),
+        birthProvinceCode: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthProvinceCode),
+        birthCountry: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthCountry),
+        externalId: this._trimOrUndefinedIfFalsy(certificationCandidateData.externalId),
+        email: this._trimOrUndefinedIfFalsy(certificationCandidateData.email),
+        extraTimePercentage: certificationCandidateData.extraTimePercentage,
+      });
+
+      try {
+        await certificationCandidate
+          .save({ adapterOptions: { registerToSession: true, sessionId } });
+        this.model.certificationCandidates.pushObject(certificationCandidate);
+        this.notifications.success('Le candidat a été ajouté avec succès.', {
+          autoClear,
+          clearDuration,
+        });
+      } catch (err) {
+        this.notifications.error('Une erreur s\'est produite lors de l\'ajout du candidat.', {
+          autoClear,
+          clearDuration,
+        });
+        return false;
+      }
+
+      return true;
     },
   }
 });

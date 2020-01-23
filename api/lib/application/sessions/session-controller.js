@@ -58,6 +58,14 @@ module.exports = {
       .then((certificationCandidates) => certificationCandidateSerializer.serialize(certificationCandidates));
   },
 
+  async addCertificationCandidate(request, h) {
+    const sessionId = parseInt(request.params.id);
+    const certificationCandidate = await certificationCandidateSerializer.deserialize(request.payload);
+    const addedCertificationCandidate = await usecases.addCertificationCandidateToSession({ sessionId, certificationCandidate });
+
+    return h.response(certificationCandidateSerializer.serialize(addedCertificationCandidate)).created();
+  },
+
   async getCertifications(request) {
     const sessionId = request.params.id;
 

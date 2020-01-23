@@ -255,6 +255,34 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
+  describe('#addCertificationCandidate ', () => {
+    let request;
+    const sessionId = 1;
+    const certificationCandidate = 'candidate';
+    const addedCertificationCandidate = 'addedCandidate';
+    const certificationCandidateJsonApi = 'addedCandidateJSONApi';
+
+    beforeEach(() => {
+      // given
+      request = {
+        params: { id : sessionId },
+      };
+      sinon.stub(certificationCandidateSerializer, 'deserialize').resolves(certificationCandidate);
+      sinon.stub(usecases, 'addCertificationCandidateToSession').withArgs({ sessionId, certificationCandidate }).resolves(addedCertificationCandidate);
+      sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(addedCertificationCandidate).returns(certificationCandidateJsonApi);
+    });
+
+    it('should return the added certification candidate', async () => {
+      // when
+      const response = await sessionController.addCertificationCandidate(request, hFake);
+
+      // then
+      expect(response.source).to.equal(certificationCandidateJsonApi);
+      expect(response.statusCode).to.equal(201);
+    });
+
+  });
+
   describe('#getCertifications ', () => {
     let request;
     const sessionId = 1;
