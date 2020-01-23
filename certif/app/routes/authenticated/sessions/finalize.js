@@ -8,7 +8,7 @@ export default class AuthenticatedSessionsFinalizeRoute extends Route {
 
   async model({ session_id }) {
     const session = await this.store.findRecord('session', session_id, { reload: true });
-    await session.certificationCandidates;
+    await session.certificationReports;
     return session;
   }
 
