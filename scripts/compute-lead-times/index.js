@@ -1,5 +1,6 @@
 const { computeLeadTimes } = require('./compute-lead-times');
 const { getRefNames, getTagDate, getCommitDatesBetweenTags } = require('./get-git-dates');
+const { csvFormat: jsonToCsv } = require('d3-dsv');
 
 async function main() {
   const refNames = await getRefNames();
@@ -15,7 +16,9 @@ async function main() {
     return leadTimes;
   });
   const leadTimes = await Promise.all(leadTimesPromises);
-  console.log(leadTimes.flat(1));
+  const leadTimesJS = leadTimes.flat(1);
+  const csv = jsonToCsv(leadTimesJS);
+  console.log(csv);
 }
 
 main();

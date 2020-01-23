@@ -57,6 +57,10 @@ workflows:
           requires:
             - checkout
 
+      - scripts_test:
+          requires:
+            - checkout
+
 jobs:
   checkout:
     docker:
@@ -269,3 +273,24 @@ jobs:
             wget --retry-connrefused -T 60 -qO- http://localhost:4201
             wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
             npm run cy:run
+
+  scripts_test:
+    docker:
+      - image: circleci/node:12.14.0
+    working_directory: ~/pix
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-api-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-api-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+      - run:
+          command: |
+            npm run lint
+            npm test
