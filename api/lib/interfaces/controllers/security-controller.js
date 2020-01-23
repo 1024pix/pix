@@ -1,4 +1,3 @@
-const logger = require('../../infrastructure/logger');
 const tokenService = require('../../domain/services/token-service');
 const checkUserIsAuthenticatedUseCase = require('../../application/usecases/checkUserIsAuthenticated');
 const checkUserHasRolePixMasterUseCase = require('../../application/usecases/checkUserHasRolePixMaster');
@@ -51,10 +50,7 @@ function checkUserIsAuthenticated(request, h) {
       }
       return _replyWithAuthenticationError(h);
     })
-    .catch((err) => {
-      logger.error(err);
-      return _replyWithAuthenticationError(h);
-    });
+    .catch(() => _replyWithAuthenticationError(h));
 }
 
 function checkUserHasRolePixMaster(request, h) {
@@ -71,10 +67,7 @@ function checkUserHasRolePixMaster(request, h) {
       }
       return _replyWithAuthorizationError(h);
     })
-    .catch((err) => {
-      logger.error(err);
-      return _replyWithAuthorizationError(h);
-    });
+    .catch(() => _replyWithAuthorizationError(h));
 }
 
 function checkRequestedUserIsAuthenticatedUser(request, h) {
@@ -105,10 +98,7 @@ function checkUserIsAdminInOrganization(request, h) {
       }
       return _replyWithAuthorizationError(h);
     })
-    .catch((err) => {
-      logger.error(err);
-      return _replyWithAuthorizationError(h);
-    });
+    .catch(() => _replyWithAuthorizationError(h));
 }
 
 async function checkUserIsAdminInOrganizationOrHasRolePixMaster(request, h) {
@@ -144,7 +134,6 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
   try {
     belongsToScoOrganizationAndManageStudents = await checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute(userId, organizationId);
   } catch (err) {
-    logger.error(err);
     return _replyWithAuthorizationError(h);
   }
 
