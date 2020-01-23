@@ -17,8 +17,10 @@
   line-height: 2rem;
 
   p {
-    margin-bottom: 0;
     padding-bottom: 0.5rem;
+    margin: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
   }
 }
 
