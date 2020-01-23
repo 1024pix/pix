@@ -123,7 +123,7 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#update ', () => {
+  describe('#update', () => {
     let request, updatedSession, updateSessionArgs;
 
     beforeEach(() => {
@@ -162,7 +162,7 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#getAttendanceSheet ', () => {
+  describe('#getAttendanceSheet', () => {
     const tokenService = { extractUserId: _.noop };
     let request, expectedHeaders;
     const sessionId = 1;
@@ -230,7 +230,7 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#getCertificationCandidates ', () => {
+  describe('#getCertificationCandidates', () => {
     let request;
     const sessionId = 1;
     const certificationCandidates = 'candidates';
@@ -283,7 +283,7 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#getCertifications ', () => {
+  describe('#getCertifications', () => {
     let request;
     const sessionId = 1;
     const certifications = 'certifications';
@@ -313,7 +313,7 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#createCandidateParticipation ', () => {
+  describe('#createCandidateParticipation', () => {
     let request;
     const sessionId = 1;
     const userId = 2;
@@ -391,7 +391,7 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#finalize ', () => {
+  describe('#finalize', () => {
     let request;
     const sessionId = 1;
     const updatedSession = Symbol('updatedSession');
