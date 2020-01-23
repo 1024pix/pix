@@ -30,12 +30,6 @@
   border-top: 1px solid $dusty-grey;
 }
 
-@mixin hexagon-score-information-text{
-  font-family: $font-open-sans;
-  font-size: 1.6rem;
-  line-height: 2.2rem;
-}
-
 .hexagon-score-content {
   &__title {
     @include hexagon-score-title;
@@ -63,7 +57,6 @@
 }
 
 .hexagon-score__information {
-  @include hexagon-score-information-text;
   position: absolute;
   background-color: $white;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
@@ -81,10 +74,6 @@
     margin : 135px 0 0 -520px;
   }
 
-  &-strong {
-    font-weight: $font-bold;
-  }
-
   &::before {
     content: '';
     position: absolute;
@@ -98,23 +87,32 @@
 
     @include device-is('desktop') {
       right: 0px;
-      border-bottom: 20px solid white;
-      border-left: 20px solid transparent;
       border-right: none;
     }
   }
-  &--show {
+  &--visible {
     display: block;
   }
-  &--hide {
+  &--hidden {
     display: none;
   }
 
 }
 
+.hexagon-score-information__text {
+  font-family: $font-open-sans;
+  font-size: 1.6rem;
+  line-height: 2.2rem;
+
+  &--strong {
+    font-weight: $font-bold;
+  }
+}
 .hexagon-score-information__close {
   float: right;
   font-size: 2rem;
+  padding: 10px;
+  margin-top: -10px;
   @include device-is('desktop') {
     display: none;
   }

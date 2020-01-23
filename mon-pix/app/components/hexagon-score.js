@@ -3,7 +3,7 @@ import { computed } from '@ember/object';
 import Component from '@ember/component';
 
 export default Component.extend({
-  displayHelp: 'hexagon-score__information--hide',
+  displayHelp: 'hexagon-score__information--hidden',
 
   score: computed('pixScore', function() {
     return (isNone(this.pixScore) || this.pixScore === 0) ? '–' : Math.floor(this.pixScore);
@@ -11,10 +11,10 @@ export default Component.extend({
 
   actions: {
     hideHelp: function() {
-      this.set('displayHelp', 'hexagon-score__information--hide');
+      this.set('displayHelp', 'hexagon-score__information--hidden');
     },
     showHelp: function() {
-      this.set('displayHelp', 'hexagon-score__information--show');
+      this.set('displayHelp', 'hexagon-score__information--visible');
     }
   }
 });
