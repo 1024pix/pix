@@ -1,5 +1,5 @@
 const SibApiV3Sdk = require('sib-api-v3-sdk');
-const MailingClient = require('./MailingProvider');
+const MailingProvider = require('./MailingProvider');
 const { mailing } = require('../../config');
 
 function _formatPayload(options) {
@@ -24,7 +24,7 @@ function _formatPayload(options) {
   return payload;
 }
 
-class SendinblueProvider extends MailingClient {
+class SendinblueProvider extends MailingProvider {
 
   constructor() {
     super();

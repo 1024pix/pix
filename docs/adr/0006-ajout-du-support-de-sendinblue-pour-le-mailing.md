@@ -18,26 +18,28 @@ Sans compter que MailJet a été racheté par MailGun, entreprise américaine. *
 
 Pour passer le filtrage des académies, nous décidons de nous munir d'une IP fixe, que nous communiquons à nos partenaires.
 
-Nous décidons de louer cette adresse IP chez un nouvel hébergeur, SendInBlue, éditeur français dont les données sont hébergées en France, et qui n'est pas a priori soumis au CLOUD Act.
+Nous décidons de louer cette adresse IP chez un nouvel hébergeur, Sendinblue, éditeur français dont les données sont hébergées en France, et qui n'est pas a priori soumis au CLOUD Act.
 
 Nous décidons d'implémenter un connecteur SendInBlue, sur le même modèle que le connecteur Mailjet : les infos du message dans le code, le template sur le site du provider.
 
-Nous décidons de conserver le connecteur MailJet, au cas où nous serions déçu de SendInBlue, ou dans l'optique un jour d'implémenter un mécanisme de fallack.
+Nous décidons de conserver le connecteur MailJet, au cas où nous serions déçu de SendInBlue, ou dans l'optique un jour d'implémenter un mécanisme de fallback.
 
 ![Mailing system design](../assets/mailing-system-design.png)
 
 
 ## Conséquences
 
-Ajout des variables d'environnement suivantes :
-- `MAILING_PROVIDER` : <string> ["mailjet" | "sendinblue"]
-- `SENDINBLUE_API_KEY` : <string>
-- `SENDINBLUE_ACCOUNT_CREATION_TEMPLATE_ID` : <string>
-- `SENDINBLUE_ORGANIZATION_INVITATION_TEMPLATE_ID` : <string>
-- `SENDINBLUE_PASSWORD_RESET_TEMPLATE_ID` : <string>
+Ajout et modification des variables d'environnement suivantes :
+- `MAILING_PROVIDER` : _string_ ["mailjet" | "sendinblue"]
+- `MAILJET_API_KEY` : _string_
+- `MAILJET_API_SECRET` : _string_
+- `SENDINBLUE_API_KEY` : _string_ 
+- `SENDINBLUE_ACCOUNT_CREATION_TEMPLATE_ID` : _string_
+- `SENDINBLUE_ORGANIZATION_INVITATION_TEMPLATE_ID` : _string_
+- `SENDINBLUE_PASSWORD_RESET_TEMPLATE_ID` : _string_
 
 
 ## Liens
 
 - [Lien vers le schéma](https://docs.google.com/drawings/d/1JAsGp_B2lmQYJij8Iz7WvcIygalCgaGgRfjzREHGK8M/edit?usp=sharing)
-- [MailJet est soumid au CLOUD Act](https://www.mailjet.com/blog/news/security-privacy-email/#cloud)
+- [MailJet est soumis au CLOUD Act](https://www.mailjet.com/blog/news/security-privacy-email/#cloud)
