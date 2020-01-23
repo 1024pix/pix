@@ -1,10 +1,10 @@
-# 5. Calcul des pix
+# 7. Calcul des pix
 
 Date : 2020-01-22
 
 ## État
 
-Draft
+Accepted
 
 ## Contexte
 
