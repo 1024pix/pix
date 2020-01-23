@@ -56,7 +56,7 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
     });
 
     it('should contain a closing button', async function() {
-      expect(find('.pix-modal__close-link > a')).to.exist;
+      expect(find('.pix-modal__close-link > span')).to.exist;
     });
   });
 
