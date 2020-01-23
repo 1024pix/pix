@@ -1,7 +1,7 @@
 const _ = require('lodash');
+const nodeMailjet = require('node-mailjet');
 const MailingClient = require('./MailingProvider');
 const { mailing } = require('../../config');
-const nodeMailjet = require('node-mailjet');
 
 function _formatPayload(options) {
 
@@ -27,14 +27,12 @@ class MailjetProvider extends MailingClient {
 
   constructor() {
     super();
-
-    const provider = mailing[mailing.provider];
-    this._apiInstance = nodeMailjet.connect(provider.apiKey, provider.apiSecret);
+    this._client = nodeMailjet.connect(mailing.mailjet.apiKey, mailing.mailjet.apiSecret);
   }
 
-  _doSendEmail(options) {
+  sendEmail(options) {
     const payload = _formatPayload(options);
-    return this._apiInstance.post('send').request(payload);
+    return this._client.post('send').request(payload);
   }
 }
 
