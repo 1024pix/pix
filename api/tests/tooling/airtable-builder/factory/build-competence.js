@@ -63,6 +63,7 @@ module.exports = function buildCompetence({
     '1',
   ],
   createdTime = '2017-06-13T13:53:17.000Z',
+  origin = 'Pix',
 } = {}) {
 
   return {
@@ -82,6 +83,7 @@ module.exports = function buildCompetence({
       'Record ID': recordID,
       'Domaine Titre': domaineTitre,
       'Domaine Code': domaineCode,
+      'Origine': origin,
     },
     'createdTime': createdTime,
   };

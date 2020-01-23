@@ -25,7 +25,7 @@ module.exports = datasource.extend({
       areaId: airtableRecord.get('Domaine') ? airtableRecord.get('Domaine')[0] : '',
       courseId: airtableRecord.get('Tests') ? airtableRecord.get('Tests')[0] : '',
       skillIds: airtableRecord.get('Acquis (via Tubes)') || [],
-      origin: airtableRecord.get('Origine') || 'Pix',
+      origin: airtableRecord.get('Origine'),
     };
   },
 
