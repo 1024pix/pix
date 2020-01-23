@@ -1,10 +1,10 @@
-const { sinon } = require('../../../test-helper');
-const Mailjet = require('../../../../lib/infrastructure/mailers/mailjet');
 const nodeMailjet = require('node-mailjet');
+const { sinon } = require('../../../test-helper');
+const MailjetProvider = require('../../../../lib/infrastructure/mailers/MailjetProvider');
 const mailCheck = require('../../../../lib/infrastructure/mail-check');
 const { mailing } = require('../../../../lib/config');
 
-describe('Unit | Class | Mailjet', function() {
+describe('Unit | Class | MailjetProvider', function() {
 
   beforeEach(() => {
     sinon.stub(nodeMailjet, 'connect');
@@ -33,10 +33,10 @@ describe('Unit | Class | Mailjet', function() {
           const requestStub = sinon.stub().returns(Promise.resolve());
           const postStub = sinon.stub().returns({ request: requestStub });
           nodeMailjet.connect.returns({ post: postStub });
-          const mailer = new Mailjet();
+          const mailingProvider = new MailjetProvider();
 
           // when
-          await mailer.sendEmail({
+          await mailingProvider.sendEmail({
             from,
             to: recipient,
             fromName: 'Ne Pas Repondre',
@@ -60,10 +60,10 @@ describe('Unit | Class | Mailjet', function() {
           const requestStub = sinon.stub().returns(Promise.resolve());
           const postStub = sinon.stub().returns({ request: requestStub });
           nodeMailjet.connect.returns({ post: postStub });
-          const mailer = new Mailjet();
+          const mailingProvider = new MailjetProvider();
 
           // when
-          await mailer.sendEmail({ template: '129291', to: recipient });
+          await mailingProvider.sendEmail({ template: '129291', to: recipient });
 
           // then
           sinon.assert.calledWith(requestStub, {
@@ -82,10 +82,10 @@ describe('Unit | Class | Mailjet', function() {
           const postStub = sinon.stub().returns({ request: requestStub });
           const variables = { resetUrl: 'token' };
           nodeMailjet.connect.returns({ post: postStub });
-          const mailer = new Mailjet();
+          const mailingProvider = new MailjetProvider();
 
           // when
-          await mailer.sendEmail({ template: '129291', to: recipient, variables });
+          await mailingProvider.sendEmail({ template: '129291', to: recipient, variables });
 
           // then
           sinon.assert.calledWith(requestStub, {

@@ -1,19 +1,19 @@
 const { expect, sinon } = require('../../../test-helper');
 const { mailing } = require('../../../../lib/config');
-const Mailer = require('../../../../lib/infrastructure/mailers/Mailer');
+const MailingProvider = require('../../../../lib/infrastructure/mailers/MailingProvider');
 const mailCheck = require('../../../../lib/infrastructure/mail-check');
 const logger = require('../../../../lib/infrastructure/logger');
 
-describe('Unit | Infrastructure | Mailers | Mailer', () => {
+describe('Unit | Infrastructure | Mailers | MailingProvider', () => {
 
   describe('#_doSendEmail', () => {
 
     it('should reject an error (because this class actually mocks an interface)', () => {
       // given
-      const mailer = new Mailer();
+      const mailingProvider = new MailingProvider();
 
       // when
-      const result = mailer._doSendEmail({});
+      const result = mailingProvider._doSendEmail({});
 
       // then
       return expect(result).to.be.rejected;
@@ -21,7 +21,8 @@ describe('Unit | Infrastructure | Mailers | Mailer', () => {
   });
 
   describe('#sendEmail', () => {
-    class MailerTest extends Mailer {
+
+    class MailerTest extends MailingProvider {
     }
 
     const recipient = 'test@example.net';
@@ -39,8 +40,8 @@ describe('Unit | Infrastructure | Mailers | Mailer', () => {
         it('should called email provider method _doSendEmail', async () => {
           // given
           const from = 'no-reply@example.net';
-          const mailer = new MailerTest();
-          mailer._doSendEmail = sinon.stub().resolves();
+          const mailingProvider = new MailerTest();
+          mailingProvider._doSendEmail = sinon.stub().resolves();
 
           const options = {
             from,
@@ -51,10 +52,10 @@ describe('Unit | Infrastructure | Mailers | Mailer', () => {
           };
 
           // when
-          await mailer.sendEmail(options);
+          await mailingProvider.sendEmail(options);
 
           // then
-          sinon.assert.calledWith(mailer._doSendEmail, options);
+          sinon.assert.calledWith(mailingProvider._doSendEmail, options);
         });
       });
 
@@ -69,10 +70,10 @@ describe('Unit | Infrastructure | Mailers | Mailer', () => {
 
         it('should log a warning, not send email and resolve', async () => {
           // given
-          const mailer = new Mailer();
+          const mailingProvider = new MailingProvider();
 
           // when
-          await mailer.sendEmail({ to: recipient });
+          await mailingProvider.sendEmail({ to: recipient });
 
           // then
           expect(logger.warn).to.have.been.calledWith({ err: error }, 'Email is not valid \'test@example.net\'');
@@ -91,11 +92,11 @@ describe('Unit | Infrastructure | Mailers | Mailer', () => {
 
         it('should log a warning', async () => {
           // given
-          const mailer = new MailerTest();
-          mailer._doSendEmail = sinon.stub().rejects(error);
+          const mailingProvider = new MailerTest();
+          mailingProvider._doSendEmail = sinon.stub().rejects(error);
 
           // when
-          await mailer.sendEmail({ to: recipient });
+          await mailingProvider.sendEmail({ to: recipient });
 
           // then
           expect(logger.warn).to.have.been.calledWith({ err: error }, 'Could not send email to \'test@example.net\'');
