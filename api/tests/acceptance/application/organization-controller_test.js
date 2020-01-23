@@ -450,71 +450,119 @@ describe('Acceptance | Application | organization-controller', () => {
 
   describe('GET /api/organizations/{id}/campaigns', () => {
 
+    let campaignsData;
+    let organizationId, otherOrganizationId;
+    let userId;
+    let options;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser({}).id;
+      organizationId = databaseBuilder.factory.buildOrganization({}).id;
+      otherOrganizationId = databaseBuilder.factory.buildOrganization({}).id;
+      campaignsData = _.map([
+        { name: 'Quand Peigne numba one', code: 'ATDGRK343', organizationId, },
+        { name: 'Quand Peigne numba two', code: 'KFCTSU984', organizationId, },
+        { name: 'Quand Peigne otha orga', code: 'CPFTQX735', organizationId: otherOrganizationId, },
+      ], (camp) => {
+        const builtCampaign = databaseBuilder.factory.buildCampaign(camp);
+        return { name: camp.name, code: camp.code, id: builtCampaign.id };
+      });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaignsData[2].id, isShared: true });
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'GET',
+        url: `/api/organizations/${organizationId}/campaigns`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(userId)
+        },
+      };
+    });
+
+    context('Something is wrong', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+    });
+
     context('Retrieve campaigns with campaignReports', () => {
 
-      let campaignsData;
-      let organizationId, otherOrganizationId;
-      let userId;
-
-      beforeEach(async () => {
-        userId = databaseBuilder.factory.buildUser({}).id;
-        organizationId = databaseBuilder.factory.buildOrganization({}).id;
-        otherOrganizationId = databaseBuilder.factory.buildOrganization({}).id;
-        campaignsData = _.map([
-          { name: 'Quand Peigne numba one', code: 'ATDGRK343', organizationId, },
-          { name: 'Quand Peigne numba two', code: 'KFCTSU984', organizationId, },
-          { name: 'Quand Peigne otha orga', code: 'CPFTQX735', organizationId: otherOrganizationId, },
-        ], (camp) => {
-          const builtCampaign = databaseBuilder.factory.buildCampaign(camp);
-          return { name: camp.name, code: camp.code, id: builtCampaign.id };
-        });
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaignsData[2].id, isShared: true });
-        await databaseBuilder.commit();
-      });
-
-      it('should return the organization campaigns', () => {
-        // given
-        const options = {
-          method: 'GET',
-          url: '/api/organizations/' + organizationId + '/campaigns',
-          headers: {
-            authorization: generateValidRequestAuthorizationHeader(userId)
-          },
-        };
-
+      it('should return 200 status code the organization campaigns', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          const campaigns = response.result.data;
-          expect(campaigns).to.have.lengthOf(2);
-          expect(_.map(campaigns, 'attributes.name')).to.have.members([campaignsData[0].name, campaignsData[1].name]);
-          expect(_.map(campaigns, 'attributes.code')).to.have.members([campaignsData[0].code, campaignsData[1].code]);
-        });
+        expect(response.statusCode).to.equal(200);
+        const campaigns = response.result.data;
+        expect(campaigns).to.have.lengthOf(2);
+        expect(_.map(campaigns, 'attributes.name')).to.have.members([campaignsData[0].name, campaignsData[1].name]);
+        expect(_.map(campaigns, 'attributes.code')).to.have.members([campaignsData[0].code, campaignsData[1].code]);
       });
 
-      it('should return the campaignReports with the campaigns', async () => {
+      it('should return 200 status code with the campaignReports with the campaigns', async () => {
         // given
-        const options = {
-          method: 'GET',
-          url: '/api/organizations/' + otherOrganizationId + '/campaigns',
-          headers: {
-            authorization: generateValidRequestAuthorizationHeader(userId)
-          },
-        };
+        options.url = `/api/organizations/${otherOrganizationId}/campaigns`;
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          const campaigns = response.result.data;
-          expect(campaigns).to.have.lengthOf(1);
-          const campaignReport = response.result.included[0].attributes;
-          expect(campaignReport['participations-count']).to.equal(1);
-          expect(campaignReport['shared-participations-count']).to.equal(1);
-        });
+        expect(response.statusCode).to.equal(200);
+        const campaigns = response.result.data;
+        expect(campaigns).to.have.lengthOf(1);
+        const campaignReport = response.result.included[0].attributes;
+        expect(campaignReport['participations-count']).to.equal(1);
+        expect(campaignReport['shared-participations-count']).to.equal(1);
+      });
+
+      it('should return default pagination meta data', async () => {
+        // given
+        const expectedMetaData = { page: 1, pageSize: 10, rowCount: 2, pageCount: 1 };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.result.meta).to.deep.equal(expectedMetaData);
+      });
+
+      it('should return a 200 status code with paginated data', async () => {
+        // given
+        options.url = `/api/organizations/${organizationId}/campaigns?&page[number]=2&page[size]=1`;
+        const expectedMetaData = { page: 2, pageSize: 1, rowCount: 2, pageCount: 2 };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.meta).to.deep.equal(expectedMetaData);
+        expect(response.result.data).to.have.lengthOf(1);
+        expect(response.result.data[0].type).to.equal('campaigns');
+      });
+
+      it('should return a 200 status code with empty result', async () => {
+        // given
+        options.url = `/api/organizations/${organizationId}/campaigns?&page[number]=3&page[size]=1`;
+        const expectedMetaData = { page: 3, pageSize: 1, rowCount: 2, pageCount: 2 };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.meta).to.deep.equal(expectedMetaData);
+        expect(response.result.data).to.have.lengthOf(0);
       });
     });
   });

@@ -9,6 +9,7 @@ const organizationSerializer = require('../../infrastructure/serializers/jsonapi
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const studentSerializer = require('../../infrastructure/serializers/jsonapi/student-serializer');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
 const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
@@ -72,11 +73,12 @@ module.exports = {
       });
   },
 
-  getCampaigns(request) {
+  async findPaginatedCampaigns(request) {
     const organizationId = parseInt(request.params.id);
+    const options = queryParamsUtils.extractParameters(request.query);
 
-    return usecases.getOrganizationCampaigns({ organizationId })
-      .then((campaigns) => campaignSerializer.serialize(campaigns, { ignoreCampaignReportRelationshipData : false }));
+    const { models: campaigns, pagination } = await usecases.findPaginatedOrganizationCampaigns({ organizationId, page: options.page });
+    return campaignSerializer.serialize(campaigns, pagination, { ignoreCampaignReportRelationshipData : false });
   },
 
   getMemberships(request) {

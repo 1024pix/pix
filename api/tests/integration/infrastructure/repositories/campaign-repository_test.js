@@ -118,7 +118,7 @@ describe('Integration | Repository | Campaign', () => {
 
   });
 
-  describe('#findByOrganizationIdWithCampaignReports', () => {
+  describe('#findPaginatedByOrganizationIdWithCampaignReports', () => {
 
     context('when campaigns have campaignReports', async () => {
 
@@ -150,9 +150,10 @@ describe('Integration | Repository | Campaign', () => {
           databaseBuilder.factory.buildCampaignParticipation(campaignParticipation);
         });
         await databaseBuilder.commit();
+        const page = { number: 1, size: 3 };
 
         // when
-        const campaignsWithReports = await campaignRepository.findByOrganizationIdWithCampaignReports(organizationId);
+        const { models: campaignsWithReports } = await campaignRepository.findPaginatedByOrganizationIdWithCampaignReports({ organizationId, page });
         const sortedCampaignsWithReports = _.sortBy(campaignsWithReports, [(camp) => { return camp.id; }]);
 
         // then
@@ -178,14 +179,40 @@ describe('Integration | Repository | Campaign', () => {
             targetProfileId,
           }).id;
         await databaseBuilder.commit();
+        const page = { number: 1, size: 3 };
 
         // when
-        const campaignsWithReports = await campaignRepository.findByOrganizationIdWithCampaignReports(organizationId);
+        const { models: campaignsWithReports } = await campaignRepository.findPaginatedByOrganizationIdWithCampaignReports({ organizationId, page });
 
         // then
         expect(campaignsWithReports[0].campaignReport.id).to.equal(campaignId);
         expect(campaignsWithReports[0].campaignReport.participationsCount).to.equal(0);
         expect(campaignsWithReports[0].campaignReport.sharedParticipationsCount).to.equal(0);
+      });
+    });
+
+    context('when campaigns amount exceed page size', () => {
+      // given
+      let organizationId;
+      let page, expectedPagination;
+
+      beforeEach(() => {
+        organizationId = databaseBuilder.factory.buildOrganization({}).id;
+        _.times(12, () => databaseBuilder.factory.buildCampaign({ organizationId }));
+        page = { number: 1, size: 3 };
+        expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
+
+        return databaseBuilder.commit();
+
+      });
+
+      it('should return page size number of campaigns', async () => {
+        // when
+        const { models: campaignsWithReports, pagination } = await campaignRepository.findPaginatedByOrganizationIdWithCampaignReports({ organizationId, page });
+
+        // then
+        expect(campaignsWithReports).to.have.lengthOf(3);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
     });
 
@@ -204,9 +231,10 @@ describe('Integration | Repository | Campaign', () => {
       };
       databaseBuilder.factory.buildCampaign(campaign);
       await databaseBuilder.commit();
+      const page = { number: 1, size: 3 };
 
       // when
-      const campaignsWithReports = await campaignRepository.findByOrganizationIdWithCampaignReports(organizationId);
+      const { models: campaignsWithReports } = await campaignRepository.findPaginatedByOrganizationIdWithCampaignReports({ organizationId, page });
 
       // then
       expect(campaignsWithReports[0]).to.be.instanceof(Campaign);

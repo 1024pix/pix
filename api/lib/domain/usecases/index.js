@@ -117,7 +117,7 @@ module.exports = injectDependencies({
   getNextChallengeForPreview: require('./get-next-challenge-for-preview'),
   getNextChallengeForSmartPlacement: require('./get-next-challenge-for-smart-placement'),
   getOrCreateSamlUser: require('./get-or-create-saml-user'),
-  getOrganizationCampaigns: require('./get-organization-campaigns'),
+  findPaginatedOrganizationCampaigns: require('./find-paginated-organization-campaigns'),
   getOrganizationDetails: require('./get-organization-details'),
   getOrganizationInvitation: require('./get-organization-invitation'),
   getOrganizationMemberships: require('./get-organization-memberships'),

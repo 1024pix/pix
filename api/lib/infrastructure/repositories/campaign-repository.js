@@ -117,7 +117,7 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findByOrganizationIdWithCampaignReports(organizationId) {
+  findPaginatedByOrganizationIdWithCampaignReports({ organizationId, page }) {
     return BookshelfCampaign
       .query((qb) => {
         qb.select('campaigns.*', 'participations.participationsCount', 'isShared.sharedParticipationsCount')
@@ -125,8 +125,14 @@ module.exports = {
           .modify(_countCampaignParticipations)
           .modify(_countSharedCampaignParticipations);
       })
-      .fetchAll()
-      .then((campaignsWithCampaignReports) => campaignsWithCampaignReports.map(_fromBookshelfCampaignWithReportDataToDomain));
+      .fetchPage({
+        page: page.number,
+        pageSize: page.size
+      })
+      .then(({ models, pagination }) => {
+        const campaignsWithReports = models.map(_fromBookshelfCampaignWithReportDataToDomain);
+        return { models: campaignsWithReports, pagination };
+      });
   },
 
   checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {
