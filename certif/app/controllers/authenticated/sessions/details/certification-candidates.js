@@ -40,6 +40,13 @@ export default class AuthenticatedSessionsDetailsCertificationCandidatesControll
       _.toNumber(value) / 100 : value;
   }
 
+  _hasDuplicate({ currentLastName, currentFirstName, currentBirthdate }) {
+    return this.currentSession.certificationCandidates.find(({ lastName, firstName, birthdate }) =>
+      lastName.toLowerCase() === currentLastName.toLowerCase() &&
+      firstName.toLowerCase() === currentFirstName.toLowerCase() &&
+      birthdate === currentBirthdate) !== undefined;
+  }
+
   @action
   async importCertificationCandidates(file) {
     const { access_token } = this.session.data.authenticated;
@@ -93,18 +100,31 @@ export default class AuthenticatedSessionsDetailsCertificationCandidatesControll
     });
 
     try {
+      const hasDuplicate = this._hasDuplicate({
+        currentFirstName: certificationCandidate.firstName,
+        currentLastName: certificationCandidate.lastName,
+        currentBirthdate: certificationCandidate.birthdate,
+      });
+      if (hasDuplicate) {
+        throw 'Duplicate';
+      }
       await certificationCandidate
         .save({ adapterOptions: { registerToSession: true, sessionId } });
-      this.model.certificationCandidates.pushObject(certificationCandidate);
+      this.model.certificationCandidates.insertAt(0, certificationCandidate);
       this.notifications.success('Le candidat a été ajouté avec succès.', {
         autoClear,
         clearDuration,
       });
     } catch (err) {
-      this.notifications.error('Une erreur s\'est produite lors de l\'ajout du candidat.', {
+      let errorText = 'Une erreur s\'est produite lors de la suppression du candidat';
+      if (_.get(err, 'errors[0].status') === '409' || err === 'Duplicate') {
+        errorText = 'Ce candidat est déjà dans la liste, vous ne pouvez pas l\'ajouter à nouveau.';
+      }
+      this.notifications.error(errorText, {
         autoClear,
         clearDuration,
       });
+      certificationCandidate.deleteRecord();
       return false;
     }
 

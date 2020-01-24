@@ -16,10 +16,10 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
     const certificationCandidateData = { firstName: 'Georges', lastName: 'Brassens',
       birthdate: '2010-04-04', birthCity: 'Ici', birthProvinceCode: 'Code',
       birthCountry: 'Country', externalId: 'Abcde', email: 'a@a.com', extraTimePercentage: 'Extra' };
-    const savableCandidate = { save: sinon.stub().resolves() };
+    const savableCandidate = { save: sinon.stub().resolves(), deleteRecord: sinon.stub().returns() };
     const store = { createRecord: sinon.stub().returns(savableCandidate) };
     const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
-    controller.set('model', { id: 'sessionId' });
+    controller.set('model', { id: 'sessionId', certificationCandidates: { find: sinon.stub().returns(undefined) } });
     controller.set('store', store);
 
     // when
