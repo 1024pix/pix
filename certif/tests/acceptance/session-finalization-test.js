@@ -18,6 +18,9 @@ module('Acceptance | Session Finalization', function(hooks) {
     user = createUserWithMembership();
     const certificationCenterId = user.certificationCenterMemberships.models[0].certificationCenterId;
     session = server.create('session', { certificationCenterId });
+
+    const certificationReports = server.createList('certification-report', 2, { hasSeenEndTestScreen: false });
+    session.update({ certificationReports });
   });
 
   hooks.afterEach(function() {
@@ -78,9 +81,31 @@ module('Acceptance | Session Finalization', function(hooks) {
         assert.dom('.session-finalization-examiner-global-comment-step__characters-information').hasText(expectedIndicator);
       });
 
+      test('it checks the hasSeenEndTestScreen checkbox', async function(assert) {
+        const certificationReports = finalizeController.model.certificationReports.toArray();
+        const certificationReport = certificationReports[0];
+        const id = certificationReport.certificationCourseId;
+        assert.equal(certificationReport.hasSeenEndTestScreen, false);
+        const checkboxSelector = `[data-test-id="finalization-report-has-seen-end-test-screen_${id}"]`;
+
+        await click(checkboxSelector);
+
+        assert.equal(certificationReport.hasSeenEndTestScreen, true);
+      });
+
+      test('it checks all the checkboxes that can be checked using the check all options', async function(assert) {
+        const certificationReports = finalizeController.model.certificationReports.toArray();
+        const certificationReportA = certificationReports[0];
+        const certificationReportB = certificationReports[1];
+        await click('.session-finalization-reports-informations-step__checker');
+
+        assert.equal(certificationReportA.hasSeenEndTestScreen, true);
+        assert.equal(certificationReportB.hasSeenEndTestScreen, true);
+      });
+
       test('it should open the confirm modal', async function(assert) {
         // when
-        await click('[data-test-id="session-finalizer__button"]');
+        await click('[data-test-id="finalize__button"]');
 
         // then
         assert.equal(finalizeController.showConfirmModal, true);
@@ -89,7 +114,7 @@ module('Acceptance | Session Finalization', function(hooks) {
 
       module('when confirm modal is open', function(hooks) {
         hooks.beforeEach(function() {
-          return click('[data-test-id="session-finalizer__button"]');
+          return click('[data-test-id="finalize__button"]');
         });
 
         test('it should close the modal on "fermer" cross click', async function(assert) {
@@ -133,6 +158,7 @@ module('Acceptance | Session Finalization', function(hooks) {
           // then
           assert.dom('[data-test-notification-message="success"]').exists();
         });
+
       });
     });
   });

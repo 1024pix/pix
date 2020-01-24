@@ -1,9 +1,11 @@
-import Model, { attr } from '@ember-data/model';
+import DS from 'ember-data';
 
-export default Model.extend({
-  firstName: attr('string'),
-  lastName: attr('string'),
-  certificationCourseId: attr('number'),
-  examinerComment: attr('string'),
-  hasSeenEndTestScreen: attr('boolean'),
-});
+const { Model, attr } = DS;
+
+export default class CertificationReport extends Model {
+  @attr('number') certificationCourseId;
+  @attr('string') firstName;
+  @attr('string') lastName;
+  @attr('string') examinerComment;
+  @attr('boolean') hasSeenEndTestScreen;
+}

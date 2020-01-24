@@ -7,7 +7,7 @@ import { upload } from 'ember-file-upload/test-support';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session Details', function(hooks) {
+module('Acceptance | Session Candidates', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);

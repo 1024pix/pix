@@ -22,6 +22,7 @@ module.exports = {
         'accessCode',
         'certifications',
         'certificationCandidates',
+        'certificationReports',
         'examinerGlobalComment',
       ],
       certifications : {
@@ -42,9 +43,19 @@ module.exports = {
           }
         }
       },
+      certificationReports: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/sessions/${parent.id}/certification-reports`;
+          }
+        }
+      },
       transform(session) {
         const transformedSession = Object.assign({}, session);
         transformedSession.certifications = [];
+        transformedSession.certificationReports = [];
         return transformedSession;
       }
     }).serialize(sessions);

@@ -1,33 +1,25 @@
-import Component from '@ember/component';
-import { computed } from '@ember/object';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-  textareaMaxLength: 500,
+export default class SessionFinalizationReportsInformationsStep extends Component {
 
-  certifReportsAreNotEmpty: computed('certificationReports', function() {
-    return this.certificationReports.length !== 0;
-  }),
+  constructor() {
+    super(...arguments);
 
-  hasCheckedEverything: computed('certificationReports.@each.hasSeenEndTestScreen', function() {
-    const allCertifReportsAreCheck = this.certificationReports.every((report) => report.hasSeenEndTestScreen);
+    this.textareaMaxLength = 500;
+  }
+
+  get certifReportsAreNotEmpty() {
+    return this.args.certificationReports.length !== 0;
+  }
+
+  get hasCheckedEverything() {
+    const allCertifReportsAreCheck = this.args.certificationReports.every((report) => report.hasSeenEndTestScreen);
     return this.certifReportsAreNotEmpty && allCertifReportsAreCheck;
-  }),
+  }
 
-  hasCheckedSomething: computed('certificationReports.@each.hasSeenEndTestScreen', function() {
-    const hasOneOrMoreCheck = this.certificationReports.any((report) => report.hasSeenEndTestScreen);
+  get hasCheckedSomething() {
+    const hasOneOrMoreCheck = this.args.certificationReports.any((report) => report.hasSeenEndTestScreen);
     return this.certifReportsAreNotEmpty && hasOneOrMoreCheck;
-  }),
+  }
 
-  actions: {
-    toggleAllHasSeenEndTestScreen() {
-      const toggled = !this.get('hasCheckedEverything');
-
-      this.certificationReports.forEach((certificationReport) => {
-        if (!certificationReport.isMissing) {
-          certificationReport.set('hasSeenEndTestScreen', toggled);
-        }
-      });
-    }
-  },
-
-});
+}
