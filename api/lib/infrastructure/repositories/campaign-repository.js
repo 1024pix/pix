@@ -70,6 +70,12 @@ function _countCampaignParticipations(qb) {
   );
 }
 
+function _setSearchFiltersForQueryBuilder(qb, { name }) {
+  if (name) {
+    qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
+  }
+}
+
 module.exports = {
 
   isCodeAvailable(code) {
@@ -117,11 +123,12 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findPaginatedByOrganizationIdWithCampaignReports({ organizationId, page }) {
+  findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page }) {
     return BookshelfCampaign
       .query((qb) => {
         qb.select('campaigns.*', 'participations.participationsCount', 'isShared.sharedParticipationsCount')
           .where('campaigns.organizationId', organizationId)
+          .modify(_setSearchFiltersForQueryBuilder, filter)
           .modify(_countCampaignParticipations)
           .modify(_countSharedCampaignParticipations);
       })

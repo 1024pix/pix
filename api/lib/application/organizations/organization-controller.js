@@ -73,11 +73,11 @@ module.exports = {
       });
   },
 
-  async findPaginatedCampaigns(request) {
+  async findPaginatedFilteredCampaigns(request) {
     const organizationId = parseInt(request.params.id);
     const options = queryParamsUtils.extractParameters(request.query);
 
-    const { models: campaigns, pagination } = await usecases.findPaginatedOrganizationCampaigns({ organizationId, page: options.page });
+    const { models: campaigns, pagination } = await usecases.findPaginatedFilteredOrganizationCampaigns({ organizationId, filter: options.filter, page: options.page });
     return campaignSerializer.serialize(campaigns, pagination, { ignoreCampaignReportRelationshipData : false });
   },
 
