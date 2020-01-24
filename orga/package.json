@@ -60,6 +60,7 @@
     "ember-export-application-global": "^2.0.0",
     "ember-file-upload": "^2.7.1",
     "ember-freestyle": "^0.11.9",
+    "ember-keyboard": "^5.0.0",
     "ember-load-initializers": "^2.1.0",
     "ember-modal-dialog": "^3.0.0-beta.4",
     "ember-moment": "^8.0.0",
