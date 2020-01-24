@@ -118,7 +118,7 @@ describe('Integration | Repository | Campaign', () => {
 
   });
 
-  describe('#findPaginatedByOrganizationIdWithCampaignReports', () => {
+  describe('#findPaginatedFilteredByOrganizationIdWithCampaignReports', () => {
 
     context('when campaigns have campaignReports', async () => {
 
@@ -150,10 +150,11 @@ describe('Integration | Repository | Campaign', () => {
           databaseBuilder.factory.buildCampaignParticipation(campaignParticipation);
         });
         await databaseBuilder.commit();
+        const filter = {};
         const page = { number: 1, size: 3 };
 
         // when
-        const { models: campaignsWithReports } = await campaignRepository.findPaginatedByOrganizationIdWithCampaignReports({ organizationId, page });
+        const { models: campaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
         const sortedCampaignsWithReports = _.sortBy(campaignsWithReports, [(camp) => { return camp.id; }]);
 
         // then
@@ -179,10 +180,11 @@ describe('Integration | Repository | Campaign', () => {
             targetProfileId,
           }).id;
         await databaseBuilder.commit();
+        const filter = {};
         const page = { number: 1, size: 3 };
 
         // when
-        const { models: campaignsWithReports } = await campaignRepository.findPaginatedByOrganizationIdWithCampaignReports({ organizationId, page });
+        const { models: campaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
 
         // then
         expect(campaignsWithReports[0].campaignReport.id).to.equal(campaignId);
@@ -191,10 +193,70 @@ describe('Integration | Repository | Campaign', () => {
       });
     });
 
+    context('when some campaigns names match the "name" search pattern', () => {
+      // given
+      let organizationId;
+      const page = { number: 1, size: 10 };
+      const filter = { name: 'matH' };
+
+      beforeEach(() => {
+        organizationId = databaseBuilder.factory.buildOrganization({}).id;
+        _.each([
+          { name: 'Maths L1' },
+          { name: 'Maths L2' },
+          { name: 'Chimie' },
+          { name: 'Physique' },
+          { name: 'Droit' },
+        ], (campaign) => {
+          databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+        });
+
+        return databaseBuilder.commit();
+      });
+
+      it('should return these campaigns only', async () => {
+        // when
+        const { models: actualCampaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+
+        // then
+        expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Maths L2']);
+      });
+    });
+
+    context('when the given filter search property is not searchable', () => {
+      // given
+      let organizationId;
+      const page = { number: 1, size: 10 };
+      const filter = { code: 'FAKECODE' };
+
+      beforeEach(() => {
+        organizationId = databaseBuilder.factory.buildOrganization({}).id;
+        _.each([
+          { name: 'Maths' },
+          { name: 'Chimie' },
+          { name: 'Physique' },
+          { name: 'Droit' },
+        ], (campaign) => {
+          databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+        });
+
+        return databaseBuilder.commit();
+      });
+
+      it('should ignore the filter and return all campaigns', async () => {
+        // when
+        const { models: actualCampaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+
+        // then
+        expect(actualCampaignsWithReports).to.have.lengthOf(4);
+      });
+    });
+
     context('when campaigns amount exceed page size', () => {
       // given
       let organizationId;
       let page, expectedPagination;
+      const filter = {};
 
       beforeEach(() => {
         organizationId = databaseBuilder.factory.buildOrganization({}).id;
@@ -208,7 +270,7 @@ describe('Integration | Repository | Campaign', () => {
 
       it('should return page size number of campaigns', async () => {
         // when
-        const { models: campaignsWithReports, pagination } = await campaignRepository.findPaginatedByOrganizationIdWithCampaignReports({ organizationId, page });
+        const { models: campaignsWithReports, pagination } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
 
         // then
         expect(campaignsWithReports).to.have.lengthOf(3);
@@ -231,10 +293,11 @@ describe('Integration | Repository | Campaign', () => {
       };
       databaseBuilder.factory.buildCampaign(campaign);
       await databaseBuilder.commit();
+      const filter = {};
       const page = { number: 1, size: 3 };
 
       // when
-      const { models: campaignsWithReports } = await campaignRepository.findPaginatedByOrganizationIdWithCampaignReports({ organizationId, page });
+      const { models: campaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
 
       // then
       expect(campaignsWithReports[0]).to.be.instanceof(Campaign);

@@ -16,7 +16,7 @@ describe('Integration | Application | Organizations | Routes', () => {
 
     sinon.stub(organisationController, 'create').returns('ok');
     sinon.stub(organisationController, 'find').returns('ok');
-    sinon.stub(organisationController, 'findPaginatedCampaigns').returns('ok');
+    sinon.stub(organisationController, 'findPaginatedFilteredCampaigns').returns('ok');
     sinon.stub(organisationController, 'importStudentsFromSIECLE').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(organisationController, 'sendInvitations').callsFake((request, h) => h.response().created());
     sinon.stub(organisationController, 'findPendingInvitations').returns('ok');
@@ -66,7 +66,7 @@ describe('Integration | Application | Organizations | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(organisationController.findPaginatedCampaigns).to.have.been.calledOnce;
+      expect(organisationController.findPaginatedFilteredCampaigns).to.have.been.calledOnce;
     });
   });
 
