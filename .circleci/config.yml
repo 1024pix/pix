@@ -292,5 +292,5 @@ jobs:
             - ~/.npm
       - run:
           command: |
-            npm run lint
-            npm test
+            npm run lint:scripts
+            npm run test:scripts
