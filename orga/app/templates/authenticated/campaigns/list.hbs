@@ -1,6 +1,6 @@
 <div class="list-campaigns-page">
   {{#if hasCampaign}}
-    {{routes/authenticated/campaigns/list-items campaigns=sortedCampaigns goToCampaignPage=(action 'goToCampaignPage')}}
+    {{routes/authenticated/campaigns/list-items campaigns=model goToCampaignPage=(action 'goToCampaignPage')}}
   {{else}}
     {{routes/authenticated/campaigns/no-campaign-panel}}
   {{/if}}

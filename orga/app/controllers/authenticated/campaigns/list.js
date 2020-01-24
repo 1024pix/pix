@@ -4,6 +4,9 @@ import Controller from '@ember/controller';
 const SORTING_ORDER = ['name:asc', 'createdAt:desc'];
 
 export default Controller.extend({
+  queryParams: ['pageNumber', 'pageSize', 'name'],
+  pageNumber: 1,
+  pageSize: 10,
   sortingOrder: SORTING_ORDER,
   sortedCampaigns: sort('model', 'sortingOrder'),
   hasCampaign: notEmpty('model'),
