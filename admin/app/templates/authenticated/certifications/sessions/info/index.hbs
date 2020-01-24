@@ -43,10 +43,10 @@
         <div class='col'>Nombre de certifications non terminées :</div>
         <div class='col' data-test-id='certifications-session-info__count-non-validated-certifications'>{{session.countNonValidatedCertifications}}</div>
     </div>
-    {{#if (and session.isFinalized session.hasExaminerComment)}}
+    {{#if (and session.isFinalized session.hasExaminerGlobalComment)}}
     <div class='row'>
         <div class='col'>Commentaire global :</div>
-        <div class='col' data-test-id='certifications-session-info__examiner-comment'>{{session.examinerComment}}</div>
+        <div class='col' data-test-id='certifications-session-info__examiner-global-comment'>{{session.examinerGlobalComment}}</div>
     </div>
     {{/if}}
   </div>

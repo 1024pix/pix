@@ -25,7 +25,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
         description: 'ahah',
         status: 'created',
         accessCode: 'ABCD12',
-        examinerComment: 'It was a fine session my dear',
+        examinerGlobalComment: 'It was a fine session my dear',
       });
       userId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
       request = {
@@ -78,7 +78,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
         accessCode: 'ABC123',
         description: '',
         status: 'started',
-        examinerComment: 'It was a fine session my dear',
+        examinerGlobalComment: 'It was a fine session my dear',
         createdAt: new Date('2017-12-08T08:00:00Z'),
       });
 
@@ -94,7 +94,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
         accessCode: 'DEF456',
         description: '',
         status: 'started',
-        examinerComment: 'It was a fine session my dear',
+        examinerGlobalComment: 'It was a fine session my dear',
         createdAt: new Date('2017-12-07T09:00:00Z'),
       });
 
@@ -136,7 +136,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'room': 'Salle 1',
             'time': '14:30:00',
             'status': 'started',
-            'examiner-comment': 'It was a fine session my dear',
+            'examiner-global-comment': 'It was a fine session my dear',
           },
           'relationships': {
             'certifications': {
@@ -163,7 +163,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'room': 'Salle 2',
             'time': '14:30:00',
             'status': 'started',
-            'examiner-comment': 'It was a fine session my dear',
+            'examiner-global-comment': 'It was a fine session my dear',
           },
           'relationships': {
             'certifications': {

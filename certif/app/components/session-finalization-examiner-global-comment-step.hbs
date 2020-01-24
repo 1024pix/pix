@@ -1,0 +1,17 @@
+<div class="session-finalization-examiner-global-comment-step">
+  <div class="session-finalization-examiner-global-comment-step__header-container">
+    <label for="examiner-global-comment" class="session-finalization-examiner-global-comment-step__label">
+        Vous pouvez indiquer un commentaire global sur cette session, par exemple si vous avez rencontré un problème technique qui a impacté le déroulement de la session.
+    </label>
+    <div class="session-finalization-examiner-global-comment-step__characters-information">
+      {{@session.examinerGlobalComment.length}} / {{@examinerGlobalCommentMaxLength}}
+    </div>
+  </div>
+  <textarea
+    id="examiner-global-comment"
+    class="session-finalization-examiner-global-comment-step__textarea"
+    value={{@session.examinerGlobalComment}}
+    {{on 'input' @updateExaminerGlobalComment}}
+    maxlength={{@examinerGlobalCommentMaxLength}}
+  />
+</div>

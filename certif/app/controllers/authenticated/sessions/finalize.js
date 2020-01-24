@@ -17,6 +17,7 @@ export default class AuthenticatedSessionsFinalizeController extends Controller 
 
     this.isLoading = false;
     this.showConfirmModal = false;
+    this.examinerGlobalCommentMaxLength = 500;
     this.examinerCommentMaxLength = 500;
   }
 
@@ -48,10 +49,10 @@ export default class AuthenticatedSessionsFinalizeController extends Controller 
   }
 
   @action
-  updateExaminerComment(event) {
+  updateExaminerGlobalComment(event) {
     const inputText = event.target.value;
-    if (inputText.length <= this.examinerCommentMaxLength) {
-      this.session.examinerComment = inputText;
+    if (inputText.length <= this.examinerGlobalCommentMaxLength) {
+      this.session.examinerGlobalComment = inputText;
     }
   }
 
