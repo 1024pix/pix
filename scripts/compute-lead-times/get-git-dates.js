@@ -11,7 +11,7 @@ async function getTagDate(tag) {
 }
 
 async function getRefNames(maxCount = 6) {
-  const refs = await exec(`git for-each-ref --format="%(refname)" --sort=-taggerdate --count=${maxCount} refs/tags`)
+  const refs = await exec(`git for-each-ref --format="%(refname)" --sort=-taggerdate --count=${maxCount} refs/tags`);
   return refs.replace(/refs\/tags\//gi, '').split('\n');
 }
 

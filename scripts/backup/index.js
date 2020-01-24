@@ -1,10 +1,10 @@
 const Airtable = require('airtable');
 const fs = require('fs');
-let base = new Airtable({apiKey: 'PixKey'}).base('appHAIFk9u1qqglhX');
+const base = new Airtable({ apiKey: 'PixKey' }).base('appHAIFk9u1qqglhX');
 
 createBackupFolder()
-  .then(folderName => createBackupFiles(folderName))
-  .then(filePaths => populateData(filePaths))
+  .then((folderName) => createBackupFiles(folderName))
+  .then((filePaths) => populateData(filePaths))
   .catch((err) => {
     console.log(err);
     process.exit(1);
@@ -33,10 +33,10 @@ function createBackupFiles(folderName) {
   return new Promise((resolve) => {
     const tables = ['Epreuves', 'Tests', 'Images Propositions', 'Acquis'];
     const tableData = [];
-    tables.forEach(tableName => {
+    tables.forEach((tableName) => {
       const filePath = getFilePath(folderName, tableName);
       createFileFromPath(filePath);
-      tableData.push({tableName, filePath});
+      tableData.push({ tableName, filePath });
     });
     resolve(tableData);
   });
@@ -45,8 +45,8 @@ function createBackupFiles(folderName) {
 function populateData(tableData) {
   return new Promise((resolve, reject) => {
     tableData.forEach((dataRow) => {
-      let {tableName, filePath} = dataRow;
-      let bufferData = [];
+      const { tableName, filePath } = dataRow;
+      const bufferData = [];
 
       base(tableName)
         .select()

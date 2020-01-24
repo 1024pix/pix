@@ -33,7 +33,7 @@ function orderPr(listPR) {
 }
 
 function filterPullRequest(pullrequests, dateOfLastMEP) {
-  return pullrequests.filter(PR => PR.merged_at > dateOfLastMEP);
+  return pullrequests.filter((PR) => PR.merged_at > dateOfLastMEP);
 }
 
 function getHeadOfChangelog(tagVersion) {
@@ -48,10 +48,10 @@ function main() {
   axios(getTheLastCommitOnMaster())
     .then(({ data: lastCommit }) => {
       dateOfLastMEP = getTheCommitDate(lastCommit);
-      return axios(buildRequestObject())
+      return axios(buildRequestObject());
     })
     .then(({ data: pullRequests }) => {
-      let newChangeLogLines = [];
+      const newChangeLogLines = [];
 
       newChangeLogLines.push(getHeadOfChangelog(tagVersion));
       const pullRequestsSinceLastMEP = filterPullRequest(pullRequests, dateOfLastMEP);
@@ -68,7 +68,7 @@ function main() {
 
       fs.writeFileSync(CHANGELOG_FILE, currentChangeLog.join('\n'));
     })
-    .catch(e=>{
+    .catch((e)=>{
       console.log(e);
       process.exit(1);
     });
