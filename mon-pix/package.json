@@ -40,7 +40,6 @@
     "@fortawesome/free-regular-svg-icons": "^5.11.2",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "babel-eslint": "^10.0.3",
-    "bootstrap": "^3.4.1",
     "broccoli-asset-rev": "^3.0.0",
     "chai-dom": "^1.8.1",
     "ember-auto-import": "^1.5.3",
