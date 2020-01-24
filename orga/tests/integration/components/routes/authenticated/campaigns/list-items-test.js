@@ -17,7 +17,9 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
       { name: 'campagne 1', code: 'AAAAAA111' },
       { name: 'campagne 2', code: 'BBBBBB222' },
     ];
-
+    campaigns.meta = {
+      rowCount: 2
+    };
     this.set('campaigns', campaigns);
 
     // when
@@ -42,7 +44,9 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
       code: 'BBBBBB222'
     }));
     const campaigns = [campaign1, campaign2];
-
+    campaigns.meta = {
+      rowCount: 2
+    };
     this.set('campaigns', campaigns);
 
     // when
@@ -69,7 +73,9 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     }));
 
     const campaigns = [campaign1];
-
+    campaigns.meta = {
+      rowCount: 1
+    };
     this.set('campaigns', campaigns);
 
     // when
@@ -96,7 +102,9 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     }));
 
     const campaigns = [campaign1];
-
+    campaigns.meta = {
+      rowCount: 1
+    };
     this.set('campaigns', campaigns);
 
     // when
