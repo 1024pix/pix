@@ -4,27 +4,18 @@ import { computed } from '@ember/object';
 export default Component.extend({
   textareaMaxLength: 500,
 
+  certifReportsAreNotEmpty: computed('certificationReports', function() {
+    return this.certificationReports.length !== 0;
+  }),
+
   hasCheckedEverything: computed('certificationReports.@each.hasSeenEndTestScreen', function() {
-    if (this.certificationReports.length === 0) {
-      return false;
-    }
-
-    const presentCertificationReports = this.certificationReports
-      .filter((certificationReport) => !certificationReport.isMissing);
-
-    if (presentCertificationReports.length === 0) {
-      return false;
-    }
-
-    return presentCertificationReports.every((certificationReport) => certificationReport.hasSeenEndTestScreen);
+    const allCertifReportsAreCheck = this.certificationReports.every((report) => report.hasSeenEndTestScreen);
+    return this.certifReportsAreNotEmpty && allCertifReportsAreCheck;
   }),
 
   hasCheckedSomething: computed('certificationReports.@each.hasSeenEndTestScreen', function() {
-    if (this.certificationReports.length === 0) {
-      return false;
-    }
-
-    return this.certificationReports.any((certificationReport) => certificationReport.hasSeenEndTestScreen);
+    const hasOneOrMoreCheck = this.certificationReports.any((report) => report.hasSeenEndTestScreen);
+    return this.certifReportsAreNotEmpty && hasOneOrMoreCheck;
   }),
 
   actions: {

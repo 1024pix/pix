@@ -16,16 +16,16 @@ module('Integration | Component | session-finalization-reports-informations-step
       firstName: 'Alice',
       lastName: 'Alister',
       certificationCourseId: 1234,
-      examinerComment: null,
-      hasSeenEndTestScreen: false,
+      examinerComment: 'commentaire surveillant',
+      hasSeenEndTestScreen: null,
     }));
     reportB = run(() => store.createRecord('certification-report', {
       id: 2,
       firstName: 'Bob',
       lastName: 'Bober',
-      certificationCourseId: undefined,
+      certificationCourseId: 3,
       examinerComment: null,
-      hasSeenEndTestScreen: false,
+      hasSeenEndTestScreen: true,
     }));
     this.set('certificationReports', [reportA, reportB]);
 
@@ -39,10 +39,10 @@ module('Integration | Component | session-finalization-reports-informations-step
   test('it renders', function(assert) {
     assert.dom(`[data-test-id="finalization-report-last-name_${reportA.id}"]`).hasText(reportA.lastName);
     assert.dom(`[data-test-id="finalization-report-first-name_${reportA.id}"]`).hasText(reportA.firstName);
-    assert.dom(`[data-test-id="finalization-report-certification-number_${reportA.id}"]`).hasText(reportA.certificationCourseIdReadable);
+    assert.dom(`[data-test-id="finalization-report-certification-number_${reportA.id}"]`).hasText(reportA.id);
     assert.dom(`[data-test-id="finalization-report-last-name_${reportB.id}"]`).hasText(reportB.lastName);
     assert.dom(`[data-test-id="finalization-report-first-name_${reportB.id}"]`).hasText(reportB.firstName);
-    assert.dom(`[data-test-id="finalization-report-certification-number_${reportB.id}"]`).hasText(reportB.certificationCourseIdReadable);
+    assert.dom(`[data-test-id="finalization-report-certification-number_${reportB.id}"]`).hasText(reportB.id);
   });
 
   test('it fills in the examinerComment', async function(assert) {
@@ -66,9 +66,9 @@ module('Integration | Component | session-finalization-reports-informations-step
     assert.equal(find(`[data-test-id="finalization-report-has-seen-end-test-screen_${reportA.id}"]`).classList.toString(),
       ['checkbox', 'checkbox--checked'].join(' '));
     assert.equal(find(`[data-test-id="finalization-report-has-seen-end-test-screen_${reportB.id}"]`).classList.toString(),
-      ['checkbox', 'checkbox--unchecked', 'checkbox--disabled'].join(' '));
+      ['checkbox', 'checkbox--checked'].join(' '));
     assert.equal(reportA.hasSeenEndTestScreen, true);
-    assert.equal(reportB.hasSeenEndTestScreen, false);
+    assert.equal(reportB.hasSeenEndTestScreen, true);
   });
 
 });

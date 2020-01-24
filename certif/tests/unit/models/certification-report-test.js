@@ -24,38 +24,4 @@ module('Unit | Model | finalized session', function(hooks) {
     assert.equal(model.examinerComment, 'Il a eu un soucis à la question 4');
     assert.equal(model.hasSeenEndTestScreen, false);
   });
-
-  module('certificationCourseIdReadable computed', function() {
-
-    test('it should return a message if there is no certificationCourseId', function(assert) {
-      const store = this.owner.lookup('service:store');
-      const model = run(() => store.createRecord('certification-report', {
-        id: 123,
-        firstName: 'Clément',
-        lastName: 'Tine',
-        certificationCourseId: undefined,
-        examinerComment: 'Il a eu un soucis à la question 4',
-        hasSeenEndTestScreen: false,
-      }));
-
-      // then
-      assert.equal(model.certificationCourseIdReadable, 'Aucun (absent)');
-    });
-
-    test('it should return the id if there is a certificationCourseId', function(assert) {
-      const store = this.owner.lookup('service:store');
-      const model = run(() => store.createRecord('certification-report', {
-        id: 123,
-        firstName: 'Clément',
-        lastName: 'Tine',
-        certificationCourseId: 987,
-        examinerComment: 'Il a eu un soucis à la question 4',
-        hasSeenEndTestScreen: false,
-      }));
-
-      // then
-      assert.equal(model.certificationCourseIdReadable, '987');
-    });
-
-  });
 });

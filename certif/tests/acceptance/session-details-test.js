@@ -239,8 +239,8 @@ module('Acceptance | Session Details', function(hooks) {
         module('when the session has started', function() {
           test('it should redirect to finalize page on click on finalize button', async function(assert) {
             // given
-            const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
-            sessionNotFinalized.update({ certificationCandidates: candidatesWithStartingCertif });
+            const certificationReportsList = server.createList('certification-report', 2);
+            await sessionNotFinalized.update({ certificationReports: certificationReportsList });
             await visit(`/sessions/${sessionNotFinalized.id}`);
 
             // when
@@ -255,8 +255,8 @@ module('Acceptance | Session Details', function(hooks) {
       module('when the session is finalized', function() {
 
         hooks.beforeEach(async function() {
-          const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
-          sessionFinalized.update({ certificationCandidates: candidatesWithStartingCertif });
+          const certificationReportList = server.createList('certification-report', 2);
+          sessionFinalized.update({ certificationReports: certificationReportList });
         });
 
         test('it should not redirect to finalize page on click on finalize button', async function(assert) {
