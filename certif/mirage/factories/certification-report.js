@@ -3,6 +3,10 @@ import faker from 'faker';
 
 export default Factory.extend({
 
+  certificationCourseId() {
+    return faker.random.number();
+  },
+
   firstName() {
     return faker.name.firstName();
   },
@@ -13,10 +17,6 @@ export default Factory.extend({
 
   externalId() {
     return faker.random.uuid();
-  },
-
-  certificationCourseId() {
-    return faker.random.number();
   },
 
   examinerComment() {

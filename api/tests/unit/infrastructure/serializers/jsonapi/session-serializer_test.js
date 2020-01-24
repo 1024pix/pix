@@ -49,6 +49,11 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
               related: '/api/sessions/12/certification-candidates',
             }
           },
+          'certification-reports': {
+            'links': {
+              'related': '/api/sessions/12/certification-reports',
+            }
+          },
         }
       }
     };

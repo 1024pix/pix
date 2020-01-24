@@ -58,7 +58,7 @@ export default function() {
   this.post('/sessions/:id/certification-candidates', function(schema) {
     return schema.certificationCandidates.create();
   });
-  
+
   this.get('/sessions/:id/certification-reports', function(schema, request) {
     const sessionId = request.params.id;
 

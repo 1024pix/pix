@@ -149,6 +149,11 @@ describe('Acceptance | Controller | session-controller-get', () => {
                 'related': '/api/sessions/1/certification-candidates',
               }
             },
+            'certification-reports': {
+              'links': {
+                'related': '/api/sessions/1/certification-reports',
+              }
+            },
           }
         }, {
           'type': 'sessions',
@@ -174,6 +179,11 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'certification-candidates': {
               'links': {
                 'related': '/api/sessions/2/certification-candidates',
+              }
+            },
+            'certification-reports': {
+              'links': {
+                'related': '/api/sessions/2/certification-reports',
               }
             },
           }

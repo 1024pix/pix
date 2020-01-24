@@ -57,26 +57,24 @@ export default class AuthenticatedSessionsFinalizeController extends Controller 
   }
 
   @action
-  updateCertificationCandidateExaminerComment(certificationCandidate, event) {
+  updateCertificationReportExaminerComment(certificationReport, event) {
     const inputText = event.target.value;
     if (inputText.length <= this.examinerCommentMaxLength) {
-      certificationCandidate.examinerComment = inputText;
+      certificationReport.examinerComment = inputText;
     }
   }
 
   @action
-  toggleCertificationCandidateHasSeenEndTestScreen(certificationCandidate) {
-    certificationCandidate.hasSeenEndTestScreen = !certificationCandidate.hasSeenEndTestScreen;
+  toggleCertificationReportHasSeenEndTestScreen(certificationReport) {
+    certificationReport.hasSeenEndTestScreen = !certificationReport.hasSeenEndTestScreen;
   }
 
   @action
-  toggleAllCertificationCandidatesHasSeenEndTestScreen(someWereChecked) {
+  toggleAllCertificationReportsHasSeenEndTestScreen(someWereChecked) {
     const newState = !someWereChecked;
 
-    this.session.certificationCandidates.forEach((certificationCandidate) => {
-      if (!certificationCandidate.isMissing) {
-        certificationCandidate.hasSeenEndTestScreen = newState;
-      }
+    this.session.certificationReports.forEach((certificationReport) => {
+      certificationReport.hasSeenEndTestScreen = newState;
     });
   }
 

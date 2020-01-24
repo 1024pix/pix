@@ -1,25 +1,26 @@
-<div class="page__title session-finalizer">
-  <div class="session-finalizer__title">
+<div class="page__title finalize">
+  <div class="finalize__title">
     <LinkTo @route="authenticated.sessions.details" @model={{this.session.id}} class="icon-button session-details-content__return-button">
       {{fa-icon 'arrow-left'}}
     </LinkTo>
     <h1 class="page-title">Finaliser la session {{this.session.id}}</h1>
   </div>
-  <div class="session-finalizer__subtitle">
-      Pour finaliser la session, complétez les trois étapes puis validez.
+  <div class="finalize__subtitle"> it should not redirect to finalize page on click on finalize button
   </div>
+
   <SessionFinalizationStepContainer
-          @number="1"
-          @title="Renseigner les informations de vos candidats"
-          @icon="/icons/session-finalization-user.svg"
-          @iconAlt="">
-      <SessionFinalizationCandidatesInformationsStep
-              @certificationCandidates={{this.session.certificationCandidates}}
-              @updateCertificationCandidateExaminerComment={{this.updateCertificationCandidateExaminerComment}}
-              @examinerCommentMaxLength={{this.examinerCommentMaxLength}}
-              @toggleCertificationCandidateHasSeenEndTestScreen={{this.toggleCertificationCandidateHasSeenEndTestScreen}}
-              @toggleAllCertificationCandidatesHasSeenEndTestScreen={{this.toggleAllCertificationCandidatesHasSeenEndTestScreen}} />
+      @number="1"
+      @title="Renseigner les informations de vos candidats"
+      @icon="/icons/session-finalization-user.svg"
+      @iconAlt="">
+    <SessionFinalizationReportsInformationsStep
+        @certificationReports={{this.session.certificationReports}}
+        @updateCertificationReportExaminerComment={{this.updateCertificationReportExaminerComment}}
+        @examinerCommentMaxLength={{this.examinerCommentMaxLength}}
+        @toggleCertificationReportHasSeenEndTestScreen={{this.toggleCertificationReportHasSeenEndTestScreen}}
+        @toggleAllCertificationReportsHasSeenEndTestScreen={{this.toggleAllCertificationReportsHasSeenEndTestScreen}} />
   </SessionFinalizationStepContainer>
+
   <SessionFinalizationStepContainer
           @number="2"
           @title="Transmettre le PV de session"
@@ -27,6 +28,7 @@
           @iconAlt="">
       <SessionFinalizationFormbuilderLinkStep/>
   </SessionFinalizationStepContainer>
+
   <SessionFinalizationStepContainer
           @number="3"
           @title="Commenter la session (facultatif)"
@@ -37,9 +39,10 @@
               @updateExaminerGlobalComment={{this.updateExaminerGlobalComment}}
               @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}} />
   </SessionFinalizationStepContainer>
+
   <ActionButton
-          class="session-finalizer__button"
-          data-test-id="session-finalizer__button"
+          class="finalize__button"
+          data-test-id="finalize__button"
           @isLoading={{this.isLoading}}
           @handleClick={{this.openModal}} >
       Finaliser

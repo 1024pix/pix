@@ -167,7 +167,7 @@ module('Acceptance | Session Details', function(hooks) {
       });
     });
 
-    module('when finalize feature is deactivated', function(hooks) {
+    module('when finalize feature is desactivated', function(hooks) {
 
       hooks.beforeEach(async function() {
         const controller = this.owner.lookup('controller:authenticated.sessions.details.parameters');
@@ -239,8 +239,8 @@ module('Acceptance | Session Details', function(hooks) {
         module('when the session has started', function() {
           test('it should redirect to finalize page on click on finalize button', async function(assert) {
             // given
-            const certificationReportsList = server.createList('certification-report', 2);
-            await sessionNotFinalized.update({ certificationReports: certificationReportsList });
+            const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
+            sessionNotFinalized.update({ certificationCandidates: candidatesWithStartingCertif });
             await visit(`/sessions/${sessionNotFinalized.id}`);
 
             // when
@@ -255,8 +255,8 @@ module('Acceptance | Session Details', function(hooks) {
       module('when the session is finalized', function() {
 
         hooks.beforeEach(async function() {
-          const certificationReportList = server.createList('certification-report', 2);
-          sessionFinalized.update({ certificationReports: certificationReportList });
+          const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
+          sessionFinalized.update({ certificationCandidates: candidatesWithStartingCertif });
         });
 
         test('it should not redirect to finalize page on click on finalize button', async function(assert) {
