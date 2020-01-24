@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { find, currentURL, triggerEvent, visit } from '@ember/test-helpers';
+import { find, currentURL, triggerEvent, visit, click, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -15,6 +15,8 @@ module('Acceptance | Student List', function(hooks) {
   setupMirage(hooks);
 
   let user;
+  let organizationId;
+  let username;
 
   module('When user is not logged in', function() {
 
@@ -60,6 +62,16 @@ module('Acceptance | Student List', function(hooks) {
 
       hooks.beforeEach(async () => {
         user = createUserManagingStudents();
+        organizationId = user.memberships.models.firstObject.organizationId;
+        username = 'firstname.lastname0112';
+
+        server.createList('student', 5, { organizationId });
+        server.create('student', {
+          organizationId,
+          firstName: 'FirstName',
+          lastName: 'LastName',
+          username
+        });
 
         await authenticateSession({
           user_id: user.id,
@@ -86,15 +98,64 @@ module('Acceptance | Student List', function(hooks) {
       });
 
       test('it should list the students', async function(assert) {
-        // given
-        const organizations = server.schema.organizations.where({});
-        server.createList('student', 6, { organization: organizations.models[0] });
-
         // when
         await visit('/eleves');
 
         // then
         assert.dom('.table tbody tr').exists({ count: 6 });
+      });
+
+      module('when student have a username', async function() {
+
+        test('it should display password update button for student with username', async function(assert) {
+          // when
+          await visit('/eleves');
+
+          // then
+          assert.dom('.table tbody tr:nth-child(6) td:last-child button').hasText('Réinitialiser');
+        });
+
+        test('it should open password modal window', async function(assert) {
+          // given
+          await visit('/eleves');
+
+          // when
+          await click('.table tbody tr:nth-child(6) td:last-child button');
+
+          // then
+          assert.dom('.pix-modal-overlay').exists();
+          assert.dom('#username').hasValue(username);
+        });
+
+        test('it should update password and close modal window', async function(assert) {
+          // given
+          await visit('/eleves');
+          await click('.table tbody tr:nth-child(6) td:last-child button');
+
+          // when
+          await fillIn('#update-password', 'Pix12345');
+          await click('button[type="submit"]');
+
+          // then
+          assert.dom('.pix-modal-overlay').doesNotExist();
+          assert.dom('[data-test-notification-message="success"]').exists();
+        });
+
+        test('it should close modal window when update password failed', async function(assert) {
+          // given
+          const passwordForFailure = 'passwordFor01Failure';
+
+          await visit('/eleves');
+          await click('.table tbody tr:nth-child(6) td:last-child button');
+
+          // when
+          await fillIn('#update-password', passwordForFailure);
+          await click('button[type="submit"]');
+
+          // then
+          assert.dom('.pix-modal-overlay').doesNotExist();
+          assert.dom('[data-test-notification-message="error"]').exists();
+        });
       });
 
       module('When user is admin in organization', function(hooks) {
