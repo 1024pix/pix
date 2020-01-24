@@ -1,46 +1,53 @@
-import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
-import ENV from 'pix-certif/config/environment';
 import { inject as service } from '@ember/service';
+import ENV from 'pix-certif/config/environment';
+
+const { Model, attr, belongsTo, hasMany } = DS;
 
 const statusToDisplayName = {
   started: 'Prête',
   finalized: 'Finalisée',
 };
 
-export default Model.extend({
-  address: attr(),
-  accessCode: attr(),
-  date: attr('date-only'),
-  description: attr(),
-  examiner: attr(),
-  room: attr(),
-  time: attr(),
-  certificationCenter: belongsTo('certificationCenter'),
-  certificationCandidates: hasMany('certificationCandidate'),
-  session: service(),
-  status: attr(),
-  examinerComment: attr(),
-  isFinalized: equal('status', 'finalized'),
-  hasStarted: computed('certificationCandidates.@each.isLinked', function() {
+export default class Session extends Model {
+  @service session;
+  @attr('string') address;
+  @attr('string') accessCode;
+  @attr('date-only') date;
+  @attr('string') time;
+  @attr('string') description;
+  @attr('string') examiner;
+  @attr('string') room;
+  @attr('string') status;
+  @attr('string') examinerComment;
+  @belongsTo('certificationCenter') certificationCenter;
+  @hasMany('certificationCandidate') certificationCandidates;
+
+  @equal('status', 'finalized') isFinalized;
+
+  @computed('certificationCandidates.@each.isLinked')
+  get hasStarted() {
     return this.certificationCandidates.isAny('isLinked');
-  }),
+  }
 
-  urlToDownload: computed('id', function() {
+  @computed('id')
+  get urlToDownload() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.id}/attendance-sheet?accessToken=${this.get('session.data.authenticated.access_token')}`;
-  }),
+  }
 
-  urlToUpload: computed('id', function() {
+  @computed('id')
+  get urlToUpload() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.id}/certification-candidates/import`;
-  }),
+  }
 
-  displayStatus: computed('status', function() {
+  @computed('status')
+  get displayStatus() {
     return statusToDisplayName[this.status];
-  }),
+  }
 
   finalize() {
     return this.store.adapterFor('session').finalize(this);
-  },
-
-});
+  }
+}

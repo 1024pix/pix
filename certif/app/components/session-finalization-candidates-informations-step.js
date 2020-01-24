@@ -1,15 +1,19 @@
-import Component from '@ember/component';
-import { computed } from '@ember/object';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-  textareaMaxLength: 500,
+export default class SessionFinalizationCandidatesInformationsStep extends Component {
 
-  hasCheckedEverything: computed('certificationCandidates.@each.hasSeenEndTestScreen', function() {
-    if (this.certificationCandidates.length === 0) {
+  constructor() {
+    super(...arguments);
+
+    this.textareaMaxLength = 500;
+  }
+
+  get hasCheckedEverything() {
+    if (!this.args.certificationCandidates || this.args.certificationCandidates.length === 0) {
       return false;
     }
 
-    const presentCertificationCandidates = this.certificationCandidates
+    const presentCertificationCandidates = this.args.certificationCandidates
       .filter((certificationCandidate) => !certificationCandidate.isMissing);
 
     if (presentCertificationCandidates.length === 0) {
@@ -17,26 +21,14 @@ export default Component.extend({
     }
 
     return presentCertificationCandidates.every((certificationCandidate) => certificationCandidate.hasSeenEndTestScreen);
-  }),
+  }
 
-  hasCheckedSomething: computed('certificationCandidates.@each.hasSeenEndTestScreen', function() {
-    if (this.certificationCandidates.length === 0) {
+  get hasCheckedSomething() {
+    if (!this.args.certificationCandidates || this.args.certificationCandidates.length === 0) {
       return false;
     }
 
-    return this.certificationCandidates.any((certificationCandidate) => certificationCandidate.hasSeenEndTestScreen);
-  }),
+    return this.args.certificationCandidates.any((certificationCandidate) => certificationCandidate.hasSeenEndTestScreen);
+  }
 
-  actions: {
-    toggleAllHasSeenEndTestScreen() {
-      const toggled = !this.get('hasCheckedEverything');
-
-      this.certificationCandidates.forEach((certificationCandidate) => {
-        if (!certificationCandidate.isMissing) {
-          certificationCandidate.set('hasSeenEndTestScreen', toggled);
-        }
-      });
-    }
-  },
-
-});
+}

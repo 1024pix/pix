@@ -1,41 +1,47 @@
-import Component from '@ember/component';
-import { computed } from '@ember/object';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 import _ from 'lodash';
 
-export default Component.extend({
-  init() {
-    this._super(...arguments);
-    this.candidatesInStaging = [];
-  },
+export default class RoutesAuthenticatedSessionsDetailsCertificationCandidatesTab extends Component {
 
-  isCandidateBeingAdded: computed('candidatesInStaging.[]', function() {
+  @tracked candidatesInStaging;
+
+  constructor() {
+    super(...arguments);
+
+    this.candidatesInStaging = [];
+  }
+
+  get isCandidateBeingAdded() {
     return this.candidatesInStaging.length > 0;
-  }),
+  }
 
   _fromPercentageStringToDecimal(value) {
     return value ?
       _.toNumber(value) / 100 : value;
-  },
+  }
 
-  actions: {
-    addCertificationCandidateInStaging() {
-      this.get('candidatesInStaging').pushObject({
-        firstName: '', lastName: '', birthdate: '', birthCity: '',
-        birthProvinceCode: '', birthCountry: '', email: '', externalId: '',
-        extraTimePercentage: '' });
-    },
+  @action
+  addCertificationCandidateInStaging() {
+    this.candidatesInStaging.pushObject({
+      firstName: '', lastName: '', birthdate: '', birthCity: '',
+      birthProvinceCode: '', birthCountry: '', email: '', externalId: '',
+      extraTimePercentage: '' });
+  }
 
-    async addCertificationCandidate(candidate) {
-      const realCertificationCandidateData = { ...candidate };
-      realCertificationCandidateData.extraTimePercentage = this._fromPercentageStringToDecimal(candidate.extraTimePercentage);
-      const success = await this.saveCertificationCandidate(realCertificationCandidateData);
-      if (success) {
-        this.get('candidatesInStaging').removeObject(candidate);
-      }
-    },
+  @action
+  async addCertificationCandidate(candidate) {
+    const realCertificationCandidateData = { ...candidate };
+    realCertificationCandidateData.extraTimePercentage = this._fromPercentageStringToDecimal(candidate.extraTimePercentage);
+    const success = await this.args.saveCertificationCandidate(realCertificationCandidateData);
+    if (success) {
+      this.candidatesInStaging.removeObject(candidate);
+    }
+  }
 
-    removeCertificationCandidateFromStaging(candidate) {
-      this.get('candidatesInStaging').removeObject(candidate);
-    },
-  },
-});
+  @action
+  removeCertificationCandidateFromStaging(candidate) {
+    this.candidatesInStaging.removeObject(candidate);
+  }
+}

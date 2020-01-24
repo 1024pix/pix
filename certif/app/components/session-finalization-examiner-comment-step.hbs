@@ -4,14 +4,14 @@
         Vous pouvez indiquer un commentaire global sur cette session, par exemple si vous avez rencontré un problème technique qui a impacté le déroulement de la session.
     </label>
     <div class="session-finalization-examiner-comment-step__characters-information">
-      {{session.examinerComment.length}} / {{textareaMaxLength}}
+      {{@session.examinerComment.length}} / {{this.textareaMaxLength}}
     </div>
   </div>
   <textarea
     id="examiner-comment"
     class="session-finalization-examiner-comment-step__textarea"
-    value={{session.examinerComment}}
-    oninput={{action "updateTextareaValue" value="target.value"}}
-    maxlength={{textareaMaxLength}}
+    value={{@session.examinerComment}}
+    {{on 'input' @updateExaminerComment}}
+    maxlength={{@examinerCommentMaxLength}}
   />
 </div>

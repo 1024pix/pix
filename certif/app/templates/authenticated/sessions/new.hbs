@@ -1,3 +1,88 @@
-<div class="new-campaign-page">
-  <Routes::Authenticated::Sessions::NewItem @session={{model}} @createSession={{action "createSession"}} @cancel={{action "cancel"}} />
+<div class="new-session-page">
+  <h1 class="page__title page-title">Création d'une session de certification</h1>
+
+  <form {{on 'submit' this.createSession}} class="session-form">
+
+    <div class="session-form__field">
+      <label for="session-address" class="label">Nom du site</label>
+      <Input
+              @id="session-address"
+              @name="session-address"
+              @type="text"
+              @maxlength="255"
+              @class="input"
+              @value={{this.session.address}}
+      />
+      {{#each this.session.errors.address as |error|}}
+        <div class='session-form__error error-message'>
+          {{error.message}}
+        </div>
+      {{/each}}
+    </div>
+
+    <div class="session-form__field">
+      <label for="session-room" class="label">Nom de la salle</label>
+      <Input
+              @id="session-room"
+              @name="session-room"
+              @type="text"
+              @maxlength="255"
+              @class="input"
+              @value={{this.session.room}}
+      />
+      {{#each this.session.errors.room as |error|}}
+        <div class='session-form__error error-message'>
+          {{error.message}}
+        </div>
+      {{/each}}
+    </div>
+
+    <div class="session-form__field">
+      <label for="session-date" class="label">Date de début</label>
+      <EmberFlatpickr @id="session-date" @altFormat="d/m/Y" @altInput={{true}} @onChange={{this.onDatePicked}} @dateFormat="Y-m-d" @locale="fr" @minDate="today" @name="session-date" @class="input input--small" />
+      {{#each this.session.errors.date as |error|}}
+        <div class='session-form__error error-message'>
+          {{error.message}}
+        </div>
+      {{/each}}
+    </div>
+
+    <div class="session-form__field">
+      <label for="session-time" class="label">Heure de début (heure locale)</label>
+      <EmberFlatpickr @id="session-time" @onChange={{this.onTimePicked}} @onClose={{this.onTimePicked}} @enableTime={{true}} @noCalendar={{true}} @dateFormat="H:i" @time_24hr={{true}} @enableSeconds={{false}} @name="session-time" @class="input input--small" />
+      {{#each this.session.errors.time as |error|}}
+        <div class='session-form__error error-message'>
+          {{error.message}}
+        </div>
+      {{/each}}
+    </div>
+
+    <div class="session-form__field">
+      <label for="session-examiner" class="label">Surveillant(s)</label>
+      <Input
+              @id="session-examiner"
+              @name="session-examiner"
+              @type="text"
+              @maxlength="255"
+              @class="input"
+              @value={{this.session.examiner}}
+      />
+      {{#each this.session.errors.examiner as |error|}}
+        <div class='session-form__error error-message'>
+          {{error.message}}
+        </div>
+      {{/each}}
+    </div>
+
+    <div class="session-form__field">
+      <label for="session-description" class="label">Observations (optionnel)</label>
+      <Textarea @id="session-description" @name="session-description" @maxlength="350" @rows={{8}} @value={{this.session.description}} class="textarea" />
+    </div>
+
+    <div class="session-form__validation">
+      <button data-test-id="session-form__cancel-button" class="button button--no-color" type="button" {{on 'click' this.cancel}}>Annuler</button>
+      <button data-test-id="session-form__submit-button" class="button" type="submit">Créer la session</button>
+    </div>
+
+  </form>
 </div>
