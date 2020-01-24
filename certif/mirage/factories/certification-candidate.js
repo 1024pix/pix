@@ -48,11 +48,4 @@ export default Factory.extend({
     return faker.random.boolean();
   },
 
-  certificationCourseId() {
-    if (this.isLinked) {
-      return faker.random.number();
-    }
-
-    return null;
-  },
 });

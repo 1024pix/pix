@@ -28,9 +28,9 @@ export default class Session extends Model {
 
   @equal('status', 'finalized') isFinalized;
 
-  @computed('certificationCandidates.@each.isLinked')
+  @computed('certificationReports.length')
   get hasStarted() {
-    return this.certificationCandidates.isAny('isLinked');
+    return this.certificationReports.length > 0 ;
   }
 
   @computed('id')
