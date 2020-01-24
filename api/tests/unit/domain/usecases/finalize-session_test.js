@@ -11,7 +11,7 @@ describe('Unit | UseCase | finalize-session', () => {
 
   let sessionId;
   let updatedSession;
-  let examinerComment;
+  let examinerGlobalComment;
   let certificationCandidates;
   let sessionRepository;
   let certificationCandidateRepository;
@@ -19,10 +19,10 @@ describe('Unit | UseCase | finalize-session', () => {
   beforeEach(async () => {
     sessionId = 'dummy session id';
     updatedSession = Symbol('updated session');
-    examinerComment = 'It was a fine session my dear.';
+    examinerGlobalComment = 'It was a fine session my dear.';
     certificationCandidates = Symbol('certificationCandidates');
     sessionRepository = {
-      updateStatusAndExaminerComment: sinon.stub(),
+      updateStatusAndExaminerGlobalComment: sinon.stub(),
       isFinalized: sinon.stub(),
     };
     certificationCandidateRepository = {
@@ -40,7 +40,7 @@ describe('Unit | UseCase | finalize-session', () => {
       // when
       const err = await catchErr(finalizeSession)({
         sessionId,
-        examinerComment,
+        examinerGlobalComment,
         sessionRepository,
         certificationCandidates,
         certificationCandidateRepository
@@ -57,10 +57,10 @@ describe('Unit | UseCase | finalize-session', () => {
     beforeEach(() => {
       sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
       certificationCandidateRepository.finalizeAll.withArgs(certificationCandidates).resolves();
-      sessionRepository.updateStatusAndExaminerComment.withArgs({
+      sessionRepository.updateStatusAndExaminerGlobalComment.withArgs({
         id: sessionId,
         status: 'finalized',
-        examinerComment,
+        examinerGlobalComment,
       }).resolves(updatedSession);
     });
 
@@ -68,7 +68,7 @@ describe('Unit | UseCase | finalize-session', () => {
       // when
       const res = await finalizeSession({
         sessionId,
-        examinerComment,
+        examinerGlobalComment,
         sessionRepository,
         certificationCandidates,
         certificationCandidateRepository,

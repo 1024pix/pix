@@ -32,10 +32,10 @@
           @title="Commenter la session (facultatif)"
           @icon="/icons/session-finalization-edit.svg"
           @iconAlt="">
-      <SessionFinalizationExaminerCommentStep
+      <SessionFinalizationExaminerGlobalCommentStep
               @session={{this.session}}
-              @updateExaminerComment={{this.updateExaminerComment}}
-              @examinerCommentMaxLength={{this.examinerCommentMaxLength}} />
+              @updateExaminerGlobalComment={{this.updateExaminerGlobalComment}}
+              @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}} />
   </SessionFinalizationStepContainer>
   <ActionButton
           class="session-finalizer__button"

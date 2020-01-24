@@ -11,7 +11,7 @@ export default class SessionAdapter extends ApplicationAdapter {
       data: {
         data: {
           attributes: {
-            'examiner-comment': model.get('examinerComment'),
+            'examiner-global-comment': model.get('examinerGlobalComment'),
           },
           included: model.get('certificationCandidates')
             .filter((certificationCandidate) => certificationCandidate.hasDirtyAttributes)

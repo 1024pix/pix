@@ -37,7 +37,7 @@ export default Factory.extend({
     return 'started';
   },
 
-  examinerComment(i) {
+  examinerGlobalComment(i) {
     if (i % 2 === 0) {
       return faker.random.words();
     }

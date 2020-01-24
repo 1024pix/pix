@@ -307,7 +307,7 @@ describe('Integration | Repository | Session', function() {
       // given
       session.room = 'New room';
       session.examiner = 'New examiner';
-      session.examinerComment = 'It was a fine session my dear';
+      session.examinerGlobalComment = 'It was a fine session my dear';
       session.status = Session.statuses.FINALIZED;
 
       // when
@@ -317,7 +317,7 @@ describe('Integration | Repository | Session', function() {
       expect(sessionSaved.id).to.equal(session.id);
       expect(sessionSaved.room).to.equal('New room');
       expect(sessionSaved.examiner).to.equal('New examiner');
-      expect(sessionSaved.examinerComment).to.equal('It was a fine session my dear');
+      expect(sessionSaved.examinerGlobalComment).to.equal('It was a fine session my dear');
       expect(sessionSaved.status).to.equal(Session.statuses.FINALIZED);
     });
 
@@ -497,7 +497,7 @@ describe('Integration | Repository | Session', function() {
 
   });
 
-  describe('#updateStatusAndExaminerComment', () => {
+  describe('#updateStatusAndExaminerGlobalComment', () => {
     let session;
 
     beforeEach(() => {
@@ -512,7 +512,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return a Session domain object', async () => {
       // when
-      const sessionSaved = await sessionRepository.updateStatusAndExaminerComment(session);
+      const sessionSaved = await sessionRepository.updateStatusAndExaminerGlobalComment(session);
 
       // then
       expect(sessionSaved).to.be.an.instanceof(Session);
@@ -520,15 +520,15 @@ describe('Integration | Repository | Session', function() {
 
     it('should update model in database', async () => {
       // given
-      session.examinerComment = 'It was a fine session my dear';
+      session.examinerGlobalComment = 'It was a fine session my dear';
       session.status = Session.statuses.FINALIZED;
 
       // when
-      const sessionSaved = await sessionRepository.updateStatusAndExaminerComment(session);
+      const sessionSaved = await sessionRepository.updateStatusAndExaminerGlobalComment(session);
 
       // then
       expect(sessionSaved.id).to.deep.equal(session.id);
-      expect(sessionSaved.examinerComment).to.deep.equal('It was a fine session my dear');
+      expect(sessionSaved.examinerGlobalComment).to.deep.equal('It was a fine session my dear');
       expect(sessionSaved.status).to.deep.equal(Session.statuses.FINALIZED);
     });
   });
