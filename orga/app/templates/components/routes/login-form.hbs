@@ -3,6 +3,12 @@
     pour rejoindre l'espace organisation.
   </div>
 
+  {{#if hasInvitationError}}
+      <div class="login-form__invitation-error">
+        Cette invitation a déjà été acceptée. Connectez-vous ou contactez l’administrateur de votre espace Pix Orga.
+      </div>
+  {{/if}}
+
   {{#if isErrorMessagePresent}}
     <div id="login-form-error-message" class="login-form__error-message error-message">L'adresse e-mail et/ou le mot
       de passe saisis sont incorrects.
@@ -48,7 +54,7 @@
       {{#if isLoading}}
         <button type="submit" class="button"><span class="loader-in-button">&nbsp;</span></button>
       {{else}}
-        <button type="submit" class="button">Je me connecte</button>
+        <button type="submit" class="button button--medium-weight">Je me connecte</button>
       {{/if}}
     </div>
 
