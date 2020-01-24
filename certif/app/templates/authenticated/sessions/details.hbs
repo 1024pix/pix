@@ -1,1 +1,42 @@
-<Routes::Authenticated::Sessions::DetailsItem @session={{model}} @message={{message}} @class="session-details-page" />
+<div class="session-details-page">
+  <div class="page__title session-details__header">
+    <div class="session-details-header__title">
+      <LinkTo @route="authenticated.sessions.list" class="icon-button session-details-content__return-button">
+        {{fa-icon 'arrow-left'}}
+      </LinkTo>
+      <h1 class="page-title">Session {{this.session.id}}</h1>
+    </div>
+
+    <div class="session-details-header__datetime">
+      <div class="session-details-header-datetime__date">
+        <h4 class="label-text session-details-content__label">Date</h4>
+        <span class="content-text content-text--big session-details-content__text">
+          {{moment-format this.session.date 'dddd DD MMM YYYY' allow-empty=true locale='fr'}}
+        </span>
+      </div>
+
+      <div class="session-details-header-datetime__time">
+        <h4 class="label-text session-details-content__label">Heure de début (heure locale)</h4>
+        <span class="content-text content-text--big session-details-content__text">
+          {{moment-format this.session.time 'HH:mm' 'HH:mm:ss' allow-empty=true}}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel session-details__controls">
+    <nav class="navbar session-details-controls__navbar-tabs">
+      <LinkTo @route="authenticated.sessions.details.parameters" class="navbar-item">
+          Détails
+      </LinkTo>
+      <LinkTo @route="authenticated.sessions.details.certification-candidates" class="navbar-item">
+          Candidats {{this.certificationCandidatesCount}}
+      </LinkTo>
+    </nav>
+
+  </div>
+
+  <NotificationContainer @position="bottom-right" />
+
+  {{outlet}}
+</div>

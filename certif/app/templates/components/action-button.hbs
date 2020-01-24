@@ -1,9 +1,0 @@
-{{#if @isLoading }}
-  <button class="button button--regular button--link" {{action 'handleClick'}} ...attributes>
-    <span class="button__loader">&nbsp;</span>
-  </button>
-{{else}}
-  <button class="button button--regular button--link" {{action 'handleClick'}} ...attributes>
-    {{yield}}
-  </button>
-{{/if}}

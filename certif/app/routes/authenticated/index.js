@@ -1,15 +1,15 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-export default Route.extend({
+export default class AuthenticatedIndexRoute extends Route {
 
-  currentUser: service(),
+  @service currentUser;
 
   beforeModel() {
     const transition = this._selectTransition(this.currentUser);
 
     return this.transitionTo(transition);
-  },
+  }
 
   _selectTransition({ pixCertifTermsOfServiceAccepted }) {
     if (!pixCertifTermsOfServiceAccepted) {
@@ -18,4 +18,4 @@ export default Route.extend({
 
     return 'authenticated.sessions.list';
   }
-});
+}

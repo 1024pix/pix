@@ -1,17 +1,15 @@
 import Route from '@ember/routing/route';
 import moment from 'moment';
 
-export default Route.extend({
+export default class AuthenticatedSessionsUpdateRoute extends Route {
 
-  model({ session_id }) {
-    return this.store.findRecord('session', session_id)
-      .then((session) => {
-        session.set('time', moment(session.get('time'), 'HH:mm:ss').format('HH:mm'));
-        return session;
-      });
-  },
+  async model({ session_id }) {
+    const session = await this.store.findRecord('session', session_id);
+    session.time = moment(session.time, 'HH:mm:ss').format('HH:mm');
+    return session;
+  }
 
-  deactivate: function() {
+  deactivate() {
     this.controller.model.rollbackAttributes();
-  },
-});
+  }
+}

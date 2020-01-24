@@ -1,23 +1,10 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
+import config from '../../../config/environment';
 
 module('Unit | Model | session', function(hooks) {
   setupTest(hooks);
-
-  test('it exists', function(assert) {
-    const store = this.owner.lookup('service:store');
-    const model = run(() => store.createRecord('session', {}));
-    assert.ok(model);
-  });
-
-  test('it should return the right data in the session model', function(assert) {
-    const store = this.owner.lookup('service:store');
-    const model = run(() => store.createRecord('session', {
-      id: 123,
-    }));
-    assert.equal(model.id, 123);
-  });
 
   test('it should return the correct displayName', function(assert) {
     const store = this.owner.lookup('service:store');
@@ -32,5 +19,20 @@ module('Unit | Model | session', function(hooks) {
 
     assert.equal(model1.displayStatus, 'Prête');
     assert.equal(model2.displayStatus, 'Finalisée');
+  });
+
+  test('it should return the correct urlToUpload', function(assert) {
+    const store = this.owner.lookup('service:store');
+    const model = run(() => store.createRecord('session', { id: 1 }));
+
+    assert.equal(model.urlToUpload, `${config.APP.API_HOST}/api/sessions/1/certification-candidates/import`);
+  });
+
+  test('it should return the correct urlToDownload', function(assert) {
+    const store = this.owner.lookup('service:store');
+    const model = run(() => store.createRecord('session', { id: 1 }));
+    model.session = { data: { authenticated: { access_token: '123' } } };
+
+    assert.equal(model.urlToDownload, `${config.APP.API_HOST}/api/sessions/1/attendance-sheet?accessToken=123`);
   });
 });

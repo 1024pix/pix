@@ -12,13 +12,13 @@
       Vous avez déjà un compte sur Pix.fr ? Vous pouvez utiliser ce compte pour rejoindre l'espace Pix Certif.
     </div>
 
-    {{#if isErrorMessagePresent}}
+    {{#if this.isErrorMessagePresent}}
       <div id="login-form-error-message" class="login-form__error-message error-message">
         L'adresse e-mail et/ou le mot de passe saisis sont incorrects.
       </div>
     {{/if}}
 
-    <form {{action 'authenticate' on='submit'}}>
+    <form {{on 'submit' this.authenticate}} >
 
       <div class="login-form__input-container">
         <label for="login-email" class="label">Adresse e-mail</label>
@@ -27,7 +27,7 @@
           @name="login"
           @type="email"
           @class="input"
-          @value={{email}}
+          @value={{this.email}}
           @autocomplete="username"
         />
       </div>
@@ -38,16 +38,16 @@
           <Input
             @id="login-password"
             @name="password"
-            @type={{passwordInputType}}
+            @type={{this.passwordInputType}}
             @class="input"
-            @value={{password}}
+            @value={{this.password}}
             @autocomplete="current-password"
           />
           <button type="button" aria-label="rendre le mot de passe lisible" class="login-form__icon" {{action 'togglePasswordVisibility'}} >
-            {{#if isPasswordVisible}}
-              <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>{{fa-icon 'eye' class="fa-fw login-form-icon__eye"}}</div>
+            {{#if this.isPasswordVisible}}
+              <div tabindex="-1" onmousedown={{this.togglePasswordVisibility}}>{{fa-icon 'eye' class="fa-fw login-form-icon__eye"}}</div>
             {{else}}
-              <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>{{fa-icon 'eye-slash' class="fa-fw login-form-icon__eye"}}</div>
+              <div tabindex="-1" onmousedown={{this.togglePasswordVisibility}}>{{fa-icon 'eye-slash' class="fa-fw login-form-icon__eye"}}</div>
             {{/if}}
           </button>
         </div>
@@ -60,7 +60,7 @@
     </form>
 
     <div class="login-form__forgotten-password one-line-text">
-      Vous avez oublié votre mot de passe ? Rendez-vous sur <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank">pix.fr</a> pour
+      Vous avez oublié votre mot de passe ? Rendez-vous sur <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank" rel="noopener noreferrer" >pix.fr</a> pour
       le réinitialiser.
     </div>
 

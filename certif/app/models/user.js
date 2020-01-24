@@ -1,9 +1,11 @@
-import Model, { attr, hasMany } from '@ember-data/model';
+import DS from 'ember-data';
 
-export default Model.extend({
-  email: attr(),
-  firstName: attr(),
-  lastName: attr(),
-  pixCertifTermsOfServiceAccepted: attr(),
-  certificationCenterMemberships: hasMany('certificationCenterMembership')
-});
+const { Model, attr, hasMany, } = DS;
+
+export default class User extends Model {
+  @attr('string') firstName;
+  @attr('string') lastName;
+  @attr('string') email;
+  @attr('boolean') pixCertifTermsOfServiceAccepted;
+  @hasMany('certificationCenterMembership') certificationCenterMemberships;
+}

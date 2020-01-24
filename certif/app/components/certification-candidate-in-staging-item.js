@@ -1,17 +1,10 @@
-import moment from 'moment';
-import Component from '@ember/component';
-import { computed } from '@ember/object';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  tagName: 'tr',
+export default class CertificationCandidateInStagingItem extends Component {
 
-  isCandidateDataValid: computed('candidateData.{firstName,lastName,birthCountry,birthProvinceCode,birthCity,birthdate}', function() {
-    return this.candidateData.firstName &&
-      this.candidateData.lastName &&
-      this.candidateData.birthCity &&
-      this.candidateData.birthProvinceCode &&
-      this.candidateData.birthCountry &&
-      moment.utc(this.candidateData.birthdate, 'YYYY-MM-DD', true).isValid();
-  }),
-
-});
+  @action
+  updateCandidateDataBirthdate(value) {
+    this.args.updateCandidateBirthdate(this.args.candidateData, value);
+  }
+}

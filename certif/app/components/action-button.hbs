@@ -1,0 +1,9 @@
+{{#if @isLoading }}
+  <button data-test-id="action-button" class="button button--regular button--link" {{on 'click' @handleClick}} ...attributes>
+    <span class="button__loader">&nbsp;</span>
+  </button>
+{{else}}
+  <button data-test-id="action-button" class="button button--regular button--link" {{on 'click' @handleClick}} ...attributes>
+    {{yield}}
+  </button>
+{{/if}}
