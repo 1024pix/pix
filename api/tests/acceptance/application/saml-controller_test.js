@@ -222,7 +222,7 @@ describe('Acceptance | Controller | saml-controller', () => {
 
         // then
         expect(secondVisitResponse.statusCode).to.equal(302);
-        expect(await knex('users').count('id as n')).to.deep.equal([{ n: '1' }]);
+        expect(await knex('users').count('id as n')).to.deep.equal([{ n: 1 }]);
       });
 
       it('should create another user for a different SAML ID', async () => {
@@ -243,7 +243,7 @@ describe('Acceptance | Controller | saml-controller', () => {
 
         // then
         expect(otherUserResponse.statusCode).to.equal(302);
-        expect(await knex('users').count('id as n')).to.deep.equal([{ n: '2' }]);
+        expect(await knex('users').count('id as n')).to.deep.equal([{ n: 2 }]);
       });
     });
   });
