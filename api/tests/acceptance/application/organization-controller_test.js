@@ -512,8 +512,8 @@ describe('Acceptance | Application | organization-controller', () => {
           const campaigns = response.result.data;
           expect(campaigns).to.have.lengthOf(1);
           const campaignReport = response.result.included[0].attributes;
-          expect(campaignReport['participations-count']).to.equal('1');
-          expect(campaignReport['shared-participations-count']).to.equal('1');
+          expect(campaignReport['participations-count']).to.equal(1);
+          expect(campaignReport['shared-participations-count']).to.equal(1);
         });
       });
     });
