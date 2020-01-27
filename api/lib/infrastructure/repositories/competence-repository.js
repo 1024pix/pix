@@ -18,6 +18,7 @@ function _toDomain(competenceData, areaDatas) {
       id: areaData.id,
       code: areaData.code,
       title: areaData.title,
+      color: areaData.color,
     }),
   });
 }

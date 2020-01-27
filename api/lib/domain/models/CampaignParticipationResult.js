@@ -63,6 +63,7 @@ function _getTestedCompetenceResults(competence, targetedKnowledgeElements) {
     id: competence.id,
     name: competence.name,
     index: competence.index,
+    areaColor: competence.area.color,
     totalSkillsCount: competence.skills.length,
     testedSkillsCount: targetedKnowledgeElementsForCompetence.length,
     validatedSkillsCount: validatedKnowledgeElementsForCompetence.length,

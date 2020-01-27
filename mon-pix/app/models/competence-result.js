@@ -1,12 +1,12 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
-import areaColors from 'mon-pix/static-data/area-colors';
 
 const { Model, attr, belongsTo } = DS;
 
 export default Model.extend({
   name: attr('string'),
   index: attr('string'),
+  areaColor: attr('string'),
   totalSkillsCount: attr('number'),
   testedSkillsCount: attr('number'),
   validatedSkillsCount: attr('number'),
@@ -18,11 +18,5 @@ export default Model.extend({
 
   validatedSkillsPercentage: computed('validatedSkillsCount', 'totalSkillsCount', function() {
     return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
-  }),
-
-  areaColor: computed('index', function() {
-    const areaIndex = this.index.charAt(0);
-    const foundArea = areaColors.find((colors) => colors.area === areaIndex);
-    return foundArea.color;
   }),
 });

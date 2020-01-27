@@ -9,7 +9,7 @@
 
 <div class="scorecard-details__content">
   <div class="scorecard-details-content__left">
-    <div class="scorecard-details-content-left__area scorecard-details-content-left__area--{{scorecard.areaColor}}">
+    <div class="scorecard-details-content-left__area scorecard-details-content-left__area--{{scorecard.area.color}}">
       {{scorecard.area.title}}
     </div>
     <div class="scorecard-details-content-left__name">
@@ -33,7 +33,7 @@
           </div>
         {{else}}
           {{#circle-chart value=scorecard.percentageAheadOfNextLevel
-                          sliceColor=scorecard.areaColor
+                          sliceColor=scorecard.area.color
                           chartClass='circle-chart__content--big'
                           thicknessClass='circle--thick'}}
             <div class="competence-card__level">

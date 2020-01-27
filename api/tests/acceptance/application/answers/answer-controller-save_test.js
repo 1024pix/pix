@@ -41,7 +41,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
         const competence = airtableBuilder.factory.buildCompetence({
           id: 'recCompetence',
-          domaine: [area.id],
+          domaineIds: [area.id],
           domaineCode: area['Code']
         });
         const skill = airtableBuilder.factory.buildSkill({

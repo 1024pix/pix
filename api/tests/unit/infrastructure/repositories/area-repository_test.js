@@ -16,12 +16,14 @@ describe('Unit | Repository | area-repository', function() {
         code: '1',
         title: 'Domaine 1',
         name: '1. Domaine 1',
+        color: 'emerald',
       }),
       domainBuilder.buildAreaAirtableDataObject({
         id: 'recDomaine2',
         code: '2',
         title: 'Domaine 2',
         name: '2. Domaine 2',
+        color: 'wild-strawberry',
       }),
     ]);
   });
@@ -46,12 +48,14 @@ describe('Unit | Repository | area-repository', function() {
           name: '1. Domaine 1',
           code: '1',
           title: 'Domaine 1',
+          color: 'emerald',
         }),
         new Area({
           id: 'recDomaine2',
           name: '2. Domaine 2',
           code: '2',
           title: 'Domaine 2',
+          color: 'wild-strawberry',
         }),
       ];
 
@@ -89,6 +93,7 @@ describe('Unit | Repository | area-repository', function() {
           name: '1. Domaine 1',
           code: '1',
           title: 'Domaine 1',
+          color: 'emerald',
           competences: [
             competence1
           ],
@@ -98,6 +103,7 @@ describe('Unit | Repository | area-repository', function() {
           name: '2. Domaine 2',
           code: '2',
           title: 'Domaine 2',
+          color: 'wild-strawberry',
           competences: [
             competence2
           ],

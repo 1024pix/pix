@@ -40,7 +40,7 @@ module.exports = {
               return `/api/campaign-participations/${parent.id}/campaign-participation-result`;
             }
           },
-          attributes: ['id', 'isCompleted', 'totalSkillsCount', 'testedSkillsCount', 'validatedSkillsCount', 'competenceResults'],
+          attributes: ['id', 'isCompleted', 'areaColor', 'totalSkillsCount', 'testedSkillsCount', 'validatedSkillsCount', 'competenceResults'],
         },
         meta
       }).serialize(campaignParticipation);

@@ -27,9 +27,9 @@ describe('Integration | Component | scorecard-details', function() {
     it('should display the scorecard header with area color', async function() {
       // given
       const scorecard = {
-        areaColor: 'jaffa',
         area: {
           title: 'Area title',
+          color: 'jaffa',
         },
       };
 

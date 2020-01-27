@@ -11,6 +11,7 @@ module.exports = function buildCompetenceTree({
       code: '1',
       title: 'Information et données',
       name: '1. Information et données',
+      color: 'jaffa',
       competences: [
         buildCompetence({
           name: 'Mener une recherche et une veille d’information',

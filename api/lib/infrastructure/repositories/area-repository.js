@@ -13,6 +13,7 @@ function list() {
           code: areaDataObject.code,
           name: areaDataObject.name,
           title: areaDataObject.title,
+          color: areaDataObject.color,
         });
       });
     });

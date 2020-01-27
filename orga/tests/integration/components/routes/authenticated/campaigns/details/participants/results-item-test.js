@@ -46,6 +46,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
           totalSkillsCount: 10,
           testedSkillsCount: 9,
           validatedSkillsCount: 5,
+          areaColor:'jaffa',
         }]
       }
     }));
@@ -68,6 +69,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
       totalSkillsCount: 10,
       testedSkillsCount: 9,
       validatedSkillsCount: 5,
+      areaColor: 'jaffa',
     }));
 
     const campaignParticipationResult = run(() => store.createRecord('campaignParticipationResult', {
@@ -93,6 +95,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     assert.dom('.participant-results-content__circle-chart-value').hasText('50%');
 
     assert.dom('table tbody tr').exists({ count: 1 });
+    assert.dom('table tbody tr td span:first-child').hasClass('participant-results-details-competence__bullet--jaffa');
     assert.dom('table tbody tr td span:nth-child(2)').hasText('Compétence 1');
     assert.dom('table tbody tr td:nth-child(2)').containsText('50%');
     assert.dom('table tbody tr td:nth-child(3)').hasText('5');

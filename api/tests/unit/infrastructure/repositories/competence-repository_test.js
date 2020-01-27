@@ -12,6 +12,7 @@ describe('Unit | Repository | competence-repository', () => {
     code: '1',
     name: 'Area name',
     title: 'Information et données',
+    color: 'jaffa',
     competenceIds: ['recCompetence1', 'recCompetence2'],
   };
 
@@ -75,6 +76,7 @@ describe('Unit | Repository | competence-repository', () => {
           id: 'recArea',
           code: '1',
           title: 'Information et données',
+          color: 'jaffa',
         })
       });
       return fetchedCompetence.then((competence) => {

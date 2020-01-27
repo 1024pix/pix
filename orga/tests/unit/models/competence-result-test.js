@@ -84,20 +84,4 @@ module('Unit | Model | Competence-Result', function(hooks) {
       assert.equal(validatedSkillsPercentage, 33);
     });
   });
-
-  module('domainColorStyle', function() {
-
-    test('should retrieve domain color style', function(assert) {
-      const store = this.owner.lookup('service:store');
-      const model = run(() => store.createRecord('competence-result', {}));
-
-      model.set('index', '5.1');
-
-      // when
-      const domainColorStyle = model.get('domainColorStyle');
-
-      // then
-      assert.equal(domainColorStyle.string, 'color: #574DA6');
-    });
-  });
 });
