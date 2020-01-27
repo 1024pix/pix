@@ -1,5 +1,5 @@
 .login-form {
-  max-width: 360px;
+  max-width: 400px;
 
   &__information {
     max-width: 360px;
@@ -8,10 +8,25 @@
 
   &__error-message {
     margin-bottom: 10px;
+    font-size: 0.875rem;
   }
 
   &__forgotten-password {
     font-size: 0.875rem;
+    text-align: center;
+  }
+
+  &__button {
+    font-weight: 600;
+  }
+
+  &__invitation-error {
+    background: $pure-orange;
+    border-radius: 3px;
+    color: $white;
+    font-size: 0.875rem;
+    margin: 10px 0 16px 0;
+    padding: 9px;
     text-align: center;
   }
 }

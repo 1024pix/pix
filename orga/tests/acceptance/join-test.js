@@ -53,8 +53,10 @@ module('Acceptance | join', function(hooks) {
       await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
 
       // then
-      assert.equal(currentURL(), '/connexion');
+      assert.equal(currentURL(), '/connexion?hasInvitationError=true');
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+      assert.dom('.login-form__invitation-error').exists();
+      assert.dom('.login-form__invitation-error').hasText('Cette invitation a déjà été acceptée. Connectez-vous ou contactez l’administrateur de votre espace Pix Orga.');
     });
   });
 
