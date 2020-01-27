@@ -2,10 +2,7 @@ import Application from '../app';
 import config from '../config/environment';
 import { setApplication } from '@ember/test-helpers';
 import { mocha } from 'mocha';
-import { start } from 'ember-mocha';
-import loadEmberExam from 'ember-exam/test-support/load';
-
-loadEmberExam();
+import start from 'ember-exam/test-support/start';
 
 mocha.setup({
   // If a test is randomly killed by the timeout duration,
