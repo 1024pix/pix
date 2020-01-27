@@ -14,8 +14,4 @@ module.exports = Bookshelf.model('CertificationCandidate', {
   user() {
     return this.belongsTo('User', 'userId');
   },
-
-  certificationCourse() {
-    return this.belongsTo('CertificationCourse').through('User', 'userId', 'id', 'id', 'userId');
-  },
 });

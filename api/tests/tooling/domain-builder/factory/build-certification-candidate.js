@@ -21,14 +21,10 @@ module.exports = function buildCertificationCandidate(
     hasSeendEndTestScreen = false,
     createdAt = faker.date.past(1),
     // includes
-    certificationCourse,
     // references
     sessionId = faker.random.number(),
     userId = faker.random.number(),
   } = {}) {
-
-  certificationCourse = _.isUndefined(certificationCourse) ?
-    buildCertificationCourse({ sessionId, userId }) : certificationCourse;
 
   const certificationCandidate = new CertificationCandidate({
     id,
@@ -46,7 +42,6 @@ module.exports = function buildCertificationCandidate(
     hasSeendEndTestScreen,
     createdAt,
     userId,
-    certificationCourse,
   });
 
   return certificationCandidate;
