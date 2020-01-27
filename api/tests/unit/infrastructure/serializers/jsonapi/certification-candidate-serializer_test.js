@@ -25,8 +25,6 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
           'external-id': certificationCandidate.externalId,
           'extra-time-percentage': certificationCandidate.extraTimePercentage,
           'is-linked': !_.isNil(certificationCandidate.userId),
-          'certification-course-id': !_.isUndefined(certificationCandidate.certificationCourse) ?
-            certificationCandidate.certificationCourse.id : undefined,
         },
       }
     };

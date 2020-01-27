@@ -9,7 +9,7 @@ describe('Unit | Domain | Use Cases | get-session-certification-candidates', ()
 
   beforeEach(() => {
     // given
-    sinon.stub(certificationCandidateRepository, 'findBySessionIdWithCertificationCourse').withArgs(sessionId).resolves(certificationCandidates);
+    sinon.stub(certificationCandidateRepository, 'findBySessionId').withArgs(sessionId).resolves(certificationCandidates);
   });
 
   it('should return the certification candidates', async () => {

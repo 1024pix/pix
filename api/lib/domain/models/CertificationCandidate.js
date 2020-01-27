@@ -2,7 +2,6 @@ const _ = require('lodash');
 const Joi = require('@hapi/joi')
   .extend(require('@hapi/joi-date'));
 const { InvalidCertificationCandidate } = require('../errors');
-const CertificationCourse = require('./CertificationCourse');
 
 const certificationCandidateValidationJoiSchema_v1_1 = Joi.object({
   id: Joi.number().optional(),
@@ -16,7 +15,6 @@ const certificationCandidateValidationJoiSchema_v1_1 = Joi.object({
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required(),
   createdAt: Joi.any().allow(null).optional(),
   extraTimePercentage: Joi.number().allow(null).optional(),
-  certificationCourse: Joi.object().instance(CertificationCourse).allow(null).optional(),
   sessionId: Joi.number().allow(null).optional(),
   userId: Joi.number().allow(null).optional(),
 });
@@ -34,7 +32,6 @@ const certificationCandidateValidationJoiSchema_v1_2 = Joi.object({
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required(),
   createdAt: Joi.any().allow(null).optional(),
   extraTimePercentage: Joi.number().allow(null).optional(),
-  certificationCourse: Joi.object().instance(CertificationCourse).allow(null).optional(),
   sessionId: Joi.number().allow(null).optional(),
   userId: Joi.number().allow(null).optional(),
 });
@@ -51,7 +48,6 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required(),
   createdAt: Joi.any().allow(null).optional(),
   extraTimePercentage: Joi.any().allow(null).optional(),
-  certificationCourse: Joi.object().instance(CertificationCourse).allow(null).optional(),
   sessionId: Joi.number().required(),
   userId: Joi.any().allow(null).optional(),
 });
@@ -72,7 +68,6 @@ class CertificationCandidate {
       extraTimePercentage,
       createdAt,
       // includes
-      certificationCourse,
       // references
       sessionId,
       userId,
@@ -89,8 +84,6 @@ class CertificationCandidate {
     this.birthdate = birthdate;
     this.extraTimePercentage = !_.isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : extraTimePercentage;
     this.createdAt = createdAt;
-    // includes
-    this.certificationCourse = certificationCourse;
     // references
     this.sessionId = sessionId;
     this.userId = userId;

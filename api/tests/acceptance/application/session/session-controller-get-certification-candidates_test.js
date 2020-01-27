@@ -50,7 +50,6 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
       beforeEach(() => {
         const certificationCandidateA = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'A', sessionId });
         const certificationCandidateB = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'B', sessionId });
-        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId, userId: certificationCandidateB.userId }).id;
         _.times(5, databaseBuilder.factory.buildCertificationCandidate());
         expectedCertificationCandidateAAttributes = {
           'first-name': certificationCandidateA.firstName,
@@ -63,7 +62,6 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
           'external-id': certificationCandidateA.externalId,
           'extra-time-percentage': certificationCandidateA.extraTimePercentage,
           'is-linked': true,
-          'certification-course-id': undefined,
         };
         expectedCertificationCandidateBAttributes = {
           'first-name': certificationCandidateB.firstName,
@@ -76,7 +74,6 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
           'external-id': certificationCandidateB.externalId,
           'extra-time-percentage': certificationCandidateB.extraTimePercentage,
           'is-linked': true,
-          'certification-course-id': certificationCourseId,
         };
         userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
