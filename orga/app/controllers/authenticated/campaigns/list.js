@@ -1,4 +1,6 @@
-import { notEmpty } from '@ember/object/computed';
+import { isEmpty } from '@ember/utils';
+import { empty } from '@ember/object/computed';
+import { computed } from '@ember/object';
 import Controller from '@ember/controller';
 
 export default Controller.extend({
@@ -7,7 +9,10 @@ export default Controller.extend({
   pageSize: 10,
   name: null,
 
-  hasCampaign: notEmpty('model'),
+  hasNoCampaign: empty('model'),
+  displayNoCampaignPanel: computed('name,hasNoCampaign', function() {
+    return this.hasNoCampaign && isEmpty(this.name);
+  }),
 
   actions: {
     triggerFiltering(fieldName, value) {
