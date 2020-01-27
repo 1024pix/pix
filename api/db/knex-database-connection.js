@@ -1,10 +1,23 @@
+const types = require('pg').types;
+
 /*
 By default, node-postgres casts a DATE value (PostgreSQL type) as a Date Object (JS type).
 But, when dealing with dates with no time (such as birthdate for example), we want to
 deal with a 'YYYY-MM-DD' string.
 */
-const types = require('pg').types;
 types.setTypeParser(types.builtins.DATE, (value) => value);
+
+/*
+The method Bookshelf.Model.count(), used with PostgreSQL, can sometimes returns a BIGINT.
+This is not the common case (maybe in several years).
+Even though, Bookshelf/Knex have decided to return String.
+We decided to parse the result of #count() method to force a resulting INTEGER.
+
+Links :
+- problem: https://github.com/bookshelf/bookshelf/issues/1275
+- solution: https://github.com/brianc/node-pg-types
+ */
+types.setTypeParser(types.builtins.INT8, (value) => parseInt(value));
 
 const _ = require('lodash');
 
