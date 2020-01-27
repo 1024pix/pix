@@ -130,7 +130,8 @@ module.exports = {
           .where('campaigns.organizationId', organizationId)
           .modify(_setSearchFiltersForQueryBuilder, filter)
           .modify(_countCampaignParticipations)
-          .modify(_countSharedCampaignParticipations);
+          .modify(_countSharedCampaignParticipations)
+          .orderByRaw('LOWER(campaigns."name") ASC, campaigns."createdAt" DESC');
       })
       .fetchPage({
         page: page.number,
