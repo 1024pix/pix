@@ -91,8 +91,11 @@ export default function() {
       return new Response(400, {}, { errors: [ { status: '400', detail: '' } ] });
     }
 
-    const organizationInvitation = schema.organizationInvitations.findBy({ id: organizationInvitationId, code: organizationInvitationCode, status: 'pending' });
+    const organizationInvitation = schema.organizationInvitations.findBy({ id: organizationInvitationId, code: organizationInvitationCode });
     if (!organizationInvitation) {
+      return new Response(404, {}, { errors: [ { status: '404', detail: '' } ] });
+    }
+    if (organizationInvitation.status === 'accepted') {
       return new Response(421, {}, { errors: [ { status: '421', detail: '' } ] });
     }
 

@@ -7,7 +7,12 @@ export default Route.extend(UnauthenticatedRouteMixin, {
     return this.store.queryRecord('organization-invitation', {
       invitationId: params.invitationId,
       code: params.code
-    }).catch(() => {
+    }).catch((errorResponse) => {
+      errorResponse.errors.forEach((error) => {
+        if (error.status === '421') {
+          this.replaceWith('login', { queryParams: { hasInvitationError: true } });
+        }
+      });
       this.replaceWith('login');
     });
   }
