@@ -33,6 +33,10 @@ workflows:
                 - gh-pages
                 - /release-.*/
 
+      - e2e_test:
+          requires:
+            - checkout
+
       - api_build_and_test:
           requires:
             - checkout
@@ -50,10 +54,6 @@ workflows:
             - checkout
 
       - admin_build_and_test:
-          requires:
-            - checkout
-
-      - e2e_test:
           requires:
             - checkout
 
