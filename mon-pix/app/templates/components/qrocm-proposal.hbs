@@ -1,7 +1,7 @@
 {{#each _blocks as |block|}}
 
   {{#if (and block.text (not block.ariaLabel) (not block.input))}}
-    <div>{{block.text}}</div>
+    <span>{{block.text}}</span>
   {{/if}}
 
   {{#if block.input}}
