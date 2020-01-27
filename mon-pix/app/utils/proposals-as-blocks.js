@@ -28,8 +28,8 @@ function stringHasPlaceholder(input) {
   return 1 <= input.indexOf('#');
 }
 
-function isLastLine(currentIdx, lines) {
-  return currentIdx === (lines.length - 1);
+function isLastElement(currentIdx, elements) {
+  return currentIdx === (elements.length - 1);
 }
 
 function getLastLine(lines) {
@@ -50,7 +50,7 @@ function isAriaLabelNeededForInputs(lines) {
     return true;
   }
 
-  return lastLineWithoutInput.length > 0 ? false : true;
+  return lastLineWithoutInput.length === 0;
 }
 
 class ResponseBlock {
@@ -113,13 +113,15 @@ class ChallengeResponseTemplate {
   }
 
   addLineBreakIfIsNotLastLine({ lineIdx, lines }) {
-    if (!isLastLine(lineIdx, lines)) {
+    if (!isLastElement(lineIdx, lines)) {
       this._template.push({ breakline: true });
     }
   }
 
-  add(block) {
-    this._template.push(block);
+  add({ canAddBlockToTemplate, block }) {
+    if (canAddBlockToTemplate) {
+      this._template.push(block);
+    }
   }
 
   get() {
@@ -134,9 +136,10 @@ export default function proposalsAsBlocks(proposals) {
   }
 
   const challengeResponseTemplate = new ChallengeResponseTemplate();
-  const lines = proposals.split(/[\r|\n]+/).filter((line) => !isEmpty(line));
+  const lines = proposals.split(/[\r|\n]+/).filter((line) => !!line);
   const ariaLabelNeeded = isAriaLabelNeededForInputs(lines);
   let inputCount = 0;
+
   lines.forEach((line, lineIdx) => {
     const parts = line.split(/\s*(\${)|}\s*/);
     let prevBlockText = '';
@@ -155,11 +158,8 @@ export default function proposalsAsBlocks(proposals) {
       const didAttachedLabel = block.attachLabel({ isInputField, ariaLabelNeeded, prevBlockText, questionIdx: inputCount });
       prevBlockText = didAttachedLabel ? '' : block.text;
 
-      if (ariaLabelNeeded
-          || block.input
-          || j === parts.length - 1) {
-        challengeResponseTemplate.add(block.get());
-      }
+      const canAddBlockToTemplate = ariaLabelNeeded || isInputField || isLastElement(j, parts);
+      challengeResponseTemplate.add({ canAddBlockToTemplate, block: block.get() });
     }
     challengeResponseTemplate.addLineBreakIfIsNotLastLine({ lineIdx, lines });
   });
