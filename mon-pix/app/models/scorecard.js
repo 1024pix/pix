@@ -3,7 +3,6 @@ import { equal } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import { and } from '@ember/object/computed';
 const { Model, attr, belongsTo, hasMany } = DS;
-import areaColors from 'mon-pix/static-data/area-colors';
 
 const NUMBER_OF_PIX_BY_LEVEL = 8;
 const MAX_DISPLAYED_PERCENTAGE = 95;
@@ -52,11 +51,5 @@ export default Model.extend({
 
   hasReachAtLeastLevelOne: computed('level', function() {
     return this.level >= 1;
-  }),
-
-  areaColor: computed('area.code', function() {
-    const areaCode = this.area.get('code').toString();
-    const foundArea = areaColors.find((color) => color.area === areaCode);
-    return foundArea.color;
   }),
 });

@@ -18,6 +18,7 @@ describe('Unit | Repository | competence-tree-repository', () => {
         code: '1',
         name: '1. Information et données',
         title: 'Information et données',
+        color: 'jaffa',
         competences: [
           {
             id: 'recsvLz0W2ShyfD63',
@@ -40,6 +41,7 @@ describe('Unit | Repository | competence-tree-repository', () => {
             code: '1',
             name: '1. Information et données',
             title: 'Information et données',
+            color: 'jaffa',
             competences: [
               {
                 id: 'recsvLz0W2ShyfD63',

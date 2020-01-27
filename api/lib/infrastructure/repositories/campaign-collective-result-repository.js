@@ -3,16 +3,15 @@ const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const BookshelfCampaign = require('../data/campaign');
 const BookshelfCampaignParticipation = require('../data/campaign-participation');
-const competenceDatasource = require('../datasources/airtable/competence-datasource');
 const skillDatasource = require('../datasources/airtable/skill-datasource');
 const CampaignCollectiveResult = require('../../domain/models/CampaignCollectiveResult');
 const CampaignCompetenceCollectiveResult = require('../../domain/models/CampaignCompetenceCollectiveResult');
 
 module.exports = {
 
-  async getCampaignCollectiveResult(campaignId) {
+  async getCampaignCollectiveResult(campaignId, competences) {
 
-    const { competences, targetedSkillIds, targetedSkills, participantCount } = await _fetchData(campaignId);
+    const { targetedSkillIds, targetedSkills, participantCount } = await _fetchData(campaignId);
 
     const participantsKECountByCompetenceId = await _fetchValidatedKECountByCompetenceId(campaignId, targetedSkillIds);
 
@@ -26,8 +25,7 @@ module.exports = {
 
 async function _fetchData(campaignId) {
 
-  const [competences, campaign, participantCount] = await Promise.all([
-    competenceDatasource.list(),
+  const [campaign, participantCount] = await Promise.all([
     _fetchCampaignWithTargetProfileSkills(campaignId),
     _countSharedParticipants(campaignId),
   ]);
@@ -35,7 +33,7 @@ async function _fetchData(campaignId) {
   const targetedSkillIds = campaign.related('targetProfile').related('skillIds').map((targetProfileSkill) => targetProfileSkill.get('skillId'));
   const targetedSkills = await skillDatasource.findByRecordIds(targetedSkillIds);
 
-  return { competences, targetedSkillIds, targetedSkills, participantCount };
+  return { targetedSkillIds, targetedSkills, participantCount };
 }
 
 function _fetchCampaignWithTargetProfileSkills(campaignId) {
@@ -135,6 +133,7 @@ function _forgeCampaignCompetenceCollectiveResults(campaignId, competences, part
       competenceId,
       competenceName: competence.name,
       competenceIndex: competence.index,
+      areaColor: competence.area.color,
       totalSkillsCount: _.size(targetedSkillsByCompetenceId[competenceId]),
       averageValidatedSkills,
     });

@@ -160,6 +160,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
               attributes: {
                 code: area.fields.Code,
                 title: area.fields.Titre,
+                color: area.fields.Couleur,
               },
               id: area.id,
               type: 'areas'

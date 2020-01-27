@@ -48,8 +48,9 @@
       {{#each campaignCollectiveResult.campaignCompetenceCollectiveResults as |competenceResult|}}
         <tr>
           <td class="participant-results-details__competence-wrapper">
-            <span class="participant-results-details-competence__bullet"
-                  style={{competenceResult.domainColorStyle}}>&#8226;</span>
+            <span class="participant-results-details-competence__bullet participant-results-details-competence__bullet--{{competenceResult.areaColor}}">
+              &#8226;
+            </span>
             <span>{{competenceResult.competenceName}}</span>
           </td>
           <td>

@@ -28,22 +28,37 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
 }
 
 describe('Integration | Repository | Service | Campaign collective result repository', () => {
+  let competences;
 
   beforeEach(() => {
     const areas = [airtableBuilder.factory.buildArea()];
-    const competences = [];
     const skills = [];
 
+    competences = [];
+
     _.each([
-      { competence: { id: 'recCompetenceA', titre: 'Competence A', sousDomaine: '1.1' }, skillIds: ['recUrl1', 'recUrl2', 'recUrl3', 'recUrl4', 'recUrl5'] },
-      { competence: { id: 'recCompetenceB', titre: 'Competence B', sousDomaine: '1.2' }, skillIds: ['recFile2', 'recFile3', 'recFile5', 'recText1'] },
-      { competence: { id: 'recCompetenceC', titre: 'Competence C', sousDomaine: '1.3' }, skillIds: ['recMedia1', 'recMedia2'] },
-      { competence: { id: 'recCompetenceD', titre: 'Competence D', sousDomaine: '2.1' }, skillIds: ['recAlgo1', 'recAlgo2'] },
-      { competence: { id: 'recCompetenceE', titre: 'Competence E', sousDomaine: '2.2' }, skillIds: ['recBrowser1'] },
-      { competence: { id: 'recCompetenceF', titre: 'Competence F', sousDomaine: '2.3' }, skillIds: ['recComputer1'] },
+      {
+        competence: { id: 'recCompetenceA', name: 'Competence A', index: '1.1', area: { color: 'jaffa' } },
+        skillIds: ['recUrl1', 'recUrl2', 'recUrl3', 'recUrl4', 'recUrl5']
+      }, {
+        competence: { id: 'recCompetenceB', name: 'Competence B', index: '1.2', area: { color: 'jaffa' } },
+        skillIds: ['recFile2', 'recFile3', 'recFile5', 'recText1']
+      }, {
+        competence: { id: 'recCompetenceC', name: 'Competence C', index: '1.3', area: { color: 'jaffa' } },
+        skillIds: ['recMedia1', 'recMedia2']
+      }, {
+        competence: { id: 'recCompetenceD', name: 'Competence D', index: '2.1', area: { color: 'emerald' } },
+        skillIds: ['recAlgo1', 'recAlgo2']
+      }, {
+        competence: { id: 'recCompetenceE', name: 'Competence E', index: '2.2', area: { color: 'emerald' } },
+        skillIds: ['recBrowser1']
+      }, {
+        competence: { id: 'recCompetenceF', name: 'Competence F', index: '2.3', area: { color: 'emerald' } },
+        skillIds: ['recComputer1']
+      },
 
     ], ({ competence, skillIds }) => {
-      competences.push(airtableBuilder.factory.buildCompetence(competence));
+      competences.push(domainBuilder.buildCompetence(competence));
 
       _.each(skillIds, (skillId) => skills.push(
         airtableBuilder.factory.buildSkill({ id: skillId, 'compétenceViaTube': [competence.id] })
@@ -53,11 +68,6 @@ describe('Integration | Repository | Service | Campaign collective result reposi
     airtableBuilder
       .mockList({ tableName: 'Domaines' })
       .returns(areas)
-      .activate();
-
-    airtableBuilder
-      .mockList({ tableName: 'Competences' })
-      .returns(competences)
       .activate();
 
     airtableBuilder
@@ -84,7 +94,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
         algo1Id, algo2Id, // comp. D
         computer1Id; // comp. F
 
-      let defaultCampaignCollectiveResult;
+      let expectedCampaignCollectiveResult;
 
       beforeEach(async () => {
 
@@ -118,7 +128,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
         // Competence F - skill is validated and then invalidated
         computer1Id = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recComputer1' }).skillId;
 
-        defaultCampaignCollectiveResult = Object.freeze(domainBuilder.buildCampaignCollectiveResult({
+        expectedCampaignCollectiveResult = Object.freeze(domainBuilder.buildCampaignCollectiveResult({
           id: campaignId,
           campaignCompetenceCollectiveResults: [
             {
@@ -127,6 +137,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceId: 'recCompetenceA',
               competenceName: 'Competence A',
               competenceIndex: '1.1',
+              areaColor: 'jaffa',
               totalSkillsCount: 5,
             },
             {
@@ -135,6 +146,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceId: 'recCompetenceB',
               competenceName: 'Competence B',
               competenceIndex: '1.2',
+              areaColor: 'jaffa',
               totalSkillsCount: 4,
             },
             {
@@ -143,6 +155,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceId: 'recCompetenceC',
               competenceName: 'Competence C',
               competenceIndex: '1.3',
+              areaColor: 'jaffa',
               totalSkillsCount: 1,
             },
             {
@@ -151,6 +164,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceId: 'recCompetenceE',
               competenceName: 'Competence E',
               competenceIndex: '2.2',
+              areaColor: 'emerald',
               totalSkillsCount: 1,
             },
             {
@@ -159,6 +173,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceId: 'recCompetenceF',
               competenceName: 'Competence F',
               competenceIndex: '2.3',
+              areaColor: 'emerald',
               totalSkillsCount: 1,
             }
           ],
@@ -174,13 +189,13 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
         it('should resolves a collective result synthesis with default values for all competences', async () => {
           // when
-          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId);
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, competences);
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
-          expect(result.id).to.equal(defaultCampaignCollectiveResult.id);
-          expect(result.campaignCompetenceCollectiveResults).to.deep.include.ordered.members(defaultCampaignCollectiveResult.campaignCompetenceCollectiveResults);
-          expect(result.campaignCompetenceCollectiveResults).to.deep.equal(defaultCampaignCollectiveResult.campaignCompetenceCollectiveResults);
+          expect(result.id).to.equal(expectedCampaignCollectiveResult.id);
+          expect(result.campaignCompetenceCollectiveResults).to.deep.include.ordered.members(expectedCampaignCollectiveResult.campaignCompetenceCollectiveResults);
+          expect(result.campaignCompetenceCollectiveResults).to.deep.equal(expectedCampaignCollectiveResult.campaignCompetenceCollectiveResults);
         });
       });
 
@@ -196,20 +211,27 @@ describe('Integration | Repository | Service | Campaign collective result reposi
             isShared: false,
           });
 
-          databaseBuilder.factory.buildKnowledgeElement({ userId: goliathId, competenceId: 'recCompetenceA', skillId: url1Id, status: 'validated', campaignId, createdAt: new Date('2019-02-01') });
+          databaseBuilder.factory.buildKnowledgeElement({
+            userId: goliathId,
+            competenceId: 'recCompetenceA',
+            skillId: url1Id,
+            status: 'validated',
+            campaignId,
+            createdAt: new Date('2019-02-01')
+          });
 
           await databaseBuilder.commit();
         });
 
         it('should resolves a collective result synthesis with default values for all competences', async () => {
           // when
-          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId);
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, competences);
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
-          expect(result.id).to.equal(defaultCampaignCollectiveResult.id);
-          expect(result.campaignCompetenceCollectiveResults).to.deep.include.ordered.members(defaultCampaignCollectiveResult.campaignCompetenceCollectiveResults);
-          expect(result.campaignCompetenceCollectiveResults).to.deep.equal(defaultCampaignCollectiveResult.campaignCompetenceCollectiveResults);
+          expect(result.id).to.equal(expectedCampaignCollectiveResult.id);
+          expect(result.campaignCompetenceCollectiveResults).to.deep.include.ordered.members(expectedCampaignCollectiveResult.campaignCompetenceCollectiveResults);
+          expect(result.campaignCompetenceCollectiveResults).to.deep.equal(expectedCampaignCollectiveResult.campaignCompetenceCollectiveResults);
         });
       });
 
@@ -251,6 +273,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceA',
                 competenceName: 'Competence A',
                 competenceIndex: '1.1',
+                areaColor: 'jaffa',
                 totalSkillsCount: 5,
               },
               {
@@ -259,6 +282,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceB',
                 competenceName: 'Competence B',
                 competenceIndex: '1.2',
+                areaColor: 'jaffa',
                 totalSkillsCount: 4,
               },
               {
@@ -267,6 +291,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceC',
                 competenceName: 'Competence C',
                 competenceIndex: '1.3',
+                areaColor: 'jaffa',
                 totalSkillsCount: 1,
               },
               {
@@ -275,6 +300,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceE',
                 competenceName: 'Competence E',
                 competenceIndex: '2.2',
+                areaColor: 'emerald',
                 totalSkillsCount: 1,
               },
               {
@@ -283,13 +309,14 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceF',
                 competenceName: 'Competence F',
                 competenceIndex: '2.3',
+                areaColor: 'emerald',
                 totalSkillsCount: 1,
               }
             ],
           };
 
           // when
-          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId);
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, competences);
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
@@ -416,6 +443,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceA',
                 competenceName: 'Competence A',
                 competenceIndex: '1.1',
+                areaColor: 'jaffa',
                 totalSkillsCount: 5,
               },
               {
@@ -424,6 +452,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceB',
                 competenceName: 'Competence B',
                 competenceIndex: '1.2',
+                areaColor: 'jaffa',
                 totalSkillsCount: 4,
               },
               {
@@ -432,6 +461,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceC',
                 competenceName: 'Competence C',
                 competenceIndex: '1.3',
+                areaColor: 'jaffa',
                 totalSkillsCount: 1,
               },
               {
@@ -440,6 +470,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceE',
                 competenceName: 'Competence E',
                 competenceIndex: '2.2',
+                areaColor: 'emerald',
                 totalSkillsCount: 1,
               },
               {
@@ -448,13 +479,14 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceId: 'recCompetenceF',
                 competenceName: 'Competence F',
                 competenceIndex: '2.3',
+                areaColor: 'emerald',
                 totalSkillsCount: 1,
               }
             ],
           };
 
           // when
-          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId);
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, competences);
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);

@@ -11,6 +11,7 @@ module.exports = datasource.extend({
     'Nom',
     'Titre',
     'Competences (identifiants)',
+    'Couleur',
   ],
 
   fromAirTableObject(airtableRecord) {
@@ -20,6 +21,7 @@ module.exports = datasource.extend({
       name: airtableRecord.get('Nom'),
       title: airtableRecord.get('Titre'),
       competenceIds: airtableRecord.get('Competences (identifiants)'),
+      color: airtableRecord.get('Couleur'),
     };
   },
 

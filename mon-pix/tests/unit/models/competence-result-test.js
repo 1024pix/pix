@@ -87,19 +87,4 @@ describe('Unit | Model | Competence-Result', function() {
       expect(validatedSkillsPercentage).to.equal(33);
     });
   });
-
-  describe('areaColor', function() {
-
-    it('should retrieve domain color style', function() {
-      const competenceResult = store.createRecord('competence-result');
-
-      competenceResult.set('index', '5.1');
-
-      // when
-      const areaColor = competenceResult.get('areaColor');
-
-      // then
-      expect(areaColor).to.equal('butterfly-bush');
-    });
-  });
 });

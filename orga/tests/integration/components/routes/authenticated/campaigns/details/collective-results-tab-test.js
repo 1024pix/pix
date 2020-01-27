@@ -40,6 +40,7 @@ module('Integration | Component | routes/authenticated/campaign/details | collec
     const campaignCompetenceCollectiveResult_1 = run(() => store.createRecord('campaign-competence-collective-result', {
       id: '1_recCompA',
       areaCode: '1',
+      areaColor: 'jaffa',
       competenceId: 'recCompA',
       competenceName: 'Competence A',
       averageValidatedSkills: 10,
@@ -49,6 +50,7 @@ module('Integration | Component | routes/authenticated/campaign/details | collec
     const campaignCompetenceCollectiveResult_2 = run(() => store.createRecord('campaign-competence-collective-result', {
       id: '2_recCompB',
       areaCode: '2',
+      areaColor: 'emerald',
       competenceId: 'recCompB',
       competenceName: 'Competence B',
       averageValidatedSkills: 12.5,
@@ -71,11 +73,13 @@ module('Integration | Component | routes/authenticated/campaign/details | collec
 
     // then
     assert.dom('.table__empty').doesNotExist();
+    assert.dom('table tbody tr:first-child td:first-child span:first-child').hasClass('participant-results-details-competence__bullet--jaffa');
     assert.dom('table tbody tr:first-child td:first-child span:nth-child(2)').hasText('Competence A');
     assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('33%');
     assert.dom('table tbody tr:first-child td:nth-child(3)').hasText('10');
     assert.dom('table tbody tr:first-child td:nth-child(4)').hasText('30');
 
+    assert.dom('table tbody tr:nth-child(2) td:first-child span:first-child').hasClass('participant-results-details-competence__bullet--emerald');
     assert.dom('table tbody tr:nth-child(2) td:first-child span:nth-child(2)').hasText('Competence B');
     assert.dom('table tbody tr:nth-child(2) td:nth-child(2)').hasText('25%');
     assert.dom('table tbody tr:nth-child(2) td:nth-child(3)').hasText('12.5');

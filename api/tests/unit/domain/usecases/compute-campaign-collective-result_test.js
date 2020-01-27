@@ -7,22 +7,26 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
   const campaignId = 'someCampaignId';
   let campaignRepository;
   let campaignCollectiveResultRepository;
+  let competenceRepository;
+  const expectedCompetences = [];
 
   beforeEach(() => {
     campaignCollectiveResultRepository = { getCampaignCollectiveResult: sinon.stub() };
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
+    competenceRepository = { list: sinon.stub() };
   });
 
   context('User has access to this result', () => {
 
     beforeEach(() => {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
+      competenceRepository.list.resolves(expectedCompetences);
     });
 
     it('should resolve a CampaignCollectiveResult', async () => {
       // given
       const expectedCampaignCollectiveResult = domainBuilder.buildCampaignCollectiveResult();
-      campaignCollectiveResultRepository.getCampaignCollectiveResult.withArgs(campaignId).resolves(expectedCampaignCollectiveResult);
+      campaignCollectiveResultRepository.getCampaignCollectiveResult.withArgs(campaignId, expectedCompetences).resolves(expectedCampaignCollectiveResult);
 
       // when
       const actualCampaignCollectiveResult = await computeCampaignCollectiveResult({
@@ -30,9 +34,11 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
         campaignId,
         campaignRepository,
         campaignCollectiveResultRepository,
+        competenceRepository,
       });
 
       // then
+      expect(competenceRepository.list).to.have.been.calledOnce;
       expect(actualCampaignCollectiveResult).to.equal(expectedCampaignCollectiveResult);
     });
   });
@@ -49,6 +55,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
         campaignId,
         campaignRepository,
         campaignCollectiveResultRepository,
+        competenceRepository,
       });
 
       // then
