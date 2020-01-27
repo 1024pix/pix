@@ -6,6 +6,7 @@ const Session = require('../../../../lib/domain/models/Session');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
+const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const certificationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-result-serializer');
 const certificationReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer');
 const _ = require('lodash');
@@ -420,18 +421,12 @@ describe('Unit | Controller | sessionController', () => {
   describe('#finalize', () => {
     let request;
     const sessionId = 1;
+    const aCertificationCourse = Symbol('a certficication course');
     const updatedSession = Symbol('updatedSession');
-    const serializedUpdatedSession = Symbol('updated session serialized');
     const examinerGlobalComment = 'It was a fine session my dear';
-    const serializedCertificationCourses = [
+    const certificationCourses = [
       {
-        id: 1,
         type: 'certification-courses',
-        attributes: {
-          birthdate: '2019-01-01',
-          'has-seen-end-test-screen': false,
-          'examiner-comment': 'What a fine lad this one',
-        },
       },
     ];
 
@@ -446,21 +441,22 @@ describe('Unit | Controller | sessionController', () => {
             attributes: {
               'examiner-global-comment': examinerGlobalComment,
             },
-            included: serializedCertificationCourses,
+            included: certificationCourses,
           },
         },
       };
 
+      sinon.stub(certificationCourseSerializer, 'deserialize').resolves(aCertificationCourse);
       sinon.stub(usecases, 'finalizeSession').resolves(updatedSession);
-      sinon.stub(sessionSerializer, 'serializeForFinalization').withArgs(updatedSession).resolves(serializedUpdatedSession);
+      sinon.stub(sessionSerializer, 'serializeForFinalization').withArgs(updatedSession);
     });
 
-    it('should return the updated version of the session', async () => {
+    it('should call the finalizeSession usecase with correct values', async () => {
       // when
-      const response = await sessionController.finalize(request);
+      await sessionController.finalize(request);
 
       // then
-      expect(response).to.deep.equal(serializedUpdatedSession);
+      expect(usecases.finalizeSession).to.have.been.calledWithExactly({ sessionId, examinerGlobalComment, certificationCourses: [aCertificationCourse] });
     });
   });
 
