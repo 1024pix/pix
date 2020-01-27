@@ -193,6 +193,33 @@ describe('Integration | Repository | Campaign', () => {
       });
     });
 
+    context('when several campaigns are returned', () => {
+      // given
+      let organizationId;
+      let page;
+      let campaignAId, campaignBId, campaignBLaterId;
+      const filter = {};
+
+      beforeEach(() => {
+        organizationId = databaseBuilder.factory.buildOrganization({}).id;
+        campaignAId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'A' }).id;
+        campaignBLaterId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'B', createdAt: '2019-01-02' }).id;
+        campaignBId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'B', createdAt: '2019-01-01' }).id;
+        page = { number: 1, size: 3 };
+
+        return databaseBuilder.commit();
+      });
+
+      it('should sort these campaigns by ascending name and then by descending creation date', async () => {
+        // when
+        const { models: campaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+
+        // then
+        expect(campaignsWithReports).to.have.lengthOf(3);
+        expect(_.map(campaignsWithReports, 'id')).to.include.ordered.members([ campaignAId, campaignBLaterId, campaignBId]);
+      });
+    });
+
     context('when some campaigns names match the "name" search pattern', () => {
       // given
       let organizationId;
