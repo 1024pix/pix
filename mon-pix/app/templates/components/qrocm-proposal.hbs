@@ -16,7 +16,7 @@
                 autocomplete="off"
                 id="{{block.text}}"
                 value={{property-of answersValue block.input}}
-                disabled={{if answer true}}
+                disabled={{answer}}
                 aria-label={{if block.ariaLabel block.ariaLabel false}}>
       </textarea>
     {{else if (eq format 'phrase')}}
@@ -30,7 +30,7 @@
              autocomplete="off"
              id="{{block.text}}"
              value={{property-of answersValue block.input}}
-             disabled={{if answer true}}
+             disabled={{answer}}
              aria-label={{if block.ariaLabel block.ariaLabel false}}>
     {{else}}
       {{#if block.text}}
@@ -44,7 +44,7 @@
              autocomplete="off"
              id="{{block.text}}"
              value={{property-of answersValue block.input}}
-             disabled={{if answer true}}
+             disabled={{answer}}
              aria-label={{if block.ariaLabel block.ariaLabel false}}>
     {{/if}}
 
