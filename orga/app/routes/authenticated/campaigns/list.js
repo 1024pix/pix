@@ -9,7 +9,10 @@ export default Route.extend({
     },
     pageSize: {
       refreshModel: true
-    }
+    },
+    name: {
+      refreshModel: true
+    },
   },
 
   currentUser: service(),
@@ -18,6 +21,7 @@ export default Route.extend({
     return this.store.query('campaign', {
       filter: {
         organizationId: this.currentUser.organization.id,
+        name: params.name,
       },
       page: {
         number: params.pageNumber,
@@ -30,6 +34,7 @@ export default Route.extend({
     if (isExiting) {
       controller.set('pageNumber', 1);
       controller.set('pageSize', 10);
+      controller.set('name', null);
     }
   }
 });
