@@ -59,6 +59,7 @@ module.exports = function competenceRawAirTableFixture() {
       'Acquis Of Level 6': 4,
       'Acquis Of Level 7': 0,
       'Acquis Of Level 8': 0,
+      'Origine': 'Pix',
     },
     'createdTime': '2017-06-13T13:53:17.000Z',
   });

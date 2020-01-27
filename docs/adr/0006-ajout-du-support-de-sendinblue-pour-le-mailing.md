@@ -10,7 +10,7 @@ Accepted
 
 Les DANE et académies ont tendance à bloquer les providers commerciaux et filtrent les messages avec un mécanisme de whitelisting d'IP.
 
-Par ailleurs, nous avons été plusieurs fois rencontrés des difficultés avec MailJet (API limit, communication, support), en particulier lors de moments ou phases critiques.
+Par ailleurs, nous avons plusieurs fois rencontrés des difficultés avec MailJet (API limit, communication, support), en particulier lors de moments ou phases critiques.
 
 Sans compter que MailJet a été racheté par MailGun, entreprise américaine. **MailJet est donc désormais soumis au CLOUD Act.**
 

@@ -17,7 +17,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
   const scorecard = { id: 'foo' };
 
   beforeEach(() => {
-    competenceRepository = { list: sinon.stub() };
+    competenceRepository = { listPixCompetencesOnly: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
     competenceEvaluationRepository = { findByUserId: sinon.stub() };
     sinon.stub(Scorecard, 'buildFrom').returns(scorecard);
@@ -35,7 +35,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
 
       it('should resolve', () => {
         // given
-        competenceRepository.list.resolves([]);
+        competenceRepository.listPixCompetencesOnly.resolves([]);
         knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves({});
         competenceEvaluationRepository.findByUserId.resolves([]);
 
@@ -64,7 +64,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
           domainBuilder.buildCompetence({ id: 2 }),
           domainBuilder.buildCompetence({ id: 3 })
         ];
-        competenceRepository.list.resolves(competenceList);
+        competenceRepository.listPixCompetencesOnly.resolves(competenceList);
 
         const assessmentFinishedOfCompetence1 = domainBuilder.buildAssessment({
           type: 'COMPETENCE_EVALUATION',
