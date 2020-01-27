@@ -1,3 +1,16 @@
+const Joi = require('@hapi/joi')
+
+const { InvalidCertificationReportForFinalization } = require('../errors');
+
+const certificationReportSchemaForFinalization = Joi.object({
+  id: Joi.string().optional(),
+  firstName: Joi.string().optional(),
+  lastName: Joi.string().optional(),
+  certificationCourseId: Joi.number().required(),
+  examinerComment: Joi.string().max(500).allow(null).optional(),
+  hasSeenEndTestScreen: Joi.boolean().required(),
+});
+
 class CertificationReport {
   constructor(
     {
@@ -17,6 +30,13 @@ class CertificationReport {
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     // references
     this.certificationCourseId = certificationCourseId;
+  }
+
+  validateForFinalization() {
+    const { error } = certificationReportSchemaForFinalization.validate(this);
+    if (error) {
+      throw new InvalidCertificationReportForFinalization(error);
+    }
   }
 
   static fromCertificationCourse(certificationCourse) {

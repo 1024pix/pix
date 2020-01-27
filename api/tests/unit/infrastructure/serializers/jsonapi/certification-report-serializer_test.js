@@ -32,7 +32,16 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
       // then
       expect(jsonApi).to.deep.equal(jsonApiData);
     });
+  });
 
+  describe('#deserialize()', () => {
+    it('should convert a JSON API data into a CertificationReport', async function() {
+      // when
+      const deserializedCertificationReport = await serializer.deserialize(jsonApiData);
+
+      // then
+      expect(deserializedCertificationReport).to.deep.equal(certificationReport);
+    });
   });
 
 });

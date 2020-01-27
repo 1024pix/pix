@@ -1,4 +1,6 @@
-const { Serializer } = require('jsonapi-serializer');
+const { Serializer, Deserializer } = require('jsonapi-serializer');
+
+const CertificationReport = require('../../../domain/models/CertificationReport');
 
 module.exports = {
   serialize(certificationReports) {
@@ -11,5 +13,11 @@ module.exports = {
         'hasSeenEndTestScreen',
       ],
     }).serialize(certificationReports);
+  },
+
+  async deserialize(jsonApiData) {
+    const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
+    const deserializedReport = await deserializer.deserialize(jsonApiData);
+    return new CertificationReport(deserializedReport);
   },
 };

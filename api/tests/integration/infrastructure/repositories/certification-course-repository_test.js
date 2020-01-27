@@ -1,7 +1,7 @@
 const { expect, databaseBuilder, knex, domainBuilder, catchErr } = require('../../../test-helper');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const BookshelfCertificationCourse = require('../../../../lib/infrastructure/data/certification-course');
-const { NotFoundError, CertificationCourseUpdateError } = require('../../../../lib/domain/errors');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -291,130 +291,6 @@ describe('Integration | Repository | Certification Course', function() {
       expect(actualCertificationCourseIds).to.include.members(expectedCertificationCourseIds);
       expect(actualCertificationCourseIds.length).to.equal(expectedCertificationCourseIds.length);
     });
-  });
-
-  describe('#finalize', () => {
-    let certificationCourse;
-    let sessionId;
-
-    beforeEach(() => {
-      // given
-      sessionId = databaseBuilder.factory.buildSession().id;
-
-      return databaseBuilder.commit();
-    });
-
-    beforeEach(async () => {
-      certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-        hasSeenEndTestScreen: false,
-        examinerComment: null,
-        sessionId,
-      });
-
-      return databaseBuilder.commit();
-    });
-
-    it('should return the finalized certification courses', async () => {
-      // given
-      certificationCourse.hasSeenEndTestScreen = true;
-      certificationCourse.examinerComment = 'J\'aime les fruits et les poulets';
-
-      // when
-      await certificationCourseRepository.finalize({ certificationCourse });
-
-      // then
-      const actualCertificationCourses = await knex('certification-courses').where({ sessionId });
-      expect(actualCertificationCourses[0].hasSeenEndTestScreen).to.equal(certificationCourse.hasSeenEndTestScreen);
-      expect(actualCertificationCourses[0].examinerComment).to.equal(certificationCourse.examinerComment);
-    });
-
-  });
-
-  describe('#finalizeAll', () => {
-    let certificationCourse1;
-    let certificationCourse2;
-    let sessionId;
-
-    beforeEach(() => {
-      // given
-      sessionId = databaseBuilder.factory.buildSession().id;
-
-      return databaseBuilder.commit();
-    });
-
-    context('when Courses are being successfully finalized', () => {
-
-      beforeEach(async () => {
-        certificationCourse1 = databaseBuilder.factory.buildCertificationCourse({
-          hasSeenEndTestScreen: false,
-          examinerComment: null,
-          sessionId,
-        });
-
-        certificationCourse2 = databaseBuilder.factory.buildCertificationCourse({
-          hasSeenEndTestScreen: false,
-          examinerComment: null,
-          sessionId,
-        });
-
-        return databaseBuilder.commit();
-      });
-
-      it('should return the finalized certification Courses', async () => {
-        // given
-        certificationCourse1.hasSeenEndTestScreen = true;
-        certificationCourse2.examinerComment = 'J\'aime les fruits et les poulets';
-
-        // when
-        await certificationCourseRepository.finalizeAll([certificationCourse1, certificationCourse2]);
-
-        // then
-        const actualCertificationCourses = await knex('certification-courses').where({ sessionId });
-        const actualCourse1 = _.find(actualCertificationCourses, { id: certificationCourse1.id });
-        const actualCourse2 = _.find(actualCertificationCourses, { id: certificationCourse2.id });
-        expect(actualCourse1.hasSeenEndTestScreen).to.equal(certificationCourse1.hasSeenEndTestScreen);
-        expect(actualCourse2.examinerComment).to.equal(certificationCourse2.examinerComment);
-      });
-
-    });
-
-    context('when finalization fails', () => {
-
-      beforeEach(async () => {
-        certificationCourse1 = databaseBuilder.factory.buildCertificationCourse({
-          hasSeenEndTestScreen: false,
-          examinerComment: null,
-          sessionId,
-        });
-
-        certificationCourse2 = databaseBuilder.factory.buildCertificationCourse({
-          hasSeenEndTestScreen: false,
-          examinerComment: null,
-          sessionId,
-        });
-
-        return databaseBuilder.commit();
-      });
-
-      it('should have left the Courses as they were and rollback updates if any', async () => {
-        // given
-        certificationCourse1.examinerComment = 'J\'aime les fruits et les poulets';
-        certificationCourse2.hasSeenEndTestScreen = 'je suis supposé être un booléen';
-
-        // when
-        const error = await catchErr(certificationCourseRepository.finalizeAll)([certificationCourse1, certificationCourse2]);
-
-        // then
-        const actualCertificationCourses = await knex('certification-courses').where({ sessionId });
-        const actualCourse1 = _.find(actualCertificationCourses, { id: certificationCourse1.id });
-        const actualCourse2 = _.find(actualCertificationCourses, { id: certificationCourse2.id });
-        expect(actualCourse2.examinerComment).to.equal(null);
-        expect(actualCourse1.hasSeenEndTestScreen).to.equal(false);
-        expect(error).to.be.an.instanceOf(CertificationCourseUpdateError);
-      });
-
-    });
-
   });
 
 });

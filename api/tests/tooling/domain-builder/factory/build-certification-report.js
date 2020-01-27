@@ -8,9 +8,9 @@ module.exports = function buildCertificationReport(
     firstName = faker.name.firstName(),
     lastName = faker.name.lastName(),
     examinerComment = faker.lorem.sentence(),
-    hasSeendEndTestScreen = false,
+    hasSeenEndTestScreen = false,
     // references
-    certificationCourseId,
+    certificationCourseId = faker.random.number(),
   } = {}) {
 
   return new CertificationReport({
@@ -19,6 +19,6 @@ module.exports = function buildCertificationReport(
     firstName,
     lastName,
     examinerComment,
-    hasSeendEndTestScreen,
+    hasSeenEndTestScreen,
   });
 };
