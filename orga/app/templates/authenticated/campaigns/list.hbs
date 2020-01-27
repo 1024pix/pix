@@ -1,11 +1,11 @@
 <div class="list-campaigns-page">
-  {{#if hasCampaign}}
+  {{#if displayNoCampaignPanel}}
+    {{routes/authenticated/campaigns/no-campaign-panel}}
+  {{else}}
     {{routes/authenticated/campaigns/list-items
       campaigns=model
       name=name
       triggerFiltering=(action 'triggerFiltering')
       goToCampaignPage=(action 'goToCampaignPage')}}
-  {{else}}
-    {{routes/authenticated/campaigns/no-campaign-panel}}
   {{/if}}
 </div>
