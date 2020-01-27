@@ -159,8 +159,8 @@ describe('Integration | Repository | Campaign', () => {
         expect(_.map(sortedCampaignsWithReports, 'id')).to.have.members([firstCampaignId, secondCampaignId]);
         expect(sortedCampaignsWithReports[0]).to.be.instanceOf(Campaign);
         expect(sortedCampaignsWithReports[0].campaignReport).to.be.instanceOf(CampaignReport);
-        expect(sortedCampaignsWithReports[0].campaignReport).to.deep.equal({ id: firstCampaignId, participationsCount: '3', sharedParticipationsCount: '1' });
-        expect(sortedCampaignsWithReports[1].campaignReport).to.deep.equal({ id: secondCampaignId, participationsCount: '2', sharedParticipationsCount: '2' });
+        expect(sortedCampaignsWithReports[0].campaignReport).to.deep.equal({ id: firstCampaignId, participationsCount: 3, sharedParticipationsCount: 1 });
+        expect(sortedCampaignsWithReports[1].campaignReport).to.deep.equal({ id: secondCampaignId, participationsCount: 2, sharedParticipationsCount: 2 });
       });
     });
 
