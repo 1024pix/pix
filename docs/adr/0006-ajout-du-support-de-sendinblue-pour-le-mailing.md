@@ -4,7 +4,7 @@ Date : 2020-01-28
 
 ## État
 
-Draft
+Accepted
 
 ## Contexte
 
