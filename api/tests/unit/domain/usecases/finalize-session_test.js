@@ -2,11 +2,11 @@ const {
   sinon,
   expect,
   catchErr,
+  domainBuilder,
 } = require('../../../test-helper');
 
 const finalizeSession = require('../../../../lib/domain/usecases/finalize-session');
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
-const { SessionAlreadyFinalizedError, InvalidCertificationCourseForFinalization } = require('../../../../lib/domain/errors');
+const { SessionAlreadyFinalizedError, InvalidCertificationReportForFinalization } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | finalize-session', () => {
 
@@ -14,7 +14,7 @@ describe('Unit | UseCase | finalize-session', () => {
   let updatedSession;
   let examinerGlobalComment;
   let sessionRepository;
-  let certificationCourseRepository;
+  let certificationReportRepository;
 
   beforeEach(async () => {
     sessionId = 'dummy session id';
@@ -24,7 +24,7 @@ describe('Unit | UseCase | finalize-session', () => {
       updateStatusAndExaminerGlobalComment: sinon.stub(),
       isFinalized: sinon.stub(),
     };
-    certificationCourseRepository = {
+    certificationReportRepository = {
       finalizeAll: sinon.stub(),
     };
   });
@@ -41,8 +41,8 @@ describe('Unit | UseCase | finalize-session', () => {
         sessionId,
         examinerGlobalComment,
         sessionRepository,
-        certificationCourses: [],
-        certificationCourseRepository
+        certificationReports: [],
+        certificationReportRepository
       });
 
       // then
@@ -52,38 +52,38 @@ describe('Unit | UseCase | finalize-session', () => {
   });
 
   context('When the session status is not finalized yet ', () => {
-    let certificationCourses;
-    context('When the certificationCourses are not valid', () => {
+    let certificationReports;
+    context('When the certificationReports are not valid', () => {
       beforeEach(() => {
-        const courseWithoutHasSeenLastScreen = new CertificationCourse();
-        certificationCourses = [courseWithoutHasSeenLastScreen];
+        const courseWithoutHasSeenLastScreen = domainBuilder.buildCertificationReport();
+        delete courseWithoutHasSeenLastScreen.hasSeenEndTestScreen;
+        certificationReports = [courseWithoutHasSeenLastScreen];
       });
 
-      it('should throw an InvalidCertificationCourseForFinalization error', async () => {
+      it('should throw an InvalidCertificationReportForFinalization error', async () => {
         // when
         const err = await catchErr(finalizeSession)({
           sessionId,
           examinerGlobalComment,
           sessionRepository,
-          certificationCourses,
-          certificationCourseRepository
+          certificationReports,
+          certificationReportRepository
         });
 
         // then
-        expect(err).to.be.instanceOf(InvalidCertificationCourseForFinalization);
+        expect(err).to.be.instanceOf(InvalidCertificationReportForFinalization);
       });
     });
 
-    context('When the certificationCourses are valid', () => {
+    context('When the certificationReports are valid', () => {
       beforeEach(() => {
-        const validCourseForFinalization = new CertificationCourse({
-          birthdate: '2000-10-01',
+        const validReportForFinalization = domainBuilder.buildCertificationReport({
           examinerComment: 'signalement sur le candidat',
           hasSeenEndTestScreen: false,
         });
-        certificationCourses = [validCourseForFinalization];
+        certificationReports = [validReportForFinalization];
         sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
-        certificationCourseRepository.finalizeAll.withArgs(certificationCourses).resolves();
+        certificationReportRepository.finalizeAll.withArgs(certificationReports).resolves();
         sessionRepository.updateStatusAndExaminerGlobalComment.withArgs({
           id: sessionId,
           status: 'finalized',
@@ -97,8 +97,8 @@ describe('Unit | UseCase | finalize-session', () => {
           sessionId,
           examinerGlobalComment,
           sessionRepository,
-          certificationCourses,
-          certificationCourseRepository,
+          certificationReports,
+          certificationReportRepository,
         });
 
         // then

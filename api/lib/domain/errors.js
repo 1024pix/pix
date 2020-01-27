@@ -82,7 +82,7 @@ class CertificationCourseUpdateError extends DomainError {
   }
 }
 
-class InvalidCertificationCourseForFinalization extends DomainError {
+class InvalidCertificationReportForFinalization extends DomainError {
   constructor(message = 'Echec lors de la validation du certification course') {
     super(message);
   }
@@ -438,7 +438,7 @@ module.exports = {
   UserNotAuthorizedToGetCampaignResultsError,
   UserNotAuthorizedToGetCertificationCoursesError,
   CertificationCourseUpdateError,
-  InvalidCertificationCourseForFinalization,
+  InvalidCertificationReportForFinalization,
   UserNotAuthorizedToUpdateResourceError,
   UserNotFoundError,
   WrongDateFormatError,

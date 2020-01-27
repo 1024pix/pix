@@ -1,7 +1,6 @@
 const usecases = require('../../domain/usecases');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const certificationCandidateSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-serializer');
-const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const certificationReportSerializer = require('../../infrastructure/serializers/jsonapi/certification-report-serializer');
 const certificationResultSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-serializer');
 const tokenService = require('../../domain/services/token-service');
@@ -118,13 +117,13 @@ module.exports = {
   async finalize(request) {
     const sessionId = request.params.id;
     const examinerGlobalComment = request.payload.data.attributes['examiner-global-comment'];
-    const certificationCourses = await Promise.all(
+    const certificationReports = await Promise.all(
       (request.payload.data.included || [])
-        .filter((data) => data.type === 'certification-courses')
-        .map((data) => certificationCourseSerializer.deserialize({ data }))
+        .filter((data) => data.type === 'certification-reports')
+        .map((data) => certificationReportSerializer.deserialize({ data }))
     );
 
-    const session = await usecases.finalizeSession({ sessionId, examinerGlobalComment, certificationCourses });
+    const session = await usecases.finalizeSession({ sessionId, examinerGlobalComment, certificationReports });
 
     return sessionSerializer.serializeForFinalization(session);
   },

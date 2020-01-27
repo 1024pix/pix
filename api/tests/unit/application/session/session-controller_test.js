@@ -6,7 +6,6 @@ const Session = require('../../../../lib/domain/models/Session');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
-const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const certificationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-result-serializer');
 const certificationReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer');
 const _ = require('lodash');
@@ -421,12 +420,12 @@ describe('Unit | Controller | sessionController', () => {
   describe('#finalize', () => {
     let request;
     const sessionId = 1;
-    const aCertificationCourse = Symbol('a certficication course');
+    const aCertificationReport = Symbol('a certficication report');
     const updatedSession = Symbol('updatedSession');
     const examinerGlobalComment = 'It was a fine session my dear';
-    const certificationCourses = [
+    const certificationReports = [
       {
-        type: 'certification-courses',
+        type: 'certification-reports',
       },
     ];
 
@@ -441,12 +440,12 @@ describe('Unit | Controller | sessionController', () => {
             attributes: {
               'examiner-global-comment': examinerGlobalComment,
             },
-            included: certificationCourses,
+            included: certificationReports,
           },
         },
       };
 
-      sinon.stub(certificationCourseSerializer, 'deserialize').resolves(aCertificationCourse);
+      sinon.stub(certificationReportSerializer, 'deserialize').resolves(aCertificationReport);
       sinon.stub(usecases, 'finalizeSession').resolves(updatedSession);
       sinon.stub(sessionSerializer, 'serializeForFinalization').withArgs(updatedSession);
     });
@@ -456,7 +455,7 @@ describe('Unit | Controller | sessionController', () => {
       await sessionController.finalize(request);
 
       // then
-      expect(usecases.finalizeSession).to.have.been.calledWithExactly({ sessionId, examinerGlobalComment, certificationCourses: [aCertificationCourse] });
+      expect(usecases.finalizeSession).to.have.been.calledWithExactly({ sessionId, examinerGlobalComment, certificationReports: [aCertificationReport] });
     });
   });
 

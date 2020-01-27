@@ -65,6 +65,9 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.CertificationCenterMembershipCreationError) {
     return new InfraErrors.BadRequestError('Le membre ou le centre de certification n\'existe pas.');
   }
+  if (error instanceof DomainErrors.InvalidCertificationReportForFinalization) {
+    return new InfraErrors.BadRequestError(error.message);
+  }
   if (error instanceof DomainErrors.AlreadyExistingMembershipError) {
     return new InfraErrors.PreconditionFailedError(error.message);
   }

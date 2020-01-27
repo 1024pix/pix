@@ -12,8 +12,8 @@ describe('Acceptance | Controller | sessions-controller', () => {
   beforeEach(async () => {
     server = await createServer();
     session = databaseBuilder.factory.buildSession({ status: 'started' });
-    const course1Id = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id }).id;
-    const course2Id = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id }).id;
+    const report1 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id });
+    const report2 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id });
 
     options = {
       method: 'PUT',
@@ -24,21 +24,21 @@ describe('Acceptance | Controller | sessions-controller', () => {
           },
           included: [
             {
-              id: course1Id,
-              type: 'certification-courses',
+              id: report1.id,
+              type: 'certification-reports',
               attributes: {
-                birthdate: '2000-12-01',
-                'examinerComment': 'What a fine lad this one',
-                'hasSeenEndTestScreen': false,
+                'certification-course-id': report1.certificationCourseId,
+                'examiner-comment': 'What a fine lad this one',
+                'has-seen-end-test-screen': false,
               },
             },
             {
-              id: course2Id,
-              type: 'certification-courses',
+              id: report2.id,
+              type: 'certification-reports',
               attributes: {
-                birthdate: '2001-11-01',
-                'examinerComment': 'What a fine lad this two',
-                'hasSeenEndTestScreen': true,
+                'certification-course-id': report2.certificationCourseId,
+                'examiner-comment': 'What a fine lad this two',
+                'has-seen-end-test-screen': true,
               },
             },
           ],
@@ -112,8 +112,8 @@ describe('Acceptance | Controller | sessions-controller', () => {
         const response = await server.inject(options);
 
         // then
-        expect(response.result.data).to.deep.equal(expectedSessionJSONAPI.data);
         expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal(expectedSessionJSONAPI.data);
       });
     });
   });
