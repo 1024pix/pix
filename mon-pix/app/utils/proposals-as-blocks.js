@@ -43,8 +43,10 @@ function isAriaLabelNeededForInputs(lines) {
   const hasMoreThanOneInputField = lastLineInputs && lastLineInputs.length > 1;
   const inputRegex = /\s*(\${.+?})|-| /g; //regex that remove spaces, -, ${} => should return only letters
   const lastLineWithoutInput = lastLine.replace(inputRegex, '');
+  const parts = lastLine.split(/\s*(\${)|}\s*/);
+  const hasNoTextBeforeInput = !(parts && parts[0].replace(inputRegex, '').length > 0);
 
-  if (hasMoreThanOneInputField) {
+  if (hasMoreThanOneInputField || hasNoTextBeforeInput) {
     return true;
   }
 
@@ -69,17 +71,21 @@ class ResponseBlock {
   }
 
   attachLabel({ isInputField, ariaLabelNeeded, prevBlockText, questionIdx }) {
-    if (isInputField && !ariaLabelNeeded) {
-      if (prevBlockText) {
-        this._text = prevBlockText;
-        return true;
-      }
+    if (isInputField
+        && !ariaLabelNeeded
+        && this._hasPrevBlockText(prevBlockText)) {
+      this._text = prevBlockText;
+      return true;
     }
     else if (isInputField) {
       this._ariaLabel = 'Réponse ' + questionIdx;
       return true;
     }
     return false;
+  }
+
+  _hasPrevBlockText(prevBlockText) {
+    return !(prevBlockText.length === 1 && prevBlockText[0] === '-');
   }
 
   get input() {
@@ -112,7 +118,7 @@ class ChallengeResponseTemplate {
     }
   }
 
-  addAsNewLine(block) {
+  add(block) {
     this._template.push(block);
   }
 
@@ -149,11 +155,10 @@ export default function proposalsAsBlocks(proposals) {
       const didAttachedLabel = block.attachLabel({ isInputField, ariaLabelNeeded, prevBlockText, questionIdx: inputCount });
       prevBlockText = didAttachedLabel ? '' : block.text;
 
-      if (ariaLabelNeeded || block.input) {
-        challengeResponseTemplate.addAsNewLine(block.get());
-      }
-      else if (j === parts.length - 1) {
-        challengeResponseTemplate.addAsNewLine(block.get());
+      if (ariaLabelNeeded
+          || block.input
+          || j === parts.length - 1) {
+        challengeResponseTemplate.add(block.get());
       }
     }
     challengeResponseTemplate.addLineBreakIfIsNotLastLine({ lineIdx, lines });

@@ -6,7 +6,9 @@
 
   {{#if block.input}}
     {{#if (eq format 'paragraphe')}}
-      <label for="{{block.text}}">{{block.text}}</label>
+      {{#if block.text}}
+        <label for="{{block.text}}">{{block.text}}</label>
+      {{/if}}
       <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
                 rows="5"
                 name={{block.input}}
@@ -14,10 +16,13 @@
                 autocomplete="off"
                 id="{{block.text}}"
                 value={{property-of answersValue block.input}}
-                disabled={{if answer true}}>
+                disabled={{if answer true}}
+                aria-label={{if block.ariaLabel block.ariaLabel false}}>
       </textarea>
     {{else if (eq format 'phrase')}}
-      <label for="{{block.text}}">{{block.text}}</label>
+      {{#if block.text}}
+        <label for="{{block.text}}">{{block.text}}</label>
+      {{/if}}
       <input class="challenge-response__proposal challenge-response__proposal--sentence"
              type="text"
              name={{block.input}}
@@ -25,7 +30,8 @@
              autocomplete="off"
              id="{{block.text}}"
              value={{property-of answersValue block.input}}
-             disabled={{if answer true}}>
+             disabled={{if answer true}}
+             aria-label={{if block.ariaLabel block.ariaLabel false}}>
     {{else}}
       {{#if block.text}}
         <label for="{{block.text}}">{{block.text}}</label>

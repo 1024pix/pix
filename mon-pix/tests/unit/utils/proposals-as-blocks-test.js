@@ -7,7 +7,6 @@ describe('Unit | Utility | proposals as blocks', function() {
   const testData = [
     { data: '', expected: [] },
     { data: 'Text', expected: [{ text: 'Text', input: undefined, placeholder: undefined, ariaLabel: '' }] },
-    { data: 'Text test plop', expected: [{ text: 'Text test plop', input: undefined, placeholder: undefined, ariaLabel: '' }] },
     { data: '${qroc}', expected: [{ input: 'qroc', text: undefined, placeholder: undefined, ariaLabel: 'Réponse 1' }] },
     { data: 'Test: ${test}', expected: [
       { text: 'Test:', input: 'test', placeholder: undefined, ariaLabel: '' }] },
@@ -31,14 +30,11 @@ describe('Unit | Utility | proposals as blocks', function() {
       { text: 'line1', input: undefined, placeholder: undefined, ariaLabel: '' },
       { breakline: true },
       { text: 'line2', input: undefined, placeholder: undefined, ariaLabel: '' }] },
-    { data: 'line1\n\rline2', expected: [
-      { text: 'line1', input: undefined, placeholder: undefined, ariaLabel: '' },
-      { breakline: true },
-      { text: 'line2', input: undefined, placeholder: undefined, ariaLabel: '' }] },
-    { data: 'line1\n\nline2', expected: [
-      { text: 'line1', input: undefined, placeholder: undefined, ariaLabel: '' },
-      { breakline: true },
-      { text: 'line2', input: undefined, placeholder: undefined, ariaLabel: '' }] }
+    { data: '- ${plop}', expected: [
+      { text: '-', input: undefined, placeholder: undefined, ariaLabel: '' },
+      { text: undefined, input: 'plop', placeholder: undefined, ariaLabel: 'Réponse 1' }] },
+    { data: '- line ${plop}', expected: [
+      { text: '- line', input: 'plop', placeholder: undefined, ariaLabel: '' }] },
   ];
 
   testData.forEach(({ data, expected }) => {
