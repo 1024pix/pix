@@ -27,7 +27,7 @@ export default Route.extend({
         number: params.pageNumber,
         size: params.pageSize,
       },
-    });
+    }, { reload: true });
   },
 
   resetController(controller, isExiting) {
