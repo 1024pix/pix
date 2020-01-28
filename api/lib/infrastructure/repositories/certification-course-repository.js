@@ -1,7 +1,5 @@
 const { _ } = require('lodash');
 
-const Bookshelf = require('../bookshelf');
-
 const CertificationCourseBookshelf = require('../data/certification-course');
 const AssessmentBookshelf = require('../data/assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');

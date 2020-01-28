@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, knex, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const BookshelfCertificationCourse = require('../../../../lib/infrastructure/data/certification-course');
 const { NotFoundError } = require('../../../../lib/domain/errors');

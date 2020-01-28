@@ -7,7 +7,6 @@ const CertificationCourseBookshelf = require('../data/certification-course');
 const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
 const { CertificationCourseUpdateError } = require('../../domain/errors');
 
-
 module.exports = {
 
   findBySessionId(sessionId) {

@@ -27,7 +27,7 @@
         background-color: $wild-sand;
         transition: 0.25s ease;
       }
-      &:hover .checkbox--unchecked:not(.checkbox--disabled) {
+      &:hover .checkbox--unchecked {
         border-color: $grey;
       }
     }
