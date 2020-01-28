@@ -8,6 +8,7 @@ const sessionSerializer = require('../../../../lib/infrastructure/serializers/js
 const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
 const certificationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-result-serializer');
 const certificationReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer');
+const tokenService = require('../../../../lib/domain/services/token-service');
 const _ = require('lodash');
 
 describe('Unit | Controller | sessionController', () => {
@@ -487,6 +488,43 @@ describe('Unit | Controller | sessionController', () => {
       // then
       expect(result).to.equal(analyzeResult);
     });
+  });
+
+  describe('#getCsvResults ', () => {
+    let request, expectedHeaders;
+    const sessionId = 1;
+    const csvContent = Symbol('csvContent');
+    const csvFilename = 'csvFilename';
+    const accessToken = 'ABC123';
+
+    beforeEach(() => {
+      request = {
+        params: { id : sessionId },
+        payload: {},
+        query: {
+          accessToken,
+        }
+      };
+
+      expectedHeaders = {
+        'Content-Type': 'text/csv;charset=utf-8',
+        'Content-Disposition': `attachment; filename=${csvFilename}`,
+      };
+
+      sinon.stub(tokenService, 'extractUserId').withArgs(accessToken).returns(userId);
+      sinon.stub(usecases, 'generateSessionCsvResults').withArgs({ sessionId, userId }).resolves({ csvContent, csvFilename });
+    });
+
+    it('should return csv results', async () => {
+      // when
+      const response = await sessionController.getCsvResults(request, hFake);
+
+      // then
+      expect(usecases.generateSessionCsvResults.calledWithExactly({ sessionId, userId })).to.be.true;
+      expect(response.headers).to.deep.equal(expectedHeaders);
+      expect(response.source).to.deep.equal(csvContent);
+    });
+
   });
 
 });

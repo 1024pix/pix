@@ -135,8 +135,15 @@ module.exports = {
     return usecases.analyzeAttendanceSheet({ sessionId, odsBuffer });
   },
 
-  async getCsvResults() {
-    return null;
+  async getCsvResults(request, h) {
+    const sessionId = request.params.id;
+    const token = request.query.accessToken;
+    const userId = tokenService.extractUserId(token);
+    const { csvFilename, csvContent } = await usecases.generateSessionCsvResults({ sessionId, userId });
+
+    return h.response(csvContent)
+      .header('Content-Type', 'text/csv;charset=utf-8')
+      .header('Content-Disposition', `attachment; filename=${csvFilename}`);
   },
 
 };

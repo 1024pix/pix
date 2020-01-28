@@ -99,6 +99,7 @@ module.exports = injectDependencies({
   findSmartPlacementAssessments: require('./find-smart-placement-assessments'),
   findSnapshots: require('./find-snapshots'),
   findTutorials: require('./find-tutorials'),
+  generateSessionCsvResults: require('./generate-session-csv-results'),
   getAnswer: require('./get-answer'),
   getAssessment: require('./get-assessment'),
   getAttendanceSheet: require('./get-attendance-sheet'),
