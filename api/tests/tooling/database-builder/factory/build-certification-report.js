@@ -13,10 +13,10 @@ module.exports = function buildCertificationReport({
 } = {}) {
 
   certificationCourseId = _.isUndefined(certificationCourseId)
-    ? buildCertificationCourse({firstName, lastName, sessionId}).id
+    ? buildCertificationCourse({ firstName, lastName, sessionId }).id
     : certificationCourseId;
 
-  id = CertificationReport.idFromCertificationCourseId(certificationCourseId);
+  const id = CertificationReport.idFromCertificationCourseId(certificationCourseId);
 
   const values = {
     id,
