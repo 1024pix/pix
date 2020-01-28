@@ -96,8 +96,8 @@
   display: flex;
   align-items: center;
   color: $grey;
-  padding: 16px 0px;
-  margin: 0px 20px 0px 30px;
+  padding: 16px 0;
+  margin: 0 16px;
 
   &__title {
     display: flex;
@@ -156,7 +156,7 @@
 
 .certification-candidates-row-actions {
   justify-content: flex-end;
-  padding-right: 20px;
+  padding-right: 16px;
 
   &__close {
     margin-left: 8px;
@@ -166,6 +166,10 @@
 .button--row-item {
   padding-top: 11px;
   height: 38px;
+}
+
+.certification-candidates-table td, .certification-candidates-table th {
+  padding-left: 16px;
 }
 
 .certification-candidates-table__column-last-name {
@@ -182,13 +186,16 @@
 
 .certification-candidates-actions {
   position: relative;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-right: 20px;
+  padding-right: 16px;
 
   &__delete {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &__button {
       font-size: 1rem;
@@ -198,6 +205,7 @@
         font-size: 1rem;
         background-color: $idol;
         color: $white;
+        cursor: not-allowed;
 
         &:hover, &:active, &:focus {
           background-color: $dusty-gray;
@@ -208,8 +216,8 @@
     &__tooltip {
       visibility: hidden;
       position: absolute;
-      top: 40px;
-      right: 30px;
+      right: calc(16px + 38px + 4px); // padding-right parent + width button + petite marge
+      min-width: 120px;
       z-index: 99;
       padding: 6px 12px;
       border-radius: 6px;
