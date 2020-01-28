@@ -20,7 +20,8 @@ const ChallengeItemQrocm = ChallengeItemGeneric.extend({
   // and moreover, is a much more robust solution when you need to test it properly.
   _getRawAnswerValue() {
     const result = {};
-    document.querySelectorAll('.challenge-proposals input').forEach((element)=> {
+    // XXX : forEach on NodeList returned by document.querySelectorAll is not supported by IE
+    _.forEach(document.querySelectorAll('.challenge-proposals input'), (element)=> {
       result[element.getAttribute('name')] = element.value;
     });
     return result;
