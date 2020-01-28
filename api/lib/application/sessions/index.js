@@ -248,6 +248,19 @@ exports.register = async (server) => {
         ]
       }
     },
+    {
+      method: 'GET',
+      path: '/api/sessions/{id}/csv-results',
+      config: {
+        auth: false,
+        handler: sessionController.getCsvResults,
+        tags: ['api', 'sessions'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Cette route permet de télécharger le csv de résultats destinés aux prescripteurs',
+        ]
+      }
+    },
   ]);
 };
 

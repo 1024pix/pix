@@ -133,6 +133,10 @@ module.exports = {
     const odsBuffer = request.payload.file;
 
     return usecases.analyzeAttendanceSheet({ sessionId, odsBuffer });
-  }
+  },
+
+  async getCsvResults() {
+    return null;
+  },
 
 };

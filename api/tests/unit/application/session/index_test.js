@@ -287,4 +287,18 @@ describe('Unit | Application | Sessions | Routes', () => {
       });
     });
   });
+
+  describe('GET /api/sessions/{id}/csv-results', () => {
+
+    beforeEach(() => {
+      sinon.stub(sessionController, 'getCsvResults').returns('ok');
+      return server.register(route);
+    });
+
+    it('should exist', async () => {
+      const res = await server.inject({ method: 'GET', url: '/api/sessions/{id}/csv-results' });
+
+      expect(res.statusCode).to.equal(200);
+    });
+  });
 });
