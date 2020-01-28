@@ -26,27 +26,29 @@ describe('Acceptance | API | Competence Evaluations', () => {
     };
 
     context('When user is authenticated', () => {
-      context('and competence exists', () => {
-        beforeEach(async () => {
-          const airtableCompetence = airtableBuilder.factory.buildCompetence({
-            id: competenceId,
-          });
-          airtableBuilder
-            .mockList({ tableName: 'Competences' })
-            .returns([airtableCompetence])
-            .activate();
-          airtableBuilder
-            .mockList({ tableName: 'Domaines' })
-            .returns({})
-            .activate();
-        });
 
-        afterEach(async () => {
-          airtableBuilder.cleanAll();
-          await knex('competence-evaluations').delete();
-          await knex('assessments').delete();
-          return cache.flushAll();
+      beforeEach(async () => {
+        const airtableCompetence = airtableBuilder.factory.buildCompetence({
+          id: competenceId,
         });
+        airtableBuilder
+          .mockList({ tableName: 'Competences' })
+          .returns([airtableCompetence])
+          .activate();
+        airtableBuilder
+          .mockList({ tableName: 'Domaines' })
+          .returns({})
+          .activate();
+      });
+
+      afterEach(async () => {
+        airtableBuilder.cleanAll();
+        await knex('competence-evaluations').delete();
+        await knex('assessments').delete();
+        return cache.flushAll();
+      });
+
+      context('and competence exists', () => {
 
         it('should return 201 and the competence evaluation when it has been successfully created', async () => {
           // when
@@ -74,36 +76,34 @@ describe('Acceptance | API | Competence Evaluations', () => {
           expect(response.result.data.attributes['assessment-id']).to.be.not.null;
         });
       });
+
       context('and competence does not exists', () => {
-        it('should return 404 error', () => {
+
+        it('should return 404 error', async () => {
           // given
           options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
           options.payload.competenceId = 'WRONG_ID';
 
           // when
-          const promise = server.inject(options);
+          const response = await server.inject(options);
 
           // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(404);
-          });
+          expect(response.statusCode).to.equal(404);
         });
       });
     });
 
     context('When user is not authenticated', () => {
-      beforeEach(async () => {
-        options.headers.authorization = null;
-      });
 
-      it('should return 401 error', () => {
+      it('should return 401 error', async () => {
+        // given
+        options.headers.authorization = null;
+
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
     });
   });
