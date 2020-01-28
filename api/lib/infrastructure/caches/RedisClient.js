@@ -3,15 +3,7 @@ const Redlock = require('redlock');
 const { promisify } = require('util');
 const logger = require('../logger');
 
-const REDIS_CLIENT_OPTIONS = {
-  // To avoid a "thundering herd" effect on the Redis server when it comes back
-  // up after a crash or connection loss, which can cause Redis to use more
-  // memory (for client buffers) than the OS allows and get killed, causing
-  // more Redis queries to get backed up, do not store a backlog of Redis
-  // queries. Errors will be reported immediately if the Redis server is not
-  // available.
-  enable_offline_queue: false,
-};
+const REDIS_CLIENT_OPTIONS = {};
 
 module.exports = class RedisClient {
 
