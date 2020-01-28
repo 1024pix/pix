@@ -17,10 +17,7 @@ module.exports = async function startOrResumeCompetenceEvaluation({ competenceId
 };
 
 function _checkCompetenceExists(competenceId, competenceRepository) {
-  return competenceRepository.get(competenceId)
-    .catch(() => {
-      throw new NotFoundError('La compétence demandée n\'existe pas');
-    });
+  return competenceRepository.get(competenceId);
 }
 
 async function _resumeCompetenceEvaluation({ userId, competenceId, assessmentRepository, competenceEvaluationRepository }) {

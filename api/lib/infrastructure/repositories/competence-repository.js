@@ -4,6 +4,7 @@ const competenceDatasource = require('../datasources/airtable/competence-datasou
 const areaDatasource = require('../datasources/airtable/area-datasource');
 const Area = require('../../domain/models/Area');
 const { NotFoundError } = require('../../domain/errors');
+const AirtableNotFoundError = require('../../infrastructure/datasources/airtable/AirtableResourceNotFound');
 
 const PixOriginName = 'Pix';
 
@@ -39,9 +40,16 @@ module.exports = {
     );
   },
 
-  get(id) {
-    return Promise.all([competenceDatasource.get(id), areaDatasource.list()])
-      .then(([competenceData, areaDatas]) => _toDomain(competenceData, areaDatas));
+  async get(id) {
+    try {
+      const [competenceData, areaDatas] = await Promise.all([competenceDatasource.get(id), areaDatasource.list()]);
+      return _toDomain(competenceData, areaDatas);
+    } catch (err) {
+      if (err instanceof AirtableNotFoundError) {
+        throw new NotFoundError('La compétence demandée n’existe pas');
+      }
+      throw err;
+    }
   },
 
   getCompetenceName(id) {
@@ -50,7 +58,7 @@ module.exports = {
         return competence.name;
       })
       .catch(() => {
-        throw new NotFoundError('La compétence demandée n\'existe pas');
+        throw new NotFoundError('La compétence demandée n’existe pas');
       });
   }
 };
