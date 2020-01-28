@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.108.0 (28/01/2020)
+
+- [#1002](https://github.com/1024pix/pix/pull/1002) [FEATURE] Afficher un message d'information dans Pix Orga lorsqu'un utilisateur clique sur une invitation déjà acceptée (PO-276)
+- [#988](https://github.com/1024pix/pix/pull/988) [FEATURE] Pix+ - Ajout et prise en compte de l'origine (Pix ou hors Pix) des compétences (PF-1047)
+- [#984](https://github.com/1024pix/pix/pull/984) [FEATURE] Déplacer les couleurs de domaines dans le référentiel (PF-1046).
+- [#979](https://github.com/1024pix/pix/pull/979) [FEATURE] Renommer examinerComment en examinerGlobalComment (PA-102)
+- [#1007](https://github.com/1024pix/pix/pull/1007) [BUGFIX] Correction d'une erreur Redis au démarrage de l'API. 
+- [#1004](https://github.com/1024pix/pix/pull/1004) [BUGFIX] Probleme de validation des QROCM sous IE (PF-1055).
+- [#983](https://github.com/1024pix/pix/pull/983) [BUGFIX] Ne pas permettre le click multiple sur les boutons de soumission de formulaire (PF-1043).
+- [#1005](https://github.com/1024pix/pix/pull/1005) [TECH] Les tests de MonPix sur CircleCI se déclenchent 3 fois complètement en parallèle
+- [#1003](https://github.com/1024pix/pix/pull/1003) [TECH] Amélioration de la gestion des types BIG_INTEGER dans PostgreSQL.
+- [#976](https://github.com/1024pix/pix/pull/976) [TECH] Passage de PixCertif vers Ember Octane (3.15)
+- [#1000](https://github.com/1024pix/pix/pull/1000) Changer le statut de l'ADR n°6 pour la 1000ème.
+
 ## v2.107.0 (23/01/2020)
 
 - [#960](https://github.com/1024pix/pix/pull/960) [FEATURE] Ajouter un candidat à la liste des candidats d'une session (PC-71)
