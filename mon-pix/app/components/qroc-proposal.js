@@ -25,5 +25,9 @@ export default Component.extend({
     this.$('input').keydown(() => {
       this.answerChanged();
     });
+  },
+
+  willRender: function() {
+    this.notifyPropertyChange('proposals');
   }
 });
