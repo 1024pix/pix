@@ -4,16 +4,17 @@ const Session = require('../../../../lib/domain/models/Session');
 
 module.exports = function buildSession({
   id = faker.random.number(),
-  certificationCenter = faker.company.companyName(),
-  certificationCenterId,
   accessCode = faker.random.alphaNumeric(9),
   address = faker.address.streetAddress(),
-  room = '28D',
-  examiner = faker.name.findName(),
+  certificationCenter = faker.company.companyName(),
+  certificationCenterId,
   date = moment(faker.date.recent()).format('YYYY-MM-DD'),
+  description = faker.random.words(),
+  examiner = faker.name.findName(),
+  room = '28D',
   time = '14:30',
   status = Session.statuses.STARTED,
-  description = faker.random.words(),
+  examinerGlobalComment = '',
 } = {}) {
   return new Session({
     id,
@@ -26,6 +27,7 @@ module.exports = function buildSession({
     examiner,
     room,
     time,
-    status
+    status,
+    examinerGlobalComment,
   });
 };
