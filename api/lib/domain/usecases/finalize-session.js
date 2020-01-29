@@ -23,5 +23,6 @@ module.exports = async function finalizeSession({
     id: sessionId,
     status: statuses.FINALIZED,
     examinerGlobalComment,
+    finalizedAt: new Date(),
   });
 };
