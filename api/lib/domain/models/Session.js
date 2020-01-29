@@ -1,9 +1,11 @@
 const CREATED = 'created';
 const FINALIZED = 'finalized';
+const PROCESSED = 'processed';
 
 const statuses = {
   CREATED,
   FINALIZED,
+  PROCESSED,
 };
 
 class Session {
