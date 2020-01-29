@@ -133,14 +133,9 @@ module.exports = {
     return Boolean(session);
   },
 
-  async finalize(session) {
-    const sessionDataToUpdate = _.pick(session, [
-      'status',
-      'examinerGlobalComment',
-    ]);
-
-    let updatedSession = await new BookshelfSession({ id: session.id })
-      .save(sessionDataToUpdate, { patch: true });
+  async finalize({ id, status, examinerGlobalComment }) {
+    let updatedSession = await new BookshelfSession({ id })
+      .save({ id, status, examinerGlobalComment }, { patch: true });
     updatedSession = await updatedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
   },
