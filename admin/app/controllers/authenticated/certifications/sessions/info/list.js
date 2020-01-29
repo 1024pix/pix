@@ -8,7 +8,6 @@ export default Controller.extend({
 
   session: service(),
   sessionInfoService: service(),
-  store: service(),
   notifications: service('notification-messages'),
 
   displayConfirm: false,
