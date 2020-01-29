@@ -4,17 +4,20 @@ const { statuses } = require('../../domain/models/Session');
 module.exports = async function finalizeSession({
   sessionId,
   examinerGlobalComment,
-  certificationCandidates,
+  certificationReports,
   sessionRepository,
-  certificationCandidateRepository,
+  certificationReportRepository,
 }) {
+
   const isSessionAlreadyFinalized = await sessionRepository.isFinalized(sessionId);
 
   if (isSessionAlreadyFinalized) {
     throw new SessionAlreadyFinalizedError('Cannot finalize session more than once');
   }
 
-  await certificationCandidateRepository.finalizeAll(certificationCandidates);
+  certificationReports.forEach((certifReport) => certifReport.validateForFinalization());
+
+  await certificationReportRepository.finalizeAll(certificationReports);
 
   return sessionRepository.updateStatusAndExaminerGlobalComment({
     id: sessionId,

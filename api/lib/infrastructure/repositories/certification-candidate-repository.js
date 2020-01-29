@@ -36,32 +36,6 @@ module.exports = {
     }
   },
 
-  async finalizeAll(certificationCandidates) {
-    try {
-      await Bookshelf.transaction((trx) => {
-        return Promise.all(certificationCandidates.map((certificationCandidate) => {
-          return this.finalize({ certificationCandidate, transaction: trx });
-        }));
-      });
-    } catch (err) {
-      throw new CertificationCandidateCreationOrUpdateError('An error occurred while finalizing the certification candidates');
-    }
-  },
-
-  async finalize({ certificationCandidate, transaction = undefined }) {
-    const saveOptions = { patch: true, method: 'update' };
-    if (transaction) {
-      saveOptions.transacting = transaction;
-    }
-
-    const candidateDataToUpdate = _.pick(certificationCandidate, [
-      'hasSeenEndTestScreen',
-      'examinerComment',
-    ]);
-    return new CertificationCandidateBookshelf({ id: certificationCandidate.id })
-      .save(candidateDataToUpdate, saveOptions);
-  },
-
   delete(certificationCandidateId) {
     return CertificationCandidateBookshelf
       .where({ id: certificationCandidateId })
@@ -88,24 +62,15 @@ module.exports = {
       });
   },
 
-  findBySessionIdWithCertificationCourse(sessionId) {
+  findBySessionId(sessionId) {
     return CertificationCandidateBookshelf
       .where({ sessionId })
       .query((qb) => {
         qb.orderByRaw('LOWER("certification-candidates"."lastName") asc');
         qb.orderByRaw('LOWER("certification-candidates"."firstName") asc');
       })
-      .fetchAll({ withRelated: ['certificationCourse'] })
-      .then((results) => {
-        const certificationCandidates = bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results);
-        _.each(certificationCandidates, (certificationCandidate) => {
-          const certificationCourse = certificationCandidate.certificationCourse;
-          if (certificationCourse && _.isUndefined(certificationCourse.id)) {
-            certificationCandidate.certificationCourse = undefined;
-          }
-        });
-        return certificationCandidates;
-      });
+      .fetchAll()
+      .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results));
   },
 
   findBySessionIdAndPersonalInfo({ sessionId, firstName, lastName, birthdate }) {

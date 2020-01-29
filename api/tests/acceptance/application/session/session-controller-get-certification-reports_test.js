@@ -1,8 +1,11 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const createServer = require('../../../../server');
 const _ = require('lodash');
 
-describe('Acceptance | Controller | session-controller-get-certification-candidates', () => {
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const createServer = require('../../../../server');
+
+const CertificationReport = require('../../../../lib/domain/models/CertificationReport');
+
+describe('Acceptance | Controller | session-controller-get-certification-reports', () => {
 
   let server;
 
@@ -10,7 +13,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
     server = await createServer();
   });
 
-  describe('GET /sessions/{id}/certification-candidates', function() {
+  describe('GET /sessions/{id}/certification-reports', function() {
     let sessionId;
     let userId;
     let certificationCenterId;
@@ -32,7 +35,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
         // when
         const response = await server.inject({
           method: 'GET',
-          url: `/api/sessions/${sessionId}/certification-candidates`,
+          url: `/api/sessions/${sessionId}/certification-reports`,
           payload: {},
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         });
@@ -44,37 +47,43 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
     });
 
     context('when user has access to session resources', () => {
-      let expectedCertificationCandidateAAttributes;
-      let expectedCertificationCandidateBAttributes;
+      let expectedCertificationReportA;
+      let expectedCertificationReportB;
+      let certificationCourseIdA;
+      let certificationCourseIdB;
 
       beforeEach(() => {
-        const certificationCandidateA = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'A', sessionId });
-        const certificationCandidateB = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'B', sessionId });
+        const certificationCandidateA = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Aa', sessionId });
+        const certificationCandidateB = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Bb', sessionId });
         _.times(5, databaseBuilder.factory.buildCertificationCandidate());
-        expectedCertificationCandidateAAttributes = {
+        certificationCourseIdA = databaseBuilder.factory.buildCertificationCourse({
+          sessionId,
+          userId: certificationCandidateA.userId,
+          firstName: certificationCandidateA.firstName,
+          lastName: certificationCandidateA.lastName,
+        }).id;
+        certificationCourseIdB = databaseBuilder.factory.buildCertificationCourse({
+          sessionId,
+          userId: certificationCandidateB.userId,
+          firstName: certificationCandidateB.firstName,
+          lastName: certificationCandidateB.lastName,
+        }).id;
+
+        expectedCertificationReportA = {
+          'certification-course-id': certificationCourseIdA,
           'first-name': certificationCandidateA.firstName,
           'last-name': certificationCandidateA.lastName,
-          'birthdate': certificationCandidateA.birthdate,
-          'birth-city': certificationCandidateA.birthCity,
-          'birth-province-code': certificationCandidateA.birthProvinceCode,
-          'birth-country': certificationCandidateA.birthCountry,
-          'email': certificationCandidateA.email,
-          'external-id': certificationCandidateA.externalId,
-          'extra-time-percentage': certificationCandidateA.extraTimePercentage,
-          'is-linked': true,
+          'examiner-comment': null,
+          'has-seen-end-test-screen': false,
         };
-        expectedCertificationCandidateBAttributes = {
+        expectedCertificationReportB = {
+          'certification-course-id': certificationCourseIdB,
           'first-name': certificationCandidateB.firstName,
           'last-name': certificationCandidateB.lastName,
-          'birthdate': certificationCandidateB.birthdate,
-          'birth-city': certificationCandidateB.birthCity,
-          'birth-province-code': certificationCandidateB.birthProvinceCode,
-          'birth-country': certificationCandidateB.birthCountry,
-          'email': certificationCandidateB.email,
-          'external-id': certificationCandidateB.externalId,
-          'extra-time-percentage': certificationCandidateB.extraTimePercentage,
-          'is-linked': true,
+          'examiner-comment': null,
+          'has-seen-end-test-screen': false,
         };
+
         userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
 
@@ -85,7 +94,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
         // when
         const response = await server.inject({
           method: 'GET',
-          url: `/api/sessions/${sessionId}/certification-candidates`,
+          url: `/api/sessions/${sessionId}/certification-reports`,
           payload: {},
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         });
@@ -98,14 +107,20 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
         // when
         const response = await server.inject({
           method: 'GET',
-          url: `/api/sessions/${sessionId}/certification-candidates`,
+          url: `/api/sessions/${sessionId}/certification-reports`,
           payload: {},
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         });
 
         // then
-        expect(response.result.data[0].attributes).to.deep.equal(expectedCertificationCandidateAAttributes);
-        expect(response.result.data[1].attributes).to.deep.equal(expectedCertificationCandidateBAttributes);
+        expect(_.map(response.result.data, (it) => it.id)).to.deep.equal([
+          CertificationReport.idFromCertificationCourseId(certificationCourseIdA),
+          CertificationReport.idFromCertificationCourseId(certificationCourseIdB),
+        ]);
+        expect(_.map(response.result.data, (it) => it.attributes)).to.deep.equal([
+          expectedCertificationReportA,
+          expectedCertificationReportB,
+        ]);
       });
 
     });

@@ -5,6 +5,9 @@ export default ApplicationSerializer.extend({
     return {
       'certificationCandidates': {
         related: `/api/sessions/${session.id}/certification-candidates`,
+      },
+      'certificationReports': {
+        related: `/api/sessions/${session.id}/certification-reports`,
       }
     };
   }

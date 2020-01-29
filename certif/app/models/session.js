@@ -24,6 +24,7 @@ export default class Session extends Model {
   @attr('string') examinerGlobalComment;
   @belongsTo('certificationCenter') certificationCenter;
   @hasMany('certificationCandidate') certificationCandidates;
+  @hasMany('certificationReport') certificationReports;
 
   @equal('status', 'finalized') isFinalized;
 

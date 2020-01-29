@@ -10,6 +10,7 @@ module.exports = {
   buildCertificationCenterMembership: require('./build-certification-center-membership'),
   buildCertificationChallenge: require('./build-certification-challenge'),
   buildCertificationCourse: require('./build-certification-course'),
+  buildCertificationReport: require('./build-certification-report'),
   buildCompetenceMark: require('./build-competence-mark'),
   buildKnowledgeElement: require('./build-knowledge-element'),
   buildOrganization: require('./build-organization'),

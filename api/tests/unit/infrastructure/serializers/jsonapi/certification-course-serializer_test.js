@@ -17,6 +17,8 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         id: 'certification_id',
         assessment: assessment,
         challenges: ['challenge1', 'challenge2'],
+        'examinerComment': 'Signalement de l\'examinateur',
+        'hasSeenEndTestScreen': true,
       });
 
       const jsonCertificationCourseWithAssessment = {
@@ -25,6 +27,8 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
           id: 'certification_id',
           attributes: {
             'nb-challenges': 2,
+            'examiner-comment': 'Signalement de l\'examinateur',
+            'has-seen-end-test-screen': true,
           },
           relationships: {
             assessment: {

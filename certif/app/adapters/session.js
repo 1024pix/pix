@@ -13,12 +13,12 @@ export default class SessionAdapter extends ApplicationAdapter {
           attributes: {
             'examiner-global-comment': model.get('examinerGlobalComment'),
           },
-          included: model.get('certificationCandidates')
-            .filter((certificationCandidate) => certificationCandidate.hasDirtyAttributes)
-            .map((certificationCandidate) => ({
-              type: 'certification-candidates',
-              id: certificationCandidate.get('id'),
-              attributes: certificationCandidate.toJSON(),
+          included: model.get('certificationReports')
+            .filter((certificationReport) => certificationReport.hasDirtyAttributes)
+            .map((certificationReport) => ({
+              type: 'certification-reports',
+              id: certificationReport.get('id'),
+              attributes: certificationReport.toJSON(),
             })),
         },
       },

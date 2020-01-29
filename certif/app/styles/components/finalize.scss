@@ -1,18 +1,18 @@
-.session-finalizer {
+.finalize {
   display: flex;
   flex-flow: column nowrap;
 }
 
-.session-finalizer__title {
+.finalize__title {
   display: flex;
   align-items: center;
 }
 
-.session-finalizer__subtitle {
+.finalize__subtitle {
   margin: 20px 0 32px 0;
 }
 
-.session-finalizer__button {
+.finalize__button {
   margin-left: auto;
 }
 

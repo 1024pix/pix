@@ -12,6 +12,8 @@ class CertificationCourse {
       isPublished = false,
       lastName,
       isV2Certification = false,
+      examinerComment,
+      hasSeenEndTestScreen,
       // includes
       assessment,
       challenges,
@@ -30,6 +32,8 @@ class CertificationCourse {
     this.isPublished = isPublished;
     this.lastName = lastName;
     this.isV2Certification = isV2Certification;
+    this.examinerComment = examinerComment;
+    this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     // includes
     this.assessment = assessment;
     this.challenges = challenges;
@@ -37,6 +41,7 @@ class CertificationCourse {
     this.userId = userId;
     this.sessionId = sessionId;
   }
+
 }
 
 module.exports = CertificationCourse;

@@ -135,130 +135,6 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('#finalize', () => {
-    let certificationCandidate;
-    let sessionId;
-
-    beforeEach(() => {
-      // given
-      sessionId = databaseBuilder.factory.buildSession().id;
-
-      return databaseBuilder.commit();
-    });
-
-    beforeEach(async () => {
-      certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
-        hasSeenEndTestScreen: false,
-        examinerComment: null,
-        sessionId,
-      });
-
-      return databaseBuilder.commit();
-    });
-
-    it('should return the finalized certification candidates', async () => {
-      // given
-      certificationCandidate.hasSeenEndTestScreen = true;
-      certificationCandidate.examinerComment = 'J\'aime les fruits et les poulets';
-
-      // when
-      await certificationCandidateRepository.finalize({ certificationCandidate });
-
-      // then
-      const actualCertificationCandidates = await knex('certification-candidates').where({ sessionId });
-      expect(actualCertificationCandidates[0].hasSeenEndTestScreen).to.equal(certificationCandidate.hasSeenEndTestScreen);
-      expect(actualCertificationCandidates[0].examinerComment).to.equal(certificationCandidate.examinerComment);
-    });
-
-  });
-
-  describe('#finalizeAll', () => {
-    let certificationCandidate1;
-    let certificationCandidate2;
-    let sessionId;
-
-    beforeEach(() => {
-      // given
-      sessionId = databaseBuilder.factory.buildSession().id;
-
-      return databaseBuilder.commit();
-    });
-
-    context('when candidates are being successfully finalized', () => {
-
-      beforeEach(async () => {
-        certificationCandidate1 = databaseBuilder.factory.buildCertificationCandidate({
-          hasSeenEndTestScreen: false,
-          examinerComment: null,
-          sessionId,
-        });
-
-        certificationCandidate2 = databaseBuilder.factory.buildCertificationCandidate({
-          hasSeenEndTestScreen: false,
-          examinerComment: null,
-          sessionId,
-        });
-
-        return databaseBuilder.commit();
-      });
-
-      it('should return the finalized certification candidates', async () => {
-        // given
-        certificationCandidate1.hasSeenEndTestScreen = true;
-        certificationCandidate2.examinerComment = 'J\'aime les fruits et les poulets';
-
-        // when
-        await certificationCandidateRepository.finalizeAll([certificationCandidate1, certificationCandidate2]);
-
-        // then
-        const actualCertificationCandidates = await knex('certification-candidates').where({ sessionId });
-        const actualCandidate1 = _.find(actualCertificationCandidates, { id: certificationCandidate1.id });
-        const actualCandidate2 = _.find(actualCertificationCandidates, { id: certificationCandidate2.id });
-        expect(actualCandidate1.hasSeenEndTestScreen).to.equal(certificationCandidate1.hasSeenEndTestScreen);
-        expect(actualCandidate2.examinerComment).to.equal(certificationCandidate2.examinerComment);
-      });
-
-    });
-
-    context('when finalization fails', () => {
-
-      beforeEach(async () => {
-        certificationCandidate1 = databaseBuilder.factory.buildCertificationCandidate({
-          hasSeenEndTestScreen: false,
-          examinerComment: null,
-          sessionId,
-        });
-
-        certificationCandidate2 = databaseBuilder.factory.buildCertificationCandidate({
-          hasSeenEndTestScreen: false,
-          examinerComment: null,
-          sessionId,
-        });
-
-        return databaseBuilder.commit();
-      });
-
-      it('should have left the candidates as they were and rollback updates if any', async () => {
-        // given
-        certificationCandidate1.examinerComment = 'J\'aime les fruits et les poulets';
-        certificationCandidate2.hasSeenEndTestScreen = 'je suis supposé être un booléen';
-
-        // when
-        const error = await catchErr(certificationCandidateRepository.finalizeAll)([certificationCandidate1, certificationCandidate2]);
-
-        // then
-        const actualCertificationCandidates = await knex('certification-candidates').where({ sessionId });
-        const actualCandidate1 = _.find(actualCertificationCandidates, { id: certificationCandidate1.id });
-        const actualCandidate2 = _.find(actualCertificationCandidates, { id: certificationCandidate2.id });
-        expect(actualCandidate2.examinerComment).to.equal(null);
-        expect(actualCandidate1.hasSeenEndTestScreen).to.equal(false);
-        expect(error).to.be.an.instanceOf(CertificationCandidateCreationOrUpdateError);
-      });
-
-    });
-
-  });
-
   describe('#delete', () => {
 
     context('when the record to delete is in the table', () => {
@@ -307,23 +183,23 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('#findBySessionIdWithCertificationCourse', () => {
+  describe('#findBySessionId', () => {
     let sessionId;
-    let existingCertificationCourseId;
 
     beforeEach(async () => {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
       const anotherSessionId = databaseBuilder.factory.buildSession().id;
-      const userId = databaseBuilder.factory.buildUser().id;
-      // In session with certificationCourse
-      databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Jackson', firstName: 'Michaele', sessionId, userId });
-      existingCertificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId, userId }).id;
-      // In session without certificationCourse
-      databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Jackson', firstName: 'Janet', sessionId, certificationCourse: null });
-      databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Letto', firstName: 'Roger', sessionId, userId: null, certificationCourse: null });
-      // In other session
-      databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Jackson', firstName: 'Michael', sessionId: anotherSessionId, userId });
+      _.each([
+        { lastName: 'Jackson', firstName: 'Michael', sessionId },
+        { lastName: 'Jackson', firstName: 'Janet', sessionId },
+        { lastName: 'Mercury', firstName: 'Freddy', sessionId },
+        { lastName: 'Gallagher', firstName: 'Noel', sessionId: anotherSessionId },
+        { lastName: 'Gallagher', firstName: 'Liam', sessionId: anotherSessionId },
+        { lastName: 'Brown', firstName: 'James', sessionId },
+      ], (candidate) => {
+        databaseBuilder.factory.buildCertificationCandidate(candidate);
+      });
 
       await databaseBuilder.commit();
     });
@@ -332,23 +208,14 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
       it('should fetch, alphabetically sorted, the certification candidates with a specific session ID', async () => {
         // when
-        const actualCandidates = await certificationCandidateRepository.findBySessionIdWithCertificationCourse(sessionId);
+        const actualCandidates = await certificationCandidateRepository.findBySessionId(sessionId);
 
         // then
-        expect(actualCandidates[0].firstName).to.equal('Janet');
-        expect(actualCandidates[1].firstName).to.equal('Michaele');
-        expect(actualCandidates[2].firstName).to.equal('Roger');
-        expect(actualCandidates).to.have.lengthOf(3);
-      });
-
-      it('should fetch their certificationCourse if any', async () => {
-        // when
-        const actualCandidates = await certificationCandidateRepository.findBySessionIdWithCertificationCourse(sessionId);
-
-        // then
-        expect(actualCandidates[0].certificationCourse).to.be.undefined;
-        expect(actualCandidates[1].certificationCourse.id).to.equal(existingCertificationCourseId);
-        expect(actualCandidates[2].certificationCourse).to.be.undefined;
+        expect(actualCandidates[0].firstName).to.equal('James');
+        expect(actualCandidates[1].firstName).to.equal('Janet');
+        expect(actualCandidates[2].firstName).to.equal('Michael');
+        expect(actualCandidates[3].firstName).to.equal('Freddy');
+        expect(actualCandidates).to.have.lengthOf(4);
       });
 
     });
@@ -357,7 +224,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
       it('should return an empty array', async () => {
         // when
-        const actualCandidates = await certificationCandidateRepository.findBySessionIdWithCertificationCourse(-1);
+        const actualCandidates = await certificationCandidateRepository.findBySessionId(-1);
 
         // then
         expect(actualCandidates).to.deep.equal([]);

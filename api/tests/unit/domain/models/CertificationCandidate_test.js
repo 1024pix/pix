@@ -7,7 +7,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
 
   describe('constructor', () => {
 
-    it('should build a Certification Candidate Mark from JSON', () => {
+    it('should build a Certification Candidate from JSON', () => {
       // given
       const rawData = {
         firstName: 'Jean-Pierre',
@@ -19,7 +19,6 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         email: 'jp@fou.cau',
         birthdate: '1940-05-05',
         extraTimePercentage: 0.3,
-        certificationCourse: null,
         sessionId: 1,
         userId: 2,
       };
@@ -37,7 +36,6 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       expect(certificationCandidate.externalId).to.equal('QVGDM');
       expect(certificationCandidate.birthdate).to.equal('1940-05-05');
       expect(certificationCandidate.extraTimePercentage).to.equal(0.3);
-      expect(certificationCandidate.certificationCourse).to.equal(null);
       expect(certificationCandidate.sessionId).to.equal(1);
       expect(certificationCandidate.userId).to.equal(2);
     });
