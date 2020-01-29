@@ -20,6 +20,12 @@
       {{/link-to}}
     </li>
     <li class="menu-bar__entry">
+      {{#link-to "authenticated.tools" class="menu-bar__link menu-bar__link--tools"}}
+        {{fa-icon "tools"}}
+        {{#bs-tooltip placement="right"}}Outils{{/bs-tooltip}}
+      {{/link-to}}
+    </li>
+    <li class="menu-bar__entry">
       {{#link-to "logout" class="menu-bar__link menu-bar__link--logout"}}
         {{fa-icon "power-off"}}
         {{#bs-tooltip placement="right"}}Se déconnecter{{/bs-tooltip}}
