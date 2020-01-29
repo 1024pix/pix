@@ -1,0 +1,91 @@
+.logged-user-details {
+  width: 220px;
+  position: relative;
+}
+
+.logged-user-name__link {
+  text-decoration: none;
+  color: $dove-gray;
+  cursor: pointer;
+
+  &:visited,
+  &:focus,
+  &:active {
+    text-decoration: none;
+    color: $dove-gray;
+  }
+
+  &:hover {
+    text-decoration: none;
+    color: $aqua;
+
+    > .caret {
+      border-color: $aqua transparent transparent transparent;
+    }
+  }
+}
+
+.logged-user-name {
+  word-break: break-all;
+  font-family: $roboto;
+  font-size: 1rem;
+  letter-spacing: 0.03125rem;
+  text-align: right;
+  color: $dove-gray;
+  text-transform: capitalize;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @include device-is('tablet') {
+    max-width: none;
+  }
+}
+
+.caret {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 4px 0 4px;
+  border-color: $dove-gray transparent transparent transparent;
+}
+
+.logged-user-menu {
+  position: absolute;
+  right: 50px;
+  top: 50px;
+  z-index: 999;
+  background-color: $white;
+  max-width: 380px;
+  min-width: 240px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 1px 0 rgba(60, 64, 67, 0.08), 0 1px 3px 1px rgba(60, 64, 67, 0.16);
+}
+
+.logged-user-menu__link {
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  padding: 12px 16px;
+  color: $tundora;
+  transition: background-color 0.1s linear;
+
+  &:hover {
+    text-decoration: none;
+    color: $tundora;
+    background-color: $porcelain;
+  }
+}
+
+.logged-user-menu__icon {
+  margin-right: 8px;
+}
+
+.logged-user-menu__link--last {
+  border-top: 1px solid $porcelain;
+  text-decoration: none;
+}

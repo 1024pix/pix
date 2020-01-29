@@ -4,11 +4,16 @@ import { inject as service } from '@ember/service';
 
 export default Component.extend({
 
-  /*
-  * XXX Composant amené à disparaitre. Utilisé actuellement uniquement pour afficher le nom prénom de l'utilisateur
-  * connecté
-  * */
+  currentUser: service(),
 
-  currentUser: service('current-user'),
+  actions: {
+    toggleUserMenu() {
+      this.toggleProperty('_canDisplayMenu');
+    },
+
+    closeMenu() {
+      this.set('_canDisplayMenu', false);
+    }
+  }
 
 });
