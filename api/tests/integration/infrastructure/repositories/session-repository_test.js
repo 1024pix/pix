@@ -498,21 +498,19 @@ describe('Integration | Repository | Session', function() {
   });
 
   describe('#finalize', () => {
-    let session;
+    let id;
+    let status = 'started';
+    let examinerGlobalComment = '';
 
     beforeEach(() => {
-      const bookshelfSession = databaseBuilder.factory.buildSession({
-        id: 1,
-        status: Session.statuses.STARTED,
-      });
-      session = domainBuilder.buildSession(bookshelfSession);
+      id = databaseBuilder.factory.buildSession({ status: Session.statuses.STARTED }).id;
 
       return databaseBuilder.commit();
     });
 
     it('should return a Session domain object', async () => {
       // when
-      const sessionSaved = await sessionRepository.finalize(session);
+      const sessionSaved = await sessionRepository.finalize({ id, status, examinerGlobalComment });
 
       // then
       expect(sessionSaved).to.be.an.instanceof(Session);
@@ -520,16 +518,16 @@ describe('Integration | Repository | Session', function() {
 
     it('should update model in database', async () => {
       // given
-      session.examinerGlobalComment = 'It was a fine session my dear';
-      session.status = Session.statuses.FINALIZED;
+      examinerGlobalComment = 'It was a fine session my dear';
+      status = Session.statuses.FINALIZED;
 
       // when
-      const sessionSaved = await sessionRepository.finalize(session);
+      const sessionSaved = await sessionRepository.finalize({ id, status, examinerGlobalComment });
 
       // then
-      expect(sessionSaved.id).to.deep.equal(session.id);
-      expect(sessionSaved.examinerGlobalComment).to.deep.equal('It was a fine session my dear');
-      expect(sessionSaved.status).to.deep.equal(Session.statuses.FINALIZED);
+      expect(sessionSaved.id).to.deep.equal(id);
+      expect(sessionSaved.examinerGlobalComment).to.deep.equal(examinerGlobalComment);
+      expect(sessionSaved.status).to.deep.equal(status);
     });
   });
 });
