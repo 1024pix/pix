@@ -133,9 +133,9 @@ module.exports = {
     return Boolean(session);
   },
 
-  async finalize({ id, status, examinerGlobalComment }) {
+  async finalize({ id, status, examinerGlobalComment, finalizedAt }) {
     let updatedSession = await new BookshelfSession({ id })
-      .save({ id, status, examinerGlobalComment }, { patch: true });
+      .save({ id, status, examinerGlobalComment, finalizedAt }, { patch: true });
     updatedSession = await updatedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
   },
