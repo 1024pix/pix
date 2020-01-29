@@ -46,9 +46,13 @@
             <span class="loader-in-button">&nbsp;</span>
           </button>
         {{else}}
-          <button class="button button--extra-big skill-review-share__button" {{action 'shareCampaignParticipation'}}>
-            J'envoie mes résultats
-          </button>
+          {{#if model.campaignParticipation.campaign.isArchived}}
+            Cette campagne est archivée.
+          {{else}}
+            <button class="button button--extra-big skill-review-share__button" {{action 'shareCampaignParticipation'}}>
+              J'envoie mes résultats
+            </button>
+          {{/if}}
         {{/if}}
       {{/if}}
     </div>
