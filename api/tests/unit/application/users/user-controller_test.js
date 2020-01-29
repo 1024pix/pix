@@ -415,12 +415,12 @@ describe('Unit | Controller | user-controller', () => {
 
     beforeEach(() => {
       sinon.stub(campaignParticipationSerializer, 'serialize');
-      sinon.stub(usecases, 'findCampaignParticipationsRelatedToUser');
+      sinon.stub(usecases, 'findLatestOngoingUserCampaignParticipations');
     });
 
     it('should return serialized Memberships', async function() {
       // given
-      usecases.findCampaignParticipationsRelatedToUser.withArgs({ userId }).resolves([]);
+      usecases.findLatestOngoingUserCampaignParticipations.withArgs({ userId }).resolves([]);
       campaignParticipationSerializer.serialize.withArgs([]).returns({});
 
       // when

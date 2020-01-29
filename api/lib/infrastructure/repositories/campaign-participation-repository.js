@@ -69,13 +69,19 @@ module.exports = {
     });
   },
 
-  findByUserId(userId) {
+  findLatestOngoingByUserId(userId) {
     return BookshelfCampaignParticipation
+      .query((qb) => {
+        qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');
+        qb.whereNull('campaigns.archivedAt');
+        qb.orderBy('campaign-participations.createdAt', 'DESC');
+      })
       .where({ userId })
-      .orderBy('createdAt', 'DESC')
-      .fetchAll({ withRelated: ['campaign', 'assessments'] })
-      .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
-      .then(fp.map(_toDomain));
+      .fetchAll({
+        required: false,
+        withRelated: ['campaign', 'assessments'],
+      })
+      .then((campaignParticipations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, campaignParticipations));
   },
 
   findOneByCampaignIdAndUserId({ campaignId, userId }) {

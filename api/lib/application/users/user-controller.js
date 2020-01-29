@@ -96,7 +96,7 @@ module.exports = {
   getCampaignParticipations(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.findCampaignParticipationsRelatedToUser({ userId: authenticatedUserId })
+    return usecases.findLatestOngoingUserCampaignParticipations({ userId: authenticatedUserId })
       .then(campaignParticipationSerializer.serialize);
   },
 

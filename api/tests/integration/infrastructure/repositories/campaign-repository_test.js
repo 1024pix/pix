@@ -500,7 +500,7 @@ describe('Integration | Repository | Campaign', () => {
 
     it('should return false when the campaign is not archived', async () => {
       // given
-      campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null}).id;
+      campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null }).id;
       await databaseBuilder.commit();
 
       // when
