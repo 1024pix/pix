@@ -133,7 +133,7 @@ module.exports = {
     return Boolean(session);
   },
 
-  async updateStatusAndExaminerGlobalComment(session) {
+  async finalize(session) {
     const sessionDataToUpdate = _.pick(session, [
       'status',
       'examinerGlobalComment',

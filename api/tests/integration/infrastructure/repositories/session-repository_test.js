@@ -497,7 +497,7 @@ describe('Integration | Repository | Session', function() {
 
   });
 
-  describe('#updateStatusAndExaminerGlobalComment', () => {
+  describe('#finalize', () => {
     let session;
 
     beforeEach(() => {
@@ -512,7 +512,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return a Session domain object', async () => {
       // when
-      const sessionSaved = await sessionRepository.updateStatusAndExaminerGlobalComment(session);
+      const sessionSaved = await sessionRepository.finalize(session);
 
       // then
       expect(sessionSaved).to.be.an.instanceof(Session);
@@ -524,7 +524,7 @@ describe('Integration | Repository | Session', function() {
       session.status = Session.statuses.FINALIZED;
 
       // when
-      const sessionSaved = await sessionRepository.updateStatusAndExaminerGlobalComment(session);
+      const sessionSaved = await sessionRepository.finalize(session);
 
       // then
       expect(sessionSaved.id).to.deep.equal(session.id);
