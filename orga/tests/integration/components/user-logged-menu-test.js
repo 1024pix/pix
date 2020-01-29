@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import Object from '@ember/object';
 import Service from '@ember/service';
 
-module('Integration | Component | user-identification', function(hooks) {
+module('Integration | Component | user-logged-menu', function(hooks) {
 
   setupRenderingTest(hooks);
 
@@ -18,7 +18,7 @@ module('Integration | Component | user-identification', function(hooks) {
     this.owner.register('service:current-user', Service.extend({ user: givenCurrentUser }));
 
     // when
-    await render(hbs`{{user-identification}}`);
+    await render(hbs`{{user-logged-menu}}`);
 
     // then
     assert.ok(this.element.textContent.includes(givenCurrentUser.get('firstName')), 'Should contains firstName');
