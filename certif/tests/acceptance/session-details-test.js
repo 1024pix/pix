@@ -225,7 +225,7 @@ module('Acceptance | Session Details', function(hooks) {
         assert.equal(currentURL(), '/sessions/liste');
       });
 
-      module('when the session is not finalized', function() {
+      module('when the session has status started', function() {
 
         module('when the session has not CREATED', function() {
           test('it should not display the finalize button', async function(assert) {
@@ -253,35 +253,43 @@ module('Acceptance | Session Details', function(hooks) {
         });
       });
 
-      module('when the session is finalized', function() {
+      [
+        'finalized',
+        'processed',
+      ].forEach((status) => {
+        module(`when the session has status ${status}`, function() {
 
-        hooks.beforeEach(async function() {
-          const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
-          sessionFinalized.update({ certificationCandidates: candidatesWithStartingCertif });
-        });
+          let session;
 
-        test('it should not redirect to finalize page on click on finalize button', async function(assert) {
-          // given
-          await visit(`/sessions/${sessionFinalized.id}`);
+          hooks.beforeEach(async function() {
+            session = server.create('session', { status });
+            const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
+            session.update({ certificationCandidates: candidatesWithStartingCertif });
+          });
 
-          // when
-          await click('.session-details-content__finalize-button');
+          test('it should not redirect to finalize page on click on finalize button', async function(assert) {
+            // given
+            await visit(`/sessions/${session.id}`);
 
-          // then
-          assert.equal(currentURL(), `/sessions/${sessionFinalized.id}`);
-        });
+            // when
+            await click('.session-details-content__finalize-button');
 
-        test('it should throw an error on visiting /finalisation url', async function(assert) {
-          // given
-          await visit(`/sessions/${sessionFinalized.id}`);
-          const transitionError = new Error('TransitionAborted');
+            // then
+            assert.equal(currentURL(), `/sessions/${session.id}`);
+          });
 
-          // then
-          assert.rejects(
-            visit(`/sessions/${sessionFinalized.id}/finalisation`),
-            transitionError,
-            'error raised when visiting finalisation route'
-          );
+          test('it should throw an error on visiting /finalisation url', async function(assert) {
+            // given
+            await visit(`/sessions/${session.id}`);
+            const transitionError = new Error('TransitionAborted');
+
+            // then
+            assert.rejects(
+              visit(`/sessions/${session.id}/finalisation`),
+              transitionError,
+              'error raised when visiting finalisation route'
+            );
+          });
         });
       });
 

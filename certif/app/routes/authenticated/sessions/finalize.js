@@ -13,7 +13,7 @@ export default class AuthenticatedSessionsFinalizeRoute extends Route {
   }
 
   async afterModel(model, transition) {
-    if (model.isFinalized) {
+    if (model.hasBeenFinalized) {
       const { autoClear, clearDuration } = config.notifications;
       this.notifications.error('Cette session a déjà été finalisée.', { autoClear, clearDuration });
 

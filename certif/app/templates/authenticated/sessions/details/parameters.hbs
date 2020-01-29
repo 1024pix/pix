@@ -53,7 +53,7 @@
             Modifier
         </LinkTo>
       </div>
-      <div class="session-details-buttons session-details-buttons--push-right {{if this.session.isFinalized "button--disabled"}}">
+      <div class="session-details-buttons session-details-buttons--push-right {{if this.session.hasBeenFinalized "button--disabled"}}">
         <LinkTo @route="authenticated.sessions.finalize" @model={{this.session.id}} class="button button--regular button--link session-details-content__finalize-button push-right">
             Finaliser la session
         </LinkTo>
@@ -68,4 +68,3 @@
   </div>
 
 </div>
-

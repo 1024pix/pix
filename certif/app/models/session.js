@@ -8,9 +8,11 @@ const { Model, attr, belongsTo, hasMany } = DS;
 
 export const CREATED = 'created';
 export const FINALIZED = 'finalized';
+export const PROCESSED = 'Traitée';
 export const statusToDisplayName = {
   [CREATED]: 'Créée',
   [FINALIZED]: 'Finalisée',
+  [PROCESSED]: 'Traitée',
 };
 
 export default class Session extends Model {
