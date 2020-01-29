@@ -1,8 +1,8 @@
+const _ = require('lodash');
 const Assessment = require('./Assessment');
 const CompetenceEvaluation = require('./CompetenceEvaluation');
 const KnowledgeElement = require('./KnowledgeElement');
 const constants = require('../constants');
-const _ = require('lodash');
 
 const statuses = {
   NOT_STARTED: 'NOT_STARTED',
