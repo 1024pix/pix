@@ -20,8 +20,30 @@
   line-height: 28px;
 }
 
+.btn-primary {
+  text-align: center;
+  border-radius: 5px;
+  background-color: $pix-blue;
+  color: $white;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: background-color 0.2s ease;
+
+  &:hover, &:active, &:focus {
+    background-color: $pix-blue-hover;
+  }
+}
+
 .btn-group {
   .btn {
     min-width: 43.5px;
   }
 }
+
+.loader-in-button {
+  display: flex;
+  background: url('/images/loader-white.svg') no-repeat center;
+  background-size: 50px;
+}
+

@@ -6,14 +6,18 @@
   </header>
 
   <main class="page-body">
-    <section class="page-section">
+    <section class="page-section learning-content">
       <header class="page-section__header">
         <h2 class="page-section__title">Référentiel</h2>
       </header>
       <div class="member-list">
-        <button class="btn btn-outline-default" onclick={{action "refreshLearningContent"}}>
-          {{fa-icon "sync"}} Recharger le cache de données pédagogiques
-        </button>
+        {{#if isLoading}}
+          <button type="submit" class="btn btn-primary btn-refresh-cache"><span class="loader-in-button">&nbsp;</span></button>
+        {{else}}
+          <button class="btn btn-primary btn-refresh-cache" onclick={{action "refreshLearningContent"}}>
+            {{fa-icon "sync"}} Recharger le cache
+          </button>
+        {{/if}}
       </div>
     </section>
   </main>
