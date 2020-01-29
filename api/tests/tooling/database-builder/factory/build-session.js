@@ -7,18 +7,19 @@ const moment = require ('moment');
 
 module.exports = function buildSession({
   id,
-  certificationCenter = faker.company.companyName(),
-  certificationCenterId,
   accessCode = faker.random.alphaNumeric(9),
   address = faker.address.streetAddress(),
-  room = faker.random.alphaNumeric(9),
-  examiner = faker.name.findName(),
+  certificationCenter = faker.company.companyName(),
+  certificationCenterId,
   date = moment(faker.date.recent()).format('YYYY-MM-DD'),
-  time = faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0'),
   description = faker.random.words(),
-  createdAt = faker.date.recent(),
+  examiner = faker.name.findName(),
+  room = faker.random.alphaNumeric(9),
+  time = faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0'),
   status = Session.statuses.STARTED,
   examinerGlobalComment = '',
+  createdAt = faker.date.recent(),
+  finalizedAt = null,
 } = {}) {
 
   if (_.isUndefined(certificationCenterId)) {
@@ -28,18 +29,19 @@ module.exports = function buildSession({
   }
   const values = {
     id,
-    certificationCenter,
-    certificationCenterId,
     accessCode,
     address,
-    room,
-    examiner,
+    certificationCenter,
+    certificationCenterId,
     date,
-    time,
     description,
-    createdAt,
+    examiner,
+    room,
+    time,
     status,
     examinerGlobalComment,
+    createdAt,
+    finalizedAt,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'sessions',
