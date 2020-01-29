@@ -1,1 +1,17 @@
-{{currentUser.user.firstName}} {{currentUser.user.lastName}}
+<div class="logged-user-name" aria-haspopup="true" aria-expanded="{{_canDisplayMenu}}">
+  <a href="#" class="logged-user-name__link" {{action 'toggleUserMenu'}}>
+    {{currentUser.user.firstName}} {{currentUser.user.lastName}}
+    <span class="caret"></span>
+  </a>
+</div>
+
+{{#if _canDisplayMenu}}
+  {{#click-outside action=(action 'closeMenu')}}
+    <div class="logged-user-menu">
+      {{#link-to 'logout' class="logged-user-menu__link logged-user-menu__link--last"}}
+        {{fa-icon "power-off" class="logged-user-menu__icon"}}
+        Se déconnecter
+      {{/link-to}}
+    </div>
+  {{/click-outside}}
+{{/if}}
