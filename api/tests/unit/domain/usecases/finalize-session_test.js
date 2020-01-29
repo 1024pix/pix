@@ -21,7 +21,7 @@ describe('Unit | UseCase | finalize-session', () => {
     updatedSession = Symbol('updated session');
     examinerGlobalComment = 'It was a fine session my dear.';
     sessionRepository = {
-      updateStatusAndExaminerGlobalComment: sinon.stub(),
+      finalize: sinon.stub(),
       isFinalized: sinon.stub(),
     };
     certificationReportRepository = {
@@ -84,7 +84,7 @@ describe('Unit | UseCase | finalize-session', () => {
         certificationReports = [validReportForFinalization];
         sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
         certificationReportRepository.finalizeAll.withArgs(certificationReports).resolves();
-        sessionRepository.updateStatusAndExaminerGlobalComment.withArgs({
+        sessionRepository.finalize.withArgs({
           id: sessionId,
           status: 'finalized',
           examinerGlobalComment,
