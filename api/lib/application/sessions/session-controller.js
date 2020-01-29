@@ -67,6 +67,14 @@ module.exports = {
     return h.response(certificationCandidateSerializer.serialize(addedCertificationCandidate)).created();
   },
 
+  async deleteCertificationCandidate(request) {
+    const certificationCandidateId = parseInt(request.params.certificationCandidateId);
+
+    await usecases.deleteUnlinkedCertificationCandidate({ certificationCandidateId });
+
+    return null;
+  },
+
   async getCertifications(request) {
     const sessionId = request.params.id;
 

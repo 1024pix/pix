@@ -79,6 +79,7 @@ module.exports = injectDependencies({
   createOrganizationInvitations: require('./create-organization-invitations'),
   createSession: require('./create-session'),
   createUser: require('./create-user'),
+  deleteUnlinkedCertificationCandidate: require('./delete-unlinked-certification-candidate'),
   finalizeSession: require('./finalize-session'),
   findAnswerByChallengeAndAssessment: require('./find-answer-by-challenge-and-assessment'),
   findAssociationBetweenUserAndOrganizationStudent: require('./find-association-between-user-and-organization-student'),

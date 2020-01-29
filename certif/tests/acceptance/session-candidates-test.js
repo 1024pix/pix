@@ -59,7 +59,7 @@ module('Acceptance | Session Candidates', function(hooks) {
       assert.equal(currentURL(), '/sessions/liste');
     });
 
-    module('candidates list', function() {
+    module('candidates list', function(hooks) {
       let existingCandidates;
 
       hooks.beforeEach(function() {
@@ -87,7 +87,7 @@ module('Acceptance | Session Candidates', function(hooks) {
         assert.dom('table tbody tr').exists({ count: 2 });
       });
 
-      module('add candidate', function() {
+      module('add candidate', function(hooks) {
 
         hooks.beforeEach(async function() {
           await visit(`/sessions/${session.id}/candidats`);
@@ -178,6 +178,41 @@ module('Acceptance | Session Candidates', function(hooks) {
             // then
             assert.dom('table tbody tr').exists({ count: 5 });
           });
+        });
+      });
+
+      module('delete candidate', function(hooks) {
+        let linkedCertificationCandidate;
+        let notLinkedCertificationCandidate;
+
+        hooks.beforeEach(async function() {
+          linkedCertificationCandidate = server.create('certification-candidate', { isLinked: true });
+          notLinkedCertificationCandidate = server.create('certification-candidate', { isLinked: false });
+          session.update({ certificationCandidates : [linkedCertificationCandidate, notLinkedCertificationCandidate] });
+          await visit(`/sessions/${session.id}/candidats`);
+        });
+
+        module('when candidate is linked', function() {
+
+          test('should not remove candidate row', async function(assert) {
+            // when
+            await click(`[data-test-id="panel-candidate__actions__delete__${linkedCertificationCandidate.id}"]`);
+
+            // then
+            assert.dom(`[data-test-id="panel-candidate__lastName__${linkedCertificationCandidate.id}"]`).exists();
+          });
+        });
+
+        module('when candidate is not linked', function() {
+
+          test('should remove candidate row', async function(assert) {
+            // when
+            await click(`[data-test-id="panel-candidate__actions__delete__${notLinkedCertificationCandidate.id}"]`);
+
+            // then
+            assert.dom(`[data-test-id="panel-candidate__lastName__${notLinkedCertificationCandidate.id}"]`).doesNotExist();
+          });
+
         });
       });
 

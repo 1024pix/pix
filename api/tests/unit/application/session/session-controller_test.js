@@ -284,7 +284,30 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#getCertifications', () => {
+  describe('#deleteCertificationCandidate ', () => {
+    let request;
+    const sessionId = 1;
+    const certificationCandidateId = 1;
+
+    beforeEach(() => {
+      // given
+      request = {
+        params: { id : sessionId, certificationCandidateId },
+      };
+      sinon.stub(usecases, 'deleteUnlinkedCertificationCandidate').withArgs({ certificationCandidateId }).resolves();
+    });
+
+    it('should return 204 when deleting successfully the candidate', async () => {
+      // when
+      const response = await sessionController.deleteCertificationCandidate(request, hFake);
+
+      // then
+      expect(response).to.be.null;
+    });
+
+  });
+
+  describe('#getCertifications ', () => {
     let request;
     const sessionId = 1;
     const certifications = 'certifications';
