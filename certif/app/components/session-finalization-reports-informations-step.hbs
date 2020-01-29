@@ -1,0 +1,70 @@
+<div class="table session-finalization-reports-informations-step">
+  <table class="session-finalization-reports-informations-step__table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>N° de certification</th>
+        <th>Signalement (facultatif)</th>
+        <th>
+          <div class="session-finalization-reports-informations-step__row">
+            <div class="session-finalization-reports-informations-step__checker" {{on 'click' (fn @toggleAllCertificationReportsHasSeenEndTestScreen this.hasCheckedSomething)}}>
+              {{#if this.hasCheckedEverything}}
+                <div class="checkbox checkbox--checked">
+                  <img
+                    src="/icons/icon-done.svg"
+                    class="session-finalization-reports-informations-step__done-icon"
+                    alt="checkbox" >
+                </div>
+              {{else if this.hasCheckedSomething}}
+                <div class="checkbox checkbox--unchecked">
+                  <div class="session-finalization-reports-informations-step__dash-icon"></div>
+                </div>
+              {{else}}
+                <div class="checkbox checkbox--unchecked">
+                </div>
+              {{/if}}
+            </div>
+            Écran de fin du test vu
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each @certificationReports as |report|}}
+        <tr>
+          <td data-test-id="finalization-report-last-name_{{report.certificationCourseId}}">{{report.lastName}}</td>
+          <td data-test-id="finalization-report-first-name_{{report.certificationCourseId}}">{{report.firstName}}</td>
+          <td data-test-id="finalization-report-certification-number_{{report.certificationCourseId}}">{{report.certificationCourseId}}</td>
+          <td>
+            <Textarea
+              data-test-id="finalization-report-examiner-comment_{{report.certificationCourseId}}"
+              @class="session-finalization-reports-informations-step__textarea"
+              @value={{report.examinerComment}}
+              {{on 'input' (fn @updateCertificationReportExaminerComment report)}}
+              @maxlength={{@examinerCommentMaxLength}}
+            />
+          </td>
+          <td>
+            {{#if report.hasSeenEndTestScreen}}
+              <div
+                data-test-id="finalization-report-has-seen-end-test-screen_{{report.certificationCourseId}}"
+                class="checkbox checkbox--checked"
+                {{on 'click' (fn @toggleCertificationReportHasSeenEndTestScreen report)}}>
+                <img
+                  src="/icons/icon-done.svg"
+                  class="session-finalization-reports-informations-step__done-icon"
+                  alt="checkbox" >
+              </div>
+            {{else}}
+              <div
+                data-test-id="finalization-report-has-seen-end-test-screen_{{report.certificationCourseId}}"
+                class="checkbox checkbox--unchecked"
+                {{on 'click' (fn @toggleCertificationReportHasSeenEndTestScreen report)}}/>
+            {{/if}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

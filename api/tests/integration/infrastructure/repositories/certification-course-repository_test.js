@@ -292,4 +292,5 @@ describe('Integration | Repository | Certification Course', function() {
       expect(actualCertificationCourseIds.length).to.equal(expectedCertificationCourseIds.length);
     });
   });
+
 });

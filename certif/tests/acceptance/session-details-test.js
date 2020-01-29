@@ -167,7 +167,7 @@ module('Acceptance | Session Details', function(hooks) {
       });
     });
 
-    module('when finalize feature is deactivated', function(hooks) {
+    module('when finalize feature is desactivated', function(hooks) {
 
       hooks.beforeEach(async function() {
         const controller = this.owner.lookup('controller:authenticated.sessions.details.parameters');

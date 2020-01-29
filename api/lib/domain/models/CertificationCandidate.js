@@ -2,7 +2,6 @@ const _ = require('lodash');
 const Joi = require('@hapi/joi')
   .extend(require('@hapi/joi-date'));
 const { InvalidCertificationCandidate } = require('../errors');
-const CertificationCourse = require('./CertificationCourse');
 
 const certificationCandidateValidationJoiSchema_v1_1 = Joi.object({
   id: Joi.number().optional(),
@@ -16,13 +15,11 @@ const certificationCandidateValidationJoiSchema_v1_1 = Joi.object({
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required(),
   createdAt: Joi.any().allow(null).optional(),
   extraTimePercentage: Joi.number().allow(null).optional(),
-  examinerComment: Joi.string().max(500).allow(null).optional(),
-  hasSeenEndTestScreen: Joi.boolean().optional(),
-  certificationCourse: Joi.object().instance(CertificationCourse).allow(null).optional(),
   sessionId: Joi.number().allow(null).optional(),
   userId: Joi.number().allow(null).optional(),
 });
 
+// Same as v1_1 but with email
 const certificationCandidateValidationJoiSchema_v1_2 = Joi.object({
   id: Joi.number().optional(),
   firstName: Joi.string().required(),
@@ -35,9 +32,6 @@ const certificationCandidateValidationJoiSchema_v1_2 = Joi.object({
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required(),
   createdAt: Joi.any().allow(null).optional(),
   extraTimePercentage: Joi.number().allow(null).optional(),
-  examinerComment: Joi.string().max(500).allow(null).optional(),
-  hasSeenEndTestScreen: Joi.boolean().optional(),
-  certificationCourse: Joi.object().instance(CertificationCourse).allow(null).optional(),
   sessionId: Joi.number().allow(null).optional(),
   userId: Joi.number().allow(null).optional(),
 });
@@ -54,9 +48,6 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required(),
   createdAt: Joi.any().allow(null).optional(),
   extraTimePercentage: Joi.any().allow(null).optional(),
-  examinerComment: Joi.any().allow(null).optional(),
-  hasSeenEndTestScreen: Joi.any().allow(null).optional(),
-  certificationCourse: Joi.object().instance(CertificationCourse).allow(null).optional(),
   sessionId: Joi.number().required(),
   userId: Joi.any().allow(null).optional(),
 });
@@ -75,11 +66,8 @@ class CertificationCandidate {
       externalId,
       birthdate,
       extraTimePercentage,
-      examinerComment,
-      hasSeenEndTestScreen,
       createdAt,
       // includes
-      certificationCourse,
       // references
       sessionId,
       userId,
@@ -95,11 +83,7 @@ class CertificationCandidate {
     this.externalId = externalId;
     this.birthdate = birthdate;
     this.extraTimePercentage = !_.isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : extraTimePercentage;
-    this.examinerComment = examinerComment;
-    this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     this.createdAt = createdAt;
-    // includes
-    this.certificationCourse = certificationCourse;
     // references
     this.sessionId = sessionId;
     this.userId = userId;

@@ -1,6 +1,7 @@
 const usecases = require('../../domain/usecases');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const certificationCandidateSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-serializer');
+const certificationReportSerializer = require('../../infrastructure/serializers/jsonapi/certification-report-serializer');
 const certificationResultSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-serializer');
 const tokenService = require('../../domain/services/token-service');
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
@@ -73,6 +74,13 @@ module.exports = {
     return certificationResultSerializer.serialize(sessionCertifications);
   },
 
+  async getCertificationReports(request) {
+    const sessionId = parseInt(request.params.id);
+
+    return usecases.getSessionCertificationReports({ sessionId })
+      .then((certificationReports) => certificationReportSerializer.serialize(certificationReports));
+  },
+
   async importCertificationCandidatesFromAttendanceSheet(request) {
     const sessionId = parseInt(request.params.id);
     const odsBuffer = request.payload.file;
@@ -109,13 +117,13 @@ module.exports = {
   async finalize(request) {
     const sessionId = request.params.id;
     const examinerGlobalComment = request.payload.data.attributes['examiner-global-comment'];
-    const certificationCandidates = await Promise.all(
+    const certificationReports = await Promise.all(
       (request.payload.data.included || [])
-        .filter((data) => data.type === 'certification-candidates')
-        .map((data) => certificationCandidateSerializer.deserialize({ data }))
+        .filter((data) => data.type === 'certification-reports')
+        .map((data) => certificationReportSerializer.deserialize({ data }))
     );
 
-    const session = await usecases.finalizeSession({ sessionId, examinerGlobalComment, certificationCandidates });
+    const session = await usecases.finalizeSession({ sessionId, examinerGlobalComment, certificationReports });
 
     return sessionSerializer.serializeForFinalization(session);
   },

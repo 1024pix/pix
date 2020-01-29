@@ -59,6 +59,12 @@ export default function() {
     return schema.certificationCandidates.create();
   });
 
+  this.get('/sessions/:id/certification-reports', function(schema, request) {
+    const sessionId = request.params.id;
+
+    return schema.sessions.find(sessionId).certificationReports;
+  });
+
   this.post('/sessions/:id/certification-candidates/import', upload(function(schema, request) {
     const { name } = request.requestBody.file;
     if (name === 'invalid-file') {

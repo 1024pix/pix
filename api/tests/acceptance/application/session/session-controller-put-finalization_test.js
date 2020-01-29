@@ -12,8 +12,8 @@ describe('Acceptance | Controller | sessions-controller', () => {
   beforeEach(async () => {
     server = await createServer();
     session = databaseBuilder.factory.buildSession({ status: 'started' });
-    const candidate1Id = databaseBuilder.factory.buildCertificationCandidate({ sessionId: session.id }).id;
-    const candidate2Id = databaseBuilder.factory.buildCertificationCandidate({ sessionId: session.id }).id;
+    const report1 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id });
+    const report2 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id });
 
     options = {
       method: 'PUT',
@@ -24,19 +24,21 @@ describe('Acceptance | Controller | sessions-controller', () => {
           },
           included: [
             {
-              id: candidate1Id,
-              type: 'certification-candidates',
+              id: report1.id,
+              type: 'certification-reports',
               attributes: {
-                'has-seen-end-test-screen': false,
+                'certification-course-id': report1.certificationCourseId,
                 'examiner-comment': 'What a fine lad this one',
+                'has-seen-end-test-screen': false,
               },
             },
             {
-              id: candidate2Id,
-              type: 'certification-candidates',
+              id: report2.id,
+              type: 'certification-reports',
               attributes: {
-                'has-seen-end-test-screen': true,
+                'certification-course-id': report2.certificationCourseId,
                 'examiner-comment': 'What a fine lad this two',
+                'has-seen-end-test-screen': true,
               },
             },
           ],
@@ -110,8 +112,8 @@ describe('Acceptance | Controller | sessions-controller', () => {
         const response = await server.inject(options);
 
         // then
-        expect(response.result.data).to.deep.equal(expectedSessionJSONAPI.data);
         expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal(expectedSessionJSONAPI.data);
       });
     });
   });

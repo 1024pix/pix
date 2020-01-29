@@ -220,7 +220,7 @@ input[type=number] {
   &--unchecked {
     border: 2px solid $alto;
 
-    &:hover:not(.checkbox--disabled) {
+    &:hover {
       background-color: $porcelain;
       box-shadow: 0 0px 0px 8px rgba($grey, 0.1);
       border-color: $grey;
@@ -230,12 +230,5 @@ input[type=number] {
   &--checked {
     background-color: $aqua;
     border: 2px solid $aqua;
-  }
-
-  &--disabled {
-    background-color: $nobel;
-    border-color: $nobel;
-    cursor: not-allowed;
-    pointer-events: none;
   }
 }
