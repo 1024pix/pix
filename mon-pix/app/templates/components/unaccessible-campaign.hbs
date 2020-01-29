@@ -1,0 +1,19 @@
+<div class="background-banner-wrapper">
+  <div class="background-banner"></div>
+  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
+    <div class="campaign-landing-page__start__image__container">
+      <div class="campaign-landing-page__pix-logo">
+        <img class="campaign-landing-page__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
+      </div>
+      <div class="campaign-landing-page__marianne-logo">
+        <img class="campaign-landing-page__image" src="{{rootURL}}/images/logo-de-la-republique-francaise.svg"
+             alt="République française">
+      </div>
+    </div>
+    <div class="campaign-landing-page__error-text">
+      <p class="campaign-landing-page__error-text title">{{yield}}</p>
+      <LinkTo @route="index" class="button button--extra-big button--link campaign-landing-page__error-button">
+        Revenir au profil</LinkTo>
+    </div>
+  </div>
+</div>
