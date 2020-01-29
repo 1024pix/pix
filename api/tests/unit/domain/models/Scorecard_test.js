@@ -1,7 +1,7 @@
+const moment = require('moment');
 const { expect, sinon } = require('../../../test-helper');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
-const moment = require('moment');
 const constants = require('../../../../lib/domain/constants');
 
 describe('Unit | Domain | Models | Scorecard', () => {
@@ -33,7 +33,10 @@ describe('Unit | Domain | Models | Scorecard', () => {
           status: 'started',
           assessment: { state: 'started' },
         };
-        const knowledgeElements = [{ earnedPix: 5.5, createdAt: new Date() }, { earnedPix: 3.6, createdAt: new Date() }];
+        const knowledgeElements = [{ earnedPix: 5.5, createdAt: new Date() }, {
+          earnedPix: 3.6,
+          createdAt: new Date()
+        }];
         computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
         // when
         actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
@@ -93,7 +96,10 @@ describe('Unit | Domain | Models | Scorecard', () => {
       beforeEach(() => {
         // given
         competenceEvaluation = undefined;
-        const knowledgeElements = [{ earnedPix: 5.5, createdAt: new Date() }, { earnedPix: 3.6, createdAt: new Date() }];
+        const knowledgeElements = [{ earnedPix: 5.5, createdAt: new Date() }, {
+          earnedPix: 3.6,
+          createdAt: new Date()
+        }];
         computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
         //when
         actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
@@ -122,7 +128,10 @@ describe('Unit | Domain | Models | Scorecard', () => {
     context('when the competence evaluation has been reset and some knowledgeElements exist', () => {
       beforeEach(() => {
         // given
-        const knowledgeElements = [{ earnedPix: 5.5, createdAt: new Date() }, { earnedPix: 3.6, createdAt: new Date() }];
+        const knowledgeElements = [{ earnedPix: 5.5, createdAt: new Date() }, {
+          earnedPix: 3.6,
+          createdAt: new Date()
+        }];
         computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
         competenceEvaluation = { status: 'reset' };
 
@@ -179,13 +188,25 @@ describe('Unit | Domain | Models | Scorecard', () => {
       });
       it('should have the same number of pix if blockReachablePixAndLevel is false', () => {
         //when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence, blockReachablePixAndLevel: false });
+        actualScorecard = Scorecard.buildFrom({
+          userId,
+          knowledgeElements,
+          competenceEvaluation,
+          competence,
+          blockReachablePixAndLevel: false
+        });
         // then
         expect(actualScorecard.earnedPix).to.equal(120);
       });
       it('should have the number of pix blocked if blockReachablePixAndLevel is true', () => {
         //when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence, blockReachablePixAndLevel: true });
+        actualScorecard = Scorecard.buildFrom({
+          userId,
+          knowledgeElements,
+          competenceEvaluation,
+          competence,
+          blockReachablePixAndLevel: true
+        });
         // then
         expect(actualScorecard.earnedPix).to.equal(constants.MAX_REACHABLE_PIX_BY_COMPETENCE);
       });
@@ -240,4 +261,22 @@ describe('Unit | Domain | Models | Scorecard', () => {
       });
     });
   });
+
+  describe('#parseId', () => {
+
+    it('should return a JSON object with parsed user ID and competence ID', () => {
+      // given
+      const id = '1234_recABC1234';
+
+      // when
+      const result = Scorecard.parseId(id);
+
+      // then
+      expect(result).to.deep.equal({
+        userId: 1234,
+        competenceId: 'recABC1234'
+      });
+    });
+  });
+
 });

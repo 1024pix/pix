@@ -4,6 +4,8 @@ const areaDatasource = require('../../../../lib/infrastructure/datasources/airta
 const Competence = require('../../../../lib/domain/models/Competence');
 const competenceDatasource = require('../../../../lib/infrastructure/datasources/airtable/competence-datasource');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
+const { NotFoundError } = require('../../../../lib/domain/errors');
+const AirtableNotFoundError = require('../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
 
 describe('Unit | Repository | competence-repository', () => {
 
@@ -52,7 +54,7 @@ describe('Unit | Repository | competence-repository', () => {
   beforeEach(() => {
     sinon.stub(areaDatasource, 'list').resolves([areaData]);
     sinon.stub(competenceDatasource, 'list').resolves([competenceData2, competenceData1, nonPixCompetenceData]);
-    sinon.stub(competenceDatasource, 'get').withArgs('recCompetence1').resolves(competenceData1);
+    sinon.stub(competenceDatasource, 'get');
   });
 
   describe('#list', () => {
@@ -74,6 +76,10 @@ describe('Unit | Repository | competence-repository', () => {
 
   describe('#listPixCompetencesOnly', () => {
 
+    beforeEach(() => {
+      competenceDatasource.get.withArgs('recCompetence1').resolves(competenceData1);
+    });
+
     it('should return Pix only domain Competence objects sorted by index', () => {
       // when
       const fetchedCompetences = competenceRepository.listPixCompetencesOnly();
@@ -92,6 +98,7 @@ describe('Unit | Repository | competence-repository', () => {
 
     it('should return a domain Competence object', () => {
       // when
+      competenceDatasource.get.withArgs('recCompetence1').resolves(competenceData1);
       const fetchedCompetence = competenceRepository.get('recCompetence1');
 
       // then
@@ -115,12 +122,30 @@ describe('Unit | Repository | competence-repository', () => {
         expect(competence).to.deep.equal(expectedCompetence);
       });
     });
+
+    it('should throw a domain NotFoundError when underlying datasources throw Exception', async () => {
+      try {
+        // given
+        const competenceId = 'recAbcd1234';
+        competenceDatasource.get.withArgs(competenceId).rejects(new AirtableNotFoundError());
+
+        // when
+        await competenceRepository.get(competenceId);
+        expect.fail('Expected domain NotFoundError to have been thrown.');
+
+      } catch (err) {
+
+        // then
+        expect(err).to.be.an.instanceOf(NotFoundError);
+      }
+    });
   });
 
   describe('#getCompetenceName', () => {
 
     it('should return a domain Competence name', async () => {
       // when
+      competenceDatasource.get.withArgs('recCompetence1').resolves(competenceData1);
       const fetchedCompetenceName = await competenceRepository.getCompetenceName('recCompetence1');
 
       // then
