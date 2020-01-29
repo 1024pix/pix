@@ -56,3 +56,65 @@
   }
 }
 
+.hexagon-score__information {
+  position: absolute;
+  background-color: $white;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+  border-radius:3px;
+  z-index: 300;
+
+  width: 300px;
+  padding: 20px 36px;
+  margin: 150px 0 0 -80px;
+
+  @include device-is('desktop') {
+    height: 161px;
+    width: 587px;
+    padding: 20px 36px;
+    margin : 135px 0 0 -520px;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -17px;
+    right: 130px;
+    border-bottom: 20px solid white;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+
+    @include device-is('desktop') {
+      right: 0px;
+      border-right: none;
+    }
+  }
+  &--visible {
+    display: block;
+  }
+  &--hidden {
+    display: none;
+  }
+
+}
+
+.hexagon-score-information__text {
+  font-family: $font-open-sans;
+  font-size: 1.6rem;
+  line-height: 2.2rem;
+
+  &--strong {
+    font-weight: $font-bold;
+  }
+}
+.hexagon-score-information__close {
+  float: right;
+  font-size: 2rem;
+  padding: 10px;
+  margin-top: -10px;
+  @include device-is('desktop') {
+    display: none;
+  }
+}
+

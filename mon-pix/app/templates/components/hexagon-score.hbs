@@ -1,7 +1,12 @@
-<div class="hexagon-score">
+<div class="hexagon-score" onmouseover={{action 'showHelp'}} onmouseout={{action 'hideHelp'}}>
   <div class="hexagon-score__content">
     <div class="hexagon-score-content__title">PIX</div>
     <div class="hexagon-score-content__pix-score">{{score}}</div>
-    <div class="hexagon-score-content__pix-total">1024</div>
+    <div class="hexagon-score-content__pix-total">1024 <Fa-Icon @icon="info-circle"/></div>
   </div>
+    <div class="hexagon-score__information hexagon-score-information__text {{this.displayHelp}}">
+        <span class="hexagon-score-information__text--strong">Pourquoi 1024 Pix ?</span>
+        <span class="hexagon-score-information__close" {{action 'hideHelp'}}><Fa-Icon @icon="times"/></span>
+        <br><br>C’est le score maximum atteignable dès que le niveau 8 des compétences sera disponible.
+        <span class="hexagon-score-information__text--strong">Le score maximum à ce jour est 640 Pix</span> car les compétences sont pour l’instant limitées au niveau 5.</div>
 </div>
