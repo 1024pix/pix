@@ -96,11 +96,11 @@
   display: flex;
   align-items: center;
   color: $grey;
-  padding: 16px 0px;
+  padding: 16px 0;
+  margin: 0 16px;
 
   &__title {
     display: flex;
-    margin-left: 30px;
     flex-grow: 1;
     font-size: 1rem;
     font-weight: bold;
@@ -109,7 +109,6 @@
   &__action {
     display: flex;
     align-items: center;
-    margin-right: 30px;
     cursor: pointer;
   }
 
@@ -157,7 +156,7 @@
 
 .certification-candidates-row-actions {
   justify-content: flex-end;
-  padding-right: 20px;
+  padding-right: 16px;
 
   &__close {
     margin-left: 8px;
@@ -169,20 +168,66 @@
   height: 38px;
 }
 
-.certification-candidates-table__column-name {
+.certification-candidates-table td, .certification-candidates-table th {
+  padding-left: 16px;
+}
+
+.certification-candidates-table__column-last-name {
   width: 160px;
+}
+
+.certification-candidates-table__column-first-name {
+  width: 130px;
 }
 
 .certification-candidates-table__column-time {
   width: 50px;
 }
 
-.certification-candidates-table > table > tbody > tr > td,
-.certification-candidates-table > table > thead > tr > th {
-  padding-left: 15px;
-}
+.certification-candidates-actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 16px;
 
-.certification-candidates-table > table > tbody > tr > td:first-child,
-.certification-candidates-table > table > thead > tr > th:first-child {
-  padding-left: 30px;
+  &__delete {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__button {
+      font-size: 1rem;
+      color: $dusty-gray;
+
+      &--disabled {
+        font-size: 1rem;
+        background-color: $idol;
+        color: $white;
+        cursor: not-allowed;
+
+        &:hover, &:active, &:focus {
+          background-color: $dusty-gray;
+        }
+      }
+    }
+
+    &__tooltip {
+      visibility: hidden;
+      position: absolute;
+      right: calc(16px + 38px + 4px); // padding-right parent + width button + petite marge
+      min-width: 120px;
+      z-index: 99;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.65rem;
+      color: $white;
+      background-color: rgba(118, 118, 118, 0.9);
+    }
+  }
+
+  &__delete:hover > &__delete__tooltip {
+    visibility: visible;
+  }
 }

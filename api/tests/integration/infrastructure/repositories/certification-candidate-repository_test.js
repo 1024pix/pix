@@ -51,6 +51,16 @@ describe('Integration | Repository | CertificationCandidate', function() {
         expect(certificationCandidatesInSession[0].firstName).to.equal(certificationCandidate.firstName);
       });
 
+      it('should return the saved candidate', async () => {
+        // when
+        const actualCandidate = await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
+
+        // then
+        const checkedAttrs = ['firstName', 'lastName', 'birthCity', 'birthProvinceCode', 'birthCity', 'birthdate', 'email', 'externalId', 'extraTimePercentage'];
+        expect(_.pick(actualCandidate, checkedAttrs)).to.deep.equal(_.pick(certificationCandidate, checkedAttrs));
+        expect(actualCandidate.id).to.not.be.undefined;
+      });
+
       context('when adding a new candidate', () => {
         it('should add a single row in the table', async () => {
           // given
@@ -140,21 +150,19 @@ describe('Integration | Repository | CertificationCandidate', function() {
     context('when the record to delete is in the table', () => {
       let certificationCandidateToDeleteId;
 
-      beforeEach(async () => {
+      beforeEach(() => {
         // given
         certificationCandidateToDeleteId = databaseBuilder.factory.buildCertificationCandidate().id;
         _.times(5, databaseBuilder.factory.buildCertificationCandidate);
-        await databaseBuilder.commit();
+        return databaseBuilder.commit();
       });
 
-      it('should return the deleted certification candidate with all its attributes undefined', async () => {
+      it('should return true when deletion goes well', async () => {
         // when
-        const certificationCandidateDeleted = await certificationCandidateRepository.delete(certificationCandidateToDeleteId);
+        const isDeleted = await certificationCandidateRepository.delete(certificationCandidateToDeleteId);
 
         // then
-        _.each(certificationCandidateDeleted, (attributeValue) => {
-          expect(attributeValue).to.equal(undefined);
-        });
+        expect(isDeleted).to.be.true;
       });
 
       it('should delete a single row in the table', async () => {
@@ -183,7 +191,49 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('#findBySessionId', () => {
+  describe('#isNotLinked', () => {
+
+    context('when the candidate is linked', () => {
+      let certificationCandidateId;
+
+      beforeEach(() => {
+        // given
+        certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate().id;
+        return databaseBuilder.commit();
+      });
+
+      it('should return false', async () => {
+        // when
+        const isNotLinked = await certificationCandidateRepository.isNotLinked(certificationCandidateId);
+
+        // then
+        expect(isNotLinked).to.be.false;
+      });
+
+    });
+
+    context('when the candidate is not linked', () => {
+      let certificationCandidateToDeleteId;
+
+      beforeEach(() => {
+        // given
+        certificationCandidateToDeleteId = databaseBuilder.factory.buildCertificationCandidate({ userId: null }).id;
+        return databaseBuilder.commit();
+      });
+
+      it('should return true', async () => {
+        // when
+        const isNotLinked = await certificationCandidateRepository.isNotLinked(certificationCandidateToDeleteId);
+
+        // then
+        expect(isNotLinked).to.be.true;
+      });
+
+    });
+
+  });
+
+  describe('#findBySessionIdWithCertificationCourse', () => {
     let sessionId;
 
     beforeEach(async () => {

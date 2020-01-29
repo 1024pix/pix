@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { expect, databaseBuilder, domainBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
@@ -64,22 +65,29 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
       expect(response.statusCode).to.equal(201);
     });
 
-    it('should return the certification candidate with registering attributes set only', async () => {
+    it('should return the saved certification candidate', async () => {
       // when
       const response = await server.inject(options);
 
       // then
-      const candidateAttrs = response.result.data.attributes;
-      expect(candidateAttrs['first-name']).to.equal(certificationCandidate.firstName);
-      expect(candidateAttrs['last-name']).to.equal(certificationCandidate.lastName);
-      expect(candidateAttrs['birth-city']).to.equal(certificationCandidate.birthCity);
-      expect(candidateAttrs['birth-province-code']).to.equal(certificationCandidate.birthProvinceCode);
-      expect(candidateAttrs['birth-country']).to.equal(certificationCandidate.birthCountry);
-      expect(candidateAttrs['birthdate']).to.equal(certificationCandidate.birthdate);
-      expect(candidateAttrs['email']).to.equal(certificationCandidate.email);
-      expect(candidateAttrs['external-id']).to.equal(certificationCandidate.externalId);
-      expect(candidateAttrs['extra-time-percentage']).to.equal(certificationCandidate.extraTimePercentage);
-      expect(candidateAttrs['examinerComment']).to.be.undefined;
+      const expectedData = {
+        type: 'certification-candidates',
+        attributes: {
+          'first-name': certificationCandidate.firstName,
+          'last-name': certificationCandidate.lastName,
+          birthdate: certificationCandidate.birthdate,
+          'birth-province-code': certificationCandidate.birthProvinceCode,
+          'birth-city': certificationCandidate.birthCity,
+          'birth-country': certificationCandidate.birthCountry,
+          email: certificationCandidate.email,
+          'external-id': certificationCandidate.externalId,
+          'extra-time-percentage': certificationCandidate.extraTimePercentage,
+          'is-linked': false,
+        }
+      };
+
+      expect(_.omit(response.result.data, 'id')).to.deep.equal(expectedData);
+      expect(response.result.data.id).to.exist;
     });
 
   });

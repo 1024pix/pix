@@ -85,13 +85,13 @@
       <table>
         <thead>
           <tr>
-            <th class="certification-candidates-table__column-name">
+            <th class="certification-candidates-table__column-last-name">
               {{#if this.isCandidateBeingAdded}}
                   *
               {{/if}}
                 Nom de naissance
             </th>
-            <th class="certification-candidates-table__column-name">
+            <th class="certification-candidates-table__column-first-name">
               {{#if this.isCandidateBeingAdded}}
                   *
               {{/if}}
@@ -148,7 +148,31 @@
               <td data-test-id='panel-candidate__email__{{candidate.id}}'>{{candidate.email}}</td>
               <td data-test-id='panel-candidate__externalId__{{candidate.id}}'>{{candidate.externalId}}</td>
               <td data-test-id='panel-candidate__extraTimePercentage__{{candidate.id}}'>{{format-percentage candidate.extraTimePercentage}}</td>
-              <td></td>
+              <td>
+                <div class="certification-candidates-actions">
+                  <div class="certification-candidates-actions__delete">
+                    {{#if candidate.isLinked}}
+                      <button
+                          data-test-id="panel-candidate__actions__delete__{{candidate.id}}"
+                          type="button"
+                          class="button button--square button--lightgrey button--lightgrey--disabled certification-candidates-actions__delete__button--disabled" >
+                        {{fa-icon "trash-alt" class="fa-fw"}}
+                      </button>
+                      <div class="certification-candidates-actions__delete__tooltip">
+                        Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.
+                      </div>
+                    {{else}}
+                      <button
+                          data-test-id="panel-candidate__actions__delete__{{candidate.id}}"
+                          type="button"
+                          class="button button--square button--lightgrey certification-candidates-actions__delete__button"
+                          {{on 'click' (fn this.deleteCertificationCandidate candidate)}} >
+                        {{fa-icon "trash-alt" class="fa-fw"}}
+                      </button>
+                    {{/if}}
+                  </div>
+                </div>
+              </td>
             </tr>
           {{/each}}
         </tbody>
