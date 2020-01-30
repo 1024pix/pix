@@ -34,10 +34,10 @@
       </div>
       <div class='row'>
           <div class='col'>Statut :</div>
-          <div class='col' data-test-id='certifications-session-info__is-finalized'>{{sessionStatusLabel}}</div>
+          <div class='col' data-test-id='certifications-session-info__status'>{{session.displayStatus}}</div>
       </div>
 
-      {{#if session.isFinalized}}
+      {{#if session.hasBeenFinalized}}
       <div class='row'>
           <div class='col'>Date de finalisation :</div>
           <div class='col' data-test-id='certifications-session-info__finalized-at'>{{session.finalizationDate}}</div>
@@ -45,7 +45,7 @@
       {{/if}}
   </div>
 
-  {{#if session.isFinalized}}
+  {{#if session.hasBeenFinalized}}
   <div class="certifications-session-info__stats">
     <div class='row'>
         <div class='col'>Nombre de signalements :</div>

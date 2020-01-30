@@ -1,14 +1,15 @@
 import DS from 'ember-data';
 const { attr, hasMany, Model } = DS;
 import { computed } from '@ember/object';
-import { equal } from '@ember/object/computed';
 import _ from 'lodash';
 
 export const CREATED = 'created';
 export const FINALIZED = 'finalized';
+export const PROCESSED = 'processed';
 export const statusToDisplayName = {
   [CREATED]: 'Créée',
   [FINALIZED]: 'Finalisée',
+  [PROCESSED]: 'Traitée',
 };
 
 export default Model.extend({
@@ -22,8 +23,13 @@ export default Model.extend({
   accessCode: attr(),
   status: attr(),
   finalizedAt: attr(),
-  isFinalized: equal('status', 'finalized'),
   examinerGlobalComment: attr('string'),
+  displayStatus: computed('status', function() {
+    return statusToDisplayName[this.status];
+  }),
+  hasBeenFinalized: computed('status', function() {
+    return this.status === FINALIZED || this.status === PROCESSED;
+  }),
   certifications: hasMany('certification'),
   countExaminerComment : computed('certifications.[]', function() {
     return _.sumBy(

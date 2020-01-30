@@ -1,8 +1,6 @@
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { statusToDisplayName } from '../../../../../models/session';
 
 export default Controller.extend({
 
@@ -10,10 +8,6 @@ export default Controller.extend({
   notifications: service('notification-messages'),
 
   session: alias('model'),
-
-  sessionStatusLabel: computed('session.isFinalized', function() {
-    return this.session.isFinalized ? statusToDisplayName.finalized : statusToDisplayName.created;
-  }),
 
   actions: {
 

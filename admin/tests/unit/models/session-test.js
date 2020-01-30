@@ -1,14 +1,53 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
+import { FINALIZED, CREATED, PROCESSED, statusToDisplayName } from 'pix-admin/models/session';
 
 module('Unit | Model | session', function(hooks) {
   setupTest(hooks);
-
   let store;
 
   hooks.beforeEach(async function() {
     store = this.owner.lookup('service:store');
+  });
+
+  module('Given a status', function() {
+    let model1;
+    let model2;
+    let model3;
+
+    hooks.beforeEach(async function() {
+      model1 = run(() => store.createRecord('session', {
+        id: 123,
+        status: CREATED,
+      }));
+      model2 = run(() => store.createRecord('session', {
+        id: 1234,
+        status: FINALIZED,
+      }));
+      model3 = run(() => store.createRecord('session', {
+        id: 12345,
+        status: PROCESSED,
+      }));
+    });
+    
+    test('it should return the correct displayName', function(assert) {
+      assert.equal(model1.displayStatus, statusToDisplayName[CREATED]);
+      assert.equal(model2.displayStatus, statusToDisplayName[FINALIZED]);
+      assert.equal(model3.displayStatus, statusToDisplayName[PROCESSED]);
+    });
+
+    test('it should set hasBeenFinalized properly', function(assert) {
+      assert.equal(model1.hasBeenFinalized, false);
+      assert.equal(model2.hasBeenFinalized, true);
+      assert.equal(model3.hasBeenFinalized, true);
+    });
+  });
+
+  // Replace this with your real tests.
+  test('it exists', function(assert) {
+    const model = run(() => store.createRecord('session', {}));
+    assert.ok(model);
   });
 
   module('#countNotCheckedEndScreen', function() {
@@ -53,8 +92,6 @@ module('Unit | Model | session', function(hooks) {
       let sessionWithCertifications;
 
       hooks.beforeEach(async function() {
-        store = this.owner.lookup('service:store');
-
         sessionWithCertifications = run(() => {
           const certif1 = store.createRecord('certification', { hasSeenEndTestScreen: false });
           const certif2 = store.createRecord('certification', { hasSeenEndTestScreen: false });
