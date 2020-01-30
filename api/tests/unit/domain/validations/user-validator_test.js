@@ -1,4 +1,4 @@
-const { expect, catchErr } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
@@ -31,18 +31,14 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
       context('when validation is successful', () => {
 
-        it('should resolve (with no value) when validation is successful', () => {
-          // when
-          const promise = userValidator.validate({ user });
-
-          // then
-          return expect(promise).to.be.fulfilled;
+        it('should not throw any error', () => {
+          expect(userValidator.validate({ user })).to.not.throw;
         });
       });
 
       context('when user data validation fails', () => {
 
-        it('should reject with error when user is undefined', async () => {
+        it('should reject with error when user is undefined', () => {
           // given
           const expectedError = {
             attribute: undefined,
@@ -50,13 +46,16 @@ describe('Unit | Domain | Validators | user-validator', function() {
           };
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user: undefined });
-
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          try {
+            userValidator.validate({ user: undefined });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
-        it('should reject with error on field "first name" when first name is missing', async () => {
+        it('should reject with error on field "first name" when first name is missing', () => {
           // given
           const expectedError = {
             attribute: 'firstName',
@@ -65,13 +64,16 @@ describe('Unit | Domain | Validators | user-validator', function() {
           user.firstName = MISSING_VALUE;
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user });
-
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          try {
+            userValidator.validate({ user });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
-        it('should reject with error on field "last name" when last name is missing', async () => {
+        it('should reject with error on field "last name" when last name is missing', () => {
           // given
           const expectedError = {
             attribute: 'lastName',
@@ -80,13 +82,16 @@ describe('Unit | Domain | Validators | user-validator', function() {
           user.lastName = MISSING_VALUE;
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user });
-
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          try {
+            userValidator.validate({ user });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
-        it('should reject with error on field "password" when password is missing', async () => {
+        it('should reject with error on field "password" when password is missing', () => {
           // given
           const expectedError = {
             attribute: 'password',
@@ -95,13 +100,16 @@ describe('Unit | Domain | Validators | user-validator', function() {
           user.password = MISSING_VALUE;
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user });
-
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          try {
+            userValidator.validate({ user });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
-        it('should reject with error on field "password" when password is invalid', async () => {
+        it('should reject with error on field "password" when password is invalid', () => {
           // given
           const expectedError = {
             attribute: 'password',
@@ -110,13 +118,16 @@ describe('Unit | Domain | Validators | user-validator', function() {
           user.password = 'invalid';
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user });
-
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          try {
+            userValidator.validate({ user });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
-        it('should reject with error on field "cgu" when cgu is false', async () => {
+        it('should reject with error on field "cgu" when cgu is false', () => {
           // given
           const expectedError = {
             attribute: 'cgu',
@@ -125,13 +136,16 @@ describe('Unit | Domain | Validators | user-validator', function() {
           user.cgu = 'false';
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user });
-
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          try {
+            userValidator.validate({ user });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
-        it('should reject with error on field "email" when email is missing', async () => {
+        it('should reject with error on field "email" when email is missing', () => {
           // given
           const expectedError = {
             attribute: 'email',
@@ -140,13 +154,16 @@ describe('Unit | Domain | Validators | user-validator', function() {
           user.email = MISSING_VALUE;
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user });
-
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          try {
+            userValidator.validate({ user });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
-        it('should reject with error on field "email" when email is invalid', async () => {
+        it('should reject with error on field "email" when email is invalid', () => {
           // given
           const expectedError = {
             attribute: 'email',
@@ -155,13 +172,16 @@ describe('Unit | Domain | Validators | user-validator', function() {
           user.email = 'invalid_email';
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user });
-
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          try {
+            userValidator.validate({ user });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
-        it('should reject with errors on all fields (but only once by field) when all fields are missing', async () => {
+        it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
           // given
           user = {
             firstName: '',
@@ -171,10 +191,13 @@ describe('Unit | Domain | Validators | user-validator', function() {
           };
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user });
-
-          // then
-          expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(5);
+          try {
+            userValidator.validate({ user });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            expect(errors.invalidAttributes).to.have.lengthOf(5);
+          }
         });
       });
     });
@@ -194,18 +217,14 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
       context('when validation is successful', () => {
 
-        it('should resolve (with no value) when validation is successful', () => {
-          // when
-          const promise = userValidator.validate({ user, cguRequired });
-
-          // then
-          return expect(promise).to.be.fulfilled;
+        it('should not throw any error', () => {
+          expect(userValidator.validate({ user, cguRequired })).to.not.throw;
         });
       });
 
       context('when user data validation fails', () => {
 
-        it('should reject with error when user is undefined', async () => {
+        it('should reject with error when user is undefined', () => {
           // given
           const expectedError = {
             attribute: undefined,
@@ -213,13 +232,16 @@ describe('Unit | Domain | Validators | user-validator', function() {
           };
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user: undefined, cguRequired });
-
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          try {
+            userValidator.validate({ user: undefined, cguRequired });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
-        it('should reject with error on field "first name" when first name is missing', async () => {
+        it('should reject with error on field "first name" when first name is missing', () => {
           // given
           const expectedError = {
             attribute: 'firstName',
@@ -228,13 +250,16 @@ describe('Unit | Domain | Validators | user-validator', function() {
           user.firstName = MISSING_VALUE;
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user, cguRequired });
-
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          try {
+            userValidator.validate({ user, cguRequired });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
-        it('should reject with error on field "last name" when last name is missing', async () => {
+        it('should reject with error on field "last name" when last name is missing', () => {
           // given
           const expectedError = {
             attribute: 'lastName',
@@ -243,13 +268,16 @@ describe('Unit | Domain | Validators | user-validator', function() {
           user.lastName = MISSING_VALUE;
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user, cguRequired });
-
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          try {
+            userValidator.validate({ user, cguRequired });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
-        it('should reject with error on field "password" when password is missing', async () => {
+        it('should reject with error on field "password" when password is missing', () => {
           // given
           const expectedError = {
             attribute: 'password',
@@ -258,13 +286,16 @@ describe('Unit | Domain | Validators | user-validator', function() {
           user.password = MISSING_VALUE;
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user, cguRequired });
-
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          try {
+            userValidator.validate({ user, cguRequired });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
-        it('should reject with error on field "password" when password is invalid', async () => {
+        it('should reject with error on field "password" when password is invalid', () => {
           // given
           const expectedError = {
             attribute: 'password',
@@ -273,13 +304,16 @@ describe('Unit | Domain | Validators | user-validator', function() {
           user.password = 'invalid';
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user, cguRequired });
-
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          try {
+            userValidator.validate({ user, cguRequired });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
-        it('should reject with error on field "username" when username is missing', async () => {
+        it('should reject with error on field "username" when username is missing', () => {
           // given
           const expectedError = {
             attribute: 'username',
@@ -288,13 +322,16 @@ describe('Unit | Domain | Validators | user-validator', function() {
           user.username = MISSING_VALUE;
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user, cguRequired });
-
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          try {
+            userValidator.validate({ user, cguRequired });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
         });
 
-        it('should reject with errors on all fields (but only once by field) when all fields are missing', async () => {
+        it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
           // given
           user = {
             firstName: '',
@@ -304,10 +341,13 @@ describe('Unit | Domain | Validators | user-validator', function() {
           };
 
           // when
-          const entityValidationErrors = await catchErr(userValidator.validate)({ user, cguRequired });
-
-          // then
-          expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(4);
+          try {
+            userValidator.validate({ user, cguRequired });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            expect(errors.invalidAttributes).to.have.lengthOf(4);
+          }
         });
       });
     });
