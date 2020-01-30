@@ -3,6 +3,7 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const createSession = require('../../../../lib/domain/usecases/create-session');
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
 const sessionValidator = require('../../../../lib/domain/validators/session-validator');
+const { statuses } = require('../../../../lib/domain/models/Session');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | create-session', () => {
@@ -71,7 +72,7 @@ describe('Unit | UseCase | create-session', () => {
           await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
 
           // then
-          expect(sessionRepository.save.calledWithExactly({ certificationCenterId, certificationCenter: certificationCenterName, accessCode })).to.be.true;
+          expect(sessionRepository.save.calledWithExactly({ certificationCenterId, certificationCenter: certificationCenterName, accessCode, status: statuses.STARTED })).to.be.true;
         });
       });
     });
