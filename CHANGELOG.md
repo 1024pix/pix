@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.109.0 (30/01/2020)
+
+- [#977](https://github.com/1024pix/pix/pull/977) [FEATURE] Supprimer un candidat de la liste des candidats d'une session. (PC-73)
+- [#985](https://github.com/1024pix/pix/pull/985) [FEATURE] Afficher une bulle d'information sur les Pix (PF-803).
+- [#981](https://github.com/1024pix/pix/pull/981) [FEATURE] Changer de table l'examinerComment et hasSeenEndTestScreen (pa-102)
+- [#1015](https://github.com/1024pix/pix/pull/1015) [BUGFIX] Changement de texte pour l'info-bulle des 1024 pix.
+- [#1014](https://github.com/1024pix/pix/pull/1014) [BUGFIX] L'initialisation du statut de la session à leur création ne fonctionnait pas (PC-112)
+- [#1010](https://github.com/1024pix/pix/pull/1010) [BUGFIX] Requêter le détail d'une compétence avec un mauvais identifiant provoque désormais une erreur 404 plutôt que 500.
+- [#1008](https://github.com/1024pix/pix/pull/1008) [BUGFIX] Deux QROCs qui se suivent avec un même input conservent la réponse précédente
+
 ## v2.108.0 (28/01/2020)
 
 - [#1002](https://github.com/1024pix/pix/pull/1002) [FEATURE] Afficher un message d'information dans Pix Orga lorsqu'un utilisateur clique sur une invitation déjà acceptée (PO-276)
