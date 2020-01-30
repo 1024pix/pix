@@ -33,7 +33,7 @@ export default Route.extend({
   resetController(controller, isExiting) {
     if (isExiting) {
       controller.set('pageNumber', 1);
-      controller.set('pageSize', 10);
+      controller.set('pageSize', 25);
       controller.set('name', null);
     }
   }

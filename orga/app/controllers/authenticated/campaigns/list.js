@@ -6,7 +6,7 @@ import Controller from '@ember/controller';
 export default Controller.extend({
   queryParams: ['pageNumber', 'pageSize', 'name'],
   pageNumber: 1,
-  pageSize: 10,
+  pageSize: 25,
   name: null,
 
   hasNoCampaign: empty('model'),
