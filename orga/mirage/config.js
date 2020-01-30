@@ -194,4 +194,17 @@ export default function() {
   this.get('/campaign-participations/:id');
 
   this.get('/campaign-participation-results/:id');
+
+  this.post('/student-dependent-users/password-update', (schema, request) => {
+    const passwordForFailure = 'passwordFor01Failure';
+
+    const requestBody = JSON.parse(request.requestBody);
+    const { password } = requestBody.data.attributes;
+    if (password === passwordForFailure) {
+      return new Response(500, {}, { errors: [ { status: '500', detail: '' } ] });
+    }
+
+    return schema.users.find(1);
+  });
+
 }
