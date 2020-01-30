@@ -2,6 +2,7 @@ const _ = require('lodash');
 const { ForbiddenAccess } = require('../errors');
 const sessionValidator = require('../validators/session-validator');
 const sessionCodeService = require('../services/session-code-service');
+const { statuses } = require('../models/Session');
 
 module.exports = async function createSession({ userId, session, certificationCenterRepository, sessionRepository, userRepository }) {
   sessionValidator.validate(session);
@@ -16,5 +17,6 @@ module.exports = async function createSession({ userId, session, certificationCe
   sessionWithCode.accessCode = await sessionCodeService.getNewSessionCode();
   const certificationCenter = await certificationCenterRepository.get(certificationCenterId);
   sessionWithCode.certificationCenter = certificationCenter.name;
+  sessionWithCode.status = statuses.STARTED;
   return sessionRepository.save(sessionWithCode);
 };
