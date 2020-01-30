@@ -1,0 +1,39 @@
+.search-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  svg {
+    color: $dusty-gray;
+  }
+
+  &__invisible-field {
+    height: inherit;
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    border-radius: 3px;
+    font-family: $roboto;
+    font-size: 0.8125rem;
+
+    &:focus {
+      outline: none;
+    }
+
+    /* IE 11 */
+    &:-ms-input-placeholder {
+      color: $dusty-gray;
+    }
+
+    /* older Chrome/Safari/Opera and Edge */
+    &::-webkit-input-placeholder {
+      color: $dusty-gray;
+    }
+
+    &::placeholder {
+      color: $dusty-gray;
+      opacity: 1; /* Firefox */
+    }
+  }
+}
