@@ -16,7 +16,15 @@
           <th>Résultats reçus</th>
         </tr>
         <tr>
-          <th>{{input id="name" value=name keyUp=(action triggerFiltering 'name' name)}}</th>
+          <th>
+            {{search-input
+              inputName="name"
+              class="input table__input"
+              value=name
+              placeholder="Nom du parcours"
+              keyUp=(action triggerFiltering 'name' name)
+            }}
+          </th>
           <th></th>
           <th></th>
         </tr>
