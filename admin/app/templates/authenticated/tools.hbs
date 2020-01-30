@@ -10,9 +10,15 @@
       <header class="page-section__header">
         <h2 class="page-section__title">Référentiel</h2>
       </header>
-      <div class="member-list">
+      <div>
+        <p>Le référentiel de données pédagogique est mis à jour automatiquement quotidiennement (vers 6h00).</p>
+        <p>Parfois, il peut s’avérer utile ou nécessaire de forcer le rechargement du référentiel.</p>
+        <p>Ex : apparition d’une régression sur la plateforme (Pix API, Pix Editor, etc.)</p>
+        <div class="callout alert"><strong>Attention !</strong> Le rechargement du référentiel est une opération risquée. Il est recommandé de ne l’effectuer qu’en cas de force majeur, accompagné d’un développeur.</div>
+        <div class="callout info">Durée de l’opération : <strong>≈1mn</strong>.</div>
         {{#if isLoading}}
-          <button type="submit" class="btn btn-primary btn-refresh-cache"><span class="loader-in-button">&nbsp;</span></button>
+          <button type="submit" class="btn btn-primary btn-refresh-cache"><span class="loader-in-button">&nbsp;</span>
+          </button>
         {{else}}
           <button class="btn btn-primary btn-refresh-cache" onclick={{action "refreshLearningContent"}}>
             {{fa-icon "sync"}} Recharger le cache
