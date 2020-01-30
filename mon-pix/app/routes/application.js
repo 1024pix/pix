@@ -1,6 +1,8 @@
-import { inject as service } from '@ember/service';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
+
 import Route from '@ember/routing/route';
+
+import { inject as service } from '@ember/service';
 
 export default Route.extend(ApplicationRouteMixin, {
 
@@ -26,17 +28,18 @@ export default Route.extend(ApplicationRouteMixin, {
   },
 
   async sessionAuthenticated() {
+    const _super = this._super;
     await this._loadCurrentUser();
-
-    // Because ember-simple-auth does not support calling this._super() asynchronously,
-    // we have to do this hack to call the original "sessionAuthenticated"
-    ApplicationRouteMixin.mixins[0].properties.sessionAuthenticated.call(this);
+    _super.call(this, ...arguments);
   },
 
   // XXX: For override the sessionInvalidated from ApplicationRouteMixin to avoid the automatic redirection
-  sessionInvalidated() {},
+  sessionInvalidated() {
+    this.transitionTo('login');
+  },
 
   _loadCurrentUser() {
-    return this.currentUser.load();
+    return this.get('currentUser').load().catch(() => this.get('session').invalidate());
   }
+
 });
