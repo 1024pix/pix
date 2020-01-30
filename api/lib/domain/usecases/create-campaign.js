@@ -4,9 +4,9 @@ const campaignValidator = require('../validators/campaign-validator');
 const Campaign = require('../models/Campaign');
 const { UserNotAuthorizedToCreateCampaignError } = require('../errors');
 
-module.exports = function createCampaign({ campaign, campaignRepository, userRepository, organizationService }) {
-  return campaignValidator.validate(campaign)
-    .then(() => _checkCreatorHasAccessToCampaignOrganization(campaign.creatorId, campaign.organizationId, userRepository))
+module.exports = async function createCampaign({ campaign, campaignRepository, userRepository, organizationService }) {
+  campaignValidator.validate(campaign);
+  return _checkCreatorHasAccessToCampaignOrganization(campaign.creatorId, campaign.organizationId, userRepository)
     .then(() => _checkOrganizationHasAccessToTargetProfile(campaign.targetProfileId, campaign.organizationId, organizationService))
     .then(() => campaignCodeGenerator.generate(campaignRepository))
     .then((generatedCampaignCode) => {
