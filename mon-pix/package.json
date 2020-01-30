@@ -81,7 +81,7 @@
     "ember-resolver": "^6.0.0",
     "ember-responsive": "^3.0.5",
     "ember-route-action-helper": "^2.0.7",
-    "ember-simple-auth": "^2.1.0",
+    "ember-simple-auth": "^2.1.1",
     "ember-sinon": "^4.1.1",
     "ember-source": "~3.11.1",
     "ember-truth-helpers": "^2.1.0",
