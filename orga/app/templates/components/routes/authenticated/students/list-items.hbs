@@ -21,6 +21,7 @@
         <th>Nom</th>
         <th>Prénom</th>
         <th>Date de naissance</th>
+        <th>Mot de passe</th>
       </tr>
       </thead>
 
@@ -31,6 +32,14 @@
             <td>{{student.lastName}}</td>
             <td>{{student.firstName}}</td>
             <td>{{moment-format student.birthdate 'DD/MM/YYYY' allow-empty=true}}</td>
+            <td>
+              {{#if student.hasUsername}}
+                <button class="button button--with-icon-and-text button-edit-role"
+                        type="button" {{action 'openPasswordReset' student}}>
+                  Réinitialiser
+                </button>
+              {{/if}}
+            </td>
           </tr>
         {{/each}}
 
@@ -42,6 +51,10 @@
       <div class="table__empty content-text">En attente d'élèves</div>
     {{/unless}}
   </div>
+
+  {{#if isShowingModal}}
+    {{password-reset-window student=student isShowingModal=isShowingModal}}
+  {{/if}}
 </div>
 
 {{#if isLoading}}

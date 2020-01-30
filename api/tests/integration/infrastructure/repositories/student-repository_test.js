@@ -2,6 +2,7 @@ const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helpe
 const _ = require('lodash');
 const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
 const Student = require('../../../../lib/domain/models/Student');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | student-repository', () => {
 
@@ -83,7 +84,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
   describe('#addOrUpdateOrganizationStudents', () => {
 
     context('when there are only students to create', () => {
-      
+
       let students;
       let organizationId;
       let student_1, student_2;
@@ -91,7 +92,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       beforeEach(async () => {
         organizationId = databaseBuilder.factory.buildOrganization().id;
         await databaseBuilder.commit();
-  
+
         student_1 = new Student({
           firstName: 'Lucy',
           lastName: 'Handmade',
@@ -99,7 +100,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
           nationalStudentId: 'INE1',
           organizationId,
         });
-  
+
         student_2 = new Student({
           firstName: 'Harry',
           lastName: 'Covert',
@@ -107,7 +108,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
           nationalStudentId: 'INE2',
           organizationId,
         });
-        
+
         students = [student_1, student_2];
       });
 
@@ -118,7 +119,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       it('should create all students', async function() {
         // when
         await studentRepository.addOrUpdateOrganizationStudents(students, organizationId);
-  
+
         // then
         const actualStudents = await knex('students').where({ organizationId });
         expect(actualStudents).to.have.lengthOf(2);
@@ -180,10 +181,10 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
         it('should update students attributes', async () => {
           // when
           await studentRepository.addOrUpdateOrganizationStudents(students, organizationId);
-  
+
           // then
           const updated_organization_students = await knex('students').where({ organizationId });
-  
+
           expect(updated_organization_students).to.have.lengthOf(2);
           expect(_.find(updated_organization_students, { 'nationalStudentId': student_1.nationalStudentId }).firstName).to.equal('Lili');
           expect(_.find(updated_organization_students, { 'nationalStudentId': student_2.nationalStudentId }).firstName).to.equal('Mimi');
@@ -197,7 +198,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
         let student_1_bis;
         let otherOrganizationId;
         let students;
-  
+
         beforeEach(async () => {
           otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
           student_1_bis = databaseBuilder.factory.buildStudent({
@@ -207,9 +208,9 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
             nationalStudentId: student_1.nationalStudentId,
             organizationId: otherOrganizationId,
           });
-  
+
           await databaseBuilder.commit();
-  
+
           student_1_updated = new Student({
             firstName: 'Lili',
             lastName: student_1.lastName,
@@ -227,25 +228,25 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
 
           students = [student_1_updated, student_2_updated];
         });
-  
+
         it('should update the student only in the organization that imports the file', async () => {
           // when
           await studentRepository.addOrUpdateOrganizationStudents(students, organizationId);
-  
+
           // then
           const updated_organization_students = await knex('students').where({ organizationId });
-  
+
           expect(updated_organization_students).to.have.lengthOf(2);
           expect(_.find(updated_organization_students, { 'nationalStudentId': student_1.nationalStudentId }).firstName).to.equal(student_1_updated.firstName);
           expect(_.find(updated_organization_students, { 'nationalStudentId': student_2.nationalStudentId }).firstName).to.equal(student_2_updated.firstName);
-  
+
           const not_updated_organization_students = await knex('students').where({ organizationId: otherOrganizationId });
-  
+
           expect(not_updated_organization_students).to.have.lengthOf(1);
           expect(not_updated_organization_students[0].firstName).to.equal(student_1_bis.firstName);
         });
       });
-  
+
     });
 
     context('when there are students to create and students to update', () => {
@@ -474,6 +475,36 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
 
       // then
       expect(result).to.equal(null);
+    });
+  });
+
+  describe('#get', () => {
+
+    let studentId;
+
+    beforeEach(() => {
+      studentId = databaseBuilder.factory.buildStudent().id;
+      return databaseBuilder.commit();
+    });
+
+    it('should return an instance of Student', async () => {
+      // when
+      const student = await studentRepository.get(studentId);
+
+      // then
+      expect(student).to.be.an.instanceOf(Student);
+      expect(student.id).to.equal(studentId);
+    });
+
+    it('should return a NotFoundError if no student is found', async () => {
+      // given
+      const nonExistentStudentId = 678;
+
+      // when
+      const result = await catchErr(studentRepository.get)(nonExistentStudentId);
+
+      // then
+      expect(result).to.be.instanceOf(NotFoundError);
     });
   });
 });

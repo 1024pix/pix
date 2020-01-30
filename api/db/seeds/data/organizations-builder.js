@@ -44,4 +44,37 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     organizationId: 3,
     userId: null
   });
+
+  const user1Id = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    firstName: 'George',
+    lastName: 'De Cambridge',
+    email: null,
+    username: 'george.decambridge2207',
+    rawPassword: 'Pix123',
+    cgu: false
+  }).id;
+  const user2Id = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    firstName: 'Blue Ivy',
+    lastName: 'Carter',
+    email: null,
+    username: 'blueivy.carter0701',
+    rawPassword: 'Pix123',
+    cgu: false
+  }).id;
+
+  databaseBuilder.factory.buildStudent({
+    firstName: 'George',
+    lastName: 'De Cambridge',
+    birthdate: '2013-07-22',
+    organizationId: 3,
+    userId: user1Id
+  });
+  databaseBuilder.factory.buildStudent({
+    firstName: 'Blue Ivy',
+    lastName: 'Carter',
+    birthdate: '2012-01-07',
+    organizationId: 3,
+    userId: user2Id
+  });
+
 };

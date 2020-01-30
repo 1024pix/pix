@@ -394,18 +394,45 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
             accessToken: 'valid.access.token',
             userId: 1234
           }
-        },
-        params: { id: 5678 } };
+        }
+      };
 
-      it('should authorize access to resource when the user is authenticated, belongs to SCO Organization and manages students', async () => {
-        // given
-        belongToScoOrganizationAndManageStudentsStub.resolves(true);
+      context('when organization id is in request params', () => {
 
-        // when
-        const response = await securityController.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+        request.params = { id: 5678 };
 
-        // then
-        expect(response.source).to.equal(true);
+        it('should authorize access to resource when the user is authenticated, belongs to SCO Organization and manages students', async () => {
+          // given
+          belongToScoOrganizationAndManageStudentsStub.resolves(true);
+
+          // when
+          const response = await securityController.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+
+          // then
+          expect(response.source).to.equal(true);
+        });
+      });
+
+      context('when organization id is in request payload', () => {
+
+        request.payload = {
+          data: {
+            attributes: {
+              organizationId: 5678
+            }
+          }
+        };
+
+        it('should authorize access to resource when the user is authenticated, belongs to SCO Organization and manages students', async () => {
+          // given
+          belongToScoOrganizationAndManageStudentsStub.resolves(true);
+
+          // when
+          const response = await securityController.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+
+          // then
+          expect(response.source).to.equal(true);
+        });
       });
     });
 

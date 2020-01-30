@@ -3,7 +3,10 @@ const faker = require('faker');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 
-const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, OrganizationStudentAlreadyLinkedToUserError, NotFoundError, UserNotFoundError } = require('../../../../lib/domain/errors');
+const {
+  AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, OrganizationStudentAlreadyLinkedToUserError,
+  NotFoundError, UserNotFoundError
+} = require('../../../../lib/domain/errors');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../../lib/domain/models/User');
 const Membership = require('../../../../lib/domain/models/Membership');
@@ -461,6 +464,18 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       // then
       expect(updatedUser).to.be.an.instanceOf(User);
       expect(updatedUser.password).to.equal(newPassword);
+    });
+
+    it('should throw UserNotFoundError when user id not found', async () => {
+      // given
+      const wrongUserId = 0;
+      const newPassword = '1235Pix!';
+
+      // when
+      const error = await catchErr(userRepository.updatePassword)(wrongUserId, newPassword);
+
+      // then
+      expect(error).to.be.instanceOf(UserNotFoundError);
     });
   });
 
