@@ -61,6 +61,6 @@ export default Model.extend({
       }
     });
 
-    this.set('hasSeenLastScreen', this.hasSeenLastScreen && certificationInReport.hasSeenLastScreen);
+    this.set('hasSeenLastScreenFromPaperReport', this.hasSeenLastScreenFromPaperReport && certificationInReport.hasSeenLastScreenFromPaperReport);
   },
 });
