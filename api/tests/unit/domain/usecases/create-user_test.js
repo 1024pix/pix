@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const createUser = require('../../../../lib/domain/usecases/create-user');
 const { AlreadyRegisteredEmailError, InvalidRecaptchaTokenError, EntityValidationError } = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
@@ -32,7 +32,7 @@ describe('Unit | UseCase | create-user', () => {
 
     userRepository.isEmailAvailable.resolves();
     userRepository.create.resolves(savedUser);
-    userValidator.validate.resolves();
+    userValidator.validate.returns();
     encryptionService.hashPassword.resolves(encryptedPassword);
     mailService.sendAccountCreationEmail.resolves();
     reCaptchaValidator.verify.resolves();
@@ -40,54 +40,45 @@ describe('Unit | UseCase | create-user', () => {
 
   context('step validation of user', () => {
 
-    it('should check the non existence of email in UserRepository', () => {
+    it('should check the non existence of email in UserRepository', async () => {
       // given
       userRepository.isEmailAvailable.resolves();
 
       // when
-      const promise = createUser({
+      await createUser({
         user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
       });
 
       // then
-      return promise
-        .then(() => {
-          expect(userRepository.isEmailAvailable).to.have.been.calledWith(userEmail);
-        });
+      expect(userRepository.isEmailAvailable).to.have.been.calledWith(userEmail);
     });
 
-    it('should validate the user', () => {
+    it('should validate the user', async () => {
       // given
-      userValidator.validate.resolves();
+      userValidator.validate.returns();
 
       // when
-      const promise = createUser({
+      await createUser({
         user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
       });
 
       //then
-      return promise
-        .then(() => {
-          expect(userValidator.validate).to.have.been.calledWith({ user });
-        });
+      expect(userValidator.validate).to.have.been.calledWith({ user });
     });
 
-    it('should validate the token', () => {
+    it('should validate the token', async () => {
       // when
-      const promise = createUser({
+      await createUser({
         user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
       });
 
-      //then
-      return promise
-        .then(() => {
-          expect(reCaptchaValidator.verify).to.have.been.calledWith(reCaptchaToken);
-        });
+      // then
+      expect(reCaptchaValidator.verify).to.have.been.calledWith(reCaptchaToken);
     });
 
     context('when user email is already used', () => {
 
-      it('should reject with an error EntityValidationError on email already registered', () => {
+      it('should reject with an error EntityValidationError on email already registered', async () => {
         // given
         const emailExistError = new AlreadyRegisteredEmailError('email already exists');
         const expectedValidationError = new EntityValidationError({
@@ -102,24 +93,20 @@ describe('Unit | UseCase | create-user', () => {
         userRepository.isEmailAvailable.rejects(emailExistError);
 
         // when
-        const promise = createUser({
+        const error = await catchErr(createUser)({
           user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
         // then
-        return promise
-          .then(() => expect.fail('Expected rejection with errors'))
-          .catch((error) => {
-            expect(error).to.be.instanceOf(EntityValidationError);
-            expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
-          });
+        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
       });
 
     });
 
     context('when user validator fails', () => {
 
-      it('should reject with an error EntityValidationError containing the entityValidationError', () => {
+      it('should reject with an error EntityValidationError containing the entityValidationError', async () => {
         // given
         const expectedValidationError = new EntityValidationError({
           invalidAttributes: [
@@ -134,27 +121,23 @@ describe('Unit | UseCase | create-user', () => {
           ]
         });
 
-        userValidator.validate.rejects(expectedValidationError);
+        userValidator.validate.throws(expectedValidationError);
 
         // when
-        const promise = createUser({
+        const error = await catchErr(createUser)({
           user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
-        //then
-        return promise
-          .then(() => expect.fail('Expected rejection with errors'))
-          .catch((error) => {
-            expect(error).to.be.instanceOf(EntityValidationError);
-            expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
-          });
+        // then
+        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
       });
 
     });
 
     context('when reCAPTCHA token is not valid', () => {
 
-      it('should reject with an error EntityValidationError containing the entityValidationError', () => {
+      it('should reject with an error EntityValidationError containing the entityValidationError', async () => {
         // given
         const invalidReCaptchaTokenError = new InvalidRecaptchaTokenError('Invalid reCaptcha token');
         const expectedValidationError = new EntityValidationError({
@@ -169,24 +152,19 @@ describe('Unit | UseCase | create-user', () => {
         reCaptchaValidator.verify.rejects(invalidReCaptchaTokenError);
 
         // when
-        const promise = createUser({
+        const error = await catchErr(createUser)({
           user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
         });
 
-        //then
-        return promise
-          .then(() => expect.fail('Expected rejection with errors'))
-          .catch((error) => {
-            expect(error).to.be.instanceOf(EntityValidationError);
-            expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
-          });
+        // then
+        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
       });
 
     });
 
     context('when user email is already in use, user validator fails and invalid captcha token', () => {
 
-      let promise;
       const entityValidationError = new EntityValidationError({
         invalidAttributes: [
           {
@@ -202,24 +180,20 @@ describe('Unit | UseCase | create-user', () => {
       const emailExistError = new AlreadyRegisteredEmailError('email already exists');
       const invalidReCaptchaTokenError = new InvalidRecaptchaTokenError('Invalid reCaptcha token');
 
-      it('should reject with an error EntityValidationError containing the entityValidationError and the AlreadyRegisteredEmailError', () => {
+      it('should reject with an error EntityValidationError containing the entityValidationError and the AlreadyRegisteredEmailError', async () => {
         // given
         userRepository.isEmailAvailable.rejects(emailExistError);
-        userValidator.validate.rejects(entityValidationError);
+        userValidator.validate.throws(entityValidationError);
         reCaptchaValidator.verify.rejects(invalidReCaptchaTokenError);
 
         // when
-        promise = createUser({
+        const error = await catchErr(createUser)({
           user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
         // then
-        return promise
-          .then(() => expect.fail('Expected rejection with errors'))
-          .catch((error) => {
-            expect(error).to.be.instanceOf(EntityValidationError);
-            expect(error.invalidAttributes).to.have.lengthOf(4);
-          });
+        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error.invalidAttributes).to.have.lengthOf(4);
       });
     });
   });
@@ -228,63 +202,50 @@ describe('Unit | UseCase | create-user', () => {
 
     context('step hash password and save user', () => {
 
-      it('should encrypt the password', () => {
+      it('should encrypt the password', async () => {
         // when
-        const promise = createUser({
+        await createUser({
           user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
         // then
-        return promise
-          .then(() => {
-            expect(encryptionService.hashPassword).to.have.been.calledWith(password);
-          });
+        expect(encryptionService.hashPassword).to.have.been.calledWith(password);
       });
 
-      it('should check if the password has been correctly encrypted, because we have a bug on this', () => {
+      it('should check if the password has been correctly encrypted, because we have a bug on this', async () => {
         // given
         encryptionService.hashPassword.resolves(password);
 
         // when
-        const promise = createUser({
+        const error = await catchErr(createUser)({
           user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
         // then
-        return promise
-          .catch((error) => {
-            expect(error).to.be.instanceOf(Error);
-            expect(error.message).to.equal('Erreur lors de l‘encryption du mot passe de l‘utilisateur');
-
-          });
+        expect(error).to.be.instanceOf(Error);
+        expect(error.message).to.equal('Erreur lors de l‘encryption du mot passe de l‘utilisateur');
       });
 
-      it('should save the user with a properly encrypted password', () => {
+      it('should save the user with a properly encrypted password', async () => {
         // given
         const userWithEncryptedPassword = new User({ email: userEmail, password: encryptedPassword });
 
         // when
-        const promise = createUser({
+        await createUser({
           user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
         // then
-        return promise
-          .then(() => {
-            expect(userRepository.create).to.have.been.calledWith(userWithEncryptedPassword);
-          });
+        expect(userRepository.create).to.have.been.calledWith(userWithEncryptedPassword);
       });
     });
 
     context('step send account creation email to user', () => {
-
-      // given
-      let promise;
       const user = new User({ email: userEmail });
 
-      beforeEach(() => {
+      it('should send the account creation email', async () => {
         // when
-        promise = createUser({
+        await createUser({
           user,
           reCaptchaToken,
           userRepository,
@@ -292,20 +253,15 @@ describe('Unit | UseCase | create-user', () => {
           encryptionService,
           mailService,
         });
-      });
 
-      // then
-      it('should send the account creation email', () => {
-        return promise
-          .then(() => {
-            expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(userEmail);
-          });
+        // then
+        expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(userEmail);
       });
     });
 
-    it('should return saved user (with id)', () => {
+    it('should return saved user (with id)', async () => {
       // when
-      const promise = createUser({
+      const actualSavedUser = await createUser({
         user,
         reCaptchaToken,
         userRepository,
@@ -315,10 +271,7 @@ describe('Unit | UseCase | create-user', () => {
       });
 
       // then
-      return promise
-        .then((user) => {
-          expect(user).to.deep.equal(savedUser);
-        });
+      expect(actualSavedUser).to.deep.equal(savedUser);
     });
   });
 });

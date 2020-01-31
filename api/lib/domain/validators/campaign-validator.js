@@ -45,13 +45,10 @@ const campaignValidationJoiSchema = Joi.object({
 module.exports = {
 
   validate(campaign) {
-
     const { error } = campaignValidationJoiSchema.validate(campaign, validationConfiguration);
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
-    } else {
-      return Promise.resolve();
     }
+    return true;
   }
-
 };

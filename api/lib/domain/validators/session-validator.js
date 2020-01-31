@@ -43,10 +43,9 @@ const sessionValidationJoiSchema = Joi.object({
 module.exports = {
 
   validate(session) {
-
     const { error } = sessionValidationJoiSchema.validate(session, validationConfiguration);
     if (error) {
-      return Promise.reject(EntityValidationError.fromJoiErrors(error.details));
+      throw EntityValidationError.fromJoiErrors(error.details);
     }
   }
 };
