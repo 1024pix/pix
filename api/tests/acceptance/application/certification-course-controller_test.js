@@ -336,7 +336,10 @@ describe('Acceptance | API | Certification Course', () => {
 
     beforeEach(() => {
       otherUserId = databaseBuilder.factory.buildUser().id;
-      const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
+      const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+        examinerComment: 'il s\'est enfuit de la session',
+        hasSeenEndTestScreen: false,
+      });
       const assessment = databaseBuilder.factory.buildAssessment({ courseId: certificationCourse.id });
       userId = certificationCourse.userId;
       options = {
@@ -348,8 +351,8 @@ describe('Acceptance | API | Certification Course', () => {
         type: 'certification-courses',
         id: certificationCourse.id.toString(),
         attributes: {
-          'examiner-comment': undefined,
-          'has-seen-end-test-screen': undefined,
+          'examiner-comment': 'il s\'est enfuit de la session',
+          'has-seen-end-test-screen': false,
           'nb-challenges': 0,
         },
         relationships: {

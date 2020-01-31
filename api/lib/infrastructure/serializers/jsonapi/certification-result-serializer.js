@@ -26,6 +26,8 @@ module.exports = {
         'externalId',
         'isPublished',
         'isV2Certification',
+        'examinerComment',
+        'hasSeenEndTestScreen',
       ],
     }).serialize(certificationResult);
   },
