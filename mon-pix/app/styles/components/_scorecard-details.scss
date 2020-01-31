@@ -13,12 +13,17 @@
   &__title {
     color: $grayish-grey;
     font-weight: 400;
+    font-size: 3rem;
+    line-height: 1.1;
+    margin-top: 20px;
+    margin-bottom: 10px;
   }
 
   &__description {
     font-family: "Open Sans", Arial, sans-serif;
     font-size: 1.6rem;
     line-height: 2.6rem;
+    margin: 0 0 10px;
   }
 }
 

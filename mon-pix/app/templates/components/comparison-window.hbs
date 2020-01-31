@@ -1,18 +1,17 @@
 {{#pix-modal class="comparison-window-modal" onClose=closeComparisonWindow}}
 
-  <div class="pix-modal__close-link">
-    <a href="#" {{action (action closeComparisonWindow)}}>Fermer
-      <img src="/images/icon-close-modal.svg" alt="Fermer la fenêtre modale" width="24" height="24">
-    </a>
+  <div class="pix-modal__close-link" aria-label="Fermer" {{action (action closeComparisonWindow)}}>
+    <span>Fermer</span>
+    <Fa-Icon @icon="times-circle" @class="logged-user-menu__icon"></Fa-Icon>
   </div>
 
   <div class="pix-modal__container comparison-window">
 
     <div class="pix-modal-header comparison-window-header">
       <div class="comparison-window__title">
-        <div data-toggle="tooltip" data-placement="top" title="{{resultItem.tooltip}}">
+        <div title="{{resultItem.tooltip}}">
           <img class="comparison-window__result-icon comparison-window__result-icon--{{resultItem.status}}"
-               src={{resultItemIcon}} alt="">
+               src={{resultItemIcon}} alt={{resultItem.tooltip}}>
         </div>
       </div>
       <div class="comparison-window__title-text">{{resultItem.title}}</div>

@@ -61,7 +61,7 @@
 
 .result-item__icon {
   margin-left: 10px;
-  font-size: 1.5em;
+  font-size: 2.2rem;
 
   @include device-is('tablet') {
     margin-left: 30px;
@@ -81,35 +81,5 @@
 
   &--grey {
     color: $dove-gray;
-  }
-
-  /* Forces bootstrap's default by including bootstrap props into .assessment-results container */
-  .tooltip-inner {
-    padding-top: 13px;
-    width: auto;
-    padding-left: 16px;
-    padding-right: 16px;
-    height: 48px;
-    background-color: $mercury-grey;
-    color: $charcoal-grey;
-    font-size: 1.4rem;
-    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
-    border: solid 1px $white;
-  }
-
-  .tooltip.top .tooltip-arrow {
-    border-top-color: $mercury-grey;
-  }
-
-  .tooltip.in {
-    opacity: 1;
-    transition: opacity .75s ease;
-  }
-
-  .tooltip.top .tooltip-arrow {
-    bottom: -4px;
-    left: 50%;
-    margin-left: -13px;
-    border-width: 10px 13px 0;
   }
 }

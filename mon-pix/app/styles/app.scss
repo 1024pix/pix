@@ -108,6 +108,7 @@
 body {
   font-family: $font-roboto;
   background-color: $porcelain-grey;
+  margin: 0;
 }
 
 input[type='radio'] {
@@ -116,4 +117,16 @@ input[type='radio'] {
 
 input:invalid {
   box-shadow: none;
+}
+
+html {
+  font-size: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
 }

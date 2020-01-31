@@ -5,27 +5,27 @@ const contentReference = {
   ok: {
     icon: 'check-circle',
     color: 'green',
-    tooltip: 'Réponse correcte'
+    title: 'Réponse correcte'
   },
   ko: {
     icon: 'times-circle',
     color: 'red',
-    tooltip: 'Réponse incorrecte'
+    title: 'Réponse incorrecte'
   },
   aband: {
     icon: 'times-circle',
     color: 'grey',
-    tooltip: 'Sans réponse'
+    title: 'Sans réponse'
   },
   partially: {
     icon: 'check-circle',
     color: 'orange',
-    tooltip: 'Réponse partielle'
+    title: 'Réponse partielle'
   },
   timedout: {
     icon: 'times-circle',
     color: 'red',
-    tooltip: 'Temps dépassé'
+    title: 'Temps dépassé'
   }
 };
 
@@ -40,7 +40,7 @@ export default Component.extend({
   }),
 
   resultTooltip: computed('resultItem', function() {
-    return this.resultItem ? this.resultItem.tooltip : null;
+    return this.resultItem ? this.resultItem.title : null;
   }),
 
   validationImplementedForChallengeType: computed('answer.challenge.type', function() {
@@ -52,16 +52,5 @@ export default Component.extend({
   textLength: computed('', function() {
     return window.innerWidth <= 767 ? 60 : 110;
   }),
-
-  didRender() {
-    this._super(...arguments);
-
-    const tooltipElement = this.$('[data-toggle="tooltip"]');
-    const tooltipValue = this.resultTooltip;
-
-    if (tooltipValue) {
-      tooltipElement.tooltip({ title: tooltipValue });
-    }
-  },
 
 });
