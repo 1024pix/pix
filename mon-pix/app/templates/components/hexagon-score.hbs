@@ -1,7 +1,7 @@
 <div class="hexagon-score" onmouseover={{action 'showHelp'}} onmouseout={{action 'hideHelp'}}>
   <div class="hexagon-score__content">
     <div class="hexagon-score-content__title">PIX</div>
-    <div class="hexagon-score-content__pix-score">{{score}}</div>
+    <div class="hexagon-score-content__pix-score">{{this.score}}</div>
     <div class="hexagon-score-content__pix-total">1024 <Fa-Icon @icon="info-circle"/></div>
   </div>
     <div class="hexagon-score__information hexagon-score-information__text {{this.displayHelp}}">

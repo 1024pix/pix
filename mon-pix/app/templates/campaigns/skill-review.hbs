@@ -2,7 +2,7 @@
 
 <div class="background-banner-wrapper">
   <div class="skill-review__banner">
-    <AssessmentBanner @title={{model.assessment.title}} @displayHomeLink={{false}} />
+    <AssessmentBanner @title={{@model.assessment.title}} @displayHomeLink={{false}} />
   </div>
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner skill-review__result-container">
     {{#if shouldShowPixEmploiBadge}}
@@ -21,7 +21,7 @@
     <h1 class="rounded-panel-title skill-review-result__abstract">
       Vous maîtrisez
       <span class="skill-review-result-abstract__percentage">
-        {{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%
+        {{@model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%
       </span>
       <br> des compétences testées.
     </h1>
@@ -70,9 +70,9 @@
 
     <div class="skill-review-result__table-header">
       <h2 class="rounded-panel-subtitle">Vos résultats détaillés</h2>
-      <CircleChart @value={{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}>
+      <CircleChart @value={{@model.campaignParticipation.campaignParticipationResult.masteryPercentage}}>
         <span class="skill-review-table-header__circle-chart-value">
-          {{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%
+          {{@model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%
         </span>
       </CircleChart>
     </div>

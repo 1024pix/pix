@@ -3,7 +3,7 @@
 <div class="background-banner-wrapper assessment-challenge">
 
   <div class="assessment-challenge__assessment-banner">
-    <AssessmentBanner @title={{model.title}} @displayHomeLink={{true}} />
+    <AssessmentBanner @title={{@model.title}} @displayHomeLink={{true}} />
   </div>
 
   <div class="checkpoint__container rounded-panel--over-background-banner">
@@ -19,7 +19,7 @@
 
         </div>
         <div class="checkpoint__continue-wrapper">
-          <CheckpointContinue @assessmentId={{model.id}} @nextPageButtonText={{nextPageButtonText}} />
+          <CheckpointContinue @assessmentId={{@model.id}} @nextPageButtonText={{nextPageButtonText}} />
         </div>
       {{/if}}
     </div>
@@ -38,7 +38,7 @@
             <ResultItem @answer={{answer}} @correction={{answer.correction}} @openAnswerDetails={{action "openComparisonWindow"}} />
           {{/each}}
         </div>
-        <CheckpointContinue @assessmentId={{model.id}} @nextPageButtonText={{nextPageButtonText}} />
+        <CheckpointContinue @assessmentId={{@model.id}} @nextPageButtonText={{nextPageButtonText}} />
       {{else}}
         <div class="checkpoint-no-answer">
           <div class="checkpoint-no-answer__header">
@@ -47,7 +47,7 @@
           <div class="checkpoint-no-answer__info">
             Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.
           </div>
-          <CheckpointContinue @assessmentId={{model.id}} @nextPageButtonText={{nextPageButtonText}} />
+          <CheckpointContinue @assessmentId={{@model.id}} @nextPageButtonText={{nextPageButtonText}} />
         </div>
       {{/if}}
     </div>
