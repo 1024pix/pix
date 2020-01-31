@@ -1,91 +1,87 @@
-.logged-user-details {
-  width: 220px;
-  position: relative;
-}
+.logged-user-summary {
+  letter-spacing: 0.03125rem;
+  text-align: right;
 
-.logged-user-name__link {
-  text-decoration: none;
-  color: $dove-gray;
-  cursor: pointer;
+  &__link {
+    color: $comet;
+    cursor: pointer;
+    display: flex;
 
-  &:visited,
-  &:focus,
-  &:active {
-    text-decoration: none;
-    color: $dove-gray;
+    &:hover,
+    &:active,
+    &:focus {
+      color: $comet;
+      text-decoration: none;
+    }
   }
 
-  &:hover {
-    text-decoration: none;
-    color: $aqua;
+  &__name {
+    font-size: 0.875rem;
+    font-weight: bold;
+    height: 19px;
+  }
 
-    > .caret {
-      border-color: $aqua transparent transparent transparent;
+  &__organization {
+    height: 18px;
+  }
+
+  &__chevron {
+    align-self: center;
+    margin-left: 18px;
+    vertical-align: middle;
+
+    &-up {
+      color: $aqua;
     }
   }
 }
 
-.logged-user-name {
-  word-break: break-all;
-  font-family: $roboto;
-  font-size: 1rem;
-  letter-spacing: 0.03125rem;
-  text-align: right;
-  color: $dove-gray;
-  text-transform: capitalize;
-  max-width: 150px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  @include device-is('tablet') {
-    max-width: none;
-  }
-}
-
-.caret {
-  display: inline-block;
-  vertical-align: middle;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 4px 4px 0 4px;
-  border-color: $dove-gray transparent transparent transparent;
-}
-
 .logged-user-menu {
-  position: absolute;
-  right: 50px;
-  top: 50px;
-  z-index: 999;
   background-color: $white;
-  max-width: 380px;
-  min-width: 240px;
   border-radius: 4px;
+  box-shadow: $box-shadow-user-logged-menu;
   overflow: hidden;
-  box-shadow: 0 1px 1px 0 rgba(60, 64, 67, 0.08), 0 1px 3px 1px rgba(60, 64, 67, 0.16);
-}
+  position: absolute;
+  right: 30px;
+  top: 60px;
+  width: 400px;
 
-.logged-user-menu__link {
-  display: flex;
-  align-items: center;
-  font-size: 0.95rem;
-  padding: 12px 16px;
-  color: $tundora;
-  transition: background-color 0.1s linear;
-
-  &:hover {
+  &-item {
+    align-items: center;
+    border-radius: 4px;
+    color: $comet;
+    cursor: pointer;
+    display: flex;
+    font-size: 0.875rem;
+    padding: 12px 16px;
     text-decoration: none;
-    color: $tundora;
-    background-color: $porcelain;
+    transition: background-color 0.1s linear;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $porcelain;
+      color: $comet;
+      text-decoration: none;
+    }
+
+    &__icon {
+      margin-right: 8px;
+    }
+
+    &__last:not(:first-child) {
+      border-top: 1px solid $alto;
+    }
+
+    &__organization-name {
+      margin-right: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &__organization-externalId {
+      flex: 0;
+    }
   }
-}
-
-.logged-user-menu__icon {
-  margin-right: 8px;
-}
-
-.logged-user-menu__link--last {
-  border-top: 1px solid $porcelain;
-  text-decoration: none;
 }

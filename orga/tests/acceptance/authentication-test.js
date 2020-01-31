@@ -130,7 +130,7 @@ module('Acceptance | authentication', function(hooks) {
       // then
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
 
-      assert.dom('.topbar__user-logged-menu').hasText('Harry Cover');
+      assert.dom('.logged-user-summary__name').hasText('Harry Cover');
     });
   });
 
@@ -165,7 +165,7 @@ module('Acceptance | authentication', function(hooks) {
         await visit('/');
 
         // then
-        assert.dom('.current-organization-panel__name').hasText('BRO & Evil Associates');
+        assert.dom('.logged-user-summary__organization').hasText('BRO & Evil Associates (EXTBRO)');
       });
 
       test('it should redirect user to the campaigns list on root url', async function(assert) {
