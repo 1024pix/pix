@@ -101,7 +101,7 @@ function _buildSessionExportFileData(session) {
 
 function _filterCertificationsEligibleForJury(certifications) {
   return certifications.filter((certification) => {
-    return (certification.status !== 'validated') || (!_.isEmpty(certification.examinerComment)) || !certification.hasSeenLastScreen;
+    return (certification.status !== 'validated') || (!_.isEmpty(certification.examinerComment)) || !certification.hasSeenLastScreenFromPaperReport;
   });
 }
 
@@ -132,7 +132,7 @@ function _buildJuryFileData(certifications) {
       'Date de fin': certification.completionDate,
       'Signalement surveillant': certification.examinerComment,
       'Commentaire pour le jury': certification.commentForJury,
-      'Ecran de fin non renseigné': certification.hasSeenLastScreen ? null : 'non renseigné',
+      'Ecran de fin non renseigné': certification.hasSeenLastScreenFromPaperReport ? null : 'non renseigné',
       'Note Pix': certification.pixScore,
     };
 
