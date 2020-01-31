@@ -16,7 +16,7 @@ module.exports = {
     await userRepository.isUserExistingByEmail(user.email);
     const temporaryKey = resetPasswordService.generateTemporaryKey();
     const passwordResetDemand = await resetPasswordDemandRepository.create({ email: user.email, temporaryKey });
-    await mailService.sendResetPasswordDemandEmail(user.email, `http://${settings.app.domain}`, temporaryKey);
+    await mailService.sendResetPasswordDemandEmail(user.email, `https://${settings.app.domain}`, temporaryKey);
     const serializedPayload = passwordResetSerializer.serialize(passwordResetDemand.attributes);
 
     return h.response(serializedPayload).created();
@@ -27,7 +27,7 @@ module.exports = {
     await tokenService.verifyValidity(temporaryKey);
     const passwordResetDemand = await resetPasswordService.verifyDemand(temporaryKey);
     const user = await userRepository.findByEmail(passwordResetDemand.email);
-      
+
     return userSerializer.serialize(user);
   }
 };
