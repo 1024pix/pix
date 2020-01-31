@@ -43,8 +43,8 @@ function isAriaLabelNeededForInputs(lines) {
   const hasMoreThanOneInputField = lastLineInputs && lastLineInputs.length > 1;
   const inputRegex = /\s*(\${.+?})|-| /g; //regex that remove spaces, -, ${} => should return only letters
   const lastLineWithoutInput = lastLine.replace(inputRegex, '');
-  const parts = lastLine.split(/\s*(\${)|}\s*/);
-  const hasNoTextBeforeInput = !(parts && parts[0].replace(inputRegex, '').length > 0);
+  const blocks = lastLine.split(/\s*(\${)|}\s*/);
+  const hasNoTextBeforeInput = !(blocks && blocks[0].replace(inputRegex, '').length > 0);
 
   if (hasMoreThanOneInputField || hasNoTextBeforeInput) {
     return true;
@@ -53,10 +53,10 @@ function isAriaLabelNeededForInputs(lines) {
   return lastLineWithoutInput.length === 0;
 }
 
-function buildLineFrom(parts, ariaLabelNeeded, challengeResponseTemplate) {
+function buildLineFrom(blocks, ariaLabelNeeded, challengeResponseTemplate) {
   let prevBlockText = '';
-  for (let partIdx = 0; partIdx < parts.length; partIdx += 1) {
-    const { isInput, block } = parseInput((isInput || false), parts[partIdx]);
+  for (let blockIdx = 0; blockIdx < blocks.length; blockIdx += 1) {
+    const { isInput, block } = parseInput((isInput || false), blocks[blockIdx]);
     if (!block) {
       continue;
     }
@@ -72,7 +72,7 @@ function buildLineFrom(parts, ariaLabelNeeded, challengeResponseTemplate) {
       questionIdx: challengeResponseTemplate.inputCount });
     prevBlockText = didAttachedLabel ? '' : block.text;
 
-    const canAddBlockToTemplate = ariaLabelNeeded || isInputField || isLastElement(partIdx, parts);
+    const canAddBlockToTemplate = ariaLabelNeeded || isInputField || isLastElement(blockIdx, blocks);
     challengeResponseTemplate.add({ canAddBlockToTemplate, block: block.get() });
   }
 }
@@ -83,7 +83,7 @@ class ResponseBlock {
     this._input = input;
     this._text = text;
     this._placeholder = placeholder;
-    this._ariaLabel = '';
+    this._ariaLabel = null;
   }
 
   attachInputAndPlaceholderIfExist() {
@@ -109,7 +109,7 @@ class ResponseBlock {
   }
 
   _hasPrevBlockText(prevBlockText) {
-    return !(prevBlockText.length === 1 && prevBlockText[0] === '-');
+    return !(prevBlockText.trim().length === 1 && prevBlockText[0] === '-');
   }
 
   get input() {
@@ -171,12 +171,12 @@ export default function proposalsAsBlocks(proposals) {
   }
 
   const challengeResponseTemplate = new ChallengeResponseTemplate();
-  const lines = proposals.split(/[\r|\n]+/).filter((line) => !!line);
+  const lines = proposals.split(/[\r|\n]+/).filter((line) => !isEmpty(line));
   const ariaLabelNeeded = isAriaLabelNeededForInputs(lines);
 
   lines.forEach((line, lineIdx) => {
-    const parts = line.split(/\s*(\${)|}\s*/);
-    buildLineFrom(parts, ariaLabelNeeded, challengeResponseTemplate);
+    const blocks = line.split(/\s*(\${)|}\s*/);
+    buildLineFrom(blocks, ariaLabelNeeded, challengeResponseTemplate);
     challengeResponseTemplate.addLineBreakIfIsNotLastLine({ lineIdx, lines });
   });
   return challengeResponseTemplate.get();
