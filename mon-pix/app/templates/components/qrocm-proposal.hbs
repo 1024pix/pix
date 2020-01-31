@@ -1,6 +1,6 @@
 {{#each _blocks as |block|}}
 
-  {{#if (and block.text (not block.ariaLabel) (not block.input))}}
+  {{#if block.showText}}
     <span>{{block.text}}</span>
   {{/if}}
 
