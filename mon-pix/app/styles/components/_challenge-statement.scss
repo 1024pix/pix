@@ -64,26 +64,11 @@
 }
 
 .challenge-statement__help-icon {
-  width: 18px;
-  height: 18px;
-  line-height: 18px;
-  color: $white;
   display: inline-block;
-  background: $pix-blue;
-  border-radius: 50%;
   margin: 0 5px;
   cursor: pointer;
+  color: $pix-blue;
   position: relative;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.challenge-statement__help-icon:after {
-  content: "i";
-  position: absolute;
-  font-size: 12px;
-  font-weight: $font-heavy;
-  left: 8px;
 }
 
 .challenge-statement__help-tooltip {
