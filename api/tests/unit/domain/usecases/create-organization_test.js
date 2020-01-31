@@ -22,7 +22,7 @@ describe('Unit | UseCase | create-organization', () => {
     let organizationRepository;
 
     beforeEach(() => {
-      organizationCreationValidator.validate.resolves(true);
+      organizationCreationValidator.validate.returns();
       organizationService.generateUniqueOrganizationCode.resolves(code);
 
       organizationRepository = { create: sinon.stub() };
@@ -65,7 +65,7 @@ describe('Unit | UseCase | create-organization', () => {
       const type = 'PRO';
       const organizationRepository = {};
 
-      organizationCreationValidator.validate.rejects(new EntityValidationError({}));
+      organizationCreationValidator.validate.throws(new EntityValidationError({}));
 
       // when
       const error = await catchErr(createOrganization)({ name, type, organizationRepository });
