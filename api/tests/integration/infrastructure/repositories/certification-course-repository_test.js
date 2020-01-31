@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, catchErr, knex } = require('../../../test-helper');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const BookshelfCertificationCourse = require('../../../../lib/infrastructure/data/certification-course');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -8,6 +8,53 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const _ = require('lodash');
 
 describe('Integration | Repository | Certification Course', function() {
+
+  describe('#save', () => {
+    let certificationCourse;
+
+    beforeEach(() => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      certificationCourse = new CertificationCourse({
+        firstName: 'Antoine',
+        lastName: 'Griezmann',
+        birthplace: 'Macon',
+        birthdate: '1991-03-21',
+        externalId: 'xenoverse2',
+        isPublished: false,
+        examinerComment: 'Salut',
+        hasSeenEndTestScreen: false,
+        isV2Certification: false,
+        sessionId,
+        userId,
+      });
+
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return knex('certification-courses').delete();
+    });
+
+    it('should persist the certif course in db', async () => {
+      // when
+      await certificationCourseRepository.save(certificationCourse);
+
+      // then
+      const certificationCourseSaved = await knex('certification-courses').select();
+      expect(certificationCourseSaved).to.have.lengthOf(1);
+    });
+
+    it('should return the saved certification course', async () => {
+      // when
+      const savedCertificationCourse = await certificationCourseRepository.save(certificationCourse);
+
+      // then
+      expect(savedCertificationCourse).to.be.an.instanceOf(CertificationCourse);
+      expect(savedCertificationCourse).to.have.property('id').and.not.null;
+    });
+
+  });
 
   describe('#changeCompletionDate', () => {
     let courseId;
