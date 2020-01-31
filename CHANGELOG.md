@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.110.0 (31/01/2020)
+
+- [#1018](https://github.com/1024pix/pix/pull/1018) [FEATURE] Ajout d'un bouton pour rafraîchir le cache de données pédagogiques dans Pix Admin (PA-139).
+- [#987](https://github.com/1024pix/pix/pull/987) [FEATURE] Changer le mot de passe d'un étudiant connecté via un nom d'utilisateur (PO-322).
+- [#1016](https://github.com/1024pix/pix/pull/1016) [BUGFIX] Corrige le sous-titre de la page de finalization (PC-113).
+- [#1020](https://github.com/1024pix/pix/pull/1020) [TECH] Générer des liens de reset de mot de passe en https (PF-1065).
+- [#959](https://github.com/1024pix/pix/pull/959) [TECH] Supprimer Bootstrap de mon-pix.
+- [#1017](https://github.com/1024pix/pix/pull/1017) [BSR] Ajuster le style du bouton réinitialiser des embed (PF-1061).
+
 ## v2.109.0 (30/01/2020)
 
 - [#977](https://github.com/1024pix/pix/pull/977) [FEATURE] Supprimer un candidat de la liste des candidats d'une session. (PC-73)
