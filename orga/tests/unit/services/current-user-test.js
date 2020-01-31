@@ -204,6 +204,7 @@ module('Unit | Service | current-user', function(hooks) {
       // When
       await currentUser.updateMainOrganization(organizationId);
 
+      // Then
       assert.equal(currentUser.organization.id, organizationId);
       assert.equal(currentUser.isAdminInOrganization, false);
       assert.equal(currentUser.canAccessStudentsPage, true);
@@ -216,6 +217,7 @@ module('Unit | Service | current-user', function(hooks) {
       // When
       await currentUser.updateMainOrganization(organizationId);
 
+      // Then
       assert.equal(currentUser.organization.id, 1);
       assert.equal(currentUser.isAdminInOrganization, true);
       assert.equal(currentUser.canAccessStudentsPage, false);
