@@ -83,7 +83,7 @@ describe('Unit | UseCase | create-and-associate-user-to-student', () => {
       encryptionService.hashPassword.resolves(encryptedPassword);
       userRepository.createAndAssociateUserToStudent.resolves(createdUser.id);
       userRepository.get.withArgs(createdUser.id).resolves(createdUser);
-      userValidator.validate.resolves();
+      userValidator.validate.returns();
     });
 
     context('When creation is with email', () => {
@@ -113,7 +113,7 @@ describe('Unit | UseCase | create-and-associate-user-to-student', () => {
               },
             ]
           });
-          userValidator.validate.rejects(expectedValidationError);
+          userValidator.validate.throws(expectedValidationError);
 
           // when
           const error = await catchErr(usecases.createAndAssociateUserToStudent)({

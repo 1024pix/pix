@@ -21,9 +21,8 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
     context('when validation is successful', () => {
 
-      it('should resolve (with no value) when validation is successful', () => {
-        // when/then
-        return expect(() => sessionValidator.validate(session)).to.not.throw;
+      it('should not throw any error', () => {
+        expect(sessionValidator.validate(session)).to.not.throw;
       });
 
     });
@@ -32,7 +31,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
       context('on address attribute', () => {
 
-        it('should reject with error when address is missing', async () => {
+        it('should reject with error when address is missing', () => {
           // given
           const expectedErrors = [{
             attribute: 'address',
@@ -42,8 +41,8 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
           try {
             // when
-            await sessionValidator.validate(session);
-
+            sessionValidator.validate(session);
+            expect.fail('should have thrown an error');
           } catch (entityValidationErrors) {
             // then
             expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
@@ -64,8 +63,8 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
           try {
             // when
-            await sessionValidator.validate(session);
-
+            sessionValidator.validate(session);
+            expect.fail('should have thrown an error');
           } catch (entityValidationErrors) {
             // then
             expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
@@ -76,7 +75,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
       context('on date attribute', () => {
 
-        it('should reject with error when date is missing', async () => {
+        it('should reject with error when date is missing', () => {
           // given
           const expectedErrors = [{
             attribute: 'date',
@@ -86,8 +85,8 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
           try {
             // when
-            await sessionValidator.validate(session);
-
+            sessionValidator.validate(session);
+            expect.fail('should have thrown an error');
           } catch (entityValidationErrors) {
             // then
             expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
@@ -98,7 +97,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
       context('on time attribute', () => {
 
-        it('should reject with error when time is an empty string', async () => {
+        it('should reject with error when time is an empty string', () => {
           // given
           const expectedErrors = [{
             attribute: 'time',
@@ -108,15 +107,15 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
           try {
             // when
-            await sessionValidator.validate(session);
-
+            sessionValidator.validate(session);
+            expect.fail('should have thrown an error');
           } catch (entityValidationErrors) {
             // then
             expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
           }
         });
 
-        it('should reject with error when time ihas a format different than HH:MM', async () => {
+        it('should reject with error when time ihas a format different than HH:MM', () => {
           // given
           const expectedErrors = [{
             attribute: 'time',
@@ -126,8 +125,8 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
           try {
             // when
-            await sessionValidator.validate(session);
-
+            sessionValidator.validate(session);
+            expect.fail('should have thrown an error');
           } catch (entityValidationErrors) {
             // then
             expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
@@ -138,7 +137,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
       context('on examiner attribute', () => {
 
-        it('should reject with error when examiner is missing', async () => {
+        it('should reject with error when examiner is missing', () => {
           // given
           const expectedErrors = [{
             attribute: 'examiner',
@@ -148,8 +147,8 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
           try {
             // when
-            await sessionValidator.validate(session);
-
+            sessionValidator.validate(session);
+            expect.fail('should have thrown an error');
           } catch (entityValidationErrors) {
             // then
             expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);

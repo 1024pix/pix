@@ -47,11 +47,27 @@ function _emptyOtherMode(isUsernameMode, userAttributes) {
 }
 
 async function _validateData(isUsernameMode, userAttributes, userRepository, userValidator) {
-  const validationErrors = await Promise.all([
-    isUsernameMode ? userRepository.isUsernameAvailable(userAttributes.username).catch(_manageUsernameAvailabilityError) : userRepository.isEmailAvailable(userAttributes.email).catch(_manageEmailAvailabilityError),
-    userValidator.validate({ user: userAttributes, cguRequired: false }).catch((error) => error),
-  ]);
-  // Promise.all returns the return value of all promises, even if the return value is undefined
+  const validationErrors = [];
+  try {
+    userValidator.validate({ user: userAttributes, cguRequired: false });
+  } catch (err) {
+    validationErrors.push(err);
+  }
+
+  if (isUsernameMode) {
+    try {
+      await userRepository.isUsernameAvailable(userAttributes.username);
+    } catch (err) {
+      validationErrors.push(_manageUsernameAvailabilityError(err));
+    }
+  } else {
+    try {
+      await userRepository.isEmailAvailable(userAttributes.email);
+    } catch (err) {
+      validationErrors.push(_manageEmailAvailabilityError(err));
+    }
+  }
+
   const relevantErrors = validationErrors.filter((error) => error instanceof Error);
   if (relevantErrors.length > 0) {
     throw EntityValidationError.fromMultipleEntityValidationErrors(relevantErrors);

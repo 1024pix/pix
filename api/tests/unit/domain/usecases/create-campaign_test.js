@@ -32,7 +32,7 @@ describe('Unit | UseCase | create-campaign', () => {
 
   it('should throw an EntityValidationError if campaign is not valid', () => {
     // given
-    campaignValidator.validate.rejects(new EntityValidationError({ invalidAttributes: [] }));
+    campaignValidator.validate.throws(new EntityValidationError({ invalidAttributes: [] }));
 
     // when
     const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository, organizationService });
@@ -44,7 +44,7 @@ describe('Unit | UseCase | create-campaign', () => {
   it('should throw an error if user do not have an access to the campaign organization', () => {
     // given
     const organizationIdDifferentFromCampaign = 98437;
-    campaignValidator.validate.resolves();
+    campaignValidator.validate.returns();
     _stubGetUserWithOrganizationsAccesses(organizationIdDifferentFromCampaign);
 
     // when
@@ -56,7 +56,7 @@ describe('Unit | UseCase | create-campaign', () => {
 
   it('should generate a new code to the campaign', () => {
     // given
-    campaignValidator.validate.resolves();
+    campaignValidator.validate.returns();
     _stubGetUserWithOrganizationsAccesses(campaignToCreate.organizationId);
     campaignCodeGenerator.generate.resolves(availableCampaignCode);
     campaignRepository.save.resolves(savedCampaign);
@@ -73,7 +73,7 @@ describe('Unit | UseCase | create-campaign', () => {
 
   it('should save the campaign with name, userId, organizationId and generated code', () => {
     // given
-    campaignValidator.validate.resolves();
+    campaignValidator.validate.returns();
     _stubGetUserWithOrganizationsAccesses(campaignToCreate.organizationId);
     campaignCodeGenerator.generate.resolves(availableCampaignCode);
     campaignRepository.save.resolves(savedCampaign);
@@ -95,7 +95,7 @@ describe('Unit | UseCase | create-campaign', () => {
 
   it('should return the newly created campaign', () => {
     // given
-    campaignValidator.validate.resolves();
+    campaignValidator.validate.returns();
     _stubGetUserWithOrganizationsAccesses(campaignToCreate.organizationId);
     campaignCodeGenerator.generate.resolves(availableCampaignCode);
     campaignRepository.save.resolves(savedCampaign);
