@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { beforeEach, describe, it } from 'mocha';
 import { A } from '@ember/array';
 import { setupRenderingTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
@@ -103,6 +103,7 @@ describe('Integration | Component | scorecard-details', function() {
         const scorecard = {
           remainingPixToNextLevel: 1,
           isFinished: true,
+          tutorials: [],
         };
 
         this.set('scorecard', scorecard);
@@ -128,6 +129,7 @@ describe('Integration | Component | scorecard-details', function() {
             remainingPixToNextLevel: 1,
             isFinishedWithMaxLevel: true,
             isFinished: true,
+            tutorials: [],
           };
 
           this.set('scorecard', scorecard);

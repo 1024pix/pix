@@ -35,7 +35,9 @@ export default Component.extend({
 
   tutorialsGroupedByTubeName: computed('scorecard.tutorials', function() {
     const tutorialsGroupedByTubeName = EmberArray();
-    this.scorecard.get('tutorials').forEach((tutorial) => {
+    const tutorials = this.scorecard.tutorials;
+
+    tutorials.forEach((tutorial) => {
       const foundTube = tutorialsGroupedByTubeName.findBy('name', tutorial.get('tubeName'));
 
       if (!foundTube) {

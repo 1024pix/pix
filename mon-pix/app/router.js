@@ -1,18 +1,16 @@
 import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
 
-const Router = EmberRouter.extend({
-  location: config.locationType,
-  rootURL: config.rootURL,
+export default class Router extends EmberRouter {
+  location = config.locationType;
+  rootURL = config.rootURL;
 
   init() {
-    this._super(...arguments);
     this.on('routeDidChange', () => {
       window.scrollTo(0, 0);
     });
-  },
-
-});
+  }
+}
 
 /* eslint-disable max-statements */
 Router.map(function() {
@@ -65,5 +63,3 @@ Router.map(function() {
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
   this.route('not-found', { path: '/*path' });
 });
-
-export default Router;
