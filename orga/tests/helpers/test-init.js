@@ -18,7 +18,8 @@ export function createUserWithMembershipAndTermsOfServiceAccepted() {
   const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
 
   const organization = server.create('organization', {
-    name: 'BRO & Evil Associates'
+    name: 'BRO & Evil Associates',
+    externalId: 'EXTBRO'
   });
 
   const memberships = server.create('membership', {

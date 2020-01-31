@@ -158,7 +158,7 @@ module('Acceptance | join', function(hooks) {
         // then
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
 
-        assert.dom('.topbar__user-logged-menu').hasText('Harry Cover');
+        assert.dom('.logged-user-summary__name').hasText('Harry Cover');
       });
     });
 
