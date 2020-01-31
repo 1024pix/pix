@@ -12,7 +12,11 @@ export default Component.extend({
   format: null,
 
   _blocks: computed('proposals', function() {
-    return proposalsAsBlocks(this.proposals);
+    return proposalsAsBlocks(this.proposals)
+      .map((block) => {
+        block.showText = block.text && !block.ariaLabel && !block.input;
+        return block;
+      });
   }),
 
   actions: {
