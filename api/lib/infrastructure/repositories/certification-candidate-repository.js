@@ -37,32 +37,6 @@ module.exports = {
     }
   },
 
-  async finalizeAll(certificationCandidates) {
-    try {
-      await Bookshelf.transaction((trx) => {
-        return Promise.all(certificationCandidates.map((certificationCandidate) => {
-          return this.finalize({ certificationCandidate, transaction: trx });
-        }));
-      });
-    } catch (err) {
-      throw new CertificationCandidateCreationOrUpdateError('An error occurred while finalizing the certification candidates');
-    }
-  },
-
-  async finalize({ certificationCandidate, transaction = undefined }) {
-    const saveOptions = { patch: true, method: 'update' };
-    if (transaction) {
-      saveOptions.transacting = transaction;
-    }
-
-    const candidateDataToUpdate = _.pick(certificationCandidate, [
-      'hasSeenEndTestScreen',
-      'examinerComment',
-    ]);
-    return new CertificationCandidateBookshelf({ id: certificationCandidate.id })
-      .save(candidateDataToUpdate, saveOptions);
-  },
-
   async delete(certificationCandidateId) {
     try {
       await CertificationCandidateBookshelf
