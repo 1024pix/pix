@@ -44,7 +44,7 @@ describe('Unit | Controller | PasswordController', () => {
       // given
       const generatedToken = 'token';
       const demand = { email: 'shi@fu.me', temporaryKey: generatedToken };
-      const hostBaseUrl = 'http://localhost';
+      const hostBaseUrl = 'https://localhost';
       const resolvedPasswordReset = {
         attributes: {
           email: 'Giles75@hotmail.com',
