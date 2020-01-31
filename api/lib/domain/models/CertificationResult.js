@@ -21,6 +21,8 @@ class CertificationResult {
       commentForJury,
       commentForOrganization,
       competencesWithMark,
+      examinerComment,
+      hasSeenEndTestScreen,
       // references
       assessmentId,
       juryId,
@@ -46,6 +48,8 @@ class CertificationResult {
     this.commentForJury = commentForJury;
     this.commentForOrganization = commentForOrganization;
     this.competencesWithMark = competencesWithMark;
+    this.examinerComment = examinerComment;
+    this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     // references
     this.assessmentId = assessmentId;
     this.juryId = juryId;

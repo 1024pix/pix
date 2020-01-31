@@ -113,8 +113,10 @@ describe('Unit | Service | Certification Service', function() {
           lastName: 'De La Savane',
           birthplace: 'Savane',
           birthdate: '1992-01-28',
-          sessionId: 'MoufMufassa',
+          sessionId: 123,
           externalId: 'TimonsFriend',
+          examinerComment: '',
+          hasSeenEndTestScreen: true,
         }));
         assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1')];
         sinon.stub(assessmentResultRepository, 'get').resolves(
@@ -122,25 +124,23 @@ describe('Unit | Service | Certification Service', function() {
         );
       });
 
-      it('should return certification results with pix score, date and certified competences levels', () => {
+      it('should return certification results with pix score, date and certified competences levels', async () => {
         // when
-        const promise = certificationService.getCertificationResult(certificationCourseId);
+        const certification = await certificationService.getCertificationResult(certificationCourseId);
 
         // then
-        return promise.then((certification) => {
-          expect(certification.pixScore).to.deep.equal(20);
-          expect(certification.createdAt).to.deep.equal(new Date('2017-12-23T15:23:12Z'));
-          expect(certification.completedAt).to.deep.equal(new Date('2017-12-23T16:23:12Z'));
-          expect(certification.competencesWithMark).to.deep.equal([{
-            area_code: '2',
-            assessmentResultId: undefined,
-            competence_code: '2.1',
-            id: undefined,
-            level: 3,
-            score: 27,
-          }]);
-          expect(certification.sessionId).to.deep.equal('MoufMufassa');
-        });
+        expect(certification.pixScore).to.deep.equal(20);
+        expect(certification.createdAt).to.deep.equal(new Date('2017-12-23T15:23:12Z'));
+        expect(certification.completedAt).to.deep.equal(new Date('2017-12-23T16:23:12Z'));
+        expect(certification.competencesWithMark).to.deep.equal([{
+          area_code: '2',
+          assessmentResultId: undefined,
+          competence_code: '2.1',
+          id: undefined,
+          level: 3,
+          score: 27,
+        }]);
+        expect(certification.sessionId).to.deep.equal(123);
       });
 
       it('should return certified user informations', function() {
@@ -155,6 +155,8 @@ describe('Unit | Service | Certification Service', function() {
           expect(certification.birthplace).to.deep.equal('Savane');
           expect(certification.birthdate).to.deep.equal('1992-01-28');
           expect(certification.externalId).to.deep.equal('TimonsFriend');
+          expect(certification.examinerComment).to.deep.equal('');
+          expect(certification.hasSeenEndTestScreen).to.deep.equal(true);
         });
       });
 
@@ -173,8 +175,10 @@ describe('Unit | Service | Certification Service', function() {
           lastName: 'De La Savane',
           birthplace: 'Savane',
           birthdate: '1992-01-28',
-          sessionId: 'MoufMufassa',
+          sessionId: 123,
           externalId: 'TimonsFriend',
+          examinerComment: 'Hakuna matata',
+          hasSeenEndTestScreen: false,
         }));
         sinon.stub(assessmentResultRepository, 'get').resolves(null);
       });
@@ -193,7 +197,9 @@ describe('Unit | Service | Certification Service', function() {
           expect(certification.pixScore).to.deep.equal(undefined);
           expect(certification.completedAt).to.deep.equal(undefined);
           expect(certification.createdAt).to.deep.equal(new Date('2017-12-23T15:23:12Z'));
-          expect(certification.sessionId).to.deep.equal('MoufMufassa');
+          expect(certification.sessionId).to.deep.equal(123);
+          expect(certification.examinerComment).to.deep.equal('Hakuna matata');
+          expect(certification.hasSeenEndTestScreen).to.deep.equal(false);
         });
       });
 

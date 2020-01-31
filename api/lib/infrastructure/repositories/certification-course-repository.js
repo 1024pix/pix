@@ -101,6 +101,8 @@ function _toDomain(bookshelfCertificationCourse) {
       'externalId',
       'isPublished',
       'isV2Certification',
+      'examinerComment',
+      'hasSeenEndTestScreen',
     ]),
   });
 }

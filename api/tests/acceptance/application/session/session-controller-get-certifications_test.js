@@ -75,6 +75,8 @@ describe('Acceptance | Controller | session-controller-get-certifications', () =
           'comment-for-candidate': assessmentResult.commentForCandidate,
           'comment-for-jury': assessmentResult.commentForJury,
           'comment-for-organization': assessmentResult.commentForOrganization,
+          'examiner-comment': certificationCourse.examinerComment,
+          'has-seen-end-test-screen': certificationCourse.hasSeenEndTestScreen,
           'emitter': assessmentResult.emitter,
           'jury-id': assessmentResult.juryId,
           'level': assessmentResult.level,
