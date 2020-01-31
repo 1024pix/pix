@@ -73,6 +73,7 @@ input[type=checkbox]:before {
   display: block;
   background-color: $white;
   border-radius: 10%;
+  box-sizing: border-box;
 }
 
 input[type=checkbox]:checked:before {
@@ -128,8 +129,8 @@ input[type=radio]:checked:after {
 input[type=radio]:before {
   height: 17px;
   width: 17px;
-  top: 0px;
-  left: -2px;
+  top: -3px;
+  left: -5px;
 
   border: solid 2px $dusty-grey;
   border-radius: 10px;
@@ -139,8 +140,8 @@ input[type=radio]:before {
 input[type=radio]:checked:after {
   height: 9px;
   width: 9px;
-  top: -13px;
-  left: 2px;
+  top: -18px;
+  left: 1px;
 
   background-color: $pix-blue;
 }

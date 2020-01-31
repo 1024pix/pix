@@ -26,15 +26,25 @@ $pix-modal-border-radius: 5px;
       color: $white;
       text-align: right;
       margin-bottom: 5px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      cursor: pointer;
 
-      &> a {
+      &> span {
         color: inherit;
+        font-size: 1.4rem;
+        margin-right: 5px;
 
         &:hover,
         &:active,
         &:focus {
           color: inherit;
         }
+      }
+
+      &> svg {
+        font-size: 1.4rem;
       }
     }
 

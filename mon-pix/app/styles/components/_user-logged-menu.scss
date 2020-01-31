@@ -49,6 +49,9 @@
   border-style: solid;
   border-width: 4px 4px 0 4px;
   border-color: $dove-gray transparent transparent transparent;
+  margin-left: 2px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .logged-user-menu {
@@ -97,10 +100,10 @@
     color: $charcoal-grey;
     background-color: $porcelain-grey;
   }
-}
 
-.logged-user-menu__icon {
-  margin-right: 8px;
+  &> svg {
+    margin-right: 5px;
+  }
 }
 
 .logged-user-menu__link--last {
