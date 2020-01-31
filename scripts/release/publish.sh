@@ -25,7 +25,7 @@ function push_commit_and_tag_to_remote_master {
 }
 
 function publish_release_on_sentry {
-    npx sentry-cli releases -o pix new -p pix-admin -p pix-api -p pix-app -p pix-orga -p pix-certif "v${PACKAGE_VERSION}"
+    npx sentry-cli releases -o pix new -p pix-api "v${PACKAGE_VERSION}"
     npx sentry-cli releases -o pix set-commits --commit "1024pix/pix@$( git rev-parse HEAD )" "v${PACKAGE_VERSION}"
     npx sentry-cli releases -o pix finalize "v${PACKAGE_VERSION}"
 }
