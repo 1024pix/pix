@@ -23,13 +23,10 @@ const organizationValidationJoiSchema = Joi.object({
 module.exports = {
 
   validate(organizationCreationParams) {
-
     const { error } = organizationValidationJoiSchema.validate(organizationCreationParams, validationConfiguration);
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
-    } else {
-      return Promise.resolve();
     }
+    return true;
   }
-
 };

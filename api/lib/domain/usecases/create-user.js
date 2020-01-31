@@ -22,18 +22,23 @@ function _manageError(error, errorType, attribute, message) {
 }
 
 function _validateData(user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator) {
+  let userValidatorError;
+  try {
+    userValidator.validate({ user });
+  } catch (err) {
+    userValidatorError = err;
+  }
   return Promise.all([
     userRepository.isEmailAvailable(user.email).catch(_manageEmailAvailabilityError),
-    userValidator.validate({ user }).catch((error) => error),
-    reCaptchaValidator.verify(reCaptchaToken).catch(_manageReCaptchaTokenError)
-  ])
-    .then((validationErrors) => {
-      // Promise.all returns the return value of all promises, even if the return value is undefined
-      const relevantErrors = validationErrors.filter((error) => error instanceof Error);
-      if (relevantErrors.length > 0) {
-        throw EntityValidationError.fromMultipleEntityValidationErrors(relevantErrors);
-      }
-    });
+    reCaptchaValidator.verify(reCaptchaToken).catch(_manageReCaptchaTokenError),
+  ]).then((validationErrors) => {
+    validationErrors.push(userValidatorError);
+    // Promise.all returns the return value of all promises, even if the return value is undefined
+    const relevantErrors = validationErrors.filter((error) => error instanceof Error);
+    if (relevantErrors.length > 0) {
+      throw EntityValidationError.fromMultipleEntityValidationErrors(relevantErrors);
+    }
+  });
 }
 
 function _checkEncryptedPassword(userPassword, encryptedPassword) {
@@ -44,7 +49,7 @@ function _checkEncryptedPassword(userPassword, encryptedPassword) {
   return encryptedPassword;
 }
 
-module.exports = function createUser({
+module.exports = async function createUser({
   user,
   reCaptchaToken,
   userRepository,

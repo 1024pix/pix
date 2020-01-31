@@ -26,24 +26,16 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
     context('when validation is successful', () => {
 
-      it('should resolve (with no value) when validation is successful', () => {
-        // when
-        const promise = campaignValidator.validate(campaign);
-
-        // then
-        return expect(promise).to.be.fulfilled;
+      it('should not throw any error', () => {
+        expect(campaignValidator.validate(campaign)).to.not.throw;
       });
 
       it('should resolve when idPixLabel is null', () => {
         // given
         campaign.idPixLabel = null;
 
-        // when
-        const promise = campaignValidator.validate(campaign);
-
-        // then
-        return expect(promise).to.be.fulfilled;
-
+        // when/then
+        expect(campaignValidator.validate(campaign)).to.not.throw;
       });
 
     });
@@ -52,7 +44,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
       context('on name attribute', () => {
 
-        it('should reject with error when name is missing', async () => {
+        it('should reject with error when name is missing', () => {
           // given
           const expectedError = {
             attribute: 'name',
@@ -62,8 +54,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
           try {
             // when
-            await campaignValidator.validate(campaign);
-
+            campaignValidator.validate(campaign);
+            expect.fail('should have thrown an error');
           } catch (entityValidationErrors) {
             // then
             _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
@@ -74,7 +66,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
       context('on creatorId attribute', () => {
 
-        it('should reject with error when creatorId is missing', async () => {
+        it('should reject with error when creatorId is missing', () => {
           // given
           const expectedError = {
             attribute: 'creatorId',
@@ -84,7 +76,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
           try {
             // when
-            await campaignValidator.validate(campaign);
+            campaignValidator.validate(campaign);
+            expect.fail('should have thrown an error');
 
           } catch (entityValidationErrors) {
             // then
@@ -96,7 +89,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
       context('on organizationId attribute', () => {
 
-        it('should reject with error when organizationId is missing', async () => {
+        it('should reject with error when organizationId is missing', () => {
           // given
           const expectedError = {
             attribute: 'organizationId',
@@ -106,7 +99,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
           try {
             // when
-            await campaignValidator.validate(campaign);
+            campaignValidator.validate(campaign);
+            expect.fail('should have thrown an error');
 
           } catch (entityValidationErrors) {
             // then
@@ -117,7 +111,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
       });
 
       context('on idPixLabel attribute', () => {
-        it('should reject with error when idPixLabel is an empty string', async () => {
+        it('should reject with error when idPixLabel is an empty string', () => {
           // given
           const expectedError = {
             attribute: 'idPixLabel',
@@ -127,7 +121,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
           try {
             // when
-            await campaignValidator.validate(campaign);
+            campaignValidator.validate(campaign);
+            expect.fail('should have thrown an error');
 
           } catch (entityValidationErrors) {
             // then
@@ -135,7 +130,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
           }
         });
 
-        it('should reject with error when idPixLabel length is under 3 characters', async () => {
+        it('should reject with error when idPixLabel length is under 3 characters', () => {
           // given
           const expectedError = {
             attribute: 'idPixLabel',
@@ -145,7 +140,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
           try {
             // when
-            await campaignValidator.validate(campaign);
+            campaignValidator.validate(campaign);
+            expect.fail('should have thrown an error');
 
           } catch (entityValidationErrors) {
             // then
@@ -157,7 +153,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
       context('on targetProfileId attribute', () => {
 
-        it('should reject with error when targetProfileId is missing', async () => {
+        it('should reject with error when targetProfileId is missing', () => {
           // given
           const expectedError = {
             attribute: 'targetProfileId',
@@ -167,7 +163,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
           try {
             // when
-            await campaignValidator.validate(campaign);
+            campaignValidator.validate(campaign);
+            expect.fail('should have thrown an error');
 
           } catch (entityValidationErrors) {
             // then
@@ -177,7 +174,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
       });
 
-      it('should reject with errors on all fields (but only once by field) when all fields are missing', async () => {
+      it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
         // given
         campaign.name = MISSING_VALUE;
         campaign.creatorId = MISSING_VALUE;
@@ -186,7 +183,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
         try {
           // when
-          await campaignValidator.validate(campaign);
+          campaignValidator.validate(campaign);
+          expect.fail('should have thrown an error');
 
         } catch (entityValidationErrors) {
           // then

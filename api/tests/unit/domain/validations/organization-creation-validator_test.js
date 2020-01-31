@@ -16,15 +16,12 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
     context('when validation is successful', () => {
 
-      it('should resolve (with no value) when validation is successful', () => {
+      it('should not throw any error', () => {
         // given
         const organizationCreationParams = { name: 'ACME', type: 'PRO' };
 
-        // when
-        const promise = organizationCreationValidator.validate(organizationCreationParams);
-
-        // then
-        return expect(promise).to.be.fulfilled;
+        // when/then
+        expect(organizationCreationValidator.validate(organizationCreationParams)).to.not.throw;
       });
     });
 
@@ -32,7 +29,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
       context('on name attribute', () => {
 
-        it('should reject with error when name is missing', async () => {
+        it('should reject with error when name is missing', () => {
           // given
           const expectedError = {
             attribute: 'name',
@@ -42,8 +39,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
           try {
             // when
-            await organizationCreationValidator.validate(organizationCreationParams);
-
+            organizationCreationValidator.validate(organizationCreationParams);
+            expect.fail('should have thrown an error');
           } catch (errors) {
             // then
             _assertErrorMatchesWithExpectedOne(errors, expectedError);
@@ -54,7 +51,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
       context('on type attribute', () => {
 
-        it('should reject with error when type is missing', async () => {
+        it('should reject with error when type is missing', () => {
           // given
           const expectedError = [
             {
@@ -70,8 +67,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
           try {
             // when
-            await organizationCreationValidator.validate(organizationCreationParams);
-
+            organizationCreationValidator.validate(organizationCreationParams);
+            expect.fail('should have thrown an error');
           } catch (errors) {
             // then
             expect(errors.invalidAttributes).to.have.length(2);
@@ -79,7 +76,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
           }
         });
 
-        it('should reject with error when type value is not SUP, SCO or PRO', async () => {
+        it('should reject with error when type value is not SUP, SCO or PRO', () => {
           // given
           const expectedError = {
             attribute: 'type',
@@ -89,8 +86,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
           try {
             // when
-            await organizationCreationValidator.validate(organizationCreationParams);
-
+            organizationCreationValidator.validate(organizationCreationParams);
+            expect.fail('should have thrown an error');
           } catch (errors) {
             // then
             _assertErrorMatchesWithExpectedOne(errors, expectedError);
@@ -102,28 +99,25 @@ describe('Unit | Domain | Validators | organization-validator', function() {
           'SCO',
           'PRO'
         ].forEach((type) => {
-          it(`should accept ${type} as type`, function() {
+          it(`should not throw with ${type} as type`, function() {
             // given
             const organizationCreationParams = { name: 'ACME', type };
 
-            // when
-            const promise = organizationCreationValidator.validate(organizationCreationParams);
-
-            // then
-            return expect(promise).to.be.fulfilled;
+            // when/then
+            return expect(organizationCreationValidator.validate(organizationCreationParams)).to.not.throw;
           });
         });
 
       });
 
-      it('should reject with errors on all fields (but only once by field) when all fields are missing', async () => {
+      it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
         // given
         const organizationCreationParams = { name: MISSING_VALUE, type: MISSING_VALUE, };
 
         try {
           // when
-          await organizationCreationValidator.validate(organizationCreationParams);
-
+          organizationCreationValidator.validate(organizationCreationParams);
+          expect.fail('should have thrown an error');
         } catch (errors) {
           // then
           expect(errors.invalidAttributes).to.have.lengthOf(3);

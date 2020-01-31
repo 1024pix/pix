@@ -60,13 +60,10 @@ const userValidationJoiSchema = Joi.object({
 module.exports = {
 
   validate({ user, cguRequired = true }) {
-
     const { error } = userValidationJoiSchema.validate(user, { ...validationConfiguration, context: { cguRequired } });
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
-    } else {
-      return Promise.resolve();
     }
+    return true;
   }
-
 };
