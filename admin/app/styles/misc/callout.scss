@@ -1,0 +1,42 @@
+.callout {
+  position: relative;
+  margin: 0 0 1rem 0;
+  padding: 1rem;
+  border: 1px solid rgba(10, 10, 10, 0.25);
+  border-radius: 0;
+
+  &.secondary {
+    color: #383d41;
+    background-color: #e2e3e5;
+    border-color: #d6d8db;
+  }
+
+  &.primary {
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #b8daff;
+  }
+
+  &.info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+  }
+
+  &.success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+  }
+
+  &.warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;  }
+
+  &.alert {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+  }
+}
