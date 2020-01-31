@@ -11,6 +11,7 @@
 @import 'misc/page';
 @import 'misc/button';
 @import 'misc/form';
+@import 'misc/callout';
 @import 'misc/power-select';
 @import 'misc/tables';
 @import 'misc/utils';
@@ -27,6 +28,7 @@
 @import 'authenticated/certifications/sessions/info/list';
 @import 'authenticated/certifications/sessions/info/index';
 @import 'authenticated/certifications/sessions-list';
+@import 'authenticated/tools';
 /* components */
 @import 'components/menu-bar';
 @import 'components/organization-list';
