@@ -15,10 +15,10 @@ export default Component.extend({
     return proposalsAsBlocks(this.proposals);
   }),
 
-  didInsertElement: function() {
-    this.$('input').keydown(() => {
+  actions: {
+    onInputChange: function() {
       this.answerChanged();
-    });
+    }
   }
 
 });

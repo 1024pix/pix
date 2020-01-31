@@ -17,7 +17,8 @@
                 id="{{block.text}}"
                 value={{property-of answersValue block.input}}
                 disabled={{answer}}
-                aria-label={{if block.ariaLabel block.ariaLabel false}}>
+                aria-label={{if block.ariaLabel block.ariaLabel false}}
+                onkeydown={{action 'onInputChange'}}>
       </textarea>
     {{else if (eq format 'phrase')}}
       {{#if block.text}}
@@ -31,7 +32,8 @@
              id="{{block.text}}"
              value={{property-of answersValue block.input}}
              disabled={{answer}}
-             aria-label={{if block.ariaLabel block.ariaLabel false}}>
+             aria-label={{if block.ariaLabel block.ariaLabel false}}
+             onkeydown={{action 'onInputChange'}}>
     {{else}}
       {{#if block.text}}
         <label for="{{block.text}}">{{block.text}}</label>
@@ -45,7 +47,8 @@
              id="{{block.text}}"
              value={{property-of answersValue block.input}}
              disabled={{answer}}
-             aria-label={{if block.ariaLabel block.ariaLabel false}}>
+             aria-label={{if block.ariaLabel block.ariaLabel false}}
+             onkeydown={{action 'onInputChange'}}>
     {{/if}}
 
   {{/if}}
