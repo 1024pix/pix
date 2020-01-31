@@ -4,12 +4,12 @@
   </LinkTo>
 </div>
 
-<UserCertificationsDetailHeader @certification={{model}} />
+<UserCertificationsDetailHeader @certification={{@model}} />
 
 <div class="user-certifications-page__detail-content">
 
-  <UserCertificationsDetailResult @certification={{model}} />
+  <UserCertificationsDetailResult @certification={{@model}} />
 
-  <UserCertificationsDetailProfile @resultCompetenceTree={{model.resultCompetenceTree}} />
+  <UserCertificationsDetailProfile @resultCompetenceTree={{@model.resultCompetenceTree}} />
 
 </div>

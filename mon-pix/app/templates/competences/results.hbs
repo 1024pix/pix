@@ -29,7 +29,7 @@
               <div class="competence-results-banner__text">
                 <div class="competence-results-banner-text__results">
                   <div class="competence-results-banner-text-results__label">Vous avez</div>
-                  <div class="competence-results-banner-text-results__value">{{model.scorecard.earnedPix}} pix</div>
+                  <div class="competence-results-banner-text-results__value">{{@model.scorecard.earnedPix}} pix</div>
                 </div>
               </div>
             </div>
@@ -40,18 +40,18 @@
               <div class="competence-results-banner__text competence-results-banner__text--spaced">
                 <div class="competence-results-banner-text__results competence-results-banner-text__results--spaced">
                   <div class="competence-results-banner-text-results__label">Vous avez atteint</div>
-                  <div class="competence-results-banner-text-results__value">Niveau {{model.scorecard.level}}</div>
+                  <div class="competence-results-banner-text-results__value">Niveau {{@model.scorecard.level}}</div>
                 </div>
                 <div class="competence-results-banner-text__results competence-results-banner-text__results--spaced">
                   <div class="competence-results-banner-text-results__label">Vous avez</div>
-                  <div class="competence-results-banner-text-results__value">{{model.scorecard.earnedPix}} pix</div>
+                  <div class="competence-results-banner-text-results__value">{{@model.scorecard.earnedPix}} pix</div>
                 </div>
               </div>
             </div>
           {{/if}}
         </div>
         {{#if model.scorecard}}
-          <ScorecardDetails @scorecard={{model.scorecard}} />
+          <ScorecardDetails @scorecard={{@model.scorecard}} />
         {{/if}}
       </div>
     </div>

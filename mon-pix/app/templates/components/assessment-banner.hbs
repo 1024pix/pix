@@ -3,13 +3,13 @@
     <div class="assessment-banner__pix-logo">
       <img src="/images/pix-logo-blanc.svg" alt="Pix">
     </div>
-    {{#if title}}
+    {{#if @title}}
       <div class="assessment-banner__splitter"></div>
-      <h1 class="assessment-banner__title">{{title}}</h1>
+      <h1 class="assessment-banner__title">{{@title}}</h1>
     {{/if}}
-    {{#if displayHomeLink}}
+    {{#if @displayHomeLink}}
       <LinkTo @route="index" class="assessment-banner__home-link">
-        Quitter {{fa-icon 'sign-out-alt'}}
+        Quitter <Fa-Icon @icon='sign-out-alt'></Fa-Icon>
       </LinkTo>
     {{/if}}
   </div>
