@@ -37,6 +37,10 @@ class CampaignParticipation {
     return _.get(this, 'campaign.targetProfileId', null);
   }
 
+  get lastAssessment() {
+    return _.maxBy(this.assessments, 'createdAt');
+  }
+
 }
 
 module.exports = CampaignParticipation;
