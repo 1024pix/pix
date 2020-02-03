@@ -31,8 +31,8 @@
 
     &.active {
       text-decoration: none;
-      color: $dogder-blue;
-      border-bottom: 2px solid $dogder-blue;
+      color: $dodger-blue;
+      border-bottom: 2px solid $dodger-blue;
     }
 
     &:focus {
@@ -43,7 +43,7 @@
     &:hover {
       text-decoration: none;
       cursor: pointer;
-      color: $dogder-blue;
+      color: $dodger-blue;
     }
   }
 }

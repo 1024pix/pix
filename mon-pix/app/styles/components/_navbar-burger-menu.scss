@@ -4,7 +4,7 @@
   &__user-info {
     display: flex;
     flex-direction: column;
-    background-color: $dogder-blue;
+    background-color: $dodger-blue;
   }
 
   &__navigation {
@@ -68,8 +68,8 @@
     font-family: $font-roboto;
 
     &.active {
-      color: $dogder-blue;
-      border-left: 5px solid $dogder-blue;
+      color: $dodger-blue;
+      border-left: 5px solid $dodger-blue;
       padding-left: 27px;
     }
 
@@ -79,7 +79,7 @@
     }
 
     &:hover {
-      color: $dogder-blue;
+      color: $dodger-blue;
       text-decoration: none;
     }
   }
