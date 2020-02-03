@@ -189,6 +189,24 @@ describe('read-ods-utils', () => {
 
     });
 
+    context('when newlines are present in headers', () => {
+      before(() => {
+        odsFilePath = `${__dirname}/ods-file_newline_test.ods`;
+        odsBuffer = fs.readFileSync(odsFilePath);
+      });
+
+      it('should return the appropriate version regardless of the newlines', async () => {
+        // when
+        const version = await getOdsVersionByHeaders({
+          odsBuffer,
+          transformationStructsByVersion: HEADERS_BY_VERSION,
+        });
+
+        // then
+        expect(version).to.equal('2');
+      });
+    });
+
   });
 
 });
