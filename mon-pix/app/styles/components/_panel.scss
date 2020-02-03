@@ -1,0 +1,24 @@
+.panel {
+  border-radius: 4px;
+  border: none;
+  box-shadow: 0 1px 1px 0 rgba(12, 22, 58, 0.1), 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+  background-color: white;
+
+  &--strong-shadow {
+    box-shadow: 0 6px 12px 0 rgba(12, 22, 58, 0.1), 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  &--link {
+    text-decoration: none;
+    border: solid 2px white;
+    color: $nero;
+    outline: none;
+    cursor: pointer;
+
+    &:hover, &:active, &:focus {
+      border-color: $dodger-blue;
+      transition: border-color 1s ease;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
+    }
+  }
+}
