@@ -454,7 +454,7 @@ describe('Unit | Controller | campaigns/join-restricted-campaign', function() {
       expect(controller.get('errorMessage')).to.equal(null);
     });
 
-    it('should display a general error', async function() {
+    it('should display a not found error', async function() {
       // given
       studentUserAssociation.save.rejects({ errors: [{ status: '404' }] });
 
