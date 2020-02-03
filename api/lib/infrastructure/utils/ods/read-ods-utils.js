@@ -78,8 +78,14 @@ function _findHeaderRow(sheetDataRows, tableHeaders) {
 
 function _allHeadersValuesAreInTheRow(row, headers) {
   const cellValuesInRow = _.values(row);
-  const headersInRow = _.intersection(cellValuesInRow, headers);
+  const strippedCellValuesInRow = _.map(cellValuesInRow, _removeNewlineCharactersFromHeader);
+  const strippedHeaders = _.map(headers, _removeNewlineCharactersFromHeader);
+  const headersInRow = _.intersection(strippedCellValuesInRow, strippedHeaders);
   return headersInRow.length === headers.length;
+}
+
+function _removeNewlineCharactersFromHeader(header) {
+  return _.isString(header) ? header.replace(/[\n\r]/g, '') : header;
 }
 
 function _mapSheetHeadersWithProperties(sheetHeaderRow, tableHeaderTargetPropertyMap) {
