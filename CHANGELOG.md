@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.110.1 (03/02/2020)
+
+- [#1027](https://github.com/1024pix/pix/pull/1027) [BUGFIX] Corriger le design de la double mire de connexion (PF-1069).
+- [#1024](https://github.com/1024pix/pix/pull/1024) [BUGFIX] Mise à jour de la commande de création de release sentry-cli.
+- [#1011](https://github.com/1024pix/pix/pull/1011) Rendre les validateurs synchrones et s'assurer qu'ils jettent correctement leurs erreurs converties 4xx (PC-110)
+
 ## v2.110.0 (31/01/2020)
 
 - [#1018](https://github.com/1024pix/pix/pull/1018) [FEATURE] Ajout d'un bouton pour rafraîchir le cache de données pédagogiques dans Pix Admin (PA-139).
