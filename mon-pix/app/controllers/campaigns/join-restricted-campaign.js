@@ -101,7 +101,7 @@ export default Controller.extend({
         });
       }, (errorResponse) => {
         studentUserAssociation.unloadRecord();
-        this._setErrorMessageForAttemptNextAction(errorResponse)
+        this._setErrorMessageForAttemptNextAction(errorResponse);
         this.set('isLoading', false);
       });
     },
