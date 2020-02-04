@@ -5,7 +5,6 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const userService = require('../../../../lib/domain/services/user-service');
 
@@ -19,7 +18,7 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 const Skill = require('../../../../lib/domain/models/Skill');
 const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 
-describe('Integration | Service | User Service | #getCertificationProfile', function() {
+describe('Integration | Service | User Service', function() {
 
   const userId = 63731;
 
@@ -76,10 +75,6 @@ describe('Integration | Service | User Service | #getCertificationProfile', func
   const challengeForSkillWeb1 = _createChallenge('challengeRecordIdEight', competenceDauphin.id, [skillWeb1], '@web1');
 
   beforeEach(() => {
-    sinon.stub(courseRepository, 'getAdaptiveCourses').resolves([
-      { competences: ['competenceRecordIdOne'], id: 'courseId1' },
-      { competences: ['competenceRecordIdTwo'], id: 'courseId2' },
-    ]);
     sinon.stub(challengeRepository, 'list').resolves([
       challengeForSkillCitation4,
       archivedChallengeForSkillCitation4,
@@ -108,24 +103,24 @@ describe('Integration | Service | User Service | #getCertificationProfile', func
       const assessment1 = Assessment.fromAttributes({
         id: 13,
         status: 'completed',
-        courseId: 'courseId1',
+        competenceId: 'competenceRecordIdOne',
         assessmentResults: [assessmentResult1]
       });
       const assessment2 = Assessment.fromAttributes({
         id: 1637,
         status: 'completed',
-        courseId: 'courseId2',
+        competenceId: 'competenceRecordIdTwo',
         assessmentResults: [assessmentResult2]
       });
       const assessment3 = Assessment.fromAttributes({
         id: 145,
         status: 'completed',
-        courseId: 'courseId3',
+        competenceId: 'competenceRecordIdUnknown',
         assessmentResults: [assessmentResult3]
       });
 
       beforeEach(() => {
-        sinon.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves([
+        sinon.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCompetenceByUser').resolves([
           assessment1, assessment2, assessment3
         ]);
         sinon.stub(answerRepository, 'findCorrectAnswersByAssessmentId').resolves(answerCollectionWithEmptyData);
@@ -139,8 +134,8 @@ describe('Integration | Service | User Service | #getCertificationProfile', func
         await userService.getCertificationProfile({ userId, limitDate, isV2Certification: false });
 
         // then
-        sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser);
-        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, userId, '2020-10-27 08:44:25');
+        sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCompetenceByUser);
+        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCompetenceByUser, userId, '2020-10-27 08:44:25');
       });
 
       it('should list available competences', async () => {
