@@ -5,17 +5,8 @@ const airtable = require('../../../../../lib/infrastructure/airtable');
 const skillDatasource = require('../../../../../lib/infrastructure/datasources/airtable/skill-datasource');
 const skillAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/skillAirtableDataObjectFixture');
 const skillRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
+const makeAirtableFake = require('../../../../tooling/airtable-builder/make-airtable-fake');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
-
-function makeAirtableFake(records) {
-  return async (tableName, fieldList) => {
-    return records.map((record) => new AirtableRecord(tableName, record.id,
-      {
-        id: record.id,
-        fields: _.pick(record._rawJson.fields, fieldList)
-      }));
-  };
-}
 
 describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () => {
 

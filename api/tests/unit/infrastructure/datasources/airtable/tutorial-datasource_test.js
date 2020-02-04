@@ -1,4 +1,3 @@
-const { Record: AirtableRecord } = require('airtable');
 const _ = require('lodash');
 const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
@@ -6,16 +5,7 @@ const tutorialDatasource = require('../../../../../lib/infrastructure/datasource
 const tutorialAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/tutorialAirtableDataObjectFixture');
 const tutorialRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/tutorialRawAirtableFixture');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
-
-function makeAirtableFake(records) {
-  return async (tableName, fieldList) => {
-    return records.map((record) => new AirtableRecord(tableName, record.id,
-      {
-        id: record.id,
-        fields: _.pick(record._rawJson.fields, fieldList)
-      }));
-  };
-}
+const makeAirtableFake = require('../../../../tooling/airtable-builder/make-airtable-fake');
 
 describe('Unit | Infrastructure | Datasource | Airtable | TutorialDatasource', () => {
 
@@ -61,7 +51,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | TutorialDatasource', (
         expect(foundTutorials).to.be.an('array');
         expect(_.map(foundTutorials, 'id')).to.deep.equal([rawTutorial1.id, rawTutorial3.id]);
         expect(airtable.findRecords).to.have.been.calledWith('Tutoriels');
-
       });
     });
   });
