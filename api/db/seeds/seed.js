@@ -3,20 +3,12 @@ const faker = require('faker');
 const DatabaseBuilder = require('../../tests/tooling/database-builder/database-builder');
 const answersBuilder = require('./data/answers-builder');
 const assessmentsBuilder = require('./data/assessments-builder');
-const assessmentResultsBuilder = require('./data/assessment-results-builder');
 const campaignParticipationsBuilder = require('./data/campaign-participations-builder');
 const campaignsBuilder = require('./data/campaigns-builder');
-const certificationCandidatesBuilder = require('./data/certification-candidates-builder');
-const certificationCentersBuilder = require('./data/certification-centers-builder');
-const certificationCenterMembershipsBuilder = require('./data/certification-center-memberships-builder');
-const certificationChallengesBuilder = require('./data/certification-challenges-builder');
-const certificationCoursesBuilder = require('./data/certification-courses-builder');
-const competenceMarksBuilder = require('./data/competence-marks-builder');
 const dragonAndCoBuilder = require('./data/dragon-and-co-builder');
 const organizationsBuilder = require('./data/organizations-builder');
 const pixAileBuilder = require('./data/pix-aile-builder');
 const buildPixAileProfile = require('./data/pix-aile-profile-builder');
-const sessionsBuilder = require('./data/sessions-builder');
 const snapshotsBuilder = require('./data/snapshots-builder');
 const targetProfilesBuilder = require('./data/target-profiles-builder');
 const usersBuilder = require('./data/users-builder');
@@ -27,7 +19,7 @@ const SEED_NUMBER = 20110228;
 
 exports.seed = (knex) => {
   faker.seed(SEED_NUMBER);
-  
+
   const databaseBuilder = new DatabaseBuilder({ knex });
 
   usersBuilder({ databaseBuilder });
@@ -39,16 +31,8 @@ exports.seed = (knex) => {
   targetProfilesBuilder({ databaseBuilder });
   campaignsBuilder({ databaseBuilder });
   campaignParticipationsBuilder({ databaseBuilder });
-  certificationCentersBuilder({ databaseBuilder });
-  certificationCenterMembershipsBuilder({ databaseBuilder });
-  sessionsBuilder({ databaseBuilder });
-  certificationCandidatesBuilder({ databaseBuilder });
-  certificationCoursesBuilder({ databaseBuilder });
-  certificationChallengesBuilder({ databaseBuilder });
   assessmentsBuilder({ databaseBuilder });
   answersBuilder({ databaseBuilder });
-  assessmentResultsBuilder({ databaseBuilder });
-  competenceMarksBuilder({ databaseBuilder });
   buildPixAileProfile({ databaseBuilder });
 
   return databaseBuilder.commit()
