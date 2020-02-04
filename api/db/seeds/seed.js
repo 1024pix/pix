@@ -7,6 +7,7 @@ const campaignParticipationsBuilder = require('./data/campaign-participations-bu
 const campaignsBuilder = require('./data/campaigns-builder');
 const { certificationCandidatesBuilder } = require('./data/certification/certification-candidates-builder');
 const { certificationCentersBuilder } = require('./data/certification/certification-centers-builder');
+const { certificationCoursesBuilder } = require('./data/certification/certification-courses-builder');
 const { certificationUsersBuilder } = require('./data/certification/users');
 const certificationUserProfilesBuilder = require('./data/certification/user-profiles-builder');
 const certificationCenterMembershipsBuilder = require('./data/certification/certification-center-memberships-builder');
@@ -48,6 +49,7 @@ exports.seed = (knex) => {
   certificationUserProfilesBuilder({ databaseBuilder });
   certificationSessionsBuilder({ databaseBuilder });
   certificationCandidatesBuilder({ databaseBuilder });
+  certificationCoursesBuilder({ databaseBuilder });
 
   return databaseBuilder.commit()
     .then(() => alterSequenceIfPG(knex));
