@@ -21,7 +21,7 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
-  findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate) {
+  findLastCompletedAssessmentsForEachCompetenceByUser(userId, limitDate) {
     return BookshelfAssessment
       .collection()
       .query((qb) => {
@@ -40,7 +40,7 @@ module.exports = {
       })
       .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
       .then(_selectAssessmentsHavingAnAssessmentResult)
-      .then(_selectLastAssessmentForEachCourse)
+      .then(_selectLastAssessmentForEachCompetence)
       .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
   },
 
@@ -132,10 +132,10 @@ module.exports = {
   },
 };
 
-function _selectLastAssessmentForEachCourse(bookshelfAssessments) {
-  const assessmentsGroupedByCourse = groupBy(bookshelfAssessments,
-    (bookshelfAssessment) => bookshelfAssessment.get('courseId'));
-  return map(assessmentsGroupedByCourse, head);
+function _selectLastAssessmentForEachCompetence(bookshelfAssessments) {
+  const assessmentsGroupedByCompetence = groupBy(bookshelfAssessments,
+    (bookshelfAssessment) => bookshelfAssessment.get('competenceId'));
+  return map(assessmentsGroupedByCompetence, head);
 }
 
 function _selectAssessmentsHavingAnAssessmentResult(bookshelfAssessments) {
