@@ -25,6 +25,10 @@ given('j\'accède à mon profil', () => {
   cy.visitMonPix('/profil');
 });
 
+given('je vais sur la page {string}', (pathname) => {
+  cy.visitMonPix(pathname);
+});
+
 given('je suis connecté à Pix en tant que {string}', (user) => {
   if (user === 'John Snow') {
     cy.login('john.snow@pix.fr', 'pix123');
