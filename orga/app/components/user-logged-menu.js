@@ -4,6 +4,8 @@ import { computed } from '@ember/object';
 
 export default Component.extend({
 
+  classNames: ['logged-user-container'],
+
   currentUser: service(),
   store: service(),
   router: service(),
