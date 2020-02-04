@@ -316,6 +316,45 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
           expect(findAll('.scorecard-details-content-right-score-container__pix-earned .score-value')).to.have.lengthOf(0);
           expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
         });
+
+        it('should reset competence when user clicks on reset from results page', async () => {
+          // given
+          server.create('scorecard', {
+            id: '1_1',
+            name,
+            description,
+            earnedPix,
+            level,
+            pixScoreAheadOfNextLevel,
+            area,
+            status,
+            remainingDaysBeforeReset,
+            competenceId: 1,
+          });
+          server.create('assessment', {
+            id: 2,
+            type: 'COMPETENCE_EVALUATION',
+            state: 'completed',
+          });
+
+          server.create('competence-evaluation', {
+            id: 1,
+            assessmentId: 2,
+            competenceId: 1,
+            userId: 1,
+          });
+          await visitWithAbortedTransition('/competences/1/resultats/2');
+          await click('.scorecard-details__reset-button');
+
+          // when
+          await click('.button--red');
+
+          // then
+          expect(findAll('.competence-card__level .score-value')).to.have.lengthOf(0);
+          expect(findAll('.scorecard-details-content-right-score-container__pix-earned .score-value')).to.have.lengthOf(0);
+          expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
+        });
+
       });
     });
 

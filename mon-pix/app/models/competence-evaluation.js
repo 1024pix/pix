@@ -11,5 +11,5 @@ export default Model.extend({
 
   assessment: belongsTo('assessment'),
   competence: belongsTo('competence'),
-  scorecard: belongsTo('scorecard'),
+  scorecard: belongsTo('scorecard', { async: false }),
 });
