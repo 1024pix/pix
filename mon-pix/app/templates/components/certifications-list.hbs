@@ -9,7 +9,7 @@
 
   <div class="certifications-list__table-body" role="tablist">
   {{#each certifications as |certification|}}
-    {{certifications-list-item certification=certification}}
+    <CertificationsListItem @certification={{certification}} />
   {{/each}}
   </div>
 </div>

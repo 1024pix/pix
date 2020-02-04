@@ -1,4 +1,4 @@
-{{#link-to 'assessments.resume' assessmentId (query-params hasSeenCheckpoint=true) class="button button--link button--yellow checkpoint__continue-button"}}
+<LinkTo @route="assessments.resume" @model={{assessmentId}} @query={{hash hasSeenCheckpoint=true}} class="button button--link button--yellow checkpoint__continue-button">
   {{nextPageButtonText}}
   {{fa-icon 'long-arrow-alt-right'}}
-{{/link-to}}
+</LinkTo>

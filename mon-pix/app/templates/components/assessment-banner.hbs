@@ -8,9 +8,9 @@
       <h1 class="assessment-banner__title">{{title}}</h1>
     {{/if}}
     {{#if displayHomeLink}}
-      {{#link-to 'index' class="assessment-banner__home-link"}}
+      <LinkTo @route="index" class="assessment-banner__home-link">
         Quitter {{fa-icon 'sign-out-alt'}}
-      {{/link-to}}
+      </LinkTo>
     {{/if}}
   </div>
 </div>

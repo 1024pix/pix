@@ -1,4 +1,4 @@
 {{title pageTitle}}
 <div class="sign-form-page">
-  {{signup-form user=model refresh="refresh" authenticateUser=(route-action "authenticateUser")}}
+  <SignupForm @user={{model}} @refresh="refresh" @authenticateUser={{route-action "authenticateUser"}} />
 </div>

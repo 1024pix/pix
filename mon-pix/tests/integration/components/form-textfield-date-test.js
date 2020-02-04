@@ -1,9 +1,15 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { beforeEach, describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import { find, findAll, fillIn, triggerEvent, render } from '@ember/test-helpers';
+import {
+  fillIn,
+  find,
+  findAll,
+  render,
+  settled,
+  triggerEvent
+} from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import wait from 'ember-test-helpers/wait';
 
 describe('Integration | Component | form textfield date', function() {
   setupRenderingTest();
@@ -166,7 +172,7 @@ describe('Integration | Component | form textfield date', function() {
 
       it('return true if any img does exist', function() {
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(findAll('img')).to.have.lengthOf(3);
           expect(find('img').getAttribute('class')).to.contain('form-textfield-icon__state--error');
         });

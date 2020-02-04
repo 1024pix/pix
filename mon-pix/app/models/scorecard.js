@@ -1,8 +1,6 @@
-import DS from 'ember-data';
-import { equal } from '@ember/object/computed';
+import Model, { hasMany, belongsTo, attr } from '@ember-data/model';
+import { equal, and } from '@ember/object/computed';
 import { computed } from '@ember/object';
-import { and } from '@ember/object/computed';
-const { Model, attr, belongsTo, hasMany } = DS;
 
 const NUMBER_OF_PIX_BY_LEVEL = 8;
 const MAX_DISPLAYED_PERCENTAGE = 95;

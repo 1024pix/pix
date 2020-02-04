@@ -97,7 +97,7 @@ export default Controller.extend({
       return studentUserAssociation.save().then(() => {
         this.set('isLoading', false);
         this.transitionToRoute('campaigns.start-or-resume', this.model, {
-          queryParams: { associationDone: true, participantExternalId: this.get('participantExternalId') }
+          queryParams: { associationDone: true, participantExternalId: this.participantExternalId }
         });
       }, (errorResponse) => {
         studentUserAssociation.unloadRecord();

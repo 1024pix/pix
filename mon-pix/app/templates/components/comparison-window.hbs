@@ -1,4 +1,4 @@
-{{#pix-modal class="comparison-window-modal" onClose=closeComparisonWindow}}
+<PixModal @class="comparison-window-modal" @onClose={{closeComparisonWindow}}>
 
   <div class="pix-modal__close-link" aria-label="Fermer" {{action (action closeComparisonWindow)}}>
     <span>Fermer</span>
@@ -23,39 +23,39 @@
 
         <div class="rounded-panel comparison-window__instruction">
           <div class="rounded-panel__row ">
-            {{markdown-to-html class="challenge-statement__instruction" markdown=answer.challenge.instruction}}
+            <MarkdownToHtml @class="challenge-statement__instruction" @markdown={{answer.challenge.instruction}} />
           </div>
 
          {{#if answer.challenge.illustrationUrl}}
             <div class="rounded-panel__row challenge-statement__illustration-section">
-              {{challenge-illustration src=answer.challenge.illustrationUrl alt=answer.challenge.illustrationAlt}}
+              <ChallengeIllustration @src={{answer.challenge.illustrationUrl}} @alt={{answer.challenge.illustrationAlt}} />
             </div>
          {{/if}}
         </div>
         <div class="comparison-window__corrected-answers">
           {{#if isAssessmentChallengeTypeQcm}}
-            {{qcm-solution-panel challenge=answer.challenge answer=answer solution=answer.correction.solution}}
+            <QcmSolutionPanel @challenge={{answer.challenge}} @answer={{answer}} @solution={{answer.correction.solution}} />
           {{/if}}
 
           {{#if isAssessmentChallengeTypeQcu}}
-            {{qcu-solution-panel challenge=answer.challenge answer=answer solution=answer.correction.solution}}
+            <QcuSolutionPanel @challenge={{answer.challenge}} @answer={{answer}} @solution={{answer.correction.solution}} />
           {{/if}}
 
           {{#if isAssessmentChallengeTypeQroc}}
             <div class="comparison-window__corrected-answers--qroc">
-              {{qroc-solution-panel answer=answer solution=answer.correction.solution}}
+              <QrocSolutionPanel @answer={{answer}} @solution={{answer.correction.solution}} />
             </div>
           {{/if}}
 
           {{#if isAssessmentChallengeTypeQrocmInd}}
             <div class="comparison-window__corrected-answers--qrocm">
-              {{qrocm-ind-solution-panel answer=answer solution=answer.correction.solution challenge=answer.challenge}}
+              <QrocmIndSolutionPanel @answer={{answer}} @solution={{answer.correction.solution}} @challenge={{answer.challenge}} />
             </div>
           {{/if}}
 
           {{#if isAssessmentChallengeTypeQrocmDep}}
             <div class="comparison-window__corrected-answers--qrocm">
-              {{qrocm-dep-solution-panel answer=answer solution=answer.correction.solution challenge=answer.challenge}}
+              <QrocmDepSolutionPanel @answer={{answer}} @solution={{answer.correction.solution}} @challenge={{answer.challenge}} />
             </div>
           {{/if}}
         </div>
@@ -73,17 +73,17 @@
               </div>
             </div>
           {{else}}
-            {{tutorial-panel hint=answer.correction.hint tutorials=answer.correction.tutorials}}
+            <TutorialPanel @hint={{answer.correction.hint}} @tutorials={{answer.correction.tutorials}} />
           {{/if}}
         {{/if}}
-        {{learning-more-panel learningMoreTutorials=answer.correction.learningMoreTutorials}}
+        <LearningMorePanel @learningMoreTutorials={{answer.correction.learningMoreTutorials}} />
       </div>
 
       <div class="pix-modal-footer">
         <div class="comparison-window__feedback-panel">
-          {{feedback-panel assessment=answer.assessment challenge=answer.challenge context="comparison-window" answer=answer isFormOpened=true}}
+          <FeedbackPanel @assessment={{answer.assessment}} @challenge={{answer.challenge}} @context="comparison-window" @answer={{answer}} @isFormOpened={{true}} />
         </div>
       </div>
     </div>
   </div>
-{{/pix-modal}}
+</PixModal>

@@ -1,15 +1,15 @@
 <div class="user-certifications-page-get__top-bar">
-  {{#link-to 'user-certifications' class="user-certifications-page-get_link-to"}}
+  <LinkTo @route="user-certifications" class="user-certifications-page-get_link-to">
     ‹‹ Retour à la liste
-  {{/link-to}}
+  </LinkTo>
 </div>
 
-{{user-certifications-detail-header certification=model}}
+<UserCertificationsDetailHeader @certification={{model}} />
 
 <div class="user-certifications-page__detail-content">
 
-  {{user-certifications-detail-result certification=model}}
+  <UserCertificationsDetailResult @certification={{model}} />
 
-  {{user-certifications-detail-profile resultCompetenceTree=model.resultCompetenceTree}}
+  <UserCertificationsDetailProfile @resultCompetenceTree={{model.resultCompetenceTree}} />
 
 </div>

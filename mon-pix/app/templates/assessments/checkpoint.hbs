@@ -3,24 +3,23 @@
 <div class="background-banner-wrapper assessment-challenge">
 
   <div class="assessment-challenge__assessment-banner">
-    {{assessment-banner title=model.title displayHomeLink=true}}
+    <AssessmentBanner @title={{model.title}} @displayHomeLink={{true}} />
   </div>
 
   <div class="checkpoint__container rounded-panel--over-background-banner">
     <div class="checkpoint__header">
       {{#if shouldDisplayAnswers}}
         <div class="checkpoint-progression-gauge-wrapper">
-          {{#progression-gauge total=100 value=completionPercentage
-                              progressionClass="progression-gauge--white progression-gauge--tooltip-left"}}
+          <ProgressionGauge @total={{100}} @value={{completionPercentage}} @progressionClass="progression-gauge--white progression-gauge--tooltip-left">
             <p class="sr-only">Vous avez effectué</p>{{completionPercentage}}%<p
             class="sr-only"> de votre parcours.</p>
-          {{/progression-gauge}}
+          </ProgressionGauge>
 
           <p class="checkpoint-legend">avancement du parcours</p>
 
         </div>
         <div class="checkpoint__continue-wrapper">
-          {{checkpoint-continue assessmentId=model.id nextPageButtonText=nextPageButtonText}}
+          <CheckpointContinue @assessmentId={{model.id}} @nextPageButtonText={{nextPageButtonText}} />
         </div>
       {{/if}}
     </div>
@@ -36,10 +35,10 @@
 
         <div class="assessment-results__list">
           {{#each model.answersSinceLastCheckpoints as |answer|}}
-            {{result-item answer=answer correction=answer.correction openAnswerDetails=(action "openComparisonWindow")}}
+            <ResultItem @answer={{answer}} @correction={{answer.correction}} @openAnswerDetails={{action "openComparisonWindow"}} />
           {{/each}}
         </div>
-        {{checkpoint-continue assessmentId=model.id nextPageButtonText=nextPageButtonText}}
+        <CheckpointContinue @assessmentId={{model.id}} @nextPageButtonText={{nextPageButtonText}} />
       {{else}}
         <div class="checkpoint-no-answer">
           <div class="checkpoint-no-answer__header">
@@ -48,18 +47,18 @@
           <div class="checkpoint-no-answer__info">
             Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.
           </div>
-          {{checkpoint-continue assessmentId=model.id nextPageButtonText=nextPageButtonText}}
+          <CheckpointContinue @assessmentId={{model.id}} @nextPageButtonText={{nextPageButtonText}} />
         </div>
       {{/if}}
     </div>
   </div>
 
   {{#if isShowingModal}}
-    {{comparison-window answer=answer closeComparisonWindow=(action 'closeComparisonWindow')}}
+    <ComparisonWindow @answer={{answer}} @closeComparisonWindow={{action "closeComparisonWindow"}} />
   {{/if}}
 
 </div>
 
 {{#if showLevelup}}
-  {{levelup-notif level=newLevel competenceName=competenceLeveled}}
+  <LevelupNotif @level={{newLevel}} @competenceName={{competenceLeveled}} />
 {{/if}}

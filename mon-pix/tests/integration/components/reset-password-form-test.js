@@ -3,7 +3,13 @@ import { resolve, reject } from 'rsvp';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import { click, find, fillIn, render, triggerEvent } from '@ember/test-helpers';
+import {
+  click,
+  find,
+  fillIn,
+  render,
+  triggerEvent
+} from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 const PASSWORD_INPUT_CLASS = '.form-textfield__input';

@@ -89,7 +89,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   actions: {
     loading() {
-      return this.get('_isReady');
+      return this._isReady;
     }
   },
 });

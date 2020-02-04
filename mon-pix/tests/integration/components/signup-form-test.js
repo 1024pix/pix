@@ -5,9 +5,16 @@ import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import { click, find, findAll, fillIn, render, triggerEvent } from '@ember/test-helpers';
+import {
+  click,
+  fillIn,
+  find,
+  findAll,
+  render,
+  settled,
+  triggerEvent
+} from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import wait from 'ember-test-helpers/wait';
 import sinon from 'sinon';
 
 const FORM_CONTAINER = '.sign-form__container';
@@ -133,7 +140,7 @@ describe('Integration | Component | signup form', function() {
         await click(SUBMIT_BUTTON);
 
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(isFormSubmitted).to.be.true;
         });
       });
@@ -162,7 +169,7 @@ describe('Integration | Component | signup form', function() {
         await click(SUBMIT_BUTTON);
 
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           sinon.assert.calledOnce(authenticateUserStub);
           sinon.assert.calledWith(authenticateUserStub, { login: 'toto@pix.fr', password: 'gipix2017' });
           expect(user.password).to.be.null;
@@ -182,7 +189,7 @@ describe('Integration | Component | signup form', function() {
         await triggerEvent('#firstName', 'blur');
 
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(find('.form-textfield__message-text').getAttribute('class')).to.contain('form-textfield__message--error');
           expect(find('.form-textfield__message--error').textContent.trim()).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
           expect(find('#firstName').getAttribute('class')).to.contain('form-textfield__input--error');
@@ -200,7 +207,7 @@ describe('Integration | Component | signup form', function() {
         await triggerEvent('#lastName', 'blur');
 
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(find('.form-textfield__message-text').getAttribute('class')).to.contain('form-textfield__message--error');
           expect(find('.form-textfield__message--error').textContent.trim()).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
           expect(find('#lastName').getAttribute('class')).to.contain('form-textfield__input--error');
@@ -218,7 +225,7 @@ describe('Integration | Component | signup form', function() {
         await triggerEvent('#email', 'blur');
 
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(find('.form-textfield__message-email').getAttribute('class')).to.contain('form-textfield__message--error');
           expect(find('.form-textfield__message--error').textContent.trim()).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
           expect(find('#email').getAttribute('class')).to.contain('form-textfield__input--error');
@@ -236,7 +243,7 @@ describe('Integration | Component | signup form', function() {
         await triggerEvent('#password', 'blur');
 
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(find('.form-textfield__message-password').getAttribute('class')).to.contain('form-textfield__message--error');
           expect(find('.form-textfield__message--error').textContent.trim()).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
           expect(find('#password').getAttribute('class')).to.contain('form-textfield__input--error');
@@ -270,7 +277,7 @@ describe('Integration | Component | signup form', function() {
         await click('.button');
 
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(find('.sign-form__validation-error')).to.exist;
           expect(find('.sign-form__validation-error').textContent.trim()).to.equal(UNCHECKED_CHECKBOX_CGU_ERROR);
         });
@@ -295,7 +302,7 @@ describe('Integration | Component | signup form', function() {
         // when
         await click('.button');
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(find('.signup-form__notification-message')).to.not.exist;
         });
       });
@@ -327,7 +334,7 @@ describe('Integration | Component | signup form', function() {
         // when
         await click('.button');
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(find('.sign-form__validation-error')).to.exist;
           expect(find('.sign-form__validation-error').textContent.trim()).to.equal(UNCHECKED_CHECKBOX_RECAPTCHA_ERROR);
         });
@@ -346,7 +353,7 @@ describe('Integration | Component | signup form', function() {
         await triggerEvent('#firstName', 'blur');
 
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(find('.form-textfield__message-text').getAttribute('class')).to.contain('form-textfield__message--success');
           expect(find('.form-textfield__message--error')).not.to.exist;
           expect(find('#firstName').getAttribute('class')).to.contain('form-textfield__input--success');
@@ -364,7 +371,7 @@ describe('Integration | Component | signup form', function() {
         await triggerEvent('#lastName', 'blur');
 
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(find('.form-textfield__message-text').getAttribute('class')).to.contain('form-textfield__message--success');
           expect(find('.form-textfield__message--error')).not.to.exist;
           expect(find('#lastName').getAttribute('class')).to.contain('form-textfield__input--success');
@@ -382,7 +389,7 @@ describe('Integration | Component | signup form', function() {
         await triggerEvent('#email', 'blur');
 
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(find('.form-textfield__message-email').getAttribute('class')).to.contain('form-textfield__message--success');
           expect(find('.form-textfield__message--error')).not.to.exist;
           expect(find('#email').getAttribute('class')).to.contain('form-textfield__input--success');
@@ -400,7 +407,7 @@ describe('Integration | Component | signup form', function() {
         await triggerEvent('#password', 'blur');
 
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(find('.form-textfield__message-password').getAttribute('class')).to.contain('form-textfield__message--success');
           expect(find('.form-textfield__message--error')).not.to.exist;
           expect(find('#password').getAttribute('class')).to.contain('form-textfield__input--success');
@@ -425,7 +432,7 @@ describe('Integration | Component | signup form', function() {
         await click('.button');
 
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(find('.sign-form__validation-error')).to.not.exist;
         });
       });
@@ -452,7 +459,7 @@ describe('Integration | Component | signup form', function() {
         await click('.button');
 
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(findAll('.form-textfield__input-field-container')[0].getAttribute('class')).contains(INPUT_TEXT_FIELD_CLASS_DEFAULT);
         });
       });

@@ -7,27 +7,24 @@
 
     <div class="competence-card__body">
       {{#if scorecard.isFinishedWithMaxLevel}}
-        {{#link-to "competences.details" scorecard.competenceId}}
+        <LinkTo @route="competences.details" @model={{scorecard.competenceId}}>
           <div class="competence-card__congrats competence-card__congrats--with-magnification">
             <div class="competence-card__level competence-card__level--congrats">
               <span class="score-label competence-card__score-label--congrats">Niveau</span>
               <span class="score-value competence-card__score-value competence-card__score-value--congrats">{{displayedLevel}}</span>
             </div>
           </div>
-        {{/link-to}}
+        </LinkTo>
       {{else}}
-        {{#link-to "competences.details" scorecard.competenceId class="competence-card__link"}}
-          {{#circle-chart value=scorecard.percentageAheadOfNextLevel
-                          sliceColor=scorecard.area.color
-                          chartClass='circle-chart__content--big'
-                          thicknessClass='circle--thick'}}
+        <LinkTo @route="competences.details" @model={{scorecard.competenceId}} class="competence-card__link">
+          <CircleChart @value={{scorecard.percentageAheadOfNextLevel}} @sliceColor={{scorecard.area.color}} @chartClass="circle-chart__content--big" @thicknessClass="circle--thick">
             <div class="competence-card__level">
               <span class="score-label">Niveau</span>
               <span class="score-value competence-card__score-value">{{replace-zero-by-dash displayedLevel}}</span>
               <span class="competence-card__score-details">détail</span>
             </div>
-          {{/circle-chart}}
-        {{/link-to}}
+          </CircleChart>
+        </LinkTo>
       {{/if}}
     </div>
 
@@ -38,8 +35,7 @@
   {{else}}
     <footer class="competence-card__footer">
       {{#unless scorecard.isFinished}}
-        {{#link-to "competences.resume" scorecard.competenceId
-                   class="button button--extra-thin button--round button--link button--green competence-card__button"}}
+        <LinkTo @route="competences.resume" @model={{scorecard.competenceId}} class="button button--extra-thin button--round button--link button--green competence-card__button">
           <span class="competence-card-button__label">
             {{#if scorecard.isStarted}}
               Reprendre
@@ -50,7 +46,7 @@
           <span class="competence-card-button__arrow">
             {{fa-icon 'long-arrow-alt-right'}}
           </span>
-        {{/link-to}}
+        </LinkTo>
       {{/unless}}
     </footer>
   {{/if}}
