@@ -31,20 +31,16 @@ async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropert
 
 async function getOdsVersionByHeaders({ odsBuffer, transformationStructsByVersion }) {
   const sheetDataRows = await _getSheetDataRowsFromOdsBuffer(odsBuffer);
-  let version = null;
-  _.some(transformationStructsByVersion, (transformationStruct) => {
-    const sheetHeaderRow = _findHeaderRow(sheetDataRows, transformationStruct.headers);
-    if (sheetHeaderRow) {
-      version = transformationStruct.version;
-      return true;
-    }
-  });
+  const transformationStruct = _.find(
+    transformationStructsByVersion,
+    (transformationStruct) => _findHeaderRow(sheetDataRows, transformationStruct.headers)
+  );
 
-  if (version) {
-    return version;
+  if (transformationStruct == undefined || transformationStruct.version == undefined) {
+    throw new UnprocessableEntityError('Unknown attendance sheet version');
   }
 
-  throw new UnprocessableEntityError('Unknown attendance sheet version');
+  return transformationStruct.version;
 }
 
 async function _getSheetDataRowsFromOdsBuffer(odsBuffer) {
