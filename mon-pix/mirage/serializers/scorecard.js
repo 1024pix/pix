@@ -1,6 +1,6 @@
-import BaseSerializer from './application';
+import ApplicationSerializer from './application';
 
-export default BaseSerializer.extend({
+export default ApplicationSerializer.extend({
   include: ['area'],
   links(record) {
     return {
