@@ -1,4 +1,10 @@
-import { click, fillIn, currentURL, find, findAll } from '@ember/test-helpers';
+import {
+  click,
+  fillIn,
+  currentURL,
+  find,
+  findAll
+} from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import {

@@ -16,8 +16,8 @@ export default Component.extend({
   showProgressBar: and('media.isDesktop', 'assessment.showProgressBar'),
 
   currentStepIndex: computed('answerId', 'assessment.answers.[]', 'challengeId', 'maxStepsNumber', function() {
-    const persistedAnswersIds = this.get('assessment').hasMany('answers').ids().filter((id) => id != null);
-    const currentAnswerId = this.get('answerId');
+    const persistedAnswersIds = this.assessment.hasMany('answers').ids().filter((id) => id != null);
+    const currentAnswerId = this.answerId;
 
     let index = persistedAnswersIds.indexOf(currentAnswerId);
 
@@ -33,7 +33,7 @@ export default Component.extend({
       return ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
     }
 
-    if (this.get('assessment').isCertification) {
+    if (this.assessment.isCertification) {
       return this.get('assessment.certificationCourse.nbChallenges');
     }
 

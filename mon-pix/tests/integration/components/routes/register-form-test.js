@@ -2,7 +2,13 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
 import { resolve } from 'rsvp';
-import { click, fillIn, find, render, triggerEvent } from '@ember/test-helpers';
+import {
+  click,
+  fillIn,
+  find,
+  render,
+  triggerEvent
+} from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';

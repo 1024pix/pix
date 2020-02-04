@@ -45,7 +45,7 @@
         <hr class="campaign-landing-page__dash-line">
 
         <div class="campaign-landing-page__start__custom-text">
-          {{markdown-to-html markdown=model.customLandingPageText}}
+          <MarkdownToHtml @markdown={{model.customLandingPageText}} />
         </div>
       {{/if}}
 

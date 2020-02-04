@@ -1,8 +1,6 @@
+import Model, { belongsTo, attr } from '@ember-data/model';
 import { equal, not } from '@ember/object/computed';
-import DS from 'ember-data';
 import ValueAsArrayOfString from './answer/value-as-array-of-string-mixin';
-
-const { Model, attr, belongsTo } = DS;
 
 export default Model.extend(ValueAsArrayOfString, {
 

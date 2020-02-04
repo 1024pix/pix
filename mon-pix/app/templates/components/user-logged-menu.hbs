@@ -7,20 +7,20 @@
   </div>
 
   {{#if _canDisplayMenu}}
-    {{#click-outside action=(action 'closeMenu')}}
+    <ClickOutside @action={{action "closeMenu"}}>
       <div class="logged-user-menu">
         <div class="logged-user-menu__details">
           <div class="logged-user-menu-details__fullname">{{currentUser.user.fullName}}</div>
           <div class="logged-user-menu-details__identifier">{{displayedIdentifier}}</div>
         </div>
-        {{#link-to 'user-certifications' class="logged-user-menu__link"}}
+        <LinkTo @route="user-certifications" class="logged-user-menu__link">
           Mes certifications
-        {{/link-to}}
-        {{#link-to 'logout' class="logged-user-menu__link logged-user-menu__link--last"}}
+        </LinkTo>
+        <LinkTo @route="logout" class="logged-user-menu__link logged-user-menu__link--last">
           {{fa-icon "power-off" class="logged-user-menu__icon"}}
           Se déconnecter
-        {{/link-to}}
+        </LinkTo>
       </div>
-    {{/click-outside}}
+    </ClickOutside>
   {{/if}}
 {{/if}}

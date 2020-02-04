@@ -1,7 +1,6 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import EmberObject, { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import EmberObject from '@ember/object';
 import { A as EmberArray } from '@ember/array';
 
 export default Component.extend({

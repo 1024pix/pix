@@ -1,10 +1,10 @@
 <div class="scorecard-details__header">
-  {{#link-to "profile" class="scorecard-details-header__return-button"}}
+  <LinkTo @route="profile" class="scorecard-details-header__return-button">
     <span class="icon-button scorecard-details-header-return-button__icon">
       {{fa-icon 'arrow-left'}}
     </span>
     Retour Profil
-  {{/link-to}}
+  </LinkTo>
 </div>
 
 <div class="scorecard-details__content">
@@ -32,15 +32,12 @@
             </div>
           </div>
         {{else}}
-          {{#circle-chart value=scorecard.percentageAheadOfNextLevel
-                          sliceColor=scorecard.area.color
-                          chartClass='circle-chart__content--big'
-                          thicknessClass='circle--thick'}}
+          <CircleChart @value={{scorecard.percentageAheadOfNextLevel}} @sliceColor={{scorecard.area.color}} @chartClass="circle-chart__content--big" @thicknessClass="circle--thick">
             <div class="competence-card__level">
               <span class="score-label">Niveau</span>
               <span class="score-value">{{replace-zero-by-dash level}}</span>
             </div>
-          {{/circle-chart}}
+          </CircleChart>
         {{/if}}
 
         <div class="scorecard-details-content-right-score-container__pix-earned">
@@ -57,14 +54,13 @@
     {{/if}}
 
     {{#unless scorecard.isFinished}}
-      {{#link-to "competences.resume" scorecard.competenceId
-                 class=(concat "button button--big button--thin button--round button--link button--green " (if scorecard.isNotStarted "" "scorecard-details__resume-or-start-button"))}}
+      <LinkTo @route="competences.resume" @model={{scorecard.competenceId}} class={{concat "button button--big button--thin button--round button--link button--green " (if scorecard.isNotStarted "" "scorecard-details__resume-or-start-button")}}>
         {{#if scorecard.isStarted}}
           Reprendre <div class="sr-only">la compétence "{{scorecard.name}}"</div>
         {{else}}
           Commencer <div class="sr-only">la compétence "{{scorecard.name}}"</div>
         {{/if}}
-      {{/link-to}}
+      </LinkTo>
     {{/unless}}
     {{#if displayResetButton}}
       <button class="link link--underline scorecard-details__reset-button" {{action "openModal"}}>
@@ -88,7 +84,7 @@
           <h3 class="tube__title">{{tube.practicalTitle}}</h3>
           <div class="tube__content">
             {{#each tube.tutorials as |tutorial|}}
-              {{tutorial-item-on-scorecard tutorial=tutorial}}
+              <TutorialItemOnScorecard @tutorial={{tutorial}} />
             {{/each}}
           </div>
         </div>
@@ -98,7 +94,7 @@
 </div>
 {{/if}}
 {{#if showResetModal}}
-  {{#pix-modal containerClass="scorecard-details__reset-modal pix-modal-dialog--wide" onClose=(action "closeModal") }}
+  <PixModal @containerClass="scorecard-details__reset-modal pix-modal-dialog--wide" @onClose={{action "closeModal"}}>
     <div class="pix-modal__close-link" aria-label="Fermer" {{action "closeModal"}}>
       <span>Fermer</span>
       <Fa-Icon @icon="times-circle" @class="logged-user-menu__icon"></Fa-Icon>
@@ -130,5 +126,5 @@
         <button class="button button--regular button--extra-thin button--grey" {{action "closeModal"}}>Annuler</button>
       </div>
     </div>
-  {{/pix-modal}}
+  </PixModal>
 {{/if}}

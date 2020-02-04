@@ -1,7 +1,5 @@
+import Model, { attr, belongsTo } from '@ember-data/model';
 import { computed } from '@ember/object';
-import DS from 'ember-data';
-
-const { Model, belongsTo, attr } = DS;
 
 export default Model.extend({
   testsFinished: attr('string'),

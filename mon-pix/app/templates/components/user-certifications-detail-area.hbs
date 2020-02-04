@@ -4,7 +4,7 @@
   </div>
   {{#each sortedCompetences as |competence index|}}
 
-    {{user-certifications-detail-competence competence=competence}}
+    <UserCertificationsDetailCompetence @competence={{competence}} />
 
   {{/each}}
 </div>

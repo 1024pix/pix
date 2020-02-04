@@ -1,7 +1,5 @@
+import Model, { hasMany, attr } from '@ember-data/model';
 import { and, empty } from '@ember/object/computed';
-import DS from 'ember-data';
-
-const { Model, attr, hasMany } = DS;
 
 export default Model.extend({
 

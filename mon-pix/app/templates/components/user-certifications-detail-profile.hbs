@@ -1,7 +1,7 @@
 <div>
 {{#each sortedAreas as |area index|}}
 
-  {{user-certifications-detail-area area=area}}
+  <UserCertificationsDetailArea @area={{area}} />
 
 {{/each}}
 

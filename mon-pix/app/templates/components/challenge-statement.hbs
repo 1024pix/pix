@@ -1,12 +1,12 @@
 {{#if challengeInstruction}}
   <div class="challenge-statement__instruction-section">
-    {{markdown-to-html class="challenge-statement__instruction" markdown=challengeInstruction}}
+    <MarkdownToHtml @class="challenge-statement__instruction" @markdown={{challengeInstruction}} />
   </div>
 {{/if}}
 
 {{#if challenge.illustrationUrl}}
   <div class="challenge-statement__illustration-section">
-    {{challenge-illustration src=challenge.illustrationUrl alt=challenge.illustrationAlt}}
+    <ChallengeIllustration @src={{challenge.illustrationUrl}} @alt={{challenge.illustrationAlt}} />
   </div>
 {{/if}}
 
@@ -62,5 +62,5 @@
 {{/if}}
 
 {{#if challenge.hasValidEmbedDocument}}
-  {{challenge-embed-simulator embedDocument=challengeEmbedDocument}}
+  <ChallengeEmbedSimulator @embedDocument={{challengeEmbedDocument}} />
 {{/if}}

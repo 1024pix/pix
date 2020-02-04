@@ -2,8 +2,7 @@
   <ul class="navbar-desktop-menu-links__list">
     {{#each menu as |item|}}
       <li class="navbar-desktop-menu-links__item">
-        {{#link-to item.link class="navbar-desktop-menu-links__link"
-                   classNameBindings="item.class"}}{{item.name}}{{/link-to}}
+        <LinkTo @route={{item.link}} class="navbar-desktop-menu-links__link {{item.class}}">{{item.name}}</LinkTo>
       </li>
     {{/each}}
   </ul>

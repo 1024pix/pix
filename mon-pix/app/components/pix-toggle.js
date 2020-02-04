@@ -8,11 +8,11 @@ export default Component.extend({
   isFirstOn: true,
 
   firstButtonClass: computed ('isFirstOn', function() {
-    return this.get('isFirstOn') ? 'pix-toggle__on' : 'pix-toggle__off';
+    return this.isFirstOn ? 'pix-toggle__on' : 'pix-toggle__off';
   }),
 
   secondButtonClass: computed ('isFirstOn', function() {
-    return this.get('isFirstOn') ? 'pix-toggle__off' : 'pix-toggle__on';
+    return this.isFirstOn ? 'pix-toggle__off' : 'pix-toggle__on';
   }),
 
   click: function(e) {
@@ -21,7 +21,7 @@ export default Component.extend({
       this.toggleProperty('isFirstOn');
     }
 
-    this.onToggle(this.get('isFirstOn'));
+    this.onToggle(this.isFirstOn);
   },
 
   actions: {

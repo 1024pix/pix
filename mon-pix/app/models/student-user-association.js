@@ -1,10 +1,10 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
 
-export default DS.Model.extend({
-  lastName: DS.attr('string'),
-  firstName: DS.attr('string'),
-  birthdate: DS.attr('date-only'),
-  campaignCode: DS.attr('string'),
-  username: DS.attr('string'),
+export default Model.extend({
+  lastName: attr('string'),
+  firstName: attr('string'),
+  birthdate: attr('date-only'),
+  campaignCode: attr('string'),
+  username: attr('string'),
 
 });

@@ -1,6 +1,6 @@
 {{#if isPublishedAndRejected}}
-  {{#cp-panel as |panel|}}
-    {{#panel.toggle class="certifications-list-item__row-presentation" role="tab"}}
+  <CpPanel as |panel|>
+    <panel.toggle @class="certifications-list-item__row-presentation" @role="tab">
 
       <div class="certifications-list-item__cell">
         {{moment-format certification.date 'DD/MM/YYYY' allow-empty=true}}
@@ -23,21 +23,21 @@
           </div>
         {{/if}}
       </div>
-    {{/panel.toggle}}
+    </panel.toggle>
 
     {{#if shouldDisplayComment}}
-      {{#panel.body class="certifications-list-item__row-comment" role="tabpanel"}}
+      <panel.body @class="certifications-list-item__row-comment" @role="tabpanel">
         <div class="certifications-list-item__row-comment-cell">
           {{certification.commentForCandidate}}
         </div>
-      {{/panel.body}}
+      </panel.body>
     {{/if}}
 
-  {{/cp-panel}}
+  </CpPanel>
 {{/if}}
 
 {{#if isPublishedAndValidated}}
-  {{#link-to 'user-certifications.get' certification.id class='certifications-list-item__row-presentation'}}
+  <LinkTo @route="user-certifications.get" @model={{certification.id}} class="certifications-list-item__row-presentation">
     <div class="certifications-list-item__cell">
       {{moment-format certification.date 'DD/MM/YYYY' allow-empty=true}}
     </div>
@@ -59,7 +59,7 @@
     <div class="certifications-list-item__cell-detail">
       <div class="certifications-list-item__cell-detail-link">VOIR LES RÉSULTATS</div>
     </div>
-  {{/link-to}}
+  </LinkTo>
 {{/if}}
 
 {{#if isNotPublished}}

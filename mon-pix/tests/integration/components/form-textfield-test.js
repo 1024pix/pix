@@ -1,9 +1,16 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { beforeEach, describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import { click, find, findAll, fillIn, triggerEvent, render } from '@ember/test-helpers';
+import {
+  click,
+  fillIn,
+  find,
+  findAll,
+  render,
+  settled,
+  triggerEvent
+} from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import wait from 'ember-test-helpers/wait';
 
 describe('Integration | Component | form textfield', function() {
   setupRenderingTest();
@@ -81,7 +88,7 @@ describe('Integration | Component | form textfield', function() {
       await fillIn(INPUT, 'pix');
       await triggerEvent(INPUT, 'blur');
       // then
-      return wait().then(() => {
+      return settled().then(() => {
         expect(isActionValidateHandled).to.be.true;
         expect(inputValueToValidate).to.deep.equal(expectedInputValue);
       });
@@ -124,7 +131,7 @@ describe('Integration | Component | form textfield', function() {
 
       it('return true if any img does exist', function() {
         // then
-        return wait().then(() => {
+        return settled().then(() => {
           expect(findAll('img')).to.have.lengthOf(1);
           expect(find('img').getAttribute('class')).to.contain('form-textfield-icon__state--error');
         });
