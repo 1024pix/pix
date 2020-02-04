@@ -318,8 +318,9 @@ function rawBuildChallenge({
 }) {
 
   return {
-    'id': id,
+    id,
     'fields': {
+      id,
       'Consigne': consigne,
       'Propositions': propositions,
       'Type d\'épreuve': typeDEpreuve,

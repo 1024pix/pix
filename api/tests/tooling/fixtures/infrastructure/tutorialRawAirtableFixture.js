@@ -4,6 +4,7 @@ module.exports = function tutorialRawAirTableFixture() {
   return new AirtableRecord('Tutorial', 'receomyzL0AmpMFGw',{
     'id': 'receomyzL0AmpMFGw',
     'fields': {
+      'id': 'receomyzL0AmpMFGw',
       'Durée': '00:01:30',
       'Format': 'video',
       'Lien': 'https://youtube.fr',

@@ -8,6 +8,7 @@ module.exports = datasource.extend({
   tableName: 'Tubes',
 
   usedFields: [
+    'id',
     'Nom',
     'Titre',
     'Description',
@@ -17,7 +18,7 @@ module.exports = datasource.extend({
 
   fromAirTableObject(airtableRecord) {
     return {
-      id: airtableRecord.getId(),
+      id: airtableRecord.get('id'),
       name: airtableRecord.get('Nom'),
       title: airtableRecord.get('Titre'),
       description: airtableRecord.get('Description'),

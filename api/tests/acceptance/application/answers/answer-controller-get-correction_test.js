@@ -25,6 +25,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
           records: [{
             'id': 'q_first_challenge',
             'fields': {
+              'id': 'q_first_challenge',
               'Statut': 'validé',
               'competences': ['competence_id'],
               'acquis': ['@web3'],
@@ -41,6 +42,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
           records: [{
             'id': 'q_first_acquis',
             'fields': {
+              'id': 'q_first_acquis',
               'Nom': '@web3',
               'Indice': 'Indice web3',
               'Statut de l\'indice': 'Validé',

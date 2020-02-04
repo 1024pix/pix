@@ -10,6 +10,7 @@ module.exports = datasource.extend({
   tableName: 'Acquis',
 
   usedFields: [
+    'id',
     'Nom',
     'Indice',
     'Statut de l\'indice',
@@ -28,7 +29,7 @@ module.exports = datasource.extend({
     }
 
     return {
-      id: airtableRecord.getId(),
+      id: airtableRecord.get('id'),
       name: airtableRecord.get('Nom'),
       hint: airtableRecord.get('Indice'),
       hintStatus: airtableRecord.get('Statut de l\'indice') || 'no status',

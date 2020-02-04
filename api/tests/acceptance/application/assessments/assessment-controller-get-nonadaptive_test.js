@@ -22,6 +22,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
           'id': 'a_non_adaptive_course_id',
           'fields': {
             // a bunch of fields
+            'id': 'a_non_adaptive_course_id',
             'Adaptatif ?': false,
             'Competence': ['competence_id'],
             '\u00c9preuves': [
@@ -39,6 +40,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
         records: [{
           'id': 'competence_id',
           'fields': {
+            'id': 'competence_id',
             'Titre': 'Mener une recherche et une veille d\'information',
             'Sous-domaine': '1.1',
             'Référence': '1.1 Mener une recherche et une veille d\'information',
@@ -57,18 +59,21 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
           [{
             'id': 'first_challenge',
             'fields': {
+              'id': 'first_challenge',
               'competences': ['competence_id'],
               // a bunch of fields
             },
           }, {
             'id': 'second_challenge',
             'fields': {
+              'id': 'second_challenge',
               'competences': ['competence_id'],
               // a bunch of fields
             },
           }, {
             'id': 'third_challenge',
             'fields': {
+              'id': 'third_challenge',
               'competences': ['competence_id'],
               // a bunch of fields
             },

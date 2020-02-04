@@ -16,6 +16,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
       const airtableRecord = new AirtableRecord('Course', 'recCourse123', {
         'id': 'recCourse123',
         'fields': {
+          'id': 'recCourse123',
           'Nom': 'course-name',
           'Description': 'course-description',
           'Adaptatif ?': false,

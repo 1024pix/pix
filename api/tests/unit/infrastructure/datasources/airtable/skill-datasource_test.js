@@ -33,28 +33,28 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
     it('should return an array of airtable skill data objects -- PARTS II -- ', function() {
       // given
       const rawSkill1 = skillRawAirTableFixture();
-      rawSkill1.id = 'FAKE_REC_ID_RAW_SKILL_1';
+      rawSkill1.fields.id = 'FAKE_REC_ID_RAW_SKILL_1';
 
       const rawSkill2 = skillRawAirTableFixture();
-      rawSkill2.id = 'FAKE_REC_ID_RAW_SKILL_2';
+      rawSkill2.fields.id = 'FAKE_REC_ID_RAW_SKILL_2';
 
       const rawSkill3 = skillRawAirTableFixture();
-      rawSkill3.id = 'FAKE_REC_ID_RAW_SKILL_3';
+      rawSkill3.fields.id = 'FAKE_REC_ID_RAW_SKILL_3';
 
       const rawSkill4 = skillRawAirTableFixture();
-      rawSkill4.id = 'FAKE_REC_ID_RAW_SKILL_4';
+      rawSkill4.fields.id = 'FAKE_REC_ID_RAW_SKILL_4';
       rawSkill4.fields['Status'] = 'périmé';
 
       const records = [rawSkill1, rawSkill2, rawSkill3, rawSkill4];
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake(records));
 
       // when
-      const promise = skillDatasource.findByRecordIds([rawSkill1.id, rawSkill2.id, rawSkill4.id]);
+      const promise = skillDatasource.findByRecordIds([rawSkill1.fields.id, rawSkill2.fields.id, rawSkill4.fields.id]);
 
       // then
       return promise.then((foundSkills) => {
         expect(foundSkills).to.be.an('array');
-        expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
+        expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.fields.id, rawSkill2.fields.id]);
         expect(airtable.findRecords).to.have.been.calledWith('Acquis');
 
       });
@@ -88,7 +88,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
       // then
       return promise.then((foundSkills) => {
-        expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
+        expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.fields.id, rawSkill2.fields.id]);
       });
     });
 
@@ -106,7 +106,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
       // then
       return promise.then((foundSkills) => {
-        expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
+        expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.fields.id, rawSkill2.fields.id]);
       });
     });
   });
@@ -116,6 +116,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
     beforeEach(() => {
       const acquix1 = new AirtableRecord('Acquis', 'recAcquix1', {
         fields: {
+          id: 'recAcquix1',
           'Nom': '@acquix1',
           'Status': 'actif',
           'Compétence (via Tube)': ['recCompetence']
@@ -123,13 +124,15 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       });
       const acquix2 = new AirtableRecord('Acquis', 'recAcquix2', {
         fields: {
+          id: 'recAcquix2',
           'Nom': '@acquix2',
           'Status': 'actif',
           'Compétence (via Tube)': ['recCompetence']
         }
       });
-      const acquix3 = new AirtableRecord('Acquis', 'recAcquix2', {
+      const acquix3 = new AirtableRecord('Acquis', 'recAcquix3', {
         fields: {
+          id: 'recAcquix3',
           'Nom': '@acquix3',
           'Status': 'en construction',
           'Compétence (via Tube)': ['recCompetence']
@@ -137,6 +140,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       });
       const acquix4 = new AirtableRecord('Acquis', 'recAcquix4', {
         fields: {
+          id: 'recAcquix4',
           'Nom': '@acquix4',
           'Status': 'actif',
           'Compétence (via Tube)': ['recOtherCompetence']
