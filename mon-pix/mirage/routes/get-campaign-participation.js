@@ -11,5 +11,4 @@ export default function(schema, request) {
     return campaignParticipations;
   }
   return schema.campaignParticipations.all();
-
 }
