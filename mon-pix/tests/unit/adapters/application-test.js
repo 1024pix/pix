@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { it, describe } from 'mocha';
 import { setupTest } from 'ember-mocha';
-import sinon from 'sinon';
 
 describe('Unit | Route | subscribers', function() {
   setupTest();
@@ -14,36 +13,26 @@ describe('Unit | Route | subscribers', function() {
     expect(applicationAdapter.namespace).to.equal('api');
   });
 
-  it('should add header with authentication token ', function() {
+  it('should add header with authentication token when the session is authenticated', function() {
     // Given
-    const xhr = {
-      setRequestHeader: sinon.stub()
-    };
     const access_token = '23456789';
     const applicationAdapter = this.owner.lookup('adapter:application');
 
     // When
-    applicationAdapter.set('session', { data: { authenticated: { access_token } } });
-    applicationAdapter.authorize(xhr);
+    applicationAdapter.set('session', { isAuthenticated: true, data: { authenticated: { access_token } } });
 
     // Then
-    sinon.assert.calledWith(xhr.setRequestHeader, 'Authorization', `Bearer ${access_token}`);
+    expect(applicationAdapter.headers['Authorization']).to.equal(`Bearer ${access_token}`);
   });
 
-  it('should not set Authorization header without token ', function() {
+  it('should not add header authentication token when the session is not authenticated', function() {
     // Given
-    const xhr = {
-      setRequestHeader: sinon.stub()
-    };
-    const access_token = '';
     const applicationAdapter = this.owner.lookup('adapter:application');
 
     // When
-    applicationAdapter.set('session', { data: { authenticated: { access_token } } });
-    applicationAdapter.authorize(xhr);
+    applicationAdapter.set('session', {});
 
     // Then
-    sinon.assert.notCalled (xhr.setRequestHeader);
+    expect(applicationAdapter.headers['Authorization']).to.be.undefined;
   });
-
 });

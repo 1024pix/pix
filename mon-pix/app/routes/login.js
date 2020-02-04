@@ -7,7 +7,7 @@ export default Route.extend(UnauthenticatedRouteMixin, {
   session: service(),
 
   actions: {
-    authenticate(login, password) {
+    async authenticate(login, password) {
       const scope = 'mon-pix';
       const trimedLogin = login ? login.trim() : '';
       return this.session.authenticate('authenticator:oauth2', { login: trimedLogin, password, scope });
