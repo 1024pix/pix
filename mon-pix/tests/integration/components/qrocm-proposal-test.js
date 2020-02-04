@@ -98,6 +98,9 @@ describe('Integration | Component | QROCm proposal', function() {
       { proposals: '- ${NumA} Il classe les pages trouvées pour les présenter\n- ${NumB} Il sélectionne  les pages correspondant aux mots', expectedAriaLabel: ['Réponse 1', 'Réponse 2'] },
     ].forEach((data) => {
       describe(`Component aria-label accessibility when proposal is ${data.proposals}`, function() {
+
+        let allInputElements;
+
         beforeEach(async function() {
           // given
           this.set('proposals', data.proposals);
@@ -106,12 +109,15 @@ describe('Integration | Component | QROCm proposal', function() {
 
           // when
           await render(hbs`{{qrocm-proposal proposals=proposals format=format answerValue=answerValue}}`);
+
+          //then
+          allInputElements = findAll('.challenge-response__proposal');
         });
 
         it('should have an aria-label', async function() {
           // then
-          expect(findAll('.challenge-response__proposal').length).to.be.above(0);
-          findAll('.challenge-response__proposal').forEach((element, index) => {
+          expect(allInputElements.length).to.be.equal(data.expectedAriaLabel.length);
+          allInputElements.forEach((element, index) => {
             expect(element.getAttribute('aria-label')).to.equal(data.expectedAriaLabel[index]);
           });
         });
@@ -128,6 +134,8 @@ describe('Integration | Component | QROCm proposal', function() {
     ].forEach((data) => {
       describe(`Component label accessibility when proposal is ${data.proposals}`, function() {
 
+        let allLabelElements, allInputElements;
+
         beforeEach(async function() {
           // given
           this.set('proposals', data.proposals);
@@ -136,12 +144,17 @@ describe('Integration | Component | QROCm proposal', function() {
 
           // when
           await render(hbs`{{qrocm-proposal proposals=proposals format=format answerValue=answerValue}}`);
+
+          //then
+          allLabelElements = findAll('label');
+          allInputElements = findAll('.challenge-response__proposal');
         });
 
         it('should have a label', async function() {
           // then
-          expect(findAll('label').length).to.be.above(0);
-          findAll('label').forEach((element, index) => {
+          expect(allLabelElements.length).to.be.equal(allInputElements.length);
+          expect(allLabelElements.length).to.be.equal(data.expectedLabel.length);
+          allLabelElements.forEach((element, index) => {
             expect(element.textContent).to.equal(data.expectedLabel[index]);
           });
         });
@@ -153,12 +166,10 @@ describe('Integration | Component | QROCm proposal', function() {
 
         it('should connect the label with the input', async function() {
           // then
-          expect(findAll('.challenge-response__proposal').length).to.be.above(0);
-          expect(findAll('.challenge-response__proposal').length).to.equal(findAll('label').length);
-          findAll('.challenge-response__proposal').forEach((element, index) => {
-            const expectedInputId = findAll('.challenge-response__proposal')[index].getAttribute('id');
-            expect(findAll('label')[index].getAttribute('for')).to.equal(expectedInputId);
-          });
+          expect(allInputElements.length).to.equal(allLabelElements.length);
+          const allInputElementsId = allInputElements.map((inputElement) => inputElement.getAttribute('id'));
+          const allLabelElementsFor = allLabelElements.map((labelElement) => labelElement.getAttribute('for'));
+          expect(allInputElementsId).to.deep.equal(allLabelElementsFor);
         });
       });
     });
