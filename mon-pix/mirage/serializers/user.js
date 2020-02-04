@@ -1,6 +1,16 @@
 import ApplicationSerializer from './application';
 
 export default ApplicationSerializer.extend({
+  attributes: [
+    'firstName',
+    'lastName',
+    'email',
+    'username',
+    'cgu',
+    'pixOrgaTermsOfServiceAccepted',
+    'pixCertifTermsOfServiceAccepted',
+    'hasSeenAssessmentInstructions',
+  ],
   include: ['competences', 'organizations'],
   links(user) {
     return {
@@ -15,6 +25,12 @@ export default ApplicationSerializer.extend({
       },
       campaignParticipations: {
         related: `/api/users/${user.id}/campaign-participations`
+      },
+      certificationCenterMemberships: {
+        related: `/api/users/${user.id}/certification-center-memberships`
+      },
+      memberships: {
+        related: `/api/users/${user.id}/memberships`
       }
     };
   }
