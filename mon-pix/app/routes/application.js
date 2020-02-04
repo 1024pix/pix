@@ -34,9 +34,7 @@ export default Route.extend(ApplicationRouteMixin, {
   },
 
   // XXX: For override the sessionInvalidated from ApplicationRouteMixin to avoid the automatic redirection
-  sessionInvalidated() {
-    this.transitionTo('login');
-  },
+  sessionInvalidated() {},
 
   _loadCurrentUser() {
     return this.get('currentUser').load().catch(() => this.get('session').invalidate());
