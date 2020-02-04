@@ -101,15 +101,7 @@ export default Controller.extend({
         });
       }, (errorResponse) => {
         studentUserAssociation.unloadRecord();
-        errorResponse.errors.forEach((error) => {
-          if (error.status === '409') {
-            return this.set('errorMessage', 'Les informations saisies ont déjà été utilisées. Prévenez l’organisateur de votre parcours.');
-          }
-          if (error.status === '404') {
-            return this.set('errorMessage', 'Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
-          }
-          return this.set('errorMessage', error.detail);
-        });
+        this._setErrorMessageForAttemptNextAction(errorResponse)
         this.set('isLoading', false);
       });
     },
@@ -135,6 +127,18 @@ export default Controller.extend({
       this.set('yearOfBirth', value);
       this._validateInputYear(key, value);
     },
+  },
+
+  _setErrorMessageForAttemptNextAction(errorResponse) {
+    errorResponse.errors.forEach((error) => {
+      if (error.status === '409') {
+        return this.set('errorMessage', 'Les informations saisies ont déjà été utilisées. Prévenez l’organisateur de votre parcours.');
+      }
+      if (error.status === '404') {
+        return this.set('errorMessage', 'Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
+      }
+      return this.set('errorMessage', error.detail);
+    });
   },
 
   _executeFieldValidation(key, value, isValid) {
