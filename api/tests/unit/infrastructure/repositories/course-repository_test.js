@@ -1,5 +1,4 @@
 const { expect, sinon } = require('../../../test-helper');
-const _ = require('lodash');
 
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const Course = require('../../../../lib/domain/models/Course');
@@ -11,11 +10,11 @@ describe('Unit | Repository | course-repository', function() {
 
     beforeEach(() => {
       sinon.stub(courseDatasource, 'get')
-        .withArgs('recTestAdaptative')
+        .withArgs('recTest1')
         .resolves({
-          id: 'recTestAdaptative',
-          name: 'adaptive-course-name',
-          adaptive: true,
+          id: 'recTest1',
+          name: 'a-course-name',
+          adaptive: false,
           description: 'course-description',
           imageUrl: 'http://example.org/course.png',
           challenges: ['recChallenge1', 'recChallenge2'],
@@ -25,13 +24,14 @@ describe('Unit | Repository | course-repository', function() {
 
     it('should return Course domain objects', () => {
       // when
-      const promise = courseRepository.get('recTestAdaptative');
+      const promise = courseRepository.get('recTest1');
 
       // then
       return promise.then((course) => {
         expect(course).to.be.an.instanceOf(Course);
-        expect(course.id).to.equal('recTestAdaptative');
-        expect(course.type).to.equal('PLACEMENT');
+        expect(course.id).to.equal('recTest1');
+        expect(course.name).to.equal('a-course-name');
+        expect(course.type).to.equal('DEMO');
         expect(course.description).to.equal('course-description');
         expect(course.imageUrl).to.equal('http://example.org/course.png');
         expect(course.challenges).to.deep.equal(['recChallenge1', 'recChallenge2']);
@@ -41,48 +41,24 @@ describe('Unit | Repository | course-repository', function() {
 
   });
 
-  describe('#getAdaptiveCourses', () => {
-
-    beforeEach(() => {
-      sinon.stub(courseDatasource, 'findAdaptiveCourses')
-        .resolves([{
-          id: 'recTestAdaptative',
-          name: 'adaptive-course-name',
-        }]);
-    });
-
-    it('should return Course domain objects', () => {
-      // when
-      const promise = courseRepository.getAdaptiveCourses();
-
-      // then
-      return promise.then((courses) => {
-        expect(_.map(courses, 'id')).to.deep.equal(['recTestAdaptative']);
-        expect(courses[0]).to.be.an.instanceOf(Course);
-      });
-    });
-
-  });
-
   describe('#getCourseName', function() {
 
     beforeEach(() => {
       sinon.stub(courseDatasource, 'get')
-        .withArgs('recTestAdaptative')
+        .withArgs('recTest2')
         .resolves({
-          id: 'recTestAdaptative',
-          name: 'adaptive-course-name',
-          adaptive: true,
+          id: 'recTest2',
+          name: 'a-course-name',
         });
     });
 
     it('should return Course domain objects', () => {
       // when
-      const promise = courseRepository.getCourseName('recTestAdaptative');
+      const promise = courseRepository.getCourseName('recTest2');
 
       // then
       return promise.then((courseName) => {
-        expect(courseName).to.equal('adaptive-course-name');
+        expect(courseName).to.equal('a-course-name');
       });
     });
 
