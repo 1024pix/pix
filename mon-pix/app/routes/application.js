@@ -33,7 +33,10 @@ export default Route.extend(ApplicationRouteMixin, {
     _super.call(this, ...arguments);
   },
 
-  // XXX: For override the sessionInvalidated from ApplicationRouteMixin to avoid the automatic redirection
+  // We need to override the sessionInvalidated from ApplicationRouteMixin
+  // to avoid the automatic redirection to login
+  // when coming from the GAR authentication
+  // https://github.com/simplabs/ember-simple-auth/blob/a3d51d65b7d8e3a2e069c0af24aca2e12c7c3a95/addon/mixins/application-route-mixin.js#L132
   sessionInvalidated() {},
 
   _loadCurrentUser() {
