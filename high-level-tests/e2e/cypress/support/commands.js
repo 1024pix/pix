@@ -60,6 +60,18 @@ Cypress.Commands.add('loginExternalPlatform', () => {
   cy.wait(['@getCurrentUser']);
 });
 
+Cypress.Commands.add('loginWithAlmostExpiredToken', () => {
+  cy.server();
+  cy.route('/api/users/me').as('getCurrentUser');
+  const token = jsonwebtoken.sign(
+    { user_id: 1 },
+    Cypress.env('AUTH_SECRET'),
+    { expiresIn: '2s' }
+  );
+  cy.visitMonPix(`/?token=${token}`);
+  cy.wait(['@getCurrentUser']);
+});
+
 Cypress.Commands.add('visitOrga', (url) => {
   return cy.visit(url, { app: 'orga' });
 });
