@@ -95,17 +95,17 @@ class ResponseBlock {
   }
 
   attachLabel({ isInputField, ariaLabelNeeded, prevBlockText, questionIdx }) {
-    if (isInputField
-        && !ariaLabelNeeded
+    if (!isInputField) {
+      return false;
+    }
+    if (!ariaLabelNeeded
         && this._hasPrevBlockText(prevBlockText)) {
       this._text = prevBlockText;
-      return true;
     }
-    else if (isInputField) {
+    else {
       this._ariaLabel = 'Réponse ' + questionIdx;
-      return true;
     }
-    return false;
+    return true;
   }
 
   _hasPrevBlockText(prevBlockText) {
