@@ -1,3 +1,7 @@
+.logged-user-container{
+  position: relative;
+}
+
 .logged-user-summary {
   letter-spacing: 0.03125rem;
   text-align: right;
@@ -42,8 +46,8 @@
   box-shadow: $box-shadow-user-logged-menu;
   overflow: hidden;
   position: absolute;
-  right: 30px;
-  top: 60px;
+  right: 0;
+  top: 49px;
   width: 400px;
 
   &-item {
