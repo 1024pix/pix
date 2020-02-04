@@ -2,11 +2,11 @@ const AirtableRecord = require('airtable').Record;
 
 module.exports = function challengeRawAirTableFixture({ id, fields } = { id: 'recwWzTquPlvIl4So', fields: { } }) {
   return new AirtableRecord('Epreuves', id, {
-    'id': id,
+    id,
     'fields': Object.assign({
+      id,
       'Consigne': 'Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?',
       'Propositions': '- 1\n- 2\n- 3\n- 4\n- 5',
-      'id': 49,
       'Type d\'épreuve': 'QCM',
       'Tests': [
         'rec8JuSJXIaGEb87M',

@@ -4,6 +4,7 @@ module.exports = function tubeRawAirTableFixture() {
   return new AirtableRecord('Tubes', 'recTIddrkopID23Fp',{
     'id': 'recTIddrkopID23Fp',
     'fields': {
+      'id': 'recTIddrkopID23Fp',
       'Nom': '@Moteur',
       'Titre': 'Moteur de recherche',
       'Description': 'Connaître le fonctionnement d\'un moteur de recherche',

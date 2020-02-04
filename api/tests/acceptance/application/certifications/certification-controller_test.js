@@ -192,6 +192,7 @@ describe('Acceptance | API | Certifications', () => {
             {
               'id': 'recsvLz0W2ShyfD63',
               'fields': {
+                'id': 'recsvLz0W2ShyfD63',
                 'Domaine': [
                   'recvoGdo7z2z7pXWa',
                 ],
@@ -247,6 +248,7 @@ describe('Acceptance | API | Certifications', () => {
             {
               'id': 'recNv8qhaY887jQb2',
               'fields': {
+                'id': 'recNv8qhaY887jQb2',
                 'Domaine': [
                   'recvoGdo7z2z7pXWa',
                 ],
@@ -302,6 +304,7 @@ describe('Acceptance | API | Certifications', () => {
             {
               'id': 'recIkYm646lrGvLNT',
               'fields': {
+                'id': 'recIkYm646lrGvLNT',
                 'Domaine': [
                   'recvoGdo7z2z7pXWa',
                 ],
@@ -364,6 +367,7 @@ describe('Acceptance | API | Certifications', () => {
             {
               'id': 'recvoGdo7z2z7pXWa',
               'fields': {
+                'id': 'recvoGdo7z2z7pXWa',
                 'Competences (identifiants)': [
                   'recsvLz0W2ShyfD63',
                   'recNv8qhaY887jQb2',

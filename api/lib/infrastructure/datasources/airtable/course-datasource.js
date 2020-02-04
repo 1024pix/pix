@@ -8,6 +8,7 @@ module.exports = datasource.extend({
   tableName: 'Tests',
 
   usedFields: [
+    'id',
     'Nom',
     'Description',
     'Adaptatif ?',
@@ -23,7 +24,7 @@ module.exports = datasource.extend({
     }
 
     return {
-      id: airtableRecord.getId(),
+      id: airtableRecord.get('id'),
       name: airtableRecord.get('Nom'),
       description: airtableRecord.get('Description'),
       adaptive: airtableRecord.get('Adaptatif ?'),

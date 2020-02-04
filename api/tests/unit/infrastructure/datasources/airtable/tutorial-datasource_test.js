@@ -33,12 +33,15 @@ describe('Unit | Infrastructure | Datasource | Airtable | TutorialDatasource', (
       // given
       const rawTutorial1 = tutorialRawAirTableFixture();
       rawTutorial1.id = 'FAKE_REC_ID_RAW_TUTORIAL_1';
+      rawTutorial1.fields.id = rawTutorial1.id;
 
       const rawTutorial2 = tutorialRawAirTableFixture();
       rawTutorial2.id = 'FAKE_REC_ID_RAW_TUTORIAL_2';
+      rawTutorial2.fields.id = rawTutorial2.id;
 
       const rawTutorial3 = tutorialRawAirTableFixture();
       rawTutorial3.id = 'FAKE_REC_ID_RAW_TUTORIAL_3';
+      rawTutorial3.fields.id = rawTutorial3.id;
 
       const records = [rawTutorial1, rawTutorial2, rawTutorial3];
       sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake(records));

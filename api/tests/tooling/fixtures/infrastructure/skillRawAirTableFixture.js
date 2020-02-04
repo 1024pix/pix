@@ -4,6 +4,7 @@ module.exports = function skillRawAirTableFixture() {
   return new AirtableRecord('Skill', 'recTIddrkopID28Ep',{
     'id': 'recTIddrkopID28Ep',
     'fields': {
+      'id': 'recTIddrkopID28Ep',
       'Nom': '@accesDonnées1',
       'Indice': 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?',
       'Statut de l\'indice': 'Validé',

@@ -67,8 +67,9 @@ module.exports = function buildCompetence({
 } = {}) {
 
   return {
-    'id': id,
+    id,
     'fields': {
+      id,
       'Domaine': domaineIds,
       'Epreuves': epreuves,
       'Sous-domaine': sousDomaine,

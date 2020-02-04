@@ -24,6 +24,7 @@ describe('Acceptance | API | Courses', () => {
           records: [{
             id: 'rec_course_id',
             fields: {
+              id: 'rec_course_id',
               'Nom': 'A la recherche de l\'information #01',
               'Description': 'Mener une recherche et une veille d\'information',
               'Image': [{
@@ -52,7 +53,9 @@ describe('Acceptance | API | Courses', () => {
         .reply(200, {
           records: [{
             id: 'k_challenge_id',
-            fields: {},
+            fields: {
+              id: 'k_challenge_id',
+            },
           }]
         });
     });

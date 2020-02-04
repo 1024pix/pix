@@ -34,8 +34,9 @@ module.exports = function buildSkill({
 } = {}) {
 
   return {
-    'id': id,
+    id,
     'fields': {
+      id,
       'Indice': indice,
       'Statut de l\'indice': statutDeLIndice,
       'Epreuves': epreuves,

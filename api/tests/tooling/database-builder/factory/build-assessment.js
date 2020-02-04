@@ -17,7 +17,7 @@ module.exports = function buildAssessment({
   updatedAt = faker.date.past(),
 } = {}) {
 
-  if (type != 'DEMO') {
+  if (type !== 'DEMO') {
     userId = _.isUndefined(userId) ? buildUser().id : userId;
   }
 

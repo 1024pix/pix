@@ -10,6 +10,7 @@ module.exports = datasource.extend({
   tableName: 'Epreuves',
 
   usedFields: [
+    'id',
     'Illustration de la consigne',
     'Pièce jointe',
     'Compétences (via tube)',
@@ -55,7 +56,7 @@ module.exports = datasource.extend({
     }
 
     return {
-      id: airtableRecord.getId(),
+      id: airtableRecord.get('id'),
       instruction: airtableRecord.get('Consigne'),
       proposals: airtableRecord.get('Propositions'),
       type: airtableRecord.get('Type d\'épreuve'),
