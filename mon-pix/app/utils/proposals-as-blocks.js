@@ -54,7 +54,7 @@ function isAriaLabelNeededForInputs(lines) {
 }
 
 function buildLineFrom(blocks, ariaLabelNeeded, challengeResponseTemplate) {
-  let prevBlockText = '';
+  let previousBlockText = '';
   for (let blockIdx = 0; blockIdx < blocks.length; blockIdx += 1) {
     const { isInput, block } = parseInput((isInput || false), blocks[blockIdx]);
     if (!block) {
@@ -68,9 +68,9 @@ function buildLineFrom(blocks, ariaLabelNeeded, challengeResponseTemplate) {
     const didAttachedLabel = block.attachLabel({
       isInputField,
       ariaLabelNeeded,
-      prevBlockText,
+      previousBlockText,
       questionIdx: challengeResponseTemplate.inputCount });
-    prevBlockText = didAttachedLabel ? '' : block.text;
+    previousBlockText = didAttachedLabel ? '' : block.text;
 
     const canAddBlockToTemplate = ariaLabelNeeded || isInputField || isLastElement(blockIdx, blocks);
     challengeResponseTemplate.add({ canAddBlockToTemplate, block: block.get() });
@@ -94,13 +94,13 @@ class ResponseBlock {
     }
   }
 
-  attachLabel({ isInputField, ariaLabelNeeded, prevBlockText, questionIdx }) {
+  attachLabel({ isInputField, ariaLabelNeeded, previousBlockText, questionIdx }) {
     if (!isInputField) {
       return false;
     }
     if (!ariaLabelNeeded
-        && this._hasPrevBlockText(prevBlockText)) {
-      this._text = prevBlockText;
+        && this._hasPreviousBlockText(previousBlockText)) {
+      this._text = previousBlockText;
     }
     else {
       this._ariaLabel = 'Réponse ' + questionIdx;
@@ -108,8 +108,8 @@ class ResponseBlock {
     return true;
   }
 
-  _hasPrevBlockText(prevBlockText) {
-    return !(prevBlockText.trim().length === 1 && prevBlockText[0] === '-');
+  _hasPreviousBlockText(previousBlockText) {
+    return !(previousBlockText.trim().length === 1 && previousBlockText[0] === '-');
   }
 
   get input() {
