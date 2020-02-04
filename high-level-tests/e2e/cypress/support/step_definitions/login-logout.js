@@ -40,3 +40,12 @@ then(`je suis redirigé vers le compte Orga de {string}`, (fullName) => {
     expect(title.text()).to.contains('Campagnes');
   });
 });
+
+when(`je me déconnecte`, () => {
+  cy.get('.logged-user-name__link').click();
+  cy.get('.logged-user-menu__link--last').click();
+});
+
+then(`je suis redirigé vers la page {string}`, (pathname) => {
+  cy.url().should('include', pathname);
+});
