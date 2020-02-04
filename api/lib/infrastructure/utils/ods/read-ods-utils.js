@@ -95,9 +95,17 @@ function _mapSheetHeadersWithProperties(sheetHeaderRow, tableHeaderTargetPropert
     .value();
 }
 
+function _findTargetPropertiesByHeader(tableHeaderTargetPropertyMap, header) {
+  const mapWithSanitizedHeaders = _.map(
+    tableHeaderTargetPropertyMap,
+    (obj) => ({ ...obj, header: _removeNewlineCharactersFromHeader(obj.header) }));
+
+  return _.find(mapWithSanitizedHeaders, { header: _removeNewlineCharactersFromHeader(header) });
+}
+
 function _addTargetDatas(tableHeaderTargetPropertyMap) {
   return (header, columnName) => {
-    const targetProperties = _.find(tableHeaderTargetPropertyMap, { header });
+    const targetProperties = _findTargetPropertiesByHeader(tableHeaderTargetPropertyMap, header);
     if (targetProperties) {
       const { property: targetProperty, transformFn } = targetProperties;
       return { columnName, targetProperty, transformFn };
