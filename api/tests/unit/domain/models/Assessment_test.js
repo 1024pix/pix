@@ -360,28 +360,6 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#canBeScored', () => {
-
-    [
-      { type: Assessment.types.CERTIFICATION,  state: Assessment.states.STARTED,   expected: false },
-      { type: Assessment.types.CERTIFICATION,  state: Assessment.states.COMPLETED, expected: true  },
-      { type: Assessment.types.DEMO,           state: Assessment.states.COMPLETED, expected: false },
-      { type: Assessment.types.PREVIEW,        state: Assessment.states.COMPLETED, expected: false },
-      { type: Assessment.types.SMARTPLACEMENT, state: Assessment.states.COMPLETED, expected: false },
-    ].forEach((data) => {
-      it(`should return ${data.expected} when assessment has type ${data.type} and state ${data.state}`, () => {
-        // given
-        const assessment = domainBuilder.buildAssessment({ type: data.type, state: data.state });
-
-        // when
-        const result = assessment.canBeScored();
-
-        // then
-        expect(result).to.equal(data.expected);
-      });
-    });
-  });
-
   describe('#isCertifiable', () => {
 
     it('should return true when the last assessment has a level > 0', () => {
