@@ -1,9 +1,17 @@
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 
 export default Component.extend({
 
-  // Public props
   organization: null,
+
+  isOrganizationSCO: computed('organization.type', function() {
+    return this.organization.type === 'SCO';
+  }),
+
+  isManagingStudents: computed('organization.isManagingStudents', function() {
+    return this.organization.isManagingStudents ? 'Oui' : 'Non';
+  }),
 
   actions: {
     updateLogo(file) {
