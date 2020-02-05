@@ -12,6 +12,12 @@ export default ApplicationAdapter.extend({
       return `${this._super(...arguments)}/me`;
     }
 
+    if (query.passwordResetTemporaryKey) {
+      const temporaryKey = query.passwordResetTemporaryKey;
+      delete query.passwordResetTemporaryKey;
+      return `${this.host}/${this.namespace}/password-reset-demands/${temporaryKey}`;
+    }
+
     return this._super(...arguments);
   },
 
