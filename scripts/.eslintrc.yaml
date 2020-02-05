@@ -1,0 +1,4 @@
+extends: '../.eslintrc.yaml'
+
+globals:
+  include: true
