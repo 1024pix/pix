@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v2.111.0 (05/02/2020)
+
+- [#1031](https://github.com/1024pix/pix/pull/1031) [FEATURE] Remplace le message d'erreur pour les comptes déjà créer (PF-989).
+- [#1034](https://github.com/1024pix/pix/pull/1034) [BUGFIX] Gérer les sessions invalidées depuis le GAR (PF-1071).
+- [#1023](https://github.com/1024pix/pix/pull/1023) [BUGFIX] Correction de style sur les épreuves avec téléchargement (PF-1048).
+- [#1022](https://github.com/1024pix/pix/pull/1022) [BUGFIX] Pouvoir remettre à zéro une compétence après l'avoir terminé (PF-872).
+- [#996](https://github.com/1024pix/pix/pull/996) [TECH] Calculer le lead time entre deux tags
+- [#999](https://github.com/1024pix/pix/pull/999) [TECH] Mise à jour de PixApp en Ember 3.13 (PF-1053).
+- [#1030](https://github.com/1024pix/pix/pull/1030) [TECH] Suppression de la dépendance sib-api-v3-sdk de la racine.
+- [#1001](https://github.com/1024pix/pix/pull/1001) [A11Y] Ajouter des labels aux QROCm (PF-957)
+- [#1029](https://github.com/1024pix/pix/pull/1029) [EXPEDITE][BUGFIX] Certains PVs de session sont impossibles à importer via PixAdmin (PA-141)
+
 ## v2.110.1 (03/02/2020)
 
 - [#1027](https://github.com/1024pix/pix/pull/1027) [BUGFIX] Corriger le design de la double mire de connexion (PF-1069).
