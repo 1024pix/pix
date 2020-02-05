@@ -11,15 +11,15 @@ describe('Unit | Route | changer mot de passe', function() {
   describe('Route behavior', function() {
 
     let storeStub;
-    let findRecordStub;
+    let queryRecordStub;
     const params = {
       temporary_key: 'pwd-reset-demand-token'
     };
 
     beforeEach(function() {
-      findRecordStub = sinon.stub();
+      queryRecordStub = sinon.stub();
       storeStub = Service.create({
-        findRecord: findRecordStub
+        queryRecord: queryRecordStub
       });
     });
 
@@ -34,7 +34,7 @@ describe('Unit | Route | changer mot de passe', function() {
 
     it('should ask password reset demand validity', function() {
       // given
-      findRecordStub.resolves();
+      queryRecordStub.resolves();
       const route = this.owner.lookup('route:reset-password');
       route.set('store', storeStub);
 
@@ -43,8 +43,10 @@ describe('Unit | Route | changer mot de passe', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(findRecordStub);
-        sinon.assert.calledWith(findRecordStub, 'password-reset-demand', params.temporary_key);
+        sinon.assert.calledOnce(queryRecordStub);
+        sinon.assert.calledWith(queryRecordStub, 'user', {
+          passwordResetTemporaryKey: params.temporary_key
+        });
       });
     });
 
@@ -69,7 +71,7 @@ describe('Unit | Route | changer mot de passe', function() {
           }
         };
 
-        findRecordStub.resolves(fetchedOwnerDetails);
+        queryRecordStub.resolves(fetchedOwnerDetails);
         const route = this.owner.lookup('route:reset-password');
         route.set('store', storeStub);
 
