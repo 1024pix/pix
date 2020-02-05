@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import { find, render } from '@ember/test-helpers';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | QROCm proposal', function() {
@@ -85,6 +85,91 @@ describe('Integration | Component | QROCm proposal', function() {
 
           // then
           expect(find(`${data.cssClass}`).getAttribute('autocomplete')).to.equal('off');
+        });
+      });
+    });
+
+    [
+      { proposals: '${input}', expectedAriaLabel: ['Réponse 1'] },
+      { proposals: '${rep1}, ${rep2} ${rep3}', expectedAriaLabel: ['Réponse 1', 'Réponse 2', 'Réponse 3'] },
+      { proposals: 'Réponses :↵${rep1}\n${rep2}', expectedAriaLabel: ['Réponse 1', 'Réponse 2'] },
+      { proposals: 'Vidéo : ${video#.ex1} ${video2#.ex2}\nImage : ${image} ${image2}', expectedAriaLabel: ['Réponse 1', 'Réponse 2', 'Réponse 3', 'Réponse 4'] },
+      { proposals: 'Le protocole ${https} assure que la communication entre l\'ordinateur d\'Adèle et le serveur de la banque est ${sécurisée}.', expectedAriaLabel: ['Réponse 1', 'Réponse 2'] },
+      { proposals: '- ${NumA} Il classe les pages trouvées pour les présenter\n- ${NumB} Il sélectionne  les pages correspondant aux mots', expectedAriaLabel: ['Réponse 1', 'Réponse 2'] },
+    ].forEach((data) => {
+      describe(`Component aria-label accessibility when proposal is ${data.proposals}`, function() {
+
+        let allInputElements;
+
+        beforeEach(async function() {
+          // given
+          this.set('proposals', data.proposals);
+          this.set('answerValue', '');
+          this.set('format', 'phrase');
+
+          // when
+          await render(hbs`{{qrocm-proposal proposals=proposals format=format answerValue=answerValue}}`);
+
+          //then
+          allInputElements = findAll('.challenge-response__proposal');
+        });
+
+        it('should have an aria-label', async function() {
+          // then
+          expect(allInputElements.length).to.be.equal(data.expectedAriaLabel.length);
+          allInputElements.forEach((element, index) => {
+            expect(element.getAttribute('aria-label')).to.equal(data.expectedAriaLabel[index]);
+          });
+        });
+
+        it('should not have a label', async function() {
+          // then
+          expect(find('label')).to.be.null;
+        });
+      });
+    });
+
+    [
+      { proposals: 'texte : ${rep1}\nautre texte : ${rep2}', expectedLabel: ['texte :', 'autre texte :'] },
+    ].forEach((data) => {
+      describe(`Component label accessibility when proposal is ${data.proposals}`, function() {
+
+        let allLabelElements, allInputElements;
+
+        beforeEach(async function() {
+          // given
+          this.set('proposals', data.proposals);
+          this.set('answerValue', '');
+          this.set('format', 'phrase');
+
+          // when
+          await render(hbs`{{qrocm-proposal proposals=proposals format=format answerValue=answerValue}}`);
+
+          //then
+          allLabelElements = findAll('label');
+          allInputElements = findAll('.challenge-response__proposal');
+        });
+
+        it('should have a label', async function() {
+          // then
+          expect(allLabelElements.length).to.be.equal(allInputElements.length);
+          expect(allLabelElements.length).to.be.equal(data.expectedLabel.length);
+          allLabelElements.forEach((element, index) => {
+            expect(element.textContent).to.equal(data.expectedLabel[index]);
+          });
+        });
+
+        it('should not have an aria-label', async function() {
+          // then
+          expect(find('.challenge-response__proposal').getAttribute('aria-label')).to.be.null;
+        });
+
+        it('should connect the label with the input', async function() {
+          // then
+          expect(allInputElements.length).to.equal(allLabelElements.length);
+          const allInputElementsId = allInputElements.map((inputElement) => inputElement.getAttribute('id'));
+          const allLabelElementsFor = allLabelElements.map((labelElement) => labelElement.getAttribute('for'));
+          expect(allInputElementsId).to.deep.equal(allLabelElementsFor);
         });
       });
     });
