@@ -31,20 +31,16 @@ async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropert
 
 async function getOdsVersionByHeaders({ odsBuffer, transformationStructsByVersion }) {
   const sheetDataRows = await _getSheetDataRowsFromOdsBuffer(odsBuffer);
-  let version = null;
-  _.some(transformationStructsByVersion, (transformationStruct) => {
-    const sheetHeaderRow = _findHeaderRow(sheetDataRows, transformationStruct.headers);
-    if (sheetHeaderRow) {
-      version = transformationStruct.version;
-      return true;
-    }
-  });
+  const transformationStruct = _.find(
+    transformationStructsByVersion,
+    (transformationStruct) => _findHeaderRow(sheetDataRows, transformationStruct.headers)
+  );
 
-  if (version) {
-    return version;
+  if (transformationStruct == undefined || transformationStruct.version == undefined) {
+    throw new UnprocessableEntityError('Unknown attendance sheet version');
   }
 
-  throw new UnprocessableEntityError('Unknown attendance sheet version');
+  return transformationStruct.version;
 }
 
 async function _getSheetDataRowsFromOdsBuffer(odsBuffer) {
@@ -78,8 +74,14 @@ function _findHeaderRow(sheetDataRows, tableHeaders) {
 
 function _allHeadersValuesAreInTheRow(row, headers) {
   const cellValuesInRow = _.values(row);
-  const headersInRow = _.intersection(cellValuesInRow, headers);
+  const strippedCellValuesInRow = _.map(cellValuesInRow, _removeNewlineCharacters);
+  const strippedHeaders = _.map(headers, _removeNewlineCharacters);
+  const headersInRow = _.intersection(strippedCellValuesInRow, strippedHeaders);
   return headersInRow.length === headers.length;
+}
+
+function _removeNewlineCharacters(header) {
+  return _.isString(header) ? header.replace(/[\n\r]/g, '') : header;
 }
 
 function _mapSheetHeadersWithProperties(sheetHeaderRow, tableHeaderTargetPropertyMap) {
@@ -89,9 +91,17 @@ function _mapSheetHeadersWithProperties(sheetHeaderRow, tableHeaderTargetPropert
     .value();
 }
 
+function _findTargetPropertiesByHeader(tableHeaderTargetPropertyMap, header) {
+  const mapWithSanitizedHeaders = _.map(
+    tableHeaderTargetPropertyMap,
+    (obj) => ({ ...obj, header: _removeNewlineCharacters(obj.header) }));
+
+  return _.find(mapWithSanitizedHeaders, { header: _removeNewlineCharacters(header) });
+}
+
 function _addTargetDatas(tableHeaderTargetPropertyMap) {
   return (header, columnName) => {
-    const targetProperties = _.find(tableHeaderTargetPropertyMap, { header });
+    const targetProperties = _findTargetPropertiesByHeader(tableHeaderTargetPropertyMap, header);
     if (targetProperties) {
       const { property: targetProperty, transformFn } = targetProperties;
       return { columnName, targetProperty, transformFn };

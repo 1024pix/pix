@@ -27,7 +27,7 @@ describe('read-ods-utils', () => {
 
   });
 
-  describe('extractTableDataFromOdsFile', () => {
+  describe('#extractTableDataFromOdsFile', () => {
     beforeEach(() => {
       odsFilePath = `${__dirname}/ods-file_test.ods`;
       odsBuffer = fs.readFileSync(odsFilePath);
@@ -63,6 +63,45 @@ describe('read-ods-utils', () => {
 
         // then
         expect(result).to.be.instanceof(UnprocessableEntityError);
+      });
+
+    });
+
+    context('when the conf header contains new line but the file headers does not',  () => {
+      const TRANSFORM_STRUCT_NONE = [
+        {
+          header: 'HEADER1',
+          property: 'property1',
+          transformFn: (a) => a
+        },
+        {
+          header: 'HEADER\n2',
+          property: 'property2',
+          transformFn: (a) => a
+        },
+      ];
+
+      it('should return the data extracted from the table in the ods file', async () => {
+
+        const expectedCertificationCandidatesData = [
+          {
+            property1: 'Valeur1_ligne1',
+            property2: 'Valeur2_ligne1',
+          },
+          {
+            property1: 'Valeur1_ligne2',
+            property2: 'Valeur2_ligne2',
+          },
+        ];
+          // when
+        const certificationCandidatesData = await extractTableDataFromOdsFile(
+          {
+            odsBuffer,
+            tableHeaderTargetPropertyMap: TRANSFORM_STRUCT_NONE,
+          });
+
+        // then
+        expect(certificationCandidatesData).to.deep.equal(expectedCertificationCandidatesData);
       });
 
     });
@@ -187,6 +226,24 @@ describe('read-ods-utils', () => {
         expect(result).to.be.instanceof(UnprocessableEntityError);
       });
 
+    });
+
+    context('when newlines are present in file headers', () => {
+      before(() => {
+        odsFilePath = `${__dirname}/ods-file_newline_test.ods`;
+        odsBuffer = fs.readFileSync(odsFilePath);
+      });
+
+      it('should return the appropriate version regardless of the newlines', async () => {
+        // when
+        const version = await getOdsVersionByHeaders({
+          odsBuffer,
+          transformationStructsByVersion: HEADERS_BY_VERSION,
+        });
+
+        // then
+        expect(version).to.equal('2');
+      });
     });
 
   });
