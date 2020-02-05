@@ -48,13 +48,16 @@ module.exports = async function completeAssessment({
     });
   }
   catch (error) {
-    await _saveResultAfterComputingError({
+    if (!(error instanceof CertificationComputeError)) {
+      throw error;
+    }
+    await _saveResultAfterCertificationComputeError({
       assessment,
       assessmentId,
       updateCertificationCompletionDate,
       assessmentResultRepository,
       certificationCourseRepository,
-      error,
+      certificationComputeError: error,
     });
   }
 
@@ -110,19 +113,15 @@ function _updateCompletedDateOfCertification(assessment, certificationCourseRepo
   }
 }
 
-async function _saveResultAfterComputingError({
+async function _saveResultAfterCertificationComputeError({
   assessment,
   assessmentId,
   updateCertificationCompletionDate,
   assessmentResultRepository,
   certificationCourseRepository,
-  error,
+  certificationComputeError,
 }) {
-  if (!(error instanceof CertificationComputeError)) {
-    return Promise.reject(error);
-  }
-
-  const assessmentResult = AssessmentResult.BuildAlgoErrorResult(error, assessmentId);
+  const assessmentResult = AssessmentResult.BuildAlgoErrorResult(certificationComputeError, assessmentId);
 
   await assessmentResultRepository.save(assessmentResult);
 
