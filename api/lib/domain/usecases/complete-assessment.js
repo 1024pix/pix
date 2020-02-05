@@ -98,14 +98,9 @@ function _getAssessmentStatus(assessment, assessmentScore) {
   }
 }
 
-function _updateCompletedDateOfCertification(assessment, certificationCourseRepository) {
+async function _updateCompletedDateOfCertification(assessment, certificationCourseRepository) {
   if (assessment.isCertification()) {
-    return certificationCourseRepository.changeCompletionDate(
-      assessment.courseId,
-      new Date(),
-    );
-  } else {
-    return Promise.resolve();
+    return certificationCourseRepository.changeCompletionDate(assessment.courseId, new Date());
   }
 }
 
