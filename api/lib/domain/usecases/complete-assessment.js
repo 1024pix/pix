@@ -42,27 +42,24 @@ module.exports = async function completeAssessment({
       assessment,
       assessmentScore,
       updateCertificationCompletionDate,
-      assessmentRepository,
       assessmentResultRepository,
       certificationCourseRepository,
       competenceMarkRepository,
     });
-
-    return assessment;
   }
   catch (error) {
     await _saveResultAfterComputingError({
       assessment,
       assessmentId,
       updateCertificationCompletionDate,
-      assessmentRepository,
       assessmentResultRepository,
       certificationCourseRepository,
       error,
     });
-
-    return assessment;
   }
+
+  await assessmentRepository.completeByAssessmentId(assessmentId);
+  return assessment;
 };
 
 async function _saveAssessmentResult({
@@ -71,14 +68,12 @@ async function _saveAssessmentResult({
   assessmentScore,
   updateCertificationCompletionDate,
   // Repositories
-  assessmentRepository,
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
   // Services
 }) {
   const assessmentResult = await _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository });
-  await assessmentRepository.completeByAssessmentId(assessment.id);
 
   await Promise.map(assessmentScore.competenceMarks, (competenceMark) => {
     const competenceMarkDomain = new CompetenceMark({ ...competenceMark, ...{ assessmentResultId: assessmentResult.id } });
@@ -119,7 +114,6 @@ async function _saveResultAfterComputingError({
   assessment,
   assessmentId,
   updateCertificationCompletionDate,
-  assessmentRepository,
   assessmentResultRepository,
   certificationCourseRepository,
   error,
@@ -130,10 +124,7 @@ async function _saveResultAfterComputingError({
 
   const assessmentResult = AssessmentResult.BuildAlgoErrorResult(error, assessmentId);
 
-  await Promise.all([
-    assessmentResultRepository.save(assessmentResult),
-    assessmentRepository.completeByAssessmentId(assessmentId),
-  ]);
+  await assessmentResultRepository.save(assessmentResult);
 
   return _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate);
 }
