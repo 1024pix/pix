@@ -22,7 +22,7 @@ module.exports = async function completeAssessment({
   courseRepository,
   skillRepository,
   // Services
-  scoringService,
+  scoringCertificationService,
 }) {
   const assessment = await assessmentRepository.get(assessmentId);
 
@@ -34,7 +34,7 @@ module.exports = async function completeAssessment({
 
   if (assessment.isCertification()) {
     await _calculateCertificationScore({ assessment, answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository,
-      assessmentResultRepository, certificationCourseRepository, competenceMarkRepository, scoringService });
+      assessmentResultRepository, certificationCourseRepository, competenceMarkRepository, scoringCertificationService });
   }
   await assessmentRepository.completeByAssessmentId(assessmentId);
   return assessment;
@@ -50,11 +50,11 @@ async function _calculateCertificationScore({
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
-  scoringService,
+  scoringCertificationService,
 }) {
   try {
     const dependencies = { answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository };
-    const assessmentScore = await scoringService.calculateAssessmentScore(dependencies, assessment);
+    const assessmentScore = await scoringCertificationService.calculateAssessmentScore(dependencies, assessment);
     await _saveResult({
       assessment,
       assessmentScore,

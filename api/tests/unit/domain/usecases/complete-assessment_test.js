@@ -7,7 +7,7 @@ const { UNCERTIFIED_LEVEL } = require('../../../../lib/domain/constants');
 
 describe('Unit | UseCase | complete-assessment', () => {
 
-  const scoringService = { calculateAssessmentScore: _.noop };
+  const scoringCertificationService = { calculateAssessmentScore: _.noop };
   const answerRepository = Symbol('AnswerRepository');
   const assessmentRepository = {
     get: _.noop,
@@ -57,7 +57,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         courseRepository,
         competenceRepository,
         skillRepository,
-        scoringService,
+        scoringCertificationService,
       });
 
       // then
@@ -93,7 +93,7 @@ describe('Unit | UseCase | complete-assessment', () => {
           courseRepository,
           competenceRepository,
           skillRepository,
-          scoringService,
+          scoringCertificationService,
         });
 
         // then
@@ -119,7 +119,7 @@ describe('Unit | UseCase | complete-assessment', () => {
       context('when an error different from a compute error happens', () => {
         const otherError = new Error();
         beforeEach(() => {
-          sinon.stub(scoringService, 'calculateAssessmentScore').rejects(otherError);
+          sinon.stub(scoringCertificationService, 'calculateAssessmentScore').rejects(otherError);
           sinon.stub(AssessmentResult, 'BuildAlgoErrorResult');
           sinon.stub(assessmentResultRepository, 'save');
           sinon.stub(certificationCourseRepository, 'changeCompletionDate');
@@ -138,7 +138,7 @@ describe('Unit | UseCase | complete-assessment', () => {
             courseRepository,
             competenceRepository,
             skillRepository,
-            scoringService,
+            scoringCertificationService,
           });
 
           // then
@@ -152,7 +152,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         const errorAssessmentResult = Symbol('ErrorAssessmentResult');
         const computeError = new CertificationComputeError();
         beforeEach(() => {
-          sinon.stub(scoringService, 'calculateAssessmentScore').rejects(computeError);
+          sinon.stub(scoringCertificationService, 'calculateAssessmentScore').rejects(computeError);
           sinon.stub(AssessmentResult, 'BuildAlgoErrorResult').returns(errorAssessmentResult);
           sinon.stub(assessmentResultRepository, 'save').resolves();
           sinon.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
@@ -171,12 +171,12 @@ describe('Unit | UseCase | complete-assessment', () => {
             courseRepository,
             competenceRepository,
             skillRepository,
-            scoringService,
+            scoringCertificationService,
           });
 
           // then
           const expectedDependencies = { answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository };
-          expect(scoringService.calculateAssessmentScore.calledWithExactly(expectedDependencies, assessment)).to.be.true;
+          expect(scoringCertificationService.calculateAssessmentScore.calledWithExactly(expectedDependencies, assessment)).to.be.true;
         });
 
         it('should save the error result appropriately', async () => {
@@ -192,7 +192,7 @@ describe('Unit | UseCase | complete-assessment', () => {
             courseRepository,
             competenceRepository,
             skillRepository,
-            scoringService,
+            scoringCertificationService,
           });
 
           // then
@@ -214,7 +214,7 @@ describe('Unit | UseCase | complete-assessment', () => {
             courseRepository,
             competenceRepository,
             skillRepository,
-            scoringService,
+            scoringCertificationService,
           });
 
           // then
@@ -241,7 +241,7 @@ describe('Unit | UseCase | complete-assessment', () => {
           const originalLevel = Symbol('originalLevel');
           const assessmentScore = { nbPix: 1, level: originalLevel, competenceMarks: [ competenceMarkData1, competenceMarkData2 ] };
           beforeEach(() => {
-            sinon.stub(scoringService, 'calculateAssessmentScore').resolves(assessmentScore);
+            sinon.stub(scoringCertificationService, 'calculateAssessmentScore').resolves(assessmentScore);
           });
 
           it('should left untouched the calculated level in the assessment score', async () => {
@@ -257,7 +257,7 @@ describe('Unit | UseCase | complete-assessment', () => {
               courseRepository,
               competenceRepository,
               skillRepository,
-              scoringService,
+              scoringCertificationService,
             });
 
             // then
@@ -277,7 +277,7 @@ describe('Unit | UseCase | complete-assessment', () => {
               courseRepository,
               competenceRepository,
               skillRepository,
-              scoringService,
+              scoringCertificationService,
             });
 
             // then
@@ -300,7 +300,7 @@ describe('Unit | UseCase | complete-assessment', () => {
               courseRepository,
               competenceRepository,
               skillRepository,
-              scoringService,
+              scoringCertificationService,
             });
 
             // then
@@ -320,7 +320,7 @@ describe('Unit | UseCase | complete-assessment', () => {
               courseRepository,
               competenceRepository,
               skillRepository,
-              scoringService,
+              scoringCertificationService,
             });
 
             // then
@@ -337,7 +337,7 @@ describe('Unit | UseCase | complete-assessment', () => {
             competenceMarks: [competenceMarkData1, competenceMarkData2]
           };
           beforeEach(() => {
-            sinon.stub(scoringService, 'calculateAssessmentScore').resolves(assessmentScore);
+            sinon.stub(scoringCertificationService, 'calculateAssessmentScore').resolves(assessmentScore);
           });
 
           it('should change level of the assessmentScore', async () => {
@@ -353,7 +353,7 @@ describe('Unit | UseCase | complete-assessment', () => {
               courseRepository,
               competenceRepository,
               skillRepository,
-              scoringService,
+              scoringCertificationService,
             });
 
             // then
@@ -373,7 +373,7 @@ describe('Unit | UseCase | complete-assessment', () => {
               courseRepository,
               competenceRepository,
               skillRepository,
-              scoringService,
+              scoringCertificationService,
             });
 
             // then
