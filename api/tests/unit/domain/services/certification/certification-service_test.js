@@ -1,6 +1,5 @@
 const { expect, sinon } = require('../../../../test-helper');
 const certificationService = require('../../../../../lib/domain/services/certification-service');
-const Answer = require('../../../../../lib/domain/models/Answer');
 
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../../lib/domain/models/AssessmentResult');
@@ -213,77 +212,6 @@ describe('Unit | Service | Certification Service', function() {
         // then
         expect(certificationResult.isV2Certification).to.be.false;
       });
-    });
-  });
-
-  describe('#computeAnswersSuccessRate', () => {
-
-    context('when no answers is given', () => {
-
-      it('should have a trust level has unknown', () => {
-        // given
-        const answers = [];
-
-        // when
-        const successRate = certificationService._computeAnswersSuccessRate(answers);
-
-        // then
-        expect(successRate).to.equal(0);
-      });
-    });
-
-    context('when all answers are OK', () => {
-
-      it('should have a success rate of 100%', () => {
-        // given
-        const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'ok' })];
-
-        // when
-        const successRate = certificationService._computeAnswersSuccessRate(answers);
-
-        // then
-        expect(successRate).to.equal(100);
-      });
-    });
-
-    context('when all answers are KO', () => {
-
-      it('should have a success rate of 0%', () => {
-        // given
-        const answers = [new Answer({ result: 'ko' }), new Answer({ result: 'ko' })];
-
-        // when
-        const successRate = certificationService._computeAnswersSuccessRate(answers);
-
-        // then
-        expect(successRate).to.equal(0);
-      });
-    });
-
-    context('when the answers are a mixed of valid and wrong answers', () => {
-
-      it('should have a success rate of 50% with 1W and 1R', () => {
-        // given
-        const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'ko' })];
-
-        // when
-        const successRate = certificationService._computeAnswersSuccessRate(answers);
-
-        // then
-        expect(successRate).to.equal(50);
-      });
-
-      it('should have a success rate of 50% with 2W and 1R', () => {
-        // given
-        const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'aband' }), new Answer({ result: 'ko' })];
-
-        // when
-        const successRate = certificationService._computeAnswersSuccessRate(answers);
-
-        // then
-        expect(successRate).to.be.within(33.333333, 33.333334);
-      });
-
     });
   });
 

@@ -4,18 +4,6 @@ const assessmentResultRepository = require('../../infrastructure/repositories/as
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const certificationResultService = require('./certification-result-service');
 
-function _computeAnswersSuccessRate(answers = []) {
-  const numberOfAnswers = answers.length;
-
-  if (!numberOfAnswers) {
-    return 0;
-  }
-
-  const numberOfValidAnswers = answers.filter((answer) => answer.isOk()).length;
-
-  return (numberOfValidAnswers % 100 / numberOfAnswers) * 100;
-}
-
 module.exports = {
 
   calculateCertificationResultByCertificationCourseId(certificationCourseId) {
@@ -70,6 +58,4 @@ module.exports = {
       sessionId: certification.sessionId,
     });
   },
-
-  _computeAnswersSuccessRate,
 };

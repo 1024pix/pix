@@ -236,5 +236,6 @@ module.exports = {
     result.listChallengesAndAnswers = _getChallengeInformation(matchingAnswers, certificationChallenges, allCompetences);
     return result;
   },
-
+  
+  _computeAnswersSuccessRate,
 };
