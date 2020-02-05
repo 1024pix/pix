@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const completeAssessment = require('../../../../lib/domain/usecases/complete-assessment');
-const { NotFoundError, AlreadyRatedAssessmentError, CertificationComputeError, ForbiddenAccess } = require('../../../../lib/domain/errors');
+const { AlreadyRatedAssessmentError, CertificationComputeError } = require('../../../../lib/domain/errors');
 
 function _buildCompetence(competenceCode, areaCode) {
 
@@ -49,7 +49,6 @@ describe('Unit | UseCase | complete-assessment', () => {
   };
 
   const assessmentId = 1;
-  const userId = 1;
   const assessmentResultId = 1;
 
   const assessmentCourseId = 'recHzEA6lN4PEs7LG';
@@ -75,7 +74,6 @@ describe('Unit | UseCase | complete-assessment', () => {
     assessment = domainBuilder.buildAssessment({
       id: assessmentId,
       courseId: assessmentCourseId,
-      userId,
       state: 'started',
       type: 'PLACEMENT',
     });
@@ -152,36 +150,6 @@ describe('Unit | UseCase | complete-assessment', () => {
 
   });
 
-  it('should reject with a NotFoundError when the assessment does not exist', () => {
-    // given
-    const assessmentIdThatDoesNotExist = 25672;
-    assessmentRepository.get.resolves(null);
-
-    // when
-    const promise = completeAssessment({
-      assessmentId: assessmentIdThatDoesNotExist,
-      assessmentRepository,
-    });
-
-    // then
-    return expect(promise).to.be.rejectedWith(NotFoundError);
-  });
-
-  it('should reject with a ForbiddenAccess when the user is not the owner of the assessment', () => {
-    // given
-    assessmentRepository.get.withArgs(assessmentId).resolves({ userId: 2 });
-
-    // when
-    const promise = completeAssessment({
-      assessmentId,
-      userId,
-      assessmentRepository,
-    });
-
-    // then
-    return expect(promise).to.be.rejectedWith(ForbiddenAccess);
-  });
-
   context('when the assessment is already evaluated', () => {
 
     it('should reject an AlreadyRatedAssessmentError', () => {
@@ -189,7 +157,6 @@ describe('Unit | UseCase | complete-assessment', () => {
       const alreadyEvaluatedAssessment = domainBuilder.buildAssessment({
         id: assessmentId,
         courseId: assessmentCourseId,
-        userId,
         state: 'completed',
         type: 'PLACEMENT',
       });
@@ -199,7 +166,6 @@ describe('Unit | UseCase | complete-assessment', () => {
       // when
       const promise = completeAssessment({
         assessmentId,
-        userId,
         assessmentResultRepository,
         assessmentRepository,
         certificationCourseRepository,
@@ -212,30 +178,10 @@ describe('Unit | UseCase | complete-assessment', () => {
     });
   });
 
-  it('should reject a not found error when calculateAssessmentScore raise a notFoundError because the assessment does not exist', () => {
-    // given
-    scoringService.calculateAssessmentScore.rejects(new NotFoundError());
-
-    // when
-    const promise = completeAssessment({
-      assessmentId,
-      userId,
-      assessmentResultRepository,
-      assessmentRepository,
-      certificationCourseRepository,
-      competenceMarkRepository,
-      scoringService,
-    });
-
-    // then
-    return expect(promise).to.have.been.rejectedWith(NotFoundError);
-  });
-
   it('should change the assessment status', () => {
     // when
     const promise = completeAssessment({
       assessmentId,
-      userId,
       assessmentResultRepository,
       assessmentRepository,
       certificationCourseRepository,
@@ -261,7 +207,6 @@ describe('Unit | UseCase | complete-assessment', () => {
     // when
     const promise = completeAssessment({
       assessmentId,
-      userId,
       assessmentResultRepository,
       assessmentRepository,
       certificationCourseRepository,
@@ -292,7 +237,6 @@ describe('Unit | UseCase | complete-assessment', () => {
     // when
     const promise = completeAssessment({
       assessmentId,
-      userId,
       assessmentResultRepository,
       assessmentRepository,
       certificationCourseRepository,
@@ -312,7 +256,6 @@ describe('Unit | UseCase | complete-assessment', () => {
       // when
       const promise = completeAssessment({
         assessmentId,
-        userId,
         assessmentResultRepository,
         assessmentRepository,
         certificationCourseRepository,
@@ -341,7 +284,6 @@ describe('Unit | UseCase | complete-assessment', () => {
       // when
       const promise = completeAssessment({
         assessmentId,
-        userId,
         assessmentResultRepository,
         assessmentRepository,
         certificationCourseRepository,
@@ -364,7 +306,6 @@ describe('Unit | UseCase | complete-assessment', () => {
         // when
         const promise = completeAssessment({
           assessmentId,
-          userId,
           assessmentResultRepository,
           assessmentRepository,
           certificationCourseRepository,
@@ -384,7 +325,6 @@ describe('Unit | UseCase | complete-assessment', () => {
     const previewAssessment = domainBuilder.buildAssessment({
       id: assessmentId,
       courseId: 'nullCourseId',
-      userId,
       state: Assessment.states.STARTED,
       type: 'PREVIEW',
     });
@@ -405,7 +345,6 @@ describe('Unit | UseCase | complete-assessment', () => {
       // when
       const promise = completeAssessment({
         assessmentId,
-        userId,
         assessmentResultRepository,
         assessmentRepository,
         certificationCourseRepository,
@@ -429,7 +368,6 @@ describe('Unit | UseCase | complete-assessment', () => {
       demoAssessment = domainBuilder.buildAssessment({
         id: assessmentId,
         courseId: 'nullCourseId',
-        userId,
         state: 'started',
         type: 'DEMO',
       });
@@ -448,7 +386,6 @@ describe('Unit | UseCase | complete-assessment', () => {
       // when
       const promise = completeAssessment({
         assessmentId,
-        userId,
         assessmentResultRepository,
         assessmentRepository,
         certificationCourseRepository,
@@ -466,7 +403,6 @@ describe('Unit | UseCase | complete-assessment', () => {
       // when
       const promise = completeAssessment({
         assessmentId,
-        userId,
         assessmentResultRepository,
         assessmentRepository,
         certificationCourseRepository,
@@ -493,7 +429,6 @@ describe('Unit | UseCase | complete-assessment', () => {
       assessment = domainBuilder.buildAssessment({
         id: assessmentId,
         courseId: assessmentCourseId,
-        userId,
         type: Assessment.types.CERTIFICATION,
         state: 'started',
       });
@@ -523,7 +458,6 @@ describe('Unit | UseCase | complete-assessment', () => {
         // when
         const promise = completeAssessment({
           assessmentId,
-          userId,
           assessmentResultRepository,
           assessmentRepository,
           certificationCourseRepository,
@@ -596,7 +530,6 @@ describe('Unit | UseCase | complete-assessment', () => {
         // when
         const promise = completeAssessment({
           assessmentId,
-          userId,
           assessmentResultRepository,
           assessmentRepository,
           certificationCourseRepository,
@@ -614,7 +547,6 @@ describe('Unit | UseCase | complete-assessment', () => {
         // when
         const promise = completeAssessment({
           assessmentId,
-          userId,
           assessmentResultRepository,
           assessmentRepository,
           certificationCourseRepository,
@@ -632,7 +564,6 @@ describe('Unit | UseCase | complete-assessment', () => {
         // when
         const promise = completeAssessment({
           assessmentId,
-          userId,
           assessmentResultRepository,
           assessmentRepository,
           certificationCourseRepository,
@@ -658,7 +589,6 @@ describe('Unit | UseCase | complete-assessment', () => {
         // when
         const promise = completeAssessment({
           assessmentId,
-          userId,
           assessmentResultRepository,
           assessmentRepository,
           certificationCourseRepository,
@@ -691,7 +621,6 @@ describe('Unit | UseCase | complete-assessment', () => {
         // when
         const promise = completeAssessment({
           assessmentId,
-          userId,
           assessmentResultRepository,
           assessmentRepository,
           certificationCourseRepository,
@@ -709,7 +638,6 @@ describe('Unit | UseCase | complete-assessment', () => {
         // when
         const promise = completeAssessment({
           assessmentId,
-          userId,
           assessmentResultRepository,
           assessmentRepository,
           certificationCourseRepository,
@@ -727,7 +655,6 @@ describe('Unit | UseCase | complete-assessment', () => {
         // when
         const promise = completeAssessment({
           assessmentId,
-          userId,
           assessmentResultRepository,
           assessmentRepository,
           certificationCourseRepository,
@@ -753,7 +680,6 @@ describe('Unit | UseCase | complete-assessment', () => {
         // when
         const promise = completeAssessment({
           assessmentId,
-          userId,
           assessmentResultRepository,
           assessmentRepository,
           certificationCourseRepository,
