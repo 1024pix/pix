@@ -11,7 +11,6 @@ const {
 module.exports = async function completeAssessment({
   // Parameters
   assessmentId,
-  updateCertificationCompletionDate = true,
   // Repositories
   answerRepository,
   assessmentRepository,
@@ -41,7 +40,6 @@ module.exports = async function completeAssessment({
     await _saveAssessmentResult({
       assessment,
       assessmentScore,
-      updateCertificationCompletionDate,
       assessmentResultRepository,
       certificationCourseRepository,
       competenceMarkRepository,
@@ -54,7 +52,6 @@ module.exports = async function completeAssessment({
     await _saveResultAfterCertificationComputeError({
       assessment,
       assessmentId,
-      updateCertificationCompletionDate,
       assessmentResultRepository,
       certificationCourseRepository,
       certificationComputeError: error,
@@ -69,7 +66,6 @@ async function _saveAssessmentResult({
   // Parameters
   assessment,
   assessmentScore,
-  updateCertificationCompletionDate,
   // Repositories
   assessmentResultRepository,
   certificationCourseRepository,
@@ -83,7 +79,7 @@ async function _saveAssessmentResult({
     return competenceMarkRepository.save(competenceMarkDomain);
   });
 
-  return _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate);
+  return _updateCompletedDateOfCertification(assessment, certificationCourseRepository);
 }
 
 function _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository }) {
@@ -102,8 +98,8 @@ function _getAssessmentStatus(assessment, assessmentScore) {
   }
 }
 
-function _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate) {
-  if (assessment.isCertification() && updateCertificationCompletionDate) {
+function _updateCompletedDateOfCertification(assessment, certificationCourseRepository) {
+  if (assessment.isCertification()) {
     return certificationCourseRepository.changeCompletionDate(
       assessment.courseId,
       new Date(),
@@ -116,7 +112,6 @@ function _updateCompletedDateOfCertification(assessment, certificationCourseRepo
 async function _saveResultAfterCertificationComputeError({
   assessment,
   assessmentId,
-  updateCertificationCompletionDate,
   assessmentResultRepository,
   certificationCourseRepository,
   certificationComputeError,
@@ -125,5 +120,5 @@ async function _saveResultAfterCertificationComputeError({
 
   await assessmentResultRepository.save(assessmentResult);
 
-  return _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate);
+  return _updateCompletedDateOfCertification(assessment, certificationCourseRepository);
 }
