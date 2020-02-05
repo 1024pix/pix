@@ -30,14 +30,32 @@ module.exports = async function completeAssessment({
     throw new AlreadyRatedAssessmentError();
   }
 
-  const dependencies = { answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository };
-
   assessment.setCompleted();
 
-  let assessmentScore;
+  if (assessment.isCertification()) {
+    await _calculateCertificationScore({ assessment, answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository,
+      assessmentResultRepository, certificationCourseRepository, competenceMarkRepository, scoringService });
+  }
+  await assessmentRepository.completeByAssessmentId(assessmentId);
+  return assessment;
+};
+
+async function _calculateCertificationScore({
+  assessment,
+  answerRepository,
+  challengeRepository,
+  competenceRepository,
+  courseRepository,
+  skillRepository,
+  assessmentResultRepository,
+  certificationCourseRepository,
+  competenceMarkRepository,
+  scoringService,
+}) {
   try {
-    assessmentScore = await scoringService.calculateAssessmentScore(dependencies, assessment);
-    await _saveAssessmentResult({
+    const dependencies = { answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository };
+    const assessmentScore = await scoringService.calculateAssessmentScore(dependencies, assessment);
+    await _saveResult({
       assessment,
       assessmentScore,
       assessmentResultRepository,
@@ -51,18 +69,14 @@ module.exports = async function completeAssessment({
     }
     await _saveResultAfterCertificationComputeError({
       assessment,
-      assessmentId,
       assessmentResultRepository,
       certificationCourseRepository,
       certificationComputeError: error,
     });
   }
+}
 
-  await assessmentRepository.completeByAssessmentId(assessmentId);
-  return assessment;
-};
-
-async function _saveAssessmentResult({
+async function _saveResult({
   // Parameters
   assessment,
   assessmentScore,
@@ -79,7 +93,7 @@ async function _saveAssessmentResult({
     return competenceMarkRepository.save(competenceMarkDomain);
   });
 
-  return _updateCompletedDateOfCertification(assessment, certificationCourseRepository);
+  return certificationCourseRepository.changeCompletionDate(assessment.courseId, new Date());
 }
 
 function _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository }) {
@@ -90,7 +104,7 @@ function _createAssessmentResult({ assessment, assessmentScore, assessmentResult
 }
 
 function _getAssessmentStatus(assessment, assessmentScore) {
-  if (assessmentScore.nbPix === 0 && assessment.isCertification()) {
+  if (assessmentScore.nbPix === 0) {
     assessmentScore.level = UNCERTIFIED_LEVEL;
     return AssessmentResult.status.REJECTED;
   } else {
@@ -98,22 +112,15 @@ function _getAssessmentStatus(assessment, assessmentScore) {
   }
 }
 
-async function _updateCompletedDateOfCertification(assessment, certificationCourseRepository) {
-  if (assessment.isCertification()) {
-    return certificationCourseRepository.changeCompletionDate(assessment.courseId, new Date());
-  }
-}
-
 async function _saveResultAfterCertificationComputeError({
   assessment,
-  assessmentId,
   assessmentResultRepository,
   certificationCourseRepository,
   certificationComputeError,
 }) {
-  const assessmentResult = AssessmentResult.BuildAlgoErrorResult(certificationComputeError, assessmentId);
+  const assessmentResult = AssessmentResult.BuildAlgoErrorResult(certificationComputeError, assessment.id);
 
   await assessmentResultRepository.save(assessmentResult);
 
-  return _updateCompletedDateOfCertification(assessment, certificationCourseRepository);
+  return certificationCourseRepository.changeCompletionDate(assessment.courseId, new Date());
 }
