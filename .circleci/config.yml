@@ -64,7 +64,12 @@ jobs:
     working_directory: ~/pix
     steps:
       - checkout
-      - run: rm -rf .git/
+      - run:
+          command: |
+            npm ci
+            npm run lint:scripts
+            npm run test:scripts
+            rm -rf .git/
       - persist_to_workspace:
           root: ~/pix
           paths:
