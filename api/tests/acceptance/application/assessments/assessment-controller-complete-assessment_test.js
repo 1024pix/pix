@@ -35,37 +35,55 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
 
   describe('PATCH /assessments/{id}/complete-assessment', () => {
 
-    it('should return the serialized completed assessment', async () => {
-      // given
-      const expectedResult = {
-        data: {
-          type: 'assessments',
-          id: `${assessment.id}`,
-          attributes: {
-            title: undefined,
-            type: null,
-            state: 'completed',
-            'certification-number': null,
-            'competence-id': 'recCompetenceId',
-          },
-          relationships: {
-            answers: { data: [] },
-            course: {
-              data: {
-                id: 'recDefaultCourseId',
-                type: 'courses',
+    context('when user is not the owner of the assessment', () => {
+
+      it('should return a 401 HTTP status code', async () => {
+        // given
+        options.headers.authorization = generateValidRequestAuthorizationHeader(user.id + 1);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+    });
+
+    context('when user is the owner of the assessment', () => {
+
+      it('should return the serialized completed assessment', async () => {
+        // given
+        const expectedResult = {
+          data: {
+            type: 'assessments',
+            id: `${assessment.id}`,
+            attributes: {
+              title: undefined,
+              type: null,
+              state: 'completed',
+              'certification-number': null,
+              'competence-id': 'recCompetenceId',
+            },
+            relationships: {
+              answers: { data: [] },
+              course: {
+                data: {
+                  id: 'recDefaultCourseId',
+                  type: 'courses',
+                },
               },
             },
-          },
-        }
-      };
+          }
+        };
 
-      // when
-      const response = await server.inject(options);
+        // when
+        const response = await server.inject(options);
 
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result).to.deep.equal(expectedResult);
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expectedResult);
+      });
     });
   });
 });
