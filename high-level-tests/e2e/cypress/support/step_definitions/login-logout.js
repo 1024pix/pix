@@ -1,3 +1,4 @@
+// Given
 given(`je me connecte avec le compte {string}`, (email) => {
   cy.get('input[name="login"]').type(email);
   cy.get('input[name="password"]').type('pix123');
@@ -13,6 +14,7 @@ given(`je m'inscris avec le prénom {string}, le nom {string}, le mail {string} 
   cy.get('button[type=submit]').click();
 });
 
+// When
 when('je vais sur Pix via un organisme externe', () => {
   cy.loginExternalPlatform();
 });
@@ -21,6 +23,15 @@ when(`je vais sur l'inscription de Pix`, () => {
   cy.visitMonPix(`/inscription`);
 });
 
+when('je suis connecté avec un compte dont le token expire bientôt', () => {
+  cy.loginWithAlmostExpiredToken();
+});
+
+when(`j'attends {int} ms`, (duration) => {
+  cy.wait(duration);
+});
+
+// Then
 then(`je suis redirigé vers le profil de {string}`, (firstName) => {
   cy.url().should('include', '/profil');
   cy.get('.logged-user-name').should((userName) => {
@@ -39,4 +50,13 @@ then(`je suis redirigé vers le compte Orga de {string}`, (fullName) => {
   cy.get('.page-title').should((title) => {
     expect(title.text()).to.contains('Campagnes');
   });
+});
+
+when(`je me déconnecte`, () => {
+  cy.get('.logged-user-name__link').click();
+  cy.get('.logged-user-menu__link--last').click();
+});
+
+then(`je suis redirigé vers la page {string}`, (pathname) => {
+  cy.url().should('include', pathname);
 });

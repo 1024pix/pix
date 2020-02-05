@@ -27,7 +27,7 @@ export default Route.extend({
     }
 
     if (this.hasUnauthorizedError(error)) {
-      return this.session.invalidate();
+      return this.transitionTo('logout');
     }
   }
 
