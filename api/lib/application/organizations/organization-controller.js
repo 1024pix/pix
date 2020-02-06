@@ -50,27 +50,11 @@ module.exports = {
       .then(organizationSerializer.serialize);
   },
 
-  find(request) {
-    const filters = {
-      name: request.query['name'],
-      type: request.query['type'],
-      code: request.query['code']
-    };
-    const pagination = {
-      page: request.query['page'] ? request.query['page'] : 1,
-      pageSize: request.query['pageSize'] ? request.query['pageSize'] : 10,
-    };
+  async findPaginatedFilteredOrganizations(request) {
+    const options = queryParamsUtils.extractParameters(request.query);
 
-    return usecases.findOrganizations({ filters, pagination })
-      .then((searchResultList) => {
-        const meta = {
-          page: searchResultList.page,
-          pageSize: searchResultList.pageSize,
-          itemsCount: searchResultList.totalResults,
-          pagesCount: searchResultList.pagesCount,
-        };
-        return organizationSerializer.serialize(searchResultList.paginatedResults, meta);
-      });
+    const { models: organizations, pagination } = await usecases.findPaginatedFilteredOrganizations({ filter: options.filter, page: options.page });
+    return organizationSerializer.serialize(organizations, pagination);
   },
 
   async findPaginatedFilteredCampaigns(request) {

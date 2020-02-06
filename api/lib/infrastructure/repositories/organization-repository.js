@@ -3,6 +3,7 @@ const { NotFoundError } = require('../../domain/errors');
 const BookshelfOrganization = require('../data/organization');
 const Organization = require('../../domain/models/Organization');
 const User = require('../../domain/models/User');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 function _toDomain(bookshelfOrganization) {
 
@@ -37,8 +38,8 @@ function _toDomain(bookshelfOrganization) {
   return organization;
 }
 
-function _setSearchFiltersForQueryBuilder(filters, qb) {
-  const { name, type, code } = filters;
+function _setSearchFiltersForQueryBuilder(filter, qb) {
+  const { name, type, code } = filter;
   if (name) {
     qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
   }
@@ -111,15 +112,17 @@ module.exports = {
       .then((organizations) => organizations.models.map(_toDomain));
   },
 
-  find(filters, pagination) {
-    const { page, pageSize } = pagination;
-    return BookshelfOrganization.query((qb) => _setSearchFiltersForQueryBuilder(filters, qb))
-      .fetchPage({ page, pageSize })
-      .then((results) => results.map(_toDomain));
-  },
-
-  count(filters) {
-    return BookshelfOrganization.query((qb) => _setSearchFiltersForQueryBuilder(filters, qb)).count();
+  findPaginatedFiltered({ filter, page }) {
+    return BookshelfOrganization
+      .query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
+      .fetchPage({
+        page: page.number,
+        pageSize: page.size
+      })
+      .then(({ models, pagination }) => {
+        const organizations = bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganization, models);
+        return { models: organizations, pagination };
+      });
   },
 
   findByUserId(userId) {
