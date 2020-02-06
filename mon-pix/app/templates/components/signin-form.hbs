@@ -21,11 +21,17 @@
   <form {{action "signin" on="submit"}} class="sign-form__body">
 
     <div class="sign-form-body__input">
-      <FormTextfield @label="Adresse e-mail ou identifiant" @textfieldName="login" @validationStatus="default" @inputBindingValue={{username}} @autocomplete="username" />
+      <FormTextfield @label="Adresse e-mail ou identifiant"
+                     @textfieldName="login"
+                     @validationStatus="default"
+                     @inputBindingValue={{username}} @autocomplete="username" />
     </div>
 
     <div class="sign-form-body__input">
-      <FormTextfield @label="Mot de passe" @textfieldName="password" @validationStatus="default" @inputBindingValue={{password}} @autocomplete="current-password" />
+      <FormTextfield @label="Mot de passe"
+                     @textfieldName="password"
+                     @validationStatus="default"
+                     @inputBindingValue={{password}} @autocomplete="current-password" />
     </div>
 
     <LinkTo @route="password-reset-demand" class="link link--grey sign-form-link sign-form-body__forgotten-password-link">

@@ -32,7 +32,10 @@
             </div>
           </div>
         {{else}}
-          <CircleChart @value={{scorecard.percentageAheadOfNextLevel}} @sliceColor={{scorecard.area.color}} @chartClass="circle-chart__content--big" @thicknessClass="circle--thick">
+          <CircleChart @value={{scorecard.percentageAheadOfNextLevel}}
+                       @sliceColor={{scorecard.area.color}}
+                       @chartClass="circle-chart__content--big"
+                       @thicknessClass="circle--thick">
             <div class="competence-card__level">
               <span class="score-label">Niveau</span>
               <span class="score-value">{{replace-zero-by-dash level}}</span>
@@ -54,7 +57,9 @@
     {{/if}}
 
     {{#unless scorecard.isFinished}}
-      <LinkTo @route="competences.resume" @model={{scorecard.competenceId}} class={{concat "button button--big button--thin button--round button--link button--green " (if scorecard.isNotStarted "" "scorecard-details__resume-or-start-button")}}>
+      <LinkTo @route="competences.resume"
+              @model={{scorecard.competenceId}}
+              class={{concat "button button--big button--thin button--round button--link button--green " (if scorecard.isNotStarted "" "scorecard-details__resume-or-start-button")}}>
         {{#if scorecard.isStarted}}
           Reprendre <div class="sr-only">la compétence "{{scorecard.name}}"</div>
         {{else}}
@@ -64,7 +69,8 @@
     {{/unless}}
     {{#if displayResetButton}}
       <button class="link link--underline scorecard-details__reset-button" {{action "openModal"}}>
-        Remettre à zéro <div class="sr-only">la compétence "{{scorecard.name}}"</div>
+        Remettre à zéro
+        <div class="sr-only">la compétence "{{scorecard.name}}"</div>
       </button>
     {{else if displayWaitSentence}}
       <p class="scorecard-details-content-right__reset-message">{{remainingDaysText}}</p>

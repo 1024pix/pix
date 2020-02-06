@@ -22,25 +22,50 @@
     <span class="sign-form-body__instruction">Les champs marqués de <abbr title="obligatoire">*</abbr> sont obligatoires.</span>
 
     <div class="sign-form-body__input">
-      <FormTextfield @label="Prénom" @textfieldName="firstName" @inputBindingValue={{user.firstName}} @onValidate={{action "validateInput"}} @validationStatus={{validation.firstName.status}} @validationMessage={{validation.firstName.message}} @autocomplete="given-name" @require={{true}} />
+      <FormTextfield @label="Prénom"
+                     @textfieldName="firstName"
+                     @inputBindingValue={{user.firstName}}
+                     @onValidate={{action "validateInput"}}
+                     @validationStatus={{validation.firstName.status}}
+                     @validationMessage={{validation.firstName.message}}
+                     @autocomplete="given-name"
+                     @require={{true}} />
     </div>
 
     <div class="sign-form-body__input">
-      <FormTextfield @label="Nom" @textfieldName="lastName" @inputBindingValue={{user.lastName}} @onValidate={{action "validateInput"}} @validationStatus={{validation.lastName.status}} @validationMessage={{validation.lastName.message}} @autocomplete="family-name" @require={{true}} />
+      <FormTextfield @label="Nom"
+                     @textfieldName="lastName"
+                     @inputBindingValue={{user.lastName}}
+                     @onValidate={{action "validateInput"}}
+                     @validationStatus={{validation.lastName.status}}
+                     @validationMessage={{validation.lastName.message}}
+                     @autocomplete="family-name" @require={{true}} />
     </div>
 
     <div class="sign-form-body__input">
-      <FormTextfield @label="Adresse e-mail" @help="(ex: nom@exemple.fr)" @textfieldName="email" @validationStatus={{validation.email.status}} @onValidate={{action "validateInputEmail"}} @inputBindingValue={{user.email}} @validationMessage={{validation.email.message}} @autocomplete="email" @require={{true}} />
+      <FormTextfield @label="Adresse e-mail"
+                     @help="(ex: nom@exemple.fr)"
+                     @textfieldName="email"
+                     @validationStatus={{validation.email.status}}
+                     @onValidate={{action "validateInputEmail"}}
+                     @inputBindingValue={{user.email}}
+                     @validationMessage={{validation.email.message}}
+                     @autocomplete="email" @require={{true}} />
     </div>
 
     <div class="sign-form-body__input">
-      <FormTextfield @label="Mot de passe" @help="(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)" @textfieldName="password" @validationStatus={{validation.password.status}} @onValidate={{action "validateInputPassword"}} @inputBindingValue={{user.password}} @validationMessage={{validation.password.message}} @autocomplete="new-password" @require={{true}} />
+      <FormTextfield @label="Mot de passe"
+                     @help="(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)"
+                     @textfieldName="password"
+                     @validationStatus={{validation.password.status}}
+                     @onValidate={{action "validateInputPassword"}}
+                     @inputBindingValue={{user.password}}
+                     @validationMessage={{validation.password.message}}
+                     @autocomplete="new-password"
+                     @require={{true}} />
     </div>
 
     <div class="signup-form__cgu-container">
-
-
-
       <label for="pix-cgu" class="signup-form__cgu-label">
         <div class="signup-form__cgu">
           <Input @type="checkbox" @id="pix-cgu" @checked={{user.cgu}} />

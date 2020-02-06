@@ -3,15 +3,48 @@
     <span class="register-form__required-inputs">Les champs marqués de <abbr title="obligatoire">*</abbr> sont obligatoires.</span>
 
     <div id="register-firstName-container">
-      <FormTextfield @label="Prénom" @textfieldName="firstName" @inputBindingValue={{firstName}} @onValidate={{action "triggerInputStringValidation" "firstName" firstName}} @validationStatus={{validation.firstName.status}} @validationMessage={{validation.firstName.message}} @autocomplete="firstname" @disabled={{matchingStudentFound}} @require={{true}} />
+      <FormTextfield @label="Prénom"
+                     @textfieldName="firstName"
+                     @inputBindingValue={{firstName}}
+                     @onValidate={{action "triggerInputStringValidation" "firstName" firstName}}
+                     @validationStatus={{validation.firstName.status}}
+                     @validationMessage={{validation.firstName.message}}
+                     @autocomplete="firstname"
+                     @disabled={{matchingStudentFound}}
+                     @require={{true}} />
     </div>
 
     <div id="register-lastName-container">
-      <FormTextfield @label="Nom" @textfieldName="lastName" @inputBindingValue={{lastName}} @onValidate={{action "triggerInputStringValidation" "lastName" lastName}} @validationStatus={{validation.lastName.status}} @validationMessage={{validation.lastName.message}} @autocomplete="lastname" @disabled={{matchingStudentFound}} @require={{true}} />
+      <FormTextfield @label="Nom"
+                     @textfieldName="lastName"
+                     @inputBindingValue={{lastName}}
+                     @onValidate={{action "triggerInputStringValidation" "lastName" lastName}}
+                     @validationStatus={{validation.lastName.status}}
+                     @validationMessage={{validation.lastName.message}}
+                     @autocomplete="lastname"
+                     @disabled={{matchingStudentFound}}
+                     @require={{true}} />
     </div>
 
     <div id="register-birthdate-container">
-      <FormTextfieldDate @label="Date de naissance (JJ/MM/AAAA)" @dayTextfieldName="dayOfBirth" @monthTextfieldName="monthOfBirth" @yearTextfieldName="yearOfBirth" @dayInputBindingValue={{dayOfBirth}} @monthInputBindingValue={{monthOfBirth}} @yearInputBindingValue={{yearOfBirth}} @onValidateDay={{action "triggerInputDayValidation" "dayOfBirth" dayOfBirth}} @onValidateMonth={{action "triggerInputMonthValidation" "monthOfBirth" monthOfBirth}} @onValidateYear={{action "triggerInputYearValidation" "yearOfBirth" yearOfBirth}} @dayValidationStatus={{validation.dayOfBirth.status}} @monthValidationStatus={{validation.monthOfBirth.status}} @yearValidationStatus={{validation.yearOfBirth.status}} @dayValidationMessage={{validation.dayOfBirth.message}} @monthValidationMessage={{validation.monthOfBirth.message}} @yearValidationMessage={{validation.yearOfBirth.message}} @disabled={{matchingStudentFound}} @require={{true}} />
+      <FormTextfieldDate @label="Date de naissance (JJ/MM/AAAA)"
+                         @dayTextfieldName="dayOfBirth"
+                         @monthTextfieldName="monthOfBirth"
+                         @yearTextfieldName="yearOfBirth"
+                         @dayInputBindingValue={{dayOfBirth}}
+                         @monthInputBindingValue={{monthOfBirth}}
+                         @yearInputBindingValue={{yearOfBirth}}
+                         @onValidateDay={{action "triggerInputDayValidation" "dayOfBirth" dayOfBirth}}
+                         @onValidateMonth={{action "triggerInputMonthValidation" "monthOfBirth" monthOfBirth}}
+                         @onValidateYear={{action "triggerInputYearValidation" "yearOfBirth" yearOfBirth}}
+                         @dayValidationStatus={{validation.dayOfBirth.status}}
+                         @monthValidationStatus={{validation.monthOfBirth.status}}
+                         @yearValidationStatus={{validation.yearOfBirth.status}}
+                         @dayValidationMessage={{validation.dayOfBirth.message}}
+                         @monthValidationMessage={{validation.monthOfBirth.message}}
+                         @yearValidationMessage={{validation.yearOfBirth.message}}
+                         @disabled={{matchingStudentFound}}
+                         @require={{true}} />
     </div>
 
     {{#if errorMessage}}
@@ -42,15 +75,35 @@
   <form {{action 'register' on='submit'}} autocomplete="off">
     {{#if loginWithUsername}}
         <div id="register-username-container">
-          <FormTextfield @label="Mon identifiant" @textfieldName="username" @inputBindingValue={{studentDependentUser.username}} @onValidate={{action "triggerInputStringValidation" "username" studentDependentUser.username}} @validationStatus={{validation.username.status}} @validationMessage={{validation.username.message}} @disabled={{true}} @require={{true}} />
+          <FormTextfield @label="Mon identifiant"
+                         @textfieldName="username"
+                         @inputBindingValue={{studentDependentUser.username}}
+                         @onValidate={{action "triggerInputStringValidation" "username" studentDependentUser.username}}
+                         @validationStatus={{validation.username.status}}
+                         @validationMessage={{validation.username.message}}
+                         @disabled={{true}}
+                         @require={{true}} />
         </div>
     {{else}}
         <div id="register-email-container">
-          <FormTextfield @label="Adresse e-mail" @help="(ex: nom@exemple.fr)" @textfieldName="email" @inputBindingValue={{studentDependentUser.email}} @onValidate={{action "triggerInputEmailValidation" "email" studentDependentUser.email}} @validationStatus={{validation.email.status}} @validationMessage={{validation.email.message}} @require={{true}} />
+          <FormTextfield @label="Adresse e-mail"
+                         @help="(ex: nom@exemple.fr)"
+                         @textfieldName="email"
+                         @inputBindingValue={{studentDependentUser.email}}
+                         @onValidate={{action "triggerInputEmailValidation" "email" studentDependentUser.email}}
+                         @validationStatus={{validation.email.status}}
+                         @validationMessage={{validation.email.message}}
+                         @require={{true}} />
         </div>
     {{/if}}
     <div id="register-password-container">
-      <FormTextfield @label="Mot de passe" @help="(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)" @textfieldName="password" @inputBindingValue={{studentDependentUser.password}} @onValidate={{action "triggerInputPasswordValidation" "password" studentDependentUser.password}} @validationStatus={{validation.password.status}} @validationMessage={{validation.password.message}} @require={{true}} />
+      <FormTextfield @label="Mot de passe"
+                     @help="(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)"
+                     @textfieldName="password" @inputBindingValue={{studentDependentUser.password}}
+                     @onValidate={{action "triggerInputPasswordValidation" "password" studentDependentUser.password}}
+                     @validationStatus={{validation.password.status}}
+                     @validationMessage={{validation.password.message}}
+                     @require={{true}} />
     </div>
 
     <div class="register-button-container">
