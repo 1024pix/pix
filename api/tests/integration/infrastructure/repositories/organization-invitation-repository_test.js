@@ -159,20 +159,35 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
 
   describe('#findOnePendingByOrganizationIdAndEmail', () => {
 
-    it('should retrieve one pending organization-invitation with given organizationId and email', async () => {
+    let organizationInvitation;
+
+    beforeEach(async () => {
       // given
       databaseBuilder.factory.buildOrganizationInvitation({
         status: OrganizationInvitation.StatusType.ACCEPTED,
       });
-      const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
+      organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
         status: OrganizationInvitation.StatusType.PENDING,
       });
-      const { organizationId, email } = organizationInvitation;
-
       await databaseBuilder.commit();
+    });
+
+    it('should retrieve one pending organization-invitation with given organizationId and email', async () => {
+      const { organizationId, email } = organizationInvitation;
 
       // when
       const foundOrganizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({ organizationId, email });
+
+      // then
+      expect(_.omit(foundOrganizationInvitation, 'organizationName')).to.deep.equal(organizationInvitation);
+    });
+
+    it('should retrieve one pending organization-invitation with given organizationId and case-insensitive email', async () => {
+      const { organizationId, email } = organizationInvitation;
+
+      const upperEmail = email.toUpperCase();
+      // when
+      const foundOrganizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({ organizationId, email: upperEmail });
 
       // then
       expect(_.omit(foundOrganizationInvitation, 'organizationName')).to.deep.equal(organizationInvitation);
