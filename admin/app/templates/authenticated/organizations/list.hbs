@@ -9,6 +9,13 @@
 
 <main class="page-body">
   <section class="page-section">
-    {{organization-list organizations=model}}
+    {{routes/authenticated/organizations/list-items
+      organizations=model
+      name=name
+      type=type
+      code=code
+      triggerFiltering=(action 'triggerFiltering')
+      goToOrganizationPage=(action 'goToOrganizationPage')
+    }}
   </section>
 </main>
