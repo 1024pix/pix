@@ -25,6 +25,9 @@
         {{#if organization.provinceCode}}
           Département : <span class="organization__provinceCode">{{organization.provinceCode}}</span><br>
         {{/if}}
+        {{#if isOrganizationSCO}}
+          Gère des élèves : <span class="organization__isManagingStudents">{{isManagingStudents}}</span>
+        {{/if}}
       </p>
     </div>
   </div>
