@@ -2,7 +2,7 @@ const { expect, nock } = require('../../test-helper');
 
 const { checkData, updateOrganizations } = require('../../../scripts/update-sco-organizations-with-is-managing-students-to-true');
 
-describe('Acceptance | Scripts | update-sco-organizations-with-is-managing-students-to-true.js', () => {
+describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to-true.js', () => {
 
   describe('#updateOrganizations', () => {
 
