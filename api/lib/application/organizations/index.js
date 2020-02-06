@@ -22,14 +22,16 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations',
       config: {
-        handler: organisationController.find,
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: organisationController.findPaginatedFilteredOrganizations,
         tags: ['api', 'organizations'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle peut être utilisée dans 3 cas : \n' +
-          '- un usager qui souhaite partager son profil de compétences avec une organisation (retourne un tableau vide)\n' +
-          '- à la connexion d’un prescripteur (pour détecter qu’il est bien prescripteur (retourne un tableau avec 1 seul élément)\n' +
-          '- un Pix master qui souhaite consulter la liste de toutes les organisations (retourne un tableau avec n éléments)',
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de récupérer & chercher une liste d’organisations\n' +
+          '- Cette liste est paginée et filtrée selon un **name**, un **type** et/ou un **code** donnés'
         ]
       }
     },

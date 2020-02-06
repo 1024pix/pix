@@ -318,7 +318,7 @@ describe('Integration | Repository | Organization', function() {
     });
   });
 
-  describe('#find', () => {
+  describe('#findPaginatedFiltered', () => {
 
     context('when there are Organizations in the database', () => {
 
@@ -329,18 +329,18 @@ describe('Integration | Repository | Organization', function() {
 
       it('should return an Array of Organizations', async () => {
         // given
-        const filters = {};
-        const pagination = { page: 1, pageSize: 10 };
+        const filter = {};
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
 
         // when
-        const promise = organizationRepository.find(filters, pagination);
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        return promise.then((matchingOrganizations) => {
-          expect(matchingOrganizations).to.exist;
-          expect(matchingOrganizations).to.have.lengthOf(3);
-          expect(matchingOrganizations[0]).to.be.an.instanceOf(Organization);
-        });
+        expect(matchingOrganizations).to.exist;
+        expect(matchingOrganizations).to.have.lengthOf(3);
+        expect(matchingOrganizations[0]).to.be.an.instanceOf(Organization);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
 
     });
@@ -354,16 +354,16 @@ describe('Integration | Repository | Organization', function() {
 
       it('should return paginated matching Organizations', async () => {
         // given
-        const filters = {};
-        const pagination = { page: 1, pageSize: 3 };
+        const filter = {};
+        const page = { number: 1, size: 3 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
 
         // when
-        const promise = organizationRepository.find(filters, pagination);
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        return promise.then((matchingOrganizations) => {
-          expect(matchingOrganizations).to.have.lengthOf(3);
-        });
+        expect(matchingOrganizations).to.have.lengthOf(3);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
     });
 
@@ -379,17 +379,17 @@ describe('Integration | Repository | Organization', function() {
 
       it('should return only Organizations matching "name" if given in filters', async () => {
         // given
-        const filters = { name: 'dra' };
-        const pagination = { page: 1, pageSize: 10 };
+        const filter = { name: 'dra' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
         // when
-        const promise = organizationRepository.find(filters, pagination);
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        return promise.then((matchingOrganizations) => {
-          expect(matchingOrganizations).to.have.lengthOf(2);
-          expect(_.map(matchingOrganizations, 'name')).to.have.members(['Dragon & co', 'Dragonades & co']);
-        });
+        expect(matchingOrganizations).to.have.lengthOf(2);
+        expect(_.map(matchingOrganizations, 'name')).to.have.members(['Dragon & co', 'Dragonades & co']);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
     });
 
@@ -405,16 +405,16 @@ describe('Integration | Repository | Organization', function() {
 
       it('should return only Organizations matching "type" if given in filters', async () => {
         // given
-        const filters = { type: 'S' };
-        const pagination = { page: 1, pageSize: 10 };
+        const filter = { type: 'S' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
         // when
-        const promise = organizationRepository.find(filters, pagination);
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        return promise.then((matchingOrganizations) => {
-          expect(_.map(matchingOrganizations, 'type')).to.have.members(['SUP', 'SCO']);
-        });
+        expect(_.map(matchingOrganizations, 'type')).to.have.members(['SUP', 'SCO']);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
     });
 
@@ -429,16 +429,16 @@ describe('Integration | Repository | Organization', function() {
 
       it('should return only Organizations matching "code" if given in filters', async () => {
         // given
-        const filters = { code: 'AZ' };
-        const pagination = { page: 1, pageSize: 10 };
+        const filter = { code: 'AZ' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
         // when
-        const promise = organizationRepository.find(filters, pagination);
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        return promise.then((matchingOrganizations) => {
-          expect(_.map(matchingOrganizations, 'code')).to.have.members(['AZH578', 'AZH002']);
-        });
+        expect(_.map(matchingOrganizations, 'code')).to.have.members(['AZH578', 'AZH002']);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
     });
 
@@ -460,18 +460,18 @@ describe('Integration | Repository | Organization', function() {
 
       it('should return only Organizations matching "name" AND "type" AND "code" if given in filters', async () => {
         // given
-        const filters = { name: 'name_ok', type: 'SCO', code: 'c_ok' };
-        const pagination = { page: 1, pageSize: 10 };
+        const filter = { name: 'name_ok', type: 'SCO', code: 'c_ok' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
 
         // when
-        const promise = organizationRepository.find(filters, pagination);
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        return promise.then((matchingOrganizations) => {
-          expect(_.map(matchingOrganizations, 'name')).to.have.members(['name_ok_1', 'name_ok_2', 'name_ok_3']);
-          expect(_.map(matchingOrganizations, 'type')).to.have.members(['SCO', 'SCO', 'SCO']);
-          expect(_.map(matchingOrganizations, 'code')).to.have.members(['c_ok_1', 'c_ok_2', 'c_ok_3']);
-        });
+        expect(_.map(matchingOrganizations, 'name')).to.have.members(['name_ok_1', 'name_ok_2', 'name_ok_3']);
+        expect(_.map(matchingOrganizations, 'type')).to.have.members(['SCO', 'SCO', 'SCO']);
+        expect(_.map(matchingOrganizations, 'code')).to.have.members(['c_ok_1', 'c_ok_2', 'c_ok_3']);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
     });
 
@@ -484,66 +484,19 @@ describe('Integration | Repository | Organization', function() {
         return databaseBuilder.commit();
       });
 
-      it('should ignore the filters and retrieve all organizations', () => {
+      it('should ignore the filters and retrieve all organizations', async () => {
         // given
-        const filters = { id: 1 };
-        const pagination = { page: 1, pageSize: 10 };
+        const filter = { id: 1 };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
         // when
-        const promise = organizationRepository.find(filters, pagination);
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        return promise.then((matchingOrganizations) => {
-          expect(_.map(matchingOrganizations, 'id')).to.have.members([1, 2]);
-        });
+        expect(_.map(matchingOrganizations, 'id')).to.have.members([1, 2]);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
     });
   });
-
-  describe('#count', () => {
-
-    context('when there are multiple Organizations in database', () => {
-
-      beforeEach(() => {
-        _.times(8, databaseBuilder.factory.buildOrganization);
-        return databaseBuilder.commit();
-      });
-
-      it('should return the total number of Organizations when there is no filter', async () => {
-        // given
-        const filters = {};
-
-        // when
-        const promise = organizationRepository.count(filters);
-
-        // then
-        return promise.then((totalMatchingOrganizations) => {
-          expect(totalMatchingOrganizations).to.equal(8);
-        });
-      });
-    });
-
-    context('when there are multiple Organizations matching the same "name" search pattern', () => {
-
-      beforeEach(() => {
-        databaseBuilder.factory.buildOrganization({ name: 'Drago & co' });
-        databaseBuilder.factory.buildOrganization({ name: 'Maxie & co' });
-        return databaseBuilder.commit();
-      });
-
-      it('should return the total number of matching Organizations', async () => {
-        // given
-        const filters = { name: 'dra' };
-
-        // when
-        const promise = organizationRepository.count(filters);
-
-        // then
-        return promise.then((totalMatchingOrganizations) => {
-          expect(totalMatchingOrganizations).to.equal(1);
-        });
-      });
-    });
-  });
-
 });

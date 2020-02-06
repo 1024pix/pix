@@ -15,7 +15,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     sinon.stub(securityController, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
 
     sinon.stub(organisationController, 'create').returns('ok');
-    sinon.stub(organisationController, 'find').returns('ok');
+    sinon.stub(organisationController, 'findPaginatedFilteredOrganizations').returns('ok');
     sinon.stub(organisationController, 'findPaginatedFilteredCampaigns').returns('ok');
     sinon.stub(organisationController, 'importStudentsFromSIECLE').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(organisationController, 'sendInvitations').callsFake((request, h) => h.response().created());
