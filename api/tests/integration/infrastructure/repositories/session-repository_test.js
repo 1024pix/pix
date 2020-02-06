@@ -497,39 +497,42 @@ describe('Integration | Repository | Session', function() {
 
   });
 
-  describe('#updateStatusAndExaminerGlobalComment', () => {
-    let session;
+  describe('#finalize', () => {
+    let id;
+    let status = 'started';
+    let examinerGlobalComment = '';
+    const finalizedAt = new Date('2017-09-01T12:14:33Z');
 
     beforeEach(() => {
-      const bookshelfSession = databaseBuilder.factory.buildSession({
-        id: 1,
-        status: Session.statuses.STARTED,
-      });
-      session = domainBuilder.buildSession(bookshelfSession);
+      id = databaseBuilder.factory.buildSession({ status: Session.statuses.STARTED }).id;
 
       return databaseBuilder.commit();
     });
 
     it('should return a Session domain object', async () => {
       // when
-      const sessionSaved = await sessionRepository.updateStatusAndExaminerGlobalComment(session);
+      const sessionSaved = await sessionRepository.finalize({ id, status, examinerGlobalComment, finalizedAt });
 
       // then
       expect(sessionSaved).to.be.an.instanceof(Session);
+      expect(sessionSaved.id).to.deep.equal(id);
+      expect(sessionSaved.examinerGlobalComment).to.deep.equal(examinerGlobalComment);
+      expect(sessionSaved.status).to.deep.equal(status);
     });
 
     it('should update model in database', async () => {
       // given
-      session.examinerGlobalComment = 'It was a fine session my dear';
-      session.status = Session.statuses.FINALIZED;
+      examinerGlobalComment = 'It was a fine session my dear';
+      status = Session.statuses.FINALIZED;
 
       // when
-      const sessionSaved = await sessionRepository.updateStatusAndExaminerGlobalComment(session);
+      await sessionRepository.finalize({ id, status, examinerGlobalComment, finalizedAt });
 
       // then
-      expect(sessionSaved.id).to.deep.equal(session.id);
-      expect(sessionSaved.examinerGlobalComment).to.deep.equal('It was a fine session my dear');
-      expect(sessionSaved.status).to.deep.equal(Session.statuses.FINALIZED);
+      const sessions = await knex('sessions').where({ id });
+      expect(sessions[0].status).to.equal(status);
+      expect(sessions[0].examinerGlobalComment).to.equal(examinerGlobalComment);
+      expect(sessions[0].finalizedAt).to.deep.equal(finalizedAt);
     });
   });
 });
