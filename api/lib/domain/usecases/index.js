@@ -62,6 +62,7 @@ function injectDependencies(usecases) {
 module.exports = injectDependencies({
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
   acceptPixOrgaTermsOfService: require('./accept-pix-orga-terms-of-service'),
+  archiveCampaign: require('./archive-campaign'),
   addCertificationCandidateToSession: require('./add-certification-candidate-to-session'),
   analyzeAttendanceSheet: require('./analyze-attendance-sheet'),
   answerToOrganizationInvitation: require('./answer-to-organization-invitation'),
@@ -148,6 +149,7 @@ module.exports = injectDependencies({
   startOrResumeCompetenceEvaluation: require('./start-or-resume-competence-evaluation'),
   startWritingCampaignResultsToStream: require('./start-writing-campaign-results-to-stream'),
   updateCampaign: require('./update-campaign'),
+  unarchiveCampaign: require('./unarchive-campaign'),
   updateCertificationPublicationStatus: require('./update-certification-publication-status'),
   updateMembershipRole: require('./update-membership-role'),
   updateOrganizationInformation: require('./update-organization-information'),

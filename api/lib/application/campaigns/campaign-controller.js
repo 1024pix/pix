@@ -77,7 +77,7 @@ module.exports = {
     const { userId } = request.auth.credentials;
     const campaignId = parseInt(request.params.id);
 
-    return usecases.updateCampaign({ userId, campaignId, archivedAt: new Date() })
+    return usecases.archiveCampaign({ userId, campaignId, })
       .then(campaignSerializer.serialize);
   },
 
@@ -85,7 +85,7 @@ module.exports = {
     const { userId } = request.auth.credentials;
     const campaignId = parseInt(request.params.id);
 
-    return usecases.updateCampaign({ userId, campaignId, archivedAt: null })
+    return usecases.unarchiveCampaign({ userId, campaignId })
       .then(campaignSerializer.serialize);
   },
 

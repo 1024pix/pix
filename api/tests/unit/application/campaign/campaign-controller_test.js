@@ -222,7 +222,6 @@ describe('Unit | Application | Controller | Campaign', () => {
             attributes: {
               title: 'New title',
               'custom-landing-page-text': 'New text',
-              'archived-at': '2012-12-12',
             }
           }
         }
@@ -336,7 +335,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     const userId = 1;
 
     beforeEach(() => {
-      sinon.stub(usecases, 'updateCampaign');
+      sinon.stub(usecases, 'archiveCampaign');
       sinon.stub(campaignSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
       updatedCampaign = Symbol('updated campaign');
       serializedCampaign = Symbol('serialized campaign');
@@ -344,7 +343,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should return the updated campaign properly serialized', async () => {
       // given
-      usecases.updateCampaign.withArgs({ userId, campaignId, archivedAt: sinon.match.instanceOf(Date) }).resolves(updatedCampaign);
+      usecases.archiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
       campaignSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
 
       // when
@@ -368,7 +367,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     const userId = 1;
 
     beforeEach(() => {
-      sinon.stub(usecases, 'updateCampaign');
+      sinon.stub(usecases, 'unarchiveCampaign');
       sinon.stub(campaignSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
       updatedCampaign = Symbol('updated campaign');
       serializedCampaign = Symbol('serialized campaign');
@@ -376,7 +375,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should return the updated campaign properly serialized', async () => {
       // given
-      usecases.updateCampaign.withArgs({ userId, campaignId, archivedAt: null }).resolves(updatedCampaign);
+      usecases.unarchiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
       campaignSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
 
       // when
