@@ -9,9 +9,7 @@ const {
 } = require('../errors');
 
 module.exports = async function completeAssessment({
-  // Parameters
   assessmentId,
-  // Repositories
   answerRepository,
   assessmentRepository,
   assessmentResultRepository,
@@ -21,7 +19,6 @@ module.exports = async function completeAssessment({
   competenceMarkRepository,
   courseRepository,
   skillRepository,
-  // Services
   scoringCertificationService,
 }) {
   const assessment = await assessmentRepository.get(assessmentId);
@@ -29,7 +26,6 @@ module.exports = async function completeAssessment({
   if (assessment.isCompleted()) {
     throw new AlreadyRatedAssessmentError();
   }
-
   assessment.setCompleted();
 
   if (assessment.isCertification()) {
