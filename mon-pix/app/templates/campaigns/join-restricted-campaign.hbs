@@ -11,7 +11,16 @@
 
         <div class="join-restricted-campaign__row">
           <label class="join-restricted-campaign__label">Prénom</label>
-          <Input @id="firstName" @type="text" @value={{firstName}} placeholder="Prénom" @readonly={{isDisabled}} @disabled={{isDisabled}} class={{if validation.firstName.message "input--error"}} @focusOut={{action "triggerInputStringValidation" "firstName" firstName}} />
+          <Input
+            @id="firstName"
+            @type="text"
+            @value={{firstName}}
+            placeholder="Prénom"
+            @readonly={{isDisabled}}
+            @disabled={{isDisabled}}
+            class={{if validation.firstName.message "input--error"}}
+            @focusOut={{action "triggerInputStringValidation" "firstName" firstName}}
+           />
           <div class="{{if validation.firstName.message 'join-restricted-campaign__field-error'}}" role="alert">
             {{validation.firstName.message}}
           </div>
@@ -19,7 +28,16 @@
 
         <div class="join-restricted-campaign__row">
           <label class="join-restricted-campaign__label">Nom</label>
-          <Input @id="lastName" @type="text" @value={{lastName}} placeholder="Nom" @readonly={{isDisabled}} @disabled={{isDisabled}} class={{if validation.lastName.message "input--error"}} @focusOut={{action "triggerInputStringValidation" "lastName" lastName}} />
+          <Input
+            @id="lastName"
+            @type="text"
+            @value={{lastName}}
+            placeholder="Nom"
+            @readonly={{isDisabled}}
+            @disabled={{isDisabled}}
+            class={{if validation.lastName.message "input--error"}}
+            @focusOut={{action "triggerInputStringValidation" "lastName" lastName}}
+           />
           <div class="{{if validation.lastName.message 'join-restricted-campaign__field-error'}}" role="alert">
             {{validation.lastName.message}}
           </div>
