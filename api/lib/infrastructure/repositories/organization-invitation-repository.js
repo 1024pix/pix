@@ -68,7 +68,9 @@ module.exports = {
 
   findOnePendingByOrganizationIdAndEmail({ organizationId, email }) {
     return BookshelfOrganizationInvitation
-      .where({ organizationId, email, status: 'pending' })
+      .query((qb) =>
+        qb.where({ organizationId, status: OrganizationInvitation.StatusType.PENDING })
+          .whereRaw('LOWER("email") = ?', `${email.toLowerCase()}`))
       .fetch({ required: false })
       .then(_toDomain);
   },
