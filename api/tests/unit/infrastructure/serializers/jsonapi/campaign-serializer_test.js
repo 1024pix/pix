@@ -7,6 +7,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
   describe('#serialize', function() {
 
     const tokenToAccessToCampaign = 'token';
+    const meta = { some: 'meta' };
 
     context('when the campaign does not have a campaignReport', function() {
 
@@ -70,11 +71,12 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               id: '123',
               type: 'targetProfiles'
             }
-          ]
+          ],
+          meta
         };
 
         // when
-        const json = serializer.serialize(campaign, { tokenForCampaignResults: tokenToAccessToCampaign });
+        const json = serializer.serialize(campaign, meta, { tokenForCampaignResults: tokenToAccessToCampaign });
 
         // then
         expect(json).to.deep.equal(expectedSerializedCampaign);
@@ -158,11 +160,12 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               id: '5',
               type: 'campaignReports'
             }
-          ]
+          ],
+          meta
         };
 
         // when
-        const json = serializer.serialize(campaign, { tokenForCampaignResults: tokenToAccessToCampaign, ignoreCampaignReportRelationshipData: false });
+        const json = serializer.serialize(campaign, meta, { tokenForCampaignResults: tokenToAccessToCampaign, ignoreCampaignReportRelationshipData: false });
 
         // then
         expect(json).to.deep.equal(expectedSerializedCampaign);
@@ -178,11 +181,12 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
         const campaigns = [];
 
         const expectedSerializedCampaigns = {
-          data: []
+          data: [],
+          meta
         };
 
         // when
-        const json = serializer.serialize(campaigns, { tokenForCampaignResults: tokenToAccessToCampaign });
+        const json = serializer.serialize(campaigns, meta, { tokenForCampaignResults: tokenToAccessToCampaign });
 
         // then
         expect(json).to.deep.equal(expectedSerializedCampaigns);

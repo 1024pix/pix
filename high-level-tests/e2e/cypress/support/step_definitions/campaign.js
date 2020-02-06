@@ -27,3 +27,23 @@ when(`je saisis ma date de naissance {int}-{int}-{int}`, (dayOfBirth, monthOfBir
   cy.get('input#monthOfBirth').type(monthOfBirth);
   cy.get('input#yearOfBirth').type(yearOfBirth);
 });
+
+then(`je vois la liste des campagnes`, () => {
+  cy.get('.campaign-list table tbody tr').should('have.lengthOf', 2);
+});
+
+when(`je recherche une campagne avec le nom {string}`, (campaignSearchName) => {
+  cy.get('input#campaignName').type(campaignSearchName);
+});
+
+then(`la liste est filtrée`, () => {
+  cy.get('.campaign-list table tbody tr').should('have.lengthOf', 1);
+});
+
+when(`je clique sur la campagne {string}`, (campaignName) => {
+  cy.contains(campaignName).click();
+});
+
+then(`je vois le détail de la campagne {string}`, (campaignName) => {
+  cy.get('.page__title').should('contain', campaignName);
+});

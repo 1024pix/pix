@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
+const { knex } = require('../bookshelf');
 
 const BookshelfCampaign = require('../data/campaign');
 const Campaign = require('../../domain/models/Campaign');
@@ -22,7 +22,9 @@ function _toDomain(bookshelfCampaign) {
   ]));
 }
 
-function _fromJsonWithReportDataToDomain(jsonCampaignWithReportData) {
+function _fromBookshelfCampaignWithReportDataToDomain(campaignWithReportData) {
+  const jsonCampaignWithReportData = campaignWithReportData.toJSON();
+
   const campaignWithReport = _.pick(jsonCampaignWithReportData, [
     'id',
     'name',
@@ -43,6 +45,35 @@ function _fromJsonWithReportDataToDomain(jsonCampaignWithReportData) {
   });
 
   return new Campaign(campaignWithReport);
+}
+
+function _countSharedCampaignParticipations(qb) {
+  return qb.leftJoin(
+    knex('campaign-participations')
+      .select('campaignId')
+      .count('* as sharedParticipationsCount')
+      .groupBy('campaignId', 'isShared')
+      .having('isShared', '=', true)
+      .as('isShared'),
+    'campaigns.id', 'isShared.campaignId'
+  );
+}
+
+function _countCampaignParticipations(qb) {
+  return qb.leftJoin(
+    knex('campaign-participations')
+      .select('campaignId')
+      .count('* as participationsCount')
+      .groupBy('campaignId')
+      .as('participations'),
+    'campaigns.id', 'participations.campaignId'
+  );
+}
+
+function _setSearchFiltersForQueryBuilder(qb, { name }) {
+  if (name) {
+    qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
+  }
 }
 
 module.exports = {
@@ -92,32 +123,24 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findByOrganizationIdWithCampaignReports(organizationId) {
-    return knex('campaigns')
-      .select(
-        'campaigns.*',
-        'participations.participationsCount',
-        'isShared.sharedParticipationsCount'
-      )
-      .leftJoin(
-        knex('campaign-participations')
-          .select('campaignId')
-          .count('* as participationsCount')
-          .groupBy('campaignId')
-          .as('participations'),
-        'campaigns.id', 'participations.campaignId'
-      )
-      .leftJoin(
-        knex('campaign-participations')
-          .select('campaignId')
-          .count('* as sharedParticipationsCount')
-          .groupBy('campaignId', 'isShared')
-          .having('isShared', '=', true)
-          .as('isShared'),
-        'campaigns.id', 'isShared.campaignId'
-      )
-      .where('campaigns.organizationId', organizationId)
-      .then((campaignsWithCampaignReports) => campaignsWithCampaignReports.map(_fromJsonWithReportDataToDomain));
+  findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page }) {
+    return BookshelfCampaign
+      .query((qb) => {
+        qb.select('campaigns.*', 'participations.participationsCount', 'isShared.sharedParticipationsCount')
+          .where('campaigns.organizationId', organizationId)
+          .modify(_setSearchFiltersForQueryBuilder, filter)
+          .modify(_countCampaignParticipations)
+          .modify(_countSharedCampaignParticipations)
+          .orderByRaw('LOWER(campaigns."name") ASC, campaigns."createdAt" DESC');
+      })
+      .fetchPage({
+        page: page.number,
+        pageSize: page.size
+      })
+      .then(({ models, pagination }) => {
+        const campaignsWithReports = models.map(_fromBookshelfCampaignWithReportDataToDomain);
+        return { models: campaignsWithReports, pagination };
+      });
   },
 
   checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {

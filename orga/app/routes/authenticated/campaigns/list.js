@@ -3,16 +3,38 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 export default Route.extend({
+  queryParams: {
+    pageNumber: {
+      refreshModel: true
+    },
+    pageSize: {
+      refreshModel: true
+    },
+    name: {
+      refreshModel: true
+    },
+  },
 
   currentUser: service(),
 
-  model() {
-    // FIXME Maybe we should fetch organizations directly from API rather than using Ember Data relationships mechanisms and even make API requests
-    // FIXME And then the model force reload in the `#afterModel` hook would be useless
-    return this.currentUser.organization.get('campaigns');
+  model(params) {
+    return this.store.query('campaign', {
+      filter: {
+        organizationId: this.currentUser.organization.id,
+        name: params.name,
+      },
+      page: {
+        number: params.pageNumber,
+        size: params.pageSize,
+      },
+    }, { reload: true });
   },
 
-  afterModel(model) {
-    model.reload();
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.set('pageNumber', 1);
+      controller.set('pageSize', 25);
+      controller.set('name', null);
+    }
   }
 });
