@@ -120,97 +120,72 @@ describe('Integration | Repository | Campaign', () => {
 
   describe('#findPaginatedFilteredByOrganizationIdWithCampaignReports', () => {
 
-    context('when campaigns have campaignReports', async () => {
+    let filter, page;
+    let organizationId, targetProfileId, creatorId;
+    let campaign;
 
-      it('should return the campaigns of the given organization id with campaignReports', async () => {
+    beforeEach(async () => {
+      organizationId = databaseBuilder.factory.buildOrganization({}).id;
+      targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
+      creatorId = databaseBuilder.factory.buildUser({}).id;
+      await databaseBuilder.commit();
+
+      filter = {};
+      page = { number: 1, size: 3 };
+    });
+
+    context('when the given organization has no campaign', () => {
+
+      it('should return an empty array', async () => {
         // given
-        const organizationId = databaseBuilder.factory.buildOrganization({}).id;
-        const targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
-        const firstCampaignId = databaseBuilder.factory.buildCampaign(
-          {
-            name: 'campaign1',
-            code: 'AZERTY123',
-            organizationId,
-            targetProfileId,
-          }).id;
-        const secondCampaignId = databaseBuilder.factory.buildCampaign(
-          {
-            name: 'campaign2',
-            code: 'AZERTY456',
-            organizationId,
-            targetProfileId,
-          }).id;
-        _.each([
-          { campaignId: firstCampaignId, isShared: true },
-          { campaignId: firstCampaignId, isShared: false },
-          { campaignId: firstCampaignId, isShared: false },
-          { campaignId: secondCampaignId, isShared: true },
-          { campaignId: secondCampaignId, isShared: true },
-        ], (campaignParticipation) => {
-          databaseBuilder.factory.buildCampaignParticipation(campaignParticipation);
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization({}).id;
+        await databaseBuilder.commit();
+
+        // when
+        const { models: campaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId: otherOrganizationId, filter, page });
+
+        // then
+        expect(campaignsWithReports).to.deep.equal([]);
+      });
+    });
+
+    context('when the given organization has campaigns', () => {
+
+      it('should return campaign with all attributes', async () => {
+        // given
+        campaign = databaseBuilder.factory.buildCampaign({
+          name: 'campaign name',
+          code: 'AZERTY789',
+          organizationId,
+          targetProfileId,
+          creatorId,
         });
         await databaseBuilder.commit();
-        const filter = {};
-        const page = { number: 1, size: 3 };
 
         // when
         const { models: campaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
-        const sortedCampaignsWithReports = _.sortBy(campaignsWithReports, [(camp) => { return camp.id; }]);
 
         // then
-        expect(_.map(sortedCampaignsWithReports, 'id')).to.have.members([firstCampaignId, secondCampaignId]);
-        expect(sortedCampaignsWithReports[0]).to.be.instanceOf(Campaign);
-        expect(sortedCampaignsWithReports[0].campaignReport).to.be.instanceOf(CampaignReport);
-        expect(sortedCampaignsWithReports[0].campaignReport).to.deep.equal({ id: firstCampaignId, participationsCount: 3, sharedParticipationsCount: 1 });
-        expect(sortedCampaignsWithReports[1].campaignReport).to.deep.equal({ id: secondCampaignId, participationsCount: 2, sharedParticipationsCount: 2 });
+        expect(campaignsWithReports[0]).to.be.instanceof(Campaign);
+        expect(campaignsWithReports[0].id).to.equal(campaign.id);
+        expect(campaignsWithReports[0].name).to.equal(campaign.name);
+        expect(campaignsWithReports[0].code).to.equal(campaign.code);
+        expect(campaignsWithReports[0].createdAt).to.exist;
+        expect(campaignsWithReports[0].targetProfileId).to.exist;
+        expect(campaignsWithReports[0].customLandingPageText).to.exist;
+        expect(campaignsWithReports[0].idPixLabel).to.exist;
+        expect(campaignsWithReports[0].title).to.exist;
+        expect(campaignsWithReports[0].creatorId).to.equal(campaign.creatorId);
+        expect(campaignsWithReports[0].organizationId).to.equal(campaign.organizationId);
       });
-    });
 
-    context('when campaigns do not have campaignReports', async () => {
-
-      it('should return the campaigns of the given organization id with campaignReports', async () => {
+      it('should sort campaigns by ascending name and then by descending creation date', async () => {
         // given
-        const organizationId = databaseBuilder.factory.buildOrganization({}).id;
-        const targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
-        const campaignId = databaseBuilder.factory.buildCampaign(
-          {
-            name: 'campaign without participation',
-            code: 'AZERTY789',
-            organizationId,
-            targetProfileId,
-          }).id;
+        const campaignAId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'A' }).id;
+        const campaignBLaterId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'B', createdAt: '2019-01-02' }).id;
+        const campaignBId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'B', createdAt: '2019-01-01' }).id;
         await databaseBuilder.commit();
-        const filter = {};
-        const page = { number: 1, size: 3 };
 
-        // when
-        const { models: campaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
-
-        // then
-        expect(campaignsWithReports[0].campaignReport.id).to.equal(campaignId);
-        expect(campaignsWithReports[0].campaignReport.participationsCount).to.equal(0);
-        expect(campaignsWithReports[0].campaignReport.sharedParticipationsCount).to.equal(0);
-      });
-    });
-
-    context('when several campaigns are returned', () => {
-      // given
-      let organizationId;
-      let page;
-      let campaignAId, campaignBId, campaignBLaterId;
-      const filter = {};
-
-      beforeEach(() => {
-        organizationId = databaseBuilder.factory.buildOrganization({}).id;
-        campaignAId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'A' }).id;
-        campaignBLaterId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'B', createdAt: '2019-01-02' }).id;
-        campaignBId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'B', createdAt: '2019-01-01' }).id;
-        page = { number: 1, size: 3 };
-
-        return databaseBuilder.commit();
-      });
-
-      it('should sort these campaigns by ascending name and then by descending creation date', async () => {
         // when
         const { models: campaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
 
@@ -218,129 +193,145 @@ describe('Integration | Repository | Campaign', () => {
         expect(campaignsWithReports).to.have.lengthOf(3);
         expect(_.map(campaignsWithReports, 'id')).to.include.ordered.members([ campaignAId, campaignBLaterId, campaignBId]);
       });
-    });
 
-    context('when some campaigns names match the "name" search pattern', () => {
-      // given
-      let organizationId;
-      const page = { number: 1, size: 10 };
-      const filter = { name: 'matH' };
+      context('when campaigns have participants', async () => {
 
-      beforeEach(() => {
-        organizationId = databaseBuilder.factory.buildOrganization({}).id;
-        _.each([
-          { name: 'Maths L1' },
-          { name: 'Maths L2' },
-          { name: 'Chimie' },
-          { name: 'Physique' },
-          { name: 'Droit' },
-        ], (campaign) => {
-          databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+        it('should return the campaigns of the given organization id with campaignReports', async () => {
+          // given
+          const campaign = databaseBuilder.factory.buildCampaign({
+            name: 'campaign1',
+            code: 'AZERTY123',
+            organizationId,
+            targetProfileId,
+          });
+          const otherCampaignId = databaseBuilder.factory.buildCampaign(
+            {
+              name: 'campaign2',
+              code: 'AZERTY456',
+              organizationId,
+              targetProfileId,
+            }).id;
+          _.each([
+            { campaignId: campaign.id, isShared: true },
+            { campaignId: campaign.id, isShared: false },
+            { campaignId: campaign.id, isShared: false },
+            { campaignId: otherCampaignId, isShared: true },
+            { campaignId: otherCampaignId, isShared: true },
+          ], (campaignParticipation) => {
+            databaseBuilder.factory.buildCampaignParticipation(campaignParticipation);
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const { models: campaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+          const sortedCampaignsWithReports = _.sortBy(campaignsWithReports, [(camp) => { return camp.id; }]);
+
+          // then
+          expect(_.map(sortedCampaignsWithReports, 'id')).to.have.members([campaign.id, otherCampaignId]);
+          expect(sortedCampaignsWithReports[0]).to.be.instanceOf(Campaign);
+          expect(sortedCampaignsWithReports[0].campaignReport).to.be.instanceOf(CampaignReport);
+          expect(sortedCampaignsWithReports[0].campaignReport).to.deep.equal({ id: campaign.id, participationsCount: 3, sharedParticipationsCount: 1 });
+          expect(sortedCampaignsWithReports[1].campaignReport).to.deep.equal({ id: otherCampaignId, participationsCount: 2, sharedParticipationsCount: 2 });
+        });
+      });
+
+      context('when campaigns do not have participants', async () => {
+
+        it('should return the campaigns of the given organization id with campaignReports', async () => {
+          // given
+          campaign = databaseBuilder.factory.buildCampaign({
+            name: 'campaign name',
+            code: 'AZERTY789',
+            organizationId,
+            targetProfileId,
+            creatorId,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const { models: campaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+
+          // then
+          expect(campaignsWithReports[0].campaignReport.id).to.equal(campaign.id);
+          expect(campaignsWithReports[0].campaignReport.participationsCount).to.equal(0);
+          expect(campaignsWithReports[0].campaignReport.sharedParticipationsCount).to.equal(0);
+        });
+      });
+
+      context('when some campaigns names match the "name" search pattern', () => {
+        // given
+        const filter = { name: 'matH' };
+
+        beforeEach(() => {
+          _.each([
+            { name: 'Maths L1' },
+            { name: 'Maths L2' },
+            { name: 'Chimie' },
+            { name: 'Physique' },
+            { name: 'Droit' },
+          ], (campaign) => {
+            databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+          });
+
+          return databaseBuilder.commit();
         });
 
-        return databaseBuilder.commit();
+        it('should return these campaigns only', async () => {
+          // when
+          const { models: actualCampaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+
+          // then
+          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Maths L2']);
+        });
       });
 
-      it('should return these campaigns only', async () => {
-        // when
-        const { models: actualCampaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+      context('when the given filter search property is not searchable', () => {
+        // given
+        const filter = { code: 'FAKECODE' };
+        const page = { number: 1, size: 10 };
 
-        // then
-        expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Maths L2']);
-      });
-    });
+        beforeEach(() => {
+          _.each([
+            { name: 'Maths' },
+            { name: 'Chimie' },
+            { name: 'Physique' },
+            { name: 'Droit' },
+          ], (campaign) => {
+            databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+          });
 
-    context('when the given filter search property is not searchable', () => {
-      // given
-      let organizationId;
-      const page = { number: 1, size: 10 };
-      const filter = { code: 'FAKECODE' };
-
-      beforeEach(() => {
-        organizationId = databaseBuilder.factory.buildOrganization({}).id;
-        _.each([
-          { name: 'Maths' },
-          { name: 'Chimie' },
-          { name: 'Physique' },
-          { name: 'Droit' },
-        ], (campaign) => {
-          databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+          return databaseBuilder.commit();
         });
 
-        return databaseBuilder.commit();
+        it('should ignore the filter and return all campaigns', async () => {
+          // when
+          const { models: actualCampaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+
+          // then
+          expect(actualCampaignsWithReports).to.have.lengthOf(4);
+        });
       });
 
-      it('should ignore the filter and return all campaigns', async () => {
-        // when
-        const { models: actualCampaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+      context('when campaigns amount exceed page size', () => {
+        // given
+        let expectedPagination;
 
-        // then
-        expect(actualCampaignsWithReports).to.have.lengthOf(4);
-      });
-    });
+        beforeEach(() => {
+          _.times(12, () => databaseBuilder.factory.buildCampaign({ organizationId }));
+          expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
+          return databaseBuilder.commit();
+        });
 
-    context('when campaigns amount exceed page size', () => {
-      // given
-      let organizationId;
-      let page, expectedPagination;
-      const filter = {};
+        it('should return page size number of campaigns', async () => {
+          // when
+          const { models: campaignsWithReports, pagination } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
 
-      beforeEach(() => {
-        organizationId = databaseBuilder.factory.buildOrganization({}).id;
-        _.times(12, () => databaseBuilder.factory.buildCampaign({ organizationId }));
-        page = { number: 1, size: 3 };
-        expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
-
-        return databaseBuilder.commit();
-
-      });
-
-      it('should return page size number of campaigns', async () => {
-        // when
-        const { models: campaignsWithReports, pagination } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
-
-        // then
-        expect(campaignsWithReports).to.have.lengthOf(3);
-        expect(pagination).to.deep.equal(expectedPagination);
+          // then
+          expect(campaignsWithReports).to.have.lengthOf(3);
+          expect(pagination).to.deep.equal(expectedPagination);
+        });
       });
     });
-
-    it('should return the campaigns of the given organization id', async () => {
-      // given
-      const organizationId = databaseBuilder.factory.buildOrganization({}).id;
-      const targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
-      const creatorId = databaseBuilder.factory.buildUser({}).id;
-      const campaign = {
-        id: 1,
-        name: 'campaign without participation',
-        code: 'AZERTY789',
-        organizationId,
-        targetProfileId,
-        creatorId,
-      };
-      databaseBuilder.factory.buildCampaign(campaign);
-      await databaseBuilder.commit();
-      const filter = {};
-      const page = { number: 1, size: 3 };
-
-      // when
-      const { models: campaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
-
-      // then
-      expect(campaignsWithReports[0]).to.be.instanceof(Campaign);
-      expect(campaignsWithReports[0].id).to.equal(campaign.id);
-      expect(campaignsWithReports[0].name).to.equal(campaign.name);
-      expect(campaignsWithReports[0].code).to.equal(campaign.code);
-      expect(campaignsWithReports[0].createdAt).to.exist;
-      expect(campaignsWithReports[0].targetProfileId).to.exist;
-      expect(campaignsWithReports[0].customLandingPageText).to.exist;
-      expect(campaignsWithReports[0].idPixLabel).to.exist;
-      expect(campaignsWithReports[0].title).to.exist;
-      expect(campaignsWithReports[0].creatorId).to.equal(campaign.creatorId);
-      expect(campaignsWithReports[0].organizationId).to.equal(campaign.organizationId);
-
-    });
-
   });
 
   describe('#get', () => {
