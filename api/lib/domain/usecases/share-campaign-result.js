@@ -17,7 +17,7 @@ module.exports = async function shareCampaignResult({
 }) {
   const assessment = await assessmentRepository.getByCampaignParticipationId(campaignParticipationId);
 
-  if (!(await smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser(assessment.id, userId))) {
+  if (!(await smartPlacementAssessmentRepository.doesAssessmentBelongToUser(assessment.id, userId))) {
     throw new UserNotAuthorizedToAccessEntity('User does not have an access to this campaign participation');
   }
 

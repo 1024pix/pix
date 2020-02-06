@@ -21,7 +21,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
     },
   };
   const smartPlacementAssessmentRepository = {
-    checkIfAssessmentBelongToUser() {
+    doesAssessmentBelongToUser() {
     },
   };
   const assessmentRepository = {
@@ -49,7 +49,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
       campaignId: campaign.id
     }).id;
 
-    sinon.stub(smartPlacementAssessmentRepository, 'checkIfAssessmentBelongToUser');
+    sinon.stub(smartPlacementAssessmentRepository, 'doesAssessmentBelongToUser');
     sinon.stub(assessmentRepository, 'getByCampaignParticipationId').resolves();
     sinon.stub(campaignRepository, 'checkIfCampaignIsArchived').resolves();
     sinon.stub(campaignParticipationRepository, 'get').resolves(campaignParticipation);
@@ -60,7 +60,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
   context('when the share request comes from the owner of the assessment', () => {
 
     beforeEach(() => {
-      smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.resolves(true);
+      smartPlacementAssessmentRepository.doesAssessmentBelongToUser.resolves(true);
     });
 
     context('when the assessmentId is in the database', () => {
@@ -100,7 +100,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
       });
 
       it('should ensure that the assessment belongs to the user', () => {
-        expect(smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser).to.have.been.calledWithExactly(assessment.id, userId);
+        expect(smartPlacementAssessmentRepository.doesAssessmentBelongToUser).to.have.been.calledWithExactly(assessment.id, userId);
       });
 
       it('should fetch the next challenge', () => {
@@ -192,7 +192,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
 
     beforeEach(() => {
       assessmentRepository.getByCampaignParticipationId.resolves(assessment);
-      smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.resolves(false);
+      smartPlacementAssessmentRepository.doesAssessmentBelongToUser.resolves(false);
     });
 
     it('should reject an UserNotAuthorizedToAccessEntity error', () => {
