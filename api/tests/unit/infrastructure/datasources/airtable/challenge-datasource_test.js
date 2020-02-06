@@ -18,35 +18,35 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
     challenge_competence1 = challengeRawAirTableFixture({
       id: 'challenge-competence1',
-      fields: { 'Compétences (via tube)': [competence1.id], Acquix: [web1.id] }
+      fields: { 'Compétences (via tube) (id persistant)': [competence1.id], 'Acquix (id persistant)': [web1.id] }
     }),
     challenge_competence1_noSkills = challengeRawAirTableFixture({
       id: 'challenge-competence1-noSkills',
-      fields: { 'Compétences (via tube)': [competence1.id], Acquix: undefined }
+      fields: { 'Compétences (via tube) (id persistant)': [competence1.id], 'Acquix (id persistant)': undefined }
     }),
     challenge_competence1_notValidated = challengeRawAirTableFixture({
       id: 'challenge-competence1-notValidated',
-      fields: { 'Compétences (via tube)': [competence1.id], Acquix: [web1.id], Statut: 'proposé' }
+      fields: { 'Compétences (via tube) (id persistant)': [competence1.id], 'Acquix (id persistant)': [web1.id], Statut: 'proposé' }
     }),
     challenge_competence2 = challengeRawAirTableFixture({
       id: 'challenge-competence2',
-      fields: { 'Compétences (via tube)': [competence2.id] }
+      fields: { 'Compétences (via tube) (id persistant)': [competence2.id] }
     }),
     challenge_web1 = challengeRawAirTableFixture({
       id: 'challenge-web1',
-      fields: { Acquix: [web1.id] }
+      fields: { 'Acquix (id persistant)': [web1.id] }
     }),
     challenge_web1_notValidated = challengeRawAirTableFixture({
       id: 'challenge-web1',
-      fields: { Acquix: [web1.id], Statut: 'proposé' }
+      fields: { 'Acquix (id persistant)': [web1.id], Statut: 'proposé' }
     }),
     challenge_web2 = challengeRawAirTableFixture({
       id: 'challenge-web2',
-      fields: { Acquix: [web2.id] }
+      fields: { 'Acquix (id persistant)': [web2.id] }
     }),
     challenge_web3 = challengeRawAirTableFixture({
       id: 'challenge-web3',
-      fields: { Acquix: [web3.id] }
+      fields: { 'Acquix (id persistant)': [web3.id] }
     });
 
   beforeEach(() => {
@@ -161,7 +161,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       // given
       const airtableEpreuveObject = challengeRawAirTableFixture();
       airtableEpreuveObject.set('competences', undefined);
-      airtableEpreuveObject.set('Compétences (via tube)', undefined);
+      airtableEpreuveObject.set('Compétences (via tube) (id persistant)', undefined);
 
       // when
       const challenge = challengeDatasource.fromAirTableObject(airtableEpreuveObject);

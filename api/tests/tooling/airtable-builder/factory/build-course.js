@@ -51,18 +51,18 @@ module.exports = function buildCourse({
   return {
     id,
     'fields': {
-      id,
+      'id persistant': id,
       'Nom': nom,
       'Description': description,
       'Image': image,
-      'Épreuves': epreuves,
+      'Épreuves (id persistant)': epreuves,
       'Statut': statut,
       'Preview': preview,
       'Nb d\'épreuves': nbDEpreuves,
       'Acquis': acquis,
       'Adaptatif ?': adaptatif,
       'Défi de la semaine ?': defiDeLaSemaine,
-      'Competence': competence,
+      'Competence (id persistant)': competence,
     },
     'createdTime': createdTime,
   };

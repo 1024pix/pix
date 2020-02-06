@@ -11,7 +11,7 @@ module.exports = function buildTutorial({
   return {
     id,
     'fields': {
-      id,
+      'id persistant': id,
       'Titre': titre,
       'Format': format,
       'Durée': duree,

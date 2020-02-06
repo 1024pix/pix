@@ -12,9 +12,6 @@ module.exports = function buildCompetence({
   ],
   sousDomaine = '1.1',
   titre = 'Mener une recherche et une veille d’information',
-  tests = [
-    'recNPB7dTNt5krlMA',
-  ],
   acquisIdentifiants = [
     'recV11ibSCXvaUzZd',
     'recD01ptfJy7c4Sex',
@@ -69,15 +66,14 @@ module.exports = function buildCompetence({
   return {
     id,
     'fields': {
-      id,
-      'Domaine': domaineIds,
+      'id persistant': id,
+      'Domaine (id persistant)': domaineIds,
       'Epreuves': epreuves,
       'Sous-domaine': sousDomaine,
       'Titre': titre,
-      'Tests': tests,
       'Acquis (identifiants)': acquisIdentifiants,
       'Tubes': tubes,
-      'Acquis (via Tubes)': acquisViaTubes,
+      'Acquis (via Tubes) (id persistant)': acquisViaTubes,
       'Référence': reference,
       'Tests Record ID': testsRecordID,
       'Acquis': acquis,

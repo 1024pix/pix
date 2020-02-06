@@ -192,8 +192,8 @@ describe('Acceptance | API | Certifications', () => {
             {
               'id': 'recsvLz0W2ShyfD63',
               'fields': {
-                'id': 'recsvLz0W2ShyfD63',
-                'Domaine': [
+                'id persistant': 'recsvLz0W2ShyfD63',
+                'Domaine (id persistant)': [
                   'recvoGdo7z2z7pXWa',
                 ],
                 'Epreuves': [
@@ -207,9 +207,6 @@ describe('Acceptance | API | Certifications', () => {
                 ],
                 'Sous-domaine': '1.1',
                 'Titre': 'Mener une recherche et une veille d’information',
-                'Tests': [
-                  'recNPB7dTNt5krlMA',
-                ],
                 'Acquis (identifiants)': [
                   'recV11ibSCXvaUzZd',
                   'recD01ptfJy7c4Sex',
@@ -248,8 +245,8 @@ describe('Acceptance | API | Certifications', () => {
             {
               'id': 'recNv8qhaY887jQb2',
               'fields': {
-                'id': 'recNv8qhaY887jQb2',
-                'Domaine': [
+                'id persistant': 'recNv8qhaY887jQb2',
+                'Domaine (id persistant)': [
                   'recvoGdo7z2z7pXWa',
                 ],
                 'Epreuves': [
@@ -263,9 +260,6 @@ describe('Acceptance | API | Certifications', () => {
                 ],
                 'Sous-domaine': '1.2',
                 'Titre': 'Gérer des données',
-                'Tests': [
-                  'recNPB7dTNt5krlMA',
-                ],
                 'Acquis (identifiants)': [
                   'recV11ibSCXvaUzZd',
                   'recD01ptfJy7c4Sex',
@@ -304,8 +298,8 @@ describe('Acceptance | API | Certifications', () => {
             {
               'id': 'recIkYm646lrGvLNT',
               'fields': {
-                'id': 'recIkYm646lrGvLNT',
-                'Domaine': [
+                'id persistant': 'recIkYm646lrGvLNT',
+                'Domaine (id persistant)': [
                   'recvoGdo7z2z7pXWa',
                 ],
                 'Epreuves': [
@@ -319,9 +313,6 @@ describe('Acceptance | API | Certifications', () => {
                 ],
                 'Sous-domaine': '1.3',
                 'Titre': 'Traiter des données',
-                'Tests': [
-                  'recNPB7dTNt5krlMA',
-                ],
                 'Acquis (identifiants)': [
                   'recV11ibSCXvaUzZd',
                   'recD01ptfJy7c4Sex',
@@ -367,8 +358,8 @@ describe('Acceptance | API | Certifications', () => {
             {
               'id': 'recvoGdo7z2z7pXWa',
               'fields': {
-                'id': 'recvoGdo7z2z7pXWa',
-                'Competences (identifiants)': [
+                'id persistant': 'recvoGdo7z2z7pXWa',
+                'Competences (identifiants) (id persistant)': [
                   'recsvLz0W2ShyfD63',
                   'recNv8qhaY887jQb2',
                   'recIkYm646lrGvLNT',

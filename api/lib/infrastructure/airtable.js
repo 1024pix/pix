@@ -10,7 +10,7 @@ async function getRecord(tableName, recordId) {
   logger.info({ tableName, recordId }, 'Querying Airtable');
   const allRecords = await _airtableClient()
     .table(tableName)
-    .select({ filterByFormula: `{id}=${recordId}` })
+    .select({ filterByFormula: `{id persistant}=${recordId}` })
     .all();
   return allRecords.shift();
 }
