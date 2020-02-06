@@ -51,12 +51,16 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.UserAlreadyLinkedToCandidateInSessionError).to.exist;
   });
 
-  it('should export a CampaignAlreadyArchivedError,',() => {
+  it('should export a CampaignAlreadyArchivedError',() => {
     expect(errors.CampaignAlreadyArchivedError).to.exist;
   });
 
   it('should export a UserNotAuthorizedToUpdateStudentPassword', () => {
     expect(errors.UserNotAuthorizedToUpdateStudentPasswordError).to.exist;
+  });
+
+  it('should export a UserNotAuthorizedToUpdateCampaignError', () => {
+    expect(errors.UserNotAuthorizedToUpdateCampaignError).to.exist;
   });
 
   describe('#UserNotFoundError', () => {

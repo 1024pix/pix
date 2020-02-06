@@ -52,6 +52,12 @@ class StudentsCouldNotBeSavedError extends DomainError {
   }
 }
 
+class UserNotAuthorizedToUpdateCampaignError extends DomainError {
+  constructor(message = 'Cet utilisateur n\'est pas autorisé à modifier cette campagne.') {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToCreateCampaignError extends DomainError {
   constructor(message = 'Cet utilisateur n\'est pas autorisé à créer une campagne.') {
     super(message);
@@ -457,6 +463,7 @@ module.exports = {
   UserNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToGetCampaignResultsError,
   UserNotAuthorizedToGetCertificationCoursesError,
+  UserNotAuthorizedToUpdateCampaignError,
   CertificationCourseUpdateError,
   InvalidCertificationReportForFinalization,
   UserNotAuthorizedToUpdateResourceError,
