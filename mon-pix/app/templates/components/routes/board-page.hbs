@@ -23,7 +23,7 @@
       <img class="profiles-title__export-csv-icon"src="/images/icons/icon-export.svg" alt="Exporter les profils partagés" width="20" height="20">
     </a>
 
-    {{#if @tooManySnapshots}}
+    {{#if this.tooManySnapshots}}
       <div class="too-many-snapshots">
         <img src="/images/icons/icon-warning.svg">
         Seuls les 200 derniers envois sont affichés. L'ensemble des envois est disponible dans le fichier CSV.
