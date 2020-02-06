@@ -5,18 +5,16 @@
 </label>
 
 <div class="form-textfield__input-field-container {{if disabled "form-textfield__input-container--disabled" inputContainerStatusClass}}">
-  {{input type=textfieldType
-          id=textfieldName
-          name=textfieldName
-          value=inputBindingValue
-          focus-out=(action onValidate textfieldName)
-          class= 'form-textfield__input'
-          classBinding="inputValidationStatus"
-          autocomplete=autocomplete
-          ariaDescribedBy='validationMessage'
-          required=require
-          disabled=disabled
-          }}
+  <Input @type={{textfieldType}}
+         @id={{textfieldName}}
+         @name={{textfieldName}}
+         @value={{inputBindingValue}}
+         @focus-out={{action onValidate textfieldName}}
+         class="form-textfield__input {{inputValidationStatus}}"
+         @autocomplete={{autocomplete}}
+         @ariaDescribedBy="validationMessage"
+         required={{require}}
+         @disabled={{disabled}} />
     <div class="form-textfield__icon">
       {{#if isPassword}}
           <button type="button" aria-label="rendre le mot de passe lisible" class="form-textfield-icon__button" {{action 'togglePasswordVisibility'}}>

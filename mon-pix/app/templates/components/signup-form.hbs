@@ -8,7 +8,7 @@
     <h1 class="sign-form-title">Inscrivez-vous</h1>
     <div class="sign-form-header__subtitle">
       <span class="sign-form-header-subtitle">ou</span>
-      {{#link-to 'login' class="link"}}connectez-vous à votre compte{{/link-to}}
+      <LinkTo @route="login" class="link">connectez-vous à votre compte</LinkTo>
     </div>
   </div>
 
@@ -22,62 +22,53 @@
     <span class="sign-form-body__instruction">Les champs marqués de <abbr title="obligatoire">*</abbr> sont obligatoires.</span>
 
     <div class="sign-form-body__input">
-      {{form-textfield
-        label="Prénom"
-        textfieldName="firstName"
-        inputBindingValue=user.firstName
-        onValidate=(action "validateInput")
-        validationStatus=validation.firstName.status
-        validationMessage=validation.firstName.message
-        autocomplete="given-name"
-        require=true}}
+      <FormTextfield @label="Prénom"
+                     @textfieldName="firstName"
+                     @inputBindingValue={{user.firstName}}
+                     @onValidate={{action "validateInput"}}
+                     @validationStatus={{validation.firstName.status}}
+                     @validationMessage={{validation.firstName.message}}
+                     @autocomplete="given-name"
+                     @require={{true}} />
     </div>
 
     <div class="sign-form-body__input">
-      {{form-textfield
-        label="Nom"
-        textfieldName="lastName"
-        inputBindingValue=user.lastName
-        onValidate=(action "validateInput")
-        validationStatus=validation.lastName.status
-        validationMessage=validation.lastName.message
-        autocomplete="family-name"
-        require=true}}
+      <FormTextfield @label="Nom"
+                     @textfieldName="lastName"
+                     @inputBindingValue={{user.lastName}}
+                     @onValidate={{action "validateInput"}}
+                     @validationStatus={{validation.lastName.status}}
+                     @validationMessage={{validation.lastName.message}}
+                     @autocomplete="family-name" @require={{true}} />
     </div>
 
     <div class="sign-form-body__input">
-      {{form-textfield
-        label="Adresse e-mail"
-        help="(ex: nom@exemple.fr)"
-        textfieldName="email"
-        validationStatus=validation.email.status
-        onValidate=(action "validateInputEmail")
-        inputBindingValue=user.email
-        validationMessage=validation.email.message
-        autocomplete="email"
-        require=true}}
+      <FormTextfield @label="Adresse e-mail"
+                     @help="(ex: nom@exemple.fr)"
+                     @textfieldName="email"
+                     @validationStatus={{validation.email.status}}
+                     @onValidate={{action "validateInputEmail"}}
+                     @inputBindingValue={{user.email}}
+                     @validationMessage={{validation.email.message}}
+                     @autocomplete="email" @require={{true}} />
     </div>
 
     <div class="sign-form-body__input">
-      {{form-textfield
-        label="Mot de passe"
-        help="(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)"
-        textfieldName="password"
-        validationStatus=validation.password.status
-        onValidate=(action "validateInputPassword")
-        inputBindingValue=user.password
-        validationMessage=validation.password.message
-        autocomplete="new-password"
-        require=true}}
+      <FormTextfield @label="Mot de passe"
+                     @help="(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)"
+                     @textfieldName="password"
+                     @validationStatus={{validation.password.status}}
+                     @onValidate={{action "validateInputPassword"}}
+                     @inputBindingValue={{user.password}}
+                     @validationMessage={{validation.password.message}}
+                     @autocomplete="new-password"
+                     @require={{true}} />
     </div>
 
     <div class="signup-form__cgu-container">
-
-
-
       <label for="pix-cgu" class="signup-form__cgu-label">
         <div class="signup-form__cgu">
-          {{input type="checkbox" id='pix-cgu' checked=user.cgu}}
+          <Input @type="checkbox" @id="pix-cgu" @checked={{user.cgu}} />
            <abbr title="obligatoire">*</abbr> J'accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="link" target="_blank">conditions d'utilisation de Pix</a>
         </div>
 
@@ -94,7 +85,7 @@
         {{#if user.errors.recaptchaToken}}
           <div class="sign-form__validation-error">{{user.errors.recaptchaToken.firstObject.message}}</div>
         {{/if}}
-        {{g-recaptcha recaptchaToken=user.recaptchaToken tokenHasBeenUsed=_tokenHasBeenUsed}}
+        <GRecaptcha @recaptchaToken={{user.recaptchaToken}} @tokenHasBeenUsed={{_tokenHasBeenUsed}} />
       </div>
     {{/if}}
 

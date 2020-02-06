@@ -12,8 +12,8 @@
     </div>
     <div class="campaign-landing-page__error-text">
       <p class="campaign-landing-page__error-text title">La campagne demandée n’est pas accessible.</p>
-      {{#link-to 'index' class="button button--extra-big button--link campaign-landing-page__error-button"}}
-        Revenir au profil{{/link-to}}
+      <LinkTo @route="index" class="button button--extra-big button--link campaign-landing-page__error-button">
+        Revenir au profil</LinkTo>
     </div>
   </div>
 </div>

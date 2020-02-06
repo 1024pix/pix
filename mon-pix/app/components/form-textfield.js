@@ -1,3 +1,4 @@
+import { equal } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
 import { isEmpty } from '@ember/utils';
@@ -33,8 +34,8 @@ export default Component.extend({
   textfieldName: '',
   validationMessage: '',
   validationStatus: 'default',
-  isPassword: computed.equal('textfieldName','password'),
-  isEmail: computed.equal('textfieldName','email'),
+  isPassword: equal('textfieldName','password'),
+  isEmail: equal('textfieldName','email'),
   isPasswordVisible: false,
   require: false,
   help: '',

@@ -2,7 +2,7 @@
   <!-- Logo (left) -->
   <div class="navbar-desktop-header-logo">
     <div class="navbar-desktop-header-logo__pix">
-      {{pix-logo}}
+      <PixLogo />
     </div>
     <div class="navbar-desktop-header-logo__marianne">
       <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="République française">
@@ -12,15 +12,15 @@
   {{#unless isInRouteWithoutLinksInHeader}}
     {{#if isUserLogged}}
       <div class="navbar-desktop-header-container__menu">
-        {{#link-to 'profile' class="navbar-desktop-header-menu__item"}}
+        <LinkTo @route="profile" class="navbar-desktop-header-menu__item">
           Profil
-        {{/link-to}}
-        {{#link-to 'campaigns' class="navbar-desktop-header-menu__item"}}
+        </LinkTo>
+        <LinkTo @route="campaigns" class="navbar-desktop-header-menu__item">
           Parcours
-        {{/link-to}}
-        {{#link-to 'certifications' class="navbar-desktop-header-menu__item"}}
+        </LinkTo>
+        <LinkTo @route="certifications" class="navbar-desktop-header-menu__item">
           Certification
-        {{/link-to}}
+        </LinkTo>
         <a href="https://pix.fr/aide" target="_blank" class="navbar-desktop-header-menu__item">
           Aide
         </a>
@@ -30,10 +30,10 @@
 
   <!-- Links (right) -->
   <div class="navbar-desktop-header-right">
-    {{navbar-desktop-menu menu=menu}}
+    <NavbarDesktopMenu @menu={{menu}} />
 
     {{#if isUserLogged}}
-      {{user-logged-menu}}
+      <UserLoggedMenu />
     {{/if}}
   </div>
 </div>

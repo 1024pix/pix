@@ -6,21 +6,19 @@
   <form {{action 'authenticate' on='submit'}}>
 
     <div id="login-email-container">
-      {{form-textfield
-              label="Adresse e-mail ou identifiant"
-              textfieldName="login"
-              validationStatus="default"
-              inputBindingValue=login
-              autocomplete="username"}}
+      <FormTextfield @label="Adresse e-mail ou identifiant"
+                     @textfieldName="login"
+                     @validationStatus="default"
+                     @inputBindingValue={{login}}
+                     @autocomplete="username" />
     </div>
 
     <div id="login-password-container">
-      {{form-textfield
-              label="Mot de passe"
-              textfieldName="password"
-              validationStatus="default"
-              inputBindingValue=password
-              autocomplete="current-password"}}
+      <FormTextfield @label="Mot de passe"
+                     @textfieldName="password"
+                     @validationStatus="default"
+                     @inputBindingValue={{password}}
+                     @autocomplete="current-password" />
     </div>
 
     <div class="login-button-container">

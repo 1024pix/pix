@@ -43,7 +43,7 @@
           {{#if displayTextBox}}
             <div class="feedback-panel__group">
               <p>Votre message est limité à 10 000 caractères.</p>
-              {{textarea class="feedback-panel__field feedback-panel__field--content" value=_content placeholder="Précisez" maxlength="10000" rows=5}}
+              <Textarea class="feedback-panel__field feedback-panel__field--content" @value={{_content}} placeholder="Précisez" @maxlength="10000" @rows={{5}} />
             </div>
             {{#if _error}}
               <div class="alert alert-danger" role="alert">

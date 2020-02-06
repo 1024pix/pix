@@ -1,5 +1,4 @@
-import EmberObject from '@ember/object';
-import { computed } from '@ember/object';
+import EmberObject, { computed } from '@ember/object';
 import Mixin from '@ember/object/mixin';
 
 const STEPS = {

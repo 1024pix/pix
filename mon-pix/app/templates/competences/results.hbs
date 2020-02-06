@@ -1,8 +1,8 @@
 {{title pageTitle}}
-{{#burger-menu animation="push" translucentOverlay=true as |burger|}}
-  {{#burger.outlet}}
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
 
-    {{navbar-header class="navbar-header--white" burger=burger}}
+    <NavbarHeader @class="navbar-header--white" @burger={{burger}} />
 
     <div class="background-banner-wrapper">
       <div class="background-banner"></div>
@@ -51,10 +51,10 @@
           {{/if}}
         </div>
         {{#if model.scorecard}}
-          {{scorecard-details scorecard=model.scorecard}}
+          <ScorecardDetails @scorecard={{model.scorecard}} />
         {{/if}}
       </div>
     </div>
 
-  {{/burger.outlet}}
-{{/burger-menu}}
+  </burger.outlet>
+</BurgerMenu>

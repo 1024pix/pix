@@ -1,6 +1,6 @@
-import DS from 'ember-data';
+import Transform from '@ember-data/serializer/transform';
 
-export default DS.Transform.extend({
+export default Transform.extend({
   serialize: function(date) {
     return date;
   },

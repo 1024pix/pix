@@ -1,7 +1,10 @@
 import { click, fillIn, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsPrescriber, authenticateAsSimpleUser } from '../helpers/testing';
+import {
+  authenticateAsPrescriber,
+  authenticateAsSimpleUser
+} from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';

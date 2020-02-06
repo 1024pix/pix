@@ -1,9 +1,9 @@
-import DS from 'ember-data';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
-export default DS.Model.extend({
-  content: DS.attr('string'),
-  category: DS.attr('string'),
-  answer: DS.attr('string'),
-  assessment: DS.belongsTo('assessment'),
-  challenge: DS.belongsTo('challenge')
+export default Model.extend({
+  content: attr('string'),
+  category: attr('string'),
+  answer: attr('string'),
+  assessment: belongsTo('assessment'),
+  challenge: belongsTo('challenge')
 });

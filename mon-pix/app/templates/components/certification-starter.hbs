@@ -6,7 +6,7 @@
     </p>
     <form autocomplete="off">
         <div class="certification-course-page__session-code-input">
-          {{input required=true id="session-code" type="text" value=inputAccessCode maxlength="6" spellcheck=false}}
+          <Input required={{true}} @id="session-code" @type="text" @value={{inputAccessCode}} @maxlength="6" @spellcheck={{false}} />
           {{#if errorMessage}}
               <div class="certification-course-page__errors">{{errorMessage}}</div>
           {{/if}}

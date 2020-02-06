@@ -1,9 +1,9 @@
-import DS from 'ember-data';
+import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import { computed } from '@ember/object';
 import ENV from 'mon-pix/config/environment';
 
-export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
+export default JSONAPIAdapter.extend(DataAdapterMixin, {
   host: ENV.APP.API_HOST,
   namespace: 'api',
 

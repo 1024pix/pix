@@ -10,7 +10,7 @@
         </h1>
       </div>
       <div class="rounded-panel-header__right-wrapper">
-        {{hexagon-score pixScore=model.pixScore.value}}
+        <HexagonScore @pixScore={{model.pixScore.value}} />
       </div>
     </div>
 
@@ -21,9 +21,9 @@
             {{#if (eq areaCode scorecard.area.code)}}
               <div class="rounded-panel-body__competence-card">
                 {{#if (media 'isTablet')}}
-                  {{competence-card-desktop scorecard=scorecard}}
+                  <CompetenceCardDesktop @scorecard={{scorecard}} />
                 {{else}}
-                  {{competence-card scorecard=scorecard}}
+                  <CompetenceCard @scorecard={{scorecard}} />
                 {{/if}}
               </div>
             {{/if}}

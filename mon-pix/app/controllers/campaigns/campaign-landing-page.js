@@ -10,7 +10,7 @@ export default Controller.extend({
     startCampaignParticipation() {
       this.set('isLoading', true);
       return this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
-        queryParams: { hasSeenLanding: true, participantExternalId: this.get('participantExternalId') }
+        queryParams: { hasSeenLanding: true, participantExternalId: this.participantExternalId }
       });
     }
   }

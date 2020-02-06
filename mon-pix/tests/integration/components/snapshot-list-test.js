@@ -3,8 +3,7 @@ import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import { find, findAll, render } from '@ember/test-helpers';
-import wait from 'ember-test-helpers/wait';
+import { find, findAll, render, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | snapshot list', function() {
@@ -41,7 +40,7 @@ describe('Integration | Component | snapshot list', function() {
     await render(hbs`{{snapshot-list snapshots=snapshots}}`);
 
     // Then
-    return wait().then(function() {
+    return settled().then(function() {
       expect(find('.snapshot-list__no-profile')).to.not.exist;
       expect(findAll('.snapshot-list__snapshot-item')).to.have.lengthOf(2);
     });
@@ -63,7 +62,7 @@ describe('Integration | Component | snapshot list', function() {
     await render(hbs`{{snapshot-list snapshots=snapshots}}`);
 
     // Then
-    return wait().then(function() {
+    return settled().then(function() {
       expect(find('.snapshot-list__snapshot-item')).to.exist;
       expect(findAll('.snapshot-list__snapshot-item td')[0].textContent.trim()).to.equal(user.get('lastName'));
       expect(findAll('.snapshot-list__snapshot-item td')[1].textContent.trim()).to.equal(user.get('firstName'));

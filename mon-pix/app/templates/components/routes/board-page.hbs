@@ -1,6 +1,6 @@
 <div class="board-page">
 
-  {{navbar-header class="navbar-header--white"}}
+  <NavbarHeader @class="navbar-header--white" />
 
   <div class="board-page__header">
     <div class="board-page__header-organisation">
@@ -31,6 +31,6 @@
     {{/if}}
   </div>
 
-  {{snapshot-list snapshots=snapshots}}
+  <SnapshotList @snapshots={{snapshots}} />
 
 </div>

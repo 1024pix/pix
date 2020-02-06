@@ -1,15 +1,16 @@
-import DS from 'ember-data';
+import Model, { attr, hasMany } from '@ember-data/model';
+import { mapBy, max } from '@ember/object/computed';
 import { computed } from '@ember/object';
 
-export default DS.Model.extend({
+export default Model.extend({
 
-  totalSkillsCount: DS.attr('number'),
-  testedSkillsCount: DS.attr('number'),
-  validatedSkillsCount: DS.attr('number'),
-  competenceResults: DS.hasMany('competenceResult'),
+  totalSkillsCount: attr('number'),
+  testedSkillsCount: attr('number'),
+  validatedSkillsCount: attr('number'),
+  competenceResults: hasMany('competenceResult'),
 
-  totalSkillsCounts: computed.mapBy('competenceResults', 'totalSkillsCount'),
-  maxTotalSkillsCountInCompetences: computed.max('totalSkillsCounts'),
+  totalSkillsCounts: mapBy('competenceResults', 'totalSkillsCount'),
+  maxTotalSkillsCountInCompetences: max('totalSkillsCounts'),
 
   masteryPercentage: computed('totalSkillsCount', 'validatedSkillsCount', function() {
     return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);

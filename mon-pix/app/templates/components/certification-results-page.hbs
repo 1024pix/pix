@@ -1,5 +1,5 @@
 <div class="certification-results__certification-banner">
-  {{certification-banner certificationNumber=certificationNumber}}
+  <CertificationBanner @certificationNumber={{certificationNumber}} />
 </div>
 
 <div class="certification-results__content rounded-panel result-content">
@@ -18,7 +18,7 @@
 
     <div class="result-content__warning-container">
       <div class="result-content__checked-supervisor">
-        {{input type="checkbox" id='validSupervisor' checked=validSupervisor alt="Le surveillant doit cliquer ici."}}
+        <Input @type="checkbox" @id="validSupervisor" @checked={{validSupervisor}} @alt="Le surveillant doit cliquer ici." />
 
         <span class="result-content__warning-text">
           Le surveillant a bien vu cet écran.
@@ -44,7 +44,7 @@
         Si cet ordinateur n’est pas le vôtre, pensez à vous déconnecter.
       </div>
 
-      {{#link-to "logout" class="result-content__logout-button result-content__button"}}Se déconnecter{{/link-to}}
+      <LinkTo @route="logout" class="result-content__logout-button result-content__button">Se déconnecter</LinkTo>
 
     </div>
   {{/if}}
