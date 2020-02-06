@@ -24,7 +24,7 @@ describe('Acceptance | API | Courses', () => {
           records: [{
             id: 'rec_course_id',
             fields: {
-              id: 'rec_course_id',
+              'id persistant': 'rec_course_id',
               'Nom': 'A la recherche de l\'information #01',
               'Description': 'Mener une recherche et une veille d\'information',
               'Image': [{
@@ -34,7 +34,7 @@ describe('Acceptance | API | Courses', () => {
                 'type': 'image/jpeg'
               }],
               'Durée': 13,
-              'Épreuves': [
+              'Épreuves.v2': [
                 'k_challenge_id',
               ],
               'Ordre affichage': 2,
@@ -54,7 +54,7 @@ describe('Acceptance | API | Courses', () => {
           records: [{
             id: 'k_challenge_id',
             fields: {
-              id: 'k_challenge_id',
+              'id persistant': 'k_challenge_id',
             },
           }]
         });

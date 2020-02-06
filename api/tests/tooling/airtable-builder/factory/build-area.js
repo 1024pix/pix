@@ -19,8 +19,8 @@ const buildArea = function buildArea({
   return {
     id,
     'fields': {
-      id,
-      'Competences (identifiants)': competenceIds,
+      'id persistant': id,
+      'Competences (identifiants) (id persistant)': competenceIds,
       'Couleur': couleur,
       'Code': code,
       'Titre': titre,

@@ -48,13 +48,13 @@ module.exports = AirtableMockRoute;
 
 function generateUrlForRouteType({ routeType, tableName, returnBody }) {
   const url = `/v0/test-base/${tableName}`;
-  const returnBodyId = returnBody && returnBody.fields && returnBody.fields.id;
+  const returnBodyId = returnBody && returnBody.fields && returnBody.fields['id persistant'];
 
   if (!returnBodyId && routeType === ROUTE_TYPE.GET) {
     throw new Error('get route should have a return object with an id a its root');
   }
 
-  const query = routeType === ROUTE_TYPE.GET && { filterByFormula: `{id}=${returnBodyId}` };
+  const query = routeType === ROUTE_TYPE.GET && { filterByFormula: `{id persistant}=${returnBodyId}` };
   return { url, query };
 }
 

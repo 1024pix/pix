@@ -1,10 +1,10 @@
 const AirtableRecord = require('airtable').Record;
 
-module.exports = function tutorialRawAirTableFixture() {
-  return new AirtableRecord('Tutorial', 'receomyzL0AmpMFGw',{
-    'id': 'receomyzL0AmpMFGw',
+module.exports = function tutorialRawAirTableFixture({ id } = { id: 'receomyzL0AmpMFGw' }) {
+  return new AirtableRecord('Tutorial', id, {
+    'id': id,
     'fields': {
-      'id': 'receomyzL0AmpMFGw',
+      'id persistant': id,
       'Durée': '00:01:30',
       'Format': 'video',
       'Lien': 'https://youtube.fr',

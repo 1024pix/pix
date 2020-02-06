@@ -10,10 +10,10 @@ module.exports = datasource.extend({
   tableName: 'Epreuves',
 
   usedFields: [
-    'id',
+    'id persistant',
     'Illustration de la consigne',
     'Pièce jointe',
-    'Compétences (via tube)',
+    'Compétences (via tube) (id persistant)',
     'Timer',
     'Consigne',
     'Propositions',
@@ -24,7 +24,7 @@ module.exports = datasource.extend({
     'T3 - Distance d\'édition',
     'Scoring',
     'Statut',
-    'Acquix',
+    'Acquix (id persistant)',
     'acquis',
     'Embed URL',
     'Embed title',
@@ -46,8 +46,8 @@ module.exports = datasource.extend({
     }
 
     let competenceId;
-    if (airtableRecord.get('Compétences (via tube)')) {
-      competenceId = airtableRecord.get('Compétences (via tube)')[0];
+    if (airtableRecord.get('Compétences (via tube) (id persistant)')) {
+      competenceId = airtableRecord.get('Compétences (via tube) (id persistant)')[0];
     }
 
     let timer;
@@ -56,7 +56,7 @@ module.exports = datasource.extend({
     }
 
     return {
-      id: airtableRecord.get('id'),
+      id: airtableRecord.get('id persistant'),
       instruction: airtableRecord.get('Consigne'),
       proposals: airtableRecord.get('Propositions'),
       type: airtableRecord.get('Type d\'épreuve'),
@@ -66,7 +66,7 @@ module.exports = datasource.extend({
       t3Status: airtableRecord.get('T3 - Distance d\'édition'),
       scoring: airtableRecord.get('Scoring'),
       status: airtableRecord.get('Statut'),
-      skillIds: airtableRecord.get('Acquix') || [],
+      skillIds: airtableRecord.get('Acquix (id persistant)') || [],
       skills: airtableRecord.get('acquis') || [],
       embedUrl: airtableRecord.get('Embed URL'),
       embedTitle: airtableRecord.get('Embed title'),
