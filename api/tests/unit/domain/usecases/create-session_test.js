@@ -48,7 +48,7 @@ describe('Unit | UseCase | create-session', () => {
           userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
         });
 
-        it('should throw an Forbidden error', async () => {
+        it('should throw a Forbidden error', async () => {
           // when
           const error = await catchErr(createSession)({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
 

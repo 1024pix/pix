@@ -7,6 +7,7 @@ const {
 
 const finalizeSession = require('../../../../lib/domain/usecases/finalize-session');
 const { SessionAlreadyFinalizedError, InvalidCertificationReportForFinalization } = require('../../../../lib/domain/errors');
+const { statuses } = require('../../../../lib/domain/models/Session');
 
 describe('Unit | UseCase | finalize-session', () => {
 
@@ -21,7 +22,7 @@ describe('Unit | UseCase | finalize-session', () => {
     updatedSession = Symbol('updated session');
     examinerGlobalComment = 'It was a fine session my dear.';
     sessionRepository = {
-      updateStatusAndExaminerGlobalComment: sinon.stub(),
+      finalize: sinon.stub(),
       isFinalized: sinon.stub(),
     };
     certificationReportRepository = {
@@ -76,7 +77,11 @@ describe('Unit | UseCase | finalize-session', () => {
     });
 
     context('When the certificationReports are valid', () => {
+      const now = new Date('2019-01-01T05:06:07Z');
+      let clock;
+
       beforeEach(() => {
+        clock = sinon.useFakeTimers(now);
         const validReportForFinalization = domainBuilder.buildCertificationReport({
           examinerComment: 'signalement sur le candidat',
           hasSeenEndTestScreen: false,
@@ -84,16 +89,21 @@ describe('Unit | UseCase | finalize-session', () => {
         certificationReports = [validReportForFinalization];
         sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
         certificationReportRepository.finalizeAll.withArgs(certificationReports).resolves();
-        sessionRepository.updateStatusAndExaminerGlobalComment.withArgs({
+        sessionRepository.finalize.withArgs({
           id: sessionId,
-          status: 'finalized',
+          status: statuses.FINALIZED,
           examinerGlobalComment,
+          finalizedAt: now,
         }).resolves(updatedSession);
       });
 
-      it('should return the updated session', async () => {
+      afterEach(() => {
+        clock.restore();
+      });
+
+      it('should finalize session with expected arguments', async () => {
         // when
-        const res = await finalizeSession({
+        await finalizeSession({
           sessionId,
           examinerGlobalComment,
           sessionRepository,
@@ -102,7 +112,12 @@ describe('Unit | UseCase | finalize-session', () => {
         });
 
         // then
-        expect(res).to.deep.equal(updatedSession);
+        expect(sessionRepository.finalize.calledWithExactly({
+          id: sessionId,
+          status: statuses.FINALIZED,
+          examinerGlobalComment,
+          finalizedAt: now,
+        })).to.be.true;
       });
     });
 

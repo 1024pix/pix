@@ -19,9 +19,10 @@ module.exports = async function finalizeSession({
 
   await certificationReportRepository.finalizeAll(certificationReports);
 
-  return sessionRepository.updateStatusAndExaminerGlobalComment({
+  return sessionRepository.finalize({
     id: sessionId,
     status: statuses.FINALIZED,
     examinerGlobalComment,
+    finalizedAt: new Date(),
   });
 };
