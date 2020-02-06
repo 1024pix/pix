@@ -2,7 +2,7 @@
 
 <div class="background-banner-wrapper">
   <div class="skill-review__banner">
-    {{assessment-banner title=model.assessment.title displayHomeLink=false}}
+    <AssessmentBanner @title={{model.assessment.title}} @displayHomeLink={{false}} />
   </div>
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner skill-review__result-container">
     {{#if shouldShowPixEmploiBadge}}
@@ -29,7 +29,7 @@
     <div class="skill-review-result__share-container">
       {{#if model.campaignParticipation.isShared}}
         <p class="skill-review-share__thanks">Merci, vos résultats ont bien été envoyés !</p>
-        {{link-to 'Continuez votre expérience Pix' 'index' class="skill-review-share__back-to-home link"}}
+        <LinkTo @route="index" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
       {{else}}
         <p class="skill-review-share__legal">
           Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.
@@ -70,11 +70,11 @@
 
     <div class="skill-review-result__table-header">
       <h2 class="rounded-panel-subtitle">Vos résultats détaillés</h2>
-      {{#circle-chart value=model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
+      <CircleChart @value={{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}>
         <span class="skill-review-table-header__circle-chart-value">
           {{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%
         </span>
-      {{/circle-chart}}
+      </CircleChart>
     </div>
 
     <table class="default-table">
@@ -93,11 +93,10 @@
             <span>{{competence.name}}</span>
           </td>
           <td>
-            {{#progression-gauge total=competence.totalSkillsCountPercentage
-                                 value=competence.validatedSkillsPercentage}}
+            <ProgressionGauge @total={{competence.totalSkillsCountPercentage}} @value={{competence.validatedSkillsPercentage}}>
               <p class="sr-only">Vous avez validé </p>{{competence.validatedSkillsPercentage}}%<p class="sr-only"> de la
               compétence {{competence.name}}.</p>
-            {{/progression-gauge}}
+            </ProgressionGauge>
           </td>
         </tr>
       {{/each}}

@@ -10,28 +10,28 @@
     </div>
   {{/if}}
 
-  {{#link-to 'user-certifications' class="navbar-burger-menu-user-info__item"}}
+  <LinkTo @route="user-certifications" class="navbar-burger-menu-user-info__item">
     Mes certifications
-  {{/link-to}}
+  </LinkTo>
 
-  {{#link-to 'logout' class="navbar-burger-menu-user-info__item navbar-burger-menu-user-info-item__logout"}}
+  <LinkTo @route="logout" class="navbar-burger-menu-user-info__item navbar-burger-menu-user-info-item__logout">
     Se déconnecter
-  {{/link-to}}
+  </LinkTo>
 </div>
 
 {{#unless isInRouteWithoutLinksInHeader}}
   <div class="navbar-burger-menu navbar-burger-menu__navigation">
-    {{#link-to 'profile' class="navbar-burger-menu-navigation__item"}}
+    <LinkTo @route="profile" class="navbar-burger-menu-navigation__item">
       Profil
-    {{/link-to}}
+    </LinkTo>
 
-    {{#link-to 'campaigns' class="navbar-burger-menu-navigation__item"}}
+    <LinkTo @route="campaigns" class="navbar-burger-menu-navigation__item">
       Parcours
-    {{/link-to}}
+    </LinkTo>
 
-    {{#link-to 'certifications' class="navbar-burger-menu-navigation__item"}}
+    <LinkTo @route="certifications" class="navbar-burger-menu-navigation__item">
       Certification
-    {{/link-to}}
+    </LinkTo>
 
     <a href="https://pix.fr/aide" target="_blank" class="navbar-burger-menu-navigation__item">
       Aide

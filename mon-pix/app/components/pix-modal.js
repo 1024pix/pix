@@ -1,6 +1,9 @@
 import { on } from '@ember/object/evented';
 import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
-import { EKMixin as EmberKeyboardMixin, keyUp } from 'ember-keyboard';
+import {
+  EKMixin as EmberKeyboardMixin,
+  keyUp
+} from 'ember-keyboard';
 
 export default ModalDialog.extend(EmberKeyboardMixin, {
 

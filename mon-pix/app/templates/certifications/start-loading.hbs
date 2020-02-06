@@ -1,7 +1,7 @@
-{{#burger-menu animation="push" translucentOverlay=true as |burger|}}
-  {{#burger.outlet}}
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
 
-    {{navbar-header class="navbar-header--white" burger=burger}}
+    <NavbarHeader @class="navbar-header--white" @burger={{burger}} />
     <div class="background-banner-wrapper">
       <div class="background-banner"></div>
 
@@ -12,5 +12,5 @@
 
     </div>
 
-  {{/burger.outlet}}
-{{/burger-menu}}
+  </burger.outlet>
+</BurgerMenu>

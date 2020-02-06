@@ -4,7 +4,14 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import { blur, click, find, findAll, fillIn, render } from '@ember/test-helpers';
+import {
+  blur,
+  click,
+  find,
+  findAll,
+  fillIn,
+  render
+} from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 const TOGGLE_LINK = '.feedback-panel__open-link';

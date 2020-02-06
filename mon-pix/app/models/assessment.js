@@ -1,9 +1,7 @@
+import Model, { hasMany, belongsTo, attr } from '@ember-data/model';
 import { equal, or } from '@ember/object/computed';
 import { computed } from '@ember/object';
-import DS from 'ember-data';
 import ENV from 'mon-pix/config/environment';
-
-const { attr, Model, belongsTo, hasMany } = DS;
 
 export default Model.extend({
 

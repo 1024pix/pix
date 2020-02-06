@@ -1,12 +1,12 @@
 {{title pageTitle}}
-{{#burger-menu animation="push" translucentOverlay=true as |burger|}}
-  {{#burger.outlet}}
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
     {{#if model.campaignParticipations}}
-      {{resume-campaign-banner campaignParticipations=model.campaignParticipations}}
+      <ResumeCampaignBanner @campaignParticipations={{model.campaignParticipations}} />
     {{/if}}
-    {{navbar-header class="navbar-header--white" burger=burger}}
+    <NavbarHeader @class="navbar-header--white" @burger={{burger}} />
 
-    {{profile-content model=model}}
+    <ProfileContent @model={{model}} />
 
-  {{/burger.outlet}}
-{{/burger-menu}}
+  </burger.outlet>
+</BurgerMenu>

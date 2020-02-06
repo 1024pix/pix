@@ -2,9 +2,15 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import { click, find, findAll, triggerKeyEvent, render } from '@ember/test-helpers';
+import {
+  click,
+  find,
+  findAll,
+  render,
+  settled,
+  triggerKeyEvent
+} from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import wait from 'ember-test-helpers/wait';
 
 describe('Integration | Component | user logged menu', function() {
 
@@ -53,7 +59,7 @@ describe('Integration | Component | user logged menu', function() {
       // when
       await click('.logged-user-name__link');
 
-      return wait().then(() => {
+      return settled().then(() => {
         // then
         expect(find('.logged-user-menu')).to.exist;
         expect(find('.logged-user-menu-details__fullname').textContent.trim()).to.equal('FHI 4EVER');
@@ -65,7 +71,7 @@ describe('Integration | Component | user logged menu', function() {
       // when
       await render(hbs`{{user-logged-menu _canDisplayMenu=true}}`);
 
-      return wait().then(() => {
+      return settled().then(() => {
         // then
         expect(find('.logged-user-menu')).to.exist;
         expect(findAll('.logged-user-menu__link')).to.have.lengthOf(2);
@@ -79,7 +85,7 @@ describe('Integration | Component | user logged menu', function() {
       await click('.logged-user-name');
       await click('.logged-user-name');
 
-      return wait().then(() => {
+      return settled().then(() => {
         // then
         expect(find('.logged-user-menu')).to.not.exist;
       });
@@ -90,7 +96,7 @@ describe('Integration | Component | user logged menu', function() {
       await click('.logged-user-name');
       await triggerKeyEvent('.logged-user-name', 'keydown', 27);
 
-      return wait().then(() => {
+      return settled().then(() => {
         // then
         expect(find('.logged-user-menu')).to.not.exist;
       });
@@ -101,7 +107,7 @@ describe('Integration | Component | user logged menu', function() {
       await click('.logged-user-name');
       await click('.logged-user-name');
 
-      return wait().then(() => {
+      return settled().then(() => {
         // then
         expect(find('.logged-user-menu')).to.not.exist;
       });
@@ -118,7 +124,7 @@ describe('Integration | Component | user logged menu', function() {
       await render(hbs`{{user-logged-menu}}`);
 
       // then
-      return wait().then(() => {
+      return settled().then(() => {
         expect(find('.logged-user-name')).to.not.exist;
       });
     });

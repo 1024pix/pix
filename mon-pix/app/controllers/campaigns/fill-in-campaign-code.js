@@ -13,11 +13,11 @@ export default Controller.extend({
     async startCampaign() {
       this.set('errorMessage', null);
 
-      if (!this.get('campaignCode')) {
+      if (!this.campaignCode) {
         this.set('errorMessage', 'Merci de renseigner le code du parcours.');
 
       } else {
-        const campaignCode = this.get('campaignCode').toUpperCase();
+        const campaignCode = this.campaignCode.toUpperCase();
 
         const campaignCodeExists = await this.store.query('campaign', { filter: { code: campaignCode } })
           .then(() => true,

@@ -3,7 +3,7 @@
 <div class="assessment-results">
 
   <div class="assessment-results__assessment-banner">
-    {{assessment-banner title=model.title checkpoint=false displayHomeLink=false}}
+    <AssessmentBanner @title={{model.title}} @checkpoint={{false}} @displayHomeLink={{false}} />
   </div>
 
   <div class="assessment-results__content">
@@ -13,25 +13,25 @@
 
     <div class="assessment-results__list">
       {{#each model.answers as |answer|}}
-        {{result-item answer=answer correction=answer.correction openAnswerDetails=(action 'openComparisonWindow')}}
+        <ResultItem @answer={{answer}} @correction={{answer.correction}} @openAnswerDetails={{action "openComparisonWindow"}} />
       {{/each}}
     </div>
 
     <div class="assessment-results__index-link-container">
       {{#if model.isDemo}}
-        {{#link-to 'inscription' class='assessment-results__index-link__element assessment-results__index-a-link' tagName='button'}}
+        <LinkTo @route="inscription" class="assessment-results__index-link__element assessment-results__index-a-link" @tagName="button">
           <span class="assessment-results__link-back">Continuer mon expérience Pix</span>
-        {{/link-to}}
+        </LinkTo>
       {{else}}
-        {{#link-to 'index' class='assessment-results__index-link__element' tagName='button'}}
+        <LinkTo @route="index" class="assessment-results__index-link__element" @tagName="button">
           <span class="assessment-results__link-back">Revenir à l'accueil</span>
-        {{/link-to}}
+        </LinkTo>
       {{/if}}
     </div>
   </div>
 
   {{#if isShowingModal}}
-    {{comparison-window answer=answer closeComparisonWindow=(action 'closeComparisonWindow')}}
+    <ComparisonWindow @answer={{answer}} @closeComparisonWindow={{action "closeComparisonWindow"}} />
   {{/if}}
 
 </div>

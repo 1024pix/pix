@@ -11,9 +11,16 @@
 
         <div class="join-restricted-campaign__row">
           <label class="join-restricted-campaign__label">Prénom</label>
-          {{input id="firstName" type="text" value=firstName placeholder="Prénom" readonly=isDisabled disabled=isDisabled
-                  class=(if validation.firstName.message 'input--error')
-                  focusOut=(action "triggerInputStringValidation" "firstName" firstName)}}
+          <Input
+            @id="firstName"
+            @type="text"
+            @value={{firstName}}
+            placeholder="Prénom"
+            @readonly={{isDisabled}}
+            @disabled={{isDisabled}}
+            class={{if validation.firstName.message "input--error"}}
+            @focusOut={{action "triggerInputStringValidation" "firstName" firstName}}
+           />
           <div class="{{if validation.firstName.message 'join-restricted-campaign__field-error'}}" role="alert">
             {{validation.firstName.message}}
           </div>
@@ -21,9 +28,16 @@
 
         <div class="join-restricted-campaign__row">
           <label class="join-restricted-campaign__label">Nom</label>
-          {{input id="lastName" type="text" value=lastName placeholder="Nom" readonly=isDisabled disabled=isDisabled
-                  class=(if validation.lastName.message 'input--error')
-                  focusOut=(action "triggerInputStringValidation" "lastName" lastName)}}
+          <Input
+            @id="lastName"
+            @type="text"
+            @value={{lastName}}
+            placeholder="Nom"
+            @readonly={{isDisabled}}
+            @disabled={{isDisabled}}
+            class={{if validation.lastName.message "input--error"}}
+            @focusOut={{action "triggerInputStringValidation" "lastName" lastName}}
+           />
           <div class="{{if validation.lastName.message 'join-restricted-campaign__field-error'}}" role="alert">
             {{validation.lastName.message}}
           </div>
@@ -32,15 +46,9 @@
         <div class="join-restricted-campaign__row">
           <label class="join-restricted-campaign__label">Date de naissance</label>
           <div class="join-restricted-campaign__birthdate">
-            {{input id="dayOfBirth" type="text" value=dayOfBirth placeholder="JJ"
-                    class=(if validation.dayOfBirth.message 'input--error')
-                    focusOut=(action "triggerInputDayValidation" "dayOfBirth" dayOfBirth)}}
-            {{input id="monthOfBirth" type="text" value=monthOfBirth placeholder="MM"
-                    class=(if validation.monthOfBirth.message 'input--error')
-                    focusOut=(action "triggerInputMonthValidation" "monthOfBirth" monthOfBirth)}}
-            {{input id="yearOfBirth" type="text" value=yearOfBirth placeholder="AAAA"
-                    class=(if validation.yearOfBirth.message 'input--error')
-                    focusOut=(action "triggerInputYearValidation" "yearOfBirth" yearOfBirth)}}
+            <Input @id="dayOfBirth" @type="text" @value={{dayOfBirth}} placeholder="JJ" class={{if validation.dayOfBirth.message "input--error"}} @focusOut={{action "triggerInputDayValidation" "dayOfBirth" dayOfBirth}} />
+            <Input @id="monthOfBirth" @type="text" @value={{monthOfBirth}} placeholder="MM" class={{if validation.monthOfBirth.message "input--error"}} @focusOut={{action "triggerInputMonthValidation" "monthOfBirth" monthOfBirth}} />
+            <Input @id="yearOfBirth" @type="text" @value={{yearOfBirth}} placeholder="AAAA" class={{if validation.yearOfBirth.message "input--error"}} @focusOut={{action "triggerInputYearValidation" "yearOfBirth" yearOfBirth}} />
           </div>
           <div class="{{if validation.dayOfBirth.message 'join-restricted-campaign__field-error'}}" role="alert">
             {{validation.dayOfBirth.message}}

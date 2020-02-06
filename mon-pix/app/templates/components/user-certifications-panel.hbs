@@ -1,9 +1,9 @@
 {{#if certifications}}
   <div class="user-certifications-panel__certifications-list">
-    {{certifications-list certifications=certifications}}
+    <CertificationsList @certifications={{certifications}} />
   </div>
 {{else}}
   <div class="user-certifications-panel__no-certification-panel">
-    {{no-certification-panel}}
+    <NoCertificationPanel />
   </div>
 {{/if}}

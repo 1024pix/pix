@@ -10,14 +10,14 @@
                 alt=""
                 class="tutorial-panel__hint-picto">
         </div>
-        {{markdown-to-html class="tutorial-panel__hint-content" markdown=hint}}
+        <MarkdownToHtml @class="tutorial-panel__hint-content" @markdown={{hint}} />
       </div>
     {{/if}}
 
     {{#if shouldDisplayTutorial}}
       <div class="tutorial-panel__tutorials-container">
         {{#each limitedTutorials as |tutorial|}}
-          {{tutorial-item tutorial=tutorial}}
+          <TutorialItem @tutorial={{tutorial}} />
         {{/each}}
       </div>
       <div class="tutorial-panel__tutorial-info">

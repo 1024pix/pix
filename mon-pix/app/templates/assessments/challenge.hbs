@@ -4,18 +4,14 @@
 
   <div class="assessment-challenge__assessment-banner">
     {{#if model.assessment.isCertification}}
-      {{certification-banner certificationNumber=model.assessment.certificationNumber}}
+      <CertificationBanner @certificationNumber={{model.assessment.certificationNumber}} />
     {{else}}
-      {{assessment-banner title=model.assessment.title displayHomeLink=true}}
+      <AssessmentBanner @title={{model.assessment.title}} @displayHomeLink={{true}} />
     {{/if}}
   </div>
 
   <div class="assessment-challenge__content rounded-panel--over-background-banner">
-    {{progress-bar
-      assessment=model.assessment
-      answerId=model.answer.id
-      challengeId=model.challenge.id
-    }}
+    <ProgressBar @assessment={{model.assessment}} @answerId={{model.answer.id}} @challengeId={{model.challenge.id}} />
 
     {{component (get-challenge-component-class model.challenge)
                 challenge=model.challenge
@@ -28,5 +24,5 @@
 </div>
 
 {{#if showLevelup}}
-  {{levelup-notif level=newLevel competenceName=competenceLeveled}}
+  <LevelupNotif @level={{newLevel}} @competenceName={{competenceLeveled}} />
 {{/if}}

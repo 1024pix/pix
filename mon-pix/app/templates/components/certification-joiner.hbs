@@ -7,24 +7,40 @@
     <form autocomplete="off">
         <div class="certification-joiner__row">
             <label class="certification-joiner__label">Numéro de session</label>
-          {{input autofocus="autofocus" type="text" size="6" value=sessionId id="sessionId"}}
+          <Input @autofocus="autofocus" @type="text" @size="6" @value={{sessionId}} @id="sessionId" />
         </div>
         <div class="certification-joiner__row">
             <label class="certification-joiner__label">Prénom</label>
-          {{input type="text" value=firstName id="firstName"}}
+          <Input @type="text" @value={{firstName}} @id="firstName" />
         </div>
         <div class="certification-joiner__row">
             <label class="certification-joiner__label">Nom de naissance</label>
-          {{input type="text" value=lastName id="lastName"}}
+          <Input @type="text" @value={{lastName}} @id="lastName" />
         </div>
         <div class="certification-joiner__row">
             <label class="certification-joiner__label">Date de naissance</label>
             <div class="certification-joiner__birthdate">
-              {{input min="1" max="31" type="number" value=dayOfBirth placeholder="JJ" id="dayOfBirth" input=(action "handleDayInputChange") focus-in=(action "handleInputFocus")}}
+              <Input @min="1"
+                     @max="31"
+                     @type="number"
+                     @value={{dayOfBirth}} placeholder="JJ"
+                     @id="dayOfBirth"
+                     @input={{action "handleDayInputChange"}}
+                     @focus-in={{action "handleInputFocus"}} />
                 <div class="certification-joiner__divider"></div>
-              {{input min="1" max="12" type="number" value=monthOfBirth placeholder="MM" id="monthOfBirth" input=(action "handleMonthInputChange") focus-in=(action "handleInputFocus")}}
+              <Input @min="1"
+                     @max="12"
+                     @type="number"
+                     @value={{monthOfBirth}} placeholder="MM"
+                     @id="monthOfBirth"
+                     @input={{action "handleMonthInputChange"}}
+                     @focus-in={{action "handleInputFocus"}} />
                 <div class="certification-joiner__divider"></div>
-              {{input min="1900" type="number" value=yearOfBirth placeholder="AAAA" id="yearOfBirth" focus-in=(action "handleInputFocus")}}
+              <Input @min="1900"
+                     @type="number"
+                     @value={{yearOfBirth}} placeholder="AAAA"
+                     @id="yearOfBirth"
+                     @focus-in={{action "handleInputFocus"}} />
             </div>
         </div>
       {{#if errorMessage}}

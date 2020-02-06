@@ -38,7 +38,7 @@ describe('Acceptance | Reset Password Form', function() {
     });
 
     await visitWithAbortedTransition('/changer-mot-de-passe/brandone-reset-key');
-    fillIn('#password', 'newPass12345!');
+    await fillIn('#password', 'newPass12345!');
 
     // when
     await click('.button');

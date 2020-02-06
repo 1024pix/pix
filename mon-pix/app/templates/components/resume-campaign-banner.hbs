@@ -6,14 +6,14 @@
       {{else}}
         <span class="resume-campaign-banner__title">Parcours terminé ! Envoyez vos résultats.</span>
       {{/if}}
-      {{link-to 'Continuer' 'campaigns.start-or-resume' campaignToResumeOrShare.code class="resume-campaign-banner__button button button--big button--link"}}
+      <LinkTo @route="campaigns.start-or-resume" @model={{campaignToResumeOrShare.code}} class="resume-campaign-banner__button button button--big button--link">Continuer</LinkTo>
     {{else}}
       {{#if campaignToResumeOrShare.title}}
         <span class="resume-campaign-banner__title">Vous n'avez pas terminé le parcours "{{campaignToResumeOrShare.title}}"</span>
       {{else}}
         <span class="resume-campaign-banner__title">Vous n'avez pas terminé votre parcours</span>
       {{/if}}
-      {{link-to 'Reprendre' 'campaigns.start-or-resume' campaignToResumeOrShare.code class="resume-campaign-banner__button button button--big button--link"}}
+      <LinkTo @route="campaigns.start-or-resume" @model={{campaignToResumeOrShare.code}} class="resume-campaign-banner__button button button--big button--link">Reprendre</LinkTo>
     {{/if}}
   </div>
 {{/if}}

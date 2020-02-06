@@ -10,14 +10,14 @@
       </span>
 
       {{#burger.menu as |menu|}}
-        {{navbar-burger-menu}}
+        <NavbarBurgerMenu />
       {{/burger.menu}}
     {{/if}}
   {{/if}}
 
   <div class="navbar-mobile-header__logo">
     <div class="navbar-mobile-header-logo__pix">
-      {{pix-logo}}
+      <PixLogo />
     </div>
     <div class="navbar-mobile-header-logo__marianne">
       <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="République française">

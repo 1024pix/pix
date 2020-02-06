@@ -112,7 +112,7 @@ export default Component.extend({
   },
 
   _trimNamesAndEmailOfUser() {
-    const { firstName, lastName, email } = this.get('user');
+    const { firstName, lastName, email } = this.user;
     this.set('user.firstName', firstName.trim());
     this.set('user.lastName', lastName.trim());
     this.set('user.email', email.trim());
