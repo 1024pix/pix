@@ -31,7 +31,7 @@ module.exports = {
       .catch(_mapNotFoundErrorToDomainError(assessmentId));
   },
 
-  checkIfAssessmentBelongToUser(assessmentId, userId) {
+  doesAssessmentBelongToUser(assessmentId, userId) {
     return BookshelfAssessment
       .where({ id: assessmentId, userId: userId })
       .fetch({

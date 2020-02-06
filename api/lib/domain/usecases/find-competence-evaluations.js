@@ -6,9 +6,9 @@ module.exports = async function findCompetenceEvaluations({
   competenceEvaluationRepository,
   smartPlacementAssessmentRepository,
 }) {
-  if (!(await smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser(options.filter.assessmentId, userId))) {
+  if (!(await smartPlacementAssessmentRepository.doesAssessmentBelongToUser(options.filter.assessmentId, userId))) {
     throw new UserNotAuthorizedToAccessEntity('User does not have an access to this competence evaluation');
   }
-  
+
   return competenceEvaluationRepository.find(options);
 };
