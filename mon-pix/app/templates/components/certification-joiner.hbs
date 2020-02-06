@@ -20,11 +20,27 @@
         <div class="certification-joiner__row">
             <label class="certification-joiner__label">Date de naissance</label>
             <div class="certification-joiner__birthdate">
-              <Input @min="1" @max="31" @type="number" @value={{dayOfBirth}} placeholder="JJ" @id="dayOfBirth" @input={{action "handleDayInputChange"}} @focus-in={{action "handleInputFocus"}} />
+              <Input @min="1"
+                     @max="31"
+                     @type="number"
+                     @value={{dayOfBirth}} placeholder="JJ"
+                     @id="dayOfBirth"
+                     @input={{action "handleDayInputChange"}}
+                     @focus-in={{action "handleInputFocus"}} />
                 <div class="certification-joiner__divider"></div>
-              <Input @min="1" @max="12" @type="number" @value={{monthOfBirth}} placeholder="MM" @id="monthOfBirth" @input={{action "handleMonthInputChange"}} @focus-in={{action "handleInputFocus"}} />
+              <Input @min="1"
+                     @max="12"
+                     @type="number"
+                     @value={{monthOfBirth}} placeholder="MM"
+                     @id="monthOfBirth"
+                     @input={{action "handleMonthInputChange"}}
+                     @focus-in={{action "handleInputFocus"}} />
                 <div class="certification-joiner__divider"></div>
-              <Input @min="1900" @type="number" @value={{yearOfBirth}} placeholder="AAAA" @id="yearOfBirth" @focus-in={{action "handleInputFocus"}} />
+              <Input @min="1900"
+                     @type="number"
+                     @value={{yearOfBirth}} placeholder="AAAA"
+                     @id="yearOfBirth"
+                     @focus-in={{action "handleInputFocus"}} />
             </div>
         </div>
       {{#if errorMessage}}
