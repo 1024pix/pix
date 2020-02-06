@@ -6,7 +6,42 @@
 </div>
 
 <div class="campaign-list">
-  {{#each campaigns as |campaign|}}
-    {{campaign-item campaign=campaign}}
-  {{/each}}
+  <div class="panel">
+    <div class="table content-text content-text--small">
+      <table>
+        <thead>
+        <tr>
+          <th>Parcours</th>
+          <th>Participants</th>
+          <th>Résultats reçus</th>
+        </tr>
+        <tr>
+          <th>
+            {{search-input
+              inputName="campaignName"
+              class="input table__input"
+              value=campaignName
+              placeholder="Nom du parcours"
+              keyUp=(action triggerFiltering 'name' campaignName)
+            }}
+          </th>
+          <th></th>
+          <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {{#each campaigns as |campaign|}}
+          <tr onclick={{action goToCampaignPage campaign.id}} class="tr--clickable">
+            <td>{{campaign.name}}</td>
+            <td>{{campaign.campaignReport.participationsCount}}</td>
+            <td>{{campaign.campaignReport.sharedParticipationsCount}}</td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
+
+{{pagination-control pagination=campaigns.meta paginationLink="authenticated.campaigns"}}

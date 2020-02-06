@@ -66,3 +66,13 @@ td, th {
   text-align: center;
   border-top: 2px solid $wild-sand;
 }
+
+.table__input {
+  border: 1px solid $alto;
+  width: 85%;
+  font-size: 0.8rem;
+
+  &:focus-within {
+    border: 1px solid $dodger-blue;
+  }
+}

@@ -82,7 +82,7 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}/campaigns',
       config: {
-        handler: organisationController.getCampaigns,
+        handler: organisationController.findPaginatedFilteredCampaigns,
         tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',

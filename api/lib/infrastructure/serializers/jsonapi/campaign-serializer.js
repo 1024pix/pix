@@ -5,7 +5,7 @@ const Campaign = require('../../../domain/models/Campaign');
 
 module.exports = {
 
-  serialize(campaigns, { tokenForCampaignResults, ignoreCampaignReportRelationshipData = true } = {}) {
+  serialize(campaigns, meta, { tokenForCampaignResults, ignoreCampaignReportRelationshipData = true } = {}) {
 
     return new Serializer('campaign', {
       attributes: ['name', 'code', 'title', 'createdAt', 'customLandingPageText', 'tokenForCampaignResults', 'idPixLabel', 'organizationLogoUrl', 'organizationName', 'targetProfile', 'campaignReport', 'campaignCollectiveResult', 'isRestricted'],
@@ -38,7 +38,7 @@ module.exports = {
           }
         }
       },
-
+      meta,
     }).serialize(campaigns);
   },
 
