@@ -9,6 +9,6 @@ module('Integration | Component | session-finalization-formbuilder-link-step', f
   test('it renders', async function(assert) {
     await render(hbs`<SessionFinalizationFormbuilderLinkStep />`);
 
-    assert.equal(this.element.textContent.trim().replace(/\s+/g, ' '), 'Pour transmettre le PV de session sur 123formbuilder, suivez ce lien Formulaire 123formbuilder');
+    assert.equal(this.element.textContent.trim().replace(/\s+/g, ' '), 'Pour transmettre le PV de session scanné, suivez ce lien Formulaire 123formbuilder');
   });
 });
