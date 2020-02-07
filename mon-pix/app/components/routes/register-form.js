@@ -139,14 +139,12 @@ export default Component.extend({
           this.set('matchingStudentFound', true);
           this.set('isLoading', false);
           this.set('username', response.username);
-          return this.studentDependentUser = this.store.createRecord('student-dependent-user', {
-            campaignCode: this.campaignCode,
+          return this.studentDependentUser = this.store.createRecord('user', {
             firstName: this.firstName,
             lastName: this.lastName,
-            birthdate: this.birthdate,
             email: '',
             username: this.username,
-            password: ''
+            password: '',
           });
         }, (errorResponse) => {
           this.studentUserAssociation.unloadRecord();
@@ -172,7 +170,13 @@ export default Component.extend({
         } else {
           this.set('studentDependentUser.username', undefined);
         }
-        await this.studentDependentUser.save();
+        await this.studentDependentUser.save({
+          adapterOptions: {
+            isStudentDependentUser: true,
+            campaignCode: this.campaignCode,
+            birthdate: this.birthdate,
+          }
+        });
       } catch (error) {
         this.set('isLoading', false);
         return this._updateInputsStatus();

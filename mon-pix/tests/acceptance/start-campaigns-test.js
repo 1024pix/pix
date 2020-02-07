@@ -76,7 +76,9 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               // then
               expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
             });
+
             it('should redirect to landing page page when reconciliation and registration are done', async function() {
+
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 
