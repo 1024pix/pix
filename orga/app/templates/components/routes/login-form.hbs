@@ -25,6 +25,7 @@
         @class="input"
         @value={{email}}
         @autocomplete="username"
+        @required='true'
       />
     </div>
 
@@ -38,6 +39,7 @@
           @class="input"
           @value={{password}}
           @autocomplete="current-password"
+          @required='true'
         />
         <button type="button" aria-label="rendre le mot de passe lisible" class="input-password__icon" {{action 'togglePasswordVisibility'}} >
            {{#if isPasswordVisible}}
