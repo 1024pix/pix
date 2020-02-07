@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import { computed } from '@ember/object';
 
 export default DS.Model.extend({
 
@@ -8,5 +9,9 @@ export default DS.Model.extend({
   password: DS.attr('string'),
   cgu: DS.attr('boolean'),
   pixOrgaTermsOfServiceAccepted: DS.attr('boolean'),
-  memberships: DS.hasMany('membership')
+  memberships: DS.hasMany('membership'),
+
+  fullName: computed('firstName', 'lastName', function() {
+    return `${this.get('firstName')} ${this.get('lastName')}`;
+  })
 });

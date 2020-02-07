@@ -43,7 +43,7 @@ tr {
 
 td, th {
   text-align: left;
-  padding-left: 30px;
+  padding-left: 24px;
 }
 
 .table__column {
@@ -55,6 +55,12 @@ td, th {
 
   &--wide {
     width: 25%;
+  }
+
+  &--truncated {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
