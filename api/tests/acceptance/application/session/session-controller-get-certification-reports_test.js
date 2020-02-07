@@ -61,19 +61,22 @@ describe('Acceptance | Controller | session-controller-get-certification-reports
           userId: certificationCandidateA.userId,
           firstName: certificationCandidateA.firstName,
           lastName: certificationCandidateA.lastName,
+          examinerComment: 'il a eu un soucis',
+          hasSeenEndTestScreen: false,
         }).id;
         certificationCourseIdB = databaseBuilder.factory.buildCertificationCourse({
           sessionId,
           userId: certificationCandidateB.userId,
           firstName: certificationCandidateB.firstName,
           lastName: certificationCandidateB.lastName,
+          hasSeenEndTestScreen: true,
         }).id;
 
         expectedCertificationReportA = {
           'certification-course-id': certificationCourseIdA,
           'first-name': certificationCandidateA.firstName,
           'last-name': certificationCandidateA.lastName,
-          'examiner-comment': null,
+          'examiner-comment': 'il a eu un soucis',
           'has-seen-end-test-screen': false,
         };
         expectedCertificationReportB = {
@@ -81,7 +84,7 @@ describe('Acceptance | Controller | session-controller-get-certification-reports
           'first-name': certificationCandidateB.firstName,
           'last-name': certificationCandidateB.lastName,
           'examiner-comment': null,
-          'has-seen-end-test-screen': false,
+          'has-seen-end-test-screen': true,
         };
 
         userId = databaseBuilder.factory.buildUser().id;
