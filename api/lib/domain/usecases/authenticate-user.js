@@ -1,6 +1,6 @@
 const encryptionService = require('../../domain/services/encryption-service');
 const { MissingOrInvalidCredentialsError, ForbiddenAccess } = require('../../domain/errors');
-const apps = require('../../apps-messages');
+const apps = require('../constants');
 
 function _checkUserAccessScope(scope, user) {
 
