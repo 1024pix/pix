@@ -1,6 +1,8 @@
-const { knex } = require('../db/knex-database-connection');
+const {knex} = require('../db/knex-database-connection');
 
-function updateSessionStatuses(sessionIds){
+const sessionIdsWithReport = require('./2020-01-30-pc-87-session-ids-with-reports.json');
+
+function updateSessionStatuses(sessionIds) {
   const updateRequest = `
     update sessions
     set status = 'finalized'
@@ -17,11 +19,11 @@ function updateSessionStatuses(sessionIds){
 }
 
 if (require.main === module) {
-  updateSessionStatuses([])
-    .then((results
-      ) => results.rows)
-    .then(console.log, console.error)
-    .then(() => process.exit(0));
+  console.log('Updating session statuses to finalized...');
+  updateSessionStatuses(sessionIdsWithReport)
+    .then(() => console.log('Session statuses updated.'))
+    .catch((error) => console.error(error))
+    .finally(() => process.exit(0));
 }
 
 module.exports = updateSessionStatuses;
