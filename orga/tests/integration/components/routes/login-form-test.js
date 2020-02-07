@@ -6,6 +6,11 @@ import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { reject, resolve } from 'rsvp';
 
+const errorMessages = {
+  NOT_LINKED_ORGANIZATION_MSG: 'Vous ne pouvez pas vous connecter à PixOrga car vous n’êtes rattaché à aucune organisation. Contactez votre administrateur qui pourra vous inviter.',
+  INVALID_CREDENTIEL_MSG: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.'
+};
+
 module('Integration | Component | routes/login-form', function(hooks) {
   setupRenderingTest(hooks);
 
@@ -106,9 +111,15 @@ module('Integration | Component | routes/login-form', function(hooks) {
     });
   });
 
-  test('it should display an error message when authentication fails', async function(assert) {
+  test('it should display an invalid credentiels message when authentication fails', async function(assert) {
+
     // given
-    sessionStub.prototype.authenticate = () => reject();
+    const msgErrorInvalidCredentiel =  {
+      'errors' : [{ 'status' : '401', 'title' : 'Unauthorized' , 'detail' : errorMessages.INVALID_CREDENTIEL_MSG  }]
+    };
+
+    sessionStub.prototype.authenticate = () => reject(msgErrorInvalidCredentiel);
+
     await render(hbs`{{routes/login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'Mauvais mot de passe');
@@ -118,7 +129,28 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     // then
     assert.dom('#login-form-error-message').exists();
-    assert.dom('#login-form-error-message').hasText('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
+    assert.dom('#login-form-error-message').hasText(errorMessages.INVALID_CREDENTIEL_MSG);
+  });
+
+  test('it should display an not linked organisation message when authentication fails', async function(assert) {
+
+    // given
+    const msgErrorNotLinkedOrganization =  {
+      'errors' : [{ 'status' : '401', 'title' : 'Unauthorized' , 'detail' : errorMessages.NOT_LINKED_ORGANIZATION_MSG }]
+    };
+
+    sessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedOrganization);
+
+    await render(hbs`{{routes/login-form}}`);
+    await fillIn('#login-email', 'pix@example.net');
+    await fillIn('#login-password', 'pix123');
+
+    //  when
+    await click('.button');
+
+    // then
+    assert.dom('#login-form-error-message').exists();
+    assert.dom('#login-form-error-message').hasText(errorMessages.NOT_LINKED_ORGANIZATION_MSG);
   });
 
   module('when password is hidden', function(hooks) {

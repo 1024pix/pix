@@ -1,4 +1,5 @@
 const settings = require('../config');
+
 module.exports = {
   MAX_REACHABLE_LEVEL: 5,
   MAX_REACHABLE_PIX_BY_COMPETENCE: 40,
@@ -16,4 +17,17 @@ module.exports = {
   MAX_LEVEL_TO_BE_AN_EASY_TUBE: 3,
   DEFAULT_LEVEL_FOR_FIRST_CHALLENGE: 2,
   MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL: 2,
+
+  PIX_ORGA: {
+    SCOPE: 'pix-orga',
+    NOT_LINKED_ORGANIZATION_MSG: 'Vous ne pouvez pas vous connecter à PixOrga car vous n’êtes rattaché à aucune organisation. Contactez votre administrateur qui pourra vous inviter.'
+  },
+  PIX_ADMIN: {
+    SCOPE: 'pix-admin',
+    NOT_PIXMASTER_MSG: 'Vous ne pouvez pas vous connecter à pix-admin car vous n’avez le rôle PixMaster'
+  },
+  PIX_CERTIF: {
+    SCOPE: 'pix-certif',
+    NOT_LINKED_CERTIFICATION_MSG: 'L\'accès à Pix Certif est limité aux centres de certification Pix. Contactez le référent de votre centre de certification si vous pensez avoir besoin d\'y accéder.'
+  },
 };
