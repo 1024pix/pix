@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render, click , fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { reject } from 'rsvp';
@@ -57,6 +57,8 @@ module('Integration | Component | login-form', function(hooks) {
       await render(hbs`{{login-form errorMessage=errorMessage}}`);
 
       // when
+      await fillIn('#identification', 'pix@example.com');
+      await fillIn('#password', 'JeMeLoggue1024');
       await click('button.login-form__button');
 
       // then
@@ -72,6 +74,8 @@ module('Integration | Component | login-form', function(hooks) {
       await render(hbs`{{login-form errorMessage=errorMessage}}`);
 
       // when
+      await fillIn('#identification', 'pix@');
+      await fillIn('#password', 'JeMeLoggue1024');
       await click('button.login-form__button');
 
       // then
@@ -87,6 +91,8 @@ module('Integration | Component | login-form', function(hooks) {
       await render(hbs`{{login-form errorMessage=errorMessage}}`);
 
       // when
+      await fillIn('#identification', 'pix@example.com');
+      await fillIn('#password', 'JeMeLoggue1024');
       await click('button.login-form__button');
 
       // then
