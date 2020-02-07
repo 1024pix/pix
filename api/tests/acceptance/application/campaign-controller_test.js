@@ -42,7 +42,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       expect(response.result.errors[0].detail).to.equal(`Campaign with code ${fakeCamapignCode} not found`);
     });
 
-    it('should return an InternalError if there is no organization link to the code', async () => {
+    it('should return an NotFoundError if there is no organization link to the code', async () => {
       // given
       const options = {
         method: 'GET',
