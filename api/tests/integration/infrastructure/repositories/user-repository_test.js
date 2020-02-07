@@ -443,6 +443,17 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       // then
       expect(result).to.be.instanceOf(AlreadyRegisteredEmailError);
     });
+
+    it('should reject an AlreadyRegisteredEmailError when email case insensitive already exists', async () => {
+      // given
+      const capitalEmailAlreadyInDb = userInDb.email.toUpperCase();
+
+      // when
+      const result = await catchErr(userRepository.isEmailAvailable)(capitalEmailAlreadyInDb);
+
+      // then
+      expect(result).to.be.instanceOf(AlreadyRegisteredEmailError);
+    });
   });
 
   describe('#updatePassword', () => {
