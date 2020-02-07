@@ -39,7 +39,7 @@ module.exports = {
     const options = queryParamsUtils.extractParameters(request.query);
     const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
     return usecases.getCampaign({ campaignId, options })
-      .then((campaign) => campaignSerializer.serialize(campaign, { tokenForCampaignResults }));
+      .then((campaign) => campaignSerializer.serialize(campaign, {}, { tokenForCampaignResults }));
   },
 
   async getCsvResults(request) {
