@@ -9,16 +9,10 @@ exports.up = function(knex) {
       table.string('status').notNullable();
       table.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
       table.dateTime('updatedAt').notNullable().defaultTo(knex.fn.now());
-    })
-    .then(() => {
-      console.log(`${TABLE_NAME} table is created!`);
     });
 };
 
 exports.down = function(knex) {
   return knex.schema
-    .dropTable(TABLE_NAME)
-    .then(() => {
-      console.log(`${TABLE_NAME} table was dropped!`);
-    });
+    .dropTable(TABLE_NAME);
 };
