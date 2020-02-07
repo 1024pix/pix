@@ -16,10 +16,11 @@ class Campaign {
     targetProfile,
     campaignReport,
     campaignCollectiveResult,
+    creator,
     // references
-    creatorId,
     organizationId,
-    targetProfileId
+    targetProfileId,
+    creatorId
   } = {}) {
     this.id = id;
     // attributes
@@ -36,10 +37,11 @@ class Campaign {
     this.targetProfile = targetProfile;
     this.campaignReport = campaignReport;
     this.campaignCollectiveResult = campaignCollectiveResult;
+    this.creator = creator;
     // references
-    this.creatorId = creatorId;
     this.organizationId = organizationId;
     this.targetProfileId = targetProfileId;
+    this.creatorId = creatorId;
   }
 }
 

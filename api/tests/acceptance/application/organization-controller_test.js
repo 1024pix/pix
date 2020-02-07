@@ -460,9 +460,9 @@ describe('Acceptance | Application | organization-controller', () => {
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
       otherOrganizationId = databaseBuilder.factory.buildOrganization({}).id;
       campaignsData = _.map([
-        { name: 'Quand Peigne numba one', code: 'ATDGRK343', organizationId, },
-        { name: 'Quand Peigne numba two', code: 'KFCTSU984', organizationId, },
-        { name: 'Quand Peigne otha orga', code: 'CPFTQX735', organizationId: otherOrganizationId, },
+        { name: 'Quand Peigne numba one', code: 'ATDGRK343', organizationId },
+        { name: 'Quand Peigne numba two', code: 'KFCTSU984', organizationId },
+        { name: 'Quand Peigne otha orga', code: 'CPFTQX735', organizationId: otherOrganizationId },
       ], (camp) => {
         const builtCampaign = databaseBuilder.factory.buildCampaign(camp);
         return { name: camp.name, code: camp.code, id: builtCampaign.id };
@@ -507,6 +507,23 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(campaigns).to.have.lengthOf(2);
         expect(_.map(campaigns, 'attributes.name')).to.have.members([campaignsData[0].name, campaignsData[1].name]);
         expect(_.map(campaigns, 'attributes.code')).to.have.members([campaignsData[0].code, campaignsData[1].code]);
+      });
+
+      it('should return campaigns with its creator', async () => {
+        // given
+        organizationId = databaseBuilder.factory.buildOrganization({}).id;
+        const creatorId = databaseBuilder.factory.buildUser({ firstName: 'Daenerys', lastName: 'Targaryen' }).id;
+        databaseBuilder.factory.buildCampaign({ organizationId, creatorId });
+        await databaseBuilder.commit();
+        options.url = `/api/organizations/${organizationId}/campaigns`;
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.included[1].attributes['first-name']).to.equal('Daenerys');
+        expect(response.result.included[1].attributes['last-name']).to.equal('Targaryen');
       });
 
       it('should return 200 status code with the campaignReports with the campaigns', async () => {
