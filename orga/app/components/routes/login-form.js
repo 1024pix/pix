@@ -11,6 +11,8 @@ export default Component.extend({
   password: null,
   isLoading: false,
   isPasswordVisible: false,
+  errorMessage: null,
+
   passwordInputType: computed('isPasswordVisible', function() {
     return this.isPasswordVisible ? 'text' : 'password';
   }),
@@ -47,8 +49,13 @@ export default Component.extend({
   _authenticate(password, email) {
     const scope = 'pix-orga';
     return this.session.authenticate('authenticator:oauth2', email, password, scope)
-      .catch(() => {
+      .catch((error) => {
         this.set('isErrorMessagePresent', true);
+        if (error && error.errors) {
+          this.set('errorMessage', error.errors[0].detail);
+        } else {
+          this.set('errorMessage','L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
+        }
       })
       .finally(() => {
         this.set('isLoading', false);
