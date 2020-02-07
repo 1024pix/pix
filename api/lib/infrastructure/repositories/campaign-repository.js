@@ -30,7 +30,7 @@ function _fromBookshelfCampaignWithReportDataToDomain(campaignWithReportData) {
     'name',
     'code',
     'organizationId',
-    'creatorId',
+    'creator',
     'createdAt',
     'targetProfileId',
     'customLandingPageText',
@@ -107,7 +107,7 @@ module.exports = {
   },
 
   save(domainCampaign) {
-    const repositoryCampaign = _.omit(domainCampaign, ['createdAt', 'organizationLogoUrl', 'organizationName', 'targetProfile', 'campaignReport', 'campaignCollectiveResult', 'isRestricted']);
+    const repositoryCampaign = _.omit(domainCampaign, ['createdAt', 'organizationLogoUrl', 'organizationName', 'targetProfile', 'campaignReport', 'campaignCollectiveResult', 'isRestricted', 'creator']);
     return new BookshelfCampaign(repositoryCampaign)
       .save()
       .then(_toDomain);
@@ -135,7 +135,8 @@ module.exports = {
       })
       .fetchPage({
         page: page.number,
-        pageSize: page.size
+        pageSize: page.size,
+        withRelated: ['creator']
       })
       .then(({ models, pagination }) => {
         const campaignsWithReports = models.map(_fromBookshelfCampaignWithReportDataToDomain);

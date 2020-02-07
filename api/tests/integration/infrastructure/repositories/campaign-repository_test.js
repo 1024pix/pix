@@ -4,6 +4,7 @@ const Campaign = require('../../../../lib/domain/models/Campaign');
 const CampaignReport = require('../../../../lib/domain/models/CampaignReport');
 const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const User = require('../../../../lib/domain/models/User');
 const _ = require('lodash');
 
 describe('Integration | Repository | Campaign', () => {
@@ -54,7 +55,6 @@ describe('Integration | Repository | Campaign', () => {
       expect(actualCampaign.name).to.equal(campaignToInsert.name);
       expect(actualCampaign.code).to.equal(campaignToInsert.code);
       expect(actualCampaign.organizationId).to.equal(campaignToInsert.organizationId);
-      expect(actualCampaign.creatorId).to.equal(campaignToInsert.creatorId);
       expect(actualCampaign.createdAt).to.deep.equal(campaignToInsert.createdAt);
       expect(actualCampaign.targetProfileId).to.equal(campaignToInsert.targetProfileId);
       expect(actualCampaign.customLandingPageText).to.equal(campaignToInsert.customLandingPageText);
@@ -81,17 +81,21 @@ describe('Integration | Repository | Campaign', () => {
 
     beforeEach(async () => {
       // given
-      creatorId = databaseBuilder.factory.buildUser({}).id;
+      const creator = databaseBuilder.factory.buildUser({});
+      creatorId = creator.id;
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
+      databaseBuilder.factory.buildMembership({ userId: creatorId, organizationId });
       targetProfileId = databaseBuilder.factory.buildTargetProfile({}).id;
       await databaseBuilder.commit();
 
+      const domainCreator = new User(creator);
       campaignToSave = domainBuilder.buildCampaign({
         name: 'Evaluation niveau 1 recherche internet',
         code: 'BCTERD153',
         title: 'Parcours recherche internet',
         customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
         creatorId,
+        creator: domainCreator,
         organizationId,
         targetProfileId,
       });
@@ -119,6 +123,31 @@ describe('Integration | Repository | Campaign', () => {
   });
 
   describe('#findPaginatedFilteredByOrganizationIdWithCampaignReports', () => {
+    it('should return campaign’s creator', async () => {
+      // given
+      const creatorId = databaseBuilder.factory.buildUser({
+        firstName: 'Daenerys',
+        lastName: 'Targaryen',
+      }).id;
+      const organizationId = databaseBuilder.factory.buildOrganization({}).id;
+      databaseBuilder.factory.buildCampaign({
+        name: 'campaign1',
+        code: 'AZERTY123',
+        createdAt: '2019-07-30 09:35:45',
+        creatorId,
+        organizationId,
+      });
+      await databaseBuilder.commit();
+      const filter = {};
+      const page = { number: 1, size: 3 };
+
+      // when
+      const { models: campaigns } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+
+      // then
+      expect(campaigns[0].creator.firstName).to.equal('Daenerys');
+      expect(campaigns[0].creator.lastName).to.equal('Targaryen');
+    });
 
     let filter, page;
     let organizationId, targetProfileId, creatorId;
@@ -175,7 +204,6 @@ describe('Integration | Repository | Campaign', () => {
         expect(campaignsWithReports[0].customLandingPageText).to.exist;
         expect(campaignsWithReports[0].idPixLabel).to.exist;
         expect(campaignsWithReports[0].title).to.exist;
-        expect(campaignsWithReports[0].creatorId).to.equal(campaign.creatorId);
         expect(campaignsWithReports[0].organizationId).to.equal(campaign.organizationId);
       });
 

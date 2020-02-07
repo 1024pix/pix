@@ -18,4 +18,8 @@ module.exports = Bookshelf.model('Campaign', {
   targetProfile: function() {
     return this.belongsTo('TargetProfile', 'targetProfileId');
   },
+
+  creator: function() {
+    return this.belongsTo('User', 'creatorId');
+  },
 });
