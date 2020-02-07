@@ -19,6 +19,8 @@ module.exports = function buildCertificationCourse({
   isPublished = faker.random.boolean(),
   isV2Certification = faker.random.boolean(),
   createdAt = faker.date.past(),
+  examinerComment,
+  hasSeenEndTestScreen,
 } = {}) {
 
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -38,6 +40,8 @@ module.exports = function buildCertificationCourse({
     sessionId,
     userId,
     isV2Certification,
+    examinerComment,
+    hasSeenEndTestScreen,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-courses',
