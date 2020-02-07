@@ -203,7 +203,7 @@ module.exports = {
 
   isEmailAvailable(email) {
     return BookshelfUser
-      .where({ email })
+      .where({ email: email.toLowerCase() })
       .fetch()
       .then((user) => {
         if (user) {
