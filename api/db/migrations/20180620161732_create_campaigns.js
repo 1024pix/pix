@@ -9,16 +9,10 @@ exports.up = (knex) => {
       t.integer('organizationId').unsigned().references('organizations.id').index();
       t.integer('creatorId').unsigned().references('users.id');
       t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
-    })
-    .then(() => {
-      console.log(`${TABLE_NAME} table is created!`);
     });
 };
 
 exports.down = (knex) => {
   return knex.schema
-    .dropTable(TABLE_NAME)
-    .then(() => {
-      console.log(`${TABLE_NAME} table was dropped!`);
-    });
+    .dropTable(TABLE_NAME);
 };

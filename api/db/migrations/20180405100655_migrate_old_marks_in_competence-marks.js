@@ -21,10 +21,7 @@ exports.up = function(knex) {
           });
       });
 
-    }).then(() => knex.schema.dropTable(TABLE_NAME_MARKS))
-    .then(() => {
-      console.log(`${TABLE_NAME_MARKS} table was dropped!`);
-    });
+    }).then(() => knex.schema.dropTable(TABLE_NAME_MARKS));
 };
 
 exports.down = function(knex) {
