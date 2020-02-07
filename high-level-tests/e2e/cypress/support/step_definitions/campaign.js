@@ -30,6 +30,8 @@ when(`je saisis ma date de naissance {int}-{int}-{int}`, (dayOfBirth, monthOfBir
 
 then(`je vois la liste des campagnes`, () => {
   cy.get('.campaign-list table tbody tr').should('have.lengthOf', 2);
+  cy.get('.campaign-list table thead').contains('Créé par');
+  cy.get('.campaign-list table tbody tr td:nth-child(2)').contains(/(.+)/);
 });
 
 when(`je recherche une campagne avec le nom {string}`, (campaignSearchName) => {
