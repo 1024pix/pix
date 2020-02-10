@@ -9,7 +9,7 @@ function _checkUserAccessScope(scope, user) {
     throw new ForbiddenAccess(apps.PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG);
   }
 
-  if (scope === apps.PIX_ADMIN.SCOPE && !user.hasRolePixMaster())
+  if (scope === apps.PIX_ADMIN.SCOPE && !user.hasRolePixMaster)
   {
     throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_PIXMASTER_MSG);
   }
