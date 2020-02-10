@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { HttpStatusCodes } from '../http-status-code';
 
 export default Component.extend({
 
@@ -17,26 +18,34 @@ export default Component.extend({
       const scope = 'pix-admin';
       const { identification, password } = this;
       this.session.authenticate('authenticator:oauth2', identification, password, scope).catch((response) => {
-        if (response && response.errors && response.errors.length > 0) {
-          const firstError = response.errors[0];
-          switch (firstError.status) {
-            case '401':
-              this.set('errorMessage', firstError.detail);
-              break;
-            case '400':
-              this.set('errorMessage', 'Syntaxe (de requête) invalide.');
-              break;
-            case '403':
-              this.set('errorMessage', firstError.detail);
-              break;
-            default:
-              this.set('errorMessage', 'Un problème est survenu.');
-              break;
-          }
-        }
+        this._manageErrorsApis(response);
       });
     }
+  },
 
+  _manageErrorsApis: function(response) {
+
+    if (response && response.errors && response.errors.length > 0) {
+      const firstError = response.errors[0];
+      switch (firstError.status) {
+
+        case HttpStatusCodes.BAD_REQUEST.CODE:
+          this.set('errorMessage', HttpStatusCodes.BAD_REQUEST.MESSAGE);
+          break;
+        case HttpStatusCodes.INTERNAL_SERVER_ERROR.CODE:
+          this.set('errorMessage', HttpStatusCodes.INTERNAL_SERVER_ERROR.MESSAGE);
+          break;
+        case HttpStatusCodes.FORBIDDEN:
+          this.set('errorMessage', firstError.detail);
+          break;
+        case HttpStatusCodes.UNAUTHORIZED.CODE :
+          this.set('errorMessage', firstError.detail);
+          break;
+      }
+    }
+    else {
+      this.set('errorMessage', HttpStatusCodes.INTERNAL_SERVER_ERROR.MESSAGE);
+    }
   }
 
 });
