@@ -35,7 +35,7 @@ export default class LoginForm extends Component {
       await this.session.authenticate('authenticator:oauth2', email, password, scope);
     } catch (error) {
       this.isErrorMessagePresent =  true;
-      if (error && error.errors) {
+      if (error && error.errors && error.errors.length > 0) {
         this.errorMessage = error.errors[0].detail;
       } else {
         this.errorMessage = 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.';
