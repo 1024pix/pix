@@ -18,8 +18,7 @@ export function createUserWithMembershipAndTermsOfServiceAccepted() {
   const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
 
   const organization = server.create('organization', {
-    name: 'BRO & Evil Associates',
-    externalId: 'EXTBRO'
+    name: 'BRO & Evil Associates'
   });
 
   const memberships = server.create('membership', {
@@ -28,33 +27,6 @@ export function createUserWithMembershipAndTermsOfServiceAccepted() {
   });
 
   user.memberships = [memberships];
-  return user;
-}
-
-export function createUserWithMultipleMemberships() {
-  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
-
-  const firstOrganization = server.create('organization', {
-    name: 'BRO & Evil Associates',
-    externalId: 'EXTBRO'
-  });
-
-  const secondOrganization = server.create('organization', {
-    name: 'My Heaven Company',
-    externalId: 'HEAVEN'
-  });
-
-  const firstMembership = server.create('membership', {
-    organizationId: firstOrganization.id,
-    userId: user.id
-  });
-
-  const secondMembership = server.create('membership', {
-    organizationId: secondOrganization.id,
-    userId: user.id
-  });
-
-  user.memberships = [firstMembership, secondMembership];
   return user;
 }
 
