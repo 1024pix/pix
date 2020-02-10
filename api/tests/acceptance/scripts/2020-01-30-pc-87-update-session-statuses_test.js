@@ -36,6 +36,7 @@ describe('Acceptance | Scripts | 2020-01-30-pc-87-update-session-statuses.js', (
   });
 
   describe('Session without certification course', () =>{
+
     it('keeps the "started" session status', async () => {
       // when
       await updateSessionStatuses(sessionIdsWithReport);
@@ -47,7 +48,9 @@ describe('Acceptance | Scripts | 2020-01-30-pc-87-update-session-statuses.js', (
   });
 
   describe('Session with certification courses', () => {
+
     describe('all certification courses are published', () => {
+
       it('updates sessions status to "finalized"', async () => {
         // when
         await updateSessionStatuses(sessionIdsWithReport);
@@ -64,10 +67,25 @@ describe('Acceptance | Scripts | 2020-01-30-pc-87-update-session-statuses.js', (
         });
         expect(sessionsAfterUpdate.length).to.equal(2);
       });
+
+      it('saves the finalization date', async () => {
+        // given
+        const finalizationDatetime = new Date();
+
+        // when
+        await updateSessionStatuses(sessionIdsWithReport, finalizationDatetime);
+
+        // then
+        const [sessionAfterUpdate] = await knex('sessions').where({ id: startedSessionWithAllPublishedCourses.id });
+
+        expect(sessionAfterUpdate.finalizedAt).to.deep.equal(finalizationDatetime);
+      });
     });
 
     describe('all certification courses are not published', () => {
+
       describe('session report (PV de session) is received', () => {
+
         it('updates sessions status to "finalized"', async () => {
           // when
           await updateSessionStatuses(sessionIdsWithReport);
@@ -80,6 +98,7 @@ describe('Acceptance | Scripts | 2020-01-30-pc-87-update-session-statuses.js', (
       });
 
       describe('session report (PV de session) is not received', () => {
+
         it('keeps the "started" session status', async () => {
           // when
           await updateSessionStatuses(sessionIdsWithReport);
