@@ -21,10 +21,13 @@ export default Component.extend({
           const firstError = response.errors[0];
           switch (firstError.status) {
             case '401':
-              this.set('errorMessage', 'Identifiants de connexion invalides.');
+              this.set('errorMessage', firstError.detail);
               break;
             case '400':
               this.set('errorMessage', 'Syntaxe (de requête) invalide.');
+              break;
+            case '403':
+              this.set('errorMessage', firstError.detail);
               break;
             default:
               this.set('errorMessage', 'Un problème est survenu.');

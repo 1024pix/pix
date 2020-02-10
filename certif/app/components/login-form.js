@@ -9,6 +9,8 @@ export default class LoginForm extends Component {
   @tracked isPasswordVisible;
   @tracked isErrorMessagePresent;
 
+  @tracked errorMessage;
+
   constructor() {
     super(...arguments);
 
@@ -16,6 +18,7 @@ export default class LoginForm extends Component {
     this.password = null;
     this.isPasswordVisible = false;
     this.isErrorMessagePresent = false;
+    this.errorMessage = null;
   }
 
   get passwordInputType() {
@@ -30,8 +33,13 @@ export default class LoginForm extends Component {
     const scope = 'pix-certif';
     try {
       await this.session.authenticate('authenticator:oauth2', email, password, scope);
-    } catch (err) {
+    } catch (error) {
       this.isErrorMessagePresent =  true;
+      if (error && error.errors) {
+        this.errorMessage = error.errors[0].detail;
+      } else {
+        this.errorMessage = 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.';
+      }
     }
   }
 

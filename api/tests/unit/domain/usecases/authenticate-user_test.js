@@ -94,8 +94,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       const promise = authenticateUser({ userEmail, userPassword, scope, userRepository, tokenService });
 
       // then
-      //return expect(promise).to.be.rejectedWith(ForbiddenAccess, appMessages.PIX_ADMIN.NOT_PIXMASTER_MSG);
-      return expect(promise).to.be.rejectedWith(MissingOrInvalidCredentialsError);
+      return expect(promise).to.be.rejectedWith(ForbiddenAccess, appMessages.PIX_ADMIN.NOT_PIXMASTER_MSG);
     });
 
     it('rejects an error when scope is pix-certif and user is not linked to any certification centers', function() {
