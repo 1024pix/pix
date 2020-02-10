@@ -24,7 +24,9 @@ export default class QrocProposal extends Component {
     return answer.indexOf('#ABAND#') > -1 ? '' : answer;
   }
   _setAnswerValue(event) {
-    this.set('answerValue', event.data) ;
+    if (event.data !== 'hideInput' && typeof event.data === 'string') {
+      this.set('userAnswer', event.data);
+    }
   }
 
   didUpdateAttrs() {

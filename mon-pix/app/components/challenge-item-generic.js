@@ -12,6 +12,8 @@ const ChallengeItemGeneric = Component.extend({
 
   isValidateButtonEnabled: true,
   isSkipButtonEnabled: true,
+  hideInput: false,
+  hideInputHandler: null,
 
   _elapsedTime: null,
   _timer: null,
@@ -26,6 +28,8 @@ const ChallengeItemGeneric = Component.extend({
 
   didUpdateAttrs() {
     this._super(...arguments);
+    this.set('hideInput', false);
+
     if (!this._isUserAwareThatChallengeIsTimed) {
       this.set('hasUserConfirmWarning', false);
       this.set('hasChallengeTimer', this.hasTimerDefined());
@@ -36,6 +40,15 @@ const ChallengeItemGeneric = Component.extend({
     this._super(...arguments);
     const timer = this._timer;
     cancel(timer);
+  },
+
+  didInsertElement: function() {
+    this.hideInputHandler = this._hideInput.bind(this);
+    window.addEventListener('message',  this.hideInputHandler);
+  },
+
+  didDestroyElement: function() {
+    window.removeEventListener('message', this.hideInputHandler);
   },
 
   hasUserConfirmWarning: computed('challenge', function() {
@@ -52,6 +65,12 @@ const ChallengeItemGeneric = Component.extend({
 
   hasTimerDefined() {
     return _.isInteger(this.challenge.timer);
+  },
+
+  _hideInput: function(event) {
+    if (event.data === 'hideInput') {
+      this.set('hideInput', true);
+    }
   },
 
   _getTimeout() {

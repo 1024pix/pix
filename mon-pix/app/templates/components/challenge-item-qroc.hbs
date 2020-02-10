@@ -7,8 +7,7 @@
 {{#unless hasChallengeTimer}}
   <form {{action "validateAnswer" on="submit"}} class="rounded-panel">
     <ChallengeStatement @challenge={{challenge}} @assessment={{assessment}} @class="rounded-panel__row" />
-
-    <div class="rounded-panel__row challenge-response {{if answer 'challenge-response--locked'}}">
+    <div class="rounded-panel__row challenge-response {{if answer 'challenge-response--locked'}} {{if hideInput 'input-hidden'}}">
       <div class="challenge-proposals">
         <QrocProposal @answer={{answer}} @format={{challenge.format}} @proposals={{challenge.proposals}} @answerValue={{answer.value}} @answerChanged={{action "answerChanged"}} />
       </div>
@@ -27,7 +26,6 @@
         {{/if}}
       {{/if}}
     </div>
-
     {{#if errorMessage}}
       <div class="alert alert-danger" role="alert">
         {{errorMessage}}
