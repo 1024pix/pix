@@ -16,7 +16,7 @@ module.exports = function buildCertificationCourse(
     lastName = faker.name.lastName(),
     nbChallenges = faker.random.number(40),
     isV2Certification = false,
-    examinerComment = faker.lorem.sentence(),
+    examinerComment,
     hasSeenEndTestScreen = false,
     // includes
     // references
