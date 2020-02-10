@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v2.112.0 (10/02/2020)
+
+- [#1032](https://github.com/1024pix/pix/pull/1032) [FEATURE] Script pour créer des Centres de Certification SCO (PF-949).
+- [#992](https://github.com/1024pix/pix/pull/992) [FEATURE] Améliorer le composant de liste des campagnes (PO-306). 
+- [#1013](https://github.com/1024pix/pix/pull/1013) [FEATURE] Ajouter une date de finalisation lorsqu'un utilisateur PixCertif finalise une session (PC-111)
+- [#1039](https://github.com/1024pix/pix/pull/1039) [FEATURE] Afficher si l'organisation SCO gère des élèves (PA-140)
+- [#1047](https://github.com/1024pix/pix/pull/1047) [BUGFIX] Réparer le téléchargement des CSV sur Pix Orga (PO-333).
+- [#1042](https://github.com/1024pix/pix/pull/1042) [BUGFIX] Changement du fond d'écran de certains formulaires PIX (PF-961)
+- [#1037](https://github.com/1024pix/pix/pull/1037) [BUGFIX] La vérification de l'existence d'une invitation n'est plus sensible à la casse pour l'email (PO-329)
+- [#1019](https://github.com/1024pix/pix/pull/1019) [TECH] Remise à plat de toutes les seeds de certification (PF-1064)
+- [#1033](https://github.com/1024pix/pix/pull/1033) [TECH] Mise à jour de PixAPP vers Ember 3.14 (PF-1070).
+
 ## v2.111.0 (05/02/2020)
 
 - [#1031](https://github.com/1024pix/pix/pull/1031) [FEATURE] Remplace le message d'erreur pour les comptes déjà créer (PF-989).
