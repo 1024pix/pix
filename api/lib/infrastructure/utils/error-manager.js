@@ -114,7 +114,7 @@ function _mapToInfrastructureError(error) {
     return new InfraErrors.ForbiddenError('The user cannot be certified.');
   }
   if (error instanceof DomainErrors.MissingOrInvalidCredentialsError) {
-    return new InfraErrors.UnauthorizedError('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects');
+    return new InfraErrors.UnauthorizedError('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToGetCampaignResultsError) {
     return new InfraErrors.ForbiddenError(error.message);

@@ -24,7 +24,7 @@ module.exports = {
   },
   PIX_ADMIN: {
     SCOPE: 'pix-admin',
-    NOT_PIXMASTER_MSG: 'Vous ne pouvez pas vous connecter à pix-admin car vous n’avez le rôle PixMaster'
+    NOT_PIXMASTER_MSG: 'Vous ne pouvez pas vous connecter à pix-admin car vous n’avez le rôle PixMaster.'
   },
   PIX_CERTIF: {
     SCOPE: 'pix-certif',
