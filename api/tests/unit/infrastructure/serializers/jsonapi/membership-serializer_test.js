@@ -15,7 +15,6 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
           name: 'The name of the organization',
           type: 'SUP',
           code: 'WASABI666',
-          externalId: 'EXTID'
         },
         organizationRole: Membership.roles.ADMIN,
       });
@@ -46,7 +45,6 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
             name: 'The name of the organization',
             type: 'SUP',
             code: 'WASABI666',
-            'external-id': 'EXTID'
           },
           relationships: {
             campaigns: {
@@ -100,7 +98,6 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
         'name': 'ACME',
         'type': 'PRO',
         'code': 'ABCD12',
-        'external-id': 'EXTID',
         'is-managing-students': false
       });
     });
