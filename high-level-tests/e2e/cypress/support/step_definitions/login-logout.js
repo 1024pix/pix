@@ -44,7 +44,7 @@ then(`je suis redirigé vers le profil de {string}`, (firstName) => {
 
 then(`je suis redirigé vers le compte Orga de {string}`, (fullName) => {
   cy.url().should('include', '/campagnes');
-  cy.get('.logged-user-summary__name').should((userName) => {
+  cy.get('.topbar__user-identification').should((userName) => {
     expect(userName.text()).to.contains(fullName);
   });
   cy.get('.page-title').should((title) => {

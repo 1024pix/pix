@@ -7,13 +7,19 @@
       {{/link-to}}
     </header>
 
+    <div class="sidebar__current-organization sidebar--padding-left sidebar--padding-right">
+      {{current-organization organization=model}}
+
+    </div>
+
     {{sidebar-menu}}
   </aside>
 
   <div class="app__main-content main-content">
 
     <div class="main-content__topbar topbar">
-      <div class="topbar__user-logged-menu">{{user-logged-menu}}</div>
+      <div class="topbar__user-identification">{{user-identification}}</div>
+      <div class="topbar__disconnect">{{#link-to "logout"}}Se déconnecter{{/link-to}}</div>
     </div>
 
     <div class="main-content__body page">

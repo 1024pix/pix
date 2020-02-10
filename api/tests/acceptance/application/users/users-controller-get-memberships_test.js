@@ -87,7 +87,6 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
                 name: organization.name,
                 type: organization.type,
                 code: organization.code,
-                'external-id': organization.externalId,
                 'is-managing-students': organization.isManagingStudents,
               },
               relationships: {
