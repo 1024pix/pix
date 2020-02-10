@@ -200,7 +200,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       const tokenForCampaignResults = 'token';
       const expectedCampaign = { ...campaign, tokenForCampaignResults };
       usecases.getCampaign.withArgs({ campaignId: campaign.id, options: {} }).resolves(campaign);
-      campaignSerializer.serialize.withArgs(campaign, { tokenForCampaignResults }).returns(expectedCampaign);
+      campaignSerializer.serialize.withArgs(campaign, {}, { tokenForCampaignResults }).returns(expectedCampaign);
 
       // when
       const response = await campaignController.getById(request, hFake);
