@@ -1,7 +1,7 @@
 const { expect, knex, databaseBuilder } = require('../../test-helper');
 const { range } = require('lodash');
 
-const updateSessionStatuses = require('../../../scripts/2020-01-30-pc-87-update-session-statuses');
+const { updateSessionStatuses } = require('../../../scripts/2020-01-30-pc-87-update-session-statuses');
 
 describe('Acceptance | Scripts | 2020-01-30-pc-87-update-session-statuses.js', () => {
   let sessionWithoutCourse;

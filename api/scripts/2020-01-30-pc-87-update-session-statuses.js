@@ -1,4 +1,4 @@
-const {knex} = require('../db/knex-database-connection');
+const { knex } = require('../db/knex-database-connection');
 
 const sessionIdsWithReport = require('./2020-01-30-pc-87-session-ids-with-reports.json');
 
@@ -28,4 +28,6 @@ if (require.main === module) {
     .finally(() => process.exit(0));
 }
 
-module.exports = updateSessionStatuses;
+module.exports = {
+  updateSessionStatuses,
+};
