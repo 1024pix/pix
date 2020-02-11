@@ -24,5 +24,6 @@ module.exports = {
   buildTargetProfileSkill: require('./build-target-profile-skill'),
   buildTargetProfileShare: require('./build-target-profile-share'),
   buildUser: require('./build-user'),
+  buildUserOrgaSettings: require('./build-user-orga-settings'),
   buildUserPixRole: require('./build-user-pix-role'),
 };
