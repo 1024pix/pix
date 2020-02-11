@@ -1,6 +1,7 @@
 const Airtable = require('airtable');
 const airtableSettings = require('../config').airtable;
 const logger = require('./logger');
+const _ = require('lodash');
 
 function _airtableClient() {
   return new Airtable({ apiKey: airtableSettings.apiKey }).base(airtableSettings.base);
@@ -12,7 +13,7 @@ async function getRecord(tableName, recordId) {
     .table(tableName)
     .select({ filterByFormula: `{id persistant}=${recordId}` })
     .all();
-  return allRecords.shift();
+  return _.first(allRecords);
 }
 
 function findRecords(tableName, fields) {
