@@ -5,6 +5,11 @@ import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { reject, resolve } from 'rsvp';
 
+const errorMessages = {
+  NOT_LINKED_CERTIFICATION_MSG: 'L\'accès à Pix Certif est limité aux centres de certification Pix. Contactez le référent de votre centre de certification si vous pensez avoir besoin d\'y accéder.',
+  INVALID_CREDENTIEL_MSG: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.'
+};
+
 module('Integration | Component | login-form', function(hooks) {
   setupRenderingTest(hooks);
 
@@ -56,7 +61,7 @@ module('Integration | Component | login-form', function(hooks) {
     assert.equal(sessionServiceObserver.scope, 'pix-certif');
   });
 
-  test('it should display an error message when authentication fails', async function(assert) {
+  test('it should display an error message when authentication fails with unauthorised acces', async function(assert) {
     // given
     sessionStub.prototype.authenticate = () => reject();
     await render(hbs`{{login-form}}`);
@@ -68,7 +73,27 @@ module('Integration | Component | login-form', function(hooks) {
 
     // then
     assert.dom('#login-form-error-message').exists();
-    assert.dom('#login-form-error-message').hasText('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
+    assert.dom('#login-form-error-message').hasText(errorMessages.INVALID_CREDENTIEL_MSG);
+  });
+
+  test('it should display an not linked certification message when authentication fails with Forbidden Access', async function(assert) {
+
+    // given
+    const msgErrorNotLinkedCertification =  {
+      'errors' : [{ 'status' : '403', 'title' : 'Unauthorized' , 'detail' : errorMessages.NOT_LINKED_CERTIFICATION_MSG }]
+    };
+
+    sessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedCertification);
+    await render(hbs`{{login-form}}`);
+    await fillIn('#login-email', 'pix@example.net');
+    await fillIn('#login-password', 'JeMeLoggue1024');
+
+    //  when
+    await click('.button');
+
+    // then
+    assert.dom('#login-form-error-message').exists();
+    assert.dom('#login-form-error-message').hasText(errorMessages.NOT_LINKED_CERTIFICATION_MSG);
   });
 
   module('when password is hidden', function(hooks) {
