@@ -85,38 +85,6 @@ describe('Integration | Repository | AnswerRepository', () => {
     });
   });
 
-  describe('#findByChallenge', () => {
-
-    beforeEach(() => {
-      _.each([
-        { value: '1,2', challengeId, assessmentId, }, // nominal case
-        { value: '1', challengeId, assessmentId: otherAssessmentId, }, // same challenge different assessment
-        { value: '1,2,3', challengeId: otherChallengeId, assessmentId: otherAssessmentId, }, //different challenge different assessment
-      ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
-      return databaseBuilder.commit();
-    });
-
-    it('should find all answers by challenge id', () => {
-      // when
-      const promise = AnswerRepository.findByChallenge('challenge_1234');
-
-      // then
-      return promise.then((foundAnswers) => {
-
-        expect(foundAnswers).to.exist;
-
-        expect(foundAnswers).to.have.length.of(2);
-
-        const values = _.map(foundAnswers, 'value');
-        expect(values).to.include.members(['1', '1,2']);
-
-        const challengeIds = _.map(foundAnswers, 'challengeId');
-        expect(challengeIds).to.include(challengeId);
-        expect(challengeIds).to.not.include(otherChallengeId);
-      });
-    });
-  });
-
   describe('#findChallengeIdsFromAnswerIds', () => {
     it('should return a list of corresponding challenge ids', async () => {
       // given
