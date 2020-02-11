@@ -9,6 +9,7 @@ require('./organization');
 require('./knowledge-element');
 require('./membership');
 require('./certification-center-membership');
+require('./user-orga-settings');
 
 module.exports = Bookshelf.model('User', {
   tableName: 'users',
@@ -39,6 +40,10 @@ module.exports = Bookshelf.model('User', {
 
   certificationCenterMemberships() {
     return this.hasMany('CertificationCenterMembership', 'userId');
+  },
+
+  userOrgaSettings() {
+    return this.hasOne('UserOrgaSettings', 'userId', 'id');
   },
 
   toDomainEntity() {
