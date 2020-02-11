@@ -54,7 +54,7 @@ export default Component.extend({
         if (error && error.errors && error.errors.length > 0) {
           this.set('errorMessage', error.errors[0].detail);
         } else {
-          this.set('errorMessage','L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
+          this.set('errorMessage','Le service est momentanément indisponible. Veuillez réessayer ultérieurement.');
         }
       })
       .finally(() => {
