@@ -20,7 +20,7 @@ module.exports = {
 
   PIX_ORGA: {
     SCOPE: 'pix-orga',
-    NOT_LINKED_ORGANIZATION_MSG: 'Vous ne pouvez pas vous connecter à PixOrga car vous n’êtes rattaché à aucune organisation. Contactez votre administrateur qui pourra vous inviter.'
+    NOT_LINKED_ORGANIZATION_MSG: 'L\'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l\'organisation qui l\'utilise. Contactez-le pour qu\'il vous y invite.'
   },
   PIX_ADMIN: {
     SCOPE: 'pix-admin',
