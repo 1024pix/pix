@@ -36,6 +36,7 @@ export default function() {
   this.get('/users', findUsers);
 
   this.post('/memberships', createMembership);
+  this.get('/organizations');
   this.get('/organizations/:id');
   this.get('/organizations/:id/memberships', getOrganizationMemberships);
 
