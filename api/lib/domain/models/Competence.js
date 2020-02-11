@@ -10,8 +10,6 @@ class Competence {
     origin,
     // includes
     skills = [],
-    // references
-    courseId,
   } = {}) {
     this.id = id;
     // attributes
@@ -23,8 +21,6 @@ class Competence {
     this.level = -1;
     // includes
     this.skills = skills; // TODO remplacer par un vrai tableau de SKills
-    // references
-    this.courseId = courseId; // TODO remplacer par un vrai Course
   }
 
   get reference() {
