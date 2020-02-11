@@ -136,7 +136,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     // given
     const msgErrorNotLinkedOrganization =  {
-      'errors' : [{ 'status' : '401', 'title' : 'Unauthorized' , 'detail' : errorMessages.NOT_LINKED_ORGANIZATION_MSG }]
+      'errors' : [{ 'status' : '403', 'title' : 'Unauthorized' , 'detail' : errorMessages.NOT_LINKED_ORGANIZATION_MSG }]
     };
 
     sessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedOrganization);
