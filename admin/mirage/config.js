@@ -1,7 +1,6 @@
 import { createMembership } from './handlers/memberships';
 import { getOrganizationMemberships } from './handlers/organizations';
 import { getCertificationsBySessionId } from './handlers/certifications-by-session-id';
-import { findUsers } from './handlers/users';
 import { upload } from 'ember-file-upload/mirage';
 
 export default function() {
@@ -33,7 +32,7 @@ export default function() {
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
 
-  this.get('/users', findUsers);
+  this.get('/users');
 
   this.post('/memberships', createMembership);
   this.get('/organizations');
