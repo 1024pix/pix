@@ -27,19 +27,16 @@ const { environment } = require('../lib/config');
 const knexConfig = knexConfigs[environment];
 const knex = require('knex')(knexConfig);
 
-const _clientName = knex.schema.client.config.client;
 const _databaseName = knex.client.database();
 
 const _dbSpecificQueries = {
-  postgresql: {
-    listTablesQuery: 'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?',
-    truncateTableQuery: 'TRUNCATE TABLE ?? CASCADE;'
-  },
+  listTablesQuery: 'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?',
+  emptyTableQuery: 'TRUNCATE TABLE ?? CASCADE;'
 };
 
 async function listAllTableNames() {
   const bindings = [_databaseName];
-  const query = _dbSpecificQueries[_clientName].listTablesQuery;
+  const query = _dbSpecificQueries.listTablesQuery;
 
   const resultSet = await knex.raw(query, bindings);
 
@@ -55,8 +52,8 @@ async function emptyAllTables() {
     'pix_roles'
   );
 
-  const query = _dbSpecificQueries[_clientName].truncateTableQuery;
 
+  const query = _dbSpecificQueries.emptyTableQuery;
   for (const tableName of tablesToDelete) {
     await knex.raw(query, [tableName]);
   }
