@@ -77,7 +77,7 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
     qb.whereRaw('LOWER("lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
   }
   if (email) {
-    qb.whereRaw('LOWER("email") LIKE ?', `%${email.toLowerCase()}%`);
+    qb.whereRaw('email LIKE ?', `%${email.toLowerCase()}%`);
   }
 }
 
@@ -94,7 +94,7 @@ module.exports = {
   // TODO use _toDomain()
   findByEmail(email) {
     return BookshelfUser
-      .where({ email })
+      .where({ email: email.toLowerCase() })
       .fetch({ require: true })
       .then((bookshelfUser) => {
         return bookshelfUser.toDomainEntity();
@@ -109,7 +109,7 @@ module.exports = {
 
   getByUsernameOrEmailWithRoles(username) {
     return BookshelfUser
-      .query((qb) => { qb.whereRaw('LOWER("email") LIKE ?', `${username.toLowerCase()}`).orWhere({ 'username': username }); })
+      .query((qb) => qb.where({ email: username.toLowerCase() }).orWhere({ 'username': username }))
       .fetch({
         withRelated: [
           'memberships',
@@ -216,7 +216,7 @@ module.exports = {
 
   isUserExistingByEmail(email) {
     return BookshelfUser
-      .where({ email })
+      .where({ email: email.toLowerCase() })
       .fetch({ require: true })
       .then(() => true)
       .catch(() => {
