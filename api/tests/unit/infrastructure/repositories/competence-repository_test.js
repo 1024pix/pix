@@ -24,7 +24,6 @@ describe('Unit | Repository | competence-repository', () => {
     index: '1.1',
     description: 'Competence description 1',
     areaId: 'recArea',
-    courseId: 'recCourse1',
     origin: 'Pix',
     skillIds: ['recSkill1', 'recSkill2'],
   };
@@ -36,7 +35,6 @@ describe('Unit | Repository | competence-repository', () => {
     description: 'Competence description 2',
     areaId: 'recArea',
     origin: 'Pix',
-    courseId: 'recCourse2',
     skillIds: [],
   };
 
@@ -47,7 +45,6 @@ describe('Unit | Repository | competence-repository', () => {
     description: 'Non Pix Competence description',
     areaId: 'recArea',
     origin: 'Autre que Pix',
-    courseId: 'recCourse2',
     skillIds: [],
   };
 
@@ -107,7 +104,6 @@ describe('Unit | Repository | competence-repository', () => {
         index: '1.1',
         name: 'Mener une recherche d’information',
         description: 'Competence description 1',
-        courseId: 'recCourse1',
         origin: 'Pix',
         skills: ['recSkill1', 'recSkill2'],
         area: new Area({
@@ -153,7 +149,6 @@ describe('Unit | Repository | competence-repository', () => {
         id: 'recCompetence1',
         index: '1.1',
         name: 'Mener une recherche d’information',
-        courseId: 'recCourse',
         origin: 'Pix',
         skills: ['recSkill1', 'recSkill2'],
         area: new Area({
