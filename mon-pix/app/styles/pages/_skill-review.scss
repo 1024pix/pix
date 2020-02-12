@@ -212,6 +212,22 @@
   }
 }
 
+.skill-review__campaign-archived {
+  position: relative;
+  top: -80px;
+  text-align: center;
+}
+
+.skill-review__campaign-archived-text {
+  font-size: 22px;
+  line-height: 30px;
+  max-width: 640px;
+  margin: 30px auto 60px;
+  font-family: $font-open-sans;
+  font-weight: $font-light;
+  color: $gray;
+}
+
 @media print {
   a[href]:after {
     content: none;
