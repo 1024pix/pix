@@ -120,7 +120,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
   });
 
-  describe('#findLastCompletedAssessmentsForEachCoursesByUser', () => {
+  describe('#findLastCompletedAssessmentsForEachCompetenceByUser', () => {
 
     let johnUserId;
     let laylaUserId;
@@ -156,7 +156,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       johnAssessmentToRemember = databaseBuilder.factory.buildAssessment({
         userId: johnUserId,
-        courseId: 'courseId1',
+        competenceId: 'competenceId1',
         state: Assessment.states.COMPLETED,
         createdAt: johnAssessmentDateToRemember,
         type: 'PLACEMENT',
@@ -173,7 +173,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         {
           assessment: {
             userId: johnUserId,
-            courseId: 'courseId1',
+            competenceId: 'competenceId1',
+            courseId: 'do-not-use-courseId',
             createdAt: dateAssessmentBefore1,
             state: Assessment.states.COMPLETED,
             type: PLACEMENT,
@@ -187,7 +188,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         {
           assessment: {
             userId: johnUserId,
-            courseId: 'courseId2',
+            competenceId: 'competenceId2',
             createdAt: dateAssessmentBefore2,
             state: Assessment.states.COMPLETED,
             type: PLACEMENT,
@@ -201,7 +202,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         {
           assessment: {
             userId: johnUserId,
-            courseId: 'courseId3',
+            competenceId: 'competenceId3',
             createdAt: dateAssessmentBefore3,
             state: Assessment.states.STARTED,
             type: PLACEMENT,
@@ -215,7 +216,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         {
           assessment: {
             userId: johnUserId,
-            courseId: 'courseId1',
+            competenceId: 'competenceId1',
             createdAt: dateAssessmentAfter,
             state: Assessment.states.COMPLETED,
             type: PLACEMENT,
@@ -229,7 +230,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         {
           assessment: {
             userId: laylaUserId,
-            courseId: 'courseId1',
+            competenceId: 'competenceId1',
             createdAt: dateAssessmentBefore1,
             state: Assessment.states.COMPLETED,
             type: PLACEMENT,
@@ -254,7 +255,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         new Assessment({
           id: johnAssessmentToRemember.id,
           userId: johnUserId,
-          courseId: johnAssessmentToRemember.courseId,
+          courseId: 'recDefaultCourseId',
           state: Assessment.states.COMPLETED,
           createdAt: johnAssessmentToRemember.createdAt,
           type: PLACEMENT,
@@ -281,7 +282,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       ];
 
       // when
-      const assessments = await assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(johnUserId, limitDate);
+      const assessments = await assessmentRepository.findLastCompletedAssessmentsForEachCompetenceByUser(johnUserId, limitDate);
 
       // then
       const assessmentsWithoutUserId = _.map(assessments, (assessment) => _.omit(assessment, ['userId']));

@@ -3,7 +3,6 @@ module.exports = function buildCompetenceAirtableDataObject({
   name = 'Mener une recherche et une veille d’information',
   index = '1.1',
   areaId = 'recvoGdo7z2z7pXWa',
-  courseId = 'recNPB7dTNt5krlMA',
   description = 'Some description',
   origin = 'Pix',
   skillIds = [
@@ -24,7 +23,6 @@ module.exports = function buildCompetenceAirtableDataObject({
     name,
     index,
     areaId,
-    courseId,
     origin,
     skillIds,
     description,

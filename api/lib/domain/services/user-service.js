@@ -10,7 +10,6 @@ const challengeRepository = require('../../../lib/infrastructure/repositories/ch
 const answerRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const competenceRepository = require('../../../lib/infrastructure/repositories/competence-repository');
 const knowledgeElementRepository = require('../../../lib/infrastructure/repositories/knowledge-element-repository');
-const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
 
 async function getCertificationProfile({ userId, limitDate, isV2Certification = true }) {
   const certificationProfile = new CertificationProfile({
@@ -86,11 +85,10 @@ function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
   return challengesBySkill.length > 0;
 }
 
-function _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLastAssessments }) {
+function _createUserCompetencesV1({ allCompetences, userLastAssessments }) {
   return allCompetences.map((competence) => {
     const userCompetence = new UserCompetence(competence);
-    const currentCourse = allAdaptativeCourses.find((course) => course.competences[0] === userCompetence.id);
-    const assessment = userLastAssessments.find((assessment) => currentCourse.id === assessment.courseId);
+    const assessment = _.find(userLastAssessments, { competenceId: userCompetence.id });
     userCompetence.pixScore = assessment && assessment.getPixScore() || 0;
     userCompetence.estimatedLevel = assessment && assessment.getLevel() || 0;
     return userCompetence;
@@ -99,13 +97,10 @@ function _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLa
 
 async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1(certificationProfile) {
   const certificationProfileToFill = _.clone(certificationProfile);
-  const [allCompetences, allAdaptativeCourses] = await Promise.all([
-    competenceRepository.listPixCompetencesOnly(),
-    courseRepository.getAdaptiveCourses()
-  ]);
+  const allCompetences = await competenceRepository.listPixCompetencesOnly();
   const userLastAssessments = await assessmentRepository
-    .findLastCompletedAssessmentsForEachCoursesByUser(certificationProfile.userId, certificationProfile.profileDate);
-  certificationProfileToFill.userCompetences = _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLastAssessments });
+    .findLastCompletedAssessmentsForEachCompetenceByUser(certificationProfile.userId, certificationProfile.profileDate);
+  certificationProfileToFill.userCompetences = _createUserCompetencesV1({ allCompetences, userLastAssessments });
   const correctAnswers = await _findCorrectAnswersByAssessments(userLastAssessments);
   certificationProfileToFill.challengeIdsCorrectlyAnswered = _.map(correctAnswers, 'challengeId');
 
