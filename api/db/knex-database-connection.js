@@ -31,7 +31,7 @@ const _databaseName = knex.client.database();
 
 const _dbSpecificQueries = {
   listTablesQuery: 'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?',
-  emptyTableQuery: 'TRUNCATE TABLE ?? CASCADE;'
+  emptyTableQuery: 'TRUNCATE ',
 };
 
 async function listAllTableNames() {
@@ -52,11 +52,10 @@ async function emptyAllTables() {
     'pix_roles'
   );
 
+  const tables = _.map(tablesToDelete, (tableToDelete) => `"${tableToDelete}"`).join();
 
   const query = _dbSpecificQueries.emptyTableQuery;
-  for (const tableName of tablesToDelete) {
-    await knex.raw(query, [tableName]);
-  }
+  return knex.raw(`${query}${tables}`);
 }
 
 async function listTablesByDependencyOrderDesc() {
