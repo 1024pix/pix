@@ -14,9 +14,9 @@ module.exports = class DatabaseBuilder {
 
   async commit() {
     if (this.isFirstCommit) {
+      this.isFirstCommit = false;
       await knexDatabaseConnection.emptyAllTables();
       await this._initTablesOrderedByDependencyWithDirtinessMap();
-      this.isFirstCommit = false;
     }
     const trx = await this.knex.transaction();
     for (const objectToInsert of this.databaseBuffer.objectsToInsert) {
