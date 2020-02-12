@@ -75,6 +75,15 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(find('.skill-review__improvement-button')).to.be.null;
       });
 
+      it('should not display the archivation block if the campaign has not been archived', async () => {
+        // when
+        await resumeCampaignByCode('AZERTY2');
+        await completeCampaignAndSeeResultsByCode('AZERTY2');
+
+        // then
+        expect(find('.skill-review__campaign-archived')).not.to.exist;
+      });
+
       it('should redirect to home/profil page on click', async function() {
         // given
         await resumeCampaignByCode('AZERTY2');
