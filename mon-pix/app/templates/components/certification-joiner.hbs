@@ -7,15 +7,15 @@
     <form autocomplete="off">
         <div class="certification-joiner__row">
             <label class="certification-joiner__label">Numéro de session</label>
-          <Input @autofocus="autofocus" @type="text" @size="6" @value={{sessionId}} @id="sessionId" />
+          <Input @autofocus="autofocus" @type="text" @size="6" @value={{this.sessionId}} @id="sessionId" />
         </div>
         <div class="certification-joiner__row">
             <label class="certification-joiner__label">Prénom</label>
-          <Input @type="text" @value={{firstName}} @id="firstName" />
+          <Input @type="text" @value={{this.firstName}} @id="firstName" />
         </div>
         <div class="certification-joiner__row">
             <label class="certification-joiner__label">Nom de naissance</label>
-          <Input @type="text" @value={{lastName}} @id="lastName" />
+          <Input @type="text" @value={{this.lastName}} @id="lastName" />
         </div>
         <div class="certification-joiner__row">
             <label class="certification-joiner__label">Date de naissance</label>
@@ -23,7 +23,7 @@
               <Input @min="1"
                      @max="31"
                      @type="number"
-                     @value={{dayOfBirth}} placeholder="JJ"
+                     @value={{this.dayOfBirth}} placeholder="JJ"
                      @id="dayOfBirth"
                      @input={{action "handleDayInputChange"}}
                      @focus-in={{action "handleInputFocus"}} />
@@ -31,22 +31,22 @@
               <Input @min="1"
                      @max="12"
                      @type="number"
-                     @value={{monthOfBirth}} placeholder="MM"
+                     @value={{this.monthOfBirth}} placeholder="MM"
                      @id="monthOfBirth"
                      @input={{action "handleMonthInputChange"}}
                      @focus-in={{action "handleInputFocus"}} />
                 <div class="certification-joiner__divider"></div>
               <Input @min="1900"
                      @type="number"
-                     @value={{yearOfBirth}} placeholder="AAAA"
+                     @value={{this.yearOfBirth}} placeholder="AAAA"
                      @id="yearOfBirth"
                      @focus-in={{action "handleInputFocus"}} />
             </div>
         </div>
-      {{#if errorMessage}}
-          <div class="certification-course-page__errors">{{errorMessage}}</div>
+      {{#if this.errorMessage}}
+          <div class="certification-course-page__errors">{{this.errorMessage}}</div>
       {{/if}}
-      {{#if isLoading}}
+      {{#if this.isLoading}}
           <button class="button button--big button--thin certification-course-page__submit_button"><span
                   class="loader-in-button">&nbsp;</span>
           </button>
