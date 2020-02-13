@@ -30,6 +30,10 @@ export default class AuthenticatedSessionsFinalizeController extends Controller 
     );
   }
 
+  get hasUncheckedHasSeenEndTestScreen() {
+    return this.uncheckedHasSeenEndTestScreenCount > 0;
+  }
+
   showErrorNotification(message) {
     const { autoClear, clearDuration } = config.notifications;
     this.notifications.error(message, { autoClear, clearDuration });
