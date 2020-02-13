@@ -38,8 +38,8 @@ export default Controller.extend({
         examinerComment: certificationFromReport.comments,
         externalId: certificationFromReport.externalId,
         extraTimePercentage: certificationFromReport.extraTimePercentage,
-        hasSeenLastScreen: !_.isEmpty(certificationFromReport.lastScreen),
-        hasSeenLastScreenEnhanced: certificationFromReport.lastScreenEnhanced,
+        hasSeenLastScreenFromPaperReport: !_.isEmpty(certificationFromReport.lastScreen),
+        hasSeenLastScreenFromPaperReportEnhanced: certificationFromReport.lastScreenEnhanced,
         isInSession: _.includes(certificationsIdsInSession, certificationFromReport.certificationId),
       });
     });

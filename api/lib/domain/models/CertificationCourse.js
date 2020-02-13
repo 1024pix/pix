@@ -3,17 +3,17 @@ class CertificationCourse {
     {
       id,
       // attributes
-      birthplace,
-      birthdate,
-      completedAt,
-      createdAt,
-      externalId,
       firstName,
-      isPublished = false,
       lastName,
-      isV2Certification = false,
+      birthdate,
+      birthplace,
+      externalId,
       examinerComment,
       hasSeenEndTestScreen,
+      createdAt,
+      completedAt,
+      isPublished = false,
+      isV2Certification = false,
       // includes
       assessment,
       challenges,
@@ -23,17 +23,17 @@ class CertificationCourse {
     } = {}) {
     this.id = id;
     // attributes
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.birthplace = birthplace;
     this.birthdate = birthdate;
-    this.completedAt = completedAt;
-    this.createdAt = createdAt;
     this.externalId = externalId;
-    this.firstName = firstName;
-    this.isPublished = isPublished;
-    this.lastName = lastName;
-    this.isV2Certification = isV2Certification;
     this.examinerComment = examinerComment;
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
+    this.createdAt = createdAt;
+    this.completedAt = completedAt;
+    this.isPublished = isPublished;
+    this.isV2Certification = isV2Certification;
     // includes
     this.assessment = assessment;
     this.challenges = challenges;
@@ -41,7 +41,6 @@ class CertificationCourse {
     this.userId = userId;
     this.sessionId = sessionId;
   }
-
 }
 
 module.exports = CertificationCourse;

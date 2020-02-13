@@ -62,6 +62,8 @@ module.exports = {
       commentForCandidate: lastAssessmentResultFull.commentForCandidate,
       commentForJury: lastAssessmentResultFull.commentForJury,
       commentForOrganization: lastAssessmentResultFull.commentForOrganization,
+      examinerComment: certification.examinerComment,
+      hasSeenEndTestScreen: certification.hasSeenEndTestScreen,
       competencesWithMark: lastAssessmentResultFull.competenceMarks,
       assessmentId: assessment ? assessment.id : null,
       juryId: lastAssessmentResultFull.juryId,

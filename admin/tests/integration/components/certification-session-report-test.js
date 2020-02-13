@@ -20,10 +20,10 @@ module('Integration | Component | certification-session-report', function(hooks)
       birthdate = 'default birthdate',
       birthplace = 'default birtplace',
       examinerComment = '',
-      hasSeenLastScreen = true,
+      hasSeenLastScreenFromPaperReport = true,
       isInSession = true, }) {
       return {
-        id, firstName, lastName, birthplace, birthdate, examinerComment, hasSeenLastScreen, isInSession
+        id, firstName, lastName, birthplace, birthdate, examinerComment, hasSeenLastScreenFromPaperReport, isInSession
       };
     };
     const certifications = [
@@ -34,14 +34,14 @@ module('Integration | Component | certification-session-report', function(hooks)
       buildCertification({ id: 4 }),
       buildCertification({ id: 4 }),
       buildCertification({ id: 5, isInSession: false }),
-      buildCertification({ id: 6, firstName: 'Jean', lastName: 'Padansession', hasSeenLastScreen: false }),
-      buildCertification({ id: 7, firstName: 'Jean', lastName: 'Palié', hasSeenLastScreen: false }),
-      buildCertification({ id: 8, firstName: 'Jean', lastName: 'Lié', hasSeenLastScreen: false }),
+      buildCertification({ id: 6, firstName: 'Jean', lastName: 'Padansession', hasSeenLastScreenFromPaperReport: false }),
+      buildCertification({ id: 7, firstName: 'Jean', lastName: 'Palié', hasSeenLastScreenFromPaperReport: false }),
+      buildCertification({ id: 8, firstName: 'Jean', lastName: 'Lié', hasSeenLastScreenFromPaperReport: false }),
       buildCertification({ id: 9, examinerComment: 'comment' }),
     ];
-    certifications[7].hasSeenLastScreenEnhanced = 'NOT_IN_SESSION';
-    certifications[8].hasSeenLastScreenEnhanced = 'NOT_LINKED';
-    certifications[9].hasSeenLastScreenEnhanced = 'LINKED';
+    certifications[7].hasSeenLastScreenFromPaperReportEnhanced = 'NOT_IN_SESSION';
+    certifications[8].hasSeenLastScreenFromPaperReportEnhanced = 'NOT_LINKED';
+    certifications[9].hasSeenLastScreenFromPaperReportEnhanced = 'LINKED';
     this.set('certificationsInSessionReport', certifications);
     return render(hbs`{{certification-session-report 
       show=visible hide=onHide onDownloadJuryFile=onGetJuryFile 

@@ -69,6 +69,7 @@ describe('Acceptance | Controller | session-controller-get-certification-reports
           userId: certificationCandidateB.userId,
           firstName: certificationCandidateB.firstName,
           lastName: certificationCandidateB.lastName,
+          examinerComment: 'ok',
           hasSeenEndTestScreen: true,
         }).id;
 
@@ -83,7 +84,7 @@ describe('Acceptance | Controller | session-controller-get-certification-reports
           'certification-course-id': certificationCourseIdB,
           'first-name': certificationCandidateB.firstName,
           'last-name': certificationCandidateB.lastName,
-          'examiner-comment': null,
+          'examiner-comment': 'ok',
           'has-seen-end-test-screen': true,
         };
 

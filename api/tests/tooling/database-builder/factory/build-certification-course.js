@@ -7,20 +7,20 @@ const moment = require('moment');
 
 module.exports = function buildCertificationCourse({
   id,
-  userId,
-  completedAt = faker.date.recent(),
-  updatedAt = faker.date.recent(),
-  firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
+  firstName = faker.name.firstName(),
   birthdate = moment(faker.date.past(12)).format('YYYY-MM-DD'),
   birthplace = faker.address.city(),
-  sessionId,
   externalId = faker.random.uuid(),
+  examinerComment = faker.lorem.sentence(),
+  hasSeenEndTestScreen = false,
+  createdAt = faker.date.past(),
+  updatedAt = faker.date.recent(),
+  completedAt = faker.date.recent(),
   isPublished = faker.random.boolean(),
   isV2Certification = faker.random.boolean(),
-  createdAt = faker.date.past(),
-  examinerComment,
-  hasSeenEndTestScreen,
+  userId,
+  sessionId,
 } = {}) {
 
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -28,20 +28,20 @@ module.exports = function buildCertificationCourse({
 
   const values = {
     id,
+    firstName,
+    lastName,
     birthdate,
     birthplace,
-    completedAt,
-    updatedAt,
-    createdAt,
     externalId,
-    firstName,
-    isPublished,
-    lastName,
-    sessionId,
-    userId,
-    isV2Certification,
     examinerComment,
     hasSeenEndTestScreen,
+    createdAt,
+    updatedAt,
+    completedAt,
+    isPublished,
+    isV2Certification,
+    userId,
+    sessionId,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-courses',

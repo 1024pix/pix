@@ -29,7 +29,7 @@ module('Unit | Service | session-info-service', function(hooks) {
     service = this.owner.lookup('service:session-info-service');
   });
 
-  function buildCertification({ id, sessionId = 1, status = 'validated', hasSeenLastScreen = true, examinerComment = null }) {
+  function buildCertification({ id, sessionId = 1, status = 'validated', hasSeenLastScreenFromPaperReport = true, examinerComment = null }) {
     return EmberObject.create({
       id,
       sessionId,
@@ -45,7 +45,7 @@ module('Unit | Service | session-info-service', function(hooks) {
       resultsCreationDate: '20/07/2018 14:23:56',
       status,
       juryId: '',
-      hasSeenLastScreen,
+      hasSeenLastScreenFromPaperReport,
       examinerComment,
       commentForCandidate: 'candidate',
       commentForOrganization: 'organization',
