@@ -49,4 +49,22 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
     // then
     assert.equal(uncheckedHasSeenEndTestScreenCount, 3);
   });
+
+  test('it should count 1 unchecked box if only one box (unchecked)', function(assert) {
+
+    // given
+    const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
+    const sessions = ArrayProxy.create({
+      certificationReports: [
+        { hasSeenEndTestScreen: false },
+      ]
+    });
+    controller.set('model', sessions);
+
+    // when
+    const uncheckedHasSeenEndTestScreenCount = controller.get('uncheckedHasSeenEndTestScreenCount');
+
+    // then
+    assert.strictEqual(uncheckedHasSeenEndTestScreenCount, 1);
+  });
 });

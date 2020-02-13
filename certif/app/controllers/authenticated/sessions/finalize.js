@@ -26,7 +26,7 @@ export default class AuthenticatedSessionsFinalizeController extends Controller 
   get uncheckedHasSeenEndTestScreenCount() {
     return sumBy(
       this.session.certificationReports.toArray(),
-      (reports) => !reports.hasSeenEndTestScreen
+      (reports) => Number(!reports.hasSeenEndTestScreen)
     );
   }
 
