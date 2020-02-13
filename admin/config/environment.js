@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   const ENV = {
     modulePrefix: 'pix-admin',
     environment,
@@ -21,6 +21,16 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
       API_HOST: process.env.API_HOST || '',
+      API_ERROR_MESSAGES : {
+        BAD_REQUEST: { CODE: '400', MESSAGE: 'Les données envoyées ne sont pas au bon format.' },
+        INTERNAL_SERVER_ERROR: {
+          CODE: '500',
+          MESSAGE: 'Le service est momentanément indisponible. Veuillez réessayer ultérieurement.'
+        },
+        UNAUTHORIZED: { CODE: '401', MESSAGE: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' },
+        FORBIDDEN: '403',
+        NOT_FOUND: '404',
+      }
     },
 
     googleFonts: [

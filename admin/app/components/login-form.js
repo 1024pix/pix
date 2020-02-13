@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { HttpStatusCodes } from '../http-status-code';
+import ENV from 'pix-admin/config/environment';
 
 export default Component.extend({
 
@@ -29,22 +29,20 @@ export default Component.extend({
       const firstError = response.errors[0];
       switch (firstError.status) {
 
-        case HttpStatusCodes.BAD_REQUEST.CODE:
-          this.set('errorMessage', HttpStatusCodes.BAD_REQUEST.MESSAGE);
+        case ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.CODE:
+          this.set('errorMessage', ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE);
           break;
-        case HttpStatusCodes.INTERNAL_SERVER_ERROR.CODE:
-          this.set('errorMessage', HttpStatusCodes.INTERNAL_SERVER_ERROR.MESSAGE);
+        case ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.CODE:
+          this.set('errorMessage', ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
           break;
-        case HttpStatusCodes.FORBIDDEN:
-          this.set('errorMessage', firstError.detail);
-          break;
-        case HttpStatusCodes.UNAUTHORIZED.CODE :
+        case ENV.APP.API_ERROR_MESSAGES.FORBIDDEN:
+        case ENV.APP.API_ERROR_MESSAGES.UNAUTHORIZED.CODE :
           this.set('errorMessage', firstError.detail);
           break;
       }
     }
     else {
-      this.set('errorMessage', HttpStatusCodes.INTERNAL_SERVER_ERROR.MESSAGE);
+      this.set('errorMessage', ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
     }
   }
 
