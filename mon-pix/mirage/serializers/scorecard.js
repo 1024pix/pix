@@ -1,6 +1,17 @@
-import BaseSerializer from './application';
+import ApplicationSerializer from './application';
 
-export default BaseSerializer.extend({
+export default ApplicationSerializer.extend({
+  attributes: [
+    'name',
+    'description',
+    'index',
+    'competenceId',
+    'earnedPix',
+    'level',
+    'pixScoreAheadOfNextLevel',
+    'status',
+    'remainingDaysBeforeReset',
+  ],
   include: ['area'],
   links(record) {
     return {
