@@ -1,11 +1,11 @@
 import { click, find, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
+import { authenticateViaEmail } from '../helpers/authentification';
 import {
-  authenticateViaEmail,
   completeCampaignAndSeeResultsByCode,
   resumeCampaignByCode
-} from '../helpers/testing';
+} from '../helpers/campaign';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';

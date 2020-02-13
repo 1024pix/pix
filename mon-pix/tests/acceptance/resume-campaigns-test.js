@@ -7,12 +7,12 @@ import {
 } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
+import { authenticateViaEmail } from '../helpers/authentification';
 import {
-  authenticateViaEmail,
   completeCampaignAndSeeResultsByCode,
   completeCampaignByCode,
   resumeCampaignByCode
-} from '../helpers/testing';
+} from '../helpers/campaign';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { invalidateSession } from 'ember-simple-auth/test-support';
