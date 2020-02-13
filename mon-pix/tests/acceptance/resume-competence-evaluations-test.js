@@ -1,7 +1,7 @@
 import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateViaEmail } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -10,9 +10,11 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 describe('Acceptance | Competence Evaluations | Resume Competence Evaluations', function() {
   setupApplicationTest();
   setupMirage();
+  let user;
 
   beforeEach(function() {
     defaultScenario(this.server);
+    user = server.create('user', 'withEmail');
   });
 
   describe('Resume a competence evaluation', function() {
@@ -29,8 +31,8 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
 
       it('should redirect to assessment after signin', async function() {
         // when
-        await fillIn('#login', 'jane@acme.com');
-        await fillIn('#password', 'Jane1234');
+        await fillIn('#login', user.email);
+        await fillIn('#password', user.password);
         await click('.button');
 
         expect(currentURL()).to.contains('/assessments');
@@ -40,7 +42,7 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
 
     context('When user is logged in', function() {
       beforeEach(async function() {
-        await authenticateAsSimpleUser();
+        await authenticateViaEmail(user);
       });
 
       context('When competence evaluation exists', function() {

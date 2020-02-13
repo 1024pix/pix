@@ -8,7 +8,7 @@ import {
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import {
-  authenticateAsSimpleUser,
+  authenticateViaEmail,
   completeCampaignAndSeeResultsByCode,
   completeCampaignByCode,
   resumeCampaignByCode
@@ -28,9 +28,11 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
   });
 
   describe('Resume 1 campaign', function() {
+    let prescritUserInfo;
 
     beforeEach(async function() {
-      await authenticateAsSimpleUser();
+      prescritUserInfo = server.create('user', 'withEmail');
+      await authenticateViaEmail(prescritUserInfo);
       await resumeCampaignByCode('AZERTY1', true);
     });
 
@@ -49,8 +51,8 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
       it('should redirect to assessment when user logs in', async function() {
         // given
         await click('.sign-form-header__subtitle [href="/connexion"]');
-        await fillIn('#login', 'jane@acme.com');
-        await fillIn('#password', 'Jane1234');
+        await fillIn('#login', prescritUserInfo.email);
+        await fillIn('#password', prescritUserInfo.password);
 
         // when
         await click('.sign-form-body__bottom-button button');
@@ -148,6 +150,9 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
   });
 
   describe('Resume 2 campaigns', function() {
+
+    let prescritUserInfo;
+
     beforeEach(async function() {
 
       this.server.create('assessment', {
@@ -178,7 +183,8 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         assessmentId: 2,
       });
 
-      await authenticateAsSimpleUser();
+      prescritUserInfo = server.create('user', 'withEmail');
+      await authenticateViaEmail(prescritUserInfo);
 
     });
 

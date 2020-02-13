@@ -1,7 +1,7 @@
 import { currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateViaEmail } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -12,10 +12,12 @@ const URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_cha
 describe('Acceptance | Starting a course', function() {
   setupApplicationTest();
   setupMirage();
+  let user;
 
   beforeEach(async function() {
     defaultScenario(this.server);
-    await authenticateAsSimpleUser();
+    user = server.create('user', 'withEmail');
+    await authenticateViaEmail(user);
     await visitWithAbortedTransition('/profil');
   });
 

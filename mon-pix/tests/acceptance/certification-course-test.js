@@ -1,7 +1,7 @@
 import { click, currentURL, fillIn, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateViaEmail } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -12,8 +12,11 @@ describe('Acceptance | Certification | Start Course', function() {
   setupApplicationTest();
   setupMirage();
 
+  let user;
+
   beforeEach(function() {
     defaultScenario(this.server);
+    user = server.create('user', 'withEmail');
   });
 
   describe('Start a certification course', function() {
@@ -34,7 +37,7 @@ describe('Acceptance | Certification | Start Course', function() {
     context('When user is logged in', function() {
 
       beforeEach(async function() {
-        await authenticateAsSimpleUser();
+        await authenticateViaEmail(user);
       });
 
       context('When user is not certifiable', function() {

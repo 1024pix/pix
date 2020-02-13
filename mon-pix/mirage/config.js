@@ -24,13 +24,13 @@ import patchAnswer from './routes/patch-answer';
 import patchCampaignParticipation from './routes/patch-campaign-participation';
 import postAnswers from './routes/post-answers';
 import postAssessments from './routes/post-assessments';
-import postAuthentications from './routes/post-authentications';
 import postCampaignParticipation from './routes/post-campaign-participation';
 import postCertificationCourse from './routes/post-certification-course';
 import postCompetenceEvaluation from './routes/post-competence-evaluation';
 import postFeedbacks from './routes/post-feedbacks';
 import postSessionParticipation from './routes/post-session-participation';
 import resetScorecard from './routes/reset-scorecard';
+import loadAuthRoutes from './routes/auth/index';
 
 import { Response } from 'ember-cli-mirage';
 
@@ -45,8 +45,15 @@ export default function() {
   this.namespace = 'api';
   this.timing = 0; // response delay
 
-  this.post('/token',postAuthentications);
-  this.post('/revoke', () => {});
+  loadAuthRoutes(this);
+
+  this.post('/users');
+  this.get('/users/me', getAuthenticatedUser);
+  this.get('/users/:id/certification-profile', getCertificationProfile);
+  this.get('/users/:id/pixscore', getPixScore);
+  this.get('/users/:id/scorecards', getScorecards);
+  this.get('/users/:id/campaign-participations', getUserCampaignParticipations);
+  this.post('/users/:userId/competences/:competenceId/reset', resetScorecard);
 
   this.get('/courses', getCourses);
 

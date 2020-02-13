@@ -2,7 +2,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import defaultScenario from '../../mirage/scenarios/default';
 import {
-  authenticateAsSimpleUser,
+  authenticateViaEmail,
   completeCampaignAndSeeResultsByCode,
   resumeCampaignByCode
 } from '../helpers/testing';
@@ -14,14 +14,16 @@ import { click, currentURL, find } from '@ember/test-helpers';
 describe('Acceptance | Navbar', function() {
   setupApplicationTest();
   setupMirage();
+  let user;
 
   beforeEach(function() {
     defaultScenario(this.server);
+    user = server.create('user', 'withEmail');
   });
 
   describe('Authenticated cases as simple user', function() {
     beforeEach(async function() {
-      await authenticateAsSimpleUser();
+      await authenticateViaEmail(user);
     });
 
     [

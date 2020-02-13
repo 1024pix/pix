@@ -1,7 +1,7 @@
 import { find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateViaEmail } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -10,10 +10,12 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 describe('Acceptance | Common behavior to all challenges', function() {
   setupApplicationTest();
   setupMirage();
+  let user;
 
   beforeEach(async function() {
     defaultScenario(this.server);
-    await authenticateAsSimpleUser();
+    user = server.create('user', 'withEmail');
+    await authenticateViaEmail(user);
   });
 
   context('Challenge answered: the answers inputs should be disabled', function() {
