@@ -1,48 +1,12 @@
 export default function(server) {
 
   /* eslint max-statements: off */
-
   server.loadFixtures('areas');
   server.loadFixtures('competences');
   server.loadFixtures('courses');
   server.loadFixtures('challenges');
 
-  server.create('user', {
-    id: 1,
-    firstName: 'Jane',
-    lastName: 'Doe',
-    email: 'jane@acme.com',
-    password: 'Jane1234',
-    cgu: true,
-    isProfileV2: false,
-    recaptchaToken: 'recaptcha-token-xxxxxx',
-    totalPixScore: 456,
-    competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
-  });
-
-  server.create('user', {
-    id: 3,
-    firstName: 'JaneExternal',
-    lastName: 'Doe',
-    email: 'janeExternal@acme.com',
-    password: 'Jane1234',
-    cgu: true,
-    recaptchaToken: 'recaptcha-token-xxxxxx',
-    totalPixScore: 456,
-    competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
-  });
-
-  const prescriber = server.create('user', {
-    id: 2,
-    firstName: 'John',
-    lastName: 'Smith',
-    email: 'john@acme.com',
-    password: 'John1234',
-    cgu: true,
-    recaptchaToken: 'recaptcha-token-xxxxxx',
-  });
-
-  const company = server.create('organization', {
+  server.create('organization', {
     id: 1,
     name: 'Mon Entreprise',
     email: 'contact@company.com',
@@ -154,11 +118,4 @@ export default function(server) {
     temporaryKey: 'temporaryKey',
     email: 'jane@acme.com',
   });
-
-  prescriber.organization = company;
-  company.user = prescriber;
-
-  const snapshots = server.createList('snapshot', 3, { organization: company });
-
-  company.snapshots = snapshots;
 }

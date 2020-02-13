@@ -1,7 +1,7 @@
 import { find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateViaEmail } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -10,17 +10,18 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 describe('Acceptance | competences results', function() {
   setupApplicationTest();
   setupMirage();
-
+  let user;
   const competenceId = 10;
   const assessmentId = 10;
 
   beforeEach(function() {
     defaultScenario(this.server);
+    user = server.create('user', 'withEmail');
   });
 
   describe('Authenticated cases as simple user', function() {
     beforeEach(async function() {
-      await authenticateAsSimpleUser();
+      await authenticateViaEmail(user);
 
       this.server.create('assessment', {
         id: assessmentId,
@@ -32,7 +33,7 @@ describe('Acceptance | competences results', function() {
         id: 1,
         assessmentId: assessmentId,
         competenceId: competenceId,
-        userId: 1,
+        userId: user.id,
       });
     });
 

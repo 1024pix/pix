@@ -1,4 +1,4 @@
-import { Factory } from 'ember-cli-mirage';
+import { Factory, trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 export default Factory.extend({
@@ -8,19 +8,26 @@ export default Factory.extend({
   lastName() {
     return faker.name.lastName();
   },
-  email() {
-    return faker.internet.email();
-  },
-  password() {
-    return faker.internet.password();
-  },
   cgu() {
-    return faker.random.boolean();
+    return false;
   },
-  totalPixScore() {
-    return faker.random.number();
-  },
-  recaptchaToken() {
-    return faker.random.uuid();
-  }
+  withEmail: trait({
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  }),
+  withUsername: trait({
+    username: faker.internet.email(),
+    password: faker.internet.password(),
+  }),
+  external: trait({
+    email: null,
+    username: null,
+    password: faker.internet.password(),
+  }),
+  hasNotValidatedCgu: trait({
+    cgu: false,
+  }),
+  withRecaptchaToken: trait({
+    recaptchaToken: faker.random.uuid(),
+  }),
 });

@@ -1,7 +1,7 @@
 import { find, click, currentURL, findAll } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateViaEmail } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -10,7 +10,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 describe('Acceptance | Competence details | Afficher la page de détails d\'une compétence', () => {
   setupApplicationTest();
   setupMirage();
-
+  let user;
   let server;
   const scorecardId = '1_1';
   const competenceId = '1';
@@ -18,6 +18,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
   beforeEach(function() {
     server = this.server;
     defaultScenario(this.server);
+    user = server.create('user', 'withEmail');
   });
 
   describe('Authenticated cases as simple user', () => {
@@ -32,7 +33,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
     const description = 'Super description de la compétence';
 
     beforeEach(async () => {
-      await authenticateAsSimpleUser();
+      await authenticateViaEmail(user);
       area = server.schema.areas.find(1);
     });
 
@@ -341,7 +342,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
             id: 1,
             assessmentId: 2,
             competenceId: 1,
-            userId: 1,
+            userId: user.id,
           });
           await visitWithAbortedTransition('/competences/1/resultats/2');
           await click('.scorecard-details__reset-button');

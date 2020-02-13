@@ -1,10 +1,7 @@
 import { click, fillIn, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import {
-  authenticateAsPrescriber,
-  authenticateAsSimpleUser
-} from '../helpers/testing';
+import { authenticateViaEmail } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -13,9 +10,11 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 describe('Acceptance | Authentication', function() {
   setupApplicationTest();
   setupMirage();
+  let user;
 
   beforeEach(function() {
     defaultScenario(this.server);
+    user = server.create('user', 'withEmail');
   });
 
   describe('Success cases', function() {
@@ -33,18 +32,10 @@ describe('Acceptance | Authentication', function() {
     describe('Log-in phase', function() {
       it('should redirect to the /profil after connexion for usual users', async function() {
         // given
-        await authenticateAsSimpleUser();
+        await authenticateViaEmail(user);
 
         // then
         expect(currentURL()).to.equal('/profil');
-      });
-
-      it('should redirect to the /board after connexion for users with organization', async function() {
-        // given
-        await authenticateAsPrescriber();
-
-        // then
-        expect(currentURL()).to.equal('/board');
       });
     });
   });

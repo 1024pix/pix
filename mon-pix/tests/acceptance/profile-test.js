@@ -1,10 +1,7 @@
 import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import {
-  authenticateAsPrescriber,
-  authenticateAsSimpleUser
-} from '../helpers/testing';
+import { authenticateViaEmail } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -13,14 +10,16 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 describe('Acceptance | Profile', function() {
   setupApplicationTest();
   setupMirage();
+  let user;
 
   beforeEach(function() {
     defaultScenario(this.server);
+    user = server.create('user', 'withEmail');
   });
 
   describe('Authenticated cases as simple user', function() {
     beforeEach(async function() {
-      await authenticateAsSimpleUser();
+      await authenticateViaEmail(user);
     });
 
     it('can visit /profil', async function() {
@@ -99,7 +98,7 @@ describe('Acceptance | Profile', function() {
 
     context('when user has not completed the campaign', () => {
 
-      it('should display a resume campagin banner for a campaign with no title', async function() {
+      it('should display a resume campaign banner for a campaign with no title', async function() {
         // given
         this.server.create('assessment', {
           id: 2,
@@ -111,7 +110,7 @@ describe('Acceptance | Profile', function() {
           isShared: false,
           campaignId: 1,
           assessmentId: 2,
-          userId: 1,
+          userId: user.id,
           createdAt: '2019-09-30T14:30:00Z',
         });
 
@@ -136,7 +135,7 @@ describe('Acceptance | Profile', function() {
           isShared: false,
           campaignId: 3,
           assessmentId: 2,
-          userId: 1,
+          userId: user.id,
           createdAt: '2019-09-30T14:30:00Z',
         });
 
@@ -164,7 +163,7 @@ describe('Acceptance | Profile', function() {
           isShared: false,
           campaignId: 1,
           assessmentId: 2,
-          userId: 1,
+          userId: user.id,
           createdAt: '2019-09-30T14:30:00Z',
         });
 
@@ -189,7 +188,7 @@ describe('Acceptance | Profile', function() {
           isShared: false,
           campaignId: 3,
           assessmentId: 2,
-          userId: 1,
+          userId: user.id,
           createdAt: '2019-09-30T14:30:00Z',
         });
 
@@ -201,20 +200,6 @@ describe('Acceptance | Profile', function() {
         expect(find('.resume-campaign-banner__container').textContent).to.contain('Parcours "Le Titre de la campagne" terminé ! Envoyez vos résultats.');
         expect(find('.resume-campaign-banner__button').textContent).to.equal('Continuer');
       });
-    });
-  });
-
-  describe('Authenticated cases as user with organization', function() {
-    beforeEach(async function() {
-      await authenticateAsPrescriber();
-    });
-
-    it('can visit /profil', async function() {
-      // when
-      await visitWithAbortedTransition('/profil');
-
-      // then
-      expect(currentURL()).to.equal('/board');
     });
   });
 

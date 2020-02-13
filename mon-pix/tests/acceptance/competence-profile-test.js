@@ -1,7 +1,7 @@
 import { click, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateViaEmail } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -11,14 +11,16 @@ import { setBreakpoint } from 'ember-responsive/test-support';
 describe('Acceptance | Profile | Start competence', function() {
   setupApplicationTest();
   setupMirage();
+  let user;
 
   beforeEach(function() {
     defaultScenario(this.server);
+    user = server.create('user', 'withEmail');
   });
 
   describe('Authenticated cases as simple user', function() {
     beforeEach(async function() {
-      await authenticateAsSimpleUser();
+      await authenticateViaEmail(user);
     });
 
     it('can start a competence', async function() {

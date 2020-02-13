@@ -2,7 +2,7 @@ import { click, find, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import {
-  authenticateAsSimpleUser,
+  authenticateViaEmail,
   completeCampaignAndSeeResultsByCode,
   resumeCampaignByCode
 } from '../helpers/testing';
@@ -14,9 +14,11 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 describe('Acceptance | Campaigns | Campaigns Result', function() {
   setupApplicationTest();
   setupMirage();
+  let user;
 
   beforeEach(function() {
     defaultScenario(this.server);
+    user = server.create('user', 'withEmail');
   });
 
   describe('Display campaign results', function() {
@@ -41,7 +43,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
       const campaignId = 1;
 
       beforeEach(async function() {
-        await authenticateAsSimpleUser();
+        await authenticateViaEmail(user);
         await visitWithAbortedTransition(`/campagnes/${campaignId}/resultats/${requestedAssessmentId}`);
       });
 
