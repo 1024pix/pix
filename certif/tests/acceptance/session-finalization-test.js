@@ -82,13 +82,7 @@ module('Acceptance | Session Finalization', function(hooks) {
       });
 
       test('it checks the hasSeenEndTestScreen checkbox', async function(assert) {
-        const certificationReports = finalizeController.model.certificationReports.toArray();
-        const certificationReport = certificationReports[0];
-        const id = certificationReport.certificationCourseId;
-        assert.equal(certificationReport.hasSeenEndTestScreen, false);
-        const checkboxSelector = `[data-test-id="finalization-report-has-seen-end-test-screen_${id}"]`;
-
-        await click(checkboxSelector);
+        const certificationReport = await checkFirstHasSeenEndTestScreenOption(finalizeController, assert);
 
         assert.equal(certificationReport.hasSeenEndTestScreen, true);
       });
@@ -111,55 +105,83 @@ module('Acceptance | Session Finalization', function(hooks) {
         assert.equal(finalizeController.showConfirmModal, true);
         assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
       });
-
+      
       module('when confirm modal is open', function(hooks) {
         hooks.beforeEach(function() {
           return click('[data-test-id="finalize__button"]');
         });
-
+        
         test('it should close the modal on "fermer" cross click', async function(assert) {
           // when
           await click('[data-test-id="finalize-session-modal__close-cross"]');
-
+          
           // then
           assert.equal(finalizeController.showConfirmModal, false);
           assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
         });
-
+        
+        test('it should display the number of unchecked options (all)', async function(assert) {
+          assert.dom('.app-modal-body__contextual').hasText('La case "Écran de fin du test vu" n\'est pas cochée pour 2 candidats');
+        });
+        
         test('it should close the modal on cancel button click', async function(assert) {
           // when
           await click('[data-test-id="finalize-session-modal__cancel-button"]');
-
+          
           // then
           assert.equal(finalizeController.showConfirmModal, false);
           assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
         });
-
+        
         test('it should close the modal on confirm button click', async function(assert) {
           // when
           await click('[data-test-id="finalize-session-modal__confirm-button"]');
-
+          
           // then
           assert.equal(finalizeController.showConfirmModal, false);
         });
-
+        
         test('it should redirect to session details page on confirm button click', async function(assert) {
           // when
           await click('[data-test-id="finalize-session-modal__confirm-button"]');
-
+          
           // then
           assert.equal(currentURL(), `/sessions/${session.id}`);
         });
-
+        
         test('it should show a success notification on session details page', async function(assert) {
           // when
           await click('[data-test-id="finalize-session-modal__confirm-button"]');
-
+          
           // then
           assert.dom('[data-test-notification-message="success"]').exists();
         });
-
+        
       });
+            
+      module('when confirm modal is open with one checked option', function(hooks) {
+        hooks.beforeEach(async function(assert) {
+          await checkFirstHasSeenEndTestScreenOption(finalizeController, assert);
+          return click('[data-test-id="finalize__button"]');
+        });
+              
+        test('it should display the number of unchecked options (one)', async function(assert) {
+          assert.dom('.app-modal-body__contextual').hasText('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidats');
+        });
+      });
+
     });
+    
   });
 });
+
+async function checkFirstHasSeenEndTestScreenOption(finalizeController, assert) {
+  const certificationReports = finalizeController.model.certificationReports.toArray();
+  const certificationReport = certificationReports[0];
+  const id = certificationReport.certificationCourseId;
+  assert.equal(certificationReport.hasSeenEndTestScreen, false);
+  const checkboxSelector = `[data-test-id="finalization-report-has-seen-end-test-screen_${id}"]`;
+  await click(checkboxSelector);
+  return certificationReport;
+}
+

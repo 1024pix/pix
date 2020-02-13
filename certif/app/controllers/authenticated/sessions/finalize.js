@@ -1,12 +1,13 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
-import { action } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
 import config from '../../../config/environment';
+import { sumBy } from 'lodash';
 
 export default class AuthenticatedSessionsFinalizeController extends Controller {
-
+  
   @alias('model') session;
   @service notifications;
   @tracked isLoading;
@@ -19,6 +20,14 @@ export default class AuthenticatedSessionsFinalizeController extends Controller 
     this.showConfirmModal = false;
     this.examinerGlobalCommentMaxLength = 500;
     this.examinerCommentMaxLength = 500;
+  }
+
+  @computed('session.certificationReports.@each.hasSeenEndTestScreen')
+  get uncheckedHasSeenEndTestScreenCount() {
+    return sumBy(
+      this.session.certificationReports.toArray(),
+      (reports) => !reports.hasSeenEndTestScreen
+    );
   }
 
   showErrorNotification(message) {
