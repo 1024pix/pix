@@ -18,5 +18,5 @@ export default Controller.extend({
         this.notifications.error(error);
       }
     },
-  }
+  },
 });

@@ -15,7 +15,8 @@ export default Model.extend({
   completedAt: attr(),
   status: attr(),
   juryId: attr(),
-  hasSeenLastScreen: attr('boolean', { defaultValue: true }),
+  hasSeenLastScreenFromPaperReport: attr('boolean', { defaultValue: true }),
+  hasSeenEndTestScreen: attr('boolean'),
   examinerComment: attr('string'),
   commentForCandidate: attr(),
   commentForOrganization: attr(),
@@ -60,6 +61,6 @@ export default Model.extend({
       }
     });
 
-    this.set('hasSeenLastScreen', this.hasSeenLastScreen && certificationInReport.hasSeenLastScreen);
+    this.set('hasSeenLastScreenFromPaperReport', this.hasSeenLastScreenFromPaperReport && certificationInReport.hasSeenLastScreenFromPaperReport);
   },
 });

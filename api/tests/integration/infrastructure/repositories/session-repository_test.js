@@ -49,10 +49,6 @@ describe('Integration | Repository | Session', function() {
       expect(savedSession.certificationCenter).to.equal(certificationCenter.name);
     });
 
-    afterEach(async () => {
-      await knex('sessions').delete();
-    });
-
   });
 
   describe('#isSessionCodeAvailable', () => {

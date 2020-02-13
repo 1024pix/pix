@@ -9,59 +9,60 @@ const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
-  save(certificationCourse) {
-    return new CertificationCourseBookshelf(_adaptModelToDb(certificationCourse))
-      .save()
-      .then(_toDomain);
+  async save(certificationCourse) {
+    const certificationCourseToSave = _adaptModelToDb(certificationCourse);
+    const savedCertificationCourse = await new CertificationCourseBookshelf(certificationCourseToSave).save();
+    return _toDomain(savedCertificationCourse);
   },
 
-  changeCompletionDate(certificationCourseId, completedAt = null) {
+  async changeCompletionDate(certificationCourseId, completedAt = null) {
     const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, completedAt });
-    return certificationCourseBookshelf
-      .save()
-      .then(_toDomain);
+    const savedCertificationCourse = await certificationCourseBookshelf.save();
+    return _toDomain(savedCertificationCourse);
   },
 
-  get(id) {
-    return CertificationCourseBookshelf
-      .where({ id })
-      .fetch({ require: true, withRelated: ['assessments', 'challenges'] })
-      .then(_toDomain)
-      .catch((bookshelfError) => {
-        if (bookshelfError instanceof CertificationCourseBookshelf.NotFoundError) {
-          return Promise.reject(new NotFoundError());
-        }
-        return Promise.reject(bookshelfError);
-      });
+  async get(id) {
+    try {
+      const certificationCourse = await CertificationCourseBookshelf
+        .where({ id })
+        .fetch({ require: true, withRelated: ['assessments', 'challenges'] });
+      return _toDomain(certificationCourse);
+    } catch (bookshelfError) {
+      if (bookshelfError instanceof CertificationCourseBookshelf.NotFoundError) {
+        throw new NotFoundError(`Certification course of id ${id} does not exist.`);
+      }
+      throw bookshelfError;
+    }
   },
 
-  getLastCertificationCourseByUserIdAndSessionId(userId, sessionId) {
-    return CertificationCourseBookshelf
-      .where({ userId, sessionId })
-      .orderBy('createdAt', 'desc')
-      .query((qb) => qb.limit(1))
-      .fetch({ require: true, withRelated: ['assessments', 'challenges'] })
-      .then(_toDomain)
-      .catch((error) => {
-        if (error instanceof CertificationCourseBookshelf.NotFoundError) {
-          throw new NotFoundError();
-        }
-        throw error;
-      });
+  async getLastCertificationCourseByUserIdAndSessionId(userId, sessionId) {
+    try {
+      const certificationCourse = await CertificationCourseBookshelf
+        .where({ userId, sessionId })
+        .orderBy('createdAt', 'desc')
+        .query((qb) => qb.limit(1))
+        .fetch({ require: true, withRelated: ['assessments', 'challenges'] });
+      return _toDomain(certificationCourse);
+    } catch (err) {
+      if (err instanceof CertificationCourseBookshelf.NotFoundError) {
+        throw new NotFoundError(`Certification course with userId ${userId} and sessionId ${sessionId} does not exist.`);
+      }
+      throw err;
+    }
   },
 
-  update(certificationCourse) {
+  async update(certificationCourse) {
     const certificationCourseData = _adaptModelToDb(certificationCourse);
     const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourseData);
-    return certificationCourseBookshelf
-      .save()
-      .then(_toDomain)
-      .catch((err) => {
-        if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
-          return Promise.reject(new NotFoundError());
-        }
-        return Promise.reject(err);
-      });
+    try {
+      const certificationCourse = await certificationCourseBookshelf.save();
+      return _toDomain(certificationCourse);
+    } catch (err) {
+      if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
+        throw new NotFoundError(`No rows updated for certification course of id ${certificationCourse.id}.`);
+      }
+      throw err;
+    }
   },
 
   async findIdsBySessionId(sessionId) {
@@ -100,6 +101,8 @@ function _toDomain(bookshelfCertificationCourse) {
       'externalId',
       'isPublished',
       'isV2Certification',
+      'examinerComment',
+      'hasSeenEndTestScreen',
     ]),
   });
 }

@@ -120,25 +120,25 @@
                     <button class="data-section__switch" type="button" {{action "toggleSection" "displayNoLastScreenSeenCertifications"}}>Écrans de fin de test non vus</button>
                 </div>
                 <div class="col-3">
-                    <span class="data-section__counter">{{noLastScreenSeenCertifications.length}}</span>
+                    <span class="data-section__counter">{{noLastScreenSeenFromPaperReport.length}}</span>
                 </div>
                 <div class="col-1">
-                  {{#if noLastScreenSeenCertifications.length}}
+                  {{#if noLastScreenSeenFromPaperReport.length}}
                     {{fa-icon "times" class="data-section__status--failure"}}
                   {{else}}
                     {{fa-icon "check" class="data-section__status--success"}}
                   {{/if}}
                 </div>
             </div>
-          {{#if (and noLastScreenSeenCertifications.length displayNoLastScreenSeenCertifications)}}
+          {{#if (and noLastScreenSeenFromPaperReport.length displayNoLastScreenSeenCertifications)}}
               <div class="row mb-4">
                   <div class="col-8 data-section__candidates-names">
-                    {{#each noLastScreenSeenCertifications as |item|}}
-                    {{#if (eq item.hasSeenLastScreenEnhanced "NOT_LINKED")}}
+                    {{#each noLastScreenSeenFromPaperReport as |item|}}
+                    {{#if (eq item.hasSeenLastScreenFromPaperReportEnhanced "NOT_LINKED")}}
                         <span class="data-section__candidate-names__not-linked">{{item.lastName}} {{item.firstName}}</span>
-                    {{else if (eq item.hasSeenLastScreenEnhanced 'NOT_IN_SESSION')}}
+                    {{else if (eq item.hasSeenLastScreenFromPaperReportEnhanced 'NOT_IN_SESSION')}}
                         <span class="data-section__candidate-names__not-in-session">{{item.lastName}} {{item.firstName}}</span>
-                    {{else if (eq item.hasSeenLastScreenEnhanced 'LINKED')}}
+                    {{else if (eq item.hasSeenLastScreenFromPaperReportEnhanced 'LINKED')}}
                         <span class="data-section__candidate-names__linked">{{item.lastName}} {{item.firstName}}</span>
                     {{else}}
                         <span class="data-section__candidate-names">{{item.lastName}} {{item.firstName}}</span>
