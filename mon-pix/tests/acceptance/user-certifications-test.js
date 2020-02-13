@@ -1,6 +1,6 @@
 import { currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
-import { authenticateViaEmail } from '../helpers/testing';
+import { authenticateViaEmail } from '../helpers/authentification';
 import { expect } from 'chai';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';

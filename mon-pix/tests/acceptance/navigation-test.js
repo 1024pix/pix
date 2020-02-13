@@ -1,11 +1,11 @@
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import defaultScenario from '../../mirage/scenarios/default';
+import { authenticateViaEmail } from '../helpers/authentification';
 import {
-  authenticateViaEmail,
   completeCampaignAndSeeResultsByCode,
   resumeCampaignByCode
-} from '../helpers/testing';
+} from '../helpers/campaign';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import visitWithAbortedTransition from '../helpers/visit';

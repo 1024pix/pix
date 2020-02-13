@@ -1,7 +1,7 @@
 import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateViaEmail } from '../helpers/testing';
+import { authenticateViaEmail } from '../helpers/authentification';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';

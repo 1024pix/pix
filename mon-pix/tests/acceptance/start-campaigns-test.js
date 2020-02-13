@@ -4,9 +4,11 @@ import { expect } from 'chai';
 import {
   authenticateViaEmail,
   authenticateViaGAR,
+} from '../helpers/authentification';
+import {
   startCampaignByCode,
   startCampaignByCodeAndExternalId
-} from '../helpers/testing';
+} from '../helpers/campaign';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
