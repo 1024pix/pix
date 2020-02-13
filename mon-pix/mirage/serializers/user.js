@@ -1,20 +1,37 @@
-import BaseSerializer from './application';
+import ApplicationSerializer from './application';
 
-export default BaseSerializer.extend({
+export default ApplicationSerializer.extend({
+  attributes: [
+    'firstName',
+    'lastName',
+    'email',
+    'username',
+    'cgu',
+    'pixOrgaTermsOfServiceAccepted',
+    'pixCertifTermsOfServiceAccepted',
+    'hasSeenAssessmentInstructions',
+  ],
   include: ['competences', 'organizations'],
   links(user) {
+    const userBaseUrl = `/api/users/${user.id}`;
     return {
       certificationProfile: {
-        related: `/api/users/${user.id}/certification-profile`,
+        related: `${userBaseUrl}/certification-profile`
       },
       pixScore: {
-        related: `/api/users/${user.id}/pixscore`
+        related: `${userBaseUrl}/pixscore`
       },
       scorecards: {
-        related: `/api/users/${user.id}/scorecards`
+        related: `${userBaseUrl}/scorecards`
       },
       campaignParticipations: {
-        related: `/api/users/${user.id}/campaign-participations`
+        related: `${userBaseUrl}/campaign-participations`
+      },
+      certificationCenterMemberships: {
+        related: `${userBaseUrl}/certification-center-memberships`
+      },
+      memberships: {
+        related: `${userBaseUrl}/memberships`
       }
     };
   }
