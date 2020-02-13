@@ -9,6 +9,7 @@ function _toDomain(bookshelfCertificationCenter) {
   return new CertificationCenter(_.pick(dbCertificationCenter, [
     'id',
     'name',
+    'externalId',
     'createdAt',
   ]));
 }
