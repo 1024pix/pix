@@ -37,7 +37,6 @@ module.exports = function authenticateUser({
       if (error instanceof ForbiddenAccess) {
         throw error;
       }
-
       throw new MissingOrInvalidCredentialsError();
     });
 };

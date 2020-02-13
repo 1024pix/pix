@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { HttpStatusCodes } from '../http-status-code';
 
 export default class LoginForm extends Component {
 
@@ -33,19 +34,36 @@ export default class LoginForm extends Component {
     const scope = 'pix-certif';
     try {
       await this.session.authenticate('authenticator:oauth2', email, password, scope);
-    } catch (error) {
-      this.isErrorMessagePresent =  true;
-      if (error && error.errors && error.errors.length > 0) {
-        this.errorMessage = error.errors[0].detail;
-      } else {
-        this.errorMessage = 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.';
-      }
+    } catch (response) {
+      this.isErrorMessagePresent = true;
+      this._manageErrorsApis(response);
     }
   }
 
   @action
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  _manageErrorsApis(response) {
+
+    if (response && response.errors && response.errors.length > 0) {
+      const firstError = response.errors[0];
+      switch (firstError.status) {
+        case HttpStatusCodes.BAD_REQUEST.CODE:
+          this.errorMessage = HttpStatusCodes.BAD_REQUEST.MESSAGE;
+          break;
+        case HttpStatusCodes.INTERNAL_SERVER_ERROR.CODE:
+          this.errorMessage = HttpStatusCodes.INTERNAL_SERVER_ERROR.MESSAGE;
+          break;
+        case HttpStatusCodes.FORBIDDEN:
+        case HttpStatusCodes.UNAUTHORIZED.CODE :
+          this.errorMessage =  firstError.detail;
+          break;
+      }
+    } else {
+      this.errorMessage = HttpStatusCodes.INTERNAL_SERVER_ERROR.MESSAGE;
+    }
   }
 
 }
