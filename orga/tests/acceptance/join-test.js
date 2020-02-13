@@ -9,7 +9,7 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module.only('Acceptance | join', function(hooks) {
+module('Acceptance | join', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -190,7 +190,7 @@ module.only('Acceptance | join', function(hooks) {
         // then
         assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-        assert.dom('#login-form-error-message').hasText('Le service est momentanément indisponible. Veuillez réessayer ultérieurement.');
+        assert.dom('#login-form-error-message').hasText('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
       });
     });
 

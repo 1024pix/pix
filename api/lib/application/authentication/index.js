@@ -19,8 +19,14 @@ exports.register = async (server) => {
             password: Joi.string().required(),
             scope: Joi.string(),
           }),
-          failAction: (request, h , err) => {
-            throw err;
+          failAction: (request, h) => {
+            const errorHttpStatusCode = 400;
+            const jsonApiError = new JSONAPIError({
+              code: errorHttpStatusCode.toString(),
+              title: 'Bad request',
+              detail: 'Les données envoyées ne sont pas au bon format.',
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
           }
         },
         handler: AuthenticationController.authenticateUser,

@@ -63,7 +63,11 @@ module('Integration | Component | login-form', function(hooks) {
 
   test('it should display an error message when authentication fails with unauthorised acces', async function(assert) {
     // given
-    sessionStub.prototype.authenticate = () => reject();
+    const msgErrorInvalidCredentiel =  {
+      'errors' : [{ 'status' : '401', 'title' : 'Unauthorized' , 'detail' : errorMessages.INVALID_CREDENTIEL_MSG  }]
+    };
+
+    sessionStub.prototype.authenticate = () => reject(msgErrorInvalidCredentiel);
     await render(hbs`{{login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'Mauvais mot de passe');
