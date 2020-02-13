@@ -131,7 +131,7 @@ module.exports = {
           .modify(_setSearchFiltersForQueryBuilder, filter)
           .modify(_countCampaignParticipations)
           .modify(_countSharedCampaignParticipations)
-          .orderByRaw('DATE(campaigns."createdAt") DESC, LOWER(campaigns."name") ASC');
+          .orderByRaw('DATE(campaigns."createdAt") DESC');
       })
       .fetchPage({
         page: page.number,

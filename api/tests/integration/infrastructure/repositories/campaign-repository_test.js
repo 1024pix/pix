@@ -179,11 +179,15 @@ describe('Integration | Repository | Campaign', () => {
         expect(campaignsWithReports[0].organizationId).to.equal(campaign.organizationId);
       });
 
-      it('should sort campaigns by ascending name and then by descending creation date', async () => {
+      it('should sort campaigns by descending creation date', async () => {
         // given
-        const campaignAId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'A' }).id;
-        const campaignBLaterId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'B', createdAt: '2019-01-02' }).id;
-        const campaignBId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'B', createdAt: '2019-01-01' }).id;
+        const createdAtInThePast = new Date('2010-07-30T09:35:45Z');
+        const createdAtInThePresent = new Date('2020-07-30T09:35:45Z');
+        const createdAtInTheFuture = new Date('2030-07-30T09:35:45Z');
+
+        const campaignBInThePastId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'B', createdAt: createdAtInThePast }).id;
+        const campaignAInThePresentId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'A', createdAt: createdAtInThePresent  }).id;
+        const campaignBInTheFutureId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'B', createdAt: createdAtInTheFuture }).id;
         await databaseBuilder.commit();
 
         // when
@@ -191,7 +195,7 @@ describe('Integration | Repository | Campaign', () => {
 
         // then
         expect(campaignsWithReports).to.have.lengthOf(3);
-        expect(_.map(campaignsWithReports, 'id')).to.include.ordered.members([ campaignAId, campaignBLaterId, campaignBId]);
+        expect(_.map(campaignsWithReports, 'id')).to.deep.equal([campaignBInTheFutureId, campaignAInThePresentId, campaignBInThePastId]);
       });
 
       context('when campaigns have participants', async () => {
