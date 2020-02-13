@@ -74,7 +74,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should handle a rejection, when user id is not found', async () => {
         // given
-        const emailThatDoesNotExist = 10093;
+        const emailThatDoesNotExist = '10093';
 
         // when
         const result = await catchErr(userRepository.findByEmail)(emailThatDoesNotExist);
@@ -86,6 +86,17 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       it('should return a domain user when found', async () => {
         // when
         const user = await userRepository.findByEmail(userInDb.email);
+
+        // then
+        expect(user.email).to.equal(userInDb.email);
+      });
+
+      it('should return a domain user when email case insensitive found', async () => {
+        // given
+        const uppercaseEmailAlreadyInDb = userInDb.email.toUpperCase();
+
+        // when
+        const user = await userRepository.findByEmail(uppercaseEmailAlreadyInDb);
 
         // then
         expect(user.email).to.equal(userInDb.email);
@@ -181,6 +192,20 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(user.email).to.equal(expectedUser.email);
         expect(user.password).to.equal(expectedUser.password);
         expect(user.cgu).to.equal(expectedUser.cgu);
+      });
+
+      it('should return user informations for the given email (case insensitive)', async () => {
+        // given
+        const expectedUser = new User(userInDB);
+        const uppercaseEmailAlreadyInDb = userInDB.email.toUpperCase();
+
+        // when
+        const user = await userRepository.getByUsernameOrEmailWithRoles(uppercaseEmailAlreadyInDb);
+
+        // then
+        expect(user).to.be.an.instanceof(User);
+        expect(user.id).to.equal(expectedUser.id);
+        expect(user.email).to.equal(expectedUser.email);
       });
 
       it('should return user informations for the given username', async () => {
@@ -443,6 +468,17 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       // then
       expect(result).to.be.instanceOf(AlreadyRegisteredEmailError);
     });
+
+    it('should reject an AlreadyRegisteredEmailError when email case insensitive already exists', async () => {
+      // given
+      const uppercaseEmailAlreadyInDb = userInDb.email.toUpperCase();
+
+      // when
+      const result = await catchErr(userRepository.isEmailAvailable)(uppercaseEmailAlreadyInDb);
+
+      // then
+      expect(result).to.be.instanceOf(AlreadyRegisteredEmailError);
+    });
   });
 
   describe('#updatePassword', () => {
@@ -490,6 +526,17 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     it('should return true when the user exists by email', async () => {
       const userExists = await userRepository.isUserExistingByEmail(email);
+      expect(userExists).to.be.true;
+    });
+
+    it('should return true when the user exists by email (case insensitive)', async () => {
+      // given
+      const uppercaseEmailAlreadyInDb = email.toUpperCase();
+
+      // when
+      const userExists = await userRepository.isUserExistingByEmail(uppercaseEmailAlreadyInDb);
+
+      // then
       expect(userExists).to.be.true;
     });
 
