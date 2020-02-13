@@ -10,12 +10,12 @@
   }
 
   &__label {
-    flex: 1;
+    flex: 1 0 auto;
     line-height: 22px;
   }
 
   &__characters-information {
-    flex: 1;
+    flex: 1 0 auto;
     min-width: max-content;
     font-size: 0.85rem;
     align-self: flex-end;
