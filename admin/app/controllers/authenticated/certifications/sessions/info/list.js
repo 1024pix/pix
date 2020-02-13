@@ -38,7 +38,7 @@ export default Controller.extend({
         examinerComment: certificationFromReport.comments,
         externalId: certificationFromReport.externalId,
         extraTimePercentage: certificationFromReport.extraTimePercentage,
-        hasSeenLastScreenFromPaperReport: !_.isEmpty(certificationFromReport.lastScreen),
+        hasSeenEndTestScreen: !_.isEmpty(certificationFromReport.lastScreen),
         hasSeenLastScreenFromPaperReportEnhanced: certificationFromReport.lastScreenEnhanced,
         isInSession: _.includes(certificationsIdsInSession, certificationFromReport.certificationId),
       });
