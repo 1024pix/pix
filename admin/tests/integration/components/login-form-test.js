@@ -102,9 +102,26 @@ module('Integration | Component | login-form', function(hooks) {
       assert.equal(this.get('errorMessage'), NOT_PIXMASTER_MSG);
     });
 
-    test('should display good error message when an undefined error occurred', async function(assert) {
+    test('should display good error message when an 500 error occurred', async function(assert) {
       // given
       const errorResponse = { errors: [{ status: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.CODE , detail: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE }] };
+      sessionStub.prototype.authenticate = () => reject(errorResponse);
+
+      this.set('errorMessage', null);
+      await render(hbs`{{login-form errorMessage=errorMessage}}`);
+
+      // when
+      await fillIn('#identification', 'pix@example.com');
+      await fillIn('#password', 'JeMeLoggue1024');
+      await click('button.login-form__button');
+
+      // then
+      assert.equal(this.get('errorMessage'), ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
+    });
+
+    test('should display good error message when an non handled status code', async function(assert) {
+      // given
+      const errorResponse = { errors: [{ status: 502 , detail: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE }] };
       sessionStub.prototype.authenticate = () => reject(errorResponse);
 
       this.set('errorMessage', null);

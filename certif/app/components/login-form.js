@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { HttpStatusCodes } from '../http-status-code';
+import ENV from 'pix-certif/config/environment';
 
 export default class LoginForm extends Component {
 
@@ -49,21 +49,26 @@ export default class LoginForm extends Component {
 
     if (response && response.errors && response.errors.length > 0) {
       const firstError = response.errors[0];
-      switch (firstError.status) {
-        case HttpStatusCodes.BAD_REQUEST.CODE:
-          this.errorMessage = HttpStatusCodes.BAD_REQUEST.MESSAGE;
-          break;
-        case HttpStatusCodes.INTERNAL_SERVER_ERROR.CODE:
-          this.errorMessage = HttpStatusCodes.INTERNAL_SERVER_ERROR.MESSAGE;
-          break;
-        case HttpStatusCodes.FORBIDDEN:
-        case HttpStatusCodes.UNAUTHORIZED.CODE :
-          this.errorMessage =  firstError.detail;
-          break;
-      }
+      const messageError = this._showErrorMessages(firstError.status, firstError.detail);
+      this.errorMessage = messageError;
     } else {
-      this.errorMessage = HttpStatusCodes.INTERNAL_SERVER_ERROR.MESSAGE;
+      this.errorMessage = ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE;
     }
   }
 
+  _showErrorMessages(statusCode, error) {
+    const httpStatusCodeMessages = {
+
+      '400': ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
+      '500': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+      '422': ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
+      '502': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+      '504': ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE,
+      '401': error,
+      '403': error,
+      'default': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+
+    };
+    return (httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
+  }
 }
