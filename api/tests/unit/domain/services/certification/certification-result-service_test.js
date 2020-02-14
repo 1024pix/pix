@@ -1230,7 +1230,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
     context('when no answers is given', () => {
 
-      it('should have a trust level has unknown', () => {
+      it('should have a success rate of 0%', () => {
         // given
         const answers = [];
 
@@ -1283,7 +1283,7 @@ describe('Unit | Service | Certification Result Service', function() {
         expect(successRate).to.equal(50);
       });
 
-      it('should have a success rate of 50% with 2W and 1R', () => {
+      it('should have a success rate of 33.3% with 2W and 1R', () => {
         // given
         const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'aband' }), new Answer({ result: 'ko' })];
 
