@@ -1,5 +1,6 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
+const { statuses } = require('../../../../lib/domain/models/Session');
 
 describe('Acceptance | Controller | session-controller-get', () => {
 
@@ -23,7 +24,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
         date: '2017-12-08',
         time: '14:30',
         description: 'ahah',
-        status: 'created',
+        status: statuses.STARTED,
         accessCode: 'ABCD12',
         examinerGlobalComment: 'It was a fine session my dear',
       });
@@ -77,7 +78,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
         time: '14:30',
         accessCode: 'ABC123',
         description: '',
-        status: 'started',
+        status: statuses.STARTED,
         examinerGlobalComment: 'It was a fine session my dear',
         createdAt: new Date('2017-12-08T08:00:00Z'),
       });
@@ -93,7 +94,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
         time: '14:30',
         accessCode: 'DEF456',
         description: '',
-        status: 'started',
+        status: statuses.STARTED,
         examinerGlobalComment: 'It was a fine session my dear',
         createdAt: new Date('2017-12-07T09:00:00Z'),
       });
@@ -135,7 +136,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'examiner': 'Bernard',
             'room': 'Salle 1',
             'time': '14:30:00',
-            'status': 'started',
+            'status': statuses.STARTED,
             'examiner-global-comment': 'It was a fine session my dear',
             'finalized-at': null,
           },
@@ -168,7 +169,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'examiner': 'Bernard',
             'room': 'Salle 2',
             'time': '14:30:00',
-            'status': 'started',
+            'status': statuses.STARTED,
             'examiner-global-comment': 'It was a fine session my dear',
             'finalized-at': null,
           },
