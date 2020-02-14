@@ -16,7 +16,6 @@ describe('Acceptance | Certification | Start Course', function() {
 
   beforeEach(function() {
     defaultScenario(this.server);
-    user = server.create('user', 'withEmail');
   });
 
   describe('Start a certification course', function() {
@@ -24,6 +23,7 @@ describe('Acceptance | Certification | Start Course', function() {
     context('When user is not logged in', function() {
 
       beforeEach(async function() {
+        user = server.create('user', 'withEmail');
         await visitWithAbortedTransition('/certifications');
       });
 
@@ -36,13 +36,11 @@ describe('Acceptance | Certification | Start Course', function() {
 
     context('When user is logged in', function() {
 
-      beforeEach(async function() {
-        await authenticateViaEmail(user);
-      });
-
       context('When user is not certifiable', function() {
 
         beforeEach(async function() {
+          user = server.create('user', 'withEmail', 'notCertifiable');
+          await authenticateViaEmail(user);
           const currentUser = this.owner.lookup('service:currentUser');
           await currentUser.load();
           await currentUser.user.get('certificationProfile');
@@ -58,7 +56,9 @@ describe('Acceptance | Certification | Start Course', function() {
 
       context('When user is certifiable', function() {
 
-        beforeEach(function() {
+        beforeEach(async function() {
+          user = server.create('user', 'withEmail', 'certifiable');
+          await authenticateViaEmail(user);
           return visitWithAbortedTransition('/certifications');
         });
 

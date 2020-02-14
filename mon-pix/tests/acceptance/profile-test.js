@@ -34,39 +34,27 @@ describe('Acceptance | Profile', function() {
       await visitWithAbortedTransition('/profil');
 
       // then
-      expect(find('.hexagon-score-content__pix-score').textContent).to.contains('196');
+      expect(find('.hexagon-score-content__pix-score').textContent).to.contains(user.pixScore.value);
     });
 
-    it('should display first competence card of first area', async function() {
+    it('should display scorecards classified accordingly to each area', async function() {
       // when
       await visitWithAbortedTransition('/profil');
 
       // then
-      expect(find(
-        '.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__area-name'
-      ).textContent).to.equal('Information et données');
-      expect(find(
-        '.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__competence-name'
-      ).textContent).to.equal('Compétence C1');
-      expect(find(
-        '.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .score-value'
-      ).textContent).to.equal('2');
-    });
-
-    it('should display second competence card of first area', async function() {
-      // when
-      await visitWithAbortedTransition('/profil');
-
-      // then
-      expect(find(
-        '.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .competence-card__area-name'
-      ).textContent).to.equal('Information et données');
-      expect(find(
-        '.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .competence-card__competence-name'
-      ).textContent).to.equal('Compétence C2');
-      expect(find(
-        '.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .score-value'
-      ).textContent).to.equal('4');
+      user.scorecards.models.forEach((scorecard) => {
+        const splitIndex = scorecard.index.split('.');
+        const competenceNumber = splitIndex[splitIndex.length - 1];
+        expect(find(
+          `.rounded-panel-body__areas:nth-child(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__area-name`
+        ).textContent).to.equal(scorecard.area.title);
+        expect(find(
+          `.rounded-panel-body__areas:nth-child(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__competence-name`
+        ).textContent).to.equal(scorecard.name);
+        expect(find(
+          `.rounded-panel-body__areas:nth-child(${scorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .score-value`
+        ).textContent).to.equal(scorecard.level > 0 ? scorecard.level.toString() : scorecard.status === 'NOT_STARTED' ? '' : '–');
+      });
     });
 
     it('should link to competence-details page on click on level circle', async function() {
@@ -74,26 +62,11 @@ describe('Acceptance | Profile', function() {
       await visitWithAbortedTransition('/profil');
 
       // when
-      await click('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .competence-card__link');
+      await click('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__link');
 
       // then
-      expect(currentURL()).to.equal('/competences/2/details');
-    });
-
-    it('should display first competence card of second area', async function() {
-      // when
-      await visitWithAbortedTransition('/profil');
-
-      // then
-      expect(find(
-        '.rounded-panel-body__areas:nth-child(2) .rounded-panel-body__competence-card:first-child .competence-card__area-name'
-      ).textContent).to.equal('Communication et collaboration');
-      expect(find(
-        '.rounded-panel-body__areas:nth-child(2) .rounded-panel-body__competence-card:first-child .competence-card__competence-name'
-      ).textContent).to.equal('Compétence C3');
-      expect(find(
-        '.rounded-panel-body__areas:nth-child(2) .rounded-panel-body__competence-card:first-child .score-value'
-      ).textContent).to.equal('3');
+      const scorecard = user.scorecards.models[0];
+      expect(currentURL()).to.equal(`/competences/${scorecard.competenceId}/details`);
     });
 
     context('when user has not completed the campaign', () => {

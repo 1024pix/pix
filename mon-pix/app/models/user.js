@@ -12,7 +12,6 @@ export default class User extends Model {
   @attr('boolean') cgu;
   @attr('boolean') hasSeenAssessmentInstructions;
   @attr('string') recaptchaToken;
-  @attr('number') totalPixScore;
 
   // includes
   @belongsTo('certification-profile') certificationProfile;

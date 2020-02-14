@@ -16,7 +16,7 @@ export default ApplicationSerializer.extend({
   links(record) {
     return {
       'tutorials': {
-        related: `/api/scorecards/${record.userId}_${record.competenceId}/tutorials`
+        related: `/api/scorecards/${record.id}/tutorials`
       },
     };
   },

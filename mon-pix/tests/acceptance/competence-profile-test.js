@@ -24,10 +24,20 @@ describe('Acceptance | Profile | Start competence', function() {
     });
 
     it('can start a competence', async function() {
+      //given
+      const firstScorecard = user.scorecards.models[0];
+      const competenceId = firstScorecard.competenceId;
+      const splitIndex = firstScorecard.index.split('.');
+      const competenceNumber = splitIndex[splitIndex.length - 1];
+      server.create('competence-evaluation', {
+        user: user,
+        competenceId: competenceId
+      });
+
       // when
       await visitWithAbortedTransition('/profil');
       await setBreakpoint('tablet');
-      await click('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__button');
+      await click(`.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__button`);
 
       // then
       expect(currentURL()).to.contains('/assessments/');

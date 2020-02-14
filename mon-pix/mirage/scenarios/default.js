@@ -1,8 +1,6 @@
 export default function(server) {
 
   /* eslint max-statements: off */
-  server.loadFixtures('areas');
-  server.loadFixtures('competences');
   server.loadFixtures('courses');
   server.loadFixtures('challenges');
 
