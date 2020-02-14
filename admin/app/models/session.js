@@ -26,7 +26,7 @@ export default Model.extend({
   countNotCheckedEndScreen : computed('certifications.[]', function() {
     return _.sumBy(
       this.certifications.toArray(),
-      (certif) => !certif.hasSeenEndTestScreen
+      (certif) => Number(!certif.hasSeenEndTestScreen)
     );
   }),
   countNonValidatedCertifications : computed('certifications.[]', function() {
