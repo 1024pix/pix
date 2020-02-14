@@ -12,6 +12,7 @@
         <thead>
         <tr>
           <th>Parcours</th>
+          <th>Créé le</th>
           <th>Participants</th>
           <th>Résultats reçus</th>
         </tr>
@@ -27,6 +28,7 @@
           </th>
           <th></th>
           <th></th>
+          <th></th>
         </tr>
         </thead>
 
@@ -34,6 +36,7 @@
         {{#each campaigns as |campaign|}}
           <tr onclick={{action goToCampaignPage campaign.id}} class="tr--clickable">
             <td>{{campaign.name}}</td>
+            <td>{{moment-format campaign.createdAt 'DD/MM/YYYY' allow-empty=true}}</td>
             <td>{{campaign.campaignReport.participationsCount}}</td>
             <td>{{campaign.campaignReport.sharedParticipationsCount}}</td>
           </tr>

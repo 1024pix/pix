@@ -37,7 +37,7 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     const campaign1 = run(() => store.createRecord('campaign', {
       id: 1,
       name: 'campagne 1',
-      code: 'AAAAAA111'
+      code: 'AAAAAA111',
     }));
     const campaign2 = run(() => store.createRecord('campaign', {
       id: 2,
@@ -55,6 +55,34 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
 
     // then
     assert.dom('.campaign-list .table tbody tr:first-child td:first-child').hasText('campagne 1');
+  });
+
+  test('it must display the creation date of the campaigns', async function(assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const campaign1 = run(() => store.createRecord('campaign', {
+      id: 1,
+      name: 'campagne 1',
+      code: 'AAAAAA111',
+      createdAt: '03/02/2020',
+    }));
+    const campaign2 = run(() => store.createRecord('campaign', {
+      id: 2,
+      name: 'campagne 2',
+      code: 'BBBBBB222',
+      createdAt: '02/02/2020',
+    }));
+    const campaigns = [campaign2, campaign1];
+    campaigns.meta = {
+      rowCount: 2
+    };
+    this.set('campaigns', campaigns);
+
+    // when
+    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns triggerFiltering=triggerFilteringSpy goToCampaignPage=goToCampaignPageSpy}}`);
+
+    // then
+    assert.dom('.campaign-list .table tbody tr:first-child td:nth-child(2)').hasText('02/02/2020');
   });
 
   test('it should display the participations count', async function(assert) {
@@ -83,7 +111,7 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns triggerFiltering=triggerFilteringSpy goToCampaignPage=goToCampaignPageSpy}}`);
 
     // then
-    assert.dom('.campaign-list .table tbody tr:first-child td:nth-child(2)').hasText('10');
+    assert.dom('.campaign-list .table tbody tr:first-child td:nth-child(3)').hasText('10');
   });
 
   test('it should display the shared participations count', async function(assert) {
@@ -112,6 +140,6 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns triggerFiltering=triggerFilteringSpy goToCampaignPage=goToCampaignPageSpy}}`);
 
     // then
-    assert.dom('.campaign-list .table tbody tr:first-child td:nth-child(3)').hasText('4');
+    assert.dom('.campaign-list .table tbody tr:first-child td:nth-child(4)').hasText('4');
   });
 });
