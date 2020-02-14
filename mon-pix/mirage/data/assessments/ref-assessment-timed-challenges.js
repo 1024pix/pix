@@ -1,4 +1,3 @@
-import refCourse from '../courses/ref-course-timed-challenges';
 import refTimedAnswer from '../answers/ref-timed-answer';
 import refTimedAnswerBis from '../answers/ref-timed-answer-bis';
 
@@ -12,12 +11,6 @@ export default {
       'user-email': 'jsnow@winterfell.got'
     },
     relationships: {
-      course: {
-        data: {
-          type: 'courses',
-          id: refCourse.data.id
-        }
-      },
       answers: {
         data: [{
           type: 'answers',
