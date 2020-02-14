@@ -3,6 +3,7 @@ import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembership } from '../helpers/test-init';
+import { statusToDisplayName } from 'pix-certif/models/session';
 import moment from 'moment';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -120,7 +121,7 @@ module('Acceptance | Session List', function(hooks) {
           // then
           const formattedDate = moment(firstSession.date, 'YYYY-MM-DD').format('DD/MM/YYYY');
           assert.dom('table tbody tr').exists({ count: nbExtraSessions + 1 });
-          assert.dom('table tbody tr:first-child').hasText(`${firstSession.id} ${firstSession.address} ${firstSession.room} ${formattedDate} ${firstSession.time} ${firstSession.examiner} Prête`);
+          assert.dom('table tbody tr:first-child').hasText(`${firstSession.id} ${firstSession.address} ${firstSession.room} ${formattedDate} ${firstSession.time} ${firstSession.examiner} ${statusToDisplayName.started}`);
         });
       });
 

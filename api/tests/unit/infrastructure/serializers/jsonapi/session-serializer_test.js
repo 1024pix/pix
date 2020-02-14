@@ -2,6 +2,7 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 
 const Session = require('../../../../../lib/domain/models/Session');
+const { statuses } = require('../../../../../lib/domain/models/Session');
 
 describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
@@ -20,7 +21,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           examiner: 'Antoine Toutvenant',
           date: '2017-01-20',
           time: '14:30',
-          status: 'created',
+          status: statuses.STARTED,
           description: '',
           'examiner-global-comment': 'It was a fine session my dear',
           'finalized-at': new Date('2020-02-17T14:23:56Z'),
@@ -61,7 +62,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         time: '14:30',
         description: '',
         accessCode: '',
-        status: 'created',
+        status: statuses.STARTED,
         examinerGlobalComment: 'It was a fine session my dear',
         finalizedAt: new Date('2020-02-17T14:23:56Z'),
       });

@@ -4,6 +4,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import moment from 'moment';
 import { createUserWithMembership } from '../helpers/test-init';
+import { CREATED, FINALIZED } from 'pix-certif/models/session';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -18,8 +19,8 @@ module('Acceptance | Session Details', function(hooks) {
 
   hooks.beforeEach(function() {
     user = createUserWithMembership();
-    sessionFinalized = server.create('session', { status: 'finalized', date: '2019-02-18', time: '14:00' });
-    sessionNotFinalized = server.create('session', { status: 'started' });
+    sessionFinalized = server.create('session', { status: FINALIZED, date: '2019-02-18', time: '14:00' });
+    sessionNotFinalized = server.create('session', { status: CREATED });
   });
 
   hooks.afterEach(function() {
@@ -226,7 +227,7 @@ module('Acceptance | Session Details', function(hooks) {
 
       module('when the session is not finalized', function() {
 
-        module('when the session has not started', function() {
+        module('when the session has not CREATED', function() {
           test('it should not display the finalize button', async function(assert) {
             // when
             await visit(`/sessions/${sessionNotFinalized.id}`);
@@ -236,7 +237,7 @@ module('Acceptance | Session Details', function(hooks) {
           });
         });
 
-        module('when the session has started', function() {
+        module('when the session has CREATED', function() {
           test('it should redirect to finalize page on click on finalize button', async function(assert) {
             // given
             const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
