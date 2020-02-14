@@ -28,7 +28,7 @@ export default Component.extend({
     }));
   }),
 
-  noLastScreenSeenFromPaperReport: filterBy('certifications', 'hasSeenLastScreenFromPaperReport', false),
+  noLastScreenSeenCertifications: filterBy('certifications', 'hasSeenEndTestScreen', false),
 
   commentedByExaminerCertifications: filter('certifications', function(certification) {
     return !_.isEmpty(certification.examinerComment);
