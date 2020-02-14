@@ -206,41 +206,41 @@ module('Unit | Components | certification-session-report', function(hooks) {
     });
   });
 
-  module('#noLastScreenSeenFromPaperReport', function() {
+  module('#noLastScreenSeenCertifications', function() {
     test('should return an empty array when all certifications stated seeing last screen by examiner', function(assert) {
       // given
       const certifications = [
-        { id: 123, hasSeenLastScreenFromPaperReport: true },
-        { id: 456, hasSeenLastScreenFromPaperReport: true },
-        { id: 789, hasSeenLastScreenFromPaperReport: true },
+        { id: 123, hasSeenEndTestScreen: true },
+        { id: 456, hasSeenEndTestScreen: true },
+        { id: 789, hasSeenEndTestScreen: true },
       ];
       component.set('certifications', certifications);
 
       // when
-      const noLastScreenSeenFromPaperReport = component.noLastScreenSeenFromPaperReport;
+      const noLastScreenSeenCertifications = component.noLastScreenSeenCertifications;
 
       // then
       const expectedResult = [];
-      assert.deepEqual(noLastScreenSeenFromPaperReport, expectedResult);
+      assert.deepEqual(noLastScreenSeenCertifications, expectedResult);
     });
 
     test('should return an array of certifications when some have not stated that examiner saw last screen', function(assert) {
       // given
       const certifications = [
-        { id: 123, hasSeenLastScreenFromPaperReport: true },
-        { id: 456, hasSeenLastScreenFromPaperReport: false },
-        { id: 789, hasSeenLastScreenFromPaperReport: false },
+        { id: 123, hasSeenEndTestScreen: true },
+        { id: 456, hasSeenEndTestScreen: false },
+        { id: 789, hasSeenEndTestScreen: false },
       ];
       component.set('certifications', certifications);
 
       // when
-      const noLastScreenSeenFromPaperReport = component.noLastScreenSeenFromPaperReport;
+      const noLastScreenSeenCertifications = component.noLastScreenSeenCertifications;
 
       // then
       const expectedResult = [
-        { id: 456, hasSeenLastScreenFromPaperReport: false },
-        { id: 789, hasSeenLastScreenFromPaperReport: false }];
-      assert.deepEqual(noLastScreenSeenFromPaperReport, expectedResult);
+        { id: 456, hasSeenEndTestScreen: false },
+        { id: 789, hasSeenEndTestScreen: false }];
+      assert.deepEqual(noLastScreenSeenCertifications, expectedResult);
     });
   });
 
