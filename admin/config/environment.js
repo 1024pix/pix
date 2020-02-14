@@ -27,6 +27,10 @@ module.exports = function (environment) {
           CODE: '500',
           MESSAGE: 'Le service est momentanément indisponible. Veuillez réessayer ultérieurement.'
         },
+        GATEWAY_TIMEOUT: {
+          CODE: '504',
+          MESSAGE: 'Le service subi des ralentissements. Veuillez réessayer ultérieurement.'
+        },
         UNAUTHORIZED: { CODE: '401', MESSAGE: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' },
         FORBIDDEN: '403',
         NOT_FOUND: '404',
