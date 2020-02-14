@@ -8,7 +8,7 @@ describe('Integration | Application | Route | campaignRouter', () => {
   beforeEach(() => {
     sinon.stub(campaignController, 'save').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignController, 'getCsvResults').callsFake((request, h) => h.response('ok').code(201));
-    sinon.stub(campaignController, 'getById').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(campaignController, 'getById').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'update').callsFake((request, h) => h.response('ok').code(201));
 
     server = Hapi.server();
@@ -58,19 +58,18 @@ describe('Integration | Application | Route | campaignRouter', () => {
 
   describe('GET /api/campaigns/{id}', () => {
 
-    it('should exist', function() {
+    it('should return a 200', function() {
       // when
       const promise = server.inject({
         method: 'GET',
-        url: '/api/campaigns/FAKE_ID',
+        url: '/api/campaigns/1',
       });
 
       // then
       return promise.then((res) => {
-        expect(res.statusCode).to.equal(201);
+        expect(res.statusCode).to.equal(200);
       });
     });
-
   });
 
   describe('PATCH /api/campaigns/{id}', () => {
