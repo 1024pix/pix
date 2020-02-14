@@ -36,7 +36,7 @@ export default class LoginForm extends Component {
       await this.session.authenticate('authenticator:oauth2', email, password, scope);
     } catch (response) {
       this.isErrorMessagePresent = true;
-      this._manageErrorsApis(response);
+      this._manageErrorsApi(response);
     }
   }
 
@@ -45,7 +45,7 @@ export default class LoginForm extends Component {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
-  _manageErrorsApis(response) {
+  _manageErrorsApi(response) {
 
     if (response && response.errors && response.errors.length > 0) {
       const firstError = response.errors[0];

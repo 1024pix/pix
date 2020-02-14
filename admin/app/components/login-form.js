@@ -18,12 +18,12 @@ export default Component.extend({
       const scope = 'pix-admin';
       const { identification, password } = this;
       this.session.authenticate('authenticator:oauth2', identification, password, scope).catch((response) => {
-        this._manageErrorsApis(response);
+        this._manageErrorsApi(response);
       });
     }
   },
 
-  _manageErrorsApis: function(response) {
+  _manageErrorsApi: function(response) {
 
     if (response && response.errors && response.errors.length > 0) {
       const firstError = response.errors[0];
