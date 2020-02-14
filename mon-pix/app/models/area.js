@@ -8,6 +8,5 @@ export default class Area extends Model {
   @attr('string') color;
 
   // includes
-  @hasMany('competence') competences;
   @hasMany('resultCompetence') resultCompetences;
 }
