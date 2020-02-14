@@ -1,4 +1,3 @@
-import refCourse from '../courses/ref-course';
 import refQcuAnswer from '../answers/ref-qcu-answer';
 import refQcmAnswer from '../answers/ref-qcm-answer';
 import refQrocAnswer from '../answers/ref-qroc-answer';
@@ -16,12 +15,6 @@ export default {
       'title': 'First Course',
     },
     relationships: {
-      course: {
-        data: {
-          type: 'courses',
-          id: refCourse.data.id
-        }
-      },
       answers: {
         data: [{
           type: 'answers',

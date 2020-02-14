@@ -10,8 +10,6 @@ import getCertificationProfile from './routes/users/get-certification-profile';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getCorrections from './routes/get-corrections';
-import getCourse from './routes/get-course';
-import getCourses from './routes/get-courses';
 import getNextChallenge from './routes/get-next-challenge';
 import getOrganizations from './routes/get-organizations';
 import getPixScore from './routes/users/get-pix-score';
@@ -32,6 +30,7 @@ import postSessionParticipation from './routes/post-session-participation';
 import resetScorecard from './routes/users/reset-scorecard';
 import loadAuthRoutes from './routes/auth/index';
 import loadUserRoutes from './routes/users/index';
+import loadCourseRoutes from './routes/courses/index';
 
 import { Response } from 'ember-cli-mirage';
 
@@ -48,8 +47,7 @@ export default function() {
 
   loadAuthRoutes(this);
   loadUserRoutes(this);
-
-  this.get('/courses', getCourses);
+  loadCourseRoutes(this);
 
   this.get('/challenges', getChallenges);
   this.get('/challenges/:id', getChallenge);
@@ -67,8 +65,6 @@ export default function() {
   this.patch('/answers/:id', patchAnswer);
 
   this.post('/feedbacks', postFeedbacks);
-
-  this.get('/courses/:id', getCourse);
 
   this.post('/certification-courses', postCertificationCourse);
 

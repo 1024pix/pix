@@ -1,7 +1,7 @@
 export default function(server) {
 
   /* eslint max-statements: off */
-  server.loadFixtures('courses');
+  // server.loadFixtures('courses');
   server.loadFixtures('challenges');
 
   server.create('organization', {
@@ -28,11 +28,11 @@ export default function(server) {
     code: 'SUP003',
   });
 
-  server.create('course', {
-    id: 'certification-number',
-    nbChallenges: 3,
-    type: 'CERTIFICATION',
-  });
+  // server.create('course', {
+  //   id: 'certification-number',
+  //   nbChallenges: 3,
+  //   type: 'CERTIFICATION',
+  // });
 
   server.create('progression', {
     id: 12
