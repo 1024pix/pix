@@ -6,23 +6,14 @@ const { AlreadyRatedAssessmentError, CertificationComputeError } = require('../.
 const { UNCERTIFIED_LEVEL } = require('../../../../lib/domain/constants');
 
 describe('Unit | UseCase | complete-assessment', () => {
-
   const scoringCertificationService = { calculateAssessmentScore: _.noop };
-  const answerRepository = Symbol('AnswerRepository');
   const assessmentRepository = {
     get: _.noop,
     completeByAssessmentId: _.noop,
   };
   const assessmentResultRepository = { save: _.noop };
   const certificationCourseRepository = { changeCompletionDate: _.noop };
-  const challengeRepository = Symbol('challengeRepository');
   const competenceMarkRepository = { save: _.noop };
-  const competenceRepository = {
-    get: _.noop,
-    list: _.noop,
-  };
-  const courseRepository = { get: _.noop };
-  const skillRepository = Symbol('skillRepository');
   const assessmentId = 'assessmentId';
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
@@ -48,15 +39,10 @@ describe('Unit | UseCase | complete-assessment', () => {
       // when
       const err = await catchErr(completeAssessment)({
         assessmentId,
-        answerRepository,
         assessmentRepository,
         assessmentResultRepository,
         certificationCourseRepository,
-        challengeRepository,
         competenceMarkRepository,
-        courseRepository,
-        competenceRepository,
-        skillRepository,
         scoringCertificationService,
       });
 
@@ -84,15 +70,10 @@ describe('Unit | UseCase | complete-assessment', () => {
         // when
         const actualCompletedAssessment = await completeAssessment({
           assessmentId,
-          answerRepository,
           assessmentRepository,
           assessmentResultRepository,
           certificationCourseRepository,
-          challengeRepository,
           competenceMarkRepository,
-          courseRepository,
-          competenceRepository,
-          skillRepository,
           scoringCertificationService,
         });
 
@@ -129,15 +110,10 @@ describe('Unit | UseCase | complete-assessment', () => {
           // when
           await catchErr(completeAssessment)({
             assessmentId,
-            answerRepository,
             assessmentRepository,
             assessmentResultRepository,
             certificationCourseRepository,
-            challengeRepository,
             competenceMarkRepository,
-            courseRepository,
-            competenceRepository,
-            skillRepository,
             scoringCertificationService,
           });
 
@@ -162,36 +138,25 @@ describe('Unit | UseCase | complete-assessment', () => {
           // when
           await completeAssessment({
             assessmentId,
-            answerRepository,
             assessmentRepository,
             assessmentResultRepository,
             certificationCourseRepository,
-            challengeRepository,
             competenceMarkRepository,
-            courseRepository,
-            competenceRepository,
-            skillRepository,
             scoringCertificationService,
           });
 
           // then
-          const expectedDependencies = { answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository };
-          expect(scoringCertificationService.calculateAssessmentScore.calledWithExactly(expectedDependencies, assessment)).to.be.true;
+          expect(scoringCertificationService.calculateAssessmentScore.calledWithExactly(assessment)).to.be.true;
         });
 
         it('should save the error result appropriately', async () => {
           // when
           await completeAssessment({
             assessmentId,
-            answerRepository,
             assessmentRepository,
             assessmentResultRepository,
             certificationCourseRepository,
-            challengeRepository,
             competenceMarkRepository,
-            courseRepository,
-            competenceRepository,
-            skillRepository,
             scoringCertificationService,
           });
 
@@ -205,15 +170,10 @@ describe('Unit | UseCase | complete-assessment', () => {
           // when
           const actualCompletedAssessment = await completeAssessment({
             assessmentId,
-            answerRepository,
             assessmentRepository,
             assessmentResultRepository,
             certificationCourseRepository,
-            challengeRepository,
             competenceMarkRepository,
-            courseRepository,
-            competenceRepository,
-            skillRepository,
             scoringCertificationService,
           });
 
@@ -248,15 +208,10 @@ describe('Unit | UseCase | complete-assessment', () => {
             // when
             await completeAssessment({
               assessmentId,
-              answerRepository,
               assessmentRepository,
               assessmentResultRepository,
               certificationCourseRepository,
-              challengeRepository,
               competenceMarkRepository,
-              courseRepository,
-              competenceRepository,
-              skillRepository,
               scoringCertificationService,
             });
 
@@ -268,15 +223,10 @@ describe('Unit | UseCase | complete-assessment', () => {
             // when
             await completeAssessment({
               assessmentId,
-              answerRepository,
               assessmentRepository,
               assessmentResultRepository,
               certificationCourseRepository,
-              challengeRepository,
               competenceMarkRepository,
-              courseRepository,
-              competenceRepository,
-              skillRepository,
               scoringCertificationService,
             });
 
@@ -291,15 +241,10 @@ describe('Unit | UseCase | complete-assessment', () => {
             // when
             await completeAssessment({
               assessmentId,
-              answerRepository,
               assessmentRepository,
               assessmentResultRepository,
               certificationCourseRepository,
-              challengeRepository,
               competenceMarkRepository,
-              courseRepository,
-              competenceRepository,
-              skillRepository,
               scoringCertificationService,
             });
 
@@ -311,15 +256,10 @@ describe('Unit | UseCase | complete-assessment', () => {
             // when
             const actualCompletedAssessment = await completeAssessment({
               assessmentId,
-              answerRepository,
               assessmentRepository,
               assessmentResultRepository,
               certificationCourseRepository,
-              challengeRepository,
               competenceMarkRepository,
-              courseRepository,
-              competenceRepository,
-              skillRepository,
               scoringCertificationService,
             });
 
@@ -344,15 +284,10 @@ describe('Unit | UseCase | complete-assessment', () => {
             // when
             await completeAssessment({
               assessmentId,
-              answerRepository,
               assessmentRepository,
               assessmentResultRepository,
               certificationCourseRepository,
-              challengeRepository,
               competenceMarkRepository,
-              courseRepository,
-              competenceRepository,
-              skillRepository,
               scoringCertificationService,
             });
 
@@ -364,23 +299,18 @@ describe('Unit | UseCase | complete-assessment', () => {
             // when
             await completeAssessment({
               assessmentId,
-              answerRepository,
               assessmentRepository,
               assessmentResultRepository,
               certificationCourseRepository,
-              challengeRepository,
               competenceMarkRepository,
-              courseRepository,
-              competenceRepository,
-              skillRepository,
               scoringCertificationService,
             });
 
             // then
             expect(AssessmentResult.BuildStandardAssessmentResult.calledWithExactly(UNCERTIFIED_LEVEL, assessmentScore.nbPix, AssessmentResult.status.REJECTED, assessment.id))
               .to.be.true;
-            //expect(assessmentResultRepository.save.calledWithExactly(assessmentResult)).to.be.true;
-            //expect(certificationCourseRepository.changeCompletionDate.calledWithExactly(assessment.courseId, now)).to.be.true;
+            expect(assessmentResultRepository.save.calledWithExactly(assessmentResult)).to.be.true;
+            expect(certificationCourseRepository.changeCompletionDate.calledWithExactly(assessment.courseId, now)).to.be.true;
           });
         });
       });

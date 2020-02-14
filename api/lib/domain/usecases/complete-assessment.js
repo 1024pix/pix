@@ -10,15 +10,10 @@ const {
 
 module.exports = async function completeAssessment({
   assessmentId,
-  answerRepository,
   assessmentRepository,
   assessmentResultRepository,
   certificationCourseRepository,
-  challengeRepository,
-  competenceRepository,
   competenceMarkRepository,
-  courseRepository,
-  skillRepository,
   scoringCertificationService,
 }) {
   const assessment = await assessmentRepository.get(assessmentId);
@@ -29,8 +24,7 @@ module.exports = async function completeAssessment({
   assessment.setCompleted();
 
   if (assessment.isCertification()) {
-    await _calculateCertificationScore({ assessment, answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository,
-      assessmentResultRepository, certificationCourseRepository, competenceMarkRepository, scoringCertificationService });
+    await _calculateCertificationScore({ assessment, assessmentResultRepository, certificationCourseRepository, competenceMarkRepository, scoringCertificationService });
   }
   await assessmentRepository.completeByAssessmentId(assessmentId);
   return assessment;
@@ -38,19 +32,13 @@ module.exports = async function completeAssessment({
 
 async function _calculateCertificationScore({
   assessment,
-  answerRepository,
-  challengeRepository,
-  competenceRepository,
-  courseRepository,
-  skillRepository,
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
   scoringCertificationService,
 }) {
   try {
-    const dependencies = { answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository };
-    const assessmentScore = await scoringCertificationService.calculateAssessmentScore(dependencies, assessment);
+    const assessmentScore = await scoringCertificationService.calculateAssessmentScore(assessment);
     await _saveResult({
       assessment,
       assessmentScore,
@@ -73,14 +61,11 @@ async function _calculateCertificationScore({
 }
 
 async function _saveResult({
-  // Parameters
   assessment,
   assessmentScore,
-  // Repositories
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
-  // Services
 }) {
   const assessmentResult = await _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository });
 
@@ -95,7 +80,6 @@ async function _saveResult({
 function _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository }) {
   const assessmentStatus = _getAssessmentStatus(assessment, assessmentScore);
   const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(assessmentScore.level, assessmentScore.nbPix, assessmentStatus, assessment.id);
-
   return assessmentResultRepository.save(assessmentResult);
 }
 
@@ -115,8 +99,6 @@ async function _saveResultAfterCertificationComputeError({
   certificationComputeError,
 }) {
   const assessmentResult = AssessmentResult.BuildAlgoErrorResult(certificationComputeError, assessment.id);
-
   await assessmentResultRepository.save(assessmentResult);
-
   return certificationCourseRepository.changeCompletionDate(assessment.courseId, new Date());
 }
