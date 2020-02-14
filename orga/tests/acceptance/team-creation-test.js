@@ -95,6 +95,18 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.dom('#table-members tbody tr').exists({ count: 1 });
       });
 
+      test('it should not allow to invite a user when an email is not given', async function(assert) {
+        // given
+        await visit('/equipe/creation');
+        await fillIn('#email', '');
+
+        // when
+        await click('button[type="submit"]');
+
+        // then
+        assert.equal(currentURL(), '/equipe/creation');
+      });
+
       test('should display an empty input field after cancel and before add a team member', async function(assert) {
         // given
         const email = 'cancel&cancel.com';

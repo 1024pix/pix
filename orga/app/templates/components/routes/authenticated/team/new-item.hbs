@@ -16,7 +16,11 @@
 
   <div class="form__validation">
     <div class="button button--no-color" {{action cancel}}>Annuler</div>
-    <button class="button button--regular" type="submit">Inviter</button>
+    {{#if isLoading}}
+      <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
+    {{else}}
+      <button type="submit" class="button button--regular">Inviter</button>
+    {{/if}}
   </div>
 
 </form>
