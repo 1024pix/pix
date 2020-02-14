@@ -61,7 +61,7 @@ module('Integration | Component | login-form', function(hooks) {
     assert.equal(sessionServiceObserver.scope, 'pix-certif');
   });
 
-  test('it should display an error message when authentication fails with unauthorised acces', async function(assert) {
+  test('it should display an error message when authentication fails with unauthorized acces', async function(assert) {
     // given
     const msgErrorInvalidCredentiel =  {
       'errors' : [{ 'status' : '401', 'title' : 'Unauthorized' , 'detail' : errorMessages.INVALID_CREDENTIEL_MSG  }]
