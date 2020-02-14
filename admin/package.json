@@ -1,6 +1,6 @@
 {
   "name": "pix-admin",
-  "version": "2.112.0",
+  "version": "2.113.0",
   "private": false,
   "description": "Interface d'administration pour les Pix Masters.",
   "license": "AGPL-3.0",

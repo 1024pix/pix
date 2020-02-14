@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.113.0 (14/02/2020)
+
+- [#1054](https://github.com/1024pix/pix/pull/1054) [FEATURE] Script pour rattacher les administrateurs des organisations aux centres de certification correspondants (PF-952).
+- [#943](https://github.com/1024pix/pix/pull/943) [FEATURE] Ajout du nombre de signalements et d'écrans de fin de test non cochés sur la page de résumé d'une session dans PixAdmin (PA-102)
+- [#1049](https://github.com/1024pix/pix/pull/1049) [FEATURE] Mettre à jour les labels pour la finalisation de session (PC-114)
+- [#1058](https://github.com/1024pix/pix/pull/1058) [BUGFIX] Fix sumBy when list contain 1 value (pc-117)
+- [#1045](https://github.com/1024pix/pix/pull/1045) [BUGFIX] Lors de l'inscription, vérification de la non présence de l'email en base avec insensibilité à la casse (PF-1077).
+- [#1035](https://github.com/1024pix/pix/pull/1035) [BUGFIX] Réparer l'affichage des certifications V1 (PA-143)
+- [#1044](https://github.com/1024pix/pix/pull/1044) [TECH] Refacto serializers mirage sur mon-pix (PF-1038).
+- [#1055](https://github.com/1024pix/pix/pull/1055) [TECH] Résolution du test "flaky" (qui échoue aléatoirement) sur la CI - api
+
 ## v2.112.0 (10/02/2020)
 
 - [#1032](https://github.com/1024pix/pix/pull/1032) [FEATURE] Script pour créer des Centres de Certification SCO (PF-949).
