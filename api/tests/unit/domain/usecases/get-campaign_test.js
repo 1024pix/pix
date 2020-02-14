@@ -1,4 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 const getCampaign = require('../../../../lib/domain/usecases/get-campaign');
 
 describe('Unit | UseCase | get-campaign', () => {
@@ -8,7 +9,7 @@ describe('Unit | UseCase | get-campaign', () => {
 
   beforeEach(() => {
     campaign = {
-      id: 1,
+      id: '1',
       name: 'My campaign',
     };
     campaignRepository = {
@@ -16,23 +17,21 @@ describe('Unit | UseCase | get-campaign', () => {
     };
   });
 
-  it('should get the campaign', () => {
-    // given 
+  it('should get the campaign', async () => {
+    // given
     const options = {};
-    campaignRepository.get.withArgs(campaign.id, options).resolves(campaign);
+    campaignRepository.get.withArgs(parseInt(campaign.id), options).resolves(campaign);
 
     // when
-    const promise = getCampaign({ campaignId: campaign.id, options, campaignRepository });
+    const resultCampaign = await getCampaign({ campaignId: campaign.id, options, campaignRepository });
 
     // then
-    return promise.then((resultCampaign) => {
-      expect(resultCampaign.name).to.equal(campaign.name);
-    });
+    expect(resultCampaign.name).to.equal(campaign.name);
   });
 
   it('should throw an error when the campaign could not be retrieved', () => {
     // given
-    campaignRepository.get.withArgs(campaign.id).rejects();
+    campaignRepository.get.withArgs(parseInt(campaign.id)).rejects();
 
     // when
     const promise = getCampaign({ campaignId: campaign.id, campaignRepository });
@@ -41,4 +40,14 @@ describe('Unit | UseCase | get-campaign', () => {
     return expect(promise).to.be.rejected;
   });
 
+  it('should throw a Not found error when the campaign is searched with a not valid ID', async () => {
+    // given
+    const invalidCampaignId = 'abc';
+
+    // when
+    const error = await catchErr(getCampaign)({ campaignId: invalidCampaignId, campaignRepository });
+
+    // then
+    return expect(error).to.be.instanceOf(NotFoundError);
+  });
 });

@@ -35,7 +35,7 @@ module.exports = {
   },
 
   getById(request) {
-    const campaignId = parseInt(request.params.id);
+    const campaignId = request.params.id;
     const options = queryParamsUtils.extractParameters(request.query);
     const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
     return usecases.getCampaign({ campaignId, options })
