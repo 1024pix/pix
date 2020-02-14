@@ -65,7 +65,7 @@ module('Integration | Component | login-form', function(hooks) {
       await click('button.login-form__button');
 
       // then
-      assert.equal(this.get('errorMessage'), ENV.APP.API_ERROR_MESSAGES .UNAUTHORIZED.MESSAGE);
+      assert.equal(this.get('errorMessage'), ENV.APP.API_ERROR_MESSAGES.UNAUTHORIZED.MESSAGE);
     });
 
     test('should display good error message when an error 400 occurred', async function(assert) {
