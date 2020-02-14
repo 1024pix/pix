@@ -121,7 +121,7 @@ module('Acceptance | Session Finalization', function(hooks) {
         });
         
         test('it should display the number of unchecked options (all)', async function(assert) {
-          assert.dom('.app-modal-body__contextual').hasText('La case "Écran de fin du test vu" n\'est pas cochée pour 2 candidats');
+          assert.dom('.app-modal-body__contextual').hasText('La case "Écran de fin du test vu" n\'est pas cochée pour 2 candidat(s)');
         });
         
         test('it should close the modal on cancel button click', async function(assert) {
@@ -166,7 +166,7 @@ module('Acceptance | Session Finalization', function(hooks) {
         });
               
         test('it should display the number of unchecked options (one)', async function(assert) {
-          assert.dom('.app-modal-body__contextual').hasText('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidats');
+          assert.dom('.app-modal-body__contextual').hasText('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
         });
       });
 
