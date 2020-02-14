@@ -163,7 +163,6 @@ export default Component.extend({
 
     async register() {
       this.set('isLoading', true);
-      this.set('studentDependentUser.withUsername', this.loginWithUsername);
       try {
         if (this.loginWithUsername) {
           this.set('studentDependentUser.email', undefined);
@@ -175,6 +174,7 @@ export default Component.extend({
             isStudentDependentUser: true,
             campaignCode: this.campaignCode,
             birthdate: this.birthdate,
+            withUsername: this.loginWithUsername,
           }
         });
       } catch (error) {

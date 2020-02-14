@@ -22,6 +22,7 @@ export default ApplicationAdapter.extend({
       const serializedUser = this.serialize(snapshot);
       serializedUser.data.attributes['campaign-code'] = adapterOptions.campaignCode;
       serializedUser.data.attributes.birthdate = adapterOptions.birthdate;
+      serializedUser.data.attributes['with-username'] = adapterOptions.withUsername;
       return this.ajax(url, 'POST', { data: serializedUser });
     }
     return this._super(...arguments);
