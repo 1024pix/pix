@@ -1,6 +1,7 @@
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const faker = require('faker');
 const buildTargetProfile = require('./build-target-profile');
+const buildUser = require('./build-user');
 
 module.exports = function buildCampaign(
   {
@@ -12,6 +13,7 @@ module.exports = function buildCampaign(
     customLandingPageText = faker.lorem.text(),
     createdAt = faker.date.recent(),
     creatorId = faker.random.number(2),
+    creator = buildUser({ id: creatorId }),
     organizationId = faker.random.number(2),
     targetProfileId = faker.random.number(2),
     targetProfile = buildTargetProfile({ id: targetProfileId }),
@@ -25,8 +27,9 @@ module.exports = function buildCampaign(
     title,
     idPixLabel,
     customLandingPageText,
-    createdAt,
     creatorId,
+    createdAt,
+    creator,
     organizationId,
     targetProfileId,
     targetProfile,
