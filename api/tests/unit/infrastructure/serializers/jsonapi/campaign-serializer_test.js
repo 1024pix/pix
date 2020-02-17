@@ -20,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           title: 'Parcours recherche internet',
           customLandingPageText: 'Parcours concernant la recherche internet',
           createdAt: new Date('2018-02-06T14:12:44Z'),
-          creatorId: 3453,
+          creator: { id: 3453, firstName: 'Daenerys', lastName: 'Targaryen' },
           organizationId: 10293,
           organizationLogoUrl: 'some logo',
           organizationName: 'College Victor Hugo',
@@ -51,6 +51,12 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
                   type: 'targetProfiles'
                 }
               },
+              'creator': {
+                data: {
+                  id: '3453',
+                  type: 'users',
+                }
+              },
               'campaign-report': {
                 'links': {
                   'related': '/api/campaigns/5/campaign-report'
@@ -70,6 +76,14 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               },
               id: '123',
               type: 'targetProfiles'
+            },
+            {
+              id: '3453',
+              type: 'users',
+              attributes: {
+                'first-name': 'Daenerys',
+                'last-name': 'Targaryen',
+              }
             }
           ],
           meta
@@ -96,7 +110,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           title: 'Parcours recherche internet',
           customLandingPageText: 'Parcours concernant la recherche internet',
           createdAt: new Date('2018-02-06T14:12:44Z'),
-          creatorId: 3453,
+          creator: { id: 3453, firstName: 'Daenerys', lastName: 'Targaryen' },
           organizationId: 10293,
           organizationLogoUrl: 'some logo',
           organizationName: 'College Victor Hugo',
@@ -126,6 +140,12 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
                 data: {
                   id: '123',
                   type: 'targetProfiles'
+                }
+              },
+              'creator': {
+                data: {
+                  id: '3453',
+                  type: 'users',
                 }
               },
               'campaign-report': {
@@ -159,6 +179,14 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               },
               id: '5',
               type: 'campaignReports'
+            },
+            {
+              id: '3453',
+              type: 'users',
+              attributes: {
+                'first-name': 'Daenerys',
+                'last-name': 'Targaryen',
+              }
             }
           ],
           meta
