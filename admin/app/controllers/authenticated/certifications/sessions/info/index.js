@@ -12,7 +12,7 @@ export default Controller.extend({
   session: alias('model'),
 
   sessionStatusLabel: computed('session.isFinalized', function() {
-    return this.session.isFinalized ? statusToDisplayName.finalized : statusToDisplayName.started;
+    return this.session.isFinalized ? statusToDisplayName.finalized : statusToDisplayName.created;
   }),
 
   actions: {

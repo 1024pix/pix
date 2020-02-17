@@ -3,7 +3,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { visit, currentURL, find } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { FINALIZED, STARTED } from 'pix-admin/models/session';
+import { FINALIZED, CREATED, statusToDisplayName } from 'pix-admin/models/session';
 
 import moment from 'moment';
 
@@ -76,7 +76,7 @@ module('Integration | Component | certifications-session-info', function(hooks) 
       await visit(`/certifications/sessions/${sessionId}`);
 
       // then
-      assert.dom('[data-test-id="certifications-session-info__is-finalized"]').hasText('Finalisée');
+      assert.dom('[data-test-id="certifications-session-info__is-finalized"]').hasText(statusToDisplayName.finalized);
     });
 
     test('it renders the finalization date in correct format', async function(assert) {
@@ -121,19 +121,19 @@ module('Integration | Component | certifications-session-info', function(hooks) 
 
     test('it renders the status row with not finalized value', async function(assert) {
       // given
-      sessionData.status = STARTED;
+      sessionData.status = CREATED;
       session = this.server.create('session', sessionData);
 
       // when
       await visit(`/certifications/sessions/${sessionId}`);
 
       // then
-      assert.dom('[data-test-id="certifications-session-info__is-finalized"]').hasText('Prête');
+      assert.dom('[data-test-id="certifications-session-info__is-finalized"]').hasText(statusToDisplayName.created);
     });
 
     test('it does not render the examinerGlobalComment row', async function(assert) {
       // given
-      sessionData.status = STARTED;
+      sessionData.status = CREATED;
       sessionData.examinerGlobalComment = 'AAA';
       session = this.server.create('session', sessionData);
 

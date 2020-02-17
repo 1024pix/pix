@@ -12,7 +12,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
 
   beforeEach(async () => {
     server = await createServer();
-    session = databaseBuilder.factory.buildSession({ status: statuses.STARTED });
+    session = databaseBuilder.factory.buildSession({ status: statuses.CREATED });
     const report1 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id });
     const report2 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id });
 

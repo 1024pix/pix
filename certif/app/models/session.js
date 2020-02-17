@@ -6,10 +6,10 @@ import ENV from 'pix-certif/config/environment';
 
 const { Model, attr, belongsTo, hasMany } = DS;
 
-export const STARTED = 'started';
+export const CREATED = 'created';
 export const FINALIZED = 'finalized';
 export const statusToDisplayName = {
-  [STARTED]: 'Prête',
+  [CREATED]: 'Créée',
   [FINALIZED]: 'Finalisée',
 };
 

@@ -4,10 +4,10 @@ import { computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
 import _ from 'lodash';
 
-export const STARTED = 'started';
+export const CREATED = 'created';
 export const FINALIZED = 'finalized';
 export const statusToDisplayName = {
-  [STARTED]: 'Prête',
+  [CREATED]: 'Créée',
   [FINALIZED]: 'Finalisée',
 };
 

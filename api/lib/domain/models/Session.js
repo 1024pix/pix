@@ -1,8 +1,8 @@
-const STARTED = 'started';
+const CREATED = 'created';
 const FINALIZED = 'finalized';
 
 const statuses = {
-  STARTED,
+  CREATED,
   FINALIZED,
 };
 
