@@ -4,7 +4,6 @@ import { inject as service } from '@ember/service';
 export default Component.extend({
   store: service(),
   notifications: service(),
-
   tooltipText: 'Copier le lien direct',
 
   actions: {
