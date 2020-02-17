@@ -22,7 +22,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           time: '14:30',
           status: 'created',
           description: '',
-          'examiner-global-comment': 'It was a fine session my dear'
+          'examiner-global-comment': 'It was a fine session my dear',
+          'finalized-at': new Date('2020-02-17T14:23:56Z'),
         },
         relationships: {
           certifications: {
