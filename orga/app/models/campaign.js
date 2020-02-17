@@ -34,11 +34,11 @@ export default DS.Model.extend({
 
   async archive() {
     await this.store.adapterFor('campaign').archive(this);
-    return this.reload();
+    return this.store.findRecord('campaign', this.id, { include: 'targetProfile' });
   },
 
   async unarchive() {
     await this.store.adapterFor('campaign').unarchive(this);
-    return this.reload();
+    return this.store.findRecord('campaign', this.id, { include: 'targetProfile' });
   }
 });
