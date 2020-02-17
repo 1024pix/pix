@@ -1,7 +1,7 @@
 import { Factory, association } from 'ember-cli-mirage';
 import faker from 'faker';
 import moment from 'moment';
-import { STARTED } from 'pix-certif/models/session';
+import { CREATED } from 'pix-certif/models/session';
 
 export default Factory.extend({
 
@@ -35,7 +35,7 @@ export default Factory.extend({
   },
 
   status() {
-    return STARTED;
+    return CREATED;
   },
 
   examinerGlobalComment(i) {

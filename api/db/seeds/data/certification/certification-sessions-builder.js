@@ -21,7 +21,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     certificationCenter, certificationCenterId, address, room, examiner, date , time,
     description: 'Session pas commencée avec ZERO candidat inscrit.',
     accessCode: 'ANNE01',
-    status: statuses.STARTED,
+    status: statuses.CREATED,
     examinerGlobalComment: null,
   });
 
@@ -30,7 +30,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     certificationCenter, certificationCenterId, address, room, examiner, date , time,
     description: 'Session pas commencée avec quelques candidats inscrits non liés.',
     accessCode: 'ANNE02',
-    status: statuses.STARTED,
+    status: statuses.CREATED,
     examinerGlobalComment: null,
   });
 
@@ -39,7 +39,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     certificationCenter, certificationCenterId, address, room, examiner, date , time,
     description: 'Session pas commencée avec des candidats inscrits non liés.',
     accessCode: 'ANNE03',
-    status: statuses.STARTED,
+    status: statuses.CREATED,
     examinerGlobalComment: null,
   });
 
@@ -48,7 +48,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     certificationCenter, certificationCenterId, address, room, examiner, date , time,
     description: 'Session pas encore finalisée, avec des candidats ayant passés leur test de certification.',
     accessCode: 'ANNE04',
-    status: statuses.STARTED,
+    status: statuses.CREATED,
     examinerGlobalComment: null,
   });
 

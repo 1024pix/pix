@@ -121,7 +121,7 @@ module('Acceptance | Session List', function(hooks) {
           // then
           const formattedDate = moment(firstSession.date, 'YYYY-MM-DD').format('DD/MM/YYYY');
           assert.dom('table tbody tr').exists({ count: nbExtraSessions + 1 });
-          assert.dom('table tbody tr:first-child').hasText(`${firstSession.id} ${firstSession.address} ${firstSession.room} ${formattedDate} ${firstSession.time} ${firstSession.examiner} ${statusToDisplayName.started}`);
+          assert.dom('table tbody tr:first-child').hasText(`${firstSession.id} ${firstSession.address} ${firstSession.room} ${formattedDate} ${firstSession.time} ${firstSession.examiner} ${statusToDisplayName.created}`);
         });
       });
 

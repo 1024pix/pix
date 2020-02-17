@@ -2,6 +2,7 @@ const { databaseBuilder, expect, knex, domainBuilder, catchErr } = require('../.
 const _ = require('lodash');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const Session = require('../../../../lib/domain/models/Session');
+const { statuses } = require('../../../../lib/domain/models/Session');
 const BookshelfSession = require('../../../../lib/infrastructure/data/campaign');
 const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 
@@ -97,8 +98,8 @@ describe('Integration | Repository | Session', function() {
     let notFinalizedSessionId;
 
     beforeEach(() => {
-      finalizedSessionId = databaseBuilder.factory.buildSession({ status: Session.statuses.FINALIZED }).id;
-      notFinalizedSessionId = databaseBuilder.factory.buildSession({ status: Session.statuses.STARTED }).id;
+      finalizedSessionId = databaseBuilder.factory.buildSession({ status: statuses.FINALIZED }).id;
+      notFinalizedSessionId = databaseBuilder.factory.buildSession({ status: statuses.CREATED }).id;
 
       return databaseBuilder.commit();
     });
@@ -284,7 +285,7 @@ describe('Integration | Repository | Session', function() {
         id: 1,
         room: '28D',
         examiner: 'Roger',
-        status: Session.statuses.STARTED,
+        status: statuses.CREATED,
       });
       session = domainBuilder.buildSession(bookshelfSession);
 
@@ -304,7 +305,7 @@ describe('Integration | Repository | Session', function() {
       session.room = 'New room';
       session.examiner = 'New examiner';
       session.examinerGlobalComment = 'It was a fine session my dear';
-      session.status = Session.statuses.FINALIZED;
+      session.status = statuses.FINALIZED;
 
       // when
       const sessionSaved = await sessionRepository.update(session);
@@ -314,7 +315,7 @@ describe('Integration | Repository | Session', function() {
       expect(sessionSaved.room).to.equal('New room');
       expect(sessionSaved.examiner).to.equal('New examiner');
       expect(sessionSaved.examinerGlobalComment).to.equal('It was a fine session my dear');
-      expect(sessionSaved.status).to.equal(Session.statuses.FINALIZED);
+      expect(sessionSaved.status).to.equal(statuses.FINALIZED);
     });
 
     it('should not add row in table "sessions"', async () => {
@@ -495,12 +496,12 @@ describe('Integration | Repository | Session', function() {
 
   describe('#finalize', () => {
     let id;
-    let status = 'started';
+    let status = statuses.CREATED;
     let examinerGlobalComment = '';
     const finalizedAt = new Date('2017-09-01T12:14:33Z');
 
     beforeEach(() => {
-      id = databaseBuilder.factory.buildSession({ status: Session.statuses.STARTED }).id;
+      id = databaseBuilder.factory.buildSession({ status: statuses.CREATED }).id;
 
       return databaseBuilder.commit();
     });
@@ -519,7 +520,7 @@ describe('Integration | Repository | Session', function() {
     it('should update model in database', async () => {
       // given
       examinerGlobalComment = 'It was a fine session my dear';
-      status = Session.statuses.FINALIZED;
+      status = statuses.FINALIZED;
 
       // when
       await sessionRepository.finalize({ id, status, examinerGlobalComment, finalizedAt });
