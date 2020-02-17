@@ -190,7 +190,7 @@ module('Acceptance | join', function(hooks) {
         // then
         assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-        assert.dom('#login-form-error-message').hasText('L\'adresse e-mail et/ou le mot\n de passe saisis sont incorrects.');
+        assert.dom('#login-form-error-message').hasText('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
       });
     });
 

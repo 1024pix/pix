@@ -14,7 +14,7 @@
 
     {{#if this.isErrorMessagePresent}}
       <div id="login-form-error-message" class="login-form__error-message error-message">
-        L'adresse e-mail et/ou le mot de passe saisis sont incorrects.
+        {{this.errorMessage}}
       </div>
     {{/if}}
 
@@ -29,6 +29,7 @@
           @class="input"
           @value={{this.email}}
           @autocomplete="username"
+          @required="true"
         />
       </div>
 
@@ -42,6 +43,7 @@
             @class="input"
             @value={{this.password}}
             @autocomplete="current-password"
+            @required="true"
           />
           <button type="button" aria-label="rendre le mot de passe lisible" class="login-form__icon" {{action 'togglePasswordVisibility'}} >
             {{#if this.isPasswordVisible}}
