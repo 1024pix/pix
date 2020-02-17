@@ -20,6 +20,20 @@ module.exports = function(environment) {
     APP: {
       API_HOST: process.env.API_HOST || '',
       isSessionFinalizationActive: process.env.FT_IS_SESSION_FINALIZATION_ACTIVE === 'true',
+      API_ERROR_MESSAGES : {
+        BAD_REQUEST: { CODE: '400', MESSAGE: 'Les données envoyées ne sont pas au bon format.' },
+        INTERNAL_SERVER_ERROR: {
+          CODE: '500',
+          MESSAGE: 'Le service est momentanément indisponible. Veuillez réessayer ultérieurement.'
+        },
+        GATEWAY_TIMEOUT: {
+          CODE: '504',
+          MESSAGE: 'Le service subi des ralentissements. Veuillez réessayer ultérieurement.'
+        },
+        UNAUTHORIZED: { CODE: '401', MESSAGE: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' },
+        FORBIDDEN: '403',
+        NOT_FOUND: '404',
+      }
     },
 
     googleFonts: [

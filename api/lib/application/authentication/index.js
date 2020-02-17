@@ -22,9 +22,9 @@ exports.register = async (server) => {
           failAction: (request, h) => {
             const errorHttpStatusCode = 400;
             const jsonApiError = new JSONAPIError({
-              status: errorHttpStatusCode.toString(),
+              code: errorHttpStatusCode.toString(),
               title: 'Bad request',
-              detail: 'The server could not understand the request due to invalid syntax.',
+              detail: 'Les données envoyées ne sont pas au bon format.',
             });
             return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
           }

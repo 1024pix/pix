@@ -27,7 +27,8 @@ export default function() {
         user_id: foundUser.id
       };
     } else {
-      return new Response(401, {}, 'Authentication failed');
+      return new Response([{ 'status' : '401', 'title' : 'Unauthorized' , 'detail' : 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' }]
+      );
     }
   });
 

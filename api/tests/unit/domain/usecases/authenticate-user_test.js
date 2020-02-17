@@ -3,6 +3,7 @@ const authenticateUser = require('../../../../lib/domain/usecases/authenticate-u
 const User = require('../../../../lib/domain/models/User');
 const { MissingOrInvalidCredentialsError, PasswordNotMatching, ForbiddenAccess } = require('../../../../lib/domain/errors');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
+const appMessages = require('../../../../lib/domain/constants');
 
 function _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise) {
   return expect(promise).to.be.an.rejectedWith(MissingOrInvalidCredentialsError, 'Missing or invalid credentials');
@@ -72,7 +73,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     it('rejects an error when scope is pix-orga and user is not linked to any organizations', function() {
       // given
       const wrongUserPassword = 'wrong_password';
-      const scope = 'pix-orga';
+      const scope = appMessages.PIX_ORGA.SCOPE;
       const user = new User({ email: userEmail, password: userPassword, memberships: [] });
       userRepository.getByUsernameOrEmailWithRoles.resolves(user);
 
@@ -80,12 +81,12 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       const promise = authenticateUser({ userEmail, wrongUserPassword, scope, userRepository, tokenService });
 
       // then
-      return expect(promise).to.be.rejectedWith(ForbiddenAccess, 'User is not allowed to access this area');
+      return expect(promise).to.be.rejectedWith(ForbiddenAccess, appMessages.PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG);
     });
 
     it('rejects an error when scope is pix-admin and user has not pix master role', function() {
       // given
-      const scope = 'pix-admin';
+      const scope = appMessages.PIX_ADMIN.SCOPE;
       const user = new User({ email: userEmail, password: userPassword, pixRoles: [] });
       userRepository.getByUsernameOrEmailWithRoles.resolves(user);
 
@@ -93,12 +94,12 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       const promise = authenticateUser({ userEmail, userPassword, scope, userRepository, tokenService });
 
       // then
-      return expect(promise).to.be.rejectedWith(ForbiddenAccess);
+      return expect(promise).to.be.rejectedWith(ForbiddenAccess, appMessages.PIX_ADMIN.NOT_PIXMASTER_MSG);
     });
 
     it('rejects an error when scope is pix-certif and user is not linked to any certification centers', function() {
       // given
-      const scope = 'pix-certif';
+      const scope = appMessages.PIX_CERTIF.SCOPE;
       const user = domainBuilder.buildUser({ email: userEmail, password: userPassword, certificationCenterMemberships: [] });
       userRepository.getByUsernameOrEmailWithRoles.resolves(user);
 
@@ -106,7 +107,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       const promise = authenticateUser({ userEmail, userPassword, scope, userRepository, tokenService });
 
       // then
-      return expect(promise).to.be.rejectedWith(ForbiddenAccess);
+      return expect(promise).to.be.rejectedWith(ForbiddenAccess,appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG);
     });
   });
 
