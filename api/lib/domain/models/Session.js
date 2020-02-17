@@ -19,6 +19,7 @@ class Session {
     time,
     status,
     examinerGlobalComment,
+    finalizedAt,
     // includes
     certificationCandidates,
     // references
@@ -36,6 +37,7 @@ class Session {
     this.time = time;
     this.status = status;
     this.examinerGlobalComment = examinerGlobalComment;
+    this.finalizedAt = finalizedAt;
     // includes
     this.certificationCandidates = certificationCandidates;
     // references
