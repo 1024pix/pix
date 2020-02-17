@@ -16,6 +16,7 @@ module.exports = {
   buildOrganization: require('./build-organization'),
   buildOrganizationInvitation: require('./build-organization-invitation'),
   buildMembership: require('./build-membership'),
+  buildBadge: require('./build-badge'),
   buildPixRole: require('./build-pix-role'),
   buildSession: require('./build-session'),
   buildSnapshot: require('./build-snapshot'),
