@@ -1,9 +1,9 @@
-{{#if isPublishedAndRejected}}
+{{#if this.isPublishedAndRejected}}
   <CpPanel as |panel|>
     <panel.toggle @class="certifications-list-item__row-presentation" @role="tab">
 
       <div class="certifications-list-item__cell">
-        {{moment-format certification.date 'DD/MM/YYYY' allow-empty=true}}
+        {{moment-format this.certification.date 'DD/MM/YYYY' allow-empty=true}}
       </div>
 
       <div class="certifications-list-item__cell-double-width">
@@ -13,11 +13,11 @@
       <div class="certifications-list-item__cell-pix-score"></div>
 
       <div class="certifications-list-item__cell-certification-center">
-        {{certification.certificationCenter}}
+        {{this.certification.certificationCenter}}
       </div>
 
       <div class="certifications-list-item__cell-detail">
-        {{#if shouldDisplayComment}}
+        {{#if this.shouldDisplayComment}}
           <div class="certifications-list-item__cell-detail-button">
             DÉTAIL
           </div>
@@ -25,10 +25,10 @@
       </div>
     </panel.toggle>
 
-    {{#if shouldDisplayComment}}
+    {{#if this.shouldDisplayComment}}
       <panel.body @class="certifications-list-item__row-comment" @role="tabpanel">
         <div class="certifications-list-item__row-comment-cell">
-          {{certification.commentForCandidate}}
+          {{this.certification.commentForCandidate}}
         </div>
       </panel.body>
     {{/if}}
@@ -36,10 +36,10 @@
   </CpPanel>
 {{/if}}
 
-{{#if isPublishedAndValidated}}
-  <LinkTo @route="user-certifications.get" @model={{certification.id}} class="certifications-list-item__row-presentation">
+{{#if this.isPublishedAndValidated}}
+  <LinkTo @route="user-certifications.get" @model={{this.certification.id}} class="certifications-list-item__row-presentation">
     <div class="certifications-list-item__cell">
-      {{moment-format certification.date 'DD/MM/YYYY' allow-empty=true}}
+      {{moment-format this.certification.date 'DD/MM/YYYY' allow-empty=true}}
     </div>
 
     <div class="certifications-list-item__cell-double-width">
@@ -48,12 +48,12 @@
     </div>
     <div class="certifications-list-item__cell-pix-score">
       <div class="certifications-list-item__pix-score">
-        <span>{{ certification.pixScore }}</span>
+        <span>{{ this.certification.pixScore }}</span>
       </div>
     </div>
 
     <div class="certifications-list-item__cell-certification-center">
-      {{certification.certificationCenter}}
+      {{this.certification.certificationCenter}}
     </div>
 
     <div class="certifications-list-item__cell-detail">
@@ -62,10 +62,10 @@
   </LinkTo>
 {{/if}}
 
-{{#if isNotPublished}}
+{{#if this.isNotPublished}}
   <div class="certifications-list-item__row-presentation">
     <div class="certifications-list-item__cell">
-      {{moment-format certification.date 'DD/MM/YYYY' allow-empty=true}}
+      {{moment-format this.certification.date 'DD/MM/YYYY' allow-empty=true}}
     </div>
 
     <div class="certifications-list-item__cell-double-width">
@@ -75,7 +75,7 @@
     <div class="certifications-list-item__cell-pix-score"></div>
 
     <div class="certifications-list-item__cell-certification-center">
-      {{certification.certificationCenter}}
+      {{this.certification.certificationCenter}}
     </div>
 
     <div class="certifications-list-item__cell-detail">

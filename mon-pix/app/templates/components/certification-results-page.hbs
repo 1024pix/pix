@@ -1,12 +1,12 @@
 <div class="certification-results__certification-banner">
-  <CertificationBanner @certificationNumber={{certificationNumber}} />
+  <CertificationBanner @certificationNumber={{@certificationNumber}} />
 </div>
 
 <div class="certification-results__content rounded-panel result-content">
-  {{#if notFinishedYet}}
+  {{#if this.notFinishedYet}}
 
     <div class="result-content__panel-picture">
-      <img src="{{rootURL}}/images/flag.svg" alt="drapeau">
+      <img src="{{@rootURL}}/images/flag.svg" alt="drapeau">
     </div>
     <div class="result-content__panel-title">
       Vous avez presque terminé
@@ -18,14 +18,14 @@
 
     <div class="result-content__warning-container">
       <div class="result-content__checked-supervisor">
-        <Input @type="checkbox" @id="validSupervisor" @checked={{validSupervisor}} @alt="Le surveillant doit cliquer ici." />
+        <Input @type="checkbox" @id="validSupervisor" @checked={{this.validSupervisor}} @alt="Le surveillant doit cliquer ici." />
 
         <span class="result-content__warning-text">
           Le surveillant a bien vu cet écran.
         </span>
       </div>
 
-      {{#if validSupervisor}}
+      {{#if this.validSupervisor}}
         <button class="result-content__button result-content__validation-button" {{action "validateBySupervisor"}}>Je confirme</button>
       {{else}}
         <button class="result-content__button result-content__button-blocked">Je confirme</button>

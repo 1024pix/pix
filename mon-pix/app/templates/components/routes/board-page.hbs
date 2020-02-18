@@ -5,25 +5,25 @@
   <div class="board-page__header">
     <div class="board-page__header-organisation">
       <div class="board-page__header-organisation__text">Votre Organisation</div>
-      <div class="board-page__header-organisation__name">{{organization.name}}</div>
+      <div class="board-page__header-organisation__name">{{this.organization.name}}</div>
     </div>
     <div class="board-page__header-code">
       <div class="board-page__header-code__title">Code Organisation</div>
-      <div class="board-page__header-code__text">{{organization.code}}</div>
+      <div class="board-page__header-code__text">{{this.organization.code}}</div>
       <div class="board-page__header-code__comment">Communiquez ce code à vos élèves, étudiants ou collaborateurs et ils
         pourront vous envoyer leurs profils Pix.
       </div>
     </div>
   </div>
 
-  <div class="board-page__profiles-title">Profils partagés ({{snapshots.meta.rowCount}})
-    <a class="profiles-title__export-csv" href="{{snapshotsExportUrl}}" target="_blank"
+  <div class="board-page__profiles-title">Profils partagés ({{this.snapshots.meta.rowCount}})
+    <a class="profiles-title__export-csv" href="{{this.snapshotsExportUrl}}" target="_blank"
        download>
       Exporter (.csv)
       <img class="profiles-title__export-csv-icon"src="/images/icons/icon-export.svg" alt="Exporter les profils partagés" width="20" height="20">
     </a>
 
-    {{#if tooManySnapshots}}
+    {{#if this.tooManySnapshots}}
       <div class="too-many-snapshots">
         <img src="/images/icons/icon-warning.svg">
         Seuls les 200 derniers envois sont affichés. L'ensemble des envois est disponible dans le fichier CSV.
