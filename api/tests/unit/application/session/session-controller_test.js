@@ -482,7 +482,7 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#analyzeFromAttendanceSheet', () => {
+  describe('#analyzeAttendanceSheet', () => {
     const sessionId = 3;
 
     let request;
@@ -509,6 +509,56 @@ describe('Unit | Controller | sessionController', () => {
 
       // then
       expect(result).to.equal(analyzeResult);
+    });
+  });
+
+  describe('#flagResultsAsSentToPrescriber', () => {
+    const sessionId = 123;
+    const session = Symbol('session');
+    const serializedSession = Symbol('serializedSession');
+
+    beforeEach(() => {
+      request = {
+        params: {
+          id: sessionId,
+        },
+      };
+    });
+
+    context('when the session results were already flagged as sent', () => {
+
+      beforeEach(() => {
+        const usecaseResult = { resultsFlaggedAsSent: false, session };
+        sinon.stub(usecases, 'flagSessionResultsAsSentToPrescriber').withArgs({ sessionId }).resolves(usecaseResult);
+        sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
+      });
+
+      it('should return the serialized session with code 200', async () => {
+        // when
+        const response = await sessionController.flagResultsAsSentToPrescriber(request, hFake);
+
+        // then
+        expect(response).to.equal(serializedSession);
+      });
+
+    });
+
+    context('when the session results were not flagged as sent', () => {
+
+      beforeEach(() => {
+        const usecaseResult = { resultsFlaggedAsSent: true, session };
+        sinon.stub(usecases, 'flagSessionResultsAsSentToPrescriber').withArgs({ sessionId }).resolves(usecaseResult);
+        sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
+      });
+
+      it('should return the serialized session with code 201', async () => {
+        // when
+        const response = await sessionController.flagResultsAsSentToPrescriber(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+        expect(response.source).to.equal(serializedSession);
+      });
     });
   });
 
