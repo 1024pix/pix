@@ -77,6 +77,19 @@ module('Integration | Component | certifications-session-info', function(hooks) 
       assert.dom('[data-test-id="certifications-session-info__is-finalized"]').hasText('Finalisée');
     });
 
+    test('it renders the finalization date in correct format', async function(assert) {
+      // given
+      const now = new Date();
+      sessionData.finalizedAt = now;
+      session = this.server.create('session', sessionData);
+
+      // when
+      await visit(`/certifications/sessions/${sessionId}`);
+
+      // then
+      assert.dom('[data-test-id="certifications-session-info__finalized-at"]').hasText(now.toLocaleString('fr-FR'));
+    });
+
     test('it renders the examinerGlobalComment if any', async function(assert) {
       // given
       sessionData.status = 'finalized';

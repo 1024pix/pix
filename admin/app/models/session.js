@@ -14,8 +14,9 @@ export default Model.extend({
   description: attr(),
   accessCode: attr(),
   status: attr(),
+  finalizedAt: attr(),
   isFinalized: equal('status', 'finalized'),
-  examinerGlobalComment: attr(),
+  examinerGlobalComment: attr('string'),
   certifications: hasMany('certification'),
   countExaminerComment : computed('certifications.[]', function() {
     return _.sumBy(
@@ -37,5 +38,9 @@ export default Model.extend({
   }),
   hasExaminerGlobalComment : computed('examinerGlobalComment', function() {
     return this.examinerGlobalComment && this.examinerGlobalComment.trim().length > 0;
+  }),
+
+  finalizationDate: computed('finalizedAt', function() {
+    return (new Date(this.finalizedAt)).toLocaleString('fr-FR');
   }),
 });

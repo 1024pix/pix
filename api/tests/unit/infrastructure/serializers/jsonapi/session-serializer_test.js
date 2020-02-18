@@ -5,20 +5,6 @@ const Session = require('../../../../../lib/domain/models/Session');
 
 describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
-  const modelSession = new Session({
-    id: 12,
-    certificationCenter: 'Université de dressage de loutres',
-    address: 'Nice',
-    room: '28D',
-    examiner: 'Antoine Toutvenant',
-    date: '2017-01-20',
-    time: '14:30',
-    description: '',
-    accessCode: '',
-    status: 'created',
-    examinerGlobalComment: 'It was a fine session my dear',
-  });
-
   let jsonApiSession;
 
   beforeEach(function() {
@@ -36,7 +22,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           time: '14:30',
           status: 'created',
           description: '',
-          'examiner-global-comment': 'It was a fine session my dear'
+          'examiner-global-comment': 'It was a fine session my dear',
+          'finalized-at': new Date('2020-02-17T14:23:56Z'),
         },
         relationships: {
           certifications: {
@@ -60,6 +47,25 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
   });
 
   describe('#serialize()', function() {
+
+    let modelSession;
+
+    beforeEach(function() {
+      modelSession = new Session({
+        id: 12,
+        certificationCenter: 'Université de dressage de loutres',
+        address: 'Nice',
+        room: '28D',
+        examiner: 'Antoine Toutvenant',
+        date: '2017-01-20',
+        time: '14:30',
+        description: '',
+        accessCode: '',
+        status: 'created',
+        examinerGlobalComment: 'It was a fine session my dear',
+        finalizedAt: new Date('2020-02-17T14:23:56Z'),
+      });
+    });
 
     it('should convert a Session model object into JSON API data', function() {
       // when
