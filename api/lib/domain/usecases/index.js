@@ -100,7 +100,6 @@ module.exports = injectDependencies({
   findSessions: require('./find-sessions'),
   findSessionsForCertificationCenter: require('./find-sessions-for-certification-center'),
   findSmartPlacementAssessments: require('./find-smart-placement-assessments'),
-  findSnapshots: require('./find-snapshots'),
   findTutorials: require('./find-tutorials'),
   getAnswer: require('./get-answer'),
   getAssessment: require('./get-assessment'),
