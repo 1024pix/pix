@@ -38,6 +38,7 @@ export default Component.extend({
     return this.isPasswordVisible ? 'text' : 'password';
   }),
   username: '',
+  email: '',
 
   firstName: '',
   lastName: '',
@@ -164,6 +165,7 @@ export default Component.extend({
     async register() {
       this.set('isLoading', true);
       try {
+        this.set('email', this.get('studentDependentUser.email'));
         if (this.loginWithUsername) {
           this.set('studentDependentUser.email', undefined);
         } else {
@@ -178,6 +180,8 @@ export default Component.extend({
           }
         });
       } catch (error) {
+        this.set('studentDependentUser.email', this.email);
+        this.set('studentDependentUser.username', this.username);
         this.set('isLoading', false);
         return this._updateInputsStatus();
       }
