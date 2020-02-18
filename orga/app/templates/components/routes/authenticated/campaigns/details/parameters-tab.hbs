@@ -45,12 +45,20 @@
     </div>
   </div>
 
-  <div class="campaign-details-row">
-    <div class="campaign-details-content">
-      {{#link-to "authenticated.campaigns.update" campaign.id
-                 class="button button--grey button--regular button--link campaign-details-content__update-button"}}
-        Modifier
-      {{/link-to}}
+  {{#if (not campaign.isArchived)}}
+    <div class="campaign-details-row">
+      <div class="campaign-details-content campaign-details-content--button campaign-details--button">
+        {{#link-to "authenticated.campaigns.update" campaign.id
+                   class="button button--grey button--regular button--link campaign-details-content__update-button"}}
+          Modifier
+        {{/link-to}}
+      </div>
+      <div class="campaign-details-content campaign-details-content--button campaign-details-content--left">
+        <button {{action 'archiveCampaign' campaign.id}}
+                   class="button button--grey button--regular button--link">
+          Archiver
+        </button>
+      </div>
     </div>
-  </div>
+  {{/if}}
 </div>

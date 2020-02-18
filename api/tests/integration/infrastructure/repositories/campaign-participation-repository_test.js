@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const moment = require('moment');
 const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
+const Campaign = require('../../../../lib/domain/models/Campaign');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Skill = require('../../../../lib/domain/models/Skill');
@@ -25,19 +26,19 @@ describe('Integration | Repository | Campaign Participation', () => {
       databaseBuilder.factory.buildAssessment({
         type: 'SMART_PLACEMENT',
         campaignParticipationId,
-        createdAt: moment().subtract(1, 'month').toDate()
+        createdAt: new Date('2000-01-01T10:00:00Z')
       });
 
       recentAssessmentId = databaseBuilder.factory.buildAssessment({
         type: 'SMART_PLACEMENT',
         campaignParticipationId,
-        createdAt: moment().toDate()
+        createdAt: new Date('2000-03-01T10:00:00Z')
       }).id;
 
       databaseBuilder.factory.buildAssessment({
         type: 'SMART_PLACEMENT',
         campaignParticipationId: campaignParticipationNotSharedId,
-        createdAt: moment().toDate()
+        createdAt: new Date('2000-02-01T10:00:00Z')
       });
 
       await databaseBuilder.commit();
@@ -231,29 +232,39 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('#findByUserId', () => {
+  describe('findLatestOngoingByUserId', () => {
 
     let userId;
 
-    beforeEach(async () => {
-      // given
-      userId = databaseBuilder.factory.buildUser({}).id;
-      _.times(2, () => {
-        databaseBuilder.factory.buildCampaignParticipation({ userId });
-      });
-      _.times(3, () => {
-        databaseBuilder.factory.buildCampaignParticipation({});
-      });
+    beforeEach(async() => {
+      userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
     });
 
-    it('should return all the campaign-participation links to the given user', async () => {
-      // when
-      const foundCampaignParticipations = await campaignParticipationRepository.findByUserId(userId);
+    it('should retrieve the most recent campaign participations where the campaign is not archived', async () => {
+      const campaignId = databaseBuilder.factory.buildCampaign({ createdAt: new Date('2000-01-01T10:00:00Z'), archivedAt: null }).id;
+      const moreRecentCampaignId = databaseBuilder.factory.buildCampaign({ createdAt: new Date('2000-02-01T10:00:00Z'), archivedAt: null }).id;
+      const mostRecentButArchivedCampaignId = databaseBuilder.factory.buildCampaign({ createdAt: new Date('2001-03-01T10:00:00Z'), archivedAt: new Date('2000-09-01T10:00:00Z') }).id;
 
-      // then
-      expect(foundCampaignParticipations).to.have.a.lengthOf(2);
+      databaseBuilder.factory.buildCampaignParticipation({ userId, createdAt: new Date('2000-04-01T10:00:00Z'), campaignId: moreRecentCampaignId });
+      const expectedCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, createdAt: new Date('2000-07-01T10:00:00Z'), campaignId }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId, createdAt: new Date('2001-08-01T10:00:00Z'), campaignId: mostRecentButArchivedCampaignId });
+
+      databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId: expectedCampaignParticipationId });
+      databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId: expectedCampaignParticipationId });
+
+      await databaseBuilder.commit();
+
+      const latestCampaignParticipations = await campaignParticipationRepository.findLatestOngoingByUserId(userId);
+      const [latestCampaignParticipation1, latestCampaignParticipation2] = latestCampaignParticipations;
+
+      expect(latestCampaignParticipation1.createdAt).to.deep.equal(new Date('2000-07-01T10:00:00Z'));
+      expect(latestCampaignParticipation2.createdAt).to.deep.equal(new Date('2000-04-01T10:00:00Z'));
+      expect(latestCampaignParticipation1.assessments).to.be.instanceOf(Array);
+      expect(latestCampaignParticipation1.campaign).to.be.instanceOf(Campaign);
+      expect(latestCampaignParticipations).to.have.lengthOf(2);
     });
+
   });
 
   describe('#findOneByCampaignIdAndUserId', () => {

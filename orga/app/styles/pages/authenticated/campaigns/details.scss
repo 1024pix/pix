@@ -53,3 +53,32 @@
     padding-right: 10px;
   }
 }
+
+.campaign-archived-banner {
+  font-family: $open-sans;
+  font-weight: 600;
+  background: $comet;
+  display: flex;
+  padding: 13px 13px 13px 32px;
+  border-radius: 6px;
+  color: $white;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  &__icon {
+    margin-right: 30px;
+    font-size: 1.6rem;
+  }
+  &__unarchive-button {
+    background: $comet;
+    border: 2px solid white;
+    margin-left: auto;
+    &:hover {
+      opacity: .8;
+      background: $comet;
+    }
+    &:focus {
+      background: $comet;
+    }
+  }
+}

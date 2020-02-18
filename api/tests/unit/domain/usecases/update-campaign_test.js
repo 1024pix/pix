@@ -15,7 +15,7 @@ describe('Unit | UseCase | update-campaign', () => {
       id: 1,
       title: 'Old title',
       customLandingPageText: 'Old text',
-      organizationId: organizationId,
+      organizationId,
     };
     userWithMembership = {
       id: 1,
@@ -85,6 +85,31 @@ describe('Unit | UseCase | update-campaign', () => {
         expect(campaignRepository.update).to.have.been.calledWithExactly(updatedCampaign);
         expect(resultCampaign.title).to.equal(originalCampaign.title);
         expect(resultCampaign.customLandingPageText).to.equal(updatedCampaign.customLandingPageText);
+      });
+    });
+
+    it('should update the campaign archive date only', () => {
+      // given
+      const updatedCampaign = {
+        id: originalCampaign.id,
+        title: originalCampaign.title,
+        customLandingPageText: originalCampaign.customLandingPageText,
+        organizationId,
+      };
+
+      // when
+      const promise = updateCampaign({
+        userId: userWithMembership.id,
+        campaignId: updatedCampaign.id,
+        userRepository,
+        campaignRepository,
+      });
+
+      // then
+      return promise.then((resultCampaign) => {
+        expect(campaignRepository.update).to.have.been.calledWithExactly(updatedCampaign);
+        expect(resultCampaign.title).to.equal(originalCampaign.title);
+        expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
       });
     });
   });

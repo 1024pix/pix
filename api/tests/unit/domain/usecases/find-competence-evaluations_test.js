@@ -19,13 +19,13 @@ describe('Unit | UseCase | find-competence-evaluations', () => {
       find: sinon.stub(),
     };
     smartPlacementAssessmentRepository = {
-      checkIfAssessmentBelongToUser: sinon.stub()
+      doesAssessmentBelongToUser: sinon.stub()
     };
   });
 
   it('should find the competence-evaluations', async () => {
     // given
-    smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.withArgs(assessmentId, userId).resolves(true);
+    smartPlacementAssessmentRepository.doesAssessmentBelongToUser.withArgs(assessmentId, userId).resolves(true);
     competenceEvaluationRepository.find.withArgs(options).resolves('ok');
 
     // when
@@ -42,7 +42,7 @@ describe('Unit | UseCase | find-competence-evaluations', () => {
 
   it('should throw an UserNotAuthorizedToAccessEntity error', async () => {
     // given
-    smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.resolves(false);
+    smartPlacementAssessmentRepository.doesAssessmentBelongToUser.resolves(false);
 
     // when
     const error = await catchErr(findCompetenceEvaluations)({

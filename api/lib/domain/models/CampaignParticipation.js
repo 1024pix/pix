@@ -10,6 +10,7 @@ class CampaignParticipation {
     participantExternalId,
     sharedAt,
     // includes
+    assessments,
     campaign,
     campaignParticipationResult,
     user,
@@ -26,6 +27,7 @@ class CampaignParticipation {
     this.campaign = campaign;
     this.campaignParticipationResult = campaignParticipationResult;
     this.user = user;
+    this.assessments = assessments;
     this.assessmentId = assessmentId;
     this.campaignId = campaignId;
     this.userId = userId;
@@ -33,6 +35,10 @@ class CampaignParticipation {
 
   getTargetProfileId() {
     return _.get(this, 'campaign.targetProfileId', null);
+  }
+
+  get lastAssessment() {
+    return _.maxBy(this.assessments, 'createdAt');
   }
 
 }

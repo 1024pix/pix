@@ -18,10 +18,18 @@
   flex-direction: column;
   padding: 22px 20px 22px 38px;
 
+  &--button {
+    padding-right: 38px;
+  }
+
   &--single {
     &:first-child {
       width: 55%;
     }
+  }
+
+  &--left {
+    margin-right: auto;
   }
 
   &:not(:first-child) {
