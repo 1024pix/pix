@@ -11,12 +11,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   async afterModel(user) {
-    const organizations = await user.organizations;
-
-    if (organizations.length) {
-      return this.transitionTo('board');
-    }
-
     // This reloads are necessary to keep the ui in sync when the
     // user navigates back to this route
     user.belongsTo('pixScore').reload();
