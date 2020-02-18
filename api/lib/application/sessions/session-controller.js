@@ -140,6 +140,13 @@ module.exports = {
     const sessionId = request.params.id;
     const odsBuffer = request.payload.file;
     return usecases.analyzeAttendanceSheet({ sessionId, odsBuffer });
-  }
+  },
+
+  async flagResultsAsSentToPrescriber(request, h) {
+    const sessionId = request.params.id;
+    const { resultsFlaggedAsSent, session } = await usecases.flagSessionResultsAsSentToPrescriber({ sessionId });
+    const serializedSession = await sessionSerializer.serialize(session);
+    return resultsFlaggedAsSent ? h.response(serializedSession).created() : serializedSession;
+  },
 
 };
