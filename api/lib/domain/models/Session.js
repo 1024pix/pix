@@ -1,6 +1,9 @@
+const CREATED = 'created';
+const FINALIZED = 'finalized';
+
 const statuses = {
-  STARTED: 'started',
-  FINALIZED: 'finalized',
+  CREATED,
+  FINALIZED,
 };
 
 class Session {

@@ -17,6 +17,6 @@ module.exports = async function createSession({ userId, session, certificationCe
   sessionWithCode.accessCode = await sessionCodeService.getNewSessionCode();
   const certificationCenter = await certificationCenterRepository.get(certificationCenterId);
   sessionWithCode.certificationCenter = certificationCenter.name;
-  sessionWithCode.status = statuses.STARTED;
+  sessionWithCode.status = statuses.CREATED;
   return sessionRepository.save(sessionWithCode);
 };
