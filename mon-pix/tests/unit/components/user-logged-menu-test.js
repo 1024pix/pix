@@ -53,20 +53,6 @@ describe('Unit | Component | User logged Menu', function() {
       expect(result).to.be.false;
     });
 
-    it('should be false if the current route is /board', function() {
-      // given
-      const component = this.owner.lookup('component:user-logged-menu');
-      component.set('routing', Service.create({
-        currentRouteName: 'board'
-      }));
-
-      // when
-      const result = component.get('canDisplayLinkToProfile');
-
-      // then
-      expect(result).to.be.false;
-    });
-
     it('should be true otherwise', function() {
       // given
       const component = this.owner.lookup('component:user-logged-menu');
