@@ -70,18 +70,24 @@ describe('Unit | Repository | area-repository', function() {
     });
   });
 
-  describe('#listWithCompetences', () => {
+  describe('#listWithPixCompetencesOnly', () => {
     const competence1 = domainBuilder.buildCompetence({
-        area: { id: 'recDomaine1' }
-      }), competence2 = domainBuilder.buildCompetence({
-        area: { id: 'recDomaine2' }
-      });
+      area: { id: 'recDomaine1' }
+    });
+    const competence2 = domainBuilder.buildCompetence({
+      area: { id: 'recDomaine2' }
+    });
+    const nonPixCompetence = domainBuilder.buildCompetence({
+      area: { id: 'recDomaine3' },
+      origin: 'Other'
+    });
 
     beforeEach(() => {
-      sinon.stub(competenceRepository, 'list');
-      competenceRepository.list.resolves([
+      sinon.stub(competenceRepository, 'listPixCompetencesOnly');
+      competenceRepository.listPixCompetencesOnly.resolves([
         competence1,
         competence2,
+        nonPixCompetence,
       ]);
     });
 
@@ -111,7 +117,7 @@ describe('Unit | Repository | area-repository', function() {
       ];
 
       // when
-      const fetchedAreas = areaRepository.listWithCompetences();
+      const fetchedAreas = areaRepository.listWithPixCompetencesOnly();
 
       // then
       return fetchedAreas.then((areas) => {
