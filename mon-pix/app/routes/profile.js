@@ -17,6 +17,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
       return this.transitionTo('board');
     }
 
+    // This reloads are necessary to keep the ui in sync when the
+    // user navigates back to this route
     user.belongsTo('pixScore').reload();
     user.hasMany('scorecards').reload();
     user.hasMany('campaignParticipations').reload();

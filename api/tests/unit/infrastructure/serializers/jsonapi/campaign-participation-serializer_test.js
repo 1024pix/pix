@@ -15,17 +15,17 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
         competenceResults: ['dummy results']
       };
       const meta = {};
-      const campaignParticipation = {
+      const campaignParticipation = new CampaignParticipation({
         id: 5,
         isShared: true,
         participantExternalId: 'mail pro',
         sharedAt: new Date('2018-02-06T14:12:44Z'),
         createdAt: new Date('2018-02-05T14:12:44Z'),
         campaign,
-        assessmentId: 4,
+        assessments: [{ id: 4, createdAt: new Date('2018-02-06T14:12:44Z') }],
         campaignParticipationResult,
         user,
-      };
+      });
 
       const expectedSerializedCampaignParticipation = {
         data: {
@@ -52,7 +52,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
             },
             assessment: {
               links: {
-                related: `/api/assessments/${campaignParticipation.assessmentId}`
+                related: `/api/assessments/${campaignParticipation.lastAssessment.id}`
               }
             },
             'campaign-participation-result': {

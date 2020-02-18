@@ -206,7 +206,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
     });
   });
 
-  describe('#checkIfAssessmentBelongToUser', () => {
+  describe('#doesAssessmentBelongToUser', () => {
 
     let user;
     let userWithNoAssessment;
@@ -224,7 +224,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
     it('should resolve if the given assessmentId belongs to the user', () => {
       // when
-      const promise = smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser(assessment.id, user.id);
+      const promise = smartPlacementAssessmentRepository.doesAssessmentBelongToUser(assessment.id, user.id);
 
       // then
       return promise.then((result) => {
@@ -234,7 +234,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
     it('should resolve false if the given assessmentId does not belong to the user', () => {
       // when
-      const promise = smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser(assessment.id, userWithNoAssessment.id);
+      const promise = smartPlacementAssessmentRepository.doesAssessmentBelongToUser(assessment.id, userWithNoAssessment.id);
 
       // then
       return promise.then((result) => {

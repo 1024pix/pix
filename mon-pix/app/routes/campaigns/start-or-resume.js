@@ -39,12 +39,19 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   async model() {
+    this.set('isLoading', true);
     const campaigns = await this.store.query('campaign', { filter: { code: this.campaignCode } });
 
     return campaigns.get('firstObject');
   },
 
   async afterModel(campaign) {
+
+    if (campaign.isArchived) {
+      this.set('isLoading', false);
+      return this.set('_isReady', true);
+    }
+
     const smartPlacementAssessments = await this.store.query(
       'assessment',
       { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.campaignCode } },

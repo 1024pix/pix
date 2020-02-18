@@ -10,7 +10,14 @@ module.exports = {
       {
         transform: (campaignParticipation) => {
           const campaignParticipationForSerialization = Object.assign({}, campaignParticipation);
-          campaignParticipationForSerialization.assessment = { id: campaignParticipation.assessmentId };
+
+          if (campaignParticipation.lastAssessment) {
+            campaignParticipationForSerialization.assessment = { id: campaignParticipation.lastAssessment.id };
+          } else {
+            // FIXME: This ugly hack must me removed once all usage of this magical assessmentId property is deprecated
+            // FIXME: in favor of the lastAssessment getter. Currently, the repository adds this prop in a very brittle way.
+            campaignParticipationForSerialization.assessment = { id: campaignParticipation.assessmentId };
+          }
           return campaignParticipationForSerialization;
         },
 
@@ -28,7 +35,7 @@ module.exports = {
           ignoreRelationshipData: true,
           relationshipLinks: {
             related(record) {
-              return `/api/assessments/${record.assessmentId}`;
+              return `/api/assessments/${record.assessment.id}`;
             }
           },
         },

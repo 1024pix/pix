@@ -73,6 +73,22 @@ module.exports = {
       .then(campaignSerializer.serialize);
   },
 
+  archiveCampaign(request) {
+    const { userId } = request.auth.credentials;
+    const campaignId = parseInt(request.params.id);
+
+    return usecases.archiveCampaign({ userId, campaignId, })
+      .then(campaignSerializer.serialize);
+  },
+
+  unarchiveCampaign(request) {
+    const { userId } = request.auth.credentials;
+    const campaignId = parseInt(request.params.id);
+
+    return usecases.unarchiveCampaign({ userId, campaignId })
+      .then(campaignSerializer.serialize);
+  },
+
   async getReport(request) {
     const campaignId = parseInt(request.params.id);
 

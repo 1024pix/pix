@@ -12,6 +12,7 @@ class Campaign {
     organizationName,
     customLandingPageText,
     isRestricted = false,
+    archivedAt,
     // includes
     targetProfile,
     campaignReport,
@@ -33,6 +34,7 @@ class Campaign {
     this.organizationName = organizationName;
     this.customLandingPageText = customLandingPageText;
     this.isRestricted = isRestricted;
+    this.archivedAt = archivedAt;
     // includes
     this.targetProfile = targetProfile;
     this.campaignReport = campaignReport;

@@ -38,4 +38,20 @@ describe('Unit | Domain | Models | CampaignParticipation', () => {
 
   });
 
+  describe('lastAssessment', () => {
+
+    it('should retrieve the last assessment by creation date', () => {
+      const campaignParticipation = new CampaignParticipation({
+        assessments: [
+          { createdAt: new Date('2010-10-02') },
+          { createdAt: new Date('2010-10-06') },
+          { createdAt: new Date('2010-10-04') },
+        ]
+      });
+      expect(campaignParticipation.lastAssessment)
+        .to.deep.equal({ createdAt: new Date('2010-10-06') });
+    });
+
+  });
+
 });

@@ -326,4 +326,69 @@ describe('Unit | Application | Controller | Campaign', () => {
     });
 
   });
+
+  describe('archiveCampaign', async () => {
+    let updatedCampaign;
+    let serializedCampaign;
+
+    const campaignId = 1;
+    const userId = 1;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'archiveCampaign');
+      sinon.stub(campaignSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
+      updatedCampaign = Symbol('updated campaign');
+      serializedCampaign = Symbol('serialized campaign');
+    });
+
+    it('should return the updated campaign properly serialized', async () => {
+      // given
+      usecases.archiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
+      campaignSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
+
+      // when
+      const response = await campaignController.archiveCampaign({
+        params: { id: campaignId },
+        auth: {
+          credentials: { userId }
+        }
+      });
+
+      // then
+      expect(response).to.be.equal(serializedCampaign);
+    });
+
+  });
+  describe('unarchiveCampaign', async () => {
+    let updatedCampaign;
+    let serializedCampaign;
+
+    const campaignId = 1;
+    const userId = 1;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'unarchiveCampaign');
+      sinon.stub(campaignSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
+      updatedCampaign = Symbol('updated campaign');
+      serializedCampaign = Symbol('serialized campaign');
+    });
+
+    it('should return the updated campaign properly serialized', async () => {
+      // given
+      usecases.unarchiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
+      campaignSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
+
+      // when
+      const response = await campaignController.unarchiveCampaign({
+        params: { id: campaignId },
+        auth: {
+          credentials: { userId }
+        }
+      });
+
+      // then
+      expect(response).to.be.equal(serializedCampaign);
+    });
+
+  });
 });

@@ -52,6 +52,12 @@ class StudentsCouldNotBeSavedError extends DomainError {
   }
 }
 
+class UserNotAuthorizedToUpdateCampaignError extends DomainError {
+  constructor(message = 'Cet utilisateur n\'est pas autorisé à modifier cette campagne.') {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToCreateCampaignError extends DomainError {
   constructor(message = 'Cet utilisateur n\'est pas autorisé à créer une campagne.') {
     super(message);
@@ -327,6 +333,12 @@ class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
   }
 }
 
+class CampaignAlreadyArchivedError extends DomainError {
+  constructor(message = 'Cette campagne est déjà archivée.') {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToAccessEntity extends DomainError {
   constructor(message = 'User is not authorized to access ressource') {
     super(message);
@@ -413,6 +425,7 @@ module.exports = {
   AssessmentEndedError,
   AssessmentNotCompletedError,
   StudentsCouldNotBeSavedError,
+  CampaignAlreadyArchivedError,
   CampaignCodeError,
   CampaignWithoutOrganizationError,
   CertificationCandidateForbiddenDeletionError,
@@ -450,6 +463,7 @@ module.exports = {
   UserNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToGetCampaignResultsError,
   UserNotAuthorizedToGetCertificationCoursesError,
+  UserNotAuthorizedToUpdateCampaignError,
   CertificationCourseUpdateError,
   InvalidCertificationReportForFinalization,
   UserNotAuthorizedToUpdateResourceError,

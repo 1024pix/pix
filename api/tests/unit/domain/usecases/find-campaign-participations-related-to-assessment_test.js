@@ -11,7 +11,7 @@ describe('Unit | UseCase | find-campaign-participations-related-to-assessment', 
   let assessmentId;
   let campaignParticipations;
 
-  const smartPlacementAssessmentRepository = { checkIfAssessmentBelongToUser: sinon.stub() };
+  const smartPlacementAssessmentRepository = { doesAssessmentBelongToUser: sinon.stub() };
   const campaignParticipationRepository = { findByAssessmentId: sinon.stub() };
 
   beforeEach(() => {
@@ -25,13 +25,13 @@ describe('Unit | UseCase | find-campaign-participations-related-to-assessment', 
 
     context('the assessment belongs to the user', () => {
       beforeEach(async () => {
-        smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.resolves(true);
+        smartPlacementAssessmentRepository.doesAssessmentBelongToUser.resolves(true);
         campaignParticipationRepository.findByAssessmentId.resolves(campaignParticipations);
 
         userCampaignParticipation = await findCampaignParticipationsRelatedToAssessment({ userId, assessmentId, campaignParticipationRepository, smartPlacementAssessmentRepository });
       });
       it('should check if the assessment belongs to the user', () => {
-        expect(smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser).to.have.been.calledWithExactly(assessmentId, userId);
+        expect(smartPlacementAssessmentRepository.doesAssessmentBelongToUser).to.have.been.calledWithExactly(assessmentId, userId);
       });
       it('should find the campaign participations', () => {
         expect(campaignParticipationRepository.findByAssessmentId).to.have.been.calledWithExactly(assessmentId);
@@ -42,7 +42,7 @@ describe('Unit | UseCase | find-campaign-participations-related-to-assessment', 
     });
     context('the assessment does not belong to the user', () => {
       beforeEach(async () => {
-        smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.resolves(false);
+        smartPlacementAssessmentRepository.doesAssessmentBelongToUser.resolves(false);
 
         requestErr = await catchErr(findCampaignParticipationsRelatedToAssessment)({ userId, assessmentId, campaignParticipationRepository, smartPlacementAssessmentRepository });
       });
