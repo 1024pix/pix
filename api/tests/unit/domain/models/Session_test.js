@@ -16,6 +16,7 @@ const SESSION_PROPS = [
   'status',
   'examinerGlobalComment',
   'finalizedAt',
+  'resultsSentToPrescriberAt',
   'certificationCandidates',
 ];
 
@@ -37,6 +38,7 @@ describe('Unit | Domain | Models | Session', () => {
       status: '',
       examinerGlobalComment: '',
       finalizedAt: '',
+      resultsSentToPrescriberAt: '',
       // includes
       certificationCandidates: [],
     });
@@ -48,5 +50,34 @@ describe('Unit | Domain | Models | Session', () => {
 
   it('should create a session with all the requires properties', () => {
     expect(_.keys(session)).to.have.deep.members(SESSION_PROPS);
+  });
+
+  context('#areResultsFlaggedAsSent', () => {
+    context('when session resultsSentToPrescriberAt timestamp is defined', () => {
+
+      it('should return true', () => {
+        // given
+        session.resultsSentToPrescriberAt = new Date();
+
+        // when
+        const areResultsFlaggedAsSent = session.areResultsFlaggedAsSent();
+
+        // then
+        expect(areResultsFlaggedAsSent).to.be.true;
+      });
+    });
+    context('when session resultsSentToPrescriberAt timestamp is falsy', () => {
+
+      it('should return false', () => {
+        // given
+        session.resultsSentToPrescriberAt = null;
+
+        // when
+        const areResultsFlaggedAsSent = session.areResultsFlaggedAsSent();
+
+        // then
+        expect(areResultsFlaggedAsSent).to.be.false;
+      });
+    });
   });
 });
