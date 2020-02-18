@@ -340,4 +340,22 @@ describe('Unit | Application | Sessions | Routes', () => {
       });
     });
   });
+
+  describe('PUT /api/sessions/{id}/results-sent-to-prescriber', () => {
+    let sessionId;
+
+    beforeEach(() => {
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
+      return server.register(route);
+    });
+
+    it('should exist', async () => {
+      // given
+      sessionId = 3;
+
+      const res = await server.inject({ method: 'PUT', url: `/api/sessions/${sessionId}/results-sent-to-prescriber` });
+      expect(res.statusCode).to.equal(200);
+    });
+  });
 });
