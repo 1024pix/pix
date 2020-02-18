@@ -72,9 +72,14 @@ function _countCampaignParticipations(qb) {
   );
 }
 
-function _setSearchFiltersForQueryBuilder(qb, { name }) {
+function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true }) {
   if (name) {
     qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
+  }
+  if (ongoing) {
+    qb.whereNull('campaigns.archivedAt');
+  } else {
+    qb.whereNotNull('campaigns.archivedAt');
   }
 }
 
