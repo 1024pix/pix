@@ -6,7 +6,7 @@ const CompetenceTree = require('../../../../lib/domain/models/CompetenceTree');
 describe('Unit | Repository | competence-tree-repository', () => {
 
   beforeEach(() => {
-    sinon.stub(areaRepository, 'listWithCompetences');
+    sinon.stub(areaRepository, 'listWithPixCompetencesOnly');
   });
 
   describe('#get', () => {
@@ -31,7 +31,7 @@ describe('Unit | Repository | competence-tree-repository', () => {
         ],
       };
 
-      areaRepository.listWithCompetences.resolves([area]);
+      areaRepository.listWithPixCompetencesOnly.resolves([area]);
 
       const expectedTree = {
         id: 1,
