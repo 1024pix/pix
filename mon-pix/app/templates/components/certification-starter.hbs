@@ -6,15 +6,15 @@
     </p>
     <form autocomplete="off">
         <div class="certification-course-page__session-code-input">
-          <Input required={{true}} @id="session-code" @type="text" @value={{inputAccessCode}} @maxlength="6" @spellcheck={{false}} />
-          {{#if errorMessage}}
-              <div class="certification-course-page__errors">{{errorMessage}}</div>
+          <Input required={{true}} @id="session-code" @type="text" @value={{this.inputAccessCode}} @maxlength="6" @spellcheck={{false}} />
+          {{#if this.errorMessage}}
+              <div class="certification-course-page__errors">{{this.errorMessage}}</div>
           {{/if}}
         </div>
 
         <div class="certification-course-page__field-button">
 
-          {{#if isLoading}}
+          {{#if this.isLoading}}
             <button type="button" disabled class="button button--thin certification-course-page__submit_button">
               <span class="loader-in-button">&nbsp;</span>
             </button>

@@ -171,10 +171,10 @@ export default function() {
       username: params.data.attributes['username'],
       password: params.data.attributes['password'],
     };
-
-    const userId = schema.users.create(newUser).id;
     const student = schema.students.findBy({ firstName, lastName });
-    return student.update({ userId, organizationId });
+    const user = schema.users.create(newUser);
+    student.update({ userId: user.id, organizationId });
+    return user;
   });
 
   this.get('/student-user-associations', (schema, request) => {

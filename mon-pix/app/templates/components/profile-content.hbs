@@ -10,14 +10,14 @@
         </h1>
       </div>
       <div class="rounded-panel-header__right-wrapper">
-        <HexagonScore @pixScore={{model.pixScore.value}} />
+        <HexagonScore @pixScore={{@model.pixScore.value}} />
       </div>
     </div>
 
     <div class="rounded-panel-body">
-      {{#each model.areasCode as |areaCode|}}
+      {{#each @model.areasCode as |areaCode|}}
         <div class="rounded-panel-body__areas">
-          {{#each model.scorecards as |scorecard|}}
+          {{#each @model.scorecards as |scorecard|}}
             {{#if (eq areaCode scorecard.area.code)}}
               <div class="rounded-panel-body__competence-card">
                 {{#if (media 'isTablet')}}

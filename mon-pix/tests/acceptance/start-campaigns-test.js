@@ -78,6 +78,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
             });
 
             it('should redirect to landing page page when reconciliation and registration are done', async function() {
+
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 

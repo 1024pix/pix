@@ -1,12 +1,12 @@
 <div class="hexagon-score" onmouseover={{action 'showHelp'}} onmouseout={{action 'hideHelp'}}>
   <div class="hexagon-score__content">
     <div class="hexagon-score-content__title">PIX</div>
-    <div class="hexagon-score-content__pix-score">{{score}}</div>
-    <div class="hexagon-score-content__pix-total">1024 <Fa-Icon @icon="info-circle"/></div>
+    <div class="hexagon-score-content__pix-score">{{this.score}}</div>
+    <div class="hexagon-score-content__pix-total">1024 <FaIcon @icon="info-circle"/></div>
   </div>
     <div class="hexagon-score__information hexagon-score-information__text {{this.displayHelp}}">
         <span class="hexagon-score-information__text--strong">Pourquoi 1024 pix ?</span>
-        <span class="hexagon-score-information__close" {{action 'hideHelp'}}><Fa-Icon @icon="times"/></span>
+        <span class="hexagon-score-information__close" {{action 'hideHelp'}}><FaIcon @icon="times"/></span>
         <br><br>C’est le nombre maximum de pix qu’on pourra atteindre lorsque les 8 niveaux du référentiel Pix seront disponibles.
         Aujourd’hui, <span class="hexagon-score-information__text--strong">le maximum est de 640 pix</span>, correspondant au niveau 5.</div>
 </div>

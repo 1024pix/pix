@@ -12,7 +12,7 @@
     </thead>
 
     <tbody class="snapshot-list__body-table__body">
-      {{#each snapshots as |snapshot|}}
+      {{#each @snapshots as |snapshot|}}
         <tr class="snapshot-list__snapshot-item">
           <td class="snapshot-list__snapshot-item-cell">{{snapshot.user.lastName}}</td>
           <td class="snapshot-list__snapshot-item-cell">{{snapshot.user.firstName}}</td>
