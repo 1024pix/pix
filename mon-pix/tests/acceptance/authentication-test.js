@@ -30,7 +30,7 @@ describe('Acceptance | Authentication', function() {
     });
 
     describe('Log-in phase', function() {
-      it('should redirect to the /profil after connexion for usual users', async function() {
+      it('should redirect to the /profil after connexion', async function() {
         // given
         await authenticateByEmail(user);
 
