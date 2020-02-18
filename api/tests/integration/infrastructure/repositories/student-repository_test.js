@@ -2,7 +2,7 @@ const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helpe
 const _ = require('lodash');
 const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
 const Student = require('../../../../lib/domain/models/Student');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { NotFoundError, SameNationalStudentIdInOrganizationError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | student-repository', () => {
 
@@ -300,6 +300,49 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       });
     });
 
+    context('when the same nationalStudentId is twice in students to create', () => {
+
+      let students;
+      let organizationId;
+      let student_1, student_2;
+      const sameNationalStudentId = 'SAMEID123';
+
+      beforeEach(async () => {
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        await databaseBuilder.commit();
+
+        student_1 = new Student({
+          firstName: 'Lucy',
+          lastName: 'Handmade',
+          birthdate: '1990-12-31',
+          nationalStudentId: sameNationalStudentId,
+          organizationId,
+        });
+
+        student_2 = new Student({
+          firstName: 'Harry',
+          lastName: 'Covert',
+          birthdate: '1990-01-01',
+          nationalStudentId: sameNationalStudentId,
+          organizationId,
+        });
+
+        students = [student_1, student_2];
+      });
+
+      afterEach(() => {
+        return knex('students').delete();
+      });
+
+      it('should return a SameNationalStudentIdInOrganizationError', async () => {
+        // when
+        const error = await catchErr(studentRepository.addOrUpdateOrganizationStudents, studentRepository)(students, organizationId);
+
+        // then
+        expect(error).to.be.instanceof(SameNationalStudentIdInOrganizationError);
+        expect(error.message).to.equal('L’INE SAMEID123 est déjà présent pour cette organisation.');
+      });
+    });
   });
 
   describe('#findByOrganizationIdAndUserBirthdate', () => {

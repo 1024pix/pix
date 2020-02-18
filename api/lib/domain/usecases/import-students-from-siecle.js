@@ -1,4 +1,4 @@
-const { FileValidationError, StudentsCouldNotBeSavedError } = require('../errors');
+const { FileValidationError, SameNationalStudentIdInOrganizationError, SameNationalStudentIdInFileError } = require('../errors');
 const _ = require('lodash');
 
 module.exports = async function importStudentsFromSIECLE({ organizationId, buffer, studentsXmlService, studentRepository }) {
@@ -11,6 +11,9 @@ module.exports = async function importStudentsFromSIECLE({ organizationId, buffe
   try {
     await studentRepository.addOrUpdateOrganizationStudents(studentDatas, organizationId);
   } catch (err) {
-    throw new StudentsCouldNotBeSavedError();
+    if (err instanceof SameNationalStudentIdInOrganizationError) {
+      throw new SameNationalStudentIdInFileError(err.nationalStudentId);
+    }
+    throw err;
   }
 };
