@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.114.0 (18/02/2020)
+
+- [#1026](https://github.com/1024pix/pix/pull/1026) [FEATURE] Archivage des campagnes (PO-312)
+- [#1063](https://github.com/1024pix/pix/pull/1063) [FEATURE] Remplacer les statuts de session "started" en "created" (PC-115)
+- [#1066](https://github.com/1024pix/pix/pull/1066) [FEATURE] Ajout date finalisation sur la page de détail d'une session (PA-145)
+- [#1046](https://github.com/1024pix/pix/pull/1046) [FEATURE] Ajoute la colonne "Créé par" dans la liste des campagnes (PO-308).
+- [#1048](https://github.com/1024pix/pix/pull/1048) [FEATURE] Afficher un message spécifique en cas de refus d'accès (Pix-orga) (Pix-certification) (Pix-admin) (PO-328).
+- [#1028](https://github.com/1024pix/pix/pull/1028) [FEATURE] Ajouter la colonne "Créé le" dans la liste des campagnes (PO-307).
+- [#1064](https://github.com/1024pix/pix/pull/1064) [BUGFIX] Correction dans Pix Orga du multi click sur le bouton d'invitation (PO-335).
+- [#1025](https://github.com/1024pix/pix/pull/1025) [TECH] Mise à jour de PixAPP vers Ember v3.15 (PF-1034).
+- [#1059](https://github.com/1024pix/pix/pull/1059) [TECH] Mise à jour de hapi. 
+- [#1061](https://github.com/1024pix/pix/pull/1061) [EXPEDIT] Bug d'affichage du "Nombre d'écran de FDT non renseignés" quand une seule certif pour une session (PA-147)
+
 ## v2.113.0 (14/02/2020)
 
 - [#1054](https://github.com/1024pix/pix/pull/1054) [FEATURE] Script pour rattacher les administrateurs des organisations aux centres de certification correspondants (PF-952).
