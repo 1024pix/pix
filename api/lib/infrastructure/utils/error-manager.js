@@ -101,6 +101,12 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.StudentsCouldNotBeSavedError) {
     return new InfraErrors.ConflictError(error.message);
   }
+  if (error instanceof DomainErrors.SameNationalStudentIdInOrganizationError) {
+    return new InfraErrors.ConflictError(error.message);
+  }
+  if (error instanceof DomainErrors.SameNationalStudentIdInFileError) {
+    return new InfraErrors.UnprocessableEntityError(error.message);
+  }
   if (error instanceof DomainErrors.InvalidCertificationCandidate) {
     return new InfraErrors.BadRequestError(error.message);
   }
