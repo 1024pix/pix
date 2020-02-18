@@ -121,49 +121,6 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#getByAccessCode', () => {
-    let session;
-
-    beforeEach(() => {
-      session = {
-        certificationCenter: 'Paris',
-        address: 'Paris',
-        room: 'The lost room',
-        examiner: 'Bernard',
-        date: '2018-02-23',
-        time: '12:00',
-        description: 'The lost examen',
-        accessCode: 'ABC123'
-      };
-      databaseBuilder.factory.buildSession(session);
-
-      return databaseBuilder.commit();
-    });
-
-    it('should return the object by accessCode', async () => {
-      // given
-      const accessCode = 'ABC123';
-
-      // when
-      const actualSession = await sessionRepository.getByAccessCode(accessCode);
-
-      // then
-      expect(actualSession.description).to.be.equal(session.description);
-      expect(actualSession.accessCode).to.be.equal(session.accessCode);
-    });
-
-    it('should return a Not found error when no session was found', async () => {
-      // given
-      const accessCode = 'DEE123';
-
-      // when
-      const error = await catchErr(sessionRepository.getByAccessCode)(accessCode);
-
-      // then
-      expect(error).to.be.instanceOf(NotFoundError);
-    });
-  });
-
   describe('#get', () => {
     let session;
     let expectedSessionValues;
