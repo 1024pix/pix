@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import config from '../../../config/environment';
+import { CREATED, FINALIZED } from 'pix-certif/models/session';
 
 module('Unit | Model | session', function(hooks) {
   setupTest(hooks);
@@ -10,14 +11,14 @@ module('Unit | Model | session', function(hooks) {
     const store = this.owner.lookup('service:store');
     const model1 = run(() => store.createRecord('session', {
       id: 123,
-      status: 'started',
+      status: CREATED,
     }));
     const model2 = run(() => store.createRecord('session', {
       id: 1234,
-      status: 'finalized',
+      status: FINALIZED,
     }));
 
-    assert.equal(model1.displayStatus, 'Prête');
+    assert.equal(model1.displayStatus, 'Créée');
     assert.equal(model2.displayStatus, 'Finalisée');
   });
 

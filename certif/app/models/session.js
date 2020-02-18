@@ -6,9 +6,11 @@ import ENV from 'pix-certif/config/environment';
 
 const { Model, attr, belongsTo, hasMany } = DS;
 
-const statusToDisplayName = {
-  started: 'Prête',
-  finalized: 'Finalisée',
+export const CREATED = 'created';
+export const FINALIZED = 'finalized';
+export const statusToDisplayName = {
+  [CREATED]: 'Créée',
+  [FINALIZED]: 'Finalisée',
 };
 
 export default class Session extends Model {
@@ -26,7 +28,7 @@ export default class Session extends Model {
   @hasMany('certificationCandidate') certificationCandidates;
   @hasMany('certificationReport') certificationReports;
 
-  @equal('status', 'finalized') isFinalized;
+  @equal('status', FINALIZED) isFinalized;
 
   @computed('certificationCandidates.@each.isLinked')
   get hasStarted() {

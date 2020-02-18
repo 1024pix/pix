@@ -72,7 +72,7 @@ describe('Unit | UseCase | create-session', () => {
           await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
 
           // then
-          expect(sessionRepository.save.calledWithExactly({ certificationCenterId, certificationCenter: certificationCenterName, accessCode, status: statuses.STARTED })).to.be.true;
+          expect(sessionRepository.save.calledWithExactly({ certificationCenterId, certificationCenter: certificationCenterName, accessCode, status: statuses.CREATED })).to.be.true;
         });
       });
     });

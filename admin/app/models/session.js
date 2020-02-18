@@ -4,6 +4,13 @@ import { computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
 import _ from 'lodash';
 
+export const CREATED = 'created';
+export const FINALIZED = 'finalized';
+export const statusToDisplayName = {
+  [CREATED]: 'Créée',
+  [FINALIZED]: 'Finalisée',
+};
+
 export default Model.extend({
   certificationCenter: attr(),
   address: attr(),

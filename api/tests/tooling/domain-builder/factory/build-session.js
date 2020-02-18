@@ -13,7 +13,7 @@ module.exports = function buildSession({
   examiner = faker.name.findName(),
   room = '28D',
   time = '14:30',
-  status = Session.statuses.STARTED,
+  status = Session.statuses.CREATED,
   examinerGlobalComment = '',
 } = {}) {
   return new Session({
