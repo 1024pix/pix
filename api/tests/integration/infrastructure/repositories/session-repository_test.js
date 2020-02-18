@@ -306,6 +306,7 @@ describe('Integration | Repository | Session', function() {
       session.examiner = 'New examiner';
       session.examinerGlobalComment = 'It was a fine session my dear';
       session.status = statuses.FINALIZED;
+      session.resultsSentToPrescriberAt = new Date('2018-02-15T15:00:34Z');
 
       // when
       const sessionSaved = await sessionRepository.update(session);
@@ -316,6 +317,7 @@ describe('Integration | Repository | Session', function() {
       expect(sessionSaved.examiner).to.equal('New examiner');
       expect(sessionSaved.examinerGlobalComment).to.equal('It was a fine session my dear');
       expect(sessionSaved.status).to.equal(statuses.FINALIZED);
+      expect(sessionSaved.resultsSentToPrescriberAt).to.deep.equal(new Date('2018-02-15T15:00:34Z'));
     });
 
     it('should not add row in table "sessions"', async () => {

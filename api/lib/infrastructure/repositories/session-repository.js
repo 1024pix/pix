@@ -91,6 +91,7 @@ module.exports = {
       'description',
       'status',
       'examinerGlobalComment',
+      'resultsSentToPrescriberAt',
     ]);
 
     let updatedSession = await new BookshelfSession({ id: session.id })
