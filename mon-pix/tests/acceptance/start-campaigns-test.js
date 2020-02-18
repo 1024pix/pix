@@ -88,8 +88,6 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 
-              expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
-
               // when
               await fillIn('#firstName', 'JeanPrescrit');
               await fillIn('#lastName', 'Campagne');
