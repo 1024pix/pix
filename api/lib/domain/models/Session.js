@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const CREATED = 'created';
 const FINALIZED = 'finalized';
 
@@ -7,7 +9,6 @@ const statuses = {
 };
 
 class Session {
-
   constructor({
     id,
     // attributes
@@ -23,6 +24,7 @@ class Session {
     status,
     examinerGlobalComment,
     finalizedAt,
+    resultsSentToPrescriberAt,
     // includes
     certificationCandidates,
     // references
@@ -41,9 +43,14 @@ class Session {
     this.status = status;
     this.examinerGlobalComment = examinerGlobalComment;
     this.finalizedAt = finalizedAt;
+    this.resultsSentToPrescriberAt = resultsSentToPrescriberAt;
     // includes
     this.certificationCandidates = certificationCandidates;
     // references
+  }
+
+  areResultsFlaggedAsSent() {
+    return !_.isNil(this.resultsSentToPrescriberAt);
   }
 }
 
