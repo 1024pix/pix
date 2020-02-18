@@ -137,6 +137,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'time': '14:30:00',
             'status': 'started',
             'examiner-global-comment': 'It was a fine session my dear',
+            'finalized-at': null,
           },
           'relationships': {
             'certifications': {
@@ -169,6 +170,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'time': '14:30:00',
             'status': 'started',
             'examiner-global-comment': 'It was a fine session my dear',
+            'finalized-at': null,
           },
           'relationships': {
             'certifications': {

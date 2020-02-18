@@ -36,6 +36,13 @@
           <div class='col'>Statut :</div>
           <div class='col' data-test-id='certifications-session-info__is-finalized'>{{if session.isFinalized 'Finalisée' 'Prête'}}</div>
       </div>
+
+      {{#if session.isFinalized}}
+      <div class='row'>
+          <div class='col'>Date de finalisation :</div>
+          <div class='col' data-test-id='certifications-session-info__finalized-at'>{{session.finalizationDate}}</div>
+      </div>
+      {{/if}}
   </div>
 
   {{#if session.isFinalized}}
