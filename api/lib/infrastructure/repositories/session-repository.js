@@ -29,20 +29,6 @@ module.exports = {
     return Boolean(session);
   },
 
-  getByAccessCode: async (accessCode) => {
-    try {
-      const sessionWithAccessCode = await BookshelfSession
-        .where({ accessCode })
-        .fetch({ require: true });
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, sessionWithAccessCode);
-    } catch (err) {
-      if (err instanceof BookshelfSession.NotFoundError) {
-        throw new NotFoundError();
-      }
-      throw err;
-    }
-  },
-
   async get(idSession) {
     try {
       const session = await BookshelfSession
