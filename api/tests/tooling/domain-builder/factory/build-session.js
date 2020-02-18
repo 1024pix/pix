@@ -15,6 +15,7 @@ module.exports = function buildSession({
   time = '14:30',
   status = Session.statuses.CREATED,
   examinerGlobalComment = '',
+  resultsSentToPrescriberAt = null,
 } = {}) {
   return new Session({
     id,
@@ -29,5 +30,6 @@ module.exports = function buildSession({
     time,
     status,
     examinerGlobalComment,
+    resultsSentToPrescriberAt,
   });
 };
