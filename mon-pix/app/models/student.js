@@ -1,8 +1,12 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 
-export default Model.extend({
-  lastName: attr('string'),
-  firstName: attr('string'),
-  birthdate: attr('date-only'),
-  user: belongsTo('user')
-});
+export default class Student extends Model {
+
+  // attributes
+  @attr('date-only') birthdate;
+  @attr('string') firstName;
+  @attr('string') lastName;
+
+  // includes
+  @belongsTo('user') user;
+}
