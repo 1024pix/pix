@@ -1,13 +1,18 @@
 import Model, { belongsTo, attr } from '@ember-data/model';
 
-export default Model.extend({
-  competenceId: attr('string'),
-  status: attr('string'),
-  createdAt: attr('date'),
-  updatedAt: attr('date'),
-  user: belongsTo('user'),
+export default class CompetenceEvaluation extends Model {
 
-  assessment: belongsTo('assessment'),
-  competence: belongsTo('competence'),
-  scorecard: belongsTo('scorecard', { async: false }),
-});
+  // attributes
+  @attr('string') status;
+  @attr('date') createdAt;
+  @attr('date') updatedAt;
+
+  // includes
+  @belongsTo('assessment') assessment;
+  @belongsTo('competence') competence
+  @belongsTo('scorecard', { async: false }) scorecard;
+  @belongsTo('user') user;
+
+  // references
+  @attr('string') competenceId;
+}
