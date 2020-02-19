@@ -1,5 +1,3 @@
-const { PassThrough } = require('stream');
-
 const organizationService = require('../../domain/services/organization-service');
 const usecases = require('../../domain/usecases');
 
@@ -10,8 +8,6 @@ const organizationInvitationSerializer = require('../../infrastructure/serialize
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const studentSerializer = require('../../infrastructure/serializers/jsonapi/student-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-
-const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
 module.exports = {
 
@@ -77,24 +73,6 @@ module.exports = {
 
     const targetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(requestedOrganizationId);
     return targetProfileSerializer.serialize(targetProfiles);
-  },
-
-  exportSharedSnapshotsAsCsv: async (request) => {
-    const organizationId = parseInt(request.params.id);
-
-    const stream = new PassThrough();
-
-    stream.headers = {
-      'Content-Type': 'text/csv;charset=utf-8',
-      'Content-Disposition': `attachment; filename="${EXPORT_CSV_FILE_NAME}"`
-    };
-
-    await usecases.writeOrganizationSharedProfilesAsCsvToStream({
-      organizationId,
-      writableStream: stream
-    });
-
-    return stream;
   },
 
   findStudents: async (request) => {
