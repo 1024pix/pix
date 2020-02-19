@@ -41,7 +41,13 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
 
     it('should add the campaign participation results', () => {
 
-      const result = CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements });
+      const badge = {
+        id: 1,
+        imageUrl: '/img/banana.svg',
+        message: 'Congrats, you won the Banana badge!'
+      };
+
+      const result = CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, badge });
 
       expect(result).to.be.an.instanceOf(CampaignParticipationResult);
       expect(result).to.deep.equal({
@@ -50,6 +56,11 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
         totalSkillsCount: 4,
         testedSkillsCount: 2,
         validatedSkillsCount: 1,
+        badge: {
+          id: 1,
+          imageUrl: '/img/banana.svg',
+          message: 'Congrats, you won the Banana badge!',
+        },
         competenceResults: [{
           id: 1,
           name: 'Economie symbiotique',

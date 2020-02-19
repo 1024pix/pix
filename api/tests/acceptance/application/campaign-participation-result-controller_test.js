@@ -17,6 +17,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
     targetProfileSkills,
     skills,
     areas,
+    badge,
     competences;
 
   let server;
@@ -44,6 +45,13 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       userId: user.id,
       type: 'SMART_PLACEMENT',
       state: 'completed',
+    });
+
+    badge = new databaseBuilder.factory.buildBadge({
+      id: 1,
+      imageUrl: '/img/banana.svg',
+      message: 'You won a Banana Badge',
+      targetProfileId: targetProfile.id
     });
 
     targetProfileSkills = _.times(8, () => {
@@ -157,6 +165,12 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'is-completed': true
           },
           relationships: {
+            badge: {
+              data: {
+                id: `${badge.id}`,
+                type: 'badges',
+              }
+            },
             'competence-results': {
               data: [{
                 id: `${competences[0].id}`,
@@ -172,6 +186,13 @@ describe('Acceptance | API | Campaign Participation Result', () => {
           },
         },
         included: [{
+          type: 'badges',
+          id: '1',
+          attributes: {
+            'image-url': '/img/banana.svg',
+            message: 'You won a Banana Badge',
+          },
+        }, {
           type: 'competenceResults',
           id: competences[0].id.toString(),
           attributes: {
@@ -211,8 +232,8 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal(expectedResponse);
+      expect(response.statusCode).to.equal(200);
     });
   });
 });

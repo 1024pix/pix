@@ -5,6 +5,7 @@ const dependencies = {
   answerRepository: require('../../infrastructure/repositories/answer-repository'),
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
   assessmentResultRepository: require('../../infrastructure/repositories/assessment-result-repository'),
+  badgeRepository: require('../../infrastructure/repositories/badge-repository'),
   campaignCollectiveResultRepository: require('../../infrastructure/repositories/campaign-collective-result-repository'),
   campaignParticipationRepository: require('../../infrastructure/repositories/campaign-participation-repository'),
   campaignRepository: require('../../infrastructure/repositories/campaign-repository'),
