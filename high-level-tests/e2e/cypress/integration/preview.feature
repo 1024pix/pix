@@ -1,12 +1,13 @@
-Feature: Preview
+#language: fr
+Fonctionnalité: Preview
 
-  Background:
-    Given les données de test sont chargées
+  Contexte:
+    Étant donné que les données de test sont chargées
 
-  Scenario: Je peux voir la prévisualisation d'une question
-    Given je vais sur Pix
-    And je suis connecté à Pix en tant qu'administrateur
-    When je lance la preview du challenge "recc3QU4nKAk4byGv"
-    Then je suis redirigé vers une page d'épreuve
-    Then l'épreuve contient le texte "Quelle est la capitale de la Lettonie ?"
+  Scénario: Je peux voir la prévisualisation d'une question
+    Étant donné que je vais sur Pix
+    Et je suis connecté à Pix en tant qu'administrateur
+    Lorsque je lance la preview du challenge "recc3QU4nKAk4byGv"
+    Alors je suis redirigé vers une page d'épreuve
+    Alors l'épreuve contient le texte "Quelle est la capitale de la Lettonie ?"
 
