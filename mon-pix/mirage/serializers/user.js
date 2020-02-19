@@ -11,7 +11,7 @@ export default ApplicationSerializer.extend({
     'pixCertifTermsOfServiceAccepted',
     'hasSeenAssessmentInstructions',
   ],
-  include: ['competences', 'organizations'],
+  include: ['competences'],
   links(user) {
     const userBaseUrl = `/api/users/${user.id}`;
     return {
