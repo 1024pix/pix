@@ -10,11 +10,7 @@
 
   &__title {
     text-align: center;
-    color: $nero;
     margin-bottom: 42px;
-    @include device-is('tablet') {
-      font-size: 4.2rem;
-    }
   }
 
   &__instruction {
