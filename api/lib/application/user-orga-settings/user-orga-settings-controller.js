@@ -16,5 +16,9 @@ module.exports = {
     const result = await usecases.createUserOrgaSettings({ userId, organizationId });
 
     return h.response(userOrgaSettingsSerializer.serialize(result)).created();
+  },
+
+  update() {
+    // not yet implemented
   }
 };
