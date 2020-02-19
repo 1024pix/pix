@@ -1,7 +1,8 @@
 import Model, { belongsTo } from '@ember-data/model';
 
-export default Model.extend({
+export default class AssessmentResult extends Model {
 
-  assessment: belongsTo('assessment'),
+  // includes
+  @belongsTo('assessment') assessment;
 
-});
+}
