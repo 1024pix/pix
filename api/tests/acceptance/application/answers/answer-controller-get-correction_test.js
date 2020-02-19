@@ -25,11 +25,12 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
           records: [{
             'id': 'q_first_challenge',
             'fields': {
+              'id persistant': 'q_first_challenge',
               'Statut': 'validé',
               'competences': ['competence_id'],
               'acquis': ['@web3'],
               'Bonnes réponses': 'fromage',
-              'Acquix': ['q_first_acquis']
+              'Acquix (id persistant)': ['q_first_acquis']
             }
           }]
         });
@@ -41,10 +42,11 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
           records: [{
             'id': 'q_first_acquis',
             'fields': {
+              'id persistant': 'q_first_acquis',
               'Nom': '@web3',
               'Indice': 'Indice web3',
               'Statut de l\'indice': 'Validé',
-              'Compétence (via Tube)': 'recABCD'
+              'Compétence (via Tube) (id persistant)': 'recABCD'
             }
           }]
         });

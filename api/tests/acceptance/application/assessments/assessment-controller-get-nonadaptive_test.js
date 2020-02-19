@@ -22,9 +22,10 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
           'id': 'a_non_adaptive_course_id',
           'fields': {
             // a bunch of fields
+            'id persistant': 'a_non_adaptive_course_id',
             'Adaptatif ?': false,
-            'Competence': ['competence_id'],
-            '\u00c9preuves': [
+            'Competence (id persistant)': ['competence_id'],
+            '\u00c9preuves (id persistant)': [
               'second_challenge',
               'first_challenge',
             ],
@@ -39,12 +40,13 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
         records: [{
           'id': 'competence_id',
           'fields': {
+            'id persistant': 'competence_id',
             'Titre': 'Mener une recherche et une veille d\'information',
             'Sous-domaine': '1.1',
             'Référence': '1.1 Mener une recherche et une veille d\'information',
-            'Domaine': '1. Information et données',
+            'Domaine (id persistant)': ['1. Information et données'],
             'Statut': 'validé',
-            'Acquis': ['@web1']
+            'Acquis (via Tubes) (id persistant)': ['@web1']
           }
         }]
       });
@@ -57,19 +59,22 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
           [{
             'id': 'first_challenge',
             'fields': {
-              'competences': ['competence_id'],
+              'id persistant': 'first_challenge',
+              'competences (id persistant)': ['competence_id'],
               // a bunch of fields
             },
           }, {
             'id': 'second_challenge',
             'fields': {
-              'competences': ['competence_id'],
+              'id persistant': 'second_challenge',
+              'competences (id persistant)': ['competence_id'],
               // a bunch of fields
             },
           }, {
             'id': 'third_challenge',
             'fields': {
-              'competences': ['competence_id'],
+              'id persistant': 'third_challenge',
+              'competences (id persistant)': ['competence_id'],
               // a bunch of fields
             },
           }]

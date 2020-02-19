@@ -4,7 +4,8 @@ module.exports = function competenceRawAirTableFixture() {
   return new AirtableRecord('Compétence', 'recsvLz0W2ShyfD63', {
     'id': 'recsvLz0W2ShyfD63',
     'fields': {
-      'Domaine': [
+      'id persistant': 'recsvLz0W2ShyfD63',
+      'Domaine (id persistant)': [
         'recvoGdo7z2z7pXWa',
       ],
       'Epreuves': [
@@ -18,10 +19,7 @@ module.exports = function competenceRawAirTableFixture() {
       ],
       'Sous-domaine': '1.1',
       'Titre': 'Mener une recherche et une veille d’information',
-      'Tests': [
-        'recNPB7dTNt5krlMA',
-      ],
-      'Acquis (via Tubes)': [
+      'Acquis (via Tubes) (id persistant)': [
         'recV11ibSCXvaUzZd',
         'recD01ptfJy7c4Sex',
         'recfO8994EvSQV9Ip',

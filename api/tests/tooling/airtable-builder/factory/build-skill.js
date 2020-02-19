@@ -34,13 +34,14 @@ module.exports = function buildSkill({
 } = {}) {
 
   return {
-    'id': id,
+    id,
     'fields': {
+      'id persistant': id,
       'Indice': indice,
       'Statut de l\'indice': statutDeLIndice,
       'Epreuves': epreuves,
-      'Comprendre': comprendre,
-      'En savoir plus': enSavoirPlus,
+      'Comprendre (id persistant)': comprendre,
+      'En savoir plus (id persistant)': enSavoirPlus,
       'Tags': tags,
       'Description': description,
       'Statut de la description': statutDeLaDescription,
@@ -49,7 +50,7 @@ module.exports = function buildSkill({
       'Status': status,
       'Nom': nom,
       'Record Id': recordId,
-      'Compétence (via Tube)': compétenceViaTube,
+      'Compétence (via Tube) (id persistant)': compétenceViaTube,
       'PixValue': pixValue,
     },
     'createdTime': createdTime,

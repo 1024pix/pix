@@ -318,8 +318,9 @@ function rawBuildChallenge({
 }) {
 
   return {
-    'id': id,
+    id,
     'fields': {
+      'id persistant': id,
       'Consigne': consigne,
       'Propositions': propositions,
       'Type d\'épreuve': typeDEpreuve,
@@ -336,14 +337,14 @@ function rawBuildChallenge({
       'T1 - Espaces, casse & accents': t1EspacesCasseAccents,
       'T2 - Ponctuation': t2Ponctuation,
       'T3 - Distance d\'édition': t3DistanceDEdition,
-      'Compétences (via tube)': competences,
+      'Compétences (via tube) (id persistant)': competences,
       'Généalogie': genealogie,
       'Statut': statut,
       'Scoring': scoring,
       'Embed URL': embedURL,
       'Embed title': embedTitle,
       'Embed height': embedHeight,
-      'Acquix': acquix,
+      'Acquix (id persistant)': acquix,
       'acquis': acquis,
       'Preview': preview,
       'Record ID': recordID,

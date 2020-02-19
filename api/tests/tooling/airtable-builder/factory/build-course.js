@@ -42,7 +42,6 @@ module.exports = function buildCourse({
   preview = 'http://staging.pix.fr/courses/recPBOj7JzBcgXEtO',
   nbDEpreuves = 8,
   acquis = ',,,,@langBalise2,@écrireAlgo3,@écrireAlgo1,@exécuterAlgo1',
-  recordID = id,
   adaptatif = true,
   defiDeLaSemaine = false,
   competence = ['rec8116cdd76088af'],
@@ -50,20 +49,20 @@ module.exports = function buildCourse({
 } = {}) {
 
   return {
-    'id': id,
+    id,
     'fields': {
+      'id persistant': id,
       'Nom': nom,
       'Description': description,
       'Image': image,
-      'Épreuves': epreuves,
+      'Épreuves (id persistant)': epreuves,
       'Statut': statut,
       'Preview': preview,
       'Nb d\'épreuves': nbDEpreuves,
       'Acquis': acquis,
       'Adaptatif ?': adaptatif,
       'Défi de la semaine ?': defiDeLaSemaine,
-      'Competence': competence,
-      'Record ID': recordID,
+      'Competence (id persistant)': competence,
     },
     'createdTime': createdTime,
   };
