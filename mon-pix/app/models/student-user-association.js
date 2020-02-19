@@ -1,10 +1,11 @@
 import Model, { attr } from '@ember-data/model';
 
-export default Model.extend({
-  lastName: attr('string'),
-  firstName: attr('string'),
-  birthdate: attr('date-only'),
-  campaignCode: attr('string'),
-  username: attr('string'),
+export default class StudentUserAssociation extends Model {
 
-});
+  // attributes
+  @attr('date-only') birthdate;
+  @attr('string') campaignCode;
+  @attr('string') firstName;
+  @attr('string') lastName;
+  @attr('string') username;
+}
