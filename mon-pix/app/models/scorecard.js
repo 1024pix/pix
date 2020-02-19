@@ -1,4 +1,4 @@
-import Model, { hasMany, belongsTo, attr } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { equal, and } from '@ember/object/computed';
 import { computed } from '@ember/object';
 
@@ -6,48 +6,59 @@ const NUMBER_OF_PIX_BY_LEVEL = 8;
 const MAX_DISPLAYED_PERCENTAGE = 95;
 const MAX_REACHABLE_LEVEL = 5;
 
-export default Model.extend({
-  name: attr('string'),
-  description: attr('string'),
-  index: attr('number'),
-  competenceId: attr('string'),
-  earnedPix: attr('number'),
-  level: attr('number'),
-  pixScoreAheadOfNextLevel: attr('number'),
-  status: attr('string'),
-  remainingDaysBeforeReset: attr('number'),
+export default class Scorecard extends Model {
+  @attr('string') description;
+  @attr('number') earnedPix;
+  @attr('number') index;
+  @attr('number') level;
+  @attr('string') name;
+  @attr('number') pixScoreAheadOfNextLevel;
+  @attr('number') remainingDaysBeforeReset;
+  @attr('string') status;
 
-  area: belongsTo('area'),
-  tutorials: hasMany('tutorial'),
+  // includes
+  @belongsTo('area') area;
+  @hasMany('tutorial') tutorials;
 
-  isFinished: equal('status', 'COMPLETED'),
-  isFinishedWithMaxLevel: and('isFinished', 'isMaxLevel'),
-  isStarted: equal('status', 'STARTED'),
-  isNotStarted: equal('status', 'NOT_STARTED'),
+  // relationships
+  @attr('string') competenceId;
 
-  percentageAheadOfNextLevel: computed('pixScoreAheadOfNextLevel', function() {
+  // methods
+  @and('isFinished', 'isMaxLevel') isFinishedWithMaxLevel;
+
+  @equal('status', 'COMPLETED') isFinished;
+  @equal('status', 'NOT_STARTED') isNotStarted;
+  @equal('status', 'STARTED') isStarted;
+
+  @computed('level')
+  get isMaxLevel() {
+    return this.level >= MAX_REACHABLE_LEVEL;
+  }
+
+  @computed('earnedPix')
+  get hasNotEarnAnything() {
+    return this.earnedPix === 0;
+  }
+
+  @computed('level')
+  get hasNotReachLevelOne() {
+    return this.level < 1;
+  }
+
+  @computed('level')
+  get hasReachAtLeastLevelOne() {
+    return this.level >= 1;
+  }
+
+  @computed('pixScoreAheadOfNextLevel')
+  get percentageAheadOfNextLevel() {
     const percentage = this.pixScoreAheadOfNextLevel / NUMBER_OF_PIX_BY_LEVEL * 100;
 
     return percentage >= MAX_DISPLAYED_PERCENTAGE ? MAX_DISPLAYED_PERCENTAGE : percentage;
-  }),
+  }
 
-  remainingPixToNextLevel: computed('pixScoreAheadOfNextLevel', function() {
+  @computed('pixScoreAheadOfNextLevel')
+  get remainingPixToNextLevel() {
     return NUMBER_OF_PIX_BY_LEVEL - this.pixScoreAheadOfNextLevel;
-  }),
-
-  isMaxLevel: computed('level', function() {
-    return this.level >= MAX_REACHABLE_LEVEL;
-  }),
-
-  hasNotEarnAnything: computed('earnedPix', function() {
-    return this.earnedPix === 0;
-  }),
-
-  hasNotReachLevelOne: computed('level', function() {
-    return this.level < 1;
-  }),
-
-  hasReachAtLeastLevelOne: computed('level', function() {
-    return this.level >= 1;
-  }),
-});
+  }
+}
