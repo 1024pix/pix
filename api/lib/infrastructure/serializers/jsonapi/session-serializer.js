@@ -25,6 +25,7 @@ module.exports = {
         'certificationReports',
         'examinerGlobalComment',
         'finalizedAt',
+        'resultsSentToPrescriberAt',
       ],
       certifications : {
         ref: 'id',
