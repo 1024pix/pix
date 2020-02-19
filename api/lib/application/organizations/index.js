@@ -2,7 +2,6 @@ const Joi = require('@hapi/joi');
 
 const securityController = require('../../interfaces/controllers/security-controller');
 const organisationController = require('./organization-controller');
-const snapshotsAuthorization = require('../../application/preHandlers/snapshot-authorization');
 
 exports.register = async (server) => {
   server.route([
@@ -65,19 +64,6 @@ exports.register = async (server) => {
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
           '- Elle permet de mettre à jour tout ou partie d’une organisation',
         ]
-      }
-    },
-    {
-      method: 'GET',
-      path: '/api/organizations/{id}/snapshots/export',
-      config: {
-        auth: false,
-        pre: [{
-          method: snapshotsAuthorization.verify,
-          assign: 'authorizationCheck'
-        }],
-        handler: organisationController.exportSharedSnapshotsAsCsv,
-        tags: ['api', 'organizations']
       }
     },
     {
