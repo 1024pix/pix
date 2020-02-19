@@ -1,0 +1,9 @@
+{
+  "name": "Pix Review App",
+  "env": {
+    "PIXORGA_URL": {
+      "generator": "template",
+      "template": "https://pix-orga-review-pr%PR_NUMBER%"
+    }
+  }
+}
