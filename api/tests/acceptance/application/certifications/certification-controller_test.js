@@ -1,7 +1,11 @@
 const {
-  expect, generateValidRequestAuthorizationHeader, knex,
-  insertUserWithRolePixMaster, insertUserWithStandardRole,
-  airtableBuilder, databaseBuilder
+  knex,
+  expect,
+  airtableBuilder,
+  databaseBuilder,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithStandardRole,
+  insertUserWithRolePixMaster,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
