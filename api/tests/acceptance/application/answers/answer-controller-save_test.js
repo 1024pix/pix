@@ -13,7 +13,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
   describe('POST /api/answers', () => {
     let userId;
     let insertedAssessmentId;
-    let options;
+    let postAnswersOptions;
     let promise;
     const correctAnswer = 'correct';
     const challengeId = 'a_challenge_id';
@@ -74,7 +74,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
           .returns([challenge])
           .activate();
 
-        options = {
+        postAnswersOptions = {
           method: 'POST',
           url: '/api/answers',
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
@@ -104,7 +104,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         };
 
         // when
-        promise = server.inject(options);
+        promise = server.inject(postAnswersOptions);
       });
 
       it('should return 201 HTTP status code', async () => {
@@ -115,7 +115,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         expect(response.statusCode).to.equal(201);
       });
 
-      it('should return application/json',async  () => {
+      it('should return application/json',async () => {
         // when
         const response = await promise;
 
@@ -141,12 +141,12 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         const model = await BookshelfAnswer.where({ id: answer.id }).fetch();
 
         expect(model.id).to.be.a('number');
-        expect(model.get('value')).to.equal(options.payload.data.attributes.value);
+        expect(model.get('value')).to.equal(postAnswersOptions.payload.data.attributes.value);
         expect(model.get('result')).to.equal('ok');
         expect(model.get('resultDetails')).to.equal('null\n');
-        expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
-        expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
-        expect(model.get('elapsedTime')).to.equal(options.payload.data.attributes['elapsed-time']);
+        expect(model.get('assessmentId')).to.equal(postAnswersOptions.payload.data.relationships.assessment.data.id);
+        expect(model.get('challengeId')).to.equal(postAnswersOptions.payload.data.relationships.challenge.data.id);
+        expect(model.get('elapsedTime')).to.equal(postAnswersOptions.payload.data.attributes['elapsed-time']);
 
         expect(answer.id).to.equal(model.id.toString());
         expect(answer.id).to.equal(response.result.data.id.toString());
@@ -161,7 +161,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
     context('when user is not the user of the assessment', () => {
       beforeEach(() => {
         // given
-        options = {
+        postAnswersOptions = {
           method: 'POST',
           url: '/api/answers',
           headers: { authorization: generateValidRequestAuthorizationHeader(userId + 3) },
@@ -191,7 +191,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         };
 
         // when
-        promise = server.inject(options);
+        promise = server.inject(postAnswersOptions);
       });
 
       it('should return 403 HTTP status code', async () => {

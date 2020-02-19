@@ -9,8 +9,9 @@ module.exports = function buildTutorial({
 } = {}) {
 
   return {
-    'id': id,
+    id,
     'fields': {
+      'id persistant': id,
       'Titre': titre,
       'Format': format,
       'Durée': duree,

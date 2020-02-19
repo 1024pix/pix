@@ -17,9 +17,10 @@ const buildArea = function buildArea({
   createdTime = '2017-06-13T13:15:26.000Z',
 } = {}) {
   return {
-    'id': id,
+    id,
     'fields': {
-      'Competences (identifiants)': competenceIds,
+      'id persistant': id,
+      'Competences (identifiants) (id persistant)': competenceIds,
       'Couleur': couleur,
       'Code': code,
       'Titre': titre,

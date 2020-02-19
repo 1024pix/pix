@@ -9,8 +9,9 @@ module.exports = function buildTube({
 } = {}) {
 
   return {
-    'id': id,
+    id,
     'fields': {
+      'id persistant': id,
       'Nom': nom,
       'Titre': titre,
       'Description': description,

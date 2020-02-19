@@ -8,11 +8,12 @@ module.exports = datasource.extend({
   tableName: 'Tests',
 
   usedFields: [
+    'id persistant',
     'Nom',
     'Description',
     'Adaptatif ?',
-    'Competence',
-    'Épreuves',
+    'Competence (id persistant)',
+    'Épreuves (id persistant)',
     'Image',
   ],
 
@@ -23,14 +24,21 @@ module.exports = datasource.extend({
     }
 
     return {
-      id: airtableRecord.getId(),
+      id: airtableRecord.get('id persistant'),
       name: airtableRecord.get('Nom'),
       description: airtableRecord.get('Description'),
       adaptive: airtableRecord.get('Adaptatif ?'),
-      competences: airtableRecord.get('Competence'),
-      challenges: _.reverse(airtableRecord.get('Épreuves')),
+      competences: airtableRecord.get('Competence (id persistant)'),
+      challenges: _.reverse(airtableRecord.get('Épreuves (id persistant)')),
       imageUrl,
     };
+  },
+
+  async findAdaptiveCourses() {
+    const courses = await this.list();
+    return courses.filter((courseData) =>
+      courseData.adaptive &&
+      courseData.status === 'Publié');
   },
 
 });

@@ -16,14 +16,15 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
       const airtableRecord = new AirtableRecord('Course', 'recCourse123', {
         'id': 'recCourse123',
         'fields': {
+          'id persistant': 'recCourse123',
           'Nom': 'course-name',
           'Description': 'course-description',
           'Adaptatif ?': false,
-          'Épreuves': [
+          'Épreuves (id persistant)': [
             'recChallenge1',
             'recChallenge2',
           ],
-          'Competence': ['recCompetence123'],
+          'Competence (id persistant)': ['recCompetence123'],
           'Image': [
             {
               'url': 'https://example.org/course.png',

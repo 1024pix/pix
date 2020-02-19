@@ -2,11 +2,11 @@ const AirtableRecord = require('airtable').Record;
 
 module.exports = function challengeRawAirTableFixture({ id, fields } = { id: 'recwWzTquPlvIl4So', fields: { } }) {
   return new AirtableRecord('Epreuves', id, {
-    'id': id,
+    id,
     'fields': Object.assign({
+      'id persistant': id,
       'Consigne': 'Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?',
       'Propositions': '- 1\n- 2\n- 3\n- 4\n- 5',
-      'id': 49,
       'Type d\'épreuve': 'QCM',
       'Tests': [
         'rec8JuSJXIaGEb87M',
@@ -106,7 +106,7 @@ module.exports = function challengeRawAirTableFixture({ id, fields } = { id: 're
       'Embed URL': 'https://github.io/page/epreuve.html',
       'Embed title': 'Epreuve de selection de dossier',
       'Embed height': 500,
-      'Acquix': [
+      'Acquix (id persistant)': [
         'recUDrCWD76fp5MsE',
       ],
       'acquis': [
@@ -120,7 +120,7 @@ module.exports = function challengeRawAirTableFixture({ id, fields } = { id: 're
       'Tubes': [
         'reccqGUKgzIOK8f9U',
       ],
-      'Compétences (via tube)': [
+      'Compétences (via tube) (id persistant)': [
         'recsvLz0W2ShyfD63',
       ],
       'Format': 'petit',

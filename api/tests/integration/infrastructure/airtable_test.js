@@ -4,7 +4,6 @@ const airtable = require('../../../lib/infrastructure/airtable');
 
 function assertAirtableRecordToEqualExpectedJson(actualRecord, expectedRecordJson) {
   expect(actualRecord).to.be.an.instanceOf(AirtableRecord);
-  expect(actualRecord.getId()).to.equal(expectedRecordJson.id);
   expect(actualRecord.fields).to.deep.equal(expectedRecordJson.fields);
   expect(actualRecord._rawJson).to.deep.equal(expectedRecordJson);
 }

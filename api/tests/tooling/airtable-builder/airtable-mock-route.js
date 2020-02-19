@@ -24,7 +24,7 @@ class AirtableMockRoute {
   }
 
   activate() {
-    const url = generateUrlForRouteType({
+    const { url, query } = generateUrlForRouteType({
       returnBody: this.returnBody,
       routeType: this.routeType,
       tableName: this.tableName,
@@ -37,7 +37,7 @@ class AirtableMockRoute {
 
     this.nockScope
       .get(url)
-      .query(this.query)
+      .query(query ? query : this.query)
       .reply(200, body);
   }
 }
@@ -47,22 +47,15 @@ AirtableMockRoute.ROUTE_TYPE = ROUTE_TYPE;
 module.exports = AirtableMockRoute;
 
 function generateUrlForRouteType({ routeType, tableName, returnBody }) {
-  let url = '/v0/test-base/';
-  const returnBodyId = returnBody ? returnBody.id : undefined;
+  const url = `/v0/test-base/${tableName}`;
+  const returnBodyId = returnBody && returnBody.fields && returnBody.fields['id persistant'];
 
-  switch (routeType) {
-
-    case ROUTE_TYPE.LIST:
-      url += tableName;
-      return url;
-
-    case ROUTE_TYPE.GET:
-      if (!returnBodyId) {
-        throw new Error('get route should have a return object with an id a its root');
-      }
-      url += `${tableName}/${returnBodyId}`;
-      return url;
+  if (!returnBodyId && routeType === ROUTE_TYPE.GET) {
+    throw new Error('get route should have a return object with an id a its root');
   }
+
+  const query = routeType === ROUTE_TYPE.GET && { filterByFormula: `{id persistant}=${returnBodyId}` };
+  return { url, query };
 }
 
 function generateBodyForRouteType({ returnBody, routeType }) {
@@ -72,6 +65,6 @@ function generateBodyForRouteType({ returnBody, routeType }) {
       return { records: returnBody };
 
     case ROUTE_TYPE.GET:
-      return returnBody;
+      return { records: [returnBody] };
   }
 }
