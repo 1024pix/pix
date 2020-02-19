@@ -43,7 +43,6 @@ const dependencies = {
   smartPlacementAssessmentRepository: require('../../infrastructure/repositories/smart-placement-assessment-repository'),
   sessionAuthorizationService: require('../../domain/services/session-authorization-service'),
   sessionRepository: require('../../infrastructure/repositories/session-repository'),
-  snapshotRepository: require('../../infrastructure/repositories/snapshot-repository'),
   studentRepository: require('../../infrastructure/repositories/student-repository'),
   studentsXmlService: require('../../domain/services/students-xml-service'),
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
