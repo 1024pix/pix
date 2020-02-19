@@ -9,41 +9,39 @@ const { map } = require('lodash');
 
 describe('Acceptance | API | Certifications', () => {
 
-  let server;
+  let server, options;
+  const authenticatedUserID = 1234;
+  let session, certificationCourse, assessment, assessmentResult;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
+
+    session = databaseBuilder.factory.buildSession();
+    await insertUserWithRolePixMaster();
+    await insertUserWithStandardRole();
+    certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+      sessionId: session.id,
+      userId: authenticatedUserID,
+      isPublished: false
+    });
+    assessment = databaseBuilder.factory.buildAssessment({
+      userId: authenticatedUserID,
+      courseId: certificationCourse.id,
+      type: Assessment.types.CERTIFICATION,
+      state: 'completed',
+    });
+    assessmentResult = databaseBuilder.factory.buildAssessmentResult({
+      assessmentId: assessment.id,
+      level: 1,
+      pixScore: 23,
+      emitter: 'PIX-ALGO',
+      status: 'rejected',
+    });
   });
 
   describe('GET /api/certifications', () => {
-
-    let options;
-    const authenticatedUserID = 1234;
-
-    let session, certificationCourse, assessment, assessmentResult;
-
-    beforeEach(async function() {
-      await insertUserWithRolePixMaster();
-      session = databaseBuilder.factory.buildSession();
-      certificationCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id, userId: authenticatedUserID });
-      assessment = databaseBuilder.factory.buildAssessment({
-        userId: authenticatedUserID,
-        courseId: certificationCourse.id,
-        type: Assessment.types.CERTIFICATION,
-        state: 'completed',
-      });
-      assessmentResult = databaseBuilder.factory.buildAssessmentResult({
-        assessmentId: assessment.id,
-        level: 1,
-        pixScore: 23,
-        emitter: 'PIX-ALGO',
-        status: 'rejected',
-      });
-      await databaseBuilder.commit();
-    });
-
-    afterEach(() => {
-      return databaseBuilder.clean();
+    beforeEach(function() {
+      return databaseBuilder.commit();
     });
 
     it('should return 200 HTTP status code', () => {
@@ -102,14 +100,7 @@ describe('Acceptance | API | Certifications', () => {
   });
 
   describe('GET /api/certifications/:id', () => {
-
-    let options;
-
-    const JOHN_USERID = 1234;
-
-    let session, johnCertificationCourse, john_completedAssessment, assessmentResult;
-
-    before(() => {
+    before(function() {
       const area = airtableBuilder.factory.buildArea();
       airtableBuilder.mockList({ tableName: 'Domaines' })
         .returns([area])
@@ -146,24 +137,7 @@ describe('Acceptance | API | Certifications', () => {
         .activate();
     });
 
-    beforeEach(async () => {
-      session = databaseBuilder.factory.buildSession();
-      await insertUserWithRolePixMaster();
-      await insertUserWithStandardRole();
-      johnCertificationCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id, userId: JOHN_USERID });
-      john_completedAssessment = databaseBuilder.factory.buildAssessment({
-        userId: JOHN_USERID,
-        courseId: johnCertificationCourse.id,
-        type: Assessment.types.CERTIFICATION,
-        state: 'completed',
-      });
-      assessmentResult = databaseBuilder.factory.buildAssessmentResult({
-        assessmentId: john_completedAssessment.id,
-        level: 1,
-        pixScore: 23,
-        emitter: 'PIX-ALGO',
-        status: 'rejected',
-      });
+    beforeEach(async function() {
       databaseBuilder.factory.buildCompetenceMark({
         level: 3,
         score: 23,
@@ -171,17 +145,15 @@ describe('Acceptance | API | Certifications', () => {
         competence_code: '1.1',
         assessmentResultId: assessmentResult.id,
       });
-      await databaseBuilder.commit();
+      return databaseBuilder.commit();
     });
-
-    afterEach(() => databaseBuilder.clean());
 
     it('should return 200 HTTP status code and the certification with the result competence tree included', () => {
       // given
       options = {
         method: 'GET',
-        url: `/api/certifications/${johnCertificationCourse.id}`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(JOHN_USERID) },
+        url: `/api/certifications/${certificationCourse.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(authenticatedUserID) },
       };
 
       // when
@@ -191,22 +163,22 @@ describe('Acceptance | API | Certifications', () => {
       const expectedBody = {
         'data': {
           'attributes': {
-            'birthdate': johnCertificationCourse.birthdate,
-            'birthplace': johnCertificationCourse.birthplace,
+            'birthdate': certificationCourse.birthdate,
+            'birthplace': certificationCourse.birthplace,
             'certification-center': session.certificationCenter,
             'comment-for-candidate': assessmentResult.commentForCandidate,
-            'date': johnCertificationCourse.completedAt,
-            'first-name': johnCertificationCourse.firstName,
-            'is-published': johnCertificationCourse.isPublished,
-            'last-name': johnCertificationCourse.lastName,
+            'date': certificationCourse.completedAt,
+            'first-name': certificationCourse.firstName,
+            'is-published': certificationCourse.isPublished,
+            'last-name': certificationCourse.lastName,
             'pix-score': assessmentResult.pixScore,
             'status': assessmentResult.status,
           },
-          'id': `${johnCertificationCourse.id}`,
+          'id': `${certificationCourse.id}`,
           'relationships': {
             'result-competence-tree': {
               'data': {
-                'id': `${johnCertificationCourse.id}-${assessmentResult.id}`,
+                'id': `${certificationCourse.id}-${assessmentResult.id}`,
                 'type': 'result-competence-trees',
               },
             },
@@ -273,9 +245,9 @@ describe('Acceptance | API | Certifications', () => {
           },
           {
             'attributes': {
-              'id': `${johnCertificationCourse.id}-${assessmentResult.id}`,
+              'id': `${certificationCourse.id}-${assessmentResult.id}`,
             },
-            'id': `${johnCertificationCourse.id}-${assessmentResult.id}`,
+            'id': `${certificationCourse.id}-${assessmentResult.id}`,
             'relationships': {
               'areas': {
                 'data': [
@@ -299,11 +271,11 @@ describe('Acceptance | API | Certifications', () => {
 
     it('should return unauthorized 403 HTTP status code when user is not owner of the certification', () => {
       // given
-      const NOT_JOHN_USERID = JOHN_USERID + 1;
+      const NOT_authenticatedUserID = authenticatedUserID + 1;
       options = {
         method: 'GET',
-        url: `/api/certifications/${johnCertificationCourse.id}`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(NOT_JOHN_USERID) },
+        url: `/api/certifications/${certificationCourse.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(NOT_authenticatedUserID) },
       };
 
       // when
@@ -316,44 +288,20 @@ describe('Acceptance | API | Certifications', () => {
   });
 
   describe('PATCH /api/certifications/:id', () => {
-    let options;
-
-    const JOHN_USERID = 1234;
-    const JOHN_CERTIFICATION_ID = 2;
-
-    let session, johnCertificationCourse, john_completedAssessment, assessmentResult;
-
-    beforeEach(async () => {
-      session = databaseBuilder.factory.buildSession();
-      await insertUserWithRolePixMaster();
-      await insertUserWithStandardRole();
-      johnCertificationCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id, userId: JOHN_USERID });
-      john_completedAssessment = databaseBuilder.factory.buildAssessment({
-        userId: JOHN_USERID,
-        courseId: johnCertificationCourse.id,
-        type: Assessment.types.CERTIFICATION,
-        state: 'completed',
-      });
-      assessmentResult = databaseBuilder.factory.buildAssessmentResult({
-        assessmentId: john_completedAssessment.id,
-        level: 1,
-        pixScore: 23,
-        emitter: 'PIX-ALGO',
-        status: 'rejected',
-      });
-      await databaseBuilder.commit();
+    beforeEach(function() {
+      return databaseBuilder.commit();
     });
 
     it('should return 200 HTTP status code and the updated certification', () => {
       // given
       options = {
         method: 'PATCH',
-        url: `/api/certifications/${johnCertificationCourse.id}`,
+        url: `/api/certifications/${certificationCourse.id}`,
         headers: { authorization: generateValidRequestAuthorizationHeader() },
         payload: {
           data: {
             type: 'certifications',
-            id: johnCertificationCourse.id,
+            id: certificationCourse.id,
             attributes: {
               'is-published': true,
             },
@@ -370,16 +318,16 @@ describe('Acceptance | API | Certifications', () => {
           expect(response.statusCode).to.equal(200);
           expect(response.result.data).to.deep.equal({
             type: 'certifications',
-            id: `${johnCertificationCourse.id}`,
+            id: `${certificationCourse.id}`,
             attributes: {
-              'birthdate': johnCertificationCourse.birthdate,
-              'birthplace': johnCertificationCourse.birthplace,
+              'birthdate': certificationCourse.birthdate,
+              'birthplace': certificationCourse.birthplace,
               'certification-center': session.certificationCenter,
               'comment-for-candidate': assessmentResult.commentForCandidate,
-              'date': johnCertificationCourse.completedAt,
-              'first-name': johnCertificationCourse.firstName,
+              'date': certificationCourse.completedAt,
+              'first-name': certificationCourse.firstName,
               'is-published': true,
-              'last-name': johnCertificationCourse.lastName,
+              'last-name': certificationCourse.lastName,
               'pix-score': assessmentResult.pixScore,
               'status': assessmentResult.status,
             },
@@ -390,7 +338,7 @@ describe('Acceptance | API | Certifications', () => {
             },
           });
         })
-        .then(() => knex('certification-courses').where('id', johnCertificationCourse.id))
+        .then(() => knex('certification-courses').where('id', certificationCourse.id))
         .then((foundCertification) => expect(foundCertification[0].isPublished).to.be.true);
     });
 
@@ -398,7 +346,7 @@ describe('Acceptance | API | Certifications', () => {
       // given
       options = {
         method: 'PATCH',
-        url: `/api/certifications/${JOHN_CERTIFICATION_ID}`,
+        url: `/api/certifications/${certificationCourse.id}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(4444) },
         payload: {
           data: {
@@ -415,7 +363,7 @@ describe('Acceptance | API | Certifications', () => {
       // then
       return promise
         .then((response) => expect(response.statusCode).to.equal(403))
-        .then(() => knex('certification-courses').where('id', johnCertificationCourse.id))
+        .then(() => knex('certification-courses').where('id', certificationCourse.id))
         .then((certifications) => expect(certifications[0].isPublished).to.be.false);
     });
   });
