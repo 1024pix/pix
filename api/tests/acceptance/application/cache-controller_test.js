@@ -16,12 +16,30 @@ describe('Acceptance | Controller | cache-controller', () => {
     beforeEach(() => {
       options = {
         method: 'DELETE',
-        url: '/api/cache/cache-test-key',
+        url: '/api/cache',
         headers: {}
       };
     });
 
+    describe('Airtable Formula injection protection', () => {
+      it('should respond with a 400 - bad request - if cacheKey is not in the form of "ABCD_recXXXX"', async () => {
+        // given
+        const pixMasterUserId = 1234;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(pixMasterUserId);
+        options.url = '/api/cache/SomeBadFormattedKey';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
     describe('Resource access management', () => {
+      beforeEach(() => {
+        options.url = '/api/cache/Epreuves_recABCD';
+      });
 
       it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
         // given
@@ -36,8 +54,8 @@ describe('Acceptance | Controller | cache-controller', () => {
 
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
         // given
-        const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
+        const nonPixMasterUserId = 9999;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
 
         // when
         const response = await server.inject(options);
