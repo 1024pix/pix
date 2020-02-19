@@ -6,6 +6,7 @@ const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/erro
 describe('Unit | UseCase | get-campaign-participation-result', () => {
 
   const campaignParticipationId = 1;
+  const targetProfileId = 1;
   const userId = 2;
   const campaignId = 'campaignId';
   const otherUserId = 3;
@@ -14,12 +15,19 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     campaignId,
     userId,
   };
+  const badge = {
+    id: 1
+  };
+  const targetProfile = {
+    id: 1
+  };
 
   let campaignParticipationRepository,
     campaignRepository,
     targetProfileRepository,
     competenceRepository,
     assessmentRepository,
+    badgeRepository,
     knowledgeElementRepository;
 
   beforeEach(() => {
@@ -28,6 +36,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     targetProfileRepository = { getByCampaignId: sinon.stub() };
     competenceRepository = { list: sinon.stub() };
     assessmentRepository = { get: sinon.stub() };
+    badgeRepository = { getByTargetProfileId: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
     sinon.stub(CampaignParticipationResult, 'buildFrom').returns(campaignParticipationResult);
   });
@@ -37,6 +46,8 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     it('should get the campaignParticipationResult', async () => {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+      targetProfileRepository.getByCampaignId.withArgs(campaignParticipation.campaignId).resolves(targetProfile);
+      badgeRepository.getByTargetProfileId.withArgs(targetProfileId).resolves(badge);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, otherUserId).resolves(true);
 
       // when
@@ -48,6 +59,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         targetProfileRepository,
         competenceRepository,
         assessmentRepository,
+        badgeRepository,
         knowledgeElementRepository,
       });
 
@@ -61,6 +73,8 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     it('should get the campaignParticipationResult', async () => {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+      targetProfileRepository.getByCampaignId.withArgs(campaignParticipation.campaignId).resolves(targetProfile);
+      badgeRepository.getByTargetProfileId.withArgs(targetProfileId).resolves(badge);
 
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, otherUserId).resolves(false);
 
@@ -73,6 +87,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         targetProfileRepository,
         competenceRepository,
         assessmentRepository,
+        badgeRepository,
         knowledgeElementRepository,
       });
 
@@ -85,6 +100,8 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     it('should throw an error', async () => {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves({ userId });
+      targetProfileRepository.getByCampaignId.withArgs(campaignParticipation.campaignId).resolves(targetProfile);
+      badgeRepository.getByTargetProfileId.withArgs(targetProfileId).resolves(badge);
 
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(false);
 

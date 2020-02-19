@@ -11,6 +11,7 @@ class CampaignParticipationResult {
     validatedSkillsCount,
     // relationships
     competenceResults = [],
+    badge,
   } = {}) {
     this.id = id;
     // attributes
@@ -20,9 +21,10 @@ class CampaignParticipationResult {
     this.validatedSkillsCount = validatedSkillsCount;
     // relationships
     this.competenceResults = competenceResults;
+    this.badge = badge;
   }
 
-  static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements }) {
+  static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, badge }) {
     const targetProfileSkillsIds = _.map(targetProfile.skills, 'id');
     let targetedCompetences = _removeUntargetedSkillsFromCompetences(competences, targetProfileSkillsIds);
     targetedCompetences = _removeCompetencesWithoutAnyTargetedSkillsLeft(targetedCompetences);
@@ -36,6 +38,7 @@ class CampaignParticipationResult {
       validatedSkillsCount: _.sumBy(targetedCompetenceResults, 'validatedSkillsCount'),
       isCompleted: assessment.isCompleted(),
       competenceResults: targetedCompetenceResults,
+      badge,
     });
   }
 }
