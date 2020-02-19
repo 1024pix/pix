@@ -275,11 +275,11 @@ describe('Acceptance | API | Certifications', () => {
 
     it('should return unauthorized 403 HTTP status code when user is not owner of the certification', () => {
       // given
-      const NOT_authenticatedUserID = authenticatedUserID + 1;
+      const unauthenticatedUserId = authenticatedUserID + 1;
       options = {
         method: 'GET',
         url: `/api/certifications/${certificationCourse.id}`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(NOT_authenticatedUserID) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(unauthenticatedUserId) },
       };
 
       // when
