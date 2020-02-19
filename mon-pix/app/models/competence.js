@@ -2,25 +2,33 @@ import Model, { belongsTo, attr } from '@ember-data/model';
 import { alias, equal } from '@ember/object/computed';
 import { computed } from '@ember/object';
 
-export default Model.extend({
-  name: attr('string'),
-  area: belongsTo('area'),
-  user: belongsTo('user'),
-  index: attr('number'),
-  level: attr('number'),
-  description: attr('string'),
-  areaName: alias('area.name'),
-  courseId: attr('string'),
-  assessmentId: attr('string'),
-  status: attr('string'),
-  isRetryable: attr('boolean'),
-  daysBeforeNewAttempt: attr('number'),
+export default class Competence extends Model {
 
-  isAssessed: equal('status', 'assessed'),
-  isNotAssessed: equal('status', 'notAssessed'),
-  isBeingAssessed: equal('status', 'assessmentNotCompleted'),
+  // attributes
+  @attr('number') daysBeforeNewAttempt;
+  @attr('string') description;
+  @attr('number') index;
+  @attr('boolean') isRetryable;
+  @attr('number') level;
+  @attr('string') name;
+  @attr('string') status;
+  @alias('area.name') areaName;
 
-  isAssessableForTheFirstTime: computed('{isNotAssessed,courseId}', function() {
+  // includes
+  @belongsTo('area') area;
+  @belongsTo('user') user;
+
+  // references
+  @attr('string') assessmentId;
+  @attr('string') courseId;
+
+  // methods
+  @equal('status', 'assessed') isAssessed;
+  @equal('status', 'notAssessed') isNotAssessed;
+  @equal('status', 'assessmentNotCompleted') isBeingAssessed;
+
+  @computed('{isNotAssessed,courseId}')
+  get isAssessableForTheFirstTime() {
     return Boolean(this.isNotAssessed && this.courseId);
-  }),
-});
+  }
+}
