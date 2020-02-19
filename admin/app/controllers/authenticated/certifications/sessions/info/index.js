@@ -32,5 +32,9 @@ export default Controller.extend({
         this.notifications.error(error);
       }
     },
+
+    async tagSessionAsSentToPrescriber() {
+      await this.session.save({ adapterOptions: { flagResultsAsSentToPrescriber: true } });
+    },
   },
 });
