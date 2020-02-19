@@ -23,6 +23,7 @@ export default Model.extend({
   status: attr(),
   finalizedAt: attr(),
   isFinalized: equal('status', 'finalized'),
+  sentToPrescriberAt: attr(),
   examinerGlobalComment: attr('string'),
   certifications: hasMany('certification'),
   countExaminerComment : computed('certifications.[]', function() {
@@ -50,4 +51,8 @@ export default Model.extend({
   finalizationDate: computed('finalizedAt', function() {
     return (new Date(this.finalizedAt)).toLocaleString('fr-FR');
   }),
+
+  sentToPrescriber() {
+    return this.store.adapterFor('session').sentToPrescriber(this);
+  }
 });
