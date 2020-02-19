@@ -1,10 +1,14 @@
 import Model, { attr } from '@ember-data/model';
 import { computed } from '@ember/object';
 
-export default Model.extend({
-  completionRate: attr('number'),
+export default class Progression extends Model {
 
-  completionPercentage: computed('completionRate', function() {
+  // attributes
+  @attr('number') completionRate;
+
+  // methods
+  @computed('completionRate')
+  get completionPercentage() {
     return Math.round(this.completionRate * 100);
-  }),
-});
+  }
+}
