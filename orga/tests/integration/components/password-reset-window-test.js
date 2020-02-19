@@ -47,7 +47,7 @@ module('Integration | Component | password-reset-window', function(hooks) {
 
           // when
           await fillIn('#update-password', wrongPassword);
-          await triggerEvent('#update-password', 'blur');
+          await triggerEvent('#update-password', 'focusout');
 
           // then
           assert.dom('.alert-input--error').hasText(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
