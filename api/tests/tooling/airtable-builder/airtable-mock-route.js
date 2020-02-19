@@ -54,7 +54,7 @@ function generateUrlForRouteType({ routeType, tableName, returnBody }) {
     throw new Error('get route should have a return object with an id a its root');
   }
 
-  const query = routeType === ROUTE_TYPE.GET && { filterByFormula: `{id persistant}=${returnBodyId}` };
+  const query = routeType === ROUTE_TYPE.GET && { filterByFormula: `{id persistant}="${returnBodyId}"` };
   return { url, query };
 }
 
