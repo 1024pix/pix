@@ -1,11 +1,17 @@
 import Model, { belongsTo, attr } from '@ember-data/model';
 
-export default Model.extend({
-  isShared: attr('boolean'),
-  participantExternalId: attr('string'),
-  createdAt: attr('date'),
-  assessment: belongsTo('assessment'),
-  campaign: belongsTo('campaign'),
-  campaignParticipationResult: belongsTo('campaignParticipationResult'),
-  user: belongsTo('user'),
-});
+export default class CampaignParticipation extends Model {
+
+  // attributes
+  @attr('boolean') isShared;
+  @attr('date') createdAt;
+
+  // includes
+  @belongsTo('assessment') assessment;
+  @belongsTo('campaign') campaign;
+  @belongsTo('campaignParticipationResult') campaignParticipationResult;
+  @belongsTo('user') user;
+
+  // references
+  @attr('string') participantExternalId;
+}
