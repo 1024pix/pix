@@ -18,7 +18,6 @@ export default class User extends Model {
   @belongsTo('pix-score') pixScore;
   @hasMany('campaign-participation') campaignParticipations;
   @hasMany('certification') certifications;
-  @hasMany('organization') organizations;
   @hasMany('scorecard') scorecards;
 
   // methods
