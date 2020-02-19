@@ -62,3 +62,16 @@ ou
 ```
 npm run cy:run:local
 ```
+
+#### Écrire des tests Cypress
+
+On utilise
+[cypress-cucumber-preprocessor](https://github.com/TheBrainFamily/cypress-cucumber-preprocessor)
+pour pouvoir écrire les tests sous la forme de scénarios Cucumber (en langage
+"Gherkin").
+
+Pour connaître la liste des mots-clés utilisables, exécuter la commande :
+
+```
+npx cucumber-js --i18n-keywords fr
+```
