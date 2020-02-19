@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 
 const {
@@ -7,126 +6,10 @@ const {
 } = require('../../test-helper');
 
 const createServer = require('../../../server');
-const settings = require('../../../lib/config');
 const areaRawAirTableFixture = require('../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
 
 const Membership = require('../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
-
-async function _insertOrganization(userId) {
-  const organization = databaseBuilder.factory.buildOrganization({
-    name: 'The name of the organization',
-    type: 'SUP',
-    code: 'AAA111',
-    userId
-  });
-  await databaseBuilder.commit();
-  return organization;
-}
-
-async function _insertUser() {
-  const user = databaseBuilder.factory.buildUser({
-    firstName: 'john',
-    lastName: 'Doe',
-    email: 'john.Doe@internet.fr',
-    password: 'Pix2017!'
-  });
-
-  await databaseBuilder.commit();
-  return user;
-}
-
-function _insertSnapshot(organizationId, userId) {
-  const serializedUserProfile = {
-    data: {
-      type: 'users',
-      id: userId,
-      attributes: {
-        'first-name': 'John',
-        'last-name': 'Doe',
-        'total-pix-score': 15,
-        'email': 'john.Doe@internet.fr'
-      },
-      relationships: {
-        competences: {
-          data: [
-            { type: 'competences', id: 'recCompA' },
-            { type: 'competences', id: 'recCompB' }
-          ]
-        }
-      },
-    },
-    included: [
-      {
-        type: 'areas',
-        id: 'recAreaA',
-        attributes: {
-          name: 'area-name-1'
-        }
-      },
-      {
-        type: 'areas',
-        id: 'recAreaB',
-        attributes: {
-          name: 'area-name-2'
-        }
-      },
-      {
-        type: 'competences',
-        id: 'recCompA',
-        attributes: {
-          name: 'Traiter des données',
-          index: '1.3',
-          level: -1,
-          'course-id': 'recBxPAuEPlTgt72q11'
-        },
-        relationships: {
-          area: {
-            data: {
-              type: 'areas',
-              id: 'recAreaA'
-            }
-          }
-        }
-      },
-      {
-        type: 'competences',
-        id: 'recCompB',
-        attributes: {
-          name: 'Protéger les données personnelles et la vie privée',
-          index: '4.2',
-          level: 8,
-          'pix-score': 128,
-          'course-id': 'recBxPAuEPlTgt72q99'
-        },
-        relationships: {
-          area: {
-            data: {
-              type: 'areas',
-              id: 'recAreaB'
-            }
-          }
-        }
-      }
-    ]
-  };
-  const snapshotRaw = {
-    organizationId: organizationId,
-    testsFinished: 1,
-    userId,
-    score: 15,
-    profile: JSON.stringify(serializedUserProfile),
-    createdAt: new Date('2017-08-31T15:57:06Z')
-  };
-
-  return knex('snapshots').insert(snapshotRaw).returning('id');
-}
-
-function _createTokenWithUserId(userId) {
-  return jwt.sign({
-    user_id: userId,
-  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
-}
 
 describe('Acceptance | Application | organization-controller', () => {
 
@@ -454,47 +337,6 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.result.meta).to.deep.equal(expectedMetaData);
         expect(response.result.data).to.have.lengthOf(0);
       });
-    });
-  });
-
-  describe('GET /api/organizations/{id}/snapshots/export?userToken={userToken}', () => {
-    const payload = {};
-    let organizationId;
-    let userToken;
-    let userId;
-
-    beforeEach(() => {
-      return _insertUser()
-        .then(({ id }) => userId = id)
-        .then(() => userToken = _createTokenWithUserId(userId))
-        .then(() => _insertOrganization(userId))
-        .then(({ id }) => organizationId = id)
-        .then(() => _insertSnapshot(organizationId, userId));
-    });
-
-    afterEach(() => {
-      return knex('snapshots').delete();
-    });
-
-    it('should return 200 HTTP status code', async () => {
-      // given
-      const url = `/api/organizations/${organizationId}/snapshots/export?userToken=${userToken}`;
-      const expectedCsvSnapshots = '\uFEFF"Nom";"Prénom";"Numéro Étudiant";"Code Campagne";"Date";"Score Pix";' +
-        '"Tests Réalisés";"Traiter des données";"Protéger les données personnelles et la vie privée"\n' +
-        '"Doe";"john";"";"";31/08/2017;15;="1/2";;8\n';
-
-      const request = {
-        method: 'GET',
-        url,
-        payload,
-      };
-
-      // when
-      const response = await server.inject(request);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result).to.deep.equal(expectedCsvSnapshots);
     });
   });
 
