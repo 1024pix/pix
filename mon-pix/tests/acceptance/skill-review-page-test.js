@@ -1,7 +1,7 @@
 import { click, find, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateViaEmail } from '../helpers/authentification';
+import { authenticateByEmail } from '../helpers/authentification';
 import {
   completeCampaignAndSeeResultsByCode,
   resumeCampaignByCode
@@ -43,7 +43,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
       const campaignId = 1;
 
       beforeEach(async function() {
-        await authenticateViaEmail(user);
+        await authenticateByEmail(user);
         await visitWithAbortedTransition(`/campagnes/${campaignId}/resultats/${requestedAssessmentId}`);
       });
 

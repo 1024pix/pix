@@ -7,7 +7,7 @@ import {
 } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateViaEmail } from '../helpers/authentification';
+import { authenticateByEmail } from '../helpers/authentification';
 import {
   completeCampaignAndSeeResultsByCode,
   completeCampaignByCode,
@@ -28,11 +28,11 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
   });
 
   describe('Resume 1 campaign', function() {
-    let prescritUserInfo;
+    let studentInfo;
 
     beforeEach(async function() {
-      prescritUserInfo = server.create('user', 'withEmail');
-      await authenticateViaEmail(prescritUserInfo);
+      studentInfo = server.create('user', 'withEmail');
+      await authenticateByEmail(studentInfo);
       await resumeCampaignByCode('AZERTY1', true);
     });
 
@@ -51,8 +51,8 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
       it('should redirect to assessment when user logs in', async function() {
         // given
         await click('.sign-form-header__subtitle [href="/connexion"]');
-        await fillIn('#login', prescritUserInfo.email);
-        await fillIn('#password', prescritUserInfo.password);
+        await fillIn('#login', studentInfo.email);
+        await fillIn('#password', studentInfo.password);
 
         // when
         await click('.sign-form-body__bottom-button button');
@@ -184,7 +184,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
       });
 
       prescritUserInfo = server.create('user', 'withEmail');
-      await authenticateViaEmail(prescritUserInfo);
+      await authenticateByEmail(prescritUserInfo);
 
     });
 

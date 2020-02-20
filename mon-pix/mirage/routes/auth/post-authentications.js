@@ -10,13 +10,13 @@ function parseQueryString(queryString) {
 }
 
 export default function(schema, request) {
-  const params = parseQueryString(request.requestBody);
-  let foundUser = schema.users.findBy({ email: params.username });
+  const queryParams = parseQueryString(request.requestBody);
+  let foundUser = schema.users.findBy({ email: queryParams.username });
   if (!foundUser) {
-    foundUser = schema.users.findBy({ username: params.username });
+    foundUser = schema.users.findBy({ username: queryParams.username });
   }
 
-  if (foundUser && params.password === foundUser.password) {
+  if (foundUser && queryParams.password === foundUser.password) {
     return {
       token_type: '',
       expires_in: '',

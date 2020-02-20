@@ -1,6 +1,6 @@
 import { currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
-import { authenticateViaEmail } from '../helpers/authentification';
+import { authenticateByEmail } from '../helpers/authentification';
 import { expect } from 'chai';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
@@ -29,7 +29,7 @@ describe('Acceptance | User certifications page', function() {
 
     it('should be accessible when user is connected', async function() {
       // given
-      await authenticateViaEmail(user);
+      await authenticateByEmail(user);
 
       // when
       await visitWithAbortedTransition('/mes-certifications');
@@ -43,7 +43,7 @@ describe('Acceptance | User certifications page', function() {
 
     it('should render the banner', async function() {
       // when
-      await authenticateViaEmail(user);
+      await authenticateByEmail(user);
       await visitWithAbortedTransition('/mes-certifications');
 
       // then
@@ -52,7 +52,7 @@ describe('Acceptance | User certifications page', function() {
 
     it('should render a title for the page', async function() {
       // when
-      await authenticateViaEmail(user);
+      await authenticateByEmail(user);
       await visitWithAbortedTransition('/mes-certifications');
 
       // then
@@ -61,7 +61,7 @@ describe('Acceptance | User certifications page', function() {
 
     it('should render the panel which contains informations about certifications of the connected user', async function() {
       // when
-      await authenticateViaEmail(user);
+      await authenticateByEmail(user);
       await visitWithAbortedTransition('/mes-certifications');
 
       // then
