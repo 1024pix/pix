@@ -1,3 +1,4 @@
+const Joi = require('@hapi/joi');
 const securityController = require('../../interfaces/controllers/security-controller');
 const CacheController = require('./cache-controller');
 
@@ -11,6 +12,11 @@ exports.register = async function(server) {
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
+        validate: {
+          params: Joi.object({
+            cachekey: Joi.string().regex(/^(.)+_rec[a-zA-Z0-9]+/).required()
+          })
+        },
         handler: CacheController.refreshCacheEntry,
         tags: ['api', 'cache'],
         notes: [
