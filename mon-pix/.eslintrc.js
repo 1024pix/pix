@@ -26,6 +26,7 @@ module.exports = {
     'ember/no-empty-attrs': 'error',
     'ember/no-new-mixins': 'off',
     'ember/no-restricted-resolver-tests': 'off',
+    'ember/use-ember-data-rfc-395-imports': 'error',
   },
   overrides: [
     // node files
