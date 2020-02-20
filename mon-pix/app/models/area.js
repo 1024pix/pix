@@ -1,10 +1,13 @@
-import Model, { hasMany, attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
-export default Model.extend({
-  name: attr('string'),
-  title: attr('string'),
-  competences: hasMany('competence'),
-  resultCompetences: hasMany('resultCompetence'),
-  code: attr('number'),
-  color: attr('string'),
-});
+export default class Area extends Model {
+  // attributes
+  @attr('string') name;
+  @attr('string') title;
+  @attr('number') code;
+  @attr('string') color;
+
+  // includes
+  @hasMany('competence') competences;
+  @hasMany('resultCompetence') resultCompetences;
+}

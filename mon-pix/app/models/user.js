@@ -1,25 +1,31 @@
-import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 
-export default Model.extend({
-  firstName: attr('string'),
-  lastName: attr('string'),
-  email: attr('string'),
-  username: attr('string'),
-  password: attr('string'),
-  cgu: attr('boolean'),
-  hasSeenAssessmentInstructions: attr('boolean'),
-  recaptchaToken: attr('string'),
-  totalPixScore: attr('number'),
-  pixScore: belongsTo('pix-score'),
-  competences: hasMany('competence'),
-  organizations: hasMany('organization'),
-  certifications: hasMany('certification'),
-  campaignParticipations: hasMany('campaign-participation'),
-  scorecards: hasMany('scorecard'),
-  certificationProfile: belongsTo('certification-profile'),
+export default class User extends Model {
 
-  competenceAreas: computed('competences', function() {
+  // attributes
+  @attr('string') firstName;
+  @attr('string') lastName;
+  @attr('string') email;
+  @attr('string') username;
+  @attr('string') password;
+  @attr('boolean') cgu;
+  @attr('boolean') hasSeenAssessmentInstructions;
+  @attr('string') recaptchaToken;
+  @attr('number') totalPixScore;
+
+  // includes
+  @belongsTo('certification-profile') certificationProfile;
+  @belongsTo('pix-score') pixScore;
+  @hasMany('campaign-participation') campaignParticipations;
+  @hasMany('certification') certifications;
+  @hasMany('competence') competences;
+  @hasMany('organization') organizations;
+  @hasMany('scorecard') scorecards;
+
+  // methods
+  @computed('competences')
+  get competenceAreas() {
     return this.competences.then((competences) => {
       return competences.reduce((areas, competence) => {
         competence.get('area').then((competenceArea) => {
@@ -34,13 +40,15 @@ export default Model.extend({
         });
       }, []);
     });
-  }),
+  }
 
-  fullName: computed('firstName', 'lastName', function() {
+  @computed('firstName', 'lastName')
+  get fullName() {
     return `${this.firstName} ${ this.lastName}`;
-  }),
+  }
 
-  areasCode: computed('scorecards.@each.area', function() {
+  @computed('scorecards.@each.area')
+  get areasCode() {
     return this.scorecards.mapBy('area.code').uniq();
-  }),
-});
+  }
+}

@@ -1,8 +1,14 @@
 import Model, { belongsTo, attr } from '@ember-data/model';
 
-export default Model.extend({
-  nbChallenges: attr('number'),
-  accessCode : attr('string'),
-  sessionId : attr('number'),
-  assessment: belongsTo('assessment'),
-});
+export default class CertificationCourse extends Model {
+
+  // attributes
+  @attr('string') accessCode;
+  @attr('number') nbChallenges;
+
+  // references
+  @attr('number') sessionId;
+
+  // includes
+  @belongsTo('assessment') assessment;
+}

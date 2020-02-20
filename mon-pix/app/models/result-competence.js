@@ -1,8 +1,12 @@
-import Model, { belongsTo, attr } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
-export default Model.extend({
-  name: attr('string'),
-  area: belongsTo('area'),
-  index: attr('number'),
-  level: attr('number'),
-});
+export default class ResultCompetence extends Model {
+
+  // attributes
+  @attr('string') name;
+  @attr('number') index;
+  @attr('number') level;
+
+  // includes
+  @belongsTo('area') area;
+}

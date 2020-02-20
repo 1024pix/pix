@@ -1,17 +1,20 @@
 import Model, { hasMany, attr } from '@ember-data/model';
 import { and, empty } from '@ember/object/computed';
 
-export default Model.extend({
+export default class Correction extends Model {
 
-  solution: attr('string'),
-  hint: attr('string'),
-  tutorials: hasMany('tutorial', { inverse: null }),
-  learningMoreTutorials: hasMany('tutorial', { inverse: null }), // Traduction: TutoSavoirPlus
+  // attributes
+  @attr('string') solution;
+  @attr('string') hint;
 
-  hasNoHints: empty('hint'),
-  hasNoTutorials: empty('tutorials'),
-  hasNoLearningMoreTutorials: empty('learningMoreTutorials'),
+  // includes
+  @hasMany('tutorial', { inverse: null }) tutorials;
+  @hasMany('tutorial', { inverse: null }) learningMoreTutorials; // Traduction: TutoSavoirPlus
 
-  noHintsNorTutorialsAtAll: and('{hasNoHints,hasNoTutorials,hasNoLearningMoreTutorials}'),
+  // methods
+  @empty('hint') hasNoHints;
+  @empty('tutorials') hasNoTutorials;
+  @empty('learningMoreTutorials') hasNoLearningMoreTutorials;
 
-});
+  @and('{hasNoHints,hasNoTutorials,hasNoLearningMoreTutorials}') noHintsNorTutorialsAtAll;
+}
