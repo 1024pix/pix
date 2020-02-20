@@ -27,6 +27,14 @@ module.exports = {
     'ember/no-new-mixins': 'off',
     'ember/no-restricted-resolver-tests': 'off',
     'ember/use-ember-data-rfc-395-imports': 'error',
+    'ember/order-in-models': ['error', {
+      order: [
+        'attribute',
+        'relationship',
+        'single-line-function',
+        'multi-line-function',
+      ]
+    }]
   },
   overrides: [
     // node files

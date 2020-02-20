@@ -7,12 +7,12 @@ export default class CompetenceEvaluation extends Model {
   @attr('date') createdAt;
   @attr('date') updatedAt;
 
+  // references
+  @attr('string') competenceId;
+
   // includes
   @belongsTo('assessment') assessment;
   @belongsTo('competence') competence
   @belongsTo('scorecard', { async: false }) scorecard;
   @belongsTo('user') user;
-
-  // references
-  @attr('string') competenceId;
 }

@@ -6,9 +6,9 @@ export default class CertificationCourse extends Model {
   @attr('string') accessCode;
   @attr('number') nbChallenges;
 
-  // includes
-  @belongsTo('assessment') assessment;
-
   // references
   @attr('number') sessionId;
+
+  // includes
+  @belongsTo('assessment') assessment;
 }

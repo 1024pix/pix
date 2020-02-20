@@ -9,11 +9,14 @@ export default class Assessment extends Model {
   @attr('string') certificationNumber;
   @attr('string') codeCampaign;
   @attr('number') estimatedLevel;
-  @attr('string') participantExternalId;
   @attr('number') pixScore;
   @attr('string') state;
   @attr('string') title;
   @attr('string') type;
+
+  // references
+  @attr('string') competenceId;
+  @attr('string') participantExternalId;
 
   // includes
   @hasMany('answer') answers;
@@ -21,9 +24,6 @@ export default class Assessment extends Model {
   @belongsTo('course', { inverse: null }) course;
   @belongsTo('progression', { inverse: null }) progression;
   @belongsTo('assessment-result') result;
-
-  // relationships
-  @attr('string') competenceId;
 
   // methods
   @equal('type', 'CERTIFICATION') isCertification;
