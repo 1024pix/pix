@@ -32,14 +32,6 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findByAssessmentId(assessmentId) {
-    return BookshelfKnowledgeElement
-      .where({ assessmentId })
-      .fetchAll()
-      .then(_toDomain)
-      .then(_dropResetKnowledgeElements);
-  },
-
   findUniqByUserId({ userId, limitDate }) {
     return BookshelfKnowledgeElement
       .query((qb) => {
