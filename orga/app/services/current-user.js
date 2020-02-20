@@ -12,8 +12,17 @@ export default Service.extend({
       try {
         const user = await this.store.queryRecord('user', { me: true });
         const userMemberships = await user.get('memberships');
-        const userMembership = await userMemberships.get('firstObject');
-        const organization = await userMembership.organization;
+        const userOrgaSettings = await user.get('userOrgaSettings');
+
+        let organization;
+        let userMembership;
+        if (userOrgaSettings) {
+          organization = await userOrgaSettings.get('organization');
+          userMembership = await this._getMembershipByOrganizationId(userMemberships.toArray(), organization.id);
+        } else {
+          userMembership = await userMemberships.get('firstObject');
+          organization = await userMembership.organization;
+        }
         const isAdminInOrganization = userMembership.isAdmin;
         const canAccessStudentsPage = organization.isSco && organization.isManagingStudents;
 
@@ -27,5 +36,16 @@ export default Service.extend({
         }
       }
     }
+  },
+
+  async _getMembershipByOrganizationId(memberships, organizationId) {
+    for (let i = 0; i < memberships.length; i++) {
+      const membershipOrganization = await memberships[i].get('organization');
+      if (membershipOrganization.id === organizationId) {
+        return memberships[i];
+      }
+    }
+    return null;
   }
+
 });
