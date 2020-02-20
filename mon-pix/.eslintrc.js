@@ -22,9 +22,9 @@ module.exports = {
     browser: true
   },
   rules: {
-    'ember/avoid-leaking-state-in-ember-objects': 0,
-    'ember/no-restricted-resolver-tests': 0,
-    'ember/no-new-mixins': 0,
+    'ember/avoid-leaking-state-in-ember-objects': 'off',
+    'ember/no-new-mixins': 'off',
+    'ember/no-restricted-resolver-tests': 'off',
   },
   overrides: [
     // node files
