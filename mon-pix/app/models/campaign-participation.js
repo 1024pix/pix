@@ -6,12 +6,12 @@ export default class CampaignParticipation extends Model {
   @attr('boolean') isShared;
   @attr('date') createdAt;
 
+  // references
+  @attr('string') participantExternalId;
+
   // includes
   @belongsTo('assessment') assessment;
   @belongsTo('campaign') campaign;
   @belongsTo('campaignParticipationResult') campaignParticipationResult;
   @belongsTo('user') user;
-
-  // references
-  @attr('string') participantExternalId;
 }

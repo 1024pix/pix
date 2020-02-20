@@ -16,12 +16,12 @@ export default class Scorecard extends Model {
   @attr('number') remainingDaysBeforeReset;
   @attr('string') status;
 
+  // references
+  @attr('string') competenceId;
+
   // includes
   @belongsTo('area') area;
   @hasMany('tutorial') tutorials;
-
-  // relationships
-  @attr('string') competenceId;
 
   // methods
   @and('isFinished', 'isMaxLevel') isFinishedWithMaxLevel;

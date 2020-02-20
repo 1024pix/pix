@@ -14,13 +14,13 @@ export default class Competence extends Model {
   @attr('string') status;
   @alias('area.name') areaName;
 
-  // includes
-  @belongsTo('area') area;
-  @belongsTo('user') user;
-
   // references
   @attr('string') assessmentId;
   @attr('string') courseId;
+
+  // includes
+  @belongsTo('area') area;
+  @belongsTo('user') user;
 
   // methods
   @equal('status', 'assessed') isAssessed;
