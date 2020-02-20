@@ -136,10 +136,6 @@ class Assessment {
     return this.type === types.COMPETENCE_EVALUATION;
   }
 
-  canBeScored() {
-    return this.isCertification() && this.isCompleted();
-  }
-
   isCertifiable() {
     return this.getLastAssessmentResult().level >= 1;
   }

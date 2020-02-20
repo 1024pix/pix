@@ -8,7 +8,7 @@ const CompetenceMark = require('../../models/CompetenceMark');
 const certificationService = require('../../services/certification-service');
 const _ = require('lodash');
 
-async function calculate(assessment) {
+async function calculateAssessmentScore(assessment) {
 
   const { competencesWithMark } = await certificationService.calculateCertificationResultByAssessmentId(assessment.id);
 
@@ -28,5 +28,5 @@ async function calculate(assessment) {
 }
 
 module.exports = {
-  calculate,
+  calculateAssessmentScore,
 };

@@ -124,9 +124,8 @@ module.exports = {
 
   async completeAssessment(request) {
     const assessmentId = parseInt(request.params.id);
-    const userId = requestResponseUtils.extractUserIdFromRequest(request);
 
-    const completedAssessment = await usecases.completeAssessment({ userId, assessmentId });
+    const completedAssessment = await usecases.completeAssessment({ assessmentId });
 
     return assessmentSerializer.serialize(completedAssessment);
   },

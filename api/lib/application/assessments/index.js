@@ -52,6 +52,10 @@ exports.register = async function(server) {
       path: '/api/assessments/{id}/complete-assessment',
       config: {
         auth: false,
+        pre: [{
+          method: assessmentAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
         handler: assessmentController.completeAssessment,
         tags: ['api']
       }

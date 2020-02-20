@@ -1,10 +1,10 @@
 const { expect, domainBuilder, sinon } = require('../../../../test-helper');
 const certificationService = require('../../../../../lib/domain/services/certification-service');
-const scoringCertification = require('../../../../../lib/domain/services/scoring/scoring-certification');
+const scoringCertificationService = require('../../../../../lib/domain/services/scoring/scoring-certification-service');
 
-describe('Integration | Domain | services | scoring | scoring-certification', () => {
+describe('Integration | Domain | services | scoring | scoring-certification-service', () => {
 
-  describe('#calculate', () => {
+  describe('#calculateAssessmentScore', () => {
 
     const courseId = 123;
     const assessmentId = 836;
@@ -23,7 +23,7 @@ describe('Integration | Domain | services | scoring | scoring-certification', ()
         certificationService.calculateCertificationResultByAssessmentId.rejects(new Error('Error from certificationService'));
 
         // when
-        const promise = scoringCertification.calculate(assessment);
+        const promise = scoringCertificationService.calculateAssessmentScore(assessment);
 
         // then
         return expect(promise).to.have.been.rejectedWith(Error, 'Error from certificationService');
@@ -58,7 +58,7 @@ describe('Integration | Domain | services | scoring | scoring-certification', ()
         };
 
         // when
-        const assessmentScore = await scoringCertification.calculate(assessment);
+        const assessmentScore = await scoringCertificationService.calculateAssessmentScore(assessment);
 
         // then
         expect(assessmentScore).to.deep.equal(expectedAssessmentScore);
@@ -74,7 +74,7 @@ describe('Integration | Domain | services | scoring | scoring-certification', ()
         sinon.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({ competencesWithMark: [competenceWithMarkAboveThreshold] });
 
         // when
-        const assessmentScore = await scoringCertification.calculate(assessment);
+        const assessmentScore = await scoringCertificationService.calculateAssessmentScore(assessment);
 
         // then
         expect(assessmentScore.nbPix).to.equal(MAX_REACHABLE_PIX_BY_COMPETENCE);
