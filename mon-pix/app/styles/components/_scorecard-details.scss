@@ -118,7 +118,7 @@
     flex-grow: 1;
     padding: 0 30px 30px 30px;
     max-width: 100%;
-    
+
     @include device-is('desktop') {
       max-width: 68%;
       padding: 0 30px;
@@ -166,8 +166,6 @@
 
   &__name {
     margin: 15px 0;
-    font-size: 3.6rem;
-    line-height: 3.8rem;
   }
 
   &__description {
