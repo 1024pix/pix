@@ -3,7 +3,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
-import { authenticateViaEmail } from '../helpers/authentification';
+import { authenticateByEmail } from '../helpers/authentification';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -19,7 +19,7 @@ describe('Acceptance | Error page', function() {
 
   it('should display the error page when the api returned an error which is not 401', async function() {
     // given
-    await authenticateViaEmail(user);
+    await authenticateByEmail(user);
     this.server.get('/certifications', { errors: [{ code: 500 }] }, 500);
 
     // when

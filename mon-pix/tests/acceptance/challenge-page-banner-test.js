@@ -3,7 +3,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
-import { authenticateViaEmail } from '../helpers/authentification';
+import { authenticateByEmail } from '../helpers/authentification';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -18,7 +18,7 @@ describe('Acceptance | Challenge page banner', function() {
   });
 
   async function startCampaign() {
-    await authenticateViaEmail(user);
+    await authenticateByEmail(user);
     await visitWithAbortedTransition('campagnes/CAMPAIGN_CODE');
 
     await click('.campaign-landing-page__start-button');

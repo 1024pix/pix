@@ -1,7 +1,7 @@
 import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateViaEmail } from '../helpers/authentification';
+import { authenticateByEmail } from '../helpers/authentification';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -19,7 +19,7 @@ describe('Acceptance | Profile', function() {
 
   describe('Authenticated cases as simple user', function() {
     beforeEach(async function() {
-      await authenticateViaEmail(user);
+      await authenticateByEmail(user);
     });
 
     it('can visit /profil', async function() {

@@ -1,7 +1,7 @@
 import { find, click, currentURL, findAll } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateViaEmail } from '../helpers/authentification';
+import { authenticateByEmail } from '../helpers/authentification';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -26,7 +26,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
     let scorecardWithMaxLevel;
 
     beforeEach(async () => {
-      await authenticateViaEmail(user);
+      await authenticateByEmail(user);
       scorecardWithPoints = user.scorecards.models[0];
       scorecardWithRemainingDaysBeforeReset = user.scorecards.models[1];
       scorecardWithoutPoints = user.scorecards.models[2];

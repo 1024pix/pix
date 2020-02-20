@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import defaultScenario from '../../mirage/scenarios/default';
-import { authenticateViaEmail } from '../helpers/authentification';
+import { authenticateByEmail } from '../helpers/authentification';
 import {
   completeCampaignAndSeeResultsByCode,
   resumeCampaignByCode
@@ -23,7 +23,7 @@ describe('Acceptance | Navbar', function() {
 
   describe('Authenticated cases as simple user', function() {
     beforeEach(async function() {
-      await authenticateViaEmail(user);
+      await authenticateByEmail(user);
     });
 
     [

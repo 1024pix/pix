@@ -2,8 +2,8 @@ import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import {
-  authenticateViaEmail,
-  authenticateViaGAR,
+  authenticateByEmail,
+  authenticateByGAR,
 } from '../helpers/authentification';
 import {
   startCampaignByCode,
@@ -350,7 +350,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
     context('When user is logged in', function() {
       beforeEach(async function() {
-        await authenticateViaEmail(prescritUser);
+        await authenticateByEmail(prescritUser);
       });
 
       context('When campaign is not restricted', function() {
@@ -642,7 +642,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
       beforeEach(async function() {
         garUser = server.create('user', 'external');
-        await authenticateViaGAR(garUser);
+        await authenticateByGAR(garUser);
       });
 
       context('When campaign is restricted', function() {
