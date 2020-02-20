@@ -1,18 +1,23 @@
-import Model, { belongsTo, attr } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
 import { computed } from '@ember/object';
 
-export default Model.extend({
-  code: attr('string'),
-  idPixLabel: attr('string'),
-  title: attr('string'),
-  archivedAt: attr('date'),
-  organizationLogoUrl: attr('string'),
-  organizationName: attr('string'),
-  customLandingPageText: attr('string'),
-  isRestricted: attr('boolean'),
-  targetProfile: belongsTo('targetProfile'),
+export default class Campaign extends Model {
 
-  isArchived: computed('archivedAt', function() {
+  // attributes
+  @attr('string') code;
+  @attr('string') idPixLabel;
+  @attr('string') title;
+  @attr('date') archivedAt;
+  @attr('string') organizationLogoUrl;
+  @attr('string') organizationName;
+  @attr('string') customLandingPageText;
+  @attr('boolean') isRestricted;
+
+  // includes
+  @belongsTo('targetProfile') targetProfile;
+
+  @computed('archivedAt')
+  get isArchived() {
     return Boolean(this.archivedAt);
-  }),
-});
+  }
+}

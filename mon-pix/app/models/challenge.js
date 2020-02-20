@@ -2,31 +2,40 @@ import Model, { belongsTo, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { notEmpty, equal, gt } from '@ember/object/computed';
 
-export default Model.extend({
+export default class Challenge extends Model {
 
-  instruction: attr('string'),
-  proposals: attr('string'),
-  timer: attr('number'),
-  illustrationUrl: attr('string'),
-  type: attr('string'),
-  embedUrl: attr('string'),
-  embedTitle: attr('string'),
-  embedHeight: attr('string'),
-  illustrationAlt: attr('string', { defaultValue: 'Illustration de l\'épreuve' }),
-  format: attr('string'),
+  // attributes
+  @attr('array') attachments;
+  @attr('string') embedUrl;
+  @attr('string') embedTitle;
+  @attr('string') embedHeight;
+  @attr('string') format;
+  @attr('string', {
+    defaultValue() { return 'Illustration de l\'épreuve'; }
+  }) illustrationAlt;
+  @attr('string') illustrationUrl;
+  @attr('string') instruction;
+  @attr('string') proposals;
+  @attr('number') timer;
+  @attr('string') type;
 
-  attachments: attr('array'),
-  answer: belongsTo('answer'),
+  // includes
+  @belongsTo('answer') answer;
 
-  hasValidEmbedDocument: computed('embedUrl', 'embedTitle', 'embedHeight', function() {
+  // methods
+  @computed('embedUrl', 'embedTitle', 'embedHeight')
+  get hasValidEmbedDocument() {
     const embedUrl = this.embedUrl;
     return !!embedUrl
       && !!this.embedTitle
       && !!this.embedHeight
       && embedUrl.toLowerCase().indexOf('https://') === 0; // fixes bug on IE: startsWith in not supported (PR #242)
-  }),
-  hasAttachment: notEmpty('attachments'),
-  hasSingleAttachment: equal('attachments.length', 1),
-  hasMultipleAttachments: gt('attachments.length', 1),
-  hasTimer: notEmpty('timer')
-});
+  }
+
+  @equal('attachments.length', 1) hasSingleAttachment;
+
+  @gt('attachments.length', 1) hasMultipleAttachments;
+
+  @notEmpty('attachments') hasAttachment;
+  @notEmpty('timer') hasTimer;
+}

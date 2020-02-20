@@ -1,5 +1,7 @@
 import Model, { attr } from '@ember-data/model';
 
-export default Model.extend({
-  isCertifiable: attr('boolean'),
-});
+export default class CertificationProfile extends Model {
+
+  // attributes
+  @attr('boolean') isCertifiable;
+}

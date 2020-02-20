@@ -1,8 +1,12 @@
 import Model, { attr } from '@ember-data/model';
 
-export default Model.extend({
-  firstName: attr('string'),
-  lastName: attr('string'),
-  birthdate: attr('date-only'),
-  sessionId: attr('number'),
-});
+export default class CertificationCandidate extends Model {
+
+  // attributes
+  @attr('string') firstName;
+  @attr('string') lastName;
+  @attr('date-only') birthdate;
+
+  // references
+  @attr('number') sessionId;
+}

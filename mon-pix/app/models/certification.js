@@ -1,16 +1,20 @@
 import Model, { belongsTo, attr } from '@ember-data/model';
 
-export default Model.extend({
-  birthdate: attr('date-only'),
-  birthplace: attr('string'),
-  firstName: attr('string'),
-  lastName: attr('string'),
-  date: attr('date'),
-  certificationCenter: attr('string'),
-  isPublished: attr('boolean'),
-  pixScore: attr('number'),
-  status: attr('string'),
-  user: belongsTo('user'),
-  commentForCandidate: attr('string'),
-  resultCompetenceTree: belongsTo('resultCompetenceTree'),
-});
+export default class Certification extends Model {
+
+  // attributes
+  @attr('date-only') birthdate;
+  @attr('string') birthplace;
+  @attr('string') certificationCenter;
+  @attr('string') commentForCandidate;
+  @attr('date') date;
+  @attr('string') firstName;
+  @attr('boolean') isPublished;
+  @attr('string') lastName;
+  @attr('number') pixScore;
+  @attr('string') status;
+
+  // includes
+  @belongsTo('resultCompetenceTree') resultCompetenceTree;
+  @belongsTo('user') user;
+}
