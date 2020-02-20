@@ -28,7 +28,7 @@ describe('Unit | Router | cache-router', () => {
       // given
       const options = {
         method: 'DELETE',
-        url: '/api/cache/test-cache-key'
+        url: '/api/cache/Table_recXYZ1234'
       };
 
       // when
