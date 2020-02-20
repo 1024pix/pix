@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.115.0 (20/02/2020)
+
+- [#1036](https://github.com/1024pix/pix/pull/1036) [FEATURE] ETQ User, je souhaite tester mon pix avec un Airtable de test (isoprod) (PF-1068)
+- [#1070](https://github.com/1024pix/pix/pull/1070) [BUGFIX] Les résultat Pix+ ne doivent pas apparaître dans les résultats de certification (PF-1098)
+- [#1074](https://github.com/1024pix/pix/pull/1074) [BUGFIX] Réparation de la mise à jour du cache Airtable d'un élément unique
+- [#1052](https://github.com/1024pix/pix/pull/1052) [TECH] Nettoyage des index de la base de données (PF-728)
+- [#1079](https://github.com/1024pix/pix/pull/1079) [TECH] Pix Orga: Mise à jour de `fsevents` pour supporter Node 12
+- [#1080](https://github.com/1024pix/pix/pull/1080) [TECH] Utilisation de mots-clés français dans les tests Cypress
+- [#1084](https://github.com/1024pix/pix/pull/1084) [TECH] Se prémunir d'une attaque de type "Airtable formula injection"
+- [#1068](https://github.com/1024pix/pix/pull/1068) [BSR] Suppression du dossier Recrutements.
+
 ## v2.114.0 (18/02/2020)
 
 - [#1026](https://github.com/1024pix/pix/pull/1026) [FEATURE] Archivage des campagnes (PO-312)
@@ -9,9 +20,9 @@
 - [#1048](https://github.com/1024pix/pix/pull/1048) [FEATURE] Afficher un message spécifique en cas de refus d'accès (Pix-orga) (Pix-certification) (Pix-admin) (PO-328).
 - [#1028](https://github.com/1024pix/pix/pull/1028) [FEATURE] Ajouter la colonne "Créé le" dans la liste des campagnes (PO-307).
 - [#1064](https://github.com/1024pix/pix/pull/1064) [BUGFIX] Correction dans Pix Orga du multi click sur le bouton d'invitation (PO-335).
+- [#1061](https://github.com/1024pix/pix/pull/1061) [BUGFIX] Bug d'affichage du "Nombre d'écran de FDT non renseignés" quand une seule certif pour une session (PA-147)
 - [#1025](https://github.com/1024pix/pix/pull/1025) [TECH] Mise à jour de PixAPP vers Ember v3.15 (PF-1034).
 - [#1059](https://github.com/1024pix/pix/pull/1059) [TECH] Mise à jour de hapi. 
-- [#1061](https://github.com/1024pix/pix/pull/1061) [EXPEDIT] Bug d'affichage du "Nombre d'écran de FDT non renseignés" quand une seule certif pour une session (PA-147)
 
 ## v2.113.0 (14/02/2020)
 
