@@ -73,13 +73,6 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findByChallenge(challengeId) {
-    return BookshelfAnswer
-      .where({ challengeId })
-      .fetchAll()
-      .then((answers) => answers.models.map(_toDomain));
-  },
-
   findChallengeIdsFromAnswerIds(answerIds) {
     return Bookshelf.knex('answers')
       .distinct('challengeId')

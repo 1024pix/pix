@@ -68,45 +68,6 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
     });
   });
 
-  describe('#findByAssessmentId', () => {
-
-    let knowledgeElementsWanted;
-    let assessmentId;
-
-    beforeEach(async () => {
-      // given
-      assessmentId = databaseBuilder.factory.buildAssessment().id;
-      const assessmentIdOther = databaseBuilder.factory.buildAssessment().id;
-      const answer1Id = databaseBuilder.factory.buildAnswer({ assessmentId }).id;
-      const answer2Id = databaseBuilder.factory.buildAnswer({ assessmentId }).id;
-      const answer3Id = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentIdOther }).id;
-
-      knowledgeElementsWanted = [
-        databaseBuilder.factory.buildKnowledgeElement({
-          assessmentId,
-          answerId: answer1Id,
-        }),
-        databaseBuilder.factory.buildKnowledgeElement({
-          assessmentId,
-          answerId: answer2Id,
-        })
-      ];
-      databaseBuilder.factory.buildKnowledgeElement({
-        assessmentId: assessmentIdOther,
-        answerId: answer3Id
-      });
-      await databaseBuilder.commit();
-    });
-
-    it('should find the knowledge elements associated with a given assessment', async () => {
-      // when
-      const knowledgeElementsFound = await KnowledgeElementRepository.findByAssessmentId(assessmentId);
-
-      expect(knowledgeElementsFound).have.lengthOf(2);
-      expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWanted);
-    });
-  });
-
   describe('#findUniqByUserId', () => {
 
     const today = new Date('2018-08-01T12:34:56Z');

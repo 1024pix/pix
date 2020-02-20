@@ -12,18 +12,12 @@ exports.up = function(knex) {
       t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
     })
     .then(() => {
-      console.log(`${TABLE_NAME_TARGET_PROFILES} table is created!`);
-    })
-    .then(() => {
       return knex.schema
         .createTable(TABLE_NAME_TARGET_PROFILES_SKILLS, (t) => {
           t.increments().primary();
           t.integer('targetProfileId').unsigned().references('target-profiles.id').index();
           t.string('skillId').notNullable();
         });
-    })
-    .then(() => {
-      console.log(`${TABLE_NAME_TARGET_PROFILES_SKILLS} table is created!`);
     })
     .then(() => {
       return knex.schema.table(TABLE_NAME_CAMPAIGNS, function(table) {
@@ -40,12 +34,6 @@ exports.down = function(knex) {
       return knex.schema.dropTable(TABLE_NAME_TARGET_PROFILES_SKILLS);
     })
     .then(() => {
-      console.log(`${TABLE_NAME_TARGET_PROFILES_SKILLS} table was dropped!`);
-    })
-    .then(() => {
       return knex.schema.dropTable(TABLE_NAME_TARGET_PROFILES);
-    })
-    .then(() => {
-      console.log(`${TABLE_NAME_TARGET_PROFILES} table was dropped!`);
     });
 };

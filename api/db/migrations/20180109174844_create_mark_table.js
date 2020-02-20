@@ -9,16 +9,10 @@ exports.up = (knex) => {
       t.text('area_code').notNull();
       t.text('competence_code').notNull();
       t.integer('assessmentId').unsigned().references('assessments.id');
-    })
-    .then(() => {
-      console.log(`${TABLE_NAME} table is created!`);
     });
 };
 
 exports.down = (knex) => {
   return knex.schema
-    .dropTable(TABLE_NAME)
-    .then(() => {
-      console.log(`${TABLE_NAME} table was dropped!`);
-    });
+    .dropTable(TABLE_NAME);
 };

@@ -45,7 +45,6 @@ exports.up = function(knex) {
       return knex.schema.table(TABLE_NAME_CERTIFICATION, function(table) {
         table.dropColumn('status');
         table.dropColumn('rejectionReason');
-        console.log('Column Status moved from Certification to Assessments');
       });
     });
 };
@@ -76,8 +75,6 @@ exports.down = function(knex) {
   }).then(() => {
     return knex.schema.table(TABLE_NAME_ASSESSMENTS, function(table) {
       table.dropColumn('state');
-
-      console.log('Column Status moved from Assessments to Certifications');
     });
   });
 };

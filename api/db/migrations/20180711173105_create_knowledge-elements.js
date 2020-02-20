@@ -12,16 +12,10 @@ exports.up = (knex) => {
       table.integer('answerId').unsigned().references('answers.id').index();
       table.integer('assessmentId').unsigned().references('assessments.id').index();
       table.string('skillId').index();
-    })
-    .then(() => {
-      console.log(`${KNOWLEDGE_ELEMENTS_TABLE_NAME} table is created!`);
     });
 };
 
 exports.down = (knex) => {
   return knex.schema
-    .dropTable(KNOWLEDGE_ELEMENTS_TABLE_NAME)
-    .then(() => {
-      console.log(`${KNOWLEDGE_ELEMENTS_TABLE_NAME} table was dropped!`);
-    });
+    .dropTable(KNOWLEDGE_ELEMENTS_TABLE_NAME);
 };
