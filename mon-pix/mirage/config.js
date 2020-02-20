@@ -11,7 +11,6 @@ import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getCorrections from './routes/get-corrections';
 import getNextChallenge from './routes/get-next-challenge';
-import getOrganizations from './routes/get-organizations';
 import getPixScore from './routes/users/get-pix-score';
 import getScorecard from './routes/get-scorecard';
 import getScorecards from './routes/users/get-scorecards';
@@ -81,9 +80,6 @@ export default function() {
   this.get('/scorecards/:id/tutorials', getScorecardsTutorials);
   this.get('/competences/:id');
   this.get('/areas/:id');
-  this.get('/organizations/:id');
-
-  this.get('/organizations', getOrganizations);
 
   this.get('/corrections', getCorrections);
 
