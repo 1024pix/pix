@@ -141,6 +141,33 @@ module('Unit | Service | session-info-service', function(hooks) {
         '"5";"Toto";"Le héros";"20/03/1986";"une ville";"1234";100;1;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"0";"-";"-";555;"Certification center";"20/07/2018"\n' +
         '');
     });
+
+    module('when data start with illegal characters', function() {
+
+      test('should sanitize session data', async function(assert) {
+        // given
+        const certification = buildCertification({ id: '1', sessionId });
+        certification.set('firstName', '-Toto');
+        certification.set('lastName', '+Le héros');
+        certification.set('birthplace', '=une ville');
+        certification.set('externalId', '@1234');
+
+        const session = EmberObject.create({
+          id: sessionId,
+          certificationCenter: '@Certification center',
+          certifications: A([ certification ])
+        });
+
+        // when
+        await service.downloadSessionExportFile(session);
+
+        // then
+        assert.equal(fileSaverStub.getContent(), '\uFEFF' +
+          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Session";"Centre de certification";"Date de passage de la certification"\n' +
+          '"1";"\'-Toto";"\'+Le héros";"20/03/1986";"\'=une ville";"\'@1234";100;1;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"0";"-";"-";555;"\'@Certification center";"20/07/2018"\n' +
+          '');
+      });
+    });
   });
 
   module('#downloadJuryFile', function() {
@@ -207,7 +234,29 @@ module('Unit | Service | session-info-service', function(hooks) {
         '5;"1";"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";"non renseigné";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
         '');
     });
-    
+
+    module('when data start with illegal characters', function() {
+
+      test('should sanitize Jury data', async function(assert) {
+        // given
+        const certification = buildCertification({ id: '1', status: 'validated', sessionId: 5, examinerComment: '@examiner comment' });
+        certification.set('commentForJury', '-jury');
+
+        const session = EmberObject.create({
+          id: 5,
+          certifications: A([ certification ])
+        });
+
+        // when
+        service.downloadJuryFile(session.id, session.certifications);
+
+        // then
+        assert.equal(fileSaverStub.getContent(), '\uFEFF' +
+          '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Signalement surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
+          '5;"1";"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";"\'@examiner comment";"\'-jury";"";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
+          '');
+      });
+    });
   });
 
 });

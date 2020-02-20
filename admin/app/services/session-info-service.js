@@ -14,6 +14,7 @@ const competenceIndexes = [
 export default Service.extend({
 
   fileSaver: service(),
+  csvService: service(),
 
   async updateCertificationsStatus(certifications, isPublished) {
     const promises = certifications.map((certification) => {
@@ -25,7 +26,7 @@ export default Service.extend({
   },
 
   downloadSessionExportFile(session) {
-    const data = _buildSessionExportFileData(session);
+    const data = this.buildSessionExportFileData(session);
     const fileHeaders = _buildSessionExportFileHeaders();
     const csv = json2csv.parse(data, { fields: fileHeaders, delimiter: ';', withBOM: true });
     const sessionDateTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
@@ -42,11 +43,64 @@ export default Service.extend({
 
   downloadJuryFile(sessionId, certifications) {
     const certificationsForJury = _filterCertificationsEligibleForJury(certifications);
-    const data = _buildJuryFileData(certificationsForJury);
+    const data = this.buildJuryFileData(certificationsForJury);
     const fileHeaders = _buildJuryFileHeaders();
     const csv = json2csv.parse(data, { fields: fileHeaders, delimiter: ';', withBOM: true, });
     const fileName = 'jury_session_' + sessionId + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
     this.fileSaver.saveAs(`${csv}\n`, fileName);
+  },
+
+  buildSessionExportFileData(session) {
+    return session.certifications.map((certification) => {
+      const rowItem = {
+        'Numéro de certification': certification.id,
+        'Prénom': this.csvService.sanitize(certification.firstName),
+        'Nom': this.csvService.sanitize(certification.lastName),
+        'Date de naissance': moment(certification.birthdate).format('DD/MM/YYYY'),
+        'Lieu de naissance': this.csvService.sanitize(certification.birthplace),
+        'Identifiant Externe': this.csvService.sanitize(certification.externalId),
+        'Nombre de Pix': certification.pixScore,
+        'Session': session.id,
+        'Centre de certification': this.csvService.sanitize(session.certificationCenter)  ,
+        'Date de passage de la certification': moment(certification.createdAt).format('DD/MM/YYYY'),
+      };
+
+      const certificationIndexedCompetences = certification.indexedCompetences;
+      competenceIndexes.forEach((competence) => {
+        if (!certificationIndexedCompetences[competence]) {
+          rowItem[competence] = '-';
+        } else if (certificationIndexedCompetences[competence].level === 0 || certificationIndexedCompetences[competence].level === -1) {
+          rowItem[competence] = '0';
+        } else {
+          rowItem[competence] = certificationIndexedCompetences[competence].level;
+        }
+      });
+
+      return rowItem;
+    });
+  },
+
+  buildJuryFileData(certifications) {
+    return certifications.map((certification) => {
+      const rowItem = {
+        'ID de session': certification.sessionId,
+        'ID de certification': certification.id,
+        'Statut de la certification': certification.status,
+        'Date de debut': certification.creationDate,
+        'Date de fin': certification.completionDate,
+        'Signalement surveillant': this.csvService.sanitize(certification.examinerComment),
+        'Commentaire pour le jury': this.csvService.sanitize(certification.commentForJury),
+        'Ecran de fin non renseigné': certification.hasSeenEndTestScreen ? '' : 'non renseigné',
+        'Note Pix': certification.pixScore,
+      };
+
+      const certificationIndexedCompetences = certification.indexedCompetences;
+      competenceIndexes.forEach((competence) => {
+        rowItem[competence] = certificationIndexedCompetences[competence] ? certificationIndexedCompetences[competence].level : '';
+      });
+
+      return rowItem;
+    });
   },
 
 });
@@ -71,36 +125,6 @@ function _buildSessionExportFileHeaders() {
   );
 }
 
-function _buildSessionExportFileData(session) {
-  return session.certifications.map((certification) => {
-    const rowItem = {
-      'Numéro de certification': certification.id,
-      'Prénom': certification.firstName,
-      'Nom': certification.lastName,
-      'Date de naissance': moment(certification.birthdate).format('DD/MM/YYYY'),
-      'Lieu de naissance': certification.birthplace,
-      'Identifiant Externe': certification.externalId,
-      'Nombre de Pix': certification.pixScore,
-      'Session': session.id,
-      'Centre de certification': session.certificationCenter,
-      'Date de passage de la certification': moment(certification.createdAt).format('DD/MM/YYYY'),
-    };
-
-    const certificationIndexedCompetences = certification.indexedCompetences;
-    competenceIndexes.forEach((competence) => {
-      if (!certificationIndexedCompetences[competence]) {
-        rowItem[competence] = '-';
-      } else if (certificationIndexedCompetences[competence].level === 0 || certificationIndexedCompetences[competence].level === -1) {
-        rowItem[competence] = '0';
-      } else {
-        rowItem[competence] = certificationIndexedCompetences[competence].level;
-      }
-    });
-
-    return rowItem;
-  });
-}
-
 function _filterCertificationsEligibleForJury(certifications) {
   return certifications.filter((certification) => {
     return (certification.status !== 'validated') || (!_.isEmpty(certification.examinerComment)) || !certification.hasSeenEndTestScreen;
@@ -122,28 +146,4 @@ function _buildJuryFileHeaders() {
     ],
     competenceIndexes
   );
-}
-
-function _buildJuryFileData(certifications) {
-  return certifications.map((certification) => {
-    const rowItem = {
-      'ID de session': certification.sessionId,
-      'ID de certification': certification.id,
-      'Statut de la certification': certification.status,
-      'Date de debut': certification.creationDate,
-      'Date de fin': certification.completionDate,
-      'Signalement surveillant': certification.examinerComment,
-      'Commentaire pour le jury': certification.commentForJury,
-      'Ecran de fin non renseigné': certification.hasSeenEndTestScreen ? '' : 'non renseigné',
-      'Note Pix': certification.pixScore,
-    };
-
-    const certificationIndexedCompetences = certification.indexedCompetences;
-    competenceIndexes.forEach((competence) => {
-      rowItem[competence] = certificationIndexedCompetences[competence] ? certificationIndexedCompetences[competence].level : '';
-    });
-
-    return rowItem;
-  });
-
 }
