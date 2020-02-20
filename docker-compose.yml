@@ -2,7 +2,7 @@ version: '3'
 
 services:
   postgres:
-    image: postgres:10-alpine
+    image: postgres:11.7-alpine
     ports:
       - "5432:5432"
     environment:
@@ -10,6 +10,6 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
 
   redis:
-    image: redis
+    image: redis:5.0.7-alpine
     ports:
       - "6379:6379"
