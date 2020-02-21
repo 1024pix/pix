@@ -320,6 +320,12 @@ class OrganizationStudentAlreadyLinkedToUserError extends DomainError {
   }
 }
 
+class UserNotAuthorizedToCreateResourceError extends DomainError {
+  constructor(message = 'Cet utilisateur n\'est pas autorisé à créer la ressource.') {
+    super(message);
+  }
+}
+
 class FileValidationError extends DomainError {
   constructor(message = 'Erreur, fichier non valide.') {
     super(message);
@@ -490,6 +496,7 @@ module.exports = {
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
+  UserNotAuthorizedToCreateResourceError,
   UserNotAuthorizedToGetCampaignResultsError,
   UserNotAuthorizedToGetCertificationCoursesError,
   UserNotAuthorizedToUpdateCampaignError,
