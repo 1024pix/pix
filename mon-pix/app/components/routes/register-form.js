@@ -59,7 +59,7 @@ export default Component.extend({
       || !isDayValid(this.dayOfBirth) || !isMonthValid(this.monthOfBirth) || !isYearValid(this.yearOfBirth);
   }),
 
-  isCreationFormNotValid: computed('email,username,password', function() {
+  isCreationFormNotValid: computed('email','username','password', function() {
     const isPasswordNotValid = !isPasswordValid(this.get('password'));
     const isUsernameNotValid = !isStringValid(this.get('username'));
     const isEmailNotValid = !isEmailValid(this.get('email'));
