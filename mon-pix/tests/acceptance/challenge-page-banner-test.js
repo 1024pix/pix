@@ -3,25 +3,26 @@ import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
-import { authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateByEmail } from '../helpers/authentification';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Challenge page banner', function() {
   setupApplicationTest();
   setupMirage();
+  let user;
 
   beforeEach(function() {
     defaultScenario(this.server);
+    user = server.create('user', 'withEmail');
   });
 
   async function startCampaign() {
-    await authenticateAsSimpleUser();
+    await authenticateByEmail(user);
     await visitWithAbortedTransition('campagnes/CAMPAIGN_CODE');
 
     await click('.campaign-landing-page__start-button');
     await click('.campaign-tutorial__ignore-button');
-
   }
 
   context('When user is starting a campaign assessment', function() {
@@ -46,8 +47,8 @@ describe('Acceptance | Challenge page banner', function() {
         const newAssessment = {
           'id': 'ref_assessment_campaign_id',
           'user-id': 'user_id',
-          'user-name': 'Jane Doe',
-          'user-email': 'jane@acme.com',
+          'user-name': `${user.firstName} ${user.lastName}`,
+          'user-email': user.email,
         };
         newAssessment.type = 'SMART_PLACEMENT';
         newAssessment.codeCampaign = 'CAMPAIGN_CODE';

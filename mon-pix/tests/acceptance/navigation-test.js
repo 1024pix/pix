@@ -1,11 +1,11 @@
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import defaultScenario from '../../mirage/scenarios/default';
+import { authenticateByEmail } from '../helpers/authentification';
 import {
-  authenticateAsSimpleUser,
   completeCampaignAndSeeResultsByCode,
   resumeCampaignByCode
-} from '../helpers/testing';
+} from '../helpers/campaign';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import visitWithAbortedTransition from '../helpers/visit';
@@ -14,14 +14,16 @@ import { click, currentURL, find } from '@ember/test-helpers';
 describe('Acceptance | Navbar', function() {
   setupApplicationTest();
   setupMirage();
+  let user;
 
   beforeEach(function() {
     defaultScenario(this.server);
+    user = server.create('user', 'withEmail');
   });
 
   describe('Authenticated cases as simple user', function() {
     beforeEach(async function() {
-      await authenticateAsSimpleUser();
+      await authenticateByEmail(user);
     });
 
     [

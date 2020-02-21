@@ -2,11 +2,13 @@ import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import {
-  authenticateAsSimpleUser,
-  authenticateAsSimpleExternalUser,
+  authenticateByEmail,
+  authenticateByGAR,
+} from '../helpers/authentification';
+import {
   startCampaignByCode,
   startCampaignByCodeAndExternalId
-} from '../helpers/testing';
+} from '../helpers/campaign';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -24,14 +26,19 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
   beforeEach(function() {
     defaultScenario(this.server);
     this.server.schema.students.create({
-      firstName: 'Tom',
-      lastName: 'Acme',
+      firstName: 'JeanPrescrit',
+      lastName: 'Campagne',
       userId: null,
       organizationId: null
     });
   });
 
   describe('Start a campaigns course', function() {
+    let prescritUser;
+
+    beforeEach(function() {
+      prescritUser = server.create('user', 'withEmail');
+    });
 
     context('When user is not logged in', function() {
 
@@ -77,30 +84,29 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
             });
 
-            it('should redirect to landing page page when reconciliation and registration are done', async function() {
-
+            it('should redirect to landing page when reconciliation and registration are done', async function() {
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 
               expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
 
               // when
-              await fillIn('#firstName', 'Tom');
-              await fillIn('#lastName', 'Acme');
+              await fillIn('#firstName', 'JeanPrescrit');
+              await fillIn('#lastName', 'Campagne');
               await fillIn('#dayOfBirth', '10');
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
               await click('#submit-search');
 
-              await fillIn('#username', 'tom.acme1012');
-              await fillIn('#password', 'Tom12345');
+              await fillIn('#username', 'jeanprescrit1012');
+              await fillIn('#password', 'pix123');
               await click('#submit-registration');
 
               // then
               expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
             });
 
-            it('should redirect to join restricted campaign page when connexion is done', async function() {
+            it('should redirect to join restricted campaign page when connection is done', async function() {
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
 
@@ -108,8 +114,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
               // when
               await click('#login-button');
-              await fillIn('#login', 'jane@acme.com');
-              await fillIn('#password', 'Jane1234');
+              await fillIn('#login', prescritUser.email);
+              await fillIn('#password', prescritUser.password);
               await click('#submit-connexion');
 
               // then
@@ -123,8 +129,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               expect(currentURL()).to.equal(`/campagnes/${campaignCode}/identification`);
 
               await click('#login-button');
-              await fillIn('#login', 'jane@acme.com');
-              await fillIn('#password', 'Jane1234');
+              await fillIn('#login', prescritUser.email);
+              await fillIn('#password', prescritUser.password);
               await click('#submit-connexion');
 
               expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
@@ -235,10 +241,10 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         context('When participant external id is not set in the url', function() {
           beforeEach(async function() {
             await startCampaignByCode('AZERTY1');
-            await fillIn('#firstName', 'Jane');
-            await fillIn('#lastName', 'Acme');
-            await fillIn('#email', 'jane@acme.com');
-            await fillIn('#password', 'Jane1234');
+            await fillIn('#firstName', prescritUser.firstName);
+            await fillIn('#lastName', prescritUser.lastName);
+            await fillIn('#email', prescritUser.email);
+            await fillIn('#password', prescritUser.password);
             await click('#pix-cgu');
             await click('.button');
           });
@@ -263,10 +269,10 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           context('When campaign is not restricted', function() {
             beforeEach(async function() {
               await startCampaignByCodeAndExternalId('AZERTY1');
-              await fillIn('#firstName', 'Jane');
-              await fillIn('#lastName', 'Acme');
-              await fillIn('#email', 'jane@acme.com');
-              await fillIn('#password', 'Jane1234');
+              await fillIn('#firstName', prescritUser.firstName);
+              await fillIn('#lastName', prescritUser.lastName);
+              await fillIn('#email', prescritUser.email);
+              await fillIn('#password', prescritUser.password);
               await click('#pix-cgu');
               await click('.button');
             });
@@ -285,12 +291,12 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
               await click('#login-button');
 
-              await fillIn('#login', 'jane@acme.com');
-              await fillIn('#password', 'Jane1234');
+              await fillIn('#login', prescritUser.email);
+              await fillIn('#password', prescritUser.password);
               await click('#submit-connexion');
 
-              await fillIn('#firstName', 'Jane');
-              await fillIn('#lastName', 'Acme');
+              await fillIn('#firstName', prescritUser.firstName);
+              await fillIn('#lastName', prescritUser.lastName);
               await fillIn('#dayOfBirth', '10');
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
@@ -309,10 +315,10 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
       context('When campaign does not have external id', function() {
         beforeEach(async function() {
           await startCampaignByCode('AZERTY2');
-          await fillIn('#firstName', 'Jane');
-          await fillIn('#lastName', 'Acme');
-          await fillIn('#email', 'jane@acme.com');
-          await fillIn('#password', 'Jane1234');
+          await fillIn('#firstName', prescritUser.firstName);
+          await fillIn('#lastName', prescritUser.lastName);
+          await fillIn('#email', prescritUser.email);
+          await fillIn('#password', prescritUser.password);
           await click('#pix-cgu');
           await click('.button');
         });
@@ -326,10 +332,10 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
       context('When campaign does not have external id but a participant external id is set in the url', function() {
         beforeEach(async function() {
           await startCampaignByCodeAndExternalId('AZERTY2');
-          await fillIn('#firstName', 'Jane');
-          await fillIn('#lastName', 'Acme');
-          await fillIn('#email', 'jane@acme.com');
-          await fillIn('#password', 'Jane1234');
+          await fillIn('#firstName', prescritUser.firstName);
+          await fillIn('#lastName', prescritUser.lastName);
+          await fillIn('#email', prescritUser.email);
+          await fillIn('#password', prescritUser.password);
           await click('#pix-cgu');
           await click('.button');
         });
@@ -344,7 +350,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
     context('When user is logged in', function() {
       beforeEach(async function() {
-        await authenticateAsSimpleUser();
+        await authenticateByEmail(prescritUser);
       });
 
       context('When campaign is not restricted', function() {
@@ -451,7 +457,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
           beforeEach(async function() {
             server.create('student', {
-              userId: 1,
+              userId: prescritUser.id,
             });
           });
 
@@ -632,8 +638,11 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
     });
 
     context('When user is logged in with an external platform', function() {
+      let garUser;
+
       beforeEach(async function() {
-        await authenticateAsSimpleExternalUser();
+        garUser = server.create('user', 'external');
+        await authenticateByGAR(garUser);
       });
 
       context('When campaign is restricted', function() {
@@ -646,8 +655,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
             await visitWithAbortedTransition(`/campagnes/${campaignCode}/rejoindre`);
 
             //then
-            expect(find('#firstName').value).to.equal('JaneExternal');
-            expect(find('#lastName').value).to.equal('Doe');
+            expect(find('#firstName').value).to.equal(garUser.firstName);
+            expect(find('#lastName').value).to.equal(garUser.lastName);
           });
 
           it('should redirect to landing page when fields are filled in', async function() {
@@ -658,7 +667,6 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
-
             await click('.button');
 
             //then
@@ -670,7 +678,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
           beforeEach(async function() {
             server.create('student', {
-              userId: 3,
+              userId: garUser.id,
             });
           });
 

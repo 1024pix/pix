@@ -1,36 +1,36 @@
 import findAssessments from './routes/find-assessments';
-import findTutorials from './routes/find-tutorials';
 import getAnswer from './routes/get-answer';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
 import getAssessment from './routes/get-assessment';
-import getAuthenticatedUser from './routes/get-user-me';
+import getAuthenticatedUser from './routes/users/get-authenticated-user';
 import getCampaignParticipation from './routes/get-campaign-participation';
 import getCampaignParticipationResult from './routes/get-campaign-participation-result';
 import getCampaigns from './routes/get-campaigns';
-import getCertificationProfile from './routes/get-certification-profile';
+import getCertificationProfile from './routes/users/get-certification-profile';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getCorrections from './routes/get-corrections';
-import getCourse from './routes/get-course';
-import getCourses from './routes/get-courses';
 import getNextChallenge from './routes/get-next-challenge';
 import getOrganizations from './routes/get-organizations';
-import getPixScore from './routes/get-pix-score';
+import getPixScore from './routes/users/get-pix-score';
 import getScorecard from './routes/get-scorecard';
-import getScorecards from './routes/get-scorecards';
+import getScorecards from './routes/users/get-scorecards';
+import getScorecardsTutorials from './routes/get-scorecards-tutorials';
 import getSnapshots from './routes/get-snapshots';
-import getUserCampaignParticipations from './routes/get-user-campaign-participations';
+import getUserCampaignParticipations from './routes/users/get-user-campaign-participations';
 import patchAnswer from './routes/patch-answer';
 import patchCampaignParticipation from './routes/patch-campaign-participation';
 import postAnswers from './routes/post-answers';
 import postAssessments from './routes/post-assessments';
-import postAuthentications from './routes/post-authentications';
 import postCampaignParticipation from './routes/post-campaign-participation';
 import postCertificationCourse from './routes/post-certification-course';
 import postCompetenceEvaluation from './routes/post-competence-evaluation';
 import postFeedbacks from './routes/post-feedbacks';
 import postSessionParticipation from './routes/post-session-participation';
-import resetScorecard from './routes/reset-scorecard';
+import resetScorecard from './routes/users/reset-scorecard';
+import loadAuthRoutes from './routes/auth/index';
+import loadUserRoutes from './routes/users/index';
+import loadCourseRoutes from './routes/courses/index';
 
 import { Response } from 'ember-cli-mirage';
 
@@ -45,10 +45,9 @@ export default function() {
   this.namespace = 'api';
   this.timing = 0; // response delay
 
-  this.post('/token',postAuthentications);
-  this.post('/revoke', () => {});
-
-  this.get('/courses', getCourses);
+  loadAuthRoutes(this);
+  loadUserRoutes(this);
+  loadCourseRoutes(this);
 
   this.get('/challenges', getChallenges);
   this.get('/challenges/:id', getChallenge);
@@ -67,8 +66,6 @@ export default function() {
 
   this.post('/feedbacks', postFeedbacks);
 
-  this.get('/courses/:id', getCourse);
-
   this.post('/certification-courses', postCertificationCourse);
 
   this.get('/certifications');
@@ -82,7 +79,7 @@ export default function() {
   this.get('/users/:id/campaign-participations', getUserCampaignParticipations);
   this.post('/users/:userId/competences/:competenceId/reset', resetScorecard);
   this.get('/scorecards/:id', getScorecard);
-  this.get('/scorecards/:id/tutorials', findTutorials);
+  this.get('/scorecards/:id/tutorials', getScorecardsTutorials);
   this.get('/competences/:id');
   this.get('/areas/:id');
   this.get('/organizations/:id');

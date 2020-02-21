@@ -12,14 +12,12 @@ export default class User extends Model {
   @attr('boolean') cgu;
   @attr('boolean') hasSeenAssessmentInstructions;
   @attr('string') recaptchaToken;
-  @attr('number') totalPixScore;
 
   // includes
   @belongsTo('certification-profile') certificationProfile;
   @belongsTo('pix-score') pixScore;
   @hasMany('campaign-participation') campaignParticipations;
   @hasMany('certification') certifications;
-  @hasMany('competence') competences;
   @hasMany('organization') organizations;
   @hasMany('scorecard') scorecards;
 

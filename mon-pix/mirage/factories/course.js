@@ -1,9 +1,22 @@
 import { Factory } from 'ember-cli-mirage';
+import faker from 'faker';
 
 export default Factory.extend({
 
-  name(i) {
-    return `course ${i}`;
-  }
+  id(i) {
+    return `rec_${i}`;
+  },
+
+  name() {
+    return faker.lorem.word();
+  },
+
+  description() {
+    return faker.lorem.paragraph();
+  },
+
+  nbChallenges() {
+    return faker.random.number();
+  },
 
 });
