@@ -40,62 +40,60 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
     controller.transitionToRoute = sinon.stub();
   });
 
-  describe('#shouldShowPixEmploiBadge', () => {
-    it('should return true when user masters more than 85 percent for pixEmploi profile ', function() {
-      // when
-      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Pix emploi - Parcours complet');
-      controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 85);
+  describe('#shouldShowBadge', () => {
+    context('when at least one badge is available', function() {
+      beforeEach(function() {
+        // given
+        const badgePixEmploi = {
+          altMessage: 'Vous avez validé le badge Pix Emploi.',
+          message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
+            'Pour valoriser vos compétences, renseignez-vous auprès de votre conseiller.',
+          imageUrl: '/images/badges/Pix-emploi.svg',
+        };
 
-      // then
-      expect(controller.shouldShowPixEmploiBadge).to.equal(true);
+        controller.set('model.campaignParticipation.campaignParticipationResult.badge', badgePixEmploi);
+      });
+
+      it('should return true when user masters more than 85 percent', function() {
+        // when
+        controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 85);
+
+        // then
+        expect(controller.shouldShowBadge).to.equal(true);
+      });
+
+      it('should return false when user masters less than 85 percent', function() {
+        // when
+        controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 26);
+
+        // then
+        expect(controller.shouldShowBadge).to.equal(false);
+      });
     });
 
-    it('should return false when user masters less than 85 percent for pixEmploi profile ', function() {
-      // when
-      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Pix emploi - Parcours complet');
-      controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 83);
+    context('when no badge is available', function() {
+      beforeEach(function() {
+        // given
+        controller.set('model.campaignParticipation.campaignParticipationResult.badge', null);
+      });
 
-      // then
-      expect(controller.shouldShowPixEmploiBadge).to.equal(false);
+      it('should return false when user masters more than 85 percent', function() {
+        // when
+        controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 85);
+
+        // then
+        expect(controller.shouldShowBadge).to.equal(false);
+      });
+
+      it('should return false when user masters less than 85 percent', function() {
+        // when
+        controller.set('model.campaignParticipation.campaignParticipationResult.badge', null);
+        controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 26);
+
+        // then
+        expect(controller.shouldShowBadge).to.equal(false);
+      });
     });
-    it('should return false when user masters more than 85 percent for other profile ', function() {
-      // when
-      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Pix Chomage');
-      controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 86);
-
-      // then
-      expect(controller.shouldShowPixEmploiBadge).to.equal(false);
-    });
-
-  });
-
-  describe('#shouldShowCleaNumeriqueBadge', () => {
-    it('should return true when user masters more than 85 percent for Clea Numerique profile ', function() {
-      // when
-      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Parcours Cléa numérique');
-      controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 85);
-
-      // then
-      expect(controller.shouldShowCleaNumeriqueBadge).to.equal(true);
-    });
-
-    it('should return false when user masters less than 85 percent for Clea Numerique profile ', function() {
-      // when
-      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Parcours Cléa numérique');
-      controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 83);
-
-      // then
-      expect(controller.shouldShowCleaNumeriqueBadge).to.equal(false);
-    });
-    it('should return false when user masters more than 85 percent for other profile ', function() {
-      // when
-      controller.set('model.campaignParticipation.campaign.targetProfile.name', 'Bidule Numérique');
-      controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 86);
-
-      // then
-      expect(controller.shouldShowCleaNumeriqueBadge).to.equal(false);
-    });
-
   });
 
   describe('#shareCampaignParticipation', function() {
