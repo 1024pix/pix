@@ -1,0 +1,87 @@
+.logged-user-summary {
+  letter-spacing: 0.03125rem;
+  text-align: right;
+
+  &__link {
+    color: $comet;
+    cursor: pointer;
+    display: flex;
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: $comet;
+      text-decoration: none;
+    }
+  }
+
+  &__name {
+    font-size: 0.875rem;
+    font-weight: bold;
+    height: 19px;
+  }
+
+  &__organization {
+    height: 18px;
+  }
+
+  &__chevron {
+    align-self: center;
+    margin-left: 18px;
+    vertical-align: middle;
+
+    &-up {
+      color: $aqua;
+    }
+  }
+}
+
+.logged-user-menu {
+  background-color: $white;
+  border-radius: 4px;
+  box-shadow: $box-shadow-user-logged-menu;
+  overflow: hidden;
+  position: absolute;
+  right: 30px;
+  top: 60px;
+  width: 400px;
+
+  &-item {
+    align-items: center;
+    border-radius: 4px;
+    color: $comet;
+    cursor: pointer;
+    display: flex;
+    font-size: 0.875rem;
+    padding: 12px 16px;
+    text-decoration: none;
+    transition: background-color 0.1s linear;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $porcelain;
+      color: $comet;
+      text-decoration: none;
+    }
+
+    &__icon {
+      margin-right: 8px;
+    }
+
+    &__last:not(:first-child) {
+      border-top: 1px solid $alto;
+    }
+
+    &__organization-name {
+      margin-right: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &__organization-externalId {
+      flex: 0;
+    }
+  }
+}

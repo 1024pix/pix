@@ -22,6 +22,7 @@ function _buildOrganization() {
     name: 'ACME',
     type: 'PRO',
     code: 'ABCD12',
+    externalId: 'EXTID',
     isManagingStudents: false,
   });
 }
