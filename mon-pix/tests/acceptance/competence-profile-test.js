@@ -1,7 +1,7 @@
 import { click, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateByEmail } from '../helpers/authentification';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -11,21 +11,33 @@ import { setBreakpoint } from 'ember-responsive/test-support';
 describe('Acceptance | Profile | Start competence', function() {
   setupApplicationTest();
   setupMirage();
+  let user;
 
   beforeEach(function() {
     defaultScenario(this.server);
+    user = server.create('user', 'withEmail');
   });
 
   describe('Authenticated cases as simple user', function() {
     beforeEach(async function() {
-      await authenticateAsSimpleUser();
+      await authenticateByEmail(user);
     });
 
     it('can start a competence', async function() {
+      //given
+      const firstScorecard = user.scorecards.models[0];
+      const competenceId = firstScorecard.competenceId;
+      const splitIndex = firstScorecard.index.split('.');
+      const competenceNumber = splitIndex[splitIndex.length - 1];
+      server.create('competence-evaluation', {
+        user: user,
+        competenceId: competenceId
+      });
+
       // when
       await visitWithAbortedTransition('/profil');
       await setBreakpoint('tablet');
-      await click('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__button');
+      await click(`.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__button`);
 
       // then
       expect(currentURL()).to.contains('/assessments/');

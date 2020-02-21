@@ -6,23 +6,27 @@ import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-async function visitTimedChallenge() {
-  await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+async function visitTimedChallenge(assessment, challenge) {
+  await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${challenge.id}`);
   await click('.challenge-item-warning button');
 }
 
 describe('Acceptance | Download an attachment from a challenge', function() {
   setupApplicationTest();
   setupMirage();
+  let challenge;
+  let assessment;
 
   beforeEach(function() {
     defaultScenario(this.server);
+    challenge = server.create('challenge', 'timed', 'withAttachment');
+    assessment = server.create('assessment');
   });
 
   describe('When the challenge has an attachment', function() {
 
     beforeEach(async function() {
-      await visitTimedChallenge();
+      await visitTimedChallenge(assessment, challenge);
     });
 
     it('should have a way to download the attachment', function() {
@@ -31,7 +35,8 @@ describe('Acceptance | Download an attachment from a challenge', function() {
 
     it('should expose the correct attachment link', function() {
       expect(find('.challenge-statement__action-link').textContent).to.contain('Télécharger');
-      expect(find('.challenge-statement__action-link').getAttribute('href')).to.equal('http://example_of_url');
+      expect(challenge.attachments.length).to.equal(1);
+      expect(find('.challenge-statement__action-link').getAttribute('href')).to.equal(challenge.attachments[0]);
     });
 
     it('should only have one file downloadable', function() {

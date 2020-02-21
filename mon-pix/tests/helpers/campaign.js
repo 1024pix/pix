@@ -1,28 +1,6 @@
 import { click, fillIn } from '@ember/test-helpers';
 import visitWithAbortedTransition from './visit';
 
-export async function authenticateAsSimpleUser() {
-  await visitWithAbortedTransition('/connexion');
-  await fillIn('#login', 'jane@acme.com');
-  await fillIn('#password', 'Jane1234');
-  await click('.button');
-}
-
-export async function authenticateAsSimpleExternalUser() {
-  await visitWithAbortedTransition('/?token=aaa.' + btoa('{"user_id":3,"source":"external","iat":1545321469,"exp":4702193958}') + '.bbb');
-}
-
-export async function authenticateAsPrescriber() {
-  await visitWithAbortedTransition('/connexion');
-  await fillIn('#login', 'john@acme.com');
-  await fillIn('#password', 'John1234');
-  await click('.button');
-}
-
-export async function logout() {
-  await visitWithAbortedTransition('/deconnexion');
-}
-
 export async function startCampaignByCode(campaignCode) {
   await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
   await click('.campaign-landing-page__start-button');

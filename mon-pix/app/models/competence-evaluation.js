@@ -12,7 +12,6 @@ export default class CompetenceEvaluation extends Model {
 
   // includes
   @belongsTo('assessment') assessment;
-  @belongsTo('competence') competence
   @belongsTo('scorecard', { async: false }) scorecard;
   @belongsTo('user') user;
 }

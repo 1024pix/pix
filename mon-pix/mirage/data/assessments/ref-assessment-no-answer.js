@@ -1,4 +1,3 @@
-import refCourse from '../courses/ref-course';
 
 export default {
   data: {
@@ -10,12 +9,6 @@ export default {
       'user-email': 'jsnow@winterfell.got',
     },
     relationships: {
-      course: {
-        data: {
-          type: 'courses',
-          id: refCourse.data.id,
-        },
-      },
       answers: {
         data: [],
       },

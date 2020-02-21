@@ -1,7 +1,7 @@
 import { click, currentURL, fillIn, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateByEmail } from '../helpers/authentification';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -12,6 +12,8 @@ describe('Acceptance | Certification | Start Course', function() {
   setupApplicationTest();
   setupMirage();
 
+  let user;
+
   beforeEach(function() {
     defaultScenario(this.server);
   });
@@ -21,6 +23,7 @@ describe('Acceptance | Certification | Start Course', function() {
     context('When user is not logged in', function() {
 
       beforeEach(async function() {
+        user = server.create('user', 'withEmail');
         await visitWithAbortedTransition('/certifications');
       });
 
@@ -33,13 +36,11 @@ describe('Acceptance | Certification | Start Course', function() {
 
     context('When user is logged in', function() {
 
-      beforeEach(async function() {
-        await authenticateAsSimpleUser();
-      });
-
       context('When user is not certifiable', function() {
 
         beforeEach(async function() {
+          user = server.create('user', 'withEmail', 'notCertifiable');
+          await authenticateByEmail(user);
           const currentUser = this.owner.lookup('service:currentUser');
           await currentUser.load();
           await currentUser.user.get('certificationProfile');
@@ -55,7 +56,9 @@ describe('Acceptance | Certification | Start Course', function() {
 
       context('When user is certifiable', function() {
 
-        beforeEach(function() {
+        beforeEach(async function() {
+          user = server.create('user', 'withEmail', 'certifiable');
+          await authenticateByEmail(user);
           return visitWithAbortedTransition('/certifications');
         });
 

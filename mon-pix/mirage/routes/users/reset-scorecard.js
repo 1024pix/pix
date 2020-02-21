@@ -1,7 +1,11 @@
+import _ from 'lodash';
+
 export default function(schema, request) {
   const competenceId = request.params.competenceId;
+  const userId = request.params.userId;
 
-  const scorecard = schema.scorecards.findBy({ competenceId });
+  const userScorecards = schema.users.find(userId).scorecards.models;
+  const scorecard = _.find(userScorecards, { competenceId });
 
   scorecard.update({
     status: 'NOT_STARTED',

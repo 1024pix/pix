@@ -1,11 +1,11 @@
 import { click, find, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
+import { authenticateByEmail } from '../helpers/authentification';
 import {
-  authenticateAsSimpleUser,
   completeCampaignAndSeeResultsByCode,
   resumeCampaignByCode
-} from '../helpers/testing';
+} from '../helpers/campaign';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -14,9 +14,11 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 describe('Acceptance | Campaigns | Campaigns Result', function() {
   setupApplicationTest();
   setupMirage();
+  let user;
 
   beforeEach(function() {
     defaultScenario(this.server);
+    user = server.create('user', 'withEmail');
   });
 
   describe('Display campaign results', function() {
@@ -41,7 +43,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
       const campaignId = 1;
 
       beforeEach(async function() {
-        await authenticateAsSimpleUser();
+        await authenticateByEmail(user);
         await visitWithAbortedTransition(`/campagnes/${campaignId}/resultats/${requestedAssessmentId}`);
       });
 

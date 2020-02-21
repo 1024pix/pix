@@ -1,4 +1,5 @@
-import { Factory } from 'ember-cli-mirage';
+import { Factory, trait } from 'ember-cli-mirage';
+import faker from 'faker';
 
 export default Factory.extend({
   type() {
@@ -11,6 +12,14 @@ export default Factory.extend({
 
   proposals() {
     return 'Rue de : ${Rue#}';
-  }
+  },
+
+  timed: trait({
+    timer: faker.random.number(),
+  }),
+
+  withAttachment: trait({
+    attachments: [faker.internet.url()],
+  }),
 
 });
