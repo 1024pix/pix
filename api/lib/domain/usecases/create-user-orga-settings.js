@@ -1,6 +1,13 @@
 module.exports = async function createUserOrgaSettings({
-  userOrgaSettings
+  organizationId,
+  userId,
+  userRepository,
+  organizationRepository,
+  userOrgaSettingsRepository
 }) {
 
-  return userOrgaSettings;
+  await userRepository.get(userId);
+  await organizationRepository.get(organizationId);
+
+  return userOrgaSettingsRepository.create(userId, organizationId);
 };
