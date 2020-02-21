@@ -6,7 +6,7 @@ module.exports = {
       attributes: ['totalSkillsCount', 'testedSkillsCount', 'validatedSkillsCount', 'isCompleted', 'badge', 'competenceResults'],
       badge: {
         ref: 'id',
-        attributes: ['message', 'imageUrl'],
+        attributes: ['altMessage', 'message', 'imageUrl'],
       },
       competenceResults: {
         ref: 'id',

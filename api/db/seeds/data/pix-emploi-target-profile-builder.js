@@ -34,9 +34,10 @@ module.exports = function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: pixEmploiProfile.id, skillId: 'recgOc2OreHCosoRp' });
 
   databaseBuilder.factory.buildBadge({
+    altMessage: 'Vous avez validé le badge Pix Emploi.',
+    imageUrl: '/images/badges/Pix-emploi.svg',
     message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
       'Pour valoriser vos compétences, renseignez-vous auprès de votre conseiller.',
-    imageUrl: '/images/badges/Pix-emploi.svg',
     targetProfileId: pixEmploiProfile.id,
   });
 
