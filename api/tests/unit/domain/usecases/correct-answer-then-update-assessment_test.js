@@ -18,7 +18,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
   const answerRepository = {
     findByChallengeAndAssessment: () => undefined,
-    save: () => undefined,
+    saveWithKnowledgeElements: () => undefined,
   };
   const assessmentRepository = { get: () => undefined };
   const challengeRepository = { get: () => undefined };
@@ -27,19 +27,17 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
   const skillRepository = { findByCompetenceId: () => undefined };
   const scorecardService = { computeScorecard: () => undefined };
   const knowledgeElementRepository = {
-    save: () => undefined,
     findUniqByUserId: () => undefined,
   };
 
   beforeEach(() => {
     sinon.stub(answerRepository, 'findByChallengeAndAssessment');
-    sinon.stub(answerRepository, 'save');
+    sinon.stub(answerRepository, 'saveWithKnowledgeElements');
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(challengeRepository, 'get');
     sinon.stub(skillRepository, 'findByCompetenceId');
     sinon.stub(targetProfileRepository, 'getByCampaignId');
     sinon.stub(scorecardService, 'computeScorecard');
-    sinon.stub(knowledgeElementRepository, 'save');
     sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
     assessment = domainBuilder.buildAssessment({ userId });
@@ -92,7 +90,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       completedAnswer.result = AnswerStatus.OK;
       completedAnswer.resultDetails = null;
       savedAnswer = domainBuilder.buildAnswer(completedAnswer);
-      answerRepository.save.resolves(savedAnswer);
+      answerRepository.saveWithKnowledgeElements.resolves(savedAnswer);
     });
 
     context('and assessment is a COMPETENCE_EVALUATION', () => {
@@ -119,9 +117,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstCreatedKnowledgeElement, secondCreatedKnowledgeElement,
         ]);
-        knowledgeElementRepository.save
-          .onFirstCall().resolves(firstCreatedKnowledgeElement)
-          .onSecondCall().resolves(secondCreatedKnowledgeElement);
         targetProfileRepository.getByCampaignId.rejects(new NotFoundError());
         scorecardService.computeScorecard.resolves(scorecard);
       });
@@ -142,7 +137,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         });
 
         // then
-        expect(answerRepository.save).to.have.been.calledWith(completedAnswer);
+        expect(answerRepository.saveWithKnowledgeElements).to.have.been.calledWith(completedAnswer);
       });
 
       it('should call repositories to get needed information', async () => {
@@ -212,10 +207,10 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         });
 
         it('should return an empty levelup when not gaining a level', async () => {
-          // given
-          knowledgeElementRepository.save
-            .onFirstCall().resolves(domainBuilder.buildKnowledgeElement({ earnedPix: 0 }))
-            .onSecondCall().resolves(domainBuilder.buildKnowledgeElement({ earnedPix: 0 }));
+          KnowledgeElement.createKnowledgeElementsForAnswer.returns([
+            domainBuilder.buildKnowledgeElement({ earnedPix: 0 }),
+            domainBuilder.buildKnowledgeElement({ earnedPix: 0 }),
+          ]);
 
           // when
           const result = await correctAnswerThenUpdateAssessment({
@@ -287,9 +282,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstKnowledgeElement, secondKnowledgeElement,
         ]);
-        knowledgeElementRepository.save
-          .onFirstCall().resolves(firstKnowledgeElement)
-          .onSecondCall().resolves(secondKnowledgeElement);
         scorecardService.computeScorecard.resolves(scorecard);
       });
 
@@ -307,10 +299,11 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           knowledgeElementRepository,
           scorecardService,
         });
-
         // then
-        const expectedArgument = completedAnswer;
-        expect(answerRepository.save).to.have.been.calledWith(expectedArgument);
+        const expectedArgs = [
+          [completedAnswer,[firstKnowledgeElement, secondKnowledgeElement]],
+        ];
+        expect(answerRepository.saveWithKnowledgeElements.args).to.deep.equal(expectedArgs);
       });
 
       it('should call the target profile repository to find target skills', async () => {
@@ -382,29 +375,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         expect(KnowledgeElement.createKnowledgeElementsForAnswer).to.have.been.calledWith(expectedArgument);
       });
 
-      it('should save the newly created knowledge elements', async () => {
-        // when
-        await correctAnswerThenUpdateAssessment({
-          answer,
-          userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
-        });
-
-        // then
-        const expectedArgs = [
-          [firstKnowledgeElement],
-          [secondKnowledgeElement],
-        ];
-        expect(knowledgeElementRepository.save.args).to.deep.equal(expectedArgs);
-      });
-
       it('should return the saved answer - with the id', async () => {
         // when
         const result = await correctAnswerThenUpdateAssessment({
@@ -454,9 +424,10 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         it('should return an empty levelup when not gaining a level', async () => {
           // given
-          knowledgeElementRepository.save
-            .onFirstCall().resolves(domainBuilder.buildKnowledgeElement({ earnedPix: 0 }))
-            .onSecondCall().resolves(domainBuilder.buildKnowledgeElement({ earnedPix: 0 }));
+          KnowledgeElement.createKnowledgeElementsForAnswer.returns([
+            domainBuilder.buildKnowledgeElement({ earnedPix: 0 }),
+            domainBuilder.buildKnowledgeElement({ earnedPix: 0 }),
+          ]);
 
           // when
           const result = await correctAnswerThenUpdateAssessment({
@@ -541,7 +512,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         assessmentRepository.get.resolves(assessment);
         challengeRepository.get.resolves(challenge);
-        answerRepository.save.resolves(savedAnswer);
+        answerRepository.saveWithKnowledgeElements.resolves(savedAnswer);
       });
 
       it('should call the answer repository to check if challenge has already been answered', async () => {
@@ -584,7 +555,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         // then
         const expectedArgument = completedAnswer;
-        expect(answerRepository.save).to.have.been.calledWith(expectedArgument);
+        expect(answerRepository.saveWithKnowledgeElements).to.have.been.calledWith(expectedArgument);
       });
 
       it('should call the challenge repository to get the answer challenge', async () => {
