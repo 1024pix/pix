@@ -45,11 +45,12 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     assessmentId: answer.assessmentId,
     challengeId: answer.challengeId,
   });
+
   if (answersFind) {
     throw new ChallengeAlreadyAnsweredError();
   }
 
-  const answerSaved = await answerRepository.save(correctedAnswer);
+  let answerSaved = await answerRepository.save(correctedAnswer);
   let knowledgeElements = [];
   if (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement()) {
     const knowledgeElementsFromAnswer = await _getKnowledgeElements({
@@ -63,21 +64,8 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     knowledgeElements = await Promise.all(knowledgeElementsFromAnswer.map((knowledgeElement) =>
       knowledgeElementRepository.save(knowledgeElement)));
   }
-  answerSaved.levelup = {};
+  answerSaved = _addLevelUpInformation({ answerSaved, correctedAnswer, assessment, knowledgeElements, scorecardBeforeAnswer });
 
-  if (correctedAnswer.result.isOK() && (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement())) {
-    const sumPixEarned = _.sumBy(knowledgeElements, 'earnedPix');
-    const totalPix = scorecardBeforeAnswer.exactlyEarnedPix + sumPixEarned;
-    const userLevel = Math.min(constants.MAX_REACHABLE_LEVEL, _.floor(totalPix / constants.PIX_COUNT_BY_LEVEL));
-
-    if (scorecardBeforeAnswer.level < userLevel) {
-      answerSaved.levelup = {
-        id: answerSaved.id,
-        competenceName: scorecardBeforeAnswer.name,
-        level: userLevel,
-      };
-    }
-  }
   return answerSaved;
 };
 
@@ -111,4 +99,23 @@ function _getSkillsFilteredByStatus(knowledgeElements, targetSkills, status) {
     .filter((knowledgeElement) => knowledgeElement.status === status)
     .map((knowledgeElement) => knowledgeElement.skillId)
     .filter((skillId) => targetSkills.find((skill) => skill.id === skillId));
+}
+
+function _addLevelUpInformation({ answerSaved, correctedAnswer, assessment, knowledgeElements, scorecardBeforeAnswer }) {
+  answerSaved.levelup = {};
+
+  if (correctedAnswer.result.isOK() && (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement())) {
+    const sumPixEarned = _.sumBy(knowledgeElements, 'earnedPix');
+    const totalPix = scorecardBeforeAnswer.exactlyEarnedPix + sumPixEarned;
+    const userLevel = Math.min(constants.MAX_REACHABLE_LEVEL, _.floor(totalPix / constants.PIX_COUNT_BY_LEVEL));
+
+    if (scorecardBeforeAnswer.level < userLevel) {
+      answerSaved.levelup = {
+        id: answerSaved.id,
+        competenceName: scorecardBeforeAnswer.name,
+        level: userLevel,
+      };
+    }
+  }
+  return answerSaved;
 }
