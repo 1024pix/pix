@@ -86,6 +86,17 @@ module('Acceptance | terms-of-service', function(hooks) {
       // then
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still authenticated');
     });
+
+    test('it should not be possible to visit another page if cgu are not accepted', async function(assert) {
+      // given
+      await visit('/cgu');
+
+      // when
+      await visit('/campagnes');
+
+      // then
+      assert.equal(currentURL(), '/cgu');
+    });
   });
 
   module('When user has already accepted terms of service', function(hooks) {
