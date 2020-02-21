@@ -369,8 +369,10 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         });
 
         // then
+        const answerCreated = domainBuilder.buildAnswer(savedAnswer);
+        answerCreated.id = undefined;
         const expectedArgument = {
-          answer: savedAnswer,
+          answer: answerCreated,
           challenge: challenge,
           previouslyFailedSkills: [],
           previouslyValidatedSkills: [],

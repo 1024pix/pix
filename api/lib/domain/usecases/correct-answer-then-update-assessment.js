@@ -50,20 +50,23 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     throw new ChallengeAlreadyAnsweredError();
   }
 
-  let answerSaved = await answerRepository.save(correctedAnswer);
-  let knowledgeElements = [];
+  let knowledgeElementsFromAnswer = [];
   if (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement()) {
-    const knowledgeElementsFromAnswer = await _getKnowledgeElements({
+    knowledgeElementsFromAnswer = await _getKnowledgeElements({
       assessment,
-      answer: answerSaved,
+      answer: correctedAnswer,
       challenge,
       skillRepository,
       targetProfileRepository,
       knowledgeElementRepository
     });
-    knowledgeElements = await Promise.all(knowledgeElementsFromAnswer.map((knowledgeElement) =>
-      knowledgeElementRepository.save(knowledgeElement)));
   }
+
+  let answerSaved = await answerRepository.save(correctedAnswer);
+  knowledgeElementsFromAnswer.map((knowledgeElement) => knowledgeElement.answerId = answerSaved.id);
+  const knowledgeElements = await Promise.all(knowledgeElementsFromAnswer.map((knowledgeElement) =>
+    knowledgeElementRepository.save(knowledgeElement)));
+
   answerSaved = _addLevelUpInformation({ answerSaved, correctedAnswer, assessment, knowledgeElements, scorecardBeforeAnswer });
 
   return answerSaved;
