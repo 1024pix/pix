@@ -2,9 +2,12 @@ const fp = require('lodash/fp');
 const Answer = require('../../domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
 const BookshelfAnswer = require('../data/answer');
+const BookshelfKnowledgeElement = require('../data/knowledge-element');
+
 const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
 const jsYaml = require('js-yaml');
+const _ = require('lodash');
 
 function _adaptModelToDb(answer) {
   return {
@@ -93,4 +96,18 @@ module.exports = {
       .save(null, { require: true, method: 'insert' });
     return _toDomain(newAnswer);
   },
+
+  async saveWithKnowledgeElements(answer, knowledgeElements) {
+    const answerForDB = _adaptModelToDb(answer);
+    const newAnswer = await new BookshelfAnswer(answerForDB)
+      .save(null, { require: true, method: 'insert' });
+    const answerSaved = _toDomain(newAnswer);
+
+    knowledgeElements.map((knowledgeElement) => knowledgeElement.answerId = answerSaved.id);
+    await Promise.all(knowledgeElements.map(async (knowledgeElement) => {
+      const knowledgeElementBookshelf = await new BookshelfKnowledgeElement(_.omit(knowledgeElement, ['id', 'createdAt']));
+      await knowledgeElementBookshelf.save();
+    }));
+    return answerSaved;
+  }
 };
