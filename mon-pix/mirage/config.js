@@ -16,7 +16,6 @@ import getPixScore from './routes/users/get-pix-score';
 import getScorecard from './routes/get-scorecard';
 import getScorecards from './routes/users/get-scorecards';
 import getScorecardsTutorials from './routes/get-scorecards-tutorials';
-import getSnapshots from './routes/get-snapshots';
 import getUserCampaignParticipations from './routes/users/get-user-campaign-participations';
 import patchAnswer from './routes/patch-answer';
 import patchCampaignParticipation from './routes/patch-campaign-participation';
@@ -87,10 +86,6 @@ export default function() {
   this.get('/organizations', getOrganizations);
 
   this.get('/corrections', getCorrections);
-
-  this.post('/snapshots');
-  this.get('/snapshots/:id');
-  this.get('/snapshots', getSnapshots);
 
   this.post('/users');
 
