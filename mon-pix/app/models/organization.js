@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class Organization extends Model {
 
@@ -8,6 +8,5 @@ export default class Organization extends Model {
   @attr('string') type;
 
   // includes
-  @hasMany('snapshot') snapshots;
   @belongsTo('user') user;
 }

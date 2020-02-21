@@ -31,7 +31,6 @@ Router.map(function() {
   this.route('logout', { path: '/deconnexion' });
   this.route('login-or-register-to-access-restricted-campaign', { path: '/campagnes/:campaign_code/identification' });
   this.route('not-connected', { path: '/nonconnecte' });
-  this.route('board');
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
 
