@@ -1,4 +1,4 @@
-module.exports = function snapshotsBuilder({ databaseBuilder }) {
+module.exports = function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
 
   const pixEmploiProfile = databaseBuilder.factory.buildTargetProfile({
     name: 'Pix emploi - Parcours complet',
