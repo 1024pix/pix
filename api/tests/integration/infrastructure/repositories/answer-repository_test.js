@@ -9,13 +9,14 @@ const cache = require('../../../../lib/infrastructure/caches/learning-content-ca
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
 describe('Integration | Repository | AnswerRepository', () => {
-  let assessmentId, otherAssessmentId;
+  let assessmentId, otherAssessmentId, userId;
   const challengeId = 'challenge_1234';
   const otherChallengeId = 'challenge_4567';
   const anotherChallengeId = 'challenge_89';
 
   beforeEach(() => {
     assessmentId = databaseBuilder.factory.buildAssessment().id;
+    userId = databaseBuilder.factory.buildUser().id;
     otherAssessmentId = databaseBuilder.factory.buildAssessment().id;
     return databaseBuilder.commit();
   });
@@ -302,4 +303,43 @@ describe('Integration | Repository | AnswerRepository', () => {
       expect(_.omit(savedAnswer, ['id', 'resultDetails'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails']));
     });
   });
+
+  describe('#saveWithKnowledgeElements', () => {
+
+    let answer, firstKnowledgeElement, secondeKnowledgeElements;
+    let savedAnswer;
+
+    beforeEach(async () => {
+      answer = domainBuilder.buildAnswer({ assessmentId });
+      answer.id = undefined;
+      firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ answerId: undefined, assessmentId, userId });
+      secondeKnowledgeElements = domainBuilder.buildKnowledgeElement({ answerId: undefined, assessmentId, userId });
+
+      // when
+      savedAnswer = await AnswerRepository.saveWithKnowledgeElements(answer, [firstKnowledgeElement, secondeKnowledgeElements]);
+    });
+
+    afterEach(async () => {
+      await knex('knowledge-elements').delete();
+      await knex('answers').delete();
+    });
+
+    it('should save the answer in db', () => {
+      expect(savedAnswer.id).to.not.equal(undefined);
+      expect(savedAnswer).to.be.an.instanceOf(Answer);
+
+      expect(_.omit(savedAnswer, ['id', 'resultDetails'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails']));
+
+    });
+
+    it('should save knowledge elements', async () => {
+      const knowledgeElementsInDB = await knex('knowledge-elements').where({ answerId: savedAnswer.id }).orderBy('id');
+
+      expect(knowledgeElementsInDB).to.length(2);
+      expect(_.omit(knowledgeElementsInDB[0], ['id', 'createdAt', 'answerId'])).to.deep.equal(_.omit(firstKnowledgeElement, ['id', 'createdAt', 'answerId']));
+      expect(_.omit(knowledgeElementsInDB[1], ['id', 'createdAt', 'answerId'])).to.deep.equal(_.omit(secondeKnowledgeElements, ['id', 'createdAt', 'answerId']));
+
+    });
+  });
+
 });

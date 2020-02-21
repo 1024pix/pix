@@ -62,12 +62,9 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     });
   }
 
-  let answerSaved = await answerRepository.save(correctedAnswer);
-  knowledgeElementsFromAnswer.map((knowledgeElement) => knowledgeElement.answerId = answerSaved.id);
-  const knowledgeElements = await Promise.all(knowledgeElementsFromAnswer.map((knowledgeElement) =>
-    knowledgeElementRepository.save(knowledgeElement)));
+  let answerSaved = await answerRepository.saveWithKnowledgeElements(correctedAnswer, knowledgeElementsFromAnswer);
 
-  answerSaved = _addLevelUpInformation({ answerSaved, correctedAnswer, assessment, knowledgeElements, scorecardBeforeAnswer });
+  answerSaved = _addLevelUpInformation({ answerSaved, correctedAnswer, assessment, knowledgeElementsFromAnswer, scorecardBeforeAnswer });
 
   return answerSaved;
 };
@@ -104,11 +101,11 @@ function _getSkillsFilteredByStatus(knowledgeElements, targetSkills, status) {
     .filter((skillId) => targetSkills.find((skill) => skill.id === skillId));
 }
 
-function _addLevelUpInformation({ answerSaved, correctedAnswer, assessment, knowledgeElements, scorecardBeforeAnswer }) {
+function _addLevelUpInformation({ answerSaved, correctedAnswer, assessment, knowledgeElementsFromAnswer, scorecardBeforeAnswer }) {
   answerSaved.levelup = {};
 
   if (correctedAnswer.result.isOK() && (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement())) {
-    const sumPixEarned = _.sumBy(knowledgeElements, 'earnedPix');
+    const sumPixEarned = _.sumBy(knowledgeElementsFromAnswer, 'earnedPix');
     const totalPix = scorecardBeforeAnswer.exactlyEarnedPix + sumPixEarned;
     const userLevel = Math.min(constants.MAX_REACHABLE_LEVEL, _.floor(totalPix / constants.PIX_COUNT_BY_LEVEL));
 
