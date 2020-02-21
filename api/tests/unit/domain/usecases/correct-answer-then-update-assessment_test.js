@@ -22,8 +22,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
   };
   const assessmentRepository = { get: () => undefined };
   const challengeRepository = { get: () => undefined };
-  const competenceEvaluationRepository = { getByAssessmentId: () => undefined };
-  const smartPlacementAssessmentRepository = { get: () => undefined };
+  const competenceEvaluationRepository = {  };
+  const targetProfileRepository = { getByCampaignId: () => undefined };
   const skillRepository = { findByCompetenceId: () => undefined };
   const scorecardService = { computeScorecard: () => undefined };
   const knowledgeElementRepository = {
@@ -36,9 +36,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     sinon.stub(answerRepository, 'save');
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(challengeRepository, 'get');
-    sinon.stub(competenceEvaluationRepository, 'getByAssessmentId');
     sinon.stub(skillRepository, 'findByCompetenceId');
-    sinon.stub(smartPlacementAssessmentRepository, 'get');
+    sinon.stub(targetProfileRepository, 'getByCampaignId');
     sinon.stub(scorecardService, 'computeScorecard');
     sinon.stub(knowledgeElementRepository, 'save');
     sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
@@ -72,7 +71,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         answerRepository,
         assessmentRepository,
         challengeRepository,
-        smartPlacementAssessmentRepository,
+        targetProfileRepository,
         knowledgeElementRepository,
         scorecardService,
       });
@@ -98,7 +97,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
     context('and assessment is a COMPETENCE_EVALUATION', () => {
 
-      let competenceEvaluation;
       let knowledgeElement;
       let firstCreatedKnowledgeElement;
       let secondCreatedKnowledgeElement;
@@ -108,17 +106,15 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       beforeEach(() => {
         // given
         assessment.type = Assessment.types.COMPETENCE_EVALUATION;
+        assessment.competenceId = 'recABCD';
         assessmentRepository.get.resolves(assessment);
-
-        competenceEvaluation = domainBuilder.buildCompetenceEvaluation();
         knowledgeElement = domainBuilder.buildKnowledgeElement();
         firstCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
         secondCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1 });
         skills = domainBuilder.buildSkillCollection();
 
         scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 22, exactlyEarnedPix: 22 });
-        competenceEvaluationRepository.getByAssessmentId.withArgs(assessment.id).resolves(competenceEvaluation);
-        skillRepository.findByCompetenceId.withArgs(competenceEvaluation.competenceId).resolves(skills);
+        skillRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
         knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([knowledgeElement]);
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstCreatedKnowledgeElement, secondCreatedKnowledgeElement,
@@ -126,7 +122,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         knowledgeElementRepository.save
           .onFirstCall().resolves(firstCreatedKnowledgeElement)
           .onSecondCall().resolves(secondCreatedKnowledgeElement);
-        smartPlacementAssessmentRepository.get.rejects(new NotFoundError());
+        targetProfileRepository.getByCampaignId.rejects(new NotFoundError());
         scorecardService.computeScorecard.resolves(scorecard);
       });
 
@@ -140,7 +136,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           challengeRepository,
           competenceEvaluationRepository,
           skillRepository,
-          smartPlacementAssessmentRepository,
+          targetProfileRepository,
           knowledgeElementRepository,
           scorecardService,
         });
@@ -159,14 +155,13 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           challengeRepository,
           competenceEvaluationRepository,
           skillRepository,
-          smartPlacementAssessmentRepository,
+          targetProfileRepository,
           knowledgeElementRepository,
           scorecardService,
         });
 
         // then
-        expect(competenceEvaluationRepository.getByAssessmentId).to.have.been.calledWith(assessment.id);
-        expect(skillRepository.findByCompetenceId).to.have.been.calledWith(competenceEvaluation.competenceId);
+        expect(skillRepository.findByCompetenceId).to.have.been.calledWith(assessment.competenceId);
         expect(knowledgeElementRepository.findUniqByUserId).to.have.been.calledWith({ userId: assessment.userId });
       });
 
@@ -180,7 +175,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           challengeRepository,
           competenceEvaluationRepository,
           skillRepository,
-          smartPlacementAssessmentRepository,
+          targetProfileRepository,
           knowledgeElementRepository,
           scorecardService,
         });
@@ -203,7 +198,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
             challengeRepository,
             competenceEvaluationRepository,
             skillRepository,
-            smartPlacementAssessmentRepository,
+            targetProfileRepository,
             knowledgeElementRepository,
             scorecardService,
           });
@@ -231,7 +226,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
             challengeRepository,
             competenceEvaluationRepository,
             skillRepository,
-            smartPlacementAssessmentRepository,
+            targetProfileRepository,
             knowledgeElementRepository,
             scorecardService,
           });
@@ -258,7 +253,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
             challengeRepository,
             competenceEvaluationRepository,
             skillRepository,
-            smartPlacementAssessmentRepository,
+            targetProfileRepository,
             knowledgeElementRepository,
             scorecardService,
           });
@@ -270,21 +265,25 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     });
 
     context('and assessment is a SMART_PLACEMENT', () => {
-      let smartPlacementAssessment;
       let firstKnowledgeElement;
       let secondKnowledgeElement;
-      let scorecard;
+      let scorecard, knowledgeElement, targetProfile;
 
       beforeEach(() => {
         // given
         assessment.type = Assessment.types.SMARTPLACEMENT;
+        assessment.campaignParticipation = domainBuilder.buildCampaignParticipation();
         assessmentRepository.get.resolves(assessment);
 
-        smartPlacementAssessment = domainBuilder.buildSmartPlacementAssessment();
         firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
         secondKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1.8 });
         scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 20, exactlyEarnedPix: 20.2 });
-        smartPlacementAssessmentRepository.get.resolves(smartPlacementAssessment);
+        targetProfile = domainBuilder.buildTargetProfile();
+
+        knowledgeElement = domainBuilder.buildKnowledgeElement();
+        knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([knowledgeElement]);
+
+        targetProfileRepository.getByCampaignId.resolves(targetProfile);
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstKnowledgeElement, secondKnowledgeElement,
         ]);
@@ -304,7 +303,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           challengeRepository,
           competenceEvaluationRepository,
           skillRepository,
-          smartPlacementAssessmentRepository,
+          targetProfileRepository,
           knowledgeElementRepository,
           scorecardService,
         });
@@ -314,7 +313,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         expect(answerRepository.save).to.have.been.calledWith(expectedArgument);
       });
 
-      it('should call the smart placement assessment repository to try and get the assessment', async () => {
+      it('should call the target profile repository to find target skills', async () => {
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
@@ -324,14 +323,14 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           challengeRepository,
           competenceEvaluationRepository,
           skillRepository,
-          smartPlacementAssessmentRepository,
+          targetProfileRepository,
           knowledgeElementRepository,
           scorecardService,
         });
 
         // then
-        const expectedArgument = answer.assessmentId;
-        expect(smartPlacementAssessmentRepository.get).to.have.been.calledWith(expectedArgument);
+        const expectedArgument = assessment.campaignParticipation.campaignId;
+        expect(targetProfileRepository.getByCampaignId).to.have.been.calledWith(expectedArgument);
       });
 
       it('should call the challenge repository to get the answer challenge', async () => {
@@ -344,7 +343,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           challengeRepository,
           competenceEvaluationRepository,
           skillRepository,
-          smartPlacementAssessmentRepository,
+          targetProfileRepository,
           knowledgeElementRepository,
           scorecardService,
         });
@@ -364,7 +363,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           challengeRepository,
           competenceEvaluationRepository,
           skillRepository,
-          smartPlacementAssessmentRepository,
+          targetProfileRepository,
           knowledgeElementRepository,
           scorecardService,
         });
@@ -373,10 +372,10 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         const expectedArgument = {
           answer: savedAnswer,
           challenge: challenge,
-          previouslyFailedSkills: smartPlacementAssessment.getFailedSkills(),
-          previouslyValidatedSkills: smartPlacementAssessment.getValidatedSkills(),
-          targetSkills: smartPlacementAssessment.targetProfile.skills,
-          userId: smartPlacementAssessment.userId
+          previouslyFailedSkills: [],
+          previouslyValidatedSkills: [],
+          targetSkills: targetProfile.skills,
+          userId: assessment.userId
         };
         expect(KnowledgeElement.createKnowledgeElementsForAnswer).to.have.been.calledWith(expectedArgument);
       });
@@ -391,7 +390,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           challengeRepository,
           competenceEvaluationRepository,
           skillRepository,
-          smartPlacementAssessmentRepository,
+          targetProfileRepository,
           knowledgeElementRepository,
           scorecardService,
         });
@@ -414,7 +413,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           challengeRepository,
           competenceEvaluationRepository,
           skillRepository,
-          smartPlacementAssessmentRepository,
+          targetProfileRepository,
           knowledgeElementRepository,
           scorecardService,
         });
@@ -438,7 +437,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
             challengeRepository,
             competenceEvaluationRepository,
             skillRepository,
-            smartPlacementAssessmentRepository,
+            targetProfileRepository,
             knowledgeElementRepository,
             scorecardService,
           });
@@ -466,7 +465,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
             challengeRepository,
             competenceEvaluationRepository,
             skillRepository,
-            smartPlacementAssessmentRepository,
+            targetProfileRepository,
             knowledgeElementRepository,
             scorecardService,
           });
@@ -493,7 +492,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
             challengeRepository,
             competenceEvaluationRepository,
             skillRepository,
-            smartPlacementAssessmentRepository,
+            targetProfileRepository,
             knowledgeElementRepository,
             scorecardService,
           });
@@ -553,7 +552,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           challengeRepository,
           competenceEvaluationRepository,
           skillRepository,
-          smartPlacementAssessmentRepository,
+          targetProfileRepository,
           knowledgeElementRepository,
           scorecardService,
         });
@@ -576,7 +575,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           challengeRepository,
           competenceEvaluationRepository,
           skillRepository,
-          smartPlacementAssessmentRepository,
+          targetProfileRepository,
           knowledgeElementRepository,
           scorecardService,
         });
@@ -596,7 +595,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           challengeRepository,
           competenceEvaluationRepository,
           skillRepository,
-          smartPlacementAssessmentRepository,
+          targetProfileRepository,
           knowledgeElementRepository,
           scorecardService,
         });
@@ -616,7 +615,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           challengeRepository,
           competenceEvaluationRepository,
           skillRepository,
-          smartPlacementAssessmentRepository,
+          targetProfileRepository,
           knowledgeElementRepository,
           scorecardService,
         });
@@ -635,7 +634,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           challengeRepository,
           competenceEvaluationRepository,
           skillRepository,
-          smartPlacementAssessmentRepository,
+          targetProfileRepository,
           knowledgeElementRepository,
           scorecardService,
         });
