@@ -260,52 +260,6 @@ describe('Integration | Repository | AnswerRepository', () => {
     });
   });
 
-  describe('#save', () => {
-
-    let answer;
-    let savedAnswer;
-
-    beforeEach(async () => {
-      // XXX resultDetails is by default null which is saved as "null\n" in db.
-      // To avoid problems in test it is fixed to another string.
-      answer = domainBuilder.buildAnswer({ assessmentId, resultDetails: 'some random detail' });
-      answer.id = undefined;
-
-      // when
-      savedAnswer = await AnswerRepository.save(answer);
-    });
-
-    afterEach(() => {
-      return knex('answers').delete();
-    });
-
-    it('should save the answer in db', () => {
-      // then
-      // id, createdAt, and updatedAt are not present
-      const expectedRawAnswerWithoutIdNorDates = {
-        value: answer.value,
-        result: answerStatusDatabaseAdapter.toSQLString(answer.result),
-        assessmentId: answer.assessmentId,
-        challengeId: answer.challengeId,
-        timeout: answer.timeout,
-        elapsedTime: answer.elapsedTime,
-        resultDetails: `${answer.resultDetails}\n`, // XXX text fields are saved with a \n at the end
-      };
-      return knex('answers').first()
-        .then((answer) => _.omit(answer, ['id', 'createdAt', 'updatedAt']))
-        .then((answerWithoutIdNorDates) => {
-          return expect(answerWithoutIdNorDates).to.deep.equal(expectedRawAnswerWithoutIdNorDates);
-        });
-    });
-
-    it('should return a domain object with the id', () => {
-      expect(savedAnswer.id).to.not.equal(undefined);
-      expect(savedAnswer).to.be.an.instanceOf(Answer);
-      // XXX text fields are saved with a \n at the end, so the test fails for that reason
-      expect(_.omit(savedAnswer, ['id', 'resultDetails'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails']));
-    });
-  });
-
   describe('#saveWithKnowledgeElements', () => {
 
     let answer, firstKnowledgeElement, secondeKnowledgeElements;
