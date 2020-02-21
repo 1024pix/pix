@@ -8,10 +8,10 @@ describe('Unit | Utils | Query Params Utils', function() {
     it('should extract multiple parameters from request Object', function() {
       // given
       const query = {
-        'filter[courseId]': 26,
-        'filter[userId]': 1,
-        'page[number]': 1,
-        'page[size]': 200,
+        'filter[courseId]': '26',
+        'filter[userId]': '1',
+        'page[number]': '1',
+        'page[size]': '200',
         sort: '-createdAt,id',
         include: 'user,organization',
       };
@@ -22,8 +22,8 @@ describe('Unit | Utils | Query Params Utils', function() {
       // then
       expect(result).to.deep.equal({
         filter: {
-          courseId: 26,
-          userId: 1,
+          courseId: '26',
+          userId: '1',
         },
         page: {
           number: 1,
