@@ -4,6 +4,15 @@
   flex-direction: column;
   max-width: 360px;
 
+  &__login-options {
+    margin-bottom: 5px;
+    display: inline-block;
+    font-size: 1.4rem;
+    font-family: $font-roboto;
+    font-weight: $font-bold;
+    color: $grayish-grey;
+  }
+
   &__required-inputs {
     color: $dove-gray;
     font-family: $font-roboto;
@@ -19,6 +28,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+
     @include device-is('tablet') {
       margin-top: 15px;
       margin-bottom: 0;
@@ -52,6 +62,8 @@
     display: inline-flex;
     align-items: center;
     margin: 4px 0;
+    font-family: $font-roboto;
+    font-size: 1.4rem;
   }
 
   &__return-button:hover {
