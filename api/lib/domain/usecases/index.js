@@ -49,6 +49,7 @@ const dependencies = {
   tokenService: require('../../domain/services/token-service'),
   tubeRepository: require('../../infrastructure/repositories/tube-repository'),
   tutorialRepository: require('../../infrastructure/repositories/tutorial-repository'),
+  userOrgaSettingsRepository: require('../../infrastructure/repositories/user-orga-settings-repository'),
   userReconciliationService: require('../services/user-reconciliation-service'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
   userService: require('../../domain/services/user-service'),

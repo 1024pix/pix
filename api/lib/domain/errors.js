@@ -326,6 +326,12 @@ class UserNotAuthorizedToCreateResourceError extends DomainError {
   }
 }
 
+class UserOrgaSettingsCreationError extends DomainError {
+  constructor(message = 'Erreur lors de la création des paramètres utilisateur relatifs à Pix Orga.') {
+    super(message);
+  }
+}
+
 class FileValidationError extends DomainError {
   constructor(message = 'Erreur, fichier non valide.') {
     super(message);
@@ -503,5 +509,6 @@ module.exports = {
   UserNotAuthorizedToUpdateResourceError,
   UserNotAuthorizedToUpdateStudentPasswordError,
   UserNotFoundError,
+  UserOrgaSettingsCreationError,
   WrongDateFormatError,
 };
