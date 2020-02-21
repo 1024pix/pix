@@ -99,15 +99,17 @@ module.exports = {
 
   async saveWithKnowledgeElements(answer, knowledgeElements) {
     const answerForDB = _adaptModelToDb(answer);
-    const newAnswer = await new BookshelfAnswer(answerForDB)
-      .save(null, { require: true, method: 'insert' });
-    const answerSaved = _toDomain(newAnswer);
 
-    knowledgeElements.map((knowledgeElement) => knowledgeElement.answerId = answerSaved.id);
-    await Promise.all(knowledgeElements.map(async (knowledgeElement) => {
-      const knowledgeElementBookshelf = await new BookshelfKnowledgeElement(_.omit(knowledgeElement, ['id', 'createdAt']));
-      await knowledgeElementBookshelf.save();
-    }));
-    return answerSaved;
+    return Bookshelf.transaction(async (t) => {
+      const answerSaved = await new BookshelfAnswer(answerForDB)
+        .save(null, { require: true, method: 'insert', transacting: t });
+      knowledgeElements.map((knowledgeElement) => knowledgeElement.answerId = answerSaved.id);
+      await Promise.all(knowledgeElements.map(async (knowledgeElement) => {
+        const knowledgeElementBookshelf = await new BookshelfKnowledgeElement(_.omit(knowledgeElement, ['id', 'createdAt']));
+        await knowledgeElementBookshelf.save(null, { transacting: t });
+      }));
+
+      return _toDomain(answerSaved);
+    });
   }
 };
