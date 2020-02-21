@@ -33,21 +33,30 @@ exports.seed = (knex) => {
 
   const databaseBuilder = new DatabaseBuilder({ knex });
 
+  // Users
   usersBuilder({ databaseBuilder });
   usersPixRolesBuilder({ databaseBuilder });
   pixAileBuilder({ databaseBuilder });
+
+  // Organizations
   dragonAndCoBuilder({ databaseBuilder });
   organizationsBuilder({ databaseBuilder });
   snapshotsBuilder({ databaseBuilder });
+
+  // Target Profiles
   targetProfilesBuilder({ databaseBuilder });
+  pixEmploiTargetProfileBuilder({ databaseBuilder });
+
+  // Éléments de parcours
   campaignsBuilder({ databaseBuilder });
   campaignParticipationsBuilder({ databaseBuilder });
   assessmentsBuilder({ databaseBuilder });
   answersBuilder({ databaseBuilder });
-  buildPixAileProfile({ databaseBuilder });
-  pixEmploiTargetProfileBuilder({ databaseBuilder });
 
-  // Certification
+  // Éléments de partcours pour l'utilisateur Pix Aile
+  buildPixAileProfile({ databaseBuilder });
+
+  // Certifications
   certificationCentersBuilder({ databaseBuilder });
   certificationUsersBuilder({ databaseBuilder });
   certificationCenterMembershipsBuilder({ databaseBuilder });
