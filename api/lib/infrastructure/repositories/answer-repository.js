@@ -90,13 +90,6 @@ module.exports = {
       .then((answers) => answers.models.map(_toDomain));
   },
 
-  async save(answer) {
-    const answerForDB = _adaptModelToDb(answer);
-    const newAnswer = await new BookshelfAnswer(answerForDB)
-      .save(null, { require: true, method: 'insert' });
-    return _toDomain(newAnswer);
-  },
-
   async saveWithKnowledgeElements(answer, knowledgeElements) {
     const answerForDB = _adaptModelToDb(answer);
 
