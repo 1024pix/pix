@@ -18,8 +18,9 @@ Router.map(function() {
   this.route('login', { path: 'connexion' });
   this.route('join', { path: 'rejoindre' });
 
+  this.route('terms-of-service', { path: '/cgu' });
+
   this.route('authenticated', { path: '' }, function() {
-    this.route('terms-of-service', { path: '/cgu' });
     this.route('students', { path: 'eleves' }, function() {
       this.route('list', { path: '/' });
     });
