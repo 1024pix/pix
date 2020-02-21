@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.116.0 (21/02/2020)
+
+- [#1062](https://github.com/1024pix/pix/pull/1062) [BUGFIX] Ne pas générer d'erreurs 500 lorsque la route /campaign/id est appelée avec un id non valide (PO-251).
+- [#1076](https://github.com/1024pix/pix/pull/1076) [TECH] Ajout de la variable d'environnement POSTGRES_HOST_AUTH_METHOD au docker-compose.yml pour réparer postgres (PF-1107).
+- [#1072](https://github.com/1024pix/pix/pull/1072) [TECH] Pix Board - Suppression du code relatif à la route front /board (PF-876-1).
+- [#1067](https://github.com/1024pix/pix/pull/1067) [TECH] Refacto route mirage (PF-1079).
+- [#1077](https://github.com/1024pix/pix/pull/1077) [TECH] Suppression de get-user.
+- [#1053](https://github.com/1024pix/pix/pull/1053) [TECH] Arrêter de créer des assessment-results pour autre chose que de la certification (Refacto usecase complete-assessment) (PF-1093)
+- [#1083](https://github.com/1024pix/pix/pull/1083) [TECH] Convertir les modèles PixApp en "Native JS".
+- [#1082](https://github.com/1024pix/pix/pull/1082) [STYLE] Align pages title styles (PF-1020)
+
 ## v2.115.0 (20/02/2020)
 
 - [#1036](https://github.com/1024pix/pix/pull/1036) [FEATURE] ETQ User, je souhaite tester mon pix avec un Airtable de test (isoprod) (PF-1068)
