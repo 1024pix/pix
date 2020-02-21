@@ -19,7 +19,9 @@ describe('Acceptance | Controller | answer-controller-save', () => {
     const challengeId = 'a_challenge_id';
 
     beforeEach(async () => {
-      const assessment = databaseBuilder.factory.buildAssessment();
+      const assessment = databaseBuilder.factory.buildAssessment({
+        type: 'COMPETENCE_EVALUATION'
+      });
       insertedAssessmentId = assessment.id;
       userId = assessment.userId;
 
