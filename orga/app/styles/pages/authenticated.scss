@@ -22,10 +22,6 @@
   &--padding-left {
     padding-left: 25px;
   }
-
-  &--padding-right {
-    padding-right: 15px;
-  }
 }
 
 .logo {
@@ -57,9 +53,9 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-right: 35px;
 
-  &__user-identification {
-    padding-right: 16px;
+  &__user-logged-menu {
+    padding: 0 30px;
+    border-left: 1px solid $alto;
   }
 }

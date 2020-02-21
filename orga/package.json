@@ -56,6 +56,7 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-template-lint": "^0.7.6",
     "ember-cli-uglify": "^3.0.0",
+    "ember-click-outside": "^1.2.1",
     "ember-data": "~3.12.2",
     "ember-export-application-global": "^2.0.0",
     "ember-file-upload": "^2.7.1",

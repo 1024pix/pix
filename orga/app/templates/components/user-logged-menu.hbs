@@ -1,0 +1,24 @@
+<div class="logged-user-summary content-text content-text--small" aria-haspopup="true" aria-expanded="{{isMenuOpen}}">
+  <a href="#" class="link logged-user-summary__link" {{action 'toggleUserMenu'}}>
+    <div>
+      <div class="logged-user-summary__name">{{currentUser.user.firstName}} {{currentUser.user.lastName}}</div>
+      <div class="logged-user-summary__organization">{{organizationNameAndExternalId}}</div>
+    </div>
+    {{#if isMenuOpen}}
+      {{fa-icon "chevron-up" class="logged-user-summary__chevron logged-user-summary__chevron-up"}}
+    {{else}}
+      {{fa-icon "chevron-down" class="logged-user-summary__chevron"}}
+    {{/if}}
+  </a>
+</div>
+
+{{#if isMenuOpen}}
+  {{#click-outside onClickOutside=(action 'closeMenu')}}
+    <div class="logged-user-menu">
+      {{#link-to 'logout' class="link logged-user-menu-item logged-user-menu-item__last"}}
+        {{fa-icon "power-off" class="logged-user-menu-item__icon"}}
+        Se déconnecter
+      {{/link-to}}
+    </div>
+  {{/click-outside}}
+{{/if}}
