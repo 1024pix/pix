@@ -49,6 +49,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
 
     badge = new databaseBuilder.factory.buildBadge({
       id: 1,
+      altMessage: 'Banana',
       imageUrl: '/img/banana.svg',
       message: 'You won a Banana Badge',
       targetProfileId: targetProfile.id
@@ -189,6 +190,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
           type: 'badges',
           id: '1',
           attributes: {
+            'alt-message': 'Banana',
             'image-url': '/img/banana.svg',
             message: 'You won a Banana Badge',
           },

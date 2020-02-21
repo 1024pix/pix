@@ -9,16 +9,18 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
       // given
       const badge = domainBuilder.buildBadge({
         id: '1',
+        altMessage: 'You won a banana badge',
         imageUrl: '/img/banana.svg',
-        message: 'You won a banana badge',
+        message: 'Congrats, you won a banana badge',
         targetProfileId: '1',
       });
 
       const expectedSerializedBadge = {
         data: {
           attributes: {
+            'alt-message': 'You won a banana badge',
             'image-url': '/img/banana.svg',
-            message: 'You won a banana badge',
+            message: 'Congrats, you won a banana badge',
           },
           id: '1',
           type: 'badges'

@@ -14,6 +14,7 @@ describe('Integration | Repository | Badge', () => {
 
       databaseBuilder.factory.buildBadge({
         id: '1',
+        altMessage: 'You won the Toto badge!',
         imageUrl: '/img/toto.svg',
         message: 'Congrats, you won the Toto badge!',
         targetProfileId: targetProfile.id,
@@ -35,6 +36,7 @@ describe('Integration | Repository | Badge', () => {
       // then
       expect(badge).to.deep.equal({
         id: 1,
+        altMessage: 'You won the Toto badge!',
         imageUrl: '/img/toto.svg',
         message: 'Congrats, you won the Toto badge!',
         targetProfileId: targetProfile.id,

@@ -3,6 +3,7 @@ const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildBadge({
   id,
+  altMessage = faker.random.words(),
   imageUrl = '/img' + faker.random.word() + '.svg',
   message = faker.random.words(),
   targetProfileId,
@@ -10,6 +11,7 @@ module.exports = function buildBadge({
 
   const values = {
     id,
+    altMessage,
     imageUrl,
     message,
     targetProfileId,
