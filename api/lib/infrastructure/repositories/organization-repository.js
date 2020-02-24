@@ -124,11 +124,4 @@ module.exports = {
         return { models: organizations, pagination };
       });
   },
-
-  findByUserId(userId) {
-    return BookshelfOrganization
-      .where({ userId })
-      .fetchAll()
-      .then((organizations) => organizations.models.map(_toDomain));
-  },
 };
