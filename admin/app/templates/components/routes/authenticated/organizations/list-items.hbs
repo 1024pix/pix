@@ -1,0 +1,38 @@
+<div class="organization-list">
+  <div class="table content-text content-text--small">
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Type</th>
+          <th>Code</th>
+        </tr>
+        <tr>
+          <th>{{input id="name" value=nameValue keyUp=(action triggerFiltering 'name' nameValue)}}</th>
+          <th>{{input id="type" value=typeValue keyUp=(action triggerFiltering 'type' typeValue)}}</th>
+          <th>{{input id="code" value=codeValue keyUp=(action triggerFiltering 'code' codeValue)}}</th>
+        </tr>
+      </thead>
+
+      {{#if organizations}}
+        <tbody>
+        {{#each organizations as |organization|}}
+          <tr onclick={{action goToOrganizationPage organization.id}} class="tr--clickable">
+            <td>{{organization.name}}</td>
+            <td>{{organization.type}}</td>
+            <td>{{organization.code}}</td>
+          </tr>
+        {{/each}}
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless organizations}}
+      <div class="table__empty content-text">Aucun résultat</div>
+    {{/unless}}
+  </div>
+</div>
+
+{{#if organizations}}
+  {{pagination-control pagination=organizations.meta paginationLink="authenticated.organizations.list"}}
+{{/if}}
