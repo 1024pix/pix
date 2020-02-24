@@ -13,6 +13,9 @@ export default Route.extend({
     name: {
       refreshModel: true
     },
+    status: {
+      refreshModel: true
+    },
   },
 
   currentUser: service(),
@@ -22,6 +25,7 @@ export default Route.extend({
       filter: {
         organizationId: this.currentUser.organization.id,
         name: params.name,
+        status: params.status,
       },
       page: {
         number: params.pageNumber,
