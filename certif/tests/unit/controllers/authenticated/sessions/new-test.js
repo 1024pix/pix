@@ -2,17 +2,17 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/sessions/update', function(hooks) {
+module('Unit | Controller | authenticated/sessions/new', function(hooks) {
   setupTest(hooks);
 
-  module('#action updateSession', function(hooks) {
+  module('#action createSession', function(hooks) {
     let controller;
     let event;
     const sessionId = 'sessionId';
     const session = { id: sessionId };
 
     hooks.beforeEach(function() {
-      controller = this.owner.lookup('controller:authenticated/sessions/update');
+      controller = this.owner.lookup('controller:authenticated/sessions/new');
       event = { preventDefault: sinon.stub() };
       controller.transitionToRoute = sinon.stub();
       session.save = sinon.stub().resolves();
@@ -21,7 +21,7 @@ module('Unit | Controller | authenticated/sessions/update', function(hooks) {
 
     test('it should call preventDefault on event passed in action', async function(assert) {
       // when
-      await controller.send('updateSession', event);
+      await controller.send('createSession', event);
 
       // then
       assert.ok(event.preventDefault.calledOnce);
@@ -29,7 +29,7 @@ module('Unit | Controller | authenticated/sessions/update', function(hooks) {
 
     test('it should call save on the session model', async function(assert) {
       // when
-      await controller.send('updateSession', event);
+      await controller.send('createSession', event);
 
       // then
       assert.ok(session.save.calledOnce);
@@ -37,7 +37,7 @@ module('Unit | Controller | authenticated/sessions/update', function(hooks) {
 
     test('it should transition to correct route with the session id', async function(assert) {
       // when
-      await controller.send('updateSession', event);
+      await controller.send('createSession', event);
 
       // then
       assert.ok(controller.transitionToRoute.calledWith('authenticated.sessions.details', sessionId));
@@ -50,17 +50,17 @@ module('Unit | Controller | authenticated/sessions/update', function(hooks) {
     const session = { id: sessionId };
 
     hooks.beforeEach(function() {
-      controller = this.owner.lookup('controller:authenticated/sessions/update');
+      controller = this.owner.lookup('controller:authenticated/sessions/new');
       controller.transitionToRoute = sinon.stub();
       controller.model = session;
     });
 
-    test('it should transition to correct cancel route with the session id', async function(assert) {
+    test('it should transition to correct cancel list route', async function(assert) {
       // when
       await controller.send('cancel');
 
       // then
-      assert.ok(controller.transitionToRoute.calledWith('authenticated.sessions.details', sessionId));
+      assert.ok(controller.transitionToRoute.calledWith('authenticated.sessions.list'));
     });
   });
 
@@ -69,7 +69,7 @@ module('Unit | Controller | authenticated/sessions/update', function(hooks) {
     const session = { date: '' };
 
     hooks.beforeEach(function() {
-      controller = this.owner.lookup('controller:authenticated/sessions/update');
+      controller = this.owner.lookup('controller:authenticated/sessions/new');
       controller.model = session;
     });
 
@@ -88,7 +88,7 @@ module('Unit | Controller | authenticated/sessions/update', function(hooks) {
     const session = { time: '' };
 
     hooks.beforeEach(function() {
-      controller = this.owner.lookup('controller:authenticated/sessions/update');
+      controller = this.owner.lookup('controller:authenticated/sessions/new');
       controller.model = session;
     });
 
