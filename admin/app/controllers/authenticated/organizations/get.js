@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 
 export default Controller.extend({
 
-  notifications: service('notification-messages'),
+  notifications: service(),
 
   userEmail: null,
 

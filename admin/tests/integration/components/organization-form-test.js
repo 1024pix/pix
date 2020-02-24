@@ -26,7 +26,7 @@ module('Integration | Component | organization-form', function(hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {
-    this.owner.register('service:notification-messages', notificationMessagesStub);
+    this.owner.register('service:notification', notificationMessagesStub);
   });
 
   test('it renders', async function(assert) {

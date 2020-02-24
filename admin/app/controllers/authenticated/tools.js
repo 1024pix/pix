@@ -5,7 +5,7 @@ export default Controller.extend({
 
   isLoading: false,
 
-  notifications: service('notification-messages'),
+  notifications: service(),
 
   actions: {
     async refreshLearningContent() {

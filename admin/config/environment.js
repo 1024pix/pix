@@ -55,7 +55,6 @@ module.exports = function(environment) {
 
     'ember-cli-notifications': {
       autoClear: true,
-      includeFontAwesome: true,
     },
 
     matomo: {

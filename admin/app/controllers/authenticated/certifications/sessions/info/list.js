@@ -9,7 +9,7 @@ export default Controller.extend({
 
   session: service(),
   sessionInfoService: service(),
-  notifications: service('notification-messages'),
+  notifications: service(),
 
   displayConfirm: false,
   displaySessionReport: false,

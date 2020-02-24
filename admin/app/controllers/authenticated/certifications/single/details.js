@@ -1,5 +1,4 @@
 import Controller from '@ember/controller';
-import { observer } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { schedule } from '@ember/runloop';
 import { inject as service } from '@ember/service';
@@ -18,15 +17,6 @@ export default Controller.extend({
   rate: alias('details.percentageCorrectAnswers'),
   score: alias('details.totalScore'),
   details: alias('model'),
-
-  // Observers
-  // FIXME remove this observer
-  // https://github.com/ember-cli/eslint-plugin-ember/blob/master/docs/rules/no-observers.md
-  // eslint-disable-next-line ember/no-observers
-  initJury: observer('details', function() {
-    this.set('juryRate', false);
-    this.set('juryScore', false);
-  }),
 
   // Actions
   actions: {
