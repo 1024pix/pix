@@ -9,43 +9,6 @@ const targetProfileRepository = require('../../../../lib/infrastructure/reposito
 
 describe('Unit | Service | OrganizationService', () => {
 
-  describe('#generateUniqueOrganizationCode', () => {
-
-    it('should exist', () => {
-      expect(organizationService.generateUniqueOrganizationCode).to.exist.and.to.be.a('function');
-    });
-
-    it('should generate a random code with 4 letters and 2 numbers', () => {
-      // given
-      const organizationRepository = { isCodeAvailable: sinon.stub() };
-      organizationRepository.isCodeAvailable.resolves(true);
-
-      // when
-      const promise = organizationService.generateUniqueOrganizationCode({ organizationRepository });
-
-      // then
-      return promise.then((code) => {
-        expect(code).to.match(/[A-Z]{4}\d{2}/);
-      });
-    });
-
-    it('should re-generate a code if the first ones already exist', () => {
-      // given
-      const organizationRepository = { isCodeAvailable: sinon.stub() };
-      organizationRepository.isCodeAvailable
-        .onFirstCall().rejects()
-        .onSecondCall().resolves(true);
-
-      // when
-      const promise = organizationService.generateUniqueOrganizationCode({ organizationRepository });
-
-      // then
-      return promise.then(() => {
-        expect(organizationRepository.isCodeAvailable).to.have.been.calledTwice;
-      });
-    });
-  });
-
   describe('#findAllTargetProfilesAvailableForOrganization', () => {
 
     let organizationId;
