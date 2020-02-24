@@ -12,12 +12,13 @@
   </div>
   <div class="page-navigation">
     <div class="page-navigation__arrow page-navigation__arrow--previous {{if (eq pagination.page 1) "page-navigation__arrow--disabled"}}">
-      {{#link-to (query-params pageNumber=previousPage)
-                 disabledWhen=(eq pagination.page 1)
-                 replace=true
-                 class="icon-button icon-button--link"}}
+      <LinkTo @route={{paginationLink}}
+              @query={{hash pageNumber=previousPage}}
+              @disabledWhen={{eq pagination.page 1}}
+              @replace={{true}}
+              class="icon-button icon-button--link">
         {{fa-icon 'arrow-left'}}
-      {{/link-to}}
+      </LinkTo>
     </div>
     <div class="page-navigation__body">
       <div class="page-navigation__label">Page&nbsp;:</div>
@@ -25,12 +26,13 @@
       <div class="page-navigation__last-page">/&nbsp;{{pagination.pageCount}}</div>
     </div>
     <div class="page-navigation__arrow page-navigation__arrow--next {{if (eq pagination.page pagination.pageCount) "page-navigation__arrow--disabled"}}">
-      {{#link-to (query-params pageNumber=nextPage)
-                 disabledWhen=(eq pagination.page pagination.pageCount)
-                 replace=true
-                 class="icon-button icon-button--link"}}
+      <LinkTo @route={{paginationLink}}
+              @query={{hash pageNumber=nextPage}}
+              @disabledWhen={{eq pagination.page pagination.pageCount}}
+              @replace={{true}}
+              class="icon-button icon-button--link">
         {{fa-icon 'arrow-right'}}
-      {{/link-to}}
+      </LinkTo>
     </div>
   </div>
 </div>

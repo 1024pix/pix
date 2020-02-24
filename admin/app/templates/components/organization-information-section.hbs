@@ -8,9 +8,9 @@
           <img src="{{rootURL}}/logo-placeholder.png">
         {{/if}}
 
-        {{#file-upload name="logo" accept="image/*" onfileadd=(action "updateLogo") as |queue|}}
+        <FileUpload @name="logo" @accept="image/*" @onfileadd={{action "updateLogo"}} as |queue|>
           <a class="file-upload__button"/>
-        {{/file-upload}}
+        </FileUpload>
 
       </figure>
     </div>

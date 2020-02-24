@@ -2,46 +2,46 @@
 
   <ul class="menu-bar__entries">
     <li class="menu-bar__entry">
-      {{#link-to "authenticated.organizations" class="menu-bar__link menu-bar__link--organizations"}}
+      <LinkTo @route="authenticated.organizations" class="menu-bar__link menu-bar__link--organizations">
         {{fa-icon "building"}}
-        {{#bs-tooltip placement="right"}}Organisations{{/bs-tooltip}}
-      {{/link-to}}
+        <BsTooltip @placement="right">Organisations</BsTooltip>
+      </LinkTo>
     </li>
     <li class="menu-bar__entry">
-      {{#link-to "authenticated.users.list" class="menu-bar__link menu-bar__link--users"}}
+      <LinkTo @route="authenticated.users.list" class="menu-bar__link menu-bar__link--users">
         {{fa-icon "users"}}
-        {{#bs-tooltip placement="right"}}Utilisateurs{{/bs-tooltip}}
-      {{/link-to}}
+        <BsTooltip @placement="right">Utilisateurs</BsTooltip>
+      </LinkTo>
     </li>
     <li class="menu-bar__entry">
-      {{#link-to "authenticated.certifications" class="menu-bar__link menu-bar__link--certifications"}}
+      <LinkTo @route="authenticated.certifications" class="menu-bar__link menu-bar__link--certifications">
         {{fa-icon "graduation-cap"}}
-        {{#bs-tooltip placement="right"}}Certifications{{/bs-tooltip}}
-      {{/link-to}}
+        <BsTooltip @placement="right">Certifications</BsTooltip>
+      </LinkTo>
     </li>
     <li class="menu-bar__entry">
-      {{#link-to "authenticated.certification-centers.list" class="menu-bar__link menu-bar__link--certification-centers"}}
+      <LinkTo @route="authenticated.certification-centers.list" class="menu-bar__link menu-bar__link--certification-centers">
         {{fa-icon "map-pin"}}
-        {{#bs-tooltip placement="right"}}Centres de certification{{/bs-tooltip}}
-      {{/link-to}}
+        <BsTooltip @placement="right">Centres de certification</BsTooltip>
+      </LinkTo>
     </li>
     <li class="menu-bar__entry">
-      {{#link-to "authenticated.sessions.list" class="menu-bar__link menu-bar__link--sessions"}}
+      <LinkTo @route="authenticated.sessions.list" class="menu-bar__link menu-bar__link--sessions">
         {{fa-icon "chalkboard-teacher"}}
-        {{#bs-tooltip placement="right"}}Sessions{{/bs-tooltip}}
-      {{/link-to}}
+        <BsTooltip @placement="right">Sessions</BsTooltip>
+      </LinkTo>
     </li>
     <li class="menu-bar__entry">
-      {{#link-to "authenticated.tools" class="menu-bar__link menu-bar__link--tools"}}
+      <LinkTo @route="authenticated.tools" class="menu-bar__link menu-bar__link--tools">
         {{fa-icon "tools"}}
-        {{#bs-tooltip placement="right"}}Outils{{/bs-tooltip}}
-      {{/link-to}}
+        <BsTooltip @placement="right">Outils</BsTooltip>
+      </LinkTo>
     </li>
     <li class="menu-bar__entry">
-      {{#link-to "logout" class="menu-bar__link menu-bar__link--logout"}}
+      <LinkTo @route="logout" class="menu-bar__link menu-bar__link--logout">
         {{fa-icon "power-off"}}
-        {{#bs-tooltip placement="right"}}Se déconnecter{{/bs-tooltip}}
-      {{/link-to}}
+        <BsTooltip @placement="right">Se déconnecter</BsTooltip>
+      </LinkTo>
     </li>
   </ul>
 </div>

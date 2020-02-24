@@ -8,14 +8,12 @@
 
   <!-- Field "identification" -->
   <div class="login-form__control">
-    {{input class="login-form__field login-form__field--identification" id='identification' placeholder='Enter Login' required='true'
-            value=identification autocomplete=true}}
+    <Input class="login-form__field login-form__field--identification" @id="identification" placeholder="Enter Login" required="true" @value={{identification}} @autocomplete={{true}} />
   </div>
 
   <!-- Field "password" -->
   <div class="login-form__control">
-    {{input class="login-form__field login-form__field--password" id='password' placeholder='Enter Password' required='true'
-            type='password' value=password autocomplete=true}}
+    <Input class="login-form__field login-form__field--password" @id="password" placeholder="Enter Password" required="true" @type="password" @value={{password}} @autocomplete={{true}} />
   </div>
 
   <!-- Form submit button -->

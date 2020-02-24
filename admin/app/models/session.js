@@ -1,9 +1,8 @@
 import _ from 'lodash';
-import DS from 'ember-data';
+
+import Model, { hasMany, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
-
-const { attr, hasMany, Model } = DS;
 
 export const CREATED = 'created';
 export const FINALIZED = 'finalized';
