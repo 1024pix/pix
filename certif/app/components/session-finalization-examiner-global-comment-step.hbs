@@ -7,11 +7,11 @@
       {{@session.examinerGlobalComment.length}} / {{@examinerGlobalCommentMaxLength}}
     </div>
   </div>
-  <textarea
-    id="examiner-global-comment"
+  <Textarea
+    @id="examiner-global-comment"
     class="session-finalization-examiner-global-comment-step__textarea"
-    value={{@session.examinerGlobalComment}}
+    @value={{@session.examinerGlobalComment}}
     {{on 'input' @updateExaminerGlobalComment}}
-    maxlength={{@examinerGlobalCommentMaxLength}}
+    @maxlength={{@examinerGlobalCommentMaxLength}}
   />
 </div>
