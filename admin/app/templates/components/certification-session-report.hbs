@@ -1,9 +1,9 @@
-{{#bs-modal onHide=onHide open=show size="lg" as |modal|}}
-  {{#modal.header}}
+<BsModal @onHide={{onHide}} @open={{show}} @size="lg" as |modal|>
+  <modal.header>
     <h4 class="modal-title">Analyse du PV de session</h4>
-  {{/modal.header}}
+  </modal.header>
 
-  {{#modal.body}}
+  <modal.body>
     <div class="certification-session-report__body">
 
         <section class="data-section data-section--total-certifications">
@@ -183,10 +183,10 @@
         </section>
     </div>
 
-  {{/modal.body}}
-  {{#modal.footer as |footer|}}
-    {{#bs-button onClick=(action modal.close) type="default"}}Fermer{{/bs-button}}
-    {{#bs-button onClick=onDownloadJuryFile type="primary"}}Récupérer le fichier avant Jury{{/bs-button}}
-    {{#bs-button onClick=onSaveSessionReportCertifications type="primary"}}Enregistrer les infos certifications{{/bs-button}}
-  {{/modal.footer}}
-{{/bs-modal}}
+  </modal.body>
+  <modal.footer as |footer|>
+    <BsButton @onClick={{action modal.close}} @type="default">Fermer</BsButton>
+    <BsButton @onClick={{onDownloadJuryFile}} @type="primary">Récupérer le fichier avant Jury</BsButton>
+    <BsButton @onClick={{onSaveSessionReportCertifications}} @type="primary">Enregistrer les infos certifications</BsButton>
+  </modal.footer>
+</BsModal>

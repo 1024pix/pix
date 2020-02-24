@@ -4,14 +4,14 @@ import { computed } from '@ember/object';
 export default Component.extend({
 
   firstNameValue: computed('firstName', function() {
-    return this.get('firstName');
+    return this.firstName;
   }),
 
   lastNameValue: computed('lastName', function() {
-    return this.get('lastName');
+    return this.lastName;
   }),
 
   emailValue: computed('email', function() {
-    return this.get('email');
+    return this.email;
   }),
 });

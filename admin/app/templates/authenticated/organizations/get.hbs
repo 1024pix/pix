@@ -1,6 +1,6 @@
 <header class="page-header">
   <div class="page-title">
-    {{link-to 'Toutes les organisations' 'authenticated.organizations.list'}}
+    <LinkTo @route="authenticated.organizations.list">Toutes les organisations</LinkTo>
     <span style="color: #DDDDDD;">&nbsp;>&nbsp;</span>
     {{model.name}}
   </div>
@@ -16,9 +16,9 @@
 
 <main class="page-body" id="organizations-get-page">
 
-  {{organization-information-section organization=model onLogoUpdated=(action "updateOrganizationInformation")}}
+  <OrganizationInformationSection @organization={{model}} @onLogoUpdated={{action "updateOrganizationInformation"}} />
 
-  {{organization-members-section organization=model userEmail=userEmail addMembership=(action "addMembership")}}
+  <OrganizationMembersSection @organization={{model}} @userEmail={{userEmail}} @addMembership={{action "addMembership"}} />
 
   {{organization-target-profiles-section targetProfiles=model.targetProfiles}}
 

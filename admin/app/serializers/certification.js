@@ -1,6 +1,6 @@
-import DS from 'ember-data';
+import JSONAPISerializer from '@ember-data/serializer/json-api';
 
-export default DS.JSONAPISerializer.extend({
+export default JSONAPISerializer.extend({
   normalizeFindRecordResponse(store, primaryModelClass, payload, id) {
     payload.data.id = id;
     return this.normalizeSingleResponse(...arguments);

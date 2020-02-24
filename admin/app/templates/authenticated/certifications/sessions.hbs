@@ -3,24 +3,24 @@
     Sessions de certification
   </div>
   <div class="page-actions">
-    {{certification-select id=(readonly sessionId) select=(action "onLoadSession")}}
+    <CertificationSelect @id={{readonly sessionId}} @select={{action "onLoadSession"}} />
   </div>
 </header>
 
 <main class="page-body">
   {{#if sessionId}}
-    {{#bs-nav type="tabs" as |nav|}}
-      {{#nav.item}}
+    <BsNav @type="tabs" as |nav|>
+      <nav.item>
         {{#nav.link-to 'authenticated.certifications.sessions.info.index' sessionId}}
           Informations
         {{/nav.link-to}}
-      {{/nav.item}}
-      {{#nav.item}}
+      </nav.item>
+      <nav.item>
         {{#nav.link-to 'authenticated.certifications.sessions.info.list' sessionId}}
           Certifications
         {{/nav.link-to}}
-      {{/nav.item}}
-    {{/bs-nav}}
+      </nav.item>
+    </BsNav>
   {{/if}}
   <section class="page-section  {{if sessionId 'with-navs'}}">
     {{#if loading}}

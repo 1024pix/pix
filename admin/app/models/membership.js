@@ -1,5 +1,4 @@
-import DS from 'ember-data';
-const { attr, belongsTo, Model } = DS;
+import Model, { belongsTo, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
 
 const displayedOrganizationRoles = {

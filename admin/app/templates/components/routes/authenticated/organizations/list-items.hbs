@@ -8,9 +8,9 @@
           <th>Identifiant externe</th>
         </tr>
         <tr>
-          <th>{{input id="name" value=nameValue keyUp=(action triggerFiltering 'name' nameValue) class="table-admin-input"}}</th>
-          <th>{{input id="type" value=typeValue keyUp=(action triggerFiltering 'type' typeValue) class="table-admin-input"}}</th>
-          <th>{{input id="externalId" value=externalIdValue keyUp=(action triggerFiltering 'externalId' externalIdValue) class="table-admin-input"}}</th>
+          <th><Input id="name" @value={{nameValue}} @keyUp={{action triggerFiltering "name" nameValue}} class="table-admin-input"/></th>
+          <th><Input id="type" @value={{typeValue}} @keyUp={{action triggerFiltering "type" typeValue}} class="table-admin-input"/></th>
+          <th><Input id="externalId" @value={{externalIdValue}} @keyUp={{action triggerFiltering "externalId" externalIdValue}} class="table-admin-input"/></th>
         </tr>
       </thead>
 
@@ -34,5 +34,5 @@
 </div>
 
 {{#if organizations}}
-  {{pagination-control pagination=organizations.meta}}
+  <PaginationControl @pagination={{organizations.meta}} />
 {{/if}}

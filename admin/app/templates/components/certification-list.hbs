@@ -1,14 +1,13 @@
 <div class="certification-list">
 
-  {{models-table
-    data=certifications
-    columns=columns
-    showColumnsDropdown=false
-    showGlobalFilter=false
-    useNumericPagination=true
-    multipleSelect=true
-    pageSize=25
-    pageSizeValues=pageValues
-  }}
+  <ModelsTable @data={{certifications}}
+               @columns={{columns}}
+               @showColumnsDropdown={{false}}
+               @showGlobalFilter={{false}}
+               @useNumericPagination={{true}}
+               @multipleSelect={{true}}
+               @displayDataChangedAction={{action changeAction}}
+               @pageSize={{25}}
+               @pageSizeValues={{pageValues}} />
 
 </div>

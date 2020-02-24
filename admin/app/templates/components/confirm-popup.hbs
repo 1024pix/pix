@@ -1,13 +1,4 @@
-{{#bs-modal-simple
-  title="Merci de confirmer"
-  closeTitle="Annuler"
-  submitTitle="Confirmer"
-  size=null
-  fade=false
-  open=show
-  position="center"
-  onSubmit=(action confirm)
-  onHide=(action cancel)}}
+<BsModalSimple @title="Merci de confirmer" @closeTitle="Annuler" @submitTitle="Confirmer" @size={{null}} @fade={{false}} @open={{show}} @position="center" @onSubmit={{action confirm}} @onHide={{action cancel}}>
   <p>{{message}}</p>
   <p class="confirm-popup__errors">{{error}}</p>
-{{/bs-modal-simple}}
+</BsModalSimple>
