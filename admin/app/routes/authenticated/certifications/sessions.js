@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 export default Route.extend({
-  notifications: service('notification-messages'),
+  notifications: service(),
 
   redirect: function(model, transition) {
     if (transition.intent.name === 'authenticated.certifications.sessions') {

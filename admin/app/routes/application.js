@@ -3,6 +3,6 @@ import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mi
 import { inject as service } from '@ember/service';
 
 export default Route.extend(ApplicationRouteMixin, {
-  notifications: service('notification-messages'),
+  notifications: service(),
   routeAfterAuthentication: 'authenticated',
 });

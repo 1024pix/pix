@@ -15,7 +15,7 @@ export default Controller.extend({
   // Properties
   certification: alias('model'),
   edition: false,
-  notifications: service('notification-messages'),
+  notifications: service(),
   displayConfirm: false,
   confirmMessage: '',
   confirmErrorMessage: '',

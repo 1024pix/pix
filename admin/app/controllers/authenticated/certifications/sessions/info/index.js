@@ -7,7 +7,7 @@ import { statusToDisplayName } from '../../../../../models/session';
 export default Controller.extend({
 
   sessionInfoService: service(),
-  notifications: service('notification-messages'),
+  notifications: service(),
 
   session: alias('model'),
 
