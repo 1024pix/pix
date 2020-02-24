@@ -14,22 +14,17 @@ export default Service.extend({
         const userMemberships = await user.get('memberships');
         const userOrgaSettings = await user.get('userOrgaSettings');
 
-        let organization;
-        let userMembership;
-        if (userOrgaSettings) {
-          organization = await userOrgaSettings.get('organization');
-          userMembership = await this._getMembershipByOrganizationId(userMemberships.toArray(), organization.id);
-        } else {
-          userMembership = await userMemberships.get('firstObject');
-          organization = await userMembership.organization;
-        }
-        const isAdminInOrganization = userMembership.isAdmin;
-        const canAccessStudentsPage = organization.isSco && organization.isManagingStudents;
-
         this.set('user', user);
-        this.set('organization', organization);
-        this.set('isAdminInOrganization', isAdminInOrganization);
-        this.set('canAccessStudentsPage', canAccessStudentsPage);
+
+        if (userOrgaSettings) {
+          const organization = await userOrgaSettings.get('organization');
+          const userMembership = await this._getMembershipByOrganizationId(userMemberships.toArray(), organization.id);
+          const isAdminInOrganization = userMembership.isAdmin;
+          const canAccessStudentsPage = organization.isSco && organization.isManagingStudents;
+          this.set('organization', organization);
+          this.set('isAdminInOrganization', isAdminInOrganization);
+          this.set('canAccessStudentsPage', canAccessStudentsPage);
+        }
       } catch (error) {
         if (_.get(error, 'errors[0].code') === 401) {
           return this.session.invalidate();
