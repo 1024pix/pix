@@ -10,10 +10,7 @@ export function createUserWithMembership() {
     userId: user.id
   });
 
-  const userOrgaSettings = server.create('user-orga-setting', { user, organization });
-
   user.memberships = [memberships];
-  user.userOrgaSettings = userOrgaSettings;
   return user;
 }
 
@@ -30,6 +27,7 @@ export function createUserWithMembershipAndTermsOfServiceAccepted() {
     userId: user.id
   });
 
+  user.userOrgaSettings = server.create('user-orga-setting', { user, organization });
   user.memberships = [memberships];
   return user;
 }
@@ -47,6 +45,7 @@ export function createUserMembershipWithRole(organizationRole) {
     organizationRole,
   });
 
+  user.userOrgaSettings = server.create('user-orga-setting', { user, organization });
   user.memberships = [memberships];
   return user;
 }
@@ -70,6 +69,7 @@ export function createAdminMembershipWithNbMembers(countMembers) {
     organizationRole: 'ADMIN',
   });
 
+  admin.userOrgaSettings = server.create('user-orga-setting', { user: admin, organization });
   admin.memberships[0] = adminMemberships;
 
   for (let i = 1; i < countMembers; i++) {
@@ -80,6 +80,8 @@ export function createAdminMembershipWithNbMembers(countMembers) {
       email: 'harry@cover.com',
       'pixOrgaTermsOfServiceAccepted': true
     });
+
+    user.userOrgaSettings = server.create('user-orga-setting', { user, organization });
 
     admin.memberships[i] = server.create('membership', {
       userId: user.id,
@@ -105,6 +107,7 @@ export function createUserManagingStudents(role = 'MEMBER') {
     organizationRole: role
   });
 
+  user.userOrgaSettings = server.create('user-orga-setting', { user, organization });
   user.memberships = [memberships];
   return user;
 }

@@ -13,11 +13,14 @@ export default Controller.extend({
 
       const userOrgaSettings = await user.userOrgaSettings;
       if (!userOrgaSettings) {
-        const organization = this.currentUser.organization;
-        this.store.createRecord('user-orga-setting', { user, organization }).save();
+        const userMemberships = await this.currentUser.user.memberships;
+        const membership = await userMemberships.firstObject;
+        const organization = await membership.organization;
+        await this.store.createRecord('user-orga-setting', { user, organization }).save();
+        await this.currentUser.load();
       }
 
-      return this.replaceRoute('');
+      this.replaceRoute('');
     }
   }
 });
