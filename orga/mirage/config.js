@@ -45,7 +45,7 @@ export default function() {
 
   this.patch('/users/:id/pix-orga-terms-of-service-acceptance', (schema, request) => {
     const user = schema.users.find(request.params.id);
-    user.pixOrgaTermsOfServiceAccepted = true;
+    user.update({ pixOrgaTermsOfServiceAccepted: true });
     return user;
   });
 

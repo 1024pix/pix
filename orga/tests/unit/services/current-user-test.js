@@ -15,7 +15,7 @@ module('Unit | Service | current-user', function(hooks) {
       const connectedUserId = 1;
       const connectedUser = Object.create({
         id: connectedUserId,
-        memberships: [{ organization: [] }]
+        memberships: [{ organization: [] }],
       });
       const storeStub = Service.create({
         queryRecord: () => resolve(connectedUser)
@@ -41,7 +41,8 @@ module('Unit | Service | current-user', function(hooks) {
       const organization = Object.create({ id: 9 });
       const connectedUser = Object.create({
         id: connectedUserId,
-        memberships: [{ organization }]
+        memberships: [Object.create({ organization })],
+        userOrgaSettings: Object.create({ organization })
       });
       const storeStub = Service.create({
         queryRecord: () => resolve(connectedUser)
@@ -68,7 +69,8 @@ module('Unit | Service | current-user', function(hooks) {
       const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'ADMIN', isAdmin: true });
       const connectedUser = Object.create({
         id: connectedUserId,
-        memberships: [membership]
+        memberships: [membership],
+        userOrgaSettings: Object.create({ organization })
       });
       const storeStub = Service.create({
         queryRecord: () => resolve(connectedUser)
@@ -95,7 +97,8 @@ module('Unit | Service | current-user', function(hooks) {
       const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'MEMBER', isAdmin: false });
       const connectedUser = Object.create({
         id: connectedUserId,
-        memberships: [membership]
+        memberships: [membership],
+        userOrgaSettings: Object.create({ organization })
       });
       const storeStub = Service.create({
         queryRecord: () => resolve(connectedUser)
@@ -122,7 +125,8 @@ module('Unit | Service | current-user', function(hooks) {
       const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'ADMIN', isAdmin: true });
       const connectedUser = Object.create({
         id: connectedUserId,
-        memberships: [membership]
+        memberships: [membership],
+        userOrgaSettings: Object.create({ organization })
       });
       const storeStub = Service.create({
         queryRecord: () => resolve(connectedUser)
@@ -149,7 +153,8 @@ module('Unit | Service | current-user', function(hooks) {
       const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'ADMIN', isAdmin: true });
       const connectedUser = Object.create({
         id: connectedUserId,
-        memberships: [membership]
+        memberships: [membership],
+        userOrgaSettings: Object.create({ organization })
       });
       const storeStub = Service.create({
         queryRecord: () => resolve(connectedUser)
@@ -176,7 +181,8 @@ module('Unit | Service | current-user', function(hooks) {
       const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'ADMIN', isAdmin: true });
       const connectedUser = Object.create({
         id: connectedUserId,
-        memberships: [membership]
+        memberships: [membership],
+        userOrgaSettings: Object.create({ organization })
       });
       const storeStub = Service.create({
         queryRecord: () => resolve(connectedUser)
