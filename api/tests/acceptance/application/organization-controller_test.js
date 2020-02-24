@@ -100,7 +100,6 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(createdOrganization.name).to.equal('The name of the organization');
         expect(createdOrganization.type).to.equal('PRO');
         expect(createdOrganization.code).not.to.be.empty;
-        expect(createdOrganization.user).to.be.undefined;
       });
     });
 
@@ -527,9 +526,6 @@ describe('Acceptance | Application | organization-controller', () => {
             },
             'id': organization.id.toString(),
             'relationships': {
-              'user': {
-                'data': null,
-              },
               'memberships': {
                 'links': {
                   'related': `/api/organizations/${organization.id}/memberships`
