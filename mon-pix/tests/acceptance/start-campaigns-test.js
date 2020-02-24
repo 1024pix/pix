@@ -76,6 +76,24 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           context('When campaign is restricted', function() {
             const campaignCode = 'AZERTY4';
 
+            context('When the student has an account but is not reconcilied', function() {
+
+              it('should redirect to reconciliation page', async function() {
+
+                // given
+                await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
+
+                // when
+                await click('#login-button');
+                await fillIn('#login', prescritUser.email);
+                await fillIn('#password', prescritUser.password);
+                await click('#submit-connexion');
+
+                // then
+                expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
+              });
+            });
+
             it('should redirect to login-or-register page', async function() {
               // when
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
