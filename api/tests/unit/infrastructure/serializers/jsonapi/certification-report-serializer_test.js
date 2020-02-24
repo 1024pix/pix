@@ -44,4 +44,31 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
     });
   });
 
+  it('should return a null for an undefined examiner comment', async function() {
+    // when
+    delete jsonApiData.data.attributes['examiner-comment'];
+    const deserializedCertificationReport = await serializer.deserialize(jsonApiData);
+
+    // then
+    expect(deserializedCertificationReport.examinerComment).to.be.null;
+  });
+
+  it('should return a null for an empty examiner comment (empty => none)', async function() {
+    // when
+    jsonApiData.data.attributes['examiner-comment'] = '';
+    const deserializedCertificationReport = await serializer.deserialize(jsonApiData);
+
+    // then
+    expect(deserializedCertificationReport.examinerComment).to.be.null;
+  });
+
+  it('should return a null for an all spaces examiner comment (" " => none)', async function() {
+    // when
+    jsonApiData.data.attributes['examiner-comment'] = '\t ';
+    const deserializedCertificationReport = await serializer.deserialize(jsonApiData);
+
+    // then
+    expect(deserializedCertificationReport.examinerComment).to.be.null;
+  });
+
 });
