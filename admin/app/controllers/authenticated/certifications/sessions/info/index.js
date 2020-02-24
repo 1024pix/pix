@@ -24,5 +24,13 @@ export default Controller.extend({
         this.notifications.error(error);
       }
     },
+
+    downloadBeforeJuryFile() {
+      try {
+        this.sessionInfoService.downloadJuryFile(this.model.id, this.model.certifications);
+      } catch (error) {
+        this.notifications.error(error);
+      }
+    },
   },
 });

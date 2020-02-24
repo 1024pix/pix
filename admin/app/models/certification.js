@@ -15,12 +15,11 @@ export default Model.extend({
   completedAt: attr(),
   status: attr(),
   juryId: attr(),
-  hasSeenLastScreenFromPaperReport: attr('boolean', { defaultValue: true }),
   hasSeenEndTestScreen: attr('boolean'),
   examinerComment: attr('string'),
-  commentForCandidate: attr(),
-  commentForOrganization: attr(),
-  commentForJury: attr(),
+  commentForCandidate: attr('string'),
+  commentForOrganization: attr('string'),
+  commentForJury: attr('string'),
   pixScore: attr(),
   competencesWithMark: attr(),
   isPublished: attr('boolean', { defaultValue: false }),
@@ -61,6 +60,6 @@ export default Model.extend({
       }
     });
 
-    this.set('hasSeenLastScreenFromPaperReport', this.hasSeenLastScreenFromPaperReport && certificationInReport.hasSeenLastScreenFromPaperReport);
+    this.set('hasSeenEndTestScreen', this.hasSeenEndTestScreen && certificationInReport.hasSeenEndTestScreen);
   },
 });

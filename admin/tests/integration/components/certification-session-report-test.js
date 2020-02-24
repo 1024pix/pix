@@ -20,10 +20,10 @@ module('Integration | Component | certification-session-report', function(hooks)
       birthdate = 'default birthdate',
       birthplace = 'default birtplace',
       examinerComment = '',
-      hasSeenLastScreenFromPaperReport = true,
+      hasSeenEndTestScreen = true,
       isInSession = true, }) {
       return {
-        id, firstName, lastName, birthplace, birthdate, examinerComment, hasSeenLastScreenFromPaperReport, isInSession
+        id, firstName, lastName, birthplace, birthdate, examinerComment, hasSeenEndTestScreen, isInSession
       };
     };
     const certifications = [
@@ -34,9 +34,9 @@ module('Integration | Component | certification-session-report', function(hooks)
       buildCertification({ id: 4 }),
       buildCertification({ id: 4 }),
       buildCertification({ id: 5, isInSession: false }),
-      buildCertification({ id: 6, firstName: 'Jean', lastName: 'Padansession', hasSeenLastScreenFromPaperReport: false }),
-      buildCertification({ id: 7, firstName: 'Jean', lastName: 'Palié', hasSeenLastScreenFromPaperReport: false }),
-      buildCertification({ id: 8, firstName: 'Jean', lastName: 'Lié', hasSeenLastScreenFromPaperReport: false }),
+      buildCertification({ id: 6, firstName: 'Jean', lastName: 'Padansession', hasSeenEndTestScreen: false }),
+      buildCertification({ id: 7, firstName: 'Jean', lastName: 'Palié', hasSeenEndTestScreen: false }),
+      buildCertification({ id: 8, firstName: 'Jean', lastName: 'Lié', hasSeenEndTestScreen: false }),
       buildCertification({ id: 9, examinerComment: 'comment' }),
     ];
     certifications[7].hasSeenLastScreenFromPaperReportEnhanced = 'NOT_IN_SESSION';
