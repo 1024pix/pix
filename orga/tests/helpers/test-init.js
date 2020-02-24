@@ -10,7 +10,10 @@ export function createUserWithMembership() {
     userId: user.id
   });
 
+  const userOrgaSettings = server.create('user-orga-setting', { user, organization });
+
   user.memberships = [memberships];
+  user.userOrgaSettings = userOrgaSettings;
   return user;
 }
 

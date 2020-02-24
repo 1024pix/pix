@@ -208,4 +208,15 @@ export default function() {
     return schema.users.find(1);
   });
 
+  this.post('/user-orga-settings', (schema, request) => {
+    const requestBody = JSON.parse(request.requestBody);
+    const userId = requestBody.data.relationships.user.data.id;
+    const organizationId = requestBody.data.relationships.organization.data.id;
+
+    const user = schema.users.find(userId);
+    const organization = schema.organizations.find(organizationId);
+
+    return schema.userOrgaSettings.create({ user, organization });
+  });
+
 }

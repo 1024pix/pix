@@ -97,6 +97,20 @@ module('Acceptance | terms-of-service', function(hooks) {
       // then
       assert.equal(currentURL(), '/cgu');
     });
+
+    module('When user has no user-orga-settings', () => {
+
+      test('it should create the user-orga-settings', async (assert) => {
+        // given
+        await visit('/cgu');
+
+        // when
+        await click('button[type=submit]');
+
+        // then
+        assert.ok(user.userOrgaSettings);
+      });
+    });
   });
 
   module('When user has already accepted terms of service', function(hooks) {
