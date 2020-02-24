@@ -3,19 +3,19 @@ const badgeRepository = require('../../../../lib/infrastructure/repositories/bad
 
 describe('Unit | Repository | Badge', function() {
 
-  describe('#getByTargetProfileId', () => {
+  describe('#findOneByTargetProfileId', () => {
 
     const targetProfileId = 1;
 
     beforeEach(() => {
-      sinon.stub(badgeRepository, 'getByTargetProfileId')
+      sinon.stub(badgeRepository, 'findOneByTargetProfileId')
         .withArgs(targetProfileId)
         .resolves('ok');
     });
 
-    it('should get the badge associated to the target profile id', async () => {
+    it('should find the badge associated to the target profile id', async () => {
       // when
-      const result = await badgeRepository.getByTargetProfileId(targetProfileId);
+      const result = await badgeRepository.findOneByTargetProfileId(targetProfileId);
 
       // then
       expect(result).to.equal('ok');

@@ -24,7 +24,7 @@ module.exports = async function getCampaignParticipationResult(
     knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
   ]);
 
-  const badge = await badgeRepository.getByTargetProfileId(targetProfile.id);
+  const badge = await badgeRepository.findOneByTargetProfileId(targetProfile.id);
 
   return CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, badge });
 };

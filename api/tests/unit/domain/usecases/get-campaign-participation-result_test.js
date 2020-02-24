@@ -36,7 +36,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     targetProfileRepository = { getByCampaignId: sinon.stub() };
     competenceRepository = { list: sinon.stub() };
     assessmentRepository = { get: sinon.stub() };
-    badgeRepository = { getByTargetProfileId: sinon.stub() };
+    badgeRepository = { findOneByTargetProfileId: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
     sinon.stub(CampaignParticipationResult, 'buildFrom').returns(campaignParticipationResult);
   });
@@ -47,7 +47,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
       targetProfileRepository.getByCampaignId.withArgs(campaignParticipation.campaignId).resolves(targetProfile);
-      badgeRepository.getByTargetProfileId.withArgs(targetProfileId).resolves(badge);
+      badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(badge);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, otherUserId).resolves(true);
 
       // when
@@ -74,7 +74,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
       targetProfileRepository.getByCampaignId.withArgs(campaignParticipation.campaignId).resolves(targetProfile);
-      badgeRepository.getByTargetProfileId.withArgs(targetProfileId).resolves(badge);
+      badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(badge);
 
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, otherUserId).resolves(false);
 
@@ -101,7 +101,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves({ userId });
       targetProfileRepository.getByCampaignId.withArgs(campaignParticipation.campaignId).resolves(targetProfile);
-      badgeRepository.getByTargetProfileId.withArgs(targetProfileId).resolves(badge);
+      badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(badge);
 
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(false);
 
