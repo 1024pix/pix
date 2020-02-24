@@ -40,7 +40,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   const correctedAnswer = _evaluateAnswer(challenge, answer);
 
   let scorecardBeforeAnswer;
-  if (correctedAnswer.result.isOK() && (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement())) {
+  if (correctedAnswer.result.isOK() && assessment.hasKnowledgeElements()) {
     scorecardBeforeAnswer = await scorecardService.computeScorecard({
       userId,
       competenceId: challenge.competenceId,
@@ -51,17 +51,14 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     });
   }
 
-  let knowledgeElementsFromAnswer = [];
-  if (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement()) {
-    knowledgeElementsFromAnswer = await _getKnowledgeElements({
-      assessment,
-      answer: correctedAnswer,
-      challenge,
-      skillRepository,
-      targetProfileRepository,
-      knowledgeElementRepository
-    });
-  }
+  const knowledgeElementsFromAnswer = await _getKnowledgeElements({
+    assessment,
+    answer: correctedAnswer,
+    challenge,
+    skillRepository,
+    targetProfileRepository,
+    knowledgeElementRepository
+  });
 
   let answerSaved = await answerRepository.saveWithKnowledgeElements(correctedAnswer, knowledgeElementsFromAnswer);
 
@@ -76,6 +73,10 @@ function _evaluateAnswer(challenge, answer) {
 }
 
 async function _getKnowledgeElements({ assessment, answer, challenge, skillRepository, targetProfileRepository, knowledgeElementRepository }) {
+  if (!assessment.hasKnowledgeElements()) {
+    return [];
+  }
+
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId });
   let targetSkills;
   if (assessment.isCompetenceEvaluation()) {
