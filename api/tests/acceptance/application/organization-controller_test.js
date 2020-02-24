@@ -99,7 +99,6 @@ describe('Acceptance | Application | organization-controller', () => {
         const createdOrganization = response.result.data.attributes;
         expect(createdOrganization.name).to.equal('The name of the organization');
         expect(createdOrganization.type).to.equal('PRO');
-        expect(createdOrganization.code).not.to.be.empty;
       });
     });
 

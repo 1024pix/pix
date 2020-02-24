@@ -47,7 +47,6 @@ describe('Integration | Repository | Organization', function() {
       expect(organizationSaved.name).to.equal(organization.name);
       expect(organizationSaved.type).to.equal(organization.type);
       expect(organizationSaved.logoUrl).to.equal(organization.logoUrl);
-      expect(organizationSaved.code).to.equal(organization.code);
       expect(organizationSaved.externalId).to.equal(organization.externalId);
       expect(organizationSaved.provinceCode).to.equal(organization.provinceCode);
     });
@@ -118,34 +117,6 @@ describe('Integration | Repository | Organization', function() {
 
       // then
       expect(organizationSaved.code).to.equal(originalOrganizationCode);
-    });
-  });
-
-  describe('#isCodeAvailable', () => {
-    beforeEach(async () => {
-      // given
-      databaseBuilder.factory.buildOrganization(
-        {
-          type: 'PRO',
-          code: 'ABCD01',
-        });
-      await databaseBuilder.commit();
-    });
-
-    it('should return the code when the code is not already used', async () => {
-      // when
-      const code = await organizationRepository.isCodeAvailable('ABCD02');
-
-      // then
-      expect(code).to.equal('ABCD02');
-    });
-
-    it('should reject when the organization already exists', () => {
-      // when
-      const promise = organizationRepository.isCodeAvailable('ABCD01');
-
-      // then
-      return expect(promise).to.be.rejected;
     });
   });
 

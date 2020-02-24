@@ -55,7 +55,7 @@ module.exports = {
 
   create(organization) {
 
-    const organizationRawData = _.pick(organization, ['name', 'type', 'logoUrl', 'code', 'externalId', 'provinceCode']);
+    const organizationRawData = _.pick(organization, ['name', 'type', 'logoUrl', 'externalId', 'provinceCode']);
 
     return new BookshelfOrganization()
       .save(organizationRawData)
@@ -70,20 +70,6 @@ module.exports = {
       .save(organizationRawData, { patch: true })
       .then((model) => model.refresh())
       .then(_toDomain);
-  },
-
-  isCodeAvailable(code) {
-    return BookshelfOrganization
-      .where({ code })
-      .fetch()
-      .then((organizations) => {
-
-        if (organizations) {
-          return Promise.reject();
-        }
-
-        return Promise.resolve(code);
-      });
   },
 
   get(id) {
