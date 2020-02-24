@@ -5,7 +5,7 @@ import Controller from '@ember/controller';
 import { debounce } from '@ember/runloop';
 
 export default Controller.extend({
-  queryParams: ['pageNumber', 'pageSize', 'name'],
+  queryParams: ['pageNumber', 'pageSize', 'name', 'status'],
   pageNumber: 1,
   pageSize: 25,
   name: null,
@@ -14,9 +14,11 @@ export default Controller.extend({
 
   hasNoCampaign: empty('model'),
   displayNoCampaignPanel: computed('name,hasNoCampaign', function() {
-    return this.hasNoCampaign && isEmpty(this.name);
+    return this.hasNoCampaign && isEmpty(this.name) && isEmpty(this.status);
   }),
-
+  isArchived: computed('status', function() {
+    return this.status === 'archived';
+  }),
   setFieldName() {
     this.set(this.searchFilter.fieldName, this.searchFilter.value);
   },
@@ -26,7 +28,9 @@ export default Controller.extend({
       this.set('searchFilter', { fieldName, value });
       debounce(this, this.setFieldName, 500);
     },
-
+    updateCampaignStatus(newStatus) {
+      this.set('status', newStatus);
+    },
     goToCampaignPage(campaignId) {
       this.transitionToRoute('authenticated.campaigns.details', campaignId);
     }

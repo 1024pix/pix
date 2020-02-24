@@ -5,11 +5,44 @@
 
   &__header-page {
     display: flex;
-    margin: 1em;
+    margin: 1em 0 2.4em;
+    align-items: flex-end;
   }
 
   &__create-campaign-button {
     margin-top: 20px;
     margin-left: auto;
+  }
+
+  &__campaigns-status {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  &__tab {
+    text-transform: uppercase;
+    color: $comet;
+    background: transparent;
+    padding: 6px 8px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+    margin-right: 10px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    outline: none;
+    font-family: $roboto;
+    border-radius: 4px;
+    &:hover {
+      background: $alto;
+      opacity: .8;
+    }
+    &--active {
+      background: $alto;
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 }
