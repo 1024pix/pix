@@ -47,9 +47,8 @@ export default class AuthenticatedSessionsFinalizeController extends Controller 
   @action
   async finalizeSession() {
     this.isLoading = true;
-
     try {
-      await this.session.finalize();
+      await this.session.save({ adapterOptions: { finalization: true } });
       this.showSuccessNotification('Les informations de la session ont été transmises avec succès.');
     } catch (err) {
       (err.errors && err.errors[0] && err.errors[0].status === '400')
