@@ -82,7 +82,7 @@ module('Acceptance | Session Finalization', function(hooks) {
       });
 
       test('it checks the hasSeenEndTestScreen checkbox', async function(assert) {
-        const certificationReport = await checkFirstHasSeenEndTestScreenOption(finalizeController, assert);
+        const certificationReport = await _checkFirstHasSeenEndTestScreenOption(finalizeController, assert);
 
         assert.equal(certificationReport.hasSeenEndTestScreen, true);
       });
@@ -161,7 +161,7 @@ module('Acceptance | Session Finalization', function(hooks) {
             
       module('when confirm modal is open with one checked option', function(hooks) {
         hooks.beforeEach(async function(assert) {
-          await checkFirstHasSeenEndTestScreenOption(finalizeController, assert);
+          await _checkFirstHasSeenEndTestScreenOption(finalizeController, assert);
           return click('[data-test-id="finalize__button"]');
         });
               
@@ -175,7 +175,7 @@ module('Acceptance | Session Finalization', function(hooks) {
   });
 });
 
-async function checkFirstHasSeenEndTestScreenOption(finalizeController, assert) {
+async function _checkFirstHasSeenEndTestScreenOption(finalizeController, assert) {
   const certificationReports = finalizeController.model.certificationReports.toArray();
   const certificationReport = certificationReports[0];
   const id = certificationReport.certificationCourseId;
