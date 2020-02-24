@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { action, computed } from '@ember/object';
@@ -64,7 +65,7 @@ export default class AuthenticatedSessionsFinalizeController extends Controller 
   updateExaminerGlobalComment(event) {
     const inputText = event.target.value;
     if (inputText.length <= this.examinerGlobalCommentMaxLength) {
-      this.session.examinerGlobalComment = inputText;
+      this.session.examinerGlobalComment = this._convertStringToNullIfEmpty(inputText);
     }
   }
 
@@ -72,7 +73,7 @@ export default class AuthenticatedSessionsFinalizeController extends Controller 
   updateCertificationReportExaminerComment(certificationReport, event) {
     const inputText = event.target.value;
     if (inputText.length <= this.examinerCommentMaxLength) {
-      certificationReport.examinerComment = inputText;
+      certificationReport.examinerComment = this._convertStringToNullIfEmpty(inputText);
     }
   }
 
@@ -98,5 +99,9 @@ export default class AuthenticatedSessionsFinalizeController extends Controller 
   @action
   closeModal() {
     this.showConfirmModal = false;
+  }
+
+  _convertStringToNullIfEmpty(str) {
+    return _.isEmpty(_.trim(str)) ? null : str;
   }
 }
