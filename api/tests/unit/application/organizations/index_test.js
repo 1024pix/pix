@@ -15,8 +15,9 @@ describe('Unit | Router | organization-router', () => {
 
     sinon.stub(securityController, 'checkUserIsAdminInOrganization').returns(true);
     sinon.stub(securityController, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').returns(true);
+    sinon.stub(securityController, 'checkUserHasRolePixMaster').returns(true);
 
-    sinon.stub(organizationController, 'find').returns('ok');
+    sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
     sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
@@ -27,7 +28,7 @@ describe('Unit | Router | organization-router', () => {
     it('should exist', async () => {
       // given
       const method = 'GET';
-      const url = '/api/organizations?name=DRA&code=AZ&type=SCO&page=3&pageSize=25';
+      const url = '/api/organizations?filter[name]=DRA&filter[type]=AZ&filter[type]=SCO&page[number]=3&page[size]=25';
 
       // when
       const response = await httpTestServer.request(method, url);

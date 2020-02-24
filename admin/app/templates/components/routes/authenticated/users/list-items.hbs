@@ -10,9 +10,9 @@
         </tr>
         <tr>
           <th></th>
-          <th>{{input id="firstName" value=firstName keyUp=(action triggerFiltering 'firstName' firstName)}}</th>
-          <th>{{input id="lastName" value=lastName keyUp=(action triggerFiltering 'lastName' lastName)}}</th>
-          <th>{{input id="email" value=email keyUp=(action triggerFiltering 'email' email)}}</th>
+          <th>{{input id="firstName" value=firstNameValue keyUp=(action triggerFiltering 'firstName' firstNameValue)}}</th>
+          <th>{{input id="lastName" value=lastNameValue keyUp=(action triggerFiltering 'lastName' lastNameValue)}}</th>
+          <th>{{input id="email" value=emailValue keyUp=(action triggerFiltering 'email' emailValue)}}</th>
         </tr>
       </thead>
 
@@ -39,4 +39,3 @@
 {{#if users}}
   {{pagination-control pagination=users.meta paginationLink="authenticated.users.list"}}
 {{/if}}
-

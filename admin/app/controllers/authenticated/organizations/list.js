@@ -4,12 +4,12 @@ import { debounce } from '@ember/runloop';
 const DEFAULT_PAGE_NUMBER = 1;
 
 export default Controller.extend({
-  queryParams: ['pageNumber', 'pageSize', 'firstName', 'lastName', 'email'],
+  queryParams: ['pageNumber', 'pageSize', 'name', 'type', 'code'],
   pageNumber: DEFAULT_PAGE_NUMBER,
   pageSize: 10,
-  firstName: null,
-  lastName: null,
-  email: null,
+  name: null,
+  type: null,
+  code: null,
 
   searchFilter: null,
 
@@ -23,5 +23,9 @@ export default Controller.extend({
       this.set('searchFilter', { fieldName, value });
       debounce(this, this.setFieldName, 500);
     },
+
+    goToOrganizationPage(organizationId) {
+      this.transitionToRoute('authenticated.organizations.get', organizationId);
+    }
   }
 });

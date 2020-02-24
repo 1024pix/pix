@@ -1,7 +1,7 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
-const organisationController = require('../../../../lib/application/organizations/organization-controller');
+const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
 describe('Integration | Application | Organizations | Routes', () => {
@@ -14,12 +14,12 @@ describe('Integration | Application | Organizations | Routes', () => {
     sinon.stub(securityController, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(securityController, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
 
-    sinon.stub(organisationController, 'create').returns('ok');
-    sinon.stub(organisationController, 'find').returns('ok');
-    sinon.stub(organisationController, 'findPaginatedFilteredCampaigns').returns('ok');
-    sinon.stub(organisationController, 'importStudentsFromSIECLE').callsFake((request, h) => h.response('ok').code(201));
-    sinon.stub(organisationController, 'sendInvitations').callsFake((request, h) => h.response().created());
-    sinon.stub(organisationController, 'findPendingInvitations').returns('ok');
+    sinon.stub(organizationController, 'create').returns('ok');
+    sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
+    sinon.stub(organizationController, 'findPaginatedFilteredCampaigns').returns('ok');
+    sinon.stub(organizationController, 'importStudentsFromSIECLE').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
+    sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -66,7 +66,7 @@ describe('Integration | Application | Organizations | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(organisationController.findPaginatedFilteredCampaigns).to.have.been.calledOnce;
+      expect(organizationController.findPaginatedFilteredCampaigns).to.have.been.calledOnce;
     });
   });
 
@@ -83,7 +83,7 @@ describe('Integration | Application | Organizations | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(201);
-      expect(organisationController.importStudentsFromSIECLE).to.have.been.calledOnce;
+      expect(organizationController.importStudentsFromSIECLE).to.have.been.calledOnce;
     });
   });
 
@@ -107,7 +107,7 @@ describe('Integration | Application | Organizations | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(201);
-      expect(organisationController.sendInvitations).to.have.been.calledOnce;
+      expect(organizationController.sendInvitations).to.have.been.calledOnce;
     });
   });
 
@@ -123,7 +123,7 @@ describe('Integration | Application | Organizations | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(organisationController.findPendingInvitations).to.have.been.calledOnce;
+      expect(organizationController.findPendingInvitations).to.have.been.calledOnce;
     });
   });
 
