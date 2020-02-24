@@ -27,8 +27,18 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     throw new ForbiddenAccess('User is not allowed to add an answer for this assessment.');
   }
 
+  const answersFind = await answerRepository.findByChallengeAndAssessment({
+    assessmentId: answer.assessmentId,
+    challengeId: answer.challengeId,
+  });
+
+  if (answersFind) {
+    throw new ChallengeAlreadyAnsweredError();
+  }
+
   const challenge = await challengeRepository.get(answer.challengeId);
   const correctedAnswer = _evaluateAnswer(challenge, answer);
+
   let scorecardBeforeAnswer;
   if (correctedAnswer.result.isOK() && (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement())) {
     scorecardBeforeAnswer = await scorecardService.computeScorecard({
@@ -39,15 +49,6 @@ module.exports = async function correctAnswerThenUpdateAssessment(
       knowledgeElementRepository,
       blockReachablePixAndLevel: true,
     });
-  }
-
-  const answersFind = await answerRepository.findByChallengeAndAssessment({
-    assessmentId: answer.assessmentId,
-    challengeId: answer.challengeId,
-  });
-
-  if (answersFind) {
-    throw new ChallengeAlreadyAnsweredError();
   }
 
   let knowledgeElementsFromAnswer = [];
