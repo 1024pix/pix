@@ -120,20 +120,20 @@
                     <button class="data-section__switch" type="button" {{action "toggleSection" "displayNoLastScreenSeenCertifications"}}>Écrans de fin de test non vus</button>
                 </div>
                 <div class="col-3">
-                    <span class="data-section__counter">{{noLastScreenSeenFromPaperReport.length}}</span>
+                    <span class="data-section__counter">{{noLastScreenSeenCertifications.length}}</span>
                 </div>
                 <div class="col-1">
-                  {{#if noLastScreenSeenFromPaperReport.length}}
+                  {{#if noLastScreenSeenCertifications.length}}
                     {{fa-icon "times" class="data-section__status--failure"}}
                   {{else}}
                     {{fa-icon "check" class="data-section__status--success"}}
                   {{/if}}
                 </div>
             </div>
-          {{#if (and noLastScreenSeenFromPaperReport.length displayNoLastScreenSeenCertifications)}}
+          {{#if (and noLastScreenSeenCertifications.length displayNoLastScreenSeenCertifications)}}
               <div class="row mb-4">
                   <div class="col-8 data-section__candidates-names">
-                    {{#each noLastScreenSeenFromPaperReport as |item|}}
+                    {{#each noLastScreenSeenCertifications as |item|}}
                     {{#if (eq item.hasSeenLastScreenFromPaperReportEnhanced "NOT_LINKED")}}
                         <span class="data-section__candidate-names__not-linked">{{item.lastName}} {{item.firstName}}</span>
                     {{else if (eq item.hasSeenLastScreenFromPaperReportEnhanced 'NOT_IN_SESSION')}}

@@ -10,19 +10,23 @@ module('Unit | Controller | authenticated/certifications/sessions/info/index', f
   let model;
   let error;
   let downloadSessionExportFile;
+  let downloadJuryFile;
 
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/certifications/sessions/info/index');
 
     // context for sessionInfoService stub
-    model = 'some model';
+    model = { id: Symbol('an id'), certifications: [] };
     error = { err : 'some error' };
 
     // sessionInfoService stub
     downloadSessionExportFile = sinon.stub();
     downloadSessionExportFile.withArgs(model).returns();
     downloadSessionExportFile.withArgs().throws(error);
-    sessionInfoServiceStub = { downloadSessionExportFile };
+    downloadJuryFile = sinon.stub();
+    downloadJuryFile.withArgs(model.id, model.certifications).returns();
+    downloadJuryFile.throws(error);
+    sessionInfoServiceStub = { downloadSessionExportFile, downloadJuryFile };
 
     controller.set('sessionInfoService', sessionInfoServiceStub);
   });
@@ -30,7 +34,6 @@ module('Unit | Controller | authenticated/certifications/sessions/info/index', f
   module('#downloadSessionResultFile', function() {
 
     test('should launch the download of result file', function(assert) {
-
       // given
       controller.set('model', model);
 
@@ -42,7 +45,6 @@ module('Unit | Controller | authenticated/certifications/sessions/info/index', f
     });
 
     test('should throw an error', function(assert) {
-
       // given
       const notificationsStub = { error: sinon.stub() };
       controller.set('notifications', notificationsStub);
@@ -52,6 +54,36 @@ module('Unit | Controller | authenticated/certifications/sessions/info/index', f
 
       // then
       assert.ok(controller.sessionInfoService.downloadSessionExportFile.calledOnce);
+      assert.ok(controller.notifications.error.calledWithExactly(error));
+    });
+  });
+
+  module('#downloadBeforeJuryFile', function() {
+
+    test('should launch the download of before jury file', function(assert) {
+      // given
+      const modelId = model.id;
+      const modelCertifications = model.certifications;
+      controller.set('model', model);
+
+      // when
+      controller.actions.downloadBeforeJuryFile.call(controller);
+
+      // then
+      assert.ok(controller.sessionInfoService.downloadJuryFile.calledWithExactly(modelId, modelCertifications));
+    });
+
+    test('should throw an error if service is called with wrongs parameters', function(assert) {
+      // given
+      const notificationsStub = { error: sinon.stub() };
+      controller.set('notifications', notificationsStub);
+      controller.set('model', 'wrong model');
+
+      // when
+      controller.actions.downloadBeforeJuryFile.call(controller);
+
+      // then
+      assert.ok(controller.sessionInfoService.downloadJuryFile.calledOnce);
       assert.ok(controller.notifications.error.calledWithExactly(error));
     });
   });
