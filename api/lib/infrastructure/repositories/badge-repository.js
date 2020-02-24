@@ -3,10 +3,10 @@ const BookshelfBadge = require('../../infrastructure/data/badge');
 
 module.exports = {
 
-  getByTargetProfileId(targetProfileId) {
+  findOneByTargetProfileId(targetProfileId) {
     return BookshelfBadge
       .where({ targetProfileId })
-      .fetch()
+      .fetch({ require: false })
       .then((results) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, results));
   },
 

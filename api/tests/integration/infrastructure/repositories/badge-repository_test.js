@@ -3,7 +3,7 @@ const badgeRepository = require('../../../../lib/infrastructure/repositories/bad
 
 describe('Integration | Repository | Badge', () => {
 
-  describe('#getByTargetProfileId', () => {
+  describe('#findOneByTargetProfileId', () => {
 
     let targetProfile;
     let anotherTargetProfile;
@@ -31,7 +31,7 @@ describe('Integration | Repository | Badge', () => {
       const targetProfileId = targetProfile.id;
 
       // when
-      const badge = await badgeRepository.getByTargetProfileId(targetProfileId);
+      const badge = await badgeRepository.findOneByTargetProfileId(targetProfileId);
 
       // then
       expect(badge).to.deep.equal({
@@ -48,7 +48,7 @@ describe('Integration | Repository | Badge', () => {
       const targetProfileId = anotherTargetProfile.id;
 
       // when
-      const badge = await badgeRepository.getByTargetProfileId(targetProfileId);
+      const badge = await badgeRepository.findOneByTargetProfileId(targetProfileId);
 
       // then
       expect(badge).to.equal(null);
