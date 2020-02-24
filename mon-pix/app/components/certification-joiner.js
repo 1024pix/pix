@@ -86,7 +86,7 @@ export default Component.extend({
       const { value } = event.target;
 
       if (value.length === 2) {
-        document.getElementById('monthOfBirth').focus();
+        document.getElementById('certificationJoinerMonthOfBirth').focus();
       }
     },
 
@@ -94,7 +94,7 @@ export default Component.extend({
       const { value } = event.target;
 
       if (value.length === 2) {
-        document.getElementById('yearOfBirth').focus();
+        document.getElementById('certificationJoinerYearOfBirth').focus();
       }
     },
 

@@ -67,11 +67,11 @@ describe('Acceptance | Certification | Start Course', function() {
             await visitWithAbortedTransition('/certifications');
 
             // when
-            await fillIn('#sessionId', '1');
-            await fillIn('#firstName', 'Laura');
-            await fillIn('#dayOfBirth', '04');
-            await fillIn('#monthOfBirth', '01');
-            await fillIn('#yearOfBirth', '1990');
+            await fillIn('#certificationJoinerSessionId', '1');
+            await fillIn('#certificationJoinerFirstName', 'Laura');
+            await fillIn('#certificationJoinerDayOfBirth', '04');
+            await fillIn('#certificationJoinerMonthOfBirth', '01');
+            await fillIn('#certificationJoinerYearOfBirth', '1990');
             await click('.certification-joiner__attempt-next-btn');
           });
 
@@ -84,12 +84,12 @@ describe('Acceptance | Certification | Start Course', function() {
         context('when no candidate with given info has been registered in the given session', function() {
           beforeEach(async function() {
             // when
-            await fillIn('#sessionId', '1');
-            await fillIn('#firstName', 'Laura');
-            await fillIn('#lastName', 'PasInscrite');
-            await fillIn('#dayOfBirth', '04');
-            await fillIn('#monthOfBirth', '01');
-            await fillIn('#yearOfBirth', '1990');
+            await fillIn('#certificationJoinerSessionId', '1');
+            await fillIn('#certificationJoinerFirstName', 'Laura');
+            await fillIn('#certificationJoinerLastName', 'PasInscrite');
+            await fillIn('#certificationJoinerDayOfBirth', '04');
+            await fillIn('#certificationJoinerMonthOfBirth', '01');
+            await fillIn('#certificationJoinerYearOfBirth', '1990');
             await click('.certification-joiner__attempt-next-btn');
           });
 
@@ -102,12 +102,12 @@ describe('Acceptance | Certification | Start Course', function() {
         context('when several candidates with given info are found in the given session', function() {
           beforeEach(async function() {
             // when
-            await fillIn('#sessionId', '1');
-            await fillIn('#firstName', 'Laura');
-            await fillIn('#lastName', 'PlusieursMatchs');
-            await fillIn('#dayOfBirth', '04');
-            await fillIn('#monthOfBirth', '01');
-            await fillIn('#yearOfBirth', '1990');
+            await fillIn('#certificationJoinerSessionId', '1');
+            await fillIn('#certificationJoinerFirstName', 'Laura');
+            await fillIn('#certificationJoinerLastName', 'PlusieursMatchs');
+            await fillIn('#certificationJoinerDayOfBirth', '04');
+            await fillIn('#certificationJoinerMonthOfBirth', '01');
+            await fillIn('#certificationJoinerYearOfBirth', '1990');
             await click('.certification-joiner__attempt-next-btn');
           });
 
@@ -120,12 +120,12 @@ describe('Acceptance | Certification | Start Course', function() {
         context('when user has already been linked to another candidate in the session', function() {
           beforeEach(async function() {
             // when
-            await fillIn('#sessionId', '1');
-            await fillIn('#firstName', 'Laura');
-            await fillIn('#lastName', 'UtilisateurLiéAutre');
-            await fillIn('#dayOfBirth', '04');
-            await fillIn('#monthOfBirth', '01');
-            await fillIn('#yearOfBirth', '1990');
+            await fillIn('#certificationJoinerSessionId', '1');
+            await fillIn('#certificationJoinerFirstName', 'Laura');
+            await fillIn('#certificationJoinerLastName', 'UtilisateurLiéAutre');
+            await fillIn('#certificationJoinerDayOfBirth', '04');
+            await fillIn('#certificationJoinerMonthOfBirth', '01');
+            await fillIn('#certificationJoinerYearOfBirth', '1990');
             await click('.certification-joiner__attempt-next-btn');
           });
 
@@ -138,12 +138,12 @@ describe('Acceptance | Certification | Start Course', function() {
         context('when candidate has already been linked to another user in the session', function() {
           beforeEach(async function() {
             // when
-            await fillIn('#sessionId', '1');
-            await fillIn('#firstName', 'Laura');
-            await fillIn('#lastName', 'CandidatLiéAutre');
-            await fillIn('#dayOfBirth', '04');
-            await fillIn('#monthOfBirth', '01');
-            await fillIn('#yearOfBirth', '1990');
+            await fillIn('#certificationJoinerSessionId', '1');
+            await fillIn('#certificationJoinerFirstName', 'Laura');
+            await fillIn('#certificationJoinerLastName', 'CandidatLiéAutre');
+            await fillIn('#certificationJoinerDayOfBirth', '04');
+            await fillIn('#certificationJoinerMonthOfBirth', '01');
+            await fillIn('#certificationJoinerYearOfBirth', '1990');
             await click('.certification-joiner__attempt-next-btn');
           });
 
@@ -164,12 +164,12 @@ describe('Acceptance | Certification | Start Course', function() {
               birthdate: '1990-01-04',
             });
             // when
-            await fillIn('#sessionId', '1');
-            await fillIn('#firstName', 'Laura');
-            await fillIn('#lastName', 'CandidatLiéUtilisateur');
-            await fillIn('#dayOfBirth', '04');
-            await fillIn('#monthOfBirth', '01');
-            await fillIn('#yearOfBirth', '1990');
+            await fillIn('#certificationJoinerSessionId', '1');
+            await fillIn('#certificationJoinerFirstName', 'Laura');
+            await fillIn('#certificationJoinerLastName', 'CandidatLiéUtilisateur');
+            await fillIn('#certificationJoinerDayOfBirth', '04');
+            await fillIn('#certificationJoinerMonthOfBirth', '01');
+            await fillIn('#certificationJoinerYearOfBirth', '1990');
             await click('.certification-joiner__attempt-next-btn');
           });
 
@@ -182,12 +182,12 @@ describe('Acceptance | Certification | Start Course', function() {
         context('when user is successfuly linked to the candidate', function() {
           beforeEach(async function() {
             // when
-            await fillIn('#sessionId', '1');
-            await fillIn('#firstName', 'Laura');
-            await fillIn('#lastName', 'Bravo');
-            await fillIn('#dayOfBirth', '04');
-            await fillIn('#monthOfBirth', '01');
-            await fillIn('#yearOfBirth', '1990');
+            await fillIn('#certificationJoinerSessionId', '1');
+            await fillIn('#certificationJoinerFirstName', 'Laura');
+            await fillIn('#certificationJoinerLastName', 'Bravo');
+            await fillIn('#certificationJoinerDayOfBirth', '04');
+            await fillIn('#certificationJoinerMonthOfBirth', '01');
+            await fillIn('#certificationJoinerYearOfBirth', '1990');
             await click('.certification-joiner__attempt-next-btn');
           });
 
@@ -200,14 +200,14 @@ describe('Acceptance | Certification | Start Course', function() {
         context('when user enter a correct code session', function() {
           beforeEach(async function() {
             // when
-            await fillIn('#sessionId', '1');
-            await fillIn('#firstName', 'Laura');
-            await fillIn('#lastName', 'Bravo');
-            await fillIn('#dayOfBirth', '04');
-            await fillIn('#monthOfBirth', '01');
-            await fillIn('#yearOfBirth', '1990');
+            await fillIn('#certificationJoinerSessionId', '1');
+            await fillIn('#certificationJoinerFirstName', 'Laura');
+            await fillIn('#certificationJoinerLastName', 'Bravo');
+            await fillIn('#certificationJoinerDayOfBirth', '04');
+            await fillIn('#certificationJoinerMonthOfBirth', '01');
+            await fillIn('#certificationJoinerYearOfBirth', '1990');
             await click('.certification-joiner__attempt-next-btn');
-            await fillIn('#session-code', 'ABCD12');
+            await fillIn('#certificationStarterSessionCode', 'ABCD12');
             await click('.certification-course-page__submit_button');
           });
 
@@ -245,14 +245,14 @@ describe('Acceptance | Certification | Start Course', function() {
 
           it('should be redirected on the second challenge of an assessment', async function() {
             // given
-            await fillIn('#sessionId', '1');
-            await fillIn('#firstName', 'Laura');
-            await fillIn('#lastName', 'Bravo');
-            await fillIn('#dayOfBirth', '04');
-            await fillIn('#monthOfBirth', '01');
-            await fillIn('#yearOfBirth', '1990');
+            await fillIn('#certificationJoinerSessionId', '1');
+            await fillIn('#certificationJoinerFirstName', 'Laura');
+            await fillIn('#certificationJoinerLastName', 'Bravo');
+            await fillIn('#certificationJoinerDayOfBirth', '04');
+            await fillIn('#certificationJoinerMonthOfBirth', '01');
+            await fillIn('#certificationJoinerYearOfBirth', '1990');
             await click('.certification-joiner__attempt-next-btn');
-            await fillIn('#session-code', '10ue1');
+            await fillIn('#certificationStarterSessionCode', '10ue1');
             await click('.certification-course-page__submit_button');
 
             await click('.challenge-actions__action-skip');
