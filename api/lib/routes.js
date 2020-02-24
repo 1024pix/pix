@@ -26,7 +26,6 @@ module.exports = [
   require('./application/scorecards'),
   require('./application/sessions'),
   require('./application/simulateErrors'),
-  require('./application/snapshots'),
   require('./application/student-dependent-users'),
   require('./application/student-user-associations'),
   require('./application/system'),
