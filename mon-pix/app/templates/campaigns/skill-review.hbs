@@ -19,13 +19,13 @@
     {{/if}}
 
     {{#if (not @model.campaignParticipation.campaign.isArchived )}}
-      <h1 class="rounded-panel-title skill-review-result__abstract">
+      <h3 class="rounded-panel-title skill-review-result__abstract">
         Vous maîtrisez
         <span class="skill-review-result-abstract__percentage">
           {{@model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%
         </span>
         <br> des compétences testées.
-      </h1>
+      </h3>
       <div class="skill-review-result__share-container">
         {{#if model.campaignParticipation.isShared}}
           <p class="skill-review-share__thanks">Merci, vos résultats ont bien été envoyés !</p>
