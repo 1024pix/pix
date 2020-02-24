@@ -12,7 +12,7 @@ module.exports = function buildCertificationCandidate({
   birthCity = faker.address.city(),
   birthProvinceCode = faker.random.alphaNumeric(3),
   birthCountry = faker.address.country(),
-  email = faker.internet.email(),
+  email = faker.internet.exampleEmail(),
   birthdate = moment(faker.date.past(30)).format('YYYY-MM-DD'),
   sessionId,
   externalId = faker.random.uuid(),
