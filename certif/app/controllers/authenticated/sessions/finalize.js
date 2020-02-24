@@ -8,7 +8,7 @@ import config from '../../../config/environment';
 import { sumBy } from 'lodash';
 
 export default class AuthenticatedSessionsFinalizeController extends Controller {
-  
+
   @alias('model') session;
   @service notifications;
   @tracked isLoading;
