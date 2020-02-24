@@ -286,6 +286,75 @@ describe('Acceptance | Application | organization-controller-import-students', (
         });
       });
 
+      context('when a student is present twice in the file', () => {
+        beforeEach(async () => {
+          // given
+          const student1 =
+            '<ELEVE ELEVE_ID="0001">' +
+            '<ID_NATIONAL>00000000123</ID_NATIONAL>' +
+            '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
+            '<PRENOM>Harry</PRENOM>' +
+            '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+            '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+            '<CODE_MEF>12341234</CODE_MEF>' +
+            '<CODE_STATUT>ST</CODE_STATUT>' +
+            '</ELEVE>';
+
+          const student2 =
+            '<ELEVE ELEVE_ID="0002">' +
+            '<ID_NATIONAL>00000000123</ID_NATIONAL>' +
+            '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
+            '<PRENOM>Harry</PRENOM>' +
+            '<DATE_NAISS>02/07/1994</DATE_NAISS>' +
+            '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+            '<CODE_MEF>12341234</CODE_MEF>' +
+            '<CODE_STATUT>ST</CODE_STATUT>' +
+            '</ELEVE>';
+
+          const bufferWithMalformedStudent = iconv.encode(
+            '<?xml version="1.0" encoding="ISO-8859-15"?>' +
+            '<BEE_ELEVES VERSION="2.1">' +
+            '<DONNEES>' +
+            '<ELEVES>' +
+            student1 +
+            student2 +
+            '</ELEVES>' +
+            '<STRUCTURES>' +
+            '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+            '<STRUCTURE>' +
+            '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+            '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+            '</STRUCTURE>' +
+            '</STRUCTURES_ELEVE>' +
+            '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
+            '<STRUCTURE>' +
+            '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+            '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+            '</STRUCTURE>' +
+            '</STRUCTURES_ELEVE>' +
+            '</STRUCTURES>' +
+            '</DONNEES>' +
+            '</BEE_ELEVES>', 'ISO-8859-15');
+
+          options.payload = bufferWithMalformedStudent;
+        });
+
+        it('should not import any student and return a 409 - Conflict', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          const students = await knex('students').where({ organizationId });
+          expect(students).to.have.lengthOf(0);
+          expect(response.statusCode).to.equal(422);
+          expect(response.result.errors[0].detail).to.equal('L’INE 00000000123 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
+        });
+      });
+
       context('when a student cant be updated', () => {
         beforeEach(async () => {
           // given
