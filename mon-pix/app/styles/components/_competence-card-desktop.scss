@@ -83,8 +83,8 @@
   }
 
   .competence-card:hover .competence-card__footer {
-    transition-delay: 0.15s;
-    bottom: 22px;
+    bottom: 0px;
+    height: 70px;
   }
 
   .competence-card__button:hover .competence-card-button__label {
