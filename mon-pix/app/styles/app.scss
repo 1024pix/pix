@@ -105,6 +105,14 @@
 @import 'pages/user-certifications';
 @import 'pages/user-certifications-get';
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+}
+
 body {
   font-family: $font-roboto;
   background-color: $porcelain-grey;
@@ -119,14 +127,12 @@ input:invalid {
   box-shadow: none;
 }
 
-html {
-  font-size: 10px;
-}
-
-* {
-  box-sizing: border-box;
+input {
+  font-size: 1.4rem;
+  font-family: $font-roboto;
 }
 
 a {
   text-decoration: none;
 }
+
