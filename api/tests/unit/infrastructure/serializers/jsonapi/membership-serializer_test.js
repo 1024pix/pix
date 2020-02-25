@@ -99,7 +99,6 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
       expect(json.included[0].attributes).to.deep.equal({
         'name': 'ACME',
         'type': 'PRO',
-        'code': 'ABCD12',
         'external-id': 'EXTID',
         'is-managing-students': false
       });
