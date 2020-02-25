@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v2.117.0 (25/02/2020)
+
+- [#1091](https://github.com/1024pix/pix/pull/1091) [FEATURE] Agrandir la zone de click de la carte compétence (PF-1011).
+- [#1057](https://github.com/1024pix/pix/pull/1057) [FEATURE] Ajout du téléchargement fichier avant jury sur la page détails de session (PA-122).
+- [#1093](https://github.com/1024pix/pix/pull/1093) [FEATURE] Autofocus les premiers champs de formulaire des deux écrans du tunnel de certification dans MonPix (PF-1117).
+- [#1088](https://github.com/1024pix/pix/pull/1088) [FEATURE] Mise en place d’un nouveau menu utilisateur (PO-343).
+- [#1065](https://github.com/1024pix/pix/pull/1065) [BUGFIX] Correction de régressions visuelles mineures sur Pix App.
+- [#1092](https://github.com/1024pix/pix/pull/1092) [BUGFIX] Fix style du titre de la page résultats d'une campagne.
+- [#1105](https://github.com/1024pix/pix/pull/1105) [BUGFIX] Les écrans de fin de test issus de l'analyse du PV de session dans PixAdmin ne sont pas pris en compte (PA-158).
+- [#1075](https://github.com/1024pix/pix/pull/1075) [TECH] Pix Board - Suppression du code relatif au endpoint GET /api/snapshots (PF-876-2).
+- [#1041](https://github.com/1024pix/pix/pull/1041) [TECH] Améliorer les performances de l'affichage des organisations dans Pix Admin.
+
 ## v2.116.0 (21/02/2020)
 
 - [#1062](https://github.com/1024pix/pix/pull/1062) [BUGFIX] Ne pas générer d'erreurs 500 lorsque la route /campaign/id est appelée avec un id non valide (PO-251).
