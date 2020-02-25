@@ -18,7 +18,12 @@ module.exports = {
     return h.response(userOrgaSettingsSerializer.serialize(result)).created();
   },
 
-  update() {
-    // not yet implemented
+  async update(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+    const organizationId = request.payload.data.relationships.organization.data.id;
+
+    const result = await usecases.updateUserOrgaSettings({ userId: authenticatedUserId, organizationId });
+
+    return userOrgaSettingsSerializer.serialize(result);
   }
 };
