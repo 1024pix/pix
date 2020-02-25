@@ -152,6 +152,9 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.UserOrgaSettingsCreationError) {
     return new InfraErrors.BadRequestError(error.message);
   }
+  if (error instanceof DomainErrors.UserNotMemberOfOrganizationError) {
+    return new InfraErrors.UnprocessableEntityError(error.message);
+  }
 
   return new InfraErrors.InfrastructureError(error.message);
 }
