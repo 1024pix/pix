@@ -60,8 +60,17 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         // then
         expect(find('table tbody tr td:nth-child(1) span:nth-child(2)').textContent).to.equal('Compétence 1.1');
         expect(find('table tbody tr td:nth-child(2) .progression-gauge').getAttribute('style')).to.equal('width: 100%');
-        expect(find('table tbody tr td:nth-child(2) .progression-gauge__marker').getAttribute('style')).to.equal('width: 30%');
-        expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include('30%');
+        expect(find('table tbody tr td:nth-child(2) .progression-gauge__marker').getAttribute('style')).to.equal('width: 90%');
+        expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include('90%');
+      });
+
+      it('should display the Pix emploi badge that is available for AZERTY2 campaign when 85% of the skills are validated', async function() {
+        // when
+        await resumeCampaignByCode('AZERTY2');
+        await completeCampaignAndSeeResultsByCode('AZERTY2');
+
+        // then
+        expect(find('.skill-review-result__badge')).to.exist;
       });
 
       it('should share the results', async function() {

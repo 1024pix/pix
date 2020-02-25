@@ -5,12 +5,20 @@ export default function(schema) {
     index: '1.1',
     totalSkillsCount: 10,
     testedSkillsCount: 9,
-    validatedSkillsCount: 3,
+    validatedSkillsCount: 9,
   });
+
+  const badge = schema.badges.create({
+    altMessage: 'Yon won a Pix Emploi badge',
+    imageUrl: '/images/badges/Pix-emploi.svg',
+    message: 'Congrats, you won a Pix Emploi badge',
+  });
+
   return schema.campaignParticipationResults.create({
     totalSkillsCount: 10,
     testedSkillsCount: 9,
-    validatedSkillsCount: 3,
-    competenceResults: [competenceResult]
+    validatedSkillsCount: 9,
+    competenceResults: [competenceResult],
+    badge
   });
 }
