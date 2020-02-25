@@ -88,7 +88,7 @@ module.exports = {
 
     const certificationCenterId = _.get(json.data, ['relationships', 'certification-center', 'data', 'id']);
 
-    return new Session({
+    const result = new Session({
       id: json.data.id,
       certificationCenter: attributes['certification-center'],
       certificationCenterId: certificationCenterId ? parseInt(certificationCenterId) : null,
@@ -101,5 +101,11 @@ module.exports = {
       description: attributes.description,
       examinerGlobalComment: attributes['examiner-global-comment'],
     });
+
+    if (_.isEmpty(_.trim(result.examinerGlobalComment))) {
+      result.examinerGlobalComment = Session.NO_EXAMINER_GLOBAL_COMMENT;
+    }
+
+    return result;
   }
 };

@@ -8,6 +8,8 @@ const statuses = {
   FINALIZED,
 };
 
+const NO_EXAMINER_GLOBAL_COMMENT = null;
+
 class Session {
   constructor({
     id,
@@ -56,3 +58,4 @@ class Session {
 
 module.exports = Session;
 module.exports.statuses = statuses;
+module.exports.NO_EXAMINER_GLOBAL_COMMENT = NO_EXAMINER_GLOBAL_COMMENT;

@@ -1,4 +1,4 @@
-const { expect } = require('../../../../test-helper');
+const { expect, EMPTY_BLANK_OR_NULL } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 
 const Session = require('../../../../../lib/domain/models/Session');
@@ -77,6 +77,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       // then
       expect(json).to.deep.equal(jsonApiSession);
     });
+
   });
 
   describe('#deserialize()', function() {
@@ -107,6 +108,19 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       expect(session.time).to.equal('14:30');
       expect(session.description).to.equal('');
       expect(session.examinerGlobalComment).to.equal('It was a fine session my dear');
+    });
+
+    EMPTY_BLANK_OR_NULL.forEach((examinerGlobalComment) => {
+      it(`should return no examiner comment if comment is ${examinerGlobalComment}`, () => {
+        // given
+        jsonApiSession.data.attributes['examiner-global-comment'] = examinerGlobalComment;
+
+        // when
+        const result = serializer.deserialize(jsonApiSession);
+
+        // then
+        expect(result.examinerGlobalComment).to.deep.equal(Session.NO_EXAMINER_GLOBAL_COMMENT);
+      });
     });
 
     context('when there is no certification center ID', () => {
