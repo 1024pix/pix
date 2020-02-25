@@ -1,5 +1,5 @@
-<div class="organization-list">
-  <div class="table content-text content-text--small">
+<div class="organization-list content-text content-text--small">
+  <div class="table-admin">
     <table>
       <thead>
         <tr>
@@ -8,9 +8,9 @@
           <th>Code</th>
         </tr>
         <tr>
-          <th>{{input id="name" value=nameValue keyUp=(action triggerFiltering 'name' nameValue)}}</th>
-          <th>{{input id="type" value=typeValue keyUp=(action triggerFiltering 'type' typeValue)}}</th>
-          <th>{{input id="code" value=codeValue keyUp=(action triggerFiltering 'code' codeValue)}}</th>
+          <th>{{input id="name" value=nameValue keyUp=(action triggerFiltering 'name' nameValue) class="table-admin-input"}}</th>
+          <th>{{input id="type" value=typeValue keyUp=(action triggerFiltering 'type' typeValue) class="table-admin-input"}}</th>
+          <th>{{input id="code" value=codeValue keyUp=(action triggerFiltering 'code' codeValue) class="table-admin-input"}}</th>
         </tr>
       </thead>
 
@@ -34,5 +34,5 @@
 </div>
 
 {{#if organizations}}
-  {{pagination-control pagination=organizations.meta paginationLink="authenticated.organizations.list"}}
+  {{pagination-control pagination=organizations.meta}}
 {{/if}}
