@@ -73,7 +73,7 @@
     "ember-power-select": "^2.3.5",
     "ember-qunit": "^4.6.0",
     "ember-resolver": "^7.0.0",
-    "ember-simple-auth": "^1.9.2",
+    "ember-simple-auth": "^2.1.1",
     "ember-sinon": "^4.1.1",
     "ember-source": "^3.13.4",
     "ember-truth-helpers": "^2.1.0",
