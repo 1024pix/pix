@@ -320,49 +320,24 @@ describe('Integration | Repository | Organization', function() {
       });
     });
 
-    context('when there are multiple Organizations matching the same "code" search pattern', () => {
-
-      beforeEach(() => {
-        databaseBuilder.factory.buildOrganization({ code: 'AZH578' });
-        databaseBuilder.factory.buildOrganization({ code: 'BFR842' });
-        databaseBuilder.factory.buildOrganization({ code: 'AZH002' });
-        return databaseBuilder.commit();
-      });
-
-      it('should return only Organizations matching "code" if given in filters', async () => {
-        // given
-        const filter = { code: 'AZ' };
-        const page = { number: 1, size: 10 };
-        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
-
-        // when
-        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFiltered({ filter, page });
-
-        // then
-        expect(_.map(matchingOrganizations, 'code')).to.have.members(['AZH578', 'AZH002']);
-        expect(pagination).to.deep.equal(expectedPagination);
-      });
-    });
-
-    context('when there are multiple Organizations matching the fields "name", "type" and "code" search pattern', () => {
+    context('when there are multiple Organizations matching the fields "name", "type" search pattern', () => {
 
       beforeEach(() => {
         // Matching organizations
-        databaseBuilder.factory.buildOrganization({ name: 'name_ok_1', type: 'SCO', code: 'c_ok_1' });
-        databaseBuilder.factory.buildOrganization({ name: 'name_ok_2', type: 'SCO', code: 'c_ok_2' });
-        databaseBuilder.factory.buildOrganization({ name: 'name_ok_3', type: 'SCO', code: 'c_ok_3' });
+        databaseBuilder.factory.buildOrganization({ name: 'name_ok_1', type: 'SCO' });
+        databaseBuilder.factory.buildOrganization({ name: 'name_ok_2', type: 'SCO' });
+        databaseBuilder.factory.buildOrganization({ name: 'name_ok_3', type: 'SCO' });
 
         // Unmatching organizations
-        databaseBuilder.factory.buildOrganization({ name: 'name_ko_4', type: 'SCO', code: 'c_ok_4' });
-        databaseBuilder.factory.buildOrganization({ name: 'name_ok_5', type: 'SUP', code: 'c_ok_5' });
-        databaseBuilder.factory.buildOrganization({ name: 'name_ok_6', type: 'SCO', code: 'c_ko_1' });
+        databaseBuilder.factory.buildOrganization({ name: 'name_ko_4', type: 'SCO' });
+        databaseBuilder.factory.buildOrganization({ name: 'name_ok_5', type: 'SUP' });
 
         return databaseBuilder.commit();
       });
 
-      it('should return only Organizations matching "name" AND "type" AND "code" if given in filters', async () => {
+      it('should return only Organizations matching "name" AND "type" if given in filters', async () => {
         // given
-        const filter = { name: 'name_ok', type: 'SCO', code: 'c_ok' };
+        const filter = { name: 'name_ok', type: 'SCO' };
         const page = { number: 1, size: 10 };
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
 
@@ -372,7 +347,6 @@ describe('Integration | Repository | Organization', function() {
         // then
         expect(_.map(matchingOrganizations, 'name')).to.have.members(['name_ok_1', 'name_ok_2', 'name_ok_3']);
         expect(_.map(matchingOrganizations, 'type')).to.have.members(['SCO', 'SCO', 'SCO']);
-        expect(_.map(matchingOrganizations, 'code')).to.have.members(['c_ok_1', 'c_ok_2', 'c_ok_3']);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });

@@ -11,7 +11,6 @@ function _toDomain(bookshelfOrganization) {
 
   const organization = new Organization({
     id: rawOrganization.id,
-    code: rawOrganization.code,
     name: rawOrganization.name,
     type: rawOrganization.type,
     logoUrl: rawOrganization.logoUrl,
@@ -39,15 +38,12 @@ function _toDomain(bookshelfOrganization) {
 }
 
 function _setSearchFiltersForQueryBuilder(filter, qb) {
-  const { name, type, code } = filter;
+  const { name, type } = filter;
   if (name) {
     qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
   }
   if (type) {
     qb.whereRaw('LOWER("type") LIKE ?', `%${type.toLowerCase()}%`);
-  }
-  if (code) {
-    qb.whereRaw('LOWER("code") LIKE ?', `%${code.toLowerCase()}%`);
   }
 }
 

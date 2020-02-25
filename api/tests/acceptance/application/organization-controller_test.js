@@ -245,8 +245,8 @@ describe('Acceptance | Application | organization-controller', () => {
 
       const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
 
-      databaseBuilder.factory.buildOrganization({ name: 'The name of the organization', type: 'SUP', code: 'AAA111' });
-      databaseBuilder.factory.buildOrganization({ name: 'Organization of the night', type: 'PRO', code: 'BBB222' });
+      databaseBuilder.factory.buildOrganization({ name: 'The name of the organization', type: 'SUP' });
+      databaseBuilder.factory.buildOrganization({ name: 'Organization of the night', type: 'PRO' });
 
       options = {
         method: 'GET',
@@ -515,7 +515,6 @@ describe('Acceptance | Application | organization-controller', () => {
         const expectedResult = {
           'data': {
             'attributes': {
-              'code': organization.code,
               'name': organization.name,
               'type': organization.type,
               'logo-url': organization.logoUrl,
