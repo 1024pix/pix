@@ -1,5 +1,5 @@
 const faker = require('faker');
-const { CertificationReport } = require('../../../../lib/domain/models/CertificationReport');
+const CertificationReport = require('../../../../lib/domain/models/CertificationReport');
 
 module.exports = function buildCertificationReport(
   {
