@@ -7,7 +7,7 @@ exports.up = function(knex) {
       table.string('altMessage').notNullable();
       table.string('imageUrl').notNullable();
       table.string('message').notNullable();
-      table.integer('targetProfileId').unsigned().references('target-profiles.id').index();
+      table.integer('targetProfileId').references('target-profiles.id').index();
     });
 };
 
