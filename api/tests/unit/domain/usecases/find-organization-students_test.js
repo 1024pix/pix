@@ -1,59 +1,40 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const findOrganizationStudents = require('../../../../lib/domain/usecases/find-organization-students');
-const Student = require('../../../../lib/domain/models/Student');
 
 describe('Unit | UseCase | find-organization-students', () => {
 
-  it('should succeed', async () => {
-    // given
-    const organizationId = 1234;
-    const studentRepositoryStub = { findByOrganizationId: sinon.stub() };
-    studentRepositoryStub.findByOrganizationId.resolves([]);
+  // given
+  const organizationId = 'organization id';
+  const userId = 'user id';
+  const username = 'username';
+  const user = { username };
 
+  const studentNotYetReconcilied = { id: 'non reconcilied' };
+  const studentReconcilied = { id: 'reconcilied', userId };
+  const studentReconciliedWithUserInformations = { ...studentReconcilied, ...{ username }  };
+
+  let res;
+  const students = [studentNotYetReconcilied, studentReconcilied ];
+  const userRepository = { get: sinon.stub().withArgs(userId).returns(user) };
+  const studentRepository = { findByOrganizationId: sinon.stub().withArgs({ organizationId }).returns(students) };
+
+  beforeEach(async function() {
     // when
-    await findOrganizationStudents({ organizationId, studentRepository: studentRepositoryStub });
-
-    // then
-    expect(studentRepositoryStub.findByOrganizationId).to.have.been.calledWith({ organizationId });
+    res = await findOrganizationStudents({ organizationId, studentRepository, userRepository });
   });
 
-  it('should return the Students belong to the given organization ID', async () => {
-    // given
-    const organizationId = 1234;
-
-    const foundStudents = [domainBuilder.buildStudent({ organizationId })];
-    const studentRepositoryStub = {
-      findByOrganizationId: sinon.stub().resolves(foundStudents)
-    };
-
-    // when
-    const students = await findOrganizationStudents({ organizationId, studentRepository: studentRepositoryStub });
-
-    // then
-    expect(students).to.have.length(1);
-    expect(students[0]).to.be.an.instanceOf(Student);
-    expect(students).to.deep.equal(foundStudents);
+  // THEN.... :)
+  it('should fetch students matching organization', function() {
+    expect(studentRepository.findByOrganizationId).to.have.been.calledWithExactly({ organizationId });
   });
 
-  it('should return the user\'s username if student userId is defined', async () => {
-    // given
-    const organizationId = 1234;
-
-    const foundUser = domainBuilder.buildUser();
-    const foundStudents = [domainBuilder.buildStudent({ organizationId, userId:  foundUser.id })];
-    const studentRepositoryStub = {
-      findByOrganizationId: sinon.stub().resolves(foundStudents)
-    };
-    const userRepositoryStub = {
-      get: sinon.stub().resolves(foundUser)
-    };
-
-    // when
-    const students = await findOrganizationStudents({ organizationId, studentRepository: studentRepositoryStub , userRepository: userRepositoryStub });
-
-    // then
-    expect(students).to.have.length(1);
-    expect(students[0]).to.be.an.instanceOf(Student);
-    expect(students).to.deep.equal(foundStudents);
+  it('should fetch the user if the student is reconcilied', function() {
+    expect(userRepository.get).to.have.been.calledWithExactly(studentReconcilied.userId);
   });
+
+  it('should return students', function() {
+    expect(res).to.deep.equal([studentNotYetReconcilied, studentReconciliedWithUserInformations ]);
+  });
+
 });
+
