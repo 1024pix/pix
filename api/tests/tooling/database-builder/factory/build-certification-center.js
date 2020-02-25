@@ -4,6 +4,7 @@ const databaseBuffer = require('../database-buffer');
 module.exports = function buildCertificationCenter({
   id,
   name = faker.company.companyName(),
+  type = 'SUP',
   externalId = faker.random.alphaNumeric(8).toUpperCase(),
   createdAt = faker.date.recent(),
 } = {}) {
@@ -11,6 +12,7 @@ module.exports = function buildCertificationCenter({
   const values = {
     id,
     name,
+    type,
     externalId,
     createdAt,
   };

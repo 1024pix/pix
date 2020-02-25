@@ -25,7 +25,7 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/certification-centers',
       config: {
-        handler: certificationCenterController.find,
+        handler: certificationCenterController.findPaginatedFilteredCertificationCenters,
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
