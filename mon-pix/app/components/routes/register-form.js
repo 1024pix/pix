@@ -147,7 +147,7 @@ export default Component.extend({
             lastName: this.lastName,
             email: '',
             username: this.username,
-            password: this.password,
+            password: '',
           });
         }, (errorResponse) => {
           this.studentUserAssociation.unloadRecord();
