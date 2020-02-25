@@ -71,7 +71,6 @@
   color: $charcoal-grey;
   background-color: $porcelain-grey;
   padding: 12px 16px;
-  border-bottom: 1px solid $mercury-grey;
 }
 
 .logged-user-menu-details__fullname {
@@ -94,6 +93,7 @@
   padding: 12px 16px;
   color: $charcoal-grey;
   transition: background-color 0.1s linear;
+  border-top: 1px solid $mercury-grey;
 
   &:hover {
     text-decoration: none;
@@ -104,8 +104,4 @@
   &> svg {
     margin-right: 5px;
   }
-}
-
-.logged-user-menu__link--last {
-  border-top: 1px solid $mercury-grey;
 }

@@ -54,6 +54,7 @@ describe('Integration | Component | user logged menu', function() {
 
     it('should display a user menu, when user-name is clicked', async function() {
       // given
+      const MENU_ITEMS_COUNT = 3;
       await render(hbs`{{user-logged-menu}}`);
 
       // when
@@ -62,8 +63,19 @@ describe('Integration | Component | user logged menu', function() {
       return settled().then(() => {
         // then
         expect(find('.logged-user-menu')).to.exist;
+        expect(findAll('.logged-user-menu__link')).to.have.lengthOf(MENU_ITEMS_COUNT);
         expect(find('.logged-user-menu-details__fullname').textContent.trim()).to.equal('FHI 4EVER');
         expect(find('.logged-user-menu-details__identifier').textContent.trim()).to.equal('FHI@4EVER.fr');
+      });
+    });
+
+    it('should display link to user tutorials', async function() {
+      // when
+      await render(hbs`{{user-logged-menu _canDisplayMenu=true}}`);
+
+      return settled().then(() => {
+        // then
+        expect(findAll('.logged-user-menu__link')[0].textContent.trim()).to.equal('Mes tutos');
       });
     });
 
@@ -73,9 +85,7 @@ describe('Integration | Component | user logged menu', function() {
 
       return settled().then(() => {
         // then
-        expect(find('.logged-user-menu')).to.exist;
-        expect(findAll('.logged-user-menu__link')).to.have.lengthOf(2);
-        expect(findAll('.logged-user-menu__link')[0].textContent.trim()).to.equal('Mes certifications');
+        expect(findAll('.logged-user-menu__link')[1].textContent.trim()).to.equal('Mes certifications');
       });
     });
 
