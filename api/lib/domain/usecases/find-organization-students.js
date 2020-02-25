@@ -3,7 +3,8 @@ module.exports = async function findOrganizationStudents({ organizationId, stude
   const students = await studentRepository.findByOrganizationId({ organizationId });
 
   for (const student of students) {
-    if (student.userId) {
+    const isUserReconcilied = student.userId;
+    if (isUserReconcilied) {
       const user = await userRepository.get(student.userId);
       student.username = user.username;
     }
