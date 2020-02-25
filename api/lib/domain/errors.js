@@ -332,6 +332,12 @@ class UserOrgaSettingsCreationError extends DomainError {
   }
 }
 
+class UserNotMemberOfOrganizationError extends DomainError {
+  constructor(message = 'L\'utilisateur n\'est pas membre de l\'organisation.') {
+    super(message);
+  }
+}
+
 class FileValidationError extends DomainError {
   constructor(message = 'Erreur, fichier non valide.') {
     super(message);
@@ -509,6 +515,7 @@ module.exports = {
   UserNotAuthorizedToUpdateResourceError,
   UserNotAuthorizedToUpdateStudentPasswordError,
   UserNotFoundError,
-  UserOrgaSettingsCreationError,
   WrongDateFormatError,
+  UserOrgaSettingsCreationError,
+  UserNotMemberOfOrganizationError,
 };
