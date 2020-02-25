@@ -88,8 +88,10 @@ function _buildSessionExportFileData(session) {
 
     const certificationIndexedCompetences = certification.indexedCompetences;
     competenceIndexes.forEach((competence) => {
-      if (!certificationIndexedCompetences[competence] || certificationIndexedCompetences[competence].level === 0 || certificationIndexedCompetences[competence].level === -1) {
+      if (!certificationIndexedCompetences[competence]) {
         rowItem[competence] = '-';
+      } else if (certificationIndexedCompetences[competence].level === 0 || certificationIndexedCompetences[competence].level === -1) {
+        rowItem[competence] = '0';
       } else {
         rowItem[competence] = certificationIndexedCompetences[competence].level;
       }
