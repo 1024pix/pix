@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.118.0 (25/02/2020)
+
+- [#1111](https://github.com/1024pix/pix/pull/1111) [FEATURE] Distinguer les compétences non évaluées de celles échouées dans le fichier de résultats pour prescripteur (PA-160).
+- [#1069](https://github.com/1024pix/pix/pull/1069) [FEATURE] Prévenir le prescripteur lorsque un INE est présent deux fois dans le fichier SIECLE importé (PO-341).
+- [#1102](https://github.com/1024pix/pix/pull/1102) [BUGFIX] Finalisation de session en échec dans un cas particulier (PC-129).
+
 ## v2.117.0 (25/02/2020)
 
 - [#1091](https://github.com/1024pix/pix/pull/1091) [FEATURE] Agrandir la zone de click de la carte compétence (PF-1011).
