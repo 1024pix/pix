@@ -382,6 +382,28 @@ describe('Integration | Utils | Error Manager', function() {
       // then
       expect(result.statusCode).to.equal(403);
     });
+
+    it('should return 422 on domain SameNationalStudentIdInFileError', function() {
+      // given
+      const error = new DomainErrors.SameNationalStudentIdInFileError();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(422);
+    });
+
+    it('should return 422 on domain SameNationalStudentIdInOrganizationError', function() {
+      // given
+      const error = new DomainErrors.SameNationalStudentIdInOrganizationError();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(409);
+    });
   });
 
 });
