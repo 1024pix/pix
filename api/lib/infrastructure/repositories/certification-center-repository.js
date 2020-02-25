@@ -9,9 +9,27 @@ function _toDomain(bookshelfCertificationCenter) {
   return new CertificationCenter(_.pick(dbCertificationCenter, [
     'id',
     'name',
+    'type',
     'externalId',
     'createdAt',
   ]));
+}
+
+function _setSearchFiltersForQueryBuilder(filters, qb) {
+  const { id, name, type, externalId } = filters;
+
+  if (id) {
+    qb.whereRaw('CAST(id as TEXT) LIKE ?', `%${id.toString().toLowerCase()}%`);
+  }
+  if (name) {
+    qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
+  }
+  if (type) {
+    qb.whereRaw('LOWER("type") LIKE ?', `%${type.toLowerCase()}%`);
+  }
+  if (externalId) {
+    qb.whereRaw('LOWER("externalId") LIKE ?', `%${externalId.toLowerCase()}%`);
+  }
 }
 
 module.exports = {
@@ -35,9 +53,16 @@ module.exports = {
       .then(_toDomain);
   },
 
-  find() {
+  findPaginatedFiltered({ filter, page }) {
     return BookshelfCertificationCenter
-      .fetchAll()
-      .then((certificationCenters) => certificationCenters.models.map(_toDomain));
-  }
+      .query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
+      .fetchPage({
+        page: page.number,
+        pageSize: page.size
+      })
+      .then(({ models, pagination }) => ({
+        models: models.map(_toDomain),
+        pagination,
+      }));
+  },
 };

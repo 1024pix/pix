@@ -47,7 +47,7 @@ describe('Acceptance | API | Certification Center', () => {
         // then
         return promise.then((response) => {
           expect(response.result.data).to.have.lengthOf(5);
-          expect(_.keys(response.result.data[0].attributes)).to.have.members(['id', 'name', 'created-at']);
+          expect(_.keys(response.result.data[0].attributes)).to.have.members(['id', 'name', 'type', 'external-id', 'created-at']);
         });
       });
     });
