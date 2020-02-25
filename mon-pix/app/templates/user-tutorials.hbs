@@ -1,1 +1,25 @@
-<h1>Mes tutos</h1>
+{{title pageTitle}}
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+    <NavbarHeader @class="navbar-header--white" @burger={{burger}} />
+    <header role="banner" class="background-banner">
+      <div class="user-tutorials-banner">
+        <img src="{{rootURL}}/images/user-tutorials/banner-icon.svg" class="user-tutorials-banner__icon" alt=""/>
+        <h3 class="user-tutorials-banner__title">Mes tutos</h3>
+        <p class="user-tutorials-banner__description">Découvrez et redécouvrez des tutos d'apprentissage à écouter,
+          visionner et lire conçus pour vous aider à progresser.</p>
+      </div>
+    </header>
+    <article aria-label="tutoriels" class="rounded-panel user-tutorials-content">
+      <div class="user-tutorials-content__illustration">
+        <img src="{{rootURL}}/images/user-tutorials/illustration.svg"
+             alt="Cliquez sur l'icône enregistrer sur un tutoriel pour le retrouver sur cette page"/>
+      </div>
+      <div class="user-tutorials-content__instructions">
+        <h4 class="user-tutorials-content-instructions__title">Vous n'avez encore rien enregistré</h4>
+        <p class="user-tutorials-content-instructions__description">Cliquez sur l'icône marque page <FaIcon @prefix="far" @icon='bookmark'></FaIcon> pour enregistrer
+          vos tutos lors d'un test de compétence.</p>
+      </div>
+    </article>
+  </burger.outlet>
+</BurgerMenu>
