@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
+const { expect, domainBuilder, EMPTY_BLANK_OR_NULL } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer');
 const { NO_EXAMINER_COMMENT } = require('../../../../../lib/domain/models/CertificationReport');
 
@@ -45,31 +45,18 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
     });
   });
 
-  it('should return no examiner comment for an undefined examiner comment', async function() {
-    // when
-    delete jsonApiData.data.attributes['examiner-comment'];
-    const deserializedCertificationReport = await serializer.deserialize(jsonApiData);
+  EMPTY_BLANK_OR_NULL.forEach(function(examinerComment) {
+    it(`should return no examiner comment if comment is ${examinerComment}`, async function() {
+      // given
+      jsonApiData.data.attributes['examiner-comment'] = examinerComment;
 
-    // then
-    expect(deserializedCertificationReport.examinerComment).to.equal(NO_EXAMINER_COMMENT);
-  });
+      // when
+      const deserializedCertificationReport = await serializer.deserialize(jsonApiData);
 
-  it('should return no examiner comment for an empty examiner comment', async function() {
-    // when
-    jsonApiData.data.attributes['examiner-comment'] = '';
-    const deserializedCertificationReport = await serializer.deserialize(jsonApiData);
+      // then
+      expect(deserializedCertificationReport.examinerComment).to.equal(NO_EXAMINER_COMMENT);
+    });
 
-    // then
-    expect(deserializedCertificationReport.examinerComment).to.equal(NO_EXAMINER_COMMENT);
-  });
-
-  it('should return no examiner comment for a blank examiner comment', async function() {
-    // when
-    jsonApiData.data.attributes['examiner-comment'] = '\t \n';
-    const deserializedCertificationReport = await serializer.deserialize(jsonApiData);
-
-    // then
-    expect(deserializedCertificationReport.examinerComment).to.equal(NO_EXAMINER_COMMENT);
   });
 
 });
