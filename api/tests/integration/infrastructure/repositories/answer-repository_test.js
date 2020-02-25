@@ -1,4 +1,4 @@
-const { expect, knex, domainBuilder, databaseBuilder, sinon, catchErr } = require('../../../test-helper');
+const { expect, knex, domainBuilder, databaseBuilder, sinon, catchErr, compareDatabaseObject } = require('../../../test-helper');
 const Answer = require('../../../../lib/domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../../../../lib/infrastructure/adapters/answer-status-database-adapter');
 const BookshelfKnowledgeElement = require('../../../../lib/infrastructure/data/knowledge-element');
@@ -277,7 +277,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       await knex('answers').delete();
     });
 
-    context('when the database work correctly', () => {
+    context('when the database works correctly', () => {
 
       beforeEach(async () => {
         // when
@@ -296,15 +296,15 @@ describe('Integration | Repository | AnswerRepository', () => {
           resultDetails: `${answer.resultDetails}\n`,
         };
         const answerInDB = await knex('answers').first();
-        return expect(_.omit(answerInDB, ['id', 'createdAt', 'updatedAt'])).to.deep.equal(expectedRawAnswerWithoutIdNorDates);
+        return compareDatabaseObject(answerInDB, expectedRawAnswerWithoutIdNorDates);
       });
 
       it('should save knowledge elements', async () => {
         const knowledgeElementsInDB = await knex('knowledge-elements').where({ answerId: savedAnswer.id }).orderBy('id');
 
         expect(knowledgeElementsInDB).to.length(2);
-        expect(_.omit(knowledgeElementsInDB[0], ['id', 'createdAt', 'answerId'])).to.deep.equal(_.omit(firstKnowledgeElement, ['id', 'createdAt', 'answerId']));
-        expect(_.omit(knowledgeElementsInDB[1], ['id', 'createdAt', 'answerId'])).to.deep.equal(_.omit(secondeKnowledgeElements, ['id', 'createdAt', 'answerId']));
+        compareDatabaseObject(knowledgeElementsInDB[0], firstKnowledgeElement);
+        compareDatabaseObject(knowledgeElementsInDB[1], secondeKnowledgeElements);
 
       });
 
@@ -315,7 +315,7 @@ describe('Integration | Repository | AnswerRepository', () => {
         expect(_.omit(savedAnswer, ['id', 'resultDetails'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails']));
       });
     });
-    context('when the database do not work correctly', () => {
+    context('when the database do not works correctly', () => {
       it('should not save the answer nor knowledge-elements', async () => {
         // given
         sinon.stub(BookshelfKnowledgeElement.prototype, 'save').rejects();
