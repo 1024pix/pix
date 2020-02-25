@@ -1,55 +1,71 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
+const { expect, domainBuilder, EMPTY_BLANK_OR_NULL } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
+const { NO_EXAMINER_COMMENT } = require('../../../../../lib/domain/models/CertificationReport');
 
 describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
   describe('#deserialize', function() {
+    let jsonCertificationCourse;
+    let certificationCourseObject;
 
-    const jsonCertificationCourse = {
-      data: {
-        type: 'certifications',
-        id: 1,
-        attributes: {
-          'first-name': 'Freezer',
-          'last-name': 'The all mighty',
-          'birthplace': 'Namek',
-          'birthdate': '1989-10-24',
-          'external-id': 'xenoverse2',
+    beforeEach(function() {
+      jsonCertificationCourse = {
+        data: {
+          type: 'certifications',
+          id: 1,
+          attributes: {
+            'first-name': 'Freezer',
+            'last-name': 'The all mighty',
+            'birthplace': 'Namek',
+            'birthdate': '1989-10-24',
+            'external-id': 'xenoverse2',
+          },
         },
-      },
-    };
+      };
 
-    const certificationCourseObject = {
-      id: 1,
-      firstName: 'Freezer',
-      lastName: 'The all mighty',
-      birthplace: 'Namek',
-      birthdate: '1989-10-24',
-      externalId: 'xenoverse2',
-    };
+      certificationCourseObject = {
+        id: 1,
+        firstName: 'Freezer',
+        lastName: 'The all mighty',
+        birthplace: 'Namek',
+        birthdate: '1989-10-24',
+        externalId: 'xenoverse2',
+        examinerComment: null,
+      };
+    });
 
-    it('should convert a JSON API data into a Certification Course object', function() {
+    it('should convert a JSON API data into a Certification Course object', async function() {
       // when
-      const certificationCourse = serializer.deserialize(jsonCertificationCourse);
+      const result = await serializer.deserialize(jsonCertificationCourse);
 
       // then
-
-      return certificationCourse.then((result) => {
-        expect(result).to.deep.equal(certificationCourseObject);
-      });
+      expect(result).to.deep.equal(certificationCourseObject);
     });
 
     it('should return an error if date is in wrong format', function() {
-      // when
+      // given
       jsonCertificationCourse.data.attributes.birthdate = '2015-32-12';
 
-      // given
+      // when
       const promise = serializer.deserialize(jsonCertificationCourse);
 
       // then
       return promise.catch(() => {
         expect(promise).to.be.rejectedWith(WrongDateFormatError);
+      });
+    });
+
+    EMPTY_BLANK_OR_NULL.forEach(function(examinerComment) {
+      it(`should return no examiner comment if comment is ${examinerComment}`, async function() {
+        // given
+        jsonCertificationCourse.data.attributes['examiner-comment'] = examinerComment;
+
+        // when
+        const result = await serializer.deserialize(jsonCertificationCourse);
+
+        // then
+        expect(result.examinerComment).to.equal(NO_EXAMINER_COMMENT);
       });
     });
   });

@@ -1,6 +1,9 @@
+const _ = require('lodash');
+
 const { Serializer, Deserializer } = require('jsonapi-serializer');
 
 const { WrongDateFormatError } = require('../../../domain/errors');
+const { NO_EXAMINER_COMMENT } = require('../../../domain/models/CertificationReport');
 const { isValidDate } = require('../../utils/date-utils');
 
 module.exports = {
@@ -68,6 +71,9 @@ module.exports = {
           if (!isValidDate(birthdate, 'YYYY-MM-DD')) {
             return Promise.reject(new WrongDateFormatError());
           }
+        }
+        if (_.isEmpty(_.trim(certifications.examinerComment))) {
+          certifications.examinerComment = NO_EXAMINER_COMMENT;
         }
         return certifications;
       }));
