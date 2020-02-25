@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const { databaseBuilder, expect, catchErr } = require('../../../test-helper');
-const CertificationReport = require('../../../../lib/domain/models/CertificationReport');
+const { CertificationReport } = require('../../../../lib/domain/models/CertificationReport');
 const certificationReportRepository = require('../../../../lib/infrastructure/repositories/certification-report-repository');
 const { CertificationCourseUpdateError } = require('../../../../lib/domain/errors');
 
