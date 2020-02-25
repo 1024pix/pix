@@ -1,0 +1,31 @@
+.table-admin {
+  tbody > tr:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+  tbody > tr, thead > tr {
+    border-bottom: 1px solid $grey-border;
+
+    &:first-child {
+      border-top: 1px solid $grey-border;
+    }
+
+    td, th {
+      padding: 6px 18px;
+      border-left: 1px solid $grey-border;
+
+      &:last-child {
+        border-right: 1px solid $grey-border;
+      }
+    }
+  }
+}
+
+.table-admin-input {
+  width: 100%;
+  padding: 3px 6px;
+}
+
+.table-admin-empty {
+  margin: 48px auto 36px auto;
+  text-align: center;
+}
