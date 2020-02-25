@@ -2,6 +2,8 @@ const Joi = require('@hapi/joi');
 
 const { InvalidCertificationReportForFinalization } = require('../errors');
 
+const NO_EXAMINER_COMMENT = null;
+
 const certificationReportSchemaForFinalization = Joi.object({
   id: Joi.string().optional(),
   firstName: Joi.string().optional(),
@@ -54,4 +56,7 @@ class CertificationReport {
   }
 }
 
-module.exports = CertificationReport;
+module.exports = {
+  CertificationReport,
+  NO_EXAMINER_COMMENT,
+};
