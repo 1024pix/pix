@@ -6,7 +6,6 @@ export default Model.extend({
   // Attributes
   name: attr(),
   type: attr(),
-  code: attr(),
   logoUrl: attr(),
   externalId: attr(),
   provinceCode: attr(),

@@ -15,9 +15,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
     type: {
       refreshModel: true,
     },
-    code: {
-      refreshModel: true,
-    },
   },
 
   model(params) {
@@ -25,7 +22,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
       filter: {
         name: params.name ? params.name.trim() : '',
         type: params.type ? params.type.trim() : '',
-        code: params.code ? params.code.trim() : '',
       },
       page: {
         number: params.pageNumber,
@@ -40,7 +36,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.set('pageSize', 10);
       controller.set('name', null);
       controller.set('type', null);
-      controller.set('code', null);
     }
   }
 });
