@@ -181,9 +181,9 @@ describe('Integration | Repository | Organization', function() {
 
     beforeEach(async () => {
       organizations = _.map([
-        { type: 'PRO', name: 'organization 1', code: 'ABCD12', externalId: '1234567' },
-        { type: 'SCO', name: 'organization 2', code: 'EFGH34', externalId: '1234568' },
-        { type: 'SUP', name: 'organization 3', code: 'IJKL56', externalId: '1234569' },
+        { type: 'PRO', name: 'organization 1', externalId: '1234567' },
+        { type: 'SCO', name: 'organization 2', externalId: '1234568' },
+        { type: 'SUP', name: 'organization 3', externalId: '1234569' },
       ], (organization) => {
         return databaseBuilder.factory.buildOrganization(organization);
       });
@@ -216,7 +216,6 @@ describe('Integration | Repository | Organization', function() {
       expect(foundOrganizations[0].externalId).to.equal(organizations[0].externalId);
       expect(foundOrganizations[0].id).to.equal(organizations[0].id);
       expect(foundOrganizations[0].type).to.be.undefined;
-      expect(foundOrganizations[0].code).to.be.undefined;
     });
   });
 
