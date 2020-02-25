@@ -63,6 +63,81 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.UserNotAuthorizedToUpdateCampaignError).to.exist;
   });
 
+  describe('#SameNationalStudentIdInOrganizationError', () => {
+
+    context('When errorDetail is provided', () => {
+
+      it('should return a message with given nationalStudentId', () => {
+        // given
+        const expectedErrorMessage = 'L’INE 123INE456 est déjà présent pour cette organisation.';
+        const errorMessage = 'Key ("organizationId", "nationalStudentId")=(ORGAID, 123INE456) already exists.';
+
+        // when
+        const sameNationalStudentIdInOrganizationError = new errors.SameNationalStudentIdInOrganizationError(errorMessage);
+
+        // then
+        expect(sameNationalStudentIdInOrganizationError.message).to.equal(expectedErrorMessage);
+      });
+
+      it('should set a nationalStudentId property', () => {
+        // given
+        const errorMessage = 'Key ("organizationId", "nationalStudentId")=(ORGAID, 123INE456) already exists.';
+
+        // when
+        const sameNationalStudentIdInOrganizationError = new errors.SameNationalStudentIdInOrganizationError(errorMessage);
+
+        // then
+        expect(sameNationalStudentIdInOrganizationError.nationalStudentId).to.equal('123INE456');
+      });
+    });
+
+    context('When errorDetail is not provided', () => {
+
+      it('should return a generic message', () => {
+        // given
+        const expectedErrorMessage = 'Un INE est déjà présent pour cette organisation.';
+
+        // when
+        const sameNationalStudentIdInOrganizationError = new errors.SameNationalStudentIdInOrganizationError();
+
+        // then
+        expect(sameNationalStudentIdInOrganizationError.message).to.equal(expectedErrorMessage);
+      });
+    });
+  });
+
+  describe('#SameNationalStudentIdInFileError', () => {
+
+    context('When errorDetail is provided', () => {
+
+      it('should return a message with given nationalStudentId', () => {
+        // given
+        const expectedErrorMessage = 'L’INE 123INE456 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.';
+        const nationalStudentId = '123INE456';
+
+        // when
+        const sameNationalStudentIdInOrganizationError = new errors.SameNationalStudentIdInFileError(nationalStudentId);
+
+        // then
+        expect(sameNationalStudentIdInOrganizationError.message).to.equal(expectedErrorMessage);
+      });
+    });
+
+    context('When errorDetail is not provided', () => {
+
+      it('should return a generic message', () => {
+        // given
+        const expectedErrorMessage = 'Un INE est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.';
+
+        // when
+        const sameNationalStudentIdInOrganizationError = new errors.SameNationalStudentIdInFileError();
+
+        // then
+        expect(sameNationalStudentIdInOrganizationError.message).to.equal(expectedErrorMessage);
+      });
+    });
+  });
+
   describe('#UserNotFoundError', () => {
     it('should export a UserNotFoundError', () => {
       expect(errors.UserNotFoundError).to.exist;

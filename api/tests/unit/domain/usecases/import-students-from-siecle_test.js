@@ -1,6 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const importStudentsFromSIECLE = require('../../../../lib/domain/usecases/import-students-from-siecle');
-const { FileValidationError, StudentsCouldNotBeSavedError } = require('../../../../lib/domain/errors');
+const { FileValidationError, StudentsCouldNotBeSavedError, SameNationalStudentIdInFileError, SameNationalStudentIdInOrganizationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | import-students-from-siecle', () => {
 
@@ -77,7 +77,7 @@ describe('Unit | UseCase | import-students-from-siecle', () => {
         ];
         studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns(extractedStudentsInformations);
         studentRepositoryStub.findByOrganizationId.resolves();
-        studentRepositoryStub.addOrUpdateOrganizationStudents.rejects();
+        studentRepositoryStub.addOrUpdateOrganizationStudents.throws(new StudentsCouldNotBeSavedError());
       });
 
       it('should throw a StudentsCouldNotBeSavedError', async () => {
@@ -86,6 +86,28 @@ describe('Unit | UseCase | import-students-from-siecle', () => {
 
         // then
         expect(result).to.be.instanceOf(StudentsCouldNotBeSavedError);
+      });
+    });
+
+    context('because a nationalStudentId is twice in the file', () => {
+      beforeEach(async () => {
+        // given
+        const sameNationalStudentId = 'SAMEID456';
+        const extractedStudentsInformations = [
+          { nationalStudentId: sameNationalStudentId },
+          { nationalStudentId: sameNationalStudentId },
+        ];
+        studentsXmlServiceStub.extractStudentsInformationFromSIECLE.returns(extractedStudentsInformations);
+        studentRepositoryStub.findByOrganizationId.resolves();
+        studentRepositoryStub.addOrUpdateOrganizationStudents.throws(new SameNationalStudentIdInOrganizationError());
+      });
+
+      it('should throw a SameNationalStudentIdInOrganizationError', async () => {
+        // when
+        result = await catchErr(importStudentsFromSIECLE)({ organizationId, buffer, studentsXmlService: studentsXmlServiceStub, studentRepository: studentRepositoryStub });
+
+        // then
+        expect(result).to.be.instanceOf(SameNationalStudentIdInFileError);
       });
     });
   });

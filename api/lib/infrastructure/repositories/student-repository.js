@@ -1,10 +1,11 @@
-const Student = require('../../domain/models/Student');
-const BookshelfStudent = require('../data/student');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const Bookshelf = require('../bookshelf');
 const _ = require('lodash');
 const bluebird = require('bluebird');
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError, SameNationalStudentIdInOrganizationError, StudentsCouldNotBeSavedError } = require('../../domain/errors');
+const Student = require('../../domain/models/Student');
+const Bookshelf = require('../bookshelf');
+const BookshelfStudent = require('../data/student');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const bookshelfUtils = require('../utils/bookshelf-utils');
 
 module.exports = {
 
@@ -42,7 +43,10 @@ module.exports = {
       await trx.commit();
     } catch (err) {
       await trx.rollback();
-      throw err;
+      if (bookshelfUtils.isUniqConstraintViolated(err)) {
+        throw new SameNationalStudentIdInOrganizationError(err.detail);
+      }
+      throw new StudentsCouldNotBeSavedError();
     }
   },
 
