@@ -1,6 +1,6 @@
 // To check how to renew the following data, go here :
 // https://1024pix.atlassian.net/wiki/spaces/DEV/pages/1150812161/2020-02-03+Convertir+des+vraies+donn+es+en+seeds+pour+profil+et+tests+de+certification
-const CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS = [
+const STRONG_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS = [
   { source: 'direct', skillId: 'rec1mysPzEa6Y2KUf', earnedPix: 0.666667, status: 'validated', competenceId: 'recNv8qhaY887jQb2', result: 'ok', challengeId: 'recG8HMGKdHYntUaA', elapsedTime: 0, timeout: null, resultDetails: 'null ' },
   { source: 'direct', skillId: 'recxhMuHFUWbhWHxS', earnedPix: 4, status: 'validated', competenceId: 'recNv8qhaY887jQb2', result: 'ok', challengeId: 'recmCqVtu9oyxiv6W', elapsedTime: 0, timeout: null, resultDetails: 'prod1: true prod2: true prod3: true ' },
   { source: 'direct', skillId: 'reckRFT0HOToVzYFV', earnedPix: 0.666667, status: 'validated', competenceId: 'recNv8qhaY887jQb2', result: 'ok', challengeId: 'rec8JElDsWS5HN1WI', elapsedTime: 0, timeout: null, resultDetails: 'null ' },
@@ -744,7 +744,7 @@ const CERTIFICATION_FAILURE_COMPETENCE_MARKS_DATA = [
 ];
 
 module.exports = {
-  CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
+  STRONG_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
   CERTIFICATION_CHALLENGES_DATA,
   CERTIFICATION_FAILURE_ANSWERS_DATA,
   CERTIFICATION_SUCCESS_ANSWERS_DATA,
