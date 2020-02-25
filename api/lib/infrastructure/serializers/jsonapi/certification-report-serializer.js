@@ -1,6 +1,8 @@
+const _ = require('lodash');
+
 const { Serializer, Deserializer } = require('jsonapi-serializer');
 
-const CertificationReport = require('../../../domain/models/CertificationReport');
+const { CertificationReport, NO_EXAMINER_COMMENT } = require('../../../domain/models/CertificationReport');
 
 module.exports = {
   serialize(certificationReports) {
@@ -18,6 +20,9 @@ module.exports = {
   async deserialize(jsonApiData) {
     const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
     const deserializedReport = await deserializer.deserialize(jsonApiData);
+    if (_.isEmpty(_.trim(deserializedReport.examinerComment))) {
+      deserializedReport.examinerComment = NO_EXAMINER_COMMENT;
+    }
     return new CertificationReport(deserializedReport);
   },
 };

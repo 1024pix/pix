@@ -49,8 +49,4 @@ export default class Session extends Model {
   get displayStatus() {
     return statusToDisplayName[this.status];
   }
-
-  finalize() {
-    return this.store.adapterFor('session').finalize(this);
-  }
 }
