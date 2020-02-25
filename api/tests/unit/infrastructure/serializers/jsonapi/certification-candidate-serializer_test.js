@@ -59,8 +59,6 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
       expect(deserializedCertificationCandidate.extraTimePercentage).to.equal(certificationCandidate.extraTimePercentage);
       expect(deserializedCertificationCandidate.externalId).to.equal(certificationCandidate.externalId);
       expect(deserializedCertificationCandidate.email).to.equal(certificationCandidate.email);
-      expect(deserializedCertificationCandidate.hasSeenEndTestScreen).to.equal(certificationCandidate.hasSeenEndTestScreen);
-      expect(deserializedCertificationCandidate.examinerComment).to.equal(certificationCandidate.examinerComment);
     });
 
   });
