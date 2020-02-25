@@ -6,7 +6,6 @@ export default Component.extend({
   router: service(),
 
   pagination: null,
-  paginationLink: null,
 
   nextPage: computed('pagination', function() {
     return Math.min(this.pagination.page + 1, this.pagination.pageCount);
@@ -17,8 +16,10 @@ export default Component.extend({
   }),
 
   actions: {
+
     changePageSize(pageSize) {
-      this.router.replaceWith(this.paginationLink, { queryParams: { pageSize, pageNumber: 1 } });
+      this.router.transitionTo({ queryParams: { pageSize, pageNumber: 1 } });
     },
+
   }
 });
