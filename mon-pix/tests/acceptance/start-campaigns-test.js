@@ -13,10 +13,15 @@ import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { Response } from 'ember-cli-mirage';
 
 function _buildCampaignParticipation(schema) {
   const assessment = schema.assessments.create({});
   return schema.campaignParticipations.create({ assessment });
+}
+
+function _overrideResponseApi(status, stub) {
+  return new Response(status,{ 'content-type': 'application/json; charset=utf-8' }, stub);
 }
 
 describe('Acceptance | Campaigns | Start Campaigns', function() {
@@ -28,6 +33,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
     this.server.schema.students.create({
       firstName: 'JeanPrescrit',
       lastName: 'Campagne',
+      username: '',
       userId: null,
       organizationId: null
     });
@@ -120,6 +126,70 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
               // then
               expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
+            });
+
+            it('should not alter inputs(username,password,email) when email already exists ', async function() {
+
+              //given
+              this.server.put('student-user-associations/possibilities', () => {
+
+                const studentFoundWithUsernameGenerated = {
+                  'data': {
+                    'attributes': {
+                      'last-name': 'last',
+                      'first-name': 'first',
+                      'birthdate': '2010-10-10',
+                      'campaign-code': 'RESTRICTD',
+                      'username': 'first.last1010'
+                    }, 'type': 'student-user-associations'
+                  }
+                };
+
+                return _overrideResponseApi(200,studentFoundWithUsernameGenerated);
+              });
+
+              this.server.post('student-dependent-users', () => {
+
+                const stubErrorInvalidDataEmailAlreadyExist = {
+                  'errors': [{
+                    'status': '422',
+                    'title': 'Invalid data attribute "email"',
+                    'detail': 'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
+                    'source': { 'pointer': '/data/attributes/email' }
+                  }]
+                };
+
+                return _overrideResponseApi(422,stubErrorInvalidDataEmailAlreadyExist);
+              });
+
+              await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
+
+              // when
+              await fillIn('#firstName', 'JeanPrescrit');
+              await fillIn('#lastName', 'Campagne');
+              await fillIn('#dayOfBirth', '10');
+              await fillIn('#monthOfBirth', '12');
+              await fillIn('#yearOfBirth', '2000');
+
+              await click('#submit-search');
+              //switch to email login mode
+              await click('.pix-toggle__off');
+
+              await fillIn('#email', 'JeanPrescrit.Campagne@example.net');
+              await fillIn('#password', 'pix123');
+              await click('#submit-registration');
+
+              // then
+              expect(currentURL()).to.equal(`/campagnes/${campaignCode}/identification`);
+              expect(find('#firstName').value).to.equal('JeanPrescrit');
+              expect(find('#email').value).to.equal('JeanPrescrit.Campagne@example.net');
+              expect(find('#password').value).to.equal('pix123');
+
+              //switch to username login mode
+              await click('.pix-toggle__off');
+              expect(find('#username').value).to.equal('first.last1010');
+              expect(find('#password').value).to.equal('pix123');
+
             });
 
             it('should redirect to join restricted campaign page when connection is done', async function() {
