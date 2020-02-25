@@ -1,6 +1,7 @@
-module.exports = function snapshotsBuilder({ databaseBuilder }) {
+module.exports = function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
 
   const pixEmploiProfile = databaseBuilder.factory.buildTargetProfile({
+    id: 100321,
     name: 'Pix emploi - Parcours complet',
     isPublic: true,
     organizationId: 1,
@@ -31,5 +32,13 @@ module.exports = function snapshotsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: pixEmploiProfile.id, skillId: 'recTIddrkopID28Ep' });
   databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: pixEmploiProfile.id, skillId: 'recBrDIfDDW2IPpZV' });
   databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: pixEmploiProfile.id, skillId: 'recgOc2OreHCosoRp' });
+
+  databaseBuilder.factory.buildBadge({
+    altMessage: 'Vous avez validé le badge Pix Emploi.',
+    imageUrl: '/images/badges/Pix-emploi.svg',
+    message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
+      'Pour valoriser vos compétences, renseignez-vous auprès de votre conseiller.',
+    targetProfileId: pixEmploiProfile.id,
+  });
 
 };

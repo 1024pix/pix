@@ -5,12 +5,13 @@ module.exports = async function getCampaignParticipationResult(
   {
     userId,
     campaignParticipationId,
+    assessmentRepository,
+    badgeRepository,
     campaignParticipationRepository,
     campaignRepository,
     competenceRepository,
-    assessmentRepository,
-    targetProfileRepository,
     knowledgeElementRepository,
+    targetProfileRepository,
   }
 ) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
@@ -23,7 +24,9 @@ module.exports = async function getCampaignParticipationResult(
     knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
   ]);
 
-  return CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements });
+  const badge = await badgeRepository.findOneByTargetProfileId(targetProfile.id);
+
+  return CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, badge });
 };
 
 async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository) {

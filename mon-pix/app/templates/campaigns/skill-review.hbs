@@ -5,16 +5,11 @@
     <AssessmentBanner @title={{@model.assessment.title}} @displayHomeLink={{false}} />
   </div>
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner skill-review__result-container">
-    {{#if shouldShowPixEmploiBadge}}
+    {{#if this.shouldShowBadge}}
       <div class="skill-review-result__badge">
-       <img src="{{rootURL}}/images/badges/Pix-emploi.svg" alt="Vous avez validé le badge Pix Emploi.">
-       <p class="skill-review-result__badge-information">Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. Pour valoriser vos compétences, renseignez-vous auprès de votre conseiller.</p>
-      </div>
-    {{/if}}
-    {{#if shouldShowCleaNumeriqueBadge}}
-      <div class="skill-review-result__badge">
-       <img src="{{rootURL}}/images/badges/Pret-CleaNum.svg" alt="Vous avez validé le badge Cléa Numérique.">
-       <p class="skill-review-result__badge-information">Bravo ! Vous avez atteint un niveau suffisant pour obtenir le Cléa numérique. Pour cela, inscrivez-vous à une session de certification Pix dans un centre agréé.</p>
+        <img src="{{rootURL}}{{@model.campaignParticipation.campaignParticipationResult.badge.imageUrl}}"
+             alt="{{@model.campaignParticipation.campaignParticipationResult.badge.altMessage}}">
+        <p class="skill-review-result__badge-information">{{@model.campaignParticipation.campaignParticipationResult.badge.message}}</p>
       </div>
     {{/if}}
 
