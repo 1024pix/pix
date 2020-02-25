@@ -53,13 +53,10 @@ describe('Integration | Repository | Organization', function() {
   });
 
   describe('#update', () => {
-
-    const organizationCode = 'ABCD12';
-
     let organization;
 
     beforeEach(async () => {
-      const bookshelfOrganization = databaseBuilder.factory.buildOrganization({ id: 1, code: organizationCode });
+      const bookshelfOrganization = databaseBuilder.factory.buildOrganization({ id: 1 });
       organization = domainBuilder.buildOrganization(bookshelfOrganization);
       await databaseBuilder.commit();
     });
@@ -101,22 +98,9 @@ describe('Integration | Repository | Organization', function() {
       expect(organizationSaved.name).to.equal('New name');
       expect(organizationSaved.type).to.equal('SCO');
       expect(organizationSaved.logoUrl).to.equal('http://new.logo.url');
-      expect(organizationSaved.code).to.equal(organization.code);
       expect(organizationSaved.externalId).to.equal(organization.externalId);
       expect(organizationSaved.provinceCode).to.equal(organization.provinceCode);
       expect(organizationSaved.isManagingStudents).to.equal(organization.isManagingStudents);
-    });
-
-    it('should not modify code property', async () => {
-      // given
-      const originalOrganizationCode = organization.code;
-      organization.code = 'New manual code that should not be saved';
-
-      // when
-      const organizationSaved = await organizationRepository.update(organization);
-
-      // then
-      expect(organizationSaved.code).to.equal(originalOrganizationCode);
     });
   });
 
