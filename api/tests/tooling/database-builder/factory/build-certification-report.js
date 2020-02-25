@@ -1,6 +1,6 @@
 const faker = require('faker');
 const buildCertificationCourse = require('./build-certification-course');
-const { CertificationReport } = require('../../../../lib/domain/models/CertificationReport');
+const CertificationReport = require('../../../../lib/domain/models/CertificationReport');
 const _ = require('lodash');
 
 module.exports = function buildCertificationReport({
