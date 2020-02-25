@@ -2,7 +2,7 @@ const CampaignParticipationResult = require('../../../../lib/domain/models/Campa
 
 const faker = require('faker');
 
-module.exports = function buildCampaignParticipation(
+module.exports = function buildCampaignParticipationResult(
   {
     id = 1,
     isCompleted = faker.random.boolean(),
@@ -10,6 +10,7 @@ module.exports = function buildCampaignParticipation(
     testedSkillsCount = 8,
     validatedSkillsCount = 5,
     competenceResults = [],
+    badge,
   } = {}) {
   return new CampaignParticipationResult({
     id,
@@ -18,5 +19,6 @@ module.exports = function buildCampaignParticipation(
     testedSkillsCount,
     validatedSkillsCount,
     competenceResults,
+    badge,
   });
 };

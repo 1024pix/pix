@@ -39,4 +39,14 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     creatorId: 4,
     targetProfileId: 1,
   });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 5,
+    name: 'Campagne Pix Emploi',
+    code: 'QWERTY789',
+    organizationId: 1,
+    creatorId: 2,
+    targetProfileId: 100321,
+    idPixLabel: 'identifiant entreprise',
+  });
 };
