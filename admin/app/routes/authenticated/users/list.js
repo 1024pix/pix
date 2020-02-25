@@ -4,20 +4,20 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default Route.extend(AuthenticatedRouteMixin, {
   queryParams: {
     pageNumber: {
-      refreshModel: true
+      refreshModel: true,
     },
     pageSize: {
-      refreshModel: true
+      refreshModel: true,
     },
     firstName: {
-      refreshModel: true
+      refreshModel: true,
     },
     lastName: {
-      refreshModel: true
+      refreshModel: true,
     },
     email: {
-      refreshModel: true
-    }
+      refreshModel: true,
+    },
   },
 
   model(params) {

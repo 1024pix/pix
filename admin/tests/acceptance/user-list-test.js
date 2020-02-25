@@ -42,7 +42,7 @@ module('Acceptance | User List', function(hooks) {
       await visit('/users/list');
 
       // then
-      assert.dom('.user-list .table tbody tr').exists({ count: 12 });
+      assert.dom('.user-list .table-admin tbody tr').exists({ count: 12 });
     });
 
     test('it should display the current filter when users are filtered', async function(assert) {
