@@ -156,6 +156,11 @@ function catchErr(promiseFn, ctx) {
   };
 }
 
+function compareDatabaseObject(evaluatedObject, expectedObject) {
+  return expect(_.omit(evaluatedObject, ['id', 'createdAt', 'updatedAt'])).to.deep.equal(_.omit(expectedObject, ['id', 'createdAt', 'updatedAt']));
+
+}
+
 module.exports = {
   airtableBuilder,
   expect,
@@ -173,5 +178,6 @@ module.exports = {
   streamToPromise,
   catchErr,
   testErr: new Error('Fake Error'),
-  testInfraNotFoundErr: new infraErrors.NotFoundError('Fake infra NotFoundError')
+  testInfraNotFoundErr: new infraErrors.NotFoundError('Fake infra NotFoundError'),
+  compareDatabaseObject
 };
