@@ -1,13 +1,26 @@
 h3 {
   font-size: 2.6rem;
-  color: $black;
+  color: $n80;
   font-family: $font-open-sans;
   font-weight: $font-light;
-  letter-spacing: 0.15px;
-  line-height: 3.4rem;
+  letter-spacing: 0.015rem;
+  line-height: 4.4rem;
 
   @include device-is('tablet') {
     font-size: 3.2rem;
     line-height: 5.4rem;
+  }
+}
+
+h4 {
+  font-size: 2.4rem;
+  color: $n80;
+  font-family: $font-open-sans;
+  font-weight: $font-normal;
+  letter-spacing: 0;
+  line-height: 3.6rem;
+
+  @include device-is('tablet') {
+    line-height: 4.0rem;
   }
 }
