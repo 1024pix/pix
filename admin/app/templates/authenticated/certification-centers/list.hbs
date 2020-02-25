@@ -1,0 +1,16 @@
+<header class="page-header">
+  <div class="page-title">Tous les centres de certification</div>
+</header>
+
+<main class="page-body">
+  <section class="page-section">
+    {{routes/authenticated/certification-centers/list-items
+      certificationCenters=model
+      id=id
+      name=name
+      type=type
+      externalId=externalId
+      triggerFiltering=(action 'triggerFiltering')
+    }}
+  </section>
+</main>
