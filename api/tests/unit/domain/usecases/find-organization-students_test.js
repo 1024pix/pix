@@ -3,14 +3,14 @@ const findOrganizationStudents = require('../../../../lib/domain/usecases/find-o
 
 describe('Unit | UseCase | find-organization-students', () => {
 
-  // given
-  const organizationId = 'organization id';
-  const userId = 'user id';
+  // Given
+  const organizationId = 1;
+  const userId = 2;
   const username = 'username';
   const user = { username };
 
-  const studentNotYetReconcilied = { id: 'non reconcilied' };
-  const studentReconcilied = { id: 'reconcilied', userId };
+  const studentNotYetReconcilied = { id: 3 };
+  const studentReconcilied = { id: 4, userId };
   const studentReconciliedWithUserInformations = { ...studentReconcilied, ...{ username }  };
 
   let res;
@@ -18,12 +18,12 @@ describe('Unit | UseCase | find-organization-students', () => {
   const userRepository = { get: sinon.stub().withArgs(userId).returns(user) };
   const studentRepository = { findByOrganizationId: sinon.stub().withArgs({ organizationId }).returns(students) };
 
-  beforeEach(async function() {
-    // when
+  // When
+  before(async function() {
     res = await findOrganizationStudents({ organizationId, studentRepository, userRepository });
   });
 
-  // THEN.... :)
+  // Then
   it('should fetch students matching organization', function() {
     expect(studentRepository.findByOrganizationId).to.have.been.calledWithExactly({ organizationId });
   });
@@ -32,7 +32,11 @@ describe('Unit | UseCase | find-organization-students', () => {
     expect(userRepository.get).to.have.been.calledWithExactly(studentReconcilied.userId);
   });
 
-  it('should return students', function() {
+  it('should not fetch the user if the student is not reconcilied', function() {
+    expect(userRepository.get).to.have.been.calledOnce;
+  });
+
+  it('should return reconcilied and not reconcilied students', function() {
     expect(res).to.deep.equal([studentNotYetReconcilied, studentReconciliedWithUserInformations ]);
   });
 
