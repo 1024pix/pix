@@ -59,7 +59,7 @@ export default Model.extend({
         this.set(attribute, certificationInReport[attribute].trim());
       }
     });
-
-    this.set('hasSeenEndTestScreen', this.hasSeenEndTestScreen && certificationInReport.hasSeenEndTestScreen);
+    
+    this.set('hasSeenEndTestScreen', certificationInReport.hasSeenEndTestScreen);
   },
 });
