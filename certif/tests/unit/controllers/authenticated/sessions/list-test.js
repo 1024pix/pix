@@ -5,41 +5,37 @@ import ArrayProxy from '@ember/array/proxy';
 module('Unit | Controller | authenticated/sessions/list', function(hooks) {
   setupTest(hooks);
 
-  test('it exists', function(assert) {
-    const controller = this.owner.lookup('controller:authenticated/sessions/list');
-    assert.ok(controller);
-  });
+  module('#computed hasSession', function() {
 
-  test('it should know when there is no sessions', function(assert) {
+    test('it should know when there is no sessions', function(assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/sessions/list');
+      const sessions = ArrayProxy.create({
+        content: []
+      });
+      controller.model = sessions;
 
-    // given
-    const controller = this.owner.lookup('controller:authenticated/sessions/list');
-    const sessions = ArrayProxy.create({
-      content: []
+      // when
+      const hasSession = controller.hasSession;
+
+      // then
+      assert.equal(hasSession, false);
     });
-    controller.set('model', sessions);
 
-    // when
-    const hasSession = controller.get('hasSession');
+    test('it should know when there are sessions', function(assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/sessions/list');
+      const session1 = { id: 1, date: new Date('2018-08-07T14:00:44Z') };
+      const sessions = ArrayProxy.create({
+        content: [session1]
+      });
+      controller.model = sessions;
 
-    // then
-    assert.equal(hasSession, false);
-  });
+      // when
+      const hasSession = controller.hasSession;
 
-  test('it should know when there are sessions', function(assert) {
-
-    // given
-    const controller = this.owner.lookup('controller:authenticated/sessions/list');
-    const session1 = { id: 1, date: new Date('2018-08-07T14:00:44Z') };
-    const sessions = ArrayProxy.create({
-      content: [session1]
+      // then
+      assert.equal(hasSession, true);
     });
-    controller.set('model', sessions);
-
-    // when
-    const hasSession = controller.get('hasSession');
-
-    // then
-    assert.equal(hasSession, true);
   });
 });
