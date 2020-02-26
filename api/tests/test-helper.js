@@ -74,20 +74,6 @@ async function insertUserWithRolePixMaster() {
   return user;
 }
 
-async function insertUserWithStandardRole() {
-  const user = databaseBuilder.factory.buildUser({
-    id: 4444,
-    firstName: 'Classic',
-    lastName: 'Papa',
-    email: 'classic.papa@example.net',
-    password: 'abcd1234',
-  });
-
-  await databaseBuilder.commit();
-
-  return user;
-}
-
 // Hapi
 const hFake = {
   response(source) {
@@ -172,7 +158,6 @@ module.exports = {
   hFake,
   HttpTestServer: require('./tooling/server/http-test-server'),
   insertUserWithRolePixMaster,
-  insertUserWithStandardRole,
   knex,
   nock,
   sinon,
