@@ -17,7 +17,7 @@
               @disabledWhen={{eq pagination.page 1}}
               @replace={{true}}
               class="icon-button icon-button--link">
-        {{fa-icon 'arrow-left'}}
+        <FaIcon @icon='arrow-left'></FaIcon>
       </LinkTo>
     </div>
     <div class="page-navigation__body">
@@ -31,7 +31,7 @@
               @disabledWhen={{eq pagination.page pagination.pageCount}}
               @replace={{true}}
               class="icon-button icon-button--link">
-        {{fa-icon 'arrow-right'}}
+        <FaIcon @icon='arrow-right'></FaIcon>
       </LinkTo>
     </div>
   </div>

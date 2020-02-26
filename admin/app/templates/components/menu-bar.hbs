@@ -3,19 +3,19 @@
   <ul class="menu-bar__entries">
     <li class="menu-bar__entry">
       <LinkTo @route="authenticated.organizations" class="menu-bar__link menu-bar__link--organizations">
-        {{fa-icon "building"}}
+        <FaIcon @icon="building"></FaIcon>
         <BsTooltip @placement="right">Organisations</BsTooltip>
       </LinkTo>
     </li>
     <li class="menu-bar__entry">
       <LinkTo @route="authenticated.users.list" class="menu-bar__link menu-bar__link--users">
-        {{fa-icon "users"}}
+        <FaIcon @icon="users"></FaIcon>
         <BsTooltip @placement="right">Utilisateurs</BsTooltip>
       </LinkTo>
     </li>
     <li class="menu-bar__entry">
       <LinkTo @route="authenticated.certifications" class="menu-bar__link menu-bar__link--certifications">
-        {{fa-icon "graduation-cap"}}
+        <FaIcon @icon="graduation-cap"></FaIcon>
         <BsTooltip @placement="right">Certifications</BsTooltip>
       </LinkTo>
     </li>
@@ -33,13 +33,13 @@
     </li>
     <li class="menu-bar__entry">
       <LinkTo @route="authenticated.tools" class="menu-bar__link menu-bar__link--tools">
-        {{fa-icon "tools"}}
+        <FaIcon @icon="tools"></FaIcon>
         <BsTooltip @placement="right">Outils</BsTooltip>
       </LinkTo>
     </li>
     <li class="menu-bar__entry">
       <LinkTo @route="logout" class="menu-bar__link menu-bar__link--logout">
-        {{fa-icon "power-off"}}
+        <FaIcon @icon="power-off"></FaIcon>
         <BsTooltip @placement="right">Se déconnecter</BsTooltip>
       </LinkTo>
     </li>

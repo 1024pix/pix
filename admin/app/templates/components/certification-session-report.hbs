@@ -16,9 +16,9 @@
                 </div>
                 <div class="col-1">
                   {{#if certifications.length}}
-                    {{fa-icon "check" class="data-section__status--success"}}
+                    <FaIcon @icon="check" class="data-section__status--success"></FaIcon>
                   {{else}}
-                    {{fa-icon "times" class="data-section__status--failure"}}
+                    <FaIcon @icon="times" class="data-section__status--failure"></FaIcon>
                   {{/if}}
                 </div>
             </div>
@@ -43,9 +43,9 @@
                 </div>
                 <div class="col-1">
                   {{#if outOfSessionCertifications.length}}
-                    {{fa-icon "times" class="data-section__status--failure"}}
+                    <FaIcon @icon="times" class="data-section__status--failure"></FaIcon>
                   {{else}}
-                    {{fa-icon "check" class="data-section__status--success"}}
+                    <FaIcon @icon="check" class="data-section__status--success"></FaIcon>
                   {{/if}}
                 </div>
             </div>
@@ -70,9 +70,9 @@
                 </div>
                 <div class="col-1">
                   {{#if incompleteCertifications.length}}
-                    {{fa-icon "times" class="data-section__status--failure"}}
+                    <FaIcon @icon="times" class="data-section__status--failure"></FaIcon>
                   {{else}}
-                    {{fa-icon "check" class="data-section__status--success"}}
+                    <FaIcon @icon="check" class="data-section__status--success"></FaIcon>
                   {{/if}}
                 </div>
             </div>
@@ -97,9 +97,9 @@
                 </div>
                 <div class="col-1">
                   {{#if duplicateCertificationIds.length}}
-                    {{fa-icon "times" class="data-section__status--failure"}}
+                    <FaIcon @icon="times" class="data-section__status--failure"></FaIcon>
                   {{else}}
-                    {{fa-icon "check" class="data-section__status--success"}}
+                    <FaIcon @icon="check" class="data-section__status--success"></FaIcon>
                   {{/if}}
                 </div>
             </div>
@@ -124,9 +124,9 @@
                 </div>
                 <div class="col-1">
                   {{#if noLastScreenSeenCertifications.length}}
-                    {{fa-icon "times" class="data-section__status--failure"}}
+                    <FaIcon @icon="times" class="data-section__status--failure"></FaIcon>
                   {{else}}
-                    {{fa-icon "check" class="data-section__status--success"}}
+                    <FaIcon @icon="check" class="data-section__status--success"></FaIcon>
                   {{/if}}
                 </div>
             </div>
@@ -165,9 +165,9 @@
                 </div>
                 <div class="col-1">
                   {{#if commentedByExaminerCertifications.length}}
-                    {{fa-icon "times" class="data-section__status--failure"}}
+                    <FaIcon @icon="times" class="data-section__status--failure"></FaIcon>
                   {{else}}
-                    {{fa-icon "check" class="data-section__status--success"}}
+                    <FaIcon @icon="check" class="data-section__status--success"></FaIcon>
                   {{/if}}
                 </div>
             </div>
