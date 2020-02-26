@@ -111,11 +111,11 @@ export default Factory.extend({
     return false;
   },
   withEmail: trait({
-    email: faker.internet.email(),
+    email: faker.internet.exampleEmail(),
     password: faker.internet.password(),
   }),
   withUsername: trait({
-    username: faker.internet.email(),
+    username: faker.internet.exampleEmail(),
     password: faker.internet.password(),
   }),
   external: trait({
