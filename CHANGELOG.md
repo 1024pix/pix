@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.119.0 (26/02/2020)
+
+- [#1085](https://github.com/1024pix/pix/pull/1085) [FEATURE] Gestion des caractères à risque lors des exports CSV dans Pix Admin (PA-148).
+- [#1101](https://github.com/1024pix/pix/pull/1101) [BUGFIX] Empécher de pouvoir accéder à Pix Orga sans valider les CGU (PO-347).
+- [#1087](https://github.com/1024pix/pix/pull/1087) [TECH] Déplacer les badges dans l'API (PF-1099).
+- [#1100](https://github.com/1024pix/pix/pull/1100) [BSR] Remplacer l'utilisation de faker email par exampleEmail (PF-1119).
+
 ## v2.118.0 (25/02/2020)
 
 - [#1111](https://github.com/1024pix/pix/pull/1111) [FEATURE] Distinguer les compétences non évaluées de celles échouées dans le fichier de résultats pour prescripteur (PA-160).
