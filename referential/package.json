@@ -1,0 +1,31 @@
+{
+  "name": "referential",
+  "version": "1.0.0",
+  "description": "API permettant d'intéragir avec le référentiel de contenu Pix ",
+  "scripts": {
+    "clean": "rm -rf node_modules",
+    "coverage:check": "NODE_ENV=test npm run db:migrate && NODE_ENV=test nyc --silent _mocha --recursive --exit --reporter dot tests && nyc report --reporter=lcovonly --report-dir=../coverage",
+    "coverage:rename": "mv ../coverage/lcov.info ../coverage/api_lcov.info",
+    "coverage": "npm run coverage:check && npm run coverage:rename",
+    "lint": "eslint lib tests",
+    "lint:fix": "eslint lib tests --fix",
+    "start": "node bin/www",
+    "start:watch": "nodemon --signal SIGTERM bin/www",
+    "test": "NODE_ENV=test npm run db:prepare && npm run test:api",
+    "test:api": "NODE_ENV=test mocha --recursive --exit --reporter dot tests",
+    "test:api:unit": "env NODE_ENV=test mocha --recursive --exit --reporter dot tests/unit",
+    "test:api:debug": "NODE_ENV=test mocha --inspect-brk=9229 --recursive --exit --reporter dot tests",
+    "test:api:watch": "NODE_ENV=test mocha --recursive tests --watch --reporter dot",
+    "test:scripts": "NODE_ENV=test mocha --recursive --reporter dot ./tests/unit/scripts",
+    "test:path": "NODE_ENV=test mocha --exit --recursive --reporter=dot",
+    "test:lint": "npm test && npm run lint"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^19.1.1",
+    "@hapi/inert": "^6.0.1",
+    "@hapi/vision": "^6.0.0",
+    "blipp": "^4.0.1"
+  }
+}
