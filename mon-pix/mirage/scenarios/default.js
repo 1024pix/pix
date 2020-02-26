@@ -4,30 +4,6 @@ export default function(server) {
   // server.loadFixtures('courses');
   server.loadFixtures('challenges');
 
-  server.create('organization', {
-    id: 1,
-    name: 'Mon Entreprise',
-    email: 'contact@company.com',
-    type: 'PRO',
-    code: 'PRO001',
-  });
-
-  server.create('organization', {
-    id: 2,
-    name: 'Mon École',
-    email: 'contact@school.org',
-    type: 'SCO',
-    code: 'SCO002',
-  });
-
-  server.create('organization', {
-    id: 3,
-    name: 'Mon Université',
-    email: 'contact@university.org',
-    type: 'SUP',
-    code: 'SUP003',
-  });
-
   // server.create('course', {
   //   id: 'certification-number',
   //   nbChallenges: 3,
