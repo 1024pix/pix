@@ -5,7 +5,7 @@ module('Unit | Controller | terms-of-service', function(hooks) {
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    const controller = this.owner.lookup('controller:authenticated/terms-of-service');
+    const controller = this.owner.lookup('controller:terms-of-service');
     assert.ok(controller);
   });
 });
