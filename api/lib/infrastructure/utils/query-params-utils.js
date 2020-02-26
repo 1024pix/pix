@@ -19,7 +19,9 @@ function _extractFilter(query) {
 
 function _extractPage(query) {
   const regex = /page\[([a-zA-Z]*)]/;
-  return _extractObjectParameter(query, regex);
+  const params = _extractObjectParameter(query, regex);
+
+  return _convertObjectValueToInt(params);
 }
 
 function _extractObjectParameter(query, regex) {
@@ -34,4 +36,8 @@ function _extractObjectParameter(query, regex) {
 
 function _extractArrayParameter(query, parameterName) {
   return query[parameterName] ? query[parameterName].split(',') : [];
+}
+
+function _convertObjectValueToInt(params) {
+  return _.mapValues(params, _.toInteger);
 }
