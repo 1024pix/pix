@@ -20,8 +20,8 @@ function _buildCampaignParticipation(schema) {
   return schema.campaignParticipations.create({ assessment });
 }
 
-function _overrideResponseApi(status, stub) {
-  return new Response(status,{ 'content-type': 'application/json; charset=utf-8' }, stub);
+function _overrideApiResponse(status, responseBody) {
+  return new Response(status,{ 'content-type': 'application/json; charset=utf-8' }, responseBody);
 }
 
 describe('Acceptance | Campaigns | Start Campaigns', function() {
@@ -145,12 +145,12 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
                   }
                 };
 
-                return _overrideResponseApi(200,studentFoundWithUsernameGenerated);
+                return _overrideApiResponse(200,studentFoundWithUsernameGenerated);
               });
 
               this.server.post('student-dependent-users', () => {
 
-                const stubErrorInvalidDataEmailAlreadyExist = {
+                const emailAlreadyExistResponse = {
                   'errors': [{
                     'status': '422',
                     'title': 'Invalid data attribute "email"',
@@ -159,7 +159,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
                   }]
                 };
 
-                return _overrideResponseApi(422,stubErrorInvalidDataEmailAlreadyExist);
+                return _overrideApiResponse(422,emailAlreadyExistResponse);
               });
 
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
@@ -172,7 +172,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               await fillIn('#yearOfBirth', '2000');
 
               await click('#submit-search');
-              //switch to email login mode
+              //go to email-based authentication window
               await click('.pix-toggle__off');
 
               await fillIn('#email', 'JeanPrescrit.Campagne@example.net');
@@ -185,7 +185,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
               expect(find('#email').value).to.equal('JeanPrescrit.Campagne@example.net');
               expect(find('#password').value).to.equal('pix123');
 
-              //switch to username login mode
+              //go to username-based authentication window
               await click('.pix-toggle__off');
               expect(find('#username').value).to.equal('first.last1010');
               expect(find('#password').value).to.equal('pix123');
