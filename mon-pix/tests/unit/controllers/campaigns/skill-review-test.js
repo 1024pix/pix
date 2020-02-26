@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import  EmberObject  from '@ember/object';
 
 describe('Unit | Controller | Campaigns | Skill Review', function() {
 
@@ -44,13 +45,14 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
     context('when at least one badge is available', function() {
       beforeEach(function() {
         // given
-        const badgePixEmploi = {
-          altMessage: 'Vous avez validé le badge Pix Emploi.',
-          message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
+        const badgePixEmploi = EmberObject.create({
+          content : {
+            altMessage: 'Vous avez validé le badge Pix Emploi.',
+            message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
             'Pour valoriser vos compétences, renseignez-vous auprès de votre conseiller.',
-          imageUrl: '/images/badges/Pix-emploi.svg',
-        };
-
+            imageUrl: '/images/badges/Pix-emploi.svg',
+          }
+        });
         controller.set('model.campaignParticipation.campaignParticipationResult.badge', badgePixEmploi);
       });
 
@@ -74,7 +76,10 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
     context('when no badge is available', function() {
       beforeEach(function() {
         // given
-        controller.set('model.campaignParticipation.campaignParticipationResult.badge', null);
+        const emptyBadge = EmberObject.create({
+          content: null
+        });
+        controller.set('model.campaignParticipation.campaignParticipationResult.badge', emptyBadge);
       });
 
       it('should return false when user masters more than 85 percent', function() {
@@ -87,7 +92,6 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
 
       it('should return false when user masters less than 85 percent', function() {
         // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.badge', null);
         controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 26);
 
         // then

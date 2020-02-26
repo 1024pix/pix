@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
+import _ from 'lodash';
 
 export default Controller.extend({
 
@@ -9,9 +10,9 @@ export default Controller.extend({
   pageTitle: 'Résultat',
 
   shouldShowBadge: computed('model.{campaignParticipation.campaignParticipationResult.badge,campaignParticipation.campaignParticipationResult.masteryPercentage}', function() {
-    const badge = this.get('model.campaignParticipation.campaignParticipationResult.badge');
+    const badge = this.get('model.campaignParticipation.campaignParticipationResult.badge.content');
     const masteryPercentage = this.get('model.campaignParticipation.campaignParticipationResult.masteryPercentage');
-    return (masteryPercentage >= 85 && !!badge);
+    return (masteryPercentage >= 85 && !_.isEmpty(badge));
   }),
 
   actions: {
