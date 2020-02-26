@@ -490,11 +490,11 @@ describe('Acceptance | API | Certification Course', () => {
       });
 
       afterEach(async () => {
-        await knex('certification-challenges').delete();
-        await knex('certification-courses').delete();
         await knex('knowledge-elements').delete();
         await knex('answers').delete();
         await knex('assessments').delete();
+        await knex('certification-challenges').delete();
+        await knex('certification-courses').delete();
         airtableBuilder.cleanAll();
         return cache.flushAll();
       });
