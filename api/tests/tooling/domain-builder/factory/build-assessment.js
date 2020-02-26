@@ -13,6 +13,7 @@ const buildCampaignParticipation = require('./build-campaign-participation');
 function buildAssessment({
   id = faker.random.number(),
   courseId = 'courseId',
+  certificationCourseId = null,
   createdAt = new Date('1992-06-12T01:02:03Z'),
   userId = faker.random.number(),
   title = 'courseId',
@@ -26,10 +27,14 @@ function buildAssessment({
   competenceId = null,
 } = {}) {
 
+  if (type === Assessment.types.CERTIFICATION) {
+    certificationCourseId = parseInt(courseId);
+  }
   return new Assessment({
     // attributes
     id,
     courseId,
+    certificationCourseId,
     createdAt,
     userId,
     title,
@@ -122,6 +127,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
     // attributes
     id,
     courseId,
+    certificationCourseId: null,
     createdAt,
     userId,
     competenceId,
