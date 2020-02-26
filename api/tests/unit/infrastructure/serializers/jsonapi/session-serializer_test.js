@@ -111,7 +111,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     });
 
     EMPTY_BLANK_OR_NULL.forEach((examinerGlobalComment) => {
-      it(`should return no examiner comment if comment is ${examinerGlobalComment}`, () => {
+      it(`should return no examiner comment if comment is "${examinerGlobalComment}"`, () => {
         // given
         jsonApiSession.data.attributes['examiner-global-comment'] = examinerGlobalComment;
 
