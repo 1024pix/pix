@@ -55,10 +55,15 @@ module.exports = function(environment) {
 
     'ember-cli-notifications': {
       autoClear: true,
+      includeFontAwesome: true,
     },
 
     matomo: {
       url: 'https://stats.pix.fr/js/container_x4fRiAXl.js',
+    },
+
+    fontawesome: {
+      warnIfNoIconsIncluded: true,
     },
 
   };

@@ -21,7 +21,7 @@
           </button>
         {{else}}
           <button class="btn btn-primary btn-refresh-cache" onclick={{action "refreshLearningContent"}}>
-            {{fa-icon "sync"}} Recharger le cache
+            <FaIcon @icon="sync"></FaIcon> Recharger le cache
           </button>
         {{/if}}
       </div>

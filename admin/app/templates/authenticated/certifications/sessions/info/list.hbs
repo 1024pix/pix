@@ -9,13 +9,13 @@
                     @for="upload-attendance-sheet"
                     @onfileadd={{action "onDisplaySessionReportAnalysis"}}
                     @accept="application/vnd.oasis.opendocument.spreadsheet">
-          {{fa-icon "clipboard-list"}}
+          <FaIcon @icon="clipboard-list"></FaIcon>
         </FileUpload>
         <BsTooltip>Analyser le PV de session afin de détecter les cas particuliers à traiter (.ods)</BsTooltip>
       </button>
 
       <button class="btn btn-outline-default" {{action "downloadSessionResultFile"}} type="button">
-        {{fa-icon "file-download"}}
+        <FaIcon @icon="file-download"></FaIcon>
         <BsTooltip>Exporter les résultats après jury pour les communiquer aux prescripteurs (.csv)</BsTooltip>
       </button>
 

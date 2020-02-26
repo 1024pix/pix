@@ -11,10 +11,6 @@ module.exports = function(defaults) {
       'bootstrapVersion': 4
     },
 
-    'ember-font-awesome': {
-      'includeFontFiles': false
-    },
-
     'ember-cli-template-lint': {
       testGenerator: 'qunit' // or 'mocha', etc.
     },
