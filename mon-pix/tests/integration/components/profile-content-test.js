@@ -11,10 +11,8 @@ describe('Integration | Component | Profile-content', function() {
 
   context('On component rendering', function() {
     let model;
-    const organization = { id: 1 };
 
     beforeEach(function() {
-      this.set('organization', organization);
       this.owner.register('service:session', Service.extend({
         data: {
           authenticated: {
