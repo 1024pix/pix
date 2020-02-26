@@ -84,12 +84,12 @@ describe('Unit | UseCase | complete-assessment', () => {
     });
 
     context('when assessment is of type CERTIFICATION', () => {
-      const courseId = 'courseId';
+      const certificationCourseId = 'certificationCourseId';
 
       beforeEach(() => {
         assessment = domainBuilder.buildAssessment({
           id: assessmentId,
-          courseId,
+          certificationCourseId,
           state: 'started',
           type: 'CERTIFICATION',
         });
@@ -163,7 +163,7 @@ describe('Unit | UseCase | complete-assessment', () => {
           // then
           expect(AssessmentResult.BuildAlgoErrorResult.calledWithExactly(computeError, assessment.id)).to.be.true;
           expect(assessmentResultRepository.save.calledWithExactly(errorAssessmentResult)).to.be.true;
-          expect(certificationCourseRepository.changeCompletionDate.calledWithExactly(assessment.courseId, now)).to.be.true;
+          expect(certificationCourseRepository.changeCompletionDate.calledWithExactly(assessment.certificationCourseId, now)).to.be.true;
         });
 
         it('should still complete the assessment', async () => {
@@ -234,7 +234,7 @@ describe('Unit | UseCase | complete-assessment', () => {
             expect(AssessmentResult.BuildStandardAssessmentResult.calledWithExactly(originalLevel, assessmentScore.nbPix, AssessmentResult.status.VALIDATED, assessment.id))
               .to.be.true;
             expect(assessmentResultRepository.save.calledWithExactly(assessmentResult)).to.be.true;
-            expect(certificationCourseRepository.changeCompletionDate.calledWithExactly(assessment.courseId, now)).to.be.true;
+            expect(certificationCourseRepository.changeCompletionDate.calledWithExactly(assessment.certificationCourseId, now)).to.be.true;
           });
 
           it('should build and save as many competence marks as present in the assessmentScore', async () => {
@@ -310,7 +310,7 @@ describe('Unit | UseCase | complete-assessment', () => {
             expect(AssessmentResult.BuildStandardAssessmentResult.calledWithExactly(UNCERTIFIED_LEVEL, assessmentScore.nbPix, AssessmentResult.status.REJECTED, assessment.id))
               .to.be.true;
             expect(assessmentResultRepository.save.calledWithExactly(assessmentResult)).to.be.true;
-            expect(certificationCourseRepository.changeCompletionDate.calledWithExactly(assessment.courseId, now)).to.be.true;
+            expect(certificationCourseRepository.changeCompletionDate.calledWithExactly(assessment.certificationCourseId, now)).to.be.true;
           });
         });
       });

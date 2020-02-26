@@ -90,7 +90,7 @@ describe('Integration | Repository | Certification Challenge', function() {
         // given
         const userId = databaseBuilder.factory.buildUser({}).id;
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
-        assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
+        assessmentId = databaseBuilder.factory.buildAssessment({ userId, certificationCourseId }).id;
         const challenge = databaseBuilder.factory.buildCertificationChallenge(
           {
             challengeId: 'recChallenge1',
@@ -128,7 +128,7 @@ describe('Integration | Repository | Certification Challenge', function() {
         // given
         const userId = databaseBuilder.factory.buildUser({}).id;
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
-        assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
+        assessmentId = databaseBuilder.factory.buildAssessment({ userId, certificationCourseId }).id;
         const answeredChallenge = databaseBuilder.factory.buildCertificationChallenge(
           {
             challengeId: 'recChallenge1',
