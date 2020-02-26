@@ -41,15 +41,15 @@ function certificationCoursesBuilder({ databaseBuilder }) {
 
 function _buildCertificationCourse(databaseBuilder, { assessmentId, userId, sessionId, candidateData, examinerComment, hasSeenEndTestScreen }) {
   const createdAt = new Date('2020-01-31T00:00:00Z');
-  const courseId = databaseBuilder.factory.buildCertificationCourse({
+  const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
     ...candidateData, createdAt, isPublished: false, isV2Certification: true, examinerComment, hasSeenEndTestScreen, sessionId, userId
   }).id;
   databaseBuilder.factory.buildAssessment({
-    id: assessmentId, courseId, type: 'CERTIFICATION', state: 'completed', userId, competenceId: null,
+    id: assessmentId, certificationCourseId, type: 'CERTIFICATION', state: 'completed', userId, competenceId: null,
     campaignParticipationId: null, isImproving: false, createdAt,
   });
   _.each(CERTIFICATION_CHALLENGES_DATA, (challenge) => {
-    databaseBuilder.factory.buildCertificationChallenge({ ...challenge, courseId, associatedSkillId: null, createdAt });
+    databaseBuilder.factory.buildCertificationChallenge({ ...challenge, courseId: certificationCourseId, associatedSkillId: null, createdAt });
   });
 }
 

@@ -5,7 +5,7 @@ const CertificationChallenge = require('../../../../lib/domain/models/Certificat
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 
-describe('Unit | Domain | Use Cases | get-next-challenge-for-preview', () => {
+describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', () => {
 
   describe('#getNextChallengeForCertification', () => {
 
@@ -20,7 +20,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-preview', () => {
     it('should use the assessmentService to select the next CertificationChallenge', () => {
       // given
       const nextChallenge = CertificationChallenge.fromAttributes({ skills : [] });
-      const assessment = Assessment.fromAttributes({ id: 156, courseId: 54516 });
+      const assessment = Assessment.fromAttributes({ id: 156, certificationCourseId: 54516 });
 
       certificationChallengeRepository.getNonAnsweredChallengeByCourseId.resolves(nextChallenge);
 

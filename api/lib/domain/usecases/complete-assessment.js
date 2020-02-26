@@ -74,7 +74,7 @@ async function _saveResult({
     return competenceMarkRepository.save(competenceMarkDomain);
   });
 
-  return certificationCourseRepository.changeCompletionDate(assessment.courseId, new Date());
+  return certificationCourseRepository.changeCompletionDate(assessment.certificationCourseId, new Date());
 }
 
 function _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository }) {
@@ -100,5 +100,5 @@ async function _saveResultAfterCertificationComputeError({
 }) {
   const assessmentResult = AssessmentResult.BuildAlgoErrorResult(certificationComputeError, assessment.id);
   await assessmentResultRepository.save(assessmentResult);
-  return certificationCourseRepository.changeCompletionDate(assessment.courseId, new Date());
+  return certificationCourseRepository.changeCompletionDate(assessment.certificationCourseId, new Date());
 }
