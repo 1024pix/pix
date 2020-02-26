@@ -8,7 +8,7 @@ export default Controller.extend({
   actions: {
     async submit() {
       await this.currentUser.user.save({ adapterOptions: { acceptPixOrgaTermsOfService: true } });
-      return this.transitionToRoute('authenticated.campaigns');
+      this.replaceRoute('');
     }
   }
 });
