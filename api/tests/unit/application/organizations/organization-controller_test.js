@@ -263,31 +263,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#exportSharedSnapshotsAsCsv', () => {
-
-    beforeEach(() => {
-      sinon.stub(usecases, 'writeOrganizationSharedProfilesAsCsvToStream').resolves();
-    });
-
-    it('should call the use case service that exports shared profile of an organization as CSV (and reply an HTTP response)', async () => {
-      // given
-      const request = {
-        params: {
-          id: 7
-        }
-      };
-
-      // when
-      const response = await organizationController.exportSharedSnapshotsAsCsv(request, hFake);
-
-      // then
-      expect(response.headers).to.deep.equal({
-        'Content-Type': 'text/csv;charset=utf-8',
-        'Content-Disposition': 'attachment; filename="Pix - Export donnees partagees.csv"'
-      });
-    });
-  });
-
   describe('#findPaginatedFilteredCampaigns', () => {
 
     let organizationId;
