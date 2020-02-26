@@ -21,13 +21,13 @@
     </li>
     <li class="menu-bar__entry">
       <LinkTo @route="authenticated.certification-centers.list" class="menu-bar__link menu-bar__link--certification-centers">
-        {{fa-icon "map-pin"}}
+        <FaIcon @icon="map-pin"></FaIcon>
         <BsTooltip @placement="right">Centres de certification</BsTooltip>
       </LinkTo>
     </li>
     <li class="menu-bar__entry">
       <LinkTo @route="authenticated.sessions.list" class="menu-bar__link menu-bar__link--sessions">
-        {{fa-icon "chalkboard-teacher"}}
+        <FaIcon @icon="chalkboard-teacher"></FaIcon>
         <BsTooltip @placement="right">Sessions</BsTooltip>
       </LinkTo>
     </li>
