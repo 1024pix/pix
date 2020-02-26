@@ -43,8 +43,6 @@ const dependencies = {
   smartPlacementAssessmentRepository: require('../../infrastructure/repositories/smart-placement-assessment-repository'),
   sessionAuthorizationService: require('../../domain/services/session-authorization-service'),
   sessionRepository: require('../../infrastructure/repositories/session-repository'),
-  snapshotsCsvConverter: require('../../infrastructure/converter/snapshots-csv-converter'),
-  snapshotRepository: require('../../infrastructure/repositories/snapshot-repository'),
   studentRepository: require('../../infrastructure/repositories/student-repository'),
   studentsXmlService: require('../../domain/services/students-xml-service'),
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
@@ -155,5 +153,4 @@ module.exports = injectDependencies({
   updateSession: require('./update-session'),
   updateStudentDependentUserPassword: require('./update-student-dependent-user-password'),
   updateUserPassword: require('./update-user-password'),
-  writeOrganizationSharedProfilesAsCsvToStream: require('./write-organization-shared-profiles-as-csv-to-stream'),
 });

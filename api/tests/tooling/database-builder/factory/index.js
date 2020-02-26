@@ -19,7 +19,6 @@ module.exports = {
   buildMembership: require('./build-membership'),
   buildPixRole: require('./build-pix-role'),
   buildSession: require('./build-session'),
-  buildSnapshot: require('./build-snapshot'),
   buildStudent: require('./build-student'),
   buildTargetProfile: require('./build-target-profile'),
   buildTargetProfileSkill: require('./build-target-profile-skill'),
