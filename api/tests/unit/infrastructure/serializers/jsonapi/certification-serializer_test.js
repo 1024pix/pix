@@ -57,7 +57,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
     });
 
     EMPTY_BLANK_OR_NULL.forEach(function(examinerComment) {
-      it(`should return no examiner comment if comment is ${examinerComment}`, async function() {
+      it(`should return no examiner comment if comment is "${examinerComment}"`, async function() {
         // given
         jsonCertificationCourse.data.attributes['examiner-comment'] = examinerComment;
 
