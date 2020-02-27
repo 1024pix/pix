@@ -5,10 +5,10 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 module.exports = function(defaults) {
   const app = new EmberApp(defaults, {
     'ember-bootstrap': {
-      'importBootstrapFont': false,
-      'importBootstrapCSS': true,
-      'importBootstrapTheme': true,
-      'bootstrapVersion': 4
+      'bootstrapVersion': 3,
+      'importBootstrapCSS': false,
+      'importBootstrapFont': true,
+      whitelist: ['bs-button', 'bs-nav', 'bs-dropdown', 'bs-modal', 'bs-modal-simple'],
     },
 
     'ember-cli-template-lint': {
@@ -17,7 +17,7 @@ module.exports = function(defaults) {
 
     flatpickr: {
       locales: ['fr']
-    },
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated
