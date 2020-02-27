@@ -1,4 +1,4 @@
-const { expect, domainBuilder, EMPTY_BLANK_OR_NULL } = require('../../../../test-helper');
+const { expect, domainBuilder, EMPTY_BLANK_AND_NULL } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer');
 const { NO_EXAMINER_COMMENT } = require('../../../../../lib/domain/models/CertificationReport');
 
@@ -45,7 +45,7 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
     });
   });
 
-  EMPTY_BLANK_OR_NULL.forEach(function(examinerComment) {
+  EMPTY_BLANK_AND_NULL.forEach(function(examinerComment) {
     it(`should return no examiner comment if comment is "${examinerComment}"`, async function() {
       // given
       jsonApiData.data.attributes['examiner-comment'] = examinerComment;
