@@ -13,7 +13,7 @@ export default class AuthenticatedIndexRoute extends Route {
 
   _selectTransition({ pixCertifTermsOfServiceAccepted }) {
     if (!pixCertifTermsOfServiceAccepted) {
-      return 'authenticated.terms-of-service';
+      return 'terms-of-service';
     }
 
     return 'authenticated.sessions.list';

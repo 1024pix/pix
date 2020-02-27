@@ -5,7 +5,7 @@ module('Unit | Route | terms-of-service', function(hooks) {
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    const route = this.owner.lookup('route:authenticated/terms-of-service');
+    const route = this.owner.lookup('route:terms-of-service');
     assert.ok(route);
   });
 });
