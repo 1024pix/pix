@@ -1,7 +1,7 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | answer-controller', () => {
+describe('Acceptance | Controller | answer-controller-update', () => {
 
   describe('PATCH /api/answers/:id', () => {
 
