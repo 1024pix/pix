@@ -31,6 +31,9 @@ Router.map(function() {
       this.route('list');
       this.route('get', { path: '/:organization_id' });
     });
+    this.route('certification-centers', function() {
+      this.route('list');
+    });
     this.route('certifications', function() {
       //TODO: find a better routes settings between info and details
       this.route('single', function() {

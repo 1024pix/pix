@@ -9,23 +9,27 @@ export default Route.extend(AuthenticatedRouteMixin, {
     pageSize: {
       refreshModel: true,
     },
-    firstName: {
+    id: {
       refreshModel: true,
     },
-    lastName: {
+    name: {
       refreshModel: true,
     },
-    email: {
+    type: {
+      refreshModel: true,
+    },
+    externalId: {
       refreshModel: true,
     },
   },
 
   model(params) {
-    return this.store.query('user', {
+    return this.store.query('certification-center', {
       filter: {
-        firstName: params.firstName ? params.firstName.trim() : '',
-        lastName: params.lastName ? params.lastName.trim() : '',
-        email: params.email ? params.email.trim() : '',
+        id: params.id ? params.id.trim() : '',
+        name: params.name ? params.name.trim() : '',
+        type: params.type ? params.type.trim() : '',
+        externalId: params.externalId ? params.externalId.trim() : '',
       },
       page: {
         number: params.pageNumber,
@@ -38,9 +42,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
     if (isExiting) {
       controller.set('pageNumber', 1);
       controller.set('pageSize', 10);
-      controller.set('firstName', null);
-      controller.set('lastName', null);
-      controller.set('email', null);
+      controller.set('id', null);
+      controller.set('name', null);
+      controller.set('type', null);
+      controller.set('externalId', null);
     }
   }
 });

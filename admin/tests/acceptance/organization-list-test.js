@@ -42,7 +42,7 @@ module('Acceptance | Organization List', function(hooks) {
       await visit('/organizations/list');
 
       // then
-      assert.dom('.organization-list .table tbody tr').exists({ count: 12 });
+      assert.dom('.organization-list .table-admin tbody tr').exists({ count: 12 });
     });
 
     test('it should display the current filter when organizations are filtered', async function(assert) {
@@ -62,7 +62,7 @@ module('Acceptance | Organization List', function(hooks) {
       await visit('/organizations/list');
 
       // when
-      await click('.organization-list .table tbody tr:first-child');
+      await click('.organization-list .table-admin tbody tr:first-child');
 
       // then
       assert.equal(currentURL(), '/organizations/1');

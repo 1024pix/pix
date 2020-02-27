@@ -5,7 +5,7 @@ import { authenticateSession } from 'ember-simple-auth/test-support';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | User List', function(hooks) {
+module('Acceptance | Certification-centers List', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -13,7 +13,7 @@ module('Acceptance | User List', function(hooks) {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
-      await visit('/users/list');
+      await visit('/certification-centers/list');
 
       // then
       assert.equal(currentURL(), '/login');
@@ -28,32 +28,32 @@ module('Acceptance | User List', function(hooks) {
 
     test('it should be accessible for an authenticated user', async function(assert) {
       // when
-      await visit('/users/list');
+      await visit('/certification-centers/list');
 
       // then
-      assert.equal(currentURL(), '/users/list');
+      assert.equal(currentURL(), '/certification-centers/list');
     });
 
-    test('it should list the users', async function(assert) {
+    test('it should list the certification-centers', async function(assert) {
       // given
-      server.createList('user', 12);
+      server.createList('certification-center', 12);
 
       // when
-      await visit('/users/list');
+      await visit('/certification-centers/list');
 
       // then
-      assert.dom('.user-list .table-admin tbody tr').exists({ count: 12 });
+      assert.dom('.table-admin tbody tr').exists({ count: 12 });
     });
 
-    test('it should display the current filter when users are filtered', async function(assert) {
+    test('it should display the current filter when certification-centers are filtered', async function(assert) {
       // given
-      server.createList('user', 12);
+      server.createList('certification-center', 12);
 
       // when
-      await visit('/users/list?email=sav');
+      await visit('/certification-centers/list?type=sup');
 
       // then
-      assert.dom('#email').hasValue('sav');
+      assert.dom('#type').hasValue('sup');
     });
   });
 });
