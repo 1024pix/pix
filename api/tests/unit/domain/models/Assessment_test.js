@@ -360,6 +360,41 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
+  describe('#hasKnowledgeElements', () => {
+
+    it('should return true when the assessment is a CompetenceEvaluation', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.COMPETENCE_EVALUATION });
+
+      // when/then
+      expect(assessment.hasKnowledgeElements()).to.be.true;
+    });
+
+    it('should return true when the assessment is a Smart Placement', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
+
+      // when/then
+      expect(assessment.hasKnowledgeElements()).to.be.true;
+    });
+
+    it('should return false when the assessment is not a CompetenceEvaluation nor SmartPlacement', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CERTIFICATION });
+
+      // when/then
+      expect(assessment.hasKnowledgeElements()).to.be.false;
+    });
+
+    it('should return false when the assessment has no type', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ type: null });
+
+      // when/then
+      expect(assessment.hasKnowledgeElements()).to.be.false;
+    });
+  });
+
   describe('#isCertifiable', () => {
 
     it('should return true when the last assessment has a level > 0', () => {

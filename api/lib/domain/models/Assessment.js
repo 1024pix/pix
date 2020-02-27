@@ -136,6 +136,10 @@ class Assessment {
     return this.type === types.COMPETENCE_EVALUATION;
   }
 
+  hasKnowledgeElements() {
+    return this.isCompetenceEvaluation() || this.isSmartPlacement();
+  }
+
   isCertifiable() {
     return this.getLastAssessmentResult().level >= 1;
   }
