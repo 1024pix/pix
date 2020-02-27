@@ -11,6 +11,8 @@ chai.use(require('sinon-chai'));
 // Other
 const _ = require('lodash');
 
+const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
+
 afterEach(function() {
   sinon.restore();
   return databaseBuilder.clean();
@@ -162,6 +164,7 @@ function compareDatabaseObject(evaluatedObject, expectedObject) {
 }
 
 module.exports = {
+  EMPTY_BLANK_AND_NULL,
   airtableBuilder,
   expect,
   domainBuilder: require('./tooling/domain-builder/factory'),
