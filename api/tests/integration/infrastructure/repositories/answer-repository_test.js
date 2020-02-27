@@ -1,6 +1,8 @@
-const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, domainBuilder, databaseBuilder, sinon, catchErr, compareDatabaseObject } = require('../../../test-helper');
 const Answer = require('../../../../lib/domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../../../../lib/infrastructure/adapters/answer-status-database-adapter');
+const BookshelfKnowledgeElement = require('../../../../lib/infrastructure/data/knowledge-element');
+
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 const moment = require('moment');
@@ -9,13 +11,14 @@ const cache = require('../../../../lib/infrastructure/caches/learning-content-ca
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
 describe('Integration | Repository | AnswerRepository', () => {
-  let assessmentId, otherAssessmentId;
+  let assessmentId, otherAssessmentId, userId;
   const challengeId = 'challenge_1234';
   const otherChallengeId = 'challenge_4567';
   const anotherChallengeId = 'challenge_89';
 
   beforeEach(() => {
     assessmentId = databaseBuilder.factory.buildAssessment().id;
+    userId = databaseBuilder.factory.buildUser().id;
     otherAssessmentId = databaseBuilder.factory.buildAssessment().id;
     return databaseBuilder.commit();
   });
@@ -257,49 +260,77 @@ describe('Integration | Repository | AnswerRepository', () => {
     });
   });
 
-  describe('#save', () => {
+  describe('#saveWithKnowledgeElements', () => {
 
-    let answer;
+    let answer, firstKnowledgeElement, secondeKnowledgeElements;
     let savedAnswer;
 
-    beforeEach(async () => {
-      // XXX resultDetails is by default null which is saved as "null\n" in db.
-      // To avoid problems in test it is fixed to another string.
-      answer = domainBuilder.buildAnswer({ assessmentId, resultDetails: 'some random detail' });
+    beforeEach(() => {
+      answer = domainBuilder.buildAnswer({ assessmentId });
       answer.id = undefined;
-
-      // when
-      savedAnswer = await AnswerRepository.save(answer);
+      firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ answerId: answer.id, assessmentId, userId });
+      secondeKnowledgeElements = domainBuilder.buildKnowledgeElement({ answerId: answer.id, assessmentId, userId });
     });
 
-    afterEach(() => {
-      return knex('answers').delete();
+    afterEach(async () => {
+      await knex('knowledge-elements').delete();
+      await knex('answers').delete();
     });
 
-    it('should save the answer in db', () => {
-      // then
-      // id, createdAt, and updatedAt are not present
-      const expectedRawAnswerWithoutIdNorDates = {
-        value: answer.value,
-        result: answerStatusDatabaseAdapter.toSQLString(answer.result),
-        assessmentId: answer.assessmentId,
-        challengeId: answer.challengeId,
-        timeout: answer.timeout,
-        elapsedTime: answer.elapsedTime,
-        resultDetails: `${answer.resultDetails}\n`, // XXX text fields are saved with a \n at the end
-      };
-      return knex('answers').first()
-        .then((answer) => _.omit(answer, ['id', 'createdAt', 'updatedAt']))
-        .then((answerWithoutIdNorDates) => {
-          return expect(answerWithoutIdNorDates).to.deep.equal(expectedRawAnswerWithoutIdNorDates);
-        });
-    });
+    context('when the database works correctly', () => {
 
-    it('should return a domain object with the id', () => {
-      expect(savedAnswer.id).to.not.equal(undefined);
-      expect(savedAnswer).to.be.an.instanceOf(Answer);
-      // XXX text fields are saved with a \n at the end, so the test fails for that reason
-      expect(_.omit(savedAnswer, ['id', 'resultDetails'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails']));
+      beforeEach(async () => {
+        // when
+        savedAnswer = await AnswerRepository.saveWithKnowledgeElements(answer, [firstKnowledgeElement, secondeKnowledgeElements]);
+      });
+
+      it('should save the answer in db', async () => {
+        // then
+        const expectedRawAnswerWithoutIdNorDates = {
+          value: answer.value,
+          result: answerStatusDatabaseAdapter.toSQLString(answer.result),
+          assessmentId: answer.assessmentId,
+          challengeId: answer.challengeId,
+          timeout: answer.timeout,
+          elapsedTime: answer.elapsedTime,
+          resultDetails: `${answer.resultDetails}\n`,
+        };
+        const answerInDB = await knex('answers').first();
+        return compareDatabaseObject(answerInDB, expectedRawAnswerWithoutIdNorDates);
+      });
+
+      it('should save knowledge elements', async () => {
+        const knowledgeElementsInDB = await knex('knowledge-elements').where({ answerId: savedAnswer.id }).orderBy('id');
+
+        expect(knowledgeElementsInDB).to.length(2);
+        compareDatabaseObject(knowledgeElementsInDB[0], firstKnowledgeElement);
+        compareDatabaseObject(knowledgeElementsInDB[1], secondeKnowledgeElements);
+
+      });
+
+      it('should return the answer', () => {
+        expect(savedAnswer.id).to.not.equal(undefined);
+        expect(savedAnswer).to.be.an.instanceOf(Answer);
+
+        expect(_.omit(savedAnswer, ['id', 'resultDetails'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails']));
+      });
+    });
+    context('when the database do not works correctly', () => {
+      it('should not save the answer nor knowledge-elements', async () => {
+        // given
+        sinon.stub(BookshelfKnowledgeElement.prototype, 'save').rejects();
+
+        //when
+        savedAnswer = await catchErr(AnswerRepository.saveWithKnowledgeElements)(answer, [firstKnowledgeElement, secondeKnowledgeElements]);
+
+        // then
+        const answerInDB = await knex('answers');
+        const knowledgeElementsInDB = await knex('knowledge-elements');
+        expect(answerInDB).to.have.length(0);
+        expect(knowledgeElementsInDB).to.have.length(0);
+      });
+
     });
   });
+
 });
