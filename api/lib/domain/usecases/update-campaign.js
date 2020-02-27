@@ -4,6 +4,7 @@ module.exports = async function updateCampaign(
   {
     userId,
     campaignId,
+    name,
     title,
     customLandingPageText,
     userRepository,
@@ -21,8 +22,9 @@ module.exports = async function updateCampaign(
     throw new UserNotAuthorizedToUpdateResourceError(`User does not have an access to the organization ${organizationId}`);
   }
 
-  if (typeof title !== 'undefined') campaign.title = title;
-  if (typeof customLandingPageText !== 'undefined') campaign.customLandingPageText = customLandingPageText;
+  if (name !== undefined) campaign.name = name;
+  if (title !== undefined) campaign.title = title;
+  if (customLandingPageText !== undefined) campaign.customLandingPageText = customLandingPageText;
 
   await campaignRepository.update(campaign);
 
