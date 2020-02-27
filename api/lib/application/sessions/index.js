@@ -233,6 +233,7 @@ exports.register = async (server) => {
       }
     },
     {
+
       method: 'POST',
       path: '/api/sessions/{id}/candidate-participation',
       config: {
@@ -267,6 +268,23 @@ exports.register = async (server) => {
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
           '- Elle permet de lire et de retourner des données sur les certifications présentes dans le PV de session transmis en buffer',
+        ]
+      }
+    },
+    {
+      method: 'PUT',
+      path: '/api/sessions/{id}/results-sent-to-prescriber',
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: sessionController.flagResultsAsSentToPrescriber,
+        tags: ['api', 'sessions'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de marquer le fait que les résultats de la session ont été envoyés au prescripteur,\n',
+          '- par le biais de la sauvegarde de la date courante.',
         ]
       }
     },
