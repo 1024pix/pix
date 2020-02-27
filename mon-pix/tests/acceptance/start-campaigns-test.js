@@ -5,6 +5,7 @@ import {
   authenticateByEmail,
   authenticateByGAR,
 } from '../helpers/authentification';
+import  overrideApiResponse  from '../helpers/mirage';
 import {
   startCampaignByCode,
   startCampaignByCodeAndExternalId
@@ -28,6 +29,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
     this.server.schema.students.create({
       firstName: 'JeanPrescrit',
       lastName: 'Campagne',
+      username: '',
       userId: null,
       organizationId: null
     });
@@ -76,6 +78,24 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           context('When campaign is restricted', function() {
             const campaignCode = 'AZERTY4';
 
+            context('When the student has an account but is not reconcilied', function() {
+
+              it('should redirect to reconciliation page', async function() {
+
+                // given
+                await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
+
+                // when
+                await click('#login-button');
+                await fillIn('#login', prescritUser.email);
+                await fillIn('#password', prescritUser.password);
+                await click('#submit-connexion');
+
+                // then
+                expect(currentURL()).to.equal(`/campagnes/${campaignCode}/rejoindre`);
+              });
+            });
+
             it('should redirect to login-or-register page', async function() {
               // when
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
@@ -87,8 +107,6 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
             it('should redirect to landing page when reconciliation and registration are done', async function() {
               // given
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
-
-              expect(currentURL()).to.equal('/campagnes/AZERTY4/identification');
 
               // when
               await fillIn('#firstName', 'JeanPrescrit');
@@ -104,6 +122,70 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
               // then
               expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
+            });
+
+            it('should not alter inputs(username,password,email) when email already exists ', async function() {
+
+              //given
+              this.server.put('student-user-associations/possibilities', () => {
+
+                const studentFoundWithUsernameGenerated = {
+                  'data': {
+                    'attributes': {
+                      'last-name': 'last',
+                      'first-name': 'first',
+                      'birthdate': '2010-10-10',
+                      'campaign-code': 'RESTRICTD',
+                      'username': 'first.last1010'
+                    }, 'type': 'student-user-associations'
+                  }
+                };
+
+                return overrideApiResponse(200, studentFoundWithUsernameGenerated);
+              });
+
+              this.server.post('student-dependent-users', () => {
+
+                const emailAlreadyExistResponse = {
+                  'errors': [{
+                    'status': '422',
+                    'title': 'Invalid data attribute "email"',
+                    'detail': 'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
+                    'source': { 'pointer': '/data/attributes/email' }
+                  }]
+                };
+
+                return overrideApiResponse(422, emailAlreadyExistResponse);
+              });
+
+              await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
+
+              // when
+              await fillIn('#firstName', 'JeanPrescrit');
+              await fillIn('#lastName', 'Campagne');
+              await fillIn('#dayOfBirth', '10');
+              await fillIn('#monthOfBirth', '12');
+              await fillIn('#yearOfBirth', '2000');
+
+              await click('#submit-search');
+              //go to email-based authentication window
+              await click('.pix-toggle__off');
+
+              await fillIn('#email', 'JeanPrescrit.Campagne@example.net');
+              await fillIn('#password', 'pix123');
+              await click('#submit-registration');
+
+              // then
+              expect(currentURL()).to.equal(`/campagnes/${campaignCode}/identification`);
+              expect(find('#firstName').value).to.equal('JeanPrescrit');
+              expect(find('#email').value).to.equal('JeanPrescrit.Campagne@example.net');
+              expect(find('#password').value).to.equal('pix123');
+
+              //go to username-based authentication window
+              await click('.pix-toggle__off');
+              expect(find('#username').value).to.equal('first.last1010');
+              expect(find('#password').value).to.equal('pix123');
+
             });
 
             it('should redirect to join restricted campaign page when connection is done', async function() {

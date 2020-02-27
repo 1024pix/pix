@@ -37,7 +37,10 @@ export default Component.extend({
   passwordInputType: computed('isPasswordVisible', function() {
     return this.isPasswordVisible ? 'text' : 'password';
   }),
+
   username: '',
+  email: '',
+  password: '',
 
   firstName: '',
   lastName: '',
@@ -56,10 +59,10 @@ export default Component.extend({
       || !isDayValid(this.dayOfBirth) || !isMonthValid(this.monthOfBirth) || !isYearValid(this.yearOfBirth);
   }),
 
-  isCreationFormNotValid: computed('studentDependentUser.{email,username,password}', function() {
-    const isPasswordNotValid = !isPasswordValid(this.get('studentDependentUser.password'));
-    const isUsernameNotValid = !isStringValid(this.get('studentDependentUser.username'));
-    const isEmailNotValid = !isEmailValid(this.get('studentDependentUser.email'));
+  isCreationFormNotValid: computed('email','username','password', function() {
+    const isPasswordNotValid = !isPasswordValid(this.get('password'));
+    const isUsernameNotValid = !isStringValid(this.get('username'));
+    const isEmailNotValid = !isEmailValid(this.get('email'));
     if (this.loginWithUsername) {
       return isUsernameNotValid || isPasswordNotValid;
     }
@@ -164,9 +167,12 @@ export default Component.extend({
     async register() {
       this.set('isLoading', true);
       try {
+        this.set('studentDependentUser.password', this.password);
         if (this.loginWithUsername) {
+          this.set('studentDependentUser.username', this.get('username'));
           this.set('studentDependentUser.email', undefined);
         } else {
+          this.set('studentDependentUser.email', this.get('email'));
           this.set('studentDependentUser.username', undefined);
         }
         await this.studentDependentUser.save({
