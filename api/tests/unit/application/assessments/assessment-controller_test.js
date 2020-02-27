@@ -22,7 +22,6 @@ describe('Unit | Controller | assessment-controller', function() {
 
     beforeEach(() => {
 
-      sinon.stub(usecases, 'findCertificationAssessments');
       sinon.stub(usecases, 'findSmartPlacementAssessments');
       sinon.stub(assessmentSerializer, 'serialize');
     });
@@ -30,10 +29,10 @@ describe('Unit | Controller | assessment-controller', function() {
     it('should serialize assessment to JSON API', async function() {
       // given
       const request = {
-        query: { 'filter[type]': 'CERTIFICATION' },
+        query: { 'filter[codeCampaign]': 'Code' },
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
       };
-      usecases.findCertificationAssessments.resolves(assessments);
+      usecases.findSmartPlacementAssessments.resolves(assessments);
       assessmentSerializer.serialize.returns(assessmentsInJSONAPI);
 
       // when
@@ -62,28 +61,6 @@ describe('Unit | Controller | assessment-controller', function() {
         expect(usecases.findSmartPlacementAssessments).to.have.been.calledWithExactly({
           userId,
           filters: { codeCampaign: 'Code' },
-        });
-      });
-    });
-
-    context('GET assessments with type CERTIFICATION filter', () => {
-
-      const request = {
-        query: { 'filter[type]': 'CERTIFICATION' },
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
-      };
-
-      it('should call assessment service with query filters', async () => {
-        // given
-        usecases.findCertificationAssessments.resolves();
-
-        // when
-        await assessmentController.findByFilters(request, hFake);
-
-        // then
-        expect(usecases.findCertificationAssessments).to.have.been.calledWithExactly({
-          userId,
-          filters: { type: 'CERTIFICATION' },
         });
       });
     });
