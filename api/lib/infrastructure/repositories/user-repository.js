@@ -5,6 +5,7 @@ const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, Organizatio
 const User = require('../../domain/models/User');
 const PixRole = require('../../domain/models/PixRole');
 const Membership = require('../../domain/models/Membership');
+const UserOrgaSettings = require('../../domain/models/UserOrgaSettings');
 const CertificationCenter = require('../../domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
 const Organization = require('../../domain/models/Organization');
@@ -41,6 +42,21 @@ function _toMembershipsDomain(membershipsBookshelf) {
   });
 }
 
+function _toUserOrgaSettingsDomain(userOrgaSettingsBookshelf) {
+  const { id, code, name, type, isManagingStudents, externalId } = userOrgaSettingsBookshelf.related('currentOrganization').attributes;
+  return new UserOrgaSettings({
+    id: userOrgaSettingsBookshelf.get('id'),
+    currentOrganization: new Organization({
+      id,
+      code,
+      name,
+      type,
+      isManagingStudents: Boolean(isManagingStudents),
+      externalId
+    }),
+  });
+}
+
 function _toPixRolesDomain(pixRolesBookshelf) {
   return pixRolesBookshelf.map((pixRoleBookshelf) => {
     return new PixRole({
@@ -65,6 +81,7 @@ function _toDomain(userBookshelf) {
     certificationCenterMemberships: _toCertificationCenterMembershipsDomain(userBookshelf.related('certificationCenterMemberships')),
     pixRoles: _toPixRolesDomain(userBookshelf.related('pixRoles')),
     hasSeenAssessmentInstructions: Boolean(userBookshelf.get('hasSeenAssessmentInstructions')),
+    userOrgaSettings: _toUserOrgaSettingsDomain(userBookshelf.related('userOrgaSettings'))
   });
 }
 
@@ -86,7 +103,7 @@ function _adaptModelToDb(user) {
   return _.omit(user, [
     'id', 'campaignParticipations', 'pixRoles', 'memberships',
     'certificationCenterMemberships', 'pixScore', 'knowledgeElements',
-    'scorecards',
+    'scorecards', 'userOrgaSettings'
   ]);
 }
 
@@ -130,7 +147,7 @@ module.exports = {
   get(userId) {
     return BookshelfUser
       .where({ id: userId })
-      .fetch({ require: true })
+      .fetch({ require: true, withRelated: ['userOrgaSettings'] })
       .then((user) => bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
@@ -185,6 +202,23 @@ module.exports = {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
         }
         throw err;
+      });
+  },
+
+  getWithOrgaSettings(userId) {
+    return BookshelfUser
+      .where({ id: userId })
+      .fetch({
+        withRelated: [
+          'userOrgaSettings',
+          'userOrgaSettings.currentOrganization',
+        ]
+      })
+      .then((foundUser) => {
+        if (foundUser === null) {
+          return Promise.reject(new UserNotFoundError(`User not found for ID ${userId}`));
+        }
+        return _toDomain(foundUser);
       });
   },
 

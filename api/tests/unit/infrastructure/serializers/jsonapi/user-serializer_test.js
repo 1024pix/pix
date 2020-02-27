@@ -22,72 +22,154 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
 
   describe('#serialize', () => {
 
-    it('should serialize excluding password', () => {
-      // given
-      const modelObject = new User({
-        id: '234567',
-        firstName: 'Luke',
-        lastName: 'Skywalker',
-        email: 'lskywalker@deathstar.empire',
-        username: 'luke.skywalker1234',
-        cgu: true,
-        pixOrgaTermsOfServiceAccepted: false,
-        pixCertifTermsOfServiceAccepted: false,
-        hasSeenAssessmentInstructions: false,
-        password: '',
-      });
+    describe('when user has no userOrgaSettings', () => {
 
-      // when
-      const json = serializer.serialize(modelObject);
-
-      // then
-      expect(json).to.be.deep.equal({
-        data: {
-          attributes: {
-            'first-name': 'Luke',
-            'last-name': 'Skywalker',
-            'email': 'lskywalker@deathstar.empire',
-            'username': 'luke.skywalker1234',
-            'cgu': true,
-            'pix-orga-terms-of-service-accepted': false,
-            'pix-certif-terms-of-service-accepted': false,
-            'has-seen-assessment-instructions': false,
-          },
+      it('should serialize excluding password', () => {
+        // given
+        const modelObject = new User({
           id: '234567',
-          type: 'users',
-          relationships: {
-            memberships: {
-              links: {
-                related: '/api/users/234567/memberships'
-              }
+          firstName: 'Luke',
+          lastName: 'Skywalker',
+          email: 'lskywalker@deathstar.empire',
+          username: 'luke.skywalker1234',
+          cgu: true,
+          pixOrgaTermsOfServiceAccepted: false,
+          pixCertifTermsOfServiceAccepted: false,
+          hasSeenAssessmentInstructions: false,
+          password: '',
+        });
+
+        // when
+        const json = serializer.serialize(modelObject);
+
+        // then
+        expect(json).to.be.deep.equal({
+          data: {
+            attributes: {
+              'first-name': 'Luke',
+              'last-name': 'Skywalker',
+              'email': 'lskywalker@deathstar.empire',
+              'username': 'luke.skywalker1234',
+              'cgu': true,
+              'pix-orga-terms-of-service-accepted': false,
+              'pix-certif-terms-of-service-accepted': false,
+              'has-seen-assessment-instructions': false,
             },
-            'certification-center-memberships': {
-              links: {
-                related: '/api/users/234567/certification-center-memberships'
-              }
-            },
-            'pix-score': {
-              links: {
-                related: '/api/users/234567/pixscore'
-              }
-            },
-            scorecards: {
-              links: {
-                related: '/api/users/234567/scorecards'
-              }
-            },
-            'campaign-participations': {
-              links: {
-                related: '/api/users/234567/campaign-participations'
-              }
-            },
-            'certification-profile': {
-              links: {
-                related: '/api/users/234567/certification-profile'
+            id: '234567',
+            type: 'users',
+            relationships: {
+              memberships: {
+                links: {
+                  related: '/api/users/234567/memberships'
+                }
+              },
+              'certification-center-memberships': {
+                links: {
+                  related: '/api/users/234567/certification-center-memberships'
+                }
+              },
+              'pix-score': {
+                links: {
+                  related: '/api/users/234567/pixscore'
+                }
+              },
+              scorecards: {
+                links: {
+                  related: '/api/users/234567/scorecards'
+                }
+              },
+              'campaign-participations': {
+                links: {
+                  related: '/api/users/234567/campaign-participations'
+                }
+              },
+              'certification-profile': {
+                links: {
+                  related: '/api/users/234567/certification-profile'
+                }
               }
             }
           }
-        }
+        });
+      });
+    });
+
+    describe('when user has an userOrgaSettings', () => {
+
+      it('should serialize excluding password', () => {
+        // given
+        const modelObject = new User({
+          id: '234567',
+          firstName: 'Luke',
+          lastName: 'Skywalker',
+          email: 'lskywalker@deathstar.empire',
+          username: 'luke.skywalker1234',
+          cgu: true,
+          pixOrgaTermsOfServiceAccepted: false,
+          pixCertifTermsOfServiceAccepted: false,
+          hasSeenAssessmentInstructions: false,
+          password: '',
+        });
+
+        modelObject.userOrgaSettings = {};
+
+        // when
+        const json = serializer.serialize(modelObject);
+
+        // then
+        expect(json).to.be.deep.equal({
+          data: {
+            attributes: {
+              'first-name': 'Luke',
+              'last-name': 'Skywalker',
+              'email': 'lskywalker@deathstar.empire',
+              'username': 'luke.skywalker1234',
+              'cgu': true,
+              'pix-orga-terms-of-service-accepted': false,
+              'pix-certif-terms-of-service-accepted': false,
+              'has-seen-assessment-instructions': false,
+            },
+            id: '234567',
+            type: 'users',
+            relationships: {
+              memberships: {
+                links: {
+                  related: '/api/users/234567/memberships'
+                }
+              },
+              'certification-center-memberships': {
+                links: {
+                  related: '/api/users/234567/certification-center-memberships'
+                }
+              },
+              'user-orga-settings': {
+                links: {
+                  related: '/api/users/234567/user-orga-settings'
+                }
+              },
+              'pix-score': {
+                links: {
+                  related: '/api/users/234567/pixscore'
+                }
+              },
+              scorecards: {
+                links: {
+                  related: '/api/users/234567/scorecards'
+                }
+              },
+              'campaign-participations': {
+                links: {
+                  related: '/api/users/234567/campaign-participations'
+                }
+              },
+              'certification-profile': {
+                links: {
+                  related: '/api/users/234567/certification-profile'
+                }
+              }
+            }
+          }
+        });
       });
     });
   });
