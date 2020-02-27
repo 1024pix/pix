@@ -1,7 +1,7 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | answer-controller', () => {
+describe('Acceptance | Controller | answer-controller-get', () => {
 
   describe('GET /api/answers/:id', () => {
 
@@ -24,43 +24,58 @@ describe('Acceptance | Controller | answer-controller', () => {
         };
       });
 
-      it('should return 200 HTTP status code', () => {
+      it('should return 200 HTTP status code', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // given
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(200);
       });
 
-      it('should return application/json', () => {
+      it('should return application/json', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // given
-        return promise.then((response) => {
-          const contentType = response.headers['content-type'];
-          expect(contentType).to.contain('application/json');
-        });
+        const contentType = response.headers['content-type'];
+        expect(contentType).to.contain('application/json');
       });
 
-      it('should return required answer', () => {
+      it('should return required answer', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // given
-        return promise.then((response) => {
-          const answerReceived = response.result.data;
-          expect(answerReceived.id).to.equal(answer.id.toString());
-          expect(answerReceived.attributes.value.toString()).to.equal(answer.value.toString());
-          expect(answerReceived.attributes.result.toString()).to.equal(answer.result.toString());
-          expect(answerReceived.relationships.assessment.data.id.toString()).to.equal(answer.assessmentId.toString());
-          expect(answerReceived.relationships.challenge.data.id.toString()).to.equal(answer.challengeId.toString());
-        });
+        const answerReceived = response.result.data;
+        expect(answerReceived.id).to.equal(answer.id.toString());
+        expect(answerReceived.attributes.value.toString()).to.equal(answer.value.toString());
+        expect(answerReceived.attributes.result.toString()).to.equal(answer.result.toString());
+        expect(answerReceived.relationships.assessment.data.id.toString()).to.equal(answer.assessmentId.toString());
+        expect(answerReceived.relationships.challenge.data.id.toString()).to.equal(answer.challengeId.toString());
       });
-
     });
+
+    context('when the id of the answer is not an integer', () => {
+      beforeEach(async () => {
+        server = await createServer();
+        userId = databaseBuilder.factory.buildUser().id;
+        await databaseBuilder.commit();
+        options = {
+          method: 'GET',
+          url: '/api/answers/salut',
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId + 1) },
+        };
+      });
+
+      it('should return 404 HTTP status code', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // given
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+
     context('when the assessment has an userId but the user is not the relevant user', () => {
       beforeEach(async () => {
         server = await createServer();
@@ -75,13 +90,13 @@ describe('Acceptance | Controller | answer-controller', () => {
         };
       });
 
-      it('should return 403 HTTP status code', () => {
+      it('should return 404 HTTP status code', () => {
         // when
         const promise = server.inject(options);
 
         // given
         return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
+          expect(response.statusCode).to.equal(404);
         });
       });
     });
@@ -98,14 +113,12 @@ describe('Acceptance | Controller | answer-controller', () => {
         };
       });
 
-      it('should return 200 HTTP status code', () => {
+      it('should return 200 HTTP status code', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // given
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(200);
       });
     });
   });
