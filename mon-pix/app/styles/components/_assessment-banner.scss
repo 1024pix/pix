@@ -61,5 +61,8 @@
   text-align: right;
   color: $white;
   width: 100px;
-  
+
+  &:hover {
+    color: rgb($white, 0.8);
+  }
 }
