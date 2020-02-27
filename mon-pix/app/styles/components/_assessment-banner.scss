@@ -54,18 +54,15 @@
 
 .assessment-banner__home-link {
   font-family: $font-roboto;
-  font-size: 1.3rem;
-  font-weight: $font-normal;
+  font-size: 1.6rem;
+  letter-spacing: 0.025rem;
+  font-weight: $font-medium;
   margin-left: auto;
   text-align: right;
   color: $white;
-  width: 60px;
-
-  @include device-is('desktop') {
-    font-weight: $font-medium;
-  }
+  width: 100px;
 
   &:hover {
-    color: $white;
+    color: rgb($white, 0.8);
   }
 }
