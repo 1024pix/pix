@@ -139,6 +139,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'status': statuses.CREATED,
             'examiner-global-comment': 'It was a fine session my dear',
             'finalized-at': null,
+            'results-sent-to-prescriber-at': null,
           },
           'relationships': {
             'certifications': {
@@ -172,6 +173,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'status': statuses.CREATED,
             'examiner-global-comment': 'It was a fine session my dear',
             'finalized-at': null,
+            'results-sent-to-prescriber-at': null,
           },
           'relationships': {
             'certifications': {

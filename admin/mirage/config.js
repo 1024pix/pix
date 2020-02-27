@@ -43,6 +43,13 @@ export default function() {
   this.get('/sessions/:id/certifications', getCertificationsBySessionId);
   this.get('/admin/certifications/:id');
 
+  this.put('/sessions/:id/results-sent-to-prescriber', (schema, request) => {
+    const sessionId = request.params.id;
+    const session = schema.sessions.findBy({ id: sessionId });
+    session.update({ resultsSentToPrescriberAt: new Date() });
+    return session;
+  });
+
   this.put('/sessions/:id/certifications/attendance-sheet-analysis', upload(function() {
     return [
       { lastName: 'Lantier',

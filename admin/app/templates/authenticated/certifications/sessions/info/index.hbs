@@ -42,6 +42,12 @@
           <div class='col'>Date de finalisation :</div>
           <div class='col' data-test-id='certifications-session-info__finalized-at'>{{session.finalizationDate}}</div>
       </div>
+      {{#if session.resultsSentToPrescriberAt}}
+      <div class='row'>
+          <div class='col'>Date d'envoi des résultats au prescripteur :</div>
+          <div class='col' data-test-id='certifications-session-info__sent-to-prescriber-at'>{{session.resultsSentToPrescriberDate}}</div>
+      </div>
+      {{/if}}
       {{/if}}
   </div>
 
@@ -70,13 +76,19 @@
 
   <div class="certifications-session-info__actions">
     <div class='row row--btn'>
-        <button data-test-id="button-session-result-file-info" class="btn btn-primary" {{action "downloadSessionResultFile"}} type="button">
+        <button class="btn btn-primary" {{action "downloadBeforeJuryFile"}} type="button">
+            Récupérer le fichier avant jury
+        </button>
+        
+        <button class="btn btn-primary btn--right" {{action "downloadSessionResultFile"}} type="button">
             Exporter les résultats
         </button>
 
-        <button data-test-id="button-before-jury-file" class="btn btn-primary" {{action "downloadBeforeJuryFile"}} type="button">
-            Récupérer le fichier avant jury
+        {{#if (and session.isFinalized (not session.resultsSentToPrescriberAt))}}
+        <button class="btn btn-primary" {{action "tagSessionAsSentToPrescriber"}} type="button">
+          Résultats transmis au prescripteur
         </button>
+        {{/if}}
     </div>
   </div>
 </div>

@@ -136,6 +136,7 @@ module.exports = injectDependencies({
   importStudentsFromSIECLE: require('./import-students-from-siecle'),
   linkUserToOrganizationStudentData: require('./link-user-to-organization-student-data'),
   linkUserToSessionCertificationCandidate: require('./link-user-to-session-certification-candidate'),
+  flagSessionResultsAsSentToPrescriber: require('./flag-session-results-as-sent-to-prescriber'),
   rememberUserHasSeenAssessmentInstructions: require('./remember-user-has-seen-assessment-instructions'),
   resetScorecard: require('./reset-scorecard'),
   retrieveCampaignInformation: require('./retrieve-campaign-information'),

@@ -25,6 +25,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           description: '',
           'examiner-global-comment': 'It was a fine session my dear',
           'finalized-at': new Date('2020-02-17T14:23:56Z'),
+          'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
         },
         relationships: {
           certifications: {
@@ -65,6 +66,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         status: statuses.STARTED,
         examinerGlobalComment: 'It was a fine session my dear',
         finalizedAt: new Date('2020-02-17T14:23:56Z'),
+        resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
       });
     });
 
