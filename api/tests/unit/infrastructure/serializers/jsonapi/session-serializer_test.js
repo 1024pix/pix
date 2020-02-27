@@ -1,4 +1,4 @@
-const { expect, EMPTY_BLANK_OR_NULL } = require('../../../../test-helper');
+const { expect, EMPTY_BLANK_AND_NULL } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 
 const Session = require('../../../../../lib/domain/models/Session');
@@ -110,7 +110,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       expect(session.examinerGlobalComment).to.equal('It was a fine session my dear');
     });
 
-    EMPTY_BLANK_OR_NULL.forEach((examinerGlobalComment) => {
+    EMPTY_BLANK_AND_NULL.forEach((examinerGlobalComment) => {
       it(`should return no examiner comment if comment is "${examinerGlobalComment}"`, () => {
         // given
         jsonApiSession.data.attributes['examiner-global-comment'] = examinerGlobalComment;
