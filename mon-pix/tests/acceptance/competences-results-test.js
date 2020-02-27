@@ -42,8 +42,8 @@ describe('Acceptance | competences results', function() {
       await visitWithAbortedTransition(`/competences/${competenceId}/resultats/${assessmentId}`);
 
       // then
-      expect(find('.scorecard-details-header__return-button')).to.exist;
-      expect(find('.scorecard-details-header__return-button').getAttribute('href')).to.equal('/profil');
+      expect(find('.link__return-to')).to.exist;
+      expect(find('.link__return-to').getAttribute('href')).to.equal('/profil');
     });
 
     context('When user obtained 0 pix', async function() {

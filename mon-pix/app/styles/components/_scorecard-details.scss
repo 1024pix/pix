@@ -90,26 +90,6 @@
   }
 }
 
-.scorecard-details-header {
-  &__return-button {
-    color: $black;
-    font-size: 1.3rem;
-    font-weight: $font-semi-bold;
-    letter-spacing: 0.03rem;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  &__return-button:hover {
-    text-decoration: none;
-    color: $black;
-
-    > .scorecard-details-header-return-button__icon {
-      background-color: $alto-grey;
-    }
-  }
-}
-
 .scorecard-details-content {
   &__left {
     display: flex;
@@ -208,12 +188,6 @@
     margin-left: 60px;
     text-transform: uppercase;
     color: $grayish-grey;
-  }
-}
-
-.scorecard-details-header-return-button {
-  &__icon {
-    margin-right: 8px;
   }
 }
 
