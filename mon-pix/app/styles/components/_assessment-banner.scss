@@ -61,12 +61,5 @@
   text-align: right;
   color: $white;
   width: 100px;
-
-  @include device-is('desktop') {
-    font-weight: $font-medium;
-  }
-
-  &:hover {
-    color: $white;
-  }
+  
 }
