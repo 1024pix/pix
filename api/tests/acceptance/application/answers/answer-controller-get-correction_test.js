@@ -110,7 +110,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       expect(response.result).to.deep.equal(expectedBody);
     });
 
-    it('should return 403 when user does not has access to this answer', async () => {
+    it('should return 404 when user does not has access to this answer', async () => {
       // given
       const options = {
         method: 'GET',
@@ -122,7 +122,22 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(403);
+      expect(response.statusCode).to.equal(404);
+    });
+
+    it('should return 404 when the answer id provided is not an integer', async () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/answers/coucou/correction',
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(404);
     });
   });
 });

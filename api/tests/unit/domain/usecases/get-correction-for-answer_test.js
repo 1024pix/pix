@@ -2,8 +2,8 @@ const getCorrectionForAnswer = require('../../../../lib/domain/usecases/get-corr
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Answer = require('../../../../lib/domain/models/Answer');
 const Correction = require('../../../../lib/domain/models/Correction');
-const { AssessmentNotCompletedError, ForbiddenAccess } = require('../../../../lib/domain/errors');
-const { expect, sinon } = require('../../../test-helper');
+const { AssessmentNotCompletedError, NotFoundError } = require('../../../../lib/domain/errors');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 
 describe('Unit | UseCase | getCorrectionForAnswer', () => {
 
@@ -20,7 +20,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
   context('when assessment is not completed', () => {
 
     context('and when the assessment is not a SMART_PLACEMENT', () => {
-      it('should reject with a assessment not completed error', () => {
+      it('should reject with a assessment not completed error', async () => {
         // given
         const userId = 'userId';
         const assessment = Assessment.fromAttributes({ state: 'started', userId });
@@ -29,7 +29,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         answerRepository.get.resolves(answer);
 
         // when
-        const promise = getCorrectionForAnswer({
+        const error = await catchErr(getCorrectionForAnswer)({
           assessmentRepository,
           answerRepository,
           correctionRepository,
@@ -38,17 +38,15 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         });
 
         // then
-        return expect(promise).to.be.rejectedWith(AssessmentNotCompletedError)
-          .then(() => {
-            expect(assessmentRepository.get).to.have.been.calledWith(1);
-            expect(answerRepository.get).to.have.been.calledWith(2);
-            expect(correctionRepository.getByChallengeId).to.not.have.been.called;
-          });
+        expect(error).to.be.instanceOf(AssessmentNotCompletedError);
+        expect(assessmentRepository.get).to.have.been.calledWith(1);
+        expect(answerRepository.get).to.have.been.calledWith(2);
+        expect(correctionRepository.getByChallengeId).to.not.have.been.called;
       });
     });
 
     context('and when the assessment is SMART_PLACEMENT', () => {
-      it('should return the content', () => {
+      it('should return the content', async () => {
         // given
         const assessmentId = 1;
         const challengeId = 12;
@@ -61,7 +59,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         correctionRepository.getByChallengeId.resolves(correction);
 
         // when
-        const promise = getCorrectionForAnswer({
+        const responseSolution = await getCorrectionForAnswer({
           assessmentRepository,
           answerRepository,
           correctionRepository,
@@ -70,17 +68,15 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         });
 
         // then
-        return promise.then((responseSolution) => {
-          expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
-          expect(answerRepository.get).to.have.been.calledWith(2);
-          expect(correctionRepository.getByChallengeId).to.have.been.calledWith(challengeId);
-          expect(responseSolution).to.deep.equal(new Correction({ id: 123 }));
-        });
+        expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
+        expect(answerRepository.get).to.have.been.calledWith(2);
+        expect(correctionRepository.getByChallengeId).to.have.been.calledWith(challengeId);
+        expect(responseSolution).to.deep.equal(new Correction({ id: 123 }));
       });
     });
 
     context('and when the assessment is COMPETENCE_EVALUATION', () => {
-      it('should return the content', () => {
+      it('should return the content', async () => {
         // given
         const assessmentId = 1;
         const challengeId = 12;
@@ -93,7 +89,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         correctionRepository.getByChallengeId.resolves(correction);
 
         // when
-        const promise = getCorrectionForAnswer({
+        const responseSolution = await getCorrectionForAnswer({
           assessmentRepository,
           answerRepository,
           correctionRepository,
@@ -102,19 +98,17 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         });
 
         // then
-        return promise.then((responseSolution) => {
-          expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
-          expect(answerRepository.get).to.have.been.calledWith(2);
-          expect(correctionRepository.getByChallengeId).to.have.been.calledWith(challengeId);
-          expect(responseSolution).to.deep.equal(new Correction({ id: 123 }));
-        });
+        expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
+        expect(answerRepository.get).to.have.been.calledWith(2);
+        expect(correctionRepository.getByChallengeId).to.have.been.calledWith(challengeId);
+        expect(responseSolution).to.deep.equal(new Correction({ id: 123 }));
       });
     });
   });
 
   context('when assessment is completed', () => {
 
-    it('should return with the correction', () => {
+    it('should return with the correction', async () => {
       // given
       const assessmentId = 1;
       const challengeId = 12;
@@ -127,7 +121,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
       correctionRepository.getByChallengeId.resolves(correction);
 
       // when
-      const promise = getCorrectionForAnswer({
+      const responseSolution = await getCorrectionForAnswer({
         assessmentRepository,
         answerRepository,
         correctionRepository,
@@ -136,18 +130,16 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
       });
 
       // then
-      return promise.then((responseSolution) => {
-        expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
-        expect(answerRepository.get).to.have.been.calledWith(2);
-        expect(correctionRepository.getByChallengeId).to.have.been.calledWith(challengeId);
-        expect(responseSolution).to.deep.equal(new Correction({ id: 123 }));
-      });
+      expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
+      expect(answerRepository.get).to.have.been.calledWith(2);
+      expect(correctionRepository.getByChallengeId).to.have.been.calledWith(challengeId);
+      expect(responseSolution).to.deep.equal(new Correction({ id: 123 }));
     });
   });
 
   context('when user ask for correction is not the user who answered the challenge', () => {
 
-    it('should throw a Forbidden Access error', () => {
+    it('should throw a NotFound error', async () => {
       // given
       const assessmentId = 1;
       const challengeId = 12;
@@ -159,7 +151,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
       correctionRepository.getByChallengeId.resolves({});
 
       // when
-      const promise = getCorrectionForAnswer({
+      const error = await catchErr(getCorrectionForAnswer)({
         assessmentRepository,
         answerRepository,
         correctionRepository,
@@ -168,7 +160,34 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
       });
 
       // then
-      return expect(promise).to.be.rejectedWith(ForbiddenAccess);
+      return expect(error).to.be.instanceOf(NotFoundError);
+    });
+  });
+
+  context('when provided answer id is not an integer', () => {
+
+    it('should throw a NotFound error', async () => {
+      // given
+      const assessmentId = 1;
+      const challengeId = 12;
+      const userId = 'userId';
+      const assessment = Assessment.fromAttributes({ state: 'completed', userId });
+      const answer = new Answer({ assessmentId, challengeId });
+      assessmentRepository.get.resolves(assessment);
+      answerRepository.get.resolves(answer);
+      correctionRepository.getByChallengeId.resolves({});
+
+      // when
+      const error = await catchErr(getCorrectionForAnswer)({
+        assessmentRepository,
+        answerRepository,
+        correctionRepository,
+        answerId: 'salut',
+        userId: userId,
+      });
+
+      // then
+      return expect(error).to.be.instanceOf(NotFoundError);
     });
   });
 
