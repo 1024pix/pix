@@ -6,15 +6,17 @@
 @import 'ember-power-select/themes/bootstrap';
 
 /* global */
-@import 'misc/palette';
 @import 'misc/global';
-@import 'misc/page';
+@import 'misc/palette';
+@import 'misc/utils';
 @import 'misc/button';
-@import 'misc/form';
 @import 'misc/callout';
+@import 'misc/form';
+@import 'misc/page';
 @import 'misc/power-select';
 @import 'misc/tables';
-@import 'misc/utils';
+@import 'misc/table-admin';
+
 /* pages */
 @import 'login';
 @import 'authenticated';
@@ -29,14 +31,15 @@
 @import 'authenticated/certifications/sessions/info/index';
 @import 'authenticated/certifications/sessions-list';
 @import 'authenticated/tools';
+
 /* components */
-@import 'components/menu-bar';
-@import 'components/certification-details-competence';
 @import 'components/certification-details-answer';
-@import 'components/certification-session-report';
-@import 'components/certification-select';
+@import 'components/certification-details-competence';
 @import 'components/certification-list';
+@import 'components/certification-select';
+@import 'components/certification-session-report';
 @import 'components/confirm-popup';
+@import 'components/menu-bar';
 @import 'components/pagination-control';
 
 input:invalid {

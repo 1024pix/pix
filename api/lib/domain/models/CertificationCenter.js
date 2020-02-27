@@ -5,6 +5,7 @@ class CertificationCenter {
     // attributes
     name,
     externalId,
+    type,
     createdAt,
     // includes
     // references
@@ -13,6 +14,7 @@ class CertificationCenter {
     // attributes
     this.name = name;
     this.externalId = externalId;
+    this.type = type;
     this.createdAt = createdAt;
     // includes
     // references

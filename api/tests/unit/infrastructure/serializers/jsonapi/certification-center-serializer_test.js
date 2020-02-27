@@ -32,6 +32,8 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
           attributes: {
             id: certificationCenterId.toString(),
             name: certificationCenterName,
+            type: undefined,
+            'external-id': undefined,
             'created-at': certificationCenterDate,
           },
         }
