@@ -97,6 +97,39 @@ module('Acceptance | terms-of-service', function(hooks) {
       // then
       assert.equal(currentURL(), '/cgu');
     });
+
+    module('When user has no user-orga-settings', () => {
+
+      test('it should create the user-orga-settings', async function(assert) {
+        // given
+        await visit('/cgu');
+        const previousSettingsCount = server.schema.userOrgaSettings.all().length;
+
+        // when
+        await click('button[type=submit]');
+
+        // then
+        const actualSettingsCount = server.schema.userOrgaSettings.all().length;
+        assert.equal(actualSettingsCount, previousSettingsCount + 1);
+      });
+
+      test('it should reload the currentUser service', async function(assert) {
+        const currentUser = this.owner.lookup('service:currentUser');
+
+        // given
+        await visit('/cgu');
+        const previousOrganization = currentUser.organization;
+
+        // when
+        await click('button[type=submit]');
+
+        // then
+        const actualOrganization = currentUser.organization;
+        assert.notOk(previousOrganization);
+        const firstOrganization = currentUser.user.memberships.firstObject.organization;
+        assert.equal(actualOrganization.id, firstOrganization.get('id'));
+      });
+    });
   });
 
   module('When user has already accepted terms of service', function(hooks) {

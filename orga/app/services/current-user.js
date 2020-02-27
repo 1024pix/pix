@@ -12,20 +12,35 @@ export default Service.extend({
       try {
         const user = await this.store.queryRecord('user', { me: true });
         const userMemberships = await user.get('memberships');
-        const userMembership = await userMemberships.get('firstObject');
-        const organization = await userMembership.organization;
-        const isAdminInOrganization = userMembership.isAdmin;
-        const canAccessStudentsPage = organization.isSco && organization.isManagingStudents;
+        const userOrgaSettings = await user.get('userOrgaSettings');
 
         this.set('user', user);
-        this.set('organization', organization);
-        this.set('isAdminInOrganization', isAdminInOrganization);
-        this.set('canAccessStudentsPage', canAccessStudentsPage);
+
+        if (userOrgaSettings) {
+          const organization = await userOrgaSettings.get('organization');
+          const userMembership = await this._getMembershipByOrganizationId(userMemberships.toArray(), organization.id);
+          const isAdminInOrganization = userMembership.isAdmin;
+          const canAccessStudentsPage = organization.isSco && organization.isManagingStudents;
+          this.set('organization', organization);
+          this.set('isAdminInOrganization', isAdminInOrganization);
+          this.set('canAccessStudentsPage', canAccessStudentsPage);
+        }
       } catch (error) {
         if (_.get(error, 'errors[0].code') === 401) {
           return this.session.invalidate();
         }
       }
     }
+  },
+
+  async _getMembershipByOrganizationId(memberships, organizationId) {
+    for (let i = 0; i < memberships.length; i++) {
+      const membershipOrganization = await memberships[i].get('organization');
+      if (membershipOrganization.id === organizationId) {
+        return memberships[i];
+      }
+    }
+    return null;
   }
+
 });

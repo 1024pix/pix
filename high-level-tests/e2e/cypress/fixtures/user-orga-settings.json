@@ -1,0 +1,10 @@
+[
+  {
+    "userId": 1,
+    "currentOrganizationId": 1
+  },
+  {
+    "userId": 3 ,
+    "currentOrganizationId": 2
+  }
+]

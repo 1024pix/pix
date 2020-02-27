@@ -19,6 +19,7 @@ module.exports = [
   require('./application/memberships'),
   require('./application/metrics'),
   require('./application/organization-invitations'),
+  require('./application/user-orga-settings'),
   require('./application/organizations'),
   require('./application/passwords'),
   require('./application/progressions'),
