@@ -67,9 +67,9 @@ module.exports = {
   update(request) {
     const { userId } = request.auth.credentials;
     const campaignId = parseInt(request.params.id);
-    const { title, 'custom-landing-page-text': customLandingPageText } = request.payload.data.attributes;
+    const { name, title, 'custom-landing-page-text': customLandingPageText } = request.payload.data.attributes;
 
-    return usecases.updateCampaign({ userId, campaignId, title, customLandingPageText })
+    return usecases.updateCampaign({ userId, campaignId, name, title, customLandingPageText })
       .then(campaignSerializer.serialize);
   },
 

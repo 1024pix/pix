@@ -220,6 +220,7 @@ describe('Unit | Application | Controller | Campaign', () => {
         payload: {
           data: {
             attributes: {
+              name: 'New name',
               title: 'New title',
               'custom-landing-page-text': 'New text',
             }
@@ -229,6 +230,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
       updatedCampaign = {
         id: request.params.id,
+        name: request.payload.data.attributes.name,
         title: request.payload.data.attributes.title,
         customLandingPageText: request.payload.data.attributes['custom-landing-page-text'],
       };
@@ -236,6 +238,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       updateCampaignArgs = {
         userId: request.auth.credentials.userId,
         campaignId: updatedCampaign.id,
+        name: updatedCampaign.name,
         title: updatedCampaign.title,
         customLandingPageText: updatedCampaign.customLandingPageText,
       };
