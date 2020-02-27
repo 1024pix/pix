@@ -83,11 +83,8 @@
 
   &__error {
     color: $pure-orange;
-    font-size: 1.5rem;
-    padding: 4px 10px;
-
-    @include device-is('tablet') {
-      padding: 0;
-    }
+    font-size: 1.4rem;
+    padding: 16px 10px;
+    text-align: center;
   }
 }
