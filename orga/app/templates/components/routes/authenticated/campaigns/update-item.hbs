@@ -4,6 +4,18 @@
 
   <form {{action update campaign on='submit'}} class="campaign-creation-form">
     <div class="form__field">
+      <label for="campaign-name" class="label">Nom de la campagne</label>
+      <Input
+        @id="campaign-name"
+        @name="campaign-name"
+        @type="text"
+        @class="input"
+        @maxlength="255"
+        @value={{campaign.name}}
+      />
+    </div>
+
+    <div class="form__field">
       <label for="campaign-title" class="label">Titre du parcours</label>
       <Input
         @id="campaign-title"
