@@ -12,9 +12,9 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
 
     const user = domainBuilder.buildUser();
     const organization = user.memberships[0].organization;
-    const listSkills = domainBuilder.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 5 });
+    const listSkills = domainBuilder.buildSkillCollection({ name: '@web', minLevel: 1, maxLevel: 5 });
     listSkills.forEach((skill) => { skill.competenceId = 'recCompetence1'; });
-    const listSkillsNotInTargetProfile = domainBuilder.buildSkillCollection({ name: 'url', minLevel: 1, maxLevel: 2 });
+    const listSkillsNotInTargetProfile = domainBuilder.buildSkillCollection({ name: '@url', minLevel: 1, maxLevel: 2 });
     const [skillWeb1, skillWeb2, skillWeb3, skillWeb4, skillWeb5] = listSkills;
     const [skillUrl1, skillUrl2] = listSkillsNotInTargetProfile;
     const knowledgeElements = [
@@ -141,11 +141,11 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
         '"% de maitrise des acquis du domaine Domain 1";' +
         '"Nombre d\'acquis du profil cible du domaine Domain 1";' +
         '"Acquis maitrisés du domaine Domain 1";' +
-        '"web1";' +
-        '"web2";' +
-        '"web3";' +
-        '"web4";' +
-        '"web5"\n';
+        '"\'@web1";' +
+        '"\'@web2";' +
+        '"\'@web3";' +
+        '"\'@web4";' +
+        '"\'@web5"\n';
       findResultDataByCampaignIdStub.resolves([]);
 
       // when
@@ -336,11 +336,11 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           '"% de maitrise des acquis du domaine Domain 1";' +
           '"Nombre d\'acquis du profil cible du domaine Domain 1";' +
           '"Acquis maitrisés du domaine Domain 1";' +
-          '"web1";' +
-          '"web2";' +
-          '"web3";' +
-          '"web4";' +
-          '"web5"';
+          '"\'@web1";' +
+          '"\'@web2";' +
+          '"\'@web3";' +
+          '"\'@web4";' +
+          '"\'@web5"';
 
         // when
         startWritingCampaignResultsToStream({
