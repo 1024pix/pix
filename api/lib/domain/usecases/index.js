@@ -87,7 +87,6 @@ module.exports = injectDependencies({
   findAssociationBetweenUserAndOrganizationStudent: require('./find-association-between-user-and-organization-student'),
   findCampaignParticipationsRelatedToAssessment: require('./find-campaign-participations-related-to-assessment'),
   findCampaignParticipationsWithResults: require('./find-campaign-participations-with-results'),
-  findCertificationAssessments: require('./find-certification-assessments'),
   findCompetenceEvaluations: require('./find-competence-evaluations'),
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
   findLatestOngoingUserCampaignParticipations: require('./find-latest-ongoing-user-campaign-participations'),
