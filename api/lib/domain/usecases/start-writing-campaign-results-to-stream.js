@@ -3,6 +3,7 @@ const moment = require('moment');
 const bluebird = require('bluebird');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
+const csvService = require('../services/csv-service');
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   if (_.isNil(organizationId)) {
@@ -45,7 +46,7 @@ function _createHeaderOfCSV(skills, competences, areas, idPixLabel) {
     { title: 'Nom du Participant', property: 'participantLastName' },
     { title: 'Prénom du Participant', property: 'participantFirstName' },
 
-    ...(idPixLabel ? [ { title: idPixLabel, property: 'participantExternalId' } ] : []),
+    ...(idPixLabel ? [ { title: csvService.sanitize(idPixLabel), property: 'participantExternalId' } ] : []),
 
     { title: '% de progression', property: 'percentageProgression' },
     { title: 'Date de début', property: 'createdAt' },
@@ -65,7 +66,7 @@ function _createHeaderOfCSV(skills, competences, areas, idPixLabel) {
       { title: `Acquis maitrisés du domaine ${area.title}`, property: `area_${area.id}_validatedSkillCount` },
     ])),
 
-    ...(_.map(skills, (skill) => ({ title: `${skill.name}`, property: `skill_${skill.id}` }))),
+    ...(_.map(skills, (skill) => ({ title: csvService.sanitize(skill.name), property: `skill_${skill.id}` }))),
   ];
 }
 
