@@ -221,59 +221,6 @@ describe('Integration | Repository | Organization', function() {
     });
   });
 
-  describe('#getByUserId', () => {
-    let userId, anotherUserId, notUsedUserId;
-    let organizations;
-
-    beforeEach(async () => {
-      userId = databaseBuilder.factory.buildUser({}).id;
-      anotherUserId = databaseBuilder.factory.buildUser({}).id;
-      notUsedUserId = databaseBuilder.factory.buildUser({}).id;
-      organizations = _.map([
-        { type: 'PRO', name: 'organization 1', userId: anotherUserId, code: 'ABCD12' },
-        { type: 'SCO', name: 'organization 2', userId, code: 'EFGH34' },
-        { type: 'SUP', name: 'organization 3', userId: anotherUserId, code: 'IJKL56' },
-      ], (organization) => {
-        return databaseBuilder.factory.buildOrganization(organization);
-      });
-
-      await databaseBuilder.commit();
-    });
-
-    describe('success management', function() {
-
-      it('should return an organization by provided userId', async () => {
-        // when
-        const actualOrganizations = await organizationRepository.findByUserId(userId);
-
-        // then
-        expect(actualOrganizations).to.be.an('array');
-        expect(actualOrganizations).to.have.lengthOf(1);
-        expect(actualOrganizations[0].type).to.equal(organizations[1].type);
-        expect(actualOrganizations[0].name).to.equal(organizations[1].name);
-        expect(actualOrganizations[0].code).to.equal(organizations[1].code);
-        expect(actualOrganizations[0].id).to.equal(organizations[1].id);
-      });
-
-      it('should return all organizations when provided userId has multiple organizations', async () => {
-        // when
-        const actualOrganizations = await organizationRepository.findByUserId(anotherUserId);
-
-        // then
-        expect(actualOrganizations).to.be.an('array');
-        expect(actualOrganizations).to.have.lengthOf(2);
-      });
-
-      it('should return an empty Array, when organization id is not found', async () => {
-        // when
-        const actualOrganizations = await organizationRepository.findByUserId(notUsedUserId);
-
-        // then
-        expect(actualOrganizations).to.deep.equal([]);
-      });
-    });
-  });
-
   describe('#findByExternalIdsFetchingIdsOnly', () => {
     let organizations;
 
@@ -442,15 +389,15 @@ describe('Integration | Repository | Organization', function() {
       });
     });
 
-    context('when there are multiple Organizations matching the fields "first name", "last name" and "email" search pattern', () => {
+    context('when there are multiple Organizations matching the fields "name", "type" and "code" search pattern', () => {
 
       beforeEach(() => {
-        // Matching users
+        // Matching organizations
         databaseBuilder.factory.buildOrganization({ name: 'name_ok_1', type: 'SCO', code: 'c_ok_1' });
         databaseBuilder.factory.buildOrganization({ name: 'name_ok_2', type: 'SCO', code: 'c_ok_2' });
         databaseBuilder.factory.buildOrganization({ name: 'name_ok_3', type: 'SCO', code: 'c_ok_3' });
 
-        // Unmatching users
+        // Unmatching organizations
         databaseBuilder.factory.buildOrganization({ name: 'name_ko_4', type: 'SCO', code: 'c_ok_4' });
         databaseBuilder.factory.buildOrganization({ name: 'name_ok_5', type: 'SUP', code: 'c_ok_5' });
         databaseBuilder.factory.buildOrganization({ name: 'name_ok_6', type: 'SCO', code: 'c_ko_1' });
