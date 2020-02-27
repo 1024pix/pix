@@ -1,5 +1,5 @@
 /* vendors */
-@import 'ember-bootstrap/bootstrap';
+@import "ember-bootstrap/bootstrap";
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
 @import "ember-power-select";
@@ -41,6 +41,3 @@
 @import 'components/menu-bar';
 @import 'components/pagination-control';
 
-input:invalid {
-  box-shadow: none;
-}
