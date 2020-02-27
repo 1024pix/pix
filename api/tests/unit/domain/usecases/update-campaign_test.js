@@ -13,6 +13,7 @@ describe('Unit | UseCase | update-campaign', () => {
   beforeEach(() => {
     originalCampaign = {
       id: 1,
+      name: 'Old name',
       title: 'Old title',
       customLandingPageText: 'Old text',
       organizationId,
@@ -39,10 +40,8 @@ describe('Unit | UseCase | update-campaign', () => {
     it('should update the campaign title only', () => {
       // given
       const updatedCampaign = {
-        id: originalCampaign.id,
+        ...originalCampaign,
         title: 'New title',
-        customLandingPageText: originalCampaign.customLandingPageText,
-        organizationId,
       };
 
       // when
@@ -65,10 +64,8 @@ describe('Unit | UseCase | update-campaign', () => {
     it('should update the campaign page text only', () => {
       // given
       const updatedCampaign = {
-        id: originalCampaign.id,
-        title: originalCampaign.title,
+        ...originalCampaign,
         customLandingPageText: 'New text',
-        organizationId,
       };
 
       // when
@@ -90,12 +87,7 @@ describe('Unit | UseCase | update-campaign', () => {
 
     it('should update the campaign archive date only', () => {
       // given
-      const updatedCampaign = {
-        id: originalCampaign.id,
-        title: originalCampaign.title,
-        customLandingPageText: originalCampaign.customLandingPageText,
-        organizationId,
-      };
+      const updatedCampaign = { ...originalCampaign };
 
       // when
       const promise = updateCampaign({
@@ -109,6 +101,53 @@ describe('Unit | UseCase | update-campaign', () => {
       return promise.then((resultCampaign) => {
         expect(campaignRepository.update).to.have.been.calledWithExactly(updatedCampaign);
         expect(resultCampaign.title).to.equal(originalCampaign.title);
+        expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
+      });
+    });
+
+    it('should update the campaign name only', () => {
+      // given
+      const updatedCampaign = {
+        ...originalCampaign,
+        name: 'New Name',
+      };
+
+      // when
+      const promise = updateCampaign({
+        userId: userWithMembership.id,
+        campaignId: updatedCampaign.id,
+        name: updatedCampaign.name,
+        title: originalCampaign.title,
+        userRepository,
+        campaignRepository,
+      });
+
+      // then
+      return promise.then((resultCampaign) => {
+        expect(campaignRepository.update).to.have.been.calledWithExactly(updatedCampaign);
+        expect(resultCampaign.name).to.equal(updatedCampaign.name);
+        expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
+      });
+    });
+
+    it('should not update the campaign name if campaign name is undefine', () => {
+      // given
+      const updatedCampaign = { ...originalCampaign };
+
+      // when
+      const promise = updateCampaign({
+        userId: userWithMembership.id,
+        campaignId: updatedCampaign.id,
+        name: undefined,
+        title: originalCampaign.title,
+        userRepository,
+        campaignRepository,
+      });
+
+      // then
+      return promise.then((resultCampaign) => {
+        expect(campaignRepository.update).to.have.been.calledWithExactly(updatedCampaign);
+        expect(resultCampaign.name).to.equal(originalCampaign.name);
         expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
       });
     });
