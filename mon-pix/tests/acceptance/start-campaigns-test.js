@@ -141,7 +141,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
                   }
                 };
 
-                return overrideApiResponse(200,studentFoundWithUsernameGenerated);
+                return overrideApiResponse(200, studentFoundWithUsernameGenerated);
               });
 
               this.server.post('student-dependent-users', () => {
@@ -155,7 +155,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
                   }]
                 };
 
-                return overrideApiResponse(422,emailAlreadyExistResponse);
+                return overrideApiResponse(422, emailAlreadyExistResponse);
               });
 
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
