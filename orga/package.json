@@ -45,7 +45,6 @@
     "ember-cli-eslint": "^5.1.0",
     "ember-cli-google-fonts": "^2.16.2",
     "ember-cli-htmlbars": "^4.0.0",
-    "ember-cli-htmlbars-inline-precompile": "^3.0.0",
     "ember-cli-inject-live-reload": "^2.0.1",
     "ember-cli-matomo-tag-manager": "^1.1.2",
     "ember-cli-mirage": "^1.1.1",
