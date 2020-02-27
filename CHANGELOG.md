@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v2.120.0 (27/02/2020)
+
+- [#1098](https://github.com/1024pix/pix/pull/1098) [FEATURE] Garantir la sélection de l'organisation par défaut dans Pix Orga (PO-344).
+- [#1123](https://github.com/1024pix/pix/pull/1123) [FEATURE] Améliorer la visibilité du bouton quitter (PF-1014).
+- [#1110](https://github.com/1024pix/pix/pull/1110) [FEATURE] Remplacer le terme Parcours par Campagne. (PO-348)
+- [#1056](https://github.com/1024pix/pix/pull/1056) [FEATURE] Ajouter la liste des centres de certification à Pix Admin (PA-62).
+- [#1073](https://github.com/1024pix/pix/pull/1073) [FEATURE] Tagger les résultats d'une session comme "envoyés au prescripteur" (PA-134)
+- [#1119](https://github.com/1024pix/pix/pull/1119) [BUGFIX] Corriger l'affichage des badges (PF-1127).
+- [#1096](https://github.com/1024pix/pix/pull/1096) [BUGFIX] Eviter de sauvegarder les réponses sans leurs KE (PF-1116).
+- [#1095](https://github.com/1024pix/pix/pull/1095) [BUGFIX] Appliquer la pagination par défaut lorsque la page 0 est demandée (PO-342).
+- [#1112](https://github.com/1024pix/pix/pull/1112) [TECH] Gestion des commentaires examinateurs et globaux vides et blancs (PC-130)
+- [#1116](https://github.com/1024pix/pix/pull/1116) [TECH] Suppression de solution-serializer
+- [#1090](https://github.com/1024pix/pix/pull/1090) [TECH] Pix Board - Suppression du code relatif aux organisations dans Pix App (PF-876-4).
+- [#1089](https://github.com/1024pix/pix/pull/1089) [TECH] Pix Board - Suppression du code relatif au endpoint GET /api/organizations/id/snapshots/export (PF-876-3).
+- [#1113](https://github.com/1024pix/pix/pull/1113) [TECH] Ajout de 5 comptes utilisateurs dans les seeds qui sont pile poil certifiables (PF-1123)
+
 ## v2.119.0 (26/02/2020)
 
 - [#1085](https://github.com/1024pix/pix/pull/1085) [FEATURE] Gestion des caractères à risque lors des exports CSV dans Pix Admin (PA-148).
