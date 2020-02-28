@@ -1,4 +1,5 @@
 import Controller from '@ember/controller';
+import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import ENV from 'pix-admin/config/environment';
 import { computed } from '@ember/object';
@@ -8,6 +9,7 @@ import _ from 'lodash';
 export default Controller.extend({
 
   session: service(),
+  sessionModel: alias('model'),
   sessionInfoService: service(),
   notifications: service('notification-messages'),
 

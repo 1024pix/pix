@@ -3,9 +3,7 @@ import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 import Service from '@ember/service';
-import { run } from '@ember/runloop';
 import moment from 'moment';
-import sinon from 'sinon';
 
 module('Unit | Service | session-info-service', function(hooks) {
 
@@ -66,57 +64,6 @@ module('Unit | Service | session-info-service', function(hooks) {
       indexedCompetences,
     });
   }
-
-  module('#updateCertificationsStatus', function() {
-
-    test('should update the status to "true" for the given certifications when "isPublished" parameter is "true"', async function(assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      /*
-       * Prendre la main sur le prototype pour stubber la méthode "save" n'est clairement pas la façon la plus propre de faire.
-       * Une meilleure façon de faire serait de passer par Ember CLI Mirage qui, depuis la version 1.0, incite à l'utiliser même dans les TU/TI (vs. TA only).
-       * Cependant, tels que sont fait l'API (/certifications et /certification-courses) ainsi que l'adapter Certification, à moins de faire un maxi dev côté mirage, ça ne matche pas.
-       */
-      const Certification = store.modelFor('certification');
-      Certification.prototype.save = sinon.stub();
-
-      const certification_1 = run(() => store.createRecord('certification', { isPublished: false }));
-      const certification_2 = run(() => store.createRecord('certification', { isPublished: true }));
-      const certification_3 = run(() => store.createRecord('certification', { isPublished: false }));
-
-      const certifications = [certification_1, certification_2, certification_3];
-
-      // when
-      await service.updateCertificationsStatus(certifications, true);
-
-      // then
-      certifications.forEach((certification) => assert.equal(certification.isPublished, true));
-      sinon.assert.callCount(Certification.prototype.save, 3);
-      sinon.assert.alwaysCalledWith(Certification.prototype.save, { adapterOptions: { updateMarks: false } });
-    });
-
-    test('should update the status to "false" for the given certifications when "isPublished" parameter is "false"', async function(assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const Certification = store.modelFor('certification');
-      Certification.prototype.save = sinon.stub();
-
-      const certification_1 = run(() => store.createRecord('certification', { isPublished: false }));
-      const certification_2 = run(() => store.createRecord('certification', { isPublished: true }));
-      const certification_3 = run(() => store.createRecord('certification', { isPublished: false }));
-
-      const certifications = [certification_1, certification_2, certification_3];
-
-      // when
-      await service.updateCertificationsStatus(certifications, false);
-
-      // then
-      certifications.forEach((certification) => assert.equal(certification.isPublished, false));
-      sinon.assert.callCount(Certification.prototype.save, 3);
-      sinon.assert.alwaysCalledWith(Certification.prototype.save, { adapterOptions: { updateMarks: false } });
-    });
-
-  });
 
   module('#downloadSessionExportFile', function() {
 
