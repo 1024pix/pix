@@ -2,7 +2,8 @@ import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import { inject as service } from '@ember/service';
 
-export default class Authenticated extends Route.extend(AuthenticatedRouteMixin) {
+export default class TermsOfServiceRoute extends Route.extend(AuthenticatedRouteMixin) {
+
   @service currentUser;
 
   beforeModel(transition) {
@@ -10,12 +11,8 @@ export default class Authenticated extends Route.extend(AuthenticatedRouteMixin)
     if (transition.isAborted) {
       return;
     }
-    if (!this.currentUser.user.pixCertifTermsOfServiceAccepted) {
-      return this.replaceWith('terms-of-service');
+    if (this.currentUser.user.pixCertifTermsOfServiceAccepted) {
+      return this.replaceWith('');
     }
-  }
-
-  model() {
-    return this.currentUser.certificationCenter;
   }
 }

@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { createUserWithMembership } from '../helpers/test-init';
+import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -15,7 +15,7 @@ module('Acceptance | Session Finalization', function(hooks) {
   let session;
 
   hooks.beforeEach(function() {
-    user = createUserWithMembership();
+    user = createUserWithMembershipAndTermsOfServiceAccepted();
     const certificationCenterId = user.certificationCenterMemberships.models[0].certificationCenterId;
     session = server.create('session', { certificationCenterId });
 
@@ -105,73 +105,73 @@ module('Acceptance | Session Finalization', function(hooks) {
         assert.equal(finalizeController.showConfirmModal, true);
         assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
       });
-      
+
       module('when confirm modal is open', function(hooks) {
         hooks.beforeEach(function() {
           return click('[data-test-id="finalize__button"]');
         });
-        
+
         test('it should close the modal on "fermer" cross click', async function(assert) {
           // when
           await click('[data-test-id="finalize-session-modal__close-cross"]');
-          
+
           // then
           assert.equal(finalizeController.showConfirmModal, false);
           assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
         });
-        
+
         test('it should display the number of unchecked options (all)', async function(assert) {
           assert.dom('.app-modal-body__contextual').hasText('La case "Écran de fin du test vu" n\'est pas cochée pour 2 candidat(s)');
         });
-        
+
         test('it should close the modal on cancel button click', async function(assert) {
           // when
           await click('[data-test-id="finalize-session-modal__cancel-button"]');
-          
+
           // then
           assert.equal(finalizeController.showConfirmModal, false);
           assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
         });
-        
+
         test('it should close the modal on confirm button click', async function(assert) {
           // when
           await click('[data-test-id="finalize-session-modal__confirm-button"]');
-          
+
           // then
           assert.equal(finalizeController.showConfirmModal, false);
         });
-        
+
         test('it should redirect to session details page on confirm button click', async function(assert) {
           // when
           await click('[data-test-id="finalize-session-modal__confirm-button"]');
-          
+
           // then
           assert.equal(currentURL(), `/sessions/${session.id}`);
         });
-        
+
         test('it should show a success notification on session details page', async function(assert) {
           // when
           await click('[data-test-id="finalize-session-modal__confirm-button"]');
-          
+
           // then
           assert.dom('[data-test-notification-message="success"]').exists();
         });
-        
+
       });
-            
+
       module('when confirm modal is open with one checked option', function(hooks) {
         hooks.beforeEach(async function(assert) {
           await _checkFirstHasSeenEndTestScreenOption(finalizeController, assert);
           return click('[data-test-id="finalize__button"]');
         });
-              
+
         test('it should display the number of unchecked options (one)', async function(assert) {
           assert.dom('.app-modal-body__contextual').hasText('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
         });
       });
 
     });
-    
+
   });
 });
 

@@ -3,7 +3,7 @@ import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import moment from 'moment';
-import { createUserWithMembership } from '../helpers/test-init';
+import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 import { CREATED, FINALIZED } from 'pix-certif/models/session';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -18,7 +18,7 @@ module('Acceptance | Session Details', function(hooks) {
   let sessionNotFinalized;
 
   hooks.beforeEach(function() {
-    user = createUserWithMembership();
+    user = createUserWithMembershipAndTermsOfServiceAccepted();
     sessionFinalized = server.create('session', { status: FINALIZED, date: '2019-02-18', time: '14:00' });
     sessionNotFinalized = server.create('session', { status: CREATED });
   });
