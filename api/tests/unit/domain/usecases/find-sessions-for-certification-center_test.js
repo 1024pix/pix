@@ -1,49 +1,80 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const { expect, sinon, catchErr } = require('../../../test-helper');
+const findPaginatedSessionsForCertificationCenter = require('../../../../lib/domain/usecases/find-sessions-for-certification-center');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
-const User = require('../../../../lib/domain/models/User');
+describe('Unit | UseCase | find-paginated-sessions-for-certification-center', () => {
+  const userRepository = {
+    getWithCertificationCenterMemberships: sinon.stub(),
+  };
+  const sessionRepository = {
+    findPaginatedSessions: sinon.stub(),
+  };
+  const user = {
+    hasAccessToCertificationCenter: sinon.stub(),
+  };
+  const userId = 'user id';
+  const certificationCenterId = 'certification center id';
+  const filter = Symbol('filter');
+  const sessions = 'some sessions';
 
-describe('Unit | UseCase | find-sessions-for-certification-center', () => {
+  let page;
 
-  it('should return sessions of the certificationCenter', async () => {
-    // given
-    const user = domainBuilder.buildUser();
-    const certificationCenterId = user.certificationCenterMemberships[0].certificationCenter.id;
-    const sessions = [domainBuilder.buildSession({ certificationCenterId })];
-    const sessionRepository = {
-      findByCertificationCenterId: () => Promise.resolve(sessions)
-    };
-    const userRepository = {
-      getWithCertificationCenterMemberships: () => Promise.resolve(user)
-    };
-
-    // when
-    const sessionsFound = await usecases.findSessionsForCertificationCenter({ userId: user.id, certificationCenterId, userRepository, sessionRepository });
-
-    // then
-    return expect(sessionsFound).to.be.deep.equal(sessions);
+  beforeEach(() => {
+    page = { number: 1, size: 50 };
+    userRepository.getWithCertificationCenterMemberships.withArgs(userId).resolves(user);
+    sessionRepository.findPaginatedSessions.withArgs({ certificationCenterId, filter, page }).resolves(sessions);
   });
 
-  it('should throw a forbidden error if user is not a member of the given certification center', () => {
-    // given
-    const userId = 1;
-    const certificationCenterId = 1;
-    const sessionRepository = {
-      findByCertificationCenterId: () => {}
-    };
-    const userRepository = {
-      getWithCertificationCenterMemberships: () => Promise.resolve(new User())
-    };
-
+  it('should throw a forbidden access error when the user does not have access to the center', async () => {
+    // given,
+    user.hasAccessToCertificationCenter.returns(false);
     // when
-    const promise = usecases.findSessionsForCertificationCenter({ userId, certificationCenterId, sessionRepository, userRepository });
-
+    const error = await catchErr(findPaginatedSessionsForCertificationCenter)({ userId, user, userRepository });
     // then
-    return promise.catch((error) => {
-      expect(error).to.be.instanceOf(ForbiddenAccess);
-      expect(error.message).to.equal('User 1 is not a member of certification center 1');
+    expect(error).to.be.instanceOf(ForbiddenAccess);
+  });
+
+  it('should return the paginated sessions', async () => {
+    // given
+    user.hasAccessToCertificationCenter.returns(true);
+    // when
+    const res = await findPaginatedSessionsForCertificationCenter({
+      userId, userRepository, sessionRepository, certificationCenterId, filter, page
     });
-
+    // then
+    expect(res).to.deep.equal(sessions);
   });
+
+  it('should replace any too low page size value by the minimum allowed', async () => {
+    // given
+    page.size = 1;
+    user.hasAccessToCertificationCenter.returns(true);
+    // when
+    await findPaginatedSessionsForCertificationCenter({
+      userId, userRepository, sessionRepository, certificationCenterId, filter, page
+    });
+    // then
+    expect(sessionRepository.findPaginatedSessions).to.have.been.calledWithExactly({
+      certificationCenterId,
+      filter,
+      page: { number: 1, size: 10 },
+    });
+  });
+
+  it('should replace any too high page size value by the maximum allowed', async () => {
+    // given
+    page.size = 100000;
+    user.hasAccessToCertificationCenter.returns(true);
+    // when
+    await findPaginatedSessionsForCertificationCenter({
+      userId, userRepository, sessionRepository, certificationCenterId, filter, page
+    });
+    // then
+    expect(sessionRepository.findPaginatedSessions).to.have.been.calledWithExactly({
+      certificationCenterId,
+      filter,
+      page: { number: 1, size: 100},
+    });
+  });
+
 });
