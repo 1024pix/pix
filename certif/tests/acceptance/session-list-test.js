@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { createUserWithMembership } from '../helpers/test-init';
+import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 import { statusToDisplayName } from 'pix-certif/models/session';
 import moment from 'moment';
 
@@ -31,7 +31,7 @@ module('Acceptance | Session List', function(hooks) {
     let certificationCenterId;
 
     hooks.beforeEach(async function() {
-      user = createUserWithMembership();
+      user = createUserWithMembershipAndTermsOfServiceAccepted();
       certificationCenterId = user.certificationCenterMemberships.models[0].certificationCenterId;
 
       await authenticateSession({
