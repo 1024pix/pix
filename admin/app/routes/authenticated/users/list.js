@@ -1,24 +1,15 @@
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Route.extend(AuthenticatedRouteMixin, {
-  queryParams: {
-    pageNumber: {
-      refreshModel: true,
-    },
-    pageSize: {
-      refreshModel: true,
-    },
-    firstName: {
-      refreshModel: true,
-    },
-    lastName: {
-      refreshModel: true,
-    },
-    email: {
-      refreshModel: true,
-    },
-  },
+export default class ListRoute extends Route.extend(AuthenticatedRouteMixin) {
+
+  queryParams = {
+    pageNumber: { refreshModel: true, },
+    pageSize: { refreshModel: true, },
+    firstName: { refreshModel: true, },
+    lastName: { refreshModel: true, },
+    email: { refreshModel: true, },
+  };
 
   model(params) {
     return this.store.query('user', {
@@ -32,7 +23,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
         size: params.pageSize,
       },
     });
-  },
+  }
 
   resetController(controller, isExiting) {
     if (isExiting) {
@@ -43,4 +34,4 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.set('email', null);
     }
   }
-});
+}

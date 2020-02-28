@@ -1,9 +1,9 @@
+import { action } from '@ember/object';
 import CertificationInfoField from './certification-info-field';
 
-export default CertificationInfoField.extend({
-  actions: {
-    selectOption(value) {
-      this.set('value', value);
-    }
+export default class CertificationStatusSelect extends CertificationInfoField {
+  @action
+  selectOption(value) {
+    this.set('value', value);
   }
-});
+}

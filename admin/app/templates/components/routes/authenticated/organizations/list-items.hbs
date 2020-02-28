@@ -14,10 +14,10 @@
         </tr>
       </thead>
 
-      {{#if organizations}}
+      {{#if @organizations}}
         <tbody>
-        {{#each organizations as |organization|}}
-          <tr onclick={{action goToOrganizationPage organization.id}} class="tr--clickable">
+        {{#each @organizations as |organization|}}
+          <tr {{on "click" (fn @goToOrganizationPage organization.id)}} class="tr--clickable">
             <td>{{organization.name}}</td>
             <td>{{organization.type}}</td>
             <td>{{organization.externalId}}</td>
@@ -27,12 +27,12 @@
       {{/if}}
     </table>
 
-    {{#unless organizations}}
+    {{#unless @organizations}}
       <div class="table__empty content-text">Aucun résultat</div>
     {{/unless}}
   </div>
 </div>
 
-{{#if organizations}}
-  <PaginationControl @pagination={{organizations.meta}} />
+{{#if @organizations}}
+  <PaginationControl @pagination={{@organizations.meta}} />
 {{/if}}

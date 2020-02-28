@@ -9,15 +9,15 @@
       </tr>
       <tr>
         <th></th>
-        <th><Input @id="firstName" @value={{firstNameValue}} @keyUp={{action triggerFiltering "firstName" firstNameValue}} class="table-admin-input" /></th>
-        <th><Input @id="lastName" @value={{lastNameValue}} @keyUp={{action triggerFiltering "lastName" lastNameValue}} class="table-admin-input" /></th>
-        <th><Input @id="email" @value={{emailValue}} @keyUp={{action triggerFiltering "email" emailValue}} class="table-admin-input" /></th>
+        <th><Input @id="firstName" @value={{firstNameValue}} {{on "keyup" (fn @triggerFiltering "firstName" firstNameValue)}} class="table-admin-input" /></th>
+        <th><Input @id="lastName" @value={{lastNameValue}} {{on "keyup" (fn @triggerFiltering "lastName" lastNameValue)}} class="table-admin-input" /></th>
+        <th><Input @id="email" @value={{emailValue}} {{on "keyup" (fn @triggerFiltering "email" emailValue)}} class="table-admin-input" /></th>
       </tr>
     </thead>
 
-    {{#if users}}
+      {{#if @users}}
       <tbody>
-      {{#each users as |user|}}
+        {{#each @users as |user|}}
         <tr>
           <td>{{user.id}}</td>
           <td>{{user.firstName}}</td>
@@ -29,11 +29,11 @@
     {{/if}}
   </table>
 
-  {{#unless users}}
+    {{#unless @users}}
     <div class="table__empty content-text">Aucun résultat</div>
   {{/unless}}
 </div>
 
-{{#if users}}
-  <PaginationControl @pagination={{users.meta}}/>
+{{#if @users}}
+  <PaginationControl @pagination={{@users.meta}}/>
 {{/if}}

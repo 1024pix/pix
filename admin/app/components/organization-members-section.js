@@ -1,40 +1,38 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import BootstrapTheme from 'ember-models-table/themes/bootstrap4';
 
-const columns = [
-  {
-    propertyName: 'id',
-    title: 'Numéro du membre',
-    disableFiltering: true,
-  },
-  {
-    propertyName: 'user.firstName',
-    title: 'Prénom',
-  },
-  {
-    propertyName: 'user.lastName',
-    title: 'Nom',
-  },
-  {
-    propertyName: 'user.email',
-    title: 'Courriel',
-  },
-  {
-    propertyName: 'displayedOrganizationRole',
-    title: 'Rôle',
-  },
-];
+export default class OrganizationMembersSection extends Component {
 
-export default Component.extend({
+  columns = [
+    {
+      propertyName: 'id',
+      title: 'Numéro du membre',
+      disableFiltering: true,
+    },
+    {
+      propertyName: 'user.firstName',
+      title: 'Prénom',
+    },
+    {
+      propertyName: 'user.lastName',
+      title: 'Nom',
+    },
+    {
+      propertyName: 'user.email',
+      title: 'Courriel',
+    },
+    {
+      propertyName: 'displayedOrganizationRole',
+      title: 'Rôle',
+    },
+  ];
 
-  init() {
-    this._super(...arguments);
-    this.columns = columns;
+  constructor() {
+    super(...arguments);
     this.themeInstance = BootstrapTheme.create({
       messages: {
         noDataToShow: 'Cette organisation ne contient pas de membre.'
       }
     });
-  },
-
-});
+  }
+}

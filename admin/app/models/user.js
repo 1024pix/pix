@@ -1,13 +1,10 @@
 import Model, { hasMany, attr } from '@ember-data/model';
 
-export default Model.extend({
+export default class User extends Model {
 
-  // Attributes
-  firstName: attr(),
-  lastName: attr(),
-  email: attr(),
+  @attr() firstName;
+  @attr() lastName;
+  @attr() email;
 
-  // Relationships
-  memberships: hasMany('membership'),
-
-});
+  @hasMany('membership') memberships;
+}

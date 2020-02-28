@@ -1,18 +1,17 @@
 import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
 
-const Router = EmberRouter.extend({
-  location: config.locationType,
-  rootURL: config.rootURL,
+class Router extends EmberRouter {
+  location = config.locationType;
+  rootURL = config.rootURL;
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     this.on('routeDidChange', () => {
       window.scrollTo(0, 0);
     });
-  },
-
-});
+  }
+}
 
 Router.map(function() {
   // authentication

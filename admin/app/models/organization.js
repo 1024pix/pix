@@ -1,24 +1,23 @@
 import Model, { hasMany, attr } from '@ember-data/model';
+import { equal } from '@ember/object/computed';
 
-export default Model.extend({
+export default class Organization extends Model {
 
-  // Attributes
-  name: attr(),
-  type: attr(),
-  logoUrl: attr(),
-  externalId: attr(),
-  provinceCode: attr(),
-  isManagingStudents: attr(),
-  credit: attr(),
+  @attr() name;
+  @attr() type;
+  @attr() logoUrl;
+  @attr() externalId;
+  @attr() provinceCode;
+  @attr() isManagingStudents;
+  @attr() credit;
 
-  // Relationships
-  memberships: hasMany('membership'),
-  targetProfiles: DS.hasMany('target-profile'),
+  @equal('type', 'SCO') isOrganizationSCO;
 
-  // Functions
+  @hasMany('membership') memberships;
+  @hasMany('target-profile') targetProfiles;
+
   async hasMember(userEmail) {
     const memberships = await this.memberships;
     return !!memberships.findBy('user.email', userEmail);
   }
-
-});
+}

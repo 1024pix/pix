@@ -1,33 +1,30 @@
-import Controller from '@ember/controller';
+import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
+import Controller from '@ember/controller';
 
-export default Controller.extend({
+export default class SingleController extends Controller {
 
-  //Properties
-  certificationId: null,
-  loading: false,
+  certificationId = null;
+  loading = false;
 
-  // Private properties
-  router: service(),
+  @service router;
 
-  isValid: computed('certificationStatus', function() {
+  @computed('certificationStatus')
+  get isValid() {
     return this.certificationStatus !== 'missing-assessment';
-  }),
+  }
 
-  // Actions
-  actions: {
-    onLoadCertification(id) {
-      this.set('certificationId', id);
-      switch (this.get('router.currentRouteName')) {
-        case 'authenticated.certifications.single.details':
-          this.transitionToRoute('authenticated.certifications.single.details', id);
-          break;
-        case 'authenticated.certifications.single.info':
-        default:
-          this.transitionToRoute('authenticated.certifications.single.info', id);
-          break;
-      }
+  @action
+  onLoadCertification(id) {
+    this.set('certificationId', id);
+    switch (this.get('router.currentRouteName')) {
+      case 'authenticated.certifications.single.details':
+        this.transitionToRoute('authenticated.certifications.single.details', id);
+        break;
+      case 'authenticated.certifications.single.info':
+      default:
+        this.transitionToRoute('authenticated.certifications.single.info', id);
+        break;
     }
   }
-});
+}

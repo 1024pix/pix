@@ -1,17 +1,20 @@
-import Component from '@ember/component';
 import { computed } from '@ember/object';
+import Component from '@glimmer/component';
 
-export default Component.extend({
+export default class ListItems extends Component {
 
-  firstNameValue: computed('firstName', function() {
+  @computed('firstName')
+  get firstNameValue() {
     return this.firstName;
-  }),
+  }
 
-  lastNameValue: computed('lastName', function() {
+  @computed('lastName')
+  get lastNameValue() {
     return this.lastName;
-  }),
+  }
 
-  emailValue: computed('email', function() {
+  @computed('email')
+  get emailValue() {
     return this.email;
-  }),
-});
+  }
+}
