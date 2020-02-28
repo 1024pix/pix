@@ -29,7 +29,6 @@ function _buildStudent(
 function buildOrganization(
   {
     id = faker.random.number(),
-    code = 'EBG123',
     name = 'Lycée Luke Skywalker',
     type = 'SCO',
     logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
@@ -40,13 +39,12 @@ function buildOrganization(
     memberships = [],
     targetProfileShares = []
   } = {}) {
-  return new Organization({ id, code, name, type, logoUrl, externalId, provinceCode, isManagingStudents, createdAt, memberships, targetProfileShares });
+  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, createdAt, memberships, targetProfileShares });
 }
 
 buildOrganization.withMembers = function(
   {
     id = faker.random.number(),
-    code = 'EBG123',
     name = 'Lycée Luke Skywalker',
     type = 'SCO',
     logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
@@ -60,13 +58,12 @@ buildOrganization.withMembers = function(
     ]
   } = {}
 ) {
-  return new Organization({ id, code, name, type, logoUrl, externalId, provinceCode, isManagingStudents, createdAt, members });
+  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, createdAt, members });
 };
 
 buildOrganization.withStudents = function(
   {
     id = faker.random.number(),
-    code = 'EBG123',
     name = 'Lycée Luke Skywalker',
     type = 'SCO',
     logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
@@ -77,7 +74,7 @@ buildOrganization.withStudents = function(
     students = []
   } = {}
 ) {
-  const organization = new Organization({ id, code, name, type, logoUrl, externalId, provinceCode, isManagingStudents, createdAt, students });
+  const organization = new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, createdAt, students });
 
   organization.students = [
     _buildStudent({ id: 1, lastName: 'Doe', firstName: 'John', organization }),

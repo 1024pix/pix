@@ -3,7 +3,6 @@ class Organization {
   constructor({
     id,
     // attributes
-    code,
     name,
     type,
     logoUrl,
@@ -19,7 +18,6 @@ class Organization {
   } = {}) {
     this.id = id;
     // attributes
-    this.code = code;
     this.name = name;
     this.type = type;
     this.logoUrl = logoUrl;
