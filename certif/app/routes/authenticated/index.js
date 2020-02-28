@@ -6,16 +6,7 @@ export default class AuthenticatedIndexRoute extends Route {
   @service currentUser;
 
   beforeModel() {
-    const transition = this._selectTransition(this.currentUser);
-
-    return this.transitionTo(transition);
+    return this.replaceWith('authenticated.sessions.list');
   }
 
-  _selectTransition({ pixCertifTermsOfServiceAccepted }) {
-    if (!pixCertifTermsOfServiceAccepted) {
-      return 'authenticated.terms-of-service';
-    }
-
-    return 'authenticated.sessions.list';
-  }
 }

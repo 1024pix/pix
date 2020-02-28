@@ -17,8 +17,8 @@ const Router = EmberRouter.extend({
 Router.map(function() {
   this.route('login', { path: 'connexion' });
 
+  this.route('terms-of-service', { path: '/cgu' });
   this.route('authenticated', { path: '' }, function() {
-    this.route('terms-of-service', { path: '/cgu' });
     this.route('sessions', function() {
       this.route('list', { path: '/liste' });
       this.route('new', { path: '/creation' });
