@@ -159,7 +159,8 @@ function catchErr(promiseFn, ctx) {
 }
 
 function compareDatabaseObject(evaluatedObject, expectedObject) {
-  return expect(_.omit(evaluatedObject, ['id', 'createdAt', 'updatedAt'])).to.deep.equal(_.omit(expectedObject, ['id', 'createdAt', 'updatedAt']));
+  return expect(_.omit(evaluatedObject, ['id', 'createdAt', 'updatedAt']))
+    .to.deep.equal(_.omit(expectedObject, ['id', 'createdAt', 'updatedAt']));
 
 }
 
