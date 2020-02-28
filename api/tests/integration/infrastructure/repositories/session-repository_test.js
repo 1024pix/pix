@@ -491,4 +491,99 @@ describe('Integration | Repository | Session', function() {
       expect(sessions[0].finalizedAt).to.deep.equal(finalizedAt);
     });
   });
+
+  describe('#findPaginatedFilteredByOrganizationIdWithCampaignReports', () => {
+
+    let filter, page;
+    let certificationCenterId;
+    let sessionSébastienId;
+    // <AnneZone>
+    let sessionAnneCécileId;
+    let sessionAnneGaëlleId;
+    let sessionAnneSophieId;
+    // </AnneZone>
+    let sessionLauraFuséeId;
+
+    beforeEach(async () => {
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
+
+      const createdAtInTheDistantPast = new Date('1989-07-30T09:35:45Z');
+      const createdAtInThePast = new Date('2010-07-30T09:35:45Z');
+      const createdAtInThePresent = new Date('2020-07-30T09:35:45Z');
+      const createdAtInTheFuture = new Date('2030-07-30T09:35:45Z');
+
+      // Strange, the year 3000 is not valid ISO-8601. Feel free to remove this comment once you figure out why
+      const createdAtFarInTheFutureInADistantGalaxy = new Date('2999-07-30T09:35:45Z');
+
+      sessionSébastienId = databaseBuilder.factory.buildSession({ certificationCenterId, examiner: 'Sébastien', createdAt: createdAtInTheDistantPast }).id;
+      sessionAnneCécileId = databaseBuilder.factory.buildSession({ certificationCenterId, examiner: 'Anne-Cécile', createdAt: createdAtInThePast }).id;
+      sessionAnneGaëlleId = databaseBuilder.factory.buildSession({ certificationCenterId, examiner: 'Anne-Gaëlle', createdAt: createdAtInThePresent }).id;
+      sessionAnneSophieId = databaseBuilder.factory.buildSession({ certificationCenterId, examiner: 'Anne-Sophie', createdAt: createdAtInTheFuture }).id;
+      sessionLauraFuséeId = databaseBuilder.factory.buildSession({ certificationCenterId, examiner: 'Laura Fusée', createdAt: createdAtFarInTheFutureInADistantGalaxy }).id;
+
+      await databaseBuilder.commit();
+
+      filter = {};
+      page = { number: 1, size: 3 };
+    });
+
+    context('when the given certification has no sessions', () => {
+
+      it('should return an empty array', async () => {
+        // given
+        await databaseBuilder.commit();
+        // when
+        const { models: sessions } = await sessionRepository.findPaginatedSessions({ certificationCenterId, filter, page });
+        // then
+        expect(sessions).to.deep.equal([]);
+      });
+    });
+
+    context('when sessions have candidates', async () => {
+
+      it('should sort sessions by descending creation date', async () => {
+        // given
+        page = { size: 3, number: 1 };
+        await databaseBuilder.commit();
+        // when
+        const { models: sessions } = await sessionRepository.findPaginatedSessions({ certificationCenterId, filter, page });
+        // then
+        expect(_.map(sessions, 'id')).to.deep.equal([sessionLauraFuséeId, sessionAnneSophieId, sessionAnneGaëlleId]);
+      });
+
+      it('should accept pagination parameters', async () => {
+        // given
+        page = { size: 2, number: 2 };
+        await databaseBuilder.commit();
+        // when
+        const { models: sessions } = await sessionRepository.findPaginatedSessions({ certificationCenterId, filter, page });
+        // then
+        expect(_.map(sessions, 'id')).to.deep.equal([sessionAnneGaëlleId, sessionAnneCécileId]);
+      });
+
+      it('should accept pagination parameters (upper bound)', async () => {
+        // given
+        page = { size: 2, number: 3 };
+        await databaseBuilder.commit();
+        // when
+        const { models: sessions } = await sessionRepository.findPaginatedSessions({ certificationCenterId, filter, page });
+        // then
+        expect(_.map(sessions, 'id')).to.deep.equal([sessionSébastienId]);
+      });
+
+      it('should retrieve the total number of candidates for each session', async () => {
+        _.times(42, () => databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionLauraFuséeId }));
+        _.times(7, () => databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionAnneSophieId }));
+        // given
+        page = { size: 2, number: 1 };
+        await databaseBuilder.commit();
+        // when
+        const { models: sessions } = await sessionRepository.findPaginatedSessions({ certificationCenterId, filter, page });
+        // then
+        expect(_.map(sessions, 'candidatesCount')).to.deep.equal([42, 7]);
+      });
+
+    });
+  });
+
 });

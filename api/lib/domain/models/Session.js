@@ -18,6 +18,7 @@ class Session {
     address,
     certificationCenter,
     certificationCenterId,
+    candidatesCount,
     date,
     description,
     examiner,
@@ -37,6 +38,7 @@ class Session {
     this.address = address;
     this.certificationCenter = certificationCenter;
     this.certificationCenterId = certificationCenterId;
+    this.candidatesCount = candidatesCount;
     this.date = date;
     this.description = description;
     this.examiner = examiner;

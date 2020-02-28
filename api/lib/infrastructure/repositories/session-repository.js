@@ -4,7 +4,24 @@ const BookshelfSession = require('../data/session');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
-const { statuses } = require('../../domain/models/Session');
+const Session = require('../../domain/models/Session');
+
+function _setSearchFiltersForQueryBuilder(qb, { examiner }) {
+  if (examiner) {
+    qb.whereRaw('LOWER("examiner") LIKE ?', `%${examiner.toLowerCase()}%`);
+  }
+}
+
+function _countCertificationCandidates(qb) {
+  return qb.leftJoin(
+    Bookshelf.knex('certification-candidates')
+      .select('sessionId')
+      .count('* as candidatesCount')
+      .groupBy('sessionId')
+      .as('participations'),
+    'sessions.id', 'participations.sessionId'
+  );
+}
 
 module.exports = {
   save: async (sessionData) => {
@@ -24,7 +41,7 @@ module.exports = {
 
   isFinalized: async (id) => {
     const session = await BookshelfSession
-      .where({ id, status: statuses.FINALIZED })
+      .where({ id, status: Session.statuses.FINALIZED })
       .fetch({ columns: 'id' });
     return Boolean(session);
   },
@@ -41,6 +58,25 @@ module.exports = {
       }
       throw err;
     }
+  },
+
+  findPaginatedSessions({ certificationCenterId, filter, page }) {
+    return BookshelfSession
+      .query((qb) => {
+        qb.select('sessions.*', 'participations.candidatesCount')
+          .where('sessions.certificationCenterId', certificationCenterId)
+          .modify(_setSearchFiltersForQueryBuilder, filter)
+          .modify(_countCertificationCandidates)
+          .orderByRaw('DATE(sessions."createdAt") DESC');
+      })
+      .fetchPage({
+        page: page.number,
+        pageSize: page.size,
+      })
+      .then(({ models, pagination }) => {
+        const sessions = bookshelfToDomainConverter.buildDomainObjects(BookshelfSession, models);
+        return { models: sessions, pagination };
+      });
   },
 
   async getWithCertificationCandidates(idSession) {
