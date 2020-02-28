@@ -1,5 +1,5 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const findPaginatedSessionsForCertificationCenter = require('../../../../lib/domain/usecases/find-sessions-for-certification-center');
+const findPaginatedSessionsForCertificationCenter = require('../../../../lib/domain/usecases/find-paginated-sessions-for-certification-center');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | find-paginated-sessions-for-certification-center', () => {

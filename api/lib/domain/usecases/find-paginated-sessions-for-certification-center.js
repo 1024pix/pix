@@ -2,7 +2,7 @@ const {
   ForbiddenAccess
 } = require('../../domain/errors');
 
-module.exports = async function findSessionsForCertificationCenter({
+module.exports = async function findPaginatedSessionsForCertificationCenter({
   userId,
   userRepository,
   sessionRepository,

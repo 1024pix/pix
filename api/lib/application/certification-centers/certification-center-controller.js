@@ -28,7 +28,7 @@ module.exports = {
     const certificationCenterId = parseInt(request.params.id);
     const userId = parseInt(request.auth.credentials.userId);
 
-    return usecases.findSessionsForCertificationCenter({ userId, certificationCenterId })
+    return usecases.findPaginatedSessionsForCertificationCenter({ userId, certificationCenterId })
       .then((sessions) => sessionSerializer.serialize(sessions));
   }
 };
