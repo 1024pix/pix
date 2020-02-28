@@ -10,7 +10,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
 
   describe('#startWritingCampaignResultsToStream', () => {
 
-    const user = domainBuilder.buildUser();
+    const user = domainBuilder.buildUser({ firstName: '@Jean', lastName: '=Bono' });
     const organization = user.memberships[0].organization;
     const listSkills = domainBuilder.buildSkillCollection({ name: '@web', minLevel: 1, maxLevel: 5 });
     listSkills.forEach((skill) => { skill.competenceId = 'recCompetence1'; });
@@ -61,10 +61,12 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
 
     ];
 
-    const targetProfile = domainBuilder.buildTargetProfile({ skills: listSkills, name: 'Profile 1' });
+    const targetProfile = domainBuilder.buildTargetProfile({
+      skills: listSkills, name: '+Profile 1'
+    });
 
     const campaign = domainBuilder.buildCampaign({
-      name:'Campaign "Name"',
+      name:'@Campagne de Test N°1',
       code:'AZERTY123',
       organizationId: organization.id,
       idPixLabel: 'Mail Pro',
@@ -177,7 +179,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           isShared: true,
           createdAt: new Date('2019-02-25T10:00:00Z'),
           sharedAt: new Date('2019-03-01T23:04:05Z'),
-          participantExternalId: 'Mon mail pro',
+          participantExternalId: '+Mon mail pro',
           userId: 123,
           participantFirstName: user.firstName,
           participantLastName: user.lastName,
@@ -186,11 +188,11 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
 
         const csvSecondLine = `"${organization.name}";` +
           `${campaign.id};` +
-          '"Campaign ""Name""";' +
-          `"${targetProfile.name}";` +
-          `"${user.lastName}";` +
-          `"${user.firstName}";` +
-          `"${campaignParticipationResultData.participantExternalId}";` +
+          `"'${campaign.name}";` +
+          `"'${targetProfile.name}";` +
+          `"'${user.lastName}";` +
+          `"'${user.firstName}";` +
+          `"'${campaignParticipationResultData.participantExternalId}";` +
           '1;' +
           '2019-02-25;' +
           '"Oui";' +
@@ -240,7 +242,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           isShared: false,
           createdAt: new Date('2019-02-25T10:00:00Z'),
           sharedAt: new Date('2019-03-01T23:04:05Z'),
-          participantExternalId: 'Mon mail pro',
+          participantExternalId: '-Mon mail pro',
           userId: 123,
           participantFirstName: user.firstName,
           participantLastName: user.lastName,
@@ -251,11 +253,11 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
         const csvSecondLine =
           `"${organization.name}";` +
           `${campaign.id};` +
-          '"Campaign ""Name""";' +
-          `"${targetProfile.name}";` +
-          `"${user.lastName}";` +
-          `"${user.firstName}";` +
-          `"${campaignParticipationResultData.participantExternalId}";` +
+          `"'${campaign.name}";` +
+          `"'${targetProfile.name}";` +
+          `"'${user.lastName}";` +
+          `"'${user.firstName}";` +
+          `"'${campaignParticipationResultData.participantExternalId}";` +
           '1;' +
           '2019-02-25;' +
           '"Non";' +
