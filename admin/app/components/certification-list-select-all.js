@@ -1,9 +1,9 @@
-import { action } from '@ember/object';
-import Component from '@glimmer/component';
+import Component from '@ember/component';
 
-export default class CertificationListSelectAll extends Component {
-  @action
-  onToggleAllSelection() {
-    this.toggleAllSelection();
+export default Component.extend({
+  actions: {
+    onToggleAllSelection() {
+      this.toggleAllSelection();
+    }
   }
-}
+});

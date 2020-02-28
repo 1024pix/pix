@@ -39,7 +39,7 @@
       {{/if}}
       <div class="card-deck">
         {{#each answers as |answer|}}
-          <CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{action onUpdateRate}} />
+          {{certification-details-answer answer=answer onUpdateRate=(action onUpdateRate)}}
         {{/each}}
       </div>
     </div>

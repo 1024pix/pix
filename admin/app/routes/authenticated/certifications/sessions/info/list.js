@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 
-export default class ListRoute extends Route {
+export default Route.extend({
   model() {
     return this.modelFor('authenticated.certifications.sessions.info');
   }
-}
+});

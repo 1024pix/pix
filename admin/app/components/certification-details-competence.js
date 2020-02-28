@@ -1,36 +1,31 @@
-import { classNames } from '@ember-decorators/component';
+import Component from '@ember/component';
 import { computed } from '@ember/object';
-import Component from '@glimmer/component';
 import { htmlSafe } from '@ember/string';
 
-@classNames('card', 'border-primary', 'certification-details-competence')
-export default class CertificationDetailsCompetence extends Component {
+export default Component.extend({
+
+  // Elements
+  classNames: ['card', 'border-primary', 'certification-details-competence'],
 
   // Properties
-  competence = null;
-  rate = 0;
-  juryRate = false;
+  competence: null,
+  rate: 0,
+  juryRate: false,
 
-  @computed('competence')
-  get certifiedWidth() {
+  // Computed properties
+  certifiedWidth: computed('competence', function() {
     const obtainedLevel = this.competence.obtainedLevel;
     return htmlSafe('width:' + Math.round((obtainedLevel / 8) * 100) + '%');
-  }
-
-  @computed('competence')
-  get positionedWidth() {
+  }),
+  positionedWidth: computed('competence', function() {
     const positionedLevel = this.competence.positionedLevel;
     return htmlSafe('width:' + Math.round((positionedLevel / 8) * 100) + '%');
-  }
-
-  @computed('competence')
-  get answers() {
+  }),
+  answers: computed('competence', function() {
     const competence = this.competence;
     return competence.answers;
-  }
-
-  @computed('juryRate')
-  get competenceJury() {
+  }),
+  competenceJury: computed('juryRate', function() {
     const juryRate = this.juryRate;
     const competence = this.competence;
     if (juryRate === false) {
@@ -53,10 +48,10 @@ export default class CertificationDetailsCompetence extends Component {
       competence.juryLevel = false;
       return false;
     }
-  }
+  }),
 
   // Private methods
-  _computeScore(rate) {
+  _computeScore: function(rate) {
     if (rate < 50) {
       return { score: 0, level: -1 };
     }
@@ -114,4 +109,4 @@ export default class CertificationDetailsCompetence extends Component {
         return { score: 0, level: -1 };
     }
   }
-}
+});

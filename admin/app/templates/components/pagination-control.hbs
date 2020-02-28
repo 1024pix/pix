@@ -12,8 +12,7 @@
   </div>
   <div class="page-navigation">
     <div class="page-navigation__arrow page-navigation__arrow--previous {{if (eq @pagination.page 1) "page-navigation__arrow--disabled"}}">
-      <LinkTo @route={{@paginationLink}}
-              @query={{hash pageNumber=previousPage}}
+      <LinkTo @query={{hash pageNumber=previousPage}}
               @disabledWhen={{eq @pagination.page 1}}
               @replace={{true}}
               class="icon-button icon-button--link">
@@ -26,8 +25,7 @@
       <div class="page-navigation__last-page">/&nbsp;{{@pagination.pageCount}}</div>
     </div>
     <div class="page-navigation__arrow page-navigation__arrow--next {{if (eq @pagination.page @pagination.pageCount) "page-navigation__arrow--disabled"}}">
-      <LinkTo @route={{@paginationLink}}
-              @query={{hash pageNumber=nextPage}}
+      <LinkTo @query={{hash pageNumber=nextPage}}
               @disabledWhen={{eq @pagination.page @pagination.pageCount}}
               @replace={{true}}
               class="icon-button icon-button--link">

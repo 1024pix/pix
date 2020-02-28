@@ -11,13 +11,13 @@
 </div>
 <div class="card-footer">
   <div class={{resultClass}}>
-    <XSelect @value={{answer.result}} @onChange={{action "onSetResult"}} as |xs|>
-      <xs.option @value="ok">Ok</xs.option>
-      <xs.option @value="ko">Ko</xs.option>
-      <xs.option @value="partially">Partially</xs.option>
-      <xs.option @value="timedout">Timed out</xs.option>
-      <xs.option @value="aband">Abandon</xs.option>
-      <xs.option @value="skip">Neutralisée</xs.option>
-    </XSelect>
+    {{#x-select value=answer.result onChange=(action "onSetResult") as |xs|}}
+      {{#xs.option value="ok"}}Ok{{/xs.option}}
+      {{#xs.option value="ko"}}Ko{{/xs.option}}
+      {{#xs.option value="partially"}}Partially{{/xs.option}}
+      {{#xs.option value="timedout"}}Timed out{{/xs.option}}
+      {{#xs.option value="aband"}}Abandon{{/xs.option}}
+      {{#xs.option value="skip"}}Neutralisée{{/xs.option}}
+    {{/x-select}}
   </div>
 </div>

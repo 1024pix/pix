@@ -1,5 +1,5 @@
 <form class='certifications-search form-inline' {{action "onChange" on='submit'}}>
-  <Input class="certifications-search__control" placeholder="Identifiant" @value={{id}} />
-  <BsButton @class="btn-thin certifications-search__button" @type="primary" @size="sm" @onClick={{action "onChange"}}>
-    Charger</BsButton>
+  {{input class='certifications-search__control' placeholder='Identifiant' value=id}}
+  {{#bs-button class='btn-thin certifications-search__button' type='primary' size='sm' onClick=(action "onChange")}}
+    Charger{{/bs-button}}
 </form>

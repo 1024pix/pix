@@ -40,7 +40,7 @@ export default class SessionInfoServiceService extends Service {
     const csv = json2csv.parse(data, { fields: fileHeaders, delimiter: ';', withBOM: true, });
     const fileName = 'jury_session_' + sessionId + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
     this.fileSaver.saveAs(`${csv}\n`, fileName);
-  },
+  }
 
   buildSessionExportFileData(session) {
     return session.certifications.map((certification) => {
@@ -73,7 +73,7 @@ export default class SessionInfoServiceService extends Service {
 
       return rowItem;
     });
-  },
+  }
 
   buildJuryFileData(certifications) {
     return certifications.map((certification) => {
@@ -96,9 +96,9 @@ export default class SessionInfoServiceService extends Service {
 
       return rowItem;
     });
-  },
+  }
 
-});
+}
 
 function _buildSessionExportFileHeaders() {
   return _.concat(

@@ -1,25 +1,23 @@
-import { classNames } from '@ember-decorators/component';
-import { action, computed } from '@ember/object';
-import { filter, filterBy } from '@ember/object/computed';
-import Component from '@glimmer/component';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { filterBy, filter } from '@ember/object/computed';
 import _ from 'lodash';
 
-@classNames('certification-session-report')
-export default class CertificationSessionReport extends Component {
-  @filterBy('certifications', 'isInSession', false)
-  outOfSessionCertifications;
+export default Component.extend({
 
-  @filter('certifications', function(certification) {
+  classNames: ['certification-session-report'],
+
+  outOfSessionCertifications: filterBy('certifications', 'isInSession', false),
+
+  incompleteCertifications: filter('certifications', function(certification) {
     return !certification.lastName
       ||   !certification.firstName
       ||   !certification.birthdate
       ||   !certification.birthplace
       ||   !certification.id;
-  })
-  incompleteCertifications;
+  }),
 
-  @computed('certifications')
-  get duplicateCertificationIds() {
+  duplicateCertificationIds: computed('certifications', function() {
     const certificationsGroupedByCertifId = _.groupBy(this.certifications, (certification) => {
       return certification.id;
     });
@@ -28,18 +26,17 @@ export default class CertificationSessionReport extends Component {
         return certificationId;
       }
     }));
-  }
+  }),
 
-  @filterBy('certifications', 'hasSeenEndTestScreen', false)
-  noLastScreenSeenCertifications;
+  noLastScreenSeenCertifications: filterBy('certifications', 'hasSeenEndTestScreen', false),
 
-  @filter('certifications', function(certification) {
+  commentedByExaminerCertifications: filter('certifications', function(certification) {
     return !_.isEmpty(certification.examinerComment);
-  })
-  commentedByExaminerCertifications;
+  }),
 
-  @action
-  toggleSection(sectionName) {
-    this.toggleProperty(sectionName);
+  actions: {
+    toggleSection(sectionName) {
+      this.toggleProperty(sectionName);
+    }
   }
-}
+});

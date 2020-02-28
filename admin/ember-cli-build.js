@@ -5,10 +5,11 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 module.exports = function(defaults) {
   const app = new EmberApp(defaults, {
     'ember-bootstrap': {
-      'bootstrapVersion': 3,
-      'importBootstrapCSS': false,
-      'importBootstrapFont': true,
-      whitelist: ['bs-button', 'bs-nav', 'bs-dropdown', 'bs-modal', 'bs-modal-simple'],
+      'bootstrapVersion': 4,
+      'importBootstrapFont': false,
+      'importBootstrapCSS': true,
+      'importBootstrapTheme': true,
+      whitelist: ['bs-button', 'bs-nav', 'bs-dropdown', 'bs-modal', 'bs-modal-simple', 'bs-tooltip'],
     },
 
     'ember-cli-template-lint': {
