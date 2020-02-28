@@ -79,8 +79,8 @@
         <div id="register-username-container">
           <FormTextfield @label="Mon identifiant"
                          @textfieldName="username"
-                         @inputBindingValue={{this.studentDependentUser.username}}
-                         @onValidate={{action "triggerInputStringValidation" "username" this.studentDependentUser.username}}
+                         @inputBindingValue={{this.username}}
+                         @onValidate={{action "triggerInputStringValidation" "username" this.username}}
                          @validationStatus={{this.validation.username.status}}
                          @validationMessage={{this.validation.username.message}}
                          @disabled={{true}}
@@ -91,8 +91,8 @@
           <FormTextfield @label="Adresse e-mail"
                          @help="(ex: nom@exemple.fr)"
                          @textfieldName="email"
-                         @inputBindingValue={{this.studentDependentUser.email}}
-                         @onValidate={{action "triggerInputEmailValidation" "email" this.studentDependentUser.email}}
+                         @inputBindingValue={{this.email}}
+                         @onValidate={{action "triggerInputEmailValidation" "email" this.email}}
                          @validationStatus={{this.validation.email.status}}
                          @validationMessage={{this.validation.email.message}}
                          @require={{true}} />
@@ -102,8 +102,8 @@
       <FormTextfield @label="Mot de passe"
                      @help="(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)"
                      @textfieldName="password"
-                     @inputBindingValue={{this.studentDependentUser.password}}
-                     @onValidate={{action "triggerInputPasswordValidation" "password" this.studentDependentUser.password}}
+                     @inputBindingValue={{this.password}}
+                     @onValidate={{action "triggerInputPasswordValidation" "password" this.password}}
                      @validationStatus={{this.validation.password.status}}
                      @validationMessage={{this.validation.password.message}}
                      @require={{true}} />

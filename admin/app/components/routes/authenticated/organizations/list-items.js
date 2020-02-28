@@ -10,8 +10,4 @@ export default Component.extend({
   typeValue: computed('type', function() {
     return this.get('type');
   }),
-
-  codeValue: computed('code', function() {
-    return this.get('code');
-  }),
 });

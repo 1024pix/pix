@@ -30,18 +30,6 @@ module('Unit | Controller | authenticated/organizations/list', function(hooks) {
       assert.equal(controller.get('type'), 'SCO');
     });
 
-    test('it should set code', function(assert) {
-      // given
-      const controller = this.owner.lookup('controller:authenticated/organizations/list');
-      controller.set('searchFilter', { fieldName: 'code', value: 'ABC001' });
-
-      // when
-      controller.setFieldName();
-
-      // then
-      assert.equal(controller.get('code'), 'ABC001');
-    });
-
     test('it should reset pageNumber', function(assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/organizations/list');

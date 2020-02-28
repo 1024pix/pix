@@ -3,10 +3,8 @@ const Membership = require('../../../lib/domain/models/Membership');
 module.exports = function organizationsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildOrganization({
     id: 2,
-    userId: 3,
     type: 'SUP',
     name: 'Tyrion SUP',
-    code: 'SUPTY'
   });
 
   databaseBuilder.factory.buildMembership({
@@ -17,10 +15,8 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildOrganization({
     id: 3,
-    userId: 4,
     type: 'SCO',
     name: 'The Night Watch',
-    code: 'SCO12',
     isManagingStudents: true,
   });
 

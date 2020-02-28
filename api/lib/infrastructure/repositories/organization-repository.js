@@ -11,7 +11,6 @@ function _toDomain(bookshelfOrganization) {
 
   const organization = new Organization({
     id: rawOrganization.id,
-    code: rawOrganization.code,
     name: rawOrganization.name,
     type: rawOrganization.type,
     logoUrl: rawOrganization.logoUrl,
@@ -39,15 +38,12 @@ function _toDomain(bookshelfOrganization) {
 }
 
 function _setSearchFiltersForQueryBuilder(filter, qb) {
-  const { name, type, code } = filter;
+  const { name, type } = filter;
   if (name) {
     qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
   }
   if (type) {
     qb.whereRaw('LOWER("type") LIKE ?', `%${type.toLowerCase()}%`);
-  }
-  if (code) {
-    qb.whereRaw('LOWER("code") LIKE ?', `%${code.toLowerCase()}%`);
   }
 }
 
@@ -55,7 +51,7 @@ module.exports = {
 
   create(organization) {
 
-    const organizationRawData = _.pick(organization, ['name', 'type', 'logoUrl', 'code', 'externalId', 'provinceCode']);
+    const organizationRawData = _.pick(organization, ['name', 'type', 'logoUrl', 'externalId', 'provinceCode']);
 
     return new BookshelfOrganization()
       .save(organizationRawData)
@@ -70,20 +66,6 @@ module.exports = {
       .save(organizationRawData, { patch: true })
       .then((model) => model.refresh())
       .then(_toDomain);
-  },
-
-  isCodeAvailable(code) {
-    return BookshelfOrganization
-      .where({ code })
-      .fetch()
-      .then((organizations) => {
-
-        if (organizations) {
-          return Promise.reject();
-        }
-
-        return Promise.resolve(code);
-      });
   },
 
   get(id) {
@@ -123,12 +105,5 @@ module.exports = {
         const organizations = bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganization, models);
         return { models: organizations, pagination };
       });
-  },
-
-  findByUserId(userId) {
-    return BookshelfOrganization
-      .where({ userId })
-      .fetchAll()
-      .then((organizations) => organizations.models.map(_toDomain));
   },
 };

@@ -4,12 +4,11 @@ import { debounce } from '@ember/runloop';
 const DEFAULT_PAGE_NUMBER = 1;
 
 export default Controller.extend({
-  queryParams: ['pageNumber', 'pageSize', 'name', 'type', 'code'],
+  queryParams: ['pageNumber', 'pageSize', 'name', 'type'],
   pageNumber: DEFAULT_PAGE_NUMBER,
   pageSize: 10,
   name: null,
   type: null,
-  code: null,
 
   searchFilter: null,
 

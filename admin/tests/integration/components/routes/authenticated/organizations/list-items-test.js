@@ -10,9 +10,9 @@ module('Integration | Component | routes/authenticated/organizations | list-item
   test('it should display organization list', async function(assert) {
     // given
     const organizations = [
-      { id: 1, name: 'École ACME', type: 'SCO', code: 'ORGA1' },
-      { id: 2, name: 'Université BROS', type: 'SUP', code: 'ORGA2' },
-      { id: 3, name: 'Entreprise KSSOS', type: 'PRO', code: 'ORGA3' },
+      { id: 1, name: 'École ACME', type: 'SCO' },
+      { id: 2, name: 'Université BROS', type: 'SUP' },
+      { id: 3, name: 'Entreprise KSSOS', type: 'PRO' },
     ];
     organizations.meta = {
       rowCount: 3
@@ -30,7 +30,6 @@ module('Integration | Component | routes/authenticated/organizations | list-item
     // then
     assert.dom('table tbody tr:first-child td:first-child').hasText('École ACME');
     assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('SCO');
-    assert.dom('table tbody tr:first-child td:nth-child(3)').hasText('ORGA1');
     assert.dom('table tbody tr').exists({ count: 3 });
   });
 });

@@ -16,9 +16,17 @@ describe('Acceptance | API | Campaign Controller', () => {
   beforeEach(async () => {
     server = await createServer();
     organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
-    targetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId: organization.id });
+    targetProfile = databaseBuilder.factory.buildTargetProfile({
+      organizationId: organization.id,
+      name: '+Profile 2'
+    });
     databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
-    campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id, targetProfileId: targetProfile.id });
+    campaign = databaseBuilder.factory.buildCampaign({
+      name: '@Campagne de Test N°2',
+      organizationId: organization.id,
+      targetProfileId: targetProfile.id,
+      idPixLabel: '+Identifiant entreprise'
+    });
     campaignWithoutOrga = databaseBuilder.factory.buildCampaign({ organizationId: null });
     await databaseBuilder.commit();
   });
@@ -119,7 +127,7 @@ describe('Acceptance | API | Campaign Controller', () => {
     let accessToken;
     let user;
     let userId;
-    const externalId = 'my external id';
+    const externalId = '@my external id';
     const participationStartDate = '2018-01-01';
     const assessmentStartDate = '2018-01-02';
 
@@ -130,7 +138,7 @@ describe('Acceptance | API | Campaign Controller', () => {
     }
 
     beforeEach(async () => {
-      user = databaseBuilder.factory.buildUser();
+      user = databaseBuilder.factory.buildUser({ firstName: '@Jean', lastName: '=Bono' });
       userId = user.id;
       accessToken = _createTokenWithAccessId(userId);
 
@@ -177,8 +185,27 @@ describe('Acceptance | API | Campaign Controller', () => {
         url
       };
 
-      const expectedCsv = `\uFEFF"Nom de l'organisation";"ID Campagne";"Nom de la campagne";"Nom du Profil Cible";"Nom du Participant";"Prénom du Participant";"${campaign.idPixLabel}";"% de progression";"Date de début";"Partage (O/N)";"Date du partage";"% maitrise de l'ensemble des acquis du profil";"% de maitrise des acquis de la compétence Liberticide";"Nombre d'acquis du profil cible dans la compétence Liberticide";"Acquis maitrisés dans la compétence Liberticide";"% de maitrise des acquis du domaine Information et données";"Nombre d'acquis du profil cible du domaine Information et données";"Acquis maitrisés du domaine Information et données";"@accesDonnées1"\n` +
-        `"${organization.name}";${campaign.id};"${campaign.name}";"${targetProfile.name}";"${user.lastName}";"${user.firstName}";"${externalId}";0;${participationStartDate};"Non";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA"\n`;
+      const expectedCsv = '\uFEFF"Nom de l\'organisation";' +
+        '"ID Campagne";' +
+        '"Nom de la campagne";' +
+        '"Nom du Profil Cible";' +
+        '"Nom du Participant";' +
+        '"Prénom du Participant";' +
+        `"'${campaign.idPixLabel}";` +
+        '"% de progression";' +
+        '"Date de début";' +
+        '"Partage (O/N)";' +
+        '"Date du partage";' +
+        '"% maitrise de l\'ensemble des acquis du profil";' +
+        '"% de maitrise des acquis de la compétence Liberticide";' +
+        '"Nombre d\'acquis du profil cible dans la compétence Liberticide";' +
+        '"Acquis maitrisés dans la compétence Liberticide";' +
+        '"% de maitrise des acquis du domaine Information et données";' +
+        '"Nombre d\'acquis du profil cible du domaine Information et données";' +
+        '"Acquis maitrisés du domaine Information et données";' +
+        '"\'@accesDonnées1"' +
+        '\n' +
+        `"${organization.name}";${campaign.id};"'${campaign.name}";"'${targetProfile.name}";"'${user.lastName}";"'${user.firstName}";"'${externalId}";0;${participationStartDate};"Non";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA"\n`;
 
       // when
       const response = await server.inject(request);

@@ -3,6 +3,12 @@ const moment = require('moment');
 const bluebird = require('bluebird');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
+const csvService = require('../services/csv-service');
+
+const propertiesToSanitize = [
+  'campaignName', 'targetProfileName',
+  'participantLastName', 'participantFirstName', 'participantExternalId'
+];
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   if (_.isNil(organizationId)) {
@@ -45,7 +51,7 @@ function _createHeaderOfCSV(skills, competences, areas, idPixLabel) {
     { title: 'Nom du Participant', property: 'participantLastName' },
     { title: 'Prénom du Participant', property: 'participantFirstName' },
 
-    ...(idPixLabel ? [ { title: idPixLabel, property: 'participantExternalId' } ] : []),
+    ...(idPixLabel ? [ { title: csvService.sanitize(idPixLabel), property: 'participantExternalId' } ] : []),
 
     { title: '% de progression', property: 'percentageProgression' },
     { title: 'Date de début', property: 'createdAt' },
@@ -65,7 +71,7 @@ function _createHeaderOfCSV(skills, competences, areas, idPixLabel) {
       { title: `Acquis maitrisés du domaine ${area.title}`, property: `area_${area.id}_validatedSkillCount` },
     ])),
 
-    ...(_.map(skills, (skill) => ({ title: `${skill.name}`, property: `skill_${skill.id}` }))),
+    ...(_.map(skills, (skill) => ({ title: csvService.sanitize(skill.name), property: `skill_${skill.id}` }))),
   ];
 }
 
@@ -208,7 +214,7 @@ function _createOneLineOfCSV({
   const knowledgeElements = participantKnowledgeElements
     .filter((ke) => _.find(targetProfile.skills, { id: ke.skillId }));
 
-  const lineMap = _getCommonColumns({
+  let lineMap = _getCommonColumns({
     organization,
     campaign,
     targetProfile,
@@ -227,6 +233,8 @@ function _createOneLineOfCSV({
       knowledgeElements,
     }));
   }
+
+  lineMap = csvService.sanitizeProperties({ objectToSanitize: lineMap, propertiesToSanitize });
 
   const lineArray = headers.map(({ property }) => {
     return property in lineMap ? lineMap[property] : 'NA';

@@ -5,12 +5,10 @@
         <tr>
           <th>Nom</th>
           <th>Type</th>
-          <th>Code</th>
         </tr>
         <tr>
           <th>{{input id="name" value=nameValue keyUp=(action triggerFiltering 'name' nameValue) class="table-admin-input"}}</th>
           <th>{{input id="type" value=typeValue keyUp=(action triggerFiltering 'type' typeValue) class="table-admin-input"}}</th>
-          <th>{{input id="code" value=codeValue keyUp=(action triggerFiltering 'code' codeValue) class="table-admin-input"}}</th>
         </tr>
       </thead>
 
@@ -20,7 +18,6 @@
           <tr onclick={{action goToOrganizationPage organization.id}} class="tr--clickable">
             <td>{{organization.name}}</td>
             <td>{{organization.type}}</td>
-            <td>{{organization.code}}</td>
           </tr>
         {{/each}}
         </tbody>

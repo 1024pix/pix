@@ -3,7 +3,6 @@ class Organization {
   constructor({
     id,
     // attributes
-    code,
     name,
     type,
     logoUrl,
@@ -11,7 +10,6 @@ class Organization {
     provinceCode,
     isManagingStudents,
     // includes
-    user,
     memberships = [],
     targetProfileShares = [],
     students = [],
@@ -20,7 +18,6 @@ class Organization {
   } = {}) {
     this.id = id;
     // attributes
-    this.code = code;
     this.name = name;
     this.type = type;
     this.logoUrl = logoUrl;
@@ -28,7 +25,6 @@ class Organization {
     this.provinceCode = provinceCode;
     this.isManagingStudents = isManagingStudents;
     // includes
-    this.user = user;
     this.memberships = memberships;
     this.targetProfileShares = targetProfileShares;
     this.students = students;
