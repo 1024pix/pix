@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { createUserWithMembership } from '../helpers/test-init';
+import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -11,7 +11,7 @@ module('Acceptance | Session Update', function(hooks) {
   setupMirage(hooks);
 
   hooks.beforeEach(async () => {
-    const user = createUserWithMembership();
+    const user = createUserWithMembershipAndTermsOfServiceAccepted();
 
     await authenticateSession({
       user_id: user.id,

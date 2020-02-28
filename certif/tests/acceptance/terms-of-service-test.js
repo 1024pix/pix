@@ -27,7 +27,7 @@ module('Acceptance | terms-of-service', function(hooks) {
     assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
   });
 
-  module('When user has not accepted terms of service yet', function(hooks) {
+  module('When user is authenticated and has not yet accepted terms of service', function(hooks) {
 
     hooks.beforeEach(async () => {
       user = createUserWithMembership();
@@ -75,6 +75,17 @@ module('Acceptance | terms-of-service', function(hooks) {
 
       // then
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still authenticated');
+    });
+
+    test('it should not be possible to visit another page if cgu are not accepted', async function(assert) {
+      // given
+      await visit('/cgu');
+
+      // when
+      await visit('/campagnes');
+
+      // then
+      assert.equal(currentURL(), '/cgu');
     });
   });
 

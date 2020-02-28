@@ -6,10 +6,13 @@ export default class TermsOfServiceRoute extends Route.extend(AuthenticatedRoute
 
   @service currentUser;
 
-  beforeModel() {
+  beforeModel(transition) {
     super.beforeModel(...arguments);
+    if (transition.isAborted) {
+      return;
+    }
     if (this.currentUser.user.pixCertifTermsOfServiceAccepted) {
-      return this.transitionTo('authenticated.sessions.list');
+      return this.replaceWith('');
     }
   }
 }
