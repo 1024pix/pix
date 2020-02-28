@@ -1,4 +1,4 @@
-import { module, test, only } from 'qunit';
+import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
@@ -44,10 +44,10 @@ module('Acceptance | Session page', function(hooks) {
       assert.dom('.row:nth-child(10) .col:nth-child(1)').doesNotExist();
     });
 
-    only('Should have "Date de finalisation" and "Date d\'envoi au prescripteur" section', async function(assert) {
-
+    test('Should have "Date de finalisation" and "Date d\'envoi au prescripteur" section', async function(assert) {
       const finalizedDate = new Date('2019-03-10T01:03:04Z');
       const session = this.server.create('session', { status: FINALIZED, finalizedAt: finalizedDate });
+
       // when
       await visit(`/certifications/sessions/${session.id}`);
       assert.dom('div.certifications-session-info__details').exists();
@@ -56,16 +56,16 @@ module('Acceptance | Session page', function(hooks) {
       assert.dom(`.row:nth-child(${SENT_TO_PRESCRIPTEUR_DATE_SECTION}) .col:nth-child(2)`).doesNotExist();
     });
 
-    test('Should add "Date d\'envoi au prescripteur" section', async function(assert) {
+    test('Should remove "Résultats transmis au prescripteur" button', async function(assert) {
       const session = this.server.create('session', {
         status: FINALIZED,
         finalizedAt: new Date('2019-03-10T01:03:04Z'),
       });
         // when
       await visit(`/certifications/sessions/${session.id}`);
-      await click('.certifications-session-info__actions button:nth-child(2)');
+      await click('.certifications-session-info__actions button:nth-child(3)');
         
-      assert.dom(`.row:nth-child(${SENT_TO_PRESCRIPTEUR_DATE_SECTION}) .col:nth-child(2)`).exists();
+      assert.dom('.certifications-session-info__actions button:nth-child(3)').doesNotExist();
     });
 
   });
