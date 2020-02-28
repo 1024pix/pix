@@ -85,14 +85,6 @@
         {{else}}
           {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onEdit")}}
             Modifier{{/bs-button}}
-          {{#bs-button class='single-certification-edit__button' type='primary' size='sm'
-                       onClick=(action "onTogglePublishConfirm")}}
-            {{#if certification.isPublished}}
-              Dépublier
-            {{else}}
-              Publier
-            {{/if}}
-          {{/bs-button}}
         {{/if}}
       </div>
     </div>
