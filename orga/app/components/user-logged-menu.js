@@ -5,19 +5,28 @@ import { computed } from '@ember/object';
 export default Component.extend({
 
   currentUser: service(),
+  store: service(),
   router: service(),
 
   isMenuOpen: false,
-  
+
   organizationNameAndExternalId: computed('currentUser.organization.name', function() {
     const organization = this.currentUser.organization;
-    if (!organization) {
-      return '';
-    }
     if (organization.externalId) {
       return `${organization.name} (${organization.externalId})`;
     }
     return organization.name;
+  }),
+
+  eligibleOrganizations: computed('currentUser.organization', function() {
+    const memberships = this.currentUser.memberships;
+    if (!memberships) {
+      return [];
+    }
+    return memberships.toArray()
+      .map((membership) => membership.organization)
+      .filter((organization) => organization.get('id') !== this.currentUser.organization.id)
+      .sort((a, b) => a.get('name').localeCompare(b.get('name')));
   }),
 
   actions: {
@@ -29,8 +38,18 @@ export default Component.extend({
       this.set('isMenuOpen', false);
     },
 
-    async onOrganizationChange(organizationId) {
-      await this.currentUser.updateMainOrganization(organizationId);
+    async onOrganizationChange(organization) {
+      const user = this.currentUser.user;
+      const userOrgaSettingsId = user.userOrgaSettings.get('id');
+
+      const userOrgaSettings = await this.store.peekRecord('user-orga-setting', userOrgaSettingsId);
+      const selectedOrganization = await this.store.peekRecord('organization', organization.get('id'));
+
+      userOrgaSettings.set('organization', selectedOrganization);
+      userOrgaSettings.save();
+
+      await this.currentUser.load();
+
       this.router.replaceWith('/');
     }
   }
