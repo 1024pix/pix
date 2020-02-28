@@ -9,9 +9,9 @@
       </tr>
       <tr>
         <th></th>
-        <th><Input @id="firstName" @value={{firstNameValue}} {{on "keyup" (fn @triggerFiltering "firstName" firstNameValue)}} class="table-admin-input" /></th>
-        <th><Input @id="lastName" @value={{lastNameValue}} {{on "keyup" (fn @triggerFiltering "lastName" lastNameValue)}} class="table-admin-input" /></th>
-        <th><Input @id="email" @value={{emailValue}} {{on "keyup" (fn @triggerFiltering "email" emailValue)}} class="table-admin-input" /></th>
+        <th><Input @id="firstName" @value={{firstNameValue}} {{on "keyup" (fn @triggerFiltering "firstName" firstNameValue)}} @class="table-admin-input" /></th>
+        <th><Input @id="lastName" @value={{lastNameValue}} {{on "keyup" (fn @triggerFiltering "lastName" lastNameValue)}} @class="table-admin-input" /></th>
+        <th><Input @id="email" @value={{emailValue}} {{on "keyup" (fn @triggerFiltering "email" emailValue)}} @class="table-admin-input" /></th>
       </tr>
     </thead>
 

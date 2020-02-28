@@ -3,9 +3,18 @@
     <label class='{{leftWidth}} col-form-label' for={{id}}>{{label}}</label>
     <div class='{{rightWidth}} certificate'>
       {{#if isDate}}
-        <EmberFlatpickr @id={{fieldId}} @altFormat="d/m/Y" @altInput={{true}} @onChange={{action onUpdateCertificationBirthdate}} @dateFormat="Y-m-d" @locale="fr" @date={{value}} @name={{fieldId}} @class="form-control" />
+        {{ember-flatpickr id=fieldId
+                          altFormat='d/m/Y'
+                          altInput=true
+                          onChange=(action onUpdateCertificationBirthdate)
+                          dateFormat='Y-m-d'
+                          locale='fr'
+                          date=value
+                          name=fieldId
+                          class='form-control'
+        }}
       {{else}}
-        <Input @type="text" class="form-control" @value={{value}} @id={{fieldId}} />
+        {{input type="text" class="form-control" value=value id=fieldId}}
       {{/if}}
     </div>
   </div>
@@ -14,9 +23,9 @@
     <div class='{{leftWidth}} certification-info-label'>{{label}}</div>
     <div class='{{rightWidth}} certification-info-value'>
       {{#if linkRoute}}
-        <LinkTo @route={{linkRoute}} @model={{value}}>
+        {{#link-to linkRoute value}}
           {{value}} {{suffix}}
-        </LinkTo>
+        {{/link-to}}
       {{else}}
         {{#if isDate}}
           {{moment-format value 'DD/MM/YYYY' allow-empty=true}}

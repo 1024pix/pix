@@ -40,6 +40,5 @@ export default class IndexController extends Controller {
   @action
   async tagSessionAsSentToPrescriber() {
     await this.session.save({ adapterOptions: { flagResultsAsSentToPrescriber: true } });
-  },
-
+  }
 }

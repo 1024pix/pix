@@ -1,23 +1,23 @@
 <div class="certification-center-list content-text content-text--small">
   <table class="table-admin">
     <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nom</th>
-        <th>Type</th>
-        <th>ID externe</th>
-      </tr>
-      <tr>
-        <th>{{input id="id" value=idValue keyUp=(action triggerFiltering 'id' idValue) class="table-admin-input"}}</th>
-        <th>{{input id="name" value=nameValue keyUp=(action triggerFiltering 'name' nameValue) class="table-admin-input"}}</th>
-        <th>{{input id="type" value=typeValue keyUp=(action triggerFiltering 'type' typeValue) class="table-admin-input"}}</th>
-        <th>{{input id="externalId" value=externalIdValue keyUp=(action triggerFiltering 'externalId' externalIdValue) class="table-admin-input"}}</th>
-      </tr>
+    <tr>
+      <th>ID</th>
+      <th>Nom</th>
+      <th>Type</th>
+      <th>ID externe</th>
+    </tr>
+    <tr>
+      <th><Input @class="table-admin-input" @id="id" @value={{idValue}} {{on "keyup" (fn @triggerFiltering "id" idValue)}} /></th>
+      <th><Input @class="table-admin-input" @id="name" @value={{nameValue}} {{on "keyup" (fn @triggerFiltering "name" nameValue)}} /></th>
+      <th><Input @class="table-admin-input" @id="type" @value={{typeValue}} {{on "keyup" (fn @triggerFiltering "type" typeValue)}} /></th>
+      <th><Input @class="table-admin-input" @id="externalId" @value={{externalIdValue}} {{on "keyup" (fn @triggerFiltering "externalId" externalIdValue)}} /></th>
+    </tr>
     </thead>
 
-    {{#if certificationCenters}}
+    {{#if @certificationCenters}}
       <tbody>
-      {{#each certificationCenters as |certificationCenter|}}
+      {{#each @certificationCenters as |certificationCenter|}}
         <tr>
           <td>{{certificationCenter.id}}</td>
           <td>{{certificationCenter.name}}</td>
@@ -29,11 +29,11 @@
     {{/if}}
   </table>
 
-  {{#unless certificationCenters}}
+  {{#unless @certificationCenters}}
     <div class="table__empty content-text">Aucun résultat</div>
   {{/unless}}
 </div>
 
-{{#if certificationCenters}}
-  {{pagination-control pagination=certificationCenters.meta}}
+{{#if @certificationCenters}}
+  <PaginationControl @pagination={{@certificationCenters.meta}} />
 {{/if}}

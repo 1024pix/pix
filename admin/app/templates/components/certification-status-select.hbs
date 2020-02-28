@@ -2,12 +2,12 @@
   <div class='row form-group certification-status-select'>
     <label class='{{leftWidth}} col-form-label' for={{id}}>Statut :</label>
     <div class='{{rightWidth}} certificate'>
-      <XSelect @value={{value}} @onChange={{action "selectOption"}} as |xs|>
-        <xs.option @value="started">started</xs.option>
-        <xs.option @value="error">error</xs.option>
-        <xs.option @value="validated">validated</xs.option>
-        <xs.option @value="rejected">rejected</xs.option>
-      </XSelect>
+      {{#x-select value=value onChange=(action 'selectOption') as |xs|}}
+        {{#xs.option value="started"}}started{{/xs.option}}
+        {{#xs.option value="error"}}error{{/xs.option}}
+        {{#xs.option value="validated"}}validated{{/xs.option}}
+        {{#xs.option value="rejected"}}rejected{{/xs.option}}
+      {{/x-select}}
     </div>
   </div>
 {{else}}

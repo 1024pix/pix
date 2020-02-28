@@ -3,14 +3,22 @@
     <div class='row form-group certification-info-field'>
       <label class='col-sm-3 col-form-label' for={{concat 'certification-info-score_' key}}>{{competenceItem}}</label>
       <div class='col-sm-2 certificate'>
-        <Input @type="text" class="form-control" @id={{concat "certification-info-score_" key}} @value={{get indexedValues.scores key}} @change={{action "onScoreChange" key}} />
+        {{input type="text"
+                class="form-control"
+                id=(concat 'certification-info-score_' key)
+                value=(get indexedValues.scores key)
+                change=(action 'onScoreChange' key)}}
       </div>
       <label class='col-sm-1 certificate col-form-label'>Pix</label>
       <label class='col-sm-2 certificate text-right col-form-label' for={{concat 'certification-info-level_' key}}>
         Niveau :
       </label>
       <div class='col-sm-4 certificate'>
-        <Input @type="text" class="form-control" @value={{get indexedValues.levels key}} @id={{concat "certification-info-level_" key}} @change={{action "onLevelChange" key}} />
+        {{input type="text"
+                class="form-control"
+                value=(get indexedValues.levels key)
+                id=(concat 'certification-info-level_' key)
+                change=(action 'onLevelChange' key)}}
       </div>
     </div>
   {{/each}}

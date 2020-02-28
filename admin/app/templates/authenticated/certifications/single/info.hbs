@@ -69,7 +69,8 @@
           <BsButton @class="single-certification-edit__button" @type="primary" @size="sm" @onClick={{action "onSaveConfirm"}}>Enregistrer</BsButton>
         {{else}}
           <BsButton @class="single-certification-edit__button" @type="primary" @size="sm" @onClick={{action "onEdit"}}>
-            Modifier</BsButton>
+            Modifier
+          </BsButton>
           <BsButton @class="single-certification-edit__button" @type="primary" @size="sm" @onClick={{action "onTogglePublishConfirm"}}>
             {{#if certification.isPublished}}
               Dépublier
