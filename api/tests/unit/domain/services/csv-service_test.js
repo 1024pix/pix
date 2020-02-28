@@ -96,5 +96,68 @@ describe('Unit | Service | csv-service', function() {
       });
     });
   });
+  describe('#sanitizeProperties', () => {
+
+    const objectToSanitize = {
+      cleanProperty: 'cleanProperty',
+      uncleanProperty1: '+uncleanProperty',
+      uncleanProperty2: '-uncleanProperty',
+      uncleanProperty3: '=uncleanProperty',
+      uncleanProperty4: '@uncleanProperty'
+    };
+
+    context('when there is no properties', () => {
+
+      it('should return the object as-is', () => {
+        // when
+        const returnedObject = service.sanitizeProperties({ objectToSanitize, propertiesToSanitize: [] });
+
+        // then
+        expect(returnedObject).to.deep.equal(objectToSanitize);
+      });
+    });
+
+    context('when there is no matching properties', () => {
+
+      it('should return the object as-is', () => {
+        // given
+        const propertiesToSanitize = [ 'noExistingProperty1', 'noExistingProperty2', 'noExistingProperty3'];
+
+        // when
+        const returnedObject = service.sanitizeProperties({ objectToSanitize, propertiesToSanitize });
+
+        // then
+        expect(returnedObject).to.deep.equal(objectToSanitize);
+      });
+
+    });
+
+    context('when there are properties', () => {
+
+      it('should sanitize the properties ', () => {
+        // given
+        const propertiesToSanitize = [
+          'uncleanProperty1',
+          'uncleanProperty2',
+          'uncleanProperty3',
+          'uncleanProperty4'
+        ];
+
+        const expectedSanitizedObject = {
+          cleanProperty: 'cleanProperty',
+          uncleanProperty1: '\'+uncleanProperty',
+          uncleanProperty2: '\'-uncleanProperty',
+          uncleanProperty3: '\'=uncleanProperty',
+          uncleanProperty4: '\'@uncleanProperty'
+        };
+
+        // when
+        const sanitizedObject = service.sanitizeProperties({ objectToSanitize, propertiesToSanitize });
+
+        // then
+        expect(sanitizedObject).to.deep.equal(expectedSanitizedObject);
+      });
+    });
+  });
 
 });
