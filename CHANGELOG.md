@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.121.0 (28/02/2020)
+
+- [#1130](https://github.com/1024pix/pix/pull/1130) [FEATURE] Gestion des caractères à risque dans l'export des résultats de campagne (PO-351).
+- [#1125](https://github.com/1024pix/pix/pull/1125) [FEATURE] Gestion des caractères à risque lors des exports CSV dans Pix Orga - nom des acquis (PO-332).
+- [#1071](https://github.com/1024pix/pix/pull/1071) [BUGFIX] L'identifiant ne doit pas se vider après avoir tenté de s'inscrire avec adresse email existante (PF-1074).
+- [#1107](https://github.com/1024pix/pix/pull/1107) [TECH] Pix Board - Suppression du code relatif aux code des organizations (PF-876-6).
+- [#1106](https://github.com/1024pix/pix/pull/1106) [TECH] Pix Board - Suppression du code relatif au lien user-organization dans l'API (PF-876-5).
+
 ## v2.120.0 (27/02/2020)
 
 - [#1098](https://github.com/1024pix/pix/pull/1098) [FEATURE] Garantir la sélection de l'organisation par défaut dans Pix Orga (PO-344).
