@@ -5,7 +5,6 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     id: 2,
     type: 'SUP',
     name: 'Tyrion SUP',
-    code: 'SUPTY'
   });
 
   databaseBuilder.factory.buildMembership({
@@ -18,7 +17,6 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     id: 3,
     type: 'SCO',
     name: 'The Night Watch',
-    code: 'SCO12',
     isManagingStudents: true,
   });
 

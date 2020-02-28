@@ -27,7 +27,6 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     id: 1,
     type: 'PRO',
     name: 'Dragon & Co',
-    code: 'DRAGO',
     logoUrl: require('../src/dragonAndCoBase64')
   });
 
@@ -76,7 +75,6 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     id: 4,
     type: 'PRO',
     name: 'Dragon subsidiary',
-    code: 'DRASUB'
   });
 
   databaseBuilder.factory.buildMembership({
@@ -103,7 +101,6 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     id: 5,
     type: 'PRO',
     name: 'Dragon subsidiary 2',
-    code: 'DRASU2'
   });
 
   databaseBuilder.factory.buildMembership({

@@ -20,7 +20,6 @@ describe('Unit | Serializer | organization-serializer', () => {
           attributes: {
             'name': organization.name,
             'type': organization.type,
-            'code': organization.code,
             'logo-url': organization.logoUrl,
             'external-id': organization.externalId,
             'province-code': organization.provinceCode,
