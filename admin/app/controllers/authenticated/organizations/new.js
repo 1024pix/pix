@@ -1,25 +1,25 @@
-import Controller from '@ember/controller';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
 
-export default Controller.extend({
-  notifications: service(),
+export default class NewController extends Controller {
 
-  actions: {
+  @service notifications;
 
-    goBackToOrganizationList() {
-      this.transitionToRoute('authenticated.organizations');
-    },
+  @action
+  goBackToOrganizationList() {
+    this.transitionToRoute('authenticated.organizations');
+  }
 
-    addOrganization() {
-      return this.model.save()
-        .then((organization) => {
-          this.notifications.success('L’organisation a été créée avec succès.');
-          this.transitionToRoute('authenticated.organizations.get', organization.get('id'));
-        })
-        .catch(() => {
-          this.notifications.error('Une erreur est survenue.');
-        });
+  @action
+  async addOrganization() {
+    try {
+      event.preventDefault();
+      await this.model.save();
+      this.notifications.success('L’organisation a été créée avec succès.');
+      this.transitionToRoute('authenticated.organizations.get', this.model.id);
+    } catch (error) {
+      this.notifications.error('Une erreur est survenue.');
     }
-  },
-
-});
+  }
+}

@@ -1,11 +1,9 @@
-import Component from '@ember/component';
+import { action } from '@ember/object';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-
-  // Actions
-  actions: {
-    onChange() {
-      this.select(this.id);
-    }
+export default class CertificationSelect extends Component {
+  @action
+  onChange() {
+    this.select(this.id);
   }
-});
+}

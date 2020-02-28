@@ -3,8 +3,8 @@
     <h2 class="page-section__title">Ajouter un membre</h2>
   </header>
   <form class="add-membership-form form">
-    <Input class="add-membership-form__user-email-input form-field__text form-control" @id="userEmail" @value={{userEmail}} placeholder="Adresse e-mail de l'utilisateur à ajouter" />
-    <button class="add-membership-form__validate-button btn btn-outline-default btn-thin" {{action addMembership}}>
+    <Input class="add-membership-form__user-email-input form-field__text form-control" @id="userEmail" @value={{this.userEmail}} placeholder="Adresse e-mail de l'utilisateur à ajouter" />
+    <button class="add-membership-form__validate-button btn btn-outline-default btn-thin" {{on "click" @addMembership}}>
       Valider
     </button>
   </form>
@@ -15,6 +15,10 @@
     <h2 class="page-section__title">Membres</h2>
   </header>
   <div class="member-list">
-    <ModelsTable @data={{organization.memberships}} @columns={{columns}} @themeInstance={{themeInstance}} @showColumnsDropdown={{false}} @showGlobalFilter={{false}} />
+    <ModelsTable @data={{@organization.memberships}}
+                 @columns={{this.columns}}
+                 @themeInstance={{this.themeInstance}}
+                 @showColumnsDropdown={{false}}
+                 @showGlobalFilter={{false}} />
   </div>
 </section>

@@ -1,32 +1,29 @@
-import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { classNames } from '@ember-decorators/component';
+import { action, computed } from '@ember/object';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-
-  // Elements
-  classNames: ['card', 'text-center', 'certification-details-answer', 'border-secondary'],
+@classNames('card', 'text-center', 'certification-details-answer', 'border-secondary')
+export default class CertificationDetailsAnswer extends Component {
 
   // Properties
-  answer: null,
-  onUpdateRate: null,
+  answer = null;
+  onUpdateRate = null;
 
   // Private properties
-  _jury: false,
+  _jury = false;
 
-  // Computed properties
-  resultClass: computed('_jury', function() {
+  @computed('_jury')
+  get resultClass() {
     const jury = this._jury;
     return (jury) ? 'answer-result jury' : 'answer-result';
-  }),
-
-  // Actions
-  actions: {
-    onSetResult(value) {
-      const answer = this.answer;
-      const jury = (value !== answer.result) ? value : false;
-      answer.jury = jury;
-      this.set('_jury', jury);
-      this.onUpdateRate();
-    }
   }
-});
+
+  @action
+  onSetResult(value) {
+    const answer = this.answer;
+    const jury = (value !== answer.result) ? value : false;
+    answer.jury = jury;
+    this.set('_jury', jury);
+    this.onUpdateRate();
+  }
+}

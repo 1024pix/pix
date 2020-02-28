@@ -1,40 +1,45 @@
-import Controller from '@ember/controller';
-import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { alias } from '@ember/object/computed';
+import Controller from '@ember/controller';
 import { statusToDisplayName } from '../../../../../models/session';
 
-export default Controller.extend({
+export default class IndexController extends Controller {
+  @service
+  sessionInfoService;
 
-  sessionInfoService: service(),
-  notifications: service(),
+  @service
+  notifications;
 
-  session: alias('model'),
+  @alias('model')
+  session;
 
-  sessionStatusLabel: computed('session.isFinalized', function() {
+  @computed('session.isFinalized')
+  get sessionStatusLabel() {
     return this.session.isFinalized ? statusToDisplayName.finalized : statusToDisplayName.created;
-  }),
+  }
 
-  actions: {
+  @action
+  downloadSessionResultFile() {
+    try {
+      this.sessionInfoService.downloadSessionExportFile(this.session);
+    } catch (error) {
+      this.notifications.error(error);
+    }
+  }
 
-    downloadSessionResultFile() {
-      try {
-        this.sessionInfoService.downloadSessionExportFile(this.session);
-      } catch (error) {
-        this.notifications.error(error);
-      }
-    },
+  @action
+  downloadBeforeJuryFile() {
+    try {
+      this.sessionInfoService.downloadJuryFile(this.model.id, this.model.certifications);
+    } catch (error) {
+      this.notifications.error(error);
+    }
+  }
 
-    downloadBeforeJuryFile() {
-      try {
-        this.sessionInfoService.downloadJuryFile(this.model.id, this.model.certifications);
-      } catch (error) {
-        this.notifications.error(error);
-      }
-    },
-
-    async tagSessionAsSentToPrescriber() {
-      await this.session.save({ adapterOptions: { flagResultsAsSentToPrescriber: true } });
-    },
+  @action
+  async tagSessionAsSentToPrescriber() {
+    await this.session.save({ adapterOptions: { flagResultsAsSentToPrescriber: true } });
   },
-});
+
+}

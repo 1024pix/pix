@@ -2,6 +2,7 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 export default Route.extend({
+
   notifications: service(),
 
   redirect: function(model, transition) {
@@ -11,6 +12,7 @@ export default Route.extend({
       }
     }
   },
+
   actions: {
     loading(transition) {
       const controller = this.controller;

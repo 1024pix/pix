@@ -1,23 +1,25 @@
-import Component from '@ember/component';
-import { computed } from '@ember/object';
-import { filterBy, filter } from '@ember/object/computed';
+import { classNames } from '@ember-decorators/component';
+import { action, computed } from '@ember/object';
+import { filter, filterBy } from '@ember/object/computed';
+import Component from '@glimmer/component';
 import _ from 'lodash';
 
-export default Component.extend({
+@classNames('certification-session-report')
+export default class CertificationSessionReport extends Component {
+  @filterBy('certifications', 'isInSession', false)
+  outOfSessionCertifications;
 
-  classNames: ['certification-session-report'],
-
-  outOfSessionCertifications: filterBy('certifications', 'isInSession', false),
-
-  incompleteCertifications: filter('certifications', function(certification) {
+  @filter('certifications', function(certification) {
     return !certification.lastName
       ||   !certification.firstName
       ||   !certification.birthdate
       ||   !certification.birthplace
       ||   !certification.id;
-  }),
+  })
+  incompleteCertifications;
 
-  duplicateCertificationIds: computed('certifications', function() {
+  @computed('certifications')
+  get duplicateCertificationIds() {
     const certificationsGroupedByCertifId = _.groupBy(this.certifications, (certification) => {
       return certification.id;
     });
@@ -26,17 +28,18 @@ export default Component.extend({
         return certificationId;
       }
     }));
-  }),
-
-  noLastScreenSeenCertifications: filterBy('certifications', 'hasSeenEndTestScreen', false),
-
-  commentedByExaminerCertifications: filter('certifications', function(certification) {
-    return !_.isEmpty(certification.examinerComment);
-  }),
-
-  actions: {
-    toggleSection(sectionName) {
-      this.toggleProperty(sectionName);
-    }
   }
-});
+
+  @filterBy('certifications', 'hasSeenEndTestScreen', false)
+  noLastScreenSeenCertifications;
+
+  @filter('certifications', function(certification) {
+    return !_.isEmpty(certification.examinerComment);
+  })
+  commentedByExaminerCertifications;
+
+  @action
+  toggleSection(sectionName) {
+    this.toggleProperty(sectionName);
+  }
+}

@@ -1,31 +1,36 @@
-import Component from '@ember/component';
+import { classNames } from '@ember-decorators/component';
 import { computed } from '@ember/object';
+import Component from '@glimmer/component';
 import { htmlSafe } from '@ember/string';
 
-export default Component.extend({
-
-  // Elements
-  classNames: ['card', 'border-primary', 'certification-details-competence'],
+@classNames('card', 'border-primary', 'certification-details-competence')
+export default class CertificationDetailsCompetence extends Component {
 
   // Properties
-  competence: null,
-  rate: 0,
-  juryRate: false,
+  competence = null;
+  rate = 0;
+  juryRate = false;
 
-  // Computed properties
-  certifiedWidth: computed('competence', function() {
+  @computed('competence')
+  get certifiedWidth() {
     const obtainedLevel = this.competence.obtainedLevel;
     return htmlSafe('width:' + Math.round((obtainedLevel / 8) * 100) + '%');
-  }),
-  positionedWidth: computed('competence', function() {
+  }
+
+  @computed('competence')
+  get positionedWidth() {
     const positionedLevel = this.competence.positionedLevel;
     return htmlSafe('width:' + Math.round((positionedLevel / 8) * 100) + '%');
-  }),
-  answers: computed('competence', function() {
+  }
+
+  @computed('competence')
+  get answers() {
     const competence = this.competence;
     return competence.answers;
-  }),
-  competenceJury: computed('juryRate', function() {
+  }
+
+  @computed('juryRate')
+  get competenceJury() {
     const juryRate = this.juryRate;
     const competence = this.competence;
     if (juryRate === false) {
@@ -48,10 +53,10 @@ export default Component.extend({
       competence.juryLevel = false;
       return false;
     }
-  }),
+  }
 
   // Private methods
-  _computeScore: function(rate) {
+  _computeScore(rate) {
     if (rate < 50) {
       return { score: 0, level: -1 };
     }
@@ -109,4 +114,4 @@ export default Component.extend({
         return { score: 0, level: -1 };
     }
   }
-});
+}

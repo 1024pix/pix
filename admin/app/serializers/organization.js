@@ -1,9 +1,9 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
 
-export default JSONAPISerializer.extend({
+export default class Organization extends JSONAPISerializer {
 
   serialize(snapshot) {
-    const json = this._super(...arguments);
+    const json = super.serialize(...arguments);
 
     json.data.attributes['first-name'] = snapshot.record.get('firstName');
     json.data.attributes['last-name'] = snapshot.record.get('lastName');
@@ -11,6 +11,5 @@ export default JSONAPISerializer.extend({
     json.data.attributes['password'] = snapshot.record.get('password');
 
     return json;
-  },
-
-});
+  }
+}
