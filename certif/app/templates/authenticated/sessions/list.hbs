@@ -46,6 +46,8 @@
         </table>
       </div>
     </div>
+    {{pagination-control pagination=campaigns.meta paginationLink="authenticated.campaigns"}}
+
   {{else}}
     <NoSessionPanel />
   {{/if}}
