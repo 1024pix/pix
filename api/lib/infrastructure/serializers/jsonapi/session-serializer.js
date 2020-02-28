@@ -8,7 +8,7 @@ const Session = require('../../../domain/models/Session');
 
 module.exports = {
 
-  serialize(sessions) {
+  serialize(sessions, meta) {
     return new Serializer('session', {
       attributes: [
         'certificationCenter',
@@ -21,12 +21,14 @@ module.exports = {
         'description',
         'accessCode',
         'certifications',
+        'candidatesCount',
         'certificationCandidates',
         'certificationReports',
         'examinerGlobalComment',
         'finalizedAt',
         'resultsSentToPrescriberAt',
       ],
+      meta,
       certifications : {
         ref: 'id',
         ignoreRelationshipData: true,

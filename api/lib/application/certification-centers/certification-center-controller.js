@@ -24,11 +24,13 @@ module.exports = {
     return certificationCenterSerializer.serialize(organizations, pagination);
   },
 
-  getSessions(request) {
+  async getSessions(request) {
+
     const certificationCenterId = parseInt(request.params.id);
     const userId = parseInt(request.auth.credentials.userId);
+    const options = queryParamsUtils.extractParameters(request.query);
 
-    return usecases.findPaginatedSessionsForCertificationCenter({ userId, certificationCenterId })
-      .then((sessions) => sessionSerializer.serialize(sessions));
+    const { models: sessions, pagination } = await  usecases.findPaginatedSessionsForCertificationCenter({ userId, certificationCenterId, filter: options.filter, page: options.page })
+    return sessionSerializer.serialize(sessions, pagination);
   }
 };
