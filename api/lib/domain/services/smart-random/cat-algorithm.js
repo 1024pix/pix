@@ -50,9 +50,9 @@ function findMaxRewardingSkills(...args) {
   )(...args);
 }
 
-function _getMaxRewardingSkills({ availableSkills, predictedLevel, courseTubes, knowledgeElements }) {
+function _getMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowledgeElements }) {
   return _.reduce(availableSkills, (acc, skill) => {
-    const skillReward = _computeReward({ skill, predictedLevel, courseTubes, knowledgeElements });
+    const skillReward = _computeReward({ skill, predictedLevel, tubes, knowledgeElements });
     if (skillReward > acc.maxReward) {
       acc.maxReward = skillReward;
       acc.maxRewardingSkills = [skill];
@@ -70,10 +70,10 @@ function _clearSkillsIfNotRewarding(skills) {
   return _.filter(skills, (skill) => skill.reward !== 0);
 }
 
-function _computeReward({ skill, predictedLevel, courseTubes, knowledgeElements }) {
+function _computeReward({ skill, predictedLevel, tubes, knowledgeElements }) {
   const proba = _probaOfCorrectAnswer(predictedLevel, skill.difficulty);
-  const extraSkillsIfSolvedCount = _getNewSkillsInfoIfSkillSolved(skill, courseTubes, knowledgeElements).length;
-  const failedSkillsIfUnsolvedCount = _getNewSkillsInfoIfSkillUnsolved(skill, courseTubes, knowledgeElements).length;
+  const extraSkillsIfSolvedCount = _getNewSkillsInfoIfSkillSolved(skill, tubes, knowledgeElements).length;
+  const failedSkillsIfUnsolvedCount = _getNewSkillsInfoIfSkillUnsolved(skill, tubes, knowledgeElements).length;
 
   return proba * extraSkillsIfSolvedCount + (1 - proba) * failedSkillsIfUnsolvedCount;
 }
@@ -84,8 +84,8 @@ function _probaOfCorrectAnswer(userEstimatedLevel, challengeDifficulty) {
   return 1 / (1 + Math.exp(-(userEstimatedLevel - challengeDifficulty)));
 }
 
-function _getNewSkillsInfoIfSkillSolved(skillTested, courseTubes, knowledgeElements) {
-  let extraValidatedSkills = _findTubeByName(courseTubes, skillTested.tubeName)
+function _getNewSkillsInfoIfSkillSolved(skillTested, tubes, knowledgeElements) {
+  let extraValidatedSkills = _findTubeByName(tubes, skillTested.tubeName)
     .getEasierThan(skillTested)
     .filter(_skillNotTestedYet(knowledgeElements));
 
@@ -95,8 +95,8 @@ function _getNewSkillsInfoIfSkillSolved(skillTested, courseTubes, knowledgeEleme
   return _.uniqBy(extraValidatedSkills, 'id');
 }
 
-function _getNewSkillsInfoIfSkillUnsolved(skillTested, courseTubes, knowledgeElements) {
-  let extraFailedSkills =  _findTubeByName(courseTubes, skillTested.tubeName)
+function _getNewSkillsInfoIfSkillUnsolved(skillTested, tubes, knowledgeElements) {
+  let extraFailedSkills =  _findTubeByName(tubes, skillTested.tubeName)
     .getHarderThan(skillTested)
     .filter(_skillNotTestedYet(knowledgeElements));
 
@@ -106,8 +106,8 @@ function _getNewSkillsInfoIfSkillUnsolved(skillTested, courseTubes, knowledgeEle
   return _.uniqBy(extraFailedSkills, 'id');
 }
 
-function _findTubeByName(courseTubes, tubeName) {
-  return courseTubes.find((tube) => tube.name === tubeName);
+function _findTubeByName(tubes, tubeName) {
+  return tubes.find((tube) => tube.name === tubeName);
 }
 
 function _skillNotTestedYet(knowledgesElements) {

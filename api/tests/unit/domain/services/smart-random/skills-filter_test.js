@@ -23,7 +23,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
-        courseTubes: tubes,
+        tubes: tubes,
         targetSkills: targetProfile.skills
       });
 
@@ -43,7 +43,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
-        courseTubes: tubes,
+        tubes: tubes,
         targetSkills: targetProfile.skills
       });
 
@@ -68,7 +68,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
-        courseTubes: tubes,
+        tubes: tubes,
         targetSkills: targetProfile.skills
       });
 
@@ -91,7 +91,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
-        courseTubes: tubes,
+        tubes: tubes,
         targetSkills: targetProfile.skills
       });
 
@@ -115,7 +115,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       // when
       const result = skillsFilter.getFilteredSkillsForFirstChallenge({
         knowledgeElements,
-        courseTubes: tubes,
+        tubes: tubes,
         targetSkills: targetProfile.skills
       });
 
@@ -222,7 +222,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
           knowledgeElements,
           predictedLevel: 2,
           targetSkills: targetProfile.skills,
-          courseTubes: tubes,
+          tubes: tubes,
           isLastChallengeTimed: false,
         });
 
@@ -250,7 +250,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
           knowledgeElements,
           predictedLevel: 5,
           targetSkills: targetProfile.skills,
-          courseTubes: tubes,
+          tubes: tubes,
           isLastChallengeTimed: false,
         });
 
@@ -276,7 +276,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
           knowledgeElements,
           predictedLevel: 5,
           targetSkills: targetProfile.skills,
-          courseTubes: tubes,
+          tubes: tubes,
           isLastChallengeTimed: false,
         });
 
