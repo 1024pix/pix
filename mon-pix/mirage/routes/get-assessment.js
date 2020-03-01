@@ -24,5 +24,6 @@ export default function(schema, request) {
   if (assessment) {
     return assessment.obj;
   }
+
   return schema.assessments.find(assessmentId);
 }
