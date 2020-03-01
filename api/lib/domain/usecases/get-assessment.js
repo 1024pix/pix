@@ -49,7 +49,7 @@ async function _fetchAssessmentTitle({
     }
 
     case Assessment.types.DEMO : {
-      return await courseRepository.getCourseName(assessment.courseId);
+      return await courseRepository.getDemoName(assessment.courseId);
     }
     case Assessment.types.PREVIEW : {
       return 'Preview';

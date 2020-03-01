@@ -4,7 +4,7 @@ const Course = require('../../../../lib/domain/models/Demo');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const { InfrastructureError } = require('../../../../lib/infrastructure/errors');
 
-const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
+const courseRepository = require('../../../../lib/infrastructure/repositories/demo-repository');
 const logger = require('../../../../lib/infrastructure/logger');
 const { expect, sinon, catchErr } = require('../../../test-helper');
 

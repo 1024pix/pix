@@ -2,7 +2,7 @@ const _ = require('lodash');
 const Course = require('../models/Demo');
 const { NotFoundError } = require('../../domain/errors');
 
-const courseRepository = require('../../infrastructure/repositories/course-repository');
+const courseRepository = require('../../infrastructure/repositories/demo-repository');
 const { InfrastructureError } = require('../../infrastructure/errors');
 const logger = require('../../infrastructure/logger');
 
