@@ -3,7 +3,7 @@ const getAssessment = require('../../../../lib/domain/usecases/get-assessment');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const courseRepository = require('../../../../lib/infrastructure/repositories/demo-repository');
+const demoRepository = require('../../../../lib/infrastructure/repositories/demo-repository');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -38,7 +38,7 @@ describe('Unit | UseCase | get-assessment', () => {
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(campaignRepository, 'get');
     sinon.stub(competenceRepository, 'getCompetenceName');
-    sinon.stub(courseRepository, 'getDemoName');
+    sinon.stub(demoRepository, 'getDemoName');
   });
 
   it('should resolve the Assessment domain object matching the given assessment ID', async () => {
@@ -88,7 +88,7 @@ describe('Unit | UseCase | get-assessment', () => {
     const result = await getAssessment({
       assessmentId: assessment.id,
       assessmentRepository,
-      courseRepository,
+      demoRepository,
     });
 
     // then
@@ -103,18 +103,18 @@ describe('Unit | UseCase | get-assessment', () => {
     // given
     assessment.type = Assessment.types.DEMO;
     assessmentRepository.get.resolves(assessment);
-    courseRepository.getDemoName.resolves(course.name);
+    demoRepository.getDemoName.resolves(course.name);
 
     // when
     const result = await getAssessment({
       assessmentId: assessment.id,
       assessmentRepository,
-      courseRepository,
+      demoRepository,
     });
 
     // then
     expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
-    expect(courseRepository.getDemoName).to.have.been.calledWithExactly(assessment.courseId);
+    expect(demoRepository.getDemoName).to.have.been.calledWithExactly(assessment.courseId);
 
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);

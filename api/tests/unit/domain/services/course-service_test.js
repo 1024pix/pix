@@ -4,7 +4,7 @@ const Course = require('../../../../lib/domain/models/Demo');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const { InfrastructureError } = require('../../../../lib/infrastructure/errors');
 
-const courseRepository = require('../../../../lib/infrastructure/repositories/demo-repository');
+const demoRepository = require('../../../../lib/infrastructure/repositories/demo-repository');
 const logger = require('../../../../lib/infrastructure/logger');
 const { expect, sinon, catchErr } = require('../../../test-helper');
 
@@ -16,22 +16,22 @@ describe('Unit | Service | Course Service', () => {
     const airtableCourse = { id: 'recAirtableId' };
 
     beforeEach(() => {
-      sinon.stub(courseRepository, 'get');
+      sinon.stub(demoRepository, 'get');
       sinon.stub(logger, 'error');
     });
 
     it('should call the course repository', () => {
       // given
       const givenCourseId = 'recAirtableId';
-      courseRepository.get.resolves(airtableCourse);
+      demoRepository.get.resolves(airtableCourse);
 
       // when
       const promise = courseService.getCourse({ courseId: givenCourseId, userId });
 
       // then
       return promise.then(() => {
-        expect(courseRepository.get).to.have.been.called;
-        expect(courseRepository.get).to.have.been.calledWith(givenCourseId);
+        expect(demoRepository.get).to.have.been.called;
+        expect(demoRepository.get).to.have.been.calledWith(givenCourseId);
       });
     });
 
@@ -40,7 +40,7 @@ describe('Unit | Service | Course Service', () => {
       it('should return a Course POJO', function() {
         // given
         const givenCourseId = 'recAirtableId';
-        courseRepository.get.resolves(airtableCourse);
+        demoRepository.get.resolves(airtableCourse);
 
         // when
         const promise = courseService.getCourse({ courseId: givenCourseId, userId });
@@ -61,7 +61,7 @@ describe('Unit | Service | Course Service', () => {
         // given
         const givenCourseId = 'recAirtableId';
         const error = new Error();
-        courseRepository.get.rejects(error);
+        demoRepository.get.rejects(error);
 
         try {
           // when
@@ -77,7 +77,7 @@ describe('Unit | Service | Course Service', () => {
         // given
         const givenCourseId = 'recAirtableId';
         const error = new Error('Some message');
-        courseRepository.get.rejects(error);
+        demoRepository.get.rejects(error);
 
         // when
         const err = await catchErr(courseService.getCourse)({ courseId: givenCourseId, userId });
@@ -95,7 +95,7 @@ describe('Unit | Service | Course Service', () => {
             message: 'Could not find row by id unknown_id'
           }
         };
-        courseRepository.get.rejects(error);
+        demoRepository.get.rejects(error);
 
         // when
         const promise = courseService.getCourse({ courseId: givenCourseId, userId });

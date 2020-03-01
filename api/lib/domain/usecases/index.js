@@ -25,7 +25,7 @@ const dependencies = {
   competenceRepository: require('../../infrastructure/repositories/competence-repository'),
   competenceTreeRepository: require('../../infrastructure/repositories/competence-tree-repository'),
   correctionRepository: require('../../infrastructure/repositories/correction-repository'),
-  courseRepository: require('../../infrastructure/repositories/demo-repository'),
+  demoRepository: require('../../infrastructure/repositories/demo-repository'),
   encryptionService: require('../../domain/services/encryption-service'),
   improvementService: require('../../domain/services/improvement-service'),
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),

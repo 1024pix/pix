@@ -6,7 +6,7 @@ module.exports = function getNextChallengeForDemo({
   assessment,
   answerRepository,
   challengeRepository,
-  courseRepository,
+  demoRepository,
 }) {
 
   const courseId = assessment.courseId;
@@ -20,7 +20,7 @@ module.exports = function getNextChallengeForDemo({
   logger.trace(logContext, 'looking for next challenge in DEMO assessment');
 
   return Promise.all([
-    courseRepository.get(courseId),
+    demoRepository.get(courseId),
     answerRepository.findByAssessment(assessment.id)
   ])
     .then(([course, answers]) => {

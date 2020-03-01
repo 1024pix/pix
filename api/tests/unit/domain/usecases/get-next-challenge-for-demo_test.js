@@ -8,7 +8,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
 
   describe('#get-next-challenge-for-demo', () => {
 
-    let courseRepository;
+    let demoRepository;
     let challengeRepository;
     let answerRepository;
 
@@ -23,7 +23,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
       course = domainBuilder.buildDemo({ id: 18415, challenges: [firstChallenge.id, secondChallenge.id] });
       assessment = domainBuilder.buildAssessment({ id: 1165, courseId: course.id });
 
-      courseRepository = { get: sinon.stub().resolves(course) };
+      demoRepository = { get: sinon.stub().resolves(course) };
       challengeRepository = { get: sinon.stub() };
       answerRepository = { findByAssessment: sinon.stub() };
       challengeRepository.get.withArgs('first_challenge').resolves(firstChallenge);
@@ -35,7 +35,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
       answerRepository.findByAssessment.resolves([]);
 
       // when
-      const result = await getNextChallengeForDemo({ courseRepository, challengeRepository, answerRepository, assessment });
+      const result = await getNextChallengeForDemo({ demoRepository, challengeRepository, answerRepository, assessment });
 
       // then
       expect(result).to.equal(firstChallenge);
@@ -47,7 +47,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
       answerRepository.findByAssessment.resolves([firstAnswer]);
 
       // when
-      const result = await getNextChallengeForDemo({ courseRepository, challengeRepository, answerRepository, assessment });
+      const result = await getNextChallengeForDemo({ demoRepository, challengeRepository, answerRepository, assessment });
 
       // then
       expect(result).to.equal(secondChallenge);
@@ -60,7 +60,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
       answerRepository.findByAssessment.resolves([firstAnswer, secondAnswer]);
 
       // when
-      const promise = getNextChallengeForDemo({ courseRepository, challengeRepository, answerRepository, assessment });
+      const promise = getNextChallengeForDemo({ demoRepository, challengeRepository, answerRepository, assessment });
 
       // then
       return expect(promise).to.be.rejectedWith(AssessmentEndedError);

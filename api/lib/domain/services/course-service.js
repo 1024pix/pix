@@ -2,7 +2,7 @@ const _ = require('lodash');
 const Course = require('../models/Demo');
 const { NotFoundError } = require('../../domain/errors');
 
-const courseRepository = require('../../infrastructure/repositories/demo-repository');
+const demoRepository = require('../../infrastructure/repositories/demo-repository');
 const { InfrastructureError } = require('../../infrastructure/errors');
 const logger = require('../../infrastructure/logger');
 
@@ -17,7 +17,7 @@ module.exports = {
 
     // TODO This repo switch should not be here because we make a technical discrimination on the course id
     if (_.startsWith(courseId, 'rec')) {
-      return courseRepository.get(courseId)
+      return demoRepository.get(courseId)
         .then((airtableCourse) => {
           return new Course(airtableCourse);
         }).catch((err) => {

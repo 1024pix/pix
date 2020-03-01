@@ -9,7 +9,7 @@ module.exports = async function getAssessment(
     // dependencies
     assessmentRepository,
     competenceRepository,
-    courseRepository,
+    demoRepository,
   }) {
   const assessment = await assessmentRepository.get(assessmentId);
   if (!assessment) {
@@ -28,7 +28,7 @@ module.exports = async function getAssessment(
   assessment.title = await _fetchAssessmentTitle({
     assessment,
     competenceRepository,
-    courseRepository
+    demoRepository
   });
 
   return assessment;
@@ -37,7 +37,7 @@ module.exports = async function getAssessment(
 async function _fetchAssessmentTitle({
   assessment,
   competenceRepository,
-  courseRepository
+  demoRepository
 }) {
   switch (assessment.type) {
     case Assessment.types.CERTIFICATION : {
@@ -49,7 +49,7 @@ async function _fetchAssessmentTitle({
     }
 
     case Assessment.types.DEMO : {
-      return await courseRepository.getDemoName(assessment.courseId);
+      return await demoRepository.getDemoName(assessment.courseId);
     }
     case Assessment.types.PREVIEW : {
       return 'Preview';
