@@ -20,9 +20,6 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function() {
           'rec_challenge_4',
           'rec_challenge_5'
         ],
-        assessment: {
-          id: 455
-        }
       });
 
       // when
@@ -40,14 +37,6 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function() {
             'nb-challenges': 5,
             'type': course.type
           },
-          relationships: {
-            assessment: {
-              data: {
-                type: 'assessments',
-                id: '455'
-              }
-            }
-          }
         }
       });
     });
