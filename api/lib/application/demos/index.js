@@ -1,4 +1,4 @@
-const courseController = require('./course-controller');
+const demoController = require('./demo-controller');
 
 exports.register = async function(server) {
   server.route([
@@ -7,11 +7,11 @@ exports.register = async function(server) {
       path: '/api/courses/{id}',
       config: {
         auth: false,
-        handler: courseController.get,
+        handler: demoController.get,
         tags: ['api']
       }
     },
   ]);
 };
 
-exports.name = 'courses-api';
+exports.name = 'demos-api';

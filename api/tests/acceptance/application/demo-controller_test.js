@@ -1,17 +1,16 @@
-const { expect, nock, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const { expect, nock } = require('../../test-helper');
 const createServer = require('../../../server');
 const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 
-describe('Acceptance | API | Courses', () => {
+describe('Acceptance | API | Demos', () => {
 
   let server;
-  const userId = 42;
 
   beforeEach(async () => {
     server = await createServer();
   });
 
-  describe('GET /api/courses/:course_id', () => {
+  describe('GET /api/courses/:demo_id', () => {
 
     before(() => {
       nock.cleanAll();
@@ -22,9 +21,9 @@ describe('Acceptance | API | Courses', () => {
         .times(3)
         .reply(200, {
           records: [{
-            id: 'rec_course_id',
+            id: 'rec_demo_id',
             fields: {
-              'id persistant': 'rec_course_id',
+              'id persistant': 'rec_demo_id',
               'Nom': 'A la recherche de l\'information #01',
               'Description': 'Mener une recherche et une veille d\'information',
               'Image': [{
@@ -38,7 +37,7 @@ describe('Acceptance | API | Courses', () => {
                 'k_challenge_id',
               ],
               'Ordre affichage': 2,
-              'Preview': 'http://development.pix.fr/courses/rec_course_id/preview',
+              'Preview': 'http://development.pix.fr/courses/rec_demo_id/preview',
               'Nb d\'épreuves': 10,
               'Acquis': '#ordonnancement,#source,#rechercheInfo,#moteur,#wikipedia,#syntaxe,#sponsor,#rechercheInfo,#cult1.1,#rechercheInfo'
             },
@@ -67,45 +66,35 @@ describe('Acceptance | API | Courses', () => {
 
     const options = {
       method: 'GET',
-      url: '/api/courses/rec_course_id',
-      headers: {
-        authorization: generateValidRequestAuthorizationHeader(userId),
-      },
+      url: '/api/courses/rec_demo_id',
     };
 
-    it('should return 200 HTTP status code', () => {
+    it('should return 200 HTTP status code', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
 
-    it('should return application/json', () => {
+    it('should return application/json', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('application/json');
-      });
+      const contentType = response.headers['content-type'];
+      expect(contentType).to.contain('application/json');
     });
 
-    it('should return the expected course', () => {
+    it('should return the expected course', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        const course = response.result.data;
-        expect(course.id).to.equal('rec_course_id');
-        expect(course.attributes.name).to.equal('A la recherche de l\'information #01');
-        expect(course.attributes.description).to.equal('Mener une recherche et une veille d\'information');
-      });
+      const course = response.result.data;
+      expect(course.id).to.equal('rec_demo_id');
+      expect(course.attributes.name).to.equal('A la recherche de l\'information #01');
+      expect(course.attributes.description).to.equal('Mener une recherche et une veille d\'information');
     });
-
   });
 });

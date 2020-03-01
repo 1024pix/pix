@@ -13,7 +13,7 @@ module.exports = [
   require('./application/certifications'),
   require('./application/challenges'),
   require('./application/competence-evaluations'),
-  require('./application/courses'),
+  require('./application/demos'),
   require('./application/feedbacks'),
   require('./application/healthcheck'),
   require('./application/memberships'),
