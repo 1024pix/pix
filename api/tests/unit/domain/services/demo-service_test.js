@@ -1,71 +1,64 @@
-const courseService = require('../../../../lib/domain/services/course-service');
+const demoService = require('../../../../lib/domain/services/demo-service');
 
-const Course = require('../../../../lib/domain/models/Demo');
+const Demo = require('../../../../lib/domain/models/Demo');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const { InfrastructureError } = require('../../../../lib/infrastructure/errors');
-
 const demoRepository = require('../../../../lib/infrastructure/repositories/demo-repository');
 const logger = require('../../../../lib/infrastructure/logger');
 const { expect, sinon, catchErr } = require('../../../test-helper');
 
-describe('Unit | Service | Course Service', () => {
+describe('Unit | Service | Demo Service', () => {
 
-  describe('#getCourse', function() {
+  describe('#getDemo', () => {
 
     const userId = 1;
-    const airtableCourse = { id: 'recAirtableId' };
+    const airtableDemo = { id: 'recAirtableId' };
 
     beforeEach(() => {
       sinon.stub(demoRepository, 'get');
       sinon.stub(logger, 'error');
     });
 
-    it('should call the course repository', () => {
+    it('should call the demo repository', async () => {
       // given
-      const givenCourseId = 'recAirtableId';
-      demoRepository.get.resolves(airtableCourse);
+      const givenDemoId = 'recAirtableId';
+      demoRepository.get.resolves(airtableDemo);
 
       // when
-      const promise = courseService.getCourse({ courseId: givenCourseId, userId });
+      await demoService.getDemo({ demoId: givenDemoId, userId });
 
       // then
-      return promise.then(() => {
-        expect(demoRepository.get).to.have.been.called;
-        expect(demoRepository.get).to.have.been.calledWith(givenCourseId);
-      });
+      expect(demoRepository.get).to.have.been.called;
+      expect(demoRepository.get).to.have.been.calledWith(givenDemoId);
     });
 
-    context('when the course exist', () => {
+    context('when the demo exists', () => {
 
-      it('should return a Course POJO', function() {
+      it('should return a Demo POJO', async () => {
         // given
-        const givenCourseId = 'recAirtableId';
-        demoRepository.get.resolves(airtableCourse);
+        const givenDemoId = 'recAirtableId';
+        demoRepository.get.resolves(airtableDemo);
 
         // when
-        const promise = courseService.getCourse({ courseId: givenCourseId, userId });
+        const result = await demoService.getDemo({ demoid: givenDemoId, userId });
 
         // then
-        return promise.then((result) => {
-          expect(result).to.be.an.instanceof(Course);
-          expect(result.id).to.equal('recAirtableId');
-
-        });
+        expect(result).to.be.an.instanceof(Demo);
+        expect(result.id).to.equal('recAirtableId');
       });
-
     });
 
     context('when an error occurred', () => {
 
       it('should log the error', async () => {
         // given
-        const givenCourseId = 'recAirtableId';
+        const givenDemoId = 'recAirtableId';
         const error = new Error();
         demoRepository.get.rejects(error);
 
         try {
           // when
-          await courseService.getCourse({ courseId: givenCourseId, userId });
+          await demoService.getDemo({ demoId: givenDemoId, userId });
 
         } catch (err) {
           // then
@@ -75,12 +68,12 @@ describe('Unit | Service | Course Service', () => {
 
       it('should throw an InfrastructureException by default', async () => {
         // given
-        const givenCourseId = 'recAirtableId';
+        const givenDemoId = 'recAirtableId';
         const error = new Error('Some message');
         demoRepository.get.rejects(error);
 
         // when
-        const err = await catchErr(courseService.getCourse)({ courseId: givenCourseId, userId });
+        const err = await catchErr(demoService.getDemo)({ demoId: givenDemoId, userId });
 
         // then
         expect(err).to.be.an.instanceof(InfrastructureError);
@@ -88,7 +81,7 @@ describe('Unit | Service | Course Service', () => {
 
       it('should throw a NotFoundError if the course was not found', () => {
         // given
-        const givenCourseId = 'recAirtableId';
+        const givenDemoId = 'recAirtableId';
         const error = {
           error: {
             type: 'MODEL_ID_NOT_FOUND',
@@ -98,7 +91,7 @@ describe('Unit | Service | Course Service', () => {
         demoRepository.get.rejects(error);
 
         // when
-        const promise = courseService.getCourse({ courseId: givenCourseId, userId });
+        const promise = demoService.getDemo({ demoId: givenDemoId, userId });
 
         // then
         return expect(promise).to.be.rejectedWith(NotFoundError);

@@ -1,5 +1,5 @@
 const courseSerializer = require('../../infrastructure/serializers/jsonapi/course-serializer');
-const courseService = require('../../../lib/domain/services/course-service');
+const courseService = require('../../domain/services/demo-service');
 const { extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
     const userId = extractUserIdFromRequest(request);
 
     return courseService
-      .getCourse({ courseId, userId })
+      .getDemo({ demoId: courseId, userId })
       .then(courseSerializer.serialize);
   },
 
