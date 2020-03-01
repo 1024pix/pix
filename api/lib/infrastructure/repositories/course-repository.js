@@ -1,4 +1,4 @@
-const Course = require('../../domain/models/Course');
+const Course = require('../../domain/models/Demo');
 const courseDatasource = require('../datasources/airtable/course-datasource');
 const { NotFoundError } = require('../../domain/errors');
 

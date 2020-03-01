@@ -26,7 +26,7 @@ describe('Unit | UseCase | get-assessment', () => {
     campaign = domainBuilder.buildCampaign({ title: expectedCampaignName });
     campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
     competence = domainBuilder.buildCompetence({ id: 'recsvLz0W2ShyfD63', name: expectedAssessmentTitle });
-    course = domainBuilder.buildCourse({ id: 'ABC123', name: expectedCourseName });
+    course = domainBuilder.buildDemo({ id: 'ABC123', name: expectedCourseName });
 
     assessment = domainBuilder.buildAssessment({
       assessmentResults:[assessmentResult],

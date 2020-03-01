@@ -1,4 +1,4 @@
-module.exports = function buildCourse({
+module.exports = function buildDemo({
   id = 'recPBOj7JzBcgXEtO',
   nom = '3.4 niveau 1 et 2',
   description = 'Programmer niveau 1 et 2',

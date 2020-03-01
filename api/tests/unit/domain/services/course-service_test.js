@@ -1,6 +1,6 @@
 const courseService = require('../../../../lib/domain/services/course-service');
 
-const Course = require('../../../../lib/domain/models/Course');
+const Course = require('../../../../lib/domain/models/Demo');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const { InfrastructureError } = require('../../../../lib/infrastructure/errors');
 

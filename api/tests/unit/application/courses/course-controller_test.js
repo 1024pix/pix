@@ -2,7 +2,7 @@ const { expect, sinon, hFake, generateValidRequestAuthorizationHeader } = requir
 const Hapi = require('@hapi/hapi');
 
 const courseController = require('../../../../lib/application/courses/course-controller');
-const Course = require('../../../../lib/domain/models/Course');
+const Course = require('../../../../lib/domain/models/Demo');
 const courseService = require('../../../../lib/domain/services/course-service');
 const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
 

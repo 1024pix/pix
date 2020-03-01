@@ -1,23 +1,20 @@
 const faker = require('faker');
-const Course = require('../../../../lib/domain/models/Course');
+const Demo = require('../../../../lib/domain/models/Demo');
 
-module.exports = function buildCourse({
+module.exports = function buildDemo({
   id = faker.random.number(),
 
   // attributes
   description = faker.lorem.sentence(),
   imageUrl = faker.internet.url(),
   name = faker.lorem.word(),
-  type = 'PLACEMENT',
+  type = 'DEMO',
 
   // relationships
-  assessment,
   challenges = [],
   competences = [],
-  competenceSkills = [],
-  tubes = [],
 } = {}) {
-  return new Course({
+  return new Demo({
     id,
     // attributes
     description,
@@ -25,10 +22,7 @@ module.exports = function buildCourse({
     name,
     type,
     // relations
-    assessment,
     challenges,
     competences,
-    competenceSkills,
-    tubes,
   });
 };

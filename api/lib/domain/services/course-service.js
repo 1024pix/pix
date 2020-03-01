@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const Course = require('../models/Course');
+const Course = require('../models/Demo');
 const { NotFoundError } = require('../../domain/errors');
 
 const courseRepository = require('../../infrastructure/repositories/course-repository');

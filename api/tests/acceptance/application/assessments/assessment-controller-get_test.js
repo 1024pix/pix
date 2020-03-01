@@ -43,7 +43,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
     acquisIdentifiants: [skillurl1.id, skillWeb1.id, skillWeb4.id, skillWeb5.id],
     acquisViaTubes: [skillurl1.id, skillWeb1.id, skillWeb4.id, skillWeb5.id],
   });
-  const course = airtableBuilder.factory.buildCourse({
+  const course = airtableBuilder.factory.buildDemo({
     id: courseId,
     adaptatif: true,
     competence: [competence.id],

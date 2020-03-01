@@ -21,7 +21,7 @@ describe('Integration | Infrastructure | airtable', () => {
     let airtableCourseJson;
 
     beforeEach(() => {
-      airtableCourseJson = airtableBuilder.factory.buildCourse({
+      airtableCourseJson = airtableBuilder.factory.buildDemo({
         id: 'recNPB7dTNt5krlMA',
       });
       airtableBuilder

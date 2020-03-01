@@ -20,7 +20,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
     beforeEach(() => {
       firstChallenge = domainBuilder.buildChallenge({ id: 'first_challenge', skills: ['@url2'] });
       secondChallenge = domainBuilder.buildChallenge({ id: 'second_challenge', skills: ['@cnil5'] });
-      course = domainBuilder.buildCourse({ id: 18415, challenges: [firstChallenge.id, secondChallenge.id] });
+      course = domainBuilder.buildDemo({ id: 18415, challenges: [firstChallenge.id, secondChallenge.id] });
       assessment = domainBuilder.buildAssessment({ id: 1165, courseId: course.id });
 
       courseRepository = { get: sinon.stub().resolves(course) };

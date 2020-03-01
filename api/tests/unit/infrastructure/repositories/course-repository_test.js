@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
-const Course = require('../../../../lib/domain/models/Course');
+const Course = require('../../../../lib/domain/models/Demo');
 const courseDatasource = require('../../../../lib/infrastructure/datasources/airtable/course-datasource');
 
 describe('Unit | Repository | course-repository', function() {

@@ -1,7 +1,7 @@
 const { expect } = require('../../../test-helper');
-const Course = require('../../../../lib/domain/models/Course');
+const Demo = require('../../../../lib/domain/models/Demo');
 
-describe('Unit | Domain | Models | Course', () => {
+describe('Unit | Domain | Models | Demo', () => {
 
   describe('#nbChallenges', () => {
 
@@ -11,10 +11,10 @@ describe('Unit | Domain | Models | Course', () => {
         'firstChallenge',
         'secondChallenge',
       ];
-      const course = new Course({ challenges });
+      const demo = new Demo({ challenges });
 
       // when
-      const result = course.nbChallenges;
+      const result = demo.nbChallenges;
 
       // then
       expect(result).to.equal(2);
