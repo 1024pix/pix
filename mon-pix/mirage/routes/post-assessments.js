@@ -3,8 +3,18 @@ import _ from 'mon-pix/utils/lodash-custom';
 import refAssessment from '../data/assessments/ref-assessment';
 
 export default function(schema, request) {
-
   const requestedAssessment = JSON.parse(request.requestBody);
+  let courseData = null;
+  if (requestedAssessment.data.relationships) {
+    courseData = requestedAssessment.data.relationships.course.data;
+  }
+
+  // DEMO
+  if (courseData && _.startsWith(courseData.id, 'rec')) {
+    const course = schema.challenges.find(courseData.id);
+    return schema.assessments.create({ course, state: 'started', type: 'DEMO' });
+  }
+
   const newAssessment = {
     'user-id': 'user_id',
     'user-name': 'Jane Doe',
@@ -16,8 +26,8 @@ export default function(schema, request) {
   ];
   let assessment;
   let courseId;
-  if (requestedAssessment.data.relationships) {
-    courseId = requestedAssessment.data.relationships.course.data.id;
+  if (courseData) {
+    courseId = courseData.id;
     assessment = _.find(allAssessments,
       (assessment) => assessment.data.relationships.course.data.id === courseId);
   }
@@ -39,7 +49,6 @@ export default function(schema, request) {
     newAssessment.type = 'CERTIFICATION';
     newAssessment.courseId = 'certification-number';
     newAssessment['certification-number'] = 'certification-number';
-
   }
 
   return schema.assessments.create(newAssessment);
