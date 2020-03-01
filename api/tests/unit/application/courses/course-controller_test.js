@@ -4,7 +4,7 @@ const Hapi = require('@hapi/hapi');
 const courseController = require('../../../../lib/application/courses/course-controller');
 const Course = require('../../../../lib/domain/models/Demo');
 const usecases = require('../../../../lib/domain/usecases');
-const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
+const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/demo-serializer');
 
 describe('Unit | Controller | course-controller', () => {
 

@@ -1,5 +1,5 @@
 const usecases = require('../../domain/usecases');
-const courseSerializer = require('../../infrastructure/serializers/jsonapi/course-serializer');
+const courseSerializer = require('../../infrastructure/serializers/jsonapi/demo-serializer');
 const { extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {

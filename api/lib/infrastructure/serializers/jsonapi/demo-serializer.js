@@ -2,10 +2,10 @@ const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
 
-  serialize(courses) {
+  serialize(demos) {
     return new Serializer('course', {
       attributes: ['name', 'description', 'nbChallenges', 'type', 'imageUrl'],
-    }).serialize(courses);
+    }).serialize(demos);
   }
 
 };
