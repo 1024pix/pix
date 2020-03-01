@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
 import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
 import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
@@ -5,6 +6,7 @@ import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 import refQcmNotYetAnsweredChallengeFull from '../data/challenges/ref-qcm-challenge_not_yet_answered';
 import refTimedChallengeBis from '../data/challenges/ref-timed-challenge-bis';
 import { challengeIds } from '../data/challenges/challenge-ids';
+import demoData from '../data/demo';
 
 function getNextChallengeForDynamicAssessment(assessment, challenges) {
   const answers = assessment.answers.models;
@@ -43,6 +45,9 @@ export default function(schema, request) {
   const assessmentId = request.params.assessmentId;
   // dynamic assessment
   const assessment = schema.assessments.find(assessmentId);
+  if (assessment && assessment.type === 'DEMO') {
+    return _getNextChallengeForDemo(schema, assessment);
+  }
   if (assessment) {
     const challenges = schema.challenges.find(challengeIds).models;
     return getNextChallengeForDynamicAssessment(assessment, challenges);
@@ -50,4 +55,12 @@ export default function(schema, request) {
 
   // testing assessment
   return getNextChallengeForTestingAssessment(assessmentId, null);
+}
+
+function _getNextChallengeForDemo(schema, assessment) {
+  const answers = schema.answers.findBy({ assessmentId: assessment.id });
+  const answeredChallengeIds = _.map(answers, 'challengeId');
+
+  const nextChallengeId = _(demoData.demoChallengeIds).difference(answeredChallengeIds).first();
+  return schema.challenges.find(nextChallengeId);
 }
