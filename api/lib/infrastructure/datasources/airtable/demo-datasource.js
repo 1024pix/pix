@@ -34,11 +34,4 @@ module.exports = datasource.extend({
     };
   },
 
-  async findAdaptiveCourses() {
-    const courses = await this.list();
-    return courses.filter((courseData) =>
-      courseData.adaptive &&
-      courseData.status === 'Publié');
-  },
-
 });
