@@ -56,6 +56,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
         totalSkillsCount: 4,
         testedSkillsCount: 2,
         validatedSkillsCount: 1,
+        masteryPercentage: 25,
         badge: {
           id: 1,
           imageUrl: '/img/banana.svg',
