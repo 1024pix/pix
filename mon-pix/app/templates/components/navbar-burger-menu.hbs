@@ -10,9 +10,11 @@
     </div>
   {{/if}}
 
-  <LinkTo @route="user-tutorials" class="navbar-burger-menu-user-info__item">
-    Mes tutos
-  </LinkTo>
+  {{#if showUserTutorialsInMenu}}
+    <LinkTo @route="user-tutorials" class="navbar-burger-menu-user-info__item">
+      Mes tutos
+    </LinkTo>
+  {{/if}}
 
   <LinkTo @route="user-certifications" class="navbar-burger-menu-user-info__item">
     Mes certifications
