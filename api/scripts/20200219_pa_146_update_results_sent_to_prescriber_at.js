@@ -19,6 +19,7 @@ function updateResultsSentToPrescribedDate(prescribedAtDatetime = new Date()) {
           and cc1."isPublished" is true
         
     )
+    and "resultsSentToPrescriberAt" is null
 
   `;
   return knex.raw(updateRequest, prescribedAtDatetime);

@@ -7,6 +7,7 @@ describe('Acceptance | Scripts | 20200219_pa_146_update_results_sent_to_prescrib
   let sessionWithAllPublishedCourses;
   let sessionWithNonePublishedCourses;
   let sessionWithoutAllPublishedCourses;
+  let sessionWithAllPublishedCoursesAndDefinedResultsSentToPrescriberAt;
 
   beforeEach(async () => {
     // given
@@ -20,6 +21,9 @@ describe('Acceptance | Scripts | 20200219_pa_146_update_results_sent_to_prescrib
     _createUnpublishedCertificationCourses(sessionWithoutAllPublishedCourses);
     sessionWithNonePublishedCourses = _createSession();
     _createUnpublishedCertificationCourses(sessionWithNonePublishedCourses);
+
+    sessionWithAllPublishedCoursesAndDefinedResultsSentToPrescriberAt = _createSession({ resultsSentToPrescriberAt: new Date() });
+    _createPublishedCertificationCourses(sessionWithAllPublishedCoursesAndDefinedResultsSentToPrescriberAt);
 
     await databaseBuilder.commit();
   });
@@ -43,6 +47,15 @@ describe('Acceptance | Scripts | 20200219_pa_146_update_results_sent_to_prescrib
         // then
         const [sessionAfterUpdate] = await knex('sessions').where({ id: sessionWithAllPublishedCourses.id });
         expect(sessionAfterUpdate.resultsSentToPrescriberAt).not.to.be.null;
+      });
+
+      it('does not update resultsSentToPrescriberAt value', async () => {
+        // when
+        await updateResultsSentToPrescribedDate();
+        // then
+        const [sessionAfterUpdate] = await knex('sessions').where({ id: sessionWithAllPublishedCoursesAndDefinedResultsSentToPrescriberAt.id });
+        expect(sessionAfterUpdate.resultsSentToPrescriberAt.toString())
+          .to.equal(sessionWithAllPublishedCoursesAndDefinedResultsSentToPrescriberAt.resultsSentToPrescriberAt.toString());
       });
     });
 
@@ -68,8 +81,8 @@ describe('Acceptance | Scripts | 20200219_pa_146_update_results_sent_to_prescrib
   });
 });
 
-function _createSession() {
-  return databaseBuilder.factory.buildSession();
+function _createSession(session) {
+  return databaseBuilder.factory.buildSession(session);
 }
 
 function _createPublishedCertificationCourses(session) {
