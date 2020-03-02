@@ -455,6 +455,7 @@ describe('Integration | Repository | Campaign', () => {
 
     it('should update model in database', async () => {
       // given
+      campaign.name = 'New name';
       campaign.title = 'New title';
       campaign.customLandingPageText = 'New text';
       campaign.archivedAt = new Date('2020-12-12T06:07:08Z');
@@ -464,6 +465,7 @@ describe('Integration | Repository | Campaign', () => {
 
       // then
       expect(campaignSaved.id).to.equal(campaign.id);
+      expect(campaignSaved.name).to.equal('New name');
       expect(campaignSaved.title).to.equal('New title');
       expect(campaignSaved.customLandingPageText).to.equal('New text');
       expect(campaignSaved.archivedAt).to.deep.equal(new Date('2020-12-12T06:07:08Z'));
