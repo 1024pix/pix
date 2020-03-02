@@ -39,19 +39,4 @@ describe('Unit | Model | Campaign-Participation-Result', function() {
       expect(maxTotalSkillsCountInCompetences).to.equal(11);
     });
   });
-
-  describe('masteryPercentage', function() {
-
-    it('should calculate total validated skills percentage', function() {
-      const model = store.createRecord('campaign-participation-result');
-      model.set('totalSkillsCount', 45);
-      model.set('validatedSkillsCount', 40);
-
-      // when
-      const masteryPercentage = model.get('masteryPercentage');
-
-      // then
-      expect(masteryPercentage).to.equal(89);
-    });
-  });
 });

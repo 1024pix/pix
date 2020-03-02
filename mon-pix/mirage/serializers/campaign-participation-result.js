@@ -5,6 +5,7 @@ export default ApplicationSerializer.extend({
     'totalSkillsCount',
     'testedSkillsCount',
     'validatedSkillsCount',
+    'masteryPercentage',
     'isCompleted'
   ],
   include: ['badge', 'competenceResults'],
