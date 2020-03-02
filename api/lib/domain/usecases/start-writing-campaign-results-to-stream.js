@@ -5,12 +5,7 @@ const moment = require('moment');
 const bluebird = require('bluebird');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
-const csvService = require('../services/csv-service');
-
-const propertiesToSanitize = [
-  'campaignName', 'targetProfileName',
-  'participantLastName', 'participantFirstName', 'participantExternalId'
-];
+const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   if (_.isNil(organizationId)) {
@@ -26,24 +21,6 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
   }
 }
 
-function _csvSerializeValue(data) {
-  if (typeof data === 'number') {
-    return data.toString().replace(/\./, ',');
-  } else if (typeof data === 'string') {
-    if (/^[0-9-]+$/.test(data)) {
-      return data;
-    } else {
-      return `"${data.replace(/"/g, '""')}"`;
-    }
-  } else {
-    throw new Error(`Unknown value type in _csvSerializeValue: ${typeof data}: ${data}`);
-  }
-}
-
-function _csvSerializeLine(line) {
-  return line.map(_csvSerializeValue).join(';') + '\n';
-}
-
 function _createHeaderOfCSV(skills, competences, areas, idPixLabel) {
   return [
     { title: 'Nom de l\'organisation', property: 'organizationName' },
@@ -53,7 +30,7 @@ function _createHeaderOfCSV(skills, competences, areas, idPixLabel) {
     { title: 'Nom du Participant', property: 'participantLastName' },
     { title: 'Prénom du Participant', property: 'participantFirstName' },
 
-    ...(idPixLabel ? [ { title: csvService.sanitize(idPixLabel), property: 'participantExternalId' } ] : []),
+    ...(idPixLabel ? [ { title: idPixLabel, property: 'participantExternalId' } ] : []),
 
     { title: '% de progression', property: 'progress' },
     { title: 'Date de début', property: 'createdAt' },
@@ -73,7 +50,7 @@ function _createHeaderOfCSV(skills, competences, areas, idPixLabel) {
       { title: `Acquis maitrisés du domaine ${area.title}`, property: `area_${area.id}_validatedSkillCount` },
     ])),
 
-    ...(_.map(skills, (skill) => ({ title: csvService.sanitize(skill.name), property: `skill_${skill.id}` }))),
+    ...(_.map(skills, (skill) => ({ title: `${skill.name}`, property: `skill_${skill.id}` }))),
   ];
 }
 
@@ -212,7 +189,7 @@ function _createOneLineOfCSV({
   const knowledgeElements = participantKnowledgeElements
     .filter((ke) => _.find(targetProfile.skills, { id: ke.skillId }));
 
-  let lineMap = _getCommonColumns({
+  const lineMap = _getCommonColumns({
     organization,
     campaign,
     targetProfile,
@@ -232,13 +209,11 @@ function _createOneLineOfCSV({
     }));
   }
 
-  lineMap = csvService.sanitizeProperties({ objectToSanitize: lineMap, propertiesToSanitize });
-
   const lineArray = headers.map(({ property }) => {
     return property in lineMap ? lineMap[property] : 'NA';
   });
 
-  return _csvSerializeLine(lineArray);
+  return csvSerializer.serializeLine(lineArray);
 }
 
 function _extractCompetences(allCompetences, skills) {
@@ -294,7 +269,7 @@ module.exports = async function startWritingCampaignResultsToStream(
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
   // - https://stackoverflow.com/a/38192870
-  const headerLine = '\uFEFF' + _csvSerializeLine(_.map(headers, 'title'));
+  const headerLine = '\uFEFF' + csvSerializer.serializeLine(_.map(headers, 'title'));
 
   writableStream.write(headerLine);
 
