@@ -1,6 +1,9 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import config from 'mon-pix/config/environment';
 
 export default Component.extend({
   currentUser: service(),
+
+  showUserTutorialsInMenu: config.APP.SHOW_USER_TUTORIALS_IN_MENU
 });
