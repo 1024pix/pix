@@ -4,8 +4,9 @@ module.exports = {
   globals: {
     server: true,
   },
+  parser: 'babel-eslint',
   parserOptions: {
-    ecmaVersion: 2017,
+    ecmaVersion: 2018,
     sourceType: 'module'
   },
   plugins: [
@@ -28,18 +29,18 @@ module.exports = {
         '.template-lintrc.js',
         'ember-cli-build.js',
         'testem.js',
+        'blueprints/*/index.js',
         'config/**/*.js',
         'lib/*/index.js',
         'server/**/*.js'
       ],
       parserOptions: {
-        sourceType: 'script',
-        ecmaVersion: 2015
+        sourceType: 'script'
       },
       env: {
         browser: false,
         node: true
-      }
+      },
     }
   ]
 };
