@@ -86,7 +86,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
 
         // when
         await fillIn('#register-firstName', stringFilledIn);
-        await triggerEvent('#register-firstName', 'blur');
+        await triggerEvent('#register-firstName', 'focusout');
 
         // then
         assert.dom('#register-firstName-container .alert-input--error').hasText(EMPTY_FIRSTNAME_ERROR_MESSAGE);
@@ -103,7 +103,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
 
         // when
         await fillIn('#register-lastName', stringFilledIn);
-        await triggerEvent('#register-lastName', 'blur');
+        await triggerEvent('#register-lastName', 'focusout');
 
         // then
         assert.dom('#register-lastName-container .alert-input--error').hasText(EMPTY_LASTNAME_ERROR_MESSAGE);
@@ -122,7 +122,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
 
         // when
         await fillIn('#register-email', stringFilledIn);
-        await triggerEvent('#register-email', 'blur');
+        await triggerEvent('#register-email', 'focusout');
 
         // then
         assert.dom('#register-email-container .alert-input--error').hasText(EMPTY_EMAIL_ERROR_MESSAGE);
@@ -142,7 +142,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
 
         // when
         await fillIn('#register-password', stringFilledIn);
-        await triggerEvent('#register-password', 'blur');
+        await triggerEvent('#register-password', 'focusout');
 
         // then
         assert.dom('#register-password-container .alert-input--error').hasText(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
