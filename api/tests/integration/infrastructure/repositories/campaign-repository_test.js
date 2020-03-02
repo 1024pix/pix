@@ -226,6 +226,28 @@ describe('Integration | Repository | Campaign', () => {
         expect(_.map(campaignsWithReports, 'id')).to.deep.equal([campaignBInTheFutureId, campaignAInThePresentId, campaignBInThePastId]);
       });
 
+      context('when some campaigns are archived', async () => {
+
+        it('should be able to retrieve only campaigns that are archived', async () => {
+          // given
+          organizationId = databaseBuilder.factory.buildOrganization().id;
+          databaseBuilder.factory.buildCampaign({ organizationId, archivedAt: new Date('2010-07-30T09:35:45Z') });
+          databaseBuilder.factory.buildCampaign({ organizationId, archivedAt: new Date('2010-07-30T09:35:45Z') });
+          databaseBuilder.factory.buildCampaign({ organizationId, archivedAt: null });
+          databaseBuilder.factory.buildCampaign({ organizationId, archivedAt: null });
+          databaseBuilder.factory.buildCampaign({ organizationId, archivedAt: null });
+          filter.ongoing = false;
+
+          await databaseBuilder.commit();
+          // when
+          const { models: archivedCampaigns } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+
+          // then
+          expect(archivedCampaigns).to.have.lengthOf(2);
+          expect(archivedCampaigns[0].archivedAt).is.not.null;
+        });
+      });
+
       context('when campaigns have participants', async () => {
 
         it('should return the campaigns of the given organization id with campaignReports', async () => {

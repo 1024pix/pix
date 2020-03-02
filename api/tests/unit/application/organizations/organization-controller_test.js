@@ -312,7 +312,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       // given
       request.query = {};
       const expectedResponse = { data: serializedCampaigns, meta: {} };
-      queryParamsUtils.extractParameters.withArgs({}).returns({});
+      queryParamsUtils.extractParameters.withArgs({}).returns({ filter: {} });
       usecases.findPaginatedFilteredOrganizationCampaigns.resolves({ models: {}, pagination: {} });
       campaignSerializer.serialize.returns(expectedResponse);
 
@@ -329,7 +329,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       const expectedResults = [campaign];
       const expectedPagination = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4 };
       const expectedConfig = { ignoreCampaignReportRelationshipData: false };
-      queryParamsUtils.extractParameters.withArgs({}).returns({});
+      queryParamsUtils.extractParameters.withArgs({}).returns({ filter: {} });
       usecases.findPaginatedFilteredOrganizationCampaigns.resolves({ models: expectedResults, pagination: expectedPagination });
 
       // when

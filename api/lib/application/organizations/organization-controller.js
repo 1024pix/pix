@@ -57,6 +57,10 @@ module.exports = {
     const organizationId = parseInt(request.params.id);
     const options = queryParamsUtils.extractParameters(request.query);
 
+    if (options.filter.status === 'archived') {
+      options.filter.ongoing = false;
+      delete options.filter.status;
+    }
     const { models: campaigns, pagination } = await usecases.findPaginatedFilteredOrganizationCampaigns({ organizationId, filter: options.filter, page: options.page });
     return campaignSerializer.serialize(campaigns, pagination, { ignoreCampaignReportRelationshipData : false });
   },
