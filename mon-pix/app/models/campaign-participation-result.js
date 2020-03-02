@@ -1,10 +1,10 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { mapBy, max } from '@ember/object/computed';
-import { computed } from '@ember/object';
 
 export default class CampaignParticipationResult extends Model {
 
   // attributes
+  @attr('number') masteryPercentage;
   @attr('number') totalSkillsCount;
   @attr('number') testedSkillsCount;
   @attr('number') validatedSkillsCount;
@@ -17,9 +17,4 @@ export default class CampaignParticipationResult extends Model {
   @mapBy('competenceResults', 'totalSkillsCount') totalSkillsCounts;
 
   @max('totalSkillsCounts') maxTotalSkillsCountInCompetences;
-
-  @computed('totalSkillsCount', 'validatedSkillsCount')
-  get masteryPercentage() {
-    return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
-  }
 }
