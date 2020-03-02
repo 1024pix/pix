@@ -7,6 +7,8 @@ module.exports = async function findOrganizationStudents({ organizationId, stude
     if (isUserReconcilied) {
       const user = await userRepository.get(student.userId);
       student.username = user.username;
+      student.email = user.email;
+      student.isAuthenticatedFromGAR = (user.samlId) ? true : false;
     }
   }
 

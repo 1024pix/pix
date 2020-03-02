@@ -7,14 +7,17 @@ describe('Unit | UseCase | find-organization-students', () => {
   const organizationId = 1;
   const userId = 2;
   const username = 'username';
-  const user = { username };
+  const email = 'email@example.net';
+  const samlId = 'samlId';
+  const isAuthenticatedFromGAR = true;
+  const user = { username, email , samlId };
 
   const studentNotYetReconcilied = { id: 3 };
   const studentReconcilied = { id: 4, userId };
-  const studentReconciliedWithUserInformations = { ...studentReconcilied, ...{ username }  };
+  const expectedReconciliedStudentFromGAR = { ...studentReconcilied, ...{ username, email, isAuthenticatedFromGAR } };
 
   let res;
-  const students = [studentNotYetReconcilied, studentReconcilied ];
+  const students = [studentNotYetReconcilied, studentReconcilied, ];
   const userRepository = { get: sinon.stub().withArgs(userId).returns(user) };
   const studentRepository = { findByOrganizationId: sinon.stub().withArgs({ organizationId }).returns(students) };
 
@@ -28,16 +31,35 @@ describe('Unit | UseCase | find-organization-students', () => {
     expect(studentRepository.findByOrganizationId).to.have.been.calledWithExactly({ organizationId });
   });
 
-  it('should fetch the user if the student is reconcilied', function() {
-    expect(userRepository.get).to.have.been.calledWithExactly(studentReconcilied.userId);
-  });
-
-  it('should not fetch the user if the student is not reconcilied', function() {
-    expect(userRepository.get).to.have.been.calledOnce;
-  });
-
   it('should return reconcilied and not reconcilied students', function() {
-    expect(res).to.deep.equal([studentNotYetReconcilied, studentReconciliedWithUserInformations ]);
+    expect(res).to.deep.equal([studentNotYetReconcilied, studentReconcilied]);
+  });
+
+  context('The student is reconcilied', () => {
+
+    it('should fetch the user if the student is reconcilied', function() {
+      expect(userRepository.get).to.have.been.calledWithExactly(studentReconcilied.userId);
+    });
+
+    it('should add user{username} to student if authenticated by username', function() {
+      expect(res).to.deep.equal([studentNotYetReconcilied, expectedReconciliedStudentFromGAR]);
+    });
+
+    it('should add user{email} to student if authenticated by email', function() {
+      expect(res).to.deep.equal([studentNotYetReconcilied, expectedReconciliedStudentFromGAR]);
+    });
+
+    it('should add user{isAuthenticatedFromGAR} to student if authenticated from GAR', function() {
+      expect(res).to.deep.equal([studentNotYetReconcilied, expectedReconciliedStudentFromGAR]);
+    });
+
+  });
+
+  context('The student is not reconcilied yet', () => {
+
+    it('should not fetch the user if the student is not reconcilied', function() {
+      expect(userRepository.get).to.have.been.calledOnce;
+    });
   });
 
 });
