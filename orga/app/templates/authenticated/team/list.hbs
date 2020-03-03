@@ -1,3 +1,3 @@
 <div class="list-team-page">
-  {{routes/authenticated/team/list-items memberships=model.memberships organizationInvitations=model.organizationInvitations}}
+  <Routes::Authenticated::Team::ListItems @memberships={{model.memberships}} @organizationInvitations={{model.organizationInvitations}} />
 </div>

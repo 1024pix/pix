@@ -2,13 +2,9 @@
   <div class="page__title page-title">Élèves</div>
   {{#if currentUser.isAdminInOrganization}}
     <div class="list-students-page__import-students-button">
-      {{#file-upload name="file-upload"
-                     for="students-file-upload"
-                     accept=".xml"
-                     multiple=false
-                     onfileadd=(action importStudents)}}
+      <FileUpload @name="file-upload" @for="students-file-upload" @accept=".xml" @multiple={{false}} @onfileadd={{action importStudents}}>
         <span class="button" role="button" tabindex=0>Importer (.xml)</span>
-      {{/file-upload}}
+      </FileUpload>
     </div>
   {{/if}}
 </div>
@@ -53,12 +49,12 @@
   </div>
 
   {{#if isShowingModal}}
-    {{password-reset-window student=student isShowingModal=isShowingModal}}
+    <PasswordResetWindow @student={{student}} @isShowingModal={{isShowingModal}} />
   {{/if}}
 </div>
 
 {{#if isLoading}}
-  {{#modal-dialog translucentOverlay=true containerClass="pix-modal__translucent"}}
+  <ModalDialog @translucentOverlay={{true}} @containerClass="pix-modal__translucent">
     <img src="/images/interwind.gif" alt="Chargement…">
-  {{/modal-dialog}}
+  </ModalDialog>
 {{/if}}

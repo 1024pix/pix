@@ -2,18 +2,18 @@
 
   <aside class="app__sidebar sidebar">
     <header class="sidebar__logo logo sidebar--padding-left">
-      {{#link-to "authenticated.campaigns"}}
+      <LinkTo @route="authenticated.campaigns">
         <img class="logo__image" src="{{rootUrl}}/pix-orga.svg">
-      {{/link-to}}
+      </LinkTo>
     </header>
 
-    {{sidebar-menu}}
+    <SidebarMenu />
   </aside>
 
   <div class="app__main-content main-content">
 
     <div class="main-content__topbar topbar">
-      <div class="topbar__user-logged-menu">{{user-logged-menu}}</div>
+      <div class="topbar__user-logged-menu"><UserLoggedMenu /></div>
     </div>
 
     <div class="main-content__body page">

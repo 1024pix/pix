@@ -19,11 +19,11 @@
     <div class="participant-results-content__score">
       <div class="content-text content-text--big content-text--bold">Résultat</div>
       <div class="participant-results-content__circle-chart">
-        {{#circle-chart value=campaignCollectiveResult.averageResult}}
+        <CircleChart @value={{campaignCollectiveResult.averageResult}}>
           <span class="participant-results-content__circle-chart-value">
             {{campaignCollectiveResult.averageResult}}%
           </span>
-        {{/circle-chart}}
+        </CircleChart>
       </div>
     </div>
   </div>
@@ -54,11 +54,9 @@
             <span>{{competenceResult.competenceName}}</span>
           </td>
           <td>
-            {{#progression-gauge
-                total=competenceResult.totalSkillsCountPercentage
-                value=competenceResult.validatedSkillsPercentage}}
+            <ProgressionGauge @total={{competenceResult.totalSkillsCountPercentage}} @value={{competenceResult.validatedSkillsPercentage}}>
               {{competenceResult.validatedSkillsPercentage}}%
-            {{/progression-gauge}}
+            </ProgressionGauge>
           </td>
           <td>{{competenceResult.roundedAverageValidatedSkills}}</td>
           <td>{{competenceResult.totalSkillsCount}}</td>
