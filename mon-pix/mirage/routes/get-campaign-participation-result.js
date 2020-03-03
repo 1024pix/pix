@@ -19,6 +19,7 @@ export default function(schema) {
     totalSkillsCount: 10,
     testedSkillsCount: 9,
     validatedSkillsCount: 9,
+    areBadgeCriteriaValidated: true,
     competenceResults: [competenceResult],
     badge
   });

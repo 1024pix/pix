@@ -56,17 +56,17 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
         controller.set('model.campaignParticipation.campaignParticipationResult.badge', badgePixEmploi);
       });
 
-      it('should return true when user masters more than 85 percent', function() {
+      it('should return true when user validated the criteria of a badge', function() {
         // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 85);
+        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaValidated', true);
 
         // then
         expect(controller.shouldShowBadge).to.equal(true);
       });
 
-      it('should return false when user masters less than 85 percent', function() {
+      it('should return false when user did not validated the criteria of a badge', function() {
         // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 26);
+        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaValidated', false);
 
         // then
         expect(controller.shouldShowBadge).to.equal(false);
@@ -82,17 +82,17 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
         controller.set('model.campaignParticipation.campaignParticipationResult.badge', emptyBadge);
       });
 
-      it('should return false when user masters more than 85 percent', function() {
+      it('should return false when user validated the criteria of a badge', function() {
         // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 85);
+        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaValidated', false);
 
         // then
         expect(controller.shouldShowBadge).to.equal(false);
       });
 
-      it('should return false when user masters less than 85 percent', function() {
+      it('should return false when user did not validated the criteria of a badge', function() {
         // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 26);
+        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaValidated', false);
 
         // then
         expect(controller.shouldShowBadge).to.equal(false);

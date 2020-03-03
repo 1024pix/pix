@@ -8,6 +8,7 @@ export default class CampaignParticipationResult extends Model {
   @attr('number') totalSkillsCount;
   @attr('number') testedSkillsCount;
   @attr('number') validatedSkillsCount;
+  @attr('boolean') areBadgeCriteriaValidated;
 
   // includes
   @belongsTo('badge') badge;
