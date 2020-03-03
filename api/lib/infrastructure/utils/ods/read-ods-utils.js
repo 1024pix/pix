@@ -13,7 +13,7 @@ async function getContentXml({ odsFilePath }) {
 }
 
 async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropertyMap }) {
-  const sheetDataRows = await _getSheetDataRowsFromOdsBuffer(odsBuffer);
+  const sheetDataRows = await getSheetDataRowsFromOdsBuffer({ odsBuffer });
   const tableHeaders = _.map(tableHeaderTargetPropertyMap, 'header');
   const sheetHeaderRow = _findHeaderRow(sheetDataRows, tableHeaders);
   if (!sheetHeaderRow) {
@@ -30,7 +30,7 @@ async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropert
 }
 
 async function getOdsVersionByHeaders({ odsBuffer, transformationStructsByVersion }) {
-  const sheetDataRows = await _getSheetDataRowsFromOdsBuffer(odsBuffer);
+  const sheetDataRows = await getSheetDataRowsFromOdsBuffer({ odsBuffer });
   const transformationStruct = _.find(
     transformationStructsByVersion,
     (transformationStruct) => _findHeaderRow(sheetDataRows, transformationStruct.headers)
@@ -43,15 +43,15 @@ async function getOdsVersionByHeaders({ odsBuffer, transformationStructsByVersio
   return transformationStruct.version;
 }
 
-async function _getSheetDataRowsFromOdsBuffer(odsBuffer) {
+async function getSheetDataRowsFromOdsBuffer({ odsBuffer, jsonOptions = { header: 'A' } }) {
   let document;
   try {
-    document = await XLSX.read(odsBuffer, { type: 'buffer', cellDates: true, });
+    document = await XLSX.read(odsBuffer, { type: 'buffer', cellDates: true });
   } catch (error) {
     throw new UnprocessableEntityError(error);
   }
   const sheet = document.Sheets[document.SheetNames[0]];
-  const sheetDataRows = XLSX.utils.sheet_to_json(sheet, { header: 'A' });
+  const sheetDataRows = XLSX.utils.sheet_to_json(sheet, jsonOptions);
   if (_.isEmpty(sheetDataRows)) {
     throw new UnprocessableEntityError('Empty data in sheet');
   }
@@ -122,7 +122,8 @@ function _transformSheetDataRow(sheetDataRow, sheetHeaderPropertyMap) {
 }
 
 module.exports = {
-  getContentXml,
   extractTableDataFromOdsFile,
+  getContentXml,
   getOdsVersionByHeaders,
+  getSheetDataRowsFromOdsBuffer,
 };
