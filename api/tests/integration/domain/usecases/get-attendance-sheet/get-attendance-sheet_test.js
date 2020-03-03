@@ -1,21 +1,28 @@
-const { expect, databaseBuilder } = require('../../../../test-helper');
-const sessionRepository = require('../../../../../lib/infrastructure/repositories/session-repository');
-const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');
-const readOdsUtils  = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 const fs = require('fs');
 const _ = require('lodash');
 
+const { expect, databaseBuilder } = require('../../../../test-helper');
+
+const readOdsUtils  = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
+
+const sessionRepository = require('../../../../../lib/infrastructure/repositories/session-repository');
+const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');
+
 describe('Integration | UseCases | getAttendanceSheet', () => {
-  let userId;
-  let sessionId;
+
   const expectedOdsFilePath = `${__dirname}/attendance_sheet_template_target.ods`;
   const actualOdsFilePath = `${__dirname}/attendance_sheet_template_actual.tmp.ods`;
 
-  beforeEach(() => {
+  let userId;
+  let sessionId;
+
+  beforeEach(async () => {
     const certificationCenterName = 'Centre de certification';
-    userId = databaseBuilder.factory.buildUser().id;
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: certificationCenterName }).id;
+
+    userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+
     sessionId = databaseBuilder.factory.buildSession({
       id: 10,
       certificationCenter: certificationCenterName,
@@ -28,6 +35,7 @@ describe('Integration | UseCases | getAttendanceSheet', () => {
       time: '14:30',
       description: 'La super description',
     }).id;
+
     _.each([
       { lastName: 'Jackson', firstName: 'Michael', birthCity: 'Paris', birthProvinceCode: '75', birthCountry: 'France', email: 'jackson@gmail.com', birthdate: '2004-04-04', sessionId, externalId: 'ABC123', extraTimePercentage: 0.6 },
       { lastName: 'Jackson', firstName: 'Janet', birthCity: 'Ajaccio', birthProvinceCode: '2A', birthCountry: 'France', email: 'jaja@hotmail.fr', birthdate: '2005-12-05', sessionId, externalId: 'DEF456', extraTimePercentage: null },
@@ -37,7 +45,7 @@ describe('Integration | UseCases | getAttendanceSheet', () => {
       databaseBuilder.factory.buildCertificationCandidate(candidate);
     });
 
-    return databaseBuilder.commit();
+    await databaseBuilder.commit();
   });
 
   afterEach(() => {

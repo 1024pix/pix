@@ -1,23 +1,31 @@
-const { expect } = require('../../../../test-helper');
-const { makeUpdatedOdsByContentXml, updateXmlRows, updateXmlSparseValues } = require('../../../../../lib/infrastructure/utils/ods/write-ods-utils');
-const { getContentXml } = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 const fs = require('fs');
 const moment = require('moment');
 moment.suppressDeprecationWarnings = true;
 
-describe('write-ods-utils', () => {
+const { expect } = require('../../../../test-helper');
+
+const { getContentXml } = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
+const {
+  makeUpdatedOdsByContentXml, updateXmlRows, updateXmlSparseValues
+} = require('../../../../../lib/infrastructure/utils/ods/write-ods-utils');
+
+describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', () => {
+
+  const GET_CONTENT_ODS_FILE_PATH = `${__dirname}/files/get-content-xml_test.ods`;
 
   describe('makeUpdatedOdsByContentXml', () => {
 
-    const odsFilePath = `${__dirname}/get-content-xml_test.ods`;
-    const updatedOdsFilePath = `${__dirname}/write-ods-utils-make-updated-ods-by-content-xml_test_tmp.ods`;
+    let updatedOdsFilePath;
 
     it('should return the edited ods file as a buffer', async () => {
       // given
+      updatedOdsFilePath = `${__dirname}/write-ods-utils-make-updated-ods-by-content-xml_test_tmp.ods`;
       const updatedStringifiedXml = '<xml>New xml</xml>';
 
       // when
-      const updatedOdsFileBuffer = await makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath });
+      const updatedOdsFileBuffer = await makeUpdatedOdsByContentXml({
+        stringifiedXml: updatedStringifiedXml, odsFilePath: GET_CONTENT_ODS_FILE_PATH
+      });
       fs.writeFileSync(updatedOdsFilePath, updatedOdsFileBuffer);
       const result = await getContentXml({ odsFilePath: updatedOdsFilePath });
 
@@ -28,7 +36,6 @@ describe('write-ods-utils', () => {
     afterEach(() => {
       fs.unlinkSync(updatedOdsFilePath);
     });
-
   });
 
   describe('#updateXmlSparseValues', () => {
@@ -84,7 +91,6 @@ describe('write-ods-utils', () => {
       // then
       expect(result).to.deep.equal(updatedStringifiedXml);
     });
-
   });
 
   describe('updateXmlRows', () => {
@@ -184,7 +190,6 @@ describe('write-ods-utils', () => {
       // then
       expect(result).to.deep.equal(updatedStringifiedXml);
     });
-
   });
 
 });
