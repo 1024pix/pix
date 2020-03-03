@@ -2,10 +2,10 @@ import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import _ from 'lodash';
 
-export default Service.extend({
+export default class CurrentUserService extends Service {
+  @service session;
 
-  session: service(),
-  store: service(),
+  @service store;
 
   async load() {
     if (this.get('session.isAuthenticated')) {
@@ -32,7 +32,7 @@ export default Service.extend({
         }
       }
     }
-  },
+  }
 
   async _getMembershipByOrganizationId(memberships, organizationId) {
     for (let i = 0; i < memberships.length; i++) {
@@ -43,5 +43,4 @@ export default Service.extend({
     }
     return null;
   }
-
-});
+}

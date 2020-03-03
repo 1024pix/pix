@@ -1,11 +1,11 @@
-import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 import RSVP from 'rsvp';
 
-export default Route.extend({
+export default class NewRoute extends Route {
+  @service store;
 
-  store: service(),
-  currentUser: service(),
+  @service currentUser;
 
   model() {
     const organization = this.currentUser.organization;
@@ -13,5 +13,5 @@ export default Route.extend({
       organization,
       organizationInvitation: this.store.createRecord('organizationInvitation', { organizationId: organization.id })
     });
-  },
-});
+  }
+}

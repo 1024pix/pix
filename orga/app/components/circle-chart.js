@@ -1,7 +1,3 @@
 import Component from '@ember/component';
 
-export default Component.extend({
-
-  classNames: ['circle-chart'],
-
-});
+export default class CircleChart extends Component {}

@@ -39,7 +39,7 @@
       {{#if memberships}}
         <tbody>
           {{#each memberships as |membership|}}
-            <Routes::Authenticated::Team::Items @membership={{membership}} />
+            <Routes::Authenticated::Team::Items @membership={{membership}} @tagName="tr"/>
           {{/each}}
         </tbody>
       {{/if}}

@@ -1,6 +1,6 @@
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
-import { inject } from '@ember/service';
 
 import isEmailValid from '../../utils/email-validator';
 import isPasswordValid from '../../utils/password-validator';
@@ -30,22 +30,23 @@ const validation = {
   }
 };
 
-export default Component.extend({
+export default class RegisterForm extends Component {
+  @service session;
 
-  session: inject(),
-  store: inject(),
+  @service store;
 
-  user: null,
-  isLoading: false,
-  validation: validation,
-  isPasswordVisible: false,
+  user = null;
+  isLoading = false;
+  validation = validation;
+  isPasswordVisible = false;
 
-  passwordInputType: computed('isPasswordVisible', function() {
+  @computed('isPasswordVisible')
+  get passwordInputType() {
     return this.isPasswordVisible ? 'text' : 'password';
-  }),
+  }
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     this.user = this.store.createRecord('user', {
       lastName: '',
       firstName: '',
@@ -53,42 +54,45 @@ export default Component.extend({
       password: '',
       cgu: false
     });
-  },
+  }
 
-  actions: {
-    async register() {
-      this.set('isLoading', true);
-      try {
-        await this.user.save();
-      } catch (e) {
-        this.set('isLoading', false);
-        return this._updateInputsStatus();
-      }
-
-      await this._acceptOrganizationInvitation(this.organizationInvitationId, this.organizationInvitationCode, this.get('user.email'));
-      await this._authenticate(this.get('user.email'), this.get('user.password'));
-
-      this.set('user.password', null);
+  @action
+  async register() {
+    this.set('isLoading', true);
+    try {
+      await this.user.save();
+    } catch (e) {
       this.set('isLoading', false);
-    },
+      return this._updateInputsStatus();
+    }
 
-    togglePasswordVisibility() {
-      this.toggleProperty('isPasswordVisible');
-    },
+    await this._acceptOrganizationInvitation(this.organizationInvitationId, this.organizationInvitationCode, this.get('user.email'));
+    await this._authenticate(this.get('user.email'), this.get('user.password'));
 
-    validateInput(key, value) {
-      const isValuePresent = (value) => !!value.trim();
-      this._executeFieldValidation(key, value, isValuePresent);
-    },
+    this.set('user.password', null);
+    this.set('isLoading', false);
+  }
 
-    validateInputEmail(key, value) {
-      this._executeFieldValidation(key, value, isEmailValid);
-    },
+  @action
+  togglePasswordVisibility() {
+    this.toggleProperty('isPasswordVisible');
+  }
 
-    validateInputPassword(key, value) {
-      this._executeFieldValidation(key, value, isPasswordValid);
-    },
-  },
+  @action
+  validateInput(key, value) {
+    const isValuePresent = (value) => !!value.trim();
+    this._executeFieldValidation(key, value, isValuePresent);
+  }
+
+  @action
+  validateInputEmail(key, value) {
+    this._executeFieldValidation(key, value, isEmailValid);
+  }
+
+  @action
+  validateInputPassword(key, value) {
+    this._executeFieldValidation(key, value, isPasswordValid);
+  }
 
   _updateInputsStatus() {
     const errors = this.get('user.errors');
@@ -96,14 +100,14 @@ export default Component.extend({
       const messageObject = 'validation.' + attribute + '.message';
       this.set(messageObject, message);
     });
-  },
+  }
 
   _executeFieldValidation(key, value, isValid) {
     const isInvalidInput = !isValid(value);
     const message = isInvalidInput ? ERROR_INPUT_MESSAGE_MAP[key] : null;
     const messageObject = 'validation.' + key + '.message';
     this.set(messageObject, message);
-  },
+  }
 
   _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, createdUserEmail) {
     const status = 'accepted';
@@ -113,11 +117,10 @@ export default Component.extend({
       status,
       email: createdUserEmail,
     }).save({ adapterOptions: { organizationInvitationId } });
-  },
+  }
 
   _authenticate(email, password) {
     const scope = 'pix-orga';
     return this.session.authenticate('authenticator:oauth2', email, password, scope);
-  },
-
-});
+  }
+}

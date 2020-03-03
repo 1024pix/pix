@@ -28,11 +28,11 @@ const gradientPalette = {
 const campaignTest = {
   name: 'Campagne de test',
 };
-export default FreestyleController.extend({
-  emberFreestyle: service(),
+export default class StyleGuideController extends FreestyleController {
+  @service emberFreestyle;
 
-  colorPalette: colorPalette,
-  textColorPalette: textColorPalette,
-  gradientPalette: gradientPalette,
-  campaignTest: campaignTest,
-});
+  colorPalette = colorPalette;
+  textColorPalette = textColorPalette;
+  gradientPalette = gradientPalette;
+  campaignTest = campaignTest;
+}

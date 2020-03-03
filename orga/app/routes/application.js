@@ -1,31 +1,26 @@
-import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
-export default Route.extend(ApplicationRouteMixin, {
+export default class ApplicationRoute extends Route.extend(ApplicationRouteMixin) {
+  routeAfterAuthentication = 'authenticated';
 
-  routeAfterAuthentication: 'authenticated',
-  currentUser: service(),
+  @service currentUser;
 
   beforeModel() {
     return this._loadCurrentUser();
-  },
+  }
 
-  // The local variable _super is necessary, do not refactor it
-  // https://github.com/simplabs/ember-simple-auth/blob/master/guides/managing-current-user.md#loading-the-current-user
   async sessionAuthenticated() {
-    const _super = this._super;
     await this._loadCurrentUser();
-    _super.call(this, ...arguments);
-  },
+    this.transitionTo(this.routeAfterAuthentication);
+  }
 
   sessionInvalidated() {
     this.transitionTo('login');
-  },
+  }
 
   _loadCurrentUser() {
-    return this.get('currentUser')
-      .load()
-      .catch(() => this.get('session').invalidate());
+    return this.currentUser.load();
   }
-});
+}

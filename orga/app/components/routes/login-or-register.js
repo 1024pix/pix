@@ -1,12 +1,11 @@
+import { action } from '@ember/object';
 import Component from '@ember/component';
 
-export default Component.extend({
+export default class LoginOrRegister extends Component {
+  displayRegisterForm = true;
 
-  displayRegisterForm: true,
-
-  actions: {
-    toggleFormsVisibility() {
-      this.toggleProperty('displayRegisterForm');
-    },
+  @action
+  toggleFormsVisibility() {
+    this.toggleProperty('displayRegisterForm');
   }
-});
+}
