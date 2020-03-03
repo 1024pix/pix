@@ -29,12 +29,12 @@
               {{else}}
                 {{#if participant.campaignParticipationResult.isCompleted}}
                   <span class="participant-list__icon">
-                    {{fa-icon 'share-square'}}
+                    <FaIcon @icon='share-square'></FaIcon>
                   </span>
                   En attente
                 {{else}}
                   <span class="participant-list__icon">
-                    {{fa-icon 'hourglass-half'}}
+                    <FaIcon @icon='hourglass-half'></FaIcon>
                   </span>
                   En cours de test
                 {{/if}}
@@ -53,5 +53,5 @@
 </div>
 
 {{#if participants}}
-  {{pagination-control pagination=participants.meta paginationLink="authenticated.campaigns.details.participants"}}
+  <PaginationControl @pagination={{participants.meta}} @paginationLink="authenticated.campaigns.details.participants" />
 {{/if}}

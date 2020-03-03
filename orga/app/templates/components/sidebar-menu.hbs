@@ -1,23 +1,23 @@
 <nav class="sidebar-menu">
-  {{#link-to 'authenticated.campaigns' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
+  <LinkTo @route="authenticated.campaigns" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
     Campagnes
-  {{/link-to}}
+  </LinkTo>
   {{#if currentUser.isAdminInOrganization}}
-    {{#link-to 'authenticated.team' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
+    <LinkTo @route="authenticated.team" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
       Équipe
-    {{/link-to}}
+    </LinkTo>
   {{/if}}
   {{#if currentUser.canAccessStudentsPage}}
-    {{#link-to 'authenticated.students' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
+    <LinkTo @route="authenticated.students" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
       Élèves
-    {{/link-to}}
+    </LinkTo>
   {{/if}}
   {{#if currentUser.canAccessStudentsPage}}
     <div class="sidebar-menu__documentation-item">
       <a class="sidebar-menu-documentation-item__button" href="https://bit.ly/ressourcespixorga"
          target="_blank">
         <div class="sidebar-menu-documentation-item__bar"></div>
-        {{fa-icon 'book' class="sidebar--padding-right"}}
+        <FaIcon @icon='book' class="sidebar--padding-right"></FaIcon>
         Documentation
       </a>
     </div>

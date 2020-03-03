@@ -1,48 +1,28 @@
-{{#freestyle-guide
-  title='Pix Style Guide'
-  subtitle='Pix Orga'
-  }}
-  {{#freestyle-section name='Elements' as |section|}}
+<FreestyleGuide @title="Pix Style Guide" @subtitle="Pix Orga">
+  <FreestyleSection @name="Elements" as |section|>
 
-    {{#section.subsection name='Panneaux'}}
-    {{/section.subsection}}
+    <section.subsection @name="Panneaux">
+    </section.subsection>
 
-    {{#section.subsection name='Formulaire'}}
-    {{/section.subsection}}
+    <section.subsection @name="Formulaire">
+    </section.subsection>
 
-  {{/freestyle-section}}
+  </FreestyleSection>
 
-  {{#freestyle-section name='Style' as |section|}}
+  <FreestyleSection @name="Style" as |section|>
 
-    {{#section.subsection name='Typographie'}}
+    <section.subsection @name="Typographie">
 
-      {{#freestyle-usage 'typography-roboto' title='Roboto'}}
-        {{freestyle-typeface fontFamily='Roboto'}}
-      {{/freestyle-usage}}
+    </section.subsection>
 
-      {{#freestyle-usage 'typography-open-sans' title='Open Sans'}}
-        {{freestyle-typeface fontFamily='Open Sans'}}
-      {{/freestyle-usage}}
+    <section.subsection @name="Couleur">
+      <FreestylePalette @colorPalette={{colorPalette}} @title="Palette de couleur" />
 
-    {{/section.subsection}}
+      <FreestylePalette @colorPalette={{textColorPalette}} @title="Palette de couleur pour le texte" />
 
-    {{#section.subsection name='Couleur'}}
-      {{freestyle-palette
-        colorPalette=colorPalette
-        title='Palette de couleur'
-      }}
+      <FreestylePalette @colorPalette={{gradientPalette}} @title="Gradiant de couleur" />
+    </section.subsection>
 
-      {{freestyle-palette
-        colorPalette=textColorPalette
-        title='Palette de couleur pour le texte'
-      }}
+  </FreestyleSection>
 
-      {{freestyle-palette
-        colorPalette=gradientPalette
-        title='Gradiant de couleur'
-      }}
-    {{/section.subsection}}
-
-  {{/freestyle-section}}
-
-{{/freestyle-guide}}
+</FreestyleGuide>

@@ -1,8 +1,4 @@
 <div class="list-students-page">
 
-  {{routes/authenticated/students/list-items
-    students=model
-    isLoading=isLoading
-    importStudents=(action 'importStudents')
-  }}
+  <Routes::Authenticated::Students::ListItems @students={{model}} @isLoading={{isLoading}} @importStudents={{action "importStudents"}} />
 </div>

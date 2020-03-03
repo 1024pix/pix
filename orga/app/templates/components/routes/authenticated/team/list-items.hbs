@@ -1,7 +1,7 @@
 <div class="list-team-page__header">
   <div class="page__title page-title">Mon équipe</div>
   <div class="list-team-page-header__add-member-button">
-    {{#link-to 'authenticated.team.new' class="button button--link"}}Inviter un membre{{/link-to}}
+    <LinkTo @route="authenticated.team.new" class="button button--link">Inviter un membre</LinkTo>
   </div>
 </div>
 {{#if organizationInvitations}}
@@ -39,7 +39,7 @@
       {{#if memberships}}
         <tbody>
           {{#each memberships as |membership|}}
-            {{routes/authenticated/team/items membership=membership}}
+            <Routes::Authenticated::Team::Items @membership={{membership}} />
           {{/each}}
         </tbody>
       {{/if}}
