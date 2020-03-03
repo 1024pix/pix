@@ -17,6 +17,7 @@
         <th>Nom</th>
         <th>Prénom</th>
         <th>Date de naissance</th>
+        <th>Connecté avec</th>
         <th>Mot de passe</th>
       </tr>
       </thead>
@@ -28,6 +29,7 @@
             <td>{{student.lastName}}</td>
             <td>{{student.firstName}}</td>
             <td>{{moment-format student.birthdate 'DD/MM/YYYY' allow-empty=true}}</td>
+            <td>{{student.authenticationMethods}}</td>
             <td>
               {{#if student.hasUsername}}
                 <button class="button button--with-icon-and-text button-edit-role"

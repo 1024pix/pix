@@ -102,7 +102,20 @@ module('Acceptance | Student List', function(hooks) {
         await visit('/eleves');
 
         // then
+        assert.dom('.table thead th').exists({ count: 5 });
         assert.dom('.table tbody tr').exists({ count: 6 });
+      });
+
+      test('it should display headers labels', async function(assert) {
+        // when
+        await visit('/eleves');
+
+        // then
+        assert.dom('.table thead th:nth-child(1)').hasText('Nom');
+        assert.dom('.table thead th:nth-child(2)').hasText('Prénom');
+        assert.dom('.table thead th:nth-child(3)').hasText('Date de naissance');
+        assert.dom('.table thead th:nth-child(4)').hasText('Connecté avec');
+        assert.dom('.table thead th:nth-child(5)').hasText('Mot de passe');
       });
 
       module('when student have a username', async function() {
