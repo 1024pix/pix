@@ -60,11 +60,11 @@
           'togglePasswordVisibility'}}>
           {{#if isPasswordVisible}}
             <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>
-              <FaIcon @icon='eye' class="fa-fw input-password-icon__eye"></FaIcon>
+              <FaIcon @icon='eye' @class="fa-fw input-password-icon__eye"></FaIcon>
             </div>
           {{else}}
             <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>
-              <FaIcon @icon='eye-slash' class="fa-fw input-password-icon__eye"></FaIcon>
+              <FaIcon @icon='eye-slash' @class="fa-fw input-password-icon__eye"></FaIcon>
             </div>
           {{/if}}
         </button>

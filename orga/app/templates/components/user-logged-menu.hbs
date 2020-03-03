@@ -5,9 +5,9 @@
       <div class="logged-user-summary__organization">{{organizationNameAndExternalId}}</div>
     </div>
     {{#if isMenuOpen}}
-      <FaIcon @icon="chevron-up" class="logged-user-summary__chevron logged-user-summary__chevron-up"></FaIcon>
+      <FaIcon @icon="chevron-up" @class="logged-user-summary__chevron logged-user-summary__chevron-up"></FaIcon>
     {{else}}
-      <FaIcon @icon="chevron-down" class="logged-user-summary__chevron"></FaIcon>
+      <FaIcon @icon="chevron-down" @class="logged-user-summary__chevron"></FaIcon>
     {{/if}}
   </a>
 </div>
@@ -24,7 +24,7 @@
         </div>
       {{/each}}
       <LinkTo @route="logout" class="link logged-user-menu-item logged-user-menu-item__last">
-        <FaIcon @icon="power-off" class="logged-user-menu-item__icon"></FaIcon>
+        <FaIcon @icon="power-off" @class="logged-user-menu-item__icon"></FaIcon>
         Se déconnecter
       </LinkTo>
     </div>
