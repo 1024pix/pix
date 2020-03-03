@@ -112,7 +112,7 @@ exports.register = async function(server) {
           '- Récupération des paramètres utilisateurs relatives à Pix Orga\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
-        tags: ['api', 'user', 'userOrgaSettings']
+        tags: ['api', 'user', 'user-orga-settings']
       }
     },
     {
