@@ -1,15 +1,15 @@
 import Route from '@ember/routing/route';
 import RSVP from 'rsvp';
 
-export default Route.extend({
-  queryParams: {
+export default class ParticipantsRoute extends Route {
+  queryParams = {
     pageNumber: {
       refreshModel: true
     },
     pageSize: {
       refreshModel: true
     }
-  },
+  };
 
   model(params) {
     const campaign = this.modelFor('authenticated.campaigns.details');
@@ -26,7 +26,7 @@ export default Route.extend({
         include: 'user,campaign-participation-result',
       }),
     });
-  },
+  }
 
   resetController(controller, isExiting) {
     if (isExiting) {
@@ -34,4 +34,4 @@ export default Route.extend({
       controller.set('pageSize', 10);
     }
   }
-});
+}

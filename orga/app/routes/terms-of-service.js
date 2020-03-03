@@ -1,18 +1,17 @@
+import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import { inject as service } from '@ember/service';
 
-export default Route.extend(AuthenticatedRouteMixin, {
-
-  currentUser: service(),
+export default class TermsOfServiceRoute extends Route.extend(AuthenticatedRouteMixin) {
+  @service currentUser;
 
   beforeModel(transition) {
-    this._super(...arguments);
+    super.beforeModel(...arguments);
     if (transition.isAborted) {
       return;
     }
     if (this.currentUser.user.pixOrgaTermsOfServiceAccepted) {
       return this.replaceWith('');
     }
-  },
-});
+  }
+}

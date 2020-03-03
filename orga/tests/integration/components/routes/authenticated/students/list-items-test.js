@@ -60,10 +60,6 @@ module('Integration | Component | routes/authenticated/students | list-items', f
 
   module('when student have a username', () => {
 
-    hooks.beforeEach(function() {
-      this.set('openPasswordResetSpy', () => {});
-    });
-
     test('it should display the student\'s firstName, lastName and birthdate, and password update button', async function(assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -79,7 +75,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('students', [student]);
 
       // when
-      await render(hbs`{{routes/authenticated/students/list-items students=students openPasswordReset=openPasswordResetSpy}}`);
+      await render(hbs`{{routes/authenticated/students/list-items students=students}}`);
 
       // then
       assert.dom('.table tbody tr:first-child td:first-child').hasText('lastName');
@@ -113,7 +109,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('students', storedStudents);
 
       // when
-      await render(hbs`{{routes/authenticated/students/list-items students=students openPasswordReset=openPasswordResetSpy}}`);
+      await render(hbs`{{routes/authenticated/students/list-items students=students}}`);
 
       // then
       assert.dom('.table tbody tr:first-child td:last-child button').doesNotExist();

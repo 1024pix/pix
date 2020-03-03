@@ -8,7 +8,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
 
   setupRenderingTest(hooks);
 
-  test('For an admin , it should display a administrateur firstName, lastName , role and edit button', async function(assert) {
+  test('For an admin, it should display an administrator firstName, lastName, role and edit button', async function(assert) {
     // given
     const store = this.owner.lookup('service:store');
     const membership =
@@ -28,15 +28,14 @@ module('Integration | Component | routes/authenticated/team | list-items | items
     await render(hbs`{{routes/authenticated/team/items membership=membership}}`);
 
     // then
-    assert.dom('tr').exists({ count: 1 });
-    assert.dom('tr:first-child td:first-child').hasText('La Terreur');
-    assert.dom('tr:first-child td:nth-child(2)').hasText('Gigi');
-    assert.dom('tr:first-child td:nth-child(3)').hasText('Administrateur');
-    assert.dom('tr:first-child td:nth-child(4)').hasText('Modifier le rôle');
+    assert.dom('td:first-child').hasText('La Terreur');
+    assert.dom('td:nth-child(2)').hasText('Gigi');
+    assert.dom('td:nth-child(3)').hasText('Administrateur');
+    assert.dom('td:nth-child(4)').hasText('Modifier le rôle');
 
   });
 
-  test('For a member ,it should display a firstName, lastName , role and edit button', async function(assert) {
+  test('For a member, it should display a firstName, lastName, role and edit button', async function(assert) {
     // given
     const store = this.owner.lookup('service:store');
     const membership =
@@ -56,11 +55,10 @@ module('Integration | Component | routes/authenticated/team | list-items | items
     await render(hbs`{{routes/authenticated/team/items membership=membership}}`);
 
     // then
-    assert.dom('tr').exists({ count: 1 });
-    assert.dom('tr:first-child td:first-child').hasText('La Terreur');
-    assert.dom('tr:first-child td:nth-child(2)').hasText('Gigi');
-    assert.dom('tr:first-child td:nth-child(3)').hasText('Membre');
-    assert.dom('tr:first-child td:nth-child(4)').hasText('Modifier le rôle');
+    assert.dom('td:first-child').hasText('La Terreur');
+    assert.dom('td:nth-child(2)').hasText('Gigi');
+    assert.dom('td:nth-child(3)').hasText('Membre');
+    assert.dom('td:nth-child(4)').hasText('Modifier le rôle');
 
   });
 

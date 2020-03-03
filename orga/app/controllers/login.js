@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
 
-export default Controller.extend({
-  queryParams: ['hasInvitationError']
-});
+export default class LoginController extends Controller {
+  queryParams = ['hasInvitationError'];
+}
