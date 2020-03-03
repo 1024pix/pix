@@ -61,4 +61,29 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
       assert.equal(displayNoCampaignPanel, false);
     });
   });
+
+  module('isArchived', function() {
+    module('when status is archived', function() {
+      test('it should returns true', function(assert) {
+        const controller = this.owner.lookup('controller:authenticated/campaigns/list');
+        controller.set('status', 'archived');
+
+        const isArchived = controller.get('isArchived');
+
+        assert.equal(isArchived, true);
+      });
+    });
+
+    module('when status is not archived', function() {
+      test('it should returns false', function(assert) {
+        const controller = this.owner.lookup('controller:authenticated/campaigns/list');
+        controller.set('status', null);
+
+        const isArchived = controller.get('isArchived');
+
+        assert.equal(isArchived, false);
+      });
+    });
+  });
+
 });

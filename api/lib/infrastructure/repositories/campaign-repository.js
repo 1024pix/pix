@@ -72,9 +72,14 @@ function _countCampaignParticipations(qb) {
   );
 }
 
-function _setSearchFiltersForQueryBuilder(qb, { name }) {
+function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true }) {
   if (name) {
     qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
+  }
+  if (ongoing) {
+    qb.whereNull('campaigns.archivedAt');
+  } else {
+    qb.whereNotNull('campaigns.archivedAt');
   }
 }
 
@@ -117,7 +122,7 @@ module.exports = {
 
   update(campaign) {
 
-    const campaignRawData = _.pick(campaign, ['title', 'customLandingPageText', 'archivedAt']);
+    const campaignRawData = _.pick(campaign, ['name', 'title', 'customLandingPageText', 'archivedAt']);
 
     return new BookshelfCampaign({ id: campaign.id })
       .save(campaignRawData, { patch: true })

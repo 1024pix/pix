@@ -63,9 +63,14 @@ class Assessment {
     this.targetProfile = targetProfile;
     // references
     this.courseId = courseId;
+    this.certificationCourseId = null;
     this.userId = userId;
     this.competenceId = competenceId;
     this.campaignParticipationId = campaignParticipationId;
+
+    if (this.type === types.CERTIFICATION) {
+      this.certificationCourseId = parseInt(this.courseId);
+    }
   }
 
   /**

@@ -352,12 +352,15 @@ describe('Acceptance | Application | organization-controller', () => {
       campaignsData = _.map([
         { name: 'Quand Peigne numba one', code: 'ATDGRK343', organizationId },
         { name: 'Quand Peigne numba two', code: 'KFCTSU984', organizationId },
+        { name: 'Quand Peigne numba three', code: 'ABC180ELO', organizationId, archivedAt: new Date('2000-01-01T10:00:00Z') },
+        { name: 'Quand Peigne numba four', code: 'ABC180LEO', organizationId, archivedAt: new Date('2000-02-01T10:00:00Z') },
         { name: 'Quand Peigne otha orga', code: 'CPFTQX735', organizationId: otherOrganizationId },
       ], (camp) => {
         const builtCampaign = databaseBuilder.factory.buildCampaign(camp);
         return { name: camp.name, code: camp.code, id: builtCampaign.id };
+
       });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaignsData[2].id, isShared: true });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaignsData[4].id, isShared: true });
       await databaseBuilder.commit();
 
       options = {
@@ -414,6 +417,21 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(200);
         expect(response.result.included[1].attributes['first-name']).to.equal('Daenerys');
         expect(response.result.included[1].attributes['last-name']).to.equal('Targaryen');
+      });
+
+      it('should return archived campaigns', async () => {
+        // given
+        options.url = `/api/organizations/${organizationId}/campaigns?page[number]=1&page[size]=2&filter[status]=archived`;
+        const expectedMetaData = { page: 1, pageSize: 2, rowCount: 2, pageCount: 1 };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.meta).to.deep.equal(expectedMetaData);
+        expect(response.result.data).to.have.lengthOf(2);
+        expect(response.result.data[0].type).to.equal('campaigns');
       });
 
       it('should return 200 status code with the campaignReports with the campaigns', async () => {

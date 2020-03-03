@@ -57,7 +57,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       await visitWithAbortedTransition(`/competences/${scorecardWithPoints.description}/details`);
 
       // when
-      await click('.scorecard-details-header__return-button');
+      await click('.link__return-to');
 
       // then
       expect(currentURL()).to.equal('/profil');

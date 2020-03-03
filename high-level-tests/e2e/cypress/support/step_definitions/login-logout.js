@@ -47,8 +47,8 @@ then(`je suis redirigé vers le compte Orga de {string}`, (fullName) => {
   cy.get('.logged-user-summary__name').should((userName) => {
     expect(userName.text()).to.contains(fullName);
   });
-  cy.get('.page-title').should((title) => {
-    expect(title.text()).to.contains('Campagnes');
+  cy.get('.list-campaigns-page').should((list) => {
+    expect(list).to.exist;
   });
 });
 

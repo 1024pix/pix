@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v2.122.0 (03/03/2020)
+
+- [#1131](https://github.com/1024pix/pix/pull/1131) [FEATURE] Pouvoir modifier le nom de la campagne dans PIX Orga (PO-350). 
+- [#1103](https://github.com/1024pix/pix/pull/1103) [FEATURE] Ajout d'un filtre sur le status lors de l'affichage de la liste des campagnes (PO-314).
+- [#1122](https://github.com/1024pix/pix/pull/1122) [FEATURE] Changer le design du bouton "Retour à la liste" sur la page certificat (PF-1051).
+- [#1127](https://github.com/1024pix/pix/pull/1127) [BUGFIX] Obliger l'utilisateur à valider les CGU de Pix Certif avant d'accéder au reste de la plateforme (PC-125).
+- [#1135](https://github.com/1024pix/pix/pull/1135) [TECH] Retrait de code mort : usecase plus utilisé dans le cadre de la certification sur mon-pix (PF-1136)
+- [#1128](https://github.com/1024pix/pix/pull/1128) [TECH] Passage de Pix Orga à Ember 3.13 (PO-353).
+- [#1120](https://github.com/1024pix/pix/pull/1120) [TECH] Ajout d'une colonne certificationCourseId dans la table assessments, clé étrangère vers la table certification-courses (PF-1128)
+- [#1126](https://github.com/1024pix/pix/pull/1126) [TECH] Augmenter le temps disponible pour les migrations de base de données lors des déploiements
+- [#1133](https://github.com/1024pix/pix/pull/1133) [TECH] Enlève only et corrige un fichier de test dans pix admin
+
 ## v2.121.0 (28/02/2020)
 
 - [#1130](https://github.com/1024pix/pix/pull/1130) [FEATURE] Gestion des caractères à risque dans l'export des résultats de campagne (PO-351).

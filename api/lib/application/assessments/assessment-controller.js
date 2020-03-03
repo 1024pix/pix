@@ -43,21 +43,19 @@ module.exports = {
     return assessmentSerializer.serialize(assessment);
   },
 
-  findByFilters(request) {
-    let assessmentsPromise = Promise.resolve([]);
+  async findByFilters(request) {
+    let assessments = [];
     const userId = requestResponseUtils.extractUserIdFromRequest(request);
 
     if (userId) {
       const filters = extractParameters(request.query).filter;
 
       if (filters.codeCampaign) {
-        assessmentsPromise = usecases.findSmartPlacementAssessments({ userId, filters });
-      } else if (filters.type === 'CERTIFICATION') {
-        assessmentsPromise = usecases.findCertificationAssessments({ userId, filters });
+        assessments = await usecases.findSmartPlacementAssessments({ userId, filters });
       }
     }
 
-    return assessmentsPromise.then(assessmentSerializer.serialize);
+    return assessmentSerializer.serialize(assessments);
   },
 
   getNextChallenge(request) {

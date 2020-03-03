@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
@@ -8,10 +8,15 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
   let server;
 
   describe('POST /admin/assessment-results', () => {
-    const certificationId = 2;
+    let certificationCourseId;
     let options;
 
     beforeEach(async () => {
+      certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({
+        courseId: certificationCourseId,
+        type: Assessment.types.CERTIFICATION
+      }).id;
       server = await createServer();
 
       options = {
@@ -21,8 +26,8 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
           data: {
             type: 'assessment-results',
             attributes: {
-              'assessment-id': 1,
-              'certification-id': certificationId,
+              'assessment-id': assessmentId,
+              'certification-id': certificationCourseId,
               level: 3,
               'pix-score': 27,
               status: 'validated',
@@ -58,28 +63,9 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
     afterEach(async () => {
       await cache.flushAll();
       await knex('competence-marks').delete();
-      return knex('assessment-results').delete();
-    });
-
-    before(() => { return knex('certification-courses').delete()
-      .then(() => knex('assessments').delete())
-      .then(() => {
-        return knex('assessments')
-          .insert({
-            id: '1',
-            courseId: certificationId,
-            type: Assessment.types.CERTIFICATION
-          });
-      })
-      .then(() => {
-        return knex('certification-courses')
-          .insert({ id: certificationId });
-      });
-    });
-
-    after(() => {
-      return knex('certification-courses').delete()
-        .then(() => knex('assessments').delete());
+      await knex('assessment-results').delete();
+      await knex('assessments').delete();
+      await knex('certification-courses').delete();
     });
 
     it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
@@ -174,7 +160,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
               type: 'assessment-results',
               attributes: {
                 'assessment-id': 1,
-                'certification-id': certificationId,
+                'certification-id': certificationCourseId,
                 level: 3,
                 'pix-score': 27,
                 status: 'validated',
