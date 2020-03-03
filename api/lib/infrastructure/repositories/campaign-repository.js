@@ -122,7 +122,7 @@ module.exports = {
 
   update(campaign) {
 
-    const campaignRawData = _.pick(campaign, ['title', 'customLandingPageText', 'archivedAt']);
+    const campaignRawData = _.pick(campaign, ['name', 'title', 'customLandingPageText', 'archivedAt']);
 
     return new BookshelfCampaign({ id: campaign.id })
       .save(campaignRawData, { patch: true })

@@ -1,8 +1,20 @@
 <div class="update-campaign-page">
   <h1 class="page__title page-title">Modification d'une campagne</h1>
-  <h2 class="page-sub-title">{{campaign.name}}</h2>
+  <h2 class="page-sub-title">{{subTitle}}</h2>
 
   <form {{action update campaign on='submit'}} class="campaign-creation-form">
+    <div class="form__field">
+      <label for="campaign-name" class="label">Nom de la campagne</label>
+      <Input
+        @id="campaign-name"
+        @name="campaign-name"
+        @type="text"
+        @class="input"
+        @maxlength="255"
+        @value={{campaign.name}}
+      />
+    </div>
+
     <div class="form__field">
       <label for="campaign-title" class="label">Titre du parcours</label>
       <Input
