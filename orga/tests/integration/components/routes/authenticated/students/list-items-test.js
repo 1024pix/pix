@@ -16,12 +16,12 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     await render(hbs`{{routes/authenticated/students/list-items students=students}}`);
 
     // then
-    assert.dom('.table thead tr th').exists({ count: 5 });
+    assert.dom('.table thead tr th').exists({ count: 4 });
     assert.dom('.table thead tr th:first-child').hasText('Nom');
     assert.dom('.table thead tr th:nth-child(2)').hasText('Prénom');
     assert.dom('.table thead tr th:nth-child(3)').hasText('Date de naissance');
     assert.dom('.table thead tr th:nth-child(4)').hasText('Connecté avec');
-    assert.dom('.table thead tr th:last-child').hasText('');
+    assert.dom('.table thead tr th:last-child').hasText('Mot de passe');
   });
 
   test('it should display a list of students', async function(assert) {
@@ -44,7 +44,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
   test('it should display the firstName, lastName and birthdate of student', async function(assert) {
     // given
     const students = [
-      { lastName: 'La Terreur', firstName: 'Gigi', birthdate: new Date('2010-02-01') ,  },
+      { lastName: 'La Terreur', firstName: 'Gigi', birthdate: new Date('2010-02-01') },
       { lastName: 'L\'asticot', firstName: 'Gogo', birthdate: new Date('2010-05-10') },
     ];
 
@@ -141,7 +141,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       assert.dom('.table tbody tr:first-child td:first-child').hasText('lastName');
       assert.dom('.table tbody tr:first-child td:nth-child(2)').hasText('firstName');
       assert.dom('.table tbody tr:first-child td:nth-child(3)').hasText('01/10/2008');
-      assert.dom('.table tbody tr:first-child td:last-child button .fa-cog').exists();
+      assert.dom('.table tbody tr:first-child td:last-child button').hasText('Réinitialiser');
     });
 
     test('it should not display password update button when student have not username', async function(assert) {
@@ -172,8 +172,8 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       await render(hbs`{{routes/authenticated/students/list-items students=students}}`);
 
       // then
-      assert.dom('.table tbody tr:first-child td:last-child button .fa-cog').doesNotExist();
-      assert.dom('.table tbody tr:nth-child(2) td:last-child button .fa-cog').exists();
+      assert.dom('.table tbody tr:first-child td:last-child button').doesNotExist();
+      assert.dom('.table tbody tr:nth-child(2) td:last-child button').hasText('Réinitialiser');
     });
 
   });
