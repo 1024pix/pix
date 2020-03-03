@@ -1,26 +1,26 @@
+import { action } from '@ember/object';
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 
-export default Controller.extend({
+export default class TermOfServiceController extends Controller {
 
-  currentUser: service(),
-  store: service(),
+  @service currentUser;
+  @service store;
 
-  actions: {
-    async submit() {
-      const user = this.currentUser.user;
-      await user.save({ adapterOptions: { acceptPixOrgaTermsOfService: true } });
+  @action
+  async submit() {
+    const user = this.currentUser.user;
+    await user.save({ adapterOptions: { acceptPixOrgaTermsOfService: true } });
 
-      const userOrgaSettings = await user.userOrgaSettings;
-      if (!userOrgaSettings) {
-        const userMemberships = await this.currentUser.user.memberships;
-        const membership = await userMemberships.firstObject;
-        const organization = await membership.organization;
-        await this.store.createRecord('user-orga-setting', { user, organization }).save();
-        await this.currentUser.load();
-      }
-
-      this.replaceRoute('');
+    const userOrgaSettings = await user.userOrgaSettings;
+    if (!userOrgaSettings) {
+      const userMemberships = await this.currentUser.user.memberships;
+      const membership = await userMemberships.firstObject;
+      const organization = await membership.organization;
+      await this.store.createRecord('user-orga-setting', { user, organization }).save();
+      await this.currentUser.load();
     }
+
+    this.transitionToRoute('application');
   }
-});
+}
