@@ -26,4 +26,5 @@ module.exports = {
   buildUser: require('./build-user'),
   buildUserOrgaSettings: require('./build-user-orga-settings'),
   buildUserPixRole: require('./build-user-pix-role'),
+  buildUserTutorial: require('./build-user-tutorial'),
 };
