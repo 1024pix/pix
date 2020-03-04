@@ -55,6 +55,7 @@ const dependencies = {
   userReconciliationService: require('../services/user-reconciliation-service'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
   userService: require('../../domain/services/user-service'),
+  userTutorialRepository: require('../../infrastructure/repositories/user-tutorial-repository'),
 };
 
 function injectDependencies(usecases) {
@@ -65,6 +66,7 @@ module.exports = injectDependencies({
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
   acceptPixOrgaTermsOfService: require('./accept-pix-orga-terms-of-service'),
   addCertificationCandidateToSession: require('./add-certification-candidate-to-session'),
+  addTutorialToUser: require('./add-tutorial-to-user'),
   analyzeAttendanceSheet: require('./analyze-attendance-sheet'),
   answerToOrganizationInvitation: require('./answer-to-organization-invitation'),
   archiveCampaign: require('./archive-campaign'),
