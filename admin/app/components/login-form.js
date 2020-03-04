@@ -2,33 +2,37 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import ENV from 'pix-admin/config/environment';
+import { tracked } from '@glimmer/tracking';
 
 export default class LoginForm extends Component {
-  // dependencies
+
   @service session;
 
-  // properties
-  identification = null;
-  password = null;
-  errorMessage = null;
+  @tracked email;
+  @tracked password;
+  @tracked errorMessage;
 
   @action
-  authenticateUser() {
+  async authenticateUser(event) {
+    event.preventDefault();
+    const identification = this.email ? this.email.trim() : '';
+    const password = this.password;
     const scope = 'pix-admin';
-    const { identification, password } = this;
-    this.session.authenticate('authenticator:oauth2', identification, password, scope).catch((response) => {
+    try {
+      await this.session.authenticate('authenticator:oauth2', identification, password, scope);
+    } catch (response) {
       this._manageErrorsApi(response);
-    });
+    }
   }
 
   _manageErrorsApi(response) {
-
-    if (response && response.errors && response.errors.length > 0) {
-      const firstError = response.errors[0];
+    const { responseJSON } = response;
+    if (responseJSON && responseJSON.errors && responseJSON.errors.length > 0) {
+      const firstError = responseJSON.errors[0];
       const messageError = this._showErrorMessages(firstError.status, firstError.detail);
-      this.set('errorMessage', messageError);
+      this.errorMessage = messageError;
     } else {
-      this.set('errorMessage', ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
+      this.errorMessage = ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE;
     }
   }
 

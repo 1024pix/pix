@@ -12,9 +12,9 @@ export default class NewController extends Controller {
   }
 
   @action
-  async addOrganization() {
+  async addOrganization(event) {
+    event.preventDefault();
     try {
-      event.preventDefault();
       await this.model.save();
       this.notifications.success('L’organisation a été créée avec succès.');
       this.transitionToRoute('authenticated.organizations.get', this.model.id);
