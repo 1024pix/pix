@@ -2,7 +2,7 @@ const errorManager = require('./error-manager');
 const { HttpError } = require('./http-errors');
 const { DomainError } = require('../domain/errors');
 
-function catchDomainAndInfrastructureErrors(request, h) {
+function catchDomainAndHttpErrors(request, h) {
   const response = request.response;
 
   if (response instanceof DomainError || response instanceof HttpError) {
@@ -13,5 +13,5 @@ function catchDomainAndInfrastructureErrors(request, h) {
 }
 
 module.exports = {
-  catchDomainAndInfrastructureErrors,
+  catchDomainAndHttpErrors,
 };
