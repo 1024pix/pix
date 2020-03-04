@@ -28,7 +28,7 @@ export default class NewController extends Controller {
               return this.get('notifications').sendError('Cet email n\'appartient à aucun utilisateur.');
             }
             if (error.status === '500') {
-              return this.get('notifications').sendError(error.title);
+              return this.get('notifications').sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
             }
           });
         } else {

@@ -1,4 +1,4 @@
-.notification {
+.c-notification.notification {
   font-family: $roboto;
   font-size: 1rem;
   font-weight: 500;
@@ -34,11 +34,11 @@
     color: white;
   }
 
-  .fa-times {
-    color: $dove-gray;
+  .c-notification__close svg {
+    fill: $dove-gray;
 
     &:hover, &:active {
-      color: $tundora;
+      fill: $tundora;
     }
   }
 

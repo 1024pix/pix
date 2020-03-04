@@ -39,16 +39,17 @@ export default class PasswordResetWindow extends Component {
   }
 
   @action
-  async updatePassword() {
+  async updatePassword(event) {
+    event.preventDefault();
     if (isPasswordValid(this.studentUser.password)) {
       this.set('isLoading', true);
       try {
         await this.studentUser.save();
         this.closePasswordReset();
-        this.get('notifications').sendSuccess('Mot de passe modifié !');
+        this.notifications.sendSuccess('Mot de passe modifié !');
       } catch (e) {
         this.closePasswordReset();
-        this.get('notifications').sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
+        this.notifications.sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
       } finally {
         this.set('isLoading', false);
       }
