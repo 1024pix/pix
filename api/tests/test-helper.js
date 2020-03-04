@@ -1,5 +1,5 @@
 // Errors
-const infraErrors = require('../lib/infrastructure/errors');
+const infraErrors = require('../lib/application/errors');
 // Chai
 const chai = require('chai');
 const expect = chai.expect;

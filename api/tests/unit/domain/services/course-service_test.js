@@ -2,7 +2,7 @@ const courseService = require('../../../../lib/domain/services/course-service');
 
 const Course = require('../../../../lib/domain/models/Course');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const { InfrastructureError } = require('../../../../lib/infrastructure/errors');
+const { InfrastructureError } = require('../../../../lib/application/errors');
 
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const logger = require('../../../../lib/infrastructure/logger');

@@ -3,7 +3,7 @@ const Course = require('../models/Course');
 const { NotFoundError } = require('../../domain/errors');
 
 const courseRepository = require('../../infrastructure/repositories/course-repository');
-const { InfrastructureError } = require('../../infrastructure/errors');
+const { InfrastructureError } = require('../../application/errors');
 const logger = require('../../infrastructure/logger');
 
 module.exports = {

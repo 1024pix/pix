@@ -4,7 +4,7 @@ const competenceEvaluationController = require('../../../../lib/application/comp
 const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/competence-evaluation-serializer');
 const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const { BadRequestError } = require('../../../../lib/infrastructure/errors');
+const { BadRequestError } = require('../../../../lib/application/errors');
 
 describe('Unit | Application | Controller | Competence-Evaluation', () => {
 
