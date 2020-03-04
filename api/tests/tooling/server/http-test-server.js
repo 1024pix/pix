@@ -16,7 +16,7 @@ class HttpTestServer {
 
   constructor(moduleUnderTest) {
     this.hapiServer = Hapi.server();
-    this.hapiServer.ext('onPreResponse', preResponseUtils.catchDomainAndInfrastructureErrors);
+    this.hapiServer.ext('onPreResponse', preResponseUtils.catchDomainAndHttpErrors);
     this.hapiServer.register(moduleUnderTest);
   }
 
