@@ -24,7 +24,10 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns triggerFiltering=triggerFilteringSpy goToCampaignPage=goToCampaignPageSpy}}`);
+    await render(hbs`<Routes::Authenticated::Campaigns::ListItems 
+                @campaigns={{campaigns}} 
+                @triggerFiltering={{this.triggerFilteringSpy}} 
+                @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
     // then
     assert.dom('.campaign-list').exists();
@@ -51,7 +54,10 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns triggerFiltering=triggerFilteringSpy goToCampaignPage=goToCampaignPageSpy}}`);
+    await render(hbs`<Routes::Authenticated::Campaigns::ListItems 
+                @campaigns={{campaigns}} 
+                @triggerFiltering={{this.triggerFilteringSpy}} 
+                @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
     // then
     assert.dom('.campaign-list .table tbody tr:first-child td:first-child').hasText('campagne 1');
@@ -89,7 +95,10 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns triggerFiltering=triggerFilteringSpy goToCampaignPage=goToCampaignPageSpy}}`);
+    await render(hbs`<Routes::Authenticated::Campaigns::ListItems 
+                @campaigns={{campaigns}} 
+                @triggerFiltering={{this.triggerFilteringSpy}} 
+                @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
     // then
     assert.dom('.campaign-list .table tbody tr:first-child td:nth-child(2)').hasText('Jean-Michel Jarre');
@@ -143,7 +152,10 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns triggerFiltering=triggerFilteringSpy goToCampaignPage=goToCampaignPageSpy}}`);
+    await render(hbs`<Routes::Authenticated::Campaigns::ListItems 
+                @campaigns={{campaigns}} 
+                @triggerFiltering={{this.triggerFilteringSpy}} 
+                @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
     // then
     assert.dom('.campaign-list .table tbody tr:first-child td:nth-child(3)').hasText('02/02/2020');
@@ -172,7 +184,10 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns triggerFiltering=triggerFilteringSpy goToCampaignPage=goToCampaignPageSpy}}`);
+    await render(hbs`<Routes::Authenticated::Campaigns::ListItems 
+                @campaigns={{campaigns}} 
+                @triggerFiltering={{this.triggerFilteringSpy}} 
+                @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
     // then
     assert.dom('.campaign-list .table tbody tr:first-child td:nth-child(4)').hasText('10');
@@ -201,7 +216,10 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns triggerFiltering=triggerFilteringSpy goToCampaignPage=goToCampaignPageSpy}}`);
+    await render(hbs`<Routes::Authenticated::Campaigns::ListItems 
+                @campaigns={{campaigns}} 
+                @triggerFiltering={{this.triggerFilteringSpy}} 
+                @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
     // then
     assert.dom('.campaign-list .table tbody tr:first-child td:nth-child(5)').hasText('4');
