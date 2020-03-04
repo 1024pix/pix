@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, visit } from '@ember/test-helpers';
+import { click, visit , currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -76,6 +76,18 @@ module('Acceptance | Switch Organization', function(hooks) {
         assert.dom('.logged-user-menu-item__organization-name').exists();
         assert.dom('.logged-user-menu-item__organization-name').hasText('BRO & Evil Associates');
         assert.dom('.logged-user-menu-item__organization-externalId').hasText('(EXTBRO)');
+      });
+
+      module('When user is on campaign page with pagination', function() {
+
+        test('it should reset the queryParams when redirecting', async function(assert) {
+          await visit('/campagnes?pageNumber=2&pageSize=10&name=test&status=archived');
+
+          await click('.logged-user-summary__link');
+          await click('.logged-user-menu-item');
+
+          assert.equal(currentURL(), '/campagnes');
+        });
       });
     });
   });

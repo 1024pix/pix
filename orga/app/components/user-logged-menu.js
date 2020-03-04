@@ -52,7 +52,9 @@ export default Component.extend({
 
       await this.currentUser.load();
 
-      this.router.replaceWith('/');
+      const queryParams = {};
+      Object.keys(this.router.currentRoute.queryParams).forEach((key) => queryParams[key] = undefined);
+      this.router.replaceWith('authenticated', { queryParams });
     }
   }
 
