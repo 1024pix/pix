@@ -15,6 +15,14 @@
 {{#if isMenuOpen}}
   {{#click-outside onClickOutside=(action 'closeMenu')}}
     <div class="logged-user-menu">
+      {{#each eligibleOrganizations as |organization|}}
+        <div class="logged-user-menu-item" title="{{organization.name}}" onclick={{action 'onOrganizationChange' organization}}>
+          <span class="logged-user-menu-item__organization-name">{{organization.name}}</span>
+          {{#if organization.externalId}}
+            <span class="logged-user-menu-item__organization-externalId">({{organization.externalId}})</span>
+          {{/if}}
+        </div>
+      {{/each}}
       {{#link-to 'logout' class="link logged-user-menu-item logged-user-menu-item__last"}}
         {{fa-icon "power-off" class="logged-user-menu-item__icon"}}
         Se déconnecter

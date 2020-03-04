@@ -31,7 +31,37 @@ exports.register = async function(server) {
         },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Création des paramètres utilisateurs liées à Pix Orga\n' +
+          '- Création des paramètres utilisateurs liés à Pix Orga\n' +
+          '- L’id dans le payload doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api', 'user-orga-settings']
+      }
+
+    },
+    {
+      method: 'PATCH',
+      path: '/api/user-orga-settings/{id}',
+      config: {
+        handler: userOrgaSettingsController.update,
+        validate: {
+          options: {
+            allowUnknown: true
+          },
+          payload: Joi.object({
+            data: {
+              relationships: {
+                organization: {
+                  data: {
+                    id: Joi.number().required(),
+                  }
+                }
+              }
+            }
+          })
+        },
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Mise à jour des paramètres utilisateurs liés à Pix Orga\n' +
           '- L’id dans le payload doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user-orga-settings']

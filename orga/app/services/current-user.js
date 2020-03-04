@@ -15,6 +15,7 @@ export default Service.extend({
         const userOrgaSettings = await user.get('userOrgaSettings');
 
         this.set('user', user);
+        this.set('memberships', userMemberships);
 
         if (userOrgaSettings) {
           const organization = await userOrgaSettings.get('organization');

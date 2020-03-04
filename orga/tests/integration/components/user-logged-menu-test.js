@@ -72,4 +72,20 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     assert.dom('.logged-user-menu').exists();
     assert.dom('.logged-user-menu-item__last').hasText('Se déconnecter');
   });
+
+  test('should display the organizations name and externalId when menu is open', async function(assert) {
+    // when
+    const organization1 = { id: 2, name: 'Organization 2', externalId: 'EXT2' };
+    const organization2 = { id: 3, name: 'Organization 3', externalId: 'EXT3' };
+    this.set('organizations', [organization1, organization2]);
+    await render(hbs`{{user-logged-menu eligibleOrganizations=organizations}}`);
+    await click('.logged-user-summary__link');
+
+    // then
+    assert.dom('.logged-user-menu').exists();
+    assert.dom('.logged-user-menu > div:nth-child(1) > span.logged-user-menu-item__organization-name').hasText(organization1.name);
+    assert.dom('.logged-user-menu > div:nth-child(1) > span.logged-user-menu-item__organization-externalId').hasText(`(${organization1.externalId})`);
+    assert.dom('.logged-user-menu > div:nth-child(2) > span.logged-user-menu-item__organization-name').hasText(organization2.name);
+    assert.dom('.logged-user-menu > div:nth-child(2) > span.logged-user-menu-item__organization-externalId').hasText(`(${organization2.externalId})`);
+  });
 });

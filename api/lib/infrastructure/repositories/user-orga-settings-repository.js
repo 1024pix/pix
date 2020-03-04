@@ -16,5 +16,13 @@ module.exports = {
         }
         throw err;
       });
+  },
+
+  update(userId, organizationId) {
+    return BookshelfUserOrgaSettings
+      .where({ userId })
+      .save({ currentOrganizationId: organizationId }, { patch: true, method: 'update' })
+      .then((bookshelfUserOrgaSettings) => bookshelfUserOrgaSettings.refresh({ withRelated: ['user', 'currentOrganization'] }))
+      .then((userOrgaSettings) => bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, userOrgaSettings));
   }
 };
