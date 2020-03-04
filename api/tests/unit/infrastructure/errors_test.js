@@ -3,9 +3,9 @@ const errors = require('../../../lib/application/errors');
 
 describe('Unit | Infrastructure | Errors', () => {
 
-  describe('#InfrastructureError', () => {
-    it('should export an InfrastructureError', () => {
-      expect(errors.InfrastructureError).to.exist;
+  describe('#HttpError', () => {
+    it('should export an HttpError', () => {
+      expect(errors.HttpError).to.exist;
     });
 
     it('should have a title, message, and errorCode property', () => {
@@ -15,12 +15,12 @@ describe('Unit | Infrastructure | Errors', () => {
       const expectedErrorCode = 500;
 
       // when
-      const infrastructureError = new errors.InfrastructureError('Boom...');
+      const httpError = new errors.HttpError('Boom...');
 
       // then
-      expect(infrastructureError.title).to.equal(expectedTitle);
-      expect(infrastructureError.message).to.equal(expectedMessage);
-      expect(infrastructureError.status).to.equal(expectedErrorCode);
+      expect(httpError.title).to.equal(expectedTitle);
+      expect(httpError.message).to.equal(expectedMessage);
+      expect(httpError.status).to.equal(expectedErrorCode);
     });
   });
 
@@ -34,7 +34,7 @@ describe('Unit | Infrastructure | Errors', () => {
       const missingQueryParamError = new errors.MissingQueryParamError('assessmentId');
 
       // then
-      expect(missingQueryParamError).to.be.an.instanceof(errors.InfrastructureError);
+      expect(missingQueryParamError).to.be.an.instanceof(errors.HttpError);
     });
 
     it('should have a title, message, and errorCode property', () => {
