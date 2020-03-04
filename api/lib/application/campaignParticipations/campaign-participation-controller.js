@@ -1,4 +1,4 @@
-const { BadRequestError } = require('../../application/errors');
+const { BadRequestError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');

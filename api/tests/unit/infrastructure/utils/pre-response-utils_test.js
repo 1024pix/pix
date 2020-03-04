@@ -3,7 +3,7 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 const errorManager = require('../../../../lib/infrastructure/utils/error-manager');
 
 const { DomainError } = require('../../../../lib/domain/errors');
-const { HttpError } = require('../../../../lib/application/errors');
+const { HttpError } = require('../../../../lib/application/http-errors');
 
 const { catchDomainAndInfrastructureErrors } = require('../../../../lib/infrastructure/utils/pre-response-utils');
 

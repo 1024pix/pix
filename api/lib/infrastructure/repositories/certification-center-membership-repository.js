@@ -1,6 +1,6 @@
 const BookshelfCertificationCenterMembership = require('../data/certification-center-membership');
 const { CertificationCenterMembershipCreationError, AlreadyExistingMembershipError } = require('../../domain/errors');
-const { HttpError } = require('../../application/errors');
+const { HttpError } = require('../../application/http-errors');
 const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
 const CertificationCenter = require('../../domain/models/CertificationCenter');
 const bookshelfUtils = require('../utils/bookshelf-utils');

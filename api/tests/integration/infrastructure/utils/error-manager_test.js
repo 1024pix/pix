@@ -1,7 +1,7 @@
 const { expect, hFake } = require('../../../test-helper');
 const { send } = require('../../../../lib/infrastructure/utils/error-manager');
 const DomainErrors = require('../../../../lib/domain/errors');
-const HttpErrors = require('../../../../lib/application/errors');
+const HttpErrors = require('../../../../lib/application/http-errors');
 
 describe('Integration | Utils | Error Manager', function() {
 
