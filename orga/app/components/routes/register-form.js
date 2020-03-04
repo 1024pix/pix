@@ -57,7 +57,8 @@ export default class RegisterForm extends Component {
   }
 
   @action
-  async register() {
+  async register(event) {
+    event.preventDefault();
     this.set('isLoading', true);
     try {
       await this.user.save();
