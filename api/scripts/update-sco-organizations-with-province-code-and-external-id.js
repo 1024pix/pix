@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
@@ -100,7 +100,7 @@ function _logErrorObjects(errorObjects) {
   console.log('Mise à jour des organisations : OK');
   console.log(`\nIl y a eu ${errorObjects.length} erreurs`);
   errorObjects.forEach((errorObject) => {
-    console.log(`  > id de l\'organization : ${errorObject.organization.id} - erreur : ${errorObject.errorMessage}`);
+    console.log(`  > id de l'organization : ${errorObject.organization.id} - erreur : ${errorObject.errorMessage}`);
   });
 }
 

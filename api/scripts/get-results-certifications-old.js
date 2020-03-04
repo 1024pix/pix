@@ -15,8 +15,7 @@ const HEADERS = [
 ];
 
 function parseArgs(argv) {
-  const [_a, _b, _c, ...args] = argv;
-  return args;
+  return argv.slice(3);
 }
 
 function buildRequestObject(baseUrl, authToken, certificationId) {
