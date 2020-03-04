@@ -1,16 +1,16 @@
-const { expect, hFake } = require('../../../test-helper');
+const { expect, hFake } = require('../../test-helper');
 
 const {
   BadRequestError, ConflictError, ForbiddenError,
   HttpError, MissingQueryParamError, NotFoundError,
   PreconditionFailedError, UnauthorizedError, UnprocessableEntityError
-} = require('../../../../lib/application/http-errors');
+} = require('../../../lib/application/http-errors');
 
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+const { EntityValidationError } = require('../../../lib/domain/errors');
 
-const { catchDomainAndInfrastructureErrors } = require('../../../../lib/infrastructure/utils/pre-response-utils');
+const { catchDomainAndInfrastructureErrors } = require('../../../lib/application/pre-response-utils');
 
-describe('Integration | Infrastructure | Utils | PreResponse-utils', () => {
+describe('Integration | Application | PreResponse-utils', () => {
 
   describe('#catchDomainAndInfrastructureErrors', () => {
 

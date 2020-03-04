@@ -1,5 +1,5 @@
 const Hapi = require('@hapi/hapi');
-const preResponseUtils = require('../../../lib/infrastructure/utils/pre-response-utils');
+const preResponseUtils = require('../../../lib/application/pre-response-utils');
 
 /**
  * ⚠️ You must declare your stubs before calling the HttpTestServer constructor (because of Node.Js memoization).

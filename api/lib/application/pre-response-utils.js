@@ -1,6 +1,6 @@
 const errorManager = require('./error-manager');
-const { DomainError } = require('../../domain/errors');
-const { HttpError } = require('../../application/http-errors');
+const { HttpError } = require('./http-errors');
+const { DomainError } = require('../domain/errors');
 
 function catchDomainAndInfrastructureErrors(request, h) {
   const response = request.response;
