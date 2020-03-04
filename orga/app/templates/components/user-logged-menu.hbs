@@ -1,10 +1,10 @@
-<div class="logged-user-summary content-text content-text--small" aria-haspopup="true" aria-expanded="{{isMenuOpen}}">
-  <a href="#" class="link logged-user-summary__link" {{action 'toggleUserMenu'}}>
+<div class="logged-user-summary content-text content-text--small" aria-haspopup="true" aria-expanded="{{this.isMenuOpen}}">
+  <a href="#" class="link logged-user-summary__link" {{on 'click' this.toggleUserMenu}}>
     <div>
-      <div class="logged-user-summary__name">{{currentUser.user.firstName}} {{currentUser.user.lastName}}</div>
-      <div class="logged-user-summary__organization">{{organizationNameAndExternalId}}</div>
+      <div class="logged-user-summary__name">{{this.currentUser.user.firstName}} {{this.currentUser.user.lastName}}</div>
+      <div class="logged-user-summary__organization">{{this.organizationNameAndExternalId}}</div>
     </div>
-    {{#if isMenuOpen}}
+    {{#if this.isMenuOpen}}
       <FaIcon @icon="chevron-up" @class="logged-user-summary__chevron logged-user-summary__chevron-up"></FaIcon>
     {{else}}
       <FaIcon @icon="chevron-down" @class="logged-user-summary__chevron"></FaIcon>
@@ -12,11 +12,11 @@
   </a>
 </div>
 
-{{#if isMenuOpen}}
-  <ClickOutside @onClickOutside={{action "closeMenu"}}>
+{{#if this.isMenuOpen}}
+  <ClickOutside @onClickOutside={{this.closeMenu}}>
     <div class="logged-user-menu">
-      {{#each eligibleOrganizations as |organization|}}
-        <div class="logged-user-menu-item" title="{{organization.name}}" onclick={{action 'onOrganizationChange' organization}}>
+      {{#each this.eligibleOrganizations as |organization|}}
+        <div class="logged-user-menu-item" title="{{organization.name}}" {{on 'click' (fn this.onOrganizationChange organization)}}>
           <span class="logged-user-menu-item__organization-name">{{organization.name}}</span>
           {{#if organization.externalId}}
             <span class="logged-user-menu-item__organization-externalId">({{organization.externalId}})</span>
