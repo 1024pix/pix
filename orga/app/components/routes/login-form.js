@@ -21,7 +21,8 @@ export default class LoginForm extends Component {
   isErrorMessagePresent = false;
 
   @action
-  async authenticate() {
+  async authenticate(event) {
+    event.preventDefault();
     this.set('isLoading', true);
     const email = this.email ? this.email.trim() : '';
     const password = this.password;

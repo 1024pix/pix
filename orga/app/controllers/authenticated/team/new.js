@@ -10,11 +10,12 @@ export default class NewController extends Controller {
   isLoading = false;
 
   @action
-  async createOrganizationInvitation(organizationInvitation) {
+  createOrganizationInvitation(event) {
+    event.preventDefault();
     this.set('isLoading', true);
     this.get('notifications').clearAll();
 
-    return organizationInvitation.save({ adapterOptions: { organizationId: organizationInvitation.organizationId } })
+    return this.model.organizationInvitation.save({ adapterOptions: { organizationId: this.model.organizationInvitation.organizationId } })
       .then(() => {
         this.transitionToRoute('authenticated.team');
       })
