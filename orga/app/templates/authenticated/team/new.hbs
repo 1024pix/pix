@@ -10,5 +10,5 @@
     À la réception de l'e-mail, les invités pourront choisir de se créer un compte Pix ou de se connecter avec un compte Pix existant.
   </p>
 
-  <Routes::Authenticated::Team::NewItem @organizationInvitation={{model.organizationInvitation}} @createOrganizationInvitation={{action "createOrganizationInvitation"}} @cancel={{action "cancel"}} @isLoading={{isLoading}} />
+  <Routes::Authenticated::Team::NewItem @organizationInvitation={{@model.organizationInvitation}} @createOrganizationInvitation={{this.createOrganizationInvitation}} @cancel={{this.cancel}} @isLoading={{this.isLoading}} />
 </div>

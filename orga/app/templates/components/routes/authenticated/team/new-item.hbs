@@ -1,4 +1,4 @@
-<form {{action createOrganizationInvitation organizationInvitation on='submit'}} class="form">
+<form {{on 'submit' @createOrganizationInvitation}} class="form">
 
   <div class="form__field">
     <label for="email" class="label">Adresse(s) e-mail</label>
@@ -7,7 +7,7 @@
       @id="email"
       @name="email"
       @class="input"
-      @value={{organizationInvitation.email}}
+      @value={{@organizationInvitation.email}}
       @multiple=true
       @aria-required="true"
       @required="required"
@@ -15,8 +15,8 @@
   </div>
 
   <div class="form__validation">
-    <div class="button button--no-color" {{action cancel}}>Annuler</div>
-    {{#if isLoading}}
+    <div class="button button--no-color" {{on 'click' @cancel}}>Annuler</div>
+    {{#if @isLoading}}
       <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
     {{else}}
       <button type="submit" class="button button--regular">Inviter</button>
