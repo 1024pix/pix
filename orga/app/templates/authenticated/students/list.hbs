@@ -1,4 +1,4 @@
 <div class="list-students-page">
 
-  <Routes::Authenticated::Students::ListItems @students={{model}} @isLoading={{isLoading}} @importStudents={{action "importStudents"}} />
+  <Routes::Authenticated::Students::ListItems @students={{@model}} @isLoading={{this.isLoading}} @importStudents={{this.importStudents}} />
 </div>
