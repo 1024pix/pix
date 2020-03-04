@@ -2,17 +2,17 @@
   <LinkTo @route="authenticated.campaigns" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
     Campagnes
   </LinkTo>
-  {{#if currentUser.isAdminInOrganization}}
+  {{#if this.currentUser.isAdminInOrganization}}
     <LinkTo @route="authenticated.team" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
       Équipe
     </LinkTo>
   {{/if}}
-  {{#if currentUser.canAccessStudentsPage}}
+  {{#if this.currentUser.canAccessStudentsPage}}
     <LinkTo @route="authenticated.students" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
       Élèves
     </LinkTo>
   {{/if}}
-  {{#if currentUser.canAccessStudentsPage}}
+  {{#if this.currentUser.canAccessStudentsPage}}
     <div class="sidebar-menu__documentation-item">
       <a class="sidebar-menu-documentation-item__button" href="https://bit.ly/ressourcespixorga"
          target="_blank">
