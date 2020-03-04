@@ -1,7 +1,7 @@
 const { expect, hFake } = require('../../../test-helper');
 const { send } = require('../../../../lib/infrastructure/utils/error-manager');
 const DomainErrors = require('../../../../lib/domain/errors');
-const InfraErrors = require('../../../../lib/application/errors');
+const HttpErrors = require('../../../../lib/application/errors');
 
 describe('Integration | Utils | Error Manager', function() {
 
@@ -18,16 +18,16 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(422);
     });
 
-    it('should return 500 on InfrastructureError', function() {
+    it('should return 500 on base HttpError', function() {
       // given
-      const error = new InfraErrors.InfrastructureError('infra error');
+      const error = new HttpErrors.HttpError('http error');
 
       // when
       const result = send(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(500);
-      expect(result.source.errors[0].detail).to.equal('infra error');
+      expect(result.source.errors[0].detail).to.equal('http error');
     });
 
     it('should return 500 on unknown errors', function() {

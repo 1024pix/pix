@@ -3,7 +3,7 @@ const Course = require('../models/Course');
 const { NotFoundError } = require('../../domain/errors');
 
 const courseRepository = require('../../infrastructure/repositories/course-repository');
-const { InfrastructureError } = require('../../application/errors');
+const { HttpError } = require('../../application/errors');
 const logger = require('../../infrastructure/logger');
 
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
           if ('NOT_FOUND' === err.error || (_.has(err, 'error.type') && 'MODEL_ID_NOT_FOUND' === err.error.type)) {
             throw new NotFoundError();
           }
-          throw new InfrastructureError(err.message);
+          throw new HttpError(err.message);
         });
     }
 

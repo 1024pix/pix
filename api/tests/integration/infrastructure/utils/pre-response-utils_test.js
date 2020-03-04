@@ -2,7 +2,7 @@ const { expect, hFake } = require('../../../test-helper');
 
 const {
   BadRequestError, ConflictError, ForbiddenError,
-  InfrastructureError, MissingQueryParamError, NotFoundError,
+  HttpError, MissingQueryParamError, NotFoundError,
   PreconditionFailedError, UnauthorizedError, UnprocessableEntityError
 } = require('../../../../lib/application/errors');
 
@@ -29,7 +29,7 @@ describe('Integration | Infrastructure | Utils | PreResponse-utils', () => {
       { should: 'should return HTTP code 421 when PreconditionFailedError', response: new PreconditionFailedError('Error message'), expectedStatusCode: 421 },
       { should: 'should return HTTP code 422 when EntityValidationError', response: new EntityValidationError({ invalidAttributes }), expectedStatusCode: 422 },
       { should: 'should return HTTP code 422 when UnprocessableEntityError', response: new UnprocessableEntityError('Error message'), expectedStatusCode: 422 },
-      { should: 'should return HTTP code 500 when InfrastructureError', response: new InfrastructureError('Error message'), expectedStatusCode: 500 },
+      { should: 'should return HTTP code 500 when HttpError', response: new HttpError('Error message'), expectedStatusCode: 500 },
     ];
 
     successfulCases.forEach((testCase) => {

@@ -1,6 +1,6 @@
 const BookshelfCertificationCenterMembership = require('../data/certification-center-membership');
 const { CertificationCenterMembershipCreationError, AlreadyExistingMembershipError } = require('../../domain/errors');
-const { InfrastructureError } = require('../../application/errors');
+const { HttpError } = require('../../application/errors');
 const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
 const CertificationCenter = require('../../domain/models/CertificationCenter');
 const bookshelfUtils = require('../utils/bookshelf-utils');
@@ -39,7 +39,7 @@ module.exports = {
         if (bookshelfUtils.foreignKeyConstraintViolated(err)) {
           throw new CertificationCenterMembershipCreationError();
         }
-        throw new InfrastructureError(err);
+        throw new HttpError(err);
       });
   },
 

@@ -3,7 +3,7 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 const errorManager = require('../../../../lib/infrastructure/utils/error-manager');
 
 const { DomainError } = require('../../../../lib/domain/errors');
-const { InfrastructureError } = require('../../../../lib/application/errors');
+const { HttpError } = require('../../../../lib/application/errors');
 
 const { catchDomainAndInfrastructureErrors } = require('../../../../lib/infrastructure/utils/pre-response-utils');
 
@@ -15,7 +15,7 @@ describe('Unit | Infrastructure | Utils | PreResponse-utils', () => {
       sinon.stub(errorManager, 'send').resolves();
     });
 
-    it('should continue the process when not DomainError or InfrastructureError', async () => {
+    it('should continue the process when not DomainError or HttpError', async () => {
       // given
       const request = {
         response: {
@@ -44,9 +44,9 @@ describe('Unit | Infrastructure | Utils | PreResponse-utils', () => {
       expect(errorManager.send).to.have.been.calledWithExactly(hFake, request.response);
     });
 
-    it('should manage InfrastructureError', async () => {
+    it('should manage HttpError', async () => {
       const request = {
-        response: new InfrastructureError('Error message')
+        response: new HttpError('Error message')
       };
 
       // when

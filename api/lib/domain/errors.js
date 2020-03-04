@@ -437,7 +437,7 @@ class WrongDateFormatError extends DomainError {
 }
 
 /**
- * @deprecated use InfrastructureError instead for unexpected internal errors
+ * @deprecated use HttpError instead for unexpected internal errors
  */
 class InternalError extends DomainError {
   constructor() {
