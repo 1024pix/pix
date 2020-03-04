@@ -1,16 +1,10 @@
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
-import EmberObject, { action } from '@ember/object';
+import { action } from '@ember/object';
 
-class SelectOption extends EmberObject {
-  value = '';
-  label = '';
-  disabled = false;
-}
+const adminOption = { value: 'ADMIN', label: 'Administrateur', disabled: false };
 
-const adminOption = SelectOption.create({ value: 'ADMIN', label: 'Administrateur', disabled: false });
-
-const memberOption = SelectOption.create({ value: 'MEMBER', label: 'Membre', disabled: false });
+const memberOption = { value: 'MEMBER', label: 'Membre', disabled: false };
 
 export default class Items extends Component {
   @service currentUser;
