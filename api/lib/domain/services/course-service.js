@@ -2,8 +2,8 @@ const _ = require('lodash');
 const Course = require('../models/Course');
 const { NotFoundError } = require('../../domain/errors');
 
+const { HttpError } = require('../../application/http-errors');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
-const { HttpError } = require('../../application/errors');
 const logger = require('../../infrastructure/logger');
 
 module.exports = {

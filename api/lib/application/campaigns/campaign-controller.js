@@ -1,4 +1,6 @@
 const { PassThrough } = require('stream');
+
+const httpErrors = require('../http-errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
@@ -8,7 +10,6 @@ const campaignCollectiveResultSerializer = require('../../infrastructure/seriali
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
-const infraErrors = require('../../application/errors');
 
 module.exports = {
 
@@ -108,7 +109,7 @@ module.exports = {
 
 function _validateFilters(filters) {
   if (typeof filters.code === 'undefined') {
-    throw new infraErrors.MissingQueryParamError('filter.code');
+    throw new httpErrors.MissingQueryParamError('filter.code');
   }
 }
 

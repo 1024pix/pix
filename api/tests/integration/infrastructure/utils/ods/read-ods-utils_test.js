@@ -4,7 +4,7 @@ const moment = require('moment');
 moment.suppressDeprecationWarnings = true;
 
 const { expect, catchErr } = require('../../../../test-helper');
-const { UnprocessableEntityError } = require('../../../../../lib/application/errors');
+const { UnprocessableEntityError } = require('../../../../../lib/application/http-errors');
 
 const {
   TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION,

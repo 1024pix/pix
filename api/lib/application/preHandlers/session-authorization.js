@@ -1,5 +1,5 @@
+const { NotFoundError } = require('../http-errors');
 const sessionAuthorizationService = require('../../domain/services/session-authorization-service');
-const { NotFoundError } = require('../../application/errors');
 
 module.exports = {
   async verify(request) {

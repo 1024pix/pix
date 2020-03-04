@@ -1,6 +1,7 @@
 const _ = require('lodash');
+
+const httpErrors = require('../http-errors');
 const usecases = require('../../domain/usecases');
-const infraErrors = require('../../application/errors');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
 
 module.exports = {
@@ -18,7 +19,7 @@ module.exports = {
     const organizationInvitationCode = request.query.code;
 
     if (_.isEmpty(organizationInvitationCode)) {
-      throw new infraErrors.MissingQueryParamError('code');
+      throw new httpErrors.MissingQueryParamError('code');
     }
 
     const organizationInvitation = await usecases.getOrganizationInvitation({ organizationInvitationId, organizationInvitationCode });

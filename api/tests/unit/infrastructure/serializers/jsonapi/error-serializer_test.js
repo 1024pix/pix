@@ -1,6 +1,6 @@
 const { expect } = require('../../../../test-helper');
 const JSONAPIError = require('jsonapi-serializer').Error;
-const errors = require('../../../../../lib/application/errors');
+const errors = require('../../../../../lib/application/http-errors');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/error-serializer');
 
 describe('Unit | Serializer | JSONAPI | error-serializer', () => {
