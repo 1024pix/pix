@@ -4,15 +4,15 @@
     <LinkTo @route="authenticated.team.new" class="button button--link">Inviter un membre</LinkTo>
   </div>
 </div>
-{{#if organizationInvitations}}
+{{#if @organizationInvitations}}
   <div class="panel list-team-page-invitations">
     <div class="table content-text content-text--small">
       <table id="table-invitations">
         <thead>
-          <caption>Invitations en attente ({{organizationInvitations.length}})</caption>
+          <caption>Invitations en attente ({{@organizationInvitations.length}})</caption>
         </thead>
         <tbody>
-          {{#each organizationInvitations as |organizationInvitation|}}
+          {{#each @organizationInvitations as |organizationInvitation|}}
             <tr>
               <td>{{organizationInvitation.email}}</td>
               <td colspan="3">Invité le {{moment-format organizationInvitation.createdAt 'DD/MM/YYYY'}}</td>
@@ -28,7 +28,7 @@
   <div class="table content-text content-text--small">
     <table id="table-members">
       <thead>
-        <caption>Liste des membres ({{memberships.length}})</caption>
+        <caption>Liste des membres ({{@memberships.length}})</caption>
         <tr>
           <th>Nom</th>
           <th>Prénom</th>
@@ -36,16 +36,16 @@
           <th></th>
         </tr>
       </thead>
-      {{#if memberships}}
+      {{#if @memberships}}
         <tbody>
-          {{#each memberships as |membership|}}
+          {{#each @memberships as |membership|}}
             <Routes::Authenticated::Team::Items @membership={{membership}} @tagName="tr"/>
           {{/each}}
         </tbody>
       {{/if}}
     </table>
 
-    {{#unless memberships}}
+    {{#unless @memberships}}
       <div class="table__empty content-text">En attente de membres</div>
     {{/unless}}
   </div>
