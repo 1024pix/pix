@@ -12,7 +12,7 @@
           </tr>
           <tr>
             <th>
-              <SearchInput @inputName="campaignName" @class="input table__input search-input" @value={{campaignName}} @placeholder="Rechercher une campagne" @keyUp={{action triggerFiltering "name" campaignName}} />
+              <SearchInput @inputName="campaignName" @class="input table__input search-input" @value={{@campaignName}} @placeholder="Rechercher une campagne" @keyUp={{fn @triggerFiltering "name" @campaignName}}/>
             </th>
             <th>
               <Routes::Authenticated::Campaigns::SelectCreator
@@ -27,8 +27,8 @@
         </thead>
 
         <tbody>
-        {{#each campaigns as |campaign|}}
-          <tr onclick={{action goToCampaignPage campaign.id}} class="tr--clickable">
+        {{#each @campaigns as |campaign|}}
+          <tr {{on 'click' (fn @goToCampaignPage campaign.id)}} class="tr--clickable">
             <td>{{campaign.name}}</td>
             <td class="table__column--truncated">{{campaign.creator.fullName}}</td>
             <td>{{moment-format campaign.createdAt 'DD/MM/YYYY' allow-empty=true}}</td>
@@ -42,4 +42,4 @@
   </div>
 </div>
 
-<PaginationControl @pagination={{campaigns.meta}} @paginationLink="authenticated.campaigns" />
+<PaginationControl @pagination={{@campaigns.meta}} @paginationLink="authenticated.campaigns" />

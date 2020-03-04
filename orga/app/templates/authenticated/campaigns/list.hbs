@@ -1,16 +1,16 @@
 <div class="list-campaigns-page">
-  {{#if displayNoCampaignPanel}}
+  {{#if this.displayNoCampaignPanel}}
     <Routes::Authenticated::Campaigns::NoCampaignPanel />
   {{else}}
     <div class="list-campaigns-page__header-page">
       <ul role="tablist" class="list-campaigns-page__campaigns-status" aria-label="Filtre des campagnes par statut">
-        <li role="tab" type="submit" class="list-campaigns-page__tab {{unless isArchived  'list-campaigns-page__tab--active' }}" aria-selected="{{ not isArchived }}" {{ action 'updateCampaignStatus' null }}>Actives</li>
-        <li role="tab" type="submit" class="list-campaigns-page__tab {{if isArchived 'list-campaigns-page__tab--active' }}" aria-selected="{{ isArchived }}" {{ action 'updateCampaignStatus' 'archived' }}>Archivées</li>
+        <li role="tab" type="submit" class="list-campaigns-page__tab {{unless this.isArchived  'list-campaigns-page__tab--active' }}" aria-selected="{{ not this.isArchived }}" {{on 'click' (fn this.updateCampaignStatus null)}}>Actives</li>
+        <li role="tab" type="submit" class="list-campaigns-page__tab {{if this.isArchived 'list-campaigns-page__tab--active' }}" aria-selected="{{ this.isArchived }}" {{on 'click' (fn this.updateCampaignStatus 'archived')}}>Archivées</li>
       </ul>
       <div role="tabpanel" class="list-campaigns-page__create-campaign-button">
         <LinkTo @route="authenticated.campaigns.new" class="button button--link">Créer une campagne</LinkTo>
       </div>
     </div>
-    <Routes::Authenticated::Campaigns::ListItems @campaigns={{model}} @campaignName={{name}} @organizationMembers={{currentUser.organization.memberships}}  @campaignCreatorId={{creatorId}} @triggerFiltering={{action "triggerFiltering"}} @updateCampaignCreator={{action 'updateCampaignCreator'}} @goToCampaignPage={{action "goToCampaignPage"}} />
+    <Routes::Authenticated::Campaigns::ListItems @campaigns={{@model}} @campaignName={{this.name}}  @organizationMembers={{this.currentUser.organization.memberships}}  @campaignCreatorId={{this.creatorId}} @triggerFiltering={{this.triggerFiltering}} @goToCampaignPage={{this.goToCampaignPage}} />
   {{/if}}
 </div>
