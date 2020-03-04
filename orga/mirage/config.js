@@ -219,4 +219,14 @@ export default function() {
     return schema.userOrgaSettings.create({ user, organization });
   });
 
+  this.patch('/user-orga-settings/:id', (schema, request) => {
+    const requestBody = JSON.parse(request.requestBody);
+    const userOrgaSettingsId = request.params.id;
+    const organizationId = requestBody.data.relationships.organization.data.id;
+
+    const userOrgaSettings = schema.userOrgaSettings.find(userOrgaSettingsId);
+    const organization = schema.organizations.find(organizationId);
+    return userOrgaSettings.update({ organization });
+  });
+
 }
