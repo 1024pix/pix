@@ -4,7 +4,7 @@ const {
   BadRequestError, ConflictError, ForbiddenError,
   InfrastructureError, MissingQueryParamError, NotFoundError,
   PreconditionFailedError, UnauthorizedError, UnprocessableEntityError
-} = require('../../../../lib/infrastructure/errors');
+} = require('../../../../lib/application/errors');
 
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 

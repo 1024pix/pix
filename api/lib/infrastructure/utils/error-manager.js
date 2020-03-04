@@ -1,5 +1,5 @@
 const DomainErrors = require('../../domain/errors');
-const InfraErrors = require('../errors');
+const InfraErrors = require('../../application/errors');
 const JSONAPI = require('../../interfaces/jsonapi');
 const errorSerializer = require('../serializers/jsonapi/error-serializer');
 

@@ -1,5 +1,5 @@
 const { expect } = require('../../test-helper');
-const errors = require('../../../lib/infrastructure/errors');
+const errors = require('../../../lib/application/errors');
 
 describe('Unit | Infrastructure | Errors', () => {
 

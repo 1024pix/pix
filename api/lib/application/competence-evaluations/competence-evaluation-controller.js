@@ -1,7 +1,7 @@
 const usecases = require('../../domain/usecases');
 const serializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const { BadRequestError } = require('../../infrastructure/errors');
+const { BadRequestError } = require('../../application/errors');
 
 module.exports = {
 

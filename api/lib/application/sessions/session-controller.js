@@ -5,7 +5,7 @@ const certificationReportSerializer = require('../../infrastructure/serializers/
 const certificationResultSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-serializer');
 const tokenService = require('../../domain/services/token-service');
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
-const { BadRequestError } = require('../../infrastructure/errors');
+const { BadRequestError } = require('../../application/errors');
 
 module.exports = {
 

@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const usecases = require('../../domain/usecases');
-const infraErrors = require('../../infrastructure/errors');
+const infraErrors = require('../../application/errors');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
 
 module.exports = {
