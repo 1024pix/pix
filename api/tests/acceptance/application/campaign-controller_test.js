@@ -321,5 +321,50 @@ describe('Acceptance | API | Campaign Controller', () => {
       expect(response.statusCode).to.equal(200, response.payload);
       expect(response.result).to.deep.equal(expectedResult);
     });
+
+    it('when view asked is competence, it should return campaign collective result with status code 200', async () => {
+      // given
+      const url = `/api/campaigns/${campaign.id}/collective-results?view=competence`;
+      const request = {
+        method: 'GET',
+        url,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+      };
+      const expectedResult = {
+        data: {
+          type: 'campaign-collective-results',
+          id: campaign.id.toString(),
+          attributes: {},
+          relationships: {
+            'campaign-competence-collective-results': {
+              data: [{
+                id: `${campaign.id}_recCompetence1`,
+                type: 'campaignCompetenceCollectiveResults'
+              }]
+            },
+            'campaign-tube-collective-results': { data: [] },
+          },
+        },
+        included: [{
+          id: `${campaign.id}_recCompetence1`,
+          type: 'campaignCompetenceCollectiveResults',
+          attributes: {
+            'area-code': '1',
+            'area-color': 'specialColor',
+            'average-validated-skills': 1,
+            'competence-id': 'recCompetence1',
+            'competence-name': 'Liberticide',
+            'total-skills-count': 2,
+          },
+        }]
+      };
+
+      // when
+      const response = await server.inject(request);
+
+      // then
+      expect(response.statusCode).to.equal(200, response.payload);
+      expect(response.result).to.deep.equal(expectedResult);
+    });
   });
 });

@@ -101,8 +101,9 @@ module.exports = {
   async getCollectiveResult(request) {
     const { userId } = request.auth.credentials;
     const campaignId = parseInt(request.params.id);
+    const view = request.query['view'];
 
-    const campaignCollectiveResult = await usecases.computeCampaignCollectiveResult({ userId, campaignId });
+    const campaignCollectiveResult = await usecases.computeCampaignCollectiveResult({ userId, campaignId, view });
     return campaignCollectiveResultSerializer.serialize(campaignCollectiveResult);
   }
 };

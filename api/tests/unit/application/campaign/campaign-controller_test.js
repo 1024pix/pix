@@ -303,7 +303,8 @@ describe('Unit | Application | Controller | Campaign', () => {
         params: { id: campaignId },
         auth: {
           credentials: { userId }
-        }
+        },
+        query: {},
       });
 
       // then
@@ -317,7 +318,8 @@ describe('Unit | Application | Controller | Campaign', () => {
         params: { id: campaignId },
         auth: {
           credentials: { userId }
-        }
+        },
+        query: {},
       };
       usecases.computeCampaignCollectiveResult.rejects(error);
 

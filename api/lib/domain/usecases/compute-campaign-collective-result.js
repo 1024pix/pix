@@ -4,6 +4,7 @@ module.exports = async function computeCampaignCollectiveResult(
   {
     userId,
     campaignId,
+    view = 'competence',
     campaignRepository,
     campaignCollectiveResultRepository,
     competenceRepository,
