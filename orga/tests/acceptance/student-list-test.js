@@ -115,7 +115,7 @@ module('Acceptance | Student List', function(hooks) {
         assert.dom('.table thead th:nth-child(2)').hasText('Prénom');
         assert.dom('.table thead th:nth-child(3)').hasText('Date de naissance');
         assert.dom('.table thead th:nth-child(4)').hasText('Connecté avec');
-        assert.dom('.table thead th:nth-child(5)').hasText('Mot de passe');
+        assert.dom('.table thead th:nth-child(5)').hasText('');
       });
 
       module('when student have a username', async function() {
@@ -125,7 +125,7 @@ module('Acceptance | Student List', function(hooks) {
           await visit('/eleves');
 
           // then
-          assert.dom('.table tbody tr:nth-child(6) td:last-child button').hasText('Réinitialiser');
+          assert.dom('.table tbody tr:nth-child(6) td:last-child button .fa-cog').exists();
         });
 
         test('it should open password modal window', async function(assert) {

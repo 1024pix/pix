@@ -18,7 +18,7 @@
         <th>Prénom</th>
         <th>Date de naissance</th>
         <th>Connecté avec</th>
-        <th>Mot de passe</th>
+        <th></th>
       </tr>
       </thead>
 
@@ -29,13 +29,15 @@
             <td>{{student.lastName}}</td>
             <td>{{student.firstName}}</td>
             <td>{{moment-format student.birthdate 'DD/MM/YYYY' allow-empty=true}}</td>
-            <td class="authentication-methods">{{student.authenticationMethods}}</td>
-            <td>
+            <td class="list-students-page__authentication-methods">{{student.authenticationMethods}}</td>
+            <td class="list-students-page__password-reset-cell">
               {{#if student.hasUsername}}
-                <button class="button button--with-icon-and-text button-edit-role"
-                        type="button" {{action 'openPasswordReset' student}}>
-                  Réinitialiser
-                </button>
+                <div class="tooltip">
+                  <span class="tooltip-text list-students-page__tooltip">Gérer</span>
+                  <button class="button button--round-with-icon list-students-page__manage-button" type="button" {{action 'openPasswordReset' student}}>
+                    {{fa-icon "cog" }}
+                  </button>
+                </div>
               {{/if}}
             </td>
           </tr>
