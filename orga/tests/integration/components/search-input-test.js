@@ -12,10 +12,10 @@ module('Integration | Component | search-input', function(hooks) {
 
   test('should render component', async function(assert) {
     // when
-    await render(hbs`{{search-input keyUp=keyUpSpy}}`);
+    await render(hbs`{{search-input inputName="inputName" keyUp=keyUpSpy}}`);
 
     // then
-    assert.dom('.search-input').exists();
+    assert.dom('input#inputName').exists();
   });
 
   test('should set a value', async function(assert) {
@@ -27,7 +27,7 @@ module('Integration | Component | search-input', function(hooks) {
     await render(hbs`{{search-input value=value keyUp=keyUpSpy}}`);
 
     // then
-    assert.dom('.search-input input').hasValue(value);
+    assert.dom('input').hasValue(value);
   });
 
   test('should set a placeholder', async function(assert) {
@@ -39,6 +39,6 @@ module('Integration | Component | search-input', function(hooks) {
     await render(hbs`{{search-input placeholder=placeholder keyUp=keyUpSpy}}`);
 
     // then
-    assert.dom('.search-input input').hasAttribute('placeholder', placeholder);
+    assert.dom('input').hasAttribute('placeholder', placeholder);
   });
 });

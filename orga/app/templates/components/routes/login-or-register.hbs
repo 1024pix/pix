@@ -1,7 +1,7 @@
 <div class="login-or-register">
   <div class="panel login-or-register__panel">
     <div>
-      <img src="/pix-orga.svg" alt="" class="login-or-register-panel__logo">
+      <img src="/pix-orga.svg" alt="Pix Orga" class="login-or-register-panel__logo">
     </div>
     <span class="login-or-register-panel__invitation">Vous êtes invité(e) à rejoindre l'organisation {{organizationName}}</span>
     <div class="login-or-register-panel__forms-container">
@@ -12,8 +12,7 @@
         {{/unless}}
         <div class={{concat "login-or-register-panel-form__expandable" (if displayRegisterForm " login-or-register-panel-form__expandable--expanded")}}>
           {{#if displayRegisterForm}}
-            {{routes/register-form organizationInvitationId=organizationInvitationId
-                                   organizationInvitationCode=organizationInvitationCode}}
+            <Routes::RegisterForm @organizationInvitationId={{organizationInvitationId}} @organizationInvitationCode={{organizationInvitationCode}} />
           {{/if}}
         </div>
       </div>
@@ -25,9 +24,7 @@
         {{/if}}
         <div class={{concat "login-or-register-panel-form__expandable" (if (not displayRegisterForm) " login-or-register-panel-form__expandable--expanded")}}>
           {{#unless displayRegisterForm}}
-            {{routes/login-form isWithInvitation=true
-                                organizationInvitationId=organizationInvitationId
-                                organizationInvitationCode=organizationInvitationCode}}
+            <Routes::LoginForm @isWithInvitation={{true}} @organizationInvitationId={{organizationInvitationId}} @organizationInvitationCode={{organizationInvitationCode}} />
           {{/unless}}
         </div>
       </div>

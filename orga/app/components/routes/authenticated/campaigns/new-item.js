@@ -1,30 +1,32 @@
+import { action, computed } from '@ember/object';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
 
-export default Component.extend({
-  campaign: null,
-  targetProfiles: null,
+export default class NewItem extends Component {
+  campaign = null;
+  targetProfiles = null;
+  wantIdPix = false;
 
-  wantIdPix: false,
-  notWantIdPix: computed('wantIdPix', function() {
+  @computed('wantIdPix')
+  get notWantIdPix() {
     return !this.wantIdPix;
-  }),
-
-  actions: {
-    askLabelIdPix() {
-      this.set('wantIdPix', true);
-      this.set('campaign.idPixLabel', '');
-    },
-
-    doNotAskLabelIdPix() {
-      this.set('wantIdPix', false);
-      this.set('campaign.idPixLabel', null);
-    },
-
-    setSelectedTargetProfile(selectedTargetProfileId) {
-      const selectedTargetProfile = this.targetProfiles
-        .find((targetProfile) => targetProfile.get('id') === selectedTargetProfileId);
-      this.campaign.set('targetProfile', selectedTargetProfile);
-    },
   }
-});
+
+  @action
+  askLabelIdPix() {
+    this.set('wantIdPix', true);
+    this.set('campaign.idPixLabel', '');
+  }
+
+  @action
+  doNotAskLabelIdPix() {
+    this.set('wantIdPix', false);
+    this.set('campaign.idPixLabel', null);
+  }
+
+  @action
+  setSelectedTargetProfile(selectedTargetProfileId) {
+    const selectedTargetProfile = this.targetProfiles
+      .find((targetProfile) => targetProfile.get('id') === selectedTargetProfileId);
+    this.campaign.set('targetProfile', selectedTargetProfile);
+  }
+}

@@ -1,13 +1,13 @@
+import { action } from '@ember/object';
 import Controller from '@ember/controller';
 
-export default Controller.extend({
-  queryParams: ['pageNumber', 'pageSize'],
-  pageNumber: 1,
-  pageSize: 10,
+export default class ParticipantsController extends Controller {
+  queryParams = ['pageNumber', 'pageSize'];
+  pageNumber = 1;
+  pageSize = 10;
 
-  actions: {
-    goToParticipantPage:function(campaignId, participantId) {
-      this.transitionToRoute('authenticated.campaigns.details.participants.results', campaignId, participantId);
-    }
+  @action
+  goToParticipantPage(campaignId, participantId) {
+    this.transitionToRoute('authenticated.campaigns.details.participants.results', campaignId, participantId);
   }
-});
+}

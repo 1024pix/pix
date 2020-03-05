@@ -1,18 +1,17 @@
 import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
 
-const Router = EmberRouter.extend({
-  location: config.locationType,
-  rootURL: config.rootURL,
+export default class Router extends EmberRouter {
+  location = config.locationType;
+  rootURL = config.rootURL;
 
-  init() {
-    this._super(...arguments);
+  constructor() {
+    super(...arguments);
     this.on('routeDidChange', () => {
       window.scrollTo(0, 0);
     });
-  },
-
-});
+  }
+}
 
 Router.map(function() {
   this.route('login', { path: 'connexion' });
@@ -50,5 +49,3 @@ Router.map(function() {
 
   this.route('not-found', { path: '/*path' });
 });
-
-export default Router;

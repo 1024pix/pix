@@ -1,16 +1,17 @@
 import Route from '@ember/routing/route';
 
-export default Route.extend({
+export default class UpdateRoute extends Route {
   model(params) {
     return this.store.findRecord('campaign', params.campaign_id);
-  },
+  }
 
-  setupController: function(controller, model) {
-    this._super(controller, model);
+  setupController() {
+    super.setupController(...arguments);
+    const [controller, model] = arguments;
     controller.set('campaignName', model.name);
-  },
+  }
 
-  deactivate: function() {
+  deactivate() {
     this.controller.model.rollbackAttributes();
-  },
-});
+  }
+}

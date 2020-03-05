@@ -1,27 +1,28 @@
-import Controller from '@ember/controller';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
 
-export default Controller.extend({
+export default class NewController extends Controller {
+  @service store;
 
-  store: service(),
-  notifications: service('notifications'),
+  @service notifications;
 
-  actions: {
-    createCampaign(campaign) {
-      this.get('notifications').clearAll();
-      return campaign.save()
-        .then((campaign) => this.transitionToRoute('authenticated.campaigns.details', campaign.id))
-        .catch((errorResponse) => {
-          errorResponse.errors.forEach((error) => {
-            if (error.status === '500') {
-              return this.get('notifications').sendError(error.title);
-            }
-          });
+  @action
+  createCampaign(campaign) {
+    this.get('notifications').clearAll();
+    return campaign.save()
+      .then((campaign) => this.transitionToRoute('authenticated.campaigns.details', campaign.id))
+      .catch((errorResponse) => {
+        errorResponse.errors.forEach((error) => {
+          if (error.status === '500') {
+            return this.get('notifications').sendError(error.title);
+          }
         });
-    },
-
-    cancel() {
-      this.transitionToRoute('authenticated.campaigns');
-    },
+      });
   }
-});
+
+  @action
+  cancel() {
+    this.transitionToRoute('authenticated.campaigns');
+  }
+}
