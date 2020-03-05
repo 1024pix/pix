@@ -11,7 +11,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
   const expectedCompetences = [];
 
   beforeEach(() => {
-    campaignCollectiveResultRepository = { getCampaignCollectiveResult: sinon.stub() };
+    campaignCollectiveResultRepository = { getCampaignCompetenceCollectiveResult: sinon.stub() };
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
     competenceRepository = { list: sinon.stub() };
   });
@@ -26,7 +26,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
     it('should resolve a CampaignCollectiveResult', async () => {
       // given
       const expectedCampaignCollectiveResult = domainBuilder.buildCampaignCollectiveResult();
-      campaignCollectiveResultRepository.getCampaignCollectiveResult.withArgs(campaignId, expectedCompetences).resolves(expectedCampaignCollectiveResult);
+      campaignCollectiveResultRepository.getCampaignCompetenceCollectiveResult.withArgs(campaignId, expectedCompetences).resolves(expectedCampaignCollectiveResult);
 
       // when
       const actualCampaignCollectiveResult = await computeCampaignCollectiveResult({

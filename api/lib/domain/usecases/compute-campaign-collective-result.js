@@ -17,5 +17,5 @@ module.exports = async function computeCampaignCollectiveResult(
 
   const competences = await competenceRepository.list();
 
-  return campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, competences);
+  return campaignCollectiveResultRepository.getCampaignCollectiveResultByCompetence(campaignId, competences);
 };

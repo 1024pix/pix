@@ -11,6 +11,7 @@ module.exports = {
   buildCampaignCompetenceCollectiveResult: require('./build-campaign-competence-collective-result'),
   buildCampaignParticipation: require('./build-campaign-participation'),
   buildCampaignParticipationResult: require('./build-campaign-participation-result'),
+  buildCampaignTubeCollectiveResult: require('./build-campaign-tube-collective-result'),
   buildCampaignReport: require('./build-campaign-report'),
   buildCertification: require('./build-certification'),
   buildCertificationCandidate: require('./build-certification-candidate'),

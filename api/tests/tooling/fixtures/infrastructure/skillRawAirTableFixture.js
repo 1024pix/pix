@@ -27,6 +27,9 @@ module.exports = function skillRawAirTableFixture({ id } = { id: 'recTIddrkopID2
       ],
       'Tags': [
         'recdUq3RwhedQoRwS'
+      ],
+      'Tube': [
+        'recofJCazertqTdP'
       ]
     },
     'createdTime': '2018-01-31T12:41:07.000Z'

@@ -5,6 +5,7 @@ module.exports = function TubeAirtableDataObjectFixture({
   description = 'Connaître le fonctionnement d\'un moteur de recherche',
   practicalTitle = 'Outils d\'accès au web',
   practicalDescription = 'Identifier un navigateur web et un moteur de recherche, connaître le fonctionnement du moteur de recherche',
+  competenceId = 'recsvLz0W2ShyfD63'
 } = {}) {
   return {
     id,
@@ -13,5 +14,6 @@ module.exports = function TubeAirtableDataObjectFixture({
     description,
     practicalTitle,
     practicalDescription,
+    competenceId
   };
 };

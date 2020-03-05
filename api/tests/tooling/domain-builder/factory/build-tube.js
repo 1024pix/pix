@@ -11,6 +11,7 @@ module.exports = function buildTube({
   practicalTitle = faker.random.word(),
   practicalDescription = faker.lorem.sentence(),
   skills = buildSkillCollection(),
+  competenceId = `rec${faker.random.uuid()}`,
 } = {}) {
   return new Tube({
     id,
@@ -19,6 +20,7 @@ module.exports = function buildTube({
     description,
     practicalTitle,
     practicalDescription,
-    skills
+    skills,
+    competenceId
   });
 };

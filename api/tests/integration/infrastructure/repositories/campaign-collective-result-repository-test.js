@@ -28,63 +28,16 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
 }
 
 describe('Integration | Repository | Service | Campaign collective result repository', () => {
-  let competences;
-
-  beforeEach(() => {
-    const areas = [airtableBuilder.factory.buildArea()];
-    const skills = [];
-
-    competences = [];
-
-    _.each([
-      {
-        competence: { id: 'recCompetenceA', name: 'Competence A', index: '1.1', area: { color: 'jaffa' } },
-        skillIds: ['recUrl1', 'recUrl2', 'recUrl3', 'recUrl4', 'recUrl5']
-      }, {
-        competence: { id: 'recCompetenceB', name: 'Competence B', index: '1.2', area: { color: 'jaffa' } },
-        skillIds: ['recFile2', 'recFile3', 'recFile5', 'recText1']
-      }, {
-        competence: { id: 'recCompetenceC', name: 'Competence C', index: '1.3', area: { color: 'jaffa' } },
-        skillIds: ['recMedia1', 'recMedia2']
-      }, {
-        competence: { id: 'recCompetenceD', name: 'Competence D', index: '2.1', area: { color: 'emerald' } },
-        skillIds: ['recAlgo1', 'recAlgo2']
-      }, {
-        competence: { id: 'recCompetenceE', name: 'Competence E', index: '2.2', area: { color: 'emerald' } },
-        skillIds: ['recBrowser1']
-      }, {
-        competence: { id: 'recCompetenceF', name: 'Competence F', index: '2.3', area: { color: 'emerald' } },
-        skillIds: ['recComputer1']
-      },
-
-    ], ({ competence, skillIds }) => {
-      competences.push(domainBuilder.buildCompetence(competence));
-
-      _.each(skillIds, (skillId) => skills.push(
-        airtableBuilder.factory.buildSkill({ id: skillId, 'compétenceViaTube': [competence.id] })
-      ));
-    });
-
-    airtableBuilder
-      .mockList({ tableName: 'Domaines' })
-      .returns(areas)
-      .activate();
-
-    airtableBuilder
-      .mockList({ tableName: 'Acquis' })
-      .returns(skills)
-      .activate();
-  });
 
   afterEach(() => {
     airtableBuilder.cleanAll();
     return cache.flushAll();
   });
 
-  describe('#getCampaignCollectiveResults', () => {
+  context('#getCampaignCollectiveResultByCompetence', () => {
 
     context('in a rich context close to reality', () => {
-
+      let competences;
       let targetProfileId;
       let campaignId;
 
@@ -97,6 +50,50 @@ describe('Integration | Repository | Service | Campaign collective result reposi
       let expectedCampaignCollectiveResult;
 
       beforeEach(async () => {
+
+        const areas = [airtableBuilder.factory.buildArea()];
+        const skills = [];
+
+        competences = [];
+
+        _.each([
+          {
+            competence: { id: 'recCompetenceA', name: 'Competence A', index: '1.1', area: { color: 'jaffa' } },
+            skillIds: ['recUrl1', 'recUrl2', 'recUrl3', 'recUrl4', 'recUrl5']
+          }, {
+            competence: { id: 'recCompetenceB', name: 'Competence B', index: '1.2', area: { color: 'jaffa' } },
+            skillIds: ['recFile2', 'recFile3', 'recFile5', 'recText1']
+          }, {
+            competence: { id: 'recCompetenceC', name: 'Competence C', index: '1.3', area: { color: 'jaffa' } },
+            skillIds: ['recMedia1', 'recMedia2']
+          }, {
+            competence: { id: 'recCompetenceD', name: 'Competence D', index: '2.1', area: { color: 'emerald' } },
+            skillIds: ['recAlgo1', 'recAlgo2']
+          }, {
+            competence: { id: 'recCompetenceE', name: 'Competence E', index: '2.2', area: { color: 'emerald' } },
+            skillIds: ['recBrowser1']
+          }, {
+            competence: { id: 'recCompetenceF', name: 'Competence F', index: '2.3', area: { color: 'emerald' } },
+            skillIds: ['recComputer1']
+          },
+
+        ], ({ competence, skillIds }) => {
+          competences.push(domainBuilder.buildCompetence(competence));
+
+          _.each(skillIds, (skillId) => skills.push(
+            airtableBuilder.factory.buildSkill({ id: skillId, 'compétenceViaTube': [competence.id] })
+          ));
+        });
+
+        airtableBuilder
+          .mockList({ tableName: 'Domaines' })
+          .returns(areas)
+          .activate();
+
+        airtableBuilder
+          .mockList({ tableName: 'Acquis' })
+          .returns(skills)
+          .activate();
 
         targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
@@ -189,7 +186,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
         it('should resolves a collective result synthesis with default values for all competences', async () => {
           // when
-          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, competences);
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByCompetence(campaignId, competences);
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
@@ -225,7 +222,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
         it('should resolves a collective result synthesis with default values for all competences', async () => {
           // when
-          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, competences);
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByCompetence(campaignId, competences);
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
@@ -316,7 +313,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
           };
 
           // when
-          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, competences);
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByCompetence(campaignId, competences);
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
@@ -486,7 +483,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
           };
 
           // when
-          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, competences);
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByCompetence(campaignId, competences);
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
@@ -496,6 +493,346 @@ describe('Integration | Repository | Service | Campaign collective result reposi
         });
       });
 
+    });
+  });
+
+  context('#getCampaignCollectiveResultByTube', () => {
+
+    context('in a rich context close to reality', () => {
+      let tubes;
+      let targetProfileId;
+      let campaignId;
+
+      let url1Id, // tube 1
+        file2Id, file5Id, // tube 2
+        algo1Id, // tube 3
+        computer1Id; // tube 5
+
+      let expectedCampaignCollectiveResult;
+
+      beforeEach(async () => {
+        const areas = [airtableBuilder.factory.buildArea()];
+        const skills = [];
+
+        tubes = [];
+
+        _.each([
+          {
+            tube: { id: 'recTubeUrl', practicalTitle: 'Tube url', competenceId: 'recCompetenceC' },
+            skillIds: ['recUrl1', 'recUrl4']
+          }, {
+            tube: { id: 'recTubeFile', practicalTitle: 'Tube file', competenceId: 'recCompetenceC' },
+            skillIds: ['recFile2', 'recFile5']
+          }, {
+            tube: { id: 'recTubeAlgo', practicalTitle: 'Tube algo', competenceId: 'recCompetenceC' },
+            skillIds: ['recAlgo1']
+          }, {
+            tube: { id: 'recTubeBrowser', practicalTitle: 'Tube browser', competenceId: 'recCompetenceC' },
+            skillIds: ['recBrowser1']
+          }, {
+            tube: { id: 'recTubeComputer', practicalTitle: 'Tube computer', competenceId: 'recCompetenceE' },
+            skillIds: ['recComputer1']
+          },
+
+        ], ({ tube, skillIds }) => {
+          tubes.push(domainBuilder.buildTube(tube));
+
+          _.each(skillIds, (skillId) => skills.push(
+            airtableBuilder.factory.buildSkill({ id: skillId, tube: [tube.id] })
+          ));
+        });
+
+        airtableBuilder
+          .mockList({ tableName: 'Domaines' })
+          .returns(areas)
+          .activate();
+
+        airtableBuilder
+          .mockList({ tableName: 'Acquis' })
+          .returns(skills)
+          .activate();
+
+        targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+
+        // Tube url - nobody validated skills @url4 and @url5
+        url1Id = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recUrl1' }).skillId;
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recUrl4' });
+
+        // Tube file - all skills are validated by different people
+        file2Id = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recFile2' }).skillId;
+        file5Id = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recFile5' }).skillId;
+
+        // Tube algo - not covered by campaign target profile
+        algo1Id = 'recAlgo1';
+
+        // Tube browser - targeted by campaign but nobody validated its skills
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recBrowser1' });
+
+        // Tube computer - skill is validated and then invalidated
+        computer1Id = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recComputer1' }).skillId;
+
+        expectedCampaignCollectiveResult = Object.freeze(domainBuilder.buildCampaignCollectiveResult({
+          id: campaignId,
+          campaignTubeCollectiveResults: [
+            {
+              averageValidatedSkills: 0,
+              campaignId,
+              tubeId: 'recTubeUrl',
+              tubePracticalTitle: 'Tube url',
+              totalSkillsCount: 2,
+            },
+            {
+              averageValidatedSkills: 0,
+              campaignId,
+              tubeId: 'recTubeFile',
+              tubePracticalTitle: 'Tube file',
+              totalSkillsCount: 2,
+            },
+            {
+              averageValidatedSkills: 0,
+              campaignId,
+              tubeId: 'recTubeBrowser',
+              tubePracticalTitle: 'Tube browser',
+              totalSkillsCount: 1,
+            },
+            {
+              averageValidatedSkills: 0,
+              campaignId,
+              tubeId: 'recTubeComputer',
+              tubePracticalTitle: 'Tube computer',
+              totalSkillsCount: 1,
+            }
+          ]
+        }));
+      });
+
+      context('when there is no participant', () => {
+
+        beforeEach(async () => {
+          await databaseBuilder.commit();
+        });
+
+        it('should resolves a collective result synthesis with default values for all tubes', async () => {
+          // when
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes);
+
+          // then
+          expect(result).to.be.an.instanceof(CampaignCollectiveResult);
+          expect(result.id).to.equal(expectedCampaignCollectiveResult.id);
+          expect(result.campaignTubeCollectiveResults).to.deep.include.members(expectedCampaignCollectiveResult.campaignTubeCollectiveResults);
+          expect(result.campaignTubeCollectiveResults).to.deep.equal(expectedCampaignCollectiveResult.campaignTubeCollectiveResults);
+        });
+      });
+
+      context('when there is a participant but she did not share its contribution', () => {
+
+        beforeEach(async () => {
+
+          const goliathId = databaseBuilder.factory.buildUser({ firstName: 'Goliath' }).id;
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId,
+            userId: goliathId,
+            isShared: false,
+          });
+
+          databaseBuilder.factory.buildKnowledgeElement({
+            userId: goliathId,
+            competenceId: 'recCompetenceA',
+            skillId: url1Id,
+            status: 'validated',
+            campaignId,
+            createdAt: new Date('2019-02-01')
+          });
+
+          await databaseBuilder.commit();
+        });
+
+        it('should resolves a collective result synthesis with default values for all tubes', async () => {
+          // when
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes);
+
+          // then
+          expect(result).to.be.an.instanceof(CampaignCollectiveResult);
+          expect(result.id).to.equal(expectedCampaignCollectiveResult.id);
+          expect(result.campaignTubeCollectiveResults).to.deep.include.members(expectedCampaignCollectiveResult.campaignTubeCollectiveResults);
+          expect(result.campaignTubeCollectiveResults).to.deep.equal(expectedCampaignCollectiveResult.campaignTubeCollectiveResults);
+        });
+      });
+
+      context('when there is a single participant who shared its contribution', () => {
+
+        beforeEach(async () => {
+          const longTimeAgo = new Date('2018-01-01');
+          const beforeCampaignParticipationShareDate = new Date('2019-01-01');
+          const userWithCampaignParticipationFred = _createUserWithSharedCampaignParticipation('Fred', campaignId, new Date());
+          const fredId = userWithCampaignParticipationFred.userId;
+
+          _.each([
+            { userId: fredId, skillId: url1Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
+            { userId: fredId, skillId: file2Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
+            { userId: fredId, skillId: file5Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
+            { userId: fredId, skillId: computer1Id, status: 'validated', campaignId, createdAt: longTimeAgo },
+            { userId: fredId, skillId: computer1Id, status: 'invalidated', campaignId, createdAt: beforeCampaignParticipationShareDate },
+
+          ], (knownledgeElement) => {
+            databaseBuilder.factory.buildKnowledgeElement(knownledgeElement);
+          });
+
+          await databaseBuilder.commit();
+        });
+
+        it('should resolves a collective result synthesis with its results as collective’s ones', async () => {
+          // given
+          const expectedResult = {
+            id: campaignId,
+            campaignTubeCollectiveResults: [
+              {
+                averageValidatedSkills: 1,
+                campaignId,
+                tubeId: 'recTubeUrl',
+                tubePracticalTitle: 'Tube url',
+                totalSkillsCount: 2,
+              },
+              {
+                averageValidatedSkills: 2,
+                campaignId,
+                tubeId: 'recTubeFile',
+                tubePracticalTitle: 'Tube file',
+                totalSkillsCount: 2,
+              },
+              {
+                averageValidatedSkills: 0,
+                campaignId,
+                tubeId: 'recTubeBrowser',
+                tubePracticalTitle: 'Tube browser',
+                totalSkillsCount: 1,
+              },
+              {
+                averageValidatedSkills: 0,
+                campaignId,
+                tubeId: 'recTubeComputer',
+                tubePracticalTitle: 'Tube computer',
+                totalSkillsCount: 1,
+              }
+            ],
+          };
+
+          // when
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes);
+
+          // then
+          expect(result).to.be.an.instanceof(CampaignCollectiveResult);
+          expect(result.id).to.equal(expectedResult.id);
+          expect(result.campaignTubeCollectiveResults).to.deep.include.members(expectedResult.campaignTubeCollectiveResults);
+          expect(result.campaignTubeCollectiveResults).to.deep.equal(expectedResult.campaignTubeCollectiveResults);
+        });
+      });
+
+      context('when there are multiple participants who shared their participation', () => {
+
+        beforeEach(async () => {
+
+          const longTimeAgo = new Date('2018-01-01');
+          const campaignParticipationShareDate = new Date('2019-03-01');
+          const beforeCampaignParticipationShareDate = new Date('2019-02-01');
+          const afterCampaignParticipationShareDate = new Date('2019-05-01');
+
+          // Alice
+          const userWithCampaignParticipationAlice = _createUserWithSharedCampaignParticipation('Alice', campaignId, campaignParticipationShareDate);
+          const aliceId = userWithCampaignParticipationAlice.userId;
+
+          // Bob
+          const userWithCampaignParticipationBob = _createUserWithSharedCampaignParticipation('Bob', campaignId, campaignParticipationShareDate);
+          const bobId = userWithCampaignParticipationBob.userId;
+
+          // Dan (did not share his campaign participation)
+          const userWithCampaignParticipationDan = _createUserWithNonSharedCampaignParticipation('Dan', campaignId);
+          const danId =  userWithCampaignParticipationDan.userId;
+
+          // Elo (participated in another campaign)
+          const anotherCampaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+          const userWithCampaignParticipationElo = _createUserWithSharedCampaignParticipation('Elo', anotherCampaignId, campaignParticipationShareDate);
+          const eloId = userWithCampaignParticipationElo.id;
+
+          /!* KNOWLEDGE ELEMENTS *!/;
+
+          _.each([
+            // Alice
+            { userId: aliceId, skillId: url1Id, status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: aliceId, skillId: file2Id, status: 'invalidated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: aliceId, skillId: file5Id, status: 'invalidated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: aliceId, skillId: algo1Id, status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: aliceId, skillId: computer1Id, status: 'validated', createdAt: longTimeAgo },
+            { userId: aliceId, skillId: computer1Id, status: 'invalidated', createdAt: beforeCampaignParticipationShareDate },
+
+            // Bob
+            { userId: bobId, skillId: url1Id, status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: bobId, skillId: file2Id, status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: bobId, skillId: file5Id, status: 'invalidated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: bobId, skillId: file5Id, status: 'validated', createdAt: afterCampaignParticipationShareDate },
+            { userId: bobId, skillId: computer1Id, status: 'invalidated', createdAt: longTimeAgo },
+            { userId: bobId, skillId: computer1Id, status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+
+            // Dan
+            { userId: danId, skillId: file2Id, status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+
+            // Elo
+            { userId: eloId, skillId: url1Id, status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+          ], (knowledgeElement) => {
+            databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
+          });
+
+          await databaseBuilder.commit();
+        });
+
+        it('should return a correct aggregated synthesis of participants results', async () => {
+          // given
+          const expectedResult = {
+            id: campaignId,
+            campaignTubeCollectiveResults: [
+              {
+                averageValidatedSkills: 2 / 2,
+                campaignId,
+                tubeId: 'recTubeUrl',
+                tubePracticalTitle: 'Tube url',
+                totalSkillsCount: 2,
+              },
+              {
+                averageValidatedSkills: 1 / 2,
+                campaignId,
+                tubeId: 'recTubeFile',
+                tubePracticalTitle: 'Tube file',
+                totalSkillsCount: 2,
+              },
+              {
+                averageValidatedSkills: 0 / 2,
+                campaignId,
+                tubeId: 'recTubeBrowser',
+                tubePracticalTitle: 'Tube browser',
+                totalSkillsCount: 1,
+              },
+              {
+                averageValidatedSkills: 1 / 2,
+                campaignId,
+                tubeId: 'recTubeComputer',
+                tubePracticalTitle: 'Tube computer',
+                totalSkillsCount: 1,
+              }
+            ],
+          };
+
+          // when
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes);
+
+          // then
+          expect(result).to.be.an.instanceof(CampaignCollectiveResult);
+          expect(result.id).to.equal(expectedResult.id);
+          expect(result.campaignTubeCollectiveResults).to.deep.include.members(expectedResult.campaignTubeCollectiveResults);
+          expect(result.campaignTubeCollectiveResults).to.deep.equal(expectedResult.campaignTubeCollectiveResults);
+        });
+      });
     });
   });
 });

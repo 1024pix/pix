@@ -8,6 +8,7 @@ module.exports = function SkillAirtableDataObjectFixture({
   competenceId = 'recofJCxg0NqTqTdP',
   pixValue = 2.4,
   status = 'actif',
+  tubeId = 'recofJCazertqTdP',
 } = {}) {
   return {
     id,
@@ -19,5 +20,6 @@ module.exports = function SkillAirtableDataObjectFixture({
     competenceId,
     pixValue,
     status,
+    tubeId
   };
 };

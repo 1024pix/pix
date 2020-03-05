@@ -14,6 +14,7 @@ describe('Unit | Repository | tube-repository', () => {
       'Description': 'Connaître le fonctionnement d\'un moteur de recherche',
       'Titre pratique': 'Outils d\'accès au web',
       'Description pratique': 'Identifier un navigateur web et un moteur de recherche, connaître le fonctionnement du moteur de recherche',
+      'Competences': [ 'recCompetence1' ]
     },
     'createdTime': '2018-01-31T12:41:07.000Z'
   });
@@ -26,6 +27,7 @@ describe('Unit | Repository | tube-repository', () => {
       'Description': 'Enregistrer un document',
       'Titre pratique': 'Enregistrement',
       'Description pratique': 'Enregistrer un document',
+      'Competences': [ 'recCompetence2' ]
     },
     'createdTime': '2018-01-31T12:48:07.000Z'
   });
@@ -37,6 +39,7 @@ describe('Unit | Repository | tube-repository', () => {
     description: 'Description',
     practicalTitle: 'Titre vulgarisé',
     practicalDescription: 'Description vulgarisée',
+    competenceId: 'recCompetence1',
   };
 
   const tubeData2 = {
@@ -46,6 +49,7 @@ describe('Unit | Repository | tube-repository', () => {
     description: 'Description',
     practicalTitle: 'Titre vulgarisé',
     practicalDescription: 'Description vulgarisée',
+    competenceId: 'recCompetence2',
   };
 
   beforeEach(() => {
@@ -66,6 +70,7 @@ describe('Unit | Repository | tube-repository', () => {
         description: 'Description 1',
         practicalTitle: 'Practical Title 1',
         practicalDescription: 'Practical Description 1',
+        competenceId: 'recCompetence1',
       };
       const tube2 = {
         id: 'recTube2',
@@ -74,6 +79,7 @@ describe('Unit | Repository | tube-repository', () => {
         description: 'Description 2',
         practicalTitle: 'Practical Title 2',
         practicalDescription: 'Practical Description 2',
+        competenceId: 'recCompetence2',
       };
 
       tubeDatasource.findByNames.withArgs(names).resolves([tube1, tube2]);
@@ -97,6 +103,7 @@ describe('Unit | Repository | tube-repository', () => {
           'practicalTitle': 'Practical Title 1',
           'skills': [],
           'title': 'Title 1',
+          'competenceId': 'recCompetence1',
         },
         {
           'description': 'Description 2',
@@ -106,6 +113,7 @@ describe('Unit | Repository | tube-repository', () => {
           'practicalTitle': 'Practical Title 2',
           'skills': [],
           'title': 'Title 2',
+          'competenceId': 'recCompetence2',
         },
       ]);
     });
@@ -128,6 +136,7 @@ describe('Unit | Repository | tube-repository', () => {
         description: 'Description',
         practicalTitle: 'Titre vulgarisé',
         practicalDescription: 'Description vulgarisée',
+        competenceId: 'recCompetence1',
       });
 
       // when
