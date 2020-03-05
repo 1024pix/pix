@@ -45,41 +45,6 @@ body > div.ember-view {
     flex-direction: column;
     overflow: hidden;
 
-    .app-header {
-      background-color: #FFFFFF;
-      border-bottom: 1px solid $grey-border;
-      min-height: $app-header-height;
-      display: flex;
-
-      .app-search-bar {
-        padding: 20px;
-      }
-
-      .app-actions {
-        font-size: 1.5rem;
-        text-align: right;
-
-        .app-action__logout {
-          display: inline-block;
-          width: $app-header-height;
-          height: $app-header-height;
-          line-height: $app-header-height;
-          text-align: center;
-          color: #FFFFFF;
-          background-color: #333;
-
-          &:hover {
-            background-color: #dc3545;
-          }
-
-          i.fa {
-            font-size: 1.5rem;
-          }
-
-        }
-      }
-    }
-
     .app-page {
       position: relative;
       height: 100%;
