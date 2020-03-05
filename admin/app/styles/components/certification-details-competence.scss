@@ -3,7 +3,7 @@
   margin-bottom: 20px;
 
   .jury {
-    color: #ff0000;
+    color: $error;
   }
 
   .card-deck {
@@ -22,7 +22,7 @@
     }
 
     &.jury {
-      background-color: #ff0000;
+      background-color: $error;
       color: $white;
     }
   }
