@@ -104,6 +104,7 @@
 @import 'pages/skill-review';
 @import 'pages/user-certifications';
 @import 'pages/user-certifications-get';
+@import 'pages/user-tutorials';
 
 * {
   box-sizing: border-box;
@@ -117,6 +118,10 @@ body {
   font-family: $font-roboto;
   background-color: $porcelain-grey;
   margin: 0;
+}
+
+img {
+  max-width: 100%;
 }
 
 input[type='radio'] {

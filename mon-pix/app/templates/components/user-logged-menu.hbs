@@ -13,10 +13,15 @@
           <div class="logged-user-menu-details__fullname">{{currentUser.user.fullName}}</div>
           <div class="logged-user-menu-details__identifier">{{displayedIdentifier}}</div>
         </div>
+        {{#if showUserTutorialsInMenu}}
+          <LinkTo @route="user-tutorials" class="logged-user-menu__link">
+            Mes tutos
+          </LinkTo>
+        {{/if}}
         <LinkTo @route="user-certifications" class="logged-user-menu__link">
           Mes certifications
         </LinkTo>
-        <LinkTo @route="logout" class="logged-user-menu__link logged-user-menu__link--last">
+        <LinkTo @route="logout" class="logged-user-menu__link">
           {{fa-icon "power-off" class="logged-user-menu__icon"}}
           Se déconnecter
         </LinkTo>

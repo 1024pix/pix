@@ -54,7 +54,7 @@ then(`je suis redirigé vers le compte Orga de {string}`, (fullName) => {
 
 when(`je me déconnecte`, () => {
   cy.get('.logged-user-name__link').click();
-  cy.get('.logged-user-menu__link--last').click();
+  cy.get('.logged-user-menu__link:last-of-type').click();
 });
 
 then(`je suis redirigé vers la page {string}`, (pathname) => {
