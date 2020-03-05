@@ -1,6 +1,6 @@
 .login-page {
   background: linear-gradient(135.25deg, #388AFF 0%, #985FFF 100%);
-  color: #FFFFFF;
+  color: $white;
   position: absolute;
   top: 0;
   left: 0;
@@ -24,7 +24,7 @@
 }
 
 .login-form {
-  background: #FFFFFF;
+  background: $white;
   border-radius: 3px;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
@@ -36,7 +36,7 @@
 .login-form__error {
   background-color: #f04124;
   border-color: #f04124;
-  color: #FFFFFF;
+  color: $white;
   border-radius: 3px;
   padding: 8px;
 }
