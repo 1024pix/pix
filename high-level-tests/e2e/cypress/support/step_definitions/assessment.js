@@ -22,7 +22,7 @@ then(`je choisis la réponse {string}`, (number) => {
   cy.get('#'+number).click();
 });
 
-then(`je vois la page de résultats`, (number) => {
+then(`je vois la page de résultats`, () => {
   cy.get('.assessment-results').should('exist');
 });
 
