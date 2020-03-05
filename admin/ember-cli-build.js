@@ -6,7 +6,7 @@ module.exports = function(defaults) {
   const app = new EmberApp(defaults, {
     'ember-bootstrap': {
       'bootstrapVersion': 4,
-      'importBootstrapFont': false,
+      'importBootstrapFont': true,
       'importBootstrapCSS': true,
       'importBootstrapTheme': true,
       whitelist: ['bs-button', 'bs-nav', 'bs-dropdown', 'bs-modal', 'bs-modal-simple', 'bs-tooltip'],
