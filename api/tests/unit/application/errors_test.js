@@ -1,7 +1,7 @@
 const { expect } = require('../../test-helper');
 const errors = require('../../../lib/application/http-errors');
 
-describe('Unit | Infrastructure | Errors', () => {
+describe('Unit | Application | HTTP Errors', () => {
 
   describe('#HttpError', () => {
     it('should export an HttpError', () => {
