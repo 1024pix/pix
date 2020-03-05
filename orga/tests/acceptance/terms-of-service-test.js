@@ -9,7 +9,6 @@ import {
   createUserWithMembership,
   createUserWithMembershipAndTermsOfServiceAccepted
 } from '../helpers/test-init';
-import { Response } from 'ember-cli-mirage';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -44,25 +43,17 @@ module('Acceptance | terms-of-service', function(hooks) {
 
     test('it should send request for saving Pix-orga terms of service acceptation when submitting', async function(assert) {
       // given
-      let pixOrgaTermsOfServiceAccepted = null;
-      server.patch('/users/:id/pix-orga-terms-of-service-acceptance', () => {
-        pixOrgaTermsOfServiceAccepted = true;
-        return new Response(200, { some: 'header' }, {
-          data: [{
-            type: 'users',
-            id: user.id,
-            attributes: { 'pix-orga-terms-of-service-accepted': pixOrgaTermsOfServiceAccepted }
-          }]
-        });
-      });
-
+      const previousPixOrgaTermsOfServiceVal = user.pixOrgaTermsOfServiceAccepted;
       await visit('/cgu');
 
       // when
       await click('button[type=submit]');
 
       // then
-      assert.equal(pixOrgaTermsOfServiceAccepted, true);
+      user.reload();
+      const actualPixOrgaTermsOfServiceVal = user.pixOrgaTermsOfServiceAccepted;
+      assert.equal(actualPixOrgaTermsOfServiceVal, true);
+      assert.equal(previousPixOrgaTermsOfServiceVal, false);
     });
 
     test('it should redirect to campaign list after saving terms of service acceptation', async function(assert) {
