@@ -1,6 +1,6 @@
 const { expect, hFake } = require('../../test-helper');
 const { send } = require('../../../lib/application/error-manager');
-const HttpErrors = require('../../../lib/application/http-errors');
+const { HttpError } = require('../../../lib/application/http-errors');
 const DomainErrors = require('../../../lib/domain/errors');
 
 describe('Integration | Utils | Error Manager', function() {
@@ -20,7 +20,7 @@ describe('Integration | Utils | Error Manager', function() {
 
     it('should return 500 on base HttpError', function() {
       // given
-      const error = new HttpErrors.HttpError('http error');
+      const error = new HttpError('http error');
 
       // when
       const result = send(hFake, error);

@@ -1,6 +1,6 @@
 const { PassThrough } = require('stream');
 
-const httpErrors = require('../http-errors');
+const { MissingQueryParamError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
@@ -109,7 +109,7 @@ module.exports = {
 
 function _validateFilters(filters) {
   if (typeof filters.code === 'undefined') {
-    throw new httpErrors.MissingQueryParamError('filter.code');
+    throw new MissingQueryParamError('filter.code');
   }
 }
 
