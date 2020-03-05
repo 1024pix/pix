@@ -13,7 +13,7 @@ export default Controller.extend({
   campaignName: null,
 
   hasNoCampaign: empty('model'),
-  displayNoCampaignPanel: computed('name,hasNoCampaign', function() {
+  displayNoCampaignPanel: computed('name', 'hasNoCampaign', function() {
     return this.hasNoCampaign && isEmpty(this.name) && isEmpty(this.status);
   }),
   isArchived: computed('status', function() {

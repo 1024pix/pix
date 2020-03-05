@@ -35,6 +35,34 @@ module('Unit | Service | current-user', function(hooks) {
       assert.equal(currentUser.user, connectedUser);
     });
 
+    test('should load the memberships', async function(assert) {
+      // Given
+      const connectedUserId = 1;
+      const firstOrganization = Object.create({ id: 9 });
+      const secondOrganization = Object.create({ id: 10 });
+      const memberships = [Object.create({ organization: firstOrganization }), Object.create({ organization: secondOrganization })];
+      const connectedUser = Object.create({
+        id: connectedUserId,
+        memberships
+      });
+      const storeStub = Service.create({
+        queryRecord: () => resolve(connectedUser)
+      });
+      const sessionStub = Service.create({
+        isAuthenticated: true,
+        data: { authenticated: { user_id: connectedUserId } }
+      });
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.set('store', storeStub);
+      currentUser.set('session', sessionStub);
+
+      // When
+      await currentUser.load();
+
+      // Then
+      assert.equal(currentUser.memberships, memberships);
+    });
+
     test('should load the organization', async function(assert) {
       // Given
       const connectedUserId = 1;
