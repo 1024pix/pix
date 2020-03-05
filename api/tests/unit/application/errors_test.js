@@ -1,13 +1,9 @@
 const { expect } = require('../../test-helper');
-const { HttpError, MissingQueryParamError } = require('../../../lib/application/http-errors');
+const { BaseHttpError, MissingQueryParamError } = require('../../../lib/application/http-errors');
 
 describe('Unit | Application | HTTP Errors', () => {
 
-  describe('#HttpError', () => {
-    it('should export an HttpError', () => {
-      expect(HttpError).to.exist;
-    });
-
+  describe('#BaseHttpError', () => {
     it('should have a title, message, and errorCode property', () => {
       // given
       const expectedTitle = 'Internal Server Error';
@@ -15,7 +11,7 @@ describe('Unit | Application | HTTP Errors', () => {
       const expectedErrorCode = 500;
 
       // when
-      const httpError = new HttpError('Boom...');
+      const httpError = new BaseHttpError('Boom...');
 
       // then
       expect(httpError.title).to.equal(expectedTitle);
@@ -25,16 +21,12 @@ describe('Unit | Application | HTTP Errors', () => {
   });
 
   describe('#MissingQueryParamError', () => {
-    it('should export an MissingQueryParamError', () => {
-      expect(MissingQueryParamError).to.exist;
-    });
-
     it('should export an decendant instance of Infrastructure Error', () => {
       // when
       const missingQueryParamError = new MissingQueryParamError('assessmentId');
 
       // then
-      expect(missingQueryParamError).to.be.an.instanceof(HttpError);
+      expect(missingQueryParamError).to.be.an.instanceof(BaseHttpError);
     });
 
     it('should have a title, message, and errorCode property', () => {
