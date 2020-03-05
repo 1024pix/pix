@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import BootstrapTheme from 'ember-models-table/themes/bootstrap4';
 
 export default class OrganizationMembersSection extends Component {
 
@@ -26,13 +25,4 @@ export default class OrganizationMembersSection extends Component {
       title: 'Rôle',
     },
   ];
-
-  constructor() {
-    super(...arguments);
-    this.themeInstance = BootstrapTheme.create({
-      messages: {
-        noDataToShow: 'Cette organisation ne contient pas de membre.'
-      }
-    });
-  }
 }
