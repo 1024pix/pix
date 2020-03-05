@@ -2,16 +2,16 @@ const { expect, sinon, hFake } = require('../../test-helper');
 
 const errorManager = require('../../../lib/application/error-manager');
 const { HttpError } = require('../../../lib/application/http-errors');
-const { catchDomainAndHttpErrors } = require('../../../lib/application/pre-response-utils');
+const { handleDomainAndHttpErrors } = require('../../../lib/application/pre-response-utils');
 
 const { DomainError } = require('../../../lib/domain/errors');
 
 describe('Unit | Application | PreResponse-utils', () => {
 
-  describe('#catchDomainAndHttpErrors', () => {
+  describe('#handleDomainAndHttpErrors', () => {
 
     beforeEach(() => {
-      sinon.stub(errorManager, 'send').resolves();
+      sinon.stub(errorManager, 'handle').resolves();
     });
 
     it('should continue the process when not DomainError or HttpError', async () => {
@@ -24,7 +24,7 @@ describe('Unit | Application | PreResponse-utils', () => {
       const expectedString = 'Symbol(continue)';
 
       // when
-      const response = await catchDomainAndHttpErrors(request, hFake);
+      const response = await handleDomainAndHttpErrors(request, hFake);
 
       // then
       expect(typeof response).to.be.equal('symbol');
@@ -37,10 +37,10 @@ describe('Unit | Application | PreResponse-utils', () => {
       };
 
       // when
-      await catchDomainAndHttpErrors(request, hFake);
+      await handleDomainAndHttpErrors(request, hFake);
 
       // then
-      expect(errorManager.send).to.have.been.calledWithExactly(hFake, request.response);
+      expect(errorManager.handle).to.have.been.calledWithExactly(hFake, request.response);
     });
 
     it('should manage HttpError', async () => {
@@ -49,10 +49,10 @@ describe('Unit | Application | PreResponse-utils', () => {
       };
 
       // when
-      await catchDomainAndHttpErrors(request, hFake);
+      await handleDomainAndHttpErrors(request, hFake);
 
       // then
-      expect(errorManager.send).to.have.been.calledWithExactly(hFake, request.response);
+      expect(errorManager.handle).to.have.been.calledWithExactly(hFake, request.response);
     });
   });
 

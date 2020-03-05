@@ -29,7 +29,7 @@ const createServer = async () => {
     }
   });
 
-  server.ext('onPreResponse', preResponseUtils.catchDomainAndHttpErrors);
+  server.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
 
   server.auth.scheme('jwt-access-token', security.scheme);
   server.auth.strategy('default', 'jwt-access-token');
