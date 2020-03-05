@@ -15,5 +15,9 @@
 }
 
 .pix-logo__image {
-  height: 54px;
+  height:45px;
+
+  @include device-is('desktop'){
+    height: 54px;
+  }
 }
