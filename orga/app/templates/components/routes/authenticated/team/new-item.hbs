@@ -15,7 +15,7 @@
   </div>
 
   <div class="form__validation">
-    <div class="button button--no-color" {{on 'click' @cancel}}>Annuler</div>
+    <div class="button button--no-color" role="button" {{on 'click' @cancel}}>Annuler</div>
     {{#if @isLoading}}
       <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
     {{else}}

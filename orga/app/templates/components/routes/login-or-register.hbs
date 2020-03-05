@@ -8,7 +8,7 @@
       <div class="login-or-register-panel__form">
         <h1 class="form-title">Je m’inscris</h1>
         {{#unless this.displayRegisterForm}}
-          <button id="register" {{on 'click' this.toggleFormsVisibility}} class="button button--white button--bordered">S'inscrire</button>
+          <button type="button" id="register" {{on 'click' this.toggleFormsVisibility}} class="button button--white button--bordered">S'inscrire</button>
         {{/unless}}
         <div class={{concat "login-or-register-panel-form__expandable" (if this.displayRegisterForm " login-or-register-panel-form__expandable--expanded")}}>
           {{#if this.displayRegisterForm}}
@@ -20,7 +20,7 @@
       <div class="login-or-register-panel__form">
         <h1 class="form-title">J’ai déjà un compte</h1>
         {{#if this.displayRegisterForm}}
-          <button id="login" {{on 'click' this.toggleFormsVisibility}} class="button button--white button--bordered">Se connecter</button>
+          <button type="button" id="login" {{on 'click' this.toggleFormsVisibility}} class="button button--white button--bordered">Se connecter</button>
         {{/if}}
         <div class={{concat "login-or-register-panel-form__expandable" (if (not this.displayRegisterForm) " login-or-register-panel-form__expandable--expanded")}}>
           {{#unless this.displayRegisterForm}}

@@ -36,7 +36,7 @@
       <FaIcon @icon='archive'></FaIcon>
     </div>
     <div class="campaign-archived-banner__text">Campagne archivée</div>
-    <button class="button button--link campaign-archived-banner__unarchive-button" {{on 'click' (fn this.unarchiveCampaign @campaign.id)}}>Désarchiver la campagne</button>
+    <button type="button" class="button button--link campaign-archived-banner__unarchive-button" {{on 'click' (fn this.unarchiveCampaign @campaign.id)}}>Désarchiver la campagne</button>
   </div>
 {{/if}}
 

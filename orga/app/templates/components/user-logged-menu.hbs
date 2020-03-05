@@ -16,7 +16,7 @@
   <ClickOutside @onClickOutside={{this.closeMenu}}>
     <div class="logged-user-menu">
       {{#each this.eligibleOrganizations as |organization|}}
-        <div class="logged-user-menu-item" title="{{organization.name}}" {{on 'click' (fn this.onOrganizationChange organization)}}>
+        <div class="logged-user-menu-item" title="{{organization.name}}" role="button" {{on 'click' (fn this.onOrganizationChange organization)}}>
           <span class="logged-user-menu-item__organization-name">{{organization.name}}</span>
           {{#if organization.externalId}}
             <span class="logged-user-menu-item__organization-externalId">({{organization.externalId}})</span>
