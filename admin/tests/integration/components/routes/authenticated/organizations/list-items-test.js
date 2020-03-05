@@ -11,13 +11,13 @@ module('Integration | Component | routes/authenticated/organizations | list-item
     const triggerFiltering = function() {};
     const goToOrganizationPage = function() {};
 
-    this.set('triggerFiltering', triggerFiltering);
-    this.set('goToOrganizationPage', goToOrganizationPage);
+    this.triggerFiltering = triggerFiltering;
+    this.goToOrganizationPage = goToOrganizationPage;
   });
 
   test('it should display header with name, type and externalId', async function(assert) {
     // when
-    await render(hbs`{{routes/authenticated/organizations/list-items triggerFiltering=triggerFiltering goToOrganizationPage=goToOrganizationPage}}`);
+    await render(hbs`<Organizations::ListItems @triggerFiltering={{this.triggerFiltering}} @goToOrganizationPage={{this.goToOrganizationPage}} />`);
 
     // then
     assert.dom('table thead tr:first-child th:first-child').hasText('Nom');
@@ -46,10 +46,10 @@ module('Integration | Component | routes/authenticated/organizations | list-item
     organizations.meta = {
       rowCount: 3
     };
-    this.set('organizations', organizations);
+    this.organizations = organizations;
 
     // when
-    await render(hbs`{{routes/authenticated/organizations/list-items organizations=organizations triggerFiltering=triggerFiltering goToOrganizationPage=goToOrganizationPage}}`);
+    await render(hbs`<Organizations::ListItems @organizations={{this.organizations}} @triggerFiltering={{this.triggerFiltering}} @goToOrganizationPage={{this.goToOrganizationPage}} />`);
 
     // then
     assert.dom('table tbody tr:first-child td:first-child').hasText('École ACME');
