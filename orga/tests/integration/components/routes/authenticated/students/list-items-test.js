@@ -21,7 +21,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     assert.dom('.table thead tr th:nth-child(2)').hasText('Prénom');
     assert.dom('.table thead tr th:nth-child(3)').hasText('Date de naissance');
     assert.dom('.table thead tr th:nth-child(4)').hasText('Connecté avec');
-    assert.dom('.table thead tr th:last-child').hasText('Mot de passe');
+    assert.dom('.table thead tr th:last-child').hasText('');
   });
 
   test('it should display a list of students', async function(assert) {
@@ -141,7 +141,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       assert.dom('.table tbody tr:first-child td:first-child').hasText('lastName');
       assert.dom('.table tbody tr:first-child td:nth-child(2)').hasText('firstName');
       assert.dom('.table tbody tr:first-child td:nth-child(3)').hasText('01/10/2008');
-      assert.dom('.table tbody tr:first-child td:last-child button').hasText('Réinitialiser');
+      assert.dom('.table tbody tr:first-child td:last-child button .fa-cog').exists();
     });
 
     test('it should not display password update button when student have not username', async function(assert) {
@@ -172,8 +172,8 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       await render(hbs`{{routes/authenticated/students/list-items students=students}}`);
 
       // then
-      assert.dom('.table tbody tr:first-child td:last-child button').doesNotExist();
-      assert.dom('.table tbody tr:nth-child(2) td:last-child button').hasText('Réinitialiser');
+      assert.dom('.table tbody tr:first-child td:last-child button .fa-cog').doesNotExist();
+      assert.dom('.table tbody tr:nth-child(2) td:last-child button .fa-cog').exists();
     });
 
   });
