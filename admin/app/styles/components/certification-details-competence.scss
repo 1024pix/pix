@@ -18,12 +18,12 @@
   .progress-bar {
     &.certificate {
       background-color: #ff9900;
-      color: #ffffff;
+      color: $white;
     }
 
     &.jury {
       background-color: #ff0000;
-      color: #ffffff;
+      color: $white;
     }
   }
 
