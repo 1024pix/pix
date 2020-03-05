@@ -31,7 +31,7 @@
   transition: background-color 0.2s ease;
 
   &:hover, &:active, &:focus {
-    background-color: $pix-blue-hover;
+    background-color: darken($pix-blue, 10%);
   }
 }
 
