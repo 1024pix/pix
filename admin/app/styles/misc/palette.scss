@@ -3,3 +3,60 @@ $grey-body: #ebeef0;
 $grey-border: #ced4da;
 $pix-blue: #3d68ff;
 $pix-blue-hover: #3257D9;
+
+// See https://zeroheight.com/8dd127da7/p/839645-couleurs/b/21317a
+
+// primary
+$pix-blue: #3D68FF;
+$pix-yellow: #FFBE00;
+$blue-zodia: #505F79;
+$white: #ffffff;
+// secondary
+$orga: #00DDFF;
+$pix-purple: #8A49FF;
+// gradients app
+$pix-gradient: linear-gradient(135deg, #388AFF 0%, #985FFF 100%);
+$pix-blue-gradient: linear-gradient(135deg, #12A3FF 0%, #3D68FF 100%);
+$pix-certif-gradient: linear-gradient(0deg, #52D987 0%, #1A8C89 100%);
+$pix-orga-gradient: linear-gradient(134deg, #00DDFF 0%, #0095C0 100%);
+$pix-pinkie-gradient: linear-gradient(135deg, #FF3F93 0%, #AC008D 100%);
+$pix-purplie: #6B20DC;
+$pix-yellow-gradient: linear-gradient(180deg, #FFBE00 0%, #FF9F00 100%);
+// light
+$n5: #FAFBFC;
+$n10: #F4F5F7;
+$n15: #EAECF0;
+$n20: #DFE1E6;
+$n25: #A5ADBA;
+// medium
+$n30: #97A0AF;
+$n35: #8993A4;
+$n40: #7A869A;
+$n45: #6B778C;
+$n50: #5E6C84;
+// dark
+$n70: #344563;
+$n80: #253858;
+$n90: #172B4D;
+$n100: #091E42;
+// gradients domain
+$information-gradient: linear-gradient(180deg, #F24645 0%, #F1A141 100%);
+$content-gradient: linear-gradient(0deg, #52D987 0%, #1A8C89 100%);
+$communication-gradient: linear-gradient(0deg, #12A3FF 0%, #3D68FF 100%);
+$security-gradient: linear-gradient(0deg, #FF3F93 0%, #AC008D 100%);
+$environment-gradient: linear-gradient(180deg, #5E2563 0%, #564DA6 100%);
+// solids
+$information-dark: #F24645;
+$information-light: #F1A141;
+$content-dark: #1A8C89;
+$content-light: #52D987;
+$communication-dark: #3D68FF;
+$communication-light: #12A3FF;
+$security-dark: #AC008D;
+$security-light: #FF3F94;
+$environment-dark: #5E2563;
+$environment-light: #564DA6;
+// status
+$error: #FF4B00;
+$success: #57C884;
+$warning: #FFBE00;
