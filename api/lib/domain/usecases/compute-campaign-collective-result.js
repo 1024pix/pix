@@ -8,6 +8,7 @@ module.exports = async function computeCampaignCollectiveResult(
     campaignRepository,
     campaignCollectiveResultRepository,
     competenceRepository,
+    tubeRepository,
   } = {}) {
 
   const hasUserAccessToResult = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId);
@@ -16,7 +17,11 @@ module.exports = async function computeCampaignCollectiveResult(
     throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
   }
 
-  const competences = await competenceRepository.list();
+  if (view === 'tube') {
+    const tubes = await tubeRepository.list();
+    return campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes);
+  }
 
+  const competences = await competenceRepository.list();
   return campaignCollectiveResultRepository.getCampaignCollectiveResultByCompetence(campaignId, competences);
 };

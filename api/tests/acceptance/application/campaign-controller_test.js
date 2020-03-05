@@ -265,9 +265,11 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       const competence1 = airtableBuilder.factory.buildCompetence({ id: 'recCompetence1', titre: 'Liberticide', acquisViaTubes: [ 'recSkillId1', 'recSkillId2' ] });
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
-        airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: [ 'recCompetence1' ] }),
-        airtableBuilder.factory.buildSkill({ id: 'recSkillId2', ['compétenceViaTube']: [ 'recCompetence1' ] }),
+        airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: [ 'recCompetence1' ], tube: ['recTube1'] }),
+        airtableBuilder.factory.buildSkill({ id: 'recSkillId2', ['compétenceViaTube']: [ 'recCompetence1' ], tube: ['recTube1'] }),
       ]).activate();
+      const tube1 = airtableBuilder.factory.buildTube({ id: 'recTube1', titrePratique: 'Ceci est un titre pratique', competences: [ 'recCompetence1' ] });
+      airtableBuilder.mockList({ tableName: 'Tubes' }).returns([ tube1 ]).activate();
       airtableBuilder.mockList({ tableName: 'Competences' }).returns([ competence1 ]).activate();
       airtableBuilder.mockList({ tableName: 'Domaines' }).returns([ airtableBuilder.factory.buildArea() ]).activate();
     });
@@ -322,7 +324,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       expect(response.result).to.deep.equal(expectedResult);
     });
 
-    it('when view asked is competence, it should return campaign collective result with status code 200', async () => {
+    it('when view asked is competence, it should return campaign competence collective result with status code 200', async () => {
       // given
       const url = `/api/campaigns/${campaign.id}/collective-results?view=competence`;
       const request = {
@@ -355,6 +357,49 @@ describe('Acceptance | API | Campaign Controller', () => {
             'competence-id': 'recCompetence1',
             'competence-name': 'Liberticide',
             'total-skills-count': 2,
+          },
+        }]
+      };
+
+      // when
+      const response = await server.inject(request);
+
+      // then
+      expect(response.statusCode).to.equal(200, response.payload);
+      expect(response.result).to.deep.equal(expectedResult);
+    });
+
+    it('when view asked is tube, it should return campaign tube collective result with status code 200', async () => {
+      // given
+      const url = `/api/campaigns/${campaign.id}/collective-results?view=tube`;
+      const request = {
+        method: 'GET',
+        url,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+      };
+      const expectedResult = {
+        data: {
+          type: 'campaign-collective-results',
+          id: campaign.id.toString(),
+          attributes: {},
+          relationships: {
+            'campaign-tube-collective-results': {
+              data: [{
+                id: `${campaign.id}_recTube1`,
+                type: 'campaignTubeCollectiveResults'
+              }]
+            },
+            'campaign-competence-collective-results': { data: [] },
+          },
+        },
+        included: [{
+          id: `${campaign.id}_recTube1`,
+          type: 'campaignTubeCollectiveResults',
+          attributes: {
+            'average-validated-skills': 1,
+            'total-skills-count': 2,
+            'tube-id': 'recTube1',
+            'tube-practical-title': 'Ceci est un titre pratique',
           },
         }]
       };
