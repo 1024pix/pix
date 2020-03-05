@@ -1,69 +1,68 @@
 <div class="register-form">
-  <form {{action 'register' on='submit'}}>
+  <form {{on 'submit' this.register}}>
 
     <div id="register-firstName-container" class="input-container">
       <label for="register-firstName" class="label">Prénom</label>
-      <div class="{{if validation.firstName.message 'alert-input alert-input--error'}}" role="alert">{{validation.firstName.message}}</div>
+      <div class="{{if this.validation.firstName.message 'alert-input alert-input--error'}}" role="alert">{{this.validation.firstName.message}}</div>
       <Input
         @id="register-firstName"
         @name="firstName"
         @type="firstName"
-        @class="input {{if validation.firstName.message 'input--error'}}"
-        @value={{user.firstName}}
-        @focusOut={{action "validateInput" "firstName" user.firstName}}
+        @class="input {{if this.validation.firstName.message 'input--error'}}"
+        @value={{this.user.firstName}}
         @autocomplete="firstname"
+        {{on "focusout" (fn this.validateInput "firstName" this.user.firstName)}}
       />
     </div>
 
     <div id="register-lastName-container" class="input-container">
       <label for="register-lastName" class="label">Nom</label>
-      <div class="{{if validation.lastName.message 'alert-input alert-input--error'}}" role="alert">{{validation.lastName.message}}</div>
+      <div class="{{if this.validation.lastName.message 'alert-input alert-input--error'}}" role="alert">{{this.validation.lastName.message}}</div>
       <Input
         @id="register-lastName"
         @name="lastName"
         @type="lastName"
-        @class="input {{if validation.lastName.message 'input--error'}}"
-        @value={{user.lastName}}
-        @focusOut={{action "validateInput" "lastName" user.lastName}}
+        @class="input {{if this.validation.lastName.message 'input--error'}}"
+        @value={{this.user.lastName}}
         @autocomplete="lastname"
+        {{on "focusout" (fn this.validateInput "lastName" this.user.lastName)}}
       />
     </div>
 
     <div id="register-email-container" class="input-container">
       <label for="register-email" class="label">Adresse e-mail</label>
-      <div class="{{if validation.email.message 'alert-input alert-input--error'}}" role="alert">{{validation.email.message}}</div>
+      <div class="{{if this.validation.email.message 'alert-input alert-input--error'}}" role="alert">{{this.validation.email.message}}</div>
       <Input
         @id="register-email"
         @name="email"
         @type="email"
-        @class="input {{if validation.email.message 'input--error'}}"
-        @value={{user.email}}
-        @focusOut={{action "validateInputEmail" "email" user.email}}
+        @class="input {{if this.validation.email.message 'input--error'}}"
+        @value={{this.user.email}}
         @autocomplete="username"
+        {{on "focusout" (fn this.validateInputEmail "email" this.user.email)}}
       />
     </div>
 
     <div id="register-password-container" class="input-container">
       <label for="register-password" class="label">Mot de passe</label>
-      <div class="{{if validation.password.message 'alert-input alert-input--error'}}" role="alert">{{validation.password.message}}</div>
-      <div class="input-password {{if validation.password.message 'input-password--error'}}">
+      <div class="{{if this.validation.password.message 'alert-input alert-input--error'}}" role="alert">{{this.validation.password.message}}</div>
+      <div class="input-password {{if this.validation.password.message 'input-password--error'}}">
         <Input
           @id="register-password"
           @name="password"
-          @type={{passwordInputType}}
+          @type={{this.passwordInputType}}
           @class="input"
-          @value={{user.password}}
-          @focusOut={{action "validateInputPassword" "password" user.password}}
+          @value={{this.user.password}}
           @autocomplete="current-password"
+          {{on "focusout" (fn this.validateInputPassword "password" this.user.password)}}
         />
-        <button type="button" aria-label="rendre le mot de passe lisible" class="input-password__icon" {{action
-          'togglePasswordVisibility'}}>
-          {{#if isPasswordVisible}}
-            <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>
+        <button type="button" aria-label="rendre le mot de passe lisible" class="input-password__icon" {{on 'click' this.togglePasswordVisibility}}>
+          {{#if this.isPasswordVisible}}
+            <div tabindex="-1" {{on 'mousedown' this.togglePasswordVisibility}}>
               <FaIcon @icon='eye' @class="fa-fw input-password-icon__eye"></FaIcon>
             </div>
           {{else}}
-            <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>
+            <div tabindex="-1" {{on 'mousedown' this.togglePasswordVisibility}}>
               <FaIcon @icon='eye-slash' @class="fa-fw input-password-icon__eye"></FaIcon>
             </div>
           {{/if}}
@@ -72,9 +71,9 @@
     </div>
 
     <div id="register-cgu-container" class="input-container">
-      <div class="{{if validation.cgu.message 'alert-input alert-input--error'}}" role="alert">{{validation.cgu.message}}</div>
+      <div class="{{if this.validation.cgu.message 'alert-input alert-input--error'}}" role="alert">{{this.validation.cgu.message}}</div>
       <label for="register-cgu" class="label register-form__cgu-label">
-        <Input @type="checkbox" @id="register-cgu" @checked={{user.cgu}} />
+        <Input @type="checkbox" @id="register-cgu" @checked={{this.user.cgu}} />
         <span class="register-form__cgu">
       J'​accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="link" target="_blank">conditions d'​utilisation de Pix</a>
     </span>
@@ -82,7 +81,7 @@
     </div>
 
     <div class="input-container">
-      {{#if isLoading}}
+      {{#if this.isLoading}}
         <button type="submit" class="button"><span class="loader-in-button">&nbsp;</span></button>
       {{else}}
         <button type="submit" class="button">Je m'inscris</button>
