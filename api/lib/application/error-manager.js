@@ -16,7 +16,7 @@ function handle(h, error) {
 }
 
 function _mapToHttpError(error) {
-  if (error instanceof HttpErrors.HttpError) {
+  if (error instanceof HttpErrors.BaseHttpError) {
     return error;
   }
 
@@ -156,5 +156,5 @@ function _mapToHttpError(error) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
 
-  return new HttpErrors.HttpError(error.message);
+  return new HttpErrors.BaseHttpError(error.message);
 }
