@@ -1,5 +1,6 @@
+const faker = require('faker');
 const createServer = require('../../../server');
-const { expect, databaseBuilder, airtableBuilder } = require('../../test-helper');
+const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const settings = require('../../../lib/config');
 const jwt = require('jsonwebtoken');
 const Membership = require('../../../lib/domain/models/Membership');
@@ -213,6 +214,112 @@ describe('Acceptance | API | Campaign Controller', () => {
       // then
       expect(response.statusCode).to.equal(200, response.payload);
       expect(response.result).to.equal(expectedCsv);
+    });
+  });
+
+  describe('GET /api/campaign/{id}/collective-result', function() {
+
+    let userId;
+    const participationStartDate = '2018-01-01';
+    const assessmentStartDate = '2018-01-02';
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
+
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId: organization.id,
+        organizationRole: Membership.roles.MEMBER,
+      });
+
+      targetProfile = databaseBuilder.factory.buildTargetProfile({
+        organizationId: organization.id,
+        name: 'Profile 3'
+      });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId2' });
+      campaign = databaseBuilder.factory.buildCampaign({
+        name: 'Campagne de Test N°3',
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id
+      });
+
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        userId,
+        isShared: true,
+        createdAt: new Date(participationStartDate),
+        sharedAt: new Date('2018-01-27'),
+      });
+
+      const assessment = databaseBuilder.factory.buildAssessment({
+        userId,
+        type: 'SMART_PLACEMENT',
+        createdAt: new Date(assessmentStartDate),
+        campaignParticipationId: campaignParticipation.id
+      });
+
+      databaseBuilder.factory.buildKnowledgeElement({ skillId: 'recSkillId1', status: 'validated', userId, assessmentId: assessment.id, competenceId: 'recCompetence1', createdAt: faker.date.past(10, campaignParticipation.sharedAt) });
+
+      await databaseBuilder.commit();
+
+      const competence1 = airtableBuilder.factory.buildCompetence({ id: 'recCompetence1', titre: 'Liberticide', acquisViaTubes: [ 'recSkillId1', 'recSkillId2' ] });
+      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
+        airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: [ 'recCompetence1' ] }),
+        airtableBuilder.factory.buildSkill({ id: 'recSkillId2', ['compétenceViaTube']: [ 'recCompetence1' ] }),
+      ]).activate();
+      airtableBuilder.mockList({ tableName: 'Competences' }).returns([ competence1 ]).activate();
+      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([ airtableBuilder.factory.buildArea() ]).activate();
+    });
+
+    afterEach(async () => {
+      await airtableBuilder.cleanAll();
+      return cache.flushAll();
+    });
+
+    it('should return campaign collective result with status code 200', async () => {
+      // given
+      const url = `/api/campaigns/${campaign.id}/collective-results`;
+      const request = {
+        method: 'GET',
+        url,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+      };
+      const expectedResult = {
+        data: {
+          type: 'campaign-collective-results',
+          id: campaign.id.toString(),
+          attributes: {},
+          relationships: {
+            'campaign-competence-collective-results': {
+              data: [{
+                id: `${campaign.id}_recCompetence1`,
+                type: 'campaignCompetenceCollectiveResults'
+              }]
+            },
+            'campaign-tube-collective-results': { data: [] },
+          },
+        },
+        included: [{
+          id: `${campaign.id}_recCompetence1`,
+          type: 'campaignCompetenceCollectiveResults',
+          attributes: {
+            'area-code': '1',
+            'area-color': 'specialColor',
+            'average-validated-skills': 1,
+            'competence-id': 'recCompetence1',
+            'competence-name': 'Liberticide',
+            'total-skills-count': 2,
+          },
+        }]
+      };
+
+      // when
+      const response = await server.inject(request);
+
+      // then
+      expect(response.statusCode).to.equal(200, response.payload);
+      expect(response.result).to.deep.equal(expectedResult);
     });
   });
 });
