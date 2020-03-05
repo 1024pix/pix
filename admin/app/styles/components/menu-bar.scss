@@ -13,7 +13,7 @@
       padding: 0 15px;
 
       .menu-bar__link {
-        color: #a9b3bb;
+        color: $n22;
         display: block;
         line-height: 50px;
         padding: 0;
@@ -38,7 +38,7 @@
 
         &.active {
           font-weight: 600;
-          background-color: #697b88;
+          background-color: $n40;
           color: $white;
         }
       }
