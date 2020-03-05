@@ -7,6 +7,8 @@ import {
   keyDown
 } from 'ember-keyboard';
 
+import config from 'mon-pix/config/environment';
+
 export default Component.extend(EmberKeyboardMixin, {
 
   currentUser: service(),
@@ -16,6 +18,7 @@ export default Component.extend(EmberKeyboardMixin, {
 
   keyboardActivated: true,
   _canDisplayMenu: false,
+  showUserTutorialsInMenu: config.APP.SHOW_USER_TUTORIALS_IN_MENU,
 
   canDisplayLinkToProfile: computed('routing.currentRouteName', function() {
     const currentRouteName = this.get('routing.currentRouteName');
