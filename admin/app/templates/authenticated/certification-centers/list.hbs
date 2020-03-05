@@ -4,12 +4,12 @@
 
 <main class="page-body">
   <section class="page-section">
-    <Routes::Authenticated::CertificationCenters::ListItems
-            @certificationCenters={{@model}}
+    <CertificationCenters::ListItems
             @id={{id}}
+            @certificationCenters={{@model}}
             @name={{name}}
             @type={{type}}
-            externalId={{externalId}}
-            @triggerFiltering={{this.triggerFiltering}}/>
+            @externalId={{externalId}}
+            @triggerFiltering={{this.triggerFiltering}} />
   </section>
 </main>

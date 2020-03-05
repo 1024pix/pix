@@ -6,6 +6,9 @@
 
 <main class="page-body">
   <section class="page-section">
-    <Routes::Authenticated::Users::ListItems @users={{@model}} @firstName={{firstName}} @lastName={{lastName}} @email={{email}} @triggerFiltering={{action "triggerFiltering"}} />
+    <Users::ListItems
+      @users={{@model}}
+      @firstName={{firstName}} @lastName={{lastName}} @email={{email}}
+      @triggerFiltering={{action "triggerFiltering"}} />
   </section>
 </main>
