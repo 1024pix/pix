@@ -19,10 +19,9 @@
         {{#if (is-clipboard-supported)}}
           <div class="tooltip content-text content-text--small">
             <span class="tooltip-text campaign-details-content__tooltip-text">{{this.tooltipText}}</span>
-            {{#copy-button clipboardText=campaign.url success=(action 'clipboardSuccess') mouseLeave=(action 'clipboardOut')
-                           classNames="icon-button campaign-details-content__clipboard-button"}}
-              {{fa-icon 'copy' prefix='far'}}
-            {{/copy-button}}
+            <CopyButton @clipboardText={{campaign.url}} @success={{action "clipboardSuccess"}} @mouseLeave={{action "clipboardOut"}} @classNames="icon-button campaign-details-content__clipboard-button">
+              <FaIcon @icon='copy' @prefix='far'></FaIcon>
+            </CopyButton>
           </div>
         {{/if}}
       </div>
@@ -40,7 +39,7 @@
     <div class="campaign-details-content campaign-details-content--single">
       <h4 class="label-text campaign-details-content__label">Texte de la page d'accueil</h4>
       <p class="content-text campaign-details-content__text">
-        {{markdown-to-html markdown=campaign.customLandingPageText}}
+        <MarkdownToHtml @markdown={{campaign.customLandingPageText}} />
       </p>
     </div>
   </div>
@@ -48,10 +47,9 @@
   {{#if (not campaign.isArchived)}}
     <div class="campaign-details-row">
       <div class="campaign-details-content campaign-details-content--button campaign-details--button">
-        {{#link-to "authenticated.campaigns.update" campaign.id
-                   class="button button--grey button--regular button--link campaign-details-content__update-button"}}
+        <LinkTo @route="authenticated.campaigns.update" @model={{campaign.id}} class="button button--grey button--regular button--link campaign-details-content__update-button">
           Modifier
-        {{/link-to}}
+        </LinkTo>
       </div>
       <div class="campaign-details-content campaign-details-content--button campaign-details-content--left">
         <button {{action 'archiveCampaign' campaign.id}}

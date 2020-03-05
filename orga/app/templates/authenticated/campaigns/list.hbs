@@ -1,6 +1,6 @@
 <div class="list-campaigns-page">
   {{#if displayNoCampaignPanel}}
-    {{routes/authenticated/campaigns/no-campaign-panel}}
+    <Routes::Authenticated::Campaigns::NoCampaignPanel />
   {{else}}
     <div class="list-campaigns-page__header-page">
       <ul role="tablist" class="list-campaigns-page__campaigns-status" aria-label="Filtre des campagnes par statut">
@@ -8,13 +8,9 @@
         <li role="tab" type="submit" class="list-campaigns-page__tab {{if isArchived 'list-campaigns-page__tab--active' }}" aria-selected="{{ isArchived }}" {{ action 'updateCampaignStatus' 'archived' }}>Archivées</li>
       </ul>
       <div role="tabpanel" class="list-campaigns-page__create-campaign-button">
-        {{#link-to 'authenticated.campaigns.new' class="button button--link"}}Créer une campagne{{/link-to}}
+        <LinkTo @route="authenticated.campaigns.new" class="button button--link">Créer une campagne</LinkTo>
       </div>
     </div>
-    {{routes/authenticated/campaigns/list-items
-      campaigns=model
-      campaignName=name
-      triggerFiltering=(action 'triggerFiltering')
-      goToCampaignPage=(action 'goToCampaignPage')}}
+    <Routes::Authenticated::Campaigns::ListItems @campaigns={{model}} @campaignName={{name}} @triggerFiltering={{action "triggerFiltering"}} @goToCampaignPage={{action "goToCampaignPage"}} />
   {{/if}}
 </div>

@@ -1,14 +1,13 @@
-import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 
-export default Route.extend({
-
-  currentUser: service(),
+export default class TeamRoute extends Route {
+  @service currentUser;
 
   beforeModel() {
-    this._super(...arguments);
+    super.beforeModel(...arguments);
     if (!this.currentUser.isAdminInOrganization) {
       return this.replaceWith('application');
     }
-  },
-});
+  }
+}

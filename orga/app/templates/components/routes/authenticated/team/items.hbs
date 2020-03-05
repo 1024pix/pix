@@ -9,7 +9,7 @@
                 <div class="zone-edit-role">
                     <button id='edit-organization-role' class="button button--with-icon-and-text button-edit-role"
                             type="button" onclick={{action "editRoleOfMember" membership }}>
-                            {{fa-icon "edit"}} Modifier le rôle
+                        <FaIcon @icon="edit"></FaIcon> Modifier le rôle
                     </button>
                 </div>
             </td>
@@ -21,15 +21,9 @@
 {{#if isEditionMode }}
     <td>
         <div id="selectOrganizationRole">
-          {{#power-select
-                  options=organizationRoles
-                  selected=selectedNewRole
-                  searchEnabled=false
-                  onchange=(action "setRoleSelection")
-                  placeholder="Selectionner le rôle"
-          as |organizationRole|}}
+          <PowerSelect @options={{organizationRoles}} @selected={{selectedNewRole}} @searchEnabled={{false}} @onchange={{action "setRoleSelection"}} @placeholder="Selectionner le rôle" as |organizationRole|>
             {{organizationRole.label}}
-          {{/power-select}}
+          </PowerSelect>
         </div>
     </td>
     <td>
@@ -44,7 +38,7 @@
                         type="button"
                         class="button button--with-icon-and-text list-team-page__cancel-update-role"
                         onclick={{action "cancelUpdateRoleOfMember"}}>
-                  {{fa-icon 'times'}}
+                  <FaIcon @icon='times'></FaIcon>
                 </button>
             </div>
     </td>

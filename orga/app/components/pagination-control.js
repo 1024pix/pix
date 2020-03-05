@@ -1,24 +1,25 @@
-import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 
-export default Component.extend({
-  router: service(),
+export default class PaginationControl extends Component {
+  @service router;
 
-  pagination: null,
-  paginationLink: null,
+  pagination = null;
+  paginationLink = null;
 
-  nextPage: computed('pagination', function() {
+  @computed('pagination')
+  get nextPage() {
     return Math.min(this.pagination.page + 1, this.pagination.pageCount);
-  }),
-
-  previousPage: computed('pagination', function() {
-    return Math.max(this.pagination.page - 1, 1);
-  }),
-
-  actions: {
-    changePageSize(pageSize) {
-      this.router.replaceWith(this.paginationLink, { queryParams: { pageSize, pageNumber: 1 } });
-    },
   }
-});
+
+  @computed('pagination')
+  get previousPage() {
+    return Math.max(this.pagination.page - 1, 1);
+  }
+
+  @action
+  changePageSize(pageSize) {
+    this.router.replaceWith({ queryParams: { pageSize, pageNumber: 1 } });
+  }
+}

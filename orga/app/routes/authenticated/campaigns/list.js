@@ -1,9 +1,8 @@
+import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 
-import { inject as service } from '@ember/service';
-
-export default Route.extend({
-  queryParams: {
+export default class ListRoute extends Route {
+  queryParams = {
     pageNumber: {
       refreshModel: true
     },
@@ -16,9 +15,9 @@ export default Route.extend({
     status: {
       refreshModel: true
     },
-  },
+  };
 
-  currentUser: service(),
+  @service currentUser;
 
   model(params) {
     return this.store.query('campaign', {
@@ -32,7 +31,7 @@ export default Route.extend({
         size: params.pageSize,
       },
     }, { reload: true });
-  },
+  }
 
   resetController(controller, isExiting) {
     if (isExiting) {
@@ -41,4 +40,4 @@ export default Route.extend({
       controller.set('name', null);
     }
   }
-});
+}

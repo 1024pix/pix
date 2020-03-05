@@ -1,26 +1,44 @@
-import DS from 'ember-data';
 import { computed } from '@ember/object';
+import DS from 'ember-data';
 const { belongsTo, Model, attr } = DS;
 
-export default Model.extend({
-  areaCode: attr('string'),
-  areaColor: attr('string'),
-  competenceName: attr('string'),
-  competenceId: attr('string'),
-  averageValidatedSkills: attr('number'),
-  totalSkillsCount: attr('number'),
-  campaignCollectiveResult: belongsTo('campaign-collective-result'),
+export default class CampaignCompetenceCollectiveResult extends Model {
+  @attr('string')
+  areaCode;
 
-  roundedAverageValidatedSkills: computed('averageValidatedSkills', function() {
+  @attr('string')
+  areaColor;
+
+  @attr('string')
+  competenceName;
+
+  @attr('string')
+  competenceId;
+
+  @attr('number')
+  averageValidatedSkills;
+
+  @attr('number')
+  totalSkillsCount;
+
+  @belongsTo('campaign-collective-result')
+  campaignCollectiveResult;
+
+  @computed('averageValidatedSkills')
+  get roundedAverageValidatedSkills() {
     return Math.round(this.averageValidatedSkills * 10) / 10;
-  }),
+  }
 
-  validatedSkillsPercentage: computed('averageValidatedSkills', 'totalSkillsCount', function() {
+  @computed('averageValidatedSkills', 'totalSkillsCount')
+  get validatedSkillsPercentage() {
     return Math.round(this.averageValidatedSkills * 100 / this.totalSkillsCount);
-  }),
+  }
 
-  totalSkillsCountPercentage: computed('totalSkillsCount', 'campaignCollectiveResult.maxTotalSkillsCountInCompetences', function() {
+  @computed(
+    'totalSkillsCount',
+    'campaignCollectiveResult.maxTotalSkillsCountInCompetences'
+  )
+  get totalSkillsCountPercentage() {
     return Math.round(this.totalSkillsCount * 100 / this.campaignCollectiveResult.get('maxTotalSkillsCountInCompetences'));
-  }),
-
-});
+  }
+}

@@ -2,7 +2,7 @@
   <div class="terms-of-service-form">
 
     <div class="terms-of-service-form__logo">
-      <img src="/pix-orga.svg">
+      <img src="/pix-orga.svg" alt="Pix Orga">
     </div>
 
     <div class="terms-of-service-form__title">
@@ -721,7 +721,7 @@
     </div>
 
     <div class="terms-of-service-form__actions">
-      {{link-to 'Annuler' 'logout' id="terms-of-service-cancel-button" class="button button--no-color button--big button--link"}}
+      <LinkTo @route="logout" @id="terms-of-service-cancel-button" class="button button--no-color button--big button--link">Annuler</LinkTo>
       <button type="submit" class="button button--extra-big terms-of-service-form__submit" {{action 'submit'}}>J’accepte les conditions d’utilisation</button>
     </div>
 
