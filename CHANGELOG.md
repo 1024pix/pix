@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.123.0 (05/03/2020)
+
+- [#1129](https://github.com/1024pix/pix/pull/1129) [FEATURE] Pouvoir changer d'organisation courante dans Pix Orga (PO-237). 
+- [#1142](https://github.com/1024pix/pix/pull/1142) [FEATURE] Ajouter une colonne credit à la table organizations (PO-300).
+- [#1144](https://github.com/1024pix/pix/pull/1144) [BUGFIX] Réinitialiser l'URL des campagnes quand je change d'organisation (PO-361).
+- [#1139](https://github.com/1024pix/pix/pull/1139) [BSR] Réusinage des utilitaires pour les fichiers ODS.
+
 ## v2.122.0 (03/03/2020)
 
 - [#1131](https://github.com/1024pix/pix/pull/1131) [FEATURE] Pouvoir modifier le nom de la campagne dans PIX Orga (PO-350). 
