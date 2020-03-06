@@ -2,9 +2,11 @@ import DS from 'ember-data';
 import { notEmpty } from '@ember/object/computed';
 import { computed } from '@ember/object';
 
+const dash = '\u2013';
+
 const StudentAuthMethod = {
   studentNotReconcilied: {
-    message: '-',
+    message: dash,
   },
   hasEmail: {
     message: 'Adresse e-mail'
@@ -29,7 +31,7 @@ export default DS.Model.extend({
   hasEmail: notEmpty('email'),
   authenticationMethods : computed('hasUsername', 'hasEmail', 'isAuthenticatedFromGar', function() {
 
-    const SPACING_CHARACTER = ' ';
+    const SPACING_CHARACTER = '\n';
     let message = '';
     const props = ['hasEmail', 'hasUsername', 'isAuthenticatedFromGar'];
 

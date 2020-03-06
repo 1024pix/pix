@@ -18,15 +18,16 @@ module('Unit | Model | student', function(hooks) {
   module('#authenticationMethods', function() {
 
     module('when not reconcilied', function() {
-      test('it should return -', function(assert) {
+      test('it should return dash', function(assert) {
         // given
+        const dash = '\u2013';
         const store = this.owner.lookup('service:store');
         const student = { lastName: 'Last', firstName: 'First', birthdate: '2010-10-10' };
         const model = run(() => store.createRecord('student', student));
 
         // when
         // then
-        assert.equal(model.authenticationMethods, '-');
+        assert.equal(model.authenticationMethods, dash);
       });
     });
 
@@ -84,6 +85,7 @@ module('Unit | Model | student', function(hooks) {
 
         test('it should return 2 aggregated methods, excluding GAR', function(assert) {
           // given
+          const SPACING_CHARACTER = '\n';
           const store = this.owner.lookup('service:store');
           const student = {
             lastName: 'Carter',
@@ -97,7 +99,7 @@ module('Unit | Model | student', function(hooks) {
 
           // when
           // then
-          assert.equal(model.authenticationMethods, 'Adresse e-mail Identifiant');
+          assert.equal(model.authenticationMethods, 'Adresse e-mail' + SPACING_CHARACTER + 'Identifiant');
         });
       });
 
