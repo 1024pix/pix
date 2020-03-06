@@ -181,6 +181,26 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
+        it('should reject with error when neither email or username are defined', () => {
+          // given
+          const expectedError = {
+            attribute: undefined,
+            message: 'Vous devez renseigner une adresse e-mail et/ou un identifiant.'
+          };
+
+          user.email = undefined;
+          user.username = undefined;
+
+          // when
+          try {
+            userValidator.validate({ user });
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+          }
+        });
+
         it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
           // given
           user = {

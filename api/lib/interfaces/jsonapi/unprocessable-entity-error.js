@@ -24,7 +24,18 @@ function _formatRelationship({ attribute, message }) {
   };
 }
 
+function _formatUndefinedAttribute({ message }) {
+  return {
+    status: '422',
+    title: 'Invalid data attributes',
+    detail: message
+  };
+}
+
 function _formatInvalidAttribute({ attribute, message }) {
+  if (!attribute) {
+    return _formatUndefinedAttribute({ message });
+  }
   if (attribute.endsWith('Id')) {
     return _formatRelationship({ attribute, message });
   }

@@ -28,17 +28,19 @@ function _validateData(user, reCaptchaToken, userRepository, userValidator, reCa
   } catch (err) {
     userValidatorError = err;
   }
-  return Promise.all([
-    userRepository.isEmailAvailable(user.email).catch(_manageEmailAvailabilityError),
-    reCaptchaValidator.verify(reCaptchaToken).catch(_manageReCaptchaTokenError),
-  ]).then((validationErrors) => {
-    validationErrors.push(userValidatorError);
-    // Promise.all returns the return value of all promises, even if the return value is undefined
-    const relevantErrors = validationErrors.filter((error) => error instanceof Error);
-    if (relevantErrors.length > 0) {
-      throw EntityValidationError.fromMultipleEntityValidationErrors(relevantErrors);
-    }
-  });
+  const promises = [reCaptchaValidator.verify(reCaptchaToken).catch(_manageReCaptchaTokenError)];
+  if (user.email) {
+    promises.push(userRepository.isEmailAvailable(user.email).catch(_manageEmailAvailabilityError));
+  }
+  return Promise.all(promises)
+    .then((validationErrors) => {
+      validationErrors.push(userValidatorError);
+      // Promise.all returns the return value of all promises, even if the return value is undefined
+      const relevantErrors = validationErrors.filter((error) => error instanceof Error);
+      if (relevantErrors.length > 0) {
+        throw EntityValidationError.fromMultipleEntityValidationErrors(relevantErrors);
+      }
+    });
 }
 
 function _checkEncryptedPassword(userPassword, encryptedPassword) {
