@@ -3,6 +3,7 @@ module.exports = {
   buildAssessment: require('./build-assessment'),
   buildAssessmentResult: require('./build-assessment-result'),
   buildBadge: require('./build-badge'),
+  buildBadgeAcquisition: require('./build-badge-acquisition'),
   buildCampaign: require('./build-campaign'),
   buildCampaignParticipation: require('./build-campaign-participation'),
   buildCompetenceEvaluation: require('./build-competence-evaluation'),
