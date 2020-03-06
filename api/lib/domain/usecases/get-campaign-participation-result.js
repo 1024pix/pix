@@ -8,6 +8,7 @@ module.exports = async function getCampaignParticipationResult(
     campaignParticipationId,
     assessmentRepository,
     badgeRepository,
+    badgeAcquisitionRepository,
     campaignParticipationRepository,
     campaignRepository,
     competenceRepository,
@@ -39,6 +40,13 @@ module.exports = async function getCampaignParticipationResult(
 
   if (_hasBadgeInformation(badge)) {
     campaignParticipationResult.areBadgeCriteriaFulfilled = badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult });
+
+    if (campaignParticipationResult.areBadgeCriteriaFulfilled) {
+      badgeAcquisitionRepository.create({
+        badgeId: campaignParticipationResult.badge.id,
+        userId
+      });
+    }
   }
 
   return campaignParticipationResult;
