@@ -1,5 +1,5 @@
 const Hapi = require('@hapi/hapi');
-const preResponseUtils = require('../../../lib/infrastructure/utils/pre-response-utils');
+const preResponseUtils = require('../../../lib/application/pre-response-utils');
 
 /**
  * ⚠️ You must declare your stubs before calling the HttpTestServer constructor (because of Node.Js memoization).
@@ -16,7 +16,7 @@ class HttpTestServer {
 
   constructor(moduleUnderTest) {
     this.hapiServer = Hapi.server();
-    this.hapiServer.ext('onPreResponse', preResponseUtils.catchDomainAndInfrastructureErrors);
+    this.hapiServer.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
     this.hapiServer.register(moduleUnderTest);
   }
 

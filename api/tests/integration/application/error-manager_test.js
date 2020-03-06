@@ -1,33 +1,33 @@
-const { expect, hFake } = require('../../../test-helper');
-const { send } = require('../../../../lib/infrastructure/utils/error-manager');
-const DomainErrors = require('../../../../lib/domain/errors');
-const InfraErrors = require('../../../../lib/infrastructure/errors');
+const { expect, hFake } = require('../../test-helper');
+const { handle } = require('../../../lib/application/error-manager');
+const { BaseHttpError } = require('../../../lib/application/http-errors');
+const DomainErrors = require('../../../lib/domain/errors');
 
 describe('Integration | Utils | Error Manager', function() {
 
-  describe('#send', function() {
+  describe('#handle', function() {
 
     it('should return 422 on EntityValidationError', function() {
       // given
       const error = new DomainErrors.EntityValidationError({ invalidAttributes: [] });
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(422);
     });
 
-    it('should return 500 on InfrastructureError', function() {
+    it('should return 500 on BaseHttpError', function() {
       // given
-      const error = new InfraErrors.InfrastructureError('infra error');
+      const error = new BaseHttpError('http error');
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(500);
-      expect(result.source.errors[0].detail).to.equal('infra error');
+      expect(result.source.errors[0].detail).to.equal('http error');
     });
 
     it('should return 500 on unknown errors', function() {
@@ -35,7 +35,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new Error('unknown error');
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(500);
@@ -47,7 +47,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.ObjectValidationError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(422);
@@ -58,7 +58,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.AlreadyRatedAssessmentError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(421);
@@ -69,7 +69,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.ChallengeAlreadyAnsweredError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(409);
@@ -80,7 +80,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.AssessmentNotCompletedError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(409);
@@ -91,7 +91,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.UserNotFoundError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(404);
@@ -102,7 +102,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.CampaignCodeError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(404);
@@ -113,7 +113,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.PasswordResetDemandNotFoundError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(404);
@@ -124,7 +124,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.NotFoundError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(404);
@@ -135,7 +135,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.InvalidTemporaryKeyError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(401);
@@ -146,7 +146,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.UserAlreadyLinkedToCandidateInSessionError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(403);
@@ -157,7 +157,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.UserNotAuthorizedToAccessEntity();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(403);
@@ -168,7 +168,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.UserNotAuthorizedToUpdateResourceError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(403);
@@ -179,7 +179,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.UserNotAuthorizedToCreateCampaignError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(403);
@@ -190,7 +190,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.ForbiddenAccess();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(403);
@@ -201,7 +201,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.UserNotAuthorizedToGetCertificationCoursesError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(403);
@@ -212,7 +212,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.UserNotAuthorizedToCertifyError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(403);
@@ -223,7 +223,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.MissingOrInvalidCredentialsError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(401);
@@ -234,7 +234,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.UserNotAuthorizedToGetCampaignResultsError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(403);
@@ -245,7 +245,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.WrongDateFormatError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(400);
@@ -256,7 +256,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.CertificationCandidateAlreadyLinkedToUserError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(403);
@@ -267,7 +267,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.CertificationCandidateByPersonalInfoNotFoundError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(404);
@@ -278,7 +278,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.CertificationCandidateByPersonalInfoTooManyMatchesError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(409);
@@ -289,7 +289,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.CertificationCandidatePersonalInfoFieldMissingError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(400);
@@ -300,7 +300,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.CertificationCandidateForbiddenDeletionError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(403);
@@ -311,7 +311,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.CertificationCandidatePersonalInfoWrongFormat();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(400);
@@ -322,7 +322,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.CertificationCenterMembershipCreationError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(400);
@@ -333,7 +333,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.AlreadyExistingMembershipError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(421);
@@ -344,7 +344,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.MembershipCreationError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(400);
@@ -355,7 +355,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.InvalidCertificationCandidate();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(400);
@@ -366,7 +366,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.SessionAlreadyFinalizedError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(400);
@@ -377,7 +377,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.UserNotAuthorizedToUpdateStudentPasswordError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(403);
@@ -388,7 +388,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.SameNationalStudentIdInFileError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(422);
@@ -399,7 +399,7 @@ describe('Integration | Utils | Error Manager', function() {
       const error = new DomainErrors.SameNationalStudentIdInOrganizationError();
 
       // when
-      const result = send(hFake, error);
+      const result = handle(hFake, error);
 
       // then
       expect(result.statusCode).to.equal(409);

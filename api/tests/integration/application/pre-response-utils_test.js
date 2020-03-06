@@ -1,18 +1,18 @@
-const { expect, hFake } = require('../../../test-helper');
+const { expect, hFake } = require('../../test-helper');
 
 const {
   BadRequestError, ConflictError, ForbiddenError,
-  InfrastructureError, MissingQueryParamError, NotFoundError,
+  BaseHttpError, MissingQueryParamError, NotFoundError,
   PreconditionFailedError, UnauthorizedError, UnprocessableEntityError
-} = require('../../../../lib/infrastructure/errors');
+} = require('../../../lib/application/http-errors');
 
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+const { EntityValidationError } = require('../../../lib/domain/errors');
 
-const { catchDomainAndInfrastructureErrors } = require('../../../../lib/infrastructure/utils/pre-response-utils');
+const { handleDomainAndHttpErrors } = require('../../../lib/application/pre-response-utils');
 
-describe('Integration | Infrastructure | Utils | PreResponse-utils', () => {
+describe('Integration | Application | PreResponse-utils', () => {
 
-  describe('#catchDomainAndInfrastructureErrors', () => {
+  describe('#handleDomainAndHttpErrors', () => {
 
     const invalidAttributes = [{
       attribute: 'type',
@@ -29,7 +29,7 @@ describe('Integration | Infrastructure | Utils | PreResponse-utils', () => {
       { should: 'should return HTTP code 421 when PreconditionFailedError', response: new PreconditionFailedError('Error message'), expectedStatusCode: 421 },
       { should: 'should return HTTP code 422 when EntityValidationError', response: new EntityValidationError({ invalidAttributes }), expectedStatusCode: 422 },
       { should: 'should return HTTP code 422 when UnprocessableEntityError', response: new UnprocessableEntityError('Error message'), expectedStatusCode: 422 },
-      { should: 'should return HTTP code 500 when InfrastructureError', response: new InfrastructureError('Error message'), expectedStatusCode: 500 },
+      { should: 'should return HTTP code 500 when BaseHttpError', response: new BaseHttpError('Error message'), expectedStatusCode: 500 },
     ];
 
     successfulCases.forEach((testCase) => {
@@ -40,7 +40,7 @@ describe('Integration | Infrastructure | Utils | PreResponse-utils', () => {
         };
 
         // when
-        const response = await catchDomainAndInfrastructureErrors(request, hFake);
+        const response = await handleDomainAndHttpErrors(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(testCase.expectedStatusCode);

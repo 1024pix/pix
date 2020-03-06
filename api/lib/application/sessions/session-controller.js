@@ -1,11 +1,11 @@
+const { BadRequestError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
+const tokenService = require('../../domain/services/token-service');
+const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const certificationCandidateSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-serializer');
 const certificationReportSerializer = require('../../infrastructure/serializers/jsonapi/certification-report-serializer');
 const certificationResultSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-serializer');
-const tokenService = require('../../domain/services/token-service');
-const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
-const { BadRequestError } = require('../../infrastructure/errors');
 
 module.exports = {
 

@@ -1,6 +1,6 @@
 const { expect } = require('../../../../test-helper');
 const JSONAPIError = require('jsonapi-serializer').Error;
-const errors = require('../../../../../lib/infrastructure/errors');
+const { MissingQueryParamError } = require('../../../../../lib/application/http-errors');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/error-serializer');
 
 describe('Unit | Serializer | JSONAPI | error-serializer', () => {
@@ -9,7 +9,7 @@ describe('Unit | Serializer | JSONAPI | error-serializer', () => {
 
     it('should convert a infrastructure error object into JSONAPIError', () => {
       // given
-      const error = new errors.MissingQueryParamError('assessmentId');
+      const error = new MissingQueryParamError('assessmentId');
       const expectedJSONAPIError = JSONAPIError({
         status: '400',
         title: 'Missing Query Parameter',

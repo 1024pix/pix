@@ -1,6 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const { MissingQueryParamError } = require('../../../../lib/infrastructure/errors');
 
+const { MissingQueryParamError } = require('../../../../lib/application/http-errors');
 const organizationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');

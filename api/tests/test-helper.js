@@ -1,5 +1,3 @@
-// Errors
-const infraErrors = require('../lib/infrastructure/errors');
 // Chai
 const chai = require('chai');
 const expect = chai.expect;
@@ -181,6 +179,5 @@ module.exports = {
   streamToPromise,
   catchErr,
   testErr: new Error('Fake Error'),
-  testInfraNotFoundErr: new infraErrors.NotFoundError('Fake infra NotFoundError'),
   compareDatabaseObject
 };

@@ -1,7 +1,7 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
+const { NotFoundError } = require('../../../../lib/application/http-errors');
 const SessionAuthorization = require('../../../../lib/application/preHandlers/session-authorization');
 const sessionAuthorizationService = require('../../../../lib/domain/services/session-authorization-service');
-const { NotFoundError } = require('../../../../lib/infrastructure/errors');
 
 describe('Unit | Pre-handler | Session Authorization', () => {
   const userId = 1;
