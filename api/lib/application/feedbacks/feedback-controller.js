@@ -1,7 +1,7 @@
+const { BadRequestError } = require('../http-errors');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/feedback-serializer');
 const repository = require('../../infrastructure/repositories/feedback-repository');
-const { BadRequestError } = require('../../infrastructure/errors');
 
 module.exports = {
 

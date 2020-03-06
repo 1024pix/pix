@@ -2,7 +2,7 @@ const courseService = require('../../../../lib/domain/services/course-service');
 
 const Course = require('../../../../lib/domain/models/Course');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const { InfrastructureError } = require('../../../../lib/infrastructure/errors');
+const { BaseHttpError } = require('../../../../lib/application/http-errors');
 
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const logger = require('../../../../lib/infrastructure/logger');
@@ -83,7 +83,7 @@ describe('Unit | Service | Course Service', () => {
         const err = await catchErr(courseService.getCourse)({ courseId: givenCourseId, userId });
 
         // then
-        expect(err).to.be.an.instanceof(InfrastructureError);
+        expect(err).to.be.an.instanceof(BaseHttpError);
       });
 
       it('should throw a NotFoundError if the course was not found', () => {

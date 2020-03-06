@@ -436,26 +436,6 @@ class WrongDateFormatError extends DomainError {
   }
 }
 
-/**
- * @deprecated use InfrastructureError instead for unexpected internal errors
- */
-class InternalError extends DomainError {
-  constructor() {
-    super();
-    this.errorStack = [
-      'Une erreur interne est survenue.',
-    ];
-  }
-
-  getErrorMessage() {
-    return {
-      data: {
-        error: this.errorStack,
-      },
-    };
-  }
-}
-
 module.exports = {
   DomainError,
   AlreadyExistingCampaignParticipationError,
@@ -487,7 +467,6 @@ module.exports = {
   EntityValidationError,
   FileValidationError,
   ForbiddenAccess,
-  InternalError,
   InvalidCertificationCandidate,
   InvalidCertificationReportForFinalization,
   InvalidRecaptchaTokenError,

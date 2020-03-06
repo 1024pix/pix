@@ -1,13 +1,9 @@
 const { expect } = require('../../test-helper');
-const errors = require('../../../lib/infrastructure/errors');
+const { BaseHttpError, MissingQueryParamError } = require('../../../lib/application/http-errors');
 
-describe('Unit | Infrastructure | Errors', () => {
+describe('Unit | Application | HTTP Errors', () => {
 
-  describe('#InfrastructureError', () => {
-    it('should export an InfrastructureError', () => {
-      expect(errors.InfrastructureError).to.exist;
-    });
-
+  describe('#BaseHttpError', () => {
     it('should have a title, message, and errorCode property', () => {
       // given
       const expectedTitle = 'Internal Server Error';
@@ -15,26 +11,22 @@ describe('Unit | Infrastructure | Errors', () => {
       const expectedErrorCode = 500;
 
       // when
-      const infrastructureError = new errors.InfrastructureError('Boom...');
+      const httpError = new BaseHttpError('Boom...');
 
       // then
-      expect(infrastructureError.title).to.equal(expectedTitle);
-      expect(infrastructureError.message).to.equal(expectedMessage);
-      expect(infrastructureError.status).to.equal(expectedErrorCode);
+      expect(httpError.title).to.equal(expectedTitle);
+      expect(httpError.message).to.equal(expectedMessage);
+      expect(httpError.status).to.equal(expectedErrorCode);
     });
   });
 
   describe('#MissingQueryParamError', () => {
-    it('should export an MissingQueryParamError', () => {
-      expect(errors.MissingQueryParamError).to.exist;
-    });
-
     it('should export an decendant instance of Infrastructure Error', () => {
       // when
-      const missingQueryParamError = new errors.MissingQueryParamError('assessmentId');
+      const missingQueryParamError = new MissingQueryParamError('assessmentId');
 
       // then
-      expect(missingQueryParamError).to.be.an.instanceof(errors.InfrastructureError);
+      expect(missingQueryParamError).to.be.an.instanceof(BaseHttpError);
     });
 
     it('should have a title, message, and errorCode property', () => {
@@ -44,7 +36,7 @@ describe('Unit | Infrastructure | Errors', () => {
       const expectedErrorCode = 400;
 
       // when
-      const missingQueryParamError = new errors.MissingQueryParamError('assessmentId');
+      const missingQueryParamError = new MissingQueryParamError('assessmentId');
 
       // then
       expect(missingQueryParamError.title).to.equal(expectedTitle);

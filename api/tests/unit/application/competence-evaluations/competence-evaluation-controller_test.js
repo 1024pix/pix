@@ -1,10 +1,10 @@
 const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test-helper');
 
+const { BadRequestError } = require('../../../../lib/application/http-errors');
 const competenceEvaluationController = require('../../../../lib/application/competence-evaluations/competence-evaluation-controller');
 const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/competence-evaluation-serializer');
 const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const { BadRequestError } = require('../../../../lib/infrastructure/errors');
 
 describe('Unit | Application | Controller | Competence-Evaluation', () => {
 

@@ -1,4 +1,4 @@
-class InfrastructureError extends Error {
+class BaseHttpError extends Error {
   constructor(message) {
     super(message);
     this.title = 'Internal Server Error';
@@ -6,7 +6,7 @@ class InfrastructureError extends Error {
   }
 }
 
-class UnprocessableEntityError extends InfrastructureError {
+class UnprocessableEntityError extends BaseHttpError {
   constructor(message) {
     super(message);
     this.title = 'Unprocessable entity';
@@ -14,7 +14,7 @@ class UnprocessableEntityError extends InfrastructureError {
   }
 }
 
-class PreconditionFailedError extends InfrastructureError {
+class PreconditionFailedError extends BaseHttpError {
   constructor(message) {
     super(message);
     this.title = 'Precondition Failed';
@@ -22,7 +22,7 @@ class PreconditionFailedError extends InfrastructureError {
   }
 }
 
-class ConflictError extends InfrastructureError {
+class ConflictError extends BaseHttpError {
   constructor(message = 'Conflict between request and server state.') {
     super(message);
     this.title = 'Conflict';
@@ -30,7 +30,7 @@ class ConflictError extends InfrastructureError {
   }
 }
 
-class MissingQueryParamError extends InfrastructureError {
+class MissingQueryParamError extends BaseHttpError {
   constructor(missingParamName) {
     const message = `Missing ${missingParamName} query parameter.`;
     super(message);
@@ -39,7 +39,7 @@ class MissingQueryParamError extends InfrastructureError {
   }
 }
 
-class NotFoundError extends InfrastructureError {
+class NotFoundError extends BaseHttpError {
   constructor(message) {
     super(message);
     this.title = 'Not Found';
@@ -47,7 +47,7 @@ class NotFoundError extends InfrastructureError {
   }
 }
 
-class UnauthorizedError extends InfrastructureError {
+class UnauthorizedError extends BaseHttpError {
   constructor(message) {
     super(message);
     this.title = 'Unauthorized';
@@ -55,7 +55,7 @@ class UnauthorizedError extends InfrastructureError {
   }
 }
 
-class ForbiddenError extends InfrastructureError {
+class ForbiddenError extends BaseHttpError {
   constructor(message) {
     super(message);
     this.title = 'Forbidden';
@@ -63,7 +63,7 @@ class ForbiddenError extends InfrastructureError {
   }
 }
 
-class BadRequestError extends InfrastructureError {
+class BadRequestError extends BaseHttpError {
   constructor(message) {
     super(message);
     this.title = 'Bad Request';
@@ -76,7 +76,7 @@ module.exports = {
   BadRequestError,
   ConflictError,
   ForbiddenError,
-  InfrastructureError,
+  BaseHttpError,
   MissingQueryParamError,
   NotFoundError,
   UnauthorizedError,
