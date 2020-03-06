@@ -198,6 +198,22 @@ describe('Unit | UseCase | create-user', () => {
     });
   });
 
+  context('when user\'s email is not defined', () => {
+
+    it('should not check the absence of email in UserRepository', async () => {
+      // given
+      const user = { email: null };
+
+      // when
+      await createUser({
+        user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
+      });
+
+      // then
+      expect(userRepository.isEmailAvailable).to.not.have.been.called;
+    });
+  });
+
   context('when user is valid', () => {
 
     context('step hash password and save user', () => {

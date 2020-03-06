@@ -1,4 +1,4 @@
-const { expect } = require('../../../test-helper');
+const { expect, catchErr } = require('../../../test-helper');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
@@ -179,6 +179,22 @@ describe('Unit | Domain | Validators | user-validator', function() {
             // then
             _assertErrorMatchesWithExpectedOne(errors, expectedError);
           }
+        });
+
+        it('should reject with error when neither email nor username are defined', async() => {
+          // given
+          const expectedError = {
+            attribute: undefined,
+            message: 'Vous devez renseigner une adresse e-mail et/ou un identifiant.'
+          };
+
+          user.email = undefined;
+          user.username = undefined;
+
+          // when
+          const errors = await catchErr(userValidator.validate)({ user });
+          _assertErrorMatchesWithExpectedOne(errors, expectedError);
+
         });
 
         it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {

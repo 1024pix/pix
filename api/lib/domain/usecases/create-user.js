@@ -21,24 +21,25 @@ function _manageError(error, errorType, attribute, message) {
   throw error;
 }
 
-function _validateData(user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator) {
+async function _validateData(user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator) {
   let userValidatorError;
   try {
     userValidator.validate({ user });
   } catch (err) {
     userValidatorError = err;
   }
-  return Promise.all([
-    userRepository.isEmailAvailable(user.email).catch(_manageEmailAvailabilityError),
-    reCaptchaValidator.verify(reCaptchaToken).catch(_manageReCaptchaTokenError),
-  ]).then((validationErrors) => {
-    validationErrors.push(userValidatorError);
-    // Promise.all returns the return value of all promises, even if the return value is undefined
+  const promises = [reCaptchaValidator.verify(reCaptchaToken).catch(_manageReCaptchaTokenError)];
+  if (user.email) {
+    promises.push(userRepository.isEmailAvailable(user.email).catch(_manageEmailAvailabilityError));
+  }
+
+  const validationErrors = await Promise.all(promises);
+  validationErrors.push(userValidatorError);
+
+  if (validationErrors.some((error) => error instanceof Error)) {
     const relevantErrors = validationErrors.filter((error) => error instanceof Error);
-    if (relevantErrors.length > 0) {
-      throw EntityValidationError.fromMultipleEntityValidationErrors(relevantErrors);
-    }
-  });
+    throw EntityValidationError.fromMultipleEntityValidationErrors(relevantErrors);
+  }
 }
 
 function _checkEncryptedPassword(userPassword, encryptedPassword) {
