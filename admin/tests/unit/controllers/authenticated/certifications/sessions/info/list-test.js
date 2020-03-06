@@ -57,106 +57,102 @@ module('Unit | Controller | authenticated/certifications/sessions/info/list', fu
     });
   });
 
-  module('#displayCertificationStatusUpdateConfirmationModal', function() {
+  module('#displayCertificationStatusUpdateConfirmationModal', function(hooks) {
 
-    module('when intention is publish', function() {
+    hooks.beforeEach(function() {
+      controller.set('model', model);
+    });
 
-      test('should update modal message and button action to publish', async function(assert) {
+    module('when session is not yet published', function() {
+
+      test('should update modal message to publish', async function(assert) {
         // given
-        controller.set('model', model);
+        model.canPublish = true;
+        model.isPublished = false;
   
         // when
         await controller.actions.displayCertificationStatusUpdateConfirmationModal.call(controller);
   
         // then
         assert.equal(controller.confirmMessage, 'Souhaitez-vous publier la session ?');
-        assert.equal(controller.confirmAction, 'publishSession');
         assert.equal(controller.displayConfirm, true);
       });
     });
     
-    module('when intention is unpublish', function() {
+    module('when session is published', function() {
 
-      test('should update modal message and button action to unpublish', async function(assert) {
+      test('should update modal message to unpublish', async function(assert) {
         // given
-        controller.set('model', model);
-  
+        model.isPublished = true;
+
         // when
-        await controller.actions.displayCertificationStatusUpdateConfirmationModal.call(controller, 'unpublish');
-  
+        await controller.actions.displayCertificationStatusUpdateConfirmationModal.call(controller);
+
         // then
         assert.equal(controller.confirmMessage, 'Souhaitez-vous dépublier la session ?');
-        assert.equal(controller.confirmAction, 'unpublishSession');
         assert.equal(controller.displayConfirm, true);
       });
     });
   });
 
-  module('#publishSession', function() {
+  module('#toggleSessionPublication', function(hooks) {
 
-    test('should save the session and reload the certifications', async function(assert) {
-      // given
+    let notificationsStub;
+
+    hooks.beforeEach(function() {
+      notificationsStub = { success: sinon.stub() };
       controller.set('model', model);
+      controller.set('notifications', notificationsStub);
+      controller.set('displayConfirm', true);
       controller.model.save = sinon.stub();
-      controller.model.certifications.reload = sinon.stub();
-      controller.set('notifications', { success: sinon.stub() });
+      controller.model.certifications = { reload: sinon.stub() };
+    });
+
+    test('should notify an error if request failed', async function(assert) {
+      // given
+      const anError = 'anError';
+      Object.assign(notificationsStub, { error: sinon.stub() });
+      controller.model.save = sinon.stub().throws(anError);
 
       // when
-      await controller.actions.publishSession.call(controller);
+      await controller.actions.toggleSessionPublication.call(controller);
 
       // then
-      assert.ok(controller.model.save.calledWithExactly({ adapterOptions: { updatePublishedCertifications: true, isPublished: true } }));
-      assert.ok(controller.model.certifications.reload.calledOnce);
-      assert.ok(controller.notifications.success.calledOnce);
+      assert.throws(model.save, anError);
+      sinon.assert.called(notificationsStub.error);
       assert.equal(controller.displayConfirm, false);
     });
+    
+    module('when session is not yet published', function() {
 
-    test('should throw a publish error if one', async function(assert) {
-      // given
-      controller.set('model', model);
-      controller.model.save = sinon.stub().throws('some error');
-      controller.set('notifications', { error: sinon.stub() });
-
-      // when
-      await controller.actions.publishSession.call(controller);
-
-      // then
-      assert.ok(controller.model.save.calledWithExactly({ adapterOptions: { updatePublishedCertifications: true, isPublished: true } }));
-      assert.ok(controller.notifications.error.calledOnce);
+      test('shoud publish all certifications', async function(assert) {
+        // given
+        controller.model.isPublished = false;
+  
+        // when
+        await controller.actions.toggleSessionPublication.call(controller);
+  
+        // then
+        sinon.assert.calledWith(controller.model.save, { adapterOptions: { updatePublishedCertifications: true, toPublish: true } });
+        sinon.assert.calledWith(notificationsStub.success, 'Les certifications ont été correctement publiées.');
+        assert.equal(controller.displayConfirm, false);
+      });
     });
-  });
+    
+    module('when session is published', function() {
 
-  module('#unpublishSession', function() {
-
-    test('should save session and reload the certifications', async function(assert) {
-      // given
-      controller.set('model', model);
-      controller.model.save = sinon.stub();
-      controller.model.certifications.reload = sinon.stub();
-      controller.set('notifications', { success: sinon.stub() });
-
-      // when
-      await controller.actions.unpublishSession.call(controller);
-
-      // then
-      assert.ok(controller.model.save.calledWithExactly({ adapterOptions: { updatePublishedCertifications: true, isPublished: false } }));
-      assert.ok(controller.model.certifications.reload.calledOnce);
-      assert.ok(controller.notifications.success.calledOnce);
-      assert.equal(controller.get('displayConfirm'), false);
-    });
-
-    test('should throw an unpublish error if one', async function(assert) {
-      // given
-      controller.set('model', model);
-      controller.model.save = sinon.stub().throws('some error');
-      controller.set('notifications', { error: sinon.stub() });
-
-      // when
-      await controller.actions.unpublishSession.call(controller);
-
-      // then
-      assert.ok(controller.model.save.calledWithExactly({ adapterOptions: { updatePublishedCertifications: true, isPublished: false } }));
-      assert.ok(controller.notifications.error.calledOnce);
+      test('should unpublish all certifications', async function(assert) {
+        // given
+        model.isPublished = true;
+  
+        // when
+        await controller.actions.toggleSessionPublication.call(controller);
+  
+        // then
+        sinon.assert.calledWith(model.save, { adapterOptions: { updatePublishedCertifications: true, toPublish: false } });
+        sinon.assert.calledWith(notificationsStub.success, 'Les certifications ont été correctement dépubliées.');
+        assert.equal(controller.displayConfirm, false);
+      });
     });
   });
 });

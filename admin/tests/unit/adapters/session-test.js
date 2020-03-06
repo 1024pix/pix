@@ -43,7 +43,7 @@ module('Unit | Adapter | session', function(hooks) {
       [true, false].forEach((isTrue) => 
         test(`should send a patch request with publish to ${isTrue}`, function(assert) {
         // when
-          const snapshot = { id: 123, adapterOptions: { updatePublishedCertifications: true, isPublished: isTrue } };
+          const snapshot = { id: 123, adapterOptions: { updatePublishedCertifications: true, toPublish: isTrue } };
           adapter.ajax = sinon.stub();
 
           adapter.updateRecord(null, { modelName: 'session' }, snapshot);

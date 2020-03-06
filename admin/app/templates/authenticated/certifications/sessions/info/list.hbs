@@ -22,14 +22,14 @@
       </button>
 
       {{#if this.model.isPublished}}
-        <button class="btn btn-primary" {{action "displayCertificationStatusUpdateConfirmationModal" "unpublish"}} type="button">
+        <button class="btn btn-primary" {{action "displayCertificationStatusUpdateConfirmationModal"}} type="button">
           Dépublier la session
         </button>
       {{else}}
 
         {{#if this.canPublish}}
-          <button class="btn btn-primary" {{action "displayCertificationStatusUpdateConfirmationModal" "publish"}} type="button">
-              Publier la session
+          <button class="btn btn-primary" {{action "displayCertificationStatusUpdateConfirmationModal"}} type="button">
+            Publier la session
           </button>
         {{else}}
           <button class="btn btn-primary certification-list-page--button__disabled" type="button">
@@ -48,7 +48,7 @@
 </div>
 
 {{confirm-popup message=confirmMessage
-                confirm=(action confirmAction)
+                confirm=(action "toggleSessionPublication")
                 cancel=(action "onCancelConfirm")
                 show=displayConfirm}}
 

@@ -18,7 +18,7 @@ export default ApplicationAdapter.extend({
     if (snapshot.adapterOptions.flagResultsAsSentToPrescriber) {
       return this.ajax(this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot), 'PUT');
     } else if (snapshot.adapterOptions.updatePublishedCertifications) {
-      const data =  { data: { attributes: { toPublish: snapshot.adapterOptions.isPublished } } };
+      const data =  { data: { attributes: { toPublish: snapshot.adapterOptions.toPublish } } };
       return this.ajax(this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot), 'PATCH', { data });
     }
 
