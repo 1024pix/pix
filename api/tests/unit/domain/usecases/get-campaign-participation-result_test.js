@@ -32,6 +32,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     assessmentRepository,
     badgeRepository,
     knowledgeElementRepository,
+    badgeAcquisitionRepository,
     badgeCriteriaService;
 
   let usecaseDependencies;
@@ -44,6 +45,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     assessmentRepository = { get: sinon.stub() };
     badgeRepository = { findOneByTargetProfileId: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+    badgeAcquisitionRepository = { create: sinon.stub() };
     badgeCriteriaService = { areBadgeCriteriaFulfilled: sinon.stub() };
     sinon.stub(CampaignParticipationResult, 'buildFrom').returns(campaignParticipationResult);
 
@@ -57,6 +59,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       assessmentRepository,
       badgeRepository,
       knowledgeElementRepository,
+      badgeAcquisitionRepository,
       badgeCriteriaService,
     };
   });
@@ -76,6 +79,18 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(true);
       });
 
+      it('should create the badge acquisition', async () => {
+        // when
+        await getCampaignParticipationResult(usecaseDependencies);
+
+        // then
+        sinon.assert.calledOnce(badgeAcquisitionRepository.create);
+        sinon.assert.calledWith(badgeAcquisitionRepository.create, {
+          badgeId: campaignParticipationResult.badge.id ,
+          userId
+        });
+      });
+
       it('should get the campaignParticipationResult', async () => {
         // when
         const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
@@ -90,6 +105,14 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         // given
         badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves({});
         badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(false);
+      });
+
+      it('should not create the badge acquisition', async () => {
+        // when
+        await getCampaignParticipationResult(usecaseDependencies);
+
+        // then
+        sinon.assert.notCalled(badgeAcquisitionRepository.create);
       });
 
       it('should get the campaignParticipationResult', async () => {
@@ -118,6 +141,18 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(true);
       });
 
+      it('should create the badge acquisition', async () => {
+        // when
+        await getCampaignParticipationResult(usecaseDependencies);
+
+        // then
+        sinon.assert.calledOnce(badgeAcquisitionRepository.create);
+        sinon.assert.calledWith(badgeAcquisitionRepository.create, {
+          badgeId: campaignParticipationResult.badge.id ,
+          userId
+        });
+      });
+
       it('should get the campaignParticipationResult', async () => {
         // when
         const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
@@ -132,6 +167,14 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         // given
         badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves({});
         badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(false);
+      });
+
+      it('should not create the badge acquisition', async () => {
+        // when
+        await getCampaignParticipationResult(usecaseDependencies);
+
+        // then
+        sinon.assert.notCalled(badgeAcquisitionRepository.create);
       });
 
       it('should get the campaignParticipationResult', async () => {
