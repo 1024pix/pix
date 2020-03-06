@@ -735,7 +735,7 @@ describe('Acceptance | Application | organization-controller', () => {
     let options;
 
     beforeEach(async () => {
-      user = databaseBuilder.factory.buildUser();
+      user = databaseBuilder.factory.buildUser({ samlId: '234' });
       organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
       await databaseBuilder.commit();
@@ -769,7 +769,9 @@ describe('Acceptance | Application | organization-controller', () => {
                 'last-name': student.lastName,
                 'first-name': student.firstName,
                 'birthdate': student.birthdate,
-                'username': user.username
+                'username': user.username,
+                'email': user.email,
+                'is-authenticated-from-gar': true,
               },
               'id': student.id.toString(),
               'type': 'students'
