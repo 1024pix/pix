@@ -1,5 +1,4 @@
 import Controller from '@ember/controller';
-import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import ENV from 'pix-admin/config/environment';
 import { computed } from '@ember/object';
@@ -9,27 +8,24 @@ import _ from 'lodash';
 export default Controller.extend({
 
   session: service(),
-  sessionModel: alias('model'),
   sessionInfoService: service(),
   notifications: service('notification-messages'),
 
   displayConfirm: false,
   displaySessionReport: false,
   confirmMessage: null,
-  confirmAction: null,
   certificationsInSessionReport: null,
 
   init() {
     this._super();
     this.selected = [];
     this.set('certificationsInSessionReport', []);
-    this.confirmAction = () => {};
   },
 
   canPublish: computed('model.certifications.@each.status', function() {
     return !(_.some(
       this.model.certifications.toArray(),
-      (certif) => certif.status === 'error' || certif.status === 'started'
+      (certif) => ['error', 'started'].includes(certif.status)
     ));
   }),
 
@@ -133,39 +129,29 @@ export default Controller.extend({
       }
     },
 
-    displayCertificationStatusUpdateConfirmationModal(intention = 'publish') {
-      if (!this.model.canPublish) {
-        if (intention === 'publish') {
-          this.set('confirmMessage', 'Souhaitez-vous publier la session ?');
-          this.set('confirmAction', 'publishSession');
-        } else {
-          this.set('confirmMessage', 'Souhaitez-vous dépublier la session ?');
-          this.set('confirmAction', 'unpublishSession');
-        }
-        this.set('displayConfirm', true);
-      }
+    displayCertificationStatusUpdateConfirmationModal() {
+      const sessionIsPublished = this.model.isPublished;
+      if (!this.canPublish && !sessionIsPublished) return;
+      const text = sessionIsPublished 
+        ? 'Souhaitez-vous dépublier la session ?'
+        : 'Souhaitez-vous publier la session ?';
+      this.set('confirmMessage', text);
+      this.set('displayConfirm', true);
     },
 
-    async publishSession() {
+    async toggleSessionPublication() {
+      const toPublish = !this.model.isPublished;
+      const successText = toPublish
+        ? 'Les certifications ont été correctement publiées.'
+        : 'Les certifications ont été correctement dépubliées.';
       try {
-        await this.model.save({ adapterOptions: { updatePublishedCertifications: true, isPublished: true } });
+        await this.model.save({ adapterOptions: { updatePublishedCertifications: true, toPublish } });
         this.model.certifications.reload();
-        this.notifications.success('Les certifications ont été correctement publiées.');
-        this.set('displayConfirm', false);
+        this.notifications.success(successText);
       } catch (error) {
         this.notifications.error(error);
       }
-    },
-
-    async unpublishSession() {
-      try {
-        await this.model.save({ adapterOptions: { updatePublishedCertifications: true, isPublished: false } });
-        this.model.certifications.reload();
-        this.notifications.success('Les certifications ont été correctement dépubliées.');
-        this.set('displayConfirm', false);
-      } catch (error) {
-        this.notifications.error(error);
-      }
+      this.set('displayConfirm', false);
     },
 
     onCancelConfirm() {
