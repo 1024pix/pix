@@ -1,34 +1,9 @@
-<div class="panel participant-results-row">
+<Routes::Authenticated::Campaigns::Details::CollectiveResults::Summary
+  @averageValidatedSkillsSum={{@campaignCollectiveResult.averageValidatedSkillsSum}}
+  @totalSkills={{@campaignCollectiveResult.totalSkills}}
+  @averageResult={{@campaignCollectiveResult.averageResult}}
+/>
 
-  <div class="participant-results-content__summary">
-    <div class="participant-results-content participant-results-content--large participant-results-content--wide">
-      <div class="label-text participant-results-content__label-text">Acquis validés</div>
-      <div class="content-text content-text--big">
-        {{ @campaignCollectiveResult.averageValidatedSkillsSum }}
-      </div>
-    </div>
-    <div class="participant-results-content participant-results-content--large participant-results-content--wide">
-      <div class="label-text participant-results-content__label-text">Acquis évalués</div>
-      <div class="content-text content-text--big">
-        {{ @campaignCollectiveResult.totalSkills }}
-      </div>
-    </div>
-  </div>
-
-  <div class="participant-results-content">
-    <div class="participant-results-content__score">
-      <div class="content-text content-text--big content-text--bold">Résultat</div>
-      <div class="participant-results-content__circle-chart">
-        <CircleChart @value={{@campaignCollectiveResult.averageResult}}>
-          <span class="participant-results-content__circle-chart-value">
-            {{@campaignCollectiveResult.averageResult}}%
-          </span>
-        </CircleChart>
-      </div>
-    </div>
-  </div>
-
-</div>
 <div class="panel panel--light-shadow participant-results__details content-text content-text--small">
 
 
