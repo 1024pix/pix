@@ -5,7 +5,6 @@ export default class Course extends Model {
 
   // attributes
   @attr('string') description;
-  @attr('number') duration;
   @attr('string') imageUrl;
   @attr('string') name;
   @attr('number') nbChallenges;

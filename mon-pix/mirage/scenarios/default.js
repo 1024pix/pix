@@ -1,14 +1,8 @@
+import demoData from '../data/demo';
+
 export default function(server) {
-
   /* eslint max-statements: off */
-  // server.loadFixtures('courses');
   server.loadFixtures('challenges');
-
-  // server.create('course', {
-  //   id: 'certification-number',
-  //   nbChallenges: 3,
-  //   type: 'CERTIFICATION',
-  // });
 
   server.create('progression', {
     id: 12
@@ -91,5 +85,21 @@ export default function(server) {
   server.create('password-reset-demand', {
     temporaryKey: 'temporaryKey',
     email: 'jane@acme.com',
+  });
+
+  // DEMO
+  demoData.demoChallengeIds.forEach((challengeId) => {
+    server.create('challenge', {
+      id: challengeId,
+      type: 'QROC',
+      instruction: 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre',
+      proposals: 'Ecris ce que tu veux !',
+    });
+  });
+  server.create('course', {
+    id: demoData.demoCourseId,
+    description: 'Demo course',
+    nbChallenges: demoData.demoChallengeIds.length,
+    type: 'DEMO',
   });
 }
