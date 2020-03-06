@@ -61,9 +61,10 @@ module('Integration | Component | routes/authenticated/students | list-items', f
 
   module('it should display the authentication method', ()=> {
 
-    test('it should display - not reconcilied', async function(assert) {
+    test('it should display dash when not reconcilied', async function(assert) {
       // given
       const store = this.owner.lookup('service:store');
+      const dash = '\u2013';
 
       const storedStudents = [];
       [
@@ -85,7 +86,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       assert.dom('.table tbody tr:first-child td:first-child').hasText('La Terreur');
       assert.dom('.table tbody tr:first-child td:nth-child(2)').hasText('Gigi');
       assert.dom('.table tbody tr:first-child td:nth-child(3)').hasText('01/01/2010');
-      assert.dom('.table tbody tr:first-child td:nth-child(4)').hasText('-');
+      assert.dom('.table tbody tr:first-child td:nth-child(4)').hasText(dash);
     });
     test('it should display Identifiant when identified by username', async function(assert) {
       // given
