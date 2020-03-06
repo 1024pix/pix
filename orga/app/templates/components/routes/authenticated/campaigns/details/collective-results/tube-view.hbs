@@ -1,0 +1,34 @@
+<div class="panel panel--light-shadow participant-results__details content-text content-text--small">
+
+  <table aria-label="Résultats collectifs par sujet">
+    <thead>
+    <tr>
+      <th class="table__column--wide">Sujets ({{ @campaignTubeCollectiveResults.length }})</th>
+      <th class="table__column--wide">Résultats</th>
+    </tr>
+    </thead>
+
+    {{#if @sharedParticipationsCount }}
+
+      <tbody>
+      {{#each @campaignTubeCollectiveResults as |tubeResult|}}
+        <tr aria-label="Sujet">
+          <td class="participant-results-details__tube-wrapper">
+            <span>{{tubeResult.tubePracticalTitle}}</span>
+          </td>
+          <td>
+            <ProgressionGauge @total={{tubeResult.totalSkillsCountPercentage}} @value={{tubeResult.validatedSkillsPercentage}}>
+              {{tubeResult.validatedSkillsPercentage}}%
+            </ProgressionGauge>
+          </td>
+        </tr>
+      {{/each}}
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#unless @sharedParticipationsCount }}
+    <div class="table__empty content-text">En attente de résultats</div>
+  {{/unless}}
+
+</div>
