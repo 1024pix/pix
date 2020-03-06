@@ -6,11 +6,49 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | routes/authenticated/campaign/details | collective-results-tab', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display collective-results-tab', async function(assert) {
+  let store;
+
+  hooks.beforeEach(function() {
+    store = this.owner.lookup('service:store');
+  });
+
+  test('it should display competence view', async function(assert) {
+    // given
+    const campaignCollectiveResult = store.createRecord('campaign-collective-result', {
+      id: 1,
+      campaignId: 1,
+      collectiveResultsByCompetence: [],
+    });
+
+    this.set('campaignCollectiveResult', campaignCollectiveResult);
+
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::Details::CollectiveResultsTab />`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::CollectiveResultsTab 
+      @campaignCollectiveResult={{this.campaignCollectiveResult}}
+      @sharedParticipationsCount={{1}}
+      @view="competence" />`);
 
     // then
-    assert.dom('div').exists();
+    assert.dom('table').containsText('Compétences');
+  });
+
+  test('it should display tube view', async function(assert) {
+    // given
+    const campaignCollectiveResult = store.createRecord('campaign-collective-result', {
+      id: 1,
+      campaignId: 1,
+      collectiveResultsByTube: [],
+    });
+
+    this.set('campaignCollectiveResult', campaignCollectiveResult);
+
+    // when
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::CollectiveResultsTab 
+      @campaignCollectiveResult={{this.campaignCollectiveResult}}
+      @sharedParticipationsCount={{1}}
+      @view="tube" />`);
+
+    // then
+    assert.dom('table').containsText('Sujets');
   });
 });

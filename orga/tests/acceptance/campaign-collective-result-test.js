@@ -12,6 +12,7 @@ module('Acceptance | Campaign Collective Result', function(hooks) {
   setupMirage(hooks);
 
   let user;
+  let campaignReport;
 
   hooks.beforeEach(async () => {
     server.logging = true;
@@ -22,16 +23,18 @@ module('Acceptance | Campaign Collective Result', function(hooks) {
       expires_in: 3600,
       token_type: 'Bearer token type',
     });
-    const campaignReport = server.create('campaign-report', { sharedParticipationCount: 3 });
+    campaignReport = server.create('campaign-report', { sharedParticipationCount: 3 });
+  });
+
+  test('it should display campaign competence collective result', async function(assert) {
+    // given
     const campaignCollectiveResult = server.create('campaign-collective-result', 'withCompetenceCollectiveResults');
     server.create('campaign', {
       id: 1,
       campaignCollectiveResult,
       campaignReport,
     });
-  });
 
-  test('it should display campain collective result', async function(assert) {
     // when
     await visit('/campagnes/1/resultats-collectifs');
 
@@ -43,5 +46,24 @@ module('Acceptance | Campaign Collective Result', function(hooks) {
     assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('50%');
     assert.dom('table tbody tr:first-child td:nth-child(3)').hasText('5');
     assert.dom('table tbody tr:first-child td:nth-child(4)').hasText('10');
+  });
+
+  test('it should display campaign tube collective result', async function(assert) {
+    // given
+    const campaignCollectiveResult = server.create('campaign-collective-result', 'withTubeCollectiveResults');
+    server.create('campaign', {
+      id: 1,
+      campaignCollectiveResult,
+      campaignReport,
+    });
+
+    // when
+    await visit('/campagnes/1/resultats-collectifs?view=tube');
+
+    // then
+    assert.dom('.table__empty').doesNotExist();
+
+    assert.dom('table tbody tr:first-child td:first-child').hasText('Sujet A');
+    assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('50%');
   });
 });

@@ -1,29 +1,63 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
+const { hasMany, Model } = DS;
 import _ from 'lodash';
 
-export default DS.Model.extend({
+import { round, computePercentage } from '../utils/math';
 
-  campaignCompetenceCollectiveResults: DS.hasMany('campaignCompetenceCollectiveResult'),
+export default class CampaignCollectiveResult extends Model {
+
+  @hasMany('campaignCompetenceCollectiveResult')
+  campaignCompetenceCollectiveResults;
+
+  @hasMany('campaignTubeCollectiveResult')
+  campaignTubeCollectiveResults;
 
   // -- Computed properties --
 
-  maxTotalSkillsCountInCompetences: computed('campaignCompetenceCollectiveResults.@each.totalSkillsCount', function() {
+  @computed('campaignCompetenceCollectiveResults.@each.totalSkillsCount')
+  get maxTotalSkillsCountInCompetences() {
     return _.maxBy(this.campaignCompetenceCollectiveResults.toArray(), 'totalSkillsCount').totalSkillsCount;
-  }),
+  }
 
-  averageValidatedSkillsSum: computed('campaignCompetenceCollectiveResults.@each.averageValidatedSkills', function() {
+  @computed('campaignTubeCollectiveResults.@each.totalSkillsCount')
+  get maxTotalSkillsCountInTubes() {
+    return _.maxBy(this.campaignTubeCollectiveResults.toArray(), 'totalSkillsCount').totalSkillsCount;
+  }
+
+  @computed('campaignCompetenceCollectiveResults.@each.averageValidatedSkills')
+  get averageValidatedSkillsSumByCompetence() {
     const roundedAverageResults = this.campaignCompetenceCollectiveResults.map((campaignCompetenceCollectiveResult) => {
-      return Math.round(campaignCompetenceCollectiveResult.averageValidatedSkills * 10) / 10;
+      return round(campaignCompetenceCollectiveResult.averageValidatedSkills);
     });
     return Math.round(_.sum(roundedAverageResults) * 10) / 10;
-  }),
+  }
 
-  totalSkills: computed('campaignCompetenceCollectiveResults.@each.totalSkillsCount', function() {
+  @computed('campaignTubeCollectiveResults.@each.averageValidatedSkills')
+  get averageValidatedSkillsSumByTube() {
+    const roundedAverageResults = this.campaignTubeCollectiveResults.map((campaignTubeCollectiveResult) => {
+      return round(campaignTubeCollectiveResult.averageValidatedSkills);
+    });
+    return Math.round(_.sum(roundedAverageResults) * 10) / 10;
+  }
+
+  @computed('campaignCompetenceCollectiveResults.@each.totalSkillsCount')
+  get totalSkillsByCompetence() {
     return _.sumBy(this.campaignCompetenceCollectiveResults.toArray(), 'totalSkillsCount');
-  }),
+  }
 
-  averageResult: computed('averageValidatedSkillsSum', 'totalSkills', function() {
-    return Math.round(this.averageValidatedSkillsSum * 100 / this.totalSkills);
-  }),
-});
+  @computed('campaignTubeCollectiveResults.@each.totalSkillsCount')
+  get totalSkillsByTube() {
+    return _.sumBy(this.campaignTubeCollectiveResults.toArray(), 'totalSkillsCount');
+  }
+
+  @computed('averageValidatedSkillsSumByCompetence', 'totalSkillsByCompetence')
+  get averageResultByCompetence() {
+    return computePercentage(this.averageValidatedSkillsSumByCompetence, this.totalSkillsByCompetence);
+  }
+
+  @computed('averageValidatedSkillsSumByTube', 'totalSkillsByTube')
+  get averageResultByTube() {
+    return computePercentage(this.averageValidatedSkillsSumByTube, this.totalSkillsByTube);
+  }
+}

@@ -1,10 +1,23 @@
-<Routes::Authenticated::Campaigns::Details::CollectiveResults::Summary
-  @averageValidatedSkillsSum={{@campaignCollectiveResult.averageValidatedSkillsSum}}
-  @totalSkills={{@campaignCollectiveResult.totalSkills}}
-  @averageResult={{@campaignCollectiveResult.averageResult}}
-/>
+{{#if this.displayCompetence}}
+  <Routes::Authenticated::Campaigns::Details::CollectiveResults::Summary
+    @averageValidatedSkillsSum={{@campaignCollectiveResult.averageValidatedSkillsSumByCompetence}}
+    @totalSkills={{@campaignCollectiveResult.totalSkillsByCompetence}}
+    @averageResult={{@campaignCollectiveResult.averageResultByCompetence}}
+  />
 
-<Routes::Authenticated::Campaigns::Details::CollectiveResults::CompetenceView
-  @campaignCompetenceCollectiveResults={{@campaignCollectiveResult.campaignCompetenceCollectiveResults}}
-  @sharedParticipationsCount={{@sharedParticipationsCount}}
-/>
+  <Routes::Authenticated::Campaigns::Details::CollectiveResults::CompetenceView
+    @campaignCompetenceCollectiveResults={{@campaignCollectiveResult.campaignCompetenceCollectiveResults}}
+    @sharedParticipationsCount={{@sharedParticipationsCount}}
+  />
+{{else}}
+  <Routes::Authenticated::Campaigns::Details::CollectiveResults::Summary
+    @averageValidatedSkillsSum={{@campaignCollectiveResult.averageValidatedSkillsSumByTube}}
+    @totalSkills={{@campaignCollectiveResult.totalSkillsByTube}}
+    @averageResult={{@campaignCollectiveResult.averageResultByTube}}
+  />
+
+  <Routes::Authenticated::Campaigns::Details::CollectiveResults::TubeView
+    @campaignTubeCollectiveResults={{@campaignCollectiveResult.campaignTubeCollectiveResults}}
+    @sharedParticipationsCount={{@sharedParticipationsCount}}
+  />
+{{/if}}

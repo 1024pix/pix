@@ -22,6 +22,24 @@ export default Factory.extend({
       });
       campaignCollectiveResult.campaignCompetenceCollectiveResults = [competenceCollectiveResult_1, competenceCollectiveResult_2];
     }
+  }),
+
+  withTubeCollectiveResults: trait({
+    afterCreate(campaignCollectiveResult, server) {
+      const tubeCollectiveResult_1 = server.create('campaign-tube-collective-result', {
+        tubePracticalTitle: 'Sujet A',
+        tubeId: 'recTubeA',
+        averageValidatedSkills: '5',
+        totalSkillsCount: '10',
+      });
+      const tubeCollectiveResult_2 = server.create('campaign-tube-collective-result', {
+        tubePracticalTitle: 'Sujet B',
+        TubeId: 'recTubeB',
+        averageValidatedSkills: '0',
+        totalSkillsCount: '34',
+      });
+      campaignCollectiveResult.campaignTubeCollectiveResults = [tubeCollectiveResult_1, tubeCollectiveResult_2];
+    }
   })
 
 });
