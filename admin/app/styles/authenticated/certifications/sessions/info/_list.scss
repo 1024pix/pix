@@ -11,9 +11,6 @@
     margin-bottom: 20px;
   }
 
-  &__title {
-  }
-
   &__actions {
 
     .btn--check-session-record {
@@ -26,7 +23,10 @@
     }
   }
 
-  &__body {
-
+  &--button__disabled {
+    opacity: 0.7;
+    cursor: not-allowed !important;
+    pointer-events: visible;
   }
+
 }
