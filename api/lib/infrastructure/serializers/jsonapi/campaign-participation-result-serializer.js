@@ -3,7 +3,16 @@ const { Serializer } = require('jsonapi-serializer');
 module.exports = {
   serialize(results) {
     return new Serializer('campaign-participation-result', {
-      attributes: ['masteryPercentage', 'totalSkillsCount', 'testedSkillsCount', 'validatedSkillsCount', 'isCompleted', 'badge', 'competenceResults'],
+      attributes: [
+        'masteryPercentage',
+        'totalSkillsCount',
+        'testedSkillsCount',
+        'validatedSkillsCount',
+        'isCompleted',
+        'areBadgeCriteriaValidated',
+        'badge',
+        'competenceResults'
+      ],
       badge: {
         ref: 'id',
         attributes: ['altMessage', 'message', 'imageUrl'],
