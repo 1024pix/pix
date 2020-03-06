@@ -3,6 +3,11 @@ Pix
 
 [![CircleCI](https://circleci.com/gh/1024pix/pix/tree/dev.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/1024pix/pix) 
 
+Plateforme d'évaluation et de certification des compétences numériques pour tous.
+
+
+![Screenshot Pix App](./docs/assets/pix-app-screenshot.png)
+
 Présentation
 ------------
 
@@ -16,5 +21,7 @@ Pix cherche à susciter l’envie de se former tout au long de la vie en proposa
 
 Licence
 -------
+
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 Ce logiciel et son code source sont distribués sous [licence AGPL](https://www.gnu.org/licenses/why-affero-gpl.fr.html).
