@@ -4,6 +4,7 @@ const injectDefaults = require('../../infrastructure/utils/inject-defaults');
 const dependencies = {
   answerRepository: require('../../infrastructure/repositories/answer-repository'),
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
+  badgeAcquisitionRepository: require('../../infrastructure/repositories/badge-acquisition-repository'),
   assessmentResultRepository: require('../../infrastructure/repositories/assessment-result-repository'),
   badgeCriteriaService: require('../../domain/services/badge-criteria-service'),
   badgeRepository: require('../../infrastructure/repositories/badge-repository'),
