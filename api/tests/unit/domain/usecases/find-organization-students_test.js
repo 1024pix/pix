@@ -1,59 +1,63 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const findOrganizationStudents = require('../../../../lib/domain/usecases/find-organization-students');
-const Student = require('../../../../lib/domain/models/Student');
 
 describe('Unit | UseCase | find-organization-students', () => {
 
-  it('should succeed', async () => {
-    // given
-    const organizationId = 1234;
-    const studentRepositoryStub = { findByOrganizationId: sinon.stub() };
-    studentRepositoryStub.findByOrganizationId.resolves([]);
+  const organizationId = 1;
+  const userId = 2;
+  const username = 'username';
+  const email = 'email@example.net';
+  const samlId = 'samlId';
+  const isAuthenticatedFromGAR = true;
+  const user = { username, email , samlId };
 
-    // when
-    await findOrganizationStudents({ organizationId, studentRepository: studentRepositoryStub });
+  const studentNotYetReconcilied = { id: 3 };
+  const studentReconcilied = { id: 4, userId };
+  const expectedReconciliedStudentFromGAR = { ...studentReconcilied, ...{ username, email, isAuthenticatedFromGAR } };
 
-    // then
-    expect(studentRepositoryStub.findByOrganizationId).to.have.been.calledWith({ organizationId });
+  let foundOrganizationStudents;
+  const students = [studentNotYetReconcilied, studentReconcilied, ];
+  const userRepository = { get: sinon.stub().withArgs(userId).returns(user) };
+  const studentRepository = { findByOrganizationId: sinon.stub().withArgs({ organizationId }).returns(students) };
+
+  before(async function() {
+    foundOrganizationStudents = await findOrganizationStudents({ organizationId, studentRepository, userRepository });
   });
 
-  it('should return the Students belong to the given organization ID', async () => {
-    // given
-    const organizationId = 1234;
-
-    const foundStudents = [domainBuilder.buildStudent({ organizationId })];
-    const studentRepositoryStub = {
-      findByOrganizationId: sinon.stub().resolves(foundStudents)
-    };
-
-    // when
-    const students = await findOrganizationStudents({ organizationId, studentRepository: studentRepositoryStub });
-
-    // then
-    expect(students).to.have.length(1);
-    expect(students[0]).to.be.an.instanceOf(Student);
-    expect(students).to.deep.equal(foundStudents);
+  it('should fetch students matching organization', function() {
+    expect(studentRepository.findByOrganizationId).to.have.been.calledWithExactly({ organizationId });
   });
 
-  it('should return the user\'s username if student userId is defined', async () => {
-    // given
-    const organizationId = 1234;
-
-    const foundUser = domainBuilder.buildUser();
-    const foundStudents = [domainBuilder.buildStudent({ organizationId, userId:  foundUser.id })];
-    const studentRepositoryStub = {
-      findByOrganizationId: sinon.stub().resolves(foundStudents)
-    };
-    const userRepositoryStub = {
-      get: sinon.stub().resolves(foundUser)
-    };
-
-    // when
-    const students = await findOrganizationStudents({ organizationId, studentRepository: studentRepositoryStub , userRepository: userRepositoryStub });
-
-    // then
-    expect(students).to.have.length(1);
-    expect(students[0]).to.be.an.instanceOf(Student);
-    expect(students).to.deep.equal(foundStudents);
+  it('should return reconcilied and not reconcilied students', function() {
+    expect(foundOrganizationStudents).to.deep.equal([studentNotYetReconcilied, studentReconcilied]);
   });
+
+  context('The student is reconcilied', () => {
+
+    it('should fetch the user if the student is reconcilied', function() {
+      expect(userRepository.get).to.have.been.calledWithExactly(studentReconcilied.userId);
+    });
+
+    it('should add user{username} to student if authenticated by username', function() {
+      expect(foundOrganizationStudents).to.deep.equal([studentNotYetReconcilied, expectedReconciliedStudentFromGAR]);
+    });
+
+    it('should add user{email} to student if authenticated by email', function() {
+      expect(foundOrganizationStudents).to.deep.equal([studentNotYetReconcilied, expectedReconciliedStudentFromGAR]);
+    });
+
+    it('should add user{isAuthenticatedFromGAR} to student if authenticated from GAR', function() {
+      expect(foundOrganizationStudents).to.deep.equal([studentNotYetReconcilied, expectedReconciliedStudentFromGAR]);
+    });
+
+  });
+
+  context('The student is not reconcilied yet', () => {
+
+    it('should not fetch the user if the student is not reconcilied', function() {
+      expect(userRepository.get).to.have.been.calledOnce;
+    });
+  });
+
 });
+

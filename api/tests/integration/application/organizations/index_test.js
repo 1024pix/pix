@@ -13,6 +13,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     sinon.stub(securityController, 'checkUserIsAdminInScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
     sinon.stub(securityController, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(securityController, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
+    sinon.stub(securityController, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
 
     sinon.stub(organizationController, 'create').returns('ok');
     sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
@@ -20,6 +21,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     sinon.stub(organizationController, 'importStudentsFromSIECLE').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
     sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
+    sinon.stub(organizationController, 'findStudents').callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -124,6 +126,22 @@ describe('Integration | Application | Organizations | Routes', () => {
       // then
       expect(response.statusCode).to.equal(200);
       expect(organizationController.findPendingInvitations).to.have.been.calledOnce;
+    });
+  });
+
+  describe('GET /api/organizations/:id/students', () => {
+
+    it('should call the organization controller to return students', async () => {
+      // given
+      const method = 'GET';
+      const url = '/api/organizations/:id/students';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(organizationController.findStudents).to.have.been.calledOnce;
     });
   });
 
