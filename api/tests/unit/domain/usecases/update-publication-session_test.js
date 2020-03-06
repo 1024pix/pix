@@ -14,6 +14,7 @@ describe('Unit | UseCase | publish-session', () => {
     sessionId = 123;
     certificationRepository = {
       updatePublicationStatusesBySessionId: sinon.stub(),
+      updatePublicationStatuses: sinon.stub(),
     };
   });
 

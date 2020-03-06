@@ -345,7 +345,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     let options;
 
     beforeEach(() => {
-      sinon.stub(sessionAuthorization, 'verify').returns(null);
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'updatePublication').returns('ok');
       const sessionId = 1;
       options = {
@@ -364,7 +364,6 @@ describe('Unit | Application | Sessions | Routes', () => {
 
     it('should exist', async () => {
       const res = await server.inject(options);
-
       expect(res.statusCode).to.equal(200);
     });
   });
