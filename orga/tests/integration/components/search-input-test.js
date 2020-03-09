@@ -16,6 +16,7 @@ module('Integration | Component | search-input', function(hooks) {
 
     // then
     assert.dom('input#inputName').exists();
+    assert.dom('input#inputName').hasAttribute('name', 'inputName');
   });
 
   test('should set a value', async function(assert) {
