@@ -29,6 +29,8 @@ h4 {
   font-weight: $font-normal;
   letter-spacing: 0;
   line-height: 3.6rem;
+  margin-block-start: 0;
+  margin-block-end: 0;
 
   @include device-is('tablet') {
     line-height: 4.0rem;
