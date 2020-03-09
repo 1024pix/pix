@@ -1,0 +1,66 @@
+.toggle-button {
+  display: flex;
+  align-items: center;
+  font-family: $roboto;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: .118rem;
+  margin-top: 50px;
+  margin-bottom: 20px;
+
+  .toggle-button__label {
+    margin-right: 16px;
+    font-size: .875rem;
+    font-weight: normal;
+    color: $comet;
+  }
+
+  input {
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    border: 1px solid $n80;
+    border-radius: 4px;
+    height: 24px;
+    width: 200px;
+
+    &::before, &::after {
+      flex: 1;
+      line-height: 24px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      text-transform: uppercase;
+    }
+
+    &::before {
+      content: 'Compétences';
+      background-color: transparent;
+      color: $comet;
+    }
+
+    &::after {
+      content: 'Sujets';
+      background: $n80;
+      color: $white;
+      border-radius: 4px 0 0 4px;
+    }
+
+    &:checked {
+      &::before {
+        background: $n80;
+        color: $white;
+      border-radius: 0 4px 4px 0;
+      }
+
+      &::after {
+        background-color: transparent;
+        color: $comet;
+      }
+    }
+  }
+}

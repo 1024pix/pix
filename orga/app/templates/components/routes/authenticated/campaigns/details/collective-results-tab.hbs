@@ -1,3 +1,5 @@
+<ToggleButton @value={{this.displayCompetence}} @onToggle={{this.changeView}}/>
+
 {{#if this.displayCompetence}}
   <Routes::Authenticated::Campaigns::Details::CollectiveResults::Summary
     @averageValidatedSkillsSum={{@campaignCollectiveResult.averageValidatedSkillsSumByCompetence}}
