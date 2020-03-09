@@ -44,7 +44,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     assessmentRepository = { get: sinon.stub() };
     badgeRepository = { findOneByTargetProfileId: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
-    badgeCriteriaService = { reviewBadgeCriteria: sinon.stub() };
+    badgeCriteriaService = { areBadgeCriteriaFulfilled: sinon.stub() };
     sinon.stub(CampaignParticipationResult, 'buildFrom').returns(campaignParticipationResult);
 
     usecaseDependencies = {
@@ -73,7 +73,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       beforeEach(() => {
         // given
         badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(badge);
-        badgeCriteriaService.reviewBadgeCriteria.withArgs({ campaignParticipationResult }).resolves(true);
+        badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(true);
       });
 
       it('should get the campaignParticipationResult', async () => {
@@ -85,11 +85,11 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       });
     });
 
-    context('when a badge is not available for the campaignParticipationResult', () => {
+    context('when no badge is available for the campaignParticipationResult', () => {
       beforeEach(() => {
         // given
         badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves({});
-        badgeCriteriaService.reviewBadgeCriteria.withArgs({ campaignParticipationResult }).resolves(false);
+        badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(false);
       });
 
       it('should get the campaignParticipationResult', async () => {
@@ -115,7 +115,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       beforeEach(() => {
         // given
         badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(badge);
-        badgeCriteriaService.reviewBadgeCriteria.withArgs({ campaignParticipationResult }).resolves(true);
+        badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(true);
       });
 
       it('should get the campaignParticipationResult', async () => {
@@ -127,11 +127,11 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       });
     });
 
-    context('when a badge is not available for the campaignParticipationResult', () => {
+    context('when no badge is available for the campaignParticipationResult', () => {
       beforeEach(() => {
         // given
         badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves({});
-        badgeCriteriaService.reviewBadgeCriteria.withArgs({ campaignParticipationResult }).resolves(false);
+        badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(false);
       });
 
       it('should get the campaignParticipationResult', async () => {

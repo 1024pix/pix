@@ -53,7 +53,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
       expect(result).to.deep.equal({
         id: campaignParticipationId,
         isCompleted: false,
-        areBadgeCriteriaValidated: false,
+        areBadgeCriteriaFulfilled: false,
         totalSkillsCount: 4,
         testedSkillsCount: 2,
         validatedSkillsCount: 1,
