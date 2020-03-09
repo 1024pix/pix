@@ -1,7 +1,8 @@
 const _ = require('lodash');
 const {
   CERTIF_SUCCESS_USER_ID,
-  CERTIF_FAILURE_USER_ID
+  CERTIF_FAILURE_USER_ID,
+  CERTIF_REGULAR_USER5_ID
 } = require('./users');
 const {
   TO_FINALIZE_SESSION_ID,
@@ -11,6 +12,7 @@ const {
 const {
   CANDIDATE_DATA_SUCCESS,
   CANDIDATE_DATA_FAILURE,
+  CANDIDATE_DATA_STARTED,
 } = require('./certification-candidates-builder');
 const { CERTIFICATION_CHALLENGES_DATA } = require('./certification-data');
 
@@ -20,6 +22,7 @@ const ASSESSMENT_SUCCESS_IN_NO_PROBLEM_FINALIZED_SESSION_ID = 102;
 const ASSESSMENT_FAILURE_IN_NO_PROBLEM_FINALIZED_SESSION_ID = 103;
 const ASSESSMENT_SUCCESS_IN_PROBLEMS_FINALIZED_SESSION_ID = 104;
 const ASSESSMENT_FAILURE_IN_PROBLEMS_FINALIZED_SESSION_ID = 105;
+const ASSESSMENT_STARTED_IN_PROBLEMS_FINALIZED_SESSION_ID = 106;
 
 function certificationCoursesBuilder({ databaseBuilder }) {
   // Each certification tests present the same questions
@@ -30,6 +33,7 @@ function certificationCoursesBuilder({ databaseBuilder }) {
     { userId: CERTIF_FAILURE_USER_ID, sessionId: NO_PROBLEM_FINALIZED_SESSION_ID, assessmentId: ASSESSMENT_FAILURE_IN_NO_PROBLEM_FINALIZED_SESSION_ID, candidateData: CANDIDATE_DATA_FAILURE, examinerComment: null, hasSeenEndTestScreen: true },
     { userId: CERTIF_SUCCESS_USER_ID, sessionId: PROBLEMS_FINALIZED_SESSION_ID, assessmentId: ASSESSMENT_SUCCESS_IN_PROBLEMS_FINALIZED_SESSION_ID, candidateData: CANDIDATE_DATA_SUCCESS, examinerComment: 'A regardé son téléphone pendant le test', hasSeenEndTestScreen: true },
     { userId: CERTIF_FAILURE_USER_ID, sessionId: PROBLEMS_FINALIZED_SESSION_ID, assessmentId: ASSESSMENT_FAILURE_IN_PROBLEMS_FINALIZED_SESSION_ID, candidateData: CANDIDATE_DATA_FAILURE, examinerComment: 'Son ordinateur a explosé', hasSeenEndTestScreen: false },
+    { userId: CERTIF_REGULAR_USER5_ID, sessionId: PROBLEMS_FINALIZED_SESSION_ID, assessmentId: ASSESSMENT_STARTED_IN_PROBLEMS_FINALIZED_SESSION_ID, candidateData: CANDIDATE_DATA_STARTED, examinerComment: 'Elle a pas finis sa certif', hasSeenEndTestScreen: false },
   ], (certificationCourseData) => {
     _buildCertificationCourse(databaseBuilder, certificationCourseData);
   });
@@ -57,4 +61,5 @@ module.exports = {
   ASSESSMENT_FAILURE_IN_NO_PROBLEM_FINALIZED_SESSION_ID,
   ASSESSMENT_SUCCESS_IN_PROBLEMS_FINALIZED_SESSION_ID,
   ASSESSMENT_FAILURE_IN_PROBLEMS_FINALIZED_SESSION_ID,
+  ASSESSMENT_STARTED_IN_PROBLEMS_FINALIZED_SESSION_ID,
 } ;
