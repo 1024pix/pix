@@ -1,13 +1,14 @@
 import { module, test } from 'qunit';
 import { visit, currentURL, fillIn, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
+
 import { currentSession } from 'ember-simple-auth/test-support';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+
 import {
   createUserWithMembership,
   createUserWithMembershipAndTermsOfServiceAccepted,
 } from '../helpers/test-init';
-
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | join', function(hooks) {
 
@@ -312,4 +313,5 @@ module('Acceptance | join', function(hooks) {
       });
     });
   });
+
 });

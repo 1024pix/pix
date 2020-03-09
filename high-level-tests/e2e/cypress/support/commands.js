@@ -17,7 +17,7 @@ Cypress.Commands.add('login', (username, password) => {
         authenticator: 'authenticator:oauth2',
         token_type: 'bearer',
         access_token: response.body.access_token,
-        user_id: 1
+        user_id: response.body.user_id
       }
     }));
   });
@@ -72,17 +72,20 @@ Cypress.Commands.add('loginWithAlmostExpiredToken', () => {
   cy.wait(['@getCurrentUser']);
 });
 
-Cypress.Commands.add('visitOrga', (url) => {
-  return cy.visit(url, { app: 'orga' });
-});
-
 Cypress.Commands.add('visitMonPix', (url) => {
   return cy.visit(url, { app: 'default' });
 });
 
+Cypress.Commands.add('visitOrga', (url) => {
+  return cy.visit(url, { app: 'orga' });
+});
+
 Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
+  const ORGA_URL = Cypress.env('ORGA_URL');
+
   if (options.app === 'orga') {
-    url = 'http://localhost:4201';
+    url = ORGA_URL + url;
   }
+
   return originalFn(url, options);
 });
