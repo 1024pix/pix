@@ -16,9 +16,9 @@
             </th>
             <th>
               <Routes::Authenticated::Campaigns::SelectCreator
-                @organizationMembers={{organizationMembers}}
-                @campaignCreatorId={{campaignCreatorId}}
-                @selectCampaignCreator={{action 'selectCampaignCreator'}} />
+                @organizationMembers={{@organizationMembers}}
+                @campaignCreatorId={{@campaignCreatorId}}
+                @selectCampaignCreator={{this.selectCampaignCreator}} />
             </th>
             <th></th>
             <th></th>

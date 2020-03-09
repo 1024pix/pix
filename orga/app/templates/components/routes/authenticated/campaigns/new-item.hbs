@@ -1,4 +1,4 @@
-<form {{action createCampaign campaign on='submit'}} class="form">
+<form {{on 'submit' @createCampaign}} class="form">
 
   <div class="form__field">
     <label for="campaign-name" class="label">Nom de la campagne</label>
@@ -8,10 +8,10 @@
       @type="text"
       @class="input"
       @maxlength="255"
-      @value={{campaign.name}}
+      @value={{@campaign.name}}
     />
 
-    {{#each campaign.errors.name as |error|}}
+    {{#each @campaign.errors.name as |error|}}
       <div class='form__error error-message'>
         {{error.message}}
       </div>
@@ -20,13 +20,13 @@
 
   <div class="form__field">
     <label for="campaign-target-profile" class="label">Que souhaitez-vous tester ?</label>
-    <select class="select" id="campaign-target-profile" onchange={{action 'setSelectedTargetProfile' value='target.value'}}>
+    <select class="select" id="campaign-target-profile" {{on "change" this.setSelectedTargetProfile}}>
       <option value="" disabled="disabled" selected></option>
-      {{#each targetProfiles as |targetProfile|}}
+      {{#each @targetProfiles as |targetProfile|}}
         <option value="{{targetProfile.id}}">{{targetProfile.name}}</option>
       {{/each}}
     </select>
-    {{#each campaign.errors.targetProfile as |error|}}
+    {{#each @campaign.errors.targetProfile as |error|}}
       <div class='form__error error-message'>
         {{error.message}}
       </div>
@@ -38,21 +38,21 @@
       <div class="label">
         <label for="id-pix-wanted-or-not">Souhaitez-vous demander un identifiant ?</label>
       </div>
-      <div id="doNotAskLabelIdPix" class="form__sub-label" onclick={{action "doNotAskLabelIdPix"}}>
+      <div id="doNotAskLabelIdPix" class="form__sub-label" role="button" {{on 'click' this.doNotAskLabelIdPix}}>
         <label>
-          <input type="radio" checked={{notWantIdPix}} name="radio" class="radio-button">
+          <input type="radio" checked={{@notWantIdPix}} name="radio" class="radio-button">
           <span class="radio-button-span"></span>Non
         </label>
       </div>
-      <div id="askLabelIdPix" class="form__sub-label" onclick={{action "askLabelIdPix"}}>
+      <div id="askLabelIdPix" class="form__sub-label" role="button" {{on 'click' this.askLabelIdPix}}>
         <label>
-          <input type="radio" checked={{wantIdPix}} name="radio" class="radio-button">
+          <input type="radio" checked={{@wantIdPix}} name="radio" class="radio-button">
           <span class="radio-button-span"></span>Oui
         </label>
       </div>
     </div>
 
-    {{#if wantIdPix}}
+    {{#if this.wantIdPix}}
 
       <div class="form__field">
         <Input
@@ -64,9 +64,9 @@
           @label="Libellé de l’identifiant"
           @aria-required="true"
           @placeholder="Libellé de l’identifiant"
-          @value={{campaign.idPixLabel}}
+          @value={{@campaign.idPixLabel}}
         />
-        {{#each campaign.errors.idPixLabel as |error|}}
+        {{#each @campaign.errors.idPixLabel as |error|}}
           <div class='form__error error-message'>
             {{error.message}}
           </div>
@@ -87,21 +87,21 @@
       @type="text"
       @class="input"
       @maxlength="50"
-      @value={{campaign.title}}
+      @value={{@campaign.title}}
     />
   </div>
 
   <div class="form__field">
     <label for="custom-landing-page-text" class="label">Texte de la page d'accueil</label>
-    <Textarea @id="custom-landing-page-text" @name="custom-landing-page-text" @maxlength="350" @rows={{8}} @value={{campaign.customLandingPageText}} class="textarea" />
+    <Textarea @id="custom-landing-page-text" @name="custom-landing-page-text" @maxlength="350" @rows={{8}} @value={{@campaign.customLandingPageText}} class="textarea" />
   </div>
 
   <div class="form__validation">
-    <div class="button button--no-color" {{action cancel}}>Annuler</div>
+    <div class="button button--no-color" role="button" {{on 'click' @cancel}}>Annuler</div>
     <button class="button" type="submit">Créer la campagne</button>
   </div>
 
- {{#if wantIdPix}}
+ {{#if this.wantIdPix}}
    <div class="new-item-form__gdpr-information help-text">
     * En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.
    </div>

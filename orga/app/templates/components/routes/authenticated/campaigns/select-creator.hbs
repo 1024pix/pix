@@ -1,8 +1,9 @@
 <label class="select-creator__wrapper">
-  <select class="select table__input select-creator__select" onchange={{action selectCampaignCreator value='target.value'}}>
+  <select class="select table__input select-creator__select" {{on 'change' @selectCampaignCreator}}>
     <option value="">Tous</option>
-    {{#each organizationMembers as |member|}}
-      <option value="{{member.user.id}}" selected={{eq campaignCreatorId member.user.id}}>{{member.user.firstName}} {{member.user.lastName}}</option>
+    {{#each @organizationMembers as |member|}}
+      <option value="{{member.user.id}}" selected={{eq @campaignCreatorId member.user.id}}>{{member.user.firstName}} {{member.user.lastName}}</option>
     {{/each}}
   </select>
+  <FaIcon class='select-creator__chevron' @icon='chevron-down'></FaIcon>
 </label>
