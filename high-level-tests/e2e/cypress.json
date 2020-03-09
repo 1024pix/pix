@@ -1,7 +1,8 @@
 {
   "baseUrl": "http://localhost:4200",
   "env": {
-    "API_URL": "http://localhost:3000"
+    "API_URL": "http://localhost:3000",
+    "ORGA_URL": "http://localhost:4201"
   },
   "video": false,
   "blacklistHosts": "*stats.pix.fr*"

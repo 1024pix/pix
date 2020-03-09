@@ -2,6 +2,7 @@ given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'users');
   cy.task('db:fixture', 'organizations');
   cy.task('db:fixture', 'memberships');
+  cy.task('db:fixture', 'organization-invitations');
   cy.task('db:fixture', 'user-orga-settings');
   cy.task('db:fixture', 'target-profiles');
   cy.task('db:fixture', 'target-profiles_skills');
