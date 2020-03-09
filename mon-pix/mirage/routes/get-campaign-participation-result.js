@@ -15,9 +15,11 @@ export default function(schema) {
   });
 
   return schema.campaignParticipationResults.create({
+    masteryPercentage: 90,
     totalSkillsCount: 10,
     testedSkillsCount: 9,
     validatedSkillsCount: 9,
+    areBadgeCriteriaFulfilled: true,
     competenceResults: [competenceResult],
     badge
   });

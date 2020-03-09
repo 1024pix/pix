@@ -160,10 +160,12 @@ describe('Acceptance | API | Campaign Participation Result', () => {
           type: 'campaign-participation-results',
           id: campaignParticipation.id.toString(),
           attributes: {
+            'mastery-percentage': 38,
             'total-skills-count': 8,
             'tested-skills-count': 5,
             'validated-skills-count': 3,
-            'is-completed': true
+            'is-completed': true,
+            'are-badge-criteria-fulfilled': false,
           },
           relationships: {
             badge: {

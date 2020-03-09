@@ -21,8 +21,10 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
       const testedSkillsCount = competenceResults[0].testedSkillsCount + competenceResults[1].testedSkillsCount;
       const totalSkillsCount = competenceResults[0].totalSkillsCount + competenceResults[1].totalSkillsCount;
       const validatedSkillsCount = competenceResults[0].validatedSkillsCount + competenceResults[1].validatedSkillsCount;
+      const masteryPercentage = validatedSkillsCount * 100 / totalSkillsCount;
 
       const campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
+        areBadgeCriteriaFulfilled: true,
         isCompleted: true,
         testedSkillsCount,
         totalSkillsCount,
@@ -33,7 +35,9 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
       const expectedSerializedCampaignParticipationResult = {
         data: {
           attributes: {
+            'are-badge-criteria-fulfilled': true,
             'is-completed': true,
+            'mastery-percentage': masteryPercentage,
             'tested-skills-count': testedSkillsCount,
             'total-skills-count': totalSkillsCount,
             'validated-skills-count': validatedSkillsCount,

@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const CampaignParticipationResult = require('../../domain/models/CampaignParticipationResult');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
@@ -12,6 +13,7 @@ module.exports = async function getCampaignParticipationResult(
     competenceRepository,
     knowledgeElementRepository,
     targetProfileRepository,
+    badgeCriteriaService,
   }
 ) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
@@ -26,7 +28,20 @@ module.exports = async function getCampaignParticipationResult(
 
   const badge = await badgeRepository.findOneByTargetProfileId(targetProfile.id);
 
-  return CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, badge });
+  const campaignParticipationResult = CampaignParticipationResult.buildFrom({
+    campaignParticipationId,
+    assessment,
+    competences,
+    targetProfile,
+    knowledgeElements,
+    badge
+  });
+
+  if (_hasBadgeInformation(badge)) {
+    campaignParticipationResult.areBadgeCriteriaFulfilled = badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult });
+  }
+
+  return campaignParticipationResult;
 };
 
 async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository) {
@@ -39,4 +54,8 @@ async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaign
   if (!campaignParticipationBelongsToUser && !userIsMemberOfCampaignOrganization) {
     throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign participation');
   }
+}
+
+function _hasBadgeInformation(badge) {
+  return !_.isEmpty(badge);
 }

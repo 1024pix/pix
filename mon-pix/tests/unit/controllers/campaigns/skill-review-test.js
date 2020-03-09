@@ -42,7 +42,7 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
   });
 
   describe('#shouldShowBadge', () => {
-    context('when at least one badge is available', function() {
+    context('when some badge information is available', function() {
       beforeEach(function() {
         // given
         const badgePixEmploi = EmberObject.create({
@@ -56,24 +56,24 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
         controller.set('model.campaignParticipation.campaignParticipationResult.badge', badgePixEmploi);
       });
 
-      it('should return true when user masters more than 85 percent', function() {
+      it('should return true when badge criteria are fulfilled', function() {
         // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 85);
+        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled', true);
 
         // then
         expect(controller.shouldShowBadge).to.equal(true);
       });
 
-      it('should return false when user masters less than 85 percent', function() {
+      it('should return false when badge criteria are not fulfilled', function() {
         // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 26);
+        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled', false);
 
         // then
         expect(controller.shouldShowBadge).to.equal(false);
       });
     });
 
-    context('when no badge is available', function() {
+    context('when no badge information is available', function() {
       beforeEach(function() {
         // given
         const emptyBadge = EmberObject.create({
@@ -82,17 +82,17 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
         controller.set('model.campaignParticipation.campaignParticipationResult.badge', emptyBadge);
       });
 
-      it('should return false when user masters more than 85 percent', function() {
+      it('should return false when user badge criteria are fulfilled', function() {
         // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 85);
+        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled', false);
 
         // then
         expect(controller.shouldShowBadge).to.equal(false);
       });
 
-      it('should return false when user masters less than 85 percent', function() {
+      it('should return false when badge criteria are not fulfilled', function() {
         // when
-        controller.set('model.campaignParticipation.campaignParticipationResult.masteryPercentage', 26);
+        controller.set('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled', false);
 
         // then
         expect(controller.shouldShowBadge).to.equal(false);
