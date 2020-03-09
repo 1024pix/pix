@@ -1,6 +1,6 @@
 .login-page {
-  background: linear-gradient(135.25deg, #388AFF 0%, #985FFF 100%);
-  color: #FFFFFF;
+  background: $pix-gradient;
+  color: $white;
   position: absolute;
   top: 0;
   left: 0;
@@ -24,19 +24,17 @@
 }
 
 .login-form {
-  background: #FFFFFF;
+  background: $white;
   border-radius: 3px;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  color: #172B4D;
-  padding: 48px 48px 48px;
+  padding: 48px;
 }
 
 .login-form__error {
-  background-color: #f04124;
-  border-color: #f04124;
-  color: #FFFFFF;
+  background-color: $error;
+  border-color: $error;
+  color: $white;
   border-radius: 3px;
   padding: 8px;
 }
@@ -61,7 +59,7 @@
 }
 
 .login-form__field {
-  padding: 8px 8px;
-  border: 1px solid #CCCCCC;
+  padding: 8px;
+  border: 1px solid $grey-22;
   line-height: 22px;
 }

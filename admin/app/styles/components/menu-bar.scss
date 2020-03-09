@@ -1,7 +1,7 @@
 .menu-bar {
   height: 100%;
   width: 100%;
-  color: #FFFFFF;
+  color: $white;
 
   .menu-bar__entries {
     margin: 0;
@@ -13,7 +13,7 @@
       padding: 0 15px;
 
       .menu-bar__link {
-        color: #a9b3bb;
+        color: $grey-22;
         display: block;
         line-height: 50px;
         padding: 0;
@@ -33,13 +33,13 @@
 
         &:hover {
           text-decoration: none;
-          color: #ffffff;
+          color: $white;
         }
 
         &.active {
           font-weight: 600;
-          background-color: #697b88;
-          color: #ffffff;
+          background-color: $grey-40;
+          color: $white;
         }
       }
     }

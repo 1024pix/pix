@@ -16,14 +16,14 @@
 
     &__certification-id, &__candidate-names {
       border-radius: 20px;
-      background-color: #F1F1F1;
+      background-color: $grey-15;
       padding: 4px 10px;
       line-height: 2rem;
 
       &__not-linked {
         white-space: nowrap;
         border-radius: 20px;
-        background-color: #EEB14B;
+        background-color: $warning;
         padding: 4px 10px;
         line-height: 2rem;
       }
@@ -31,7 +31,7 @@
       &__linked {
         white-space: nowrap;
         border-radius: 20px;
-        background-color: #6B8333;
+        background-color: $success;
         padding: 4px 10px;
         line-height: 2rem;
       }
@@ -39,7 +39,7 @@
       &__not-in-session {
         white-space: nowrap;
         border-radius: 20px;
-        background-color: #FF3112;
+        background-color: $error;
         padding: 4px 10px;
         line-height: 2rem;
       }
@@ -48,15 +48,15 @@
     &__status {
 
       &--success {
-        color: #39B97A;
+        color: $success;
       }
 
       &--failure {
-        color: #E55636;
+        color: $error;
       }
 
       &--warning {
-        color: #F5B042;
+        color: $warning;
       }
     }
   }
