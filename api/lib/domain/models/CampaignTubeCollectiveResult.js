@@ -5,6 +5,7 @@ class CampaignTubeCollectiveResult {
     campaignId,
     tubeId,
     tubePracticalTitle,
+    areaColor,
     totalSkillsCount,
     averageValidatedSkills,
   } = {}) {
@@ -12,6 +13,7 @@ class CampaignTubeCollectiveResult {
     this.campaignId = campaignId;
     this.tubeId = tubeId;
     this.tubePracticalTitle = tubePracticalTitle;
+    this.areaColor = areaColor;
     this.totalSkillsCount = totalSkillsCount;
     this.averageValidatedSkills = averageValidatedSkills;
   }

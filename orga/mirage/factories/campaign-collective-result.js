@@ -29,12 +29,14 @@ export default Factory.extend({
       const tubeCollectiveResult_1 = server.create('campaign-tube-collective-result', {
         tubePracticalTitle: 'Sujet A',
         tubeId: 'recTubeA',
+        areaColor: 'jaffa',
         averageValidatedSkills: '5',
         totalSkillsCount: '10',
       });
       const tubeCollectiveResult_2 = server.create('campaign-tube-collective-result', {
         tubePracticalTitle: 'Sujet B',
         TubeId: 'recTubeB',
+        areaColor: 'emerald',
         averageValidatedSkills: '0',
         totalSkillsCount: '34',
       });

@@ -9,6 +9,9 @@ export default class CampaignTubeCollectiveResult extends Model {
   @attr('string')
   tubeId;
 
+  @attr('string')
+  areaColor;
+
   @attr('number')
   averageValidatedSkills;
 

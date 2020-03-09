@@ -59,15 +59,17 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
     context('When user asked for tube view', () => {
       const view = 'tube';
       const tubes = Symbol('tubes');
+      const competences = Symbol('competences');
 
       beforeEach(() => {
         tubeRepository.list.resolves(tubes);
+        competenceRepository.list.resolves(competences);
       });
 
       it('should resolve a CampaignCollectiveResult', async () => {
         // given
         const expectedCampaignCollectiveResult = domainBuilder.buildCampaignCollectiveResult();
-        campaignCollectiveResultRepository.getCampaignCollectiveResultByTube.withArgs(campaignId, tubes).resolves(expectedCampaignCollectiveResult);
+        campaignCollectiveResultRepository.getCampaignCollectiveResultByTube.withArgs(campaignId, tubes, competences).resolves(expectedCampaignCollectiveResult);
 
         // when
         const actualCampaignCollectiveResult = await computeCampaignCollectiveResult({

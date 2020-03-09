@@ -88,6 +88,7 @@ module('Integration | Component | routes/authenticated/campaigns/details/collect
     />`);
 
       // then
+      assert.dom('[aria-label="Sujet"]:first-child').containsText('•');
       assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube A');
       assert.dom('[aria-label="Sujet"]:first-child').containsText('33%');
     });

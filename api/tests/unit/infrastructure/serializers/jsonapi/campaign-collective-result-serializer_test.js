@@ -97,6 +97,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             campaignId: campaignId,
             tubeId: 'rec1',
             tubePracticalTitle: 'Cat',
+            areaColor: 'jaffa',
             totalSkillsCount: 3,
           }),
           domainBuilder.buildCampaignTubeCollectiveResult({
@@ -104,6 +105,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             campaignId: campaignId,
             tubeId: 'rec2',
             tubePracticalTitle: 'Dog',
+            areaColor: 'cerulean',
             totalSkillsCount: 4,
           }),
         ]
@@ -136,6 +138,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             'average-validated-skills': 2,
             'tube-id': 'rec1',
             'tube-practical-title': 'Cat',
+            'area-color': 'jaffa',
             'total-skills-count': 3,
           }
         }, {
@@ -145,6 +148,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             'average-validated-skills': 1,
             'tube-id': 'rec2',
             'tube-practical-title': 'Dog',
+            'area-color': 'cerulean',
             'total-skills-count': 4,
           }
         }]

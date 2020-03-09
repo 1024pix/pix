@@ -28,6 +28,35 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
 }
 
 describe('Integration | Repository | Service | Campaign collective result repository', () => {
+  const competences = [];
+
+  const rawCompetences = [
+    {
+      competence: { id: 'recCompetenceA', name: 'Competence A', index: '1.1', area: { color: 'jaffa' } },
+      skillIds: ['recUrl1', 'recUrl2', 'recUrl3', 'recUrl4', 'recUrl5']
+    }, {
+      competence: { id: 'recCompetenceB', name: 'Competence B', index: '1.2', area: { color: 'jaffa' } },
+      skillIds: ['recFile2', 'recFile3', 'recFile5', 'recText1']
+    }, {
+      competence: { id: 'recCompetenceC', name: 'Competence C', index: '1.3', area: { color: 'jaffa' } },
+      skillIds: ['recMedia1', 'recMedia2']
+    }, {
+      competence: { id: 'recCompetenceD', name: 'Competence D', index: '2.1', area: { color: 'emerald' } },
+      skillIds: ['recAlgo1', 'recAlgo2']
+    }, {
+      competence: { id: 'recCompetenceE', name: 'Competence E', index: '2.2', area: { color: 'emerald' } },
+      skillIds: ['recBrowser1']
+    }, {
+      competence: { id: 'recCompetenceF', name: 'Competence F', index: '2.3', area: { color: 'emerald' } },
+      skillIds: ['recComputer1']
+    }
+  ];
+
+  beforeEach(() => {
+    _.each(rawCompetences, ({ competence }) => {
+      competences.push(domainBuilder.buildCompetence(competence));
+    });
+  });
 
   afterEach(() => {
     airtableBuilder.cleanAll();
@@ -37,7 +66,6 @@ describe('Integration | Repository | Service | Campaign collective result reposi
   context('#getCampaignCollectiveResultByCompetence', () => {
 
     context('in a rich context close to reality', () => {
-      let competences;
       let targetProfileId;
       let campaignId;
 
@@ -54,32 +82,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
         const areas = [airtableBuilder.factory.buildArea()];
         const skills = [];
 
-        competences = [];
-
-        _.each([
-          {
-            competence: { id: 'recCompetenceA', name: 'Competence A', index: '1.1', area: { color: 'jaffa' } },
-            skillIds: ['recUrl1', 'recUrl2', 'recUrl3', 'recUrl4', 'recUrl5']
-          }, {
-            competence: { id: 'recCompetenceB', name: 'Competence B', index: '1.2', area: { color: 'jaffa' } },
-            skillIds: ['recFile2', 'recFile3', 'recFile5', 'recText1']
-          }, {
-            competence: { id: 'recCompetenceC', name: 'Competence C', index: '1.3', area: { color: 'jaffa' } },
-            skillIds: ['recMedia1', 'recMedia2']
-          }, {
-            competence: { id: 'recCompetenceD', name: 'Competence D', index: '2.1', area: { color: 'emerald' } },
-            skillIds: ['recAlgo1', 'recAlgo2']
-          }, {
-            competence: { id: 'recCompetenceE', name: 'Competence E', index: '2.2', area: { color: 'emerald' } },
-            skillIds: ['recBrowser1']
-          }, {
-            competence: { id: 'recCompetenceF', name: 'Competence F', index: '2.3', area: { color: 'emerald' } },
-            skillIds: ['recComputer1']
-          },
-
-        ], ({ competence, skillIds }) => {
-          competences.push(domainBuilder.buildCompetence(competence));
-
+        _.each(rawCompetences, ({ competence, skillIds }) => {
           _.each(skillIds, (skillId) => skills.push(
             airtableBuilder.factory.buildSkill({ id: skillId, 'compétenceViaTube': [competence.id] })
           ));
@@ -538,7 +541,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
           tubes.push(domainBuilder.buildTube(tube));
 
           _.each(skillIds, (skillId) => skills.push(
-            airtableBuilder.factory.buildSkill({ id: skillId, tube: [tube.id] })
+            airtableBuilder.factory.buildSkill({ id: skillId, 'compétenceViaTube': ['recCompetenceC'], tube: [tube.id] })
           ));
         });
 
@@ -580,6 +583,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               campaignId,
               tubeId: 'recTubeUrl',
               tubePracticalTitle: 'Tube url',
+              areaColor: 'jaffa',
               totalSkillsCount: 2,
             },
             {
@@ -587,6 +591,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               campaignId,
               tubeId: 'recTubeFile',
               tubePracticalTitle: 'Tube file',
+              areaColor: 'jaffa',
               totalSkillsCount: 2,
             },
             {
@@ -594,6 +599,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               campaignId,
               tubeId: 'recTubeBrowser',
               tubePracticalTitle: 'Tube browser',
+              areaColor: 'jaffa',
               totalSkillsCount: 1,
             },
             {
@@ -601,6 +607,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               campaignId,
               tubeId: 'recTubeComputer',
               tubePracticalTitle: 'Tube computer',
+              areaColor: 'emerald',
               totalSkillsCount: 1,
             }
           ]
@@ -615,7 +622,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
         it('should resolves a collective result synthesis with default values for all tubes', async () => {
           // when
-          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes);
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes, competences);
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
@@ -651,7 +658,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
         it('should resolves a collective result synthesis with default values for all tubes', async () => {
           // when
-          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes);
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes, competences);
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
@@ -693,6 +700,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 campaignId,
                 tubeId: 'recTubeUrl',
                 tubePracticalTitle: 'Tube url',
+                areaColor: 'jaffa',
                 totalSkillsCount: 2,
               },
               {
@@ -700,6 +708,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 campaignId,
                 tubeId: 'recTubeFile',
                 tubePracticalTitle: 'Tube file',
+                areaColor: 'jaffa',
                 totalSkillsCount: 2,
               },
               {
@@ -707,6 +716,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 campaignId,
                 tubeId: 'recTubeBrowser',
                 tubePracticalTitle: 'Tube browser',
+                areaColor: 'jaffa',
                 totalSkillsCount: 1,
               },
               {
@@ -714,13 +724,14 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 campaignId,
                 tubeId: 'recTubeComputer',
                 tubePracticalTitle: 'Tube computer',
+                areaColor: 'emerald',
                 totalSkillsCount: 1,
               }
             ],
           };
 
           // when
-          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes);
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes, competences);
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
@@ -797,6 +808,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 campaignId,
                 tubeId: 'recTubeUrl',
                 tubePracticalTitle: 'Tube url',
+                areaColor: 'jaffa',
                 totalSkillsCount: 2,
               },
               {
@@ -804,6 +816,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 campaignId,
                 tubeId: 'recTubeFile',
                 tubePracticalTitle: 'Tube file',
+                areaColor: 'jaffa',
                 totalSkillsCount: 2,
               },
               {
@@ -811,6 +824,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 campaignId,
                 tubeId: 'recTubeBrowser',
                 tubePracticalTitle: 'Tube browser',
+                areaColor: 'jaffa',
                 totalSkillsCount: 1,
               },
               {
@@ -818,13 +832,14 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 campaignId,
                 tubeId: 'recTubeComputer',
                 tubePracticalTitle: 'Tube computer',
+                areaColor: 'emerald',
                 totalSkillsCount: 1,
               }
             ],
           };
 
           // when
-          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes);
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes, competences);
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);

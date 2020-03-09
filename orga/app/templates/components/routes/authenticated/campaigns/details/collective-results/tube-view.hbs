@@ -13,7 +13,10 @@
       <tbody>
       {{#each @campaignTubeCollectiveResults as |tubeResult|}}
         <tr aria-label="Sujet">
-          <td class="participant-results-details__tube-wrapper">
+          <td class="participant-results-details__line-wrapper">
+            <span class="participant-results-details-line__bullet participant-results-details-line__bullet--{{tubeResult.areaColor}}">
+              &#8226;
+            </span>
             <span>{{tubeResult.tubePracticalTitle}}</span>
           </td>
           <td>

@@ -17,11 +17,12 @@ module.exports = async function computeCampaignCollectiveResult(
     throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
   }
 
+  const competences = await competenceRepository.list();
+
   if (view === 'tube') {
     const tubes = await tubeRepository.list();
-    return campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes);
+    return campaignCollectiveResultRepository.getCampaignCollectiveResultByTube(campaignId, tubes, competences);
   }
 
-  const competences = await competenceRepository.list();
   return campaignCollectiveResultRepository.getCampaignCollectiveResultByCompetence(campaignId, competences);
 };

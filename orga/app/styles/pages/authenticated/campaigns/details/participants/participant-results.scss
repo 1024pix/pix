@@ -136,7 +136,7 @@
 }
 
 .participant-results-details {
-  &-competence__bullet {
+  &-line__bullet {
     font-size: 1.8rem;
     margin-right: 12px;
 
@@ -161,7 +161,7 @@
     }
   }
 
-  &__competence-wrapper {
+  &__line-wrapper {
     display: flex;
     align-items: center;
     height: inherit;

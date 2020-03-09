@@ -23,7 +23,7 @@ module.exports = {
     return new CampaignCollectiveResult({ id: campaignId, campaignCompetenceCollectiveResults });
   },
 
-  async getCampaignCollectiveResultByTube(campaignId, tubes) {
+  async getCampaignCollectiveResultByTube(campaignId, tubes, competences) {
 
     const { targetedSkillIds, targetedSkills, participantCount } = await _fetchData(campaignId);
 
@@ -31,7 +31,7 @@ module.exports = {
 
     const { targetedSkillsByColumn } = _groupByColumn(targetedSkills, 'tubeId');
 
-    const campaignTubeCollectiveResults = _forgeCampaignTubeCollectiveResults(campaignId, tubes, participantCount, targetedSkillsByColumn, participantsKECountBySkillId);
+    const campaignTubeCollectiveResults = _forgeCampaignTubeCollectiveResults(campaignId, tubes, competences, participantCount, targetedSkillsByColumn, participantsKECountBySkillId);
 
     return new CampaignCollectiveResult({ id: campaignId, campaignTubeCollectiveResults });
   }
@@ -156,9 +156,11 @@ function _forgeCampaignCompetenceCollectiveResults(campaignId, competences, part
     .value();
 }
 
-function _forgeCampaignTubeCollectiveResults(campaignId, tubes, participantCount, targetedSkillsByTubeId, participantsKECountBySkillId) {
+function _forgeCampaignTubeCollectiveResults(campaignId, tubes, competences, participantCount, targetedSkillsByTubeId, participantsKECountBySkillId) {
   return _.map(targetedSkillsByTubeId, (skills, tubeId) => {
     const tube = _.find(tubes, { id: tubeId });
+    const competenceId = tube.competenceId;
+    const competence = _.find(competences, { id: competenceId });
 
     const averageValidatedSkills = _.sumBy(skills, (skill) => participantsKECountBySkillId[skill.id] || 0) / participantCount || 0;
 
@@ -166,6 +168,7 @@ function _forgeCampaignTubeCollectiveResults(campaignId, tubes, participantCount
       campaignId,
       tubeId,
       tubePracticalTitle: tube.practicalTitle,
+      areaColor: competence.area.color,
       totalSkillsCount: _.size(skills),
       averageValidatedSkills,
     });

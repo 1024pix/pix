@@ -263,7 +263,8 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       await databaseBuilder.commit();
 
-      const competence1 = airtableBuilder.factory.buildCompetence({ id: 'recCompetence1', titre: 'Liberticide', acquisViaTubes: [ 'recSkillId1', 'recSkillId2' ] });
+      const area = airtableBuilder.factory.buildArea({ competenceIds: ['recCompetence1'], couleur: 'specialColor' });
+      const competence1 = airtableBuilder.factory.buildCompetence({ id: 'recCompetence1', titre: 'Liberticide', acquisViaTubes: [ 'recSkillId1', 'recSkillId2' ], domaineIds: [ area.id ] });
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
         airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: [ 'recCompetence1' ], tube: ['recTube1'] }),
         airtableBuilder.factory.buildSkill({ id: 'recSkillId2', ['compétenceViaTube']: [ 'recCompetence1' ], tube: ['recTube1'] }),
@@ -271,7 +272,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       const tube1 = airtableBuilder.factory.buildTube({ id: 'recTube1', titrePratique: 'Ceci est un titre pratique', competences: [ 'recCompetence1' ] });
       airtableBuilder.mockList({ tableName: 'Tubes' }).returns([ tube1 ]).activate();
       airtableBuilder.mockList({ tableName: 'Competences' }).returns([ competence1 ]).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([ airtableBuilder.factory.buildArea() ]).activate();
+      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([ area ]).activate();
     });
 
     afterEach(async () => {
@@ -396,6 +397,7 @@ describe('Acceptance | API | Campaign Controller', () => {
           id: `${campaign.id}_recTube1`,
           type: 'campaignTubeCollectiveResults',
           attributes: {
+            'area-color': 'specialColor',
             'average-validated-skills': 1,
             'total-skills-count': 2,
             'tube-id': 'recTube1',

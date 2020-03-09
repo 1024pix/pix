@@ -5,6 +5,7 @@ module.exports = function buildCampaignTubeCollectiveResult(
     campaignId,
     tubeId,
     tubePracticalTitle,
+    areaColor,
     totalSkillsCount,
     averageValidatedSkills,
   } = {}) {
@@ -12,6 +13,7 @@ module.exports = function buildCampaignTubeCollectiveResult(
     campaignId,
     tubeId,
     tubePracticalTitle,
+    areaColor,
     totalSkillsCount,
     averageValidatedSkills,
   });
