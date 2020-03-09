@@ -105,13 +105,14 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       });
 
       it('should display tutorials if any', async () => {
+        // given
+        const nbTutos = scorecardWithPoints.tutorials.models.length;
+
         // when
         await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
         // then
-        const nbTuto = scorecardWithPoints.tutorials.models.length;
-        expect(findAll('.tube')).to.have.lengthOf(nbTuto);
-        expect(findAll('.tutorial')).to.have.lengthOf(nbTuto);
+        expect(findAll('.tutorial-item')).to.have.lengthOf(nbTutos);
       });
 
       context('when it is remaining some days before reset', () => {

@@ -261,54 +261,9 @@ describe('Integration | Component | scorecard-details', function() {
           // then
           expect(find('.tutorials')).to.exist;
           expect(findAll('.tube')).to.have.lengthOf(2);
-          expect(findAll('.tutorial')).to.have.lengthOf(3);
+          expect(findAll('.tutorial-item')).to.have.lengthOf(3);
         });
 
-        it('should display the 4th tutorial of a tube on a new line', async function() {
-          // given
-          const tuto1 = EmberObject.create({
-            title: 'Tuto 1.1',
-            tubeName: '@first_tube',
-            tubePracticalTitle: 'Practical Title',
-            duration: '00:15:10',
-          });
-          const tuto2 = EmberObject.create({
-            title: 'Tuto 1.2',
-            tubeName: '@first_tube',
-            tubePracticalTitle: 'Practical Title',
-            duration: '00:04:00',
-          });
-          const tuto3 = EmberObject.create({
-            title: 'Tuto 1.3',
-            tubeName: '@first_tube',
-            tubePracticalTitle: 'Practical Title',
-            duration: '00:04:00',
-          });
-          const tuto4 = EmberObject.create({
-            title: 'Tuto 1.4',
-            tubeName: '@first_tube',
-            tubePracticalTitle: 'Practical Title',
-            duration: '00:04:00',
-          });
-
-          const tutorials = A([tuto1, tuto2, tuto3, tuto4]);
-
-          const scorecard = EmberObject.create({
-            competenceId: 1,
-            isStarted: true,
-            tutorials,
-          });
-
-          this.set('scorecard', scorecard);
-
-          // when
-          await render(hbs`{{scorecard-details scorecard=scorecard}}`);
-
-          // then
-          expect(find('.tutorials')).to.exist;
-          expect(findAll('.tube')).to.have.lengthOf(1);
-          expect(findAll('.tutorial')).to.have.lengthOf(4);
-        });
       });
     });
   });

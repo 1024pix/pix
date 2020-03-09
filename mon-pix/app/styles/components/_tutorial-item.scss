@@ -1,40 +1,76 @@
-.tutorial-item{
-  margin: 5px;
+.tutorial-item {
+  border-bottom: 1px solid $grey-20;
+  margin-bottom: 24px;
+}
 
-  hr {
-    height: 1px;
-    border: none;
-    color: $alto-grey;
-    background-color: $alto-grey;
-    margin: 15px 0;
+.tutorial__content {
+  padding-left: 24px;
+  position: relative;
+
+  &:after {
+    content: ' ';
+    display: block;
+    width: 4px;
+    height: calc(100% - 6px);
+    background: $grey-50;
+    border-radius: 50px;
+    position: absolute;
+    top: 6px;
+    left: 0;
   }
 }
 
-.tutorial-item__tutorial-details {
-  display: flex;
-  color: $raven-grey;
-  font-size: 1.3rem;
-  line-height: 1.2rem;
-  word-spacing: 0.3rem;
-  margin-top: 10px;
-  align-items: center;
-}
+.tutorial-content {
+  &__title {
+    font-size: 1.8rem;
+    font-weight: $font-medium;
+    line-height: 3rem;
+    letter-spacing: 0;
+    color: $grey-90;
+    margin-bottom: 4px;
+    display: inline-block;
+  }
 
-.tutorial-item__tutorial-details__format {
-  margin-right: 10px;
-}
+  &__description {
+    font-size: 1.4rem;
+    font-family: $font-roboto;
+    font-weight: $font-normal;
+    color: $grey-45;
+    line-height: 2.4rem;
+    margin: 0 0 14px;
 
-.tutorial-item__tutorial-title {
-  color: $pix-blue;
-  font-family: $font-open-sans;
-  font-size: 1.7rem;
-  font-weight: bold;
-  line-height: 1.7rem;
-}
+    .tutorial-content__format {
+      text-transform: capitalize;
+    }
+  }
 
-.tutorial-item__tutorial-title-url,
-.tutorial-item__tutorial-title-url:hover,
-.tutorial-item__tutorial-title-url:visited {
-  color: $pix-blue;
-  text-decoration: none;
+  &__competence-name {
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: 0.015rem;
+    margin: 0 0 8px;
+    color: $pix-blue-hover;
+    display: inline-block;
+  }
+
+  &__save-tutorial {
+    font-size: 1.3rem;
+    font-weight: $font-medium;
+    color: $grey-45;
+    letter-spacing: 0.045rem;
+    margin: 0 0 16px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: block;
+
+    svg {
+      margin-right: 4px;
+    }
+
+    &:hover {
+      filter: brightness(70%);
+      cursor: pointer;
+    }
+  }
 }

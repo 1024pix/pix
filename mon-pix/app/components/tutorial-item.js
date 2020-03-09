@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 export default Component.extend({
-  classNames: ['tutorial-item'],
+  tagName: '',
 
   imageForFormat: {
     'vidéo': 'video',
@@ -11,21 +11,8 @@ export default Component.extend({
   },
   tutorial: null,
 
-  displayedDuration: computed('tutorial', function() {
-    const durationByTime = this.tutorial.duration
-      .split(':')
-      .map((duration) => parseInt(duration));
-
-    const HOURS_OF_DURATION = durationByTime[0];
-    const MINUTES_OF_DURATION = durationByTime[1];
-
-    if (HOURS_OF_DURATION > 0) {
-      return durationByTime[0] + ' h';
-    }
-    if (MINUTES_OF_DURATION > 0) {
-      return durationByTime[1] + ' min';
-    }
-    return '1 min';
+  isUserTutorialsPage: computed('', function() {
+    return location.href.indexOf('mes-tutos') > 0;
   }),
 
   formatImageName: computed('tutorial', function() {
