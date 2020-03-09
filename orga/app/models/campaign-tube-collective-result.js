@@ -4,6 +4,9 @@ const { belongsTo, Model, attr } = DS;
 
 export default class CampaignTubeCollectiveResult extends Model {
   @attr('string')
+  competenceName;
+
+  @attr('string')
   tubePracticalTitle;
 
   @attr('string')

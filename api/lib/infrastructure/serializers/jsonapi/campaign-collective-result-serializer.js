@@ -12,7 +12,7 @@ module.exports = {
       campaignTubeCollectiveResults: {
         ref: 'id',
         includes: true,
-        attributes: ['tubeId', 'tubePracticalTitle', 'areaColor', 'totalSkillsCount', 'averageValidatedSkills'],
+        attributes: ['competenceName', 'tubeId', 'tubePracticalTitle', 'areaColor', 'totalSkillsCount', 'averageValidatedSkills'],
       },
     }).serialize(results);
   },

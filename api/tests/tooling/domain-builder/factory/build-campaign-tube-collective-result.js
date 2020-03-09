@@ -3,6 +3,7 @@ const CampaignTubeCollectiveResult = require('../../../../lib/domain/models/Camp
 module.exports = function buildCampaignTubeCollectiveResult(
   {
     campaignId,
+    competenceName,
     tubeId,
     tubePracticalTitle,
     areaColor,
@@ -11,6 +12,7 @@ module.exports = function buildCampaignTubeCollectiveResult(
   } = {}) {
   return new CampaignTubeCollectiveResult({
     campaignId,
+    competenceName,
     tubeId,
     tubePracticalTitle,
     areaColor,

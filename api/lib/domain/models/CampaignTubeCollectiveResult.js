@@ -3,6 +3,7 @@ class CampaignTubeCollectiveResult {
   constructor({
     // attributes
     campaignId,
+    competenceName,
     tubeId,
     tubePracticalTitle,
     areaColor,
@@ -11,6 +12,7 @@ class CampaignTubeCollectiveResult {
   } = {}) {
     // attributes
     this.campaignId = campaignId;
+    this.competenceName = competenceName;
     this.tubeId = tubeId;
     this.tubePracticalTitle = tubePracticalTitle;
     this.areaColor = areaColor;

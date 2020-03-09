@@ -64,7 +64,7 @@ module('Acceptance | Campaign Collective Result', function(hooks) {
     assert.dom('.table__empty').doesNotExist();
 
     assert.dom('table tbody tr:first-child td:first-child span:first-child').hasClass('participant-results-details-line__bullet--jaffa');
-    assert.dom('table tbody tr:first-child td:first-child span:nth-child(2)').hasText('Sujet A');
+    assert.dom('table tbody tr:first-child td:first-child span:nth-child(2)').hasText('Sujet ACompetence C');
     assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('50%');
   });
 });

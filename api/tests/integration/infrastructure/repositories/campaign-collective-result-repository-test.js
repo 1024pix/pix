@@ -581,6 +581,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
             {
               averageValidatedSkills: 0,
               campaignId,
+              competenceName: 'Competence C',
               tubeId: 'recTubeUrl',
               tubePracticalTitle: 'Tube url',
               areaColor: 'jaffa',
@@ -589,6 +590,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
             {
               averageValidatedSkills: 0,
               campaignId,
+              competenceName: 'Competence C',
               tubeId: 'recTubeFile',
               tubePracticalTitle: 'Tube file',
               areaColor: 'jaffa',
@@ -597,6 +599,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
             {
               averageValidatedSkills: 0,
               campaignId,
+              competenceName: 'Competence C',
               tubeId: 'recTubeBrowser',
               tubePracticalTitle: 'Tube browser',
               areaColor: 'jaffa',
@@ -605,6 +608,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
             {
               averageValidatedSkills: 0,
               campaignId,
+              competenceName: 'Competence E',
               tubeId: 'recTubeComputer',
               tubePracticalTitle: 'Tube computer',
               areaColor: 'emerald',
@@ -698,6 +702,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               {
                 averageValidatedSkills: 1,
                 campaignId,
+                competenceName: 'Competence C',
                 tubeId: 'recTubeUrl',
                 tubePracticalTitle: 'Tube url',
                 areaColor: 'jaffa',
@@ -706,6 +711,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               {
                 averageValidatedSkills: 2,
                 campaignId,
+                competenceName: 'Competence C',
                 tubeId: 'recTubeFile',
                 tubePracticalTitle: 'Tube file',
                 areaColor: 'jaffa',
@@ -714,6 +720,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               {
                 averageValidatedSkills: 0,
                 campaignId,
+                competenceName: 'Competence C',
                 tubeId: 'recTubeBrowser',
                 tubePracticalTitle: 'Tube browser',
                 areaColor: 'jaffa',
@@ -722,6 +729,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               {
                 averageValidatedSkills: 0,
                 campaignId,
+                competenceName: 'Competence E',
                 tubeId: 'recTubeComputer',
                 tubePracticalTitle: 'Tube computer',
                 areaColor: 'emerald',
@@ -806,6 +814,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               {
                 averageValidatedSkills: 2 / 2,
                 campaignId,
+                competenceName: 'Competence C',
                 tubeId: 'recTubeUrl',
                 tubePracticalTitle: 'Tube url',
                 areaColor: 'jaffa',
@@ -814,6 +823,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               {
                 averageValidatedSkills: 1 / 2,
                 campaignId,
+                competenceName: 'Competence C',
                 tubeId: 'recTubeFile',
                 tubePracticalTitle: 'Tube file',
                 areaColor: 'jaffa',
@@ -822,6 +832,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               {
                 averageValidatedSkills: 0 / 2,
                 campaignId,
+                competenceName: 'Competence C',
                 tubeId: 'recTubeBrowser',
                 tubePracticalTitle: 'Tube browser',
                 areaColor: 'jaffa',
@@ -830,6 +841,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               {
                 averageValidatedSkills: 1 / 2,
                 campaignId,
+                competenceName: 'Competence E',
                 tubeId: 'recTubeComputer',
                 tubePracticalTitle: 'Tube computer',
                 areaColor: 'emerald',

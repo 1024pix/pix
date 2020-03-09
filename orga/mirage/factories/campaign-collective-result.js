@@ -28,6 +28,7 @@ export default Factory.extend({
     afterCreate(campaignCollectiveResult, server) {
       const tubeCollectiveResult_1 = server.create('campaign-tube-collective-result', {
         tubePracticalTitle: 'Sujet A',
+        competenceName: 'Competence C',
         tubeId: 'recTubeA',
         areaColor: 'jaffa',
         averageValidatedSkills: '5',
@@ -35,6 +36,7 @@ export default Factory.extend({
       });
       const tubeCollectiveResult_2 = server.create('campaign-tube-collective-result', {
         tubePracticalTitle: 'Sujet B',
+        competenceName: 'Competence C',
         TubeId: 'recTubeB',
         areaColor: 'emerald',
         averageValidatedSkills: '0',

@@ -399,6 +399,7 @@ describe('Acceptance | API | Campaign Controller', () => {
           attributes: {
             'area-color': 'specialColor',
             'average-validated-skills': 1,
+            'competence-name': 'Liberticide',
             'total-skills-count': 2,
             'tube-id': 'recTube1',
             'tube-practical-title': 'Ceci est un titre pratique',

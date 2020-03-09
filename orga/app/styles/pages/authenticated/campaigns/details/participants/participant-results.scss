@@ -165,6 +165,13 @@
     display: flex;
     align-items: center;
     height: inherit;
+
+    sub {
+      color: $n60-blue-zodiac;
+      font-family: $open-sans;
+      font-size: 0.6875rem;
+      font-weight: normal;
+    }
   }
 }
 

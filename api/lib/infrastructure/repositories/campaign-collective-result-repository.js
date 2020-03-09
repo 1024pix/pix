@@ -167,6 +167,7 @@ function _forgeCampaignTubeCollectiveResults(campaignId, tubes, competences, par
     return new CampaignTubeCollectiveResult({
       campaignId,
       tubeId,
+      competenceName: competence.name,
       tubePracticalTitle: tube.practicalTitle,
       areaColor: competence.area.color,
       totalSkillsCount: _.size(skills),
