@@ -7,11 +7,11 @@
 }
 
 .btn-outline-default {
-  border: 1px solid $grey-border;
-  color: #212529;
+  border: 1px solid $grey-22;
+  color: $grey-90;
 
   &:hover {
-    background: $grey-body;
+    background: $grey-15;
     color: inherit !important;
   }
 }
@@ -31,7 +31,7 @@
   transition: background-color 0.2s ease;
 
   &:hover, &:active, &:focus {
-    background-color: $pix-blue-hover;
+    background-color: darken($pix-blue, 10%);
   }
 }
 

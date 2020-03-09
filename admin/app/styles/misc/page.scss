@@ -1,12 +1,12 @@
 .page {
 
   .page-header {
-    background: #ffffff;
+    background: $white;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid $grey-20;
     position: fixed;
     top: 0;
     left: 80px;
@@ -29,7 +29,7 @@
     padding: 10px;
 
     .page-section {
-      background: #FFFFFF;
+      background: $white;
       border-radius: 5px;
       padding: 20px;
 

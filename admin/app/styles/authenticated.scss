@@ -13,17 +13,16 @@ body > div.ember-view {
     width: $app-sidebar-width-sm;
     min-width: $app-sidebar-width-sm;
     height: 100%;
-    background-color: #284255;
+    background-color: $grey-70;
 
     .app-logo {
       text-align: center;
-      border-bottom: 1px solid $grey-border;
-      border-bottom: 1px solid #333;
+      border-bottom: 1px solid $grey-100;
       height: $app-header-height;
       width: 100%;
 
       .app-logo__link {
-        color: #FFFFFF;
+        color: $white;
         background-color: $pix-blue;
         display: block;
         line-height: $app-header-height;
@@ -38,47 +37,12 @@ body > div.ember-view {
   }
 
   .app-body {
-    background-color: $grey-body;
+    background-color: $grey-15;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-
-    .app-header {
-      background-color: #FFFFFF;
-      border-bottom: 1px solid $grey-border;
-      min-height: $app-header-height;
-      display: flex;
-
-      .app-search-bar {
-        padding: 20px;
-      }
-
-      .app-actions {
-        font-size: 1.5rem;
-        text-align: right;
-
-        .app-action__logout {
-          display: inline-block;
-          width: $app-header-height;
-          height: $app-header-height;
-          line-height: $app-header-height;
-          text-align: center;
-          color: #FFFFFF;
-          background-color: #333;
-
-          &:hover {
-            background-color: #dc3545;
-          }
-
-          i.fa {
-            font-size: 1.5rem;
-          }
-
-        }
-      }
-    }
 
     .app-page {
       position: relative;
