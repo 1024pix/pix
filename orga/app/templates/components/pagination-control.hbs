@@ -2,7 +2,7 @@
   <div class="page-size">
     <div class="page-size__label">Voir</div>
     <div class="page-size__choice">
-      <select class="select content-text content-text--small" {{on "change" this.changePageSize value='target.value'}}>
+      <select class="select content-text content-text--small" {{on "change" this.changePageSize}}>
         <option value="10" selected="{{if (eq this.pagination.pageSize 10) true}}">10</option>
         <option value="25" selected="{{if (eq this.pagination.pageSize 25) true}}">25</option>
         <option value="50" selected="{{if (eq this.pagination.pageSize 50) true}}">50</option>

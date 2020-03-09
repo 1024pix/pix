@@ -19,7 +19,7 @@ export default class PaginationControl extends Component {
   }
 
   @action
-  changePageSize(pageSize) {
-    this.router.replaceWith({ queryParams: { pageSize, pageNumber: 1 } });
+  changePageSize(event) {
+    this.router.replaceWith({ queryParams: { pageSize: event.target.value, pageNumber: 1 } });
   }
 }
