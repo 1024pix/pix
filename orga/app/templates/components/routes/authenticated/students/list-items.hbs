@@ -2,7 +2,7 @@
   <div class="page__title page-title">Élèves</div>
   {{#if this.currentUser.isAdminInOrganization}}
     <div class="list-students-page__import-students-button">
-      <FileUpload @name="file-upload" @for="students-file-upload" @accept=".xml" @multiple={{false}} @onfileadd={{action importStudents}}>
+      <FileUpload @name="file-upload" @for="students-file-upload" @accept=".xml" @multiple={{false}} @onfileadd={{fn this.importStudents}}>
         <span class="button" role="button" tabindex=0>Importer (.xml)</span>
       </FileUpload>
     </div>
@@ -22,9 +22,9 @@
       </tr>
       </thead>
 
-      {{#if students}}
+      {{#if @students}}
         <tbody>
-        {{#each students as |student|}}
+        {{#each @students as |student|}}
           <tr>
             <td>{{student.lastName}}</td>
             <td>{{student.firstName}}</td>
@@ -34,7 +34,7 @@
               {{#if student.hasUsername}}
                 <div class="tooltip">
                   <span class="tooltip-text list-students-page__tooltip">Gérer</span>
-                  <button class="button button--round-with-icon list-students-page__manage-button" type="button" {{action 'openPasswordReset' student}}>
+                  <button class="button button--round-with-icon list-students-page__manage-button" type="button" {{on 'click' (fn this.openPasswordReset student)}}>
                     {{fa-icon "cog" }}
                   </button>
                 </div>
@@ -47,17 +47,17 @@
       {{/if}}
     </table>
 
-    {{#unless students}}
+    {{#unless @students}}
       <div class="table__empty content-text">En attente d'élèves</div>
     {{/unless}}
   </div>
 
-  {{#if isShowingModal}}
-    <PasswordResetWindow @student={{student}} @isShowingModal={{isShowingModal}} />
+  {{#if this.isShowingModal}}
+    <PasswordResetWindow @student={{this.student}} @isShowingModal={{this.isShowingModal}} />
   {{/if}}
 </div>
 
-{{#if isLoading}}
+{{#if this.isLoading}}
   <ModalDialog @translucentOverlay={{true}} @containerClass="pix-modal__translucent">
     <img src="/images/interwind.gif" alt="Chargement…">
   </ModalDialog>

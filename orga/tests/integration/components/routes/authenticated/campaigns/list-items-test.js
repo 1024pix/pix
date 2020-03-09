@@ -24,9 +24,9 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::ListItems 
-                @campaigns={{campaigns}} 
-                @triggerFiltering={{this.triggerFilteringSpy}} 
+    await render(hbs`<Routes::Authenticated::Campaigns::ListItems
+                @campaigns={{campaigns}}
+                @triggerFiltering={{this.triggerFilteringSpy}}
                 @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
     // then
@@ -54,9 +54,9 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::ListItems 
-                @campaigns={{campaigns}} 
-                @triggerFiltering={{this.triggerFilteringSpy}} 
+    await render(hbs`<Routes::Authenticated::Campaigns::ListItems
+                @campaigns={{campaigns}}
+                @triggerFiltering={{this.triggerFilteringSpy}}
                 @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
     // then
@@ -95,9 +95,9 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::ListItems 
-                @campaigns={{campaigns}} 
-                @triggerFiltering={{this.triggerFilteringSpy}} 
+    await render(hbs`<Routes::Authenticated::Campaigns::ListItems
+                @campaigns={{campaigns}}
+                @triggerFiltering={{this.triggerFilteringSpy}}
                 @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
     // then
@@ -152,9 +152,9 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::ListItems 
-                @campaigns={{campaigns}} 
-                @triggerFiltering={{this.triggerFilteringSpy}} 
+    await render(hbs`<Routes::Authenticated::Campaigns::ListItems
+                @campaigns={{campaigns}}
+                @triggerFiltering={{this.triggerFilteringSpy}}
                 @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
     // then
@@ -184,9 +184,9 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::ListItems 
-                @campaigns={{campaigns}} 
-                @triggerFiltering={{this.triggerFilteringSpy}} 
+    await render(hbs`<Routes::Authenticated::Campaigns::ListItems
+                @campaigns={{campaigns}}
+                @triggerFiltering={{this.triggerFilteringSpy}}
                 @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
     // then
@@ -216,9 +216,9 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::ListItems 
-                @campaigns={{campaigns}} 
-                @triggerFiltering={{this.triggerFilteringSpy}} 
+    await render(hbs`<Routes::Authenticated::Campaigns::ListItems
+                @campaigns={{campaigns}}
+                @triggerFiltering={{this.triggerFilteringSpy}}
                 @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
     // then

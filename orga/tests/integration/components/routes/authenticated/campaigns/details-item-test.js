@@ -48,8 +48,7 @@ module('Integration | Component | routes/authenticated/campaign | details-item',
     this.set('campaign', campaign);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/details-item campaign=campaign}}`);
-
+    await render(hbs`<Routes::Authenticated::Campaigns::DetailsItem @campaign={{campaign}}/>`);
     // then
     assert.dom('.campaign-details-header-report__info:nth-child(1) .campaign-details-content__text').hasText('1234PixTest');
     assert.dom('.campaign-details-header-report__info:nth-child(2) .campaign-details-content__text').hasText('10');
