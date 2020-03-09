@@ -37,8 +37,8 @@ module.exports = async function getCampaignParticipationResult(
     badge
   });
 
-  if (!_.isEmpty(badge)) {
-    campaignParticipationResult.areBadgeCriteriaValidated = await badgeCriteriaService.reviewBadgeCriteria({ campaignParticipationResult });
+  if (_hasBadgeInformation(badge)) {
+    campaignParticipationResult.areBadgeCriteriaFulfilled = badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult });
   }
 
   return campaignParticipationResult;
@@ -54,4 +54,8 @@ async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaign
   if (!campaignParticipationBelongsToUser && !userIsMemberOfCampaignOrganization) {
     throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign participation');
   }
+}
+
+function _hasBadgeInformation(badge) {
+  return !_.isEmpty(badge);
 }

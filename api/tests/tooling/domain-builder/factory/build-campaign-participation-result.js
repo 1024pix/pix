@@ -5,7 +5,7 @@ const faker = require('faker');
 module.exports = function buildCampaignParticipationResult(
   {
     id = 1,
-    areBadgeCriteriaValidated = false,
+    areBadgeCriteriaFulfilled = false,
     isCompleted = faker.random.boolean(),
     masteryPercentage = 50,
     totalSkillsCount = 10,
@@ -16,7 +16,7 @@ module.exports = function buildCampaignParticipationResult(
   } = {}) {
   return new CampaignParticipationResult({
     id,
-    areBadgeCriteriaValidated,
+    areBadgeCriteriaFulfilled,
     isCompleted,
     masteryPercentage,
     totalSkillsCount,

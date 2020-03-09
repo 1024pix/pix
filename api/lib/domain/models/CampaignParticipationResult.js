@@ -5,7 +5,7 @@ class CampaignParticipationResult {
   constructor({
     id,
     // attributes
-    areBadgeCriteriaValidated,
+    areBadgeCriteriaFulfilled,
     isCompleted,
     masteryPercentage,
     totalSkillsCount,
@@ -17,7 +17,7 @@ class CampaignParticipationResult {
   } = {}) {
     this.id = id;
     // attributes
-    this.areBadgeCriteriaValidated = areBadgeCriteriaValidated;
+    this.areBadgeCriteriaFulfilled = areBadgeCriteriaFulfilled;
     this.isCompleted = isCompleted;
     this.masteryPercentage = masteryPercentage;
     this.totalSkillsCount = totalSkillsCount;
@@ -46,7 +46,7 @@ class CampaignParticipationResult {
       totalSkillsCount,
       testedSkillsCount,
       validatedSkillsCount,
-      areBadgeCriteriaValidated: false,
+      areBadgeCriteriaFulfilled: false,
       isCompleted: assessment.isCompleted(),
       competenceResults: targetedCompetenceResults,
       badge,

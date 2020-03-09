@@ -9,10 +9,10 @@ export default Controller.extend({
   displayImprovementButton: false,
   pageTitle: 'Résultat',
 
-  shouldShowBadge: computed('model.{campaignParticipation.campaignParticipationResult.badge,campaignParticipation.campaignParticipationResult.areBadgeCriteriaValidated}', function() {
+  shouldShowBadge: computed('model.{campaignParticipation.campaignParticipationResult.badge,campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled}', function() {
     const badge = this.get('model.campaignParticipation.campaignParticipationResult.badge.content');
-    const areBadgeCriteriaValidated = this.get('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaValidated');
-    return (!_.isEmpty(badge) && areBadgeCriteriaValidated);
+    const areBadgeCriteriaFulfilled = this.get('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled');
+    return (!_.isEmpty(badge) && areBadgeCriteriaFulfilled);
   }),
 
   actions: {
