@@ -5,7 +5,9 @@ class CampaignParticipationResult {
   constructor({
     id,
     // attributes
+    areBadgeCriteriaFulfilled,
     isCompleted,
+    masteryPercentage,
     totalSkillsCount,
     testedSkillsCount,
     validatedSkillsCount,
@@ -15,7 +17,9 @@ class CampaignParticipationResult {
   } = {}) {
     this.id = id;
     // attributes
+    this.areBadgeCriteriaFulfilled = areBadgeCriteriaFulfilled;
     this.isCompleted = isCompleted;
+    this.masteryPercentage = masteryPercentage;
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = testedSkillsCount;
     this.validatedSkillsCount = validatedSkillsCount;
@@ -31,11 +35,18 @@ class CampaignParticipationResult {
     const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds);
     const targetedCompetenceResults = _.map(targetedCompetences, (competence) => _getTestedCompetenceResults(competence, targetedKnowledgeElements));
 
+    const validatedSkillsCount = _.sumBy(targetedCompetenceResults, 'validatedSkillsCount');
+    const totalSkillsCount = _.sumBy(targetedCompetenceResults, 'totalSkillsCount');
+    const testedSkillsCount = _.sumBy(targetedCompetenceResults, 'testedSkillsCount');
+    const masteryPercentage = Math.round(validatedSkillsCount * 100 / totalSkillsCount);
+
     return new CampaignParticipationResult({
       id: campaignParticipationId,
-      totalSkillsCount: _.sumBy(targetedCompetenceResults, 'totalSkillsCount'),
-      testedSkillsCount: _.sumBy(targetedCompetenceResults, 'testedSkillsCount'),
-      validatedSkillsCount: _.sumBy(targetedCompetenceResults, 'validatedSkillsCount'),
+      masteryPercentage,
+      totalSkillsCount,
+      testedSkillsCount,
+      validatedSkillsCount,
+      areBadgeCriteriaFulfilled: false,
       isCompleted: assessment.isCompleted(),
       competenceResults: targetedCompetenceResults,
       badge,

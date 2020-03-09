@@ -10,7 +10,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
   const userId = 2;
   const campaignId = 'campaignId';
   const otherUserId = 3;
-  const campaignParticipationResult = { id: 'foo' };
   const campaignParticipation = {
     campaignId,
     userId,
@@ -21,6 +20,10 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
   const targetProfile = {
     id: 1
   };
+  const campaignParticipationResult = {
+    id: 'foo',
+    badge
+  };
 
   let campaignParticipationRepository,
     campaignRepository,
@@ -28,7 +31,10 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     competenceRepository,
     assessmentRepository,
     badgeRepository,
-    knowledgeElementRepository;
+    knowledgeElementRepository,
+    badgeCriteriaService;
+
+  let usecaseDependencies;
 
   beforeEach(() => {
     campaignParticipationRepository = { get: sinon.stub() };
@@ -38,62 +44,105 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     assessmentRepository = { get: sinon.stub() };
     badgeRepository = { findOneByTargetProfileId: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+    badgeCriteriaService = { areBadgeCriteriaFulfilled: sinon.stub() };
     sinon.stub(CampaignParticipationResult, 'buildFrom').returns(campaignParticipationResult);
+
+    usecaseDependencies = {
+      userId,
+      campaignParticipationId,
+      campaignParticipationRepository,
+      campaignRepository,
+      targetProfileRepository,
+      competenceRepository,
+      assessmentRepository,
+      badgeRepository,
+      knowledgeElementRepository,
+      badgeCriteriaService,
+    };
   });
 
   context('when user belongs to the organization of the campaign', () => {
-
-    it('should get the campaignParticipationResult', async () => {
+    beforeEach(() => {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
       targetProfileRepository.getByCampaignId.withArgs(campaignParticipation.campaignId).resolves(targetProfile);
-      badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(badge);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, otherUserId).resolves(true);
+    });
 
-      // when
-      const actualCampaignParticipationResult = await getCampaignParticipationResult({
-        userId: otherUserId,
-        campaignParticipationId,
-        campaignParticipationRepository,
-        campaignRepository,
-        targetProfileRepository,
-        competenceRepository,
-        assessmentRepository,
-        badgeRepository,
-        knowledgeElementRepository,
+    context('when a badge is available for the campaignParticipationResult', () => {
+      beforeEach(() => {
+        // given
+        badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(badge);
+        badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(true);
       });
 
-      // then
-      expect(actualCampaignParticipationResult).to.deep.equal(campaignParticipationResult);
+      it('should get the campaignParticipationResult', async () => {
+        // when
+        const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
+
+        // then
+        expect(actualCampaignParticipationResult).to.deep.equal(campaignParticipationResult);
+      });
     });
+
+    context('when no badge is available for the campaignParticipationResult', () => {
+      beforeEach(() => {
+        // given
+        badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves({});
+        badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(false);
+      });
+
+      it('should get the campaignParticipationResult', async () => {
+        // when
+        const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
+
+        // then
+        expect(actualCampaignParticipationResult).to.deep.equal(campaignParticipationResult);
+      });
+    });
+
   });
 
   context('when campaignParticipation belongs to user', () => {
-
-    it('should get the campaignParticipationResult', async () => {
+    beforeEach(() => {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
       targetProfileRepository.getByCampaignId.withArgs(campaignParticipation.campaignId).resolves(targetProfile);
-      badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(badge);
-
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, otherUserId).resolves(false);
+    });
 
-      // when
-      const actualCampaignParticipationResult = await getCampaignParticipationResult({
-        userId,
-        campaignParticipationId,
-        campaignParticipationRepository,
-        campaignRepository,
-        targetProfileRepository,
-        competenceRepository,
-        assessmentRepository,
-        badgeRepository,
-        knowledgeElementRepository,
+    context('when a badge is available for the campaignParticipationResult', () => {
+      beforeEach(() => {
+        // given
+        badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(badge);
+        badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(true);
       });
 
-      // then
-      expect(actualCampaignParticipationResult).to.deep.equal(campaignParticipationResult);
+      it('should get the campaignParticipationResult', async () => {
+        // when
+        const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
+
+        // then
+        expect(actualCampaignParticipationResult).to.deep.equal(campaignParticipationResult);
+      });
     });
+
+    context('when no badge is available for the campaignParticipationResult', () => {
+      beforeEach(() => {
+        // given
+        badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves({});
+        badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(false);
+      });
+
+      it('should get the campaignParticipationResult', async () => {
+        // when
+        const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
+
+        // then
+        expect(actualCampaignParticipationResult).to.deep.equal(campaignParticipationResult);
+      });
+    });
+
   });
 
   context('when user not belongs to the organization of the campaign or not own this campaignParticipation', () => {
