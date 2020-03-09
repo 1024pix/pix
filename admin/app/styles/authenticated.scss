@@ -13,11 +13,11 @@ body > div.ember-view {
     width: $app-sidebar-width-sm;
     min-width: $app-sidebar-width-sm;
     height: 100%;
-    background-color: $n70;
+    background-color: $grey-70;
 
     .app-logo {
       text-align: center;
-      border-bottom: 1px solid $n100;
+      border-bottom: 1px solid $grey-100;
       height: $app-header-height;
       width: 100%;
 
@@ -37,7 +37,7 @@ body > div.ember-view {
   }
 
   .app-body {
-    background-color: $n15;
+    background-color: $grey-15;
     width: 100%;
     height: 100%;
     display: flex;
