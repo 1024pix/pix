@@ -56,7 +56,7 @@ export default function() {
 
   this.patch('/memberships/:id', (schema, request) => {
     const id = request.params.id;
-    return schema.memberships.where({ id });
+    return schema.memberships.find(id);
   });
 
   this.get('/organizations/:id/campaigns', (schema) => {
@@ -205,7 +205,9 @@ export default function() {
       return new Response(500, {}, { errors: [ { status: '500', detail: '' } ] });
     }
 
-    return schema.users.find(1);
+    const user = schema.users.find(1);
+    user.modelName = 'student-dependent-users';
+    return user;
   });
 
   this.post('/user-orga-settings', (schema, request) => {
