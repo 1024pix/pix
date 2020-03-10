@@ -68,6 +68,7 @@ export default class PasswordResetWindow extends Component {
     this.set('validation.password.message', message);
   }
 
+  @action
   closePasswordReset() {
     this.set('studentUser', null);
     this.set('validation', null);
