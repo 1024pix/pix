@@ -12,6 +12,7 @@ module.exports = function buildCompetenceResult(
     testedSkillsCount = 8,
     validatedSkillsCount = 5,
   } = {}) {
+
   return new CompetenceResult({
     id,
     name,
