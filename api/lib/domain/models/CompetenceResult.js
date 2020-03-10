@@ -14,6 +14,7 @@ class CompetenceResult {
     this.name = name;
     this.index = index;
     this.areaColor = areaColor;
+    this.masteryPercentage = Math.round(validatedSkillsCount * 100 / totalSkillsCount);
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = testedSkillsCount;
     this.validatedSkillsCount = validatedSkillsCount;

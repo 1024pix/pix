@@ -21,7 +21,6 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
       const testedSkillsCount = competenceResults[0].testedSkillsCount + competenceResults[1].testedSkillsCount;
       const totalSkillsCount = competenceResults[0].totalSkillsCount + competenceResults[1].totalSkillsCount;
       const validatedSkillsCount = competenceResults[0].validatedSkillsCount + competenceResults[1].validatedSkillsCount;
-      const masteryPercentage = validatedSkillsCount * 100 / totalSkillsCount;
 
       const campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
         areBadgeCriteriaFulfilled: true,
@@ -37,7 +36,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
           attributes: {
             'are-badge-criteria-fulfilled': true,
             'is-completed': true,
-            'mastery-percentage': masteryPercentage,
+            'mastery-percentage': 50,
             'tested-skills-count': testedSkillsCount,
             'total-skills-count': totalSkillsCount,
             'validated-skills-count': validatedSkillsCount,
@@ -68,6 +67,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
               'area-color': competenceResults[0].areaColor,
               index: competenceResults[0].index,
               name: competenceResults[0].name,
+              'mastery-percentage': 50,
               'tested-skills-count': competenceResults[0].testedSkillsCount,
               'total-skills-count': competenceResults[0].totalSkillsCount,
               'validated-skills-count': competenceResults[0].validatedSkillsCount,
@@ -80,6 +80,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
               'area-color': competenceResults[1].areaColor,
               index: competenceResults[1].index,
               name: competenceResults[1].name,
+              'mastery-percentage': 50,
               'tested-skills-count': competenceResults[1].testedSkillsCount,
               'total-skills-count': competenceResults[1].totalSkillsCount,
               'validated-skills-count': competenceResults[1].validatedSkillsCount,
