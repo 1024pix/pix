@@ -72,7 +72,7 @@ function _countCampaignParticipations(qb) {
   );
 }
 
-function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true }) {
+function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, creatorId }) {
   if (name) {
     qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
   }
@@ -80,6 +80,9 @@ function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true }) {
     qb.whereNull('campaigns.archivedAt');
   } else {
     qb.whereNotNull('campaigns.archivedAt');
+  }
+  if (creatorId) {
+    qb.where('campaigns.creatorId', creatorId);
   }
 }
 

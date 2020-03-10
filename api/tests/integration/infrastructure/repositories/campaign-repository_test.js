@@ -339,6 +339,34 @@ describe('Integration | Repository | Campaign', () => {
         });
       });
 
+      context('when some campaigns creatorId match the the given creatorId searched', () => {
+
+        let filter;
+
+        beforeEach(() => {
+          const creatorId1 = databaseBuilder.factory.buildUser({}).id;
+          const creatorId2 = databaseBuilder.factory.buildUser({}).id;
+
+          filter = { creatorId: creatorId1 };
+
+          _.each([
+            { name: 'Maths L1', creatorId: creatorId1 },
+            { name: 'Maths L2', creatorId: creatorId2 },
+            { name: 'Chimie', creatorId: creatorId1 },
+          ], (campaign) => {
+            databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+          });
+
+          return databaseBuilder.commit();
+        });
+
+        it('should return the campaign with right creatorId', async () => {
+          const { models: actualCampaignsWithReports } = await campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page });
+
+          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
+        });
+      });
+
       context('when the given filter search property is not searchable', () => {
         // given
         const filter = { code: 'FAKECODE' };
