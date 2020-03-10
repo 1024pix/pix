@@ -2,7 +2,7 @@ const { expect, nock, databaseBuilder } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const createServer = require('../../../../server');
 
-describe('Acceptance | API | assessment-controller-get-nonadaptive', function() {
+describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo', function() {
 
   let server;
 
@@ -19,11 +19,10 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
       .times(4)
       .reply(200, {
         records: [{
-          'id': 'a_non_adaptive_course_id',
+          'id': 'course_id',
           'fields': {
             // a bunch of fields
-            'id persistant': 'a_non_adaptive_course_id',
-            'Adaptatif ?': false,
+            'id persistant': 'course_id',
             'Competence (id persistant)': ['competence_id'],
             '\u00c9preuves (id persistant)': [
               'second_challenge',
@@ -86,7 +85,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
     return cache.flushAll();
   });
 
-  describe('(non-adaptive) GET /api/assessments/:assessment_id/next', () => {
+  describe('(demo) GET /api/assessments/:assessment_id/next', () => {
 
     const assessmentId = 1;
 
@@ -96,7 +95,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
         databaseBuilder.factory.buildAssessment({
           id: assessmentId,
           type: 'DEMO',
-          courseId: 'a_non_adaptive_course_id'
+          courseId: 'course_id'
         });
         return databaseBuilder.commit();
       });
@@ -153,7 +152,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
         databaseBuilder.factory.buildAssessment({
           id: assessmentId,
           type: 'DEMO',
-          courseId: 'a_non_adaptive_course_id'
+          courseId: 'course_id'
         });
         databaseBuilder.factory.buildAnswer({ challengeId: 'first_challenge', assessmentId });
         return databaseBuilder.commit();
@@ -181,7 +180,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
         databaseBuilder.factory.buildAssessment({
           id: assessmentId,
           type: 'DEMO',
-          courseId: 'a_non_adaptive_course_id'
+          courseId: 'course_id'
         });
         databaseBuilder.factory.buildAnswer({ challengeId: 'first_challenge', assessmentId });
         databaseBuilder.factory.buildAnswer({ challengeId: 'second_challenge', assessmentId });
