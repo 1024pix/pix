@@ -5,6 +5,7 @@
         <tr>
           <th>Nom</th>
           <th>Type</th>
+          <th>Identifiant externe</th>
         </tr>
         <tr>
           <th>{{input id="name" value=nameValue keyUp=(action triggerFiltering 'name' nameValue) class="table-admin-input"}}</th>
@@ -18,6 +19,7 @@
           <tr onclick={{action goToOrganizationPage organization.id}} class="tr--clickable">
             <td>{{organization.name}}</td>
             <td>{{organization.type}}</td>
+            <td>{{organization.externalId}}</td>
           </tr>
         {{/each}}
         </tbody>
