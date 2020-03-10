@@ -297,4 +297,39 @@ describe('Acceptance | Interface | Controller | SecurityController', function() 
 
   });
 
+  describe('#checkUserBelongsToOrganizationOrHasRolePixMaster', () => {
+    let userId;
+    let organizationId;
+
+    beforeEach(() => {
+      userId = databaseBuilder.factory.buildUser().id;
+      return databaseBuilder.commit();
+    });
+
+    it('should return a well formed JSON API error when user is neither in the organization nor PIXMASTER', async () => {
+      // given
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
+      const options = {
+        method: 'GET',
+        url: `/api/organizations/${organizationId}/memberships`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      const jsonApiError = {
+        errors: [{
+          code: 403,
+          title: 'Forbidden access',
+          detail: 'Missing or insufficient permissions.'
+        }]
+      };
+      expect(response.statusCode).to.equal(403);
+      expect(response.result).to.deep.equal(jsonApiError);
+    });
+  });
+
 });
