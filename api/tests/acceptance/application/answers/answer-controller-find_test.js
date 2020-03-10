@@ -1,7 +1,7 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | answer-controller', () => {
+describe('Acceptance | Controller | answer-controller-find', () => {
 
   describe('GET /api/answers?challengeId=Y&assessmentId=Z', () => {
 
@@ -11,7 +11,39 @@ describe('Acceptance | Controller | answer-controller', () => {
     let answer;
     const challengeId = 'recLt9uwa2dR3IYpi';
 
+    context('when the assessmentid passed in query param is not an integer', () => {
+
+      beforeEach(async () => {
+        server = await createServer();
+        userId = databaseBuilder.factory.buildUser().id;
+        await databaseBuilder.commit();
+        options = {
+          method: 'GET',
+          url: `/api/answers?challenge=${challengeId}&assessment=salut`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+      });
+
+      it('should return 200 HTTP status code', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // given
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return no answer', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // given
+        expect(response.result.data).to.be.null;
+      });
+
+    });
+
     context('when the assessment has an userId (is not a demo or preview)', () => {
+
       beforeEach(async () => {
         server = await createServer();
         userId = databaseBuilder.factory.buildUser().id;
@@ -25,44 +57,40 @@ describe('Acceptance | Controller | answer-controller', () => {
         };
       });
 
-      it('should return 200 HTTP status code', () => {
+      it('should return 200 HTTP status code', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // given
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(200);
       });
 
-      it('should return application/json', () => {
+      it('should return application/json', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // given
-        return promise.then((response) => {
-          const contentType = response.headers['content-type'];
-          expect(contentType).to.contain('application/json');
-        });
+        const contentType = response.headers['content-type'];
+        expect(contentType).to.contain('application/json');
       });
 
-      it('should return required answer', () => {
+      it('should return required answer', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // given
-        return promise.then((response) => {
-          const answerReceived = response.result.data;
-          expect(answerReceived.id).to.equal(answer.id.toString());
-          expect(answerReceived.attributes.value.toString()).to.equal(answer.value.toString());
-          expect(answerReceived.attributes.result.toString()).to.equal(answer.result.toString());
-          expect(answerReceived.relationships.assessment.data.id.toString()).to.equal(answer.assessmentId.toString());
-          expect(answerReceived.relationships.challenge.data.id.toString()).to.equal(answer.challengeId.toString());
-        });
+        const answerReceived = response.result.data;
+        expect(answerReceived.id).to.equal(answer.id.toString());
+        expect(answerReceived.attributes.value.toString()).to.equal(answer.value.toString());
+        expect(answerReceived.attributes.result.toString()).to.equal(answer.result.toString());
+        expect(answerReceived.relationships.assessment.data.id.toString()).to.equal(answer.assessmentId.toString());
+        expect(answerReceived.relationships.challenge.data.id.toString()).to.equal(answer.challengeId.toString());
       });
 
     });
+    
     context('when the assessment has an userId but the user is not the relevant user', () => {
+      
       beforeEach(async () => {
         server = await createServer();
         userId = databaseBuilder.factory.buildUser().id;
@@ -76,18 +104,25 @@ describe('Acceptance | Controller | answer-controller', () => {
         };
       });
 
-      it('should return 403 HTTP status code', () => {
+      it('should return 200 HTTP status code', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // given
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return no answer', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // given
+        expect(response.result.data).to.be.null;
       });
     });
 
     context('when the assessment is demo and there is no userId', () => {
+      
       beforeEach(async () => {
         server = await createServer();
         const assessment = databaseBuilder.factory.buildAssessment({ userId: null, type: 'DEMO' });
@@ -99,14 +134,12 @@ describe('Acceptance | Controller | answer-controller', () => {
         };
       });
 
-      it('should return 200 HTTP status code', () => {
+      it('should return 200 HTTP status code', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // given
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(200);
       });
     });
   });
