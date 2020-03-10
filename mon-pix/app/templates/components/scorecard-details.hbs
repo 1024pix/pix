@@ -81,13 +81,13 @@
 <div class="scorecard-details__content">
   <div class="tutorials">
     <div class="tutorials__header">
-      <h2 class="tutorials-header__title">Cultivez vos compétences</h2>
+      <h3 class="tutorials-header__title">Cultivez vos compétences</h3>
       <p class="tutorials-header__description">Voici une sélection de tutos qui pourront vous aider à gagner des Pix.</p>
     </div>
     <div class="tutorial__list">
       {{#each tutorialsGroupedByTubeName as |tube|}}
         <div class="tube">
-          <h3 class="tube__title">{{tube.practicalTitle}}</h3>
+          <h4 class="tube__title">{{tube.practicalTitle}}</h4>
           <div class="tube__content">
             {{#each tube.tutorials as |tutorial|}}
               <TutorialItemOnScorecard @tutorial={{tutorial}} />
