@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, visit, click } from '@ember/test-helpers';
+import { currentURL, visit, click, fillIn, find } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
@@ -74,6 +74,52 @@ module('Acceptance | Campaign List', function(hooks) {
 
       // then
       assert.equal(currentURL(), '/campagnes/1');
+    });
+
+    module('When using creator filter', function(hooks) {
+      let creator;
+
+      hooks.beforeEach(async () => {
+        creator = server.create('user', { firstName: 'Harry', lastName: 'Cojaune' });
+
+        server.create('membership', {
+          organizationId: user.userOrgaSettings.organization.id,
+          userId: creator.id
+        });
+
+        server.create('campaign');
+      });
+
+      test('it should filter on creator', async function(assert) {
+        // given
+        await visit('/campagnes');
+
+        // when
+        await fillIn('select', creator.id);
+
+        // then
+        assert.equal(currentURL(), `/campagnes?creatorId=${creator.id}`);
+      });
+
+      test('it should clear filter on creator', async function(assert) {
+        // given
+        await visit(`/campagnes?creatorId=${creator.id}`);
+
+        // when
+        await fillIn('select', '');
+
+        // then
+        assert.equal(currentURL(), '/campagnes');
+      });
+
+      test('it should select creator using routing param creatorId', async function(assert) {
+        // given
+        await visit(`/campagnes?creatorId=${creator.id}`);
+        const { value: selectedCreator } = find('select');
+
+        // then
+        assert.equal(selectedCreator, creator.id);
+      });
     });
   });
 });

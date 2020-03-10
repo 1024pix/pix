@@ -11,6 +11,6 @@
         <LinkTo @route="authenticated.campaigns.new" class="button button--link">Créer une campagne</LinkTo>
       </div>
     </div>
-    <Routes::Authenticated::Campaigns::ListItems @campaigns={{model}} @campaignName={{name}} @triggerFiltering={{action "triggerFiltering"}} @goToCampaignPage={{action "goToCampaignPage"}} />
+    <Routes::Authenticated::Campaigns::ListItems @campaigns={{model}} @campaignName={{name}} @organizationMembers={{currentUser.organization.memberships}}  @campaignCreatorId={{creatorId}} @triggerFiltering={{action "triggerFiltering"}} @updateCampaignCreator={{action 'updateCampaignCreator'}} @goToCampaignPage={{action "goToCampaignPage"}} />
   {{/if}}
 </div>

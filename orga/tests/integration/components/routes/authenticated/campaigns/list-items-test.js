@@ -96,6 +96,31 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     assert.dom('.campaign-list .table tbody tr:last-child td:nth-child(2)').hasText('Mathilde Bonnin de La Bonninière de Beaumont');
   });
 
+  test('it should display the list of memberships from the organization', async function(assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const user1 = store.createRecord('user', { firstName: 'Harry', lastName: 'Covert' });
+    const user2 = store.createRecord('user', { firstName: 'Jean-Michel', lastName: 'Jarre' });
+
+    const campaigns = [];
+    campaigns.meta = {
+      rowCount: 0
+    };
+
+    const organizationMembers = [{ user: user1 }, { user:  user2 }];
+
+    this.set('campaigns', campaigns);
+    this.set('organizationMembers', organizationMembers);
+
+    // when
+    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns organizationMembers=organizationMembers triggerFiltering=triggerFilteringSpy goToCampaignPage=goToCampaignPageSpy}}`);
+
+    // then
+    assert.dom('select option:nth-child(1)').hasText('Tous');
+    assert.dom('select option:nth-child(2)').hasText('Harry Covert');
+    assert.dom('select option:nth-child(3)').hasText('Jean-Michel Jarre');
+  });
+
   test('it must display the creation date of the campaigns', async function(assert) {
     // given
     const store = this.owner.lookup('service:store');
