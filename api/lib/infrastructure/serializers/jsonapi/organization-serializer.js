@@ -4,7 +4,11 @@ module.exports = {
 
   serialize(organizations, meta) {
     return new Serializer('organizations', {
-      attributes: ['name', 'type', 'logoUrl', 'externalId', 'provinceCode', 'isManagingStudents', 'memberships', 'students'],
+      transform(record) {
+        record.targetProfiles = [];
+        return record;
+      },
+      attributes: ['name', 'type', 'logoUrl', 'externalId', 'provinceCode', 'isManagingStudents', 'memberships', 'students', 'targetProfiles'],
       memberships: {
         ref: 'id',
         ignoreRelationshipData: true,
@@ -20,6 +24,15 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/organizations/${parent.id}/students`;
+          }
+        }
+      },
+      targetProfiles: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related: function(record, current, parent) {
+            return `/api/organizations/${parent.id}/target-profiles`;
           }
         }
       },
