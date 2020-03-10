@@ -12,8 +12,24 @@ describe('Unit | Domain | Services | badge-criteria', () => {
     context('when the badge criteria are fulfilled', function() {
 
       beforeEach(() =>  {
-        const badge = domainBuilder.buildBadge();
-        campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({ masteryPercentage: 94, badge });
+        const competenceResults = [
+          domainBuilder.buildCompetenceResult({
+            id: 1,
+            validatedSkillsCount: 9,
+            totalSkillsCount: 10,
+          }),
+          domainBuilder.buildCompetenceResult({
+            id: 2,
+            validatedSkillsCount: 9,
+            totalSkillsCount: 10,
+          }),
+        ];
+        campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
+          badge,
+          competenceResults,
+          validatedSkillsCount: 9,
+          totalSkillsCount: 10,
+        });
       });
 
       it('should return true', async () => {
@@ -25,9 +41,88 @@ describe('Unit | Domain | Services | badge-criteria', () => {
       });
     });
 
-    context('when the badge criteria are not fulfilled', function() {
+    context('when no badge criteria are fulfilled', function() {
       beforeEach(() =>  {
-        campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({ masteryPercentage: 24, badge });
+        const competenceResults = [
+          domainBuilder.buildCompetenceResult({
+            id: 1,
+            validatedSkillsCount: 1,
+            totalSkillsCount: 10,
+          }),
+          domainBuilder.buildCompetenceResult({
+            id: 2,
+            validatedSkillsCount: 3,
+            totalSkillsCount: 10,
+          }),
+        ];
+        campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
+          badge,
+          competenceResults,
+          validatedSkillsCount: 2,
+          totalSkillsCount: 10,
+        });
+      });
+
+      it('should return false', async () => {
+        // when
+        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult });
+
+        // then
+        expect(result).to.be.equal(false);
+      });
+    });
+
+    context('when the campaignParticipationResult badge criterion is not fulfilled', function() {
+      beforeEach(() =>  {
+        const competenceResults = [
+          domainBuilder.buildCompetenceResult({
+            id: 1,
+            validatedSkillsCount: 9,
+            totalSkillsCount: 10,
+          }),
+          domainBuilder.buildCompetenceResult({
+            id: 2,
+            validatedSkillsCount: 9,
+            totalSkillsCount: 10,
+          }),
+        ];
+        campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
+          badge,
+          competenceResults,
+          validatedSkillsCount: 2,
+          totalSkillsCount: 10,
+        });
+      });
+
+      it('should return false', async () => {
+        // when
+        const result = await badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult });
+
+        // then
+        expect(result).to.be.equal(false);
+      });
+    });
+
+    context('when one competenceResult badge criterion is not fulfilled', function() {
+      beforeEach(() =>  {
+        const competenceResults = [
+          domainBuilder.buildCompetenceResult({
+            id: 1,
+            validatedSkillsCount: 9,
+            totalSkillsCount: 10,
+          }),
+          domainBuilder.buildCompetenceResult({
+            id: 2,
+            validatedSkillsCount: 3,
+            totalSkillsCount: 10,
+          }),
+        ];
+        campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
+          badge,
+          competenceResults,
+          validatedSkillsCount: 9,
+          totalSkillsCount: 10,
+        });
       });
 
       it('should return false', async () => {
