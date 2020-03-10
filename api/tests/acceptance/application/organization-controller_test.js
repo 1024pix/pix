@@ -703,28 +703,6 @@ describe('Acceptance | Application | organization-controller', () => {
         // then
         expect(response.statusCode).to.equal(401);
       });
-
-      it('should respond with a 403 - forbidden access - if user is not ADMIN in organization nor PIX_MASTER', async () => {
-        // given
-        const nonPixMasterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
-        databaseBuilder.factory.buildUser({
-          id: nonPixMasterUserId,
-        });
-        databaseBuilder.factory.buildMembership({
-          organizationRole : Membership.roles.MEMBER,
-          organizationId : organization.id,
-          userId : nonPixMasterUserId,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
     });
   });
 

@@ -201,9 +201,17 @@ describe('Acceptance | Interface | Controller | SecurityController', function() 
       });
       await databaseBuilder.commit();
       const options = {
-        method: 'GET',
-        url: `/api/organizations/${organizationId}/memberships`,
+        method: 'POST',
+        url: `/api/organizations/${organizationId}/invitations`,
         headers: { authorization: generateValidRequestAuthorizationHeader(notAdminUserId) },
+        payload: {
+          data: {
+            type: 'organization-invitations',
+            attributes: {
+              email: 'truc@example.net'
+            },
+          }
+        }
       };
 
       // when
