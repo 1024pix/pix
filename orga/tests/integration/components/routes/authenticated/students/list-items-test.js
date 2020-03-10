@@ -16,11 +16,12 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     await render(hbs`{{routes/authenticated/students/list-items students=students}}`);
 
     // then
-    assert.dom('.table thead tr th').exists({ count: 4 });
+    assert.dom('.table thead tr th').exists({ count: 5 });
     assert.dom('.table thead tr th:first-child').hasText('Nom');
     assert.dom('.table thead tr th:nth-child(2)').hasText('Prénom');
     assert.dom('.table thead tr th:nth-child(3)').hasText('Date de naissance');
-    assert.dom('.table thead tr th:last-child').hasText('Mot de passe');
+    assert.dom('.table thead tr th:nth-child(4)').hasText('Connecté avec');
+    assert.dom('.table thead tr th:last-child').hasText('');
   });
 
   test('it should display a list of students', async function(assert) {
@@ -43,7 +44,7 @@ module('Integration | Component | routes/authenticated/students | list-items', f
   test('it should display the firstName, lastName and birthdate of student', async function(assert) {
     // given
     const students = [
-      { lastName: 'La Terreur', firstName: 'Gigi', birthdate: new Date('2010-02-01') },
+      { lastName: 'La Terreur', firstName: 'Gigi', birthdate: new Date('2010-02-01') ,  },
       { lastName: 'L\'asticot', firstName: 'Gogo', birthdate: new Date('2010-05-10') },
     ];
 
@@ -58,11 +59,66 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     assert.dom('.table tbody tr:first-child td:nth-child(3)').hasText('01/02/2010');
   });
 
-  module('when student have a username', () => {
+  module('it should display the authentication method', ()=> {
 
-    hooks.beforeEach(function() {
-      this.set('openPasswordResetSpy', () => {});
+    test('it should display dash when not reconcilied', async function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const dash = '\u2013';
+
+      const storedStudents = [];
+      [
+        {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+          birthdate: '2010-01-01',
+        },
+      ].forEach((student) => {
+        storedStudents.push(run(() => store.createRecord('student', student)));
+      });
+
+      this.set('students', storedStudents);
+
+      // when
+      await render(hbs`{{routes/authenticated/students/list-items students=students}}`);
+
+      // then
+      assert.dom('.table tbody tr:first-child td:first-child').hasText('La Terreur');
+      assert.dom('.table tbody tr:first-child td:nth-child(2)').hasText('Gigi');
+      assert.dom('.table tbody tr:first-child td:nth-child(3)').hasText('01/01/2010');
+      assert.dom('.table tbody tr:first-child td:nth-child(4)').hasText(dash);
     });
+    test('it should display Identifiant when identified by username', async function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const storedStudents = [];
+      [
+        {
+          lastName: 'La Terreur',
+          firstName: 'Gigi',
+          birthdate: '2010-01-01',
+          username: 'blueivy.carter0701',
+          isAuthenticatedFromGar: false,
+        },
+      ].forEach((student) => {
+        storedStudents.push(run(() => store.createRecord('student', student)));
+      });
+
+      this.set('students', storedStudents);
+
+      // when
+      await render(hbs`{{routes/authenticated/students/list-items students=students}}`);
+
+      // then
+      assert.dom('.table tbody tr:first-child td:first-child').hasText('La Terreur');
+      assert.dom('.table tbody tr:first-child td:nth-child(2)').hasText('Gigi');
+      assert.dom('.table tbody tr:first-child td:nth-child(3)').hasText('01/01/2010');
+      assert.dom('.table tbody tr:first-child td:nth-child(4)').hasText('Identifiant');
+    });
+
+  });
+  module('when student have a username', () => {
 
     test('it should display the student\'s firstName, lastName and birthdate, and password update button', async function(assert) {
       // given
@@ -79,13 +135,13 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('students', [student]);
 
       // when
-      await render(hbs`{{routes/authenticated/students/list-items students=students openPasswordReset=openPasswordResetSpy}}`);
+      await render(hbs`{{routes/authenticated/students/list-items students=students}}`);
 
       // then
       assert.dom('.table tbody tr:first-child td:first-child').hasText('lastName');
       assert.dom('.table tbody tr:first-child td:nth-child(2)').hasText('firstName');
       assert.dom('.table tbody tr:first-child td:nth-child(3)').hasText('01/10/2008');
-      assert.dom('.table tbody tr:first-child td:last-child button').hasText('Réinitialiser');
+      assert.dom('.table tbody tr:first-child td:last-child button .fa-cog').exists();
     });
 
     test('it should not display password update button when student have not username', async function(assert) {
@@ -113,11 +169,11 @@ module('Integration | Component | routes/authenticated/students | list-items', f
       this.set('students', storedStudents);
 
       // when
-      await render(hbs`{{routes/authenticated/students/list-items students=students openPasswordReset=openPasswordResetSpy}}`);
+      await render(hbs`{{routes/authenticated/students/list-items students=students}}`);
 
       // then
-      assert.dom('.table tbody tr:first-child td:last-child button').doesNotExist();
-      assert.dom('.table tbody tr:nth-child(2) td:last-child button').hasText('Réinitialiser');
+      assert.dom('.table tbody tr:first-child td:last-child button .fa-cog').doesNotExist();
+      assert.dom('.table tbody tr:nth-child(2) td:last-child button .fa-cog').exists();
     });
 
   });

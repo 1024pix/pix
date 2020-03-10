@@ -1,7 +1,3 @@
 import Component from '@ember/component';
 
-export default Component.extend({
-
-  classNames: ['current-organization-panel']
-
-});
+export default class CurrentOrganization extends Component {}

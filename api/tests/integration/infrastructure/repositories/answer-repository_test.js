@@ -31,12 +31,12 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     context('when there are no answers', () => {
 
-      it('should reject an error if nothing is found', () => {
+      it('should reject an error if nothing is found', async () => {
         // when
-        const promise = AnswerRepository.get(100);
+        const error = await catchErr(AnswerRepository.get)(100);
 
         // then
-        return expect(promise).to.be.rejectedWith(NotFoundError);
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
 
@@ -48,15 +48,13 @@ describe('Integration | Repository | AnswerRepository', () => {
         return databaseBuilder.commit();
       });
 
-      it('should retrieve an answer from its id', () => {
+      it('should retrieve an answer from its id', async () => {
         // when
-        const promise = AnswerRepository.get(answerId);
+        const foundAnswer = await AnswerRepository.get(answerId);
 
         // then
-        return promise.then((foundAnswer) => {
-          expect(foundAnswer).to.be.an.instanceof(Answer);
-          expect(foundAnswer.id).to.equal(answerId);
-        });
+        expect(foundAnswer).to.be.an.instanceof(Answer);
+        expect(foundAnswer.id).to.equal(answerId);
       });
     });
   });
@@ -72,19 +70,17 @@ describe('Integration | Repository | AnswerRepository', () => {
       return databaseBuilder.commit();
     });
 
-    it('should find the answer by challenge and assessment and return its in an object', () => {
+    it('should find the answer by challenge and assessment and return its in an object', async () => {
       // when
-      const promise = AnswerRepository.findByChallengeAndAssessment({
+      const foundAnswers = await AnswerRepository.findByChallengeAndAssessment({
         challengeId,
         assessmentId
       });
 
       // then
-      return promise.then((foundAnswers) => {
-        expect(foundAnswers).to.exist;
-        expect(foundAnswers).to.be.an.instanceOf(Answer);
-        expect(foundAnswers.value).to.equal('answer value');
-      });
+      expect(foundAnswers).to.exist;
+      expect(foundAnswers).to.be.an.instanceOf(Answer);
+      expect(foundAnswers.value).to.equal('answer value');
     });
   });
 
@@ -177,27 +173,23 @@ describe('Integration | Repository | AnswerRepository', () => {
       return databaseBuilder.commit();
     });
 
-    it('should resolves answers with assessment id provided', () => {
+    it('should resolves answers with assessment id provided', async () => {
       // when
-      const promise = AnswerRepository.findByAssessment(assessmentId);
+      const answers = await AnswerRepository.findByAssessment(assessmentId);
 
       // then
-      return promise.then((answers) => {
-        expect(answers.length).to.be.equal(2);
-        expect(answers[0].assessmentId).to.be.equal(assessmentId);
-        expect(answers[1].assessmentId).to.be.equal(assessmentId);
-      });
+      expect(answers.length).to.be.equal(2);
+      expect(answers[0].assessmentId).to.be.equal(assessmentId);
+      expect(answers[1].assessmentId).to.be.equal(assessmentId);
     });
 
-    it('should return answers as domain objects', () => {
+    it('should return answers as domain objects', async () => {
       // when
-      const promise = AnswerRepository.findByAssessment(assessmentId);
+      const answers = await AnswerRepository.findByAssessment(assessmentId);
 
       // then
-      return promise.then((answers) => {
-        expect(answers[0]).to.be.instanceof(Answer);
-        expect(answers[1]).to.be.instanceof(Answer);
-      });
+      expect(answers[0]).to.be.instanceof(Answer);
+      expect(answers[1]).to.be.instanceof(Answer);
     });
   });
 
@@ -214,16 +206,14 @@ describe('Integration | Repository | AnswerRepository', () => {
       return databaseBuilder.commit();
     });
 
-    it('should resolves the last answers with assessment id provided', () => {
+    it('should resolves the last answers with assessment id provided', async () => {
       // when
-      const promise = AnswerRepository.findLastByAssessment(assessmentId);
+      const answer = await AnswerRepository.findLastByAssessment(assessmentId);
 
       // then
-      return promise.then((answer) => {
-        expect(answer).to.be.instanceof(Answer);
-        expect(answer.assessmentId).to.be.equal(assessmentId);
-        expect(answer.id).to.be.equal(expectedAnswerId);
-      });
+      expect(answer).to.be.instanceof(Answer);
+      expect(answer.assessmentId).to.be.equal(assessmentId);
+      expect(answer.id).to.be.equal(expectedAnswerId);
     });
   });
 
@@ -238,25 +228,23 @@ describe('Integration | Repository | AnswerRepository', () => {
       return databaseBuilder.commit();
     });
 
-    it('should retrieve answers with ok status from assessment id provided', () => {
+    it('should retrieve answers with ok status from assessment id provided', async () => {
       // given
       const expectedStatus = {
         status: 'ok'
       };
 
       // when
-      const promise = AnswerRepository.findCorrectAnswersByAssessmentId(assessmentId);
+      const answers = await AnswerRepository.findCorrectAnswersByAssessmentId(assessmentId);
 
       // then
-      return promise.then((answers) => {
-        expect(answers).to.exist;
-        expect(answers).to.have.length.of(1);
+      expect(answers).to.exist;
+      expect(answers).to.have.length.of(1);
 
-        const foundAnswer = answers[0];
+      const foundAnswer = answers[0];
 
-        expect(foundAnswer.assessmentId).to.be.equal(assessmentId);
-        expect(foundAnswer.result).to.deep.equal(expectedStatus);
-      });
+      expect(foundAnswer.assessmentId).to.be.equal(assessmentId);
+      expect(foundAnswer.result).to.deep.equal(expectedStatus);
     });
   });
 

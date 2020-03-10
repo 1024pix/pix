@@ -1,5 +1,3 @@
 import Component from '@ember/component';
 
-export default Component.extend({
-  classNames: ['search-input']
-});
+export default class SearchInput extends Component {}

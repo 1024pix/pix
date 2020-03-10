@@ -1,10 +1,11 @@
-import Component from '@ember/component';
 import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Component.extend({
-  averageValidatedSkills: computed('campaignCollectiveResults', function() {
+export default class CollectiveResultsTab extends Component {
+  @computed('campaignCollectiveResults')
+  get averageValidatedSkills() {
     const campaignCompetenceCollectiveResults = this.get('campaignCollectiveResults.campaignCompetenceCollectiveResults');
 
     return campaignCompetenceCollectiveResults;
-  }),
-});
+  }
+}

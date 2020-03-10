@@ -12,15 +12,14 @@
           </tr>
           <tr>
             <th>
-              {{search-input
-                inputName="campaignName"
-                class="input table__input"
-                value=campaignName
-                placeholder="Nom de la campagne"
-                keyUp=(action triggerFiltering 'name' campaignName)
-              }}
+              <SearchInput @inputName="campaignName" @class="input table__input search-input" @value={{campaignName}} @placeholder="Rechercher une campagne" @keyUp={{action triggerFiltering "name" campaignName}} />
             </th>
-            <th></th>
+            <th>
+              <Routes::Authenticated::Campaigns::SelectCreator
+                @organizationMembers={{organizationMembers}}
+                @campaignCreatorId={{campaignCreatorId}}
+                @selectCampaignCreator={{action 'selectCampaignCreator'}} />
+            </th>
             <th></th>
             <th></th>
             <th></th>
@@ -43,4 +42,4 @@
   </div>
 </div>
 
-{{pagination-control pagination=campaigns.meta paginationLink="authenticated.campaigns"}}
+<PaginationControl @pagination={{campaigns.meta}} @paginationLink="authenticated.campaigns" />

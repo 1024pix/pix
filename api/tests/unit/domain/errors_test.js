@@ -158,26 +158,6 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
-  describe('#internalError', () => {
-    it('should export a internalError', () => {
-      expect(errors.InternalError).to.exist;
-    });
-
-    it('should have a getErrorMessage method', () => {
-      // given
-      const expectedErrorMessage = {
-        data: {
-          error: ['Une erreur interne est survenue.'],
-        },
-      };
-
-      // then
-      const internalError = new errors.InternalError();
-      expect(internalError.getErrorMessage).to.be.a('function');
-      expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
-    });
-  });
-
   describe('#PasswordResetDemandNotFoundError', () => {
     it('should export a PasswordResetDemandNotFoundError', () => {
       expect(errors.PasswordResetDemandNotFoundError).to.exist;
@@ -192,9 +172,9 @@ describe('Unit | Domain | Errors', () => {
       };
 
       // then
-      const internalError = new errors.PasswordResetDemandNotFoundError();
-      expect(internalError.getErrorMessage).to.be.a('function');
-      expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
+      const error = new errors.PasswordResetDemandNotFoundError();
+      expect(error.getErrorMessage).to.be.a('function');
+      expect(error.getErrorMessage()).to.eql(expectedErrorMessage);
     });
   });
 
@@ -216,9 +196,9 @@ describe('Unit | Domain | Errors', () => {
       };
 
       // then
-      const internalError = new errors.InvalidTemporaryKeyError();
-      expect(internalError.getErrorMessage).to.be.a('function');
-      expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
+      const error = new errors.InvalidTemporaryKeyError();
+      expect(error.getErrorMessage).to.be.a('function');
+      expect(error.getErrorMessage()).to.eql(expectedErrorMessage);
     });
   });
 
@@ -236,9 +216,9 @@ describe('Unit | Domain | Errors', () => {
       };
 
       // then
-      const internalError = new errors.UserNotAuthorizedToCertifyError();
-      expect(internalError.getErrorMessage).to.be.a('function');
-      expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
+      const error = new errors.UserNotAuthorizedToCertifyError();
+      expect(error.getErrorMessage).to.be.a('function');
+      expect(error.getErrorMessage()).to.eql(expectedErrorMessage);
     });
   });
 

@@ -1,9 +1,8 @@
 <div class="participant-results__header">
   <div class="participant-results-header__title">
-    {{#link-to "authenticated.campaigns.details.participants" campaign.id
-               class="icon-button campaign-details-content__return-button"}}
-      {{fa-icon 'arrow-left'}}
-    {{/link-to}}
+    <LinkTo @route="authenticated.campaigns.details.participants" @model={{campaign.id}} class="icon-button campaign-details-content__return-button">
+      <FaIcon @icon='arrow-left'></FaIcon>
+    </LinkTo>
     <div
       class="page__title page-title">{{campaignParticipation.user.firstName}} {{campaignParticipation.user.lastName}}</div>
   </div>
@@ -43,8 +42,8 @@
         <div class="label-text participant-results-content__label-text">Partagé le</div>
         <div class="content-text">
           {{#if campaignParticipation.isShared}}
-            {{fa-icon 'check-circle'
-                      class="participant-results-content__check-shared participant-results-content__check-shared--green"}}
+            <FaIcon @icon='check-circle'
+                      @class="participant-results-content__check-shared participant-results-content__check-shared--green"></FaIcon>
             {{moment-format campaignParticipation.sharedAt 'll'}}
           {{else}}
             Non disponible
@@ -78,12 +77,11 @@
     <div class="participant-results-content__score">
       <div class="content-text content-text--big content-text--bold">Résultat</div>
       <div class="participant-results-content__circle-chart">
-        {{#circle-chart value=campaignParticipation.campaignParticipationResult.masteryPercentage
-                        isDisabled=(not campaignParticipation.isShared) }}
+        <CircleChart @value={{campaignParticipation.campaignParticipationResult.masteryPercentage}} @isDisabled={{not campaignParticipation.isShared}}>
           <span class="participant-results-content__circle-chart-value">
             {{campaignParticipation.campaignParticipationResult.masteryPercentage}}%
           </span>
-        {{/circle-chart}}
+        </CircleChart>
       </div>
     </div>
   </div>
@@ -111,10 +109,9 @@
             <span>{{competence.name}}</span>
           </td>
           <td>
-            {{#progression-gauge total=competence.totalSkillsCountPercentage
-                                 value=competence.validatedSkillsPercentage}}
+            <ProgressionGauge @total={{competence.totalSkillsCountPercentage}} @value={{competence.validatedSkillsPercentage}}>
               <p class="sr-only">Ce participant a validé </p>{{competence.validatedSkillsPercentage}}%<p class="sr-only"> de la compétence {{competence.name}}.</p>
-            {{/progression-gauge}}
+            </ProgressionGauge>
           </td>
           <td>{{competence.validatedSkillsCount}}</td>
           <td>{{competence.totalSkillsCount}}</td>

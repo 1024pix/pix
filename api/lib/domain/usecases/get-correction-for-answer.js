@@ -1,23 +1,27 @@
-const { AssessmentNotCompletedError, ForbiddenAccess } = require('../errors');
+const { AssessmentNotCompletedError, NotFoundError } = require('../errors');
 
 module.exports = async function getCorrectionForAnswer({
   assessmentRepository,
   answerRepository,
   correctionRepository,
   answerId,
-  userId
+  userId,
 } = {}) {
-  const answer = await answerRepository.get(answerId);
+  const integerAnswerId = parseInt(answerId);
+  if (!Number.isFinite(integerAnswerId)) {
+    throw new NotFoundError(`Not found correction for answer of ID ${answerId}`);
+  }
+  const answer = await answerRepository.get(integerAnswerId);
   const assessment = await assessmentRepository.get(answer.assessmentId);
 
-  _validateCorrectionIsAccessible(assessment, userId);
+  _validateCorrectionIsAccessible(assessment, userId, integerAnswerId);
 
   return correctionRepository.getByChallengeId(answer.challengeId);
 };
 
-function _validateCorrectionIsAccessible(assessment, userId) {
+function _validateCorrectionIsAccessible(assessment, userId, answerId) {
   if (assessment.userId !== userId) {
-    throw new ForbiddenAccess('User is not allowed to see correction of this assessment.');
+    throw new NotFoundError(`Not found correction for answer of ID ${answerId}`);
   }
   if (!assessment.isCompleted() && !assessment.isSmartPlacement() && !assessment.isCompetenceEvaluation()) {
     throw new AssessmentNotCompletedError();

@@ -2,13 +2,9 @@
   <div class="page__title page-title">Élèves</div>
   {{#if currentUser.isAdminInOrganization}}
     <div class="list-students-page__import-students-button">
-      {{#file-upload name="file-upload"
-                     for="students-file-upload"
-                     accept=".xml"
-                     multiple=false
-                     onfileadd=(action importStudents)}}
+      <FileUpload @name="file-upload" @for="students-file-upload" @accept=".xml" @multiple={{false}} @onfileadd={{action importStudents}}>
         <span class="button" role="button" tabindex=0>Importer (.xml)</span>
-      {{/file-upload}}
+      </FileUpload>
     </div>
   {{/if}}
 </div>
@@ -21,7 +17,8 @@
         <th>Nom</th>
         <th>Prénom</th>
         <th>Date de naissance</th>
-        <th>Mot de passe</th>
+        <th>Connecté avec</th>
+        <th></th>
       </tr>
       </thead>
 
@@ -32,12 +29,15 @@
             <td>{{student.lastName}}</td>
             <td>{{student.firstName}}</td>
             <td>{{moment-format student.birthdate 'DD/MM/YYYY' allow-empty=true}}</td>
-            <td>
+            <td class="list-students-page__authentication-methods">{{student.authenticationMethods}}</td>
+            <td class="list-students-page__password-reset-cell">
               {{#if student.hasUsername}}
-                <button class="button button--with-icon-and-text button-edit-role"
-                        type="button" {{action 'openPasswordReset' student}}>
-                  Réinitialiser
-                </button>
+                <div class="tooltip">
+                  <span class="tooltip-text list-students-page__tooltip">Gérer</span>
+                  <button class="button button--round-with-icon list-students-page__manage-button" type="button" {{action 'openPasswordReset' student}}>
+                    {{fa-icon "cog" }}
+                  </button>
+                </div>
               {{/if}}
             </td>
           </tr>
@@ -53,12 +53,12 @@
   </div>
 
   {{#if isShowingModal}}
-    {{password-reset-window student=student isShowingModal=isShowingModal}}
+    <PasswordResetWindow @student={{student}} @isShowingModal={{isShowingModal}} />
   {{/if}}
 </div>
 
 {{#if isLoading}}
-  {{#modal-dialog translucentOverlay=true containerClass="pix-modal__translucent"}}
+  <ModalDialog @translucentOverlay={{true}} @containerClass="pix-modal__translucent">
     <img src="/images/interwind.gif" alt="Chargement…">
-  {{/modal-dialog}}
+  </ModalDialog>
 {{/if}}

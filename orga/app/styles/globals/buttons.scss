@@ -89,8 +89,28 @@
     }
   }
 
-  &--with-icon-and-text:hover {
-    background-color: $alto;
+  &--with-icon-and-text {
+    &:hover, &:focus, &:active, &:visited {
+      background-color: $alto;
+    }
+  }
+
+  &--round-with-icon {
+    background-color: $white;
+    border-radius: 17px;
+    color: $dove-gray;
+    font-size: 1.4rem;
+    height: 34px;
+    padding: 1px 6px;
+    width: 34px;
+
+    &:hover {
+      background-color: $porcelain;
+    }
+
+    &:focus, &:active, &:visited {
+      background-color: $alto;
+    }
   }
 
 }

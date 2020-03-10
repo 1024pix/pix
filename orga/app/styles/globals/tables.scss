@@ -77,6 +77,8 @@ td, th {
   border: 1px solid $alto;
   width: 85%;
   font-size: 0.8rem;
+  height: 36px;
+  box-sizing: border-box;
 
   &:focus-within {
     border: 1px solid $dodger-blue;

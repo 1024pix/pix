@@ -1,13 +1,12 @@
-import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 
-export default Route.extend({
-
-  currentUser: service(),
+export default class ListRoute extends Route {
+  @service currentUser;
 
   model() {
     return this.currentUser.organization;
-  },
+  }
 
   afterModel(model) {
     return Promise.all([
@@ -15,4 +14,4 @@ export default Route.extend({
       model.hasMany('organizationInvitations').reload(),
     ]);
   }
-});
+}

@@ -1,9 +1,2 @@
-{{fa-icon 'search'}}
-{{input
-  id=inputName
-  name=inputName
-  placeholder=placeholder
-  value=value
-  keyUp=(action keyUp)
-  class="search-input__invisible-field"
-}}
+<FaIcon @icon='search'></FaIcon>
+<Input @id={{inputName}} @name={{inputName}} placeholder={{placeholder}} @value={{value}} @keyUp={{action keyUp}} class="search-input__invisible-field"/>

@@ -1,8 +1,8 @@
 const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test-helper');
 
+const { BadRequestError } = require('../../../../lib/application/http-errors');
 const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
 const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
-const { BadRequestError } = require('../../../../lib/infrastructure/errors');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');

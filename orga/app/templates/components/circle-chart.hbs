@@ -1,20 +1,22 @@
-<svg viewBox="0 0 36 36" class="circle-chart__content">
-  <path class="circle"
-        d="M18 2.0845
+<div class="circle-chart">
+  <svg viewBox="0 0 36 36" class="circle-chart__content">
+    <path class="circle"
+          d="M18 2.0845
       a 15.9155 15.9155 0 0 1 0 31.831
       a 15.9155 15.9155 0 0 1 0 -31.831"
-  ></path>
-  {{#unless isDisabled}}
-    <path class="circle circle--slice"
-          stroke-dasharray="{{value}}, 100"
-          d="M18 2.0845
+    ></path>
+    {{#unless isDisabled}}
+      <path class="circle circle--slice"
+            stroke-dasharray="{{value}}, 100"
+            d="M18 2.0845
         a 15.9155 15.9155 0 0 1 0 31.831
         a 15.9155 15.9155 0 0 1 0 -31.831"
-    ></path>
+      ></path>
+    {{/unless}}
+  </svg>
+  {{#unless isDisabled}}
+    <div class="circle-chart__text">
+      {{yield}}
+    </div>
   {{/unless}}
-</svg>
-{{#unless isDisabled}}
-  <div class="circle-chart__text">
-    {{yield}}
-  </div>
-{{/unless}}
+</div>

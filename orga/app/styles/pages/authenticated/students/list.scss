@@ -13,4 +13,24 @@
     margin-top: 20px;
     margin-left: auto;
   }
+
+  &__authentication-methods {
+    white-space: pre;
+  }
+
+  &__password-reset-cell {
+    text-align: right;
+  }
+
+  &__manage-button {
+    margin-right: 32px;
+  }
+
+  &__tooltip {
+    background-color: $astronaut;
+    bottom: 42px;
+    border-radius: 4px;
+    left: 55px;
+    width: 64px;
+  }
 }

@@ -1,11 +1,10 @@
 const { expect, sinon } = require('../../../test-helper');
 const findAnswerByChallengeAndAssessment = require('../../../../lib/domain/usecases/find-answer-by-challenge-and-assessment');
-const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
 
   const challengeId = 'recChallenge';
-  const assessmentId = 'assessmentId';
+  const assessmentId = 123;
   const answerId = 'answerId';
   const userId = 'userId';
   let answerRepository, assessmentRepository;
@@ -17,7 +16,7 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
       challengeId
     };
     const assessment = {
-      id: challengeId,
+      id: assessmentId,
       userId: userId,
     };
 
@@ -33,27 +32,34 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
     assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
   });
 
-  context('when user asked for answer is the user of the assessment', () => {
-    it('should get the answer', () => {
-
+  context('when the assessmentid passed is not an integer', () => {
+    it('should get the answer', async () => {
       // when
-      const result = findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId, answerRepository, assessmentRepository });
+      const result = await findAnswerByChallengeAndAssessment({ challengeId, assessmentId: 'salut', userId, answerRepository, assessmentRepository });
 
       // then
-      return result.then((resultAnswer) => {
-        expect(resultAnswer.id).to.equal(answerId);
-      });
+      return expect(result).to.be.null;
+    });
+  });
+
+  context('when user asked for answer is the user of the assessment', () => {
+    it('should get the answer', async () => {
+
+      // when
+      const resultAnswer = await findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId, answerRepository, assessmentRepository });
+
+      // then
+      expect(resultAnswer.id).to.equal(answerId);
     });
   });
 
   context('when user asked for answer is not the user of the assessment', () => {
-    it('should throw a Forbidden Access error', () => {
-
+    it('should return null', async () => {
       // when
-      const result = findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId: userId + 1 , answerRepository, assessmentRepository });
+      const result = await findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId: userId + 1 , answerRepository, assessmentRepository });
 
       // then
-      return expect(result).to.be.rejectedWith(ForbiddenAccess);
+      return expect(result).to.be.null;
     });
   });
 

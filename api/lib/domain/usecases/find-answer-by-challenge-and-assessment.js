@@ -1,7 +1,3 @@
-const {
-  ForbiddenAccess
-} = require('../errors');
-
 module.exports = async function findAnswerByChallengeAndAssessment(
   {
     challengeId,
@@ -10,12 +6,14 @@ module.exports = async function findAnswerByChallengeAndAssessment(
     answerRepository,
     assessmentRepository,
   } = {}) {
-  const assessment = await assessmentRepository.get(assessmentId);
-  if (assessment.userId !== userId) {
-    throw new ForbiddenAccess('User is not allowed to see this assessment.');
+  const integerAssessmentId = parseInt(assessmentId);
+  if (!Number.isFinite(integerAssessmentId)) {
+    return null;
   }
 
-  const answer = await answerRepository.findByChallengeAndAssessment({ challengeId, assessmentId });
-
-  return answer;
+  const assessment = await assessmentRepository.get(assessmentId);
+  if (assessment.userId !== userId) {
+    return null;
+  }
+  return answerRepository.findByChallengeAndAssessment({ challengeId, assessmentId: integerAssessmentId });
 };

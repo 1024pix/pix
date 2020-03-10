@@ -1,16 +1,18 @@
-import Component from '@ember/component';
 import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Component.extend({
-  participationsCount: computed('campaign.campaignReport.participationsCount', function() {
+export default class CampaignItem extends Component {
+  @computed('campaign.campaignReport.participationsCount')
+  get participationsCount() {
     const participationsCount = this.get('campaign.campaignReport.participationsCount');
 
     return participationsCount > 0 ? participationsCount : '-';
-  }),
+  }
 
-  sharedParticipationsCount: computed('campaign.campaignReport.sharedParticipationsCount', function() {
+  @computed('campaign.campaignReport.sharedParticipationsCount')
+  get sharedParticipationsCount() {
     const sharedParticipationsCount = this.get('campaign.campaignReport.sharedParticipationsCount');
 
     return sharedParticipationsCount > 0 ? sharedParticipationsCount : '-';
-  }),
-});
+  }
+}

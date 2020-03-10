@@ -1,0 +1,24 @@
+.select-creator {
+  &__select {
+    padding-left: 10px;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+  }
+
+  &__wrapper {
+    position:relative
+  }
+
+  &__wrapper::after {
+    content:"\f078";
+    font-family: "FontAwesome";
+    font-size: 11px;
+    color: $dusty-gray;
+    right:8px;
+    top:2px;
+    padding:0 0 2px;
+    position:absolute;
+    pointer-events:none;
+  }
+}
