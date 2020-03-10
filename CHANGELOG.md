@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v2.124.0 (10/03/2020)
+
+- [#1140](https://github.com/1024pix/pix/pull/1140) [FEATURE] Ajout d'un filtre sur la colonne "Créé par" dans la liste des campagnes (PO-330).
+- [#1147](https://github.com/1024pix/pix/pull/1147) [FEATURE] Modifier l'entrée de menu de réinitialisation de mot de passe (PO-338).
+- [#1115](https://github.com/1024pix/pix/pull/1115) [FEATURE] Afficher les méthodes de connexion des élèves (PO-320)
+- [#1114](https://github.com/1024pix/pix/pull/1114) [FEATURE] Ajout de la page mes tutos (PF-1102).
+- [#1148](https://github.com/1024pix/pix/pull/1148) [BUGFIX] Pouvoir accepter une invitation à rejoindre Pix Orga lorsqu'on est déjà authentifié (PO-240).
+- [#1121](https://github.com/1024pix/pix/pull/1121) [TECH] Démocratisation du code HTTP 404 quand il est impossible de récupérer une ressource : routes answers (PF-1131)
+- [#1153](https://github.com/1024pix/pix/pull/1153) [TECH] Suppression de la table Snapshots (PF-1126).
+- [#1149](https://github.com/1024pix/pix/pull/1149) [TECH] Refacto des couleurs sur Pix Admin
+- [#1152](https://github.com/1024pix/pix/pull/1152) [TECH] Déplacer les critères de badge vers l'API (PF-1149).
+- [#1143](https://github.com/1024pix/pix/pull/1143) [TECH] Première étape pour le passage de Pix Orga à Ember Octane (PO-316-1).
+- [#1145](https://github.com/1024pix/pix/pull/1145) [TECH] Range le code API qui gère les erreurs HTTP dans le répertoire `application`
+- [#1137](https://github.com/1024pix/pix/pull/1137) [TECH] Nettoyage du modèle Course (PF-1137)
+- [#1150](https://github.com/1024pix/pix/pull/1150) [DOC] Amélioration du README et des instructions d'installation de la plateforme.
+
 ## v2.123.0 (05/03/2020)
 
 - [#1129](https://github.com/1024pix/pix/pull/1129) [FEATURE] Pouvoir changer d'organisation courante dans Pix Orga (PO-237). 
