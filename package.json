@@ -74,7 +74,6 @@
     "lint:orga": "cd orga && npm run lint",
     "lint:scripts": "cd scripts && eslint .",
     "preinstall": "test \"$(npm --version)\" = 6.13.4",
-    "release:prepare": "./scripts/release/prepare.sh",
     "release:publish": "./scripts/release/publish.sh",
     "scalingo-post-ra-creation": "echo 'nothing to do'",
     "start": "run-p --print-label start:api start:mon-pix start:orga start:certif start:admin",
