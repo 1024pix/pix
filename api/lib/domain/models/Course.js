@@ -6,7 +6,6 @@ class Course {
     description,
     imageUrl,
     name,
-    type,
     // includes
     // references
     challenges = [],
@@ -17,7 +16,6 @@ class Course {
     this.name = name;
     this.description = description;
     this.imageUrl = imageUrl;
-    this.type = type;
     // includes
     // references
     this.challenges = challenges; // Array of Record IDs
