@@ -7,6 +7,7 @@ export default class CompetenceResult extends Model {
   @attr('string') areaColor;
   @attr('string') name;
   @attr('string') index;
+  @attr('number') masteryPercentage;
   @attr('number') totalSkillsCount;
   @attr('number') testedSkillsCount;
   @attr('number') validatedSkillsCount;
@@ -17,10 +18,5 @@ export default class CompetenceResult extends Model {
   @computed('totalSkillsCount', 'campaignParticipationResult')
   get totalSkillsCountPercentage() {
     return Math.round(this.totalSkillsCount * 100 / this.campaignParticipationResult.get('maxTotalSkillsCountInCompetences'));
-  }
-
-  @computed('validatedSkillsCount', 'totalSkillsCount')
-  get validatedSkillsPercentage() {
-    return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
   }
 }

@@ -95,8 +95,8 @@
             <span>{{competence.name}}</span>
           </td>
           <td>
-            <ProgressionGauge @total={{competence.totalSkillsCountPercentage}} @value={{competence.validatedSkillsPercentage}}>
-              <p class="sr-only">Vous avez validé </p>{{competence.validatedSkillsPercentage}}%<p class="sr-only"> de la
+            <ProgressionGauge @total={{competence.totalSkillsCountPercentage}} @value={{competence.masteryPercentage}}>
+              <p class="sr-only">Vous avez validé </p>{{competence.masteryPercentage}}%<p class="sr-only"> de la
               compétence {{competence.name}}.</p>
             </ProgressionGauge>
           </td>
