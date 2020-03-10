@@ -82,6 +82,10 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}/memberships',
       config: {
+        pre: [{
+          method: securityController.checkUserBelongsToOrganizationOrHasRolePixMaster,
+          assign: 'belongsToOrganization'
+        }],
         handler: organisationController.getMemberships,
         tags: ['api', 'organizations'],
         notes: [
