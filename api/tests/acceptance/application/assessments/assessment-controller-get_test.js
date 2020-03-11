@@ -11,7 +11,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
   });
 
   let userId;
-  const courseId = 'adaptativeCourseId';
+  const courseId = 'courseId';
   const skillurl1Name = '@url1';
   const skillWeb1Name = '@web1';
   const skillWeb4Name = '@web4';
@@ -45,7 +45,6 @@ describe('Acceptance | API | assessment-controller-get', () => {
   });
   const course = airtableBuilder.factory.buildCourse({
     id: courseId,
-    adaptatif: true,
     competence: [competence.id],
   });
   const firstChallenge = airtableBuilder.factory.buildChallenge({
@@ -171,7 +170,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'relationships': {
             'course': {
               data: {
-                id: 'adaptativeCourseId',
+                id: 'courseId',
                 type: 'courses'
               }
             },
