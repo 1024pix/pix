@@ -1,4 +1,4 @@
-const { sinon, expect, hFake, domainBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const { sinon, expect, domainBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
@@ -64,7 +64,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should return a null data directly', async () => {
         // when
-        const response = await assessmentController.getNextChallenge({ params: { id: PREVIEW_ASSESSMENT_ID } }, hFake);
+        const response = await assessmentController.getNextChallenge({ params: { id: PREVIEW_ASSESSMENT_ID } });
 
         // then
         expect(response).to.deep.equal({ data: null });
@@ -83,7 +83,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       context('when the assessment is a DEMO', () => {
         it('should reply with no data', async () => {
           // when
-          const response = await assessmentController.getNextChallenge({ params: { id: 7531 } }, hFake);
+          const response = await assessmentController.getNextChallenge({ params: { id: 7531 } });
 
           // then
           expect(response).to.deep.equal({ data: null });
@@ -99,7 +99,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should not evaluate assessment score', async () => {
         // when
-        await assessmentController.getNextChallenge({ params: { id: 7531 } }, hFake);
+        await assessmentController.getNextChallenge({ params: { id: 7531 } });
 
         // then
         expect(usecases.getAssessment).not.to.have.been.called;
@@ -123,7 +123,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         usecases.getNextChallengeForCertification.resolves();
 
         // when
-        await assessmentController.getNextChallenge({ params: { id: 12 } }, hFake);
+        await assessmentController.getNextChallenge({ params: { id: 12 } });
 
         // then
         expect(usecases.getNextChallengeForCertification).to.have.been.calledOnce;
@@ -137,7 +137,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
 
         // when
-        const response = await assessmentController.getNextChallenge({ params: { id: 12 } }, hFake);
+        const response = await assessmentController.getNextChallenge({ params: { id: 12 } });
 
         // then
         expect(response).to.deep.equal({ data: null });
@@ -159,7 +159,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should call the usecase getNextChallengeForSmartPlacement with tryImproving at false when the query not exists', async () => {
         // when
-        await assessmentController.getNextChallenge({ params: { id: 1 }, query: { } }, hFake);
+        await assessmentController.getNextChallenge({ params: { id: 1 }, query: { } });
 
         // then
         expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
@@ -170,7 +170,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should call the usecase getNextChallengeForSmartPlacement with the query tryImproving', async () => {
         // when
-        await assessmentController.getNextChallenge({ params: { id: 1 }, query: { tryImproving: true } }, hFake);
+        await assessmentController.getNextChallenge({ params: { id: 1 }, query: { tryImproving: true } });
 
         // then
         expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
@@ -200,7 +200,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
         };
         // when
-        await assessmentController.getNextChallenge(request, hFake);
+        await assessmentController.getNextChallenge(request);
 
         // then
         expect(usecases.getNextChallengeForCompetenceEvaluation).to.have.been.calledWith({
