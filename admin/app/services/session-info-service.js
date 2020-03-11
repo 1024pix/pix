@@ -52,6 +52,7 @@ export default Service.extend({
 
   buildSessionExportFileData(session) {
     return session.certifications.map((certification) => {
+      const isCertifRejected = certification.status === 'rejected';
       const rowItem = {
         'Numéro de certification': certification.id,
         'Prénom': this.csvService.sanitize(certification.firstName),
@@ -59,20 +60,22 @@ export default Service.extend({
         'Date de naissance': moment(certification.birthdate).format('DD/MM/YYYY'),
         'Lieu de naissance': this.csvService.sanitize(certification.birthplace),
         'Identifiant Externe': this.csvService.sanitize(certification.externalId),
-        'Nombre de Pix': certification.pixScore,
+        'Nombre de Pix': !isCertifRejected ? certification.pixScore : '0',
         'Session': session.id,
         'Centre de certification': this.csvService.sanitize(session.certificationCenter)  ,
         'Date de passage de la certification': moment(certification.createdAt).format('DD/MM/YYYY'),
       };
 
       const certificationIndexedCompetences = certification.indexedCompetences;
-      competenceIndexes.forEach((competence) => {
-        if (!certificationIndexedCompetences[competence]) {
-          rowItem[competence] = '-';
-        } else if (certificationIndexedCompetences[competence].level === 0 || certificationIndexedCompetences[competence].level === -1) {
-          rowItem[competence] = '0';
+      competenceIndexes.forEach((competenceIndex) => {
+        const competenceValue = certificationIndexedCompetences[competenceIndex];
+        const _competenceIsFailedOrCertifRejected = (competence) => competence.level === 0 || competence.level === -1 || isCertifRejected;
+        if (!competenceValue) {
+          rowItem[competenceIndex] = '-';
+        } else if (_competenceIsFailedOrCertifRejected(competenceValue)) {
+          rowItem[competenceIndex] = '0';
         } else {
-          rowItem[competence] = certificationIndexedCompetences[competence].level;
+          rowItem[competenceIndex] = competenceValue.level;
         }
       });
 
