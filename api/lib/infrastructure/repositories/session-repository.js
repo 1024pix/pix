@@ -7,6 +7,7 @@ const { NotFoundError } = require('../../domain/errors');
 const { statuses } = require('../../domain/models/Session');
 
 module.exports = {
+
   save: async (sessionData) => {
     sessionData = _.omit(sessionData, ['certificationCandidates']);
 
@@ -126,4 +127,21 @@ module.exports = {
     updatedSession = await updatedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
   },
+
+  async findPaginatedFiltered({ filters, page }) {
+    const { models, pagination } = await BookshelfSession
+      .query((qb) => {
+        const { id } = filters;
+        if (id) {
+          qb.whereRaw('CAST(id as TEXT) LIKE ?', `%${id.toString()}%`);
+        }
+      })
+      .fetchPage({ page: page.number, pageSize: page.size });
+
+    return {
+      sessions: bookshelfToDomainConverter.buildDomainObjects(BookshelfSession, models),
+      pagination,
+    };
+  },
+
 };
