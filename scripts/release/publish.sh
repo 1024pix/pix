@@ -64,8 +64,7 @@ function push_commit_and_tag_to_remote_master {
 
 function publish_release_on_sentry {
     npx sentry-cli releases -o pix new -p pix-api "v${NEW_PACKAGE_VERSION}"
-    npx sentry-cli releases -o pix set-commits --commit "1024pix/pix@$( git rev-parse HEAD )" "v${NEW_PACKAGE_VERSION}"
-    npx sentry-cli releases -o pix finalize "v${NEW_PACKAGE_VERSION}"
+    npx sentry-cli releases -o pix set-commits --commit "1024pix/pix@v${NEW_PACKAGE_VERSION}" "v${NEW_PACKAGE_VERSION}"
 }
 
 echo -e "Preparing a new release for ${RED}production${RESET_COLOR}.\n"
