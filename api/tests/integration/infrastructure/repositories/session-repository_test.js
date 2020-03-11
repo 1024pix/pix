@@ -290,58 +290,6 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#find', () => {
-
-    context('when there are some sessions', function() {
-
-      beforeEach(() => {
-        databaseBuilder.factory.buildSession({
-          id: 1,
-          createdAt: new Date('2017-12-08T05:06:00Z')
-        });
-        databaseBuilder.factory.buildSession({
-          id: 2,
-          createdAt: new Date('2017-12-09T07:08:09Z')
-        });
-
-        return databaseBuilder.commit();
-      });
-
-      it('should return all sessions', async () => {
-        // when
-        const foundSessions = await sessionRepository.find();
-
-        // then
-        expect(foundSessions).to.be.an('array');
-        expect(foundSessions).to.have.lengthOf(2);
-      });
-
-      it('should sort sessions with more recent created ones at first', async () => {
-        // when
-        const foundSessions = await sessionRepository.find();
-
-        // then
-        expect(foundSessions[0].id).to.equal(2);
-        expect(foundSessions[1].id).to.equal(1);
-      });
-
-    });
-
-    context('when there is no session', function() {
-
-      it('should return an empty array', async () => {
-        // when
-        const foundSessions = await sessionRepository.find();
-
-        // then
-        expect(foundSessions).to.be.an('array');
-        expect(foundSessions).to.have.lengthOf(0);
-      });
-
-    });
-
-  });
-
   describe('#findByCertificationCenterId', () => {
 
     context('when there are some sessions', function() {

@@ -87,17 +87,6 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
   },
 
-  async find() {
-    const foundSessions = await BookshelfSession
-      .query((qb) => {
-        qb.orderBy('createdAt', 'desc')
-          .limit(10); // remove after pagination
-      })
-      .fetchAll({});
-
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSession, foundSessions);
-  },
-
   async findByCertificationCenterId(certificationCenterId) {
     const foundSessions = await BookshelfSession
       .where({ certificationCenterId })
