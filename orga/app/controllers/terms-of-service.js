@@ -9,18 +9,7 @@ export default class TermOfServiceController extends Controller {
 
   @action
   async submit() {
-    const user = this.currentUser.user;
-    await user.save({ adapterOptions: { acceptPixOrgaTermsOfService: true } });
-
-    const userOrgaSettings = await user.userOrgaSettings;
-    if (!userOrgaSettings) {
-      const userMemberships = await this.currentUser.user.memberships;
-      const membership = await userMemberships.firstObject;
-      const organization = await membership.organization;
-      await this.store.createRecord('user-orga-setting', { user, organization }).save();
-      await this.currentUser.load();
-    }
-
+    await this.currentUser.user.save({ adapterOptions: { acceptPixOrgaTermsOfService: true } });
     this.transitionToRoute('application');
   }
 }
