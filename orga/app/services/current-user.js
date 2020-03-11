@@ -20,11 +20,12 @@ export default class CurrentUserService extends Service {
         if (userOrgaSettings) {
           const organization = await userOrgaSettings.get('organization');
           const userMembership = await this._getMembershipByOrganizationId(userMemberships.toArray(), organization.id);
-          const isAdminInOrganization = userMembership.isAdmin;
-          const canAccessStudentsPage = organization.isSco && organization.isManagingStudents;
-          this.set('organization', organization);
-          this.set('isAdminInOrganization', isAdminInOrganization);
-          this.set('canAccessStudentsPage', canAccessStudentsPage);
+          await this._setOrganizationProperties(userMembership);
+        } else {
+          const membership = await userMemberships.firstObject;
+          const organization = await membership.organization;
+          await this.store.createRecord('user-orga-setting', { user, organization }).save();
+          await this._setOrganizationProperties(membership);
         }
       } catch (error) {
         if (_.get(error, 'errors[0].code') === 401) {
@@ -42,5 +43,14 @@ export default class CurrentUserService extends Service {
       }
     }
     return null;
+  }
+
+  async _setOrganizationProperties(membership) {
+    const organization = await membership.organization;
+    const isAdminInOrganization = membership.isAdmin;
+    const canAccessStudentsPage = organization.isSco && organization.isManagingStudents;
+    this.set('organization', organization);
+    this.set('isAdminInOrganization', isAdminInOrganization);
+    this.set('canAccessStudentsPage', canAccessStudentsPage);
   }
 }
