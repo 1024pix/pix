@@ -4,11 +4,14 @@ import { debounce } from '@ember/runloop';
 const DEFAULT_PAGE_NUMBER = 1;
 
 export default Controller.extend({
-  queryParams: ['pageNumber', 'pageSize', 'name', 'type'],
+
+  queryParams: ['pageNumber', 'pageSize', 'name', 'type', 'externalId'],
+
   pageNumber: DEFAULT_PAGE_NUMBER,
   pageSize: 10,
   name: null,
   type: null,
+  externalId: null,
 
   searchFilter: null,
 
@@ -18,6 +21,7 @@ export default Controller.extend({
   },
 
   actions: {
+
     triggerFiltering(fieldName, value) {
       this.set('searchFilter', { fieldName, value });
       debounce(this, this.setFieldName, 500);
