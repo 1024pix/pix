@@ -9,398 +9,206 @@ module('Unit | Service | current-user', function(hooks) {
 
   setupTest(hooks);
 
-  module('user is authenticated', function() {
+  module('user is authenticated', function(hooks) {
 
-    test('should load the current user', async function(assert) {
-      // Given
+    let currentUserService;
+    let connectedUser;
+    let storeStub;
+
+    hooks.beforeEach(function() {
       const connectedUserId = 1;
-      const connectedUser = Object.create({
+      connectedUser = Object.create({
         id: connectedUserId,
         memberships: [{ organization: [] }],
       });
-      const storeStub = Service.create({
+      storeStub = Service.create({
         queryRecord: () => resolve(connectedUser)
       });
       const sessionStub = Service.create({
         isAuthenticated: true,
         data: { authenticated: { user_id: connectedUserId } }
       });
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.set('store', storeStub);
-      currentUser.set('session', sessionStub);
+      currentUserService = this.owner.lookup('service:currentUser');
+      currentUserService.set('store', storeStub);
+      currentUserService.set('session', sessionStub);
+    });
 
+    test('should load the current user', async function(assert) {
       // When
-      await currentUser.load();
+      await currentUserService.load();
 
       // Then
-      assert.equal(currentUser.user, connectedUser);
+      assert.equal(currentUserService.user, connectedUser);
     });
 
     test('should load the memberships', async function(assert) {
       // Given
-      const connectedUserId = 1;
       const firstOrganization = Object.create({ id: 9 });
       const secondOrganization = Object.create({ id: 10 });
       const memberships = [Object.create({ organization: firstOrganization }), Object.create({ organization: secondOrganization })];
-      const connectedUser = Object.create({
-        id: connectedUserId,
-        memberships
-      });
-      const storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser)
-      });
-      const sessionStub = Service.create({
-        isAuthenticated: true,
-        data: { authenticated: { user_id: connectedUserId } }
-      });
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.set('store', storeStub);
-      currentUser.set('session', sessionStub);
+      connectedUser.memberships = memberships;
 
       // When
-      await currentUser.load();
+      await currentUserService.load();
 
       // Then
-      assert.equal(currentUser.memberships, memberships);
+      assert.equal(currentUserService.memberships, memberships);
     });
 
     test('should load the organization', async function(assert) {
       // Given
-      const connectedUserId = 1;
       const organization = Object.create({ id: 9 });
-      const connectedUser = Object.create({
-        id: connectedUserId,
-        memberships: [Object.create({ organization })],
-        userOrgaSettings: Object.create({ organization })
-      });
-      const storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser)
-      });
-      const sessionStub = Service.create({
-        isAuthenticated: true,
-        data: { authenticated: { user_id: connectedUserId } }
-      });
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.set('store', storeStub);
-      currentUser.set('session', sessionStub);
+      connectedUser.memberships = [Object.create({ organization })];
+      connectedUser.userOrgaSettings = Object.create({ organization });
 
       // When
-      await currentUser.load();
+      await currentUserService.load();
 
       // Then
-      assert.equal(currentUser.organization, organization);
+      assert.equal(currentUserService.organization, organization);
     });
 
     test('should set isAdminInOrganization to true', async function(assert) {
       // Given
-      const connectedUserId = 1;
       const organization = Object.create({ id: 9 });
-      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'ADMIN', isAdmin: true });
-      const connectedUser = Object.create({
-        id: connectedUserId,
-        memberships: [membership],
-        userOrgaSettings: Object.create({ organization })
-      });
-      const storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser)
-      });
-      const sessionStub = Service.create({
-        isAuthenticated: true,
-        data: { authenticated: { user_id: connectedUserId } }
-      });
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.set('store', storeStub);
-      currentUser.set('session', sessionStub);
+      const membership = Object.create({ organization, organizationRole: 'ADMIN', isAdmin: true });
+      connectedUser.memberships = [membership];
+      connectedUser.userOrgaSettings = Object.create({ organization });
 
       // When
-      await currentUser.load();
+      await currentUserService.load();
 
       // Then
-      assert.equal(currentUser.isAdminInOrganization, true);
+      assert.equal(currentUserService.isAdminInOrganization, true);
     });
 
     test('should set isAdminInOrganization to false', async function(assert) {
       // Given
-      const connectedUserId = 1;
       const organization = Object.create({ id: 9 });
-      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'MEMBER', isAdmin: false });
-      const connectedUser = Object.create({
-        id: connectedUserId,
-        memberships: [membership],
-        userOrgaSettings: Object.create({ organization })
-      });
-      const storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser)
-      });
-      const sessionStub = Service.create({
-        isAuthenticated: true,
-        data: { authenticated: { user_id: connectedUserId } }
-      });
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.set('store', storeStub);
-      currentUser.set('session', sessionStub);
+      const membership = Object.create({ organization, organizationRole: 'MEMBER', isAdmin: false });
+      connectedUser.memberships = [membership];
+      connectedUser.userOrgaSettings = Object.create({ organization });
 
       // When
-      await currentUser.load();
+      await currentUserService.load();
 
       // Then
-      assert.equal(currentUser.isAdminInOrganization, false);
+      assert.equal(currentUserService.isAdminInOrganization, false);
     });
 
     test('should set canAccessStudentsPage to true', async function(assert) {
       // Given
-      const connectedUserId = 1;
       const organization = Object.create({ id: 9, type: 'SCO', isManagingStudents: true, isSco: true });
-      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'ADMIN', isAdmin: true });
-      const connectedUser = Object.create({
-        id: connectedUserId,
-        memberships: [membership],
-        userOrgaSettings: Object.create({ organization })
-      });
-      const storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser)
-      });
-      const sessionStub = Service.create({
-        isAuthenticated: true,
-        data: { authenticated: { user_id: connectedUserId } }
-      });
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.set('store', storeStub);
-      currentUser.set('session', sessionStub);
+      const membership = Object.create({ organization, organizationRole: 'ADMIN', isAdmin: true });
+      connectedUser.memberships = [membership];
+      connectedUser.userOrgaSettings = Object.create({ organization });
 
       // When
-      await currentUser.load();
+      await currentUserService.load();
 
       // Then
-      assert.equal(currentUser.canAccessStudentsPage, true);
+      assert.equal(currentUserService.canAccessStudentsPage, true);
     });
 
     test('should set canAccessStudentsPage to false when type is PRO', async function(assert) {
       // Given
-      const connectedUserId = 1;
       const organization = Object.create({ id: 9, type: 'PRO', isManagingStudents: true, isSco: false });
-      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'ADMIN', isAdmin: true });
-      const connectedUser = Object.create({
-        id: connectedUserId,
-        memberships: [membership],
-        userOrgaSettings: Object.create({ organization })
-      });
-      const storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser)
-      });
-      const sessionStub = Service.create({
-        isAuthenticated: true,
-        data: { authenticated: { user_id: connectedUserId } }
-      });
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.set('store', storeStub);
-      currentUser.set('session', sessionStub);
+      const membership = Object.create({ organization, organizationRole: 'ADMIN', isAdmin: true });
+      connectedUser.memberships = [membership];
+      connectedUser.userOrgaSettings = Object.create({ organization });
 
       // When
-      await currentUser.load();
+      await currentUserService.load();
 
       // Then
-      assert.equal(currentUser.canAccessStudentsPage, false);
+      assert.equal(currentUserService.canAccessStudentsPage, false);
     });
 
     test('should set canAccessStudentsPage to false when isManagingStudents is false', async function(assert) {
       // Given
-      const connectedUserId = 1;
       const organization = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
-      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'ADMIN', isAdmin: true });
-      const connectedUser = Object.create({
-        id: connectedUserId,
-        memberships: [membership],
-        userOrgaSettings: Object.create({ organization })
-      });
-      const storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser)
-      });
-      const sessionStub = Service.create({
-        isAuthenticated: true,
-        data: { authenticated: { user_id: connectedUserId } }
-      });
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.set('store', storeStub);
-      currentUser.set('session', sessionStub);
+      const membership = Object.create({ organization, organizationRole: 'ADMIN', isAdmin: true });
+      connectedUser.memberships = [membership];
+      connectedUser.userOrgaSettings = Object.create({ organization });
 
       // When
-      await currentUser.load();
+      await currentUserService.load();
 
       // Then
-      assert.equal(currentUser.canAccessStudentsPage, false);
+      assert.equal(currentUserService.canAccessStudentsPage, false);
     });
 
     test('should prefer organization from userOrgaSettings rather than first membership', async function(assert) {
       // Given
-      const connectedUserId = 1;
       const organization1 = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
       const organization2 = Object.create({ id: 10, type: 'SCO', isManagingStudents: false, isSco: true });
-      const membership1 = Object.create({ userId: connectedUserId, organization: organization1, organizationRole: 'ADMIN', isAdmin: true });
-      const membership2 = Object.create({ userId: connectedUserId, organization: organization2, organizationRole: 'ADMIN', isAdmin: true });
+      const membership1 = Object.create({ organization: organization1, organizationRole: 'ADMIN', isAdmin: true });
+      const membership2 = Object.create({ organization: organization2, organizationRole: 'ADMIN', isAdmin: true });
       const userOrgaSettings = Object.create({ organization: organization2 });
-      const connectedUser = Object.create({
-        id: connectedUserId,
-        memberships: [membership1, membership2],
-        userOrgaSettings
-      });
-      const storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser)
-      });
-      const sessionStub = Service.create({
-        isAuthenticated: true,
-        data: { authenticated: { user_id: connectedUserId } }
-      });
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.set('store', storeStub);
-      currentUser.set('session', sessionStub);
+      connectedUser.memberships = [membership1, membership2];
+      connectedUser.userOrgaSettings = userOrgaSettings;
 
       // When
-      await currentUser.load();
+      await currentUserService.load();
 
       // Then
-      assert.equal(currentUser.organization.id, organization2.id);
+      assert.equal(currentUserService.organization.id, organization2.id);
     });
 
-    module('when user has no userOrgaSettings', function() {
+    module('when user has no userOrgaSettings', function(hooks) {
+
+      let firstOrganization;
+
+      hooks.beforeEach(function() {
+        firstOrganization = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
+        const organization2 = Object.create({ id: 10, type: 'SCO', isManagingStudents: false, isSco: true });
+        const membership1 = Object.create({ organization: firstOrganization, organizationRole: 'ADMIN', isAdmin: true });
+        const membership2 = Object.create({ organization: organization2, organizationRole: 'ADMIN', isAdmin: true });
+        connectedUser.memberships = [membership1, membership2];
+
+        storeStub.createRecord = sinon.stub().returns({
+          save: sinon.stub()
+        });
+      });
 
       test('should create it', async function(assert) {
         // Given
-        const connectedUserId = 1;
-        const organization1 = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
-        const organization2 = Object.create({ id: 10, type: 'SCO', isManagingStudents: false, isSco: true });
-        const membership1 = Object.create({ userId: connectedUserId, organization: organization1, organizationRole: 'ADMIN', isAdmin: true });
-        const membership2 = Object.create({ userId: connectedUserId, organization: organization2, organizationRole: 'ADMIN', isAdmin: true });
-        const connectedUser = Object.create({
-          id: connectedUserId,
-          memberships: [membership1, membership2],
-        });
-
         const createRecordSpy = sinon.spy();
-        const storeStub = Service.create({
-          queryRecord: () => resolve(connectedUser),
-          createRecord: createRecordSpy
-        });
-
-        const sessionStub = Service.create({
-          isAuthenticated: true,
-          data: { authenticated: { user_id: connectedUserId } }
-        });
-        const currentUser = this.owner.lookup('service:currentUser');
-        currentUser.set('store', storeStub);
-        currentUser.set('session', sessionStub);
+        storeStub.createRecord = createRecordSpy;
 
         // When
-        await currentUser.load();
+        await currentUserService.load();
 
         // Then
         assert.equal(createRecordSpy.callCount, 1);
         assert.ok(createRecordSpy.calledWith('user-orga-setting', {
           user: connectedUser,
-          organization: organization1
+          organization: firstOrganization
         }));
       });
 
       test('should set the first membership\'s organization as current organization', async function(assert) {
-        // Given
-        const connectedUserId = 1;
-        const organization1 = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
-        const organization2 = Object.create({ id: 10, type: 'SCO', isManagingStudents: false, isSco: true });
-        const membership1 = Object.create({ userId: connectedUserId, organization: organization1, organizationRole: 'ADMIN', isAdmin: true });
-        const membership2 = Object.create({ userId: connectedUserId, organization: organization2, organizationRole: 'ADMIN', isAdmin: true });
-        const connectedUser = Object.create({
-          id: connectedUserId,
-          memberships: [membership1, membership2],
-        });
-
-        const storeStub = Service.create({
-          queryRecord: () => resolve(connectedUser),
-          createRecord: sinon.stub().returns({
-            save: sinon.stub()
-          })
-        });
-
-        const sessionStub = Service.create({
-          isAuthenticated: true,
-          data: { authenticated: { user_id: connectedUserId } }
-        });
-        const currentUser = this.owner.lookup('service:currentUser');
-        currentUser.set('store', storeStub);
-        currentUser.set('session', sessionStub);
-
         // When
-        await currentUser.load();
+        await currentUserService.load();
 
         // Then
-        assert.equal(currentUser.organization, organization1);
+        assert.equal(currentUserService.organization, firstOrganization);
       });
 
       test('should set isAdminInOrganization', async function(assert) {
-        // Given
-        const connectedUserId = 1;
-        const organization1 = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
-        const organization2 = Object.create({ id: 10, type: 'SCO', isManagingStudents: false, isSco: true });
-        const membership1 = Object.create({ userId: connectedUserId, organization: organization1, organizationRole: 'ADMIN', isAdmin: true });
-        const membership2 = Object.create({ userId: connectedUserId, organization: organization2, organizationRole: 'ADMIN', isAdmin: true });
-        const connectedUser = Object.create({
-          id: connectedUserId,
-          memberships: [membership1, membership2],
-        });
-
-        const storeStub = Service.create({
-          queryRecord: () => resolve(connectedUser),
-          createRecord: sinon.stub().returns({
-            save: sinon.stub()
-          })
-        });
-
-        const sessionStub = Service.create({
-          isAuthenticated: true,
-          data: { authenticated: { user_id: connectedUserId } }
-        });
-        const currentUser = this.owner.lookup('service:currentUser');
-        currentUser.set('store', storeStub);
-        currentUser.set('session', sessionStub);
-
         // When
-        await currentUser.load();
+        await currentUserService.load();
 
         // Then
-        assert.equal(currentUser.isAdminInOrganization, true);
+        assert.equal(currentUserService.isAdminInOrganization, true);
       });
 
       test('should set canAccessStudentsPage', async function(assert) {
-        // Given
-        const connectedUserId = 1;
-        const organization1 = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
-        const organization2 = Object.create({ id: 10, type: 'SCO', isManagingStudents: false, isSco: true });
-        const membership1 = Object.create({ userId: connectedUserId, organization: organization1, organizationRole: 'ADMIN', isAdmin: true });
-        const membership2 = Object.create({ userId: connectedUserId, organization: organization2, organizationRole: 'ADMIN', isAdmin: true });
-        const connectedUser = Object.create({
-          id: connectedUserId,
-          memberships: [membership1, membership2],
-        });
-
-        const storeStub = Service.create({
-          queryRecord: () => resolve(connectedUser),
-          createRecord: sinon.stub().returns({
-            save: sinon.stub()
-          })
-        });
-
-        const sessionStub = Service.create({
-          isAuthenticated: true,
-          data: { authenticated: { user_id: connectedUserId } }
-        });
-        const currentUser = this.owner.lookup('service:currentUser');
-        currentUser.set('store', storeStub);
-        currentUser.set('session', sessionStub);
-
         // When
-        await currentUser.load();
+        await currentUserService.load();
 
         // Then
-        assert.equal(currentUser.canAccessStudentsPage, false);
+        assert.equal(currentUserService.canAccessStudentsPage, false);
       });
     });
   });
