@@ -3,6 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { reject, resolve } from 'rsvp';
 import Object from '@ember/object';
 import Service from '@ember/service';
+import sinon from 'sinon';
 
 module('Unit | Service | current-user', function(hooks) {
 
@@ -259,6 +260,148 @@ module('Unit | Service | current-user', function(hooks) {
 
       // Then
       assert.equal(currentUser.organization.id, organization2.id);
+    });
+
+    module('when user has no userOrgaSettings', function() {
+
+      test('should create it', async function(assert) {
+        // Given
+        const connectedUserId = 1;
+        const organization1 = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
+        const organization2 = Object.create({ id: 10, type: 'SCO', isManagingStudents: false, isSco: true });
+        const membership1 = Object.create({ userId: connectedUserId, organization: organization1, organizationRole: 'ADMIN', isAdmin: true });
+        const membership2 = Object.create({ userId: connectedUserId, organization: organization2, organizationRole: 'ADMIN', isAdmin: true });
+        const connectedUser = Object.create({
+          id: connectedUserId,
+          memberships: [membership1, membership2],
+        });
+
+        const createRecordSpy = sinon.spy();
+        const storeStub = Service.create({
+          queryRecord: () => resolve(connectedUser),
+          createRecord: createRecordSpy
+        });
+
+        const sessionStub = Service.create({
+          isAuthenticated: true,
+          data: { authenticated: { user_id: connectedUserId } }
+        });
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.set('store', storeStub);
+        currentUser.set('session', sessionStub);
+
+        // When
+        await currentUser.load();
+
+        // Then
+        assert.equal(createRecordSpy.callCount, 1);
+        assert.ok(createRecordSpy.calledWith('user-orga-setting', {
+          user: connectedUser,
+          organization: organization1
+        }));
+      });
+
+      test('should set the first membership\'s organization as current organization', async function(assert) {
+        // Given
+        const connectedUserId = 1;
+        const organization1 = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
+        const organization2 = Object.create({ id: 10, type: 'SCO', isManagingStudents: false, isSco: true });
+        const membership1 = Object.create({ userId: connectedUserId, organization: organization1, organizationRole: 'ADMIN', isAdmin: true });
+        const membership2 = Object.create({ userId: connectedUserId, organization: organization2, organizationRole: 'ADMIN', isAdmin: true });
+        const connectedUser = Object.create({
+          id: connectedUserId,
+          memberships: [membership1, membership2],
+        });
+
+        const storeStub = Service.create({
+          queryRecord: () => resolve(connectedUser),
+          createRecord: sinon.stub().returns({
+            save: sinon.stub()
+          })
+        });
+
+        const sessionStub = Service.create({
+          isAuthenticated: true,
+          data: { authenticated: { user_id: connectedUserId } }
+        });
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.set('store', storeStub);
+        currentUser.set('session', sessionStub);
+
+        // When
+        await currentUser.load();
+
+        // Then
+        assert.equal(currentUser.organization, organization1);
+      });
+
+      test('should set isAdminInOrganization', async function(assert) {
+        // Given
+        const connectedUserId = 1;
+        const organization1 = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
+        const organization2 = Object.create({ id: 10, type: 'SCO', isManagingStudents: false, isSco: true });
+        const membership1 = Object.create({ userId: connectedUserId, organization: organization1, organizationRole: 'ADMIN', isAdmin: true });
+        const membership2 = Object.create({ userId: connectedUserId, organization: organization2, organizationRole: 'ADMIN', isAdmin: true });
+        const connectedUser = Object.create({
+          id: connectedUserId,
+          memberships: [membership1, membership2],
+        });
+
+        const storeStub = Service.create({
+          queryRecord: () => resolve(connectedUser),
+          createRecord: sinon.stub().returns({
+            save: sinon.stub()
+          })
+        });
+
+        const sessionStub = Service.create({
+          isAuthenticated: true,
+          data: { authenticated: { user_id: connectedUserId } }
+        });
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.set('store', storeStub);
+        currentUser.set('session', sessionStub);
+
+        // When
+        await currentUser.load();
+
+        // Then
+        assert.equal(currentUser.isAdminInOrganization, true);
+      });
+
+      test('should set canAccessStudentsPage', async function(assert) {
+        // Given
+        const connectedUserId = 1;
+        const organization1 = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
+        const organization2 = Object.create({ id: 10, type: 'SCO', isManagingStudents: false, isSco: true });
+        const membership1 = Object.create({ userId: connectedUserId, organization: organization1, organizationRole: 'ADMIN', isAdmin: true });
+        const membership2 = Object.create({ userId: connectedUserId, organization: organization2, organizationRole: 'ADMIN', isAdmin: true });
+        const connectedUser = Object.create({
+          id: connectedUserId,
+          memberships: [membership1, membership2],
+        });
+
+        const storeStub = Service.create({
+          queryRecord: () => resolve(connectedUser),
+          createRecord: sinon.stub().returns({
+            save: sinon.stub()
+          })
+        });
+
+        const sessionStub = Service.create({
+          isAuthenticated: true,
+          data: { authenticated: { user_id: connectedUserId } }
+        });
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.set('store', storeStub);
+        currentUser.set('session', sessionStub);
+
+        // When
+        await currentUser.load();
+
+        // Then
+        assert.equal(currentUser.canAccessStudentsPage, false);
+      });
     });
   });
 
