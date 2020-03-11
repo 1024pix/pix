@@ -6,6 +6,7 @@ const checkUserIsAuthenticatedUseCase = require('../../../../lib/application/use
 const checkUserHasRolePixMasterUseCase = require('../../../../lib/application/usecases/checkUserHasRolePixMaster');
 const checkUserIsAdminInOrganizationUseCase = require('../../../../lib/application/usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
+const checkUserBelongsToOrganizationUseCase = require('../../../../lib/application/usecases/checkUserBelongsToOrganization');
 
 describe('Unit | Interfaces | Controllers | SecurityController', () => {
 
@@ -561,6 +562,112 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
 
         // when
         const response = await securityController.checkUserIsAdminInScoOrganizationAndManagesStudents(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
+  describe('#checkUserBelongsToOrganizationOrHasRolePixMaster', () => {
+
+    let belongsToOrganizationStub;
+    let hasRolePixMasterStub;
+
+    beforeEach(() => {
+      belongsToOrganizationStub = sinon.stub(checkUserBelongsToOrganizationUseCase, 'execute');
+      hasRolePixMasterStub = sinon.stub(checkUserHasRolePixMasterUseCase, 'execute');
+    });
+
+    context('Successful case', () => {
+      const request = {
+        auth: {
+          credentials: {
+            accessToken: 'valid.access.token',
+            userId: 1234
+          }
+        },
+        params: { id: 5678 }
+      };
+
+      it('should authorize access to resource when the user is authenticated and belongs to organization', async () => {
+        // given
+        belongsToOrganizationStub.resolves(true);
+        hasRolePixMasterStub.resolves(false);
+
+        // when
+        const response = await securityController.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+
+      it('should authorize access to resource when the user is authenticated and is PIX_MASTER', async () => {
+        // given
+        belongsToOrganizationStub.resolves(false);
+        hasRolePixMasterStub.resolves(true);
+
+        // when
+        const response = await securityController.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+
+      it('should authorize access to resource when the user is authenticated and belongs to organization and is PIX_MASTER', async () => {
+        // given
+        belongsToOrganizationStub.resolves(true);
+        hasRolePixMasterStub.resolves(true);
+
+        // when
+        const response = await securityController.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', () => {
+      const request = {
+        auth: {
+          credentials: {
+            accessToken: 'valid.access.token',
+            userId: 1234
+          }
+        },
+      };
+
+      it('should forbid resource access when user was not previously authenticated', async () => {
+        // given
+        delete request.auth.credentials;
+
+        // when
+        const response = await securityController.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when user does not belong to organization or has role PIXMASTER', async () => {
+        // given
+        belongsToOrganizationStub.resolves(false);
+
+        // when
+        const response = await securityController.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by use case', async () => {
+        // given
+        belongsToOrganizationStub.rejects(new Error('Some error'));
+
+        // when
+        const response = await securityController.checkUserBelongsToOrganizationOrHasRolePixMaster(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
