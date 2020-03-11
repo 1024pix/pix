@@ -95,6 +95,7 @@ module.exports = {
 };
 
 async function _getChallenge(assessment, request) {
+  // TODO: Extract locale from Headers and pass it as arguments of usescases functions
   if (assessment.isPreview()) {
     return usecases.getNextChallengeForPreview({});
   }
@@ -104,7 +105,7 @@ async function _getChallenge(assessment, request) {
   }
 
   if (assessment.isDemo()) {
-    return usecases.getNextChallengeForDemo({ assessment, });
+    return usecases.getNextChallengeForDemo({ assessment });
   }
 
   if (assessment.isSmartPlacement()) {

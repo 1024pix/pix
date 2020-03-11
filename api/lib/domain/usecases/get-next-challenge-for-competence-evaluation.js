@@ -6,6 +6,7 @@ const UNEXISTING_ITEM = null;
 const smartRandom = require('../services/smart-random/smart-random');
 const dataFetcher = require('../services/smart-random/data-fetcher');
 
+// TODO: add locale parameter
 module.exports = async function getNextChallengeForCompetenceEvaluation({
   knowledgeElementRepository,
   challengeRepository,
