@@ -10,4 +10,8 @@ export default Component.extend({
   typeValue: computed('type', function() {
     return this.get('type');
   }),
+
+  externalIdValue: computed('externalId', function() {
+    return this.get('externalId');
+  }),
 });
