@@ -491,4 +491,107 @@ describe('Integration | Repository | Session', function() {
       expect(sessions[0].finalizedAt).to.deep.equal(finalizedAt);
     });
   });
+
+  describe('#findPaginatedFiltered', () => {
+
+    context('when there are Sessions in the database', () => {
+
+      beforeEach(() => {
+        _.times(3, databaseBuilder.factory.buildSession);
+
+        return databaseBuilder.commit();
+      });
+
+      it('should return an Array of Sessions', async () => {
+        // given
+        const filters = {};
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
+
+        // when
+        const { sessions: matchingSessions, pagination } = await sessionRepository.findPaginatedFiltered({ filters, page });
+
+        // then
+        expect(matchingSessions).to.exist;
+        expect(matchingSessions).to.have.lengthOf(3);
+        expect(matchingSessions[0]).to.be.an.instanceOf(Session);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+
+    });
+
+    context('when there are lots of Sessions (> 10) in the database', () => {
+
+      beforeEach(() => {
+        _.times(12, databaseBuilder.factory.buildSession);
+        return databaseBuilder.commit();
+      });
+
+      it('should return paginated matching Sessions', async () => {
+        // given
+        const filters = {};
+        const page = { number: 1, size: 3 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
+
+        // when
+        const { sessions: matchingSessions, pagination } = await sessionRepository.findPaginatedFiltered({ filters, page });
+
+        // then
+        expect(matchingSessions).to.have.lengthOf(3);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('filters', () => {
+
+      context('when there are ignored filters', () => {
+
+        beforeEach(() => {
+          databaseBuilder.factory.buildSession();
+          databaseBuilder.factory.buildSession();
+
+          return databaseBuilder.commit();
+        });
+
+        it('should ignore the filters and retrieve all certificationCenters', async () => {
+          // given
+          const filters = { foo: 1 };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
+
+          // when
+          const { sessions, pagination } = await sessionRepository.findPaginatedFiltered({ filters, page });
+
+          // then
+          expect(pagination).to.deep.equal(expectedPagination);
+          expect(sessions).to.have.length(2);
+        });
+      });
+
+      context('when there is a filter on the ID', () => {
+        let expectedSession;
+
+        beforeEach(() => {
+          expectedSession = databaseBuilder.factory.buildSession({ id: 121 });
+          databaseBuilder.factory.buildSession({ id: 333 });
+
+          return databaseBuilder.commit();
+        });
+
+        it('should apply the filter and return the appropriate results', async () => {
+          // given
+          const filters = { id: 2 };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
+
+          // when
+          const { sessions, pagination } = await sessionRepository.findPaginatedFiltered({ filters, page });
+
+          // then
+          expect(pagination).to.deep.equal(expectedPagination);
+          expect(sessions[0].id).to.equal(expectedSession.id);
+        });
+      });
+    });
+  });
 });
