@@ -1,11 +1,30 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
 const { NotFoundError, SameNationalStudentIdInOrganizationError, StudentsCouldNotBeSavedError } = require('../../domain/errors');
+const StudentWithUserInfo = require('../../domain/models/StudentWithUserInfo');
 const Student = require('../../domain/models/Student');
+
 const Bookshelf = require('../bookshelf');
 const BookshelfStudent = require('../data/student');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const bookshelfUtils = require('../utils/bookshelf-utils');
+
+function _toStudentWithUserInfoDTO(BookshelfStudent) {
+
+  const rawStudent = BookshelfStudent.toJSON();
+
+  return new StudentWithUserInfo({
+    id: rawStudent.id,
+    firstName: rawStudent.firstName,
+    lastName: rawStudent.lastName,
+    birthdate: rawStudent.birthdate,
+    userId: rawStudent.userId,
+    organizationId: rawStudent.organizationId,
+    username: rawStudent.username,
+    email: rawStudent.email,
+    isAuthenticatedFromGAR: (rawStudent.samlId) ? true : false,
+  });
+}
 
 module.exports = {
 
@@ -87,5 +106,16 @@ module.exports = {
         }
         throw err;
       });
-  }
+  },
+
+  findStudentsWithUserInfoByOrganizationId({ organizationId }) {
+    return BookshelfStudent
+      .where({ organizationId })
+      .query((qb) => {
+        qb.orderByRaw('LOWER(students."lastName") ASC, LOWER(students."firstName") ASC');
+        qb.leftJoin('users', 'students.userId', 'users.id');
+      })
+      .fetchAll({ columns: ['students.id','students.firstName', 'students.lastName','students.birthdate', 'students.userId', 'students.organizationId' , 'users.username' , 'users.email' , 'users.samlId' , ] })
+      .then((students) => students.models.map(_toStudentWithUserInfoDTO));
+  },
 };
