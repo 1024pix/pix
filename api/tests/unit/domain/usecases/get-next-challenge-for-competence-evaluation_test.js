@@ -10,8 +10,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
     let userId, assessmentId, competenceId,
       assessment, lastAnswer, challenges, targetSkills,
       answerRepository, challengeRepository, skillRepository,
-      knowledgeElementRepository,
-      recentKnowledgeElements, actualComputedChallenge;
+      knowledgeElementRepository, pickChallengeService,
+      recentKnowledgeElements, actualComputedChallenge,
+      challengeUrl21, challengeUrl22;
 
     beforeEach(async () => {
 
@@ -27,6 +28,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       answerRepository = { findLastByAssessment: sinon.stub().resolves(lastAnswer) };
       challengeRepository = { findByCompetenceId: sinon.stub().resolves(challenges) };
       skillRepository = { findByCompetenceId: sinon.stub().resolves(targetSkills) };
+      pickChallengeService = { pickChallenge: sinon.stub().resolves(challengeUrl22) };
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
       knowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
@@ -34,7 +36,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       const web2 = domainBuilder.buildSkill({ name: '@web2' });
       web2.challenges = [domainBuilder.buildChallenge({ id: 'challenge_web2_1' }), domainBuilder.buildChallenge({ id: 'challenge_web2_2' })];
       const url2 = domainBuilder.buildSkill({ name: '@url2' });
-      url2.challenges = [domainBuilder.buildChallenge({ id: 'challenge_url2_1' }), domainBuilder.buildChallenge({ id: 'challenge_url2_2' })];
+      challengeUrl21 = domainBuilder.buildChallenge({ id: 'challenge_url2_1' });
+      challengeUrl22 = domainBuilder.buildChallenge({ id: 'challenge_url2_2' });
+      url2.challenges = [challengeUrl21, challengeUrl22];
       const search2 = domainBuilder.buildSkill({ name: '@search2' });
       search2.challenges = [domainBuilder.buildChallenge({ id: 'challenge_search2_1' }), domainBuilder.buildChallenge({ id: 'challenge_search2_2' })];
 
@@ -53,7 +57,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           answerRepository,
           challengeRepository,
           knowledgeElementRepository,
-          skillRepository
+          skillRepository,
+          pickChallengeService
         });
       });
       it('should throw a UserNotAuthorizedToAccessEntity error', () => {
@@ -70,6 +75,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           challengeRepository,
           knowledgeElementRepository,
           skillRepository,
+          pickChallengeService
         });
       });
       it('should have fetched the answers', () => {
@@ -94,9 +100,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       });
 
       it('should have returned the next challenge', () => {
-        for (let i = 0; i < 5; i++) {
-          expect(actualComputedChallenge.id).to.equal('challenge_url2_2');
-        }
+        expect(actualComputedChallenge.id).to.equal(challengeUrl22.id);
       });
     });
   });

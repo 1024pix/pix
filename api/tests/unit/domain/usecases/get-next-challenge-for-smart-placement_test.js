@@ -11,7 +11,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       assessment, lastAnswer, answerRepository, challengeRepository, challenges,
       knowledgeElementRepository, recentKnowledgeElements,
       targetProfileRepository, targetProfile, skills, actualNextChallenge,
-      improvementService;
+      improvementService, pickChallengeService,
+      challengeWeb21, challengeWeb22;
 
     beforeEach(async () => {
 
@@ -29,12 +30,15 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       targetProfile = { skills };
       targetProfileRepository = { get: sinon.stub().resolves(targetProfile) };
       improvementService = { filterKnowledgeElementsIfImproving: sinon.stub().returns(recentKnowledgeElements) };
+      pickChallengeService = { pickChallenge: sinon.stub().resolves(challengeWeb22) };
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
       knowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
 
       const web2 = domainBuilder.buildSkill({ name: '@web2' });
-      web2.challenges = [domainBuilder.buildChallenge({ id: 'challenge_web2_1' }), domainBuilder.buildChallenge({ id: 'challenge_web2_2' })];
+      challengeWeb21 = domainBuilder.buildChallenge({ id: 'challenge_web2_1' });
+      challengeWeb22 = domainBuilder.buildChallenge({ id: 'challenge_web2_2' });
+      web2.challenges = [challengeWeb21, challengeWeb22];
       const url2 = domainBuilder.buildSkill({ name: '@url2' });
       url2.challenges = [domainBuilder.buildChallenge({ id: 'challenge_url2_1' }), domainBuilder.buildChallenge({ id: 'challenge_url2_2' })];
       const search2 = domainBuilder.buildSkill({ name: '@search2' });
@@ -52,6 +56,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
         knowledgeElementRepository,
         targetProfileRepository,
         improvementService,
+        pickChallengeService,
         tryImproving: true
       });
     });
@@ -93,9 +98,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
     });
 
     it('should have returned the next challenge', () => {
-      for (let i = 0; i < 5; i++) {
-        expect(actualNextChallenge.id).to.equal('challenge_web2_2');
-      }
+      expect(actualNextChallenge.id).to.equal(challengeWeb22.id);
     });
   });
 
