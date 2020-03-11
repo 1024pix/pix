@@ -30,7 +30,7 @@ exports.register = async (server) => {
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
           '- Elle permet de récupérer & chercher une liste d’organisations\n' +
-          '- Cette liste est paginée et filtrée selon un **name** et/ou un **type** donnés'
+          '- Cette liste est paginée et filtrée selon un **name** et/ou un **type** et/ou un **identifiant externe** donnés'
         ]
       }
     },
