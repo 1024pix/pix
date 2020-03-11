@@ -6,9 +6,9 @@ source $(dirname $0)/common.sh
 VERSION_NUMBER=$1
 
 function ensure_version_exists {
-    COMMIT_REFERENCE="$(git rev-parse --verify --quiet ${VERSION_NUMBER})"
+    COMMIT_HASH="$(git rev-parse --verify --quiet ${VERSION_NUMBER})"
 
-    if [ -z "${COMMIT_REFERENCE}" ];
+    if [ -z "${COMMIT_HASH}" ];
     then
         echo -e "${RED}Version ${VERSION_NUMBER} does not exists !${RESET_COLOR}.\n"
         exit 1
@@ -18,4 +18,4 @@ function ensure_version_exists {
 git fetch --all
 ensure_version_exists
 
-git push origin COMMIT_REFERENCE:prod
+git push origin COMMIT_HASH:prod
