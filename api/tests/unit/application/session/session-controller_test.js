@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { expect, sinon, hFake } = require('../../../test-helper');
 
 const sessionController = require('../../../../lib/application/sessions/session-controller');
@@ -8,7 +9,7 @@ const sessionSerializer = require('../../../../lib/infrastructure/serializers/js
 const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
 const certificationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-result-serializer');
 const certificationReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer');
-const _ = require('lodash');
+const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -562,4 +563,42 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
+  describe('#findPaginatedFilteredSessions', () => {
+
+    beforeEach(() => {
+      sinon.stub(queryParamsUtils, 'extractParameters');
+      sinon.stub(usecases, 'findPaginatedFilteredSessions');
+      sinon.stub(sessionSerializer, 'serializeForPaginatedFilteredResults');
+    });
+
+    it('should return a list of JSON API sessions fetched from the data repository', async () => {
+      // given
+      const request = { query: {} };
+      queryParamsUtils.extractParameters.withArgs({}).returns({});
+      usecases.findPaginatedFilteredSessions.resolves({ sessions: {}, pagination: {} });
+      sessionSerializer.serializeForPaginatedFilteredResults.returns({ data: {}, meta: {} });
+
+      // when
+      await sessionController.findPaginatedFilteredSessions(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredSessions).to.have.been.calledOnce;
+      expect(sessionSerializer.serializeForPaginatedFilteredResults).to.have.been.calledOnce;
+    });
+
+    it('should return a JSON API response with pagination information in the data field "meta"', async () => {
+      // given
+      const request = { query: {} };
+      const expectedResults = 'sessionsList';
+      const expectedPagination = 'pagination';
+      queryParamsUtils.extractParameters.withArgs({}).returns({});
+      usecases.findPaginatedFilteredSessions.resolves({ sessions: expectedResults, pagination: expectedPagination });
+
+      // when
+      await sessionController.findPaginatedFilteredSessions(request, hFake);
+
+      // then
+      expect(sessionSerializer.serializeForPaginatedFilteredResults).to.have.been.calledWithExactly(expectedResults, expectedPagination);
+    });
+  });
 });
