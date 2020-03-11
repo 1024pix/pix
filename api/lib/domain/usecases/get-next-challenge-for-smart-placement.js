@@ -2,8 +2,6 @@
 const { AssessmentEndedError } = require('../errors');
 const smartRandom = require('../services/smart-random/smart-random');
 const dataFetcher = require('../services/smart-random/data-fetcher');
-const hashInt = require('hash-int');
-const UNEXISTING_ITEM = null;
 
 module.exports = async function getNextChallengeForSmartPlacement({
   knowledgeElementRepository,
@@ -12,6 +10,7 @@ module.exports = async function getNextChallengeForSmartPlacement({
   answerRepository,
   improvementService,
   assessment,
+  pickChallengeService,
   tryImproving
 }) {
   if (tryImproving) {
@@ -29,13 +28,6 @@ module.exports = async function getNextChallengeForSmartPlacement({
     throw new AssessmentEndedError();
   }
 
-  return _pickChallenge(possibleSkillsForNextChallenge, assessment.id);
-
+  return pickChallengeService.pickChallenge(possibleSkillsForNextChallenge, assessment.id);
 };
 
-function _pickChallenge(skills, randomSeed) {
-  if (skills.length === 0) { return UNEXISTING_ITEM; }
-  const key = Math.abs(hashInt(randomSeed));
-  const chosenSkill = skills[key % skills.length];
-  return chosenSkill.challenges[key % chosenSkill.challenges.length];
-}
