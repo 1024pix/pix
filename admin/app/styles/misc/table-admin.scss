@@ -1,4 +1,5 @@
 .table-admin {
+
   tbody > tr:nth-child(odd) {
     background-color: rgba(0, 0, 0, 0.03);
   }
@@ -18,6 +19,14 @@
       }
     }
   }
+}
+
+.table-admin__wrapper {
+  overflow-x: auto;
+}
+
+.table-admin__auto-width {
+  width: auto;
 }
 
 .table-admin-input {

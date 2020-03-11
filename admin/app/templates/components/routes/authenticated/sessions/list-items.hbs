@@ -1,0 +1,48 @@
+<div class="session-list content-text content-text--small table-admin__wrapper">
+  <table class="table-admin table-admin__auto-width">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Centre de certification</th>
+        <th>Catégorie</th>
+        <th>Date de session</th>
+        <th>Statut</th>
+        <th>Date de finalisation</th>
+        <th>Nombre de certifications publiées</th>
+      </tr>
+      <tr>
+        <th>{{input id="id" value=idValue keyUp=(action triggerFiltering 'id' idValue) class="table-admin-input"}}</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    {{#if sessions}}
+      <tbody>
+      {{#each sessions as |session|}}
+        <tr>
+          <td>{{session.id}}</td>
+          <td>{{session.certificationCenter}}</td>
+          <td>TODO</td>
+          <td>{{session.displayDate}}</td>
+          <td>{{session.displayStatus}}</td>
+          <td>{{session.displayFinalizationDate}}</td>
+          <td>{{session.countPublishedCertifications}}</td>
+        </tr>
+      {{/each}}
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#unless sessions}}
+    <div class="table__empty content-text">Aucun résultat</div>
+  {{/unless}}
+</div>
+
+{{#if sessions}}
+  {{pagination-control pagination=sessions.meta}}
+{{/if}}
