@@ -13,11 +13,11 @@ exports.register = async (server) => {
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
-        handler: sessionController.find,
+        handler: sessionController.findPaginatedFilteredSessions,
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de consulter la liste de toutes les sessions (retourne un tableau avec n éléments)',
+          '- Elle permet de consulter la liste de toutes les sessions avec filtre et pagination (retourne un tableau avec n éléments)',
         ]
       }
     },
