@@ -17,12 +17,6 @@ module.exports = {
     return sessionSerializer.serializeForPaginatedFilteredResults(sessions, pagination);
   },
 
-  async find() {
-    const session = await usecases.findSessions();
-
-    return sessionSerializer.serialize(session);
-  },
-
   async get(request) {
     const sessionId = parseInt(request.params.id);
     const session = await usecases.getSession({ sessionId });
