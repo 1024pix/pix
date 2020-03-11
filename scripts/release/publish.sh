@@ -44,7 +44,6 @@ function complete_change_log {
   node scripts/release/get-pull-requests-to-release-in-prod.js $NEW_PACKAGE_VERSION
 }
 
-
 function push_commit_to_remote_dev {
     git push origin dev
 }
@@ -74,6 +73,8 @@ echo -e "Preparing a new release for ${RED}production${RESET_COLOR}.\n"
 ensure_no_uncommited_changes_are_present
 ensure_new_version_is_either_minor_or_patch_or_major
 update_version
+checkout_dev
+fetch_and_rebase
 complete_change_log
 create_a_release_commit
 push_commit_to_remote_dev
