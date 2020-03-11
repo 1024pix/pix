@@ -13,6 +13,7 @@ export default Model.extend({
 
   // Relationships
   memberships: hasMany('membership'),
+  targetProfiles: DS.hasMany('target-profile'),
 
   // Functions
   async hasMember(userEmail) {

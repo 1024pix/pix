@@ -551,6 +551,11 @@ describe('Acceptance | Application | organization-controller', () => {
                 'links': {
                   'related': `/api/organizations/${organization.id}/students`
                 }
+              },
+              'target-profiles': {
+                'links': {
+                  'related': `/api/organizations/${organization.id}/target-profiles`
+                }
               }
             },
             'type': 'organizations'
