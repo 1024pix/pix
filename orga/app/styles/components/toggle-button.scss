@@ -8,6 +8,10 @@
   margin-top: 50px;
   margin-bottom: 20px;
 
+  &.feature-hidden {
+    display: none;
+  }
+
   .toggle-button__label {
     margin-right: 16px;
     font-size: .875rem;
