@@ -1,0 +1,32 @@
+<section class="page-section mb_10">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Profils cible</h2>
+  </header>
+  <div class="target-profiles-list content-text content-text--small">
+    <div class="table-admin">
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom du profil cible</th>
+        </tr>
+        </thead>
+
+        {{#if targetProfiles}}
+          <tbody>
+          {{#each targetProfiles as |targetProfile|}}
+            <tr>
+              <td>{{targetProfile.id}}</td>
+              <td>{{targetProfile.name}}</td>
+            </tr>
+          {{/each}}
+          </tbody>
+        {{/if}}
+      </table>
+
+      {{#unless targetProfiles}}
+        <div class="table__empty content-text">Aucun résultat</div>
+      {{/unless}}
+    </div>
+  </div>
+</section>

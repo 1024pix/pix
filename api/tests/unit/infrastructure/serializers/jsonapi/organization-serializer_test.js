@@ -35,6 +35,11 @@ describe('Unit | Serializer | organization-serializer', () => {
               links: {
                 related: `/api/organizations/${organization.id}/students`
               }
+            },
+            'target-profiles': {
+              links: {
+                related: `/api/organizations/${organization.id}/target-profiles`
+              }
             }
           }
         },
