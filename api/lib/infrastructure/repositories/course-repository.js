@@ -5,7 +5,6 @@ const { NotFoundError } = require('../../domain/errors');
 function _toDomain(courseDataObject) {
   return new Course({
     id: courseDataObject.id,
-    type: courseDataObject.adaptive ? 'PLACEMENT' : 'DEMO',
     name: courseDataObject.name,
     description: courseDataObject.description,
     imageUrl: courseDataObject.imageUrl,

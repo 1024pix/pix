@@ -8,7 +8,6 @@ module.exports = function buildCourse({
   description = faker.lorem.sentence(),
   imageUrl = faker.internet.url(),
   name = faker.lorem.word(),
-  type = 'PLACEMENT',
 
   // relationships
   assessment,
@@ -23,7 +22,6 @@ module.exports = function buildCourse({
     description,
     imageUrl,
     name,
-    type,
     // relations
     assessment,
     challenges,
