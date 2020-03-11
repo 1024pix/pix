@@ -20,9 +20,15 @@
       {{/link-to}}
     </li>
     <li class="menu-bar__entry">
-      {{#link-to "authenticated.certification-centers.list" class="menu-bar__link menu-bar__link--organizations"}}
+      {{#link-to "authenticated.certification-centers.list" class="menu-bar__link menu-bar__link--certification-centers"}}
         {{fa-icon "map-pin"}}
         {{#bs-tooltip placement="right"}}Centres de certification{{/bs-tooltip}}
+      {{/link-to}}
+    </li>
+    <li class="menu-bar__entry">
+      {{#link-to "authenticated.sessions.list" class="menu-bar__link menu-bar__link--sessions"}}
+        {{fa-icon "chalkboard-teacher"}}
+        {{#bs-tooltip placement="right"}}Sessions{{/bs-tooltip}}
       {{/link-to}}
     </li>
     <li class="menu-bar__entry">
