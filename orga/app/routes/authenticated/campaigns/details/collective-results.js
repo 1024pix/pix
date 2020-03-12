@@ -8,6 +8,13 @@ export default class CollectiveResultsRoute extends Route {
     },
   };
 
+  redirect(model, transition) {
+    const { view } = transition.to.queryParams;
+    if (!['competence', 'tube'].includes(view)) {
+      this.replaceWith(transition.to.name, { queryParams: { view: 'competence' } });
+    }
+  }
+
   model(params) {
     const campaign = this.modelFor('authenticated.campaigns.details');
     return RSVP.hash({

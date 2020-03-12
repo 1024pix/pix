@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit } from '@ember/test-helpers';
+import { visit, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
@@ -66,5 +66,21 @@ module('Acceptance | Campaign Collective Result', function(hooks) {
     assert.dom('table tbody tr:first-child td:first-child span:first-child').hasClass('participant-results-details-line__bullet--jaffa');
     assert.dom('table tbody tr:first-child td:first-child span:nth-child(2)').hasText('Sujet ACompetence C');
     assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('50%');
+  });
+
+  test('should redirect to competence tab if query param view\'s value is not supported', async function(assert) {
+    // given
+    const campaignCollectiveResult = server.create('campaign-collective-result', 'withTubeCollectiveResults');
+    server.create('campaign', {
+      id: 1,
+      campaignCollectiveResult,
+      campaignReport,
+    });
+
+    // when
+    await visit('/campagnes/1/resultats-collectifs?view=bidon');
+
+    // then
+    assert.equal(currentURL(), '/campagnes/1/resultats-collectifs?view=competence');
   });
 });

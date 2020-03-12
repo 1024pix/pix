@@ -135,7 +135,7 @@ module('Acceptance | Campaign Details', function(hooks) {
 
       // then
       assert.dom('.navbar-item.active').hasText('Résultats collectifs');
-      assert.equal(currentURL(), '/campagnes/1/resultats-collectifs');
+      assert.equal(currentURL(), '/campagnes/1/resultats-collectifs?view=competence');
     });
 
   });
