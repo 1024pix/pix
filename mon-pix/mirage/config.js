@@ -27,10 +27,6 @@ import { Response } from 'ember-cli-mirage';
 /* eslint max-statements: off */
 export default function() {
   this.logging = true;
-  this.passthrough('/write-coverage');
-  this.post('https://fonts.googleapis.com/**', () => {
-  });
-
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
   this.timing = 0; // response delay
@@ -61,8 +57,6 @@ export default function() {
 
   this.get('/scorecards/:id', getScorecard);
   this.get('/scorecards/:id/tutorials', getScorecardsTutorials);
-  this.get('/competences/:id');
-  this.get('/areas/:id');
 
   this.del('/cache', () => null, 204);
 
