@@ -5,20 +5,18 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
 module('Integration | Component | routes/authenticated/campaign | update-item', function(hooks) {
+
   setupRenderingTest(hooks);
-  let campaign;
 
   hooks.beforeEach(function() {
-    campaign = EmberObject.create({});
-    this.set('updateCampaignSpy', (updatedCampaign) => {
-      campaign = updatedCampaign;
-    });
+    this.campaign = EmberObject.create({});
+    this.set('updateCampaignSpy', (event) => event.preventDefault());
     this.set('cancelSpy', () => {});
   });
 
   test('it should contain inputs, attributes and validation button', async function(assert) {
     // when
-    await render(hbs`{{routes/authenticated/campaigns/update-item update=(action updateCampaignSpy) cancel=(action cancelSpy)}}`);
+    await render(hbs`<Routes::Authenticated::Campaigns::UpdateItem @campaign={{this.campaign}} @update={{this.updateCampaignSpy}} @cancel={{this.cancelSpy}} />`);
 
     // then
     assert.dom('#campaign-title').exists();
@@ -29,16 +27,13 @@ module('Integration | Component | routes/authenticated/campaign | update-item', 
   });
 
   test('it should send campaign update action when submitted', async function(assert) {
-    // given
-    this.set('model', campaign);
-
     // when
-    await render(hbs`{{routes/authenticated/campaigns/update-item campaign=model update=(action updateCampaignSpy) cancel=(action cancelSpy)}}`);
+    await render(hbs`<Routes::Authenticated::Campaigns::UpdateItem @campaign={{this.campaign}} @update={{this.updateCampaignSpy}} @cancel={{this.cancelSpy}} />`);
 
     // then
     await fillIn('#campaign-title', 'New title');
     await click('button[type="submit"]');
 
-    assert.deepEqual(campaign.get('title'), 'New title');
+    assert.deepEqual(this.campaign.title, 'New title');
   });
 });

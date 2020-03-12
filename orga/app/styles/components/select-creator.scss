@@ -10,9 +10,7 @@
     position:relative
   }
 
-  &__wrapper::after {
-    content:"\f078";
-    font-family: "FontAwesome";
+  &__chevron {
     font-size: 11px;
     color: $dusty-gray;
     right:8px;

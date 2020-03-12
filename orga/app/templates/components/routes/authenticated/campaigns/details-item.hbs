@@ -3,40 +3,40 @@
     <LinkTo @route="authenticated.campaigns" class="icon-button campaign-details-content__return-button">
       <FaIcon @icon='arrow-left'></FaIcon>
     </LinkTo>
-    <h1 class="page__title page-title">{{campaign.name}}</h1>
+    <h1 class="page__title page-title">{{@campaign.name}}</h1>
   </div>
 
   <div class="campaign-details-header__report">
     <div class="campaign-details-header-report__info">
       <h4 class="label-text campaign-details-content__label">Code</h4>
       <span class="content-text content-text--big campaign-details-content__text">
-        {{campaign.code}}
+        {{@campaign.code}}
       </span>
     </div>
 
     <div class="campaign-details-header-report__info">
       <h4 class="label-text campaign-details-content__label">Participants</h4>
       <span class="content-text content-text--big campaign-details-content__text">
-        {{participationsCount}}
+        {{this.participationsCount}}
       </span>
     </div>
 
     <div class="campaign-details-header-report__shared">
       <h4 class="label-text campaign-details-content__label">Profils reçus</h4>
       <span class="content-text content-text--big campaign-details-content__text">
-        {{sharedParticipationsCount}}
+        {{this.sharedParticipationsCount}}
       </span>
     </div>
   </div>
 </div>
 
-{{#if campaign.isArchived}}
+{{#if @campaign.isArchived}}
   <div class="campaign-archived-banner">
     <div class="campaign-archived-banner__icon">
       <FaIcon @icon='archive'></FaIcon>
     </div>
     <div class="campaign-archived-banner__text">Campagne archivée</div>
-    <button class="button button--link campaign-archived-banner__unarchive-button" {{action "unarchiveCampaign" campaign.id}}>Désarchiver la campagne</button>
+    <button type="button" class="button button--link campaign-archived-banner__unarchive-button" {{on 'click' (fn this.unarchiveCampaign @campaign.id)}}>Désarchiver la campagne</button>
   </div>
 {{/if}}
 
@@ -46,7 +46,7 @@
       Détails
     </LinkTo>
     <LinkTo @route="authenticated.campaigns.details.participants" class="navbar-item">
-      Participants ({{campaign.campaignReport.participationsCount}})
+      Participants ({{@campaign.campaignReport.participationsCount}})
     </LinkTo>
     <LinkTo @route="authenticated.campaigns.details.collective-results" class="navbar-item">
       Résultats collectifs
@@ -54,7 +54,7 @@
   </nav>
 
   <div class="campaign-details-controls__export-button">
-    <a class="button button--link button--with-icon" href="{{campaign.urlToResult}}" target="_blank" download>
+    <a class="button button--link button--with-icon" href="{{@campaign.urlToResult}}" target="_blank" rel="noopener noreferrer" download>
       Exporter résultats (.csv)<FaIcon @icon='file-download'></FaIcon>
     </a>
   </div>

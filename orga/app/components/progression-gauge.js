@@ -1,15 +1,13 @@
-import { computed } from '@ember/object';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { htmlSafe } from '@ember/string';
 
 export default class ProgressionGauge extends Component {
-  @computed('total')
+
   get totalGaugeStyle() {
-    return htmlSafe(`width: ${this.total}%`);
+    return htmlSafe(`width: ${this.args.total}%`);
   }
 
-  @computed('value')
   get valueGaugeStyle() {
-    return htmlSafe(`width: ${this.value}%`);
+    return htmlSafe(`width: ${this.args.value}%`);
   }
 }

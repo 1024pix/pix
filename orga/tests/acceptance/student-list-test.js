@@ -32,7 +32,7 @@ module('Acceptance | Student List', function(hooks) {
   module('When user is logged in', function(hooks) {
 
     hooks.afterEach(function() {
-      const notificationMessagesService = this.owner.lookup('service:notification-messages');
+      const notificationMessagesService = this.owner.lookup('service:notifications');
       notificationMessagesService.clearAll();
     });
 

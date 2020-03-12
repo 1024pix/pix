@@ -3,8 +3,8 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 
 export default class LoginForm extends Component {
-  @service session;
 
+  @service session;
   @service store;
 
   email = null;
@@ -21,7 +21,8 @@ export default class LoginForm extends Component {
   isErrorMessagePresent = false;
 
   @action
-  async authenticate() {
+  async authenticate(event) {
+    event.preventDefault();
     this.set('isLoading', true);
     const email = this.email ? this.email.trim() : '';
     const password = this.password;

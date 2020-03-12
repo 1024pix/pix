@@ -26,7 +26,7 @@ module('Unit | Component | Routes | login-form', (hooks) => {
       const expectedEmail = emailWithSpaces.trim();
 
       // when
-      component.send('authenticate');
+      component.send('authenticate', new Event('stub'));
 
       // then
       assert.ok(_authenticateStub.calledWith(sinon.match.any, expectedEmail));

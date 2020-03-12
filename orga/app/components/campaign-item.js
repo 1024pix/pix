@@ -2,6 +2,7 @@ import { computed } from '@ember/object';
 import Component from '@ember/component';
 
 export default class CampaignItem extends Component {
+
   @computed('campaign.campaignReport.participationsCount')
   get participationsCount() {
     const participationsCount = this.get('campaign.campaignReport.participationsCount');

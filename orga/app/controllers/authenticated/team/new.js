@@ -3,18 +3,19 @@ import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 
 export default class NewController extends Controller {
-  @service store;
 
+  @service store;
   @service notifications;
 
   isLoading = false;
 
   @action
-  async createOrganizationInvitation(organizationInvitation) {
+  createOrganizationInvitation(event) {
+    event.preventDefault();
     this.set('isLoading', true);
     this.get('notifications').clearAll();
 
-    return organizationInvitation.save({ adapterOptions: { organizationId: organizationInvitation.organizationId } })
+    return this.model.organizationInvitation.save({ adapterOptions: { organizationId: this.model.organizationInvitation.organizationId } })
       .then(() => {
         this.transitionToRoute('authenticated.team');
       })
@@ -28,7 +29,7 @@ export default class NewController extends Controller {
               return this.get('notifications').sendError('Cet email n\'appartient à aucun utilisateur.');
             }
             if (error.status === '500') {
-              return this.get('notifications').sendError(error.title);
+              return this.get('notifications').sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
             }
           });
         } else {

@@ -5,16 +5,16 @@
       a 15.9155 15.9155 0 0 1 0 31.831
       a 15.9155 15.9155 0 0 1 0 -31.831"
     ></path>
-    {{#unless isDisabled}}
+    {{#unless @isDisabled}}
       <path class="circle circle--slice"
-            stroke-dasharray="{{value}}, 100"
+            stroke-dasharray="{{@value}}, 100"
             d="M18 2.0845
         a 15.9155 15.9155 0 0 1 0 31.831
         a 15.9155 15.9155 0 0 1 0 -31.831"
       ></path>
     {{/unless}}
   </svg>
-  {{#unless isDisabled}}
+  {{#unless @isDisabled}}
     <div class="circle-chart__text">
       {{yield}}
     </div>

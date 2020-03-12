@@ -36,7 +36,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
     });
 
     hooks.afterEach(function() {
-      const notificationMessagesService = this.owner.lookup('service:notification-messages');
+      const notificationMessagesService = this.owner.lookup('service:notifications');
       notificationMessagesService.clearAll();
     });
 
@@ -108,16 +108,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
     test('it should display error on global form when error 500 is returned from backend', async function(assert) {
       // given
-      server.post('/campaigns',
-        {
-          errors: [
-            {
-              detail: '[Object object]',
-              status: '500',
-              title: 'Internal Server Error',
-            }
-          ]
-        }, 500);
+      server.post('/campaigns', {}, 500);
       await visit('/campagnes/creation');
 
       // when
@@ -126,7 +117,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
       // then
       assert.equal(currentURL(), '/campagnes/creation');
       assert.dom('[data-test-notification-message="error"]').exists();
-      assert.dom('[data-test-notification-message="error"]').hasText('Internal Server Error');
+      assert.dom('[data-test-notification-message="error"]').hasText('Quelque chose s\'est mal passé. Veuillez réessayer.');
     });
   });
 });

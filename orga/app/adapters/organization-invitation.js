@@ -16,4 +16,11 @@ export default class OrganizationInvitation extends ApplicationAdapter {
     }
     return super.urlForQueryRecord(...arguments);
   }
+
+  createRecord() {
+    return super.createRecord(...arguments).then((response) => {
+      response.data = response.data[0];
+      return response;
+    });
+  }
 }

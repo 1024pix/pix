@@ -2,27 +2,27 @@
   <div class="page-size">
     <div class="page-size__label">Voir</div>
     <div class="page-size__choice">
-      <select class="select content-text content-text--small" onchange={{action 'changePageSize' value='target.value'}}>
-        <option value="10" selected="{{if (eq pagination.pageSize 10) true}}">10</option>
-        <option value="25" selected="{{if (eq pagination.pageSize 25) true}}">25</option>
-        <option value="50" selected="{{if (eq pagination.pageSize 50) true}}">50</option>
-        <option value="100" selected="{{if (eq pagination.pageSize 100) true}}">100</option>
+      <select class="select content-text content-text--small" {{on "change" this.changePageSize}}>
+        <option value="10" selected="{{if (eq this.pagination.pageSize 10) true}}">10</option>
+        <option value="25" selected="{{if (eq this.pagination.pageSize 25) true}}">25</option>
+        <option value="50" selected="{{if (eq this.pagination.pageSize 50) true}}">50</option>
+        <option value="100" selected="{{if (eq this.pagination.pageSize 100) true}}">100</option>
       </select>
     </div>
   </div>
   <div class="page-navigation">
-    <div class="page-navigation__arrow page-navigation__arrow--previous {{if (eq pagination.page 1) "page-navigation__arrow--disabled"}}">
-      <LinkTo @route={{paginationLink}} @query={{hash pageNumber=previousPage}} @disabledWhen={{eq pagination.page 1}} @replace={{true}} class="icon-button icon-button--link">
+    <div class="page-navigation__arrow page-navigation__arrow--previous {{if (eq this.pagination.page 1) "page-navigation__arrow--disabled"}}">
+      <LinkTo @route={{this.paginationLink}} @query={{hash pageNumber=this.previousPage}} @disabledWhen={{eq this.pagination.page 1}} @replace={{true}} class="icon-button icon-button--link">
         <FaIcon @icon='arrow-left'></FaIcon>
       </LinkTo>
     </div>
     <div class="page-navigation__body">
       <div class="page-navigation__label">Page&nbsp;:</div>
-      <div class="page-navigation__current-page">{{pagination.page}}</div>
-      <div class="page-navigation__last-page">/&nbsp;{{pagination.pageCount}}</div>
+      <div class="page-navigation__current-page">{{this.pagination.page}}</div>
+      <div class="page-navigation__last-page">/&nbsp;{{this.pagination.pageCount}}</div>
     </div>
-    <div class="page-navigation__arrow page-navigation__arrow--next {{if (eq pagination.page pagination.pageCount) "page-navigation__arrow--disabled"}}">
-      <LinkTo @route={{paginationLink}} @query={{hash pageNumber=nextPage}} @disabledWhen={{eq pagination.page pagination.pageCount}} @replace={{true}} class="icon-button icon-button--link">
+    <div class="page-navigation__arrow page-navigation__arrow--next {{if (eq this.pagination.page this.pagination.pageCount) "page-navigation__arrow--disabled"}}">
+      <LinkTo @route={{this.paginationLink}} @query={{hash pageNumber=this.nextPage}} @disabledWhen={{eq this.pagination.page this.pagination.pageCount}} @replace={{true}} class="icon-button icon-button--link">
         <FaIcon @icon='arrow-right'></FaIcon>
       </LinkTo>
     </div>
