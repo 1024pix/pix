@@ -3,8 +3,8 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 
 export default class LoginForm extends Component {
-  @service session;
 
+  @service session;
   @service store;
 
   email = null;

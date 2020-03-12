@@ -3,10 +3,9 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 
 export default class UserLoggedMenu extends Component {
+
   @service currentUser;
-
   @service router;
-
   @service store;
 
   isMenuOpen = false;

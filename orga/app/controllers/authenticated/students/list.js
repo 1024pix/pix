@@ -5,9 +5,7 @@ import ENV from 'pix-orga/config/environment';
 
 export default class ListController extends Controller {
   @service session;
-
   @service currentUser;
-
   @service notifications;
 
   isLoading = false;

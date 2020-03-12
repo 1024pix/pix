@@ -31,8 +31,8 @@ const validation = {
 };
 
 export default class RegisterForm extends Component {
-  @service session;
 
+  @service session;
   @service store;
 
   user = null;
@@ -45,8 +45,8 @@ export default class RegisterForm extends Component {
     return this.isPasswordVisible ? 'text' : 'password';
   }
 
-  init() {
-    super.init(...arguments);
+  constructor() {
+    super(...arguments);
     this.user = this.store.createRecord('user', {
       lastName: '',
       firstName: '',

@@ -4,6 +4,7 @@ import config from 'pix-orga/config/environment';
 const defaultAutoClear = config['ember-cli-notifications'].autoClear;
 
 export default class Notifications extends NotificationsService {
+
   sendError() {
     return this.error(...arguments, { autoClear: false, cssClasses: 'notification notification--error' });
   }
