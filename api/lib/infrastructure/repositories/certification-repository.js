@@ -102,4 +102,10 @@ module.exports = {
         return module.exports.getByCertificationCourseId({ id });
       });
   },
+
+  async updatePublicationStatusesBySessionId(sessionId, toPublish) {
+    await CertificationCourseBookshelf
+      .where({ sessionId })
+      .save({ isPublished: toPublish },{ patch: true });
+  }
 };

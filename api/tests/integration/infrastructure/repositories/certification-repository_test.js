@@ -1,7 +1,9 @@
-const { expect, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, domainBuilder, databaseBuilder, catchErr, knex } = require('../../../test-helper');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { NotFoundError, CertificationCourseNotPublishableError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+
+const CertificationCourseBookshelf = require('../../../../lib/infrastructure/data/certification-course');
 
 describe('Integration | Repository | Certification ', () => {
 
@@ -13,6 +15,9 @@ describe('Integration | Repository | Certification ', () => {
   let expectedCertification;
   let expectedCertificationWithoutDate;
   const type = Assessment.types.CERTIFICATION;
+
+  let sessionWithUnpublishedCertifCourse;
+  let sessionWithUnpublishedCertifCourseIds = [];
 
   beforeEach(async () => {
     userId = databaseBuilder.factory.buildUser().id;
@@ -102,7 +107,28 @@ describe('Integration | Repository | Certification ', () => {
       userId,
     });
 
+    sessionWithUnpublishedCertifCourseIds = [];
+    sessionWithUnpublishedCertifCourse = databaseBuilder.factory.buildSession();
+    let certifCourse =  databaseBuilder.factory.buildCertificationCourse({
+      sessionId: sessionWithUnpublishedCertifCourse.id,
+      isPublished: false,
+    });
+    sessionWithUnpublishedCertifCourseIds.push(certifCourse.id);
+    certifCourse =  databaseBuilder.factory.buildCertificationCourse({
+      sessionId: sessionWithUnpublishedCertifCourse.id,
+      isPublished: false,
+    });
+    sessionWithUnpublishedCertifCourseIds.push(certifCourse.id);
+
     await databaseBuilder.commit();
+  });
+
+  afterEach(async () => {
+    await knex('assessment-results').delete();
+    await knex('assessments').delete();
+    await knex('certification-courses').delete();
+    await knex('sessions').delete();
+    return;
   });
 
   describe('#getByCertificationCourseId', () => {
@@ -183,9 +209,25 @@ describe('Integration | Repository | Certification ', () => {
         expectedUpdatedCertification.isPublished = false;
         expect(certification).to.deep.equal(expectedUpdatedCertification);
       });
-
     });
-
   });
+
+  describe('#updateCertifications', () => {
+    
+    it('should update the specified certifications', async () => {
+      await certificationRepository.updatePublicationStatusesBySessionId(sessionWithUnpublishedCertifCourse.id, true);
+      await Promise.all(sessionWithUnpublishedCertifCourseIds.map(async (id) => {
+        const certifCourse = await get(id);
+        expect(certifCourse.isPublished).to.be.true;
+      }));
+    });
+  });
+
+  async function get(id) {
+    const certification = await CertificationCourseBookshelf
+      .where({ id })
+      .fetch();
+    return certification.attributes;
+  }
 
 });
