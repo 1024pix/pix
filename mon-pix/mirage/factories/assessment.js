@@ -3,10 +3,6 @@ import faker from 'faker';
 
 export default Factory.extend({
 
-  id() {
-    return faker.random.uuid();
-  },
-
   type() {
     return faker.lorem.word();
   },

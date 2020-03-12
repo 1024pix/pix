@@ -16,13 +16,13 @@ import patchCampaignParticipation from './routes/patch-campaign-participation';
 import postAnswers from './routes/post-answers';
 import postAssessments from './routes/post-assessments';
 import postCampaignParticipation from './routes/post-campaign-participation';
-import postCertificationCourse from './routes/post-certification-course';
 import postCompetenceEvaluation from './routes/post-competence-evaluation';
 import postFeedbacks from './routes/post-feedbacks';
 import postSessionParticipation from './routes/post-session-participation';
 import loadAuthRoutes from './routes/auth/index';
 import loadUserRoutes from './routes/users/index';
 import loadCourseRoutes from './routes/courses/index';
+import loadCertificationCourseRoutes from './routes/certification-courses/index';
 
 import { Response } from 'ember-cli-mirage';
 
@@ -38,8 +38,9 @@ export default function() {
   this.timing = 0; // response delay
 
   loadAuthRoutes(this);
-  loadUserRoutes(this);
+  loadCertificationCourseRoutes(this);
   loadCourseRoutes(this);
+  loadUserRoutes(this);
 
   this.get('/challenges', getChallenges);
   this.get('/challenges/:id', getChallenge);
@@ -58,11 +59,10 @@ export default function() {
 
   this.post('/feedbacks', postFeedbacks);
 
-  this.post('/certification-courses', postCertificationCourse);
-
   this.get('/certifications');
 
   this.post('/sessions/:id/candidate-participation', postSessionParticipation);
+
   this.get('/scorecards/:id', getScorecard);
   this.get('/scorecards/:id/tutorials', getScorecardsTutorials);
   this.get('/competences/:id');
