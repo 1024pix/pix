@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 
 export default class PaginationControl extends Component {
+
   @service router;
 
   pagination = null;

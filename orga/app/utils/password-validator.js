@@ -1,6 +1,7 @@
 import XRegExp from 'xregexp';
 
 export default function isPasswordValid(password) {
+
   if (!password) {
     return false;
   }

@@ -8,8 +8,8 @@ const ERROR_PASSWORD_MESSAGE =
   'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
 
 export default class PasswordResetWindow extends Component {
-  @service store;
 
+  @service store;
   @service notifications;
 
   isLoading = false;

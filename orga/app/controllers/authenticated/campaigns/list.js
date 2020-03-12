@@ -12,10 +12,10 @@ export default class ListController extends Controller {
   name = null;
   searchFilter = null;
   campaignName = null;
+
   @service currentUser;
 
-  @empty('model')
-  hasNoCampaign;
+  @empty('model') hasNoCampaign;
 
   @computed('name', 'hasNoCampaign')
   get displayNoCampaignPanel() {

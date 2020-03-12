@@ -2,6 +2,7 @@ import Route from '@ember/routing/route';
 import RSVP from 'rsvp';
 
 export default class ResultsRoute extends Route {
+
   model(params) {
     const campaign = this.modelFor('authenticated.campaigns.details');
 

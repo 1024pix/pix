@@ -3,8 +3,8 @@ import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 
 export default class NewController extends Controller {
-  @service store;
 
+  @service store;
   @service notifications;
 
   isLoading = false;

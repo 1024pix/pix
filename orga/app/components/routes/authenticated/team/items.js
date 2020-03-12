@@ -7,6 +7,7 @@ const adminOption = { value: 'ADMIN', label: 'Administrateur', disabled: false }
 const memberOption = { value: 'MEMBER', label: 'Membre', disabled: false };
 
 export default class Items extends Component {
+
   @service currentUser;
 
   organizationRoles = null;
@@ -14,8 +15,8 @@ export default class Items extends Component {
   selectedNewRole = null;
   currentRole = null;
 
-  init() {
-    super.init(...arguments);
+  constructor() {
+    super(...arguments);
     this.organizationRoles = [adminOption, memberOption];
   }
 

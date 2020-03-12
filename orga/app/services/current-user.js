@@ -3,8 +3,8 @@ import { inject as service } from '@ember/service';
 import _ from 'lodash';
 
 export default class CurrentUserService extends Service {
-  @service session;
 
+  @service session;
   @service store;
 
   async load() {
