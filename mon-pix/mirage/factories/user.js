@@ -139,11 +139,6 @@ export default Factory.extend({
       user.update({ certificationProfile: server.create('certification-profile', { 'is-certifiable': false }) });
     }
   }),
-  afterCreate(user, server) {
-    _addDefaultCertificationProfile(user, server);
-    _addDefaultScorecards(user, server);
-    _addDefaultPixscore(user, server);
-  },
   withSomeCertificates: trait({
     afterCreate(user, server) {
       const rejectedCertificate = server.create('certification', {
@@ -174,4 +169,9 @@ export default Factory.extend({
       user.update({ certifications: certificates });
     }
   }),
+  afterCreate(user, server) {
+    _addDefaultCertificationProfile(user, server);
+    _addDefaultScorecards(user, server);
+    _addDefaultPixscore(user, server);
+  },
 });
