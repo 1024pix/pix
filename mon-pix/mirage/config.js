@@ -18,11 +18,12 @@ import postCampaignParticipation from './routes/post-campaign-participation';
 import postCompetenceEvaluation from './routes/post-competence-evaluation';
 import postSessionParticipation from './routes/post-session-participation';
 import loadAuthRoutes from './routes/auth/index';
-import loadUserRoutes from './routes/users/index';
-import loadCourseRoutes from './routes/courses/index';
 import loadCertificationCourseRoutes from './routes/certification-courses/index';
-
-import { Response } from 'ember-cli-mirage';
+import loadCourseRoutes from './routes/courses/index';
+import loadPasswordResetDemandRoutes from './routes/password-reset-demands/index';
+import loadStudentDependentUserRoutes from './routes/student-dependent-users/index';
+import loadStudentUserAssociationRoutes from './routes/student-user-associations/index';
+import loadUserRoutes from './routes/users/index';
 
 /* eslint max-statements: off */
 export default function() {
@@ -34,6 +35,9 @@ export default function() {
   loadAuthRoutes(this);
   loadCertificationCourseRoutes(this);
   loadCourseRoutes(this);
+  loadPasswordResetDemandRoutes(this);
+  loadStudentDependentUserRoutes(this);
+  loadStudentUserAssociationRoutes(this);
   loadUserRoutes(this);
 
   this.get('/challenges', getChallenges);
@@ -60,23 +64,6 @@ export default function() {
 
   this.del('/cache', () => null, 204);
 
-  this.post('/password-reset-demands', (schema, request) => {
-    const attrs = JSON.parse(request.requestBody);
-    const sentEmail = attrs.data.attributes.email;
-    const matchingAccount = schema.users.findBy({ email: sentEmail });
-
-    if (matchingAccount !== null) {
-      return schema.passwordResetDemands.create({ email: sentEmail });
-    } else {
-      return new Response(400);
-    }
-  });
-
-  this.get('/password-reset-demands/:key', (schema, request) => {
-    const demand = schema.passwordResetDemands.findBy({ temporaryKey: request.params.key });
-    return schema.users.findBy({ email: demand.email });
-  });
-
   this.get('/progressions/:id');
   this.get('/campaigns', getCampaigns);
   this.post('/campaign-participations', postCampaignParticipation);
@@ -89,39 +76,4 @@ export default function() {
 
   this.get('/competence-evaluations');
   this.post('/competence-evaluations/start-or-resume', postCompetenceEvaluation);
-
-  this.post('/student-user-associations', () => {
-    return new Response(204);
-  });
-
-  this.put('/student-user-associations/possibilities', () => {
-    return new Response(204);
-  });
-
-  this.post('/student-dependent-users', (schema, request) => {
-    const params = JSON.parse(request.requestBody);
-
-    const campaignCode = params.data.attributes['campaign-code'];
-    const organizationId = schema.campaigns.findBy({ code: campaignCode }).organizationId;
-
-    const firstName = params.data.attributes['first-name'];
-    const lastName = params.data.attributes['last-name'];
-    const newUser = {
-      firstName,
-      lastName,
-      email: params.data.attributes['email'],
-      username: params.data.attributes['username'],
-      password: params.data.attributes['password'],
-    };
-    const student = schema.students.findBy({ firstName, lastName });
-    const user = schema.users.create(newUser);
-    student.update({ userId: user.id, organizationId });
-    return user;
-  });
-
-  this.get('/student-user-associations', (schema, request) => {
-    const userId =  request.queryParams.userId;
-    const student = schema.students.findBy({ userId });
-    return student ? student : { data: null };
-  });
 }
