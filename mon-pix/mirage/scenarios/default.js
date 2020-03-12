@@ -2,10 +2,6 @@ export default function(server) {
   /* eslint max-statements: off */
   server.loadFixtures('challenges');
 
-  server.create('progression', {
-    id: 12
-  });
-
   const campaign1 = server.create('campaign', {
     id: 1,
     name: 'Campagne 1 avec Id Externe',
@@ -54,9 +50,4 @@ export default function(server) {
   campaign3.targetProfile = targetProfile;
   campaign4.targetProfile = targetProfile;
   campaign5.targetProfile = targetProfile;
-
-  server.create('password-reset-demand', {
-    temporaryKey: 'temporaryKey',
-    email: 'jane@acme.com',
-  });
 }
