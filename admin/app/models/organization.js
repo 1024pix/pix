@@ -10,6 +10,7 @@ export default Model.extend({
   externalId: attr(),
   provinceCode: attr(),
   isManagingStudents: attr(),
+  credit: attr(),
 
   // Relationships
   memberships: hasMany('membership'),

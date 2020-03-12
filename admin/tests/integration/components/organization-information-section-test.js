@@ -16,6 +16,18 @@ module('Integration | Component | organization-information-section', function(ho
     assert.dom('.organization__information').exists();
   });
 
+  test('it should display credit', async function(assert) {
+    // given
+    const organization = EmberObject.create({ credit: 350 });
+    this.set('organization', organization);
+
+    // when
+    await render(hbs`{{organization-information-section organization=organization}}`);
+
+    // then
+    assert.dom('.organization__credit').hasText('350');
+  });
+
   module('When organization is SCO', function(hooks) {
 
     let organization;
