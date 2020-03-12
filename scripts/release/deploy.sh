@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
+set -e
 set -o pipefail
 source $(dirname "$0")/common.sh
 
 VERSION_NUMBER=${1:?Please specify release to deploy}
 
 function get_release_commit_hash {
-    COMMIT_HASH="$(git rev-parse --verify --quiet "${VERSION_NUMBER}")"
+    local commit_hash="$(git rev-parse --verify --quiet "${VERSION_NUMBER}")"
 
-    if [ -z "${COMMIT_HASH}" ];
+    if [ -z "${commit_hash}" ];
     then
         echo -e "${RED}Version ${VERSION_NUMBER} does not exist!${RESET_COLOR}\n" >&2
         exit 1
@@ -18,13 +19,15 @@ function get_release_commit_hash {
 }
 
 function update_production_branch {
-    git push origin "$COMMIT_HASH":prod
+    local annotated_version="${VERSION_NUMBER}^{}"
+    local annotated_tag_hash="$(git rev-parse --quiet "${annotated_version}")"
+    git push origin "$annotated_tag_hash":prod
 
     echo "Pushed changes on branch origin/prod"
 }
 
 function finalize_release_on_sentry {
-    npx sentry-cli releases -o pix finalize "v${VERSION_NUMBER}"
+    npx sentry-cli releases -o pix finalize "${VERSION_NUMBER}"
     echo "Finalized release on Sentry"
 }
 
