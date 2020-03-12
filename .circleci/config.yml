@@ -29,8 +29,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
                 - gh-pages
+                - prod
                 - /release-.*/
 
       - api_build_and_test:
