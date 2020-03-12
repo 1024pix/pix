@@ -31,8 +31,6 @@ export default function(server) {
     certificationCenter: 'Université de Lyon',
   });
 
-  server.create('correction');
-
   const campaign1 = server.create('campaign', {
     id: 1,
     name: 'Campagne 1 avec Id Externe',
