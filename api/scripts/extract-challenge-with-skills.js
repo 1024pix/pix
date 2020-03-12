@@ -3,10 +3,10 @@ const challengeRepository = require('../lib/infrastructure/repositories/challeng
 const skillsRepository = require('../lib/infrastructure/repositories/skill-repository');
 const competencesRepository = require('../lib/infrastructure/repositories/competence-repository');
 
-async function findChallengesWithSkills () {
+async function findChallengesWithSkills() {
 
-  let [challenges, skills] = await _getReferentialData();
-  skills = _addLevelTubeAndLinkedSkillsToEachSkills(skills);
+  const [challenges, skillsFromDb] = await _getReferentialData();
+  const skills = _addLevelTubeAndLinkedSkillsToEachSkills(skillsFromDb);
 
   const knowledgeElementsToCreateForEachChallenges = [];
   _.forEach(challenges, (challenge) => {
@@ -14,7 +14,6 @@ async function findChallengesWithSkills () {
     const skillsOfChallenges =  _getSkillsOfChallenge(challenge.skills, skills);
     const skillsValidatedIfChallengeIsSuccessful = _getValidatedSkills(skillsOfChallenges);
     const skillsInvalidatedIfChallengeIsFailed = _getInvalidatedSkills(skillsOfChallenges, skills);
-
 
     const knowledgeElementsValidatedDirect = _.map(skillsOfChallenges, (skill) => _createObjectValidatedDirect(skill));
     const knowledgeElementsValidatedInferred = _.map(skillsValidatedIfChallengeIsSuccessful, (skill) => _createObjectValidatedInferred(skill));
@@ -77,7 +76,7 @@ function _getValidatedSkills(skillsOfChallenges) {
     .flatten()
     .remove((skillValidated) => {
       return !_.some(skillsOfChallenges, (skill) => {
-        return skill.id === skillValidated.id
+        return skill.id === skillValidated.id;
       });
     })
     .uniqBy('id')
@@ -86,16 +85,12 @@ function _getValidatedSkills(skillsOfChallenges) {
 }
 
 function _getInvalidatedSkills(skillsOfChallenges) {
-  const skillsInvalidated = _(skillsOfChallenges)
-    .map((skillGivenByChallenge) => {
-      return skillGivenByChallenge.higherSkills;
-    })
-    .flatten()
-    .remove((skillValidated) => {
-      return !_.some(skillsOfChallenges, (skill) => {return skill.id === skillValidated.id});
-    })
-    .uniqBy('id')
-    .value();
+  const skillsInvalidated =
+    _.intersectionBy(
+      _.flatMap(skillsOfChallenges, 'higherSkills'),
+      skillsOfChallenges,
+      'id'
+    );
   return skillsInvalidated;
 }
 
@@ -113,7 +108,7 @@ function _createObjectValidatedDirect(skill) {
     skillId: skill.id,
     earnedPix: skill.pixValue,
     competenceId: skill.competenceId,
-  }
+  };
 }
 
 function _createObjectValidatedInferred(skill) {
@@ -123,7 +118,7 @@ function _createObjectValidatedInferred(skill) {
     skillId: skill.id,
     earnedPix: skill.pixValue,
     competenceId: skill.competenceId,
-  }
+  };
 }
 
 function _createObjectInvalidatedDirect(skill) {
@@ -133,7 +128,7 @@ function _createObjectInvalidatedDirect(skill) {
     skillId: skill.id,
     earnedPix: 0,
     competenceId: skill.competenceId,
-  }
+  };
 }
 
 function _createObjectInvalidatedInferred(skill) {
@@ -143,7 +138,7 @@ function _createObjectInvalidatedInferred(skill) {
     skillId: skill.id,
     earnedPix: 0,
     competenceId: skill.competenceId,
-  }
+  };
 }
 
 module.exports = findChallengesWithSkills;

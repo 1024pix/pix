@@ -19,7 +19,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
           'id persistant': 'recCourse123',
           'Nom': 'course-name',
           'Description': 'course-description',
-          'Adaptatif ?': false,
           'Épreuves (id persistant)': [
             'recChallenge1',
             'recChallenge2',
@@ -40,8 +39,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
       const expectedCourse = {
         id: 'recCourse123',
         name: 'course-name',
-        adaptive: false,
-
         competences: ['recCompetence123'],
         description: 'course-description',
         imageUrl: 'https://example.org/course.png',

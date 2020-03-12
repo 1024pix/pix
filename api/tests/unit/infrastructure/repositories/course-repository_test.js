@@ -31,7 +31,6 @@ describe('Unit | Repository | course-repository', function() {
         expect(course).to.be.an.instanceOf(Course);
         expect(course.id).to.equal('recTest1');
         expect(course.name).to.equal('a-course-name');
-        expect(course.type).to.equal('DEMO');
         expect(course.description).to.equal('course-description');
         expect(course.imageUrl).to.equal('http://example.org/course.png');
         expect(course.challenges).to.deep.equal(['recChallenge1', 'recChallenge2']);

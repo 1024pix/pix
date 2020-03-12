@@ -4,6 +4,7 @@ import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 import Service from '@ember/service';
 import { run } from '@ember/runloop';
+import moment from 'moment';
 import sinon from 'sinon';
 
 module('Unit | Service | session-info-service', function(hooks) {
@@ -29,7 +30,18 @@ module('Unit | Service | session-info-service', function(hooks) {
     service = this.owner.lookup('service:session-info-service');
   });
 
-  function buildCertification({ id, sessionId = 1, status = 'validated', hasSeenEndTestScreen = true, examinerComment = null }) {
+  function buildCertification({
+    id,
+    sessionId = 1,
+    status = 'validated',
+    hasSeenEndTestScreen = true,
+    examinerComment = null,
+    indexedCompetences = {
+      '1.1': { level: 1, score: 2 },
+      '5.4': { level: 5, score: 4 },
+      '4.3': { level: -1, score: 0 }
+    }
+  }) {
     return EmberObject.create({
       id,
       sessionId,
@@ -51,11 +63,7 @@ module('Unit | Service | session-info-service', function(hooks) {
       commentForOrganization: 'organization',
       commentForJury: 'jury',
       pixScore: 100,
-      indexedCompetences: {
-        '1.1': { level: 1, score: 2 },
-        '5.4': { level: 5, score: 4 },
-        '4.3': { level: -1, score: 0 }
-      }
+      indexedCompetences,
     });
   }
 
@@ -255,6 +263,83 @@ module('Unit | Service | session-info-service', function(hooks) {
           '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Signalement surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
           '5;"1";"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";"\'@examiner comment";"\'-jury";"";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
           '');
+      });
+    });
+  });
+
+  module('#buildSessionExportFileData', function() {
+
+    module('when the certif status is rejected', function() {
+      let certifRejected;
+      let sessionWithRejectedCertif;
+
+      hooks.beforeEach(function() {
+        const indexedCompetences = { '1.1': { level: 3, score: 2 } } ;
+        certifRejected = buildCertification({ sessionId: 1, status: 'rejected', indexedCompetences });
+        sessionWithRejectedCertif = { certifications: [ certifRejected ] };
+      });
+
+      test('should show "-" or "0" for competences', async function(assert) {
+        // when
+        const result =  service.buildSessionExportFileData(sessionWithRejectedCertif);
+
+        // then
+        const expectedResult = [{
+          'Numéro de certification': certifRejected.id,
+          'Prénom': certifRejected.firstName,
+          'Nom': certifRejected.lastName,
+          'Date de naissance': moment(certifRejected.birthdate).format('DD/MM/YYYY'),
+          'Lieu de naissance': certifRejected.birthplace,
+          'Identifiant Externe': certifRejected.externalId,
+          'Nombre de Pix': '0',
+          'Session': sessionWithRejectedCertif.id,
+          'Centre de certification': certifRejected.certificationCenter,
+          'Date de passage de la certification': moment(certifRejected.createdAt).format('DD/MM/YYYY'),
+          '1.1': '0', '1.2': '-', '1.3': '-',
+          '2.1': '-', '2.2': '-', '2.3': '-', '2.4': '-',
+          '3.1': '-', '3.2': '-', '3.3': '-', '3.4': '-',
+          '4.1': '-', '4.2': '-', '4.3': '-',
+          '5.1': '-', '5.2': '-',
+        }];
+        assert.deepEqual(result, expectedResult);
+      });
+
+    });
+
+    module('when the certif status is validated', function() {
+
+      let certifValidated;
+      let sessionWithValidatedCertif;
+
+      hooks.beforeEach(function() {
+        const indexedCompetences = { '1.1': { level: 3, score: 2 } } ;
+        certifValidated = buildCertification({ sessionId: 1, indexedCompetences });
+        sessionWithValidatedCertif = { certifications: [ certifValidated ] };
+      });
+
+      test('should show "-" or correct value for competences', function(assert) {
+        // when
+        const result =  service.buildSessionExportFileData(sessionWithValidatedCertif);
+
+        // then
+        const expectedResult = [{
+          'Numéro de certification': certifValidated.id,
+          'Prénom': certifValidated.firstName,
+          'Nom': certifValidated.lastName,
+          'Date de naissance': moment(certifValidated.birthdate).format('DD/MM/YYYY'),
+          'Lieu de naissance': certifValidated.birthplace,
+          'Identifiant Externe': certifValidated.externalId,
+          'Nombre de Pix': certifValidated.pixScore,
+          'Session': sessionWithValidatedCertif.id,
+          'Centre de certification': certifValidated.certificationCenter,
+          'Date de passage de la certification': moment(certifValidated.createdAt).format('DD/MM/YYYY'),
+          '1.1': 3, '1.2': '-', '1.3': '-',
+          '2.1': '-', '2.2': '-', '2.3': '-', '2.4': '-',
+          '3.1': '-', '3.2': '-', '3.3': '-', '3.4': '-',
+          '4.1': '-', '4.2': '-', '4.3': '-',
+          '5.1': '-', '5.2': '-',
+        }];
+        assert.deepEqual(result, expectedResult);
       });
     });
   });

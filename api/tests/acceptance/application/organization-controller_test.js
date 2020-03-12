@@ -551,6 +551,11 @@ describe('Acceptance | Application | organization-controller', () => {
                 'links': {
                   'related': `/api/organizations/${organization.id}/students`
                 }
+              },
+              'target-profiles': {
+                'links': {
+                  'related': `/api/organizations/${organization.id}/target-profiles`
+                }
               }
             },
             'type': 'organizations'
@@ -704,20 +709,19 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user is not ADMIN in organization nor PIX_MASTER', async () => {
+      it('should respond with a 403 - forbidden access - if user is not in organization nor is PIXMASTER', async () => {
         // given
-        const nonPixMasterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
-        databaseBuilder.factory.buildUser({
-          id: nonPixMasterUserId,
-        });
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildMembership({
           organizationRole : Membership.roles.MEMBER,
-          organizationId : organization.id,
-          userId : nonPixMasterUserId,
+          organizationId : otherOrganizationId,
+          userId,
         });
 
         await databaseBuilder.commit();
+
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         // when
         const response = await server.inject(options);

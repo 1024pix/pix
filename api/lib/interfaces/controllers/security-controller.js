@@ -3,6 +3,7 @@ const checkUserIsAuthenticatedUseCase = require('../../application/usecases/chec
 const checkUserHasRolePixMasterUseCase = require('../../application/usecases/checkUserHasRolePixMaster');
 const checkUserIsAdminInOrganizationUseCase = require('../../application/usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase  = require('../../application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
+const checkUserBelongsToOrganizationUseCase  = require('../../application/usecases/checkUserBelongsToOrganization');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
 
@@ -101,6 +102,27 @@ function checkUserIsAdminInOrganization(request, h) {
     .catch(() => _replyWithAuthorizationError(h));
 }
 
+async function checkUserBelongsToOrganizationOrHasRolePixMaster(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyWithAuthorizationError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const organizationId = parseInt(request.params.id);
+
+  const belongsToOrganization = await checkUserBelongsToOrganizationUseCase.execute(userId, organizationId);
+  if (belongsToOrganization) {
+    return h.response(true);
+  }
+
+  const hasRolePixMaster = await checkUserHasRolePixMasterUseCase.execute(userId);
+  if (hasRolePixMaster) {
+    return h.response(true);
+  }
+
+  return _replyWithAuthorizationError(h);
+}
+
 async function checkUserIsAdminInOrganizationOrHasRolePixMaster(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyWithAuthorizationError(h);
@@ -166,6 +188,7 @@ async function checkUserIsAdminInScoOrganizationAndManagesStudents(request, h) {
 
 module.exports = {
   checkRequestedUserIsAuthenticatedUser,
+  checkUserBelongsToOrganizationOrHasRolePixMaster,
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserHasRolePixMaster,
   checkUserIsAuthenticated,
