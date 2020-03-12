@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.125.0 (12/03/2020)
+
+- [#1158](https://github.com/1024pix/pix/pull/1158) [FEATURE] Lors de l'export des résultats, forcer les compétences à 0 pour les certifs rejected (PA-174)
+- [#1163](https://github.com/1024pix/pix/pull/1163) [FEATURE] Affichage de la liste des profils cibles d'une organisation (PA-162).
+- [#1155](https://github.com/1024pix/pix/pull/1155) [FEATURE] Ajouter l'identifiant externe dans la liste des organisations (PA-113).
+- [#1165](https://github.com/1024pix/pix/pull/1165) [BUGFIX] Autoriser l'affichage des autres membres d'une organisation pour un simple membre (PO-374).
+- [#1162](https://github.com/1024pix/pix/pull/1162) [TECH] Retrait de la notion d'adaptatif + du type dans le modèle Course
+- [#1167](https://github.com/1024pix/pix/pull/1167) [INFRA] Amélioration de la mise en production
+- [#1154](https://github.com/1024pix/pix/pull/1154) [BSR][TECH] Réusinage de quelques scripts api et de quelques fichiers de migrations.
+
 ## v2.124.0 (10/03/2020)
 
 - [#1140](https://github.com/1024pix/pix/pull/1140) [FEATURE] Ajout d'un filtre sur la colonne "Créé par" dans la liste des campagnes (PO-330).
