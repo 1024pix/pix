@@ -2,20 +2,15 @@ import findAssessments from './routes/find-assessments';
 import getAnswer from './routes/get-answer';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
 import getAssessment from './routes/get-assessment';
-import getAuthenticatedUser from './routes/users/get-authenticated-user';
 import getCampaignParticipation from './routes/get-campaign-participation';
 import getCampaignParticipationResult from './routes/get-campaign-participation-result';
 import getCampaigns from './routes/get-campaigns';
-import getCertificationProfile from './routes/users/get-certification-profile';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getCorrections from './routes/get-corrections';
 import getNextChallenge from './routes/get-next-challenge';
-import getPixScore from './routes/users/get-pix-score';
 import getScorecard from './routes/get-scorecard';
-import getScorecards from './routes/users/get-scorecards';
 import getScorecardsTutorials from './routes/get-scorecards-tutorials';
-import getUserCampaignParticipations from './routes/users/get-user-campaign-participations';
 import patchAnswer from './routes/patch-answer';
 import patchCampaignParticipation from './routes/patch-campaign-participation';
 import postAnswers from './routes/post-answers';
@@ -25,7 +20,6 @@ import postCertificationCourse from './routes/post-certification-course';
 import postCompetenceEvaluation from './routes/post-competence-evaluation';
 import postFeedbacks from './routes/post-feedbacks';
 import postSessionParticipation from './routes/post-session-participation';
-import resetScorecard from './routes/users/reset-scorecard';
 import loadAuthRoutes from './routes/auth/index';
 import loadUserRoutes from './routes/users/index';
 import loadCourseRoutes from './routes/courses/index';
@@ -69,21 +63,12 @@ export default function() {
   this.get('/certifications');
 
   this.post('/sessions/:id/candidate-participation', postSessionParticipation);
-
-  this.get('/users/me', getAuthenticatedUser);
-  this.get('/users/:id/certification-profile', getCertificationProfile);
-  this.get('/users/:id/pixscore', getPixScore);
-  this.get('/users/:id/scorecards', getScorecards);
-  this.get('/users/:id/campaign-participations', getUserCampaignParticipations);
-  this.post('/users/:userId/competences/:competenceId/reset', resetScorecard);
   this.get('/scorecards/:id', getScorecard);
   this.get('/scorecards/:id/tutorials', getScorecardsTutorials);
   this.get('/competences/:id');
   this.get('/areas/:id');
 
   this.get('/corrections', getCorrections);
-
-  this.post('/users');
 
   this.del('/cache', () => null, 204);
 
@@ -102,25 +87,6 @@ export default function() {
   this.get('/password-reset-demands/:key', (schema, request) => {
     const demand = schema.passwordResetDemands.findBy({ temporaryKey: request.params.key });
     return schema.users.findBy({ email: demand.email });
-  });
-
-  this.patch('/users/:id/password-update', (schema, request) => {
-    const body = JSON.parse(request.requestBody);
-    const user =  schema.users.find(request.params.id);
-
-    const demand = schema.passwordResetDemands.findBy({ temporaryKey: request.queryParams['temporary-key'] });
-    if (user.email !== demand.email) {
-      return new Response(401);
-    } else {
-      user.update({ password: body.data.attributes.password });
-      return new Response(204);
-    }
-  });
-
-  this.patch('/users/:id/remember-user-has-seen-assessment-instructions', (schema, request) => {
-    const user =  schema.users.find(request.params.id);
-    user.hasSeenAssessmentInstructions = true;
-    return user;
   });
 
   this.get('/progressions/:id');
