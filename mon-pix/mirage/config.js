@@ -17,7 +17,6 @@ import postAnswers from './routes/post-answers';
 import postAssessments from './routes/post-assessments';
 import postCampaignParticipation from './routes/post-campaign-participation';
 import postCompetenceEvaluation from './routes/post-competence-evaluation';
-import postFeedbacks from './routes/post-feedbacks';
 import postSessionParticipation from './routes/post-session-participation';
 import loadAuthRoutes from './routes/auth/index';
 import loadUserRoutes from './routes/users/index';
@@ -56,8 +55,6 @@ export default function() {
   this.get('/answers/:id', getAnswer);
   this.get('/answers', getAnswerByChallengeAndAssessment);
   this.patch('/answers/:id', patchAnswer);
-
-  this.post('/feedbacks', postFeedbacks);
 
   this.get('/certifications');
 
