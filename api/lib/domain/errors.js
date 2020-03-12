@@ -113,6 +113,12 @@ class CertificationCourseUpdateError extends DomainError {
   }
 }
 
+class CertificationCourseNotPublishableError extends DomainError {
+  constructor(message = 'Une Certification avec le statut \'started\' ou \'error\' ne peut-être publiée.') {
+    super(message);
+  }
+}
+
 class InvalidCertificationReportForFinalization extends DomainError {
   constructor(message = 'Echec lors de la validation du certification course') {
     super(message);
@@ -462,6 +468,7 @@ module.exports = {
   CertificationCenterMembershipCreationError,
   CertificationComputeError,
   CertificationCourseUpdateError,
+  CertificationCourseNotPublishableError,
   ChallengeAlreadyAnsweredError,
   CompetenceResetError,
   EntityValidationError,
