@@ -79,10 +79,12 @@ export default function() {
     const email = requestBody.data.attributes.email;
     const code = 'ABCDEFGH01';
 
-    return schema.organizationInvitations.create({
+    schema.organizationInvitations.create({
       organizationId, email: email, status: 'PENDING', code,
       createdAt: new Date()
     });
+
+    return schema.organizationInvitations.where({ email });
   });
 
   this.get('/organization-invitations/:id', (schema, request) => {
