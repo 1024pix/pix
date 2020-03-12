@@ -5,7 +5,6 @@ import {
   authenticateByEmail,
   authenticateByGAR,
 } from '../helpers/authentification';
-import  overrideApiResponse  from '../helpers/mirage';
 import {
   startCampaignByCode,
   startCampaignByCodeAndExternalId
@@ -14,6 +13,7 @@ import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { Response } from 'ember-cli-mirage';
 
 function _buildCampaignParticipation(schema) {
   const assessment = schema.assessments.create({});
@@ -141,7 +141,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
                   }
                 };
 
-                return overrideApiResponse(200, studentFoundWithUsernameGenerated);
+                return new Response(200, {}, studentFoundWithUsernameGenerated);
               });
 
               this.server.post('student-dependent-users', () => {
@@ -155,7 +155,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
                   }]
                 };
 
-                return overrideApiResponse(422, emailAlreadyExistResponse);
+                return new Response(422, {}, emailAlreadyExistResponse);
               });
 
               await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
