@@ -1,11 +1,12 @@
-import { click, currentURL, fillIn, find } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { click, currentURL, find } from '@ember/test-helpers';
+import { setupApplicationTest } from 'ember-mocha';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentification';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
-import { setupApplicationTest } from 'ember-mocha';
-import { setupMirage } from 'ember-cli-mirage/test-support';
+import { fillCertificationJoiner, fillCertificationStarter } from '../helpers/certification';
 
 describe('Acceptance | Certification | Start Certification Course', function() {
   setupApplicationTest();
@@ -40,10 +41,6 @@ describe('Acceptance | Certification | Start Certification Course', function() {
         beforeEach(async function() {
           user = server.create('user', 'withEmail', 'notCertifiable');
           await authenticateByEmail(user);
-          const currentUser = this.owner.lookup('service:currentUser');
-          await currentUser.load();
-          await currentUser.user.get('certificationProfile');
-          currentUser.user.get('certificationProfile').set('isCertifiable', false);
           return visitWithAbortedTransition('/certifications');
         });
 
@@ -66,12 +63,8 @@ describe('Acceptance | Certification | Start Certification Course', function() {
             await visitWithAbortedTransition('/certifications');
 
             // when
-            await fillIn('#certificationJoinerSessionId', '1');
-            await fillIn('#certificationJoinerFirstName', 'Laura');
-            await fillIn('#certificationJoinerDayOfBirth', '04');
-            await fillIn('#certificationJoinerMonthOfBirth', '01');
-            await fillIn('#certificationJoinerYearOfBirth', '1990');
-            await click('.certification-joiner__attempt-next-btn');
+            await fillCertificationJoiner(
+              { sessionId: '1', firstName: 'Laura', lastName: '', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
           });
 
           it('should display an error message', function() {
@@ -83,13 +76,8 @@ describe('Acceptance | Certification | Start Certification Course', function() {
         context('when no candidate with given info has been registered in the given session', function() {
           beforeEach(async function() {
             // when
-            await fillIn('#certificationJoinerSessionId', '1');
-            await fillIn('#certificationJoinerFirstName', 'Laura');
-            await fillIn('#certificationJoinerLastName', 'PasInscrite');
-            await fillIn('#certificationJoinerDayOfBirth', '04');
-            await fillIn('#certificationJoinerMonthOfBirth', '01');
-            await fillIn('#certificationJoinerYearOfBirth', '1990');
-            await click('.certification-joiner__attempt-next-btn');
+            await fillCertificationJoiner(
+              { sessionId: '1', firstName: 'Laura', lastName: 'PasInscrite', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
           });
 
           it('should display an error message', function() {
@@ -101,13 +89,8 @@ describe('Acceptance | Certification | Start Certification Course', function() {
         context('when several candidates with given info are found in the given session', function() {
           beforeEach(async function() {
             // when
-            await fillIn('#certificationJoinerSessionId', '1');
-            await fillIn('#certificationJoinerFirstName', 'Laura');
-            await fillIn('#certificationJoinerLastName', 'PlusieursMatchs');
-            await fillIn('#certificationJoinerDayOfBirth', '04');
-            await fillIn('#certificationJoinerMonthOfBirth', '01');
-            await fillIn('#certificationJoinerYearOfBirth', '1990');
-            await click('.certification-joiner__attempt-next-btn');
+            await fillCertificationJoiner(
+              { sessionId: '1', firstName: 'Laura', lastName: 'PlusieursMatchs', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
           });
 
           it('should display an error message', function() {
@@ -119,13 +102,8 @@ describe('Acceptance | Certification | Start Certification Course', function() {
         context('when user has already been linked to another candidate in the session', function() {
           beforeEach(async function() {
             // when
-            await fillIn('#certificationJoinerSessionId', '1');
-            await fillIn('#certificationJoinerFirstName', 'Laura');
-            await fillIn('#certificationJoinerLastName', 'UtilisateurLiéAutre');
-            await fillIn('#certificationJoinerDayOfBirth', '04');
-            await fillIn('#certificationJoinerMonthOfBirth', '01');
-            await fillIn('#certificationJoinerYearOfBirth', '1990');
-            await click('.certification-joiner__attempt-next-btn');
+            await fillCertificationJoiner(
+              { sessionId: '1', firstName: 'Laura', lastName: 'UtilisateurLiéAutre', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
           });
 
           it('should display an error message', function() {
@@ -137,13 +115,8 @@ describe('Acceptance | Certification | Start Certification Course', function() {
         context('when candidate has already been linked to another user in the session', function() {
           beforeEach(async function() {
             // when
-            await fillIn('#certificationJoinerSessionId', '1');
-            await fillIn('#certificationJoinerFirstName', 'Laura');
-            await fillIn('#certificationJoinerLastName', 'CandidatLiéAutre');
-            await fillIn('#certificationJoinerDayOfBirth', '04');
-            await fillIn('#certificationJoinerMonthOfBirth', '01');
-            await fillIn('#certificationJoinerYearOfBirth', '1990');
-            await click('.certification-joiner__attempt-next-btn');
+            await fillCertificationJoiner(
+              { sessionId: '1', firstName: 'Laura', lastName: 'CandidatLiéAutre', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
           });
 
           it('should display an error message', function() {
@@ -163,13 +136,8 @@ describe('Acceptance | Certification | Start Certification Course', function() {
               birthdate: '1990-01-04',
             });
             // when
-            await fillIn('#certificationJoinerSessionId', '1');
-            await fillIn('#certificationJoinerFirstName', 'Laura');
-            await fillIn('#certificationJoinerLastName', 'CandidatLiéUtilisateur');
-            await fillIn('#certificationJoinerDayOfBirth', '04');
-            await fillIn('#certificationJoinerMonthOfBirth', '01');
-            await fillIn('#certificationJoinerYearOfBirth', '1990');
-            await click('.certification-joiner__attempt-next-btn');
+            await fillCertificationJoiner(
+              { sessionId: '1', firstName: 'Laura', lastName: 'CandidatLiéUtilisateur', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
           });
 
           it('should render the component to provide the access code', function() {
@@ -181,13 +149,8 @@ describe('Acceptance | Certification | Start Certification Course', function() {
         context('when user is successfuly linked to the candidate', function() {
           beforeEach(async function() {
             // when
-            await fillIn('#certificationJoinerSessionId', '1');
-            await fillIn('#certificationJoinerFirstName', 'Laura');
-            await fillIn('#certificationJoinerLastName', 'Bravo');
-            await fillIn('#certificationJoinerDayOfBirth', '04');
-            await fillIn('#certificationJoinerMonthOfBirth', '01');
-            await fillIn('#certificationJoinerYearOfBirth', '1990');
-            await click('.certification-joiner__attempt-next-btn');
+            await fillCertificationJoiner(
+              { sessionId: '1', firstName: 'Laura', lastName: 'Bravo', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
           });
 
           it('should render the component to provide the access code', function() {
@@ -207,15 +170,9 @@ describe('Acceptance | Certification | Start Certification Course', function() {
           context('when user enter a correct code session', function() {
             beforeEach(async function() {
               // when
-              await fillIn('#certificationJoinerSessionId', '1');
-              await fillIn('#certificationJoinerFirstName', 'Laura');
-              await fillIn('#certificationJoinerLastName', 'Bravo');
-              await fillIn('#certificationJoinerDayOfBirth', '04');
-              await fillIn('#certificationJoinerMonthOfBirth', '01');
-              await fillIn('#certificationJoinerYearOfBirth', '1990');
-              await click('.certification-joiner__attempt-next-btn');
-              await fillIn('#certificationStarterSessionCode', 'ABCD12');
-              await click('.certification-course-page__submit_button');
+              await fillCertificationJoiner(
+                { sessionId: '1', firstName: 'Laura', lastName: 'Bravo', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
+              await fillCertificationStarter({ accessCode: 'ABCD12' });
             });
 
             it('should be redirected on the first challenge of an assessment', function() {
@@ -252,15 +209,9 @@ describe('Acceptance | Certification | Start Certification Course', function() {
 
             it('should be redirected directly on the certification course', async function() {
               // given
-              await fillIn('#certificationJoinerSessionId', '1');
-              await fillIn('#certificationJoinerFirstName', 'Laura');
-              await fillIn('#certificationJoinerLastName', 'Bravo');
-              await fillIn('#certificationJoinerDayOfBirth', '04');
-              await fillIn('#certificationJoinerMonthOfBirth', '01');
-              await fillIn('#certificationJoinerYearOfBirth', '1990');
-              await click('.certification-joiner__attempt-next-btn');
-              await fillIn('#certificationStarterSessionCode', 'ABCD12');
-              await click('.certification-course-page__submit_button');
+              await fillCertificationJoiner(
+                { sessionId: '1', firstName: 'Laura', lastName: 'Bravo', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
+              await fillCertificationStarter({ accessCode: 'ABCD12' });
 
               await click('.challenge-actions__action-skip');
               await visitWithAbortedTransition('/profil');

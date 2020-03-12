@@ -143,5 +143,35 @@ export default Factory.extend({
     _addDefaultCertificationProfile(user, server);
     _addDefaultScorecards(user, server);
     _addDefaultPixscore(user, server);
-  }
+  },
+  withSomeCertificates: trait({
+    afterCreate(user, server) {
+      const rejectedCertificate = server.create('certification', {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        birthdate: '2000-01-01',
+        certificationCenter: 'Université de Pix',
+        commentForCandidate: 'Ceci est un commentaire jury à destination du candidat.',
+        date: new Date('2018-07-20T14:23:56Z'),
+        status: 'rejected',
+        pixScore: '50',
+        isPublished: true,
+        user,
+      });
+      const validatedCertificate = server.create('certification', {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        birthdate: '2000-01-01',
+        certificationCenter: 'Université de Pix',
+        commentForCandidate: 'Ceci est un commentaire jury à destination du candidat.',
+        date: new Date('2018-07-20T14:33:56Z'),
+        status: 'validated',
+        pixScore: '777',
+        isPublished: true,
+        user,
+      });
+      const certificates = [rejectedCertificate, validatedCertificate];
+      user.update({ certifications: certificates });
+    }
+  }),
 });
