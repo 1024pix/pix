@@ -8,29 +8,6 @@ export default function(server) {
     id: 12
   });
 
-  server.create('certification', {
-    id: '1',
-    date: new Date('2018-02-15T15:15:52Z'),
-    status: 'rejected',
-    pixScore: '3789',
-    isPublished: true,
-    certificationCenter: 'Université de Paris',
-    commentForCandidate: 'Ceci est un commentaire jury à destination du candidat.',
-  });
-
-  server.create('certification', {
-    id: '2',
-    date: new Date('2018-02-15T15:15:52Z'),
-    birthdate: '1994-07-10',
-    birthplace: 'Paris',
-    firstName:'Jean',
-    lastName:'Bon',
-    status: 'rejected',
-    pixScore: '6546',
-    isPublished: false,
-    certificationCenter: 'Université de Lyon',
-  });
-
   const campaign1 = server.create('campaign', {
     id: 1,
     name: 'Campagne 1 avec Id Externe',
