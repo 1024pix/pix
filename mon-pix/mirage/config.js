@@ -7,7 +7,6 @@ import getCampaignParticipationResult from './routes/get-campaign-participation-
 import getCampaigns from './routes/get-campaigns';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
-import getCorrections from './routes/get-corrections';
 import getNextChallenge from './routes/get-next-challenge';
 import getScorecard from './routes/get-scorecard';
 import getScorecardsTutorials from './routes/get-scorecards-tutorials';
@@ -64,8 +63,6 @@ export default function() {
   this.get('/scorecards/:id/tutorials', getScorecardsTutorials);
   this.get('/competences/:id');
   this.get('/areas/:id');
-
-  this.get('/corrections', getCorrections);
 
   this.del('/cache', () => null, 204);
 
