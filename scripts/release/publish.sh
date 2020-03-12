@@ -88,19 +88,23 @@ function publish_release_on_sentry {
 
 echo -e "Preparing a new release for ${RED}production${RESET_COLOR}.\n"
 
+echo "== Validate context =="
 ensure_no_uncommited_changes_are_present
 ensure_new_version_is_either_minor_or_patch_or_major
-update_version
+echo "== Package release =="
 checkout_dev
 fetch_and_rebase
+update_version
 complete_change_log
 create_a_release_commit
 push_commit_to_remote_dev
+echo "== Publish release =="
 checkout_master
 fetch_and_rebase
 create_a_merge_commit_of_dev_into_master_and_tag_it
 push_commit_and_tag_to_remote_master
 publish_release_on_sentry
+echo "== Go back to dev to avoid unvolontary changes =="
 checkout_dev
 
 echo -e "Release publication ${GREEN}succeeded${RESET_COLOR}."
