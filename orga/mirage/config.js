@@ -56,7 +56,7 @@ export default function() {
 
   this.patch('/memberships/:id', (schema, request) => {
     const id = request.params.id;
-    return schema.memberships.where({ id });
+    return schema.memberships.find(id);
   });
 
   this.get('/organizations/:id/campaigns', (schema) => {
@@ -79,10 +79,12 @@ export default function() {
     const email = requestBody.data.attributes.email;
     const code = 'ABCDEFGH01';
 
-    return schema.organizationInvitations.create({
+    schema.organizationInvitations.create({
       organizationId, email: email, status: 'PENDING', code,
       createdAt: new Date()
     });
+
+    return schema.organizationInvitations.where({ email });
   });
 
   this.get('/organization-invitations/:id', (schema, request) => {
@@ -205,7 +207,9 @@ export default function() {
       return new Response(500, {}, { errors: [ { status: '500', detail: '' } ] });
     }
 
-    return schema.users.find(1);
+    const user = schema.users.find(1);
+    user.modelName = 'student-dependent-users';
+    return user;
   });
 
   this.post('/user-orga-settings', (schema, request) => {

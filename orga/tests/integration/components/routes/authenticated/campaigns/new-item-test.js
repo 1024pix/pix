@@ -9,9 +9,9 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
   let receivedCampaign;
 
   hooks.beforeEach(function() {
-    receivedCampaign;
-    this.set('createCampaignSpy', (campaign) => {
-      receivedCampaign = campaign;
+    this.set('createCampaignSpy', (event) => {
+      event.preventDefault();
+      receivedCampaign = this.model;
     });
     this.set('cancelSpy', () => {});
   });
@@ -31,18 +31,17 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
   test('it should send campaign creation action when submitted', async function(assert) {
     // given
     this.set('model', EmberObject.create({}));
+    await render(hbs`{{routes/authenticated/campaigns/new-item campaign=model createCampaign=(action createCampaignSpy) cancel=(action cancelSpy)}}`);
+    await fillIn('#campaign-name', 'Ma campagne');
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/new-item campaign=model createCampaign=(action createCampaignSpy) cancel=(action cancelSpy)}}`);
-
-    // then
-    await fillIn('#campaign-name', 'Ma campagne');
     await click('button[type="submit"]');
 
-    assert.deepEqual(receivedCampaign.get('name'), 'Ma campagne');
+    // then
+    assert.deepEqual(receivedCampaign.name, 'Ma campagne');
   });
 
-  test('it should display error message when error occured on registration of one field', async function(assert) {
+  test('it should display error message when error occurred on registration of one field', async function(assert) {
     // given
     this.set('model', EmberObject.create({
       errors: {

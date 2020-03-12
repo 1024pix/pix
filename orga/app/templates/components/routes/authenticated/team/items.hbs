@@ -1,46 +1,46 @@
+<td>{{@membership.user.lastName}}</td>
+<td>{{@membership.user.firstName}}</td>
 
-    <td>{{membership.user.lastName}}</td>
-    <td>{{membership.user.firstName}}</td>
-
-{{#if (not isEditionMode) }}
-    <td>{{membership.displayRole}}</td>
-    {{#if (not-eq membership.user.id currentUser.user.id) }}
-        <td>
-                <div class="zone-edit-role">
-                    <button id='edit-organization-role' class="button button--with-icon-and-text button-edit-role"
-                            type="button" onclick={{action "editRoleOfMember" membership }}>
-                        <FaIcon @icon="edit"></FaIcon> Modifier le rôle
-                    </button>
-                </div>
-            </td>
-    {{else}}
-            <td></td>
-    {{/if}}
+{{#if (not this.isEditionMode) }}
+  <td>{{@membership.displayRole}}</td>
+  {{#if (not-eq @membership.user.id this.currentUser.user.id) }}
+    <td>
+      <div class="zone-edit-role">
+        <button id='edit-organization-role' class="button button--with-icon-and-text button-edit-role"
+                type="button" {{on 'click' (fn this.editRoleOfMember @membership)}}>
+          <FaIcon @icon="edit"></FaIcon>
+          Modifier le rôle
+        </button>
+      </div>
+    </td>
+  {{else}}
+    <td></td>
+  {{/if}}
 {{/if}}
 
-{{#if isEditionMode }}
-    <td>
-        <div id="selectOrganizationRole">
-          <PowerSelect @options={{organizationRoles}} @selected={{selectedNewRole}} @searchEnabled={{false}} @onchange={{action "setRoleSelection"}} @placeholder="Selectionner le rôle" as |organizationRole|>
-            {{organizationRole.label}}
-          </PowerSelect>
-        </div>
-    </td>
-    <td>
-            <div class="zone-save-cancel-role">
-                <button id='save-organization-role'
-                        type="button"
-                        class="button"
-                        onclick={{action "updateRoleOfMember" membership }}>
-                    Enregistrer
-                </button>
-                <button id='cancel-update-organization-role'
-                        type="button"
-                        class="button button--with-icon-and-text list-team-page__cancel-update-role"
-                        onclick={{action "cancelUpdateRoleOfMember"}}>
-                  <FaIcon @icon='times'></FaIcon>
-                </button>
-            </div>
-    </td>
-    {{/if}}
-
+{{#if this.isEditionMode}}
+  <td>
+    <div id="selectOrganizationRole">
+      <PowerSelect @options={{this.organizationRoles}} @selected={{this.selectedNewRole}} @searchEnabled={{false}}
+                   @onchange={{this.setRoleSelection}} @placeholder="Selectionner le rôle" as |organizationRole|>
+        {{organizationRole.label}}
+      </PowerSelect>
+    </div>
+  </td>
+  <td>
+    <div class="zone-save-cancel-role">
+      <button id='save-organization-role'
+              type="button"
+              class="button"
+              {{on 'click' (fn this.updateRoleOfMember @membership)}}>
+        Enregistrer
+      </button>
+      <button id='cancel-update-organization-role'
+              type="button"
+              class="button button--with-icon-and-text list-team-page__cancel-update-role"
+              {{on 'click' this.cancelUpdateRoleOfMember}}>
+        <FaIcon @icon='times'></FaIcon>
+      </button>
+    </div>
+  </td>
+{{/if}}

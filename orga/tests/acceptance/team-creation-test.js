@@ -25,7 +25,7 @@ module('Acceptance | Team Creation', function(hooks) {
     let organizationId;
 
     hooks.afterEach(function() {
-      const notificationMessagesService = this.owner.lookup('service:notification-messages');
+      const notificationMessagesService = this.owner.lookup('service:notifications');
       notificationMessagesService.clearAll();
     });
 
@@ -143,7 +143,7 @@ module('Acceptance | Team Creation', function(hooks) {
         // then
         assert.equal(currentURL(), '/equipe/creation');
         assert.dom('[data-test-notification-message="error"]').exists();
-        assert.dom('[data-test-notification-message="error"]').hasText('Internal Server Error');
+        assert.dom('[data-test-notification-message="error"]').hasText('Quelque chose s\'est mal passé. Veuillez réessayer.');
       });
 
       test('it should display error on global form when error 421 is returned from backend', async function(assert) {

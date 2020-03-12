@@ -1,4 +1,5 @@
 export default function isEmailValid(email) {
+
   if (!email) {
     return false;
   }

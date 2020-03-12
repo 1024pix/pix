@@ -4,13 +4,13 @@
     <div class="participant-results-content participant-results-content--large participant-results-content--wide">
       <div class="label-text participant-results-content__label-text">Acquis validés</div>
       <div class="content-text content-text--big">
-        {{ campaignCollectiveResult.averageValidatedSkillsSum }}
+        {{ @campaignCollectiveResult.averageValidatedSkillsSum }}
       </div>
     </div>
     <div class="participant-results-content participant-results-content--large participant-results-content--wide">
       <div class="label-text participant-results-content__label-text">Acquis évalués</div>
       <div class="content-text content-text--big">
-        {{ campaignCollectiveResult.totalSkills }}
+        {{ @campaignCollectiveResult.totalSkills }}
       </div>
     </div>
   </div>
@@ -19,9 +19,9 @@
     <div class="participant-results-content__score">
       <div class="content-text content-text--big content-text--bold">Résultat</div>
       <div class="participant-results-content__circle-chart">
-        <CircleChart @value={{campaignCollectiveResult.averageResult}}>
+        <CircleChart @value={{@campaignCollectiveResult.averageResult}}>
           <span class="participant-results-content__circle-chart-value">
-            {{campaignCollectiveResult.averageResult}}%
+            {{@campaignCollectiveResult.averageResult}}%
           </span>
         </CircleChart>
       </div>
@@ -35,17 +35,17 @@
   <table>
     <thead>
     <tr>
-      <th class="table__column--wide">Compétences ({{ campaignCollectiveResult.campaignCompetenceCollectiveResults.length }})</th>
+      <th class="table__column--wide">Compétences ({{ @campaignCollectiveResult.campaignCompetenceCollectiveResults.length }})</th>
       <th class="table__column--wide">Résultats</th>
       <th class="table__column--small">Acquis validés</th>
       <th class="table__column--small">Acquis évalués</th>
     </tr>
     </thead>
 
-    {{#if sharedParticipationsCount }}
+    {{#if @sharedParticipationsCount }}
 
       <tbody>
-      {{#each campaignCollectiveResult.campaignCompetenceCollectiveResults as |competenceResult|}}
+      {{#each @campaignCollectiveResult.campaignCompetenceCollectiveResults as |competenceResult|}}
         <tr>
           <td class="participant-results-details__competence-wrapper">
             <span class="participant-results-details-competence__bullet participant-results-details-competence__bullet--{{competenceResult.areaColor}}">
@@ -66,7 +66,7 @@
     {{/if}}
   </table>
 
-  {{#unless sharedParticipationsCount }}
+  {{#unless @sharedParticipationsCount }}
     <div class="table__empty content-text">En attente de résultats</div>
   {{/unless}}
 

@@ -2,6 +2,7 @@ import { action, computed } from '@ember/object';
 import Component from '@ember/component';
 
 export default class NewItem extends Component {
+
   campaign = null;
   targetProfiles = null;
   wantIdPix = false;
@@ -24,9 +25,9 @@ export default class NewItem extends Component {
   }
 
   @action
-  setSelectedTargetProfile(selectedTargetProfileId) {
+  setSelectedTargetProfile(event) {
     const selectedTargetProfile = this.targetProfiles
-      .find((targetProfile) => targetProfile.get('id') === selectedTargetProfileId);
+      .find((targetProfile) => targetProfile.get('id') === event.target.value);
     this.campaign.set('targetProfile', selectedTargetProfile);
   }
 }
