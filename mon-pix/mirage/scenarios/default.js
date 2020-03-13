@@ -1,7 +1,4 @@
 export default function(server) {
-  /* eslint max-statements: off */
-  server.loadFixtures('challenges');
-
   const campaign1 = server.create('campaign', {
     id: 1,
     name: 'Campagne 1 avec Id Externe',

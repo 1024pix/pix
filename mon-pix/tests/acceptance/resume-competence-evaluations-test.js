@@ -60,7 +60,7 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
 
       context('When competence evaluation does not exist', function() {
         beforeEach(async function() {
-          await visitWithAbortedTransition('/competences/wrongId/evaluer');
+          await visitWithAbortedTransition('/competences/nonExistantCompetenceId/evaluer');
         });
 
         it('should show an error message', async function() {
