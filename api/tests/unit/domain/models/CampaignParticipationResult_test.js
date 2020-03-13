@@ -57,7 +57,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
         totalSkillsCount: 4,
         testedSkillsCount: 2,
         validatedSkillsCount: 1,
-        masteryPercentage: 25,
         badge: {
           id: 1,
           imageUrl: '/img/banana.svg',
@@ -68,7 +67,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           name: 'Economie symbiotique',
           index: '5.1',
           areaColor: 'jaffa',
-          masteryPercentage: 100,
           totalSkillsCount: 1,
           testedSkillsCount: 1,
           validatedSkillsCount: 1,
@@ -77,7 +75,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           name: 'Désobéissance civile',
           index: '6.9',
           areaColor: 'wild-strawberry',
-          masteryPercentage: 0,
           totalSkillsCount: 3,
           testedSkillsCount: 1,
           validatedSkillsCount: 0,

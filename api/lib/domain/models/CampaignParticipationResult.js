@@ -18,7 +18,6 @@ class CampaignParticipationResult {
     // attributes
     this.areBadgeCriteriaFulfilled = areBadgeCriteriaFulfilled;
     this.isCompleted = isCompleted;
-    this.masteryPercentage = Math.round(validatedSkillsCount * 100 / totalSkillsCount);
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = testedSkillsCount;
     this.validatedSkillsCount = validatedSkillsCount;
@@ -48,6 +47,10 @@ class CampaignParticipationResult {
       competenceResults: targetedCompetenceResults,
       badge,
     });
+  }
+
+  get masteryPercentage() {
+    return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
   }
 }
 

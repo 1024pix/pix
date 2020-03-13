@@ -14,10 +14,13 @@ class CompetenceResult {
     this.name = name;
     this.index = index;
     this.areaColor = areaColor;
-    this.masteryPercentage = Math.round(validatedSkillsCount * 100 / totalSkillsCount);
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = testedSkillsCount;
     this.validatedSkillsCount = validatedSkillsCount;
+  }
+
+  get masteryPercentage() {
+    return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
   }
 }
 
