@@ -143,9 +143,9 @@ module.exports = {
     const preTreatedAnswers = applyPreTreatments(yamlAnswer);
 
     // Convert Yaml to JS objects
-    const answers = jsYaml.safeLoad(preTreatedAnswers);
-    const solutions = jsYaml.safeLoad(yamlSolution);
-    const scoring = jsYaml.safeLoad(_.ensureString(yamlScoring));
+    const answers = jsYaml.safeLoad(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
+    const solutions = jsYaml.safeLoad(yamlSolution, { schema: jsYaml.FAILSAFE_SCHEMA });
+    const scoring = jsYaml.safeLoad(yamlScoring || '', { schema: jsYaml.FAILSAFE_SCHEMA });
 
     // Treatments
     const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations);
