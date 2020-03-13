@@ -21,25 +21,34 @@
         {{#bs-tooltip}}Exporter les résultats après jury pour les communiquer aux prescripteurs (.csv){{/bs-tooltip}}
       </button>
 
-      {{#if showSelectedActions}}
-        {{#bs-dropdown as |dd|}}
-          {{#dd.button type='primary'}}Avec la sélection... <span class='caret'></span>{{/dd.button}}
-          {{#dd.menu as |ddm|}}
-            {{#ddm.item}}<span class='dropdown-item' {{action "displayCertificationStatusUpdateConfirmationModal" "publish"}}>Publier</span>{{/ddm.item}}
-            {{#ddm.item}}<span class='dropdown-item' {{action "displayCertificationStatusUpdateConfirmationModal" "unpublish"}}>Dépublier</span>{{/ddm.item}}
-          {{/dd.menu}}
-        {{/bs-dropdown}}
+      {{#if this.model.isPublished}}
+        <button class="btn btn-primary" {{action "displayCertificationStatusUpdateConfirmationModal"}} type="button">
+          Dépublier la session
+        </button>
+      {{else}}
+
+        {{#if this.canPublish}}
+          <button class="btn btn-primary" {{action "displayCertificationStatusUpdateConfirmationModal"}} type="button">
+            Publier la session
+          </button>
+        {{else}}
+          <button class="btn btn-primary certification-list-page--button__disabled" type="button">
+            Publier la session
+            {{#bs-tooltip}}Vous ne pouvez pas publier la session tant qu'il reste des certifications en "error" ou "started".{{/bs-tooltip}}
+          </button>
+        {{/if}}
+
       {{/if}}
     </div>
   </header>
 
   <div class="certification-list-page__body">
-    {{certification-list certifications=model.certifications changeAction=(action "onListSelectionChange")}}
+    {{certification-list certifications=model.certifications}}
   </div>
 </div>
 
 {{confirm-popup message=confirmMessage
-                confirm=(action confirmAction)
+                confirm=(action "toggleSessionPublication")
                 cancel=(action "onCancelConfirm")
                 show=displayConfirm}}
 

@@ -16,15 +16,6 @@ export default Service.extend({
   fileSaver: service(),
   csvService: service(),
 
-  async updateCertificationsStatus(certifications, isPublished) {
-    const promises = certifications.map((certification) => {
-      certification.set('isPublished', isPublished);
-      return certification.save({ adapterOptions: { updateMarks: false } });
-    });
-
-    await Promise.all(promises);
-  },
-
   downloadSessionExportFile(session) {
     const data = this.buildSessionExportFileData(session);
     const fileHeaders = _buildSessionExportFileHeaders();

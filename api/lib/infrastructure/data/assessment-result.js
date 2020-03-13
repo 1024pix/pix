@@ -13,7 +13,7 @@ module.exports = Bookshelf.model('AssessmentResult', {
       {
         method: 'isIn',
         error: 'Le status de la certification n\'est pas valide',
-        args: ['validated', 'rejected', 'pending', 'error']
+        args: ['validated', 'rejected', 'error']
       },
     ],
   },

@@ -341,6 +341,32 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
+  describe('PATCH /api/sessions/{id}/publication', () => {
+    let options;
+
+    beforeEach(() => {
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'updatePublication').returns('ok');
+      const sessionId = 1;
+      options = {
+        method: 'PATCH',
+        url: `/api/sessions/${sessionId}/publication`,
+        payload: {
+          data: {
+            attributes: {
+              toPublish: true
+            }
+          }
+        },
+      };
+      return server.register(route);
+    });
+
+    it('should exist', async () => {
+      const res = await server.inject(options);
+      expect(res.statusCode).to.equal(200);
+    });
+  });
   describe('PUT /api/sessions/{id}/results-sent-to-prescriber', () => {
     let sessionId;
 

@@ -78,21 +78,11 @@
     <div class="row">
       <div class="col single-certification-info__actions">
         {{#if edition}}
-          {{#bs-button class='single-certification-edit__button' type='secondary' size='sm'
-                       onClick=(action "onCancel")}}Annuler{{/bs-button}}
-          {{#bs-button class='single-certification-edit__button' type='primary' size='sm'
-                       onClick=(action "onSaveConfirm")}}Enregistrer{{/bs-button}}
+          <button class="single-certification-edit__button btn btn-secondary btn-sm" {{action "onCancel"}}>Annuler</button>
+          <button class="single-certification-edit__button btn btn-primary btn-sm" {{action "onSaveConfirm"}}>Enregistrer</button>
+
         {{else}}
-          {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onEdit")}}
-            Modifier{{/bs-button}}
-          {{#bs-button class='single-certification-edit__button' type='primary' size='sm'
-                       onClick=(action "onTogglePublishConfirm")}}
-            {{#if certification.isPublished}}
-              Dépublier
-            {{else}}
-              Publier
-            {{/if}}
-          {{/bs-button}}
+          <button class="single-certification-edit__button btn btn-primary btn-sm" {{action "onEdit"}}>Modifier</button>
         {{/if}}
       </div>
     </div>

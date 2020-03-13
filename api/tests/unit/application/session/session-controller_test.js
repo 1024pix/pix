@@ -483,6 +483,42 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
+  describe('#updatePublication', () => {
+    let request;
+    const sessionId = 1;
+    const toPublish = true;
+    let certificationsUpdated;
+
+    beforeEach(() => {
+      // given
+      request = {
+        params: {
+          id: sessionId,
+        },
+        payload: {
+          data: {
+            attributes: {
+              toPublish,
+            }
+          }
+        }
+      };
+
+      certificationsUpdated = [{ isPublished: true }, { isPublished: true }];
+
+      sinon.stub(usecases, 'updatePublicationSession').resolves(certificationsUpdated);
+    });
+
+    it('should publish all certifications of the session', async () => {
+      // when
+      const result = await sessionController.updatePublication(request);
+
+      // then
+      expect(usecases.updatePublicationSession).to.have.been.calledWithExactly({ sessionId, toPublish });
+      expect(result).to.equal(null);
+    });
+  });
+
   describe('#analyzeAttendanceSheet', () => {
     const sessionId = 3;
 

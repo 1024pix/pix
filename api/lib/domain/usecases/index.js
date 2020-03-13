@@ -84,6 +84,7 @@ module.exports = injectDependencies({
   createUserOrgaSettings: require('./create-user-orga-settings'),
   deleteUnlinkedCertificationCandidate: require('./delete-unlinked-certification-candidate'),
   finalizeSession: require('./finalize-session'),
+  updatePublicationSession: require('./update-publication-session'),
   findAnswerByChallengeAndAssessment: require('./find-answer-by-challenge-and-assessment'),
   findAssociationBetweenUserAndOrganizationStudent: require('./find-association-between-user-and-organization-student'),
   findCampaignParticipationsRelatedToAssessment: require('./find-campaign-participations-related-to-assessment'),

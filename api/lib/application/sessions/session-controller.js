@@ -138,6 +138,15 @@ module.exports = {
     return sessionSerializer.serializeForFinalization(session);
   },
 
+  async updatePublication(request) {
+    const sessionId = request.params.id;
+    const toPublish = request.payload.data.attributes.toPublish;
+    await usecases.updatePublicationSession({ sessionId, toPublish });
+
+    return null;
+
+  },
+
   async analyzeAttendanceSheet(request) {
     const sessionId = request.params.id;
     const odsBuffer = request.payload.file;

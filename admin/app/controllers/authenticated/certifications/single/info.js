@@ -132,36 +132,6 @@ export default Controller.extend({
       }
       this.set('certification.competencesWithMark', newCompetences);
     },
-    onTogglePublishConfirm() {
-      const state = this.get('certification.isPublished');
-      if (state) {
-        this.set('confirmMessage', 'Souhaitez-vous dépublier cette certification ?');
-      } else {
-        this.set('confirmMessage', 'Souhaitez-vous publier cette certification ?');
-      }
-      this.set('confirmAction', 'onTogglePublish');
-      this.set('displayConfirm', true);
-    },
-    onTogglePublish() {
-      this.set('displayConfirm', false);
-      const certification = this.certification;
-      const currentPublishState = certification.get('isPublished');
-      let operation;
-      if (currentPublishState) {
-        certification.set('isPublished', false);
-        operation = 'dépubliée';
-      } else {
-        certification.set('isPublished', true);
-        operation = 'publiée';
-      }
-      return certification.save({ adapterOptions: { updateMarks: false } })
-        .then(() => {
-          this.notifications.success('Certification ' + operation);
-        })
-        .catch((e) => {
-          this.notifications.error(e);
-        });
-    },
     onCheckMarks() {
       const markStore = this._markStore;
       if (markStore.hasState()) {
