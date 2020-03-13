@@ -65,6 +65,16 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
         solution: 'Google:\n- 987\nYahoo:\n- 123'
       },
       {
+        when: 'Both answers are correct with 1 solution that contains only decimal numbers with comma',
+        answer: 'num1: "123,00"\nnum2: 987',
+        solution: 'Google:\n- 987\nYahoo:\n- 123,00'
+      },
+      {
+        when: 'Both answers are correct with 1 solution that contains only decimal numbers with dot',
+        answer: 'num1: "123.00"\nnum2: 987',
+        solution: 'Google:\n- 987\nYahoo:\n- 123.00'
+      },
+      {
         when: 'Both answers are correct with 2 solutions',
         answer: 'num1: Google\nnum2: Yahoo',
         solution: twoPossibleSolutions
