@@ -1,7 +1,8 @@
-import postAssessments from './post-assessments';
+import completeAssessment from './complete-assessment';
+import findAssessments from './find-assessments';
 import getAssessment from './get-assessment';
 import getNextChallenge from './get-next-challenge';
-import findAssessments from './find-assessments';
+import postAssessments from './post-assessments';
 
 export default function index(config) {
   config.post('/assessments', postAssessments);
@@ -9,5 +10,5 @@ export default function index(config) {
   config.get('/assessments/:assessmentId/next', getNextChallenge);
   config.get('/assessments/:assessmentId/next?tryImproving', getNextChallenge);
   config.get('/assessments', findAssessments);
-  config.patch('/assessments/:id/complete-assessment', getAssessment);
+  config.patch('/assessments/:id/complete-assessment', completeAssessment);
 }

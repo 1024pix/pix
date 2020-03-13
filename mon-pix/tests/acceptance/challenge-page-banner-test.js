@@ -7,33 +7,26 @@ import { authenticateByEmail } from '../helpers/authentification';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe.skip('Acceptance | Challenge page banner', function() {
+describe('Acceptance | Challenge page banner', function() {
   setupApplicationTest();
   setupMirage();
   let user;
+  let campaign;
 
-  beforeEach(function() {
+  beforeEach(async function() {
     defaultScenario(this.server);
     user = server.create('user', 'withEmail');
-  });
-
-  async function startCampaign() {
+    campaign = server.create('campaign', { title: 'SomeTitle' });
     await authenticateByEmail(user);
-    await visitWithAbortedTransition('campagnes/CAMPAIGN_CODE');
-
-    await click('.campaign-landing-page__start-button');
-    await click('.campaign-tutorial__ignore-button');
-  }
+  });
 
   context('When user is starting a campaign assessment', function() {
 
     it('should display a campaign banner', async function() {
-      // given
-      const campaignTitle = 'Ma Campagne';
-      this.server.create('campaign', { title: campaignTitle, code: 'CAMPAIGN_CODE' });
-
       // when
-      await startCampaign();
+      await visitWithAbortedTransition(`campagnes/${campaign.code}`);
+      await click('.campaign-landing-page__start-button');
+      await click('.campaign-tutorial__ignore-button');
 
       // then
       find('.assessment-banner');
@@ -41,34 +34,15 @@ describe.skip('Acceptance | Challenge page banner', function() {
 
     it('should display the campaign name in the banner', async function() {
       // given
-      const campaignTitle = 'Ma Campagne';
-
-      this.server.post('/campaign-participations', function(schema) {
-        const newAssessment = {
-          'id': 'ref_assessment_campaign_id',
-          'user-id': 'user_id',
-          'user-name': `${user.firstName} ${user.lastName}`,
-          'user-email': user.email,
-        };
-        newAssessment.type = 'SMART_PLACEMENT';
-        newAssessment.codeCampaign = 'CAMPAIGN_CODE';
-        newAssessment.title = campaignTitle;
-
-        const assessment = schema.assessments.create(newAssessment);
-        return schema.campaignParticipations.create({ assessment });
-      });
-      this.server.get('assessments/:id', function(schema, request) {
-        const id = request.params.id;
-        return schema.assessments.find(id);
-      });
-
-      this.server.create('campaign', { title: campaignTitle, code: 'CAMPAIGN_CODE' });
+      server.create('campaign-participation',
+        { campaign, user, isShared: false , createdAt: Date.now() });
 
       // when
-      await startCampaign();
+      await visitWithAbortedTransition(`campagnes/${campaign.code}`);
+      await click('.campaign-tutorial__ignore-button');
 
       // then
-      expect(find('.assessment-banner__title').textContent).to.equal(campaignTitle);
+      expect(find('.assessment-banner__title').textContent).to.equal(campaign.title);
     });
   });
 });

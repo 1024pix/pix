@@ -5,10 +5,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-mocha';
 import defaultScenario from '../../mirage/scenarios/default';
 import { authenticateByEmail } from '../helpers/authentification';
-import {
-  completeCampaignAndSeeResultsByCode,
-  resumeCampaignByCode
-} from '../helpers/campaign';
+import { resumeCampaignByCode } from '../helpers/campaign';
 import visitWithAbortedTransition from '../helpers/visit';
 
 describe('Acceptance | Navbar', function() {
@@ -54,10 +51,12 @@ describe('Acceptance | Navbar', function() {
       });
     });
 
-    it.skip('should not display in skill review page', async function() {
+    it('should not display while in campaign', async function() {
+      // given
+      const campaign = server.create('campaign', 'withOneChallenge');
+
       // when
-      await resumeCampaignByCode('AZERTY2');
-      await completeCampaignAndSeeResultsByCode('AZERTY2');
+      await resumeCampaignByCode(campaign.code, false);
 
       // then
       expect(find('.navbar-desktop-header')).to.not.exist;
