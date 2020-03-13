@@ -67,15 +67,15 @@ module.exports = {
 
   getByCertificationCourseId(certificationCourseId) {
     return BookshelfAssessment
-      .where({ courseId: certificationCourseId, type: 'CERTIFICATION' })
+      .where({ certificationCourseId, type: 'CERTIFICATION' })
       .fetchAll({ withRelated: ['assessmentResults'] })
       .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments))
       .then(_selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrNull);
   },
 
-  findOneCertificationAssessmentByUserIdAndCourseId(userId, certificationCourseId) {
+  findOneCertificationAssessmentByUserIdAndCertificationCourseId(userId, certificationCourseId) {
     return BookshelfAssessment
-      .where({ userId, courseId: certificationCourseId, type: 'CERTIFICATION' })
+      .where({ userId, certificationCourseId, type: 'CERTIFICATION' })
       .fetchAll({ withRelated: ['assessmentResults', 'answers'] })
       .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments))
       .then(_selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrNull);

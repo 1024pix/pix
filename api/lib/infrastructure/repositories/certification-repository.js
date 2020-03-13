@@ -37,7 +37,8 @@ module.exports = {
     return CertificationCourseBookshelf
       .query((qb) => {
         qb.innerJoin(
-          Bookshelf.knex.raw('"assessments" ON "assessments"."courseId" = CAST("certification-courses"."id" as varchar)')
+          Bookshelf.knex.raw('?? ON ?? = ??',
+            ['assessments', 'assessments.certificationCourseId', 'certification-courses.id'])
         );
         qb.where('certification-courses.id', id);
         qb.where('assessments.state', Assessment.states.COMPLETED);
@@ -81,7 +82,8 @@ module.exports = {
     return CertificationCourseBookshelf
       .query((qb) => {
         qb.innerJoin(
-          Bookshelf.knex.raw('"assessments" ON "assessments"."courseId" = CAST("certification-courses"."id" as varchar)')
+          Bookshelf.knex.raw('?? ON ?? = ??',
+            ['assessments', 'assessments.certificationCourseId', 'certification-courses.id'])
         );
         qb.where('certification-courses.userId', userId);
         qb.where('assessments.state', Assessment.states.COMPLETED);

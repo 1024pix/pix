@@ -14,7 +14,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
     beforeEach(async () => {
       certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
       const assessmentId = databaseBuilder.factory.buildAssessment({
-        courseId: certificationCourseId,
+        certificationCourseId: certificationCourseId,
         type: Assessment.types.CERTIFICATION
       }).id;
       server = await createServer();

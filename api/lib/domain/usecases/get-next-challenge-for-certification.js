@@ -4,7 +4,7 @@ module.exports = function getNextChallengeForCertification({
   assessment,
 }) {
 
-  return certificationChallengeRepository.getNonAnsweredChallengeByCourseId(assessment.id, assessment.courseId)
+  return certificationChallengeRepository.getNonAnsweredChallengeByCourseId(assessment.id, assessment.certificationCourseId)
     .then((certificationChallenge) => {
       return challengeRepository.get(certificationChallenge.challengeId);
     });

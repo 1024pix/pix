@@ -16,6 +16,7 @@ describe('Unit | UseCase | get-assessment', () => {
   let campaignParticipation;
   let competence;
   let course;
+  const certificationCourseId = 1;
 
   const expectedCampaignName = 'Campagne Il';
   const expectedCourseName = 'Course Àpieds';
@@ -33,6 +34,7 @@ describe('Unit | UseCase | get-assessment', () => {
       campaignParticipation,
       competenceId: competence.id,
       courseId: course.id,
+      certificationCourseId,
     });
 
     sinon.stub(assessmentRepository, 'get');
@@ -96,7 +98,7 @@ describe('Unit | UseCase | get-assessment', () => {
     expect(result.id).to.equal(assessment.id);
     expect(result.pixScore).to.equal(assessmentResult.pixScore);
     expect(result.estimatedLevel).to.equal(assessmentResult.level);
-    expect(result.title).to.equal(course.id);
+    expect(result.title).to.equal(certificationCourseId);
   });
 
   it('should resolve the Assessment domain object with DEMO title matching the given assessment ID', async () => {

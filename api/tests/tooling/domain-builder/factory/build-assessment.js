@@ -26,10 +26,6 @@ function buildAssessment({
   campaignParticipation = null,
   competenceId = null,
 } = {}) {
-
-  if (type === Assessment.types.CERTIFICATION) {
-    certificationCourseId = parseInt(courseId);
-  }
   return new Assessment({
     // attributes
     id,

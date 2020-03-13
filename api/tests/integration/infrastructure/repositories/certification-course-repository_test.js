@@ -137,8 +137,8 @@ describe('Integration | Repository | Certification Course', function() {
           let completedAssessmentId;
 
           beforeEach(() => {
-            databaseBuilder.factory.buildAssessment({ courseId: expectedCertificationCourse.id, userId, state: Assessment.states.STARTED });
-            completedAssessmentId = databaseBuilder.factory.buildAssessment({ courseId: expectedCertificationCourse.id, userId }).id;
+            databaseBuilder.factory.buildAssessment({ type: 'CERTIFICATION', certificationCourseId: expectedCertificationCourse.id, userId, state: Assessment.states.STARTED });
+            completedAssessmentId = databaseBuilder.factory.buildAssessment({ type: 'CERTIFICATION', certificationCourseId: expectedCertificationCourse.id, userId }).id;
             return databaseBuilder.commit();
           });
 
@@ -156,9 +156,9 @@ describe('Integration | Repository | Certification Course', function() {
 
           beforeEach(() => {
             assessmentIds = _.map([
-              { courseId: expectedCertificationCourse.id, userId, state: Assessment.states.STARTED },
-              { courseId: expectedCertificationCourse.id, userId, state: Assessment.states.STARTED },
-              { courseId: expectedCertificationCourse.id, userId, state: Assessment.states.STARTED },
+              { type: 'CERTIFICATION', certificationCourseId: expectedCertificationCourse.id, userId, state: Assessment.states.STARTED },
+              { type: 'CERTIFICATION', certificationCourseId: expectedCertificationCourse.id, userId, state: Assessment.states.STARTED },
+              { type: 'CERTIFICATION', certificationCourseId: expectedCertificationCourse.id, userId, state: Assessment.states.STARTED },
             ], (assessment) => databaseBuilder.factory.buildAssessment(assessment).id);
             return databaseBuilder.commit();
           });
@@ -179,7 +179,7 @@ describe('Integration | Repository | Certification Course', function() {
         let assessmentId;
 
         beforeEach(() => {
-          assessmentId = databaseBuilder.factory.buildAssessment({ courseId: expectedCertificationCourse.id, userId }).id;
+          assessmentId = databaseBuilder.factory.buildAssessment({ type: 'CERTIFICATION', certificationCourseId: expectedCertificationCourse.id, userId }).id;
           return databaseBuilder.commit();
         });
 

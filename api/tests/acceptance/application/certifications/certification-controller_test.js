@@ -4,8 +4,6 @@ const {
   airtableBuilder,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-  insertUserWithStandardRole,
-  insertUserWithRolePixMaster,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -14,23 +12,22 @@ const { map } = require('lodash');
 describe('Acceptance | API | Certifications', () => {
 
   let server, options;
-  const authenticatedUserID = 1234;
+  let userId;
   let session, certificationCourse, assessment, assessmentResult;
 
-  beforeEach(async function() {
+  beforeEach(async () => {
     server = await createServer();
 
+    userId = databaseBuilder.factory.buildUser().id;
     session = databaseBuilder.factory.buildSession();
-    await insertUserWithRolePixMaster();
-    await insertUserWithStandardRole();
     certificationCourse = databaseBuilder.factory.buildCertificationCourse({
       sessionId: session.id,
-      userId: authenticatedUserID,
+      userId,
       isPublished: false
     });
     assessment = databaseBuilder.factory.buildAssessment({
-      userId: authenticatedUserID,
-      courseId: certificationCourse.id,
+      userId,
+      certificationCourseId: certificationCourse.id,
       type: Assessment.types.CERTIFICATION,
       state: 'completed',
     });
@@ -41,52 +38,49 @@ describe('Acceptance | API | Certifications', () => {
       emitter: 'PIX-ALGO',
       status: 'rejected',
     });
+    
+    return databaseBuilder.commit();
   });
 
   describe('GET /api/certifications', () => {
-    beforeEach(function() {
-      return databaseBuilder.commit();
-    });
 
-    it('should return 200 HTTP status code', () => {
+    it('should return 200 HTTP status code', async () => {
       options = {
         method: 'GET',
         url: '/api/certifications',
-        headers: { authorization: generateValidRequestAuthorizationHeader() },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal([
-          {
-            type: 'certifications',
-            id: `${certificationCourse.id}`,
-            attributes: {
-              'birthdate': certificationCourse.birthdate,
-              'birthplace': certificationCourse.birthplace,
-              'certification-center': session.certificationCenter,
-              'comment-for-candidate': assessmentResult.commentForCandidate,
-              'date': certificationCourse.completedAt,
-              'first-name': certificationCourse.firstName,
-              'is-published': certificationCourse.isPublished,
-              'last-name': certificationCourse.lastName,
-              'pix-score': assessmentResult.pixScore,
-              'status': assessmentResult.status,
-            },
-            relationships: {
-              'result-competence-tree': {
-                'data': null,
-              },
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal([
+        {
+          type: 'certifications',
+          id: `${certificationCourse.id}`,
+          attributes: {
+            'birthdate': certificationCourse.birthdate,
+            'birthplace': certificationCourse.birthplace,
+            'certification-center': session.certificationCenter,
+            'comment-for-candidate': assessmentResult.commentForCandidate,
+            'date': certificationCourse.completedAt,
+            'first-name': certificationCourse.firstName,
+            'is-published': certificationCourse.isPublished,
+            'last-name': certificationCourse.lastName,
+            'pix-score': assessmentResult.pixScore,
+            'status': assessmentResult.status,
+          },
+          relationships: {
+            'result-competence-tree': {
+              'data': null,
             },
           },
-        ]);
-      });
+        },
+      ]);
     });
 
-    it('should return 401 HTTP status code if user is not authenticated', () => {
+    it('should return 401 HTTP status code if user is not authenticated', async () => {
       // given
       const options = {
         method: 'GET',
@@ -94,12 +88,10 @@ describe('Acceptance | API | Certifications', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(401);
-      });
+      expect(response.statusCode).to.equal(401);
     });
   });
 
@@ -141,7 +133,7 @@ describe('Acceptance | API | Certifications', () => {
         .activate();
     });
 
-    beforeEach(async function() {
+    beforeEach(() => {
       databaseBuilder.factory.buildCompetenceMark({
         level: 3,
         score: 23,
@@ -152,16 +144,16 @@ describe('Acceptance | API | Certifications', () => {
       return databaseBuilder.commit();
     });
 
-    it('should return 200 HTTP status code and the certification with the result competence tree included', () => {
+    it('should return 200 HTTP status code and the certification with the result competence tree included', async () => {
       // given
       options = {
         method: 'GET',
         url: `/api/certifications/${certificationCourse.id}`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(authenticatedUserID) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
       const expectedBody = {
@@ -266,16 +258,13 @@ describe('Acceptance | API | Certifications', () => {
           },
         ],
       };
-      return promise
-        .then((response) => {
-          expect(response.statusCode).to.equal(200);
-          expect(response.result).to.deep.equal(expectedBody);
-        });
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal(expectedBody);
     });
 
-    it('should return unauthorized 403 HTTP status code when user is not owner of the certification', () => {
+    it('should return unauthorized 403 HTTP status code when user is not owner of the certification', async () => {
       // given
-      const unauthenticatedUserId = authenticatedUserID + 1;
+      const unauthenticatedUserId = userId + 1;
       options = {
         method: 'GET',
         url: `/api/certifications/${certificationCourse.id}`,
@@ -283,25 +272,27 @@ describe('Acceptance | API | Certifications', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise
-        .then((response) => expect(response.statusCode).to.equal(403));
+      expect(response.statusCode).to.equal(403);
     });
   });
 
   describe('PATCH /api/certifications/:id', () => {
-    beforeEach(function() {
+    let pixMasterId;
+
+    beforeEach(() => {
+      pixMasterId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
       return databaseBuilder.commit();
     });
 
-    it('should return 200 HTTP status code and the updated certification', () => {
+    it('should return 200 HTTP status code and the updated certification', async () => {
       // given
       options = {
         method: 'PATCH',
         url: `/api/certifications/${certificationCourse.id}`,
-        headers: { authorization: generateValidRequestAuthorizationHeader() },
+        headers: { authorization: generateValidRequestAuthorizationHeader(pixMasterId) },
         payload: {
           data: {
             type: 'certifications',
@@ -314,39 +305,36 @@ describe('Acceptance | API | Certifications', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise
-        .then((response) => {
-          expect(response.statusCode).to.equal(200);
-          expect(response.result.data).to.deep.equal({
-            type: 'certifications',
-            id: `${certificationCourse.id}`,
-            attributes: {
-              'birthdate': certificationCourse.birthdate,
-              'birthplace': certificationCourse.birthplace,
-              'certification-center': session.certificationCenter,
-              'comment-for-candidate': assessmentResult.commentForCandidate,
-              'date': certificationCourse.completedAt,
-              'first-name': certificationCourse.firstName,
-              'is-published': true,
-              'last-name': certificationCourse.lastName,
-              'pix-score': assessmentResult.pixScore,
-              'status': assessmentResult.status,
-            },
-            relationships: {
-              'result-competence-tree': {
-                'data': null,
-              },
-            },
-          });
-        })
-        .then(() => knex('certification-courses').where('id', certificationCourse.id))
-        .then((foundCertification) => expect(foundCertification[0].isPublished).to.be.true);
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal({
+        type: 'certifications',
+        id: `${certificationCourse.id}`,
+        attributes: {
+          'birthdate': certificationCourse.birthdate,
+          'birthplace': certificationCourse.birthplace,
+          'certification-center': session.certificationCenter,
+          'comment-for-candidate': assessmentResult.commentForCandidate,
+          'date': certificationCourse.completedAt,
+          'first-name': certificationCourse.firstName,
+          'is-published': true,
+          'last-name': certificationCourse.lastName,
+          'pix-score': assessmentResult.pixScore,
+          'status': assessmentResult.status,
+        },
+        relationships: {
+          'result-competence-tree': {
+            'data': null,
+          },
+        },
+      });
+      const foundCertification = await knex('certification-courses').where('id', certificationCourse.id);
+      expect(foundCertification[0].isPublished).to.be.true;
     });
 
-    it('should return unauthorized 403 HTTP status code when user is not pixMaster', () => {
+    it('should return unauthorized 403 HTTP status code when user is not pixMaster', async () => {
       // given
       options = {
         method: 'PATCH',
@@ -362,13 +350,12 @@ describe('Acceptance | API | Certifications', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise
-        .then((response) => expect(response.statusCode).to.equal(403))
-        .then(() => knex('certification-courses').where('id', certificationCourse.id))
-        .then((certifications) => expect(certifications[0].isPublished).to.be.false);
+      expect(response.statusCode).to.equal(403);
+      const actualCertifications = await knex('certification-courses').where('id', certificationCourse.id);
+      expect(actualCertifications[0].isPublished).to.be.false;
     });
   });
 
