@@ -11,18 +11,17 @@ const bookshelfUtils = require('../utils/bookshelf-utils');
 
 function _toStudentWithUserInfoDTO(BookshelfStudent) {
 
-  const rawStudent = BookshelfStudent.toJSON();
+  const rawStudentWithUserInfo = BookshelfStudent.toJSON();
 
   return new StudentWithUserInfo({
-    id: rawStudent.id,
-    firstName: rawStudent.firstName,
-    lastName: rawStudent.lastName,
-    birthdate: rawStudent.birthdate,
-    userId: rawStudent.userId,
-    organizationId: rawStudent.organizationId,
-    username: rawStudent.username,
-    email: rawStudent.email,
-    isAuthenticatedFromGAR: (rawStudent.samlId) ? true : false,
+    id: rawStudentWithUserInfo.id,
+    firstName: rawStudentWithUserInfo.firstName,
+    lastName: rawStudentWithUserInfo.lastName,
+    birthdate: rawStudentWithUserInfo.birthdate,
+    organizationId: rawStudentWithUserInfo.organizationId,
+    username: rawStudentWithUserInfo.username,
+    email: rawStudentWithUserInfo.email,
+    isAuthenticatedFromGAR: (rawStudentWithUserInfo.samlId) ? true : false,
   });
 }
 
