@@ -202,6 +202,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
           attributes: {
             name: 'Agir collectivement',
             index: '1.2',
+            'mastery-percentage': 0,
             'total-skills-count': 1,
             'tested-skills-count': 0,
             'validated-skills-count': 0,
@@ -213,6 +214,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
           attributes: {
             name: 'Nécessité de la pensée radicale',
             index: '2.1',
+            'mastery-percentage': 67,
             'total-skills-count': 3,
             'tested-skills-count': 2,
             'validated-skills-count': 2,
@@ -224,6 +226,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
           attributes: {
             name: 'Changer efficacement le monde',
             index: '2.2',
+            'mastery-percentage': 25,
             'total-skills-count': 4,
             'tested-skills-count': 3,
             'validated-skills-count': 1,

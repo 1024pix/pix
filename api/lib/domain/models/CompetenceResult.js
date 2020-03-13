@@ -18,6 +18,14 @@ class CompetenceResult {
     this.testedSkillsCount = testedSkillsCount;
     this.validatedSkillsCount = validatedSkillsCount;
   }
+
+  get masteryPercentage() {
+    if (this.totalSkillsCount !== 0) {
+      return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
+    } else {
+      return 0;
+    }
+  }
 }
 
 module.exports = CompetenceResult;

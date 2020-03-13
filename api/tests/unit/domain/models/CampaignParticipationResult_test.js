@@ -39,16 +39,17 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
       },
     };
 
+    const badge = {
+      id: 1,
+      imageUrl: '/img/banana.svg',
+      message: 'Congrats, you won the Banana badge!'
+    };
+
     it('should add the campaign participation results', () => {
-
-      const badge = {
-        id: 1,
-        imageUrl: '/img/banana.svg',
-        message: 'Congrats, you won the Banana badge!'
-      };
-
+      // when
       const result = CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, badge });
 
+      // then
       expect(result).to.be.an.instanceOf(CampaignParticipationResult);
       expect(result).to.deep.equal({
         id: campaignParticipationId,
@@ -57,7 +58,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
         totalSkillsCount: 4,
         testedSkillsCount: 2,
         validatedSkillsCount: 1,
-        masteryPercentage: 25,
         badge: {
           id: 1,
           imageUrl: '/img/banana.svg',
@@ -81,6 +81,38 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           validatedSkillsCount: 0,
         }],
       });
+    });
+  });
+
+  describe('#masteryPercentage', () => {
+    it('should return the correct masteryPercentage when totalSkillsCount is different than 0', function() {
+      // given
+      const expectedMasteryPercentage = 50;
+
+      // when
+      const campaignParticipationResult = new CampaignParticipationResult({
+        totalSkillsCount: 10,
+        testedSkillsCount: 6,
+        validatedSkillsCount: 5,
+      });
+
+      // then
+      expect(campaignParticipationResult.masteryPercentage).to.be.equal(expectedMasteryPercentage);
+    });
+
+    it('should return 0 when totalSkillsCount is equal to 0', function() {
+      // given
+      const expectedMasteryPercentage = 0;
+
+      // when
+      const campaignParticipationResult = new CampaignParticipationResult({
+        totalSkillsCount: 0,
+        testedSkillsCount: 6,
+        validatedSkillsCount: 5,
+      });
+
+      // then
+      expect(campaignParticipationResult.masteryPercentage).to.be.equal(expectedMasteryPercentage);
     });
   });
 });

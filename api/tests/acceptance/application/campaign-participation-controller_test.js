@@ -339,31 +339,52 @@ describe('Acceptance | API | Campaign Participations', () => {
           },
           {
             attributes: {
-              'competence-results': [
-                {
-                  id: 1,
-                  index: '1.1',
-                  name: 'Liberticide',
-                  areaColor: JAFFA_COLOR,
-                  testedSkillsCount: 4,
-                  totalSkillsCount: 4,
-                  validatedSkillsCount: 3,
-                },
-                {
-                  id: 2,
-                  index: '1.1',
-                  name: 'Inéquités, inégalités',
-                  areaColor: JAFFA_COLOR,
-                  testedSkillsCount: 3,
-                  totalSkillsCount: 3,
-                  validatedSkillsCount: 2,
-                },
-              ],
+              'area-color': 'jaffa',
+              index: '1.1',
+              'mastery-percentage': 75,
+              name: 'Liberticide',
+              'tested-skills-count': 4,
+              'total-skills-count': 4,
+              'validated-skills-count': 3,
+            },
+            id: '1',
+            type: 'competenceResults',
+          },
+          {
+            attributes: {
+              'area-color': 'jaffa',
+              index: '1.1',
+              'mastery-percentage': 67,
+              name: 'Inéquités, inégalités',
+              'tested-skills-count': 3,
+              'total-skills-count': 3,
+              'validated-skills-count': 2,
+            },
+            id: '2',
+            type: 'competenceResults',
+          },
+          {
+            attributes: {
               id: campaignParticipation.id,
               'is-completed': true,
+              'mastery-percentage': 71,
               'tested-skills-count': 7,
               'total-skills-count': 7,
               'validated-skills-count': 5,
+            },
+            relationships: {
+              'competence-results': {
+                data: [
+                  {
+                    id: '1',
+                    type: 'competenceResults',
+                  },
+                  {
+                    id: '2',
+                    type: 'competenceResults',
+                  }
+                ]
+              }
             },
             id: campaignParticipation.id.toString(),
             type: 'campaignParticipationResults',
