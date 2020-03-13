@@ -1,10 +1,13 @@
 import { Factory } from 'ember-cli-mirage';
+import faker from 'faker';
 
 export default Factory.extend({
+
   solution() {
-    return '2';
+    return faker.random.word();
   },
-  hint(i) {
-    return `Hint number ${i}`;
+
+  hint() {
+    return faker.random.word();
   }
 });

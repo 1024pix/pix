@@ -1,5 +1,4 @@
 export default function(schema, request) {
-
   const assessmentId = request.queryParams.assessment;
   const challengeId = request.queryParams.challenge;
 

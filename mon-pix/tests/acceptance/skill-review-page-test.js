@@ -11,7 +11,7 @@ import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Campaigns | Campaigns Result', function() {
+describe.skip('Acceptance | Campaigns | Campaigns Result', function() {
   setupApplicationTest();
   setupMirage();
   let user;

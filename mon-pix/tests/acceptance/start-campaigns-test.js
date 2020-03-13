@@ -20,7 +20,7 @@ function _buildCampaignParticipation(schema) {
   return schema.campaignParticipations.create({ assessment });
 }
 
-describe('Acceptance | Campaigns | Start Campaigns', function() {
+describe.skip('Acceptance | Campaigns | Start Campaigns', function() {
   setupApplicationTest();
   setupMirage();
 

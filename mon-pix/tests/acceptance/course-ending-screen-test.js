@@ -9,14 +9,32 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 describe('Acceptance | Course ending screen', function() {
   setupApplicationTest();
   setupMirage();
+  let assessment;
+  let firstChallenge;
+  let secondChallenge;
 
   beforeEach(async function() {
     defaultScenario(this.server);
-    await visitWithAbortedTransition('/assessments/ref_assessment_id/results');
+    assessment = server.create('assessment', 'ofDemoType');
+    firstChallenge = server.create('challenge', 'forDemo', 'QCU');
+    server.create('answer', {
+      value: 'SomeAnswer',
+      result: 'ko',
+      challenge: firstChallenge,
+      assessment,
+    });
+    secondChallenge = server.create('challenge', 'forDemo', 'QCM');
+    server.create('answer', {
+      value: 'SomeAnswer',
+      result: 'ko',
+      challenge: secondChallenge,
+      assessment,
+    });
+    await visitWithAbortedTransition(`/assessments/${assessment.id}/results`);
   });
 
   it('should be available directly from the url', function() {
-    expect(currentURL()).to.equal('/assessments/ref_assessment_id/results');
+    expect(currentURL()).to.equal(`/assessments/${assessment.id}/results`);
   });
 
   it('should display a summary of all the answers', function() {
@@ -24,14 +42,12 @@ describe('Acceptance | Course ending screen', function() {
   });
 
   it('should display the matching instructions', function() {
-    expect(findAll('.result-item')[0].textContent).to.contain('Un QCM propose plusieurs choix');
-    expect(findAll('.result-item')[1].textContent).to.contain('Un QCU propose plusieurs choix');
-    expect(findAll('.result-item')[2].textContent).to.contain('Un QROC est une question ouverte');
-    expect(findAll('.result-item')[3].textContent).to.contain('Un QROCM est une question ouverte');
+    expect(findAll('.result-item')[0].textContent.trim()).to.contain(firstChallenge.instruction);
+    expect(findAll('.result-item')[1].textContent.trim()).to.contain(secondChallenge.instruction);
   });
 
   it('should display the course name', function() {
-    expect(find('.assessment-banner__title').textContent).to.contain('First Course');
+    expect(find('.assessment-banner__title').textContent).to.contain(assessment.title);
   });
 
   it('should not display the back button to return to the home page', function() {
@@ -49,7 +65,6 @@ describe('Acceptance | Course ending screen', function() {
   it('should display a button that redirect to inscription page', async function() {
     expect(find('.assessment-results__index-link__element')).to.exist;
     expect(find('.assessment-results__link-back').textContent).to.contains('Continuer mon expérience Pix');
-
     await click(find('.assessment-results__index-link__element'));
 
     expect(currentURL()).to.equal('/inscription');

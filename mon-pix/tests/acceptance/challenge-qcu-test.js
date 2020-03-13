@@ -9,36 +9,25 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 describe('Acceptance | Displaying a QCU', function() {
   setupApplicationTest();
   setupMirage();
+  let assessment;
+  let qcuChallenge;
 
   beforeEach(function() {
     defaultScenario(this.server);
+    assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+    qcuChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QCU');
   });
 
   context('Challenge answered: the answers radio buttons should be disabled', function() {
     beforeEach(async function() {
-      const assessment = server.create('assessment');
-      const challenge = server.create('challenge', {
-        type: 'QCU',
-        'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
-        attachments: ['file.docx', 'file.odt'],
-        instruction: 'Un QCU propose plusieurs choix, l\'utilisateur peut en choisir [un seul](http://link.unseul.url)',
-        proposals: '' +
-          '- 1ere possibilite\n ' +
-          '- 2eme possibilite\n ' +
-          '- 3eme possibilite\n' +
-          '- 4eme possibilite',
-        'embed-url': 'https://1024pix.github.io/dessin.html',
-        'embed-title': 'Notre premier embed',
-        'embed-height': 600
-      });
       server.create('answer', {
         value: 2,
         result: 'ok',
-        challengeId: challenge.id,
-        assessmentId: assessment.id,
+        challenge: qcuChallenge,
+        assessment,
       });
 
-      await visitWithAbortedTransition('/assessments/' + assessment.id + '/challenges/' + challenge.id);
+      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${qcuChallenge.id}`);
     });
 
     it('should preselect radio buttons accordingly', async function() {
@@ -57,7 +46,7 @@ describe('Acceptance | Displaying a QCU', function() {
 
   context('Challenge not answered', function() {
     beforeEach(async function() {
-      await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${qcuChallenge.id}`);
     });
 
     it('should display a radio buttons list', async function() {

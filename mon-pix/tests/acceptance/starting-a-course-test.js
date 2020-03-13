@@ -13,7 +13,8 @@ describe('Acceptance | Starting a course', function() {
 
   beforeEach(async function() {
     defaultScenario(this.server);
-    demoCourse = server.create('course', 'withChallenges');
+    server.createList('challenge', 3, 'forDemo');
+    demoCourse = server.create('course', { nbChallenges: 3 });
   });
 
   it('should be able to start a test directly from the course endpoint', async function() {

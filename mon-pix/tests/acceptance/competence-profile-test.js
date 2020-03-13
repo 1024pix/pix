@@ -29,10 +29,9 @@ describe('Acceptance | Profile | Start competence', function() {
       const competenceId = firstScorecard.competenceId;
       const splitIndex = firstScorecard.index.split('.');
       const competenceNumber = splitIndex[splitIndex.length - 1];
-      server.create('competence-evaluation', {
-        user: user,
-        competenceId: competenceId
-      });
+      const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+      server.create('challenge', 'forCompetenceEvaluation', 'QCM');
+      server.create('competence-evaluation', { user, competenceId, assessment });
 
       // when
       await visitWithAbortedTransition('/profil');

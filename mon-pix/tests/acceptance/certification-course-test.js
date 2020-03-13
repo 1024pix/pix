@@ -162,8 +162,17 @@ describe('Acceptance | Certification | Start Certification Course', function() {
         context('when user takes the certification course', function() {
           let certificationCourse;
           let assessment;
+          const NB_CHALLENGES = 3;
+
           beforeEach(function() {
-            certificationCourse = server.create('certification-course', { accessCode: 'ABCD12', sessionId: 1 });
+            for (let i = 0; i < NB_CHALLENGES; ++i) {
+              server.create('challenge', 'forCertification');
+            }
+            certificationCourse = server.create('certification-course', {
+              accessCode: 'ABCD12',
+              sessionId: 1,
+              nbChallenges: NB_CHALLENGES
+            });
             assessment = certificationCourse.assessment;
           });
 
@@ -175,7 +184,7 @@ describe('Acceptance | Certification | Start Certification Course', function() {
               await fillCertificationStarter({ accessCode: 'ABCD12' });
             });
 
-            it('should be redirected on the first challenge of an assessment', function() {
+            it('should be redirected on the first challenge of an assessment', async function() {
               // then
               expect(currentURL().startsWith(`/assessments/${assessment.id}/challenges/rec`)).to.be.true;
             });
@@ -188,16 +197,13 @@ describe('Acceptance | Certification | Start Certification Course', function() {
               expect(currentURL().startsWith(`/assessments/${assessment.id}/challenges/rec`)).to.be.true;
             });
 
-            context('after skipping the all three challenges of the certification course', function() {
+            context('after skipping the all challenges of the certification course', function() {
 
               it('should navigate to redirect to certification result page at the end of the assessment', async function() {
-                // given
-                await click('.challenge-actions__action-skip');
-                await click('.challenge-actions__action-skip');
-
                 // when
-                await click('.challenge-item-warning__confirm-btn');
-                await click('.challenge-actions__action-skip');
+                for (let i = 0; i < NB_CHALLENGES; ++i) {
+                  await click('.challenge-actions__action-skip');
+                }
 
                 // then
                 expect(currentURL()).to.equal(`/certifications/${certificationCourse.id}/results`);
