@@ -50,7 +50,11 @@ class CampaignParticipationResult {
   }
 
   get masteryPercentage() {
-    return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
+    if (this.totalSkillsCount !== 0) {
+      return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
+    } else {
+      return 0;
+    }
   }
 }
 
