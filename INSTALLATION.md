@@ -10,6 +10,8 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 > ⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que l'application fonctionne avec des versions différentes.
 
+Assurez-vous aussi de ne pas avoir de process écoutant le port 5432 (PostgreSQL).
+
 ## Instructions
 
 **1.** Récupérer le code source.
