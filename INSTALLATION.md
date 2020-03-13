@@ -24,51 +24,23 @@ git clone git@github.com:1024pix/pix.git
 cd pix
 ```
 
-**3.** Définir les variables d'environnement.
+**3.** Exécuter le script de configuration de l'environnement de développement (compter entre 10 et 15mn).
 
-Dans le répertoire `/api`, copier le fichier `sample.env` et le nommer `.env`.
+```bash
+npm run configure
+```
 
 > Pix s'appuie sur la bibliotèque [Dotenv](https://github.com/motdotla/dotenv) pour gérer les variables d'environnement en local.
 
-```bash
-cp api/sample.env api/.env
-```
+Si besoin, éditer le fichier `.env` généré par le script pour l'adapter à vos besoins.
 
-Éditer le fichier `.env` ainsi obtenu pour renseigner les valeurs des différents paramètres.
-
-**4.** Installer les dépendances.
-
-````bash
-npm install
-````
-
-**5.** Démarrer PostgreSQL et Redis grâce à la stack Docker Compose.
-
-> Pix utilise Docker en local afin de disposer d'un environnement au plus proche de celui de production.
-
-```bash
-docker-compose up -d
-```
-
-**6.** Exécuter les tests automatisés.
-
-```bash
-npm test
-```
-
-**7.** Configurer et alimenter la base de données avec des données de test.
-
-```bash
-(cd api && npm run db:reset)
-```
-
-**8.** Démarrer les applications.
+**4.** Démarrer les applications.
 
 ```bash
 npm start
 ```
 
-**9.** Accéder aux applications.
+**5.** Accéder aux applications.
 
 - [Pix API](http://localhost:3000) sur le port 3000
 - [Pix App](http://localhost:4200) sur le port 4200
