@@ -86,11 +86,11 @@ function install_apps_dependencies() {
   echo "Installing Pix apps dependencies…"
 
   npm install
-  (cd admin && npm install)
-  (cd api && npm install)
-  (cd certif && npm install)
-  (cd mon-pix && npm install)
-  (cd orga && npm install)
+  (cd admin && npm install --no-optional)
+  (cd api && npm install --no-optional)
+  (cd certif && npm install --no-optional)
+  (cd mon-pix && npm install --no-optional)
+  (cd orga && npm install --no-optional)
 
   echo "✅ Dependencies installed."
   echo ""
