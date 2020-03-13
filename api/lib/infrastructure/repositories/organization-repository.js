@@ -38,12 +38,15 @@ function _toDomain(bookshelfOrganization) {
 }
 
 function _setSearchFiltersForQueryBuilder(filter, qb) {
-  const { name, type } = filter;
+  const { name, type, externalId } = filter;
   if (name) {
     qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
   }
   if (type) {
     qb.whereRaw('LOWER("type") LIKE ?', `%${type.toLowerCase()}%`);
+  }
+  if (externalId) {
+    qb.whereRaw('LOWER("externalId") LIKE ?', `%${externalId.toLowerCase()}%`);
   }
 }
 

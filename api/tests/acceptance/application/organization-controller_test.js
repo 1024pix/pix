@@ -245,8 +245,8 @@ describe('Acceptance | Application | organization-controller', () => {
 
       const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
 
-      databaseBuilder.factory.buildOrganization({ name: 'The name of the organization', type: 'SUP' });
-      databaseBuilder.factory.buildOrganization({ name: 'Organization of the night', type: 'PRO' });
+      databaseBuilder.factory.buildOrganization({ name: 'The name of the organization', type: 'SUP', externalId: '1234567A' });
+      databaseBuilder.factory.buildOrganization({ name: 'Organization of the night', type: 'PRO', externalId: '1234568A' });
 
       options = {
         method: 'GET',
@@ -309,7 +309,7 @@ describe('Acceptance | Application | organization-controller', () => {
 
       it('should return a 200 status code with paginated and filtered data', async () => {
         // given
-        options.url = '/api/organizations?filter[name]=orga&page[number]=2&page[size]=1';
+        options.url = '/api/organizations?filter[name]=orga&filter[externalId]=A&page[number]=2&page[size]=1';
         const expectedMetaData = { page: 2, pageSize: 1, rowCount: 2, pageCount: 2 };
 
         // when
@@ -324,7 +324,7 @@ describe('Acceptance | Application | organization-controller', () => {
 
       it('should return a 200 status code with empty result', async () => {
         // given
-        options.url = '/api/organizations?filter[name]=orga&filter[type]=sco&page[number]=1&page[size]=1';
+        options.url = '/api/organizations?filter[name]=orga&filter[type]=sco&filter[externalId]=B&page[number]=1&page[size]=1';
         const expectedMetaData = { page: 1, pageSize: 1, rowCount: 0, pageCount: 0 };
 
         // when

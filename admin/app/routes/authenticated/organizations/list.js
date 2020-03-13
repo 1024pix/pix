@@ -2,6 +2,7 @@ import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 export default Route.extend(AuthenticatedRouteMixin, {
+
   queryParams: {
     pageNumber: {
       refreshModel: true,
@@ -15,6 +16,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
     type: {
       refreshModel: true,
     },
+    externalId: {
+      refreshModel: true,
+    },
   },
 
   model(params) {
@@ -22,6 +26,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
       filter: {
         name: params.name ? params.name.trim() : '',
         type: params.type ? params.type.trim() : '',
+        externalId: params.externalId ? params.externalId.trim() : '',
       },
       page: {
         number: params.pageNumber,
@@ -36,6 +41,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.set('pageSize', 10);
       controller.set('name', null);
       controller.set('type', null);
+      controller.set('externalId', null);
     }
   }
 });
