@@ -40,12 +40,12 @@
       {{#if session.isFinalized}}
       <div class='row'>
           <div class='col'>Date de finalisation :</div>
-          <div class='col' data-test-id='certifications-session-info__finalized-at'>{{session.finalizationDate}}</div>
+          <div class='col' data-test-id='certifications-session-info__finalized-at'>{{session.displayFinalizationDate}}</div>
       </div>
       {{#if session.resultsSentToPrescriberAt}}
       <div class='row'>
           <div class='col'>Date d'envoi des résultats au prescripteur :</div>
-          <div class='col' data-test-id='certifications-session-info__sent-to-prescriber-at'>{{session.resultsSentToPrescriberDate}}</div>
+          <div class='col' data-test-id='certifications-session-info__sent-to-prescriber-at'>{{session.displayResultsSentToPrescriberDate}}</div>
       </div>
       {{/if}}
       {{/if}}

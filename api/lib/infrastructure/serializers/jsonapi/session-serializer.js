@@ -59,7 +59,7 @@ module.exports = {
         transformedSession.certifications = [];
         transformedSession.certificationReports = [];
         return transformedSession;
-      }
+      },
     }).serialize(sessions);
   },
 
@@ -77,6 +77,34 @@ module.exports = {
         'accessCode',
         'examinerGlobalComment',
       ],
+    }).serialize(sessions);
+  },
+
+  serializeForPaginatedFilteredResults(sessions, meta) {
+    return new Serializer('session', {
+      attributes: [
+        'certificationCenter',
+        'date',
+        'time',
+        'status',
+        'certifications',
+        'finalizedAt',
+      ],
+      certifications : {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/sessions/${parent.id}/certifications`;
+          }
+        }
+      },
+      transform(session) {
+        const transformedSession = Object.assign({}, session);
+        transformedSession.certifications = [];
+        return transformedSession;
+      },
+      meta,
     }).serialize(sessions);
   },
 
