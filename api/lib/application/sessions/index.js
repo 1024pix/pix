@@ -272,6 +272,34 @@ exports.register = async (server) => {
       }
     },
     {
+      method: 'PATCH',
+      path: '/api/sessions/{id}/publication',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required(),
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                toPublish: Joi.boolean().required(),
+              }
+            }
+          })
+        },
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: sessionController.updatePublication,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Publie ou dépublie toutes les certifications courses d\'une session'
+        ],
+        tags: ['api', 'session', 'publication']
+      }
+    },
+    {
       method: 'PUT',
       path: '/api/sessions/{id}/results-sent-to-prescriber',
       config: {

@@ -1,7 +1,9 @@
-const { expect, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, domainBuilder, databaseBuilder, catchErr, knex } = require('../../../test-helper');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { NotFoundError, CertificationCourseNotPublishableError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+
+const CertificationCourseBookshelf = require('../../../../lib/infrastructure/data/certification-course');
 
 describe('Integration | Repository | Certification ', () => {
 
@@ -13,6 +15,11 @@ describe('Integration | Repository | Certification ', () => {
   let expectedCertification;
   let expectedCertificationWithoutDate;
   const type = Assessment.types.CERTIFICATION;
+
+  let sessionLatestAssessmentRejected;
+  let sessionWithStartedAndError;
+  let sessionLatestAssessmentRejectedCertifCourseIds;
+  let sessionWithStartedAndErrorCertifCourseIds;
 
   beforeEach(async () => {
     userId = databaseBuilder.factory.buildUser().id;
@@ -102,7 +109,28 @@ describe('Integration | Repository | Certification ', () => {
       userId,
     });
 
+    sessionLatestAssessmentRejectedCertifCourseIds = [];
+    sessionWithStartedAndErrorCertifCourseIds = [];
+
+    sessionLatestAssessmentRejected = databaseBuilder.factory.buildSession();
+    let id = createCertifCourseWithAssessementResults(sessionLatestAssessmentRejected.id,{ status:'started', createdAt: new Date('2018-02-15T15:00:34Z') }, { status: 'rejected', createdAt: new Date('2018-02-16T15:00:34Z') });
+    sessionLatestAssessmentRejectedCertifCourseIds.push(id);
+
+    sessionWithStartedAndError = databaseBuilder.factory.buildSession();
+    id = createCertifCourseWithAssessementResults(sessionWithStartedAndError.id,{ status:'started' });
+    sessionWithStartedAndErrorCertifCourseIds.push(id);
+    id = createCertifCourseWithAssessementResults(sessionWithStartedAndError.id,{ status: 'error' });
+    sessionWithStartedAndErrorCertifCourseIds.push(id);
+
     await databaseBuilder.commit();
+  });
+
+  afterEach(async () => {
+    await knex('assessment-results').delete();
+    await knex('assessments').delete();
+    await knex('certification-courses').delete();
+    await knex('sessions').delete();
+    return;
   });
 
   describe('#getByCertificationCourseId', () => {
@@ -183,9 +211,67 @@ describe('Integration | Repository | Certification ', () => {
         expectedUpdatedCertification.isPublished = false;
         expect(certification).to.deep.equal(expectedUpdatedCertification);
       });
+    });
+  });
 
+  describe('#updateCertifications', () => {
+    
+    it('should update the specified certifications', async () => {
+      await certificationRepository.updatePublicationStatusesBySessionId(sessionLatestAssessmentRejected.id, true);
+      await Promise.all(sessionLatestAssessmentRejectedCertifCourseIds.map(async (id) => {
+        const certifCourse = await get(id);
+        expect(certifCourse.isPublished).to.be.true;
+      }));
     });
 
+    it('should not update the specified certifications and be rejected', async () => {
+      const result = await catchErr(certificationRepository.updatePublicationStatusesBySessionId.bind(certificationRepository))(sessionWithStartedAndError.id, true);
+      // then
+      expect(result).to.be.instanceOf(CertificationCourseNotPublishableError);
+
+      await Promise.all(sessionWithStartedAndErrorCertifCourseIds.map(async (id) => expect((await get(id)).isPublished).to.be.false));
+    });
   });
+
+  describe('#getStatuses', () => {
+
+    it('should get distinct latest status from certification course', async () => {
+      // when
+      const statuses = await certificationRepository.getAssessmentResultsStatusesBySessionId(sessionWithStartedAndError.id);
+
+      // then
+      expect(statuses.sort()).to.deep.equal(['started', 'error'].sort());
+    });
+
+    it('should get latest status from each assessment results', async () => {
+      // when
+      const statuses = await certificationRepository.getAssessmentResultsStatusesBySessionId(sessionLatestAssessmentRejected.id);
+
+      // then
+      expect(statuses).to.deep.equal(['rejected']);
+    });
+  });
+
+  function createCertifCourseWithAssessementResults(sessionId, ...assessmentResults) {
+    const { id: certifCourseId } = databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: false });
+    const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
+      certificationCourseId: certifCourseId,
+    });
+    assessmentResults.forEach(({ status, createdAt }) =>
+      databaseBuilder.factory.buildAssessmentResult({
+        assessmentId: assessmentId,
+        createdAt,
+        status,
+      }));
+
+    return certifCourseId;
+  }
+
+  async function get(id) {
+    const certification = await CertificationCourseBookshelf
+      .where({ id })
+      .fetch();
+    return certification.attributes;
+  }
 
 });

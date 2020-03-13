@@ -18,8 +18,6 @@ module('Unit | Model | session', function(hooks) {
       let sessionWithOneCheckedEndScreen;
 
       hooks.beforeEach(async function() {
-        store = this.owner.lookup('service:store');
-
         sessionWithOneUncheckedEndScreen = run(() => {
           const certif = store.createRecord('certification', { hasSeenEndTestScreen: false });
           return store.createRecord('session', { certifications: [certif] });
@@ -76,4 +74,81 @@ module('Unit | Model | session', function(hooks) {
 
   });
 
+  module('#isPublished', function() {
+
+    module('when there is no certification', function() {
+      let sessionWithoutCertifications;
+      
+      test('isPublished should be false', function(assert) {
+        // given
+        sessionWithoutCertifications = run(() => {
+          return store.createRecord('session', { certifications: [] });
+        });
+
+        // when
+        const isPublished = sessionWithoutCertifications.get('isPublished');
+        
+        // then
+        assert.equal(isPublished, false);
+      });
+    });
+
+    module('when there are multiple certifications', function() {
+      
+      module('when all certifications are published', function() {
+
+        let sessionWithAllCertificationsPublished;
+
+        hooks.beforeEach(async function() {
+          sessionWithAllCertificationsPublished = run(() => {
+            const certif1 = store.createRecord('certification', { isPublished: true });
+            const certif2 = store.createRecord('certification', { isPublished: true });
+            return store.createRecord('session', { certifications: [ certif1, certif2 ] });
+          });
+        });
+
+        test('isPublished should be true', function(assert) {
+          const isPublished = sessionWithAllCertificationsPublished.get('isPublished');
+          assert.equal(isPublished, true);
+        });
+      });
+
+      module('when not all certifications are published', function() {
+
+        let sessionWithoutAllCertificationsPublished;
+
+        hooks.beforeEach(async function() {
+          sessionWithoutAllCertificationsPublished = run(() => {
+            const certif1 = store.createRecord('certification', { isPublished: true });
+            const certif2 = store.createRecord('certification', { isPublished: false });
+            return store.createRecord('session', { certifications: [ certif1, certif2 ] });
+          });
+        });
+
+        test('isPublished from session should be true', function(assert) {
+          const isPublished = sessionWithoutAllCertificationsPublished.get('isPublished');
+          assert.equal(isPublished, true);
+        });
+      });
+      module('when all certifications are not published', function() {
+
+        let sessionWithoutAllCertificationsPublished;
+
+        hooks.beforeEach(async function() {
+          sessionWithoutAllCertificationsPublished = run(() => {
+            const certif1 = store.createRecord('certification', { isPublished: false });
+            const certif2 = store.createRecord('certification', { isPublished: false });
+            return store.createRecord('session', { certifications: [ certif1, certif2 ] });
+          });
+        });
+
+        test('isPublished from session should be false', function(assert) {
+          const isPublished = sessionWithoutAllCertificationsPublished.get('isPublished');
+          assert.equal(isPublished, false);
+        });
+      });
+
+    });
+
+  });
 });

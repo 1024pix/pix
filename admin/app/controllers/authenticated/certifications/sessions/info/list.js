@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import ENV from 'pix-admin/config/environment';
+import { computed } from '@ember/object';
 import EmberObject from '@ember/object';
 import _ from 'lodash';
 
@@ -13,18 +14,20 @@ export default Controller.extend({
   displayConfirm: false,
   displaySessionReport: false,
   confirmMessage: null,
-  confirmAction: null,
-  showSelectedActions: false,
-  selectedCertifications: null,
   certificationsInSessionReport: null,
 
   init() {
     this._super();
     this.selected = [];
     this.set('certificationsInSessionReport', []);
-    this.confirmAction = () => {
-    };
   },
+
+  canPublish: computed('model.certifications.@each.status', function() {
+    return !(_.some(
+      this.model.certifications.toArray(),
+      (certif) => ['error', 'started'].includes(certif.status)
+    ));
+  }),
 
   _extractCertificationsFromSessionReportData(sessionReportData) {
     const certificationsIdsInSession = this.model.certifications.mapBy('id');
@@ -126,63 +129,33 @@ export default Controller.extend({
       }
     },
 
-    displayCertificationStatusUpdateConfirmationModal(intention = 'publish') {
-      const count = this.selectedCertifications.length;
-      if (intention === 'publish') {
-        if (count === 1) {
-          this.set('confirmMessage', 'Souhaitez-vous publier la certification sélectionnée ?');
-        } else {
-          this.set('confirmMessage', `Souhaitez-vous publier les ${count} certifications sélectionnées ?`);
-        }
-        this.set('confirmAction', 'publishSelectedCertifications');
-      } else {
-        if (count === 1) {
-          this.set('confirmMessage', 'Souhaitez-vous dépublier la certification sélectionnée ?');
-        } else {
-          this.set('confirmMessage', `Souhaitez-vous dépublier les ${count} certifications sélectionnées ?`);
-        }
-        this.set('confirmAction', 'unpublishSelectedCertifications');
-      }
+    displayCertificationStatusUpdateConfirmationModal() {
+      const sessionIsPublished = this.model.isPublished;
+      if (!this.canPublish && !sessionIsPublished) return;
+      const text = sessionIsPublished 
+        ? 'Souhaitez-vous dépublier la session ?'
+        : 'Souhaitez-vous publier la session ?';
+      this.set('confirmMessage', text);
       this.set('displayConfirm', true);
     },
 
-    async publishSelectedCertifications() {
+    async toggleSessionPublication() {
+      const toPublish = !this.model.isPublished;
+      const successText = toPublish
+        ? 'Les certifications ont été correctement publiées.'
+        : 'Les certifications ont été correctement dépubliées.';
       try {
-        await this.sessionInfoService.updateCertificationsStatus(this.selectedCertifications, true);
-        if (this.selectedCertifications.length === 1) {
-          this.notifications.success('La certification a été correctement publiée.');
-        } else {
-          this.notifications.success(`Les ${this.selectedCertifications.length} certifications ont été correctement publiées.`);
-        }
-        this.set('displayConfirm', false);
+        await this.model.save({ adapterOptions: { updatePublishedCertifications: true, toPublish } });
+        this.model.certifications.reload();
+        this.notifications.success(successText);
       } catch (error) {
         this.notifications.error(error);
       }
-    },
-
-    async unpublishSelectedCertifications() {
-      try {
-        await this.sessionInfoService.updateCertificationsStatus(this.selectedCertifications, false);
-        if (this.selectedCertifications.length === 1) {
-          this.notifications.success('La certification a été correctement dépubliée.');
-        } else {
-          this.notifications.success(`Les ${this.selectedCertifications.length} certifications ont été correctement dépubliées.`);
-        }
-        this.set('displayConfirm', false);
-      } catch (error) {
-        this.notifications.error(error);
-      }
+      this.set('displayConfirm', false);
     },
 
     onCancelConfirm() {
       this.set('displayConfirm', false);
     },
-
-    onListSelectionChange(e) {
-      this.set('selectedCertifications', e.selectedItems);
-      this.set('showSelectedActions', e.selectedItems.length > 0);
-    },
-
   },
-
 });

@@ -32,6 +32,12 @@ export default Model.extend({
     return this.examinerGlobalComment && this.examinerGlobalComment.trim().length > 0;
   }),
 
+  isPublished: computed('certifications.[]', function() {
+    return _.some(
+      this.certifications.toArray(),
+      (certif) => certif.isPublished
+    );
+  }),
   countExaminerComment : computed('certifications.[]', function() {
     const condition = (certif) => certif.examinerComment ? certif.examinerComment.trim().length > 0 : 0;
     return _getNumberOf(this.certifications, condition);

@@ -4,7 +4,7 @@ const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/c
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const Certification = require('../../../lib/domain/models/Certification');
-const { NotFoundError } = require('../../../lib/domain/errors');
+const { NotFoundError, CertificationCourseNotPublishableError } = require('../../../lib/domain/errors');
 
 function _certificationToDomain(certificationCourseBookshelf) {
   const assessmentResultsBookshelf = certificationCourseBookshelf
@@ -60,6 +60,23 @@ module.exports = {
       });
   },
 
+  getAssessmentResultsStatusesBySessionId(id) {
+    return CertificationCourseBookshelf
+      .query((qb) => {
+        qb.innerJoin('assessments','assessments.certificationCourseId','certification-courses.id');
+        qb.innerJoin(
+          Bookshelf.knex.raw(
+            `"assessment-results" ar ON ar."assessmentId" = "assessments".id
+                    and ar."createdAt" = (select max(sar."createdAt") from "assessment-results" sar where sar."assessmentId" = "assessments".id)`
+          )
+        );
+        qb.where({ 'certification-courses.sessionId': id });
+      })
+      .fetchAll({ columns: ['status'] })
+      .then((collection) => collection.map((obj) => obj.attributes.status)
+      );
+  },
+
   findByUserId(userId) {
     return CertificationCourseBookshelf
       .query((qb) => {
@@ -102,4 +119,16 @@ module.exports = {
         return module.exports.getByCertificationCourseId({ id });
       });
   },
+
+  updatePublicationStatusesBySessionId(sessionId, toPublish) {
+    return Bookshelf.transaction(async (trx) => {
+      const statuses = await this.getAssessmentResultsStatusesBySessionId(sessionId);
+      if (statuses.includes('error') || statuses.includes('started')) {
+        throw new CertificationCourseNotPublishableError();
+      }
+      await CertificationCourseBookshelf
+        .where({ sessionId })
+        .save({ isPublished: toPublish },{ patch: true, transacting: trx });
+    });
+  }
 };
