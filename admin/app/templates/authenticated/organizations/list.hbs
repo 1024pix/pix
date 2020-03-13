@@ -9,12 +9,12 @@
 
 <main class="page-body">
   <section class="page-section">
-    <Routes::Authenticated::Organizations::ListItems
-      @organizations={{model}}
+    <Organizations::ListItems
+      @organizations={{@model}}
       @name={{name}}
       @type={{type}}
       @externalId={{externalId}}
-      @triggerFiltering={{action "triggerFiltering"}}
-      @goToOrganizationPage={{action "goToOrganizationPage"}} />
+      @triggerFiltering={{this.triggerFiltering}}
+      @goToOrganizationPage={{this.goToOrganizationPage}} />
   </section>
 </main>
