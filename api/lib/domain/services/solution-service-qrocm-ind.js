@@ -73,8 +73,8 @@ module.exports = {
     const preTreatedSolutions = applyPreTreatments(yamlSolution);
 
     // Convert YAML to JSObject
-    const answers = jsYaml.safeLoad(preTreatedAnswers);
-    const solutions = jsYaml.safeLoad(preTreatedSolutions);
+    const answers = jsYaml.safeLoad(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
+    const solutions = jsYaml.safeLoad(preTreatedSolutions, { schema: jsYaml.FAILSAFE_SCHEMA });
 
     // Treatments
     const treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments);
