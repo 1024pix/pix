@@ -92,7 +92,7 @@ module.exports = injectDependencies({
   findCompetenceEvaluations: require('./find-competence-evaluations'),
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
   findLatestOngoingUserCampaignParticipations: require('./find-latest-ongoing-user-campaign-participations'),
-  findOrganizationStudents: require('./find-organization-students'),
+  findOrganizationStudentsWithUserInfos: require('./find-organization-students-with-users-infos'),
   findPaginatedFilteredCertificationCenters: require('./find-paginated-filtered-certification-centers'),
   findPaginatedFilteredOrganizationCampaigns: require('./find-paginated-filtered-organization-campaigns'),
   findPaginatedFilteredOrganizations: require('./find-paginated-filtered-organizations'),

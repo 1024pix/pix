@@ -11,6 +11,8 @@ const organizationSerializer = require('../../../../lib/infrastructure/serialize
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
 const studentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-serializer');
+const studentWithUserInfoSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-with-user-info-serializer');
+
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
@@ -372,13 +374,13 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#findStudents', () => {
+  describe('#findOrganizationStudentsWithUserInfos', () => {
 
     const connectedUserId = 1;
     const organizationId = 145;
 
-    let student;
-    let serializedStudents;
+    let studentWithUserInfo;
+    let serializedStudentsWithUsersInfos;
 
     beforeEach(() => {
       request = {
@@ -386,40 +388,43 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         params: { id: organizationId.toString() }
       };
 
-      sinon.stub(usecases, 'findOrganizationStudents');
-      sinon.stub(studentSerializer, 'serialize');
+      sinon.stub(usecases, 'findOrganizationStudentsWithUserInfos');
+      sinon.stub(studentWithUserInfoSerializer, 'serialize');
 
-      student = domainBuilder.buildStudent();
-      serializedStudents = {
+      studentWithUserInfo = domainBuilder.buildStudentWithUserInfo();
+      serializedStudentsWithUsersInfos = {
         data: [{
-          lastName: student.lastName,
-          firstName: student.firstName,
-          birthdate: student.birthdate
+          lastName: studentWithUserInfo.lastName,
+          firstName: studentWithUserInfo.firstName,
+          birthdate: studentWithUserInfo.birthdate,
+          username: studentWithUserInfo.username,
+          email: studentWithUserInfo.email,
+          isAuthenticatedFromGAR: false,
         }]
       };
     });
 
-    it('should call the usecase to find students with the organization id', async () => {
+    it('should call the usecase to find students with users infos related to the organization id', async () => {
       // given
-      usecases.findOrganizationStudents.resolves();
+      usecases.findOrganizationStudentsWithUserInfos.resolves();
 
       // when
       await organizationController.findStudents(request, hFake);
 
       // then
-      expect(usecases.findOrganizationStudents).to.have.been.calledWith({ organizationId });
+      expect(usecases.findOrganizationStudentsWithUserInfos).to.have.been.calledWith({ organizationId });
     });
 
     it('should return the serialized students belonging to the organization', async () => {
       // given
-      usecases.findOrganizationStudents.resolves([student]);
-      studentSerializer.serialize.returns(serializedStudents);
+      usecases.findOrganizationStudentsWithUserInfos.resolves([studentWithUserInfo]);
+      studentWithUserInfoSerializer.serialize.returns(serializedStudentsWithUsersInfos);
 
       // when
       const response = await organizationController.findStudents(request, hFake);
 
       // then
-      expect(response).to.deep.equal(serializedStudents);
+      expect(response).to.deep.equal(serializedStudentsWithUsersInfos);
     });
   });
 
