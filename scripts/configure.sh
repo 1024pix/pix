@@ -32,9 +32,9 @@ function display_banner() {
 function display_header {
   echo "👋 Welcome to the Pix developer environment installation & configuration procedure."
   echo "The good news is that the procedure is fully automated!"
-  echo "The bad news is that it will take up to 15mn (the fault of the 7000 tests)."
-  echo "So, we recommand you to take a ☕️ and enjoy this awesome moment."
-  echo "If you get bored, you can always visit or website https://pix.fr or follow us on Twitter @Pix_officiel 😉"
+  echo "The bad news is that it will take up to 15mn (as 7 000 tests should be run)."
+  echo "So, please take a ☕️ and enjoy this awesome moment."
+  echo "If you get bored, you can always visit or website https://pix.fr or follow us on Twitter https://twitter.com/pix_officiel 😉"
   echo ""
 }
 
@@ -69,7 +69,7 @@ function verify_prerequesite_programs() {
   assert_expected_version_is_installed "node" "${EXPECTED_NODE_VERSION}"
   assert_expected_version_is_installed "npm" "${EXPECTED_NPM_VERSION}"
 
-  echo "✅ Prerequesite programs are correctly installed."
+  echo "✅ Required programs have been found."
   echo ""
 }
 
@@ -102,7 +102,7 @@ function setup_and_run_infrastructure() {
   docker-compose up -d
   (cd api && npm run db:migrate)
 
-  echo "✅ PostgreSQL and Redis servers started (via Docker Compose)."
+  echo "✅ PostgreSQL and Redis servers started (using Docker Compose)."
   echo ""
 }
 
@@ -120,9 +120,9 @@ function execute_apps_tests() {
 }
 
 function display_footer {
-  echo "🎉 Congratulations! Your environment is successfully configured."
+  echo "🎉 Congratulations! Your environment is now running."
   echo ""
-  echo "From here, execute the following command:"
+  echo "In this terminal window, execute the following command:"
   echo ""
   echo "  $ npx run-p start:api start:mon-pix"
   echo ""
