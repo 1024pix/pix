@@ -1,0 +1,13 @@
+<header class="page-header">
+  <div class="page-title">Toutes les sessions</div>
+</header>
+
+<main class="page-body">
+  <section class="page-section">
+    {{routes/authenticated/sessions/list-items
+      sessions=model
+      id=id
+      triggerFiltering=(action 'triggerFiltering')
+    }}
+  </section>
+</main>
