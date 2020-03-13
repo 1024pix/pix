@@ -19,7 +19,15 @@ module.exports = {
       },
       competenceResults: {
         ref: 'id',
-        attributes: ['name', 'index', 'areaColor', 'masteryPercentage', 'totalSkillsCount', 'testedSkillsCount', 'validatedSkillsCount'],
+        attributes: [
+          'name',
+          'index',
+          'areaColor',
+          'masteryPercentage',
+          'totalSkillsCount',
+          'testedSkillsCount',
+          'validatedSkillsCount'
+        ],
       },
     }).serialize(results);
   },
