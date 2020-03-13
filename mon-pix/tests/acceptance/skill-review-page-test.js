@@ -53,18 +53,22 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
       });
 
       it('should display results', async function() {
+        // given
+        const COMPETENCE_MASTERY_PERCENTAGE = '85%';
+        const PROGRESSION_MAX_WIDTH = '100%';
+
         // when
         await resumeCampaignByCode('AZERTY2');
         await completeCampaignAndSeeResultsByCode('AZERTY2');
 
         // then
         expect(find('table tbody tr td:nth-child(1) span:nth-child(2)').textContent).to.equal('Compétence 1.1');
-        expect(find('table tbody tr td:nth-child(2) .progression-gauge').getAttribute('style')).to.equal('width: 100%');
-        expect(find('table tbody tr td:nth-child(2) .progression-gauge__marker').getAttribute('style')).to.equal('width: 90%');
-        expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include('90%');
+        expect(find('table tbody tr td:nth-child(2) .progression-gauge').getAttribute('style')).to.equal('width: ' + PROGRESSION_MAX_WIDTH);
+        expect(find('table tbody tr td:nth-child(2) .progression-gauge__marker').getAttribute('style')).to.equal('width: ' + COMPETENCE_MASTERY_PERCENTAGE);
+        expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include(COMPETENCE_MASTERY_PERCENTAGE);
       });
 
-      it('should display the Pix emploi badge that is available for AZERTY2 campaign when 85% of the skills are validated', async function() {
+      it('should display the Pix emploi badge that is available for AZERTY2 campaign when badge criteria are fulfilled', async function() {
         // when
         await resumeCampaignByCode('AZERTY2');
         await completeCampaignAndSeeResultsByCode('AZERTY2');

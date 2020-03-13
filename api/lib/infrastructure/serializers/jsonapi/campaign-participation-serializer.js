@@ -47,7 +47,28 @@ module.exports = {
               return `/api/campaign-participations/${parent.id}/campaign-participation-result`;
             }
           },
-          attributes: ['id', 'isCompleted', 'areaColor', 'totalSkillsCount', 'testedSkillsCount', 'validatedSkillsCount', 'competenceResults'],
+          attributes: [
+            'id',
+            'isCompleted',
+            'areaColor',
+            'masteryPercentage',
+            'totalSkillsCount',
+            'testedSkillsCount',
+            'validatedSkillsCount',
+            'competenceResults'
+          ],
+          competenceResults: {
+            ref: 'id',
+            attributes: [
+              'name',
+              'index',
+              'areaColor',
+              'masteryPercentage',
+              'totalSkillsCount',
+              'testedSkillsCount',
+              'validatedSkillsCount'
+            ],
+          },
         },
         meta
       }).serialize(campaignParticipation);

@@ -7,7 +7,6 @@ class CampaignParticipationResult {
     // attributes
     areBadgeCriteriaFulfilled,
     isCompleted,
-    masteryPercentage,
     totalSkillsCount,
     testedSkillsCount,
     validatedSkillsCount,
@@ -19,7 +18,6 @@ class CampaignParticipationResult {
     // attributes
     this.areBadgeCriteriaFulfilled = areBadgeCriteriaFulfilled;
     this.isCompleted = isCompleted;
-    this.masteryPercentage = masteryPercentage;
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = testedSkillsCount;
     this.validatedSkillsCount = validatedSkillsCount;
@@ -38,11 +36,9 @@ class CampaignParticipationResult {
     const validatedSkillsCount = _.sumBy(targetedCompetenceResults, 'validatedSkillsCount');
     const totalSkillsCount = _.sumBy(targetedCompetenceResults, 'totalSkillsCount');
     const testedSkillsCount = _.sumBy(targetedCompetenceResults, 'testedSkillsCount');
-    const masteryPercentage = Math.round(validatedSkillsCount * 100 / totalSkillsCount);
 
     return new CampaignParticipationResult({
       id: campaignParticipationId,
-      masteryPercentage,
       totalSkillsCount,
       testedSkillsCount,
       validatedSkillsCount,
@@ -51,6 +47,14 @@ class CampaignParticipationResult {
       competenceResults: targetedCompetenceResults,
       badge,
     });
+  }
+
+  get masteryPercentage() {
+    if (this.totalSkillsCount !== 0) {
+      return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
+    } else {
+      return 0;
+    }
   }
 }
 
@@ -73,14 +77,18 @@ function _getTestedCompetenceResults(competence, targetedKnowledgeElements) {
   const targetedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElements, (ke) => _.includes(competence.skills, ke.skillId));
   const validatedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElementsForCompetence, 'isValidated');
 
+  const testedSkillsCount = targetedKnowledgeElementsForCompetence.length;
+  const validatedSkillsCount = validatedKnowledgeElementsForCompetence.length;
+  const totalSkillsCount = competence.skills.length;
+
   return new CompetenceResult({
     id: competence.id,
     name: competence.name,
     index: competence.index,
     areaColor: competence.area.color,
-    totalSkillsCount: competence.skills.length,
-    testedSkillsCount: targetedKnowledgeElementsForCompetence.length,
-    validatedSkillsCount: validatedKnowledgeElementsForCompetence.length,
+    totalSkillsCount,
+    testedSkillsCount,
+    validatedSkillsCount,
   });
 }
 
