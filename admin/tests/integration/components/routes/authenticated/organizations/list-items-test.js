@@ -25,6 +25,16 @@ module('Integration | Component | routes/authenticated/organizations | list-item
     assert.dom('table thead tr:first-child th:nth-child(3)').hasText('Identifiant externe');
   });
 
+  test('if should display search inputs', async function(assert) {
+    // when
+    await render(hbs`{{routes/authenticated/organizations/list-items triggerFiltering=triggerFiltering goToOrganizationPage=goToOrganizationPage}}`);
+
+    // then
+    assert.dom('table thead tr:nth-child(2) input#name').exists();
+    assert.dom('table thead tr:nth-child(2) input#type').exists();
+    assert.dom('table thead tr:nth-child(2) input#externalId').exists();
+  });
+
   test('it should display organization list', async function(assert) {
     // given
     const externalId = '1234567A';
