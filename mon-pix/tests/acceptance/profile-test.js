@@ -73,19 +73,9 @@ describe('Acceptance | Profile', function() {
 
       it('should display a resume campaign banner for a campaign with no title', async function() {
         // given
-        this.server.create('assessment', {
-          id: 2,
-          type: 'SMART_PLACEMENT',
-          state: 'started',
-        });
-        this.server.create('campaign-participation', {
-          id: 1,
-          isShared: false,
-          campaignId: 1,
-          assessmentId: 2,
-          userId: user.id,
-          createdAt: '2019-09-30T14:30:00Z',
-        });
+        const campaign = server.create('campaign', { isArchived: false });
+        server.create('campaign-participation',
+          { campaign, user, isShared: false , createdAt: Date.now() });
 
         // when
         await visitWithAbortedTransition('/');
@@ -98,26 +88,16 @@ describe('Acceptance | Profile', function() {
 
       it('should display a resume campaign banner for a campaign with a campaign with a title', async function() {
         // given
-        this.server.create('assessment', {
-          id: 2,
-          type: 'SMART_PLACEMENT',
-          state: 'started',
-        });
-        this.server.create('campaign-participation', {
-          id: 1,
-          isShared: false,
-          campaignId: 3,
-          assessmentId: 2,
-          userId: user.id,
-          createdAt: '2019-09-30T14:30:00Z',
-        });
+        const campaign = server.create('campaign', { isArchived: false, title: 'SomeTitle' });
+        server.create('campaign-participation',
+          { campaign, user, isShared: false , createdAt: Date.now() });
 
         // when
         await visitWithAbortedTransition('/');
 
         // then
         expect(find('.resume-campaign-banner__container')).to.exist;
-        expect(find('.resume-campaign-banner__container').textContent).to.contain('Vous n\'avez pas terminé le parcours "Le Titre de la campagne"');
+        expect(find('.resume-campaign-banner__container').textContent).to.contain(`Vous n'avez pas terminé le parcours "${campaign.title}"`);
         expect(find('.resume-campaign-banner__button').textContent).to.equal('Reprendre');
       });
     });
@@ -126,19 +106,10 @@ describe('Acceptance | Profile', function() {
 
       it('should display a resume campaign banner for a campaign with no title', async function() {
         // given
-        this.server.create('assessment', {
-          id: 2,
-          type: 'SMART_PLACEMENT',
-          state: 'completed',
-        });
-        this.server.create('campaign-participation', {
-          id: 1,
-          isShared: false,
-          campaignId: 1,
-          assessmentId: 2,
-          userId: user.id,
-          createdAt: '2019-09-30T14:30:00Z',
-        });
+        const campaign = server.create('campaign', { isArchived: false });
+        const campaignParticipation = server.create('campaign-participation', 
+          { campaign, user, isShared: false , createdAt: Date.now() });
+        campaignParticipation.assessment.update({ state: 'completed' });
 
         // when
         await visitWithAbortedTransition('/');
@@ -151,26 +122,17 @@ describe('Acceptance | Profile', function() {
 
       it('should display a resume campaign banner for a campaign with a campaign with a title', async function() {
         // given
-        this.server.create('assessment', {
-          id: 2,
-          type: 'SMART_PLACEMENT',
-          state: 'completed',
-        });
-        this.server.create('campaign-participation', {
-          id: 1,
-          isShared: false,
-          campaignId: 3,
-          assessmentId: 2,
-          userId: user.id,
-          createdAt: '2019-09-30T14:30:00Z',
-        });
+        const campaign = server.create('campaign', { isArchived: false, title: 'SomeTitle' });
+        const campaignParticipation = server.create('campaign-participation',
+          { campaign, user, isShared: false , createdAt: Date.now() });
+        campaignParticipation.assessment.update({ state: 'completed' });
 
         // when
         await visitWithAbortedTransition('/');
 
         // then
         expect(find('.resume-campaign-banner__container')).to.exist;
-        expect(find('.resume-campaign-banner__container').textContent).to.contain('Parcours "Le Titre de la campagne" terminé ! Envoyez vos résultats.');
+        expect(find('.resume-campaign-banner__container').textContent).to.contain(`Parcours "${campaign.title}" terminé ! Envoyez vos résultats.`);
         expect(find('.resume-campaign-banner__button').textContent).to.equal('Continuer');
       });
     });

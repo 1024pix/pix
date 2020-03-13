@@ -1,17 +1,15 @@
-import getCampaignParticipation from './routes/get-campaign-participation';
 import getCampaignParticipationResult from './routes/get-campaign-participation-result';
 import getCampaigns from './routes/get-campaigns';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getScorecard from './routes/get-scorecard';
 import getScorecardsTutorials from './routes/get-scorecards-tutorials';
-import patchCampaignParticipation from './routes/patch-campaign-participation';
-import postCampaignParticipation from './routes/post-campaign-participation';
 import postCompetenceEvaluation from './routes/post-competence-evaluation';
 import postSessionParticipation from './routes/post-session-participation';
 import loadAnswerRoutes from './routes/answers/index';
 import loadAssessmentRoutes from './routes/assessments/index';
 import loadAuthRoutes from './routes/auth/index';
+import loadCampaignParticipations from './routes/campaign-participations/index';
 import loadCertificationCourseRoutes from './routes/certification-courses/index';
 import loadCourseRoutes from './routes/courses/index';
 import loadPasswordResetDemandRoutes from './routes/password-reset-demands/index';
@@ -29,6 +27,7 @@ export default function() {
   loadAnswerRoutes(this);
   loadAssessmentRoutes(this);
   loadAuthRoutes(this);
+  loadCampaignParticipations(this);
   loadCertificationCourseRoutes(this);
   loadCourseRoutes(this);
   loadPasswordResetDemandRoutes(this);
@@ -43,9 +42,6 @@ export default function() {
     return schema.campaigns.find(request.params['id?include=targetProfile']);
   });
 
-  this.post('/campaign-participations', postCampaignParticipation);
-  this.get('/campaign-participations', getCampaignParticipation);
-  this.patch('/campaign-participations/:id', patchCampaignParticipation);
   this.get('/campaign-participations/:id/campaign-participation-result', getCampaignParticipationResult);
 
   this.get('/certifications');
