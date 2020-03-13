@@ -205,8 +205,8 @@ module.exports = {
       allChallenges
     ] = await Promise.all([
       answersRepository.findByAssessment(assessment.id),
-      certificationChallengesRepository.findByCertificationCourseId(assessment.courseId),
-      certificationCourseRepository.get(assessment.courseId),
+      certificationChallengesRepository.findByCertificationCourseId(assessment.certificationCourseId),
+      certificationCourseRepository.get(assessment.certificationCourseId),
       competenceRepository.list(),
       challengeRepository.list(),
     ]);

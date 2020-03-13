@@ -30,16 +30,15 @@ describe('Integration | Repository | Certification ', () => {
     session = databaseBuilder.factory.buildSession({ certificationCenterId, certificationCenter });
     certificationCourse = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id, isPublished: true });
     databaseBuilder.factory.buildAssessment({
-      courseId: certificationCourse.id,
+      certificationCourseId: certificationCourse.id,
       userId,
-      type,
       state: Assessment.states.STARTED,
     });
     const {
       id: assessmentId,
       state: assessmentState,
     } = databaseBuilder.factory.buildAssessment({
-      courseId: certificationCourse.id,
+      certificationCourseId: certificationCourse.id,
       userId,
       type,
       state: Assessment.states.COMPLETED,
@@ -66,7 +65,7 @@ describe('Integration | Repository | Certification ', () => {
     });
     incompleteCertificationCourse = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id, isPublished: true });
     databaseBuilder.factory.buildAssessment({
-      courseId: incompleteCertificationCourse.id,
+      certificationCourseId: incompleteCertificationCourse.id,
       userId,
       type,
       state: Assessment.states.STARTED,
@@ -83,7 +82,7 @@ describe('Integration | Repository | Certification ', () => {
       id: assessmentIdNoDate,
       state: assessmentStateNoDate,
     } = databaseBuilder.factory.buildAssessment({
-      courseId: certificationCourseWithoutDate.id,
+      certificationCourseId: certificationCourseWithoutDate.id,
       userId,
       type,
       state: Assessment.states.COMPLETED,

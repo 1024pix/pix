@@ -125,7 +125,7 @@ describe('Acceptance | API | Certification Course', () => {
           isPublished: false,
         }));
         const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
-          courseId: certificationCourseId.toString(),
+          certificationCourseId: certificationCourseId,
           state: 'completed',
           type: Assessment.types.CERTIFICATION,
         });
@@ -340,7 +340,7 @@ describe('Acceptance | API | Certification Course', () => {
         examinerComment: 'il s\'est enfuit de la session',
         hasSeenEndTestScreen: false,
       });
-      const assessment = databaseBuilder.factory.buildAssessment({ courseId: certificationCourse.id });
+      const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
       userId = certificationCourse.userId;
       options = {
         method: 'GET',
@@ -528,7 +528,7 @@ describe('Acceptance | API | Certification Course', () => {
       beforeEach(async () => {
         // given
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId }).id;
-        databaseBuilder.factory.buildAssessment({ userId, courseId: certificationCourseId });
+        databaseBuilder.factory.buildAssessment({ userId, certificationCourseId: certificationCourseId });
         await databaseBuilder.commit();
 
         // when

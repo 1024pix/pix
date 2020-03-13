@@ -102,7 +102,7 @@ async function _startNewCertification({
 function _createAssessmentForCertificationCourse({ userId, certificationCourseId, assessmentRepository }) {
   const assessment = new Assessment({
     userId,
-    courseId: certificationCourseId,
+    certificationCourseId,
     state: Assessment.states.STARTED,
     type: Assessment.types.CERTIFICATION,
   });

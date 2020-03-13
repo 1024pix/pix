@@ -41,7 +41,7 @@ async function _fetchAssessmentTitle({
 }) {
   switch (assessment.type) {
     case Assessment.types.CERTIFICATION : {
-      return assessment.courseId;
+      return assessment.certificationCourseId;
     }
 
     case Assessment.types.COMPETENCE_EVALUATION : {

@@ -13,7 +13,8 @@ module.exports = {
         // this serializer is also used by model SmartPlacementAssessment
         assessment.certificationNumber = null;
         if (currentAssessment.type === Assessment.types.CERTIFICATION) {
-          assessment.certificationNumber = currentAssessment.courseId;
+          assessment.certificationNumber = currentAssessment.certificationCourseId;
+          assessment.certificationCourse = { id: currentAssessment.certificationCourseId };
         }
 
         // Same here for isSmartPlacement() and isCompetenceEvaluation()
@@ -29,10 +30,6 @@ module.exports = {
 
         if (!currentAssessment.course) {
           assessment.course = { id: currentAssessment.courseId };
-        }
-
-        if (currentAssessment.type === Assessment.types.CERTIFICATION) {
-          assessment.certificationCourse = { id: currentAssessment.courseId };
         }
 
         assessment.title = currentAssessment.title;

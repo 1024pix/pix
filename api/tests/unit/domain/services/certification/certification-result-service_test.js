@@ -142,13 +142,13 @@ describe('Unit | Service | Certification Result Service', function() {
       const certificationAssessment = new Assessment({
         id: 'assessment_id',
         userId: 'user_id',
-        courseId: 'course_id',
+        certificationCourseId: 'certification_course_id',
         createdAt: dateCreationCertif,
         state: 'completed',
       });
 
       const certificationCourseV2 = new CertificationCourse({
-        id: 'course_id',
+        id: 'certification_course_id',
         status: 'completed',
         createdAt: dateCreationCertif,
         isV2Certification: true
@@ -183,13 +183,13 @@ describe('Unit | Service | Certification Result Service', function() {
       const certificationAssessment = new Assessment({
         id: 'assessment_id',
         userId: 'user_id',
-        courseId: 'course_id',
+        certificationCourseId: 'certification_course_id',
         createdAt: dateCreationCertif,
         state: 'completed',
       });
 
       const certificationCourseV1 = new CertificationCourse({
-        id: 'course_id',
+        id: 'certification_course_id',
         status: 'completed',
         completedAt: dateCreationCertif,
         isV2Certification: false
@@ -226,7 +226,7 @@ describe('Unit | Service | Certification Result Service', function() {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(certificationChallengesRepository.findByCertificationCourseId);
-          sinon.assert.calledWith(certificationChallengesRepository.findByCertificationCourseId, 'course_id');
+          sinon.assert.calledWith(certificationChallengesRepository.findByCertificationCourseId, 'certification_course_id');
         });
       });
 
@@ -722,13 +722,13 @@ describe('Unit | Service | Certification Result Service', function() {
     describe('Calculate certification result when assessment is completed (stop on error)', () => {
 
       const continueOnError = false;
-      const certificationCourse = new CertificationCourse({ id: 'course_id', status: 'completed' });
+      const certificationCourse = new CertificationCourse({ id: 'certification_course_id', status: 'completed' });
 
       const certificationAssessment = new Assessment({
         id: 'assessment_id',
         userId: 'user_id',
         createdAt: dateCreationCertif,
-        courseId: 'course_id',
+        certificationCourseId: 'certification_course_id',
         status: 'completed',
       });
 
@@ -763,7 +763,7 @@ describe('Unit | Service | Certification Result Service', function() {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(certificationChallengesRepository.findByCertificationCourseId);
-          sinon.assert.calledWith(certificationChallengesRepository.findByCertificationCourseId, 'course_id');
+          sinon.assert.calledWith(certificationChallengesRepository.findByCertificationCourseId, 'certification_course_id');
         });
       });
 

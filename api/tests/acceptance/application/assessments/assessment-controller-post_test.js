@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuthorizationHeader, insertUserWithStandardRole } = require('../../../test-helper');
+const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 
@@ -21,37 +21,35 @@ describe('Acceptance | API | Assessments POST', () => {
     let userId;
 
     beforeEach(() => {
-      return insertUserWithStandardRole()
-        .then(({ id }) => {
-          userId = id;
-          options = {
-            method: 'POST',
-            url: '/api/assessments',
-            payload: {
-              data: {
-                type: 'assessment',
-                attributes: {
-                  type: 'DEMO',
-                },
-                relationships: {
-                  course: {
-                    data: {
-                      type: 'course',
-                      id: 'non_adaptive_course_id'
-                    }
-                  },
-                  user: {
-                    data: {
-                      type: 'users',
-                      id: userId
-                    }
-                  }
+      userId = databaseBuilder.factory.buildUser().id;
+      options = {
+        method: 'POST',
+        url: '/api/assessments',
+        payload: {
+          data: {
+            type: 'assessment',
+            attributes: {
+              type: 'DEMO',
+            },
+            relationships: {
+              course: {
+                data: {
+                  type: 'course',
+                  id: 'non_adaptive_course_id'
+                }
+              },
+              user: {
+                data: {
+                  type: 'users',
+                  id: userId
                 }
               }
-            },
-            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-          };
-        });
+            }
+          }
+        },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+      return databaseBuilder.commit();
     });
 
     it('should return 201 HTTP status code', () => {

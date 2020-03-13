@@ -8,7 +8,7 @@ const _ = require('lodash');
 module.exports = function buildAssessment({
   id,
   courseId = 'recDefaultCourseId',
-  certificationCourseId = null,
+  certificationCourseId,
   userId,
   type = null,
   state = Assessment.states.COMPLETED,
@@ -24,8 +24,7 @@ module.exports = function buildAssessment({
   }
 
   if (type === Assessment.types.CERTIFICATION) {
-    courseId = _.isUndefined(courseId) ? buildCertificationCourse({ userId }).id : courseId;
-    certificationCourseId = courseId;
+    certificationCourseId = _.isUndefined(certificationCourseId) ? buildCertificationCourse({ userId }).id : certificationCourseId;
   }
 
   const values = {
