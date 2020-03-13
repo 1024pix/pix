@@ -8,9 +8,24 @@
           <th>Identifiant externe</th>
         </tr>
         <tr>
-          <th><Input id="name" @value={{nameValue}} @keyUp={{action triggerFiltering "name" nameValue}} class="table-admin-input"/></th>
-          <th><Input id="type" @value={{typeValue}} @keyUp={{action triggerFiltering "type" typeValue}} class="table-admin-input"/></th>
-          <th><Input id="externalId" @value={{externalIdValue}} @keyUp={{action triggerFiltering "externalId" externalIdValue}} class="table-admin-input"/></th>
+          <th>
+            <Input id="name"
+                   @value={{@name}}
+                   @key-up={{fn @triggerFiltering "name" @name}}
+                   class="table-admin-input" />
+          </th>
+          <th>
+            <Input id="type"
+                   @value={{@type}}
+                   @key-up={{fn @triggerFiltering "type" @type}}
+                   class="table-admin-input"/>
+          </th>
+          <th>
+            <Input id="externalId"
+                   @value={{@externalId}}
+                   @key-up={{fn @triggerFiltering "externalId" @externalId}}
+                   class="table-admin-input"/>
+          </th>
         </tr>
       </thead>
 

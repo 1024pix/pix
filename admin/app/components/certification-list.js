@@ -46,4 +46,6 @@ export default class CertificationList extends Component {
       title: 'Publiée'
     },
   ];
+
+  pageValues = [10, 25, 50];
 }
