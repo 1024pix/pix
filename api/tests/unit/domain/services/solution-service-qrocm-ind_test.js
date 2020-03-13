@@ -117,6 +117,18 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
       solution: 'num1:\n- 888\nnum2:\n- 64',
       enabledTreatments: ['t1', 't2', 't3']
     }, {
+      case: 'solution contains decimal numbers with a comma',
+      output: { result: ANSWER_OK, resultDetails: { 'num1': true, 'num2': true } },
+      answer: 'num1: "888,00"\nnum2: 64',
+      solution: 'num1:\n- 888,00\nnum2:\n- 64',
+      enabledTreatments: ['t1', 't2', 't3']
+    }, {
+      case: 'solution contains decimal numbers with a dot',
+      output: { result: ANSWER_OK, resultDetails: { 'num1': true, 'num2': true } },
+      answer: 'num1: "888.00"\nnum2: 64',
+      solution: 'num1:\n- 888.00\nnum2:\n- 64',
+      enabledTreatments: ['t1', 't2', 't3']
+    }, {
       case: 'leading/trailing spaces in solution',
       output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
       answer: '9lettres: c o u r g e t t e\n6lettres: t o m a t e',
