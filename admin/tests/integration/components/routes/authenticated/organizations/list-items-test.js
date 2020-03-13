@@ -27,7 +27,7 @@ module('Integration | Component | routes/authenticated/organizations | list-item
 
   test('if should display search inputs', async function(assert) {
     // when
-    await render(hbs`{{routes/authenticated/organizations/list-items triggerFiltering=triggerFiltering goToOrganizationPage=goToOrganizationPage}}`);
+    await render(hbs`<Organizations::ListItems @triggerFiltering={{this.triggerFiltering}} @goToOrganizationPage={{this.goToOrganizationPage}} />`);
 
     // then
     assert.dom('table thead tr:nth-child(2) input#name').exists();
