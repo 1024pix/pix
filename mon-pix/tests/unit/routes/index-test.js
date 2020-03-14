@@ -11,13 +11,13 @@ describe('Unit | Route | index', function() {
     it('should redirect to /profil', async function() {
       // Given
       const route = this.owner.lookup('route:index');
-      route.transitionTo = sinon.spy();
+      route.replaceWith = sinon.spy();
 
       // When
       await route.redirect();
 
       // Then
-      sinon.assert.calledWith(route.transitionTo, 'profile');
+      sinon.assert.calledWith(route.replaceWith, 'profile');
     });
   });
 });
