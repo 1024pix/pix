@@ -75,6 +75,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
     ENV.APP.API_HOST = process.env.API_HOST || 'http://localhost:3000';
+    ENV.matomo.url = 'https://stats.pix.fr/js/container_x4fRiAXl_dev_a6c96fc927042b6f6e773267.js';
     ENV.matomo.debug = true;
   }
 
