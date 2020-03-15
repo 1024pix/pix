@@ -2,7 +2,7 @@ import _ from 'lodash';
 import Response from 'ember-cli-mirage/response';
 
 export default function(schema, request) {
-  const assessmentId = request.params.assessmentId;
+  const assessmentId = request.params.id;
   const assessment = schema.assessments.find(assessmentId);
   let challengeIdStartsWith;
   switch (assessment.type) {
