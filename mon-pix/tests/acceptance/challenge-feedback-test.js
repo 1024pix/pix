@@ -2,7 +2,6 @@ import { click, find } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -13,7 +12,6 @@ describe('Acceptance | Giving feedback about a challenge', function() {
   let firstChallenge;
 
   beforeEach(function() {
-    defaultScenario(this.server);
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     firstChallenge = server.create('challenge', 'forCompetenceEvaluation');
     server.create('challenge', 'forCompetenceEvaluation');

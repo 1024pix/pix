@@ -2,7 +2,6 @@ import { click, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -13,7 +12,6 @@ describe('Acceptance | login-or-register-to-access-restricted-campaign', functio
   let campaign;
 
   beforeEach(function() {
-    defaultScenario(this.server);
     campaign = server.create('campaign', { isRestricted: true });
   });
 

@@ -2,7 +2,6 @@ import { find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -14,7 +13,6 @@ describe('Acceptance | Download an attachment from a challenge', function() {
   let assessment;
 
   beforeEach(function() {
-    defaultScenario(this.server);
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     challengeWithAttachment = server.create('challenge', 'forCompetenceEvaluation', 'withAttachment');
     challengeWithNoAttachment = server.create('challenge', 'forCompetenceEvaluation');

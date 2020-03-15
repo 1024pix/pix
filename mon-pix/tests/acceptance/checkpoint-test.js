@@ -2,7 +2,6 @@ import { find, findAll } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -12,7 +11,6 @@ describe('Acceptance | Checkpoint', () => {
   let assessment;
 
   beforeEach(function() {
-    defaultScenario(this.server);
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
   });
 

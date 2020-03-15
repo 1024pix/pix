@@ -3,7 +3,6 @@ import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-mocha';
-import defaultScenario from '../../mirage/scenarios/default';
 import { authenticateByEmail } from '../helpers/authentification';
 import { resumeCampaignByCode } from '../helpers/campaign';
 import visitWithAbortedTransition from '../helpers/visit';
@@ -14,7 +13,6 @@ describe('Acceptance | Navbar', function() {
   let user;
 
   beforeEach(function() {
-    defaultScenario(this.server);
     user = server.create('user', 'withEmail');
   });
 

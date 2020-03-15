@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-mocha';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 
 describe('Acceptance | Timed challenge', function() {
   setupApplicationTest();
@@ -14,7 +13,6 @@ describe('Acceptance | Timed challenge', function() {
   let notTimedChallenge;
 
   beforeEach(function() {
-    defaultScenario(this.server);
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
     notTimedChallenge = server.create('challenge', 'forCompetenceEvaluation');

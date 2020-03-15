@@ -2,7 +2,6 @@ import { click, find, findAll } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -13,7 +12,6 @@ describe('Acceptance | Displaying a QCU', function() {
   let qcuChallenge;
 
   beforeEach(function() {
-    defaultScenario(this.server);
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     qcuChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QCU');
   });
