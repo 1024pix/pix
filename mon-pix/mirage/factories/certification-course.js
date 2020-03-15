@@ -16,9 +16,11 @@ export default Factory.extend({
   },
 
   afterCreate(certificationCourse, server) {
-    certificationCourse.update({
-      assessment: server.create('assessment', { type: 'CERTIFICATION', certificationNumber: certificationCourse.id, certificationCourse }),
-    });
+    if (!certificationCourse.assessment) {
+      certificationCourse.update({
+        assessment: server.create('assessment', { type: 'CERTIFICATION', certificationNumber: certificationCourse.id, certificationCourse }),
+      });
+    }
   },
 
 });
