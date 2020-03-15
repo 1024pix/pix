@@ -2,7 +2,6 @@ import { click, find, } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -12,7 +11,6 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
   let assessment;
 
   beforeEach(function() {
-    defaultScenario(this.server);
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     const challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROC');
     server.create('answer', {

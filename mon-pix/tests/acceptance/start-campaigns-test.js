@@ -10,7 +10,6 @@ import {
   startCampaignByCodeAndExternalId
 } from '../helpers/campaign';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'ember-cli-mirage';
@@ -21,7 +20,6 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
   let campaign;
 
   beforeEach(function() {
-    defaultScenario(this.server);
     this.server.schema.students.create({
       firstName: 'JeanPrescrit',
       lastName: 'Campagne',

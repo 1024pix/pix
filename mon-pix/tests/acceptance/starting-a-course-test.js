@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 
 describe('Acceptance | Starting a course', function() {
   setupApplicationTest();
@@ -12,7 +11,6 @@ describe('Acceptance | Starting a course', function() {
   let demoCourse;
 
   beforeEach(async function() {
-    defaultScenario(this.server);
     server.createList('challenge', 3, 'forDemo');
     demoCourse = server.create('course', { nbChallenges: 3 });
   });

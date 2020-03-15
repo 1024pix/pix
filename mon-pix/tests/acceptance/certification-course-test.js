@@ -1,11 +1,10 @@
+import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { click, currentURL, find } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-mocha';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentification';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 import { fillCertificationJoiner, fillCertificationStarter } from '../helpers/certification';
 
 describe('Acceptance | Certification | Start Certification Course', function() {
@@ -13,10 +12,6 @@ describe('Acceptance | Certification | Start Certification Course', function() {
   setupMirage();
 
   let user;
-
-  beforeEach(function() {
-    defaultScenario(this.server);
-  });
 
   describe('Start a certification course', function() {
 

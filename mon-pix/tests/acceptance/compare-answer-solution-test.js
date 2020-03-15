@@ -3,7 +3,6 @@ import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Compare answers and solutions for QCM questions', function() {
@@ -12,7 +11,6 @@ describe('Compare answers and solutions for QCM questions', function() {
   let assessment;
 
   beforeEach(function() {
-    defaultScenario(this.server);
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     let challenge = server.create('challenge', 'forCompetenceEvaluation', 'QCU');
     server.create('answer', {

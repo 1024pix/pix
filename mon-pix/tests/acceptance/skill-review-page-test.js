@@ -3,7 +3,6 @@ import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentification';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -15,7 +14,6 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
   let campaignParticipation;
 
   beforeEach(function() {
-    defaultScenario(this.server);
     user = server.create('user', 'withEmail');
     campaign = server.create('campaign', { isArchived: false });
     campaignParticipation = server.create('campaign-participation', { campaign });

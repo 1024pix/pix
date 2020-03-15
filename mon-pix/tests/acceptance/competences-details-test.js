@@ -3,7 +3,6 @@ import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentification';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -15,7 +14,6 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
 
   beforeEach(function() {
     server = this.server;
-    defaultScenario(this.server);
     user = server.create('user', 'withEmail');
   });
 

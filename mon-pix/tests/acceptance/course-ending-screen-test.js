@@ -3,7 +3,6 @@ import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Course ending screen', function() {
@@ -14,7 +13,6 @@ describe('Acceptance | Course ending screen', function() {
   let secondChallenge;
 
   beforeEach(async function() {
-    defaultScenario(this.server);
     assessment = server.create('assessment', 'ofDemoType');
     firstChallenge = server.create('challenge', 'forDemo', 'QCU');
     server.create('answer', {

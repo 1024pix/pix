@@ -3,7 +3,6 @@ import { beforeEach, describe, it } from 'mocha';
 import { authenticateByEmail } from '../helpers/authentification';
 import { expect } from 'chai';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -14,7 +13,6 @@ describe('Acceptance | User certifications page', function() {
 
   beforeEach(function() {
     userWithNoCertificates = server.create('user', 'withEmail');
-    defaultScenario(this.server);
   });
 
   describe('Access to the user certifications page', function() {

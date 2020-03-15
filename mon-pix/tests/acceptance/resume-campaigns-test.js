@@ -14,7 +14,6 @@ import {
   resumeCampaignByCode
 } from '../helpers/campaign';
 import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
 import { invalidateSession } from 'ember-simple-auth/test-support';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -23,10 +22,6 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
   setupApplicationTest();
   setupMirage();
   let campaign;
-
-  beforeEach(function() {
-    defaultScenario(this.server);
-  });
 
   describe('Resume 1 campaign', function() {
     let studentInfo;
