@@ -195,9 +195,13 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
 
       it('should call the usecase getNextChallengeForCompetenceEvaluation', async () => {
+        const locale = 'fr';
         const request = {
           params: { id: 1 },
-          headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(userId),
+            'accept-language': locale
+          }
         };
         // when
         await assessmentController.getNextChallenge(request);
@@ -206,6 +210,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         expect(usecases.getNextChallengeForCompetenceEvaluation).to.have.been.calledWith({
           assessment,
           userId,
+          locale,
         });
       });
     });
