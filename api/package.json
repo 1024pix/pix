@@ -20,6 +20,7 @@
   "main": "server.js",
   "homepage": "https://github.com/1024pix/pix#readme",
   "dependencies": {
+    "@hapi/accept": "^5.0.1",
     "@hapi/hapi": "^18.4.1",
     "@hapi/inert": "^5.2.2",
     "@hapi/joi": "^16.1.8",
