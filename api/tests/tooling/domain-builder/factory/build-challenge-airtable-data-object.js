@@ -23,6 +23,7 @@ module.exports = function buildChallengeAirtableDataObject({
   embedHeight = 500,
   format = 'petit',
   illustrationAlt = 'texte alternatif à l\'image',
+  locale = 'fr',
 } = {}) {
 
   return {
@@ -47,5 +48,6 @@ module.exports = function buildChallengeAirtableDataObject({
     embedHeight,
     illustrationAlt,
     format,
+    locale,
   };
 };
