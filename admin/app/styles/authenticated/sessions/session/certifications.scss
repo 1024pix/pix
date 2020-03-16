@@ -1,0 +1,13 @@
+.certification-list-page {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  &--button__disabled {
+    opacity: 0.7;
+    cursor: not-allowed !important;
+    pointer-events: visible;
+  }
+}
