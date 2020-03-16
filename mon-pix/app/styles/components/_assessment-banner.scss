@@ -10,7 +10,7 @@
   min-height: 80px;
   max-width: 990px;
   width: 100%;
-  padding-right: 10px;
+  padding:0 10px;
 
   @include device-is('desktop') {
     min-height: 100px;
@@ -28,17 +28,8 @@
   }
 }
 
-.assessment-banner__pix-logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 70px;
-}
-
 .assessment-banner__pix-logo img {
-  position: relative;
-  top: 4px;
-  right: -8px;
+  height:47px;
 }
 
 .assessment-banner__splitter {
