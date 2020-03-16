@@ -1,12 +1,9 @@
 /* eslint-disable no-unused-vars */
 const { AssessmentEndedError, UserNotAuthorizedToAccessEntity } = require('../errors');
-const hashInt = require('hash-int');
-const UNEXISTING_ITEM = null;
 
 const smartRandom = require('../services/smart-random/smart-random');
 const dataFetcher = require('../services/smart-random/data-fetcher');
 
-// TODO: add locale parameter
 module.exports = async function getNextChallengeForCompetenceEvaluation({
   knowledgeElementRepository,
   challengeRepository,
@@ -15,6 +12,7 @@ module.exports = async function getNextChallengeForCompetenceEvaluation({
   pickChallengeService,
   assessment,
   userId,
+  locale
 }) {
 
   _checkIfAssessmentBelongsToUser(assessment, userId);
@@ -29,7 +27,11 @@ module.exports = async function getNextChallengeForCompetenceEvaluation({
     throw new AssessmentEndedError();
   }
 
-  return pickChallengeService.pickChallenge(possibleSkillsForNextChallenge, assessment.id);
+  return pickChallengeService.pickChallenge({
+    skills: possibleSkillsForNextChallenge,
+    randomSeed: assessment.id,
+    locale: locale
+  });
 };
 
 function _checkIfAssessmentBelongsToUser(assessment, userId) {
