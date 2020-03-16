@@ -28,6 +28,7 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
 }
 
 describe('Integration | Repository | Service | Campaign collective result repository', () => {
+  let expectedCampaignCollectiveResult;
   const competences = [];
 
   const rawCompetences = [
@@ -74,8 +75,6 @@ describe('Integration | Repository | Service | Campaign collective result reposi
         media1Id, media2Id, // comp. C
         algo1Id, algo2Id, // comp. D
         computer1Id; // comp. F
-
-      let expectedCampaignCollectiveResult;
 
       beforeEach(async () => {
 
@@ -264,7 +263,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
         it('should resolves a collective result synthesis with its results as collective’s ones', async () => {
           // given
-          const expectedResult = {
+          expectedCampaignCollectiveResult = {
             id: campaignId,
             campaignCompetenceCollectiveResults: [
               {
@@ -320,9 +319,9 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
-          expect(result.id).to.equal(expectedResult.id);
-          expect(result.campaignCompetenceCollectiveResults).to.deep.include.ordered.members(expectedResult.campaignCompetenceCollectiveResults);
-          expect(result.campaignCompetenceCollectiveResults).to.deep.equal(expectedResult.campaignCompetenceCollectiveResults);
+          expect(result.id).to.equal(expectedCampaignCollectiveResult.id);
+          expect(result.campaignCompetenceCollectiveResults).to.deep.include.ordered.members(expectedCampaignCollectiveResult.campaignCompetenceCollectiveResults);
+          expect(result.campaignCompetenceCollectiveResults).to.deep.equal(expectedCampaignCollectiveResult.campaignCompetenceCollectiveResults);
         });
       });
 
@@ -434,7 +433,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
         it('should return a correct aggregated synthesis of participants results', async () => {
           // given
-          const expectedResult = {
+          expectedCampaignCollectiveResult = {
             id: campaignId,
             campaignCompetenceCollectiveResults: [
               {
@@ -490,9 +489,9 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
-          expect(result.id).to.equal(expectedResult.id);
-          expect(result.campaignCompetenceCollectiveResults).to.deep.include.ordered.members(expectedResult.campaignCompetenceCollectiveResults);
-          expect(result.campaignCompetenceCollectiveResults).to.deep.equal(expectedResult.campaignCompetenceCollectiveResults);
+          expect(result.id).to.equal(expectedCampaignCollectiveResult.id);
+          expect(result.campaignCompetenceCollectiveResults).to.deep.include.ordered.members(expectedCampaignCollectiveResult.campaignCompetenceCollectiveResults);
+          expect(result.campaignCompetenceCollectiveResults).to.deep.equal(expectedCampaignCollectiveResult.campaignCompetenceCollectiveResults);
         });
       });
 
@@ -510,8 +509,6 @@ describe('Integration | Repository | Service | Campaign collective result reposi
         file2Id, file5Id, // tube 2
         algo1Id, // tube 3
         computer1Id; // tube 5
-
-      let expectedCampaignCollectiveResult;
 
       beforeEach(async () => {
         const areas = [airtableBuilder.factory.buildArea()];
@@ -696,7 +693,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
         it('should resolves a collective result synthesis with its results as collective’s ones', async () => {
           // given
-          const expectedResult = {
+          expectedCampaignCollectiveResult = {
             id: campaignId,
             campaignTubeCollectiveResults: [
               {
@@ -743,9 +740,9 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
-          expect(result.id).to.equal(expectedResult.id);
-          expect(result.campaignTubeCollectiveResults).to.deep.include.members(expectedResult.campaignTubeCollectiveResults);
-          expect(result.campaignTubeCollectiveResults).to.deep.equal(expectedResult.campaignTubeCollectiveResults);
+          expect(result.id).to.equal(expectedCampaignCollectiveResult.id);
+          expect(result.campaignTubeCollectiveResults).to.deep.include.members(expectedCampaignCollectiveResult.campaignTubeCollectiveResults);
+          expect(result.campaignTubeCollectiveResults).to.deep.equal(expectedCampaignCollectiveResult.campaignTubeCollectiveResults);
         });
       });
 
@@ -808,7 +805,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
         it('should return a correct aggregated synthesis of participants results', async () => {
           // given
-          const expectedResult = {
+          expectedCampaignCollectiveResult = {
             id: campaignId,
             campaignTubeCollectiveResults: [
               {
@@ -855,9 +852,9 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
           // then
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
-          expect(result.id).to.equal(expectedResult.id);
-          expect(result.campaignTubeCollectiveResults).to.deep.include.members(expectedResult.campaignTubeCollectiveResults);
-          expect(result.campaignTubeCollectiveResults).to.deep.equal(expectedResult.campaignTubeCollectiveResults);
+          expect(result.id).to.equal(expectedCampaignCollectiveResult.id);
+          expect(result.campaignTubeCollectiveResults).to.deep.include.members(expectedCampaignCollectiveResult.campaignTubeCollectiveResults);
+          expect(result.campaignTubeCollectiveResults).to.deep.equal(expectedCampaignCollectiveResult.campaignTubeCollectiveResults);
         });
       });
     });
