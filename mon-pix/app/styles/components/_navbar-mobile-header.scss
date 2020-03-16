@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 24px;
+    padding: 10px 24px;
     width: auto;
   }
 }
@@ -27,10 +27,11 @@
 .navbar-mobile-header-logo {
   &__marianne {
     > img {
-      margin-left: 8px;
-      width: 64px;
+      margin-left: 12px;
+      height:45px;
     }
   }
+
 }
 
 /* Pour faire en sorte que les pages entières et non réduites à leurs éléments */
