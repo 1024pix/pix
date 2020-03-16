@@ -146,6 +146,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
     describe('when the assessment is a smart placement assessment', () => {
 
+      const defaultLocale = 'fr-fr';
       const assessment = new Assessment({
         id: 1,
         courseId: 'courseId',
@@ -159,12 +160,13 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should call the usecase getNextChallengeForSmartPlacement with tryImproving at false when the query not exists', async () => {
         // when
-        await assessmentController.getNextChallenge({ params: { id: 1 }, query: { } });
+        await assessmentController.getNextChallenge({ params: { id: 1 }, query: {} });
 
         // then
         expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
           assessment,
-          tryImproving: false
+          tryImproving: false,
+          locale: defaultLocale,
         });
       });
 
@@ -175,7 +177,28 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         // then
         expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
           assessment,
-          tryImproving: true
+          tryImproving: true,
+          locale: defaultLocale,
+        });
+      });
+
+      it('should call the usecase getNextChallengeForSmartPlacement with the locale', async () => {
+        // given
+        const locale = 'fr';
+
+        // when
+        await assessmentController.getNextChallenge({
+          params: { id: 1 }, query: { tryImproving: true },
+          headers: {
+            'accept-language': locale
+          }
+        });
+
+        // then
+        expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
+          assessment,
+          tryImproving: true,
+          locale,
         });
       });
     });
@@ -215,4 +238,5 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
     });
   });
-});
+})
+;
