@@ -1,0 +1,94 @@
+<div class="session-info">
+  <div class="session-info__details">
+      <div class='row'>
+          <div class='col'>Centre :</div>
+          <div class='col'>{{this.session.certificationCenter}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Adresse :</div>
+          <div class='col'>{{this.session.address}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Pièce :</div>
+          <div class='col'>{{this.session.room}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Surveillant :</div>
+          <div class='col'>{{this.session.examiner}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Date :</div>
+          <div class='col'>{{moment-format this.session.date 'DD/MM/YYYY'}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Heure :</div>
+          <div class='col'>{{this.session.time}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Description :</div>
+          <div class='col'>{{this.session.description}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Code d'accès :</div>
+          <div class='col'>{{this.session.accessCode}}</div>
+      </div>
+      <div class='row'>
+          <div class='col'>Statut :</div>
+          <div class='col'>{{sessionStatusLabel}}</div>
+      </div>
+
+      {{#if this.session.isFinalized}}
+      <div class='row'>
+          <div class='col'>Date de finalisation :</div>
+          <div class='col'>{{this.session.displayFinalizationDate}}</div>
+      </div>
+        {{#if this.session.resultsSentToPrescriberAt}}
+        <div class='row'>
+            <div class='col'>Date d'envoi des résultats au prescripteur :</div>
+            <div class='col'>{{this.session.displayResultsSentToPrescriberDate}}</div>
+        </div>
+        {{/if}}
+      {{/if}}
+  </div>
+
+  {{#if this.session.isFinalized}}
+  <div class="session-info__stats">
+    <div class='row'>
+        <div class='col'>Nombre de signalements :</div>
+        <div class='col' data-test-id="session-info__number-of-report">{{this.session.countExaminerComment}}</div>
+    </div>
+    <div class='row'>
+        <div class='col'>Nombre d'écrans de fin de test non renseignés :</div>
+        <div class='col' data-test-id="session-info__number-of-not-checked-end-screen">{{this.session.countNotCheckedEndScreen}}</div>
+    </div>
+    <div class='row'>
+        <div class='col'>Nombre de certifications non terminées :</div>
+        <div class='col' data-test-id="session-info__number-of-not-ended-certifications">{{this.session.countNonValidatedCertifications}}</div>
+    </div>
+    {{#if this.session.hasExaminerGlobalComment}}
+    <div class='row'>
+        <div class='col'>Commentaire global :</div>
+        <div class='col'>{{this.session.examinerGlobalComment}}</div>
+    </div>
+    {{/if}}
+  </div>
+  {{/if}}
+
+  <div class="session-info__actions">
+    <div class='row row--btn'>
+        <button class="btn btn-primary" {{action "downloadBeforeJuryFile"}} type="button">
+          Récupérer le fichier avant jury
+        </button>
+
+        <button class="btn btn-primary btn--right" {{action "downloadSessionResultFile"}} type="button">
+          Exporter les résultats
+        </button>
+
+      {{#if this.session.areResultsToBeSentToPrescriber}}
+      <button class="btn btn-primary" {{action "tagSessionAsSentToPrescriber"}} type="button">
+        Résultats transmis au prescripteur
+      </button>
+      {{/if}}
+    </div>
+  </div>
+</div>
