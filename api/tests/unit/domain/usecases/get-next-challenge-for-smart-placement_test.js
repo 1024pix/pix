@@ -12,7 +12,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       knowledgeElementRepository, recentKnowledgeElements,
       targetProfileRepository, targetProfile, skills, actualNextChallenge,
       improvementService, pickChallengeService,
-      challengeWeb21, challengeWeb22;
+      challengeWeb21, challengeWeb22, possibleSkillsForNextChallenge, locale;
 
     beforeEach(async () => {
 
@@ -44,9 +44,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       const search2 = domainBuilder.buildSkill({ name: '@search2' });
       search2.challenges = [domainBuilder.buildChallenge({ id: 'challenge_search2_1' }), domainBuilder.buildChallenge({ id: 'challenge_search2_2' })];
 
+      locale = 'fr';
+      possibleSkillsForNextChallenge = [web2, url2, search2];
+
       sinon.stub(smartRandom, 'getPossibleSkillsForNextChallenge').returns({
         hasAssessmentEnded: false,
-        possibleSkillsForNextChallenge: [web2, url2, search2],
+        possibleSkillsForNextChallenge,
       });
 
       actualNextChallenge = await getNextChallengeForSmartPlacement({
@@ -57,7 +60,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
         targetProfileRepository,
         improvementService,
         pickChallengeService,
-        tryImproving: true
+        tryImproving: true,
+        locale,
       });
     });
 
@@ -99,6 +103,14 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
 
     it('should have returned the next challenge', () => {
       expect(actualNextChallenge.id).to.equal(challengeWeb22.id);
+    });
+
+    it('should have pick challenge with skills, randomSeed and locale', () => {
+      expect(pickChallengeService.pickChallenge).to.have.been.calledWithExactly({
+        skills: possibleSkillsForNextChallenge,
+        randomSeed: assessmentId,
+        locale,
+      });
     });
   });
 

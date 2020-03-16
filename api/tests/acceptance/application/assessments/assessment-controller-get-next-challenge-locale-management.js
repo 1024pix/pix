@@ -6,29 +6,9 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 
 const competenceId = 'recCompetence';
 
-const skillWeb1Id = 'recAcquisWeb1';
-const skillWeb1Name = '@web1';
-const skillWeb1 = airtableBuilder.factory.buildSkill({
-  id: skillWeb1Id,
-  nom: skillWeb1Name,
-  compétenceViaTube: [competenceId],
-});
-
-const skillWeb2Id = 'recAcquisWeb2';
-const skillWeb2Name = '@web2';
-const skillWeb2 = airtableBuilder.factory.buildSkill({
-  id: skillWeb2Id,
-  nom: skillWeb2Name,
-  compétenceViaTube: [competenceId],
-});
-
-const skillWeb3Id = 'recAcquisWeb3';
-const skillWeb3Name = '@web3';
-const skillWeb3 = airtableBuilder.factory.buildSkill({
-  id: skillWeb3Id,
-  nom: skillWeb3Name,
-  compétenceViaTube: [competenceId],
-});
+const skillWeb1 = airtableBuilder.factory.buildSkill({ compétenceViaTube: [competenceId] });
+const skillWeb2 = airtableBuilder.factory.buildSkill({ compétenceViaTube: [competenceId] });
+const skillWeb3 = airtableBuilder.factory.buildSkill({ compétenceViaTube: [competenceId] });
 
 const competenceReference = '1.1 Mener une recherche et une veille d’information';
 const competence = airtableBuilder.factory.buildCompetence({
@@ -36,12 +16,12 @@ const competence = airtableBuilder.factory.buildCompetence({
   epreuves: [],
   titre: 'Mener une recherche et une veille d’information',
   tests: [],
-  acquisIdentifiants: [skillWeb1Id],
+  acquisIdentifiants: [skillWeb1.id],
   tubes: [],
-  acquisViaTubes: [skillWeb1Id],
+  acquisViaTubes: [skillWeb1.id],
   reference: competenceReference,
   testsRecordID: [],
-  acquis: [skillWeb1Name],
+  acquis: [skillWeb1.name],
 });
 
 const frenchCallengeId = 'recFrenchChallengeId';
@@ -50,8 +30,8 @@ const frenchChallenge = airtableBuilder.factory.buildChallenge.untimed({
   tests: [],
   competences: [competenceId],
   statut: 'validé',
-  acquix: [skillWeb2Id],
-  acquis: [skillWeb2Name],
+  acquix: [skillWeb2.id],
+  acquis: [skillWeb2.name],
   langue: 'Franco Français',
 });
 
@@ -61,8 +41,8 @@ const frenchSpokenChallenge = airtableBuilder.factory.buildChallenge.untimed({
   tests: [],
   competences: [competenceId],
   statut: 'validé',
-  acquix: [skillWeb2Id],
-  acquis: [skillWeb2Name],
+  acquix: [skillWeb2.id],
+  acquis: [skillWeb2.name],
   langue: 'Francophone',
 });
 
@@ -95,79 +75,81 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
 
     const assessmentId = 1;
     const userId = 1234;
+    context('when assessment is a competence evaluation', () => {
 
-    context('when there is one challenge in the accepted language (fr)', () => {
-      beforeEach(async () => {
-        airtableBuilder.mockList({ tableName: 'Epreuves' })
-          .returns([frenchSpokenChallenge, frenchChallenge])
-          .activate();
+      context('when there is one challenge in the accepted language (fr)', () => {
+        beforeEach(async () => {
+          airtableBuilder.mockList({ tableName: 'Epreuves' })
+            .returns([frenchSpokenChallenge, frenchChallenge])
+            .activate();
 
-        databaseBuilder.factory.buildUser({ id: userId });
-        databaseBuilder.factory.buildAssessment({
-          id: assessmentId,
-          type: Assessment.types.COMPETENCE_EVALUATION,
-          userId,
-          competenceId
+          databaseBuilder.factory.buildUser({ id: userId });
+          databaseBuilder.factory.buildAssessment({
+            id: assessmentId,
+            type: Assessment.types.COMPETENCE_EVALUATION,
+            userId,
+            competenceId
+          });
+          databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
+          await databaseBuilder.commit();
         });
-        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
-        await databaseBuilder.commit();
+
+        it('should return the challenge in the accepted language (fr-fr)', () => {
+          // given
+          const options = {
+            method: 'GET',
+            url: `/api/assessments/${assessmentId}/next`,
+            headers: {
+              authorization: generateValidRequestAuthorizationHeader(userId),
+              'accept-language': 'fr-fr'
+            }
+          };
+
+          // when
+          const promise = server.inject(options);
+
+          // then
+          return promise.then((response) => {
+            expect(response.result.data.id).to.equal(frenchChallenge.id);
+          });
+        });
       });
 
-      it('should return the challenge in the accepted language (fr-fr)', () => {
-        // given
-        const options = {
-          method: 'GET',
-          url: `/api/assessments/${assessmentId}/next`,
-          headers: {
-            authorization: generateValidRequestAuthorizationHeader(userId),
-            'accept-language': 'fr-fr'
-          }
-        };
+      context('when there is no challenge in the accepted language (fr-fr)', () => {
+        beforeEach(async () => {
+          airtableBuilder.mockList({ tableName: 'Epreuves' })
+            .returns([frenchSpokenChallenge])
+            .activate();
 
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.result.data.id).to.equal(frenchChallenge.id);
+          databaseBuilder.factory.buildUser({ id: userId });
+          databaseBuilder.factory.buildAssessment({
+            id: assessmentId,
+            type: Assessment.types.COMPETENCE_EVALUATION,
+            userId,
+            competenceId
+          });
+          databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
+          await databaseBuilder.commit();
         });
-      });
-    });
 
-    context('when there is no challenge in the accepted language (fr-fr)', () => {
-      beforeEach(async () => {
-        airtableBuilder.mockList({ tableName: 'Epreuves' })
-          .returns([frenchSpokenChallenge])
-          .activate();
+        it('should return the challenge in the fallback language (fr)', () => {
+          // given
+          const options = {
+            method: 'GET',
+            url: `/api/assessments/${assessmentId}/next`,
+            headers: {
+              authorization: generateValidRequestAuthorizationHeader(userId),
+              'accept-language': 'fr-fr'
+            }
+          };
 
-        databaseBuilder.factory.buildUser({ id: userId });
-        databaseBuilder.factory.buildAssessment({
-          id: assessmentId,
-          type: Assessment.types.COMPETENCE_EVALUATION,
-          userId,
-          competenceId
-        });
-        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
-        await databaseBuilder.commit();
-      });
+          // when
+          const promise = server.inject(options);
 
-      it('should return the challenge in the fallback language (fr)', () => {
-        // given
-        const options = {
-          method: 'GET',
-          url: `/api/assessments/${assessmentId}/next`,
-          headers: {
-            authorization: generateValidRequestAuthorizationHeader(userId),
-            'accept-language': 'fr-fr'
-          }
-        };
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.result.data.id).to.equal(frenchSpokenChallenge.id);
+          // then
+          return promise.then((response) => {
+            expect(response.result.data.id).to.equal(frenchSpokenChallenge.id);
+          });
         });
       });
     });

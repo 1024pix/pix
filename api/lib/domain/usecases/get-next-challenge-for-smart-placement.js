@@ -11,7 +11,8 @@ module.exports = async function getNextChallengeForSmartPlacement({
   improvementService,
   assessment,
   pickChallengeService,
-  tryImproving
+  tryImproving,
+  locale,
 }) {
   if (tryImproving) {
     assessment.isImproving = true;
@@ -28,6 +29,10 @@ module.exports = async function getNextChallengeForSmartPlacement({
     throw new AssessmentEndedError();
   }
 
-  return pickChallengeService.pickChallenge(possibleSkillsForNextChallenge, assessment.id);
+  return pickChallengeService.pickChallenge({
+    skills: possibleSkillsForNextChallenge,
+    randomSeed: assessment.id,
+    locale
+  });
 };
 

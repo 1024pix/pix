@@ -111,10 +111,7 @@ async function _getChallenge(assessment, request) {
 
   if (assessment.isSmartPlacement()) {
     const tryImproving = Boolean(request.query.tryImproving);
-    return usecases.getNextChallengeForSmartPlacement({
-      assessment,
-      tryImproving
-    });
+    return usecases.getNextChallengeForSmartPlacement({ assessment, tryImproving, locale });
   }
 
   if (assessment.isCompetenceEvaluation()) {
