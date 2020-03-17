@@ -24,6 +24,7 @@ describe('Unit | Serializer | organization-serializer', () => {
             'external-id': organization.externalId,
             'province-code': organization.provinceCode,
             'is-managing-students': organization.isManagingStudents,
+            'credit': organization.credit,
           },
           relationships: {
             memberships: {

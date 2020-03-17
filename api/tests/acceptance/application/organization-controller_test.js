@@ -516,7 +516,15 @@ describe('Acceptance | Application | organization-controller', () => {
 
       beforeEach(async () => {
         const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
-        organization = databaseBuilder.factory.buildOrganization();
+        organization = databaseBuilder.factory.buildOrganization({
+          type: 'SCO',
+          name: 'Organization catalina',
+          logoUrl: 'some logo url',
+          externalId: 'ABC123',
+          provinceCode: '45',
+          isManagingStudents: true,
+          credit: 666,
+        });
 
         await databaseBuilder.commit();
 
@@ -539,6 +547,7 @@ describe('Acceptance | Application | organization-controller', () => {
               'external-id': organization.externalId,
               'province-code': organization.provinceCode,
               'is-managing-students': organization.isManagingStudents,
+              'credit': organization.credit,
             },
             'id': organization.id.toString(),
             'relationships': {

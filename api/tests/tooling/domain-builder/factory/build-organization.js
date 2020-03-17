@@ -35,11 +35,12 @@ function buildOrganization(
     externalId = 'OrganizationIdLinksToExternalSource',
     provinceCode = '2A',
     isManagingStudents = false,
+    credit = 500,
     createdAt = new Date('2018-01-12T01:02:03Z'),
     memberships = [],
     targetProfileShares = []
   } = {}) {
-  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, createdAt, memberships, targetProfileShares });
+  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, createdAt, memberships, targetProfileShares });
 }
 
 buildOrganization.withMembers = function(
@@ -51,6 +52,7 @@ buildOrganization.withMembers = function(
     externalId = 'OrganizationIdLinksToExternalSource',
     provinceCode = '2A',
     isManagingStudents = false,
+    credit = 500,
     createdAt = new Date('2018-01-12T01:02:03Z'),
     members = [
       _buildMember({ id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' }),
@@ -58,7 +60,7 @@ buildOrganization.withMembers = function(
     ]
   } = {}
 ) {
-  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, createdAt, members });
+  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, createdAt, members });
 };
 
 buildOrganization.withStudents = function(
@@ -70,11 +72,12 @@ buildOrganization.withStudents = function(
     externalId = 'OrganizationIdLinksToExternalSource',
     provinceCode = '2A',
     isManagingStudents = true,
+    credit = 500,
     createdAt = new Date('2018-01-12T01:02:03Z'),
     students = []
   } = {}
 ) {
-  const organization = new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, createdAt, students });
+  const organization = new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, createdAt, students });
 
   organization.students = [
     _buildStudent({ id: 1, lastName: 'Doe', firstName: 'John', organization }),
