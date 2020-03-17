@@ -29,11 +29,6 @@ describe('Integration | Repository | Certification ', () => {
     } = databaseBuilder.factory.buildCertificationCenter({ name: 'Certif College' });
     session = databaseBuilder.factory.buildSession({ certificationCenterId, certificationCenter });
     certificationCourse = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id, isPublished: true });
-    databaseBuilder.factory.buildAssessment({
-      certificationCourseId: certificationCourse.id,
-      userId,
-      state: Assessment.states.STARTED,
-    });
     const {
       id: assessmentId,
       state: assessmentState,
