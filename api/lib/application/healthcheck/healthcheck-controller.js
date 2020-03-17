@@ -1,6 +1,7 @@
+const Boom = require('boom');
 const packageJSON = require('../../../package.json');
 const settings = require('../../config');
-const Boom = require('boom');
+const redisMonitor = require('../../infrastructure/utils/redis-monitor');
 const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
@@ -22,6 +23,15 @@ module.exports = {
       return { message: 'Connection to database ok' };
     } catch (err) {
       throw Boom.serverUnavailable('Connection to database failed');
+    }
+  },
+
+  async checkRedisStatus() {
+    try {
+      await redisMonitor.ping();
+      return { message: 'Connection to Redis ok' };
+    } catch (err) {
+      throw Boom.serverUnavailable('Connection to Redis failed');
     }
   },
 
