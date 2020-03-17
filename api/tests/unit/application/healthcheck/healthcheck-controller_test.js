@@ -1,5 +1,5 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
-const healthcheckRepository = require('../../../../lib/infrastructure/repositories/healthcheck-repository');
+const { knex } = require('../../../../db/knex-database-connection');
 
 const healthcheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
 
@@ -21,12 +21,12 @@ describe('Unit | Controller | healthcheckController', () => {
   describe('#checkDbStatus', () => {
 
     beforeEach(() => {
-      sinon.stub(healthcheckRepository, 'check');
+      sinon.stub(knex, 'raw');
     });
 
     it('should check if DB connection is successful', async () => {
       // given
-      healthcheckRepository.check.resolves();
+      knex.raw.resolves();
 
       // when
       const response = await healthcheckController.checkDbStatus();
@@ -36,9 +36,9 @@ describe('Unit | Controller | healthcheckController', () => {
       expect(response['message']).to.equal('Connection to database ok');
     });
 
-    it('should reply with a 503 error when the connection with the database is KO', async () => {
+    it('should reply with a 503 error when the connection with the database is KO', () => {
       // given
-      healthcheckRepository.check.rejects();
+      knex.raw.rejects();
 
       // when
       const promise = healthcheckController.checkDbStatus(null, hFake);
