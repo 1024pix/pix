@@ -35,4 +35,26 @@ describe('Unit | Route | subscribers', function() {
     // Then
     expect(applicationAdapter.headers['Authorization']).to.be.undefined;
   });
+
+  it('should add Accept-Language header set to fr-fr when the current domain contains pix.fr', function() {
+    // Given
+    const applicationAdapter = this.owner.lookup('adapter:application');
+
+    // When
+    applicationAdapter.set('currentDomain', { getExtension() { return 'fr'; } });
+
+    // Then
+    expect(applicationAdapter.headers['Accept-Language']).to.equal('fr-fr');
+  });
+
+  it('should add Accept-Language header set to fr-fr when the current domain contains pix.digital', function() {
+    // Given
+    const applicationAdapter = this.owner.lookup('adapter:application');
+
+    // When
+    applicationAdapter.set('currentDomain', { getExtension() { return 'digital'; } });
+
+    // Then
+    expect(applicationAdapter.headers['Accept-Language']).to.equal('fr');
+  });
 });
