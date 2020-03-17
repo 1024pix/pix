@@ -111,7 +111,12 @@ describe('Integration | Repository | Organization', function() {
       let insertedOrganization;
 
       beforeEach(async () => {
-        insertedOrganization = databaseBuilder.factory.buildOrganization();
+        insertedOrganization = databaseBuilder.factory.buildOrganization({
+          type: 'SCO',
+          name: 'Organization of the dark side',
+          logoUrl: 'some logo url',
+          credit: 154,
+        });
         await databaseBuilder.commit();
       });
 
@@ -125,6 +130,7 @@ describe('Integration | Repository | Organization', function() {
         expect(foundOrganization.name).to.equal(insertedOrganization.name);
         expect(foundOrganization.logoUrl).to.equal(insertedOrganization.logoUrl);
         expect(foundOrganization.id).to.equal(insertedOrganization.id);
+        expect(foundOrganization.credit).to.equal(insertedOrganization.credit);
       });
 
       it('should return a rejection when organization id is not found', function() {

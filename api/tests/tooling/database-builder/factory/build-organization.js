@@ -9,6 +9,7 @@ const buildOrganization = function buildOrganization({
   externalId = faker.lorem.word().toUpperCase(),
   provinceCode = faker.random.alphaNumeric(3),
   isManagingStudents = false,
+  credit = 500,
   createdAt = faker.date.recent(),
   updatedAt = faker.date.recent(),
 } = {}) {
@@ -18,11 +19,12 @@ const buildOrganization = function buildOrganization({
     type,
     name,
     logoUrl,
-    createdAt,
     externalId,
     provinceCode,
     isManagingStudents,
-    updatedAt
+    credit,
+    createdAt,
+    updatedAt,
   };
 
   return databaseBuffer.pushInsertable({
