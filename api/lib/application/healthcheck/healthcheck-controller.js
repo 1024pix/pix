@@ -16,7 +16,7 @@ module.exports = {
     };
   },
 
-  getDbStatus() {
+  checkDbStatus() {
     return healthcheckRepository.check()
       .then(() => ({ message: 'Connection to database ok' }))
       .catch(() => {

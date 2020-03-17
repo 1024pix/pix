@@ -18,7 +18,7 @@ describe('Unit | Controller | healthcheckController', () => {
     });
   });
 
-  describe('#getDbStatus', () => {
+  describe('#checkDbStatus', () => {
 
     beforeEach(() => {
       sinon.stub(healthcheckRepository, 'check');
@@ -29,7 +29,7 @@ describe('Unit | Controller | healthcheckController', () => {
       healthcheckRepository.check.resolves();
 
       // when
-      const response = await healthcheckController.getDbStatus();
+      const response = await healthcheckController.checkDbStatus();
 
       // then
       expect(response).to.include.keys('message');
@@ -41,7 +41,7 @@ describe('Unit | Controller | healthcheckController', () => {
       healthcheckRepository.check.rejects();
 
       // when
-      const promise = healthcheckController.getDbStatus(null, hFake);
+      const promise = healthcheckController.checkDbStatus(null, hFake);
 
       // then
       expect(promise).to.be.rejectedWith(/Connection to database failed/);
