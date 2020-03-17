@@ -10,7 +10,6 @@ describe('Integration | Repository | Certification ', () => {
   let userId;
   let session;
   let certificationCourse;
-  let incompleteCertificationCourse;
   let certificationCourseWithoutDate;
   let expectedCertification;
   let expectedCertificationWithoutDate;
@@ -36,7 +35,6 @@ describe('Integration | Repository | Certification ', () => {
       certificationCourseId: certificationCourse.id,
       userId,
       type,
-      state: Assessment.states.COMPLETED,
     });
     const {
       pixScore,
@@ -58,13 +56,6 @@ describe('Integration | Repository | Certification ', () => {
       commentForCandidate,
       userId,
     });
-    incompleteCertificationCourse = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id, isPublished: true });
-    databaseBuilder.factory.buildAssessment({
-      certificationCourseId: incompleteCertificationCourse.id,
-      userId,
-      type,
-      state: Assessment.states.STARTED,
-    });
     certificationCourseWithoutDate = databaseBuilder.factory.buildCertificationCourse({
       userId,
       birthdate: null,
@@ -80,7 +71,6 @@ describe('Integration | Repository | Certification ', () => {
       certificationCourseId: certificationCourseWithoutDate.id,
       userId,
       type,
-      state: Assessment.states.COMPLETED,
     });
     const {
       pixScore: pixScoreNoDate,
@@ -123,8 +113,7 @@ describe('Integration | Repository | Certification ', () => {
     await knex('assessment-results').delete();
     await knex('assessments').delete();
     await knex('certification-courses').delete();
-    await knex('sessions').delete();
-    return;
+    return knex('sessions').delete();
   });
 
   describe('#getByCertificationCourseId', () => {
@@ -152,19 +141,11 @@ describe('Integration | Repository | Certification ', () => {
       // then
       expect(result).to.be.instanceOf(NotFoundError);
     });
-
-    it('should return a not found error when certification does not reference a completed assessment', async () => {
-      // when
-      const result = await catchErr(certificationRepository.getByCertificationCourseId)({ id: incompleteCertificationCourse.id });
-
-      // then
-      expect(result).to.be.instanceOf(NotFoundError);
-    });
   });
 
   describe('#findByUserId', () => {
 
-    it('should return an array of Certifications related to completed assessment with needed informations', async () => {
+    it('should return an array of Certifications with needed informations', async () => {
       // when
       const certifications = await certificationRepository.findByUserId(userId);
 
