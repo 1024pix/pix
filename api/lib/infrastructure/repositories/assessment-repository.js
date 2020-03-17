@@ -109,15 +109,6 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
-  // TODO: maybe obsolete after v1 be finished
-  hasCampaignOrCompetenceEvaluation(userId) {
-    return BookshelfAssessment
-      .where({ userId })
-      .where('type', 'IN', ['SMART_PLACEMENT', 'COMPETENCE_EVALUATION'])
-      .fetchAll()
-      .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.length > 0);
-  },
-
   completeByAssessmentId(assessmentId) {
     return this.updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED });
   },
