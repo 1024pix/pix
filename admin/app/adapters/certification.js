@@ -1,17 +1,18 @@
 import ApplicationAdapter from './application';
 
-export default ApplicationAdapter.extend({
+export default class Certification extends ApplicationAdapter {
+
   urlForFindRecord(id) {
     return `${this.host}/${this.namespace}/admin/certifications/${id}`;
-  },
+  }
 
   urlForUpdateMarks() {
     return `${this.host}/${this.namespace}/admin/assessment-results/`;
-  },
+  }
 
   urlForUpdateRecord(id) {
     return `${this.host}/${this.namespace}/certification-courses/${id}`;
-  },
+  }
 
   updateRecord(store, type, snapshot) {
     const data = {};
@@ -26,13 +27,13 @@ export default ApplicationAdapter.extend({
       serializer.serializeIntoHash(data, type, snapshot, { includeId: true, onlyInformation: true });
       return this.ajax(this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord'), 'PATCH', { data: data });
     }
-  },
+  }
 
   ajaxOptions(url, type) {
-    const hash = this._super(...arguments);
+    const hash = super.ajaxOptions(...arguments);
     if (type === 'POST') {
       hash.dataType = '*';
     }
     return hash;
   }
-});
+}

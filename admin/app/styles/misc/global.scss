@@ -1,11 +1,11 @@
 html, body {
   height: 100%;
   width: 100%;
+  font-size: 16px;
 }
 
 html {
   font-family: 'Open Sans', Arial, sans-serif;
-  font-size: 15px;
   color: $grey-90;
 }
 
@@ -24,4 +24,8 @@ figure.work-in-progress {
   img {
     width: 100px;
   }
+}
+
+input:invalid {
+  box-shadow: none;
 }

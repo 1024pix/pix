@@ -1,33 +1,30 @@
-import Controller from '@ember/controller';
-import { inject as service } from '@ember/service';
-import ENV from 'pix-admin/config/environment';
-import { computed } from '@ember/object';
-import EmberObject from '@ember/object';
 import _ from 'lodash';
 
-export default Controller.extend({
+import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import Controller from '@ember/controller';
+import EmberObject, { action, computed } from '@ember/object';
 
-  session: service(),
-  sessionInfoService: service(),
-  notifications: service('notification-messages'),
+import ENV from 'pix-admin/config/environment';
 
-  displayConfirm: false,
-  displaySessionReport: false,
-  confirmMessage: null,
-  certificationsInSessionReport: null,
+export default class ListController extends Controller {
 
-  init() {
-    this._super();
-    this.selected = [];
-    this.set('certificationsInSessionReport', []);
-  },
+  @service session;
+  @service sessionInfoService;
+  @service notifications;
 
-  canPublish: computed('model.certifications.@each.status', function() {
+  displayConfirm = false;
+  @tracked displaySessionReport = false;
+  confirmMessage = null;
+  @tracked certificationsInSessionReport = [];
+
+  @computed('model.certifications.@each.status')
+  get canPublish() {
     return !(_.some(
       this.model.certifications.toArray(),
       (certif) => ['error', 'started'].includes(certif.status)
     ));
-  }),
+  }
 
   _extractCertificationsFromSessionReportData(sessionReportData) {
     const certificationsIdsInSession = this.model.certifications.mapBy('id');
@@ -46,116 +43,125 @@ export default Controller.extend({
         isInSession: _.includes(certificationsIdsInSession, certificationFromReport.certificationId),
       });
     });
-  },
+  }
 
   _rollbackCertificationsModifications() {
-    const certifications = this.model.get('certifications').toArray();
+    const certifications = this.model.certifications.toArray();
     certifications.forEach((certification) => {
       certification.rollbackAttributes();
     });
-  },
+  }
 
   _parseSessionReportData(file) {
-    const { access_token } = this.get('session.data.authenticated');
+    const { access_token } = this.session.data.authenticated;
     const url = (`${ENV.APP.API_HOST}/${ENV.APP.ODS_PARSING_URL}`).replace('session_id', this.model.id);
     return file.upload(url, {
       headers: { Authorization: `Bearer ${access_token}` },
       method: 'PUT',
     });
-  },
+  }
 
   _updateSessionCertificationsWithCertificationsFromSessionReport() {
-    const sessionCertifications = this.model.get('certifications').toArray();
+    const sessionCertifications = this.model.certifications.toArray();
     _.each(this.certificationsInSessionReport, (certificationInReport) => {
       if (certificationInReport.isInSession) {
         const existingCertification = _.find(sessionCertifications, { 'id': certificationInReport.id });
         existingCertification.updateUsingCertificationInReport(certificationInReport);
       }
     });
-  },
+  }
 
-  actions: {
+  @action
+  onCloseSessionReportAnalysis() {
+    this.certificationsInSessionReport = [];
+    this.displaySessionReport = false;
+  }
 
-    onCloseSessionReportAnalysis() {
-      this.set('certificationsInSessionReport', []);
-      this.set('displaySessionReport', false);
-    },
+  @action
+  async onDisplaySessionReportAnalysis(file) {
+    try {
+      const { body: sessionReportData } = await this._parseSessionReportData(file);
+      const certifications = this._extractCertificationsFromSessionReportData(sessionReportData);
+      this.certificationsInSessionReport = certifications;
+      this.displaySessionReport = true;
+    }
+    catch (err) {
+      this.notifications.error(err);
+    }
+  }
 
-    async onDisplaySessionReportAnalysis(file) {
-      try {
-        const { body: sessionReportData } = await this._parseSessionReportData(file);
-        const certifications = this._extractCertificationsFromSessionReportData(sessionReportData);
-        this.set('certificationsInSessionReport', certifications);
-        this.set('displaySessionReport', true);
-      }
-      catch (err) {
-        this.notifications.error(err);
-      }
-    },
+  @action
+  async onUpdateSessionCertificationsWithReportData() {
+    try {
+      this._updateSessionCertificationsWithCertificationsFromSessionReport();
+      const certificationsToSave = this.model.certifications.filter((certification) => {
+        return certification.hasDirtyAttributes;
+      });
+      await Promise.all(certificationsToSave.map((certification) => {
+        return certification.save({ adapterOptions: { updateMarks: false } });
+      }));
+    } catch (err) {
+      this._rollbackCertificationsModifications();
+      this.notifications.error(err);
+    } finally {
+      this.certificationsInSessionReport = [];
+      this.displaySessionReport = false;
+    }
+  }
 
-    async onUpdateSessionCertificationsWithReportData() {
-      try {
-        this._updateSessionCertificationsWithCertificationsFromSessionReport();
-        const certificationsToSave = this.model.get('certifications').filter((certification) => {
-          return certification.hasDirtyAttributes;
-        });
-        await Promise.all(certificationsToSave.map((certification) => {
-          return certification.save({ adapterOptions: { updateMarks: false } });
-        }));
-      } catch (err) {
-        this._rollbackCertificationsModifications();
-        this.notifications.error(err);
-      } finally {
-        this.set('certificationsInSessionReport', []);
-        this.set('displaySessionReport', false);
-      }
-    },
+  @action
+  onDownloadJuryFile() {
+    try {
+      this._updateSessionCertificationsWithCertificationsFromSessionReport();
+      this.sessionInfoService.downloadJuryFile(this.model.id, this.model.certifications);
+      this._rollbackCertificationsModifications();
+    } catch (error) {
+      this.notifications.error(error);
+    }
+  }
 
-    onDownloadJuryFile() {
-      try {
-        this._updateSessionCertificationsWithCertificationsFromSessionReport();
-        this.sessionInfoService.downloadJuryFile(this.model.id, this.model.certifications);
-        this._rollbackCertificationsModifications();
-      } catch (error) {
-        this.notifications.error(error);
-      }
-    },
+  @action
+  downloadSessionResultFile() {
+    try {
+      this.sessionInfoService.downloadSessionExportFile(this.model);
+    } catch (error) {
+      this.notifications.error(error);
+    }
+  }
 
-    downloadSessionResultFile() {
-      try {
-        this.sessionInfoService.downloadSessionExportFile(this.model);
-      } catch (error) {
-        this.notifications.error(error);
-      }
-    },
+  @action
+  displayCertificationStatusUpdateConfirmationModal() {
+    const sessionIsPublished = this.model.isPublished;
 
-    displayCertificationStatusUpdateConfirmationModal() {
-      const sessionIsPublished = this.model.isPublished;
-      if (!this.canPublish && !sessionIsPublished) return;
-      const text = sessionIsPublished 
-        ? 'Souhaitez-vous dépublier la session ?'
-        : 'Souhaitez-vous publier la session ?';
-      this.set('confirmMessage', text);
-      this.set('displayConfirm', true);
-    },
+    if (!this.canPublish && !sessionIsPublished) return;
 
-    async toggleSessionPublication() {
-      const toPublish = !this.model.isPublished;
-      const successText = toPublish
-        ? 'Les certifications ont été correctement publiées.'
-        : 'Les certifications ont été correctement dépubliées.';
-      try {
-        await this.model.save({ adapterOptions: { updatePublishedCertifications: true, toPublish } });
-        this.model.certifications.reload();
-        this.notifications.success(successText);
-      } catch (error) {
-        this.notifications.error(error);
-      }
-      this.set('displayConfirm', false);
-    },
+    const text = sessionIsPublished
+      ? 'Souhaitez-vous dépublier la session ?'
+      : 'Souhaitez-vous publier la session ?';
 
-    onCancelConfirm() {
-      this.set('displayConfirm', false);
-    },
-  },
-});
+    this.confirmMessage = text;
+    this.displayConfirm = true;
+  }
+
+  @action
+  async toggleSessionPublication() {
+    const toPublish = !this.model.isPublished;
+    const successText = toPublish
+      ? 'Les certifications ont été correctement publiées.'
+      : 'Les certifications ont été correctement dépubliées.';
+
+    try {
+      await this.model.save({ adapterOptions: { updatePublishedCertifications: true, toPublish } });
+      this.model.certifications.reload();
+      this.notifications.success(successText);
+    } catch (error) {
+      this.notifications.error(error);
+    }
+    this.displayConfirm = false;
+  }
+
+  @action
+  onCancelConfirm() {
+    this.displayConfirm = false;
+  }
+}

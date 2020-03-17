@@ -1,26 +1,20 @@
-import Component from '@ember/component';
+import { action } from '@ember/object';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
-const organizationTypes = [
-  { value: 'PRO', label: 'Organisation professionnelle' },
-  { value: 'SCO', label: 'Établissement scolaire' },
-  { value: 'SUP', label: 'Établissement supérieur' },
-];
+export default class OrganizationForm extends Component {
 
-export default Component.extend({
-  organizationTypes,
+  organizationTypes = [
+    { value: 'PRO', label: 'Organisation professionnelle' },
+    { value: 'SCO', label: 'Établissement scolaire' },
+    { value: 'SUP', label: 'Établissement supérieur' },
+  ];
 
-  actions: {
-    selectOrganizationType(organizationType) {
-      this.set('selectedOrganizationType', organizationType);
-      this.set('organization.type', organizationType.value);
-    },
+  @tracked selectedOrganizationType;
 
-    submitOrganization() {
-      return this.onSubmit();
-    },
-
-    cancelOrganizationSaving() {
-      return this.onCancel();
-    }
-  },
-});
+  @action
+  selectOrganizationType(organizationType) {
+    this.selectedOrganizationType = organizationType;
+    this.args.organization.type = organizationType.value;
+  }
+}

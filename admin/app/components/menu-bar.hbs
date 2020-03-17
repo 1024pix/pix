@@ -1,0 +1,47 @@
+<div class="menu-bar">
+
+  <ul class="menu-bar__entries">
+    <li class="menu-bar__entry">
+      <LinkTo @route="authenticated.organizations" class="menu-bar__link menu-bar__link--organizations">
+        <FaIcon @icon="building"></FaIcon>
+        <BsTooltip @placement="right">Organisations</BsTooltip>
+      </LinkTo>
+    </li>
+    <li class="menu-bar__entry">
+      <LinkTo @route="authenticated.users.list" class="menu-bar__link menu-bar__link--users">
+        <FaIcon @icon="users"></FaIcon>
+        <BsTooltip @placement="right">Utilisateurs</BsTooltip>
+      </LinkTo>
+    </li>
+    <li class="menu-bar__entry">
+      <LinkTo @route="authenticated.certifications" class="menu-bar__link menu-bar__link--certifications">
+        <FaIcon @icon="graduation-cap"></FaIcon>
+        <BsTooltip @placement="right">Certifications</BsTooltip>
+      </LinkTo>
+    </li>
+    <li class="menu-bar__entry">
+      <LinkTo @route="authenticated.certification-centers.list" class="menu-bar__link menu-bar__link--certification-centers">
+        <FaIcon @icon="map-pin"></FaIcon>
+        <BsTooltip @placement="right">Centres de certification</BsTooltip>
+      </LinkTo>
+    </li>
+    <li class="menu-bar__entry">
+      <LinkTo @route="authenticated.sessions.list" class="menu-bar__link menu-bar__link--sessions">
+        <FaIcon @icon="chalkboard-teacher"></FaIcon>
+        <BsTooltip @placement="right">Sessions</BsTooltip>
+      </LinkTo>
+    </li>
+    <li class="menu-bar__entry">
+      <LinkTo @route="authenticated.tools" class="menu-bar__link menu-bar__link--tools">
+        <FaIcon @icon="tools"></FaIcon>
+        <BsTooltip @placement="right">Outils</BsTooltip>
+      </LinkTo>
+    </li>
+    <li class="menu-bar__entry">
+      <LinkTo @route="logout" class="menu-bar__link menu-bar__link--logout">
+        <FaIcon @icon="power-off"></FaIcon>
+        <BsTooltip @placement="right">Se déconnecter</BsTooltip>
+      </LinkTo>
+    </li>
+  </ul>
+</div>

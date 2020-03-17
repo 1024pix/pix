@@ -1,24 +1,17 @@
-import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action } from '@ember/object';
+import Component from '@glimmer/component';
 
-export default Component.extend({
+export default class OrganizationInformationSection extends Component {
 
-  organization: null,
-
-  isOrganizationSCO: computed('organization.type', function() {
-    return this.organization.type === 'SCO';
-  }),
-
-  isManagingStudents: computed('organization.isManagingStudents', function() {
-    return this.organization.isManagingStudents ? 'Oui' : 'Non';
-  }),
-
-  actions: {
-    updateLogo(file) {
-      return file.readAsDataURL().then((b64) => {
-        this.set('organization.logoUrl', b64);
-        return this.onLogoUpdated();
-      });
-    }
+  get isManagingStudents() {
+    return this.args.organization.isManagingStudents ? 'Oui' : 'Non';
   }
-});
+
+  @action
+  updateLogo(file) {
+    return file.readAsDataURL().then((b64) => {
+      this.args.organization.logoUrl = b64;
+      return this.args.onLogoUpdated();
+    });
+  }
+}

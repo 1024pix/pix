@@ -12,9 +12,9 @@
         </tr>
         </thead>
 
-        {{#if targetProfiles}}
+        {{#if @targetProfiles}}
           <tbody>
-          {{#each targetProfiles as |targetProfile|}}
+          {{#each @targetProfiles as |targetProfile|}}
             <tr>
               <td>{{targetProfile.id}}</td>
               <td>{{targetProfile.name}}</td>
@@ -24,7 +24,7 @@
         {{/if}}
       </table>
 
-      {{#unless targetProfiles}}
+      {{#unless @targetProfiles}}
         <div class="table__empty content-text">Aucun résultat</div>
       {{/unless}}
     </div>

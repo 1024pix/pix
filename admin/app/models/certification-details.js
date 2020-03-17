@@ -1,17 +1,19 @@
-import DS from 'ember-data';
-const { attr, Model } = DS;
 import { computed } from '@ember/object';
+import Model, { attr } from '@ember-data/model';
 
-export default Model.extend({
-  competencesWithMark: attr(),
-  totalScore: attr(),
-  percentageCorrectAnswers: attr(),
-  createdAt: attr(),
-  userId: attr(),
-  status: attr(),
-  completedAt: attr(),
-  listChallengesAndAnswers: attr(),
-  competences: computed('competencesWithMark', 'listChallengesAndAnswers', function() {
+export default class CertificationDetails extends Model {
+
+  @attr() competencesWithMark;
+  @attr() totalScore;
+  @attr() percentageCorrectAnswers;
+  @attr() createdAt;
+  @attr() userId;
+  @attr() status;
+  @attr() completedAt;
+  @attr() listChallengesAndAnswers;
+
+  @computed('competencesWithMark', 'listChallengesAndAnswers')
+  get competences() {
     const competenceData = this.competencesWithMark;
     const answers = this.listChallengesAndAnswers;
     let count = 1;
@@ -37,11 +39,15 @@ export default Model.extend({
       sortedCompetences.push(competences[key]);
     });
     return sortedCompetences;
-  }),
-  creationDate: computed('createdAt', function() {
+  }
+
+  @computed('createdAt')
+  get creationDate() {
     return (new Date(this.createdAt)).toLocaleString('fr-FR');
-  }),
-  completionDate: computed('completedAt', function() {
+  }
+
+  @computed('completedAt')
+  get completionDate() {
     return (new Date(this.completedAt)).toLocaleString('fr-FR');
-  })
-});
+  }
+}

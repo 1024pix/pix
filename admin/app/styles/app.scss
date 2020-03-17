@@ -2,7 +2,7 @@
 @import 'ember-bootstrap/bootstrap';
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
-@import "ember-power-select";
+@import 'ember-power-select';
 @import 'ember-power-select/themes/bootstrap';
 
 /* global */
@@ -26,8 +26,6 @@
 @import 'authenticated/certifications/single';
 @import 'authenticated/certifications/info';
 @import 'authenticated/certifications/sessions';
-@import 'authenticated/certifications/sessions/info/list';
-@import 'authenticated/certifications/sessions/info/index';
 @import 'authenticated/certifications/sessions-list';
 @import 'authenticated/tools';
 
@@ -41,6 +39,3 @@
 @import 'components/menu-bar';
 @import 'components/pagination-control';
 
-input:invalid {
-  box-shadow: none;
-}

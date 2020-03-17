@@ -1,75 +1,71 @@
-import Controller from '@ember/controller';
-import { observer } from '@ember/object';
-import { alias } from '@ember/object/computed';
-import { schedule } from '@ember/runloop';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { alias } from '@ember/object/computed';
+import Controller from '@ember/controller';
+import { schedule } from '@ember/runloop';
 
-export default Controller.extend({
-
+export default class DetailsController extends Controller {
   // Properties
-  juryRate: false,
-  juryScore: false,
-  requestedId: '',
+  juryRate = false;
+
+  juryScore = false;
+  requestedId = '';
 
   // Private properties
-  _markStore: service('mark-store'),
+  @service('mark-store')
+  _markStore;
 
   // Aliases
-  rate: alias('details.percentageCorrectAnswers'),
-  score: alias('details.totalScore'),
-  details: alias('model'),
+  @alias('details.percentageCorrectAnswers')
+  rate;
 
-  // Observers
-  // FIXME remove this observer
-  // https://github.com/ember-cli/eslint-plugin-ember/blob/master/docs/rules/no-observers.md
-  // eslint-disable-next-line ember/no-observers
-  initJury: observer('details', function() {
-    this.set('juryRate', false);
-    this.set('juryScore', false);
-  }),
+  @alias('details.totalScore')
+  score;
 
-  // Actions
-  actions: {
+  @alias('model')
+  details;
 
-    onUpdateRate() {
-      const competences = this.get('details.competences');
-      const { good, count, jury } = _getCertificationResultsAfterJuryUpdate(competences);
+  @action
+  onUpdateRate() {
+    const competences = this.get('details.competences');
+    const { good, count, jury } = _getCertificationResultsAfterJuryUpdate(competences);
 
-      if (jury) {
-        this.set('juryRate', Math.round(good * 10000 / count) / 100);
-      } else {
-        this.set('juryRate', false);
-      }
-      // TODO: find a better way
-      schedule('afterRender', this, () => {
-        const score = this.score;
-        const competences = this.get('details.competences');
-        const newScore = competences.reduce((value, competence) => {
-          value += (typeof competence.juryScore !== 'undefined' && competence.juryScore !== false) ? competence.juryScore : competence.obtainedScore;
-          return value;
-        }, 0);
-        if (newScore !== score) {
-          this.set('juryScore', newScore);
-        } else {
-          this.set('juryScore', false);
-        }
-      });
-    },
-    onStoreMarks() {
-      this._markStore.storeState({
-        score: (this.juryScore === false) ? this.score : this.juryScore,
-        marks: this.get('details.competences').reduce((marks, competence) => {
-          marks[competence.index] = {
-            level: (competence.juryLevel === false) ? competence.obtainedLevel : competence.juryLevel,
-            score: (competence.juryScore === false) ? competence.obtainedScore : competence.juryScore
-          };
-          return marks;
-        }, {})
-      });
-      this.transitionToRoute('authenticated.certifications.single.info', this.get('details.id'));
+    if (jury) {
+      this.set('juryRate', Math.round(good * 10000 / count) / 100);
+    } else {
+      this.set('juryRate', false);
     }
+    // TODO: find a better way
+    schedule('afterRender', this, () => {
+      const score = this.score;
+      const competences = this.get('details.competences');
+      const newScore = competences.reduce((value, competence) => {
+        value += (typeof competence.juryScore !== 'undefined' && competence.juryScore !== false) ? competence.juryScore : competence.obtainedScore;
+        return value;
+      }, 0);
+      if (newScore !== score) {
+        this.set('juryScore', newScore);
+      } else {
+        this.set('juryScore', false);
+      }
+    });
   }
-});
+
+  @action
+  onStoreMarks() {
+    this._markStore.storeState({
+      score: (this.juryScore === false) ? this.score : this.juryScore,
+      marks: this.get('details.competences').reduce((marks, competence) => {
+        marks[competence.index] = {
+          level: (competence.juryLevel === false) ? competence.obtainedLevel : competence.juryLevel,
+          score: (competence.juryScore === false) ? competence.obtainedScore : competence.juryScore
+        };
+        return marks;
+      }, {})
+    });
+    this.transitionToRoute('authenticated.certifications.single.info', this.get('details.id'));
+  }
+}
 
 function _getCertificationResultsAfterJuryUpdate(competences) {
   return competences.reduce((data, competence) => {

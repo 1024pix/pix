@@ -1,22 +1,20 @@
-import DS from 'ember-data';
-const { attr, belongsTo, Model } = DS;
 import { computed } from '@ember/object';
+import Model, { belongsTo, attr } from '@ember-data/model';
 
 const displayedOrganizationRoles = {
   ADMIN: 'Administrateur',
   MEMBER: 'Membre',
 };
 
-export default Model.extend({
+export default class Membership extends Model {
 
-  // Attributes
-  organizationRole: attr(),
+  @attr() organizationRole;
 
-  displayedOrganizationRole: computed('organizationRole', function() {
+  @computed('organizationRole')
+  get displayedOrganizationRole() {
     return displayedOrganizationRoles[this.organizationRole];
-  }),
+  }
 
-  // Relationships
-  organization: belongsTo('organization'),
-  user: belongsTo('user'),
-});
+  @belongsTo('organization') organization;
+  @belongsTo('user') user;
+}

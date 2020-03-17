@@ -1,10 +1,8 @@
 import Route from '@ember/routing/route';
 
-export default Route.extend({
+export default class NewRoute extends Route {
 
   model() {
-    this._super(...arguments);
     return this.store.createRecord('organization');
   }
-
-});
+}

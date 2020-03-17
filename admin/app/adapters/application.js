@@ -1,14 +1,17 @@
-import DS from 'ember-data';
+import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import ENV from 'pix-admin/config/environment';
 
-export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
-  host: ENV.APP.API_HOST,
-  namespace: 'api',
+export default class Application extends JSONAPIAdapter.extend(DataAdapterMixin) {
 
-  authorize(xhr) {
-    const { access_token } = this.get('session.data.authenticated');
-    xhr.setRequestHeader('Authorization', `Bearer ${access_token}`);
-  },
+  host = ENV.APP.API_HOST;
+  namespace = 'api';
 
-});
+  get headers() {
+    const headers = {};
+    if (this.session.isAuthenticated) {
+      headers['Authorization'] = `Bearer ${this.session.data.authenticated.access_token}`;
+    }
+    return headers;
+  }
+}

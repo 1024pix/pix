@@ -1,17 +1,25 @@
-import Component from '@ember/component';
 import { computed } from '@ember/object';
+import Component from '@glimmer/component';
 
-export default Component.extend({
+export default class ListItems extends Component {
 
-  nameValue: computed('name', function() {
-    return this.get('name');
-  }),
+  @computed('name')
+  get nameValue() {
+    return this.name;
+  }
 
-  typeValue: computed('type', function() {
-    return this.get('type');
-  }),
+  @computed('type')
+  get typeValue() {
+    return this.type;
+  }
 
-  externalIdValue: computed('externalId', function() {
-    return this.get('externalId');
-  }),
-});
+  @computed('code')
+  get codeValue() {
+    return this.code;
+  }
+
+  @computed('externalId')
+  get externalIdValue() {
+    return this.externalId;
+  }
+}

@@ -1,0 +1,30 @@
+<section class="page-section mb_10">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Ajouter un membre</h2>
+  </header>
+  <form class="add-membership-form form">
+    <Input
+      id="userEmail"
+      @value={{@userEmail}}
+      class="add-membership-form__user-email-input form-field__text form-control"
+      @placeholder="Adresse e-mail de l'utilisateur à ajouter" />
+    <button
+      type="button"
+      {{on "click" @addMembership}}
+      class="add-membership-form__validate-button btn btn-outline-default btn-thin">
+      Valider
+    </button>
+  </form>
+</section>
+
+<section class="page-section mb_10">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Membres</h2>
+  </header>
+  <div class="member-list">
+    <ModelsTable @data={{@organization.memberships}}
+                 @columns={{this.columns}}
+                 @showColumnsDropdown={{false}}
+                 @showGlobalFilter={{false}} />
+  </div>
+</section>

@@ -47,7 +47,9 @@ module('Acceptance | Certification-centers List', function(hooks) {
 
     test('it should display the current filter when certification-centers are filtered', async function(assert) {
       // given
-      server.createList('certification-center', 12);
+      server.createList('certification-center', 1, { type: 'PRO' });
+      server.createList('certification-center', 2, { type: 'SCO' });
+      server.createList('certification-center', 3, { type: 'SUP' });
 
       // when
       await visit('/certification-centers/list?type=sup');

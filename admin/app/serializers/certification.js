@@ -1,10 +1,11 @@
-import DS from 'ember-data';
+import JSONAPISerializer from '@ember-data/serializer/json-api';
 
-export default DS.JSONAPISerializer.extend({
+export default class Certification extends JSONAPISerializer {
+
   normalizeFindRecordResponse(store, primaryModelClass, payload, id) {
     payload.data.id = id;
     return this.normalizeSingleResponse(...arguments);
-  },
+  }
 
   serialize(snapshot, options) {
     if (options && options.onlyInformation) {
@@ -21,11 +22,11 @@ export default DS.JSONAPISerializer.extend({
       }
       return { data: data };
     } else {
-      return this._super(...arguments);
+      return super.serialize(...arguments);
     }
-  },
+  }
 
   modelNameFromPayloadKey() {
     return 'certification';
   }
-});
+}

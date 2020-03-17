@@ -5,6 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
 module('Integration | Component | certification-list', function(hooks) {
+
   setupRenderingTest(hooks);
 
   test('sould display many certifications', async function(assert) {
@@ -14,11 +15,10 @@ module('Integration | Component | certification-list', function(hooks) {
       EmberObject.create({ id: 2 }),
       EmberObject.create({ id: 3 }),
     ];
-    this.set('model', certifications);
-    this.set('actionChange', () => {});
+    this.model = certifications;
 
     // when
-    await render(hbs`{{certification-list certifications=model changeAction=actionChange}}`);
+    await render(hbs`<CertificationList @certifications={{model}} />`);
 
     const $tableRows = this.element.querySelectorAll('tbody > tr');
     assert.equal($tableRows.length, 3);
