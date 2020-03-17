@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.126.0 (17/03/2020)
+
+- [#1173](https://github.com/1024pix/pix/pull/1173) [FEATURE] Affichage du nombre de crédits octroyés à une organisation dans Pix Admin (PA-173).
+- [#1169](https://github.com/1024pix/pix/pull/1169) [FEATURE] Optimisation du logo Pix (PF-1013).
+- [#1164](https://github.com/1024pix/pix/pull/1164) [FEATURE] Gérer les critères de badge CLEA (PF-1132).
+- [#1141](https://github.com/1024pix/pix/pull/1141) [FEATURE] Simplifier la publication de certification (PA-171)
+- [#1136](https://github.com/1024pix/pix/pull/1136) [FEATURE] Lister les sessions sur Pix Admin (PA-151)
+- [#1170](https://github.com/1024pix/pix/pull/1170) [FEATURE] Filtrer la liste des organisations par l'identifiant externe (PA-172).
+- [#1175](https://github.com/1024pix/pix/pull/1175) [BUGFIX] Corriger la gestion des nombres décimaux en answer (PF-1155).
+- [#1172](https://github.com/1024pix/pix/pull/1172) [TECH] Rendre Pix véritablement open-contribution.
+- [#1161](https://github.com/1024pix/pix/pull/1161) [TECH] Utiliser le champ certificationCourseId plutôt que courseId du modèle assessment dans un contexte de certification (PF-1150)
+- [#1160](https://github.com/1024pix/pix/pull/1160) [TECH] Passage de Pix Orga à Ember Octane (PO-316-2).
+
 ## v2.125.0 (12/03/2020)
 
 - [#1158](https://github.com/1024pix/pix/pull/1158) [FEATURE] Lors de l'export des résultats, forcer les compétences à 0 pour les certifs rejected (PA-174)
