@@ -1,0 +1,39 @@
+<div class="certification-center-list content-text content-text--small">
+  <table class="table-admin">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nom</th>
+      <th>Type</th>
+      <th>ID externe</th>
+    </tr>
+    <tr>
+      <th><Input class="table-admin-input" id="id" @value={{@id}} @key-up={{fn @triggerFiltering "id" @id}} /></th>
+      <th><Input class="table-admin-input" id="name" @value={{@name}} @key-up={{fn @triggerFiltering "name" @name}} /></th>
+      <th><Input class="table-admin-input" id="type" @value={{@type}} @key-up={{fn @triggerFiltering "type" @type}} /></th>
+      <th><Input class="table-admin-input" id="externalId" @value={{@externalId}} @key-up={{fn @triggerFiltering "externalId" @externalId}} /></th>
+    </tr>
+    </thead>
+
+    {{#if @certificationCenters}}
+      <tbody>
+      {{#each @certificationCenters as |certificationCenter|}}
+        <tr>
+          <td>{{certificationCenter.id}}</td>
+          <td>{{certificationCenter.name}}</td>
+          <td>{{certificationCenter.type}}</td>
+          <td>{{certificationCenter.externalId}}</td>
+        </tr>
+      {{/each}}
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#unless @certificationCenters}}
+    <div class="table__empty content-text">Aucun résultat</div>
+  {{/unless}}
+</div>
+
+{{#if @certificationCenters}}
+  <PaginationControl @pagination={{@certificationCenters.meta}} />
+{{/if}}

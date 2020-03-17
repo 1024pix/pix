@@ -23,7 +23,7 @@ module('Integration | Component | routes/authenticated/certification-centers | l
     this.set('triggerFiltering', triggerFiltering);
 
     // when
-    await render(hbs`{{routes/authenticated/certification-centers/list-items certificationCenters=certificationCenters triggerFiltering=triggerFiltering}}`);
+    await render(hbs`{{certification-centers/list-items certificationCenters=certificationCenters triggerFiltering=triggerFiltering}}`);
 
     // then
     assert.dom('table tbody tr:first-child td:first-child').hasText('1');

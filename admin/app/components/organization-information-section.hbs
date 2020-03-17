@@ -1,0 +1,34 @@
+<section class="page-section mb_10">
+  <div class="organization__information">
+    <div class="organization__logo">
+      <figure class="organization__logo-figure">
+        {{#if @organization.logoUrl}}
+          <img src={{@organization.logoUrl}}>
+        {{else}}
+          <img src="{{rootURL}}/logo-placeholder.png">
+        {{/if}}
+
+        <FileUpload @name="logo" @accept="image/*" @onfileadd={{this.updateLogo}} as |queue|>
+          <a class="file-upload__button"/>
+        </FileUpload>
+
+      </figure>
+    </div>
+    <div class="organization__data">
+      <h1 class="organization__name">{{@organization.name}}</h1>
+      <p>
+        Type : <span class="organization__type">{{@organization.type}}</span><br>
+        {{#if @organization.externalId}}
+          Identifiant externe : <span class="organization__externalId">{{@organization.externalId}}</span><br>
+        {{/if}}
+        {{#if @organization.provinceCode}}
+          Département : <span class="organization__provinceCode">{{@organization.provinceCode}}</span><br>
+        {{/if}}
+        {{#if @organization.isOrganizationSCO}}
+          Gère des élèves : <span class="organization__isManagingStudents">{{this.isManagingStudents}}</span>
+        {{/if}}
+        Crédits : <span class="organization__credit">{{@organization.credit}}</span>
+      </p>
+    </div>
+  </div>
+</section>

@@ -2,11 +2,11 @@
 
   <aside class="app-sidebar">
     <header class="app-logo">
-      {{#link-to "authenticated.index" class="app-logo__link"}}
+      <LinkTo @route="authenticated.index" class="app-logo__link">
         PIX
-      {{/link-to}}
+      </LinkTo>
     </header>
-    {{menu-bar}}
+    <MenuBar />
   </aside>
 
   <div class="app-body">
@@ -14,5 +14,7 @@
       {{outlet}}
     </div>
   </div>
+
+  <NotificationContainer @position="bottom-right" />
 
 </div>

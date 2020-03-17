@@ -1,9 +1,9 @@
 import Service from '@ember/service';
 
-export default Service.extend({
+export default class MarkStoreService extends Service {
 
-  state: null,
-  available: false,
+  state = null;
+  available = false;
 
   getState() {
     if (this.available) {
@@ -11,15 +11,14 @@ export default Service.extend({
       return this.state;
     }
     return false;
-  },
+  }
 
   storeState(state) {
     this.set('state', state);
     this.set('available', true);
-  },
+  }
 
   hasState() {
     return this.available;
   }
-
-});
+}

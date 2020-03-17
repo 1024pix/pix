@@ -3,7 +3,11 @@ import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { visit, currentURL, find } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { FINALIZED, CREATED, statusToDisplayName } from 'pix-admin/models/session';
+import {
+  FINALIZED,
+  CREATED,
+  statusToDisplayName
+} from 'pix-admin/models/session';
 
 import moment from 'moment';
 

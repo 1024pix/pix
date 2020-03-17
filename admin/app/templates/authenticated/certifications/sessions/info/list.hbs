@@ -5,20 +5,18 @@
     <div class="btn-group certification-list-page__actions" role="group">
 
       <button class="btn btn-outline-default btn--check-session-record" type="button">
-        {{#file-upload
-          name="session-record-report"
-          for="upload-attendance-sheet"
-          onfileadd=(action "onDisplaySessionReportAnalysis")
-          accept="application/vnd.oasis.opendocument.spreadsheet"
-        }}
-          {{fa-icon "clipboard-list"}}
-        {{/file-upload}}
-        {{#bs-tooltip}}Analyser le PV de session afin de détecter les cas particuliers à traiter (.ods){{/bs-tooltip}}
+        <FileUpload @name="session-record-report"
+                    @for="upload-attendance-sheet"
+                    @onfileadd={{action "onDisplaySessionReportAnalysis"}}
+                    @accept="application/vnd.oasis.opendocument.spreadsheet">
+          <FaIcon @icon="clipboard-list"></FaIcon>
+        </FileUpload>
+        <BsTooltip>Analyser le PV de session afin de détecter les cas particuliers à traiter (.ods)</BsTooltip>
       </button>
 
       <button class="btn btn-outline-default" {{action "downloadSessionResultFile"}} type="button">
-        {{fa-icon "file-download"}}
-        {{#bs-tooltip}}Exporter les résultats après jury pour les communiquer aux prescripteurs (.csv){{/bs-tooltip}}
+        <FaIcon @icon="file-download"></FaIcon>
+        <BsTooltip>Exporter les résultats après jury pour les communiquer aux prescripteurs (.csv)</BsTooltip>
       </button>
 
       {{#if this.model.isPublished}}
@@ -43,17 +41,17 @@
   </header>
 
   <div class="certification-list-page__body">
-    {{certification-list certifications=model.certifications}}
+    <CertificationList @certifications={{model.certifications}} />
   </div>
 </div>
 
-{{confirm-popup message=confirmMessage
-                confirm=(action "toggleSessionPublication")
-                cancel=(action "onCancelConfirm")
-                show=displayConfirm}}
+<ConfirmPopup @message={{confirmMessage}}
+              @confirm={{action "toggleSessionPublication"}}
+              @cancel={{action "onCancelConfirm"}}
+              @show={{displayConfirm}} />
 
-{{certification-session-report show=displaySessionReport
-                               onHide=(action 'onCloseSessionReportAnalysis')
-                               onDownloadJuryFile=(action 'onDownloadJuryFile')
-                               onSaveSessionReportCertifications=(action 'onUpdateSessionCertificationsWithReportData')
-                               certifications=certificationsInSessionReport}}
+<CertificationSessionReport @show={{displaySessionReport}}
+                            @onHide={{action "onCloseSessionReportAnalysis"}}
+                            @onDownloadJuryFile={{action "onDownloadJuryFile"}}
+                            @onSaveSessionReportCertifications={{action "onUpdateSessionCertificationsWithReportData"}}
+                            @certifications={{certificationsInSessionReport}} />

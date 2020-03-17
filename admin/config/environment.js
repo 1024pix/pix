@@ -62,6 +62,10 @@ module.exports = function(environment) {
       url: 'https://stats.pix.fr/js/container_x4fRiAXl.js',
     },
 
+    fontawesome: {
+      warnIfNoIconsIncluded: true,
+    },
+
   };
 
   if (environment === 'development') {

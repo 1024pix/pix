@@ -5,6 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
 module('Integration | Component | organization-target-profiles-section', function(hooks) {
+
   setupRenderingTest(hooks);
 
   test('it should display the target profile', async function(assert) {
@@ -14,7 +15,7 @@ module('Integration | Component | organization-target-profiles-section', functio
     this.set('targetProfiles', [ targetProfile1, targetProfile2 ]);
 
     // when
-    await render(hbs`{{organization-target-profiles-section targetProfiles=targetProfiles }}`);
+    await render(hbs`{{organization-target-profiles-section targetProfiles=targetProfiles}}`);
 
     // then
     assert.dom('table tbody tr').exists({ count: 2 });

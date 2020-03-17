@@ -8,11 +8,8 @@ module.exports = function(defaults) {
       'importBootstrapFont': false,
       'importBootstrapCSS': true,
       'importBootstrapTheme': true,
-      'bootstrapVersion': 4
-    },
-
-    'ember-font-awesome': {
-      'includeFontFiles': false
+      'bootstrapVersion': 4,
+      whitelist: ['bs-button', 'bs-nav', 'bs-dropdown', 'bs-modal', 'bs-modal-simple', 'bs-tooltip'],
     },
 
     'ember-cli-template-lint': {
@@ -21,7 +18,7 @@ module.exports = function(defaults) {
 
     flatpickr: {
       locales: ['fr']
-    },
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated

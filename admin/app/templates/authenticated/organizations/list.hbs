@@ -1,21 +1,20 @@
 <header class="page-header">
   <div class="page-title">Toutes les organisations</div>
   <div class="page-actions">
-    {{#link-to "authenticated.organizations.new" class="btn btn-outline-default btn-thin"}}
-      {{fa-icon "plus"}}&nbsp;Nouvelle organisation
-    {{/link-to}}
+    <LinkTo @route="authenticated.organizations.new" class="btn btn-outline-default btn-thin">
+      <FaIcon @icon="plus"></FaIcon>&nbsp;Nouvelle organisation
+    </LinkTo>
   </div>
 </header>
 
 <main class="page-body">
   <section class="page-section">
-    {{routes/authenticated/organizations/list-items
-      organizations=model
-      name=name
-      type=type
-      externalId=externalId
-      triggerFiltering=(action 'triggerFiltering')
-      goToOrganizationPage=(action 'goToOrganizationPage')
-    }}
+    <Organizations::ListItems
+      @organizations={{@model}}
+      @name={{name}}
+      @type={{type}}
+      @externalId={{externalId}}
+      @triggerFiltering={{this.triggerFiltering}}
+      @goToOrganizationPage={{this.goToOrganizationPage}} />
   </section>
 </main>

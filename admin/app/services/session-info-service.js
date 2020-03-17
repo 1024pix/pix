@@ -1,7 +1,8 @@
-import Service, { inject as service } from '@ember/service';
 import json2csv from 'json2csv';
 import _ from 'lodash';
 import moment from 'moment';
+
+import Service, { inject as service } from '@ember/service';
 
 const competenceIndexes = [
   '1.1', '1.2', '1.3',
@@ -11,10 +12,10 @@ const competenceIndexes = [
   '5.1', '5.2'
 ];
 
-export default Service.extend({
+export default class SessionInfoServiceService extends Service {
 
-  fileSaver: service(),
-  csvService: service(),
+  @service fileSaver;
+  @service csvService;
 
   downloadSessionExportFile(session) {
     const data = this.buildSessionExportFileData(session);
@@ -30,7 +31,7 @@ export default Service.extend({
     };
     const fileName = `${year}${month}${day}_${hour}${minute}_resultats_session_${session.id}.csv`;
     this.fileSaver.saveAs(csv + '\n', fileName);
-  },
+  }
 
   downloadJuryFile(sessionId, certifications) {
     const certificationsForJury = _filterCertificationsEligibleForJury(certifications);
@@ -39,7 +40,7 @@ export default Service.extend({
     const csv = json2csv.parse(data, { fields: fileHeaders, delimiter: ';', withBOM: true, });
     const fileName = 'jury_session_' + sessionId + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
     this.fileSaver.saveAs(`${csv}\n`, fileName);
-  },
+  }
 
   buildSessionExportFileData(session) {
     return session.certifications.map((certification) => {
@@ -72,7 +73,7 @@ export default Service.extend({
 
       return rowItem;
     });
-  },
+  }
 
   buildJuryFileData(certifications) {
     return certifications.map((certification) => {
@@ -95,9 +96,9 @@ export default Service.extend({
 
       return rowItem;
     });
-  },
+  }
 
-});
+}
 
 function _buildSessionExportFileHeaders() {
   return _.concat(

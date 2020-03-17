@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
 module('Unit | Controller | authenticated/organizations/list', function(hooks) {
+
   setupTest(hooks);
 
   module('#setFieldName', function() {
@@ -9,7 +10,7 @@ module('Unit | Controller | authenticated/organizations/list', function(hooks) {
     test('it should set name', function(assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/organizations/list');
-      controller.set('searchFilter', { fieldName: 'name', value: 'sav' });
+      controller.searchFilter = { fieldName: 'name', value: 'sav' };
 
       // when
       controller.setFieldName();

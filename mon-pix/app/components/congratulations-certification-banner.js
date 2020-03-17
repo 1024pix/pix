@@ -1,11 +1,13 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  tagName: '',
-  isVisible: null,
-  actions: {
-    closeBanner() {
-      this.closeBanner();
-    }
+export default class CongratulationsCertificationBanner extends Component {
+
+  tagName = '';
+  isVisible = null;
+
+  @action
+  closeBanner() {
+    this.closeBanner();
   }
-});
+}

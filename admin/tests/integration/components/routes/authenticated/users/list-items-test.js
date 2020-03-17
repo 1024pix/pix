@@ -23,7 +23,7 @@ module('Integration | Component | routes/authenticated/users | list-items', func
     this.set('triggerFiltering', triggerFiltering);
 
     // when
-    await render(hbs`{{routes/authenticated/users/list-items users=users triggerFiltering=triggerFiltering}}`);
+    await render(hbs`{{users/list-items users=users triggerFiltering=triggerFiltering}}`);
 
     // then
     assert.dom('table tbody tr:first-child td:first-child').hasText('1');
