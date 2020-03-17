@@ -1,4 +1,3 @@
-const Assessment = require('../../domain/models/Assessment');
 const AssessmentResultBookshelf = require('../data/assessment-result');
 const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/certification-course');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
@@ -41,7 +40,6 @@ module.exports = {
             ['assessments', 'assessments.certificationCourseId', 'certification-courses.id'])
         );
         qb.where('certification-courses.id', id);
-        qb.where('assessments.state', Assessment.states.COMPLETED);
       })
       .fetch({
         require: true,
@@ -84,11 +82,9 @@ module.exports = {
             ['assessments', 'assessments.certificationCourseId', 'certification-courses.id'])
         );
         qb.where('certification-courses.userId', userId);
-        qb.where('assessments.state', Assessment.states.COMPLETED);
         qb.orderBy('id', 'desc');
       })
       .fetchAll({
-        required: false,
         withRelated: [
           'session', 'assessment', 'assessment.assessmentResults',
         ],
