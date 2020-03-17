@@ -52,7 +52,6 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
     // then
     assert.equal(currentURL(), `/sessions/${sessionId}`);
-    assert.dom('.session-info__details div:nth-child(1) div:last-child').hasText(session.certificationCenterName);
     assert.dom('.session-info__details div:nth-child(2) div:last-child').hasText(session.address);
     assert.dom('.session-info__details div:nth-child(3) div:last-child').hasText(session.room);
     assert.dom('.session-info__details div:nth-child(4) div:last-child').hasText(session.examiner);
@@ -88,10 +87,10 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       session = this.server.create('session', sessionData);
 
       // when
-      await visit(`/certifications/sessions/${sessionId}`);
+      await visit(`/sessions/${sessionId}`);
 
       // then
-      assert.dom('[data-test-id="certifications-session-info__certification-center"]').hasText(session.certificationCenterName);
+      assert.dom('.session-info__details div:nth-child(1) div:last-child').hasText(session.certificationCenterName);
     });
   });
 
