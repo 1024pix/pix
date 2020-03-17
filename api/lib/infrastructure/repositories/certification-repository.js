@@ -8,7 +8,7 @@ const { NotFoundError, CertificationCourseNotPublishableError } = require('../..
 
 function _certificationToDomain(certificationCourseBookshelf) {
   const assessmentResultsBookshelf = certificationCourseBookshelf
-    .related('assessments').models[0]
+    .related('assessment')
     .related('assessmentResults');
   const assessmentResults = bookshelfToDomainConverter.buildDomainObjects(AssessmentResultBookshelf, assessmentResultsBookshelf);
 
@@ -18,7 +18,7 @@ function _certificationToDomain(certificationCourseBookshelf) {
 function _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults }) {
   return new Certification({
     id: certificationCourseBookshelf.get('id'),
-    assessmentState: certificationCourseBookshelf.related('assessments').models[0].get('state'),
+    assessmentState: certificationCourseBookshelf.related('assessment').get('state'),
     assessmentResults: assessmentResults,
     certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter'),
     birthdate: certificationCourseBookshelf.get('birthdate'),
@@ -46,9 +46,7 @@ module.exports = {
       .fetch({
         require: true,
         withRelated: [
-          'session',
-          { 'assessments': (qb) => qb.where('assessments.state', Assessment.states.COMPLETED) },
-          'assessments.assessmentResults',
+          'session', 'assessment', 'assessment.assessmentResults',
         ],
       })
       .then(_certificationToDomain)
@@ -92,9 +90,7 @@ module.exports = {
       .fetchAll({
         required: false,
         withRelated: [
-          'session',
-          { 'assessments': (qb) => qb.where('assessments.state', Assessment.states.COMPLETED) },
-          'assessments.assessmentResults',
+          'session', 'assessment', 'assessment.assessmentResults',
         ],
       })
       .then((certificationCoursesBookshelf) => {
