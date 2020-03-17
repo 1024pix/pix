@@ -21,6 +21,14 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
+      path: '/api/healthcheck/redis',
+      config: {
+        auth: false,
+        handler: healthcheckController.checkRedisStatus,
+        tags: ['api'] }
+    },
+    {
+      method: 'GET',
       path: '/api/healthcheck/crash',
       config: {
         auth: false,
