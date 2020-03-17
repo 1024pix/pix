@@ -1,5 +1,6 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 const { knex } = require('../../../../db/knex-database-connection');
+const redisMonitor = require('../../../../lib/infrastructure/utils/redis-monitor');
 
 const healthcheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
 
@@ -45,6 +46,37 @@ describe('Unit | Controller | healthcheckController', () => {
 
       // then
       expect(promise).to.be.rejectedWith(/Connection to database failed/);
+    });
+  });
+
+  describe('#checkRedisStatus', () => {
+
+    beforeEach(() => {
+      sinon.stub(redisMonitor, 'ping');
+    });
+
+    it('should check if Redis connection is successful', async () => {
+      // given
+      redisMonitor.ping.resolves();
+
+      // when
+      const response = await healthcheckController.checkRedisStatus();
+
+      // then
+      expect(response).to.include.keys('message');
+      expect(response['message']).to.equal('Connection to Redis ok');
+    });
+
+    it('should reply with a 503 error when the connection with Redis is KO', () => {
+      // given
+      redisMonitor.ping.rejects();
+
+      // when
+      const promise = healthcheckController.checkRedisStatus(null, hFake);
+
+      // then
+      return expect(promise).to.be.eventually.rejectedWith(/Connection to Redis failed/)
+        .and.have.nested.property('output.statusCode', 503);
     });
   });
 });
