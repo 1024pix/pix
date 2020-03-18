@@ -88,9 +88,9 @@ module.exports = {
   async completeAssessment(request) {
     const assessmentId = parseInt(request.params.id);
 
-    const completedAssessment = await usecases.completeAssessment({ assessmentId });
+    await usecases.completeAssessment({ assessmentId });
 
-    return assessmentSerializer.serialize(completedAssessment);
+    return null;
   },
 };
 

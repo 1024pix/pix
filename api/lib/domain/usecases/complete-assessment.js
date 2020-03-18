@@ -21,13 +21,12 @@ module.exports = async function completeAssessment({
   if (assessment.isCompleted()) {
     throw new AlreadyRatedAssessmentError();
   }
-  assessment.setCompleted();
 
   if (assessment.isCertification()) {
     await _calculateCertificationScore({ assessment, assessmentResultRepository, certificationCourseRepository, competenceMarkRepository, scoringCertificationService });
   }
+
   await assessmentRepository.completeByAssessmentId(assessmentId);
-  return assessment;
 };
 
 async function _calculateCertificationScore({

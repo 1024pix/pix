@@ -66,9 +66,9 @@ describe('Unit | UseCase | complete-assessment', () => {
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
       });
 
-      it('should return the saved completed assessment', async () => {
+      it('should complete the assessment', async () => {
         // when
-        const actualCompletedAssessment = await completeAssessment({
+        await completeAssessment({
           assessmentId,
           assessmentRepository,
           assessmentResultRepository,
@@ -78,7 +78,6 @@ describe('Unit | UseCase | complete-assessment', () => {
         });
 
         // then
-        expect(actualCompletedAssessment.isCompleted()).to.be.true;
         expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessmentId)).to.be.true;
       });
     });
@@ -168,7 +167,7 @@ describe('Unit | UseCase | complete-assessment', () => {
 
         it('should still complete the assessment', async () => {
           // when
-          const actualCompletedAssessment = await completeAssessment({
+          await completeAssessment({
             assessmentId,
             assessmentRepository,
             assessmentResultRepository,
@@ -178,7 +177,6 @@ describe('Unit | UseCase | complete-assessment', () => {
           });
 
           // then
-          expect(actualCompletedAssessment.isCompleted()).to.be.true;
           expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessmentId)).to.be.true;
         });
       });
@@ -254,7 +252,7 @@ describe('Unit | UseCase | complete-assessment', () => {
 
           it('should still complete the assessment', async () => {
             // when
-            const actualCompletedAssessment = await completeAssessment({
+            await completeAssessment({
               assessmentId,
               assessmentRepository,
               assessmentResultRepository,
@@ -264,7 +262,6 @@ describe('Unit | UseCase | complete-assessment', () => {
             });
 
             // then
-            expect(actualCompletedAssessment.isCompleted()).to.be.true;
             expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessmentId)).to.be.true;
           });
         });
