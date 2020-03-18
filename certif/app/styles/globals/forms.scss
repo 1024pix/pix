@@ -1,6 +1,6 @@
 .label {
   display: inline-block;
-  color: $tundora;
+  color: $grey-70;
   font-size: 0.94rem;
   font-weight: 500;
   padding-bottom: 5px;
@@ -8,16 +8,16 @@
 }
 
 .input {
-  border: 2px solid $alto;
+  border: 2px solid $grey-20;
   border-radius: 4px;
   height: 40px;
   font-size: 1rem;
   padding-left: 15px;
-  color: $nero;
+  color: $grey-80;
   outline: none;
 
   &:focus {
-    border: 2px solid $dodger-blue;
+    border: 2px solid $communication-dark;
   }
 
   &--small {
@@ -38,16 +38,16 @@ input[type=number] {
 }
 
 .textarea {
-  border: 2px solid $alto;
+  border: 2px solid $grey-20;
   border-radius: 4px;
   font-size: 1rem;
   padding: 8px;
-  color: $nero;
+  color: $grey-80;
   outline: none;
   resize: none;
 
   &:focus {
-    border: 2px solid $dodger-blue;
+    border: 2px solid $communication-dark;
   }
 }
 
@@ -59,13 +59,13 @@ input[type=number] {
 
 .select {
   font-size: 1rem;
-  border: 2px $alto solid;
+  border: 2px $grey-20 solid;
   height: 46px;
   background-color: white;
   outline: none;
 
   &:focus {
-    border: 2px solid $dodger-blue;
+    border: 2px solid $communication-dark;
   }
 }
 
@@ -76,14 +76,14 @@ input[type=number] {
   letter-spacing: 0.019rem;
   text-align: center;
   border-radius: 5px;
-  background-color: $dodger-blue;
+  background-color: $communication-dark;
   color: white;
   cursor: pointer;
   border: none;
   outline: none;
 
   &:hover, &:active, &:focus {
-    background-color: $mariner;
+    background-color: darken($communication-dark, 10%);
     transition: background-color 0.2s ease;
   }
 
@@ -106,35 +106,35 @@ input[type=number] {
     color: black;
 
     &:hover, &:active, &:focus {
-      background-color: $alto;
+      background-color: $grey-20;
     }
   }
 
   &--grey {
-    background-color: $comet;
+    background-color: $grey-50;
     color: $white;
 
     &:hover, &:active, &:focus {
-      background-color: $gun-powder;
+      background-color: $grey-90;
     }
   }
 
   &--lightgrey {
-    background-color: $ernest;
-    color: $tundora;
+    background-color: $grey-15;
+    color: $grey-70;
 
     &:hover, &:active, &:focus {
-      background-color: $alto;
+      background-color: $grey-20;
     }
 
   }
 
   &--no-color {
     background-color: transparent;
-    color: $nero;
+    color: $grey-80;
 
     &:hover, &:active, &:focus {
-      background-color: $alto;
+      background-color: $grey-20;
     }
   }
 
@@ -170,7 +170,7 @@ input[type=number] {
 }
 
 .icon-button {
-  color: $dove-gray;
+  color: $grey-45;
   padding: 6px 8px;
   border: none;
   font-size: 1rem;
@@ -179,7 +179,7 @@ input[type=number] {
   outline: none;
 
   &:hover, &:active {
-    background-color: $alto;
+    background-color: $grey-20;
     border-radius: 16px;
     transition: background-color 0.2s ease;
   }
@@ -198,13 +198,13 @@ input[type=number] {
   margin: 10px 20px 11px 0px;
   border-radius: 50%;
   vertical-align: middle;
-  box-shadow: 0 0 0 2px $alto;
-  border: 4px solid $wild-sand;
+  box-shadow: 0 0 0 2px $grey-20;
+  border: 4px solid $grey-10;
 }
 
 .radio-button:checked + .radio-button-span {
-  box-shadow: 0 0 0 2px $dodger-blue;
-  background-color: $dodger-blue;
+  box-shadow: 0 0 0 2px $communication-dark;
+  background-color: $communication-dark;
 }
 
 .checkbox {
@@ -219,17 +219,17 @@ input[type=number] {
   transition: box-shadow .1s linear;
 
   &--unchecked {
-    border: 2px solid $alto;
+    border: 2px solid $grey-20;
 
     &:hover {
-      background-color: $porcelain;
-      box-shadow: 0 0px 0px 8px rgba($grey, 0.1);
-      border-color: $grey;
+      background-color: $grey-10;
+      box-shadow: 0 0px 0px 8px rgba($grey-40, 0.1);
+      border-color: $grey-40;
     }
   }
 
   &--checked {
-    background-color: $aqua;
-    border: 2px solid $aqua;
+    background-color: $communication-light;
+    border: 2px solid $communication-light;
   }
 }

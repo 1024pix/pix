@@ -43,7 +43,7 @@
   margin-bottom: 1.3rem;
   border: 0.062rem solid $grey-22;
   border-radius: 1.25rem;
-  background: $wild-sand;
+  background: $grey-10;
   position: relative;
 }
 
@@ -63,14 +63,14 @@
   flex-flow: column nowrap;
   margin-left: 1.25rem;
   width: 65%;
-  color: $dove-gray;
+  color: $grey-45;
   font-size: 0.8rem;
 }
 
 .panel-actions__title {
   margin-bottom: 0.625rem;
   font-weight: bold;
-  color: $tundora;
+  color: $grey-70;
 }
 
 .panel-actions__button {
@@ -87,7 +87,7 @@
 }
 
 .panel-actions__warning-icon {
-  color: $orange;
+  color: $pix-yellow;
   margin-right: 8px;
   font-size: 1.5rem;
 }
@@ -95,7 +95,7 @@
 .panel-header {
   display: flex;
   align-items: center;
-  color: $grey;
+  color: $grey-40;
   padding: 16px 0;
   margin: 0 16px;
 
@@ -117,7 +117,7 @@
     margin-left: 16px;
     font-size: 0.82rem;
     font-weight: normal;
-    color: $dove-gray;
+    color: $grey-45;
   }
 }
 
@@ -130,7 +130,7 @@
 
   &__icon {
     font-size: 1.25rem;
-    color: $dusty-gray;
+    color: $grey-35;
   }
 }
 
@@ -140,9 +140,9 @@
 }
 
 .certification-candidates-input {
-  background: $sublte;
+  background: $grey-5;
   border-radius: 4px;
-  border: 1px solid $alto;
+  border: 1px solid $grey-20;
   height: 35px;
   min-width: 24px;
   flex-grow: 1;
@@ -199,16 +199,16 @@
 
     &__button {
       font-size: 1rem;
-      color: $dusty-gray;
+      color: $grey-35;
 
       &--disabled {
         font-size: 1rem;
-        background-color: $idol;
+        background-color: $grey-22;
         color: $white;
         cursor: not-allowed;
 
         &:hover, &:active, &:focus {
-          background-color: $dusty-gray;
+          background-color: $grey-35;
         }
       }
     }

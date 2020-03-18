@@ -1,36 +1,7 @@
-// Colors
-$astronaut: #213371;
-$mariner: #355BD1;
-$denim: #0D7DC4;
-$dodger-blue: #3D68FF;
-$aqua: #388AFF;
-$heliotrope: #985FFF;
-$porcelain: #f2f3f4;
-$wild-sand: #f5f5f5;
-$orange: #FFBE00;
-$white: #FFFFFF;
-$sublte: #F9F9F9;
-$alto: #DDDDDD;
-$ernest: #EEEEEE;
-$nobel: #b7b7b7;
-$idol:#c6c6c6;
-$dusty-gray: #999999;
-$dove-gray: #666666;
-$grey: #767676;
-$comet: #585F75;
-$tundora: #444444;
-$gun-powder: #414657;
-$mine-shaft: #333333;
-$nero: #222222;
-$black: #000000;
-
-// Gradients
-$grey-gradient: linear-gradient(0deg, $comet 0%, $gun-powder 100%);
-
 // See https://zeroheight.com/8dd127da7/p/839645-couleurs/b/21317a
 
 // primary
-$pix-blue: #3D68FF;
+$communication-dark: #3D68FF;
 $pix-yellow: #FFBE00;
 $blue-zodia: #505F79;
 $white: #ffffff;
@@ -39,8 +10,8 @@ $orga: #00DDFF;
 $pix-purple: #8A49FF;
 // gradients app
 $pix-gradient: linear-gradient(135deg, #388AFF 0%, #985FFF 100%);
-$pix-blue-gradient: linear-gradient(135deg, #12A3FF 0%, #3D68FF 100%);
-$pix-certif-gradient: linear-gradient(0deg, #52D987 0%, #1A8C89 100%);
+$communication-dark-gradient: linear-gradient(135deg, #12A3FF 0%, #3D68FF 100%);
+$pix-certif-gradient: linear-gradient(-45deg, #52D987 0%, #1A8C89 100%);
 $pix-orga-gradient: linear-gradient(134deg, #00DDFF 0%, #0095C0 100%);
 $pix-pinkie-gradient: linear-gradient(135deg, #FF3F93 0%, #AC008D 100%);
 $pix-purplie: #6B20DC;

@@ -5,9 +5,9 @@
 
   &__title {
     display: flex;
-    background: $wild-sand;
+    background: $grey-10;
     margin: 8px;
-    color: $comet;
+    color: $grey-50;
     font-weight: bold;
     padding: 20px 0 19px 24px;
   }
@@ -17,6 +17,6 @@
   }
 
   &__border {
-    border-top: 1px solid $alto;
+    border-top: 1px solid $grey-20;
   }
 }
