@@ -14,12 +14,6 @@
       </LinkTo>
     </li>
     <li class="menu-bar__entry">
-      <LinkTo @route="authenticated.certifications" class="menu-bar__link menu-bar__link--certifications">
-        <FaIcon @icon="graduation-cap"></FaIcon>
-        <BsTooltip @placement="right">Certifications</BsTooltip>
-      </LinkTo>
-    </li>
-    <li class="menu-bar__entry">
       <LinkTo @route="authenticated.certification-centers.list" class="menu-bar__link menu-bar__link--certification-centers">
         <FaIcon @icon="map-pin"></FaIcon>
         <BsTooltip @placement="right">Centres de certification</BsTooltip>
@@ -28,7 +22,13 @@
     <li class="menu-bar__entry">
       <LinkTo @route="authenticated.sessions.list" class="menu-bar__link menu-bar__link--sessions">
         <FaIcon @icon="chalkboard-teacher"></FaIcon>
-        <BsTooltip @placement="right">Sessions</BsTooltip>
+        <BsTooltip @placement="right">Sessions de certifications</BsTooltip>
+      </LinkTo>
+    </li>
+    <li class="menu-bar__entry">
+      <LinkTo @route="authenticated.certifications" class="menu-bar__link menu-bar__link--certifications">
+        <FaIcon @icon="graduation-cap"></FaIcon>
+        <BsTooltip @placement="right">Certifications</BsTooltip>
       </LinkTo>
     </li>
     <li class="menu-bar__entry">
