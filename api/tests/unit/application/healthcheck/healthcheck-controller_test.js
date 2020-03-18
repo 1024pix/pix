@@ -7,6 +7,7 @@ const healthcheckController = require('../../../../lib/application/healthcheck/h
 describe('Unit | Controller | healthcheckController', () => {
 
   describe('#get', () => {
+
     it('should reply with the API description', async function() {
       // when
       const response = await healthcheckController.get(null, hFake);

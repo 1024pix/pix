@@ -4,12 +4,14 @@ const healthCheckController = require('../../../../lib/application/healthcheck/h
 
 describe('Integration | Application | Route | healthcheckRouter', () => {
 
+  let httpTestServer;
+
   beforeEach(() => {
     sinon.stub(healthCheckController, 'get').callsFake((request, h) => h.response(true));
     sinon.stub(healthCheckController, 'checkDbStatus').callsFake((request, h) => h.response(true));
     sinon.stub(healthCheckController, 'checkRedisStatus').callsFake((request, h) => h.response(true));
     sinon.stub(healthCheckController, 'crashTest').callsFake((request, h) => h.response(true));
-    this.httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('GET /api', () => {
@@ -20,7 +22,7 @@ describe('Integration | Application | Route | healthcheckRouter', () => {
       const url = '/api';
 
       // when
-      const response = await this.httpTestServer.request(method, url);
+      const response = await httpTestServer.request(method, url);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -36,7 +38,7 @@ describe('Integration | Application | Route | healthcheckRouter', () => {
       const url = '/api/healthcheck/db';
 
       // when
-      const response = await this.httpTestServer.request(method, url);
+      const response = await httpTestServer.request(method, url);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -52,7 +54,7 @@ describe('Integration | Application | Route | healthcheckRouter', () => {
       const url = '/api/healthcheck/redis';
 
       // when
-      const response = await this.httpTestServer.request(method, url);
+      const response = await httpTestServer.request(method, url);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -68,7 +70,7 @@ describe('Integration | Application | Route | healthcheckRouter', () => {
       const url = '/api/healthcheck/crash';
 
       // when
-      const response = await this.httpTestServer.request(method, url);
+      const response = await httpTestServer.request(method, url);
 
       // then
       expect(response.statusCode).to.equal(200);
