@@ -38,6 +38,7 @@
   "devDependencies": {
     "@ember/jquery": "^1.1.0",
     "@ember/optional-features": "^1.1.0",
+    "@ember/render-modifiers": "^1.0.2",
     "@fortawesome/ember-fontawesome": "^0.2.1",
     "@fortawesome/free-brands-svg-icons": "^5.11.2",
     "@fortawesome/free-regular-svg-icons": "^5.11.2",
@@ -48,6 +49,7 @@
     "chai-dom": "^1.8.1",
     "ember-auto-import": "^1.5.3",
     "ember-burger-menu": "^3.3.3",
+    "ember-classic-decorator": "^1.0.7",
     "ember-cli": "~3.15.2",
     "ember-cli-app-version": "^3.2.0",
     "ember-cli-autoprefixer": "^0.8.1",
@@ -72,6 +74,7 @@
     "ember-click-outside": "^1.2.1",
     "ember-collapsible-panel": "^3.2.1",
     "ember-data": "~3.15.0",
+    "ember-decorators": "^6.1.1",
     "ember-exam": "^4.0.9",
     "ember-export-application-global": "^2.0.1",
     "ember-fetch": "^7.0.0",
