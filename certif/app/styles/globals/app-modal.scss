@@ -131,7 +131,7 @@ $pix-modal-border-radius: 5px;
   border-radius: $pix-modal-border-radius;
   background-color: $white;
   border: 2px solid $alto;
-  color: #6a6d76;
+  color: $grey-45;
   letter-spacing: 0.2em;
   box-sizing: border-box;
   margin-bottom: 5px;
@@ -158,5 +158,5 @@ $pix-modal-border-radius: 5px;
 }
 
 .ember-modal-overlay.translucent {
-  background-color: rgba(red(#3e4149), green(#3e4149), blue(#3e4149), 0.95);
+  background-color: rgba($grey-70, 0.95);
 }
