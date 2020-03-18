@@ -22,6 +22,14 @@ module('Integration | Component | menu-bar', function(hooks) {
     assert.dom('a.menu-bar__link--users').exists();
   });
 
+  test('should contain link to "sessions" management page', async function(assert) {
+    // when
+    await render(hbs`{{menu-bar}}`);
+
+    // then
+    assert.dom('a.menu-bar__link--sessions').exists();
+  });
+
   test('should contain link to "certifications" management page', async function(assert) {
     // when
     await render(hbs`{{menu-bar}}`);
@@ -36,5 +44,13 @@ module('Integration | Component | menu-bar', function(hooks) {
 
     // then
     assert.dom('a.menu-bar__link--tools').exists();
+  });
+
+  test('should contain link to "logout"', async function(assert) {
+    // when
+    await render(hbs`{{menu-bar}}`);
+
+    // then
+    assert.dom('a.menu-bar__link--logout').exists();
   });
 });
