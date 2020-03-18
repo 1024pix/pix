@@ -159,6 +159,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       databaseBuilder.factory.buildAssessment({
         userId: user.id,
         type: 'SMART_PLACEMENT',
+        state: 'completed',
         createdAt: new Date(assessmentStartDate),
         campaignParticipationId: campaignParticipation.id
       });
@@ -205,7 +206,7 @@ describe('Acceptance | API | Campaign Controller', () => {
         '"Acquis maitrisés du domaine Information et données";' +
         '"\'@accesDonnées1"' +
         '\n' +
-        `"${organization.name}";${campaign.id};"'${campaign.name}";"'${targetProfile.name}";"'${user.lastName}";"'${user.firstName}";"'${externalId}";0;${participationStartDate};"Non";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA"\n`;
+        `"${organization.name}";${campaign.id};"'${campaign.name}";"'${targetProfile.name}";"'${user.lastName}";"'${user.firstName}";"'${externalId}";1;${participationStartDate};"Non";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA"\n`;
 
       // when
       const response = await server.inject(request);
