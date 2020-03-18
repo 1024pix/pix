@@ -12,12 +12,12 @@ module.exports = async function updateStudentDependentUserPassword({
   const student = await studentRepository.get(studentId);
 
   if (!userWithMemberships.hasAccessToOrganization(organizationId) || student.organizationId !== organizationId) {
-    throw new UserNotAuthorizedToUpdateStudentPasswordError(`Cet Utilisateur ${student.userId} ne peut pas modifier le mot de passe de l'éleve car il n'appartient pas à l'organisation ${organizationId}`);
+    throw new UserNotAuthorizedToUpdateStudentPasswordError(`Cet utilisateur ${student.userId} ne peut pas modifier le mot de passe de l'éleve car il n'appartient pas à l'organisation ${organizationId}`);
   }
 
   const userStudent = await userRepository.get(student.userId);
   if (_.isEmpty(userStudent.username) && _.isEmpty(userStudent.email)) {
-    throw new UserNotAuthorizedToUpdateStudentPasswordError(`Cet utilisateur ${student.userId} ne peut pas modifier le mot de passe car il ne dipose pas d'username ni d'email!`);
+    throw new UserNotAuthorizedToUpdateStudentPasswordError(`\`Le changement de mot de passe n'est possible que si l'utilisateur ${student.userId} utilise les méthodes d'authentification email ou identifiant\``);
   }
 
   const hashedPassword = await encryptionService.hashPassword(password);

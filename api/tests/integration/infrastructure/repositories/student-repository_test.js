@@ -624,7 +624,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
 
     describe('When student is reconcilied and authenticated by email (and/or) username' , () => {
 
-      it('should return email,username', async () => {
+      it('should return all student properties including the reconciled user:email,username', async () => {
 
         // given
         const organization = databaseBuilder.factory.buildOrganization();
@@ -660,7 +660,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
 
     describe('When student is reconcilied  and  authenticated from GAR' , () => {
 
-      it('should return isAuthenticatedFromGAR with true', async () => {
+      it('should return isAuthenticatedFromGAR property equal to true', async () => {
 
         // given
         const organization = databaseBuilder.factory.buildOrganization();
@@ -699,7 +699,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
 
     describe('When student is not reconcilied' , () => {
 
-      it('should not fill email, username  , userId', async () => {
+      it('should return empty email, username, userId', async () => {
 
         // given
         const organization = databaseBuilder.factory.buildOrganization();
