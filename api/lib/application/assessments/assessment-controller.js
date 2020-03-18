@@ -1,5 +1,6 @@
 const { AssessmentEndedError } = require('../../domain/errors');
 const usecases = require('../../domain/usecases');
+const { cleaBadgeCreationHandler } = require('../../domain/event-handlers');
 const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
@@ -88,7 +89,8 @@ module.exports = {
   async completeAssessment(request) {
     const assessmentId = parseInt(request.params.id);
 
-    await usecases.completeAssessment({ assessmentId });
+    const assessmentCompletedEvent = await usecases.completeAssessment({ assessmentId });
+    cleaBadgeCreationHandler.handle(assessmentCompletedEvent);
 
     return null;
   },

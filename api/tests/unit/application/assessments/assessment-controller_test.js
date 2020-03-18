@@ -1,6 +1,7 @@
 const { sinon, expect, generateValidRequestAuthorizationHeader, hFake } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const usecases = require('../../../../lib/domain/usecases');
+const { cleaBadgeCreationHandler } = require('../../../../lib/domain/event-handlers');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 
 describe('Unit | Controller | assessment-controller', function() {
@@ -115,6 +116,23 @@ describe('Unit | Controller | assessment-controller', function() {
 
       // then
       expect(usecases.completeAssessment).to.have.been.calledWithExactly({ assessmentId });
+    });
+
+    it('should pass the assessment completed event to the CleaBadgeCreationHandler', async () => {
+      // given
+      const assessmentId = 2;
+
+      const event = Symbol('un événement de fin de test');
+      sinon.stub(usecases, 'completeAssessment');
+      usecases.completeAssessment.resolves(event);
+
+      sinon.stub(cleaBadgeCreationHandler, 'handle');
+
+      // when
+      await assessmentController.completeAssessment({ params: { id: assessmentId } });
+
+      // then
+      expect(cleaBadgeCreationHandler.handle).to.have.been.calledWithExactly(event);
     });
   });
 });
