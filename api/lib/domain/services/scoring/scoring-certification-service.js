@@ -1,11 +1,7 @@
-const {
-  MAX_REACHABLE_LEVEL,
-  MAX_REACHABLE_PIX_BY_COMPETENCE,
-} = require('../../constants');
-
 const AssessmentScore = require('../../models/AssessmentScore');
 const CompetenceMark = require('../../models/CompetenceMark');
 const certificationService = require('../../services/certification-service');
+const scoringService = require('../../services/scoring/scoring-service');
 const _ = require('lodash');
 
 async function calculateAssessmentScore(assessment) {
@@ -14,8 +10,8 @@ async function calculateAssessmentScore(assessment) {
 
   const competenceMarks = competencesWithMark.map((certifiedCompetence) => {
     return new CompetenceMark({
-      level: Math.min(certifiedCompetence.obtainedLevel, MAX_REACHABLE_LEVEL),
-      score: Math.min(certifiedCompetence.obtainedScore, MAX_REACHABLE_PIX_BY_COMPETENCE),
+      level: scoringService.getBlockedLevel(certifiedCompetence.obtainedLevel),
+      score: scoringService.getCompetencePixScore(certifiedCompetence.obtainedScore),
       area_code: certifiedCompetence.area_code,
       competence_code: certifiedCompetence.index,
     });

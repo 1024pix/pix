@@ -18,7 +18,7 @@ module.exports = async function getAssessment(
   const assessmentResult = assessment.getLastAssessmentResult();
 
   if (assessmentResult) {
-    assessment.estimatedLevel = scoringService.getblockedLevel(assessmentResult.level);
+    assessment.estimatedLevel = scoringService.getBlockedLevel(assessmentResult.level);
     assessment.pixScore = assessmentResult.pixScore;
   } else {
     assessment.estimatedLevel = null;

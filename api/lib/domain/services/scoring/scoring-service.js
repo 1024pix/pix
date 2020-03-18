@@ -20,8 +20,11 @@ function calculateScoringInformationForCompetence(knowledgeElements, blockReacha
   };
 }
 
-function getblockedLevel(level) {
+function getBlockedLevel(level) {
   return _getBlockedLevel(level);
+}
+function getCompetencePixScore(pixScore) {
+  return _getBlockedPixScoreByCompetence(pixScore);
 }
 
 function getCompetenceLevelByPix(pix) {
@@ -35,9 +38,10 @@ function totalUserPixScore(pixEarnedByCompetence) {
 
 module.exports = {
   calculateScoringInformationForCompetence,
-  getblockedLevel,
+  getBlockedLevel,
   getCompetenceLevelByPix,
-  totalUserPixScore
+  totalUserPixScore,
+  getCompetencePixScore
 };
 
 function _getPixScoreForOneCompetence(exactlyEarnedPix, blockReachablePixAndLevel = true) {
