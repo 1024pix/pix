@@ -30,6 +30,7 @@ workflows:
             branches:
               ignore:
                 - gh-pages
+                - master
                 - prod
                 - /release-.*/
 
