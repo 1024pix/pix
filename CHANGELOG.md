@@ -1,5 +1,8 @@
 # Pix Changelog
 
+## v2.127.0 (18/03/2020)
+
+
 ## v2.126.1 (18/03/2020)
 
 - [#1180](https://github.com/1024pix/pix/pull/1180) [BUGFIX] Intégration de Matomo avec les apps front.
