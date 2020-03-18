@@ -47,7 +47,7 @@ module.exports = function(environment) {
     },
 
     matomo: {
-      url: 'https://stats.pix.fr/js/container_jKDD76j4.js',
+      url: 'https://stats.pix.fr/js/container_p3ppIohn.js',
     },
 
     'ember-cli-notifications': {
@@ -65,6 +65,8 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV.matomo.url = 'https://stats.pix.fr/js/container_p3ppIohn_dev_22b0fda418abe8fedbf89e9c.js';
+    ENV.matomo.debug = true;
   }
 
   if (environment === 'test') {
