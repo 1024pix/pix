@@ -41,14 +41,14 @@
   box-sizing: border-box;
   flex-flow: row nowrap;
   margin-bottom: 1.3rem;
-  border: 0.062rem solid #d6d6d6;
+  border: 0.062rem solid $grey-22;
   border-radius: 1.25rem;
   background: $wild-sand;
   position: relative;
 }
 
 .panel-actions__action-icon {
-  color: #ccc;
+  color: $grey-22;
   font-size: 1.87rem;
   width: 3.125rem;
   text-align: center;
