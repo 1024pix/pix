@@ -103,25 +103,18 @@ describe('Unit | Controller | assessment-controller', function() {
   });
 
   describe('#completeAssessment', () => {
-    const assessmentId = 2;
 
-    beforeEach(() => {
-      sinon.stub(usecases, 'completeAssessment');
-      sinon.stub(assessmentSerializer, 'serialize');
-    });
-
-    it('should return ok', async () => {
+    it('should call the completeAssessment use case', async () => {
       // given
-      usecases.completeAssessment.withArgs({ assessmentId }).resolves({});
-      assessmentSerializer.serialize.withArgs({}).returns('ok');
+      const assessmentId = 2;
+      sinon.stub(usecases, 'completeAssessment');
+      usecases.completeAssessment.resolves({});
 
       // when
-      const response = await assessmentController.completeAssessment({
-        params: { id: assessmentId },
-      });
+      await assessmentController.completeAssessment({ params: { id: assessmentId } });
 
       // then
-      expect(response).to.be.equal('ok');
+      expect(usecases.completeAssessment).to.have.been.calledWithExactly({ assessmentId });
     });
   });
 });
