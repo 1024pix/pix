@@ -11,8 +11,8 @@ function _getNumberOf(certifications, booleanFct) {
   );
 }
 
-function _formatHumanReadableLocaleDateTime(date) {
-  return date ? (new Date(date)).toLocaleString('fr-FR') : date;
+function _formatHumanReadableLocaleDateTime(date, options) {
+  return date ? (new Date(date)).toLocaleString('fr-FR', options) : date;
 }
 
 export const CREATED = 'created';
@@ -81,7 +81,7 @@ export default class Session extends Model {
 
   @computed('date')
   get displayDate() {
-    return _formatHumanReadableLocaleDateTime(this.date);
+    return _formatHumanReadableLocaleDateTime(this.date, { day: 'numeric', month: 'numeric', year: 'numeric' });
   }
 
   @computed('finalizedAt')
