@@ -44,25 +44,28 @@ module.exports = {
       .then(_toDomain);
   },
 
-  async findResultDataByCampaignId(campaignId) {
+  findResultDataByCampaignId: async function(campaignId) {
     const { models } = await BookshelfCampaignParticipation
       .where({ campaignId })
       .fetchAll({
-        withRelated: {
-          user: (qb) => { qb.columns('id', 'firstName', 'lastName'); }
-        }
+        withRelated: [{
+          user: (qb) => {
+            qb.columns('id', 'firstName', 'lastName');
+          },
+        }, 'assessments']
+
       });
 
     return models.map((bookshelfCampaignParticipation) => {
+
       return {
         id: bookshelfCampaignParticipation.get('id'),
         createdAt: new Date(bookshelfCampaignParticipation.get('createdAt')),
-
         isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
         sharedAt: bookshelfCampaignParticipation.get('sharedAt'),
         participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
         userId: bookshelfCampaignParticipation.get('userId'),
-
+        isCompleted: _lastAssessmentCompleted(bookshelfCampaignParticipation),
         participantFirstName: bookshelfCampaignParticipation.related('user').get('firstName'),
         participantLastName: bookshelfCampaignParticipation.related('user').get('lastName'),
       };
@@ -202,4 +205,13 @@ function _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipa
     return sortedAssessments[0].attributes.id;
   }
   return null;
+}
+
+function _lastAssessmentCompleted(bookshelfCampaignParticipation) {
+  const lastAssessment = _.last(bookshelfCampaignParticipation.related('assessments').sortBy(['createdAt']));
+  let isCompleted = false;
+  if (lastAssessment) {
+    isCompleted = lastAssessment.get('state') == 'completed';
+  }
+  return isCompleted;
 }
