@@ -4,6 +4,7 @@ const completeAssessment = require('../../../../lib/domain/usecases/complete-ass
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const { AlreadyRatedAssessmentError, CertificationComputeError } = require('../../../../lib/domain/errors');
 const { UNCERTIFIED_LEVEL } = require('../../../../lib/domain/constants');
+const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 
 describe('Unit | UseCase | complete-assessment', () => {
   const scoringCertificationService = { calculateAssessmentScore: _.noop };
@@ -79,6 +80,21 @@ describe('Unit | UseCase | complete-assessment', () => {
 
         // then
         expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessmentId)).to.be.true;
+      });
+
+      it('should return a AssessmentCompleted event', async () => {
+        // when
+        const result = await completeAssessment({
+          assessmentId,
+          assessmentRepository,
+          assessmentResultRepository,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          scoringCertificationService,
+        });
+
+        // then
+        expect(result).to.be.an.instanceOf(AssessmentCompleted);
       });
     });
 

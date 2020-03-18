@@ -2,6 +2,7 @@ const AssessmentResult = require('../models/AssessmentResult');
 const CompetenceMark = require('../models/CompetenceMark');
 const Promise = require('bluebird');
 const { UNCERTIFIED_LEVEL } = require('../constants');
+const AssessmentCompleted = require('../events/AssessmentCompleted');
 
 const {
   AlreadyRatedAssessmentError,
@@ -27,6 +28,8 @@ module.exports = async function completeAssessment({
   }
 
   await assessmentRepository.completeByAssessmentId(assessmentId);
+
+  return new AssessmentCompleted();
 };
 
 async function _calculateCertificationScore({
