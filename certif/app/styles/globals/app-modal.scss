@@ -47,7 +47,7 @@ $pix-modal-border-radius: 5px;
 
     .pix-modal__container {
       border-radius: $pix-modal-border-radius;
-      background-color: $porcelain;
+      background-color: $grey-10;
       box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
       font-size: 1.6em;
       position: relative;
@@ -81,7 +81,7 @@ $pix-modal-border-radius: 5px;
         &__subtitle {
           margin: 0;
           text-align: center;
-          color: $nero;
+          color: $grey-80;
           font-family: $roboto;
           font-weight: 400;
           font-size: 1em;
@@ -116,7 +116,7 @@ $pix-modal-border-radius: 5px;
         }
 
         &--border {
-          border-top: 1px solid $alto;
+          border-top: 1px solid $grey-20;
         }
       }
     }
@@ -130,7 +130,7 @@ $pix-modal-border-radius: 5px;
   padding: 15px;
   border-radius: $pix-modal-border-radius;
   background-color: $white;
-  border: 2px solid $alto;
+  border: 2px solid $grey-20;
   color: $grey-45;
   letter-spacing: 0.2em;
   box-sizing: border-box;
@@ -139,7 +139,7 @@ $pix-modal-border-radius: 5px;
   text-align: center;
 
   &:focus {
-    border-color: $dodger-blue;
+    border-color: $communication-dark;
   }
 
   @include device-is('tablet') {
