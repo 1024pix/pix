@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.126.1 (18/03/2020)
+
+- [#1180](https://github.com/1024pix/pix/pull/1180) [BUGFIX] Intégration de Matomo avec les apps front.
+- [#1124](https://github.com/1024pix/pix/pull/1124) [TECH] Montée de version de Pix Admin vers Ember 3.15 / Octane (PA-42).
+- [#1184](https://github.com/1024pix/pix/pull/1184) [EXPEDIT] Mauvais affichage des heures sur la liste des sessions (PA-183)
+
 ## v2.126.0 (17/03/2020)
 
 - [#1173](https://github.com/1024pix/pix/pull/1173) [FEATURE] Affichage du nombre de crédits octroyés à une organisation dans Pix Admin (PA-173).
