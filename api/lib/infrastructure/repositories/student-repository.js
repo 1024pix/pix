@@ -14,13 +14,7 @@ function _toStudentWithUserInfoDTO(BookshelfStudent) {
   const rawStudentWithUserInfo = BookshelfStudent.toJSON();
 
   return new StudentWithUserInfo({
-    id: rawStudentWithUserInfo.id,
-    firstName: rawStudentWithUserInfo.firstName,
-    lastName: rawStudentWithUserInfo.lastName,
-    birthdate: rawStudentWithUserInfo.birthdate,
-    organizationId: rawStudentWithUserInfo.organizationId,
-    username: rawStudentWithUserInfo.username,
-    email: rawStudentWithUserInfo.email,
+    ...rawStudentWithUserInfo,
     isAuthenticatedFromGAR: (rawStudentWithUserInfo.samlId) ? true : false,
   });
 }

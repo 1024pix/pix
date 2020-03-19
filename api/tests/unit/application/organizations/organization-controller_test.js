@@ -394,11 +394,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       studentWithUserInfo = domainBuilder.buildStudentWithUserInfo();
       serializedStudentsWithUsersInfos = {
         data: [{
-          lastName: studentWithUserInfo.lastName,
-          firstName: studentWithUserInfo.firstName,
-          birthdate: studentWithUserInfo.birthdate,
-          username: studentWithUserInfo.username,
-          email: studentWithUserInfo.email,
+          ...studentWithUserInfo,
           isAuthenticatedFromGAR: false,
         }]
       };

@@ -642,6 +642,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
           birthdate : student.birthdate,
           organizationId : student.organizationId,
           username : user.username,
+          userId: student.userId,
           email : user.email,
           isAuthenticatedFromGAR : false,
         });
@@ -682,6 +683,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
           organizationId : student.organizationId,
           username : null,
           email : null,
+          userId: student.userId,
           isAuthenticatedFromGAR : true,
         });
         await databaseBuilder.commit();
@@ -716,6 +718,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
           organizationId : student.organizationId,
           username : null,
           email : null,
+          userId: student.userId,
           isAuthenticatedFromGAR : false,
         });
         await databaseBuilder.commit();
