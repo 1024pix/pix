@@ -55,7 +55,8 @@ module.exports = {
             'totalSkillsCount',
             'testedSkillsCount',
             'validatedSkillsCount',
-            'competenceResults'
+            'competenceResults',
+            'progress'
           ],
           competenceResults: {
             ref: 'id',
