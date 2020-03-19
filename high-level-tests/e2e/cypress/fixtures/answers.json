@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "assessmentId": 1,
+    "challengeId": "recQ3kMloM7OaL0wp",
+    "result": "ok"
+  },
+  {
+    "id": 2,
+    "assessmentId": 1,
+    "challengeId": "recc3QU4nKAk4byGv",
+    "result": "ko"
+  },
+  {
+    "id": 3,
+    "assessmentId": 2,
+    "challengeId": "recQ3kMloM7OaL0wp",
+    "result": "ok"
+  },
+  {
+    "id": 4,
+    "assessmentId": 2,
+    "challengeId": "recc3QU4nKAk4byGv",
+    "result": "ok"
+  },
+  {
+    "id": 5,
+    "assessmentId": 3,
+    "challengeId": "recQ3kMloM7OaL0wp",
+    "result": "ok"
+  }
+]

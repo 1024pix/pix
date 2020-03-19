@@ -7,6 +7,10 @@ given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'target-profiles');
   cy.task('db:fixture', 'target-profiles_skills');
   cy.task('db:fixture', 'campaigns');
+  cy.task('db:fixture', 'campaign-participations');
+  cy.task('db:fixture', 'assessments');
+  cy.task('db:fixture', 'answers');
+  cy.task('db:fixture', 'knowledge-elements');
   cy.task('db:fixture', 'users_pix_roles');
   cy.task('db:fixture', 'students');
 });
