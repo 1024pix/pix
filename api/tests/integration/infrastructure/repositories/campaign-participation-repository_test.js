@@ -207,10 +207,6 @@ describe('Integration | Repository | Campaign Participation', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('assessments').delete();
-    });
-
     it('should return all the campaign-participation links to the given campaign', async () => {
       // given
       const campaignId = campaign1.id;
@@ -239,14 +235,14 @@ describe('Integration | Repository | Campaign Participation', () => {
       beforeEach(async () => {
         databaseBuilder.factory.buildAssessment({
           campaignParticipationId: campaignParticipation1.id,
-          createdAt: new Date('2020-01-01'),
-          state: 'started',
-        });
-        databaseBuilder.factory.buildAssessment({
-          campaignParticipationId: campaignParticipation1.id,
           createdAt: new Date('2020-01-02'),
           state: 'completed',
 
+        });
+        databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: campaignParticipation1.id,
+          createdAt: new Date('2020-01-01'),
+          state: 'started',
         });
         await databaseBuilder.commit();
       });
@@ -312,6 +308,27 @@ describe('Integration | Repository | Campaign Participation', () => {
             participantLastName: 'Last',
           }
         ]);
+      });
+    });
+
+    context('When the share at is null', () => {
+      it('Should return null as shared date', async () => {
+        // given
+        const campaign = databaseBuilder.factory.buildCampaign({ sharedAt: null });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+          isShared: false,
+          sharedAt: null
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const participationResultDatas = await campaignParticipationRepository.findResultDataByCampaignId(campaign.id);
+
+        // then
+        expect(participationResultDatas[0].sharedAt).to.equal(null);
       });
     });
   });
