@@ -18,7 +18,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'updateOrganizationInformation');
     sandbox.stub(usecases, 'getOrganizationMemberships');
-    sandbox.stub(usecases, 'findOrganizationStudents');
+    sandbox.stub(usecases, 'findOrganizationStudentsWithUserInfos');
     sandbox.stub(usecases, 'createOrganizationInvitations');
     sandbox.stub(usecases, 'answerToOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
@@ -151,7 +151,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     });
   });
 
-  describe('#findStudents', () => {
+  describe('#findOrganizationsStudentsWithUserInfo', () => {
 
     beforeEach(() => {
       securityController.checkUserBelongsToScoOrganizationAndManagesStudents.returns(true);
@@ -159,11 +159,11 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     context('Success cases', () => {
 
-      const student = domainBuilder.buildStudent();
+      const studentWithUserInfo = domainBuilder.buildStudentWithUserInfo();
 
       it('should return an HTTP response with status code 200', async () => {
         // given
-        usecases.findOrganizationStudents.resolves([student]);
+        usecases.findOrganizationStudentsWithUserInfos.resolves([studentWithUserInfo]);
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
@@ -174,14 +174,13 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return an HTTP response formatted as JSON:API', async () => {
         // given
-        usecases.findOrganizationStudents.resolves([student]);
+        usecases.findOrganizationStudentsWithUserInfos.resolves([studentWithUserInfo]);
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
 
         // then
         expect(response.result.data[0].type).to.equal('students');
-        expect(response.result.data[0].id).to.equal(student.id.toString());
       });
     });
 

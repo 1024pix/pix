@@ -17,7 +17,7 @@ module('Unit | Model | student', function(hooks) {
   });
   module('#authenticationMethods', function() {
 
-    module('when not reconcilied', function() {
+    module('when not reconciled', function() {
       test('it should return dash', function(assert) {
         // given
         const dash = '\u2013';
@@ -31,7 +31,7 @@ module('Unit | Model | student', function(hooks) {
       });
     });
 
-    module('when reconcilied', function() {
+    module('when reconciled', function() {
 
       module('single authentication method', function() {
         test('it should return Identifiant when identified by username', function(assert) {
