@@ -1,5 +1,6 @@
-import Component from '@ember/component';
 import { computed } from '@ember/object';
+import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { htmlSafe } from '@ember/template';
 import answersAsObject from 'mon-pix/utils/answers-as-object';
 import labelsAsObject from 'mon-pix/utils/labels-as-object';
@@ -13,9 +14,10 @@ const classByResultValue = {
   aband: 'correction-qroc-box-answer--aband'
 };
 
-export default Component.extend({
-
-  inputFields: computed('challenge.proposals', 'answer.value', function() {
+@classic
+export default class QrocmDepSolutionPanel extends Component {
+  @computed('challenge.proposals', 'answer.value')
+  get inputFields() {
     const escapedProposals = this.get('challenge.proposals').replace(/(\n\n|\n)/gm, '<br>');
     const labels = labelsAsObject(htmlSafe(escapedProposals).string);
     const answers = answersAsObject(this.get('answer.value'), _.keys(labels));
@@ -29,17 +31,20 @@ export default Component.extend({
         inputClass: answerIsEmpty ? classByResultValue['aband'] : this.inputClass,
       };
     });
-  }),
+  }
 
-  answerIsCorrect: computed('answer.result', function() {
+  @computed('answer.result')
+  get answerIsCorrect() {
     return this.answer.result === 'ok';
-  }),
+  }
 
-  inputClass: computed('answer.result', function() {
+  @computed('answer.result')
+  get inputClass() {
     return classByResultValue[this.answer.result];
-  }),
+  }
 
-  expectedAnswers: computed('solution', 'inputFields.length', function() {
+  @computed('solution', 'inputFields.length')
+  get expectedAnswers() {
     const inputFieldsCount = this.inputFields.length;
     const solutions = jsyaml.safeLoad(this.solution);
     const solutionsKeys = Object.keys(solutions);
@@ -51,6 +56,5 @@ export default Component.extend({
     return inputFieldsCount === solutionsKeys.length ?
       `${expectedAnswers.slice(0, -1).join(', ')} et ${expectedAnswers.slice(-1)}` :
       `${expectedAnswers.join(' ou ')} ou ...`;
-  })
-
-});
+  }
+}

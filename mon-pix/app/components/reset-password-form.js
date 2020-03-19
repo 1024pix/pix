@@ -1,4 +1,6 @@
+import { action } from '@ember/object';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import isPasswordValid from '../utils/password-validator';
 import ENV from 'mon-pix/config/environment';
 
@@ -22,27 +24,28 @@ const SUBMISSION_MAP = {
   }
 };
 
-export default Component.extend({
-  _displaySuccessMessage: null,
-  validation: VALIDATION_MAP['default'],
-  urlHome: ENV.APP.HOME_HOST,
+@classic
+export default class ResetPasswordForm extends Component {
+  _displaySuccessMessage = null;
+  validation = VALIDATION_MAP['default'];
+  urlHome = ENV.APP.HOME_HOST;
 
-  actions: {
-    validatePassword() {
-      const password = this.get('user.password');
-      const validationStatus = (isPasswordValid(password)) ? 'default' : 'error';
-      this.set('validation', VALIDATION_MAP[validationStatus]);
-    },
-
-    handleResetPassword() {
-      this.set('_displaySuccessMessage', false);
-      return this.user.save({ adapterOptions: { updatePassword: true, temporaryKey: this.temporaryKey } })
-        .then(() => {
-          this.set('validation', SUBMISSION_MAP['default']);
-          this.set('_displaySuccessMessage', true);
-          this.set('user.password', null);
-        })
-        .catch(() => this.set('validation', SUBMISSION_MAP['error']));
-    }
+  @action
+  validatePassword() {
+    const password = this.get('user.password');
+    const validationStatus = (isPasswordValid(password)) ? 'default' : 'error';
+    this.set('validation', VALIDATION_MAP[validationStatus]);
   }
-});
+
+  @action
+  handleResetPassword() {
+    this.set('_displaySuccessMessage', false);
+    return this.user.save({ adapterOptions: { updatePassword: true, temporaryKey: this.temporaryKey } })
+      .then(() => {
+        this.set('validation', SUBMISSION_MAP['default']);
+        this.set('_displaySuccessMessage', true);
+        this.set('user.password', null);
+      })
+      .catch(() => this.set('validation', SUBMISSION_MAP['error']));
+  }
+}

@@ -1,7 +1,8 @@
-import { equal } from '@ember/object/computed';
-import Component from '@ember/component';
 import { computed } from '@ember/object';
+import { equal } from '@ember/object/computed';
 import resultIconUrl from 'mon-pix/utils/result-icon-url';
+import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
 const TEXT_FOR_RESULT = {
   ok: {
@@ -41,19 +42,31 @@ const TEXT_FOR_RESULT = {
   }
 };
 
-export default Component.extend({
+@classic
+export default class ComparisonWindow extends Component {
+  answer = null;
+  index = null;
 
-  answer: null,
-  index: null,
+  @equal('answer.challenge.type', 'QROC')
+  isAssessmentChallengeTypeQroc;
 
-  isAssessmentChallengeTypeQroc: equal('answer.challenge.type', 'QROC'),
-  isAssessmentChallengeTypeQcm: equal('answer.challenge.type', 'QCM'),
-  isAssessmentChallengeTypeQcu: equal('answer.challenge.type', 'QCU'),
-  isAssessmentChallengeTypeQrocm: equal('answer.challenge.type', 'QROCM'),
-  isAssessmentChallengeTypeQrocmInd: equal('answer.challenge.type', 'QROCM-ind'),
-  isAssessmentChallengeTypeQrocmDep: equal('answer.challenge.type', 'QROCM-dep'),
+  @equal('answer.challenge.type', 'QCM')
+  isAssessmentChallengeTypeQcm;
 
-  resultItem: computed('answer.result', function() {
+  @equal('answer.challenge.type', 'QCU')
+  isAssessmentChallengeTypeQcu;
+
+  @equal('answer.challenge.type', 'QROCM')
+  isAssessmentChallengeTypeQrocm;
+
+  @equal('answer.challenge.type', 'QROCM-ind')
+  isAssessmentChallengeTypeQrocmInd;
+
+  @equal('answer.challenge.type', 'QROCM-dep')
+  isAssessmentChallengeTypeQrocmDep;
+
+  @computed('answer.result')
+  get resultItem() {
     let resultItem = TEXT_FOR_RESULT['default'];
     const answerStatus = this.get('answer.result');
 
@@ -61,9 +74,10 @@ export default Component.extend({
       resultItem = TEXT_FOR_RESULT[answerStatus];
     }
     return resultItem;
-  }),
+  }
 
-  resultItemIcon: computed('resultItem', function() {
+  @computed('resultItem')
+  get resultItemIcon() {
     return resultIconUrl(this.get('resultItem.status'));
-  }),
-});
+  }
+}
