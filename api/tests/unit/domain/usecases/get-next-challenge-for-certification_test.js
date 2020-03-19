@@ -2,7 +2,6 @@ const { expect, sinon } = require('../../../test-helper');
 
 const getNextChallengeForCertification = require('../../../../lib/domain/usecases/get-next-challenge-for-certification');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const Challenge = require('../../../../lib/domain/models/Challenge');
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', () => {
 
@@ -33,7 +32,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', ()
     it('should return the next Challenge', async () => {
       // given
       const challengeId = 15167432;
-      const nextChallengeToAnswer = Challenge.fromAttributes({ challengeId, skills : [] });
+      const nextChallengeToAnswer = Symbol('nextChallengeToAnswer');
       const nextCertificationChallenge = { challengeId };
       const assessment = Assessment.fromAttributes({ id: 156, courseId: 54516 });
 
@@ -44,7 +43,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', ()
       const challenge = await getNextChallengeForCertification({ assessment, certificationChallengeRepository, challengeRepository });
 
       // then
-      expect(challenge).to.be.an.instanceOf(Challenge);
       expect(challenge).to.equal(nextChallengeToAnswer);
       expect(challengeRepository.get).to.have.been.calledWith(challengeId);
     });
