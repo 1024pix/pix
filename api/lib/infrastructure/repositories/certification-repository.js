@@ -24,7 +24,7 @@ function _createCertificationDomainModel({ certificationCourseBookshelf, assessm
     birthplace: certificationCourseBookshelf.get('birthplace'),
     firstName: certificationCourseBookshelf.get('firstName'),
     lastName: certificationCourseBookshelf.get('lastName'),
-    date: certificationCourseBookshelf.get('completedAt'),
+    date: certificationCourseBookshelf.get('createdAt'),
     isPublished: Boolean(certificationCourseBookshelf.get('isPublished')),
     userId: certificationCourseBookshelf.get('userId'),
   });
