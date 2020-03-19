@@ -55,10 +55,6 @@ when(`je clique sur {string}`, (label) => {
   cy.contains(label).click();
 });
 
-when(`je saisis {string} dans le champ`, (value) => {
-  cy.get('input').type(value);
-});
-
 when('je reviens en arrière', () => {
   cy.go('back');
 });
