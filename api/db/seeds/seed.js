@@ -24,6 +24,8 @@ const targetProfilesBuilder = require('./data/target-profiles-builder');
 const usersBuilder = require('./data/users-builder');
 const usersPixRolesBuilder = require('./data/users_pix_roles-builder');
 
+const po376Builder = require('./data/po376-builder');
+
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 const SEED_NUMBER = 20110228;
 
@@ -63,6 +65,8 @@ exports.seed = (knex) => {
   certificationCandidatesBuilder({ databaseBuilder });
   certificationCoursesBuilder({ databaseBuilder });
   certificationScoresBuilder({ databaseBuilder });
+
+  po376Builder({ databaseBuilder });
 
   return databaseBuilder.commit()
     .then(() => alterSequenceIfPG(knex));
