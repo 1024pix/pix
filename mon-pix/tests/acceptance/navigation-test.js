@@ -5,7 +5,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-mocha';
 import { authenticateByEmail } from '../helpers/authentification';
 import { resumeCampaignByCode } from '../helpers/campaign';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 
 describe('Acceptance | Navbar', function() {
   setupApplicationTest();
@@ -37,7 +37,7 @@ describe('Acceptance | Navbar', function() {
     ].forEach((usecase) => {
       it(`should redirect from "${usecase.initialRoute}" to "${usecase.expectedRoute}"`, async function() {
         // given
-        await visitWithAbortedTransition(usecase.initialRoute);
+        await visit(usecase.initialRoute);
         expect(find(usecase.initialNavigationItem).getAttribute('class')).to.contain('active');
 
         // when
@@ -63,7 +63,7 @@ describe('Acceptance | Navbar', function() {
 
     it('should contain link to pix.fr/aide', async function() {
       // when
-      await visitWithAbortedTransition('/profil');
+      await visit('/profil');
 
       // then
       expect(find('.navbar-desktop-header-menu__item:nth-child(4)').getAttribute('href')).to.equal('https://pix.fr/aide');

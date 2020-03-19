@@ -2,7 +2,7 @@ import { find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentification';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -22,7 +22,7 @@ describe('Acceptance | Common behavior to all challenges', function() {
       const challenge = server.create('challenge', 'forCompetenceEvaluation');
       const answer = server.create('answer', 'skipped', { assessment, challenge });
 
-      await visitWithAbortedTransition(`/assessments/${answer.assessmentId}/challenges/${answer.challengeId}`);
+      await visit(`/assessments/${answer.assessmentId}/challenges/${answer.challengeId}`);
     });
 
     it('should display the lock overlay', function() {
@@ -43,7 +43,7 @@ describe('Acceptance | Common behavior to all challenges', function() {
     beforeEach(async function() {
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCM', { instruction: 'Instruction [lien](http://www.a.link.example.url)' });
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${challenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${challenge.id}`);
     });
 
     it('should display the name of the test', async function() {

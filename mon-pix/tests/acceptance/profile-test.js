@@ -2,7 +2,7 @@ import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentification';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -22,14 +22,14 @@ describe('Acceptance | Profile', function() {
 
     it('can visit /profil', async function() {
       // when
-      await visitWithAbortedTransition('/profil');
+      await visit('/profil');
 
       // then
       expect(currentURL()).to.equal('/profil');
     });
 
     it('should display pixscore', async function() {
-      await visitWithAbortedTransition('/profil');
+      await visit('/profil');
 
       // then
       expect(find('.hexagon-score-content__pix-score').textContent).to.contains(user.pixScore.value);
@@ -37,7 +37,7 @@ describe('Acceptance | Profile', function() {
 
     it('should display scorecards classified accordingly to each area', async function() {
       // when
-      await visitWithAbortedTransition('/profil');
+      await visit('/profil');
 
       // then
       user.scorecards.models.forEach((scorecard) => {
@@ -57,7 +57,7 @@ describe('Acceptance | Profile', function() {
 
     it('should link to competence-details page on click on level circle', async function() {
       // given
-      await visitWithAbortedTransition('/profil');
+      await visit('/profil');
 
       // when
       await click('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__link');
@@ -76,7 +76,7 @@ describe('Acceptance | Profile', function() {
           { campaign, user, isShared: false , createdAt: Date.now() });
 
         // when
-        await visitWithAbortedTransition('/');
+        await visit('/');
 
         // then
         expect(find('.resume-campaign-banner__container')).to.exist;
@@ -91,7 +91,7 @@ describe('Acceptance | Profile', function() {
           { campaign, user, isShared: false , createdAt: Date.now() });
 
         // when
-        await visitWithAbortedTransition('/');
+        await visit('/');
 
         // then
         expect(find('.resume-campaign-banner__container')).to.exist;
@@ -110,7 +110,7 @@ describe('Acceptance | Profile', function() {
         campaignParticipation.assessment.update({ state: 'completed' });
 
         // when
-        await visitWithAbortedTransition('/');
+        await visit('/');
 
         // then
         expect(find('.resume-campaign-banner__container')).to.exist;
@@ -126,7 +126,7 @@ describe('Acceptance | Profile', function() {
         campaignParticipation.assessment.update({ state: 'completed' });
 
         // when
-        await visitWithAbortedTransition('/');
+        await visit('/');
 
         // then
         expect(find('.resume-campaign-banner__container')).to.exist;
@@ -139,13 +139,13 @@ describe('Acceptance | Profile', function() {
   describe('Not authenticated cases', function() {
     it('should redirect to home, when user is not authenticated', async function() {
       // when
-      await visitWithAbortedTransition('/profil');
+      await visit('/profil');
       expect(currentURL()).to.equal('/connexion');
     });
 
     it('should stay in /connexion, when authentication failed', async function() {
       // given
-      await visitWithAbortedTransition('/connexion');
+      await visit('/connexion');
       await fillIn('#login', 'anyone@pix.world');
       await fillIn('#password', 'Pix20!!');
 

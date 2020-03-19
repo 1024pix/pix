@@ -4,7 +4,7 @@ import { click, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentification';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { fillCertificationJoiner, fillCertificationStarter } from '../helpers/certification';
 
 describe('Acceptance | Certification | Start Certification Course', function() {
@@ -19,7 +19,7 @@ describe('Acceptance | Certification | Start Certification Course', function() {
 
       beforeEach(async function() {
         user = server.create('user', 'withEmail');
-        await visitWithAbortedTransition('/certifications');
+        await visit('/certifications');
       });
 
       it('should redirect to login page', function() {
@@ -36,7 +36,7 @@ describe('Acceptance | Certification | Start Certification Course', function() {
         beforeEach(async function() {
           user = server.create('user', 'withEmail', 'notCertifiable');
           await authenticateByEmail(user);
-          return visitWithAbortedTransition('/certifications');
+          return visit('/certifications');
         });
 
         it('should render the not certifiable template', function() {
@@ -50,12 +50,12 @@ describe('Acceptance | Certification | Start Certification Course', function() {
         beforeEach(async function() {
           user = server.create('user', 'withEmail', 'certifiable');
           await authenticateByEmail(user);
-          return visitWithAbortedTransition('/certifications');
+          return visit('/certifications');
         });
 
         context('when user forget to fill a field', function() {
           beforeEach(async function() {
-            await visitWithAbortedTransition('/certifications');
+            await visit('/certifications');
 
             // when
             await fillCertificationJoiner(
@@ -215,9 +215,9 @@ describe('Acceptance | Certification | Start Certification Course', function() {
               await fillCertificationStarter({ accessCode: 'ABCD12' });
 
               await click('.challenge-actions__action-skip');
-              await visitWithAbortedTransition('/profil');
+              await visit('/profil');
               // when
-              await visitWithAbortedTransition(`/certifications/${certificationCourse.id}`);
+              await visit(`/certifications/${certificationCourse.id}`);
 
               // then
               expect(currentURL().startsWith(`/assessments/${assessment.id}/challenges/rec`)).to.be.true;

@@ -3,7 +3,7 @@ import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-mocha';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 
 describe('Acceptance | Timed challenge', function() {
   setupApplicationTest();
@@ -22,7 +22,7 @@ describe('Acceptance | Timed challenge', function() {
 
     it('should hide the challenge statement', async function() {
       // When
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${timedChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${timedChallenge.id}`);
 
       // Then
       expect(find('.challenge-statement')).to.not.exist;
@@ -30,7 +30,7 @@ describe('Acceptance | Timed challenge', function() {
 
     it('should display the challenge statement if the challenge is not timed', async function() {
       // When
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${notTimedChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${notTimedChallenge.id}`);
 
       // Then
       expect(find('.challenge-statement')).to.exist;
@@ -38,10 +38,10 @@ describe('Acceptance | Timed challenge', function() {
 
     it('should ensure the challenge does not automatically start', async function() {
       // Given
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${timedChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${timedChallenge.id}`);
 
       // When
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${notTimedChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${notTimedChallenge.id}`);
 
       // Then
       expect(find('.timeout-jauge')).to.not.exist;
@@ -49,7 +49,7 @@ describe('Acceptance | Timed challenge', function() {
 
     it('should ensure the feedback form is not displayed until the user has started the challenge', async function() {
       // Given
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${timedChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${timedChallenge.id}`);
 
       // Then
       expect(find('.feedback-panel')).to.not.exist;
@@ -60,7 +60,7 @@ describe('Acceptance | Timed challenge', function() {
   describe('When the confirmation button is clicked', function() {
 
     beforeEach(async function() {
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${timedChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${timedChallenge.id}`);
       await click('.challenge-item-warning button');
     });
 

@@ -1,7 +1,7 @@
 import { click, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -17,7 +17,7 @@ describe('Acceptance | login-or-register-to-access-restricted-campaign', functio
 
   it('should contain the organization name', async function() {
     // when
-    await visitWithAbortedTransition(`/campagnes/${campaign.code}/identification`);
+    await visit(`/campagnes/${campaign.code}/identification`);
 
     // then
     expect(find('.login-or-register-panel__invitation').textContent)
@@ -26,7 +26,7 @@ describe('Acceptance | login-or-register-to-access-restricted-campaign', functio
 
   it('should contain an open register form and closed login form', async function() {
     // when
-    await visitWithAbortedTransition(`/campagnes/${campaign.code}/identification`);
+    await visit(`/campagnes/${campaign.code}/identification`);
 
     // then
     expect(find('.register-form')).to.exist;
@@ -35,7 +35,7 @@ describe('Acceptance | login-or-register-to-access-restricted-campaign', functio
 
   it('should open the login panel and close the register panel when clicking on login button', async function() {
     // when
-    await visitWithAbortedTransition(`/campagnes/${campaign.code}/identification`);
+    await visit(`/campagnes/${campaign.code}/identification`);
     await click('#login-button');
 
     // then
@@ -45,7 +45,7 @@ describe('Acceptance | login-or-register-to-access-restricted-campaign', functio
 
   it('should open the register panel and close the login panel when clicking on register button', async function() {
     // when
-    await visitWithAbortedTransition(`/campagnes/${campaign.code}/identification`);
+    await visit(`/campagnes/${campaign.code}/identification`);
 
     await click('#login-button');
     await click('#register-button');

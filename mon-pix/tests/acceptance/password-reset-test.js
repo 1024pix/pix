@@ -1,7 +1,7 @@
 import { click, fillIn, find, currentURL } from '@ember/test-helpers';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -11,7 +11,7 @@ describe('Acceptance | Reset Password', function() {
 
   it('can visit /mot-passe-oublie', async function() {
     // when
-    await visitWithAbortedTransition('/mot-de-passe-oublie');
+    await visit('/mot-de-passe-oublie');
 
     // then
     expect(currentURL()).to.equal('/mot-de-passe-oublie');
@@ -19,7 +19,7 @@ describe('Acceptance | Reset Password', function() {
 
   it('display a form to reset the email', async function() {
     // when
-    await visitWithAbortedTransition('/mot-de-passe-oublie');
+    await visit('/mot-de-passe-oublie');
 
     // then
     expect(find('.sign-form__container')).to.exist;
@@ -34,7 +34,7 @@ describe('Acceptance | Reset Password', function() {
       email: 'brandone.martins@pix.com',
       password: '1024pix!'
     });
-    await visitWithAbortedTransition('/mot-de-passe-oublie');
+    await visit('/mot-de-passe-oublie');
     await fillIn('#email', 'brandone.martins@pix.com');
 
     // when
@@ -53,7 +53,7 @@ describe('Acceptance | Reset Password', function() {
       email: 'brandone.martins@pix.com',
       password: '1024pix!'
     });
-    await visitWithAbortedTransition('/mot-de-passe-oublie');
+    await visit('/mot-de-passe-oublie');
     await fillIn('#email', 'unexisting@user.com');
 
     // when

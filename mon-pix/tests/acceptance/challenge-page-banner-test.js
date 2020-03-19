@@ -1,7 +1,7 @@
 import { click, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { authenticateByEmail } from '../helpers/authentification';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -22,7 +22,7 @@ describe('Acceptance | Challenge page banner', function() {
 
     it('should display a campaign banner', async function() {
       // when
-      await visitWithAbortedTransition(`campagnes/${campaign.code}`);
+      await visit(`campagnes/${campaign.code}`);
       await click('.campaign-landing-page__start-button');
       await click('.campaign-tutorial__ignore-button');
 
@@ -36,7 +36,7 @@ describe('Acceptance | Challenge page banner', function() {
         { campaign, user, isShared: false , createdAt: Date.now() });
 
       // when
-      await visitWithAbortedTransition(`campagnes/${campaign.code}`);
+      await visit(`campagnes/${campaign.code}`);
       await click('.campaign-tutorial__ignore-button');
 
       // then
