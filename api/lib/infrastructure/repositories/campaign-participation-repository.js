@@ -6,6 +6,8 @@ const User = require('../../domain/models/User');
 const { NotFoundError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const Bookshelf = require('../bookshelf');
+
 const fp = require('lodash/fp');
 const _ = require('lodash');
 
@@ -44,32 +46,25 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findResultDataByCampaignId: async function(campaignId) {
-    const { models } = await BookshelfCampaignParticipation
-      .where({ campaignId })
-      .fetchAll({
-        withRelated: [{
-          user: (qb) => {
-            qb.columns('id', 'firstName', 'lastName');
-          },
-        }, 'assessments']
+  async findResultDataByCampaignId(campaignId) {
+    const results = await Bookshelf.knex.with('campaignParticipationWithUserAndRankedAssessment',
+      (qb) => {
+        qb.select([
+          'campaign-participations.*',
+          'assessments.state',
+          _assessmentRankByCreationDate(),
+          'users.firstName',
+          'users.lastName',
+        ])
+          .from('campaign-participations')
+          .leftJoin('users', 'campaign-participations.userId', 'users.id')
+          .leftJoin('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
+          .where({ campaignId: campaignId });
+      })
+      .from('campaignParticipationWithUserAndRankedAssessment')
+      .where({ rank: 1 });
 
-      });
-
-    return models.map((bookshelfCampaignParticipation) => {
-
-      return {
-        id: bookshelfCampaignParticipation.get('id'),
-        createdAt: new Date(bookshelfCampaignParticipation.get('createdAt')),
-        isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
-        sharedAt: bookshelfCampaignParticipation.get('sharedAt'),
-        participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
-        userId: bookshelfCampaignParticipation.get('userId'),
-        isCompleted: _lastAssessmentCompleted(bookshelfCampaignParticipation),
-        participantFirstName: bookshelfCampaignParticipation.related('user').get('firstName'),
-        participantLastName: bookshelfCampaignParticipation.related('user').get('lastName'),
-      };
-    });
+    return results.map(_rowToResult);
   },
 
   findLatestOngoingByUserId(userId) {
@@ -207,11 +202,20 @@ function _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipa
   return null;
 }
 
-function _lastAssessmentCompleted(bookshelfCampaignParticipation) {
-  const lastAssessment = _.last(bookshelfCampaignParticipation.related('assessments').sortBy(['createdAt']));
-  let isCompleted = false;
-  if (lastAssessment) {
-    isCompleted = lastAssessment.get('state') == 'completed';
-  }
-  return isCompleted;
+function _assessmentRankByCreationDate() {
+  return Bookshelf.knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['assessments.campaignParticipationId', 'assessments.createdAt']);
+}
+
+function _rowToResult(row) {
+  return {
+    id: row.id,
+    createdAt: new Date(row.createdAt),
+    isShared: Boolean(row.isShared),
+    sharedAt: row.sharedAt ? new Date(row.sharedAt) : null,
+    participantExternalId: row.participantExternalId,
+    userId: row.userId,
+    isCompleted: row.state === 'completed',
+    participantFirstName: row.firstName,
+    participantLastName: row.lastName,
+  };
 }
