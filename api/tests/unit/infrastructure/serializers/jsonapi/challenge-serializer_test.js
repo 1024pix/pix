@@ -60,7 +60,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
 
       it('should be the the first associated to the challenge when it exists', () => {
         // given
-        const challenge = Challenge.fromAttributes();
+        const challenge = new Challenge();
         challenge.id = 1;
         challenge.competenceId = 'competence_id';
 
@@ -81,7 +81,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
 
       it('should be null when no competence is associated to the challenge (ex: DEMO course)', () => {
         // given
-        const challenge = Challenge.fromAttributes();
+        const challenge = new Challenge();
         challenge.id = 1;
 
         // when

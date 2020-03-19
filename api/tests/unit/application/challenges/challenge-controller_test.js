@@ -1,6 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
-const Challenge = require('../../../../lib/domain/models/Challenge');
 const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');
 
@@ -20,7 +19,7 @@ describe('Unit | Controller | challenge-controller', function() {
 
   describe('#get', function() {
 
-    const challenge = Challenge.fromAttributes({ 'id': 'challenge_id' });
+    const challenge = Symbol('someChallenge');
 
     it('should fetch and return the given challenge, serialized as JSONAPI', async () => {
       // given

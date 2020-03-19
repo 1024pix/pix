@@ -85,18 +85,6 @@ class Challenge {
     this.competenceId = competenceId;
   }
 
-  /**
-   * @deprecated
-   */
-  static fromAttributes(attributes) {
-    const challenge = new Challenge();
-    Object.assign(challenge, attributes);
-    if (!challenge.skills) {
-      challenge.skills = [];
-    }
-    return challenge;
-  }
-
   addSkill(skill) {
     this.skills.push(skill);
   }
