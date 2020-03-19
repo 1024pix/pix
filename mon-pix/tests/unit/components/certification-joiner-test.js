@@ -10,9 +10,9 @@ describe('Unit | Component | certification-joiner', function() {
   describe('#init', function() {
     it('should pad birthdate elements with zeroes', function() {
       const component = this.owner.lookup('component:certification-joiner');
-      component.set('yearOfBirth', '2000');
-      component.set('monthOfBirth', '1');
-      component.set('dayOfBirth', '2');
+      component.yearOfBirth = 2000;
+      component.monthOfBirth = 1;
+      component.dayOfBirth = 2;
       expect(component.birthdate).to.equal('2000-01-02');
     });
   });
@@ -25,9 +25,9 @@ describe('Unit | Component | certification-joiner', function() {
       const createRecordMock = sinon.mock();
       createRecordMock.returns({ save: function() {} });
 
-      component.set('store', { createRecord: createRecordMock });
-      component.set('firstName', ' Michel ');
-      component.set('lastName', ' de Montaigne ');
+      component.store = { createRecord: createRecordMock };
+      component.firstName = ' Michel ';
+      component.lastName = ' de Montaigne ';
 
       // when
       await component.joinCertificationSession();
