@@ -30,7 +30,7 @@ export default class CampaignCollectiveResult extends Model {
     const roundedAverageResults = this.campaignCompetenceCollectiveResults.map((campaignCompetenceCollectiveResult) => {
       return round(campaignCompetenceCollectiveResult.averageValidatedSkills);
     });
-    return Math.round(_.sum(roundedAverageResults) * 10) / 10;
+    return _.sum(roundedAverageResults);
   }
 
   @computed('campaignTubeCollectiveResults.@each.averageValidatedSkills')
@@ -38,7 +38,7 @@ export default class CampaignCollectiveResult extends Model {
     const roundedAverageResults = this.campaignTubeCollectiveResults.map((campaignTubeCollectiveResult) => {
       return round(campaignTubeCollectiveResult.averageValidatedSkills);
     });
-    return Math.round(_.sum(roundedAverageResults) * 10) / 10;
+    return _.sum(roundedAverageResults);
   }
 
   @computed('campaignCompetenceCollectiveResults.@each.totalSkillsCount')

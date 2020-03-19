@@ -26,8 +26,8 @@
               {{competenceResult.validatedSkillsPercentage}}%
             </ProgressionGauge>
           </td>
-          <td>{{competenceResult.roundedAverageValidatedSkills}}</td>
-          <td>{{competenceResult.totalSkillsCount}}</td>
+          <td>{{number-format competenceResult.averageValidatedSkills}}</td>
+          <td>{{number-format competenceResult.totalSkillsCount}}</td>
         </tr>
       {{/each}}
       </tbody>
