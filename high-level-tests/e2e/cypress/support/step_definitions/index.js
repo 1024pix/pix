@@ -58,3 +58,15 @@ when(`je clique sur {string}`, (label) => {
 when(`je saisis {string} dans le champ`, (value) => {
   cy.get('input').type(value);
 });
+
+when('je reviens en arrière', () => {
+  cy.go('back');
+});
+
+when(`je saisis {string} dans le champ {string}`, (value, label) => {
+  cy.contains(label).parent().within(() => cy.get('input').type(value));
+});
+
+when(`je sélectionne {string} dans le champ {string}`, (value, label) => {
+  cy.contains(label).parent().within(() => cy.get('select').select(value));
+});

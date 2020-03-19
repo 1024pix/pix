@@ -15,7 +15,7 @@
       {{#if @participants}}
         <tbody>
         {{#each @participants as |participant|}}
-          <tr role="button" {{on 'click' (fn @goToParticipantPage @campaign.id participant.id)}} class="tr--clickable">
+          <tr aria-label="Participant" role="button" {{on 'click' (fn @goToParticipantPage @campaign.id participant.id)}} class="tr--clickable">
             <td>{{participant.user.lastName}}</td>
             <td>{{participant.user.firstName}}</td>
             {{#if @campaign.idPixLabel}}
