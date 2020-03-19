@@ -2,7 +2,7 @@ import { find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentification';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -37,7 +37,7 @@ describe('Acceptance | competences results', function() {
 
     it('should display a return link to profil', async function() {
       // when
-      await visitWithAbortedTransition(`/competences/${competenceId}/resultats/${assessmentId}`);
+      await visit(`/competences/${competenceId}/resultats/${assessmentId}`);
 
       // then
       expect(find('.link__return-to')).to.exist;
@@ -62,7 +62,7 @@ describe('Acceptance | competences results', function() {
 
       it('should display the "too bad" banner', async function() {
         // when
-        await visitWithAbortedTransition(`/competences/${competenceId}/resultats/${assessmentId}`);
+        await visit(`/competences/${competenceId}/resultats/${assessmentId}`);
 
         // then
         expect(find('.competence-results-panel-header__banner--too-bad')).to.exist;
@@ -88,7 +88,7 @@ describe('Acceptance | competences results', function() {
 
       it('should display the "not bad" banner', async function() {
         // when
-        await visitWithAbortedTransition(`/competences/${competenceId}/resultats/${assessmentId}`);
+        await visit(`/competences/${competenceId}/resultats/${assessmentId}`);
 
         // then
         expect(find('.competence-results-panel-header__banner--not-bad')).to.exist;
@@ -114,7 +114,7 @@ describe('Acceptance | competences results', function() {
 
       it('should display the "congrats" banner', async function() {
         // when
-        await visitWithAbortedTransition(`/competences/${competenceId}/resultats/${assessmentId}`);
+        await visit(`/competences/${competenceId}/resultats/${assessmentId}`);
 
         // then
         expect(find('.competence-results-panel-header__banner--congrats')).to.exist;

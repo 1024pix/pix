@@ -1,7 +1,7 @@
 import { click, find, findAll } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -25,7 +25,7 @@ describe('Acceptance | Displaying a QCM', function() {
         challenge: qcmChallenge,
       });
 
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${qcmChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${qcmChallenge.id}`);
     });
 
     it('should mark checkboxes corresponding to the answer', async function() {
@@ -41,7 +41,7 @@ describe('Acceptance | Displaying a QCM', function() {
 
   context('Challenge not answered', function() {
     beforeEach(async function() {
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${qcmChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${qcmChallenge.id}`);
     });
 
     it('should render challenge instruction', function() {

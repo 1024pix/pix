@@ -1,7 +1,7 @@
 import { click, find, findAll } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -25,7 +25,7 @@ describe('Acceptance | Displaying a QCU', function() {
         assessment,
       });
 
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${qcuChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${qcuChallenge.id}`);
     });
 
     it('should preselect radio buttons accordingly', async function() {
@@ -44,7 +44,7 @@ describe('Acceptance | Displaying a QCU', function() {
 
   context('Challenge not answered', function() {
     beforeEach(async function() {
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${qcuChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${qcuChallenge.id}`);
     });
 
     it('should display a radio buttons list', async function() {

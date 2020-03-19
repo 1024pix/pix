@@ -13,7 +13,7 @@ import {
   completeCampaignByCode,
   resumeCampaignByCode
 } from '../helpers/campaign';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { invalidateSession } from 'ember-simple-auth/test-support';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -37,7 +37,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
       beforeEach(async function() {
         await invalidateSession();
-        await visitWithAbortedTransition(`/campagnes/${campaign.code}`);
+        await visit(`/campagnes/${campaign.code}`);
         await click('.campaign-landing-page__start-button');
       });
 
@@ -66,7 +66,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
         it('should redirect directly in assessment', async function() {
           // when
-          await visitWithAbortedTransition(`/campagnes/${campaign.code}`);
+          await visit(`/campagnes/${campaign.code}`);
 
           // then
           expect(currentURL()).to.contains('/assessments/');
@@ -78,7 +78,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
         it('should redirect to assessment', async function() {
           // when
-          await visitWithAbortedTransition(`/campagnes/${campaign.code}?participantExternalId=a7Eat01r3`);
+          await visit(`/campagnes/${campaign.code}?participantExternalId=a7Eat01r3`);
 
           // then
           expect(currentURL()).to.contains('/assessments/');
@@ -93,7 +93,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
           await completeCampaignByCode(campaign.code);
 
           // when
-          await visitWithAbortedTransition(`/campagnes/${campaign.code}`);
+          await visit(`/campagnes/${campaign.code}`);
 
           expect(currentURL()).to.contains('checkpoint?finalCheckpoint=true');
           expect(find('.checkpoint__continue-button').textContent).to.contains('Voir mes résultats');
@@ -102,7 +102,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         it('should show the results page when user clicks on "voir mes résultats"', async function() {
           // given
           await completeCampaignByCode(campaign.code);
-          await visitWithAbortedTransition(`/campagnes/${campaign.code}`);
+          await visit(`/campagnes/${campaign.code}`);
 
           // when
           await click('.checkpoint__continue-button');
@@ -137,7 +137,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
             await click('.skill-review-share__button');
 
             // when
-            await visitWithAbortedTransition(`/campagnes/${campaign.code}/resultats/${currentAssessment.id}`);
+            await visit(`/campagnes/${campaign.code}/resultats/${currentAssessment.id}`);
 
             expect(find('.skill-review-share__thanks')).to.exist;
           });
@@ -167,14 +167,14 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
       it('should suggest to share his results for the first campaign', async function() {
         // when
-        await visitWithAbortedTransition(`/campagnes/${campaign1.code}`);
+        await visit(`/campagnes/${campaign1.code}`);
 
         expect(find('.skill-review-share__button')).to.exist;
       });
 
       it('should suggest to share his results for the second campaign', async function() {
         // when
-        await visitWithAbortedTransition(`/campagnes/${campaign2.code}`);
+        await visit(`/campagnes/${campaign2.code}`);
 
         expect(find('.skill-review-share__button')).to.exist;
       });
@@ -188,7 +188,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
       it('should show thanks message for the first campaign', async function() {
         // when
-        await visitWithAbortedTransition(`/campagnes/${campaign1.code}`);
+        await visit(`/campagnes/${campaign1.code}`);
 
         // then
         expect(find('.skill-review-share__thanks')).to.exist;
@@ -196,7 +196,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
       it('should suggest to share his results for the second campaign', async function() {
         // when
-        await visitWithAbortedTransition(`/campagnes/${campaign2.code}`);
+        await visit(`/campagnes/${campaign2.code}`);
 
         // then
         expect(find('.skill-review-share__button')).to.exist;
@@ -212,14 +212,14 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
       it('should show thanks message for the first campaign', async function() {
         // when
-        await visitWithAbortedTransition(`/campagnes/${campaign1.code}`);
+        await visit(`/campagnes/${campaign1.code}`);
 
         expect(find('.skill-review-share__thanks')).to.exist;
       });
 
       it('should show thanks message for the second campaign', async function() {
         // when
-        await visitWithAbortedTransition(`/campagnes/${campaign2.code}`);
+        await visit(`/campagnes/${campaign2.code}`);
 
         expect(find('.skill-review-share__thanks')).to.exist;
       });

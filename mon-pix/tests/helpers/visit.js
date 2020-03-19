@@ -1,9 +1,9 @@
-import { visit } from '@ember/test-helpers';
+import { visit as emberVisit } from '@ember/test-helpers';
 
-export default async function visitWithAbortedTransition(url) {
+export default async function visit(url) {
 
   try {
-    await visit(url);
+    await emberVisit(url);
   } catch (error) {
     const { message } = error;
     if (message !== 'TransitionAborted') {

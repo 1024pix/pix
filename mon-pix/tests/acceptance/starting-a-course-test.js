@@ -3,7 +3,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 
 describe('Acceptance | Starting a course', function() {
   setupApplicationTest();
@@ -16,7 +16,7 @@ describe('Acceptance | Starting a course', function() {
   });
 
   it('should be able to start a test directly from the course endpoint', async function() {
-    await visitWithAbortedTransition(`/courses/${demoCourse.id}`);
+    await visit(`/courses/${demoCourse.id}`);
     expect(currentURL().startsWith('/assessments/'));
   });
 });

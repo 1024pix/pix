@@ -1,7 +1,7 @@
 import { click, find, findAll, fillIn } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -25,7 +25,7 @@ describe('Acceptance | Displaying a QROC', function() {
         assessment,
       });
 
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${qrocChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${qrocChallenge.id}`);
     });
 
     it('should fill inputs corresponding to the answer', async function() {
@@ -37,7 +37,7 @@ describe('Acceptance | Displaying a QROC', function() {
 
   context('Challenge not answered', function() {
     beforeEach(async function() {
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${qrocChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${qrocChallenge.id}`);
     });
 
     it('should render the challenge instruction', function() {

@@ -1,7 +1,7 @@
 import { click, find } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -35,12 +35,12 @@ describe('Acceptance | Giving feedback about a challenge', function() {
     });
 
     it('should be able to directly send a feedback', async () => {
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
       assertThatFeedbackPanelExist();
     });
 
     it('should always reset the feedback form between two consecutive challenges', async function() {
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
       assertThatFeedbackFormIsClosed();
       await click('.feedback-panel__open-link');
       assertThatFeedbackFormIsOpen();
@@ -54,7 +54,7 @@ describe('Acceptance | Giving feedback about a challenge', function() {
 
     it('should be able to give feedback', async () => {
       // given
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
       await click('.challenge-actions__action-skip');
       await click('.challenge-actions__action-skip');
 

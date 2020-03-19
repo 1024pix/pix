@@ -1,7 +1,7 @@
 import { find, findAll } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -31,7 +31,7 @@ describe('Acceptance | Checkpoint', () => {
 
     it('should display questions and links to solutions', async () => {
       // When
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/checkpoint`);
+      await visit(`/assessments/${assessment.id}/checkpoint`);
 
       // then
       expect(find('.checkpoint-progression-gauge-wrapper')).to.exist;
@@ -46,7 +46,7 @@ describe('Acceptance | Checkpoint', () => {
 
     it('should display a message indicating that there is no answers to provide', async () => {
       // When
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/checkpoint?finalCheckpoint=true`);
+      await visit(`/assessments/${assessment.id}/checkpoint?finalCheckpoint=true`);
 
       // then
       expect(find('.checkpoint-progression-gauge-wrapper')).to.not.exist;

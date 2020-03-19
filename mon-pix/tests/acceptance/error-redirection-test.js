@@ -1,7 +1,7 @@
 import { currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { authenticateByEmail } from '../helpers/authentification';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -21,7 +21,7 @@ describe('Acceptance | Error page', function() {
     this.server.get('/certifications', { errors: [{ code: 500 }] }, 500);
 
     // when
-    await visitWithAbortedTransition('/mes-certifications');
+    await visit('/mes-certifications');
 
     // then
     expect(currentURL()).to.equal('/mes-certifications');

@@ -2,7 +2,7 @@ import { click, fillIn, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentification';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -20,7 +20,7 @@ describe('Acceptance | Authentication', function() {
     describe('Accessing to the /profil page while disconnected', async function() {
       it('should redirect to the connexion page', async function() {
         // when
-        await visitWithAbortedTransition('/profil');
+        await visit('/profil');
 
         // then
         expect(currentURL()).to.equal('/connexion');
@@ -41,7 +41,7 @@ describe('Acceptance | Authentication', function() {
   describe('Error case', function() {
     it('should stay in /connexion , when authentication failed', async function() {
       // given
-      await visitWithAbortedTransition('/connexion');
+      await visit('/connexion');
       await fillIn('#login', 'anyone@pix.world');
       await fillIn('#password', 'Pix20!!');
 

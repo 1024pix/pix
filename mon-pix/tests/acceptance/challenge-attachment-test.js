@@ -1,7 +1,7 @@
 import { find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -21,7 +21,7 @@ describe('Acceptance | Download an attachment from a challenge', function() {
   describe('When the challenge has an attachment', function() {
 
     beforeEach(async function() {
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${challengeWithAttachment.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${challengeWithAttachment.id}`);
     });
 
     it('should have a way to download the attachment', function() {
@@ -42,7 +42,7 @@ describe('Acceptance | Download an attachment from a challenge', function() {
   describe('When the challenge does not contain an attachment', function() {
 
     beforeEach(async function() {
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${challengeWithNoAttachment.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${challengeWithNoAttachment.id}`);
     });
 
     it('should hide the download section for the attachment', function() {

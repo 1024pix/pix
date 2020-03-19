@@ -2,7 +2,7 @@ import { click, currentURL, find, findAll } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Course ending screen', function() {
@@ -28,7 +28,7 @@ describe('Acceptance | Course ending screen', function() {
       challenge: secondChallenge,
       assessment,
     });
-    await visitWithAbortedTransition(`/assessments/${assessment.id}/results`);
+    await visit(`/assessments/${assessment.id}/results`);
   });
 
   it('should be available directly from the url', function() {

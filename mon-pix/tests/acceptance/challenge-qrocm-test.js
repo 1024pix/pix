@@ -1,7 +1,7 @@
 import { click, fillIn, find, findAll } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -25,7 +25,7 @@ describe('Acceptance | Displaying un QROCM', function() {
         assessment,
       });
 
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${qrocmChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${qrocmChallenge.id}`);
     });
 
     it('should fill inputs with previously given answer', async function() {
@@ -40,7 +40,7 @@ describe('Acceptance | Displaying un QROCM', function() {
 
   context('Challenge not answered', function() {
     beforeEach(async function() {
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/challenges/${qrocmChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/${qrocmChallenge.id}`);
     });
 
     it('should render the challenge instruction', function() {

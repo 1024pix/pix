@@ -1,7 +1,7 @@
 import { click, find, } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -24,7 +24,7 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
   describe('From the results page', function() {
 
     beforeEach(async function() {
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/results`);
+      await visit(`/assessments/${assessment.id}/results`);
     });
 
     it('should display the REPONSE link from the results screen', async function() {
@@ -42,7 +42,7 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
   describe('Content of the correction modal', function() {
 
     beforeEach(async function() {
-      await visitWithAbortedTransition(`/assessments/${assessment.id}/results`);
+      await visit(`/assessments/${assessment.id}/results`);
       await click('.result-item:nth-child(1) .result-item__correction-button');
     });
 

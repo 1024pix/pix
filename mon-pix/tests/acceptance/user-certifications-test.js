@@ -2,7 +2,7 @@ import { currentURL, find, findAll } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { authenticateByEmail } from '../helpers/authentification';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -19,7 +19,7 @@ describe('Acceptance | User certifications page', function() {
 
     it('should not be accessible when user is not connected', async function() {
       // when
-      await visitWithAbortedTransition('/mes-certifications');
+      await visit('/mes-certifications');
 
       // then
       expect(currentURL()).to.equal('/connexion');
@@ -30,7 +30,7 @@ describe('Acceptance | User certifications page', function() {
       await authenticateByEmail(userWithNoCertificates);
 
       // when
-      await visitWithAbortedTransition('/mes-certifications');
+      await visit('/mes-certifications');
 
       // then
       expect(currentURL()).to.equal('/mes-certifications');
@@ -42,7 +42,7 @@ describe('Acceptance | User certifications page', function() {
     it('should render the banner', async function() {
       // when
       await authenticateByEmail(userWithNoCertificates);
-      await visitWithAbortedTransition('/mes-certifications');
+      await visit('/mes-certifications');
 
       // then
       expect(find('.navbar-desktop-header__container')).to.exist;
@@ -51,7 +51,7 @@ describe('Acceptance | User certifications page', function() {
     it('should render a title for the page', async function() {
       // when
       await authenticateByEmail(userWithNoCertificates);
-      await visitWithAbortedTransition('/mes-certifications');
+      await visit('/mes-certifications');
 
       // then
       expect(find('.user-certifications-page__title')).to.exist;
@@ -60,7 +60,7 @@ describe('Acceptance | User certifications page', function() {
     it('should render the panel which contains informations about certifications of the connected user', async function() {
       // when
       await authenticateByEmail(userWithNoCertificates);
-      await visitWithAbortedTransition('/mes-certifications');
+      await visit('/mes-certifications');
 
       // then
       expect(find('.user-certifications-panel')).to.exist;
@@ -71,7 +71,7 @@ describe('Acceptance | User certifications page', function() {
       it('should dislpay the no certificates panel', async function() {
         // when
         await authenticateByEmail(userWithNoCertificates);
-        await visitWithAbortedTransition('/mes-certifications');
+        await visit('/mes-certifications');
 
         // then
         expect(find('.no-certification-panel')).to.exist;
@@ -86,7 +86,7 @@ describe('Acceptance | User certifications page', function() {
 
         // when
         await authenticateByEmail(userWithSomeCertificates);
-        await visitWithAbortedTransition('/mes-certifications');
+        await visit('/mes-certifications');
 
         // then
         expect(findAll('.certifications-list__table-body .certifications-list-item').length)

@@ -1,7 +1,7 @@
 import { currentURL } from '@ember/test-helpers';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -10,7 +10,7 @@ describe('Acceptance | Page | Not Found Redirection', () => {
   setupMirage();
 
   it('should redirect to home page when URL is a nonexistant page', async () => {
-    await visitWithAbortedTransition('/plop');
+    await visit('/plop');
 
     expect(currentURL()).to.eq('/connexion');
   });
