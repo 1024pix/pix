@@ -1,38 +1,31 @@
 import { click, find, findAll } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-
-async function visitTimedChallenge() {
-  await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-  await click('.challenge-item-warning button');
-}
 
 describe('Acceptance | Displaying a QCM', function() {
   setupApplicationTest();
   setupMirage();
+  let assessment;
+  let qcmChallenge;
 
   beforeEach(async function() {
-    defaultScenario(this.server);
+    assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+    qcmChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QCM');
   });
 
   context('Challenge answered: the answers checkboxes should be disabled', function() {
     beforeEach(async function() {
-      server.create('assessment', {
-        id: 'ref_assessment_id'
-      });
-
       server.create('answer', {
         value: '2, 4',
         result: 'ko',
-        challengeId: 'ref_qcm_challenge_id',
-        assessmentId: 'ref_assessment_id',
+        assessment,
+        challenge: qcmChallenge,
       });
 
-      await visitTimedChallenge();
+      await visit(`/assessments/${assessment.id}/challenges/${qcmChallenge.id}`);
     });
 
     it('should mark checkboxes corresponding to the answer', async function() {
@@ -48,25 +41,12 @@ describe('Acceptance | Displaying a QCM', function() {
 
   context('Challenge not answered', function() {
     beforeEach(async function() {
-      await visitTimedChallenge();
+      await visit(`/assessments/${assessment.id}/challenges/${qcmChallenge.id}`);
     });
 
     it('should render challenge instruction', function() {
-      // Given
-      const expectedInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
-
       // Then
-      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(expectedInstruction);
-    });
-
-    it('should format content written as [foo](bar) as clickable link', function() {
-      expect(find('.challenge-statement__instruction a')).to.exist;
-      expect(find('.challenge-statement__instruction a').textContent).to.equal('plusieurs');
-      expect(find('.challenge-statement__instruction a').getAttribute('href')).to.equal('http://link.plusieurs.url');
-    });
-
-    it('should open the links in a new tab', function() {
-      expect(find('.challenge-statement__instruction a').getAttribute('target')).to.equal('_blank');
+      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcmChallenge.instruction);
     });
 
     it('should render a list of checkboxes', function() {

@@ -2,8 +2,7 @@ import { find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentification';
-import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -13,25 +12,17 @@ describe('Acceptance | Common behavior to all challenges', function() {
   let user;
 
   beforeEach(async function() {
-    defaultScenario(this.server);
     user = server.create('user', 'withEmail');
     await authenticateByEmail(user);
   });
 
   context('Challenge answered: the answers inputs should be disabled', function() {
     beforeEach(async function() {
-      server.create('assessment', {
-        id: 'ref_assessment_id'
-      });
+      const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+      const challenge = server.create('challenge', 'forCompetenceEvaluation');
+      const answer = server.create('answer', 'skipped', { assessment, challenge });
 
-      server.create('answer', {
-        value: 'value',
-        result: 'ko',
-        challengeId: 'ref_qrocm_challenge_id',
-        assessmentId: 'ref_assessment_id',
-      });
-
-      await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
+      await visit(`/assessments/${answer.assessmentId}/challenges/${answer.challengeId}`);
     });
 
     it('should display the lock overlay', function() {
@@ -46,23 +37,27 @@ describe('Acceptance | Common behavior to all challenges', function() {
   });
 
   context('Challenge not answered', function() {
+    let assessment;
+    let challenge;
+
     beforeEach(async function() {
-      await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
+      assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+      challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCM', { instruction: 'Instruction [lien](http://www.a.link.example.url)' });
+      await visit(`/assessments/${assessment.id}/challenges/${challenge.id}`);
     });
 
-    it('should display the name of the test', function() {
-      expect(find('.assessment-banner__title').textContent).to.contain('First Course');
+    it('should display the name of the test', async function() {
+      expect(find('.assessment-banner__title').textContent).to.contain(assessment.title);
     });
 
     it('should display the challenge instruction', function() {
-      const instructionText = 'Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre';
-      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(instructionText);
+      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal('Instruction lien');
     });
 
     it('should format content written as [foo](bar) as clickable link', function() {
       expect(find('.challenge-statement__instruction a')).to.exist;
-      expect(find('.challenge-statement__instruction a').textContent).to.equal('ouverte');
-      expect(find('.challenge-statement__instruction a').getAttribute('href')).to.equal('http://link.ouverte.url');
+      expect(find('.challenge-statement__instruction a').textContent).to.equal('lien');
+      expect(find('.challenge-statement__instruction a').getAttribute('href')).to.equal('http://www.a.link.example.url');
     });
 
     it('should open links in a new tab', function() {

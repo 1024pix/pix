@@ -3,20 +3,12 @@ import faker from 'faker';
 
 export default Factory.extend({
 
-  id() {
-    return faker.random.uuid();
+  title() {
+    return faker.random.words();
   },
 
   type() {
-    return faker.lorem.word();
-  },
-
-  title() {
-    return faker.lorem.word();
-  },
-
-  afterCreate(assessment, server) {
-    assessment.update({ course: server.create('course') });
+    return 'COMPETENCE_EVALUATION';
   },
 
   withStartedState: trait({
@@ -27,8 +19,20 @@ export default Factory.extend({
     state: 'completed'
   }),
 
-  withPlacementType: trait({
-    type: 'PLACEMENT'
+  ofCompetenceEvaluationType: trait({
+    type: 'COMPETENCE_EVALUATION',
+  }),
+
+  ofCertificationType: trait({
+    type: 'CERTIFICATION',
+  }),
+
+  ofDemoType: trait({
+    type: 'DEMO',
+  }),
+
+  ofSmartPlacementType: trait({
+    type: 'SMART_PLACEMENT',
   }),
 
 });
