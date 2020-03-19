@@ -31,7 +31,7 @@
             <td>{{moment-format student.birthdate 'DD/MM/YYYY' allow-empty=true}}</td>
             <td class="list-students-page__authentication-methods">{{student.authenticationMethods}}</td>
             <td class="list-students-page__password-reset-cell">
-              {{#if student.hasUsername}}
+              {{#if (or student.hasUsername  student.hasEmail) }}
                 <div class="tooltip">
                   <span class="tooltip-text list-students-page__tooltip">Gérer</span>
                   <button class="button button--round-with-icon list-students-page__manage-button" type="button" {{on 'click' (fn this.openPasswordReset student)}}>

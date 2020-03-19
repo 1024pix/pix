@@ -2,6 +2,8 @@ const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helpe
 const _ = require('lodash');
 const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
 const Student = require('../../../../lib/domain/models/Student');
+const StudentWithUserInfo = require('../../../../lib/domain/models/StudentWithUserInfo');
+
 const { NotFoundError, SameNationalStudentIdInOrganizationError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | student-repository', () => {
@@ -550,4 +552,188 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       expect(result).to.be.instanceOf(NotFoundError);
     });
   });
+
+  describe('#findStudentsWithUserInfoByOrganizationId', () => {
+
+    it('should return instances of StudentWithUserInfo', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      databaseBuilder.factory.buildStudent({
+        organizationId: organization.id,
+        userId: null,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const studentsWithUserInfo = await studentRepository.findStudentsWithUserInfoByOrganizationId({ organizationId: organization.id });
+
+      // then
+      const studentWithUserInfo = studentsWithUserInfo[0];
+      expect(studentWithUserInfo).to.be.an.instanceOf(StudentWithUserInfo);
+    });
+
+    it('should return all the StudentWithUserInfo for a given organization ID', async () => {
+      // given
+      const organization_1 = databaseBuilder.factory.buildOrganization();
+      const organization_2 = databaseBuilder.factory.buildOrganization();
+
+      const user = databaseBuilder.factory.buildUser();
+
+      const student_1 = databaseBuilder.factory.buildStudent({ organizationId: organization_1.id });
+      const student_2 = databaseBuilder.factory.buildStudent({ organizationId: organization_1.id, userId: user.id });
+      databaseBuilder.factory.buildStudent({ organizationId: organization_2.id });
+
+      await databaseBuilder.commit();
+
+      // when
+      const students = await studentRepository.findStudentsWithUserInfoByOrganizationId({ organizationId: organization_1.id });
+
+      // then
+      expect(_.map(students, 'id')).to.have.members([student_1.id, student_2.id]);
+    });
+
+    it('should order students by lastName and then by firstName with no sensitive case', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      const student_1 = databaseBuilder.factory.buildStudent({ organizationId: organization.id, lastName: 'Grenier' });
+      const student_2 = databaseBuilder.factory.buildStudent({
+        organizationId: organization.id,
+        lastName: 'Avatar',
+        firstName: 'Xavier'
+      });
+      const student_3 = databaseBuilder.factory.buildStudent({
+        organizationId: organization.id,
+        lastName: 'Avatar',
+        firstName: 'Arthur'
+      });
+      const student_4 = databaseBuilder.factory.buildStudent({
+        organizationId: organization.id,
+        lastName: 'Avatar',
+        firstName: 'MATHURIN'
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const students = await studentRepository.findByOrganizationId({ organizationId: organization.id });
+
+      // then
+      expect(_.map(students, 'id')).to.deep.include.ordered.members([student_3.id, student_4.id, student_2.id, student_1.id]);
+    });
+
+    describe('When student is reconcilied and authenticated by email (and/or) username' , () => {
+
+      it('should return all student properties including the reconciled user:email,username', async () => {
+
+        // given
+        const organization = databaseBuilder.factory.buildOrganization();
+        const user = databaseBuilder.factory.buildUser({
+          organizationId: organization.id,
+        });
+        const student = databaseBuilder.factory.buildStudent({
+          organizationId: organization.id,
+          userId: user.id,
+        });
+        const expectedStudentWithUserInfo = new StudentWithUserInfo({
+          id : student.id,
+          firstName : student.firstName,
+          lastName : student.lastName,
+          birthdate : student.birthdate,
+          organizationId : student.organizationId,
+          username : user.username,
+          userId: student.userId,
+          email : user.email,
+          isAuthenticatedFromGAR : false,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const studentsWithUserInfo = await studentRepository.findStudentsWithUserInfoByOrganizationId({ organizationId: organization.id });
+        const studentWithUserInfo = studentsWithUserInfo[0];
+
+        // then
+        expect(studentWithUserInfo).to.deep.equal(expectedStudentWithUserInfo);
+
+      });
+
+    });
+
+    describe('When student is reconcilied  and  authenticated from GAR' , () => {
+
+      it('should return isAuthenticatedFromGAR property equal to true', async () => {
+
+        // given
+        const organization = databaseBuilder.factory.buildOrganization();
+        const user = databaseBuilder.factory.buildUser({
+          organizationId: organization.id,
+          samlId: 'samlId',
+          username: null,
+          email: null,
+        });
+        const student = databaseBuilder.factory.buildStudent({
+          organizationId: organization.id,
+          userId: user.id,
+        });
+        const expectedStudentWithUserInfo = new StudentWithUserInfo({
+          id : student.id,
+          firstName : student.firstName,
+          lastName : student.lastName,
+          birthdate : student.birthdate,
+          organizationId : student.organizationId,
+          username : null,
+          email : null,
+          userId: student.userId,
+          isAuthenticatedFromGAR : true,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const studentsWithUserInfo = await studentRepository.findStudentsWithUserInfoByOrganizationId({ organizationId: organization.id });
+        const studentWithUserInfo = studentsWithUserInfo[0];
+
+        // then
+        expect(studentWithUserInfo).to.deep.equal(expectedStudentWithUserInfo);
+
+      });
+
+    });
+
+    describe('When student is not reconcilied' , () => {
+
+      it('should return empty email, username, userId', async () => {
+
+        // given
+        const organization = databaseBuilder.factory.buildOrganization();
+        const student = databaseBuilder.factory.buildStudent({
+          organizationId: organization.id,
+          userId: null,
+        });
+
+        const expectedStudentWithUserInfo = new StudentWithUserInfo({
+          id : student.id,
+          firstName : student.firstName,
+          lastName : student.lastName,
+          birthdate : student.birthdate,
+          organizationId : student.organizationId,
+          username : null,
+          email : null,
+          userId: student.userId,
+          isAuthenticatedFromGAR : false,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const studentsWithUserInfo = await studentRepository.findStudentsWithUserInfoByOrganizationId({ organizationId: organization.id });
+        const studentWithUserInfo = studentsWithUserInfo[0];
+
+        // then
+        expect(studentWithUserInfo).to.deep.equal(expectedStudentWithUserInfo);
+
+      });
+
+    });
+
+  });
+
 });
