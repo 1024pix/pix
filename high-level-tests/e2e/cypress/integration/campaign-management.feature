@@ -5,10 +5,6 @@ Fonctionnalité: Gestion des Campagnes
     Étant donné que je vais sur Pix Orga
     Et que les données de test sont chargées
 
-  Scénario: Je me connecte à Pix Orga
-    Lorsque je me connecte avec le compte "daenerys.targaryen@pix.fr"
-    Alors je suis redirigé vers le compte Orga de "Daenerys Targaryen"
-
   Scénario: Je consulte le détail d'une campagne
     Étant donné que je suis connecté à Pix Orga
     Alors je vois 2 campagnes
