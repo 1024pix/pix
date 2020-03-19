@@ -1,0 +1,24 @@
+.success-indicator {
+  @mixin loaderColor($color) {
+    .circle--slice { stroke: $color; }
+    .success-indicator__value { color: $color; }
+  }
+
+  &--red { @include loaderColor($vermilion) }
+  &--orange { @include loaderColor($neon-carot) }
+  &--green { @include loaderColor($emerald) }
+
+  .success-indicator__value {
+    font-size: .8125rem;
+    font-weight: 500;
+  }
+
+  .circle-chart {
+    width: 2.875rem;
+    height: 2.875rem;
+
+    .circle {
+      stroke-width: 3;
+    }
+  }
+}
