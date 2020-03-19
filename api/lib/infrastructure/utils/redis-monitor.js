@@ -1,5 +1,5 @@
 const settings = require('../../config');
-const RedisClient = require('../caches/RedisClient');
+const RedisClient = require('./RedisClient');
 
 class RedisMonitor {
 
