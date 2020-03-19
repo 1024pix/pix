@@ -23,5 +23,29 @@
     "email": "john.snow@pix.fr",
     "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
     "cgu": true
+  },
+  {
+    "id": 4,
+    "firstName": "Tyrion",
+    "lastName": "Lannister",
+    "email": "tyrion.lannister@example.net",
+    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
+    "cgu": true
+  },
+  {
+    "id": 5,
+    "firstName": "Jaime",
+    "lastName": "Lannister",
+    "email": "jaime.lannister@example.net",
+    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
+    "cgu": true
+  },
+  {
+    "id": 6,
+    "firstName": "Cersei",
+    "lastName": "Lannister",
+    "email": "cersei.lannister@example.net",
+    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
+    "cgu": true
   }
 ]
