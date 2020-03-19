@@ -100,19 +100,19 @@ describe('Integration | Service | User Service', function() {
       const assessmentResult1 = new AssessmentResult({ level: 1, pixScore: 12 });
       const assessmentResult2 = new AssessmentResult({ level: 2, pixScore: 23 });
       const assessmentResult3 = new AssessmentResult({ level: 0, pixScore: 2 });
-      const assessment1 = Assessment.fromAttributes({
+      const assessment1 = new Assessment({
         id: 13,
         status: 'completed',
         competenceId: 'competenceRecordIdOne',
         assessmentResults: [assessmentResult1]
       });
-      const assessment2 = Assessment.fromAttributes({
+      const assessment2 = new Assessment({
         id: 1637,
         status: 'completed',
         competenceId: 'competenceRecordIdTwo',
         assessmentResults: [assessmentResult2]
       });
-      const assessment3 = Assessment.fromAttributes({
+      const assessment3 = new Assessment({
         id: 145,
         status: 'completed',
         competenceId: 'competenceRecordIdUnknown',

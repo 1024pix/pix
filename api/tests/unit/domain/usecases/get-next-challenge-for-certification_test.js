@@ -18,7 +18,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', ()
     it('should use the assessmentService to select the next CertificationChallenge', async () => {
       // given
       const nextChallenge = Symbol('nextChallenge');
-      const assessment = Assessment.fromAttributes({ id: 156, certificationCourseId: 54516 });
+      const assessment = new Assessment({ id: 156, certificationCourseId: 54516 });
 
       certificationChallengeRepository.getNonAnsweredChallengeByCourseId.resolves(nextChallenge);
 
@@ -34,7 +34,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', ()
       const challengeId = 15167432;
       const nextChallengeToAnswer = Symbol('nextChallengeToAnswer');
       const nextCertificationChallenge = { challengeId };
-      const assessment = Assessment.fromAttributes({ id: 156, courseId: 54516 });
+      const assessment = new Assessment({ id: 156, courseId: 54516 });
 
       certificationChallengeRepository.getNonAnsweredChallengeByCourseId.resolves(nextCertificationChallenge);
       challengeRepository.get.resolves(nextChallengeToAnswer);
