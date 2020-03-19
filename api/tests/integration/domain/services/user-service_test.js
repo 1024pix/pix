@@ -35,7 +35,7 @@ describe('Integration | Service | User Service', function() {
   }
 
   function _createChallenge(id, competence, skills, testedSkill, status = 'validé') {
-    const challenge = Challenge.fromAttributes();
+    const challenge = new Challenge();
     challenge.id = id;
     challenge.skills = skills;
     challenge.competenceId = competence;
