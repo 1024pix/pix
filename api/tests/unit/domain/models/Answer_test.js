@@ -1,5 +1,4 @@
 const Answer = require('../../../../lib/domain/models/Answer');
-const Challenge = require('../../../../lib/domain/models/Challenge');
 const Skill = require('../../../../lib/domain/models/Skill');
 const { expect, domainBuilder } = require('../../../test-helper');
 
@@ -85,9 +84,9 @@ describe('Unit | Domain | Models | Answer', () => {
 
     it('should exist', () => {
       // given
-      const challenge = Challenge.fromAttributes();
       const answer = new Answer({ result: 'ko' });
-      answer.challenge = challenge;
+      answer.challenge = { skills: [] };
+
       // then
       expect(answer.maxDifficulty).to.exist;
     });
@@ -96,9 +95,7 @@ describe('Unit | Domain | Models | Answer', () => {
       // given
       const web5 = new Skill({ name: '@web5' });
       const url1 = new Skill({ name: '@url1' });
-      const challenge = Challenge.fromAttributes();
-      challenge.addSkill(web5);
-      challenge.addSkill(url1);
+      const challenge = { skills: [web5, url1] };
       const answer = new Answer({ result: 'ko' });
       answer.challenge = challenge;
 

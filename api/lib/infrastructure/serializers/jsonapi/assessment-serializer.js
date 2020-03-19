@@ -86,7 +86,7 @@ module.exports = {
       courseId = json.data.relationships.course.data.id;
     }
 
-    return Assessment.fromAttributes({
+    return new Assessment({
       id: json.data.id,
       type,
       courseId,

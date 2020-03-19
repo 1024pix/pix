@@ -16,14 +16,14 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
     beforeEach(() => {
 
-      assessmentWithoutScore = Assessment.fromAttributes({
+      assessmentWithoutScore = new Assessment({
         id: 1,
         courseId: 'recHzEA6lN4PEs7LG',
         userId: 5,
         type: 'DEMO',
       });
 
-      assessmentWithScore = Assessment.fromAttributes({
+      assessmentWithScore = new Assessment({
         id: 1,
         courseId: 'recHzEA6lN4PEs7LG', userId: 5,
         estimatedLevel: 0,
@@ -52,7 +52,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       const PREVIEW_ASSESSMENT_ID = 245;
 
       beforeEach(() => {
-        assessmentRepository.get.resolves(Assessment.fromAttributes({
+        assessmentRepository.get.resolves(new Assessment({
           id: 1,
           courseId: 'null2356871',
           userId: 5,
@@ -109,7 +109,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
     describe('when the assessment is a certification assessment', function() {
 
-      const certificationAssessment = Assessment.fromAttributes({
+      const certificationAssessment = new Assessment({
         id: 'assessmentId',
         type: Assessment.types.CERTIFICATION,
       });
@@ -146,7 +146,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
     describe('when the assessment is a smart placement assessment', () => {
 
-      const assessment = Assessment.fromAttributes({
+      const assessment = new Assessment({
         id: 1,
         courseId: 'courseId',
         userId: 5,
