@@ -29,15 +29,10 @@ module.exports = async function completeAssessment({
 
   await assessmentRepository.completeByAssessmentId(assessmentId);
 
-  /*
-      AssessmentCompleted will contain useful information for event handlers to perform their tasks.
-      For instance :
-      {
-          assessmentId: 306,
-          type: SMART_PLACEMENT
-      }
-   */
-  return new AssessmentCompleted();
+  return new AssessmentCompleted(
+    assessment.userId,
+    assessment.isSmartPlacement() ? assessment.targetProfile.id : null
+  );
 };
 
 async function _calculateCertificationScore({
