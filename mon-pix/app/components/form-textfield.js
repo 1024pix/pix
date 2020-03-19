@@ -1,7 +1,9 @@
+import { classNames } from '@ember-decorators/component';
+import { action, computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
-import { computed } from '@ember/object';
-import Component from '@ember/component';
 import { isEmpty } from '@ember/utils';
+import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
 const INPUT_VALIDATION_STATUS_MAP = {
   default: 'form-textfield__input--default',
@@ -27,23 +29,28 @@ const INPUT_CONTAINER_VALIDATION_STATUS_MAP = {
   success: 'form-textfield__input-container--success'
 };
 
-export default Component.extend({
-  classNames: ['form-textfield'],
+@classic
+@classNames('form-textfield')
+export default class FormTextfield extends Component {
+  label = '';
+  textfieldName = '';
+  validationMessage = '';
+  validationStatus = 'default';
 
-  label: '',
-  textfieldName: '',
-  validationMessage: '',
-  validationStatus: 'default',
-  isPassword: equal('textfieldName','password'),
-  isEmail: equal('textfieldName','email'),
-  isPasswordVisible: false,
-  require: false,
-  help: '',
-  disabled: false,
+  @equal('textfieldName', 'password')
+  isPassword;
 
-  onValidate: () => {},
+  @equal('textfieldName', 'email')
+  isEmail;
 
-  textfieldType: computed('textfieldName', 'isPasswordVisible',  function() {
+  isPasswordVisible = false;
+  require = false;
+  help = '';
+  disabled = false;
+  onValidate = () => {};
+
+  @computed('textfieldName', 'isPasswordVisible')
+  get textfieldType() {
     if (this.textfieldName === 'password') {
       return this.isPasswordVisible ? 'text' : 'password';
     }
@@ -51,43 +58,48 @@ export default Component.extend({
       return 'email';
     }
     return 'text';
-  }),
+  }
 
   _isValidationStatusNotDefault() {
     return this.validationStatus !== 'default';
-  },
+  }
 
-  hasIcon: computed('validationStatus', 'user.errors.content', 'disabled', function() {
+  @computed('validationStatus', 'user.errors.content', 'disabled')
+  get hasIcon() {
     return this._isValidationStatusNotDefault() && !this.disabled;
-  }),
+  }
 
-  displayMessage: computed('hasIcon', 'validationMessage', function() {
+  @computed('hasIcon', 'validationMessage')
+  get displayMessage() {
     return !isEmpty(this.validationMessage) || this.hasIcon;
-  }),
+  }
 
-  inputContainerStatusClass: computed('validationStatus', function() {
+  @computed('validationStatus')
+  get inputContainerStatusClass() {
     const inputValidationStatus = this.validationStatus;
     return INPUT_CONTAINER_VALIDATION_STATUS_MAP[inputValidationStatus] || null;
-  }),
+  }
 
-  iconType: computed('validationStatus', function() {
+  @computed('validationStatus')
+  get iconType() {
     const inputValidationStatus = this.validationStatus;
     return ICON_TYPE_STATUS_MAP[inputValidationStatus] || '';
-  }),
+  }
 
-  inputValidationStatus: computed('validationStatus', function() {
+  @computed('validationStatus')
+  get inputValidationStatus() {
     const inputValidationStatus = this.validationStatus;
     return INPUT_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
-  }),
+  }
 
-  validationMessageClass: computed('validationStatus', function() {
+  @computed('validationStatus')
+  get validationMessageClass() {
     const inputValidationStatus = this.validationStatus;
     return MESSAGE_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
-  }),
-
-  actions: {
-    togglePasswordVisibility() {
-      this.toggleProperty('isPasswordVisible');
-    }
   }
-});
+
+  @action
+  togglePasswordVisibility() {
+    this.toggleProperty('isPasswordVisible');
+  }
+}

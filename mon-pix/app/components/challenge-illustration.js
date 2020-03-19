@@ -1,19 +1,19 @@
 import Component from '@ember/component';
-import { trySet } from '@ember/object';
+import { classNames } from '@ember-decorators/component';
+import { trySet, action } from '@ember/object';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  classNames: ['challenge-illustration'],
-  src: null,
-  alt: null,
+@classic
+@classNames('challenge-illustration')
+export default class ChallengeIllustration extends Component {
+  src = null;
+  alt = null;
+  hiddenClass = 'challenge-illustration__loaded-image--hidden';
+  displayPlaceholder = true;
 
-  hiddenClass: 'challenge-illustration__loaded-image--hidden',
-  displayPlaceholder: true,
-
-  actions: {
-    onImageLoaded() {
-      trySet(this, 'displayPlaceholder', false);
-      trySet(this, 'hiddenClass', null);
-    }
-  },
-
-});
+  @action
+  onImageLoaded() {
+    trySet(this, 'displayPlaceholder', false);
+    trySet(this, 'hiddenClass', null);
+  }
+}

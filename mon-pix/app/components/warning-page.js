@@ -1,5 +1,6 @@
 import { computed } from '@ember/object';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import _ from 'mon-pix/utils/lodash-custom';
 
 function _pluralize(word, count) {
@@ -48,14 +49,15 @@ function _formatTimeForButton(time) {
   return `${formattedMinutes}:${formattedSeconds}`;
 }
 
-export default Component.extend({
-
-  allocatedHumanTime: computed('time', function() {
+@classic
+export default class WarningPage extends Component {
+  @computed('time')
+  get allocatedHumanTime() {
     return _formatTimeForText(this.time);
-  }),
+  }
 
-  allocatedTime: computed('time', function() {
+  @computed('time')
+  get allocatedTime() {
     return _formatTimeForButton(this.time);
-  }),
-
-});
+  }
+}

@@ -1,11 +1,15 @@
+import { classNames } from '@ember-decorators/component';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  classNames: ['user-certifications-detail-profile'],
-  resultCompetenceTree: null,
+@classic
+@classNames('user-certifications-detail-profile')
+export default class UserCertificationsDetailProfile extends Component {
+  resultCompetenceTree = null;
 
-  sortedAreas: computed('resultCompetenceTree.areas.[]', function() {
+  @computed('resultCompetenceTree.areas.[]')
+  get sortedAreas() {
     return this.get('resultCompetenceTree.areas').sortBy('code');
-  })
-});
+  }
+}

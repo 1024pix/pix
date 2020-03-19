@@ -1,13 +1,16 @@
-import Component from '@ember/component';
-import { alias } from '@ember/object/computed';
+import { classNames } from '@ember-decorators/component';
 import { inject as service } from '@ember/service';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  session: service(),
+@classic
+@classNames('navbar-mobile-header')
+export default class NavbarMobileHeader extends Component {
+  @service session;
 
-  classNames: ['navbar-mobile-header'],
+  @alias('session.isAuthenticated')
+  isUserLogged;
 
-  isUserLogged: alias('session.isAuthenticated'),
-
-  burger: null,
-});
+  burger = null;
+}

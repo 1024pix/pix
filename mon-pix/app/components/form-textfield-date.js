@@ -1,5 +1,7 @@
+import { classNames } from '@ember-decorators/component';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
 const INPUT_VALIDATION_STATUS_MAP = {
   default: 'form-textfield__input--default',
@@ -19,61 +21,80 @@ const INPUT_CONTAINER_VALIDATION_STATUS_MAP = {
   success: 'form-textfield__input-container--success'
 };
 
-export default Component.extend({
-  classNames: ['form-textfield'],
+@classic
+@classNames('form-textfield')
+export default class FormTextfieldDate extends Component {
+  label = '';
+  dayTextfieldName = '';
+  monthTextfieldName = '';
+  yearTextfieldName = '';
+  dayValidationMessage = '';
+  monthValidationMessage = '';
+  yearValidationMessage = '';
+  require = false;
+  help = '';
+  disabled = false;
+  onValidateDay = () => {};
+  onValidateMonth = () => {};
+  onValidateYear = () => {};
 
-  label: '',
-  dayTextfieldName: '',
-  monthTextfieldName: '',
-  yearTextfieldName: '',
-  dayValidationMessage: '',
-  monthValidationMessage: '',
-  yearValidationMessage: '',
-  require: false,
-  help: '',
-  disabled: false,
-
-  onValidateDay: () => {},
-  onValidateMonth: () => {},
-  onValidateYear: () => {},
-
-  dayHasIcon: computed('dayValidationStatus', 'disabled', function() {
+  @computed('dayValidationStatus', 'disabled')
+  get dayHasIcon() {
     return this.dayValidationStatus !== 'default' && !this.disabled;
-  }),
-  monthHasIcon: computed('monthValidationStatus', 'disabled', function() {
+  }
+
+  @computed('monthValidationStatus', 'disabled')
+  get monthHasIcon() {
     return this.monthValidationStatus !== 'default' && !this.disabled;
-  }),
-  yearHasIcon: computed('yearValidationStatus', 'disabled',  function() {
+  }
+
+  @computed('yearValidationStatus', 'disabled')
+  get yearHasIcon() {
     return this.yearValidationStatus !== 'default' && !this.disabled;
-  }),
+  }
 
-  dayInputContainerStatusClass: computed('dayValidationStatus', function() {
+  @computed('dayValidationStatus')
+  get dayInputContainerStatusClass() {
     return INPUT_CONTAINER_VALIDATION_STATUS_MAP[this.dayValidationStatus] || null;
-  }),
-  monthInputContainerStatusClass: computed('monthValidationStatus', function() {
+  }
+
+  @computed('monthValidationStatus')
+  get monthInputContainerStatusClass() {
     return INPUT_CONTAINER_VALIDATION_STATUS_MAP[this.monthValidationStatus] || null;
-  }),
-  yearInputContainerStatusClass: computed('yearValidationStatus', function() {
+  }
+
+  @computed('yearValidationStatus')
+  get yearInputContainerStatusClass() {
     return INPUT_CONTAINER_VALIDATION_STATUS_MAP[this.yearValidationStatus] || null;
-  }),
+  }
 
-  dayInputValidationStatus: computed('dayValidationStatus', function() {
+  @computed('dayValidationStatus')
+  get dayInputValidationStatus() {
     return INPUT_VALIDATION_STATUS_MAP[this.dayValidationStatus] || '';
-  }),
-  monthInputValidationStatus: computed('monthValidationStatus', function() {
-    return INPUT_VALIDATION_STATUS_MAP[this.monthValidationStatus] || '';
-  }),
-  yearInputValidationStatus: computed('yearValidationStatus', function() {
-    return INPUT_VALIDATION_STATUS_MAP[this.yearValidationStatus] || '';
-  }),
+  }
 
-  dayValidationMessageClass: computed('dayValidationStatus', function() {
+  @computed('monthValidationStatus')
+  get monthInputValidationStatus() {
+    return INPUT_VALIDATION_STATUS_MAP[this.monthValidationStatus] || '';
+  }
+
+  @computed('yearValidationStatus')
+  get yearInputValidationStatus() {
+    return INPUT_VALIDATION_STATUS_MAP[this.yearValidationStatus] || '';
+  }
+
+  @computed('dayValidationStatus')
+  get dayValidationMessageClass() {
     return MESSAGE_VALIDATION_STATUS_MAP[this.dayValidationStatus] || '';
-  }),
-  monthValidationMessageClass: computed('monthValidationStatus', function() {
+  }
+
+  @computed('monthValidationStatus')
+  get monthValidationMessageClass() {
     return MESSAGE_VALIDATION_STATUS_MAP[this.monthValidationStatus] || '';
-  }),
-  yearValidationMessageClass: computed('yearValidationStatus', function() {
+  }
+
+  @computed('yearValidationStatus')
+  get yearValidationMessageClass() {
     return MESSAGE_VALIDATION_STATUS_MAP[this.yearValidationStatus] || '';
-  }),
-});
+  }
+}

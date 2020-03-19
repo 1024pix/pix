@@ -1,19 +1,21 @@
+import { action } from '@ember/object';
 import _ from 'mon-pix/utils/lodash-custom';
+import classic from 'ember-classic-decorator';
 
 import ChallengeItemGeneric from './challenge-item-generic';
 import jsyaml from 'js-yaml';
 
-const ChallengeItemQrocm = ChallengeItemGeneric.extend({
-
-  _hasError: function() {
+@classic
+class ChallengeItemQrocm extends ChallengeItemGeneric {
+  _hasError() {
     const allAnswers = this._getRawAnswerValue(); // ex. {"logiciel1":"word", "logiciel2":"excel", "logiciel3":""}
     const hasAtLeastOneAnswer = _(allAnswers).hasSomeTruthyProps();
     return _.isFalsy(hasAtLeastOneAnswer);
-  },
+  }
 
   _getAnswerValue() {
     return jsyaml.safeDump(this._getRawAnswerValue());
-  },
+  }
 
   // XXX : data is extracted from DOM of child component, breaking child encapsulation.
   // This is not "the Ember way", however it makes code easier to read,
@@ -25,18 +27,16 @@ const ChallengeItemQrocm = ChallengeItemGeneric.extend({
       result[element.getAttribute('name')] = element.value;
     });
     return result;
-  },
+  }
 
   _getErrorMessage() {
     return 'Pour valider, saisir au moins une réponse. Sinon, passer.';
-  },
-
-  actions: {
-    answerChanged() {
-      this.set('errorMessage', null);
-    }
   }
 
-});
+  @action
+  answerChanged() {
+    this.set('errorMessage', null);
+  }
+}
 
 export default ChallengeItemQrocm;

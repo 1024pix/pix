@@ -1,15 +1,17 @@
-import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
+import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-
-  totalGaugeStyle: computed('total', function() {
+@classic
+export default class ProgressionGauge extends Component {
+  @computed('total')
+  get totalGaugeStyle() {
     return htmlSafe(`width: ${this.total}%`);
-  }),
+  }
 
-  valueGaugeStyle: computed('value', function() {
+  @computed('value')
+  get valueGaugeStyle() {
     return htmlSafe(`width: ${this.value}%`);
-  }),
-
-});
+  }
+}

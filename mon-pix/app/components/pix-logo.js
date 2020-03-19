@@ -1,7 +1,7 @@
+import { classNames } from '@ember-decorators/component';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-
-  classNames: ['pix-logo']
-
-});
+@classic
+@classNames('pix-logo')
+export default class PixLogo extends Component {}

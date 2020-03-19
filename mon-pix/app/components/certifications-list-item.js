@@ -1,24 +1,37 @@
-import { computed } from '@ember/object';
 import Component from '@ember/component';
+import { classNames, classNameBindings } from '@ember-decorators/component';
+import { computed } from '@ember/object';
+import classic from 'ember-classic-decorator';
 
 const { and, or, not, equal } = computed;
 
-export default Component.extend({
-  certification: null,
-  classNames: ['certifications-list-item'],
-  classNameBindings: [
-    'certification.isPublished:certifications-list-item__published-item:certifications-list-item__unpublished-item',
-    'isClickable:certifications-list-item__clickable:certifications-list-item__not-clickable',
-  ],
+@classic
+@classNames('certifications-list-item')
+@classNameBindings(
+  'certification.isPublished:certifications-list-item__published-item:certifications-list-item__unpublished-item',
+  'isClickable:certifications-list-item__clickable:certifications-list-item__not-clickable'
+)
+export default class CertificationsListItem extends Component {
+  certification = null;
 
-  isValidated: equal('certification.status', 'validated'),
-  isNotValidated: not('isValidated'),
+  @equal('certification.status', 'validated')
+  isValidated;
 
-  isNotPublished: not('certification.isPublished'),
-  isPublishedAndRejected: and('isNotValidated', 'certification.isPublished'),
-  isPublishedAndValidated: and('isValidated', 'certification.isPublished'),
+  @not('isValidated')
+  isNotValidated;
 
-  shouldDisplayComment: and('isNotValidated', 'certification.{isPublished,commentForCandidate}'),
+  @not('certification.isPublished')
+  isNotPublished;
 
-  isClickable: or('shouldDisplayComment', 'isPublishedAndValidated'),
-});
+  @and('isNotValidated', 'certification.isPublished')
+  isPublishedAndRejected;
+
+  @and('isValidated', 'certification.isPublished')
+  isPublishedAndValidated;
+
+  @and('isNotValidated', 'certification.{isPublished,commentForCandidate}')
+  shouldDisplayComment;
+
+  @or('shouldDisplayComment', 'isPublishedAndValidated')
+  isClickable;
+}
