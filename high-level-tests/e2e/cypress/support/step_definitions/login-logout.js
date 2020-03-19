@@ -57,6 +57,11 @@ when(`je me déconnecte`, () => {
   cy.get('.logged-user-menu__link:last-of-type').click();
 });
 
+when(`je me déconnecte de Pix Orga`, () => {
+  cy.get('.topbar__user-logged-menu').click();
+  cy.get('.logged-user-menu-item:last-of-type').click();
+});
+
 then(`je suis redirigé vers la page {string}`, (pathname) => {
   cy.url().should('include', pathname);
 });
