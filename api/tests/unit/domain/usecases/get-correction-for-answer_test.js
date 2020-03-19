@@ -23,7 +23,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
       it('should reject with a assessment not completed error', async () => {
         // given
         const userId = 'userId';
-        const assessment = Assessment.fromAttributes({ state: 'started', userId });
+        const assessment = new Assessment({ state: 'started', userId });
         const answer = new Answer({ assessmentId: 1, challengeId: 12 });
         assessmentRepository.get.resolves(assessment);
         answerRepository.get.resolves(answer);
@@ -51,7 +51,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         const assessmentId = 1;
         const challengeId = 12;
         const userId = 'userId';
-        const assessment = Assessment.fromAttributes({ state: 'started', type: Assessment.types.SMARTPLACEMENT, userId });
+        const assessment = new Assessment({ state: 'started', type: Assessment.types.SMARTPLACEMENT, userId });
         const answer = new Answer({ assessmentId, challengeId });
         const correction = new Correction({ id: 123 });
         assessmentRepository.get.resolves(assessment);
@@ -81,7 +81,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         const assessmentId = 1;
         const challengeId = 12;
         const userId = 'userId';
-        const assessment = Assessment.fromAttributes({ state: 'started', type: Assessment.types.COMPETENCE_EVALUATION, userId });
+        const assessment = new Assessment({ state: 'started', type: Assessment.types.COMPETENCE_EVALUATION, userId });
         const answer = new Answer({ assessmentId, challengeId });
         const correction = new Correction({ id: 123 });
         assessmentRepository.get.resolves(assessment);
@@ -113,7 +113,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
       const assessmentId = 1;
       const challengeId = 12;
       const userId = 'userId';
-      const assessment = Assessment.fromAttributes({ state: 'completed', userId });
+      const assessment = new Assessment({ state: 'completed', userId });
       const answer = new Answer({ assessmentId, challengeId });
       const correction = new Correction({ id: 123 });
       assessmentRepository.get.resolves(assessment);
@@ -144,7 +144,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
       const assessmentId = 1;
       const challengeId = 12;
       const userId = 'userId';
-      const assessment = Assessment.fromAttributes({ state: 'completed', userId });
+      const assessment = new Assessment({ state: 'completed', userId });
       const answer = new Answer({ assessmentId, challengeId });
       assessmentRepository.get.resolves(assessment);
       answerRepository.get.resolves(answer);
@@ -171,7 +171,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
       const assessmentId = 1;
       const challengeId = 12;
       const userId = 'userId';
-      const assessment = Assessment.fromAttributes({ state: 'completed', userId });
+      const assessment = new Assessment({ state: 'completed', userId });
       const answer = new Answer({ assessmentId, challengeId });
       assessmentRepository.get.resolves(assessment);
       answerRepository.get.resolves(answer);

@@ -8,7 +8,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return true when its state is completed', () => {
       // given
-      const assessment = Assessment.fromAttributes({ state: 'completed' });
+      const assessment = new Assessment({ state: 'completed' });
 
       // when
       const isCompleted = assessment.isCompleted();
@@ -19,7 +19,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return false when its state is not completed', () => {
       // given
-      const assessment = Assessment.fromAttributes({ state: '' });
+      const assessment = new Assessment({ state: '' });
 
       // when
       const isCompleted = assessment.isCompleted();
@@ -51,7 +51,7 @@ describe('Unit | Domain | Models | Assessment', () => {
         emitter: 'Gerard',
       });
 
-      const assessment = Assessment.fromAttributes({
+      const assessment = new Assessment({
         status: 'completed',
         assessmentResults: [assessmentResultComputed, assessmentResultJury, assessmentResultJuryOld],
       });
@@ -66,7 +66,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return null when assessment has no result', () => {
       // given
-      const assessment = Assessment.fromAttributes({ status: '' });
+      const assessment = new Assessment({ status: '' });
 
       // when
       const lastResult = assessment.getLastAssessmentResult();
@@ -94,7 +94,7 @@ describe('Unit | Domain | Models | Assessment', () => {
         emitter: 'Michel',
       });
 
-      const assessment = Assessment.fromAttributes({
+      const assessment = new Assessment({
         status: 'completed',
         assessmentResults: [assessmentResultComputed, assessmentResultJury],
       });
@@ -108,7 +108,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return null when assessment has no result', () => {
       // given
-      const assessment = Assessment.fromAttributes({ status: '' });
+      const assessment = new Assessment({ status: '' });
 
       // when
       const pixScore = assessment.getPixScore();
@@ -136,7 +136,7 @@ describe('Unit | Domain | Models | Assessment', () => {
         emitter: 'Michel',
       });
 
-      const assessment = Assessment.fromAttributes({
+      const assessment = new Assessment({
         status: 'completed',
         assessmentResults: [assessmentResultComputed, assessmentResultJury],
       });
@@ -150,7 +150,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return null when assessment has no result', () => {
       // given
-      const assessment = Assessment.fromAttributes({ status: '' });
+      const assessment = new Assessment({ status: '' });
 
       // when
       const level = assessment.getLevel();
@@ -165,7 +165,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return the same object with state completed', () => {
       // given
-      const assessment = Assessment.fromAttributes({ state: 'started', userId: 2 });
+      const assessment = new Assessment({ state: 'started', userId: 2 });
 
       // when
       assessment.setCompleted();
@@ -182,7 +182,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return resolved promise when object is valid', () => {
       // given
-      assessment = Assessment.fromAttributes({ type: 'DEMO' });
+      assessment = new Assessment({ type: 'DEMO' });
 
       // when
       const promise = assessment.validate();
@@ -193,7 +193,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return rejected promise when Certification assessment has no userId', () => {
       //given
-      assessment = Assessment.fromAttributes({ type: 'CERTIFICATION' });
+      assessment = new Assessment({ type: 'CERTIFICATION' });
 
       // when
       const promise = assessment.validate();
@@ -204,7 +204,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return rejected promise when Competence evaluation assessment has no userId', () => {
       //given
-      assessment = Assessment.fromAttributes({ type: 'COMPETENCE_EVALUATION' });
+      assessment = new Assessment({ type: 'COMPETENCE_EVALUATION' });
 
       // when
       const promise = assessment.validate();
@@ -215,7 +215,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return rejected promise when Smart Placement assessment has no userId', () => {
       //given
-      assessment = Assessment.fromAttributes({ type: 'SMART_PLACEMENT' });
+      assessment = new Assessment({ type: 'SMART_PLACEMENT' });
 
       // when
       const promise = assessment.validate();
@@ -228,7 +228,7 @@ describe('Unit | Domain | Models | Assessment', () => {
   describe('#isSmartPlacement', () => {
     it('should return true when the assessment is a SMART_PLACEMENT', () => {
       // given
-      const assessment = Assessment.fromAttributes({ type: 'SMART_PLACEMENT' });
+      const assessment = new Assessment({ type: 'SMART_PLACEMENT' });
 
       // when
       const isSmartPlacementAssessment = assessment.isSmartPlacement();
@@ -239,7 +239,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return false when the assessment is not a SMART_PLACEMENT', () => {
       // given
-      const assessment = Assessment.fromAttributes({ type: 'PLACEMENT' });
+      const assessment = new Assessment({ type: 'PLACEMENT' });
 
       // when
       const isSmartPlacementAssessment = assessment.isSmartPlacement();
@@ -250,7 +250,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return false when the assessment has no type', () => {
       // given
-      const assessment = Assessment.fromAttributes({});
+      const assessment = new Assessment({});
 
       // when
       const isSmartPlacementAssessment = assessment.isSmartPlacement();
@@ -406,7 +406,7 @@ describe('Unit | Domain | Models | Assessment', () => {
         level: 3,
       });
 
-      const assessment = Assessment.fromAttributes({
+      const assessment = new Assessment({
         assessmentResults: [assessmentResultComputed]
       });
 
@@ -426,7 +426,7 @@ describe('Unit | Domain | Models | Assessment', () => {
         level: 0,
       });
 
-      const assessment = Assessment.fromAttributes({
+      const assessment = new Assessment({
         assessmentResults: [assessmentResultComputed]
       });
 

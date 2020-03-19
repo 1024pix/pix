@@ -34,7 +34,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should save an assessment with the type SMART_PLACEMENT and with a fake courseId', async function() {
         // given
-        const expectedAssessment = Assessment.fromAttributes({
+        const expectedAssessment = new Assessment({
           id: 42,
           courseId: null,
           type: 'SMART_PLACEMENT',
@@ -86,7 +86,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should save an assessment with type PREVIEW', async function() {
         // given
-        const expected = Assessment.fromAttributes({
+        const expected = new Assessment({
           id: 42,
           courseId: null,
           type: 'PREVIEW',

@@ -70,14 +70,6 @@ class Assessment {
     this.campaignParticipationId = campaignParticipationId;
   }
 
-  /**
-   * @deprecated
-   */
-  static fromAttributes(attributes) {
-    const assessment = new Assessment();
-    return Object.assign(assessment, attributes);
-  }
-
   isCompleted() {
     return this.state === Assessment.states.COMPLETED;
   }
