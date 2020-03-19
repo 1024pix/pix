@@ -1,7 +1,7 @@
 const { sinon, expect, generateValidRequestAuthorizationHeader, hFake } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const usecases = require('../../../../lib/domain/usecases');
-const { cleaBadgeCreationHandler } = require('../../../../lib/domain/event-handlers');
+const { cleaBadgeCreationHandler } = require('../../../../lib/domain/events/clea-badge-creation-handler');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 
 describe('Unit | Controller | assessment-controller', function() {

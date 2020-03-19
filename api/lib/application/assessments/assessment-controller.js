@@ -1,6 +1,6 @@
 const { AssessmentEndedError } = require('../../domain/errors');
 const usecases = require('../../domain/usecases');
-const { cleaBadgeCreationHandler } = require('../../domain/event-handlers');
+const { cleaBadgeCreationHandler } = require('../../domain/events/clea-badge-creation-handler');
 const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
@@ -90,7 +90,7 @@ module.exports = {
     const assessmentId = parseInt(request.params.id);
 
     const assessmentCompletedEvent = await usecases.completeAssessment({ assessmentId });
-    cleaBadgeCreationHandler.handle(assessmentCompletedEvent);
+    await cleaBadgeCreationHandler.handle(assessmentCompletedEvent);
 
     return null;
   },
