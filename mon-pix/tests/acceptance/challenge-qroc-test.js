@@ -1,33 +1,31 @@
 import { click, find, findAll, fillIn } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Displaying a QROC', function() {
   setupApplicationTest();
   setupMirage();
+  let assessment;
+  let qrocChallenge;
 
   beforeEach(async function() {
-    defaultScenario(this.server);
+    assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+    qrocChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROC');
   });
 
   context('Challenge answered: the answers inputs should be disabled', function() {
     beforeEach(async function() {
-      server.create('assessment', {
-        id: 'ref_assessment_id'
-      });
-
       server.create('answer', {
         value: 'Bill',
         result: 'ko',
-        challengeId: 'ref_qroc_challenge_id',
-        assessmentId: 'ref_assessment_id',
+        challenge: qrocChallenge,
+        assessment,
       });
 
-      await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_id');
+      await visit(`/assessments/${assessment.id}/challenges/${qrocChallenge.id}`);
     });
 
     it('should fill inputs corresponding to the answer', async function() {
@@ -39,12 +37,11 @@ describe('Acceptance | Displaying a QROC', function() {
 
   context('Challenge not answered', function() {
     beforeEach(async function() {
-      await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_id');
+      await visit(`/assessments/${assessment.id}/challenges/${qrocChallenge.id}`);
     });
 
     it('should render the challenge instruction', function() {
-      const instructionText = 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre';
-      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(instructionText);
+      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qrocChallenge.instruction);
     });
 
     it('should display only one input text as proposal to user', function() {

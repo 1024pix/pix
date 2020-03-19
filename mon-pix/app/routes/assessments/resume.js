@@ -19,7 +19,6 @@ export default Route.extend({
     if (assessment.isCompleted) {
       return this._routeToResults(assessment);
     }
-
     const nextChallenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
 
     if (assessment.hasCheckpoints) {

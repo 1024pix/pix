@@ -3,20 +3,20 @@ import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
-import demoData from '../../mirage/data/demo';
+import visit from '../helpers/visit';
 
 describe('Acceptance | Starting a course', function() {
   setupApplicationTest();
   setupMirage();
+  let demoCourse;
 
   beforeEach(async function() {
-    defaultScenario(this.server);
+    server.createList('challenge', 3, 'forDemo');
+    demoCourse = server.create('course', { nbChallenges: 3 });
   });
 
   it('should be able to start a test directly from the course endpoint', async function() {
-    await visitWithAbortedTransition(`/courses/${demoData.demoCourseId}`);
+    await visit(`/courses/${demoCourse.id}`);
     expect(currentURL().startsWith('/assessments/'));
   });
 });

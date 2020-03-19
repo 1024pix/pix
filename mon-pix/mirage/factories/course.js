@@ -14,9 +14,4 @@ export default Factory.extend({
   description() {
     return faker.lorem.paragraph();
   },
-
-  nbChallenges() {
-    return faker.random.number();
-  },
-
 });

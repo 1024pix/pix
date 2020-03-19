@@ -1,17 +1,20 @@
 import { click, find } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Giving feedback about a challenge', function() {
   setupApplicationTest();
   setupMirage();
+  let assessment;
+  let firstChallenge;
 
   beforeEach(function() {
-    defaultScenario(this.server);
+    assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+    firstChallenge = server.create('challenge', 'forCompetenceEvaluation');
+    server.create('challenge', 'forCompetenceEvaluation');
   });
 
   function assertThatFeedbackPanelExist() {
@@ -28,18 +31,16 @@ describe('Acceptance | Giving feedback about a challenge', function() {
 
   describe('From a challenge', function() {
 
+    beforeEach(function() {
+    });
+
     it('should be able to directly send a feedback', async () => {
-      await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+      await visit(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
       assertThatFeedbackPanelExist();
     });
 
     it('should always reset the feedback form between two consecutive challenges', async function() {
-      this.server.create('assessment', {
-        id: 'ref_assessment_id',
-      });
-
-      // In our Mirage data set, in the "ref course", the QCU challenge is followed by a QRU's one
-      await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id_not_yet_answered');
+      await visit(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
       assertThatFeedbackFormIsClosed();
       await click('.feedback-panel__open-link');
       assertThatFeedbackFormIsOpen();
@@ -49,11 +50,18 @@ describe('Acceptance | Giving feedback about a challenge', function() {
     });
   });
 
-  describe('From the comparison modal', function() {
+  describe('From the comparison modal at the end of the test', function() {
 
     it('should be able to give feedback', async () => {
-      await visitWithAbortedTransition('/assessments/ref_assessment_id/results');
+      // given
+      await visit(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
+      await click('.challenge-actions__action-skip');
+      await click('.challenge-actions__action-skip');
+
+      // when
       await click('.result-item__correction-button');
+
+      // then
       assertThatFeedbackFormIsOpen();
     });
   });

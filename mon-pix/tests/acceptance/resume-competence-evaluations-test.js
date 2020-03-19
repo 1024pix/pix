@@ -2,8 +2,7 @@ import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentification';
-import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -13,7 +12,6 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
   let user;
 
   beforeEach(function() {
-    defaultScenario(this.server);
     user = server.create('user', 'withEmail');
   });
 
@@ -22,7 +20,7 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
     context('When user is not logged in', function() {
 
       beforeEach(async function() {
-        await visitWithAbortedTransition('/competences/1/evaluer');
+        await visit('/competences/1/evaluer');
       });
 
       it('should redirect to signin page', async function() {
@@ -48,7 +46,7 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
       context('When competence evaluation exists', function() {
 
         beforeEach(async function() {
-          await visitWithAbortedTransition('/competences/1/evaluer');
+          await visit('/competences/1/evaluer');
         });
 
         it('should redirect to assessment', async function() {
@@ -60,7 +58,7 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
 
       context('When competence evaluation does not exist', function() {
         beforeEach(async function() {
-          await visitWithAbortedTransition('/competences/wrongId/evaluer');
+          await visit('/competences/nonExistantCompetenceId/evaluer');
         });
 
         it('should show an error message', async function() {

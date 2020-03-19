@@ -1,33 +1,31 @@
 import { click, fillIn, find, findAll } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import visitWithAbortedTransition from '../helpers/visit';
-import defaultScenario from '../../mirage/scenarios/default';
+import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Displaying un QROCM', function() {
   setupApplicationTest();
   setupMirage();
+  let assessment;
+  let qrocmChallenge;
 
   beforeEach(async function() {
-    defaultScenario(this.server);
+    assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+    qrocmChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCM');
   });
 
   context('Challenge answered: the answers inputs should be disabled', function() {
     beforeEach(async function() {
-      server.create('assessment', {
-        id: 'ref_assessment_id'
-      });
-
       server.create('answer', {
         value: 'logiciel1: \'Linux\'\nlogiciel2: \'Open Office\'\nlogiciel3: \'Pix\'\n',
         result: 'ko',
-        challengeId: 'ref_qrocm_challenge_id',
-        assessmentId: 'ref_assessment_id',
+        challenge: qrocmChallenge,
+        assessment,
       });
 
-      await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
+      await visit(`/assessments/${assessment.id}/challenges/${qrocmChallenge.id}`);
     });
 
     it('should fill inputs with previously given answer', async function() {
@@ -42,12 +40,11 @@ describe('Acceptance | Displaying un QROCM', function() {
 
   context('Challenge not answered', function() {
     beforeEach(async function() {
-      await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
+      await visit(`/assessments/${assessment.id}/challenges/${qrocmChallenge.id}`);
     });
 
     it('should render the challenge instruction', function() {
-      const instructionText = 'Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre';
-      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(instructionText);
+      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qrocmChallenge.instruction);
     });
 
     it('should display several inputs as proposal to user', function() {
