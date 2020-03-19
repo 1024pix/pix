@@ -1,20 +1,22 @@
 // See https://zeroheight.com/8dd127da7/p/839645-couleurs/b/21317a
 
 // primary
-$communication-dark: #3D68FF;
-$pix-yellow: #FFBE00;
 $blue-zodia: #505F79;
+$yellow: #FFBE00;
 $white: #ffffff;
+$black: #07142E;
 // secondary
-$orga: #00DDFF;
-$pix-purple: #8A49FF;
-// gradients app
-$pix-gradient: linear-gradient(135deg, #388AFF 0%, #985FFF 100%);
-$communication-dark-gradient: linear-gradient(135deg, #12A3FF 0%, #3D68FF 100%);
-$pix-certif-gradient: linear-gradient(-45deg, #52D987 0%, #1A8C89 100%);
-$pix-orga-gradient: linear-gradient(134deg, #00DDFF 0%, #0095C0 100%);
-$pix-pinkie-gradient: linear-gradient(135deg, #FF3F93 0%, #AC008D 100%);
+$pix-orga: #00DDFF;
 $pix-purplie: #6B20DC;
+$pix-purple: #8A49FF;
+// gradients
+$pix-blue-gradient: linear-gradient(135deg, #12A3FF 0%, #3D68FF 100%);
+$pix-eggplant-gradient: linear-gradient(180deg, #5E2563 0%, #564DA6 100%);
+$pix-green-gradient: linear-gradient(-45deg, #52D987 0%, #1A8C89 100%);
+$pix-orange-gradient: linear-gradient(180deg, #F24645 0%, #F1A141 100%);
+$pix-pink-gradient: linear-gradient(135deg, #FF3F93 0%, #AC008D 100%);
+$pix-purple-gradient: linear-gradient(135deg, #388AFF 0%, #985FFF 100%);
+$pix-teal-gradient: linear-gradient(134deg, #00DDFF 0%, #0095C0 100%);
 $pix-yellow-gradient: linear-gradient(180deg, #FFBE00 0%, #FF9F00 100%);
 // light
 $grey-5: #FAFBFC;
@@ -35,22 +37,17 @@ $grey-80: #253858;
 $grey-90: #172B4D;
 $grey-100: #091E42;
 // gradients domain
-$information-gradient: linear-gradient(180deg, #F24645 0%, #F1A141 100%);
-$content-gradient: linear-gradient(0deg, #52D987 0%, #1A8C89 100%);
-$communication-gradient: linear-gradient(0deg, #12A3FF 0%, #3D68FF 100%);
-$security-gradient: linear-gradient(0deg, #FF3F93 0%, #AC008D 100%);
-$environment-gradient: linear-gradient(180deg, #5E2563 0%, #564DA6 100%);
 // solids
-$information-dark: #F24645;
-$information-light: #F1A141;
-$content-dark: #1A8C89;
-$content-light: #52D987;
-$communication-dark: #3D68FF;
-$communication-light: #12A3FF;
-$security-dark: #AC008D;
-$security-light: #FF3F94;
 $environment-dark: #5E2563;
 $environment-light: #564DA6;
+$communication-dark: #3D68FF;
+$communication-light: #12A3FF;
+$content-dark: #1A8C89;
+$content-light: #52D987;
+$information-dark: #F24645;
+$information-light: #F1A141;
+$security-dark: #AC008D;
+$security-light: #FF3F94;
 // status
 $error: #FF4B00;
 $success: #57C884;
