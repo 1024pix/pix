@@ -35,6 +35,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
         totalSkillsCount: 10,
         testedSkillsCount: 5,
         validatedSkillsCount: 4,
+        progress: 1,
         competenceResults
       };
       const meta = {};
@@ -130,6 +131,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
               'tested-skills-count': 5,
               'total-skills-count': 10,
               'validated-skills-count': 4,
+              'progress': 1
             },
             relationships: {
               'competence-results': {
