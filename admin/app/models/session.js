@@ -45,7 +45,7 @@ export default class Session extends Model {
     return this.examinerGlobalComment && this.examinerGlobalComment.trim().length > 0;
   }
 
-  @computed('certifications.[]')
+  @computed('certifications.@each.isPublished')
   get isPublished() {
     return _.some(
       this.certifications.toArray(),
