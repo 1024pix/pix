@@ -1,15 +1,18 @@
-const redis = require('redis');
-const { promisify } = require('util');
 const settings = require('../../config');
+const RedisClient = require('../caches/RedisClient');
 
 class RedisMonitor {
 
   constructor() {
-    this._client = redis.createClient(settings.caching.redisUrl);
-    this.ping = promisify(this._client.ping).bind(this._client);
+    if (settings.caching.redisUrl) {
+      this._client = new RedisClient(settings.caching.redisUrl, 'redis-monitor');
+    }
   }
 
-  ping() {
+  async ping() {
+    if (!this._client) {
+      return false;
+    }
     return this._client.ping();
   }
 }
