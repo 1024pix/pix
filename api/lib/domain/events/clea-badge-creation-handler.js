@@ -5,7 +5,9 @@ const cleaBadgeCreationHandler = {
   handle: async function(event) {
     if (event.targetProfileId != null) {
       const badge = await badgeRepository.findOneByTargetProfileId(event.targetProfileId);
-      await badgeAcquisitionRepository.create({ badgeId: badge.id, userId: event.userId });
+      if (badge != null) {
+        await badgeAcquisitionRepository.create({ badgeId: badge.id, userId: event.userId });
+      }
     }
   }
 };
