@@ -158,28 +158,6 @@ export default class InfoController extends Controller {
   }
 
   @action
-  onTogglePublish() {
-    this.set('displayConfirm', false);
-    const certification = this.certification;
-    const currentPublishState = certification.get('isPublished');
-    let operation;
-    if (currentPublishState) {
-      certification.set('isPublished', false);
-      operation = 'dépubliée';
-    } else {
-      certification.set('isPublished', true);
-      operation = 'publiée';
-    }
-    return certification.save({ adapterOptions: { updateMarks: false } })
-      .then(() => {
-        this.notifications.success('Certification ' + operation);
-      })
-      .catch((e) => {
-        this.notifications.error(e);
-      });
-  }
-
-  @action
   onCheckMarks() {
     const markStore = this._markStore;
     if (markStore.hasState()) {

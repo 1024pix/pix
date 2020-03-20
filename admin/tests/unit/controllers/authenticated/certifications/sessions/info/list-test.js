@@ -44,7 +44,7 @@ module('Unit | Controller | authenticated/certifications/sessions/info/list', fu
       assert.equal(result, false);
     });
 
-    test('should be true when there is no certification in error orstarted', async function(assert) {
+    test('should be true when there is no certification in error or started', async function(assert) {
       // given
       controller.set('model', model);
       controller.model.certifications = [{ status: 'rejected' }, { status: 'validated' }];
@@ -69,16 +69,16 @@ module('Unit | Controller | authenticated/certifications/sessions/info/list', fu
         // given
         model.canPublish = true;
         model.isPublished = false;
-  
+
         // when
         await controller.actions.displayCertificationStatusUpdateConfirmationModal.call(controller);
-  
+
         // then
         assert.equal(controller.confirmMessage, 'Souhaitez-vous publier la session ?');
         assert.equal(controller.displayConfirm, true);
       });
     });
-    
+
     module('when session is published', function() {
 
       test('should update modal message to unpublish', async function(assert) {
@@ -122,32 +122,32 @@ module('Unit | Controller | authenticated/certifications/sessions/info/list', fu
       sinon.assert.called(notificationsStub.error);
       assert.equal(controller.displayConfirm, false);
     });
-    
-    module('when session is not yet published', function() {
+
+    module.only('when session is not yet published', function() {
 
       test('shoud publish all certifications', async function(assert) {
         // given
         controller.model.isPublished = false;
-  
+
         // when
         await controller.actions.toggleSessionPublication.call(controller);
-  
+
         // then
         sinon.assert.calledWith(controller.model.save, { adapterOptions: { updatePublishedCertifications: true, toPublish: true } });
         sinon.assert.calledWith(notificationsStub.success, 'Les certifications ont été correctement publiées.');
         assert.equal(controller.displayConfirm, false);
       });
     });
-    
+
     module('when session is published', function() {
 
       test('should unpublish all certifications', async function(assert) {
         // given
         model.isPublished = true;
-  
+
         // when
         await controller.actions.toggleSessionPublication.call(controller);
-  
+
         // then
         sinon.assert.calledWith(model.save, { adapterOptions: { updatePublishedCertifications: true, toPublish: false } });
         sinon.assert.calledWith(notificationsStub.success, 'Les certifications ont été correctement dépubliées.');
