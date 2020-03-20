@@ -8,7 +8,7 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
   describe('#handle', () => {
     context('when the assessment belongs to a campaign', () => {
       context('when the campaign is associated to a badge', () => {
-        xit('should create a badge when badge requirements are fulfilled', async () => {
+        it('should create a badge when badge requirements are fulfilled', async () => {
           // given
           const badgeId = 4;
           const targetProfileId = 1234;
@@ -26,6 +26,22 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
           // then
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly({ badgeId, userId });
         });
+      });
+    });
+    context('when the assessment does not belong to a campaign', () => {
+      it('should not create a badge', async () => {
+        // given
+        sinon.stub(badgeAcquisitionRepository, 'create');
+
+        const targetProfileId = null;
+        const userId = 42;
+        const event = new AssessmentCompleted(userId, targetProfileId);
+
+        // when
+        await cleaBadgeCreationHandler.handle(event);
+
+        // then
+        expect(badgeAcquisitionRepository.create).to.not.have.been.called;
       });
     });
   });
