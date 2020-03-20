@@ -1,7 +1,8 @@
 class AssessmentCompleted {
-  constructor(userId, targetProfileId) {
+  constructor(userId, targetProfileId, campaignParticipationId) {
     this.userId = userId;
     this.targetProfileId = targetProfileId;
+    this.campaignParticipationId = campaignParticipationId;
   }
 }
 

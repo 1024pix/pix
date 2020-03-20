@@ -117,7 +117,11 @@ describe('Unit | UseCase | complete-assessment', () => {
         });
 
         // then
-        expect(result).to.deep.equal({ userId: assessment.userId, targetProfileId: assessment.targetProfile.id });
+        expect(result).to.deep.equal({
+          userId: assessment.userId,
+          targetProfileId: assessment.targetProfile.id,
+          campaignParticipationId: assessment.campaignParticipation.id
+        });
       });
     });
 
@@ -370,7 +374,8 @@ function _buildSmartPlacementAssessment() {
       userId: Symbol('userId')
     }
   );
-  assessment.targetProfile = { id: Symbol('targetProfileId')  };
+  assessment.targetProfile = { id: Symbol('targetProfileId') };
+  assessment.campaignParticipation = { id: Symbol('campaignParticipationId') };
   return assessment;
 }
 
