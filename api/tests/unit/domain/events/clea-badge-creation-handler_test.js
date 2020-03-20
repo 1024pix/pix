@@ -8,23 +8,58 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
   describe('#handle', () => {
     context('when the assessment belongs to a campaign', () => {
       context('when the campaign is associated to a badge', () => {
-        it('should create a badge when badge requirements are fulfilled', async () => {
-          // given
-          const badgeId = 4;
-          const targetProfileId = 1234;
+
+        const event = new AssessmentCompleted(
+          Symbol('userId'),
+          Symbol('targetProfileId'),
+          Symbol('campaignParticipationId')
+        );
+
+        const badgeId = Symbol('badgeId');
+
+        const campaignParticipationResult = Symbol('campaignParticipationResult');
+
+        let campaignParticipationResultFactory;
+        let badgeCriteriaService;
+
+        beforeEach(() => {
           sinon.stub(badgeRepository, 'findOneByTargetProfileId');
-          badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves({ id: badgeId });
+          badgeRepository.findOneByTargetProfileId.withArgs(event.targetProfileId).resolves({ id: badgeId });
 
           sinon.stub(badgeAcquisitionRepository, 'create');
 
-          const userId = 42;
-          const event = new AssessmentCompleted(userId, targetProfileId);
+          campaignParticipationResultFactory = initializeCampaignParticipationResultFactoryStub();
+          campaignParticipationResultFactory.create.withArgs(event.campaignParticipationId).resolves(
+            campaignParticipationResult
+          );
 
+          badgeCriteriaService = initializeBadgeCriteriaServiceStub();
+        });
+
+        it('should create a badge when badge requirements are fulfilled', async () => {
+          // given
+          badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).returns(true);
           // when
-          await cleaBadgeCreationHandler.handle(event);
+          await cleaBadgeCreationHandler.inject(
+            campaignParticipationResultFactory,
+            badgeCriteriaService
+          ).handle(event);
 
           // then
-          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly({ badgeId, userId });
+          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly({ badgeId, userId: event.userId });
+        });
+
+        it('should not create a badge when badge requirements are not fulfilled', async () => {
+          // given
+          badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).returns(false);
+          // when
+          await cleaBadgeCreationHandler.inject(
+            campaignParticipationResultFactory,
+            badgeCriteriaService
+          ).handle(event);
+
+          // then
+          expect(badgeAcquisitionRepository.create).to.not.have.been.called;
         });
       });
       context('when the campaign is not associated to a badge', () => {
@@ -40,7 +75,7 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
           const event = new AssessmentCompleted(userId, targetProfileId);
 
           // when
-          await cleaBadgeCreationHandler.handle(event);
+          await cleaBadgeCreationHandler.inject().handle(event);
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -58,7 +93,7 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
         const event = new AssessmentCompleted(userId, targetProfileId);
 
         // when
-        await cleaBadgeCreationHandler.handle(event);
+        await cleaBadgeCreationHandler.inject().handle(event);
 
         // then
         expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -66,3 +101,21 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
     });
   });
 });
+
+function initializeCampaignParticipationResultFactoryStub() {
+  const campaignParticipationResultFactory = {
+    create() {
+    }
+  };
+  sinon.stub(campaignParticipationResultFactory, 'create');
+  return campaignParticipationResultFactory;
+}
+
+function initializeBadgeCriteriaServiceStub() {
+  const badgeCriteriaService = {
+    areBadgeCriteriaFulfilled() {
+    }
+  };
+  sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
+  return badgeCriteriaService;
+}

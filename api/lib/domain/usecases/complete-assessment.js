@@ -31,7 +31,8 @@ module.exports = async function completeAssessment({
 
   return new AssessmentCompleted(
     assessment.userId,
-    assessment.isSmartPlacement() ? assessment.targetProfile.id : null
+    assessment.isSmartPlacement() ? assessment.targetProfile.id : null,
+    assessment.isSmartPlacement() ? assessment.campaignParticipation.id : null,
   );
 };
 
