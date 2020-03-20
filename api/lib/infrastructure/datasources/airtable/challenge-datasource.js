@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const datasource = require('./datasource');
+const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../domain/constants').LOCALE;
 
 const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
 
@@ -31,6 +32,7 @@ module.exports = datasource.extend({
     'Embed height',
     'Texte alternatif illustration',
     'Format',
+    'Langue',
   ],
 
   fromAirTableObject(airtableRecord) {
@@ -77,6 +79,7 @@ module.exports = datasource.extend({
       competenceId,
       illustrationAlt: airtableRecord.get('Texte alternatif illustration'),
       format: airtableRecord.get('Format') || 'mots',
+      locale: _convertLangueToLocale(airtableRecord.get('Langue'))
     };
   },
 
@@ -99,3 +102,13 @@ module.exports = datasource.extend({
   },
 });
 
+function _convertLangueToLocale(Langue) {
+  switch (Langue) {
+    case 'Francophone':
+      return FRENCH_SPOKEN;
+    case 'Franco Français':
+      return FRENCH_FRANCE;
+    default:
+      return FRENCH_SPOKEN;
+  }
+}

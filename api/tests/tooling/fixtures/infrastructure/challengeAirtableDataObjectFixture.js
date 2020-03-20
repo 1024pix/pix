@@ -23,6 +23,7 @@ module.exports = function ChallengeAirtableDataObjectFixture({
   embedTitle = 'Epreuve de selection de dossier',
   embedHeight = 500,
   format = 'petit',
+  locale = 'fr',
 } = {}) {
   return {
     id,
@@ -46,5 +47,6 @@ module.exports = function ChallengeAirtableDataObjectFixture({
     embedTitle,
     embedHeight,
     format,
+    locale,
   };
 };
