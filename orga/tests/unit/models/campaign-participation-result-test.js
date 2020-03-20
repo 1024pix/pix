@@ -5,24 +5,6 @@ import { run } from '@ember/runloop';
 module('Unit | Model | campaign-participation-result', function(hooks) {
   setupTest(hooks);
 
-  test('should have a 100% progression when completed', function(assert) {
-    const store = this.owner.lookup('service:store');
-    const model = run(() => store.createRecord('campaign-participation-result', {
-      isCompleted: true,
-    }));
-    assert.equal(model.percentageProgression, 100);
-  });
-
-  test('should have a rounded progression', function(assert) {
-    const store = this.owner.lookup('service:store');
-    const model = run(() => store.createRecord('campaign-participation-result', {
-      isCompleted: false,
-      totalSkillsCount: 11,
-      testedSkillsCount: 3
-    }));
-    assert.equal(model.percentageProgression, 27);
-  });
-
   module('maxTotalSkillsCountInCompetences', function() {
 
     test('should calculate max total skills', function(assert) {

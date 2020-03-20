@@ -22,7 +22,7 @@
       <div class="participant-results-content participant-results-content--large">
         <div class="label-text participant-results-content__label-text">Avancement</div>
         <div aria-label="Avancement" class="content-text">
-          {{@campaignParticipation.campaignParticipationResult.percentageProgression}}%
+          {{percentage @campaignParticipation.campaignParticipationResult.progress}}%
           <div class="participant-results-content__progress-bar progress-bar">
             {{#if @campaignParticipation.campaignParticipationResult.isCompleted}}
               <div class="participant-results-content__progress-bar progress-bar progress-bar--completed"></div>
