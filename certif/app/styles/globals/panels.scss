@@ -19,7 +19,7 @@
     border-bottom: 2px solid transparent;
     outline: none;
     cursor: pointer;
-    color: $dusty-gray;
+    color: $grey-35;
     font-family: $roboto;
     font-size: 0.9rem;
     font-weight: 500;
@@ -27,13 +27,13 @@
     text-decoration: none;
 
     &:hover {
-      color: $aqua;
+      color: $communication-dark;
     }
   }
 
   &-item.active {
-    border-bottom: 2px solid $aqua;
-    color: $aqua;
+    border-bottom: 2px solid $communication-dark;
+    color: $communication-dark;
   }
 }
 
@@ -66,7 +66,7 @@
 .tooltip-text {
   visibility: hidden;
   width: 140px;
-  background-color: $nero;
+  background-color: $grey-80;
   color: white;
   text-align: center;
   border-radius: 6px;
@@ -80,6 +80,6 @@
     content: "";
     border-width: 5px;
     border-style: solid;
-    border-color: $nero transparent transparent transparent;
+    border-color: $grey-80 transparent transparent transparent;
   }
 }

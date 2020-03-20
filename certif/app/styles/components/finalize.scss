@@ -19,25 +19,25 @@
 .app-modal-body{
 
   &__attention {
-    color: $black;
+    color: $grey-100;
     font-weight: 500;
     font-size: 1.2rem;
   }
 
   &__warning{
-    color: $gun-powder;
+    color: $grey-90;
     font-weight: 300;
     font-size: 1em;
   }
 
   &__contextual{
-    border: 2px solid $alto;
-    background-color: $alto;
+    border: 2px solid $grey-20;
+    background-color: $grey-20;
     border-radius: 4px;
     padding: 10px 0;
     font-size: 1rem;
     font-weight: bold;
-    color: $nero;
+    color: $grey-80;
     outline: 0;
   }
 }

@@ -1,36 +1,36 @@
 .paragraph {
-  color: $dove-gray;
+  color: $grey-45;
   font-family: $open-sans;
   font-size: 0.875rem;
   line-height: 20px;
 }
 
 .one-line-text {
-  color: $dove-gray;
+  color: $grey-45;
   font-family: $roboto;
   font-size: 0.75rem;
 }
 
 .information-text {
-  color: $dove-gray;
+  color: $grey-45;
   font-family: $open-sans;
   font-size: 1.2rem;
 }
 
 .label-text {
-  color: $dusty-gray;
+  color: $grey-35;
   font-family: $roboto;
   font-size: 0.8125rem;
   font-weight: 400;
 }
 
 .content-text {
-  color: $dove-gray;
+  color: $grey-45;
   font-family: $roboto;
   font-size: 1rem;
 
   &--bold {
-    color: $nero;
+    color: $grey-80;
     font-weight: 700;
   }
 

@@ -29,7 +29,7 @@
   &__date {
     padding-right: 40px;
     margin-right: 40px;
-    border-right: 1px solid $alto;
+    border-right: 1px solid $grey-20;
   }
 }
 
@@ -43,7 +43,7 @@
   flex-direction: row;
 
   &:not(:last-child) {
-    border-bottom: 1px solid $alto;
+    border-bottom: 1px solid $grey-20;
   }
 }
 
@@ -54,7 +54,7 @@
 
   &--push-right {
     margin-left: auto;
-    border-left: 1px solid $alto;
+    border-left: 1px solid $grey-20;
   }
 
   &--multiple {
@@ -87,7 +87,7 @@
   }
 
   &:not(:last-child) {
-    border-right: 1px solid $alto;
+    border-right: 1px solid $grey-20;
   }
 
   &__label {

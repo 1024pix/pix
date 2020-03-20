@@ -42,10 +42,10 @@
     border-radius: 3px;
     align-items: center;
     background-color: white;
-    border: 2px solid $alto;
+    border: 2px solid $grey-20;
 
     &:focus-within {
-      border: 2px solid $dodger-blue;
+      border: 2px solid $communication-dark;
     }
 
     input {
@@ -79,13 +79,13 @@
 
   &-icon {
     &__eye {
-      color: $dove-gray;
+      color: $grey-45;
       transition: .5s;
       font-size: 1.1rem;
       margin-top: 2px;
 
       &:hover {
-        color: $nero;
+        color: $grey-80;
         cursor: pointer;
       }
     }

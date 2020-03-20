@@ -15,27 +15,27 @@
   }
 
   thead {
-    color: $mine-shaft;
+    color: $grey-70;
   }
 
   tbody {
-    color: $dove-gray;
+    color: $grey-45;
 
     tr {
       &:hover, &:focus, &:active {
-        color: $nero;
-        background-color: $wild-sand;
+        color: $grey-80;
+        background-color: $grey-10;
         transition: 0.25s ease;
       }
       &:hover .checkbox--unchecked {
-        border-color: $grey;
+        border-color: $grey-40;
       }
     }
   }
 
   tr {
     height: 60px;
-    border-top: 2px solid $wild-sand;
+    border-top: 2px solid $grey-10;
   }
 
   td, th {
