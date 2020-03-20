@@ -1,6 +1,6 @@
 const _ = require('lodash');
-const CampaignParticipationResult = require('../../domain/models/CampaignParticipationResult');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const CampaignParticipationResultFactory = require('../models/CampaignParticipationResultFactory');
 
 module.exports = async function getCampaignParticipationResult(
   {
@@ -20,23 +20,17 @@ module.exports = async function getCampaignParticipationResult(
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
   await _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository);
 
-  const [ targetProfile, competences, assessment, knowledgeElements ] = await Promise.all([
-    targetProfileRepository.getByCampaignId(campaignParticipation.campaignId),
-    competenceRepository.list(),
-    assessmentRepository.get(campaignParticipation.assessmentId),
-    knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
-  ]);
+  const campaignParticipationResult = await new CampaignParticipationResultFactory(
+    campaignParticipationRepository,
+    targetProfileRepository,
+    competenceRepository,
+    assessmentRepository,
+    knowledgeElementRepository,
+  ).create(campaignParticipationId);
 
+  const targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
   const badge = await badgeRepository.findOneByTargetProfileId(targetProfile.id);
-
-  const campaignParticipationResult = CampaignParticipationResult.buildFrom({
-    campaignParticipationId,
-    assessment,
-    competences,
-    targetProfile,
-    knowledgeElements,
-    badge
-  });
+  campaignParticipationResult.badge = badge;
 
   if (_hasBadgeInformation(badge)) {
     campaignParticipationResult.areBadgeCriteriaFulfilled = badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult });
