@@ -20,44 +20,72 @@
   background: white;
   box-shadow: 0 2px 8px 0 rgba(0,0,0,0.1);
 
-  &--padding-left {
+  &__logo {
     padding-left: 25px;
+    padding-top: 20px;
   }
 
-  &--padding-right {
-    padding-right: 15px;
-  }
-}
-
-.logo {
-  padding-top: 20px;
-
-  &__image {
+  &__logo-image {
     height: 60px;
   }
-}
 
-.sidebar__certification-center {
-  margin-top: 20px;
-}
+  &__certification-center {
+    margin-top: 20px;
+    padding-left: 25px;
+    padding-right: 15px;
+  }
 
-.certification-center {
-  padding-top: 15px;
+  &__certification-center-label {
+    color: $grey-45;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+  }
 
-  &__name {
+  &__certification-center-name {
+    color: $grey-45;
+    font-size: 0.8125rem;
     padding-top: 8px;
+  }
+
+  &__documentation {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
   }
 }
 
-.certification-center-label {
-  color: $grey-45;
-  font-size: 0.8125rem;
-  text-transform: uppercase;
-}
+.sidebar-documentation {
 
-.certification-center-name {
-  color: $grey-45;
-  font-size: 0.8125rem;
+  &__button {
+    height: 44px;
+    color: $grey-45;
+    font-family: $roboto;
+    font-size: 0.875rem;
+    line-height: 2.75rem;
+    text-decoration: none;
+    text-align: center;
+
+    &:hover {
+      background-color: $grey-20;
+    }
+
+    &:hover .sidebar-documentation__bar {
+      width: 100%;
+    }
+  }
+
+  &__icon {
+    margin-right: 8px;
+  }
+
+  &__bar {
+    width: 157px;
+    border: 1px solid $grey-45;
+    opacity: .25;
+    margin: 0 auto;
+    transition: .5s;
+  }
 }
 
 .main-content {
