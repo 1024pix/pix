@@ -30,6 +30,8 @@ const validation = {
   }
 };
 
+const isStringValid = (value) => Boolean(value.trim());
+
 export default class RegisterForm extends Component {
 
   @service session;
@@ -43,6 +45,12 @@ export default class RegisterForm extends Component {
   @computed('isPasswordVisible')
   get passwordInputType() {
     return this.isPasswordVisible ? 'text' : 'password';
+  }
+
+  @computed('user.{firstName,lastName,email,password,cgu}')
+  get isFormValid() {
+    return isStringValid(this.user.firstName) && isStringValid(this.user.lastName) && isEmailValid(this.user.email)
+      && isPasswordValid(this.user.password) && this.user.cgu;
   }
 
   constructor() {
@@ -59,6 +67,9 @@ export default class RegisterForm extends Component {
   @action
   async register(event) {
     event.preventDefault();
+    if (!this.isFormValid) {
+      return this.set('isLoading', false);
+    }
     this.set('isLoading', true);
     try {
       await this.user.save();

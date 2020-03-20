@@ -51,10 +51,11 @@ const userValidationJoiSchema = Joi.object({
       'boolean.base': 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.',
       'any.only': 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.',
     }),
-}).oxor('username', 'email')
+}).xor('username', 'email')
   .required()
   .messages({
     'any.required': 'Aucun champ n\'est renseigné.',
+    'object.missing': 'Vous devez renseigner une adresse e-mail et/ou un identifiant.',
   });
 
 module.exports = {
