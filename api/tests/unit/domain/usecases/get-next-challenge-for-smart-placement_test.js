@@ -2,6 +2,7 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const getNextChallengeForSmartPlacement = require('../../../../lib/domain/usecases/get-next-challenge-for-smart-placement');
 const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
+const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', () => {
 
@@ -44,7 +45,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       const search2 = domainBuilder.buildSkill({ name: '@search2' });
       search2.challenges = [domainBuilder.buildChallenge({ id: 'challenge_search2_1' }), domainBuilder.buildChallenge({ id: 'challenge_search2_2' })];
 
-      locale = 'fr';
+      locale = FRENCH_SPOKEN;
       possibleSkillsForNextChallenge = [web2, url2, search2];
 
       sinon.stub(smartRandom, 'getPossibleSkillsForNextChallenge').returns({

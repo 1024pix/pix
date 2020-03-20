@@ -6,6 +6,7 @@ const certificationChallengeRepository = require('../../../../lib/infrastructure
 const usecases = require('../../../../lib/domain/usecases');
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
@@ -146,7 +147,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
     describe('when the assessment is a smart placement assessment', () => {
 
-      const defaultLocale = 'fr-fr';
+      const defaultLocale = FRENCH_FRANCE;
       const assessment = new Assessment({
         id: 1,
         courseId: 'courseId',
@@ -184,7 +185,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should call the usecase getNextChallengeForSmartPlacement with the locale', async () => {
         // given
-        const locale = 'fr';
+        const locale = FRENCH_SPOKEN;
 
         // when
         await assessmentController.getNextChallenge({
@@ -218,7 +219,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
 
       it('should call the usecase getNextChallengeForCompetenceEvaluation', async () => {
-        const locale = 'fr';
+        const locale = FRENCH_SPOKEN;
         const request = {
           params: { id: 1 },
           headers: {

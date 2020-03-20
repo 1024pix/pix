@@ -3,6 +3,7 @@ const cache = require('../../../../lib/infrastructure/caches/learning-content-ca
 const createServer = require('../../../../server');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const { FRENCH_FRANCE } = require('../../../../lib/domain/constants').LOCALE;
 
 const competenceId = 'recCompetence';
 
@@ -77,7 +78,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
     const userId = 1234;
     context('when assessment is a competence evaluation', () => {
 
-      context('when there is one challenge in the accepted language (fr)', () => {
+      context('when there is one challenge in the accepted language (fr-fr)', () => {
         beforeEach(async () => {
           airtableBuilder.mockList({ tableName: 'Epreuves' })
             .returns([frenchSpokenChallenge, frenchChallenge])
@@ -101,7 +102,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
             url: `/api/assessments/${assessmentId}/next`,
             headers: {
               authorization: generateValidRequestAuthorizationHeader(userId),
-              'accept-language': 'fr-fr'
+              'accept-language': FRENCH_FRANCE,
             }
           };
 
@@ -139,7 +140,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
             url: `/api/assessments/${assessmentId}/next`,
             headers: {
               authorization: generateValidRequestAuthorizationHeader(userId),
-              'accept-language': 'fr-fr'
+              'accept-language': FRENCH_FRANCE,
             }
           };
 

@@ -5,6 +5,7 @@ const challengeDatasource = require('../../../../../lib/infrastructure/datasourc
 const challengeAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
 const challengeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/challengeRawAirTableFixture');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
+const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', () => {
 
@@ -117,7 +118,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     describe('when Language is Francophone', () => {
       it('should create a Challenge from the AirtableRecord with locale set to \'fr\'', () => {
         // given
-        const expectedChallenge = challengeAirtableDataObjectFixture({ locale: 'fr' });
+        const expectedChallenge = challengeAirtableDataObjectFixture({ locale: FRENCH_SPOKEN });
         const frenchSpokenChallenge = challengeRawAirTableFixture({ id: 'recwWzTquPlvIl4So', fields: { Langue: 'Francophone' } });
 
         // when
@@ -131,7 +132,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     describe('when Language is Franco Français', () => {
       it('should create a Challenge from the AirtableRecord with locale set to \'fr-fr\'', () => {
         // given
-        const expectedChallenge = challengeAirtableDataObjectFixture({ locale: 'fr-fr' });
+        const expectedChallenge = challengeAirtableDataObjectFixture({ locale: FRENCH_FRANCE });
         const frenchChallenge = challengeRawAirTableFixture({ id: 'recwWzTquPlvIl4So', fields: { Langue: 'Franco Français' } });
 
         // when

@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const datasource = require('./datasource');
+const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../domain/constants').LOCALE;
 
 const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
 
@@ -104,10 +105,10 @@ module.exports = datasource.extend({
 function _convertLangueToLocale(Langue) {
   switch (Langue) {
     case 'Francophone':
-      return 'fr';
+      return FRENCH_SPOKEN;
     case 'Franco Français':
-      return 'fr-fr';
+      return FRENCH_FRANCE;
     default:
-      return 'fr';
+      return FRENCH_SPOKEN;
   }
 }

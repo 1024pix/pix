@@ -1,14 +1,14 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const pickChallengeService = require('../../../../lib/domain/services/pick-challenge-service');
+const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 const _ = require('lodash');
 
 describe('Unit | Service | PickChallengeService', () => {
 
   describe('#pickChallenge', () => {
-    const frenchSpokenChallenge = domainBuilder.buildChallenge({ locale: 'fr' });
-    const otherFrenchSpokenChallenge = domainBuilder.buildChallenge({ locale: 'fr' });
-    const frenchChallenge = domainBuilder.buildChallenge({ locale: 'fr-fr' });
-    const frLocale = 'fr';
+    const frenchSpokenChallenge = domainBuilder.buildChallenge({ locale: FRENCH_SPOKEN });
+    const otherFrenchSpokenChallenge = domainBuilder.buildChallenge({ locale: FRENCH_SPOKEN });
+    const frenchChallenge = domainBuilder.buildChallenge({ locale: FRENCH_FRANCE });
     const randomSeed = 'some-random-seed';
 
     context('when challenge in selected locale exists', () => {
@@ -21,7 +21,7 @@ describe('Unit | Service | PickChallengeService', () => {
         const challenge = await pickChallengeService.pickChallenge({
           skills,
           randomSeed,
-          locale: frLocale
+          locale: FRENCH_SPOKEN
         });
 
         // then
@@ -36,7 +36,7 @@ describe('Unit | Service | PickChallengeService', () => {
         const pickChallengePromises = _.times(5, () => pickChallengeService.pickChallenge({
           skills,
           randomSeed,
-          locale: frLocale
+          locale: FRENCH_SPOKEN
         }));
         const challenges = await Promise.all(pickChallengePromises);
 
@@ -57,7 +57,7 @@ describe('Unit | Service | PickChallengeService', () => {
         const challenge = await pickChallengeService.pickChallenge({
           skills,
           randomSeed,
-          locale: frLocale
+          locale: FRENCH_SPOKEN
         });
 
         // then
@@ -76,7 +76,7 @@ describe('Unit | Service | PickChallengeService', () => {
         const challenge = await pickChallengeService.pickChallenge({
           skills,
           randomSeed,
-          locale: frLocale
+          locale: FRENCH_SPOKEN
         });
 
         // then
