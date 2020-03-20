@@ -6,14 +6,14 @@ const assessmentRepository = require('../../infrastructure/repositories/assessme
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
+const { extractLocaleFromRequest, extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
 
   save(request, h) {
 
     const assessment = assessmentSerializer.deserialize(request.payload);
-    assessment.userId = requestResponseUtils.extractUserIdFromRequest(request);
+    assessment.userId = extractUserIdFromRequest(request);
 
     return Promise.resolve()
       .then(() => {
@@ -45,7 +45,7 @@ module.exports = {
 
   async findByFilters(request) {
     let assessments = [];
-    const userId = requestResponseUtils.extractUserIdFromRequest(request);
+    const userId = extractUserIdFromRequest(request);
 
     if (userId) {
       const filters = extractParameters(request.query).filter;
@@ -58,7 +58,7 @@ module.exports = {
     return assessmentSerializer.serialize(assessments);
   },
 
-  getNextChallenge(request) {
+  async getNextChallenge(request) {
 
     const logContext = {
       zone: 'assessmentController.getNextChallenge',
@@ -67,57 +67,22 @@ module.exports = {
     };
     logger.trace(logContext, 'tracing assessmentController.getNextChallenge()');
 
-    return assessmentRepository
-      .get(parseInt(request.params.id))
-      .then((assessment) => {
+    try {
+      const assessment = await assessmentRepository.get(parseInt(request.params.id));
+      logContext.assessmentType = assessment.type;
+      logger.trace(logContext, 'assessment loaded');
 
-        logContext.assessmentType = assessment.type;
-        logger.trace(logContext, 'assessment loaded');
+      const challenge = await _getChallenge(assessment, request);
+      logContext.challenge = challenge;
+      logger.trace(logContext, 'replying with challenge');
 
-        if (assessment.isPreview()) {
-          return usecases.getNextChallengeForPreview({});
-        }
-
-        if (assessment.isCertification()) {
-          return usecases.getNextChallengeForCertification({
-            assessment
-          });
-        }
-
-        if (assessment.isDemo()) {
-          return usecases.getNextChallengeForDemo({
-            assessment,
-          });
-        }
-
-        if (assessment.isSmartPlacement()) {
-          const tryImproving = Boolean(request.query.tryImproving);
-          return usecases.getNextChallengeForSmartPlacement({
-            assessment,
-            tryImproving
-          });
-        }
-
-        if (assessment.isCompetenceEvaluation()) {
-          const userId = requestResponseUtils.extractUserIdFromRequest(request);
-          return usecases.getNextChallengeForCompetenceEvaluation({
-            assessment,
-            userId
-          });
-        }
-      })
-      .then((challenge) => {
-        logContext.challenge = challenge;
-        logger.trace(logContext, 'replying with challenge');
-        return challengeSerializer.serialize(challenge);
-      })
-      .catch((error) => {
-        if (error instanceof AssessmentEndedError) {
-          return JSONAPI.emptyDataResponse();
-        }
-
-        throw error;
-      });
+      return challengeSerializer.serialize(challenge);
+    } catch (error) {
+      if (error instanceof AssessmentEndedError) {
+        return JSONAPI.emptyDataResponse();
+      }
+      throw error;
+    }
   },
 
   async completeAssessment(request) {
@@ -128,3 +93,29 @@ module.exports = {
     return assessmentSerializer.serialize(completedAssessment);
   },
 };
+
+async function _getChallenge(assessment, request) {
+  const locale  = extractLocaleFromRequest(request);
+
+  if (assessment.isPreview()) {
+    return usecases.getNextChallengeForPreview({});
+  }
+
+  if (assessment.isCertification()) {
+    return usecases.getNextChallengeForCertification({ assessment });
+  }
+
+  if (assessment.isDemo()) {
+    return usecases.getNextChallengeForDemo({ assessment });
+  }
+
+  if (assessment.isSmartPlacement()) {
+    const tryImproving = Boolean(request.query.tryImproving);
+    return usecases.getNextChallengeForSmartPlacement({ assessment, tryImproving, locale });
+  }
+
+  if (assessment.isCompetenceEvaluation()) {
+    const userId = extractUserIdFromRequest(request);
+    return usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
+  }
+}

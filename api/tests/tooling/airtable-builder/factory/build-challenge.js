@@ -103,6 +103,7 @@ const buildChallenge = function buildChallenge({
   createdTime = '2016-08-24T11:59:02.000Z',
   format = 'mots',
   illustrationAlt = 'texte alternatif à l\'image',
+  langue = 'Francophone',
 } = {}) {
 
   return rawBuildChallenge({
@@ -138,6 +139,7 @@ const buildChallenge = function buildChallenge({
     createdTime,
     illustrationAlt,
     format,
+    langue,
   });
 };
 
@@ -245,6 +247,7 @@ buildChallenge.untimed = function buildUntimedChallenge({
   createdTime = '2016-08-24T11:59:02.000Z',
   format = 'petit',
   illustrationAlt = 'texte alternatif à l\'image',
+  langue = 'Francophone',
 } = {}) {
 
   return rawBuildChallenge({
@@ -279,6 +282,7 @@ buildChallenge.untimed = function buildUntimedChallenge({
     createdTime,
     illustrationAlt,
     format,
+    langue,
   });
 };
 
@@ -315,6 +319,7 @@ function rawBuildChallenge({
   createdTime,
   illustrationAlt,
   format,
+  langue,
 }) {
 
   return {
@@ -351,6 +356,7 @@ function rawBuildChallenge({
       'domaines': domaines,
       'Texte alternatif illustration': illustrationAlt,
       'format': format,
+      'Langue': langue,
     },
     'createdTime': createdTime,
   };

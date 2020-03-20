@@ -1,5 +1,6 @@
 const { expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const { escapeFileName, extractUserIdFromRequest } = require('../../../../lib/infrastructure/utils/request-response-utils');
+const { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest } = require('../../../../lib/infrastructure/utils/request-response-utils');
+const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | Utils | Request Utils', function() {
 
@@ -43,5 +44,70 @@ describe('Unit | Utils | Request Utils', function() {
       expect(escapedFileName).to.equal('file-name with invalid_chars _____________.csv');
     });
 
+  });
+
+  describe('#extractLocaleFromRequest', function() {
+    it('should return fr-fr locale when there is no header (to ensure retro-compat)', function() {
+      // given
+      const request = {};
+
+      // when
+      const locale = extractLocaleFromRequest(request);
+
+      // then
+      expect(locale).to.equal(FRENCH_FRANCE);
+    });
+
+    it('should return fr-fr locale when header is fr-FR', function() {
+      // given
+      const request = {
+        headers: { 'accept-language': 'fr-FR' }
+      };
+
+      // when
+      const locale = extractLocaleFromRequest(request);
+
+      // then
+      expect(locale).to.equal(FRENCH_FRANCE);
+    });
+
+    it('should return fr locale when header is fr', function() {
+      // given
+      const request = {
+        headers: { 'accept-language': 'fr' }
+      };
+
+      // when
+      const locale = extractLocaleFromRequest(request);
+
+      // then
+      expect(locale).to.equal(FRENCH_SPOKEN);
+    });
+
+    it('should return fr-fr locale when header is de (to ensure retro-compat)', function() {
+      // given
+      const request = {
+        headers: { 'accept-language': 'de' }
+      };
+
+      // when
+      const locale = extractLocaleFromRequest(request);
+
+      // then
+      expect(locale).to.equal(FRENCH_FRANCE);
+    });
+
+    it('should return fr-fr locale when header is fr-BE (to ensure retro-compat)', function() {
+      // given
+      const request = {
+        headers: { 'accept-language': 'fr-BE' }
+      };
+
+      // when
+      const locale = extractLocaleFromRequest(request);
+
+      // then
+      expect(locale).to.equal(FRENCH_FRANCE);
+    });
   });
 });
