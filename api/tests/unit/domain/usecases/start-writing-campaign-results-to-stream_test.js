@@ -65,7 +65,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
       skills: listSkills, name: '+Profile 1'
     });
 
-    const campaign = domainBuilder.buildCampaign({
+    const campaign = domainBuilder.buildCampaign.ofTypeTestGiven({
       name:'@Campagne de Test N°1',
       code:'AZERTY123',
       organizationId: organization.id,
@@ -461,7 +461,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
 
         findResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
 
-        const campaignWithoutIdPixLabel = domainBuilder.buildCampaign({
+        const campaignWithoutIdPixLabel = domainBuilder.buildCampaign.ofTypeTestGiven({
           name: 'CampaignName',
           code: 'AZERTY123',
           organizationId: organization.id,

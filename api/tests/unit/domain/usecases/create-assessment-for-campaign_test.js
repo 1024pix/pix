@@ -53,7 +53,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
     beforeEach(() => {
       userId = faker.random.number();
       // given
-      campaign = domainBuilder.buildCampaign({
+      campaign = domainBuilder.buildCampaign.ofTypeTestGiven({
         id: 'campaignId',
       });
 
@@ -68,7 +68,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
         userId,
         campaignParticipationId: campaignParticipation.id
       });
-      
+
       campaignRepository.getByCode.resolves(campaign);
       assessmentRepository.save.resolves(assessment);
       assessmentRepository.get.resolves(assessment);
