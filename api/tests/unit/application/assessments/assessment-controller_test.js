@@ -126,13 +126,19 @@ describe('Unit | Controller | assessment-controller', function() {
       sinon.stub(usecases, 'completeAssessment');
       usecases.completeAssessment.resolves(event);
 
-      sinon.stub(cleaBadgeCreationHandler, 'handle');
+      const handler = {
+        handle: () => {}
+      };
+      sinon.stub(handler, 'handle');
+      handler.handle.resolves({});
+      sinon.stub(cleaBadgeCreationHandler, 'inject');
+      cleaBadgeCreationHandler.inject.returns(handler);
 
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
 
       // then
-      expect(cleaBadgeCreationHandler.handle).to.have.been.calledWithExactly(event);
+      expect(handler.handle).to.have.been.calledWithExactly(event);
     });
   });
 });
