@@ -27,6 +27,26 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly({ badgeId, userId });
         });
       });
+      context('when the campaign is not associated to a badge', () => {
+        it('should not create a badge', async () => {
+          // given
+          const targetProfileId = 1234;
+          sinon.stub(badgeRepository, 'findOneByTargetProfileId');
+          badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(null);
+
+          sinon.stub(badgeAcquisitionRepository, 'create');
+
+          const userId = 42;
+          const event = new AssessmentCompleted(userId, targetProfileId);
+
+          // when
+          await cleaBadgeCreationHandler.handle(event);
+
+          // then
+          expect(badgeAcquisitionRepository.create).to.not.have.been.called;
+
+        });
+      });
     });
     context('when the assessment does not belong to a campaign', () => {
       it('should not create a badge', async () => {
