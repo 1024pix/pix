@@ -13,13 +13,13 @@
   &__textarea {
     font-family: $roboto;
     font-size: 0.8125rem;
-    color: $nero;
+    color: $grey-80;
     width: 100%;
     height: 50px;
     padding: 4px;
     max-height: 52px;
     resize: none;
-    border: 1px solid $alto;
+    border: 1px solid $grey-20;
     border-radius: 4px;
   }
 
@@ -36,11 +36,11 @@
     width: 10px;
     height: 4px;
     border-radius: 1px;
-    background-color: $nobel;
+    background-color: $grey-22;
   }
 
   .checkbox:hover &__dash-icon{
-    background-color: $grey;
+    background-color: $grey-40;
   }
 
 }

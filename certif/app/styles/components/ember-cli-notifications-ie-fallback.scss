@@ -9,13 +9,13 @@
     max-width: 400px;
   }
   *::-ms-backdrop, .ember-cli-notifications-notification__container > div {
-    background-color: #64ce83;
+    background-color: $success;
     border-radius: 3px;
     max-height: 800px;
     margin-bottom: 1rem;
   }
   *::-ms-backdrop, .ember-cli-notifications-notification__container .c-notification--error {
-    background-color: #e74c3c;
+    background-color: $error;
   }
   *::-ms-backdrop, .c-notification__icon {
     padding: 0.5rem 0;

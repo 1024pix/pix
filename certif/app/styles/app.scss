@@ -36,7 +36,8 @@ body, html{
   margin: 0;
   height: 100%;
   font-family: $roboto;
-  background-color: $porcelain;
+  color: $black;
+  background-color: $grey-10;
 }
 
 body > .ember-view {
