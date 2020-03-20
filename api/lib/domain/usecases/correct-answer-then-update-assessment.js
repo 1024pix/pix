@@ -100,7 +100,7 @@ function _getSkillsFilteredByStatus(knowledgeElements, targetSkills, status) {
   return knowledgeElements
     .filter((knowledgeElement) => knowledgeElement.status === status)
     .map((knowledgeElement) => knowledgeElement.skillId)
-    .filter((skillId) => targetSkills.find((skill) => skill.id === skillId));
+    .map((skillId) => targetSkills.find((skill) => skill.id === skillId));
 }
 
 function _addLevelUpInformation({ answerSaved, correctedAnswer, assessment, knowledgeElementsFromAnswer, scorecardBeforeAnswer }) {

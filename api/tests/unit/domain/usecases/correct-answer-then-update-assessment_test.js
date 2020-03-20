@@ -262,20 +262,23 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     context('and assessment is a SMART_PLACEMENT', () => {
       let firstKnowledgeElement;
       let secondKnowledgeElement;
-      let scorecard, knowledgeElement, targetProfile;
+      let scorecard, knowledgeElement, targetProfile, skills, challenge;
 
       beforeEach(() => {
         // given
         assessment.type = Assessment.types.SMARTPLACEMENT;
         assessment.campaignParticipation = domainBuilder.buildCampaignParticipation();
         assessmentRepository.get.resolves(assessment);
+        skills = domainBuilder.buildSkillCollection({ minLevel: 1, maxLevel: 4 });
+        challenge = domainBuilder.buildChallenge({ skills: [skills[2]], id: answer.challengeId, validator });
 
+        knowledgeElement = domainBuilder.buildKnowledgeElement({ status: 'validated', skillId: skills[0].id });
         firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
         secondKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1.8 });
         scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 20, exactlyEarnedPix: 20.2 });
-        targetProfile = domainBuilder.buildTargetProfile();
+        targetProfile = domainBuilder.buildTargetProfile({ skills });
+        challengeRepository.get.resolves(challenge);
 
-        knowledgeElement = domainBuilder.buildKnowledgeElement();
         knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([knowledgeElement]);
 
         targetProfileRepository.getByCampaignId.resolves(targetProfile);
@@ -368,7 +371,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           answer: answerCreated,
           challenge: challenge,
           previouslyFailedSkills: [],
-          previouslyValidatedSkills: [],
+          previouslyValidatedSkills: [skills[0]],
           targetSkills: targetProfile.skills,
           userId: assessment.userId
         };
