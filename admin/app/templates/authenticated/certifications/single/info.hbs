@@ -71,13 +71,6 @@
           <BsButton @class="single-certification-edit__button" @type="primary" @size="sm" @onClick={{action "onEdit"}}>
             Modifier
           </BsButton>
-          <BsButton @class="single-certification-edit__button" @type="primary" @size="sm" @onClick={{action "onTogglePublishConfirm"}}>
-            {{#if certification.isPublished}}
-              Dépublier
-            {{else}}
-              Publier
-            {{/if}}
-          </BsButton>
         {{/if}}
       </div>
     </div>

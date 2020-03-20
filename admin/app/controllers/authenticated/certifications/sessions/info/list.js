@@ -13,9 +13,9 @@ export default class ListController extends Controller {
   @service sessionInfoService;
   @service notifications;
 
-  displayConfirm = false;
+  @tracked displayConfirm = false;
   @tracked displaySessionReport = false;
-  confirmMessage = null;
+  @tracked confirmMessage = null;
   @tracked certificationsInSessionReport = [];
 
   @computed('model.certifications.@each.status')
@@ -153,6 +153,7 @@ export default class ListController extends Controller {
     try {
       await this.model.save({ adapterOptions: { updatePublishedCertifications: true, toPublish } });
       this.model.certifications.reload();
+      this.model.isPublished = toPublish;
       this.notifications.success(successText);
     } catch (error) {
       this.notifications.error(error);
