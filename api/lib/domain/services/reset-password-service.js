@@ -1,11 +1,12 @@
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../config');
 const passwordResetDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
+const crypto = require('crypto');
 
 module.exports = {
   generateTemporaryKey() {
     return jsonwebtoken.sign({
-      data: settings.temporaryKey.payload
+      data: crypto.randomBytes(16).toString('base64'),
     }, settings.temporaryKey.secret, { expiresIn: settings.temporaryKey.tokenLifespan });
   },
 
