@@ -36,7 +36,6 @@ describe('Integration | Repository | Certification Center Membership', () => {
 
       // then
       expect(createdCertificationCenterMembership).to.be.an.instanceOf(CertificationCenterMembership);
-      expect(createdCertificationCenterMembership.certificationCenter).to.be.an.instanceOf(CertificationCenter);
     });
 
     context('Error cases', () => {
