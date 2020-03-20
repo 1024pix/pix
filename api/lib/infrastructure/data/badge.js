@@ -1,5 +1,6 @@
 const Bookshelf = require('../bookshelf');
 
+require('./badge-partner-competence');
 require('./target-profile');
 
 module.exports = Bookshelf.model('Badge', {
@@ -8,5 +9,9 @@ module.exports = Bookshelf.model('Badge', {
 
   targetProfile() {
     return this.belongsTo('TargetProfile', 'targetProfileId');
+  },
+
+  badgePartnerCompetences() {
+    return this.hasMany('BadgePartnerCompetence', 'badgeId');
   },
 });
