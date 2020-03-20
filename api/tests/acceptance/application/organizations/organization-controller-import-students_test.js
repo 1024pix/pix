@@ -439,15 +439,15 @@ describe('Acceptance | Application | organization-controller-import-students', (
           await databaseBuilder.commit();
         });
 
-        it('should not update any student and return a 409 - Conflict', async () => {
+        it('should not update any student and return a 400 - Bad Request', async () => {
           // when
           const response = await server.inject(options);
 
           // then
           const students = await knex('students').where({ organizationId });
           expect(_.map(students, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0].detail).to.equal('Une erreur est survenue durant le traitement. Veuillez réessayer ou contacter le support via l\'adresse support@pix.fr');
+          expect(response.statusCode).to.equal(400);
+          expect(response.result.errors[0].detail).to.equal('Une erreur est survenue durant le traitement.');
         });
       });
 
@@ -546,7 +546,7 @@ describe('Acceptance | Application | organization-controller-import-students', (
           await databaseBuilder.commit();
         });
 
-        it('should not update and create anyone, and return a 409 - Conflict', async () => {
+        it('should not update and create anyone, and return a 400 - Bad Request', async () => {
           // when
           const response = await server.inject(options);
 
@@ -554,7 +554,7 @@ describe('Acceptance | Application | organization-controller-import-students', (
           const students = await knex('students').where({ organizationId });
           expect(students).to.have.lengthOf(2);
           expect(_.map(students, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
-          expect(response.statusCode).to.equal(409);
+          expect(response.statusCode).to.equal(400);
         });
       });
 
@@ -653,7 +653,7 @@ describe('Acceptance | Application | organization-controller-import-students', (
           await databaseBuilder.commit();
         });
 
-        it('should not update and create anyone, and return a 409 - Conflict', async () => {
+        it('should not update and create anyone, and return a 400 - Bad Request', async () => {
           // when
           const response = await server.inject(options);
 
@@ -661,7 +661,7 @@ describe('Acceptance | Application | organization-controller-import-students', (
           const students = await knex('students').where({ organizationId });
           expect(students).to.have.lengthOf(1);
           expect(_.map(students, 'lastName')).to.have.members(['LALOUX']);
-          expect(response.statusCode).to.equal(409);
+          expect(response.statusCode).to.equal(400);
         });
       });
 
@@ -692,15 +692,15 @@ describe('Acceptance | Application | organization-controller-import-students', (
           options.payload = malformedStudentsBuffer;
         });
 
-        it('should not import the students and return a 409 - Conflict', async () => {
+        it('should not import the students and return a 400 - Bad Request', async () => {
           // when
           const response = await server.inject(options);
 
           // then
           const students = await knex('students').where({ organizationId });
           expect(students).to.have.lengthOf(0);
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0].detail).to.equal('Une erreur est survenue durant le traitement. Veuillez réessayer ou contacter le support via l\'adresse support@pix.fr');
+          expect(response.statusCode).to.equal(400);
+          expect(response.result.errors[0].detail).to.equal('Une erreur est survenue durant le traitement.');
         });
       });
 

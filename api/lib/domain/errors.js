@@ -47,7 +47,7 @@ class AlreadySharedCampaignParticipationError extends DomainError {
 }
 
 class StudentsCouldNotBeSavedError extends DomainError {
-  constructor(message = 'Une erreur est survenue durant le traitement. Veuillez réessayer ou contacter le support via l\'adresse support@pix.fr') {
+  constructor(message = 'Une erreur est survenue durant le traitement.') {
     super(message);
   }
 }
