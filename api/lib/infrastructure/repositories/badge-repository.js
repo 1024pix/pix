@@ -6,7 +6,10 @@ module.exports = {
   findOneByTargetProfileId(targetProfileId) {
     return BookshelfBadge
       .where({ targetProfileId })
-      .fetch({ require: false })
+      .fetch({
+        require: false,
+        withRelated: ['badgePartnerCompetences']
+      })
       .then((results) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, results));
   },
 
