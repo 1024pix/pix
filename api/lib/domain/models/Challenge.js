@@ -57,7 +57,7 @@ class Challenge {
       status,
       timer,
       type,
-      locale = 'fr-fr',
+      locale,
       // includes
       answer,
       skills = [],

@@ -1,5 +1,6 @@
 const { expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest } = require('../../../../lib/infrastructure/utils/request-response-utils');
+const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | Utils | Request Utils', function() {
 
@@ -54,7 +55,7 @@ describe('Unit | Utils | Request Utils', function() {
       const locale = extractLocaleFromRequest(request);
 
       // then
-      expect(locale).to.equal('fr-fr');
+      expect(locale).to.equal(FRENCH_FRANCE);
     });
 
     it('should return fr-fr locale when header is fr-FR', function() {
@@ -67,7 +68,7 @@ describe('Unit | Utils | Request Utils', function() {
       const locale = extractLocaleFromRequest(request);
 
       // then
-      expect(locale).to.equal('fr-fr');
+      expect(locale).to.equal(FRENCH_FRANCE);
     });
 
     it('should return fr locale when header is fr', function() {
@@ -80,7 +81,7 @@ describe('Unit | Utils | Request Utils', function() {
       const locale = extractLocaleFromRequest(request);
 
       // then
-      expect(locale).to.equal('fr');
+      expect(locale).to.equal(FRENCH_SPOKEN);
     });
 
     it('should return fr-fr locale when header is de (to ensure retro-compat)', function() {
@@ -93,7 +94,7 @@ describe('Unit | Utils | Request Utils', function() {
       const locale = extractLocaleFromRequest(request);
 
       // then
-      expect(locale).to.equal('fr-fr');
+      expect(locale).to.equal(FRENCH_FRANCE);
     });
 
     it('should return fr-fr locale when header is fr-BE (to ensure retro-compat)', function() {
@@ -106,7 +107,7 @@ describe('Unit | Utils | Request Utils', function() {
       const locale = extractLocaleFromRequest(request);
 
       // then
-      expect(locale).to.equal('fr-fr');
+      expect(locale).to.equal(FRENCH_FRANCE);
     });
   });
 });
