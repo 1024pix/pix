@@ -114,6 +114,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
       testedSkillsCount: 29,
       validatedSkillsCount: 15,
       isCompleted: true,
+      progress: 1
     }));
 
     const campaignParticipation  = run(() => store.createRecord('campaign-participation', {

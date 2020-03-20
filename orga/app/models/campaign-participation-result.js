@@ -8,17 +8,10 @@ export default DS.Model.extend({
   validatedSkillsCount: DS.attr('number'),
   isCompleted: DS.attr('boolean'),
   competenceResults: DS.hasMany('competenceResult'),
+  progress: DS.attr('number'),
 
   totalSkillsCounts: computed.mapBy('competenceResults', 'totalSkillsCount'),
   maxTotalSkillsCountInCompetences: computed.max('totalSkillsCounts'),
-
-  percentageProgression: computed('totalSkillsCount', 'testedSkillsCount', 'isCompleted', function() {
-    if (this.isCompleted) {
-      return 100;
-    }
-
-    return Math.round(this.testedSkillsCount * 100 / this.totalSkillsCount);
-  }),
 
   masteryPercentage: computed('totalSkillsCount', 'validatedSkillsCount', function() {
     return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
