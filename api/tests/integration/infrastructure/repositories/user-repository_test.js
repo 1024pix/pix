@@ -24,6 +24,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     password: bcrypt.hashSync('A124B2C3#!', 1),
     cgu: true,
     samlId: 'some-saml-id',
+    shouldChangePassword: false,
   };
 
   let userInDB;
