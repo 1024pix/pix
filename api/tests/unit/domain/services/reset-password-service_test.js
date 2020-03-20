@@ -1,4 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
+const crypto = require('crypto');
 const { sinon, expect } = require('../../../test-helper');
 const settings = require('../../../../lib/config');
 const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
@@ -8,14 +9,18 @@ describe('Unit | Service | Password Service', function() {
 
   describe('#generateTemporaryKey', function() {
 
+    let randomGeneratedString;
+
     beforeEach(() => {
       sinon.stub(jsonwebtoken, 'sign');
+      randomGeneratedString = "aaaaaa";
+      sinon.stub(crypto, 'randomBytes').returns(randomGeneratedString);
     });
 
     it('should call sign function from jwt', () => {
       // given
       const signParams = {
-        payload: { data: settings.temporaryKey.payload },
+        payload: { data: randomGeneratedString },
         secret: settings.temporaryKey.secret,
         expiration: { expiresIn: settings.temporaryKey.tokenLifespan }
       };
