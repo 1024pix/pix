@@ -17,7 +17,7 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfCertificationCenterMembership, certificationCenterMemberships);
   },
 
-  async create(userId, certificationCenterId) {
+  async save(userId, certificationCenterId) {
     try {
       const newCertificationCenterMembership = await new BookshelfCertificationCenterMembership({ userId, certificationCenterId })
         .save();
