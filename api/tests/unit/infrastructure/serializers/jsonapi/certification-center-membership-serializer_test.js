@@ -1,7 +1,5 @@
-const { expect } = require('../../../../test-helper');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const certificationCenterMembershipSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
-const CertificationCenterMembership = require('../../../../../lib/domain/models/CertificationCenterMembership');
-const CertificationCenter = require('../../../../../lib/domain/models/CertificationCenter');
 
 describe('Unit | Serializer | JSONAPI | certification-center-membership-serializer', function() {
 
@@ -9,22 +7,18 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
 
     it('should convert a Certification Center Membership model object into JSON API data', function() {
       // given
-      const certificationCenter = new CertificationCenter({ id: 1, name: 'certifCenter' });
-
-      const certificationCenterMembership = new CertificationCenterMembership({
-        id: 1,
-        certificationCenter,
-      });
+      const certificationCenter = domainBuilder.buildCertificationCenter();
+      const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({ certificationCenter });
 
       const expectedSerializedCertificationCenter = {
         data: [
           {
             attributes: {},
-            id: '1',
+            id: certificationCenterMembership.id.toString(),
             relationships: {
               'certification-center': {
                 data: {
-                  id: '1',
+                  id: certificationCenter.id.toString(),
                   type: 'certificationCenters',
                 }
               }
@@ -35,13 +29,14 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
         included: [
           {
             attributes: {
-              name: 'certifCenter'
+              name: certificationCenter.name,
+              type: certificationCenter.type,
             },
-            id: '1',
+            id: certificationCenter.id.toString(),
             relationships: {
               sessions: {
                 links: {
-                  related: '/api/certification-centers/1/sessions'
+                  related: `/api/certification-centers/${certificationCenter.id}/sessions`,
                 }
               }
             },
