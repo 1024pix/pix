@@ -328,103 +328,69 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
   describe('#getByCertificationCourseId', async () => {
 
-    context('When several assessments exist for a given certification course id', () => {
-      let userId;
-      let certificationCourseId;
+    let userId;
+    let certificationCourseId;
+
+    beforeEach(() => {
+      userId = databaseBuilder.factory.buildUser().id;
+      certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
+      return databaseBuilder.commit();
+    });
+
+    context('When the assessment for this certificationCourseId exists', () => {
+      let assessmentId;
+      let assessmentResult;
 
       beforeEach(() => {
-        userId = databaseBuilder.factory.buildUser().id;
-        certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
+        assessmentId = databaseBuilder.factory.buildAssessment({
+          userId,
+          certificationCourseId,
+          type: Assessment.types.CERTIFICATION,
+        }).id;
+
+        assessmentResult = databaseBuilder.factory.buildAssessmentResult({
+          assessmentId,
+          level: 0,
+          pixScore: 0,
+          status: 'validated',
+          emitter: 'PIX-ALGO',
+          commentForJury: 'Computed',
+          commentForCandidate: 'Votre certification a été validé par Pix',
+          commentForOrganization: 'Sa certification a été validé par Pix',
+        });
+
+        databaseBuilder.factory.buildCompetenceMark({
+          assessmentResultId: assessmentResult.id,
+          level: 4,
+          score: 35,
+          area_code: '2',
+          competence_code: '2.1',
+        });
+
         return databaseBuilder.commit();
       });
 
-      context('When one of those assessment is completed', () => {
-        let assessmentId;
-        let assessmentResult;
+      it('should return the assessment for the given certificationCourseId', async () => {
 
-        beforeEach(() => {
-          databaseBuilder.factory.buildAssessment({
-            userId,
-            certificationCourseId,
-            state: Assessment.states.STARTED,
-            type: Assessment.types.CERTIFICATION,
-          });
-          assessmentId = databaseBuilder.factory.buildAssessment({
-            userId,
-            certificationCourseId,
-            state: Assessment.states.COMPLETED,
-            type: Assessment.types.CERTIFICATION,
-          }).id;
+        // when
+        const assessmentReturned = await assessmentRepository.getByCertificationCourseId(certificationCourseId);
 
-          assessmentResult = databaseBuilder.factory.buildAssessmentResult({
-            assessmentId,
-            level: 0,
-            pixScore: 0,
-            status: 'validated',
-            emitter: 'PIX-ALGO',
-            commentForJury: 'Computed',
-            commentForCandidate: 'Votre certification a été validé par Pix',
-            commentForOrganization: 'Sa certification a été validé par Pix',
-          });
-
-          databaseBuilder.factory.buildCompetenceMark({
-            assessmentResultId: assessmentResult.id,
-            level: 4,
-            score: 35,
-            area_code: '2',
-            competence_code: '2.1',
-          });
-
-          return databaseBuilder.commit();
-        });
-
-        it('should return the completed assessment for the given certificationId', async () => {
-
-          // when
-          const assessmentReturned = await assessmentRepository.getByCertificationCourseId(certificationCourseId);
-
-          // then
-          expect(assessmentReturned.id).to.equal(assessmentId);
-          expect(assessmentReturned.certificationCourseId).to.equal(certificationCourseId);
-        });
-
-        it('should return the appropriate assessment results', async () => {
-          // given
-          const expectedAssessmentResult = { ...assessmentResult, competenceMarks: [] };
-
-          // when
-          const assessmentReturned = await assessmentRepository.getByCertificationCourseId(certificationCourseId);
-
-          // then
-          expect(assessmentReturned.getPixScore()).to.equal(assessmentResult.pixScore);
-          expect(assessmentReturned.assessmentResults).to.have.lengthOf(1);
-          expect(assessmentReturned.assessmentResults[0]).to.deep.equal(expectedAssessmentResult);
-        });
-
+        // then
+        expect(assessmentReturned.id).to.equal(assessmentId);
+        expect(assessmentReturned.certificationCourseId).to.equal(certificationCourseId);
       });
 
-      context('When none of the assessment is completed', () => {
+      it('should return the appropriate assessment results', async () => {
+        // given
+        const expectedAssessmentResult = { ...assessmentResult, competenceMarks: [] };
 
-        beforeEach(() => {
-          _.each([
-            { userId, certificationCourseId, state: Assessment.states.STARTED, type: Assessment.types.CERTIFICATION },
-            { userId, certificationCourseId, state: Assessment.states.STARTED, type: Assessment.types.CERTIFICATION },
-            { userId, certificationCourseId, state: Assessment.states.STARTED, type: Assessment.types.CERTIFICATION }
-          ], (assessment) => databaseBuilder.factory.buildAssessment(assessment));
+        // when
+        const assessmentReturned = await assessmentRepository.getByCertificationCourseId(certificationCourseId);
 
-          return databaseBuilder.commit();
-        });
-
-        it('should return an assessment anyway for the given certificationId', async () => {
-
-          // when
-          const assessmentReturned = await assessmentRepository.getByCertificationCourseId(certificationCourseId);
-
-          // then
-          expect(assessmentReturned.id).to.exist;
-          expect(assessmentReturned.certificationCourseId).to.equal(certificationCourseId);
-        });
-
+        // then
+        expect(assessmentReturned.getPixScore()).to.equal(assessmentResult.pixScore);
+        expect(assessmentReturned.assessmentResults).to.have.lengthOf(1);
+        expect(assessmentReturned.assessmentResults[0]).to.deep.equal(expectedAssessmentResult);
       });
 
     });
@@ -450,80 +416,41 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       return databaseBuilder.commit();
     });
 
-    context('When several assessments exist for a given certification course id', () => {
+    context('When an assessment exists for this certificationCourseId', () => {
       let certificationCourseId;
+      let assessmentId;
 
       beforeEach(() => {
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
+        assessmentId = databaseBuilder.factory.buildAssessment({
+          userId,
+          certificationCourseId,
+          type: Assessment.types.CERTIFICATION,
+        }).id;
+
+        databaseBuilder.factory.buildAnswer({ assessmentId });
+        databaseBuilder.factory.buildAnswer({ assessmentId });
+
         return databaseBuilder.commit();
       });
 
-      context('When one of those assessment is completed', () => {
-        let assessmentId;
+      it('should return the assessment for the given certificationId and userId', async () => {
 
-        beforeEach(() => {
-          databaseBuilder.factory.buildAssessment({
-            userId,
-            certificationCourseId,
-            state: Assessment.states.STARTED,
-            type: Assessment.types.CERTIFICATION,
-          });
-          assessmentId = databaseBuilder.factory.buildAssessment({
-            userId,
-            certificationCourseId,
-            state: Assessment.states.COMPLETED,
-            type: Assessment.types.CERTIFICATION,
-          }).id;
+        // when
+        const assessmentReturned = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCertificationCourseId(userId, certificationCourseId);
 
-          databaseBuilder.factory.buildAnswer({ assessmentId });
-          databaseBuilder.factory.buildAnswer({ assessmentId });
-
-          return databaseBuilder.commit();
-        });
-
-        it('should return the completed assessment for the given certificationId and userId', async () => {
-
-          // when
-          const assessmentReturned = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCertificationCourseId(userId, certificationCourseId);
-
-          // then
-          expect(assessmentReturned.id).to.equal(assessmentId);
-          expect(assessmentReturned.certificationCourseId).to.equal(certificationCourseId);
-          expect(assessmentReturned.userId).to.equal(userId);
-        });
-
-        it('should return the appropriate answers', async () => {
-          // when
-          const assessmentReturned = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCertificationCourseId(userId, certificationCourseId);
-
-          // then
-          expect(assessmentReturned.answers).to.have.lengthOf(2);
-        });
-
+        // then
+        expect(assessmentReturned.id).to.equal(assessmentId);
+        expect(assessmentReturned.certificationCourseId).to.equal(certificationCourseId);
+        expect(assessmentReturned.userId).to.equal(userId);
       });
 
-      context('When none of the assessment is completed', () => {
+      it('should return the appropriate answers', async () => {
+        // when
+        const assessmentReturned = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCertificationCourseId(userId, certificationCourseId);
 
-        beforeEach(() => {
-          _.each([
-            { userId, certificationCourseId, state: Assessment.states.STARTED, type: Assessment.types.CERTIFICATION },
-            { userId, certificationCourseId, state: Assessment.states.STARTED, type: Assessment.types.CERTIFICATION },
-            { userId, certificationCourseId, state: Assessment.states.STARTED, type: Assessment.types.CERTIFICATION }
-          ], (assessment) => databaseBuilder.factory.buildAssessment(assessment));
-          return databaseBuilder.commit();
-        });
-
-        it('should return an assessment anyway for the given certificationId and userId', async () => {
-
-          // when
-          const assessmentReturned = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCertificationCourseId(userId, certificationCourseId);
-
-          // then
-          expect(assessmentReturned.id).to.exist;
-          expect(assessmentReturned.certificationCourseId).to.equal(certificationCourseId);
-          expect(assessmentReturned.userId).to.equal(userId);
-        });
-
+        // then
+        expect(assessmentReturned.answers).to.have.lengthOf(2);
       });
 
     });
