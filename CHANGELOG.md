@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.128.0 (20/03/2020)
+
+- [#1156](https://github.com/1024pix/pix/pull/1156) [FEATURE] Permettre la ré-initialisation de mot de passe des élèves inscrit par mail (PO-339). 
+- [#1187](https://github.com/1024pix/pix/pull/1187) [FEATURE] Changer la façon de contacter le support de la page d'erreur (PF-1166).
+- [#1171](https://github.com/1024pix/pix/pull/1171) [BUGFIX] Permettre la connexion aux utilisateurs dont un des memberships a été supprimé (PO-376).
+- [#1178](https://github.com/1024pix/pix/pull/1178) [TECH] Renforcer la contrainte d'unicité entre un assessment et un certification-course dans la table Assessments (PF-1161)
+- [#1168](https://github.com/1024pix/pix/pull/1168) [TECH] Ajout d'un composant permettant de représenter le pourcentage de succès (PO-366).
+- [#1189](https://github.com/1024pix/pix/pull/1189) [TECH] Exclure la branche master des tests sur la CI.
+- [#1194](https://github.com/1024pix/pix/pull/1194) [CLEANUP] Supprimer les méthodes dépréciées fromAttributes (PF-1174)
+- [#1176](https://github.com/1024pix/pix/pull/1176) [CLEANUP] Refacto du setup Mirage sur MonPix
+
 ## v2.127.0 (18/03/2020)
 
 
