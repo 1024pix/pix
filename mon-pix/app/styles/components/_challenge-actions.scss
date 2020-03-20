@@ -29,6 +29,7 @@
   height: 46px;
   @include button-background-transition();
   border-radius: 23px;
+  background-color: transparent;
   border: 1px solid $slate-grey;
   display: flex;
   align-items: center;
@@ -85,7 +86,6 @@
   &:hover{
     background: $eucalyptus;
     text-decoration: none;
-
   }
 
   &:active,
@@ -162,7 +162,7 @@
 
 .challenge-actions__action-continue-text {
   width: 76px;
-  line-height: 4.6rem;
+  padding: 0;
   font-family: $font-roboto;
   font-size: 1.6rem;
   font-weight: $font-semi-bold;
