@@ -16,6 +16,7 @@ class User {
     password,
     samlId,
     hasSeenAssessmentInstructions,
+    shouldChangePassword,
     // includes
     memberships = [],
     certificationCenterMemberships = [],
@@ -39,6 +40,7 @@ class User {
     this.samlId = samlId;
     this.hasSeenAssessmentInstructions = hasSeenAssessmentInstructions;
     this.knowledgeElements = knowledgeElements;
+    this.shouldChangePassword = shouldChangePassword;
     // includes
     this.pixRoles = pixRoles;
     this.pixScore = pixScore;
