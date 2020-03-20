@@ -4,6 +4,7 @@ import { resolve } from 'rsvp';
 import { click, fillIn, render, triggerEvent } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
+import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
 const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
@@ -77,76 +78,169 @@ module('Integration | Component | routes/register-form', function(hooks) {
 
   module('errors management', function() {
 
-    [{ stringFilledIn: '' },
-      { stringFilledIn: ' ' },
-    ].forEach(function({ stringFilledIn }) {
-      test(`it should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
-        // given
-        await render(hbs`{{routes/register-form}}`);
+    module('error display', () => {
 
-        // when
-        await fillIn('#register-firstName', stringFilledIn);
-        await triggerEvent('#register-firstName', 'focusout');
+      [{ stringFilledIn: '' },
+        { stringFilledIn: ' ' },
+      ].forEach(function({ stringFilledIn }) {
+        test(`it should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
+          // given
+          await render(hbs`{{routes/register-form}}`);
 
-        // then
-        assert.dom('#register-firstName-container .alert-input--error').hasText(EMPTY_FIRSTNAME_ERROR_MESSAGE);
-        assert.dom('#register-firstName-container .input--error').exists();
+          // when
+          await fillIn('#register-firstName', stringFilledIn);
+          await triggerEvent('#register-firstName', 'focusout');
+
+          // then
+          assert.dom('#register-firstName-container .alert-input--error').hasText(EMPTY_FIRSTNAME_ERROR_MESSAGE);
+          assert.dom('#register-firstName-container .input--error').exists();
+        });
+      });
+
+      [{ stringFilledIn: '' },
+        { stringFilledIn: ' ' },
+      ].forEach(function({ stringFilledIn }) {
+        test(`it should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
+          // given
+          await render(hbs`{{routes/register-form}}`);
+
+          // when
+          await fillIn('#register-lastName', stringFilledIn);
+          await triggerEvent('#register-lastName', 'focusout');
+
+          // then
+          assert.dom('#register-lastName-container .alert-input--error').hasText(EMPTY_LASTNAME_ERROR_MESSAGE);
+          assert.dom('#register-lastName-container .input--error').exists();
+        });
+      });
+
+      [{ stringFilledIn: ' ' },
+        { stringFilledIn: 'a' },
+        { stringFilledIn: 'shi.fu' },
+      ].forEach(function({ stringFilledIn }) {
+
+        test(`it should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
+          // given
+          await render(hbs`{{routes/register-form}}`);
+
+          // when
+          await fillIn('#register-email', stringFilledIn);
+          await triggerEvent('#register-email', 'focusout');
+
+          // then
+          assert.dom('#register-email-container .alert-input--error').hasText(EMPTY_EMAIL_ERROR_MESSAGE);
+          assert.dom('#register-email-container .input--error').exists();
+        });
+      });
+
+      [{ stringFilledIn: ' ' },
+        { stringFilledIn: 'password' },
+        { stringFilledIn: 'password1' },
+        { stringFilledIn: 'Password' },
+      ].forEach(function({ stringFilledIn }) {
+
+        test(`it should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
+          // given
+          await render(hbs`{{routes/register-form}}`);
+
+          // when
+          await fillIn('#register-password', stringFilledIn);
+          await triggerEvent('#register-password', 'focusout');
+
+          // then
+          assert.dom('#register-password-container .alert-input--error').hasText(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
+          assert.dom('#register-password-container .input-password--error').exists();
+        });
       });
     });
 
-    [{ stringFilledIn: '' },
-      { stringFilledIn: ' ' },
-    ].forEach(function({ stringFilledIn }) {
-      test(`it should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
-        // given
-        await render(hbs`{{routes/register-form}}`);
+    module('form submission', (hooks) => {
 
-        // when
-        await fillIn('#register-lastName', stringFilledIn);
-        await triggerEvent('#register-lastName', 'focusout');
+      let spy;
+      let validUser;
 
-        // then
-        assert.dom('#register-lastName-container .alert-input--error').hasText(EMPTY_LASTNAME_ERROR_MESSAGE);
-        assert.dom('#register-lastName-container .input--error').exists();
+      const fillForm = async function(user) {
+        await fillIn('#register-firstName', user.firstName);
+        await fillIn('#register-lastName', user.lastName);
+        await fillIn('#register-email', user.email);
+        await fillIn('#register-password', user.password);
+        if (user.cgu) {
+          await click('#register-cgu');
+        }
+      };
+
+      hooks.beforeEach(async function() {
+        validUser = {
+          firstName: 'pix',
+          lastName: 'pix',
+          email: 'shi@fu.me',
+          password: 'Mypassword1',
+          cgu: true
+        };
+
+        spy = sinon.spy();
+        this.owner.unregister('service:store');
+        this.owner.register('service:store', storeStub);
+        storeStub.prototype.createRecord = sinon.stub().returns({
+          save: spy
+        });
+
+        await render(hbs`{{routes/register-form organizationInvitationId=1 organizationInvitationCode='C0D3'}}`);
       });
-    });
 
-    [{ stringFilledIn: ' ' },
-      { stringFilledIn: 'a' },
-      { stringFilledIn: 'shi.fu' },
-    ].forEach(function({ stringFilledIn }) {
-
-      test(`it should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
+      test('it should prevent submission when firstName is not valid', async function(assert) {
         // given
-        await render(hbs`{{routes/register-form}}`);
+        await fillForm({ ...validUser, ...{ firstName: '' } });
 
         // when
-        await fillIn('#register-email', stringFilledIn);
-        await triggerEvent('#register-email', 'focusout');
+        await click('.button');
 
         // then
-        assert.dom('#register-email-container .alert-input--error').hasText(EMPTY_EMAIL_ERROR_MESSAGE);
-        assert.dom('#register-email-container .input--error').exists();
+        assert.equal(spy.callCount, 0);
       });
-    });
 
-    [{ stringFilledIn: ' ' },
-      { stringFilledIn: 'password' },
-      { stringFilledIn: 'password1' },
-      { stringFilledIn: 'Password' },
-    ].forEach(function({ stringFilledIn }) {
-
-      test(`it should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
+      test('it should prevent submission when lastName is not valid', async function(assert) {
         // given
-        await render(hbs`{{routes/register-form}}`);
+        await fillForm({ ...validUser, ...{ lastName: '' } });
 
         // when
-        await fillIn('#register-password', stringFilledIn);
-        await triggerEvent('#register-password', 'focusout');
+        await click('.button');
 
         // then
-        assert.dom('#register-password-container .alert-input--error').hasText(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
-        assert.dom('#register-password-container .input-password--error').exists();
+        assert.equal(spy.callCount, 0);
+      });
+
+      test('it should prevent submission when email is not valid', async function(assert) {
+        // given
+        await fillForm({ ...validUser, ...{ email: '' } });
+
+        // when
+        await click('.button');
+
+        // then
+        assert.equal(spy.callCount, 0);
+      });
+
+      test('it should prevent submission when password is not valid', async function(assert) {
+        // given
+        await fillForm({ ...validUser, ...{ password: '' } });
+
+        // when
+        await click('.button');
+
+        // then
+        assert.equal(spy.callCount, 0);
+      });
+
+      test('it should prevent submission when cgu have not been accepted', async function(assert) {
+        // given
+        await fillForm({ ...validUser, ...{ cgu: false } });
+
+        // when
+        await click('.button');
+
+        // then
+        assert.equal(spy.callCount, 0);
       });
     });
   });
