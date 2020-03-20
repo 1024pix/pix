@@ -1,19 +1,49 @@
-const PIX_CERTIF_USER_ID = 100;
-const CERTIF_SUCCESS_USER_ID = 101;
-const CERTIF_FAILURE_USER_ID = 102;
-const CERTIF_REGULAR_USER1_ID = 103;
-const CERTIF_REGULAR_USER2_ID = 104;
-const CERTIF_REGULAR_USER3_ID = 105;
-const CERTIF_REGULAR_USER4_ID = 106;
-const CERTIF_REGULAR_USER5_ID = 107;
+const PIX_SCO_CERTIF_USER_ID = 100;
+const PIX_PRO_CERTIF_USER_ID = 101;
+const PIX_SUP_CERTIF_USER_ID = 102;
+const PIX_NONE_CERTIF_USER_ID = 103;
+const CERTIF_SUCCESS_USER_ID = 104;
+const CERTIF_FAILURE_USER_ID = 105;
+const CERTIF_REGULAR_USER1_ID = 106;
+const CERTIF_REGULAR_USER2_ID = 107;
+const CERTIF_REGULAR_USER3_ID = 108;
+const CERTIF_REGULAR_USER4_ID = 109;
+const CERTIF_REGULAR_USER5_ID = 110;
 
 function certificationUsersBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildUser.withUnencryptedPassword({
-    id: PIX_CERTIF_USER_ID,
-    firstName: 'Chef',
+    id: PIX_SCO_CERTIF_USER_ID,
+    firstName: 'SCO',
     lastName: 'Certification',
-    email: 'certif@example.net',
+    email: 'certifsco@example.net',
+    rawPassword: 'pix123',
+    cgu: true,
+  });
+
+  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    id: PIX_PRO_CERTIF_USER_ID,
+    firstName: 'PRO',
+    lastName: 'Certification',
+    email: 'certifpro@example.net',
+    rawPassword: 'pix123',
+    cgu: true,
+  });
+
+  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    id: PIX_SUP_CERTIF_USER_ID,
+    firstName: 'SUP',
+    lastName: 'Certification',
+    email: 'certifsup@example.net',
+    rawPassword: 'pix123',
+    cgu: true,
+  });
+
+  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    id: PIX_NONE_CERTIF_USER_ID,
+    firstName: 'NONE',
+    lastName: 'Certification',
+    email: 'certifnone@example.net',
     rawPassword: 'pix123',
     cgu: true,
   });
@@ -84,7 +114,10 @@ function certificationUsersBuilder({ databaseBuilder }) {
 
 module.exports = {
   certificationUsersBuilder,
-  PIX_CERTIF_USER_ID,
+  PIX_SCO_CERTIF_USER_ID,
+  PIX_PRO_CERTIF_USER_ID,
+  PIX_SUP_CERTIF_USER_ID,
+  PIX_NONE_CERTIF_USER_ID,
   CERTIF_SUCCESS_USER_ID,
   CERTIF_FAILURE_USER_ID,
   CERTIF_REGULAR_USER1_ID,
