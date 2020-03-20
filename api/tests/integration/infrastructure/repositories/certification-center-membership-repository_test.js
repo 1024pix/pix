@@ -1,17 +1,19 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
 const BookshelfCertificationCenterMembership = require('../../../../lib/infrastructure/data/certification-center-membership');
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
+const { AlreadyExistingMembershipError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Certification Center Membership', () => {
 
-  describe('#create', () => {
+  describe('#save', () => {
     let userId, certificationCenterId;
-    beforeEach(async () => {
+
+    beforeEach(() => {
       userId = databaseBuilder.factory.buildUser({}).id;
       certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
-      await databaseBuilder.commit();
+      return databaseBuilder.commit();
     });
 
     afterEach(() => {
@@ -23,7 +25,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
       const countCertificationCenterMembershipsBeforeCreate = await BookshelfCertificationCenterMembership.count();
 
       // when
-      await certificationCenterMembershipRepository.create(userId, certificationCenterId);
+      await certificationCenterMembershipRepository.save(userId, certificationCenterId);
 
       // then
       const countCertificationCenterMembershipsAfterCreate = await BookshelfCertificationCenterMembership.count();
@@ -32,7 +34,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
 
     it('should return the certification center membership', async () => {
       // when
-      const createdCertificationCenterMembership = await certificationCenterMembershipRepository.create(userId, certificationCenterId);
+      const createdCertificationCenterMembership = await certificationCenterMembershipRepository.save(userId, certificationCenterId);
 
       // then
       expect(createdCertificationCenterMembership).to.be.an.instanceOf(CertificationCenterMembership);
@@ -40,18 +42,17 @@ describe('Integration | Repository | Certification Center Membership', () => {
 
     context('Error cases', () => {
 
-      beforeEach(async () => {
-        // given
+      beforeEach(() => {
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-        await databaseBuilder.commit();
+        return databaseBuilder.commit();
       });
 
-      it('should throw an error when a membership already exist for user + certificationCenter', () => {
+      it('should throw an error when a membership already exist for user + certificationCenter', async () => {
         // when
-        const promise = certificationCenterMembershipRepository.create(userId, certificationCenterId);
+        const error = await catchErr(certificationCenterMembershipRepository.save)(userId, certificationCenterId);
 
         // then
-        return expect(promise).to.have.been.rejectedWith(Error);
+        expect(error).to.be.instanceOf(AlreadyExistingMembershipError);
       });
 
     });
@@ -61,7 +62,8 @@ describe('Integration | Repository | Certification Center Membership', () => {
   describe('#findByUserId', () => {
 
     let userAsked, expectedCertificationCenter, expectedCertificationCenterMembership;
-    beforeEach(async () => {
+
+    beforeEach(() => {
       userAsked = databaseBuilder.factory.buildUser();
       const otherUser = databaseBuilder.factory.buildUser();
       expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter();
@@ -74,26 +76,24 @@ describe('Integration | Repository | Certification Center Membership', () => {
         userId: otherUser.id,
         certificationCenterId: otherCertificationCenter.id
       });
-      await databaseBuilder.commit();
+      return databaseBuilder.commit();
     });
 
-    it('should return certification center membership associated to the user', () => {
+    it('should return certification center membership associated to the user', async () => {
       // when
-      const promise = certificationCenterMembershipRepository.findByUserId(userAsked.id);
+      const certificationCenterMemberships = await certificationCenterMembershipRepository.findByUserId(userAsked.id);
 
       // then
-      return promise.then((certificationCenterMemberships) => {
-        expect(certificationCenterMemberships).to.be.an('array');
+      expect(certificationCenterMemberships).to.be.an('array');
 
-        const certificationCenterMembership = certificationCenterMemberships[0];
-        expect(certificationCenterMembership).to.be.an.instanceof(CertificationCenterMembership);
-        expect(certificationCenterMembership.id).to.equal(expectedCertificationCenterMembership.id);
+      const certificationCenterMembership = certificationCenterMemberships[0];
+      expect(certificationCenterMembership).to.be.an.instanceof(CertificationCenterMembership);
+      expect(certificationCenterMembership.id).to.equal(expectedCertificationCenterMembership.id);
 
-        const associatedCertificationCenter = certificationCenterMembership.certificationCenter;
-        expect(associatedCertificationCenter).to.be.an.instanceof(CertificationCenter);
-        expect(associatedCertificationCenter.id).to.equal(expectedCertificationCenter.id);
-        expect(associatedCertificationCenter.name).to.equal(expectedCertificationCenter.name);
-      });
+      const associatedCertificationCenter = certificationCenterMembership.certificationCenter;
+      expect(associatedCertificationCenter).to.be.an.instanceof(CertificationCenter);
+      expect(associatedCertificationCenter.id).to.equal(expectedCertificationCenter.id);
+      expect(associatedCertificationCenter.name).to.equal(expectedCertificationCenter.name);
     });
   });
 
