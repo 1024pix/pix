@@ -12,7 +12,7 @@ module.exports = {
       certificationCenter: {
         ref: 'id',
         included: true,
-        attributes: ['name', 'sessions'],
+        attributes: ['name', 'type', 'sessions'],
         sessions: {
           ref: 'id',
           ignoreRelationshipData: true,
