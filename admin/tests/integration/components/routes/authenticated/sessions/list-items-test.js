@@ -24,7 +24,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     this.set('triggerFiltering', triggerFiltering);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/list-items sessions=sessions triggerFiltering=triggerFiltering}}`);
+    await render(hbs`{{sessions/list-items sessions=sessions triggerFiltering=triggerFiltering}}`);
 
     // then
     assert.dom('table tbody tr:first-child td:first-child').hasText(sessions[0].id.toString());

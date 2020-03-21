@@ -27,11 +27,11 @@ export default class ListRoute extends Route.extend(AuthenticatedRouteMixin) {
 
   resetController(controller, isExiting) {
     if (isExiting) {
-      controller.set('pageNumber', 1);
-      controller.set('pageSize', 10);
-      controller.set('name', null);
-      controller.set('type', null);
-      controller.set('externalId', null);
+      controller.pageNumber = 1;
+      controller.pageSize = 10;
+      controller.name = null;
+      controller.type = null;
+      controller.externalId = null;
     }
   }
 }

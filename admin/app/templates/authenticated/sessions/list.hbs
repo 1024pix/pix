@@ -4,10 +4,9 @@
 
 <main class="page-body">
   <section class="page-section">
-    {{routes/authenticated/sessions/list-items
-      sessions=model
-      id=id
-      triggerFiltering=(action 'triggerFiltering')
-    }}
+      <Sessions::ListItems
+        @sessions={{@model}}
+        @id={{id}}
+        @triggerFiltering={{this.triggerFiltering}} />
   </section>
 </main>

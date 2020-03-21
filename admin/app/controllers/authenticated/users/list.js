@@ -10,10 +10,10 @@ export default class ListController extends Controller {
   queryParams = ['pageNumber', 'pageSize', 'firstName', 'lastName', 'email'];
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
-  pageSize = 10;
-  firstName = null;
-  lastName = null;
-  email = null;
+  @tracked pageSize = 10;
+  @tracked firstName = null;
+  @tracked lastName = null;
+  @tracked email = null;
 
   searchFilter = null;
 
