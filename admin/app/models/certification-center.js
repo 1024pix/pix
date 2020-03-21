@@ -1,11 +1,9 @@
-import DS from 'ember-data';
-const { attr, Model } = DS;
+import Model, { attr }  from '@ember-data/model';
 
-export default Model.extend({
+export default class CertificationCenter extends Model {
 
-  // Attributes
-  name: attr(),
-  type: attr(),
-  externalId: attr(),
+  @attr() name;
+  @attr() type;
+  @attr() externalId;
 
-});
+}
