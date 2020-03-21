@@ -32,7 +32,11 @@
         <tr>
           <td>{{session.id}}</td>
           <td>{{session.certificationCenterName}}</td>
-          <td>TODO</td>
+            {{#if (and session.certificationCenter session.certificationCenter.type)}}
+              <td class="session-list__item--align-center">{{session.certificationCenter.type}}</td>
+            {{else}}
+              <td class="session-list__item--align-center">-</td>
+            {{/if}}
           <td>{{session.displayDate}} à {{session.time}}</td>
           <td>{{session.displayStatus}}</td>
           <td>{{session.displayFinalizationDate}}</td>
