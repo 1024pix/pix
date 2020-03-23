@@ -7,6 +7,10 @@ given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'target-profiles');
   cy.task('db:fixture', 'target-profiles_skills');
   cy.task('db:fixture', 'campaigns');
+  cy.task('db:fixture', 'campaign-participations');
+  cy.task('db:fixture', 'assessments');
+  cy.task('db:fixture', 'answers');
+  cy.task('db:fixture', 'knowledge-elements');
   cy.task('db:fixture', 'users_pix_roles');
   cy.task('db:fixture', 'students');
 });
@@ -51,6 +55,14 @@ when(`je clique sur {string}`, (label) => {
   cy.contains(label).click();
 });
 
-when(`je saisis {string} dans le champ`, (value) => {
-  cy.get('input').type(value);
+when('je reviens en arrière', () => {
+  cy.go('back');
+});
+
+when(`je saisis {string} dans le champ {string}`, (value, label) => {
+  cy.contains(label).parent().within(() => cy.get('input').type(value));
+});
+
+when(`je sélectionne {string} dans le champ {string}`, (value, label) => {
+  cy.contains(label).parent().within(() => cy.get('select').select(value));
 });

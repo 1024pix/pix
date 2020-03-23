@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "campaignId": 1,
+    "isShared": true,
+    "participantExternalId": "Le fratricide",
+    "sharedAt": "2019-04-22T06:00:00Z",
+    "userId": 4
+  },
+  {
+    "id": 2,
+    "campaignId": 1,
+    "isShared": false,
+    "participantExternalId": "Le régicide",
+    "userId": 5
+  },
+  {
+    "id": 3,
+    "campaignId": 1,
+    "isShared": false,
+    "participantExternalId": "La reine",
+    "userId": 6
+  }
+]

@@ -1,5 +1,5 @@
 #language: fr
-Fonctionnalité: Connexion
+Fonctionnalité: Connexion - Déconnexion
 
   Contexte:
     Étant donné que tous les comptes sont créés

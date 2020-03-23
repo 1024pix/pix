@@ -12,7 +12,7 @@ Fonctionnalité: Demo
     Et je choisis la réponse "radio_3"
     Et je clique sur "Je valide"
     Et l'épreuve contient le texte "quel est le verbe ?"
-    Et je saisis "manger" dans le champ
+    Et je saisis "manger" dans le champ "Réponse :"
     Et je clique sur "Je valide"
     Alors je vois la page de résultats
     Et j'ai passé à "Combien font 2 + 2 ?"
