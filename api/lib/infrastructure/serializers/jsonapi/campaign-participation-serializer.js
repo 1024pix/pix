@@ -56,7 +56,8 @@ module.exports = {
             'testedSkillsCount',
             'validatedSkillsCount',
             'competenceResults',
-            'progress'
+            'badgePartnerCompetenceResults',
+            'progress',
           ],
           competenceResults: {
             ref: 'id',
@@ -70,6 +71,18 @@ module.exports = {
               'validatedSkillsCount'
             ],
           },
+          badgePartnerCompetenceResults: {
+            ref: 'id',
+            attributes: [
+              'name',
+              'index',
+              'areaColor',
+              'masteryPercentage',
+              'totalSkillsCount',
+              'testedSkillsCount',
+              'validatedSkillsCount'
+            ],
+          }
         },
         meta
       }).serialize(campaignParticipation);

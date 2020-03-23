@@ -39,14 +39,19 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
       },
     };
 
-    const badge = {
-      id: 1,
-      imageUrl: '/img/banana.svg',
-      message: 'Congrats, you won the Banana badge!'
-    };
-
     it('should add the campaign participation results', () => {
       // when
+      const badge = {
+        id: 1,
+        imageUrl: '/img/banana.svg',
+        message: 'Congrats, you won the Banana badge!',
+        badgePartnerCompetences: [{
+          id: 12,
+          name: 'Pix Emploi',
+          color: 'emerald',
+          skillIds: [1, 2, 4]
+        }]
+      };
       const result = CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, badge });
 
       // then
@@ -63,7 +68,24 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           id: 1,
           imageUrl: '/img/banana.svg',
           message: 'Congrats, you won the Banana badge!',
+          badgePartnerCompetences: [
+            {
+              color: 'emerald',
+              id: 12,
+              name: 'Pix Emploi',
+              skillIds: [1, 2, 4],
+            }
+          ],
         },
+        badgePartnerCompetenceResults: [{
+          id: 12,
+          areaColor: 'emerald',
+          index: undefined,
+          name: 'Pix Emploi',
+          testedSkillsCount: 2,
+          totalSkillsCount: 3,
+          validatedSkillsCount: 1
+        }],
         competenceResults: [{
           id: 1,
           name: 'Economie symbiotique',

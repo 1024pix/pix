@@ -14,8 +14,9 @@ class CampaignParticipationResult {
     validatedSkillsCount,
     knowledgeElementsCount,
     // relationships
-    competenceResults = [],
     badge,
+    badgePartnerCompetenceResults = [],
+    competenceResults = [],
   } = {}) {
     this.id = id;
     // attributes
@@ -26,16 +27,17 @@ class CampaignParticipationResult {
     this.validatedSkillsCount = validatedSkillsCount;
     this.knowledgeElementsCount = knowledgeElementsCount,
     // relationships
-    this.competenceResults = competenceResults;
     this.badge = badge;
+    this.badgePartnerCompetenceResults = badgePartnerCompetenceResults;
+    this.competenceResults = competenceResults;
   }
 
   static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, badge }) {
     const targetProfileSkillsIds = _.map(targetProfile.skills, 'id');
-    let targetedCompetences = _removeUntargetedSkillIdsFromCompetences(competences, targetProfileSkillsIds);
-    targetedCompetences = _removeCompetencesWithoutAnyTargetedSkillsLeft(targetedCompetences);
     const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds);
-    const targetedCompetenceResults = _.map(targetedCompetences, (competence) => _getTestedCompetenceResults(competence, targetedKnowledgeElements));
+
+    const targetedCompetenceResults = _computeCompetenceResults(competences, targetProfileSkillsIds, targetedKnowledgeElements);
+    const targetedBadgePartnerCompetenceResults = _computeBadgePartnerCompetenceResults(badge, targetProfileSkillsIds, targetedKnowledgeElements);
 
     const validatedSkillsCount = _.sumBy(targetedCompetenceResults, 'validatedSkillsCount');
     const totalSkillsCount = _.sumBy(targetedCompetenceResults, 'totalSkillsCount');
@@ -50,6 +52,7 @@ class CampaignParticipationResult {
       areBadgeCriteriaFulfilled: false,
       isCompleted: assessment.isCompleted(),
       competenceResults: targetedCompetenceResults,
+      badgePartnerCompetenceResults: targetedBadgePartnerCompetenceResults,
       badge,
     });
   }
@@ -71,6 +74,25 @@ function _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkil
   return _.filter(knowledgeElements, (ke) => targetProfileSkillsIds.some((skillId) => skillId === ke.skillId));
 }
 
+function _computeCompetenceResults(competences, targetProfileSkillsIds, targetedKnowledgeElements) {
+  let targetedCompetences = _removeUntargetedSkillIdsFromCompetences(competences, targetProfileSkillsIds);
+  targetedCompetences = _removeCompetencesWithoutAnyTargetedSkillsLeft(targetedCompetences);
+  const targetedCompetenceResults = _.map(targetedCompetences, (competence) => _getTestedCompetenceResults(competence, targetedKnowledgeElements));
+  return targetedCompetenceResults;
+}
+
+function _computeBadgePartnerCompetenceResults(badge, targetProfileSkillsIds, targetedKnowledgeElements) {
+  let targetedBadgePartnerCompetenceResults = [];
+
+  if (!_.isEmpty(badge) && !_.isEmpty(badge.badgePartnerCompetences)) {
+    let targetedBadgePartnerCompetences = _removeUntargetedSkillIdsFromCompetences(badge.badgePartnerCompetences, targetProfileSkillsIds);
+    targetedBadgePartnerCompetences = _removeCompetencesWithoutAnyTargetedSkillsLeft(targetedBadgePartnerCompetences);
+    targetedBadgePartnerCompetenceResults = _.map(targetedBadgePartnerCompetences,
+      (badgePartnerCompetence) => _getTestedCompetenceResults(badgePartnerCompetence, targetedKnowledgeElements));
+  }
+  return targetedBadgePartnerCompetenceResults;
+}
+
 function _removeUntargetedSkillIdsFromCompetences(competences, targetProfileSkillsIds) {
   return _.map(competences, (competence) => {
     competence.skillIds = _.intersection(competence.skillIds, targetProfileSkillsIds);
@@ -89,16 +111,29 @@ function _getTestedCompetenceResults(competence, targetedKnowledgeElements) {
   const testedSkillsCount = targetedKnowledgeElementsForCompetence.length;
   const validatedSkillsCount = validatedKnowledgeElementsForCompetence.length;
   const totalSkillsCount = competence.skillIds.length;
+  const areaColor = _getCompetenceColor(competence);
 
   return new CompetenceResult({
     id: competence.id,
     name: competence.name,
     index: competence.index,
-    areaColor: competence.area.color,
+    areaColor,
     totalSkillsCount,
     testedSkillsCount,
     validatedSkillsCount,
   });
+}
+
+function _getCompetenceColor(competence) {
+  let areaColor;
+  const isBadgePartnerCompetenceColorAvailable = !_.isEmpty(competence.color);
+
+  if (isBadgePartnerCompetenceColorAvailable) {
+    areaColor = competence.color;
+  } else {
+    areaColor = competence.area.color;
+  }
+  return areaColor;
 }
 
 module.exports = CampaignParticipationResult;
