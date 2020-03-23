@@ -4,6 +4,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     id: 1,
     name: 'Campagne 1',
     code: 'AZERTY123',
+    type: 'TEST_GIVEN',
     organizationId: 1,
     creatorId: 2,
     targetProfileId: 2,
@@ -14,6 +15,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     id: 2,
     name: 'Campagne 2',
     code: 'AZERTY456',
+    type: 'TEST_GIVEN',
     title: 'Parcours recherche avancée',
     customLandingPageText: 'Ce parcours est proposé aux collaborateurs de Dragon & Co',
     organizationId: 1,
@@ -26,6 +28,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     id: 3,
     name: 'Campagne without logo',
     code: 'AZERTY789',
+    type: 'TEST_GIVEN',
     organizationId: 2,
     creatorId: 2,
     targetProfileId: 1,
@@ -35,6 +38,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     id: 4,
     name: 'Campagne restreinte',
     code: 'RESTRICTD',
+    type: 'TEST_GIVEN',
     organizationId: 3,
     creatorId: 4,
     targetProfileId: 1,
@@ -44,9 +48,29 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     id: 5,
     name: 'Campagne Pix Emploi',
     code: 'QWERTY789',
+    type: 'TEST_GIVEN',
     organizationId: 1,
     creatorId: 2,
     targetProfileId: 100321,
     idPixLabel: 'identifiant entreprise',
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 6,
+    name: 'Campagne Récupération Profils',
+    code: 'SNAP123',
+    type: 'PROFILES_COLLECTION',
+    organizationId: 1,
+    creatorId: 2,
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 7,
+    name: 'Campagne Récupération Profils restreinte',
+    code: 'SNAP456',
+    type: 'PROFILES_COLLECTION',
+    organizationId: 3,
+    creatorId: 4,
+    idPixLabel: 'identifiant élève',
   });
 };
