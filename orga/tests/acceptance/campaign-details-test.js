@@ -107,7 +107,7 @@ module('Acceptance | Campaign Details', function(hooks) {
       await visit('/campagnes/1');
 
       // when
-      await click('.campaign-details-content__return-button');
+      await click('[aria-label="Retour"]');
 
       // then
       assert.equal(currentURL(), '/campagnes');

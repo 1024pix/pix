@@ -35,7 +35,6 @@ module('Unit | Model | campaign', function(hooks) {
   test('it should compute the isArchived property from the archivation date at creation', function(assert) {
     const store = this.owner.lookup('service:store');
     const model = run(() => store.createRecord('campaign', {
-      id: 1,
       archivedAt: new Date('2010-10-10'),
     }));
     assert.equal(model.isArchived, true);
@@ -44,10 +43,33 @@ module('Unit | Model | campaign', function(hooks) {
   test('it should compute the isArchived property from the archivation date when set to null', function(assert) {
     const store = this.owner.lookup('service:store');
     const model = run(() => store.createRecord('campaign', {
-      id: 1,
       archivedAt: new Date('2010-10-10'),
     }));
     model.set('archivedAt', null);
     assert.equal(model.isArchived, false);
+  });
+
+  module('#readableType', function(hooks) {
+    let store;
+
+    hooks.beforeEach(function() {
+      store = this.owner.lookup('service:store');
+    });
+
+    test('it should compute the readableType property when type is TEST_GIVEN', function(assert) {
+      // when
+      const model = store.createRecord('campaign', { type: 'TEST_GIVEN' });
+
+      // then
+      assert.equal(model.readableType, 'Parcours de test');
+    });
+
+    test('it should compute the readableType property when type is PROFILES_COLLECTION', function(assert) {
+      // when
+      const model = store.createRecord('campaign', { type: 'PROFILES_COLLECTION' });
+
+      // then
+      assert.equal(model.readableType, 'Récupération profils');
+    });
   });
 });
