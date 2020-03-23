@@ -6,6 +6,7 @@ const { UserNotAuthorizedToCreateCampaignError } = require('../errors');
 
 module.exports = async function createCampaign({ campaign, campaignRepository, userRepository, organizationService }) {
   campaignValidator.validate(campaign);
+  campaign.type = Campaign.types.TEST_GIVEN;
   return _checkCreatorHasAccessToCampaignOrganization(campaign.creatorId, campaign.organizationId, userRepository)
     .then(() => _checkOrganizationHasAccessToTargetProfile(campaign.targetProfileId, campaign.organizationId, organizationService))
     .then(() => campaignCodeGenerator.generate(campaignRepository))
