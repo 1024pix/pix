@@ -135,7 +135,7 @@ module('Acceptance | authentication', function(hooks) {
     test('it should show the name of certification center', async function(assert) {
       await visit('/sessions/liste');
 
-      assert.dom('.certification-center-name').hasText('Centre de certification du pix');
+      assert.dom('.sidebar__certification-center-name').hasText('Centre de certification du pix');
     });
 
     test('it should redirect user to the session list on root url', async function(assert) {

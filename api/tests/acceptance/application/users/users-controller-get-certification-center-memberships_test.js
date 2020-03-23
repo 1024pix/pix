@@ -82,7 +82,8 @@ describe('Acceptance | Controller | users-controller-get-certification-center-me
               type: 'certificationCenters',
               id: certificationCenter.id.toString(),
               attributes: {
-                name: 'certifCenter',
+                name: certificationCenter.name,
+                type: certificationCenter.type,
               },
               relationships: {
                 sessions: {

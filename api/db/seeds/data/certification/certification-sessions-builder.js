@@ -1,4 +1,4 @@
-const { CERTIF_CENTER_ID, CERTIF_CENTER_NAME } = require('./certification-centers-builder');
+const { SCO_CERTIF_CENTER_ID, SCO_CERTIF_CENTER_NAME } = require('./certification-centers-builder');
 const { statuses } = require('../../../../lib/domain/models/Session');
 const EMPTY_SESSION_ID = 1;
 const STARTED_SESSION_ID = 2;
@@ -8,8 +8,8 @@ const NO_PROBLEM_FINALIZED_SESSION_ID = 5;
 const PROBLEMS_FINALIZED_SESSION_ID = 6;
 
 function certificationSessionsBuilder({ databaseBuilder }) {
-  const certificationCenter = CERTIF_CENTER_NAME;
-  const certificationCenterId = CERTIF_CENTER_ID;
+  const certificationCenter = SCO_CERTIF_CENTER_NAME;
+  const certificationCenterId = SCO_CERTIF_CENTER_ID;
   const address = 'Anne-Star Street';
   const room = 'Salle Anne';
   const examiner = 'Anne-Quelquechose';
