@@ -21,7 +21,7 @@ module.exports = function buildCertificationCandidate({
   userId,
 } = {}) {
 
-  sessionId = _.isNil(sessionId) ? buildSession().id : sessionId;
+  sessionId = _.isUndefined(sessionId) ? buildSession().id : sessionId;
   userId = _.isUndefined(userId) ? buildUser().id : userId;
 
   const values = {
