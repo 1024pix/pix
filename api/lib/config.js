@@ -1,13 +1,13 @@
 const path = require('path');
 
-function parseJSONEnv(varName) {
+function _parseJSONEnv(varName) {
   if (process.env[varName]) {
     return JSON.parse(process.env[varName]);
   }
   return undefined;
 }
 
-function isFeatureEnabled(environmentVariable) {
+function _isFeatureEnabled(environmentVariable) {
   return environmentVariable === 'true';
 }
 
@@ -39,13 +39,13 @@ module.exports = (function() {
     },
 
     logging: {
-      enabled: isFeatureEnabled(process.env.LOG_ENABLED),
+      enabled: _isFeatureEnabled(process.env.LOG_ENABLED),
       colorEnabled: (process.env.NODE_ENV === 'development'),
       logLevel: (process.env.LOG_LEVEL || 'info'),
     },
 
     mailing: {
-      enabled: isFeatureEnabled(process.env.MAILING_ENABLED),
+      enabled: _isFeatureEnabled(process.env.MAILING_ENABLED),
       provider: process.env.MAILING_PROVIDER || 'mailjet', /* sendinblue */
       mailjet: {
         apiKey: process.env.MAILJET_API_KEY,
@@ -67,7 +67,7 @@ module.exports = (function() {
     },
 
     captcha: {
-      enabled: isFeatureEnabled(process.env.RECAPTCHA_ENABLED),
+      enabled: _isFeatureEnabled(process.env.RECAPTCHA_ENABLED),
       googleRecaptchaSecret: process.env.RECAPTCHA_KEY
     },
 
@@ -78,9 +78,9 @@ module.exports = (function() {
     },
 
     saml: {
-      spConfig: parseJSONEnv('SAML_SP_CONFIG'),
-      idpConfig: parseJSONEnv('SAML_IDP_CONFIG'),
-      attributeMapping: parseJSONEnv('SAML_ATTRIBUTE_MAPPING') || {
+      spConfig: _parseJSONEnv('SAML_SP_CONFIG'),
+      idpConfig: _parseJSONEnv('SAML_IDP_CONFIG'),
+      attributeMapping: _parseJSONEnv('SAML_ATTRIBUTE_MAPPING') || {
         samlId: 'IDO',
         firstName: 'PRE',
         lastName: 'NOM',
@@ -115,11 +115,11 @@ module.exports = (function() {
     pixOrgaUrl: process.env.PIXORGA_URL,
 
     sentry: {
-      enabled: isFeatureEnabled(process.env.SENTRY_ENABLED),
+      enabled: _isFeatureEnabled(process.env.SENTRY_ENABLED),
       dsn: process.env.SENTRY_DSN,
       environment: (process.env.SENTRY_ENVIRONMENT || 'development'),
       maxBreadcrumbs: _getNumber(process.env.SENTRY_MAX_BREADCRUMBS, 100),
-      debug: isFeatureEnabled(process.env.SENTRY_DEBUG),
+      debug: _isFeatureEnabled(process.env.SENTRY_DEBUG),
     },
   };
 
