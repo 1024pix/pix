@@ -34,7 +34,7 @@ module.exports = function(environment) {
       NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS: 5,
       IS_RECAPTCHA_ENABLED: process.env.IS_RECAPTCHA_ENABLED === 'true',
       IS_WARNING_BANNER_ENABLED: process.env.IS_WARNING_BANNER_ENABLED === 'true',
-      SHOW_USER_TUTORIALS_IN_MENU: process.env.SHOW_USER_TUTORIALS_IN_MENU === 'true',
+      FT_ACTIVATE_USER_TUTORIALS: process.env.FT_ACTIVATE_USER_TUTORIALS === 'true',
     },
 
     googleFonts: [
@@ -90,6 +90,7 @@ module.exports = function(environment) {
     ENV.APP.HOME_HOST = process.env.HOME_HOST || '/';
     ENV.matomo.url = 'https://stats.pix.fr/js/container_jKDD76j4_dev_179474167add1104d6c8a92b.js';
     ENV.matomo.debug = true;
+    ENV.APP.FT_ACTIVATE_USER_TUTORIALS = true;
   }
 
   if (environment === 'test') {
@@ -114,7 +115,7 @@ module.exports = function(environment) {
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.GOOGLE_RECAPTCHA_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
     ENV.RECAPTCHA_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
-    ENV.APP.SHOW_USER_TUTORIALS_IN_MENU = true;
+    ENV.APP.FT_ACTIVATE_USER_TUTORIALS = true;
   }
 
   if (environment === 'production') {

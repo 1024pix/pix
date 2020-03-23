@@ -5,5 +5,5 @@ import config from 'mon-pix/config/environment';
 export default Component.extend({
   currentUser: service(),
 
-  showUserTutorialsInMenu: config.APP.SHOW_USER_TUTORIALS_IN_MENU
+  showUserTutorialsInMenu: config.APP.FT_ACTIVATE_USER_TUTORIALS
 });
