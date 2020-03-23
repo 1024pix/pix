@@ -121,6 +121,10 @@ module.exports = (function() {
       maxBreadcrumbs: _getNumber(process.env.SENTRY_MAX_BREADCRUMBS, 100),
       debug: _isFeatureEnabled(process.env.SENTRY_DEBUG),
     },
+
+    locale: {
+      enabled: _isFeatureEnabled(process.env.LOCALE_MANAGEMENT_ENABLED)
+    }
   };
 
   if (process.env.NODE_ENV === 'test') {
@@ -161,6 +165,8 @@ module.exports = (function() {
     config.pixOrgaUrl = 'http://dev.pix-orga.fr';
 
     config.sentry.enabled = false;
+
+    config.locale.enabled = true;
   }
 
   return config;
