@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "campaignParticipationId": 1,
+    "state": "completed",
+    "type": "SMART_PLACEMENT",
+    "userId": 4
+  },
+  {
+    "id": 2,
+    "campaignParticipationId": 2,
+    "state": "started",
+    "type": "SMART_PLACEMENT",
+    "userId": 5
+  },
+  {
+    "id": 3,
+    "campaignParticipationId": 3,
+    "state": "aborted",
+    "type": "SMART_PLACEMENT",
+    "userId": 6
+  }
+]

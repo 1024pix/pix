@@ -8,7 +8,7 @@ Fonctionnalité: Campagne
     Étant donné que je vais sur Pix
     Et je suis connecté à Pix en tant que "Daenerys Targaryen"
     Lorsque je vais sur la page d'accès à une campagne
-    Et je saisis "NERA" dans le champ
+    Et je saisis "NERA" dans le champ "Saisissez le code du parcours"
     Lorsque je clique sur "Commencer mon parcours"
     Alors je vois la page de "presentation" de la campagne
     Lorsque je clique sur "Je commence"
@@ -27,12 +27,12 @@ Fonctionnalité: Campagne
     Étant donné que je vais sur Pix
     Et je suis connecté à Pix en tant que "Daenerys Targaryen"
     Et je vais sur la page d'accès à une campagne
-    Lorsque je saisis "WINTER" dans le champ
+    Lorsque je saisis "WINTER" dans le champ "Saisissez le code du parcours"
     Et je clique sur "Commencer mon parcours"
     Alors je vois la page de "rejoindre" de la campagne
-    Lorsque je saisis mon prénom "Daenerys"
-    Lorsque je saisis mon nom "Targaryen"
-    Lorsque je saisis ma date de naissance 23-10-1986
+    Lorsque je saisis "Daenerys" dans le champ "Prénom"
+    Et je saisis "Targaryen" dans le champ "Nom"
+    Et je saisis la date de naissance 23-10-1986
     Et je clique sur "C'est parti !"
     Alors je vois la page de "presentation" de la campagne
     Lorsque je clique sur "Je commence"
@@ -41,10 +41,10 @@ Fonctionnalité: Campagne
   Scénario: Je rejoins mon parcours prescrit restreint en étant connecté via un organisme externe
     Étant donné que je vais sur Pix via un organisme externe
     Et je vais sur la page d'accès à une campagne
-    Lorsque je saisis "WINTER" dans le champ
+    Lorsque je saisis "WINTER" dans le champ "Saisissez le code du parcours"
     Et je clique sur "Commencer mon parcours"
     Alors je vois la page de "rejoindre" de la campagne
-    Lorsque je saisis ma date de naissance 23-10-1986
+    Lorsque je saisis la date de naissance 23-10-1986
     Et je clique sur "C'est parti !"
     Alors je vois la page de "presentation" de la campagne
     Lorsque je clique sur "Je commence"
