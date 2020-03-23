@@ -1,8 +1,9 @@
-const { sinon, expect, generateValidRequestAuthorizationHeader, hFake } = require('../../../test-helper');
+const { sinon, expect, generateValidRequestAuthorizationHeader, hFake, catchErr } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const { cleaBadgeCreationHandler } = require('../../../../lib/domain/events/clea-badge-creation-handler');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | Controller | assessment-controller', function() {
 
@@ -104,12 +105,29 @@ describe('Unit | Controller | assessment-controller', function() {
   });
 
   describe('#completeAssessment', () => {
+    const assessmentId = 2;
+    const event = Symbol('un événement de fin de test');
+    let handler;
+    let domainTransaction;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'completeAssessment');
+      usecases.completeAssessment.resolves(event);
+
+      handler = {
+        handle: () => {
+        }
+      };
+      sinon.stub(handler, 'handle');
+      sinon.stub(cleaBadgeCreationHandler, 'inject');
+      cleaBadgeCreationHandler.inject.returns(handler);
+      domainTransaction = domainTransactionStub();
+      sinon.stub(DomainTransaction, 'begin').returns(domainTransaction);
+    });
 
     it('should call the completeAssessment use case', async () => {
       // given
-      const assessmentId = 2;
-      sinon.stub(usecases, 'completeAssessment');
-      usecases.completeAssessment.resolves({});
+      handler.handle.resolves({});
 
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
@@ -119,20 +137,8 @@ describe('Unit | Controller | assessment-controller', function() {
     });
 
     it('should pass the assessment completed event to the CleaBadgeCreationHandler', async () => {
-      // given
-      const assessmentId = 2;
-
-      const event = Symbol('un événement de fin de test');
-      sinon.stub(usecases, 'completeAssessment');
-      usecases.completeAssessment.resolves(event);
-
-      const handler = {
-        handle: () => {}
-      };
-      sinon.stub(handler, 'handle');
+      /// given
       handler.handle.resolves({});
-      sinon.stub(cleaBadgeCreationHandler, 'inject');
-      cleaBadgeCreationHandler.inject.returns(handler);
 
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
@@ -140,5 +146,49 @@ describe('Unit | Controller | assessment-controller', function() {
       // then
       expect(handler.handle).to.have.been.calledWithExactly(event);
     });
+
+    it('should begin a domain transaction on assessment completion', async () => {
+      // given
+      handler.handle.resolves({});
+
+      // when
+      await assessmentController.completeAssessment({ params: { id: assessmentId } });
+
+      // then
+      expect(DomainTransaction.begin).to.have.been.called;
+    });
+
+    it('should end the domain transaction after assessment completion', async () => {
+      // given
+      handler.handle.resolves({});
+
+      // when
+      await assessmentController.completeAssessment({ params: { id: assessmentId } });
+
+      // then
+      expect(domainTransaction.commit).to.have.been.called;
+    });
+
+    it('should rollback the domain transaction when an error occurs', async () => {
+      // given
+      const anError = new Error('An error during badge acquisition occurs');
+      handler.handle.throws(anError);
+
+      // when
+      await catchErr(assessmentController.completeAssessment)({ params: { id: assessmentId } });
+
+      // then
+      expect(domainTransaction.rollback).to.have.been.called;
+    });
   });
 });
+
+function domainTransactionStub() {
+  const domainTransaction = {
+    commit: sinon.stub(),
+    rollback: sinon.stub(),
+  };
+
+  return domainTransaction;
+}
+
