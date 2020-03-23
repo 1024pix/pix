@@ -1,10 +1,7 @@
-const _ = require('lodash');
 const {
   ChallengeAlreadyAnsweredError,
   ForbiddenAccess
 } = require('../errors');
-const constants = require('../constants');
-
 const Examiner = require('../models/Examiner');
 const KnowledgeElement = require('../models/KnowledgeElement');
 
@@ -39,7 +36,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   const challenge = await challengeRepository.get(answer.challengeId);
   const correctedAnswer = _evaluateAnswer(challenge, answer);
 
-  let scorecardBeforeAnswer;
+  let scorecardBeforeAnswer = null;
   if (correctedAnswer.result.isOK() && assessment.hasKnowledgeElements()) {
     scorecardBeforeAnswer = await scorecardService.computeScorecard({
       userId,
@@ -62,7 +59,16 @@ module.exports = async function correctAnswerThenUpdateAssessment(
 
   let answerSaved = await answerRepository.saveWithKnowledgeElements(correctedAnswer, knowledgeElementsFromAnswer);
 
-  answerSaved = _addLevelUpInformation({ answerSaved, correctedAnswer, assessment, knowledgeElementsFromAnswer, scorecardBeforeAnswer });
+  answerSaved = await _addLevelUpInformation({
+    answerSaved,
+    scorecardService,
+    userId,
+    competenceId: challenge.competenceId,
+    competenceRepository,
+    competenceEvaluationRepository,
+    knowledgeElementRepository,
+    scorecardBeforeAnswer
+  });
 
   return answerSaved;
 };
@@ -103,19 +109,24 @@ function _getSkillsFilteredByStatus(knowledgeElements, targetSkills, status) {
     .map((skillId) => targetSkills.find((skill) => skill.id === skillId));
 }
 
-function _addLevelUpInformation({ answerSaved, correctedAnswer, assessment, knowledgeElementsFromAnswer, scorecardBeforeAnswer }) {
+async function _addLevelUpInformation({ answerSaved, scorecardService, userId, competenceId, competenceRepository, competenceEvaluationRepository, knowledgeElementRepository, scorecardBeforeAnswer  }) {
   answerSaved.levelup = {};
 
-  if (correctedAnswer.result.isOK() && (assessment.isCompetenceEvaluation() || assessment.isSmartPlacement())) {
-    const sumPixEarned = _.sumBy(knowledgeElementsFromAnswer, 'earnedPix');
-    const totalPix = scorecardBeforeAnswer.exactlyEarnedPix + sumPixEarned;
-    const userLevel = Math.min(constants.MAX_REACHABLE_LEVEL, _.floor(totalPix / constants.PIX_COUNT_BY_LEVEL));
+  if (scorecardBeforeAnswer) {
+    const scorecardAfterAnswer = await scorecardService.computeScorecard({
+      userId,
+      competenceId,
+      competenceRepository,
+      competenceEvaluationRepository,
+      knowledgeElementRepository,
+      blockReachablePixAndLevel: true,
+    });
 
-    if (scorecardBeforeAnswer.level < userLevel) {
+    if (scorecardBeforeAnswer.level < scorecardAfterAnswer.level) {
       answerSaved.levelup = {
         id: answerSaved.id,
-        competenceName: scorecardBeforeAnswer.name,
-        level: userLevel,
+        competenceName: scorecardAfterAnswer.name,
+        level: scorecardAfterAnswer.level,
       };
     }
   }

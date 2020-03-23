@@ -183,7 +183,16 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       context('when the user responds correctly', async () => {
         it('should add the level up to the answer when the user gain one level', async () => {
           // given
-          const expectedLevel = scorecard.level + 1;
+          const scorecardAfterAnswer = domainBuilder.buildUserScorecard({
+            name: scorecard.name,
+            level: scorecard.level + 1,
+            earnedPix: scorecard.earnedPix + 8,
+            exactlyEarnedPix: scorecard.exactlyEarnedPix + 8 });
+          scorecardService.computeScorecard
+            .onFirstCall().resolves(scorecard)
+            .onSecondCall().resolves(scorecardAfterAnswer);
+
+          const expectedLevel = scorecardAfterAnswer.level;
           // when
           const result = await correctAnswerThenUpdateAssessment({
             answer,
@@ -207,10 +216,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         });
 
         it('should return an empty levelup when not gaining a level', async () => {
-          KnowledgeElement.createKnowledgeElementsForAnswer.returns([
-            domainBuilder.buildKnowledgeElement({ earnedPix: 0 }),
-            domainBuilder.buildKnowledgeElement({ earnedPix: 0 }),
-          ]);
+          scorecardService.computeScorecard
+            .onFirstCall().resolves(scorecard)
+            .onSecondCall().resolves(scorecard);
 
           // when
           const result = await correctAnswerThenUpdateAssessment({
@@ -403,8 +411,15 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       context('when the user responds correctly', async () => {
         it('should add the level up to the answer when the user gain one level', async () => {
           // given
-          const expectedLevel = scorecard.level + 1;
-
+          const scorecardAfterAnswer = domainBuilder.buildUserScorecard({
+            name: scorecard.name,
+            level: scorecard.level + 1,
+            earnedPix: scorecard.earnedPix + 8,
+            exactlyEarnedPix: scorecard.exactlyEarnedPix + 8 });
+          scorecardService.computeScorecard
+            .onFirstCall().resolves(scorecard)
+            .onSecondCall().resolves(scorecardAfterAnswer);
+          const expectedLevel = scorecardAfterAnswer.level;
           // when
           const result = await correctAnswerThenUpdateAssessment({
             answer,
@@ -429,10 +444,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         it('should return an empty levelup when not gaining a level', async () => {
           // given
-          KnowledgeElement.createKnowledgeElementsForAnswer.returns([
-            domainBuilder.buildKnowledgeElement({ earnedPix: 0 }),
-            domainBuilder.buildKnowledgeElement({ earnedPix: 0 }),
-          ]);
+          scorecardService.computeScorecard
+            .onFirstCall().resolves(scorecard)
+            .onSecondCall().resolves(scorecard);
 
           // when
           const result = await correctAnswerThenUpdateAssessment({
