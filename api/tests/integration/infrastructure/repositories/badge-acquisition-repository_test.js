@@ -6,10 +6,11 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 
 describe('Integration | Repository | Badge Acquisition', () => {
 
+  let badgeAcquisitionToCreate;
+
   describe('#create', () => {
 
     let badgeAcquisition;
-    let badgeAcquisitionToCreate;
     let domainTransaction;
 
     beforeEach(async () => {
@@ -45,8 +46,43 @@ describe('Integration | Repository | Badge Acquisition', () => {
 
       // then
       expect(badgeAcquisition).to.be.an.instanceOf(BadgeAcquisition);
-
       expect(badgeAcquisition).to.have.property('id').and.not.to.be.null;
+    });
+  });
+
+  describe('#hasAcquiredBadge', () => {
+    let userId;
+    let badgeKey;
+
+    beforeEach(async () => {
+      const { id, key } = databaseBuilder.factory.buildBadge();
+      badgeKey = key;
+      userId = databaseBuilder.factory.buildUser().id;
+
+      badgeAcquisitionToCreate = databaseBuilder.factory.buildBadgeAcquisition({ badgeId: id, userId });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await knex('badge-acquisitions').delete();
+      await knex('badges').delete();
+      return knex('users').delete();
+    });
+
+    it('should check that the user has acquired the badge', async () => {
+      // when
+      const hasBadge = await badgeAcquisitionRepository.hasAcquiredBadge({ userId, badgeKey });
+
+      // then
+      expect(hasBadge).to.be.true;
+    });
+
+    it('should check that the user has not acquired the badge', async () => {
+      // when
+      const hasBadge = await badgeAcquisitionRepository.hasAcquiredBadge({ userId, badgeKey: badgeKey + '!' });
+
+      // then
+      expect(hasBadge).to.be.false;
     });
   });
 });
