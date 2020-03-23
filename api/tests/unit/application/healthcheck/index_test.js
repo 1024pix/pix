@@ -4,6 +4,7 @@ const healthcheckController = require('../../../../lib/application/healthcheck/h
 const route = require('../../../../lib/application/healthcheck');
 
 describe('Unit | Router | HealthcheckRouter', function() {
+
   let server;
 
   beforeEach(function() {

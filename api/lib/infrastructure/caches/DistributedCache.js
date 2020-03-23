@@ -1,5 +1,5 @@
 const Cache = require('./Cache');
-const RedisClient = require('./RedisClient');
+const RedisClient = require('../utils/RedisClient');
 
 class DistributedCache extends Cache {
 
