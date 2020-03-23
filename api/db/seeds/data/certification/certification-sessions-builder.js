@@ -6,6 +6,7 @@ const STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID = 3;
 const TO_FINALIZE_SESSION_ID = 4;
 const NO_PROBLEM_FINALIZED_SESSION_ID = 5;
 const PROBLEMS_FINALIZED_SESSION_ID = 6;
+const NO_CERTIF_CENTER_SESSION_ID = 7;
 
 function certificationSessionsBuilder({ databaseBuilder }) {
   const certificationCenter = SCO_CERTIF_CENTER_NAME;
@@ -71,6 +72,17 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     examinerGlobalComment: 'Une météorite est tombée sur le centre de certification pendant la session !!',
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
   });
+
+  databaseBuilder.factory.buildSession({
+    id: NO_CERTIF_CENTER_SESSION_ID,
+    certificationCenterId: null, certificationCenter: 'Centre de certif pas dans la BDD !',
+    address, room, examiner, date , time,
+    description: 'Session sans vrai certification center !',
+    accessCode: 'ANNE07',
+    status: statuses.FINALIZED,
+    examinerGlobalComment: 'Salut les zouzous',
+    finalizedAt: new Date('2020-06-05T15:00:34Z'),
+  });
 }
 
 module.exports = {
@@ -81,4 +93,5 @@ module.exports = {
   TO_FINALIZE_SESSION_ID,
   NO_PROBLEM_FINALIZED_SESSION_ID,
   PROBLEMS_FINALIZED_SESSION_ID,
+  NO_CERTIF_CENTER_SESSION_ID,
 };
