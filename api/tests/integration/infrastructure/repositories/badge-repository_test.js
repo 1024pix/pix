@@ -33,6 +33,7 @@ describe('Integration | Repository | Badge', () => {
         altMessage: 'You won the Toto badge!',
         imageUrl: '/img/toto.svg',
         message: 'Congrats, you won the Toto badge!',
+        key: 'TOTO',
         targetProfileId: targetProfile.id,
       });
 
@@ -77,6 +78,7 @@ describe('Integration | Repository | Badge', () => {
         message: badgeWithoutBadgePartnerCompetences.message,
         targetProfileId: badgeWithoutBadgePartnerCompetences.targetProfileId,
         badgePartnerCompetences: [],
+        key: badgeWithoutBadgePartnerCompetences.key
       });
     });
 
@@ -95,6 +97,7 @@ describe('Integration | Repository | Badge', () => {
         altMessage: badgeWithBadgePartnerCompetences.altMessage,
         imageUrl: badgeWithBadgePartnerCompetences.imageUrl,
         message: badgeWithBadgePartnerCompetences.message,
+        key: 'TOTO',
         targetProfileId: badgeWithBadgePartnerCompetences.targetProfileId,
         badgePartnerCompetences: [ badgePartnerCompetence_1, badgePartnerCompetence_2 ],
       });
