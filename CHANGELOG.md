@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.129.0 (23/03/2020)
+
+- [#1179](https://github.com/1024pix/pix/pull/1179) [FEATURE] Gérer la localisation des acquis francophone ou franco-français (PF-1035).
+- [#1195](https://github.com/1024pix/pix/pull/1195) [BUGFIX]  Publication des certif par session KO dans Pix Admin (pa-184)
+- [#1174](https://github.com/1024pix/pix/pull/1174) [BUGFIX] Bloquer l'inscription si le formulaire n'est pas valide (PO-381).
+- [#1201](https://github.com/1024pix/pix/pull/1201) [TECH] Ajout de tests E2E sur Pix Orga (PO-383).
+- [#1202](https://github.com/1024pix/pix/pull/1202) [CLEANUP] Retrait d'un .only oublié dans les tests PixAdmin (PA-185)
+- [#1188](https://github.com/1024pix/pix/pull/1188) [DESIGN-SYSTEM] Uniformisation des couleurs (CERTIF) (PF-1163)
+
 ## v2.128.0 (20/03/2020)
 
 - [#1156](https://github.com/1024pix/pix/pull/1156) [FEATURE] Permettre la ré-initialisation de mot de passe des élèves inscrit par mail (PO-339). 
