@@ -32,7 +32,7 @@ class CampaignParticipationResult {
 
   static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, badge }) {
     const targetProfileSkillsIds = _.map(targetProfile.skills, 'id');
-    let targetedCompetences = _removeUntargetedSkillsFromCompetences(competences, targetProfileSkillsIds);
+    let targetedCompetences = _removeUntargetedSkillIdsFromCompetences(competences, targetProfileSkillsIds);
     targetedCompetences = _removeCompetencesWithoutAnyTargetedSkillsLeft(targetedCompetences);
     const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds);
     const targetedCompetenceResults = _.map(targetedCompetences, (competence) => _getTestedCompetenceResults(competence, targetedKnowledgeElements));
@@ -71,24 +71,24 @@ function _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkil
   return _.filter(knowledgeElements, (ke) => targetProfileSkillsIds.some((skillId) => skillId === ke.skillId));
 }
 
-function _removeUntargetedSkillsFromCompetences(competences, targetProfileSkillsIds) {
+function _removeUntargetedSkillIdsFromCompetences(competences, targetProfileSkillsIds) {
   return _.map(competences, (competence) => {
-    competence.skills = _.intersection(competence.skills, targetProfileSkillsIds);
+    competence.skillIds = _.intersection(competence.skillIds, targetProfileSkillsIds);
     return competence;
   });
 }
 
 function _removeCompetencesWithoutAnyTargetedSkillsLeft(competences) {
-  return _.filter(competences, (competence) => !_.isEmpty(competence.skills));
+  return _.filter(competences, (competence) => !_.isEmpty(competence.skillIds));
 }
 
 function _getTestedCompetenceResults(competence, targetedKnowledgeElements) {
-  const targetedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElements, (ke) => _.includes(competence.skills, ke.skillId));
+  const targetedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElements, (ke) => _.includes(competence.skillIds, ke.skillId));
   const validatedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElementsForCompetence, 'isValidated');
 
   const testedSkillsCount = targetedKnowledgeElementsForCompetence.length;
   const validatedSkillsCount = validatedKnowledgeElementsForCompetence.length;
-  const totalSkillsCount = competence.skills.length;
+  const totalSkillsCount = competence.skillIds.length;
 
   return new CompetenceResult({
     id: competence.id,

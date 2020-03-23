@@ -105,7 +105,7 @@ describe('Unit | Repository | competence-repository', () => {
         name: 'Mener une recherche d’information',
         description: 'Competence description 1',
         origin: 'Pix',
-        skills: ['recSkill1', 'recSkill2'],
+        skillIds: ['recSkill1', 'recSkill2'],
         area: new Area({
           id: 'recArea',
           code: '1',
@@ -150,7 +150,7 @@ describe('Unit | Repository | competence-repository', () => {
         index: '1.1',
         name: 'Mener une recherche d’information',
         origin: 'Pix',
-        skills: ['recSkill1', 'recSkill2'],
+        skillIds: ['recSkill1', 'recSkill2'],
         area: new Area({
           id: 'recArea',
           code: '1',
