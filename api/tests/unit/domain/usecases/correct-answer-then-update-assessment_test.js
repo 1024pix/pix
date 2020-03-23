@@ -262,7 +262,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     context('and assessment is a SMART_PLACEMENT', () => {
       let firstKnowledgeElement;
       let secondKnowledgeElement;
-      let scorecard, knowledgeElement, targetProfile, skills, challenge;
+      let scorecard, knowledgeElement, targetProfile, skills, challenge, skillAlreadyValidated, skillNotAlreadyValidated;
 
       beforeEach(() => {
         // given
@@ -270,9 +270,11 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         assessment.campaignParticipation = domainBuilder.buildCampaignParticipation();
         assessmentRepository.get.resolves(assessment);
         skills = domainBuilder.buildSkillCollection({ minLevel: 1, maxLevel: 4 });
-        challenge = domainBuilder.buildChallenge({ skills: [skills[2]], id: answer.challengeId, validator });
+        skillAlreadyValidated = skills[0];
+        skillNotAlreadyValidated = skills[2];
+        challenge = domainBuilder.buildChallenge({ skills: [skillNotAlreadyValidated], id: answer.challengeId, validator });
 
-        knowledgeElement = domainBuilder.buildKnowledgeElement({ status: 'validated', skillId: skills[0].id });
+        knowledgeElement = domainBuilder.buildKnowledgeElement({ status: 'validated', skillId: skillAlreadyValidated.id });
         firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
         secondKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1.8 });
         scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 20, exactlyEarnedPix: 20.2 });
@@ -371,7 +373,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           answer: answerCreated,
           challenge: challenge,
           previouslyFailedSkills: [],
-          previouslyValidatedSkills: [skills[0]],
+          previouslyValidatedSkills: [skillAlreadyValidated],
           targetSkills: targetProfile.skills,
           userId: assessment.userId
         };
