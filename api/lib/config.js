@@ -104,7 +104,7 @@ module.exports = (function() {
     },
 
     system: {
-      samplingHeapProfilerEnabled: (process.env.SYSTEM_SAMPLING_HEAP_PROFILER_ENABLED === 'true'),
+      samplingHeapProfilerEnabled: _isFeatureEnabled(process.env.SYSTEM_SAMPLING_HEAP_PROFILER_ENABLED),
     },
 
     features: {
