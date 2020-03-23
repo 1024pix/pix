@@ -50,6 +50,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
         altMessage: 'You won the Banana badge',
         imageUrl: '/img/banana.svg',
         message: 'Congrats, you won the Banana badge!',
+        key: 'BANANA',
         badgePartnerCompetences: [
           domainBuilder.buildBadgePartnerCompetence({
             id: 12,
@@ -58,7 +59,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             skillIds: [1, 2, 4]
           })
         ],
-        key:'badge key',
         targetProfileId: targetProfile.id,
       });
       const result = CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, badge });
@@ -81,6 +81,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           altMessage: 'You won the Banana badge',
           imageUrl: '/img/banana.svg',
           message: 'Congrats, you won the Banana badge!',
+          key: 'BANANA',
           badgePartnerCompetences: [
             {
               color: 'emerald',
@@ -89,7 +90,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               skillIds: [1, 2, 4],
             }
           ],
-          key:'badge key',
           targetProfileId: 1,
         },
         partnerCompetenceResults: [{
