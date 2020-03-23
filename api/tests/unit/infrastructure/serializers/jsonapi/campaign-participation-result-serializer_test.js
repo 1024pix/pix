@@ -40,6 +40,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
             'tested-skills-count': testedSkillsCount,
             'total-skills-count': totalSkillsCount,
             'validated-skills-count': validatedSkillsCount,
+            'progress': 1,
           },
           id: '1',
           relationships: {

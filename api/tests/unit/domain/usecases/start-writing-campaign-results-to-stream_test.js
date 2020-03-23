@@ -105,6 +105,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
     const knowledgeElementRepository = { findUniqByUserId: () => undefined };
 
     let findResultDataByCampaignIdStub;
+    let targetProfileRepositoryStub;
+    let knowledgeElementRepositoryStub;
 
     let writableStream;
     let csvPromise;
@@ -113,10 +115,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
 
       sinon.stub(campaignRepository, 'get').resolves(campaign);
       sinon.stub(competenceRepository, 'list').resolves(competences);
-      sinon.stub(targetProfileRepository, 'get').resolves(targetProfile);
+      targetProfileRepositoryStub = sinon.stub(targetProfileRepository, 'get').resolves(targetProfile);
       sinon.stub(userRepository, 'getWithMemberships').resolves(user);
       sinon.stub(organizationRepository, 'get').resolves(organization);
-      sinon.stub(knowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
+      knowledgeElementRepositoryStub = sinon.stub(knowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
       findResultDataByCampaignIdStub = sinon.stub(campaignParticipationRepository, 'findResultDataByCampaignId');
 
       writableStream = new PassThrough();
@@ -177,6 +179,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
         const campaignParticipationResultData = {
           id: 1,
           isShared: true,
+          isCompleted: true,
           createdAt: new Date('2019-02-25T10:00:00Z'),
           sharedAt: new Date('2019-03-01T23:04:05Z'),
           participantExternalId: '+Mon mail pro',
@@ -240,6 +243,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
         const campaignParticipationResultData = {
           id: 1,
           isShared: false,
+          isCompleted: true,
           createdAt: new Date('2019-02-25T10:00:00Z'),
           sharedAt: new Date('2019-03-01T23:04:05Z'),
           participantExternalId: '-Mon mail pro',
@@ -296,6 +300,153 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
         expect(csvLines[1]).to.equal(csvSecondLine);
       });
     });
+
+    context('when the campaign participation result is completed', () => {
+      it('should return a percentage of progression of 1', async () => {
+        // given
+
+        const campaignParticipationResultData = {
+          id: 1,
+          isShared: false,
+          createdAt: new Date('2019-02-25T10:00:00Z'),
+          sharedAt: new Date('2019-03-01T23:04:05Z'),
+          participantExternalId: '-Mon mail pro',
+          isCompleted: true,
+          userId: 123,
+          participantFirstName: user.firstName,
+          participantLastName: user.lastName,
+        };
+
+        findResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
+        knowledgeElementRepositoryStub.resolves([]);
+
+        const csvSecondLine =
+          `"${organization.name}";` +
+          `${campaign.id};` +
+          `"'${campaign.name}";` +
+          `"'${targetProfile.name}";` +
+          `"'${user.lastName}";` +
+          `"'${user.firstName}";` +
+          `"'${campaignParticipationResultData.participantExternalId}";` +
+          '1;' +
+          '2019-02-25;' +
+          '"Non";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA"';
+
+        // when
+        startWritingCampaignResultsToStream({
+          userId: user.id,
+          campaignId: campaign.id,
+          writableStream,
+          campaignRepository,
+          userRepository,
+          targetProfileRepository,
+          competenceRepository,
+          organizationRepository,
+          campaignParticipationRepository,
+          knowledgeElementRepository,
+        });
+
+        const csv = await csvPromise;
+        const csvLines = csv.split('\n');
+
+        // then
+        expect(csvLines[1]).to.equal(csvSecondLine);
+      });
+    });
+
+    context('when the campaign participation result is not completed', () => {
+      const skillList = [
+        domainBuilder.buildSkill({ competenceId: 'recCompetence1' }),
+        domainBuilder.buildSkill({ competenceId: 'recCompetence1' })
+      ];
+
+      const targetProfile = domainBuilder.buildTargetProfile({
+        skills: skillList
+      });
+
+      const knowledgeElements = [
+        domainBuilder.buildKnowledgeElement({ skillId: skillList[0].id }),
+      ];
+
+      beforeEach(() => {
+        targetProfileRepositoryStub.resolves(targetProfile);
+        knowledgeElementRepositoryStub.resolves(knowledgeElements);
+      });
+
+      it('should return a percentage of knowledge element evaluated divided by the number of skill in the target profile', async () => {
+        // given
+
+        const campaignParticipationResultData = {
+          id: 1,
+          isShared: false,
+          createdAt: new Date('2019-02-25T10:00:00Z'),
+          sharedAt: new Date('2019-03-01T23:04:05Z'),
+          participantExternalId: '-Mon mail pro',
+          userId: 123,
+          isCompleted: false,
+          participantFirstName: user.firstName,
+          participantLastName: user.lastName,
+        };
+
+        findResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
+
+        const csvSecondLine =
+          `"${organization.name}";` +
+          `${campaign.id};` +
+          `"'${campaign.name}";` +
+          `"${targetProfile.name}";` +
+          `"'${user.lastName}";` +
+          `"'${user.firstName}";` +
+          `"'${campaignParticipationResultData.participantExternalId}";` +
+          '0,5;' +
+          '2019-02-25;' +
+          '"Non";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA"';
+
+        // when
+        startWritingCampaignResultsToStream({
+          userId: user.id,
+          campaignId: campaign.id,
+          writableStream,
+          campaignRepository,
+          userRepository,
+          targetProfileRepository,
+          competenceRepository,
+          organizationRepository,
+          campaignParticipationRepository,
+          knowledgeElementRepository,
+        });
+
+        const csv = await csvPromise;
+        const csvLines = csv.split('\n');
+
+        // then
+        expect(csvLines[1]).to.equal(csvSecondLine);
+      });
+    });
+
     context('when campaign do not have a idPixLabel', () => {
 
       beforeEach(() => {
