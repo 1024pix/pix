@@ -26,34 +26,13 @@ describe('Integration | Repository | Certification ', () => {
     } = databaseBuilder.factory.buildCertificationCenter({ name: 'Certif College' });
     session = databaseBuilder.factory.buildSession({ certificationCenterId, certificationCenter });
     certificationCourse = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id, isPublished: true });
-    const {
-      id: assessmentId,
-      state: assessmentState,
-    } = databaseBuilder.factory.buildAssessment({
+    const assessment = databaseBuilder.factory.buildAssessment({
       certificationCourseId: certificationCourse.id,
       userId,
       type,
     });
-    const {
-      pixScore,
-      commentForCandidate,
-      status,
-    } = databaseBuilder.factory.buildAssessmentResult({ assessmentId });
-    expectedCertification = domainBuilder.buildCertification({
-      id: certificationCourse.id,
-      assessmentState,
-      birthdate: certificationCourse.birthdate,
-      birthplace: certificationCourse.birthplace,
-      certificationCenter: session.certificationCenter,
-      date: certificationCourse.createdAt,
-      firstName: certificationCourse.firstName,
-      lastName: certificationCourse.lastName,
-      isPublished: true,
-      pixScore,
-      status,
-      commentForCandidate,
-      userId,
-    });
+    const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id });
+    expectedCertification = _buildCertification(session.certificationCenter, certificationCourse, assessment, assessmentResult);
 
     sessionLatestAssessmentRejectedCertifCourseIds = [];
     sessionWithStartedAndErrorCertifCourseIds = [];
@@ -98,13 +77,46 @@ describe('Integration | Repository | Certification ', () => {
   });
 
   describe('#findByUserId', () => {
+    let expectedCertifications;
+
+    beforeEach(() => {
+      // Without assessment
+      databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id });
+      // Without assessment-result
+      const withoutAsrCcId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id }).id;
+      databaseBuilder.factory.buildAssessment({ userId, certificationCourseId: withoutAsrCcId });
+      // Ok
+      const certificationCourse1 = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id });
+      const assessment1 = databaseBuilder.factory.buildAssessment({
+        certificationCourseId: certificationCourse1.id,
+        userId,
+        type,
+        state: 'started',
+      });
+      const assessmentResult1 = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment1.id });
+      const certificationCourse2 = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: session.id });
+      const assessment2 = databaseBuilder.factory.buildAssessment({
+        certificationCourseId: certificationCourse2.id,
+        userId,
+        type,
+        state: 'completed',
+      });
+      const assessmentResult2 = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment2.id });
+      expectedCertifications = [
+        _buildCertification(session.certificationCenter, certificationCourse1, assessment1, assessmentResult1),
+        _buildCertification(session.certificationCenter, certificationCourse2, assessment2, assessmentResult2),
+        expectedCertification,
+      ];
+
+      return databaseBuilder.commit();
+    });
 
     it('should return an array of Certifications with needed informations', async () => {
       // when
       const certifications = await certificationRepository.findByUserId(userId);
 
       // then
-      expect(certifications).to.deep.equal([expectedCertification]);
+      expect(certifications).to.deep.include.members(expectedCertifications);
     });
 
   });
@@ -204,3 +216,21 @@ describe('Integration | Repository | Certification ', () => {
   }
 
 });
+
+function _buildCertification(certificationCenterName, certificationCourse, assessment, assessmentResult) {
+  return domainBuilder.buildCertification({
+    id: certificationCourse.id,
+    assessmentState: assessment.state,
+    birthdate: certificationCourse.birthdate,
+    birthplace: certificationCourse.birthplace,
+    certificationCenter: certificationCenterName,
+    date: certificationCourse.createdAt,
+    firstName: certificationCourse.firstName,
+    lastName: certificationCourse.lastName,
+    isPublished: certificationCourse.isPublished,
+    pixScore: assessmentResult.pixScore,
+    status: assessmentResult.status,
+    commentForCandidate: assessmentResult.commentForCandidate,
+    userId: certificationCourse.userId,
+  });
+}

@@ -35,10 +35,7 @@ module.exports = {
   getByCertificationCourseId({ id }) {
     return CertificationCourseBookshelf
       .query((qb) => {
-        qb.innerJoin(
-          Bookshelf.knex.raw('?? ON ?? = ??',
-            ['assessments', 'assessments.certificationCourseId', 'certification-courses.id'])
-        );
+        qb.innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id');
         qb.where('certification-courses.id', id);
       })
       .fetch({
@@ -77,11 +74,10 @@ module.exports = {
   findByUserId(userId) {
     return CertificationCourseBookshelf
       .query((qb) => {
-        qb.innerJoin(
-          Bookshelf.knex.raw('?? ON ?? = ??',
-            ['assessments', 'assessments.certificationCourseId', 'certification-courses.id'])
-        );
+        qb.innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id');
+        qb.innerJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id');
         qb.where('certification-courses.userId', userId);
+        qb.groupBy('certification-courses.id');
         qb.orderBy('id', 'desc');
       })
       .fetchAll({
