@@ -123,7 +123,7 @@ module('Unit | Controller | authenticated/certifications/sessions/info/list', fu
       assert.equal(controller.displayConfirm, false);
     });
 
-    module.only('when session is not yet published', function() {
+    module('when session is not yet published', function() {
 
       test('shoud publish all certifications', async function(assert) {
         // given
