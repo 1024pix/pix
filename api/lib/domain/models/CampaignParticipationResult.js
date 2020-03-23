@@ -1,4 +1,6 @@
+const campaignParticipationService = require('../services/campaign-participation-service');
 const CompetenceResult = require('./CompetenceResult');
+
 const _ = require('lodash');
 
 class CampaignParticipationResult {
@@ -10,6 +12,7 @@ class CampaignParticipationResult {
     totalSkillsCount,
     testedSkillsCount,
     validatedSkillsCount,
+    knowledgeElementsCount,
     // relationships
     competenceResults = [],
     badge,
@@ -21,6 +24,7 @@ class CampaignParticipationResult {
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = testedSkillsCount;
     this.validatedSkillsCount = validatedSkillsCount;
+    this.knowledgeElementsCount = knowledgeElementsCount,
     // relationships
     this.competenceResults = competenceResults;
     this.badge = badge;
@@ -42,6 +46,7 @@ class CampaignParticipationResult {
       totalSkillsCount,
       testedSkillsCount,
       validatedSkillsCount,
+      knowledgeElementsCount: targetedKnowledgeElements.length,
       areBadgeCriteriaFulfilled: false,
       isCompleted: assessment.isCompleted(),
       competenceResults: targetedCompetenceResults,
@@ -55,6 +60,10 @@ class CampaignParticipationResult {
     } else {
       return 0;
     }
+  }
+
+  get progress() {
+    return campaignParticipationService.progress(this.isCompleted, this.knowledgeElementsCount, this.totalSkillsCount);
   }
 }
 

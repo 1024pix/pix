@@ -58,6 +58,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
         totalSkillsCount: 4,
         testedSkillsCount: 2,
         validatedSkillsCount: 1,
+        knowledgeElementsCount: 2,
         badge: {
           id: 1,
           imageUrl: '/img/banana.svg',
@@ -113,6 +114,19 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
 
       // then
       expect(campaignParticipationResult.masteryPercentage).to.be.equal(expectedMasteryPercentage);
+    });
+  });
+
+  describe('#progress', () => {
+    it('should return the percentage of progression for the campaign', function() {
+      // when
+      const campaignParticipationResult = new CampaignParticipationResult({
+        totalSkillsCount: 100,
+        knowledgeElementsCount: 75,
+      });
+
+      // then
+      expect(campaignParticipationResult.progress).to.equal(0.75);
     });
   });
 });

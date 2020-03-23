@@ -224,11 +224,112 @@ describe('Integration | Repository | Campaign Participation', () => {
           createdAt: campaignParticipation1.createdAt,
           participantExternalId: campaignParticipation1.participantExternalId,
           userId: campaignParticipation1.userId,
-
+          isCompleted: false,
           participantFirstName: 'First',
           participantLastName: 'Last',
         }
       ]);
+    });
+
+    context('When last assessment is completed', () => {
+      beforeEach(async () => {
+        databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: campaignParticipation1.id,
+          createdAt: new Date('2020-01-02'),
+          state: 'completed',
+
+        });
+        databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: campaignParticipation1.id,
+          createdAt: new Date('2020-01-01'),
+          state: 'started',
+        });
+        await databaseBuilder.commit();
+      });
+
+      it('Should return True for isCompleted', async () => {
+        // given
+        const campaignId = campaign1.id;
+
+        // when
+        const participationResultDatas = await campaignParticipationRepository.findResultDataByCampaignId(campaignId);
+
+        // then
+        expect(participationResultDatas).to.deep.equal([
+          {
+            id: campaignParticipation1.id,
+
+            isShared: true,
+            sharedAt: campaignParticipation1.sharedAt,
+            createdAt: campaignParticipation1.createdAt,
+            participantExternalId: campaignParticipation1.participantExternalId,
+            userId: campaignParticipation1.userId,
+            isCompleted: true,
+            participantFirstName: 'First',
+            participantLastName: 'Last',
+          }
+        ]);
+      });
+    });
+
+    context('When the last assessment is not completed', () => {
+      beforeEach(async () => {
+        databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: campaignParticipation1.id,
+          createdAt: new Date('2020-01-01'),
+          state: 'completed',
+        });
+        databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: campaignParticipation1.id,
+          createdAt: new Date('2020-01-02'),
+          state: 'started',
+        });
+        await databaseBuilder.commit();
+      });
+      it('Should return false for isCompleted', async () => {
+        // given
+        const campaignId = campaign1.id;
+
+        // when
+        const participationResultDatas = await campaignParticipationRepository.findResultDataByCampaignId(campaignId);
+
+        // then
+        expect(participationResultDatas).to.deep.equal([
+          {
+            id: campaignParticipation1.id,
+
+            isShared: true,
+            sharedAt: campaignParticipation1.sharedAt,
+            createdAt: campaignParticipation1.createdAt,
+            participantExternalId: campaignParticipation1.participantExternalId,
+            userId: campaignParticipation1.userId,
+            isCompleted: false,
+            participantFirstName: 'First',
+            participantLastName: 'Last',
+          }
+        ]);
+      });
+    });
+
+    context('When the share at is null', () => {
+      it('Should return null as shared date', async () => {
+        // given
+        const campaign = databaseBuilder.factory.buildCampaign({ sharedAt: null });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+          isShared: false,
+          sharedAt: null
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const participationResultDatas = await campaignParticipationRepository.findResultDataByCampaignId(campaign.id);
+
+        // then
+        expect(participationResultDatas[0].sharedAt).to.equal(null);
+      });
     });
   });
 

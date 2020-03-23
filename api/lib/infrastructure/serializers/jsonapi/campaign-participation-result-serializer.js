@@ -11,7 +11,8 @@ module.exports = {
         'isCompleted',
         'areBadgeCriteriaFulfilled',
         'badge',
-        'competenceResults'
+        'competenceResults',
+        'progress'
       ],
       badge: {
         ref: 'id',

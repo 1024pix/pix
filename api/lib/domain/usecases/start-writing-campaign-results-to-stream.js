@@ -1,3 +1,5 @@
+const campaignParticipationService = require('../services/campaign-participation-service');
+
 const _ = require('lodash');
 const moment = require('moment');
 const bluebird = require('bluebird');
@@ -53,7 +55,7 @@ function _createHeaderOfCSV(skills, competences, areas, idPixLabel) {
 
     ...(idPixLabel ? [ { title: csvService.sanitize(idPixLabel), property: 'participantExternalId' } ] : []),
 
-    { title: '% de progression', property: 'percentageProgression' },
+    { title: '% de progression', property: 'progress' },
     { title: 'Date de début', property: 'createdAt' },
     { title: 'Partage (O/N)', property: 'isShared' },
     { title: 'Date du partage', property: 'sharedAt' },
@@ -126,10 +128,6 @@ function _getCommonColumns({
   campaignParticipationResultData,
   knowledgeElements,
 }) {
-  const percentageProgression = _.round(
-    knowledgeElements.length / (targetProfile.skills.length),
-    3,
-  );
 
   return {
     organizationName: organization.name,
@@ -138,7 +136,7 @@ function _getCommonColumns({
     targetProfileName: targetProfile.name,
     participantLastName,
     participantFirstName,
-    percentageProgression,
+    progress: campaignParticipationService.progress(campaignParticipationResultData.isCompleted, knowledgeElements.length, targetProfile.skills.length),
     createdAt: moment.utc(campaignParticipationResultData.createdAt).format('YYYY-MM-DD'),
     isShared: campaignParticipationResultData.isShared ? 'Oui' : 'Non',
     ...(campaign.idPixLabel ? { participantExternalId: campaignParticipationResultData.participantExternalId } : {}),
