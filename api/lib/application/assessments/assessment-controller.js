@@ -14,6 +14,7 @@ const campaignParticipationRepository = require('../../infrastructure/repositori
 const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
 
@@ -95,19 +96,25 @@ module.exports = {
   async completeAssessment(request) {
     const assessmentId = parseInt(request.params.id);
 
-    const assessmentCompletedEvent = await usecases.completeAssessment({ assessmentId });
-    const handler = cleaBadgeCreationHandler.inject(
-      new CampaignParticipantionResultFactory(
-        campaignParticipationRepository,
-        targetProfileRepository,
-        competenceRepository,
-        assessmentRepository,
-        knowledgeElementRepository
-      ),
-      BadgeCriteriaService
-    );
-    await handler.handle(assessmentCompletedEvent);
-
+    const domainTransaction = DomainTransaction.begin();
+    try {
+      const assessmentCompletedEvent = await usecases.completeAssessment({ assessmentId });
+      const handler = cleaBadgeCreationHandler.inject(
+        new CampaignParticipantionResultFactory(
+          campaignParticipationRepository,
+          targetProfileRepository,
+          competenceRepository,
+          assessmentRepository,
+          knowledgeElementRepository
+        ),
+        BadgeCriteriaService
+      );
+      await handler.handle(assessmentCompletedEvent);
+      await domainTransaction.commit();
+    } catch (e) {
+      await domainTransaction.rollback();
+      throw e;
+    }
     return null;
   },
 };
