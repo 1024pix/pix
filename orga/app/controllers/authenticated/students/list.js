@@ -45,8 +45,8 @@ export default class ListController extends Controller {
         return this.get('notifications').sendError(error.detail);
       }
       if (error.status === '400') {
-        const errorDetail = htmlSafe(`<div>${error.detail} Veuillez réessayer ou nous contacter via <a href="https://support.pix.fr/support/tickets/new">le formulaire du centre d'aide</a>.</div>`);
-        return this.get('notifications').sendError(errorDetail);
+        const errorDetail = htmlSafe(`<div>${error.detail} Veuillez réessayer ou nous contacter via <a id="support-link" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d'aide</a>.</div>`);
+        return this.get('notifications').error(errorDetail, { autoClear: false, cssClasses: 'notification notification--error', onClick: function() { window.open('https://support.pix.fr/support/tickets/new', '_blank'); } });
       }
       return this.get('notifications').sendError(globalErrorMessage);
     });
