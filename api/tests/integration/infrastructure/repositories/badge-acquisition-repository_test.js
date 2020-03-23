@@ -22,8 +22,9 @@ describe('Integration | Repository | Badge Acquisition', () => {
 
     });
 
-    afterEach(() => {
-      return knex('badge-acquisitions').delete();
+    afterEach(async () => {
+      await knex('badge-acquisitions').delete();
+      return knex('users').delete();
     });
 
     it('should persist the badge acquisition in db', async () => {
