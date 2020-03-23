@@ -22,9 +22,9 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
     const wildStrawberryArea = new Area({ color: 'wild-strawberry' });
 
     const competences = [
-      { id: 1, name: 'Economie symbiotique', index: '5.1', skills: [1], area: jaffaArea },
-      { id: 2, name: 'Désobéissance civile', index: '6.9', skills: [2, 3, 4], area: wildStrawberryArea },
-      { id: 3, name: 'Démocratie liquide', index: '8.6', skills: [5, 6], area: wildStrawberryArea },
+      { id: 1, name: 'Economie symbiotique', index: '5.1', skillIds: [1], area: jaffaArea },
+      { id: 2, name: 'Désobéissance civile', index: '6.9', skillIds: [2, 3, 4], area: wildStrawberryArea },
+      { id: 3, name: 'Démocratie liquide', index: '8.6', skillIds: [5, 6], area: wildStrawberryArea },
     ];
 
     const targetProfile = {

@@ -76,7 +76,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
         id: 'recCompetence1',
         name: 'Competence1',
         index: '1.1',
-        skills: listSkills.map((skill) => skill.id),
+        skillIds: listSkills.map((skill) => skill.id),
         area: new Area({
           id: 'recArea1',
           code: '1',
@@ -87,7 +87,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
         id: 'recCompetence2',
         name: 'Competence2',
         index: '3.2',
-        skills: [],
+        skillIds: [],
         area: new Area({
           id: 'recArea3',
           code: '3',
