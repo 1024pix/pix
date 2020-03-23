@@ -47,6 +47,19 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       state: 'completed',
     });
 
+    targetProfileSkills = _.times(8, () => {
+      return databaseBuilder.factory.buildTargetProfileSkill({
+        targetProfileId: targetProfile.id,
+      });
+    });
+
+    skills = _.map(targetProfileSkills, (targetProfileSkill) => {
+      return airtableBuilder.factory.buildSkill({
+        id: targetProfileSkill.skillId
+      });
+    });
+    const skillIds = _.map(skills, (skill) => skill.id);
+
     badge = new databaseBuilder.factory.buildBadge({
       id: 1,
       altMessage: 'Banana',
@@ -55,15 +68,12 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       targetProfileId: targetProfile.id
     });
 
-    targetProfileSkills = _.times(8, () => {
-      return databaseBuilder.factory.buildTargetProfileSkill({
-        targetProfileId: targetProfile.id,
-      });
-    });
-    skills = _.map(targetProfileSkills, (targetProfileSkill) => {
-      return airtableBuilder.factory.buildSkill({
-        id: targetProfileSkill.skillId
-      });
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      id: 1,
+      badgeId: 1,
+      name: 'Pix Emploi',
+      color: 'emerald',
+      skillIds
     });
 
     targetProfileSkills.slice(2).forEach((targetProfileSkill, index) => {
@@ -175,6 +185,12 @@ describe('Acceptance | API | Campaign Participation Result', () => {
                 type: 'badges',
               }
             },
+            'badge-partner-competence-results': {
+              data: [{
+                id: '1',
+                type: 'badgePartnerCompetenceResults'
+              }]
+            },
             'competence-results': {
               data: [{
                 id: `${competences[0].id}`,
@@ -197,6 +213,18 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'image-url': '/img/banana.svg',
             message: 'You won a Banana Badge',
           },
+        }, {
+          attributes: {
+            'area-color': 'emerald',
+            index: undefined,
+            'mastery-percentage': 38,
+            name: 'Pix Emploi',
+            'tested-skills-count': 5,
+            'total-skills-count': 8,
+            'validated-skills-count': 3,
+          },
+          id: '1',
+          type: 'badgePartnerCompetenceResults',
         }, {
           type: 'competenceResults',
           id: competences[0].id.toString(),
