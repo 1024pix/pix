@@ -1,7 +1,7 @@
 const { using } = require('bluebird');
 const Redlock = require('redlock');
 const Cache = require('./Cache');
-const RedisClient = require('./RedisClient');
+const RedisClient = require('../utils/RedisClient');
 const logger = require('../logger');
 const settings = require('../../config');
 
