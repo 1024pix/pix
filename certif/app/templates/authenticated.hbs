@@ -1,19 +1,24 @@
 <div class="app">
 
   <aside class="app__sidebar sidebar">
-    <header class="sidebar__logo logo sidebar--padding-left">
-      <img class="logo__image" src="{{this.rootUrl}}/pix-certif-logo.svg" alt="PixCertif">
+    <header class="sidebar__logo">
+      <img class="sidebar__logo-image" src="{{this.rootUrl}}/pix-certif-logo.svg" alt="PixCertif">
     </header>
 
-    <div class="sidebar--padding-left sidebar--padding-right">
-      <div class="sidebar__certification-center">
-        <div class="certification-center-label">
-          Centre de certification
-        </div>
-        <div class="certification-center__name certification-center-name">
-          {{this.model.name}}
-        </div>
+    <div class="sidebar__certification-center">
+      <div class="sidebar__certification-center-label">
+                Centre de certification
       </div>
+      <div class="sidebar__certification-center-name">
+                {{this.model.name}}
+      </div>
+    </div>
+    <div class="sidebar__documentation">
+      <a class="sidebar-documentation__button" href="{{this.documentationLink}}" target="_blank" rel="noopener noreferrer">
+      <div class="sidebar-documentation__bar"></div>
+        <FaIcon @icon='book' @class="sidebar-documentation__icon"></FaIcon>
+                Documentation
+      </a>
     </div>
   </aside>
 
