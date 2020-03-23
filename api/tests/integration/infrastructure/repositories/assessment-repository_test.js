@@ -597,4 +597,33 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
+  describe('#completeByAssessmentId', () => {
+    let assessmentId;
+
+    beforeEach(() => {
+      const userId = databaseBuilder.factory.buildUser().id;
+
+      assessmentId = databaseBuilder.factory.buildAssessment({
+        userId,
+        type: Assessment.types.COMPETENCE_EVALUATION,
+        state: Assessment.states.STARTED,
+      }).id;
+
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return knex('assessments').delete();
+    });
+
+    it('should complete an assessment if not already existing', async () => {
+      // when
+      await assessmentRepository.completeByAssessmentId(assessmentId);
+
+      // then
+      const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('state');
+      expect(assessmentsInDb.state).to.equal(Assessment.states.COMPLETED);
+    });
+  });
+
 });
