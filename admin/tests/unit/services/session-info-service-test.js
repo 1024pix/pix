@@ -73,7 +73,7 @@ module('Unit | Service | session-info-service', function(hooks) {
       // given
       const session = EmberObject.create({
         id: sessionId,
-        certificationCenter: 'Certification center',
+        certificationCenterName: 'Certification center',
         certifications: A([
           buildCertification({ id: '1', sessionId }),
           buildCertification({ id: '2', sessionId }),
@@ -109,7 +109,7 @@ module('Unit | Service | session-info-service', function(hooks) {
 
         const session = EmberObject.create({
           id: sessionId,
-          certificationCenter: '@Certification center',
+          certificationCenterName: '@Certification center',
           certifications: A([ certification ])
         });
 
@@ -223,7 +223,7 @@ module('Unit | Service | session-info-service', function(hooks) {
       hooks.beforeEach(function() {
         const indexedCompetences = { '1.1': { level: 3, score: 2 } } ;
         certifRejected = buildCertification({ sessionId: 1, status: 'rejected', indexedCompetences });
-        sessionWithRejectedCertif = { certifications: [ certifRejected ] };
+        sessionWithRejectedCertif = { certificationCenterName: 'Salut', certifications: [ certifRejected ] };
       });
 
       test('should show "-" or "0" for competences', async function(assert) {
@@ -240,7 +240,7 @@ module('Unit | Service | session-info-service', function(hooks) {
           'Identifiant Externe': certifRejected.externalId,
           'Nombre de Pix': '0',
           'Session': sessionWithRejectedCertif.id,
-          'Centre de certification': certifRejected.certificationCenter,
+          'Centre de certification': sessionWithRejectedCertif.certificationCenterName,
           'Date de passage de la certification': moment(certifRejected.createdAt).format('DD/MM/YYYY'),
           '1.1': '0', '1.2': '-', '1.3': '-',
           '2.1': '-', '2.2': '-', '2.3': '-', '2.4': '-',
@@ -261,7 +261,7 @@ module('Unit | Service | session-info-service', function(hooks) {
       hooks.beforeEach(function() {
         const indexedCompetences = { '1.1': { level: 3, score: 2 } } ;
         certifValidated = buildCertification({ sessionId: 1, indexedCompetences });
-        sessionWithValidatedCertif = { certifications: [ certifValidated ] };
+        sessionWithValidatedCertif = { certificationCenterName: 'Salut', certifications: [ certifValidated ] };
       });
 
       test('should show "-" or correct value for competences', function(assert) {
@@ -278,7 +278,7 @@ module('Unit | Service | session-info-service', function(hooks) {
           'Identifiant Externe': certifValidated.externalId,
           'Nombre de Pix': certifValidated.pixScore,
           'Session': sessionWithValidatedCertif.id,
-          'Centre de certification': certifValidated.certificationCenter,
+          'Centre de certification': sessionWithValidatedCertif.certificationCenterName,
           'Date de passage de la certification': moment(certifValidated.createdAt).format('DD/MM/YYYY'),
           '1.1': 3, '1.2': '-', '1.3': '-',
           '2.1': '-', '2.2': '-', '2.3': '-', '2.4': '-',

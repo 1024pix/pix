@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import Model, { hasMany, attr } from '@ember-data/model';
+import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
 
@@ -24,7 +24,7 @@ export const statusToDisplayName = {
 
 export default class Session extends Model {
 
-  @attr() certificationCenter;
+  @attr() certificationCenterName;
   @attr() address;
   @attr() room;
   @attr() examiner;
@@ -39,6 +39,7 @@ export default class Session extends Model {
   @attr() examinerGlobalComment;
 
   @hasMany('certification') certifications;
+  @belongsTo('certification-center') certificationCenter;
 
   @computed('examinerGlobalComment')
   get hasExaminerGlobalComment() {

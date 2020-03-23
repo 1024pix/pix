@@ -15,6 +15,7 @@ module('Integration | Component | certifications-session-info', function(hooks) 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
+  let certifications;
   let sessionId;
   let session;
   let sessionData;
@@ -23,12 +24,12 @@ module('Integration | Component | certifications-session-info', function(hooks) 
     await authenticateSession({ userId: 1 });
     sessionId = 1;
 
-    this.server.create('certification', { sessionId, examinerComment: 'ok', status: 'validated', hasSeenEndTestScreen: 'false' });
-    this.server.create('certification', { sessionId, status: 'validated', hasSeenEndTestScreen: 'true' });
+    const certif1 = this.server.create('certification', { sessionId, examinerComment: 'ok', status: 'validated', hasSeenEndTestScreen: 'false' });
+    const certif2 = this.server.create('certification', { sessionId, status: 'validated', hasSeenEndTestScreen: 'true' });
+    certifications = [certif1, certif2];
 
     sessionData = {
       id: sessionId,
-      certificationCenter: 'Tour Gamma',
       address: '3 rue du tout',
       room: 'room',
       examiner: 'poulet',
@@ -37,26 +38,20 @@ module('Integration | Component | certifications-session-info', function(hooks) 
       status: FINALIZED,
       description: 'pouet',
       accessCode: '123',
-      relationships: {
-        certifications: {
-          links: {
-            related: `/api/sessions/${sessionId}/certifications`
-          }
-        }
-      },
+      certifications,
     };
   });
 
   test('it renders the details page with correct info', async function(assert) {
     // given
-    session = this.server.create('session', sessionData);
+    session = this.server.create('session', sessionData, 'withCertificationCenter');
 
     // when
     await visit(`/certifications/sessions/${sessionId}`);
 
     // then
     assert.equal(currentURL(), `/certifications/sessions/${sessionId}`);
-    assert.dom('[data-test-id="certifications-session-info__certification-center"]').hasText(session.certificationCenter);
+    assert.dom('[data-test-id="certifications-session-info__certification-center"]').hasText(session.certificationCenterName);
     assert.dom('[data-test-id="certifications-session-info__address"]').hasText(session.address);
     assert.dom('[data-test-id="certifications-session-info__room"]').hasText(session.room);
     assert.dom('[data-test-id="certifications-session-info__examiner"]').hasText(session.examiner);
@@ -67,6 +62,34 @@ module('Integration | Component | certifications-session-info', function(hooks) 
     assert.dom('[data-test-id="certifications-session-info__count-commentaries"]').hasText('1');
     assert.dom('[data-test-id="certifications-session-info__count-not-checked-end-screen"]').hasText('1');
     assert.dom('[data-test-id="certifications-session-info__count-non-validated-certifications"]').hasText('0');
+  });
+
+  module('when the session is linked to a real certification center', function() {
+
+    test('it should display the same name as the linked certification center name', async function(assert) {
+      // given
+      session = this.server.create('session', sessionData, 'withCertificationCenter');
+
+      // when
+      await visit(`/certifications/sessions/${sessionId}`);
+
+      // then
+      assert.dom('[data-test-id="certifications-session-info__certification-center"]').hasText(session.certificationCenter.name);
+    });
+  });
+
+  module('when the session is not linked to a real certification center', function() {
+
+    test('it should display the certificationCenterName value in session', async function(assert) {
+      // given
+      session = this.server.create('session', sessionData);
+
+      // when
+      await visit(`/certifications/sessions/${sessionId}`);
+
+      // then
+      assert.dom('[data-test-id="certifications-session-info__certification-center"]').hasText(session.certificationCenterName);
+    });
   });
 
   module('when the session is finalized', function() {
