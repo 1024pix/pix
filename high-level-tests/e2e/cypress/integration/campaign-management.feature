@@ -23,11 +23,21 @@ Fonctionnalité: Gestion des Campagnes
     Et je clique sur "Résultats collectifs"
     Alors je vois la moyenne des résultats à 50%
 
-  Scénario: Je créé une campagne
+  Scénario: Je créé une campagne d'évaluation
     Étant donné que je suis connecté à Pix Orga
     Lorsque je clique sur "Créer une campagne"
     Et je saisis "Campagne du Nord" dans le champ "Nom de la campagne"
+    Et je clique sur "Évaluer les participants"
     Et je sélectionne "Compétences pour un Mestre" dans le champ "Que souhaitez-vous tester ?"
     Et je clique sur "Non"
     Et je clique sur "Créer la campagne"
     Alors je vois le détail de la campagne "Campagne du Nord"
+
+  Scénario: Je créé une campagne de collecte de profils
+    Étant donné que je suis connecté à Pix Orga
+    Lorsque je clique sur "Créer une campagne"
+    Et je saisis "Campagne de l'Ouest" dans le champ "Nom de la campagne"
+    Et je clique sur "Collecter les profils Pix des participants"
+    Et je clique sur "Non"
+    Et je clique sur "Créer la campagne"
+    Alors je vois le détail de la campagne "Campagne de l'Ouest"
