@@ -16,8 +16,8 @@ module.exports = Bookshelf.model('CertificationCourse', {
     return rawAttributes;
   },
 
-  assessments() {
-    return this.hasMany('Assessment', 'certificationCourseId');
+  assessment() {
+    return this.hasOne('Assessment', 'certificationCourseId');
   },
 
   challenges() {

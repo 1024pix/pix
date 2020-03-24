@@ -25,7 +25,7 @@ module.exports = {
     try {
       const certificationCourse = await CertificationCourseBookshelf
         .where({ id })
-        .fetch({ require: true, withRelated: ['assessments', 'challenges'] });
+        .fetch({ require: true, withRelated: ['assessment', 'challenges'] });
       return _toDomain(certificationCourse);
     } catch (bookshelfError) {
       if (bookshelfError instanceof CertificationCourseBookshelf.NotFoundError) {
@@ -40,8 +40,7 @@ module.exports = {
       const certificationCourse = await CertificationCourseBookshelf
         .where({ userId, sessionId })
         .orderBy('createdAt', 'desc')
-        .query((qb) => qb.limit(1))
-        .fetch({ require: true, withRelated: ['assessments', 'challenges'] });
+        .fetch({ require: true, withRelated: ['assessment', 'challenges'] });
       return _toDomain(certificationCourse);
     } catch (err) {
       if (err instanceof CertificationCourseBookshelf.NotFoundError) {
@@ -81,8 +80,7 @@ function _toDomain(bookshelfCertificationCourse) {
     return null;
   }
 
-  const assessments = bookshelfToDomainConverter.buildDomainObjects(AssessmentBookshelf, bookshelfCertificationCourse.related('assessments'));
-  const assessment = _selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrUndefined(assessments);
+  const assessment = bookshelfToDomainConverter.buildDomainObject(AssessmentBookshelf, bookshelfCertificationCourse.related('assessment'));
   const dbCertificationCourse = bookshelfCertificationCourse.toJSON();
   return new CertificationCourse({
     type: Assessment.types.CERTIFICATION,
@@ -113,11 +111,4 @@ function _adaptModelToDb(certificationCourse) {
     'challenges',
     'createdAt',
   ]);
-}
-
-function _selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrUndefined(assessments) {
-  const creationDateOrderedAssessments = _.orderBy(assessments, ['createdAt'], ['desc']);
-  const completedAssessment = _.find(creationDateOrderedAssessments, { 'state': Assessment.states.COMPLETED });
-
-  return completedAssessment ? completedAssessment : _.head(creationDateOrderedAssessments);
 }
