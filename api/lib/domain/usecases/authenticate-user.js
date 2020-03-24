@@ -1,5 +1,5 @@
-const encryptionService = require('../../domain/services/encryption-service');
-const { MissingOrInvalidCredentialsError, ForbiddenAccess } = require('../../domain/errors');
+const authenticationService = require('../../domain/services/authentication-service');
+const { MissingOrInvalidCredentialsError, ForbiddenAccess, UserShouldChangePasswordError } = require('../../domain/errors');
 const apps = require('../constants');
 
 function _checkUserAccessScope(scope, user) {
@@ -20,23 +20,27 @@ function _checkUserAccessScope(scope, user) {
   }
 }
 
-module.exports = function authenticateUser({
+module.exports = async function authenticateUser({
   password,
   scope,
   tokenService,
   username,
   userRepository,
 }) {
-  let user;
-  return userRepository.getByUsernameOrEmailWithRoles(username)
-    .then((foundUser) => (user = foundUser))
-    .then(() => _checkUserAccessScope(scope, user))
-    .then(() => encryptionService.check(password, user.password))
-    .then(() => tokenService.createTokenFromUser(user, 'pix'))
-    .catch((error) => {
-      if (error instanceof ForbiddenAccess) {
-        throw error;
-      }
-      throw new MissingOrInvalidCredentialsError();
-    });
+  try {
+    const foundUser = await authenticationService.getUserByUsernameAndPassword({ username, password, userRepository });
+
+    if (!foundUser.shouldChangePassword) {
+      _checkUserAccessScope(scope, foundUser);
+      return tokenService.createTokenFromUser(foundUser, 'pix');
+    } else {
+      throw new UserShouldChangePasswordError();
+    }
+  } catch (error) {
+    if (error instanceof ForbiddenAccess
+      || error instanceof UserShouldChangePasswordError) {
+      throw error;
+    }
+    throw new MissingOrInvalidCredentialsError();
+  }
 };
