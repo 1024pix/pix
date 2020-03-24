@@ -1,0 +1,25 @@
+<header class="page-header">
+  <div class="page-title"> Sessions de certification </div>
+  <div class="page-actions">
+    <form class='form-inline' {{action "loadSession" on='submit'}}>
+      <Input placeholder="Identifiant" @type="text" @value={{this.inputId}} />
+      <button class='btn btn-primary btn-sm btn-thin' type='submit'>
+        Charger
+      </button>
+    </form>
+  </div>
+</header>
+
+<main class="page-body">
+  <nav class="navbar">
+   <LinkTo @route="authenticated.certifications.sessions.info" @model={{@model.id}} class="navbar-item">
+        Informations
+    </LinkTo>
+    <LinkTo @route="authenticated.certifications.sessions.info.list" @model={{@model.id}} class="navbar-item">
+        Certifications
+    </LinkTo>
+  </nav>
+  <section>
+      {{outlet}}
+  </section>
+</main>

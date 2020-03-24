@@ -1,0 +1,41 @@
+@mixin whiteBlock {
+  background: $white;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba($grey-100, 0.1), 0 2px 5px 0 rgba($grey-100, 0.1);
+}
+
+.navbar {
+  @include whiteBlock;
+  margin: 20px 0;
+  height: 60px;
+  padding: 0 10px;
+  justify-content: start;
+  align-items: normal;
+
+  a { text-decoration: none; }
+
+  &-item {
+    width: 150px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    color: $grey-35;
+    font-weight: 500;
+    transition: all ease-in-out .2s;
+
+    &:hover {
+      color: $communication-dark;
+    }
+  }
+
+  &-item.active {
+    border-bottom: 2px solid $communication-dark;
+    color: $communication-dark;
+  }
+}
+
+.navbar + section {
+  @include whiteBlock();
+  padding: 20px;
+}
