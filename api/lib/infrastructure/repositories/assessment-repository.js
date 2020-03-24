@@ -109,14 +109,14 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
-  completeByAssessmentId(assessmentId) {
-    return this.updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED });
+  completeByAssessmentId(domainTransaction, assessmentId) {
+    return this.updateStateById(domainTransaction.knexTransaction, { id: assessmentId, state: Assessment.states.COMPLETED });
   },
 
-  updateStateById({ id, state }) {
+  updateStateById(knexTransaction, { id, state }) {
     return BookshelfAssessment
       .where({ id })
-      .save({ state }, { require: true, patch: true })
+      .save({ state }, { require: true, patch: true, transacting: knexTransaction })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 };

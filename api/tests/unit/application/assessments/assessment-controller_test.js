@@ -133,7 +133,7 @@ describe('Unit | Controller | assessment-controller', function() {
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
 
       // then
-      expect(usecases.completeAssessment).to.have.been.calledWithExactly({ assessmentId });
+      expect(usecases.completeAssessment).to.have.been.calledWithExactly({ domainTransaction, assessmentId });
     });
 
     it('should pass the assessment completed event to the CleaBadgeCreationHandler', async () => {

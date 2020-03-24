@@ -16,6 +16,7 @@ module.exports = async function completeAssessment({
   certificationCourseRepository,
   competenceMarkRepository,
   scoringCertificationService,
+  domainTransaction
 }) {
   const assessment = await assessmentRepository.get(assessmentId);
 
@@ -26,8 +27,7 @@ module.exports = async function completeAssessment({
   if (assessment.isCertification()) {
     await _calculateCertificationScore({ assessment, assessmentResultRepository, certificationCourseRepository, competenceMarkRepository, scoringCertificationService });
   }
-
-  await assessmentRepository.completeByAssessmentId(assessmentId);
+  await assessmentRepository.completeByAssessmentId(domainTransaction, assessmentId);
 
   return new AssessmentCompleted(
     assessment.userId,
