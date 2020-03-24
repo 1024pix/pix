@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v2.130.0 (24/03/2020)
+
+- [#1200](https://github.com/1024pix/pix/pull/1200) [FEATURE] Modifier le message d'erreur générique lors d'un import SIECLE en ajoutant un lien vers le formulaire du centre d'aide (PO-388).
+- [#1196](https://github.com/1024pix/pix/pull/1196) [FEATURE] Ajouter un bouton de documentation qui pointe vers un lien différent en fonction du type de centre de certification (PC-136)
+- [#1197](https://github.com/1024pix/pix/pull/1197) [BUGFIX] La touche "Entrée" n'est pas prise en compte dans les questions à réponses multiples (PF-1176).
+- [#1186](https://github.com/1024pix/pix/pull/1186) [BUGFIX] Harmoniser le calcul de pourcentage de progression d'un candidat sur une campagne (PO-325)
+- [#1198](https://github.com/1024pix/pix/pull/1198) [BUGFIX] Des utilisateurs avaient un succès pour un niveau pas encore atteint (PF-1171).
+- [#1146](https://github.com/1024pix/pix/pull/1146) [TECH] Redescendre l'échappement des formules pour le CSV au niveau de la sérialisation
+- [#1191](https://github.com/1024pix/pix/pull/1191) [TECH] Ajoute des scripts npm pour lancer les tests d'intégration ou d'acceptance
+- [#1182](https://github.com/1024pix/pix/pull/1182) [TECH] Création d'une route healthcheck/redis pour brancher Datadog et Freshping.
+- [#1206](https://github.com/1024pix/pix/pull/1206) [DOC] Ajouter la section de test dans le template de PR.
+
 ## v2.129.0 (23/03/2020)
 
 - [#1179](https://github.com/1024pix/pix/pull/1179) [FEATURE] Gérer la localisation des acquis francophone ou franco-français (PF-1035).
