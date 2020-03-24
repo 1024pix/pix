@@ -75,11 +75,11 @@ module('Acceptance | routes protection', function(hooks) {
   });
 
   //
-  // route /certifications/sessions
+  // route /sessions
   //
-  test('guest users are redirected to login page when visiting /certifications/sessions', async function(assert) {
+  test('guest users are redirected to login page when visiting /sessions', async function(assert) {
     // when
-    await visit('/certifications/sessions');
+    await visit('/sessions');
 
     // then
     assert.equal(currentURL(), '/login');

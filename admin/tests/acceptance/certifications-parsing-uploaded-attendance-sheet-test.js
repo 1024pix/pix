@@ -24,7 +24,7 @@ module('Acceptance | Certifications Parsing', function(hooks) {
 
   test('it displays the modal the certification session report modal with appropriate info', async function(assert) {
     // given
-    await visit('/certifications/sessions/1/list');
+    await visit('/sessions/1/certifications');
     const file = new File(['foo'], 'charlie_bideau_pv_session.ods');
 
     // when

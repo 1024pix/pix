@@ -7,7 +7,7 @@
             <CertificationInfoPublished @record={{certification}} @float={{true}} />État
           </h5>
           <div class="card-text">
-            <CertificationInfoField @value={{certification.sessionId}} @edition={{false}} @label="Session :" @linkRoute="authenticated.certifications.sessions.info" />
+            <CertificationInfoField @value={{certification.sessionId}} @edition={{false}} @label="Session :" @linkRoute="authenticated.sessions.session" />
             <CertificationStatusSelect @value={{certification.status}} @edition={{edition}} />
             <CertificationInfoField @value={{certification.creationDate}} @edition={{false}} @label="Créée le :" />
             <CertificationInfoField @value={{certification.completionDate}} @edition={{false}} @label="Terminée le :" />
