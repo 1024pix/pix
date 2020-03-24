@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const CampaignParticipationResultFactory = require('../models/CampaignParticipationResultFactory');
 
