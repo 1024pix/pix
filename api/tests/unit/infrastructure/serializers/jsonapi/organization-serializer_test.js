@@ -25,6 +25,7 @@ describe('Unit | Serializer | organization-serializer', () => {
             'province-code': organization.provinceCode,
             'is-managing-students': organization.isManagingStudents,
             'credit': organization.credit,
+            'can-collect-profiles': organization.canCollectProfiles
           },
           relationships: {
             memberships: {
