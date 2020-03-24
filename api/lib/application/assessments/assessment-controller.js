@@ -96,9 +96,9 @@ module.exports = {
   async completeAssessment(request) {
     const assessmentId = parseInt(request.params.id);
 
-    const domainTransaction = DomainTransaction.begin();
+    const domainTransaction = await DomainTransaction.begin();
     try {
-      const assessmentCompletedEvent = await usecases.completeAssessment({ assessmentId });
+      const assessmentCompletedEvent = await usecases.completeAssessment({ domainTransaction, assessmentId });
       const handler = cleaBadgeCreationHandler.inject(
         new CampaignParticipantionResultFactory(
           campaignParticipationRepository,
@@ -120,7 +120,7 @@ module.exports = {
 };
 
 async function _getChallenge(assessment, request) {
-  const locale  = extractLocaleFromRequest(request);
+  const locale = extractLocaleFromRequest(request);
 
   if (assessment.isPreview()) {
     return usecases.getNextChallengeForPreview({});
