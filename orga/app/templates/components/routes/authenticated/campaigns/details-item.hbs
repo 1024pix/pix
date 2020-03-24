@@ -1,9 +1,9 @@
 <div class="campaign-details__header">
-  <div class="campaign-details-header__title">
-    <LinkTo @route="authenticated.campaigns" class="icon-button campaign-details-content__return-button">
+  <div class="campaign-details-header__headline">
+    <LinkTo aria-label="Retour" @route="authenticated.campaigns" class="icon-button campaign-details-header__return-button">
       <FaIcon @icon='arrow-left'></FaIcon>
     </LinkTo>
-    <h1 class="page__title page-title">{{@campaign.name}}</h1>
+    <h1 class="page__title page-title campaign-details-header__title">{{@campaign.name}}</h1>
   </div>
 
   <div class="campaign-details-header__report">
@@ -36,7 +36,10 @@
       <FaIcon @icon='archive'></FaIcon>
     </div>
     <div class="campaign-archived-banner__text">Campagne archivée</div>
-    <button type="button" class="button button--link campaign-archived-banner__unarchive-button" {{on 'click' (fn this.unarchiveCampaign @campaign.id)}}>Désarchiver la campagne</button>
+    <button type="button" class="button button--link campaign-archived-banner__unarchive-button" {{on 'click'
+                                                                                                      (fn this.unarchiveCampaign @campaign.id)}}>
+      Désarchiver la campagne
+    </button>
   </div>
 {{/if}}
 
@@ -54,8 +57,10 @@
   </nav>
 
   <div class="campaign-details-controls__export-button">
-    <a class="button button--link button--with-icon" href="{{@campaign.urlToResult}}" target="_blank" rel="noopener noreferrer" download>
-      Exporter résultats (.csv)<FaIcon @icon='file-download'></FaIcon>
+    <a class="button button--link button--with-icon" href="{{@campaign.urlToResult}}" target="_blank"
+       rel="noopener noreferrer" download>
+      Exporter résultats (.csv)
+      <FaIcon @icon='file-download'></FaIcon>
     </a>
   </div>
 </div>

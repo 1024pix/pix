@@ -2,9 +2,13 @@ import DS from 'ember-data';
 import { computed } from '@ember/object';
 import ENV from 'pix-orga/config/environment';
 
+const PROFILES_COLLECTION_TEXT = 'Récupération profils';
+const TEST_GIVEN_TEXT = 'Parcours de test';
+
 export default DS.Model.extend({
   name: DS.attr('string'),
   code: DS.attr('string'),
+  type: DS.attr('string'),
   title: DS.attr('string'),
   createdAt: DS.attr('date'),
   creator: DS.belongsTo('user'),
@@ -18,6 +22,13 @@ export default DS.Model.extend({
   targetProfile: DS.belongsTo('target-profile'),
   campaignReport: DS.belongsTo('campaign-report'),
   campaignCollectiveResult: DS.belongsTo('campaign-collective-result'),
+
+  isTypeProfilesCollection: computed.equal('type', 'PROFILES_COLLECTION'),
+  isTypeTestGiven: computed.equal('type', 'TEST_GIVEN'),
+
+  readableType: computed('isTypeProfilesCollection', function() {
+    return this.isTypeProfilesCollection ? PROFILES_COLLECTION_TEXT : TEST_GIVEN_TEXT;
+  }),
 
   url: computed('code', function() {
     const code = this.code;

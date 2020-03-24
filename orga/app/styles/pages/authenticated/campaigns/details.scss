@@ -21,7 +21,7 @@
 }
 
 .campaign-details-header {
-  &__title {
+  &__headline {
     display: flex;
     align-items: center;
   }
@@ -32,6 +32,14 @@
     padding-right: 10px;
     padding-left: 10px;
     min-width: 345px;
+  }
+
+  &__title {
+    margin-bottom: 10px;
+  }
+
+  &__return-button {
+    margin-right: 6px;
   }
 }
 

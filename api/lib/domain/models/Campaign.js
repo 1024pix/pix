@@ -1,3 +1,8 @@
+const types = {
+  TEST_GIVEN: 'TEST_GIVEN',
+  PROFILES_COLLECTION: 'PROFILES_COLLECTION',
+};
+
 class Campaign {
 
   constructor({
@@ -13,6 +18,7 @@ class Campaign {
     customLandingPageText,
     isRestricted = false,
     archivedAt,
+    type,
     // includes
     targetProfile,
     campaignReport,
@@ -35,6 +41,7 @@ class Campaign {
     this.customLandingPageText = customLandingPageText;
     this.isRestricted = isRestricted;
     this.archivedAt = archivedAt;
+    this.type = type;
     // includes
     this.targetProfile = targetProfile;
     this.campaignReport = campaignReport;
@@ -46,5 +53,7 @@ class Campaign {
     this.creatorId = creatorId;
   }
 }
+
+Campaign.types = types;
 
 module.exports = Campaign;
