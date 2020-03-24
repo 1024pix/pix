@@ -88,20 +88,38 @@
       </thead>
 
       <tbody>
-      {{#each model.campaignParticipation.campaignParticipationResult.competenceResults as |competence|}}
-        <tr>
-          <td>
-            <span class="skill-review-competence__bullet skill-review-competence__bullet--{{competence.areaColor}}">&#8226;</span>
-            <span>{{competence.name}}</span>
-          </td>
-          <td>
-            <ProgressionGauge @total={{competence.totalSkillsCountPercentage}} @value={{competence.masteryPercentage}}>
-              <p class="sr-only">Vous avez validé </p>{{competence.masteryPercentage}}%<p class="sr-only"> de la
-              compétence {{competence.name}}.</p>
-            </ProgressionGauge>
-          </td>
-        </tr>
-      {{/each}}
+      {{#if model.campaignParticipation.campaignParticipationResult.badgePartnerCompetenceResults}}
+        {{#each model.campaignParticipation.campaignParticipationResult.badgePartnerCompetenceResults as |badgePartnerCompetence|}}
+          <tr>
+            <td>
+              <span class="skill-review-competence__bullet skill-review-competence__bullet--{{badgePartnerCompetence.areaColor}}">&#8226;</span>
+              <span>{{badgePartnerCompetence.name}}</span>
+            </td>
+            <td>
+              <ProgressionGauge @total={{badgePartnerCompetence.totalSkillsCountPercentage}} @value={{badgePartnerCompetence.masteryPercentage}}>
+                <p class="sr-only">Vous avez validé </p>{{badgePartnerCompetence.masteryPercentage}}%<p class="sr-only"> de la
+                compétence {{badgePartnerCompetence.name}}.</p>
+              </ProgressionGauge>
+            </td>
+          </tr>
+        {{/each}}
+      {{else}}
+        {{#each model.campaignParticipation.campaignParticipationResult.competenceResults as |competence|}}
+          <tr>
+            <td>
+              <span class="skill-review-competence__bullet skill-review-competence__bullet--{{competence.areaColor}}">&#8226;</span>
+              <span>{{competence.name}}</span>
+            </td>
+            <td>
+              <ProgressionGauge @total={{competence.totalSkillsCountPercentage}} @value={{competence.masteryPercentage}}>
+                <p class="sr-only">Vous avez validé </p>{{competence.masteryPercentage}}%<p class="sr-only"> de la
+                compétence {{competence.name}}.</p>
+              </ProgressionGauge>
+            </td>
+          </tr>
+        {{/each}}
+      {{/if}}
+
       </tbody>
     </table>
 

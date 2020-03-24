@@ -37,6 +37,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
     describe('When user is logged in', async function() {
       const competenceResultName = 'Competence Nom';
+      const badgePartnerCompetenceResultName = 'badge partner competence nom';
       let campaignParticipationResult;
 
       beforeEach(async function() {
@@ -55,6 +56,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           testedSkillsCount,
           validatedSkillsCount,
           competenceResults: [competenceResult],
+          badgePartnerCompetenceResults: []
         });
         campaignParticipation.update({ campaignParticipationResult });
       });
@@ -82,6 +84,30 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include(COMPETENCE_MASTERY_PERCENTAGE);
       });
 
+      it('should display different competences results when there is badgePartnerCompetenceResults', async function() {
+        // given
+        const BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE = '80%';
+        const PROGRESSION_MAX_WIDTH = '100%';
+        const badgePartnerCompetenceResult = server.create('badge-partner-competence-result', {
+          name: badgePartnerCompetenceResultName,
+          totalSkillsCount: 5,
+          validatedSkillsCount: 4,
+          masteryPercentage: 80
+        });
+        campaignParticipationResult.update({
+          badgePartnerCompetenceResults: [badgePartnerCompetenceResult]
+        });
+
+        // when
+        await visit(`/campagnes/${campaign.code}/resultats/${campaignParticipation.assessment.id}`);
+
+        // then
+        expect(find('table tbody tr td:nth-child(1) span:nth-child(2)').textContent).to.equal(badgePartnerCompetenceResultName);
+        expect(find('table tbody tr td:nth-child(2) .progression-gauge').getAttribute('style')).to.equal('width: ' + PROGRESSION_MAX_WIDTH);
+        expect(find('table tbody tr td:nth-child(2) .progression-gauge__marker').getAttribute('style')).to.equal('width: ' + BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE);
+        expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include(BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE);
+      });
+
       it('should display the Pix emploi badge badged campaign when badge criteria are fulfilled', async function() {
         // given
         const badge = server.create('badge', {
@@ -96,6 +122,22 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
         // then
         expect(find('.skill-review-result__badge')).to.exist;
+      });
+
+      it('should not display the Pix emploi badge badged campaign when badge criteria are not fulfilled', async function() {
+        // given
+        const badge = server.create('badge', {
+          altMessage: 'Yon won a Pix Emploi badge',
+          imageUrl: '/images/badges/Pix-emploi.svg',
+          message: 'Congrats, you won a Pix Emploi badge',
+        });
+        campaignParticipationResult.update({ badge, areBadgeCriteriaFulfilled: false });
+
+        // when
+        await visit(`/campagnes/${campaign.code}/resultats/${campaignParticipation.assessment.id}`);
+
+        // then
+        expect(find('.skill-review-result__badge')).to.not.exist;
       });
 
       it('should share the results', async function() {
