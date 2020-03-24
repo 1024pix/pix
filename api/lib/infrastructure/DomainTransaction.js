@@ -7,7 +7,9 @@ class DomainTransaction {
   async commit() {
     await this.knexTransaction.commit();
   }
-  async rollback() {}
+  async rollback() {
+    await this.knexTransaction.rollback();
+  }
 
   static async begin() {
     return new DomainTransaction(
