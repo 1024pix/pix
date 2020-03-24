@@ -617,7 +617,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       return knex('assessments').delete();
     });
 
-    it('should complete an assessment if not already existing', async () => {
+    it('should complete an assessment if not already existing and commited', async () => {
       // given
       const domainTransaction = await DomainTransaction.begin();
 
@@ -627,6 +627,34 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       // then
       const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('state');
+      expect(assessmentsInDb.state).to.equal(Assessment.states.COMPLETED);
+    });
+
+    it('should not complete an assessment if not already existing but rolled back', async () => {
+      // given
+      const domainTransaction = await DomainTransaction.begin();
+
+      // when
+      await assessmentRepository.completeByAssessmentId(domainTransaction, assessmentId);
+      await domainTransaction.rollback();
+
+      // then
+      const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('state');
+      expect(assessmentsInDb.state).to.equal(Assessment.states.STARTED);
+    });
+
+    it('Read after write works within same transaction', async () => {
+      // given
+      const domainTransaction = await DomainTransaction.begin();
+
+      // when
+      await assessmentRepository.completeByAssessmentId(domainTransaction, assessmentId);
+      // then
+      const assessmentsInDb = await knex('assessments')
+        .transacting(domainTransaction.knexTransaction)
+        .where('id', assessmentId).first('state');
+
+      await domainTransaction.rollback();
       expect(assessmentsInDb.state).to.equal(Assessment.states.COMPLETED);
     });
   });
