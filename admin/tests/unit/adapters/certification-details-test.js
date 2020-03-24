@@ -4,9 +4,14 @@ import { setupTest } from 'ember-qunit';
 module('Unit | Adapter | certification details', function(hooks) {
   setupTest(hooks);
 
-  // Replace this with your real tests.
-  test('it exists', function(assert) {
-    const adapter = this.owner.lookup('adapter:certification-details');
-    assert.ok(adapter);
+  module('#urlForFindRecord', function() {
+    test('should build get url from certification details id', function(assert) {
+      // when
+      const adapter = this.owner.lookup('adapter:certification-details');
+      const url = adapter.urlForFindRecord(123, 'certification-details');
+
+      // then
+      assert.ok(url.endsWith('/admin/certifications/123/details'));
+    });
   });
 });
