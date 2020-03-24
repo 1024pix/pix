@@ -31,9 +31,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     competenceRepository,
     assessmentRepository,
     badgeRepository,
-    knowledgeElementRepository,
-    badgeAcquisitionRepository,
-    badgeCriteriaService;
+    knowledgeElementRepository;
 
   let usecaseDependencies;
 
@@ -45,8 +43,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     assessmentRepository = { get: sinon.stub() };
     badgeRepository = { findOneByTargetProfileId: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
-    badgeAcquisitionRepository = { create: sinon.stub() };
-    badgeCriteriaService = { areBadgeCriteriaFulfilled: sinon.stub() };
     sinon.stub(CampaignParticipationResult, 'buildFrom').returns(campaignParticipationResult);
 
     usecaseDependencies = {
@@ -59,8 +55,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       assessmentRepository,
       badgeRepository,
       knowledgeElementRepository,
-      badgeAcquisitionRepository,
-      badgeCriteriaService,
     };
   });
 
@@ -76,19 +70,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       beforeEach(() => {
         // given
         badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(badge);
-        badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(true);
-      });
-
-      it('should create the badge acquisition', async () => {
-        // when
-        await getCampaignParticipationResult(usecaseDependencies);
-
-        // then
-        sinon.assert.calledOnce(badgeAcquisitionRepository.create);
-        sinon.assert.calledWith(badgeAcquisitionRepository.create, {
-          badgeId: campaignParticipationResult.badge.id ,
-          userId
-        });
       });
 
       it('should get the campaignParticipationResult', async () => {
@@ -104,15 +85,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       beforeEach(() => {
         // given
         badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves({});
-        badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(false);
-      });
-
-      it('should not create the badge acquisition', async () => {
-        // when
-        await getCampaignParticipationResult(usecaseDependencies);
-
-        // then
-        sinon.assert.notCalled(badgeAcquisitionRepository.create);
       });
 
       it('should get the campaignParticipationResult', async () => {
@@ -123,7 +95,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         expect(actualCampaignParticipationResult).to.deep.equal(campaignParticipationResult);
       });
     });
-
   });
 
   context('when campaignParticipation belongs to user', () => {
@@ -138,19 +109,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       beforeEach(() => {
         // given
         badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(badge);
-        badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(true);
-      });
-
-      it('should create the badge acquisition', async () => {
-        // when
-        await getCampaignParticipationResult(usecaseDependencies);
-
-        // then
-        sinon.assert.calledOnce(badgeAcquisitionRepository.create);
-        sinon.assert.calledWith(badgeAcquisitionRepository.create, {
-          badgeId: campaignParticipationResult.badge.id ,
-          userId
-        });
       });
 
       it('should get the campaignParticipationResult', async () => {
@@ -166,15 +124,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       beforeEach(() => {
         // given
         badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves({});
-        badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).resolves(false);
-      });
-
-      it('should not create the badge acquisition', async () => {
-        // when
-        await getCampaignParticipationResult(usecaseDependencies);
-
-        // then
-        sinon.assert.notCalled(badgeAcquisitionRepository.create);
       });
 
       it('should get the campaignParticipationResult', async () => {
@@ -185,7 +134,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         expect(actualCampaignParticipationResult).to.deep.equal(campaignParticipationResult);
       });
     });
-
   });
 
   context('when user not belongs to the organization of the campaign or not own this campaignParticipation', () => {
