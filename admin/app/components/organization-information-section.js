@@ -7,6 +7,10 @@ export default class OrganizationInformationSection extends Component {
     return this.args.organization.isManagingStudents ? 'Oui' : 'Non';
   }
 
+  get canCollectProfiles() {
+    return this.args.organization.canCollectProfiles ? 'Oui' : 'Non';
+  }
+
   @action
   updateLogo(file) {
     return file.readAsDataURL().then((b64) => {
