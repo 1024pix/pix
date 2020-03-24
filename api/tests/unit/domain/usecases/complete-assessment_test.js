@@ -124,7 +124,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         // then
         expect(result).to.deep.equal({
           userId: assessment.userId,
-          targetProfileId: assessment.targetProfile.id,
+          targetProfileId: assessment.campaignParticipation.campaign.targetProfileId,
           campaignParticipationId: assessment.campaignParticipation.id
         });
       });
@@ -388,11 +388,15 @@ function _buildSmartPlacementAssessment() {
       id: Symbol('assessmentId'),
       state: 'started',
       type: Assessment.types.SMARTPLACEMENT,
-      userId: Symbol('userId')
+      userId: Symbol('userId'),
+      campaignParticipation: {
+        id: Symbol('campaignParticipationId'),
+        campaign: {
+          targetProfileId: Symbol('targetProfileId')
+        }
+      }
     }
   );
-  assessment.targetProfile = { id: Symbol('targetProfileId') };
-  assessment.campaignParticipation = { id: Symbol('campaignParticipationId') };
   return assessment;
 }
 
