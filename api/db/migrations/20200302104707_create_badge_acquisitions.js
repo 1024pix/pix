@@ -5,8 +5,8 @@ exports.up = function(knex) {
     .createTable(TABLE_NAME, (table) => {
       table.increments('id').primary();
       table.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
-      table.integer('userId').references('users.id').index();
-      table.integer('badgeId').references('badges.id');
+      table.integer('userId').notNullable().references('users.id').index();
+      table.integer('badgeId').notNullable().references('badges.id');
     });
 };
 
