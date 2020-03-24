@@ -109,7 +109,7 @@ module.exports = {
         ),
         BadgeCriteriaService
       );
-      await handler.handle(assessmentCompletedEvent);
+      await handler.handle(domainTransaction, assessmentCompletedEvent);
       await domainTransaction.commit();
     } catch (e) {
       await domainTransaction.rollback();
