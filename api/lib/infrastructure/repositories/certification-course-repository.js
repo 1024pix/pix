@@ -40,7 +40,6 @@ module.exports = {
       const certificationCourse = await CertificationCourseBookshelf
         .where({ userId, sessionId })
         .orderBy('createdAt', 'desc')
-        .query((qb) => qb.limit(1))
         .fetch({ require: true, withRelated: ['assessment', 'challenges'] });
       return _toDomain(certificationCourse);
     } catch (err) {
