@@ -39,4 +39,28 @@ describe('Unit | Model | Campaign-Participation-Result', function() {
       expect(maxTotalSkillsCountInCompetences).to.equal(11);
     });
   });
+
+  describe('maxTotalSkillsCountInBadgePartnerCompetences', function() {
+
+    it('should calculate max total skills', function() {
+      const badgePartnerCompetenceResult1 = store.createRecord('badge-partner-competence-result', {
+        totalSkillsCount: 1
+      });
+      const badgePartnerCompetenceResult2 = store.createRecord('badge-partner-competence-result', {
+        totalSkillsCount: 9
+      });
+      const badgePartnerCompetenceResult3 = store.createRecord('badge-partner-competence-result', {
+        totalSkillsCount: 3
+      });
+
+      const model = store.createRecord('campaign-participation-result');
+      model.set('badgePartnerCompetenceResults', [badgePartnerCompetenceResult1, badgePartnerCompetenceResult2, badgePartnerCompetenceResult3]);
+
+      // when
+      const maxTotalSkillsCountInBadgePartnerCompetences = model.get('maxTotalSkillsCountInBadgePartnerCompetences');
+
+      // then
+      expect(maxTotalSkillsCountInBadgePartnerCompetences).to.equal(9);
+    });
+  });
 });
