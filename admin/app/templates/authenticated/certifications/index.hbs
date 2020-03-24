@@ -8,14 +8,10 @@
   <section class="page-section">
     <ul class="certifications-menu">
       <li>
-        {{#link-to "authenticated.certifications.sessions"}}
-          Consulter une session
-        {{/link-to}}
+        <LinkTo @route="authenticated.sessions">Consulter une session</LinkTo>
       </li>
       <li>
-        {{#link-to "authenticated.certifications.single"}}
-          Consulter une certification
-        {{/link-to}}
+        <LinkTo @route="authenticated.certifications.single">Consulter une certification</LinkTo>
       </li>
     </ul>
   </section>

@@ -1,7 +1,7 @@
 import { Factory, trait } from 'ember-cli-mirage';
 import faker from 'faker';
 import moment from 'moment';
-import { CREATED } from 'pix-admin/models/session';
+import { CREATED, FINALIZED } from 'pix-admin/models/session';
 
 export default Factory.extend({
 
@@ -58,4 +58,8 @@ export default Factory.extend({
       session.update({ certificationCenterName: session.certificationCenter.name });
     }
   }),
+
+  finalized: trait({
+    status: FINALIZED,
+  })
 });

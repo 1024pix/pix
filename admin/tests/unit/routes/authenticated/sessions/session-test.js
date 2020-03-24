@@ -13,6 +13,7 @@ module('Unit | Route | authenticated/sessions/session', function(hooks) {
       error: sinon.stub().resolves(),
     };
     route.notifications = notificationsStub;
+    route.transitionTo = () => {};
 
     // when
     route.send('error');
