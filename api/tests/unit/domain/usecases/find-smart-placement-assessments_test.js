@@ -32,7 +32,7 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
     const userId = 1234;
     const campaignCode = 'Code';
     const filters = { type: 'SMART_PLACEMENT', codeCampaign: campaignCode };
-    const campaign = domainBuilder.buildCampaign({ code: campaignCode });
+    const campaign = domainBuilder.buildCampaign.ofTypeTestGiven({ code: campaignCode });
     const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
     const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({
       userId,
