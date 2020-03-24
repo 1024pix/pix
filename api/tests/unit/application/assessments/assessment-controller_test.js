@@ -115,8 +115,7 @@ describe('Unit | Controller | assessment-controller', function() {
       usecases.completeAssessment.resolves(event);
 
       handler = {
-        handle: () => {
-        }
+        handle: () => {}
       };
       sinon.stub(handler, 'handle');
       sinon.stub(cleaBadgeCreationHandler, 'inject');
@@ -144,7 +143,7 @@ describe('Unit | Controller | assessment-controller', function() {
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
 
       // then
-      expect(handler.handle).to.have.been.calledWithExactly(event);
+      expect(handler.handle).to.have.been.calledWithExactly(domainTransaction, event);
     });
 
     it('should begin a domain transaction on assessment completion', async () => {
