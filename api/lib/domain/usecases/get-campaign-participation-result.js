@@ -8,13 +8,11 @@ module.exports = async function getCampaignParticipationResult(
     campaignParticipationId,
     assessmentRepository,
     badgeRepository,
-    badgeAcquisitionRepository,
     campaignParticipationRepository,
     campaignRepository,
     competenceRepository,
     knowledgeElementRepository,
     targetProfileRepository,
-    badgeCriteriaService,
   }
 ) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
@@ -32,17 +30,6 @@ module.exports = async function getCampaignParticipationResult(
   const badge = await badgeRepository.findOneByTargetProfileId(targetProfile.id);
   campaignParticipationResult.badge = badge;
 
-  if (_hasBadgeInformation(badge)) {
-    campaignParticipationResult.areBadgeCriteriaFulfilled = badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult });
-
-    if (campaignParticipationResult.areBadgeCriteriaFulfilled) {
-      badgeAcquisitionRepository.create({
-        badgeId: campaignParticipationResult.badge.id,
-        userId
-      });
-    }
-  }
-
   return campaignParticipationResult;
 };
 
@@ -56,8 +43,4 @@ async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaign
   if (!campaignParticipationBelongsToUser && !userIsMemberOfCampaignOrganization) {
     throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign participation');
   }
-}
-
-function _hasBadgeInformation(badge) {
-  return !_.isEmpty(badge);
 }
