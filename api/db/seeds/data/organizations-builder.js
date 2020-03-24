@@ -18,6 +18,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     type: 'SCO',
     name: 'The Night Watch',
     isManagingStudents: true,
+    canCollectProfiles: true,
   });
 
   databaseBuilder.factory.buildMembership({

@@ -547,6 +547,7 @@ describe('Acceptance | Application | organization-controller', () => {
               'external-id': organization.externalId,
               'province-code': organization.provinceCode,
               'is-managing-students': organization.isManagingStudents,
+              'can-collect-profiles': organization.canCollectProfiles,
               'credit': organization.credit,
             },
             'id': organization.id.toString(),

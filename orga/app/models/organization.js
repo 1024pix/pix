@@ -1,16 +1,20 @@
-import DS from 'ember-data';
 import { equal } from '@ember/object/computed';
+import DS from 'ember-data';
 
-export default DS.Model.extend({
-  name: DS.attr('string'),
-  type: DS.attr('string'),
-  externalId: DS.attr('string'),
-  campaigns: DS.hasMany('campaign'),
-  targetProfiles: DS.hasMany('target-profile'),
-  memberships: DS.hasMany('membership'),
-  organizationInvitations: DS.hasMany('organization-invitation'),
-  students: DS.hasMany('student'),
-  isManagingStudents: DS.attr('boolean'),
+const { Model, attr, hasMany } = DS;
 
-  isSco: equal('type', 'SCO'),
-});
+export default class Organization extends Model {
+  @attr('string') name;
+  @attr('string') type;
+  @attr('string') externalId;
+  @attr('boolean') isManagingStudents;
+  @attr('boolean') canCollectProfiles;
+
+  @hasMany('campaign') campaigns;
+  @hasMany('target-profile') targetProfiles;
+  @hasMany('membership') memberships;
+  @hasMany('organization-invitation') organizationInvitations;
+  @hasMany('student') students;
+
+  @equal('type', 'SCO') isSco;
+}
