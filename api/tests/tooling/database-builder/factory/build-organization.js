@@ -10,6 +10,7 @@ const buildOrganization = function buildOrganization({
   provinceCode = faker.random.alphaNumeric(3),
   isManagingStudents = false,
   credit = 500,
+  canCollectProfiles = false,
   createdAt = faker.date.recent(),
   updatedAt = faker.date.recent(),
 } = {}) {
@@ -23,6 +24,7 @@ const buildOrganization = function buildOrganization({
     provinceCode,
     isManagingStudents,
     credit,
+    canCollectProfiles,
     createdAt,
     updatedAt,
   };
