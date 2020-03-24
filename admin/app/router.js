@@ -54,6 +54,7 @@ Router.map(function() {
 
     this.route('sessions', function() {
       this.route('list');
+      this.route('session',  { path: '/:session_id' });
     });
 
     this.route('tools');
