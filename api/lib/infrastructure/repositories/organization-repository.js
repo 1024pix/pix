@@ -18,6 +18,7 @@ function _toDomain(bookshelfOrganization) {
     provinceCode: rawOrganization.provinceCode,
     isManagingStudents: Boolean(rawOrganization.isManagingStudents),
     credit: rawOrganization.credit,
+    canCollectProfiles: Boolean(rawOrganization.canCollectProfiles),
   });
 
   let members = [];

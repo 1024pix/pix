@@ -36,11 +36,12 @@ function buildOrganization(
     provinceCode = '2A',
     isManagingStudents = false,
     credit = 500,
+    canCollectProfiles = false,
     createdAt = new Date('2018-01-12T01:02:03Z'),
     memberships = [],
     targetProfileShares = []
   } = {}) {
-  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, createdAt, memberships, targetProfileShares });
+  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, canCollectProfiles, createdAt, memberships, targetProfileShares });
 }
 
 buildOrganization.withMembers = function(
@@ -53,6 +54,7 @@ buildOrganization.withMembers = function(
     provinceCode = '2A',
     isManagingStudents = false,
     credit = 500,
+    canCollectProfiles = false,
     createdAt = new Date('2018-01-12T01:02:03Z'),
     members = [
       _buildMember({ id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' }),
@@ -60,7 +62,7 @@ buildOrganization.withMembers = function(
     ]
   } = {}
 ) {
-  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, createdAt, members });
+  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, canCollectProfiles, createdAt, members });
 };
 
 buildOrganization.withStudents = function(
@@ -73,11 +75,12 @@ buildOrganization.withStudents = function(
     provinceCode = '2A',
     isManagingStudents = true,
     credit = 500,
+    canCollectProfiles = false,
     createdAt = new Date('2018-01-12T01:02:03Z'),
     students = []
   } = {}
 ) {
-  const organization = new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, createdAt, students });
+  const organization = new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, canCollectProfiles, createdAt, students });
 
   organization.students = [
     _buildStudent({ id: 1, lastName: 'Doe', firstName: 'John', organization }),

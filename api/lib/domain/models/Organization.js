@@ -10,6 +10,7 @@ class Organization {
     provinceCode,
     isManagingStudents,
     credit,
+    canCollectProfiles,
     // includes
     memberships = [],
     targetProfileShares = [],
@@ -26,6 +27,7 @@ class Organization {
     this.provinceCode = provinceCode;
     this.isManagingStudents = isManagingStudents;
     this.credit = credit;
+    this.canCollectProfiles = canCollectProfiles;
     // includes
     this.memberships = memberships;
     this.targetProfileShares = targetProfileShares;
