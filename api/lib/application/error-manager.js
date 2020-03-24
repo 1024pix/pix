@@ -99,7 +99,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
   if (error instanceof DomainErrors.StudentsCouldNotBeSavedError) {
-    return new HttpErrors.ConflictError(error.message);
+    return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.SameNationalStudentIdInOrganizationError) {
     return new HttpErrors.ConflictError(error.message);
