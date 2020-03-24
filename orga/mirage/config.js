@@ -141,6 +141,10 @@ export default function() {
       return new Promise((resolve) => {
         resolve(new Response(409, {}, { errors: [ { status: '409', detail: '409 - Le détail affiché est envoyé par le back' } ] }));
       });
+    } else if (type === 'file-with-problems') {
+      return new Promise((resolve) => {
+        resolve(new Response(400, {}, { errors: [ { status: '400', detail: '400 - détail.' } ] }));
+      });
     } else if (type === 'valid-file') {
       const organizationId = request.params.id;
       return schema.students.create({ organizationId: organizationId, firstName: 'Harry', lastName: 'Cover' });

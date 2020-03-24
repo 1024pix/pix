@@ -7,23 +7,27 @@
   color: $gun-powder;
   line-height: 1.3125rem;
 
-  div:first-child {
+  > div:first-child {
     background-color: $dove-gray;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  div:nth-child(2) {
+  > div:nth-child(2) {
     background-color: $alto;
     padding: 8px 12px;
     align-items: center;
 
-    div {
+    > div {
       align-self: center;
       padding-right: 0;
       background-color: inherit;
     }
+  }
+
+  a {
+    color: $gun-powder;
   }
 
   .fa {

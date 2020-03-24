@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
+import { htmlSafe } from '@ember/template';
 import ENV from 'pix-orga/config/environment';
 
 export default class ListController extends Controller {
@@ -29,16 +30,25 @@ export default class ListController extends Controller {
     } catch (errorResponse) {
       this.set('isLoading', false);
 
-      if (!errorResponse.body.errors) {
-        return this.get('notifications').sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
-      }
-
-      errorResponse.body.errors.forEach((error) => {
-        if (error.status === '409' || error.status === '422') {
-          return this.get('notifications').sendError(error.detail);
-        }
-        return this.get('notifications').sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
-      });
+      this.handleError(errorResponse);
     }
+  }
+
+  handleError(errorResponse) {
+    const globalErrorMessage = 'Quelque chose s\'est mal passé. Veuillez réessayer.';
+    if (!errorResponse.body.errors) {
+      return this.get('notifications').sendError(globalErrorMessage);
+    }
+
+    errorResponse.body.errors.forEach((error) => {
+      if (error.status === '409' || error.status === '422') {
+        return this.get('notifications').sendError(error.detail);
+      }
+      if (error.status === '400') {
+        const errorDetail = htmlSafe(`<div>${error.detail} Veuillez réessayer ou nous contacter via <a id="support-link" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d'aide</a>.</div>`);
+        return this.get('notifications').error(errorDetail, { autoClear: false, cssClasses: 'notification notification--error', onClick: function() { window.open('https://support.pix.fr/support/tickets/new', '_blank'); } });
+      }
+      return this.get('notifications').sendError(globalErrorMessage);
+    });
   }
 }
