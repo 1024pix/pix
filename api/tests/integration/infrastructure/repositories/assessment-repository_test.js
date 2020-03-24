@@ -1,6 +1,7 @@
 const { expect, knex, databaseBuilder, domainBuilder } = require('../../../test-helper');
 const _ = require('lodash');
 const moment = require('moment');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Answer = require('../../../../lib/domain/models/Answer');
@@ -617,8 +618,12 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
 
     it('should complete an assessment if not already existing', async () => {
+      // given
+      const domainTransaction = await DomainTransaction.begin();
+
       // when
-      await assessmentRepository.completeByAssessmentId(assessmentId);
+      await assessmentRepository.completeByAssessmentId(domainTransaction, assessmentId);
+      await domainTransaction.commit();
 
       // then
       const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('state');

@@ -120,7 +120,7 @@ async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessm
   });
 
   const [, newAssessmentSaved] = await Promise.all([
-    assessmentRepository.updateStateById({ id: assessment.id, state: Assessment.states.ABORTED }),
+    assessmentRepository.updateStateById(null, { id: assessment.id, state: Assessment.states.ABORTED }),
     assessmentRepository.save(newAssessment)
   ]);
   return newAssessmentSaved;
