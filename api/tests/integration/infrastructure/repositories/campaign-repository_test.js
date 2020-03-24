@@ -4,7 +4,6 @@ const Campaign = require('../../../../lib/domain/models/Campaign');
 const CampaignReport = require('../../../../lib/domain/models/CampaignReport');
 const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const User = require('../../../../lib/domain/models/User');
 const _ = require('lodash');
 
 describe('Integration | Repository | Campaign', () => {
@@ -75,9 +74,8 @@ describe('Integration | Repository | Campaign', () => {
   });
 
   describe('#save', () => {
-
     let creatorId, organizationId, targetProfileId;
-    let savedCampaign, campaignToSave;
+    let savedCampaign, campaignToSave, domainCreator, campaignAttributes;
 
     beforeEach(async () => {
       // given
@@ -88,38 +86,55 @@ describe('Integration | Repository | Campaign', () => {
       targetProfileId = databaseBuilder.factory.buildTargetProfile({}).id;
       await databaseBuilder.commit();
 
-      const domainCreator = new User(creator);
-      campaignToSave = domainBuilder.buildCampaign({
+      domainCreator = domainBuilder.buildUser(creator);
+
+      campaignAttributes = {
         name: 'Evaluation niveau 1 recherche internet',
         code: 'BCTERD153',
-        title: 'Parcours recherche internet',
         customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
         creatorId,
         creator: domainCreator,
         organizationId,
-        targetProfileId,
-      });
-      campaignToSave.id = undefined;
-      // when
-      savedCampaign = await campaignRepository.save(campaignToSave);
+      };
     });
 
     afterEach(() => {
       return knex('campaigns').delete();
     });
 
-    it('should save the given campaign', async () => {
+    it('should save the given campaign with type ASSESSMENT', async () => {
+      // given
+      campaignToSave = domainBuilder.buildCampaign.ofTypeAssessment({
+        ...campaignAttributes,
+        targetProfileId,
+        title: 'Parcours recherche internet',
+      });
+      campaignToSave.id = undefined;
+
+      // when
+      savedCampaign = await campaignRepository.save(campaignToSave);
+
       // then
       expect(savedCampaign).to.be.instanceof(Campaign);
       expect(savedCampaign.id).to.exist;
-      expect(savedCampaign.name).to.equal(campaignToSave.name);
-      expect(savedCampaign.code).to.equal(campaignToSave.code);
-      expect(savedCampaign.title).to.equal(campaignToSave.title);
-      expect(savedCampaign.customLandingPageText).to.equal(campaignToSave.customLandingPageText);
-      expect(savedCampaign.creatorId).to.equal(campaignToSave.creatorId);
-      expect(savedCampaign.organizationId).to.equal(campaignToSave.organizationId);
+
+      expect(savedCampaign).to.deep.include(_.pick(campaignToSave, ['name', 'code', 'title', 'type', 'customLandingPageText', 'creatorId', 'organizationId']));
     });
 
+    it('should save the given campaign with type PROFILES_COLLECTION', async () => {
+      // given
+      campaignToSave = domainBuilder.buildCampaign.ofTypeProfilesCollection(campaignAttributes);
+      campaignToSave.id = undefined;
+
+      // when
+      savedCampaign = await campaignRepository.save(campaignToSave);
+
+      // then
+      expect(savedCampaign).to.be.instanceof(Campaign);
+      expect(savedCampaign.id).to.exist;
+
+      expect(savedCampaign).to.deep.include(_.pick(campaignToSave, ['name', 'code', 'title', 'type', 'customLandingPageText', 'creatorId', 'organizationId']));
+    });
   });
 
   describe('#findPaginatedFilteredByOrganizationIdWithCampaignReports', () => {
@@ -196,15 +211,8 @@ describe('Integration | Repository | Campaign', () => {
 
         // then
         expect(campaignsWithReports[0]).to.be.instanceof(Campaign);
-        expect(campaignsWithReports[0].id).to.equal(campaign.id);
-        expect(campaignsWithReports[0].name).to.equal(campaign.name);
-        expect(campaignsWithReports[0].code).to.equal(campaign.code);
-        expect(campaignsWithReports[0].createdAt).to.exist;
-        expect(campaignsWithReports[0].targetProfileId).to.exist;
-        expect(campaignsWithReports[0].customLandingPageText).to.exist;
-        expect(campaignsWithReports[0].idPixLabel).to.exist;
-        expect(campaignsWithReports[0].title).to.exist;
-        expect(campaignsWithReports[0].organizationId).to.equal(campaign.organizationId);
+
+        expect(campaignsWithReports[0]).to.deep.include(_.pick(campaign, ['id', 'name', 'code', 'createdAt', 'targetProfileId', 'idPixLabel', 'title', 'type', 'customLandingPageText', 'organizationId']));
       });
 
       it('should sort campaigns by descending creation date', async () => {

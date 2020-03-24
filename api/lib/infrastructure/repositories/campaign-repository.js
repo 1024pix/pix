@@ -19,6 +19,7 @@ function _toDomain(bookshelfCampaign) {
     'customLandingPageText',
     'idPixLabel',
     'title',
+    'type',
     'archivedAt',
   ]));
 }
@@ -37,6 +38,7 @@ function _fromBookshelfCampaignWithReportDataToDomain(campaignWithReportData) {
     'customLandingPageText',
     'idPixLabel',
     'title',
+    'type',
     'archivedAt',
   ]);
 
