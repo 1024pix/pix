@@ -109,14 +109,37 @@ describe('Integration | Repository | Organization', function() {
     describe('success management', function() {
 
       let insertedOrganization;
+      const organizationAttributes = {
+        type: 'SCO',
+        name: 'Organization of the dark side',
+        logoUrl: 'some logo url',
+        credit: 154,
+        externalId: '100',
+        provinceCode: '75',
+        isManagingStudents: 'true',
+        canCollectProfiles: 'true',
+      };
+
+      let expectedAttributes;
 
       beforeEach(async () => {
-        insertedOrganization = databaseBuilder.factory.buildOrganization({
+        insertedOrganization = databaseBuilder.factory.buildOrganization(organizationAttributes);
+        expectedAttributes = {
+          id:  insertedOrganization.id,
           type: 'SCO',
           name: 'Organization of the dark side',
           logoUrl: 'some logo url',
           credit: 154,
-        });
+          externalId: '100',
+          provinceCode: '75',
+          isManagingStudents: true,
+          canCollectProfiles: true,
+          members: [],
+          memberships: [],
+          students: [],
+          targetProfileShares: [],
+          organizationInvitations: []
+        };
         await databaseBuilder.commit();
       });
 
@@ -125,12 +148,7 @@ describe('Integration | Repository | Organization', function() {
         const foundOrganization = await organizationRepository.get(insertedOrganization.id);
 
         // then
-        expect(foundOrganization).to.be.an.instanceof(Organization);
-        expect(foundOrganization.type).to.equal(insertedOrganization.type);
-        expect(foundOrganization.name).to.equal(insertedOrganization.name);
-        expect(foundOrganization.logoUrl).to.equal(insertedOrganization.logoUrl);
-        expect(foundOrganization.id).to.equal(insertedOrganization.id);
-        expect(foundOrganization.credit).to.equal(insertedOrganization.credit);
+        expect(foundOrganization).to.deep.equal(expectedAttributes);
       });
 
       it('should return a rejection when organization id is not found', function() {
