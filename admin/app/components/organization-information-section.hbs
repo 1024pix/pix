@@ -25,8 +25,9 @@
           Département : <span class="organization__provinceCode">{{@organization.provinceCode}}</span><br>
         {{/if}}
         {{#if @organization.isOrganizationSCO}}
-          Gère des élèves : <span class="organization__isManagingStudents">{{this.isManagingStudents}}</span>
+          Gère des élèves : <span class="organization__isManagingStudents">{{this.isManagingStudents}}</span><br>
         {{/if}}
+        A accès aux campagnes de récupération profils : <span class="organization__canCollectProfiles">{{this.canCollectProfiles}}</span><br>
         Crédits : <span class="organization__credit">{{@organization.credit}}</span>
       </p>
     </div>

@@ -25,10 +25,22 @@ module('Integration | Component | organization-information-section', function(ho
     this.set('organization', organization);
 
     // when
-    await render(hbs`{{organization-information-section organization=organization}}`);
+    await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
     // then
     assert.dom('.organization__credit').hasText('350');
+  });
+
+  test('it should display canCollectProfiles', async function(assert) {
+    // given
+    const organization = EmberObject.create({ canCollectProfiles: true });
+    this.set('organization', organization);
+
+    // when
+    await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+
+    // then
+    assert.dom('.organization__canCollectProfiles').hasText('Oui');
   });
 
   module('When organization is SCO', function(hooks) {

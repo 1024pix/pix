@@ -9,6 +9,7 @@ export default class Organization extends Model {
   @attr() externalId;
   @attr() provinceCode;
   @attr() isManagingStudents;
+  @attr() canCollectProfiles;
   @attr() credit;
 
   @equal('type', 'SCO') isOrganizationSCO;
