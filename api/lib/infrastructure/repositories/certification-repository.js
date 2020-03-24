@@ -1,4 +1,3 @@
-const Assessment = require('../../domain/models/Assessment');
 const AssessmentResultBookshelf = require('../data/assessment-result');
 const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/certification-course');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
@@ -8,7 +7,7 @@ const { NotFoundError, CertificationCourseNotPublishableError } = require('../..
 
 function _certificationToDomain(certificationCourseBookshelf) {
   const assessmentResultsBookshelf = certificationCourseBookshelf
-    .related('assessments').models[0]
+    .related('assessment')
     .related('assessmentResults');
   const assessmentResults = bookshelfToDomainConverter.buildDomainObjects(AssessmentResultBookshelf, assessmentResultsBookshelf);
 
@@ -18,14 +17,14 @@ function _certificationToDomain(certificationCourseBookshelf) {
 function _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults }) {
   return new Certification({
     id: certificationCourseBookshelf.get('id'),
-    assessmentState: certificationCourseBookshelf.related('assessments').models[0].get('state'),
+    assessmentState: certificationCourseBookshelf.related('assessment').get('state'),
     assessmentResults: assessmentResults,
     certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter'),
     birthdate: certificationCourseBookshelf.get('birthdate'),
     birthplace: certificationCourseBookshelf.get('birthplace'),
     firstName: certificationCourseBookshelf.get('firstName'),
     lastName: certificationCourseBookshelf.get('lastName'),
-    date: certificationCourseBookshelf.get('completedAt'),
+    date: certificationCourseBookshelf.get('createdAt'),
     isPublished: Boolean(certificationCourseBookshelf.get('isPublished')),
     userId: certificationCourseBookshelf.get('userId'),
   });
@@ -36,19 +35,13 @@ module.exports = {
   getByCertificationCourseId({ id }) {
     return CertificationCourseBookshelf
       .query((qb) => {
-        qb.innerJoin(
-          Bookshelf.knex.raw('?? ON ?? = ??',
-            ['assessments', 'assessments.certificationCourseId', 'certification-courses.id'])
-        );
+        qb.innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id');
         qb.where('certification-courses.id', id);
-        qb.where('assessments.state', Assessment.states.COMPLETED);
       })
       .fetch({
         require: true,
         withRelated: [
-          'session',
-          { 'assessments': (qb) => qb.where('assessments.state', Assessment.states.COMPLETED) },
-          'assessments.assessmentResults',
+          'session', 'assessment', 'assessment.assessmentResults',
         ],
       })
       .then(_certificationToDomain)
@@ -81,20 +74,15 @@ module.exports = {
   findByUserId(userId) {
     return CertificationCourseBookshelf
       .query((qb) => {
-        qb.innerJoin(
-          Bookshelf.knex.raw('?? ON ?? = ??',
-            ['assessments', 'assessments.certificationCourseId', 'certification-courses.id'])
-        );
+        qb.innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id');
+        qb.innerJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id');
         qb.where('certification-courses.userId', userId);
-        qb.where('assessments.state', Assessment.states.COMPLETED);
+        qb.groupBy('certification-courses.id');
         qb.orderBy('id', 'desc');
       })
       .fetchAll({
-        required: false,
         withRelated: [
-          'session',
-          { 'assessments': (qb) => qb.where('assessments.state', Assessment.states.COMPLETED) },
-          'assessments.assessmentResults',
+          'session', 'assessment', 'assessment.assessmentResults',
         ],
       })
       .then((certificationCoursesBookshelf) => {

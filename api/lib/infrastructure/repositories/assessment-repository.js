@@ -68,17 +68,15 @@ module.exports = {
   getByCertificationCourseId(certificationCourseId) {
     return BookshelfAssessment
       .where({ certificationCourseId, type: 'CERTIFICATION' })
-      .fetchAll({ withRelated: ['assessmentResults'] })
-      .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments))
-      .then(_selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrNull);
+      .fetch({ withRelated: ['assessmentResults'] })
+      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
   findOneCertificationAssessmentByUserIdAndCertificationCourseId(userId, certificationCourseId) {
     return BookshelfAssessment
       .where({ userId, certificationCourseId, type: 'CERTIFICATION' })
-      .fetchAll({ withRelated: ['assessmentResults', 'answers'] })
-      .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments))
-      .then(_selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrNull);
+      .fetch({ withRelated: ['assessmentResults', 'answers'] })
+      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
   getByCampaignParticipationId(campaignParticipationId) {
@@ -109,15 +107,6 @@ module.exports = {
       .orderBy('createdAt', 'desc')
       .fetch({ required: false, withRelated: includeCampaign ? ['campaignParticipation', 'campaignParticipation.campaign'] : [] })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
-  },
-
-  // TODO: maybe obsolete after v1 be finished
-  hasCampaignOrCompetenceEvaluation(userId) {
-    return BookshelfAssessment
-      .where({ userId })
-      .where('type', 'IN', ['SMART_PLACEMENT', 'COMPETENCE_EVALUATION'])
-      .fetchAll()
-      .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.length > 0);
   },
 
   completeByAssessmentId(assessmentId) {
@@ -156,14 +145,4 @@ function _adaptModelToDb(assessment) {
     'campaignParticipation',
     'title',
   ]);
-}
-
-function _selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrNull(assessments) {
-  const creationDateOrderedAssessments = _.orderBy(assessments, ['createdAt'], ['desc']);
-  const completedAssessment = _.find(creationDateOrderedAssessments, ['state', Assessment.states.COMPLETED]);
-  if (completedAssessment) {
-    return completedAssessment;
-  }
-
-  return _.head(creationDateOrderedAssessments) || null;
 }
