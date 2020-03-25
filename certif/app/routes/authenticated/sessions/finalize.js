@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 
 import config from '../../../config/environment';
 
-export default class AuthenticatedSessionsFinalizeRoute extends Route {
+export default class SessionsFinalizeRoute extends Route {
   @service notifications;
 
   async model({ session_id }) {

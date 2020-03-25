@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 import config from '../../../../config/environment';
 
-export default class AuthenticatedSessionsDetailsCertificationCandidatesController extends Controller {
+export default class CertificationCandidatesController extends Controller {
 
   @service session;
   @service notifications;
