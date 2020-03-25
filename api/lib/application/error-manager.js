@@ -98,7 +98,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.FileValidationError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
-  if (error instanceof DomainErrors.StudentsCouldNotBeSavedError) {
+  if (error instanceof DomainErrors.SchoolingRegistrationsCouldNotBeSavedError) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.SameNationalStudentIdInOrganizationError) {

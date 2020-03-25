@@ -10,14 +10,14 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
 
   const userId = 1;
   const organizationId = 1;
-  const studentId = 1;
+  const schoolingRegistrationId = 1;
 
   const password = 'Pix12345';
   const encryptedPassword = '@Pix12345@';
 
   let encryptionService;
   let userRepository;
-  let studentRepository;
+  let schoolingRegistrationRepository;
 
   let userMember;
   let userStudent;
@@ -33,7 +33,7 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
     };
 
     student = {
-      id: studentId,
+      id: schoolingRegistrationId,
       userId: userMember.id,
       organizationId
     };
@@ -46,7 +46,7 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
       getWithMemberships: sinon.stub().resolves(userMember),
       updatePassword: sinon.stub().resolves()
     };
-    studentRepository = {
+    schoolingRegistrationRepository = {
       get: sinon.stub().resolves(student),
     };
   });
@@ -56,7 +56,7 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
     await updateStudentDependentUserPassword({
       userId, organizationId,
       encryptionService,
-      userRepository, studentRepository });
+      userRepository, schoolingRegistrationRepository });
 
     // then
     expect(userRepository.getWithMemberships).to.have.been.calledWith(userId);
@@ -65,21 +65,21 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
   it('should get student by his id', async () => {
     // when
     await updateStudentDependentUserPassword({
-      userId, organizationId, studentId, password,
+      userId, organizationId, schoolingRegistrationId, password,
       encryptionService,
-      userRepository, studentRepository
+      userRepository, schoolingRegistrationRepository
     });
 
     // then
-    expect(studentRepository.get).to.have.been.calledWith(studentId);
+    expect(schoolingRegistrationRepository.get).to.have.been.calledWith(schoolingRegistrationId);
   });
 
   it('should update user password with a hashed password', async () => {
     // when
     await updateStudentDependentUserPassword({
-      userId, organizationId, studentId, password,
+      userId, organizationId, schoolingRegistrationId, password,
       encryptionService,
-      userRepository, studentRepository
+      userRepository, schoolingRegistrationRepository
     });
 
     // then
@@ -95,9 +95,9 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
 
       // when
       const error = await catchErr(updateStudentDependentUserPassword)({
-        userId, organizationId, studentId, password,
+        userId, organizationId, schoolingRegistrationId, password,
         encryptionService,
-        userRepository, studentRepository
+        userRepository, schoolingRegistrationRepository
       });
 
       // then
@@ -113,9 +113,9 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
 
       // when
       const error = await catchErr(updateStudentDependentUserPassword)({
-        userId, organizationId, studentId, password,
+        userId, organizationId, schoolingRegistrationId, password,
         encryptionService,
-        userRepository, studentRepository
+        userRepository, schoolingRegistrationRepository
       });
 
       // then
@@ -131,9 +131,9 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
 
       // when
       const error = await catchErr(updateStudentDependentUserPassword)({
-        userId, organizationId, studentId, password,
+        userId, organizationId, schoolingRegistrationId, password,
         encryptionService,
-        userRepository, studentRepository
+        userRepository, schoolingRegistrationRepository
       });
 
       // then
@@ -146,9 +146,9 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
 
       // when
       const error = await catchErr(updateStudentDependentUserPassword)({
-        userId, organizationId, studentId, password,
+        userId, organizationId, schoolingRegistrationId, password,
         encryptionService,
-        userRepository, studentRepository
+        userRepository, schoolingRegistrationRepository
       });
 
       // then

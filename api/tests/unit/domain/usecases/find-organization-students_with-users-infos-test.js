@@ -9,24 +9,24 @@ describe('Unit | UseCase | findStudentsWithUserInfoByOrganizationId', () => {
   const email = 'email@example.net';
   const isAuthenticatedFromGAR = true;
 
-  const expectedStudentNotYetReconciled = { id: 3 };
-  const expectedReconciledStudentWithUsername = { id: 4, userId , username };
-  const expectedReconciledStudentWithEmail = { id: 5, userId , email };
-  const expectedReconciledStudentFromGAR = { id: 5, userId , isAuthenticatedFromGAR };
-  let foundOrganizationStudents;
-  const expectedStudents = [expectedStudentNotYetReconciled, expectedReconciledStudentWithUsername, expectedReconciledStudentWithEmail ,expectedReconciledStudentFromGAR ];
-  const studentRepository = { findStudentsWithUserInfoByOrganizationId: sinon.stub().withArgs({ organizationId }).returns(expectedStudents) };
+  const expectedSchoolingRegistrationNotYetReconciled = { id: 3 };
+  const expectedReconciledSchoolingRegistrationWithUsername = { id: 4, userId , username };
+  const expectedReconciledSchoolingRegistrationWithEmail = { id: 5, userId , email };
+  const expectedReconciledSchoolingRegistrationFromGAR = { id: 5, userId , isAuthenticatedFromGAR };
+  let foundOrganizationSchoolingRegistrations;
+  const expectedSchoolingRegistrations = [expectedSchoolingRegistrationNotYetReconciled, expectedReconciledSchoolingRegistrationWithUsername, expectedReconciledSchoolingRegistrationWithEmail ,expectedReconciledSchoolingRegistrationFromGAR ];
+  const schoolingRegistrationRepository = { findSchoolingRegistrationsWithUserInfoByOrganizationId: sinon.stub().withArgs({ organizationId }).returns(expectedSchoolingRegistrations) };
 
   before(async function() {
-    foundOrganizationStudents = await findOrganizationStudentWithUserInfo({ organizationId, studentRepository });
+    foundOrganizationSchoolingRegistrations = await findOrganizationStudentWithUserInfo({ organizationId, schoolingRegistrationRepository });
   });
 
   it('should fetch students matching organization', function() {
-    expect(studentRepository.findStudentsWithUserInfoByOrganizationId).to.have.been.calledWithExactly({ organizationId });
+    expect(schoolingRegistrationRepository.findSchoolingRegistrationsWithUserInfoByOrganizationId).to.have.been.calledWithExactly({ organizationId });
   });
 
   it('should return reconcilied and not reconcilied students', function() {
-    expect(foundOrganizationStudents).to.deep.equal(expectedStudents);
+    expect(foundOrganizationSchoolingRegistrations).to.deep.equal(expectedSchoolingRegistrations);
   });
 
 });
