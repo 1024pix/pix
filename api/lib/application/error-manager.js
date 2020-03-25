@@ -140,7 +140,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.SessionAlreadyFinalizedError) {
     return new HttpErrors.BadRequestError(error.message);
   }
-  if (error instanceof DomainErrors.OrganizationStudentAlreadyLinkedToUserError) {
+  if (error instanceof DomainErrors.SchoolingRegistrationAlreadyLinkedToUserError) {
     return new HttpErrors.ConflictError(error.message);
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToUpdateStudentPasswordError) {
