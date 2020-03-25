@@ -15,7 +15,7 @@ module.exports = {
       withUsername: payload['with-username']
     };
 
-    const createdUser = await usecases.createAndAssociateUserToStudent({ userAttributes, campaignCode: payload['campaign-code'] });
+    const createdUser = await usecases.createAndAssociateUserToSchoolingRegistration({ userAttributes, campaignCode: payload['campaign-code'] });
 
     return h.response(userSerializer.serialize(createdUser)).created();
   },
@@ -24,13 +24,13 @@ module.exports = {
     const payload = request.payload.data.attributes;
     const userId = parseInt(request.auth.credentials.userId);
     const organizationId = parseInt(payload['organization-id']);
-    const studentId = parseInt(payload['student-id']);
+    const schoolingRegistrationId = parseInt(payload['student-id']);
     const password = payload.password;
 
     const updatedUser = await usecases.updateStudentDependentUserPassword({
       userId,
       organizationId,
-      studentId,
+      schoolingRegistrationId,
       password,
     });
 

@@ -134,10 +134,10 @@ exports.register = async (server) => {
           maxBytes: 1048576 * 10, // 10MB
           parse: 'gunzip',
         },
-        handler: organisationController.importStudentsFromSIECLE,
+        handler: organisationController.importSchoolingRegistrationsFromSIECLE,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l\'organisation**\n' +
-          '- Elle permet d\'importer des élèves en masse depuis un fichier au format SIECLE\n' +
+          '- Elle permet d\'importer des inscriptions d\'élèves, en masse, depuis un fichier au format SIECLE\n' +
           '- Elle ne retourne aucune valeur de retour'
         ],
         tags: ['api', 'students']

@@ -35,7 +35,7 @@ describe('Integration | Application | Student-user-association | student-user-as
 
     context('Success cases', () => {
 
-      const student = domainBuilder.buildStudent();
+      const student = domainBuilder.buildSchoolingRegistration();
 
       it('should return an HTTP response with status code 200', async () => {
         // given

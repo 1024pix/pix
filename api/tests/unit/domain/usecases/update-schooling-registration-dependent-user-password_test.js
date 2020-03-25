@@ -4,9 +4,9 @@ const {
   UserNotAuthorizedToUpdateStudentPasswordError, UserNotFoundError, DomainError
 } = require('../../../../lib/domain/errors');
 
-const updateStudentDependentUserPassword = require('../../../../lib/domain/usecases/update-student-dependent-user-password');
+const updateSchoolingRegistrationDependentUserPassword = require('../../../../lib/domain/usecases/update-schooling-registration-dependent-user-password');
 
-describe('Unit | UseCase | update-student-dependent-user-password', () => {
+describe('Unit | UseCase | update-schooling-registration-dependent-user-password', () => {
 
   const userId = 1;
   const organizationId = 1;
@@ -53,7 +53,7 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
 
   it('should get user by his id', async () => {
     // when
-    await updateStudentDependentUserPassword({
+    await updateSchoolingRegistrationDependentUserPassword({
       userId, organizationId,
       encryptionService,
       userRepository, schoolingRegistrationRepository });
@@ -64,7 +64,7 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
 
   it('should get student by his id', async () => {
     // when
-    await updateStudentDependentUserPassword({
+    await updateSchoolingRegistrationDependentUserPassword({
       userId, organizationId, schoolingRegistrationId, password,
       encryptionService,
       userRepository, schoolingRegistrationRepository
@@ -76,7 +76,7 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
 
   it('should update user password with a hashed password', async () => {
     // when
-    await updateStudentDependentUserPassword({
+    await updateSchoolingRegistrationDependentUserPassword({
       userId, organizationId, schoolingRegistrationId, password,
       encryptionService,
       userRepository, schoolingRegistrationRepository
@@ -94,7 +94,7 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
       userMember.hasAccessToOrganization.returns(false);
 
       // when
-      const error = await catchErr(updateStudentDependentUserPassword)({
+      const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
         userId, organizationId, schoolingRegistrationId, password,
         encryptionService,
         userRepository, schoolingRegistrationRepository
@@ -112,7 +112,7 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
       student.organizationId = 2;
 
       // when
-      const error = await catchErr(updateStudentDependentUserPassword)({
+      const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
         userId, organizationId, schoolingRegistrationId, password,
         encryptionService,
         userRepository, schoolingRegistrationRepository
@@ -130,7 +130,7 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
       userRepository.get.rejects(new UserNotFoundError());
 
       // when
-      const error = await catchErr(updateStudentDependentUserPassword)({
+      const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
         userId, organizationId, schoolingRegistrationId, password,
         encryptionService,
         userRepository, schoolingRegistrationRepository
@@ -145,7 +145,7 @@ describe('Unit | UseCase | update-student-dependent-user-password', () => {
       userStudent.username = null;
 
       // when
-      const error = await catchErr(updateStudentDependentUserPassword)({
+      const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
         userId, organizationId, schoolingRegistrationId, password,
         encryptionService,
         userRepository, schoolingRegistrationRepository

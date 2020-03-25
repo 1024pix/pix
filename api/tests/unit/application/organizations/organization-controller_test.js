@@ -424,7 +424,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#importStudentsFromSIECLE', () => {
+  describe('#importSchoolingRegistrationsFromSIECLE', () => {
 
     const connectedUserId = 1;
     const organizationId = 145;
@@ -437,19 +437,19 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         payload: buffer
       };
 
-      sinon.stub(usecases, 'importStudentsFromSIECLE');
+      sinon.stub(usecases, 'importSchoolingRegistrationsFromSIECLE');
       sinon.stub(studentSerializer, 'serialize');
     });
 
-    it('should call the usecase to import students', async () => {
+    it('should call the usecase to import schoolingRegistrations', async () => {
       // given
-      usecases.importStudentsFromSIECLE.resolves();
+      usecases.importSchoolingRegistrationsFromSIECLE.resolves();
 
       // when
-      await organizationController.importStudentsFromSIECLE(request);
+      await organizationController.importSchoolingRegistrationsFromSIECLE(request);
 
       // then
-      expect(usecases.importStudentsFromSIECLE).to.have.been.calledWith({ organizationId, buffer });
+      expect(usecases.importSchoolingRegistrationsFromSIECLE).to.have.been.calledWith({ organizationId, buffer });
     });
   });
 

@@ -9,7 +9,7 @@ const createServer = require('../../../../server');
 
 const Membership = require('../../../../lib/domain/models/Membership');
 
-describe('Acceptance | Application | organization-controller-import-students', () => {
+describe('Acceptance | Application | organization-controller-import-schooling-registrations', () => {
 
   let server;
 
@@ -42,12 +42,12 @@ describe('Acceptance | Application | organization-controller-import-students', (
     });
 
     afterEach(() => {
-      return knex('students').delete();
+      return knex('schooling-registrations').delete();
     });
 
     context('Expected output', () => {
 
-      context('when no student has been imported yet, and the file is well formatted', () => {
+      context('when no schoolingRegistration has been imported yet, and the file is well formatted', () => {
         beforeEach(() => {
           const buffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
@@ -109,18 +109,18 @@ describe('Acceptance | Application | organization-controller-import-students', (
           expect(response.statusCode).to.equal(204);
         });
 
-        it('should create all students', async () => {
+        it('should create all schoolingRegistrations', async () => {
           // when
           await server.inject(options);
 
           // then
-          const students = await knex('students').where({ organizationId });
-          expect(students).to.have.lengthOf(2);
-          expect(_.map(students, 'firstName')).to.have.members(['Luciole', 'Harry']);
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          expect(schoolingRegistrations).to.have.lengthOf(2);
+          expect(_.map(schoolingRegistrations, 'firstName')).to.have.members(['Luciole', 'Harry']);
         });
       });
 
-      context('when some students data are not well formatted', () => {
+      context('when some schoolingRegistrations data are not well formatted', () => {
         beforeEach(() => {
           // given
           const wellFormattedStudent =
@@ -225,22 +225,22 @@ describe('Acceptance | Application | organization-controller-import-students', (
           options.payload = malformedStudentsBuffer;
         });
 
-        it('should save well formatted students only', async () => {
+        it('should save well formatted schoolingRegistrations only', async () => {
           // when
           await server.inject(options);
 
           // then
-          const students = await knex('students').where({ organizationId });
-          expect(students).to.have.lengthOf(1);
-          expect(students[0].lastName).to.equal('HANDMADE');
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          expect(schoolingRegistrations).to.have.lengthOf(1);
+          expect(schoolingRegistrations[0].lastName).to.equal('HANDMADE');
         });
       });
 
-      context('when the student has already been imported, but in another organization', () => {
+      context('when the schoolingRegistration has already been imported, but in another organization', () => {
         beforeEach(async () => {
           // given
           const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-          databaseBuilder.factory.buildStudent({ nationalStudentId: '00000000124', organizationId: otherOrganizationId });
+          databaseBuilder.factory.buildSchoolingRegistration({ nationalStudentId: '00000000124', organizationId: otherOrganizationId });
           await databaseBuilder.commit();
 
           const buffer = iconv.encode(
@@ -275,21 +275,21 @@ describe('Acceptance | Application | organization-controller-import-students', (
           options.payload = buffer;
         });
 
-        it('should save the student in the current organization', async () => {
+        it('should save the schoolingRegistration in the current organization', async () => {
           // when
           const response = await server.inject(options);
 
           // then
-          const students = await knex('students').where({ nationalStudentId: '00000000124' });
-          expect(students).to.have.lengthOf(2);
+          const schoolingRegistrations = await knex('schooling-registrations').where({ nationalStudentId: '00000000124' });
+          expect(schoolingRegistrations).to.have.lengthOf(2);
           expect(response.statusCode).to.equal(204);
         });
       });
 
-      context('when a student is present twice in the file', () => {
+      context('when a schoolingRegistration is present twice in the file', () => {
         beforeEach(async () => {
           // given
-          const student1 =
+          const schoolingRegistration1 =
             '<ELEVE ELEVE_ID="0001">' +
             '<ID_NATIONAL>00000000123</ID_NATIONAL>' +
             '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
@@ -302,7 +302,7 @@ describe('Acceptance | Application | organization-controller-import-students', (
             '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
-          const student2 =
+          const schoolingRegistration2 =
             '<ELEVE ELEVE_ID="0002">' +
             '<ID_NATIONAL>00000000123</ID_NATIONAL>' +
             '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
@@ -320,8 +320,8 @@ describe('Acceptance | Application | organization-controller-import-students', (
             '<BEE_ELEVES VERSION="2.1">' +
             '<DONNEES>' +
             '<ELEVES>' +
-            student1 +
-            student2 +
+            schoolingRegistration1 +
+            schoolingRegistration2 +
             '</ELEVES>' +
             '<STRUCTURES>' +
             '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
@@ -343,22 +343,22 @@ describe('Acceptance | Application | organization-controller-import-students', (
           options.payload = bufferWithMalformedStudent;
         });
 
-        it('should not import any student and return a 409 - Conflict', async () => {
+        it('should not import any schoolingRegistration and return a 409 - Conflict', async () => {
           // when
           const response = await server.inject(options);
 
           // then
-          const students = await knex('students').where({ organizationId });
-          expect(students).to.have.lengthOf(0);
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(422);
           expect(response.result.errors[0].detail).to.equal('L’INE 00000000123 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
         });
       });
 
-      context('when a student cant be updated', () => {
+      context('when a schoolingRegistration cant be updated', () => {
         beforeEach(async () => {
           // given
-          const studentThatCantBeUpdatedBecauseBirthdateIsMissing =
+          const schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing =
             '<ELEVE ELEVE_ID="0001">' +
               '<ID_NATIONAL>00000000456</ID_NATIONAL>' +
               '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
@@ -374,7 +374,7 @@ describe('Acceptance | Application | organization-controller-import-students', (
               '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
-          const studentThatCouldBeUpdated =
+          const schoolingRegistrationThatCouldBeUpdated =
             '<ELEVE ELEVE_ID="0002">' +
               '<ID_NATIONAL>00000000123</ID_NATIONAL>' +
               '<NOM_DE_FAMILLE>JAUNE</NOM_DE_FAMILLE>' +
@@ -395,8 +395,8 @@ describe('Acceptance | Application | organization-controller-import-students', (
             '<BEE_ELEVES VERSION="2.1">' +
               '<DONNEES>' +
                 '<ELEVES>' +
-                  studentThatCantBeUpdatedBecauseBirthdateIsMissing +
-                  studentThatCouldBeUpdated +
+                  schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing +
+                  schoolingRegistrationThatCouldBeUpdated +
                 '</ELEVES>' +
                 '<STRUCTURES>' +
                   '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
@@ -423,13 +423,13 @@ describe('Acceptance | Application | organization-controller-import-students', (
 
           options.payload = bufferWithMalformedStudent;
 
-          databaseBuilder.factory.buildStudent({
+          databaseBuilder.factory.buildSchoolingRegistration({
             lastName: 'LALOUX',
             firstName: 'RENE',
             nationalStudentId: '123',
             organizationId
           });
-          databaseBuilder.factory.buildStudent({
+          databaseBuilder.factory.buildSchoolingRegistration({
             lastName: 'UEMATSU',
             firstName: 'NOBUO',
             nationalStudentId: '456',
@@ -439,22 +439,22 @@ describe('Acceptance | Application | organization-controller-import-students', (
           await databaseBuilder.commit();
         });
 
-        it('should not update any student and return a 400 - Bad Request', async () => {
+        it('should not update any schoolingRegistration and return a 400 - Bad Request', async () => {
           // when
           const response = await server.inject(options);
 
           // then
-          const students = await knex('students').where({ organizationId });
-          expect(_.map(students, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          expect(_.map(schoolingRegistrations, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
           expect(response.statusCode).to.equal(400);
           expect(response.result.errors[0].detail).to.equal('Une erreur est survenue durant le traitement.');
         });
       });
 
-      context('when a student cant be updated but another could be created', () => {
+      context('when a schoolingRegistration cant be updated but another could be created', () => {
         beforeEach(async () => {
           // given
-          const studentThatCouldBeCreated =
+          const schoolingRegistrationThatCouldBeCreated =
             '<ELEVE ELEVE_ID="0001">' +
               '<ID_NATIONAL>123</ID_NATIONAL>' +
               '<NOM_DE_FAMILLE>COLAGRECO</NOM_DE_FAMILLE>' +
@@ -470,7 +470,7 @@ describe('Acceptance | Application | organization-controller-import-students', (
               '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
-          const studentThatCantBeUpdatedBecauseBirthdateIsMissing =
+          const schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing =
             '<ELEVE ELEVE_ID="0002">' +
               '<ID_NATIONAL>456</ID_NATIONAL>' +
               '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
@@ -486,7 +486,7 @@ describe('Acceptance | Application | organization-controller-import-students', (
               '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
-          const studentThatCouldBeUpdated =
+          const schoolingRegistrationThatCouldBeUpdated =
             '<ELEVE ELEVE_ID="0003">' +
               '<ID_NATIONAL>789</ID_NATIONAL>' +
               '<NOM_DE_FAMILLE>JAUNE</NOM_DE_FAMILLE>' +
@@ -507,9 +507,9 @@ describe('Acceptance | Application | organization-controller-import-students', (
             '<BEE_ELEVES VERSION="2.1">' +
               '<DONNEES>' +
                 '<ELEVES>' +
-                  studentThatCouldBeCreated +
-                  studentThatCantBeUpdatedBecauseBirthdateIsMissing +
-                  studentThatCouldBeUpdated +
+                  schoolingRegistrationThatCouldBeCreated +
+                  schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing +
+                  schoolingRegistrationThatCouldBeUpdated +
                 '</ELEVES>' +
                 '<STRUCTURES>' +
                   '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
@@ -530,13 +530,13 @@ describe('Acceptance | Application | organization-controller-import-students', (
 
           options.payload = buffer;
 
-          databaseBuilder.factory.buildStudent({
+          databaseBuilder.factory.buildSchoolingRegistration({
             lastName: 'LALOUX',
             firstName: 'RENE',
             nationalStudentId: '456',
             organizationId
           });
-          databaseBuilder.factory.buildStudent({
+          databaseBuilder.factory.buildSchoolingRegistration({
             lastName: 'UEMATSU',
             firstName: 'NOBUO',
             nationalStudentId: '789',
@@ -551,17 +551,17 @@ describe('Acceptance | Application | organization-controller-import-students', (
           const response = await server.inject(options);
 
           // then
-          const students = await knex('students').where({ organizationId });
-          expect(students).to.have.lengthOf(2);
-          expect(_.map(students, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          expect(schoolingRegistrations).to.have.lengthOf(2);
+          expect(_.map(schoolingRegistrations, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
           expect(response.statusCode).to.equal(400);
         });
       });
 
-      context('when a student cant be created but another could be updated', () => {
+      context('when a schoolingRegistration cant be created but another could be updated', () => {
         beforeEach(async () => {
           // given
-          const studentThatCantBeCreatedBecauseBirthdateIsMissing =
+          const schoolingRegistrationThatCantBeCreatedBecauseBirthdateIsMissing =
             '<ELEVE ELEVE_ID="0001">' +
               '<ID_NATIONAL>123</ID_NATIONAL>' +
               '<NOM_DE_FAMILLE>COLAGRECO</NOM_DE_FAMILLE>' +
@@ -577,7 +577,7 @@ describe('Acceptance | Application | organization-controller-import-students', (
               '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
-          const studentThatCouldBeCreated =
+          const schoolingRegistrationThatCouldBeCreated =
             '<ELEVE ELEVE_ID="0002">' +
               '<ID_NATIONAL>456</ID_NATIONAL>' +
               '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
@@ -593,7 +593,7 @@ describe('Acceptance | Application | organization-controller-import-students', (
               '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
-          const studentThatCouldBeUpdated =
+          const schoolingRegistrationThatCouldBeUpdated =
             '<ELEVE ELEVE_ID="0003">' +
               '<ID_NATIONAL>789</ID_NATIONAL>' +
               '<NOM_DE_FAMILLE>JAUNE</NOM_DE_FAMILLE>' +
@@ -614,9 +614,9 @@ describe('Acceptance | Application | organization-controller-import-students', (
             '<BEE_ELEVES VERSION="2.1">' +
               '<DONNEES>' +
                 '<ELEVES>' +
-                  studentThatCantBeCreatedBecauseBirthdateIsMissing +
-                  studentThatCouldBeCreated +
-                  studentThatCouldBeUpdated +
+                  schoolingRegistrationThatCantBeCreatedBecauseBirthdateIsMissing +
+                  schoolingRegistrationThatCouldBeCreated +
+                  schoolingRegistrationThatCouldBeUpdated +
                 '</ELEVES>' +
                 '<STRUCTURES>' +
                   '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
@@ -643,7 +643,7 @@ describe('Acceptance | Application | organization-controller-import-students', (
 
           options.payload = buffer;
 
-          databaseBuilder.factory.buildStudent({
+          databaseBuilder.factory.buildSchoolingRegistration({
             lastName: 'LALOUX',
             firstName: 'RENE',
             nationalStudentId: '789',
@@ -658,14 +658,14 @@ describe('Acceptance | Application | organization-controller-import-students', (
           const response = await server.inject(options);
 
           // then
-          const students = await knex('students').where({ organizationId });
-          expect(students).to.have.lengthOf(1);
-          expect(_.map(students, 'lastName')).to.have.members(['LALOUX']);
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          expect(schoolingRegistrations).to.have.lengthOf(1);
+          expect(_.map(schoolingRegistrations, 'lastName')).to.have.members(['LALOUX']);
           expect(response.statusCode).to.equal(400);
         });
       });
 
-      context('when a student cant be imported', async() => {
+      context('when a schoolingRegistration cant be imported', async() => {
         beforeEach(() => {
           // given
           const malformedStudentsBuffer = iconv.encode(
@@ -692,13 +692,13 @@ describe('Acceptance | Application | organization-controller-import-students', (
           options.payload = malformedStudentsBuffer;
         });
 
-        it('should not import the students and return a 400 - Bad Request', async () => {
+        it('should not import the schoolingRegistrations and return a 400 - Bad Request', async () => {
           // when
           const response = await server.inject(options);
 
           // then
-          const students = await knex('students').where({ organizationId });
-          expect(students).to.have.lengthOf(0);
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(400);
           expect(response.result.errors[0].detail).to.equal('Une erreur est survenue durant le traitement.');
         });
@@ -719,10 +719,10 @@ describe('Acceptance | Application | organization-controller-import-students', (
           const response = await server.inject(options);
 
           // then
-          const students = await knex('students').where({ organizationId });
-          expect(students).to.have.lengthOf(0);
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(422);
-          expect(response.result.errors[0].detail).to.equal('Aucun élève n\'a pu être importé depuis ce fichier. Vérifiez sa conformité.');
+          expect(response.result.errors[0].detail).to.equal('Aucune inscription d\'élève n\'a pu être importée depuis ce fichier.Vérifiez que le fichier est conforme.');
         });
       });
     });
@@ -793,7 +793,7 @@ describe('Acceptance | Application | organization-controller-import-students', (
 
       });
 
-      context('when Organization does not manage students', () => {
+      context('when Organization does not manage schoolingRegistrations', () => {
         beforeEach(async () => {
           // given
           const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;

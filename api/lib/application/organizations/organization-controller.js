@@ -86,11 +86,11 @@ module.exports = {
       .then(studentWithUserInfoSerializer.serialize);
   },
 
-  importStudentsFromSIECLE(request) {
+  importSchoolingRegistrationsFromSIECLE(request) {
     const organizationId = parseInt(request.params.id);
     const buffer = request.payload;
 
-    return usecases.importStudentsFromSIECLE({ organizationId, buffer })
+    return usecases.importSchoolingRegistrationsFromSIECLE({ organizationId, buffer })
       .then(() => null);
   },
 
