@@ -19,7 +19,7 @@ module.exports = {
   buildMembership: require('./build-membership'),
   buildPixRole: require('./build-pix-role'),
   buildSession: require('./build-session'),
-  buildStudent: require('./build-student'),
+  buildSchoolingRegistration: require('./build-schooling-registration'),
   buildTargetProfile: require('./build-target-profile'),
   buildTargetProfileSkill: require('./build-target-profile-skill'),
   buildTargetProfileShare: require('./build-target-profile-share'),

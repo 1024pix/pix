@@ -42,7 +42,7 @@ module.exports = {
   buildProgression: require('./build-progression'),
   buildSolution: require('./build-solution'),
   buildSmartPlacementAssessment: require('./build-smart-placement-assessment'),
-  buildStudent: require('./build-student'),
+  buildSchoolingRegistration: require('./build-schooling-registration'),
   buildStudentWithUserInfo: require('./build-student-with-user-info'),
   buildKnowledgeElement: require('./build-knowledge-element'),
   buildTargetProfile: require('./build-target-profile'),

@@ -5,7 +5,7 @@ const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
-module.exports = function buildStudent({
+module.exports = function buildSchoolingRegistration({
   id,
   firstName = faker.name.firstName(),
   preferredLastName = faker.name.lastName(),
@@ -48,7 +48,7 @@ module.exports = function buildStudent({
   };
 
   return databaseBuffer.pushInsertable({
-    tableName: 'students',
+    tableName: 'schooling-registrations',
     values,
   });
 };

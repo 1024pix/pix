@@ -1,9 +1,9 @@
 const faker = require('faker');
 const moment = require('moment');
-const Student = require('../../../../lib/domain/models/Student');
+const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 const buildOrganization = require('./build-organization');
 
-module.exports = function buildStudent(
+module.exports = function buildSchoolingRegistration(
   {
     id = faker.random.number(),
     organization = buildOrganization({ isManagingStudents: true }),
@@ -23,7 +23,7 @@ module.exports = function buildStudent(
     division = faker.random.alphaNumeric(2),
   } = {}) {
 
-  return new Student({
+  return new SchoolingRegistration({
     id,
     lastName,
     preferredLastName,
