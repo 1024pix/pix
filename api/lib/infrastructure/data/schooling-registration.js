@@ -3,9 +3,9 @@ const Bookshelf = require('../bookshelf');
 require('./user');
 require('./organization');
 
-module.exports = Bookshelf.model('Student', {
+module.exports = Bookshelf.model('SchoolingRegistration', {
 
-  tableName: 'students',
+  tableName: 'schooling-registrations',
   hasTimestamps: ['createdAt', 'updatedAt'],
 
   user() {

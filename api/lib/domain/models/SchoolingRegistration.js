@@ -1,4 +1,4 @@
-class Student {
+class SchoolingRegistration {
 
   constructor({
     id,
@@ -43,4 +43,4 @@ class Student {
   }
 }
 
-module.exports = Student;
+module.exports = SchoolingRegistration;
