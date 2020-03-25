@@ -12,7 +12,7 @@ given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'answers');
   cy.task('db:fixture', 'knowledge-elements');
   cy.task('db:fixture', 'users_pix_roles');
-  cy.task('db:fixture', 'students');
+  cy.task('db:fixture', 'schooling-registrations');
 });
 
 given('tous les comptes sont créés', () => {
