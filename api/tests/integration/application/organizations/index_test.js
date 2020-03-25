@@ -22,6 +22,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
     sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
     sinon.stub(organizationController, 'findUserWithSchoolingRegistrations').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(organizationController, 'attachTargetProfiles').callsFake((request, h) => h.response('ok').code(204));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -142,6 +143,29 @@ describe('Integration | Application | Organizations | Routes', () => {
       // then
       expect(response.statusCode).to.equal(200);
       expect(organizationController.findUserWithSchoolingRegistrations).to.have.been.calledOnce;
+    });
+  });
+
+  describe('POST /api/organizations/:id/target-profiles', () => {
+
+    it('should resolve with a 204 status code', async () => {
+      // given
+      const method = 'POST';
+      const url = '/api/organizations/:id/target-profiles';
+      const payload = {
+        data: {
+          type: 'target-profile-shares',
+          attributes: {
+            'target-profiles-to-attach': [1, 2]
+          },
+        }
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(204);
     });
   });
 

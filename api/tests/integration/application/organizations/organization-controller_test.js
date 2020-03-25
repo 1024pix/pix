@@ -22,6 +22,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'createOrganizationInvitations');
     sandbox.stub(usecases, 'answerToOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
+    sandbox.stub(usecases, 'attachTargetProfilesToOrganization');
 
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');
     sandbox.stub(securityController, 'checkUserIsAdminInOrganization');
@@ -284,4 +285,35 @@ describe('Integration | Application | Organizations | organization-controller', 
     });
   });
 
+  describe('#attachTargetProfilesToOrganization', () => {
+
+    const payload = {
+      data: {
+        type: 'target-profiles-shares',
+        attributes: {
+          'target-profiles-to-attach': [1, 2],
+        },
+      }
+    };
+
+    context('Error cases', () => {
+
+      context('when user is not Pix Master', () => {
+
+        beforeEach(() => {
+          securityController.checkUserHasRolePixMaster.callsFake((request, h) => {
+            return Promise.resolve(h.response().code(403).takeover());
+          });
+        });
+
+        it('should return a 403 HTTP response', async () => {
+          // when
+          const response = await httpTestServer.request('POST', '/api/organizations/1234/target-profiles', payload);
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+  });
 });
