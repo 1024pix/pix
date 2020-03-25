@@ -59,7 +59,6 @@ module('Acceptance | Campaign Details', function(hooks) {
       await visit('/campagnes/1');
 
       // then
-      assert.dom('.campaign-details-content__update-button').exists();
       assert.dom('.navbar-item.active').hasText('Détails');
     });
 
@@ -91,7 +90,7 @@ module('Acceptance | Campaign Details', function(hooks) {
 
     test('it should redirect to update page on click on update button', async function(assert) {
       // given
-      server.create('campaign', { id: 1 });
+      server.create('campaign', { id: 1, type: 'TEST_GIVEN' });
       await visit('/campagnes/1');
 
       // when
