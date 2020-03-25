@@ -1,6 +1,25 @@
 <section class="page-section mb_10">
   <header class="page-section__header">
-    <h2 class="page-section__title">Profils cible</h2>
+    <h2 class="page-section__title">Rattacher un ou plusieurs profil(s) cible(s)</h2>
+  </header>
+  <form aria-label="Rattacher un ou plusieurs profil(s) cible(s)" class="organization__sub-form form">
+    <Input
+      aria-label="ID du ou des profil(s) cible(s)"
+      @value={{@targetProfilesToAttach}}
+      class="organization-sub-form__input form-field__text form-control"
+      @placeholder="1, 2" />
+    <button
+      type="button"
+      {{on "click" @attachTargetProfiles}}
+      class="organization-sub-form__validate-button btn btn-outline-default">
+      Valider
+    </button>
+  </form>
+</section>
+
+<section class="page-section mb_10">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Profils cibles</h2>
   </header>
   <div class="target-profiles-list content-text content-text--small">
     <div class="table-admin">

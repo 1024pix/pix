@@ -6,12 +6,39 @@ import Controller from '@ember/controller';
 export default class GetController extends Controller {
 
   @tracked userEmail = null;
+  @tracked targetProfilesToAttach = [];
 
   @service notifications;
 
   @action
   updateOrganizationInformation() {
     return this.model.save();
+  }
+
+  @action
+  attachTargetProfiles() {
+    const organization = this.model;
+    return this.store.createRecord('target-profile-attachment', {
+      id: `${organization.id}_${this.targetProfilesToAttach}`,
+      targetProfilesToAttach: this._toArrayWithUnique(this.targetProfilesToAttach), organization
+    })
+      .save({ adapterOptions: { organizationId: organization.id } })
+      .then(async () => {
+        this.targetProfilesToAttach = null;
+        this.model.targetProfiles.reload();
+        return this.notifications.success('Profil(s) cible(s) rattaché avec succès.');
+      })
+      .catch((errorResponse) => {
+        if (!errorResponse.errors) {
+          return this.notifications.error('Une erreur est survenue.');
+        }
+
+        errorResponse.errors.forEach((error) => {
+          if (error.status === '404') {
+            return this.notifications.error(error.detail);
+          }
+        });
+      });
   }
 
   @action
@@ -41,4 +68,10 @@ export default class GetController extends Controller {
         this.notifications.error('Une erreur est survenue.');
       });
   }
+
+  _toArrayWithUnique(targetProfilesToAttach) {
+    const trimedTargetProfilesToAttach = targetProfilesToAttach.split(',').map((targetProfileId) => targetProfileId.trim());
+    return [...new Set(trimedTargetProfilesToAttach)];
+  }
+
 }

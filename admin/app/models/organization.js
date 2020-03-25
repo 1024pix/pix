@@ -15,7 +15,7 @@ export default class Organization extends Model {
   @equal('type', 'SCO') isOrganizationSCO;
 
   @hasMany('membership') memberships;
-  @hasMany('target-profile') targetProfiles;
+  @hasMany('targetProfile') targetProfiles;
 
   async hasMember(userEmail) {
     const memberships = await this.memberships;
