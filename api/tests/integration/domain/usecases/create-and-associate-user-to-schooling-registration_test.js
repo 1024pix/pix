@@ -3,7 +3,7 @@ const _ = require('lodash');
 const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
 
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
+const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
@@ -11,30 +11,30 @@ const mailService = require('../../../../lib/domain/services/mail-service');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 
 const {
-  CampaignCodeError, NotFoundError, EntityValidationError, OrganizationStudentAlreadyLinkedToUserError
+  CampaignCodeError, NotFoundError, EntityValidationError, SchoolingRegistrationAlreadyLinkedToUserError
 } = require('../../../../lib/domain/errors');
 
-const createAndAssociateUserToStudent = require('../../../../lib/domain/usecases/create-and-associate-user-to-student');
+const createAndAssociateUserToSchoolingRegistration = require('../../../../lib/domain/usecases/create-and-associate-user-to-schooling-registration');
 
-describe('Integration | UseCases | create-and-associate-user-to-student', () => {
+describe('Integration | UseCases | create-and-associate-user-to-schooling-registration', () => {
 
   let organizationId;
   let campaignCode;
-  let student;
+  let schoolingRegistration;
   let userAttributes;
 
   context('When there is no campaign with the given code', () => {
 
     it('should throw a campaign code error', async () => {
       // when
-      const error = await catchErr(createAndAssociateUserToStudent)({ campaignCode: 'NOTEXIST', campaignRepository });
+      const error = await catchErr(createAndAssociateUserToSchoolingRegistration)({ campaignCode: 'NOTEXIST', campaignRepository });
 
       // then
       expect(error).to.be.instanceof(CampaignCodeError);
     });
   });
 
-  context('When no student found', () => {
+  context('When no schoolingRegistration found', () => {
 
     beforeEach(async () => {
       campaignCode = databaseBuilder.factory.buildCampaign().code;
@@ -50,18 +50,18 @@ describe('Integration | UseCases | create-and-associate-user-to-student', () => 
       };
 
       // when
-      const error = await catchErr(createAndAssociateUserToStudent)({
+      const error = await catchErr(createAndAssociateUserToSchoolingRegistration)({
         campaignCode, userAttributes,
-        campaignRepository, userReconciliationService, studentRepository
+        campaignRepository, userReconciliationService, schoolingRegistrationRepository
       });
 
       // then
       expect(error).to.be.instanceof(NotFoundError);
-      expect(error.message).to.equal('There were no students matching with organization and birthdate');
+      expect(error.message).to.equal('There were no schoolingRegistrations matching with organization and birthdate');
     });
   });
 
-  context('When one student matched on names', () => {
+  context('When one schoolingRegistration matched on names', () => {
 
     beforeEach(async () => {
       organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -74,42 +74,42 @@ describe('Integration | UseCases | create-and-associate-user-to-student', () => 
 
     context('When association is already done', () => {
 
-      it('should nor create nor associate student', async () => {
+      it('should nor create nor associate schoolingRegistration', async () => {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
-        student = databaseBuilder.factory.buildStudent({
+        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
           organizationId, userId
         });
         userAttributes = {
-          firstName: student.firstName,
-          lastName: student.lastName,
-          birthdate: student.birthdate,
+          firstName: schoolingRegistration.firstName,
+          lastName: schoolingRegistration.lastName,
+          birthdate: schoolingRegistration.birthdate,
         };
 
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(createAndAssociateUserToStudent)({
+        const error = await catchErr(createAndAssociateUserToSchoolingRegistration)({
           campaignCode, userAttributes,
-          campaignRepository, studentRepository, userRepository,
+          campaignRepository, schoolingRegistrationRepository, userRepository,
           userReconciliationService, encryptionService, mailService
         });
 
         // then
-        expect(error).to.be.instanceOf(OrganizationStudentAlreadyLinkedToUserError);
+        expect(error).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
       });
     });
 
     context('When creation is with email', () => {
 
       beforeEach(async () => {
-        student = databaseBuilder.factory.buildStudent({
+        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
           organizationId, userId: null
         });
         userAttributes = {
-          firstName: student.firstName,
-          lastName: student.lastName,
-          birthdate: student.birthdate,
+          firstName: schoolingRegistration.firstName,
+          lastName: schoolingRegistration.lastName,
+          birthdate: schoolingRegistration.birthdate,
           email: '',
           password: ''
         };
@@ -135,9 +135,9 @@ describe('Integration | UseCases | create-and-associate-user-to-student', () => 
           });
 
           // when
-          const error = await catchErr(createAndAssociateUserToStudent)({
+          const error = await catchErr(createAndAssociateUserToSchoolingRegistration)({
             campaignCode, userAttributes,
-            campaignRepository, studentRepository, userRepository,
+            campaignRepository, schoolingRegistrationRepository, userRepository,
             userReconciliationService
           });
 
@@ -168,9 +168,9 @@ describe('Integration | UseCases | create-and-associate-user-to-student', () => 
           await databaseBuilder.commit();
 
           // when
-          const error = await catchErr(createAndAssociateUserToStudent)({
+          const error = await catchErr(createAndAssociateUserToSchoolingRegistration)({
             campaignCode, userAttributes,
-            campaignRepository, studentRepository, userRepository,
+            campaignRepository, schoolingRegistrationRepository, userRepository,
             userReconciliationService
           });
 
@@ -182,7 +182,7 @@ describe('Integration | UseCases | create-and-associate-user-to-student', () => 
 
       context('When email is available', () => {
 
-        it('should create user and associate student', async () => {
+        it('should create user and associate schoolingRegistration', async () => {
           // given
           const email = 'user@organization.org';
           const password = 'Pix12345';
@@ -199,9 +199,9 @@ describe('Integration | UseCases | create-and-associate-user-to-student', () => 
           };
 
           // when
-          const result = await createAndAssociateUserToStudent({
+          const result = await createAndAssociateUserToSchoolingRegistration({
             campaignCode, userAttributes,
-            campaignRepository, studentRepository, userRepository,
+            campaignRepository, schoolingRegistrationRepository, userRepository,
             userReconciliationService, encryptionService, mailService
           });
 
@@ -214,13 +214,13 @@ describe('Integration | UseCases | create-and-associate-user-to-student', () => 
     context('When creation is with username', () => {
 
       beforeEach(async () => {
-        student = databaseBuilder.factory.buildStudent({
+        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
           organizationId, userId: null
         });
         userAttributes = {
-          firstName: student.firstName,
-          lastName: student.lastName,
-          birthdate: student.birthdate,
+          firstName: schoolingRegistration.firstName,
+          lastName: schoolingRegistration.lastName,
+          birthdate: schoolingRegistration.birthdate,
           withUsername: true,
           password: 'Pix12345'
         };
@@ -248,9 +248,9 @@ describe('Integration | UseCases | create-and-associate-user-to-student', () => 
           await databaseBuilder.commit();
 
           // when
-          const error = await catchErr(createAndAssociateUserToStudent)({
+          const error = await catchErr(createAndAssociateUserToSchoolingRegistration)({
             campaignCode, userAttributes,
-            campaignRepository, studentRepository, userRepository,
+            campaignRepository, schoolingRegistrationRepository, userRepository,
             userReconciliationService
           });
 
@@ -262,9 +262,9 @@ describe('Integration | UseCases | create-and-associate-user-to-student', () => 
 
       context('When username is available', () => {
 
-        it('should create user and associate student', async () => {
+        it('should create user and associate schoolingRegistration', async () => {
           // given
-          const username = student.firstName.toLowerCase() + '.' + student.lastName.toLowerCase() + '0112';
+          const username = schoolingRegistration.firstName.toLowerCase() + '.' + schoolingRegistration.lastName.toLowerCase() + '0112';
           userAttributes.username = username;
 
           const expectedUser = {
@@ -276,9 +276,9 @@ describe('Integration | UseCases | create-and-associate-user-to-student', () => 
           };
 
           // when
-          const result = await createAndAssociateUserToStudent({
+          const result = await createAndAssociateUserToSchoolingRegistration({
             campaignCode, userAttributes,
-            campaignRepository, studentRepository, userRepository,
+            campaignRepository, schoolingRegistrationRepository, userRepository,
             userReconciliationService, encryptionService, mailService
           });
 

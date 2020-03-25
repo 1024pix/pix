@@ -1,19 +1,19 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 const {
-  NotFoundError, OrganizationStudentAlreadyLinkedToUserError, AlreadyRegisteredUsernameError
+  NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError, AlreadyRegisteredUsernameError
 } = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | user-reconciliation-service', () => {
 
-  let students;
+  let schoolingRegistrations;
   let user;
 
   describe('#findMatchingCandidateIdForGivenUser', () => {
     beforeEach(() => {
-      students = [
-        domainBuilder.buildStudent(),
-        domainBuilder.buildStudent(),
+      schoolingRegistrations = [
+        domainBuilder.buildSchoolingRegistration(),
+        domainBuilder.buildSchoolingRegistration(),
       ];
       user = {
         firstName: 'Joe',
@@ -21,19 +21,19 @@ describe('Unit | Service | user-reconciliation-service', () => {
       };
     });
 
-    context('When student list is not empty', () => {
+    context('When schoolingRegistration list is not empty', () => {
 
-      context('When no student matched on names', () => {
+      context('When no schoolingRegistration matched on names', () => {
 
         it('should return null if name is completely different', async () => {
           // given
           user.firstName = 'Sam';
 
-          students[0].firstName = 'Joe';
-          students[0].lastName = user.lastName;
+          schoolingRegistrations[0].firstName = 'Joe';
+          schoolingRegistrations[0].lastName = user.lastName;
 
           // when
-          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
           // then
           expect(result).to.equal(null);
@@ -43,11 +43,11 @@ describe('Unit | Service | user-reconciliation-service', () => {
           // given
           user.firstName = 'Frédérique';
 
-          students[0].firstName = 'Frédéric';
-          students[0].lastName = user.lastName;
+          schoolingRegistrations[0].firstName = 'Frédéric';
+          schoolingRegistrations[0].lastName = user.lastName;
 
           // when
-          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+          const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
           // then
           expect(result).to.equal(null);
@@ -55,152 +55,152 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
       });
 
-      context('When one student matched on names', () => {
+      context('When one schoolingRegistration matched on names', () => {
 
-        context('When student found based on his...', () => {
+        context('When schoolingRegistration found based on his...', () => {
 
           it('...firstName', async () => {
             // given
-            students[0].firstName = user.firstName;
-            students[0].lastName = user.lastName;
+            schoolingRegistrations[0].firstName = user.firstName;
+            schoolingRegistrations[0].lastName = user.lastName;
 
             // when
-            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
             // then
-            expect(result).to.equal(students[0].id);
+            expect(result).to.equal(schoolingRegistrations[0].id);
           });
 
           it('...middleName', async () => {
             // given
-            students[0].middleName = user.firstName;
-            students[0].lastName = user.lastName;
+            schoolingRegistrations[0].middleName = user.firstName;
+            schoolingRegistrations[0].lastName = user.lastName;
 
             // when
-            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
             // then
-            expect(result).to.equal(students[0].id);
+            expect(result).to.equal(schoolingRegistrations[0].id);
           });
 
           it('...thirdName', async () => {
             // given
-            students[0].thirdName = user.firstName;
-            students[0].lastName = user.lastName;
+            schoolingRegistrations[0].thirdName = user.firstName;
+            schoolingRegistrations[0].lastName = user.lastName;
 
             // when
-            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
             // then
-            expect(result).to.equal(students[0].id);
+            expect(result).to.equal(schoolingRegistrations[0].id);
           });
 
           it('...lastName', async () => {
             // given
-            students[0].firstName = user.firstName;
-            students[0].lastName = user.lastName;
+            schoolingRegistrations[0].firstName = user.firstName;
+            schoolingRegistrations[0].lastName = user.lastName;
 
             // when
-            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
             // then
-            expect(result).to.equal(students[0].id);
+            expect(result).to.equal(schoolingRegistrations[0].id);
           });
 
           it('...preferredLastName', async () => {
             // given
-            students[0].firstName = user.firstName;
-            students[0].preferredLastName = user.lastName;
+            schoolingRegistrations[0].firstName = user.firstName;
+            schoolingRegistrations[0].preferredLastName = user.lastName;
 
             // when
-            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
             // then
-            expect(result).to.equal(students[0].id);
+            expect(result).to.equal(schoolingRegistrations[0].id);
           });
 
           it('...firstName with empty middleName', async () => {
             // given
-            students[0].firstName = user.firstName;
-            students[0].middleName = null;
-            students[0].lastName = user.lastName;
+            schoolingRegistrations[0].firstName = user.firstName;
+            schoolingRegistrations[0].middleName = null;
+            schoolingRegistrations[0].lastName = user.lastName;
 
             // when
-            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
             // then
-            expect(result).to.equal(students[0].id);
+            expect(result).to.equal(schoolingRegistrations[0].id);
           });
 
           it('...preferredLastName with empty lastName', async () => {
             // given
-            students[0].firstName = user.firstName;
-            students[0].preferredLastName = user.lastName;
-            students[0].lastName = null;
+            schoolingRegistrations[0].firstName = user.firstName;
+            schoolingRegistrations[0].preferredLastName = user.lastName;
+            schoolingRegistrations[0].lastName = null;
 
             // when
-            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
             // then
-            expect(result).to.equal(students[0].id);
+            expect(result).to.equal(schoolingRegistrations[0].id);
           });
 
           it('...lastName with empty preferredLastName', async () => {
             // given
-            students[0].firstName = user.firstName;
-            students[0].preferredLastName = null;
-            students[0].lastName = user.lastName;
+            schoolingRegistrations[0].firstName = user.firstName;
+            schoolingRegistrations[0].preferredLastName = null;
+            schoolingRegistrations[0].lastName = user.lastName;
 
             // when
-            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
             // then
-            expect(result).to.equal(students[0].id);
+            expect(result).to.equal(schoolingRegistrations[0].id);
           });
         });
 
-        context('When student found even if there is...', () => {
+        context('When schoolingRegistration found even if there is...', () => {
 
           it('...an accent', async () => {
             // given
             user.firstName = 'Joé';
 
-            students[0].firstName = 'Joe';
-            students[0].lastName = user.lastName;
+            schoolingRegistrations[0].firstName = 'Joe';
+            schoolingRegistrations[0].lastName = user.lastName;
 
             // when
-            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
             // then
-            expect(result).to.equal(students[0].id);
+            expect(result).to.equal(schoolingRegistrations[0].id);
           });
 
           it('...a white space', async () => {
             // given
             user.firstName = 'Jo e';
 
-            students[0].firstName = 'Joe';
-            students[0].lastName = user.lastName;
+            schoolingRegistrations[0].firstName = 'Joe';
+            schoolingRegistrations[0].lastName = user.lastName;
 
             // when
-            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
             // then
-            expect(result).to.equal(students[0].id);
+            expect(result).to.equal(schoolingRegistrations[0].id);
           });
 
           it('...a special character', async () => {
             // given
             user.firstName = 'Jo~e';
 
-            students[0].firstName = 'Joe';
-            students[0].lastName = user.lastName;
+            schoolingRegistrations[0].firstName = 'Joe';
+            schoolingRegistrations[0].lastName = user.lastName;
 
             // when
-            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
             // then
-            expect(result).to.equal(students[0].id);
+            expect(result).to.equal(schoolingRegistrations[0].id);
           });
         });
 
@@ -208,44 +208,44 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
           it('should prefer firstName over middleName', async () => {
             // given
-            students[0].middleName = user.firstName;
-            students[0].lastName = user.lastName;
+            schoolingRegistrations[0].middleName = user.firstName;
+            schoolingRegistrations[0].lastName = user.lastName;
 
-            students[1].firstName = user.firstName;
-            students[1].lastName = user.lastName;
+            schoolingRegistrations[1].firstName = user.firstName;
+            schoolingRegistrations[1].lastName = user.lastName;
 
             // when
-            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
             // then
-            expect(result).to.equal(students[1].id);
+            expect(result).to.equal(schoolingRegistrations[1].id);
           });
 
           it('should prefer middleName over thirdName', async () => {
             // given
-            students[0].thirdName = user.firstName;
-            students[0].lastName = user.lastName;
+            schoolingRegistrations[0].thirdName = user.firstName;
+            schoolingRegistrations[0].lastName = user.lastName;
 
-            students[1].middleName = user.firstName;
-            students[1].lastName = user.lastName;
+            schoolingRegistrations[1].middleName = user.firstName;
+            schoolingRegistrations[1].lastName = user.lastName;
 
             // when
-            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
             // then
-            expect(result).to.equal(students[1].id);
+            expect(result).to.equal(schoolingRegistrations[1].id);
           });
 
           it('should prefer nobody with same lastName and preferredLastName', async () => {
             // given
-            students[0].firstName = user.firstName;
-            students[0].lastName = user.lastName;
+            schoolingRegistrations[0].firstName = user.firstName;
+            schoolingRegistrations[0].lastName = user.lastName;
 
-            students[1].firstName = user.firstName;
-            students[1].preferredLastName = user.lastName;
+            schoolingRegistrations[1].firstName = user.firstName;
+            schoolingRegistrations[1].preferredLastName = user.lastName;
 
             // when
-            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(students, user);
+            const result = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, user);
 
             // then
             expect(result).to.equal(null);
@@ -255,26 +255,26 @@ describe('Unit | Service | user-reconciliation-service', () => {
     });
   });
 
-  describe('#findMatchingStudentIdForGivenOrganizationIdAndUser', () => {
+  describe('#findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser', () => {
     let organizationId;
-    let studentRepositoryStub;
+    let schoolingRegistrationRepositoryStub;
 
     beforeEach(() => {
-      students = [
-        domainBuilder.buildStudent(),
-        domainBuilder.buildStudent(),
+      schoolingRegistrations = [
+        domainBuilder.buildSchoolingRegistration(),
+        domainBuilder.buildSchoolingRegistration(),
       ];
       organizationId = domainBuilder.buildOrganization().id;
-      studentRepositoryStub = { findByOrganizationIdAndUserBirthdate: sinon.stub() };
+      schoolingRegistrationRepositoryStub = { findByOrganizationIdAndUserBirthdate: sinon.stub() };
     });
 
-    context('When student list is not empty', () => {
+    context('When schoolingRegistration list is not empty', () => {
 
       beforeEach(() => {
-        studentRepositoryStub.findByOrganizationIdAndUserBirthdate.resolves(students);
+        schoolingRegistrationRepositoryStub.findByOrganizationIdAndUserBirthdate.resolves(schoolingRegistrations);
       });
 
-      context('When no student matched on names', () => {
+      context('When no schoolingRegistration matched on names', () => {
 
         it('should throw NotFoundError', async () => {
           // given
@@ -284,54 +284,54 @@ describe('Unit | Service | user-reconciliation-service', () => {
           };
 
           // when
-          const result = await catchErr(userReconciliationService.findMatchingStudentIdForGivenOrganizationIdAndUser)({ organizationId, user, studentRepository: studentRepositoryStub });
+          const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
           // then
-          expect(result).to.be.instanceOf(NotFoundError, 'There were not exactly one student match for this user and organization');
+          expect(result).to.be.instanceOf(NotFoundError, 'There were not exactly one schoolingRegistration match for this user and organization');
         });
 
       });
 
-      context('When one student matched on names', () => {
+      context('When one schoolingRegistration matched on names', () => {
 
         beforeEach(() => {
           user = {
-            firstName: students[0].firstName,
-            lastName: students[0].lastName,
+            firstName: schoolingRegistrations[0].firstName,
+            lastName: schoolingRegistrations[0].lastName,
           };
         });
 
-        context('When student is already linked', () => {
+        context('When schoolingRegistration is already linked', () => {
 
           it('should throw OrganizationStudentAlreadyLinkedToUserError', async () => {
             // given
-            studentRepositoryStub.findByOrganizationIdAndUserBirthdate.rejects(new OrganizationStudentAlreadyLinkedToUserError());
+            schoolingRegistrationRepositoryStub.findByOrganizationIdAndUserBirthdate.rejects(new SchoolingRegistrationAlreadyLinkedToUserError());
 
             // when
-            const result = await catchErr(userReconciliationService.findMatchingStudentIdForGivenOrganizationIdAndUser)({ organizationId, user, studentRepository: studentRepositoryStub });
+            const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
             // then
-            expect(result).to.be.instanceOf(OrganizationStudentAlreadyLinkedToUserError);
+            expect(result).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
           });
         });
 
-        context('When student is not already linked', () => {
+        context('When schoolingRegistration is not already linked', () => {
 
-          it('should return studentId', async () => {
+          it('should return schoolingRegistrationId', async () => {
             // when
-            const result = await userReconciliationService.findMatchingStudentIdForGivenOrganizationIdAndUser({ organizationId, user, studentRepository: studentRepositoryStub });
+            const result = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
             // then
-            expect(result).to.equal(students[0].id);
+            expect(result).to.equal(schoolingRegistrations[0].id);
           });
         });
       });
     });
 
-    context('When student list is empty', () => {
+    context('When schoolingRegistration list is empty', () => {
 
       beforeEach(() => {
-        studentRepositoryStub.findByOrganizationIdAndUserBirthdate.resolves([]);
+        schoolingRegistrationRepositoryStub.findByOrganizationIdAndUserBirthdate.resolves([]);
       });
 
       it('should throw NotFoundError', async () => {
@@ -342,10 +342,10 @@ describe('Unit | Service | user-reconciliation-service', () => {
         };
 
         // when
-        const result = await catchErr(userReconciliationService.findMatchingStudentIdForGivenOrganizationIdAndUser)({ organizationId, user, studentRepository: studentRepositoryStub });
+        const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
-        expect(result).to.be.instanceOf(NotFoundError, 'There were no students matching');
+        expect(result).to.be.instanceOf(NotFoundError, 'There were no schoolingRegistrations matching');
       });
     });
   });

@@ -1,13 +1,13 @@
 const { expect } = require('../../../test-helper');
-const studentsXmlService = require('../../../../lib/domain/services/students-xml-service');
+const schoolingRegistrationsXmlService = require('../../../../lib/domain/services/schooling-registrations-xml-service');
 
 const iconv = require('iconv-lite');
 
-describe('Integration | Services | students-xml-service', () => {
+describe('Integration | Services | schooling-registrations-xml-service', () => {
 
-  describe('extractStudentsInformationFromSIECLE', () => {
+  describe('extractSchoolingRegistrationsInformationFromSIECLE', () => {
 
-    it('should parse in students informations', function() {
+    it('should parse in schoolingRegistrations informations', function() {
       // given
       const buffer = iconv.encode(
         '<?xml version="1.0" encoding="ISO-8859-15"?>' +
@@ -63,7 +63,7 @@ describe('Integration | Services | students-xml-service', () => {
         '</DONNEES>' +
         '</BEE_ELEVES>', 'ISO-8859-15');
 
-      const expectedStudents = [{
+      const expectedSchoolingRegistrations = [{
         lastName: 'HANDMADE',
         preferredLastName: '',
         firstName: 'Luciole',
@@ -96,13 +96,13 @@ describe('Integration | Services | students-xml-service', () => {
       }];
 
       // when
-      const result = studentsXmlService.extractStudentsInformationFromSIECLE(buffer);
+      const result = schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(buffer);
 
       //then
-      expect(result).to.deep.equal(expectedStudents);
+      expect(result).to.deep.equal(expectedSchoolingRegistrations);
     });
 
-    it('should not parse students who are no longer in the school', function() {
+    it('should not parse schoolingRegistrations who are no longer in the school', function() {
       // given
       const buffer = iconv.encode(
         '<?xml version="1.0" encoding="ISO-8859-15"?>' +
@@ -200,13 +200,13 @@ describe('Integration | Services | students-xml-service', () => {
         '</DONNEES>' +
         '</BEE_ELEVES>', 'ISO-8859-15');
 
-      const expectedStudents = [];
+      const expectedSchoolingRegistrations = [];
 
       // when
-      const result = studentsXmlService.extractStudentsInformationFromSIECLE(buffer);
+      const result = schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(buffer);
 
       //then
-      expect(result).to.deep.equal(expectedStudents);
+      expect(result).to.deep.equal(expectedSchoolingRegistrations);
     });
   });
 });

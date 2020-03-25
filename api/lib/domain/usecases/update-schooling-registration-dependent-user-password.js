@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 const { UserNotAuthorizedToUpdateStudentPasswordError } = require('../errors');
 
-module.exports = async function updateStudentDependentUserPassword({
+module.exports = async function updateSchoolingRegistrationDependentUserPassword({
   userId, organizationId, schoolingRegistrationId, password,
   encryptionService,
   userRepository, schoolingRegistrationRepository
