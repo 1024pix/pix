@@ -10,34 +10,12 @@
 }
 
 .learning-more-panel__hint-title {
-  color: $charcoal-grey;
-  text-align: center;
-  font-family: $font-open-sans;
-  font-size: 2.2rem;
-  font-weight: $font-semi-bold;
-
   // XXX Inspired from https://codepen.io/ericrasch/pen/Irlpm
   position: relative;
   z-index: 1;
 
-  &:before {
-    border-top: 2px solid #dfdfdf;
-    content:"";
-    margin: 0 auto;
-    position: absolute;
-    top: 50%; left: 0; right: 0; bottom: 0;
-    width: 100%;
-    z-index: -1;
-  }
-
   span {
     background: white;
-    padding: 0 15px;
-  }
-
-  @include device-is('desktop') {
-    font-size: 2.2rem;
-    line-height: 26px;
   }
 }
 
