@@ -51,9 +51,9 @@ describe('Unit | Serializer | organization-serializer', () => {
       });
     });
 
-    it('should include serialized student data when organization has student', () => {
+    it('should include serialized student data when organization has schoolingRegistration', () => {
       // given
-      const organization = domainBuilder.buildOrganization.withStudents();
+      const organization = domainBuilder.buildOrganization.withSchoolingRegistrations();
 
       // when
       const serializedOrganization = serializer.serialize(organization);
