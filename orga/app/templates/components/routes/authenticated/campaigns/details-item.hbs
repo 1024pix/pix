@@ -45,13 +45,13 @@
 
 <div class="panel campaign-details__controls">
   <nav class="navbar campaign-details-controls__navbar-tabs">
-    <LinkTo @route="authenticated.campaigns.details.parameters" class="navbar-item">
+    <LinkTo @route="authenticated.campaigns.details.parameters" class="navbar-item" aria-label="Détails de la campagne">
       Détails
     </LinkTo>
-    <LinkTo @route="authenticated.campaigns.details.participants" class="navbar-item">
+    <LinkTo @route="authenticated.campaigns.details.participants" class="navbar-item" aria-label="Participants">
       Participants ({{@campaign.campaignReport.participationsCount}})
     </LinkTo>
-    <LinkTo @route="authenticated.campaigns.details.collective-results" class="navbar-item">
+    <LinkTo @route="authenticated.campaigns.details.collective-results" class="navbar-item" aria-label="Résultats collectifs">
       Résultats collectifs
     </LinkTo>
   </nav>
