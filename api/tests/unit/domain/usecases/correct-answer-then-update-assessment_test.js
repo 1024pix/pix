@@ -27,7 +27,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
   const skillRepository = { findByCompetenceId: () => undefined };
   const scorecardService = { computeScorecard: () => undefined };
   const knowledgeElementRepository = {
-    findUniqByUserId: () => undefined,
+    findUniqByUserIdAndAssessmentId: () => undefined,
   };
 
   beforeEach(() => {
@@ -38,7 +38,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     sinon.stub(skillRepository, 'findByCompetenceId');
     sinon.stub(targetProfileRepository, 'getByCampaignId');
     sinon.stub(scorecardService, 'computeScorecard');
-    sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
+    sinon.stub(knowledgeElementRepository, 'findUniqByUserIdAndAssessmentId');
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
     assessment = domainBuilder.buildAssessment({ userId });
     answer = domainBuilder.buildAnswer({ assessmentId: assessment.id, value: correctAnswerValue });
@@ -113,7 +113,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         scorecard = domainBuilder.buildUserScorecard({ level: 2, earnedPix: 22, exactlyEarnedPix: 22 });
         skillRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
-        knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([knowledgeElement]);
+        knowledgeElementRepository.findUniqByUserIdAndAssessmentId.withArgs({ userId: assessment.userId, assessmentId: assessment.id }).resolves([knowledgeElement]);
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstCreatedKnowledgeElement, secondCreatedKnowledgeElement,
         ]);
@@ -157,7 +157,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         // then
         expect(skillRepository.findByCompetenceId).to.have.been.calledWith(assessment.competenceId);
-        expect(knowledgeElementRepository.findUniqByUserId).to.have.been.calledWith({ userId: assessment.userId });
+        expect(knowledgeElementRepository.findUniqByUserIdAndAssessmentId).to.have.been.calledWith({ userId: assessment.userId, assessmentId: assessment.id });
       });
 
       it('should return the saved answer - with the id', async () => {
@@ -289,7 +289,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         targetProfile = domainBuilder.buildTargetProfile({ skills });
         challengeRepository.get.resolves(challenge);
 
-        knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([knowledgeElement]);
+        knowledgeElementRepository.findUniqByUserIdAndAssessmentId.withArgs({ userId: assessment.userId, assessmentId: assessment.id }).resolves([knowledgeElement]);
 
         targetProfileRepository.getByCampaignId.resolves(targetProfile);
         KnowledgeElement.createKnowledgeElementsForAnswer.returns([

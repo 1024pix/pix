@@ -83,7 +83,7 @@ async function _getKnowledgeElements({ assessment, answer, challenge, skillRepos
     return [];
   }
 
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId });
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndAssessmentId({ userId: assessment.userId, assessmentId: assessment.id });
   let targetSkills;
   if (assessment.isCompetenceEvaluation()) {
     targetSkills = await skillRepository.findByCompetenceId(assessment.competenceId);
@@ -109,7 +109,17 @@ function _getSkillsFilteredByStatus(knowledgeElements, targetSkills, status) {
     .map((skillId) => targetSkills.find((skill) => skill.id === skillId));
 }
 
-async function _addLevelUpInformation({ answerSaved, scorecardService, userId, competenceId, competenceRepository, competenceEvaluationRepository, knowledgeElementRepository, scorecardBeforeAnswer  }) {
+async function _addLevelUpInformation(
+  {
+    answerSaved,
+    scorecardService,
+    userId,
+    competenceId,
+    competenceRepository,
+    competenceEvaluationRepository,
+    knowledgeElementRepository,
+    scorecardBeforeAnswer
+  }) {
   answerSaved.levelup = {};
 
   if (scorecardBeforeAnswer) {
