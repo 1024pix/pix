@@ -1,9 +1,9 @@
 import ApplicationAdapter from './application';
 
-export default ApplicationAdapter.extend({
+export default class CertificationReportAdapter extends ApplicationAdapter {
 
   urlForCreateRecord(modelName, { adapterOptions }) {
-    const url = this._super(...arguments);
+    const url = super.urlForCreateRecord(...arguments);
 
     if (adapterOptions && adapterOptions.registerToSession) {
       delete adapterOptions.registerToSession;
@@ -13,5 +13,5 @@ export default ApplicationAdapter.extend({
     }
 
     return url;
-  },
-});
+  }
+}

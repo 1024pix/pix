@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import moment from 'moment';
 
-export default class AuthenticatedSessionsUpdateRoute extends Route {
+export default class SessionsUpdateRoute extends Route {
 
   async model({ session_id }) {
     const session = await this.store.findRecord('session', session_id);

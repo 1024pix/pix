@@ -18,9 +18,9 @@ export default class SessionAdapter extends ApplicationAdapter {
       const data = {
         data: {
           attributes: {
-            'examiner-global-comment': model.get('examinerGlobalComment'),
+            'examiner-global-comment': model.examinerGlobalComment,
           },
-          included: model.get('certificationReports')
+          included: model.certificationReports
             .filter((certificationReport) => certificationReport.hasDirtyAttributes)
             .map((certificationReport) => ({
               type: 'certification-reports',

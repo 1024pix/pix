@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 
-export default class AuthenticatedSessionsNewController extends Controller {
+export default class SessionsNewController extends Controller {
 
   @alias('model') session;
 

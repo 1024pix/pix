@@ -6,7 +6,7 @@ import config from '../../../config/environment';
 
 const SORTING_ORDER = ['date:desc', 'time:desc'];
 
-export default class AuthenticatedSessionsListController extends Controller {
+export default class SessionsListController extends Controller {
   isSessionFinalizationActive = config.APP.isSessionFinalizationActive;
   sortingOrder = SORTING_ORDER;
 

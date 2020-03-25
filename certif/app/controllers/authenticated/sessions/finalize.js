@@ -7,7 +7,7 @@ import { tracked } from '@glimmer/tracking';
 import config from '../../../config/environment';
 import { sumBy } from 'lodash';
 
-export default class AuthenticatedSessionsFinalizeController extends Controller {
+export default class SessionsFinalizeController extends Controller {
 
   @service notifications;
 
