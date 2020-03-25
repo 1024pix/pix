@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.131.0 (25/03/2020)
+
+- [#1204](https://github.com/1024pix/pix/pull/1204) [FEATURE] Ajouter une colonne dans la liste des sessions pour indiquer le type du centre de certification associé (PA-175)
+- [#1181](https://github.com/1024pix/pix/pull/1181) [BUGFIX] Les certificats dont le test de certif n'était pas fini par le candidat mais examiné et publié par le pôle certif n'était pas visible par le candidat dans son espace de certificats (PF-1118)
+- [#1212](https://github.com/1024pix/pix/pull/1212) [TECH] Ajout d'une gestion de droits à la fonctionnalité de campagne de récupération profils (PO-390).
+- [#1205](https://github.com/1024pix/pix/pull/1205) [TECH] Ajouter la possibilité d'avoir un type de campagne (PO-389).
+- [#1213](https://github.com/1024pix/pix/pull/1213) [CLEANUP] Ajouter les couleurs et les styles de titres du design system à PixApp (PF-1181).
+
 ## v2.130.0 (24/03/2020)
 
 - [#1200](https://github.com/1024pix/pix/pull/1200) [FEATURE] Modifier le message d'erreur générique lors d'un import SIECLE en ajoutant un lien vers le formulaire du centre d'aide (PO-388).
