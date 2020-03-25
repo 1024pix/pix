@@ -7,50 +7,50 @@ const { statuses } = require('../../../../../lib/domain/models/Session');
 describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
   describe('#serialize()', function() {
-
     let modelSession;
-    const expectedJsonApi = {
-      data: {
-        type: 'sessions',
-        id: '12',
-        attributes: {
-          'certification-center': 'Université de dressage de loutres',
-          address: 'Nice',
-          room: '28D',
-          'access-code': '',
-          examiner: 'Antoine Toutvenant',
-          date: '2017-01-20',
-          time: '14:30',
-          status: statuses.STARTED,
-          description: '',
-          'examiner-global-comment': 'It was a fine session my dear',
-          'finalized-at': new Date('2020-02-17T14:23:56Z'),
-          'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
-        },
-        relationships: {
-          certifications: {
-            links: {
-              related: '/api/sessions/12/certifications',
-            }
-          },
-          'certification-candidates': {
-            links: {
-              related: '/api/sessions/12/certification-candidates',
-            }
-          },
-          'certification-reports': {
-            'links': {
-              'related': '/api/sessions/12/certification-reports',
-            }
-          },
-        }
-      }
-    };
+    let expectedJsonApi;
 
-    beforeEach(function() {
+    beforeEach(() => {
+      expectedJsonApi = {
+        data: {
+          type: 'sessions',
+          id: '12',
+          attributes: {
+            'certification-center-name': 'Université des Laura en folie',
+            address: 'Nice',
+            room: '28D',
+            'access-code': '',
+            examiner: 'Antoine Toutvenant',
+            date: '2017-01-20',
+            time: '14:30',
+            status: statuses.STARTED,
+            description: '',
+            'examiner-global-comment': 'It was a fine session my dear',
+            'finalized-at': new Date('2020-02-17T14:23:56Z'),
+            'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
+          },
+          relationships: {
+            certifications: {
+              links: {
+                related: '/api/sessions/12/certifications',
+              }
+            },
+            'certification-candidates': {
+              links: {
+                related: '/api/sessions/12/certification-candidates',
+              }
+            },
+            'certification-reports': {
+              'links': {
+                'related': '/api/sessions/12/certification-reports',
+              }
+            },
+          }
+        }
+      };
       modelSession = new Session({
         id: 12,
-        certificationCenter: 'Université de dressage de loutres',
+        certificationCenter: 'Université des Laura en folie',
         address: 'Nice',
         room: '28D',
         examiner: 'Antoine Toutvenant',
@@ -63,15 +63,35 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         finalizedAt: new Date('2020-02-17T14:23:56Z'),
         resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
       });
-      
     });
 
-    it('should convert a Session model object into JSON API data', function() {
-      // when
-      const json = serializer.serialize(modelSession);
+    context('when session does not have a link to an existing certification center', () => {
 
-      // then
-      expect(json).to.deep.equal(expectedJsonApi);
+      it('should convert a Session model object into JSON API data', function() {
+        // when
+        const json = serializer.serialize(modelSession);
+
+        // then
+        expect(json).to.deep.equal(expectedJsonApi);
+      });
+    });
+    context('when session has a link to an existing certification center', () => {
+
+      it('should convert a Session model object into JSON API data with a link to the certification center', function() {
+        // given
+        modelSession.certificationCenterId = 13;
+
+        // when
+        const json = serializer.serialize(modelSession);
+
+        // then
+        expectedJsonApi.data.relationships['certification-center'] = {
+          'links': {
+            'related': '/api/certification-centers/13',
+          }
+        };
+        expect(json).to.deep.equal(expectedJsonApi);
+      });
     });
 
   });
@@ -82,7 +102,6 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         type: 'sessions',
         id: '12',
         attributes: {
-          'certification-center': 'Université de dressage de loutres',
           address: 'Nice',
           room: '28D',
           'access-code': '',
@@ -132,7 +151,6 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       // then
       expect(session).to.be.instanceOf(Session);
       expect(session.id).to.equal('12');
-      expect(session.certificationCenter).to.equal('Université de dressage de loutres');
       expect(session.certificationCenterId).to.equal(42);
       expect(session.address).to.equal('Nice');
       expect(session.room).to.equal('28D');
@@ -155,22 +173,6 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         expect(result.examinerGlobalComment).to.deep.equal(Session.NO_EXAMINER_GLOBAL_COMMENT);
       });
     });
-
-    context('when there is no certification center ID', () => {
-
-      beforeEach(() => {
-        jsonApiSession.data.relationships = undefined;
-      });
-
-      it('should set null for session.certificationCenterId (without loosing certification center name)', () => {
-        // when
-        const session = serializer.deserialize(jsonApiSession);
-
-        // then
-        expect(session.certificationCenter).to.equal('Université de dressage de loutres');
-        expect(session.certificationCenterId).to.be.null;
-      });
-    });
   });
 
   describe('#serializeForFinalization()', () => {
@@ -181,15 +183,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         type: 'sessions',
         id: '12',
         attributes: {
-          'certification-center': 'Université de dressage de loutres',
-          address: 'Nice',
-          room: '28D',
-          'access-code': '',
-          examiner: 'Antoine Toutvenant',
-          date: '2017-01-20',
-          time: '14:30',
           status: statuses.STARTED,
-          description: '',
           'examiner-global-comment': 'It was a fine session my dear',
         },
       }
@@ -198,7 +192,6 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     beforeEach(function() {
       modelSession = new Session({
         id: 12,
-        certificationCenter: 'Université de dressage de loutres',
         address: 'Nice',
         room: '28D',
         examiner: 'Antoine Toutvenant',
@@ -225,31 +218,32 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
   describe('#serializeForPaginatedFilteredResults()', function() {
 
     let modelSession;
-    const expectedJsonApi = {
-      data: {
-        type: 'sessions',
-        id: '12',
-        attributes: {
-          'certification-center': 'Université de dressage de loutres',
-          date: '2017-01-20',
-          time: '14:30',
-          status: statuses.STARTED,
-          'finalized-at': new Date('2020-02-17T14:23:56Z'),
-        },
-        relationships: {
-          certifications: {
-            links: {
-              related: '/api/sessions/12/certifications',
-            }
-          },
-        }
-      }
-    };
+    let expectedJsonApi;
 
-    beforeEach(function() {
+    beforeEach(() => {
+      expectedJsonApi = {
+        data: {
+          type: 'sessions',
+          id: '12',
+          attributes: {
+            'certification-center-name': 'Université des Laura en folie',
+            date: '2017-01-20',
+            time: '14:30',
+            status: statuses.STARTED,
+            'finalized-at': new Date('2020-02-17T14:23:56Z'),
+          },
+          relationships: {
+            certifications: {
+              links: {
+                related: '/api/sessions/12/certifications',
+              }
+            },
+          }
+        }
+      };
       modelSession = new Session({
         id: 12,
-        certificationCenter: 'Université de dressage de loutres',
+        certificationCenter: 'Université des Laura en folie',
         address: 'Nice',
         room: '28D',
         examiner: 'Antoine Toutvenant',
@@ -262,19 +256,41 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         finalizedAt: new Date('2020-02-17T14:23:56Z'),
         resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
       });
-
     });
 
-    it('should convert a Session model object into JSON API data with metadata', function() {
-      //given
-      const meta = { page: 1, pageSize: 10, rowCount: 6, pageCount: 1 };
-      const expectedResult = Object.assign(expectedJsonApi, { meta });
+    context('when session does not have a link to an existing certification center', () => {
 
-      // when
-      const json = serializer.serializeForPaginatedFilteredResults(modelSession, meta);
+      it('should convert a Session model object into JSON API data', function() {
+        // given
+        const meta = { page: 1, pageSize: 10, rowCount: 6, pageCount: 1 };
+        const expectedResult = Object.assign(expectedJsonApi, { meta });
 
-      // then
-      expect(json).to.deep.equal(expectedResult);
+        // when
+        const json = serializer.serializeForPaginatedFilteredResults(modelSession, meta);
+
+        // then
+        expect(json).to.deep.equal(expectedResult);
+      });
+    });
+    context('when session has a link to an existing certification center', () => {
+
+      it('should convert a Session model object into JSON API data with a link to the certification center', function() {
+        // given
+        modelSession.certificationCenterId = 13;
+        const meta = { page: 1, pageSize: 10, rowCount: 6, pageCount: 1 };
+        const expectedResult = Object.assign(expectedJsonApi, { meta });
+
+        // when
+        const json = serializer.serializeForPaginatedFilteredResults(modelSession, meta);
+
+        // then
+        expectedResult.data.relationships['certification-center'] = {
+          'links': {
+            'related': '/api/certification-centers/13',
+          }
+        };
+        expect(json).to.deep.equal(expectedResult);
+      });
     });
 
   });

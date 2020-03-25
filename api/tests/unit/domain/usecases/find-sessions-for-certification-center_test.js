@@ -1,49 +1,41 @@
-const { expect, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
-const User = require('../../../../lib/domain/models/User');
-
 describe('Unit | UseCase | find-sessions-for-certification-center', () => {
+
+  const userId = 'userId';
+  const certificationCenterId = 'certificationCenterId';
+  const sessions = 'sessions list';
+  const sessionRepository = {
+    findByCertificationCenterId: sinon.stub(),
+  };
+  const certificationCenterMembershipRepository = {
+    doesUserHaveMembershipToCertificationCenter: sinon.stub(),
+  };
 
   it('should return sessions of the certificationCenter', async () => {
     // given
-    const user = domainBuilder.buildUser();
-    const certificationCenterId = user.certificationCenterMemberships[0].certificationCenter.id;
-    const sessions = [domainBuilder.buildSession({ certificationCenterId })];
-    const sessionRepository = {
-      findByCertificationCenterId: () => Promise.resolve(sessions)
-    };
-    const userRepository = {
-      getWithCertificationCenterMemberships: () => Promise.resolve(user)
-    };
+    certificationCenterMembershipRepository.doesUserHaveMembershipToCertificationCenter.withArgs(userId, certificationCenterId).resolves(true);
+    sessionRepository.findByCertificationCenterId.withArgs(certificationCenterId).resolves(sessions);
 
     // when
-    const sessionsFound = await usecases.findSessionsForCertificationCenter({ userId: user.id, certificationCenterId, userRepository, sessionRepository });
+    const sessionsFound = await usecases.findSessionsForCertificationCenter({ userId, certificationCenterId, certificationCenterMembershipRepository, sessionRepository });
 
     // then
-    return expect(sessionsFound).to.be.deep.equal(sessions);
+    expect(sessionsFound).to.be.deep.equal(sessions);
   });
 
-  it('should throw a forbidden error if user is not a member of the given certification center', () => {
+  it('should throw a forbidden error if user is not a member of the given certification center', async () => {
     // given
-    const userId = 1;
-    const certificationCenterId = 1;
-    const sessionRepository = {
-      findByCertificationCenterId: () => {}
-    };
-    const userRepository = {
-      getWithCertificationCenterMemberships: () => Promise.resolve(new User())
-    };
+    certificationCenterMembershipRepository.doesUserHaveMembershipToCertificationCenter.withArgs(userId, certificationCenterId).resolves(false);
+    sessionRepository.findByCertificationCenterId.withArgs(certificationCenterId).resolves(sessions);
 
     // when
-    const promise = usecases.findSessionsForCertificationCenter({ userId, certificationCenterId, sessionRepository, userRepository });
+    const error = await catchErr(usecases.findSessionsForCertificationCenter)({ userId, certificationCenterId, certificationCenterMembershipRepository, sessionRepository });
 
     // then
-    return promise.catch((error) => {
-      expect(error).to.be.instanceOf(ForbiddenAccess);
-      expect(error.message).to.equal('User 1 is not a member of certification center 1');
-    });
-
+    expect(error).to.be.instanceOf(ForbiddenAccess);
+    expect(error.message).to.equal(`User ${userId} is not a member of certification center ${certificationCenterId}`);
   });
 });

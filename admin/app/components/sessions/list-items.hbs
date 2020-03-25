@@ -11,7 +11,12 @@
         <th>Nombre de certifications publiées</th>
       </tr>
       <tr>
-        <th>{{input id="id" value=idValue keyUp=(action triggerFiltering 'id' idValue) class="table-admin-input"}}</th>
+        <th>
+          <Input id="id"
+                 @value={{@id}}
+                 @key-up={{fn @triggerFiltering "id" @id}}
+                 class="table-admin-input" />
+        </th>
         <th></th>
         <th></th>
         <th></th>
@@ -21,13 +26,17 @@
       </tr>
     </thead>
 
-    {{#if sessions}}
+    {{#if @sessions}}
       <tbody>
-      {{#each sessions as |session|}}
+      {{#each @sessions as |session|}}
         <tr>
           <td>{{session.id}}</td>
-          <td>{{session.certificationCenter}}</td>
-          <td>TODO</td>
+          <td>{{session.certificationCenterName}}</td>
+            {{#if (and session.certificationCenter session.certificationCenter.type)}}
+              <td class="session-list__item--align-center">{{session.certificationCenter.type}}</td>
+            {{else}}
+              <td class="session-list__item--align-center">-</td>
+            {{/if}}
           <td>{{session.displayDate}} à {{session.time}}</td>
           <td>{{session.displayStatus}}</td>
           <td>{{session.displayFinalizationDate}}</td>
@@ -38,11 +47,11 @@
     {{/if}}
   </table>
 
-  {{#unless sessions}}
+  {{#unless @sessions}}
     <div class="table__empty content-text">Aucun résultat</div>
   {{/unless}}
 </div>
 
-{{#if sessions}}
-  {{pagination-control pagination=sessions.meta}}
+{{#if @sessions}}
+  {{pagination-control pagination=@sessions.meta}}
 {{/if}}

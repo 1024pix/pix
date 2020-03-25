@@ -11,7 +11,7 @@ module.exports = {
   serialize(sessions) {
     return new Serializer('session', {
       attributes: [
-        'certificationCenter',
+        'certificationCenterName',
         'address',
         'room',
         'examiner',
@@ -20,12 +20,13 @@ module.exports = {
         'status',
         'description',
         'accessCode',
-        'certifications',
-        'certificationCandidates',
-        'certificationReports',
         'examinerGlobalComment',
         'finalizedAt',
         'resultsSentToPrescriberAt',
+        'certifications',
+        'certificationCandidates',
+        'certificationReports',
+        'certificationCenter',
       ],
       certifications : {
         ref: 'id',
@@ -54,10 +55,24 @@ module.exports = {
           }
         }
       },
+      certificationCenter: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current) {
+            return `/api/certification-centers/${current.id}`;
+          }
+        }
+      },
       transform(session) {
         const transformedSession = Object.assign({}, session);
         transformedSession.certifications = [];
         transformedSession.certificationReports = [];
+        transformedSession.certificationCenterName = session.certificationCenter;
+        delete transformedSession.certificationCenter;
+        if (session.certificationCenterId) {
+          transformedSession.certificationCenter = { id: session.certificationCenterId };
+        }
         return transformedSession;
       },
     }).serialize(sessions);
@@ -66,15 +81,7 @@ module.exports = {
   serializeForFinalization(sessions) {
     return new Serializer('session', {
       attributes: [
-        'certificationCenter',
-        'address',
-        'room',
-        'examiner',
-        'date',
-        'time',
         'status',
-        'description',
-        'accessCode',
         'examinerGlobalComment',
       ],
     }).serialize(sessions);
@@ -83,12 +90,13 @@ module.exports = {
   serializeForPaginatedFilteredResults(sessions, meta) {
     return new Serializer('session', {
       attributes: [
-        'certificationCenter',
+        'certificationCenterName',
         'date',
         'time',
         'status',
-        'certifications',
         'finalizedAt',
+        'certifications',
+        'certificationCenter',
       ],
       certifications : {
         ref: 'id',
@@ -99,9 +107,23 @@ module.exports = {
           }
         }
       },
+      certificationCenter: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current) {
+            return `/api/certification-centers/${current.id}`;
+          }
+        }
+      },
       transform(session) {
         const transformedSession = Object.assign({}, session);
         transformedSession.certifications = [];
+        transformedSession.certificationCenterName = session.certificationCenter;
+        delete transformedSession.certificationCenter;
+        if (session.certificationCenterId) {
+          transformedSession.certificationCenter = { id: session.certificationCenterId };
+        }
         return transformedSession;
       },
       meta,
@@ -118,7 +140,6 @@ module.exports = {
 
     const result = new Session({
       id: json.data.id,
-      certificationCenter: attributes['certification-center'],
       certificationCenterId: certificationCenterId ? parseInt(certificationCenterId) : null,
       address: attributes.address,
       room: attributes.room,
