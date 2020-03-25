@@ -53,4 +53,40 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
       });
     });
   });
+
+  module('on idPixLabel display', function() {
+    module('when idPixLabel is set', function() {
+      test('it should display the idPixLabel', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          idPixLabel: 'idPixLabel'
+        });
+
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
+
+        // then
+        assert.dom('[aria-label="Détails de la campagne"]').includesText('idPixLabel');
+      });
+    });
+
+    module('when idPixLabel is not set', function() {
+      test('it should not display the idPixLabel', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          idPixLabel: null,
+        });
+
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
+
+        // then
+        assert.dom('[aria-label="Détails de la campagne"]').doesNotContainText('Libellé de l\'identifiant');
+      });
+    });
+  });
 });
