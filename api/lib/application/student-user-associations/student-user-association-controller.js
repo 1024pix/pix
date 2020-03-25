@@ -13,7 +13,7 @@ module.exports = {
       birthdate: payload['birthdate'],
     };
 
-    await usecases.linkUserToOrganizationStudentData({ campaignCode: payload['campaign-code'], user });
+    await usecases.linkUserToOrganizationSchoolingRegistrationData({ campaignCode: payload['campaign-code'], user });
     return h.response().code(204);
   },
 
@@ -22,7 +22,7 @@ module.exports = {
     const requestedUserId = parseInt(request.query.userId);
     const campaignCode = request.query.campaignCode;
 
-    return usecases.findAssociationBetweenUserAndOrganizationStudent({ authenticatedUserId, requestedUserId, campaignCode })
+    return usecases.findAssociationBetweenUserAndSchoolingRegistration({ authenticatedUserId, requestedUserId, campaignCode })
       .then(studentSerializer.serialize);
   },
 
@@ -39,7 +39,7 @@ module.exports = {
     const username = await usecases.generateUsername({ campaignCode, user });
 
     // we don't persist this ressource, we simulate response by adding the generated username
-    const studentWithUsernameResponse = {
+    const schoolingRegistrationWithUsernameResponse = {
       data: {
         attributes: {
           'last-name': payload['last-name'],
@@ -51,6 +51,6 @@ module.exports = {
         type: 'student-user-associations'
       }
     };
-    return h.response(studentWithUsernameResponse).code(200);
+    return h.response(schoolingRegistrationWithUsernameResponse).code(200);
   }
 };

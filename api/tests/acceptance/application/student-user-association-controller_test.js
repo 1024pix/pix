@@ -13,7 +13,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
     let organization;
     let campaign;
     let options;
-    let student;
+    let schoolingRegistration;
     let user;
 
     beforeEach(async () => {
@@ -27,21 +27,21 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization();
-      student = databaseBuilder.factory.buildStudent({ organizationId: organization.id, userId: null });
+      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
 
       await databaseBuilder.commit();
     });
 
-    it('should return an 204 status after having successfully associated user to student', async () => {
+    it('should return an 204 status after having successfully associated user to schoolingRegistration', async () => {
       // given
       options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
       options.payload.data = {
         attributes: {
           'campaign-code': campaign.code,
-          'first-name': student.firstName,
-          'last-name': student.lastName,
-          'birthdate': student.birthdate
+          'first-name': schoolingRegistration.firstName,
+          'last-name': schoolingRegistration.lastName,
+          'birthdate': schoolingRegistration.birthdate
         }
       };
 
@@ -52,7 +52,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    context('when no student found to associate because birthdate does not match', () => {
+    context('when no schoolingRegistration found to associate because birthdate does not match', () => {
 
       it('should return an 404 NotFoundError error', async () => {
         // given
@@ -64,8 +64,8 @@ describe('Acceptance | Controller | Student-user-associations', () => {
             data: {
               attributes: {
                 'campaign-code': campaign.code,
-                'first-name': student.firstName,
-                'last-name': student.lastName,
+                'first-name': schoolingRegistration.firstName,
+                'last-name': schoolingRegistration.lastName,
                 'birthdate': '1990-03-01'
               }
             }
@@ -77,11 +77,11 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
         // then
         expect(response.statusCode).to.equal(404);
-        expect(response.result.errors[0].detail).to.equal('There were no students matching with organization and birthdate');
+        expect(response.result.errors[0].detail).to.equal('There were no schoolingRegistrations matching with organization and birthdate');
       });
     });
 
-    context('when no student found to associate because names does not match', () => {
+    context('when no schoolingRegistration found to associate because names does not match', () => {
 
       it('should return an 404 NotFoundError error', async () => {
         // given
@@ -95,7 +95,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
                 'campaign-code': campaign.code,
                 'first-name': 'wrong firstName',
                 'last-name': 'wrong lastName',
-                'birthdate': student.birthdate
+                'birthdate': schoolingRegistration.birthdate
               }
             }
           }
@@ -106,7 +106,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
         // then
         expect(response.statusCode).to.equal(404);
-        expect(response.result.errors[0].detail).to.equal('There were no students matching with names');
+        expect(response.result.errors[0].detail).to.equal('There were no schoolingRegistrations matching with names');
       });
     });
 
@@ -137,8 +137,8 @@ describe('Acceptance | Controller | Student-user-associations', () => {
               attributes: {
                 'campaign-code': campaign.code,
                 'first-name': ' ',
-                'last-name': student.lastName,
-                'birthdate': student.birthdate
+                'last-name': schoolingRegistration.lastName,
+                'birthdate': schoolingRegistration.birthdate
               }
             }
           }
@@ -158,7 +158,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
     let server;
     let user;
     let organization;
-    let student;
+    let schoolingRegistration;
     let campaignCode;
 
     beforeEach(async () => {
@@ -167,7 +167,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
       organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
       campaignCode = databaseBuilder.factory.buildCampaign({ organizationId: organization.id }).code;
       user = databaseBuilder.factory.buildUser();
-      student = databaseBuilder.factory.buildStudent({ organizationId: organization.id, userId: user.id });
+      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: user.id });
       await databaseBuilder.commit();
       options = {
         method: 'GET',
@@ -204,19 +204,19 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
     describe('Success case', () => {
 
-      it('should return the student linked to the user and a 200 status code response', async () => {
+      it('should return the schoolingRegistration linked to the user and a 200 status code response', async () => {
         // when
         const response = await server.inject(options);
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data.attributes['first-name']).to.deep.equal(student.firstName);
-        expect(response.result.data.attributes['last-name']).to.deep.equal(student.lastName);
-        expect(response.result.data.attributes['birthdate']).to.deep.equal(student.birthdate);
+        expect(response.result.data.attributes['first-name']).to.deep.equal(schoolingRegistration.firstName);
+        expect(response.result.data.attributes['last-name']).to.deep.equal(schoolingRegistration.lastName);
+        expect(response.result.data.attributes['birthdate']).to.deep.equal(schoolingRegistration.birthdate);
       });
     });
 
-    describe('There is no student linked to the user', () => {
+    describe('There is no schoolingRegistration linked to the user', () => {
 
       it('should return a data null', async () => {
         // given
@@ -237,7 +237,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
       });
     });
 
-    describe('There is no student linked to the organization owning the campaign', () => {
+    describe('There is no schoolingRegistration linked to the organization owning the campaign', () => {
 
       it('should return a data null', async () => {
         // given
@@ -263,7 +263,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
     let server;
     let user;
     let organization;
-    let student;
+    let schoolingRegistration;
     let campaignCode;
 
     beforeEach(async () => {
@@ -272,7 +272,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
       organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
       campaignCode = databaseBuilder.factory.buildCampaign({ organizationId: organization.id }).code;
       user = databaseBuilder.factory.buildUser();
-      student = databaseBuilder.factory.buildStudent({ organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, userId: null });
+      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, userId: null });
       await databaseBuilder.commit();
       options = {
         method: 'PUT',
@@ -282,9 +282,9 @@ describe('Acceptance | Controller | Student-user-associations', () => {
           data: {
             attributes: {
               'campaign-code': campaignCode,
-              'first-name': student.firstName,
-              'last-name': student.lastName,
-              birthdate: student.birthdate
+              'first-name': schoolingRegistration.firstName,
+              'last-name': schoolingRegistration.lastName,
+              birthdate: schoolingRegistration.birthdate
             }
           }
         }
@@ -293,7 +293,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
     describe('Success case', () => {
 
-      it('should return the student linked to the user and a 200 status code response', async () => {
+      it('should return the schoolingRegistration linked to the user and a 200 status code response', async () => {
         // when
         const response = await server.inject(options);
 
@@ -304,7 +304,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
     describe('Error cases', () => {
 
-      context('when no student found to associate because birthdate does not match', () => {
+      context('when no schoolingRegistration found to associate because birthdate does not match', () => {
 
         it('should respond with a 404 - Not Found', async () => {
           // given
@@ -315,11 +315,11 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
           // then
           expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].detail).to.equal('There were no students matching with organization and birthdate');
+          expect(response.result.errors[0].detail).to.equal('There were no schoolingRegistrations matching with organization and birthdate');
         });
       });
 
-      context('when no student found to associate because names does not match', () => {
+      context('when no schoolingRegistration found to associate because names does not match', () => {
 
         it('should respond with a 404 - Not Found', async () => {
           // given
@@ -330,19 +330,19 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
           // then
           expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].detail).to.equal('There were no students matching with names');
+          expect(response.result.errors[0].detail).to.equal('There were no schoolingRegistrations matching with names');
         });
       });
 
-      context('when student is already associated in the same organization', () => {
+      context('when schoolingRegistration is already associated in the same organization', () => {
 
         it('should respond with a 409 - Conflict', async () => {
           // given
-          const studentAlreadyMatched = databaseBuilder.factory.buildStudent({ organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, userId: user.id });
+          const schoolingRegistrationAlreadyMatched = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, userId: user.id });
           await databaseBuilder.commit();
-          options.payload.data.attributes['first-name'] = studentAlreadyMatched.firstName;
-          options.payload.data.attributes['last-name'] = studentAlreadyMatched.lastName;
-          options.payload.data.attributes.birthdate = studentAlreadyMatched.birthdate;
+          options.payload.data.attributes['first-name'] = schoolingRegistrationAlreadyMatched.firstName;
+          options.payload.data.attributes['last-name'] = schoolingRegistrationAlreadyMatched.lastName;
+          options.payload.data.attributes.birthdate = schoolingRegistrationAlreadyMatched.birthdate;
 
           // when
           const response = await server.inject(options);

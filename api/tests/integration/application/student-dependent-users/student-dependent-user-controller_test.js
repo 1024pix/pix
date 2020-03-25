@@ -13,8 +13,8 @@ describe('Integration | Application | Student-dependent-users | student-dependen
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox.stub(usecases, 'createAndAssociateUserToStudent').rejects(new Error('not expected error'));
-    sandbox.stub(usecases, 'updateStudentDependentUserPassword').rejects(new Error('not expected error'));
+    sandbox.stub(usecases, 'createAndAssociateUserToSchoolingRegistration').rejects(new Error('not expected error'));
+    sandbox.stub(usecases, 'updateSchoolingRegistrationDependentUserPassword').rejects(new Error('not expected error'));
     sandbox.stub(securityController, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -23,7 +23,7 @@ describe('Integration | Application | Student-dependent-users | student-dependen
     sandbox.restore();
   });
 
-  describe('#createAndAssociateUserToStudent', () => {
+  describe('#createAndAssociateUserToSchoolingRegistration', () => {
 
     const payload = { data: { attributes: {} } };
 
@@ -47,7 +47,7 @@ describe('Integration | Application | Student-dependent-users | student-dependen
           // given
           payload.data.attributes.email = 'toto@example.net';
           payload.data.attributes['with-username'] = false;
-          usecases.createAndAssociateUserToStudent.resolves(createdUser);
+          usecases.createAndAssociateUserToSchoolingRegistration.resolves(createdUser);
 
           // when
           const response = await httpTestServer.request('POST', '/api/student-dependent-users', payload);
@@ -64,7 +64,7 @@ describe('Integration | Application | Student-dependent-users | student-dependen
           // given
           payload.data.attributes.username = 'robert.smith1212';
           payload.data.attributes['with-username'] = true;
-          usecases.createAndAssociateUserToStudent.resolves(createdUser);
+          usecases.createAndAssociateUserToSchoolingRegistration.resolves(createdUser);
 
           // when
           const response = await httpTestServer.request('POST', '/api/student-dependent-users', payload);
@@ -83,7 +83,7 @@ describe('Integration | Application | Student-dependent-users | student-dependen
 
         it('should resolve a 404 HTTP response', async () => {
           // given
-          usecases.createAndAssociateUserToStudent.rejects(new NotFoundError());
+          usecases.createAndAssociateUserToSchoolingRegistration.rejects(new NotFoundError());
 
           // when
           const response = await httpTestServer.request('POST', '/api/student-dependent-users', payload);
@@ -118,7 +118,7 @@ describe('Integration | Application | Student-dependent-users | student-dependen
 
       it('should return an HTTP response with status code 200', async () => {
         // given
-        usecases.updateStudentDependentUserPassword.resolves(updatedUser);
+        usecases.updateSchoolingRegistrationDependentUserPassword.resolves(updatedUser);
 
         // when
         const response = await httpTestServer.request('POST', '/api/student-dependent-users/password-update', payload, auth);
@@ -135,7 +135,7 @@ describe('Integration | Application | Student-dependent-users | student-dependen
 
         it('should resolve a 404 HTTP response', async () => {
           // given
-          usecases.updateStudentDependentUserPassword.rejects(new NotFoundError());
+          usecases.updateSchoolingRegistrationDependentUserPassword.rejects(new NotFoundError());
 
           // when
           const response = await httpTestServer.request('POST', '/api/student-dependent-users/password-update', payload, auth);
@@ -149,7 +149,7 @@ describe('Integration | Application | Student-dependent-users | student-dependen
 
         it('should resolve a 403 HTTP response', async () => {
           // given
-          usecases.updateStudentDependentUserPassword.rejects(new UserNotAuthorizedToUpdateStudentPasswordError());
+          usecases.updateSchoolingRegistrationDependentUserPassword.rejects(new UserNotAuthorizedToUpdateStudentPasswordError());
 
           // when
           const response = await httpTestServer.request('POST', '/api/student-dependent-users/password-update', payload, auth);
