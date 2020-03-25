@@ -1,11 +1,11 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
 
-const moduleUnderTest = require('../../../../lib/application/student-user-associations');
+const moduleUnderTest = require('../../../../lib/application/schooling-registration-user-associations');
 
 const usecases = require('../../../../lib/domain/usecases');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Application | Student-user-association | student-user-association-controller', () => {
+describe('Integration | Application | Schooling-registration-user-association | schooling-registration-user-association-controller', () => {
 
   let sandbox;
   let httpTestServer;
@@ -42,7 +42,7 @@ describe('Integration | Application | Student-user-association | student-user-as
         usecases.generateUsername.resolves([student]);
 
         // when
-        const response = await httpTestServer.request('PUT', '/api/student-user-associations/possibilities', payload);
+        const response = await httpTestServer.request('PUT', '/api/schooling-registration-user-associations/possibilities', payload);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -59,7 +59,7 @@ describe('Integration | Application | Student-user-association | student-user-as
           usecases.generateUsername.rejects(new NotFoundError());
 
           // when
-          const response = await httpTestServer.request('PUT', '/api/student-user-associations/possibilities', payload);
+          const response = await httpTestServer.request('PUT', '/api/schooling-registration-user-associations/possibilities', payload);
 
           // then
           expect(response.statusCode).to.equal(404);

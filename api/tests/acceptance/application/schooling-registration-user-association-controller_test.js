@@ -1,7 +1,7 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | Student-user-associations', () => {
+describe('Acceptance | Controller | Schooling-registration-user-associations', () => {
 
   let server;
 
@@ -9,7 +9,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
     server = await createServer();
   });
 
-  describe('POST /api/student-user-associations', () => {
+  describe('POST /api/schooling-registration-user-associations/', () => {
     let organization;
     let campaign;
     let options;
@@ -20,7 +20,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
       // given
       options = {
         method: 'POST',
-        url: '/api/student-user-associations',
+        url: '/api/schooling-registration-user-associations/',
         headers: {},
         payload: {}
       };
@@ -58,7 +58,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
         // given
         const options = {
           method: 'POST',
-          url: '/api/student-user-associations',
+          url: '/api/schooling-registration-user-associations/',
           headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
           payload: {
             data: {
@@ -87,7 +87,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
         // given
         const options = {
           method: 'POST',
-          url: '/api/student-user-associations',
+          url: '/api/schooling-registration-user-associations/',
           headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
           payload: {
             data: {
@@ -130,7 +130,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
         // given
         const options = {
           method: 'POST',
-          url: '/api/student-user-associations',
+          url: '/api/schooling-registration-user-associations/',
           headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
           payload: {
             data: {
@@ -153,7 +153,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
     });
   });
 
-  describe('GET /api/student-user-associations', () => {
+  describe('GET /api/schooling-registration-user-associations/', () => {
     let options;
     let server;
     let user;
@@ -171,7 +171,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
       await databaseBuilder.commit();
       options = {
         method: 'GET',
-        url: `/api/student-user-associations?userId=${user.id}&campaignCode=${campaignCode}`,
+        url: `/api/schooling-registration-user-associations/?userId=${user.id}&campaignCode=${campaignCode}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
     });
@@ -225,7 +225,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
 
         options = {
           method: 'GET',
-          url: `/api/student-user-associations?userId=${userWithoutStudent.id}&campaignCode=${campaignCode}`,
+          url: `/api/schooling-registration-user-associations/?userId=${userWithoutStudent.id}&campaignCode=${campaignCode}`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userWithoutStudent.id) },
         };
 
@@ -245,7 +245,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
         await databaseBuilder.commit();
         options = {
           method: 'GET',
-          url: `/api/student-user-associations?userId=${user.id}&campaignCode=${otherCampaignCode}`,
+          url: `/api/schooling-registration-user-associations/?userId=${user.id}&campaignCode=${otherCampaignCode}`,
           headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         };
 
@@ -258,7 +258,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
     });
   });
 
-  describe('PUT /api/student-user-associations/possibilities', () => {
+  describe('PUT /api/schooling-registration-user-associations/possibilities', () => {
     let options;
     let server;
     let user;
@@ -276,7 +276,7 @@ describe('Acceptance | Controller | Student-user-associations', () => {
       await databaseBuilder.commit();
       options = {
         method: 'PUT',
-        url: '/api/student-user-associations/possibilities',
+        url: '/api/schooling-registration-user-associations/possibilities',
         headers: {},
         payload: {
           data: {

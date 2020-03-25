@@ -1,9 +1,9 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
 const schoolingRegistrationUserAssociationController = require('../../../../lib/application/schooling-registration-user-associations/schooling-registration-user-association-controller');
-const moduleUnderTest = require('../../../../lib/application/student-user-associations');
+const moduleUnderTest = require('../../../../lib/application/schooling-registration-user-associations');
 
-describe('Integration | Application | Route | student-user-associations', () => {
+describe('Integration | Application | Route | schooling-registration-user-associations', () => {
 
   let httpTestServer;
 
@@ -15,10 +15,10 @@ describe('Integration | Application | Route | student-user-associations', () => 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('POST /api/student-user-associations', () => {
+  describe('POST /api/schooling-registration-user-associations', () => {
 
     const method = 'POST';
-    const url = '/api/student-user-associations';
+    const url = '/api/schooling-registration-user-associations';
 
     it('should succeed', async () => {
       // given
@@ -198,10 +198,10 @@ describe('Integration | Application | Route | student-user-associations', () => 
     });
   });
 
-  describe('GET /api/student-user-associations', () => {
+  describe('GET /api/schooling-registration-user-associations', () => {
 
     const method = 'GET';
-    const url = '/api/student-user-associations';
+    const url = '/api/schooling-registration-user-associations';
 
     it('should exist', async () => {
       // when
@@ -212,10 +212,10 @@ describe('Integration | Application | Route | student-user-associations', () => 
     });
   });
 
-  describe('PUT /api/student-user-associations/possibilities', () => {
+  describe('PUT /api/schooling-registration-user-associations/possibilities', () => {
 
     const method = 'PUT';
-    const url = '/api/student-user-associations/possibilities';
+    const url = '/api/schooling-registration-user-associations/possibilities';
 
     it('should exist', async () => {
       // given
