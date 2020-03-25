@@ -72,5 +72,11 @@
       filter: brightness(70%);
       cursor: pointer;
     }
+
+    &:disabled {
+      color: $grey-30;
+      filter: brightness(90%);
+      cursor: auto;
+    }
   }
 }

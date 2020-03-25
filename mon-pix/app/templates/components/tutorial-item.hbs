@@ -7,12 +7,13 @@
       • <span class="tutorial-content__format">{{tutorial.format}}</span>
       • <span class="tutorial-content__duration">{{moment-duration tutorial.duration}}</span>
     </div>
-    {{#if isUserTutorialsPage}}
-      <p class="tutorial-content__competence-name">S'insérer dans le monde numérique</p>
+    {{#if this.isSavingTutorialFeatureEnabled}}
+      <button class="tutorial-content__save-tutorial" title={{this.saveButtonTitle}}
+              {{on 'click' this.saveTutorial}}
+              disabled={{this.isSaveButtonDisabled}}>
+        <FaIcon @prefix={{if this.isSaved 'fas' 'far'}} @icon='bookmark'></FaIcon>
+        {{saveButtonText}}
+      </button>
     {{/if}}
-    <button class="tutorial-content__save-tutorial" title="Enregistrer dans ma liste de tutos">
-      <FaIcon @prefix="far" @icon='bookmark'></FaIcon>
-      Enregister
-    </button>
   </div>
 </div>
