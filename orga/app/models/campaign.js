@@ -43,6 +43,10 @@ export default DS.Model.extend({
     return Boolean(this.archivedAt);
   }),
 
+  canBeArchived: computed('campaign', function() {
+    return this.isTypeTestGiven && ! this.isArchived;
+  }),
+
   async archive() {
     await this.store.adapterFor('campaign').archive(this);
     return this.store.findRecord('campaign', this.id, { include: 'targetProfile' });
