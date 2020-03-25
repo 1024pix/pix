@@ -143,4 +143,78 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
       });
     });
   });
+
+  module('on Archived action display', function() {
+    module('when type campaign can be archived', function() {
+      test('it should display the button archived', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          type: 'TEST_GIVEN',
+          archivedAt: null,
+        });
+
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
+
+        // then
+        assert.dom('[aria-label="Détails de la campagne"]').includesText('Archiver');
+      });
+    });
+
+    module('when type campaign cannot be archived', function() {
+      test('it should not display the button archived', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          type: 'PROFILES_COLLECTION',
+        });
+
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
+
+        // then
+        assert.dom('[aria-label="Détails de la campagne"]').doesNotContainText('Archiver');
+      });
+    });
+  });
+
+  module('on Modify action display', function() {
+    module('when type campaign can be archived', function() {
+      test('it should display the button modify', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          type: 'TEST_GIVEN',
+          archivedAt: null,
+        });
+
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
+
+        // then
+        assert.dom('[aria-label="Détails de la campagne"]').includesText('Modifier');
+      });
+    });
+
+    module('when type campaign cannot archived', function() {
+      test('it should hide the button modify', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          type: 'PROFILES_COLLECTION',
+        });
+
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
+
+        // then
+        assert.dom('[aria-label="Détails de la campagne"]').doesNotContainText('Modifier');
+      });
+    });
+  });
 });
