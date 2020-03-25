@@ -22,9 +22,7 @@
             <th class="table__column">Date</th>
             <th class="table__column table__column--small">Heure</th>
             <th class="table__column table__column--wide">Surveillant(s)</th>
-          {{#if this.isSessionFinalizationActive }}
-              <th class="table__column table__column--wide">Statut</th>
-          {{/if}}
+            <th class="table__column table__column--wide">Statut</th>
           </tr>
           </thead>
 
@@ -37,9 +35,7 @@
                 <td>{{moment-format session.date 'DD/MM/YYYY' allow-empty=true}}</td>
                 <td>{{moment-format session.time 'HH:mm' 'HH:mm:ss' allow-empty=true}}</td>
                 <td>{{session.examiner}}</td>
-              {{#if this.isSessionFinalizationActive }}
-                  <td>{{session.displayStatus}}</td>
-              {{/if}}
+                <td>{{session.displayStatus}}</td>
             </tr>
           {{/each}}
           </tbody>

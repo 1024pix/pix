@@ -40,8 +40,6 @@ module('Acceptance | Session List', function(hooks) {
         expires_in: 3600,
         token_type: 'Bearer token type',
       });
-      const controller = this.owner.lookup('controller:authenticated.sessions.list');
-      controller.set('isSessionFinalizationActive', false);
     });
 
     test('it should be accessible', async function(assert) {
@@ -63,7 +61,7 @@ module('Acceptance | Session List', function(hooks) {
     module('when some sessions exist', function() {
       const nbExtraSessions = 11;
 
-      test('it should list the sessions and their attributes', async function(assert) {
+      test('it should list the sessions and their attributes with status', async function(assert) {
         // given
         const firstSession = server.create('session', { address: 'Adresse', certificationCenterId, date: '2020-01-01', time: '14:00' });
         server.createList('session', nbExtraSessions, { certificationCenterId, date: '2019-01-01' });
@@ -74,7 +72,7 @@ module('Acceptance | Session List', function(hooks) {
         // then
         const formattedDate = moment(firstSession.date, 'YYYY-MM-DD').format('DD/MM/YYYY');
         assert.dom('table tbody tr').exists({ count: nbExtraSessions + 1 });
-        assert.dom('table tbody tr:first-child').hasText(`${firstSession.id} ${firstSession.address} ${firstSession.room} ${formattedDate} ${firstSession.time} ${firstSession.examiner}`);
+        assert.dom('table tbody tr:first-child').hasText(`${firstSession.id} ${firstSession.address} ${firstSession.room} ${formattedDate} ${firstSession.time} ${firstSession.examiner} ${statusToDisplayName.created}`);
       });
 
       test('it should sort the sessions from recent to older', async function(assert) {
@@ -105,26 +103,6 @@ module('Acceptance | Session List', function(hooks) {
         // then
         assert.equal(currentURL(), `/sessions/${firstSession.id}`);
       });
-
-      module('When finalization feature is active', function() {
-
-        test('it should list the sessions and their attributes with statut', async function(assert) {
-          // given
-          const controller = this.owner.lookup('controller:authenticated.sessions.list');
-          controller.set('isSessionFinalizationActive', true);
-          const firstSession = server.create('session', { address: 'Adresse', certificationCenterId, date: '2020-01-01', time: '14:00' });
-          server.createList('session', nbExtraSessions, { certificationCenterId, date: '2019-01-01' });
-
-          // when
-          await visit('/sessions/liste');
-
-          // then
-          const formattedDate = moment(firstSession.date, 'YYYY-MM-DD').format('DD/MM/YYYY');
-          assert.dom('table tbody tr').exists({ count: nbExtraSessions + 1 });
-          assert.dom('table tbody tr:first-child').hasText(`${firstSession.id} ${firstSession.address} ${firstSession.room} ${formattedDate} ${firstSession.time} ${firstSession.examiner} ${statusToDisplayName.created}`);
-        });
-      });
-
     });
   });
 });

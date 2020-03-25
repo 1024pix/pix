@@ -47,7 +47,7 @@
   </div>
 
   <div class="session-details-row">
-    {{#if (and this.isSessionFinalizationActive this.session.hasStarted) }}
+    {{#if this.session.hasStarted}}
       <div class="session-details-buttons">
         <LinkTo @route="authenticated.sessions.update" @model={{this.session.id}} class="button button--regular button--grey button--link session-details-content__update-button">
             Modifier
