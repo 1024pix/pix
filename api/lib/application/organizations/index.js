@@ -107,6 +107,18 @@ exports.register = async (server) => {
       }
     },
     {
+      method: 'POST',
+      path: '/api/organizations/{id}/target-profiles',
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: organisationController.attachTargetProfiles,
+        tags: ['api', 'organizations']
+      }
+    },
+    {
       method: 'GET',
       path: '/api/organizations/{id}/students',
       config: {
