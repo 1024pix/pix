@@ -11,6 +11,7 @@ export default function() {
 
   this.get('/users');
   this.get('/certification-centers');
+  this.get('/certification-centers/:id');
   this.get('/sessions', findPaginatedAndFilteredSessions);
 
   this.post('/memberships', createMembership);

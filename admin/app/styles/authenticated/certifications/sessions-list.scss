@@ -1,16 +1,24 @@
-.session-list__actions {
-  text-align: center;
-  padding: 20px;
-
-  .dropdown-item {
-    cursor: pointer;
-  }
-}
-
 .certification-info-published {
   text-align: center;
 }
 
-.session-list__progress {
-  padding: 0 20px;
+.session-list {
+  &__progress {
+    padding: 0 20px;
+  }
+
+  &__item {
+    &--align-center {
+      text-align: center;
+    }
+  }
+
+  &__actions {
+    text-align: center;
+    padding: 20px;
+
+    .dropdown-item {
+      cursor: pointer;
+    }
+  }
 }

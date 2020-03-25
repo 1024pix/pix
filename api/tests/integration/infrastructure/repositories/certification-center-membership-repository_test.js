@@ -97,4 +97,38 @@ describe('Integration | Repository | Certification Center Membership', () => {
     });
   });
 
+  describe('#doesUserHaveMembershipToCertificationCenter', () => {
+
+    let userId;
+    let certificationCenterInId;
+    let certificationCenterNotInId;
+
+    beforeEach(() => {
+      userId = databaseBuilder.factory.buildUser().id;
+      certificationCenterInId = databaseBuilder.factory.buildCertificationCenter().id;
+      certificationCenterNotInId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId,
+        certificationCenterId: certificationCenterInId,
+      });
+      return databaseBuilder.commit();
+    });
+
+    it('should return false if user has no membership in given certification center', async () => {
+      // when
+      const hasMembership = await certificationCenterMembershipRepository.doesUserHaveMembershipToCertificationCenter(userId, certificationCenterNotInId);
+
+      // then
+      expect(hasMembership).to.be.false;
+    });
+
+    it('should return true if user has membership in given certification center', async () => {
+      // when
+      const hasMembership = await certificationCenterMembershipRepository.doesUserHaveMembershipToCertificationCenter(userId, certificationCenterInId);
+
+      // then
+      expect(hasMembership).to.be.true;
+    });
+  });
+
 });

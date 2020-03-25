@@ -28,9 +28,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   resetController(controller, isExiting) {
     if (isExiting) {
-      controller.set('pageNumber', 1);
-      controller.set('pageSize', 10);
-      controller.set('id', null);
+      controller.pageNumber = 1;
+      controller.pageSize = 10;
+      controller.id = null;
     }
   }
 });

@@ -1,27 +1,28 @@
 import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 import { debounce } from '@ember/runloop';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
-export default Controller.extend({
-  queryParams: ['pageNumber', 'pageSize', 'id'],
-  pageNumber: DEFAULT_PAGE_NUMBER,
-  pageSize: 10,
-  id: null,
+export default class SessionListController extends Controller {
 
-  searchFilter: null,
+  queryParams = ['pageNumber', 'pageSize', 'id'];
+
+  @tracked pageNumber = DEFAULT_PAGE_NUMBER;
+  @tracked pageSize = 10;
+  @tracked id = null;
+
+  searchFilter = null;
 
   setFieldName() {
-    this.set(this.searchFilter.fieldName, this.searchFilter.value);
-    this.set('pageNumber', DEFAULT_PAGE_NUMBER);
-  },
-
-  actions: {
-
-    triggerFiltering(fieldName, value) {
-      this.set('searchFilter', { fieldName, value });
-      debounce(this, this.setFieldName, 500);
-    },
-
+    this.searchFilter.fieldName = this.searchFilter.value;
+    this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
-});
+
+  @action
+  triggerFiltering(fieldName, value) {
+    this.searchFilter = { fieldName, value };
+    debounce(this, this.setFieldName, 500);
+  }
+}

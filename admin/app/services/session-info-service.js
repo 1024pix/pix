@@ -54,7 +54,7 @@ export default class SessionInfoServiceService extends Service {
         'Identifiant Externe': this.csvService.sanitize(certification.externalId),
         'Nombre de Pix': !isCertifRejected ? certification.pixScore : '0',
         'Session': session.id,
-        'Centre de certification': this.csvService.sanitize(session.certificationCenter)  ,
+        'Centre de certification': this.csvService.sanitize(session.certificationCenterName)  ,
         'Date de passage de la certification': moment(certification.createdAt).format('DD/MM/YYYY'),
       };
 

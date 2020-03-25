@@ -17,7 +17,6 @@ class Session {
     accessCode,
     address,
     certificationCenter,
-    certificationCenterId,
     date,
     description,
     examiner,
@@ -30,13 +29,13 @@ class Session {
     // includes
     certificationCandidates,
     // references
+    certificationCenterId,
   } = {}) {
     this.id = id;
     // attributes
     this.accessCode = accessCode;
     this.address = address;
     this.certificationCenter = certificationCenter;
-    this.certificationCenterId = certificationCenterId;
     this.date = date;
     this.description = description;
     this.examiner = examiner;
@@ -49,6 +48,7 @@ class Session {
     // includes
     this.certificationCandidates = certificationCandidates;
     // references
+    this.certificationCenterId = certificationCenterId;
   }
 
   areResultsFlaggedAsSent() {
