@@ -1,12 +1,7 @@
 import Component from '@glimmer/component';
 
 export default class SessionFinalizationReportsInformationsStep extends Component {
-
-  constructor() {
-    super(...arguments);
-
-    this.textareaMaxLength = 500;
-  }
+  textareaMaxLength = 500;
 
   get certifReportsAreNotEmpty() {
     return this.args.certificationReports.length !== 0;

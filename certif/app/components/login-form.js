@@ -7,20 +7,12 @@ import ENV from 'pix-certif/config/environment';
 export default class LoginForm extends Component {
 
   @service session;
-  @tracked isPasswordVisible;
-  @tracked isErrorMessagePresent;
 
-  @tracked errorMessage;
-
-  constructor() {
-    super(...arguments);
-
-    this.email = null;
-    this.password = null;
-    this.isPasswordVisible = false;
-    this.isErrorMessagePresent = false;
-    this.errorMessage = null;
-  }
+  email = null;
+  password = null;
+  @tracked isPasswordVisible = false;
+  @tracked isErrorMessagePresent = false;
+  @tracked errorMessage = null;
 
   get passwordInputType() {
     return this.isPasswordVisible ? 'text' : 'password';
