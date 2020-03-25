@@ -74,11 +74,11 @@ async function _validateData(isUsernameMode, userAttributes, userRepository, use
   }
 }
 
-module.exports = async function createAndAssociateUserToStudent({
+module.exports = async function createAndAssociateUserToSchoolingRegistration({
   userAttributes,
   campaignCode,
   campaignRepository,
-  studentRepository,
+  schoolingRegistrationRepository,
   userRepository,
   encryptionService,
   mailService,
@@ -89,7 +89,7 @@ module.exports = async function createAndAssociateUserToStudent({
     throw new CampaignCodeError();
   }
 
-  const studentId = await userReconciliationService.findMatchingStudentIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user: userAttributes, studentRepository });
+  const schoolingRegistrationId = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user: userAttributes, schoolingRegistrationRepository });
 
   const isUsernameMode = userAttributes.withUsername;
   const cleanedUserAttributes = _emptyOtherMode(isUsernameMode, userAttributes);
@@ -98,7 +98,7 @@ module.exports = async function createAndAssociateUserToStudent({
   const encryptedPassword = await _encryptPassword(cleanedUserAttributes.password, encryptionService);
   const domainUser = _createDomainUser(cleanedUserAttributes, encryptedPassword);
 
-  const userId = await userRepository.createAndAssociateUserToStudent({ domainUser, studentId });
+  const userId = await userRepository.createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
 
   const createdUser = await userRepository.get(userId);
   if (!isUsernameMode) await mailService.sendAccountCreationEmail(createdUser.email);

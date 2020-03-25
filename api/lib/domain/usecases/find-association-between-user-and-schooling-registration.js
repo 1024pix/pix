@@ -1,11 +1,11 @@
 const { CampaignCodeError, UserNotAuthorizedToAccessEntity } = require('../errors');
 
-module.exports = async function findAssociationBetweenUserAndOrganizationStudent({
+module.exports = async function findAssociationBetweenUserAndSchoolingRegistration({
   authenticatedUserId,
   requestedUserId,
   campaignCode,
   campaignRepository,
-  studentRepository,
+  schoolingRegistrationRepository,
 }) {
   if (authenticatedUserId !== requestedUserId) {
     throw new UserNotAuthorizedToAccessEntity();
@@ -16,5 +16,5 @@ module.exports = async function findAssociationBetweenUserAndOrganizationStudent
     throw new CampaignCodeError();
   }
 
-  return studentRepository.findOneByUserIdAndOrganizationId({ userId: authenticatedUserId, organizationId: campaign.organizationId });
+  return schoolingRegistrationRepository.findOneByUserIdAndOrganizationId({ userId: authenticatedUserId, organizationId: campaign.organizationId });
 };
