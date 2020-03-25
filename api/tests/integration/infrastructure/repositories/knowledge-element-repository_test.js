@@ -123,6 +123,37 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
 
   });
 
+  describe('#findUniqByUserIdAndAssessmentId', () => {
+
+    let knowledgeElementsWanted;
+    let userId, assessmentId;
+
+    beforeEach(async () => {
+      // given
+      userId = databaseBuilder.factory.buildUser().id;
+      assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
+      const otherAssessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
+
+      knowledgeElementsWanted = _.map([
+        { id: 1, skillId: '1', userId, assessmentId },
+        { id: 2, skillId: '3', createdAt: new Date('2020-02-01'), userId, assessmentId },
+      ], ((ke) => databaseBuilder.factory.buildKnowledgeElement(ke)));
+
+      databaseBuilder.factory.buildKnowledgeElement({ id: 4, skillId: '5', userId, assessmentId: otherAssessmentId });
+      databaseBuilder.factory.buildKnowledgeElement({ id: 3, skillId: '3', createdAt: new Date('2020-01-01'), userId, assessmentId },);
+
+      await databaseBuilder.commit();
+    });
+
+    it('should find the knowledge elements for assessment associated with a user id', async () => {
+      // when
+      const knowledgeElementsFound = await KnowledgeElementRepository.findUniqByUserIdAndAssessmentId({ userId, assessmentId });
+      expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWanted);
+      expect(knowledgeElementsFound).have.lengthOf(2);
+    });
+
+  });
+
   describe('#findUniqByUserIdGroupedByCompetenceId', () => {
 
     let userId;
