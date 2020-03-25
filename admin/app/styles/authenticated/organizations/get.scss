@@ -47,23 +47,19 @@
     }
   }
 
-  .add-membership-form {
+  .organization__sub-form {
     display: flex;
 
-    .add-membership-form__user-email-input {
+    .organization-sub-form__input {
       border-right: none;
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
       width: 280px;
     }
 
-    .add-membership-form__validate-button {
+    .organization-sub-form__validate-button {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
-  }
-
-  .membership-list {
-
   }
 }
