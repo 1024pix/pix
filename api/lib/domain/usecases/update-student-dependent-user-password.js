@@ -3,24 +3,24 @@ const _ = require('lodash');
 const { UserNotAuthorizedToUpdateStudentPasswordError } = require('../errors');
 
 module.exports = async function updateStudentDependentUserPassword({
-  userId, organizationId, studentId, password,
+  userId, organizationId, schoolingRegistrationId, password,
   encryptionService,
-  userRepository, studentRepository
+  userRepository, schoolingRegistrationRepository
 }) {
 
   const userWithMemberships = await userRepository.getWithMemberships(userId);
-  const student = await studentRepository.get(studentId);
+  const schoolingRegistration = await schoolingRegistrationRepository.get(schoolingRegistrationId);
 
-  if (!userWithMemberships.hasAccessToOrganization(organizationId) || student.organizationId !== organizationId) {
-    throw new UserNotAuthorizedToUpdateStudentPasswordError(`Cet utilisateur ${student.userId} ne peut pas modifier le mot de passe de l'éleve car il n'appartient pas à l'organisation ${organizationId}`);
+  if (!userWithMemberships.hasAccessToOrganization(organizationId) || schoolingRegistration.organizationId !== organizationId) {
+    throw new UserNotAuthorizedToUpdateStudentPasswordError(`Cet utilisateur ${schoolingRegistration.userId} ne peut pas modifier le mot de passe de l'éleve car il n'appartient pas à l'organisation ${organizationId}`);
   }
 
-  const userStudent = await userRepository.get(student.userId);
+  const userStudent = await userRepository.get(schoolingRegistration.userId);
   if (_.isEmpty(userStudent.username) && _.isEmpty(userStudent.email)) {
-    throw new UserNotAuthorizedToUpdateStudentPasswordError(`\`Le changement de mot de passe n'est possible que si l'utilisateur ${student.userId} utilise les méthodes d'authentification email ou identifiant\``);
+    throw new UserNotAuthorizedToUpdateStudentPasswordError(`\`Le changement de mot de passe n'est possible que si l'utilisateur ${schoolingRegistration.userId} utilise les méthodes d'authentification email ou identifiant\``);
   }
 
   const hashedPassword = await encryptionService.hashPassword(password);
 
-  return userRepository.updatePassword(student.userId, hashedPassword);
+  return userRepository.updatePassword(schoolingRegistration.userId, hashedPassword);
 };

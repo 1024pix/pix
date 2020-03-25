@@ -1,5 +1,5 @@
-module.exports =  function findOrganizationStudentsWithUserInfos({ organizationId, studentRepository }) {
+module.exports =  function findOrganizationStudentsWithUserInfos({ organizationId, schoolingRegistrationRepository }) {
 
-  return studentRepository.findStudentsWithUserInfoByOrganizationId({ organizationId });
+  return schoolingRegistrationRepository.findSchoolingRegistrationsWithUserInfoByOrganizationId({ organizationId });
 
 };

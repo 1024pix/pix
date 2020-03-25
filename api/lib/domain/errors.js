@@ -46,7 +46,7 @@ class AlreadySharedCampaignParticipationError extends DomainError {
   }
 }
 
-class StudentsCouldNotBeSavedError extends DomainError {
+class SchoolingRegistrationsCouldNotBeSavedError extends DomainError {
   constructor(message = 'Une erreur est survenue durant le traitement.') {
     super(message);
   }
@@ -488,8 +488,8 @@ module.exports = {
   PasswordResetDemandNotFoundError,
   SameNationalStudentIdInFileError,
   SameNationalStudentIdInOrganizationError,
+  SchoolingRegistrationsCouldNotBeSavedError,
   SessionAlreadyFinalizedError,
-  StudentsCouldNotBeSavedError,
   UserAlreadyLinkedToCandidateInSessionError,
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,
