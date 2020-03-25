@@ -1,7 +1,8 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
 describe('Unit | Component | tutorial item', function() {
   setupTest();
@@ -12,8 +13,7 @@ describe('Unit | Component | tutorial item', function() {
     id: 'tutorialId'
   };
   beforeEach(function() {
-    component = this.owner.lookup('component:tutorial-item');
-    component.tutorial = tutorial;
+    component = createGlimmerComponent('component:tutorial-item', { tutorial });
   });
 
   describe('#formatImageName', function() {
@@ -22,7 +22,7 @@ describe('Unit | Component | tutorial item', function() {
       it(`should return the same name "${format}" to display the image`, function() {
         // given
         tutorial.format = format;
-        component.tutorial = tutorial;
+        component = createGlimmerComponent('component:tutorial-item', { tutorial });
 
         // when
         const result = component.formatImageName;
@@ -35,7 +35,7 @@ describe('Unit | Component | tutorial item', function() {
     it('should return "video" when format is "vidéo"', function() {
       // given
       tutorial.format = 'vidéo';
-      component.tutorial = tutorial;
+      component = createGlimmerComponent('component:tutorial-item', { tutorial });
 
       // when
       const result = component.formatImageName;
@@ -47,7 +47,7 @@ describe('Unit | Component | tutorial item', function() {
     it('should return the default value "page" when is not precise format', function() {
       // given
       tutorial.format = 'site';
-      component.tutorial = tutorial;
+      component = createGlimmerComponent('component:tutorial-item', { tutorial });
 
       // when
       const result = component.formatImageName;

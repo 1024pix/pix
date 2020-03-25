@@ -1,4 +1,4 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
@@ -12,19 +12,21 @@ const statusTypes = {
 
 export default class TutorialItemComponent extends Component {
   @service store;
-  tagName = '';
 
   imageForFormat = {
     'vidéo': 'video',
     'son': 'son',
     'page': 'page'
   };
-  @tracked tutorial = null;
   isSavingTutorialFeatureEnabled = config.APP.FT_ACTIVATE_USER_TUTORIALS;
   @tracked status = statusTypes.unsaved;
 
+  get tutorial() {
+    return this.args.tutorial;
+  }
+  
   get formatImageName() {
-    const format = this.tutorial.format;
+    const format = this.args.tutorial.format;
     if (this.imageForFormat[format]) {
       return this.imageForFormat[format];
     }
@@ -54,8 +56,8 @@ export default class TutorialItemComponent extends Component {
   @action
   async saveTutorial() {
     this.status = statusTypes.saving;
-    const userTutorial = this.store.createRecord('userTutorial', { tutorial: this.tutorial });
-    await userTutorial.save({ adapterOptions: { tutorialId: this.tutorial.id } });
+    const userTutorial = this.store.createRecord('userTutorial', { tutorial: this.args.tutorial });
+    await userTutorial.save({ adapterOptions: { tutorialId: this.args.tutorial.id } });
     this.status = statusTypes.saved;
   }
 
