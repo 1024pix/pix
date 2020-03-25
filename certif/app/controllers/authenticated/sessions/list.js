@@ -7,14 +7,11 @@ import config from '../../../config/environment';
 const SORTING_ORDER = ['date:desc', 'time:desc'];
 
 export default class AuthenticatedSessionsListController extends Controller {
+  isSessionFinalizationActive = config.APP.isSessionFinalizationActive;
+  sortingOrder = SORTING_ORDER;
+
   @notEmpty('model') hasSession;
   @sort('model', 'sortingOrder') sortedSessions;
-
-  constructor() {
-    super(...arguments);
-    this.isSessionFinalizationActive = config.APP.isSessionFinalizationActive;
-    this.sortingOrder = SORTING_ORDER;
-  }
 
   @action
   goToDetails(session) {

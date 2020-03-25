@@ -7,14 +7,8 @@ import config from '../../../../config/environment';
 export default class AuthenticatedSessionsDetailsParametersController extends Controller {
 
   @alias('model') session;
-  @tracked tooltipText;
-
-  constructor() {
-    super(...arguments);
-
-    this.isSessionFinalizationActive = config.APP.isSessionFinalizationActive;
-    this.tooltipText = 'Copier le lien direct';
-  }
+  @tracked tooltipText = 'Copier le lien direct';
+  isSessionFinalizationActive = config.APP.isSessionFinalizationActive;
 
   @action
   clipboardSuccess() {
