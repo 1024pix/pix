@@ -1,7 +1,7 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
 const schoolingRegistrationDependentUserController = require('../../../../lib/application/schooling-registration-dependent-users/schooling-registration-dependent-user-controller');
-const moduleUnderTest = require('../../../../lib/application/student-dependent-users');
+const moduleUnderTest = require('../../../../lib/application/schooling-registration-dependent-users');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 
 describe('Integration | Application | Route | schooling-registration-dependent-users', () => {
@@ -15,12 +15,12 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('POST /api/student-dependent-users', () => {
+  describe('POST /api/schooling-registration-dependent-users', () => {
 
     it('should succeed', async () => {
       // given
       const method = 'POST';
-      const url = '/api/student-dependent-users';
+      const url = '/api/schooling-registration-dependent-users';
       const payload = {
         data: {
           attributes: {
@@ -42,12 +42,12 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
     });
   });
 
-  describe('POST /api/student-dependent-users/password-update', () => {
+  describe('POST /api/schooling-registration-dependent-users/password-update', () => {
 
     it('should succeed', async () => {
       // given
       const method = 'POST';
-      const url = '/api/student-dependent-users/password-update';
+      const url = '/api/schooling-registration-dependent-users/password-update';
       const payload = {
         data: {
           attributes: {

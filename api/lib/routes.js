@@ -24,6 +24,7 @@ module.exports = [
   require('./application/passwords'),
   require('./application/progressions'),
   require('./application/saml'),
+  require('./application/schooling-registration-dependent-users'),
   require('./application/schooling-registration-user-associations'),
   require('./application/scorecards'),
   require('./application/sessions'),
