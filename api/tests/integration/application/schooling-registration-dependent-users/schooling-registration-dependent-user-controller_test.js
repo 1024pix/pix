@@ -1,12 +1,12 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
 
-const moduleUnderTest = require('../../../../lib/application/student-dependent-users');
+const moduleUnderTest = require('../../../../lib/application/schooling-registration-dependent-users');
 
 const usecases = require('../../../../lib/domain/usecases');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const { NotFoundError, UserNotAuthorizedToUpdateStudentPasswordError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Application | Student-dependent-users | student-dependent-user-controller', () => {
+describe('Integration | Application | Schooling-registration-dependent-users | schooling-registration-dependent-user-controller', () => {
 
   let sandbox;
   let httpTestServer;
@@ -50,7 +50,7 @@ describe('Integration | Application | Student-dependent-users | student-dependen
           usecases.createAndAssociateUserToSchoolingRegistration.resolves(createdUser);
 
           // when
-          const response = await httpTestServer.request('POST', '/api/student-dependent-users', payload);
+          const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users', payload);
 
           // then
           expect(response.statusCode).to.equal(201);
@@ -67,7 +67,7 @@ describe('Integration | Application | Student-dependent-users | student-dependen
           usecases.createAndAssociateUserToSchoolingRegistration.resolves(createdUser);
 
           // when
-          const response = await httpTestServer.request('POST', '/api/student-dependent-users', payload);
+          const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users', payload);
 
           // then
           expect(response.statusCode).to.equal(201);
@@ -86,7 +86,7 @@ describe('Integration | Application | Student-dependent-users | student-dependen
           usecases.createAndAssociateUserToSchoolingRegistration.rejects(new NotFoundError());
 
           // when
-          const response = await httpTestServer.request('POST', '/api/student-dependent-users', payload);
+          const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users', payload);
 
           // then
           expect(response.statusCode).to.equal(404);
@@ -121,7 +121,7 @@ describe('Integration | Application | Student-dependent-users | student-dependen
         usecases.updateSchoolingRegistrationDependentUserPassword.resolves(updatedUser);
 
         // when
-        const response = await httpTestServer.request('POST', '/api/student-dependent-users/password-update', payload, auth);
+        const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/password-update', payload, auth);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -138,7 +138,7 @@ describe('Integration | Application | Student-dependent-users | student-dependen
           usecases.updateSchoolingRegistrationDependentUserPassword.rejects(new NotFoundError());
 
           // when
-          const response = await httpTestServer.request('POST', '/api/student-dependent-users/password-update', payload, auth);
+          const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/password-update', payload, auth);
 
           // then
           expect(response.statusCode).to.equal(404);
@@ -152,7 +152,7 @@ describe('Integration | Application | Student-dependent-users | student-dependen
           usecases.updateSchoolingRegistrationDependentUserPassword.rejects(new UserNotAuthorizedToUpdateStudentPasswordError());
 
           // when
-          const response = await httpTestServer.request('POST', '/api/student-dependent-users/password-update', payload, auth);
+          const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/password-update', payload, auth);
 
           // then
           expect(response.statusCode).to.equal(403);

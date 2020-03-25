@@ -3,7 +3,7 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 
 module.exports = {
 
-  async createAndAssociateUserToStudent(request, h) {
+  async createAndAssociateUserToSchoolingRegistration(request, h) {
     const payload = request.payload.data.attributes;
     const userAttributes = {
       firstName: payload['first-name'],
@@ -27,7 +27,7 @@ module.exports = {
     const schoolingRegistrationId = parseInt(payload['student-id']);
     const password = payload.password;
 
-    const updatedUser = await usecases.updateStudentDependentUserPassword({
+    const updatedUser = await usecases.updateSchoolingRegistrationDependentUserPassword({
       userId,
       organizationId,
       schoolingRegistrationId,
