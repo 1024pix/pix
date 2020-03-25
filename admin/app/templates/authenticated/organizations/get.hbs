@@ -18,8 +18,8 @@
 
   <OrganizationInformationSection @organization={{@model}} @onLogoUpdated={{this.updateOrganizationInformation}} />
 
-  <OrganizationMembersSection @organization={{@model}} @userEmail={{userEmail}} @addMembership={{this.addMembership}} />
+  <OrganizationMembersSection @organization={{@model}} @userEmail={{this.userEmail}} @addMembership={{this.addMembership}} />
 
-  {{organization-target-profiles-section targetProfiles=model.targetProfiles}}
+  <OrganizationTargetProfilesSection @targetProfiles={{@model.targetProfiles}} @targetProfilesToAttach={{this.targetProfilesToAttach}} @attachTargetProfiles={{this.attachTargetProfiles}} />
 
 </main>
