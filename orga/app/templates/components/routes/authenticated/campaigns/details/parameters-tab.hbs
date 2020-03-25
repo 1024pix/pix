@@ -1,10 +1,11 @@
-<div class="panel panel--strong-shadow campaign-details-container">
+<div class="panel panel--strong-shadow campaign-details-container" aria-label="Détails de la campagne">
   <div class="campaign-details-row">
-    <div class="campaign-details-content">
-      <h4 class="label-text campaign-details-content__label">Profil cible</h4>
-      <p class="content-text campaign-details-content__text">{{@campaign.targetProfile.name}}</p>
-    </div>
-
+    {{#if @campaign.isTypeTestGiven}}
+      <div class="campaign-details-content">
+        <h4 class="label-text campaign-details-content__label">Profil cible</h4>
+        <p class="content-text campaign-details-content__text">{{@campaign.targetProfile.name}}</p>
+      </div>
+    {{/if}}
     {{#if @campaign.idPixLabel}}
       <div class="campaign-details-content">
         <h4 class="label-text campaign-details-content__label">Libellé de l'identifiant</h4>
