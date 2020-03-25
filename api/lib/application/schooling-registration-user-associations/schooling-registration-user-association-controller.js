@@ -13,7 +13,7 @@ module.exports = {
       birthdate: payload['birthdate'],
     };
 
-    await usecases.linkUserToOrganizationSchoolingRegistrationData({ campaignCode: payload['campaign-code'], user });
+    await usecases.linkUserToSchoolingRegistrationData({ campaignCode: payload['campaign-code'], user });
     return h.response().code(204);
   },
 
