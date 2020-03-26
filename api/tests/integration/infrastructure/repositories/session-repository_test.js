@@ -447,6 +447,27 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
+  describe('#updatePublishedAt', () => {
+    let id;
+    const publishedAt = new Date('2017-09-01T12:14:33Z');
+
+    beforeEach(() => {
+      id = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
+
+      return databaseBuilder.commit();
+    });
+
+    it('should return a updated Session domain object', async () => {
+      // when
+      const sessionFlagged = await sessionRepository.updatePublishedAt({ id, publishedAt });
+
+      // then
+      expect(sessionFlagged).to.be.an.instanceof(Session);
+      expect(sessionFlagged.id).to.deep.equal(id);
+      expect(sessionFlagged.publishedAt).to.deep.equal(publishedAt);
+    });
+  });
+
   describe('#findPaginatedFiltered', () => {
 
     context('when there are Sessions in the database', () => {
