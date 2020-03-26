@@ -5,5 +5,5 @@ module.exports = async function updateSession({ session, sessionRepository }) {
   const sessionToUpdate = await sessionRepository.get(session.id);
   Object.assign(sessionToUpdate, session);
 
-  return sessionRepository.update(sessionToUpdate);
+  return sessionRepository.updateSessionInfo(sessionToUpdate);
 };

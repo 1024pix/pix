@@ -23,12 +23,12 @@ describe('Unit | UseCase | update-session', () => {
     };
     sessionRepository = {
       get: sinon.stub(),
-      update: sinon.stub(),
+      updateSessionInfo: sinon.stub(),
     };
     sinon.stub(sessionValidator, 'validate');
 
     sessionRepository.get.withArgs(originalSession.id).resolves(originalSession);
-    sessionRepository.update.callsFake((updatedSession) => updatedSession);
+    sessionRepository.updateSessionInfo.callsFake((updatedSession) => updatedSession);
     sessionValidator.validate.withArgs(originalSession).returns();
   });
 
@@ -56,7 +56,7 @@ describe('Unit | UseCase | update-session', () => {
 
       // then
       return promise.then((resultSession) => {
-        expect(sessionRepository.update).to.have.been.calledWithExactly(updatedSession);
+        expect(sessionRepository.updateSessionInfo).to.have.been.calledWithExactly(updatedSession);
         expect(resultSession.address).to.equal(updatedSession.address);
       });
     });
@@ -84,7 +84,7 @@ describe('Unit | UseCase | update-session', () => {
 
       // then
       return promise.then((resultSession) => {
-        expect(sessionRepository.update).to.have.been.calledWithExactly(updatedSession);
+        expect(sessionRepository.updateSessionInfo).to.have.been.calledWithExactly(updatedSession);
         expect(resultSession.address).to.equal(updatedSession.address);
       });
     });
@@ -121,7 +121,7 @@ describe('Unit | UseCase | update-session', () => {
 
     it('should throw an error when the session could not be updated', () => {
       // given
-      sessionRepository.update.withArgs(originalSession).rejects();
+      sessionRepository.updateSessionInfo.withArgs(originalSession).rejects();
 
       // when
       const promise = updateSession({
