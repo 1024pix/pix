@@ -1,23 +1,29 @@
+import { classNames } from '@ember-decorators/component';
 import { computed } from '@ember/object';
-import Component from '@ember/component';
-import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  router: service(),
-  session: service(),
+@classic
+@classNames('navbar-desktop-header')
+export default class NavbarDesktopHeader extends Component {
+  @service router;
+  @service session;
 
-  classNames: ['navbar-desktop-header'],
-  _canDisplayMenu: false,
-  _menuItems: [
+  _canDisplayMenu = false;
+
+  _menuItems = [
     { name: 'Se connecter', link: 'login', class: 'navbar-menu-signin-link' },
     { name: 'S’inscrire', link: 'inscription', class: 'navbar-menu-signup-link' }
-  ],
+  ];
 
-  isUserLogged: alias('session.isAuthenticated'),
+  @alias('session.isAuthenticated')
+  isUserLogged;
 
-  menu: computed('isUserLogged', function() {
+  @computed('isUserLogged')
+  get menu() {
     const menuItems = this._menuItems;
     return this.isUserLogged ? menuItems.filterBy('permanent', true) : menuItems;
-  })
-});
+  }
+}

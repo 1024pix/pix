@@ -1,7 +1,9 @@
+import { classNames } from '@ember-decorators/component';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  classNames: ['navbar-header'],
-
-  burger: null,
-});
+@classic
+@classNames('navbar-header')
+export default class NavbarHeader extends Component {
+  burger = null;
+}

@@ -1,38 +1,48 @@
-import Component from '@ember/component';
-import EmberObject, { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
+import EmberObject, { action, computed } from '@ember/object';
 import { A as EmberArray } from '@ember/array';
 
-export default Component.extend({
+@classic
+export default class ScorecardDetails extends Component {
+  @service
+  currentUser;
 
-  currentUser: service(),
-  store: service(),
+  @service
+  store;
 
-  scorecard: null,
-  showResetModal: false,
+  scorecard = null;
+  showResetModal = false;
 
-  level: computed('scorecard.{level,isNotStarted}', function() {
+  @computed('scorecard.{level,isNotStarted}')
+  get level() {
     return this.get('scorecard.isNotStarted') ? null : this.get('scorecard.level');
-  }),
+  }
 
-  isProgressable: computed('scorecard.{isMaxLevel,isNotStarted,isFinished}', function() {
+  @computed('scorecard.{isMaxLevel,isNotStarted,isFinished}')
+  get isProgressable() {
     return !(this.get('scorecard.isFinished') || this.get('scorecard.isMaxLevel') || this.get('scorecard.isNotStarted'));
-  }),
+  }
 
-  displayWaitSentence: computed('scorecard.remainingDaysBeforeReset', function() {
+  @computed('scorecard.remainingDaysBeforeReset')
+  get displayWaitSentence() {
     return this.get('scorecard.remainingDaysBeforeReset') > 0;
-  }),
+  }
 
-  displayResetButton: computed('scorecard.remainingDaysBeforeReset', function() {
+  @computed('scorecard.remainingDaysBeforeReset')
+  get displayResetButton() {
     return this.get('scorecard.remainingDaysBeforeReset') === 0;
-  }),
+  }
 
-  remainingDaysText: computed('scorecard.remainingDaysBeforeReset', function() {
+  @computed('scorecard.remainingDaysBeforeReset')
+  get remainingDaysText() {
     const daysBeforeReset = this.get('scorecard.remainingDaysBeforeReset');
     return `Remise à zéro disponible dans ${daysBeforeReset} ${daysBeforeReset <= 1 ? 'jour' : 'jours'}`;
-  }),
+  }
 
-  tutorialsGroupedByTubeName: computed('scorecard.tutorials', function() {
+  @computed('scorecard.tutorials')
+  get tutorialsGroupedByTubeName() {
     const tutorialsGroupedByTubeName = EmberArray();
     const tutorials = this.scorecard.tutorials;
 
@@ -51,22 +61,22 @@ export default Component.extend({
       }
     });
     return tutorialsGroupedByTubeName;
-  }),
+  }
 
-  actions: {
-    openModal() {
-      this.set('showResetModal', true);
-    },
+  @action
+  openModal() {
+    this.set('showResetModal', true);
+  }
 
-    closeModal() {
-      this.set('showResetModal', false);
-    },
+  @action
+  closeModal() {
+    this.set('showResetModal', false);
+  }
 
-    reset() {
-      this.scorecard.save({ adapterOptions: { resetCompetence: true, userId: this.currentUser.user.id, competenceId: this.get('scorecard.competenceId') } });
+  @action
+  reset() {
+    this.scorecard.save({ adapterOptions: { resetCompetence: true, userId: this.currentUser.user.id, competenceId: this.get('scorecard.competenceId') } });
 
-      this.set('showResetModal', false);
-    }
-  },
-
-});
+    this.set('showResetModal', false);
+  }
+}

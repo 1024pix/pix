@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-});
+@classic
+export default class InaccessibleCampaign extends Component {}

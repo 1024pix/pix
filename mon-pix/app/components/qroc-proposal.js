@@ -1,33 +1,36 @@
+import { classNames } from '@ember-decorators/component';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
-export default Component.extend({
+@classic
+@classNames('qroc-proposal')
+export default class QrocProposal extends Component {
+  format = null;
+  proposals = null;
+  answerValue = null;
+  answerChanged = null; // action
 
-  classNames: ['qroc-proposal'],
-
-  format: null,
-  proposals: null,
-  answerValue: null,
-  answerChanged: null, // action
-
-  _blocks: computed('proposals', function() {
+  @computed('proposals')
+  get _blocks() {
     return proposalsAsBlocks(this.proposals);
-  }),
+  }
 
-  userAnswer : computed('answerValue', function() {
+  @computed('answerValue')
+  get userAnswer() {
     const answer = this.answerValue || '';
     return answer.indexOf('#ABAND#') > -1 ? '' : answer;
-  }),
+  }
 
-  didInsertElement: function() {
+  didInsertElement() {
 
     this.$('input').keydown(() => {
       this.answerChanged();
     });
-  },
+  }
 
-  willRender: function() {
+  willRender() {
     this.notifyPropertyChange('proposals');
   }
-});
+}

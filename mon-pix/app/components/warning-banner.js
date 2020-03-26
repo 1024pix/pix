@@ -1,6 +1,8 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import ENV from 'mon-pix/config/environment';
 
-export default Component.extend({
-  isEnabled: ENV.APP.IS_WARNING_BANNER_ENABLED
-});
+@classic
+export default class WarningBanner extends Component {
+  isEnabled = ENV.APP.IS_WARNING_BANNER_ENABLED;
+}

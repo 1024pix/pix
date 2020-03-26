@@ -1,20 +1,27 @@
-import _maxBy from 'lodash/maxBy';
+import { classNames } from '@ember-decorators/component';
 import { computed } from '@ember/object';
 import { filterBy } from '@ember/object/computed';
+import _maxBy from 'lodash/maxBy';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
+@classic
+@classNames('resume-campaign-banner')
+export default class ResumeCampaignBanner extends Component {
+  campaignParticipations = [];
 
-  classNames: ['resume-campaign-banner'],
-  campaignParticipations: [],
+  @filterBy('campaignParticipations', 'isShared', false)
+  unsharedCampaignParticipations;
 
-  unsharedCampaignParticipations: filterBy('campaignParticipations', 'isShared', false),
-
-  lastUnsharedCampaignParticipation: computed('unsharedCampaignParticipations.@each.createdAt', function() {
+  @computed('unsharedCampaignParticipations.@each.createdAt')
+  get lastUnsharedCampaignParticipation() {
     return _maxBy(this.unsharedCampaignParticipations, 'createdAt');
-  }),
+  }
 
-  campaignToResumeOrShare: computed('lastUnsharedCampaignParticipation.campaign.{title,code},lastUnsharedCampaignParticipation.assessment.isCompleted', function() {
+  @computed(
+    'lastUnsharedCampaignParticipation.campaign.{title,code},lastUnsharedCampaignParticipation.assessment.isCompleted'
+  )
+  get campaignToResumeOrShare() {
     if (this.lastUnsharedCampaignParticipation) {
       return {
         title: this.lastUnsharedCampaignParticipation.campaign.get('title'),
@@ -24,6 +31,5 @@ export default Component.extend({
     }
 
     return null;
-  }),
-
-});
+  }
+}

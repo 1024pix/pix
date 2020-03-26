@@ -1,5 +1,7 @@
+import { classNames } from '@ember-decorators/component';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  classNames: ['checkpoint__continue']
-});
+@classic
+@classNames('checkpoint__continue')
+export default class CheckpointContinue extends Component {}

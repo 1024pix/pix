@@ -1,65 +1,66 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { attributeBindings, classNames } from '@ember-decorators/component';
+import { action, computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-
-  // Element
-  classNames: ['challenge-embed-simulator'],
-  attributeBindings: ['embedDocumentHeightStyle:style'],
-
+@classic
+@classNames('challenge-embed-simulator')
+@attributeBindings('embedDocumentHeightStyle:style')
+export default class ChallengeEmbedSimulator extends Component {
   // Data props
-  embedDocument: null,
+  embedDocument = null;
 
   // CPs
-  embedDocumentHeightStyle: computed('embedDocument.height', function() {
+  @computed('embedDocument.height')
+  get embedDocumentHeightStyle() {
     return htmlSafe(`height: ${this.get('embedDocument.height')}px`);
-  }),
+  }
 
-  // Actions
-  actions: {
-    launchSimulator() {
-      const iframe = this._getIframe();
+  @action
+  launchSimulator() {
+    const iframe = this._getIframe();
 
-      // TODO: use correct targetOrigin once the embeds are hosted behind our domain
-      iframe.contentWindow.postMessage('launch', '*');
-      iframe.focus();
+    // TODO: use correct targetOrigin once the embeds are hosted behind our domain
+    iframe.contentWindow.postMessage('launch', '*');
+    iframe.focus();
 
-      this.toggleProperty('_isSimulatorNotYetLaunched');
-      this._unblurSimulator();
-    },
+    this.toggleProperty('_isSimulatorNotYetLaunched');
+    this._unblurSimulator();
+  }
 
-    rebootSimulator() {
-      this._rebootSimulator();
-    },
-  },
+  @action
+  rebootSimulator() {
+    this._rebootSimulator();
+  }
 
   // Internals
-  _isSimulatorNotYetLaunched: true,
-  _hiddenSimulatorClass: null,
+  _isSimulatorNotYetLaunched = true;
+
+  _hiddenSimulatorClass = null;
 
   didUpdateAttrs() {
     this.set('_isSimulatorNotYetLaunched', true);
     this.set('_hiddenSimulatorClass', 'hidden-class');
-  },
+  }
 
   didRender() {
-    this._super(...arguments);
+    super.didRender(...arguments);
     const iframe = this._getIframe();
     iframe.onload = () => {
       this._removePlaceholder();
     };
-  },
+  }
 
   _removePlaceholder() {
     if (this.embedDocument.url) {
       this.set('_hiddenSimulatorClass', null);
     }
-  },
+  }
 
   _getIframe() {
     return this.element.querySelector('.embed__iframe');
-  },
+  }
 
   /* This method is not tested because it would be too difficult (add an observer on a complicated stubbed DOM API element!) */
   _rebootSimulator() {
@@ -76,10 +77,10 @@ export default Component.extend({
       iframe.src = tmpSrc;
     };
     iframe.src = '';
-  },
+  }
 
   _unblurSimulator() {
     const $simulatorPanel = this.element.getElementsByClassName('embed__simulator').item(0);
     $simulatorPanel.classList.remove('blurred');
   }
-});
+}
