@@ -23,7 +23,6 @@ module.exports = {
         ref: 'id',
         attributes: [
           'name',
-          'index',
           'areaColor',
           'masteryPercentage',
           'totalSkillsCount',

@@ -216,7 +216,6 @@ describe('Acceptance | API | Campaign Participation Result', () => {
         }, {
           attributes: {
             'area-color': 'emerald',
-            index: undefined,
             'mastery-percentage': 38,
             name: 'Pix Emploi',
             'tested-skills-count': 5,

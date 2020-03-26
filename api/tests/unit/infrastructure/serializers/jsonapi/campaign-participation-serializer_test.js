@@ -28,6 +28,24 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
           validatedSkillsCount: 2,
         }
       ];
+      const badgePartnerCompetenceResults = [
+        {
+          id: '1',
+          isCompleted: true,
+          masteryPercentage: 50,
+          testedSkillsCount: 5,
+          totalSkillsCount: 10,
+          validatedSkillsCount: 5,
+        },
+        {
+          id: '2',
+          isCompleted: true,
+          masteryPercentage: 66,
+          testedSkillsCount: 5,
+          totalSkillsCount: 6,
+          validatedSkillsCount: 4,
+        }
+      ];
       const campaignParticipationResult = {
         id: 1,
         isCompleted: true,
@@ -36,7 +54,8 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
         testedSkillsCount: 5,
         validatedSkillsCount: 4,
         progress: 1,
-        competenceResults
+        competenceResults,
+        badgePartnerCompetenceResults,
       };
       const meta = {};
       const campaignParticipation = new CampaignParticipation({
@@ -125,6 +144,26 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
           },
           {
             attributes: {
+              'mastery-percentage': 50,
+              'tested-skills-count': 5,
+              'total-skills-count': 10,
+              'validated-skills-count': 5,
+            },
+            id: '1',
+            type: 'badgePartnerCompetenceResults',
+          },
+          {
+            attributes: {
+              'mastery-percentage': 66,
+              'tested-skills-count': 5,
+              'total-skills-count': 6,
+              'validated-skills-count': 4,
+            },
+            id: '2',
+            type: 'badgePartnerCompetenceResults'
+          },
+          {
+            attributes: {
               id: 1,
               'is-completed': true,
               'mastery-percentage': 40,
@@ -134,6 +173,18 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
               'progress': 1
             },
             relationships: {
+              'badge-partner-competence-results': {
+                data: [
+                  {
+                    id: '1',
+                    type: 'badgePartnerCompetenceResults',
+                  },
+                  {
+                    id: '2',
+                    type: 'badgePartnerCompetenceResults'
+                  }
+                ]
+              },
               'competence-results': {
                 data: [{
                   id: '1',
