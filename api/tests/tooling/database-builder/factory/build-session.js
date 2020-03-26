@@ -21,6 +21,7 @@ module.exports = function buildSession({
   createdAt = faker.date.recent(),
   finalizedAt = null,
   resultsSentToPrescriberAt = null,
+  publishedAt = null,
 } = {}) {
 
   if (_.isUndefined(certificationCenterId)) {
@@ -44,6 +45,7 @@ module.exports = function buildSession({
     createdAt,
     finalizedAt,
     resultsSentToPrescriberAt,
+    publishedAt,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'sessions',

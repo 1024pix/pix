@@ -26,6 +26,7 @@ class Session {
     examinerGlobalComment,
     finalizedAt,
     resultsSentToPrescriberAt,
+    publishedAt,
     // includes
     certificationCandidates,
     // references
@@ -45,6 +46,7 @@ class Session {
     this.examinerGlobalComment = examinerGlobalComment;
     this.finalizedAt = finalizedAt;
     this.resultsSentToPrescriberAt = resultsSentToPrescriberAt;
+    this.publishedAt = publishedAt;
     // includes
     this.certificationCandidates = certificationCandidates;
     // references

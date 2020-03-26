@@ -17,6 +17,7 @@ const SESSION_PROPS = [
   'examinerGlobalComment',
   'finalizedAt',
   'resultsSentToPrescriberAt',
+  'publishedAt',
   'certificationCandidates',
 ];
 
@@ -39,6 +40,7 @@ describe('Unit | Domain | Models | Session', () => {
       examinerGlobalComment: '',
       finalizedAt: '',
       resultsSentToPrescriberAt: '',
+      publishedAt: '',
       // includes
       certificationCandidates: [],
     });
