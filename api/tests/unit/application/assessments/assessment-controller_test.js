@@ -1,7 +1,7 @@
 const { sinon, expect, generateValidRequestAuthorizationHeader, hFake, catchErr } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const usecases = require('../../../../lib/domain/usecases');
-const { cleaBadgeCreationHandler } = require('../../../../lib/domain/events/clea-badge-creation-handler');
+const { badgeCreationHandler } = require('../../../../lib/domain/events/badge-creation-handler');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
@@ -113,14 +113,14 @@ describe('Unit | Controller | assessment-controller', function() {
       sinon.stub(usecases, 'completeAssessment');
       usecases.completeAssessment.resolves(event);
 
-      sinon.stub(cleaBadgeCreationHandler, 'handle');
+      sinon.stub(badgeCreationHandler, 'handle');
       domainTransaction = domainTransactionStub();
       sinon.stub(DomainTransaction, 'begin').returns(domainTransaction);
     });
 
     it('should call the completeAssessment use case', async () => {
       // given
-      cleaBadgeCreationHandler.handle.resolves({});
+      badgeCreationHandler.handle.resolves({});
 
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
@@ -131,18 +131,18 @@ describe('Unit | Controller | assessment-controller', function() {
 
     it('should pass the assessment completed event to the CleaBadgeCreationHandler', async () => {
       /// given
-      cleaBadgeCreationHandler.handle.resolves({});
+      badgeCreationHandler.handle.resolves({});
 
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
 
       // then
-      expect(cleaBadgeCreationHandler.handle).to.have.been.calledWithExactly(domainTransaction, event);
+      expect(badgeCreationHandler.handle).to.have.been.calledWithExactly(domainTransaction, event);
     });
 
     it('should begin a domain transaction on assessment completion', async () => {
       // given
-      cleaBadgeCreationHandler.handle.resolves({});
+      badgeCreationHandler.handle.resolves({});
 
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
@@ -153,7 +153,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
     it('should end the domain transaction after assessment completion', async () => {
       // given
-      cleaBadgeCreationHandler.handle.resolves({});
+      badgeCreationHandler.handle.resolves({});
 
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
@@ -165,7 +165,7 @@ describe('Unit | Controller | assessment-controller', function() {
     it('should rollback the domain transaction when an error occurs', async () => {
       // given
       const anError = new Error('An error during badge acquisition occurs');
-      cleaBadgeCreationHandler.handle.throws(anError);
+      badgeCreationHandler.handle.throws(anError);
 
       // when
       await catchErr(assessmentController.completeAssessment)({ params: { id: assessmentId } });

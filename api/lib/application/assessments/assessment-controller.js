@@ -1,6 +1,6 @@
 const { AssessmentEndedError } = require('../../domain/errors');
 const usecases = require('../../domain/usecases');
-const { cleaBadgeCreationHandler } = require('../../domain/events/clea-badge-creation-handler');
+const { badgeCreationHandler } = require('../../domain/events/badge-creation-handler');
 const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
@@ -93,7 +93,7 @@ module.exports = {
     const domainTransaction = await DomainTransaction.begin();
     try {
       const assessmentCompletedEvent = await usecases.completeAssessment({ domainTransaction, assessmentId });
-      await cleaBadgeCreationHandler.handle(domainTransaction, assessmentCompletedEvent);
+      await badgeCreationHandler.handle(domainTransaction, assessmentCompletedEvent);
       await domainTransaction.commit();
     } catch (e) {
       await domainTransaction.rollback();
