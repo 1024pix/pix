@@ -62,7 +62,7 @@
     "ember-composable-helpers": "^3.1.1",
     "ember-data": "^3.16.0",
     "ember-export-application-global": "^2.0.1",
-    "ember-fetch": "^7.0.0",
+    "ember-fetch": "^7.0.1",
     "ember-file-upload": "^2.7.1",
     "ember-flatpickr": "^2.15.3",
     "ember-inputmask": "^0.9.2",
