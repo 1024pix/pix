@@ -53,6 +53,7 @@ Router.map(function() {
         this.route('info', { path: '/:certification_id' });
         this.route('details', { path: '/:certification_id/details' });
       });
+      this.route('certification', { path: '/:certification_id' });
     });
 
     this.route('tools');

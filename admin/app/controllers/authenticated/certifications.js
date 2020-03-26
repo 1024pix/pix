@@ -8,6 +8,6 @@ export default class CertificationsController extends Controller {
   @action
   loadCertification() {
     const certifId = this.inputId;
-    this.router.transitionTo('authenticated.certifications.single.info', certifId);
+    this.router.transitionTo('authenticated.certifications.certification', certifId);
   }
 }
