@@ -21,8 +21,8 @@ module.exports = async function getCampaignParticipationResult(
   const badge = await badgeRepository.findOneByTargetProfileId(targetProfile.id);
   campaignParticipationResult.badge = badge;
   if (badge != null) {
-    const badgeAcquisition = await badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: badge.id });
-    campaignParticipationResult.areBadgeCriteriaFulfilled = badgeAcquisition != null;
+    const hasAcquiredBadge = await badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: badge.id });
+    campaignParticipationResult.areBadgeCriteriaFulfilled = hasAcquiredBadge;
   }
 
   return campaignParticipationResult;

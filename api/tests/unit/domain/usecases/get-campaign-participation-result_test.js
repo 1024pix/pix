@@ -96,12 +96,11 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
             id: 'foo'
           };
           campaignParticipationResultFactory.create.resolves(campaignParticipationResult);
-          const badgeAcquisition = Symbol('badge is acquired');
 
           badgeAcquisitionRepository.hasAcquiredBadgeWithId.withArgs({
             userId,
             badgeId: badge.id
-          }).resolves(badgeAcquisition);
+          }).resolves(true);
 
           // when
           const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
@@ -121,7 +120,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
           badgeAcquisitionRepository.hasAcquiredBadgeWithId.withArgs({
             userId,
             badgeId: badge.id
-          }).resolves(null);
+          }).resolves(false);
 
           // when
           const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
