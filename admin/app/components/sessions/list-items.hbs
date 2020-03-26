@@ -1,4 +1,4 @@
-<div class="session-list content-text content-text--small table-admin__wrapper">
+<div class="content-text content-text--small table-admin__wrapper">
   <table class="table-admin table-admin__auto-width">
     <thead>
       <tr>
@@ -30,7 +30,7 @@
       <tbody>
       {{#each @sessions as |session|}}
         <tr>
-          <td>{{session.id}}</td>
+          <td><LinkTo @route="authenticated.sessions.session" @model={{session.id}}> {{session.id}} </LinkTo></td>
           <td>{{session.certificationCenterName}}</td>
             {{#if (and session.certificationCenter session.certificationCenter.type)}}
               <td class="session-list__item--align-center">{{session.certificationCenter.type}}</td>

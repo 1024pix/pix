@@ -20,7 +20,7 @@ module('Acceptance | Session page', function(hooks) {
       await visitSessionsPage();
 
       // then
-      assert.equal(currentURL(), '/certifications/sessions');
+      assert.equal(currentURL(), '/sessions/list');
     });
   });
 
@@ -39,8 +39,8 @@ module('Acceptance | Session page', function(hooks) {
       const session = this.server.create('session');
 
       // when
-      await visit(`/certifications/sessions/${session.id}`);
-      assert.dom('div.certifications-session-info__details').exists();
+      await visit(`/sessions/${session.id}`);
+      assert.dom('div.session-info__details').exists();
       assert.dom('.row:nth-child(10) .col:nth-child(1)').doesNotExist();
     });
 
@@ -49,8 +49,8 @@ module('Acceptance | Session page', function(hooks) {
       const session = this.server.create('session', { status: FINALIZED, finalizedAt: finalizedDate });
 
       // when
-      await visit(`/certifications/sessions/${session.id}`);
-      assert.dom('div.certifications-session-info__details').exists();
+      await visit(`/sessions/${session.id}`);
+      assert.dom('div.session-info__details').exists();
       assert.dom(`.row:nth-child(${STATUS_SECTION}) .col:nth-child(2)`).containsText(statusToDisplayName[FINALIZED]);
       assert.dom(`.row:nth-child(${FINALISATION_DATE_SECTION}) .col:nth-child(2)`).containsText(finalizedDate.toLocaleString('fr-FR'));
       assert.dom(`.row:nth-child(${SENT_TO_PRESCRIPTEUR_DATE_SECTION}) .col:nth-child(2)`).doesNotExist();
@@ -62,16 +62,16 @@ module('Acceptance | Session page', function(hooks) {
         finalizedAt: new Date('2019-03-10T01:03:04Z'),
       });
         // when
-      await visit(`/certifications/sessions/${session.id}`);
-      await click('.certifications-session-info__actions button:nth-child(3)');
+      await visit(`/sessions/${session.id}`);
+      await click('.session-info__actions button:nth-child(3)');
         
-      assert.dom('.certifications-session-info__actions button:nth-child(3)').doesNotExist();
+      assert.dom('.session-info__actions button:nth-child(3)').doesNotExist();
     });
 
   });
 
   async function visitSessionsPage() {
-    return visit('/certifications/sessions');
+    return visit('/sessions');
   }
 
 });

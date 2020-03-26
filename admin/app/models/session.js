@@ -80,6 +80,11 @@ export default class Session extends Model {
     return _formatHumanReadableLocaleDateTime(this.resultsSentToPrescriberAt);
   }
 
+  @computed('resultsSentToPrescriberAt', 'isFinalized')
+  get areResultsToBeSentToPrescriber() {
+    return this.isFinalized && !this.resultsSentToPrescriberAt;
+  }
+
   @computed('date')
   get displayDate() {
     return _formatHumanReadableLocaleDateTime(this.date, { day: 'numeric', month: 'numeric', year: 'numeric' });
