@@ -82,15 +82,11 @@ function _computeCompetenceResults(competences, targetProfileSkillsIds, targeted
 }
 
 function _computeBadgePartnerCompetenceResults(badge, targetProfileSkillsIds, targetedKnowledgeElements) {
-  let targetedBadgePartnerCompetenceResults = [];
-
-  if (!_.isEmpty(badge) && !_.isEmpty(badge.badgePartnerCompetences)) {
-    let targetedBadgePartnerCompetences = _removeUntargetedSkillIdsFromCompetences(badge.badgePartnerCompetences, targetProfileSkillsIds);
-    targetedBadgePartnerCompetences = _removeCompetencesWithoutAnyTargetedSkillsLeft(targetedBadgePartnerCompetences);
-    targetedBadgePartnerCompetenceResults = _.map(targetedBadgePartnerCompetences,
-      (badgePartnerCompetence) => _getTestedCompetenceResults(badgePartnerCompetence, targetedKnowledgeElements));
+  if (_.isEmpty(badge) || _.isEmpty(badge.badgePartnerCompetences)) {
+    return [];
   }
-  return targetedBadgePartnerCompetenceResults;
+
+  return _computeCompetenceResults(badge.badgePartnerCompetences, targetProfileSkillsIds, targetedKnowledgeElements);
 }
 
 function _removeUntargetedSkillIdsFromCompetences(competences, targetProfileSkillsIds) {
