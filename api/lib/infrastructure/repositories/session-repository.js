@@ -117,6 +117,13 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
   },
 
+  async flagResultsAsSentToPrescriber({ id, resultsSentToPrescriberAt }) {
+    let flaggedSession = await new BookshelfSession({ id })
+      .save({ resultsSentToPrescriberAt }, { patch: true });
+    flaggedSession = await flaggedSession.refresh();
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, flaggedSession);
+  },
+
   async findPaginatedFiltered({ filters, page }) {
     const { models, pagination } = await BookshelfSession
       .query((qb) => {
