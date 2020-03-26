@@ -15,6 +15,10 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
   let validator;
   let correctAnswerValue;
   let answer;
+  const addOneLevel = {
+    level: 1,
+    pix: 8
+  };
 
   const answerRepository = {
     findByChallengeAndAssessment: () => undefined,
@@ -185,14 +189,14 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           // given
           const scorecardAfterAnswer = domainBuilder.buildUserScorecard({
             name: scorecard.name,
-            level: scorecard.level + 1,
-            earnedPix: scorecard.earnedPix + 8,
-            exactlyEarnedPix: scorecard.exactlyEarnedPix + 8 });
+            level: scorecard.level + addOneLevel.level,
+            earnedPix: scorecard.earnedPix + addOneLevel.pix,
+            exactlyEarnedPix: scorecard.exactlyEarnedPix + addOneLevel.pix });
           scorecardService.computeScorecard
             .onFirstCall().resolves(scorecard)
             .onSecondCall().resolves(scorecardAfterAnswer);
-
           const expectedLevel = scorecardAfterAnswer.level;
+
           // when
           const result = await correctAnswerThenUpdateAssessment({
             answer,
@@ -413,9 +417,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           // given
           const scorecardAfterAnswer = domainBuilder.buildUserScorecard({
             name: scorecard.name,
-            level: scorecard.level + 1,
-            earnedPix: scorecard.earnedPix + 8,
-            exactlyEarnedPix: scorecard.exactlyEarnedPix + 8 });
+            level: scorecard.level + addOneLevel.level,
+            earnedPix: scorecard.earnedPix + addOneLevel.pix,
+            exactlyEarnedPix: scorecard.exactlyEarnedPix + addOneLevel.pix });
           scorecardService.computeScorecard
             .onFirstCall().resolves(scorecard)
             .onSecondCall().resolves(scorecardAfterAnswer);
