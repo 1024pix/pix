@@ -50,7 +50,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
     });
   });
 
-  describe('#hasAcquiredBadge', () => {
+  describe('#hasAcquiredBadgeWithKey', () => {
     let userId;
     let badgeKey;
 
@@ -71,7 +71,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
 
     it('should check that the user has acquired the badge', async () => {
       // when
-      const hasBadge = await badgeAcquisitionRepository.hasAcquiredBadge({ userId, badgeKey });
+      const hasBadge = await badgeAcquisitionRepository.hasAcquiredBadgeWithKey({ userId, badgeKey });
 
       // then
       expect(hasBadge).to.be.true;
@@ -79,7 +79,42 @@ describe('Integration | Repository | Badge Acquisition', () => {
 
     it('should check that the user has not acquired the badge', async () => {
       // when
-      const hasBadge = await badgeAcquisitionRepository.hasAcquiredBadge({ userId, badgeKey: badgeKey + '!' });
+      const hasBadge = await badgeAcquisitionRepository.hasAcquiredBadgeWithKey({ userId, badgeKey: badgeKey + '!' });
+
+      // then
+      expect(hasBadge).to.be.false;
+    });
+  });
+
+  describe('#hasAcquiredBadgeWithId', () => {
+    let userId;
+    let badgeId;
+
+    beforeEach(async () => {
+      badgeId = databaseBuilder.factory.buildBadge().id;
+      userId = databaseBuilder.factory.buildUser().id;
+
+      badgeAcquisitionToCreate = databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await knex('badge-acquisitions').delete();
+      await knex('badges').delete();
+      return knex('users').delete();
+    });
+
+    it('should check that the user has acquired the badge', async () => {
+      // when
+      const hasBadge = await badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId });
+
+      // then
+      expect(hasBadge).to.be.true;
+    });
+
+    it('should check that the user has not acquired the badge', async () => {
+      // when
+      const hasBadge = await badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: -1 });
 
       // then
       expect(hasBadge).to.be.false;
