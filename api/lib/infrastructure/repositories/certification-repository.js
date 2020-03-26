@@ -90,15 +90,13 @@ module.exports = {
       });
   },
 
-  updatePublicationStatusesBySessionId(sessionId, toPublish) {
-    return Bookshelf.transaction(async (trx) => {
-      const statuses = await this.getAssessmentResultsStatusesBySessionId(sessionId);
-      if (statuses.includes('error') || statuses.includes('started')) {
-        throw new CertificationCourseNotPublishableError();
-      }
-      await CertificationCourseBookshelf
-        .where({ sessionId })
-        .save({ isPublished: toPublish },{ patch: true, transacting: trx });
-    });
+  async updatePublicationStatusesBySessionId(sessionId, toPublish) {
+    const statuses = await this.getAssessmentResultsStatusesBySessionId(sessionId);
+    if (statuses.includes('error') || statuses.includes('started')) {
+      throw new CertificationCourseNotPublishableError();
+    }
+    await CertificationCourseBookshelf
+      .where({ sessionId })
+      .save({ isPublished: toPublish }, { method: 'update' });
   }
 };
