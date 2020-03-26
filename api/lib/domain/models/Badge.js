@@ -24,4 +24,8 @@ class Badge {
   }
 }
 
+Badge.keys = {
+  CLEA: 'CLEA',
+};
+
 module.exports = Badge;
