@@ -121,6 +121,13 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, flaggedSession);
   },
 
+  async updatePublishedAt({ id, publishedAt }) {
+    let publishedSession = await new BookshelfSession({ id })
+      .save({ publishedAt }, { patch: true });
+    publishedSession = await publishedSession.refresh();
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, publishedSession);
+  },
+
   async findPaginatedFiltered({ filters, page }) {
     const { models, pagination } = await BookshelfSession
       .query((qb) => {
