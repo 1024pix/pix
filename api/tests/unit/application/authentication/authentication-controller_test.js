@@ -1,16 +1,19 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 
-const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
-const usecases = require('../../../../lib/domain/usecases');
 const tokenService = require('../../../../lib/domain/services/token-service');
+const usecases = require('../../../../lib/domain/usecases');
+
+const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
 describe('Unit | Application | Controller | Authentication', () => {
 
   describe('#authenticateUser', () => {
+
+    const accessToken = 'jwt.access.token';
+
     let request;
 
     beforeEach(() => {
-
       request = {
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -22,7 +25,7 @@ describe('Unit | Application | Controller | Authentication', () => {
           scope: 'pix-orga'
         }
       };
-      sinon.stub(usecases, 'authenticateUser').resolves('jwt.access.token');
+      sinon.stub(usecases, 'authenticateUser').resolves(accessToken);
       sinon.stub(tokenService, 'extractUserId').returns(1);
     });
 
@@ -53,7 +56,7 @@ describe('Unit | Application | Controller | Authentication', () => {
       // then
       const expectedResponseResult = {
         token_type: 'bearer',
-        access_token: 'jwt.access.token',
+        access_token: accessToken,
         user_id: 1
       };
       expect(response.source).to.deep.equal(expectedResponseResult);
