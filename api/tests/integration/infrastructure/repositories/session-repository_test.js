@@ -3,7 +3,6 @@ const _ = require('lodash');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const Session = require('../../../../lib/domain/models/Session');
 const { statuses } = require('../../../../lib/domain/models/Session');
-const BookshelfSession = require('../../../../lib/infrastructure/data/campaign');
 const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 
 describe('Integration | Repository | Session', function() {
@@ -234,24 +233,26 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#update', () => {
+  describe('#updateSessionInfo', () => {
     let session;
 
     beforeEach(() => {
-      const bookshelfSession = databaseBuilder.factory.buildSession({
-        id: 1,
-        room: '28D',
-        examiner: 'Roger',
-        status: statuses.CREATED,
-      });
-      session = domainBuilder.buildSession(bookshelfSession);
+      const savedSession = databaseBuilder.factory.buildSession();
+      session = domainBuilder.buildSession(savedSession);
+      session.room = 'New room';
+      session.examiner = 'New examiner';
+      session.address = 'New address';
+      session.accessCode = 'BABAAURHUM';
+      session.date = '2010-01-01';
+      session.time = '12:00:00';
+      session.description = 'New description';
 
       return databaseBuilder.commit();
     });
 
     it('should return a Session domain object', async () => {
       // when
-      const sessionSaved = await sessionRepository.update(session);
+      const sessionSaved = await sessionRepository.updateSessionInfo(session);
 
       // then
       expect(sessionSaved).to.be.an.instanceof(Session);
@@ -259,34 +260,19 @@ describe('Integration | Repository | Session', function() {
 
     it('should update model in database', async () => {
       // given
-      session.room = 'New room';
-      session.examiner = 'New examiner';
-      session.examinerGlobalComment = 'It was a fine session my dear';
-      session.status = statuses.FINALIZED;
-      session.resultsSentToPrescriberAt = new Date('2018-02-15T15:00:34Z');
 
       // when
-      const sessionSaved = await sessionRepository.update(session);
+      const sessionSaved = await sessionRepository.updateSessionInfo(session);
 
       // then
       expect(sessionSaved.id).to.equal(session.id);
-      expect(sessionSaved.room).to.equal('New room');
-      expect(sessionSaved.examiner).to.equal('New examiner');
-      expect(sessionSaved.examinerGlobalComment).to.equal('It was a fine session my dear');
-      expect(sessionSaved.status).to.equal(statuses.FINALIZED);
-      expect(sessionSaved.resultsSentToPrescriberAt).to.deep.equal(new Date('2018-02-15T15:00:34Z'));
-    });
-
-    it('should not add row in table "sessions"', async () => {
-      // given
-      const rowCount = await BookshelfSession.count();
-
-      // when
-      await sessionRepository.update(session);
-
-      // then
-      const rowCountAfterUpdate = await BookshelfSession.count();
-      expect(rowCountAfterUpdate).to.equal(rowCount);
+      expect(sessionSaved.room).to.equal(session.room);
+      expect(sessionSaved.examiner).to.equal(session.examiner);
+      expect(sessionSaved.address).to.equal(session.address);
+      expect(sessionSaved.accessCode).to.equal(session.accessCode);
+      expect(sessionSaved.date).to.equal(session.date);
+      expect(sessionSaved.time).to.equal(session.time);
+      expect(sessionSaved.description).to.equal(session.description);
     });
   });
 

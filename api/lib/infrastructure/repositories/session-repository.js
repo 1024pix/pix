@@ -67,7 +67,7 @@ module.exports = {
     }
   },
 
-  async update(session) {
+  async updateSessionInfo(session) {
     const sessionDataToUpdate = _.pick(session, [
       'address',
       'room',
@@ -76,9 +76,6 @@ module.exports = {
       'date',
       'time',
       'description',
-      'status',
-      'examinerGlobalComment',
-      'resultsSentToPrescriberAt',
     ]);
 
     let updatedSession = await new BookshelfSession({ id: session.id })
