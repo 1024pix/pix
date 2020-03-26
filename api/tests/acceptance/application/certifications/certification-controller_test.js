@@ -1,5 +1,4 @@
 const {
-  knex,
   expect,
   airtableBuilder,
   databaseBuilder,
@@ -276,86 +275,6 @@ describe('Acceptance | API | Certifications', () => {
 
       // then
       expect(response.statusCode).to.equal(403);
-    });
-  });
-
-  describe('PATCH /api/certifications/:id', () => {
-    let pixMasterId;
-
-    beforeEach(() => {
-      pixMasterId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
-      return databaseBuilder.commit();
-    });
-
-    it('should return 200 HTTP status code and the updated certification', async () => {
-      // given
-      options = {
-        method: 'PATCH',
-        url: `/api/certifications/${certificationCourse.id}`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(pixMasterId) },
-        payload: {
-          data: {
-            type: 'certifications',
-            id: certificationCourse.id,
-            attributes: {
-              'is-published': true,
-            },
-          },
-        },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result.data).to.deep.equal({
-        type: 'certifications',
-        id: `${certificationCourse.id}`,
-        attributes: {
-          'birthdate': certificationCourse.birthdate,
-          'birthplace': certificationCourse.birthplace,
-          'certification-center': session.certificationCenter,
-          'comment-for-candidate': assessmentResult.commentForCandidate,
-          'date': certificationCourse.createdAt,
-          'first-name': certificationCourse.firstName,
-          'is-published': true,
-          'last-name': certificationCourse.lastName,
-          'pix-score': assessmentResult.pixScore,
-          'status': assessmentResult.status,
-        },
-        relationships: {
-          'result-competence-tree': {
-            'data': null,
-          },
-        },
-      });
-      const foundCertification = await knex('certification-courses').where('id', certificationCourse.id);
-      expect(foundCertification[0].isPublished).to.be.true;
-    });
-
-    it('should return unauthorized 403 HTTP status code when user is not pixMaster', async () => {
-      // given
-      options = {
-        method: 'PATCH',
-        url: `/api/certifications/${certificationCourse.id}`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(4444) },
-        payload: {
-          data: {
-            attributes: {
-              'is-published': true,
-            },
-          },
-        },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(403);
-      const actualCertifications = await knex('certification-courses').where('id', certificationCourse.id);
-      expect(actualCertifications[0].isPublished).to.be.false;
     });
   });
 
