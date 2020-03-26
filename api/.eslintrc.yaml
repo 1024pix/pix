@@ -2,3 +2,9 @@ extends: '../.eslintrc.yaml'
 
 globals:
   include: true
+
+rules:
+  no-restricted-syntax: [error, {
+    selector: "CallExpression[callee.object.name='knex'][callee.property.name='raw'][arguments.0.type='TemplateLiteral']",
+    message: "do not use template strings with knex.raw to avoid SQL injection"
+  }]
