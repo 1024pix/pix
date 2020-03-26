@@ -1,3 +1,5 @@
+const { InvalidParametersForSessionPublication } = require('../../domain/errors');
+
 module.exports = async function updatePublicationSession({
   sessionId,
   toPublish,
@@ -5,11 +7,18 @@ module.exports = async function updatePublicationSession({
   sessionRepository,
   publishedAt = new Date(),
 }) {
-  await certificationRepository.updatePublicationStatusesBySessionId(sessionId, toPublish);
-  if (toPublish) {
-    const session = await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
-    return { publishedAtUpdated: true, session };
+  const integerSessionId = parseInt(sessionId);
+
+  if (!Number.isFinite(integerSessionId) || (typeof toPublish !== 'boolean')) {
+    throw new InvalidParametersForSessionPublication();
   }
-  const session = await sessionRepository.get(sessionId);
-  return { publishedAtUpdated: false, session };
+
+  let session = await sessionRepository.get(sessionId);
+  await certificationRepository.updatePublicationStatusesBySessionId(sessionId, toPublish);
+
+  if (toPublish) {
+    session = await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
+  }
+
+  return session;
 };
