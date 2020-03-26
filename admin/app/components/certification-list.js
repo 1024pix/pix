@@ -6,7 +6,7 @@ export default class CertificationList extends Component {
     {
       propertyName: 'id',
       title: 'Id',
-      routeName: 'authenticated.certifications.single.info',
+      routeName: 'authenticated.certifications.certification.informations',
       sortPrecedence: 1
     },
     {
