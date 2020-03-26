@@ -17,7 +17,6 @@ describe('Unit | Controller | campaign-participation-result-controller', () => {
     it('should return ok', async () => {
       // given
       usecases.getCampaignParticipationResult.withArgs({
-        campaignParticipationResultFactory: sinon.match.any,
         campaignParticipationId,
         userId
       }).resolves({});
@@ -32,7 +31,7 @@ describe('Unit | Controller | campaign-participation-result-controller', () => {
       });
 
       // then
-      expect(response).to.be.equal('ok');
+      expect(response).to.equal('ok');
     });
 
   });

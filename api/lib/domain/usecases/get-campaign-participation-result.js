@@ -5,17 +5,17 @@ module.exports = async function getCampaignParticipationResult(
     userId,
     campaignParticipationId,
     badgeRepository,
+    badgeAcquisitionRepository,
     campaignParticipationRepository,
+    campaignParticipationResultRepository,
     campaignRepository,
     targetProfileRepository,
-    campaignParticipationResultFactory,
-    badgeAcquisitionRepository
   }
 ) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
   await _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository);
 
-  const campaignParticipationResult = await campaignParticipationResultFactory.create(campaignParticipationId);
+  const campaignParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId);
 
   const targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
   const badge = await badgeRepository.findOneByTargetProfileId(targetProfile.id);
