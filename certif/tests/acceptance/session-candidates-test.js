@@ -129,6 +129,7 @@ module('Acceptance | Session Candidates', function(hooks) {
 
             // then
             assert.dom('[data-test-notification-message="error"]').exists();
+            assert.dom('[data-test-notification-message="error"]').hasText('Une erreur s\'est produite lors de l\'ajout du candidat');
           });
         });
 
