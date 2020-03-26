@@ -1,0 +1,15 @@
+.certification-informations {
+  padding: 20px;
+
+  .card {
+    margin-bottom: 20px;
+  }
+
+  &__actions {
+    text-align: center;
+  }
+
+  &__published-float {
+    float: right;
+  }
+}

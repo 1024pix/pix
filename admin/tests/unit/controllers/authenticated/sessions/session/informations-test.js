@@ -28,14 +28,14 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     downloadJuryFile.throws(error);
     sessionInfoServiceStub = { downloadSessionExportFile, downloadJuryFile };
 
-    controller.set('sessionInfoService', sessionInfoServiceStub);
+    controller.sessionInfoService = sessionInfoServiceStub;
   });
 
   module('#downloadSessionResultFile', function() {
 
     test('should launch the download of result file', function(assert) {
       // given
-      controller.set('model', model);
+      controller.model = model;
 
       // when
       controller.actions.downloadSessionResultFile.call(controller);
@@ -47,7 +47,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     test('should throw an error', function(assert) {
       // given
       const notificationsStub = { error: sinon.stub() };
-      controller.set('notifications', notificationsStub);
+      controller.notifications = notificationsStub;
 
       // when
       controller.actions.downloadSessionResultFile.call(controller);
@@ -64,7 +64,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       // given
       const modelId = model.id;
       const modelCertifications = model.certifications;
-      controller.set('model', model);
+      controller.model = model;
 
       // when
       controller.actions.downloadBeforeJuryFile.call(controller);
@@ -76,8 +76,8 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     test('should throw an error if service is called with wrongs parameters', function(assert) {
       // given
       const notificationsStub = { error: sinon.stub() };
-      controller.set('notifications', notificationsStub);
-      controller.set('model', 'wrong model');
+      controller.notifications = notificationsStub;
+      controller.model = 'wrong model';
 
       // when
       controller.actions.downloadBeforeJuryFile.call(controller);
