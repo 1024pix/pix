@@ -129,7 +129,7 @@ module('Acceptance | Session Candidates', function(hooks) {
 
             // then
             assert.dom('[data-test-notification-message="error"]').exists();
-            assert.dom('[data-test-notification-message="error"]').hasText('Une erreur s\'est produite lors de l\'ajout du candidat');
+            assert.dom('[data-test-notification-message="error"]').hasText('Une erreur s\'est produite lors de l\'ajout du candidat.');
           });
         });
 
@@ -163,6 +163,7 @@ module('Acceptance | Session Candidates', function(hooks) {
 
             // then
             assert.dom('[data-test-notification-message="success"]').exists();
+            assert.dom('[data-test-notification-message="success"]').hasText('Le candidat a été ajouté avec succès.');
           });
 
           test('it should add a new candidate entry', async function(assert) {
@@ -231,6 +232,7 @@ module('Acceptance | Session Candidates', function(hooks) {
 
         // then
         assert.dom('[data-test-notification-message="success"]').exists();
+        assert.dom('[data-test-notification-message="success"]').hasText('La liste des candidats a été importée avec succès.');
       });
 
       test('it should display a generic error message when uploading an invalid file', async function(assert) {
@@ -243,6 +245,7 @@ module('Acceptance | Session Candidates', function(hooks) {
 
         // then
         assert.dom('[data-test-notification-message="error"]').exists();
+        assert.dom('[data-test-notification-message="error"]').hasText('Une erreur s\'est produite lors de l\'import des candidats.');
       });
 
       test('it should display a specific error message when importing is forbidden', async function(assert) {
