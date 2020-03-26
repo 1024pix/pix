@@ -16,7 +16,11 @@ describe('Unit | Controller | campaign-participation-result-controller', () => {
 
     it('should return ok', async () => {
       // given
-      usecases.getCampaignParticipationResult.withArgs({ campaignParticipationId, userId }).resolves({});
+      usecases.getCampaignParticipationResult.withArgs({
+        campaignParticipationResultFactory: sinon.match.any,
+        campaignParticipationId,
+        userId
+      }).resolves({});
       campaignParticipationResultSerializer.serialize.withArgs({}).returns('ok');
 
       // when
