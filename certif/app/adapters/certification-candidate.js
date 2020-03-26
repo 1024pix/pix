@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class SessionAdapter extends ApplicationAdapter {
+export default class CertificationCandidateAdapter extends ApplicationAdapter {
 
   urlForCreateRecord(modelName, { adapterOptions }) {
     const url = super.urlForCreateRecord(...arguments);

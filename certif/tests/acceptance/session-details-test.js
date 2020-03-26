@@ -73,11 +73,13 @@ module('Acceptance | Session Details', function(hooks) {
 
     module('when visiting the candidates tab', function() {
       let sessionWithCandidates;
+      let sessionWithNoCandidates;
       let sessionWithImportNotAllowed;
       let candidateInSession;
 
       hooks.beforeEach(function() {
         sessionWithCandidates = server.create('session');
+        sessionWithNoCandidates = server.create('session');
         candidateInSession = server.create('certification-candidate', { isLinked: false });
         sessionWithCandidates.update({ certificationCandidates : [candidateInSession] });
         sessionWithImportNotAllowed = server.create('session');
@@ -120,7 +122,7 @@ module('Acceptance | Session Details', function(hooks) {
 
       test('it should display a sentence when there is no certification candidates yet', async function(assert) {
         // when
-        await visit(`/sessions/${sessionFinalized.id}/candidats`);
+        await visit(`/sessions/${sessionWithNoCandidates.id}/candidats`);
 
         // then
         assert.dom('table tbody').doesNotExist();
@@ -168,123 +170,75 @@ module('Acceptance | Session Details', function(hooks) {
       });
     });
 
-    module('when finalize feature is desactivated', function(hooks) {
+    test('it should still redirect to update page on click on return button', async function(assert) {
+      // given
+      await visit(`/sessions/${sessionFinalized.id}`);
 
-      hooks.beforeEach(async function() {
-        const controller = this.owner.lookup('controller:authenticated.sessions.details.parameters');
-        controller.set('isSessionFinalizationActive', false);
-      });
+      // when
+      await click('.session-details-content__return-button');
 
-      test('it should be accessible for an authenticated user', async function(assert) {
-        // when
-        await visit(`/sessions/${sessionFinalized.id}`);
-
-        // then
-        assert.equal(currentURL(), `/sessions/${sessionFinalized.id}`);
-      });
-
-      test('it should redirect to update page on click on update button', async function(assert) {
-        // given
-        await visit(`/sessions/${sessionFinalized.id}`);
-
-        // when
-        await click('.session-details-content__update-button');
-
-        // then
-        assert.equal(currentURL(), `/sessions/${sessionFinalized.id}/modification`);
-      });
-
-      test('it should redirect to update page on click on return button', async function(assert) {
-        // given
-        await visit(`/sessions/${sessionFinalized.id}`);
-
-        // when
-        await click('.session-details-content__return-button');
-
-        // then
-        assert.equal(currentURL(), '/sessions/liste');
-      });
-
+      // then
+      assert.equal(currentURL(), '/sessions/liste');
     });
 
-    module('when finalize feature is activated', function(hooks) {
+    module('when the session is not finalized', function() {
 
-      hooks.beforeEach(async function() {
-        const controller = this.owner.lookup('controller:authenticated.sessions.details.parameters');
-        controller.set('isSessionFinalizationActive', true);
-      });
+      module('when the session has not CREATED', function() {
+        test('it should not display the finalize button', async function(assert) {
+          // when
+          await visit(`/sessions/${sessionNotFinalized.id}`);
 
-      test('it should still redirect to update page on click on return button', async function(assert) {
-        // given
-        await visit(`/sessions/${sessionFinalized.id}`);
-
-        // when
-        await click('.session-details-content__return-button');
-
-        // then
-        assert.equal(currentURL(), '/sessions/liste');
-      });
-
-      module('when the session is not finalized', function() {
-
-        module('when the session has not CREATED', function() {
-          test('it should not display the finalize button', async function(assert) {
-            // when
-            await visit(`/sessions/${sessionNotFinalized.id}`);
-
-            // then
-            assert.dom('.session-details-content__finalize-button').doesNotExist();
-          });
-        });
-
-        module('when the session has CREATED', function() {
-          test('it should redirect to finalize page on click on finalize button', async function(assert) {
-            // given
-            const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
-            sessionNotFinalized.update({ certificationCandidates: candidatesWithStartingCertif });
-            await visit(`/sessions/${sessionNotFinalized.id}`);
-
-            // when
-            await click('.session-details-content__finalize-button');
-
-            // then
-            assert.equal(currentURL(), `/sessions/${sessionNotFinalized.id}/finalisation`);
-          });
+          // then
+          assert.dom('.session-details-content__finalize-button').doesNotExist();
         });
       });
 
-      module('when the session is finalized', function() {
-
-        hooks.beforeEach(async function() {
-          const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
-          sessionFinalized.update({ certificationCandidates: candidatesWithStartingCertif });
-        });
-
-        test('it should not redirect to finalize page on click on finalize button', async function(assert) {
+      module('when the session has CREATED', function() {
+        test('it should redirect to finalize page on click on finalize button', async function(assert) {
           // given
-          await visit(`/sessions/${sessionFinalized.id}`);
+          const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
+          sessionNotFinalized.update({ certificationCandidates: candidatesWithStartingCertif });
+          await visit(`/sessions/${sessionNotFinalized.id}`);
 
           // when
           await click('.session-details-content__finalize-button');
 
           // then
-          assert.equal(currentURL(), `/sessions/${sessionFinalized.id}`);
-        });
-
-        test('it should throw an error on visiting /finalisation url', async function(assert) {
-          // given
-          await visit(`/sessions/${sessionFinalized.id}`);
-          const transitionError = new Error('TransitionAborted');
-
-          // then
-          assert.rejects(
-            visit(`/sessions/${sessionFinalized.id}/finalisation`),
-            transitionError,
-            'error raised when visiting finalisation route'
-          );
+          assert.equal(currentURL(), `/sessions/${sessionNotFinalized.id}/finalisation`);
         });
       });
+    });
 
+    module('when the session is finalized', function() {
+
+      hooks.beforeEach(async function() {
+        const candidatesWithStartingCertif = server.createList('certification-candidate', 2, { isLinked: true });
+        sessionFinalized.update({ certificationCandidates: candidatesWithStartingCertif });
+      });
+
+      test('it should not redirect to finalize page on click on finalize button', async function(assert) {
+        // given
+        await visit(`/sessions/${sessionFinalized.id}`);
+
+        // when
+        await click('.session-details-content__finalize-button');
+
+        // then
+        assert.equal(currentURL(), `/sessions/${sessionFinalized.id}`);
+      });
+
+      test('it should throw an error on visiting /finalisation url', async function(assert) {
+        // given
+        await visit(`/sessions/${sessionFinalized.id}`);
+        const transitionError = new Error('TransitionAborted');
+
+        // then
+        assert.rejects(
+          visit(`/sessions/${sessionFinalized.id}/finalisation`),
+          transitionError,
+          'error raised when visiting finalisation route'
+        );
+      });
     });
 
   });
