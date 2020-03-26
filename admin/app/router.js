@@ -48,11 +48,6 @@ Router.map(function() {
     });
 
     this.route('certifications', function() {
-      //TODO: find a better routes settings between info and details
-      this.route('single', function() {
-        this.route('info', { path: '/:certification_id' });
-        this.route('details', { path: '/:certification_id/details' });
-      });
       this.route('certification', { path: '/:certification_id' }, function() {
         this.route('informations', { path: '/' });
         this.route('details');
