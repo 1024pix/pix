@@ -90,26 +90,6 @@ module.exports = {
       });
   },
 
-  updatePublicationStatus({ id, isPublished }) {
-    return CertificationCourseBookshelf
-      .where({ id })
-      .save({ isPublished }, {
-        patch: true,
-        method: 'update',
-        require: true,
-      })
-      .catch((err) => {
-        if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
-          throw new NotFoundError(`Not found certification for ID ${id}`);
-        } else {
-          throw err;
-        }
-      })
-      .then(() => {
-        return module.exports.getByCertificationCourseId({ id });
-      });
-  },
-
   updatePublicationStatusesBySessionId(sessionId, toPublish) {
     return Bookshelf.transaction(async (trx) => {
       const statuses = await this.getAssessmentResultsStatusesBySessionId(sessionId);

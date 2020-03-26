@@ -1,13 +1,5 @@
 const usecases = require('../../domain/usecases');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
-const { Deserializer } = require('jsonapi-serializer');
-
-function _deserializePayload(payload) {
-  const deserializer = new Deserializer({
-    keyForAttribute: 'camelCase',
-  });
-  return deserializer.deserialize(payload);
-}
 
 module.exports = {
   findUserCertifications(request) {
@@ -25,21 +17,6 @@ module.exports = {
       userId,
       certificationId,
     })
-      .then((certification) => certificationSerializer.serialize(certification));
-  },
-
-  updateCertification(request) {
-
-    return Promise.resolve(request.payload)
-      .then(_deserializePayload)
-      .then((payload) => {
-        const isPublished = payload.isPublished;
-
-        return usecases.updateCertificationPublicationStatus({
-          certificationId: request.params.id,
-          isPublished,
-        });
-      })
       .then((certification) => certificationSerializer.serialize(certification));
   },
 };

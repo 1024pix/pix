@@ -9,7 +9,6 @@ describe('Integration | Application | Route | Certifications', () => {
 
   beforeEach(() => {
     sinon.stub(certificationController, 'findUserCertifications').returns('ok');
-    sinon.stub(certificationController, 'updateCertification').callsFake((request, h) => h.response('ok').code(204));
     sinon.stub(certificationController, 'getCertification').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
 
@@ -55,25 +54,6 @@ describe('Integration | Application | Route | Certifications', () => {
       // then
       return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
-      });
-    });
-  });
-
-  describe('PATCH /api/certifications/:id', () => {
-
-    it('should exist', () => {
-      // given
-      const options = {
-        method: 'PATCH',
-        url: '/api/certifications/1',
-      };
-
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(204);
       });
     });
   });
