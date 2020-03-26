@@ -18,7 +18,7 @@ export default Component.extend(EmberKeyboardMixin, {
 
   keyboardActivated: true,
   _canDisplayMenu: false,
-  showUserTutorialsInMenu: config.APP.SHOW_USER_TUTORIALS_IN_MENU,
+  showUserTutorialsInMenu: config.APP.FT_ACTIVATE_USER_TUTORIALS,
 
   canDisplayLinkToProfile: computed('routing.currentRouteName', function() {
     const currentRouteName = this.get('routing.currentRouteName');
