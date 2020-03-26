@@ -116,7 +116,7 @@ export default class AuthenticatedSessionsDetailsCertificationCandidatesControll
         clearDuration,
       });
     } catch (err) {
-      let errorText = 'Une erreur s\'est produite lors de la suppression du candidat';
+      let errorText = 'Une erreur s\'est produite lors de l\'ajout du candidat';
       if (_.get(err, 'errors[0].status') === '409' || err === 'Duplicate') {
         errorText = 'Ce candidat est déjà dans la liste, vous ne pouvez pas l\'ajouter à nouveau.';
       }
