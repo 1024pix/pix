@@ -33,17 +33,6 @@
     color: $grey-90;
     margin-bottom: 24px;
   }
-
-  &__content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    @include device-is('desktop') {
-      flex-direction: row;
-    }
-  }
 }
 
 .scorecard-details {

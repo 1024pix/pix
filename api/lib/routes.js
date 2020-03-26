@@ -30,5 +30,6 @@ module.exports = [
   require('./application/student-dependent-users'),
   require('./application/student-user-associations'),
   require('./application/system'),
+  require('./application/tutorials'),
   require('./application/users'),
 ];

@@ -44,10 +44,10 @@ describe('Integration | Component | tutorial panel', function() {
         await render(hbs`{{tutorial-panel hint=hint resultItemStatus=resultItemStatus tutorials=tutorials}}`);
 
         // then
-        expect(find('.tutorial-panel')).to.exist;
-        expect(find('.tutorial-panel__tutorials-container')).to.exist;
-        expect(find('.tutorial-item__tutorial-title')).to.exist;
-        expect(find('.tutorial-item__tutorial-details')).to.exist;
+        expect(find('.tutorial-item')).to.exist;
+        expect(find('.tutorial__content')).to.exist;
+        expect(find('.tutorial-content__title')).to.exist;
+        expect(find('.tutorial-content__duration')).to.exist;
       });
     });
   });

@@ -1,6 +1,7 @@
+const _ = require('lodash');
 const Tutorial = require('../../domain/models/Tutorial');
 const tutorialDatasource = require('../datasources/airtable/tutorial-datasource');
-const _ = require('lodash');
+const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(tutorialData) {
   return new Tutorial({
@@ -20,8 +21,12 @@ module.exports = {
   },
 
   async get(id) {
-    const tutorialData = await tutorialDatasource.get(id);
-    return _toDomain(tutorialData);
+    try {
+      const tutorialData = await tutorialDatasource.get(id);
+      return _toDomain(tutorialData);
+    } catch (error) {
+      throw new NotFoundError('Tutorial not found');
+    }
   },
 
 };

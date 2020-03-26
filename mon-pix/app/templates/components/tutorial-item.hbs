@@ -1,12 +1,19 @@
-<div class="tutorial-item__tutorial-title">
-  <a href="{{tutorial.link}}" target="_blank" class="tutorial-item__tutorial-title-url">{{tutorial.title}}</a>
-</div>
-<div class="tutorial-item__tutorial-details">
-  <div class="tutorial-item__tutorial-details__format">
-    <img src="/images/icons/{{formatImageName}}-icon.svg" alt="{{tutorial.format}}">
+<div class="tutorial-item">
+  <div class="tutorial__content">
+    <a target="_blank" rel="noopener noreferrer" href="{{tutorial.link}}"
+       class="tutorial-content__title">{{tutorial.title}}</a>
+    <div class="tutorial-content__description">
+      <span class="tutorial-content__source">Par {{tutorial.source}}</span>
+      • <span class="tutorial-content__format">{{tutorial.format}}</span>
+      • <span class="tutorial-content__duration">{{moment-duration tutorial.duration}}</span>
+    </div>
+    {{#if this.isSavingTutorialFeatureEnabled}}
+      <button class="tutorial-content__save-tutorial" title={{this.saveButtonTitle}}
+              {{on 'click' this.saveTutorial}}
+              disabled={{this.isSaveButtonDisabled}}>
+        <FaIcon @prefix={{if this.isSaved 'fas' 'far'}} @icon='bookmark'></FaIcon>
+        {{saveButtonText}}
+      </button>
+    {{/if}}
   </div>
-  <div class="tutorial-item__tutorial-details__informations">
-    {{displayedDuration}} | par {{tutorial.source}}
-  </div>
 </div>
-<hr>

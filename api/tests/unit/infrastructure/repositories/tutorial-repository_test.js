@@ -1,7 +1,9 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
+const AirtableNotFoundError = require('../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
 const tutorialDatasource = require('../../../../lib/infrastructure/datasources/airtable/tutorial-datasource');
 const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Repository | tutorial-repository', () => {
 
@@ -68,20 +70,42 @@ describe('Unit | Repository | tutorial-repository', () => {
   });
 
   describe('#get', () => {
-    beforeEach(() => {
-      // given
-      sinon.stub(tutorialDatasource, 'get')
-        .withArgs('recTutorial1')
-        .resolves(tutorialData1);
+
+    context('when tutorial is found', () => {
+      beforeEach(() => {
+        // given
+        sinon.stub(tutorialDatasource, 'get')
+          .withArgs('recTutorial1')
+          .resolves(tutorialData1);
+      });
+
+      it('should return a domain Tutorial object', async () => {
+        // when
+        const fetchedTutorial = await tutorialRepository.get('recTutorial1');
+
+        // then
+        expect(fetchedTutorial).to.be.an.instanceOf(Tutorial);
+        expect(fetchedTutorial).to.deep.equal(expectedTutorial);
+      });
+
     });
 
-    it('should return a domain Tutorial object', async () => {
-      // when
-      const fetchedTutorial = await tutorialRepository.get('recTutorial1');
+    context('when tutorial is not found', () => {
+      beforeEach(() => {
+        // given
+        sinon.stub(tutorialDatasource, 'get')
+          .withArgs('recTutorial1')
+          .rejects(new AirtableNotFoundError());
+      });
 
-      // then
-      expect(fetchedTutorial).to.be.an.instanceOf(Tutorial);
-      expect(fetchedTutorial).to.deep.equal(expectedTutorial);
+      it('should return a NotFound error', async () => {
+        // when
+        const result = await catchErr(tutorialRepository.get)('recTutorial1');
+
+        // then
+        expect(result).to.be.instanceOf(NotFoundError);
+        expect(result.message).to.deep.equal('Tutorial not found');
+      });
     });
   });
 
