@@ -440,6 +440,27 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
+  describe('#flagResultsAsSentToPrescriber', () => {
+    let id;
+    const resultsSentToPrescriberAt = new Date('2017-09-01T12:14:33Z');
+
+    beforeEach(() => {
+      id = databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: null }).id;
+
+      return databaseBuilder.commit();
+    });
+
+    it('should return a flagged Session domain object', async () => {
+      // when
+      const sessionFlagged = await sessionRepository.flagResultsAsSentToPrescriber({ id, resultsSentToPrescriberAt });
+
+      // then
+      expect(sessionFlagged).to.be.an.instanceof(Session);
+      expect(sessionFlagged.id).to.deep.equal(id);
+      expect(sessionFlagged.resultsSentToPrescriberAt).to.deep.equal(resultsSentToPrescriberAt);
+    });
+  });
+
   describe('#findPaginatedFiltered', () => {
 
     context('when there are Sessions in the database', () => {
