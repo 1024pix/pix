@@ -82,7 +82,6 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
           {
             attributes: {
               'area-color': 'emerald',
-              index: undefined,
               name: 'Pix Emploi',
               'tested-skills-count': 2,
               'total-skills-count': 3,
