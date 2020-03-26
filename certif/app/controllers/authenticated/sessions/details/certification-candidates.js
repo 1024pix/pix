@@ -7,18 +7,13 @@ import _ from 'lodash';
 
 import config from '../../../../config/environment';
 
-export default class AuthenticatedSessionsDetailsCertificationCandidatesController extends Controller {
+export default class CertificationCandidatesController extends Controller {
 
-  @alias('model') currentSession;
-  @tracked candidatesInStaging;
   @service session;
   @service notifications;
 
-  constructor() {
-    super(...arguments);
-
-    this.candidatesInStaging = [];
-  }
+  @alias('model') currentSession;
+  @tracked candidatesInStaging = [];
 
   @computed('currentSession.certificationCandidates.{[],@each.isLinked}')
   get importAllowed() {

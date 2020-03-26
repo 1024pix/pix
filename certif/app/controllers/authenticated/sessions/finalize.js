@@ -7,21 +7,15 @@ import { tracked } from '@glimmer/tracking';
 import config from '../../../config/environment';
 import { sumBy } from 'lodash';
 
-export default class AuthenticatedSessionsFinalizeController extends Controller {
+export default class SessionsFinalizeController extends Controller {
+
+  @service notifications;
 
   @alias('model') session;
-  @service notifications;
-  @tracked isLoading;
-  @tracked showConfirmModal;
-
-  constructor() {
-    super(...arguments);
-
-    this.isLoading = false;
-    this.showConfirmModal = false;
-    this.examinerGlobalCommentMaxLength = 500;
-    this.examinerCommentMaxLength = 500;
-  }
+  examinerGlobalCommentMaxLength = 500;
+  examinerCommentMaxLength = 500;
+  @tracked isLoading = false;
+  @tracked showConfirmModal = false;
 
   @computed('session.certificationReports.@each.hasSeenEndTestScreen')
   get uncheckedHasSeenEndTestScreenCount() {

@@ -1,4 +1,7 @@
 'use strict';
+const _ = require('lodash');
+
+const ACTIVE_FEATURE_TOGGLES = [];
 
 module.exports = function(environment) {
   const ENV = {
@@ -19,7 +22,6 @@ module.exports = function(environment) {
 
     APP: {
       API_HOST: process.env.API_HOST || '',
-      isSessionFinalizationActive: process.env.FT_IS_SESSION_FINALIZATION_ACTIVE === 'true',
       API_ERROR_MESSAGES : {
         BAD_REQUEST: { CODE: '400', MESSAGE: 'Les données envoyées ne sont pas au bon format.' },
         INTERNAL_SERVER_ERROR: {
@@ -102,6 +104,13 @@ module.exports = function(environment) {
     // here you can enable a production-specific feature
     //ENV.APP.API_HOST = 'https://pix.fr/api';
   }
+
+  // Warn for unknown feature toggles
+  _.each(process.env, (value, key) => {
+    if (key.startsWith('FT_') && _.indexOf(ACTIVE_FEATURE_TOGGLES, key) === -1) {
+      console.warn(`Unknown feature toggle ${key}. Please remove it from your environment variables.`);
+    }
+  });
 
   return ENV;
 };
