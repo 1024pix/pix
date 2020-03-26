@@ -155,6 +155,7 @@ module('Acceptance | Session Finalization', function(hooks) {
 
           // then
           assert.dom('[data-test-notification-message="success"]').exists();
+          assert.dom('[data-test-notification-message="success"]').hasText('Les informations de la session ont été transmises avec succès.');
         });
 
       });
