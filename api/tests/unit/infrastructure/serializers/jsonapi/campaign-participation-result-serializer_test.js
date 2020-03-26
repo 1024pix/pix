@@ -17,15 +17,17 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
           name: 'Soap Principal Awesome',
         })
       ];
-      const badgePartnerCompetenceResults = [{
-        id: 12,
-        areaColor: 'emerald',
-        index: undefined,
-        name: 'Pix Emploi',
-        testedSkillsCount: 2,
-        totalSkillsCount: 3,
-        validatedSkillsCount: 1
-      }];
+      const badgePartnerCompetenceResults = [
+        domainBuilder.buildCompetenceResult({
+          id: 12,
+          areaColor: 'emerald',
+          index: undefined,
+          name: 'Pix Emploi',
+          testedSkillsCount: 2,
+          totalSkillsCount: 3,
+          validatedSkillsCount: 1
+        })
+      ];
 
       const testedSkillsCount = competenceResults[0].testedSkillsCount + competenceResults[1].testedSkillsCount;
       const totalSkillsCount = competenceResults[0].totalSkillsCount + competenceResults[1].totalSkillsCount;
@@ -83,6 +85,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
             attributes: {
               'area-color': 'emerald',
               name: 'Pix Emploi',
+              'mastery-percentage': 33,
               'tested-skills-count': 2,
               'total-skills-count': 3,
               'validated-skills-count': 1,

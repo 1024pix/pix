@@ -1,6 +1,9 @@
-const { expect } = require('../../../test-helper');
-const CampaignParticipationResult = require('../../../../lib/domain/models/CampaignParticipationResult');
+const { expect, domainBuilder } = require('../../../test-helper');
 const Area = require('../../../../lib/domain/models/Area');
+const Badge = require('../../../../lib/domain/models/Badge');
+const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartnerCompetence');
+const CampaignParticipationResult = require('../../../../lib/domain/models/CampaignParticipationResult');
+const CompetenceResult = require('../../../../lib/domain/models/CompetenceResult');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
 describe('Unit | Domain | Models | CampaignParticipationResult', () => {
@@ -28,6 +31,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
     ];
 
     const targetProfile = {
+      id: 1,
       skills,
     };
 
@@ -41,21 +45,28 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
 
     it('should add the campaign participation results', () => {
       // when
-      const badge = {
+      const badge = domainBuilder.buildBadge({
         id: 1,
+        altMessage: 'You won the Banana badge',
         imageUrl: '/img/banana.svg',
         message: 'Congrats, you won the Banana badge!',
-        badgePartnerCompetences: [{
-          id: 12,
-          name: 'Pix Emploi',
-          color: 'emerald',
-          skillIds: [1, 2, 4]
-        }]
-      };
+        badgePartnerCompetences: [
+          domainBuilder.buildBadgePartnerCompetence({
+            id: 12,
+            name: 'Pix Emploi',
+            color: 'emerald',
+            skillIds: [1, 2, 4]
+          })
+        ],
+        targetProfileId: targetProfile.id,
+      });
       const result = CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, badge });
 
       // then
       expect(result).to.be.an.instanceOf(CampaignParticipationResult);
+      expect(result.badge).to.be.an.instanceOf(Badge);
+      expect(result.badge.badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
+      expect(result.badgePartnerCompetenceResults[0]).to.be.an.instanceOf(CompetenceResult);
       expect(result).to.deep.equal({
         id: campaignParticipationId,
         isCompleted: false,
@@ -66,6 +77,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
         knowledgeElementsCount: 2,
         badge: {
           id: 1,
+          altMessage: 'You won the Banana badge',
           imageUrl: '/img/banana.svg',
           message: 'Congrats, you won the Banana badge!',
           badgePartnerCompetences: [
@@ -76,6 +88,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               skillIds: [1, 2, 4],
             }
           ],
+          targetProfileId: 1,
         },
         badgePartnerCompetenceResults: [{
           id: 12,
