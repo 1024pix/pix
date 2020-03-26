@@ -76,6 +76,7 @@ function _toDomain(userBookshelf) {
     email: userBookshelf.get('email'),
     username: userBookshelf.get('username'),
     password: userBookshelf.get('password'),
+    shouldChangePassword: userBookshelf.get('shouldChangePassword'),
     cgu: Boolean(userBookshelf.get('cgu')),
     pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
     pixCertifTermsOfServiceAccepted: Boolean(userBookshelf.get('pixCertifTermsOfServiceAccepted')),
