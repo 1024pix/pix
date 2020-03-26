@@ -46,6 +46,17 @@ module.exports = {
       .then(_dropResetKnowledgeElements);
   },
 
+  findUniqByUserIdAndAssessmentId({ userId, assessmentId }) {
+    return BookshelfKnowledgeElement
+      .query((qb) => {
+        qb.where({ userId, assessmentId });
+      })
+      .fetchAll()
+      .then(_toDomain)
+      .then(_getUniqMostRecents)
+      .then(_dropResetKnowledgeElements);
+  },
+
   findUniqByUserIdAndCompetenceId({ userId, competenceId }) {
     return BookshelfKnowledgeElement
       .where({ userId, competenceId })
