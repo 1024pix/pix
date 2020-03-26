@@ -148,6 +148,8 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
     it('should find the knowledge elements for assessment associated with a user id', async () => {
       // when
       const knowledgeElementsFound = await KnowledgeElementRepository.findUniqByUserIdAndAssessmentId({ userId, assessmentId });
+
+      // then
       expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWanted);
       expect(knowledgeElementsFound).have.lengthOf(2);
     });

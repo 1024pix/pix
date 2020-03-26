@@ -4,6 +4,7 @@ const {
 } = require('../errors');
 const Examiner = require('../models/Examiner');
 const KnowledgeElement = require('../models/KnowledgeElement');
+const logger = require('../../infrastructure/logger');
 
 module.exports = async function correctAnswerThenUpdateAssessment(
   {
@@ -58,6 +59,18 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   });
 
   let answerSaved = await answerRepository.saveWithKnowledgeElements(correctedAnswer, knowledgeElementsFromAnswer);
+
+  if (assessment.hasKnowledgeElements() && knowledgeElementsFromAnswer.length === 0) {
+    const context = {
+      assessmentId: assessment.id,
+      assessmentType: assessment.type,
+      answerId: answerSaved.id,
+      assessmentImproving: assessment.isImproving,
+      challengeId: challenge.id,
+      userId
+    };
+    logger.warn(context, 'Answer saved without knowledge element');
+  }
 
   answerSaved = await _addLevelUpInformation({
     answerSaved,
@@ -122,23 +135,25 @@ async function _addLevelUpInformation(
   }) {
   answerSaved.levelup = {};
 
-  if (scorecardBeforeAnswer) {
-    const scorecardAfterAnswer = await scorecardService.computeScorecard({
-      userId,
-      competenceId,
-      competenceRepository,
-      competenceEvaluationRepository,
-      knowledgeElementRepository,
-      blockReachablePixAndLevel: true,
-    });
+  if (!scorecardBeforeAnswer) {
+    return answerSaved;
+  }
 
-    if (scorecardBeforeAnswer.level < scorecardAfterAnswer.level) {
-      answerSaved.levelup = {
-        id: answerSaved.id,
-        competenceName: scorecardAfterAnswer.name,
-        level: scorecardAfterAnswer.level,
-      };
-    }
+  const scorecardAfterAnswer = await scorecardService.computeScorecard({
+    userId,
+    competenceId,
+    competenceRepository,
+    competenceEvaluationRepository,
+    knowledgeElementRepository,
+    blockReachablePixAndLevel: true,
+  });
+
+  if (scorecardBeforeAnswer.level < scorecardAfterAnswer.level) {
+    answerSaved.levelup = {
+      id: answerSaved.id,
+      competenceName: scorecardAfterAnswer.name,
+      level: scorecardAfterAnswer.level,
+    };
   }
   return answerSaved;
 }
