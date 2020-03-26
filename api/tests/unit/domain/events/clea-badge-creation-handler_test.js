@@ -1,12 +1,12 @@
 const { expect, sinon } = require('../../../test-helper');
-const { cleaBadgeCreationHandler } = require('../../../../lib/domain/events/clea-badge-creation-handler');
+const { badgeCreationHandler } = require('../../../../lib/domain/events/badge-creation-handler');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
 const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
 
-describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
+describe('Unit | Domain | Events | badge-creation-handler', () => {
 
   describe('#handle', () => {
     const domainTransaction = Symbol('a DomainTransaction');
@@ -44,7 +44,7 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).returns(true);
 
           // when
-          await cleaBadgeCreationHandler.handle(domainTransaction, event);
+          await badgeCreationHandler.handle(domainTransaction, event);
 
           // then
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly(domainTransaction, { badgeId, userId: event.userId });
@@ -54,7 +54,7 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).returns(false);
           // when
-          await cleaBadgeCreationHandler.handle(domainTransaction, event);
+          await badgeCreationHandler.handle(domainTransaction, event);
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -73,7 +73,7 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
           const event = new AssessmentCompleted(userId, targetProfileId);
 
           // when
-          await cleaBadgeCreationHandler.handle(domainTransaction, event);
+          await badgeCreationHandler.handle(domainTransaction, event);
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -91,7 +91,7 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
         const event = new AssessmentCompleted(userId, targetProfileId);
 
         // when
-        await cleaBadgeCreationHandler.handle(domainTransaction, event);
+        await badgeCreationHandler.handle(domainTransaction, event);
 
         // then
         expect(badgeAcquisitionRepository.create).to.not.have.been.called;
