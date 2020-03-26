@@ -361,6 +361,28 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(400);
     });
 
+    it('should return 400 on domain InvalidCertificationReportForFinalization', function() {
+      // given
+      const error = new DomainErrors.InvalidCertificationReportForFinalization();
+
+      // when
+      const result = handle(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 on domain InvalidParametersForSessionPublication', function() {
+      // given
+      const error = new DomainErrors.InvalidParametersForSessionPublication();
+
+      // when
+      const result = handle(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
     it('should return 400 on domain SessionAlreadyFinalizedError', function() {
       // given
       const error = new DomainErrors.SessionAlreadyFinalizedError();

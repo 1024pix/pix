@@ -71,6 +71,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.InvalidCertificationReportForFinalization) {
     return new HttpErrors.BadRequestError(error.message);
   }
+  if (error instanceof DomainErrors.InvalidParametersForSessionPublication) {
+    return new HttpErrors.BadRequestError(error.message);
+  }
   if (error instanceof DomainErrors.AlreadyExistingMembershipError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }

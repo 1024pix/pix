@@ -1,9 +1,11 @@
 const {
   sinon,
   expect,
+  catchErr,
 } = require('../../../test-helper');
 
 const updatePublicationSession = require('../../../../lib/domain/usecases/update-publication-session');
+const { InvalidParametersForSessionPublication } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | update-publication-session', () => {
 
@@ -30,51 +32,92 @@ describe('Unit | UseCase | update-publication-session', () => {
     clock.restore();
   });
 
-  context('When we publish the session', () => {
-    const updatedSession = Symbol('updatedSession');
+  context('when input parameters are invalid', () => {
+    context('when sessionId is not a number', () => {
 
-    beforeEach(() => {
-      toPublish = true;
-      certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
-      sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
-    });
+      it('should return throw a InvalidParametersForSessionPublication error', async () => {
+        // when
+        const error = await catchErr(updatePublicationSession)({
+          sessionId: 'salut',
+          toPublish: true,
+          certificationRepository,
+          sessionRepository,
+        });
 
-    it('should return the session and the flag publishedAtUpdated at true', async () => {
-      // when
-      const { publishedAtUpdated, session } = await updatePublicationSession({
-        sessionId,
-        toPublish,
-        certificationRepository,
-        sessionRepository,
+        // then
+        expect(sessionRepository.get).to.not.have.been.called;
+        expect(error).to.be.instanceOf(InvalidParametersForSessionPublication);
       });
+    });
+    context('when toPublish is not a Boolean', () => {
 
-      // then
-      expect(publishedAtUpdated).to.be.true;
-      expect(session).to.deep.equal(updatedSession);
+      it('should return throw a InvalidParametersForSessionPublication error', async () => {
+        // when
+        const error = await catchErr(updatePublicationSession)({
+          sessionId: 1,
+          toPublish: 'salut',
+          certificationRepository,
+          sessionRepository,
+        });
+
+        // then
+        expect(sessionRepository.get).to.not.have.been.called;
+        expect(error).to.be.instanceOf(InvalidParametersForSessionPublication);
+      });
     });
   });
 
-  context('When we unpublish the session', () => {
-    const untouchedSession = Symbol('untouchedSession');
+  context('when the session exists', () => {
+    const originalSession = Symbol('originalSession');
 
     beforeEach(() => {
-      toPublish = false;
-      certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
-      sessionRepository.get.withArgs(sessionId).resolves(untouchedSession);
+      sessionRepository.get.withArgs(sessionId).resolves(originalSession);
     });
 
-    it('should return the session and the flag publishedAtUpdated at false', async () => {
-      // when
-      const { publishedAtUpdated, session } = await updatePublicationSession({
-        sessionId,
-        toPublish,
-        certificationRepository,
-        sessionRepository,
+    context('When we publish the session', () => {
+      const updatedSession = Symbol('updatedSession');
+
+      beforeEach(() => {
+        toPublish = true;
+        certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
+        sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
       });
 
-      // then
-      expect(publishedAtUpdated).to.be.false;
-      expect(session).to.deep.equal(untouchedSession);
+      it('should return the session', async () => {
+        // when
+        const session = await updatePublicationSession({
+          sessionId,
+          toPublish,
+          certificationRepository,
+          sessionRepository,
+        });
+
+        // then
+        expect(sessionRepository.updatePublishedAt).calledWithExactly({ id: sessionId, publishedAt: new Date() });
+        expect(session).to.deep.equal(updatedSession);
+      });
+    });
+
+    context('When we unpublish the session', () => {
+
+      beforeEach(() => {
+        toPublish = false;
+        certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
+      });
+
+      it('should return the session', async () => {
+        // when
+        const session = await updatePublicationSession({
+          sessionId,
+          toPublish,
+          certificationRepository,
+          sessionRepository,
+        });
+
+        // then
+        expect(sessionRepository.updatePublishedAt).to.not.have.been.called;
+        expect(session).to.deep.equal(originalSession);
+      });
     });
   });
 
