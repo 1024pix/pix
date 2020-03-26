@@ -65,7 +65,7 @@
     "ember-fetch": "^7.0.1",
     "ember-file-upload": "^2.7.1",
     "ember-flatpickr": "^2.15.4",
-    "ember-inputmask": "^0.9.2",
+    "ember-inputmask": "^0.9.3",
     "ember-keyboard": "^5.0.0",
     "ember-load-initializers": "^2.1.1",
     "ember-modal-dialog": "^3.0.0-beta.4",
