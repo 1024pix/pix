@@ -18,7 +18,7 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
     controller.send('loadCertification');
 
     // then
-    sinon.assert.calledWith(routerStub.transitionTo, 'authenticated.certifications.single.info', 5);
+    sinon.assert.calledWith(routerStub.transitionTo, 'authenticated.certifications.certification', 5);
     assert.ok(controller);
   });
 });
