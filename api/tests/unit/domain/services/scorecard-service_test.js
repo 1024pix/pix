@@ -213,7 +213,7 @@ describe('Unit | Service | ScorecardService', function() {
         assessmentRepository = {
           findNotAbortedSmartPlacementAssessmentsByUserId: sinon.stub(),
           save: sinon.stub(),
-          updateStateById: sinon.stub(),
+          abortByAssessmentId: sinon.stub(),
         };
         knowledgeElementRepository = {
           save: sinon.stub(),
@@ -226,8 +226,8 @@ describe('Unit | Service | ScorecardService', function() {
 
         assessmentRepository.findNotAbortedSmartPlacementAssessmentsByUserId.withArgs(userId).resolves([oldAssessment1, oldAssessment2]);
 
-        assessmentRepository.updateStateById.withArgs({ id: oldAssessment1.id, state: Assessment.states.ABORTED }).resolves(oldAssessment1Aborted);
-        assessmentRepository.updateStateById.withArgs({ id: oldAssessment2.id, state: Assessment.states.ABORTED }).resolves(oldAssessment2Aborted);
+        assessmentRepository.abortByAssessmentId.withArgs(oldAssessment1.id).resolves(oldAssessment1Aborted);
+        assessmentRepository.abortByAssessmentId.withArgs(oldAssessment2.id).resolves(oldAssessment2Aborted);
 
         assessmentRepository.save
           .onFirstCall().resolves(newAssessment1Saved)
@@ -323,7 +323,7 @@ describe('Unit | Service | ScorecardService', function() {
         assessmentRepository = {
           findNotAbortedSmartPlacementAssessmentsByUserId: sinon.stub(),
           save: sinon.stub(),
-          updateStateById: sinon.stub(),
+          abortByAssessmentId: sinon.stub(),
         };
         knowledgeElementRepository = {
           save: sinon.stub(),
@@ -353,7 +353,7 @@ describe('Unit | Service | ScorecardService', function() {
 
       it('should not save another assessment', async () => {
         expect(assessmentRepository.save).to.not.have.been.called;
-        expect(assessmentRepository.updateStateById).to.not.have.been.called;
+        expect(assessmentRepository.abortByAssessmentId).to.not.have.been.called;
         expect(resetCampaignParticipation).to.equal(null);
       });
     });
