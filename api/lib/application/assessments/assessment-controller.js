@@ -8,12 +8,6 @@ const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/a
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest, extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
-const CampaignParticipantionResultFactory = require('../../domain/models/CampaignParticipationResultFactory');
-const BadgeCriteriaService = require('../../domain/services/badge-criteria-service');
-const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository');
-const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
-const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
@@ -99,17 +93,7 @@ module.exports = {
     const domainTransaction = await DomainTransaction.begin();
     try {
       const assessmentCompletedEvent = await usecases.completeAssessment({ domainTransaction, assessmentId });
-      const handler = cleaBadgeCreationHandler.inject(
-        new CampaignParticipantionResultFactory(
-          campaignParticipationRepository,
-          targetProfileRepository,
-          competenceRepository,
-          assessmentRepository,
-          knowledgeElementRepository
-        ),
-        BadgeCriteriaService
-      );
-      await handler.handle(domainTransaction, assessmentCompletedEvent);
+      await cleaBadgeCreationHandler.handle(domainTransaction, assessmentCompletedEvent);
       await domainTransaction.commit();
     } catch (e) {
       await domainTransaction.rollback();

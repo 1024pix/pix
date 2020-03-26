@@ -23,7 +23,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     targetProfileRepository,
     badgeRepository,
     badgeAcquisitionRepository,
-    campaignParticipationResultFactory;
+    campaignParticipationResultRepository;
 
   let usecaseDependencies;
 
@@ -33,7 +33,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     targetProfileRepository = { getByCampaignId: sinon.stub() };
     badgeRepository = { findOneByTargetProfileId: sinon.stub() };
     badgeAcquisitionRepository = { hasAcquiredBadgeWithId: sinon.stub() };
-    campaignParticipationResultFactory = { create: sinon.stub() };
+    campaignParticipationResultRepository = { getByParticipationId: sinon.stub() };
 
     usecaseDependencies = {
       userId,
@@ -43,7 +43,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       targetProfileRepository,
       badgeRepository,
       badgeAcquisitionRepository,
-      campaignParticipationResultFactory
+      campaignParticipationResultRepository
     };
   });
 
@@ -59,7 +59,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       // when
       const campaignParticipationResult = Symbol('campaignParticipationResult');
 
-      campaignParticipationResultFactory.create.resolves(campaignParticipationResult);
+      campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
       const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
 
       // then
@@ -82,7 +82,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
           id: 'foo'
         };
 
-        campaignParticipationResultFactory.create.resolves(campaignParticipationResult);
+        campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
         const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
 
         // then
@@ -95,7 +95,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
           const campaignParticipationResult = {
             id: 'foo'
           };
-          campaignParticipationResultFactory.create.resolves(campaignParticipationResult);
+          campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
 
           badgeAcquisitionRepository.hasAcquiredBadgeWithId.withArgs({
             userId,
@@ -116,7 +116,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
           const campaignParticipationResult = {
             id: 'foo'
           };
-          campaignParticipationResultFactory.create.resolves(campaignParticipationResult);
+          campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
           badgeAcquisitionRepository.hasAcquiredBadgeWithId.withArgs({
             userId,
             badgeId: badge.id
@@ -138,12 +138,13 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       });
 
       it('should not assign badge to campaignParticipationResult', async () => {
-        // when
+        // given
         const campaignParticipationResult = {
           id: 'foo'
         };
+        campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
 
-        campaignParticipationResultFactory.create.resolves(campaignParticipationResult);
+        // when
         const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
 
         // then
@@ -160,7 +161,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       const badge = {
         id: Symbol('badgeId')
       };
-      campaignParticipationResultFactory.create.resolves(campaignParticipationResult);
+      campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves({ userId });
       targetProfileRepository.getByCampaignId.withArgs(campaignParticipation.campaignId).resolves(targetProfile);
       badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(badge);
