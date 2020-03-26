@@ -1,8 +1,10 @@
 const { expect, sinon } = require('../../../test-helper');
 const { cleaBadgeCreationHandler } = require('../../../../lib/domain/events/clea-badge-creation-handler');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
+const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
+const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
 
 describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
 
@@ -23,31 +25,26 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
 
         const campaignParticipationResult = Symbol('campaignParticipationResult');
 
-        let campaignParticipationResultFactory;
-        let badgeCriteriaService;
-
         beforeEach(() => {
           sinon.stub(badgeRepository, 'findOneByTargetProfileId');
           badgeRepository.findOneByTargetProfileId.withArgs(event.targetProfileId).resolves({ id: badgeId });
 
           sinon.stub(badgeAcquisitionRepository, 'create');
 
-          campaignParticipationResultFactory = initializeCampaignParticipationResultFactoryStub();
-          campaignParticipationResultFactory.create.withArgs(event.campaignParticipationId).resolves(
+          sinon.stub(campaignParticipationResultRepository, 'getByParticipationId');
+          campaignParticipationResultRepository.getByParticipationId.withArgs(event.campaignParticipationId).resolves(
             campaignParticipationResult
           );
 
-          badgeCriteriaService = initializeBadgeCriteriaServiceStub();
+          sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
         });
 
         it('should create a badge when badge requirements are fulfilled', async () => {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).returns(true);
+
           // when
-          await cleaBadgeCreationHandler.inject(
-            campaignParticipationResultFactory,
-            badgeCriteriaService
-          ).handle(domainTransaction, event);
+          await cleaBadgeCreationHandler.handle(domainTransaction, event);
 
           // then
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly(domainTransaction, { badgeId, userId: event.userId });
@@ -57,10 +54,7 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).returns(false);
           // when
-          await cleaBadgeCreationHandler.inject(
-            campaignParticipationResultFactory,
-            badgeCriteriaService
-          ).handle(domainTransaction, event);
+          await cleaBadgeCreationHandler.handle(domainTransaction, event);
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -79,7 +73,7 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
           const event = new AssessmentCompleted(userId, targetProfileId);
 
           // when
-          await cleaBadgeCreationHandler.inject().handle(domainTransaction, event);
+          await cleaBadgeCreationHandler.handle(domainTransaction, event);
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -97,7 +91,7 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
         const event = new AssessmentCompleted(userId, targetProfileId);
 
         // when
-        await cleaBadgeCreationHandler.inject().handle(domainTransaction, event);
+        await cleaBadgeCreationHandler.handle(domainTransaction, event);
 
         // then
         expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -105,21 +99,3 @@ describe('Unit | Domain | Events | clea-badge-creation-handler', () => {
     });
   });
 });
-
-function initializeCampaignParticipationResultFactoryStub() {
-  const campaignParticipationResultFactory = {
-    create() {
-    }
-  };
-  sinon.stub(campaignParticipationResultFactory, 'create');
-  return campaignParticipationResultFactory;
-}
-
-function initializeBadgeCriteriaServiceStub() {
-  const badgeCriteriaService = {
-    areBadgeCriteriaFulfilled() {
-    }
-  };
-  sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
-  return badgeCriteriaService;
-}
