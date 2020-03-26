@@ -6,16 +6,15 @@ const { UserNotAuthorizedToCreateCampaignError } = require('../errors');
 
 module.exports = async function createCampaign({ campaign, campaignRepository, userRepository, organizationService }) {
   campaignValidator.validate(campaign);
-  campaign.type = Campaign.types.ASSESSMENT;
-  return _checkCreatorHasAccessToCampaignOrganization(campaign.creatorId, campaign.organizationId, userRepository)
-    .then(() => _checkOrganizationHasAccessToTargetProfile(campaign.targetProfileId, campaign.organizationId, organizationService))
-    .then(() => campaignCodeGenerator.generate(campaignRepository))
-    .then((generatedCampaignCode) => {
-      const campaignWithCode = new Campaign(campaign);
-      campaignWithCode.code = generatedCampaignCode;
-      return campaignWithCode;
-    })
-    .then(campaignRepository.save);
+
+  await _checkCreatorHasAccessToCampaignOrganization(campaign.creatorId, campaign.organizationId, userRepository);
+  if (campaign.isAssessment()) {
+    await _checkOrganizationHasAccessToTargetProfile(campaign.targetProfileId, campaign.organizationId, organizationService);
+  }
+  const generatedCampaignCode = await campaignCodeGenerator.generate(campaignRepository);
+  const campaignWithCode = new Campaign(campaign);
+  campaignWithCode.code = generatedCampaignCode;
+  return campaignRepository.save(campaignWithCode);
 };
 
 function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {

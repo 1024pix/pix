@@ -243,7 +243,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
 
   describe('#deserialize', function() {
 
-    it('should convert JSON API campaign data into a Campaign model object', function() {
+    it('should convert JSON API campaign data into a Campaign model object', async function() {
       // given
       const organizationId = 10293;
       const targetProfileId = '23';
@@ -265,16 +265,45 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
       };
 
       // when
-      const promise = serializer.deserialize(jsonAnswer);
+      const campaign = await serializer.deserialize(jsonAnswer);
 
       // then
-      return expect(promise).to.be.fulfilled
-        .then((campaign) => {
-          expect(campaign).to.be.instanceOf(Campaign);
-          expect(campaign.name).to.equal(jsonAnswer.data.attributes.name);
-          expect(campaign.organizationId).to.equal(organizationId);
-          expect(campaign.targetProfileId).to.equal(23);
-        });
+      expect(campaign).to.be.instanceOf(Campaign);
+      expect(campaign.name).to.equal(jsonAnswer.data.attributes.name);
+      expect(campaign.organizationId).to.equal(organizationId);
+      expect(campaign.targetProfileId).to.equal(23);
+    });
+
+    context('when no targetProfileId', () => {
+      it('should convert JSON API campaign data into a Campaign model object', async function() {
+        // given
+        const organizationId = 10293;
+        const jsonAnswer = {
+          data: {
+            type: 'campaign',
+            attributes: {
+              name: 'My super campaign',
+              'organization-id': organizationId,
+            },
+            relationships: {
+              'target-profile': {
+                data: {
+                  id: undefined,
+                }
+              }
+            }
+          }
+        };
+
+        // when
+        const campaign = await serializer.deserialize(jsonAnswer);
+
+        // then
+        expect(campaign).to.be.instanceOf(Campaign);
+        expect(campaign.name).to.equal(jsonAnswer.data.attributes.name);
+        expect(campaign.organizationId).to.equal(organizationId);
+        expect(campaign.targetProfileId).to.equal(undefined);
+      });
     });
 
   });
