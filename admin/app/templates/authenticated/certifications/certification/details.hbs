@@ -1,0 +1,57 @@
+<div class="certification-details">
+  <div class='row'>
+    <div class='col'>
+      <div class='card border-primary sticky-top certification-details__info'>
+        <div class='card-body'>
+          <div class='row'>
+            <div class='col'>Statut :</div>
+            <div class='col'>{{details.status}}</div>
+          </div>
+          <div class='row'>
+            <div class='col'>Créé le :</div>
+            <div class='col'>{{details.creationDate}}</div>
+          </div>
+          <div class='row'>
+            <div class='col'>Terminée le :</div>
+            <div class='col'>{{details.completionDate}}</div>
+          </div>
+          <div class='row'>
+            <div class='col'>Score :</div>
+            <div class='col certificate'>{{score}}</div>
+          </div>
+          {{#if juryScore includeZero=true}}
+            <div class='row jury'>
+              <div class='col'>Score corrigé :</div>
+              <div class='col jury'>{{juryScore}}</div>
+            </div>
+          {{/if}}
+          <div class='row'>
+            <div class='col'>Taux de reproductibilité :</div>
+            <div class='col certificate'>{{rate}}</div>
+          </div>
+          {{#if juryRate}}
+            <div class='row'>
+              <div class='col'>Taux corrigé :</div>
+              <div class='col jury'>{{juryRate}}</div>
+            </div>
+          {{/if}}
+        </div>
+      </div>
+      {{#each details.competences as |competence|}}
+        {{certification-details-competence
+            competence=competence
+            rate=rate
+            juryRate=juryRate
+            onUpdateRate=(action "onUpdateRate")
+        }}
+      {{/each}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col certification-details__actions">
+      <button class='btn btn-primary btn-sm' type='submit' {{on "click" this.onStoreMarks}}>
+        Enregistrer
+      </button>
+    </div>
+  </div>
+</div>
