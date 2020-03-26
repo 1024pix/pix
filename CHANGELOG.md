@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.133.0 (26/03/2020)
+
+- [#1166](https://github.com/1024pix/pix/pull/1166) [FEATURE] Ajouter un tutoriel à sa liste (PF-1100).
+- [#1216](https://github.com/1024pix/pix/pull/1216) [BUGFIX] Des utilisateurs sont bloqués sur une épreuve. (PF-1187).
+- [#1219](https://github.com/1024pix/pix/pull/1219) [TECH] Ajout d'une règle de linter pour éviter les injections SQL
+
 ## v2.132.0 (26/03/2020)
 
 - [#1177](https://github.com/1024pix/pix/pull/1177) [FEATURE] Ajout d'un lien vers les informations d'une session depuis la liste des sessions (PA-152)
