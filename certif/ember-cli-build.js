@@ -19,7 +19,7 @@ module.exports = function(defaults) {
     },
 
     'ember-cli-template-lint': {
-      testGenerator: 'qunit' // or 'mocha', etc.
+      testGenerator: 'qunit'
     }
   });
 
