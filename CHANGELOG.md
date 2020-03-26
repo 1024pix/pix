@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.132.0 (26/03/2020)
+
+- [#1177](https://github.com/1024pix/pix/pull/1177) [FEATURE] Ajout d'un lien vers les informations d'une session depuis la liste des sessions (PA-152)
+
 ## v2.131.0 (25/03/2020)
 
 - [#1204](https://github.com/1024pix/pix/pull/1204) [FEATURE] Ajouter une colonne dans la liste des sessions pour indiquer le type du centre de certification associé (PA-175)
