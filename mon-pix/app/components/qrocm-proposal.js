@@ -1,28 +1,28 @@
+import { classNames } from '@ember-decorators/component';
+import { action, computed } from '@ember/object';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import classic from 'ember-classic-decorator';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
-export default Component.extend({
+@classic
+@classNames('qrocm-proposal')
+export default class QrocmProposal extends Component {
+  proposals = null;
+  answersValue = null;
+  answerChanged = null; // action
+  format = null;
 
-  classNames: ['qrocm-proposal'],
-
-  proposals: null,
-  answersValue: null,
-  answerChanged: null, // action
-  format: null,
-
-  _blocks: computed('proposals', function() {
+  @computed('proposals')
+  get _blocks() {
     return proposalsAsBlocks(this.proposals)
       .map((block) => {
         block.showText = block.text && !block.ariaLabel && !block.input;
         return block;
       });
-  }),
-
-  actions: {
-    onInputChange: function() {
-      this.answerChanged();
-    }
   }
 
-});
+  @action
+  onInputChange() {
+    this.answerChanged();
+  }
+}

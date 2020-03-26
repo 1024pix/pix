@@ -1,16 +1,15 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
-export default Component.extend({
-  classNames: ['certification-results-page'],
+export default class CertificationResultsPage extends Component {
+  @tracked validSupervisor = false;
+  @tracked notFinishedYet = true;
 
-  validSupervisor: false,
-  notFinishedYet: true,
-
-  actions: {
-    validateBySupervisor: function() {
-      if (this.validSupervisor) {
-        this.set('notFinishedYet', false);
-      }
+  @action
+  validateBySupervisor() {
+    if (this.validSupervisor) {
+      this.notFinishedYet = false;
     }
   }
-});
+}

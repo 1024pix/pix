@@ -1,7 +1,3 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-
-  tagName: 'div',
-  classNames: ['beta-logo']
-});
+export default class BetaLogo extends Component {}

@@ -1,16 +1,18 @@
+import { action } from '@ember/object';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  closeLevelup: false,
+@classic
+export default class LevelupNotif extends Component {
+  closeLevelup = false;
 
   didUpdateAttrs() {
-    this._super(...arguments);
+    super.didUpdateAttrs(...arguments);
     this.set('closeLevelup', false);
-  },
+  }
 
-  actions: {
-    close: function() {
-      this.set('closeLevelup', true);
-    },
-  },
-});
+  @action
+  close() {
+    this.set('closeLevelup', true);
+  }
+}

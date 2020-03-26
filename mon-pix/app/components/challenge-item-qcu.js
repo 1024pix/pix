@@ -1,10 +1,12 @@
+import { action } from '@ember/object';
 import ChallengeItemGeneric from './challenge-item-generic';
+import classic from 'ember-classic-decorator';
 
-const ChallengeItemQcu = ChallengeItemGeneric.extend({
-
-  _hasError: function() {
+@classic
+class ChallengeItemQcu extends ChallengeItemGeneric {
+  _hasError() {
     return this._getAnswerValue().length < 1;
-  },
+  }
 
   // FIXME refactor this
   _getAnswerValue() {
@@ -12,18 +14,16 @@ const ChallengeItemQcu = ChallengeItemGeneric.extend({
     return this.$('.challenge-proposals input:radio:checked').map(function() {
       return this.getAttribute('data-value');
     }).get().join('');
-  },
+  }
 
   _getErrorMessage() {
     return 'Pour valider, sélectionner une réponse. Sinon, passer.';
-  },
-
-  actions: {
-    answerChanged: function() {
-      this.set('errorMessage', null);
-    }
   }
 
-});
+  @action
+  answerChanged() {
+    this.set('errorMessage', null);
+  }
+}
 
 export default ChallengeItemQcu;

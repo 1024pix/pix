@@ -1,5 +1,6 @@
 import { computed } from '@ember/object';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
 const classByResultValue = {
   ok: 'correction-qroc-box-answer--correct',
@@ -7,32 +8,36 @@ const classByResultValue = {
   aband: 'correction-qroc-box-answer--aband',
 };
 
-export default Component.extend({
+@classic
+export default class QrocSolutionPanel extends Component {
+  answer = null;
+  solution = null;
 
-  answer: null,
-  solution: null,
-
-  inputClass: computed('answer.result', function() {
+  @computed('answer.result')
+  get inputClass() {
     return classByResultValue[this.get('answer.result')] || '';
-  }),
+  }
 
-  isResultOk: computed('answer', function() {
+  @computed('answer')
+  get isResultOk() {
     return this.get('answer.result') === 'ok';
-  }),
+  }
 
-  answerToDisplay: computed('answer', function() {
+  @computed('answer')
+  get answerToDisplay() {
     const answer = this.get('answer.value');
     if (answer === '#ABAND#') {
       return 'Pas de réponse';
     }
     return answer;
-  }),
+  }
 
-  solutionToDisplay: computed('solution', function() {
+  @computed('solution')
+  get solutionToDisplay() {
     const solutionVariants = this.solution;
     if (!solutionVariants) {
       return '';
     }
     return solutionVariants.split('\n')[0];
-  })
-});
+  }
+}

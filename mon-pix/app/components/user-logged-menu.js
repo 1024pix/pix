@@ -1,7 +1,9 @@
-import { on } from '@ember/object/evented';
-import { computed } from '@ember/object';
+import { classNames } from '@ember-decorators/component';
+import { action, computed } from '@ember/object';
+import { on } from '@ember-decorators/object';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import {
   EKMixin as EmberKeyboardMixin,
   keyDown
@@ -9,38 +11,40 @@ import {
 
 import config from 'mon-pix/config/environment';
 
-export default Component.extend(EmberKeyboardMixin, {
+@classic
+@classNames('logged-user-details')
+export default class UserLoggedMenu extends Component.extend(EmberKeyboardMixin) {
+  @service currentUser;
+  @service('-routing') routing;
 
-  currentUser: service(),
-  routing: service('-routing'),
+  keyboardActivated = true;
+  _canDisplayMenu = false;
+  showUserTutorialsInMenu = config.APP.FT_ACTIVATE_USER_TUTORIALS;
 
-  classNames: ['logged-user-details'],
-
-  keyboardActivated: true,
-  _canDisplayMenu: false,
-  showUserTutorialsInMenu: config.APP.FT_ACTIVATE_USER_TUTORIALS,
-
-  canDisplayLinkToProfile: computed('routing.currentRouteName', function() {
+  @computed('routing.currentRouteName')
+  get canDisplayLinkToProfile() {
     const currentRouteName = this.get('routing.currentRouteName');
 
     return currentRouteName !== 'profile';
-  }),
-
-  displayedIdentifier: computed('currentUser.user.email', function() {
-    return this.currentUser.user.email ? this.currentUser.user.email : this.currentUser.user.username;
-  }),
-
-  closeOnEsc: on(keyDown('Escape'), function() {
-    this.set('_canDisplayMenu', false);
-  }),
-
-  actions: {
-    toggleUserMenu() {
-      this.toggleProperty('_canDisplayMenu');
-    },
-
-    closeMenu() {
-      this.set('_canDisplayMenu', false);
-    }
   }
-});
+
+  @computed('currentUser.user.email')
+  get displayedIdentifier() {
+    return this.currentUser.user.email ? this.currentUser.user.email : this.currentUser.user.username;
+  }
+
+  @on(keyDown('Escape'))
+  closeOnEsc() {
+    this.set('_canDisplayMenu', false);
+  }
+
+  @action
+  toggleUserMenu() {
+    this.toggleProperty('_canDisplayMenu');
+  }
+
+  @action
+  closeMenu() {
+    this.set('_canDisplayMenu', false);
+  }
+}

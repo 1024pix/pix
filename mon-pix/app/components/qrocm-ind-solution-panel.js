@@ -1,6 +1,7 @@
 import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/template';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import _ from 'lodash';
 import answersAsObject from 'mon-pix/utils/answers-as-object';
 import solutionsAsObject from 'mon-pix/utils/solution-as-object';
@@ -24,9 +25,10 @@ function _computeInputClass(answerOutcome) {
   return 'correction-qroc-box-answer--wrong';
 }
 
-const QrocmIndSolutionPanel = Component.extend({
-
-  inputFields: computed('challenge.proposals', 'answer.value', 'solution', function() {
+@classic
+class QrocmIndSolutionPanel extends Component {
+  @computed('challenge.proposals', 'answer.value', 'solution')
+  get inputFields() {
 
     const escapedProposals = this.get('challenge.proposals').replace(/(\n\n|\n)/gm, '<br>');
     const labels = labelsAsObject(htmlSafe(escapedProposals).string);
@@ -55,9 +57,8 @@ const QrocmIndSolutionPanel = Component.extend({
     });
 
     return inputFields;
-  })
-
-});
+  }
+}
 
 export default QrocmIndSolutionPanel;
 

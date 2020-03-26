@@ -1,12 +1,15 @@
-import Component from '@ember/component';
+import { classNames } from '@ember-decorators/component';
 import { computed } from '@ember/object';
+import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  classNames: ['learning-more-panel'],
+@classic
+@classNames('learning-more-panel')
+export default class LearningMorePanel extends Component {
+  learningMoreTutorials = null;
 
-  learningMoreTutorials: null,
-
-  hasLearningMoreItems: computed('learningMoreTutorials.length', function() {
+  @computed('learningMoreTutorials.length')
+  get hasLearningMoreItems() {
     return this.get('learningMoreTutorials.length') > 0;
-  }),
-});
+  }
+}

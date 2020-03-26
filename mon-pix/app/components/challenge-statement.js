@@ -1,30 +1,33 @@
-import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { classNames } from '@ember-decorators/component';
+import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import config from 'mon-pix/config/environment';
+import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
+@classic
+@classNames('challenge-statement')
+export default class ChallengeStatement extends Component {
+  @service mailGenerator;
 
-  mailGenerator: service(),
-
-  classNames: ['challenge-statement'],
-
-  challenge: null,
-  assessment: null,
+  challenge = null;
+  assessment = null;
 
   didReceiveAttrs() {
     this.set('selectedAttachmentUrl', this.get('challenge.attachments.firstObject'));
-  },
+  }
 
-  challengeInstruction: computed('challenge.instruction', function() {
+  @computed('challenge.instruction')
+  get challengeInstruction() {
     const instruction = this.get('challenge.instruction');
     if (!instruction) {
       return null;
     }
     return instruction.replace('${EMAIL}', this._formattedEmailForInstruction());
-  }),
+  }
 
-  challengeEmbedDocument: computed('challenge.hasValidEmbedDocument', function() {
+  @computed('challenge.hasValidEmbedDocument')
+  get challengeEmbedDocument() {
     if (this.get('challenge.hasValidEmbedDocument')) {
       return {
         url: this.get('challenge.embedUrl'),
@@ -33,25 +36,25 @@ export default Component.extend({
       };
     }
     return undefined;
-  }),
+  }
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     this.id = 'challenge_statement_' + this.get('challenge.id');
-  },
+  }
 
-  attachmentsData: computed('challenge.attachments', function() {
+  @computed('challenge.attachments')
+  get attachmentsData() {
     return this.get('challenge.attachments');
-  }),
+  }
 
-  actions: {
-    selectAttachementUrl(attachementUrl) {
-      this.set('selectedAttachmentUrl', attachementUrl);
-    }
-  },
+  @action
+  selectAttachementUrl(attachementUrl) {
+    this.set('selectedAttachmentUrl', attachementUrl);
+  }
 
-  _formattedEmailForInstruction: function() {
+  _formattedEmailForInstruction() {
     return this.mailGenerator
       .generateEmail(this.get('challenge.id'), this.get('assessment.id'), window.location.hostname, config.environment);
-  },
-});
+  }
+}
