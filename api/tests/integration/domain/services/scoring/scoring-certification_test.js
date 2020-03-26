@@ -40,6 +40,7 @@ describe('Integration | Domain | services | scoring | scoring-certification-serv
           nbPix: 12,
           validatedSkills: [],
           failedSkills: [],
+          percentageCorrectAnswers: 0,
           competenceMarks: [{
             id: undefined,
             assessmentResultId: undefined,

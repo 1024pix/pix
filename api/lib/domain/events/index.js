@@ -10,6 +10,7 @@ const dependencies = {
   competenceMarkRepository: require('../../infrastructure/repositories/competence-mark-repository'),
   scoringCertificationService: require('../services/scoring/scoring-certification-service'),
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
+  certificationPartnerAcquisitionRepository: require('../../infrastructure/repositories/certification-partner-acquisition-repository'),
 };
 
 module.exports = injectDependencies({
