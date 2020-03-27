@@ -2,10 +2,12 @@ const _ = require('lodash');
 
 const CREATED = 'created';
 const FINALIZED = 'finalized';
+const PROCESSED = 'processed';
 
 const statuses = {
   CREATED,
   FINALIZED,
+  PROCESSED,
 };
 
 const NO_EXAMINER_GLOBAL_COMMENT = null;
@@ -55,6 +57,16 @@ class Session {
 
   areResultsFlaggedAsSent() {
     return !_.isNil(this.resultsSentToPrescriberAt);
+  }
+
+  get computedStatus() {
+    if (this.publishedAt) {
+      return statuses.PROCESSED;
+    }
+    if (this.finalizedAt) {
+      return statuses.FINALIZED;
+    }
+    return statuses.CREATED;
   }
 }
 
