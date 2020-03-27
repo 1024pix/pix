@@ -17,9 +17,11 @@ function _formatHumanReadableLocaleDateTime(date, options) {
 
 export const CREATED = 'created';
 export const FINALIZED = 'finalized';
+export const PROCESSED = 'processed';
 export const statusToDisplayName = {
   [CREATED]: 'Créée',
   [FINALIZED]: 'Finalisée',
+  [PROCESSED]: 'Résultats transmis par Pix',
 };
 
 export default class Session extends Model {
@@ -37,13 +39,14 @@ export default class Session extends Model {
   @equal('status', FINALIZED) isFinalized;
   @attr() resultsSentToPrescriberAt;
   @attr() examinerGlobalComment;
+  @attr() publishedAt;
 
   @hasMany('certification') certifications;
   @belongsTo('certification-center') certificationCenter;
 
   @computed('examinerGlobalComment')
   get hasExaminerGlobalComment() {
-    return this.examinerGlobalComment && this.examinerGlobalComment.trim().length > 0;
+    return !_.isEmpty(_.trim(this.examinerGlobalComment));
   }
 
   @computed('certifications.@each.isPublished')
@@ -82,7 +85,7 @@ export default class Session extends Model {
 
   @computed('resultsSentToPrescriberAt', 'isFinalized')
   get areResultsToBeSentToPrescriber() {
-    return this.isFinalized && !this.resultsSentToPrescriberAt;
+    return Boolean(this.isFinalized && !this.resultsSentToPrescriberAt);
   }
 
   @computed('date')
@@ -93,6 +96,11 @@ export default class Session extends Model {
   @computed('finalizedAt')
   get displayFinalizationDate() {
     return _formatHumanReadableLocaleDateTime(this.finalizedAt);
+  }
+
+  @computed('publishedAt')
+  get displayPublishedAtDate() {
+    return _formatHumanReadableLocaleDateTime(this.publishedAt);
   }
 
   @computed('status')
