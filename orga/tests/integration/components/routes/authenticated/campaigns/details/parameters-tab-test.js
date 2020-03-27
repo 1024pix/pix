@@ -89,4 +89,21 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
       });
     });
   });
+
+  module('on campaign url display', function() {
+    test('it should display the campaign url', async function(assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        url: 'pix.fr/1234'
+      });
+
+      this.set('campaign', campaign);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
+
+      // then
+      assert.dom('[aria-label="Détails de la campagne"]').includesText('pix.fr/1234');
+    });
+  });
 });
