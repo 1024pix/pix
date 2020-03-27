@@ -82,4 +82,49 @@ describe('Unit | Domain | Models | Session', () => {
       });
     });
   });
+
+  context('#get computedStatus', () => {
+
+    context('when session publishedAt timestamp is defined', () => {
+
+      it('should return PROCESSED', () => {
+        // given
+        session.publishedAt = new Date();
+
+        // when
+        const computedStatus = session.computedStatus;
+
+        // then
+        expect(computedStatus).to.equal(Session.statuses.PROCESSED);
+      });
+    });
+
+    context('when session publishedAt timestamp is not defined', () => {
+
+      context('when session finalizedAt timestamp is defined', () => {
+
+        it('should return FINALIZED', () => {
+          // given
+          session.finalizedAt = new Date();
+
+          // when
+          const computedStatus = session.computedStatus;
+
+          // then
+          expect(computedStatus).to.equal(Session.statuses.FINALIZED);
+        });
+      });
+
+      context('when session finalizedAt timestamp is not defined', () => {
+
+        it('should return CREATED', () => {
+          // when
+          const computedStatus = session.computedStatus;
+
+          // then
+          expect(computedStatus).to.equal(Session.statuses.CREATED);
+        });
+      });
+    });
+  });
 });
