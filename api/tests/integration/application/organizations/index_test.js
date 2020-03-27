@@ -21,7 +21,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     sinon.stub(organizationController, 'importSchoolingRegistrationsFromSIECLE').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
     sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
-    sinon.stub(organizationController, 'findStudents').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(organizationController, 'findUserWithSchoolingRegistrations').callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -141,7 +141,7 @@ describe('Integration | Application | Organizations | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(organizationController.findStudents).to.have.been.calledOnce;
+      expect(organizationController.findUserWithSchoolingRegistrations).to.have.been.calledOnce;
     });
   });
 

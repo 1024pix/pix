@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
 const { NotFoundError, SameNationalStudentIdInOrganizationError, SchoolingRegistrationsCouldNotBeSavedError } = require('../../domain/errors');
-const StudentWithUserInfo = require('../../domain/models/StudentWithUserInfo');
+const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
 const SchoolingRegistration = require('../../domain/models/SchoolingRegistration');
 
 const Bookshelf = require('../bookshelf');
@@ -9,13 +9,13 @@ const BookshelfSchoolingRegistration = require('../data/schooling-registration')
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const bookshelfUtils = require('../utils/bookshelf-utils');
 
-function _toStudentWithUserInfoDTO(BookshelfSchoolingRegistration) {
+function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
 
-  const rawStudentWithUserInfo = BookshelfSchoolingRegistration.toJSON();
+  const rawUserWithSchoolingRegistration = BookshelfSchoolingRegistration.toJSON();
 
-  return new StudentWithUserInfo({
-    ...rawStudentWithUserInfo,
-    isAuthenticatedFromGAR: (rawStudentWithUserInfo.samlId) ? true : false,
+  return new UserWithSchoolingRegistration({
+    ...rawUserWithSchoolingRegistration,
+    isAuthenticatedFromGAR: (rawUserWithSchoolingRegistration.samlId) ? true : false,
   });
 }
 
@@ -101,7 +101,7 @@ module.exports = {
       });
   },
 
-  findSchoolingRegistrationsWithUserInfoByOrganizationId({ organizationId }) {
+  findUserWithSchoolingRegistrationsByOrganizationId({ organizationId }) {
     return BookshelfSchoolingRegistration
       .where({ organizationId })
       .query((qb) => {
@@ -109,6 +109,6 @@ module.exports = {
         qb.leftJoin('users', 'schooling-registrations.userId', 'users.id');
       })
       .fetchAll({ columns: ['schooling-registrations.id','schooling-registrations.firstName', 'schooling-registrations.lastName', 'schooling-registrations.birthdate', 'schooling-registrations.userId', 'schooling-registrations.organizationId' , 'users.username' , 'users.email' , 'users.samlId' , ] })
-      .then((schoolingRegistrations) => schoolingRegistrations.models.map(_toStudentWithUserInfoDTO));
+      .then((schoolingRegistrations) => schoolingRegistrations.models.map(_toUserWithSchoolingRegistrationDTO));
   },
 };

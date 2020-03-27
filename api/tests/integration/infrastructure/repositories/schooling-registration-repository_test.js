@@ -2,7 +2,7 @@ const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helpe
 const _ = require('lodash');
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
-const StudentWithUserInfo = require('../../../../lib/domain/models/StudentWithUserInfo');
+const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
 
 const { NotFoundError, SameNationalStudentIdInOrganizationError } = require('../../../../lib/domain/errors');
 
@@ -555,7 +555,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
   describe('#findSchoolingRegistrationsWithUserInfoByOrganizationId', () => {
 
-    it('should return instances of StudentWithUserInfo', async () => {
+    it('should return instances of UserWithSchoolingRegistration', async () => {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildSchoolingRegistration({
@@ -565,14 +565,14 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const studentWithUserInfos = await schoolingRegistrationRepository.findSchoolingRegistrationsWithUserInfoByOrganizationId({ organizationId: organization.id });
+      const studentWithUserInfos = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({ organizationId: organization.id });
 
       // then
       const studentWithUserInfo = studentWithUserInfos[0];
-      expect(studentWithUserInfo).to.be.an.instanceOf(StudentWithUserInfo);
+      expect(studentWithUserInfo).to.be.an.instanceOf(UserWithSchoolingRegistration);
     });
 
-    it('should return all the StudentWithUserInfo for a given organization ID', async () => {
+    it('should return all the UserWithSchoolingRegistration for a given organization ID', async () => {
       // given
       const organization_1 = databaseBuilder.factory.buildOrganization();
       const organization_2 = databaseBuilder.factory.buildOrganization();
@@ -586,7 +586,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const studentWithUserInfos = await schoolingRegistrationRepository.findSchoolingRegistrationsWithUserInfoByOrganizationId({ organizationId: organization_1.id });
+      const studentWithUserInfos = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({ organizationId: organization_1.id });
 
       // then
       expect(_.map(studentWithUserInfos, 'id')).to.have.members([schoolingRegistration_1.id, schoolingRegistration_2.id]);
@@ -635,7 +635,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           organizationId: organization.id,
           userId: user.id,
         });
-        const expectedStudentWithUserInfo = new StudentWithUserInfo({
+        const expectedUserWithSchoolingRegistration = new UserWithSchoolingRegistration({
           id : schoolingRegistration.id,
           firstName : schoolingRegistration.firstName,
           lastName : schoolingRegistration.lastName,
@@ -649,11 +649,11 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         // when
-        const schoolingRegistrationsWithUserInfo = await schoolingRegistrationRepository.findSchoolingRegistrationsWithUserInfoByOrganizationId({ organizationId: organization.id });
+        const schoolingRegistrationsWithUserInfo = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({ organizationId: organization.id });
         const schoolingRegistrationWithUserInfo = schoolingRegistrationsWithUserInfo[0];
 
         // then
-        expect(schoolingRegistrationWithUserInfo).to.deep.equal(expectedStudentWithUserInfo);
+        expect(schoolingRegistrationWithUserInfo).to.deep.equal(expectedUserWithSchoolingRegistration);
 
       });
 
@@ -675,7 +675,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           organizationId: organization.id,
           userId: user.id,
         });
-        const expectedStudentWithUserInfo = new StudentWithUserInfo({
+        const expectedUserWithSchoolingRegistration = new UserWithSchoolingRegistration({
           id : schoolingRegistration.id,
           firstName : schoolingRegistration.firstName,
           lastName : schoolingRegistration.lastName,
@@ -689,11 +689,11 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         // when
-        const schoolingRegistrationsWithUserInfo = await schoolingRegistrationRepository.findSchoolingRegistrationsWithUserInfoByOrganizationId({ organizationId: organization.id });
+        const schoolingRegistrationsWithUserInfo = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({ organizationId: organization.id });
         const schoolingRegistrationWithUserInfo = schoolingRegistrationsWithUserInfo[0];
 
         // then
-        expect(schoolingRegistrationWithUserInfo).to.deep.equal(expectedStudentWithUserInfo);
+        expect(schoolingRegistrationWithUserInfo).to.deep.equal(expectedUserWithSchoolingRegistration);
 
       });
 
@@ -710,7 +710,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           userId: null,
         });
 
-        const expectedStudentWithUserInfo = new StudentWithUserInfo({
+        const expectedUserWithSchoolingRegistration = new UserWithSchoolingRegistration({
           id : schoolingRegistration.id,
           firstName : schoolingRegistration.firstName,
           lastName : schoolingRegistration.lastName,
@@ -724,11 +724,11 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         // when
-        const schoolingRegistrationsWithUserInfo = await schoolingRegistrationRepository.findSchoolingRegistrationsWithUserInfoByOrganizationId({ organizationId: organization.id });
+        const schoolingRegistrationsWithUserInfo = await schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId({ organizationId: organization.id });
         const schoolingRegistrationWithUserInfo = schoolingRegistrationsWithUserInfo[0];
 
         // then
-        expect(schoolingRegistrationWithUserInfo).to.deep.equal(expectedStudentWithUserInfo);
+        expect(schoolingRegistrationWithUserInfo).to.deep.equal(expectedUserWithSchoolingRegistration);
 
       });
 

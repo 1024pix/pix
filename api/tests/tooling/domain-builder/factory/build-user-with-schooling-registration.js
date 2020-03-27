@@ -1,8 +1,8 @@
 const faker = require('faker');
 const moment = require('moment');
-const StudentWithUserInfo = require('../../../../lib/domain/models/StudentWithUserInfo');
+const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
 
-module.exports = function buildStudentWithUserInfo(
+module.exports = function buildUserWithSchoolingRegistration(
   {
     lastName = faker.name.lastName(),
     firstName = faker.name.firstName(),
@@ -12,7 +12,7 @@ module.exports = function buildStudentWithUserInfo(
     isAuthenticatedFromGAR = false,
   } = {}) {
 
-  return new StudentWithUserInfo({
+  return new UserWithSchoolingRegistration({
     lastName,
     firstName,
     birthdate,
