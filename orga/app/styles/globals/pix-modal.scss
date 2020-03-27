@@ -1,5 +1,3 @@
-$pix-modal-border-radius: 5px;
-
 /* Structure & layout
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
@@ -7,184 +5,110 @@ $pix-modal-border-radius: 5px;
   z-index: 100;
 
   .pix-modal-dialog {
-    background: transparent;
-    padding: 10px;
-    box-shadow: none;
-    width: 100vw;
+    width: 500px;
 
-    @include device-is('desktop') {
-      width: 800px;
-    }
-
-    &--wide {
-      @include device-is('desktop') {
-        width: 950px;
-      }
-    }
-
-    .pix-modal__close-link {
-      color: $white;
-      text-align: right;
-      margin-bottom: 5px;
-
-      &> a {
-        color: inherit;
-
-        &:hover,
-        &:active,
-        &:focus {
-          color: inherit;
-        }
-      }
+    @include device-is('mobile') {
+      width: 80%;
     }
 
     .pix-modal__container {
-      border-radius: $pix-modal-border-radius;
-      background-color: $porcelain;
+      border-radius: 4px;
+      background-color: $white;
       box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
       font-size: 1rem;
       position: relative;
       margin: auto;
 
-      &--white {
-        background-color: $white;
-      }
-
-      &--with-padding {
-        @include device-is('desktop') {
-          padding: 40px 0;
-        }
-      }
-
       .pix-modal-header {
-        background: $white;
-        border-top-left-radius: $pix-modal-border-radius;
-        border-top-right-radius: $pix-modal-border-radius;
+
+        display: flex;
+        flex-direction: column;
+        padding: 16px 24px;
 
         &__title {
-          margin: 0;
-          text-align: center;
-          padding: 15px;
-          font-family: $roboto;
-          font-size: 1.75rem;
-
-          &--thin {
-            font-weight: 300;
-          }
+          align-items: center;
+          justify-content: space-between;
+          color: $astronaut;
+          display: flex;
+          font-size: 1.25rem;
         }
 
-        &__subtitle {
-          margin: 0;
-          text-align: center;
-          color: $nero;
-          font-family: $roboto;
-          font-weight: 500;
-          font-size: 1rem;
+        &__icon {
+          font-size: 1.5rem;
+          padding: 3px 9px;
         }
       }
 
       .pix-modal-body {
+        background-color: $white;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        margin-top: 16px;
+        padding: 0 24px;
 
-        &--with-padding {
-          padding: 20px;
+        label {
+          color: $astronaut;
+          font-size: .88rem;
+          font-weight: 500;
+        }
+
+        .disabled {
+          background-color: $wild-sand;
+          border: none;
+        }
+
+        .help {
+          color: $nero;
+          text-transform: none;
+          font-weight: normal;
+          letter-spacing: normal;
+          font-size: 0.85rem;
         }
       }
 
       .pix-modal-footer {
-        border-bottom-left-radius: $pix-modal-border-radius;
-        border-bottom-right-radius: $pix-modal-border-radius;
+        background-color: darken($astronaut, 8%);
+        border-radius: 8px 8px 4px 4px;
+        padding: 24px;
 
-        &--with-centered-buttons {
-          padding: 15px 0;
-          display: flex;
-          flex-direction: row-reverse;
-          justify-content: center;
+        &__title {
+          color: $white;
+          margin-bottom: 22px;
+        }
 
-          >.button {
-            margin: 0 10px;
+        button {
+          font-weight: 600;
+        }
+
+        .input-password__icon {
+          &:hover, &:focus, &:active {
+            background-color: inherit;
           }
         }
 
-        &--border {
-          border-top: 1px solid $alto;
+        .label {
+          color: $white;
+        }
+
+        .alert-input {
+          text-align: left;
+        }
+
+        .help {
+          font-size: .85rem;
+          font-weight: 400;
         }
       }
     }
-  }
-}
-
-/* Form & input
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-.pix-modal__input {
-  padding: 15px;
-  border-radius: $pix-modal-border-radius;
-  background-color: $white;
-  border: 2px solid $alto;
-  color: $dove-gray;
-  letter-spacing: 0.125rem;
-  box-sizing: border-box;
-  margin-bottom: 5px;
-  outline: none;
-  text-align: center;
-
-  &:focus {
-    border-color: $dodger-blue;
-  }
-
-  @include device-is('tablet') {
-    width: auto;
-    text-align: left;
   }
 }
 
 /* Overlay
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-.ember-modal-overlay.translucent {
-  background-color: rgba(red($alto), green($alto), blue($alto), 0.5);
-}
-
-
-/* Scrolling
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-body.centered-modal-showing {
-  overflow: hidden;
-}
-
-.centered-scrolling-wrapper {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  overflow-y: scroll;
-}
-
-.centered-scrolling-overlay {
-  position: relative;
-  height: auto;
-  min-height: 100vh;
-  padding: 10px;
-  display: flex;
-  align-items: flex-start;
+.ember-modal-overlay {
+  display:flex;
   justify-content: center;
+  align-items: center;
 }
 
-.centered-scrolling-container {
-  position: relative;
-  min-height: 20em;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  box-sizing: border-box;
-}
-
-.pix-modal__translucent {
-  background-color: transparent;
-  box-shadow: none;
-}
