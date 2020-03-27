@@ -1,9 +1,12 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 export default class SessionController extends Controller {
   @service router;
+
+  @tracked inputId;
 
   @action
   loadSession() {
