@@ -8,8 +8,11 @@ const optionsWithHeader = {
   skipEmptyLines: true,
   header: true,
   transform: (value, columnName) => {
+    if (typeof value === 'string') {
+      value = value.trim();
+    }
     if (columnName === 'uai') {
-      value = value.toUpperCase().trim();
+      value = value.toUpperCase();
     }
     return value;
   }
