@@ -1,5 +1,4 @@
 const { SCO_CERTIF_CENTER_ID, SCO_CERTIF_CENTER_NAME } = require('./certification-centers-builder');
-const { statuses } = require('../../../../lib/domain/models/Session');
 const EMPTY_SESSION_ID = 1;
 const STARTED_SESSION_ID = 2;
 const STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID = 3;
@@ -22,7 +21,6 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     certificationCenter, certificationCenterId, address, room, examiner, date , time,
     description: 'Session pas commencée avec ZERO candidat inscrit.',
     accessCode: 'ANNE01',
-    status: statuses.CREATED,
     examinerGlobalComment: null,
   });
 
@@ -31,7 +29,6 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     certificationCenter, certificationCenterId, address, room, examiner, date , time,
     description: 'Session pas commencée avec quelques candidats inscrits non liés.',
     accessCode: 'ANNE02',
-    status: statuses.CREATED,
     examinerGlobalComment: null,
   });
 
@@ -40,7 +37,6 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     certificationCenter, certificationCenterId, address, room, examiner, date , time,
     description: 'Session pas commencée avec des candidats inscrits non liés.',
     accessCode: 'ANNE03',
-    status: statuses.CREATED,
     examinerGlobalComment: null,
   });
 
@@ -49,7 +45,6 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     certificationCenter, certificationCenterId, address, room, examiner, date , time,
     description: 'Session pas encore finalisée, avec des candidats ayant passés leur test de certification.',
     accessCode: 'ANNE04',
-    status: statuses.CREATED,
     examinerGlobalComment: null,
   });
 
@@ -58,7 +53,6 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     certificationCenter, certificationCenterId, address, room, examiner, date , time,
     description: 'Session finalisée sans problème, donc aucun commentaire et le surveillant a vu tous les écrans de fin de test.',
     accessCode: 'ANNE05',
-    status: statuses.FINALIZED,
     examinerGlobalComment: null,
     finalizedAt: new Date('2020-04-15T15:00:34Z'),
   });
@@ -68,7 +62,6 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     certificationCenter, certificationCenterId, address, room, examiner, date , time,
     description: 'Session finalisée à problèmes !',
     accessCode: 'ANNE06',
-    status: statuses.FINALIZED,
     examinerGlobalComment: 'Une météorite est tombée sur le centre de certification pendant la session !!',
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
   });
@@ -79,7 +72,6 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     address, room, examiner, date , time,
     description: 'Session sans vrai certification center !',
     accessCode: 'ANNE07',
-    status: statuses.FINALIZED,
     examinerGlobalComment: 'Salut les zouzous',
     finalizedAt: new Date('2020-06-05T15:00:34Z'),
   });

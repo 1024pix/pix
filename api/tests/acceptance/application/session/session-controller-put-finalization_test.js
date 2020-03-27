@@ -1,7 +1,5 @@
 const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-
 const createServer = require('../../../../server');
-const { statuses } = require('../../../../lib/domain/models/Session');
 
 describe('Acceptance | Controller | sessions-controller', () => {
 
@@ -12,7 +10,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
 
   beforeEach(async () => {
     server = await createServer();
-    session = databaseBuilder.factory.buildSession({ status: statuses.CREATED });
+    session = databaseBuilder.factory.buildSession();
     const report1 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id });
     const report2 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id });
 

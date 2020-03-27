@@ -7,18 +7,17 @@ const SESSION_PROPS = [
   'accessCode',
   'address',
   'certificationCenter',
-  'certificationCenterId',
   'date',
   'description',
   'examiner',
   'room',
   'time',
-  'status',
   'examinerGlobalComment',
   'finalizedAt',
   'resultsSentToPrescriberAt',
   'publishedAt',
   'certificationCandidates',
+  'certificationCenterId',
 ];
 
 describe('Unit | Domain | Models | Session', () => {
@@ -30,19 +29,19 @@ describe('Unit | Domain | Models | Session', () => {
       accessCode: '',
       address: '',
       certificationCenter: '',
-      certificationCenterId: '',
       date: '',
       description: '',
       examiner: '',
       room: '',
       time: '',
-      status: '',
       examinerGlobalComment: '',
       finalizedAt: '',
       resultsSentToPrescriberAt: '',
       publishedAt: '',
       // includes
       certificationCandidates: [],
+      // references
+      certificationCenterId: '',
     });
   });
 
@@ -83,7 +82,7 @@ describe('Unit | Domain | Models | Session', () => {
     });
   });
 
-  context('#get computedStatus', () => {
+  context('#get status', () => {
 
     context('when session publishedAt timestamp is defined', () => {
 
@@ -92,10 +91,10 @@ describe('Unit | Domain | Models | Session', () => {
         session.publishedAt = new Date();
 
         // when
-        const computedStatus = session.computedStatus;
+        const status = session.status;
 
         // then
-        expect(computedStatus).to.equal(Session.statuses.PROCESSED);
+        expect(status).to.equal(Session.statuses.PROCESSED);
       });
     });
 
@@ -108,10 +107,10 @@ describe('Unit | Domain | Models | Session', () => {
           session.finalizedAt = new Date();
 
           // when
-          const computedStatus = session.computedStatus;
+          const status = session.status;
 
           // then
-          expect(computedStatus).to.equal(Session.statuses.FINALIZED);
+          expect(status).to.equal(Session.statuses.FINALIZED);
         });
       });
 
@@ -119,10 +118,10 @@ describe('Unit | Domain | Models | Session', () => {
 
         it('should return CREATED', () => {
           // when
-          const computedStatus = session.computedStatus;
+          const status = session.status;
 
           // then
-          expect(computedStatus).to.equal(Session.statuses.CREATED);
+          expect(status).to.equal(Session.statuses.CREATED);
         });
       });
     });

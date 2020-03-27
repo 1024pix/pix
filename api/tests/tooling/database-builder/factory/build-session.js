@@ -1,7 +1,6 @@
 const faker = require('faker');
 const buildCertificationCenter = require('./build-certification-center');
 const databaseBuffer = require('../database-buffer');
-const { statuses } = require('../../../../lib/domain/models/Session');
 const _ = require('lodash');
 const moment = require ('moment');
 
@@ -16,7 +15,6 @@ module.exports = function buildSession({
   examiner = faker.name.findName(),
   room = faker.random.alphaNumeric(9),
   time = faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0'),
-  status = statuses.CREATED,
   examinerGlobalComment = '',
   createdAt = faker.date.recent(),
   finalizedAt = null,
@@ -40,7 +38,6 @@ module.exports = function buildSession({
     examiner,
     room,
     time,
-    status,
     examinerGlobalComment,
     createdAt,
     finalizedAt,
