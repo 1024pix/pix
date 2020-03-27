@@ -2,10 +2,12 @@ const _ = require('lodash');
 
 const CREATED = 'created';
 const FINALIZED = 'finalized';
+const ONGOING = 'ongoing';
 
 const statuses = {
   CREATED,
   FINALIZED,
+  ONGOING,
 };
 
 const NO_EXAMINER_GLOBAL_COMMENT = null;
