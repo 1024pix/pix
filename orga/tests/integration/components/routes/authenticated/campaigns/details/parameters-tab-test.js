@@ -106,4 +106,41 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
       assert.dom('[aria-label="Détails de la campagne"]').includesText('pix.fr/1234');
     });
   });
+
+  module('on campaign title display', function() {
+    module('when type is TEST_GIVEN', function() {
+      test('it should display the campaign title', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          type: 'TEST_GIVEN',
+          title: 'Mon titre de Campagne'
+        });
+
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
+
+        // then
+        assert.dom('[aria-label="Détails de la campagne"]').includesText('Mon titre de Campagne');
+      });
+    });
+
+    module('when type is PROFILES_COLLECTION', function() {
+      test('it should not display the campaign title', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          type: 'PROFILES_COLLECTION',
+        });
+
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
+
+        // then
+        assert.dom('[aria-label="Détails de la campagne"]').doesNotContainText('Titre du parcours');
+      });
+    });
+  });
 });
