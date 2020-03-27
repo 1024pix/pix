@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
-const findOrganizationStudentWithUserInfo = require('../../../../lib/domain/usecases/find-organization-students-with-users-infos');
+const findUserWithSchoolingRegistrations = require('../../../../lib/domain/usecases/find-user-with-schooling-registrations');
 
-describe('Unit | UseCase | findStudentsWithUserInfoByOrganizationId', () => {
+describe('Unit | UseCase | findUserWithSchoolingRegistrations', () => {
 
   const organizationId = 1;
   const userId = 2;
@@ -15,14 +15,14 @@ describe('Unit | UseCase | findStudentsWithUserInfoByOrganizationId', () => {
   const expectedReconciledSchoolingRegistrationFromGAR = { id: 5, userId , isAuthenticatedFromGAR };
   let foundOrganizationSchoolingRegistrations;
   const expectedSchoolingRegistrations = [expectedSchoolingRegistrationNotYetReconciled, expectedReconciledSchoolingRegistrationWithUsername, expectedReconciledSchoolingRegistrationWithEmail ,expectedReconciledSchoolingRegistrationFromGAR ];
-  const schoolingRegistrationRepository = { findSchoolingRegistrationsWithUserInfoByOrganizationId: sinon.stub().withArgs({ organizationId }).returns(expectedSchoolingRegistrations) };
+  const schoolingRegistrationRepository = { findUserWithSchoolingRegistrationsByOrganizationId: sinon.stub().withArgs({ organizationId }).returns(expectedSchoolingRegistrations) };
 
   before(async function() {
-    foundOrganizationSchoolingRegistrations = await findOrganizationStudentWithUserInfo({ organizationId, schoolingRegistrationRepository });
+    foundOrganizationSchoolingRegistrations = await findUserWithSchoolingRegistrations({ organizationId, schoolingRegistrationRepository });
   });
 
   it('should fetch students matching organization', function() {
-    expect(schoolingRegistrationRepository.findSchoolingRegistrationsWithUserInfoByOrganizationId).to.have.been.calledWithExactly({ organizationId });
+    expect(schoolingRegistrationRepository.findUserWithSchoolingRegistrationsByOrganizationId).to.have.been.calledWithExactly({ organizationId });
   });
 
   it('should return reconcilied and not reconcilied students', function() {

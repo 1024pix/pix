@@ -43,7 +43,6 @@ module.exports = {
   buildSolution: require('./build-solution'),
   buildSmartPlacementAssessment: require('./build-smart-placement-assessment'),
   buildSchoolingRegistration: require('./build-schooling-registration'),
-  buildStudentWithUserInfo: require('./build-student-with-user-info'),
   buildKnowledgeElement: require('./build-knowledge-element'),
   buildTargetProfile: require('./build-target-profile'),
   buildTube: require('./build-tube'),
@@ -51,6 +50,7 @@ module.exports = {
   buildUser: require('./build-user'),
   buildUserOrgaSettings: require('./build-user-orga-settings'),
   buildUserScorecard: require('./build-user-scorecard'),
+  buildUserWithSchoolingRegistration: require('./build-user-with-schooling-registration'),
   buildValidation: require('./build-validation'),
   buildValidator: require('./build-validator'),
 };
