@@ -62,6 +62,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     type: 'PROFILES_COLLECTION',
     organizationId: 1,
     creatorId: 2,
+    idPixLabel: null,
   });
 
   databaseBuilder.factory.buildCampaign({
