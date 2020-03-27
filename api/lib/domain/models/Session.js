@@ -32,6 +32,7 @@ class Session {
     certificationCandidates,
     // references
     certificationCenterId,
+    assignedUserId,
   } = {}) {
     this.id = id;
     // attributes
@@ -51,6 +52,7 @@ class Session {
     this.certificationCandidates = certificationCandidates;
     // references
     this.certificationCenterId = certificationCenterId;
+    this.assignedUserId = assignedUserId;
   }
 
   areResultsFlaggedAsSent() {

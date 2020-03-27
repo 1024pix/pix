@@ -8,14 +8,14 @@ const { statuses } = require('../../domain/models/Session');
 
 module.exports = {
 
-  save: async (sessionData) => {
+  async save(sessionData) {
     sessionData = _.omit(sessionData, ['certificationCandidates']);
 
     const newSession = await new BookshelfSession(sessionData).save();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, newSession);
   },
 
-  isSessionCodeAvailable: async (accessCode) => {
+  async isSessionCodeAvailable(accessCode) {
     const sessionWithAccessCode = await BookshelfSession
       .where({ accessCode })
       .fetch({});
@@ -23,7 +23,7 @@ module.exports = {
     return !sessionWithAccessCode;
   },
 
-  isFinalized: async (id) => {
+  async isFinalized(id) {
     const session = await BookshelfSession
       .where({ id, status: statuses.FINALIZED })
       .fetch({ columns: 'id' });

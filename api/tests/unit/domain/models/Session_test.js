@@ -18,6 +18,7 @@ const SESSION_PROPS = [
   'finalizedAt',
   'resultsSentToPrescriberAt',
   'certificationCandidates',
+  'assignedUserId',
 ];
 
 describe('Unit | Domain | Models | Session', () => {
@@ -41,6 +42,7 @@ describe('Unit | Domain | Models | Session', () => {
       resultsSentToPrescriberAt: '',
       // includes
       certificationCandidates: [],
+      assignedUserId: '',
     });
   });
 
