@@ -67,6 +67,7 @@ module.exports = {
       },
       transform(session) {
         const transformedSession = Object.assign({}, session);
+        transformedSession.status = session.status;
         transformedSession.certifications = [];
         transformedSession.certificationReports = [];
         transformedSession.certificationCenterName = session.certificationCenter;
@@ -85,6 +86,9 @@ module.exports = {
         'status',
         'examinerGlobalComment',
       ],
+      transform(session) {
+        return { ...session, status: session.status };
+      },
     }).serialize(sessions);
   },
 
@@ -120,6 +124,7 @@ module.exports = {
       },
       transform(session) {
         const transformedSession = Object.assign({}, session);
+        transformedSession.status = session.computedStatus;
         transformedSession.certifications = [];
         transformedSession.certificationCenterName = session.certificationCenter;
         delete transformedSession.certificationCenter;
