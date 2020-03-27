@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
-import { equal } from '@ember/object/computed';
 
 function _getNumberOf(certifications, booleanFct) {
   return _.sumBy(
@@ -36,13 +35,17 @@ export default class Session extends Model {
   @attr() accessCode;
   @attr() status;
   @attr() finalizedAt;
-  @equal('status', FINALIZED) isFinalized;
   @attr() resultsSentToPrescriberAt;
   @attr() examinerGlobalComment;
   @attr() publishedAt;
 
   @hasMany('certification') certifications;
   @belongsTo('certification-center') certificationCenter;
+
+  @computed('status')
+  get isFinalized() {
+    return this.status === FINALIZED || this.status === PROCESSED;
+  }
 
   @computed('examinerGlobalComment')
   get hasExaminerGlobalComment() {

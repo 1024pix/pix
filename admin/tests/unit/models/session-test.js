@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
+import { STARTED, PROCESSED } from 'pix-admin/models/session';
 
 module('Unit | Model | session', function(hooks) {
   setupTest(hooks);
@@ -11,6 +12,42 @@ module('Unit | Model | session', function(hooks) {
     store = this.owner.lookup('service:store');
   });
 
+  module('#isFinalized', function() {
+
+    module('when the status is PROCESSED', function() {
+
+      test('isFinalized should be true', function(assert) {
+        // given
+        const sessionProcessed = run(() => {
+          return store.createRecord('session', { status: PROCESSED });
+        });
+
+        // when
+        const isFinalized = sessionProcessed.get('isFinalized');
+
+        // then
+        assert.equal(isFinalized, true);
+      });
+    });
+
+    module('when the status is STARTED', function() {
+
+      test('isFinalized should be false', function(assert) {
+        // given
+        const sessionStarted = run(() => {
+          return store.createRecord('session', { status: STARTED });
+        });
+
+        // when
+        const isFinalized = sessionStarted.get('isFinalized');
+
+        // then
+        assert.equal(isFinalized, false);
+      });
+
+    });
+
+  });
   module('#hasExaminerGlobalComment', function() {
 
     module('when there is no examinerGlobalComment', function() {

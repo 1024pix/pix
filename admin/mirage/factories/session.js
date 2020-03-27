@@ -1,7 +1,7 @@
 import { Factory, trait } from 'ember-cli-mirage';
 import faker from 'faker';
 import moment from 'moment';
-import { CREATED, FINALIZED } from 'pix-admin/models/session';
+import { CREATED, FINALIZED, PROCESSED } from 'pix-admin/models/session';
 
 export default Factory.extend({
 
@@ -59,7 +59,18 @@ export default Factory.extend({
     }
   }),
 
+  created: trait({
+    status: CREATED,
+  }),
+
   finalized: trait({
     status: FINALIZED,
-  })
+    finalizedAt: faker.date.past(),
+  }),
+
+  processed: trait({
+    status: PROCESSED,
+    finalizedAt: faker.date.past(),
+    publishedAt: faker.date.recent(),
+  }),
 });
