@@ -24,7 +24,6 @@ class Session {
     examiner,
     room,
     time,
-    status,
     examinerGlobalComment,
     finalizedAt,
     resultsSentToPrescriberAt,
@@ -44,7 +43,6 @@ class Session {
     this.examiner = examiner;
     this.room = room;
     this.time = time;
-    this.status = status;
     this.examinerGlobalComment = examinerGlobalComment;
     this.finalizedAt = finalizedAt;
     this.resultsSentToPrescriberAt = resultsSentToPrescriberAt;
@@ -59,7 +57,7 @@ class Session {
     return !_.isNil(this.resultsSentToPrescriberAt);
   }
 
-  get computedStatus() {
+  get status() {
     if (this.publishedAt) {
       return statuses.PROCESSED;
     }

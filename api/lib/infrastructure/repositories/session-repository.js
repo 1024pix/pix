@@ -4,7 +4,6 @@ const BookshelfSession = require('../data/session');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
-const { statuses } = require('../../domain/models/Session');
 
 module.exports = {
 
@@ -25,7 +24,10 @@ module.exports = {
 
   isFinalized: async (id) => {
     const session = await BookshelfSession
-      .where({ id, status: statuses.FINALIZED })
+      .query((qb) => {
+        qb.where({ id });
+        qb.whereRaw('?? IS NOT NULL', ['finalizedAt']);
+      })
       .fetch({ columns: 'id' });
     return Boolean(session);
   },
@@ -107,9 +109,9 @@ module.exports = {
     return Boolean(session);
   },
 
-  async finalize({ id, status, examinerGlobalComment, finalizedAt }) {
+  async finalize({ id, examinerGlobalComment, finalizedAt }) {
     let updatedSession = await new BookshelfSession({ id })
-      .save({ status, examinerGlobalComment, finalizedAt }, { patch: true });
+      .save({ examinerGlobalComment, finalizedAt }, { patch: true });
     updatedSession = await updatedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
   },

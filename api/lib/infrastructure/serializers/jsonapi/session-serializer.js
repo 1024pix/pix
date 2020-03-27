@@ -124,7 +124,7 @@ module.exports = {
       },
       transform(session) {
         const transformedSession = Object.assign({}, session);
-        transformedSession.status = session.computedStatus;
+        transformedSession.status = session.status;
         transformedSession.certifications = [];
         transformedSession.certificationCenterName = session.certificationCenter;
         delete transformedSession.certificationCenter;

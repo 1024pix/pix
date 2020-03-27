@@ -256,7 +256,7 @@ describe('Acceptance | API | Certification Center', () => {
         databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id }),
         databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id })
       ];
-      databaseBuilder.factory.buildSession({});
+      databaseBuilder.factory.buildSession();
       await databaseBuilder.commit();
       options = {
         method: 'GET',
