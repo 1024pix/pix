@@ -6,6 +6,7 @@ const TO_FINALIZE_SESSION_ID = 4;
 const NO_PROBLEM_FINALIZED_SESSION_ID = 5;
 const PROBLEMS_FINALIZED_SESSION_ID = 6;
 const NO_CERTIF_CENTER_SESSION_ID = 7;
+const PUBLISHED_SESSION_ID = 8;
 
 function certificationSessionsBuilder({ databaseBuilder }) {
   const certificationCenter = SCO_CERTIF_CENTER_NAME;
@@ -75,6 +76,15 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     examinerGlobalComment: 'Salut les zouzous',
     finalizedAt: new Date('2020-06-05T15:00:34Z'),
   });
+
+  databaseBuilder.factory.buildSession({
+    id: PUBLISHED_SESSION_ID,
+    certificationCenter, certificationCenterId, address, room, examiner, date , time,
+    description: 'Session publiée',
+    accessCode: 'ANNE08',
+    finalizedAt: new Date('2020-05-05T15:00:34Z'),
+    publishedAt: new Date('2020-06-05T15:00:34Z'),
+  });
 }
 
 module.exports = {
@@ -86,4 +96,5 @@ module.exports = {
   NO_PROBLEM_FINALIZED_SESSION_ID,
   PROBLEMS_FINALIZED_SESSION_ID,
   NO_CERTIF_CENTER_SESSION_ID,
+  PUBLISHED_SESSION_ID,
 };
