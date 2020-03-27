@@ -1,8 +1,7 @@
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
 import Controller from '@ember/controller';
-import { statusToDisplayName } from '../../../../models/session';
 
 export default class IndexController extends Controller {
   @service
@@ -13,11 +12,6 @@ export default class IndexController extends Controller {
 
   @alias('model')
   session;
-
-  @computed('session.isFinalized')
-  get sessionStatusLabel() {
-    return this.session.isFinalized ? statusToDisplayName.finalized : statusToDisplayName.created;
-  }
 
   @action
   downloadSessionResultFile() {

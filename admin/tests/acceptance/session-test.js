@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { click, fillIn, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { FINALIZED } from 'pix-admin/models/session';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -31,8 +30,8 @@ module('Acceptance | Session pages', function(hooks) {
       session = server.create('session', {
         id: 1,
         certificationCenterName: 'Centre des Staranne',
-        status: FINALIZED,
-        resultsSentToPrescriberAt: new Date('2020-01-01T03:00:00Z'),
+        finalizedAt: new Date('2020-01-01T03:00:00Z'),
+        resultsSentToPrescriberAt: new Date('2020-02-01T03:00:00Z'),
         examinerGlobalComment: 'Commentaire du surveillant',
       });
     });
