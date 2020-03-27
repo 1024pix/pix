@@ -1,6 +1,7 @@
 const BookshelfTargetProfile = require('../../infrastructure/data/target-profile');
 const skillDatasource = require('../../infrastructure/datasources/airtable/skill-datasource');
 const targetProfileAdapter = require('../adapters/target-profile-adapter');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 module.exports = {
 
@@ -42,6 +43,15 @@ module.exports = {
       })
       .fetchAll({ withRelated: ['skillIds'] })
       .then((bookshelfTargetProfiles) => Promise.all(bookshelfTargetProfiles.map(_getWithAirtableSkills)));
+  },
+
+  findByIds(targetProfileIds) {
+    return BookshelfTargetProfile
+      .query((qb) => {
+        qb.whereIn('id',  targetProfileIds);
+      })
+      .fetchAll()
+      .then((foundTargetProfiles) => bookshelfToDomainConverter.buildDomainObjects(BookshelfTargetProfile, foundTargetProfiles));
   },
 };
 
