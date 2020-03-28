@@ -9,7 +9,13 @@ export default function() {
   this.logging = true;
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
+  
+  this.get('/users/me', (schema, request) => {
+    const userToken = request.requestHeaders.authorization.replace('Bearer ', '');
+    const userId = JSON.parse(atob(userToken.split('.')[1])).user_id;
 
+    return schema.users.find(userId);
+  });
   this.get('/users');
   this.get('/users/:id');
 
