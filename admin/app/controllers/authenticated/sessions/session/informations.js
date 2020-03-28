@@ -14,9 +14,9 @@ export default class IndexController extends Controller {
   @alias('model')
   session;
 
-  @computed('session.isFinalized')
+  @computed('session.status')
   get sessionStatusLabel() {
-    return this.session.isFinalized ? statusToDisplayName.finalized : statusToDisplayName.created;
+    return statusToDisplayName[this.session.status];
   }
 
   @action
