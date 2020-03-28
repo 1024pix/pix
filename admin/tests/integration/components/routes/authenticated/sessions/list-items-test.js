@@ -14,7 +14,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     const sessions = [
       { id: 1, certificationCenterName: 'Centre A', certificationCenter: { type: 'SUP' }, date: now, time: '14:00:00', displayDate },
       { id: 2, certificationCenterName: 'Centre B', certificationCenter: { type: null }, date: now, time: '14:00:00', displayDate },
-      { id: 3, certificationCenterName: 'Centre C', date: now, time: '14:00:00', displayDate },
+      { id: 3, certificationCenterName: 'Centre C', assignedUser: { fullName: 'Coucou' }, date: now, time: '14:00:00', displayDate },
     ];
 
     sessions.meta = { rowCount: 3 };
@@ -36,5 +36,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     assert.dom('table tbody tr:nth-child(1) td:nth-child(3)').hasText(sessions[0].certificationCenter.type);
     assert.dom('table tbody tr:nth-child(2) td:nth-child(3)').hasText('-');
     assert.dom('table tbody tr:nth-child(3) td:nth-child(3)').hasText('-');
+    assert.dom('table tbody tr:nth-child(1) td:nth-child(8)').hasText('-');
+    assert.dom('table tbody tr:nth-child(2) td:nth-child(8)').hasText('-');
+    assert.dom('table tbody tr:nth-child(3) td:nth-child(8)').hasText('Coucou');
   });
 });

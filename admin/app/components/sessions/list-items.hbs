@@ -9,6 +9,7 @@
         <th>Statut</th>
         <th>Date de finalisation</th>
         <th>Nombre de certifications publiées</th>
+        <th>Qui ?</th>
       </tr>
       <tr>
         <th>
@@ -17,6 +18,7 @@
                  @key-up={{fn @triggerFiltering "id" @id}}
                  class="table-admin-input" />
         </th>
+        <th></th>
         <th></th>
         <th></th>
         <th></th>
@@ -41,6 +43,11 @@
           <td>{{session.displayStatus}}</td>
           <td>{{session.displayFinalizationDate}}</td>
           <td>{{session.countPublishedCertifications}}</td>
+          {{#if session.assignedUser}}
+            <td class="session-list__item--align-center">{{session.assignedUser.fullName}}</td>
+          {{else}}
+            <td class="session-list__item--align-center">-</td>
+          {{/if}}
         </tr>
       {{/each}}
       </tbody>
