@@ -66,11 +66,12 @@ function certificationSessionsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildSession({
     id: PROBLEMS_FINALIZED_SESSION_ID,
     certificationCenter, certificationCenterId, address, room, examiner, date , time,
-    description: 'Session finalisée à problèmes !',
+    description: 'Session finalisée à problèmes et assignée !',
     accessCode: 'ANNE06',
-    status: statuses.FINALIZED,
+    status: statuses.ONGOING,
     examinerGlobalComment: 'Une météorite est tombée sur le centre de certification pendant la session !!',
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
+    assignedUserId: 5, //pixMaster
   });
 
   databaseBuilder.factory.buildSession({
