@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
-import { equal } from '@ember/object/computed';
 
 function _getNumberOf(certifications, booleanFct) {
   return _.sumBy(
@@ -17,9 +16,11 @@ function _formatHumanReadableLocaleDateTime(date, options) {
 
 export const CREATED = 'created';
 export const FINALIZED = 'finalized';
+export const ONGOING = 'ongoing';
 export const statusToDisplayName = {
   [CREATED]: 'Créée',
   [FINALIZED]: 'Finalisée',
+  [ONGOING]: 'En cours de traitement',
 };
 
 export default class Session extends Model {
@@ -34,12 +35,17 @@ export default class Session extends Model {
   @attr() accessCode;
   @attr() status;
   @attr() finalizedAt;
-  @equal('status', FINALIZED) isFinalized;
   @attr() resultsSentToPrescriberAt;
   @attr() examinerGlobalComment;
 
   @hasMany('certification') certifications;
   @belongsTo('certification-center') certificationCenter;
+  @belongsTo('user') assignedUser;
+
+  @computed('status')
+  get isFinalized() {
+    return this.status === FINALIZED || this.status === ONGOING;
+  }
 
   @computed('examinerGlobalComment')
   get hasExaminerGlobalComment() {

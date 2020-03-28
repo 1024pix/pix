@@ -1,7 +1,7 @@
 import { Factory, trait } from 'ember-cli-mirage';
 import faker from 'faker';
 import moment from 'moment';
-import { CREATED, FINALIZED } from 'pix-admin/models/session';
+import { CREATED, FINALIZED, ONGOING } from 'pix-admin/models/session';
 
 export default Factory.extend({
 
@@ -56,6 +56,14 @@ export default Factory.extend({
         session.update({ certificationCenter: server.create('certification-center') });
       }
       session.update({ certificationCenterName: session.certificationCenter.name });
+    }
+  }),
+
+  withAssignedUser: trait({
+    afterCreate(session, server) {
+      if (!session.assignedUser) {
+        session.update({ assignedUser: server.create('user'), status: ONGOING });
+      }
     }
   }),
 

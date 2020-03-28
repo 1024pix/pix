@@ -13,6 +13,11 @@ export default ApplicationSerializer.extend({
         related: `/api/certification-centers/${session.certificationCenter.id}`,
       };
     }
+    if (session.assignedUser) {
+      links.assignedUser = {
+        related: `/api/users/${session.assignedUser.id}`,
+      };
+    }
 
     return links;
   }
