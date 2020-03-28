@@ -77,19 +77,41 @@
 
   <div class="session-info__actions">
     <div class='row row--btn'>
-      <button class="btn btn-primary" {{action "downloadBeforeJuryFile"}} type="button">
+
+        {{#if this.isCurrentUserAssignedToSession}}
+          <button class="btn btn-primary">
+            Vous êtes assigné à cette session
+          </button>
+        {{else}}
+          <button class="btn btn-primary" {{on 'click' this.checkForAssignment}}>
+            M'assigner la session
+          </button>
+        {{/if}}
+
+      <button class="btn btn-primary" {{on 'click' this.downloadBeforeJuryFile}}>
         Récupérer le fichier avant jury
       </button>
 
-      <button class="btn btn-primary btn--right" {{action "downloadSessionResultFile"}} type="button">
+      <button class="btn btn-primary btn--right" {{on 'click' this.downloadSessionResultFile}}>
         Exporter les résultats
       </button>
 
       {{#if this.session.areResultsToBeSentToPrescriber}}
-      <button class="btn btn-primary" {{action "tagSessionAsSentToPrescriber"}} type="button">
-        Résultats transmis au prescripteur
-      </button>
+        <button class="btn btn-primary" {{on 'click' this.tagSessionAsSentToPrescriber}}>
+          Résultats transmis au prescripteur
+        </button>
       {{/if}}
     </div>
   </div>
 </div>
+
+{{#if isShowingAssignmentModal}}
+    {{#modal-dialog
+            onClose=(action "cancelAssignment")
+            targetAttachment="center"
+            translucentOverlay=true }}
+        L'utilisateur {{this.session.assignedUser.fullName}} s'est déjà assigné cette session. Voulez-vous vous réassigner la session ?
+        <button {{on 'click' this.cancelAssignment}} >NON ! CETTE SESSION PUE !</button>
+        <button {{on 'click' this.confirmAssignment}}>OUI ! JE SUIS UN BOURREAU DE TRAVAIL</button>
+    {{/modal-dialog}}
+{{/if}}
