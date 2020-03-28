@@ -1,6 +1,5 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
-import { equal } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import ENV from 'pix-certif/config/environment';
 
@@ -8,9 +7,11 @@ const { Model, attr, belongsTo, hasMany } = DS;
 
 export const CREATED = 'created';
 export const FINALIZED = 'finalized';
+export const ONGOING = 'ongoing';
 export const statusToDisplayName = {
   [CREATED]: 'Créée',
   [FINALIZED]: 'Finalisée',
+  [ONGOING]: 'Finalisée',
 };
 
 export default class Session extends Model {
@@ -28,7 +29,10 @@ export default class Session extends Model {
   @hasMany('certificationCandidate') certificationCandidates;
   @hasMany('certificationReport') certificationReports;
 
-  @equal('status', FINALIZED) isFinalized;
+  @computed('status')
+  get isFinalized() {
+    return this.status === FINALIZED || this.status === ONGOING;
+  }
 
   @computed('certificationCandidates.@each.isLinked')
   get hasStarted() {
