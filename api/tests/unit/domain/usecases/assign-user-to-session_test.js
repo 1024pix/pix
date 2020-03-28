@@ -30,39 +30,17 @@ describe('Unit | UseCase | assign-user-to-session', () => {
 
     beforeEach(() => {
       sessionId = 1;
+      sessionRepository.get.withArgs(sessionId).resolves({ id: sessionId });
+      sessionRepository.assignUser.withArgs({ id: sessionId, assignedUserId: userId }).resolves(returnedSession);
     });
 
-    context('when the session does not exist', () => {
+    it('should return the session after assigningUser to it', async () => {
+      // when
+      const actualSession = await assignUserToSession({ sessionId, userId, sessionRepository });
 
-      beforeEach(() => {
-        sessionRepository.get.withArgs(sessionId).rejects();
-        sessionRepository.assignUser.rejects();
-      });
-
-      it('should throw a NotFound error when getting the session', async () => {
-        // when
-        const error = await catchErr(assignUserToSession)({ sessionId, userId, sessionRepository });
-
-        // then
-        sinon.assert.calledOnce(sessionRepository.get);
-        expect(error).to.be.an.instanceOf(NotFoundError);
-      });
-    });
-
-    context('when the session exists', () => {
-
-      beforeEach(() => {
-        sessionRepository.get.withArgs(sessionId).resolves();
-        sessionRepository.assignUser.withArgs({ id: sessionId, assignedUserId: userId }).resolves(returnedSession);
-      });
-
-      it('should return the session after assigningUser to it', async () => {
-        // when
-        const actualSession = await assignUserToSession({ sessionId, userId, sessionRepository });
-
-        // then
-        expect(actualSession).to.equal(returnedSession);
-      });
+      // then
+      expect(sessionRepository.assignUser).to.have.been.calledWith({ id: sessionId, assignedUserId: userId });
+      expect(actualSession).to.equal(returnedSession);
     });
   });
 });

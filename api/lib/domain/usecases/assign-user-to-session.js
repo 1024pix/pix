@@ -5,16 +5,13 @@ module.exports = async function assignUserToSession({
   userId,
   sessionRepository,
 } = {}) {
+  const ERROR_MESSAGE = `La session ${sessionId} n'existe pas.`;
   const integerSessionId = parseInt(sessionId);
   if (!Number.isFinite(integerSessionId)) {
-    throw new NotFoundError(`Session not found for ID ${sessionId}`);
+    throw new NotFoundError(ERROR_MESSAGE);
   }
 
-  try {
-    await sessionRepository.get(sessionId);
-  } catch (err) {
-    throw new NotFoundError(`La session ${sessionId} n'existe pas.`);
-  }
+  const { id } = await sessionRepository.get(sessionId);
 
-  return sessionRepository.assignUser({ id: sessionId, assignedUserId: userId });
+  return sessionRepository.assignUser({ id, assignedUserId: userId });
 };

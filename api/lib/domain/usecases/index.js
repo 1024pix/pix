@@ -72,6 +72,7 @@ module.exports = injectDependencies({
   answerToOrganizationInvitation: require('./answer-to-organization-invitation'),
   attachTargetProfilesToOrganization: require('./attach-target-profiles-to-organization'),
   archiveCampaign: require('./archive-campaign'),
+  assignUserToSession: require('./assign-user-to-session'),
   authenticateUser: require('./authenticate-user'),
   beginCampaignParticipationImprovement: require('./begin-campaign-participation-improvement'),
   completeAssessment: require('./complete-assessment'),
