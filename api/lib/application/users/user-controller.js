@@ -94,6 +94,13 @@ module.exports = {
     return userSerializer.serialize(users, pagination);
   },
 
+  getUserInfo(request) {
+    const userId = parseInt(request.params.id);
+
+    return usecases.getUserInfo({ userId })
+      .then(userSerializer.serializeMinimal);
+  },
+
   getCampaignParticipations(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 

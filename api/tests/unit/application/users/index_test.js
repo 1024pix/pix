@@ -277,4 +277,32 @@ describe('Unit | Router | user-router', () => {
       });
     });
   });
+
+  describe('GET /api/users/{id}', () => {
+
+    beforeEach(() => {
+      sinon.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, h) => {
+        h.continue({ credentials: { accessToken: 'jwt.access.token' } });
+      });
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(userController, 'getUserInfo').returns('ok');
+      startServer();
+    });
+
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/users/123',
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+  });
 });

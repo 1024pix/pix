@@ -35,6 +35,22 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
+      path: '/api/users/{id}',
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: userController.getUserInfo,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de récupérer les infos basiques d\'un utilisateur'
+        ],
+        tags: ['api', 'user']
+      }
+    },
+    {
+      method: 'GET',
       path: '/api/users/me',
       config: {
         handler: userController.getCurrentUser,

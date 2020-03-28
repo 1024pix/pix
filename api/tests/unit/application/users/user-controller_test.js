@@ -587,4 +587,29 @@ describe('Unit | Controller | user-controller', () => {
       expect(usecases.resetScorecard).to.have.been.calledWith({ userId, competenceId });
     });
   });
+
+  describe('#getUserInfo ', () => {
+    let request;
+    const userId = 1;
+    const user = Symbol('user');
+    const userJsonApi = Symbol('userJsonApi');
+
+    beforeEach(() => {
+      // given
+      request = {
+        params: { id : userId },
+      };
+      sinon.stub(usecases, 'getUserInfo').withArgs({ userId }).resolves(user);
+      sinon.stub(userSerializer, 'serializeMinimal').withArgs(user).returns(userJsonApi);
+    });
+
+    it('should return serialized user', async () => {
+      // when
+      const response = await userController.getUserInfo(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(userJsonApi);
+    });
+
+  });
 });
