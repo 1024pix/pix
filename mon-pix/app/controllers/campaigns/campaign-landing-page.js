@@ -1,17 +1,19 @@
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 import Controller from '@ember/controller';
 
-export default Controller.extend({
-  queryParams: ['participantExternalId'],
-  participantExternalId: null,
-  isLoading: false,
-  pageTitle: 'Présentation',
+@classic
+export default class CampaignLandingPageController extends Controller {
+  queryParams = ['participantExternalId'];
+  participantExternalId = null;
+  isLoading = false;
+  pageTitle = 'Présentation';
 
-  actions: {
-    startCampaignParticipation() {
-      this.set('isLoading', true);
-      return this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
-        queryParams: { hasSeenLanding: true, participantExternalId: this.participantExternalId }
-      });
-    }
+  @action
+  startCampaignParticipation() {
+    this.set('isLoading', true);
+    return this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
+      queryParams: { hasSeenLanding: true, participantExternalId: this.participantExternalId }
+    });
   }
-});
+}

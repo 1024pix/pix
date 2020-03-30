@@ -1,7 +1,7 @@
+import classic from 'ember-classic-decorator';
 import Controller from '@ember/controller';
 
-export default Controller.extend({
-
-  pageTitle: 'Avancement de votre certification',
-
-});
+@classic
+export default class ResultsController extends Controller {
+  pageTitle = 'Avancement de votre certification';
+}
