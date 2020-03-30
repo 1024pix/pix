@@ -45,15 +45,17 @@
 
 <div class="panel campaign-details__controls">
   <nav class="navbar campaign-details-controls__navbar-tabs">
-    <LinkTo @route="authenticated.campaigns.details.parameters" class="navbar-item">
+    <LinkTo @route="authenticated.campaigns.details.parameters" class="navbar-item" @model={{@campaign}} >
       Détails
     </LinkTo>
-    <LinkTo @route="authenticated.campaigns.details.participants" class="navbar-item">
-      Participants ({{@campaign.campaignReport.participationsCount}})
-    </LinkTo>
-    <LinkTo @route="authenticated.campaigns.details.collective-results" class="navbar-item">
-      Résultats collectifs
-    </LinkTo>
+    {{# if @campaign.isTypeTestGiven}}
+      <LinkTo @route="authenticated.campaigns.details.participants" @model={{@campaign}} class="navbar-item">
+        Participants ({{@campaign.campaignReport.participationsCount}})
+      </LinkTo>
+      <LinkTo @route="authenticated.campaigns.details.collective-results" @model={{@campaign}}   class="navbar-item">
+        Résultats collectifs
+      </LinkTo>
+    {{/if}}
   </nav>
 
   <div class="campaign-details-controls__export-button">

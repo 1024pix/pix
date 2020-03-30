@@ -72,4 +72,45 @@ module('Unit | Model | campaign', function(hooks) {
       assert.equal(model.readableType, 'Récupération profils');
     });
   });
+
+  module('canBeArchived', function() {
+    let store;
+
+    hooks.beforeEach(function() {
+      store = this.owner.lookup('service:store');
+    });
+
+    module('when type is TEST_GIVEN', function() {
+      module('when campaign is not archived', function() {
+        test('it should return true', function(assert) {
+          const campaign = store.createRecord('campaign', {
+            type: 'TEST_GIVEN',
+            archivedAt: null,
+          });
+
+          assert.equal(campaign.canBeArchived, true);
+        });
+        module('when campaign is archived', function() {
+          test('it should return false', function(assert) {
+            const campaign = store.createRecord('campaign', {
+              type: 'TEST_GIVEN',
+              archivedAt: new Date('2020-01-01'),
+            });
+
+            assert.equal(campaign.canBeArchived, false);
+          });
+        });
+      });
+    });
+    module('when type is PROFILES_COLLECTION', function() {
+      test('it should be false', function(assert) {
+        const campaign = store.createRecord('campaign', {
+          type: 'PROFILES_COLLECTION',
+          archivedAt: null,
+        });
+
+        assert.equal(campaign.canBeArchived, false);
+      });
+    });
+  });
 });

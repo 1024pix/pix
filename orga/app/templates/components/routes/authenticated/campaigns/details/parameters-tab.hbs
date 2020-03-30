@@ -1,17 +1,17 @@
-<div class="panel panel--strong-shadow campaign-details-container">
+<div class="panel panel--strong-shadow campaign-details-container" aria-label="Détails de la campagne">
   <div class="campaign-details-row">
-    <div class="campaign-details-content">
-      <h4 class="label-text campaign-details-content__label">Profil cible</h4>
-      <p class="content-text campaign-details-content__text">{{@campaign.targetProfile.name}}</p>
-    </div>
-
+    {{#if @campaign.isTypeTestGiven}}
+      <div class="campaign-details-content">
+        <h4 class="label-text campaign-details-content__label">Profil cible</h4>
+        <p class="content-text campaign-details-content__text">{{@campaign.targetProfile.name}}</p>
+      </div>
+    {{/if}}
     {{#if @campaign.idPixLabel}}
       <div class="campaign-details-content">
         <h4 class="label-text campaign-details-content__label">Libellé de l'identifiant</h4>
         <p class="content-text campaign-details-content__text">{{@campaign.idPixLabel}}</p>
       </div>
     {{/if}}
-
     <div class="campaign-details-content">
       <h4 class="label-text campaign-details-content__label">Lien direct</h4>
       <div class="campaign-details-content__clipboard">
@@ -28,12 +28,14 @@
     </div>
   </div>
 
+{{#if @campaign.isTypeTestGiven}}
   <div class="campaign-details-row">
     <div class="campaign-details-content campaign-details-content--single">
       <h4 class="label-text campaign-details-content__label">Titre du parcours</h4>
       <p class="content-text campaign-details-content__text">{{@campaign.title}}</p>
     </div>
   </div>
+{{/if}}
 
   <div class="campaign-details-row">
     <div class="campaign-details-content campaign-details-content--single">
@@ -44,19 +46,19 @@
     </div>
   </div>
 
-  {{#if (not @campaign.isArchived)}}
-    <div class="campaign-details-row">
-      <div class="campaign-details-content campaign-details-content--button campaign-details--button">
-        <LinkTo @route="authenticated.campaigns.update" @model={{@campaign.id}} class="button button--grey button--regular button--link campaign-details-content__update-button">
-          Modifier
-        </LinkTo>
-      </div>
-      <div class="campaign-details-content campaign-details-content--button campaign-details-content--left">
-        <button type="button" {{on 'click' (fn this.archiveCampaign @campaign.id)}}
-                   class="button button--grey button--regular button--link">
-          Archiver
-        </button>
-      </div>
+  {{#if @campaign.canBeArchived}}
+      <div class="campaign-details-row">
+        <div class="campaign-details-content campaign-details-content--button campaign-details--button">
+          <LinkTo @route="authenticated.campaigns.update" @model={{@campaign.id}} class="button button--grey button--regular button--link campaign-details-content__update-button" aria-label="Modifier">
+            Modifier
+          </LinkTo>
+        </div>
+        <div class="campaign-details-content campaign-details-content--button campaign-details-content--left">
+          <button type="button" {{on 'click' (fn this.archiveCampaign @campaign.id)}}
+                     class="button button--grey button--regular button--link" aria-label="Archiver">
+            Archiver
+          </button>
+        </div>
     </div>
   {{/if}}
 </div>
