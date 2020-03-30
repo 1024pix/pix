@@ -46,7 +46,7 @@ class AlreadySharedCampaignParticipationError extends DomainError {
   }
 }
 
-class StudentsCouldNotBeSavedError extends DomainError {
+class SchoolingRegistrationsCouldNotBeSavedError extends DomainError {
   constructor(message = 'Une erreur est survenue durant le traitement.') {
     super(message);
   }
@@ -320,7 +320,7 @@ class ObjectValidationError extends DomainError {
   }
 }
 
-class OrganizationStudentAlreadyLinkedToUserError extends DomainError {
+class SchoolingRegistrationAlreadyLinkedToUserError extends DomainError {
   constructor(message = 'L\'élève est déjà rattaché à un compte utilisateur.') {
     super(message);
   }
@@ -483,13 +483,13 @@ module.exports = {
   MissingOrInvalidCredentialsError,
   NotFoundError,
   ObjectValidationError,
-  OrganizationStudentAlreadyLinkedToUserError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   SameNationalStudentIdInFileError,
   SameNationalStudentIdInOrganizationError,
+  SchoolingRegistrationAlreadyLinkedToUserError,
+  SchoolingRegistrationsCouldNotBeSavedError,
   SessionAlreadyFinalizedError,
-  StudentsCouldNotBeSavedError,
   UserAlreadyLinkedToCandidateInSessionError,
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,

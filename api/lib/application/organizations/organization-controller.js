@@ -6,7 +6,7 @@ const membershipSerializer = require('../../infrastructure/serializers/jsonapi/m
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
-const studentWithUserInfoSerializer = require('../../infrastructure/serializers/jsonapi/student-with-user-info-serializer');
+const userWithSchoolingRegistrationSerializer = require('../../infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
 module.exports = {
@@ -79,18 +79,18 @@ module.exports = {
     return targetProfileSerializer.serialize(targetProfiles);
   },
 
-  findStudents: async (request) => {
+  findUserWithSchoolingRegistrations: async (request) => {
     const organizationId = parseInt(request.params.id);
 
-    return usecases.findOrganizationStudentsWithUserInfos({ organizationId })
-      .then(studentWithUserInfoSerializer.serialize);
+    return usecases.findUserWithSchoolingRegistrations({ organizationId })
+      .then(userWithSchoolingRegistrationSerializer.serialize);
   },
 
-  importStudentsFromSIECLE(request) {
+  importSchoolingRegistrationsFromSIECLE(request) {
     const organizationId = parseInt(request.params.id);
     const buffer = request.payload;
 
-    return usecases.importStudentsFromSIECLE({ organizationId, buffer })
+    return usecases.importSchoolingRegistrationsFromSIECLE({ organizationId, buffer })
       .then(() => null);
   },
 

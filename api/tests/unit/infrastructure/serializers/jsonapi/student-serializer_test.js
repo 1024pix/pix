@@ -1,14 +1,14 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/student-serializer');
-const Student = require('../../../../../lib/domain/models/Student');
+const SchoolingRegistration = require('../../../../../lib/domain/models/SchoolingRegistration');
 
 describe('Unit | Serializer | JSONAPI | student-serializer', () => {
 
   describe('#serialize', () => {
 
-    it('should convert a Student model object into JSON API data', () => {
+    it('should convert a SchoolingRegistration model object into JSON API data', () => {
       // given
-      const student = new Student({
+      const student = new SchoolingRegistration({
         id: 5,
         firstName: 'John',
         lastName: 'Doe',

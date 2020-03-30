@@ -1,7 +1,7 @@
 const faker = require('faker');
 const Organization = require('../../../../lib/domain/models/Organization');
 const User = require('../../../../lib/domain/models/User');
-const Student = require('../../../../lib/domain/models/Student');
+const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 
 function _buildMember(
   {
@@ -14,7 +14,7 @@ function _buildMember(
   return new User({ id, firstName, lastName, email });
 }
 
-function _buildStudent(
+function _buildSchoolingRegistration(
   {
     id = 1,
     lastName = 'Bono',
@@ -23,7 +23,7 @@ function _buildStudent(
     organization = null,
   } = {}) {
 
-  return new Student({ id, lastName, firstName, birthdate, organization });
+  return new SchoolingRegistration({ id, lastName, firstName, birthdate, organization });
 }
 
 function buildOrganization(
@@ -65,7 +65,7 @@ buildOrganization.withMembers = function(
   return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, canCollectProfiles, createdAt, members });
 };
 
-buildOrganization.withStudents = function(
+buildOrganization.withSchoolingRegistrations = function(
   {
     id = faker.random.number(),
     name = 'Lycée Luke Skywalker',
@@ -83,8 +83,8 @@ buildOrganization.withStudents = function(
   const organization = new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, canCollectProfiles, createdAt, students });
 
   organization.students = [
-    _buildStudent({ id: 1, lastName: 'Doe', firstName: 'John', organization }),
-    _buildStudent({ id: 2, lastName: 'Smith', firstName: 'Jane', organization })
+    _buildSchoolingRegistration({ id: 1, lastName: 'Doe', firstName: 'John', organization }),
+    _buildSchoolingRegistration({ id: 2, lastName: 'Smith', firstName: 'Jane', organization })
   ];
 
   return organization;
