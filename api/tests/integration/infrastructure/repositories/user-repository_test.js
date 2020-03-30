@@ -994,4 +994,39 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
+  describe('#updateExpiredPassword', () => {
+
+    let userId;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser({ shouldChangePassword: true }).id;
+      await databaseBuilder.commit();
+    });
+
+    it('should update the user\'s password and shouldChangePassword', async () => {
+      // given
+      const hashedNewPassword = '1235Pix!';
+
+      // when
+      const updatedUser = await userRepository.updateExpiredPassword({ userId, hashedNewPassword });
+
+      // then
+      expect(updatedUser).to.be.an.instanceOf(User);
+      expect(updatedUser.password).to.equal(hashedNewPassword);
+      expect(updatedUser.shouldChangePassword).to.false;
+    });
+
+    it('should throw UserNotFoundError when user id is not found', async () => {
+      // given
+      const wrongUserId = 0;
+      const hashedNewPassword = '1235Pix!';
+
+      // when
+      const error = await catchErr(userRepository.updateExpiredPassword)({ userId: wrongUserId, hashedNewPassword });
+
+      // then
+      expect(error).to.be.instanceOf(UserNotFoundError);
+    });
+  });
+
 });
