@@ -13,6 +13,7 @@ function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targ
   const knowledgeElementsOfTargetSkills = knowledgeElements.filter((ke) => {
     return targetSkills.find((skill) => skill.id === ke.skillId);
   });
+
   const filteredChallenges = _removeUnpublishedChallenges(challenges);
   targetSkills = _getSkillsWithAddedInformations({ targetSkills, filteredChallenges });
 

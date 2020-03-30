@@ -26,7 +26,8 @@ function _enumerateCatLevels() {
 
 function _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills) {
   const directKnowledgeElements = _.filter(knowledgeElements, (ke) => ke.source === 'direct');
-  const extraAnswers = directKnowledgeElements.map((ke) => {
+  const recentDirectKnowledgeElements = _.slice(directKnowledgeElements, 0, 5);
+  const extraAnswers = recentDirectKnowledgeElements.map((ke) => {
     const skill = skills.find((skill) => skill.id === ke.skillId);
     const maxDifficulty = skill.difficulty || 2;
     const binaryOutcome = (ke.status === KnowledgeElement.StatusType.VALIDATED) ? 1 : 0;
