@@ -1,6 +1,8 @@
 <div class="login-page">
   <div class="panel login-page__panel">
-    <img src="/pix-orga.svg" alt="Pix Orga">
+    <div class="panel__image">
+      <img src="/pix-orga.svg" alt="Pix Orga">
+    </div>
     <h1 class="form-title">Déjà utilisateur Pix ?</h1>
     <Routes::LoginForm @isWithInvitation={{false}} @hasInvitationError={{this.hasInvitationError}} />
   </div>
