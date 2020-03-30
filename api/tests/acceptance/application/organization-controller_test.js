@@ -1123,4 +1123,66 @@ describe('Acceptance | Application | organization-controller', () => {
     });
   });
 
+  describe('POST /api/organizations/{id}/target-profiles', () => {
+    let payload;
+    let options;
+
+    let userId;
+    let organizationId;
+    let targetProfileId1;
+    let targetProfileId2;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      targetProfileId1 = databaseBuilder.factory.buildTargetProfile().id;
+      targetProfileId2 = databaseBuilder.factory.buildTargetProfile().id;
+
+      await databaseBuilder.commit();
+
+      payload = {
+        data: {
+          type: 'target-profile-share',
+          attributes: {
+            'target-profiles-to-attach': [targetProfileId1, targetProfileId2],
+          }
+        }
+      };
+      options = {
+        method: 'POST',
+        url: `/api/organizations/${organizationId}/target-profiles`,
+        payload,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+    });
+
+    afterEach(async () => {
+      await knex('target-profile-shares').delete();
+    });
+
+    it('should create target profile share related to organization', async () => {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      const targetProfileShares = await knex('target-profile-shares').where({ organizationId });
+      expect(targetProfileShares).to.have.lengthOf(2);
+      expect(_.map(targetProfileShares, 'targetProfileId')).to.have.members([targetProfileId1, targetProfileId2]);
+    });
+
+    it('should return a 404 error and insert none of the target profiles', async function() {
+      // given
+      payload.data.attributes['target-profiles-to-attach'] = [targetProfileId1, targetProfileId2, '999'];
+      options.payload = payload;
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+      const targetProfileShares = await knex('target-profile-shares').where({ organizationId });
+      expect(targetProfileShares).to.have.lengthOf(0);
+    });
+  });
 });

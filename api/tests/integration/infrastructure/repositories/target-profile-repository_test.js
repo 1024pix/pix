@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { expect, databaseBuilder, domainBuilder, sinon } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const Skill = require('../../../../lib/domain/models/Skill');
@@ -255,6 +256,66 @@ describe('Integration | Repository | Target-profile', () => {
       const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
       // then
       expect(targetProfile.id).to.equal(targetProfileId);
+    });
+  });
+
+  describe('#findByIds', () => {
+    let targetProfile1;
+    let targetProfileIds;
+    const targetProfileIdNotExisting = 999;
+
+    beforeEach(async () => {
+      targetProfile1 = databaseBuilder.factory.buildTargetProfile();
+      await databaseBuilder.commit();
+    });
+
+    it('should return the target profile', async () => {
+      // given
+      targetProfileIds = [targetProfile1.id];
+
+      const expectedTargetProfilesAttributes = _.map([targetProfile1], (item) =>
+        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']));
+
+      // when
+      const foundTargetProfiles = await targetProfileRepository.findByIds(targetProfileIds);
+
+      // then
+      const foundTargetProfilesAttributes = _.map(foundTargetProfiles, (item) =>
+        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']));
+      expect(foundTargetProfilesAttributes).to.deep.equal(expectedTargetProfilesAttributes);
+    });
+
+    it('should return found target profiles', async () => {
+      // given
+      const targetProfile2 = databaseBuilder.factory.buildTargetProfile();
+      const targetProfile3 = databaseBuilder.factory.buildTargetProfile();
+      await databaseBuilder.commit();
+
+      targetProfileIds = [targetProfile1.id, targetProfileIdNotExisting, targetProfile2.id, targetProfile3.id];
+
+      const expectedTargetProfilesAttributes = _.map([targetProfile1, targetProfile2, targetProfile3], (item) =>
+        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']));
+
+      // when
+      const foundTargetProfiles = await targetProfileRepository.findByIds(targetProfileIds);
+
+      // then
+      const foundTargetProfilesAttributes = _.map(foundTargetProfiles, (item) =>
+        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']));
+      expect(foundTargetProfilesAttributes).to.deep.equal(expectedTargetProfilesAttributes);
+    });
+
+    it('should return an empty array', async () => {
+      // given
+      targetProfileIds = [targetProfileIdNotExisting];
+
+      // when
+      const foundTargetProfiles = await targetProfileRepository.findByIds(targetProfileIds);
+
+      // then
+      const foundTargetProfilesAttributes = _.map(foundTargetProfiles, (item) =>
+        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']));
+      expect(foundTargetProfilesAttributes).to.deep.equal([]);
     });
   });
 });

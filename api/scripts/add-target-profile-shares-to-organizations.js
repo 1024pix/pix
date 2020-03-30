@@ -39,7 +39,7 @@ async function addTargetProfileSharesToOrganizations({ organizationsByExternalId
 
     if (organization && organization.id) {
       if (require.main === module) process.stdout.write(`Adding targetProfiles: ${targetProfileIdList} to organizationId: ${organization.id} `);
-      await targetProfileShareRepository.addToOrganization({
+      await targetProfileShareRepository.addTargetProfilesToOrganization({
         organizationId: organization.id,
         targetProfileIdList
       });
