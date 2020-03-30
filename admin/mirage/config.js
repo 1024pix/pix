@@ -1,5 +1,6 @@
 import { createMembership } from './handlers/memberships';
 import { getOrganizationMemberships } from './handlers/organizations';
+import { attachTargetProfiles, getOrganizationTargetProfiles } from './handlers/target-profiles';
 import { getCertificationsBySessionId } from './handlers/certifications-by-session-id';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
 import { upload } from 'ember-file-upload/mirage';
@@ -18,6 +19,8 @@ export default function() {
   this.get('/organizations');
   this.get('/organizations/:id');
   this.get('/organizations/:id/memberships', getOrganizationMemberships);
+  this.get('/organizations/:id/target-profiles', getOrganizationTargetProfiles);
+  this.post('/organizations/:id/target-profiles', attachTargetProfiles);
 
   this.get('/sessions/:id');
   this.get('/sessions/:id/certifications', getCertificationsBySessionId);

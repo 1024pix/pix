@@ -1,4 +1,4 @@
-const studentDependentUserController = require('./student-dependent-user-controller');
+const schoolingRegistrationDependentUserController = require('./../schooling-registration-dependent-users/schooling-registration-dependent-user-controller');
 const securityController = require('../../interfaces/controllers/security-controller');
 const Joi = require('@hapi/joi');
 const { passwordValidationPattern } = require('../../config').account;
@@ -11,10 +11,11 @@ exports.register = async function(server) {
       path: '/api/student-dependent-users',
       config: {
         auth: false,
-        handler: studentDependentUserController.createAndAssociateUserToStudent,
+        handler: schoolingRegistrationDependentUserController.createAndAssociateUserToSchoolingRegistration,
         notes: [
-          'Cette route crée un utilisateur et l\'associe à l\'élève trouvé au sein de l\'organisation à laquelle ' +
-          'appartient la campagne spécifiée'
+          'Cette route crée un utilisateur et l\'associe à l\'inscription de l\'élève, celle-ci étant recherchée dans l\'organisation à laquelle ' +
+          'appartient la campagne spécifiée' +
+          '- L\'utilisation de cette route est dépréciée. Utiliser /api/schooling-registration-dependent-users à la place',
         ],
         tags: ['api', 'studentDependentUser']
       }
@@ -27,7 +28,7 @@ exports.register = async function(server) {
           method: securityController.checkUserBelongsToScoOrganizationAndManagesStudents,
           assign: 'belongsToScoOrganizationAndManageStudents'
         }],
-        handler: studentDependentUserController.updatePassword,
+        handler: schoolingRegistrationDependentUserController.updatePassword,
         validate: {
           options: {
             allowUnknown: true
@@ -44,7 +45,8 @@ exports.register = async function(server) {
         },
         notes : [
           '- Met à jour le mot de passe d\'un utilisateur identifié par son identifiant élève\n' +
-          '- La demande de modification du mot de passe doit être effectuée par un membre de l\'organisation à laquelle appartient l\'élève.'
+          '- La demande de modification du mot de passe doit être effectuée par un membre de l\'organisation à laquelle appartient l\'élève.' +
+          '- L\'utilisation de cette route est dépréciée. tiliser /api/schooling-registration-dependent-users à la place',
         ],
         tags: ['api', 'studentDependentUser'],
       }

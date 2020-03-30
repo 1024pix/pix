@@ -33,7 +33,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     organizationRole: Membership.roles.MEMBER,
   });
 
-  databaseBuilder.factory.buildStudent({
+  databaseBuilder.factory.buildSchoolingRegistration({
     id: 1,
     firstName: 'First',
     lastName: 'Last',
@@ -59,14 +59,14 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     cgu: false
   }).id;
 
-  databaseBuilder.factory.buildStudent({
+  databaseBuilder.factory.buildSchoolingRegistration({
     firstName: 'George',
     lastName: 'De Cambridge',
     birthdate: '2013-07-22',
     organizationId: 3,
     userId: user1Id
   });
-  databaseBuilder.factory.buildStudent({
+  databaseBuilder.factory.buildSchoolingRegistration({
     firstName: 'Blue Ivy',
     lastName: 'Carter',
     birthdate: '2012-01-07',

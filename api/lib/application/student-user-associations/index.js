@@ -1,4 +1,4 @@
-const studentUserAssociationController = require('./student-user-association-controller');
+const schoolingRegistrationUserAssociationController = require('./../schooling-registration-user-associations/schooling-registration-user-association-controller');
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const JSONAPIError = require('jsonapi-serializer').Error;
 
@@ -8,7 +8,7 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/student-user-associations',
       config: {
-        handler: studentUserAssociationController.associate,
+        handler: schoolingRegistrationUserAssociationController.associate,
         validate: {
           options: {
             allowUnknown: true
@@ -35,7 +35,8 @@ exports.register = async function(server) {
         },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Elle associe des données de l’utilisateur qui fait la requete, au student de l’organisation'
+          '- Elle associe des données de l’utilisateur qui fait la requete, à l\'élève de l’organisation' +
+          '- L\'utilisation de cette route est dépréciée. Utiliser /api/schooling-registration-user-associations à la place',
         ],
         tags: ['api', 'studentUserAssociation']
       }
@@ -44,11 +45,12 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/student-user-associations',
       config: {
-        handler: studentUserAssociationController.findAssociation,
+        handler: schoolingRegistrationUserAssociationController.findAssociation,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération du student (au sein d’une organisation) lié au user\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié' +
+          '- L\'utilisation de cette route est dépréciée. Utiliser /api/schooling-registration-user-associations à la place',
         ],
         tags: ['api', 'studentUserAssociation']
       }
@@ -58,7 +60,7 @@ exports.register = async function(server) {
       path: '/api/student-user-associations/possibilities',
       config: {
         auth: false,
-        handler: studentUserAssociationController.generateUsername,
+        handler: schoolingRegistrationUserAssociationController.generateUsername,
         validate: {
           options: {
             allowUnknown: true
@@ -85,7 +87,8 @@ exports.register = async function(server) {
         },
         notes: [
           '- Elle permet de savoir si un élève identifié par son nom, prénom et date de naissance est présent au sein ' +
-          'de l\'organisation détenant la campagne. Cet élève n\'est, de plus, pas encore associé à l\'organisation.'
+          'de l\'organisation détenant la campagne. Cet élève n\'est, de plus, pas encore associé à l\'organisation.' +
+          '- L\'utilisation de cette route est dépréciée. Utiliser /api/schooling-registration-user-associations à la place',
         ],
         tags: ['api', 'studentUserAssociation']
       }

@@ -9,7 +9,7 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
 
     let targetProfileShareRepositoryStub;
     beforeEach(() => {
-      targetProfileShareRepositoryStub = sinon.stub(targetProfileShareRepository, 'addToOrganization').resolves({});
+      targetProfileShareRepositoryStub = sinon.stub(targetProfileShareRepository, 'addTargetProfilesToOrganization').resolves({});
     });
 
     it('should add target profile shares to the given organization', async () => {

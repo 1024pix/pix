@@ -1,17 +1,17 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
-const studentUserAssociationController = require('../../../../lib/application/student-dependent-users/student-dependent-user-controller');
+const schoolingRegistrationDependentUserController = require('../../../../lib/application/schooling-registration-dependent-users/schooling-registration-dependent-user-controller');
 const moduleUnderTest = require('../../../../lib/application/student-dependent-users');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 
-describe('Integration | Application | Route | student-dependent-users', () => {
+describe('Integration | Application | Route | schooling-registration-dependent-users', () => {
 
   let httpTestServer;
 
   beforeEach(() => {
     sinon.stub(securityController, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
-    sinon.stub(studentUserAssociationController, 'createAndAssociateUserToStudent').callsFake((request, h) => h.response('ok').code(201));
-    sinon.stub(studentUserAssociationController, 'updatePassword').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(schoolingRegistrationDependentUserController, 'createAndAssociateUserToSchoolingRegistration').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(schoolingRegistrationDependentUserController, 'updatePassword').callsFake((request, h) => h.response('ok').code(200));
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 

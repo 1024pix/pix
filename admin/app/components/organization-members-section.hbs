@@ -2,16 +2,17 @@
   <header class="page-section__header">
     <h2 class="page-section__title">Ajouter un membre</h2>
   </header>
-  <form class="add-membership-form form">
+  <form aria-label="Ajouter un membre" class="organization__sub-form form">
     <Input
       id="userEmail"
+      aria-label="Adresse email"
       @value={{@userEmail}}
-      class="add-membership-form__user-email-input form-field__text form-control"
-      @placeholder="Adresse e-mail de l'utilisateur à ajouter" />
+      class="organization-sub-form__input form-field__text form-control"
+      @placeholder="Adresse email de l'utilisateur à ajouter" />
     <button
       type="button"
       {{on "click" @addMembership}}
-      class="add-membership-form__validate-button btn btn-outline-default btn-thin">
+      class="organization-sub-form__validate-button btn btn-outline-default">
       Valider
     </button>
   </form>

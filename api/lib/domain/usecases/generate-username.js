@@ -4,7 +4,7 @@ module.exports = async function generateUsername({
   user,
   campaignCode,
   campaignRepository,
-  studentRepository,
+  schoolingRegistrationRepository,
   userReconciliationService,
   userRepository,
 }) {
@@ -13,7 +13,7 @@ module.exports = async function generateUsername({
     throw new CampaignCodeError(`Le code campagne ${campaignCode} n'existe pas.`);
   }
 
-  await userReconciliationService.findMatchingStudentIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user, studentRepository });
+  await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, user, schoolingRegistrationRepository });
 
   return userReconciliationService.createUsernameByUser({ user , userRepository });
 

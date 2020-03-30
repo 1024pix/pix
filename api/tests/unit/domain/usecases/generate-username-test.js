@@ -9,7 +9,7 @@ describe('Unit | UseCase | generate-username', () => {
   const organizationId = 1;
 
   let campaignCode;
-  let findMatchingStudentIdForGivenOrganizationIdAndUserStub;
+  let findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub;
   let createUsernameByUserServiceStub;
   let getCampaignStub;
   let user;
@@ -28,7 +28,7 @@ describe('Unit | UseCase | generate-username', () => {
       .withArgs(campaignCode)
       .resolves({ organizationId });
 
-    findMatchingStudentIdForGivenOrganizationIdAndUserStub = sinon.stub(userReconciliationService,'findMatchingStudentIdForGivenOrganizationIdAndUser');
+    findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub = sinon.stub(userReconciliationService,'findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser');
     createUsernameByUserServiceStub = sinon.stub(userReconciliationService,'createUsernameByUser');
   });
 
@@ -49,11 +49,11 @@ describe('Unit | UseCase | generate-username', () => {
     });
   });
 
-  context('When no student found', () => {
+  context('When no schoolingRegistration found', () => {
 
     it('should throw a Not Found error', async () => {
       // given
-      findMatchingStudentIdForGivenOrganizationIdAndUserStub.throws(new NotFoundError('Error message'));
+      findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub.throws(new NotFoundError('Error message'));
 
       // when
       const result = await catchErr(usecases.generateUsername)({
@@ -67,9 +67,9 @@ describe('Unit | UseCase | generate-username', () => {
     });
   });
 
-  context('When one student matched on names', () => {
+  context('When one schoolingRegistration matched on names', () => {
 
-    it('should return student ID found', async () => {
+    it('should return schoolingRegistration ID found', async () => {
       // given
       const user = {
         firstName: 'fist',
@@ -78,7 +78,7 @@ describe('Unit | UseCase | generate-username', () => {
       };
       const username = user.firstName + '.' + user.lastName + '0112';
 
-      findMatchingStudentIdForGivenOrganizationIdAndUserStub.resolves();
+      findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUserStub.resolves();
       createUsernameByUserServiceStub.resolves(username);
 
       // when

@@ -11,7 +11,7 @@ const organizationSerializer = require('../../../../lib/infrastructure/serialize
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
 const studentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-serializer');
-const studentWithUserInfoSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-with-user-info-serializer');
+const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 
@@ -374,7 +374,44 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#findOrganizationStudentsWithUserInfos', () => {
+  describe('#attachTargetProfiles', () => {
+    const userId = 1;
+    const targetProfile = domainBuilder.buildTargetProfile();
+
+    const organizationId = targetProfile.organizationId;
+    const targetProfileId = targetProfile.id.toString();
+    const targetProfilesToAttachAsArray = [targetProfileId];
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: organizationId },
+        payload: {
+          data: {
+            type: 'target-profile-share',
+            attributes: {
+              'target-profiles-to-attach': [targetProfileId],
+            },
+          }
+        }
+      };
+
+      sinon.stub(usecases, 'attachTargetProfilesToOrganization');
+    });
+
+    it('should call the usecase to attach targetProfiles to organization with organizationId and targetProfilesToAttach', async () => {
+      // given
+      usecases.attachTargetProfilesToOrganization.withArgs({ organizationId, targetProfilesToAttach: targetProfilesToAttachAsArray }).resolves();
+
+      // when
+      const result = await organizationController.attachTargetProfiles(request, hFake);
+
+      // then
+      expect(result.statusCode).to.equal(204);
+    });
+  });
+
+  describe('#findUserWithSchoolingRegistrations', () => {
 
     const connectedUserId = 1;
     const organizationId = 145;
@@ -388,10 +425,10 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         params: { id: organizationId.toString() }
       };
 
-      sinon.stub(usecases, 'findOrganizationStudentsWithUserInfos');
-      sinon.stub(studentWithUserInfoSerializer, 'serialize');
+      sinon.stub(usecases, 'findUserWithSchoolingRegistrations');
+      sinon.stub(userWithSchoolingRegistrationSerializer, 'serialize');
 
-      studentWithUserInfo = domainBuilder.buildStudentWithUserInfo();
+      studentWithUserInfo = domainBuilder.buildUserWithSchoolingRegistration();
       serializedStudentsWithUsersInfos = {
         data: [{
           ...studentWithUserInfo,
@@ -402,29 +439,29 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
     it('should call the usecase to find students with users infos related to the organization id', async () => {
       // given
-      usecases.findOrganizationStudentsWithUserInfos.resolves();
+      usecases.findUserWithSchoolingRegistrations.resolves();
 
       // when
-      await organizationController.findStudents(request, hFake);
+      await organizationController.findUserWithSchoolingRegistrations(request, hFake);
 
       // then
-      expect(usecases.findOrganizationStudentsWithUserInfos).to.have.been.calledWith({ organizationId });
+      expect(usecases.findUserWithSchoolingRegistrations).to.have.been.calledWith({ organizationId });
     });
 
     it('should return the serialized students belonging to the organization', async () => {
       // given
-      usecases.findOrganizationStudentsWithUserInfos.resolves([studentWithUserInfo]);
-      studentWithUserInfoSerializer.serialize.returns(serializedStudentsWithUsersInfos);
+      usecases.findUserWithSchoolingRegistrations.resolves([studentWithUserInfo]);
+      userWithSchoolingRegistrationSerializer.serialize.returns(serializedStudentsWithUsersInfos);
 
       // when
-      const response = await organizationController.findStudents(request, hFake);
+      const response = await organizationController.findUserWithSchoolingRegistrations(request, hFake);
 
       // then
       expect(response).to.deep.equal(serializedStudentsWithUsersInfos);
     });
   });
 
-  describe('#importStudentsFromSIECLE', () => {
+  describe('#importSchoolingRegistrationsFromSIECLE', () => {
 
     const connectedUserId = 1;
     const organizationId = 145;
@@ -437,19 +474,19 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         payload: buffer
       };
 
-      sinon.stub(usecases, 'importStudentsFromSIECLE');
+      sinon.stub(usecases, 'importSchoolingRegistrationsFromSIECLE');
       sinon.stub(studentSerializer, 'serialize');
     });
 
-    it('should call the usecase to import students', async () => {
+    it('should call the usecase to import schoolingRegistrations', async () => {
       // given
-      usecases.importStudentsFromSIECLE.resolves();
+      usecases.importSchoolingRegistrationsFromSIECLE.resolves();
 
       // when
-      await organizationController.importStudentsFromSIECLE(request);
+      await organizationController.importSchoolingRegistrationsFromSIECLE(request);
 
       // then
-      expect(usecases.importStudentsFromSIECLE).to.have.been.calledWith({ organizationId, buffer });
+      expect(usecases.importSchoolingRegistrationsFromSIECLE).to.have.been.calledWith({ organizationId, buffer });
     });
   });
 

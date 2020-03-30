@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
 const BookshelfUser = require('../data/user');
-const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, OrganizationStudentAlreadyLinkedToUserError, UserNotFoundError } = require('../../domain/errors');
+const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, SchoolingRegistrationAlreadyLinkedToUserError, UserNotFoundError } = require('../../domain/errors');
 const User = require('../../domain/models/User');
 const PixRole = require('../../domain/models/PixRole');
 const Membership = require('../../domain/models/Membership');
@@ -307,20 +307,20 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
   },
 
-  async createAndAssociateUserToStudent({ domainUser, studentId }) {
+  async createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId }) {
     const userToCreate = _adaptModelToDb(domainUser);
 
     const trx = await Bookshelf.knex.transaction();
     try {
       const [ userId ] = await trx('users').insert(userToCreate, 'id');
 
-      const updatedStudentsCount = await trx('students')
-        .where('id', studentId)
+      const updatedSchoolingRegistrationsCount = await trx('schooling-registrations')
+        .where('id', schoolingRegistrationId)
         .whereNull('userId')
         .update({ userId });
 
-      if (updatedStudentsCount !== 1) {
-        throw new OrganizationStudentAlreadyLinkedToUserError(`L'élève ${studentId} est déjà rattaché à un compte utilisateur.`);
+      if (updatedSchoolingRegistrationsCount !== 1) {
+        throw new SchoolingRegistrationAlreadyLinkedToUserError(`L'inscription ${schoolingRegistrationId} est déjà rattachée à un compte utilisateur.`);
       }
 
       await trx.commit();
