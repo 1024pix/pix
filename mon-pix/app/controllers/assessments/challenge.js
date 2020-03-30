@@ -1,14 +1,17 @@
-import Controller from '@ember/controller';
+import classic from 'ember-classic-decorator';
 import { computed } from '@ember/object';
+import Controller from '@ember/controller';
 
 const { and } = computed;
 
-export default Controller.extend({
-  queryParams: ['newLevel', 'competenceLeveled'],
+@classic
+export default class ChallengeController extends Controller {
+  queryParams = ['newLevel', 'competenceLeveled'];
+  newLevel = null;
+  competenceLeveled = null;
 
-  newLevel: null,
-  competenceLeveled: null,
+  @and('model.assessment.showLevelup', 'newLevel')
+  showLevelup;
 
-  showLevelup: and('model.assessment.showLevelup', 'newLevel'),
-  pageTitle: 'Évaluation en cours',
-});
+  pageTitle = 'Évaluation en cours';
+}

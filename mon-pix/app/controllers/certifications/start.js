@@ -1,7 +1,10 @@
-import Controller from '@ember/controller';
+import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
 
-export default Controller.extend({
-  currentUser: service(),
-  pageTitle: 'Rejoindre une session de certification',
-});
+@classic
+export default class StartController extends Controller {
+  @service currentUser;
+
+  pageTitle = 'Rejoindre une session de certification';
+}

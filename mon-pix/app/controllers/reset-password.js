@@ -1,7 +1,7 @@
+import classic from 'ember-classic-decorator';
 import Controller from '@ember/controller';
 
-export default Controller.extend({
-
-  pageTitle: 'Changer mon mot de passe',
-
-});
+@classic
+export default class ResetPasswordController extends Controller {
+  pageTitle = 'Changer mon mot de passe';
+}
