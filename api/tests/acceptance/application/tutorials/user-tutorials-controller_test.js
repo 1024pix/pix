@@ -1,7 +1,7 @@
 const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | tutorial-controller', () => {
+describe('Acceptance | Controller | user-tutorial-controller', () => {
 
   let server;
 
