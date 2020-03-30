@@ -19,19 +19,34 @@
   </div>
 
   <div class="form__field">
-    <label for="campaign-target-profile" class="label">Que souhaitez-vous tester ?</label>
-    <select class="select" id="campaign-target-profile" {{on "change" this.setSelectedTargetProfile}}>
-      <option value="" disabled="disabled" selected></option>
-      {{#each @targetProfiles as |targetProfile|}}
-        <option value="{{targetProfile.id}}">{{targetProfile.name}}</option>
-      {{/each}}
-    </select>
-    {{#each @campaign.errors.targetProfile as |error|}}
-      <div class='form__error error-message'>
-        {{error.message}}
-      </div>
-    {{/each}}
+    <label class="label">Quel est l'objectif de votre campagne ?</label>
+    <div>
+      <input type="radio" id="assess-participants" name="campaign-goal" value="assess-participants" {{on "change" this.setCampaignGoal}}>
+      <label for="assess-participants">Évaluer les participants</label>
+    <div>
+
+    </div>
+      <input type="radio" id="collect-participants-profile" name="campaign-goal" value="collect-participants-profile" {{on "change" this.setCampaignGoal}}>
+      <label for="collect-participants-profile">Collecter les profils Pix des participants</label>
+    </div>
   </div>
+
+  {{#if this.isCampaignGoalAssessment}}
+    <div class="form__field">
+      <label for="campaign-target-profile" class="label">Que souhaitez-vous tester ?</label>
+      <select class="select" id="campaign-target-profile" {{on "change" this.setSelectedTargetProfile}}>
+        <option value="" disabled="disabled" selected></option>
+        {{#each @targetProfiles as |targetProfile|}}
+          <option value="{{targetProfile.id}}">{{targetProfile.name}}</option>
+        {{/each}}
+      </select>
+      {{#each @campaign.errors.targetProfile as |error|}}
+        <div class='form__error error-message'>
+          {{error.message}}
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
 
   <div class="form__field">
     <div class="campaign-form_id-pix">
@@ -79,17 +94,19 @@
     {{/if}}
   </div>
 
-  <div class="form__field">
-    <label for="campaign-title" class="label">Titre du parcours</label>
-    <Input
-      @id="campaign-title"
-      @name="campaign-title"
-      @type="text"
-      @class="input"
-      @maxlength="50"
-      @value={{@campaign.title}}
-    />
-  </div>
+  {{#if this.isCampaignGoalAssessment}}
+    <div class="form__field">
+      <label for="campaign-title" class="label">Titre du parcours</label>
+      <Input
+        @id="campaign-title"
+        @name="campaign-title"
+        @type="text"
+        @class="input"
+        @maxlength="50"
+        @value={{@campaign.title}}
+      />
+    </div>
+  {{/if}}
 
   <div class="form__field">
     <label for="custom-landing-page-text" class="label">Texte de la page d'accueil</label>
