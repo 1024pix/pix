@@ -4,17 +4,11 @@ class DomainTransaction {
   constructor(knexTransaction) {
     this.knexTransaction = knexTransaction;
   }
-  async commit() {
-    await this.knexTransaction.commit();
-  }
-  async rollback() {
-    await this.knexTransaction.rollback();
-  }
 
-  static async begin() {
-    return new DomainTransaction(
-      await knex.transaction()
-    );
+  static execute(lambda) {
+    return knex.transaction((trx) => {
+      return lambda(new DomainTransaction(trx));
+    });
   }
 }
 module.exports = DomainTransaction;
