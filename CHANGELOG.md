@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v2.134.0 (30/03/2020)
+
+- [#1215](https://github.com/1024pix/pix/pull/1215) [FEATURE] Pouvoir rattacher des profils cibles à une organisation dans Pix Admin (PA-167).
+- [#1217](https://github.com/1024pix/pix/pull/1217) [FEATURE] Cacher les détails pour les campagnes de récupération de profils (PO-391).
+- [#1227](https://github.com/1024pix/pix/pull/1227) [BUGFIX] Ne pas afficher une bande blanche en bas des CGUs de PixCertif (PC-80)
+- [#1228](https://github.com/1024pix/pix/pull/1228) [BUGFIX] Faire en sorte que le logo de Pix Orga ne soit pas déformé sous IE (PO-289).
+- [#1221](https://github.com/1024pix/pix/pull/1221) [BUGFIX] Mauvaise notification d'erreur lors de l'échec de l'ajout unitaire de candidat sur PixCertif (PC-139)
+- [#1207](https://github.com/1024pix/pix/pull/1207) [TECH] Renommer la table students (PF-1175).
+- [#1230](https://github.com/1024pix/pix/pull/1230) [BUFIX] Problème d'affichage d'une équipe avec beaucoup de membres. (PO-323).
+- [#1220](https://github.com/1024pix/pix/pull/1220) [INFRA] Mise à jour des dépendances sur Pix Certif, édition Mars 2020 (PC-138)
+- [#1222](https://github.com/1024pix/pix/pull/1222) [INFRA] Réduit le temps de disparition de la notification pendant les tests d'acceptance (PO-396)
+- [#1223](https://github.com/1024pix/pix/pull/1223) [CLEANUP] Suppression des scripts de gestion des releases.
+- [#1190](https://github.com/1024pix/pix/pull/1190) [CLEANUP] Convertir les composants de Pix App en syntaxe native (PF-1165).
+- [#1214](https://github.com/1024pix/pix/pull/1214) [INFRA] Retrait du feature toggle FT_IS_SESSION_FINALIZATION_ACTIVE (PC-137)
+
 ## v2.133.0 (26/03/2020)
 
 - [#1166](https://github.com/1024pix/pix/pull/1166) [FEATURE] Ajouter un tutoriel à sa liste (PF-1100).
