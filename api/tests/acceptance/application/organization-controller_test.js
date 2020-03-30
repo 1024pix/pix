@@ -763,10 +763,10 @@ describe('Acceptance | Application | organization-controller', () => {
 
     context('Expected output', () => {
 
-      let student;
+      let schoolingRegistration;
 
       beforeEach(async () => {
-        student = databaseBuilder.factory.buildStudent({
+        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
           organizationId: organization.id,
           userId: user.id
         });
@@ -774,20 +774,20 @@ describe('Acceptance | Application | organization-controller', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return the matching students as JSON API', async () => {
+      it('should return the matching schoolingRegistrations as JSON API', async () => {
         // given
         const expectedResult = {
           'data': [
             {
               'attributes': {
-                'last-name': student.lastName,
-                'first-name': student.firstName,
-                'birthdate': student.birthdate,
+                'last-name': schoolingRegistration.lastName,
+                'first-name': schoolingRegistration.firstName,
+                'birthdate': schoolingRegistration.birthdate,
                 'username': user.username,
                 'email': user.email,
                 'is-authenticated-from-gar': true,
               },
-              'id': student.id.toString(),
+              'id': schoolingRegistration.id.toString(),
               'type': 'students'
             }
           ],
@@ -844,7 +844,7 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(403);
       });
 
-      it('should respond with a 403 - Forbidden access - if Organization does not manage students', async () => {
+      it('should respond with a 403 - Forbidden access - if Organization does not manage schoolingRegistrations', async () => {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;
         const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId }).id;

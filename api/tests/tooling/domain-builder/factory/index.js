@@ -42,8 +42,7 @@ module.exports = {
   buildProgression: require('./build-progression'),
   buildSolution: require('./build-solution'),
   buildSmartPlacementAssessment: require('./build-smart-placement-assessment'),
-  buildStudent: require('./build-student'),
-  buildStudentWithUserInfo: require('./build-student-with-user-info'),
+  buildSchoolingRegistration: require('./build-schooling-registration'),
   buildKnowledgeElement: require('./build-knowledge-element'),
   buildTargetProfile: require('./build-target-profile'),
   buildTube: require('./build-tube'),
@@ -51,6 +50,7 @@ module.exports = {
   buildUser: require('./build-user'),
   buildUserOrgaSettings: require('./build-user-orga-settings'),
   buildUserScorecard: require('./build-user-scorecard'),
+  buildUserWithSchoolingRegistration: require('./build-user-with-schooling-registration'),
   buildValidation: require('./build-validation'),
   buildValidator: require('./build-validator'),
 };

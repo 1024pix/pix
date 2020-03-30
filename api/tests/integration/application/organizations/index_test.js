@@ -18,10 +18,10 @@ describe('Integration | Application | Organizations | Routes', () => {
     sinon.stub(organizationController, 'create').returns('ok');
     sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
     sinon.stub(organizationController, 'findPaginatedFilteredCampaigns').returns('ok');
-    sinon.stub(organizationController, 'importStudentsFromSIECLE').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(organizationController, 'importSchoolingRegistrationsFromSIECLE').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
     sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
-    sinon.stub(organizationController, 'findStudents').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(organizationController, 'findUserWithSchoolingRegistrations').callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -74,7 +74,7 @@ describe('Integration | Application | Organizations | Routes', () => {
 
   describe('POST /api/organizations/:id/import-students', () => {
 
-    it('should call the organization controller to import students', async () => {
+    it('should call the organization controller to import schoolingRegistrations', async () => {
       // given
       const method = 'POST';
       const url = '/api/organizations/:id/import-students';
@@ -85,7 +85,7 @@ describe('Integration | Application | Organizations | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(201);
-      expect(organizationController.importStudentsFromSIECLE).to.have.been.calledOnce;
+      expect(organizationController.importSchoolingRegistrationsFromSIECLE).to.have.been.calledOnce;
     });
   });
 
@@ -141,7 +141,7 @@ describe('Integration | Application | Organizations | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(organizationController.findStudents).to.have.been.calledOnce;
+      expect(organizationController.findUserWithSchoolingRegistrations).to.have.been.calledOnce;
     });
   });
 
