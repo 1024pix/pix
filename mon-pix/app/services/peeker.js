@@ -1,7 +1,9 @@
+import classic from 'ember-classic-decorator';
 import Service, { inject as service } from '@ember/service';
 
-export default Service.extend({
-  store: service(),
+@classic
+export default class PeekerService extends Service {
+  @service store;
 
   get(modelName, predicateFn) {
     const peeked = this.find(modelName, predicateFn);
@@ -12,12 +14,12 @@ export default Service.extend({
       throw new Error('Multiple records were found for model ' + modelName + '. Consider using #find() instead.');
     }
     return peeked[0];
-  },
+  }
 
   findOne(modelName, predicateFn) {
     const peeked = this.find(modelName, predicateFn);
     return peeked[0];
-  },
+  }
 
   find(modelName, predicateFn) {
     predicateFn = this.checkPredicateFn(predicateFn);
@@ -28,7 +30,7 @@ export default Service.extend({
       }
     });
     return peeked;
-  },
+  }
 
   checkPredicateFn(predicateFn) {
 
@@ -53,8 +55,8 @@ export default Service.extend({
       throw new Error('The second argument must be a Function');
     }
     return predicateFn;
-  },
-  
+  }
+
   haveCommonProperties(keys, firstObj, secondObj, matchingKeys = false) {
 
     // The function exists when all keys have been compared recursively for clarity.
@@ -70,4 +72,4 @@ export default Service.extend({
     const key = keys[0];
     return firstObj[key] === secondObj[key] && this.haveCommonProperties(keys.slice(1), firstObj, secondObj, true);
   }
-});
+}
