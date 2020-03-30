@@ -1,10 +1,11 @@
+import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 
-export default Route.extend({
-
+@classic
+export default class CheckpointRoute extends Route {
   model() {
     return this.modelFor('assessments');
-  },
+  }
 
   async afterModel(assessment) {
 
@@ -17,6 +18,5 @@ export default Route.extend({
 
       assessment.set('campaign', campaigns.get('firstObject'));
     }
-  },
-
-});
+  }
+}

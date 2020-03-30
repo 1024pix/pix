@@ -1,18 +1,19 @@
-import Route from '@ember/routing/route';
+import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 import _ from 'lodash';
 
-export default Route.extend({
-
-  session: service(),
+@classic
+export default class ErrorRoute extends Route {
+  @service session;
 
   hasUnauthorizedError(error) {
     const statusCode = _.get(error, 'errors[0].code');
     return statusCode === 401;
-  },
+  }
 
   setupController(controller, error) {
-    this._super(...arguments);
+    super.setupController(...arguments);
     controller.set('errorMessage', error);
 
     if (error.errors && error.errors[0]) {
@@ -30,5 +31,4 @@ export default Route.extend({
       return this.transitionTo('logout');
     }
   }
-
-});
+}
