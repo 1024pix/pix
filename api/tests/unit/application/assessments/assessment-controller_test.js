@@ -1,4 +1,4 @@
-const { sinon, expect, generateValidRequestAuthorizationHeader, hFake, catchErr } = require('../../../test-helper');
+const { sinon, expect, generateValidRequestAuthorizationHeader, hFake } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const { badgeCreationHandler } = require('../../../../lib/domain/events/badge-creation-handler');
@@ -107,15 +107,17 @@ describe('Unit | Controller | assessment-controller', function() {
   describe('#completeAssessment', () => {
     const assessmentId = 2;
     const event = Symbol('un événement de fin de test');
-    let domainTransaction;
+    const domainTransaction = Symbol('domain transaction');
+    let transactionToBeExecuted;
 
     beforeEach(() => {
       sinon.stub(usecases, 'completeAssessment');
       usecases.completeAssessment.resolves(event);
 
       sinon.stub(badgeCreationHandler, 'handle');
-      domainTransaction = domainTransactionStub();
-      sinon.stub(DomainTransaction, 'begin').returns(domainTransaction);
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
+        transactionToBeExecuted = lambda;
+      });
     });
 
     it('should call the completeAssessment use case', async () => {
@@ -124,6 +126,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
+      await transactionToBeExecuted(domainTransaction);
 
       // then
       expect(usecases.completeAssessment).to.have.been.calledWithExactly({ domainTransaction, assessmentId });
@@ -135,53 +138,22 @@ describe('Unit | Controller | assessment-controller', function() {
 
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
+      await transactionToBeExecuted(domainTransaction);
 
       // then
       expect(badgeCreationHandler.handle).to.have.been.calledWithExactly(domainTransaction, event);
     });
 
-    it('should begin a domain transaction on assessment completion', async () => {
-      // given
-      badgeCreationHandler.handle.resolves({});
-
+    it('should call usecase and handler within the transaction', async () => {
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
+      // and transactionToBeExecuted is not executed
 
       // then
-      expect(DomainTransaction.begin).to.have.been.called;
-    });
+      expect(badgeCreationHandler.handle).to.not.have.been.called;
+      expect(usecases.completeAssessment).to.not.have.been.called;
 
-    it('should end the domain transaction after assessment completion', async () => {
-      // given
-      badgeCreationHandler.handle.resolves({});
-
-      // when
-      await assessmentController.completeAssessment({ params: { id: assessmentId } });
-
-      // then
-      expect(domainTransaction.commit).to.have.been.called;
-    });
-
-    it('should rollback the domain transaction when an error occurs', async () => {
-      // given
-      const anError = new Error('An error during badge acquisition occurs');
-      badgeCreationHandler.handle.throws(anError);
-
-      // when
-      await catchErr(assessmentController.completeAssessment)({ params: { id: assessmentId } });
-
-      // then
-      expect(domainTransaction.rollback).to.have.been.called;
     });
   });
 });
-
-function domainTransactionStub() {
-  const domainTransaction = {
-    commit: sinon.stub(),
-    rollback: sinon.stub(),
-  };
-
-  return domainTransaction;
-}
 
