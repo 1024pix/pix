@@ -736,5 +736,48 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
       });
     });
 
+    context('when user has failed some answer before', () => {
+      it('should return a easier skill than a difficult', () => {
+        targetSkills = [url2, url3, url4, url5, url6, web1, web2, web3, web4, web5, info2];
+        challenges = [challengeUrl_2, challengeUrl_3, challengeUrl_4, challengeUrl_5, challengeUrl_6, challengeWeb_1,
+          challengeWeb_2, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeInfo_2];
+        lastAnswer = [
+          domainBuilder.buildAnswer({ challengeId: challengeInfo_2.id, result: AnswerStatus.KO })
+        ];
+        const allAnswers =  [
+          domainBuilder.buildAnswer({ challengeId: challengeInfo_2.id, result: AnswerStatus.KO }),
+          domainBuilder.buildAnswer({ challengeId: challengeCnil_2.id, result: AnswerStatus.KO }),
+          domainBuilder.buildAnswer({ challengeId: challengeRechInfo_5.id, result: AnswerStatus.KO }),
+          domainBuilder.buildAnswer({ challengeId: challengeRechInfo_7.id, result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeRechInfo_5.id, result: AnswerStatus.KO }),
+        ];
+        knowledgeElements = [
+          domainBuilder.buildKnowledgeElement({
+            skillId: web1.id,
+            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
+            source: 'indirect'
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: info2.id,
+            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
+            source: 'indirect'
+          })
+        ];
+
+        // when
+        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+          targetSkills,
+          challenges,
+          knowledgeElements,
+          lastAnswer,
+          allAnswers
+        });
+
+        // then
+        _expectSkillsToBeDeepEquals(possibleSkillsForNextChallenge,[url3]);
+
+      });
+    });
+
   });
 });

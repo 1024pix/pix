@@ -5,9 +5,10 @@ const { computeTubesFromSkills } = require('./../tube-service');
 
 module.exports = { getPossibleSkillsForNextChallenge };
 
-function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targetSkills, lastAnswer } = {}) {
+function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targetSkills, lastAnswer, allAnswers } = {}) {
 
   const isUserStartingTheTest = !lastAnswer;
+  const numberOfRecentlyFailedAnswer = _numberOfRecentlyFailedAnswers(allAnswers);
   const isLastChallengeTimed = _wasLastChallengeTimed(lastAnswer);
   const tubes = _findTubes(targetSkills, challenges);
   const knowledgeElementsOfTargetSkills = knowledgeElements.filter((ke) => {
@@ -19,7 +20,7 @@ function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targ
   // First challenge has specific rules
   const { possibleSkillsForNextChallenge, levelEstimated } = isUserStartingTheTest
     ? _findFirstChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, tubes })
-    : _findAnyChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, tubes, isLastChallengeTimed });
+    : _findAnyChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, tubes, isLastChallengeTimed, numberOfRecentlyFailedAnswer });
 
   // Test is considered finished when no challenges are returned but we don't expose this detail
   return possibleSkillsForNextChallenge.length > 0
@@ -45,10 +46,10 @@ function _filterSkillsByChallenges(skills, challenges) {
   return skillsWithChallenges;
 }
 
-function _findAnyChallenge({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed }) {
+function _findAnyChallenge({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed, numberOfRecentlyFailedAnswer }) {
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
   const availableSkills = getFilteredSkillsForNextChallenge({ knowledgeElements, tubes, predictedLevel, isLastChallengeTimed, targetSkills });
-  const maxRewardingSkills = catAlgorithm.findMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowledgeElements });
+  const maxRewardingSkills = catAlgorithm.findMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowledgeElements, numberOfRecentlyFailedAnswer });
   return { possibleSkillsForNextChallenge: maxRewardingSkills, levelEstimated: predictedLevel };
 }
 
@@ -76,4 +77,17 @@ function _getSkillsWithAddedInformations({ targetSkills, filteredChallenges }) {
 
 function _removeUnpublishedChallenges(challenges) {
   return _.filter(challenges, (challenge) => challenge.isPublished());
+}
+
+function _numberOfRecentlyFailedAnswers(answers) {
+  let numberOfRecentrlyFailedAnswers = 0;
+  let currentAnswer = 0;
+  if (_.isEmpty(answers)) {
+    return numberOfRecentrlyFailedAnswers;
+  }
+  while (!answers[currentAnswer].isOk()) {
+    numberOfRecentrlyFailedAnswers++;
+    currentAnswer++;
+  }
+  return numberOfRecentrlyFailedAnswers;
 }

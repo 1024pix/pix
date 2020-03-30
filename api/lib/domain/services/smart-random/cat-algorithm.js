@@ -50,9 +50,9 @@ function findMaxRewardingSkills(...args) {
   )(...args);
 }
 
-function _getMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowledgeElements }) {
+function _getMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowledgeElements, numberOfRecentlyFailedAnswer }) {
   return _.reduce(availableSkills, (acc, skill) => {
-    const skillReward = _computeReward({ skill, predictedLevel, tubes, knowledgeElements });
+    const skillReward = _computeReward({ skill, predictedLevel, tubes, knowledgeElements, numberOfRecentlyFailedAnswer });
     if (skillReward > acc.maxReward) {
       acc.maxReward = skillReward;
       acc.maxRewardingSkills = [skill];
@@ -70,12 +70,12 @@ function _clearSkillsIfNotRewarding(skills) {
   return _.filter(skills, (skill) => skill.reward !== 0);
 }
 
-function _computeReward({ skill, predictedLevel, tubes, knowledgeElements }) {
+function _computeReward({ skill, predictedLevel, tubes, knowledgeElements, numberOfRecentlyFailedAnswer }) {
   const proba = _probaOfCorrectAnswer(predictedLevel, skill.difficulty);
   const extraSkillsIfSolvedCount = _getNewSkillsInfoIfSkillSolved(skill, tubes, knowledgeElements).length;
   const failedSkillsIfUnsolvedCount = _getNewSkillsInfoIfSkillUnsolved(skill, tubes, knowledgeElements).length;
 
-  return proba * extraSkillsIfSolvedCount + (1 - proba) * failedSkillsIfUnsolvedCount;
+  return proba * extraSkillsIfSolvedCount + (1 - proba) * failedSkillsIfUnsolvedCount + numberOfRecentlyFailedAnswer * proba;
 }
 
 // The probability P(gap) of giving the correct answer is given by the "logistic function"

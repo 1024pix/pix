@@ -77,6 +77,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
     beforeEach(() => {
       answerRepository = {
         findLastByAssessment: sinon.stub(),
+        findByAssessment: sinon.stub()
       };
       challengeRepository = {
         findByCompetenceId: sinon.stub(),
@@ -104,6 +105,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement();
 
       answerRepository.findLastByAssessment.withArgs(assessment.id).resolves(answer);
+      answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
       skillRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
       challengeRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
