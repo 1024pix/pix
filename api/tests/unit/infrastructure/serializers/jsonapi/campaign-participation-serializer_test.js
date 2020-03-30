@@ -28,7 +28,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
           validatedSkillsCount: 2,
         }
       ];
-      const badgePartnerCompetenceResults = [
+      const partnerCompetenceResults = [
         {
           id: '1',
           isCompleted: true,
@@ -55,7 +55,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
         validatedSkillsCount: 4,
         progress: 1,
         competenceResults,
-        badgePartnerCompetenceResults,
+        partnerCompetenceResults: partnerCompetenceResults,
       };
       const meta = {};
       const campaignParticipation = new CampaignParticipation({
@@ -150,7 +150,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
               'validated-skills-count': 5,
             },
             id: '1',
-            type: 'badgePartnerCompetenceResults',
+            type: 'partnerCompetenceResults',
           },
           {
             attributes: {
@@ -160,7 +160,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
               'validated-skills-count': 4,
             },
             id: '2',
-            type: 'badgePartnerCompetenceResults'
+            type: 'partnerCompetenceResults'
           },
           {
             attributes: {
@@ -173,15 +173,15 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
               'progress': 1
             },
             relationships: {
-              'badge-partner-competence-results': {
+              'partner-competence-results': {
                 data: [
                   {
                     id: '1',
-                    type: 'badgePartnerCompetenceResults',
+                    type: 'partnerCompetenceResults',
                   },
                   {
                     id: '2',
-                    type: 'badgePartnerCompetenceResults'
+                    type: 'partnerCompetenceResults'
                   }
                 ]
               },

@@ -11,7 +11,7 @@ module.exports = {
         'isCompleted',
         'areBadgeCriteriaFulfilled',
         'badge',
-        'badgePartnerCompetenceResults',
+        'partnerCompetenceResults',
         'competenceResults',
         'progress'
       ],
@@ -19,7 +19,7 @@ module.exports = {
         ref: 'id',
         attributes: ['altMessage', 'message', 'imageUrl'],
       },
-      badgePartnerCompetenceResults: {
+      partnerCompetenceResults: {
         ref: 'id',
         attributes: [
           'name',

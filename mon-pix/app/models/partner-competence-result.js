@@ -1,7 +1,7 @@
 import Model, { belongsTo, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
 
-export default class BadgePartnerCompetenceResult extends Model {
+export default class PartnerCompetenceResult extends Model {
 
   // attributes
   @attr('string') areaColor;
@@ -16,6 +16,6 @@ export default class BadgePartnerCompetenceResult extends Model {
 
   @computed('totalSkillsCount', 'campaignParticipationResult')
   get totalSkillsCountPercentage() {
-    return Math.round(this.totalSkillsCount * 100 / this.campaignParticipationResult.get('maxTotalSkillsCountInBadgePartnerCompetences'));
+    return Math.round(this.totalSkillsCount * 100 / this.campaignParticipationResult.get('maxTotalSkillsCountInPartnerCompetences'));
   }
 }

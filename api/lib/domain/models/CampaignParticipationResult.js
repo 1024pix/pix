@@ -15,7 +15,7 @@ class CampaignParticipationResult {
     knowledgeElementsCount,
     // relationships
     badge,
-    badgePartnerCompetenceResults = [],
+    partnerCompetenceResults = [],
     competenceResults = [],
   } = {}) {
     this.id = id;
@@ -28,7 +28,7 @@ class CampaignParticipationResult {
     this.knowledgeElementsCount = knowledgeElementsCount,
     // relationships
     this.badge = badge;
-    this.badgePartnerCompetenceResults = badgePartnerCompetenceResults;
+    this.partnerCompetenceResults = partnerCompetenceResults;
     this.competenceResults = competenceResults;
   }
 
@@ -37,7 +37,7 @@ class CampaignParticipationResult {
     const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds);
 
     const targetedCompetenceResults = _computeCompetenceResults(competences, targetProfileSkillsIds, targetedKnowledgeElements);
-    const targetedBadgePartnerCompetenceResults = _computeBadgePartnerCompetenceResults(badge, targetProfileSkillsIds, targetedKnowledgeElements);
+    const targetedPartnerCompetenceResults = _computePartnerCompetenceResults(badge, targetProfileSkillsIds, targetedKnowledgeElements);
 
     const validatedSkillsCount = _.sumBy(targetedCompetenceResults, 'validatedSkillsCount');
     const totalSkillsCount = _.sumBy(targetedCompetenceResults, 'totalSkillsCount');
@@ -52,7 +52,7 @@ class CampaignParticipationResult {
       areBadgeCriteriaFulfilled: false,
       isCompleted: assessment.isCompleted(),
       competenceResults: targetedCompetenceResults,
-      badgePartnerCompetenceResults: targetedBadgePartnerCompetenceResults,
+      partnerCompetenceResults: targetedPartnerCompetenceResults,
       badge,
     });
   }
@@ -81,7 +81,7 @@ function _computeCompetenceResults(competences, targetProfileSkillsIds, targeted
   return targetedCompetenceResults;
 }
 
-function _computeBadgePartnerCompetenceResults(badge, targetProfileSkillsIds, targetedKnowledgeElements) {
+function _computePartnerCompetenceResults(badge, targetProfileSkillsIds, targetedKnowledgeElements) {
   if (_.isEmpty(badge) || _.isEmpty(badge.badgePartnerCompetences)) {
     return [];
   }

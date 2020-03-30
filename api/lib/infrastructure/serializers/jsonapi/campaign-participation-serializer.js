@@ -56,7 +56,7 @@ module.exports = {
             'testedSkillsCount',
             'validatedSkillsCount',
             'competenceResults',
-            'badgePartnerCompetenceResults',
+            'partnerCompetenceResults',
             'progress',
           ],
           competenceResults: {
@@ -71,7 +71,7 @@ module.exports = {
               'validatedSkillsCount'
             ],
           },
-          badgePartnerCompetenceResults: {
+          partnerCompetenceResults: {
             ref: 'id',
             attributes: [
               'name',
