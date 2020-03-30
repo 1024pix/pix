@@ -5,6 +5,11 @@ const resetPasswordDemandRepository = require('../../../lib/infrastructure/repos
 
 const createServer = require('../../../server');
 
+function _insertPasswordResetDemand(temporaryKey, email) {
+  const resetDemandRaw = { email, temporaryKey };
+  return knex('reset-password-demands').insert(resetDemandRaw);
+}
+
 describe('Acceptance | Controller | password-controller', () => {
 
   let server;
@@ -133,6 +138,7 @@ describe('Acceptance | Controller | password-controller', () => {
   });
 
   describe('GET /api/password-reset-demands/{temporaryKey}', () => {
+
     let options;
 
     describe('When temporaryKey is not valid', () => {
@@ -199,6 +205,7 @@ describe('Acceptance | Controller | password-controller', () => {
     });
 
     describe('When temporaryKey is valid and linked to a password reset demand', () => {
+
       let temporaryKey;
 
       beforeEach(async () => {
@@ -228,11 +235,90 @@ describe('Acceptance | Controller | password-controller', () => {
         });
       });
     });
-
   });
-});
 
-function _insertPasswordResetDemand(temporaryKey, email) {
-  const resetDemandRaw = { email, temporaryKey };
-  return knex('reset-password-demands').insert(resetDemandRaw);
-}
+  describe('POST /api/expired-password-updates', () => {
+
+    const username = 'firstName.lastName0511';
+    const expiredPassword = 'Password01';
+    const newPassword = 'Password02';
+
+    const options = {
+      method: 'POST',
+      url: '/api/expired-password-updates',
+      payload: {
+        data: {
+          attributes: { username, expiredPassword, newPassword }
+        }
+      }
+    };
+
+    beforeEach(async () => {
+      databaseBuilder.factory.buildUser.withUnencryptedPassword({
+        username, rawPassword: expiredPassword, shouldChangePassword: true
+      });
+      await databaseBuilder.commit();
+    });
+
+    context('Success cases', () => {
+
+      it('should return 201 HTTP status code', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+      });
+    });
+
+    context('When username does not exist', () => {
+
+      it('should respond 404 HTTP status code', async () => {
+        // given
+        options.payload.data.attributes = { username: 'unknow', expiredPassword, newPassword };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+
+    context('When password is invalid', () => {
+
+      it('should respond 500 HTTP status code', async () => {
+        // given
+        options.payload.data.attributes = { username, expiredPassword: 'wrongPassword01', newPassword };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(500);
+      });
+    });
+
+    context('When shoulChangePassword is false', () => {
+
+      it('should respond 403 HTTP status code', async () => {
+        // given
+        const username = 'jean.oubliejamais0105';
+        databaseBuilder.factory.buildUser.withUnencryptedPassword({
+          username, rawPassword: expiredPassword, shouldChangePassword: false
+        });
+
+        options.payload.data.attributes = { username, expiredPassword, newPassword };
+
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
+
+});

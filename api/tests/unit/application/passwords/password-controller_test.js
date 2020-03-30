@@ -13,6 +13,8 @@ const passwordResetSerializer = require('../../../../lib/infrastructure/serializ
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
+const usecases = require('../../../../lib/domain/usecases');
+
 const User = require('../../../../lib/domain/models/User');
 
 describe('Unit | Controller | PasswordController', () => {
@@ -72,6 +74,7 @@ describe('Unit | Controller | PasswordController', () => {
   });
 
   describe('#checkResetDemand', () => {
+
     const request = {
       params: {
         temporaryKey: 'token'
@@ -148,7 +151,37 @@ describe('Unit | Controller | PasswordController', () => {
         sinon.assert.calledWith(userSerializer.serialize, fetchedUser);
         expect(response).to.deep.equal(serializedUser);
       });
-
     });
   });
+
+  describe('#updateExpiredPassword', () => {
+
+    const request = {
+      payload: {
+        data: {
+          attributes: {
+            username: 'uzinagaz.hheer1206',
+            expiredPassword: 'expiredPassword01',
+            newPassword: 'Password123'
+          },
+        }
+      }
+    };
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'updateExpiredPassword');
+    });
+
+    it('should return 201 http status code', async () => {
+      // given
+      usecases.updateExpiredPassword.resolves();
+
+      // when
+      const response = await passwordController.updateExpiredPassword(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(201);
+    });
+  });
+
 });
