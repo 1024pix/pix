@@ -1,4 +1,4 @@
-const tutorialsController = require('./tutorials-controller');
+const userTutorialsController = require('./user-tutorials-controller');
 
 exports.register = async (server) => {
   server.route([
@@ -6,10 +6,10 @@ exports.register = async (server) => {
       method: 'PUT',
       path: '/api/users/me/tutorials/{tutorialId}',
       config: {
-        handler: tutorialsController.addToUser,
+        handler: userTutorialsController.addToUser,
         tags: ['api'],
       },
-    }
+    },
   ]);
 };
 
