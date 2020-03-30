@@ -1,10 +1,12 @@
+import classic from 'ember-classic-decorator';
 import Service, { inject as service } from '@ember/service';
 import _ from 'lodash';
 
-export default Service.extend({
+@classic
+export default class CurrentUserService extends Service {
+  @service session;
 
-  session: service(),
-  store: service(),
+  @service store;
 
   async load() {
     if (this.get('session.isAuthenticated')) {
@@ -20,4 +22,4 @@ export default Service.extend({
       }
     }
   }
-});
+}
