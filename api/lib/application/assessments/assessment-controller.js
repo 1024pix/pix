@@ -1,6 +1,6 @@
 const { AssessmentEndedError } = require('../../domain/errors');
 const usecases = require('../../domain/usecases');
-const { badgeAcquisitionHandler } = require('../../domain/events/badge-acquisition-handler');
+const events = require('../../domain/events');
 const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
@@ -92,7 +92,7 @@ module.exports = {
 
     await DomainTransaction.execute(async (domainTransaction) => {
       const assessmentCompletedEvent = await usecases.completeAssessment({ domainTransaction, assessmentId });
-      await badgeAcquisitionHandler.handle(domainTransaction, assessmentCompletedEvent);
+      await events.handleBadgeAcquisition({ domainTransaction, assessmentCompletedEvent });
     });
 
     return null;
