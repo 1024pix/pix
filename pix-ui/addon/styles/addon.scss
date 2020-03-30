@@ -2,7 +2,12 @@
 @import 'colors';
 
 @import 'pix-h1';
+@import 'pix-buttons';
 
 html {
   font-size: 16px;
+}
+
+body {
+  font-family: $font-roboto;
 }
