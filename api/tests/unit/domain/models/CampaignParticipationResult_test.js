@@ -66,7 +66,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
       expect(result).to.be.an.instanceOf(CampaignParticipationResult);
       expect(result.badge).to.be.an.instanceOf(Badge);
       expect(result.badge.badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
-      expect(result.badgePartnerCompetenceResults[0]).to.be.an.instanceOf(CompetenceResult);
+      expect(result.partnerCompetenceResults[0]).to.be.an.instanceOf(CompetenceResult);
       expect(result).to.deep.equal({
         id: campaignParticipationId,
         isCompleted: false,
@@ -90,7 +90,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           ],
           targetProfileId: 1,
         },
-        badgePartnerCompetenceResults: [{
+        partnerCompetenceResults: [{
           id: 12,
           areaColor: 'emerald',
           index: undefined,

@@ -17,7 +17,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
           name: 'Soap Principal Awesome',
         })
       ];
-      const badgePartnerCompetenceResults = [
+      const partnerCompetenceResults = [
         domainBuilder.buildCompetenceResult({
           id: 12,
           areaColor: 'emerald',
@@ -40,7 +40,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
         totalSkillsCount,
         validatedSkillsCount,
         competenceResults,
-        badgePartnerCompetenceResults
+        partnerCompetenceResults: partnerCompetenceResults
       });
 
       const expectedSerializedCampaignParticipationResult = {
@@ -59,10 +59,10 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
             badge: {
               data: null
             },
-            'badge-partner-competence-results': {
+            'partner-competence-results': {
               data: [ {
                 id: '12',
-                type: 'badgePartnerCompetenceResults'
+                type: 'partnerCompetenceResults'
               }],
             },
             'competence-results': {
@@ -91,7 +91,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
               'validated-skills-count': 1,
             },
             id: '12',
-            type: 'badgePartnerCompetenceResults',
+            type: 'partnerCompetenceResults',
           },
           {
             attributes: {

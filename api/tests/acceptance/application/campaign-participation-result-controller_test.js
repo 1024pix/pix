@@ -185,10 +185,10 @@ describe('Acceptance | API | Campaign Participation Result', () => {
                 type: 'badges',
               }
             },
-            'badge-partner-competence-results': {
+            'partner-competence-results': {
               data: [{
                 id: '1',
-                type: 'badgePartnerCompetenceResults'
+                type: 'partnerCompetenceResults'
               }]
             },
             'competence-results': {
@@ -223,7 +223,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'validated-skills-count': 3,
           },
           id: '1',
-          type: 'badgePartnerCompetenceResults',
+          type: 'partnerCompetenceResults',
         }, {
           type: 'competenceResults',
           id: competences[0].id.toString(),

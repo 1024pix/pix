@@ -37,7 +37,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
     describe('When user is logged in', async function() {
       const competenceResultName = 'Competence Nom';
-      const badgePartnerCompetenceResultName = 'badge partner competence nom';
+      const partnerCompetenceResultName = 'badge partner competence nom';
       let campaignParticipationResult;
 
       beforeEach(async function() {
@@ -56,7 +56,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           testedSkillsCount,
           validatedSkillsCount,
           competenceResults: [competenceResult],
-          badgePartnerCompetenceResults: []
+          partnerCompetenceResults: []
         });
         campaignParticipation.update({ campaignParticipationResult });
       });
@@ -84,25 +84,25 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include(COMPETENCE_MASTERY_PERCENTAGE);
       });
 
-      it('should display different competences results when there is badgePartnerCompetenceResults', async function() {
+      it('should display different competences results when there is partnerCompetenceResults', async function() {
         // given
         const BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE = '80%';
         const PROGRESSION_MAX_WIDTH = '100%';
-        const badgePartnerCompetenceResult = server.create('badge-partner-competence-result', {
-          name: badgePartnerCompetenceResultName,
+        const partnerCompetenceResult = server.create('partner-competence-result', {
+          name: partnerCompetenceResultName,
           totalSkillsCount: 5,
           validatedSkillsCount: 4,
           masteryPercentage: 80
         });
         campaignParticipationResult.update({
-          badgePartnerCompetenceResults: [badgePartnerCompetenceResult]
+          partnerCompetenceResults: [partnerCompetenceResult]
         });
 
         // when
         await visit(`/campagnes/${campaign.code}/resultats/${campaignParticipation.assessment.id}`);
 
         // then
-        expect(find('table tbody tr td:nth-child(1) span:nth-child(2)').textContent).to.equal(badgePartnerCompetenceResultName);
+        expect(find('table tbody tr td:nth-child(1) span:nth-child(2)').textContent).to.equal(partnerCompetenceResultName);
         expect(find('table tbody tr td:nth-child(2) .progression-gauge').getAttribute('style')).to.equal('width: ' + PROGRESSION_MAX_WIDTH);
         expect(find('table tbody tr td:nth-child(2) .progression-gauge__marker').getAttribute('style')).to.equal('width: ' + BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE);
         expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include(BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE);

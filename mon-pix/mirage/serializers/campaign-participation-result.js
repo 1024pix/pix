@@ -11,7 +11,7 @@ export default ApplicationSerializer.extend({
   ],
   include: [
     'badge',
-    'badgePartnerCompetenceResults',
+    'partnerCompetenceResults',
     'competenceResults',
   ],
 });

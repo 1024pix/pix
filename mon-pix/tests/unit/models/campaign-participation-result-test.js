@@ -40,27 +40,27 @@ describe('Unit | Model | Campaign-Participation-Result', function() {
     });
   });
 
-  describe('maxTotalSkillsCountInBadgePartnerCompetences', function() {
+  describe('maxTotalSkillsCountInPartnerCompetences', function() {
 
     it('should calculate max total skills', function() {
-      const badgePartnerCompetenceResult1 = store.createRecord('badge-partner-competence-result', {
+      const partnerCompetenceResult1 = store.createRecord('partner-competence-result', {
         totalSkillsCount: 1
       });
-      const badgePartnerCompetenceResult2 = store.createRecord('badge-partner-competence-result', {
+      const partnerCompetenceResult2 = store.createRecord('partner-competence-result', {
         totalSkillsCount: 9
       });
-      const badgePartnerCompetenceResult3 = store.createRecord('badge-partner-competence-result', {
+      const partnerCompetenceResult3 = store.createRecord('partner-competence-result', {
         totalSkillsCount: 3
       });
 
       const model = store.createRecord('campaign-participation-result');
-      model.set('badgePartnerCompetenceResults', [badgePartnerCompetenceResult1, badgePartnerCompetenceResult2, badgePartnerCompetenceResult3]);
+      model.set('partnerCompetenceResults', [partnerCompetenceResult1, partnerCompetenceResult2, partnerCompetenceResult3]);
 
       // when
-      const maxTotalSkillsCountInBadgePartnerCompetences = model.get('maxTotalSkillsCountInBadgePartnerCompetences');
+      const maxTotalSkillsCountInPartnerCompetences = model.get('maxTotalSkillsCountInPartnerCompetences');
 
       // then
-      expect(maxTotalSkillsCountInBadgePartnerCompetences).to.equal(9);
+      expect(maxTotalSkillsCountInPartnerCompetences).to.equal(9);
     });
   });
 });
