@@ -1,9 +1,10 @@
+import classic from 'ember-classic-decorator';
 import ApplicationAdapter from './application';
 
-export default ApplicationAdapter.extend({
-
+@classic
+export default class StudentUserAssociation extends ApplicationAdapter {
   urlForCreateRecord(modelName, { adapterOptions }) {
-    const url = this._super(...arguments);
+    const url = super.urlForCreateRecord(...arguments);
 
     if (adapterOptions && adapterOptions.searchForMatchingStudent) {
       delete adapterOptions.searchForMatchingStudent;
@@ -11,7 +12,7 @@ export default ApplicationAdapter.extend({
     }
 
     return url;
-  },
+  }
 
   createRecord(store, type, snapshot) {
     if (snapshot.adapterOptions && snapshot.adapterOptions.searchForMatchingStudent) {
@@ -19,8 +20,7 @@ export default ApplicationAdapter.extend({
       const data = this.serialize(snapshot);
       return this.ajax(url, 'PUT', { data });
     }
-    return this._super(...arguments);
-  },
-
-});
+    return super.createRecord(...arguments);
+  }
+}
 
