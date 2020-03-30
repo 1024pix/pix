@@ -17,6 +17,7 @@ class CertificationCourse {
       // includes
       assessment,
       challenges,
+      acquiredPartnerCertifications,
       // references
       userId,
       sessionId,
@@ -37,6 +38,7 @@ class CertificationCourse {
     // includes
     this.assessment = assessment;
     this.challenges = challenges;
+    this.acquiredPartnerCertifications = acquiredPartnerCertifications;
     // references
     this.userId = userId;
     this.sessionId = sessionId;

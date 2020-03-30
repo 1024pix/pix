@@ -102,6 +102,13 @@ describe('Integration | Repository | Certification Course', function() {
       ], (certificationChallenge) => {
         databaseBuilder.factory.buildCertificationChallenge(certificationChallenge);
       });
+      _.each([
+        { certificationCourseId: expectedCertificationCourse.id,  partnerKey: databaseBuilder.factory.buildBadge({}).key },
+        { certificationCourseId: expectedCertificationCourse.id,  partnerKey: databaseBuilder.factory.buildBadge({}).key },
+        { certificationCourseId: anotherCourseId,  partnerKey: databaseBuilder.factory.buildBadge({}).key },
+      ], (acquiredPartnerCertification) => {
+        databaseBuilder.factory.buildCertificationAcquiredPartner(acquiredPartnerCertification,);
+      });
       return databaseBuilder.commit();
     });
 
@@ -144,6 +151,14 @@ describe('Integration | Repository | Certification Course', function() {
 
           // then
           expect(thisCertificationCourse.assessment.id).to.equal(assessmentId);
+        });
+
+        it('should retrieve acquired badge', async () => {
+          // when
+          const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
+
+          // then
+          expect(thisCertificationCourse.acquiredPartnerCertifications.length).to.equal(2);
         });
 
       });
