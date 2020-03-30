@@ -11,7 +11,6 @@ describe('Integration | Repository | Badge Acquisition', () => {
   describe('#create', () => {
 
     let badgeAcquisition;
-    let domainTransaction;
 
     beforeEach(async () => {
       const badgeId = databaseBuilder.factory.buildBadge().id;
@@ -21,7 +20,6 @@ describe('Integration | Repository | Badge Acquisition', () => {
       badgeAcquisitionToCreate.id = undefined;
       await databaseBuilder.commit();
 
-      domainTransaction = await DomainTransaction.begin();
     });
 
     afterEach(() => {
@@ -30,8 +28,9 @@ describe('Integration | Repository | Badge Acquisition', () => {
 
     it('should persist the badge acquisition in db', async () => {
       // when
-      badgeAcquisition = await badgeAcquisitionRepository.create(domainTransaction, badgeAcquisitionToCreate);
-      await domainTransaction.commit();
+      badgeAcquisition = await DomainTransaction.execute(async (domainTransaction) => {
+        return badgeAcquisitionRepository.create(domainTransaction, badgeAcquisitionToCreate);
+      });
 
       // then
       const result = await knex('badge-acquisitions').where('id', badgeAcquisition.id);
@@ -41,8 +40,9 @@ describe('Integration | Repository | Badge Acquisition', () => {
 
     it('should return the saved badge acquired', async () => {
       // when
-      badgeAcquisition = await badgeAcquisitionRepository.create(domainTransaction, badgeAcquisitionToCreate);
-      await domainTransaction.commit();
+      badgeAcquisition = await DomainTransaction.execute(async (domainTransaction) => {
+        return badgeAcquisitionRepository.create(domainTransaction, badgeAcquisitionToCreate);
+      });
 
       // then
       expect(badgeAcquisition).to.be.an.instanceOf(BadgeAcquisition);

@@ -90,15 +90,11 @@ module.exports = {
   async completeAssessment(request) {
     const assessmentId = parseInt(request.params.id);
 
-    const domainTransaction = await DomainTransaction.begin();
-    try {
+    await DomainTransaction.execute(async (domainTransaction) => {
       const assessmentCompletedEvent = await usecases.completeAssessment({ domainTransaction, assessmentId });
       await badgeCreationHandler.handle(domainTransaction, assessmentCompletedEvent);
-      await domainTransaction.commit();
-    } catch (e) {
-      await domainTransaction.rollback();
-      throw e;
-    }
+    });
+
     return null;
   },
 };
