@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
@@ -6,12 +7,34 @@ import Controller from '@ember/controller';
 export default class GetController extends Controller {
 
   @tracked userEmail = null;
+  @tracked targetProfilesToAttach = [];
 
   @service notifications;
 
   @action
   updateOrganizationInformation() {
     return this.model.save();
+  }
+
+  @action
+  attachTargetProfiles() {
+    const organization = this.model;
+    return organization.attachTargetProfiles({ 'target-profiles-to-attach' : this._toArrayWithUnique(this.targetProfilesToAttach) })
+      .then(async () => {
+        this.targetProfilesToAttach = null;
+        return this.notifications.success('Profil(s) cible(s) rattaché avec succès.');
+      })
+      .catch((errorResponse) => {
+        if (!errorResponse.errors) {
+          return this.notifications.error('Une erreur est survenue.');
+        }
+
+        errorResponse.errors.forEach((error) => {
+          if (error.status === '404') {
+            return this.notifications.error(error.detail);
+          }
+        });
+      });
   }
 
   @action
@@ -41,4 +64,10 @@ export default class GetController extends Controller {
         this.notifications.error('Une erreur est survenue.');
       });
   }
+
+  _toArrayWithUnique(targetProfilesToAttach) {
+    const trimedTargetProfilesToAttach = targetProfilesToAttach.split(',').map((targetProfileId) => targetProfileId.trim());
+    return _.uniq(trimedTargetProfilesToAttach);
+  }
+
 }

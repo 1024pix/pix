@@ -18,10 +18,11 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'updateOrganizationInformation');
     sandbox.stub(usecases, 'getOrganizationMemberships');
-    sandbox.stub(usecases, 'findOrganizationStudentsWithUserInfos');
+    sandbox.stub(usecases, 'findUserWithSchoolingRegistrations');
     sandbox.stub(usecases, 'createOrganizationInvitations');
     sandbox.stub(usecases, 'answerToOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
+    sandbox.stub(usecases, 'attachTargetProfilesToOrganization');
 
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');
     sandbox.stub(securityController, 'checkUserIsAdminInOrganization');
@@ -159,11 +160,11 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     context('Success cases', () => {
 
-      const studentWithUserInfo = domainBuilder.buildStudentWithUserInfo();
+      const studentWithUserInfo = domainBuilder.buildUserWithSchoolingRegistration();
 
       it('should return an HTTP response with status code 200', async () => {
         // given
-        usecases.findOrganizationStudentsWithUserInfos.resolves([studentWithUserInfo]);
+        usecases.findUserWithSchoolingRegistrations.resolves([studentWithUserInfo]);
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
@@ -174,7 +175,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return an HTTP response formatted as JSON:API', async () => {
         // given
-        usecases.findOrganizationStudentsWithUserInfos.resolves([studentWithUserInfo]);
+        usecases.findUserWithSchoolingRegistrations.resolves([studentWithUserInfo]);
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
@@ -284,4 +285,35 @@ describe('Integration | Application | Organizations | organization-controller', 
     });
   });
 
+  describe('#attachTargetProfilesToOrganization', () => {
+
+    const payload = {
+      data: {
+        type: 'target-profiles-shares',
+        attributes: {
+          'target-profiles-to-attach': [1, 2],
+        },
+      }
+    };
+
+    context('Error cases', () => {
+
+      context('when user is not Pix Master', () => {
+
+        beforeEach(() => {
+          securityController.checkUserHasRolePixMaster.callsFake((request, h) => {
+            return Promise.resolve(h.response().code(403).takeover());
+          });
+        });
+
+        it('should return a 403 HTTP response', async () => {
+          // when
+          const response = await httpTestServer.request('POST', '/api/organizations/1234/target-profiles', payload);
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+  });
 });

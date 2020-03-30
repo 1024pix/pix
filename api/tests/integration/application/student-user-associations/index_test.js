@@ -1,6 +1,6 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
-const studentUserAssociationController = require('../../../../lib/application/student-user-associations/student-user-association-controller');
+const schoolingRegistrationUserAssociationController = require('../../../../lib/application/schooling-registration-user-associations/schooling-registration-user-association-controller');
 const moduleUnderTest = require('../../../../lib/application/student-user-associations');
 
 describe('Integration | Application | Route | student-user-associations', () => {
@@ -8,9 +8,9 @@ describe('Integration | Application | Route | student-user-associations', () => 
   let httpTestServer;
 
   beforeEach(() => {
-    sinon.stub(studentUserAssociationController, 'associate').callsFake((request, h) => h.response('ok').code(204));
-    sinon.stub(studentUserAssociationController, 'findAssociation').callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(studentUserAssociationController, 'generateUsername').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(schoolingRegistrationUserAssociationController, 'associate').callsFake((request, h) => h.response('ok').code(204));
+    sinon.stub(schoolingRegistrationUserAssociationController, 'findAssociation').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(schoolingRegistrationUserAssociationController, 'generateUsername').callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });

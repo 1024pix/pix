@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const _ = require('lodash');
 
 const {
-  AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, OrganizationStudentAlreadyLinkedToUserError,
+  AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, SchoolingRegistrationAlreadyLinkedToUserError,
   NotFoundError, UserNotFoundError
 } = require('../../../../lib/domain/errors');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
@@ -903,23 +903,23 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#createAndAssociateUserToStudent', () => {
+  describe('#createAndAssociateUserToSchoolingRegistration', () => {
     const email = 'jojo.lapointe@example.net';
-    let studentId;
+    let schoolingRegistrationId;
     let organizationId;
     let domainUser;
 
     beforeEach(() => {
       // given
       organizationId = databaseBuilder.factory.buildOrganization().id;
-      studentId = databaseBuilder.factory.buildStudent({ userId: null, organizationId }).id;
+      schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ userId: null, organizationId }).id;
       domainUser = domainBuilder.buildUser({ email });
 
       return databaseBuilder.commit();
     });
 
     afterEach(async () => {
-      await knex('students').delete();
+      await knex('schooling-registrations').delete();
       await knex('users').delete();
     });
 
@@ -927,7 +927,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should create user', async () => {
         // when
-        const result = await userRepository.createAndAssociateUserToStudent({ domainUser, studentId });
+        const result = await userRepository.createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
 
         // then
         const foundUser = await knex('users').where({ email });
@@ -937,11 +937,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should associate user to student', async () => {
         // when
-        await userRepository.createAndAssociateUserToStudent({ domainUser, studentId });
+        await userRepository.createAndAssociateUserToSchoolingRegistration({ domainUser, schoolingRegistrationId });
 
         // then
-        const foundStudents = await knex('students').where('id', studentId);
-        expect(foundStudents[0].userId).to.not.be.undefined;
+        const foundSchoolingRegistrations = await knex('schooling-registrations').where('id', schoolingRegistrationId);
+        expect(foundSchoolingRegistrations[0].userId).to.not.be.undefined;
       });
     });
 
@@ -950,16 +950,16 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       it('should rollback after association fails', async () => {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
-        studentId = databaseBuilder.factory.buildStudent({ userId, organizationId }).id;
+        schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId }).id;
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(userRepository.createAndAssociateUserToStudent)({ domainUser, studentId });
+        const error = await catchErr(userRepository.createAndAssociateUserToSchoolingRegistration)({ domainUser, schoolingRegistrationId });
 
         // then
-        expect(error).to.be.instanceOf(OrganizationStudentAlreadyLinkedToUserError);
-        const foundStudents = await knex('students').where('id', studentId);
-        expect(foundStudents[0].userId).to.equal(userId);
+        expect(error).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
+        const foundSchoolingRegistrations = await knex('schooling-registrations').where('id', schoolingRegistrationId);
+        expect(foundSchoolingRegistrations[0].userId).to.equal(userId);
         const foundUser = await knex('users').where({ email });
         expect(foundUser).to.have.lengthOf(0);
       });

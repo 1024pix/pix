@@ -3,7 +3,7 @@ const { pipe } = require('lodash/fp');
 const randomString = require('randomstring');
 
 const {
-  NotFoundError, OrganizationStudentAlreadyLinkedToUserError, AlreadyRegisteredUsernameError
+  NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError, AlreadyRegisteredUsernameError
 } = require('../errors');
 const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
 const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
@@ -22,28 +22,28 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
     .first() || null;
 }
 
-async function findMatchingStudentIdForGivenOrganizationIdAndUser({ organizationId, user: { firstName, lastName, birthdate }, studentRepository }) {
-  const students = await studentRepository.findByOrganizationIdAndUserBirthdate({
+async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, user: { firstName, lastName, birthdate }, schoolingRegistrationRepository }) {
+  const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUserBirthdate({
     organizationId,
     birthdate,
   });
 
-  if (students.length === 0) {
-    throw new NotFoundError('There were no students matching with organization and birthdate');
+  if (schoolingRegistrations.length === 0) {
+    throw new NotFoundError('There were no schoolingRegistrations matching with organization and birthdate');
   }
 
-  const studentId = findMatchingCandidateIdForGivenUser(students, { firstName, lastName });
+  const schoolingRegistrationId = findMatchingCandidateIdForGivenUser(schoolingRegistrations, { firstName, lastName });
 
-  if (!studentId) {
-    throw new NotFoundError('There were no students matching with names');
+  if (!schoolingRegistrationId) {
+    throw new NotFoundError('There were no schoolingRegistrations matching with names');
   }
 
-  const matchingStudent = _.find(students, { 'id': studentId });
-  if (!_.isNil(matchingStudent.userId)) {
-    throw new OrganizationStudentAlreadyLinkedToUserError();
+  const matchingSchoolingRegistration = _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
+  if (!_.isNil(matchingSchoolingRegistration.userId)) {
+    throw new SchoolingRegistrationAlreadyLinkedToUserError();
   }
 
-  return studentId;
+  return schoolingRegistrationId;
 }
 
 function _containsOneElement(arr) {
@@ -135,5 +135,5 @@ module.exports = {
   generateUsernameUntilAvailable,
   createUsernameByUser,
   findMatchingCandidateIdForGivenUser,
-  findMatchingStudentIdForGivenOrganizationIdAndUser,
+  findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser,
 };
