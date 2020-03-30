@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const { badgeCreationHandler } = require('../../../../lib/domain/events/badge-creation-handler');
+const { badgeAcquisitionHandler } = require('../../../../lib/domain/events/badge-acquisition-handler');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
@@ -44,7 +44,7 @@ describe('Unit | Domain | Events | badge-creation-handler', () => {
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).returns(true);
 
           // when
-          await badgeCreationHandler.handle(domainTransaction, event);
+          await badgeAcquisitionHandler.handle(domainTransaction, event);
 
           // then
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly(domainTransaction, { badgeId, userId: event.userId });
@@ -54,7 +54,7 @@ describe('Unit | Domain | Events | badge-creation-handler', () => {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).returns(false);
           // when
-          await badgeCreationHandler.handle(domainTransaction, event);
+          await badgeAcquisitionHandler.handle(domainTransaction, event);
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -73,7 +73,7 @@ describe('Unit | Domain | Events | badge-creation-handler', () => {
           const event = new AssessmentCompleted(userId, targetProfileId);
 
           // when
-          await badgeCreationHandler.handle(domainTransaction, event);
+          await badgeAcquisitionHandler.handle(domainTransaction, event);
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -91,7 +91,7 @@ describe('Unit | Domain | Events | badge-creation-handler', () => {
         const event = new AssessmentCompleted(userId, targetProfileId);
 
         // when
-        await badgeCreationHandler.handle(domainTransaction, event);
+        await badgeAcquisitionHandler.handle(domainTransaction, event);
 
         // then
         expect(badgeAcquisitionRepository.create).to.not.have.been.called;

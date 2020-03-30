@@ -4,7 +4,7 @@ const badgeAcquisitionRepository = require('../../infrastructure/repositories/ba
 const badgeRepository = require('../../infrastructure/repositories/badge-repository');
 const campaignParticipationResultRepository = require('../../infrastructure/repositories/campaign-participation-result-repository');
 
-const badgeCreationHandler = {
+const badgeAcquisitionHandler = {
   handle: async function(domainTransaction, event) {
     if (event.targetProfileId != null) {
       const badge = await badgeRepository.findOneByTargetProfileId(event.targetProfileId);
@@ -20,5 +20,5 @@ const badgeCreationHandler = {
 };
 
 module.exports = {
-  badgeCreationHandler,
+  badgeAcquisitionHandler: badgeAcquisitionHandler,
 };
