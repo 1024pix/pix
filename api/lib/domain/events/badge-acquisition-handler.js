@@ -5,19 +5,38 @@ const badgeRepository = require('../../infrastructure/repositories/badge-reposit
 const campaignParticipationResultRepository = require('../../infrastructure/repositories/campaign-participation-result-repository');
 
 const badgeAcquisitionHandler = {
-  handle: async function(domainTransaction, event) {
-    if (event.targetProfileId != null) {
-      const badge = await badgeRepository.findOneByTargetProfileId(event.targetProfileId);
-      if (badge != null) {
-        const campaignParticipationResult = await campaignParticipationResultRepository.getByParticipationId(event.campaignParticipationId);
-        const areBadgeCriteriaFulfilled = badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult });
-        if (areBadgeCriteriaFulfilled) {
-          await badgeAcquisitionRepository.create(domainTransaction, { badgeId: badge.id, userId: event.userId });
+  handle: async function(domainTransaction, assessmentCompletedEvent) {
+    if (completedAssessmentBelongsToACampaign(assessmentCompletedEvent)) {
+      const badge = await fetchPossibleCampaignAssociatedBadge(assessmentCompletedEvent);
+      if (isABadgeAssociatedToCampaign(badge)) {
+        const campaignParticipationResult = await fetchCampaignParticipationResults(assessmentCompletedEvent);
+        if (isBadgeAcquired(campaignParticipationResult)) {
+          await badgeAcquisitionRepository.create(domainTransaction, { badgeId: badge.id, userId: assessmentCompletedEvent.userId });
         }
       }
     }
   }
 };
+
+function completedAssessmentBelongsToACampaign(assessmentCompletedEvent) {
+  return assessmentCompletedEvent.targetProfileId != null;
+}
+
+async function fetchPossibleCampaignAssociatedBadge(assessmentCompletedEvent) {
+  return await badgeRepository.findOneByTargetProfileId(assessmentCompletedEvent.targetProfileId);
+}
+
+function isABadgeAssociatedToCampaign(badge) {
+  return badge != null;
+}
+
+async function fetchCampaignParticipationResults(assessmentCompletedEvent) {
+  return await campaignParticipationResultRepository.getByParticipationId(assessmentCompletedEvent.campaignParticipationId);
+}
+
+function isBadgeAcquired(campaignParticipationResult) {
+  return badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult });
+}
 
 module.exports = {
   badgeAcquisitionHandler: badgeAcquisitionHandler,
