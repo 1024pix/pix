@@ -25,4 +25,23 @@ describe('Unit | Controller | User-tutorials', function() {
     });
   });
 
+  describe('#find', function() {
+    it('should call the expected usecase', async function() {
+      // given
+      const userId = 'userId';
+      sinon.stub(usecases, 'findUserTutorials');
+
+      const request = {
+        auth: { credentials: { userId } }
+      };
+
+      // when
+      await userTutorialsController.find(request, hFake);
+
+      // then
+      const findUserTutorialsArgs = usecases.findUserTutorials.firstCall.args[0];
+      expect(findUserTutorialsArgs).to.have.property('userId', userId);
+    });
+  });
+
 });

@@ -12,7 +12,6 @@ function startServer() {
 
 describe('Unit | Router | user-tutorials-router', () => {
 
-  describe('PUT /api/tutorials', () => {
   describe('PUT /api/users/me/tutorials/{tutorialId}', () => {
 
     beforeEach(() => {
@@ -38,6 +37,34 @@ describe('Unit | Router | user-tutorials-router', () => {
       // then
       expect(userTutorialsController.addToUser).have.been.called;
       expect(response.statusCode).to.equal(204);
+    });
+  });
+
+  describe('GET /api/users/me/tutorials', () => {
+
+    beforeEach(() => {
+      sinon.stub(securityController, 'checkUserIsAuthenticated').
+        callsFake((request, h) => {
+          h.continue({ credentials: { accessToken: 'jwt.access.token' } });
+        });
+      sinon.stub(userTutorialsController, 'find').
+        callsFake((request, h) => h.response().code(200));
+      startServer();
+    });
+
+    it('should exist', async () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/users/me/tutorials',
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(userTutorialsController.find).have.been.called;
+      expect(response.statusCode).to.equal(200);
     });
   });
 
