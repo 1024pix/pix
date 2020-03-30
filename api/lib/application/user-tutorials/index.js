@@ -10,6 +10,14 @@ exports.register = async (server) => {
         tags: ['api'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/users/me/tutorials',
+      config: {
+        handler: userTutorialsController.find,
+        tags: ['api'],
+      },
+    }
   ]);
 };
 

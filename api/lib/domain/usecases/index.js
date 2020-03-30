@@ -104,6 +104,7 @@ module.exports = injectDependencies({
   findSessionsForCertificationCenter: require('./find-sessions-for-certification-center'),
   findSmartPlacementAssessments: require('./find-smart-placement-assessments'),
   findTutorials: require('./find-tutorials'),
+  findUserTutorials: require('./find-user-tutorials'),
   findUserWithSchoolingRegistrations: require('./find-user-with-schooling-registrations'),
   flagSessionResultsAsSentToPrescriber: require('./flag-session-results-as-sent-to-prescriber'),
   generateUsername: require('./generate-username'),
