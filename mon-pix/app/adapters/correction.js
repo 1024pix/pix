@@ -1,7 +1,8 @@
+import classic from 'ember-classic-decorator';
 import ApplicationAdapter from './application';
 
-export default ApplicationAdapter.extend({
-
+@classic
+export default class Correction extends ApplicationAdapter {
   // refresh cache
   refreshRecord(type, challenge) {
     const url = `${this.host}/${this.namespace}/cache`;
@@ -10,4 +11,4 @@ export default ApplicationAdapter.extend({
     };
     return this.ajax(url, 'DELETE', { data: payload });
   }
-});
+}

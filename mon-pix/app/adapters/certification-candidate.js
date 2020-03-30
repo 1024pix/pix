@@ -1,9 +1,10 @@
+import classic from 'ember-classic-decorator';
 import ApplicationAdapter from './application';
 
-export default ApplicationAdapter.extend({
-
+@classic
+export default class CertificationCandidate extends ApplicationAdapter {
   urlForCreateRecord(modelName, { adapterOptions }) {
-    const url = this._super(...arguments);
+    const url = super.urlForCreateRecord(...arguments);
 
     if (adapterOptions && adapterOptions.joinSession) {
       delete adapterOptions.joinSession;
@@ -13,5 +14,5 @@ export default ApplicationAdapter.extend({
     }
 
     return url;
-  },
-});
+  }
+}
