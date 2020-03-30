@@ -1,5 +1,7 @@
 const settings = require('../../config');
 
+const usecases = require('../../domain/usecases');
+
 const mailService = require('../../domain/services/mail-service');
 const resetPasswordService = require('../../domain/services/reset-password-service');
 const tokenService = require('../../domain/services/token-service');
@@ -29,5 +31,12 @@ module.exports = {
     const user = await userRepository.findByEmail(passwordResetDemand.email);
 
     return userSerializer.serialize(user);
+  },
+
+  async updateExpiredPassword(request, h) {
+    const { username, expiredPassword, newPassword } = request.payload.data.attributes;
+    await usecases.updateExpiredPassword({ username, expiredPassword, newPassword });
+
+    return h.response({ data: { type: 'users' } }).created();
   }
 };
