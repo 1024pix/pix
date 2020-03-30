@@ -1,4 +1,5 @@
 const { sinon } = require('../../../test-helper');
+
 const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 const mailService = require('../../../../lib/domain/services/mail-service');
 
@@ -58,30 +59,70 @@ describe('Unit | Service | MailService', () => {
 
   describe('#sendOrganizationInvitationEmail', () => {
 
-    it('should call Mailjet with pix-orga url, organization-invitation id and code', async () => {
-      // given
-      const email = 'user@organization.org';
-      const organizationName = 'Organization Name';
-      const pixOrgaBaseUrl = 'http://dev.pix-orga.fr';
-      const organizationInvitationId = 1;
-      const code = 'ABCDEFGH01';
+    context('When tags property is not provided', () => {
 
-      // when
-      await mailService.sendOrganizationInvitationEmail({
-        email, organizationName, organizationInvitationId, code
+      it('should call mail provider with pix-orga url, organization-invitation id, code and null tags', async () => {
+        // given
+        const emailAddress = 'user@organization.org';
+        const organizationName = 'Organization Name';
+        const pixOrgaBaseUrl = 'http://dev.pix-orga.fr';
+        const organizationInvitationId = 1;
+        const code = 'ABCDEFGH01';
+
+        const expectedOptions = {
+          to: emailAddress,
+          template: 'test-organization-invitation-demand-template-id',
+          from: 'ne-pas-repondre@pix.fr',
+          fromName: 'Pix Orga - Ne pas répondre',
+          subject: 'Invitation à rejoindre Pix Orga',
+          variables: {
+            organizationName,
+            responseUrl: `${pixOrgaBaseUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
+          },
+          tags: null
+        };
+
+        // when
+        await mailService.sendOrganizationInvitationEmail({
+          email: emailAddress, organizationName, organizationInvitationId, code
+        });
+
+        // then
+        sinon.assert.calledWith(mailer.sendEmail, expectedOptions);
       });
+    });
 
-      // then
-      sinon.assert.calledWith(mailer.sendEmail, {
-        to: email,
-        template: 'test-organization-invitation-demand-template-id',
-        from: 'ne-pas-repondre@pix.fr',
-        fromName: 'Pix Orga - Ne pas répondre',
-        subject: 'Invitation à rejoindre Pix Orga',
-        variables: {
-          organizationName,
-          responseUrl: `${pixOrgaBaseUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
-        }
+    context('When tags property is provided', () => {
+
+      it('should call mail provider with correct tags', async () => {
+        // given
+        const email = 'user@organization.org';
+        const organizationName = 'Organization Name';
+        const pixOrgaBaseUrl = 'http://dev.pix-orga.fr';
+        const organizationInvitationId = 1;
+        const code = 'ABCDEFGH01';
+        const tags = ['JOIN_ORGA'];
+
+        const expectedOptions = {
+          to: email,
+          template: 'test-organization-invitation-demand-template-id',
+          from: 'ne-pas-repondre@pix.fr',
+          fromName: 'Pix Orga - Ne pas répondre',
+          subject: 'Invitation à rejoindre Pix Orga',
+          variables: {
+            organizationName,
+            responseUrl: `${pixOrgaBaseUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
+          },
+          tags
+        };
+
+        // when
+        await mailService.sendOrganizationInvitationEmail({
+          email, organizationName, organizationInvitationId, code, tags
+        });
+
+        // then
+        sinon.assert.calledWith(mailer.sendEmail, expectedOptions);
       });
     });
   });
