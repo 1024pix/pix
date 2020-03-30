@@ -95,14 +95,14 @@ module('Acceptance | organization memberships management', function(hooks) {
 
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillIn('input.add-membership-form__user-email-input', 'user@example.com');
-      await click('button.add-membership-form__validate-button');
+      await fillIn('[aria-label="Adresse email"]', 'user@example.com');
+      await click('[aria-label="Ajouter un membre"] button');
 
       // then
       assert.dom('div.member-list').includesText('John');
       assert.dom('div.member-list').includesText('Doe');
       assert.dom('div.member-list').includesText('user@example.com');
-      assert.dom('input.add-membership-form__user-email-input').hasNoValue();
+      assert.dom('[aria-label="Adresse email"]').hasNoValue();
     });
 
     test('should not do anything when the membership was already existing for given user email and organization', async function(assert) {
@@ -113,13 +113,13 @@ module('Acceptance | organization memberships management', function(hooks) {
 
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillIn('input.add-membership-form__user-email-input', 'denise@example.com');
-      await click('button.add-membership-form__validate-button');
+      await fillIn('[aria-label="Adresse email"]', 'denise@example.com');
+      await click('[aria-label="Ajouter un membre"] button');
 
       // then
       assert.equal(this.element.querySelectorAll('div.member-list table > tbody > tr').length, 1);
       assert.dom('div.member-list').includesText('Denise');
-      assert.dom('input.add-membership-form__user-email-input').hasValue('denise@example.com');
+      assert.dom('[aria-label="Adresse email"]').hasValue('denise@example.com');
     });
 
     test('should not do anything when no user was found for the input email', async function(assert) {
@@ -130,13 +130,13 @@ module('Acceptance | organization memberships management', function(hooks) {
 
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillIn('input.add-membership-form__user-email-input', 'unexisting@example.com');
-      await click('button.add-membership-form__validate-button');
+      await fillIn('[aria-label="Adresse email"]', 'unexisting@example.com');
+      await click('[aria-label="Ajouter un membre"] button');
 
       // then
       assert.equal(this.element.querySelectorAll('div.member-list table > tbody > tr').length, 1);
       assert.dom('div.member-list').includesText('Erica');
-      assert.dom('input.add-membership-form__user-email-input').hasValue('unexisting@example.com');
+      assert.dom('[aria-label="Adresse email"]').hasValue('unexisting@example.com');
     });
   });
 

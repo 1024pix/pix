@@ -79,6 +79,15 @@ module.exports = {
     return targetProfileSerializer.serialize(targetProfiles);
   },
 
+  async attachTargetProfiles(request, h) {
+    const requestedOrganizationId = parseInt(request.params.id);
+    const targetProfileIdsToAttach = request.payload.data.attributes['target-profiles-to-attach']
+      .map((targetProfileToAttach) => parseInt(targetProfileToAttach));
+
+    await usecases.attachTargetProfilesToOrganization({ organizationId: requestedOrganizationId, targetProfileIdsToAttach });
+    return h.response().code(204);
+  },
+
   findUserWithSchoolingRegistrations: async (request) => {
     const organizationId = parseInt(request.params.id);
 

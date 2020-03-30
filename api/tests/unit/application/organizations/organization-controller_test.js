@@ -374,6 +374,43 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
+  describe('#attachTargetProfiles', () => {
+    const userId = 1;
+    const targetProfile = domainBuilder.buildTargetProfile();
+
+    const organizationId = targetProfile.organizationId;
+    const targetProfileId = targetProfile.id.toString();
+    const targetProfilesToAttachAsArray = [targetProfileId];
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: organizationId },
+        payload: {
+          data: {
+            type: 'target-profile-share',
+            attributes: {
+              'target-profiles-to-attach': [targetProfileId],
+            },
+          }
+        }
+      };
+
+      sinon.stub(usecases, 'attachTargetProfilesToOrganization');
+    });
+
+    it('should call the usecase to attach targetProfiles to organization with organizationId and targetProfilesToAttach', async () => {
+      // given
+      usecases.attachTargetProfilesToOrganization.withArgs({ organizationId, targetProfilesToAttach: targetProfilesToAttachAsArray }).resolves();
+
+      // when
+      const result = await organizationController.attachTargetProfiles(request, hFake);
+
+      // then
+      expect(result.statusCode).to.equal(204);
+    });
+  });
+
   describe('#findUserWithSchoolingRegistrations', () => {
 
     const connectedUserId = 1;
