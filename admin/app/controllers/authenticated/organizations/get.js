@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
@@ -18,14 +19,9 @@ export default class GetController extends Controller {
   @action
   attachTargetProfiles() {
     const organization = this.model;
-    return this.store.createRecord('target-profile-attachment', {
-      id: `${organization.id}_${this.targetProfilesToAttach}`,
-      targetProfilesToAttach: this._toArrayWithUnique(this.targetProfilesToAttach), organization
-    })
-      .save({ adapterOptions: { organizationId: organization.id } })
+    return organization.attachTargetProfiles({ 'target-profiles-to-attach' : this._toArrayWithUnique(this.targetProfilesToAttach) })
       .then(async () => {
         this.targetProfilesToAttach = null;
-        this.model.targetProfiles.reload();
         return this.notifications.success('Profil(s) cible(s) rattaché avec succès.');
       })
       .catch((errorResponse) => {
@@ -71,7 +67,7 @@ export default class GetController extends Controller {
 
   _toArrayWithUnique(targetProfilesToAttach) {
     const trimedTargetProfilesToAttach = targetProfilesToAttach.split(',').map((targetProfileId) => targetProfileId.trim());
-    return [...new Set(trimedTargetProfilesToAttach)];
+    return _.uniq(trimedTargetProfilesToAttach);
   }
 
 }
