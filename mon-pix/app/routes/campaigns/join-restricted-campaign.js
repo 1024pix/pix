@@ -1,13 +1,16 @@
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 
-export default Route.extend(AuthenticatedRouteMixin, {
+@classic
+export default class JoinRestrictedCampaignRoute extends Route.extend(AuthenticatedRouteMixin) {
+  @service currentUser;
+  @service session;
 
-  currentUser: service(),
-  session: service(),
-  _isReady: false,
+  _isReady = false;
 
   async beforeModel(transition) {
     this.set('_isReady', false);
@@ -19,27 +22,26 @@ export default Route.extend(AuthenticatedRouteMixin, {
         queryParams: { associationDone: true }
       });
     }
-  },
+  }
 
   model(params) {
     return params.campaign_code;
-  },
+  }
 
   afterModel() {
     this.set('_isReady', true);
-  },
+  }
 
   setupController(controller) {
-    this._super(...arguments);
+    super.setupController(...arguments);
     if (this.session.data.authenticated.source === 'external') {
       controller.set('firstName', this.currentUser.user.firstName);
       controller.set('lastName', this.currentUser.user.lastName);
     }
-  },
+  }
 
-  actions: {
-    loading() {
-      return this._isReady;
-    }
-  },
-});
+  @action
+  loading() {
+    return this._isReady;
+  }
+}

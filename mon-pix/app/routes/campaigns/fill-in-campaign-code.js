@@ -1,7 +1,9 @@
+import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 
-export default Route.extend({
-  deactivate: function() {
+@classic
+export default class FillInCampaignCodeRoute extends Route {
+  deactivate() {
     this.controller.set('campaignCode', null);
-  },
-});
+  }
+}

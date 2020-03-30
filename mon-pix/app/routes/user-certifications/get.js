@@ -1,8 +1,9 @@
+import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Route.extend(AuthenticatedRouteMixin, {
-
+@classic
+export default class GetRoute extends Route.extend(AuthenticatedRouteMixin) {
   model(params) {
     return this.store.findRecord('certification', params.id, { reload: true })
       .then((certification) => {
@@ -11,5 +12,5 @@ export default Route.extend(AuthenticatedRouteMixin, {
         }
         return certification;
       });
-  },
-});
+  }
+}
