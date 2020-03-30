@@ -59,26 +59,13 @@ module('Acceptance | Campaign Details', function(hooks) {
       await visit('/campagnes/1');
 
       // then
-      assert.dom('.campaign-details-content__update-button').exists();
       assert.dom('.navbar-item.active').hasText('Détails');
-    });
-
-    test('it should display participants tab', async function(assert) {
-      // given
-      server.create('campaign-report', { id: 1, participationsCount: 2 });
-      server.create('campaign', { id: 1, campaignReportId: 1 });
-
-      // when
-      await visit('/campagnes/1/participants');
-
-      // then
-      assert.dom('.navbar-item.active').hasText('Participants (2)');
     });
 
     test('it should redirect to participants page on click on participants tab', async function(assert) {
       // given
       server.create('campaign-report', { id: 1, participationsCount: 2 });
-      server.create('campaign', { id: 1, campaignReportId: 1 });
+      server.create('campaign', { id: 1, campaignReportId: 1, type: 'TEST_GIVEN' });
 
       // when
       await visit('/campagnes/1');
@@ -91,7 +78,7 @@ module('Acceptance | Campaign Details', function(hooks) {
 
     test('it should redirect to update page on click on update button', async function(assert) {
       // given
-      server.create('campaign', { id: 1 });
+      server.create('campaign', { id: 1, type: 'TEST_GIVEN' });
       await visit('/campagnes/1');
 
       // when
@@ -113,21 +100,10 @@ module('Acceptance | Campaign Details', function(hooks) {
       assert.equal(currentURL(), '/campagnes');
     });
 
-    test('it should display collective results tab', async function(assert) {
-      // given
-      server.create('campaign', { id: 1 });
-
-      // when
-      await visit('/campagnes/1');
-
-      // then
-      assert.dom('.navbar-item:nth-child(3)').hasText('Résultats collectifs');
-    });
-
     test('it should redirect to collective results page on click on collective results tab', async function(assert) {
       // given
       const campaignCollectiveResult = server.create('campaign-collective-result', 'withCompetenceCollectiveResults');
-      server.create('campaign', { id: 1, campaignCollectiveResult });
+      server.create('campaign', { id: 1, campaignCollectiveResult, type: 'TEST_GIVEN' });
 
       // when
       await visit('/campagnes/1');
