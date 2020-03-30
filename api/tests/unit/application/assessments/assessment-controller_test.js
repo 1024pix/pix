@@ -1,7 +1,7 @@
 const { sinon, expect, generateValidRequestAuthorizationHeader, hFake } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const usecases = require('../../../../lib/domain/usecases');
-const { badgeAcquisitionHandler } = require('../../../../lib/domain/events/badge-acquisition-handler');
+const events = require('../../../../lib/domain/events');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
@@ -106,15 +106,15 @@ describe('Unit | Controller | assessment-controller', function() {
 
   describe('#completeAssessment', () => {
     const assessmentId = 2;
-    const event = Symbol('un événement de fin de test');
+    const assessmentCompletedEvent = Symbol('un événement de fin de test');
     const domainTransaction = Symbol('domain transaction');
     let transactionToBeExecuted;
 
     beforeEach(() => {
       sinon.stub(usecases, 'completeAssessment');
-      usecases.completeAssessment.resolves(event);
+      usecases.completeAssessment.resolves(assessmentCompletedEvent);
 
-      sinon.stub(badgeAcquisitionHandler, 'handle');
+      sinon.stub(events, 'handleBadgeAcquisition');
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
         transactionToBeExecuted = lambda;
       });
@@ -122,7 +122,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
     it('should call the completeAssessment use case', async () => {
       // given
-      badgeAcquisitionHandler.handle.resolves({});
+      events.handleBadgeAcquisition.resolves({});
 
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
@@ -134,14 +134,14 @@ describe('Unit | Controller | assessment-controller', function() {
 
     it('should pass the assessment completed event to the CleaBadgeCreationHandler', async () => {
       /// given
-      badgeAcquisitionHandler.handle.resolves({});
+      events.handleBadgeAcquisition.resolves({});
 
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
       await transactionToBeExecuted(domainTransaction);
 
       // then
-      expect(badgeAcquisitionHandler.handle).to.have.been.calledWithExactly(domainTransaction, event);
+      expect(events.handleBadgeAcquisition).to.have.been.calledWithExactly({ domainTransaction, assessmentCompletedEvent });
     });
 
     it('should call usecase and handler within the transaction', async () => {
@@ -150,9 +150,8 @@ describe('Unit | Controller | assessment-controller', function() {
       // and transactionToBeExecuted is not executed
 
       // then
-      expect(badgeAcquisitionHandler.handle).to.not.have.been.called;
+      expect(events.handleBadgeAcquisition).to.not.have.been.called;
       expect(usecases.completeAssessment).to.not.have.been.called;
-
     });
   });
 });
