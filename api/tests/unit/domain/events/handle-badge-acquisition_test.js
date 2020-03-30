@@ -1,21 +1,39 @@
+const _ = require('lodash');
+
 const { expect, sinon } = require('../../../test-helper');
-const { badgeAcquisitionHandler } = require('../../../../lib/domain/events/badge-acquisition-handler');
+const events = require('../../../../lib/domain/events');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
-const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
-const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
-const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
-const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
 
-describe('Unit | Domain | Events | badge-creation-handler', () => {
+describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 
-  describe('#handle', () => {
+  describe('#handleBadgeAcquisition', () => {
     const domainTransaction = Symbol('a DomainTransaction');
+
+    const badgeRepository = {
+      findOneByTargetProfileId: _.noop,
+    };
+    const badgeAcquisitionRepository = {
+      create: _.noop,
+    };
+    const campaignParticipationResultRepository = {
+      getByParticipationId: _.noop,
+    };
+    const badgeCriteriaService = {
+      areBadgeCriteriaFulfilled: _.noop
+    };
+
+    const dependencies = {
+      badgeAcquisitionRepository,
+      badgeRepository,
+      campaignParticipationResultRepository,
+      badgeCriteriaService,
+    };
 
     context('when the assessment belongs to a campaign', () => {
 
       context('when the campaign is associated to a badge', () => {
 
-        const event = new AssessmentCompleted(
+        const assessmentCompletedEvent = new AssessmentCompleted(
           Symbol('userId'),
           Symbol('targetProfileId'),
           Symbol('campaignParticipationId')
@@ -27,12 +45,12 @@ describe('Unit | Domain | Events | badge-creation-handler', () => {
 
         beforeEach(() => {
           sinon.stub(badgeRepository, 'findOneByTargetProfileId');
-          badgeRepository.findOneByTargetProfileId.withArgs(event.targetProfileId).resolves({ id: badgeId });
+          badgeRepository.findOneByTargetProfileId.withArgs(assessmentCompletedEvent.targetProfileId).resolves({ id: badgeId });
 
           sinon.stub(badgeAcquisitionRepository, 'create');
 
           sinon.stub(campaignParticipationResultRepository, 'getByParticipationId');
-          campaignParticipationResultRepository.getByParticipationId.withArgs(event.campaignParticipationId).resolves(
+          campaignParticipationResultRepository.getByParticipationId.withArgs(assessmentCompletedEvent.campaignParticipationId).resolves(
             campaignParticipationResult
           );
 
@@ -44,22 +62,23 @@ describe('Unit | Domain | Events | badge-creation-handler', () => {
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).returns(true);
 
           // when
-          await badgeAcquisitionHandler.handle(domainTransaction, event);
+          await events.handleBadgeAcquisition({ domainTransaction, assessmentCompletedEvent, ...dependencies });
 
           // then
-          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly(domainTransaction, { badgeId, userId: event.userId });
+          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly(domainTransaction, { badgeId, userId: assessmentCompletedEvent.userId });
         });
 
         it('should not create a badge when badge requirements are not fulfilled', async () => {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).returns(false);
           // when
-          await badgeAcquisitionHandler.handle(domainTransaction, event);
+          await events.handleBadgeAcquisition({ domainTransaction, assessmentCompletedEvent, ...dependencies });
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
         });
       });
+
       context('when the campaign is not associated to a badge', () => {
         it('should not create a badge', async () => {
           // given
@@ -70,10 +89,10 @@ describe('Unit | Domain | Events | badge-creation-handler', () => {
           sinon.stub(badgeAcquisitionRepository, 'create');
 
           const userId = 42;
-          const event = new AssessmentCompleted(userId, targetProfileId);
+          const assessmentCompletedEvent = new AssessmentCompleted(userId, targetProfileId);
 
           // when
-          await badgeAcquisitionHandler.handle(domainTransaction, event);
+          await events.handleBadgeAcquisition({ domainTransaction, assessmentCompletedEvent, ...dependencies });
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -88,10 +107,10 @@ describe('Unit | Domain | Events | badge-creation-handler', () => {
 
         const targetProfileId = null;
         const userId = 42;
-        const event = new AssessmentCompleted(userId, targetProfileId);
+        const assessmentCompletedEvent = new AssessmentCompleted(userId, targetProfileId);
 
         // when
-        await badgeAcquisitionHandler.handle(domainTransaction, event);
+        await events.handleBadgeAcquisition({ domainTransaction, assessmentCompletedEvent, ...dependencies });
 
         // then
         expect(badgeAcquisitionRepository.create).to.not.have.been.called;
