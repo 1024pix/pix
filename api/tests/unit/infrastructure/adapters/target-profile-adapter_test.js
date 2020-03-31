@@ -19,6 +19,7 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
       pixValue: skillAirtableDataObject.pixValue,
       competenceId: skillAirtableDataObject.competenceId,
       tutorialIds: ['receomyzL0AmpMFGw'],
+      tubeId: skillAirtableDataObject.tubeId,
     });
     const expectedTargetProfile = domainBuilder.buildTargetProfile({
       id: bookshelfTargetProfile.get('id'),
