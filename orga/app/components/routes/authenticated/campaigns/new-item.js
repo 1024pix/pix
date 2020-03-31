@@ -1,13 +1,23 @@
+import { inject as service } from '@ember/service';
 import { action, computed } from '@ember/object';
 import Component from '@ember/component';
 import { tracked } from '@glimmer/tracking';
 
 export default class NewItem extends Component {
+  @service currentUser;
 
-  campaign = null;
+  campaign = {};
   targetProfiles = null;
   wantIdPix = false;
   @tracked isCampaignGoalAssessment = null;
+
+  init() {
+    super.init(...arguments);
+    if (!this.currentUser.organization.canCollectProfiles) {
+      this.isCampaignGoalAssessment = true;
+      this.campaign.type = 'ASSESSMENT';
+    }
+  }
 
   @computed('wantIdPix')
   get notWantIdPix() {

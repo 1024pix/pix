@@ -18,18 +18,20 @@
     {{/each}}
   </div>
 
-  <div class="form__field">
-    <label class="label">Quel est l'objectif de votre campagne ?</label>
-    <div>
-      <input type="radio" id="assess-participants" name="campaign-goal" value="assess-participants" {{on "change" this.setCampaignGoal}}>
-      <label for="assess-participants">Évaluer les participants</label>
-    <div>
+  {{#if this.currentUser.organization.canCollectProfiles}}
+    <div class="form__field">
+      <label class="label">Quel est l'objectif de votre campagne ?</label>
+      <div>
+        <input type="radio" id="assess-participants" name="campaign-goal" value="assess-participants" {{on "change" this.setCampaignGoal}}>
+        <label for="assess-participants">Évaluer les participants</label>
+      <div>
 
+      </div>
+        <input type="radio" id="collect-participants-profile" name="campaign-goal" value="collect-participants-profile" {{on "change" this.setCampaignGoal}}>
+        <label for="collect-participants-profile">Collecter les profils Pix des participants</label>
+      </div>
     </div>
-      <input type="radio" id="collect-participants-profile" name="campaign-goal" value="collect-participants-profile" {{on "change" this.setCampaignGoal}}>
-      <label for="collect-participants-profile">Collecter les profils Pix des participants</label>
-    </div>
-  </div>
+  {{/if}}
 
   {{#if this.isCampaignGoalAssessment}}
     <div class="form__field">
