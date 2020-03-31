@@ -115,6 +115,7 @@ describe('Unit | Controller | assessment-controller', function() {
       usecases.completeAssessment.resolves(assessmentCompletedEvent);
 
       sinon.stub(events, 'handleBadgeAcquisition');
+      sinon.stub(events, 'handleCertificationScoring');
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
         transactionToBeExecuted = lambda;
       });
@@ -132,7 +133,7 @@ describe('Unit | Controller | assessment-controller', function() {
       expect(usecases.completeAssessment).to.have.been.calledWithExactly({ domainTransaction, assessmentId });
     });
 
-    it('should pass the assessment completed event to the CleaBadgeCreationHandler', async () => {
+    it('should pass the assessment completed event to the BadgeAcquisitionHandler', async () => {
       /// given
       events.handleBadgeAcquisition.resolves({});
 
@@ -144,14 +145,27 @@ describe('Unit | Controller | assessment-controller', function() {
       expect(events.handleBadgeAcquisition).to.have.been.calledWithExactly({ domainTransaction, assessmentCompletedEvent });
     });
 
+    it('should pass the assessment completed event to the CertificationScoringHandler', async () => {
+      /// given
+      events.handleBadgeAcquisition.resolves({});
+
+      // when
+      await assessmentController.completeAssessment({ params: { id: assessmentId } });
+      await transactionToBeExecuted(domainTransaction);
+
+      // then
+      expect(events.handleCertificationScoring).to.have.been.calledWithExactly({ assessmentCompletedEvent });
+    });
+
     it('should call usecase and handler within the transaction', async () => {
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
       // and transactionToBeExecuted is not executed
 
       // then
-      expect(events.handleBadgeAcquisition).to.not.have.been.called;
       expect(usecases.completeAssessment).to.not.have.been.called;
+      expect(events.handleBadgeAcquisition).to.not.have.been.called;
+      expect(events.handleCertificationScoring).to.not.have.been.called;
     });
   });
 });
