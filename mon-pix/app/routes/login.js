@@ -7,11 +7,18 @@ import Route from '@ember/routing/route';
 @classic
 export default class LoginRoute extends Route.extend(UnauthenticatedRouteMixin) {
   @service session;
+  @service store;
 
   @action
   async authenticate(login, password) {
     const scope = 'mon-pix';
     const trimedLogin = login ? login.trim() : '';
     return this.session.authenticate('authenticator:oauth2', { login: trimedLogin, password, scope });
+  }
+
+  @action
+  async updateExpiredPassword(username, password) {
+    this.store.createRecord('user', { username, password });
+    return this.replaceWith('update-expired-password');
   }
 }
