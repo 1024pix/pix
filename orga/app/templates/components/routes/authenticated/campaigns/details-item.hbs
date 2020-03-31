@@ -48,23 +48,25 @@
     <LinkTo @route="authenticated.campaigns.details.parameters" class="navbar-item" @model={{@campaign}} >
       Détails
     </LinkTo>
-    {{# if @campaign.isTypeTestGiven}}
+    {{#if @campaign.isTypeTestGiven}}
       <LinkTo @route="authenticated.campaigns.details.participants" @model={{@campaign}} class="navbar-item">
         Participants ({{@campaign.campaignReport.participationsCount}})
       </LinkTo>
-      <LinkTo @route="authenticated.campaigns.details.collective-results" @model={{@campaign}}   class="navbar-item">
+      <LinkTo @route="authenticated.campaigns.details.collective-results" @model={{@campaign}} class="navbar-item">
         Résultats collectifs
       </LinkTo>
     {{/if}}
   </nav>
 
-  <div class="campaign-details-controls__export-button">
-    <a class="button button--link button--with-icon" href="{{@campaign.urlToResult}}" target="_blank"
-       rel="noopener noreferrer" download>
-      Exporter résultats (.csv)
-      <FaIcon @icon='file-download'></FaIcon>
-    </a>
-  </div>
+  {{#if @campaign.isTypeTestGiven}}
+    <div class="campaign-details-controls__export-button">
+      <a class="button button--link button--with-icon" href="{{@campaign.urlToResult}}" target="_blank"
+         rel="noopener noreferrer" download>
+        Exporter résultats (.csv)
+        <FaIcon @icon='file-download'></FaIcon>
+      </a>
+    </div>
+  {{/if}}
 </div>
 
 {{outlet}}
