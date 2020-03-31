@@ -51,6 +51,21 @@
 }
 
 .user-tutorials-content {
+  max-width: 980px;
+  margin: 24px auto;
+  padding: 0 32px;
+  color: $grey-90;
+
+  @include device-is('tablet') {
+    padding: 40px 0;
+  }
+
+  &__title {
+    margin: 0 0 32px;
+  }
+}
+
+.user-tutorials-no-tutorial {
   background: $alto-grey;
   max-width: 980px;
   margin: 24px 16px;

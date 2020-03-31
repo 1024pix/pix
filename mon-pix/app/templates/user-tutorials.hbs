@@ -11,17 +11,30 @@
         </p>
       </div>
     </header>
-    <article aria-label="tutoriels" class="rounded-panel user-tutorials-content">
-      <div class="user-tutorials-content__illustration">
-        <img src="{{rootURL}}/images/user-tutorials/illustration.svg"
-             alt="Cliquez sur l'icône enregistrer sur un tutoriel pour le retrouver sur cette page"/>
-      </div>
-      <div class="user-tutorials-content__instructions">
-        <h4 class="user-tutorials-content-instructions__title">Vous n'avez encore rien enregistré</h4>
-        <p class="user-tutorials-content-instructions__description">Au fil de vos tests, des tutos vous sont
-          recommandés : cliquez sur l'icône marque page <FaIcon @prefix="far" @icon='bookmark'></FaIcon>
-          pour enregistrer ceux que vous souhaitez retrouver ici !</p>
-      </div>
-    </article>
+    {{#if @model}}
+      <article aria-label="tutoriels" class="user-tutorials-content">
+        <h3 class="user-tutorials-content__title">Ma liste</h3>
+        <div>
+          {{#each @model as |tutorial|}}
+            <TutorialItem @tutorial={{tutorial}} />
+          {{/each}}
+        </div>
+      </article>
+    {{else}}
+      <article aria-label="tutoriels" class="rounded-panel user-tutorials-no-tutorial">
+        <div class="user-tutorials-no-tutorial__illustration">
+          <img src="{{rootURL}}/images/user-tutorials/illustration.svg"
+               alt="Cliquez sur l'icône enregistrer sur un tutoriel pour le retrouver sur cette page"/>
+        </div>
+        <div class="user-tutorials-no-tutorial__instructions">
+          <h4 class="user-tutorials-no-tutorial-instructions__title">Vous n'avez encore rien enregistré</h4>
+          <p class="user-tutorials-no-tutorial-instructions__description">Au fil de vos tests, des tutos vous sont
+            recommandés : cliquez sur l'icône marque page
+            <FaIcon @prefix="far" @icon='bookmark'></FaIcon>
+            pour enregistrer ceux que vous souhaitez retrouver ici !
+          </p>
+        </div>
+      </article>
+    {{/if}}
   </burger.outlet>
 </BurgerMenu>
