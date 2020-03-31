@@ -434,7 +434,7 @@ describe('Acceptance | API | Campaign Controller', () => {
 
     beforeEach(async () => {
       const userId = databaseBuilder.factory.buildUser().id;
-      organization = databaseBuilder.factory.buildOrganization();
+      organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
       targetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId: organization.id });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });

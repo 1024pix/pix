@@ -4,10 +4,14 @@ const campaignValidator = require('../validators/campaign-validator');
 const Campaign = require('../models/Campaign');
 const { UserNotAuthorizedToCreateCampaignError } = require('../errors');
 
-module.exports = async function createCampaign({ campaign, campaignRepository, userRepository, organizationService }) {
+module.exports = async function createCampaign({ campaign, campaignRepository, userRepository, organizationRepository, organizationService }) {
   campaignValidator.validate(campaign);
 
   await _checkCreatorHasAccessToCampaignOrganization(campaign.creatorId, campaign.organizationId, userRepository);
+
+  if (campaign.isProfilesCollection()) {
+    await _checkOrganizationCanCollectProfiles(campaign.organizationId, organizationRepository);
+  }
   if (campaign.isAssessment()) {
     await _checkOrganizationHasAccessToTargetProfile(campaign.targetProfileId, campaign.organizationId, organizationService);
   }
@@ -34,5 +38,15 @@ function _checkOrganizationHasAccessToTargetProfile(targetProfileId, organizatio
         return Promise.resolve();
       }
       throw new UserNotAuthorizedToCreateCampaignError(`Organization does not have an access to the profile ${targetProfileId}`);
+    });
+}
+
+function _checkOrganizationCanCollectProfiles(organizationId, organizationRepository) {
+  return organizationRepository.get(organizationId)
+    .then((organization) => {
+      if (organization.canCollectProfiles) {
+        return Promise.resolve();
+      }
+      throw new UserNotAuthorizedToCreateCampaignError('Organization can not create campaign with type PROFILES_COLLECTION');
     });
 }
