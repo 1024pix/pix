@@ -6,7 +6,7 @@ const assessmentRepository = require('./assessment-repository');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 
 const campaignParticipationResultRepository = {
-  async getByParticipationId(campaignParticipationId) {
+  async getByParticipationId(campaignParticipationId, badge) {
     const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
 
     const [targetProfile, competences, assessment, knowledgeElements] = await Promise.all([
@@ -25,7 +25,7 @@ const campaignParticipationResultRepository = {
       competences,
       targetProfile,
       knowledgeElements,
-      badge: null
+      badge
     });
     return campaignParticipationResult;
   }
