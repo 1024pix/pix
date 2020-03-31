@@ -5,6 +5,7 @@ const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
+const campaignAnalysisSerializer = require('../../infrastructure/serializers/jsonapi/campaign-analysis-serializer');
 const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
 const campaignCollectiveResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 
@@ -104,6 +105,14 @@ module.exports = {
 
     const campaignCollectiveResult = await usecases.computeCampaignCollectiveResult({ userId, campaignId });
     return campaignCollectiveResultSerializer.serialize(campaignCollectiveResult);
+  },
+
+  async getAnalysis(request) {
+    const { userId } = request.auth.credentials;
+    const campaignId = parseInt(request.params.id);
+
+    const campaignAnalysis = await usecases.computeCampaignAnalysis({ userId, campaignId });
+    return campaignAnalysisSerializer.serialize(campaignAnalysis);
   }
 };
 
