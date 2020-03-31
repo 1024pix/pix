@@ -1,118 +1,73 @@
-/* eslint-disable no-console */
-// Usage: BASE_URL=... PIXMASTER_EMAIL=... PIXMASTER_PASSWORD=... node send-invitations-to-organizations.js path/file.csv
-// To use on file with columns |externalId, email|
+const bluebird = require('bluebird');
 
-'use strict';
-require('dotenv').config();
-const request = require('request-promise-native');
+const { NotFoundError } = require('../lib/domain/errors');
 
-const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('./helpers/organizations-by-external-id-helper');
-const { parseCsv } = require('../scripts/helpers/csvHelpers');
+const { parseCsvWithHeader } = require('../scripts/helpers/csvHelpers');
 
-const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+const bookshelfToDomainConverter = require('../lib/infrastructure/utils/bookshelf-to-domain-converter');
+const BookshelfOrganization = require('../lib/infrastructure/data/organization');
 
-function checkData({ csvData }) {
-  return csvData.map((data) => {
-    const [externalIdLowerCase, email] = data;
+const organizationInvitationService = require('../lib/domain/services/organization-invitation-service');
 
-    if (!externalIdLowerCase && !email) {
-      if (require.main === module) process.stdout.write('Found empty line in input file.');
-      return null;
-    }
-    if (!externalIdLowerCase) {
-      if (require.main === module) process.stdout.write(`A line is missing an externalId for email ${email}`);
-      return null;
-    }
-    if (!email) {
-      if (require.main === module) process.stdout.write(`A line is missing a email for external id ${externalIdLowerCase}`);
-      return null;
-    }
-    const externalId = externalIdLowerCase.toUpperCase();
+const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
+const organizationInvitationRepository = require('../lib/infrastructure/repositories/organization-invitation-repository');
 
-    return { externalId, email: email.trim() };
-  }).filter((data) => !!data);
+async function getOrganizationByExternalId(externalId) {
+  return BookshelfOrganization
+    .where({ externalId })
+    .fetch({ require: true })
+    .then((organization) => bookshelfToDomainConverter.buildDomainObject(BookshelfOrganization, organization))
+    .catch((err) => {
+      if (err instanceof BookshelfOrganization.NotFoundError) {
+        throw new NotFoundError(`Organization not found for External ID ${externalId}`);
+      }
+      throw err;
+    });
 }
 
-async function sendInvitations({ accessToken, organizationsByExternalId, checkedData }) {
-  for (let i = 0; i < checkedData.length; i++) {
-    if (require.main === module) process.stdout.write(`\n${i + 1}/${checkedData.length} `);
+async function buildInvitation({ externalId, email }) {
+  const { id: organizationId } = await getOrganizationByExternalId(externalId);
+  return { organizationId, email };
+}
 
-    const { externalId, email } = checkedData[i];
-    const organization = organizationsByExternalId[externalId];
+async function prepareDataForSending(objectsFromFile) {
+  return bluebird.mapSeries(objectsFromFile, ({ uai, email }) => {
+    return buildInvitation({ externalId: uai, email });
+  });
+}
 
-    if (organization && organization.id && email) {
-      await request(_buildPostOrganizationInvitationRequestObject(accessToken, organization, email));
+async function sendJoinOrganizationInvitations(invitations) {
+  return bluebird.mapSeries(invitations, ({ organizationId, email }, index) => {
+    if (require.main === module) {
+      process.stdout.write(`${index}/${invitations.length}\r`);
     }
-  }
-}
 
-function _buildAccessTokenRequestObject() {
-  return {
-    method: 'POST',
-    baseUrl,
-    url: '/api/token',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    form: {
-      grant_type: 'password',
-      username: process.env.PIXMASTER_EMAIL,
-      password: process.env.PIXMASTER_PASSWORD,
-    },
-    json: true,
-  };
-}
-
-function _buildPostOrganizationInvitationRequestObject(accessToken, organization, email) {
-  return {
-    method: 'POST',
-    headers: {
-      authorization: `Bearer ${accessToken}`,
-    },
-    baseUrl,
-    url: `/api/organizations/${organization.id}/invitations`,
-    json: true,
-    body: {
-      data: {
-        type: 'organization-invitations',
-        attributes: {
-          email,
-        },
-      },
-    },
-  };
+    return organizationInvitationService.createOrganizationInvitation({
+      organizationRepository, organizationInvitationRepository, organizationId, email
+    });
+  });
 }
 
 async function main() {
-  console.log('Starting to send invitations');
+  console.log('Start sending "join SCO organization" invitations to users.');
 
   try {
     const filePath = process.argv[2];
 
-    console.log('Reading and parsing data... ');
-    const csvData = parseCsv(filePath);
-    console.log('ok');
+    console.log('Reading and parsing csv file... ');
+    const csvData = parseCsvWithHeader(filePath);
+    console.log(`Succesfully read ${csvData.length} records.`);
 
-    console.log('Checking data... ');
-    const checkedData = checkData({ csvData });
-    console.log('ok');
-
-    console.log('Requesting API access token... ');
-    const { access_token: accessToken } = await request(_buildAccessTokenRequestObject());
-    console.log('ok');
-
-    console.log('Getting organizations list... ');
-    const organizations = await findOrganizationsByExternalIds({ checkedData });
-    const organizationsByExternalId = organizeOrganizationsByExternalId(organizations);
+    console.log('Preparing data before sending... ');
+    const invitations = await prepareDataForSending(csvData);
     console.log('ok');
 
     console.log('Sending invitations...');
-    await sendInvitations({ accessToken, organizationsByExternalId, checkedData });
+    await sendJoinOrganizationInvitations(invitations);
     console.log('\nDone.');
 
   } catch (error) {
-    console.error(error);
-
+    console.error('\n', error);
     process.exit(1);
   }
 }
@@ -128,6 +83,8 @@ if (require.main === module) {
 }
 
 module.exports = {
-  checkData,
-  sendInvitations,
+  getOrganizationByExternalId,
+  buildInvitation,
+  prepareDataForSending,
+  sendJoinOrganizationInvitations
 };
