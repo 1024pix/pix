@@ -1,4 +1,7 @@
 const Badge = require('../../../../lib/domain/models/Badge');
+
+const buildBadgePartnerCompetence = require('./build-badge-partner-competence');
+
 const faker = require('faker');
 
 module.exports = function buildBadge(
@@ -8,6 +11,10 @@ module.exports = function buildBadge(
     imageUrl = '/img/banana',
     message = faker.lorem.sentence(),
     targetProfileId = faker.random.number(2),
+    badgePartnerCompetences = [
+      buildBadgePartnerCompetence(),
+      buildBadgePartnerCompetence(),
+    ],
   } = {}) {
   return new Badge({
     id,
@@ -15,5 +22,6 @@ module.exports = function buildBadge(
     imageUrl,
     message,
     targetProfileId,
+    badgePartnerCompetences,
   });
 };

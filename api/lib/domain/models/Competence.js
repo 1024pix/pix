@@ -9,7 +9,7 @@ class Competence {
     description,
     origin,
     // includes
-    skills = [],
+    skillIds = [],
   } = {}) {
     this.id = id;
     // attributes
@@ -20,7 +20,7 @@ class Competence {
     this.origin = origin;
     this.level = -1;
     // includes
-    this.skills = skills; // TODO remplacer par un vrai tableau de SKills
+    this.skillIds = skillIds;
   }
 
   get reference() {

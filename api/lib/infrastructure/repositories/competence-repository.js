@@ -16,7 +16,7 @@ function _toDomain(competenceData, areaDatas) {
     index: competenceData.index,
     description: competenceData.description,
     origin: competenceData.origin,
-    skills: competenceData.skillIds,
+    skillIds: competenceData.skillIds,
     area: areaData && new Area({
       id: areaData.id,
       code: areaData.code,

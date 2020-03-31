@@ -1,19 +1,20 @@
 const _ = require('lodash');
 
-const CLEA_CAMPAIGN_PARTICIPATION_RESULT_THRESHOLD = 85;
-const CLEA_COMPETENCE_RESULT_THRESHOLD = 75;
+const CAMPAIGN_PARTICIPATION_RESULT_THRESHOLD = 85;
+const BADGE_PARTNER_COMPETENCE_RESULT_THRESHOLD = 75;
 
 function areBadgeCriteriaFulfilled({ campaignParticipationResult }) {
   return _verifyCampaignParticipationResultMasteryPercentageCriterion(campaignParticipationResult)
-    && _verifyEveryCompetenceResultMasteryPercentageCriterion(campaignParticipationResult.competenceResults);
+    && _verifyEveryCompetenceResultMasteryPercentageCriterion(campaignParticipationResult.partnerCompetenceResults);
 }
 
 function _verifyCampaignParticipationResultMasteryPercentageCriterion(campaignParticipationResult) {
-  return campaignParticipationResult.masteryPercentage >= CLEA_CAMPAIGN_PARTICIPATION_RESULT_THRESHOLD;
+  return campaignParticipationResult.masteryPercentage >= CAMPAIGN_PARTICIPATION_RESULT_THRESHOLD;
 }
 
-function _verifyEveryCompetenceResultMasteryPercentageCriterion(competenceResults) {
-  return _.every(competenceResults, (competenceResult) => competenceResult.masteryPercentage >= CLEA_COMPETENCE_RESULT_THRESHOLD);
+function _verifyEveryCompetenceResultMasteryPercentageCriterion(partnerCompetenceResults) {
+  return _.every(partnerCompetenceResults, (partnerCompetenceResult) =>
+    partnerCompetenceResult.masteryPercentage >= BADGE_PARTNER_COMPETENCE_RESULT_THRESHOLD);
 }
 
 module.exports = {

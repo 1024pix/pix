@@ -11,7 +11,7 @@ module.exports = function buildCompetence({
   description = faker.lorem.sentence(),
   // relationships
   area = buildArea(),
-  skills = [],
+  skillIds = [],
   origin = 'Pix',
 } = {}) {
 
@@ -24,6 +24,6 @@ module.exports = function buildCompetence({
     origin,
     // relationships
     area,
-    skills,
+    skillIds,
   });
 };

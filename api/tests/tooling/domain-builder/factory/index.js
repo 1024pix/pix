@@ -6,6 +6,7 @@ module.exports = {
   buildAssessmentScore: require('./build-assessment-score'),
   buildAssessmentResult: require('./build-assessment-result'),
   buildBadge: require('./build-badge'),
+  buildBadgePartnerCompetence: require('./build-badge-partner-competence'),
   buildCampaign: require('./build-campaign'),
   buildCampaignCollectiveResult: require('./build-campaign-collective-result'),
   buildCampaignCompetenceCollectiveResult: require('./build-campaign-competence-collective-result'),

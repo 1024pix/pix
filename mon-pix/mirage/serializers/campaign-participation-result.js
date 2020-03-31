@@ -9,5 +9,9 @@ export default ApplicationSerializer.extend({
     'isCompleted',
     'areBadgeCriteriaFulfilled',
   ],
-  include: ['badge', 'competenceResults'],
+  include: [
+    'badge',
+    'partnerCompetenceResults',
+    'competenceResults',
+  ],
 });

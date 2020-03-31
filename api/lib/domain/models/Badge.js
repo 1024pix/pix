@@ -6,6 +6,7 @@ class Badge {
     imageUrl,
     message,
     // includes
+    badgePartnerCompetences = [],
     // references
     targetProfileId,
   } = {}) {
@@ -15,6 +16,7 @@ class Badge {
     this.imageUrl = imageUrl;
     this.message = message;
     // includes
+    this.badgePartnerCompetences = badgePartnerCompetences;
     // references
     this.targetProfileId = targetProfileId;
   }
