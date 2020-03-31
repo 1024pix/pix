@@ -374,6 +374,9 @@ describe('Acceptance | API | Campaign Participations', () => {
               'progress': 1,
             },
             relationships: {
+              'partner-competence-results': {
+                data: []
+              },
               'competence-results': {
                 data: [
                   {

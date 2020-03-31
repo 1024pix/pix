@@ -12,7 +12,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
     context('when the badge criteria are fulfilled', function() {
 
       beforeEach(() =>  {
-        const competenceResults = [
+        const partnerCompetenceResults = [
           domainBuilder.buildCompetenceResult({
             id: 1,
             validatedSkillsCount: 9,
@@ -26,7 +26,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         ];
         campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
           badge,
-          competenceResults,
+          partnerCompetenceResults: partnerCompetenceResults,
           validatedSkillsCount: 9,
           totalSkillsCount: 10,
         });
@@ -43,7 +43,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
 
     context('when no badge criteria are fulfilled', function() {
       beforeEach(() =>  {
-        const competenceResults = [
+        const partnerCompetenceResults = [
           domainBuilder.buildCompetenceResult({
             id: 1,
             validatedSkillsCount: 1,
@@ -57,7 +57,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         ];
         campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
           badge,
-          competenceResults,
+          partnerCompetenceResults: partnerCompetenceResults,
           validatedSkillsCount: 2,
           totalSkillsCount: 10,
         });
@@ -74,7 +74,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
 
     context('when the campaignParticipationResult badge criterion is not fulfilled', function() {
       beforeEach(() =>  {
-        const competenceResults = [
+        const partnerCompetenceResults = [
           domainBuilder.buildCompetenceResult({
             id: 1,
             validatedSkillsCount: 9,
@@ -88,7 +88,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         ];
         campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
           badge,
-          competenceResults,
+          partnerCompetenceResults: partnerCompetenceResults,
           validatedSkillsCount: 2,
           totalSkillsCount: 10,
         });
@@ -105,7 +105,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
 
     context('when one competenceResult badge criterion is not fulfilled', function() {
       beforeEach(() =>  {
-        const competenceResults = [
+        const partnerCompetenceResults = [
           domainBuilder.buildCompetenceResult({
             id: 1,
             validatedSkillsCount: 9,
@@ -119,7 +119,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         ];
         campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
           badge,
-          competenceResults,
+          partnerCompetenceResults: partnerCompetenceResults,
           validatedSkillsCount: 9,
           totalSkillsCount: 10,
         });

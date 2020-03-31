@@ -12,10 +12,13 @@ export default class CampaignParticipationResult extends Model {
 
   // includes
   @belongsTo('badge') badge;
+  @hasMany('partnerCompetenceResult') partnerCompetenceResults;
   @hasMany('competenceResult') competenceResults;
 
   // methods
   @mapBy('competenceResults', 'totalSkillsCount') totalSkillsCounts;
+  @mapBy('partnerCompetenceResults', 'totalSkillsCount') totalCompetenceResultSkillsCounts;
 
   @max('totalSkillsCounts') maxTotalSkillsCountInCompetences;
+  @max('totalCompetenceResultSkillsCounts') maxTotalSkillsCountInPartnerCompetences;
 }

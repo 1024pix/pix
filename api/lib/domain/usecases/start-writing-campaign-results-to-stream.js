@@ -80,7 +80,7 @@ function _stateOfSkill(skillId, knowledgeElements) {
 
 function _getSkillsOfCompetenceByTargetProfile(competence, targetProfile) {
   const skillsOfProfile = targetProfile.skills;
-  const skillsOfCompetences = competence.skills;
+  const skillsOfCompetences = competence.skillIds;
   return skillsOfProfile
     .filter((skillOfProfile) => skillsOfCompetences.some((skill) => skill === skillOfProfile.id));
 }

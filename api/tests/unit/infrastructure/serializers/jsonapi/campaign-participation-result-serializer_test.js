@@ -17,6 +17,17 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
           name: 'Soap Principal Awesome',
         })
       ];
+      const partnerCompetenceResults = [
+        domainBuilder.buildCompetenceResult({
+          id: 12,
+          areaColor: 'emerald',
+          index: undefined,
+          name: 'Pix Emploi',
+          testedSkillsCount: 2,
+          totalSkillsCount: 3,
+          validatedSkillsCount: 1
+        })
+      ];
 
       const testedSkillsCount = competenceResults[0].testedSkillsCount + competenceResults[1].testedSkillsCount;
       const totalSkillsCount = competenceResults[0].totalSkillsCount + competenceResults[1].totalSkillsCount;
@@ -28,7 +39,8 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
         testedSkillsCount,
         totalSkillsCount,
         validatedSkillsCount,
-        competenceResults
+        competenceResults,
+        partnerCompetenceResults: partnerCompetenceResults
       });
 
       const expectedSerializedCampaignParticipationResult = {
@@ -47,6 +59,12 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
             badge: {
               data: null
             },
+            'partner-competence-results': {
+              data: [ {
+                id: '12',
+                type: 'partnerCompetenceResults'
+              }],
+            },
             'competence-results': {
               data: [
                 {
@@ -63,6 +81,18 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
           type: 'campaign-participation-results'
         },
         included: [
+          {
+            attributes: {
+              'area-color': 'emerald',
+              name: 'Pix Emploi',
+              'mastery-percentage': 33,
+              'tested-skills-count': 2,
+              'total-skills-count': 3,
+              'validated-skills-count': 1,
+            },
+            id: '12',
+            type: 'partnerCompetenceResults',
+          },
           {
             attributes: {
               'area-color': competenceResults[0].areaColor,
@@ -88,7 +118,7 @@ describe('Unit | Serializer | JSON API | campaign-participation-result-serialize
             },
             id: competenceResults[1].id.toString(),
             type: 'competenceResults'
-          }
+          },
         ]
       };
 

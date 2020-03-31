@@ -11,12 +11,24 @@ module.exports = {
         'isCompleted',
         'areBadgeCriteriaFulfilled',
         'badge',
+        'partnerCompetenceResults',
         'competenceResults',
         'progress'
       ],
       badge: {
         ref: 'id',
         attributes: ['altMessage', 'message', 'imageUrl'],
+      },
+      partnerCompetenceResults: {
+        ref: 'id',
+        attributes: [
+          'name',
+          'areaColor',
+          'masteryPercentage',
+          'totalSkillsCount',
+          'testedSkillsCount',
+          'validatedSkillsCount'
+        ],
       },
       competenceResults: {
         ref: 'id',
