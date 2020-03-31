@@ -130,28 +130,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         });
       });
     });
-
-    context('when no badge is available for the campaignParticipationResult', () => {
-      beforeEach(() => {
-        // given
-        badgeRepository.findOneByTargetProfileId.withArgs(targetProfileId).resolves(null);
-      });
-
-      it('should not assign badge to campaignParticipationResult', async () => {
-        // given
-        const campaignParticipationResult = {
-          id: 'foo'
-        };
-        campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
-
-        // when
-        const actualCampaignParticipationResult = await getCampaignParticipationResult(usecaseDependencies);
-
-        // then
-        expect(actualCampaignParticipationResult.badge).to.be.null;
-      });
-    });
-
   });
 
   context('when user not belongs to the organization of the campaign or not own this campaignParticipation', () => {
