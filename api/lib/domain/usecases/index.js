@@ -1,5 +1,4 @@
-const _ = require('lodash');
-const injectDefaults = require('../../infrastructure/utils/inject-defaults');
+const { injectDependencies } = require('../../infrastructure/utils/dependency-injection');
 
 const dependencies = {
   answerRepository: require('../../infrastructure/repositories/answer-repository'),
@@ -60,10 +59,6 @@ const dependencies = {
   userService: require('../../domain/services/user-service'),
   userTutorialRepository: require('../../infrastructure/repositories/user-tutorial-repository'),
 };
-
-function injectDependencies(usecases) {
-  return _.mapValues(usecases, _.partial(injectDefaults, dependencies));
-}
 
 module.exports = injectDependencies({
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
@@ -166,4 +161,4 @@ module.exports = injectDependencies({
   updateSchoolingRegistrationDependentUserPassword: require('./update-schooling-registration-dependent-user-password'),
   updateUserOrgaSettings: require('./update-user-orga-settings'),
   updateUserPassword: require('./update-user-password')
-});
+}, dependencies);

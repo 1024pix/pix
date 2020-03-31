@@ -1,5 +1,4 @@
-const _ = require('lodash');
-const injectDefaults = require('../../infrastructure/utils/inject-defaults');
+const { injectDependencies } = require('../../infrastructure/utils/dependency-injection');
 
 const dependencies = {
   badgeAcquisitionRepository: require('../../infrastructure/repositories/badge-acquisition-repository'),
@@ -8,10 +7,6 @@ const dependencies = {
   campaignParticipationResultRepository: require('../../infrastructure/repositories/campaign-participation-result-repository'),
 };
 
-function injectDependencies(eventHandlers) {
-  return _.mapValues(eventHandlers, _.partial(injectDefaults, dependencies));
-}
-
 module.exports = injectDependencies({
   handleBadgeAcquisition: require('./handle-badge-acquisition'),
-});
+}, dependencies);
