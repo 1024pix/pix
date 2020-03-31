@@ -27,4 +27,9 @@ export default class ListController extends Controller {
     this.searchFilter = { fieldName, value };
     debounce(this, this.setFieldName, 500);
   }
+
+  @action
+  goToUserDetailPage(userId) {
+    this.transitionToRoute('authenticated.users.get', userId);
+  }
 }
