@@ -43,7 +43,7 @@ export default DS.Model.extend({
     return Boolean(this.archivedAt);
   }),
 
-  canBeArchived: computed('campaign', function() {
+  canBeArchived: computed('isTypeTestGiven', 'isArchived', function() {
     return this.isTypeTestGiven && ! this.isArchived;
   }),
 
