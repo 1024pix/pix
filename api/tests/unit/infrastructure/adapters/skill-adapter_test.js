@@ -13,6 +13,7 @@ describe('Unit | Infrastructure | Adapter | skillAdapter', () => {
       pixValue: skillDataObject.pixValue,
       competenceId: skillDataObject.competenceId,
       tutorialIds: ['receomyzL0AmpMFGw'],
+      tubeId: skillDataObject.tubeId,
     });
 
     // when

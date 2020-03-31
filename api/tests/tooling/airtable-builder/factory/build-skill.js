@@ -46,7 +46,7 @@ module.exports = function buildSkill({
       'Description': description,
       'Statut de la description': statutDeLaDescription,
       'Level': level,
-      'Tube': tube,
+      'Tube (id persistant)': tube,
       'Status': status,
       'Nom': nom,
       'Record Id': recordId,

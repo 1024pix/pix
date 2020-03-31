@@ -7,6 +7,7 @@ const buildSkill = function buildSkill({
   pixValue = faker.random.number(4),
   competenceId = `rec${faker.random.uuid()}`,
   tutorialIds = [],
+  tubeId = `rec${faker.random.uuid()}`,
 } = {}) {
   return new Skill({
     id,
@@ -14,6 +15,7 @@ const buildSkill = function buildSkill({
     pixValue,
     competenceId,
     tutorialIds,
+    tubeId,
   });
 };
 

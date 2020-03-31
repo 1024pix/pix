@@ -9,6 +9,7 @@ module.exports = {
       pixValue: skillAirtableDataObject.pixValue,
       competenceId: skillAirtableDataObject.competenceId,
       tutorialIds: skillAirtableDataObject.tutorialIds,
+      tubeId: skillAirtableDataObject.tubeId,
     });
   },
 };
