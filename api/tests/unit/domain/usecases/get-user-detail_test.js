@@ -11,12 +11,13 @@ describe('Unit | UseCase | get-user-detail', () => {
 
   it('should get the current user', async () => {
     // given
-    userRepository.get.withArgs(1).resolves({ id: 1 });
+    const userId = 1;
+    userRepository.get.withArgs(userId).resolves({ id: userId });
 
     // when
-    const result = await getUserDetail({ userId: 1, userRepository });
+    const result = await getUserDetail({ userId, userRepository });
 
     // then
-    expect(result).to.deep.equal({ id: 1 });
+    expect(result).to.deep.equal({ id: userId });
   });
 });
