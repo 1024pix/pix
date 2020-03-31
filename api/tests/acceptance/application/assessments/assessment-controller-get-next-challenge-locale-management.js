@@ -33,7 +33,7 @@ const frenchChallenge = airtableBuilder.factory.buildChallenge.untimed({
   statut: 'validé',
   acquix: [skillWeb2.id],
   acquis: [skillWeb2.name],
-  langue: 'Franco Français',
+  langues: ['Franco Français'],
 });
 
 const frenchSpokenChallengeId = 'recFrenchSpokenChallengeId';
@@ -44,7 +44,7 @@ const frenchSpokenChallenge = airtableBuilder.factory.buildChallenge.untimed({
   statut: 'validé',
   acquix: [skillWeb2.id],
   acquis: [skillWeb2.name],
-  langue: 'Francophone',
+  langues: ['Francophone'],
 });
 
 describe('Acceptance | API | assessment-controller-get-next-challenge-locale-management', () => {
