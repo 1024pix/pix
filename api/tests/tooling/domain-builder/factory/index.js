@@ -8,6 +8,7 @@ module.exports = {
   buildBadge: require('./build-badge'),
   buildBadgePartnerCompetence: require('./build-badge-partner-competence'),
   buildCampaign: require('./build-campaign'),
+  buildCampaignAnalysis: require('./build-campaign-analysis'),
   buildCampaignCollectiveResult: require('./build-campaign-collective-result'),
   buildCampaignCompetenceCollectiveResult: require('./build-campaign-competence-collective-result'),
   buildCampaignParticipation: require('./build-campaign-participation'),
