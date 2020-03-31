@@ -7,7 +7,7 @@ describe('Unit | Domain | Models | CampaignParticipation', () => {
 
     it('should return the targetProfileId from campaign associated', () => {
       // given
-      const campaign = domainBuilder.buildCampaign.ofTypeTestGiven();
+      const campaign = domainBuilder.buildCampaign.ofTypeAssessment();
       const campaignParticipation = new CampaignParticipation({
         id: 1,
         campaign,
