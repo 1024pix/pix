@@ -19,23 +19,26 @@ module.exports = async function findTutorials({
   }
 
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });
-  const invalidatedDirectKnowledgeElements = _.filter(knowledgeElements, (knowledgeElement) => (
-    knowledgeElement.isInvalidated && (knowledgeElement.source === KnowledgeElement.SourceType.DIRECT)
-  ));
+  const invalidatedDirectKnowledgeElements = _getInvalidatedDirectKnowledgeElements(knowledgeElements);
 
   if (invalidatedDirectKnowledgeElements.length === 0) {
     return [];
   }
   const skills = await skillRepository.findByCompetenceId(competenceId);
-  const failedSkills = _.filter(skills, (skill) => _.includes(_.map(invalidatedDirectKnowledgeElements, 'skillId'), skill.id));
+  const failedSkills = _getFailedSkills(skills, invalidatedDirectKnowledgeElements);
 
-  const skillsGroupByTube = _.groupBy(_(_.orderBy(failedSkills, 'difficulty')).uniq().value(), 'tubeNameWithAt');
-  const easiestSkills = _.map(skillsGroupByTube, (skills) => skills[0]);
+  const skillsGroupedByTube = _getSkillsGroupedByTube(failedSkills);
+  const easiestSkills = _getEasiestSkills(skillsGroupedByTube);
 
-  const tubeNamesForTutos = _.keys(skillsGroupByTube);
-  const tubes = await tubeRepository.findByNames(tubeNamesForTutos);
+  const tubeNamesForTutorials = _.keys(skillsGroupedByTube);
+  const tubes = await tubeRepository.findByNames(tubeNamesForTutorials);
 
-  const tutorialWithTubesList = await Promise.all(_.map(easiestSkills, async (skill) => {
+  const tutorialsWithTubesList = await _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository);
+  return _.orderBy(_.flatten(tutorialsWithTubesList), 'tubeName');
+};
+
+async function _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository) {
+  return await Promise.all(_.map(easiestSkills, async (skill) => {
     const tube = _.find(tubes, { name: skill.tubeNameWithAt });
     const tutorials = await tutorialRepository.findByRecordIds(skill.tutorialIds);
     const enhancedTutorials = _.map(tutorials, (tutorial) => {
@@ -43,10 +46,25 @@ module.exports = async function findTutorials({
       tutorial.tubePracticalTitle = tube.practicalTitle;
       tutorial.tubePracticalDescription = tube.practicalDescription;
       return tutorial;
-
     });
     return enhancedTutorials;
-
   }));
-  return _.orderBy(_.flatten(tutorialWithTubesList), 'tubeName');
-};
+}
+
+function _getEasiestSkills(skillsGroupByTube) {
+  return _.map(skillsGroupByTube, _.head);
+}
+
+function _getSkillsGroupedByTube(failedSkills) {
+  return _.groupBy(_(_.orderBy(failedSkills, 'difficulty')).uniq().value(), 'tubeNameWithAt');
+}
+
+function _getFailedSkills(skills, invalidatedDirectKnowledgeElements) {
+  return _.filter(skills, (skill) => _.includes(_.map(invalidatedDirectKnowledgeElements, 'skillId'), skill.id));
+}
+
+function _getInvalidatedDirectKnowledgeElements(knowledgeElements) {
+  return _.filter(knowledgeElements, (knowledgeElement) => (
+    knowledgeElement.isInvalidated && (knowledgeElement.source === KnowledgeElement.SourceType.DIRECT)
+  ));
+}
