@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 module.exports = async function findUserTutorials(
   {
     tutorialRepository,
@@ -6,5 +8,6 @@ module.exports = async function findUserTutorials(
   } = {}) {
   const userTutorials = await userTutorialRepository.find({ userId });
   const tutorialsIds = userTutorials.map(({ tutorialId }) => tutorialId);
-  return tutorialRepository.findByRecordIds(tutorialsIds);
+  const savedTutorials = await tutorialRepository.findByRecordIds(tutorialsIds);
+  return _.map(savedTutorials, (tutorial) => ({ ...tutorial, isSaved: true }));
 };

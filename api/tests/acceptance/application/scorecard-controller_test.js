@@ -294,6 +294,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
                 'tube-name': '@web',
                 'tube-practical-description': 'Ceci est une description pratique',
                 'tube-practical-title': 'Ceci est un titre pratique',
+                'is-saved': false,
               }
             },
             {
@@ -308,6 +309,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
                 'tube-name': '@web',
                 'tube-practical-description': 'Ceci est une description pratique',
                 'tube-practical-title': 'Ceci est un titre pratique',
+                'is-saved': false,
               }
             }
           ]

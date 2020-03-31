@@ -106,6 +106,7 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
               link: 'http://www.example.com/this-is-an-example.html',
               source: 'Source Example, Example',
               title: 'Communiquer',
+              'is-saved': true,
             },
           }]
         };

@@ -11,6 +11,7 @@ export default class Tutorial extends Model {
   @attr('string') tubeName;
   @attr('string') tubePracticalTitle;
   @attr('string') tubePracticalDescription;
+  @attr('boolean') isSaved;
 
   // includes
   @belongsTo('scorecard') scorecard;
