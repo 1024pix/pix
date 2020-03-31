@@ -3,6 +3,7 @@ const _ = require('lodash');
 
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const organizationService = require('../../../../lib/domain/services/organization-service');
 
 const createCampaign = require('../../../../lib/domain/usecases/create-campaign');
@@ -16,7 +17,7 @@ describe('Integration | UseCases | create-campaign', () => {
   let targetProfileId;
 
   beforeEach(async () => {
-    organizationId = databaseBuilder.factory.buildOrganization().id;
+    organizationId = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true }).id;
     userId = databaseBuilder.factory.buildUser().id;
 
     targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
@@ -49,7 +50,7 @@ describe('Integration | UseCases | create-campaign', () => {
       'organizationLogoUrl', 'organizationName', 'targetProfileId' ];
 
     // when
-    const result = await createCampaign({ campaign, campaignRepository, userRepository, organizationService });
+    const result = await createCampaign({ campaign, campaignRepository, userRepository, organizationRepository, organizationService });
 
     // then
     expect(result).to.be.an.instanceOf(Campaign);
@@ -69,7 +70,7 @@ describe('Integration | UseCases | create-campaign', () => {
       'organizationLogoUrl', 'organizationName', 'targetProfile', 'targetProfileId' ];
 
     // when
-    const result = await createCampaign({ campaign, campaignRepository, userRepository, organizationService });
+    const result = await createCampaign({ campaign, campaignRepository, userRepository, organizationRepository, organizationService });
 
     // then
     expect(result).to.be.an.instanceOf(Campaign);
