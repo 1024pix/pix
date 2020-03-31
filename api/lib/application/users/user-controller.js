@@ -33,6 +33,12 @@ module.exports = {
       .then(userSerializer.serialize);
   },
 
+  async getUserDetail(request) {
+    const userId = parseInt(request.params.id);
+    const user = await usecases.getUserDetail({ userId });
+    return userSerializer.serialize(user);
+  },
+
   async updatePassword(request) {
     const userId = parseInt(request.params.id);
     const user = userSerializer.deserialize(request.payload);
@@ -90,7 +96,10 @@ module.exports = {
   async findPaginatedFilteredUsers(request) {
     const options = queryParamsUtils.extractParameters(request.query);
 
-    const { models: users, pagination } = await usecases.findPaginatedFilteredUsers({ filter: options.filter, page: options.page });
+    const { models: users, pagination } = await usecases.findPaginatedFilteredUsers({
+      filter: options.filter,
+      page: options.page
+    });
     return userSerializer.serialize(users, pagination);
   },
 
