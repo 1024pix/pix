@@ -1,7 +1,8 @@
-const createServer = require('../../../server');
-const { expect, databaseBuilder, airtableBuilder } = require('../../test-helper');
-const settings = require('../../../lib/config');
+const faker = require('faker');
 const jwt = require('jsonwebtoken');
+const createServer = require('../../../server');
+const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const settings = require('../../../lib/config');
 const Membership = require('../../../lib/domain/models/Membership');
 const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 
@@ -31,7 +32,7 @@ describe('Acceptance | API | Campaign Controller', () => {
     await databaseBuilder.commit();
   });
 
-  describe('GET /api/campaign', () => {
+  describe('GET /api/campaign', function() {
 
     it('should return one NotFoundError if there is no campaign link to the code', async () => {
       // given
@@ -122,7 +123,113 @@ describe('Acceptance | API | Campaign Controller', () => {
     });
   });
 
-  describe('GET /api/campaign/{id}/csvResult', ()=> {
+  describe('GET /api/campaign/{id}/collective-result', function() {
+
+    let userId;
+    const participationStartDate = '2018-01-01';
+    const assessmentStartDate = '2018-01-02';
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
+
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId: organization.id,
+        organizationRole: Membership.roles.MEMBER,
+      });
+
+      targetProfile = databaseBuilder.factory.buildTargetProfile({
+        organizationId: organization.id,
+        name: 'Profile 3'
+      });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId2' });
+      campaign = databaseBuilder.factory.buildCampaign({
+        name: 'Campagne de Test N°3',
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id
+      });
+
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        userId,
+        isShared: true,
+        createdAt: new Date(participationStartDate),
+        sharedAt: new Date('2018-01-27'),
+      });
+
+      const assessment = databaseBuilder.factory.buildAssessment({
+        userId,
+        type: 'SMART_PLACEMENT',
+        createdAt: new Date(assessmentStartDate),
+        campaignParticipationId: campaignParticipation.id
+      });
+
+      databaseBuilder.factory.buildKnowledgeElement({ skillId: 'recSkillId1', status: 'validated', userId, assessmentId: assessment.id, competenceId: 'recCompetence1', createdAt: faker.date.past(10, campaignParticipation.sharedAt) });
+
+      await databaseBuilder.commit();
+
+      const area = airtableBuilder.factory.buildArea({ competenceIds: ['recCompetence1'], couleur: 'specialColor' });
+      const competence1 = airtableBuilder.factory.buildCompetence({ id: 'recCompetence1', titre: 'Fabriquer un meuble', domaineIds: [ area.id ] });
+      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
+        airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: [ 'recCompetence1' ] }),
+        airtableBuilder.factory.buildSkill({ id: 'recSkillId2', ['compétenceViaTube']: [ 'recCompetence1' ] }),
+      ]).activate();
+      airtableBuilder.mockList({ tableName: 'Competences' }).returns([ competence1 ]).activate();
+      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([ area ]).activate();
+    });
+
+    afterEach(async () => {
+      await airtableBuilder.cleanAll();
+      return cache.flushAll();
+    });
+
+    it('should return campaign collective result with status code 200', async () => {
+      // given
+      const url = `/api/campaigns/${campaign.id}/collective-results`;
+      const request = {
+        method: 'GET',
+        url,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+      };
+      const expectedResult = {
+        data: {
+          type: 'campaign-collective-results',
+          id: campaign.id.toString(),
+          attributes: {},
+          relationships: {
+            'campaign-competence-collective-results': {
+              data: [{
+                id: `${campaign.id}_recCompetence1`,
+                type: 'campaignCompetenceCollectiveResults'
+              }]
+            },
+          },
+        },
+        included: [{
+          id: `${campaign.id}_recCompetence1`,
+          type: 'campaignCompetenceCollectiveResults',
+          attributes: {
+            'area-code': '1',
+            'area-color': 'specialColor',
+            'average-validated-skills': 1,
+            'competence-id': 'recCompetence1',
+            'competence-name': 'Fabriquer un meuble',
+            'total-skills-count': 2,
+          },
+        }]
+      };
+
+      // when
+      const response = await server.inject(request);
+
+      // then
+      expect(response.statusCode).to.equal(200, response.payload);
+      expect(response.result).to.deep.equal(expectedResult);
+    });
+  });
+
+  describe('GET /api/campaign/{id}/csvResult', function() {
 
     let accessToken;
     let user;
@@ -214,6 +321,93 @@ describe('Acceptance | API | Campaign Controller', () => {
       // then
       expect(response.statusCode).to.equal(200, response.payload);
       expect(response.result).to.equal(expectedCsv);
+    });
+  });
+
+  describe('GET /api/campaign/{id}/analyses', function() {
+
+    let userId;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
+
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId: organization.id,
+        organizationRole: Membership.roles.MEMBER,
+      });
+
+      targetProfile = databaseBuilder.factory.buildTargetProfile({
+        organizationId: organization.id,
+        name: 'Profile 3'
+      });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId2' });
+      campaign = databaseBuilder.factory.buildCampaign({
+        name: 'Campagne de Test N°3',
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id
+      });
+
+      await databaseBuilder.commit();
+
+      const area = airtableBuilder.factory.buildArea({ competenceIds: ['recCompetence1'], couleur: 'specialColor' });
+      const competence1 = airtableBuilder.factory.buildCompetence({ id: 'recCompetence1', titre: 'Fabriquer un meuble', acquisViaTubes: [ 'recSkillId1' ], domaineIds: [ area.id ] });
+      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
+        airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: [ 'recCompetence1' ], tube: ['recTube1'] }),
+      ]).activate();
+      const tube1 = airtableBuilder.factory.buildTube({ id: 'recTube1', titrePratique: 'Monter une étagère', competences: [ 'recCompetence1' ] });
+      airtableBuilder.mockList({ tableName: 'Tubes' }).returns([ tube1 ]).activate();
+      airtableBuilder.mockList({ tableName: 'Competences' }).returns([ competence1 ]).activate();
+      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([ area ]).activate();
+    });
+
+    afterEach(async () => {
+      await airtableBuilder.cleanAll();
+      return cache.flushAll();
+    });
+
+    it('should return campaign analysis with status code 200', async () => {
+      // given
+      const url = `/api/campaigns/${campaign.id}/analyses`;
+      const request = {
+        method: 'GET',
+        url,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
+      };
+      const expectedResult = {
+        data: {
+          type: 'campaign-analyses',
+          id: campaign.id.toString(),
+          attributes: {},
+          relationships: {
+            'campaign-tube-recommendations': {
+              data: [{
+                id: `${campaign.id}_recTube1`,
+                type: 'campaignTubeRecommendations'
+              }]
+            },
+          },
+        },
+        included: [{
+          id: `${campaign.id}_recTube1`,
+          type: 'campaignTubeRecommendations',
+          attributes: {
+            'area-color': 'specialColor',
+            'tube-id': 'recTube1',
+            'competence-id': 'recCompetence1',
+            'competence-name': 'Fabriquer un meuble',
+            'tube-practical-title': 'Monter une étagère',
+          },
+        }]
+      };
+
+      // when
+      const response = await server.inject(request);
+
+      // then
+      expect(response.statusCode).to.equal(200, response.payload);
+      expect(response.result).to.deep.equal(expectedResult);
     });
   });
 });
