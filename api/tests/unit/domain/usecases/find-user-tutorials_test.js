@@ -57,11 +57,13 @@ describe('Unit | UseCase | find-user-tutorials', () => {
     });
 
     it('should return tutorials', async function() {
+      // Given
+      const expectedTutorials = [{ ...tutorial, isSaved: true }];
       // When
       const tutorials = await findUserTutorials({ tutorialRepository, userTutorialRepository, userId });
 
       // Then
-      expect(tutorials).to.deep.equal([tutorial]);
+      expect(tutorials).to.deep.equal(expectedTutorials);
     });
   });
 

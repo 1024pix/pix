@@ -10,6 +10,7 @@ module.exports = async function findTutorials({
   skillRepository,
   tubeRepository,
   tutorialRepository,
+  userTutorialRepository,
 }) {
 
   const { userId, competenceId } = Scorecard.parseId(scorecardId);
@@ -34,8 +35,20 @@ module.exports = async function findTutorials({
   const tubes = await tubeRepository.findByNames(tubeNamesForTutorials);
 
   const tutorialsWithTubesList = await _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository);
-  return _.orderBy(_.flatten(tutorialsWithTubesList), 'tubeName');
+  const tutorialsOrderedByTubeName = _.orderBy(_.flatten(tutorialsWithTubesList), 'tubeName');
+
+  return _getTutorialsWithSaveInformation(userTutorialRepository, tutorialsOrderedByTubeName, userId);
 };
+
+async function _getTutorialsWithSaveInformation(userTutorialRepository, tutorialsOrderedByTubeName, userId) {
+  const tutorialsSavedByUser = await userTutorialRepository.find({ userId });
+  const tutorialIdsSavedByUser = _.map(tutorialsSavedByUser, 'tutorialId');
+
+  return _.map(tutorialsOrderedByTubeName, (tutorial) => {
+    tutorial.isSaved = _.includes(tutorialIdsSavedByUser, tutorial.id);
+    return tutorial;
+  });
+}
 
 async function _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository) {
   return await Promise.all(_.map(easiestSkills, async (skill) => {

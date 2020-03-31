@@ -21,10 +21,14 @@ export default class TutorialItemComponent extends Component {
   isSavingTutorialFeatureEnabled = config.APP.FT_ACTIVATE_USER_TUTORIALS;
   @tracked status = statusTypes.unsaved;
 
+  constructor(owner, args) {
+    super(owner, args);
+    this.status = this.tutorial.isSaved ? statusTypes.saved : statusTypes.unsaved;
+  }
   get tutorial() {
     return this.args.tutorial;
   }
-  
+
   get formatImageName() {
     const format = this.args.tutorial.format;
     if (this.imageForFormat[format]) {
