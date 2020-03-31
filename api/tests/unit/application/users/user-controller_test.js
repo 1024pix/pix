@@ -241,6 +241,30 @@ describe('Unit | Controller | user-controller', () => {
 
   });
 
+  describe('#getUserDetail', () => {
+    let request;
+
+    beforeEach(() => {
+      request = { params: { id: '123' } };
+
+      sinon.stub(usecases, 'getUserDetail');
+      sinon.stub(userSerializer, 'serialize');
+    });
+
+    it('should get the specified user', async () => {
+      // given
+      usecases.getUserDetail.withArgs({ userId: 123 }).resolves('user');
+      userSerializer.serialize.withArgs('user').returns('ok');
+
+      // when
+      const response = await userController.getUserDetail(request);
+
+      // then
+      expect(response).to.be.equal('ok');
+    });
+
+  });
+
   describe('#getMemberships', () => {
     const userId = '1';
 
