@@ -1,6 +1,7 @@
 const Bookshelf = require('../bookshelf');
 
 require('./organization');
+require('./user');
 
 module.exports = Bookshelf.model('Membership', {
 
