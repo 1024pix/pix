@@ -197,7 +197,7 @@ describe('Unit | Service | ScorecardService', function() {
       beforeEach(async () => {
         const skill = domainBuilder.buildSkill({ id: skillId });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
-        campaign = domainBuilder.buildCampaign.ofTypeTestGiven({ targetProfileId: targetProfile.id, targetProfile });
+        campaign = domainBuilder.buildCampaign.ofTypeAssessment({ targetProfileId: targetProfile.id, targetProfile });
         campaignParticipation1 = domainBuilder.buildCampaignParticipation({ id: 1, campaign, campaignId: campaign.id, isShared: false });
         campaignParticipation2 = domainBuilder.buildCampaignParticipation({ id: 2, campaign, campaignId: campaign.id, isShared: false });
         oldAssessment1 = domainBuilder.buildAssessment.ofTypeSmartPlacement({ id: assessmentId1, state: 'started', campaignParticipationId: campaignParticipation1.id, userId });

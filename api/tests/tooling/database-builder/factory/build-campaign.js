@@ -14,14 +14,14 @@ module.exports = function buildCampaign({
   idPixLabel = faker.random.word(),
   customLandingPageText = faker.lorem.text(),
   archivedAt,
-  type = 'TEST_GIVEN',
+  type = 'ASSESSMENT',
   createdAt = faker.date.recent(),
   organizationId,
   creatorId,
   targetProfileId,
 } = {}) {
 
-  if (type === Campaign.types.TEST_GIVEN) {
+  if (type === Campaign.types.ASSESSMENT) {
     targetProfileId = _.isUndefined(targetProfileId) ? buildTargetProfile({ organizationId }).id : targetProfileId;
   }
 
