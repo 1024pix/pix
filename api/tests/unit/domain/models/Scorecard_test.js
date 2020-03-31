@@ -160,17 +160,29 @@ describe('Unit | Domain | Models | Scorecard', () => {
     });
 
     context('when the user level is beyond the upper limit allowed', () => {
+      let knowledgeElements;
       beforeEach(() => {
         // given
-        const knowledgeElements = [{ earnedPix: 50 }, { earnedPix: 70 }];
+        knowledgeElements = [{ earnedPix: 50 }, { earnedPix: 70 }];
         computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
-        //when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
       });
       // then
-      it('should have the competence level capped at the maximum value', () => {
+      it('should have the competence level capped at the maximum value if we block', () => {
+        //when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence, blockReachablePixAndLevel: true });
+
         expect(actualScorecard.level).to.equal(5);
+        expect(actualScorecard.earnedPix).to.equal(40);
       });
+
+      it('should have the competence level not capped at the maximum value if we do not block', () => {
+        //when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+
+        expect(actualScorecard.level).to.equal(15);
+        expect(actualScorecard.earnedPix).to.equal(120);
+      });
+
     });
 
     context('when the user pix score is higher than the max', () => {
