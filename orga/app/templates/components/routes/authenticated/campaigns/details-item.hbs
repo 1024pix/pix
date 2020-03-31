@@ -48,7 +48,7 @@
     <LinkTo @route="authenticated.campaigns.details.parameters" class="navbar-item" @model={{@campaign}} >
       Détails
     </LinkTo>
-    {{#if @campaign.isTypeTestGiven}}
+    {{#if @campaign.isTypeAssessment}}
       <LinkTo @route="authenticated.campaigns.details.participants" @model={{@campaign}} class="navbar-item">
         Participants ({{@campaign.campaignReport.participationsCount}})
       </LinkTo>
@@ -58,7 +58,7 @@
     {{/if}}
   </nav>
 
-  {{#if @campaign.isTypeTestGiven}}
+  {{#if @campaign.isTypeAssessment}}
     <div class="campaign-details-controls__export-button">
       <a class="button button--link button--with-icon" href="{{@campaign.urlToResult}}" target="_blank"
          rel="noopener noreferrer" download>

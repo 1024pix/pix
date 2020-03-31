@@ -65,7 +65,7 @@ module('Acceptance | Campaign Details', function(hooks) {
     test('it should redirect to participants page on click on participants tab', async function(assert) {
       // given
       server.create('campaign-report', { id: 1, participationsCount: 2 });
-      server.create('campaign', { id: 1, campaignReportId: 1, type: 'TEST_GIVEN' });
+      server.create('campaign', { id: 1, campaignReportId: 1, type: 'ASSESSMENT' });
 
       // when
       await visit('/campagnes/1');
@@ -78,7 +78,7 @@ module('Acceptance | Campaign Details', function(hooks) {
 
     test('it should redirect to update page on click on update button', async function(assert) {
       // given
-      server.create('campaign', { id: 1, type: 'TEST_GIVEN' });
+      server.create('campaign', { id: 1, type: 'ASSESSMENT' });
       await visit('/campagnes/1');
 
       // when
@@ -103,7 +103,7 @@ module('Acceptance | Campaign Details', function(hooks) {
     test('it should redirect to collective results page on click on collective results tab', async function(assert) {
       // given
       const campaignCollectiveResult = server.create('campaign-collective-result', 'withCompetenceCollectiveResults');
-      server.create('campaign', { id: 1, campaignCollectiveResult, type: 'TEST_GIVEN' });
+      server.create('campaign', { id: 1, campaignCollectiveResult, type: 'ASSESSMENT' });
 
       // when
       await visit('/campagnes/1');

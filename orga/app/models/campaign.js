@@ -2,8 +2,8 @@ import DS from 'ember-data';
 import { computed } from '@ember/object';
 import ENV from 'pix-orga/config/environment';
 
-const PROFILES_COLLECTION_TEXT = 'Récupération profils';
-const TEST_GIVEN_TEXT = 'Parcours de test';
+const PROFILES_COLLECTION_TEXT = 'Collecte de profils';
+const ASSESSMENT_TEXT = 'Évaluation';
 
 export default DS.Model.extend({
   name: DS.attr('string'),
@@ -24,10 +24,10 @@ export default DS.Model.extend({
   campaignCollectiveResult: DS.belongsTo('campaign-collective-result'),
 
   isTypeProfilesCollection: computed.equal('type', 'PROFILES_COLLECTION'),
-  isTypeTestGiven: computed.equal('type', 'TEST_GIVEN'),
+  isTypeAssessment: computed.equal('type', 'ASSESSMENT'),
 
   readableType: computed('isTypeProfilesCollection', function() {
-    return this.isTypeProfilesCollection ? PROFILES_COLLECTION_TEXT : TEST_GIVEN_TEXT;
+    return this.isTypeProfilesCollection ? PROFILES_COLLECTION_TEXT : ASSESSMENT_TEXT;
   }),
 
   url: computed('code', function() {
@@ -43,8 +43,8 @@ export default DS.Model.extend({
     return Boolean(this.archivedAt);
   }),
 
-  canBeArchived: computed('isTypeTestGiven', 'isArchived', function() {
-    return this.isTypeTestGiven && ! this.isArchived;
+  canBeArchived: computed('isTypeAssessment', 'isArchived', function() {
+    return this.isTypeAssessment && ! this.isArchived;
   }),
 
   async archive() {
