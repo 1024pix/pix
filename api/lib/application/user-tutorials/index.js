@@ -17,6 +17,14 @@ exports.register = async (server) => {
         handler: userTutorialsController.find,
         tags: ['api'],
       },
+    },
+    {
+      method: 'DELETE',
+      path: '/api/users/me/tutorials/{tutorialId}',
+      config: {
+        handler: userTutorialsController.removeFromUser,
+        tags: ['api']
+      }
     }
   ]);
 };
