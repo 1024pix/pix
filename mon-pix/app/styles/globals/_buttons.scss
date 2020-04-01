@@ -6,7 +6,7 @@
   letter-spacing: 0.012rem;
   text-align: center;
   border-radius: 5px;
-  background-color: $pix-blue;
+  background-color: $communication-dark;
   color: $white;
   cursor: pointer;
   border: none;
@@ -95,7 +95,7 @@
     box-shadow: 0 2px 6px 0 rgba(12, 22, 58, 0.11), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
 
     &:hover, &:active, &:focus {
-      background-color: $pix-yellow-hover;
+      background-color: $yellow;
       color: $nero;
     }
   }
@@ -120,11 +120,11 @@
   }
 
   &--bordered {
-    border: 1px solid $pix-blue;
-    color: $pix-blue;
+    border: 1px solid $communication-dark;
+    color: $communication-dark;
 
     &:hover, &:active, &:focus {
-      background-color: $pix-blue;
+      background-color: $communication-dark;
       color: $white;
     }
   }
@@ -170,7 +170,7 @@
   outline: none;
   border: none;
   background-color: inherit;
-  color: $pix-blue;
+  color: $communication-dark;
   text-decoration: none;
 
   &:hover,

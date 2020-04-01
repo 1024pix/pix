@@ -22,23 +22,23 @@
     }
 
     &--jaffa::after {
-      background: radial-gradient($jaffa-dark 25%, $jaffa 100%)
+      background: radial-gradient($information-dark 25%, $information-light 100%)
     }
 
     &--emerald::after {
-      background: radial-gradient($emerald-dark 25%, $emerald 100%);
+      background: radial-gradient($content-dark 25%, $success 100%);
     }
 
     &--cerulean::after {
-      background: radial-gradient($cerulean-dark 25%, $cerulean 100%);
+      background: radial-gradient($cerulean-dark 25%, $communication-light 100%);
     }
 
     &--wild-strawberry::after {
-      background: radial-gradient($wild-strawberry-dark 25%, $wild-strawberry 100%);
+      background: radial-gradient($security-dark 25%, $security-light 100%);
     }
 
     &--butterfly-bush::after {
-      background: radial-gradient($butterfly-bush-dark 25%, $butterfly-bush 100%);
+      background: radial-gradient($environment-dark 25%, $butterfly-bush 100%);
     }
   }
 

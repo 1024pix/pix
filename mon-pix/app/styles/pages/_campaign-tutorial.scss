@@ -19,7 +19,7 @@
   }
 
   &__title {
-    color: $pix-blue;
+    color: $communication-dark;
     font-family: $font-open-sans;
     font-size: 1.25rem;
     font-weight: 600;
@@ -69,7 +69,7 @@
       display: inline-block;
 
       &__active {
-        background-color: $pix-blue;
+        background-color: $communication-dark;
       }
     }
   }

@@ -51,7 +51,7 @@
   &:hover,
   &:focus,
   &:active {
-    color: $pix-yellow-hover;
+    color: $yellow;
     text-decoration: none;
   }
 }
@@ -69,20 +69,20 @@
   &:hover,
   &:focus,
   &:active {
-    color: $pix-blue;
+    color: $communication-dark;
     text-decoration: none;
     background-color: $white;
   }
 }
 
 .navbar-header--white .navbar-menu-signup-link {
-  color: $pix-blue;
-  border: 2px solid $pix-blue;
+  color: $communication-dark;
+  border: 2px solid $communication-dark;
 
   &:hover,
   &:focus,
   &:active {
     color: $white;
-    background-color: $pix-blue;
+    background-color: $communication-dark;
   }
 }

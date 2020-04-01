@@ -13,7 +13,7 @@
 
     & .progression-gauge__tooltip {
       background: $white;
-      color: $pix-blue;
+      color: $communication-dark;
       font-family: $font-open-sans;
       font-weight: $font-bold;
       padding: 0;
@@ -50,7 +50,7 @@
 }
 
 .progression-gauge__marker {
-  background: linear-gradient(to right, $pix-yellow-hover, $dark-orange);
+  background: linear-gradient(to right, $yellow, $dark-orange);
   height: 4px;
   border-radius: 5px;
   text-align: right;
@@ -63,7 +63,7 @@
 
 .progression-gauge__tooltip {
   position: absolute;
-  background: linear-gradient(180deg, $pix-yellow-hover 0%, $dark-orange 100%);
+  background: linear-gradient(180deg, $yellow 0%, $dark-orange 100%);
   color: $white;
   border-radius: 5px;
   font-family: $font-roboto;

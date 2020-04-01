@@ -123,7 +123,7 @@
   background: none;
 
   &:focus {
-    outline: 1px solid $pix-blue;
+    outline: 1px solid $communication-dark;
     box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5);
   }
 }
@@ -137,7 +137,7 @@
     margin: 10px;
 
     &:focus {
-      outline: 1px solid $pix-blue;
+      outline: 1px solid $communication-dark;
       box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5);
     }
   }
