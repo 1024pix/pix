@@ -41,7 +41,7 @@ module ('Integration | Component | routes/authenticated/campaign | details-item'
         name: 'campagne 1',
         campaignReport,
         code: '1234PixTest',
-        type: 'TEST_GIVEN',
+        type: 'ASSESSMENT',
       });
 
       this.set('campaign', campaign);
@@ -96,7 +96,7 @@ module ('Integration | Component | routes/authenticated/campaign | details-item'
       assert.dom('nav a[href="/campagnes/12"]').hasText('Détails');
     });
 
-    module('When campaign type is TEST_GIVEN', function() {
+    module('When campaign type is ASSESSMENT', function() {
       test('it should display participation item', async function(assert) {
         const campaignReport = store.createRecord('campaignReport', {
           participationsCount: 10,
@@ -104,7 +104,7 @@ module ('Integration | Component | routes/authenticated/campaign | details-item'
         const campaign = store.createRecord('campaign', {
           id: 13,
           campaignReport,
-          type: 'TEST_GIVEN',
+          type: 'ASSESSMENT',
         });
 
         this.set('campaign', campaign);
@@ -118,7 +118,7 @@ module ('Integration | Component | routes/authenticated/campaign | details-item'
         // given
         const campaign = store.createRecord('campaign', {
           id: 14,
-          type: 'TEST_GIVEN',
+          type: 'ASSESSMENT',
         });
 
         this.set('campaign', campaign);

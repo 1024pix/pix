@@ -11,7 +11,7 @@ function buildCampaign({
   idPixLabel = faker.random.word(),
   customLandingPageText = faker.lorem.text(),
   archivedAt,
-  type = Campaign.types.TEST_GIVEN,
+  type = Campaign.types.ASSESSMENT,
   createdAt = faker.date.recent(),
   creatorId = faker.random.number(2),
   creator = buildUser({ id: creatorId }),
@@ -41,7 +41,7 @@ function buildCampaign({
   });
 }
 
-buildCampaign.ofTypeTestGiven = function({
+buildCampaign.ofTypeAssessment = function({
   id = 1,
   name = faker.company.companyName(),
   code = 'AZERTY123',
@@ -49,7 +49,7 @@ buildCampaign.ofTypeTestGiven = function({
   idPixLabel = faker.random.word(),
   customLandingPageText = faker.lorem.text(),
   archivedAt,
-  type = Campaign.types.TEST_GIVEN,
+  type = Campaign.types.ASSESSMENT,
   createdAt = faker.date.recent(),
   creatorId = faker.random.number(2),
   creator = buildUser({ id: creatorId }),

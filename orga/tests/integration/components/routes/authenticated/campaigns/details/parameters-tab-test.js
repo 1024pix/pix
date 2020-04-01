@@ -16,14 +16,14 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
   });
 
   module('on TargetProfile display', function() {
-    module('when type is TEST_GIVEN', function() {
+    module('when type is ASSESSMENT', function() {
       test('it should display target profile related to campaign', async function(assert) {
         // given
         const targetProfile = store.createRecord('targetProfile', {
           name: 'profil cible de la campagne 1',
         });
         const campaign = store.createRecord('campaign', {
-          type: 'TEST_GIVEN',
+          type: 'ASSESSMENT',
           targetProfile
         });
 
@@ -108,11 +108,11 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
   });
 
   module('on campaign title display', function() {
-    module('when type is TEST_GIVEN', function() {
+    module('when type is ASSESSMENT', function() {
       test('it should display the campaign title', async function(assert) {
         // given
         const campaign = store.createRecord('campaign', {
-          type: 'TEST_GIVEN',
+          type: 'ASSESSMENT',
           title: 'Mon titre de Campagne'
         });
 
@@ -149,7 +149,7 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
       test('it should display the button archived', async function(assert) {
         // given
         const campaign = store.createRecord('campaign', {
-          type: 'TEST_GIVEN',
+          type: 'ASSESSMENT',
           archivedAt: null,
         });
 
@@ -186,7 +186,7 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
       test('it should display the button modify', async function(assert) {
         // given
         const campaign = store.createRecord('campaign', {
-          type: 'TEST_GIVEN',
+          type: 'ASSESSMENT',
           archivedAt: null,
         });
 

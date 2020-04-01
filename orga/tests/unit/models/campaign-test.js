@@ -56,12 +56,12 @@ module('Unit | Model | campaign', function(hooks) {
       store = this.owner.lookup('service:store');
     });
 
-    test('it should compute the readableType property when type is TEST_GIVEN', function(assert) {
+    test('it should compute the readableType property when type is ASSESSMENT', function(assert) {
       // when
-      const model = store.createRecord('campaign', { type: 'TEST_GIVEN' });
+      const model = store.createRecord('campaign', { type: 'ASSESSMENT' });
 
       // then
-      assert.equal(model.readableType, 'Parcours de test');
+      assert.equal(model.readableType, 'Évaluation');
     });
 
     test('it should compute the readableType property when type is PROFILES_COLLECTION', function(assert) {
@@ -69,7 +69,7 @@ module('Unit | Model | campaign', function(hooks) {
       const model = store.createRecord('campaign', { type: 'PROFILES_COLLECTION' });
 
       // then
-      assert.equal(model.readableType, 'Récupération profils');
+      assert.equal(model.readableType, 'Collecte de profils');
     });
   });
 
@@ -80,11 +80,11 @@ module('Unit | Model | campaign', function(hooks) {
       store = this.owner.lookup('service:store');
     });
 
-    module('when type is TEST_GIVEN', function() {
+    module('when type is ASSESSMENT', function() {
       module('when campaign is not archived', function() {
         test('it should return true', function(assert) {
           const campaign = store.createRecord('campaign', {
-            type: 'TEST_GIVEN',
+            type: 'ASSESSMENT',
             archivedAt: null,
           });
 
@@ -93,7 +93,7 @@ module('Unit | Model | campaign', function(hooks) {
         module('when campaign is archived', function() {
           test('it should return false', function(assert) {
             const campaign = store.createRecord('campaign', {
-              type: 'TEST_GIVEN',
+              type: 'ASSESSMENT',
               archivedAt: new Date('2020-01-01'),
             });
 
