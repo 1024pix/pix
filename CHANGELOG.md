@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.135.0 (01/04/2020)
+
+- [#1183](https://github.com/1024pix/pix/pull/1183) [FEATURE] Accéder à une campagne Pix Emploi (PF-837)
+- [#1238](https://github.com/1024pix/pix/pull/1238) [BUGFIX] [EXPEDITE] Correction de l'affichage des boutons sur la page de détails d'une campagne (PO-402).
+- [#1229](https://github.com/1024pix/pix/pull/1229) [BUGFIX] Numéro de session dans la barre de recherche incohérent avec la page affichée (PA-191)
+- [#1226](https://github.com/1024pix/pix/pull/1226) [BSR] Script send-invitations-to-sco-organizations - Supprimer les appels HTTP (PF-1192).
+
 ## v2.134.0 (30/03/2020)
 
 - [#1215](https://github.com/1024pix/pix/pull/1215) [FEATURE] Pouvoir rattacher des profils cibles à une organisation dans Pix Admin (PA-167).
