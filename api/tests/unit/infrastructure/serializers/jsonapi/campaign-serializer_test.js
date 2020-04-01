@@ -27,7 +27,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           organizationName: 'College Victor Hugo',
           idPixLabel: 'company id',
           targetProfile: domainBuilder.buildTargetProfile({ id: '123', name: 'TargetProfile1' }),
-          type: 'TEST_GIVEN'
+          type: 'ASSESSMENT'
         });
 
         const expectedSerializedCampaign = {
@@ -46,7 +46,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               'organization-logo-url': 'some logo',
               'organization-name': 'College Victor Hugo',
               'is-restricted': false,
-              type: 'TEST_GIVEN',
+              type: 'ASSESSMENT',
             },
             relationships: {
               'target-profile': {
@@ -122,7 +122,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           idPixLabel: 'company id',
           targetProfile: domainBuilder.buildTargetProfile({ id: '123', name: 'TargetProfile1' }),
           campaignReport,
-          type: 'TEST_GIVEN',
+          type: 'ASSESSMENT',
         });
 
         const expectedSerializedCampaign = {
@@ -141,7 +141,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               'organization-logo-url': 'some logo',
               'organization-name': 'College Victor Hugo',
               'is-restricted': false,
-              type: 'TEST_GIVEN',
+              type: 'ASSESSMENT',
             },
             relationships: {
               'target-profile': {

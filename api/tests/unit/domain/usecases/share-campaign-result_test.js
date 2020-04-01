@@ -43,7 +43,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
     userId = user.id;
     assessment = domainBuilder.buildSmartPlacementAssessment({ userId: userId });
     assessmentId = assessment.id;
-    campaign = domainBuilder.buildCampaign.ofTypeTestGiven();
+    campaign = domainBuilder.buildCampaign.ofTypeAssessment();
     campaignParticipation = domainBuilder.buildCampaignParticipation({
       id: campaignParticipationId,
       campaignId: campaign.id
