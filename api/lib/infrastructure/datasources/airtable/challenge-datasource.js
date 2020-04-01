@@ -79,7 +79,7 @@ module.exports = datasource.extend({
       competenceId,
       illustrationAlt: airtableRecord.get('Texte alternatif illustration'),
       format: airtableRecord.get('Format') || 'mots',
-      locale: _convertLanguesToLocales(airtableRecord.get('Langues') || [])
+      locales: _convertLanguesToLocales(airtableRecord.get('Langues') || [])
     };
   },
 

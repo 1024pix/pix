@@ -116,9 +116,9 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
   describe('#fromAirTableObject', () => {
 
     describe('when Languages is only Francophone', () => {
-      it('should create a Challenge from the AirtableRecord with locale set to [\'fr\']', () => {
+      it('should create a Challenge from the AirtableRecord with locales set to [\'fr\']', () => {
         // given
-        const expectedChallenge = challengeAirtableDataObjectFixture({ locale: [FRENCH_SPOKEN] });
+        const expectedChallenge = challengeAirtableDataObjectFixture({ locales: [FRENCH_SPOKEN] });
         const frenchSpokenChallenge = challengeRawAirTableFixture({ id: 'recwWzTquPlvIl4So', fields: { Langues: ['Francophone'] } });
 
         // when
@@ -130,9 +130,9 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     });
 
     describe('when Languages is only Franco Français', () => {
-      it('should create a Challenge from the AirtableRecord with locale set to [\'fr-fr\']', () => {
+      it('should create a Challenge from the AirtableRecord with locales set to [\'fr-fr\']', () => {
         // given
-        const expectedChallenge = challengeAirtableDataObjectFixture({ locale: [FRENCH_FRANCE] });
+        const expectedChallenge = challengeAirtableDataObjectFixture({ locales: [FRENCH_FRANCE] });
         const frenchChallenge = challengeRawAirTableFixture({ id: 'recwWzTquPlvIl4So', fields: { Langues: ['Franco Français'] } });
 
         // when
@@ -144,9 +144,9 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     });
 
     describe('when Languages is both Franco Français and Francophone', () => {
-      it('should create a Challenge from the AirtableRecord with locale set to [\'fr-fr\', \'fr\']', () => {
+      it('should create a Challenge from the AirtableRecord with locales set to [\'fr-fr\', \'fr\']', () => {
         // given
-        const expectedChallenge = challengeAirtableDataObjectFixture({ locale: [FRENCH_FRANCE, FRENCH_SPOKEN] });
+        const expectedChallenge = challengeAirtableDataObjectFixture({ locales: [FRENCH_FRANCE, FRENCH_SPOKEN] });
         const frenchChallenge = challengeRawAirTableFixture({ id: 'recwWzTquPlvIl4So', fields: { Langues: ['Franco Français', 'Francophone'] } });
 
         // when
