@@ -28,7 +28,10 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
                   id: assessment.answers[0].id.toString(),
                   type: 'answers',
                 }
-              ]
+              ],
+              links: {
+                related: '/api/answers?assessment=' + assessment.id.toString()
+              }
             },
             course: {
               data: {
