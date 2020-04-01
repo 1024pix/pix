@@ -14,6 +14,7 @@ module.exports = function buildCertification({
   lastName = 'Bon',
   userId = 1,
   resultCompetenceTree,
+  acquiredPartnerCertifications = [],
 
   // set to overried computed properties
   commentForCandidate,
@@ -34,6 +35,7 @@ module.exports = function buildCertification({
     lastName,
     userId,
     resultCompetenceTree,
+    acquiredPartnerCertifications,
   });
 
   if (pixScore !== undefined) {

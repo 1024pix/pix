@@ -79,6 +79,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
           pixScore: 23,
           status: 'rejected',
           commentForCandidate: 'Vous auriez dû travailler plus.',
+          acquiredPartnerCertifications: [{ certificationCourseId: 1, partnerKey: 'BANANA' }]
         }),
       ];
 
@@ -96,6 +97,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
               'status': 'rejected',
               'pix-score': 23,
               'comment-for-candidate': 'Vous auriez dû travailler plus.',
+              'acquired-partner-certifications': ['BANANA']
             },
             'relationships': {
               'result-competence-tree': {
@@ -124,6 +126,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
         status: 'rejected',
         certifiedProfile: null,
         commentForCandidate: 'Vous auriez dû travailler plus.',
+        acquiredPartnerCertifications: [{ certificationCourseId: 1, partnerKey: 'BANANA' }]
       });
 
       const JsonCertification =
@@ -140,6 +143,8 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
               'status': 'rejected',
               'pix-score': 23,
               'comment-for-candidate': 'Vous auriez dû travailler plus.',
+              'acquired-partner-certifications': ['BANANA']
+
             },
             'relationships': {
               'result-competence-tree': {
@@ -175,6 +180,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
             'status': 'rejected',
             'pix-score': 23,
             'comment-for-candidate': 'Vous auriez dû travailler plus.',
+            'acquired-partner-certifications': []
           },
           'relationships': {
             'result-competence-tree': {
