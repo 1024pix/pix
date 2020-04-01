@@ -3,18 +3,20 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const Answer = require('../../../../lib/domain/models/Answer');
 const Correction = require('../../../../lib/domain/models/Correction');
 const { AssessmentNotCompletedError, NotFoundError } = require('../../../../lib/domain/errors');
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | UseCase | getCorrectionForAnswer', () => {
 
   const assessmentRepository = { get: () => undefined };
   const answerRepository = { get: () => undefined };
   const correctionRepository = { getByChallengeId: () => undefined };
+  const userTutorialRepository = { find: () => undefined };
 
   beforeEach(() => {
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(answerRepository, 'get');
     sinon.stub(correctionRepository, 'getByChallengeId');
+    sinon.stub(userTutorialRepository, 'find');
   });
 
   context('when assessment is not completed', () => {
@@ -51,18 +53,27 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         const assessmentId = 1;
         const challengeId = 12;
         const userId = 'userId';
+        const unsavedTutorial = domainBuilder.buildTutorial({ id: 'unsaved-tutorial-id' });
+        const savedTutorial = domainBuilder.buildTutorial({ id: 'saved-tutorial-id' });
         const assessment = new Assessment({ state: 'started', type: Assessment.types.SMARTPLACEMENT, userId });
         const answer = new Answer({ assessmentId, challengeId });
-        const correction = new Correction({ id: 123 });
+        const correction = new Correction({ id: 123, tutorials: [unsavedTutorial], learningMoreTutorials: [savedTutorial] });
         assessmentRepository.get.resolves(assessment);
         answerRepository.get.resolves(answer);
         correctionRepository.getByChallengeId.resolves(correction);
+        userTutorialRepository.find.resolves([{ id: 1, userId, tutorialId: savedTutorial.id }]);
+        const expectedCorrection = new Correction({
+          id: 123,
+          tutorials: [{ ...unsavedTutorial, isSaved: false }],
+          learningMoreTutorials: [{ ...savedTutorial, isSaved: true }]
+        });
 
         // when
         const responseSolution = await getCorrectionForAnswer({
           assessmentRepository,
           answerRepository,
           correctionRepository,
+          userTutorialRepository,
           answerId: 2,
           userId
         });
@@ -71,7 +82,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
         expect(answerRepository.get).to.have.been.calledWith(2);
         expect(correctionRepository.getByChallengeId).to.have.been.calledWith(challengeId);
-        expect(responseSolution).to.deep.equal(new Correction({ id: 123 }));
+        expect(responseSolution).to.deep.equal(expectedCorrection);
       });
     });
 
@@ -93,6 +104,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
           assessmentRepository,
           answerRepository,
           correctionRepository,
+          userTutorialRepository,
           answerId: 2,
           userId,
         });
@@ -125,6 +137,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         assessmentRepository,
         answerRepository,
         correctionRepository,
+        userTutorialRepository,
         answerId: 2,
         userId
       });

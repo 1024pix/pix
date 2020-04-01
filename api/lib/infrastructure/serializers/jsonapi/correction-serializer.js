@@ -15,6 +15,7 @@ module.exports = {
           'link',
           'source',
           'title',
+          'isSaved',
         ]
       },
       'learningMoreTutorials': {
@@ -27,6 +28,7 @@ module.exports = {
           'link',
           'source',
           'title',
+          'isSaved',
         ],
       },
       typeForAttribute(attribute) {
