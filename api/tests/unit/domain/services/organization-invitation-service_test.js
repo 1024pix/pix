@@ -5,75 +5,89 @@ const { createOrganizationInvitation } = require('../../../../lib/domain/service
 
 describe('Unit | Service | Organization-Invitation Service', () => {
 
+  const organizationId = 1;
+  const organizationName = 'Organization Name';
+
+  const organizationInvitationId = 10;
+  const email = 'member@organization.org';
+  const code = 'ABCDEFGH01';
+
   let organizationInvitationRepository;
   let organizationRepository;
 
   beforeEach(() => {
     organizationInvitationRepository = {
       create: sinon.stub(),
-      findOnePendingByOrganizationIdAndEmail: sinon.stub(),
+      findOnePendingByOrganizationIdAndEmail: sinon.stub().resolves(null),
     };
     organizationRepository = {
-      get: sinon.stub()
+      get: sinon.stub().resolves({ name: organizationName })
     };
-    sinon.stub(mailService, 'sendOrganizationInvitationEmail');
+    sinon.stub(mailService, 'sendOrganizationInvitationEmail').resolves();
   });
 
   describe('#createOrganizationInvitation', () => {
 
-    it('should create a new organization-invitation and send an email with organizationId, email and code', async () => {
-      // given
-      organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(null);
+    context('when organization-invitation does not exist', () => {
 
-      const organizationInvitationId = 10;
-      const code = 'ABCDEFGH01';
-
-      const organizationName = 'Organization Name';
-      organizationRepository.get.resolves({ name: organizationName });
-
-      mailService.sendOrganizationInvitationEmail.resolves();
-
-      const organizationId = 1;
-      const email = 'member@organization.org';
-      organizationInvitationRepository.create.withArgs({
-        organizationId, email, code: sinon.match.string
-      }).resolves({ id: organizationInvitationId, code });
-
-      // when
-      await createOrganizationInvitation({
-        organizationRepository, organizationInvitationRepository, organizationId, email
+      beforeEach(() => {
+        organizationInvitationRepository.create.withArgs({
+          organizationId, email, code: sinon.match.string
+        }).resolves({ id: organizationInvitationId, code });
       });
 
-      // then
-      expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith({
-        email, organizationName, organizationInvitationId, code
+      it('should create a new organization-invitation and send an email with organizationId, email and code', async () => {
+        // given
+        const expectedParameters = {
+          email, organizationName, organizationInvitationId, code, tags: undefined
+        };
+
+        // when
+        await createOrganizationInvitation({
+          organizationRepository, organizationInvitationRepository, organizationId, email
+        });
+
+        // then
+        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
+      });
+
+      it('should send an email with organizationId, email, code and tags', async () => {
+        // given
+        const tags = ['JOIN_ORGA'];
+        const expectedParameters = {
+          email, organizationName, organizationInvitationId, code, tags
+        };
+
+        // when
+        await createOrganizationInvitation({
+          organizationRepository, organizationInvitationRepository, organizationId, email, tags
+        });
+
+        // then
+        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
       });
     });
 
-    it('should re-send an email with same code when organization-invitation already exist with status pending', async () => {
-      // given
-      const organizationId = 1;
-      const organizationName = 'Organization Name';
-      const organizationInvitationId = 100;
-      const email = 'member@organization.org';
-      const code = 'ABCDEFGH01';
-      const isPending = true;
+    context('when an organization-invitation with pending status already exists', () => {
 
-      organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
-        id: organizationInvitationId, isPending, code
-      });
-      organizationRepository.get.resolves({ name: organizationName });
+      it('should re-send an email with same code', async () => {
+        // given
+        const isPending = true;
+        const expectedParameters = {
+          email, organizationName, organizationInvitationId, code, tags: undefined
+        };
 
-      mailService.sendOrganizationInvitationEmail.resolves();
+        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
+          id: organizationInvitationId, isPending, code
+        });
 
-      // when
-      await createOrganizationInvitation({
-        organizationRepository, organizationInvitationRepository, organizationId, email
-      });
+        // when
+        await createOrganizationInvitation({
+          organizationRepository, organizationInvitationRepository, organizationId, email
+        });
 
-      // then
-      expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith({
-        email, organizationName, organizationInvitationId, code
+        // then
+        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
       });
     });
   });
