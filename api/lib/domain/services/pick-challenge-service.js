@@ -9,7 +9,7 @@ module.exports = {
     }
     const key = Math.abs(hashInt(randomSeed));
     const chosenSkill = skills[key % skills.length];
-    const localeChallenges = _.filter(chosenSkill.challenges, ((challenge) => challenge.locale === locale));
+    const localeChallenges = _.filter(chosenSkill.challenges, ((challenge) => _.includes(challenge.locales, locale)));
     if (_.isEmpty(localeChallenges)) {
       return _pickChallengeAtIndex(chosenSkill.challenges, key);
     }

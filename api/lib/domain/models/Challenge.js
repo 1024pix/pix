@@ -39,7 +39,7 @@ class Challenge {
    * @param validator
    * @param competenceId
    * @param format
-   * @param locale
+   * @param locales
    */
   constructor(
     {
@@ -57,7 +57,7 @@ class Challenge {
       status,
       timer,
       type,
-      locale,
+      locales,
       // includes
       answer,
       skills = [],
@@ -80,7 +80,7 @@ class Challenge {
     this.timer = timer;
     this.status = status;
     this.type = type;
-    this.locale = locale;
+    this.locales = locales;
     // includes
     this.skills = skills;
     this.validator = validator;
