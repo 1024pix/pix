@@ -1,9 +1,11 @@
 const { AssessmentNotCompletedError, NotFoundError } = require('../errors');
+const _ = require('lodash');
 
 module.exports = async function getCorrectionForAnswer({
   assessmentRepository,
   answerRepository,
   correctionRepository,
+  userTutorialRepository,
   answerId,
   userId,
 } = {}) {
@@ -16,7 +18,9 @@ module.exports = async function getCorrectionForAnswer({
 
   _validateCorrectionIsAccessible(assessment, userId, integerAnswerId);
 
-  return correctionRepository.getByChallengeId(answer.challengeId);
+  const correction = await correctionRepository.getByChallengeId(answer.challengeId);
+
+  return _addTutorialSaveInfoToCorrection(userTutorialRepository, correction, userId);
 };
 
 function _validateCorrectionIsAccessible(assessment, userId, answerId) {
@@ -26,4 +30,21 @@ function _validateCorrectionIsAccessible(assessment, userId, answerId) {
   if (!assessment.isCompleted() && !assessment.isSmartPlacement() && !assessment.isCompetenceEvaluation()) {
     throw new AssessmentNotCompletedError();
   }
+}
+
+function _addSaveInfoToTutorials(savedTutorialIds) {
+  return (tutorial) => {
+    tutorial.isSaved = _.includes(savedTutorialIds, tutorial.id);
+    return tutorial;
+  };
+}
+
+async function _addTutorialSaveInfoToCorrection(userTutorialRepository, correction, userId) {
+  const savedTutorials = await userTutorialRepository.find({ userId });
+  const savedTutorialIds = _.map(savedTutorials, 'tutorialId');
+
+  correction.tutorials.forEach(_addSaveInfoToTutorials(savedTutorialIds));
+  correction.learningMoreTutorials.forEach(_addSaveInfoToTutorials(savedTutorialIds));
+
+  return correction;
 }

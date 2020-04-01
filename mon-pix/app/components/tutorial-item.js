@@ -63,6 +63,7 @@ export default class TutorialItemComponent extends Component {
     const userTutorial = this.store.createRecord('userTutorial', { tutorial: this.args.tutorial });
     await userTutorial.save({ adapterOptions: { tutorialId: this.args.tutorial.id } });
     this.status = statusTypes.saved;
+    this.tutorial.isSaved = true;
   }
 
 }
