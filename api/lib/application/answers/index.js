@@ -46,7 +46,7 @@ exports.register = async function(server) {
       path: '/api/answers',
       config: {
         auth: false,
-        handler: answerController.findByChallengeAndAssessment,
+        handler: answerController.find,
         tags: ['api', 'answers'],
         notes: [
           '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
