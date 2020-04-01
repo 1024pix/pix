@@ -1,4 +1,6 @@
-module.exports = function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
+const BADGE_PIX_EMPLOI_ID = 100;
+
+function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
 
   const pixEmploiProfile = databaseBuilder.factory.buildTargetProfile({
     id: 100321,
@@ -36,6 +38,7 @@ module.exports = function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
   ];
 
   const badge = databaseBuilder.factory.buildBadge({
+    id: BADGE_PIX_EMPLOI_ID,
     altMessage: 'Vous avez validé le badge Pix Emploi.',
     imageUrl: '/images/badges/Pix-emploi.svg',
     key: 'PIX_EMPLOI',
@@ -101,4 +104,9 @@ module.exports = function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
     badgeId: badge.id,
   });
 
+}
+
+module.exports = {
+  pixEmploiTargetProfileBuilder,
+  BADGE_PIX_EMPLOI_ID,
 };

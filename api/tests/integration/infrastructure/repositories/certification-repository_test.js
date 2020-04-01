@@ -4,6 +4,7 @@ const { NotFoundError, CertificationCourseNotPublishableError } = require('../..
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
 const CertificationCourseBookshelf = require('../../../../lib/infrastructure/data/certification-course');
+const PARTNER_CLEA_KEY = 'BANANA';
 
 describe('Integration | Repository | Certification ', () => {
 
@@ -20,6 +21,7 @@ describe('Integration | Repository | Certification ', () => {
 
   beforeEach(async () => {
     userId = databaseBuilder.factory.buildUser().id;
+    databaseBuilder.factory.buildBadge({ key: PARTNER_CLEA_KEY });
     const {
       id: certificationCenterId,
       name: certificationCenter,
@@ -32,7 +34,8 @@ describe('Integration | Repository | Certification ', () => {
       type,
     });
     const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id });
-    expectedCertification = _buildCertification(session.certificationCenter, certificationCourse, assessment, assessmentResult);
+    expectedCertification = _buildCertification(session.certificationCenter, certificationCourse, assessment, assessmentResult,);
+    databaseBuilder.factory.buildCertificationAcquiredPartner({ certificationCourseId: expectedCertification.id, partnerKey: PARTNER_CLEA_KEY });
 
     sessionLatestAssessmentRejectedCertifCourseIds = [];
     sessionWithStartedAndErrorCertifCourseIds = [];
@@ -51,6 +54,7 @@ describe('Integration | Repository | Certification ', () => {
   });
 
   afterEach(async () => {
+    await knex('certification-partner-acquisitions').delete();
     await knex('assessment-results').delete();
     await knex('assessments').delete();
     await knex('certification-courses').delete();
@@ -60,6 +64,9 @@ describe('Integration | Repository | Certification ', () => {
   describe('#getByCertificationCourseId', () => {
 
     it('should return a certification with needed informations', async () => {
+      //given
+      _setAcquiredPartnerCertifications(expectedCertification, PARTNER_CLEA_KEY);
+
       // when
       const actualCertification = await certificationRepository.getByCertificationCourseId({ id: certificationCourse.id });
 
@@ -122,7 +129,7 @@ describe('Integration | Repository | Certification ', () => {
   });
 
   describe('#updateCertifications', () => {
-    
+
     it('should update the specified certifications', async () => {
       await certificationRepository.updatePublicationStatusesBySessionId(sessionLatestAssessmentRejected.id, true);
       await Promise.all(sessionLatestAssessmentRejectedCertifCourseIds.map(async (id) => {
@@ -199,4 +206,9 @@ function _buildCertification(certificationCenterName, certificationCourse, asses
     commentForCandidate: assessmentResult.commentForCandidate,
     userId: certificationCourse.userId,
   });
+}
+
+function _setAcquiredPartnerCertifications(certificationCourse, partnerKey) {
+  certificationCourse.acquiredPartnerCertifications = [{ certificationCourseId: certificationCourse.id, partnerKey }];
+
 }
