@@ -8,7 +8,7 @@
   text-align: center;
   text-transform: uppercase;
   height: 36px;
-  background-color: $pix-blue;
+  background-color: $communication-dark;
   border-radius: 4px;
   border-style: solid;
   border-width: 1px;
@@ -18,6 +18,6 @@
   }
 
   &:hover {
-    background-color: darken($pix-blue, 5%);
+    background-color: darken($communication-dark, 5%);
   }
 }
