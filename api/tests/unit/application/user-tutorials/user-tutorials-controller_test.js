@@ -44,4 +44,25 @@ describe('Unit | Controller | User-tutorials', function() {
     });
   });
 
+  describe('#removeFromUser', function() {
+    it('should call the expected usecase', async function() {
+      // given
+      const userId = 'userId';
+      const tutorialId = 'tutorialId';
+      sinon.stub(usecases, 'deleteUserTutorial');
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { tutorialId },
+      };
+
+      // when
+      await userTutorialsController.removeFromUser(request, hFake);
+
+      // then
+      const deleteUserTutorialArgs = usecases.deleteUserTutorial.firstCall.args[0];
+      expect(deleteUserTutorialArgs).to.have.property('userId', userId);
+      expect(deleteUserTutorialArgs).to.have.property('tutorialId', tutorialId);
+    });
+  });
 });
