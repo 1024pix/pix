@@ -16,7 +16,7 @@
 
   a {
     text-decoration: underline;
-    color: $pix-blue;
+    color: $communication-dark;
 
     &:active,
     &:focus,
@@ -67,7 +67,7 @@
   display: inline-block;
   margin: 0 5px;
   cursor: pointer;
-  color: $pix-blue;
+  color: $communication-dark;
   position: relative;
 }
 
@@ -163,7 +163,7 @@
   width: 156px;
   height: 46px;
   border-radius: 23px;
-  background-color: $pix-blue;
+  background-color: $communication-dark;
   color: $white;
   cursor: pointer;
   text-align: center;

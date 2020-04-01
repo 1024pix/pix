@@ -45,7 +45,7 @@
 .result-item__correction-button {
   font-weight: $font-normal;
   font-size: 0.875rem;
-  color: $pix-blue;
+  color: $communication-dark;
   border: none;
   outline: none;
   background-color: transparent;
@@ -76,7 +76,7 @@
   }
 
   &--red {
-    color: $vermilion;
+    color: $error;
   }
 
   &--grey {

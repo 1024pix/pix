@@ -77,8 +77,8 @@ input[type=checkbox]:before {
 }
 
 input[type=checkbox]:checked:before {
-  border-color: $pix-blue;
-  background-color: $pix-blue;
+  border-color: $communication-dark;
+  background-color: $communication-dark;
 }
 
 input[type=checkbox]:checked:after {
@@ -99,12 +99,12 @@ input[type=checkbox]:checked:after {
 
 input[type=checkbox]:focus:before,
 input[type=checkbox]:hover:before {
-  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.1);
-  border-color: $pix-blue;
+  box-shadow: 0 0px 0px 8px rgba($communication-dark, 0.1);
+  border-color: $communication-dark;
 }
 
 input[type=checkbox]:active:before {
-  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.3);
+  box-shadow: 0 0px 0px 8px rgba($communication-dark, 0.3);
 }
 
 /**
@@ -143,21 +143,21 @@ input[type=radio]:checked:after {
   top: -18px;
   left: 1px;
 
-  background-color: $pix-blue;
+  background-color: $communication-dark;
 }
 
 input[type=radio]:checked:before {
-  border-color: $pix-blue;
+  border-color: $communication-dark;
 }
 
 input[type=radio]:focus:before,
 input[type=radio]:hover:before {
-  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.1);
-  border-color: $pix-blue;
+  box-shadow: 0 0px 0px 8px rgba($communication-dark, 0.1);
+  border-color: $communication-dark;
 }
 
 input[type=radio]:active:before {
-  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.3);
+  box-shadow: 0 0px 0px 8px rgba($communication-dark, 0.3);
 }
 
 /**

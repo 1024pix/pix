@@ -71,19 +71,19 @@
     margin-right: 12px;
 
     &--jaffa {
-      color: $jaffa;
+      color: $information-light;
     }
 
     &--emerald {
-      color: $emerald;
+      color: $success;
     }
 
     &--cerulean {
-      color: $cerulean;
+      color: $communication-light;
     }
 
     &--wild-strawberry {
-      color: $wild-strawberry;
+      color: $security-light;
     }
 
     &--butterfly-bush {
@@ -163,7 +163,7 @@
 
 .skill-review-result-abstract {
   &__percentage {
-    color: $pix-blue;
+    color: $communication-dark;
     display: inline-block;
   }
 }
