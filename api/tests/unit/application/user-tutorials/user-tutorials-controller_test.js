@@ -1,6 +1,7 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 const userTutorialsController = require('../../../../lib/application/user-tutorials/user-tutorials-controller');
 const usecases = require('../../../../lib/domain/usecases');
+const userTutorialRepository = require('../../../../lib/infrastructure/repositories/user-tutorial-repository');
 
 describe('Unit | Controller | User-tutorials', function() {
   describe('#add', function() {
@@ -45,11 +46,11 @@ describe('Unit | Controller | User-tutorials', function() {
   });
 
   describe('#removeFromUser', function() {
-    it('should call the expected usecase', async function() {
+    it('should call the repository', async function() {
       // given
       const userId = 'userId';
       const tutorialId = 'tutorialId';
-      sinon.stub(usecases, 'deleteUserTutorial');
+      sinon.stub(userTutorialRepository, 'removeFromUser');
 
       const request = {
         auth: { credentials: { userId } },
@@ -60,9 +61,9 @@ describe('Unit | Controller | User-tutorials', function() {
       await userTutorialsController.removeFromUser(request, hFake);
 
       // then
-      const deleteUserTutorialArgs = usecases.deleteUserTutorial.firstCall.args[0];
-      expect(deleteUserTutorialArgs).to.have.property('userId', userId);
-      expect(deleteUserTutorialArgs).to.have.property('tutorialId', tutorialId);
+      const removeFromUserArgs = userTutorialRepository.removeFromUser.firstCall.args[0];
+      expect(removeFromUserArgs).to.have.property('userId', userId);
+      expect(removeFromUserArgs).to.have.property('tutorialId', tutorialId);
     });
   });
 });

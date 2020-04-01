@@ -11,5 +11,9 @@ module.exports = {
 
   async find({ userId }) {
     return knex('user_tutorials').where({ userId });
-  }
+  },
+
+  async removeFromUser(userTutorial) {
+    return knex('user_tutorials').where(userTutorial).del();
+  },
 };

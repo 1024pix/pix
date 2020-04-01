@@ -1,6 +1,5 @@
 const { expect, knex, databaseBuilder } = require('../../../test-helper');
-const userTutorialRepository = require(
-  '../../../../lib/infrastructure/repositories/user-tutorial-repository');
+const userTutorialRepository = require('../../../../lib/infrastructure/repositories/user-tutorial-repository');
 
 describe('Integration | Infrastructure | Repository | userTutorialRepository', () => {
   let userId;
@@ -69,4 +68,32 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', (
 
   });
 
+  describe('#removeFromUser', () => {
+    const tutorialId = 'tutorialId';
+
+    it('should delete the user tutorial', async () => {
+      // given
+      databaseBuilder.factory.buildUserTutorial({ tutorialId, userId });
+      await databaseBuilder.commit();
+
+      // when
+      await userTutorialRepository.removeFromUser({ userId, tutorialId });
+      const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
+
+      // then
+      expect(userTutorials).to.have.length(0);
+    });
+
+    context('when the tutorialId does not exist in the user list', function() {
+      it('should do nothing', async () => {
+        // when
+        await userTutorialRepository.removeFromUser({ userId, tutorialId });
+        const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
+
+        // then
+        expect(userTutorials).to.have.length(0);
+      });
+    });
+
+  });
 });

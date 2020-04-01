@@ -116,4 +116,34 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
 
   });
 
+  describe('DELETE /api/users/me/tutorials/{tutorialId}', () => {
+
+    let options;
+
+    beforeEach(async () => {
+      options = {
+        method: 'DELETE',
+        url: '/api/users/me/tutorials/tutorialId',
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(4444)
+        },
+      };
+    });
+
+    describe('nominal case', () => {
+      it('should respond with a 204', async () => {
+        // given
+        databaseBuilder.factory.buildUserTutorial({ userId: 4444, tutorialId: 'tutorialId' });
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
+  });
+
 });
