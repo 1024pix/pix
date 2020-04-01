@@ -1,3 +1,4 @@
+const Joi = require('@hapi/joi');
 const campaignController = require('./campaign-controller');
 
 exports.register = async function(server) {
@@ -93,6 +94,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/campaigns/{id}/analyses',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
         handler: campaignController.getAnalysis,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
