@@ -10,7 +10,7 @@ describe('Unit | Router | answer-router', function() {
 
     sinon.stub(AnswerController, 'save').callsFake((request, h) => h.response().code(201));
     sinon.stub(AnswerController, 'get').callsFake((request, h) => h.response().code(200));
-    sinon.stub(AnswerController, 'findByChallengeAndAssessment').callsFake((request, h) => h.response().code(200));
+    sinon.stub(AnswerController, 'find').callsFake((request, h) => h.response().code(200));
     sinon.stub(AnswerController, 'update').callsFake((request, h) => h.response().code(204));
 
     server = Hapi.server();
