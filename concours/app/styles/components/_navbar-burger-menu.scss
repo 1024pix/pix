@@ -1,0 +1,86 @@
+.navbar-burger-menu {
+  padding: 20px 0;
+
+  &__user-info {
+    display: flex;
+    flex-direction: column;
+    background-color: $dodger-blue;
+  }
+
+  &__navigation {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.navbar-burger-menu-user-info {
+  &__item {
+    margin: 5px 0;
+    padding: 6px 32px;
+    color: $white;
+    font-size: 1.6rem;
+    font-family: $font-open-sans;
+
+    &.active,
+    &:hover {
+      color: $white;
+      text-decoration: none;
+    }
+  }
+}
+
+.navbar-burger-menu-user-info-item {
+  &__name {
+    font-size: 2rem;
+    font-weight: $font-semi-bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &__email {
+    font-size: 1.2rem;
+    font-weight: $font-light;
+    padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &__logout {
+    font-size: 1.5rem;
+    text-decoration: underline;
+    margin: 10px 0;
+
+    &:hover {
+      color: $white;
+      text-decoration: underline;
+    }
+  }
+}
+
+.navbar-burger-menu-navigation {
+  &__item {
+    margin: 5px 0;
+    padding: 10px 32px;
+    color: $gray;
+    font-size: 1.8rem;
+    font-family: $font-roboto;
+
+    &.active {
+      color: $dodger-blue;
+      border-left: 5px solid $dodger-blue;
+      padding-left: 27px;
+    }
+
+    &:focus {
+      color: $gray;
+      text-decoration: none;
+    }
+
+    &:hover {
+      color: $dodger-blue;
+      text-decoration: none;
+    }
+  }
+}

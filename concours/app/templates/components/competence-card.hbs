@@ -1,0 +1,24 @@
+<article class="competence-card">
+  <LinkTo @route="competences.details" @model={{scorecard.competenceId}} class="competence-card__link">
+    <span class="competence-card__color competence-card__color--{{scorecard.area.color}}"></span>
+    <header class="competence-card__header">
+      <span class="competence-card__area-name">{{scorecard.area.title}}</span>
+      <span class="competence-card__competence-name">{{scorecard.name}}</span>
+    </header>
+    <div class="competence-card__body">
+      {{#if scorecard.isFinishedWithMaxLevel}}
+        <div class="competence-card__congrats competence-card__congrats--small">
+          <span class="score-value competence-card__score-value competence-card__score-value--congrats">{{displayedLevel}}</span>
+        </div>
+      {{else}}
+        <div class="competence-card__body--white-background">
+          <CircleChart @value={{scorecard.percentageAheadOfNextLevel}} @sliceColor={{scorecard.area.color}} @chartClass="circle-chart__content--small" @thicknessClass="circle--thick">
+            <div class="competence-card__level">
+              <span class="score-value competence-card__score-value">{{replace-zero-by-dash displayedLevel}}</span>
+            </div>
+          </CircleChart>
+        </div>
+      {{/if}}
+    </div>
+  </LinkTo>
+</article>

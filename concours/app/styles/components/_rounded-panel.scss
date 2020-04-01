@@ -1,0 +1,136 @@
+.rounded-panel {
+  background-color: $white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  padding-bottom: 2px;
+
+  &--strong {
+    padding-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 50px 54px -40px rgba(0, 0, 0, 0.4), 0 7px 14px 0 rgba(12, 22, 58, 0.1);
+  }
+
+  &--over-background-banner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: -205px;
+
+    @include device-is('tablet') {
+      max-width: 980px;
+    }
+  }
+
+  &__row {
+    padding: 20px;
+  }
+
+  &__row label {
+    display: inline;
+  }
+}
+
+.rounded-panel hr {
+  margin-left: -20px;
+  margin-right: -20px;
+}
+
+.rounded-panel-one-line-header {
+  margin-bottom: 16px;
+  text-align: center;
+
+  @include device-is('tablet') {
+    margin: 0 14px 30px 14px;
+    text-align: left;
+  }
+}
+
+.rounded-panel-header-with-components {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+
+  @include device-is('tablet') {
+    height: 205px;
+    flex-direction: row;
+    border-bottom: 1px dashed $silver-grey;
+  }
+}
+
+.rounded-panel-header {
+  &__left-wrapper {
+    margin-left: 8px;
+  }
+
+  &__right-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+
+    @include device-is('tablet') {
+      margin: 0 30px 0 0;
+    }
+  }
+}
+
+.rounded-panel-body {
+  display: flex;
+  flex-direction: column;
+  margin: 4px 0;
+
+  &__areas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+      overflow: auto;
+    }
+  }
+
+  &__competence-card {
+    margin: 12px 10px;
+    width: 100%;
+
+    @include device-is('tablet') {
+      margin: 16px 10px;
+      width: auto;
+    }
+
+  }
+
+  @include device-is('tablet') {
+    width: auto;
+  }
+}
+
+.rounded-panel-header-text {
+  &__content {
+    margin: 10px 0;
+  }
+}
+
+.rounded-panel__link {
+  display: flex;
+  justify-content: flex-end;
+  margin: 4px 0;
+  font-family: $font-roboto;
+}
+
+// Text styles
+.rounded-panel-title {
+  text-align: center;
+
+  @include device-is('tablet') {
+    display: block;
+    text-align: left;
+  }
+
+  &--all-small-caps {
+    font-variant-caps: all-small-caps;
+  }
+}

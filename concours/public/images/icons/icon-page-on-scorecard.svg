@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>Lien vers un document écrit</title>
+  <desc>Lien vers un tutoriel sous la forme d'un document ecrit.</desc>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/text-read" fill="#F1A141" fill-rule="nonzero">
+            <g id="page-icon">
+                <g id="site">
+                    <path d="M0,5.77777778 L8.66666667,5.77777778 L8.66666667,14.4444444 L0,14.4444444 L0,5.77777778 Z M0,0 L26,0 L26,2.88888889 L0,2.88888889 L0,0 Z M26,5.77777778 L26,8.66666667 L11.5555556,8.66666667 L11.5555556,5.77777778 L26,5.77777778 Z M26,11.5555556 L26,14.4444444 L11.5555556,14.4444444 L11.5555556,11.5555556 L26,11.5555556 Z M0,17.3333333 L20.2222222,17.3333333 L20.2222222,20.2222222 L0,20.2222222 L0,17.3333333 Z M0,23.1111111 L26,23.1111111 L26,26 L0,26 L0,23.1111111 Z" id="path-1"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

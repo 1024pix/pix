@@ -1,0 +1,40 @@
+.user-certifications-detail-header {
+  font-family: $font-open-sans;
+  display: flex;
+  flex-direction: row;
+  margin: 0 10px 40px;
+
+  @include device-is('desktop') {
+    margin: 0 0 40px;
+  }
+}
+
+.user-certifications-detail-header__data-box {
+  padding-left: 3.2rem;
+  color: $charcoal-grey;
+
+  font-size: 1.8rem;
+  line-height: 2rem;
+
+  p {
+    padding-bottom: 0.5rem;
+    margin: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+}
+
+.user-certifications-detail-header__data-box-title {
+  line-height: 2.4rem;
+  font-size: 2rem;
+  font-weight: normal;
+  padding-bottom: 0.6rem;
+}
+
+.user-certifications-detail-header__data-box-title-big {
+  font-family: $font-open-sans;
+
+  line-height: 3.2rem;
+  font-size: 2.8rem;
+  font-weight: 600;
+}

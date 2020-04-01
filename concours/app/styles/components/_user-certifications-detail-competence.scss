@@ -1,0 +1,50 @@
+.user-certifications-detail-competence {
+  padding: 20px 40px;
+  width: 100%;
+}
+
+.user-certifications-detail-competence__box-name {
+  color: $charcoal-grey;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  line-height: 19px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-certifications-detail-competence__box-level {
+  height: 25px;
+  float: right;
+  width: 25px;
+  text-align: center;
+  color: $charcoal-grey;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 24px;
+}
+
+.user-certifications-detail-competence__level-bar {
+  margin: 0.4%;
+  float: left;
+  width: 11.7%;
+  height: 5px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+
+.user-certifications-detail-competence__validate-level {
+  background: $pix-yellow-hover;
+}
+
+.user-certifications-detail-competence__not-validate-level {
+  background: $alto-grey;
+}

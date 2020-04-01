@@ -1,0 +1,29 @@
+.not-connected {
+  background: $pix-blue-to-purple-gradient-top-left-to-bottom-right;
+  height: 100vh;
+  padding-top: 5%;
+
+  @include device-is('tablet') {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+
+  &__container {
+    text-align: center;
+    padding: 15%;
+  }
+
+  &__logo {
+    width: 100px;
+    height: 80px;
+  }
+
+  &__text-block {
+    padding-top: 30px;
+    text-align: center;
+    line-height: 46px;
+    font-size: 3rem;
+    font-weight: $font-light;
+    color: $grayish-grey;
+  }
+}

@@ -1,0 +1,7 @@
+<div class="stepper">
+  <section>
+    {{#component this.activeComponentName as |Active|}}
+      <Active.main @success={{action "didMove"}} @stepsData={{stepsData}} />
+    {{/component}}
+  </section>
+</div>

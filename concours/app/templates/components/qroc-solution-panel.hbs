@@ -1,0 +1,34 @@
+<div class="correction-qroc-box rounded-panel">
+  <div class="rounded-panel__row ">
+
+    <div class="correction-qroc-box__answer">
+      {{#if (eq answer.challenge.format 'paragraphe')}}
+        <textarea class="correction-qroc-box-answer correction-qroc-box-answer--paragraph {{inputClass}}"
+                  rows="5"
+                  value="{{answerToDisplay}}"
+                  ariaLabel="réponse donnée"
+                  disabled>
+        </textarea>
+      {{else if (eq answer.challenge.format 'phrase')}}
+        <input class="correction-qroc-box-answer correction-qroc-box-answer--sentence {{inputClass}}"
+               value="{{answerToDisplay}}"
+               ariaLabel="réponse donnée"
+               disabled>
+      {{else}}
+        <input class="correction-qroc-box-answer {{inputClass}}"
+               size="{{get-qroc-input-size answer.challenge.format}}"
+               value="{{answerToDisplay}}"
+               ariaLabel="réponse donnée"
+               disabled>
+      {{/if}}
+    </div>
+
+    {{#unless isResultOk}}
+      <div class="correction-qroc-box__solution">
+        <img class="correction-qroc-box__solution-img" src="/images/comparison-window/icon-arrow-right.svg" alt="">
+        <div class="correction-qroc-box__solution-text">{{solutionToDisplay}}</div>
+      </div>
+    {{/unless}}
+  </div>
+</div>
+

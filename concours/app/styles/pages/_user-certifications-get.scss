@@ -1,0 +1,11 @@
+.user-certifications-page-get__top-bar {
+  margin: 0 10px 40px;
+
+  @include device-is('desktop') {
+    margin: 0 0 10px;
+  }
+}
+
+.user-certifications-page-get__link-return-to {
+  padding-top: 14px;
+}

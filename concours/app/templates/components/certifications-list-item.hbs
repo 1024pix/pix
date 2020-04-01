@@ -1,0 +1,87 @@
+{{#if this.isPublishedAndRejected}}
+  <CpPanel as |panel|>
+    <panel.toggle @class="certifications-list-item__row-presentation" @role="tab">
+
+      <div class="certifications-list-item__cell">
+        {{moment-format this.certification.date 'DD/MM/YYYY' allow-empty=true}}
+      </div>
+
+      <div class="certifications-list-item__cell-double-width">
+        <img src="/images/icons/icon-croix.svg" alt="" class="certifications-list-item__cross-img">
+        Certification non obtenue
+      </div>
+      <div class="certifications-list-item__cell-pix-score"></div>
+
+      <div class="certifications-list-item__cell-certification-center">
+        {{this.certification.certificationCenter}}
+      </div>
+
+      <div class="certifications-list-item__cell-detail">
+        {{#if this.shouldDisplayComment}}
+          <div class="certifications-list-item__cell-detail-button">
+            DÉTAIL
+          </div>
+        {{/if}}
+      </div>
+    </panel.toggle>
+
+    {{#if this.shouldDisplayComment}}
+      <panel.body @class="certifications-list-item__row-comment" @role="tabpanel">
+        <div class="certifications-list-item__row-comment-cell">
+          {{this.certification.commentForCandidate}}
+        </div>
+      </panel.body>
+    {{/if}}
+
+  </CpPanel>
+{{/if}}
+
+{{#if this.isPublishedAndValidated}}
+  <LinkTo @route="user-certifications.get" @model={{this.certification.id}} class="certifications-list-item__row-presentation">
+    <div class="certifications-list-item__cell">
+      {{moment-format this.certification.date 'DD/MM/YYYY' allow-empty=true}}
+    </div>
+
+    <div class="certifications-list-item__cell-double-width">
+      <img src="/images/icons/icon-check-vert.svg" alt="" class="certifications-list-item__green-check-img">
+      Certification obtenue
+    </div>
+    <div class="certifications-list-item__cell-pix-score">
+      <div class="certifications-list-item__pix-score">
+        <span>{{ this.certification.pixScore }}</span>
+      </div>
+    </div>
+
+    <div class="certifications-list-item__cell-certification-center">
+      {{this.certification.certificationCenter}}
+    </div>
+
+    <div class="certifications-list-item__cell-detail">
+      <div class="certifications-list-item__cell-detail-link">VOIR LES RÉSULTATS</div>
+    </div>
+  </LinkTo>
+{{/if}}
+
+{{#if this.isNotPublished}}
+  <div class="certifications-list-item__row-presentation">
+    <div class="certifications-list-item__cell">
+      {{moment-format this.certification.date 'DD/MM/YYYY' allow-empty=true}}
+    </div>
+
+    <div class="certifications-list-item__cell-double-width">
+      <img src="/images/sablier.svg" alt="" class="certifications-list-item__hourglass-img">
+      En attente du résultat
+    </div>
+    <div class="certifications-list-item__cell-pix-score"></div>
+
+    <div class="certifications-list-item__cell-certification-center">
+      {{this.certification.certificationCenter}}
+    </div>
+
+    <div class="certifications-list-item__cell-detail">
+    </div>
+  </div>
+{{/if}}
+
+
+

@@ -1,0 +1,21 @@
+{{#each labeledCheckboxes as |labeledCheckbox index|}}
+<p class="proposal-paragraph">
+
+  {{!-- Checkbox button : hidden  - SVG displayed instead - but needed. --}}
+  <input type="checkbox"
+         id="checkbox_{{inc index}}"
+         checked={{labeledCheckbox.[1]}}
+         name="{{inc index}}"
+         onclick={{action "checkboxClicked"}}
+         disabled={{if answer true}}>
+
+  {{!-- Surrounding label --}}
+  <label for="checkbox_{{inc index}}"
+          class="label-checkbox-proposal">
+
+    {{!-- text of proposal  --}}
+    <span class="proposal-text">{{labeledCheckbox.[0]}}</span>
+
+  </label>
+</p>
+{{/each}}

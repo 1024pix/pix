@@ -1,0 +1,40 @@
+<label for="{{textfieldName}}" class="form-textfield__label">
+  {{#if require}}<abbr title="obligatoire">*</abbr> {{/if}}
+  {{label}}
+    <br><span class="form-textfield__help">{{help}}</span>
+</label>
+
+<div class="form-textfield__input-field-container {{if disabled "form-textfield__input-container--disabled" inputContainerStatusClass}}">
+  <Input @type={{textfieldType}}
+         @id={{textfieldName}}
+         @name={{textfieldName}}
+         @value={{inputBindingValue}}
+         @focus-out={{action onValidate textfieldName}}
+         class="form-textfield__input {{inputValidationStatus}}"
+         @autocomplete={{autocomplete}}
+         @ariaDescribedBy="validationMessage"
+         required={{require}}
+         @disabled={{disabled}} />
+    <div class="form-textfield__icon">
+      {{#if isPassword}}
+          <button type="button" aria-label="rendre le mot de passe lisible" class="form-textfield-icon__button" {{action 'togglePasswordVisibility'}}>
+            {{#if isPasswordVisible}}
+                <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>{{fa-icon 'eye' class="fa-fw form-textfield-icon-button__eye"}}</div>
+            {{else}}
+                <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>{{fa-icon 'eye-slash' class="fa-fw form-textfield-icon-button__eye"}}</div>
+            {{/if}}
+          </button>
+      {{/if}}
+      {{#if hasIcon}}
+        {{#if (eq validationStatus 'error') }}
+            <img src="/images/icons/icon-error.svg" class="form-textfield-icon__state form-textfield-icon__state--error">
+        {{else}}
+            <img src="/images/icons/icon-success.svg" class="form-textfield-icon__state form-textfield-icon__state--success">
+        {{/if}}
+      {{/if}}
+    </div>
+
+</div>
+{{#if displayMessage}}
+    <div id="validationMessage" class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}" role="alert">{{validationMessage}}</div>
+{{/if}}

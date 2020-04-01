@@ -1,0 +1,90 @@
+.fill-in-campaign-code {
+
+  &__container {
+    padding-bottom: 30px;
+
+    @include device-is('tablet') {
+      padding: 40px;
+    }
+  }
+
+  &__title {
+    text-align: center;
+    margin-bottom: 42px;
+  }
+
+  &__instruction {
+    color: $nero;
+    font-family: $font-open-sans;
+    font-size: 1.95rem;
+    text-align: center;
+    font-weight: $font-light;
+    margin-bottom: 8px;
+  }
+
+  &__form-field {
+    display: inline-block;
+    text-align: left;
+
+    & input {
+      box-sizing: content-box;
+      border: solid 2px $alto-grey;
+      border-radius: 3px;
+      outline: none;
+      height: 50px;
+      padding: 0 1px 1px .5ch;
+      text-transform: uppercase;
+      width: 13.6ch;
+      background: repeating-linear-gradient(90deg,
+        $silver-grey 0,
+        $silver-grey 1ch,
+        transparent 0,
+        transparent 1.5ch) 0 96%/98% 2px no-repeat;
+      background-origin: content-box;
+      color: $tundora-grey;
+      font-size: 3rem;
+      font-family: $font-roboto-mono;
+      letter-spacing: .5ch;
+
+      @media all and (-ms-high-contrast: none) {
+        //display differently for IE because 1 character (ch) is equal to 1.162
+        line-height: 0.7;
+        width: 15.6ch;
+        letter-spacing: .4ch;
+        background: repeating-linear-gradient(90deg,
+          $silver-grey 0,
+          $silver-grey 1.33ch,
+          transparent 0,
+          transparent 1.733ch) 0 96%/98% 2px no-repeat;
+        background-origin: content-box;
+      }
+
+      &::-ms-clear {
+        // not display cross that allow to clear field
+        display: none;
+      }
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 130px;
+    margin-bottom: 30px;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__error {
+    color: $pure-orange;
+    font-size: 1.4rem;
+    padding: 16px 10px;
+    text-align: center;
+  }
+}

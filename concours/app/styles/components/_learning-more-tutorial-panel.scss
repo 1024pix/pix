@@ -1,0 +1,43 @@
+
+.learning-more-panel {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.learning-more-panel__container{
+  margin: 20px 0 40px;
+}
+
+.learning-more-panel__hint-title {
+  // XXX Inspired from https://codepen.io/ericrasch/pen/Irlpm
+  position: relative;
+  z-index: 1;
+
+  span {
+    background: white;
+  }
+}
+
+.learning-more-panel__tutorial-info {
+  color: $raven-grey;
+  font-size: 1.3rem;
+  line-height: 2rem;
+  margin: 5px;
+}
+
+.learning-more-panel__hint-container-header{
+  margin: 25px 15px;
+
+  @include device-is('desktop') {
+    margin: 25px 40px;
+  }
+}
+
+.learning-more-panel__list-container{
+  margin: 0 15px;
+
+  @include device-is('desktop') {
+    margin: 0 40px;
+  }
+}

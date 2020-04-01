@@ -1,0 +1,30 @@
+.alert {
+  outline: none;
+  border-radius: 0.3125em;
+  padding: 9px;
+  margin-bottom: 11px;
+  color: $white;
+  text-shadow: none;
+  font-size: 1.4rem;
+}
+
+.challenge-response + .alert {
+  margin: 0 5px;
+}
+
+.alert-success {
+  border: 1px solid $deyork-green;
+  background-color: $deyork-green;
+}
+
+.alert-danger {
+  border: 1px solid $mandy-red;
+  background-color: $mandy-red;
+}
+
+abbr[title="obligatoire"] {
+  cursor: help;
+  color: $monza;
+  display: contents;
+  margin: 2rem;
+}

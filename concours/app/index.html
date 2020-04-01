@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Pix – Mesurez, développez et valorisez vos compétences numériques</title>
+    <meta name="description" content="Pix est une plateforme en ligne d'évaluation et de certification des compétences numériques des citoyens francophones (élèves, étudiant•e•s, décrocheur•se•s, demandeur•se•s d'emploi, sénior•e•s).">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
+
+    {{content-for "head"}}
+
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/mon-pix.css">
+
+    {{content-for "head-footer"}}
+  </head>
+  <body>
+    {{content-for "body"}}
+
+    <div id="app-splash" style="width: 100vw; height: 100vh; text-align: center">
+      <div class="app-loader">
+        <p class="app-loader__image"><img src="/images/interwind.gif"></p>
+      </div>
+    </div>
+
+    <script src="{{rootURL}}assets/vendor.js"></script>
+    <script src="{{rootURL}}assets/mon-pix.js"></script>
+
+    {{content-for "body-footer"}}
+  </body>
+</html>

@@ -1,0 +1,76 @@
+.challenge-item-warning {
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.challenge-item-warning__instruction-primary {
+  font-size: 24px;
+  font-weight: $font-bold;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: center;
+  margin-top: 22px;
+  color: $charcoal-grey;
+}
+
+.challenge-item-warning__intruction-secondary {
+  font-size: 18px;
+  margin-top: 9px;
+  margin-bottom: 50px;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: center;
+  color: $charcoal-grey;
+}
+
+.challenge-item-warning__instruction-time {
+  color: $pix-blue;
+  text-align: center;
+
+}
+
+.challenge-item-warning__allocated-time {
+  text-align: center;
+  color: $charcoal-grey;
+  font-size: 27.8px;
+}
+
+.challenge__allocated-time__jauge {
+  width: 139px;
+  height: 50px;
+  border-radius: 7px;
+  background-color: $alto-grey;
+  margin: 0 auto;
+  line-height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.challenge__allocated-time__value {
+  width: 69px;
+}
+
+.challenge-item-warning__action {
+  text-align: center;
+}
+
+.challenge-item-warning__confirm-btn {
+  width: 234px;
+  height: 46px;
+  border-radius: 5px;
+  margin-top: 22px;
+  border: none;
+  background-color: $jade;
+  color: $white;
+  text-transform: uppercase;
+  font-size: 1.4rem;
+  cursor: pointer;
+}

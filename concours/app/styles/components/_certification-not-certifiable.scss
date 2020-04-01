@@ -1,0 +1,35 @@
+.certification-not-certifiable__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 50px;
+  padding: 20px;
+  text-rendering: optimizeLegibility;
+  @include device-is('desktop') {
+    padding: 50px 70px 40px;
+  }
+}
+
+.certification-not-certifiable__button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.certification-not-certifiable__title {
+  text-align: center;
+}
+
+.certification-not-certifiable__text {
+  font-family: $font-open-sans;
+  text-align: center;
+  font-size: 1.6rem;
+  line-height: 27px;
+  margin-top: 0;
+
+  @include device-is('desktop') {
+    max-width: 850px;
+  }
+
+}

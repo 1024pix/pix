@@ -1,0 +1,248 @@
+.skill-review {
+  &__banner {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  &__result-container {
+    padding: 40px 10px;
+    margin-top: -160px;
+
+    @include device-is('tablet') {
+      padding: 60px;
+    }
+  }
+
+  &__information {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    margin: 10px;
+    max-width: 850px;
+
+    @include device-is('tablet') {
+      margin: auto;
+    }
+  }
+
+  &__subtitle {
+    font-weight: $font-light;
+  }
+
+  &__begin-improvement {
+    padding: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__explain-text {
+    font-size: 2.4rem;
+    color: $dove-gray;
+    line-height: 33px;
+    font-weight: $font-light;
+  }
+
+  &__improvement-button {
+    height: 50px;
+  }
+}
+
+.skill-review-information {
+  &__info-icon {
+    float: left;
+    color: $dove-gray;
+    font-size: 1.5em;
+  }
+
+  &__text {
+    padding-left: 14px;
+    margin-top: 14px;
+    color: $dove-gray;
+    font-family: $font-open-sans;
+    font-size: 1.4rem;
+  }
+}
+
+.skill-review-competence {
+  &__bullet {
+    font-size: 1.8rem;
+    margin-right: 12px;
+
+    &--jaffa {
+      color: $jaffa;
+    }
+
+    &--emerald {
+      color: $emerald;
+    }
+
+    &--cerulean {
+      color: $cerulean;
+    }
+
+    &--wild-strawberry {
+      color: $wild-strawberry;
+    }
+
+    &--butterfly-bush {
+      color: $butterfly-bush;
+    }
+  }
+}
+
+.skill-review-table-header {
+  &__circle-chart-value {
+    color: $nero;
+    font-family: $font-roboto;
+    font-size: 3.1rem;
+  }
+}
+
+.skill-review-result {
+  &__abstract {
+    text-align: center;
+    text-transform: none;
+    margin-bottom: 10px;
+  }
+
+  &__badge {
+    text-align: center;
+    margin-bottom: 20px;
+    img {
+      width: 190px;
+    }
+    &-information {
+      font-family: $font-roboto;
+      font-weight: $font-light;
+      font-size: 2.4rem;
+      padding-top: 20px;
+    }
+  }
+
+  &__dash-line {
+    height: 1px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-image: linear-gradient(to right, transparent 50%, #BBB 50%);
+    background-size: 10px 100%;
+  }
+
+  &__information {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    margin: 10px;
+    max-width: 850px;
+
+    @include device-is('tablet') {
+      margin: auto;
+    }
+  }
+
+  &__share-container {
+    padding: 16px 60px 32px 60px;
+    text-align: center;
+  }
+
+  &__table-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+    }
+  }
+}
+
+.skill-review-result-abstract {
+  &__percentage {
+    color: $pix-blue;
+    display: inline-block;
+  }
+}
+
+.skill-review-share {
+  &__button {
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+  }
+
+  &__legal {
+    text-align: center;
+    font-size: 2.4rem;
+    color: $dove-gray;
+    line-height: 33px;
+    font-weight: $font-light;
+    margin: 0 20px 24px 20px;
+  }
+
+  &__thanks {
+    font-family: $font-open-sans;
+    font-weight: $font-light;
+    font-size: 2.4rem;
+    padding-top: 20px;
+  }
+
+  &__error {
+    color: $pure-orange;
+    font-size: 1.5rem;
+    padding-bottom: 10px;
+  }
+
+  &__back-to-home {
+    font-size: 1.6rem;
+    font-weight: $font-bold;
+    font-family: $font-open-sans;
+    text-align: center;
+  }
+}
+
+.skill-review__campaign-archived {
+  position: relative;
+  top: -80px;
+  text-align: center;
+}
+
+.skill-review__campaign-archived-text {
+  font-size: 22px;
+  line-height: 30px;
+  max-width: 640px;
+  margin: 30px auto 60px;
+  font-family: $font-open-sans;
+  font-weight: $font-light;
+  color: $gray;
+}
+
+@media print {
+  a[href]:after {
+    content: none;
+  }
+
+  .progression-gauge {
+    border-bottom: 4px solid $alto-grey;
+  }
+
+  .progression-gauge__marker {
+    border-bottom: 4px solid $dark-orange;
+  }
+
+  .default-table thead {
+    display: table-header-group;
+  }
+
+  .default-table tr {
+    display: table-row;
+    height: 60px;
+  }
+
+  .skill-review-results__header {
+    flex-direction: row;
+  }
+}

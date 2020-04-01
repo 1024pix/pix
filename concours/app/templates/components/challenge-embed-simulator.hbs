@@ -1,0 +1,27 @@
+{{#if this._hiddenSimulatorClass}}
+  <div class="embed placeholder" aria-label="Chargement de l'application en cours">
+    <FaIcon @icon="image"></FaIcon>
+  </div>
+{{/if}}
+
+<div class="embed rounded-panel {{this._hiddenSimulatorClass}}">
+  {{#if this._isSimulatorNotYetLaunched}}
+    <div class="embed__acknowledgment-overlay">
+      <button class="embed__launch-simulator-button" {{action "launchSimulator"}}>Je lance l’application</button>
+    </div>
+  {{/if}}
+
+  <div class="embed__simulator blurred">
+    <iframe class="embed__iframe"
+            src="{{this.embedDocument.url}}"
+            title="{{this.embedDocument.title}}">
+    </iframe>
+  </div>
+</div>
+
+<div class="embed__reboot">
+  <div class="link link--grey embed-reboot__content" {{action "rebootSimulator"}}>
+    <FaIcon @icon="redo-alt"></FaIcon>
+    <div class="embed-reboot-content__text"> Réinitialiser </div>
+  </div>
+</div>

@@ -1,0 +1,101 @@
+.certification-starter {
+  @include device-is('desktop') {
+    padding: 50px 70px 40px;
+  }
+}
+
+.certification-course-page__order {
+  color: $charcoal-grey;
+  font-family: $font-open-sans;
+  font-weight: $font-light;
+  font-size: 2rem;
+  line-height: 28px;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.certification-course-page__cgu {
+  color: $charcoal-grey;
+  font-size: 1.2rem;
+  line-height: 18px;
+  text-align: justify;
+  margin: 5px 30px 5px 30px;
+}
+
+.certification-course-page__session-code-input {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+#certificationStarterSessionCode {
+  $space-between-dashes: 0.6ch;
+  $nb-characters: 6;
+  $total-width: $nb-characters * (1ch + $space-between-dashes);
+  text-transform: uppercase;
+  box-sizing: content-box;
+  border: solid 2px $alto-grey;
+  border-radius: 3px;
+  outline: none;
+  height: 50px;
+  padding: 0 0.2ch 1px 0.5ch;
+  display: inline-block;
+  width: $total-width;
+  background: repeating-linear-gradient(90deg,
+    $silver-grey 0,
+    $silver-grey 1ch,
+    transparent 0,
+    transparent 1ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
+  font-size: 3rem;
+  font-family: $font-roboto-mono;
+  letter-spacing: $space-between-dashes;
+  background-position-x: 0.5ch;
+  background-position-y: 2.5ch;
+
+  @media all and (-ms-high-contrast: none) {
+    $ie11-modifier: 1.162;
+    $space-between-dashes: $ie11-modifier*0.6ch;
+    $total-width: $nb-characters * ($ie11-modifier * 1.2ch + $space-between-dashes);
+    //display differently for IE because 1 character (ch) is equal to 1.162
+    line-height: 0.7;
+    width: $total-width;
+    padding: 0 0ch 1px 1ch;
+    letter-spacing: $space-between-dashes;
+    background: repeating-linear-gradient(90deg,
+      $silver-grey 0,
+      $silver-grey 1.30ch,
+      transparent 0,
+      transparent 1.30ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
+    background-origin: content-box;
+    background-position-y: 2.8ch*$ie11-modifier;
+    background-position-x: 0.1ch*$ie11-modifier;
+  }
+
+  &:focus {
+    outline: none;
+    color: $tundora-grey;
+  }
+}
+
+.certification-course-page__errors {
+  color: $pure-orange;
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 5px 5px 5px 5px;
+}
+
+.certification-course-page__field-button {
+  text-align: center;
+  margin-bottom: 25px;
+  margin-top: 25px;
+}
+
+.certification-course-page__submit_button {
+  white-space: nowrap;
+  width: content-box;
+  min-width: 150px;
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>Lien vers un document sonore</title>
+  <desc>Lien vers un tutoriel sous la forme d'un document sonore.</desc>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/sound" fill="#8A49FF">
+            <g id="Group-9">
+                <polygon id="Fill-1" points="6.656 25.3561905 8.892 25.3561905 8.892 0 6.656 0"></polygon>
+                <polygon id="Fill-2" points="0 15.847619 2.184 15.847619 2.184 9.5085219 0 9.5085219"></polygon>
+                <polygon id="Fill-3" points="19.968 23.2761905 22.152 23.2761905 22.152 2.08 19.968 2.08"></polygon>
+                <polygon id="Fill-4" points="9.984 19.0171429 12.168 19.0171429 12.168 6.33904762 9.984 6.33904762"></polygon>
+                <polygon id="Fill-5" points="16.64 19.0171429 18.824 19.0171429 18.824 6.33904762 16.64 6.33904762"></polygon>
+                <polygon id="Fill-6" points="13.312 15.847619 15.496 15.847619 15.496 9.50857143 13.312 9.50857143"></polygon>
+                <polygon id="Fill-7" points="23.296 15.847619 25.479948 15.847619 25.479948 9.5085219 23.296 9.5085219"></polygon>
+                <polygon id="Fill-8" points="3.328 19.0171429 5.512 19.0171429 5.512 6.33904762 3.328 6.33904762"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,90 @@
+.assessment-results {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.assessment-results__assessment-banner {
+  width: 100%;
+}
+
+.assessment-results__logo-banner {
+  width: 100%;
+  padding: 20px;
+  padding-left: 12%;
+  background-color: $white;
+}
+
+.assessment-results__scoring {
+  width: 100%;
+}
+
+.assessment-results__content {
+  max-width: 800px;
+  width: 100%;
+  padding: 30px;
+  margin-top: -175px;
+  background: $white;
+  border-radius: 10px;
+  box-shadow: 0 7px 14px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* XXX : See https://github.com/sgmap/pix/issues/211 */
+.assessment-results [data-lines="2"] + div .tooltip-inner {
+  padding-top: 3px;
+}
+
+/* Title
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.assessment-results__title {
+  font-weight: $font-medium;
+  font-family: $font-open-sans;
+  margin: 0 0 30px;
+  text-transform: uppercase;
+}
+
+/* List of results
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.assessment-results__list {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+
+  & > div {
+    border: none;
+    outline: none;
+  }
+}
+
+/* Button 'go back'
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.assessment-results__index-link-container {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.assessment-results__index-link__element {
+  width: 275px;
+  height: 46px;
+  border-radius: 23px;
+  background-color: $pix-blue;
+  border: none;
+}
+
+.assessment-results__index-a-link {
+  width: 355px;
+}
+
+.assessment-results__index-link__element:hover {
+  background-color: $pix-blue-hover;
+}
+
+.assessment-results__link-back {
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: $font-semi-bold;
+  text-align: center;
+  font-family: $font-open-sans;
+  color: $white;
+}

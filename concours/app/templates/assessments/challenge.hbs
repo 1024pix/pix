@@ -1,0 +1,28 @@
+{{title pageTitle}}
+
+<div class="background-banner-wrapper assessment-challenge">
+
+  <div class="assessment-challenge__assessment-banner">
+    {{#if model.assessment.isCertification}}
+      <CertificationBanner @certificationNumber={{@model.assessment.certificationNumber}} />
+    {{else}}
+      <AssessmentBanner @title={{@model.assessment.title}} @displayHomeLink={{true}} />
+    {{/if}}
+  </div>
+
+  <div class="assessment-challenge__content rounded-panel--over-background-banner">
+    <ProgressBar @assessment={{@model.assessment}} @answerId={{@model.answer.id}} @challengeId={{@model.challenge.id}} />
+
+    {{component (get-challenge-component-class model.challenge)
+                challenge=model.challenge
+                answer=model.answer
+                assessment=model.assessment
+                answerValidated=(route-action "saveAnswerAndNavigate")
+                resumeAssessment=(route-action "resumeAssessment")
+    }}
+  </div>
+</div>
+
+{{#if showLevelup}}
+  <LevelupNotif @level={{newLevel}} @competenceName={{competenceLeveled}} />
+{{/if}}

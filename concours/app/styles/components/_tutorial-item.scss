@@ -1,0 +1,82 @@
+.tutorial-item {
+  border-bottom: 1px solid $grey-20;
+  margin-bottom: 24px;
+}
+
+.tutorial__content {
+  padding-left: 24px;
+  position: relative;
+
+  &:after {
+    content: ' ';
+    display: block;
+    width: 4px;
+    height: calc(100% - 6px);
+    background: $grey-50;
+    border-radius: 50px;
+    position: absolute;
+    top: 6px;
+    left: 0;
+  }
+}
+
+.tutorial-content {
+  &__title {
+    font-size: 1.8rem;
+    font-weight: $font-medium;
+    line-height: 3rem;
+    letter-spacing: 0;
+    color: $grey-90;
+    margin-bottom: 4px;
+    display: inline-block;
+  }
+
+  &__description {
+    font-size: 1.4rem;
+    font-family: $font-roboto;
+    font-weight: $font-normal;
+    color: $grey-45;
+    line-height: 2.4rem;
+    margin: 0 0 14px;
+
+    .tutorial-content__format {
+      text-transform: capitalize;
+    }
+  }
+
+  &__competence-name {
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: 0.015rem;
+    margin: 0 0 8px;
+    color: $pix-blue-hover;
+    display: inline-block;
+  }
+
+  &__save-tutorial {
+    font-size: 1.3rem;
+    font-weight: $font-medium;
+    color: $grey-45;
+    letter-spacing: 0.045rem;
+    margin: 0 0 16px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: block;
+
+    svg {
+      margin-right: 4px;
+    }
+
+    &:hover {
+      filter: brightness(70%);
+      cursor: pointer;
+    }
+
+    &:disabled {
+      color: $grey-30;
+      filter: brightness(90%);
+      cursor: auto;
+    }
+  }
+}

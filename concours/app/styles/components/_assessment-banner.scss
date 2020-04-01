@@ -1,0 +1,59 @@
+.assessment-banner {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.assessment-banner-container {
+  display: flex;
+  align-items: center;
+  min-height: 80px;
+  max-width: 990px;
+  width: 100%;
+  padding:0 10px;
+
+  @include device-is('desktop') {
+    min-height: 100px;
+    padding: 0;
+  }
+}
+
+.assessment-banner__title {
+  font-size: 1.75rem;
+  font-weight: $font-light;
+  margin: 0;
+
+  @include device-is('desktop') {
+    font-weight: $font-normal;
+  }
+}
+
+.assessment-banner__pix-logo img {
+  height:47px;
+}
+
+.assessment-banner__splitter {
+  width: 1px;
+  background: $mercury-grey;
+  height: 40px;
+  margin: 0 10px;
+
+  @include device-is('desktop') {
+    margin: 0 20px;
+  }
+}
+
+.assessment-banner__home-link {
+  font-family: $font-roboto;
+  font-size: 1.6rem;
+  letter-spacing: 0.025rem;
+  font-weight: $font-medium;
+  margin-left: auto;
+  text-align: right;
+  color: $white;
+  width: 100px;
+
+  &:hover {
+    color: rgb($white, 0.8);
+  }
+}

@@ -1,0 +1,120 @@
+.hexagon-score {
+  width: 132px;
+  height: 148px;
+  background: url('/images/hexa-pix-blue.svg') no-repeat center center;
+  background-size: cover;
+
+  &__content {
+    position: relative;
+    text-align: center;
+  }
+}
+
+@mixin hexagon-score-title {
+  color: $nero;
+  font-family: $font-roboto;
+  font-size: 1.4rem;
+  letter-spacing: 0.35rem;
+}
+
+@mixin hexagon-score-pix-score {
+  color: $black;
+  font-family: $font-open-sans;
+  font-size: 4.6rem;
+}
+
+@mixin hexagon-score-pix-total {
+  color: $dove-gray;
+  font-family: $font-roboto;
+  font-size: 1.3rem;
+  border-top: 1px solid $dusty-grey;
+}
+
+.hexagon-score-content {
+  &__title {
+    @include hexagon-score-title;
+    position: absolute;
+    width: 100%;
+    left: 1px;
+    top: 26px;
+  }
+
+  &__pix-score {
+    @include hexagon-score-pix-score;
+    position: absolute;
+    width: 100%;
+    top: 40px;
+  }
+
+  &__pix-total {
+    @include hexagon-score-pix-total;
+    position: absolute;
+    width: 70px;
+    left: 31px;
+    top: 100px;
+    padding-top: 3px;
+  }
+}
+
+.hexagon-score__information {
+  position: absolute;
+  background-color: $white;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+  border-radius:3px;
+  z-index: 300;
+
+  width: 300px;
+  padding: 20px 36px;
+  margin: 150px 0 0 -80px;
+
+  @include device-is('desktop') {
+    height: 161px;
+    width: 587px;
+    padding: 20px 36px;
+    margin : 135px 0 0 -520px;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -17px;
+    right: 130px;
+    border-bottom: 20px solid white;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+
+    @include device-is('desktop') {
+      right: 0px;
+      border-right: none;
+    }
+  }
+  &--visible {
+    display: block;
+  }
+  &--hidden {
+    display: none;
+  }
+
+}
+
+.hexagon-score-information__text {
+  font-family: $font-open-sans;
+  font-size: 1.6rem;
+  line-height: 2.2rem;
+
+  &--strong {
+    font-weight: $font-bold;
+  }
+}
+.hexagon-score-information__close {
+  float: right;
+  font-size: 2rem;
+  padding: 10px;
+  margin-top: -10px;
+  @include device-is('desktop') {
+    display: none;
+  }
+}
+

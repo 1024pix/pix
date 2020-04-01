@@ -1,0 +1,9 @@
+{{title 'Pix' prepend=true}}
+<HeadLayout />
+<div class="body">
+  <WarningBanner />
+  {{outlet}}
+
+  <!-- Preloading images -->
+  <img src="{{rootURL}}/images/loader-white.svg" alt="Chargement en cours" style="display: none">
+</div>

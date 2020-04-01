@@ -1,0 +1,19 @@
+.certification-start-page__panel {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  text-rendering: optimizeLegibility;
+}
+
+.certification-start-page__title {
+  color: $nero;
+  font-family: $font-open-sans;
+  font-size: 4.2rem;
+  font-weight: $font-light;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.certification-stepper {
+  padding-bottom: 40px;
+}

@@ -1,0 +1,59 @@
+{{#if this.showCongratulationsBanner }}
+  <CongratulationsCertificationBanner @fullName={{this.currentUser.user.fullName}} @closeBanner={{action "closeBanner"}}/>
+{{/if}}
+
+<section class="certification-joiner">
+  <div class="certification-joiner__title">Rejoindre une session</div>
+    <form autocomplete="off">
+        <div class="certification-joiner__row">
+            <label class="certification-joiner__label">Numéro de session</label>
+          <Input {{autofocus}} @type="text" @size="6" @value={{this.sessionId}} @id="certificationJoinerSessionId" />
+        </div>
+        <div class="certification-joiner__row">
+            <label class="certification-joiner__label">Prénom</label>
+          <Input @type="text" @value={{this.firstName}} @id="certificationJoinerFirstName" />
+        </div>
+        <div class="certification-joiner__row">
+            <label class="certification-joiner__label">Nom de naissance</label>
+          <Input @type="text" @value={{this.lastName}} @id="certificationJoinerLastName" />
+        </div>
+        <div class="certification-joiner__row">
+            <label class="certification-joiner__label">Date de naissance</label>
+            <div class="certification-joiner__birthdate">
+              <Input @min="1"
+                     @max="31"
+                     @type="number"
+                     @value={{this.dayOfBirth}} placeholder="JJ"
+                     @id="certificationJoinerDayOfBirth"
+                     @input={{action "handleDayInputChange"}}
+                     @focus-in={{action "handleInputFocus"}} />
+                <div class="certification-joiner__divider"></div>
+              <Input @min="1"
+                     @max="12"
+                     @type="number"
+                     @value={{this.monthOfBirth}} placeholder="MM"
+                     @id="certificationJoinerMonthOfBirth"
+                     @input={{action "handleMonthInputChange"}}
+                     @focus-in={{action "handleInputFocus"}} />
+                <div class="certification-joiner__divider"></div>
+              <Input @min="1900"
+                     @type="number"
+                     @value={{this.yearOfBirth}} placeholder="AAAA"
+                     @id="certificationJoinerYearOfBirth"
+                     @focus-in={{action "handleInputFocus"}} />
+            </div>
+        </div>
+      {{#if this.errorMessage}}
+          <div class="certification-course-page__errors">{{this.errorMessage}}</div>
+      {{/if}}
+      {{#if this.isLoading}}
+          <button class="button button--big button--thin certification-course-page__submit_button"><span
+                  class="loader-in-button">&nbsp;</span>
+          </button>
+      {{else}}
+          <button type="submit" class="button button--big button--thin certification-joiner__attempt-next-btn" {{ action "attemptNext" }}>
+              Continuer
+          </button>
+      {{/if}}
+    </form>
+</section>

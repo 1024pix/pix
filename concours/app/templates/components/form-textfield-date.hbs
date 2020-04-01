@@ -1,0 +1,94 @@
+<label class="form-textfield__label">
+  {{#if require}}<abbr title="obligatoire">*</abbr> {{/if}}
+  {{label}}
+  <br><span class="form-textfield__help">{{help}}</span>
+</label>
+
+<div class="form-textfield__date">
+  <div class="form-textfield__input-field-container {{if disabled "form-textfield__input-container--disabled" dayInputContainerStatusClass}}">
+    <Input @type="text"
+           @id={{dayTextfieldName}}
+           @name={{dayTextfieldName}}
+           @value={{dayInputBindingValue}}
+           @focus-out={{action onValidateDay dayTextfieldName}}
+           class="form-textfield__input {{dayInputValidationStatus}}"
+           @autocomplete={{autocomplete}}
+           @ariaDescribedBy="dayValidationMessage"
+           required={{require}}
+           @disabled={{disabled}}
+           placeholder="JJ" />
+    <div class="form-textfield__icon">
+      {{#if dayHasIcon}}
+        {{#if (eq dayValidationStatus 'error') }}
+          <img src="/images/icons/icon-error.svg" class="form-textfield-icon__state form-textfield-icon__state--error">
+        {{else}}
+          <img src="/images/icons/icon-success.svg"
+               class="form-textfield-icon__state form-textfield-icon__state--success">
+        {{/if}}
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="form-textfield__input-field-container {{if disabled "form-textfield__input-container--disabled" monthInputContainerStatusClass}}">
+    <Input @type="text"
+           @id={{monthTextfieldName}}
+           @name={{monthTextfieldName}}
+           @value={{monthInputBindingValue}}
+           @focus-out={{action onValidateMonth monthTextfieldName}}
+           class="form-textfield__input {{monthInputValidationStatus}}"
+           @autocomplete={{autocomplete}}
+           @ariaDescribedBy="monthValidationMessage"
+           required={{require}}
+           @disabled={{disabled}}
+           placeholder="MM" />
+    <div class="form-textfield__icon">
+      {{#if monthHasIcon}}
+        {{#if (eq monthValidationStatus 'error') }}
+          <img src="/images/icons/icon-error.svg" class="form-textfield-icon__state form-textfield-icon__state--error">
+        {{else}}
+          <img src="/images/icons/icon-success.svg"
+               class="form-textfield-icon__state form-textfield-icon__state--success">
+        {{/if}}
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="form-textfield__input-field-container {{if disabled "form-textfield__input-container--disabled" yearInputContainerStatusClass}}">
+    <Input @type="text"
+           @id={{yearTextfieldName}}
+           @name={{yearTextfieldName}}
+           @value={{yearInputBindingValue}}
+           @focus-out={{action onValidateYear yearTextfieldName}}
+           class="form-textfield__input {{yearInputValidationStatus}}"
+           @autocomplete={{autocomplete}}
+           @ariaDescribedBy="yearValidationMessage"
+           required={{require}}
+           @disabled={{disabled}}
+           placeholder="AAAA" />
+    <div class="form-textfield__icon">
+      {{#if yearHasIcon}}
+        {{#if (eq yearValidationStatus 'error') }}
+          <img src="/images/icons/icon-error.svg" class="form-textfield-icon__state form-textfield-icon__state--error">
+        {{else}}
+          <img src="/images/icons/icon-success.svg"
+               class="form-textfield-icon__state form-textfield-icon__state--success">
+        {{/if}}
+      {{/if}}
+    </div>
+  </div>
+</div>
+
+{{#if dayValidationMessage}}
+  <div id="dayValidationMessage" class="form-textfield__message {{dayValidationMessageClass}}"
+       role="alert">{{dayValidationMessage}}</div>
+{{/if}}
+
+{{#if monthValidationMessage}}
+<div id="monthValidationMessage" class="form-textfield__message {{monthValidationMessageClass}}"
+       role="alert">{{monthValidationMessage}}</div>
+{{/if}}
+
+{{#if yearValidationMessage}}
+  <div id="yearValidationMessage" class="form-textfield__message {{yearValidationMessageClass}}"
+       role="alert">{{yearValidationMessage}}</div>
+{{/if}}

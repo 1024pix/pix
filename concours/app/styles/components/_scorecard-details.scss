@@ -1,0 +1,195 @@
+.tutorials {
+  width: 100%;
+  padding: 0 25px;
+
+  &__header {
+    margin-bottom: 48px;
+  }
+}
+
+.tutorials-header {
+  &__title {
+    margin-bottom: 4px;
+  }
+
+  &__description {
+    font-family: $font-roboto;
+    font-weight: $font-normal;
+    color: $grey-90;
+    font-size: 1.6rem;
+    line-height: 2.6rem;
+    margin: 0 0 10px;
+  }
+}
+
+.tube {
+  margin-bottom: 40px;
+
+  &__title {
+    font-size: 2rem;
+    font-weight: $font-normal;
+    font-family: $font-open-sans;
+    line-height: 3.4rem;
+    color: $grey-90;
+    margin-bottom: 24px;
+  }
+}
+
+.scorecard-details {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 6.75px;
+    font-family: $font-roboto;
+    background-color: $alabaster-grey;
+    padding: 40px 0;
+    margin: 14px;
+
+    @include device-is('desktop') {
+      flex-direction: row;
+    }
+  }
+
+  &__header {
+    padding: 14px 14px 0 14px;
+  }
+
+  &__resume-or-start-button {
+    margin-top: 30px;
+  }
+
+  &__reset-button {
+    color: $dusty-grey;
+    margin-top: 50px;
+  }
+
+  &__reset-modal {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.scorecard-details-content {
+  &__left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 0 30px 30px 30px;
+    max-width: 100%;
+
+    @include device-is('desktop') {
+      max-width: 68%;
+      padding: 0 30px;
+      border-right: 2px dashed $silver-grey;
+    }
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 30px;
+    white-space: nowrap;
+    max-width: 100%;
+    @include device-is('desktop') {
+      max-width: 30%;
+    }
+  }
+
+}
+
+.scorecard-details-content-left {
+  &__area {
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    letter-spacing: 0.2rem;
+
+    &--jaffa {
+      color: $jaffa;
+    }
+    &--emerald {
+      color: $emerald;
+    }
+    &--cerulean {
+      color: $cerulean;
+    }
+    &--wild-strawberry {
+      color: $wild-strawberry;
+    }
+    &--butterfly-bush {
+      color: $butterfly-bush;
+    }
+  }
+
+  &__name {
+    margin: 15px 0;
+  }
+
+  &__description {
+    font-family: $font-open-sans;
+    font-size: 1.6rem;
+    line-height: 2.6rem;
+    color: $dove-gray;
+  }
+}
+
+.scorecard-details-content-right {
+  &__score-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__level-info {
+    margin-top: 20px;
+    color: $grayish-grey;
+    text-transform: uppercase;
+    letter-spacing: 0.03rem;
+    white-space: nowrap;
+  }
+
+  &__reset-message {
+    padding-top: 50px;
+    color: $dusty-grey;
+    font-family: $font-roboto;
+    font-size: 1.3rem;
+  }
+}
+
+.scorecard-details-content-right-score-container {
+  &__pix-earned {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 60px;
+    text-transform: uppercase;
+    color: $grayish-grey;
+  }
+}
+
+.scorecard-details-reset-modal {
+  &__important-message {
+    padding: 20px 0;
+    color: $black;
+    font-family: $font-roboto;
+    font-weight: $font-medium;
+    font-size: 2.2rem;
+
+    @include device-is('desktop') {
+      padding: 50px 0 20px 0;
+    }
+  }
+
+  &__warning {
+    padding-bottom: 10px;
+    color: $grayish-grey;
+    font-family: $font-roboto;
+    font-weight: $font-light;
+    font-size: 1.6rem;
+  }
+}

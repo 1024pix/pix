@@ -1,0 +1,16 @@
+{{#if hasLearningMoreItems}}
+  <div class="learning-more-panel__container">
+    <header class="learning-more-panel__hint-container-header">
+      <h4 class="learning-more-panel__hint-title"><span>Pour en apprendre davantage</span></h4>
+    </header>
+
+    <div class="learning-more-panel__list-container">
+      {{#each learningMoreTutorials as |learningMoreTutorial|}}
+        <TutorialItem @tutorial={{learningMoreTutorial}} />
+      {{/each}}
+      <div class="learning-more-panel__tutorial-info">
+        Ces liens ont été proposés par des utilisateurs de Pix.
+      </div>
+    </div>
+  </div>
+{{/if}}

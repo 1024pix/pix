@@ -1,0 +1,25 @@
+/* Breakpoints definition */
+
+$breakpoints: (
+  'mobile': (max-width: 767px),
+  'tablet': (min-width: 768px),
+  'desktop': (min-width: 980px),
+  'middle-desktop': (min-width: 1056px),
+  'large-screen': (min-width: 1261px),
+) !default;
+
+/*
+  - Breakpoint mixin
+  - From: https://css-tricks.com/snippets/sass/mixin-manage-breakpoints/
+*/
+
+@mixin device-is($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media #{inspect(map-get($breakpoints, $breakpoint))} {
+      @content;
+    }
+  } @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+        + "Available breakpoints are: #{map-keys($breakpoints)}.";
+  }
+}

@@ -1,0 +1,18 @@
+<div class="challenge-item-warning">
+  <div class="challenge-item-warning__instruction-primary">
+    Vous disposerez de <span class="challenge-item-warning__instruction-time">{{allocatedHumanTime}}</span> pour réussir la question suivante.
+  </div>
+
+  <div class="challenge-item-warning__intruction-secondary">
+    Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie.
+  </div>
+  <div class="challenge-item-warning__allocated-time">
+    <div class="challenge__allocated-time__jauge">
+      <img class="challenge__allocated-time__warning-icon" src="/images/icon-timed-challenge.svg" alt="Message d'avertissement">
+      <span class="challenge__allocated-time__value">{{allocatedTime}}</span>
+    </div>
+  </div>
+  <div class="challenge-item-warning__action">
+    <button {{action hasUserConfirmWarning}} class="challenge-item-warning__confirm-btn">Commencer</button>
+  </div>
+</div>

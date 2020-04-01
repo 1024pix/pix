@@ -1,0 +1,14 @@
+.assessment-challenge__content {
+  max-width: 990px;
+  width: 100%;
+  padding: 0 20px;
+
+  @include device-is('desktop') {
+    padding: 0;
+  }
+}
+
+.assessment-challenge__assessment-banner {
+  width: 100%;
+  margin-bottom: 30px;
+}

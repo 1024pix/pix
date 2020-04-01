@@ -1,0 +1,61 @@
+.correction-qroc-box__answer {
+  max-width: 90vw;
+}
+
+.correction-qroc-box-answer {
+  height: 26px;
+  line-height: 2.4rem;
+  border-radius: 3px;
+  background-color: $white;
+  box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+  border: solid 1px $alto-grey;
+  padding: 0 10px;
+  font-size: 1.6rem;
+
+  &--paragraph {
+    width: 100%;
+    height: auto;
+    resize: vertical;
+  }
+
+  &--sentence {
+    width: 100%;
+  }
+
+  &--correct {
+    font-weight: $font-bold;
+    color: $caribbean-green;
+  }
+
+  &--wrong {
+    color: $charcoal-grey;
+    text-decoration: line-through;
+  }
+
+  &--aband {
+    color: $charcoal-grey;
+    font-style: italic;
+  }
+}
+
+.correction-qroc-box__solution {
+  display: flex;
+  align-items: stretch;
+  margin-top: 5px;
+}
+
+.correction-qroc-box__solution-text {
+  font-size: 1.6rem;
+  font-weight: $font-bold;
+  color: $caribbean-green;
+  display: flex;
+  margin-left: 7px;
+  position: relative;
+  bottom: 3px;
+  overflow-wrap: break-word;
+}
+
+.correction-qroc-box__solution-img {
+  width: 18px;
+  height: 18px;
+}

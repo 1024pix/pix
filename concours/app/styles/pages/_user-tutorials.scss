@@ -1,0 +1,115 @@
+.user-tutorials-banner {
+  position: relative;
+  max-width: 980px;
+  margin: auto;
+  font-family: $font-roboto;
+  font-weight: $font-light;
+  height: 270px;
+  padding: 0 20px;
+  text-align: center;
+
+  @include device-is('tablet') {
+    text-align: left;
+  }
+
+  @include device-is('desktop') {
+    padding: 0;
+  }
+
+  &__icon {
+    display: none;
+
+    @include device-is('tablet') {
+      position: absolute;
+      display: block;
+      bottom: 0;
+      right: 50px;
+    }
+
+    @include device-is('desktop') {
+      right: 70px;
+    }
+  }
+
+  &__title {
+    margin: 0 0 8px;
+    padding-top: 64px;
+    color: $white;
+  }
+
+  &__description {
+    font-size: 1.6rem;
+    margin: auto;
+    line-height: 2.7rem;
+    letter-spacing: 0.15px;
+    max-width: 440px;
+
+    @include device-is('tablet') {
+      margin: 0;
+    }
+  }
+}
+
+.user-tutorials-content {
+  background: $alto-grey;
+  max-width: 980px;
+  margin: 24px 16px;
+  padding: 32px 16px 24px;
+  text-align: center;
+  align-items: center;
+  color: $grey-80;
+
+  display: flex;
+  flex-direction: column;
+
+  @include device-is('tablet') {
+    text-align: left;
+    flex-direction: row;
+
+    padding: 24px;
+    align-items: flex-start;
+  }
+
+  @include device-is('desktop') {
+    margin: 24px auto;
+  }
+
+  &__illustration {
+    margin-bottom: 16px;
+
+    @include device-is('tablet') {
+      margin-bottom: 0;
+    }
+  }
+
+  &__instructions {
+    font-weight: $font-light;
+
+    svg {
+      margin: 0 3px;
+    }
+
+    @include device-is('tablet') {
+      padding: 0 0 0 32px;
+    }
+  }
+
+  &-instructions__title {
+    margin: 0 0 8px;
+    font-family: $font-open-sans;
+    font-weight: $font-normal;
+    letter-spacing: 0;
+    line-height: 4rem;
+
+    @include device-is('tablet') {
+      line-height: 5.4rem;
+    }
+  }
+
+  &-instructions__description {
+    margin: 0;
+    font-size: 1.6rem;
+    line-height: 2.7rem;
+    letter-spacing: 0.015rem;
+  }
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="21px" viewBox="0 0 22 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icône document sonore</title>
+    <desc>Icône représenant un document sonore.</desc>
+    <defs>
+        <path d="M20,21.75 L20,25 L10,25 L10,21.75 C10,20.37 12.24,19.25 15,19.25 C17.76,19.25 20,20.37 20,21.75 Z M15,9 C18.5898509,9 21.5,11.9101491 21.5,15.5 C21.5,16.75 21.15,17.92 20.54,18.91 L19,17.54 C19.32,16.93 19.5,16.23 19.5,15.5 C19.5,13 17.5,11 15,11 C12.5,11 10.5,13 10.5,15.5 C10.5,16.23 10.68,16.93 11,17.54 L9.46,18.91 C8.85,17.92 8.5,16.75 8.5,15.5 C8.5,11.9101491 11.4101491,9 15,9 Z M15,5 C20.7989899,5 25.5,9.70101013 25.5,15.5 C25.5,17.78 24.77,19.89 23.54,21.61 L22.04,20.26 C22.96,18.9 23.5,17.26 23.5,15.5 C23.5,10.8055796 19.6944204,7 15,7 C10.3055796,7 6.5,10.8055796 6.5,15.5 C6.5,17.26 7.04,18.9 7.96,20.26 L6.46,21.61 C5.23,19.89 4.5,17.78 4.5,15.5 C4.5,9.70101013 9.20101013,5 15,5 Z M15,13 C16.3807119,13 17.5,14.1192881 17.5,15.5 C17.5,16.8807119 16.3807119,18 15,18 C13.6192881,18 12.5,16.8807119 12.5,15.5 C12.5,14.1192881 13.6192881,13 15,13 Z" id="path-1"></path>
+    </defs>
+    <g id="Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons" transform="translate(-185.000000, -131.000000)">
+            <g id="3.-Icons/tuto/podcast" transform="translate(181.000000, 126.492188)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Shape" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+                <g id="5.-Colors/666" mask="url(#mask-2)" fill="#666666" fill-rule="evenodd">
+                    <g transform="translate(2.000000, 2.000000)" id="Gray-70">
+                        <rect x="0" y="0" width="26" height="26"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,97 @@
+.join-restricted-campaign {
+  form {
+    width: 280px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  input {
+    width: 100%;
+    height: 50px;
+    border-radius: 4px;
+    border: 2px solid $alto-grey;
+    padding-left: 10px;
+
+    &[disabled] {
+      background-color: $alto-grey;
+    }
+
+    &.input--error {
+      border-color: $pure-orange;
+    }
+  }
+
+  button {
+    margin: 10px 0 0 0;
+    width: 100%;
+  }
+
+  &__container {
+    padding-bottom: 30px;
+
+    @include device-is('tablet') {
+      padding: 40px;
+    }
+  }
+
+  &__title {
+    color: $nero;
+    font-family: $font-open-sans;
+    font-size: 4.2rem;
+    font-weight: $font-light;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  &__subtitle {
+    color: $nero;
+    font-family: $font-open-sans;
+    font-size: 1.8rem;
+    font-weight: $font-light;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  &__label {
+    font-family: $font-roboto;
+    font-size: 1.5rem;
+    font-weight: $font-medium;
+  }
+
+  &__field-error {
+    color: $pure-orange;
+    font-size: 1.4rem;
+  }
+
+  &__error {
+    text-align: center;
+    color: $pure-orange;
+    font-size: 1.5rem;
+    padding: 4px 10px;
+
+    @include device-is('tablet') {
+      padding: 0;
+    }
+  }
+
+  &__row {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  &__birthdate {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+
+    & input {
+      text-align: center;
+      padding-left: 0;
+      margin-bottom: 4px;
+      width: 30%;
+    }
+  }
+}

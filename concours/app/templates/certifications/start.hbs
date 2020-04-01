@@ -1,0 +1,23 @@
+{{title pageTitle}}
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+
+    <NavbarHeader @class="navbar-header--white" @burger={{burger}} />
+    <div class="background-banner-wrapper">
+      <div class="background-banner"></div>
+
+      {{#if model.isCertifiable}}
+        <div
+          class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner certification-start-page__panel">
+          <div class="certification-stepper">
+            <Stepper @steps={{array "certification-stepper-join" "certification-stepper-start"}}/>
+          </div>
+        </div>
+      {{else}}
+        <CertificationNotCertifiable />
+      {{/if}}
+
+    </div>
+
+  </burger.outlet>
+</BurgerMenu>

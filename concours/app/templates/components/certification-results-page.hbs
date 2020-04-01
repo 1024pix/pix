@@ -1,0 +1,52 @@
+<div class="certification-results__certification-banner">
+  <CertificationBanner @certificationNumber={{@certificationNumber}} />
+</div>
+
+<div class="certification-results__content rounded-panel result-content">
+  {{#if this.notFinishedYet}}
+
+    <div class="result-content__panel-picture">
+      <img src="{{@rootURL}}/images/flag.svg" alt="drapeau">
+    </div>
+    <div class="result-content__panel-title">
+      Vous avez presque terminé
+    </div>
+    <div class="result-content__panel-description-supervisor">
+      Appelez le surveillant :
+      <br>Il doit impérativement voir cet écran pour finaliser votre certification.
+    </div>
+
+    <div class="result-content__warning-container">
+      <div class="result-content__checked-supervisor">
+        <Input @type="checkbox" @id="validSupervisor" @checked={{this.validSupervisor}} @alt="Le surveillant doit cliquer ici." />
+
+        <span class="result-content__warning-text">
+          Le surveillant a bien vu cet écran.
+        </span>
+      </div>
+
+      {{#if this.validSupervisor}}
+        <button class="result-content__button result-content__validation-button" {{action "validateBySupervisor"}}>Je confirme</button>
+      {{else}}
+        <button class="result-content__button result-content__button-blocked">Je confirme</button>
+      {{/if}}
+    </div>
+
+  {{else}}
+    <div class="result-content__panel-title">
+      Bravo, c'est fini !
+    </div>
+    <div class="result-content__panel-description">
+      Vos résultats seront prochainement disponibles depuis votre compte.
+    </div>
+    <div class="result-content__warning-container">
+      <div class="result-content__warning-text">
+        Si cet ordinateur n’est pas le vôtre, pensez à vous déconnecter.
+      </div>
+
+      <LinkTo @route="logout" class="result-content__logout-button result-content__button">Se déconnecter</LinkTo>
+
+    </div>
+  {{/if}}
+
+</div>

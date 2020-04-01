@@ -1,0 +1,39 @@
+<div class="navbar-desktop-header__container">
+  <!-- Logo (left) -->
+  <div class="navbar-desktop-header-logo">
+    <div class="navbar-desktop-header-logo__pix">
+      <PixLogo />
+    </div>
+    <div class="navbar-desktop-header-logo__marianne">
+      <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="République française">
+    </div>
+  </div>
+
+  {{#unless isInRouteWithoutLinksInHeader}}
+    {{#if isUserLogged}}
+      <div class="navbar-desktop-header-container__menu">
+        <LinkTo @route="profile" class="navbar-desktop-header-menu__item">
+          Profil
+        </LinkTo>
+        <LinkTo @route="campaigns" class="navbar-desktop-header-menu__item">
+          Parcours
+        </LinkTo>
+        <LinkTo @route="certifications" class="navbar-desktop-header-menu__item">
+          Certification
+        </LinkTo>
+        <a href="https://pix.fr/aide" target="_blank" class="navbar-desktop-header-menu__item">
+          Aide
+        </a>
+      </div>
+    {{/if}}
+  {{/unless}}
+
+  <!-- Links (right) -->
+  <div class="navbar-desktop-header-right">
+    <NavbarDesktopMenu @menu={{menu}} />
+
+    {{#if isUserLogged}}
+      <UserLoggedMenu />
+    {{/if}}
+  </div>
+</div>

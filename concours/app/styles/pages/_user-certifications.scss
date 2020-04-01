@@ -1,0 +1,44 @@
+.user-certifications-page__container {
+  max-width: 1200px;
+  min-height: 500px;
+  margin: 0 auto;
+  padding: 0 10px;
+
+  @include device-is('desktop') {
+    justify-content: flex-start;
+    padding: 0;
+  }
+}
+
+.user-certifications-page__title {
+  display: flex;
+  justify-content: center;
+
+  color: $charcoal-grey;
+  font-family: $font-open-sans;
+  font-size: 28px;
+  font-weight: $font-medium;
+  line-height: 33px;
+
+  padding-top: 60px;
+  padding-bottom: 40px;
+  margin: 0;
+
+  @include device-is('desktop') {
+    justify-content: flex-start;
+  }
+}
+
+.user-certifications-page__detail-content {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px;
+
+  @include device-is('desktop') {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    align-items: flex-start;
+    margin: 0;
+  }
+}

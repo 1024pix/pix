@@ -1,0 +1,46 @@
+<div class="navbar-burger-menu navbar-burger-menu__user-info">
+  {{#if currentUser.user}}
+    <div class="navbar-burger-menu-user-info__item">
+      <p class="navbar-burger-menu-user-info-item__name">
+        {{currentUser.user.fullName}}
+      </p>
+      <p class="navbar-burger-menu-user-info-item__email">
+        {{currentUser.user.email}}
+      </p>
+    </div>
+  {{/if}}
+
+  {{#if showUserTutorialsInMenu}}
+    <LinkTo @route="user-tutorials" class="navbar-burger-menu-user-info__item">
+      Mes tutos
+    </LinkTo>
+  {{/if}}
+
+  <LinkTo @route="user-certifications" class="navbar-burger-menu-user-info__item">
+    Mes certifications
+  </LinkTo>
+
+  <LinkTo @route="logout" class="navbar-burger-menu-user-info__item navbar-burger-menu-user-info-item__logout">
+    Se déconnecter
+  </LinkTo>
+</div>
+
+{{#unless isInRouteWithoutLinksInHeader}}
+  <div class="navbar-burger-menu navbar-burger-menu__navigation">
+    <LinkTo @route="profile" class="navbar-burger-menu-navigation__item">
+      Profil
+    </LinkTo>
+
+    <LinkTo @route="campaigns" class="navbar-burger-menu-navigation__item">
+      Parcours
+    </LinkTo>
+
+    <LinkTo @route="certifications" class="navbar-burger-menu-navigation__item">
+      Certification
+    </LinkTo>
+
+    <a href="https://pix.fr/aide" target="_blank" class="navbar-burger-menu-navigation__item">
+      Aide
+    </a>
+  </div>
+{{/unless}}

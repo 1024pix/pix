@@ -1,0 +1,48 @@
+.default-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+  box-sizing: border-box;
+  font-size: 1.5rem;
+
+  thead {
+    display: none;
+    width: 100%;
+    color: $grayish-grey;
+
+    @include device-is('tablet') {
+      display: table-header-group;
+    }
+  }
+
+  tbody {
+    color: $dove-gray;
+  }
+
+  tr {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 1px solid $porcelain-grey;
+
+    @include device-is('tablet') {
+      display: table-row;
+      height: 60px;
+    }
+  }
+
+  th {
+    border-top: 1px solid $porcelain-grey;
+  }
+
+  td, th {
+    text-align: left;
+    padding: 8px 12px 18px 12px;
+
+    @include device-is('tablet') {
+      padding: 0 0 0 30px;
+    }
+  }
+}
+

@@ -1,0 +1,195 @@
+$pix-modal-border-radius: 5px;
+
+/* Structure & layout
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.pix-modal-wrapper {
+  z-index: 100;
+
+  .pix-modal-dialog {
+    background: transparent;
+    padding: 10px;
+    box-shadow: none;
+    width: 100vw;
+
+    @include device-is('desktop') {
+      width: 800px;
+    }
+
+    &--wide {
+      @include device-is('desktop') {
+        width: 950px;
+      }
+    }
+
+    .pix-modal__close-link {
+      color: $white;
+      text-align: right;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      cursor: pointer;
+
+      &> span {
+        color: inherit;
+        font-size: 1.4rem;
+        margin-right: 5px;
+
+        &:hover,
+        &:active,
+        &:focus {
+          color: inherit;
+        }
+      }
+
+      &> svg {
+        font-size: 1.4rem;
+      }
+    }
+
+    .pix-modal__container {
+      border-radius: $pix-modal-border-radius;
+      background-color: $porcelain-grey;
+      box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+      font-size: 1.6rem;
+      position: relative;
+      margin: auto;
+
+      &--white {
+        background-color: $white;
+      }
+
+      &--with-padding {
+        @include device-is('desktop') {
+          padding: 40px 0;
+        }
+      }
+
+      .pix-modal-header {
+        background: $white;
+        border-top-left-radius: $pix-modal-border-radius;
+        border-top-right-radius: $pix-modal-border-radius;
+
+        &__title {
+          margin: 0;
+          text-align: center;
+          padding: 15px;
+          font-family: $font-roboto;
+          font-size: 2.8rem;
+
+          &--thin {
+            font-weight: $font-light;
+          }
+        }
+
+        &__subtitle {
+          margin: 0;
+          text-align: center;
+          color: $nero;
+          font-family: $font-roboto;
+          font-weight: $font-normal;
+          font-size: 1.6rem;
+        }
+      }
+
+      .pix-modal-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        &--with-padding {
+          padding: 20px;
+        }
+      }
+
+      .pix-modal-footer {
+        border-bottom-left-radius: $pix-modal-border-radius;
+        border-bottom-right-radius: $pix-modal-border-radius;
+
+        &--with-centered-buttons {
+          padding: 15px 0;
+          display: flex;
+          flex-direction: row-reverse;
+          justify-content: center;
+
+          >.button {
+            margin: 0 10px;
+          }
+        }
+
+        &--border {
+          border-top: 1px solid $alto-grey;
+        }
+      }
+    }
+  }
+}
+
+/* Form & input
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.pix-modal__input {
+  padding: 15px;
+  border-radius: $pix-modal-border-radius;
+  background-color: $white;
+  border: 2px solid $alto-grey;
+  color: $slate-grey;
+  letter-spacing: 0.2rem;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+  outline: none;
+  text-align: center;
+
+  &:focus {
+    border-color: $pix-blue;
+  }
+
+  @include device-is('tablet') {
+    width: auto;
+    text-align: left;
+  }
+}
+
+/* Overlay
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.ember-modal-overlay.translucent {
+  background-color: rgba(red($charcoal-grey), green($charcoal-grey), blue($charcoal-grey), 0.95);
+}
+
+
+/* Scrolling
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+body.centered-modal-showing {
+  overflow: hidden;
+}
+
+.centered-scrolling-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: scroll;
+}
+
+.centered-scrolling-overlay {
+  position: relative;
+  height: auto;
+  min-height: 100vh;
+  padding: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.centered-scrolling-container {
+  position: relative;
+  min-height: 20em;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  box-sizing: border-box;
+}

@@ -1,0 +1,47 @@
+.timeout-jauge-wrapper {
+  padding-top: 0;
+}
+
+.timeout-jauge {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  font-size: 20px;
+  font-weight: $font-bold;
+  font-style: normal;
+}
+
+.timeout-jauge-container {
+  position: relative;
+  z-index: 0;
+  background-color: $alto-grey;
+  width: 100px;
+  height: 36px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.timeout-jauge-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  background-color: $porcelain-grey;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  height: 100%;
+}
+
+.timeout-jauge-clock {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}

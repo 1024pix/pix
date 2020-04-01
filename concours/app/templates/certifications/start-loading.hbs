@@ -1,0 +1,16 @@
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+
+    <NavbarHeader @class="navbar-header--white" @burger={{burger}} />
+    <div class="background-banner-wrapper">
+      <div class="background-banner"></div>
+
+      <div class="app-nested-loader rounded-panel--over-background-banner rounded-panel rounded-panel--strong">
+        <p class="app-loader__image"><img src="/images/interwind.gif"></p>
+        <p class="app-loader__text">Chargement en cours…</p>
+      </div>
+
+    </div>
+
+  </burger.outlet>
+</BurgerMenu>

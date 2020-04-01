@@ -1,0 +1,12 @@
+{{title pageTitle}}
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+    {{#if @model.campaignParticipations}}
+      <ResumeCampaignBanner @campaignParticipations={{@model.campaignParticipations}} />
+    {{/if}}
+    <NavbarHeader @class="navbar-header--white" @burger={{burger}} />
+
+    <ProfileContent @model={{@model}} />
+
+  </burger.outlet>
+</BurgerMenu>

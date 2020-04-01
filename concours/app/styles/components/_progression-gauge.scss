@@ -1,0 +1,88 @@
+.progression-gauge {
+  background-color: $alto-grey;
+  width: 100%;
+  height: 4px;
+  border-radius: 5px;
+
+  &--white {
+    background-color: $jordy-blue;
+
+    & .progression-gauge__marker {
+      background: $white;
+    }
+
+    & .progression-gauge__tooltip {
+      background: $white;
+      color: $pix-blue;
+      font-family: $font-open-sans;
+      font-weight: $font-bold;
+      padding: 0;
+
+      &::before {
+        color: $white;
+        border-top-color: $white;
+        margin-top: 18px;
+      }
+    }
+  }
+
+  &--tooltip-left {
+    & .progression-gauge__tooltip-wrapper {
+      top: -13px;
+    }
+
+    & .progression-gauge__tooltip {
+      padding: 2px;
+      margin-top: -22px;
+      right: -40px;
+      width: 40px;
+
+      &::before {
+        border-top: 12px solid;
+        border-right: 12px solid transparent;
+        border-left: none;
+        margin-top: 14px;
+        right: 28px;
+        left: 0;
+      }
+    }
+  }
+}
+
+.progression-gauge__marker {
+  background: linear-gradient(to right, $pix-yellow-hover, $dark-orange);
+  height: 4px;
+  border-radius: 5px;
+  text-align: right;
+}
+
+.progression-gauge__tooltip-wrapper {
+  position: relative;
+  top: -27px;
+}
+
+.progression-gauge__tooltip {
+  position: absolute;
+  background: linear-gradient(180deg, $pix-yellow-hover 0%, $dark-orange 100%);
+  color: $white;
+  border-radius: 5px;
+  font-family: $font-roboto;
+  font-size: 1.3rem;
+  font-weight: $font-normal;
+  text-align: center;
+  right: -18px;
+  width: 36px;
+  line-height: normal;
+  padding: 2px 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 40%;
+    color: $dark-orange;
+    border-top: 4px solid $dark-orange;
+    border-right: 3px solid transparent;
+    border-left: 3px solid transparent;
+    margin-top: 16px;
+  }
+}

@@ -1,0 +1,31 @@
+{{#if currentUser.user}}
+  <div class="logged-user-name" aria-haspopup="true" aria-expanded="{{_canDisplayMenu}}">
+    <a href="#" class="logged-user-name__link" {{action 'toggleUserMenu'}}>
+      {{currentUser.user.firstName}}
+      <span class="caret"></span>
+    </a>
+  </div>
+
+  {{#if _canDisplayMenu}}
+    <ClickOutside @action={{action "closeMenu"}}>
+      <div class="logged-user-menu">
+        <div class="logged-user-menu__details">
+          <div class="logged-user-menu-details__fullname">{{currentUser.user.fullName}}</div>
+          <div class="logged-user-menu-details__identifier">{{displayedIdentifier}}</div>
+        </div>
+        {{#if showUserTutorialsInMenu}}
+          <LinkTo @route="user-tutorials" class="logged-user-menu__link">
+            Mes tutos
+          </LinkTo>
+        {{/if}}
+        <LinkTo @route="user-certifications" class="logged-user-menu__link">
+          Mes certifications
+        </LinkTo>
+        <LinkTo @route="logout" class="logged-user-menu__link">
+          {{fa-icon "power-off" class="logged-user-menu__icon"}}
+          Se déconnecter
+        </LinkTo>
+      </div>
+    </ClickOutside>
+  {{/if}}
+{{/if}}

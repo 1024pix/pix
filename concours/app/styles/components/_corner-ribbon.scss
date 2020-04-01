@@ -1,0 +1,36 @@
+.corner-ribbon-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.corner-ribbon {
+  position: relative;
+  width: 172px;
+  height: 150px;
+  overflow: hidden;
+}
+
+.ribbon {
+  background-color: $pix-yellow-hover;
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  left: -7px;
+  top: 36px;
+  transform: rotate(45deg);
+}
+
+.ribbon a {
+  color: $white;
+  display: block;
+  font-weight: $font-bold;
+  font-size: 20px;
+  margin: 1px 0;
+  padding: 3px 0;
+  text-align: center;
+  text-decoration: none;
+  min-width: 237px;
+  cursor: none;
+  pointer-events: none;
+}

@@ -1,0 +1,224 @@
+@include device-is('tablet') {
+  .competence-card {
+    flex-direction: column;
+    width: 210px;
+    height: 310px;
+  }
+
+  .competence-card__header {
+    height: 110px;
+    overflow: hidden;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .competence-card__color {
+    &::after {
+      right: -200px;
+      left: -200px;
+      top: -350px;
+      bottom: 0;
+      width: auto;
+    }
+
+    &--jaffa::after {
+      background: radial-gradient($jaffa-dark 25%, $jaffa 100%)
+    }
+
+    &--emerald::after {
+      background: radial-gradient($emerald-dark 25%, $emerald 100%);
+    }
+
+    &--cerulean::after {
+      background: radial-gradient($cerulean-dark 25%, $cerulean 100%);
+    }
+
+    &--wild-strawberry::after {
+      background: radial-gradient($wild-strawberry-dark 25%, $wild-strawberry 100%);
+    }
+
+    &--butterfly-bush::after {
+      background: radial-gradient($butterfly-bush-dark 25%, $butterfly-bush 100%);
+    }
+  }
+
+  .competence-card__area-name {
+    font-size: 0.9rem;
+  }
+
+  .competence-card__competence-name {
+    font-size: 1.6rem;
+  }
+
+  .competence-card__competence-name {
+    margin: 8px 0;
+    padding: 0 4px;
+  }
+
+  .competence-card__body {
+    position: absolute;
+    top: 80px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    height: auto;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    background: transparent;
+    transition: top 0.2s ease-out;
+  }
+
+  .competence-card__link {
+    z-index: 0;
+    padding: 0;
+  }
+
+  .competence-card__link:hover {
+    border: 12px solid rgba($white, 0.4);
+  }
+
+  .competence-card__link:hover .competence-card__score-details {
+    opacity: 1;
+  }
+
+  .competence-card:hover .competence-card__footer {
+    bottom: 0px;
+    height: 70px;
+  }
+
+  .competence-card__button:hover .competence-card-button__label {
+    left: -20px;
+  }
+
+  .competence-card__button:hover .competence-card-button__arrow {
+    opacity: 1;
+    right: 24px;
+  }
+
+  .competence-card:hover .competence-card__body {
+    top: 32px;
+  }
+
+  .competence-card:hover {
+    top: -8px;
+    box-shadow: $box-shadow-competence-cards-hover;
+  }
+
+  .competence-card:hover .competence-card__header {
+    height: 179px;
+    transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .competence-card__level {
+    .score-label {
+      display: block;
+    }
+
+    &--congrats {
+      margin-bottom: 12px;
+    }
+  }
+
+  .competence-card__congrats {
+    width: 130px;
+    height: 140px;
+    background: url('/images/scorecard-congrats.svg') no-repeat center center;
+    background-size: contain;
+    margin: -10px -5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &--with-magnification {
+      &:hover {
+        width: 140px;
+        height: 150px;
+      }
+    }
+  }
+
+  .competence-card__score-label--congrats {
+    color: $white;
+  }
+
+  .competence-card__score-value--congrats {
+    color: $white;
+    font-size: 4.5rem;
+    font-weight: $font-bold;
+  }
+
+  .competence-card__congrats-message {
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 34px;
+    color: $pix-grey-hover;
+    font-family: $font-open-sans;
+    font-size: 1.5rem;
+    font-weight: $font-bold;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+  }
+
+  .competence-card__score-details {
+    display: block;
+    margin-top: 3px;
+    margin-bottom: -4px;
+    color: $dusty-grey;
+    opacity: 0;
+    text-transform: uppercase;
+    font-size: 1rem;
+    transition: opacity 0.1s linear;
+    letter-spacing: 0.5px;
+  }
+
+  .competence-card__footer {
+    position: absolute;
+    bottom: -34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 34px;
+    visibility: visible;
+    z-index: 1;
+    transition: bottom 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition-delay: 0s;
+
+    .competence-card__button {
+      position: relative;
+      height: 34px;
+      min-width: 140px;
+    }
+
+    .competence-card-button__label {
+      position: absolute;
+      top: 0;
+      bottom: 2px;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: left 0.1s ease-out;
+    }
+
+    .competence-card-button__arrow {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      margin-left: 8px;
+      transition: all 0.1s linear;
+    }
+  }
+}

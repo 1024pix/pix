@@ -1,0 +1,86 @@
+.tutorial-panel {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.tutorial-panel__hint-container-body {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 20px 0 40px;
+}
+
+.tutorial-panel__hint-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 991px;
+  margin: 0 15px;
+  border-radius: 5px;
+
+  @include device-is('desktop') {
+    margin: 0 40px;
+  }
+}
+
+.tutorial-panel__tutorials-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.tutorial-panel__tutorial-info {
+  color: $raven-grey;
+  font-size: 1.3rem;
+  line-height: 2rem;
+  margin: -5px 5px 0;
+}
+
+.tutorial-panel__hint-title {
+  font-family: $font-open-sans;
+  font-size: 2.2rem;
+  text-align: center;
+  color: $charcoal-grey;
+  font-weight: $font-semi-bold;
+  margin-bottom: 20px;
+
+  // XXX Inspired from https://codepen.io/ericrasch/pen/Irlpm
+  position: relative;
+  z-index: 1;
+
+  &:before {
+    border-top: 2px solid #dfdfdf;
+    content:"";
+    margin: 0 auto;
+    position: absolute;
+    top: 50%; left: 0; right: 0; bottom: 0;
+    width: 100%;
+    z-index: -1;
+  }
+
+  span {
+    background: $porcelain-grey;
+    padding: 0 15px;
+  }
+
+  @include device-is('desktop') {
+    font-size: 2.2rem;
+    line-height: 26px;
+  }
+}
+
+.tutorial-panel__hint-content {
+  font-size: 1.8rem;
+  font-family: $font-open-sans;
+
+  & p {
+    padding-top: 12px;
+  }
+}
+
+.tutorial-panel__hint-picto-container {
+  vertical-align: middle;
+}
+
+.tutorial-panel__hint-picto {
+  padding: 0 20px;
+}

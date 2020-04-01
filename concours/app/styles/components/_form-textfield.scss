@@ -1,0 +1,162 @@
+.form-textfield {
+  position: relative;
+  margin-top: 20px;
+}
+
+.form-textfield__label {
+  font-size: 1.5rem;
+  font-weight: $font-medium;
+  color: $charcoal-grey;
+  letter-spacing: 0.05rem;
+}
+
+.form-textfield__help {
+  text-transform: none;
+  font-weight: normal;
+  letter-spacing: normal;
+}
+
+.form-textfield__date {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  & .form-textfield__input-field-container, input {
+    text-align: center;
+    width: 30%;
+  }
+}
+
+.form-textfield__message {
+  text-transform: none;
+}
+
+.form-textfield__input-field-container {
+  display: flex;
+  height: 46px;
+  border-radius: 3px;
+  align-items: center;
+  border: 2px solid $alto-grey;
+  background-color: $white;
+  width: 100%;
+
+  &:hover {
+    border: 2px solid $dodger-blue;
+  }
+
+  @include device-is('desktop') {
+    height: 50px;
+  }
+}
+
+.form-textfield__input-container--default {
+  border: 2px solid $alto-grey;
+}
+
+.form-textfield__input-container--error {
+  border: 2px solid $red-error;
+}
+
+.form-textfield__input-container--success {
+  border: 2px solid $caribbean-green;
+}
+
+.form-textfield__input-container--disabled {
+  background-color: $alto-grey;
+}
+
+.form-textfield__input-field-container input {
+  height: 40px;
+  flex-grow: 1;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+  color: $slate-grey;
+  padding: 0 10px;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-ms-clear, &::-ms-reveal {
+    display: none;
+  }
+
+  &[disabled] {
+    background-color: $alto-grey;
+  }
+}
+
+
+.form-textfield__message {
+  font-size: 1.4rem;
+}
+
+.form-textfield__message--error {
+  color: $red-error;
+}
+
+.form-textfield__message--success {
+  color: $caribbean-green;
+}
+
+.form-textfield__message--error.form-textfield__message-password,
+.form-textfield__message--error.form-textfield__message-email,
+.form-textfield__message--error.form-textfield__message-text {
+  position: relative;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.form-textfield__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.form-textfield__icons {
+  height: 20px;
+  margin: 6px 8px;
+  border: none;
+  background: none;
+
+  &:focus {
+    outline: 1px solid $pix-blue;
+    box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5);
+  }
+}
+
+.form-textfield-icon {
+  &__button {
+    display: flex;
+    border: none;
+    padding: 0;
+    background: none;
+    margin: 10px;
+
+    &:focus {
+      outline: 1px solid $pix-blue;
+      box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5);
+    }
+  }
+
+  &__state {
+    margin-right: 10px;
+  }
+}
+
+.form-textfield-icon-button {
+  &__eye {
+    color: $dove-gray;
+    transition: .5s;
+    font-size: 1.8rem;
+    margin-top: 1px;
+
+    &:hover {
+      color: $nero;
+      cursor: pointer;
+    }
+  }
+}

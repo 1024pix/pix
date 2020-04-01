@@ -1,0 +1,28 @@
+{{#if shouldDisplayHintOrTuto}}
+  <div class="tutorial-panel__hint-container">
+    <header class="tutorial-panel__hint-container-header">
+      <h3 class="tutorial-panel__hint-title"><span>Pour réussir la prochaine fois</span></h3>
+    </header>
+    {{#if shouldDisplayHint}}
+      <div class="tutorial-panel__hint-container-body">
+        <div class="tutorial-panel__hint-picto-container">
+          <img src="{{rootURL}}/images/comparison-window/icon-lampe.svg"
+                alt=""
+                class="tutorial-panel__hint-picto">
+        </div>
+        <MarkdownToHtml @class="tutorial-panel__hint-content" @markdown={{hint}} />
+      </div>
+    {{/if}}
+
+    {{#if shouldDisplayTutorial}}
+      <div class="tutorial-panel__tutorials-container">
+        {{#each limitedTutorials as |tutorial|}}
+          <TutorialItem @tutorial={{tutorial}} />
+        {{/each}}
+      </div>
+      <div class="tutorial-panel__tutorial-info">
+        Ces liens ont été proposés par des utilisateurs de Pix.
+      </div>
+    {{/if}}
+  </div>
+{{/if}}

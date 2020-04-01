@@ -1,0 +1,10 @@
+<div>
+  <div class="user-certifications-detail-area__box-name">
+    {{area.title}}
+  </div>
+  {{#each sortedCompetences as |competence index|}}
+
+    <UserCertificationsDetailCompetence @competence={{competence}} />
+
+  {{/each}}
+</div>

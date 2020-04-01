@@ -1,0 +1,37 @@
+{{title pageTitle}}
+
+<div class="assessment-results">
+
+  <div class="assessment-results__assessment-banner">
+    <AssessmentBanner @title={{@model.title}} @checkpoint={{false}} @displayHomeLink={{false}} />
+  </div>
+
+  <div class="assessment-results__content">
+    <p class="assessment-results__title">
+      Vos réponses
+    </p>
+
+    <div class="assessment-results__list">
+      {{#each model.answers as |answer|}}
+        <ResultItem @answer={{answer}} @correction={{answer.correction}} @openAnswerDetails={{action "openComparisonWindow"}} />
+      {{/each}}
+    </div>
+
+    <div class="assessment-results__index-link-container">
+      {{#if model.isDemo}}
+        <LinkTo @route="inscription" class="assessment-results__index-link__element assessment-results__index-a-link" @tagName="button">
+          <span class="assessment-results__link-back">Continuer mon expérience Pix</span>
+        </LinkTo>
+      {{else}}
+        <LinkTo @route="index" class="assessment-results__index-link__element" @tagName="button">
+          <span class="assessment-results__link-back">Revenir à l'accueil</span>
+        </LinkTo>
+      {{/if}}
+    </div>
+  </div>
+
+  {{#if isShowingModal}}
+    <ComparisonWindow @answer={{answer}} @closeComparisonWindow={{action "closeComparisonWindow"}} />
+  {{/if}}
+
+</div>

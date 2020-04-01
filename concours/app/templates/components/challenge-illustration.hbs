@@ -1,0 +1,10 @@
+{{#if this.displayPlaceholder}}
+  <div class="challenge-illustration__placeholder" aria-label="Chargement de l'image en cours">
+    <FaIcon @icon='image'></FaIcon>
+  </div>
+{{/if}}
+
+<img src="{{this.src}}"
+     alt="{{this.alt}}"
+     class="challenge-illustration__loaded-image {{this.hiddenClass}}"
+     onload={{action 'onImageLoaded'}}>

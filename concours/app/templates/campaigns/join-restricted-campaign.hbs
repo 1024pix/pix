@@ -1,0 +1,77 @@
+{{title pageTitle}}
+
+<div class="background-banner-wrapper">
+  <div class="background-banner"></div>
+  <div
+    class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner join-restricted-campaign__container">
+    <div class="join-restricted-campaign">
+      <div class="join-restricted-campaign__title">Un tout petit détail !</div>
+      <div class="join-restricted-campaign__subtitle">Remplissez les informations manquantes</div>
+      <form>
+
+        <div class="join-restricted-campaign__row">
+          <label class="join-restricted-campaign__label">Prénom</label>
+          <Input
+            @id="firstName"
+            @type="text"
+            @value={{firstName}}
+            placeholder="Prénom"
+            @readonly={{isDisabled}}
+            @disabled={{isDisabled}}
+            class={{if validation.firstName.message "input--error"}}
+            @focusOut={{action "triggerInputStringValidation" "firstName" firstName}}
+           />
+          <div class="{{if validation.firstName.message 'join-restricted-campaign__field-error'}}" role="alert">
+            {{validation.firstName.message}}
+          </div>
+        </div>
+
+        <div class="join-restricted-campaign__row">
+          <label class="join-restricted-campaign__label">Nom</label>
+          <Input
+            @id="lastName"
+            @type="text"
+            @value={{lastName}}
+            placeholder="Nom"
+            @readonly={{isDisabled}}
+            @disabled={{isDisabled}}
+            class={{if validation.lastName.message "input--error"}}
+            @focusOut={{action "triggerInputStringValidation" "lastName" lastName}}
+           />
+          <div class="{{if validation.lastName.message 'join-restricted-campaign__field-error'}}" role="alert">
+            {{validation.lastName.message}}
+          </div>
+        </div>
+
+        <div class="join-restricted-campaign__row">
+          <label class="join-restricted-campaign__label">Date de naissance</label>
+          <div class="join-restricted-campaign__birthdate">
+            <Input @id="dayOfBirth" @type="text" @value={{dayOfBirth}} placeholder="JJ" class={{if validation.dayOfBirth.message "input--error"}} @focusOut={{action "triggerInputDayValidation" "dayOfBirth" dayOfBirth}} />
+            <Input @id="monthOfBirth" @type="text" @value={{monthOfBirth}} placeholder="MM" class={{if validation.monthOfBirth.message "input--error"}} @focusOut={{action "triggerInputMonthValidation" "monthOfBirth" monthOfBirth}} />
+            <Input @id="yearOfBirth" @type="text" @value={{yearOfBirth}} placeholder="AAAA" class={{if validation.yearOfBirth.message "input--error"}} @focusOut={{action "triggerInputYearValidation" "yearOfBirth" yearOfBirth}} />
+          </div>
+          <div class="{{if validation.dayOfBirth.message 'join-restricted-campaign__field-error'}}" role="alert">
+            {{validation.dayOfBirth.message}}
+          </div>
+          <div class="{{if validation.monthOfBirth.message 'join-restricted-campaign__field-error'}}" role="alert">
+            {{validation.monthOfBirth.message}}
+          </div>
+          <div class="{{if validation.yearOfBirth.message 'join-restricted-campaign__field-error'}}" role="alert">
+            {{validation.yearOfBirth.message}}
+          </div>
+        </div>
+
+        {{#if errorMessage}}
+          <div class="join-restricted-campaign__error" aria-live="polite">{{errorMessage}}</div>
+        {{/if}}
+        {{#if isLoading}}
+          <button type="button" disabled class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
+        {{else}}
+          <button type="submit" class="button button--big" {{action "attemptNext"}}>
+            C'est parti !
+          </button>
+        {{/if}}
+      </form>
+    </div>
+  </div>
+</div>

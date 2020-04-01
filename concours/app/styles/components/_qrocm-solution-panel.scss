@@ -1,0 +1,58 @@
+.correction-qrocm {
+  &__text {
+    display: inline-block;
+    font-size: 1.6rem;
+    line-height: 2.8rem;
+    color: $charcoal-grey;
+  }
+
+  &__answer {
+    line-height: 2.6rem;
+    border-radius: 3px;
+    background-color: $white;
+    box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+    border: solid 1px $alto-grey;
+    padding: 0 10px;
+
+    &-wrapper {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    &--paragraph {
+      display: block;
+      width: 100%;
+    }
+
+    &--sentence {
+      display: block;
+      width: 100%;
+    }
+
+    &--input {
+      display: inline-block;
+      height: 26px;
+    }
+  }
+
+
+  &__solution {
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
+
+    &-img {
+      width: 18px;
+      height: 18px;
+    }
+
+    &-text {
+      font-weight: $font-bold;
+      color: $caribbean-green;
+      font-size: 1.6rem;
+      margin-left: 3px;
+      padding-bottom: 1px;
+    }
+  }
+
+}

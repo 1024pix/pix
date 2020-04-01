@@ -1,0 +1,24 @@
+<form onchange="{{action "radioClicked"}}">
+{{#each labeledRadios as |labeledRadio index|}}
+<p class="proposal-paragraph">
+
+  {{!-- Radio button --}}
+  <input type="radio"
+         name="radio"
+         value="{{inc index}}"
+         data-value="{{inc index}}"
+         id="radio_{{inc index}}"
+         checked={{labeledRadio.[1]}}
+         onclick={{action "radioClicked" index}}
+         disabled={{if answer true}}>
+
+  {{!-- Surrounding label --}}
+  <label for="radio_{{inc index}}"
+          class="label-checkbox-proposal">
+
+    {{!-- text of proposal  --}}
+    <span class="sr-only">La réponse à la question est : </span><span class="proposal-text">{{labeledRadio.[0]}}</span>
+  </label>
+</p>
+{{/each}}
+</form>

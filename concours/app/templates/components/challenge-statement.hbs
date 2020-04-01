@@ -1,0 +1,66 @@
+{{#if challengeInstruction}}
+  <div class="challenge-statement__instruction-section">
+    <MarkdownToHtml @class="challenge-statement__instruction" @markdown={{challengeInstruction}} />
+  </div>
+{{/if}}
+
+{{#if challenge.illustrationUrl}}
+  <div class="challenge-statement__illustration-section">
+    <ChallengeIllustration @src={{challenge.illustrationUrl}} @alt={{challenge.illustrationAlt}} />
+  </div>
+{{/if}}
+
+{{#if challenge.hasAttachment}}
+  <div class="challenge-statement__attachments-section">
+
+    {{#if challenge.hasSingleAttachment}}
+      <div class="challenge-statement__action">
+        <a class="challenge-statement__action-link" href="{{challenge.attachments.firstObject}}" target="_blank"
+           download>
+          <span class="challenge-statement__action-label">Télécharger</span>
+        </a>
+      </div>
+    {{/if}}
+
+    {{#if challenge.hasMultipleAttachments}}
+      <p class="challenge-statement__text">
+        <span class="challenge-statement__text-content">Choisissez le type de fichier que vous voulez utiliser</span>
+      <div class="challenge-statement__help-icon">
+        <FaIcon @icon="info-circle"/>
+        <div class="challenge-statement__help-tooltip">
+          <span class="challenge-statement__help-text">Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.</span>
+        </div>
+      </div>
+      </p>
+      <ul class="challenge-statement__file-options">
+        {{#each attachmentsData as |attachmentUrl index|}}
+          <li class="challenge-statement__file-option">
+
+            {{!-- This radiobutton is hidden  - SVG displayed instead - but needed to handle behaviour. --}}
+            <input type="radio"
+                   id="attachment{{index}}"
+                   class="challenge-statement__file-option_input"
+                   name="attachment_selector"
+                   value="{{attachmentUrl}}"
+                   onclick={{action "selectAttachementUrl" attachmentUrl}}
+                     checked="{{if (eq attachmentUrl selectedAttachmentUrl) "checked"}}">
+
+            <label class="label-checkbox-downloadable" for="attachment{{index}}">
+              <span class="challenge-statement__file-option-label">fichier .{{extract-extension attachmentUrl}}</span>
+            </label>
+
+          </li>
+        {{/each}}
+      </ul>
+      <div class="challenge-statement__action">
+        <a class="challenge-statement__action-link" href="{{selectedAttachmentUrl}}" target="_blank" download>
+          <span class="challenge-statement__action-label">Télécharger</span>
+        </a>
+      </div>
+    {{/if}}
+  </div>
+{{/if}}
+
+{{#if challenge.hasValidEmbedDocument}}
+  <ChallengeEmbedSimulator @embedDocument={{challengeEmbedDocument}} />
+{{/if}}

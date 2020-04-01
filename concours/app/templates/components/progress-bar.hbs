@@ -1,0 +1,31 @@
+{{#if showProgressBar}}
+  <div class="progress-bar-container">
+    <div class="progress-bar-stepnums"
+         role="progressbar"
+         aria-valuenow={{currentStepNumber}}
+         aria-valuemin="1"
+         aria-valuemax="5"
+      >
+      {{#each this.steps as |step|}}
+        <div class="progress-bar-stepnum {{step.status}}">{{step.stepnum}}</div>
+      {{/each}}
+    </div>
+
+    <div class="progress-bar-background"></div>
+
+    <div class="progress-bar-progression" style={{progressionWidth}}></div>
+
+    <div class="progress-bar-steps">
+      {{#each this.steps as |step|}}
+        <span class="progress-bar-step" style={{step.background}}></span>
+      {{/each}}
+    </div>
+  </div>
+{{else}}
+  <div class="assessment-progress">
+    <div class="assessment-progress__label">Question</div>
+    <div class="assessment-progress__value">
+      {{currentStepNumber}} / {{maxStepsNumber}}
+    </div>
+  </div>
+{{/if}}

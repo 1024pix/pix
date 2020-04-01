@@ -1,0 +1,38 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+h3 {
+  font-size: 2.6rem;
+  color: $grey-90;
+  font-family: $font-open-sans;
+  font-weight: $font-light;
+  letter-spacing: 0.015rem;
+  line-height: 4.4rem;
+
+  @include device-is('tablet') {
+    font-size: 3.2rem;
+    line-height: 5.4rem;
+  }
+}
+
+h4 {
+  font-size: 2.4rem;
+  color: $grey-90;
+  font-family: $font-open-sans;
+  font-weight: $font-normal;
+  letter-spacing: 0;
+  line-height: 3.6rem;
+  margin-block-start: 0;
+  margin-block-end: 0;
+
+  @include device-is('tablet') {
+    line-height: 4.0rem;
+  }
+}

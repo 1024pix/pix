@@ -1,0 +1,33 @@
+<div class="login-or-register">
+  <div class="panel login-or-register__panel">
+    <div>
+      <img src="/images/pix-logo.svg" alt="Pix" class="login-or-register-panel__logo">
+    </div>
+    <span class="login-or-register-panel__invitation">{{@organizationName}} vous invite à rejoindre Pix</span>
+    <div class="login-or-register-panel__forms-container">
+      <div class="login-or-register-panel__form">
+        <h1 class="form-title">Je m’inscris sur Pix</h1>
+        {{#unless this.displayRegisterForm}}
+          <button id="register-button" {{action "toggleFormsVisibility"}} class="button button--white button--bordered button--uppercase">S'inscrire</button>
+        {{/unless}}
+        <div class={{concat "login-or-register-panel-form__expandable" (if this.displayRegisterForm " login-or-register-panel-form__expandable--expanded")}}>
+          {{#if this.displayRegisterForm}}
+            <Routes::RegisterForm @campaignCode={{@campaignCode}} />
+          {{/if}}
+        </div>
+      </div>
+      <div class="login-or-register-panel__divider"></div>
+      <div class="login-or-register-panel__form">
+        <h1 class="form-title">J’ai déjà un compte Pix</h1>
+        {{#if this.displayRegisterForm}}
+          <button id="login-button" {{action "toggleFormsVisibility"}} class="button button--white button--bordered button--uppercase">Se connecter</button>
+        {{/if}}
+        <div class={{concat "login-or-register-panel-form__expandable" (if (not this.displayRegisterForm) " login-or-register-panel-form__expandable--expanded")}}>
+          {{#unless this.displayRegisterForm}}
+            <Routes::LoginForm />
+          {{/unless}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

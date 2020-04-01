@@ -1,0 +1,39 @@
+{{title pageTitle}}
+<div class="background-banner-wrapper">
+  <div class="background-banner"></div>
+  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner fill-in-id-pix__container">
+    <h1 class="fill-in-id-pix-text fill-in-id-pix-text__title">Avant de commencer</h1>
+    <p class="fill-in-id-pix-text fill-in-id-pix-text__announcement">
+      L'organisateur de votre parcours a besoin de l'information ci-dessous pour pouvoir vous accompagner :
+    </p>
+
+    <form {{action "submit" on="submit"}} class="fill-in-id-pix__form">
+      <div class="fill-in-id-pix-form__section">
+        <div class="fill-in-id-pix__form-field">
+          <label for="id-pix-label">{{@model.idPixLabel}} :</label>
+          <Input required @id="id-pix-label" @value={{this.participantExternalId}} />
+        </div>
+        {{#if this.isLoading}}
+          <button type="button" disabled class="button button--big">
+            <span class="loader-in-button">&nbsp;</span>
+          </button>
+        {{else}}
+          <button type="submit" class="button button--big">Continuer</button>
+        {{/if}}
+        {{#if this.errorMessage}}
+          <div class="fill-in-id-pix__form__error-message">{{errorMessage}}</div>
+        {{/if}}
+      </div>
+
+      {{#if this.isLoading}}
+        <button type="button" disabled class="button button--regular button--no-color fill-in-id-pix__cancel-button">
+          Annuler
+        </button>
+      {{else}}
+        <button type="button" {{action "cancel"}} class="button button--regular button--no-color fill-in-id-pix__cancel-button">
+          Annuler
+        </button>
+      {{/if}}
+    </form>
+  </div>
+</div>

@@ -1,0 +1,104 @@
+.certification-results__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 990px;
+  width: 100%;
+  margin: -150px auto;
+  line-height: 3rem;
+  background-color: $white;
+  padding-top: 10px;
+
+  @include device-is('tablet') {
+    padding: 41px 0;
+  }
+}
+
+.result-content__panel-title {
+  color: $grayish-grey;
+  font-family: $font-open-sans;
+  font-size: 2.5rem;
+  font-weight: $font-bold;
+  line-height: 4rem;
+  text-align: center;
+  margin-top: 11px;
+
+  @include device-is('tablet') {
+    font-size: 30px;
+  }
+}
+
+.result-content__panel-description {
+  color: $charcoal-grey;
+  font-family: $font-open-sans;
+  font-size: 2rem;
+  line-height: 3rem;
+  text-align: center;
+  margin-top: 21px;
+  padding: 0 3px;
+
+}
+
+.result-content__panel-description-supervisor {
+  color: $pure-orange;
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 3rem;
+  text-align: center;
+  margin-top: 21px;
+  padding: 0 3px;
+}
+
+.result-content__warning-container {
+  padding-top: 5rem;
+  text-align: center;
+}
+
+.result-content__warning-text {
+  text-align: center;
+  font-size: 1.5rem;
+  color: $charcoal-grey;
+  line-height: normal;
+  padding-left: 1rem;
+  padding-bottom: 30px;
+}
+
+.result-content__checked-supervisor {
+  padding-bottom: 30px;
+}
+
+.result-content__button {
+  border: none;
+  display: block;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  font-weight: $font-bold;
+  text-align: center;
+  color: $white;
+  padding: 6px 15px;
+  background: $pix-blue;
+  border-radius: 5px;
+  margin: 12px auto;
+  width: 170px;
+  height: 40px;
+  text-decoration: none;
+
+  &:hover {
+    color: $white;
+    text-decoration: none;
+  }
+
+  @include device-is('tablet') {
+    margin-top: 8px;
+  }
+
+}
+.result-content__button-blocked {
+  background: $periwinkle-blue;
+}
+
+.result-content__logout-button,
+.result-content__logout-button:hover  {
+  color: $white;
+}

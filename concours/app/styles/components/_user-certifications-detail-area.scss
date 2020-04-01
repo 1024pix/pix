@@ -1,0 +1,34 @@
+.user-certifications-detail-area {
+  background-color: $white;
+  margin-bottom: 10px;
+  padding: 2px 2px 20px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @include device-is('desktop') {
+    justify-content: flex-start;
+  }
+}
+
+.user-certifications-detail-area__box-name{
+  width: 100%;
+  background-color: $mercury-grey;
+  color: $charcoal-grey;
+  font-family: $font-open-sans;
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  line-height: 2.1rem;
+  padding: 20px 40px;
+
+  text-transform: uppercase;
+  @include device-is('desktop') {
+    height: 5.9rem;
+  }
+}

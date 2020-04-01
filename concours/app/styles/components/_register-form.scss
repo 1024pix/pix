@@ -1,0 +1,85 @@
+.register-form {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  max-width: 360px;
+
+  &__login-options {
+    margin-bottom: 5px;
+    display: inline-block;
+    font-size: 1.4rem;
+    font-family: $font-roboto;
+    font-weight: $font-bold;
+    color: $grayish-grey;
+  }
+
+  &__required-inputs {
+    color: $dove-gray;
+    font-family: $font-roboto;
+    font-size: 1.6rem;
+    font-weight: $font-normal;
+  }
+
+  &__cgu-container {
+    max-width: 449px;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 6px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    @include device-is('tablet') {
+      margin-top: 15px;
+      margin-bottom: 0;
+      padding: 0;
+    }
+  }
+
+  &__validation-error {
+    color: $red-error;
+    font-weight: normal;
+  }
+
+  .register-button-container {
+    display: flex;
+
+    .button {
+      flex-grow: 1;
+      margin-top: 25px;
+    }
+  }
+
+  hr {
+    height: 2px;
+    border: none;
+    color: $alto-grey;
+    background-color: $alto-grey;
+    margin: 20px 0;
+  }
+
+  &__return-button {
+    display: inline-flex;
+    align-items: center;
+    margin: 4px 0;
+    font-family: $font-roboto;
+    font-size: 1.4rem;
+  }
+
+  &__return-button:hover {
+    > .register-form-return-button__icon {
+      background-color: $alto-grey;
+    }
+  }
+
+  &__error {
+    text-align: center;
+    color: $pure-orange;
+    font-size: 1.5rem;
+    padding: 4px 10px;
+
+    @include device-is('tablet') {
+      padding: 10px 10px 0 10px;
+    }
+  }
+}

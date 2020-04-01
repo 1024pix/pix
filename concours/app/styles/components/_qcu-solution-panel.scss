@@ -1,0 +1,44 @@
+.qcu-panel__proposals {
+  font-size: 16px;
+}
+
+.qcu-panel__proposal-item {
+  margin-left: 7px;
+}
+
+.qcu-panel__proposal-radio {
+  opacity: 0;
+  display: none;
+}
+
+.qcu-panel__proposal-label {
+  font-weight: $font-normal;
+  width: 100%;
+  display: inline-block;
+  padding-left: 20px;
+  line-height: 21px;
+  position: relative;
+}
+
+.qcu-proposal-label__oracle[data-goodness='good'] {
+  color: $caribbean-green;
+  font-weight: $font-heavy;
+}
+
+.qcu-proposal-label__oracle[data-goodness='bad'][data-checked='yes'] {
+  text-decoration: line-through;
+}
+
+.picture-radio-proposal--qcu {
+  position: absolute;
+  left: -11px;
+  top: 3px;
+}
+
+.label-radio-proposal--qcu {
+  display: inline-block;
+  padding-left: 20px;
+  line-height: 21px;
+  position: relative;
+  cursor: pointer;
+}

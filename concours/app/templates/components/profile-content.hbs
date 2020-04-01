@@ -1,0 +1,36 @@
+<div class="background-banner-wrapper">
+  <div class="background-banner"></div>
+
+  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner profile__panel">
+
+    <div class="rounded-panel-header-with-components">
+      <div class="rounded-panel-header__left-wrapper">
+        <h3 class="rounded-panel-header-text__content rounded-panel-title">
+          Vous avez 16 compétences à tester.<br>On se concentre et c'est partix&nbsp;!
+        </h3>
+      </div>
+      <div class="rounded-panel-header__right-wrapper">
+        <HexagonScore @pixScore={{@model.pixScore.value}} />
+      </div>
+    </div>
+
+    <div class="rounded-panel-body">
+      {{#each @model.areasCode as |areaCode|}}
+        <div class="rounded-panel-body__areas">
+          {{#each @model.scorecards as |scorecard|}}
+            {{#if (eq areaCode scorecard.area.code)}}
+              <div class="rounded-panel-body__competence-card">
+                {{#if (media 'isTablet')}}
+                  <CompetenceCardDesktop @scorecard={{scorecard}} />
+                {{else}}
+                  <CompetenceCard @scorecard={{scorecard}} />
+                {{/if}}
+              </div>
+            {{/if}}
+          {{/each}}
+        </div>
+      {{/each}}
+    </div>
+
+  </div>
+</div>

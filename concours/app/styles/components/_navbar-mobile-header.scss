@@ -1,0 +1,50 @@
+.navbar-mobile-header {
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 24px;
+    width: auto;
+  }
+}
+
+.navbar-mobile-header {
+  &__burger-icon {
+    padding: 0;
+    color: $pix-grey-hover;
+    font-size: 2.6rem;
+    display: inline-flex;
+    cursor: pointer;
+  }
+
+  &__logo {
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+  }
+}
+
+.navbar-mobile-header-logo {
+  &__marianne {
+    > img {
+      margin-left: 12px;
+      height:45px;
+    }
+  }
+
+}
+
+/* Pour faire en sorte que les pages entières et non réduites à leurs éléments */
+.ember-burger-menu {
+  height: 100vh;
+}
+
+/* Pour faire en sorte que les pages gardent le gris car sinon c'est blanc */
+.ember-burger-menu > .bm-outlet > .bm-content {
+  background-color: transparent;
+}
+
+/* Pour permettre à `resume-campaign-banner.hbs` de rester sticky sur les moteurs Chrome */
+.ember-burger-menu > .bm-outlet {
+  perspective: unset;
+}

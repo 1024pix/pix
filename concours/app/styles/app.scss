@@ -1,0 +1,142 @@
+@charset 'utf-8';
+
+/* 3rd-party */
+@import 'ember-burger-menu/variables';
+@import 'ember-burger-menu/structure';
+@import 'ember-burger-menu/animations/push';
+@import "ember-modal-dialog/ember-modal-structure";
+@import "ember-modal-dialog/ember-modal-appearance";
+/* globals */
+@import 'globals/colors';
+@import 'globals/fonts';
+@import 'globals/breakpoints';
+@import 'globals/alert';
+@import 'globals/dimension';
+@import 'globals/loading';
+@import 'globals/redesign-inputs';
+@import 'globals/pix-modal';
+@import 'globals/buttons';
+@import 'globals/tables';
+@import 'globals/text';
+@import 'globals/titles';
+/* components */
+@import 'components/background-banner';
+@import 'components/assessment-banner';
+@import 'components/certification-starter';
+@import 'components/certification-joiner';
+@import 'components/certification-banner';
+@import 'components/certification-not-certifiable';
+@import 'components/certification-result';
+@import 'components/certifications-list';
+@import 'components/certifications-list-item';
+@import 'components/congratulations-certification-banner';
+@import 'components/challenge-actions';
+@import 'components/challenge-illustration';
+@import 'components/challenge-item';
+@import 'components/challenge-response';
+@import 'components/challenge-statement';
+@import 'components/checkpoint';
+@import 'components/circle-chart';
+@import 'components/comparison-window';
+@import 'components/competence-card';
+@import 'components/competence-card-desktop';
+@import 'components/corner-ribbon';
+@import 'components/feedback-panel';
+@import 'components/form-textfield';
+@import 'components/hexagon-score';
+@import 'components/learning-more-tutorial-panel';
+@import 'components/levelup-notif';
+@import 'components/login-form';
+@import 'components/login-or-register';
+@import 'components/navbar-burger-menu';
+@import 'components/navbar-desktop-menu';
+@import 'components/navbar-desktop-header';
+@import 'components/navbar-header';
+@import 'components/navbar-mobile-header';
+@import 'components/no-certification-panel';
+@import 'components/panel';
+@import 'components/password-reset-demand-form';
+@import 'components/pix-logo';
+@import 'components/progress-bar';
+@import 'components/progression-gauge';
+@import 'components/qcm-solution-panel';
+@import 'components/qcu-solution-panel';
+@import 'components/qroc-solution-panel';
+@import 'components/qroc-solution-panel';
+@import 'components/qrocm-solution-panel';
+@import 'components/register-form';
+@import 'components/reset-password-form';
+@import 'components/resume-campaign-banner';
+@import 'components/result-item';
+@import 'components/rounded-panel';
+@import 'components/scorecard-details';
+@import 'components/signup-form';
+@import 'components/timeout-jauge';
+@import 'components/tutorial-item';
+@import 'components/tutorial-panel';
+@import 'components/user-certifications-detail-area';
+@import 'components/user-certifications-detail-competence';
+@import 'components/user-certifications-detail-header';
+@import 'components/user-certifications-detail-profile';
+@import 'components/user-certifications-detail-result';
+@import 'components/user-logged-menu';
+@import 'components/warning-banner';
+@import 'components/warning-timing-page';
+@import 'components/pix-toggle';
+
+/* pages */
+@import 'pages/assessment-challenge';
+@import 'pages/assessment-results';
+@import 'pages/campaign-landing-page';
+@import 'pages/campaign-tutorial';
+@import 'pages/certification-start';
+@import 'pages/competence-results';
+@import 'pages/course-preview';
+@import 'pages/error';
+@import 'pages/fill-in-campaign-code';
+@import 'pages/fill-in-id-pix';
+@import 'pages/join-restricted-campaign';
+@import 'pages/login-or-register-to-access-restricted-campaign';
+@import 'pages/not-connected';
+@import 'pages/profile';
+@import 'pages/sign-form';
+@import 'pages/skill-review';
+@import 'pages/user-certifications';
+@import 'pages/user-certifications-get';
+@import 'pages/user-tutorials';
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+}
+
+body {
+  font-family: $font-roboto;
+  background-color: $porcelain-grey;
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+input[type='radio'] {
+  margin: 0 5px 0 0;
+}
+
+input:invalid {
+  box-shadow: none;
+}
+
+input {
+  font-size: 1.4rem;
+  font-family: $font-roboto;
+}
+
+a {
+  text-decoration: none;
+}
+

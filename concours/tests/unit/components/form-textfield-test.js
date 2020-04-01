@@ -1,0 +1,178 @@
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
+import { setupTest } from 'ember-mocha';
+
+const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
+const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
+const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
+
+describe('Unit | Component | signupTextfieldComponent', function() {
+
+  setupTest();
+
+  describe('Component should renders :', function() {
+
+    [
+      { renderingIntent: 'text', inputId: 'shi' },
+      { renderingIntent: 'text', inputId: '' },
+      { renderingIntent: 'email', inputId: 'email' },
+      { renderingIntent: 'password', inputId: 'password' }
+    ].forEach(({ renderingIntent, inputId }) => {
+      it(`an ${renderingIntent} when input id is ${inputId}`, function() {
+        // given
+        const component = this.owner.lookup('component:form-textfield');
+
+        // when
+        component.set('textfieldName', inputId);
+        const inputType = component.get('textfieldType');
+        // then
+        expect(inputType).to.equal(renderingIntent);
+      });
+    });
+
+  });
+
+  describe('When validationStatus gets "default", Component computed property: ', function() {
+
+    [
+      { property: 'hasIcon', expectedValue: false },
+      { property: 'iconType', expectedValue: '' },
+      { property: 'inputValidationStatus', expectedValue: 'form-textfield__input--default' },
+      { property: 'inputContainerStatusClass', expectedValue: 'form-textfield__input-container--default' },
+      { property: 'validationMessageClass', expectedValue: 'form-textfield__message--default' },
+    ].forEach(({ property, expectedValue }) => {
+      it(`${property} should return ${expectedValue} `, function() {
+        // Given
+        const component = this.owner.lookup('component:form-textfield');
+        // When
+        component.set('validationStatus', 'default');
+        component.set('validationMessage', '');
+        const propertyValue = component.get(property);
+        // Then
+        expect(propertyValue).to.equal(expectedValue);
+      });
+    });
+
+    describe('#validationMessage: ', function() {
+
+      [
+
+        { errorType: 'firstname is empty', message: '' },
+        { errorType: 'lastname is empty', message: '' },
+        { errorType: 'password is incorrect', message: '' },
+
+      ].forEach(({ errorType, message }) => {
+
+        it(`gets ${message} when ${errorType}`, function(done) {
+          // Given
+          const component = this.owner.lookup('component:form-textfield');
+          // When
+          component.set('validationStatus', 'default');
+          component.set('validationMessage', message);
+          const propertyValue = component.get('validationMessage');
+          // Then
+          expect(propertyValue).to.equal(message);
+          done();
+        });
+
+      });
+
+    });
+
+  });
+
+  describe('When validationStatus gets "error", Component computed property: ', function() {
+
+    [
+      { property: 'hasIcon', expectedValue: true },
+      { property: 'iconType', expectedValue: 'error' },
+      { property: 'inputValidationStatus', expectedValue: 'form-textfield__input--error' },
+      { property: 'inputContainerStatusClass', expectedValue: 'form-textfield__input-container--error' },
+      { property: 'validationMessageClass', expectedValue: 'form-textfield__message--error' },
+    ].forEach(({ property, expectedValue }) => {
+      it(`${property} should return ${expectedValue} `, function() {
+        // Given
+        const component = this.owner.lookup('component:form-textfield');
+        // When
+        component.set('validationStatus', 'error');
+        const propertyValue = component.get(property);
+        // Then
+        expect(propertyValue).to.equal(expectedValue);
+      });
+    });
+
+    describe('#validationMessage: ', function() {
+
+      [
+
+        { errorType: 'firstname is empty', message: EMPTY_FIRSTNAME_ERROR_MESSAGE },
+        { errorType: 'lastname is empty', message: EMPTY_LASTNAME_ERROR_MESSAGE },
+        { errorType: 'password is incorrect', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE },
+
+      ].forEach(({ errorType, message }) => {
+
+        it(`gets ${message} when ${errorType}`, function() {
+          // Given
+          const component = this.owner.lookup('component:form-textfield');
+          // When
+          component.set('validationStatus', 'error');
+          component.set('validationMessage', message);
+          const propertyValue = component.get('validationMessage');
+          // Then
+          expect(propertyValue).to.equal(message);
+        });
+
+      });
+
+    });
+
+  });
+
+  describe('When validationStatus gets "success", Component computed property: ', function() {
+
+    [
+      { property: 'hasIcon', expectedValue: true },
+      { property: 'iconType', expectedValue: 'success' },
+      { property: 'inputValidationStatus', expectedValue: 'form-textfield__input--success' },
+      { property: 'inputContainerStatusClass', expectedValue: 'form-textfield__input-container--success' },
+      { property: 'validationMessageClass', expectedValue: 'form-textfield__message--success' },
+    ].forEach(({ property, expectedValue }) => {
+      it(`${property} should return ${expectedValue} `, function() {
+        // Given
+        const component = this.owner.lookup('component:form-textfield');
+        // When
+        component.set('validationStatus', 'success');
+        const propertyValue = component.get(property);
+        // Then
+        expect(propertyValue).to.equal(expectedValue);
+      });
+    });
+
+    describe('#validationMessage: ', function() {
+
+      [
+
+        { errorType: 'firstname is valid', message: EMPTY_FIRSTNAME_ERROR_MESSAGE },
+        { errorType: 'lastname is valid', message: EMPTY_LASTNAME_ERROR_MESSAGE },
+        { errorType: 'password is valid', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE },
+
+      ].forEach(({ errorType, message }) => {
+
+        it(`gets ${message} when ${errorType}`, function() {
+          // Given
+          const component = this.owner.lookup('component:form-textfield');
+          // When
+          component.set('validationStatus', 'error');
+          component.set('validationMessage', message);
+          const propertyValue = component.get('validationMessage');
+          // Then
+          expect(propertyValue).to.equal(message);
+        });
+
+      });
+
+    });
+
+  });
+
+});

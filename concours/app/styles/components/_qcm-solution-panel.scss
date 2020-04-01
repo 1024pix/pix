@@ -1,0 +1,27 @@
+.qcm-panel__proposals {
+  margin: 0 0 15px;
+  font-size: 16px;
+}
+
+.qcm-panel__proposal-item {
+  margin-left: 7px;
+}
+
+input.qcm-panel__proposal-checkbox {
+  margin-right: 10px;
+}
+
+.qcm-panel__proposal-label {
+  font-weight: $font-normal;
+  width: 100%;
+}
+
+.qcm-proposal-label__oracle[data-goodness='good'] {
+  color: $caribbean-green;
+  font-weight: $font-heavy;
+}
+
+.qcm-proposal-label__oracle[data-goodness='bad'][data-checked='yes'] {
+  text-decoration: line-through;
+}
+

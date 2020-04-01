@@ -1,0 +1,18 @@
+<div class="qcm-panel__proposals rounded-panel">
+  <div class="rounded-panel__row qcm-panel__proposal-list">
+    {{#each labeledCheckboxes as |labeledCheckbox index|}}
+      <p class="qcm-panel__proposal-item">
+        <label class="qcm-panel__proposal-label qcm-proposal-label">
+
+          <input type="checkbox" class="qcm-panel__proposal-checkbox" checked={{if labeledCheckbox.[1] 'checked' ''}} disabled="disabled">
+
+          <span class="qcm-proposal-label__oracle"
+                data-goodness="{{if (get solutionArray (concat index)) 'good' 'bad'}}"
+                data-checked={{if labeledCheckbox.[1] 'yes' 'no'}}>
+            {{labeledCheckbox.[0]}}
+          </span>
+        </label>
+      </p>
+    {{/each}}
+  </div>
+</div>

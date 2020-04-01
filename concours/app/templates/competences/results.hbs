@@ -1,0 +1,60 @@
+{{title pageTitle}}
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+
+    <NavbarHeader @class="navbar-header--white" @burger={{burger}} />
+
+    <div class="background-banner-wrapper">
+      <div class="background-banner"></div>
+
+      <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
+        <div class="competence-results-panel__header">
+          {{#if model.scorecard.hasNotEarnAnything}}
+            <div class="competence-results-panel-header__banner competence-results-panel-header__banner--too-bad">
+              <img src="/images/banners/too-bad-text.svg" alt="Tant pix !"
+                   class="competence-results-banner__title">
+              <div class="competence-results-banner__subtitle competence-results-banner__subtitle--small">
+                Manifestement, ce n’est pas votre jour mais vous ferez mieux la prochaine fois.
+              </div>
+            </div>
+          {{else if model.scorecard.hasNotReachLevelOne}}
+            <div class="competence-results-panel-header__banner competence-results-panel-header__banner--not-bad">
+              <img src="/images/banners/not-bad-text.svg" alt="Pas mal, mais pas max !"
+                   class="competence-results-banner__title competence-results-banner__title--tablet">
+              <img src="/images/banners/not-bad-text-mobile.svg" alt="Pas mal, mais pas max !"
+                   class="competence-results-banner__title competence-results-banner__title--mobile">
+              <div class="competence-results-banner__subtitle competence-results-banner__subtitle--left">
+                Encore quelques petits efforts et vous décrocherez le premier niveau.
+              </div>
+              <div class="competence-results-banner__text">
+                <div class="competence-results-banner-text__results">
+                  <div class="competence-results-banner-text-results__label">Vous avez</div>
+                  <div class="competence-results-banner-text-results__value">{{@model.scorecard.earnedPix}} pix</div>
+                </div>
+              </div>
+            </div>
+          {{else if model.scorecard.hasReachAtLeastLevelOne}}
+            <div class="competence-results-panel-header__banner competence-results-panel-header__banner--congrats">
+              <img src="/images/banners/congrats-text.svg" alt="Félicitations !"
+                   class="competence-results-banner__title">
+              <div class="competence-results-banner__text competence-results-banner__text--spaced">
+                <div class="competence-results-banner-text__results competence-results-banner-text__results--spaced">
+                  <div class="competence-results-banner-text-results__label">Vous avez atteint</div>
+                  <div class="competence-results-banner-text-results__value">Niveau {{@model.scorecard.level}}</div>
+                </div>
+                <div class="competence-results-banner-text__results competence-results-banner-text__results--spaced">
+                  <div class="competence-results-banner-text-results__label">Vous avez</div>
+                  <div class="competence-results-banner-text-results__value">{{@model.scorecard.earnedPix}} pix</div>
+                </div>
+              </div>
+            </div>
+          {{/if}}
+        </div>
+        {{#if model.scorecard}}
+          <ScorecardDetails @scorecard={{@model.scorecard}} />
+        {{/if}}
+      </div>
+    </div>
+
+  </burger.outlet>
+</BurgerMenu>

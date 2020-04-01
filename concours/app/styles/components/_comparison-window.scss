@@ -1,0 +1,131 @@
+.comparison-window {
+  padding: 0;
+  margin: auto;
+
+  @include device-is('desktop') {
+    padding: 0;
+  }
+
+  .comparison-window-header {
+    display: flex;
+    align-items: center;
+    min-height: 70px;
+
+  }
+
+}
+
+.comparison-window--content,
+.comparison-window--body {
+  border-radius: 5px;
+}
+
+.comparison-window--body {
+  background-color: $porcelain-grey;
+  display: flex;
+  flex-direction: column;
+}
+
+.comparison-window__instruction {
+  margin: 15px;
+  font-size: 16px;
+
+  @include device-is('desktop') {
+    margin: 20px 40px 0 40px;
+  }
+}
+
+.comparison-window__corrected-answers {
+  margin: 0 15px;
+
+  @include device-is('desktop') {
+    margin: 0 40px;
+  }
+}
+
+/*Modal Close button*/
+
+.routable-modal--close-button {
+  position: absolute;
+  top: -25px;
+  right: -10px; /*XXX : right alignment, found no other way to achieve it;*/
+  margin-right: 0;
+  height: 17px;
+  font-size: 14px;
+  border: none;
+  background-color: transparent;
+  color: $white;
+}
+
+/*Modal Header*/
+.comparison-window__header {
+  background: white;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 1070px;
+  min-height: 70px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.comparison-window__title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.comparison-window__title-text {
+  display: flex;
+  margin-left: 9px;
+  max-width: 618.5px;
+  font-family: $font-open-sans;
+  font-size: 18px;
+  font-weight: $font-heavy;
+  color: $charcoal-grey;
+}
+
+.assessment-results-result-light-line {
+  width: 1px;
+  height: 50px;
+  border: solid 1.5px $alto-grey;
+  margin-left: 15px;
+}
+
+.comparison-window__feedback-panel {
+  background-color: $alto-grey;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 20px 40px;
+}
+
+.comparison-windows__default-message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1.3px dashed $raven-grey;
+  max-width: 991px;
+  border-radius: 5px;
+  padding: 36px 0 28px;
+  margin: 0 15px 15px;
+
+  @include device-is('desktop') {
+    margin: 0 40px 20px;
+  }
+}
+
+.comparison-windows__default-message-title {
+  font-family: $font-open-sans;
+  font-size: 17px;
+  text-align: center;
+  color: $black;
+  font-weight: $font-semi-bold;
+  margin-top: 10.2px;
+
+  @include device-is('desktop') {
+    font-size: 22px;
+    line-height: 26px;
+  }
+}

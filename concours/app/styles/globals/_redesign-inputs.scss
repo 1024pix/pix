@@ -1,0 +1,218 @@
+
+/**
+ *
+ * Trick label & SVG to replace built-in checkboxes & radiobuttons.
+ *
+ **/
+.qcm-proposal-label__checkbox-picture {
+  position: absolute;
+  left: -11px;
+  top: 3px;
+}
+
+.label-checkbox-proposal {
+  display: inline-block;
+  padding-left: 20px;
+  line-height: 21px;
+  position: relative;
+  cursor: pointer;
+
+  font-weight: $font-normal;
+}
+
+.qcu-proposal-label__radio-picture {
+  position: absolute;
+  left: -11px;
+  top: 3px;
+}
+
+.label-radio-proposal--qcu {
+  display: inline-block;
+  padding-left: 20px;
+  line-height: 21px;
+  position: relative;
+  cursor: pointer;
+}
+
+/**
+ *
+ * Configure Checkboxes of proposals
+ *
+ **/
+.input-checkbox-proposal {
+  opacity: 0;
+  display: none;
+}
+/*XXX Can't use BEM properly when using CSS state manipulation*/
+.input-checkbox-proposal:checked ~ label svg.checkbox-off {
+  opacity: 0;
+  transition: opacity .2s linear;
+}
+.input-checkbox-proposal:not(:checked) ~ label svg.checkbox-off {
+  opacity: 1;
+  transition: opacity .2s linear;
+}
+.input-checkbox-proposal:checked ~ label svg.checkbox-on {
+  opacity: 1;
+  transition: opacity .2s linear;
+}
+.input-checkbox-proposal:not(:checked) ~ label svg.checkbox-on {
+  opacity: 0;
+  transition: opacity .2s linear;
+}
+
+input[type=checkbox]:before {
+  position: relative;
+
+  height: 18px;
+  width: 18px;
+  top: -3px;
+
+  border: 2px solid $raven-grey;
+  content: ' ';
+  display: block;
+  background-color: $white;
+  border-radius: 10%;
+  box-sizing: border-box;
+}
+
+input[type=checkbox]:checked:before {
+  border-color: $pix-blue;
+  background-color: $pix-blue;
+}
+
+input[type=checkbox]:checked:after {
+  height: 18px;
+  width: 18px;
+
+  position: relative;
+  top: -21px;
+
+  font-size: 14px;
+  color: $white;
+
+  font-weight: $font-bold;
+  content: '✓';
+  display: block;
+  text-align: center;
+}
+
+input[type=checkbox]:focus:before,
+input[type=checkbox]:hover:before {
+  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.1);
+  border-color: $pix-blue;
+}
+
+input[type=checkbox]:active:before {
+  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.3);
+}
+
+/**
+ *
+ * Configure Radios of proposals
+ *
+ **/
+.picture-checkbox-proposal--qcu {
+  position: absolute;
+  left: -11px;
+  top: 3px;
+}
+
+input[type=radio]:before,
+input[type=radio]:checked:after {
+  display: block;
+  position: relative;
+  content: '';
+  border-radius: 100%;
+}
+
+input[type=radio]:before {
+  height: 17px;
+  width: 17px;
+  top: -3px;
+  left: -5px;
+
+  border: solid 2px $dusty-grey;
+  border-radius: 10px;
+  background-color: $white;
+}
+
+input[type=radio]:checked:after {
+  height: 9px;
+  width: 9px;
+  top: -18px;
+  left: 1px;
+
+  background-color: $pix-blue;
+}
+
+input[type=radio]:checked:before {
+  border-color: $pix-blue;
+}
+
+input[type=radio]:focus:before,
+input[type=radio]:hover:before {
+  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.1);
+  border-color: $pix-blue;
+}
+
+input[type=radio]:active:before {
+  box-shadow: 0 0px 0px 8px rgba($pix-blue, 0.3);
+}
+
+/**
+ *
+ * Configure Radios of input files
+ *
+ **/
+.label-checkbox-downloadable {
+  display: inline-block;
+  padding-left: 18px;
+  position: relative;
+  cursor: pointer;
+}
+
+/**
+ *
+ * Configure Checkboxes that MUST be disabled
+ *
+ **/
+.picture-checkbox-proposal--comparison {
+  position: absolute;
+  left: -11px;
+  top: 3px;
+}
+
+.qcm-panel__proposal-label {
+  display: inline-block;
+  line-height: 21px;
+  position: relative;
+}
+
+.proposal-comparison-window {
+  margin-left: 10px;
+}
+
+.proposal-paragraph {
+  margin-left: 7px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.proposal-paragraph > input[type=radio] {
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+.proposal-paragraph > input[type=checkbox] {
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+/*cursor: pointer is disabled here*/
+.label-proposal-comparison-window {
+  display: inline-block;
+  padding-left: 20px;
+  position: relative;
+}

@@ -1,0 +1,89 @@
+.challenge-response {
+  font-size: 15px;
+  background-color: $porcelain-grey;
+  margin: 6px;
+
+  label {
+    font-weight: $font-normal;
+  }
+
+  @include device-is('desktop') {
+    font-size: 20px;
+  }
+
+  &__proposal {
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+}
+
+.challenge-response__proposal {
+  font-size: 2rem;
+  color: $charcoal-grey;
+
+  &--paragraph {
+    display: flex;
+    width: 100%;
+    height: auto;
+    resize: vertical;
+  }
+
+  &--sentence {
+    display: flex;
+    width: 100%;
+  }
+}
+
+.challenge-response__proposal-label {
+  font-weight: $font-normal;
+  width: 100%;
+}
+
+.proposal-text {
+  font-weight: $font-normal;
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 2.6rem;
+}
+
+form .challenge-response {
+  &--locked {
+    position: relative;
+  }
+
+  &__locked-overlay {
+    position: absolute;
+    opacity: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+  }
+}
+
+form .challenge-response.challenge-response--locked {
+  .challenge-proposals {
+    opacity: 0.33;
+    transition: .3s ease;
+  }
+
+  &:hover {
+    .challenge-response__locked-overlay {
+      opacity: 1;
+      transition: .9s ease;
+    }
+  }
+}
+
+form .challenge-response-locked {
+  &__icon {
+    font-size: 5rem;
+    opacity: 1;
+
+    &:hover {
+      opacity: 1;
+      transition: .3s ease;
+    }
+  }
+}

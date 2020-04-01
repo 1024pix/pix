@@ -1,0 +1,136 @@
+<div class="scorecard-details__header">
+  <LinkTo @route="profile" class="link__return-to">
+    <span class="icon-button">
+      {{fa-icon 'arrow-left'}}
+    </span>
+    Retour Profil
+  </LinkTo>
+</div>
+
+<div class="scorecard-details__content">
+  <div class="scorecard-details-content__left">
+    <div class="scorecard-details-content-left__area scorecard-details-content-left__area--{{scorecard.area.color}}">
+      {{scorecard.area.title}}
+    </div>
+    <h3 class="scorecard-details-content-left__name">
+      {{scorecard.name}}
+    </h3>
+    <div class="scorecard-details-content-left__description">
+      {{scorecard.description}}
+    </div>
+  </div>
+
+  <div class="scorecard-details-content__right">
+
+    {{#unless scorecard.isNotStarted}}
+      <div class="scorecard-details-content-right__score-container">
+        {{#if scorecard.isFinishedWithMaxLevel}}
+          <div class="competence-card__congrats">
+            <div class="competence-card__level competence-card__level--congrats">
+              <span class="score-label competence-card__score-label--congrats">Niveau</span>
+              <span class="score-value competence-card__score-value competence-card__score-value--congrats">{{level}}</span>
+            </div>
+          </div>
+        {{else}}
+          <CircleChart @value={{scorecard.percentageAheadOfNextLevel}}
+                       @sliceColor={{scorecard.area.color}}
+                       @chartClass="circle-chart__content--big"
+                       @thicknessClass="circle--thick">
+            <div class="competence-card__level">
+              <span class="score-label">Niveau</span>
+              <span class="score-value">{{replace-zero-by-dash level}}</span>
+            </div>
+          </CircleChart>
+        {{/if}}
+
+        <div class="scorecard-details-content-right-score-container__pix-earned">
+          <div class="score-label">pix</div>
+          <div class="score-value">{{replace-zero-by-dash scorecard.earnedPix}}</div>
+        </div>
+      </div>
+    {{/unless}}
+
+    {{#if isProgressable}}
+      <div class="scorecard-details-content-right__level-info">
+        {{scorecard.remainingPixToNextLevel}} pix avant le niveau {{inc scorecard.level}}
+      </div>
+    {{/if}}
+
+    {{#unless scorecard.isFinished}}
+      <LinkTo @route="competences.resume"
+              @model={{scorecard.competenceId}}
+              class={{concat "button button--big button--thin button--round button--link button--green " (if scorecard.isNotStarted "" "scorecard-details__resume-or-start-button")}}>
+        {{#if scorecard.isStarted}}
+          Reprendre <div class="sr-only">la compétence "{{scorecard.name}}"</div>
+        {{else}}
+          Commencer <div class="sr-only">la compétence "{{scorecard.name}}"</div>
+        {{/if}}
+      </LinkTo>
+    {{/unless}}
+    {{#if displayResetButton}}
+      <button class="link link--underline scorecard-details__reset-button" {{action "openModal"}}>
+        Remettre à zéro
+        <div class="sr-only">la compétence "{{scorecard.name}}"</div>
+      </button>
+    {{else if displayWaitSentence}}
+      <p class="scorecard-details-content-right__reset-message">{{remainingDaysText}}</p>
+    {{/if}}
+  </div>
+</div>
+{{#if tutorialsGroupedByTubeName}}
+<div class="scorecard-details__content">
+  <div class="tutorials">
+    <div class="tutorials__header">
+      <h3 class="tutorials-header__title">Cultivez vos compétences</h3>
+      <p class="tutorials-header__description">Voici une sélection de tutos qui pourront vous aider à gagner des Pix.</p>
+    </div>
+    <div class="tutorial__list">
+      {{#each tutorialsGroupedByTubeName as |tube|}}
+        <div class="tube">
+          <h4 class="tube__title">{{tube.practicalTitle}}</h4>
+          <div class="tube__content">
+            {{#each tube.tutorials as |tutorial|}}
+              <TutorialItem @tutorial={{tutorial}} />
+            {{/each}}
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</div>
+{{/if}}
+{{#if showResetModal}}
+  <PixModal @containerClass="scorecard-details__reset-modal pix-modal-dialog--wide" @onClose={{action "closeModal"}}>
+    <div class="pix-modal__close-link" aria-label="Fermer" {{action "closeModal"}}>
+      <span>Fermer</span>
+      <FaIcon @icon="times-circle" class="logged-user-menu__icon"></FaIcon>
+    </div>
+
+
+    <div class="pix-modal__container pix-modal__container--white pix-modal__container--with-padding">
+      <div class="pix-modal-header">
+        <h1 class="pix-modal-header__title pix-modal-header__title--thin">Remise à zéro de la compétence</h1>
+        <h2 class="pix-modal-header__subtitle">{{scorecard.name}}</h2>
+      </div>
+
+      <div class="pix-modal-body pix-modal-body--with-padding">
+        <div class="scorecard-details-reset-modal__important-message">
+          {{#if scorecard.hasNotReachLevelOne}}
+            Vos {{scorecard.earnedPix}} Pix vont être supprimés.
+          {{else if scorecard.hasReachAtLeastLevelOne}}
+            Votre niveau {{scorecard.level}} et vos {{scorecard.earnedPix}} Pix vont être supprimés.
+          {{/if}}
+        </div>
+        <div class="scorecard-details-reset-modal__warning">
+          <p> Attention : si vous avez un parcours d’évaluation en cours, certaines questions pourront vous être
+            reposées.</p>
+        </div>
+      </div>
+
+      <div class="pix-modal-footer pix-modal-footer--with-centered-buttons">
+        <button class="button button--big button--extra-thin button--red" {{action "reset"}}>Remettre à zéro</button>
+        <button class="button button--regular button--extra-thin button--grey" {{action "closeModal"}}>Annuler</button>
+      </div>
+    </div>
+  </PixModal>
+{{/if}}

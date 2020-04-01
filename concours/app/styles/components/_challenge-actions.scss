@@ -1,0 +1,173 @@
+@mixin button-background-transition() {
+  transition: background .25s ease-in-out;
+  -moz-transition: background .25s ease-in-out;
+  -webkit-transition: background .25s ease-in-out;
+}
+
+.challenge-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: $porcelain-grey;
+  margin: 6px;
+}
+
+.picture-checkbox-proposal--qcm {
+  position: absolute;
+  left: -11px;
+  top: 3px;
+}
+
+.challenge-actions__action {
+  cursor: pointer;
+  text-align: center;
+}
+
+.challenge-actions__action-skip {
+  margin-right: 15px;
+  width: 150px;
+  height: 46px;
+  @include button-background-transition();
+  border-radius: 23px;
+  background-color: transparent;
+  border: 1px solid $slate-grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: $silver-grey;
+    text-decoration: none;
+  }
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+.challenge-actions__action-skip-text {
+  text-align: center;
+  flex-grow: 1;
+  font-size: 1.6rem;
+  font-weight: $font-semi-bold;
+  color: $slate-grey;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+.challenge-actions__action-skip__loader {
+  margin-right: 15px;
+  width: 150px;
+  height: 46px;
+  border-radius: 23px;
+  background-color: $mercury-grey;
+}
+
+
+.challenge-actions__action-skip__loader-bar {
+  background: url('/images/loader-grey.svg');
+  background-size: 64px 55px;
+  margin: auto;
+  height: 50px;
+  width: 64px;
+  margin-top: -5px;
+}
+
+.challenge-actions__action-validate {
+  order: 1;
+  width: 150px;
+  height: 46px;
+  border-radius: 23px;
+  background-color: $mountain-meadow;
+  color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include button-background-transition();
+  text-decoration: none;
+  &:hover{
+    background: $eucalyptus;
+    text-decoration: none;
+  }
+
+  &:active,
+  &:visited,
+  &:focus {
+    text-decoration: none;
+  }
+
+}
+
+.challenge-actions__action-validate-text {
+  width: 76px;
+  flex-grow: 1;
+  font-size: 1.6rem;
+  font-weight: $font-semi-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  color: white;
+  text-decoration: none;
+}
+.challenge-actions__action-validate__loader {
+  order: 1;
+  width: 150px;
+  height: 46px;
+  border-radius: 23px;
+  background: $vista-blue;
+}
+
+.challenge-actions__action-validate__loader-bar {
+  background: url('/images/loader-white.svg');
+  background-size: 64px 55px;
+  margin: auto;
+  height: 50px;
+  width: 64px;
+  margin-top: -5px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.challenge-actions__already-answered {
+  font-family: $font-roboto;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: $tundora-grey;
+  letter-spacing: 0.05rem;
+  margin-right: 20px;
+}
+
+.challenge-actions__action-continue {
+  order: 1;
+  width: 150px;
+  height: 46px;
+  border-radius: 23px;
+  background-color: $pix-blue;
+  font-family: $font-roboto;
+  color: $white;
+  @include button-background-transition();
+  text-decoration: none;
+
+  &:hover{
+    background: $pix-blue-hover;
+    text-decoration: none;
+  }
+
+  &:active,
+  &:visited,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+.challenge-actions__action-continue-text {
+  width: 76px;
+  padding: 0;
+  font-family: $font-roboto;
+  font-size: 1.6rem;
+  font-weight: $font-semi-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  color: white;
+  text-decoration: none;
+}

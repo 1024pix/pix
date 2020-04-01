@@ -1,0 +1,73 @@
+@keyframes progress {
+  from {
+    stroke-dasharray: 0 100;
+  }
+}
+
+.circle-chart {
+  position: relative;
+  display: flex;
+}
+
+.circle-chart__content {
+  width: 100px;
+  height: 100px;
+  max-height: 128px;
+
+  &--small {
+    width: 70px;
+    height: 70px;
+  }
+
+  &--big {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+.circle {
+  fill: none;
+  stroke-width: 1.1;
+  stroke: $alto-grey;
+  stroke-linecap: round;
+
+  &--thick {
+    stroke-width: 1.5;
+  }
+
+  &--slice {
+    stroke: $dark-orange;
+    animation: progress 1s ease-out forwards;
+  }
+
+  &--jaffa {
+    stroke: $jaffa;
+  }
+
+  &--emerald {
+    stroke: $emerald;
+  }
+
+  &--cerulean {
+    stroke: $cerulean;
+  }
+
+  &--wild-strawberry {
+    stroke: $wild-strawberry;
+  }
+
+  &--butterfly-bush {
+    stroke: $butterfly-bush;
+  }
+}
+
+.circle-chart__text {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
