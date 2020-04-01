@@ -10,6 +10,7 @@ describe('Integration | Application | Route | campaignRouter', () => {
     sinon.stub(campaignController, 'getCsvResults').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignController, 'getById').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'update').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(campaignController, 'getAnalysis').callsFake((request, h) => h.response('ok').code(200));
 
     server = Hapi.server();
 
@@ -69,6 +70,31 @@ describe('Integration | Application | Route | campaignRouter', () => {
       return promise.then((res) => {
         expect(res.statusCode).to.equal(200);
       });
+    });
+  });
+
+  describe('GET /api/campaigns/{id}/analyses', () => {
+
+    it('should return 200', async () => {
+      // given
+      const campaignId = 1;
+
+      // when
+      const result = await server.inject({ method: 'GET', url: `/api/campaigns/${campaignId}/analyses` });
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 400', async () => {
+      // given
+      const campaignId = 'wrongId';
+
+      // when
+      const result = await server.inject({ method: 'GET', url: `/api/campaigns/${campaignId}/analyses` });
+
+      // then
+      expect(result.statusCode).to.equal(400);
     });
   });
 

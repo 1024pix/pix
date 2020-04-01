@@ -341,23 +341,6 @@ describe('Unit | Application | Controller | Campaign', () => {
       sinon.stub(campaignAnalysisSerializer, 'serialize');
     });
 
-    it('should return ok', async () => {
-      // given
-      usecases.computeCampaignAnalysis.resolves({});
-      campaignAnalysisSerializer.serialize.withArgs({}).returns('ok');
-
-      // when
-      const response = await campaignController.getAnalysis({
-        params: { id: campaignId },
-        auth: {
-          credentials: { userId }
-        }
-      });
-
-      // then
-      expect(response).to.be.equal('ok');
-    });
-
     it('should return an unauthorized error', async () => {
       // given
       const error = new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
@@ -375,7 +358,6 @@ describe('Unit | Application | Controller | Campaign', () => {
       // then
       expect(errorCatched).to.be.instanceof(UserNotAuthorizedToAccessEntity);
     });
-
   });
 
   describe('archiveCampaign', async () => {
