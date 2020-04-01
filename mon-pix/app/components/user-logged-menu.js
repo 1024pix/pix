@@ -9,8 +9,6 @@ import {
   keyDown
 } from 'ember-keyboard';
 
-import config from 'mon-pix/config/environment';
-
 @classic
 @classNames('logged-user-details')
 export default class UserLoggedMenu extends Component.extend(EmberKeyboardMixin) {
@@ -19,7 +17,6 @@ export default class UserLoggedMenu extends Component.extend(EmberKeyboardMixin)
 
   keyboardActivated = true;
   _canDisplayMenu = false;
-  showUserTutorialsInMenu = config.APP.FT_ACTIVATE_USER_TUTORIALS;
 
   @computed('routing.currentRouteName')
   get canDisplayLinkToProfile() {
