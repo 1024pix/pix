@@ -52,6 +52,11 @@ module.exports = {
       ],
       answers: {
         ref: 'id',
+        relationshipLinks: {
+          related(record) {
+            return `/api/answers?assessment=${record.id}`;
+          }
+        }
       },
       course: {
         ref: 'id',
