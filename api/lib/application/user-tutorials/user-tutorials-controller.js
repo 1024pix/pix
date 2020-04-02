@@ -16,8 +16,8 @@ module.exports = {
   async find(request, h) {
     const { userId } = request.auth.credentials;
 
-    const userTutorials = await usecases.findUserTutorials({ userId });
-    return h.response(tutorialSerializer.serialize(userTutorials));
+    const tutorials = await usecases.findUserTutorials({ userId });
+    return h.response(tutorialSerializer.serialize(tutorials));
   }
 
 };
