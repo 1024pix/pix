@@ -61,4 +61,12 @@ export default function() {
       }];
   }));
 
+  this.post('/organizations/:id/invitations', (schema, request) => {
+    const params = JSON.parse(request.requestBody);
+    const email = params.data.attributes.email;
+
+    schema.organizationInvitations.create({ email });
+
+    return schema.organizationInvitations.where({ email });
+  });
 }
