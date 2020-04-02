@@ -80,11 +80,20 @@ Cypress.Commands.add('visitOrga', (url) => {
   return cy.visit(url, { app: 'orga' });
 });
 
+Cypress.Commands.add('visitCertif', (url) => {
+  return cy.visit(url, { app: 'certif' });
+});
+
 Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
   const ORGA_URL = Cypress.env('ORGA_URL');
+  const CERTIF_URL = Cypress.env('CERTIF_URL');
 
   if (options.app === 'orga') {
     url = ORGA_URL + url;
+  }
+
+  if (options.app === 'certif') {
+    url = CERTIF_URL + url;
   }
 
   return originalFn(url, options);
