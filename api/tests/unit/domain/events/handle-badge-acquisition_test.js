@@ -45,12 +45,13 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 
         beforeEach(() => {
           sinon.stub(badgeRepository, 'findOneByTargetProfileId');
-          badgeRepository.findOneByTargetProfileId.withArgs(assessmentCompletedEvent.targetProfileId).resolves({ id: badgeId });
+          const badge = { id: badgeId };
+          badgeRepository.findOneByTargetProfileId.withArgs(assessmentCompletedEvent.targetProfileId).resolves(badge);
 
           sinon.stub(badgeAcquisitionRepository, 'create');
 
           sinon.stub(campaignParticipationResultRepository, 'getByParticipationId');
-          campaignParticipationResultRepository.getByParticipationId.withArgs(assessmentCompletedEvent.campaignParticipationId).resolves(
+          campaignParticipationResultRepository.getByParticipationId.withArgs(assessmentCompletedEvent.campaignParticipationId, badge).resolves(
             campaignParticipationResult
           );
 

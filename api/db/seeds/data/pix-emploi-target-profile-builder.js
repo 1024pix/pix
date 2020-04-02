@@ -44,15 +44,6 @@ module.exports = function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
     targetProfileId: pixEmploiProfile.id,
   });
 
-  databaseBuilder.factory.buildBadge({
-    altMessage: 'Vous avez validé le badge Cléa numérique.',
-    imageUrl: '/images/badges/Pret-CleaNum.svg',
-    key: 'CLEA',
-    message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
-      'Pour valoriser vos compétences, renseignez-vous auprès de votre conseiller.',
-    targetProfileId: pixEmploiProfile.id,
-  });
-
   databaseBuilder.factory.buildBadgePartnerCompetence({
     name : 'Rechercher des informations sur internet',
     color : 'jaffa',

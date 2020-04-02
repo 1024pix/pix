@@ -9,9 +9,12 @@ const handleBadgeAcquisition = async function({
   if (completedAssessmentBelongsToACampaign(assessmentCompletedEvent)) {
     const badge = await fetchPossibleCampaignAssociatedBadge(assessmentCompletedEvent, badgeRepository);
     if (isABadgeAssociatedToCampaign(badge)) {
-      const campaignParticipationResult = await fetchCampaignParticipationResults(assessmentCompletedEvent, campaignParticipationResultRepository);
+      const campaignParticipationResult = await fetchCampaignParticipationResults(assessmentCompletedEvent, badge, campaignParticipationResultRepository);
       if (isBadgeAcquired(campaignParticipationResult, badgeCriteriaService)) {
-        await badgeAcquisitionRepository.create(domainTransaction, { badgeId: badge.id, userId: assessmentCompletedEvent.userId });
+        await badgeAcquisitionRepository.create(domainTransaction, {
+          badgeId: badge.id,
+          userId: assessmentCompletedEvent.userId
+        });
       }
     }
   }
@@ -29,8 +32,8 @@ function isABadgeAssociatedToCampaign(badge) {
   return !!badge;
 }
 
-async function fetchCampaignParticipationResults(assessmentCompletedEvent, campaignParticipationResultRepository) {
-  return await campaignParticipationResultRepository.getByParticipationId(assessmentCompletedEvent.campaignParticipationId);
+async function fetchCampaignParticipationResults(assessmentCompletedEvent, badge, campaignParticipationResultRepository) {
+  return await campaignParticipationResultRepository.getByParticipationId(assessmentCompletedEvent.campaignParticipationId, badge);
 }
 
 function isBadgeAcquired(campaignParticipationResult, badgeCriteriaService) {
