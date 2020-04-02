@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "userId": null,
+    "sessionId": 1,
+    "lastName": "Berger",
+    "firstName": "Michel",
+    "birthdate": "1990-01-04",
+    "birthCity": "Perpignan",
+    "birthProvinceCode": "66",
+    "birthCountry": "France",
+    "externalId": "TEAMCERTIFDECHIRE",
+    "email": "michel.berger@example.net",
+    "extraTimePercentage": null
+  }
+]

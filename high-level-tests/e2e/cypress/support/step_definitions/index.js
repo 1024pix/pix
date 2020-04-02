@@ -16,6 +16,7 @@ given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'certification-centers');
   cy.task('db:fixture', 'certification-center-memberships');
   cy.task('db:fixture', 'sessions');
+  cy.task('db:fixture', 'certification-candidates');
 });
 
 given('tous les comptes sont créés', () => {
