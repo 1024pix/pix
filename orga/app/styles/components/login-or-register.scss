@@ -33,7 +33,7 @@
     font-family: $roboto;
     font-size: 1.125rem;
     font-weight: 500;
-    color: black;
+    color: $grey-100;
     text-align: center;
     margin-top: 24px;
   }
@@ -67,7 +67,7 @@
 
   &__divider {
     margin-top: 30px;
-    border-left: 1px solid $dusty-gray;
+    border-left: 1px solid $grey-30;
   }
 }
 

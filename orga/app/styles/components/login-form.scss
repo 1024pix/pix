@@ -21,9 +21,8 @@
   }
 
   &__invitation-error {
-    background: $pure-orange;
     border-radius: 3px;
-    color: $white;
+    color: $error;
     font-size: 0.875rem;
     margin: 10px 0 16px 0;
     padding: 9px;

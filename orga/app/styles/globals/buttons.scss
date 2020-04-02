@@ -5,50 +5,50 @@
   letter-spacing: 0.019rem;
   text-align: center;
   border-radius: 5px;
-  background-color: $dodger-blue;
-  color: white;
+  background-color: $blue;
+  color: $white;
   cursor: pointer;
   border: none;
   outline: none;
 
   &:hover, &:active, &:focus {
-    background-color: $mariner;
+    background-color: $blue-hover;
     transition: background-color 0.2s ease;
   }
 
   &--white {
-    background-color: white;
-    color: black;
+    background-color: $white;
+    color: $grey-100;
 
     &:hover, &:active, &:focus {
-      background-color: $alto;
+      background-color: $grey-20;
     }
   }
 
   &--grey {
-    background-color: $comet;
+    background-color: $blue-zodiac;
     color: $white;
 
     &:hover, &:active, &:focus {
-      background-color: $gun-powder;
+      background-color: $grey-70;
     }
   }
 
   &--no-color {
     background-color: transparent;
-    color: $nero;
+    color: $grey-100;
 
     &:hover, &:active, &:focus {
-      background-color: $alto;
+      background-color: $grey-20;
     }
   }
 
   &--bordered {
-    border: 1px solid $dodger-blue;
-    color: $dodger-blue;
+    border: 1px solid $blue;
+    color: $blue;
 
     &:hover, &:active, &:focus {
-      background-color: $dodger-blue;
+      background-color: $blue;
       color: $white;
     }
   }
@@ -79,8 +79,8 @@
   }
 
   &--with-icon-and-text {
-    color: $dove-gray;
-    background-color: $porcelain;
+    color: $grey-60;
+    background-color: $grey-10;
     display: flex;
     align-items: center;
 
@@ -91,25 +91,25 @@
 
   &--with-icon-and-text {
     &:hover, &:focus, &:active, &:visited {
-      background-color: $alto;
+      background-color: $grey-20;
     }
   }
 
   &--round-with-icon {
     background-color: $white;
     border-radius: 17px;
-    color: $dove-gray;
+    color: $grey-60;
     font-size: 1.4rem;
     height: 34px;
     padding: 1px 6px;
     width: 34px;
 
     &:hover {
-      background-color: $porcelain;
+      background-color: $grey-10;
     }
 
     &:focus, &:active, &:visited {
-      background-color: $alto;
+      background-color: $grey-20;
     }
   }
 
@@ -122,7 +122,7 @@
 }
 
 .icon-button {
-  color: $dove-gray;
+  color: $grey-60;
   padding: 6px 8px;
   border: none;
   font-size: 1rem;
@@ -131,7 +131,7 @@
   outline: none;
 
   &:hover, &:active {
-    background-color: $alto;
+    background-color: $grey-20;
     border-radius: 16px;
     transition: background-color 0.2s ease;
   }

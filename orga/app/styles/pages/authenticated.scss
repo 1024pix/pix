@@ -17,7 +17,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: $denim-gradient;
+  background: $pix-orga-old-gradient;
 
   &--padding-left {
     padding-left: 25px;
@@ -40,11 +40,11 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: $wild-sand;
+  background-color: $grey-10;
   overflow: auto;
 
   &__topbar {
-    background-color: white;
+    background-color: $white;
     min-height: 60px;
   }
 
@@ -60,6 +60,6 @@
 
   &__user-logged-menu {
     padding: 0 30px;
-    border-left: 1px solid $alto;
+    border-left: 1px solid $grey-20;
   }
 }

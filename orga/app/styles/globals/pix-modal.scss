@@ -28,7 +28,7 @@
         &__title {
           align-items: center;
           justify-content: space-between;
-          color: $astronaut;
+          color: $grey-60;
           display: flex;
           font-size: 1.25rem;
         }
@@ -47,18 +47,18 @@
         padding: 0 24px;
 
         label {
-          color: $astronaut;
+          color: $grey-60;
           font-size: .88rem;
           font-weight: 500;
         }
 
         .disabled {
-          background-color: $wild-sand;
+          background-color: $grey-10;
           border: none;
         }
 
         .help {
-          color: $nero;
+          color: $grey-100;
           text-transform: none;
           font-weight: normal;
           letter-spacing: normal;
@@ -67,7 +67,7 @@
       }
 
       .pix-modal-footer {
-        background-color: darken($astronaut, 8%);
+        background-color: $grey-70;
         border-radius: 8px 8px 4px 4px;
         padding: 24px;
 

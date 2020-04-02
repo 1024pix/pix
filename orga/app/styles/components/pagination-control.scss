@@ -15,9 +15,9 @@
   &__choice .select {
     height: 35px;
     width: 70px;
-    background-color: $alto;
+    background-color: $grey-20;
     border: none;
-    color: $nero;
+    color: $grey-100;
   }
 }
 
@@ -29,7 +29,7 @@
     margin: 0 10px;
 
     &--disabled .icon-button{
-        color: $alto;
+        color: $grey-20;
         cursor: default;
 
       &.icon-button:hover, &.icon-button:active {
