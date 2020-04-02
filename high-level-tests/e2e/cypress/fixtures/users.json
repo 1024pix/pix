@@ -47,5 +47,14 @@
     "email": "cersei.lannister@example.net",
     "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
     "cgu": true
+  },
+  {
+    "id": 7,
+    "firstName": "Certif",
+    "lastName": "Sco",
+    "email": "certif.sco@example.net",
+    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
+    "cgu": true,
+    "pixCertifTermsOfServiceAccepted": true
   }
 ]

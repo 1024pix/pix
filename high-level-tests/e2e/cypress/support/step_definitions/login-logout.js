@@ -52,6 +52,13 @@ then(`je suis redirigé vers le compte Orga de {string}`, (fullName) => {
   });
 });
 
+then(`je suis redirigé vers le compte Certif de {string}`, (fullName) => {
+  cy.url().should('include', '/sessions/list');
+  cy.get('.topbar__user-identification').should((userName) => {
+    expect(userName.text()).to.contains(fullName);
+  });
+});
+
 when(`je me déconnecte`, () => {
   cy.get('.logged-user-name__link').click();
   cy.get('.logged-user-menu__link:last-of-type').click();
@@ -60,6 +67,10 @@ when(`je me déconnecte`, () => {
 when(`je me déconnecte de Pix Orga`, () => {
   cy.get('.topbar__user-logged-menu').click();
   cy.get('.logged-user-menu-item:last-of-type').click();
+});
+
+when(`je me déconnecte de Pix Certif`, () => {
+  cy.contains('Se déconnecter').click();
 });
 
 then(`je suis redirigé vers la page {string}`, (pathname) => {
