@@ -1,0 +1,80 @@
+.pix-tooltip {
+  position: relative;
+  display: inline-block;
+
+  & > *:nth-child(2):hover {
+    cursor: help;
+  }
+  &:hover .pix-tooltip__content {
+    opacity: 1;
+  }
+}
+
+.pix-tooltip__content {
+  opacity: 0;
+  background-color: $black;
+  position: absolute;
+  z-index: 100;
+  margin: 0; padding: 0 1rem;
+  left: auto;
+  height: 2rem;
+  line-height: 2rem;
+  color: $white;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  border-radius: 4px;
+  transition: opacity 0.3s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+  }
+}
+
+.pix-tooltip__content--right {
+  top: calc(50% - 1rem); // -1rem is half of the height of tooltip
+  left: calc(100% + 10px);
+
+  &::before {
+    top: calc(50% - 5px); // -5px is half of the height of ::before elmt
+    left: -10px; // 10px is width of the ::before elmt
+    border-color: transparent $black transparent transparent;
+  }
+}
+
+.pix-tooltip__content--top {
+  bottom: calc(100% + 10px);
+  left: 50%; // 50% here is the parent width
+  transform: translate(-50%); // 50% here is the width of this current element
+
+  &::before {
+    top: 100%;
+    left: calc(50% - 5px);
+    border-color: $black transparent transparent transparent;
+  }
+}
+
+.pix-tooltip__content--bottom {
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translate(-50%);
+
+  &::before {
+    top: -10px;
+    left: calc(50% - 5px);
+    border-color: transparent transparent $black transparent;
+  }
+}
+
+.pix-tooltip__content--left {
+  top: calc(50% - 1rem);
+  right: calc(100% + 10px);
+
+  &::before {
+    top: calc(50% - 5px);
+    right: -10px;
+    border-color: transparent transparent transparent $black;
+  }
+}
