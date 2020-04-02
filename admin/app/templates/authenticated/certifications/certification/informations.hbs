@@ -1,4 +1,4 @@
-<div class="single-certification-info">
+<div class="certification-informations">
   <div class='row'>
     <div class="col">
       <div class="card">
@@ -63,14 +63,18 @@
   </div>
   {{#if isValid}}
     <div class="row">
-      <div class="col single-certification-info__actions">
+      <div class="col certification-informations__actions">
         {{#if edition}}
-          <BsButton @class="single-certification-edit__button" @type="secondary" @size="sm" @onClick={{action "onCancel"}}>Annuler</BsButton>
-          <BsButton @class="single-certification-edit__button" @type="primary" @size="sm" @onClick={{action "onSaveConfirm"}}>Enregistrer</BsButton>
+          <button class='btn btn-secondary btn-sm' type='submit' {{on "click" (fn this.onCancel)}}>
+            Annuler
+          </button>
+          <button class='btn btn-primary btn-sm' type='submit' {{on "click" (fn this.onSaveConfirm)}}>
+            Enregistrer
+          </button>
         {{else}}
-          <BsButton @class="single-certification-edit__button" @type="primary" @size="sm" @onClick={{action "onEdit"}}>
-            Modifier
-          </BsButton>
+          <button class='btn btn-primary btn-sm' type='submit' {{on "click" (fn this.onEdit)}}>
+           Modifier
+          </button>
         {{/if}}
       </div>
     </div>

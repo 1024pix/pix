@@ -1,7 +1,7 @@
-.single-certification-details {
+.certification-details {
   padding: 20px;
 
-  .single-certification-details-info {
+  &__info {
     margin-bottom: 20px;
   }
 
@@ -13,8 +13,7 @@
     color: $error;
   }
 
-  .single-certification-details__actions {
+  &__actions {
     text-align: center;
   }
 }
-

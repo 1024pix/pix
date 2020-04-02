@@ -6,3 +6,11 @@
     margin: 20px 0;
   }
 }
+
+.certification-search {
+  @include whiteBlock;
+  padding: 50px;
+  text-align: center;
+  color: $grey-45;
+  font-style: italic;
+}

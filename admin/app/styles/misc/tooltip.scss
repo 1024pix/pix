@@ -1,0 +1,31 @@
+pix-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  font-size: 0.9rem;
+  font-weight: normal;
+  white-space: nowrap;
+  border-radius: 4px;
+  height: 2rem;
+  line-height: 2rem;
+  padding: 0 1rem;
+  z-index: 100;
+  background-color: $black;
+  transition: opacity 0.3s;
+  margin: 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: calc(50% - 5px); // -5px to center vertically (half of the height of ::before elmt)
+    left: -10px; // width of the ::before elmt
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent $black transparent transparent;
+  }
+}
+
+.pix-tooltip--right {
+  top: calc(50% - 1rem); // -1rem to center vertically (half of the height of tooltip)
+  left: calc(100% + 10px); // +10px for the ::before elmt
+}
