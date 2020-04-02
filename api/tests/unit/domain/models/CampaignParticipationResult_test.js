@@ -1,7 +1,7 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const Area = require('../../../../lib/domain/models/Area');
-const Badge = require('../../../../lib/domain/models/Badge');
-const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartnerCompetence');
+const EndOfParticipationBadgeViewModel = require('../../../../lib/domain/models/EndOfParticipationBadgeViewModel');
+const BadgePartnerCompetenceViewModel = require('../../../../lib/domain/models/BadgePartnerCompetenceViewModel');
 const CampaignParticipationResult = require('../../../../lib/domain/models/CampaignParticipationResult');
 const CompetenceResult = require('../../../../lib/domain/models/CompetenceResult');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
@@ -65,8 +65,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
 
       // then
       expect(result).to.be.an.instanceOf(CampaignParticipationResult);
-      expect(result.badge).to.be.an.instanceOf(Badge);
-      expect(result.badge.badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
+      expect(result.badge).to.be.an.instanceOf(EndOfParticipationBadgeViewModel);
+      expect(result.badge.badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetenceViewModel);
       expect(result.partnerCompetenceResults[0]).to.be.an.instanceOf(CompetenceResult);
       expect(result).to.deep.equal({
         id: campaignParticipationId,
@@ -90,7 +90,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             }
           ],
           key:'badge key',
-          targetProfileId: 1,
         },
         partnerCompetenceResults: [{
           id: 12,

@@ -1,9 +1,9 @@
 const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
-const Badge = require('../../../../lib/domain/models/Badge');
-const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartnerCompetence');
+const endOfParticipationBadgeQuery = require('../../../../lib/infrastructure/repositories/end-of-participation-badge-query');
+const EndOfParticipationBadgeViewModel = require('../../../../lib/domain/models/EndOfParticipationBadgeViewModel');
+const BadgePartnerCompetenceViewModel = require('../../../../lib/domain/models/BadgePartnerCompetenceViewModel');
 
-describe('Integration | Repository | Badge', () => {
+describe('Integration | Repository | EndOfParticipationBadgeQuery', () => {
 
   describe('#findOneByTargetProfileId', () => {
 
@@ -67,16 +67,15 @@ describe('Integration | Repository | Badge', () => {
       const targetProfileId = targetProfileWithoutBadgePartnerCompetences.id;
 
       // when
-      const badgeReturned = await badgeRepository.findOneByTargetProfileId(targetProfileId);
+      const badgeReturned = await endOfParticipationBadgeQuery.findOneByTargetProfileId(targetProfileId);
 
       // then
-      expect(badgeReturned).to.be.an.instanceOf(Badge);
+      expect(badgeReturned).to.be.an.instanceOf(EndOfParticipationBadgeViewModel);
       expect(badgeReturned).to.deep.equal({
         id: badgeWithoutBadgePartnerCompetences.id,
         altMessage: badgeWithoutBadgePartnerCompetences.altMessage,
         imageUrl: badgeWithoutBadgePartnerCompetences.imageUrl,
         message: badgeWithoutBadgePartnerCompetences.message,
-        targetProfileId: badgeWithoutBadgePartnerCompetences.targetProfileId,
         badgePartnerCompetences: [],
         key: badgeWithoutBadgePartnerCompetences.key
       });
@@ -87,18 +86,17 @@ describe('Integration | Repository | Badge', () => {
       const targetProfileId = targetProfile.id;
 
       // when
-      const badgeReturned = await badgeRepository.findOneByTargetProfileId(targetProfileId);
+      const badgeReturned = await endOfParticipationBadgeQuery.findOneByTargetProfileId(targetProfileId);
 
       // then
-      expect(badgeReturned).to.be.an.instanceOf(Badge);
-      expect(badgeReturned.badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
+      expect(badgeReturned).to.be.an.instanceOf(EndOfParticipationBadgeViewModel);
+      expect(badgeReturned.badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetenceViewModel);
       expect(badgeReturned).to.deep.equal({
         id: badgeWithBadgePartnerCompetences.id,
         altMessage: badgeWithBadgePartnerCompetences.altMessage,
         imageUrl: badgeWithBadgePartnerCompetences.imageUrl,
         message: badgeWithBadgePartnerCompetences.message,
         key: 'TOTO',
-        targetProfileId: badgeWithBadgePartnerCompetences.targetProfileId,
         badgePartnerCompetences: [ badgePartnerCompetence_1, badgePartnerCompetence_2 ],
       });
     });
@@ -108,7 +106,7 @@ describe('Integration | Repository | Badge', () => {
       const targetProfileId = anotherTargetProfile.id;
 
       // when
-      const badge = await badgeRepository.findOneByTargetProfileId(targetProfileId);
+      const badge = await endOfParticipationBadgeQuery.findOneByTargetProfileId(targetProfileId);
 
       // then
       expect(badge).to.equal(null);

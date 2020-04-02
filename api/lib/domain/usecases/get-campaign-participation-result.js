@@ -4,7 +4,7 @@ module.exports = async function getCampaignParticipationResult(
   {
     userId,
     campaignParticipationId,
-    badgeRepository,
+    endOfParticipationBadgeQuery,
     badgeAcquisitionRepository,
     campaignParticipationRepository,
     campaignParticipationResultRepository,
@@ -16,12 +16,12 @@ module.exports = async function getCampaignParticipationResult(
   await _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository);
 
   const targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
-  const badge = await badgeRepository.findOneByTargetProfileId(targetProfile.id);
+  const badgeViewModel = await endOfParticipationBadgeQuery.findOneByTargetProfileId(targetProfile.id);
 
-  const campaignParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, badge);
+  const campaignParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, badgeViewModel);
 
-  if (badge != null) {
-    const hasAcquiredBadge = await badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: badge.id });
+  if (badgeViewModel != null) {
+    const hasAcquiredBadge = await badgeAcquisitionRepository.hasAcquiredBadgeWithId({ userId, badgeId: badgeViewModel.id });
     campaignParticipationResult.areBadgeCriteriaFulfilled = hasAcquiredBadge;
   }
 

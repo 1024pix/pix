@@ -1,4 +1,4 @@
-const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartnerCompetence');
+const BadgePartnerCompetenceViewModel = require('../../../../lib/domain/models/BadgePartnerCompetenceViewModel');
 const faker = require('faker');
 
 module.exports = function buildBadgePartnerCompetence(
@@ -11,7 +11,7 @@ module.exports = function buildBadgePartnerCompetence(
       faker.random.number(2),
     ],
   } = {}) {
-  return new BadgePartnerCompetence({
+  return new BadgePartnerCompetenceViewModel({
     id,
     name,
     color,

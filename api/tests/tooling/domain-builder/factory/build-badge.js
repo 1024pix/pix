@@ -1,4 +1,4 @@
-const Badge = require('../../../../lib/domain/models/Badge');
+const EndOfParticipationBadgeViewModel = require('../../../../lib/domain/models/EndOfParticipationBadgeViewModel');
 
 const buildBadgePartnerCompetence = require('./build-badge-partner-competence');
 
@@ -17,7 +17,7 @@ module.exports = function buildBadge(
       buildBadgePartnerCompetence(),
     ],
   } = {}) {
-  return new Badge({
+  return new EndOfParticipationBadgeViewModel({
     id,
     altMessage,
     imageUrl,

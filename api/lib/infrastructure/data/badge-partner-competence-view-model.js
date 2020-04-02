@@ -2,10 +2,10 @@ const Bookshelf = require('../bookshelf');
 
 require('./end-of-participation-badge-view-model');
 
-module.exports = Bookshelf.model('BadgePartnerCompetence', {
+module.exports = Bookshelf.model('BadgePartnerCompetenceViewModel', {
   tableName: 'badge-partner-competences',
 
   badge() {
-    return this.belongsTo('Badge');
+    return this.belongsTo('EndOfParticipationBadgeViewModel');
   },
 });

@@ -1,6 +1,6 @@
 const Bookshelf = require('../bookshelf');
 
-require('./badge');
+require('./end-of-participation-badge-view-model');
 require('./target-profile-skill');
 require('./target-profile-share');
 

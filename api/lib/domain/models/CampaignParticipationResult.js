@@ -127,7 +127,7 @@ function _getCompetenceColor(competence) {
   if (isBadgePartnerCompetenceColorAvailable) {
     areaColor = competence.color;
   } else {
-    areaColor = competence.area.color;
+    areaColor = competence.area != null ? competence.area.color : null;
   }
   return areaColor;
 }

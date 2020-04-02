@@ -1,18 +1,23 @@
 const handleBadgeAcquisition = async function({
   domainTransaction,
   assessmentCompletedEvent,
-  badgeCriteriaService,
-  badgeAcquisitionRepository,
-  badgeRepository,
   campaignParticipationResultRepository,
+  badgeRepository
 }) {
   if (completedAssessmentBelongsToACampaign(assessmentCompletedEvent)) {
+
     const badge = await fetchPossibleCampaignAssociatedBadge(assessmentCompletedEvent, badgeRepository);
+
     if (isABadgeAssociatedToCampaign(badge)) {
-      const campaignParticipationResult = await fetchCampaignParticipationResults(assessmentCompletedEvent, campaignParticipationResultRepository);
-      if (isBadgeAcquired(campaignParticipationResult, badgeCriteriaService)) {
-        await badgeAcquisitionRepository.create(domainTransaction, { badgeId: badge.id, userId: assessmentCompletedEvent.userId });
-      }
+      const campaignParticipationResult = await fetchCampaignParticipationResults(
+        assessmentCompletedEvent,
+        badge,
+        campaignParticipationResultRepository
+      );
+
+      badge.acquire(assessmentCompletedEvent.userId, campaignParticipationResult);
+
+      await badgeRepository.persist(domainTransaction, badge);
     }
   }
 };
@@ -21,20 +26,16 @@ function completedAssessmentBelongsToACampaign(assessmentCompletedEvent) {
   return assessmentCompletedEvent.targetProfileId != null;
 }
 
-async function fetchPossibleCampaignAssociatedBadge(assessmentCompletedEvent, badgeRepository) {
-  return await badgeRepository.findOneByTargetProfileId(assessmentCompletedEvent.targetProfileId);
+async function fetchPossibleCampaignAssociatedBadge(assessmentCompletedEvent, badgeAggregateRepository) {
+  return await badgeAggregateRepository.findOneByTargetProfileId(assessmentCompletedEvent.targetProfileId);
 }
 
 function isABadgeAssociatedToCampaign(badge) {
   return badge != null;
 }
 
-async function fetchCampaignParticipationResults(assessmentCompletedEvent, campaignParticipationResultRepository) {
-  return await campaignParticipationResultRepository.getByParticipationId(assessmentCompletedEvent.campaignParticipationId);
-}
-
-function isBadgeAcquired(campaignParticipationResult, badgeCriteriaService) {
-  return badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult });
+async function fetchCampaignParticipationResults(assessmentCompletedEvent, badge, campaignParticipationResultRepository) {
+  return await campaignParticipationResultRepository.getByParticipationId(assessmentCompletedEvent.campaignParticipationId, badge);
 }
 
 module.exports = handleBadgeAcquisition;
