@@ -10,6 +10,7 @@ class Skill {
     // references
     competenceId,
     tutorialIds = [],
+    tubeId,
   } = {}) {
     this.id = id;
     // attributes
@@ -19,6 +20,7 @@ class Skill {
     // references
     this.competenceId = competenceId;
     this.tutorialIds = tutorialIds;
+    this.tubeId = tubeId;
   }
 
   get difficulty() {

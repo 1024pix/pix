@@ -23,6 +23,7 @@ class Campaign {
     targetProfile,
     campaignReport,
     campaignCollectiveResult,
+    campaignAnalysis,
     creator,
     // references
     organizationId,
@@ -46,6 +47,7 @@ class Campaign {
     this.targetProfile = targetProfile;
     this.campaignReport = campaignReport;
     this.campaignCollectiveResult = campaignCollectiveResult;
+    this.campaignAnalysis = campaignAnalysis;
     this.creator = creator;
     // references
     this.organizationId = organizationId;
