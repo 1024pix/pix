@@ -1,5 +1,6 @@
 import { action } from '@ember/object';
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 import ENV from 'mon-pix/config/environment';
@@ -27,6 +28,8 @@ const SUBMISSION_MAP = {
 
 export default class UpdateExpiredPassword extends Controller {
 
+  @service session;
+
   urlHome = ENV.APP.HOME_HOST;
   pageTitle = 'Changer mon mot de passe';
 
@@ -50,10 +53,21 @@ export default class UpdateExpiredPassword extends Controller {
       await this.model.save({ adapterOptions: { updateExpiredPassword: true, newPassword: this.newPassword } });
       this.validation = SUBMISSION_MAP['default'];
       this.displaySuccessMessage = true;
+      return this._authenticateWithUpdatedPassword({ login: this.model.username, password: this.newPassword });
     } catch (err) {
       this.validation = SUBMISSION_MAP['error'];
     } finally {
       this.set('isLoading', false);
+    }
+
+  }
+
+  _authenticateWithUpdatedPassword({ login, password }) {
+    const scope = 'mon-pix';
+    try {
+      return this.session.authenticate('authenticator:oauth2', { login, password,  scope });
+    } catch (response) {
+      return this._manageErrorsApi(response);
     }
   }
 
