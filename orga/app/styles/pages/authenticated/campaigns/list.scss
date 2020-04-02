@@ -23,7 +23,7 @@
 
   &__tab {
     text-transform: uppercase;
-    color: $comet;
+    color: $grey-60;
     background: transparent;
     padding: 6px 8px;
     cursor: pointer;
@@ -35,11 +35,11 @@
     font-family: $roboto;
     border-radius: 4px;
     &:hover {
-      background: $alto;
+      background: $grey-20;
       opacity: .8;
     }
     &--active {
-      background: $alto;
+      background: $grey-20;
       &:hover {
         opacity: 1;
       }

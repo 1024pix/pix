@@ -4,7 +4,7 @@
   align-items: center;
 
   svg {
-    color: $dusty-gray;
+    color: $grey-30;
   }
 
   &__invisible-field {
@@ -24,16 +24,16 @@
 
     /* IE 11 */
     &:-ms-input-placeholder {
-      color: $dusty-gray;
+      color: $grey-30;
     }
 
     /* older Chrome/Safari/Opera and Edge */
     &::-webkit-input-placeholder {
-      color: $dusty-gray;
+      color: $grey-30;
     }
 
     &::placeholder {
-      color: $dusty-gray;
+      color: $grey-30;
       opacity: 1; /* Firefox */
     }
   }

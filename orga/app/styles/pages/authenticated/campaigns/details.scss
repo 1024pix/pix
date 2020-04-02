@@ -65,7 +65,7 @@
 .campaign-archived-banner {
   font-family: $open-sans;
   font-weight: 600;
-  background: $comet;
+  background: $blue-zodiac;
   display: flex;
   padding: 13px 13px 13px 32px;
   border-radius: 6px;
@@ -78,15 +78,15 @@
     font-size: 1.6rem;
   }
   &__unarchive-button {
-    background: $comet;
-    border: 2px solid white;
+    background: $blue-zodiac;
+    border: 2px solid $white;
     margin-left: auto;
     &:hover {
       opacity: .8;
-      background: $comet;
+      background: $blue-zodiac;
     }
     &:focus {
-      background: $comet;
+      background: $blue-zodiac;
     }
   }
 }
@@ -99,23 +99,23 @@
     margin-right: 12px;
 
     &--jaffa {
-      color: $jaffa;
+      color: $information-light;
     }
 
     &--emerald {
-      color: $emerald;
+      color: $content-light;
     }
 
     &--cerulean {
-      color: $cerulean;
+      color: $communication-light;
     }
 
     &--wild-strawberry {
-      color: $wild-strawberry;
+      color: $security-light;
     }
 
     &--butterfly-bush {
-      color: $butterfly-bush;
+      color: $environment-light;
     }
   }
 

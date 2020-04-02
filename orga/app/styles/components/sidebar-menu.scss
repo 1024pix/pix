@@ -27,7 +27,7 @@
   }
 
   &.active {
-    border-left: 3px solid $amber;
+    border-left: 3px solid $yellow;
     background-color: $chambray;
   }
 }
@@ -49,7 +49,7 @@
     line-height: 2.75rem;
     text-decoration: none;
     text-align: center;
-    border-top: 1px black;
+    border-top: 1px $grey-100;
     border-top-width: 157px;
 
     &:hover {

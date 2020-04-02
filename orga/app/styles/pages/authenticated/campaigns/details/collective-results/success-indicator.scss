@@ -4,9 +4,9 @@
     .success-indicator__value { color: $color; }
   }
 
-  &--red { @include loaderColor($vermilion) }
-  &--orange { @include loaderColor($neon-carot) }
-  &--green { @include loaderColor($emerald) }
+  &--red { @include loaderColor($error) }
+  &--orange { @include loaderColor($warning) }
+  &--green { @include loaderColor($success) }
 
   .success-indicator__value {
     font-size: .8125rem;
