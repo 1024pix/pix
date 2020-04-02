@@ -4,26 +4,16 @@ import { alias } from '@ember/object/computed';
 import Controller from '@ember/controller';
 import { schedule } from '@ember/runloop';
 
-export default class DetailsController extends Controller {
-  // Properties
+export default class CertificationDetailsController extends Controller {
   juryRate = false;
-
   juryScore = false;
   requestedId = '';
 
-  // Private properties
-  @service('mark-store')
-  _markStore;
+  @service('mark-store') _markStore;
 
-  // Aliases
-  @alias('details.percentageCorrectAnswers')
-  rate;
-
-  @alias('details.totalScore')
-  score;
-
-  @alias('model')
-  details;
+  @alias('details.percentageCorrectAnswers') rate;
+  @alias('details.totalScore') score;
+  @alias('model') details;
 
   @action
   onUpdateRate() {
@@ -40,7 +30,10 @@ export default class DetailsController extends Controller {
       const score = this.score;
       const competences = this.get('details.competences');
       const newScore = competences.reduce((value, competence) => {
-        value += (typeof competence.juryScore !== 'undefined' && competence.juryScore !== false) ? competence.juryScore : competence.obtainedScore;
+        const isJuryScoreCorrect = (typeof competence.juryScore !== 'undefined' && competence.juryScore !== false);
+        value +=  isJuryScoreCorrect
+          ? competence.juryScore
+          : competence.obtainedScore;
         return value;
       }, 0);
       if (newScore !== score) {
@@ -63,7 +56,7 @@ export default class DetailsController extends Controller {
         return marks;
       }, {})
     });
-    this.transitionToRoute('authenticated.certifications.single.info', this.get('details.id'));
+    this.transitionToRoute('authenticated.certifications.certification.informations', this.get('details.id'));
   }
 }
 

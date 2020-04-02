@@ -1,12 +1,14 @@
-import { action, computed } from '@ember/object';
-import { inject as service } from '@ember/service';
-import { alias } from '@ember/object/computed';
-import Controller from '@ember/controller';
 import { A } from '@ember/array';
+import Controller from '@ember/controller';
+import { action, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { schedule } from '@ember/runloop';
 import { cloneDeep } from 'lodash';
+import { tracked } from '@glimmer/tracking';
+import _ from 'lodash';
 
-export default class InfoController extends Controller {
+export default class CertificationInformationsController extends Controller {
 
   // Domain constants
   MAX_REACHABLE_LEVEL = 5;
@@ -14,12 +16,12 @@ export default class InfoController extends Controller {
 
   // Properties
   @alias('model') certification;
-  edition = false;
+  @tracked edition = false;
   @service notifications;
-  displayConfirm = false;
-  confirmMessage = '';
-  confirmErrorMessage = '';
-  confirmAction = 'onSave';
+  @tracked displayConfirm = false;
+  @tracked confirmMessage = '';
+  @tracked confirmErrorMessage = '';
+  @tracked confirmAction = 'onSave';
 
   // private properties
   _competencesCopy = null;
@@ -27,22 +29,21 @@ export default class InfoController extends Controller {
 
   @computed('certification.status')
   get isValid() {
-    return this.get('certification.status') !== 'missing-assessment';
+    return this.certification.status !== 'missing-assessment';
   }
 
   @action
   onEdit() {
-    this.set('edition', true);
+    this.edition = true;
   }
 
   @action
   onCancel() {
-    this.set('edition', false);
+    this.edition = false;
     this.certification.rollbackAttributes();
-    const competencesCopy = this._competencesCopy;
-    if (competencesCopy) {
-      this.set('certification.competencesWithMark', competencesCopy);
-      this.set('_competencesCopy', null);
+    if (this._competencesCopy) {
+      this.certification.competencesWithMark = this._competencesCopy;
+      this._competencesCopy = null;
     }
   }
 
@@ -52,21 +53,21 @@ export default class InfoController extends Controller {
     const errors = this._getCertificationErrorsAfterJuryUpdateIfAny();
     const confirmErrorMessage = this._formatErrorsToHtmlString(errors);
 
-    this.set('confirmMessage', confirmMessage);
-    this.set('confirmErrorMessage', confirmErrorMessage);
-    this.set('confirmAction', 'onSave');
-    this.set('displayConfirm', true);
+    this.confirmMessage = confirmMessage;
+    this.confirmErrorMessage = confirmErrorMessage;
+    this.confirmAction = 'onSave';
+    this.displayConfirm = true;
   }
 
   @action
   onCancelConfirm() {
-    this.set('displayConfirm', false);
+    this.displayConfirm = false;
   }
 
   @action
   onSave() {
     const markUpdatedRequired = this._isMarksUpdatedRequired();
-    this.set('displayConfirm', false);
+    this.displayConfirm = false;
     return this.certification.save({ adapterOptions: { updateMarks: false } })
       .then(() => {
         if (markUpdatedRequired) {
@@ -77,8 +78,8 @@ export default class InfoController extends Controller {
       })
       .then(() => {
         this.notifications.success('Modifications enregistrées');
-        this.set('edition', false);
-        this.set('_competencesCopy', null);
+        this.edition = false;
+        this._competencesCopy = null;
       })
       .catch((e) => {
         if (e.errors && e.errors.length > 0) {
@@ -93,35 +94,32 @@ export default class InfoController extends Controller {
 
   @action
   onUpdateScore(code, value) {
+    // TODO refacto this please
     this._saveCompetences();
-    const existingCompetences = this.get('certification.competencesWithMark');
-    const newCompetences = existingCompetences.map((value) => {
-      return value;
-    });
-    const competence = newCompetences.filter((value) => {
-      return (value['competence-code'] === code);
-    })[0];
+    const existingCompetences = this.certification.competencesWithMark;
+    const competence = _.find(existingCompetences, { 'competence-code': code });
     if (competence) {
       if (value.trim().length === 0) {
         if (competence.level) {
           competence.score = null;
         } else {
-          const index = newCompetences.indexOf(competence);
-          newCompetences.splice(index, 1);
+          const index = existingCompetences.indexOf(competence);
+          existingCompetences.splice(index, 1);
         }
       } else {
         competence.score = parseInt(value);
       }
     } else if (value.trim().length > 0) {
-      newCompetences.addObject({ 'competence-code': code, 'score': parseInt(value), 'area-code': code.substr(0, 1) });
+      existingCompetences.addObject({ 'competence-code': code, 'score': parseInt(value), 'area-code': code.substr(0, 1) });
     }
-    this.set('certification.competencesWithMark', newCompetences);
+    this.certification.competencesWithMark = existingCompetences;
   }
 
   @action
   onUpdateLevel(code, value) {
+    // TODO refacto this please
     this._saveCompetences();
-    const existingCompetences = this.get('certification.competencesWithMark');
+    const existingCompetences = this.certification.competencesWithMark;
     const newCompetences = existingCompetences.map((value) => {
       return value;
     });
@@ -142,19 +140,19 @@ export default class InfoController extends Controller {
     } else if (value.trim().length > 0) {
       newCompetences.addObject({ 'competence-code': code, 'level': parseInt(value), 'area-code': code.substr(0, 1) });
     }
-    this.set('certification.competencesWithMark', newCompetences);
+    this.certification.competencesWithMark = newCompetences;
   }
 
   @action
   onTogglePublishConfirm() {
-    const state = this.get('certification.isPublished');
+    const state = this.certification.isPublished;
     if (state) {
-      this.set('confirmMessage', 'Souhaitez-vous dépublier cette certification ?');
+      this.confirmMessage = 'Souhaitez-vous dépublier cette certification ?';
     } else {
-      this.set('confirmMessage', 'Souhaitez-vous publier cette certification ?');
+      this.confirmMessage = 'Souhaitez-vous publier cette certification ?';
     }
-    this.set('confirmAction', 'onTogglePublish');
-    this.set('displayConfirm', true);
+    this.confirmAction = 'onTogglePublish';
+    this.displayConfirm = true;
   }
 
   @action
@@ -163,7 +161,7 @@ export default class InfoController extends Controller {
     if (markStore.hasState()) {
       const state = markStore.getState();
       const certification = this.certification;
-      certification.set('pixScore', state.score);
+      certification.pixScore = state.score;
       const newCompetences = Object.keys(state.marks).reduce((competences, code) => {
         const mark = state.marks[code];
         competences.addObject({
@@ -174,34 +172,32 @@ export default class InfoController extends Controller {
         });
         return competences;
       }, A());
-      certification.set('competencesWithMark', newCompetences);
+      certification.competencesWithMark = newCompetences;
       schedule('afterRender', this, () => {
-        this.set('edition', true);
+        this.edition = true;
       });
     }
   }
 
   @action
   onUpdateCertificationBirthdate(selectedDates, lastSelectedDateFormatted) {
-    this.set('certification.birthdate', lastSelectedDateFormatted);
+    this.certification.birthdate = lastSelectedDateFormatted;
   }
 
   // Private methods
   _saveCompetences() {
-    const copy = this._competencesCopy;
-    if (!copy) {
-      const current = this.get('certification.competencesWithMark');
-      this.set('_competencesCopy', cloneDeep(current));
+    if (!this._competencesCopy) {
+      const current = this.certification.competencesWithMark;
+      this._competencesCopy = cloneDeep(current);
     }
   }
 
   _isMarksUpdatedRequired() {
-    const {
-      status, pixScore, competencesWithMark, commentForCandidate, commentForOrganization, commentForJury
-    } = this.certification.changedAttributes();
-    return (
-      status || pixScore || competencesWithMark || commentForCandidate || commentForOrganization || commentForJury
+    const attributesChangedAndLinkedToMarks = _.pick(
+      this.certification.changedAttributes(),
+      ['status', 'pixScore', 'competencesWithMark', 'commentForCandidate', 'commentForOrganization', 'commentForJury']
     );
+    return _.some(attributesChangedAndLinkedToMarks);
   }
 
   _getCertificationErrorsAfterJuryUpdateIfAny() {

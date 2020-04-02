@@ -1,7 +1,7 @@
-<div class="single-certification-details">
+<div class="certification-details">
   <div class='row'>
     <div class='col'>
-      <div class='card border-primary sticky-top single-certification-details-info'>
+      <div class='card border-primary sticky-top certification-details__info'>
         <div class='card-body'>
           <div class='row'>
             <div class='col'>Statut :</div>
@@ -38,15 +38,20 @@
         </div>
       </div>
       {{#each details.competences as |competence|}}
-        {{certification-details-competence competence=competence rate=rate juryRate=juryRate
-                                           onUpdateRate=(action "onUpdateRate") }}
+        {{certification-details-competence
+            competence=competence
+            rate=rate
+            juryRate=juryRate
+            onUpdateRate=(action "onUpdateRate")
+        }}
       {{/each}}
     </div>
   </div>
   <div class="row">
-    <div class="col single-certification-details__actions">
-      {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onStoreMarks")}}
-        Enregistrer...{{/bs-button}}
+    <div class="col certification-details__actions">
+      <button class='btn btn-primary btn-sm' type='submit' {{on "click" this.onStoreMarks}}>
+        Enregistrer
+      </button>
     </div>
   </div>
 </div>

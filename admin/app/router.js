@@ -35,14 +35,6 @@ Router.map(function() {
       this.route('list');
     });
 
-    this.route('certifications', function() {
-      //TODO: find a better routes settings between info and details
-      this.route('single', function() {
-        this.route('info', { path: '/:certification_id' });
-        this.route('details', { path: '/:certification_id/details' });
-      });
-    });
-
     this.route('certification-centers', function() {
       this.route('list');
     });
@@ -52,6 +44,13 @@ Router.map(function() {
       this.route('session', { path: '/:session_id' }, function() {
         this.route('informations', { path: '/' });
         this.route('certifications');
+      });
+    });
+
+    this.route('certifications', function() {
+      this.route('certification', { path: '/:certification_id' }, function() {
+        this.route('informations', { path: '/' });
+        this.route('details');
       });
     });
 

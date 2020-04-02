@@ -2,8 +2,8 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 
-module('Unit | Controller | authenticated/certifications/single/info', function(hooks) {
-
+module('Unit | Controller | authenticated/certifications/certification/informations', function(hooks) {
+ 
   setupTest(hooks);
 
   const competence = (code, score, level) => {
@@ -14,15 +14,9 @@ module('Unit | Controller | authenticated/certifications/single/info', function(
     };
   };
 
-  // Replace this with your real tests.
-  test('it exists', function(assert) {
-    const controller = this.owner.lookup('controller:authenticated/certifications/single/info');
-    assert.ok(controller);
-  });
-
   test('it replaces competence score correctly', function(assert) {
     // Given
-    const controller = this.owner.lookup('controller:authenticated/certifications/single/info');
+    const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
     controller.set('model', EmberObject.create({
       competencesWithMark:[competence('1.1', 24, 3), competence('3.1',40, 5), competence('5.2',33, 4)]
     }));
@@ -40,7 +34,7 @@ module('Unit | Controller | authenticated/certifications/single/info', function(
 
   test('it creates competence score correctly', function(assert) {
     // Given
-    const controller = this.owner.lookup('controller:authenticated/certifications/single/info');
+    const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
     controller.set('model', EmberObject.create({
       competencesWithMark:[competence('1.1', 24, 3), competence('3.1',40, 5), competence('5.2',33, 4)]
     }));
@@ -58,7 +52,7 @@ module('Unit | Controller | authenticated/certifications/single/info', function(
 
   test('it replaces competence level correctly', function(assert) {
     // Given
-    const controller = this.owner.lookup('controller:authenticated/certifications/single/info');
+    const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
     controller.set('model', EmberObject.create({
       competencesWithMark:[competence('1.1', 24, 3), competence('3.1',40, 5), competence('5.2',33, 4)]
     }));
@@ -76,7 +70,7 @@ module('Unit | Controller | authenticated/certifications/single/info', function(
 
   test('it creates competence level correctly', function(assert) {
     // Given
-    const controller = this.owner.lookup('controller:authenticated/certifications/single/info');
+    const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
     controller.set('model', EmberObject.create({
       competencesWithMark:[competence('1.1', 24, 3), competence('3.1',40, 5), competence('5.2',33, 4)]
     }));
@@ -94,7 +88,7 @@ module('Unit | Controller | authenticated/certifications/single/info', function(
 
   test('it removes competence correctly', function(assert) {
     // Given
-    const controller = this.owner.lookup('controller:authenticated/certifications/single/info');
+    const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
     controller.set('model', EmberObject.create({
       competencesWithMark:[competence('1.1', 24, 3), competence('3.1',40, 5), competence('5.2',33, 4)]
     }));
@@ -113,7 +107,7 @@ module('Unit | Controller | authenticated/certifications/single/info', function(
 
   test('it restores competences when cancel is sent', function(assert) {
     // Given
-    const controller = this.owner.lookup('controller:authenticated/certifications/single/info');
+    const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
     const that = this;
     controller.set('model', EmberObject.create({
       competencesWithMark:[competence('1.1', 24, 3), competence('3.1',40, 5), competence('5.2',33, 4)],
@@ -153,7 +147,7 @@ module('Unit | Controller | authenticated/certifications/single/info', function(
 
   test('it saves competences info when save is sent', async function(assert) {
     // Given
-    const controller = this.owner.lookup('controller:authenticated/certifications/single/info');
+    const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
     const that = this;
     controller.set('model', EmberObject.create({
       competencesWithMark:[competence('1.1', 24, 3), competence('3.1',40, 5), competence('5.2',33, 4)],
@@ -176,7 +170,7 @@ module('Unit | Controller | authenticated/certifications/single/info', function(
 
   test('marks are not updated when no change has been made and save is sent', async function(assert) {
     // Given
-    const controller = this.owner.lookup('controller:authenticated/certifications/single/info');
+    const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
     const that = this;
     controller.set('model', EmberObject.create({
       competencesWithMark:[competence('1.1', 24, 3), competence('3.1',40, 5), competence('5.2',33, 4)],
@@ -206,7 +200,7 @@ module('Unit | Controller | authenticated/certifications/single/info', function(
 
   test('marks are updated when change has been made to competence marks and save is sent', async function(assert) {
     // Given
-    const controller = this.owner.lookup('controller:authenticated/certifications/single/info');
+    const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
     const that = this;
     controller.set('model', EmberObject.create({
       competencesWithMark:[competence('1.1', 24, 3), competence('3.1',40, 5), competence('5.2',33, 4)],
@@ -236,7 +230,7 @@ module('Unit | Controller | authenticated/certifications/single/info', function(
 
   test('marks are updated when change has been made to pix score and save is sent', async function(assert) {
     // Given
-    const controller = this.owner.lookup('controller:authenticated/certifications/single/info');
+    const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
     const that = this;
     controller.set('model', EmberObject.create({
       competencesWithMark:[competence('1.1', 24, 3), competence('3.1',40, 5), competence('5.2',33, 4)],

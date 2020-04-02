@@ -12,6 +12,7 @@
       padding: 0 15px;
 
       .menu-bar__link {
+        position: relative;
         color: $grey-22;
         display: block;
         line-height: 50px;
@@ -21,13 +22,14 @@
         border-radius: 5px;
         font-size: 1.25rem;
 
-        span {
-          display: none;
-        }
-
         i.fa {
           margin: 0 10px;
           width: 32px;
+        }
+
+        &:hover pix-tooltip {
+          visibility: visible;
+          opacity: 1;
         }
 
         &:hover {
