@@ -15,6 +15,7 @@ given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'schooling-registrations');
   cy.task('db:fixture', 'certification-centers');
   cy.task('db:fixture', 'certification-center-memberships');
+  cy.task('db:fixture', 'sessions');
 });
 
 given('tous les comptes sont créés', () => {
@@ -53,8 +54,8 @@ given('je suis connecté à Pix Orga', () => {
   cy.login('daenerys.targaryen@pix.fr', 'pix123');
 });
 
-given('je suis connecté à Pix Certif', () => {
-  cy.login('certif.sco@example.net', 'pix123');
+given('je suis connecté à Pix Certif avec le mail {string}', (email) => {
+  cy.login(email, 'pix123');
 });
 
 given('je suis connecté à Pix en tant qu\'administrateur', () => {
