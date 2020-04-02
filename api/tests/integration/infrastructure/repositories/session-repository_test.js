@@ -562,7 +562,6 @@ describe('Integration | Repository | Session', function() {
       expect(updatedSession).to.be.an.instanceof(Session);
       expect(updatedSession.id).to.deep.equal(id);
       expect(updatedSession.assignedUserId).to.deep.equal(assignedUserId);
-      expect(updatedSession.status).to.deep.equal(statuses.ONGOING);
     });
   });
 });
