@@ -327,7 +327,7 @@ exports.register = async (server) => {
         handler: sessionController.assignUser,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle PixMaster**\n' +
-          '- Assigne la session à un utilisateur PixMaster et met à jour le statut de la session.'
+          '- Assigne la session à un utilisateur PixMaster'
         ],
         tags: ['api', 'session', 'assignment']
       }
