@@ -4,7 +4,7 @@
   width: 100%;
   height: 100%;
   min-height: 800px;
-  background: $denim-gradient;
+  background: $pix-orga-old-gradient;
   justify-content: center;
   align-items: center; // XXX do not remove: ugly fix for ugly IE
 }
@@ -15,7 +15,7 @@
   padding: 35px 0;
   justify-content: center;
 
-  background-color: white;
+  background-color: $white;
   border-radius: 10px;
 
   &__logo {
@@ -31,7 +31,7 @@
   &__title {
     margin-bottom: 30px;
     text-align: center;
-    color: $nero;
+    color: $grey-100;
     font-family: $roboto;
     font-size: 18px;
     font-weight: 300;
@@ -42,7 +42,7 @@
     height: 1px;
     margin-bottom: 30px;
     border: none;
-    background-color: $alto;
+    background-color: $grey-20;
   }
 
   &__text {

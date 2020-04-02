@@ -9,7 +9,7 @@
   justify-content: space-between;
 
   &:not(:last-child) {
-    border-bottom: 1px solid $alto;
+    border-bottom: 1px solid $grey-20;
   }
 }
 
@@ -33,7 +33,7 @@
   }
 
   &:not(:first-child) {
-    border-left: 1px solid $alto;
+    border-left: 1px solid $grey-20;
   }
 
   &__label {

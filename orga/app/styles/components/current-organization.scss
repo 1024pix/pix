@@ -2,7 +2,7 @@
   padding-top: 15px;
 
   &__label {
-    color: white;
+    color: $white;
     opacity: 0.5;
     font-size: 0.7rem;
     letter-spacing: 0.07rem;
@@ -11,7 +11,7 @@
 
   &__name {
     padding-top: 8px;
-    color: white;
+    color: $white;
     font-size: 0.82rem;
     font-weight: 300;
     letter-spacing: 0.05rem;

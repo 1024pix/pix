@@ -17,11 +17,11 @@
   .circle {
     fill: none;
     stroke-width: 1.1;
-    stroke: $alto;
+    stroke: $grey-20;
     stroke-linecap: round;
 
     &--slice {
-      stroke: $aqua;
+      stroke: $blue;
       animation: progress 1s ease-out reverse;
     }
   }

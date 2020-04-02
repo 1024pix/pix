@@ -1,44 +1,44 @@
 .paragraph {
-  color: $dove-gray;
+  color: $grey-60;
   font-family: $open-sans;
   font-size: 0.875rem;
   line-height: 20px;
 }
 
 .help-text {
-  color: $dove-gray;
+  color: $grey-60;
   font-family: $roboto;
   font-size: 0.75rem;
 }
 
 .legal-text {
-  color: $dove-gray;
+  color: $grey-60;
   font-family: $roboto;
   font-size: 0.6875rem;
   font-weight: 300;
 }
 
 .information-text {
-  color: $dove-gray;
+  color: $grey-60;
   font-family: $open-sans;
   font-size: 1.2rem;
 }
 
 .label-text {
-  color: $dusty-gray;
+  color: $grey-30;
   font-family: $roboto;
   font-size: 0.9rem;
   font-weight: 400;
 }
 
 .content-text {
-  color: $dove-gray;
+  color: $grey-60;
   font-family: $roboto;
   font-size: 1rem;
   word-break: break-word;
 
   &--bold {
-    color: $nero;
+    color: $grey-100;
     font-weight: 700;
   }
 
@@ -56,13 +56,13 @@
   outline: none;
   border: none;
   background-color: inherit;
-  color: $dodger-blue;
+  color: $blue;
   text-decoration: none;
 
   &:hover,
   &:focus,
   &:active {
     text-decoration: underline;
-    color: $mariner;
+    color: $blue-hover;
   }
 }

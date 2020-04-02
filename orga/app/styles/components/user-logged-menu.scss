@@ -7,14 +7,14 @@
   text-align: right;
 
   &__link {
-    color: $comet;
+    color: $grey-60;
     cursor: pointer;
     display: flex;
 
     &:hover,
     &:active,
     &:focus {
-      color: $comet;
+      color: $grey-70;
       text-decoration: none;
     }
   }
@@ -35,7 +35,7 @@
     vertical-align: middle;
 
     &-up {
-      color: $aqua;
+      color: $blue;
     }
   }
 }
@@ -43,7 +43,7 @@
 .logged-user-menu {
   background-color: $white;
   border-radius: 4px;
-  box-shadow: $box-shadow-user-logged-menu;
+  box-shadow: 1px 1px 3px 1px rgba($black, 0.13), 0 1px 1px 0 rgba($black, 0.08);
   overflow: hidden;
   position: absolute;
   right: 0;
@@ -53,7 +53,7 @@
   &-item {
     align-items: center;
     border-radius: 4px;
-    color: $comet;
+    color: $grey-60;
     cursor: pointer;
     display: flex;
     font-size: 0.875rem;
@@ -64,8 +64,8 @@
     &:hover,
     &:active,
     &:focus {
-      background-color: $porcelain;
-      color: $comet;
+      background-color: $grey-10;
+      color: $grey-60;
       text-decoration: none;
     }
 
@@ -74,7 +74,7 @@
     }
 
     &__last:not(:first-child) {
-      border-top: 1px solid $alto;
+      border-top: 1px solid $grey-20;
     }
 
     &__organization-name {
