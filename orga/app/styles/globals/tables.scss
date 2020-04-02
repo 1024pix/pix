@@ -8,7 +8,7 @@ table {
 
 thead {
   width: 100%;
-  color: $mine-shaft;
+  color: $grey-100;
 
   caption {
     text-align: left;
@@ -22,14 +22,14 @@ thead {
 }
 
 tbody {
-  color: $dove-gray;
+  color: $grey-60;
 
   tr.tr--clickable {
     cursor: pointer;
 
     &:hover, &:focus, &:active {
-      color: $nero;
-      background-color: $wild-sand;
+      color: $grey-100;
+      background-color: $grey-10;
       transition: 0.25s ease;
     }
   }
@@ -38,7 +38,7 @@ tbody {
 tr {
   width: 100%;
   height: 60px;
-  border-top: 2px solid $wild-sand;
+  border-top: 2px solid $grey-10;
 }
 
 td, th {
@@ -70,17 +70,17 @@ td, th {
   align-items: center;
   height: 180px;
   text-align: center;
-  border-top: 2px solid $wild-sand;
+  border-top: 2px solid $grey-10;
 }
 
 .table__input {
-  border: 1px solid $alto;
+  border: 1px solid $grey-20;
   width: 85%;
   font-size: 0.8rem;
   height: 36px;
   box-sizing: border-box;
 
   &:focus-within {
-    border: 1px solid $dodger-blue;
+    border: 1px solid $blue;
   }
 }

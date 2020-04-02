@@ -57,7 +57,8 @@ body, html {
   height: 100%;
   font-family: $roboto;
   font-size: 100%;
-  background-color: $porcelain;
+  background-color: $grey-10;
+  color: $black;
 }
 
 body > .ember-view {

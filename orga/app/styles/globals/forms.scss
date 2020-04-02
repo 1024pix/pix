@@ -31,7 +31,7 @@
 
 .label {
   display: inline-block;
-  color: $tundora;
+  color: $grey-70;
   font-size: 0.94rem;
   font-weight: 500;
   padding-bottom: 5px;
@@ -46,19 +46,19 @@
 
 .input {
   height: 38px;
-  border: 2px solid $alto;
+  border: 2px solid $grey-20;
   border-radius: 4px;
   font-size: 1rem;
   padding-left: 15px;
-  color: $nero;
+  color: $grey-100;
   outline: none;
 
   &:focus {
-    border: 2px solid $dodger-blue;
+    border: 2px solid $blue;
   }
 
   &--error {
-    border: 2px solid $vermilion;
+    border: 2px solid $error;
   }
 }
 
@@ -67,15 +67,15 @@
   height: 42px;
   border-radius: 3px;
   align-items: center;
-  background-color: white;
-  border: 2px solid $alto;
+  background-color: $white;
+  border: 2px solid $grey-20;
 
   &--error {
-    border: 2px solid $vermilion;
+    border: 2px solid $error;
   }
 
   &:focus-within {
-    border: 2px solid $dodger-blue;
+    border: 2px solid $blue;
   }
 
   .input {
@@ -108,13 +108,13 @@
 
   &-icon {
     &__eye {
-      color: $dove-gray;
+      color: $grey-60;
       transition: .5s;
       font-size: 1.1rem;
       margin-top: 2px;
 
       &:hover {
-        color: $nero;
+        color: $grey-100;
         cursor: pointer;
       }
     }
@@ -122,16 +122,16 @@
 }
 
 .textarea {
-  border: 2px solid $alto;
+  border: 2px solid $grey-20;
   border-radius: 4px;
   font-size: 1rem;
   padding: 8px;
-  color: $nero;
+  color: $grey-100;
   outline: none;
   resize: none;
 
   &:focus {
-    border: 2px solid $dodger-blue;
+    border: 2px solid $blue;
   }
 }
 
@@ -143,13 +143,13 @@
 
 .select {
   font-size: 1rem;
-  border: 2px $alto solid;
+  border: 2px $grey-20 solid;
   height: 46px;
-  background-color: white;
+  background-color: $white;
   outline: none;
 
   &:focus {
-    border: 2px solid $dodger-blue;
+    border: 2px solid $blue;
   }
 }
 
@@ -166,11 +166,11 @@
   margin: 10px 20px 11px 0px;
   border-radius: 50%;
   vertical-align: middle;
-  box-shadow: 0 0 0 2px $alto;
-  border: 4px solid $wild-sand;
+  box-shadow: 0 0 0 2px $grey-20;
+  border: 4px solid $grey-10;
 }
 
 .radio-button:checked + .radio-button-span {
-  box-shadow: 0 0 0 2px $dodger-blue;
-  background-color: $dodger-blue;
+  box-shadow: 0 0 0 2px $blue;
+  background-color: $blue;
 }
