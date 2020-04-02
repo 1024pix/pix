@@ -7,11 +7,13 @@
       • <span class="tutorial-content__format">{{tutorial.format}}</span>
       • <span class="tutorial-content__duration">{{moment-duration tutorial.duration}}</span>
     </div>
-    <button class="tutorial-content__save-tutorial" title={{this.saveButtonTitle}}
-      {{on 'click' this.saveTutorial}}
-            disabled={{this.isSaveButtonDisabled}}>
-      <FaIcon @prefix={{if this.isSaved 'fas' 'far'}} @icon='bookmark'></FaIcon>
-      {{saveButtonText}}
-    </button>
+    {{#if this.currentUser.user}}
+      <button class="tutorial-content__save-tutorial" title={{this.saveButtonTitle}}
+        {{on 'click' this.saveTutorial}}
+              disabled={{this.isSaveButtonDisabled}}>
+        <FaIcon @prefix={{if this.isSaved 'fas' 'far'}} @icon='bookmark'></FaIcon>
+        {{saveButtonText}}
+      </button>
+    {{/if}}
   </div>
 </div>

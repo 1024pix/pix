@@ -11,6 +11,7 @@ const statusTypes = {
 
 export default class TutorialItemComponent extends Component {
   @service store;
+  @service currentUser;
 
   imageForFormat = {
     'vidéo': 'video',
