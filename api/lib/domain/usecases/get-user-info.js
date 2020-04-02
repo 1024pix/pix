@@ -10,11 +10,5 @@ module.exports = async function getUserInfo({
     throw new NotFoundError(ERROR_MESSAGE);
   }
 
-  let user;
-  try {
-    user = await userRepository.get(userId);
-  } catch (err) {
-    throw new NotFoundError(ERROR_MESSAGE);
-  }
-  return user;
+  return await userRepository.get(userId);
 };

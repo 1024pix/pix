@@ -29,37 +29,15 @@ describe('Unit | UseCase | get-user-info', () => {
 
     beforeEach(() => {
       userId = 1;
+      userRepository.get.withArgs(userId).resolves(returnedUser);
     });
 
-    context('when the user does not exist', () => {
+    it('should return the user', async () => {
+      // when
+      const actualUser = await getUserInfo({ userId, userRepository });
 
-      beforeEach(() => {
-        userRepository.get.withArgs(userId).rejects();
-      });
-
-      it('should throw a NotFound error when getting the user', async () => {
-        // when
-        const error = await catchErr(getUserInfo)({ userId, userRepository });
-
-        // then
-        sinon.assert.calledOnce(userRepository.get);
-        expect(error).to.be.an.instanceOf(NotFoundError);
-      });
-    });
-
-    context('when the user exists', () => {
-
-      beforeEach(() => {
-        userRepository.get.withArgs(userId).resolves(returnedUser);
-      });
-
-      it('should return the user', async () => {
-        // when
-        const actualUser = await getUserInfo({ userId, userRepository });
-
-        // then
-        expect(actualUser).to.equal(returnedUser);
-      });
+      // then
+      expect(actualUser).to.equal(returnedUser);
     });
   });
 });
