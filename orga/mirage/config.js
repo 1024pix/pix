@@ -179,6 +179,12 @@ export default function() {
     return campaign.campaignCollectiveResult;
   });
 
+  this.get('/campaigns/:id/analyses', (schema, request) => {
+    const campaignId = request.params.id;
+    const campaign = schema.campaigns.find(campaignId);
+    return campaign.campaignAnalysis;
+  });
+
   this.get('/campaign-participations', (schema, request) => {
     const qp = request.queryParams;
     const campaignId = qp['filter[campaignId]'];

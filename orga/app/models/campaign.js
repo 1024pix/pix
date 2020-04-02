@@ -22,6 +22,7 @@ export default DS.Model.extend({
   targetProfile: DS.belongsTo('target-profile'),
   campaignReport: DS.belongsTo('campaign-report'),
   campaignCollectiveResult: DS.belongsTo('campaign-collective-result'),
+  campaignAnalysis: DS.belongsTo('campaign-analysis'),
 
   isTypeProfilesCollection: computed.equal('type', 'PROFILES_COLLECTION'),
   isTypeAssessment: computed.equal('type', 'ASSESSMENT'),

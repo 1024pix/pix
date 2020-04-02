@@ -70,6 +70,11 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
                 'links': {
                   'related': '/api/campaigns/5/collective-results'
                 }
+              },
+              'campaign-analysis': {
+                'links': {
+                  'related': '/api/campaigns/5/analyses'
+                }
               }
             }
           },
@@ -168,6 +173,11 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               'campaign-collective-result': {
                 'links': {
                   'related': '/api/campaigns/5/collective-results'
+                }
+              },
+              'campaign-analysis': {
+                'links': {
+                  'related': '/api/campaigns/5/analyses'
                 }
               }
             }

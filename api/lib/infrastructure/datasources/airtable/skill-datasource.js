@@ -19,14 +19,10 @@ module.exports = datasource.extend({
     'PixValue',
     'Compétence (via Tube) (id persistant)',
     'Status',
+    'Tube (id persistant)',
   ],
 
   fromAirTableObject(airtableRecord) {
-
-    let competenceId;
-    if (airtableRecord.get('Compétence (via Tube) (id persistant)')) {
-      competenceId = airtableRecord.get('Compétence (via Tube) (id persistant)')[0];
-    }
 
     return {
       id: airtableRecord.get('id persistant'),
@@ -36,8 +32,9 @@ module.exports = datasource.extend({
       tutorialIds: airtableRecord.get('Comprendre (id persistant)') || [],
       learningMoreTutorialIds: airtableRecord.get('En savoir plus (id persistant)') || [],
       pixValue: airtableRecord.get('PixValue'),
-      competenceId,
+      competenceId: _.head(airtableRecord.get('Compétence (via Tube) (id persistant)')),
       status: airtableRecord.get('Status'),
+      tubeId: _.head(airtableRecord.get('Tube (id persistant)')),
     };
   },
 

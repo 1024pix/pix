@@ -8,6 +8,7 @@ function _toDomain(skillData) {
     pixValue: skillData.pixValue,
     competenceId: skillData.competenceId,
     tutorialIds: skillData.tutorialIds,
+    tubeId: skillData.tubeId,
   });
 }
 

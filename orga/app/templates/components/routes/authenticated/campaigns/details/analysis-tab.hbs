@@ -1,0 +1,25 @@
+<div class="panel panel--light-shadow content-text content-text--small campaign-details-table">
+
+  <table aria-label="Analyse par sujet">
+    <thead>
+    <tr>
+      <th class="table__column--wide">Sujets ({{ @campaignTubeRecommendations.length }})</th>
+    </tr>
+    </thead>
+
+      <tbody>
+      {{#each @campaignTubeRecommendations as |tubeRecommendation|}}
+        <tr aria-label="Sujet">
+          <td class="campaign-details-table__line-wrapper">
+            <span class="campaign-details-table__bullet campaign-details-table__bullet--{{tubeRecommendation.areaColor}}">
+              &#8226;
+            </span>
+            <span>{{tubeRecommendation.tubePracticalTitle}}<br/>
+              <sub>{{tubeRecommendation.competenceName}}</sub>
+            </span>
+          </td>
+        </tr>
+      {{/each}}
+      </tbody>
+  </table>
+</div>

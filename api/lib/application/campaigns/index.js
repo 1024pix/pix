@@ -1,3 +1,4 @@
+const Joi = require('@hapi/joi');
 const campaignController = require('./campaign-controller');
 
 exports.register = async function(server) {
@@ -90,13 +91,30 @@ exports.register = async function(server) {
       }
     },
     {
+      method: 'GET',
+      path: '/api/campaigns/{id}/analyses',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
+        handler: campaignController.getAnalysis,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération de l\'analyse de la campagne par son id',
+        ],
+        tags: ['api', 'campaign']
+      }
+    },
+    {
       method: 'PUT',
       path: '/api/campaigns/{id}/archive',
       config: {
         handler: campaignController.archiveCampaign,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Archivage d\'une campagne son id',
+          '- Archivage d\'une campagne par son id',
         ],
       }
     },
@@ -107,7 +125,7 @@ exports.register = async function(server) {
         handler: campaignController.unarchiveCampaign,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Désarchivage d\'une campagne son id',
+          '- Désarchivage d\'une campagne par son id',
         ],
       }
     }

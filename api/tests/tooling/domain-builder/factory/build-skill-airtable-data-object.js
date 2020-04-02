@@ -5,7 +5,8 @@ module.exports = function({
   hintStatus = 'Validé',
   tutorialIds = ['receomyzL0AmpMFGw'],
   pixValue = 2.4,
-  competenceId = 'recABCD1234'
+  competenceId = 'recABCD1234',
+  tubeId = 'recEFGH5678',
 } = {}) {
 
   return {
@@ -16,5 +17,6 @@ module.exports = function({
     tutorialIds,
     pixValue,
     competenceId,
+    tubeId,
   };
 };

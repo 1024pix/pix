@@ -3,6 +3,7 @@ const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
+const campaignAnalysisSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer');
 const campaignReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
 const campaignCollectiveResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 
@@ -330,6 +331,35 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   });
 
+  describe('#getAnalysis', () => {
+
+    const campaignId = 1;
+    const userId = 1;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'computeCampaignAnalysis');
+      sinon.stub(campaignAnalysisSerializer, 'serialize');
+    });
+
+    it('should return an unauthorized error', async () => {
+      // given
+      const error = new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
+      const request = {
+        params: { id: campaignId },
+        auth: {
+          credentials: { userId }
+        }
+      };
+      usecases.computeCampaignAnalysis.rejects(error);
+
+      // when
+      const errorCatched = await catchErr(campaignController.getAnalysis)(request);
+
+      // then
+      expect(errorCatched).to.be.instanceof(UserNotAuthorizedToAccessEntity);
+    });
+  });
+
   describe('archiveCampaign', async () => {
     let updatedCampaign;
     let serializedCampaign;
@@ -362,6 +392,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     });
 
   });
+
   describe('unarchiveCampaign', async () => {
     let updatedCampaign;
     let serializedCampaign;

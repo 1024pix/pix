@@ -90,3 +90,38 @@
     }
   }
 }
+
+.campaign-details-table {
+  margin-bottom: 20px;
+
+  &__bullet {
+    font-size: 1.8rem;
+    margin-right: 12px;
+
+    &--jaffa {
+      color: $jaffa;
+    }
+
+    &--emerald {
+      color: $emerald;
+    }
+
+    &--cerulean {
+      color: $cerulean;
+    }
+
+    &--wild-strawberry {
+      color: $wild-strawberry;
+    }
+
+    &--butterfly-bush {
+      color: $butterfly-bush;
+    }
+  }
+
+  &__line-wrapper {
+    display: flex;
+    align-items: center;
+    height: inherit;
+  }
+}

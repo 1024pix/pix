@@ -56,8 +56,16 @@ describe('Unit | Repository | challenge-repository', () => {
           });
           solution = domainBuilder.buildSolution();
           challengeDatasource.get.withArgs(challengeRecordId).resolves(challengeDataObject);
-          skillDatasource.get.withArgs('skillId_1').resolves(domainBuilder.buildSkillAirtableDataObject({ name: '@web1', competenceId: 'rec1' }));
-          skillDatasource.get.withArgs('skillId_2').resolves(domainBuilder.buildSkillAirtableDataObject({ name: '@url2', competenceId: 'rec1' }));
+          skillDatasource.get.withArgs('skillId_1').resolves(domainBuilder.buildSkillAirtableDataObject({
+            name: '@web1',
+            competenceId: 'rec1',
+            tubeId: 'recTube1',
+          }));
+          skillDatasource.get.withArgs('skillId_2').resolves(domainBuilder.buildSkillAirtableDataObject({
+            name: '@url2',
+            competenceId: 'rec1',
+            tubeId: 'recTube2',
+          }));
           solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
 
           // when
@@ -114,8 +122,22 @@ describe('Unit | Repository | challenge-repository', () => {
           // then
           return promise.then((challenge) => {
             expect(challenge.skills).to.have.lengthOf(2);
-            expect(challenge.skills[0]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@web1', pixValue: 2.4, competenceId: 'rec1', tutorialIds: ['receomyzL0AmpMFGw'] }));
-            expect(challenge.skills[1]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@url2', pixValue: 2.4, competenceId: 'rec1', tutorialIds: ['receomyzL0AmpMFGw'] }));
+            expect(challenge.skills[0]).to.deep.equal(new Skill({
+              id: 'recTIddrkopID28Ep',
+              name: '@web1',
+              pixValue: 2.4,
+              competenceId: 'rec1',
+              tutorialIds: ['receomyzL0AmpMFGw'],
+              tubeId: 'recTube1',
+            }));
+            expect(challenge.skills[1]).to.deep.equal(new Skill({
+              id: 'recTIddrkopID28Ep',
+              name: '@url2',
+              pixValue: 2.4,
+              competenceId: 'rec1',
+              tutorialIds: ['receomyzL0AmpMFGw'],
+              tubeId: 'recTube2',
+            }));
           });
         });
         it('should call the solution-adapter to create the solution', () => {
@@ -179,19 +201,22 @@ describe('Unit | Repository | challenge-repository', () => {
         id: 'recSkillWeb1',
         name: '@web1',
         pixValue: 2,
-        competenceId: 'rec1'
+        competenceId: 'rec1',
+        tubeId: 'recTube1',
       });
       skillURL2 = domainBuilder.buildSkillAirtableDataObject({
         id: 'recSkillURL2',
         name: '@url2',
         pixValue: 3,
-        competenceId: 'rec1'
+        competenceId: 'rec1',
+        tubeId: 'recTube2',
       });
       skillURL3 = domainBuilder.buildSkillAirtableDataObject({
         id: 'recSkillURL3',
         name: '@url3',
         pixValue: 3,
-        competenceId: 'rec1'
+        competenceId: 'rec1',
+        tubeId: 'recTube3',
       });
       skills = [skillWeb1, skillURL2, skillURL3];
       sinon.stub(skillDatasource, 'get');
@@ -260,6 +285,7 @@ describe('Unit | Repository | challenge-repository', () => {
                 'pixValue': 2,
                 'competenceId': 'rec1',
                 'tutorialIds': ['receomyzL0AmpMFGw'],
+                'tubeId': 'recTube1',
               }
             ]);
             expect(challenges[1].skills).to.deep.equal([
@@ -269,6 +295,7 @@ describe('Unit | Repository | challenge-repository', () => {
                 'pixValue': 3,
                 'competenceId': 'rec1',
                 'tutorialIds': ['receomyzL0AmpMFGw'],
+                'tubeId': 'recTube2',
               },
               {
                 'id': 'recSkillURL3',
@@ -276,6 +303,7 @@ describe('Unit | Repository | challenge-repository', () => {
                 'pixValue': 3,
                 'competenceId': 'rec1',
                 'tutorialIds': ['receomyzL0AmpMFGw'],
+                'tubeId': 'recTube3',
               }
             ]);
           });

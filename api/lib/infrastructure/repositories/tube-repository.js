@@ -11,6 +11,7 @@ function _toDomain(tubeData) {
     description: tubeData.description,
     practicalTitle: tubeData.practicalTitle,
     practicalDescription: tubeData.practicalDescription,
+    competenceId: tubeData.competenceId,
   });
 }
 
