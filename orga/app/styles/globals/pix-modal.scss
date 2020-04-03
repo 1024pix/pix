@@ -112,3 +112,11 @@
   align-items: center;
 }
 
+.ember-modal-overlay.translucent {
+  background-color: rgba(red($grey-200), green($grey-200), blue($grey-200), 0.2);
+}
+
+.pix-modal__translucent {
+  background-color: transparent;
+  box-shadow: none;
+}
