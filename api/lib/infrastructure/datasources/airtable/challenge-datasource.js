@@ -79,7 +79,7 @@ module.exports = datasource.extend({
       competenceId,
       illustrationAlt: airtableRecord.get('Texte alternatif illustration'),
       format: airtableRecord.get('Format') || 'mots',
-      locales: _convertLanguesToLocales(airtableRecord.get('Langues') || [])
+      locales: _convertLanguagesToLocales(airtableRecord.get('Langues') || [])
     };
   },
 
@@ -102,12 +102,12 @@ module.exports = datasource.extend({
   },
 });
 
-function _convertLanguesToLocales(langues) {
-  return langues.map((langue) => _convertLangueToLocale(langue));
+function _convertLanguagesToLocales(languages) {
+  return languages.map((language) => _convertLanguageToLocale(language));
 }
 
-function _convertLangueToLocale(langue) {
-  switch (langue) {
+function _convertLanguageToLocale(language) {
+  switch (language) {
     case 'Francophone':
       return FRENCH_SPOKEN;
     case 'Franco Français':
