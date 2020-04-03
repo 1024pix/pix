@@ -58,6 +58,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             skillIds: [1, 2, 4]
           })
         ],
+        key:'badge key',
         targetProfileId: targetProfile.id,
       });
       const result = CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, badge });
@@ -88,6 +89,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               skillIds: [1, 2, 4],
             }
           ],
+          key:'badge key',
           targetProfileId: 1,
         },
         partnerCompetenceResults: [{

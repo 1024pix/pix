@@ -74,4 +74,15 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     creatorId: 4,
     idPixLabel: 'identifiant élève',
   });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 8,
+    name: 'Campagne Cléa',
+    code: 'CLEA56789',
+    type: 'ASSESSMENT',
+    organizationId: 1,
+    creatorId: 2,
+    targetProfileId: 100322,
+    idPixLabel: 'identifiant entreprise',
+  });
 };

@@ -15,67 +15,90 @@
   @include device-is('desktop') {
     margin-right: 20px;
   }
-}
 
-.user-certifications-detail-result__pix-score{
-  margin-bottom: 1.25rem;
-  width: 27rem;
-}
-
-.user-certifications-detail-result__badge-pix-score{
-  width: 13rem;
-  height: 13rem;
-  padding-top: 4.7rem;
-  float: left;
-
-  background: url('/images/pix-pastille-certif.svg') no-repeat;
-  background-size: cover;
-
-  text-align: center;
-  display: table;
-
-  span {
-    height: 1.75rem;
-    width: 2.81rem;
-    color: $tundora-grey;
-    font-size: 3rem;
-    font-weight: bold;
-    line-height: 2.06rem;
-    text-align: center;
-
+  &__pix-score{
+    margin-bottom: 1.25rem;
+    width: 27rem;
   }
-}
 
-.user-certifications-detail-result__pix-certified {
-  color: $tundora-grey;
-  font-size: 2.5rem;
-  font-weight: bold;
-  line-height: 1.75rem;
-  margin-top: 4.8rem;
-  text-align: right;
-}
+  &__badge-pix-score{
+    width: 13rem;
+    height: 13rem;
+    padding-top: 4.7rem;
+    float: left;
 
-.user-certifications-detail-result__separation{
-  clear: both;
-  position: absolute;
-  height: 14rem;
-  margin-top: 0.8rem;
-  width : 0.25rem;
-  background: black;
-}
+    background: url('/images/pix-pastille-certif.svg') no-repeat;
+    background-size: cover;
 
-.user-certifications-detail-result__text-pix-certified {
-  padding-left: 1.25rem;
+    text-align: center;
+    display: table;
 
-  border-left-style: solid;
-  border-left-color: $charcoal-grey;
-  border-left-width: 3px;
-}
+    span {
+      height: 1.75rem;
+      width: 2.81rem;
+      color: $tundora-grey;
+      font-size: 3rem;
+      font-weight: bold;
+      line-height: 2.06rem;
+      text-align: center;
 
-.user-certifications-detail-result__title-comment-jury {
-  color: #7D808A;
-  font-family: $font-open-sans;
-  font-size: 1.6rem;
-  font-weight: 500;
-  line-height: 2.6rem;
+    }
+  }
+
+  &__pix-certified {
+    color: $tundora-grey;
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1.75rem;
+    margin-top: 4.8rem;
+    text-align: right;
+  }
+
+  &__separation{
+    clear: both;
+    position: absolute;
+    height: 14rem;
+    margin-top: 0.8rem;
+    width : 0.25rem;
+    background: black;
+  }
+
+  &__text-pix-certified {
+    padding-left: 1.25rem;
+
+    border-left-style: solid;
+    border-left-color: $charcoal-grey;
+    border-left-width: 3px;
+  }
+
+  &__badge-clea {
+    max-width: 250px;
+    align-self: center;
+  }
+
+  &__title-comment-jury {
+    color: $raven-grey;
+    font-family: $font-open-sans;
+    font-size: 1.6rem;
+    font-weight: $font-medium;
+    line-height: 2.6rem;
+  }
+
+  hr {
+    margin-top: 40px;
+    border: 0;
+    width: 100%;
+    background-color: $mercury-grey;
+    height: 3px;
+  }
+
+  h3 {
+    color: $tundora-grey;
+    font-size: larger;
+  }
+
+  p {
+    margin: 0;
+    color: $tundora-grey;
+  }
 }

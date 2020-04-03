@@ -1,14 +1,15 @@
-const _ = require('lodash');
-const injectDefaults = require('../../infrastructure/utils/inject-defaults');
+const { injectDependencies } = require('../../infrastructure/utils/dependency-injection');
 
 const dependencies = {
   answerRepository: require('../../infrastructure/repositories/answer-repository'),
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
+  badgeAcquisitionRepository: require('../../infrastructure/repositories/badge-acquisition-repository'),
   assessmentResultRepository: require('../../infrastructure/repositories/assessment-result-repository'),
   badgeCriteriaService: require('../../domain/services/badge-criteria-service'),
   badgeRepository: require('../../infrastructure/repositories/badge-repository'),
   campaignCollectiveResultRepository: require('../../infrastructure/repositories/campaign-collective-result-repository'),
   campaignParticipationRepository: require('../../infrastructure/repositories/campaign-participation-repository'),
+  campaignParticipationResultRepository: require('../../infrastructure/repositories/campaign-participation-result-repository'),
   campaignRepository: require('../../infrastructure/repositories/campaign-repository'),
   certificationCandidatesOdsService: require('../../domain/services/certification-candidates-ods-service'),
   certificationsOdsService: require('../../domain/services/certifications-ods-service'),
@@ -58,10 +59,6 @@ const dependencies = {
   userService: require('../../domain/services/user-service'),
   userTutorialRepository: require('../../infrastructure/repositories/user-tutorial-repository'),
 };
-
-function injectDependencies(usecases) {
-  return _.mapValues(usecases, _.partial(injectDefaults, dependencies));
-}
 
 module.exports = injectDependencies({
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
@@ -165,4 +162,4 @@ module.exports = injectDependencies({
   updateSchoolingRegistrationDependentUserPassword: require('./update-schooling-registration-dependent-user-password'),
   updateUserOrgaSettings: require('./update-user-orga-settings'),
   updateUserPassword: require('./update-user-password')
-});
+}, dependencies);

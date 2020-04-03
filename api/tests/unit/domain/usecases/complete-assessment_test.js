@@ -2,8 +2,10 @@ const _ = require('lodash');
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const completeAssessment = require('../../../../lib/domain/usecases/complete-assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const { AlreadyRatedAssessmentError, CertificationComputeError } = require('../../../../lib/domain/errors');
 const { UNCERTIFIED_LEVEL } = require('../../../../lib/domain/constants');
+const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 
 describe('Unit | UseCase | complete-assessment', () => {
   const scoringCertificationService = { calculateAssessmentScore: _.noop };
@@ -11,10 +13,10 @@ describe('Unit | UseCase | complete-assessment', () => {
     get: _.noop,
     completeByAssessmentId: _.noop,
   };
+  const domainTransaction = Symbol('domainTransaction');
   const assessmentResultRepository = { save: _.noop };
   const certificationCourseRepository = { changeCompletionDate: _.noop };
   const competenceMarkRepository = { save: _.noop };
-  const assessmentId = 'assessmentId';
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
 
@@ -27,6 +29,8 @@ describe('Unit | UseCase | complete-assessment', () => {
   });
 
   context('when assessment is already completed', () => {
+    const assessmentId = 'assessmentId';
+
     beforeEach(() => {
       const completedAssessment = domainBuilder.buildAssessment({
         id: assessmentId,
@@ -44,6 +48,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         certificationCourseRepository,
         competenceMarkRepository,
         scoringCertificationService,
+        domainTransaction,
       });
 
       // then
@@ -52,48 +57,86 @@ describe('Unit | UseCase | complete-assessment', () => {
   });
 
   context('when assessment is not yet completed', () => {
-    let assessment;
+    [
+      _buildCompetenceEvaluationAssessment(),
+      _buildSmartPlacementAssessment()
+    ]
+      .forEach((assessment) => {
 
-    context('when assessment is not of type CERTIFICATION', () => {
+        context(`common behavior when assessment is of type ${assessment.type}`, () => {
 
-      beforeEach(() => {
-        assessment = domainBuilder.buildAssessment({
-          id: assessmentId,
-          state: 'started',
-          type: 'NOT_CERTIFICATION',
+          beforeEach(() => {
+            sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
+            sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
+          });
+
+          it('should complete the assessment', async () => {
+            // when
+            await completeAssessment({
+              assessmentId: assessment.id,
+              assessmentRepository,
+              assessmentResultRepository,
+              certificationCourseRepository,
+              competenceMarkRepository,
+              scoringCertificationService,
+              domainTransaction,
+            });
+
+            // then
+            expect(assessmentRepository.completeByAssessmentId.calledWithExactly(domainTransaction, assessment.id)).to.be.true;
+          });
+
+          it('should return a AssessmentCompleted event', async () => {
+            // when
+            const result = await completeAssessment({
+              assessmentId: assessment.id,
+              assessmentRepository,
+              assessmentResultRepository,
+              certificationCourseRepository,
+              competenceMarkRepository,
+              scoringCertificationService,
+              domainTransaction,
+            });
+
+            // then
+            expect(result).to.be.an.instanceof(AssessmentCompleted);
+          });
         });
-        sinon.stub(assessmentRepository, 'get').withArgs(assessmentId).resolves(assessment);
-        sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
       });
 
-      it('should return the saved completed assessment', async () => {
+    context('when assessment is of type SMARTPLACEMENT', () => {
+      it('should return a AssessmentCompleted event with a userId and targetProfileId', async () => {
+        const assessment = _buildSmartPlacementAssessment();
+
+        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
+        sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
         // when
-        const actualCompletedAssessment = await completeAssessment({
-          assessmentId,
+        const result = await completeAssessment({
+          assessmentId: assessment.id,
           assessmentRepository,
           assessmentResultRepository,
           certificationCourseRepository,
           competenceMarkRepository,
           scoringCertificationService,
+          domainTransaction
         });
 
         // then
-        expect(actualCompletedAssessment.isCompleted()).to.be.true;
-        expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessmentId)).to.be.true;
+        expect(result).to.deep.equal({
+          userId: assessment.userId,
+          targetProfileId: assessment.campaignParticipation.campaign.targetProfileId,
+          campaignParticipationId: assessment.campaignParticipation.id
+        });
       });
     });
 
     context('when assessment is of type CERTIFICATION', () => {
-      const certificationCourseId = 'certificationCourseId';
+      let certificationAssessment;
 
       beforeEach(() => {
-        assessment = domainBuilder.buildAssessment({
-          id: assessmentId,
-          certificationCourseId,
-          state: 'started',
-          type: 'CERTIFICATION',
-        });
-        sinon.stub(assessmentRepository, 'get').withArgs(assessmentId).resolves(assessment);
+        const assessment = _buildCertificationAssessment();
+        certificationAssessment = assessment;
+        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(certificationAssessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
       });
 
@@ -109,12 +152,13 @@ describe('Unit | UseCase | complete-assessment', () => {
         it('should not save any results', async () => {
           // when
           await catchErr(completeAssessment)({
-            assessmentId,
+            assessmentId: certificationAssessment.id,
             assessmentRepository,
             assessmentResultRepository,
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            domainTransaction
           });
 
           // then
@@ -137,49 +181,52 @@ describe('Unit | UseCase | complete-assessment', () => {
         it('should call the scoring service with the right arguments', async () => {
           // when
           await completeAssessment({
-            assessmentId,
+            assessmentId: certificationAssessment.id,
             assessmentRepository,
             assessmentResultRepository,
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            domainTransaction,
           });
 
           // then
-          expect(scoringCertificationService.calculateAssessmentScore.calledWithExactly(assessment)).to.be.true;
+          expect(scoringCertificationService.calculateAssessmentScore.calledWithExactly(certificationAssessment)).to.be.true;
         });
 
         it('should save the error result appropriately', async () => {
           // when
           await completeAssessment({
-            assessmentId,
+            assessmentId: certificationAssessment.id,
             assessmentRepository,
             assessmentResultRepository,
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            domainTransaction,
           });
 
           // then
-          expect(AssessmentResult.BuildAlgoErrorResult.calledWithExactly(computeError, assessment.id)).to.be.true;
+          expect(AssessmentResult.BuildAlgoErrorResult.calledWithExactly(computeError, certificationAssessment.id)).to.be.true;
           expect(assessmentResultRepository.save.calledWithExactly(errorAssessmentResult)).to.be.true;
-          expect(certificationCourseRepository.changeCompletionDate.calledWithExactly(assessment.certificationCourseId, now)).to.be.true;
+          expect(certificationCourseRepository.changeCompletionDate.calledWithExactly(certificationAssessment.certificationCourseId, now)).to.be.true;
         });
 
         it('should still complete the assessment', async () => {
           // when
-          const actualCompletedAssessment = await completeAssessment({
-            assessmentId,
+          await completeAssessment({
+            assessmentId: certificationAssessment.id,
             assessmentRepository,
             assessmentResultRepository,
             certificationCourseRepository,
             competenceMarkRepository,
             scoringCertificationService,
+            domainTransaction,
           });
 
           // then
-          expect(actualCompletedAssessment.isCompleted()).to.be.true;
-          expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessmentId)).to.be.true;
+          expect(assessmentRepository.completeByAssessmentId)
+            .to.have.been.calledWithExactly(domainTransaction, certificationAssessment.id);
         });
       });
 
@@ -199,7 +246,11 @@ describe('Unit | UseCase | complete-assessment', () => {
 
         context('when score is above 0', () => {
           const originalLevel = Symbol('originalLevel');
-          const assessmentScore = { nbPix: 1, level: originalLevel, competenceMarks: [ competenceMarkData1, competenceMarkData2 ] };
+          const assessmentScore = {
+            nbPix: 1,
+            level: originalLevel,
+            competenceMarks: [competenceMarkData1, competenceMarkData2]
+          };
           beforeEach(() => {
             sinon.stub(scoringCertificationService, 'calculateAssessmentScore').resolves(assessmentScore);
           });
@@ -207,12 +258,13 @@ describe('Unit | UseCase | complete-assessment', () => {
           it('should left untouched the calculated level in the assessment score', async () => {
             // when
             await completeAssessment({
-              assessmentId,
+              assessmentId: certificationAssessment.id,
               assessmentRepository,
               assessmentResultRepository,
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              domainTransaction,
             });
 
             // then
@@ -222,30 +274,32 @@ describe('Unit | UseCase | complete-assessment', () => {
           it('should build and save an assessment result with the expected arguments', async () => {
             // when
             await completeAssessment({
-              assessmentId,
+              assessmentId: certificationAssessment.id,
               assessmentRepository,
               assessmentResultRepository,
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              domainTransaction,
             });
 
             // then
-            expect(AssessmentResult.BuildStandardAssessmentResult.calledWithExactly(originalLevel, assessmentScore.nbPix, AssessmentResult.status.VALIDATED, assessment.id))
+            expect(AssessmentResult.BuildStandardAssessmentResult.calledWithExactly(originalLevel, assessmentScore.nbPix, AssessmentResult.status.VALIDATED, certificationAssessment.id))
               .to.be.true;
             expect(assessmentResultRepository.save.calledWithExactly(assessmentResult)).to.be.true;
-            expect(certificationCourseRepository.changeCompletionDate.calledWithExactly(assessment.certificationCourseId, now)).to.be.true;
+            expect(certificationCourseRepository.changeCompletionDate.calledWithExactly(certificationAssessment.certificationCourseId, now)).to.be.true;
           });
 
           it('should build and save as many competence marks as present in the assessmentScore', async () => {
             // when
             await completeAssessment({
-              assessmentId,
+              assessmentId: certificationAssessment.id,
               assessmentRepository,
               assessmentResultRepository,
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              domainTransaction,
             });
 
             // then
@@ -254,18 +308,19 @@ describe('Unit | UseCase | complete-assessment', () => {
 
           it('should still complete the assessment', async () => {
             // when
-            const actualCompletedAssessment = await completeAssessment({
-              assessmentId,
+            await completeAssessment({
+              assessmentId: certificationAssessment.id,
               assessmentRepository,
               assessmentResultRepository,
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              domainTransaction,
             });
 
             // then
-            expect(actualCompletedAssessment.isCompleted()).to.be.true;
-            expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessmentId)).to.be.true;
+            expect(assessmentRepository.completeByAssessmentId)
+              .to.have.been.calledWithExactly(domainTransaction, certificationAssessment.id);
           });
         });
 
@@ -283,12 +338,13 @@ describe('Unit | UseCase | complete-assessment', () => {
           it('should change level of the assessmentScore', async () => {
             // when
             await completeAssessment({
-              assessmentId,
+              assessmentId: certificationAssessment.id,
               assessmentRepository,
               assessmentResultRepository,
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              domainTransaction
             });
 
             // then
@@ -298,22 +354,57 @@ describe('Unit | UseCase | complete-assessment', () => {
           it('should build and save an assessment result with the expected arguments', async () => {
             // when
             await completeAssessment({
-              assessmentId,
+              assessmentId: certificationAssessment.id,
               assessmentRepository,
               assessmentResultRepository,
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
+              domainTransaction,
             });
 
             // then
-            expect(AssessmentResult.BuildStandardAssessmentResult.calledWithExactly(UNCERTIFIED_LEVEL, assessmentScore.nbPix, AssessmentResult.status.REJECTED, assessment.id))
+            expect(AssessmentResult.BuildStandardAssessmentResult.calledWithExactly(UNCERTIFIED_LEVEL, assessmentScore.nbPix, AssessmentResult.status.REJECTED, certificationAssessment.id))
               .to.be.true;
             expect(assessmentResultRepository.save.calledWithExactly(assessmentResult)).to.be.true;
-            expect(certificationCourseRepository.changeCompletionDate.calledWithExactly(assessment.certificationCourseId, now)).to.be.true;
+            expect(certificationCourseRepository.changeCompletionDate.calledWithExactly(certificationAssessment.certificationCourseId, now)).to.be.true;
           });
         });
       });
     });
   });
 });
+
+function _buildCompetenceEvaluationAssessment() {
+  return domainBuilder.buildAssessment.ofTypeCompetenceEvaluation({
+    id: Symbol('assessmentId'),
+    state: 'started'
+  });
+}
+
+function _buildSmartPlacementAssessment() {
+  const assessment = domainBuilder.buildAssessment(
+    {
+      id: Symbol('assessmentId'),
+      state: 'started',
+      type: Assessment.types.SMARTPLACEMENT,
+      userId: Symbol('userId'),
+      campaignParticipation: {
+        id: Symbol('campaignParticipationId'),
+        campaign: {
+          targetProfileId: Symbol('targetProfileId')
+        }
+      }
+    }
+  );
+  return assessment;
+}
+
+function _buildCertificationAssessment() {
+  return domainBuilder.buildAssessment({
+    id: Symbol('assessmentId'),
+    certificationCourseId: Symbol('certificationCourseId'),
+    state: 'started',
+    type: Assessment.types.CERTIFICATION,
+  });
+}

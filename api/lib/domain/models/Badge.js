@@ -2,6 +2,7 @@ class Badge {
   constructor({
     id,
     // attributes
+    key,
     altMessage,
     imageUrl,
     message,
@@ -15,6 +16,7 @@ class Badge {
     this.altMessage = altMessage;
     this.imageUrl = imageUrl;
     this.message = message;
+    this.key = key;
     // includes
     this.badgePartnerCompetences = badgePartnerCompetences;
     // references

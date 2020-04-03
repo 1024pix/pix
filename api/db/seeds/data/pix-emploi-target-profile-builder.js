@@ -38,6 +38,7 @@ module.exports = function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
   const badge = databaseBuilder.factory.buildBadge({
     altMessage: 'Vous avez validé le badge Pix Emploi.',
     imageUrl: '/images/badges/Pix-emploi.svg',
+    key: 'PIX_EMPLOI',
     message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
       'Pour valoriser vos compétences, renseignez-vous auprès de votre conseiller.',
     targetProfileId: pixEmploiProfile.id,
