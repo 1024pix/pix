@@ -1,6 +1,7 @@
-const { expect, knex, databaseBuilder, domainBuilder } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const _ = require('lodash');
 const moment = require('moment');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Answer = require('../../../../lib/domain/models/Answer');
@@ -473,7 +474,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     before(async () => {
 
-      campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ }).id;
+      campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({}).id;
       databaseBuilder.factory.buildAssessment({ type: Assessment.types.SMARTPLACEMENT, campaignParticipationId }).id;
       const otherAssessmentId = databaseBuilder.factory.buildAssessment({
         type: Assessment.types.SMARTPLACEMENT
@@ -569,7 +570,11 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return the assessment with campaign when asked', async () => {
         // when
-        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: true });
+        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({
+          userId,
+          campaignCode: campaign.code,
+          includeCampaign: true
+        });
 
         // then
         expect(assessmentReturned).to.be.an.instanceOf(Assessment);
@@ -579,7 +584,11 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return the assessment without campaign', async () => {
         // when
-        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: false });
+        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({
+          userId,
+          campaignCode: campaign.code,
+          includeCampaign: false
+        });
 
         // then
         expect(assessmentReturned).to.be.an.instanceOf(Assessment);
@@ -589,11 +598,60 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return null', async () => {
         // when
-        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: 'fakeCampaignCode', includeCampaign: false });
+        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({
+          userId,
+          campaignCode: 'fakeCampaignCode',
+          includeCampaign: false
+        });
 
         // then
         expect(assessmentReturned).to.equal(null);
       });
+    });
+  });
+
+  describe('#completeByAssessmentId', () => {
+    let assessmentId;
+
+    beforeEach(() => {
+      const userId = databaseBuilder.factory.buildUser().id;
+
+      assessmentId = databaseBuilder.factory.buildAssessment({
+        userId,
+        type: Assessment.types.COMPETENCE_EVALUATION,
+        state: Assessment.states.STARTED,
+      }).id;
+
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return knex('assessments').delete();
+    });
+
+    it('should complete an assessment if not already existing and commited', async () => {
+      // when
+      await DomainTransaction.execute(async (domainTransaction) => {
+        await assessmentRepository.completeByAssessmentId(domainTransaction, assessmentId);
+      });
+
+      // then
+      const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('state');
+      expect(assessmentsInDb.state).to.equal(Assessment.states.COMPLETED);
+    });
+
+    it('should not complete an assessment if not already existing but rolled back', async () => {
+      // when
+      await catchErr(async () => {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await assessmentRepository.completeByAssessmentId(domainTransaction, assessmentId);
+          throw new Error('an error occurs within the domain transaction');
+        });
+      });
+
+      // then
+      const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('state');
+      expect(assessmentsInDb.state).to.equal(Assessment.states.STARTED);
     });
   });
 

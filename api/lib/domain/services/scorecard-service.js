@@ -119,11 +119,8 @@ async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessm
     courseId: 'Smart Placement Tests CourseId Not Used'
   });
 
-  const [, newAssessmentSaved] = await Promise.all([
-    assessmentRepository.updateStateById({ id: assessment.id, state: Assessment.states.ABORTED }),
-    assessmentRepository.save(newAssessment)
-  ]);
-  return newAssessmentSaved;
+  await assessmentRepository.abortByAssessmentId(assessment.id);
+  return await assessmentRepository.save(newAssessment);
 }
 
 function _computeResetSkillsNotIncludedInTargetProfile({ targetObjectSkills, resetSkills }) {

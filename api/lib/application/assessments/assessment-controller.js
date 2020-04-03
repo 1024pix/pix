@@ -1,5 +1,6 @@
 const { AssessmentEndedError } = require('../../domain/errors');
 const usecases = require('../../domain/usecases');
+const events = require('../../domain/events');
 const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
@@ -7,6 +8,7 @@ const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/a
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest, extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
 
@@ -88,14 +90,17 @@ module.exports = {
   async completeAssessment(request) {
     const assessmentId = parseInt(request.params.id);
 
-    const completedAssessment = await usecases.completeAssessment({ assessmentId });
+    await DomainTransaction.execute(async (domainTransaction) => {
+      const assessmentCompletedEvent = await usecases.completeAssessment({ domainTransaction, assessmentId });
+      await events.handleBadgeAcquisition({ domainTransaction, assessmentCompletedEvent });
+    });
 
-    return assessmentSerializer.serialize(completedAssessment);
+    return null;
   },
 };
 
 async function _getChallenge(assessment, request) {
-  const locale  = extractLocaleFromRequest(request);
+  const locale = extractLocaleFromRequest(request);
 
   if (assessment.isPreview()) {
     return usecases.getNextChallengeForPreview({});

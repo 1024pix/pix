@@ -10,6 +10,7 @@ module.exports = function buildBadge(
     altMessage = faker.lorem.sentence(),
     imageUrl = '/img/banana',
     message = faker.lorem.sentence(),
+    key = faker.lorem.word(),
     targetProfileId = faker.random.number(2),
     badgePartnerCompetences = [
       buildBadgePartnerCompetence(),
@@ -21,6 +22,7 @@ module.exports = function buildBadge(
     altMessage,
     imageUrl,
     message,
+    key,
     targetProfileId,
     badgePartnerCompetences,
   });
