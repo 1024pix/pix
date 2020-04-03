@@ -1,5 +1,14 @@
 'use strict';
 
+function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue, minValue }) {
+  const valueToValidate = process.env[environmentVariableName] || defaultValue;
+  const number = parseInt(valueToValidate, 10);
+  if (!isNaN(number) && number >= minValue) {
+    return number;
+  }
+  throw new Error(`Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`);
+}
+
 /* eslint max-statements: off */
 module.exports = function(environment) {
   const ENV = {
@@ -34,6 +43,7 @@ module.exports = function(environment) {
       NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS: 5,
       IS_RECAPTCHA_ENABLED: process.env.IS_RECAPTCHA_ENABLED === 'true',
       IS_WARNING_BANNER_ENABLED: process.env.IS_WARNING_BANNER_ENABLED === 'true',
+      MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
     },
 
     googleFonts: [
