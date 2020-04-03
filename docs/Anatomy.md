@@ -9,10 +9,10 @@ Les applications Pix (Pix API, Pix App, Pix Orga, Pix Certif et Pix Admin) sont 
 pix                      → Sources de la plateforme
  └ .circleci             → Répertoire de configuration de CircleCI
     └ config.yml         → Fichier principal de configuration de CircleCI
- └ admin                 → Sources de l'applciation Pix Admin
+ └ admin                 → Sources de l'application Pix Admin
  └ api                   → Sources de l'application Pix API
  └ certif                → Sources de l'application Pix Certif
- └ docs                  → Répertoire des documents techiques et méthodologiques 
+ └ docs                  → Répertoire des documents techniques et méthodologiques 
     └ adr                → Registre des ADR (Architecture Decision Records)
     └ assets             → Images utilisées dans la documentation
  └ high-level-tests      → Répertoire de tests très haut niveau  
@@ -33,7 +33,7 @@ pix                      → Sources de la plateforme
  └ INSTALLATION.md       → Instructions d'installation de la plateforme en local
  └ LICENSE.md            → Texte de la licence logicielle utilisée sur Pix (AGPL-3.0)
  └ nginx.conf.erb        → Fichier de configuration du reverse proxy / API gateway (Nginx) 
- └ pacakge.json          → Fichier de définition généréle de la plateforme
+ └ pacakge.json          → Fichier de définition généré de la plateforme
  └ package-lock.json     → Listing des dépendances
  └ README.md             → Fichier de présentation du projet
  └ scalingo.json         → Fichier de configuration des Review Apps Scalingo
@@ -47,7 +47,7 @@ cf. [Documentation officielle d'Ember](https://guides.emberjs.com/release/gettin
 
 ## Anatomie de l'application Pix API
 
-Le code de l'application Pix API s'inspire des principes formulés par Robnert C. Martin dans son modèle [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
+Le code de l'application Pix API s'inspire des principes formulés par Robert C. Martin dans son modèle [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 
 ```
 api                                 → Sources de l'application Pix API
@@ -68,7 +68,7 @@ api                                 → Sources de l'application Pix API
        └ constants.js               → Listing des variables métier utilisées dans l'application
        └ errors.js                  → Listing des erreurs métier
     └ infrastructure                → Ensemble des modules et briques techniques
-       └ adapters                   → Convertisseurs d'objets issus de sources de données (PG, Airtable) en opbjets du domaine
+       └ adapters                   → Convertisseurs d'objets issus de sources de données (PG, Airtable) en objets du domaine
        └ caches                     → Classes et modules utilisés pour le caching de données
        └ data                       → Modèles de données Bookshelf
        └ datasources                → Modèles de données Airtable
@@ -98,7 +98,7 @@ api                                 → Sources de l'application Pix API
  └ .eslintrc.yaml                   → Fichier de configuration général pour l'outil de linting ESLint
  └ .istanbul.yml                    → Fichier de configuration pour la couverture de code
  └ .slugignore                      → Listing des fichiers / répertoires que Scalingo doit ignorer au moment du build
- └ pacakge.json                     → Fichier de définition généréle de la plateforme
+ └ pacakge.json                     → Fichier de définition généré de la plateforme
  └ package-lock.json                → Listing des dépendances
  └ Procfile                         → Fichier de démarrage du conteneur Scalingo 
  └ sample.env                       → Template du fichier .env
