@@ -63,7 +63,6 @@
     "papaparse": "^5.1.0",
     "path": "^0.12.7",
     "pg": "^7.14.0",
-    "prom-client": "^11.5.3",
     "randomstring": "^1.1.5",
     "redis": "^2.8.0",
     "redlock": "^3.1.2",
