@@ -1,5 +1,4 @@
 import classic from 'ember-classic-decorator';
-import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
@@ -19,7 +18,6 @@ export default class Application extends JSONAPIAdapter.extend(DataAdapterMixin)
   host = ENV.APP.API_HOST;
   namespace = 'api';
 
-  @computed('session.data.authenticated.access_token')
   get headers() {
     const headers = {};
     if (this.session.isAuthenticated) {
