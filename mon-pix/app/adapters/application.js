@@ -13,6 +13,8 @@ const FRENCHSPOKEN_LOCALE = 'fr';
 export default class Application extends JSONAPIAdapter.extend(DataAdapterMixin) {
   @service
   currentDomain;
+  @service
+  ajaxQueue;
 
   host = ENV.APP.API_HOST;
   namespace = 'api';
@@ -27,5 +29,9 @@ export default class Application extends JSONAPIAdapter.extend(DataAdapterMixin)
       FRENCH_LOCALE
       : FRENCHSPOKEN_LOCALE;
     return headers;
+  }
+
+  ajax() {
+    return this.ajaxQueue.add(() => super.ajax(...arguments));
   }
 }
