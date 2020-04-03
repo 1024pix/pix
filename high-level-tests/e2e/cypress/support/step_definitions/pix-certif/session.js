@@ -45,6 +45,19 @@ then('je vois {int} candidat(s) dans le tableau de candidats', (candidateCount) 
   }
 });
 
+then('je vois le formulaire de finalisation de session de certification', () => {
+  cy.url().should('match', /sessions\/[0-9]*\/finalisation/);
+  cy.get('.session-finalization-step-container').should('have.length', 3);
+});
+
+then('je vois {int} candidat(s) à finaliser', (candidateCount) => {
+  cy.get('table.session-finalization-reports-informations-step__table tbody tr').should('have.length', candidateCount);
+});
+
+then('je vois le bouton de finalisation désactivé', () => {
+  cy.get('.session-details-container div:nth-child(3) div:nth-child(2)').should('have.class', 'button--disabled');
+});
+
 when('je remplis le formulaire de création de session de certification', () => {
   cy.get('#session-address').type('2 rue du Pix Zen');
   cy.get('#session-room').type('Salle suspendue');
@@ -85,4 +98,38 @@ when(`j'ajoute un candidat`, () => {
 
 when('je retire un candidat de la liste', () => {
   cy.get('.certification-candidates-actions__delete button').click();
+});
+
+when(`j'oublie de cocher une case d'Écran de fin de test vu`, () => {
+  cy.get('table.session-finalization-reports-informations-step__table tbody tr').each(function ($element, index, collection) {
+    const checkBox = $element.find('td:nth-child(5) div');
+    if(index !== collection.length - 1 && checkBox.hasClass('checkbox--unchecked')) {
+      cy.wrap(checkBox).click();
+    } else if(index === collection.length - 1 && checkBox.hasClass('checkbox--checked')) {
+      cy.wrap(checkBox).click();
+    }
+  });
+});
+
+when(`je coche toutes les cases d'Écran de fin de test vu`, () => {
+  cy.get('table.session-finalization-reports-informations-step__table tbody tr').each(function ($element) {
+    const checkBox = $element.find('td:nth-child(5) div');
+    if(checkBox.hasClass('checkbox--unchecked')) {
+      cy.wrap(checkBox).click();
+    }
+  });
+});
+
+when(`je clique sur le bouton pour finaliser la session`, () => {
+  cy.get('.finalize__button').click();
+});
+
+when('je vois une modale qui me signale {int} oubli(s) de case Écran de fin test', (endTestForgottenCount) => {
+  cy.get('.pix-modal__container').should('exist');
+  if(endTestForgottenCount === 0) {
+    cy.get('div.app-modal-body__warning p').should('have.length', 1);
+  } else {
+    cy.get('div.app-modal-body__warning p').should('have.length', 2);
+    cy.get('.app-modal-body__contextual').should('contain', `La case "Écran de fin du test vu" n'est pas cochée pour ${endTestForgottenCount} candidat(s)`);
+  }
 });
