@@ -37,6 +37,8 @@ describe('Unit | Class | SendinblueProvider', () => {
 
           const from = 'no-reply@example.net';
           const email = recipient;
+          const tags = ['TEST'];
+
           const expectedPayload = {
             to: [{
               email,
@@ -50,7 +52,8 @@ describe('Unit | Class | SendinblueProvider', () => {
             headers: {
               'content-type': 'application/json',
               'accept': 'application/json',
-            }
+            },
+            tags
           };
 
           // when
@@ -59,7 +62,8 @@ describe('Unit | Class | SendinblueProvider', () => {
             to: email,
             fromName: 'Ne pas repondre',
             subject: 'Creation de compte',
-            template: '129291'
+            template: '129291',
+            tags
           });
 
           // then
