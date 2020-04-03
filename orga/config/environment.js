@@ -1,5 +1,14 @@
 'use strict';
 
+function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue, minValue }) {
+  const valueToValidate = process.env[environmentVariableName] || defaultValue;
+  const number = parseInt(valueToValidate, 10);
+  if (!isNaN(number) && number >= minValue) {
+    return number;
+  }
+  throw new Error(`Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`);
+}
+
 module.exports = function(environment) {
   const ENV = {
     modulePrefix: 'pix-orga',
@@ -20,6 +29,7 @@ module.exports = function(environment) {
     APP: {
       API_HOST: process.env.API_HOST || '',
       CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL || 'https://app.pix.fr/campagnes/',
+      MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
     },
 
     googleFonts: [
