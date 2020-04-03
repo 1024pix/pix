@@ -1,21 +1,50 @@
 <section class="page-section mb_10">
   <header class="page-section__header">
     <h2 class="page-section__title">Ajouter un membre</h2>
+    <h2 class="page-section__title">Inviter un membre</h2>
   </header>
-  <form aria-label="Ajouter un membre" class="organization__sub-form form">
-    <Input
-      id="userEmail"
-      aria-label="Adresse email"
-      @value={{@userEmail}}
-      class="organization-sub-form__input form-field__text form-control"
-      @placeholder="Adresse email de l'utilisateur à ajouter" />
-    <button
-      type="button"
-      {{on "click" @addMembership}}
-      class="organization-sub-form__validate-button btn btn-outline-default">
-      Valider
-    </button>
-  </form>
+
+  <div class="organization__forms-section">
+    <form aria-label="Ajouter un membre">
+      <div class="organization__sub-form">
+        <Input
+                id="userEmailToAdd"
+                aria-label="Adresse email"
+                @value={{@userEmailToAdd}}
+                class="organization-sub-form__input form-field__text form-control"
+                @placeholder="Adresse email de l'utilisateur à ajouter" />
+        <button
+                type="button"
+          {{on "click" @addMembership}}
+                class="organization-sub-form__validate-button btn btn-outline-default">
+          Valider
+        </button>
+      </div>
+    </form>
+
+    <form aria-label="Inviter un membre">
+      <div class="organization__sub-form">
+        <Input
+                id="userEmailToInvite"
+                aria-label="Adresse email"
+                @value={{@userEmailToInvite}}
+                class={{if @userEmailToInviteError "organization-sub-form__input organization-sub-form__input__error form-control" "organization-sub-form__input form-control"}}
+                @placeholder="Adresse email de l'utilisateur à inviter" />
+        {{#if @isLoading}}
+          <button type="button" class="organization-sub-form__validate-button btn btn-outline-default">
+            Inviter
+          </button>
+        {{else}}
+          <button type="button" {{on "click" @createOrganizationInvitation}} class="organization-sub-form__validate-button btn btn-outline-default">
+            Inviter
+          </button>
+        {{/if}}
+      </div>
+      {{#if @userEmailToInviteError}}
+        <div class="organization-sub-form__error-message">{{@userEmailToInviteError}}</div>
+      {{/if}}
+    </form>
+  </div>
 </section>
 
 <section class="page-section mb_10">

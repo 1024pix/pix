@@ -18,7 +18,13 @@
 
   <OrganizationInformationSection @organization={{@model}} @onLogoUpdated={{this.updateOrganizationInformation}} />
 
-  <OrganizationMembersSection @organization={{@model}} @userEmail={{this.userEmail}} @addMembership={{this.addMembership}} />
+  <OrganizationMembersSection @organization={{@model}}
+                              @userEmailToAdd={{this.userEmailToAdd}}
+                              @userEmailToInvite={{this.userEmailToInvite}}
+                              @addMembership={{this.addMembership}}
+                              @createOrganizationInvitation={{this.createOrganizationInvitation}}
+                              @userEmailToInviteError={{this.userEmailToInviteError}}
+                              @isLoading={{this.isLoading}}/>
 
   <OrganizationTargetProfilesSection @targetProfiles={{@model.targetProfiles}} @targetProfilesToAttach={{this.targetProfilesToAttach}} @attachTargetProfiles={{this.attachTargetProfiles}} />
 

@@ -3,11 +3,15 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Controller from '@ember/controller';
+import isEmailValid from '../../../utils/email-validator';
 
 export default class GetController extends Controller {
 
-  @tracked userEmail = null;
+  @tracked userEmailToAdd = null;
+  @tracked userEmailToInvite = null;
+  @tracked userEmailToInviteError;
   @tracked targetProfilesToAttach = [];
+  @tracked isLoading = false;
 
   @service notifications;
 
@@ -39,7 +43,7 @@ export default class GetController extends Controller {
 
   @action
   async addMembership() {
-    const email = this.userEmail.trim();
+    const email = this.userEmailToAdd.trim();
     const organization = this.model;
     const matchingUsers = await this.store.query('user', { filter: { email } });
 
@@ -57,7 +61,7 @@ export default class GetController extends Controller {
     return this.store.createRecord('membership', { organization, user })
       .save()
       .then(async () => {
-        this.userEmail = null;
+        this.userEmailToAdd = null;
         this.notifications.success('Accès attribué avec succès.');
       })
       .catch(() => {
@@ -65,9 +69,43 @@ export default class GetController extends Controller {
       });
   }
 
+  @action
+  createOrganizationInvitation() {
+    this.isLoading = true;
+    if (!this._isEmailToInviteValid(this.userEmailToInvite)) {
+      this.isLoading = false;
+      return;
+    }
+    const email = this.userEmailToInvite.trim();
+
+    return this.store.createRecord('organization-invitation', { email })
+      .save({ adapterOptions: { organizationId: this.model.id } })
+      .then((organizationInvitation) => {
+        this.notifications.success(`Un email a bien a été envoyé à l'adresse ${organizationInvitation.email}.`);
+        this.userEmailToInvite = null;
+      })
+      .catch(() => this.notifications.error('Une erreur s’est produite, veuillez réessayer.'))
+      .finally(() => this.isLoading = false);
+  }
+
   _toArrayWithUnique(targetProfilesToAttach) {
     const trimedTargetProfilesToAttach = targetProfilesToAttach.split(',').map((targetProfileId) => targetProfileId.trim());
     return _.uniq(trimedTargetProfilesToAttach);
+  }
+
+  _isEmailToInviteValid(email) {
+    if (!email || !email.trim()) {
+      this.userEmailToInviteError = 'Ce champ est requis.';
+      return false;
+    }
+
+    if (!isEmailValid(email)) {
+      this.userEmailToInviteError = 'L\'adresse email saisie n\'est pas valide.';
+      return false;
+    }
+
+    this.userEmailToInviteError = null;
+    return true;
   }
 
 }

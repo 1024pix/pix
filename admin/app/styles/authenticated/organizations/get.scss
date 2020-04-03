@@ -47,19 +47,38 @@
     }
   }
 
-  .organization__sub-form {
-    display: flex;
+  .page-section__header {
+    justify-content: space-around;
+  }
 
-    .organization-sub-form__input {
-      border-right: none;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      width: 280px;
+  .organization__forms-section {
+    display: flex;
+    justify-content: space-around;
+
+    .organization__sub-form {
+      display: flex;
+
+      .organization-sub-form__input {
+        border-right: none;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        width: 280px;
+
+        &__error {
+          border-right: 1px solid $error;
+          border-color: $error;
+        }
+      }
+
+      .organization-sub-form__validate-button {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
     }
 
-    .organization-sub-form__validate-button {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
+    .organization-sub-form__error-message {
+      color: $error;
+      font-size: .85rem;
     }
   }
 }
