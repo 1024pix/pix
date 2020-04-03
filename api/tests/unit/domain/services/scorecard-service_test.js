@@ -68,7 +68,8 @@ describe('Unit | Service | ScorecardService', function() {
           knowledgeElements: knowledgeElementList,
           competence,
           competenceEvaluation,
-          blockReachablePixAndLevel: false
+          allowExcessLevel: false,
+          allowExcessPix: false
         }).returns(expectedUserScorecard);
 
         // when

@@ -17,8 +17,7 @@ module.exports = async function getUserScorecards({ userId, knowledgeElementRepo
       userId,
       knowledgeElements: knowledgeElementsForCompetence,
       competence,
-      competenceEvaluation,
-      blockReachablePixAndLevel: true
+      competenceEvaluation
     });
   });
 };
