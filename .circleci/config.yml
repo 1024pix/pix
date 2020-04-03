@@ -130,7 +130,6 @@ jobs:
     docker:
       - image: circleci/node:12.14.0-browsers
         environment:
-          # See https://git.io/vdao3 for details.
           JOBS: 2
     working_directory: ~/pix/orga
     steps:
@@ -151,7 +150,6 @@ jobs:
     docker:
       - image: circleci/node:12.14.0-browsers
         environment:
-          # See https://git.io/vdao3 for details.
           JOBS: 2
     working_directory: ~/pix/certif
     steps:
@@ -172,7 +170,6 @@ jobs:
     docker:
       - image: circleci/node:12.14.0-browsers
         environment:
-          # See https://git.io/vdao3 for details.
           JOBS: 2
     working_directory: ~/pix/admin
     steps:
@@ -242,9 +239,20 @@ jobs:
             - v7-orga-npm-{{ checksum "~/pix/orga/cachekey" }}
       - run:
           environment:
-            # See https://git.io/vdao3 for details.
             JOBS: 2
           working_directory: ~/pix/orga
+          command: npm ci
+
+      - run:
+          working_directory: ~/pix/certif
+          command: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-certif-npm-{{ checksum "~/pix/certif/cachekey" }}
+      - run:
+          environment:
+            JOBS: 2
+          working_directory: ~/pix/certif
           command: npm ci
 
       - run:
@@ -264,8 +272,14 @@ jobs:
       - run:
           working_directory: ~/pix/orga
           environment:
-            # See https://git.io/vdao3 for details.
             JOBS: 2
+          background: true
+          command: npm start
+
+      - run:
+          working_directory: ~/pix/certif
+          environment:
+            JOBS: 1
           background: true
           command: npm start
 
