@@ -95,14 +95,14 @@ module('Acceptance | organization memberships management', function(hooks) {
 
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillIn('[aria-label="Adresse email"]', 'user@example.com');
+      await fillIn('#userEmailToAdd', 'user@example.com');
       await click('[aria-label="Ajouter un membre"] button');
 
       // then
       assert.dom('div.member-list').includesText('John');
       assert.dom('div.member-list').includesText('Doe');
       assert.dom('div.member-list').includesText('user@example.com');
-      assert.dom('[aria-label="Adresse email"]').hasNoValue();
+      assert.dom('#userEmailToAdd').hasNoValue();
     });
 
     test('should not do anything when the membership was already existing for given user email and organization', async function(assert) {
@@ -113,13 +113,13 @@ module('Acceptance | organization memberships management', function(hooks) {
 
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillIn('[aria-label="Adresse email"]', 'denise@example.com');
+      await fillIn('#userEmailToAdd', 'denise@example.com');
       await click('[aria-label="Ajouter un membre"] button');
 
       // then
       assert.equal(this.element.querySelectorAll('div.member-list table > tbody > tr').length, 1);
       assert.dom('div.member-list').includesText('Denise');
-      assert.dom('[aria-label="Adresse email"]').hasValue('denise@example.com');
+      assert.dom('#userEmailToAdd').hasValue('denise@example.com');
     });
 
     test('should not do anything when no user was found for the input email', async function(assert) {
@@ -130,14 +130,48 @@ module('Acceptance | organization memberships management', function(hooks) {
 
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillIn('[aria-label="Adresse email"]', 'unexisting@example.com');
+      await fillIn('#userEmailToAdd', 'unexisting@example.com');
       await click('[aria-label="Ajouter un membre"] button');
 
       // then
       assert.equal(this.element.querySelectorAll('div.member-list table > tbody > tr').length, 1);
       assert.dom('div.member-list').includesText('Erica');
-      assert.dom('[aria-label="Adresse email"]').hasValue('unexisting@example.com');
+      assert.dom('#userEmailToAdd').hasValue('unexisting@example.com');
     });
   });
 
+  module('inviting a member', function() {
+
+    test('should create an organization-invitation', async function(assert) {
+      // given
+      const organization = this.server.create('organization');
+
+      // when
+      await visit(`/organizations/${organization.id}`);
+      await fillIn('#userEmailToInvite', 'user@example.com');
+      this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
+
+      await click('[aria-label="Inviter un membre"] button');
+
+      // then
+      assert.dom('.c-notification__content:last-child').includesText('Un email a bien a été envoyé à l\'adresse user@example.com.');
+      assert.dom('#userEmailToInvite').hasNoValue();
+    });
+
+    test('should display an error if the creation has failed', async function(assert) {
+      // given
+      const organization = this.server.create('organization');
+      this.server.post('/organizations/:id/invitations', () => new Response(500, {}, { errors: [{ status: '500' }] }));
+
+      // when
+      await visit(`/organizations/${organization.id}`);
+      await fillIn('#userEmailToInvite', 'user@example.com');
+      this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
+
+      await click('[aria-label="Inviter un membre"] button');
+
+      // then
+      assert.dom('.c-notification__content:last-child').includesText('Une erreur s’est produite, veuillez réessayer.');
+    });
+  });
 });
