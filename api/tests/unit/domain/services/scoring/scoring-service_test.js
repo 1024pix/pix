@@ -27,7 +27,7 @@ describe('Unit | Service | Scoring Service', () => {
       };
 
       // when
-      const scoring = scoringService.calculateScoringInformationForCompetence(knowledgeElements);
+      const scoring = scoringService.calculateScoringInformationForCompetence( { knowledgeElements });
 
       // then
       expect(scoring).to.be.deep.equal(expectedScoring);
@@ -49,13 +49,13 @@ describe('Unit | Service | Scoring Service', () => {
       };
 
       // when
-      const scoring = scoringService.calculateScoringInformationForCompetence(knowledgeElements);
+      const scoring = scoringService.calculateScoringInformationForCompetence({ knowledgeElements });
 
       // then
       expect(scoring).to.be.deep.equal(expectedScoring);
     });
 
-    context('when we do not block level and pix', () => {
+    context('when we allow an excess in pix or level', () => {
       it('should return the information about pix score and level for one competence blocked not blocked', () => {
         // given
         const knowledgeElements = [
@@ -63,7 +63,8 @@ describe('Unit | Service | Scoring Service', () => {
           domainBuilder.buildKnowledgeElement({ earnedPix: PIX_COUNT_BY_LEVEL }),
           domainBuilder.buildKnowledgeElement({ earnedPix: PIX_COUNT_BY_LEVEL }),
         ];
-        const blockReachablePixAndLevel = false;
+        const allowExcessLevel = true;
+        const allowExcessPix = true;
         const expectedScoring = {
           realTotalPixScoreForCompetence: 56,
           pixScoreForCompetence: 56,
@@ -72,7 +73,7 @@ describe('Unit | Service | Scoring Service', () => {
         };
 
         // when
-        const scoring = scoringService.calculateScoringInformationForCompetence(knowledgeElements, blockReachablePixAndLevel);
+        const scoring = scoringService.calculateScoringInformationForCompetence({ knowledgeElements, allowExcessLevel, allowExcessPix });
 
         // then
         expect(scoring).to.be.deep.equal(expectedScoring);

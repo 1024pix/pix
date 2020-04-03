@@ -6,11 +6,11 @@ const {
 
 const _ = require('lodash');
 
-function calculateScoringInformationForCompetence(knowledgeElements, blockReachablePixAndLevel = true) {
+function calculateScoringInformationForCompetence({ knowledgeElements, allowExcessPix = false, allowExcessLevel = false }) {
 
   const realTotalPixScoreForCompetence = _(knowledgeElements).sumBy('earnedPix');
-  const pixScoreForCompetence = _getPixScoreForOneCompetence(realTotalPixScoreForCompetence, blockReachablePixAndLevel);
-  const currentLevel = _getCompetenceLevel(pixScoreForCompetence, blockReachablePixAndLevel);
+  const pixScoreForCompetence = _getPixScoreForOneCompetence(realTotalPixScoreForCompetence, allowExcessPix);
+  const currentLevel = getCompetenceLevel(pixScoreForCompetence, allowExcessLevel);
   const pixAheadForNextLevel = _getPixScoreAheadOfNextLevel(pixScoreForCompetence);
   return {
     realTotalPixScoreForCompetence,
@@ -21,53 +21,41 @@ function calculateScoringInformationForCompetence(knowledgeElements, blockReacha
 }
 
 function getBlockedLevel(level) {
-  return _getBlockedLevel(level);
+  return Math.min(level, MAX_REACHABLE_LEVEL);
 }
 function getCompetencePixScore(pixScore) {
-  return _getBlockedPixScoreByCompetence(pixScore);
-}
-
-function getCompetenceLevelByPix(pix) {
-  return _getCompetenceLevel(pix, true);
+  return Math.min(pixScore, MAX_REACHABLE_PIX_BY_COMPETENCE);
 }
 
 function totalUserPixScore(pixEarnedByCompetence) {
-  const pixByCompetenceLimited = _.map(pixEarnedByCompetence, (pixEarnedForOneCompetence) => _getBlockedPixScoreByCompetence(pixEarnedForOneCompetence));
+  const pixByCompetenceLimited = _.map(pixEarnedByCompetence, (pixEarnedForOneCompetence) => getCompetencePixScore(pixEarnedForOneCompetence));
   return _.sum(pixByCompetenceLimited);
 }
 
-module.exports = {
-  calculateScoringInformationForCompetence,
-  getBlockedLevel,
-  getCompetenceLevelByPix,
-  totalUserPixScore,
-  getCompetencePixScore
-};
-
-function _getPixScoreForOneCompetence(exactlyEarnedPix, blockReachablePixAndLevel = true) {
+function _getPixScoreForOneCompetence(exactlyEarnedPix, allowExcessPix = false) {
   const userEarnedPix = _.floor(exactlyEarnedPix);
-  if (blockReachablePixAndLevel) {
-    return _getBlockedPixScoreByCompetence(userEarnedPix);
+  if (allowExcessPix) {
+    return userEarnedPix;
   }
-  return userEarnedPix;
+  return getCompetencePixScore(userEarnedPix);
 }
 
-function _getCompetenceLevel(pixScoreForCompetence, blockReachablePixAndLevel = true) {
+function getCompetenceLevel(pixScoreForCompetence, allowExcessLevel = false) {
   const level = _.floor(pixScoreForCompetence / PIX_COUNT_BY_LEVEL);
-  if (blockReachablePixAndLevel) {
-    return _getBlockedLevel(level);
+  if (allowExcessLevel) {
+    return level;
   }
-  return level;
+  return getBlockedLevel(level);
 }
 
 function _getPixScoreAheadOfNextLevel(earnedPix) {
   return earnedPix % PIX_COUNT_BY_LEVEL;
 }
 
-function _getBlockedLevel(level) {
-  return Math.min(level, MAX_REACHABLE_LEVEL);
-}
-
-function _getBlockedPixScoreByCompetence(pixScore) {
-  return Math.min(pixScore, MAX_REACHABLE_PIX_BY_COMPETENCE);
-}
+module.exports = {
+  calculateScoringInformationForCompetence,
+  getBlockedLevel,
+  getCompetenceLevel,
+  totalUserPixScore,
+  getCompetencePixScore
+};
