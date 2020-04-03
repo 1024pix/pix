@@ -15,7 +15,6 @@ module.exports = async function getScorecard({ authenticatedUserId, scorecardId,
     competenceRepository,
     competenceEvaluationRepository,
     knowledgeElementRepository,
-    blockReachablePixAndLevel: true,
   });
 };
 

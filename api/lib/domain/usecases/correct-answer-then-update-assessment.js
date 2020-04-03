@@ -45,7 +45,6 @@ module.exports = async function correctAnswerThenUpdateAssessment(
       competenceRepository,
       competenceEvaluationRepository,
       knowledgeElementRepository,
-      blockReachablePixAndLevel: true,
     });
   }
 
@@ -145,7 +144,6 @@ async function _addLevelUpInformation(
     competenceRepository,
     competenceEvaluationRepository,
     knowledgeElementRepository,
-    blockReachablePixAndLevel: true,
   });
 
   if (scorecardBeforeAnswer.level < scorecardAfterAnswer.level) {

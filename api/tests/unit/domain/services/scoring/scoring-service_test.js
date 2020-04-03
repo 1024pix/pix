@@ -11,7 +11,7 @@ describe('Unit | Service | Scoring Service', () => {
 
   describe('#calculateScoringInformationForCompetence', function() {
 
-    it('should return the information about pix score and level for one competence', () => {
+    it('should return the information about pix score and level for given competence', () => {
       // given
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({ earnedPix: 3.7 }),
@@ -27,10 +27,10 @@ describe('Unit | Service | Scoring Service', () => {
       };
 
       // when
-      const scoring = scoringService.calculateScoringInformationForCompetence( { knowledgeElements });
+      const scoring = scoringService.calculateScoringInformationForCompetence({ knowledgeElements });
 
       // then
-      expect(scoring).to.be.deep.equal(expectedScoring);
+      expect(scoring).to.deep.equal(expectedScoring);
     });
 
     it('should return the information about pix score and level for one competence blocked with max information', () => {

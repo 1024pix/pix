@@ -167,20 +167,20 @@ describe('Unit | Domain | Models | Scorecard', () => {
         computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
       });
       // then
-      it('should have the competence level capped at the maximum value if we block', () => {
+      it('should have the competence level capped at the maximum value', () => {
         //when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence, blockReachablePixAndLevel: true });
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
 
         expect(actualScorecard.level).to.equal(5);
         expect(actualScorecard.earnedPix).to.equal(40);
       });
 
-      it('should have the competence level not capped at the maximum value if we do not block', () => {
+      it('should have the competence level not capped at the maximum value if we allow it', () => {
         //when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence, allowExcessLevel : true });
 
         expect(actualScorecard.level).to.equal(15);
-        expect(actualScorecard.earnedPix).to.equal(120);
+        expect(actualScorecard.earnedPix).to.equal(40);
       });
 
     });
@@ -192,35 +192,30 @@ describe('Unit | Domain | Models | Scorecard', () => {
         knowledgeElements = [{ earnedPix: 50 }, { earnedPix: 70 }];
         computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
       });
-      it('should have the same number of pix if blockReachablePixAndLevel is not defined', () => {
-        //when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
-        // then
-        expect(actualScorecard.earnedPix).to.equal(120);
-      });
-      it('should have the same number of pix if blockReachablePixAndLevel is false', () => {
+
+      it('should have the number of pix blocked', () => {
         //when
         actualScorecard = Scorecard.buildFrom({
           userId,
           knowledgeElements,
           competenceEvaluation,
           competence,
-          blockReachablePixAndLevel: false
-        });
-        // then
-        expect(actualScorecard.earnedPix).to.equal(120);
-      });
-      it('should have the number of pix blocked if blockReachablePixAndLevel is true', () => {
-        //when
-        actualScorecard = Scorecard.buildFrom({
-          userId,
-          knowledgeElements,
-          competenceEvaluation,
-          competence,
-          blockReachablePixAndLevel: true
         });
         // then
         expect(actualScorecard.earnedPix).to.equal(constants.MAX_REACHABLE_PIX_BY_COMPETENCE);
+      });
+
+      it('should have the same number of pix if we allow it', () => {
+        //when
+        actualScorecard = Scorecard.buildFrom({
+          userId,
+          knowledgeElements,
+          competenceEvaluation,
+          competence,
+          allowExcessPix: true
+        });
+        // then
+        expect(actualScorecard.earnedPix).to.equal(120);
       });
 
     });

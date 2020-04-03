@@ -11,7 +11,7 @@ async function calculateAssessmentScore(assessment) {
   const competenceMarks = competencesWithMark.map((certifiedCompetence) => {
     return new CompetenceMark({
       level: scoringService.getBlockedLevel(certifiedCompetence.obtainedLevel),
-      score: scoringService.getCompetencePixScore(certifiedCompetence.obtainedScore),
+      score: scoringService.getBlockedPixScore(certifiedCompetence.obtainedScore),
       area_code: certifiedCompetence.area_code,
       competence_code: certifiedCompetence.index,
     });

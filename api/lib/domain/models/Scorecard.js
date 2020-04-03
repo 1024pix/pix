@@ -49,13 +49,13 @@ class Scorecard {
     return { userId: _.parseInt(userId), competenceId };
   }
 
-  static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation, blockReachablePixAndLevel = false }) {
+  static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation, allowExcessPix = false, allowExcessLevel = false }) {
     const {
       realTotalPixScoreForCompetence,
       pixScoreForCompetence,
       currentLevel,
       pixAheadForNextLevel
-    } = scoringService.calculateScoringInformationForCompetence(knowledgeElements, blockReachablePixAndLevel);
+    } = scoringService.calculateScoringInformationForCompetence({ knowledgeElements, allowExcessPix, allowExcessLevel });
     const remainingDaysBeforeReset = _.isEmpty(knowledgeElements) ? null : Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
 
     return new Scorecard({
