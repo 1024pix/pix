@@ -1,6 +1,15 @@
 'use strict';
 const _ = require('lodash');
 
+function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue, minValue }) {
+  const valueToValidate = process.env[environmentVariableName] || defaultValue;
+  const number = parseInt(valueToValidate, 10);
+  if (!isNaN(number) && number >= minValue) {
+    return number;
+  }
+  throw new Error(`Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`);
+}
+
 const ACTIVE_FEATURE_TOGGLES = [];
 
 module.exports = function(environment) {
@@ -35,7 +44,8 @@ module.exports = function(environment) {
         UNAUTHORIZED: { CODE: '401', MESSAGE: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' },
         FORBIDDEN: '403',
         NOT_FOUND: '404',
-      }
+      },
+      MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
     },
 
     googleFonts: [
