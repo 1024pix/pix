@@ -1,9 +1,11 @@
 import { computed } from '@ember/object';
 import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
+import { inject as service } from '@ember/service';
 import ENV from 'pix-certif/config/environment';
 
 export default class ApplicationAdapter extends JSONAPIAdapter.extend(DataAdapterMixin) {
+  @service ajaxQueue;
   host = ENV.APP.API_HOST;
   namespace = 'api';
 
@@ -15,5 +17,9 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(DataAdapte
     }
 
     return headers;
+  }
+
+  ajax() {
+    return this.ajaxQueue.add(() => super.ajax(...arguments));
   }
 }
