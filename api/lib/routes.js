@@ -17,7 +17,6 @@ module.exports = [
   require('./application/feedbacks'),
   require('./application/healthcheck'),
   require('./application/memberships'),
-  require('./application/metrics'),
   require('./application/organization-invitations'),
   require('./application/user-orga-settings'),
   require('./application/organizations'),
