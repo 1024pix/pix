@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.136.0 (03/04/2020)
+
+- [#1254](https://github.com/1024pix/pix/pull/1254) [FEATURE] Invitation à Pix Orga depuis Pix Admin (PA-96).
+- [#1193](https://github.com/1024pix/pix/pull/1193) [FEATURE] Changer l'onglet certifications dans Pix Admin (PA-182)
+- [#1235](https://github.com/1024pix/pix/pull/1235) [FEATURE] Affichage des sujets d'un profil cible dans l'analyse d'une campagne (PO-397).
+- [#1231](https://github.com/1024pix/pix/pull/1231) [FEATURE] Modifier le design de la modal de changement de mot de passe (PO-382).
+- [#1234](https://github.com/1024pix/pix/pull/1234) [BUGFIX] Affichage menu sous IE (PC-140)
+- [#1236](https://github.com/1024pix/pix/pull/1236) [TECH] Renommer le type de campagne TEST_GIVEN to ASSESSMENT (PO-399).
+- [#1242](https://github.com/1024pix/pix/pull/1242) [DOC] Mise à jour des conventions de nommage des commits et des branches
+- [#1250](https://github.com/1024pix/pix/pull/1250) [DESIGN-SYSTEM] Changer les couleurs utilisées dans Pix Orga pour celles du design system (PO-410).
+
 ## v2.135.0 (01/04/2020)
 
 - [#1183](https://github.com/1024pix/pix/pull/1183) [FEATURE] Accéder à une campagne Pix Emploi (PF-837)
