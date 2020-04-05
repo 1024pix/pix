@@ -30,7 +30,7 @@ describe('Unit | Controller | User-tutorials', function() {
     it('should call the expected usecase', async function() {
       // given
       const userId = 'userId';
-      sinon.stub(usecases, 'findUserTutorials');
+      sinon.stub(usecases, 'findUserTutorials').returns([]);
 
       const request = {
         auth: { credentials: { userId } }
