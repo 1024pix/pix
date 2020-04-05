@@ -3,7 +3,7 @@
 
 ## Organisation générale du code
 
-Les applications Pix (Pix API, Pix App, Pix Orga, Pix Certif et Pix Admin) sont organisées au travers un repository Git de type [monorepo](https://en.wikipedia.org/wiki/Monorepo).
+Les applications Pix (Pix API, Pix App, Pix Orga, Pix Certif et Pix Admin) sont organisées au travers un dépôt Git de type [monorepo](https://en.wikipedia.org/wiki/Monorepo).
 
 ```
 pix                      → Sources de la plateforme
@@ -23,17 +23,17 @@ pix                      → Sources de la plateforme
  └ orga                  → Sources de l'application Pix Orga
  └ scripts               → Divers scripts utilisés pour l'exploitation et le support
  └ .adr-dir              → Fichier de configuration de l'outil npryce/adr-tools pour gérer les ADR  
- └ .buildpacks           → Fichier de définiion des buildpacks Scalingo à utiliser
+ └ .buildpacks           → Fichier de définition des buildpacks Scalingo à utiliser
  └ .editorconfig         → Fichier de configuration pour l'outil / standard EditorConfig
  └ .eslintrc.yaml        → Fichier de configuration général pour l'outil de linting ESLint
  └ .gitignore            → Listing des fichiers / répertoires à ignorer de Git 
  └ .slugignore           → Listing des fichiers / répertoires que Scalingo doit ignorer au moment du build
  └ CHANGELOG.md          → Listing des modifications opérées sur la plateforme (mise à jour automatique)
- └ docker-compose.yml    → Fichier utilisé pour les développements afin de démarrér un environnement iso-prod
+ └ docker-compose.yml    → Fichier utilisé pour les développements afin de démarrer un environnement iso-prod
  └ INSTALLATION.md       → Instructions d'installation de la plateforme en local
  └ LICENSE.md            → Texte de la licence logicielle utilisée sur Pix (AGPL-3.0)
  └ nginx.conf.erb        → Fichier de configuration du reverse proxy / API gateway (Nginx) 
- └ pacakge.json          → Fichier de définition généré de la plateforme
+ └ package.json          → Fichier de définition généré de la plateforme
  └ package-lock.json     → Listing des dépendances
  └ README.md             → Fichier de présentation du projet
  └ scalingo.json         → Fichier de configuration des Review Apps Scalingo
@@ -55,11 +55,11 @@ api                                 → Sources de l'application Pix API
     └ www                           → Binaire d'exécution de l'API
  └ db                               → Fichiers de configuration et d'alimentation de la BDD 
     └ migrations                    → Répertoire des fichiers de migration de la BDD
-    └ seeds                         → Répertoire des fichiers d'alimentation de la BDD
+    └ seeds                         → Répertoire des fichiers d'alimentation de la BDD pour développement local
     └ knex-database-connection.js   → Fichier de configuration de l'outil de requêtage SQL (Knex.js)
     └ knexfile.js                   → Fichier de configuration des environnements Knex
  └ lib                              → Sources de l'API
-    └ application                   → Fichiers de définition des routes et controllers
+    └ application                   → Fichiers de définition des routes et contrôleurs HTTP
     └ domain                        → Objets du domaine (entités, aggrégats, value objects, services, use cases) 
        └ models                     → Entités, aggrégats et value objects du domaine 
        └ services                   → Services métier du domaine
@@ -77,7 +77,7 @@ api                                 → Sources de l'application Pix API
        └ plugins                    → (déprécié) Plugins Hapi.js _home made_
        └ repositories               → Gestionnaires d'accès aux données (PG, Airtable) 
        └ serializers                → Convertisseurs de données Domain objects ←→ HTTP request objects
-       └ utils                      → Ensemble de classeset modules utilitaires ou helpers 
+       └ utils                      → Ensemble de classes et modules utilitaires ou helpers 
        └ validators                 → (déprécié) Validateurs techniques
        └ airtable.js                → Wrapper de client Airtable 
        └ bookshelf.js               → Instance de gestionnaire Bookshelf
@@ -98,7 +98,7 @@ api                                 → Sources de l'application Pix API
  └ .eslintrc.yaml                   → Fichier de configuration général pour l'outil de linting ESLint
  └ .istanbul.yml                    → Fichier de configuration pour la couverture de code
  └ .slugignore                      → Listing des fichiers / répertoires que Scalingo doit ignorer au moment du build
- └ pacakge.json                     → Fichier de définition généré de la plateforme
+ └ package.json                     → Fichier de définition généré de la plateforme
  └ package-lock.json                → Listing des dépendances
  └ Procfile                         → Fichier de démarrage du conteneur Scalingo 
  └ sample.env                       → Template du fichier .env
