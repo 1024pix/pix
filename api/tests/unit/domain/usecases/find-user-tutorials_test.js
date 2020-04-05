@@ -56,14 +56,18 @@ describe('Unit | UseCase | find-user-tutorials', () => {
       expect(tutorialRepository.findByRecordIds).to.have.been.calledWith([tutorialId]);
     });
 
-    it('should return tutorials', async function() {
+    it('should return user-tutorials', async function() {
       // Given
-      const expectedTutorials = [{ ...tutorial, isSaved: true }];
+      const expectedUserTutorials = [{
+        tutorial: { ...tutorial, isSaved: true },
+        userId
+      }];
+
       // When
       const tutorials = await findUserTutorials({ tutorialRepository, userTutorialRepository, userId });
 
       // Then
-      expect(tutorials).to.deep.equal(expectedTutorials);
+      expect(tutorials).to.deep.equal(expectedUserTutorials);
     });
   });
 
