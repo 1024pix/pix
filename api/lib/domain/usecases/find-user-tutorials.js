@@ -9,5 +9,9 @@ module.exports = async function findUserTutorials(
   const userTutorials = await userTutorialRepository.find({ userId });
   const tutorialsIds = userTutorials.map(({ tutorialId }) => tutorialId);
   const savedTutorials = await tutorialRepository.findByRecordIds(tutorialsIds);
-  return _.map(savedTutorials, (tutorial) => ({ ...tutorial, isSaved: true }));
+  return _.map(savedTutorials, _buildUserTutorial(userId));
 };
+
+function _buildUserTutorial(userId) {
+  return (tutorial) => ({ userId, tutorial: { ...tutorial, isSaved: true } });
+}

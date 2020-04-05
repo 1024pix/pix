@@ -1,6 +1,5 @@
 const usecases = require('../../domain/usecases');
 const userTutorialSerializer = require('../../infrastructure/serializers/jsonapi/user-tutorial-serializer');
-const tutorialSerializer = require('../../infrastructure/serializers/jsonapi/tutorial-serializer');
 const userTutorialRepository = require('../../infrastructure/repositories/user-tutorial-repository');
 
 module.exports = {
@@ -18,7 +17,8 @@ module.exports = {
     const { userId } = request.auth.credentials;
 
     const tutorials = await usecases.findUserTutorials({ userId });
-    return h.response(tutorialSerializer.serialize(tutorials));
+
+    return h.response(userTutorialSerializer.serialize(tutorials));
   },
 
   async removeFromUser(request, h) {
