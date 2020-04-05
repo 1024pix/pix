@@ -8,11 +8,11 @@
       • <span class="tutorial-content__duration">{{moment-duration tutorial.duration}}</span>
     </div>
     {{#if this.currentUser.user}}
-      <button class="tutorial-content__save-tutorial" title={{this.saveButtonTitle}}
-        {{on 'click' this.saveTutorial}}
-              disabled={{this.isSaveButtonDisabled}}>
+      <button class="tutorial-content__save-tutorial" title={{this.buttonTitle}}
+        {{on 'click' (if this.isSaved this.removeTutorial this.saveTutorial)}}
+              disabled={{this.isButtonDisabled}}>
         <FaIcon @prefix={{if this.isSaved 'fas' 'far'}} @icon='bookmark'></FaIcon>
-        {{saveButtonText}}
+        {{buttonText}}
       </button>
     {{/if}}
   </div>

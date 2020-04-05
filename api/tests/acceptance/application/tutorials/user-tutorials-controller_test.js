@@ -45,7 +45,18 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
     describe('nominal case', () => {
       it('should respond with a 201 and return user-tutorial created', async () => {
         // given
-        const expectedUserTutorial = { data: { type: 'user-tutorials', id: '4444_tutorialId' } };
+        const expectedUserTutorial = {
+          data: {
+            type: 'user-tutorials',
+            id: '4444_tutorialId',
+            attributes: {},
+            relationships: {
+              tutorial: {
+                data: null
+              }
+            },
+          }
+        };
 
         // when
         const response = await server.inject(options);
@@ -98,9 +109,23 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
         expect(response.statusCode).to.equal(200);
         const expectedUserTutorials = {
           data: [{
-            type: 'tutorials',
+            type: 'user-tutorials',
+            id: '4444_tutorialId',
+            attributes: {},
+            relationships: {
+              tutorial: {
+                data: {
+                  id: 'tutorialId',
+                  type: 'tutorials'
+                }
+              }
+            }
+          }],
+          included: [{
             id: 'tutorialId',
+            type: 'tutorials',
             attributes: {
+              id: 'tutorialId',
               duration: '00:03:31',
               format: 'vidéo',
               link: 'http://www.example.com/this-is-an-example.html',
