@@ -10,7 +10,6 @@ module.exports = async function findTutorials({
   skillRepository,
   tubeRepository,
   tutorialRepository,
-  userTutorialRepository,
 }) {
 
   const { userId, competenceId } = Scorecard.parseId(scorecardId);
@@ -34,33 +33,20 @@ module.exports = async function findTutorials({
   const tubeNamesForTutorials = _.keys(skillsGroupedByTube);
   const tubes = await tubeRepository.findByNames(tubeNamesForTutorials);
 
-  const tutorialsWithTubesList = await _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository);
-  const tutorialsOrderedByTubeName = _.orderBy(_.flatten(tutorialsWithTubesList), 'tubeName');
-
-  return _getTutorialsWithSaveInformation(userTutorialRepository, tutorialsOrderedByTubeName, userId);
+  const tutorialsWithTubesList = await _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository, userId);
+  return _.orderBy(_.flatten(tutorialsWithTubesList), 'tubeName');
 };
 
-async function _getTutorialsWithSaveInformation(userTutorialRepository, tutorialsOrderedByTubeName, userId) {
-  const tutorialsSavedByUser = await userTutorialRepository.find({ userId });
-  const tutorialIdsSavedByUser = _.map(tutorialsSavedByUser, 'tutorialId');
-
-  return _.map(tutorialsOrderedByTubeName, (tutorial) => {
-    tutorial.isSaved = _.includes(tutorialIdsSavedByUser, tutorial.id);
-    return tutorial;
-  });
-}
-
-async function _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository) {
+async function _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository, userId) {
   return await Promise.all(_.map(easiestSkills, async (skill) => {
     const tube = _.find(tubes, { name: skill.tubeNameWithAt });
-    const tutorials = await tutorialRepository.findByRecordIds(skill.tutorialIds);
-    const enhancedTutorials = _.map(tutorials, (tutorial) => {
+    const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: skill.tutorialIds, userId });
+    return _.map(tutorials, (tutorial) => {
       tutorial.tubeName = tube.name;
       tutorial.tubePracticalTitle = tube.practicalTitle;
       tutorial.tubePracticalDescription = tube.practicalDescription;
       return tutorial;
     });
-    return enhancedTutorials;
   }));
 }
 

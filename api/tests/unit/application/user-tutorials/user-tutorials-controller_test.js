@@ -9,7 +9,7 @@ describe('Unit | Controller | User-tutorials', function() {
       // given
       const tutorialId = 'tutorialId';
       const userId = 'userId';
-      sinon.stub(usecases, 'addTutorialToUser');
+      sinon.stub(usecases, 'addTutorialToUser').returns({ id: 'userTutorialId' });
 
       const request = {
         auth: { credentials: { userId } },

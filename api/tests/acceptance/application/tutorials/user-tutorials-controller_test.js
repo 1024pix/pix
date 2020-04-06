@@ -48,13 +48,11 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
         const expectedUserTutorial = {
           data: {
             type: 'user-tutorials',
-            id: '4444_tutorialId',
-            attributes: {},
-            relationships: {
-              tutorial: {
-                data: null
-              }
-            },
+            id: '1',
+            attributes: {
+              'tutorial-id': 'tutorialId',
+              'user-id': 4444
+            }
           }
         };
 
@@ -99,7 +97,7 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
     describe('nominal case', () => {
       it('should respond with a 200 and return tutorials saved by user', async () => {
         // given
-        databaseBuilder.factory.buildUserTutorial({ userId: 4444, tutorialId: 'tutorialId' });
+        databaseBuilder.factory.buildUserTutorial({ id: 4242, userId: 4444, tutorialId: 'tutorialId' });
         await databaseBuilder.commit();
 
         // when
@@ -110,8 +108,10 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
         const expectedUserTutorials = {
           data: [{
             type: 'user-tutorials',
-            id: '4444_tutorialId',
-            attributes: {},
+            id: '4242',
+            attributes: {
+              'user-id': 4444,
+            },
             relationships: {
               tutorial: {
                 data: {
@@ -131,7 +131,6 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
               link: 'http://www.example.com/this-is-an-example.html',
               source: 'Source Example, Example',
               title: 'Communiquer',
-              'is-saved': true,
             },
           }]
         };

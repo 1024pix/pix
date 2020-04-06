@@ -8,17 +8,17 @@ module.exports = {
     const { userId } = request.auth.credentials;
     const { tutorialId } = request.params;
 
-    await usecases.addTutorialToUser({ userId, tutorialId });
+    const userTutorial = await usecases.addTutorialToUser({ userId, tutorialId });
 
-    return h.response(userTutorialSerializer.serialize({ userId, tutorialId })).created();
+    return h.response(userTutorialSerializer.serialize(userTutorial)).created();
   },
 
   async find(request, h) {
     const { userId } = request.auth.credentials;
 
-    const tutorials = await usecases.findUserTutorials({ userId });
+    const userTutorials = await usecases.findUserTutorials({ userId });
 
-    return h.response(userTutorialSerializer.serialize(tutorials));
+    return h.response(userTutorialSerializer.serialize(userTutorials));
   },
 
   async removeFromUser(request, h) {

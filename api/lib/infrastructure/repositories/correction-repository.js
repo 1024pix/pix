@@ -4,35 +4,12 @@ const Correction = require('../../domain/models/Correction');
 const Hint = require('../../domain/models/Hint');
 const challengeDatasource = require('../datasources/airtable/challenge-datasource');
 const skillDatasource = require('../datasources/airtable/skill-datasource');
-const tutorialDatasource = require('../datasources/airtable/tutorial-datasource');
+const tutorialRepository = require('./tutorial-repository');
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
-
-function _getSkillDataObjects(challengeDataObject) {
-  const skillDataObjectPromises = challengeDataObject.skillIds.map(skillDatasource.get);
-  return Promise.all(skillDataObjectPromises);
-}
-
-function _getTutorialDataObjects(tutorialIds) {
-  const tutorialDataObjectPromise = tutorialIds.map(tutorialDatasource.get);
-  return Promise.all(tutorialDataObjectPromise);
-}
-
-function _filterSkillDataObjectsWithValidatedHint(skillDataObjects) {
-  return skillDataObjects.filter((skillDataObject) => VALIDATED_HINT_STATUSES.includes(skillDataObject.hintStatus));
-}
-
-function _convertSkillDataObjectsToHints(skillDataObjects) {
-  return skillDataObjects.map((skillDataObject) => {
-    return new Hint({
-      skillName: skillDataObject.name,
-      value: skillDataObject.hint
-    });
-  });
-}
 
 module.exports = {
 
-  getByChallengeId(challengeId) {
+  getByChallengeId({ challengeId, userId }) {
     let challengeDataObject;
     let hintsForChallenge;
     let skillsForChallenge;
@@ -65,8 +42,8 @@ module.exports = {
           .value();
 
         return Promise.all([
-          _getTutorialDataObjects(tutorialsIds),
-          _getTutorialDataObjects(learningMoreTutorialIds),
+          tutorialRepository.findByRecordIdsForCurrentUser({ ids: tutorialsIds, userId }),
+          tutorialRepository.findByRecordIdsForCurrentUser({ ids: learningMoreTutorialIds, userId }),
         ]);
       })
       .then(([tutorials, learningMoreTutorials]) => {
@@ -81,3 +58,22 @@ module.exports = {
       });
   }
 };
+
+function _getSkillDataObjects(challengeDataObject) {
+  const skillDataObjectPromises = challengeDataObject.skillIds.map(skillDatasource.get);
+  return Promise.all(skillDataObjectPromises);
+}
+
+function _filterSkillDataObjectsWithValidatedHint(skillDataObjects) {
+  return skillDataObjects.filter((skillDataObject) => VALIDATED_HINT_STATUSES.includes(skillDataObject.hintStatus));
+}
+
+function _convertSkillDataObjectsToHints(skillDataObjects) {
+  return skillDataObjects.map((skillDataObject) => {
+    return new Hint({
+      skillName: skillDataObject.name,
+      value: skillDataObject.hint
+    });
+  });
+}
+

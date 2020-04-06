@@ -21,6 +21,15 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', (
       expect(userTutorials).to.have.length(1);
     });
 
+    it('should return the created user tutorial', async () => {
+      // when
+      const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId });
+      const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
+
+      // then
+      expect(userTutorial).to.deep.equal(userTutorials[0]);
+    });
+
     context('when the tutorialId already exists in the user list', function() {
       it('should not store the tutorialId', async () => {
         // given
@@ -28,11 +37,12 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', (
         await databaseBuilder.commit();
 
         // when
-        await userTutorialRepository.addTutorial({ userId, tutorialId });
+        const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId });
         const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
 
         // then
         expect(userTutorials).to.have.length(1);
+        expect(userTutorial).to.deep.equal(userTutorials[0]);
       });
     });
 

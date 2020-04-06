@@ -9,9 +9,13 @@ module.exports = async function findUserTutorials(
   const userTutorials = await userTutorialRepository.find({ userId });
   const tutorialsIds = userTutorials.map(({ tutorialId }) => tutorialId);
   const savedTutorials = await tutorialRepository.findByRecordIds(tutorialsIds);
-  return _.map(savedTutorials, _buildUserTutorial(userId));
+  return _.map(userTutorials, _buildUserTutorial(userId, savedTutorials));
 };
 
-function _buildUserTutorial(userId) {
-  return (tutorial) => ({ userId, tutorial: { ...tutorial, isSaved: true } });
+function _buildUserTutorial(userId, tutorials) {
+  function getTutorial(userTutorial) {
+    return _.find(tutorials, ({ id }) => id === userTutorial.tutorialId);
+  }
+
+  return (userTutorial) => ({ id: userTutorial.id, userId, tutorial: getTutorial(userTutorial) });
 }

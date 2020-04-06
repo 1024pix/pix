@@ -1,9 +1,10 @@
 const { Serializer } = require('jsonapi-serializer');
+const userTutorialAttributes = require('./user-tutorial-attributes');
 
 module.exports = {
 
   serialize(tutorial = {}) {
-    return new Serializer('tutorial', {
+    return new Serializer('tutorials', {
       attributes: [
         'duration',
         'format',
@@ -13,8 +14,12 @@ module.exports = {
         'tubeName',
         'tubePracticalTitle',
         'tubePracticalDescription',
-        'isSaved',
+        'userTutorial'
       ],
+      userTutorial: userTutorialAttributes,
+      typeForAttribute(attribute) {
+        return attribute === 'userTutorial' ? 'user-tutorial' : attribute;
+      }
     }).serialize(tutorial);
   },
 
