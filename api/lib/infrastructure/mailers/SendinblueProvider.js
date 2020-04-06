@@ -17,7 +17,6 @@ function _formatPayload(options) {
       'content-type': 'application/json',
       'accept': 'application/json',
     },
-    tags: options.tags
   };
   if (options.variables) {
     payload.params = options.variables;

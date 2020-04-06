@@ -3,6 +3,7 @@ const _ = require('lodash');
 const { expect, databaseBuilder, knex } = require('../../test-helper');
 
 const BookshelfOrganizationInvitation = require('../../../lib/infrastructure/data/organization-invitation');
+
 const {
   getOrganizationByExternalId, buildInvitation, prepareDataForSending, sendJoinOrganizationInvitations
 } = require('../../../scripts/send-invitations-to-sco-organizations');
@@ -98,12 +99,11 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', () 
         });
 
       const numberBefore = await getNumberOfOrganizationInvitations();
-      const tags = ['test'];
 
       await databaseBuilder.commit();
 
       // when
-      await sendJoinOrganizationInvitations(objectsForInvitations, tags);
+      await sendJoinOrganizationInvitations(objectsForInvitations);
       const numberAfter = await getNumberOfOrganizationInvitations();
       const invitationsCreatedInDatabase = numberAfter - numberBefore;
 
