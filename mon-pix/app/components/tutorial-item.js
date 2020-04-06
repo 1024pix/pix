@@ -41,11 +41,7 @@ export default class TutorialItemComponent extends Component {
   }
 
   get saveButtonText() {
-    switch (this.status) {
-      case statusTypes.saved: return 'Enregistré';
-      case statusTypes.saving: return 'Enregistrement en cours ...';
-      default: return 'Enregistrer';
-    }
+    return this.status === statusTypes.saved ? 'Enregistré' : 'Enregistrer';
   }
 
   get saveButtonTitle() {
