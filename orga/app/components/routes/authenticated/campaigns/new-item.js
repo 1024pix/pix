@@ -47,6 +47,8 @@ export default class NewItem extends Component {
   setCampaignGoal(event) {
     if (event.target.value === 'collect-participants-profile') {
       this.isCampaignGoalAssessment = false;
+      this.campaign.title = null;
+      this.campaign.targetProfile = null;
       return this.campaign.type = 'PROFILES_COLLECTION';
     }
     this.isCampaignGoalAssessment = true;
