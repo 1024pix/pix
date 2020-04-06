@@ -85,7 +85,7 @@ function _probaOfCorrectAnswer(userEstimatedLevel, challengeDifficulty) {
 }
 
 function _getNewSkillsInfoIfSkillSolved(skillTested, tubes, knowledgeElements) {
-  let extraValidatedSkills = _findTubeByName(tubes, skillTested.tubeName)
+  let extraValidatedSkills = _findTubeByName(tubes, skillTested.tubeNameWithoutPrefix)
     .getEasierThan(skillTested)
     .filter(_skillNotTestedYet(knowledgeElements));
 
@@ -96,7 +96,7 @@ function _getNewSkillsInfoIfSkillSolved(skillTested, tubes, knowledgeElements) {
 }
 
 function _getNewSkillsInfoIfSkillUnsolved(skillTested, tubes, knowledgeElements) {
-  let extraFailedSkills =  _findTubeByName(tubes, skillTested.tubeName)
+  let extraFailedSkills =  _findTubeByName(tubes, skillTested.tubeNameWithoutPrefix)
     .getHarderThan(skillTested)
     .filter(_skillNotTestedYet(knowledgeElements));
 
