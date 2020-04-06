@@ -8,22 +8,23 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', () => {
     context('when there is only user tutorial', () => {
       it('should serialize', () => {
         // given
-        const userId = 'userId';
-        const tutorialId = 'createdTutorialId';
+        const userTutorial = {
+          id: 'userTutorialId',
+          userId: 'userId',
+          tutorialId: 'tutorialId',
+        };
         const expectedJsonUserTutorial = {
           data: {
             type: 'user-tutorials',
-            id: 'userId_createdTutorialId',
-            attributes: {},
-            relationships: {
-              tutorial: {
-                data: null
-              },
-            },
+            id: 'userTutorialId',
+            attributes: {
+              'user-id': 'userId',
+              'tutorial-id': 'tutorialId',
+            }
           }
         };
         // when
-        const json = serializer.serialize({ userId, tutorialId });
+        const json = serializer.serialize(userTutorial);
 
         // then
         expect(json).to.be.deep.equal(expectedJsonUserTutorial);
@@ -34,19 +35,23 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', () => {
   context('when there is user tutorial and tutorial', () => {
     it('should serialize', () => {
       // given
-      const userId = 'userId';
-      const tutorialId = 'createdTutorialId';
-      const tutorial = domainBuilder.buildTutorial({ id: tutorialId });
+      const userTutorial = {
+        id: 'userTutorialId',
+        userId: 'userId',
+        tutorial: domainBuilder.buildTutorial({ id: 'tutorialId' }),
+      };
 
       const expectedJsonUserTutorial = {
         data: {
           type: 'user-tutorials',
-          id: 'userId_createdTutorialId',
-          attributes: {},
+          id: 'userTutorialId',
+          attributes: {
+            'user-id': 'userId',
+          },
           relationships: {
             tutorial: {
               data: {
-                id: 'createdTutorialId',
+                id: 'tutorialId',
                 type: 'tutorials',
               }
             },
@@ -56,18 +61,17 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', () => {
           attributes: {
             duration: '00:01:30',
             format: 'video',
-            id: 'createdTutorialId',
-            'is-saved': true,
+            id: 'tutorialId',
             'link': 'https://youtube.fr',
             'source': 'Youtube',
             'title': 'Savoir regarder des vidéos youtube.',
           },
-          'id': 'createdTutorialId',
+          'id': 'tutorialId',
           'type': 'tutorials',
         }],
       };
       // when
-      const json = serializer.serialize({ userId, tutorial });
+      const json = serializer.serialize(userTutorial);
 
       // then
       expect(json).to.be.deep.equal(expectedJsonUserTutorial);

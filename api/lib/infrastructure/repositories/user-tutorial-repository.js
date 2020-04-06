@@ -5,8 +5,12 @@ const knex = require('knex')(knexConfig);
 
 module.exports = {
   async addTutorial({ userId, tutorialId }) {
-    await knex.raw('INSERT INTO ??(??, ??) VALUES (?, ?) ON CONFLICT DO NOTHING',
-      ['user_tutorials', 'userId', 'tutorialId', userId, tutorialId]);
+    const userTutorial = await knex('user_tutorials').where({ userId, tutorialId }).first();
+    if (userTutorial) {
+      return userTutorial;
+    }
+    const rawUserTutorial = await knex('user_tutorials').insert({ userId, tutorialId }).returning('*');
+    return rawUserTutorial[0];
   },
 
   async find({ userId }) {

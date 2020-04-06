@@ -10,13 +10,11 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
   const assessmentRepository = { get: () => undefined };
   const answerRepository = { get: () => undefined };
   const correctionRepository = { getByChallengeId: () => undefined };
-  const userTutorialRepository = { find: () => undefined };
 
   beforeEach(() => {
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(answerRepository, 'get');
     sinon.stub(correctionRepository, 'getByChallengeId');
-    sinon.stub(userTutorialRepository, 'find');
   });
 
   context('when assessment is not completed', () => {
@@ -61,11 +59,10 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         assessmentRepository.get.resolves(assessment);
         answerRepository.get.resolves(answer);
         correctionRepository.getByChallengeId.resolves(correction);
-        userTutorialRepository.find.resolves([{ id: 1, userId, tutorialId: savedTutorial.id }]);
         const expectedCorrection = new Correction({
           id: 123,
-          tutorials: [{ ...unsavedTutorial, isSaved: false }],
-          learningMoreTutorials: [{ ...savedTutorial, isSaved: true }]
+          tutorials: [{ ...unsavedTutorial }],
+          learningMoreTutorials: [{ ...savedTutorial }]
         });
 
         // when
@@ -73,7 +70,6 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
           assessmentRepository,
           answerRepository,
           correctionRepository,
-          userTutorialRepository,
           answerId: 2,
           userId
         });
@@ -81,7 +77,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         // then
         expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
         expect(answerRepository.get).to.have.been.calledWith(2);
-        expect(correctionRepository.getByChallengeId).to.have.been.calledWith(challengeId);
+        expect(correctionRepository.getByChallengeId).to.have.been.calledWith({ challengeId, userId });
         expect(responseSolution).to.deep.equal(expectedCorrection);
       });
     });
@@ -104,7 +100,6 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
           assessmentRepository,
           answerRepository,
           correctionRepository,
-          userTutorialRepository,
           answerId: 2,
           userId,
         });
@@ -112,7 +107,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         // then
         expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
         expect(answerRepository.get).to.have.been.calledWith(2);
-        expect(correctionRepository.getByChallengeId).to.have.been.calledWith(challengeId);
+        expect(correctionRepository.getByChallengeId).to.have.been.calledWith({ challengeId, userId });
         expect(responseSolution).to.deep.equal(new Correction({ id: 123 }));
       });
     });
@@ -137,7 +132,6 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
         assessmentRepository,
         answerRepository,
         correctionRepository,
-        userTutorialRepository,
         answerId: 2,
         userId
       });
@@ -145,7 +139,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
       // then
       expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
       expect(answerRepository.get).to.have.been.calledWith(2);
-      expect(correctionRepository.getByChallengeId).to.have.been.calledWith(challengeId);
+      expect(correctionRepository.getByChallengeId).to.have.been.calledWith({ challengeId, userId });
       expect(responseSolution).to.deep.equal(new Correction({ id: 123 }));
     });
   });
