@@ -8,4 +8,8 @@ module.exports = {
     await knex.raw('INSERT INTO ??(??, ??) VALUES (?, ?) ON CONFLICT DO NOTHING',
       ['user_tutorials', 'userId', 'tutorialId', userId, tutorialId]);
   },
+
+  async find({ userId }) {
+    return knex('user_tutorials').where({ userId });
+  }
 };

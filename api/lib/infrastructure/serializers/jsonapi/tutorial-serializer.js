@@ -13,6 +13,7 @@ module.exports = {
         'tubeName',
         'tubePracticalTitle',
         'tubePracticalDescription',
+        'isSaved',
       ],
     }).serialize(tutorial);
   },

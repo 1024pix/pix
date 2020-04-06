@@ -2,7 +2,6 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import config from 'mon-pix/config/environment';
 
 const statusTypes = {
   unsaved: 'unsaved',
@@ -12,19 +11,23 @@ const statusTypes = {
 
 export default class TutorialItemComponent extends Component {
   @service store;
+  @service currentUser;
 
   imageForFormat = {
     'vidéo': 'video',
     'son': 'son',
     'page': 'page'
   };
-  isSavingTutorialFeatureEnabled = config.APP.FT_ACTIVATE_USER_TUTORIALS;
   @tracked status = statusTypes.unsaved;
 
+  constructor(owner, args) {
+    super(owner, args);
+    this.status = this.tutorial.isSaved ? statusTypes.saved : statusTypes.unsaved;
+  }
   get tutorial() {
     return this.args.tutorial;
   }
-  
+
   get formatImageName() {
     const format = this.args.tutorial.format;
     if (this.imageForFormat[format]) {
@@ -38,11 +41,7 @@ export default class TutorialItemComponent extends Component {
   }
 
   get saveButtonText() {
-    switch (this.status) {
-      case statusTypes.saved: return 'Enregistré';
-      case statusTypes.saving: return 'Enregistrement en cours ...';
-      default: return 'Enregistrer';
-    }
+    return this.status === statusTypes.saved ? 'Enregistré' : 'Enregistrer';
   }
 
   get saveButtonTitle() {
@@ -57,8 +56,13 @@ export default class TutorialItemComponent extends Component {
   async saveTutorial() {
     this.status = statusTypes.saving;
     const userTutorial = this.store.createRecord('userTutorial', { tutorial: this.args.tutorial });
-    await userTutorial.save({ adapterOptions: { tutorialId: this.args.tutorial.id } });
-    this.status = statusTypes.saved;
+    try {
+      await userTutorial.save({ adapterOptions: { tutorialId: this.args.tutorial.id } });
+      this.status = statusTypes.saved;
+      this.tutorial.isSaved = true;
+    } catch (e) {
+      this.tutorial.status = statusTypes.unsaved;
+    }
   }
 
 }

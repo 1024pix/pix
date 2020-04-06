@@ -39,4 +39,34 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', (
 
   });
 
+  describe('#find', () => {
+
+    context('when user has saved tutorials', function() {
+      it('should return user-tutorials belonging to given user', async () => {
+        // given
+        const tutorialId = 'recTutorial';
+        databaseBuilder.factory.buildUserTutorial({ tutorialId, userId });
+        await databaseBuilder.commit();
+
+        // when
+        const userTutorials = await userTutorialRepository.find({ userId });
+
+        // then
+        expect(userTutorials).to.have.length(1);
+        expect(userTutorials[0]).to.have.property('tutorialId', tutorialId);
+        expect(userTutorials[0]).to.have.property('userId', userId);
+      });
+    });
+
+    context('when user has not saved tutorial', function() {
+      it('should empty array', async () => {
+        const userTutorials = await userTutorialRepository.find({ userId });
+
+        // then
+        expect(userTutorials).to.deep.equal([]);
+      });
+    });
+
+  });
+
 });
