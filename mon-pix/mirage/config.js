@@ -35,8 +35,6 @@ export default function() {
   loadStudentUserAssociationRoutes(this);
   loadUserRoutes(this);
 
-  this.del('/cache', () => null, 204);
-
   this.get('/campaigns', getCampaigns);
   this.get('/campaigns/:id?include=targetProfile', (schema, request) => {
     return schema.campaigns.find(request.params['id?include=targetProfile']);

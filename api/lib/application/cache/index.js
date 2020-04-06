@@ -26,22 +26,7 @@ exports.register = async function(server) {
           'Attention : pour un état cohérent des objets stockés en cache, utiliser DELETE /api/cache'
         ]
       }
-    },{
-      method: 'DELETE',
-      path: '/api/cache',
-      config: {
-        pre: [{
-          method: securityController.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
-        }],
-        handler: CacheController.removeCacheEntries,
-        tags: ['api', 'cache'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master',
-          'Elle permet de supprimer toutes les entrées du cache de l’application',
-        ]
-      }
-    },{
+    }, {
       method: 'PATCH',
       path: '/api/cache',
       config: {

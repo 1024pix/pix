@@ -10,7 +10,6 @@ describe('Unit | Router | cache-router', () => {
   beforeEach(() => {
     sinon.stub(cacheController, 'refreshCacheEntries').callsFake((request, h) => h.response().code(204));
     sinon.stub(cacheController, 'refreshCacheEntry').callsFake((request, h) => h.response().code(204));
-    sinon.stub(cacheController, 'removeCacheEntries').callsFake((request, h) => h.response().code(204));
     sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
 
     server = Hapi.server();
@@ -33,23 +32,6 @@ describe('Unit | Router | cache-router', () => {
 
       // when
       const result = await server.inject(options);
-      // then
-      expect(result.statusCode).to.equal(204);
-    });
-  });
-
-  describe('DELETE /api/cache', () => {
-
-    it('should exist', async () => {
-      // given
-      const options = {
-        method: 'DELETE',
-        url: '/api/cache'
-      };
-
-      // when
-      const result = await server.inject(options);
-
       // then
       expect(result.statusCode).to.equal(204);
     });
