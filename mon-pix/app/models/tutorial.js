@@ -15,10 +15,10 @@ export default class Tutorial extends Model {
 
   // includes
   @belongsTo('scorecard') scorecard;
-  @belongsTo('userTutorial', { inverse: 'tutorial' }) userTutorial;
+  @belongsTo('userTutorial', { inverse: 'tutorial', async: false }) userTutorial;
   @computed('userTutorial')
   get isSaved() {
-    return Boolean(this.userTutorial.content);
+    return Boolean(this.userTutorial);
   }
 
 }
