@@ -1,25 +1,8 @@
-export function createUserWithMembership() {
-  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': false });
-
-  const organization = server.create('organization', {
-    name: 'BRO & Evil Associates'
-  });
-
-  const memberships = server.create('membership', {
-    organizationId: organization.id,
-    userId: user.id
-  });
-
-  user.memberships = [memberships];
-  return user;
-}
-
-export function createUserWithMembershipAndTermsOfServiceAccepted() {
-  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
-
+function _addUserToOrganization(user, { externalId, canCollectProfiles } = {}) {
   const organization = server.create('organization', {
     name: 'BRO & Evil Associates',
-    externalId: 'EXTBRO'
+    externalId,
+    canCollectProfiles,
   });
 
   const memberships = server.create('membership', {
@@ -30,6 +13,22 @@ export function createUserWithMembershipAndTermsOfServiceAccepted() {
   user.userOrgaSettings = server.create('user-orga-setting', { user, organization });
   user.memberships = [memberships];
   return user;
+}
+
+export function createUserWithMembership() {
+  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': false });
+
+  return _addUserToOrganization(user);
+}
+
+export function createUserWithMembershipAndTermsOfServiceAccepted() {
+  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
+  return _addUserToOrganization(user, { externalId: 'EXTBRO' });
+}
+
+export function createUserThatCanCollectProfiles() {
+  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
+  return _addUserToOrganization(user, { canCollectProfiles: true });
 }
 
 export function createUserMembershipWithRole(organizationRole) {
