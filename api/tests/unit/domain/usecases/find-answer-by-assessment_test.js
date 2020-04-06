@@ -1,5 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const findAnswerByAssessment = require('../../../../lib/domain/usecases/find-answer-by-assessment');
+const { UserNotAuthorizedToAccessEntity, EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
 
@@ -37,10 +38,10 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
   context('when the assessmentid passed is not an integer', () => {
     it('should return empty array', async () => {
       // when
-      const result = await findAnswerByAssessment({ assessmentId: 'salut', userId, answerRepository, assessmentRepository });
+      const result = await catchErr(findAnswerByAssessment)({ assessmentId: 'salut', userId, answerRepository, assessmentRepository });
 
       // then
-      return expect(result).to.deep.equal([]);
+      expect(result).to.be.instanceOf(EntityValidationError);
     });
   });
 
@@ -58,10 +59,10 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
   context('when user asked for answer is not the user of the assessment', () => {
     it('should return empty array', async () => {
       // when
-      const result = await findAnswerByAssessment({ assessmentId, userId: userId + 1 , answerRepository, assessmentRepository });
+      const result = await catchErr(findAnswerByAssessment)({ assessmentId, userId: userId + 1 , answerRepository, assessmentRepository });
 
       // then
-      return expect(result).to.deep.equal([]);
+      expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
     });
   });
 
