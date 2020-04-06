@@ -3,7 +3,7 @@ const userTutorialsController = require('../../../../lib/application/user-tutori
 const usecases = require('../../../../lib/domain/usecases');
 
 describe('Unit | Controller | User-tutorials', function() {
-  describe('#addToUser', function() {
+  describe('#add', function() {
     it('should call the expected usecase', async function() {
       // given
       const tutorialId = 'tutorialId';
@@ -16,7 +16,7 @@ describe('Unit | Controller | User-tutorials', function() {
       };
 
       // when
-      await userTutorialsController.addToUser(request, hFake);
+      await userTutorialsController.add(request, hFake);
 
       // then
       const addTutorialToUserArgs = usecases.addTutorialToUser.firstCall.args[0];
