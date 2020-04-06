@@ -1,7 +1,5 @@
-import classic from 'ember-classic-decorator';
 import Service, { inject as service } from '@ember/service';
 
-@classic
 export default class PeekerService extends Service {
   @service store;
 
