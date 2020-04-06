@@ -1,6 +1,6 @@
 export default function(schema, request) {
-  const assessmentId = request.queryParams.assessment;
-  const challengeId = request.queryParams.challenge;
+  const assessmentId = request.queryParams.assessmentId;
+  const challengeId = request.queryParams.challengeId;
 
   const answers = schema.answers.where({ assessmentId, challengeId });
 

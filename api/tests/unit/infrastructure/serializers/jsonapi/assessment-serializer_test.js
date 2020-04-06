@@ -30,7 +30,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
                 }
               ],
               links: {
-                related: '/api/answers?assessment=' + assessment.id.toString()
+                related: '/api/answers?assessmentId=' + assessment.id.toString()
               }
             },
             course: {

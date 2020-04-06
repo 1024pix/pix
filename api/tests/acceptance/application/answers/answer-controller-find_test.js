@@ -3,7 +3,7 @@ const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | answer-controller-find', () => {
 
-  describe('GET /api/answers?challenge=Y&assessment=Z', () => {
+  describe('GET /api/answers?challengeId=Y&assessmentId=Z', () => {
 
     let server;
     let options;
@@ -19,7 +19,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         await databaseBuilder.commit();
         options = {
           method: 'GET',
-          url: `/api/answers?challenge=${challengeId}&assessment=salut`,
+          url: `/api/answers?challengeId=${challengeId}&assessmentId=salut`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
       });
@@ -52,7 +52,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         await databaseBuilder.commit();
         options = {
           method: 'GET',
-          url: `/api/answers?challenge=${challengeId}&assessment=${assessment.id}`,
+          url: `/api/answers?challengeId=${challengeId}&assessmentId=${assessment.id}`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
       });
@@ -99,7 +99,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         await databaseBuilder.commit();
         options = {
           method: 'GET',
-          url: `/api/answers?challenge=${challengeId}&assessment=${assessment.id}`,
+          url: `/api/answers?challengeId=${challengeId}&assessmentId=${assessment.id}`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId + 3) },
         };
       });
@@ -130,7 +130,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         await databaseBuilder.commit();
         options = {
           method: 'GET',
-          url: `/api/answers?challenge=${challengeId}&assessment=${assessment.id}`,
+          url: `/api/answers?challengeId=${challengeId}&assessmentId=${assessment.id}`,
         };
       });
 
@@ -164,7 +164,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         await databaseBuilder.commit();
         options = {
           method: 'GET',
-          url: `/api/answers?assessment=${assessment.id}`,
+          url: `/api/answers?assessmentId=${assessment.id}`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
       });
@@ -210,7 +210,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         await databaseBuilder.commit();
         options = {
           method: 'GET',
-          url: `/api/answers?assessment=${assessment.id}`,
+          url: `/api/answers?assessmentId=${assessment.id}`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId + 3) },
         };
       });
@@ -241,7 +241,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         await databaseBuilder.commit();
         options = {
           method: 'GET',
-          url: `/api/answers?&assessment=${assessment.id}`,
+          url: `/api/answers?&assessmentId=${assessment.id}`,
         };
       });
 

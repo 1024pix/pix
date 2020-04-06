@@ -177,7 +177,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
             'answers': {
               'data': [],
               links: {
-                related: `/api/answers?assessment=${assessmentId}`,
+                related: `/api/answers?assessmentId=${assessmentId}`,
               }
             },
           },
