@@ -1,8 +1,6 @@
-import classic from 'ember-classic-decorator';
 import Service from '@ember/service';
 import moment from 'moment';
 
-@classic
 export default class MailGeneratorService extends Service {
   generateEmail = (challengeId, assessmentId, host, environment) => {
 
