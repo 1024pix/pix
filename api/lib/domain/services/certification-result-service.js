@@ -11,6 +11,7 @@ const _ = require('lodash');
 
 const AnswerStatus = require('../models/AnswerStatus');
 const CertificationContract = require('../../domain/models/CertificationContract');
+const scoringService = require('./scoring/scoring-service');
 
 const { CertificationComputeError } = require('../../../lib/domain/errors');
 
@@ -89,9 +90,9 @@ function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibility
     return UNCERTIFIED_LEVEL;
   }
   if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
-    return competence.estimatedLevel - 1;
+    return scoringService.getBlockedLevel(competence.estimatedLevel - 1);
   }
-  return competence.estimatedLevel;
+  return scoringService.getBlockedLevel(competence.estimatedLevel);
 }
 
 function _getSumScoreFromCertifiedCompetences(listCompetences) {
@@ -106,7 +107,7 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
       index: competence.index,
       area_code: competence.area.code,
       id: competence.id,
-      positionedLevel: competence.estimatedLevel,
+      positionedLevel: scoringService.getBlockedLevel(competence.estimatedLevel),
       positionedScore: competence.pixScore,
       obtainedLevel: _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate),
       obtainedScore: competence.pixScore - _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence,
