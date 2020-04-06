@@ -51,7 +51,7 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
             id: '1',
             attributes: {
               'tutorial-id': 'tutorialId',
-              'user-id': 4444
+              'user-id': 4444,
             }
           }
         };
@@ -61,7 +61,10 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(201);
-        expect(response.result).to.deep.equal(expectedUserTutorial);
+        expect(response.result.data.type).to.deep.equal(expectedUserTutorial.data.type);
+        expect(response.result.data.id).to.deep.equal(expectedUserTutorial.data.id);
+        expect(response.result.data.attributes['user-id']).to.deep.equal(expectedUserTutorial.data.attributes['user-id']);
+        expect(response.result.data.attributes['tutorial-id']).to.deep.equal(expectedUserTutorial.data.attributes['tutorial-id']);
       });
     });
 
@@ -111,6 +114,7 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
             id: '4242',
             attributes: {
               'user-id': 4444,
+              'tutorial-id': 'tutorialId',
             },
             relationships: {
               tutorial: {
@@ -134,7 +138,12 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
             },
           }]
         };
-        expect(response.result).to.deep.equal(expectedUserTutorials);
+        expect(response.result.included).to.deep.equal(expectedUserTutorials.included);
+        expect(response.result.data[0].type).to.deep.equal(expectedUserTutorials.data[0].type);
+        expect(response.result.data[0].id).to.deep.equal(expectedUserTutorials.data[0].id);
+        expect(response.result.data[0].attributes['user-id']).to.deep.equal(expectedUserTutorials.data[0].attributes['user-id']);
+        expect(response.result.data[0].attributes['tutorial-id']).to.deep.equal(expectedUserTutorials.data[0].attributes['tutorial-id']);
+        expect(response.result.data[0].relationships).to.deep.equal(expectedUserTutorials.data[0].relationships);
       });
     });
 

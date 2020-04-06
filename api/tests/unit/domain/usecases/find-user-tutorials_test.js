@@ -60,7 +60,8 @@ describe('Unit | UseCase | find-user-tutorials', () => {
       // Given
       const expectedUserTutorials = [{
         id: userTutorialId,
-        tutorial: tutorial,
+        tutorial,
+        tutorialId,
         userId
       }];
 

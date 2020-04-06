@@ -70,8 +70,7 @@ export default class TutorialItemComponent extends Component {
   async removeTutorial() {
     this.status = statusTypes.saving;
     try {
-      const userTutorial = this.store.peekRecord('userTutorial', `${this.tutorial.userTutorial.id}`);
-      await userTutorial.destroyRecord({ adapterOptions: { tutorialId: this.tutorial.id } });
+      await this.tutorial.userTutorial.destroyRecord({ adapterOptions: { tutorialId: this.tutorial.id } });
       this.status = statusTypes.unsaved;
     } catch (e) {
       this.status = statusTypes.saved;

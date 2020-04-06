@@ -218,14 +218,6 @@ describe('Unit | Component | tutorial item', function() {
       component.currentUser = { user: { id: 'userId' } };
     });
 
-    it('should retrieve user tutorial in store', async function() {
-      // when
-      await component.removeTutorial();
-
-      // then
-      sinon.assert.calledWith(store.peekRecord, 'userTutorial', 'userTutorialId');
-    });
-
     it('should destroy user tutorial record', async function() {
       // when
       await component.removeTutorial();
