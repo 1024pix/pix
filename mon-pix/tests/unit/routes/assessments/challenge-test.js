@@ -68,8 +68,8 @@ describe('Unit | Route | Assessments | Challenge', function() {
       return promise.then(() => {
         sinon.assert.calledOnce(queryRecordStub);
         sinon.assert.calledWith(queryRecordStub, 'answer', {
-          assessment: assessment.id,
-          challenge: params.challenge_id
+          assessmentId: assessment.id,
+          challengeId: params.challenge_id
         });
       });
     });

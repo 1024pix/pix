@@ -54,7 +54,7 @@ module.exports = {
         ref: 'id',
         relationshipLinks: {
           related(record) {
-            return `/api/answers?assessment=${record.id}`;
+            return `/api/answers?assessmentId=${record.id}`;
           }
         }
       },

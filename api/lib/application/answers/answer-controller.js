@@ -32,9 +32,9 @@ module.exports = {
 
   async find(request) {
     const userId = requestResponseUtils.extractUserIdFromRequest(request);
-    const challengeId = request.query.challenge;
-    const assessmentId = request.query.assessment;
-    let answers;
+    const challengeId = request.query.challengeId;
+    const assessmentId = request.query.assessmentId;
+    let answers = [];
     if (challengeId && assessmentId) {
       answers = await usecases.findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId });
     }
