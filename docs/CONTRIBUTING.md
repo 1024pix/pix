@@ -10,7 +10,15 @@ Pour toute contribution, il est essentiel de respecter *a minima* les points sui
 
 ### Nommage des commits
 
-Les sujets de commits sont en anglais. On suit la convention que le sujet doit marcher comme fin de phrase `If applied, this commit will...`.
+Les messages de commit doivent être rédigés en anglais (décision d'équipe du 27/04/2017).
+
+50 char max pour respecter les conventions de l’écosystème notamment GitHub.
+
+Majuscule et verbe d’action pour être en harmonie avec les conventions de Git.
+
+Si le message n'est pas 100 % autoportant, on peut ajouter une description (après une ligne vide) qui explique la motivation du commit.
+
+On suit la convention que le sujet doit marcher comme fin de phrase `If applied, this commit will...`.
 
 > A properly formed Git commit subject line should always be able to complete the following sentence:
 >
@@ -24,8 +32,10 @@ Les sujets de commits sont en anglais. On suit la convention que le sujet doit m
 >     If applied, this commit will _Release version 1.0.0_
 >     If applied, this commit will _Merge pull request #123 from user/branch_
 
+Pour aller plus loin :
+- [Commit messages guide](https://github.com/RomuloOliveira/commit-messages-guide/blob/master/README.md)
+- [Git SCM commit guidelines](https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#_commit_guidelines)
 - https://chris.beams.io/posts/git-commit/
-
 
 ### Nommage des branches
 
@@ -68,19 +78,6 @@ La description de l'US doit être en français, car il s'agit d'un produit franc
 #### `US_ID`
 
 `US_ID` correspond à l'identifiant unique de la story dans le Product Backlog, généré et géré par notre gestionnaire de tickets.
-Nommage des commits Git
-
-Les messages de commit doivent être rédigés en anglais (décision d'équipe du 27/04/2017).
-
-50 char max pour respecter les conventions de l’écosystème notamment GitHub.
-
-Majuscule et verbe d’action pour être en harmonie avec les conventions de Git.
-
-Une description qui explique la motivation du commit quand le message n'est pas 100% autoportant.
-
-Pour aller plus loin :
-- [Commit messages guide](https://github.com/RomuloOliveira/commit-messages-guide/blob/master/README.md)
-- [Git SCM commit guidelines](https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#_commit_guidelines)
 
 ## Node.js
 
