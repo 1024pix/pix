@@ -1,19 +1,20 @@
-import classic from 'ember-classic-decorator';
 import Service, { inject as service } from '@ember/service';
 import _ from 'lodash';
 
-@classic
 export default class CurrentUserService extends Service {
   @service session;
-
   @service store;
 
-  async load() {
-    if (this.get('session.isAuthenticated')) {
-      try {
-        const user = await this.store.queryRecord('user', { me: true });
+  _user = undefined;
 
-        this.set('user', user);
+  get user() {
+    return this._user;
+  }
+
+  async load() {
+    if (this.session.isAuthenticated) {
+      try {
+        this._user = await this.store.queryRecord('user', { me: true });
       }
       catch (error) {
         if (_.get(error, 'errors[0].code') === 401) {
