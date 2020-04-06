@@ -56,7 +56,7 @@ export default class TutorialItemComponent extends Component {
   @action
   async saveTutorial() {
     this.status = statusTypes.saving;
-    const userTutorial = this.store.createRecord('userTutorial', { tutorial: this.tutorial  });
+    const userTutorial = this.store.createRecord('userTutorial', { tutorial: this.tutorial });
     try {
       await userTutorial.save({ adapterOptions: { tutorialId: this.tutorial.id } });
       userTutorial.tutorial = this.tutorial;
@@ -69,8 +69,8 @@ export default class TutorialItemComponent extends Component {
   @action
   async removeTutorial() {
     this.status = statusTypes.saving;
-    const userTutorial = this.store.peekRecord('userTutorial', `${this.currentUser.user.id}_${this.tutorial.id}`);
     try {
+      const userTutorial = this.store.peekRecord('userTutorial', `${this.tutorial.userTutorial.id}`);
       await userTutorial.destroyRecord({ adapterOptions: { tutorialId: this.tutorial.id } });
       this.status = statusTypes.unsaved;
     } catch (e) {

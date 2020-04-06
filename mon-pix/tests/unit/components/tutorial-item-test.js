@@ -171,7 +171,6 @@ describe('Unit | Component | tutorial item', function() {
       userTutorial = { save: sinon.stub().resolves(null) };
       store = { createRecord: sinon.stub().returns(userTutorial) };
       component.store = store;
-      tutorial.isSaved = false;
     });
 
     it('should create user tutorial in store', async function() {
@@ -198,12 +197,12 @@ describe('Unit | Component | tutorial item', function() {
       expect(component.status).to.equal('saved');
     });
 
-    it('should set tutorial isSaved to true', async function() {
+    it('should link tutorial and userTutorial', async function() {
       // when
       await component.saveTutorial();
 
       // then
-      expect(tutorial.isSaved).to.equal(true);
+      expect(userTutorial.tutorial).to.equal(tutorial);
     });
   });
 
@@ -212,11 +211,11 @@ describe('Unit | Component | tutorial item', function() {
     let userTutorial;
 
     beforeEach(() => {
-      userTutorial = { destroyRecord: sinon.stub().resolves(null) };
+      userTutorial = { id: 'userTutorialId', destroyRecord: sinon.stub().resolves(null) };
+      tutorial.userTutorial = userTutorial;
       store = { peekRecord: sinon.stub().returns(userTutorial) };
       component.store = store;
       component.currentUser = { user: { id: 'userId' } };
-      tutorial.isSaved = true;
     });
 
     it('should retrieve user tutorial in store', async function() {
@@ -224,7 +223,7 @@ describe('Unit | Component | tutorial item', function() {
       await component.removeTutorial();
 
       // then
-      sinon.assert.calledWith(store.peekRecord, 'userTutorial', 'userId_tutorialId');
+      sinon.assert.calledWith(store.peekRecord, 'userTutorial', 'userTutorialId');
     });
 
     it('should destroy user tutorial record', async function() {
@@ -241,14 +240,6 @@ describe('Unit | Component | tutorial item', function() {
 
       // then
       expect(component.status).to.equal('unsaved');
-    });
-
-    it('should set tutorial isSaved to false', async function() {
-      // when
-      await component.removeTutorial();
-
-      // then
-      expect(tutorial.isSaved).to.equal(false);
     });
 
   });
