@@ -40,7 +40,7 @@ module.exports = function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
     imageUrl: '/images/badges/Pix-emploi.svg',
     key: 'PIX_EMPLOI',
     message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
-      'Pour valoriser vos compétences, renseignez-vous auprès de votre conseiller.',
+      'Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
     targetProfileId: pixEmploiProfile.id,
   });
 
