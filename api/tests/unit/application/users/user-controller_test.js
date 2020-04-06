@@ -587,4 +587,41 @@ describe('Unit | Controller | user-controller', () => {
       expect(usecases.resetScorecard).to.have.been.calledWith({ userId, competenceId });
     });
   });
+
+  describe('#getUserCampaignParticipationToCampaign', () => {
+    const userId = 789;
+    const campaignId = 456;
+    const campaignParticipation = Symbol('campaign participation');
+    const expectedCampaignParticipation = Symbol('expected campaign participation');
+
+    const request = {
+      auth: {
+        credentials: {
+          userId
+        }
+      },
+      params: {
+        userId,
+        campaignId
+
+      }
+    };
+
+    beforeEach(() => {
+      sinon.stub(campaignParticipationSerializer, 'serialize');
+      sinon.stub(usecases, 'getUserCampaignParticipationToCampaign');
+    });
+
+    it('should return serialized campaign participation', async function() {
+      // given
+      usecases.getUserCampaignParticipationToCampaign.withArgs({ userId, campaignId }).resolves(campaignParticipation);
+      campaignParticipationSerializer.serialize.withArgs(campaignParticipation).returns(expectedCampaignParticipation);
+
+      // when
+      const response = await userController.getUserCampaignParticipationToCampaign(request, hFake);
+
+      // then
+      expect(response).to.equal(expectedCampaignParticipation);
+    });
+  });
 });

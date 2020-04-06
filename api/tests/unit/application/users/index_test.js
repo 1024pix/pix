@@ -277,4 +277,42 @@ describe('Unit | Router | user-router', () => {
       });
     });
   });
+
+  describe('GET /api/users/{userId}/campaigns/{campaignId}/campaign-participations', function() {
+    beforeEach(() => {
+      sinon.stub(userController, 'getUserCampaignParticipationToCampaign').returns('ok');
+      sinon.stub(securityController, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      startServer();
+    });
+
+    it('should return 200', async () => {
+      // when
+      const result = await server.inject({ method: 'GET', url: '/api/users/12/campaigns/34/campaign-participations' });
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 400 when userId is not a number', async () => {
+      // given
+      const userId = 'wrongId';
+
+      // when
+      const result = await server.inject({ method: 'GET', url: `/api/users/${userId}/campaigns/34/campaign-participations` });
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when campaignId is not a number', async () => {
+      // given
+      const campaignId = 'wrongId';
+
+      // when
+      const result = await server.inject({ method: 'GET', url: `/api/users/12/campaigns/${campaignId}/campaign-participations` });
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+  });
 });
