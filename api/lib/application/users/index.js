@@ -267,6 +267,29 @@ exports.register = async function(server) {
         tags: ['api', 'user', 'scorecard']
       }
     },
+    {
+      method: 'GET',
+      path: '/api/users/{userId}/campaigns/{campaignId}/campaign-participations',
+      config: {
+        validate: {
+          params: Joi.object({
+            userId: Joi.number().required(),
+            campaignId: Joi.number().required()
+          }),
+        },
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
+        handler: userController.getUserCampaignParticipationToCampaign,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des participations d’un utilisateur (**userId**) à la campagne donnée (**campaignId**)\n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api', 'user', 'campaign', 'campaign-participations']
+      }
+    },
   ]);
 };
 
