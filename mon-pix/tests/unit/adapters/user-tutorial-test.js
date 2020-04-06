@@ -1,5 +1,6 @@
 import { describe, it } from 'mocha';
 import sinon from 'sinon';
+import { expect } from 'chai';
 import { setupTest } from 'ember-mocha';
 
 describe('Unit | Adapters | user-tutorial', function() {
@@ -26,27 +27,27 @@ describe('Unit | Adapters | user-tutorial', function() {
     });
   });
 
-  describe('#findAll', () => {
-    it('should call API to find related tutorials', async function() {
+  describe('#urlForFindAll', () => {
+    it('should return API to find related tutorials', async function() {
       // when
-      await adapter.findAll('tutorial');
+      const url = adapter.urlForFindAll('user-lutorial');
 
       // then
-      sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me/tutorials', 'GET');
+      expect(url).to.equal('http://localhost:3000/api/users/me/tutorials');
     });
   });
 
-  describe('#deleteRecord', () => {
-    it('should call API to delete a user-tutorial', async function() {
+  describe('#urlForDeleteRecord', () => {
+    it('should return API to delete a user-tutorial', async function() {
       // given
       const tutorialId = 'tutorialId';
       const tutorial = { adapterOptions: { tutorialId } };
 
       // when
-      await adapter.deleteRecord(null, 'user-tutorial', tutorial);
+      const url = adapter.urlForDeleteRecord(null, 'user-tutorial', tutorial);
 
       // then
-      sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me/tutorials/tutorialId', 'DELETE');
+      expect(url).to.equal('http://localhost:3000/api/users/me/tutorials/tutorialId');
     });
   });
 

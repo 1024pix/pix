@@ -8,13 +8,11 @@ export default class UserTutorial extends ApplicationAdapter {
     return this.ajax(url, 'PUT');
   }
 
-  deleteRecord(store, type, { adapterOptions }) {
-    const url = `${this.host}/${this.namespace}/users/me/tutorials/${adapterOptions.tutorialId}`;
-    return this.ajax(url, 'DELETE');
+  urlForDeleteRecord(id, modelName, { adapterOptions }) {
+    return `${this.host}/${this.namespace}/users/me/tutorials/${adapterOptions.tutorialId}`;
   }
 
-  findAll() {
-    const url = `${this.host}/${this.namespace}/users/me/tutorials`;
-    return this.ajax(url, 'GET');
+  urlForFindAll() {
+    return `${this.host}/${this.namespace}/users/me/tutorials`;
   }
 }

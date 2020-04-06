@@ -5,7 +5,7 @@ module.exports = {
 
   serialize(userTutorial) {
     return new Serializer('user-tutorial', {
-      attributes: ['tutorial', 'userId', 'tutorialId'],
+      attributes: ['tutorial', 'userId', 'tutorialId', 'updatedAt'],
       tutorial,
     }).serialize(userTutorial);
   },

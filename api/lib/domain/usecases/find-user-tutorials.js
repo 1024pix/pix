@@ -17,5 +17,5 @@ function _buildUserTutorial(userId, tutorials) {
     return _.find(tutorials, ({ id }) => id === userTutorial.tutorialId);
   }
 
-  return (userTutorial) => ({ id: userTutorial.id, userId, tutorial: getTutorial(userTutorial) });
+  return (userTutorial) => ({ ...userTutorial, tutorial: getTutorial(userTutorial) });
 }
