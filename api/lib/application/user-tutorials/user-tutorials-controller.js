@@ -4,7 +4,7 @@ const tutorialSerializer = require('../../infrastructure/serializers/jsonapi/tut
 
 module.exports = {
 
-  async addToUser(request, h) {
+  async add(request, h) {
     const { userId } = request.auth.credentials;
     const { tutorialId } = request.params;
 

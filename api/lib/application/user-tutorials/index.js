@@ -6,7 +6,7 @@ exports.register = async (server) => {
       method: 'PUT',
       path: '/api/users/me/tutorials/{tutorialId}',
       config: {
-        handler: userTutorialsController.addToUser,
+        handler: userTutorialsController.add,
         tags: ['api'],
       },
     },

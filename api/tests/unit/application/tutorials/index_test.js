@@ -19,7 +19,7 @@ describe('Unit | Router | user-tutorials-router', () => {
         callsFake((request, h) => {
           h.continue({ credentials: { accessToken: 'jwt.access.token' } });
         });
-      sinon.stub(userTutorialsController, 'addToUser').
+      sinon.stub(userTutorialsController, 'add').
         callsFake((request, h) => h.response().code(204));
       startServer();
     });
@@ -35,7 +35,7 @@ describe('Unit | Router | user-tutorials-router', () => {
       const response = await server.inject(options);
 
       // then
-      expect(userTutorialsController.addToUser).have.been.called;
+      expect(userTutorialsController.add).have.been.called;
       expect(response.statusCode).to.equal(204);
     });
   });
