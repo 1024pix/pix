@@ -1,4 +1,3 @@
-const cache = require('../../infrastructure/caches/learning-content-cache');
 const AirtableDatasources = require('../../infrastructure/datasources/airtable');
 const _ = require('lodash');
 
@@ -14,11 +13,6 @@ module.exports = {
     const [tableName, recordId] = cacheKey.split('_');
     const datasource = AirtableDatasources[_.findKey(AirtableDatasources, { tableName })];
     return datasource.refreshAirtableCacheRecord(recordId)
-      .then(() => null);
-  },
-
-  removeCacheEntries() {
-    return cache.flushAll()
       .then(() => null);
   },
 
