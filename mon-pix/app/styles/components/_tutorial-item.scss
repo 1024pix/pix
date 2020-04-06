@@ -23,12 +23,16 @@
 .tutorial-content {
   &__title {
     font-size: 1.8rem;
-    font-weight: $font-medium;
     line-height: 3rem;
     letter-spacing: 0;
     color: $grey-90;
     margin-bottom: 4px;
     display: inline-block;
+    font-weight: $font-normal;
+
+    @include device-is('tablet') {
+      font-weight: $font-medium;
+    }
   }
 
   &__description {

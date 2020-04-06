@@ -90,17 +90,6 @@ describe('Unit | Component | tutorial item', function() {
       expect(result).to.equal('Enregistrer');
     });
 
-    it('should return "Enregistrement en cours ..." when the tutorial saving is in progress', function() {
-      // given
-      component.status = 'saving';
-
-      // when
-      const result = component.saveButtonText;
-
-      // then
-      expect(result).to.equal('Enregistrement en cours ...');
-    });
-
     it('should return "Enregistrer" when the tutorial is succesfully saved', function() {
       // given
       component.status = 'saved';
