@@ -12,6 +12,7 @@ function _toDomain(bookshelfCampaign) {
     'id',
     'name',
     'code',
+    'type',
     'organizationId',
     'creatorId',
     'createdAt',
