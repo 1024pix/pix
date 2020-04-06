@@ -220,15 +220,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         const response = await server.inject(options);
 
         // given
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('should return no answer', async () => {
-        // when
-        const response = await server.inject(options);
-
-        // given
-        expect(response.result.data).to.deep.equal([]);
+        expect(response.statusCode).to.equal(403);
       });
     });
 
