@@ -13,9 +13,6 @@ export default class ChallengePreviewRoute extends Route {
 
     const assessment = store.createRecord('assessment', { type: 'PREVIEW' });
 
-    const correctionAdapter = store.adapterFor('correction');
-
-    correctionAdapter.refreshRecord('correction', { challengeId: challenge.get('id') });
     return assessment.save().then(() => {
       return this.replaceWith('assessments.challenge', assessment.id, challenge.id);
     });
