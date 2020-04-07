@@ -121,14 +121,14 @@ async function _saveResultAfterCertificationComputeError({
 async function _getAcquiredPartnerCertifications({ badgeAcquisitionRepository, assessment, assessmentScore }) {
   const partnerCertifications = [];
   const hasAcquiredBadgeClea = await badgeAcquisitionRepository.hasAcquiredBadgeWithKey({
-    badgeKey: Badge.keys.CLEA,
+    badgeKey: Badge.keys.PIX_EMPLOI_CLEA,
     userId: assessment.userId
   });
 
   if (_checkCriteriaFullfilledClea(hasAcquiredBadgeClea, assessmentScore.percentageCorrectAnswers)) {
     partnerCertifications.push(new CertificationPartnerAcquisition({
       certificationCourseId: assessment.certificationCourseId,
-      partnerKey: Badge.keys.CLEA
+      partnerKey: Badge.keys.PIX_EMPLOI_CLEA
     }));
   }
 
