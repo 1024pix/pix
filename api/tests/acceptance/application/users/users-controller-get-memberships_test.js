@@ -88,6 +88,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
                 type: organization.type,
                 'external-id': organization.externalId,
                 'is-managing-students': organization.isManagingStudents,
+                'can-collect-profiles': organization.canCollectProfiles,
               },
               relationships: {
                 campaigns: {

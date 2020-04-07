@@ -23,6 +23,7 @@ function _buildOrganization() {
     type: 'PRO',
     externalId: 'EXTID',
     isManagingStudents: false,
+    canCollectProfiles: false,
   });
 }
 

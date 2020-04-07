@@ -36,6 +36,7 @@ function _toMembershipsDomain(membershipsBookshelf) {
         name: membershipBookshelf.related('organization').get('name'),
         type: membershipBookshelf.related('organization').get('type'),
         isManagingStudents: Boolean(membershipBookshelf.related('organization').get('isManagingStudents')),
+        canCollectProfiles: Boolean(membershipBookshelf.related('organization').get('canCollectProfiles')),
         externalId: membershipBookshelf.related('organization').get('externalId')
       }),
     });
@@ -43,7 +44,7 @@ function _toMembershipsDomain(membershipsBookshelf) {
 }
 
 function _toUserOrgaSettingsDomain(userOrgaSettingsBookshelf) {
-  const { id, code, name, type, isManagingStudents, externalId } = userOrgaSettingsBookshelf.related('currentOrganization').attributes;
+  const { id, code, name, type, isManagingStudents, canCollectProfiles, externalId } = userOrgaSettingsBookshelf.related('currentOrganization').attributes;
   return new UserOrgaSettings({
     id: userOrgaSettingsBookshelf.get('id'),
     currentOrganization: new Organization({
@@ -52,6 +53,7 @@ function _toUserOrgaSettingsDomain(userOrgaSettingsBookshelf) {
       name,
       type,
       isManagingStudents: Boolean(isManagingStudents),
+      canCollectProfiles: Boolean(canCollectProfiles),
       externalId
     }),
   });

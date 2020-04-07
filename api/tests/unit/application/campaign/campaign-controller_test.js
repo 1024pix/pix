@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test-helper');
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
@@ -37,10 +39,11 @@ describe('Unit | Application | Controller | Campaign', () => {
 
       // then
       expect(usecases.createCampaign).to.have.been.calledOnce;
-      const createCampaignArgs = usecases.createCampaign.firstCall.args[0];
-      expect(createCampaignArgs.campaign).to.have.property('name', deserializedCampaign.name);
-      expect(createCampaignArgs.campaign).to.have.property('creatorId', connectedUserId);
-      expect(createCampaignArgs.campaign).to.have.property('organizationId', deserializedCampaign.organizationId);
+      const { campaign } = usecases.createCampaign.firstCall.args[0];
+      expect(campaign).to.include({
+        ..._.pick(deserializedCampaign, ['name', 'type', 'organizationId']),
+        creatorId: connectedUserId,
+      });
     });
 
     it('should return a serialized campaign when the campaign has been successfully created', async () => {

@@ -83,7 +83,6 @@ buildCampaign.ofTypeProfilesCollection = function({
   id = 1,
   name = faker.company.companyName(),
   code = 'AZERTY123',
-  title = null,
   idPixLabel = faker.random.word(),
   customLandingPageText = faker.lorem.text(),
   archivedAt,
@@ -92,8 +91,6 @@ buildCampaign.ofTypeProfilesCollection = function({
   creatorId = faker.random.number(2),
   creator = buildUser({ id: creatorId }),
   organizationId = faker.random.number(2),
-  targetProfileId = null,
-  targetProfile = null,
   isRestricted = false,
   organizationLogoUrl
 } = {}) {
@@ -101,7 +98,6 @@ buildCampaign.ofTypeProfilesCollection = function({
     id,
     name,
     code,
-    title,
     idPixLabel,
     customLandingPageText,
     archivedAt,
@@ -110,8 +106,6 @@ buildCampaign.ofTypeProfilesCollection = function({
     creatorId,
     creator,
     organizationId,
-    targetProfileId,
-    targetProfile,
     isRestricted,
     organizationLogoUrl
   });

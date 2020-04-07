@@ -2,7 +2,8 @@
   {
     "id": 1,
     "type": "PRO",
-    "name": "Dragon & Co"
+    "name": "Dragon & Co",
+    "canCollectProfiles": true
   },
   {
     "id": 2,
