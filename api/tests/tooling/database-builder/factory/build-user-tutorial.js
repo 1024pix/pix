@@ -2,12 +2,13 @@ const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildUserTutorials(
   {
+    id = 10501,
     tutorialId,
     userId,
   } = {}) {
 
   return databaseBuffer.pushInsertable({
     tableName: 'user_tutorials',
-    values: { userId, tutorialId },
+    values: { id, userId, tutorialId },
   });
 };

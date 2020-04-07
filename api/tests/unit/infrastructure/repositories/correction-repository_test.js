@@ -2,38 +2,43 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const correctionRepository = require('../../../../lib/infrastructure/repositories/correction-repository');
 const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
-const tutorialDataSource = require('../../../../lib/infrastructure/datasources/airtable/tutorial-datasource');
+const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
 const Correction = require('../../../../lib/domain/models/Correction');
 const Hint = require('../../../../lib/domain/models/Hint');
 const ChallengeAirtableDataObjectFixture = require('../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
 const SkillAirtableDataObjectFixture = require('../../../tooling/fixtures/infrastructure/skillAirtableDataObjectFixture');
-const tutorialAirtableDataObjectFixture = require('../../../tooling/fixtures/infrastructure/tutorialAirtableDataObjectFixture');
 
 describe('Unit | Repository | correction-repository', function() {
 
   beforeEach(function() {
     sinon.stub(challengeDatasource, 'get');
     sinon.stub(skillDatasource, 'get');
-    sinon.stub(tutorialDataSource, 'get');
+    sinon.stub(tutorialRepository, 'findByRecordIdsForCurrentUser');
   });
 
   describe('#getByChallengeId', function() {
 
     const recordId = 'rec-challengeId';
+    const userId = 'userId';
+
     const expectedHints = [
       domainBuilder.buildHint({ skillName: '@web2', value: 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?' }),
       domainBuilder.buildHint({ skillName: '@web3', value: 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?' }),
     ];
 
+    const userTutorial = { id: 'userTutorialId', userId, tutorialId: 'recTuto1' };
     const expectedTutorials = [
       domainBuilder.buildTutorial({ id: 'recTuto1', title:'Comment dresser un panda' }),
       domainBuilder.buildTutorial({ id: 'recTuto2', title:'Comment dresser un chat' }),
     ];
+    expectedTutorials[0].userTutorial = userTutorial;
 
+    const userTutorial3 = { id: 'userTutorialId3', userId, tutorialId: 'recTuto3' };
     const expectedLearningMoreTutorials = [
       domainBuilder.buildTutorial({ id: 'recTuto3', title:'Comment dresser un tigre du bengale' }),
       domainBuilder.buildTutorial({ id: 'recTuto4', title:'Comment dresser une belette' }),
     ];
+    expectedLearningMoreTutorials[0].userTutorial = userTutorial3;
 
     context('normal challenge', () => {
 
@@ -70,31 +75,14 @@ describe('Unit | Repository | correction-repository', function() {
             learningMoreTutorialIds: [],
           }),
         ];
-        const tutoDatas = [
-          tutorialAirtableDataObjectFixture({
-            id: 'recTuto1',
-            title: 'Comment dresser un panda',
-          }),
-          tutorialAirtableDataObjectFixture({
-            id: 'recTuto2',
-            title: 'Comment dresser un chat',
-          }),
-          tutorialAirtableDataObjectFixture({
-            id: 'recTuto3',
-            title: 'Comment dresser un tigre du bengale',
-          }),
-          tutorialAirtableDataObjectFixture({
-            id: 'recTuto4',
-            title: 'Comment dresser une belette',
-          }),
-        ];
 
         challengeDatasource.get.resolves(challengeDataObject);
         skillDatas.forEach((skillData, index) => skillDatasource.get.onCall(index).resolves(skillData));
-        tutoDatas.forEach((tutoData, index) => tutorialDataSource.get.onCall(index).resolves(tutoData));
+        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto1', 'recTuto2'], userId }).resolves(expectedTutorials);
+        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto3', 'recTuto4'], userId }).resolves(expectedLearningMoreTutorials);
 
         // when
-        promise = correctionRepository.getByChallengeId(recordId);
+        promise = correctionRepository.getByChallengeId({ challengeId: recordId, userId });
       });
 
       it('should return a correction with the solution', function() {
@@ -150,23 +138,14 @@ describe('Unit | Repository | correction-repository', function() {
             learningMoreTutorialIds: ['recTuto3']
           }),
         ];
-        const tutoDatas = [
-          tutorialAirtableDataObjectFixture({
-            id: expectedTutorials[0].id,
-            title: expectedTutorials[0].title,
-          }),
-          tutorialAirtableDataObjectFixture({
-            id: expectedLearningMoreTutorials[0].id,
-            title: expectedLearningMoreTutorials[0].title,
-          }),
-        ];
 
         challengeDatasource.get.resolves(challengeDataObject);
         skillDatas.forEach((skillData, index) => skillDatasource.get.onCall(index).resolves(skillData));
-        tutoDatas.forEach((tutoData, index) => tutorialDataSource.get.onCall(index).resolves(tutoData));
+        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto1'], userId }).resolves([expectedTutorials[0]]);
+        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto3'], userId }).resolves([expectedLearningMoreTutorials[0]]);
 
         // when
-        promise = correctionRepository.getByChallengeId(recordId);
+        promise = correctionRepository.getByChallengeId({ challengeId: recordId, userId });
       });
 
       it('should return a correction with deduplicated tutorials', function() {

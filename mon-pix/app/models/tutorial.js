@@ -1,4 +1,5 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo  } from '@ember-data/model';
+import { computed } from '@ember/object';
 
 export default class Tutorial extends Model {
 
@@ -11,8 +12,13 @@ export default class Tutorial extends Model {
   @attr('string') tubeName;
   @attr('string') tubePracticalTitle;
   @attr('string') tubePracticalDescription;
-  @attr('boolean') isSaved;
 
   // includes
   @belongsTo('scorecard') scorecard;
+  @belongsTo('userTutorial', { inverse: 'tutorial', async: false }) userTutorial;
+  @computed('userTutorial')
+  get isSaved() {
+    return Boolean(this.userTutorial);
+  }
+
 }

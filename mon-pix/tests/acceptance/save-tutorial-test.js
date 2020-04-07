@@ -39,16 +39,5 @@ describe('Acceptance | Tutorial | Save', function() {
       expect(find('.tutorial__content')).to.exist;
     });
 
-    it('deactivates button after save succeeds', async function() {
-      // given
-      await visit(`competences/${competenceId}/details`);
-
-      // when
-      const saveTutorialButton = '.tutorial-content__save-tutorial';
-      await click(saveTutorialButton);
-
-      // then
-      expect(find(saveTutorialButton).disabled).to.equal(true);
-    });
   });
 });

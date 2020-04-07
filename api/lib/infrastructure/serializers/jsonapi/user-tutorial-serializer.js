@@ -1,12 +1,12 @@
 const { Serializer } = require('jsonapi-serializer');
+const tutorial = require('./tutorial-attributes.js');
 
 module.exports = {
 
   serialize(userTutorial) {
     return new Serializer('user-tutorial', {
-      transform: (currentUserTutorial) => {
-        return { id: `${currentUserTutorial.userId}_${currentUserTutorial.tutorialId}` };
-      },
+      attributes: ['tutorial', 'userId', 'tutorialId', 'updatedAt'],
+      tutorial,
     }).serialize(userTutorial);
   },
 };

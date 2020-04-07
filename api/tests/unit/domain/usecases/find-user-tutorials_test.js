@@ -3,15 +3,15 @@ const findUserTutorials = require('../../../../lib/domain/usecases/find-user-tut
 
 describe('Unit | UseCase | find-user-tutorials', () => {
 
-  let userId;
   let tutorialRepository;
   let userTutorialRepository;
-  let tutorialId;
   let tutorial;
+  const userId = 'userId';
+  const tutorialId = 'tutorialId';
+  const userTutorialId = 'userTutorialId';
 
   beforeEach(() => {
-    userId = 'userId';
-    tutorial = domainBuilder.buildTutorial({ id: 'tutorialId' });
+    tutorial = domainBuilder.buildTutorial({ id: tutorialId });
   });
 
   afterEach(() => {
@@ -43,7 +43,7 @@ describe('Unit | UseCase | find-user-tutorials', () => {
 
   context('when there is one tutorial saved by current user', () => {
     beforeEach(() => {
-      const userTutorial = { id: 1, userId, tutorialId };
+      const userTutorial = { id: userTutorialId, userId, tutorialId };
       userTutorialRepository = { find: sinon.spy(async () => [userTutorial]) };
       tutorialRepository = { findByRecordIds: sinon.spy(async () => [tutorial]) };
     });
@@ -56,14 +56,20 @@ describe('Unit | UseCase | find-user-tutorials', () => {
       expect(tutorialRepository.findByRecordIds).to.have.been.calledWith([tutorialId]);
     });
 
-    it('should return tutorials', async function() {
+    it('should return user-tutorials', async function() {
       // Given
-      const expectedTutorials = [{ ...tutorial, isSaved: true }];
+      const expectedUserTutorials = [{
+        id: userTutorialId,
+        tutorial,
+        tutorialId,
+        userId
+      }];
+
       // When
       const tutorials = await findUserTutorials({ tutorialRepository, userTutorialRepository, userId });
 
       // Then
-      expect(tutorials).to.deep.equal(expectedTutorials);
+      expect(tutorials).to.deep.equal(expectedUserTutorials);
     });
   });
 

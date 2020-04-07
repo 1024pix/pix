@@ -3,44 +3,57 @@ const Tutorial = require('../../../../lib/domain/models/Tutorial');
 const AirtableNotFoundError = require('../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
 const tutorialDatasource = require('../../../../lib/infrastructure/datasources/airtable/tutorial-datasource');
 const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
+const userTutorialRepository = require('../../../../lib/infrastructure/repositories/user-tutorial-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Repository | tutorial-repository', () => {
 
-  const tutorialData1 = {
-    id: 'recTutorial1',
-    duration: '00:01:30',
-    format: 'video',
-    link: 'https://youtube.fr',
-    source: 'Youtube',
-    title:'Comment dresser un panda',
-  };
+  let tutorialData1;
+  let tutorialData2;
+  let expectedTutorial;
+  let expectedTutorial2;
+  let userId;
+  let userTutorial;
 
-  const tutorialData2 = {
-    id: 'recTutorial2',
-    duration: '00:04:30',
-    format: 'page',
-    link: 'https://youtube.fr',
-    source: 'Youtube',
-    title:'Comment dresser un lama',
-  };
+  beforeEach(() => {
+    tutorialData1 = {
+      id: 'recTutorial1',
+      duration: '00:01:30',
+      format: 'video',
+      link: 'https://youtube.fr',
+      source: 'Youtube',
+      title: 'Comment dresser un panda',
+    };
 
-  const expectedTutorial = new Tutorial({
-    id: 'recTutorial1',
-    duration: '00:01:30',
-    format: 'video',
-    link: 'https://youtube.fr',
-    source: 'Youtube',
-    title:'Comment dresser un panda',
-  });
+    tutorialData2 = {
+      id: 'recTutorial2',
+      duration: '00:04:30',
+      format: 'page',
+      link: 'https://youtube.fr',
+      source: 'Youtube',
+      title: 'Comment dresser un lama',
+    };
 
-  const expectedTutorial2 = new Tutorial({
-    id: 'recTutorial2',
-    duration: '00:04:30',
-    format: 'page',
-    link: 'https://youtube.fr',
-    source: 'Youtube',
-    title:'Comment dresser un lama',
+    expectedTutorial = new Tutorial({
+      id: 'recTutorial1',
+      duration: '00:01:30',
+      format: 'video',
+      link: 'https://youtube.fr',
+      source: 'Youtube',
+      title: 'Comment dresser un panda',
+    });
+
+    expectedTutorial2 = new Tutorial({
+      id: 'recTutorial2',
+      duration: '00:04:30',
+      format: 'page',
+      link: 'https://youtube.fr',
+      source: 'Youtube',
+      title: 'Comment dresser un lama',
+    });
+
+    userId = 'userId';
+    userTutorial = { id: 'userId_recTutorial1', userId, tutorialId: 'recTutorial1' };
   });
 
   describe('#findByRecordIds', () => {
@@ -61,6 +74,36 @@ describe('Unit | Repository | tutorial-repository', () => {
 
       // when
       const fetchedTutorialList = await tutorialRepository.findByRecordIds(tutorialIds);
+
+      // then
+      expect(fetchedTutorialList[0]).to.be.an.instanceOf(Tutorial);
+      expect(fetchedTutorialList[1]).to.be.an.instanceOf(Tutorial);
+      expect(fetchedTutorialList).to.deep.equal(expectedTutorialList);
+    });
+  });
+
+  describe('#findByRecordIdsForCurrentUser', () => {
+    beforeEach(() => {
+      // given
+      sinon.stub(tutorialDatasource, 'findByRecordIds')
+        .withArgs(['recTutorial1', 'recTutorial2'])
+        .resolves([tutorialData1, tutorialData2]);
+      sinon.stub(userTutorialRepository, 'find')
+        .withArgs({ userId })
+        .resolves([userTutorial]);
+    });
+
+    it('should return a list of Domain Tutorial objects', async () => {
+      // given
+      const tutorialIds = ['recTutorial1', 'recTutorial2'];
+      expectedTutorial.userTutorial = userTutorial;
+      const expectedTutorialList = [
+        expectedTutorial,
+        expectedTutorial2
+      ];
+
+      // when
+      const fetchedTutorialList = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: tutorialIds, userId });
 
       // then
       expect(fetchedTutorialList[0]).to.be.an.instanceOf(Tutorial);

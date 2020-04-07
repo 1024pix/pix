@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuthorizationHeader, nock, databaseBuilder } = require('../../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
@@ -17,43 +17,31 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
     let userId;
 
     before(() => {
-      nock('https://api.airtable.com')
-        .get('/v0/test-base/Epreuves')
-        .query(true)
-        .times(2)
-        .reply(200, {
-          records: [{
-            'id': 'q_first_challenge',
-            'fields': {
-              'id persistant': 'q_first_challenge',
-              'Statut': 'validé',
-              'competences': ['competence_id'],
-              'acquis': ['@web3'],
-              'Bonnes réponses': 'fromage',
-              'Acquix (id persistant)': ['q_first_acquis']
-            }
-          }]
-        });
-      nock('https://api.airtable.com')
-        .get('/v0/test-base/Acquis')
-        .query(true)
-        .times(2)
-        .reply(200, {
-          records: [{
-            'id': 'q_first_acquis',
-            'fields': {
-              'id persistant': 'q_first_acquis',
-              'Nom': '@web3',
-              'Indice': 'Indice web3',
-              'Statut de l\'indice': 'Validé',
-              'Compétence (via Tube) (id persistant)': 'recABCD'
-            }
-          }]
-        });
+      const challenge = airtableBuilder.factory.buildChallenge({
+        id: 'q_first_challenge',
+        statut: 'validé',
+        competences: ['competence_id'],
+        acquis: ['@web3'],
+        bonnesReponses: 'fromage',
+        acquix: ['q_first_acquis']
+      });
+      airtableBuilder.mockList({ tableName: 'Epreuves' }).returns([challenge]).activate();
+
+      const skill = airtableBuilder.factory.buildSkill({
+        id: 'q_first_acquis',
+        nom: '@web3',
+        indice: 'Indice web3',
+        statutDeLIndice: 'Validé',
+        compétenceViaTube: 'recABCD'
+      });
+      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([skill]).activate();
+
+      const tutorial = airtableBuilder.factory.buildTutorial();
+      airtableBuilder.mockList({ tableName: 'Tutoriels' }).returns([tutorial]).activate();
     });
 
     after(() => {
-      nock.cleanAll();
+      airtableBuilder.cleanAll();
       return cache.flushAll();
     });
 
