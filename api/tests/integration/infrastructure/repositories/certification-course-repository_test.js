@@ -81,8 +81,8 @@ describe('Integration | Repository | Certification Course', function() {
     let userId;
 
     beforeEach(() => {
-      userId = databaseBuilder.factory.buildUser({}).id;
-      sessionId = databaseBuilder.factory.buildSession({}).id;
+      userId = databaseBuilder.factory.buildUser().id;
+      sessionId = databaseBuilder.factory.buildSession().id;
       expectedCertificationCourse = databaseBuilder.factory.buildCertificationCourse(
         {
           userId,
@@ -171,8 +171,8 @@ describe('Integration | Repository | Certification Course', function() {
 
     beforeEach(() => {
       // given
-      userId = databaseBuilder.factory.buildUser({}).id;
-      sessionId = databaseBuilder.factory.buildSession({}).id;
+      userId = databaseBuilder.factory.buildUser().id;
+      sessionId = databaseBuilder.factory.buildSession().id;
       databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt });
       databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt: createdAtLater });
 

@@ -121,40 +121,6 @@ describe('Integration | Repository | Certification ', () => {
 
   });
 
-  describe('#updatePublicationStatus', () => {
-
-    context('the certification does not exist', () => {
-
-      it('should return a NotFoundError', async () => {
-        // when
-        const result = await catchErr(certificationRepository.updatePublicationStatus)({
-          id: -1,
-          isPublished: true,
-        });
-
-        // then
-        expect(result).to.be.instanceOf(NotFoundError);
-      });
-    });
-
-    context('the certification does exist', () => {
-
-      let certification;
-      beforeEach(async () => {
-        certification = await certificationRepository.updatePublicationStatus({
-          id: certificationCourse.id,
-          isPublished: false,
-        });
-      });
-
-      it('should update the certification', () => {
-        const expectedUpdatedCertification = expectedCertification;
-        expectedUpdatedCertification.isPublished = false;
-        expect(certification).to.deep.equal(expectedUpdatedCertification);
-      });
-    });
-  });
-
   describe('#updateCertifications', () => {
     
     it('should update the specified certifications', async () => {

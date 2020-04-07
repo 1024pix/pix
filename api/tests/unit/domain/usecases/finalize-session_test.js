@@ -7,7 +7,6 @@ const {
 
 const finalizeSession = require('../../../../lib/domain/usecases/finalize-session');
 const { SessionAlreadyFinalizedError, InvalidCertificationReportForFinalization } = require('../../../../lib/domain/errors');
-const { statuses } = require('../../../../lib/domain/models/Session');
 
 describe('Unit | UseCase | finalize-session', () => {
 
@@ -91,7 +90,6 @@ describe('Unit | UseCase | finalize-session', () => {
         certificationReportRepository.finalizeAll.withArgs(certificationReports).resolves();
         sessionRepository.finalize.withArgs({
           id: sessionId,
-          status: statuses.FINALIZED,
           examinerGlobalComment,
           finalizedAt: now,
         }).resolves(updatedSession);
@@ -114,7 +112,6 @@ describe('Unit | UseCase | finalize-session', () => {
         // then
         expect(sessionRepository.finalize.calledWithExactly({
           id: sessionId,
-          status: statuses.FINALIZED,
           examinerGlobalComment,
           finalizedAt: now,
         })).to.be.true;

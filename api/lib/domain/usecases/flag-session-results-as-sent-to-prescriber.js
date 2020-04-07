@@ -8,16 +8,10 @@ module.exports = async function flagSessionResultsAsSentToPrescriber({ sessionId
     throw new NotFoundError(NOT_FOUND_SESSION);
   }
 
-  let session;
-  try {
-    session = await sessionRepository.get(sessionId);
-  } catch (err) {
-    throw new NotFoundError(NOT_FOUND_SESSION);
-  }
+  let session = await sessionRepository.get(sessionId);
 
   if (!session.areResultsFlaggedAsSent()) {
-    session.resultsSentToPrescriberAt = new Date();
-    session = await sessionRepository.update(session);
+    session = await sessionRepository.flagResultsAsSentToPrescriber({ id: sessionId, resultsSentToPrescriberAt: new Date() });
     return { resultsFlaggedAsSent: true, session };
   }
 

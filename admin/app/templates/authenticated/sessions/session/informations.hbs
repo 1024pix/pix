@@ -18,7 +18,7 @@
     </div>
     <div class='row'>
       <div class='col'>Date :</div>
-      <div class='col'>{{moment-format this.session.date 'DD/MM/YYYY'}}</div>
+      <div class='col'>{{this.session.displayDate}}</div>
     </div>
     <div class='row'>
       <div class='col'>Heure :</div>
@@ -34,25 +34,31 @@
     </div>
     <div class='row'>
       <div class='col'>Statut :</div>
-      <div class='col'>{{sessionStatusLabel}}</div>
+      <div class='col'>{{this.session.displayStatus}}</div>
     </div>
 
-    {{#if this.session.isFinalized}}
+    {{#if this.session.finalizedAt}}
       <div class='row'>
         <div class='col'>Date de finalisation :</div>
-        <div class='col'>{{this.session.displayFinalizationDate}}</div>
+        <div class='col' data-test-id="session-info__finalized-at">{{this.session.displayFinalizationDate}}</div>
       </div>
-      {{#if this.session.resultsSentToPrescriberAt}}
-        <div class='row'>
-          <div class='col'>Date d'envoi des résultats au prescripteur :</div>
-          <div class='col' data-test-id="session-info__sent-to-prescriber-at">{{this.session.displayResultsSentToPrescriberDate}}</div>
-        </div>
-      {{/if}}
+    {{/if}}
+    {{#if this.session.publishedAt}}
+      <div class='row'>
+        <div class='col'>Date de publication :</div>
+        <div class='col' data-test-id="session-info__published-at">{{this.session.displayPublishedAtDate}}</div>
+      </div>
+    {{/if}}
+    {{#if this.session.resultsSentToPrescriberAt}}
+      <div class='row'>
+        <div class='col'>Date d'envoi des résultats au prescripteur :</div>
+        <div class='col' data-test-id="session-info__sent-to-prescriber-at">{{this.session.displayResultsSentToPrescriberDate}}</div>
+      </div>
     {{/if}}
   </div>
 
 
-  {{#if this.session.isFinalized}}
+  {{#if this.session.finalizedAt}}
   <div class="session-info__stats">
     <div class='row'>
       <div class='col'>Nombre de signalements :</div>

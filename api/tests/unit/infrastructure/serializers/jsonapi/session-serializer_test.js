@@ -23,11 +23,12 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
             examiner: 'Antoine Toutvenant',
             date: '2017-01-20',
             time: '14:30',
-            status: statuses.STARTED,
+            status: statuses.PROCESSED,
             description: '',
             'examiner-global-comment': 'It was a fine session my dear',
             'finalized-at': new Date('2020-02-17T14:23:56Z'),
             'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
+            'published-at': new Date('2020-02-21T14:23:56Z'),
           },
           relationships: {
             certifications: {
@@ -58,10 +59,10 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         time: '14:30',
         description: '',
         accessCode: '',
-        status: statuses.STARTED,
         examinerGlobalComment: 'It was a fine session my dear',
         finalizedAt: new Date('2020-02-17T14:23:56Z'),
         resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
+        publishedAt: new Date('2020-02-21T14:23:56Z'),
       });
     });
 
@@ -108,7 +109,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           examiner: 'Antoine Toutvenant',
           date: '2017-01-20',
           time: '14:30',
-          status: statuses.STARTED,
+          status: statuses.CREATED,
           description: '',
           'examiner-global-comment': 'It was a fine session my dear',
           'finalized-at': new Date('2020-02-17T14:23:56Z'),
@@ -183,7 +184,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         type: 'sessions',
         id: '12',
         attributes: {
-          status: statuses.STARTED,
+          status: statuses.CREATED,
           'examiner-global-comment': 'It was a fine session my dear',
         },
       }
@@ -199,7 +200,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         time: '14:30',
         description: '',
         accessCode: '',
-        status: statuses.STARTED,
+        status: statuses.CREATED,
         examinerGlobalComment: 'It was a fine session my dear',
       });
 
@@ -229,8 +230,9 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
             'certification-center-name': 'Université des Laura en folie',
             date: '2017-01-20',
             time: '14:30',
-            status: statuses.STARTED,
+            status: statuses.PROCESSED,
             'finalized-at': new Date('2020-02-17T14:23:56Z'),
+            'published-at': new Date('2020-02-21T14:23:56Z'),
           },
           relationships: {
             certifications: {
@@ -251,10 +253,10 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         time: '14:30',
         description: '',
         accessCode: '',
-        status: statuses.STARTED,
         examinerGlobalComment: 'It was a fine session my dear',
         finalizedAt: new Date('2020-02-17T14:23:56Z'),
         resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
+        publishedAt: new Date('2020-02-21T14:23:56Z'),
       });
     });
 

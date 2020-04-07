@@ -3,7 +3,6 @@ const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
 
 const usecases = require('../../../../lib/domain/usecases');
-const Assessment = require('../../../../lib/domain/models/Assessment');
 
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 
@@ -65,51 +64,6 @@ describe('Unit | Controller | certifications-controller', () => {
         certificationId: certification.id,
       });
       expect(certificationSerializer.serialize).to.have.been.calledWith(certification);
-      expect(response).to.deep.equal(serializedCertification);
-    });
-  });
-
-  describe('#updateCertification', () => {
-
-    const certificationId = '28';
-    const isPublished = true;
-    const updatedCertification = {};
-    const serializedCertification = {};
-
-    const request = {
-      params: {
-        id: certificationId,
-      },
-      payload: {
-        data: {
-          type: Assessment.types.CERTIFICATION,
-          id: certificationId,
-          attributes: {
-            'is-published': true,
-          },
-        },
-      },
-    };
-
-    beforeEach(() => {
-      sinon.stub(usecases, 'updateCertificationPublicationStatus');
-      sinon.stub(certificationSerializer, 'serialize');
-    });
-
-    it('should return a serialized certification when update was successful', async () => {
-      // given
-      usecases.updateCertificationPublicationStatus.resolves(updatedCertification);
-      certificationSerializer.serialize.returns(serializedCertification);
-
-      // when
-      const response = await certificationController.updateCertification(request, hFake);
-
-      // then
-      expect(usecases.updateCertificationPublicationStatus).to.have.been.calledWith({
-        certificationId,
-        isPublished,
-      });
-      expect(certificationSerializer.serialize).to.have.been.calledWith(updatedCertification);
       expect(response).to.deep.equal(serializedCertification);
     });
   });

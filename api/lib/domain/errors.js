@@ -125,6 +125,12 @@ class InvalidCertificationReportForFinalization extends DomainError {
   }
 }
 
+class InvalidParametersForSessionPublication extends DomainError {
+  constructor(message = 'Echec lors de la publication des résultats de la session, paramètres entrants invalides.') {
+    super(message);
+  }
+}
+
 class CampaignWithoutOrganizationError extends DomainError {
   constructor(message = 'L\'organisation de la campagne n\'a pas été trouvée.') {
     super(message);
@@ -476,6 +482,7 @@ module.exports = {
   ForbiddenAccess,
   InvalidCertificationCandidate,
   InvalidCertificationReportForFinalization,
+  InvalidParametersForSessionPublication,
   InvalidRecaptchaTokenError,
   InvalidTemporaryKeyError,
   MembershipCreationError,

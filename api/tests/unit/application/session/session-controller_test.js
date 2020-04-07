@@ -484,38 +484,56 @@ describe('Unit | Controller | sessionController', () => {
   });
 
   describe('#updatePublication', () => {
-    let request;
-    const sessionId = 1;
-    const toPublish = true;
-    let certificationsUpdated;
+    const sessionId = 123;
+    const session = Symbol('session');
+    const serializedSession = Symbol('serializedSession');
 
     beforeEach(() => {
-      // given
       request = {
         params: {
           id: sessionId,
         },
         payload: {
-          data: {
-            attributes: {
-              toPublish,
-            }
-          }
+          data: { attributes : {} }
         }
       };
-
-      certificationsUpdated = [{ isPublished: true }, { isPublished: true }];
-
-      sinon.stub(usecases, 'updatePublicationSession').resolves(certificationsUpdated);
     });
 
-    it('should publish all certifications of the session', async () => {
-      // when
-      const result = await sessionController.updatePublication(request);
+    context('when publishing', () => {
 
-      // then
-      expect(usecases.updatePublicationSession).to.have.been.calledWithExactly({ sessionId, toPublish });
-      expect(result).to.equal(null);
+      beforeEach(() => {
+        request.payload.data.attributes.toPublish = true;
+        const usecaseResult = session;
+        sinon.stub(usecases, 'updatePublicationSession').withArgs({ sessionId, toPublish: true }).resolves(usecaseResult);
+        sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
+      });
+
+      it('should return the serialized session', async () => {
+        // when
+        const response = await sessionController.updatePublication(request);
+
+        // then
+        expect(response).to.equal(serializedSession);
+      });
+
+    });
+
+    context('when unpublishing', () => {
+
+      beforeEach(() => {
+        request.payload.data.attributes.toPublish = false;
+        const usecaseResult = session;
+        sinon.stub(usecases, 'updatePublicationSession').withArgs({ sessionId, toPublish: false }).resolves(usecaseResult);
+        sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
+      });
+
+      it('should return the serialized session', async () => {
+        // when
+        const response = await sessionController.updatePublication(request);
+
+        // then
+        expect(response).to.equal(serializedSession);
+      });
     });
   });
 
@@ -570,7 +588,7 @@ describe('Unit | Controller | sessionController', () => {
         sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
       });
 
-      it('should return the serialized session with code 200', async () => {
+      it('should return the serialized session', async () => {
         // when
         const response = await sessionController.flagResultsAsSentToPrescriber(request, hFake);
 
