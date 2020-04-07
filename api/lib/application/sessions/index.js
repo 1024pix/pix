@@ -275,18 +275,6 @@ exports.register = async (server) => {
       method: 'PATCH',
       path: '/api/sessions/{id}/publication',
       config: {
-        validate: {
-          params: Joi.object({
-            id: Joi.number().required(),
-          }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                toPublish: Joi.boolean().required(),
-              }
-            }
-          })
-        },
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',

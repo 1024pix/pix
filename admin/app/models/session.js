@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
-import { equal } from '@ember/object/computed';
 
 function _getNumberOf(certifications, booleanFct) {
   return _.sumBy(
@@ -17,9 +16,11 @@ function _formatHumanReadableLocaleDateTime(date, options) {
 
 export const CREATED = 'created';
 export const FINALIZED = 'finalized';
+export const PROCESSED = 'processed';
 export const statusToDisplayName = {
   [CREATED]: 'Créée',
   [FINALIZED]: 'Finalisée',
+  [PROCESSED]: 'Résultats transmis par Pix',
 };
 
 export default class Session extends Model {
@@ -34,16 +35,21 @@ export default class Session extends Model {
   @attr() accessCode;
   @attr() status;
   @attr() finalizedAt;
-  @equal('status', FINALIZED) isFinalized;
   @attr() resultsSentToPrescriberAt;
   @attr() examinerGlobalComment;
+  @attr() publishedAt;
 
   @hasMany('certification') certifications;
   @belongsTo('certification-center') certificationCenter;
 
+  @computed('status')
+  get isFinalized() {
+    return this.status === FINALIZED || this.status === PROCESSED;
+  }
+
   @computed('examinerGlobalComment')
   get hasExaminerGlobalComment() {
-    return this.examinerGlobalComment && this.examinerGlobalComment.trim().length > 0;
+    return !_.isEmpty(_.trim(this.examinerGlobalComment));
   }
 
   @computed('certifications.@each.isPublished')
@@ -82,7 +88,7 @@ export default class Session extends Model {
 
   @computed('resultsSentToPrescriberAt', 'isFinalized')
   get areResultsToBeSentToPrescriber() {
-    return this.isFinalized && !this.resultsSentToPrescriberAt;
+    return Boolean(this.isFinalized && !this.resultsSentToPrescriberAt);
   }
 
   @computed('date')
@@ -93,6 +99,11 @@ export default class Session extends Model {
   @computed('finalizedAt')
   get displayFinalizationDate() {
     return _formatHumanReadableLocaleDateTime(this.finalizedAt);
+  }
+
+  @computed('publishedAt')
+  get displayPublishedAtDate() {
+    return _formatHumanReadableLocaleDateTime(this.publishedAt);
   }
 
   @computed('status')

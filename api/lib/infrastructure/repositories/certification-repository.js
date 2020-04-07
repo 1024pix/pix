@@ -90,35 +90,13 @@ module.exports = {
       });
   },
 
-  updatePublicationStatus({ id, isPublished }) {
-    return CertificationCourseBookshelf
-      .where({ id })
-      .save({ isPublished }, {
-        patch: true,
-        method: 'update',
-        require: true,
-      })
-      .catch((err) => {
-        if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
-          throw new NotFoundError(`Not found certification for ID ${id}`);
-        } else {
-          throw err;
-        }
-      })
-      .then(() => {
-        return module.exports.getByCertificationCourseId({ id });
-      });
-  },
-
-  updatePublicationStatusesBySessionId(sessionId, toPublish) {
-    return Bookshelf.transaction(async (trx) => {
-      const statuses = await this.getAssessmentResultsStatusesBySessionId(sessionId);
-      if (statuses.includes('error') || statuses.includes('started')) {
-        throw new CertificationCourseNotPublishableError();
-      }
-      await CertificationCourseBookshelf
-        .where({ sessionId })
-        .save({ isPublished: toPublish },{ patch: true, transacting: trx });
-    });
+  async updatePublicationStatusesBySessionId(sessionId, toPublish) {
+    const statuses = await this.getAssessmentResultsStatusesBySessionId(sessionId);
+    if (statuses.includes('error') || statuses.includes('started')) {
+      throw new CertificationCourseNotPublishableError();
+    }
+    await CertificationCourseBookshelf
+      .where({ sessionId })
+      .save({ isPublished: toPublish }, { method: 'update' });
   }
 };

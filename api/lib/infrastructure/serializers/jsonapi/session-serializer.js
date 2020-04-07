@@ -23,6 +23,7 @@ module.exports = {
         'examinerGlobalComment',
         'finalizedAt',
         'resultsSentToPrescriberAt',
+        'publishedAt',
         'certifications',
         'certificationCandidates',
         'certificationReports',
@@ -66,6 +67,7 @@ module.exports = {
       },
       transform(session) {
         const transformedSession = Object.assign({}, session);
+        transformedSession.status = session.status;
         transformedSession.certifications = [];
         transformedSession.certificationReports = [];
         transformedSession.certificationCenterName = session.certificationCenter;
@@ -84,6 +86,9 @@ module.exports = {
         'status',
         'examinerGlobalComment',
       ],
+      transform(session) {
+        return { ...session, status: session.status };
+      },
     }).serialize(sessions);
   },
 
@@ -95,6 +100,7 @@ module.exports = {
         'time',
         'status',
         'finalizedAt',
+        'publishedAt',
         'certifications',
         'certificationCenter',
       ],
@@ -118,6 +124,7 @@ module.exports = {
       },
       transform(session) {
         const transformedSession = Object.assign({}, session);
+        transformedSession.status = session.status;
         transformedSession.certifications = [];
         transformedSession.certificationCenterName = session.certificationCenter;
         delete transformedSession.certificationCenter;

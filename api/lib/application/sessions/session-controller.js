@@ -141,10 +141,8 @@ module.exports = {
   async updatePublication(request) {
     const sessionId = request.params.id;
     const toPublish = request.payload.data.attributes.toPublish;
-    await usecases.updatePublicationSession({ sessionId, toPublish });
-
-    return null;
-
+    const session = await usecases.updatePublicationSession({ sessionId, toPublish });
+    return sessionSerializer.serialize(session);
   },
 
   async analyzeAttendanceSheet(request) {

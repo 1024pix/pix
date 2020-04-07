@@ -4,7 +4,6 @@ const BookshelfSession = require('../data/session');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
-const { statuses } = require('../../domain/models/Session');
 
 module.exports = {
 
@@ -25,7 +24,10 @@ module.exports = {
 
   isFinalized: async (id) => {
     const session = await BookshelfSession
-      .where({ id, status: statuses.FINALIZED })
+      .query((qb) => {
+        qb.where({ id });
+        qb.whereRaw('?? IS NOT NULL', ['finalizedAt']);
+      })
       .fetch({ columns: 'id' });
     return Boolean(session);
   },
@@ -67,7 +69,7 @@ module.exports = {
     }
   },
 
-  async update(session) {
+  async updateSessionInfo(session) {
     const sessionDataToUpdate = _.pick(session, [
       'address',
       'room',
@@ -76,9 +78,6 @@ module.exports = {
       'date',
       'time',
       'description',
-      'status',
-      'examinerGlobalComment',
-      'resultsSentToPrescriberAt',
     ]);
 
     let updatedSession = await new BookshelfSession({ id: session.id })
@@ -110,11 +109,25 @@ module.exports = {
     return Boolean(session);
   },
 
-  async finalize({ id, status, examinerGlobalComment, finalizedAt }) {
+  async finalize({ id, examinerGlobalComment, finalizedAt }) {
     let updatedSession = await new BookshelfSession({ id })
-      .save({ id, status, examinerGlobalComment, finalizedAt }, { patch: true });
+      .save({ examinerGlobalComment, finalizedAt }, { patch: true });
     updatedSession = await updatedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
+  },
+
+  async flagResultsAsSentToPrescriber({ id, resultsSentToPrescriberAt }) {
+    let flaggedSession = await new BookshelfSession({ id })
+      .save({ resultsSentToPrescriberAt }, { patch: true });
+    flaggedSession = await flaggedSession.refresh();
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, flaggedSession);
+  },
+
+  async updatePublishedAt({ id, publishedAt }) {
+    let publishedSession = await new BookshelfSession({ id })
+      .save({ publishedAt }, { patch: true });
+    publishedSession = await publishedSession.refresh();
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, publishedSession);
   },
 
   async findPaginatedFiltered({ filters, page }) {

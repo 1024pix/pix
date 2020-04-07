@@ -1,5 +1,4 @@
 const { SessionAlreadyFinalizedError } = require('../errors');
-const { statuses } = require('../../domain/models/Session');
 
 module.exports = async function finalizeSession({
   sessionId,
@@ -21,7 +20,6 @@ module.exports = async function finalizeSession({
 
   return sessionRepository.finalize({
     id: sessionId,
-    status: statuses.FINALIZED,
     examinerGlobalComment,
     finalizedAt: new Date(),
   });

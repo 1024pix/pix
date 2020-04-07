@@ -4,8 +4,6 @@ import { authenticateSession } from 'ember-simple-auth/test-support';
 import { visit, currentURL, find } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import {
-  FINALIZED,
-  CREATED,
   statusToDisplayName
 } from 'pix-admin/models/session';
 
@@ -15,120 +13,104 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let certifications;
-  let sessionId;
   let session;
-  let sessionData;
 
   hooks.beforeEach(async function() {
     await authenticateSession({ userId: 1 });
-    sessionId = 1;
-
-    const certif1 = this.server.create('certification', { sessionId, examinerComment: 'ok', status: 'validated', hasSeenEndTestScreen: 'false' });
-    const certif2 = this.server.create('certification', { sessionId, status: 'validated', hasSeenEndTestScreen: 'true' });
-    certifications = [certif1, certif2];
-
-    sessionData = {
-      id: sessionId,
-      address: '3 rue du tout',
-      room: 'room',
-      examiner: 'poulet',
-      date: '1999-01-01',
-      time: '14:00:00',
-      status: FINALIZED,
-      description: 'pouet',
-      accessCode: '123',
-      examinerGlobalComment: 'Salut',
-      certifications,
-    };
   });
 
-  test('it renders the details page with correct info', async function(assert) {
-    // given
-    session = this.server.create('session', sessionData, 'finalized');
+  module('regardless of session status', function() {
 
-    // when
-    await visit(`/sessions/${sessionId}`);
-
-    // then
-    assert.equal(currentURL(), `/sessions/${sessionId}`);
-    assert.dom('.session-info__details div:nth-child(2) div:last-child').hasText(session.address);
-    assert.dom('.session-info__details div:nth-child(3) div:last-child').hasText(session.room);
-    assert.dom('.session-info__details div:nth-child(4) div:last-child').hasText(session.examiner);
-    assert.dom('.session-info__details div:nth-child(5) div:last-child').hasText(moment(session.date, 'YYYY-MM-DD').format('DD/MM/YYYY'));
-    assert.dom('.session-info__details div:nth-child(6) div:last-child').hasText(session.time);
-    assert.dom('.session-info__details div:nth-child(7) div:last-child').hasText(session.description);
-    assert.dom('.session-info__details div:nth-child(8) div:last-child').hasText(session.accessCode);
-    assert.dom('.session-info__details div:nth-child(9) div:last-child').hasText(statusToDisplayName[FINALIZED]);
-    assert.dom('.session-info__stats div:nth-child(1) div:last-child').hasText('1');
-    assert.dom('.session-info__stats div:nth-child(2) div:last-child').hasText('1');
-    assert.dom('.session-info__stats div:nth-child(3) div:last-child').hasText('0');
-    assert.dom('.session-info__stats div:nth-child(4) div:last-child').hasText(session.examinerGlobalComment);
-  });
-
-  module('when the session is linked to a real certification center', function() {
-
-    test('it should display the same name as the linked certification center name', async function(assert) {
+    test('it renders the details page with correct info', async function(assert) {
       // given
-      session = this.server.create('session', sessionData, 'withCertificationCenter');
+      session = this.server.create('session');
 
       // when
-      await visit(`/sessions/${sessionId}`);
+      await visit(`/sessions/${session.id}`);
 
       // then
-      assert.dom('.session-info__details div:nth-child(1) div:last-child').hasText(session.certificationCenter.name);
+      assert.equal(currentURL(), `/sessions/${session.id}`);
+      assert.dom('.session-info__details div:nth-child(2) div:last-child').hasText(session.address);
+      assert.dom('.session-info__details div:nth-child(3) div:last-child').hasText(session.room);
+      assert.dom('.session-info__details div:nth-child(4) div:last-child').hasText(session.examiner);
+      assert.dom('.session-info__details div:nth-child(5) div:last-child').hasText(moment(session.date, 'YYYY-MM-DD').format('DD/MM/YYYY'));
+      assert.dom('.session-info__details div:nth-child(6) div:last-child').hasText(session.time);
+      assert.dom('.session-info__details div:nth-child(7) div:last-child').hasText(session.description);
+      assert.dom('.session-info__details div:nth-child(8) div:last-child').hasText(session.accessCode);
+      assert.dom('.session-info__details div:nth-child(9) div:last-child').hasText(statusToDisplayName[session.status]);
     });
+
+    module('when the session is linked to a real certification center', function() {
+
+      test('it should display the same name as the linked certification center name', async function(assert) {
+        // given
+        session = this.server.create('session', 'withCertificationCenter');
+
+        // when
+        await visit(`/sessions/${session.id}`);
+
+        // then
+        assert.dom('.session-info__details div:nth-child(1) div:last-child').hasText(session.certificationCenter.name);
+      });
+    });
+
+    module('when the session is not linked to a real certification center', function() {
+
+      test('it should display the certificationCenterName value in session', async function(assert) {
+        // given
+        session = this.server.create('session');
+
+        // when
+        await visit(`/sessions/${session.id}`);
+
+        // then
+        assert.dom('.session-info__details div:nth-child(1) div:last-child').hasText(session.certificationCenterName);
+      });
+    });
+
   });
 
-  module('when the session is not linked to a real certification center', function() {
+  module('when the session is created', function() {
 
-    test('it should display the certificationCenterName value in session', async function(assert) {
+    test('it does not render the examinerGlobalComment row or stats', async function(assert) {
       // given
-      session = this.server.create('session', sessionData);
+      session = this.server.create('session', 'created');
 
       // when
-      await visit(`/sessions/${sessionId}`);
+      await visit(`/sessions/${session.id}`);
 
-      // then
-      assert.dom('.session-info__details div:nth-child(1) div:last-child').hasText(session.certificationCenterName);
+      assert.equal(find('[data-test-id="session-info__examiner-comment"]'), undefined);
+      assert.equal(find('[data-test-id="session-info__number-of-not-checked-end-screen"]'), undefined);
     });
+
   });
 
   module('when the session is finalized', function() {
 
-    test('it renders the finalization date in correct format', async function(assert) {
-      // given
-      const now = new Date();
-      sessionData.finalizedAt = now;
+    hooks.beforeEach(async function() {
+      const sessionData = {
+        status: 'finalized',
+        finalizedAt: new Date(),
+        examinerGlobalComment: 'commentaire',
+        resultsSentToPrescriberAt: new Date(),
+      };
       session = this.server.create('session', sessionData);
-
-      // when
-      await visit(`/sessions/${sessionId}`);
-
-      // then
-      assert.dom('.session-info__details div:nth-child(10) div:last-child').hasText(now.toLocaleString('fr-FR'));
+      const certif1 = this.server.create('certification', { sessionId: session.id, examinerComment: 'ok', status: 'validated', hasSeenEndTestScreen: 'false' });
+      const certif2 = this.server.create('certification', { sessionId: session.id, status: 'validated', hasSeenEndTestScreen: 'true' });
+      session.update({ certifications: [certif1, certif2] });
     });
 
-    test('it renders the resultSentToPrescriber date in correct format', async function(assert) {
-      // given
-      const now = new Date();
-      sessionData.resultsSentToPrescriberAt = now;
-      session = this.server.create('session', sessionData);
+    test('it renders the finalization date', async function(assert) {
+      // when
+      await visit(`/sessions/${session.id}`);
 
       // when
-      await visit(`/sessions/${sessionId}`);
-
-      // then
-      assert.dom('[data-test-id="session-info__sent-to-prescriber-at"]').hasText(now.toLocaleString('fr-FR'));
+      assert.dom('[data-test-id="session-info__finalized-at"]').exists();
     });
 
     test('it renders all the stats of the session', async function(assert) {
-      // given
-      sessionData.status = FINALIZED;
-      session = this.server.create('session', sessionData);
-
       // when
-      await visit(`/sessions/${sessionId}`);
+      await visit(`/sessions/${session.id}`);
 
       // when
       assert.dom('[data-test-id="session-info__number-of-report"]').hasText('1');
@@ -137,13 +119,8 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     });
 
     test('it renders the examinerGlobalComment if any', async function(assert) {
-      // given
-      sessionData.status = FINALIZED;
-      sessionData.examinerGlobalComment = 'Bonjour je suis le commentaire du surveillant';
-      session = this.server.create('session', sessionData);
-
       // when
-      await visit(`/sessions/${sessionId}`);
+      await visit(`/sessions/${session.id}`);
 
       // then
       assert.dom('[data-test-id="session-info__examiner-global-comment"]').hasText(session.examinerGlobalComment);
@@ -151,42 +128,70 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
     test('it does not render the examinerGlobalComment row if no comment', async function(assert) {
       // given
-      sessionData.status = FINALIZED;
-      sessionData.examinerGlobalComment = '';
-      session = this.server.create('session', sessionData);
+      session.update({ examinerGlobalComment: null });
 
       // when
-      await visit(`/sessions/${sessionId}`);
+      await visit(`/sessions/${session.id}`);
 
+      // then
       assert.equal(find('[data-test-id="session-info__examiner-comment"]'), undefined);
+    });
+    
+    module('when results have not yet been sent to prescriber', function() {
+      test('it should display the button to flag results as sent', async function(assert) {
+        // given
+        session.update({ resultsSentToPrescriberAt: null });
+
+        // when
+        await visit(`/sessions/${session.id}`);
+
+        // then
+        const buttonSendResultsToCandidates = this.element.querySelector('.session-info__actions .row button:nth-child(3)');
+        assert.equal(buttonSendResultsToCandidates.innerHTML.trim(), 'Résultats transmis au prescripteur');
+      });
+      
+    });
+
+    module('when results have been sent to prescriber', function() {
+      test('it should not display the button to flag results as sent', async function(assert) {
+        // given
+        session.update({ resultsSentToPrescriberAt: new Date() });
+
+        // when
+        await visit(`/sessions/${session.id}`);
+
+        // then
+        assert.dom('.session-info__actions .row button:nth-child(3)').doesNotExist();
+      });
+
     });
   });
 
-  module('when the session is not finalized', function() {
+  module('when the session results have been sent to the prescriber', function() {
 
-    test('it renders the status row with not finalized value', async function(assert) {
+    test('it renders the resultsSentToPrescriberAt date', async function(assert) {
       // given
-      sessionData.status = CREATED;
-      session = this.server.create('session', sessionData);
+      session.update({ resultsSentToPrescriberAt: new Date() });
 
       // when
-      await visit(`/sessions/${sessionId}`);
+      await visit(`/sessions/${session.id}`);
 
-      // then
-      assert.dom('.session-info__details div:nth-child(9) div:last-child').hasText(statusToDisplayName.created);
+      // when
+      assert.dom('[data-test-id="session-info__sent-to-prescriber-at"]').exists();
     });
+  });
 
-    test('it does not render the examinerGlobalComment row or stats', async function(assert) {
+  module('when the session is processed', function() {
+
+    test('it renders the publishedAt date', async function(assert) {
       // given
-      sessionData.status = CREATED;
-      sessionData.examinerGlobalComment = 'AAA';
-      session = this.server.create('session', sessionData);
+      session.update({ publishedAt: new Date() });
 
       // when
-      await visit(`/sessions/${sessionId}`);
+      await visit(`/sessions/${session.id}`);
 
-      assert.equal(find('[data-test-id="session-info__examiner-comment"]'), undefined);
-      assert.equal(find('[data-test-id="session-info__number-of-not-checked-end-screen"]'), undefined);
+      // when
+      assert.dom('[data-test-id="session-info__published-at"]').exists();
     });
   });
 });

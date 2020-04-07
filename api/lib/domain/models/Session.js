@@ -2,10 +2,12 @@ const _ = require('lodash');
 
 const CREATED = 'created';
 const FINALIZED = 'finalized';
+const PROCESSED = 'processed';
 
 const statuses = {
   CREATED,
   FINALIZED,
+  PROCESSED,
 };
 
 const NO_EXAMINER_GLOBAL_COMMENT = null;
@@ -22,10 +24,10 @@ class Session {
     examiner,
     room,
     time,
-    status,
     examinerGlobalComment,
     finalizedAt,
     resultsSentToPrescriberAt,
+    publishedAt,
     // includes
     certificationCandidates,
     // references
@@ -41,10 +43,10 @@ class Session {
     this.examiner = examiner;
     this.room = room;
     this.time = time;
-    this.status = status;
     this.examinerGlobalComment = examinerGlobalComment;
     this.finalizedAt = finalizedAt;
     this.resultsSentToPrescriberAt = resultsSentToPrescriberAt;
+    this.publishedAt = publishedAt;
     // includes
     this.certificationCandidates = certificationCandidates;
     // references
@@ -53,6 +55,16 @@ class Session {
 
   areResultsFlaggedAsSent() {
     return !_.isNil(this.resultsSentToPrescriberAt);
+  }
+
+  get status() {
+    if (this.publishedAt) {
+      return statuses.PROCESSED;
+    }
+    if (this.finalizedAt) {
+      return statuses.FINALIZED;
+    }
+    return statuses.CREATED;
   }
 }
 

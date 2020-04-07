@@ -13,9 +13,10 @@ module.exports = function buildSession({
   examiner = faker.name.findName(),
   room = '28D',
   time = '14:30',
-  status = Session.statuses.CREATED,
   examinerGlobalComment = '',
+  finalizedAt = null,
   resultsSentToPrescriberAt = null,
+  publishedAt = null,
 } = {}) {
   return new Session({
     id,
@@ -28,8 +29,9 @@ module.exports = function buildSession({
     examiner,
     room,
     time,
-    status,
     examinerGlobalComment,
+    finalizedAt,
     resultsSentToPrescriberAt,
+    publishedAt,
   });
 };
