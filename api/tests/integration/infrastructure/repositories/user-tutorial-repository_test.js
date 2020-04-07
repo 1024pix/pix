@@ -15,19 +15,21 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', (
     it('should store the tutorialId in the users list', async () => {
       // when
       await userTutorialRepository.addTutorial({ userId, tutorialId });
-      const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
 
       // then
+      const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
       expect(userTutorials).to.have.length(1);
     });
 
     it('should return the created user tutorial', async () => {
       // when
       const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId });
-      const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
 
       // then
-      expect(userTutorial).to.deep.equal(userTutorials[0]);
+      const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
+      expect(userTutorial.id).to.deep.equal(userTutorials[0].id);
+      expect(userTutorial.userId).to.deep.equal(userTutorials[0].userId);
+      expect(userTutorial.tutorialId).to.deep.equal(userTutorials[0].tutorialId);
     });
 
     context('when the tutorialId already exists in the user list', function() {
@@ -38,11 +40,13 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', (
 
         // when
         const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId });
-        const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
 
         // then
+        const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });
         expect(userTutorials).to.have.length(1);
-        expect(userTutorial).to.deep.equal(userTutorials[0]);
+        expect(userTutorial.id).to.deep.equal(userTutorials[0].id);
+        expect(userTutorial.userId).to.deep.equal(userTutorials[0].userId);
+        expect(userTutorial.tutorialId).to.deep.equal(userTutorials[0].tutorialId);
       });
     });
 

@@ -1,23 +1,30 @@
-const knexConfigs = require('../../../db/knexfile');
-const { environment } = require('../../../lib/config');
-const knexConfig = knexConfigs[environment];
-const knex = require('knex')(knexConfig);
+const BookshelfUserTutorials = require('../data/user-tutorials');
 
 module.exports = {
   async addTutorial({ userId, tutorialId }) {
-    const userTutorial = await knex('user_tutorials').where({ userId, tutorialId }).first();
+    const userTutorial = await BookshelfUserTutorials.where({ userId, tutorialId }).fetch();
     if (userTutorial) {
-      return userTutorial;
+      return _toDomain(userTutorial);
     }
-    const rawUserTutorial = await knex('user_tutorials').insert({ userId, tutorialId }).returning('*');
-    return rawUserTutorial[0];
+    const rawUserTutorial = new BookshelfUserTutorials({ userId, tutorialId });
+    const savedUserTutorial = await rawUserTutorial.save();
+    return _toDomain(savedUserTutorial);
   },
 
   async find({ userId }) {
-    return knex('user_tutorials').where({ userId });
+    const userTutorials = await BookshelfUserTutorials.where({ userId }).fetchAll();
+    return userTutorials.map(_toDomain);
   },
 
   async removeFromUser(userTutorial) {
-    return knex('user_tutorials').where(userTutorial).del();
+    return BookshelfUserTutorials.where(userTutorial).destroy({ require: false });
   },
 };
+
+function _toDomain(bookshelfUserTutorial) {
+  return {
+    id: bookshelfUserTutorial.get('id'),
+    tutorialId: bookshelfUserTutorial.get('tutorialId'),
+    userId: bookshelfUserTutorial.get('userId'),
+  };
+}
