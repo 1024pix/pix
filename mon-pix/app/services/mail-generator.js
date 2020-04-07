@@ -1,9 +1,8 @@
 import Service from '@ember/service';
 import moment from 'moment';
 
-export default Service.extend({
-
-  generateEmail: (challengeId, assessmentId, host, environment) => {
+export default class MailGeneratorService extends Service {
+  generateEmail = (challengeId, assessmentId, host, environment) => {
 
     const fullyQualifiedDomainName = (environment !== 'development') ? 'pix-infra.ovh' : 'localhost';
 
@@ -13,6 +12,5 @@ export default Service.extend({
     }
 
     return `${challengeId}-${assessmentId}-${moment().format('DDMM')}${applicationReviewName}@${fullyQualifiedDomainName}`;
-  }
-
-});
+  };
+}
