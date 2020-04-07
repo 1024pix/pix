@@ -174,7 +174,12 @@ describe('Acceptance | API | assessment-controller-get', () => {
                 type: 'courses'
               }
             },
-            'answers': { 'data': [] },
+            'answers': {
+              'data': [],
+              links: {
+                related: `/api/answers?assessmentId=${assessmentId}`,
+              }
+            },
           },
         };
         const assessment = response.result.data;

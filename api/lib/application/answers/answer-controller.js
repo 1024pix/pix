@@ -30,13 +30,19 @@ module.exports = {
     return answerSerializer.serialize(answer);
   },
 
-  async findByChallengeAndAssessment(request) {
+  async find(request) {
     const userId = requestResponseUtils.extractUserIdFromRequest(request);
-    const challengeId = request.query.challenge;
-    const assessmentId = request.query.assessment;
-    const answer = await usecases.findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId });
+    const challengeId = request.query.challengeId;
+    const assessmentId = request.query.assessmentId;
+    let answers = [];
+    if (challengeId && assessmentId) {
+      answers = await usecases.findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId });
+    }
+    if (assessmentId && !challengeId) {
+      answers = await usecases.findAnswerByAssessment({ assessmentId, userId });
+    }
 
-    return answerSerializer.serialize(answer);
+    return answerSerializer.serialize(answers);
   },
 
   async getCorrection(request) {

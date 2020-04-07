@@ -89,6 +89,7 @@ module.exports = injectDependencies({
   finalizeSession: require('./finalize-session'),
   updatePublicationSession: require('./update-publication-session'),
   findAnswerByChallengeAndAssessment: require('./find-answer-by-challenge-and-assessment'),
+  findAnswerByAssessment: require('./find-answer-by-assessment'),
   findAssociationBetweenUserAndSchoolingRegistration: require('./find-association-between-user-and-schooling-registration'),
   findCampaignParticipationsRelatedToAssessment: require('./find-campaign-participations-related-to-assessment'),
   findCampaignParticipationsWithResults: require('./find-campaign-participations-with-results'),
