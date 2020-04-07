@@ -163,7 +163,21 @@ export default function() {
     return schema.targetProfiles.all();
   });
 
-  this.post('/campaigns');
+  this.post('/campaigns', (schema, request) => {
+    const body = JSON.parse(request.requestBody);
+    const campaign = {
+      ...body.data.attributes,
+      customLandingPageText: body.data.attributes['custom-landing-page-text'],
+      idPixLabel: body.data.attributes['id-pix-label'],
+    };
+    if (campaign.type === 'PROFILES_COLLECTION') {
+      return schema.campaigns.create(campaign);
+    } else if (campaign.type === 'ASSESSMENT') {
+      const targetProfileId = body.data.relationships['target-profile'].data.id;
+      return schema.campaigns.create({ ...campaign, targetProfileId });
+    }
+    return new Response(422);
+  });
 
   this.get('/campaigns/:id/campaign-report', (schema, request) => {
     const campaignId = request.params.id;

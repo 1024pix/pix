@@ -1,7 +1,7 @@
 const faker = require('faker');
 const jwt = require('jsonwebtoken');
 const createServer = require('../../../server');
-const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const { expect, databaseBuilder, airtableBuilder, knex, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const settings = require('../../../lib/config');
 const Membership = require('../../../lib/domain/models/Membership');
 const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
@@ -9,30 +9,22 @@ const cache = require('../../../lib/infrastructure/caches/learning-content-cache
 describe('Acceptance | API | Campaign Controller', () => {
 
   let campaign;
-  let campaignWithoutOrga;
   let organization;
   let targetProfile;
   let server;
 
   beforeEach(async () => {
     server = await createServer();
-    organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
-    targetProfile = databaseBuilder.factory.buildTargetProfile({
-      organizationId: organization.id,
-      name: '+Profile 2'
-    });
-    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
-    campaign = databaseBuilder.factory.buildCampaign({
-      name: '@Campagne de Test N°2',
-      organizationId: organization.id,
-      targetProfileId: targetProfile.id,
-      idPixLabel: '+Identifiant entreprise'
-    });
-    campaignWithoutOrga = databaseBuilder.factory.buildCampaign({ organizationId: null });
-    await databaseBuilder.commit();
   });
 
   describe('GET /api/campaign', function() {
+
+    let campaignWithoutOrga;
+
+    beforeEach(async () => {
+      campaignWithoutOrga = databaseBuilder.factory.buildCampaign({ organizationId: null });
+      await databaseBuilder.commit();
+    });
 
     it('should return one NotFoundError if there is no campaign link to the code', async () => {
       // given
@@ -131,6 +123,18 @@ describe('Acceptance | API | Campaign Controller', () => {
 
     beforeEach(async () => {
       userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
+      organization = databaseBuilder.factory.buildOrganization();
+      targetProfile = databaseBuilder.factory.buildTargetProfile({
+        organizationId: organization.id,
+        name: 'Profile 2'
+      });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
+      campaign = databaseBuilder.factory.buildCampaign({
+        name: 'Campagne de Test N°2',
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id,
+        idPixLabel: 'Identifiant entreprise'
+      });
 
       databaseBuilder.factory.buildMembership({
         userId,
@@ -246,6 +250,18 @@ describe('Acceptance | API | Campaign Controller', () => {
 
     beforeEach(async () => {
       user = databaseBuilder.factory.buildUser({ firstName: '@Jean', lastName: '=Bono' });
+      organization = databaseBuilder.factory.buildOrganization();
+      targetProfile = databaseBuilder.factory.buildTargetProfile({
+        organizationId: organization.id,
+        name: '+Profile 2'
+      });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
+      campaign = databaseBuilder.factory.buildCampaign({
+        name: '@Campagne de Test N°2',
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id,
+        idPixLabel: '+Identifiant entreprise'
+      });
       userId = user.id;
       accessToken = _createTokenWithAccessId(userId);
 
@@ -330,6 +346,7 @@ describe('Acceptance | API | Campaign Controller', () => {
 
     beforeEach(async () => {
       userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
+      organization = databaseBuilder.factory.buildOrganization();
 
       databaseBuilder.factory.buildMembership({
         userId,
@@ -408,6 +425,118 @@ describe('Acceptance | API | Campaign Controller', () => {
       // then
       expect(response.statusCode).to.equal(200, response.payload);
       expect(response.result).to.deep.equal(expectedResult);
+    });
+  });
+
+  describe('POST /api/campaign', () => {
+
+    let options, payload;
+
+    beforeEach(async () => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
+      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
+      targetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId: organization.id });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });
+      await databaseBuilder.commit();
+
+      const skill = airtableBuilder.factory.buildSkill({ id: 'recSkill1' });
+
+      airtableBuilder
+        .mockList({ tableName: 'Acquis' })
+        .returns([skill])
+        .activate();
+
+      payload = {
+        data: {
+          type: 'campaign',
+          attributes: {
+            'name': 'Campagne collège',
+            'type': 'ASSESSMENT',
+            'organization-id': `${organization.id}`,
+          },
+          relationships: {
+            'target-profile': {
+              data: {
+                type: 'target-profiles',
+                id: `${targetProfile.id}`
+              }
+            }
+          }
+        }
+      };
+      options = {
+        method: 'POST',
+        url: '/api/campaigns',
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        payload
+      };
+    });
+
+    afterEach(async () => {
+      await knex('campaigns').delete();
+      await airtableBuilder.cleanAll();
+      return cache.flushAll();
+    });
+
+    it('should return 201 status code and the campaign created with type ASSESSMENT', async () => {
+      // when
+      const response = await server.inject(options, payload);
+
+      // then
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.data.attributes.name).to.equal('Campagne collège');
+      expect(response.result.data.attributes.type).to.equal('ASSESSMENT');
+    });
+
+    it('should return 201 status code and the campaign created with type PROFILES_COLLECTION', async () => {
+      // given
+      payload = {
+        data: {
+          type: 'campaign',
+          attributes: {
+            'name': 'Campagne lycée',
+            'type': 'PROFILES_COLLECTION',
+            'organization-id': `${organization.id}`,
+          },
+          relationships: {
+            'target-profile': {
+              data: {
+                type: 'target-profiles',
+                id: undefined,
+              }
+            }
+          }
+        }
+      };
+      options.payload = payload;
+
+      // when
+      const response = await server.inject(options, payload);
+
+      // then
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.data.attributes.name).to.equal('Campagne lycée');
+      expect(response.result.data.attributes.type).to.equal('PROFILES_COLLECTION');
+    });
+
+    it('should return 403 status code when the user does not have access', async () => {
+      // given
+      const anotherUserId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'POST',
+        url: '/api/campaigns',
+        headers: { authorization: generateValidRequestAuthorizationHeader(anotherUserId) },
+        payload
+      };
+
+      // when
+      const response = await server.inject(options, payload);
+
+      // then
+      expect(response.statusCode).to.equal(403);
     });
   });
 });

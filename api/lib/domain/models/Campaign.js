@@ -54,6 +54,14 @@ class Campaign {
     this.targetProfileId = targetProfileId;
     this.creatorId = creatorId;
   }
+
+  isAssessment() {
+    return this.type === types.ASSESSMENT;
+  }
+
+  isProfilesCollection() {
+    return this.type === types.PROFILES_COLLECTION;
+  }
 }
 
 Campaign.types = types;

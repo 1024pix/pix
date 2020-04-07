@@ -67,7 +67,11 @@ module.exports = {
     return new Deserializer({ keyForAttribute: 'camelCase' })
       .deserialize(json)
       .then((campaign) => {
-        campaign.targetProfileId = parseInt(_.get(json.data, ['relationships', 'target-profile', 'data', 'id']));
+        campaign.organizationId = parseInt(_.get(json.data, ['attributes', 'organization-id']));
+        const targetProfileId = _.get(json.data, ['relationships', 'target-profile', 'data', 'id']);
+        if (targetProfileId) {
+          campaign.targetProfileId = parseInt(targetProfileId);
+        }
         return new Campaign(campaign);
       });
   }

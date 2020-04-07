@@ -1,5 +1,6 @@
 const Joi = require('@hapi/joi');
 const { EntityValidationError } = require('../errors');
+const Campaign = require('../models/Campaign');
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
@@ -9,6 +10,13 @@ const campaignValidationJoiSchema = Joi.object({
     .required()
     .messages({
       'string.empty': 'Veuillez donner un nom à votre campagne.',
+    }),
+
+  type: Joi.string()
+    .valid(Campaign.types.ASSESSMENT, Campaign.types.PROFILES_COLLECTION)
+    .required()
+    .messages({
+      'any.only': 'Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.',
     }),
 
   creatorId: Joi.number()
@@ -26,10 +34,19 @@ const campaignValidationJoiSchema = Joi.object({
     }),
 
   targetProfileId: Joi.number()
+    .when('$type', {
+      switch: [{
+        is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
+        then: Joi.forbidden(),
+      }, {
+        is: Joi.string().required().valid(Campaign.types.ASSESSMENT),
+        then: Joi.required(),
+      }],
+    })
     .integer()
-    .required()
     .messages({
       'number.base': 'Veuillez sélectionner un profil cible pour votre campagne.',
+      'any.unknown': 'Un profil cible n’est pas autorisé pour les campagnes de collecte de profils.'
     }),
 
   idPixLabel: Joi.string()
@@ -40,12 +57,23 @@ const campaignValidationJoiSchema = Joi.object({
       'string.min': 'Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.',
     }),
 
+  title: Joi.string()
+    .allow(null)
+    .when('$type', {
+      is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
+      then: Joi.valid(null),
+      otherwise: Joi.optional(),
+    })
+    .messages({
+      'any.only': 'Le titre du parcours n’est pas autorisé pour les campagnes de collecte de profils.',
+    }),
+
 });
 
 module.exports = {
 
   validate(campaign) {
-    const { error } = campaignValidationJoiSchema.validate(campaign, validationConfiguration);
+    const { error } = campaignValidationJoiSchema.validate(campaign, { ...validationConfiguration, context: { type: campaign.type } });
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
