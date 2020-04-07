@@ -1,6 +1,8 @@
+import classic from 'ember-classic-decorator';
 import Controller from '@ember/controller';
 
-export default Controller.extend({
-  queryParams: 'code',
-  code: null
-});
+@classic
+export default class CertificationCourseController extends Controller {
+  queryParams = 'code';
+  code = null;
+}

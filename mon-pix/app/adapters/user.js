@@ -1,19 +1,20 @@
+import classic from 'ember-classic-decorator';
 import ApplicationAdapter from './application';
 
-export default ApplicationAdapter.extend({
-
+@classic
+export default class User extends ApplicationAdapter {
   shouldBackgroundReloadRecord() {
     return false;
-  },
+  }
 
   urlForCreateRecord(query, { adapterOptions }) {
-    const url = this._super(...arguments);
+    const url = super.urlForCreateRecord(...arguments);
     if (adapterOptions && adapterOptions.isStudentDependentUser) {
       return `${this.host}/${this.namespace}/student-dependent-users`;
     }
 
     return url;
-  },
+  }
 
   createRecord(store, type, snapshot) {
     const { adapterOptions } = snapshot;
@@ -25,13 +26,13 @@ export default ApplicationAdapter.extend({
       serializedUser.data.attributes['with-username'] = adapterOptions.withUsername;
       return this.ajax(url, 'POST', { data: serializedUser });
     }
-    return this._super(...arguments);
-  },
+    return super.createRecord(...arguments);
+  }
 
   urlForQueryRecord(query) {
     if (query.me) {
       delete query.me;
-      return `${this._super(...arguments)}/me`;
+      return `${super.urlForQueryRecord(...arguments)}/me`;
     }
 
     if (query.passwordResetTemporaryKey) {
@@ -40,11 +41,11 @@ export default ApplicationAdapter.extend({
       return `${this.host}/${this.namespace}/password-reset-demands/${temporaryKey}`;
     }
 
-    return this._super(...arguments);
-  },
+    return super.urlForQueryRecord(...arguments);
+  }
 
   urlForUpdateRecord(id, modelName, { adapterOptions }) {
-    const url = this._super(...arguments);
+    const url = super.urlForUpdateRecord(...arguments);
 
     if (adapterOptions && adapterOptions.rememberUserHasSeenAssessmentInstructions) {
       delete adapterOptions.rememberUserHasSeenAssessmentInstructions;
@@ -59,5 +60,5 @@ export default ApplicationAdapter.extend({
     }
 
     return url;
-  },
-});
+  }
+}

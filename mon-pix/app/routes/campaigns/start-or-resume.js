@@ -1,23 +1,25 @@
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 
-export default Route.extend(AuthenticatedRouteMixin, {
+@classic
+export default class StartOrResumeRoute extends Route.extend(AuthenticatedRouteMixin) {
+  @service currentUser;
+  @service session;
 
-  session: service(),
-  currentUser: service(),
-
-  campaignCode: null,
-  campaign: null,
-  associationDone: false,
-  campaignIsRestricted: false,
-  givenParticipantExternalId: null,
-  userHasSeenLanding: false,
-  userHasJustConsultedTutorial: false,
-  authenticationRoute: 'inscription',
-  _isReady: false,
+  campaignCode = null;
+  campaign = null;
+  associationDone = false;
+  campaignIsRestricted = false;
+  givenParticipantExternalId = null;
+  userHasSeenLanding = false;
+  userHasJustConsultedTutorial = false;
+  authenticationRoute = 'inscription';
+  _isReady = false;
 
   beforeModel(transition) {
     this.set('_isReady', false);
@@ -35,15 +37,15 @@ export default Route.extend(AuthenticatedRouteMixin, {
     if (this._userIsUnauthenticated() && !this.userHasSeenLanding && !this.campaignIsRestricted) {
       return this.replaceWith('campaigns.campaign-landing-page', this.campaignCode, { queryParams: transition.to.queryParams });
     }
-    this._super(...arguments);
-  },
+    super.beforeModel(...arguments);
+  }
 
   async model() {
     this.set('isLoading', true);
     const campaigns = await this.store.query('campaign', { filter: { code: this.campaignCode } });
 
     return campaigns.get('firstObject');
-  },
+  }
 
   async afterModel(campaign) {
 
@@ -75,15 +77,15 @@ export default Route.extend(AuthenticatedRouteMixin, {
     }
 
     return this.replaceWith('assessments.resume', assessment.get('id'));
-  },
+  }
 
   _userIsUnauthenticated() {
     return this.get('session.isAuthenticated') === false;
-  },
+  }
 
   _thereIsNoAssessment(assessments) {
     return isEmpty(assessments);
-  },
+  }
 
   _showTutorial(assessment) {
     return (
@@ -92,11 +94,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
       && !assessment.isCompleted
       && !this.currentUser.user.hasSeenAssessmentInstructions
     );
-  },
+  }
 
-  actions: {
-    loading() {
-      return this._isReady;
-    }
-  },
-});
+  @action
+  loading() {
+    return this._isReady;
+  }
+}

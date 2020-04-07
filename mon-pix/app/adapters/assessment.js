@@ -1,9 +1,10 @@
+import classic from 'ember-classic-decorator';
 import ApplicationAdapter from './application';
 
-export default ApplicationAdapter.extend({
-
+@classic
+export default class Assessment extends ApplicationAdapter {
   urlForUpdateRecord(id, modelName, { adapterOptions }) {
-    const url = this._super(...arguments);
+    const url = super.urlForUpdateRecord(...arguments);
 
     if (adapterOptions && adapterOptions.completeAssessment) {
       delete adapterOptions.completeAssessment;
@@ -11,5 +12,5 @@ export default ApplicationAdapter.extend({
     }
 
     return url;
-  },
-});
+  }
+}

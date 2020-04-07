@@ -1,7 +1,7 @@
+import classic from 'ember-classic-decorator';
 import Controller from '@ember/controller';
 
-export default Controller.extend({
-
-  pageTitle: 'Parcours',
-
-});
+@classic
+export default class CampaignsController extends Controller {
+  pageTitle = 'Parcours';
+}

@@ -1,7 +1,7 @@
+import classic from 'ember-classic-decorator';
 import Controller from '@ember/controller';
 
-export default Controller.extend({
-
-  pageTitle: 'Connexion',
-
-});
+@classic
+export default class LoginController extends Controller {
+  pageTitle = 'Connexion';
+}

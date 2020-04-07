@@ -1,8 +1,10 @@
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 import RSVP from 'rsvp';
 import Route from '@ember/routing/route';
 
-export default Route.extend({
-
+@classic
+export default class ChallengeRoute extends Route {
   model(params) {
     const store = this.store;
 
@@ -19,7 +21,7 @@ export default Route.extend({
         return this.transitionTo('index');
       }
     });
-  },
+  }
 
   async afterModel(modelResult) {
     if (modelResult.assessment.get('isSmartPlacement')) {
@@ -27,18 +29,18 @@ export default Route.extend({
       const campaigns = await this._findCampaigns({ campaignCode });
       modelResult.campaign = campaigns.get('firstObject');
     }
-  },
+  }
 
   serialize(model) {
     return {
       assessment_id: model.assessment.id,
       challenge_id: model.challenge.id
     };
-  },
+  }
 
   _findCampaigns({ campaignCode }) {
     return this.store.query('campaign', { filter: { code: campaignCode } });
-  },
+  }
 
   _findOrCreateAnswer(challenge, assessment) {
     let answer = assessment.get('answers').findBy('challenge.id', challenge.id);
@@ -46,45 +48,45 @@ export default Route.extend({
       answer = this.store.createRecord('answer', { assessment, challenge });
     }
     return answer;
-  },
+  }
 
-  actions: {
+  @action
+  async saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
+    const answer = this._findOrCreateAnswer(challenge, assessment);
+    answer.setProperties({
+      value: answerValue.trim(),
+      timeout: answerTimeout,
+      elapsedTime: answerElapsedTime
+    });
 
-    async saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
-      const answer = this._findOrCreateAnswer(challenge, assessment);
-      answer.setProperties({
-        value: answerValue.trim(),
-        timeout: answerTimeout,
-        elapsedTime: answerElapsedTime
-      });
+    try {
+      await answer.save();
 
-      try {
-        await answer.save();
+      const levelup = await answer.get('levelup');
 
-        const levelup = await answer.get('levelup');
+      const queryParams = levelup ? {
+        queryParams: {
+          newLevel: levelup.level,
+          competenceLeveled: levelup.competenceName,
+        }
+      } : { queryParams: {} };
 
-        const queryParams = levelup ? {
-          queryParams: {
-            newLevel: levelup.level,
-            competenceLeveled: levelup.competenceName,
-          }
-        } : { queryParams: {} };
+      return this.transitionTo('assessments.resume', assessment.get('id'), queryParams);
+    }
+    catch (error) {
+      answer.rollbackAttributes();
 
-        return this.transitionTo('assessments.resume', assessment.get('id'), queryParams);
-      }
-      catch (error) {
-        answer.rollbackAttributes();
-
-        return this.send('error');
-      }
-    },
-
-    resumeAssessment(assessment) {
-      return this.transitionTo('assessments.resume', assessment.get('id'));
-    },
-
-    error() {
-      return true;
+      return this.send('error');
     }
   }
-});
+
+  @action
+  resumeAssessment(assessment) {
+    return this.transitionTo('assessments.resume', assessment.get('id'));
+  }
+
+  @action
+  error() {
+    return true;
+  }
+}
