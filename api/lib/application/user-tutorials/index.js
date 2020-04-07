@@ -7,7 +7,12 @@ exports.register = async (server) => {
       path: '/api/users/tutorials/{tutorialId}',
       config: {
         handler: userTutorialsController.add,
-        tags: ['api'],
+        tags: ['api', 'tutorials'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Enregistrement d‘un tutoriel par l‘utilisateur courant\n' +
+          '- L’id du tutoriel doit faire référence à un tutoriel existant',
+        ],
       },
     },
     {
@@ -15,7 +20,11 @@ exports.register = async (server) => {
       path: '/api/users/tutorials',
       config: {
         handler: userTutorialsController.find,
-        tags: ['api'],
+        tags: ['api', 'tutorials'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des tutoriels enregistrés par l‘utilisateur courant\n'
+        ],
       },
     },
     {
@@ -23,7 +32,12 @@ exports.register = async (server) => {
       path: '/api/users/tutorials/{tutorialId}',
       config: {
         handler: userTutorialsController.removeFromUser,
-        tags: ['api']
+        tags: ['api', 'tutorials'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Suppression d‘un tutoriel de la liste des tutoriels enregistrés par l‘utilisateur courant\n' +
+          ' - L‘id du tutoriel doit faire référence à un tutoriel existant',
+        ],
       }
     }
   ]);
