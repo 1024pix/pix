@@ -1,11 +1,12 @@
+import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 import RSVP from 'rsvp';
 
-export default Route.extend({
-
+@classic
+export default class ResultsRoute extends Route {
   model() {
     return this.modelFor('assessments').reload();
-  },
+  }
 
   async afterModel(assessment) {
     if (assessment.get('isCertification')) {
@@ -16,6 +17,5 @@ export default Route.extend({
       ...answers.map((answer) => answer.challenge),
       ...answers.map((answer) => answer.correction)
     ]);
-  },
-
-});
+  }
+}

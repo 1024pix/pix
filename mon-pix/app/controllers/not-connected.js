@@ -1,7 +1,7 @@
+import classic from 'ember-classic-decorator';
 import Controller from '@ember/controller';
 
-export default Controller.extend({
-
-  pageTitle: 'Déconnecté',
-
-});
+@classic
+export default class NotConnectedController extends Controller {
+  pageTitle = 'Déconnecté';
+}

@@ -1,18 +1,20 @@
+import classic from 'ember-classic-decorator';
+import { inject as service } from '@ember/service';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
-import { inject as service } from '@ember/service';
 import _ from 'lodash';
 
-export default Route.extend({
+@classic
+export default class FillInIdPixRoute extends Route.extend(AuthenticatedRouteMixin) {
+  @service session;
 
-  session: service(),
-  givenParticipantExternalId: null,
+  givenParticipantExternalId = null;
 
   deactivate() {
     this.controller.set('participantExternalId', null);
     this.controller.set('isLoading', false);
-  },
+  }
 
   async beforeModel(transition) {
     const campaignCode = transition.to.params.campaign_code;
@@ -23,13 +25,13 @@ export default Route.extend({
     if (!isEmpty(assessments)) {
       return this.replaceWith('campaigns.start-or-resume', campaignCode);
     }
-  },
+  }
 
   async model(params) {
     const campaigns = await this.store.query('campaign', { filter: { code: params.campaign_code } });
 
     return campaigns.get('firstObject');
-  },
+  }
 
   afterModel(campaign) {
     if (!campaign.idPixLabel) {
@@ -39,12 +41,12 @@ export default Route.extend({
     if (this.givenParticipantExternalId) {
       return this.start(campaign, this.givenParticipantExternalId);
     }
-  },
+  }
 
   setupController(controller) {
-    this._super(...arguments);
+    super.setupController(...arguments);
     controller.set('start', (campaign, participantExternalId) => this.start(campaign, participantExternalId));
-  },
+  }
 
   start(campaign, participantExternalId = null) {
     return this.store.createRecord('campaign-participation', { campaign, participantExternalId })
@@ -58,5 +60,5 @@ export default Route.extend({
         }
         return this.send('error', err, this.transitionTo('campaigns.start-or-resume', campaign.code));
       });
-  },
-}, AuthenticatedRouteMixin);
+  }
+}

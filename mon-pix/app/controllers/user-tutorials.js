@@ -1,7 +1,7 @@
+import classic from 'ember-classic-decorator';
 import Controller from '@ember/controller';
 
-export default Controller.extend({
-
-  pageTitle: 'Mes tutos',
-
-});
+@classic
+export default class UserTutorialsController extends Controller {
+  pageTitle = 'Mes tutos';
+}

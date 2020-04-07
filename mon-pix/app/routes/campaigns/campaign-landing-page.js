@@ -1,20 +1,22 @@
-import Route from '@ember/routing/route';
+import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 
-export default Route.extend({
+@classic
+export default class CampaignLandingPageRoute extends Route {
+  @service session;
 
-  campaignCode: null,
-  session: service(),
+  campaignCode = null;
 
   deactivate() {
     this.controller.set('isLoading', false);
-  },
+  }
 
   async model(params) {
     const campaigns = await this.store.query('campaign', { filter: { code: params.campaign_code } });
 
     return campaigns.get('firstObject');
-  },
+  }
 
   afterModel(campaign) {
     if (campaign.isRestricted && this._userIsUnauthenticated()) {
@@ -22,9 +24,9 @@ export default Route.extend({
         queryParams: { campaignIsRestricted: true }
       });
     }
-  },
+  }
 
   _userIsUnauthenticated() {
     return this.get('session.isAuthenticated') === false;
-  },
-});
+  }
+}

@@ -1,9 +1,10 @@
+import classic from 'ember-classic-decorator';
 import RSVP from 'rsvp';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import Route from '@ember/routing/route';
 
-export default Route.extend(AuthenticatedRouteMixin, {
-
+@classic
+export default class SkillReviewRoute extends Route.extend(AuthenticatedRouteMixin) {
   model(params) {
     const store = this.store;
     const assessmentId = params.assessment_id;
@@ -12,12 +13,12 @@ export default Route.extend(AuthenticatedRouteMixin, {
         .then((campaignParticipations) => campaignParticipations.get('firstObject')),
       assessment: store.findRecord('assessment', assessmentId),
     });
-  },
+  }
 
   async afterModel(model) {
     await model.campaignParticipation.belongsTo('campaignParticipationResult').reload();
     await model.campaignParticipation.belongsTo('campaign').reload({ include: 'targetProfile' });
     const improvableNextChallenge = await this.store.queryRecord('challenge', { assessmentId: model.assessment.id, tryImproving: true });
     this.controllerFor('campaigns.skill-review').set('displayImprovementButton', !!improvableNextChallenge);
-  },
-});
+  }
+}

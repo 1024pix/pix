@@ -1,19 +1,21 @@
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 import Controller from '@ember/controller';
 
-export default Controller.extend({
+@classic
+export default class ResultsController extends Controller {
+  isShowingModal = false;
+  answer = null;
+  pageTitle = 'Fin de test de démo';
 
-  isShowingModal: false,
-  answer: null,
-  pageTitle: 'Fin de test de démo',
-
-  actions: {
-    openComparisonWindow(answer) {
-      this.set('answer', answer);
-      this.set('isShowingModal', true);
-    },
-
-    closeComparisonWindow() {
-      this.set('isShowingModal', false);
-    },
+  @action
+  openComparisonWindow(answer) {
+    this.set('answer', answer);
+    this.set('isShowingModal', true);
   }
-});
+
+  @action
+  closeComparisonWindow() {
+    this.set('isShowingModal', false);
+  }
+}
