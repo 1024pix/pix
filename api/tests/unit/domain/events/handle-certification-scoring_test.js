@@ -3,6 +3,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const events = require('../../../../lib/domain/events');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const Badge = require('../../../../lib/domain/models/Badge');
 const { CertificationComputeError } = require('../../../../lib/domain/errors');
 const { UNCERTIFIED_LEVEL } = require('../../../../lib/domain/constants');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
@@ -191,7 +192,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
               // then
               expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
               expect(certificationPartnerAcquisitionRepository.save).to.have.been.calledWithMatch({
-                partnerKey: 'CLEA',
+                partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
                 certificationCourseId: certificationAssessment.certificationCourseId
               });
             })
