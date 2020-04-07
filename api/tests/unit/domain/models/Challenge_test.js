@@ -29,7 +29,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         competenceId: 'recsvLz0W2ShyfD63',
         illustrationAlt: 'Texte alternatif à l\'image',
         format: 'phrase',
-        locale: 'fr',
+        locales: ['fr'],
       };
 
       // when

@@ -92,6 +92,6 @@ function _adaptChallengeFromDataObjects({ challengeDataObject, skillDataObjects 
     competenceId: challengeDataObject.competenceId,
     illustrationAlt: challengeDataObject.illustrationAlt,
     format: challengeDataObject.format,
-    locale: challengeDataObject.locale,
+    locales: challengeDataObject.locales,
   });
 }
