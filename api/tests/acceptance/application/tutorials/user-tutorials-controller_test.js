@@ -24,14 +24,14 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
     return airtableBuilder.cleanAll();
   });
 
-  describe('PUT /api/users/me/tutorials/{tutorialId}', () => {
+  describe('PUT /api/users/tutorials/{tutorialId}', () => {
 
     let options;
 
     beforeEach(async () => {
       options = {
         method: 'PUT',
-        url: '/api/users/me/tutorials/tutorialId',
+        url: '/api/users/tutorials/tutorialId',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(4444)
         },
@@ -71,7 +71,7 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
     describe('error cases', () => {
       it('should respond with a 404 - not found when tutorialId does not exist', async () => {
         // given
-        options.url = '/api/users/me/tutorials/badId';
+        options.url = '/api/users/tutorials/badId';
 
         // when
         const response = await server.inject(options);
@@ -83,14 +83,14 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
 
   });
 
-  describe('GET /api/users/me/tutorials', () => {
+  describe('GET /api/users/tutorials', () => {
 
     let options;
 
     beforeEach(async () => {
       options = {
         method: 'GET',
-        url: '/api/users/me/tutorials',
+        url: '/api/users/tutorials',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(4444)
         },
@@ -149,14 +149,14 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
 
   });
 
-  describe('DELETE /api/users/me/tutorials/{tutorialId}', () => {
+  describe('DELETE /api/users/tutorials/{tutorialId}', () => {
 
     let options;
 
     beforeEach(async () => {
       options = {
         method: 'DELETE',
-        url: '/api/users/me/tutorials/tutorialId',
+        url: '/api/users/tutorials/tutorialId',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(4444)
         },

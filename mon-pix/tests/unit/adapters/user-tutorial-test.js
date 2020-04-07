@@ -23,17 +23,17 @@ describe('Unit | Adapters | user-tutorial', function() {
       await adapter.createRecord(null, 'user-tutorial', tutorial);
 
       // then
-      sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me/tutorials/tutorialId', 'PUT');
+      sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/tutorials/tutorialId', 'PUT');
     });
   });
 
   describe('#urlForFindAll', () => {
     it('should return API to find related tutorials', async function() {
       // when
-      const url = adapter.urlForFindAll('user-lutorial');
+      const url = adapter.urlForFindAll('user-tutorial');
 
       // then
-      expect(url).to.equal('http://localhost:3000/api/users/me/tutorials');
+      expect(url).to.equal('http://localhost:3000/api/users/tutorials');
     });
   });
 
@@ -47,7 +47,7 @@ describe('Unit | Adapters | user-tutorial', function() {
       const url = adapter.urlForDeleteRecord(null, 'user-tutorial', tutorial);
 
       // then
-      expect(url).to.equal('http://localhost:3000/api/users/me/tutorials/tutorialId');
+      expect(url).to.equal('http://localhost:3000/api/users/tutorials/tutorialId');
     });
   });
 
