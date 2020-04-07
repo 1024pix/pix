@@ -63,8 +63,14 @@ module('Integration | Component | login-form', function(hooks) {
 
   test('it should display an error message when authentication fails with unauthorized acces', async function(assert) {
     // given
-    const msgErrorInvalidCredentiel =  {
-      'errors' : [{ 'status' : '401', 'title' : 'Unauthorized' , 'detail' : ENV.APP.API_ERROR_MESSAGES.UNAUTHORIZED.MESSAGE }]
+    const msgErrorInvalidCredentiel = {
+      responseJSON: {
+        'errors': [{
+          'status': '401',
+          'title': 'Unauthorized',
+          'detail': ENV.APP.API_ERROR_MESSAGES.UNAUTHORIZED.MESSAGE
+        }]
+      }
     };
 
     sessionStub.prototype.authenticate = () => reject(msgErrorInvalidCredentiel);
@@ -83,8 +89,10 @@ module('Integration | Component | login-form', function(hooks) {
   test('it should display an not linked certification message when authentication fails with Forbidden Access', async function(assert) {
 
     // given
-    const msgErrorNotLinkedCertification =  {
-      'errors' : [{ 'status' : '403', 'title' : 'Unauthorized' , 'detail' : errorMessages.NOT_LINKED_CERTIFICATION_MSG }]
+    const msgErrorNotLinkedCertification = {
+      responseJSON: {
+        'errors': [{ 'status': '403', 'title': 'Unauthorized', 'detail': errorMessages.NOT_LINKED_CERTIFICATION_MSG }]
+      }
     };
 
     sessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedCertification);
@@ -103,8 +111,14 @@ module('Integration | Component | login-form', function(hooks) {
   test('it should display a 504 message when authentication fails with gateway Timeout', async function(assert) {
 
     // given
-    const msgErrorGatewayTimeout =  {
-      'errors' : [{ 'status' : ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.CODE, 'title' : 'Gateway Timeout' , 'detail' : ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE }]
+    const msgErrorGatewayTimeout = {
+      responseJSON: {
+        'errors': [{
+          'status': ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.CODE,
+          'title': 'Gateway Timeout',
+          'detail': ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE
+        }]
+      }
     };
 
     sessionStub.prototype.authenticate = () => reject(msgErrorGatewayTimeout);
