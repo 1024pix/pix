@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v2.137.0 (07/04/2020)
+
+- [#1253](https://github.com/1024pix/pix/pull/1253) [FEATURE] Créer des campagnes de type collecte de profils (PO-392).
+- [#1252](https://github.com/1024pix/pix/pull/1252) [FEATURE] Rendre une épreuve multilangue (PF-1196)
+- [#1260](https://github.com/1024pix/pix/pull/1260) [FEATURE] MAJ Logo et phrase badge Cléa (PF-1211).
+- [#1249](https://github.com/1024pix/pix/pull/1249) [FEATURE] Afficher la liste des tutos sauvegardés sur une page dédiée (PF-1096).
+- [#1266](https://github.com/1024pix/pix/pull/1266) [BUGFIX] Correction du design du formulaire de rattachement de profils cibles (PA-200).
+- [#1259](https://github.com/1024pix/pix/pull/1259) [BUGFIX] Correction du design du loader dans Pix Orga (PO-413).
+- [#1264](https://github.com/1024pix/pix/pull/1264) [BUGFIX] Supprime un logo de badge sur la page de résultat de certification
+- [#1243](https://github.com/1024pix/pix/pull/1243) [TECH] Ajout et utilisation d'une route pour récupérer toutes les answers (PF-1195).
+- [#1248](https://github.com/1024pix/pix/pull/1248) [TECH] Catégoriser les envois d'e-mail en alimentant la propriété TAGS (PF-1213).
+- [#1261](https://github.com/1024pix/pix/pull/1261) [TECH] Suppression du endpoint obsolète /metrics.
+- [#1151](https://github.com/1024pix/pix/pull/1151) [TECH] Sauvegarder l'obtention des badges
+- [#1232](https://github.com/1024pix/pix/pull/1232) [CLEANUP] Convertir les services PixApp en syntaxe native (PF-1193).
+- [#1267](https://github.com/1024pix/pix/pull/1267) BUGFIX - Revert PF-1213 - Réparer l'envoi des mails d'invitation - (PF-1219)
+- [#1262](https://github.com/1024pix/pix/pull/1262) [DOC] Corriger la section sur le nommage des commits
+- [#1258](https://github.com/1024pix/pix/pull/1258) [DOC] Description de l'anatomie des sources de Pix.
+
 ## v2.136.0 (03/04/2020)
 
 - [#1254](https://github.com/1024pix/pix/pull/1254) [FEATURE] Invitation à Pix Orga depuis Pix Admin (PA-96).
