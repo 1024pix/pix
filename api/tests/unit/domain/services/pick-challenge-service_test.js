@@ -6,9 +6,9 @@ const _ = require('lodash');
 describe('Unit | Service | PickChallengeService', () => {
 
   describe('#pickChallenge', () => {
-    const frenchSpokenChallenge = domainBuilder.buildChallenge({ locale: FRENCH_SPOKEN });
-    const otherFrenchSpokenChallenge = domainBuilder.buildChallenge({ locale: FRENCH_SPOKEN });
-    const frenchChallenge = domainBuilder.buildChallenge({ locale: FRENCH_FRANCE });
+    const frenchSpokenChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_SPOKEN] });
+    const otherFrenchSpokenChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_SPOKEN] });
+    const frenchChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_FRANCE] });
     const randomSeed = 'some-random-seed';
 
     context('when challenge in selected locale exists', () => {

@@ -18,7 +18,7 @@ module.exports = function buildChallenge(
     status = 'validé',
     timer,
     type = Challenge.Type.QCM,
-    locale = 'fr',
+    locales = ['fr'],
     // includes
     answer,
     validator = new Validator(),
@@ -41,7 +41,7 @@ module.exports = function buildChallenge(
     status,
     timer,
     type,
-    locale,
+    locales,
     // includes
     answer,
     validator,

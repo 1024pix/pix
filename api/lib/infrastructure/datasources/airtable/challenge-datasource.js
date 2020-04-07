@@ -32,7 +32,7 @@ module.exports = datasource.extend({
     'Embed height',
     'Texte alternatif illustration',
     'Format',
-    'Langue',
+    'Langues',
   ],
 
   fromAirTableObject(airtableRecord) {
@@ -79,7 +79,7 @@ module.exports = datasource.extend({
       competenceId,
       illustrationAlt: airtableRecord.get('Texte alternatif illustration'),
       format: airtableRecord.get('Format') || 'mots',
-      locale: _convertLangueToLocale(airtableRecord.get('Langue'))
+      locales: _convertLanguagesToLocales(airtableRecord.get('Langues') || [])
     };
   },
 
@@ -102,8 +102,12 @@ module.exports = datasource.extend({
   },
 });
 
-function _convertLangueToLocale(Langue) {
-  switch (Langue) {
+function _convertLanguagesToLocales(languages) {
+  return languages.map((language) => _convertLanguageToLocale(language));
+}
+
+function _convertLanguageToLocale(language) {
+  switch (language) {
     case 'Francophone':
       return FRENCH_SPOKEN;
     case 'Franco Français':
