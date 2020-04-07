@@ -39,8 +39,9 @@ export default class LoginForm extends Component {
 
   _manageErrorsApi(response) {
 
-    if (response && response.errors && response.errors.length > 0) {
-      const firstError = response.errors[0];
+    const errors = (response.responseJSON || {}).errors;
+    if ((errors || {}).length > 0) {
+      const firstError = response.responseJSON.errors[0];
       const messageError = this._showErrorMessages(firstError.status, firstError.detail);
       this.errorMessage = messageError;
     } else {
@@ -48,7 +49,7 @@ export default class LoginForm extends Component {
     }
   }
 
-  _showErrorMessages(statusCode, error) {
+  _showErrorMessages(statusCode,error) {
     const httpStatusCodeMessages = {
 
       '400': ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
