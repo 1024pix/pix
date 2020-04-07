@@ -26,7 +26,7 @@ export default class LoginForm extends Component {
   }
 
   _manageErrorsApi(response) {
-    const { responseJSON } = response;
+    const { responseJSON } = response || {};
     if (responseJSON && responseJSON.errors && responseJSON.errors.length > 0) {
       const firstError = responseJSON.errors[0];
       const messageError = this._showErrorMessages(firstError.status, firstError.detail);
