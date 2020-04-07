@@ -23,7 +23,7 @@ exports.register = async function(server) {
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master',
           'Elle permet de supprimer une entrée du cache de l’application\n' +
           'La clé de cache doit avoir la forme {table}_{id}, par exemple Epreuves_recABCDEF\n' +
-          'Attention : pour un état cohérent des objets stockés en cache, utiliser DELETE /api/cache'
+          'Attention : pour un état cohérent des objets stockés en cache, utiliser PATCH /api/cache'
         ]
       }
     }, {
