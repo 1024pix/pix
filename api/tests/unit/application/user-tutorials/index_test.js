@@ -12,7 +12,7 @@ function startServer() {
 
 describe('Unit | Router | user-tutorials-router', () => {
 
-  describe('PUT /api/users/me/tutorials/{tutorialId}', () => {
+  describe('PUT /api/users/tutorials/{tutorialId}', () => {
 
     beforeEach(() => {
       sinon.stub(securityController, 'checkUserIsAuthenticated').
@@ -28,7 +28,7 @@ describe('Unit | Router | user-tutorials-router', () => {
       // given
       const options = {
         method: 'PUT',
-        url: '/api/users/me/tutorials/{tutorialId}',
+        url: '/api/users/tutorials/{tutorialId}',
       };
 
       // when
@@ -40,7 +40,7 @@ describe('Unit | Router | user-tutorials-router', () => {
     });
   });
 
-  describe('GET /api/users/me/tutorials', () => {
+  describe('GET /api/users/tutorials', () => {
 
     beforeEach(() => {
       sinon.stub(securityController, 'checkUserIsAuthenticated').
@@ -56,7 +56,7 @@ describe('Unit | Router | user-tutorials-router', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/users/me/tutorials',
+        url: '/api/users/tutorials',
       };
 
       // when
@@ -65,6 +65,34 @@ describe('Unit | Router | user-tutorials-router', () => {
       // then
       expect(userTutorialsController.find).have.been.called;
       expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('DELETE /api/users/tutorials/{tutorialId}', () => {
+
+    beforeEach(() => {
+      sinon.stub(securityController, 'checkUserIsAuthenticated').
+        callsFake((request, h) => {
+          h.continue({ credentials: { accessToken: 'jwt.access.token' } });
+        });
+      sinon.stub(userTutorialsController, 'removeFromUser').
+        callsFake((request, h) => h.response().code(204));
+      startServer();
+    });
+
+    it('should exist', async () => {
+      // given
+      const options = {
+        method: 'DELETE',
+        url: '/api/users/tutorials/tutorialId',
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(userTutorialsController.removeFromUser).have.been.called;
+      expect(response.statusCode).to.equal(204);
     });
   });
 

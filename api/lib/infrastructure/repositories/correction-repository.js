@@ -4,24 +4,44 @@ const Correction = require('../../domain/models/Correction');
 const Hint = require('../../domain/models/Hint');
 const challengeDatasource = require('../datasources/airtable/challenge-datasource');
 const skillDatasource = require('../datasources/airtable/skill-datasource');
-const tutorialDatasource = require('../datasources/airtable/tutorial-datasource');
+const tutorialRepository = require('./tutorial-repository');
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 
-function _getSkillDataObjects(challengeDataObject) {
+module.exports = {
+
+  async getByChallengeId({ challengeId, userId }) {
+    const challenge = await challengeDatasource.get(challengeId);
+    const skills = await _getSkills(challenge);
+    const hints = await _getHints(skills);
+
+    const tutorials = await _getTutorials(userId, skills, 'tutorialIds');
+    const learningMoreTutorials = await _getTutorials(userId, skills, 'learningMoreTutorialIds');
+
+    return new Correction({
+      id: challenge.id,
+      solution: challenge.solution,
+      hints,
+      tutorials,
+      learningMoreTutorials: learningMoreTutorials,
+    });
+  }
+};
+
+async function _getHints(skills) {
+  const skillsWithHints = await _filterSkillsWithValidatedHint(skills);
+  return _convertSkillsToHints(skillsWithHints);
+}
+
+function _getSkills(challengeDataObject) {
   const skillDataObjectPromises = challengeDataObject.skillIds.map(skillDatasource.get);
   return Promise.all(skillDataObjectPromises);
 }
 
-function _getTutorialDataObjects(tutorialIds) {
-  const tutorialDataObjectPromise = tutorialIds.map(tutorialDatasource.get);
-  return Promise.all(tutorialDataObjectPromise);
-}
-
-function _filterSkillDataObjectsWithValidatedHint(skillDataObjects) {
+function _filterSkillsWithValidatedHint(skillDataObjects) {
   return skillDataObjects.filter((skillDataObject) => VALIDATED_HINT_STATUSES.includes(skillDataObject.hintStatus));
 }
 
-function _convertSkillDataObjectsToHints(skillDataObjects) {
+function _convertSkillsToHints(skillDataObjects) {
   return skillDataObjects.map((skillDataObject) => {
     return new Hint({
       skillName: skillDataObject.name,
@@ -30,54 +50,13 @@ function _convertSkillDataObjectsToHints(skillDataObjects) {
   });
 }
 
-module.exports = {
+async function _getTutorials(userId, skills, tutorialIdsProperty) {
+  const tutorialsIds = _(skills)
+    .map((skill) => skill[tutorialIdsProperty])
+    .filter((tutorialId) => !_.isEmpty(tutorialId))
+    .flatten()
+    .uniq()
+    .value();
+  return tutorialRepository.findByRecordIdsForCurrentUser({ ids: tutorialsIds, userId });
+}
 
-  getByChallengeId(challengeId) {
-    let challengeDataObject;
-    let hintsForChallenge;
-    let skillsForChallenge;
-
-    return challengeDatasource.get(challengeId)
-      .then((retrievedChallengeDataObject) => {
-        challengeDataObject = retrievedChallengeDataObject;
-        return retrievedChallengeDataObject;
-      })
-      .then(_getSkillDataObjects)
-      .then((skills) => {
-        skillsForChallenge = skills;
-        return _filterSkillDataObjectsWithValidatedHint(skillsForChallenge);
-      })
-      .then(_convertSkillDataObjectsToHints)
-      .then((hints) => {
-        hintsForChallenge = hints;
-        const tutorialsIds = _(skillsForChallenge)
-          .map((skill) => skill.tutorialIds)
-          .filter((tutorialId) => !_.isEmpty(tutorialId))
-          .flatten()
-          .uniq()
-          .value();
-
-        const learningMoreTutorialIds = _(skillsForChallenge)
-          .map((skill) => skill.learningMoreTutorialIds)
-          .filter((tutorialId) => !_.isEmpty(tutorialId))
-          .flatten()
-          .uniq()
-          .value();
-
-        return Promise.all([
-          _getTutorialDataObjects(tutorialsIds),
-          _getTutorialDataObjects(learningMoreTutorialIds),
-        ]);
-      })
-      .then(([tutorials, learningMoreTutorials]) => {
-
-        return new Correction({
-          id: challengeDataObject.id,
-          solution: challengeDataObject.solution,
-          hints: hintsForChallenge,
-          tutorials: tutorials,
-          learningMoreTutorials: learningMoreTutorials,
-        });
-      });
-  }
-};

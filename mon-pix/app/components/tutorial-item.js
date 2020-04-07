@@ -24,6 +24,7 @@ export default class TutorialItemComponent extends Component {
     super(owner, args);
     this.status = this.tutorial.isSaved ? statusTypes.saved : statusTypes.unsaved;
   }
+
   get tutorial() {
     return this.args.tutorial;
   }
@@ -40,28 +41,39 @@ export default class TutorialItemComponent extends Component {
     return this.status === 'saved';
   }
 
-  get saveButtonText() {
-    return this.status === statusTypes.saved ? 'Enregistré' : 'Enregistrer';
+  get buttonText() {
+    return this.status === statusTypes.saved ? 'Retirer' : 'Enregistrer';
   }
 
-  get saveButtonTitle() {
-    return this.status === statusTypes.saved ? 'Tuto déjà enregistré' : 'Enregistrer dans ma liste de tutos';
+  get buttonTitle() {
+    return this.status === statusTypes.saved ? 'Retirer' : 'Enregistrer dans ma liste de tutos';
   }
 
-  get isSaveButtonDisabled() {
-    return this.status !== statusTypes.unsaved;
+  get isButtonDisabled() {
+    return this.status === statusTypes.saving;
   }
 
   @action
   async saveTutorial() {
     this.status = statusTypes.saving;
-    const userTutorial = this.store.createRecord('userTutorial', { tutorial: this.args.tutorial });
+    const userTutorial = this.store.createRecord('userTutorial', { tutorial: this.tutorial });
     try {
-      await userTutorial.save({ adapterOptions: { tutorialId: this.args.tutorial.id } });
+      await userTutorial.save({ adapterOptions: { tutorialId: this.tutorial.id } });
+      userTutorial.tutorial = this.tutorial;
       this.status = statusTypes.saved;
-      this.tutorial.isSaved = true;
     } catch (e) {
-      this.tutorial.status = statusTypes.unsaved;
+      this.status = statusTypes.unsaved;
+    }
+  }
+
+  @action
+  async removeTutorial() {
+    this.status = statusTypes.saving;
+    try {
+      await this.tutorial.userTutorial.destroyRecord({ adapterOptions: { tutorialId: this.tutorial.id } });
+      this.status = statusTypes.unsaved;
+    } catch (e) {
+      this.status = statusTypes.saved;
     }
   }
 

@@ -15,8 +15,8 @@
       <article aria-label="tutoriels" class="user-tutorials-content">
         <h3 class="user-tutorials-content__title">Ma liste</h3>
         <div>
-          {{#each @model as |tutorial|}}
-            <TutorialItem @tutorial={{tutorial}} />
+          {{#each @model as |userTutorial|}}
+            <TutorialItem @tutorial={{userTutorial.tutorial}} />
           {{/each}}
         </div>
       </article>

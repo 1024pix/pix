@@ -27,7 +27,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
               source: 'Youtube',
               title: 'Comment dresser un panda',
             }),
-            isSaved: true,
+            userTutorial: { id: 'userTutorial1', userId: 'userId', tutorialId: 'recTuto1' },
           },
           {
             ...new Tutorial({
@@ -38,7 +38,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
               source: 'Youtube',
               title: 'Comment dresser un chat',
             }),
-            isSaved: true,
+            userTutorial: { id: 'userTutorial2', userId: 'userId', tutorialId: 'recTuto2' },
           },
           {
             ...new Tutorial({
@@ -50,7 +50,6 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
               title: 'Comment dresser un chien',
               isSaved: false,
             }),
-            isSaved: false,
           }
         ],
         learningMoreTutorials: [
@@ -63,7 +62,6 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
               source: 'Café Craft',
               title: 'Explorons les problèmes humains de la Technique',
             }),
-            isSaved: false,
           },
           {
             ...new Tutorial({
@@ -74,7 +72,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
               source: 'Youtube',
               title: 'Why the Universe Needs Dark Energy | Space Time | PBS Digital Studios',
             }),
-            isSaved: true,
+            userTutorial: { id: 'userTutorial5', userId: 'userId', tutorialId: 'recTuto5' },
           }
         ]
       });
@@ -124,6 +122,15 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
         },
         'included': [
           {
+            'id': 'userTutorial1',
+            'type': 'user-tutorial',
+            'attributes': {
+              'id': 'userTutorial1',
+              'tutorial-id': 'recTuto1',
+              'user-id': 'userId',
+            },
+          },
+          {
             'attributes': {
               'duration': '00:01:30',
               'format': 'video',
@@ -131,10 +138,26 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
               'link': 'https://youtube.fr',
               'source': 'Youtube',
               'title': 'Comment dresser un panda',
-              'is-saved': true,
             },
             'id': 'recTuto1',
             'type': 'tutorials',
+            'relationships': {
+              'user-tutorial': {
+                'data': {
+                  'id': 'userTutorial1',
+                  'type': 'user-tutorial'
+                }
+              }
+            }
+          },
+          {
+            'attributes': {
+              'id': 'userTutorial2',
+              'tutorial-id': 'recTuto2',
+              'user-id': 'userId',
+            },
+            'id': 'userTutorial2',
+            'type': 'user-tutorial'
           },
           {
             'attributes': {
@@ -144,53 +167,71 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
               'link': 'https://youtube.fr',
               'source': 'Youtube',
               'title': 'Comment dresser un chat',
-              'is-saved': true,
             },
             'id': 'recTuto2',
             'type': 'tutorials',
+            'relationships': {
+              'user-tutorial': {
+                'data': {
+                  'id': 'userTutorial2',
+                  'type': 'user-tutorial'
+                }
+              }
+            }
           },
           {
-            'attributes':
-              {
-                'duration': '00:01:30',
-                'format': 'video',
-                'id': 'recTuto3',
-                'link': 'https://youtube.fr',
-                'source': 'Youtube',
-                'title': 'Comment dresser un chien',
-                'is-saved': false,
-              },
+            'attributes': {
+              'duration': '00:01:30',
+              'format': 'video',
+              'id': 'recTuto3',
+              'link': 'https://youtube.fr',
+              'source': 'Youtube',
+              'title': 'Comment dresser un chien',
+            },
             'id': 'recTuto3',
             'type': 'tutorials',
           },
           {
-            'attributes':
-              {
-                'duration': '00:30:19',
-                'format': 'page',
-                'id': 'recTuto4',
-                'link': 'http://www.cafe-craft.fr',
-                'source': 'Café Craft',
-                'title': 'Explorons les problèmes humains de la Technique',
-                'is-saved': false,
-              },
+            'attributes': {
+              'duration': '00:30:19',
+              'format': 'page',
+              'id': 'recTuto4',
+              'link': 'http://www.cafe-craft.fr',
+              'source': 'Café Craft',
+              'title': 'Explorons les problèmes humains de la Technique',
+            },
             'id': 'recTuto4',
             'type': 'tutorials',
           },
           {
-            'attributes':
-              {
-                'duration': '00:12:40',
-                'format': 'video',
-                'id': 'recTuto5',
-                'link': 'https://www.youtube.com/watch?v=-4PayaEgEZc',
-                'source': 'Youtube',
-                'title': 'Why the Universe Needs Dark Energy | Space Time | PBS Digital Studios',
-                'is-saved': true,
-              },
+            'attributes': {
+              'id': 'userTutorial5',
+              'tutorial-id': 'recTuto5',
+              'user-id': 'userId',
+            },
+            'id': 'userTutorial5',
+            'type': 'user-tutorial'
+          },
+          {
+            'attributes': {
+              'duration': '00:12:40',
+              'format': 'video',
+              'id': 'recTuto5',
+              'link': 'https://www.youtube.com/watch?v=-4PayaEgEZc',
+              'source': 'Youtube',
+              'title': 'Why the Universe Needs Dark Energy | Space Time | PBS Digital Studios',
+            },
             'id': 'recTuto5',
             'type': 'tutorials',
-          },
+            'relationships': {
+              'user-tutorial': {
+                'data': {
+                  'id': 'userTutorial5',
+                  'type': 'user-tutorial'
+                }
+              }
+            }
+          }
         ],
       });
     });

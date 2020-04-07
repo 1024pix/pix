@@ -70,14 +70,17 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', () => {
       expect(result).to.deep.equal(expectedSerializedResult);
     });
 
-    it('should return a serialized JSON data object, enhanced by saving info', () => {
+    it('should return a serialized JSON data object, with userTutorial related to', () => {
       // given
       const tutorialId = 123;
+      const userId = 456;
+      const userTutorialId = `${userId}_${tutorialId}`;
 
       const tutorial = domainBuilder.buildTutorial({
         id: tutorialId,
       });
-      tutorial.isSaved = true;
+      const userTutorial = { userId, id: userTutorialId, tutorialId };
+      tutorial.userTutorial = userTutorial;
 
       const expectedSerializedResult = {
         data: {
@@ -89,9 +92,25 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', () => {
             'link': 'https://youtube.fr',
             'source': 'Youtube',
             'title': 'Savoir regarder des vidéos youtube.',
-            'is-saved': true,
           },
+          relationships: {
+            'user-tutorial': {
+              data: {
+                id: userTutorialId,
+                type: 'user-tutorial',
+              }
+            }
+          }
         },
+        included: [{
+          attributes: {
+            id: userTutorialId,
+            'user-id': userId,
+            'tutorial-id': tutorialId,
+          },
+          id: userTutorialId,
+          type: 'user-tutorial',
+        }]
       };
 
       // when

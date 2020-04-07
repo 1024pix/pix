@@ -8,7 +8,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
 
   let options;
   let server;
-  let userId;
+  const userId = 42;
 
   const competenceId = 'recCompetence';
   const skillWeb1Id = 'recAcquisWeb1';
@@ -18,7 +18,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
   beforeEach(async () => {
     await cache.flushAll();
     server = await createServer();
-    userId = databaseBuilder.factory.buildUser({}).id;
+    databaseBuilder.factory.buildUser({ id: userId });
     await databaseBuilder.commit();
   });
 
@@ -133,7 +133,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
               description: competence.fields.Description,
               'competence-id': competenceId,
               index: competence.fields['Sous-domaine'],
-              'earned-pix': knowledgeElement.earnedPix ,
+              'earned-pix': knowledgeElement.earnedPix,
               level: Math.round(knowledgeElement.earnedPix / 8),
               'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,
               status: 'STARTED',
@@ -207,6 +207,9 @@ describe('Acceptance | Controller | scorecard-controller', () => {
       const tutorialWebId2 = 'recTutorial2';
 
       beforeEach(async () => {
+        databaseBuilder.factory.buildUserTutorial({ id: 10500, userId, tutorialId: tutorialWebId });
+        await databaseBuilder.commit();
+
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         const tutorials = [
@@ -218,8 +221,8 @@ describe('Acceptance | Controller | scorecard-controller', () => {
           airtableBuilder.factory.buildSkill({
             id: skillWeb1Id,
             nom: skillWeb1Name,
-            'comprendre': [ tutorials[0].id, tutorials[1].id ],
-            'compétenceViaTube': [ competenceId ],
+            'comprendre': [tutorials[0].id, tutorials[1].id],
+            'compétenceViaTube': [competenceId],
           }),
         ];
 
@@ -294,8 +297,15 @@ describe('Acceptance | Controller | scorecard-controller', () => {
                 'tube-name': '@web',
                 'tube-practical-description': 'Ceci est une description pratique',
                 'tube-practical-title': 'Ceci est un titre pratique',
-                'is-saved': false,
-              }
+              },
+              relationships: {
+                'user-tutorial': {
+                  'data': {
+                    'id': '10500',
+                    'type': 'user-tutorial'
+                  }
+                }
+              },
             },
             {
               'type': 'tutorials',
@@ -309,10 +319,20 @@ describe('Acceptance | Controller | scorecard-controller', () => {
                 'tube-name': '@web',
                 'tube-practical-description': 'Ceci est une description pratique',
                 'tube-practical-title': 'Ceci est un titre pratique',
-                'is-saved': false,
-              }
+              },
+            },
+          ],
+          included: [
+            {
+              'attributes': {
+                'id': 10500,
+                'tutorial-id': 'recTutorial1',
+                'user-id': 42,
+              },
+              'id': '10500',
+              'type': 'user-tutorial',
             }
-          ]
+          ],
         };
 
         // when
