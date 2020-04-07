@@ -12,7 +12,7 @@ function startServer() {
 
 describe('Unit | Router | user-tutorials-router', () => {
 
-  describe('PUT /api/users/me/tutorials/{tutorialId}', () => {
+  describe('PUT /api/users/tutorials/{tutorialId}', () => {
 
     beforeEach(() => {
       sinon.stub(securityController, 'checkUserIsAuthenticated').
@@ -28,7 +28,7 @@ describe('Unit | Router | user-tutorials-router', () => {
       // given
       const options = {
         method: 'PUT',
-        url: '/api/users/me/tutorials/{tutorialId}',
+        url: '/api/users/tutorials/{tutorialId}',
       };
 
       // when
@@ -40,7 +40,7 @@ describe('Unit | Router | user-tutorials-router', () => {
     });
   });
 
-  describe('GET /api/users/me/tutorials', () => {
+  describe('GET /api/users/tutorials', () => {
 
     beforeEach(() => {
       sinon.stub(securityController, 'checkUserIsAuthenticated').
@@ -56,7 +56,7 @@ describe('Unit | Router | user-tutorials-router', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/users/me/tutorials',
+        url: '/api/users/tutorials',
       };
 
       // when
@@ -68,7 +68,7 @@ describe('Unit | Router | user-tutorials-router', () => {
     });
   });
 
-  describe('DELETE /api/users/me/tutorials/{tutorialId}', () => {
+  describe('DELETE /api/users/tutorials/{tutorialId}', () => {
 
     beforeEach(() => {
       sinon.stub(securityController, 'checkUserIsAuthenticated').
@@ -84,7 +84,7 @@ describe('Unit | Router | user-tutorials-router', () => {
       // given
       const options = {
         method: 'DELETE',
-        url: '/api/users/me/tutorials/tutorialId',
+        url: '/api/users/tutorials/tutorialId',
       };
 
       // when
