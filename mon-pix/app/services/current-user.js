@@ -1,17 +1,20 @@
 import Service, { inject as service } from '@ember/service';
 import _ from 'lodash';
 
-export default Service.extend({
+export default class CurrentUserService extends Service {
+  @service session;
+  @service store;
 
-  session: service(),
-  store: service(),
+  _user = undefined;
+
+  get user() {
+    return this._user;
+  }
 
   async load() {
-    if (this.get('session.isAuthenticated')) {
+    if (this.session.isAuthenticated) {
       try {
-        const user = await this.store.queryRecord('user', { me: true });
-
-        this.set('user', user);
+        this._user = await this.store.queryRecord('user', { me: true });
       }
       catch (error) {
         if (_.get(error, 'errors[0].code') === 401) {
@@ -20,4 +23,4 @@ export default Service.extend({
       }
     }
   }
-});
+}
