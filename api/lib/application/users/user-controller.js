@@ -135,5 +135,13 @@ module.exports = {
 
     return usecases.getUserWithOrgaSettings({ userId: authenticatedUserId })
       .then((user) => userOrgaSettingsSerializer.serialize(user.userOrgaSettings));
+  },
+
+  getUserCampaignParticipationToCampaign(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+    const campaignId = request.params.campaignId;
+
+    return usecases.getUserCampaignParticipationToCampaign({ userId: authenticatedUserId, campaignId })
+      .then((campaignParticipation) => campaignParticipationSerializer.serialize(campaignParticipation));
   }
 };

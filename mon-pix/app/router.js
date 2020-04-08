@@ -52,6 +52,7 @@ Router.map(function() {
     this.route('fill-in-id-pix', { path: '/:campaign_code/identifiant' });
     this.route('tutorial', { path: '/:campaign_code/didacticiel' });
     this.route('skill-review', { path: '/:campaign_code/resultats/:assessment_id' });
+    this.route('send-profile', { path: '/:campaign_code/envoi-profil' });
   });
 
   this.route('competences', { path: '/competences/:competence_id' }, function() {

@@ -5,29 +5,26 @@ const Assessment = require('../models/Assessment');
 const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../domain/errors');
 
 module.exports = async function startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository }) {
-  await _checkCampaignExists(campaignParticipation.campaignId, campaignRepository);
-  const campaignParticipationCreated = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository);
-  await _createSmartPlacementAssessment(userId, assessmentRepository, campaignParticipationCreated);
-  return campaignParticipationCreated;
+  const campaign = await campaignRepository.get(campaignParticipation.campaignId);
+
+  if (campaign === null) {
+    throw new NotFoundError('La campagne demandée n\'existe pas');
+  }
+
+  const createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository);
+  if (campaign.isAssessment()) {
+    await _createSmartPlacementAssessment(userId, assessmentRepository, createdCampaignParticipation);
+  }
+  return createdCampaignParticipation;
 };
 
-async function _checkCampaignExists(campaignId, campaignRepository) {
-  return campaignRepository.get(campaignId)
-    .then((campaign) => {
-      if (campaign === null) {
-        return Promise.reject(new NotFoundError('La campagne demandée n\'existe pas'));
-      }
-      return Promise.resolve();
-    });
-}
-
-async function _createSmartPlacementAssessment(userId, assessmentRepository, campaignParticipationCreated) {
+async function _createSmartPlacementAssessment(userId, assessmentRepository, createdCampaignParticipation) {
   const assessment = new Assessment({
     userId,
     state: Assessment.states.STARTED,
     type: Assessment.types.SMARTPLACEMENT,
     courseId: Assessment.courseIdMessage.SMART_PLACEMENT,
-    campaignParticipationId: campaignParticipationCreated.id
+    campaignParticipationId: createdCampaignParticipation.id
   });
   return assessmentRepository.save(assessment);
 }

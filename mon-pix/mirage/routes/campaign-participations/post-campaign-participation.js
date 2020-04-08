@@ -6,6 +6,10 @@ export default function(schema, request) {
 
   const campaign = schema.campaigns.find(campaignId);
 
+  if (campaign.type === 'PROFILES_COLLECTION') {
+    return schema.campaignParticipations.create({ participantExternalId, campaign });
+  }
+
   const newAssessment = {
     type: 'SMART_PLACEMENT',
     codeCampaign: campaign.code,

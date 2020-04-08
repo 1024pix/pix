@@ -14,7 +14,7 @@ import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'ember-cli-mirage';
 
-describe('Acceptance | Campaigns | Start Campaigns', function() {
+describe('Acceptance | Campaigns | Start Campaigns with type Assessment', function() {
   setupApplicationTest();
   setupMirage();
   let campaign;
@@ -29,7 +29,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
     });
   });
 
-  describe('Start a campaigns course', function() {
+  describe('Start a campaign', function() {
     let prescritUser;
 
     beforeEach(function() {

@@ -1,5 +1,5 @@
 #language: fr
-Fonctionnalité: Campagne
+Fonctionnalité: Campagne d'évaluation
 
   Contexte:
     Étant donné que les données de test sont chargées

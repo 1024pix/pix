@@ -63,6 +63,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     organizationId: 1,
     creatorId: 2,
     idPixLabel: null,
+    title: null,
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -73,5 +74,6 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     organizationId: 3,
     creatorId: 4,
     idPixLabel: 'identifiant élève',
+    title: null,
   });
 };

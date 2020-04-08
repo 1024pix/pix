@@ -13,9 +13,8 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
   let route;
   let storeStub;
   let createCampaignParticipationStub;
-  let queryChallengeStub;
+  let queryRecordStub;
   let queryStub;
-  let savedAssessment;
   let createdCampaignParticipation;
   let campaign;
   const campaignCode = 'CODECAMPAIGN';
@@ -24,16 +23,16 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
     createCampaignParticipationStub = sinon.stub().returns({
       save: sinon.stub().resolves(),
     });
-    queryChallengeStub = sinon.stub();
+    queryRecordStub = sinon.stub();
     queryStub = sinon.stub();
     storeStub = Service.create({
-      queryRecord: queryChallengeStub, query: queryStub, createRecord: createCampaignParticipationStub
+      queryRecord: queryRecordStub, query: queryStub, createRecord: createCampaignParticipationStub
     });
-    savedAssessment = EmberObject.create({ id: 1234, codeCampaign: campaignCode, reload: sinon.stub() });
-    createdCampaignParticipation = EmberObject.create({ id: 456, assessment: savedAssessment });
-    campaign = EmberObject.create({ code: campaignCode });
+    createdCampaignParticipation = EmberObject.create({ id: 456 });
+    campaign = EmberObject.create({ id: 987, code: campaignCode });
     route = this.owner.lookup('route:campaigns/fill-in-id-pix');
     route.set('store', storeStub);
+    route.set('currentUser', { user: { id: 'userId' } });
     this.owner.register('service:session', Service.extend({ invalidate: sinon.stub(), isAuthenticated: true }));
   });
 
@@ -49,31 +48,6 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
           }
         }
       };
-      route.replaceWith = sinon.stub();
-    });
-
-    it('should redirect to start-or-resume when there is already an assessement', async function() {
-      // given
-      const assessments = A([savedAssessment]);
-      queryStub.resolves(assessments);
-
-      // when
-      await route.beforeModel(transition);
-
-      // then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.start-or-resume', campaignCode);
-    });
-
-    it('should not redirect to start-or-resume when there is no assessement', async function() {
-      // given
-      const assessments = A([]);
-      queryStub.resolves(assessments);
-
-      // when
-      await route.beforeModel(transition);
-
-      // then
-      sinon.assert.notCalled(route.replaceWith);
     });
 
     context('When participant external id is set in the url', function() {
@@ -91,8 +65,9 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
             }
           }
         };
-        const assessments = A([]);
-        queryStub.resolves(assessments);
+        const campaigns = A([campaign]);
+        queryStub.resolves(campaigns);
+        queryRecordStub.resolves(null);
 
         // when
         await route.beforeModel(transition);
@@ -127,9 +102,22 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
   describe('#afterModel', function() {
 
+    it('should redirect to start-or-resume when there is already a campaign participation', async function() {
+      // given
+      queryRecordStub.resolves(createdCampaignParticipation);
+      route.replaceWith = sinon.stub();
+
+      // when
+      await route.afterModel(campaign);
+
+      // then
+      sinon.assert.calledWithExactly(route.replaceWith, 'campaigns.start-or-resume', campaignCode, { queryParams: { campaignParticipationIsStarted: true } });
+    });
+
     it('should start the campaign when there is no idPixLabel', async function() {
       // given
       const campaignWithoutIdPixLabel = { idPixLabel: undefined };
+      queryRecordStub.resolves(null);
       route.start = sinon.stub();
 
       // when
@@ -143,6 +131,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       // given
       const campaignWithIdPixLabel =  { idPixLabel: 'some label' };
       const participantExternalId = 'a73at01r3';
+      queryRecordStub.resolves(null);
       route.start = sinon.stub();
       route.set('givenParticipantExternalId', participantExternalId);
 
@@ -159,13 +148,11 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
     const participantExternalId = 'Identifiant professionnel';
 
     beforeEach(function() {
-      savedAssessment.reload.resolves();
       route.transitionTo = sinon.stub();
       route.set('campaignCode', 'AZERTY123');
       createCampaignParticipationStub.returns({
         save: () => Promise.resolve(createdCampaignParticipation)
       });
-      queryChallengeStub.resolves();
     });
 
     it('should create new campaignParticipation', function() {

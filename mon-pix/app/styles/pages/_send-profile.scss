@@ -1,0 +1,51 @@
+.send-profile-header {
+
+  padding: 40px;
+
+  &__announcement {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+  }
+
+  &__title {
+    color: $grey-90;
+    font-family: $font-open-sans;
+    font-size: 3.2rem;
+    text-align: center;
+    font-weight: $font-light;
+  }
+
+  &__instruction {
+    color: $grey-90;
+    font-size: 2rem;
+    font-family: $font-open-sans;
+    line-height: 4rem;
+    text-align: center;
+    margin: 30px;
+    font-weight: $font-light;
+  }
+
+  &__form {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    border-radius: 6px;
+    background-color: $grey-10;
+    padding: 20px;
+  }
+
+  &__recipient {
+    color: $grey-90;
+    font-family: $font-open-sans;
+    font-size: 2rem;
+    font-weight: $font-medium;
+  }
+
+  &__warning {
+    color: $grey-90;
+    font-size: 1.2rem;
+    letter-spacing: 0.36px;
+    padding-top: 10px;
+  }
+}
