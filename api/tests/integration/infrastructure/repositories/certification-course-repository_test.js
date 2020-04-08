@@ -96,9 +96,9 @@ describe('Integration | Repository | Certification Course', function() {
         });
       anotherCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
       _.each([
-        { courseId: expectedCertificationCourse.id },
-        { courseId: expectedCertificationCourse.id },
-        { courseId: anotherCourseId },
+        { certificationCourseId: expectedCertificationCourse.id },
+        { certificationCourseId: expectedCertificationCourse.id },
+        { certificationCourseId: anotherCourseId },
       ], (certificationChallenge) => {
         databaseBuilder.factory.buildCertificationChallenge(certificationChallenge);
       });

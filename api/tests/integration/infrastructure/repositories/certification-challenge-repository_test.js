@@ -45,12 +45,9 @@ describe('Integration | Repository | Certification Challenge', function() {
           challengeId: 'chal123ABC',
           competenceId: 'comp456DEF',
           associatedSkill: '@url6',
-          courseId: certificationCourseId,
+          certificationCourseId,
         });
-      databaseBuilder.factory.buildCertificationChallenge(
-        {
-          courseId: certificationCourseId,
-        });
+      databaseBuilder.factory.buildCertificationChallenge({ certificationCourseId });
       databaseBuilder.factory.buildCertificationChallenge(
         {
           challengeId: 'chal789GHI',
@@ -94,7 +91,7 @@ describe('Integration | Repository | Certification Challenge', function() {
         const challenge = databaseBuilder.factory.buildCertificationChallenge(
           {
             challengeId: 'recChallenge1',
-            courseId: certificationCourseId,
+            certificationCourseId,
             associatedSkill: '@brm7',
             competenceId: 'recCompetenceId1',
           });
@@ -132,14 +129,14 @@ describe('Integration | Repository | Certification Challenge', function() {
         const answeredChallenge = databaseBuilder.factory.buildCertificationChallenge(
           {
             challengeId: 'recChallenge1',
-            courseId: certificationCourseId,
+            certificationCourseId,
             associatedSkill: '@brm7',
             competenceId: 'recCompetenceId1',
           });
         unansweredChallenge =
           {
             challengeId: 'recChallenge2',
-            courseId: certificationCourseId,
+            certificationCourseId,
             associatedSkill: '@brm24',
             competenceId: 'recCompetenceId2',
           };

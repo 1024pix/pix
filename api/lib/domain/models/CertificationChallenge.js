@@ -6,7 +6,7 @@ class CertificationChallenge {
     // includes
     // references
     challengeId,
-    courseId,
+    certificationCourseId,
     competenceId,
   } = {}) {
     this.id = id;
@@ -16,7 +16,7 @@ class CertificationChallenge {
     // references
     this.challengeId = challengeId;
     this.competenceId = competenceId;
-    this.courseId = courseId;
+    this.certificationCourseId = certificationCourseId;
   }
 }
 

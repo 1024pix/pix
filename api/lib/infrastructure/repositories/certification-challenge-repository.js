@@ -17,7 +17,7 @@ module.exports = {
       challengeId: challenge.id,
       competenceId: challenge.competenceId,
       associatedSkill: challenge.testedSkill,
-      courseId: certificationCourse.id,
+      certificationCourseId: certificationCourse.id,
     });
 
     return certificationChallenge.save()
@@ -28,19 +28,19 @@ module.exports = {
 
   findByCertificationCourseId(certificationCourseId) {
     return CertificationChallengeBookshelf
-      .where({ courseId: certificationCourseId })
+      .where({ certificationCourseId })
       .fetchAll()
       .then((challenges) => bookshelfToDomainConverter.buildDomainObjects(CertificationChallengeBookshelf, challenges));
   },
 
-  getNonAnsweredChallengeByCourseId(assessmentId, courseId) {
+  getNonAnsweredChallengeByCourseId(assessmentId, certificationCourseId) {
 
     const answeredChallengeIds = Bookshelf.knex('answers')
       .select('challengeId')
       .where({ assessmentId });
 
     return CertificationChallengeBookshelf
-      .where({ courseId })
+      .where({ certificationCourseId })
       .query((knex) => knex.whereNotIn('challengeId', answeredChallengeIds))
       .fetch()
       .then((certificationChallenge) => {

@@ -6,7 +6,7 @@ module.exports = function buildCertificationChallenge({
   id = faker.random.number(),
   challengeId = `rec${faker.random.uuid()}`,
   competenceId = `rec${faker.random.uuid()}`,
-  courseId = faker.random.number(),
+  certificationCourseId = faker.random.number(),
   associatedSkill = buildSkill().name,
 } = {}) {
 
@@ -14,7 +14,7 @@ module.exports = function buildCertificationChallenge({
     id,
     challengeId,
     competenceId,
-    courseId,
+    certificationCourseId,
     associatedSkill,
   });
 };

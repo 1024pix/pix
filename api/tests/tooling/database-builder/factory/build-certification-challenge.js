@@ -8,19 +8,19 @@ module.exports = function buildCertificationChallenge({
   associatedSkill = '@twi8',
   challengeId = `rec${faker.random.uuid()}`,
   competenceId = `rec${faker.random.uuid()}`,
-  courseId,
+  certificationCourseId,
   createdAt = faker.date.past(),
   updatedAt = faker.date.recent(),
 } = {}) {
 
-  courseId = _.isUndefined(courseId) ? buildCertificationCourse().id : courseId;
+  certificationCourseId = _.isUndefined(certificationCourseId) ? buildCertificationCourse().id : certificationCourseId;
 
   const values = {
     id,
     associatedSkill,
     challengeId,
     competenceId,
-    courseId,
+    certificationCourseId,
     createdAt,
     updatedAt,
   };
