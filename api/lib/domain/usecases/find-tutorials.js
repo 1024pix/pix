@@ -39,7 +39,7 @@ module.exports = async function findTutorials({
 
 async function _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository, userId) {
   return await Promise.all(_.map(easiestSkills, async (skill) => {
-    const tube = _.find(tubes, { name: skill.tubeNameWithAt });
+    const tube = _.find(tubes, { name: skill.tubeName });
     const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: skill.tutorialIds, userId });
     return _.map(tutorials, (tutorial) => {
       tutorial.tubeName = tube.name;
@@ -55,7 +55,7 @@ function _getEasiestSkills(skillsGroupByTube) {
 }
 
 function _getSkillsGroupedByTube(failedSkills) {
-  return _.groupBy(_(_.orderBy(failedSkills, 'difficulty')).uniq().value(), 'tubeNameWithAt');
+  return _.groupBy(_(_.orderBy(failedSkills, 'difficulty')).uniq().value(), 'tubeName');
 }
 
 function _getFailedSkills(skills, invalidatedDirectKnowledgeElements) {

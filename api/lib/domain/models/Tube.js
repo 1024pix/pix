@@ -29,7 +29,7 @@ class Tube {
     if (name) {
       this.name = name;
     } else if (skills.length > 0) {
-      this.name = skills[0].tubeName;
+      this.name = skills[0].tubeNameWithoutPrefix;
     } else {
       this.name = '';
     }
