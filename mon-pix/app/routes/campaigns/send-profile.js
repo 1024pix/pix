@@ -16,4 +16,10 @@ export default class CampaignsSendProfileRoute extends Route {
       campaignParticipation: this.store.queryRecord('campaignParticipation', { campaignId: campaign.id, userId }),
     });
   }
+
+  async afterModel({ campaign, campaignParticipation }) {
+    if (!campaignParticipation) {
+      return this.replaceWith('campaigns.start-or-resume', campaign.code);
+    }
+  }
 }
