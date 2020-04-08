@@ -3,10 +3,13 @@ const Badge = require('../models/Badge');
 const CertificationPartnerAcquisition = require('../models/CertificationPartnerAcquisition');
 const CompetenceMark = require('../models/CompetenceMark');
 const Promise = require('bluebird');
-const { MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED, UNCERTIFIED_LEVEL } = require('../constants');
+const { MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_CERTIFIED, MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED, UNCERTIFIED_LEVEL } = require('../constants');
 const {
   CertificationComputeError,
 } = require('../errors');
+
+const CERTIF_GREEN_ZONE = 'green_zone';
+const CERTIF_RED_ZONE = 'red_zone';
 
 const handleCertificationScoring = async function({
   assessmentCompletedEvent,
@@ -86,10 +89,25 @@ async function _saveResult({
 
 function _checkCriteriaFullfilledClea(hasBadgeClea, percentageCorrectAnswers) {
   if (hasBadgeClea) {
-    // Green zone
-    return percentageCorrectAnswers >= MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED;
+    switch (_getPartnerCertificationObtentionZone(percentageCorrectAnswers)) {
+      case CERTIF_GREEN_ZONE:
+        return true;
+      case CERTIF_RED_ZONE:
+        return false;
+    }
   }
+
   return false;
+}
+
+function _getPartnerCertificationObtentionZone(percentageCorrectAnswers) {
+  if (percentageCorrectAnswers >= MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED) {
+    return CERTIF_GREEN_ZONE;
+  } else if (percentageCorrectAnswers <= MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_CERTIFIED) {
+    return CERTIF_RED_ZONE;
+  }
+
+  return null;
 }
 
 function _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository }) {

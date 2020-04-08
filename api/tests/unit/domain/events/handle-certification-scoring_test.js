@@ -198,7 +198,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
             })
           );
 
-          [1, 79].forEach((reproducabilityRate) =>
+          [1, 50].forEach((reproducabilityRate) =>
             it(`for ${reproducabilityRate} it should not obtain CleA certification`, async () => {
               // given
               sinon.stub(certificationPartnerAcquisitionRepository, 'save').resolves();
