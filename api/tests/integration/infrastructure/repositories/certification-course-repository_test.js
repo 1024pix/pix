@@ -127,7 +127,7 @@ describe('Integration | Repository | Certification Course', function() {
         const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
         // then
-        expect(thisCertificationCourse.challenges.length).to.equal(2);
+        expect(thisCertificationCourse.certificationChallenges.length).to.equal(2);
       });
 
       context('When the certification course has one assessment', () => {

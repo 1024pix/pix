@@ -20,7 +20,7 @@ module.exports = Bookshelf.model('CertificationCourse', {
     return this.hasOne('Assessment', 'certificationCourseId');
   },
 
-  challenges() {
+  certificationChallenges() {
     return this.hasMany('CertificationChallenge', 'certificationCourseId');
   },
 

@@ -75,7 +75,7 @@ describe('Unit | Service | Certification Challenge Service', function() {
       return promise.then((certificationCourse) => {
         expect(certificationCourse).to.deep.equal({
           id :'certification-course-id',
-          challenges : ['challenge', 'challenge'],
+          certificationChallenges : ['challenge', 'challenge'],
         });
       });
     });

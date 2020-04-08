@@ -3,16 +3,16 @@ const certificationChallengeRepository = require('../../infrastructure/repositor
 module.exports = {
 
   saveChallenges(userCompetences, certificationCourse) {
-    const saveChallengePromises = [];
+    const saveCertificationChallengePromises = [];
     userCompetences.forEach((userCompetence) => {
       userCompetence.challenges.forEach((challenge) => {
-        saveChallengePromises.push(certificationChallengeRepository.save(challenge, certificationCourse));
+        saveCertificationChallengePromises.push(certificationChallengeRepository.save(challenge, certificationCourse));
       });
     });
 
-    return Promise.all(saveChallengePromises)
+    return Promise.all(saveCertificationChallengePromises)
       .then((certificationChallenges) => {
-        certificationCourse.challenges = certificationChallenges;
+        certificationCourse.certificationChallenges = certificationChallenges;
         return certificationCourse;
       });
   }

@@ -16,7 +16,7 @@ class CertificationCourse {
       isV2Certification = false,
       // includes
       assessment,
-      challenges,
+      certificationChallenges,
       // references
       userId,
       sessionId,
@@ -36,7 +36,7 @@ class CertificationCourse {
     this.isV2Certification = isV2Certification;
     // includes
     this.assessment = assessment;
-    this.challenges = challenges;
+    this.certificationChallenges = certificationChallenges;
     // references
     this.userId = userId;
     this.sessionId = sessionId;

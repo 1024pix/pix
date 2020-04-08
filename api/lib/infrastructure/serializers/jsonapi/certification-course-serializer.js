@@ -7,7 +7,7 @@ module.exports = {
     return new Serializer('certification-course', {
       transform(currentCertificationCourse) {
         const certificationCourse = Object.assign({}, currentCertificationCourse);
-        certificationCourse.nbChallenges = currentCertificationCourse.challenges ? currentCertificationCourse.challenges.length : 0;
+        certificationCourse.nbChallenges = currentCertificationCourse.certificationChallenges ? currentCertificationCourse.certificationChallenges.length : 0;
 
         return certificationCourse;
       },
