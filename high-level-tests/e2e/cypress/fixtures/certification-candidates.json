@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "userId": null,
+    "sessionId": 1,
+    "lastName": "Berger",
+    "firstName": "Michel",
+    "birthdate": "1990-01-04",
+    "birthCity": "Perpignan",
+    "birthProvinceCode": "66",
+    "birthCountry": "France",
+    "externalId": "TEAMCERTIFDECHIRE",
+    "email": "michel.berger@example.net",
+    "extraTimePercentage": null
+  },
+  {
+    "id": 2,
+    "userId": 1,
+    "sessionId": 2,
+    "lastName": "Gall",
+    "firstName": "France",
+    "birthdate": "1990-01-05",
+    "birthCity": "Montpellier",
+    "birthProvinceCode": "33",
+    "birthCountry": "France",
+    "externalId": "TOUTPIXDECHIRE",
+    "email": "france.gall@example.net",
+    "extraTimePercentage": 0.3
+  },
+  {
+    "id": 3,
+    "userId": 2,
+    "sessionId": 2,
+    "lastName": "Balavoine",
+    "firstName": "Daniel",
+    "birthdate": "1990-02-04",
+    "birthCity": "Toulouse",
+    "birthProvinceCode": "31",
+    "birthCountry": "France",
+    "externalId": "LAURADECHIRE",
+    "email": "daniel.balavoine@example.net",
+    "extraTimePercentage": null
+  }
+]

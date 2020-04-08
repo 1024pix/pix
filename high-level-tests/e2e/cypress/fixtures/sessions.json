@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "certificationCenterId": 1,
+    "certificationCenter": "Centre de certification Sco",
+    "address": "4 rue du Pix En Folie",
+    "room": "Salle de la session 1",
+    "examiner": "AnneSophix",
+    "date": "2050-12-25",
+    "time": "15:00",
+    "description": "Session pas commencée avec aucun candidat inscrit",
+    "accessCode": "ANNE01"
+  },
+  {
+    "id": 2,
+    "certificationCenterId": 1,
+    "certificationCenter": "Centre de certification Sco",
+    "address": "4 rue du Pix En Folie",
+    "room": "Salle de la session 2",
+    "examiner": "AnneSophix",
+    "date": "2040-12-25",
+    "time": "14:00",
+    "description": "Session commencée pas encore finalisée",
+    "accessCode": "ANNE02"
+  }
+]

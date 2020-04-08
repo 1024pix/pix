@@ -18,15 +18,16 @@
     "cy:open:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:open",
     "cy:run": "npm run db:initialize && cypress run --browser=chrome && exit",
     "cy:run:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:run",
-    "cy:test": "run-p start:api start:mon-pix start:orga cy:run",
-    "cy:test:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test run-p start:api start:mon-pix start:orga cy:run",
-    "cy:test:open": "run-p start:api start:mon-pix start:orga cy:open",
-    "cy:test:open:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test run-p start:api start:mon-pix start:orga cy:open",
+    "cy:test": "run-p start:api start:mon-pix start:orga start:certif cy:run",
+    "cy:test:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test run-p start:api start:mon-pix start:orga start:certif cy:run",
+    "cy:test:open": "run-p start:api start:mon-pix start:orga start:certif cy:open",
+    "cy:test:open:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test run-p start:api start:mon-pix start:orga start:certif cy:open",
     "db:empty": "cd ../../api && npm run db:empty",
     "db:initialize": "cd ../../api && npm run db:prepare",
     "start:api": "cd ../../api && DATABASE_URL=postgresql://postgres@localhost/pix_test npm run start:watch",
     "start:mon-pix": "cd ../../mon-pix && npx ember serve --proxy",
-    "start:orga": "cd ../../orga && npx ember serve --proxy"
+    "start:orga": "cd ../../orga && npx ember serve --proxy",
+    "start:certif": "cd ../../certif && npx ember serve --proxy"
   },
   "devDependencies": {
     "cypress": "^3.8.1",
