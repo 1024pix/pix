@@ -24,5 +24,19 @@
     "organizationId": 2,
     "creatorId": 3,
     "targetProfileId": 1
+  }, {
+    "id": 4,
+    "name": "Envoi profils Lannister",
+    "code": "LION",
+    "type": "PROFILES_COLLECTION",
+    "organizationId": 1,
+    "creatorId": 1
+  }, {
+    "id": 5,
+    "name": "Envoi profils Stark",
+    "code": "WOLF",
+    "type": "PROFILES_COLLECTION",
+    "organizationId": 2,
+    "creatorId": 3
   }
 ]
