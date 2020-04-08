@@ -15,7 +15,7 @@ function _toDomain(model) {
     id: model.get('id'),
     challengeId: model.get('challengeId'),
     competenceId: model.get('competenceId'),
-    associatedSkillName: model.get('associatedSkill'),
+    associatedSkill: model.get('associatedSkill'),
     associatedSkillId: model.get('associatedSkillId'),
     courseId: model.get('courseId'),
   });

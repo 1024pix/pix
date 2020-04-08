@@ -2,7 +2,7 @@ class CertificationChallenge {
   constructor({
     id,
     // attributes
-    associatedSkillName,
+    associatedSkill,
     // includes
     // references
     associatedSkillId,
@@ -12,7 +12,7 @@ class CertificationChallenge {
   } = {}) {
     this.id = id;
     // attributes
-    this.associatedSkillName = associatedSkillName;
+    this.associatedSkill = associatedSkill;
     // includes
     // references
     this.associatedSkillId = associatedSkillId;

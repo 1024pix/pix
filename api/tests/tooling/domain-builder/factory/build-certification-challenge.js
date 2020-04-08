@@ -8,7 +8,7 @@ module.exports = function buildCertificationChallenge({
   competenceId = `rec${faker.random.uuid()}`,
   courseId = faker.random.number(),
   associatedSkillId = buildSkill().id,
-  associatedSkillName = buildSkill().name,
+  associatedSkill = buildSkill().name,
 } = {}) {
 
   return new CertificationChallenge({
@@ -17,6 +17,6 @@ module.exports = function buildCertificationChallenge({
     competenceId,
     courseId,
     associatedSkillId,
-    associatedSkillName,
+    associatedSkill,
   });
 };

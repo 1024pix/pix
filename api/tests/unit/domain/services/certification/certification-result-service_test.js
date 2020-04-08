@@ -102,18 +102,18 @@ const challengesFromAirTable = _.map([
 ], domainBuilder.buildChallenge);
 
 const challenges = _.map([
-  { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeA_1' },
-  { challengeId: 'challenge_C_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeC_1' },
-  { challengeId: 'challenge_B_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeB_1' },
-  { challengeId: 'challenge_D_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeD_2' },
-  { challengeId: 'challenge_E_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeE_2' },
-  { challengeId: 'challenge_F_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeF_2' },
-  { challengeId: 'challenge_G_for_competence_3', competenceId: 'competence_3', associatedSkillName: '@skillChallengeG_3' },
-  { challengeId: 'challenge_H_for_competence_3', competenceId: 'competence_3', associatedSkillName: '@skillChallengeH_3' },
-  { challengeId: 'challenge_I_for_competence_3', competenceId: 'competence_3', associatedSkillName: '@skillChallengeI_3' },
-  { challengeId: 'challenge_J_for_competence_4', competenceId: 'competence_4', associatedSkillName: '@skillChallengeJ_4' },
-  { challengeId: 'challenge_K_for_competence_4', competenceId: 'competence_4', associatedSkillName: '@skillChallengeK_4' },
-  { challengeId: 'challenge_L_for_competence_4', competenceId: 'competence_4', associatedSkillName: '@skillChallengeL_4' },
+  { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkill: '@skillChallengeA_1' },
+  { challengeId: 'challenge_C_for_competence_1', competenceId: 'competence_1', associatedSkill: '@skillChallengeC_1' },
+  { challengeId: 'challenge_B_for_competence_1', competenceId: 'competence_1', associatedSkill: '@skillChallengeB_1' },
+  { challengeId: 'challenge_D_for_competence_2', competenceId: 'competence_2', associatedSkill: '@skillChallengeD_2' },
+  { challengeId: 'challenge_E_for_competence_2', competenceId: 'competence_2', associatedSkill: '@skillChallengeE_2' },
+  { challengeId: 'challenge_F_for_competence_2', competenceId: 'competence_2', associatedSkill: '@skillChallengeF_2' },
+  { challengeId: 'challenge_G_for_competence_3', competenceId: 'competence_3', associatedSkill: '@skillChallengeG_3' },
+  { challengeId: 'challenge_H_for_competence_3', competenceId: 'competence_3', associatedSkill: '@skillChallengeH_3' },
+  { challengeId: 'challenge_I_for_competence_3', competenceId: 'competence_3', associatedSkill: '@skillChallengeI_3' },
+  { challengeId: 'challenge_J_for_competence_4', competenceId: 'competence_4', associatedSkill: '@skillChallengeJ_4' },
+  { challengeId: 'challenge_K_for_competence_4', competenceId: 'competence_4', associatedSkill: '@skillChallengeK_4' },
+  { challengeId: 'challenge_L_for_competence_4', competenceId: 'competence_4', associatedSkill: '@skillChallengeL_4' },
 ], domainBuilder.buildCertificationChallenge);
 
 const competence_1 = domainBuilder.buildCompetence({ id: 'competence_1', index: '1.1', area: { code: '1' }, name: 'Mener une recherche' });
@@ -685,9 +685,9 @@ describe('Unit | Service | Certification Result Service', function() {
               ], domainBuilder.buildAnswer);
 
               const challenges = _.map([
-                { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeA_1' },
-                { challengeId: 'challenge_B_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeB_1' },
-                { challengeId: 'challenge_C_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeC_1' },
+                { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkill: '@skillChallengeA_1' },
+                { challengeId: 'challenge_B_for_competence_1', competenceId: 'competence_1', associatedSkill: '@skillChallengeB_1' },
+                { challengeId: 'challenge_C_for_competence_1', competenceId: 'competence_1', associatedSkill: '@skillChallengeC_1' },
               ], domainBuilder.buildCertificationChallenge);
 
               const userCompetences = [
@@ -1081,11 +1081,11 @@ describe('Unit | Service | Certification Result Service', function() {
           ];
 
           const challenges = _.map([
-            { challengeId: 'challenge_A_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeA_5' },
-            { challengeId: 'challenge_B_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeB_5' },
-            { challengeId: 'challenge_A_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeA_6' },
-            { challengeId: 'challenge_B_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeB_6' },
-            { challengeId: 'challenge_C_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeC_6' },
+            { challengeId: 'challenge_A_for_competence_5', competenceId: 'competence_5', associatedSkill: '@skillChallengeA_5' },
+            { challengeId: 'challenge_B_for_competence_5', competenceId: 'competence_5', associatedSkill: '@skillChallengeB_5' },
+            { challengeId: 'challenge_A_for_competence_6', competenceId: 'competence_6', associatedSkill: '@skillChallengeA_6' },
+            { challengeId: 'challenge_B_for_competence_6', competenceId: 'competence_6', associatedSkill: '@skillChallengeB_6' },
+            { challengeId: 'challenge_C_for_competence_6', competenceId: 'competence_6', associatedSkill: '@skillChallengeC_6' },
           ], domainBuilder.buildCertificationChallenge);
 
           challengeRepository.list.resolves(listChallengeComp5WithOneQROCMDEPChallengeAndAnother);
@@ -1185,10 +1185,10 @@ describe('Unit | Service | Certification Result Service', function() {
 
         beforeEach(() => {
           challenges = _.map([
-            { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeA_1' },
+            { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkill: '@skillChallengeA_1' },
 
-            { challengeId: 'challenge_M_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeM_5' },
-            { challengeId: 'challenge_N_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeN_6' },
+            { challengeId: 'challenge_M_for_competence_5', competenceId: 'competence_5', associatedSkill: '@skillChallengeM_5' },
+            { challengeId: 'challenge_N_for_competence_6', competenceId: 'competence_6', associatedSkill: '@skillChallengeN_6' },
           ], domainBuilder.buildCertificationChallenge);
 
           certificationChallengesRepository.findByCertificationCourseId.resolves(challenges);
