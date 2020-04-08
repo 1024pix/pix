@@ -2,12 +2,12 @@ import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import Route from '@ember/routing/route';
-import { isEmpty } from '@ember/utils';
 import _ from 'lodash';
 
 @classic
 export default class FillInIdPixRoute extends Route.extend(AuthenticatedRouteMixin) {
   @service session;
+  @service currentUser;
 
   givenParticipantExternalId = null;
 
@@ -17,14 +17,7 @@ export default class FillInIdPixRoute extends Route.extend(AuthenticatedRouteMix
   }
 
   async beforeModel(transition) {
-    const campaignCode = transition.to.params.campaign_code;
     this.set('givenParticipantExternalId', transition.to.queryParams && transition.to.queryParams.givenParticipantExternalId);
-
-    const assessments = await this.store.query('assessment', { filter: { codeCampaign: campaignCode } });
-
-    if (!isEmpty(assessments)) {
-      return this.replaceWith('campaigns.start-or-resume', campaignCode);
-    }
   }
 
   async model(params) {
@@ -33,7 +26,14 @@ export default class FillInIdPixRoute extends Route.extend(AuthenticatedRouteMix
     return campaigns.get('firstObject');
   }
 
-  afterModel(campaign) {
+  async afterModel(campaign) {
+    const userId = this.currentUser.user.id;
+    const campaignParticipation = await this.store.queryRecord('campaignParticipation', { campaignId: campaign.id, userId });
+
+    if (campaignParticipation) {
+      return this.replaceWith('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } });
+    }
+
     if (!campaign.idPixLabel) {
       return this.start(campaign);
     }
@@ -52,13 +52,13 @@ export default class FillInIdPixRoute extends Route.extend(AuthenticatedRouteMix
     return this.store.createRecord('campaign-participation', { campaign, participantExternalId })
       .save()
       .then(() => {
-        return this.transitionTo('campaigns.start-or-resume', campaign.code);
+        return this.transitionTo('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } });
       }, (err) => {
         if (_.get(err, 'errors[0].status') === 403) {
           this.session.invalidate();
-          return this.transitionTo('campaigns.start-or-resume', campaign.code);
+          return this.transitionTo('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } });
         }
-        return this.send('error', err, this.transitionTo('campaigns.start-or-resume', campaign.code));
+        return this.send('error', err, this.transitionTo('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } }));
       });
   }
 }

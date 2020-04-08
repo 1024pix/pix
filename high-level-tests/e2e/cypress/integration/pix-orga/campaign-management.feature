@@ -7,7 +7,7 @@ Fonctionnalité: Gestion des Campagnes
 
   Scénario: Je consulte le détail d'une campagne
     Étant donné que je suis connecté à Pix Orga
-    Alors je vois 2 campagnes
+    Alors je vois 3 campagnes
     Lorsque je recherche une campagne avec le nom "néra"
     Alors la liste est filtrée
     Lorsque je clique sur "Campagne de la Néra"

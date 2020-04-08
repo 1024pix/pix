@@ -18,6 +18,7 @@ export default class StartOrResumeRoute extends Route.extend(AuthenticatedRouteM
   givenParticipantExternalId = null;
   userHasSeenLanding = false;
   userHasJustConsultedTutorial = false;
+  campaignParticipationIsStarted = false;
   authenticationRoute = 'inscription';
   _isReady = false;
 
@@ -29,6 +30,7 @@ export default class StartOrResumeRoute extends Route.extend(AuthenticatedRouteM
     this.set('givenParticipantExternalId', transition.to.queryParams.participantExternalId);
     this.set('userHasSeenLanding', transition.to.queryParams.hasSeenLanding);
     this.set('userHasJustConsultedTutorial', transition.to.queryParams.hasJustConsultedTutorial);
+    this.set('campaignParticipationIsStarted', transition.to.queryParams.campaignParticipationIsStarted);
 
     if (this._userIsUnauthenticated() && !this.userHasSeenLanding && this.campaignIsRestricted) {
       this.set('authenticationRoute', 'login-or-register-to-access-restricted-campaign');
@@ -61,6 +63,10 @@ export default class StartOrResumeRoute extends Route.extend(AuthenticatedRouteM
     this.set('_isReady', true);
 
     if (this._thereIsNoAssessment(smartPlacementAssessments)) {
+
+      if (campaign.isTypeProfilesCollection && this.campaignParticipationIsStarted) {
+        return this.replaceWith('campaigns.send-profile', this.campaignCode);
+      }
       if (this.userHasSeenLanding) {
         return this.replaceWith('campaigns.fill-in-id-pix', this.campaignCode, { queryParams: { givenParticipantExternalId: this.givenParticipantExternalId } });
       }

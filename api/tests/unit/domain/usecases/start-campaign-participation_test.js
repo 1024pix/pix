@@ -63,22 +63,47 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     });
   });
 
-  it('should create a smart placement assessment', async () => {
-    // given
-    assessmentRepository.save.resolves({});
-    campaignParticipationRepository.save.resolves({ id: 1 });
+  context('when campaign is of type ASSESSMENT', () => {
 
-    // when
-    await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
+    beforeEach(() => {
+      campaignRepository.get.resolves(domainBuilder.buildCampaign.ofTypeAssessment());
+    });
 
-    // then
-    expect(assessmentRepository.save).to.have.been.called;
-    const assessmentToSave = assessmentRepository.save.firstCall.args[0];
-    expect(assessmentToSave.type).to.equal(Assessment.types.SMARTPLACEMENT);
-    expect(assessmentToSave.state).to.equal(Assessment.states.STARTED);
-    expect(assessmentToSave.userId).to.equal(userId);
-    expect(assessmentToSave.courseId).to.equal('Smart Placement Tests CourseId Not Used');
-    expect(assessmentToSave.campaignParticipationId).to.equal(campaignParticipation.id);
+    it('should create a smart placement assessment', async () => {
+      // given
+      assessmentRepository.save.resolves({});
+      campaignParticipationRepository.save.resolves({ id: 1 });
+
+      // when
+      await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
+
+      // then
+      expect(assessmentRepository.save).to.have.been.called;
+      const assessmentToSave = assessmentRepository.save.firstCall.args[0];
+      expect(assessmentToSave.type).to.equal(Assessment.types.SMARTPLACEMENT);
+      expect(assessmentToSave.state).to.equal(Assessment.states.STARTED);
+      expect(assessmentToSave.userId).to.equal(userId);
+      expect(assessmentToSave.courseId).to.equal('Smart Placement Tests CourseId Not Used');
+      expect(assessmentToSave.campaignParticipationId).to.equal(campaignParticipation.id);
+    });
+  });
+
+  context('when campaign is of type PROFILES_COLLECTION', () => {
+
+    beforeEach(() => {
+      campaignRepository.get.resolves(domainBuilder.buildCampaign.ofTypeProfilesCollection());
+    });
+
+    it('should not create a smart placement assessment', async () => {
+      // given
+      campaignParticipationRepository.save.resolves({ id: 1 });
+
+      // when
+      await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
+
+      // then
+      expect(assessmentRepository.save).to.not.have.been.called;
+    });
   });
 
   it('should return the saved campaign participation', async () => {

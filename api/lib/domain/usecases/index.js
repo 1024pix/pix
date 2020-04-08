@@ -134,6 +134,7 @@ module.exports = injectDependencies({
   getSessionCertificationCandidates: require('./get-session-certification-candidates'),
   getSessionCertificationReports: require('./get-session-certification-reports'),
   getSessionCertifications: require('./get-session-certifications'),
+  getUserCampaignParticipationToCampaign: require('./get-user-campaign-participation-to-campaign'),
   getUserCertificationCenterMemberships: require('./get-user-certification-center-memberships'),
   getUserCertificationWithResultTree: require('./get-user-certification-with-result-tree'),
   getUserCurrentCertificationProfile: require('./get-user-current-certification-profile'),

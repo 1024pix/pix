@@ -6,7 +6,7 @@ when(`je vais sur la campagne {string} avec l'identifiant {string}`, (campaignCo
   cy.visitMonPix(`/campagnes/${campaignCode}?participantExternalId=${participantExternalId}`);
 });
 
-then(`je vois la page de {string} de la campagne`, (page) => {
+then(`je vois la page \(d'\)/\(de \){string} de la campagne`, (page) => {
   cy.url().should('include', page);
 });
 
@@ -50,4 +50,8 @@ when(`je vois {int} résultats par compétence`, (numberOfResultsByCompetence) =
 
 then(`je vois la moyenne des résultats à {int}%`, (averageResult) => {
   cy.get('[aria-label="Moyenne des résultats"]').contains(`${averageResult}%`);
+});
+
+then(`je vois que j'ai partagé mon profil`, () => {
+  cy.contains('Merci, votre profil a bien été envoyé !');
 });
