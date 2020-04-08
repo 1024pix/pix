@@ -1,5 +1,4 @@
 import classic from 'ember-classic-decorator';
-import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
@@ -13,11 +12,12 @@ const FRENCHSPOKEN_LOCALE = 'fr';
 export default class Application extends JSONAPIAdapter.extend(DataAdapterMixin) {
   @service
   currentDomain;
+  @service
+  ajaxQueue;
 
   host = ENV.APP.API_HOST;
   namespace = 'api';
 
-  @computed('session.data.authenticated.access_token')
   get headers() {
     const headers = {};
     if (this.session.isAuthenticated) {
@@ -27,5 +27,9 @@ export default class Application extends JSONAPIAdapter.extend(DataAdapterMixin)
       FRENCH_LOCALE
       : FRENCHSPOKEN_LOCALE;
     return headers;
+  }
+
+  ajax() {
+    return this.ajaxQueue.add(() => super.ajax(...arguments));
   }
 }
