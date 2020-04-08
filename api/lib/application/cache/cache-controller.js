@@ -3,9 +3,9 @@ const _ = require('lodash');
 
 module.exports = {
 
-  refreshCacheEntries() {
-    return Promise.all(_.map(AirtableDatasources, (datasource) => datasource.refreshAirtableCacheRecords()))
-      .then(() => null);
+  refreshCacheEntries(request, h) {
+    _.forEach(AirtableDatasources, (datasource) => datasource.refreshAirtableCacheRecords());
+    return h.response().code(204);
   },
 
   refreshCacheEntry(request) {

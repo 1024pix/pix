@@ -47,16 +47,16 @@ describe('Unit | Controller | cache-controller', () => {
 
     const request = {};
 
-    it('should reply with null when there is no error', async () => {
+    it('should reply with http status 204 when there is no error', async () => {
       // given
-      _.map(AirtableDatasources, (datasource) => sinon.stub(datasource, 'refreshAirtableCacheRecords'));
+      _.forEach(AirtableDatasources, (datasource) => sinon.stub(datasource, 'refreshAirtableCacheRecords'));
 
       // when
       const response = await cacheController.refreshCacheEntries(request, hFake);
 
       // Then
-      _.map(AirtableDatasources, (datasource) => expect(datasource.refreshAirtableCacheRecords).to.have.been.calledOnce);
-      expect(response).to.be.null;
+      _.forEach(AirtableDatasources, (datasource) => expect(datasource.refreshAirtableCacheRecords).to.have.been.calledOnce);
+      expect(response.statusCode).to.equal(204);
     });
   });
 });
