@@ -13,6 +13,11 @@ given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'knowledge-elements');
   cy.task('db:fixture', 'users_pix_roles');
   cy.task('db:fixture', 'schooling-registrations');
+  cy.task('db:fixture', 'certification-centers');
+  cy.task('db:fixture', 'certification-center-memberships');
+  cy.task('db:fixture', 'sessions');
+  cy.task('db:fixture', 'certification-candidates');
+  cy.task('db:fixture', 'certification-courses');
 });
 
 given('tous les comptes sont créés', () => {
@@ -25,6 +30,10 @@ given('je vais sur Pix', () => {
 
 given('je vais sur Pix Orga', () => {
   cy.visitOrga('/');
+});
+
+given('je vais sur Pix Certif', () => {
+  cy.visitCertif('/');
 });
 
 given('j\'accède à mon profil', () => {
@@ -45,6 +54,10 @@ given('je suis connecté à Pix en tant que {string}', (user) => {
 
 given('je suis connecté à Pix Orga', () => {
   cy.login('daenerys.targaryen@pix.fr', 'pix123');
+});
+
+given('je suis connecté à Pix Certif avec le mail {string}', (email) => {
+  cy.login(email, 'pix123');
 });
 
 given('je suis connecté à Pix en tant qu\'administrateur', () => {
