@@ -1,4 +1,4 @@
-{{title pageTitle}}
+{{title this.pageTitle}}
 
 <div class="assessment-results">
 
@@ -12,13 +12,13 @@
     </p>
 
     <div class="assessment-results__list">
-      {{#each model.answers as |answer|}}
+      {{#each this.model.answers as |answer|}}
         <ResultItem @answer={{answer}} @correction={{answer.correction}} @openAnswerDetails={{action "openComparisonWindow"}} />
       {{/each}}
     </div>
 
     <div class="assessment-results__index-link-container">
-      {{#if model.isDemo}}
+      {{#if this.model.isDemo}}
         <LinkTo @route="inscription" class="assessment-results__index-link__element assessment-results__index-a-link" @tagName="button">
           <span class="assessment-results__link-back">Continuer mon expérience Pix</span>
         </LinkTo>
@@ -30,8 +30,8 @@
     </div>
   </div>
 
-  {{#if isShowingModal}}
-    <ComparisonWindow @answer={{answer}} @closeComparisonWindow={{action "closeComparisonWindow"}} />
+  {{#if this.isShowingModal}}
+    <ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{action "closeComparisonWindow"}} />
   {{/if}}
 
 </div>

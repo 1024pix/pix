@@ -1,7 +1,7 @@
 <div class="sign-form__container">
 
-  <a href={{urlHome}} class="pix-logo__link" title="Page d'accueil">
-    <img class="pix-logo__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
+  <a href={{this.urlHome}} class="pix-logo__link" title="Page d'accueil">
+    <img class="pix-logo__image" src="{{this.rootURL}}/images/pix-logo.svg" alt="Pix">
   </a>
 
   <div class="sign-form__header">
@@ -12,9 +12,9 @@
     </div>
   </div>
 
-  {{#if _notificationMessage}}
+  {{#if this._notificationMessage}}
     <div class="sign-form__notification-message sign-form__notification-message--success" aria-live="polite">
-      {{_notificationMessage}}
+      {{this._notificationMessage}}
     </div>
   {{/if}}
 
@@ -24,10 +24,10 @@
     <div class="sign-form-body__input">
       <FormTextfield @label="Prénom"
                      @textfieldName="firstName"
-                     @inputBindingValue={{user.firstName}}
+                     @inputBindingValue={{this.user.firstName}}
                      @onValidate={{action "validateInput"}}
-                     @validationStatus={{validation.firstName.status}}
-                     @validationMessage={{validation.firstName.message}}
+                     @validationStatus={{this.validation.firstName.status}}
+                     @validationMessage={{this.validation.firstName.message}}
                      @autocomplete="given-name"
                      @require={{true}} />
     </div>
@@ -35,32 +35,34 @@
     <div class="sign-form-body__input">
       <FormTextfield @label="Nom"
                      @textfieldName="lastName"
-                     @inputBindingValue={{user.lastName}}
+                     @inputBindingValue={{this.user.lastName}}
                      @onValidate={{action "validateInput"}}
-                     @validationStatus={{validation.lastName.status}}
-                     @validationMessage={{validation.lastName.message}}
-                     @autocomplete="family-name" @require={{true}} />
+                     @validationStatus={{this.validation.lastName.status}}
+                     @validationMessage={{this.validation.lastName.message}}
+                     @autocomplete="family-name"
+                     @require={{true}} />
     </div>
 
     <div class="sign-form-body__input">
       <FormTextfield @label="Adresse e-mail"
                      @help="(ex: nom@exemple.fr)"
                      @textfieldName="email"
-                     @validationStatus={{validation.email.status}}
+                     @validationStatus={{this.validation.email.status}}
                      @onValidate={{action "validateInputEmail"}}
-                     @inputBindingValue={{user.email}}
-                     @validationMessage={{validation.email.message}}
-                     @autocomplete="email" @require={{true}} />
+                     @inputBindingValue={{this.user.email}}
+                     @validationMessage={{this.validation.email.message}}
+                     @autocomplete="email"
+                     @require={{true}} />
     </div>
 
     <div class="sign-form-body__input">
       <FormTextfield @label="Mot de passe"
                      @help="(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)"
                      @textfieldName="password"
-                     @validationStatus={{validation.password.status}}
+                     @validationStatus={{this.validation.password.status}}
                      @onValidate={{action "validateInputPassword"}}
-                     @inputBindingValue={{user.password}}
-                     @validationMessage={{validation.password.message}}
+                     @inputBindingValue={{this.user.password}}
+                     @validationMessage={{this.validation.password.message}}
                      @autocomplete="new-password"
                      @require={{true}} />
     </div>
@@ -68,29 +70,29 @@
     <div class="signup-form__cgu-container">
       <label for="pix-cgu" class="signup-form__cgu-label">
         <div class="signup-form__cgu">
-          <Input @type="checkbox" @id="pix-cgu" @checked={{user.cgu}} />
+          <Input @type="checkbox" @id="pix-cgu" @checked={{this.user.cgu}} />
            <abbr title="obligatoire">*</abbr> J'accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="link" target="_blank">conditions d'utilisation de Pix</a>
         </div>
 
-        {{#if user.errors.cgu}}
+        {{#if this.user.errors.cgu}}
           <div class="sign-form__validation-error">
-            {{user.errors.cgu.firstObject.message}}
+            {{this.user.errors.cgu.firstObject.message}}
           </div>
         {{/if}}
       </label>
     </div>
 
-    {{#if isRecaptchaEnabled}}
+    {{#if this.isRecaptchaEnabled}}
       <div class="signup-form__captcha-container">
-        {{#if user.errors.recaptchaToken}}
-          <div class="sign-form__validation-error">{{user.errors.recaptchaToken.firstObject.message}}</div>
+        {{#if this.user.errors.recaptchaToken}}
+          <div class="sign-form__validation-error">{{this.user.errors.recaptchaToken.firstObject.message}}</div>
         {{/if}}
-        <GRecaptcha @recaptchaToken={{user.recaptchaToken}} @tokenHasBeenUsed={{_tokenHasBeenUsed}} />
+        <GRecaptcha @recaptchaToken={{this.user.recaptchaToken}} @tokenHasBeenUsed={{this._tokenHasBeenUsed}} />
       </div>
     {{/if}}
 
-    <div class="sign-form-body__bottom-button {{if isRecaptchaEnabled "" "sign-form-body__bottom-button--margin-top"}}">
-      {{#if isLoading}}
+    <div class="sign-form-body__bottom-button {{if this.isRecaptchaEnabled "" "sign-form-body__bottom-button--margin-top"}}">
+      {{#if this.isLoading}}
         <button type="button" disabled class="button button--uppercase button--thin button--round button--big">
           <span class="loader-in-button">&nbsp;</span>
         </button>

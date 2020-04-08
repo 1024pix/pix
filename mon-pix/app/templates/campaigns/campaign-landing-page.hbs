@@ -1,4 +1,4 @@
-{{title pageTitle}}
+{{title this.pageTitle}}
 
 <div class="background-banner-wrapper">
   <div class="background-banner"></div>
@@ -7,9 +7,9 @@
     <div class="rounded-panel campaign-landing-page__container__start">
       <div class="campaign-landing-page__start__image__container">
         <div class="campaign-landing-page__pix-logo">
-          <img class="campaign-landing-page__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
+          <img class="campaign-landing-page__image" src="{{this.rootURL}}/images/pix-logo.svg" alt="Pix">
         </div>
-        {{#if model.organizationLogoUrl}}
+        {{#if this.model.organizationLogoUrl}}
           <div class="campaign-landing-page__logo">
             <img class="campaign-landing-page__image" src="{{@model.organizationLogoUrl}}" alt="{{@model.organizationName}}">
           </div>
@@ -23,7 +23,7 @@
         </p>
 
         <form {{action "startCampaignParticipation" on="submit"}}>
-          {{#if isLoading}}
+          {{#if this.isLoading}}
               <button type="button" disabled class="campaign-landing-page__start-button button button--big">
                 <span class="loader-in-button ">&nbsp;</span>
               </button>
@@ -41,7 +41,7 @@
         </p>
       </div>
 
-      {{#if model.customLandingPageText}}
+      {{#if this.model.customLandingPageText}}
         <hr class="campaign-landing-page__dash-line">
 
         <div class="campaign-landing-page__start__custom-text">
@@ -58,7 +58,8 @@
 
         <div class="campaign-landing-page__details__measure__container">
           <img class="campaign-landing-page__details__article-image measure"
-               src="{{rootURL}}/images/landing-page/icon-mesurer.svg" alt="">
+               src="{{this.rootURL}}/images/landing-page/icon-mesurer.svg"
+               alt="">
           <div class="campaign-landing-page__details__article-side">
             <p class="campaign-landing-page__details__text article-title ">
               Mesurer vos compétences numériques avec des tests ludiques sur différents thèmes comme :
@@ -81,7 +82,7 @@
         <hr class="campaign-landing-page__dash-line">
 
         <div class="campaign-landing-page__details__measure__container">
-          <img src="{{rootURL}}/images/landing-page/icon-conseil.svg" alt="">
+          <img src="{{this.rootURL}}/images/landing-page/icon-conseil.svg" alt="">
           <div class="campaign-landing-page__details__article-side">
             <p class="campaign-landing-page__details__text article-title ">
               Découvrir vos résultats au fil du test et consulter des indices pour progresser.
@@ -95,7 +96,7 @@
         <hr class="campaign-landing-page__dash-line">
 
         <div class="campaign-landing-page__details__measure__container">
-          <img src="{{rootURL}}/images/landing-page/icon-certif.svg" alt="">
+          <img src="{{this.rootURL}}/images/landing-page/icon-certif.svg" alt="">
           <div class="campaign-landing-page__details__article-side">
             <p class="campaign-landing-page__details__text article-title ">
               Préparer une certification reconnue par l’État et le monde professionnel

@@ -1,4 +1,4 @@
-{{title pageTitle}}
+{{title this.pageTitle}}
 <div class="background-banner-wrapper">
   <div class="background-banner"></div>
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner fill-in-id-pix__container">
@@ -21,7 +21,7 @@
           <button type="submit" class="button button--big">Continuer</button>
         {{/if}}
         {{#if this.errorMessage}}
-          <div class="fill-in-id-pix__form__error-message">{{errorMessage}}</div>
+          <div class="fill-in-id-pix__form__error-message">{{this.errorMessage}}</div>
         {{/if}}
       </div>
 

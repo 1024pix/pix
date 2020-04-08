@@ -1,25 +1,25 @@
 <label class="form-textfield__label">
-  {{#if require}}<abbr title="obligatoire">*</abbr> {{/if}}
-  {{label}}
-  <br><span class="form-textfield__help">{{help}}</span>
+  {{#if this.require}}<abbr title="obligatoire">*</abbr> {{/if}}
+  {{this.label}}
+  <br><span class="form-textfield__help">{{this.help}}</span>
 </label>
 
 <div class="form-textfield__date">
-  <div class="form-textfield__input-field-container {{if disabled "form-textfield__input-container--disabled" dayInputContainerStatusClass}}">
+  <div class="form-textfield__input-field-container {{if this.disabled "form-textfield__input-container--disabled" this.dayInputContainerStatusClass}}">
     <Input @type="text"
-           @id={{dayTextfieldName}}
-           @name={{dayTextfieldName}}
-           @value={{dayInputBindingValue}}
-           @focus-out={{action onValidateDay dayTextfieldName}}
-           class="form-textfield__input {{dayInputValidationStatus}}"
-           @autocomplete={{autocomplete}}
+           @id={{this.dayTextfieldName}}
+           @name={{this.dayTextfieldName}}
+           @value={{this.dayInputBindingValue}}
+           @focus-out={{action this.onValidateDay this.dayTextfieldName}}
+           class="form-textfield__input {{this.dayInputValidationStatus}}"
+           @autocomplete={{this.autocomplete}}
            @ariaDescribedBy="dayValidationMessage"
-           required={{require}}
-           @disabled={{disabled}}
+           required={{this.require}}
+           @disabled={{this.disabled}}
            placeholder="JJ" />
     <div class="form-textfield__icon">
-      {{#if dayHasIcon}}
-        {{#if (eq dayValidationStatus 'error') }}
+      {{#if this.dayHasIcon}}
+        {{#if (eq this.dayValidationStatus 'error') }}
           <img src="/images/icons/icon-error.svg" class="form-textfield-icon__state form-textfield-icon__state--error">
         {{else}}
           <img src="/images/icons/icon-success.svg"
@@ -29,21 +29,21 @@
     </div>
   </div>
 
-  <div class="form-textfield__input-field-container {{if disabled "form-textfield__input-container--disabled" monthInputContainerStatusClass}}">
+  <div class="form-textfield__input-field-container {{if this.disabled "form-textfield__input-container--disabled" this.monthInputContainerStatusClass}}">
     <Input @type="text"
-           @id={{monthTextfieldName}}
-           @name={{monthTextfieldName}}
-           @value={{monthInputBindingValue}}
-           @focus-out={{action onValidateMonth monthTextfieldName}}
-           class="form-textfield__input {{monthInputValidationStatus}}"
-           @autocomplete={{autocomplete}}
+           @id={{this.monthTextfieldName}}
+           @name={{this.monthTextfieldName}}
+           @value={{this.monthInputBindingValue}}
+           @focus-out={{action this.onValidateMonth this.monthTextfieldName}}
+           class="form-textfield__input {{this.monthInputValidationStatus}}"
+           @autocomplete={{this.autocomplete}}
            @ariaDescribedBy="monthValidationMessage"
-           required={{require}}
-           @disabled={{disabled}}
+           required={{this.require}}
+           @disabled={{this.disabled}}
            placeholder="MM" />
     <div class="form-textfield__icon">
-      {{#if monthHasIcon}}
-        {{#if (eq monthValidationStatus 'error') }}
+      {{#if this.monthHasIcon}}
+        {{#if (eq this.monthValidationStatus 'error') }}
           <img src="/images/icons/icon-error.svg" class="form-textfield-icon__state form-textfield-icon__state--error">
         {{else}}
           <img src="/images/icons/icon-success.svg"
@@ -53,21 +53,21 @@
     </div>
   </div>
 
-  <div class="form-textfield__input-field-container {{if disabled "form-textfield__input-container--disabled" yearInputContainerStatusClass}}">
+  <div class="form-textfield__input-field-container {{if this.disabled "form-textfield__input-container--disabled" this.yearInputContainerStatusClass}}">
     <Input @type="text"
-           @id={{yearTextfieldName}}
-           @name={{yearTextfieldName}}
-           @value={{yearInputBindingValue}}
-           @focus-out={{action onValidateYear yearTextfieldName}}
-           class="form-textfield__input {{yearInputValidationStatus}}"
-           @autocomplete={{autocomplete}}
+           @id={{this.yearTextfieldName}}
+           @name={{this.yearTextfieldName}}
+           @value={{this.yearInputBindingValue}}
+           @focus-out={{action this.onValidateYear this.yearTextfieldName}}
+           class="form-textfield__input {{this.yearInputValidationStatus}}"
+           @autocomplete={{this.autocomplete}}
            @ariaDescribedBy="yearValidationMessage"
-           required={{require}}
-           @disabled={{disabled}}
+           required={{this.require}}
+           @disabled={{this.disabled}}
            placeholder="AAAA" />
     <div class="form-textfield__icon">
-      {{#if yearHasIcon}}
-        {{#if (eq yearValidationStatus 'error') }}
+      {{#if this.yearHasIcon}}
+        {{#if (eq this.yearValidationStatus 'error') }}
           <img src="/images/icons/icon-error.svg" class="form-textfield-icon__state form-textfield-icon__state--error">
         {{else}}
           <img src="/images/icons/icon-success.svg"
@@ -78,17 +78,14 @@
   </div>
 </div>
 
-{{#if dayValidationMessage}}
-  <div id="dayValidationMessage" class="form-textfield__message {{dayValidationMessageClass}}"
-       role="alert">{{dayValidationMessage}}</div>
+{{#if this.dayValidationMessage}}
+  <div id="dayValidationMessage" class="form-textfield__message {{this.dayValidationMessageClass}}" role="alert">{{this.dayValidationMessage}}</div>
 {{/if}}
 
-{{#if monthValidationMessage}}
-<div id="monthValidationMessage" class="form-textfield__message {{monthValidationMessageClass}}"
-       role="alert">{{monthValidationMessage}}</div>
+{{#if this.monthValidationMessage}}
+<div id="monthValidationMessage" class="form-textfield__message {{this.monthValidationMessageClass}}" role="alert">{{this.monthValidationMessage}}</div>
 {{/if}}
 
-{{#if yearValidationMessage}}
-  <div id="yearValidationMessage" class="form-textfield__message {{yearValidationMessageClass}}"
-       role="alert">{{yearValidationMessage}}</div>
+{{#if this.yearValidationMessage}}
+  <div id="yearValidationMessage" class="form-textfield__message {{this.yearValidationMessageClass}}" role="alert">{{this.yearValidationMessage}}</div>
 {{/if}}

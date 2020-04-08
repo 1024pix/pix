@@ -2,31 +2,30 @@
   <div class="rounded-panel__row ">
 
     <div class="correction-qroc-box__answer">
-      {{#if (eq answer.challenge.format 'paragraphe')}}
-        <textarea class="correction-qroc-box-answer correction-qroc-box-answer--paragraph {{inputClass}}"
+      {{#if (eq this.answer.challenge.format 'paragraphe')}}
+        <textarea class="correction-qroc-box-answer correction-qroc-box-answer--paragraph {{this.inputClass}}"
                   rows="5"
-                  value="{{answerToDisplay}}"
+                  value="{{this.answerToDisplay}}"
                   ariaLabel="réponse donnée"
-                  disabled>
-        </textarea>
-      {{else if (eq answer.challenge.format 'phrase')}}
-        <input class="correction-qroc-box-answer correction-qroc-box-answer--sentence {{inputClass}}"
-               value="{{answerToDisplay}}"
+                  disabled>        </textarea>
+      {{else if (eq this.answer.challenge.format 'phrase')}}
+        <input class="correction-qroc-box-answer correction-qroc-box-answer--sentence {{this.inputClass}}"
+               value="{{this.answerToDisplay}}"
                ariaLabel="réponse donnée"
                disabled>
       {{else}}
-        <input class="correction-qroc-box-answer {{inputClass}}"
-               size="{{get-qroc-input-size answer.challenge.format}}"
-               value="{{answerToDisplay}}"
+        <input class="correction-qroc-box-answer {{this.inputClass}}"
+               size="{{get-qroc-input-size this.answer.challenge.format}}"
+               value="{{this.answerToDisplay}}"
                ariaLabel="réponse donnée"
                disabled>
       {{/if}}
     </div>
 
-    {{#unless isResultOk}}
+    {{#unless this.isResultOk}}
       <div class="correction-qroc-box__solution">
         <img class="correction-qroc-box__solution-img" src="/images/comparison-window/icon-arrow-right.svg" alt="">
-        <div class="correction-qroc-box__solution-text">{{solutionToDisplay}}</div>
+        <div class="correction-qroc-box__solution-text">{{this.solutionToDisplay}}</div>
       </div>
     {{/unless}}
   </div>

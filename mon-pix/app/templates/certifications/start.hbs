@@ -1,4 +1,4 @@
-{{title pageTitle}}
+{{title this.pageTitle}}
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
 
@@ -6,7 +6,7 @@
     <div class="background-banner-wrapper">
       <div class="background-banner"></div>
 
-      {{#if model.isCertifiable}}
+      {{#if this.model.isCertifiable}}
         <div
           class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner certification-start-page__panel">
           <div class="certification-stepper">

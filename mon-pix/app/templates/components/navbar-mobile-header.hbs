@@ -1,8 +1,8 @@
 <div class="navbar-mobile-header__container">
-  {{#if burger}}
-    {{#if isUserLogged}}
-      <span class="navbar-mobile-header__burger-icon" {{action burger.state.actions.toggle}}>
-        {{#if burger.state.open}}
+  {{#if this.burger}}
+    {{#if this.isUserLogged}}
+      <span class="navbar-mobile-header__burger-icon" {{action this.burger.state.actions.toggle}}>
+        {{#if this.burger.state.open}}
           {{fa-icon 'times'}}
         {{else}}
           {{fa-icon 'bars'}}
@@ -20,7 +20,7 @@
       <PixLogo />
     </div>
     <div class="navbar-mobile-header-logo__marianne">
-      <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="République française">
+      <img src="{{this.rootURL}}/images/logo-de-la-republique-francaise.svg" alt="République française">
     </div>
   </div>
 </div>

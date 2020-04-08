@@ -1,4 +1,4 @@
-{{title pageTitle}}
+{{title this.pageTitle}}
 
 <div class="background-banner-wrapper">
   <div class="background-banner"></div>
@@ -14,15 +14,15 @@
           <Input
             @id="firstName"
             @type="text"
-            @value={{firstName}}
+            @value={{this.firstName}}
             placeholder="Prénom"
-            @readonly={{isDisabled}}
-            @disabled={{isDisabled}}
-            class={{if validation.firstName.message "input--error"}}
-            @focusOut={{action "triggerInputStringValidation" "firstName" firstName}}
+            @readonly={{this.isDisabled}}
+            @disabled={{this.isDisabled}}
+            class={{if this.validation.firstName.message "input--error"}}
+            @focusOut={{action "triggerInputStringValidation" "firstName" this.firstName}}
            />
-          <div class="{{if validation.firstName.message 'join-restricted-campaign__field-error'}}" role="alert">
-            {{validation.firstName.message}}
+          <div class="{{if this.validation.firstName.message 'join-restricted-campaign__field-error'}}" role="alert">
+            {{this.validation.firstName.message}}
           </div>
         </div>
 
@@ -31,40 +31,40 @@
           <Input
             @id="lastName"
             @type="text"
-            @value={{lastName}}
+            @value={{this.lastName}}
             placeholder="Nom"
-            @readonly={{isDisabled}}
-            @disabled={{isDisabled}}
-            class={{if validation.lastName.message "input--error"}}
-            @focusOut={{action "triggerInputStringValidation" "lastName" lastName}}
+            @readonly={{this.isDisabled}}
+            @disabled={{this.isDisabled}}
+            class={{if this.validation.lastName.message "input--error"}}
+            @focusOut={{action "triggerInputStringValidation" "lastName" this.lastName}}
            />
-          <div class="{{if validation.lastName.message 'join-restricted-campaign__field-error'}}" role="alert">
-            {{validation.lastName.message}}
+          <div class="{{if this.validation.lastName.message 'join-restricted-campaign__field-error'}}" role="alert">
+            {{this.validation.lastName.message}}
           </div>
         </div>
 
         <div class="join-restricted-campaign__row">
           <label class="join-restricted-campaign__label">Date de naissance</label>
           <div class="join-restricted-campaign__birthdate">
-            <Input @id="dayOfBirth" @type="text" @value={{dayOfBirth}} placeholder="JJ" class={{if validation.dayOfBirth.message "input--error"}} @focusOut={{action "triggerInputDayValidation" "dayOfBirth" dayOfBirth}} />
-            <Input @id="monthOfBirth" @type="text" @value={{monthOfBirth}} placeholder="MM" class={{if validation.monthOfBirth.message "input--error"}} @focusOut={{action "triggerInputMonthValidation" "monthOfBirth" monthOfBirth}} />
-            <Input @id="yearOfBirth" @type="text" @value={{yearOfBirth}} placeholder="AAAA" class={{if validation.yearOfBirth.message "input--error"}} @focusOut={{action "triggerInputYearValidation" "yearOfBirth" yearOfBirth}} />
+            <Input @id="dayOfBirth" @type="text" @value={{this.dayOfBirth}} placeholder="JJ" class={{if this.validation.dayOfBirth.message "input--error"}} @focusOut={{action "triggerInputDayValidation" "dayOfBirth" this.dayOfBirth}} />
+            <Input @id="monthOfBirth" @type="text" @value={{this.monthOfBirth}} placeholder="MM" class={{if this.validation.monthOfBirth.message "input--error"}} @focusOut={{action "triggerInputMonthValidation" "monthOfBirth" this.monthOfBirth}} />
+            <Input @id="yearOfBirth" @type="text" @value={{this.yearOfBirth}} placeholder="AAAA" class={{if this.validation.yearOfBirth.message "input--error"}} @focusOut={{action "triggerInputYearValidation" "yearOfBirth" this.yearOfBirth}} />
           </div>
-          <div class="{{if validation.dayOfBirth.message 'join-restricted-campaign__field-error'}}" role="alert">
-            {{validation.dayOfBirth.message}}
+          <div class="{{if this.validation.dayOfBirth.message 'join-restricted-campaign__field-error'}}" role="alert">
+            {{this.validation.dayOfBirth.message}}
           </div>
-          <div class="{{if validation.monthOfBirth.message 'join-restricted-campaign__field-error'}}" role="alert">
-            {{validation.monthOfBirth.message}}
+          <div class="{{if this.validation.monthOfBirth.message 'join-restricted-campaign__field-error'}}" role="alert">
+            {{this.validation.monthOfBirth.message}}
           </div>
-          <div class="{{if validation.yearOfBirth.message 'join-restricted-campaign__field-error'}}" role="alert">
-            {{validation.yearOfBirth.message}}
+          <div class="{{if this.validation.yearOfBirth.message 'join-restricted-campaign__field-error'}}" role="alert">
+            {{this.validation.yearOfBirth.message}}
           </div>
         </div>
 
-        {{#if errorMessage}}
-          <div class="join-restricted-campaign__error" aria-live="polite">{{errorMessage}}</div>
+        {{#if this.errorMessage}}
+          <div class="join-restricted-campaign__error" aria-live="polite">{{this.errorMessage}}</div>
         {{/if}}
-        {{#if isLoading}}
+        {{#if this.isLoading}}
           <button type="button" disabled class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
         {{else}}
           <button type="submit" class="button button--big" {{action "attemptNext"}}>

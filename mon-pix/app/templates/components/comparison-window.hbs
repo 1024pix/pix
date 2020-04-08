@@ -1,6 +1,6 @@
-<PixModal @class="comparison-window-modal" @onClose={{closeComparisonWindow}}>
+<PixModal @class="comparison-window-modal" @onClose={{this.closeComparisonWindow}}>
 
-  <div class="pix-modal__close-link" aria-label="Fermer" {{action (action closeComparisonWindow)}}>
+  <div class="pix-modal__close-link" aria-label="Fermer" {{action (action this.closeComparisonWindow)}}>
     <span>Fermer</span>
     <FaIcon @icon="times-circle" class="logged-user-menu__icon"></FaIcon>
   </div>
@@ -9,12 +9,13 @@
 
     <div class="pix-modal-header comparison-window-header">
       <div class="comparison-window__title">
-        <div title="{{resultItem.tooltip}}">
-          <img class="comparison-window__result-icon comparison-window__result-icon--{{resultItem.status}}"
-               src={{resultItemIcon}} alt={{resultItem.tooltip}}>
+        <div title="{{this.resultItem.tooltip}}">
+          <img class="comparison-window__result-icon comparison-window__result-icon--{{this.resultItem.status}}"
+               src={{this.resultItemIcon}}
+               alt={{this.resultItem.tooltip}}>
         </div>
       </div>
-      <div class="comparison-window__title-text">{{resultItem.title}}</div>
+      <div class="comparison-window__title-text">{{this.resultItem.title}}</div>
     </div>
 
     <div class="comparison-window--content">
@@ -23,48 +24,48 @@
 
         <div class="rounded-panel comparison-window__instruction">
           <div class="rounded-panel__row ">
-            <MarkdownToHtml @class="challenge-statement__instruction" @markdown={{answer.challenge.instruction}} />
+            <MarkdownToHtml @class="challenge-statement__instruction" @markdown={{this.answer.challenge.instruction}} />
           </div>
 
-         {{#if answer.challenge.illustrationUrl}}
+         {{#if this.answer.challenge.illustrationUrl}}
             <div class="rounded-panel__row challenge-statement__illustration-section">
-              <ChallengeIllustration @src={{answer.challenge.illustrationUrl}} @alt={{answer.challenge.illustrationAlt}} />
+              <ChallengeIllustration @src={{this.answer.challenge.illustrationUrl}} @alt={{this.answer.challenge.illustrationAlt}} />
             </div>
          {{/if}}
         </div>
         <div class="comparison-window__corrected-answers">
-          {{#if isAssessmentChallengeTypeQcm}}
-            <QcmSolutionPanel @challenge={{answer.challenge}} @answer={{answer}} @solution={{answer.correction.solution}} />
+          {{#if this.isAssessmentChallengeTypeQcm}}
+            <QcmSolutionPanel @challenge={{this.answer.challenge}} @answer={{this.answer}} @solution={{this.answer.correction.solution}} />
           {{/if}}
 
-          {{#if isAssessmentChallengeTypeQcu}}
-            <QcuSolutionPanel @challenge={{answer.challenge}} @answer={{answer}} @solution={{answer.correction.solution}} />
+          {{#if this.isAssessmentChallengeTypeQcu}}
+            <QcuSolutionPanel @challenge={{this.answer.challenge}} @answer={{this.answer}} @solution={{this.answer.correction.solution}} />
           {{/if}}
 
-          {{#if isAssessmentChallengeTypeQroc}}
+          {{#if this.isAssessmentChallengeTypeQroc}}
             <div class="comparison-window__corrected-answers--qroc">
-              <QrocSolutionPanel @answer={{answer}} @solution={{answer.correction.solution}} />
+              <QrocSolutionPanel @answer={{this.answer}} @solution={{this.answer.correction.solution}} />
             </div>
           {{/if}}
 
-          {{#if isAssessmentChallengeTypeQrocmInd}}
+          {{#if this.isAssessmentChallengeTypeQrocmInd}}
             <div class="comparison-window__corrected-answers--qrocm">
-              <QrocmIndSolutionPanel @answer={{answer}} @solution={{answer.correction.solution}} @challenge={{answer.challenge}} />
+              <QrocmIndSolutionPanel @answer={{this.answer}} @solution={{this.answer.correction.solution}} @challenge={{this.answer.challenge}} />
             </div>
           {{/if}}
 
-          {{#if isAssessmentChallengeTypeQrocmDep}}
+          {{#if this.isAssessmentChallengeTypeQrocmDep}}
             <div class="comparison-window__corrected-answers--qrocm">
-              <QrocmDepSolutionPanel @answer={{answer}} @solution={{answer.correction.solution}} @challenge={{answer.challenge}} />
+              <QrocmDepSolutionPanel @answer={{this.answer}} @solution={{this.answer.correction.solution}} @challenge={{this.answer.challenge}} />
             </div>
           {{/if}}
         </div>
 
-        {{#if answer.isResultNotOk}}
-          {{#if answer.correction.noHintsNorTutorialsAtAll }}
+        {{#if this.answer.isResultNotOk}}
+          {{#if this.answer.correction.noHintsNorTutorialsAtAll }}
             <div class="comparison-windows__default-message-container">
               <div class="comparison-windows__default-message-picto-container">
-                <img src="{{rootURL}}/images/comparison-window/icon-tuto.svg"
+                <img src="{{this.rootURL}}/images/comparison-window/icon-tuto.svg"
                     alt=""
                     class="comparison-windows__default-message-picto">
               </div>
@@ -73,15 +74,15 @@
               </div>
             </div>
           {{else}}
-            <TutorialPanel @hint={{answer.correction.hint}} @tutorials={{answer.correction.tutorials}} />
+            <TutorialPanel @hint={{this.answer.correction.hint}} @tutorials={{this.answer.correction.tutorials}} />
           {{/if}}
         {{/if}}
-        <LearningMorePanel @learningMoreTutorials={{answer.correction.learningMoreTutorials}} />
+        <LearningMorePanel @learningMoreTutorials={{this.answer.correction.learningMoreTutorials}} />
       </div>
 
       <div class="pix-modal-footer">
         <div class="comparison-window__feedback-panel">
-          <FeedbackPanel @assessment={{answer.assessment}} @challenge={{answer.challenge}} @context="comparison-window" @answer={{answer}} @isFormOpened={{true}} />
+          <FeedbackPanel @assessment={{this.answer.assessment}} @challenge={{this.answer.challenge}} @context="comparison-window" @answer={{this.answer}} @isFormOpened={{true}} />
         </div>
       </div>
     </div>

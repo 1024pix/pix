@@ -1,4 +1,4 @@
-{{title pageTitle}}
+{{title this.pageTitle}}
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
 
@@ -9,7 +9,7 @@
 
       <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
         <div class="competence-results-panel__header">
-          {{#if model.scorecard.hasNotEarnAnything}}
+          {{#if this.model.scorecard.hasNotEarnAnything}}
             <div class="competence-results-panel-header__banner competence-results-panel-header__banner--too-bad">
               <img src="/images/banners/too-bad-text.svg" alt="Tant pix !"
                    class="competence-results-banner__title">
@@ -17,7 +17,7 @@
                 Manifestement, ce n’est pas votre jour mais vous ferez mieux la prochaine fois.
               </div>
             </div>
-          {{else if model.scorecard.hasNotReachLevelOne}}
+          {{else if this.model.scorecard.hasNotReachLevelOne}}
             <div class="competence-results-panel-header__banner competence-results-panel-header__banner--not-bad">
               <img src="/images/banners/not-bad-text.svg" alt="Pas mal, mais pas max !"
                    class="competence-results-banner__title competence-results-banner__title--tablet">
@@ -33,7 +33,7 @@
                 </div>
               </div>
             </div>
-          {{else if model.scorecard.hasReachAtLeastLevelOne}}
+          {{else if this.model.scorecard.hasReachAtLeastLevelOne}}
             <div class="competence-results-panel-header__banner competence-results-panel-header__banner--congrats">
               <img src="/images/banners/congrats-text.svg" alt="Félicitations !"
                    class="competence-results-banner__title">
@@ -50,7 +50,7 @@
             </div>
           {{/if}}
         </div>
-        {{#if model.scorecard}}
+        {{#if this.model.scorecard}}
           <ScorecardDetails @scorecard={{@model.scorecard}} />
         {{/if}}
       </div>

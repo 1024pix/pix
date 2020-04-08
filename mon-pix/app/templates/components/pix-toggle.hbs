@@ -1,6 +1,6 @@
 
 <div class="pix-toggle">
-<span class="{{firstButtonClass}}" onToggle={{action "onToggle" "firstButtonClass" on="click"}}>{{valueFirstLabel}}</span>
-<span class="{{secondButtonClass}}" onToggle={{action "onToggle" "secondButtonClass" on="click"}}>{{valueSecondLabel}}</span>
+<span class="{{this.firstButtonClass}}" onToggle={{action "onToggle" "firstButtonClass" on="click"}}>{{this.valueFirstLabel}}</span>
+<span class="{{this.secondButtonClass}}" onToggle={{action "onToggle" "secondButtonClass" on="click"}}>{{this.valueSecondLabel}}</span>
 </div>
 {{yield}}

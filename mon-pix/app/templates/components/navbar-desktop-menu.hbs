@@ -1,6 +1,6 @@
 <div class="navbar-desktop-menu-links">
   <ul class="navbar-desktop-menu-links__list">
-    {{#each menu as |item|}}
+    {{#each this.menu as |item|}}
       <li class="navbar-desktop-menu-links__item">
         <LinkTo @route={{item.link}} class="navbar-desktop-menu-links__link {{item.class}}">{{item.name}}</LinkTo>
       </li>

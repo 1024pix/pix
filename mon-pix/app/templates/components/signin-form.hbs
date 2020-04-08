@@ -1,7 +1,7 @@
 <div class="sign-form__container">
 
-  <a href={{urlHome}} class="pix-logo__link" title="Page d'accueil de Pix">
-    <img class="pix-logo__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
+  <a href={{this.urlHome}} class="pix-logo__link" title="Page d'accueil de Pix">
+    <img class="pix-logo__image" src="{{this.rootURL}}/images/pix-logo.svg" alt="Pix">
   </a>
 
   <div class="sign-form__header">
@@ -12,7 +12,7 @@
     </div>
   </div>
 
-  {{#if displayErrorMessage}}
+  {{#if this.displayErrorMessage}}
     <div class="sign-form__notification-message sign-form__notification-message--error" aria-live="polite">
       L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects
     </div>
@@ -24,14 +24,16 @@
       <FormTextfield @label="Adresse e-mail ou identifiant"
                      @textfieldName="login"
                      @validationStatus="default"
-                     @inputBindingValue={{username}} @autocomplete="username" />
+                     @inputBindingValue={{this.username}}
+                     @autocomplete="username" />
     </div>
 
     <div class="sign-form-body__input">
       <FormTextfield @label="Mot de passe"
                      @textfieldName="password"
                      @validationStatus="default"
-                     @inputBindingValue={{password}} @autocomplete="current-password" />
+                     @inputBindingValue={{this.password}}
+                     @autocomplete="current-password" />
     </div>
 
     <LinkTo @route="password-reset-demand" class="link link--grey sign-form-link sign-form-body__forgotten-password-link">

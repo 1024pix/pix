@@ -1,11 +1,11 @@
-{{#each _blocks as |block|}}
+{{#each this._blocks as |block|}}
 
   {{#if block.showText}}
     <span>{{block.text}}</span>
   {{/if}}
 
   {{#if block.input}}
-    {{#if (eq format 'paragraphe')}}
+    {{#if (eq this.format 'paragraphe')}}
       {{#if block.text}}
         <label for="{{block.text}}">{{block.text}}</label>
       {{/if}}
@@ -15,12 +15,11 @@
                 placeholder={{block.placeholder}}
                 autocomplete="off"
                 id="{{block.text}}"
-                value={{property-of answersValue block.input}}
-                disabled={{answer}}
+                value={{property-of this.answersValue block.input}}
+                disabled={{this.answer}}
                 aria-label={{block.ariaLabel}}
-                onkeydown={{action 'onInputChange'}}>
-      </textarea>
-    {{else if (eq format 'phrase')}}
+                onkeydown={{action 'onInputChange'}}>      </textarea>
+    {{else if (eq this.format 'phrase')}}
       {{#if block.text}}
         <label for="{{block.text}}">{{block.text}}</label>
       {{/if}}
@@ -30,8 +29,8 @@
              placeholder={{block.placeholder}}
              autocomplete="off"
              id="{{block.text}}"
-             value={{property-of answersValue block.input}}
-             disabled={{answer}}
+             value={{property-of this.answersValue block.input}}
+             disabled={{this.answer}}
              aria-label={{block.ariaLabel}}
              onkeydown={{action 'onInputChange'}}>
     {{else}}
@@ -39,14 +38,14 @@
         <label for="{{block.text}}">{{block.text}}</label>
       {{/if}}
       <input class="challenge-response__proposal"
-             size="{{get-qroc-input-size format}}"
+             size="{{get-qroc-input-size this.format}}"
              type="text"
              name={{block.input}}
              placeholder={{block.placeholder}}
              autocomplete="off"
              id="{{block.text}}"
-             value={{property-of answersValue block.input}}
-             disabled={{answer}}
+             value={{property-of this.answersValue block.input}}
+             disabled={{this.answer}}
              aria-label={{block.ariaLabel}}
              onkeydown={{action 'onInputChange'}}>
     {{/if}}

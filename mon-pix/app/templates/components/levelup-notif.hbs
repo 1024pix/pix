@@ -1,10 +1,10 @@
-{{#unless closeLevelup}}
+{{#unless this.closeLevelup}}
   <div class="levelup">
-    <img src="{{rootURL}}/images/levelup.svg">
-    <div class="levelup__icon-card-level">{{level}}</div>
+    <img src="{{this.rootURL}}/images/levelup.svg">
+    <div class="levelup__icon-card-level">{{this.level}}</div>
     <div class="levelup__competence">
-      <div class="levelup-competence__level">Niveau {{level}} gagné !</div>
-      <div class="levelup-competence__name">{{competenceName}}</div>
+      <div class="levelup-competence__level">Niveau {{this.level}} gagné !</div>
+      <div class="levelup-competence__name">{{this.competenceName}}</div>
     </div>
     <button role = "button"
             class="levelup__close"

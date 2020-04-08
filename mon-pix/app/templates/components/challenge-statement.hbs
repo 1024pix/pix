@@ -1,28 +1,27 @@
-{{#if challengeInstruction}}
+{{#if this.challengeInstruction}}
   <div class="challenge-statement__instruction-section">
-    <MarkdownToHtml @class="challenge-statement__instruction" @markdown={{challengeInstruction}} />
+    <MarkdownToHtml @class="challenge-statement__instruction" @markdown={{this.challengeInstruction}} />
   </div>
 {{/if}}
 
-{{#if challenge.illustrationUrl}}
+{{#if this.challenge.illustrationUrl}}
   <div class="challenge-statement__illustration-section">
-    <ChallengeIllustration @src={{challenge.illustrationUrl}} @alt={{challenge.illustrationAlt}} />
+    <ChallengeIllustration @src={{this.challenge.illustrationUrl}} @alt={{this.challenge.illustrationAlt}} />
   </div>
 {{/if}}
 
-{{#if challenge.hasAttachment}}
+{{#if this.challenge.hasAttachment}}
   <div class="challenge-statement__attachments-section">
 
-    {{#if challenge.hasSingleAttachment}}
+    {{#if this.challenge.hasSingleAttachment}}
       <div class="challenge-statement__action">
-        <a class="challenge-statement__action-link" href="{{challenge.attachments.firstObject}}" target="_blank"
-           download>
+        <a class="challenge-statement__action-link" href="{{this.challenge.attachments.firstObject}}" target="_blank" download>
           <span class="challenge-statement__action-label">Télécharger</span>
         </a>
       </div>
     {{/if}}
 
-    {{#if challenge.hasMultipleAttachments}}
+    {{#if this.challenge.hasMultipleAttachments}}
       <p class="challenge-statement__text">
         <span class="challenge-statement__text-content">Choisissez le type de fichier que vous voulez utiliser</span>
       <div class="challenge-statement__help-icon">
@@ -33,7 +32,7 @@
       </div>
       </p>
       <ul class="challenge-statement__file-options">
-        {{#each attachmentsData as |attachmentUrl index|}}
+        {{#each this.attachmentsData as |attachmentUrl index|}}
           <li class="challenge-statement__file-option">
 
             {{!-- This radiobutton is hidden  - SVG displayed instead - but needed to handle behaviour. --}}
@@ -43,7 +42,7 @@
                    name="attachment_selector"
                    value="{{attachmentUrl}}"
                    onclick={{action "selectAttachementUrl" attachmentUrl}}
-                     checked="{{if (eq attachmentUrl selectedAttachmentUrl) "checked"}}">
+                   checked="{{if (eq attachmentUrl this.selectedAttachmentUrl) "checked"}}">
 
             <label class="label-checkbox-downloadable" for="attachment{{index}}">
               <span class="challenge-statement__file-option-label">fichier .{{extract-extension attachmentUrl}}</span>
@@ -53,7 +52,7 @@
         {{/each}}
       </ul>
       <div class="challenge-statement__action">
-        <a class="challenge-statement__action-link" href="{{selectedAttachmentUrl}}" target="_blank" download>
+        <a class="challenge-statement__action-link" href="{{this.selectedAttachmentUrl}}" target="_blank" download>
           <span class="challenge-statement__action-label">Télécharger</span>
         </a>
       </div>
@@ -61,6 +60,6 @@
   </div>
 {{/if}}
 
-{{#if challenge.hasValidEmbedDocument}}
-  <ChallengeEmbedSimulator @embedDocument={{challengeEmbedDocument}} />
+{{#if this.challenge.hasValidEmbedDocument}}
+  <ChallengeEmbedSimulator @embedDocument={{this.challengeEmbedDocument}} />
 {{/if}}

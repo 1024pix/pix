@@ -1,42 +1,41 @@
-{{#each _blocks as |block|}}
+{{#each this._blocks as |block|}}
 
   {{#if block.text}}
     <label for="qroc_input">{{block.text}}</label>
   {{/if}}
 
   {{#if block.input}}
-    {{#if (eq format 'paragraphe')}}
+    {{#if (eq this.format 'paragraphe')}}
       <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
                 rows="5"
                 id="qroc_input"
                 name={{block.input}}
                 placeholder={{block.placeholder}}
                 autocomplete="off"
-                value="{{userAnswer}}"
+                value="{{this.userAnswer}}"
                 data-uid="qroc-proposal-uid"
-                disabled={{if answer true}}>
-      </textarea>
-    {{else if (eq format 'phrase')}}
+                disabled={{if this.answer true}}>      </textarea>
+    {{else if (eq this.format 'phrase')}}
       <input class="challenge-response__proposal challenge-response__proposal--sentence"
              type="text"
              id="qroc_input"
              name={{block.input}}
              placeholder={{block.placeholder}}
              autocomplete="off"
-             value="{{userAnswer}}"
+             value="{{this.userAnswer}}"
              data-uid="qroc-proposal-uid"
-             disabled={{if answer true}}>
+             disabled={{if this.answer true}}>
     {{else}}
       <input class="challenge-response__proposal"
-             size="{{get-qroc-input-size format}}"
+             size="{{get-qroc-input-size this.format}}"
              type="text"
              id="qroc_input"
              name={{block.input}}
              placeholder={{block.placeholder}}
              autocomplete="off"
-             value="{{userAnswer}}"
+             value="{{this.userAnswer}}"
              data-uid="qroc-proposal-uid"
-             disabled={{if answer true}}>
+             disabled={{if this.answer true}}>
     {{/if}}
   {{/if}}
 

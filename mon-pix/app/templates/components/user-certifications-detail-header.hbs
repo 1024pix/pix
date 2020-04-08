@@ -1,18 +1,18 @@
-<img src="{{rootURL}}/images/icons/icon-certification.svg"
+<img src="{{this.rootURL}}/images/icons/icon-certification.svg"
      alt=""
      class="user-certifications-detail-header__icon">
 
 <div class="user-certifications-detail-header__data-box">
-  {{#if certification.date}}
+  {{#if this.certification.date}}
     <p class="user-certifications-detail-header__data-box-title">
       <span class="user-certifications-detail-header__data-box-title-big">CERTIFICAT</span>
-      obtenu le {{moment-format certification.date 'LL' locale='fr' allow-empty=true}}
+      obtenu le {{moment-format this.certification.date 'LL' locale='fr' allow-empty=true}}
     </p>
-    <p>Nom : {{certification.firstName}} {{certification.lastName}}</p>
-    <p>Date de naissance : {{moment-format certification.birthdate 'LL' locale='fr' allow-empty=true}}</p>
-    <p>Lieu de naissance : {{certification.birthplace}}</p>
-    {{#if certification.certificationCenter}}
-      <p>Centre de certification : {{certification.certificationCenter}}</p>
+    <p>Nom : {{this.certification.firstName}} {{this.certification.lastName}}</p>
+    <p>Date de naissance : {{moment-format this.certification.birthdate 'LL' locale='fr' allow-empty=true}}</p>
+    <p>Lieu de naissance : {{this.certification.birthplace}}</p>
+    {{#if this.certification.certificationCenter}}
+      <p>Centre de certification : {{this.certification.certificationCenter}}</p>
     {{/if}}
   {{/if}}
 </div>

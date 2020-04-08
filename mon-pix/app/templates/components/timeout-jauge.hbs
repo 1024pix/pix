@@ -1,17 +1,17 @@
 <div class="timeout-jauge">
   <div class="timeout-jauge-container">
     <div class="timeout-jauge-clock">
-      {{#if hasFinished}}
+      {{#if this.hasFinished}}
         <img class="svg-timeout-clock-red" src="/images/icon-timeout-red.svg" alt="Icône indiquant que le temps alloué est dépassé">
       {{else}}
         <img class="svg-timeout-clock-black" src="/images/icon-timeout-black.svg" alt="Icône indiquant qu'il reste du temps pour accomplir l'épreuve">
       {{/if}}
       <div>&nbsp;</div>
-      <div class="timeout-jauge-remaining" data-spent="{{remainingSeconds}}">
-        {{remainingTime}}
+      <div class="timeout-jauge-remaining" data-spent="{{this.remainingSeconds}}">
+        {{this.remainingTime}}
       </div>
     </div>
-    <div class="timeout-jauge-progress" style={{jaugeWidthStyle}}>
+    <div class="timeout-jauge-progress" style={{this.jaugeWidthStyle}}>
     </div>
   </div>
 </div>

@@ -14,12 +14,12 @@
         <form class="fill-in-campaign-code__form" autocomplete="off">
 
           <div class="fill-in-campaign-code__form-field">
-            <Input required @type="text" @id="campaign-code" @value={{campaignCode}} @maxlength="9" @key-down={{action "clearErrorMessage"}} />
+            <Input required @type="text" @id="campaign-code" @value={{this.campaignCode}} @maxlength="9" @key-down={{action "clearErrorMessage"}} />
           </div>
 
-          {{#if errorMessage}}
+          {{#if this.errorMessage}}
             <div class="fill-in-campaign-code__error" aria-live="polite">
-              {{ errorMessage }}
+              {{ this.errorMessage }}
             </div>
           {{/if}}
 

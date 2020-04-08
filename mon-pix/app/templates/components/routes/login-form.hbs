@@ -1,5 +1,5 @@
 <div class="login-form">
-  {{#if isErrorMessagePresent}}
+  {{#if this.isErrorMessagePresent}}
     <div id="login-form-error-message" class="login-form__error-message error-message">L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects</div>
   {{/if}}
 
@@ -9,7 +9,7 @@
       <FormTextfield @label="Adresse e-mail ou identifiant"
                      @textfieldName="login"
                      @validationStatus="default"
-                     @inputBindingValue={{login}}
+                     @inputBindingValue={{this.login}}
                      @autocomplete="username" />
     </div>
 
@@ -17,12 +17,12 @@
       <FormTextfield @label="Mot de passe"
                      @textfieldName="password"
                      @validationStatus="default"
-                     @inputBindingValue={{password}}
+                     @inputBindingValue={{this.password}}
                      @autocomplete="current-password" />
     </div>
 
     <div class="login-button-container">
-      {{#if isLoading}}
+      {{#if this.isLoading}}
         <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
       {{else}}
         <button id="submit-connexion" type="submit" class="button button--uppercase">Je me connecte</button>

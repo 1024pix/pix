@@ -1,20 +1,20 @@
 <article class="competence-card">
-  <LinkTo @route="competences.details" @model={{scorecard.competenceId}} class="competence-card__link">
-    <span class="competence-card__color competence-card__color--{{scorecard.area.color}}"></span>
+  <LinkTo @route="competences.details" @model={{this.scorecard.competenceId}} class="competence-card__link">
+    <span class="competence-card__color competence-card__color--{{this.scorecard.area.color}}"></span>
     <header class="competence-card__header">
-      <span class="competence-card__area-name">{{scorecard.area.title}}</span>
-      <span class="competence-card__competence-name">{{scorecard.name}}</span>
+      <span class="competence-card__area-name">{{this.scorecard.area.title}}</span>
+      <span class="competence-card__competence-name">{{this.scorecard.name}}</span>
     </header>
     <div class="competence-card__body">
-      {{#if scorecard.isFinishedWithMaxLevel}}
+      {{#if this.scorecard.isFinishedWithMaxLevel}}
         <div class="competence-card__congrats competence-card__congrats--small">
-          <span class="score-value competence-card__score-value competence-card__score-value--congrats">{{displayedLevel}}</span>
+          <span class="score-value competence-card__score-value competence-card__score-value--congrats">{{this.displayedLevel}}</span>
         </div>
       {{else}}
         <div class="competence-card__body--white-background">
-          <CircleChart @value={{scorecard.percentageAheadOfNextLevel}} @sliceColor={{scorecard.area.color}} @chartClass="circle-chart__content--small" @thicknessClass="circle--thick">
+          <CircleChart @value={{this.scorecard.percentageAheadOfNextLevel}} @sliceColor={{this.scorecard.area.color}} @chartClass="circle-chart__content--small" @thicknessClass="circle--thick">
             <div class="competence-card__level">
-              <span class="score-value competence-card__score-value">{{replace-zero-by-dash displayedLevel}}</span>
+              <span class="score-value competence-card__score-value">{{replace-zero-by-dash this.displayedLevel}}</span>
             </div>
           </CircleChart>
         </div>

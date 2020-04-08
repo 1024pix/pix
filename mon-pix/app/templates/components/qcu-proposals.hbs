@@ -1,5 +1,5 @@
 <form onchange="{{action "radioClicked"}}">
-{{#each labeledRadios as |labeledRadio index|}}
+{{#each this.labeledRadios as |labeledRadio index|}}
 <p class="proposal-paragraph">
 
   {{!-- Radio button --}}
@@ -10,7 +10,7 @@
          id="radio_{{inc index}}"
          checked={{labeledRadio.[1]}}
          onclick={{action "radioClicked" index}}
-         disabled={{if answer true}}>
+         disabled={{if this.answer true}}>
 
   {{!-- Surrounding label --}}
   <label for="radio_{{inc index}}"

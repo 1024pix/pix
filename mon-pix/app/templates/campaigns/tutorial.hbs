@@ -1,4 +1,4 @@
-{{title pageTitle}}
+{{title this.pageTitle}}
 
 <div class="campaign-tutorial">
   <div class="rounded-panel rounded-panel--strong campaign-tutorial__container">
@@ -8,20 +8,20 @@
     </div>
 
     <div class="campaign-tutorial__explanation-icon">
-      <img alt="" src="{{rootURL}}/images/tutorial-campaign/{{@model.icon}}">
+      <img alt="" src="{{this.rootURL}}/images/tutorial-campaign/{{@model.icon}}">
     </div>
 
 
     <div class="campaign-tutorial__explanation-text"><p>{{@model.explanation}}</p></div>
 
     <div class="campaign-tutorial__paging">
-      {{#each model.paging as |page-class|}}
+      {{#each this.model.paging as |page-class|}}
         <div class="dot <PageClass />"> </div>
       {{/each}}
 
     </div>
     <div class="campaign-tutorial__next-button">
-    {{#if model.showNextButton}}
+    {{#if this.model.showNextButton}}
       <button type="submit" class="button button--big campaign-tutorial__next-page-tutorial" {{action "next"}}>Suivant</button>
 
       <button {{action "submit"}} class="button button--big button--no-color campaign-tutorial__ignore-button">Ignorer</button>

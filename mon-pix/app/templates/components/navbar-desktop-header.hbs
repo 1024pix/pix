@@ -5,12 +5,12 @@
       <PixLogo />
     </div>
     <div class="navbar-desktop-header-logo__marianne">
-      <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="République française">
+      <img src="{{this.rootURL}}/images/logo-de-la-republique-francaise.svg" alt="République française">
     </div>
   </div>
 
-  {{#unless isInRouteWithoutLinksInHeader}}
-    {{#if isUserLogged}}
+  {{#unless this.isInRouteWithoutLinksInHeader}}
+    {{#if this.isUserLogged}}
       <div class="navbar-desktop-header-container__menu">
         <LinkTo @route="profile" class="navbar-desktop-header-menu__item">
           Profil
@@ -30,9 +30,9 @@
 
   <!-- Links (right) -->
   <div class="navbar-desktop-header-right">
-    <NavbarDesktopMenu @menu={{menu}} />
+    <NavbarDesktopMenu @menu={{this.menu}} />
 
-    {{#if isUserLogged}}
+    {{#if this.isUserLogged}}
       <UserLoggedMenu />
     {{/if}}
   </div>

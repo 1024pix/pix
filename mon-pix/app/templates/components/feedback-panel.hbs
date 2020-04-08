@@ -2,8 +2,8 @@
   <a class="feedback-panel__open-link" {{action "toggleFeedbackForm"}} href="#">Signaler un problème</a>
 </div>
 
-{{#if isFormOpened}}
-  {{#if _isSubmitted}}
+{{#if this.isFormOpened}}
+  {{#if this._isSubmitted}}
     <div class="feedback-panel__view feedback-panel__view--mercix">
       <p>Votre commentaire a bien été transmis à l’équipe du projet Pix.</p>
       <p>Mercix !</p>
@@ -20,34 +20,33 @@
             <div class="feedback-panel__category-selection">
               <select class="feedback-panel__dropdown" {{action "displayCategoryOptions" on="change"}}>
                 <option value="" disabled selected>J’ai un problème avec</option>
-                {{#each categories as |category|}}
+                {{#each this.categories as |category|}}
                   <option value={{category.value}}>{{category.name}}</option>
                 {{/each}}
               </select>
-              {{#if displayQuestionDropdown}}
+              {{#if this.displayQuestionDropdown}}
                 <select class="feedback-panel__dropdown" {{action "showFeedback" on="change"}}>
                   <option value="default" selected>Précisez</option>
-                  {{#each nextCategory as |question index|}}
+                  {{#each this.nextCategory as |question index|}}
                     <option value={{index}}>{{question.name}}</option>
                   {{/each}}
                 </select>
               {{/if}}
-              {{#if quickHelpInstructions}}
+              {{#if this.quickHelpInstructions}}
                 <div class="feedback-panel__quick-help">
                   {{fa-icon 'exclamation-circle' class="tuto-icon__warning"}}
-                  <p>{{{quickHelpInstructions}}}</p>
+                  <p>{{{this.quickHelpInstructions}}}</p>
                 </div>
               {{/if}}
             </div>
           </div>
-          {{#if displayTextBox}}
+          {{#if this.displayTextBox}}
             <div class="feedback-panel__group">
               <p>Votre message est limité à 10 000 caractères.</p>
-              <Textarea class="feedback-panel__field feedback-panel__field--content" @value={{_content}} placeholder="Précisez" @maxlength="10000" @rows={{5}} />
-            </div>
-            {{#if _error}}
+              <Textarea class="feedback-panel__field feedback-panel__field--content" @value={{this._content}} placeholder="Précisez" @maxlength="10000" @rows={{5}} />            </div>
+            {{#if this._error}}
               <div class="alert alert-danger" role="alert">
-                {{_error}}
+                {{this._error}}
               </div>
             {{/if}}
             <button class="feedback-panel__button feedback-panel__button--send" {{action "sendFeedback"}}>Envoyer</button>

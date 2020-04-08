@@ -1,6 +1,6 @@
 <div class="user-certifications-detail-result__pix-score">
   <div class="user-certifications-detail-result__badge-pix-score">
-    <span>{{ certification.pixScore }}</span>
+    <span>{{ this.certification.pixScore }}</span>
   </div>
   <div class="user-certifications-detail-result__pix-certified">
     Pix certifiés
@@ -13,11 +13,11 @@
 </div>
 
 <div>
-  {{#if certification.commentForCandidate}}
+  {{#if this.certification.commentForCandidate}}
     <hr>
     <div class="user-certifications-detail-result__title-comment-jury">Intervention du jury</div>
     <div class="user-certifications-detail-result__comment-jury">
-      {{certification.commentForCandidate}}
+      {{this.certification.commentForCandidate}}
     </div>
   {{/if}}
 </div>

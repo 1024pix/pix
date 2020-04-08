@@ -1,4 +1,4 @@
-{{#each labeledCheckboxes as |labeledCheckbox index|}}
+{{#each this.labeledCheckboxes as |labeledCheckbox index|}}
 <p class="proposal-paragraph">
 
   {{!-- Checkbox button : hidden  - SVG displayed instead - but needed. --}}
@@ -7,7 +7,7 @@
          checked={{labeledCheckbox.[1]}}
          name="{{inc index}}"
          onclick={{action "checkboxClicked"}}
-         disabled={{if answer true}}>
+         disabled={{if this.answer true}}>
 
   {{!-- Surrounding label --}}
   <label for="checkbox_{{inc index}}"

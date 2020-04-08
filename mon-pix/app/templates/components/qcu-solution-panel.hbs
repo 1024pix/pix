@@ -1,6 +1,6 @@
 <div class="qcu-panel__proposals rounded-panel">
   <div class="rounded-panel__row qcu-panel__proposal-list">
-    {{#each labeledRadios as |labeledItemRadio index|}}
+    {{#each this.labeledRadios as |labeledItemRadio index|}}
       <p class="qcu-panel__proposal-item">
 
         <label class="qcu-panel__proposal-label qcu-proposal-label">
@@ -27,7 +27,8 @@
           {{/if}}
 
           <span class="qcu-proposal-label__oracle"
-                data-goodness="{{if (get solutionArray (concat index)) 'good' 'bad'}}" data-checked={{if
+                data-goodness="{{if (get this.solutionArray (concat index)) 'good' 'bad'}}"
+                data-checked={{if
             labeledItemRadio.[1] 'yes' 'no'}}>
             {{labeledItemRadio.[0]}}
           </span>

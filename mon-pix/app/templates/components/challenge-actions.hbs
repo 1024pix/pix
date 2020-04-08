@@ -1,11 +1,11 @@
 {{#if @answer}}
   <span class="challenge-actions__already-answered">Vous avez déjà répondu à cette question</span>
-  <button class="button challenge-actions__action challenge-actions__action-continue" {{action resumeAssessment @assessment}}>
+  <button class="button challenge-actions__action challenge-actions__action-continue" {{action this.resumeAssessment @assessment}}>
     <span class="challenge-actions__action-continue-text">Poursuivre</span>
   </button>
 {{else}}
   {{#if this.isValidateButtonEnabled}}
-    <button class="button challenge-actions__action challenge-actions__action-validate" type="submit" {{action validateAnswer}}>
+    <button class="button challenge-actions__action challenge-actions__action-validate" type="submit" {{action this.validateAnswer}}>
       <span class="challenge-actions__action-validate-text">Je valide</span>
     </button>
   {{else}}
@@ -14,7 +14,7 @@
     </div>
   {{/if}}
   {{#if this.isSkipButtonEnabled}}
-    <button class="button challenge-actions__action challenge-actions__action-skip" {{action skipChallenge}}>
+    <button class="button challenge-actions__action challenge-actions__action-skip" {{action this.skipChallenge}}>
       <span class="challenge-actions__action-skip-text">Je passe</span>
     </button>
   {{else}}

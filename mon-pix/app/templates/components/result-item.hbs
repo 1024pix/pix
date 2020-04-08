@@ -1,13 +1,13 @@
-<div class="result-item__icon" title="{{resultItem.title}}">
-  {{fa-icon resultItem.icon class=(concat 'result-item__icon--' resultItem.color)}}
+<div class="result-item__icon" title="{{this.resultItem.title}}">
+  {{fa-icon this.resultItem.icon class=(concat 'result-item__icon--' this.resultItem.color)}}
 </div>
 
 <div class="result-item__instruction">
-  {{strip-instruction (convert-to-html answer.challenge.instruction) textLength}}
+  {{strip-instruction (convert-to-html this.answer.challenge.instruction) this.textLength}}
 </div>
 
 <div class="result-item__correction">
-  {{#if validationImplementedForChallengeType}}
-    <button {{action openAnswerDetails answer}} class="result-item__correction-button link js-correct-answer">Réponses et tutos</button>
+  {{#if this.validationImplementedForChallengeType}}
+    <button {{action this.openAnswerDetails this.answer}} class="result-item__correction-button link js-correct-answer">Réponses et tutos</button>
   {{/if}}
 </div>
