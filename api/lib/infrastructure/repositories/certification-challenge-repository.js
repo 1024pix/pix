@@ -1,5 +1,5 @@
 const Bookshelf = require('../bookshelf');
-const CertificationChallenge = require('../../domain/models/CertificationChallenge');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const CertificationChallengeBookshelf = require('../data/certification-challenge');
 const logger = require('../../infrastructure/logger');
 
@@ -10,32 +10,20 @@ const logContext = {
   type: 'repository',
 };
 
-function _toDomain(model) {
-  return new CertificationChallenge({
-    id: model.get('id'),
-    challengeId: model.get('challengeId'),
-    competenceId: model.get('competenceId'),
-    associatedSkill: model.get('associatedSkill'),
-    associatedSkillId: model.get('associatedSkillId'),
-    courseId: model.get('courseId'),
-  });
-}
-
 module.exports = {
 
-  // TODO modifier pour que cela prenne un CertificationChallenge en entrée
   save(challenge, certificationCourse) {
     const certificationChallenge = new CertificationChallengeBookshelf({
       challengeId: challenge.id,
       competenceId: challenge.competenceId,
       associatedSkill: challenge.testedSkill,
-      associatedSkillId: undefined, // TODO: Add skillId
+      associatedSkillId: undefined,
       courseId: certificationCourse.id,
     });
 
     return certificationChallenge.save()
       .then((certificationChallenge) => {
-        return _toDomain(certificationChallenge);
+        return bookshelfToDomainConverter.buildDomainObject(CertificationChallengeBookshelf, certificationChallenge);
       });
   },
 
@@ -43,7 +31,7 @@ module.exports = {
     return CertificationChallengeBookshelf
       .where({ courseId: certificationCourseId })
       .fetchAll()
-      .then((challenges) => challenges.models.map(_toDomain));
+      .then((challenges) => bookshelfToDomainConverter.buildDomainObjects(CertificationChallengeBookshelf, challenges));
   },
 
   getNonAnsweredChallengeByCourseId(assessmentId, courseId) {
@@ -64,7 +52,7 @@ module.exports = {
 
         logContext.challengeId = certificationChallenge.id;
         logger.trace(logContext, 'found challenge');
-        return _toDomain(certificationChallenge);
+        return bookshelfToDomainConverter.buildDomainObject(CertificationChallengeBookshelf, certificationChallenge);
       });
   },
 };
