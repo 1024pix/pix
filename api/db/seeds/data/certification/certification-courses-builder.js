@@ -54,7 +54,7 @@ function _buildCertificationCourse(databaseBuilder, { assessmentId, userId, sess
     campaignParticipationId: null, isImproving: false, createdAt,
   });
   _.each(CERTIFICATION_CHALLENGES_DATA, (challenge) => {
-    databaseBuilder.factory.buildCertificationChallenge({ ...challenge, courseId: certificationCourseId, associatedSkillId: null, createdAt });
+    databaseBuilder.factory.buildCertificationChallenge({ ...challenge, courseId: certificationCourseId, createdAt });
   });
 }
 

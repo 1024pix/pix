@@ -5,7 +5,6 @@ class CertificationChallenge {
     associatedSkill,
     // includes
     // references
-    associatedSkillId,
     challengeId,
     courseId,
     competenceId,
@@ -15,7 +14,6 @@ class CertificationChallenge {
     this.associatedSkill = associatedSkill;
     // includes
     // references
-    this.associatedSkillId = associatedSkillId;
     this.challengeId = challengeId;
     this.competenceId = competenceId;
     this.courseId = courseId;

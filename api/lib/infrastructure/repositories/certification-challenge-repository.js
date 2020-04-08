@@ -17,7 +17,6 @@ module.exports = {
       challengeId: challenge.id,
       competenceId: challenge.competenceId,
       associatedSkill: challenge.testedSkill,
-      associatedSkillId: undefined,
       courseId: certificationCourse.id,
     });
 
