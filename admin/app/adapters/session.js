@@ -1,9 +1,9 @@
 import ApplicationAdapter from './application';
 
-export default ApplicationAdapter.extend({
+export default class SessionAdapter extends ApplicationAdapter {
 
   urlForUpdateRecord(id, modelName, { adapterOptions }) {
-    const url = this._super(...arguments);
+    const url = super.urlForUpdateRecord(...arguments);
     if (adapterOptions && adapterOptions.flagResultsAsSentToPrescriber)  {
       delete adapterOptions.flagResultsAsSentToPrescriber;
       return url + '/results-sent-to-prescriber';
@@ -12,7 +12,7 @@ export default ApplicationAdapter.extend({
       return url + '/publication';
     }
     return url;
-  },
+  }
 
   updateRecord(store, type, snapshot) {
     if (snapshot.adapterOptions.flagResultsAsSentToPrescriber) {
@@ -22,6 +22,6 @@ export default ApplicationAdapter.extend({
       return this.ajax(this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot), 'PATCH', { data });
     }
 
-    return this._super(...arguments);
+    return super.updateRecord(...arguments);
   }
-});
+}
