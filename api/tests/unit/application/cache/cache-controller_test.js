@@ -1,5 +1,4 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const cacheController = require('../../../../lib/application/cache/cache-controller');
 const AirtableDatasources = require('../../../../lib/infrastructure/datasources/airtable');
 const _ = require('lodash');
@@ -40,23 +39,6 @@ describe('Unit | Controller | cache-controller', () => {
       const response = await cacheController.refreshCacheEntry(request, hFake);
 
       // Then
-      expect(response).to.be.null;
-    });
-  });
-
-  describe('#removeCacheEntries', () => {
-
-    const request = {};
-
-    it('should reply with null when there is no error', async () => {
-      // given
-      sinon.stub(cache, 'flushAll').resolves();
-
-      // when
-      const response = await cacheController.removeCacheEntries(request, hFake);
-
-      // Then
-      expect(cache.flushAll).to.have.been.calledOnce;
       expect(response).to.be.null;
     });
   });
