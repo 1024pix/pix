@@ -28,11 +28,11 @@ class Skill {
   }
 
   get tubeName() {
-    return this.name.slice(1, -1);
+    return this.name.slice(0, -1);  //with skill'@sourceImage2', returns '@sourceImage'
   }
 
-  get tubeNameWithAt() {
-    return this.name.slice(0, -1);
+  get tubeNameWithoutPrefix() {
+    return this.tubeName.slice(1); //with skill '@sourceImage2', returns 'sourceImage'
   }
 
   static areEqual(oneSkill, otherSkill) {

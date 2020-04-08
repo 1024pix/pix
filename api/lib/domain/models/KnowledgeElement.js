@@ -139,14 +139,14 @@ function _enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
   targetSkills,
   userId,
 }) {
-  const targetSkillsGroupedByTubeName = _.groupBy(targetSkills, (skill) => skill.tubeName);
+  const targetSkillsGroupedByTubeName = _.groupBy(targetSkills, (skill) => skill.tubeNameWithoutPrefix);
   const status = answer.isOk() ? statuses.VALIDATED : statuses.INVALIDATED;
 
   return directKnowledgeElements.reduce((totalKnowledgeElements, directKnowledgeElement) => {
 
     const directSkill = _findSkillByIdFromTargetSkills(directKnowledgeElement.skillId, targetSkills);
 
-    targetSkillsGroupedByTubeName[directSkill.tubeName]
+    targetSkillsGroupedByTubeName[directSkill.tubeNameWithoutPrefix]
       .filter(_skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
       .forEach((skillToInfer) => {
 

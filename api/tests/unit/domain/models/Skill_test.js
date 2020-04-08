@@ -13,23 +13,23 @@ describe('Unit | Domain | Models | Skill', () => {
     });
   });
 
-  describe('#TubeName', function() {
+  describe('#tubeNameWithoutPrefix', function() {
     it('should return the name of the tube', function() {
       // given
       const url1 = new Skill({ name: '@url1' });
 
       // then
-      expect(url1.tubeName).to.be.equal('url');
+      expect(url1.tubeNameWithoutPrefix).to.be.equal('url');
     });
   });
 
-  describe('#tubeNameWithAt', () => {
+  describe('#tubeName', () => {
     it('should have a property fromListOfSkill', () => {
       // when
       const skill = new Skill({ name: '@web3' });
 
       // then
-      expect(skill.tubeNameWithAt).to.equal('@web');
+      expect(skill.tubeName).to.equal('@web');
     });
   });
 
