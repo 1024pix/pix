@@ -34,6 +34,13 @@
           <span class="radio-button-span"></span>Collecter les profils Pix des participants
         </label>
       </div>
+
+      {{#each @campaign.errors.type as |error|}}
+        <div class='form__error error-message'>
+          {{error.message}}
+        </div>
+      {{/each}}
+
     </div>
   {{/if}}
 
