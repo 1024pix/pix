@@ -146,7 +146,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         await visit(`/sessions/${session.id}`);
 
         // then
-        const buttonSendResultsToCandidates = this.element.querySelector('.session-info__actions .row button:nth-child(3)');
+        const buttonSendResultsToCandidates = this.element.querySelector('.session-info__actions .row button:nth-child(4)');
         assert.equal(buttonSendResultsToCandidates.innerHTML.trim(), 'Résultats transmis au prescripteur');
       });
       
@@ -161,7 +161,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         await visit(`/sessions/${session.id}`);
 
         // then
-        assert.dom('.session-info__actions .row button:nth-child(3)').doesNotExist();
+        assert.dom('.session-info__actions .row button:nth-child(4)').doesNotExist();
       });
 
     });
