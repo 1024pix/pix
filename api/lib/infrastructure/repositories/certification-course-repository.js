@@ -17,9 +17,9 @@ module.exports = {
     return _toDomain(savedCertificationCourse);
   },
 
-  async changeCompletionDate(certificationCourseId, completedAt = null) {
+  async changeCompletionDate(certificationCourseId, completedAt = null, domainTransaction = {}) {
     const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, completedAt });
-    const savedCertificationCourse = await certificationCourseBookshelf.save();
+    const savedCertificationCourse = await certificationCourseBookshelf.save(null, { transacting: domainTransaction.knexTransaction });
     return _toDomain(savedCertificationCourse);
   },
 

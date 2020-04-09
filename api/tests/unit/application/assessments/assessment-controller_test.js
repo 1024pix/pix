@@ -154,7 +154,7 @@ describe('Unit | Controller | assessment-controller', function() {
       await transactionToBeExecuted(domainTransaction);
 
       // then
-      expect(events.handleCertificationScoring).to.have.been.calledWithExactly({ assessmentCompletedEvent });
+      expect(events.handleCertificationScoring).to.have.been.calledWithExactly({ domainTransaction, assessmentCompletedEvent });
     });
 
     it('should call usecase and handler within the transaction', async () => {
