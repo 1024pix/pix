@@ -3,7 +3,7 @@ const flagSessionResultsAsSentToPrescriber = require('../../../../lib/domain/use
 const Session = require('../../../../lib/domain/models/Session');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | set-date-of-sending-results-to-prescriber', () => {
+describe('Unit | UseCase | flag-session-results-as-sent-to-prescriber', () => {
   let sessionId;
   let sessionRepository;
 
