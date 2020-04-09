@@ -67,7 +67,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     });
   });
 
-  describe('#getCsvResult', () => {
+  describe('#getCsvAssessmentResults', () => {
     const userId = 1;
     const campaignId = 2;
     const request = {
@@ -80,30 +80,30 @@ describe('Unit | Application | Controller | Campaign', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'startWritingCampaignResultsToStream');
+      sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream');
       sinon.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
     });
 
     it('should call the use case to get result campaign in csv', async () => {
       // given
-      usecases.startWritingCampaignResultsToStream.resolves({ fileName: 'any file name' });
+      usecases.startWritingCampaignAssessmentResultsToStream.resolves({ fileName: 'any file name' });
 
       // when
-      await campaignController.getCsvResults(request);
+      await campaignController.getCsvAssessmentResults(request);
 
       // then
-      expect(usecases.startWritingCampaignResultsToStream).to.have.been.calledOnce;
-      const getResultsCampaignArgs = usecases.startWritingCampaignResultsToStream.firstCall.args[0];
+      expect(usecases.startWritingCampaignAssessmentResultsToStream).to.have.been.calledOnce;
+      const getResultsCampaignArgs = usecases.startWritingCampaignAssessmentResultsToStream.firstCall.args[0];
       expect(getResultsCampaignArgs).to.have.property('userId');
       expect(getResultsCampaignArgs).to.have.property('campaignId');
     });
 
     it('should return a response with correct headers', async () => {
       // given
-      usecases.startWritingCampaignResultsToStream.resolves({ fileName: 'expected file name' });
+      usecases.startWritingCampaignAssessmentResultsToStream.resolves({ fileName: 'expected file name' });
 
       // when
-      const response = await campaignController.getCsvResults(request);
+      const response = await campaignController.getCsvAssessmentResults(request);
 
       // then
       expect(response.headers['content-type']).to.equal('text/csv;charset=utf-8');
@@ -113,10 +113,66 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should fix invalid header chars in filename', async () => {
       // given
-      usecases.startWritingCampaignResultsToStream.resolves({ fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv' });
+      usecases.startWritingCampaignAssessmentResultsToStream.resolves({ fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv' });
 
       // when
-      const response = await campaignController.getCsvResults(request);
+      const response = await campaignController.getCsvAssessmentResults(request);
+
+      // then
+      expect(response.headers['content-disposition']).to.equal('attachment; filename="file-name with invalid_chars _____________.csv"');
+    });
+  });
+
+  describe('#getCsvProfilesCollectionResult', () => {
+    const userId = 1;
+    const campaignId = 2;
+    const request = {
+      query: {
+        accessToken: 'token'
+      },
+      params: {
+        id: campaignId
+      }
+    };
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream');
+      sinon.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
+    });
+
+    it('should call the use case to get result campaign in csv', async () => {
+      // given
+      usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({ fileName: 'any file name' });
+
+      // when
+      await campaignController.getCsvProfilesCollectionResults(request);
+
+      // then
+      expect(usecases.startWritingCampaignProfilesCollectionResultsToStream).to.have.been.calledOnce;
+      const getResultsCampaignArgs = usecases.startWritingCampaignProfilesCollectionResultsToStream.firstCall.args[0];
+      expect(getResultsCampaignArgs).to.have.property('userId');
+      expect(getResultsCampaignArgs).to.have.property('campaignId');
+    });
+
+    it('should return a response with correct headers', async () => {
+      // given
+      usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({ fileName: 'expected file name' });
+
+      // when
+      const response = await campaignController.getCsvProfilesCollectionResults(request);
+
+      // then
+      expect(response.headers['content-type']).to.equal('text/csv;charset=utf-8');
+      expect(response.headers['content-disposition']).to.equal('attachment; filename="expected file name"');
+      expect(response.headers['content-encoding']).to.equal('identity');
+    });
+
+    it('should fix invalid header chars in filename', async () => {
+      // given
+      usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({ fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv' });
+
+      // when
+      const response = await campaignController.getCsvProfilesCollectionResults(request);
 
       // then
       expect(response.headers['content-disposition']).to.equal('attachment; filename="file-name with invalid_chars _____________.csv"');
