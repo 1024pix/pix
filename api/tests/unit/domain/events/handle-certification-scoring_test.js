@@ -16,6 +16,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
   const competenceMarkRepository = { save: _.noop };
   const badgeAcquisitionRepository = { hasAcquiredBadgeWithKey:  _.noop };
   const certificationPartnerAcquisitionRepository = { save: _.noop };
+  const domainTransaction = {};
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
   let assessmentCompletedEvent;
@@ -89,7 +90,8 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         // when
         await events.handleCertificationScoring({
           assessmentCompletedEvent,
-          ...dependencies
+          ...dependencies,
+          domainTransaction,
         });
 
         // then
@@ -102,7 +104,8 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         // when
         await events.handleCertificationScoring({
           assessmentCompletedEvent,
-          ...dependencies
+          ...dependencies,
+          domainTransaction,
         });
 
         // then
@@ -113,7 +116,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
           errorAssessmentResult
         );
         expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
-          certificationAssessment.certificationCourseId, now
+          certificationAssessment.certificationCourseId, now, domainTransaction
         );
       });
     });
@@ -139,7 +142,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
           level: originalLevel,
           competenceMarks: [competenceMarkData1, competenceMarkData2],
           reproducabilityRate: undefined,
-
         };
 
         beforeEach(() => {
@@ -150,7 +152,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         it('should left untouched the calculated level in the assessment score', async () => {
           // when
           await events.handleCertificationScoring({
-            assessmentCompletedEvent, ...dependencies
+            assessmentCompletedEvent, ...dependencies, domainTransaction
           });
 
           // then
@@ -160,7 +162,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         it('should build and save an assessment result with the expected arguments', async () => {
           // when
           await events.handleCertificationScoring({
-            assessmentCompletedEvent, ...dependencies
+            assessmentCompletedEvent, ...dependencies, domainTransaction
           });
 
           // then
@@ -170,9 +172,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
             AssessmentResult.status.VALIDATED,
             certificationAssessment.id
           );
-          expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult);
+          expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult, domainTransaction);
           expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
-            certificationAssessment.certificationCourseId, now
+            certificationAssessment.certificationCourseId, now, domainTransaction
           );
 
         });
@@ -186,7 +188,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
               // when
               await events.handleCertificationScoring({
-                assessmentCompletedEvent, ...dependencies
+                assessmentCompletedEvent, ...dependencies, domainTransaction
               });
 
               // then
@@ -206,7 +208,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
               // when
               await events.handleCertificationScoring({
-                assessmentCompletedEvent, ...dependencies
+                assessmentCompletedEvent, ...dependencies, domainTransaction
               });
 
               // then
@@ -219,7 +221,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         it('should build and save as many competence marks as present in the assessmentScore', async () => {
         // when
           await events.handleCertificationScoring({
-            assessmentCompletedEvent, ...dependencies
+            assessmentCompletedEvent, ...dependencies, domainTransaction
           });
 
           // then
@@ -241,7 +243,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         it('should change level of the assessmentScore', async () => {
           // when
           await events.handleCertificationScoring({
-            assessmentCompletedEvent, ...dependencies
+            assessmentCompletedEvent, ...dependencies, domainTransaction
           });
 
           // then
@@ -251,7 +253,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         it('should build and save an assessment result with the expected arguments', async () => {
           // when
           await events.handleCertificationScoring({
-            assessmentCompletedEvent, ...dependencies
+            assessmentCompletedEvent, ...dependencies, domainTransaction
           });
 
           // then
@@ -262,10 +264,10 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
             certificationAssessment.id
           );
           expect(assessmentResultRepository.save).to.have.been.calledWithExactly(
-            assessmentResult
+            assessmentResult, domainTransaction
           );
           expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
-            certificationAssessment.certificationCourseId, now
+            certificationAssessment.certificationCourseId, now, domainTransaction
           );
         });
       });
@@ -285,7 +287,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
       // when
       await events.handleCertificationScoring({
-        assessmentCompletedEvent, ...dependencies
+        assessmentCompletedEvent, ...dependencies, domainTransaction
       });
 
       expect(assessmentRepository.get).to.not.have.been.called;
