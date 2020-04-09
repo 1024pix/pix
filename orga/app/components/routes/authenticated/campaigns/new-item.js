@@ -1,5 +1,5 @@
 import { inject as service } from '@ember/service';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import Component from '@ember/component';
 import { tracked } from '@glimmer/tracking';
 
@@ -8,7 +8,7 @@ export default class NewItem extends Component {
 
   campaign = {};
   targetProfiles = null;
-  wantIdPix = false;
+  @tracked wantIdPix = false;
   @tracked isCampaignGoalAssessment = null;
 
   init() {
@@ -19,9 +19,12 @@ export default class NewItem extends Component {
     }
   }
 
-  @computed('wantIdPix')
   get notWantIdPix() {
     return !this.wantIdPix;
+  }
+
+  get shallDisplayComment() {
+    return this.currentUser.organization.isSCO && this.currentUser.organization.isManagingStudents;
   }
 
   @action
