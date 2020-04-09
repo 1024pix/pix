@@ -46,7 +46,7 @@ module.exports = {
       .then(_toDomain);
   },
 
-  async findResultDataByCampaignId(campaignId) {
+  async findAssessmentResultDataByCampaignId(campaignId) {
     const results = await Bookshelf.knex.with('campaignParticipationWithUserAndRankedAssessment',
       (qb) => {
         qb.select([
@@ -63,6 +63,23 @@ module.exports = {
       })
       .from('campaignParticipationWithUserAndRankedAssessment')
       .where({ rank: 1 });
+
+    return results.map(_rowToResult);
+  },
+
+  async findProfilesCollectionResultDataByCampaignId(campaignId) {
+    const results = await Bookshelf.knex.with('campaignParticipationWithUser',
+      (qb) => {
+        qb.select([
+          'campaign-participations.*',
+          'users.firstName',
+          'users.lastName',
+        ])
+          .from('campaign-participations')
+          .leftJoin('users', 'campaign-participations.userId', 'users.id')
+          .where({ campaignId });
+      })
+      .from('campaignParticipationWithUser');
 
     return results.map(_rowToResult);
   },
