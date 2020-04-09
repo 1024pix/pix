@@ -1,11 +1,16 @@
 const AirtableDatasources = require('../../infrastructure/datasources/airtable');
+const logger = require('../../infrastructure/logger');
 const _ = require('lodash');
 
 module.exports = {
 
   refreshCacheEntries(request, h) {
-    _.forEach(AirtableDatasources, (datasource) => datasource.refreshAirtableCacheRecords());
-    return h.response().code(204);
+    _.forEach(AirtableDatasources, (datasource) =>
+      datasource.refreshAirtableCacheRecords().catch((e) =>
+        logger.error(`Error while reloading cache for ${datasource}`, e)
+      )
+    );
+    return h.response({}).code(202);
   },
 
   refreshCacheEntry(request) {
