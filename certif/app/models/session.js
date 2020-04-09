@@ -7,10 +7,12 @@ const { Model, attr, belongsTo, hasMany } = DS;
 
 export const CREATED = 'created';
 export const FINALIZED = 'finalized';
+export const ONGOING = 'ongoing';
 export const PROCESSED = 'processed';
 export const statusToDisplayName = {
   [CREATED]: 'Créée',
   [FINALIZED]: 'Finalisée',
+  [ONGOING]: 'Finalisée',
   [PROCESSED]: 'Résultats transmis par Pix',
 };
 
@@ -31,7 +33,9 @@ export default class Session extends Model {
 
   @computed('status')
   get isFinalized() {
-    return this.status === FINALIZED || this.status === PROCESSED;
+    return this.status === FINALIZED
+        || this.status === ONGOING
+        || this.status === PROCESSED;
   }
 
   @computed('certificationCandidates.@each.isLinked')
