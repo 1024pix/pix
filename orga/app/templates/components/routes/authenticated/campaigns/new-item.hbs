@@ -58,6 +58,14 @@
           {{error.message}}
         </div>
       {{/each}}
+      {{#if this.shallDisplayComment}}
+        <label class="label" id="campaign-target-profile-comment-label">
+          Si vous souhaitez avoir plus d'information, consultez
+          <a href="https://cloud.pix.fr/s/Rxm5kLR2dmFW7qq?path=%2FLes%20parcours%20dans%20Pix%20Orga"
+             target="_blank"
+             rel="noopener noreferrer"> la documentation correspondante</a>.
+        </label>
+      {{/if}}
     </div>
   {{/if}}
 

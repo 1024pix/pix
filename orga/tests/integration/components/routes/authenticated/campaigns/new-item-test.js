@@ -98,6 +98,55 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
     });
   });
 
+  module('when user‘s organization is SCO and is managing student', function() {
+
+    test('it should display comment for target profile selection', async function(assert) {
+      // given
+      this.currentUser = this.owner.lookup('service:current-user');
+      this.set('currentUser.organization.isSCO', true);
+      this.set('currentUser.organization.isManagingStudents', true);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
+
+      // then
+      assert.dom('#campaign-target-profile-comment-label').exists();
+    });
+  });
+
+  module('when user‘s organization is SCO but is not managing student', function() {
+
+    test('it should not display comment for target profile selection', async function(assert) {
+      // given
+      this.currentUser = this.owner.lookup('service:current-user');
+      this.set('currentUser.organization.isSCO', true);
+      this.set('currentUser.organization.isManagingStudents', false);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
+
+      // then
+      assert.dom('#campaign-target-profile-comment-label').doesNotExist();
+    });
+  });
+
+  module('when user‘s organization is not SCO but is managing student', function() {
+
+    /* eslint-disable-next-line mocha/no-identical-title */
+    test('it should not display comment for target profile selection', async function(assert) {
+      // given
+      this.currentUser = this.owner.lookup('service:current-user');
+      this.set('currentUser.organization.isSCO', false);
+      this.set('currentUser.organization.isManagingStudents', true);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
+
+      // then
+      assert.dom('#campaign-target-profile-comment-label').doesNotExist();
+    });
+  });
+
   test('it should send campaign creation action when submitted', async function(assert) {
     // given
     this.set('model', EmberObject.create({}));
