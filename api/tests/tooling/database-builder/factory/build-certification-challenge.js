@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 module.exports = function buildCertificationChallenge({
   id,
-  associatedSkill = '@twi8',
+  associatedSkillName = '@twi8',
   associatedSkillId = `rec${faker.random.uuid()}`,
   challengeId = `rec${faker.random.uuid()}`,
   competenceId = `rec${faker.random.uuid()}`,
@@ -18,7 +18,7 @@ module.exports = function buildCertificationChallenge({
 
   const values = {
     id,
-    associatedSkill,
+    associatedSkillName,
     associatedSkillId,
     challengeId,
     competenceId,
