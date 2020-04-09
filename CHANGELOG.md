@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.138.0 (09/04/2020)
+
+- [#1268](https://github.com/1024pix/pix/pull/1268) [FEATURE] Pouvoir envoyer son profil Pix au prescripteur de la campagne de type Collecte de profils (PF-1178).
+- [#1271](https://github.com/1024pix/pix/pull/1271) [FEATURE] Supprimer un tutoriel de sa liste personnalisée (PF-1180).
+- [#1225](https://github.com/1024pix/pix/pull/1225) [FEATURE] Ajout d'une date de publication dans la session (PA-153)
+- [#1265](https://github.com/1024pix/pix/pull/1265) [BUGFIX] Ré-afficher les messages d'erreurs renvoyés par l'API (PO-414).
+- [#1269](https://github.com/1024pix/pix/pull/1269) [TECH] Supprimer le endpoint DELETE /api/cache
+- [#1256](https://github.com/1024pix/pix/pull/1256) [TECH] Ajout de tests E2E Cypress sur PixCertif (PC-142)
+- [#1270](https://github.com/1024pix/pix/pull/1270) [TECH] Renommer tubeName de Skill dans api
+- [#1237](https://github.com/1024pix/pix/pull/1237) [TECH] Mise en place d'EmberData throttling sur les applications (PF-1197)
+- [#1240](https://github.com/1024pix/pix/pull/1240) [CLEANUP] Extraire la logique de scoring de certification dans un Event Handler dédié (PF-1202)
+- [#1273](https://github.com/1024pix/pix/pull/1273) [CLEANUP] Ajout de tests end-to-end pour la fonctionnalité de sauvegarde de tutoriels
+- [#1233](https://github.com/1024pix/pix/pull/1233) [CLEANUP] Convertir les classes PixApp en syntaxe native (PF-1194).
+
 ## v2.137.0 (07/04/2020)
 
 - [#1253](https://github.com/1024pix/pix/pull/1253) [FEATURE] Créer des campagnes de type collecte de profils (PO-392).
