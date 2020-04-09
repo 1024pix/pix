@@ -54,8 +54,7 @@ async function fillCertificationProfileWithChallenges(certificationProfile) {
         const challengesPoolToPickChallengeFrom = (_.isEmpty(challengesLeftToAnswer)) ? challengesToValidateCurrentSkill : challengesLeftToAnswer;
         const challenge = _.sample(challengesPoolToPickChallengeFrom);
 
-        //TODO : Mettre le skill en entier (Skill{id, name})
-        challenge.testedSkill = skill.name;
+        challenge.testedSkill = skill;
         testedSkills.push(skill);
 
         userCompetence.addChallenge(challenge);
