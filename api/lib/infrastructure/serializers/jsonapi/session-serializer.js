@@ -28,6 +28,7 @@ module.exports = {
         'certificationCandidates',
         'certificationReports',
         'certificationCenter',
+        'assignedUser',
       ],
       certifications : {
         ref: 'id',
@@ -65,6 +66,15 @@ module.exports = {
           }
         }
       },
+      assignedUser: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current) {
+            return `/api/users/${current.id}`;
+          }
+        }
+      },
       transform(session) {
         const transformedSession = Object.assign({}, session);
         transformedSession.status = session.status;
@@ -75,9 +85,13 @@ module.exports = {
         if (session.certificationCenterId) {
           transformedSession.certificationCenter = { id: session.certificationCenterId };
         }
+        if (session.assignedUserId) {
+          transformedSession.assignedUser = { id: session.assignedUserId };
+        }
         return transformedSession;
       },
     }).serialize(sessions);
+
   },
 
   serializeForFinalization(sessions) {
@@ -103,6 +117,7 @@ module.exports = {
         'publishedAt',
         'certifications',
         'certificationCenter',
+        'assignedUser',
       ],
       certifications : {
         ref: 'id',
@@ -122,6 +137,15 @@ module.exports = {
           }
         }
       },
+      assignedUser: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current) {
+            return `/api/users/${current.id}`;
+          }
+        }
+      },
       transform(session) {
         const transformedSession = Object.assign({}, session);
         transformedSession.status = session.status;
@@ -130,6 +154,9 @@ module.exports = {
         delete transformedSession.certificationCenter;
         if (session.certificationCenterId) {
           transformedSession.certificationCenter = { id: session.certificationCenterId };
+        }
+        if (session.assignedUserId) {
+          transformedSession.assignedUser = { id: session.assignedUserId };
         }
         return transformedSession;
       },
