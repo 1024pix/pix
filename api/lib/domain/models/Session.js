@@ -3,11 +3,13 @@ const _ = require('lodash');
 const CREATED = 'created';
 const FINALIZED = 'finalized';
 const PROCESSED = 'processed';
+const ONGOING = 'ongoing';
 
 const statuses = {
   CREATED,
   FINALIZED,
   PROCESSED,
+  ONGOING,
 };
 
 const NO_EXAMINER_GLOBAL_COMMENT = null;
@@ -32,6 +34,7 @@ class Session {
     certificationCandidates,
     // references
     certificationCenterId,
+    assignedUserId,
   } = {}) {
     this.id = id;
     // attributes
@@ -51,6 +54,7 @@ class Session {
     this.certificationCandidates = certificationCandidates;
     // references
     this.certificationCenterId = certificationCenterId;
+    this.assignedUserId = assignedUserId;
   }
 
   areResultsFlaggedAsSent() {
@@ -60,6 +64,9 @@ class Session {
   get status() {
     if (this.publishedAt) {
       return statuses.PROCESSED;
+    }
+    if (this.assignedUserId) {
+      return statuses.ONGOING;
     }
     if (this.finalizedAt) {
       return statuses.FINALIZED;
