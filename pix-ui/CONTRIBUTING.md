@@ -3,7 +3,7 @@
 ## Installation
 
 * `git clone <repository-url>`
-* `cd pix-design-components`
+* `cd pix-ui`
 * `npm install`
 
 ## Linting
@@ -18,9 +18,6 @@
 * `ember test --server` – Runs the test suite in "watch mode"
 * `ember try:each` – Runs the test suite against multiple Ember versions
 
-## Running the dummy application
+## Running storybook
 
-* `ember serve`
-* Visit the dummy application at [http://localhost:4200](http://localhost:4200).
-
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
+* `npm run storybook`
