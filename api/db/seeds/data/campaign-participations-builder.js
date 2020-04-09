@@ -1,5 +1,9 @@
 const Assessment = require('../../../lib/domain/models/Assessment');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
+const {
+  CERTIF_REGULAR_USER1_ID, CERTIF_REGULAR_USER2_ID, CERTIF_REGULAR_USER3_ID,
+  CERTIF_REGULAR_USER4_ID, CERTIF_REGULAR_USER5_ID,
+} = require('./certification/users');
 
 module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
 
@@ -25,7 +29,7 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
     { firstName: 'Brandone', lastName: 'Bro' }
   ];
 
-  const startCampaign = (member, state, isShared) => {
+  const participateToBothCampaign = (member, state, isShared) => {
     const { id: userId } = databaseBuilder.factory.buildUser(member);
 
     const sharedAt = isShared ? new Date() : null;
@@ -67,9 +71,19 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
       answerId,
       source: KnowledgeElement.SourceType.INFERRED,
     });
+
+    databaseBuilder.factory.buildCampaignParticipation({ campaignId: 6, userId, participantExternalId, isShared, sharedAt });
   };
 
-  pixMembersNotCompleted.forEach((member) => startCampaign(member, 'STARTED', false));
-  pixMembersNotShared.forEach((member) => startCampaign(member, 'COMPLETED', false));
-  pixMembersCompletedShared.forEach((member) => startCampaign(member, 'COMPLETED', true));
+  const participateToCampaignOfTypeProfilesCollection = (userId, isShared) => {
+    const sharedAt = isShared ? new Date() : null;
+    databaseBuilder.factory.buildCampaignParticipation({ campaignId: 6, userId, participantExternalId: userId, isShared, sharedAt });
+  };
+
+  pixMembersNotCompleted.forEach((member) => participateToBothCampaign(member, 'STARTED', false));
+  pixMembersNotShared.forEach((member) => participateToBothCampaign(member, 'COMPLETED', false));
+  pixMembersCompletedShared.forEach((member) => participateToBothCampaign(member, 'COMPLETED', true));
+
+  [CERTIF_REGULAR_USER1_ID, CERTIF_REGULAR_USER2_ID, CERTIF_REGULAR_USER3_ID].forEach((userId) => participateToCampaignOfTypeProfilesCollection(userId, true));
+  [CERTIF_REGULAR_USER4_ID, CERTIF_REGULAR_USER5_ID].forEach((userId) => participateToCampaignOfTypeProfilesCollection(userId, false));
 };
