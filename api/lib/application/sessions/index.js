@@ -304,6 +304,22 @@ exports.register = async (server) => {
         ]
       }
     },
+    {
+      method: 'PATCH',
+      path: '/api/sessions/{id}/user-assignment',
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: sessionController.assignUser,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle PixMaster**\n' +
+          '- Assigne la session à un utilisateur PixMaster'
+        ],
+        tags: ['api', 'session', 'assignment']
+      }
+    },
   ]);
 };
 
