@@ -65,4 +65,40 @@ describe('Unit | Domain | Models | CertificationProfile', () => {
 
   });
 
+  describe('#getCertifiableCompetencesCount', () => {
+
+    it('should return 5', () => {
+      // given
+      const userCompetence1 = new UserCompetence({ estimatedLevel: 5 });
+      const userCompetence2 = new UserCompetence({ estimatedLevel: 1 });
+      const userCompetence3 = new UserCompetence({ estimatedLevel: 2 });
+      const userCompetence4 = new UserCompetence({ estimatedLevel: 3 });
+      const userCompetence5 = new UserCompetence({ estimatedLevel: 1 });
+      const certificationProfile = new CertificationProfile({
+        userCompetences: [userCompetence1, userCompetence2, userCompetence3, userCompetence4, userCompetence5],
+      });
+
+      // when
+      const certifiableCompetencesCount = certificationProfile.getCertifiableCompetencesCount();
+
+      // then
+      expect(certifiableCompetencesCount).to.equal(5);
+    });
+
+    it('should return 1', () => {
+      // given
+      const userCompetence1 = new UserCompetence({ estimatedLevel: 2 });
+      const userCompetence2 = new UserCompetence({ estimatedLevel: 0 });
+      const certificationProfile = new CertificationProfile({
+        userCompetences: [userCompetence1, userCompetence2 ],
+      });
+
+      // when
+      const certifiableCompetencesCount = certificationProfile.getCertifiableCompetencesCount();
+
+      // then
+      expect(certifiableCompetencesCount).to.equal(1);
+    });
+  });
+
 });
