@@ -228,18 +228,10 @@ export default function() {
 
   this.get('/campaign-participation-results/:id');
 
-  this.post('/student-dependent-users/password-update', (schema, request) => {
-    const passwordForFailure = 'passwordFor01Failure';
-
-    const requestBody = JSON.parse(request.requestBody);
-    const { password } = requestBody.data.attributes;
-    if (password === passwordForFailure) {
-      return new Response(500, {}, { errors: [ { status: '500', detail: '' } ] });
-    }
-
-    const user = schema.users.find(1);
-    user.modelName = 'student-dependent-users';
-    return user;
+  this.post('/schooling-registration-dependent-users/password-update', (schema) => {
+    const schoolingRegistrationDependentUser = schema.schoolingRegistrationDependentUsers.create();
+    schoolingRegistrationDependentUser.generatedPassword = 'Passw0rd';
+    return schoolingRegistrationDependentUser;
   });
 
   this.post('/user-orga-settings', (schema, request) => {
