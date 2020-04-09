@@ -1,5 +1,6 @@
 const { expect, databaseBuilder, domainBuilder, airtableBuilder, knex } = require('../../../test-helper');
 const _ = require('lodash');
+const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
@@ -38,7 +39,8 @@ describe('Integration | UseCases | create-campaign', () => {
 
   afterEach(async () => {
     await knex('campaigns').delete();
-    return airtableBuilder.cleanAll();
+    airtableBuilder.cleanAll();
+    return cache.flushAll();
   });
 
   it('should save a new campaign of type ASSESSMENT', async () => {
