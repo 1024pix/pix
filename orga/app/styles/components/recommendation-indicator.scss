@@ -1,0 +1,9 @@
+.recommendation-indicator {
+  display: flex;
+  justify-content: center;
+
+  &__bubble {
+    padding: 2px;
+    fill: $blue;
+  }
+}
