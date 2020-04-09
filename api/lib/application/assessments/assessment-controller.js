@@ -92,6 +92,7 @@ module.exports = {
 
     await DomainTransaction.execute(async (domainTransaction) => {
       const assessmentCompletedEvent = await usecases.completeAssessment({ domainTransaction, assessmentId });
+      await events.handleCertificationScoring({ assessmentCompletedEvent });
       await events.handleBadgeAcquisition({ domainTransaction, assessmentCompletedEvent });
     });
 
