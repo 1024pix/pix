@@ -146,4 +146,11 @@ module.exports = {
     };
   },
 
+  async assignUser({ id, assignedUserId }) {
+    let updatedSession = await new BookshelfSession({ id })
+      .save({ assignedUserId }, { method: 'update' });
+    updatedSession = await updatedSession.refresh();
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
+  }
+
 };

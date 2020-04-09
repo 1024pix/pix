@@ -554,4 +554,27 @@ describe('Integration | Repository | Session', function() {
       });
     });
   });
+
+  describe('#assignUser', () => {
+    let id;
+    let assignedUserId;
+
+    beforeEach(() => {
+      id = databaseBuilder.factory.buildSession({ assignedUserId: null }).id;
+      assignedUserId = databaseBuilder.factory.buildUser().id;
+
+      return databaseBuilder.commit();
+    });
+
+    it('should return an updated Session domain object', async () => {
+      // when
+      const updatedSession = await sessionRepository.assignUser({ id, assignedUserId });
+
+      // then
+      expect(updatedSession).to.be.an.instanceof(Session);
+      expect(updatedSession.id).to.deep.equal(id);
+      expect(updatedSession.assignedUserId).to.deep.equal(assignedUserId);
+      expect(updatedSession.status).to.deep.equal(statuses.ONGOING);
+    });
+  });
 });
