@@ -1,8 +1,10 @@
 class AssessmentCompleted {
-  constructor(userId, targetProfileId, campaignParticipationId) {
+  constructor(assessmentId, userId, targetProfileId, campaignParticipationId, isCertification) {
+    this.assessmentId = assessmentId;
     this.userId = userId;
     this.targetProfileId = targetProfileId;
     this.campaignParticipationId = campaignParticipationId;
+    this.isCertification = isCertification;
   }
 }
 
