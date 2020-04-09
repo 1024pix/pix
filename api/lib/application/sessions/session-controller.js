@@ -158,4 +158,11 @@ module.exports = {
     return resultsFlaggedAsSent ? h.response(serializedSession).created() : serializedSession;
   },
 
+  async assignUser(request) {
+    const sessionId = request.params.id;
+    const userId = request.auth.credentials.userId;
+    const session = await usecases.assignUserToSession({ sessionId, userId });
+    return sessionSerializer.serialize(session);
+  },
+
 };

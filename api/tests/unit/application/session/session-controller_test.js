@@ -655,4 +655,34 @@ describe('Unit | Controller | sessionController', () => {
       expect(sessionSerializer.serializeForPaginatedFilteredResults).to.have.been.calledWithExactly(expectedResults, expectedPagination);
     });
   });
+
+  describe('#assignUser ', () => {
+    let request;
+    const sessionId = 1;
+    const session = Symbol('session');
+    const sessionJsonApi = Symbol('someSessionSerialized');
+
+    beforeEach(() => {
+      // given
+      request = {
+        params: { id : sessionId },
+        auth: {
+          credentials : {
+            userId,
+          }
+        },
+      };
+      sinon.stub(usecases, 'assignUserToSession').withArgs({ sessionId, userId }).resolves(session);
+      sinon.stub(sessionSerializer, 'serialize').withArgs(session).returns(sessionJsonApi);
+    });
+
+    it('should return updated session', async () => {
+      // when
+      const response = await sessionController.assignUser(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(sessionJsonApi);
+    });
+
+  });
 });
