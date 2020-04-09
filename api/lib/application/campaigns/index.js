@@ -44,10 +44,39 @@ exports.register = async function(server) {
       path: '/api/campaigns/{id}/csvResults',
       config: {
         auth: false,
-        handler: campaignController.getCsvResults,
+        handler: campaignController.getCsvAssessmentResults,
         notes: [
           '- **Cette route est restreinte via un token dédié passé en paramètre avec l\'id de l\'utilisateur.**\n' +
           '- Récupération d\'un CSV avec les résultats de la campagne\n' +
+          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer\n' +
+          '- L‘usage de cette route est dépréciée'
+        ],
+        tags: ['api', 'campaign']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{id}/csv-assessment-results',
+      config: {
+        auth: false,
+        handler: campaignController.getCsvAssessmentResults,
+        notes: [
+          '- **Cette route est restreinte via un token dédié passé en paramètre avec l\'id de l\'utilisateur.**\n' +
+          '- Récupération d\'un CSV avec les résultats de la campagne d‘évaluation\n' +
+          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer',
+        ],
+        tags: ['api', 'campaign']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{id}/csv-profiles-collection-results',
+      config: {
+        auth: false,
+        handler: campaignController.getCsvProfilesCollectionResults,
+        notes: [
+          '- **Cette route est restreinte via un token dédié passé en paramètre avec l\'id de l\'utilisateur.**\n' +
+          '- Récupération d\'un CSV avec les résultats de la campagne de collecte de profils\n' +
           '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer',
         ],
         tags: ['api', 'campaign']

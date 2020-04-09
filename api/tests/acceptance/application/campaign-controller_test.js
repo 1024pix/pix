@@ -233,14 +233,9 @@ describe('Acceptance | API | Campaign Controller', () => {
     });
   });
 
-  describe('GET /api/campaign/{id}/csvResult', function() {
+  describe('GET /api/campaign/{id}/csv-assessment-results', function() {
 
     let accessToken;
-    let user;
-    let userId;
-    const externalId = '@my external id';
-    const participationStartDate = '2018-01-01';
-    const assessmentStartDate = '2018-01-02';
 
     function _createTokenWithAccessId(userId) {
       return jwt.sign({
@@ -249,20 +244,13 @@ describe('Acceptance | API | Campaign Controller', () => {
     }
 
     beforeEach(async () => {
-      user = databaseBuilder.factory.buildUser({ firstName: '@Jean', lastName: '=Bono' });
+      const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
-      targetProfile = databaseBuilder.factory.buildTargetProfile({
-        organizationId: organization.id,
-        name: '+Profile 2'
-      });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
+      targetProfile = databaseBuilder.factory.buildTargetProfile();
       campaign = databaseBuilder.factory.buildCampaign({
-        name: '@Campagne de Test N°2',
         organizationId: organization.id,
         targetProfileId: targetProfile.id,
-        idPixLabel: '+Identifiant entreprise'
       });
-      userId = user.id;
       accessToken = _createTokenWithAccessId(userId);
 
       databaseBuilder.factory.buildMembership({
@@ -271,27 +259,10 @@ describe('Acceptance | API | Campaign Controller', () => {
         organizationRole: Membership.roles.MEMBER,
       });
 
-      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-        campaignId: campaign.id,
-        userId: userId,
-        participantExternalId: externalId,
-        isShared: false,
-        createdAt: new Date(participationStartDate),
-      });
-
-      databaseBuilder.factory.buildAssessment({
-        userId: user.id,
-        type: 'SMART_PLACEMENT',
-        state: 'completed',
-        createdAt: new Date(assessmentStartDate),
-        campaignParticipationId: campaignParticipation.id
-      });
-
       await databaseBuilder.commit();
 
-      const competence1 = airtableBuilder.factory.buildCompetence({ id: 'recCompetence1', titre: 'Liberticide', acquisViaTubes: [ 'recSkillId1' ] });
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([ airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: [ 'recCompetence1' ] }) ]).activate();
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([ competence1 ]).activate();
+      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([ airtableBuilder.factory.buildSkill() ]).activate();
+      airtableBuilder.mockList({ tableName: 'Competences' }).returns([ airtableBuilder.factory.buildCompetence() ]).activate();
       airtableBuilder.mockList({ tableName: 'Domaines' }).returns([ airtableBuilder.factory.buildArea() ]).activate();
     });
 
@@ -303,40 +274,71 @@ describe('Acceptance | API | Campaign Controller', () => {
     it('should return csv file with statusCode 200', async ()=> {
 
       // given
-      const url = `/api/campaigns/${campaign.id}/csvResults?accessToken=${accessToken}`;
+      const url = `/api/campaigns/${campaign.id}/csv-assessment-results?accessToken=${accessToken}`;
       const request = {
         method: 'GET',
         url
       };
-
-      const expectedCsv = '\uFEFF"Nom de l\'organisation";' +
-        '"ID Campagne";' +
-        '"Nom de la campagne";' +
-        '"Nom du Profil Cible";' +
-        '"Nom du Participant";' +
-        '"Prénom du Participant";' +
-        `"'${campaign.idPixLabel}";` +
-        '"% de progression";' +
-        '"Date de début";' +
-        '"Partage (O/N)";' +
-        '"Date du partage";' +
-        '"% maitrise de l\'ensemble des acquis du profil";' +
-        '"% de maitrise des acquis de la compétence Liberticide";' +
-        '"Nombre d\'acquis du profil cible dans la compétence Liberticide";' +
-        '"Acquis maitrisés dans la compétence Liberticide";' +
-        '"% de maitrise des acquis du domaine Information et données";' +
-        '"Nombre d\'acquis du profil cible du domaine Information et données";' +
-        '"Acquis maitrisés du domaine Information et données";' +
-        '"\'@accesDonnées1"' +
-        '\n' +
-        `"${organization.name}";${campaign.id};"'${campaign.name}";"'${targetProfile.name}";"'${user.lastName}";"'${user.firstName}";"'${externalId}";1;${participationStartDate};"Non";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA"\n`;
 
       // when
       const response = await server.inject(request);
 
       // then
       expect(response.statusCode).to.equal(200, response.payload);
-      expect(response.result).to.equal(expectedCsv);
+    });
+  });
+
+  describe('GET /api/campaign/{id}/csv-profiles-collection-results', function() {
+
+    let accessToken;
+
+    function _createTokenWithAccessId(userId) {
+      return jwt.sign({
+        access_id: userId,
+      }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
+    }
+
+    beforeEach(async () => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      organization = databaseBuilder.factory.buildOrganization();
+      targetProfile = databaseBuilder.factory.buildTargetProfile();
+      campaign = databaseBuilder.factory.buildCampaign({
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id,
+      });
+      accessToken = _createTokenWithAccessId(userId);
+
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId: organization.id,
+        organizationRole: Membership.roles.MEMBER,
+      });
+
+      await databaseBuilder.commit();
+
+      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([ airtableBuilder.factory.buildSkill() ]).activate();
+      airtableBuilder.mockList({ tableName: 'Competences' }).returns([ airtableBuilder.factory.buildCompetence() ]).activate();
+      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([ airtableBuilder.factory.buildArea() ]).activate();
+    });
+
+    afterEach(async () => {
+      await airtableBuilder.cleanAll();
+      return cache.flushAll();
+    });
+
+    it('should return csv file with statusCode 200', async ()=> {
+      // given
+      const url = `/api/campaigns/${campaign.id}/csv-profiles-collection-results?accessToken=${accessToken}`;
+      const request = {
+        method: 'GET',
+        url
+      };
+
+      // when
+      const response = await server.inject(request);
+
+      // then
+      expect(response.statusCode).to.equal(200, response.payload);
     });
   });
 
