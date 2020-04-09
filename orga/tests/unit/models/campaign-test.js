@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 
-module('Unit | Model | campaign', function(hooks) {
+module.only('Unit | Model | campaign', function(hooks) {
   setupTest(hooks);
 
   test('it exists', function(assert) {
@@ -21,15 +21,28 @@ module('Unit | Model | campaign', function(hooks) {
     assert.equal(model.code, 'ABC123');
   });
 
-  test('it should construct the url to result of the campaign', function(assert) {
+  test('it should construct the url to result of the campaign with type assessment', function(assert) {
     const store = this.owner.lookup('service:store');
     const model = run(() => store.createRecord('campaign', {
       id: 1,
       name: 'Fake name',
       code: 'ABC123',
-      tokenForCampaignResults: 'token'
+      tokenForCampaignResults: 'token',
+      type: 'ASSESSMENT'
     }));
-    assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csvResults?accessToken=token');
+    assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csv-assessment-results?accessToken=token');
+  });
+
+  test('it should construct the url to result of the campaign with type profiles collection', function(assert) {
+    const store = this.owner.lookup('service:store');
+    const model = run(() => store.createRecord('campaign', {
+      id: 1,
+      name: 'Fake name',
+      code: 'ABC123',
+      tokenForCampaignResults: 'token',
+      type: 'PROFILES_COLLECTION'
+    }));
+    assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csv-profiles-collection-results?accessToken=token');
   });
 
   test('it should compute the isArchived property from the archivation date at creation', function(assert) {
