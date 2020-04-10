@@ -1,4 +1,7 @@
-module.exports = function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
+const BADGE_PIX_EMPLOI_ID = 100;
+const Badge = require('../../../lib/domain/models/Badge');
+
+function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
 
   const pixEmploiProfile = databaseBuilder.factory.buildTargetProfile({
     id: 100321,
@@ -36,9 +39,10 @@ module.exports = function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
   ];
 
   const badge = databaseBuilder.factory.buildBadge({
+    id: BADGE_PIX_EMPLOI_ID,
     altMessage: 'Vous avez validé le badge Pix Emploi.',
     imageUrl: '/images/badges/Pix-emploi.svg',
-    key: 'PIX_EMPLOI',
+    key: Badge.keys.PIX_EMPLOI_CLEA,
     message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
       'Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
     targetProfileId: pixEmploiProfile.id,
@@ -101,4 +105,9 @@ module.exports = function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
     badgeId: badge.id,
   });
 
+}
+
+module.exports = {
+  pixEmploiTargetProfileBuilder,
+  BADGE_PIX_EMPLOI_ID,
 };

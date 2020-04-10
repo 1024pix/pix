@@ -25,7 +25,7 @@ module.exports = {
     try {
       const certificationCourse = await CertificationCourseBookshelf
         .where({ id })
-        .fetch({ require: true, withRelated: ['assessment', 'challenges'] });
+        .fetch({ require: true, withRelated: ['assessment', 'challenges', 'acquiredPartnerCertifications'] });
       return _toDomain(certificationCourse);
     } catch (bookshelfError) {
       if (bookshelfError instanceof CertificationCourseBookshelf.NotFoundError) {
@@ -40,7 +40,7 @@ module.exports = {
       const certificationCourse = await CertificationCourseBookshelf
         .where({ userId, sessionId })
         .orderBy('createdAt', 'desc')
-        .fetch({ require: true, withRelated: ['assessment', 'challenges'] });
+        .fetch({ require: true, withRelated: ['assessment', 'challenges', 'acquiredPartnerCertifications'] });
       return _toDomain(certificationCourse);
     } catch (err) {
       if (err instanceof CertificationCourseBookshelf.NotFoundError) {
@@ -86,6 +86,7 @@ function _toDomain(bookshelfCertificationCourse) {
     type: Assessment.types.CERTIFICATION,
     assessment,
     challenges: bookshelfCertificationCourse.related('challenges').toJSON(),
+    acquiredPartnerCertifications: bookshelfCertificationCourse.related('acquiredPartnerCertifications').toJSON(),
     ..._.pick(dbCertificationCourse, [
       'id',
       'userId',
@@ -109,6 +110,7 @@ function _adaptModelToDb(certificationCourse) {
   return _.omit(certificationCourse, [
     'assessment',
     'challenges',
+    'acquiredPartnerCertifications',
     'createdAt',
   ]);
 }
