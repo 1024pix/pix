@@ -1,23 +1,31 @@
 // See https://zeroheight.com/8dd127da7/p/839645-couleurs/b/21317a
 
 // primary
-$blue-zodia: #505F79;
+$blue: #3D68FF;
 $yellow: #FFBE00;
-$white: #ffffff;
+$blue-zodiac: #505F79;
 $black: #07142E;
+$white: #ffffff;
 // secondary
-$pix-orga: #00DDFF;
-$pix-purplie: #6B20DC;
-$pix-purple: #8A49FF;
+$blue-hover: #3257D9;
+$dark-blue-pro: #1A38A0;
+$dark-green-certif: #1A8C89;
+$dark-orga: #0095C0;
+$green: #20BF55;
+$green-hover: #058931;
+$orga: #00DDFF;
+$purple: #8A49FF;
 // gradients
+$pix-gradient: linear-gradient(135deg, #388AFF 0%, #985FFF 100%);
 $pix-blue-gradient: linear-gradient(135deg, #12A3FF 0%, #3D68FF 100%);
-$pix-eggplant-gradient: linear-gradient(180deg, #5E2563 0%, #564DA6 100%);
-$pix-green-gradient: linear-gradient(-45deg, #52D987 0%, #1A8C89 100%);
+$pix-certif-gradient: linear-gradient(0deg, #52D987 0%, #1A8C89 100%);
+$pix-certif-old-gradient: linear-gradient(135deg, #FF3F93 0%, #AC008D 100%);
 $pix-orange-gradient: linear-gradient(180deg, #F24645 0%, #F1A141 100%);
-$pix-pink-gradient: linear-gradient(135deg, #FF3F93 0%, #AC008D 100%);
-$pix-purple-gradient: linear-gradient(135deg, #388AFF 0%, #985FFF 100%);
-$pix-teal-gradient: linear-gradient(134deg, #00DDFF 0%, #0095C0 100%);
-$pix-yellow-gradient: linear-gradient(180deg, #FFBE00 0%, #FF9F00 100%);
+$pix-orga-gradient: linear-gradient(134deg, #00DDFF 0%, #0095C0 100%);
+$pix-orga-old-gradient: linear-gradient(0deg, #0D7DC4 0%, #213371 100%);
+$pix-pink-gradient: linear-gradient(0deg, #FF3F93 0%, #AC008D 100%);
+$pix-purple-gradient: linear-gradient(180deg, #5E2563 0%, #564DA6 100%);
+$pix-yellow-gradient: linear-gradient(135deg, #FFBE00 0%, #FF9F00 100%);
 // light
 $grey-5: #FAFBFC;
 $grey-10: #F4F5F7;
@@ -31,12 +39,19 @@ $grey-35: #8993A4;
 $grey-40: #7A869A;
 $grey-45: #6B778C;
 $grey-50: #5E6C84;
+$grey-60: #505F79;
 // dark
 $grey-70: #344563;
 $grey-80: #253858;
 $grey-90: #172B4D;
 $grey-100: #091E42;
+$grey-200: #07142E;
 // gradients domain
+$information-gradient: linear-gradient(180deg, #F24645 0%, #F1A141 100%);
+$content-gradient: linear-gradient(0deg, #52D987 0%, #1A8C89 100%);
+$communication-gradient: linear-gradient(0deg, #12A3FF 0%, #3D68FF 100%);
+$security-gradient: linear-gradient(0deg, #FF3F93 0%, #AC008D 100%);
+$environment-gradient: linear-gradient(180deg, #5E2563 0%, #564DA6 100%);
 // solids
 $environment-dark: #5E2563;
 $environment-light: #564DA6;
@@ -52,3 +67,7 @@ $security-light: #FF3F94;
 $error: #FF4B00;
 $success: #57C884;
 $warning: #FFBE00;
+
+// Obsolete with new design
+$chambray: #325792;
+$curious-blue: #2b89c8;
