@@ -92,8 +92,14 @@ module.exports = {
 
     await DomainTransaction.execute(async (domainTransaction) => {
       const assessmentCompletedEvent = await usecases.completeAssessment({ domainTransaction, assessmentId });
-      await events.handleCertificationScoring({ domainTransaction, assessmentCompletedEvent });
+      const certificationScoringEvent = await events.handleCertificationScoring({ domainTransaction, assessmentCompletedEvent });
+
       await events.handleBadgeAcquisition({ domainTransaction, assessmentCompletedEvent });
+
+      if (certificationScoringEvent) {
+        // TODO this condition should be done by the broker/event bus
+        await events.handleCertificationAcquisitionForPartner({ domainTransaction, certificationScoringEvent });
+      }
     });
 
     return null;
