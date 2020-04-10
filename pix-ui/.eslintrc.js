@@ -1,4 +1,4 @@
-'use strict';
+const fs = require('fs');
 
 module.exports = {
   root: true,
@@ -14,7 +14,7 @@ module.exports = {
     'ember'
   ],
   extends: [
-    'eslint:recommended',
+    ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
     'plugin:ember/recommended'
   ],
   env: {

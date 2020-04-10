@@ -1,6 +1,6 @@
 {
   "name": "pix-ui",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Librairie de composants front-end pour le projet Pix.",
   "keywords": [
     "ember-addon"

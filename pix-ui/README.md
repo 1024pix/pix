@@ -16,8 +16,7 @@ Compatibility
 Installation
 ------------------------------------------------------------------------------
 
-* `git clone <repository-url>` this repository
-* change into the new directory
+* go to the `/pix-ui` directory
 * `npm install`
 
 Running / Development

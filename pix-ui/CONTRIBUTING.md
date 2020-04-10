@@ -2,7 +2,6 @@
 
 ## Installation
 
-* `git clone <repository-url>`
 * `cd pix-ui`
 * `npm install`
 
