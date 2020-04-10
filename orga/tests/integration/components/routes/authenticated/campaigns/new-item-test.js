@@ -98,6 +98,36 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
     });
   });
 
+  module('when user‘s organization is SCO and is managing student', function() {
+
+    test('it should display comment for target profile selection', async function(assert) {
+      // given
+      this.currentUser = this.owner.lookup('service:current-user');
+      this.set('currentUser.isSCOManagingStudents', true);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
+
+      // then
+      assert.dom('#campaign-target-profile-comment-label').exists();
+    });
+  });
+
+  module('when user‘s organization is not (SCO and managing student)', function() {
+
+    test('it should not display comment for target profile selection', async function(assert) {
+      // given
+      this.currentUser = this.owner.lookup('service:current-user');
+      this.set('currentUser.isSCOManagingStudents', false);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
+
+      // then
+      assert.dom('#campaign-target-profile-comment-label').doesNotExist();
+    });
+  });
+
   test('it should send campaign creation action when submitted', async function(assert) {
     // given
     this.set('model', EmberObject.create({}));

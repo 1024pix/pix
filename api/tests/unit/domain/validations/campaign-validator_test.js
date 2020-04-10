@@ -1,7 +1,9 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
 
-const MISSING_VALUE = '';
+const MISSING_VALUE = null;
+const EMPTY_VALUE = '';
+const UNDEFINED_VALUE = undefined;
 
 function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError) {
   expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(1);
@@ -41,7 +43,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             // when/then
             expect(campaignValidator.validate({
               ...campaign,
-              idPixLabel: null,
+              idPixLabel: MISSING_VALUE,
             })).to.not.throw;
           });
 
@@ -49,7 +51,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             // when/then
             expect(campaignValidator.validate({
               ...campaign,
-              title: null,
+              title: MISSING_VALUE,
             })).to.not.throw;
           });
 
@@ -57,7 +59,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             // when/then
             expect(campaignValidator.validate({
               ...campaign,
-              title: undefined,
+              title: UNDEFINED_VALUE,
             })).to.not.throw;
           });
 
@@ -66,14 +68,13 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
         context('when campaign data validation fails', () => {
 
           context('on name attribute', () => {
+            // given
+            const expectedError = {
+              attribute: 'name',
+              message: 'Veuillez donner un nom à votre campagne.'
+            };
 
             it('should reject with error when name is missing', () => {
-              // given
-              const expectedError = {
-                attribute: 'name',
-                message: 'Veuillez donner un nom à votre campagne.'
-              };
-
               try {
                 // when
                 campaignValidator.validate({
@@ -87,17 +88,30 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
               }
             });
 
+            it('should reject with error when name is empty', () => {
+              try {
+                // when
+                campaignValidator.validate({
+                  ...campaign,
+                  name: EMPTY_VALUE,
+                });
+                expect.fail('should have thrown an error');
+              } catch (entityValidationErrors) {
+                // then
+                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+              }
+            });
+
           });
 
           context('on creatorId attribute', () => {
+            // given
+            const expectedError = {
+              attribute: 'creatorId',
+              message: 'Le créateur n’est pas renseigné.'
+            };
 
             it('should reject with error when creatorId is missing', () => {
-              // given
-              const expectedError = {
-                attribute: 'creatorId',
-                message: 'Le créateur n’est pas renseigné.'
-              };
-
               try {
                 // when
                 campaignValidator.validate({
@@ -112,17 +126,31 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
               }
             });
 
+            it('should reject with error when creatorId is undefined', () => {
+              try {
+                // when
+                campaignValidator.validate({
+                  ...campaign,
+                  creatorId: UNDEFINED_VALUE,
+                });
+                expect.fail('should have thrown an error');
+
+              } catch (entityValidationErrors) {
+                // then
+                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+              }
+            });
+
           });
 
           context('on organizationId attribute', () => {
+            // given
+            const expectedError = {
+              attribute: 'organizationId',
+              message: 'L‘organisation n’est pas renseignée.'
+            };
 
             it('should reject with error when organizationId is missing', () => {
-              // given
-              const expectedError = {
-                attribute: 'organizationId',
-                message: 'L‘organisation n’est pas renseignée.'
-              };
-
               try {
                 // when
                 campaignValidator.validate({
@@ -137,10 +165,25 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
               }
             });
 
+            it('should reject with error when organizationId is undefined', () => {
+              try {
+                // when
+                campaignValidator.validate({
+                  ...campaign,
+                  organizationId: UNDEFINED_VALUE,
+                });
+                expect.fail('should have thrown an error');
+
+              } catch (entityValidationErrors) {
+                // then
+                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+              }
+            });
+
           });
 
           context('on idPixLabel attribute', () => {
-            it('should reject with error when idPixLabel is an empty string', () => {
+            it('should reject with error when idPixLabel is empty', () => {
               // given
               const expectedError = {
                 attribute: 'idPixLabel',
@@ -151,7 +194,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
                 // when
                 campaignValidator.validate({
                   ...campaign,
-                  idPixLabel: MISSING_VALUE,
+                  idPixLabel: EMPTY_VALUE,
                 });
                 expect.fail('should have thrown an error');
 
@@ -185,19 +228,32 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
           });
 
           context('on type attribute', () => {
+            // given
+            const expectedError = {
+              attribute: 'type',
+              message: 'Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.'
+            };
 
             it('should reject with error when type is a wrong type', () => {
-              // given
-              const expectedError = {
-                attribute: 'type',
-                message: 'Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.'
-              };
-
               try {
                 // when
                 campaignValidator.validate({
                   ...campaign,
                   type: 'WRONG_TYPE',
+                });
+                expect.fail('should have thrown an error');
+              } catch (entityValidationErrors) {
+                // then
+                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+              }
+            });
+
+            it('should reject with error when type is undefined', () => {
+              try {
+                // when
+                campaignValidator.validate({
+                  ...campaign,
+                  type: UNDEFINED_VALUE,
                 });
                 expect.fail('should have thrown an error');
               } catch (entityValidationErrors) {
@@ -222,6 +278,30 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
               // then
               expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(3);
             }
+          });
+
+          context('more complex case', () => {
+            it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
+              // given
+              const campaign = {
+                name: MISSING_VALUE,
+                code: MISSING_VALUE,
+                type: MISSING_VALUE,
+                title: MISSING_VALUE,
+                idPixLabel: MISSING_VALUE,
+                organizationId: 1,
+              };
+
+              try {
+                // when
+                campaignValidator.validate(campaign);
+                expect.fail('should have thrown an error');
+
+              } catch (entityValidationErrors) {
+                // then
+                expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(3);
+              }
+            });
           });
 
         });
@@ -271,6 +351,27 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
         }
       });
 
+      it('should reject with error when targetProfileId is undefined and campaign type is ASSESSMENT', () => {
+        // given
+        const expectedError = {
+          attribute: 'targetProfileId',
+          message: 'Veuillez sélectionner un profil cible pour votre campagne.'
+        };
+
+        try {
+          // when
+          campaignValidator.validate({
+            ...campaignOfTypeAssessment,
+            targetProfileId: UNDEFINED_VALUE,
+          });
+          expect.fail('should have thrown an error');
+
+        } catch (entityValidationErrors) {
+          // then
+          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+        }
+      });
+
     });
 
     context('when a title is provided', () => {
@@ -306,5 +407,6 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
         expect(campaignValidator.validate(campaign)).to.not.throw;
       });
     });
+
   });
 });

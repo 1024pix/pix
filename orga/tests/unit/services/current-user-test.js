@@ -101,7 +101,7 @@ module('Unit | Service | current-user', function(hooks) {
         assert.equal(currentUserService.isAdminInOrganization, true);
       });
 
-      test('should set canAccessStudentsPage to true when type is SCO', async function(assert) {
+      test('should set isSCOManagingStudents to true when type is SCO', async function(assert) {
         // given
         const organization = Object.create({ id: 9, type: 'SCO', isManagingStudents: true, isSco: true });
         const membership = Object.create({ organization, organizationRole: 'ADMIN', isAdmin: true });
@@ -112,10 +112,10 @@ module('Unit | Service | current-user', function(hooks) {
         await currentUserService.load();
 
         // then
-        assert.equal(currentUserService.canAccessStudentsPage, true);
+        assert.equal(currentUserService.isSCOManagingStudents, true);
       });
 
-      test('should set canAccessStudentsPage to false when type is PRO', async function(assert) {
+      test('should set isSCOManagingStudents to false when type is PRO', async function(assert) {
         // given
         const organization = Object.create({ id: 9, type: 'PRO', isManagingStudents: true, isSco: false });
         const membership = Object.create({ organization, organizationRole: 'ADMIN', isAdmin: true });
@@ -126,10 +126,10 @@ module('Unit | Service | current-user', function(hooks) {
         await currentUserService.load();
 
         // then
-        assert.equal(currentUserService.canAccessStudentsPage, false);
+        assert.equal(currentUserService.isSCOManagingStudents, false);
       });
 
-      test('should set canAccessStudentsPage to false when isManagingStudents is false', async function(assert) {
+      test('should set isSCOManagingStudents to false when isManagingStudents is false', async function(assert) {
         // given
         const organization = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
         const membership = Object.create({ organization, organizationRole: 'ADMIN', isAdmin: true });
@@ -140,7 +140,7 @@ module('Unit | Service | current-user', function(hooks) {
         await currentUserService.load();
 
         // then
-        assert.equal(currentUserService.canAccessStudentsPage, false);
+        assert.equal(currentUserService.isSCOManagingStudents, false);
       });
 
       test('should prefer organization from userOrgaSettings rather than first membership', async function(assert) {
@@ -208,12 +208,12 @@ module('Unit | Service | current-user', function(hooks) {
           assert.equal(currentUserService.isAdminInOrganization, true);
         });
 
-        test('should set canAccessStudentsPage', async function(assert) {
+        test('should set isSCOManagingStudents', async function(assert) {
           // when
           await currentUserService.load();
 
           // then
-          assert.equal(currentUserService.canAccessStudentsPage, false);
+          assert.equal(currentUserService.isSCOManagingStudents, false);
         });
       });
     });
