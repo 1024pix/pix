@@ -1,5 +1,5 @@
 import { inject as service } from '@ember/service';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import Component from '@ember/component';
 import { tracked } from '@glimmer/tracking';
 
@@ -8,7 +8,7 @@ export default class NewItem extends Component {
 
   campaign = {};
   targetProfiles = null;
-  wantIdPix = false;
+  @tracked wantIdPix = false;
   @tracked isCampaignGoalAssessment = null;
 
   init() {
@@ -19,7 +19,6 @@ export default class NewItem extends Component {
     }
   }
 
-  @computed('wantIdPix')
   get notWantIdPix() {
     return !this.wantIdPix;
   }
@@ -38,9 +37,9 @@ export default class NewItem extends Component {
 
   @action
   setSelectedTargetProfile(event) {
-    const selectedTargetProfile = this.targetProfiles
+    this.campaign.targetProfile = this.targetProfiles
       .find((targetProfile) => targetProfile.get('id') === event.target.value);
-    this.campaign.set('targetProfile', selectedTargetProfile);
+    this.campaign.errors.remove('targetProfile');
   }
 
   @action

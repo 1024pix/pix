@@ -34,6 +34,13 @@
           <span class="radio-button-span"></span>Collecter les profils Pix des participants
         </label>
       </div>
+
+      {{#each @campaign.errors.type as |error|}}
+        <div class='form__error error-message'>
+          {{error.message}}
+        </div>
+      {{/each}}
+
     </div>
   {{/if}}
 
@@ -51,6 +58,15 @@
           {{error.message}}
         </div>
       {{/each}}
+      {{#if this.currentUser.isSCOManagingStudents}}
+        <p class="form__comment" id="campaign-target-profile-comment-label">
+          Si vous souhaitez avoir plus d'information, consultez
+          <a class="link"
+             href="https://cloud.pix.fr/s/Rxm5kLR2dmFW7qq?path=%2FLes%20parcours%20dans%20Pix%20Orga"
+             target="_blank"
+             rel="noopener noreferrer"> la documentation correspondante</a>.
+        </p>
+      {{/if}}
     </div>
   {{/if}}
 
