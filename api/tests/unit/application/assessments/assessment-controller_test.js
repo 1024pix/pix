@@ -23,7 +23,6 @@ describe('Unit | Controller | assessment-controller', function() {
     const userId = 24504875;
 
     beforeEach(() => {
-
       sinon.stub(usecases, 'findSmartPlacementAssessments');
       sinon.stub(assessmentSerializer, 'serialize');
     });
@@ -107,6 +106,7 @@ describe('Unit | Controller | assessment-controller', function() {
   describe('#completeAssessment', () => {
     const assessmentId = 2;
     const assessmentCompletedEvent = Symbol('un événement de fin de test');
+    const certificationScoringEvent = Symbol('un événement de fin de scoring');
     const domainTransaction = Symbol('domain transaction');
     let transactionToBeExecuted;
 
@@ -116,6 +116,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       sinon.stub(events, 'handleBadgeAcquisition');
       sinon.stub(events, 'handleCertificationScoring');
+      sinon.stub(events, 'handleCertificationPartner');
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
         transactionToBeExecuted = lambda;
       });
@@ -148,13 +149,27 @@ describe('Unit | Controller | assessment-controller', function() {
     it('should pass the assessment completed event to the CertificationScoringHandler', async () => {
       /// given
       events.handleBadgeAcquisition.resolves({});
+      events.handleCertificationScoring.resolves({});
 
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
       await transactionToBeExecuted(domainTransaction);
 
       // then
-      expect(events.handleCertificationScoring).to.have.been.calledWithExactly({ domainTransaction, assessmentCompletedEvent });
+      expect(events.handleCertificationScoring).to.have.been.calledWithExactly({ domainTransaction, assessmentCompletedEvent,  });
+    });
+
+    it('should pass the assessment completed event to the CertificationPartnerHandler', async () => {
+      /// given
+      events.handleBadgeAcquisition.resolves({});
+      events.handleCertificationScoring.resolves(certificationScoringEvent);
+
+      // when
+      await assessmentController.completeAssessment({ params: { id: assessmentId } });
+      await transactionToBeExecuted(domainTransaction);
+
+      // then
+      expect(events.handleCertificationPartner).to.have.been.calledWithExactly({ domainTransaction, assessmentCompletedEvent, certificationScoringEvent });
     });
 
     it('should call usecase and handler within the transaction', async () => {
@@ -166,6 +181,7 @@ describe('Unit | Controller | assessment-controller', function() {
       expect(usecases.completeAssessment).to.not.have.been.called;
       expect(events.handleBadgeAcquisition).to.not.have.been.called;
       expect(events.handleCertificationScoring).to.not.have.been.called;
+      expect(events.handleCertificationPartner).to.not.have.been.called;
     });
   });
 });
