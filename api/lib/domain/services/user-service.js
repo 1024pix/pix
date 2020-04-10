@@ -114,7 +114,9 @@ function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCo
     const scorecard = Scorecard.buildFrom({
       userId,
       knowledgeElements: knowledgeElementsByCompetence[competence.id],
-      competence
+      competence,
+      allowExcessPix: true,
+      allowExcessLevel: true
     });
 
     userCompetence.estimatedLevel = scorecard.level;
