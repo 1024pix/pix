@@ -23,10 +23,6 @@ export default class NewItem extends Component {
     return !this.wantIdPix;
   }
 
-  get shallDisplayComment() {
-    return this.currentUser.organization.isSCO && this.currentUser.organization.isManagingStudents;
-  }
-
   @action
   askLabelIdPix() {
     this.set('wantIdPix', true);
