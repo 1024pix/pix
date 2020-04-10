@@ -1,4 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
+const compareSnapshotCommand = require('cypress-visual-regression/dist/command');
 
 Cypress.Commands.add('login', (username, password) => {
   cy.server();
@@ -98,3 +99,5 @@ Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
 
   return originalFn(url, options);
 });
+
+compareSnapshotCommand();
