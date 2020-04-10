@@ -82,4 +82,62 @@ describe('Integration | Component | user certifications detail result', function
     });
   });
 
+  context('when certification has Cléa', function() {
+
+    beforeEach(async function() {
+      // given
+      certification = EmberObject.create({
+        id: 1,
+        birthdate: new Date('2000-01-22T15:15:52Z'),
+        firstName: 'Jean',
+        lastName: 'Bon',
+        date: new Date('2018-02-15T15:15:52Z'),
+        certificationCenter: 'Université de Lyon',
+        isPublished: true,
+        pixScore: 654,
+        status: 'validated',
+        commentForCandidate: null,
+        hasCleaCertif: true,
+      });
+      this.set('certification', certification);
+
+      // when
+      await render(hbs`{{user-certifications-detail-result certification=certification}}`);
+    });
+
+    // then
+    it('should show the CLEA badge', function() {
+      expect(find('.user-certifications-detail-result__badge-clea')).to.exist;
+    });
+  });
+
+  context('when certification does not have Cléa', function() {
+
+    beforeEach(async function() {
+      // given
+      certification = EmberObject.create({
+        id: 1,
+        birthdate: new Date('2000-01-22T15:15:52Z'),
+        firstName: 'Jean',
+        lastName: 'Bon',
+        date: new Date('2018-02-15T15:15:52Z'),
+        certificationCenter: 'Université de Lyon',
+        isPublished: true,
+        pixScore: 654,
+        status: 'validated',
+        commentForCandidate: null,
+        hasCleaCertif: false,
+      });
+      this.set('certification', certification);
+
+      // when
+      await render(hbs`{{user-certifications-detail-result certification=certification}}`);
+    });
+
+    // then
+    it('should not show the CLEA badge', function() {
+      expect(find('.user-certifications-detail-result__badge-clea')).not.to.exist;
+    });
+  });
+
 });

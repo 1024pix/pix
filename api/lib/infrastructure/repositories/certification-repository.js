@@ -1,5 +1,6 @@
 const AssessmentResultBookshelf = require('../data/assessment-result');
 const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/certification-course');
+const CertificationPartnerAcquisitionBookshelf = require('../../../lib/infrastructure/data/certification-partner-acquisition');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const Certification = require('../../../lib/domain/models/Certification');
@@ -10,15 +11,16 @@ function _certificationToDomain(certificationCourseBookshelf) {
     .related('assessment')
     .related('assessmentResults');
   const assessmentResults = bookshelfToDomainConverter.buildDomainObjects(AssessmentResultBookshelf, assessmentResultsBookshelf);
-
-  return _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults });
+  const certificationPartnerAcquisitionBookshelf = certificationCourseBookshelf
+    .related('acquiredPartnerCertifications');
+  const acquiredPartnerCertifications = bookshelfToDomainConverter.buildDomainObjects(CertificationPartnerAcquisitionBookshelf, certificationPartnerAcquisitionBookshelf);
+  return _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults, acquiredPartnerCertifications });
 }
 
-function _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults }) {
+function _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults, acquiredPartnerCertifications }) {
   return new Certification({
     id: certificationCourseBookshelf.get('id'),
     assessmentState: certificationCourseBookshelf.related('assessment').get('state'),
-    assessmentResults: assessmentResults,
     certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter'),
     birthdate: certificationCourseBookshelf.get('birthdate'),
     birthplace: certificationCourseBookshelf.get('birthplace'),
@@ -27,6 +29,8 @@ function _createCertificationDomainModel({ certificationCourseBookshelf, assessm
     date: certificationCourseBookshelf.get('createdAt'),
     isPublished: Boolean(certificationCourseBookshelf.get('isPublished')),
     userId: certificationCourseBookshelf.get('userId'),
+    assessmentResults,
+    acquiredPartnerCertifications
   });
 }
 
@@ -36,12 +40,13 @@ module.exports = {
     return CertificationCourseBookshelf
       .query((qb) => {
         qb.innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id');
+        qb.leftOuterJoin('certification-partner-acquisitions', 'certification-partner-acquisitions.certificationCourseId', 'certification-courses.id');
         qb.where('certification-courses.id', id);
       })
       .fetch({
         require: true,
         withRelated: [
-          'session', 'assessment', 'assessment.assessmentResults',
+          'session', 'assessment', 'assessment.assessmentResults', 'acquiredPartnerCertifications',
         ],
       })
       .then(_certificationToDomain)
@@ -82,7 +87,7 @@ module.exports = {
       })
       .fetchAll({
         withRelated: [
-          'session', 'assessment', 'assessment.assessmentResults',
+          'session', 'assessment', 'assessment.assessmentResults'
         ],
       })
       .then((certificationCoursesBookshelf) => {

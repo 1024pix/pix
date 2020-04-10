@@ -31,8 +31,12 @@ module.exports = {
         'pixScore',
         'commentForCandidate',
         'resultCompetenceTree',
+        'acquiredPartnerCertifications',
       ],
-
+      transform: (record) => {
+        record.acquiredPartnerCertifications = record.acquiredPartnerCertifications.map(({ partnerKey }) => partnerKey);
+        return record;
+      },
       resultCompetenceTree: {
         included: true,
         ref: 'id',

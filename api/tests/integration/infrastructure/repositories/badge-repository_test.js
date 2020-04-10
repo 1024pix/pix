@@ -24,6 +24,7 @@ describe('Integration | Repository | Badge', () => {
         id: 1,
         altMessage: 'You won the Banana badge!',
         imageUrl: '/img/banana.svg',
+        key: 'BANANA',
         message: 'Congrats, you won the Banana badge!',
         targetProfileId: targetProfileWithoutBadgePartnerCompetences.id,
       });
@@ -73,12 +74,12 @@ describe('Integration | Repository | Badge', () => {
       expect(badgeReturned).to.be.an.instanceOf(Badge);
       expect(badgeReturned).to.deep.equal({
         id: badgeWithoutBadgePartnerCompetences.id,
+        key: badgeWithoutBadgePartnerCompetences.key,
         altMessage: badgeWithoutBadgePartnerCompetences.altMessage,
         imageUrl: badgeWithoutBadgePartnerCompetences.imageUrl,
         message: badgeWithoutBadgePartnerCompetences.message,
         targetProfileId: badgeWithoutBadgePartnerCompetences.targetProfileId,
         badgePartnerCompetences: [],
-        key: badgeWithoutBadgePartnerCompetences.key
       });
     });
 
@@ -97,7 +98,7 @@ describe('Integration | Repository | Badge', () => {
         altMessage: badgeWithBadgePartnerCompetences.altMessage,
         imageUrl: badgeWithBadgePartnerCompetences.imageUrl,
         message: badgeWithBadgePartnerCompetences.message,
-        key: 'TOTO',
+        key: badgeWithBadgePartnerCompetences.key,
         targetProfileId: badgeWithBadgePartnerCompetences.targetProfileId,
         badgePartnerCompetences: [ badgePartnerCompetence_1, badgePartnerCompetence_2 ],
       });

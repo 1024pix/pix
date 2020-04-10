@@ -7,6 +7,7 @@ class AssessmentScore {
       validatedSkills = [],
       failedSkills = [],
       competenceMarks = [],
+      percentageCorrectAnswers = 0,
       // includes
       // references
     } = {}) {
@@ -16,6 +17,7 @@ class AssessmentScore {
     this.validatedSkills = validatedSkills;
     this.failedSkills = failedSkills;
     this.competenceMarks = competenceMarks;
+    this.percentageCorrectAnswers = percentageCorrectAnswers;
   }
 }
 

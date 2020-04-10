@@ -12,13 +12,14 @@ describe('Acceptance | API | Certifications', () => {
 
   let server, options;
   let userId;
-  let session, certificationCourse, assessment, assessmentResult;
+  let session, certificationCourse, assessment, assessmentResult, badge;
 
   beforeEach(async () => {
     server = await createServer();
 
     userId = databaseBuilder.factory.buildUser().id;
     session = databaseBuilder.factory.buildSession();
+    badge = databaseBuilder.factory.buildBadge();
     certificationCourse = databaseBuilder.factory.buildCertificationCourse({
       sessionId: session.id,
       userId,
@@ -37,7 +38,8 @@ describe('Acceptance | API | Certifications', () => {
       emitter: 'PIX-ALGO',
       status: 'rejected',
     });
-    
+    databaseBuilder.factory.buildCertificationAcquiredPartner({ certificationCourseId: certificationCourse.id, partnerKey: badge.key });
+
     return databaseBuilder.commit();
   });
 
@@ -69,6 +71,8 @@ describe('Acceptance | API | Certifications', () => {
             'last-name': certificationCourse.lastName,
             'pix-score': assessmentResult.pixScore,
             'status': assessmentResult.status,
+            'acquired-partner-certifications': []
+
           },
           relationships: {
             'result-competence-tree': {
@@ -139,6 +143,7 @@ describe('Acceptance | API | Certifications', () => {
         area_code: '1',
         competence_code: '1.1',
         assessmentResultId: assessmentResult.id,
+        acquiredPartnerCertifications: [badge.key]
       });
       return databaseBuilder.commit();
     });
@@ -168,6 +173,8 @@ describe('Acceptance | API | Certifications', () => {
             'last-name': certificationCourse.lastName,
             'pix-score': assessmentResult.pixScore,
             'status': assessmentResult.status,
+            'acquired-partner-certifications': [badge.key]
+
           },
           'id': `${certificationCourse.id}`,
           'relationships': {

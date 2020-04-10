@@ -3,6 +3,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const events = require('../../../../lib/domain/events');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const Badge = require('../../../../lib/domain/models/Badge');
 const { CertificationComputeError } = require('../../../../lib/domain/errors');
 const { UNCERTIFIED_LEVEL } = require('../../../../lib/domain/constants');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
@@ -13,6 +14,8 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
   const assessmentResultRepository = { save: _.noop };
   const certificationCourseRepository = { changeCompletionDate: _.noop };
   const competenceMarkRepository = { save: _.noop };
+  const badgeAcquisitionRepository = { hasAcquiredBadgeWithKey:  _.noop };
+  const certificationPartnerAcquisitionRepository = { save: _.noop };
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
   let assessmentCompletedEvent;
@@ -22,7 +25,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
     certificationCourseRepository,
     competenceMarkRepository,
     scoringCertificationService,
-    assessmentRepository
+    assessmentRepository,
+    badgeAcquisitionRepository,
+    certificationPartnerAcquisitionRepository,
   };
 
   beforeEach(() => {
@@ -132,10 +137,14 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         const assessmentScore = {
           nbPix: 1,
           level: originalLevel,
-          competenceMarks: [competenceMarkData1, competenceMarkData2]
+          competenceMarks: [competenceMarkData1, competenceMarkData2],
+          reproducabilityRate: undefined,
+
         };
+
         beforeEach(() => {
           sinon.stub(scoringCertificationService, 'calculateAssessmentScore').resolves(assessmentScore);
+          sinon.stub(badgeAcquisitionRepository, 'hasAcquiredBadgeWithKey').resolves(true);
         });
 
         it('should left untouched the calculated level in the assessment score', async () => {
@@ -165,10 +174,50 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
           expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
             certificationAssessment.certificationCourseId, now
           );
+
+        });
+
+        context('when user has clea badge', () => {
+          [80, 90, 100].forEach((reproducabilityRate) =>
+            it(`for ${reproducabilityRate} it should obtain CleA certification`, async () => {
+              // given
+              sinon.stub(certificationPartnerAcquisitionRepository, 'save').resolves();
+              assessmentScore.percentageCorrectAnswers = reproducabilityRate;
+
+              // when
+              await events.handleCertificationScoring({
+                assessmentCompletedEvent, ...dependencies
+              });
+
+              // then
+              expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
+              expect(certificationPartnerAcquisitionRepository.save).to.have.been.calledWithMatch({
+                partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
+                certificationCourseId: certificationAssessment.certificationCourseId
+              });
+            })
+          );
+
+          [1, 79].forEach((reproducabilityRate) =>
+            it(`for ${reproducabilityRate} it should not obtain CleA certification`, async () => {
+              // given
+              sinon.stub(certificationPartnerAcquisitionRepository, 'save').resolves();
+              assessmentScore.percentageCorrectAnswers = reproducabilityRate;
+
+              // when
+              await events.handleCertificationScoring({
+                assessmentCompletedEvent, ...dependencies
+              });
+
+              // then
+              expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
+              expect(certificationPartnerAcquisitionRepository.save).not.to.have.been.called;
+            })
+          );
         });
 
         it('should build and save as many competence marks as present in the assessmentScore', async () => {
-          // when
+        // when
           await events.handleCertificationScoring({
             assessmentCompletedEvent, ...dependencies
           });

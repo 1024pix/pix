@@ -24,4 +24,8 @@ class Badge {
   }
 }
 
+Badge.keys = {
+  PIX_EMPLOI_CLEA: 'PIX_EMPLOI_CLEA',
+};
+
 module.exports = Badge;

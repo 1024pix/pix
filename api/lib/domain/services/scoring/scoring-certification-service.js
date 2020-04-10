@@ -10,7 +10,7 @@ const _ = require('lodash');
 
 async function calculateAssessmentScore(assessment) {
 
-  const { competencesWithMark } = await certificationService.calculateCertificationResultByAssessmentId(assessment.id);
+  const { competencesWithMark, percentageCorrectAnswers } = await certificationService.calculateCertificationResultByAssessmentId(assessment.id);
 
   const competenceMarks = competencesWithMark.map((certifiedCompetence) => {
     return new CompetenceMark({
@@ -24,6 +24,7 @@ async function calculateAssessmentScore(assessment) {
   return new AssessmentScore({
     nbPix: _.sumBy(competenceMarks, 'score'),
     competenceMarks,
+    percentageCorrectAnswers,
   });
 }
 
