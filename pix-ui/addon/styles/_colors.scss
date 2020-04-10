@@ -1,0 +1,85 @@
+/*
+  Colors name From:
+    - http://www.colorhexa.com
+    - http://chir.ag/projects/name-that-color
+*/
+$white: #ffffff;
+$alabaster-grey: #FAFAFA;
+$porcelain-grey: #f2f3f4;
+$mercury-grey: #e6e6e6;
+$alto-grey: #DDDDDD;
+$silver-grey: #CCCCCC;
+$dusty-grey: #979797;
+$gray: #888888;
+$raven-grey: #7d808a;
+$boulder-grey: #777777;
+$slate-grey: #6a6d76;
+$dove-gray: #666666;
+$tundora-grey: #4A4A4A;
+$charcoal-grey: #3e4149;
+$grayish-grey: #39393A;
+$nero: #222222;
+$black: #000000;
+$n80: #253858;
+
+$periwinkle-blue: #c3d0ff;
+$jordy-blue: #8D9EF7;
+$dodger-blue: #388AFF;
+$pix-blue: #3d68ff;
+$pix-blue-hover: #3257D9;
+$pix-grey: #585F75;
+$pix-grey-hover: #414657;
+
+$bright-yellow: #fedc41;
+$pix-yellow: #ffcb00;
+$pix-yellow-hover: #ffbe00;
+$nugget-yellow: #CF9C24;
+$dark-orange: #FF9400;
+$pizazz-orange: #ff8800;
+$pure-orange: #f45c00;
+
+$vista-blue: #93CFB5;
+$deyork-green: #78C182;
+$mountain-meadow: #20BF55;
+$caribbean-green: #13c9a0;
+$jade: #0BA86D;
+$eucalyptus: #228C5E;
+
+$mandy-red: #E14956;
+$vermilion: #FF4B00;
+$pomegranate: #F52222;
+$red-error: #E62600;
+$monza: #D60606;
+
+$purple: #985FFF;
+
+/*
+  Area Colors
+ */
+
+$jaffa: #F1A141;
+$emerald: #57C884;
+$cerulean: #12A3FF;
+$wild-strawberry: #FF3F94;
+$butterfly-bush: #574DA6;
+$jaffa-dark: #F24645;
+$emerald-dark: #1A8C89;
+$cerulean-dark: #3D68FF;
+$wild-strawberry-dark: #AC008D;
+$butterfly-bush-dark: #5E2563;
+
+/*
+  Gradients
+ */
+$pix-blue-to-purple-gradient: linear-gradient(to right, $dodger-blue, $purple);
+$pix-blue-to-purple-gradient-top-left-to-bottom-right: linear-gradient(-225deg, $dodger-blue 0%, $purple 100%);
+$pix-emerald-to-emerald-dark-gradient: linear-gradient(to right, $emerald, $emerald-dark);
+$pix-emerald-to-emerald-dark-gradient-bottom-to-top: linear-gradient(to top, $emerald, $emerald-dark);
+$pix-yellow-to-orange-gradient: linear-gradient(180deg, $bright-yellow 0%, $pizazz-orange 100%);
+$pix-yellow-to-jaffa-gradient: linear-gradient(180deg, $pix-yellow-hover 0%, $jaffa 100%);
+
+/*
+  Box Shadows
+ */
+$box-shadow-competence-cards: 0 3px 4px 0 rgba(12, 22, 58, 0.1), 0 1px 3px 0 rgba($black, 0.1);
+$box-shadow-competence-cards-hover: 0 7px 14px 0 rgba(12, 22, 58, 0.2), 0 3px 6px 0 rgba($black, 0.2);
