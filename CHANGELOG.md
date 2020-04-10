@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.139.0 (10/04/2020)
+
+- [#1284](https://github.com/1024pix/pix/pull/1284) [FEATURE] Ajout d'un composant pour représenter les différents niveaux de recommandation des sujets (PO-403).
+- [#1282](https://github.com/1024pix/pix/pull/1282) [FEATURE] Ajout d'un commentaire en dessous des profils cibles lors de la création d'une campagne (PO-415).
+- [#1208](https://github.com/1024pix/pix/pull/1208) [FEATURE]  certif clea zone verte (pf-1146)
+- [#1272](https://github.com/1024pix/pix/pull/1272) [BUGFIX] Messages d'erreurs d'authentifications erronés dans pix-certif (PC-143)
+- [#1185](https://github.com/1024pix/pix/pull/1185) [CLEANUP] Faire les calculs de score et de niveau à un seul endroit.
+
 ## v2.138.0 (09/04/2020)
 
 - [#1268](https://github.com/1024pix/pix/pull/1268) [FEATURE] Pouvoir envoyer son profil Pix au prescripteur de la campagne de type Collecte de profils (PF-1178).
