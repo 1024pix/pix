@@ -15,7 +15,7 @@ module.exports = async function completeAssessment({
     throw new AlreadyRatedAssessmentError();
   }
 
-  await assessmentRepository.completeByAssessmentId(domainTransaction, assessmentId);
+  await assessmentRepository.completeByAssessmentId(assessmentId, domainTransaction);
 
   return new AssessmentCompleted(
     assessmentId,
