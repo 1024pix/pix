@@ -56,5 +56,13 @@
     "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
     "cgu": true,
     "pixCertifTermsOfServiceAccepted": true
+  },
+  {
+    "id": 8,
+    "firstName": "user",
+    "lastName": "name",
+    "username": "user.shouldChangePassword1234",
+    "password": "$2b$05$Ryd6vVDoubvN9MQmSGmfY.tscxdmWhu1g8NOrHI4dveemziMof6Qm",
+    "shouldChangePassword": true
   }
 ]
