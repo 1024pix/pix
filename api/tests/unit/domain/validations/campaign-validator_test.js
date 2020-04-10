@@ -3,6 +3,7 @@ const campaignValidator = require('../../../../lib/domain/validators/campaign-va
 
 const MISSING_VALUE = null;
 const EMPTY_VALUE = '';
+const UNDEFINED_VALUE = undefined;
 
 function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError) {
   expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(1);
@@ -42,7 +43,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             // when/then
             expect(campaignValidator.validate({
               ...campaign,
-              idPixLabel: null,
+              idPixLabel: MISSING_VALUE,
             })).to.not.throw;
           });
 
@@ -50,7 +51,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             // when/then
             expect(campaignValidator.validate({
               ...campaign,
-              title: null,
+              title: MISSING_VALUE,
             })).to.not.throw;
           });
 
@@ -58,7 +59,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             // when/then
             expect(campaignValidator.validate({
               ...campaign,
-              title: undefined,
+              title: UNDEFINED_VALUE,
             })).to.not.throw;
           });
 
@@ -78,7 +79,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
                 // when
                 campaignValidator.validate({
                   ...campaign,
-                  name: null,
+                  name: MISSING_VALUE,
                 });
                 expect.fail('should have thrown an error');
               } catch (entityValidationErrors) {
@@ -130,7 +131,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
                 // when
                 campaignValidator.validate({
                   ...campaign,
-                  creatorId: undefined,
+                  creatorId: UNDEFINED_VALUE,
                 });
                 expect.fail('should have thrown an error');
 
@@ -169,7 +170,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
                 // when
                 campaignValidator.validate({
                   ...campaign,
-                  organizationId: undefined,
+                  organizationId: UNDEFINED_VALUE,
                 });
                 expect.fail('should have thrown an error');
 
@@ -252,7 +253,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
                 // when
                 campaignValidator.validate({
                   ...campaign,
-                  type: undefined,
+                  type: UNDEFINED_VALUE,
                 });
                 expect.fail('should have thrown an error');
               } catch (entityValidationErrors) {
@@ -279,16 +280,15 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             }
           });
 
-          // {"name":null,"code":null,"type":null,"title":null,"created-at":null,"archived-at":null,"id-pix-label":null,"custom-landing-page-text":null,"organization-id":1,"token-for-campaign-results":null}
           context('more complex case', () => {
             it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
               // given
               const campaign = {
-                name: null,
-                code: null,
-                type: null,
-                title: null,
-                idPixLabel: null,
+                name: MISSING_VALUE,
+                code: MISSING_VALUE,
+                type: MISSING_VALUE,
+                title: MISSING_VALUE,
+                idPixLabel: MISSING_VALUE,
                 organizationId: 1,
               };
 
@@ -362,7 +362,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
           // when
           campaignValidator.validate({
             ...campaignOfTypeAssessment,
-            targetProfileId: undefined,
+            targetProfileId: UNDEFINED_VALUE,
           });
           expect.fail('should have thrown an error');
 
