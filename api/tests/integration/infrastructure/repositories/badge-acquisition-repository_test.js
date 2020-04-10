@@ -30,7 +30,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
     it('should persist the badge acquisition in db', async () => {
       // when
       badgeAcquisition = await DomainTransaction.execute(async (domainTransaction) => {
-        return badgeAcquisitionRepository.create(domainTransaction, badgeAcquisitionToCreate);
+        return badgeAcquisitionRepository.create(badgeAcquisitionToCreate, domainTransaction);
       });
 
       // then
@@ -42,7 +42,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
     it('should return the saved badge acquired', async () => {
       // when
       badgeAcquisition = await DomainTransaction.execute(async (domainTransaction) => {
-        return badgeAcquisitionRepository.create(domainTransaction, badgeAcquisitionToCreate);
+        return badgeAcquisitionRepository.create(badgeAcquisitionToCreate, domainTransaction);
       });
 
       // then

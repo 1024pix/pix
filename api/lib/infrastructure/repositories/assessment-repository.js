@@ -1,4 +1,5 @@
 const BookshelfAssessment = require('../data/assessment');
+const DomainTransaction = require('../DomainTransaction');
 const Assessment = require('../../domain/models/Assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { groupBy, map, head, _ } = require('lodash');
@@ -58,7 +59,7 @@ module.exports = {
       });
   },
 
-  save({ assessment, domainTransaction = {} }) {
+  save({ assessment, domainTransaction = DomainTransaction.emptyTransaction()  }) {
     return assessment.validate()
       .then(() => new BookshelfAssessment(_adaptModelToDb(assessment)))
       .then((bookshelfAssessment) => bookshelfAssessment.save(null, { transacting: domainTransaction.knexTransaction }))
@@ -110,14 +111,14 @@ module.exports = {
   },
 
   abortByAssessmentId(assessmentId) {
-    return this._updateStateById(null, { id: assessmentId, state: Assessment.states.ABORTED });
+    return this._updateStateById({ id: assessmentId, state: Assessment.states.ABORTED });
   },
 
-  completeByAssessmentId(domainTransaction, assessmentId) {
-    return this._updateStateById(domainTransaction.knexTransaction, { id: assessmentId, state: Assessment.states.COMPLETED });
+  completeByAssessmentId(assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
+    return this._updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED }, domainTransaction.knexTransaction);
   },
 
-  async _updateStateById(knexTransaction, { id, state }) {
+  async _updateStateById({ id, state }, knexTransaction) {
     const assessment = await BookshelfAssessment
       .where({ id })
       .save({ state }, { require: true, patch: true, transacting: knexTransaction });

@@ -63,17 +63,17 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).returns(true);
 
           // when
-          await events.handleBadgeAcquisition({ domainTransaction, assessmentCompletedEvent, ...dependencies });
+          await events.handleBadgeAcquisition({ assessmentCompletedEvent, ...dependencies, domainTransaction });
 
           // then
-          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly(domainTransaction, { badgeId, userId: assessmentCompletedEvent.userId });
+          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly({ badgeId, userId: assessmentCompletedEvent.userId }, domainTransaction);
         });
 
         it('should not create a badge when badge requirements are not fulfilled', async () => {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ campaignParticipationResult }).returns(false);
           // when
-          await events.handleBadgeAcquisition({ domainTransaction, assessmentCompletedEvent, ...dependencies });
+          await events.handleBadgeAcquisition({ assessmentCompletedEvent, ...dependencies });
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -93,7 +93,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           const assessmentCompletedEvent = new AssessmentCompleted(userId, targetProfileId);
 
           // when
-          await events.handleBadgeAcquisition({ domainTransaction, assessmentCompletedEvent, ...dependencies });
+          await events.handleBadgeAcquisition({ assessmentCompletedEvent, ...dependencies, domainTransaction });
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -111,7 +111,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         const assessmentCompletedEvent = new AssessmentCompleted(userId, targetProfileId);
 
         // when
-        await events.handleBadgeAcquisition({ domainTransaction, assessmentCompletedEvent, ...dependencies });
+        await events.handleBadgeAcquisition({ assessmentCompletedEvent, ...dependencies, domainTransaction });
 
         // then
         expect(badgeAcquisitionRepository.create).to.not.have.been.called;

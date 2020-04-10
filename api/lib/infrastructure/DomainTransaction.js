@@ -10,5 +10,9 @@ class DomainTransaction {
       return lambda(new DomainTransaction(trx));
     });
   }
+
+  static emptyTransaction() {
+    return new DomainTransaction(null);
+  }
 }
 module.exports = DomainTransaction;
