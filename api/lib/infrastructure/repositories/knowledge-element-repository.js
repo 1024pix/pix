@@ -2,7 +2,7 @@ const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
-const constants = require('../../domain/constants');
+const scoringService = require('../../domain/services/scoring/scoring-service');
 
 function _toDomain(knowledgeElementBookshelf) {
   const knowledgeElements = knowledgeElementBookshelf.toJSON();
@@ -84,8 +84,8 @@ module.exports = {
       .where({ rank: 1 })
       .groupBy('competenceId')
       .then((pixEarnedByCompetence) => {
-        const pixByCompetenceLimited = _.map(pixEarnedByCompetence, (pixEarnedForOneCompetence) =>  Math.min(constants.MAX_REACHABLE_PIX_BY_COMPETENCE, pixEarnedForOneCompetence.earnedPix));
-        return _.sum(pixByCompetenceLimited);
+        const pixScoreByCompetence = _.map(pixEarnedByCompetence, (pixEarnedForOneCompetence) =>  pixEarnedForOneCompetence.earnedPix);
+        return scoringService.totalUserPixScore(pixScoreByCompetence);
       });
   },
 

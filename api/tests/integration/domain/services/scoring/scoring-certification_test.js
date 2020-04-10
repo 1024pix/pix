@@ -68,8 +68,9 @@ describe('Integration | Domain | services | scoring | scoring-certification-serv
       it('should ceil the level and the score to a maximum threshold', async () => {
         // given
         const MAX_REACHABLE_LEVEL = 5;
-        const MAX_REACHABLE_PIX_BY_COMPETENCE = 40;
-        const competenceWithMarkAboveThreshold = { index: '1.1', obtainedLevel: 6, obtainedScore: 50, area_code: '1', };
+        const MAX_REACHABLE_PIX = 40;
+        const nbrPix = 50;
+        const competenceWithMarkAboveThreshold = { index: '1.1', obtainedLevel: 6, obtainedScore: nbrPix, area_code: '1', };
         const assessment = domainBuilder.buildAssessment({ id: assessmentId, courseId });
 
         sinon.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({ competencesWithMark: [competenceWithMarkAboveThreshold] });
@@ -78,9 +79,9 @@ describe('Integration | Domain | services | scoring | scoring-certification-serv
         const assessmentScore = await scoringCertificationService.calculateAssessmentScore(assessment);
 
         // then
-        expect(assessmentScore.nbPix).to.equal(MAX_REACHABLE_PIX_BY_COMPETENCE);
+        expect(assessmentScore.nbPix).to.equal(MAX_REACHABLE_PIX);
         expect(assessmentScore.competenceMarks[0].level).to.equal(MAX_REACHABLE_LEVEL);
-        expect(assessmentScore.competenceMarks[0].score).to.equal(MAX_REACHABLE_PIX_BY_COMPETENCE);
+        expect(assessmentScore.competenceMarks[0].score).to.equal(MAX_REACHABLE_PIX);
       });
     });
 

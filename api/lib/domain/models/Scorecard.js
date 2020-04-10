@@ -3,6 +3,7 @@ const Assessment = require('./Assessment');
 const CompetenceEvaluation = require('./CompetenceEvaluation');
 const KnowledgeElement = require('./KnowledgeElement');
 const constants = require('../constants');
+const scoringService = require('../services/scoring/scoring-service');
 
 const statuses = {
   NOT_STARTED: 'NOT_STARTED',
@@ -48,9 +49,13 @@ class Scorecard {
     return { userId: _.parseInt(userId), competenceId };
   }
 
-  static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation, blockReachablePixAndLevel }) {
-    const exactlyEarnedPix = _(knowledgeElements).sumBy('earnedPix');
-    const totalEarnedPix = _getTotalEarnedPix(exactlyEarnedPix, blockReachablePixAndLevel);
+  static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation, allowExcessPix = false, allowExcessLevel = false }) {
+    const {
+      realTotalPixScoreForCompetence,
+      pixScoreForCompetence,
+      currentLevel,
+      pixAheadForNextLevel
+    } = scoringService.calculateScoringInformationForCompetence({ knowledgeElements, allowExcessPix, allowExcessLevel });
     const remainingDaysBeforeReset = _.isEmpty(knowledgeElements) ? null : Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
 
     return new Scorecard({
@@ -60,10 +65,10 @@ class Scorecard {
       competenceId: competence.id,
       index: competence.index,
       area: competence.area,
-      earnedPix: totalEarnedPix,
-      exactlyEarnedPix,
-      level: _getCompetenceLevel(totalEarnedPix),
-      pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPix),
+      earnedPix: pixScoreForCompetence,
+      exactlyEarnedPix: realTotalPixScoreForCompetence,
+      level: currentLevel,
+      pixScoreAheadOfNextLevel: pixAheadForNextLevel,
       status: _getScorecardStatus(competenceEvaluation, knowledgeElements),
       remainingDaysBeforeReset,
     });
@@ -86,23 +91,6 @@ function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
     return statuses.COMPLETED;
   }
   return statuses.STARTED;
-}
-
-function _getTotalEarnedPix(exactlyEarnedPix, blockReachablePixAndLevel) {
-  const userTotalEarnedPix = _.floor(exactlyEarnedPix);
-  if (blockReachablePixAndLevel) {
-    return Math.min(userTotalEarnedPix, constants.MAX_REACHABLE_PIX_BY_COMPETENCE);
-  }
-  return userTotalEarnedPix;
-}
-
-function _getCompetenceLevel(earnedPix) {
-  const userLevel = _.floor(earnedPix / constants.PIX_COUNT_BY_LEVEL);
-  return Math.min(constants.MAX_REACHABLE_LEVEL, userLevel);
-}
-
-function _getPixScoreAheadOfNextLevel(earnedPix) {
-  return earnedPix % constants.PIX_COUNT_BY_LEVEL;
 }
 
 Scorecard.statuses = statuses;

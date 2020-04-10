@@ -1,6 +1,6 @@
 const { NotFoundError } = require('../errors');
-const { MAX_REACHABLE_LEVEL } = require('../constants');
 const Assessment = require('../models/Assessment');
+const scoringService = require('../services/scoring/scoring-service');
 
 module.exports = async function getAssessment(
   {
@@ -18,7 +18,7 @@ module.exports = async function getAssessment(
   const assessmentResult = assessment.getLastAssessmentResult();
 
   if (assessmentResult) {
-    assessment.estimatedLevel = Math.min(assessmentResult.level, MAX_REACHABLE_LEVEL);
+    assessment.estimatedLevel = scoringService.getBlockedLevel(assessmentResult.level);
     assessment.pixScore = assessmentResult.pixScore;
   } else {
     assessment.estimatedLevel = null;
