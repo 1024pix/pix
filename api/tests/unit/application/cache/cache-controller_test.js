@@ -48,42 +48,55 @@ describe('Unit | Controller | cache-controller', () => {
 
     const request = {};
 
-    it('should reply with http status 202', async () => {
-      // given
-      const numberOfDeletedKeys = 0;
-      _.forEach(AirtableDatasources, (datasource) => {
-        sinon.stub(datasource, 'refreshAirtableCacheRecords');
-        datasource.refreshAirtableCacheRecords.resolves(numberOfDeletedKeys);
+    context('nominal case', () => {
+      it('should reply with http status 202', async () => {
+        // given
+        const numberOfDeletedKeys = 0;
+        _.forEach(AirtableDatasources, (datasource) => {
+          sinon.stub(datasource, 'refreshAirtableCacheRecords');
+          datasource.refreshAirtableCacheRecords.resolves(numberOfDeletedKeys);
+        });
+
+        // when
+        const response = await cacheController.refreshCacheEntries(request, hFake);
+
+        // then
+        _.forEach(AirtableDatasources, (datasource) =>
+          expect(datasource.refreshAirtableCacheRecords).to.have.been.calledOnce
+        );
+        expect(response.statusCode).to.equal(202);
       });
-
-      // when
-      const response = await cacheController.refreshCacheEntries(request, hFake);
-
-      // then
-      _.forEach(AirtableDatasources, (datasource) =>
-        expect(datasource.refreshAirtableCacheRecords).to.have.been.calledOnce
-      );
-      expect(response.statusCode).to.equal(202);
     });
 
-    it('should also reply with http status 202 when there is an error', async () => {
-      // given
-      sinon.stub(logger, 'error');
-      const datasourcesCount = Object.keys(AirtableDatasources).length;
-      _.forEach(AirtableDatasources, (datasource) => {
-        sinon.stub(datasource, 'refreshAirtableCacheRecords');
-        datasource.refreshAirtableCacheRecords.rejects();
+    context('error case', () => {
+      let datasourcesCount, response;
+
+      beforeEach(async () => {
+        // given
+        sinon.stub(logger, 'error');
+        datasourcesCount = Object.keys(AirtableDatasources).length;
+        _.forEach(AirtableDatasources, (datasource) => {
+          sinon.stub(datasource, 'refreshAirtableCacheRecords');
+          datasource.refreshAirtableCacheRecords.rejects();
+        });
+
+        // when
+        response = await cacheController.refreshCacheEntries(request, hFake);
       });
 
-      // when
-      const response = await cacheController.refreshCacheEntries(request, hFake);
+      it('should reply with http status 202', async () => {
+        // then
+        expect(response.statusCode).to.equal(202);
+      });
 
-      // then
-      _.forEach(AirtableDatasources, (datasource) =>
-        expect(datasource.refreshAirtableCacheRecords).to.have.been.calledOnce
-      );
-      expect(logger.error.callCount).to.equal(datasourcesCount);
-      expect(response.statusCode).to.equal(202);
+      it('should call log errors as many times as there are datasources', async () => {
+        // then
+        _.forEach(AirtableDatasources, (datasource) =>
+          expect(datasource.refreshAirtableCacheRecords).to.have.been.calledOnce
+        );
+        expect(logger.error.callCount).to.equal(datasourcesCount);
+      });
     });
+
   });
 });
