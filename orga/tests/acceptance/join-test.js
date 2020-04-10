@@ -180,6 +180,14 @@ module('Acceptance | join', function(hooks) {
 
       test('it should remain on join page', async function(assert) {
         // given
+        server.post('/token', {
+          errors: [{
+            detail: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.',
+            status: '4O1',
+            title: 'Unauthorized',
+          }]
+        }, 401);
+
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         await click('#login');
         await fillIn('#login-email', user.email);

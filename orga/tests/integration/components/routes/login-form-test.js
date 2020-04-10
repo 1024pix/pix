@@ -61,7 +61,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
       await fillIn('#login-email', 'pix@example.net');
       await fillIn('#login-password', 'JeMeLoggue1024');
 
-      //  when
+      // when
       await click('.button');
 
       // then
@@ -114,8 +114,8 @@ module('Integration | Component | routes/login-form', function(hooks) {
   test('it should display an invalid credentiels message when authentication fails', async function(assert) {
 
     // given
-    const msgErrorInvalidCredentiel =  {
-      'errors' : [{ 'status' : '401', 'title' : 'Unauthorized' , 'detail' : errorMessages.INVALID_CREDENTIEL_MSG  }]
+    const msgErrorInvalidCredentiel = {
+      'errors': [{ 'status': '401', 'title': 'Unauthorized', 'detail': errorMessages.INVALID_CREDENTIEL_MSG }]
     };
 
     sessionStub.prototype.authenticate = () => reject(msgErrorInvalidCredentiel);
@@ -135,8 +135,8 @@ module('Integration | Component | routes/login-form', function(hooks) {
   test('it should display an not linked organisation message when authentication fails', async function(assert) {
 
     // given
-    const msgErrorNotLinkedOrganization =  {
-      'errors' : [{ 'status' : '403', 'title' : 'Unauthorized' , 'detail' : errorMessages.NOT_LINKED_ORGANIZATION_MSG }]
+    const msgErrorNotLinkedOrganization = {
+      'errors': [{ 'status': '403', 'title': 'Unauthorized', 'detail': errorMessages.NOT_LINKED_ORGANIZATION_MSG }]
     };
 
     sessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedOrganization);
