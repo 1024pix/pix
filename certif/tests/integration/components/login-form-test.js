@@ -61,13 +61,19 @@ module('Integration | Component | login-form', function(hooks) {
     assert.equal(sessionServiceObserver.scope, 'pix-certif');
   });
 
-  test('it should display an error message when authentication fails with unauthorized acces', async function(assert) {
+  test('it should display an invalid credentials message if authentication failed', async function(assert) {
     // given
-    const msgErrorInvalidCredentiel =  {
-      'errors' : [{ 'status' : '401', 'title' : 'Unauthorized' , 'detail' : ENV.APP.API_ERROR_MESSAGES.UNAUTHORIZED.MESSAGE }]
+    const invalidCredentialsErrorMessage = {
+      responseJSON: {
+        'errors': [{
+          'status': '401',
+          'title': 'Unauthorized',
+          'detail': ENV.APP.API_ERROR_MESSAGES.UNAUTHORIZED.MESSAGE
+        }]
+      }
     };
 
-    sessionStub.prototype.authenticate = () => reject(msgErrorInvalidCredentiel);
+    sessionStub.prototype.authenticate = () => reject(invalidCredentialsErrorMessage);
     await render(hbs`{{login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'Mauvais mot de passe');
@@ -83,11 +89,13 @@ module('Integration | Component | login-form', function(hooks) {
   test('it should display an not linked certification message when authentication fails with Forbidden Access', async function(assert) {
 
     // given
-    const msgErrorNotLinkedCertification =  {
-      'errors' : [{ 'status' : '403', 'title' : 'Unauthorized' , 'detail' : errorMessages.NOT_LINKED_CERTIFICATION_MSG }]
+    const notLinkedToOrganizationErrorMessage = {
+      responseJSON: {
+        'errors': [{ 'status': '403', 'title': 'Unauthorized', 'detail': errorMessages.NOT_LINKED_CERTIFICATION_MSG }]
+      }
     };
 
-    sessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedCertification);
+    sessionStub.prototype.authenticate = () => reject(notLinkedToOrganizationErrorMessage);
     await render(hbs`{{login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'JeMeLoggue1024');
@@ -103,11 +111,17 @@ module('Integration | Component | login-form', function(hooks) {
   test('it should display a 504 message when authentication fails with gateway Timeout', async function(assert) {
 
     // given
-    const msgErrorGatewayTimeout =  {
-      'errors' : [{ 'status' : ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.CODE, 'title' : 'Gateway Timeout' , 'detail' : ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE }]
+    const gatewayTimeoutErrorMessage = {
+      responseJSON: {
+        'errors': [{
+          'status': ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.CODE,
+          'title': 'Gateway Timeout',
+          'detail': ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE
+        }]
+      }
     };
 
-    sessionStub.prototype.authenticate = () => reject(msgErrorGatewayTimeout);
+    sessionStub.prototype.authenticate = () => reject(gatewayTimeoutErrorMessage);
     await render(hbs`{{login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'JeMeLoggue1024');
