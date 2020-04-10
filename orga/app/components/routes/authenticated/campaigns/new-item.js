@@ -37,9 +37,9 @@ export default class NewItem extends Component {
 
   @action
   setSelectedTargetProfile(event) {
-    const selectedTargetProfile = this.targetProfiles
+    this.campaign.targetProfile = this.targetProfiles
       .find((targetProfile) => targetProfile.get('id') === event.target.value);
-    this.campaign.set('targetProfile', selectedTargetProfile);
+    this.campaign.errors.remove('targetProfile');
   }
 
   @action
