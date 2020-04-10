@@ -103,8 +103,7 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
     test('it should display comment for target profile selection', async function(assert) {
       // given
       this.currentUser = this.owner.lookup('service:current-user');
-      this.set('currentUser.organization.isSCO', true);
-      this.set('currentUser.organization.isManagingStudents', true);
+      this.set('currentUser.isSCOManagingStudents', true);
 
       // when
       await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
@@ -114,30 +113,12 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
     });
   });
 
-  module('when user‘s organization is SCO but is not managing student', function() {
+  module('when user‘s organization is not (SCO and managing student)', function() {
 
     test('it should not display comment for target profile selection', async function(assert) {
       // given
       this.currentUser = this.owner.lookup('service:current-user');
-      this.set('currentUser.organization.isSCO', true);
-      this.set('currentUser.organization.isManagingStudents', false);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);
-
-      // then
-      assert.dom('#campaign-target-profile-comment-label').doesNotExist();
-    });
-  });
-
-  module('when user‘s organization is not SCO but is managing student', function() {
-
-    /* eslint-disable-next-line mocha/no-identical-title */
-    test('it should not display comment for target profile selection', async function(assert) {
-      // given
-      this.currentUser = this.owner.lookup('service:current-user');
-      this.set('currentUser.organization.isSCO', false);
-      this.set('currentUser.organization.isManagingStudents', true);
+      this.set('currentUser.isSCOManagingStudents', false);
 
       // when
       await render(hbs`<Routes::Authenticated::Campaigns::NewItem @createCampaign={{action createCampaignSpy}} @cancel={{action cancelSpy}}/>`);

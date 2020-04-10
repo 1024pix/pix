@@ -7,12 +7,12 @@
       Équipe
     </LinkTo>
   {{/if}}
-  {{#if this.currentUser.canAccessStudentsPage}}
+  {{#if this.currentUser.isSCOManagingStudents}}
     <LinkTo @route="authenticated.students" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
       Élèves
     </LinkTo>
   {{/if}}
-  {{#if this.currentUser.canAccessStudentsPage}}
+  {{#if this.currentUser.isSCOManagingStudents}}
     <div class="sidebar-menu__documentation-item">
       <a class="sidebar-menu-documentation-item__button" href="https://bit.ly/ressourcespixorga"
          target="_blank" rel="noopener noreferrer">

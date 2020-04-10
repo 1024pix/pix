@@ -7,7 +7,7 @@ export default class StudentsRoute extends Route {
 
   beforeModel() {
     super.beforeModel(...arguments);
-    if (!this.currentUser.canAccessStudentsPage) {
+    if (!this.currentUser.isSCOManagingStudents) {
       return this.replaceWith('application');
     }
   }
