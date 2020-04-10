@@ -20,16 +20,20 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "ember build --environment=production",
+    "build": "ember build --environment $BUILD_ENVIRONMENT",
     "build-storybook": "ember build && build-storybook -s dist",
+    "clean": "rm -rf tmp dist node_modules",
     "lint": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
+    "preinstall": "test \"$(npm --version)\" = 6.13.4",
     "start": "ember serve",
     "storybook": "ember serve & start-storybook -p 9001 -s dist",
-    "test": "npm-run-all lint:* test:*",
+    "test": "ember test --reporter dot",
+    "test:all": "npm-run-all lint:* test:*",
     "test:ember": "ember test",
-    "test:ember-compatibility": "ember try:each"
+    "test:ember-compatibility": "ember try:each",
+    "test:lint": "npm test && npm run lint"
   },
   "dependencies": {
     "ember-cli-babel": "^7.18.0",

@@ -91,6 +91,7 @@ function install_apps_dependencies() {
   (cd certif && npm install --no-optional)
   (cd mon-pix && npm install --no-optional)
   (cd orga && npm install --no-optional)
+  (cd pix-ui && npm install --no-optional)
 
   echo "✅ Dependencies installed."
   echo ""
@@ -114,6 +115,7 @@ function execute_apps_tests() {
   (cd certif && npm test)
   (cd mon-pix && npm test)
   (cd orga && npm test)
+  (cd pix-ui && npm test)
 
   echo "✅ Tests passed."
   echo ""
