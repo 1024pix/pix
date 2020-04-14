@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const CampaignAnalysis = require('../models/CampaignAnalysis');
-const CampaignTubeRecommendation = require('../models/CampaignTubeRecommendation');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
 module.exports = async function computeCampaignAnalysis(
@@ -11,6 +10,8 @@ module.exports = async function computeCampaignAnalysis(
     competenceRepository,
     targetProfileRepository,
     tubeRepository,
+    knowledgeElementRepository,
+    campaignParticipationRepository
   } = {}) {
 
   const hasUserAccessToResult = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId);
@@ -19,31 +20,23 @@ module.exports = async function computeCampaignAnalysis(
     throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
   }
 
-  const [competences, tubes, targetProfile] = await Promise.all([
+  const [competences, tubes, targetProfile, validatedKnowledgeElements, participantsCount] = await Promise.all([
     competenceRepository.list(),
     tubeRepository.list(),
-    targetProfileRepository.getByCampaignId(campaignId)
+    targetProfileRepository.getByCampaignId(campaignId),
+    knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId),
+    campaignParticipationRepository.countSharedParticipationOfCampaign(campaignId)
   ]);
 
-  const targetedTubeIds = _.uniq(_.map(targetProfile.skills, (skill) => skill.tubeId));
+  const targetedTubeIds = _.map(targetProfile.skills, ({ tubeId }) => ({ id: tubeId }));
+  const targetedTubes = _.intersectionBy(tubes, targetedTubeIds, 'id');
 
-  const campaignTubeRecommendations = _computeCampaignTubeRecommendations(campaignId, tubes, competences, targetedTubeIds);
-
-  return new CampaignAnalysis({ id: campaignId, campaignTubeRecommendations });
-};
-
-function _computeCampaignTubeRecommendations(campaignId, tubes, competences, targetedTubeIds) {
-  return _.map(targetedTubeIds, (tubeId) => {
-    const tube = _.find(tubes, { id: tubeId });
-    const competence = _.find(competences, { id: tube.competenceId });
-
-    return new CampaignTubeRecommendation({
-      campaignId,
-      tubeId,
-      competenceId: competence.id,
-      competenceName: competence.name,
-      tubePracticalTitle: tube.practicalTitle,
-      areaColor: competence.area.color,
-    });
+  return new CampaignAnalysis({
+    campaignId,
+    tubes: targetedTubes,
+    competences,
+    skills: targetProfile.skills,
+    validatedKnowledgeElements,
+    participantsCount
   });
-}
+};
