@@ -51,9 +51,8 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
       const payload = {
         data: {
           attributes: {
-            'student-id': 1,
-            'organization-id': 3,
-            'password': 'P@ssw0rd'
+            'schooling-registration-id': 1,
+            'organization-id': 3
           }
         }
       };
