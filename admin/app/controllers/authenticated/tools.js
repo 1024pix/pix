@@ -13,7 +13,7 @@ export default class ToolsController extends Controller {
     this.set('isLoading', true);
     try {
       await this.store.adapterFor('learning-content-cache').refreshCacheEntries();
-      this.notifications.success('Le cache a été rechargé avec succès.');
+      this.notifications.success('La demande de rechargement du cache a bien été prise en compte.');
     } catch (err) {
       this.notifications.error('Une erreur est survenue.');
     } finally {
