@@ -11,6 +11,7 @@ Fonctionnalité: Campagne de collecte de profils
     Et je saisis "LION" dans le champ "Saisissez le code du parcours"
     Lorsque je clique sur "Commencer mon parcours"
     Alors je vois la page de "presentation" de la campagne
+    Et la page "Presentation campagne collecte profils" est correctement affichée
     Lorsque je clique sur "C’est parti !"
     Alors je vois la page d'"envoi-profil" de la campagne
     Lorsque je clique sur "J'envoie mon profil"
