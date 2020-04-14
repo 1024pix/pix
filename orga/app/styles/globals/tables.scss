@@ -49,6 +49,10 @@ td, th {
 .table__column {
   width: 16%;
 
+  &--center {
+    text-align: center;
+  }
+
   &--small {
     width: 6%;
   }
