@@ -666,6 +666,41 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
+  describe('#updateTemporaryPassword', () => {
+
+    let userInDb;
+
+    beforeEach(async () => {
+      userInDb = databaseBuilder.factory.buildUser(userToInsert);
+      await databaseBuilder.commit();
+    });
+
+    it('should save the user', async () => {
+      // given
+      const generatedPassword = '1235Pix!';
+
+      // when
+      const updatedUser = await userRepository.updatePasswordThatShouldBeChanged(userInDb.id, generatedPassword);
+
+      // then
+      expect(updatedUser).to.be.an.instanceOf(User);
+      expect(updatedUser.password).to.equal(generatedPassword);
+      expect(updatedUser.shouldChangePassword).to.be.true;
+    });
+
+    it('should throw UserNotFoundError when user id not found', async () => {
+      // given
+      const wrongUserId = 0;
+      const generatedPassword = '1235Pix!';
+
+      // when
+      const error = await catchErr(userRepository.updatePasswordThatShouldBeChanged)(wrongUserId, generatedPassword);
+
+      // then
+      expect(error).to.be.instanceOf(UserNotFoundError);
+    });
+  });
+
   describe('#isUserExistingByEmail', () => {
     const email = 'shi@fu.fr';
 
