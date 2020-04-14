@@ -14,6 +14,8 @@ import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'ember-cli-mirage';
 
+const ASSESSMENT = 'ASSESSMENT';
+
 describe('Acceptance | Campaigns | Start Campaigns with type Assessment', function() {
   setupApplicationTest();
   setupMirage();
@@ -57,7 +59,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
             it('should access presentation page', async function() {
               // given
-              const campaign = server.create('campaign', { isRestricted: false });
+              const campaign = server.create('campaign', { isRestricted: false, type: ASSESSMENT });
               await visit('/campagnes');
 
               // when
@@ -72,7 +74,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           context('When campaign is restricted', function() {
 
             beforeEach(function() {
-              campaign = server.create('campaign', { isRestricted: true });
+              campaign = server.create('campaign', { isRestricted: true, type: ASSESSMENT });
             });
 
             context('When the student has an account but is not reconcilied', function() {
@@ -265,7 +267,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
       context('When the user has already seen the landing page', function() {
         beforeEach(async function() {
-          const campaign = server.create('campaign');
+          const campaign = server.create('campaign', { type: ASSESSMENT });
           await startCampaignByCode(campaign.code);
         });
 
@@ -278,7 +280,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
       context('When the user has not seen the landing page', function() {
         it('should redirect to landing page', async function() {
           // when
-          const campaign = server.create('campaign');
+          const campaign = server.create('campaign', { type: ASSESSMENT });
           await visit(`/campagnes/${campaign.code}`);
 
           // then
@@ -288,7 +290,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
         context('When campaign has custom text for the landing page', function() {
           it('should show the custom text on the landing page', async function() {
             // given
-            const campaign = server.create('campaign', { customLandingPageText: 'SomeText' });
+            const campaign = server.create('campaign', { customLandingPageText: 'SomeText', type: ASSESSMENT });
 
             // when
             await visit(`/campagnes/${campaign.code}`);
@@ -302,7 +304,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
         context('When campaign does not have custom text for the landing page', function() {
           it('should show only the defaulted text on the landing page', async function() {
             // when
-            const campaign = server.create('campaign', { customLandingPageText: null });
+            const campaign = server.create('campaign', { customLandingPageText: null, type: ASSESSMENT });
             await visit(`/campagnes/${campaign.code}`);
 
             // then
@@ -317,7 +319,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
         context('When participant external id is not set in the url', function() {
 
           beforeEach(async function() {
-            campaign = server.create('campaign', { idPixLabel: 'email' });
+            campaign = server.create('campaign', { idPixLabel: 'email', type: ASSESSMENT });
             await startCampaignByCode(campaign.code);
             await fillIn('#firstName', prescritUser.firstName);
             await fillIn('#lastName', prescritUser.lastName);
@@ -346,7 +348,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
           context('When campaign is not restricted', function() {
             beforeEach(async function() {
-              campaign = server.create('campaign', { isRestricted: false, idPixLabel: 'toto' });
+              campaign = server.create('campaign', { isRestricted: false, idPixLabel: 'toto', type: ASSESSMENT });
               await startCampaignByCodeAndExternalId(campaign.code);
               await fillIn('#firstName', prescritUser.firstName);
               await fillIn('#lastName', prescritUser.lastName);
@@ -364,7 +366,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
           context('When campaign is restricted', function() {
             beforeEach(async function() {
-              campaign = server.create('campaign', { isRestricted: true, idPixLabel: 'toto' });
+              campaign = server.create('campaign', { isRestricted: true, idPixLabel: 'toto', type: ASSESSMENT });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
 
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identification`);
@@ -394,7 +396,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
       context('When campaign does not have external id', function() {
         beforeEach(async function() {
-          campaign = server.create('campaign', { idPixLabel: null });
+          campaign = server.create('campaign', { idPixLabel: null, type: ASSESSMENT });
           await startCampaignByCode(campaign.code);
           await fillIn('#firstName', prescritUser.firstName);
           await fillIn('#lastName', prescritUser.lastName);
@@ -412,7 +414,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
       context('When campaign does not have external id but a participant external id is set in the url', function() {
         beforeEach(async function() {
-          campaign = server.create('campaign');
+          campaign = server.create('campaign', { type: ASSESSMENT });
           await startCampaignByCodeAndExternalId(campaign.code);
           await fillIn('#firstName', prescritUser.firstName);
           await fillIn('#lastName', prescritUser.lastName);
@@ -439,7 +441,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
         it('should redirect to landing page', async function() {
           // when
-          campaign = server.create('campaign');
+          campaign = server.create('campaign', { type: ASSESSMENT });
           await visit(`/campagnes/${campaign.code}`);
           expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           expect(find('.campaign-landing-page__start-button').textContent.trim()).to.equal('Je commence');
@@ -449,7 +451,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
       context('When campaign is restricted', function() {
 
         beforeEach(function() {
-          campaign = server.create('campaign', { isRestricted: true, idPixLabel: 'nom de naissance de maman' });
+          campaign = server.create('campaign', { isRestricted: true, idPixLabel: 'nom de naissance de maman', type: ASSESSMENT });
         });
 
         context('When association is not already done', function() {
@@ -573,7 +575,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
         context('When participant external id is not set in the url', function() {
 
           beforeEach(async function() {
-            campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman' });
+            campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman', type: ASSESSMENT });
             await startCampaignByCode(campaign.code);
           });
 
@@ -606,7 +608,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
         context('When participant external id is set in the url', function() {
           beforeEach(async function() {
-            campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman' });
+            campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman', type: ASSESSMENT });
             await startCampaignByCodeAndExternalId(campaign.code);
           });
 
@@ -631,7 +633,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
       context('When campaign does not have external id', function() {
 
         beforeEach(async function() {
-          campaign = server.create('campaign', { idPixLabel: null });
+          campaign = server.create('campaign', { idPixLabel: null, type: ASSESSMENT });
           await visit(`campagnes/${campaign.code}`);
         });
 
@@ -646,7 +648,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
       context('When campaign does not have external id but a participant external id is set in the url', function() {
         beforeEach(async function() {
-          campaign = server.create('campaign', { idPixLabel: null });
+          campaign = server.create('campaign', { idPixLabel: null, type: ASSESSMENT });
           await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
         });
 
@@ -683,7 +685,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
       context('When campaign is restricted', function() {
         beforeEach(function() {
-          campaign = server.create('campaign', { isRestricted: true });
+          campaign = server.create('campaign', { isRestricted: true, type: ASSESSMENT });
         });
 
         context('When association is not already done', function() {

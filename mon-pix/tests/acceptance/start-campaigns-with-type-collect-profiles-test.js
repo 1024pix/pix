@@ -13,6 +13,8 @@ import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
+const PROFILES_COLLECTION = 'PROFILES_COLLECTION';
+
 describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles', function() {
   setupApplicationTest();
   setupMirage();
@@ -45,7 +47,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
             it('should access presentation page', async function() {
               // given
-              const campaign = server.create('campaign', { type: 'PROFILES_COLLECTION', isRestricted: false });
+              const campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: false });
               await visit('/campagnes');
 
               // when
@@ -60,7 +62,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
           context('When campaign is restricted', function() {
 
             beforeEach(function() {
-              campaign = server.create('campaign', { type: 'PROFILES_COLLECTION', isRestricted: true });
+              campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true });
             });
 
             context('When the student has an account but is not reconcilied', function() {
@@ -156,7 +158,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
       context('When the user has already seen the landing page', function() {
         beforeEach(async function() {
-          const campaign = server.create('campaign', { type: 'PROFILES_COLLECTION' });
+          const campaign = server.create('campaign', { type: PROFILES_COLLECTION });
           await startCampaignByCode(campaign.code);
         });
 
@@ -169,7 +171,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
       context('When the user has not seen the landing page', function() {
         it('should redirect to landing page', async function() {
           // when
-          const campaign = server.create('campaign', { type: 'PROFILES_COLLECTION' });
+          const campaign = server.create('campaign', { type: PROFILES_COLLECTION });
           await visit(`/campagnes/${campaign.code}`);
 
           // then
@@ -179,7 +181,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
         context('When campaign has custom text for the landing page', function() {
           it('should show the custom text on the landing page', async function() {
             // given
-            const campaign = server.create('campaign', { type: 'PROFILES_COLLECTION', customLandingPageText: 'SomeText' });
+            const campaign = server.create('campaign', { type: PROFILES_COLLECTION, customLandingPageText: 'SomeText' });
 
             // when
             await visit(`/campagnes/${campaign.code}`);
@@ -193,7 +195,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
         context('When campaign does not have custom text for the landing page', function() {
           it('should show only the defaulted text on the landing page', async function() {
             // when
-            const campaign = server.create('campaign', { type: 'PROFILES_COLLECTION', customLandingPageText: null });
+            const campaign = server.create('campaign', { type: PROFILES_COLLECTION, customLandingPageText: null });
             await visit(`/campagnes/${campaign.code}`);
 
             // then
@@ -207,7 +209,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
         context('When participant external id is not set in the url', function() {
 
           beforeEach(async function() {
-            campaign = server.create('campaign', { type: 'PROFILES_COLLECTION', idPixLabel: 'email' });
+            campaign = server.create('campaign', { type: PROFILES_COLLECTION, idPixLabel: 'email' });
             await startCampaignByCode(campaign.code);
             await fillIn('#firstName', campaignParticipant.firstName);
             await fillIn('#lastName', campaignParticipant.lastName);
@@ -236,7 +238,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
           context('When campaign is not restricted', function() {
             beforeEach(async function() {
-              campaign = server.create('campaign', { type: 'PROFILES_COLLECTION', isRestricted: false, idPixLabel: 'toto' });
+              campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: false, idPixLabel: 'toto' });
               await startCampaignByCodeAndExternalId(campaign.code);
               await fillIn('#firstName', campaignParticipant.firstName);
               await fillIn('#lastName', campaignParticipant.lastName);
@@ -254,7 +256,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
           context('When campaign is restricted', function() {
             beforeEach(async function() {
-              campaign = server.create('campaign', { type: 'PROFILES_COLLECTION', isRestricted: true, idPixLabel: 'toto' });
+              campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true, idPixLabel: 'toto' });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
 
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identification`);
@@ -284,7 +286,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
       context('When campaign does not have external id', function() {
         beforeEach(async function() {
-          campaign = server.create('campaign', { type: 'PROFILES_COLLECTION', idPixLabel: null });
+          campaign = server.create('campaign', { type: PROFILES_COLLECTION, idPixLabel: null });
           await startCampaignByCode(campaign.code);
           await fillIn('#firstName', campaignParticipant.firstName);
           await fillIn('#lastName', campaignParticipant.lastName);
@@ -302,7 +304,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
       context('When campaign does not have external id but a participant external id is set in the url', function() {
         beforeEach(async function() {
-          campaign = server.create('campaign', { type: 'PROFILES_COLLECTION' });
+          campaign = server.create('campaign', { type: PROFILES_COLLECTION });
           await startCampaignByCodeAndExternalId(campaign.code);
           await fillIn('#firstName', campaignParticipant.firstName);
           await fillIn('#lastName', campaignParticipant.lastName);
@@ -328,17 +330,17 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
         it('should redirect to landing page', async function() {
           // when
-          campaign = server.create('campaign', { type: 'PROFILES_COLLECTION' });
+          campaign = server.create('campaign', { type: PROFILES_COLLECTION });
           await visit(`/campagnes/${campaign.code}`);
           expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
-          expect(find('.campaign-landing-page__start-button').textContent.trim()).to.equal('Je commence');
+          expect(find('.campaign-landing-page__start-button').textContent.trim()).to.equal('C’est parti !');
         });
       });
 
       context('When campaign is restricted', function() {
 
         beforeEach(function() {
-          campaign = server.create('campaign', { type: 'PROFILES_COLLECTION', isRestricted: true, idPixLabel: 'nom de naissance de maman' });
+          campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true, idPixLabel: 'nom de naissance de maman' });
         });
 
         context('When association is not already done', function() {
@@ -462,7 +464,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
         context('When participant external id is not set in the url', function() {
 
           beforeEach(async function() {
-            campaign = server.create('campaign', { type: 'PROFILES_COLLECTION', idPixLabel: 'nom de naissance de maman' });
+            campaign = server.create('campaign', { type: PROFILES_COLLECTION, idPixLabel: 'nom de naissance de maman' });
             await startCampaignByCode(campaign.code);
           });
 
@@ -482,7 +484,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
         context('When participant external id is set in the url', function() {
           beforeEach(async function() {
-            campaign = server.create('campaign', { type: 'PROFILES_COLLECTION', idPixLabel: 'nom de naissance de maman' });
+            campaign = server.create('campaign', { type: PROFILES_COLLECTION, idPixLabel: 'nom de naissance de maman' });
             await startCampaignByCodeAndExternalId(campaign.code);
           });
 
@@ -496,7 +498,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
       context('When campaign does not have external id', function() {
 
         beforeEach(async function() {
-          campaign = server.create('campaign', { type: 'PROFILES_COLLECTION', idPixLabel: null });
+          campaign = server.create('campaign', { type: PROFILES_COLLECTION, idPixLabel: null });
           await visit(`campagnes/${campaign.code}`);
         });
 
@@ -511,7 +513,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
       context('When campaign does not have external id but a participant external id is set in the url', function() {
         beforeEach(async function() {
-          campaign = server.create('campaign', { type: 'PROFILES_COLLECTION', idPixLabel: null });
+          campaign = server.create('campaign', { type: PROFILES_COLLECTION, idPixLabel: null });
           await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
         });
 
@@ -535,7 +537,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
       context('When campaign is restricted', function() {
         beforeEach(function() {
-          campaign = server.create('campaign', { type: 'PROFILES_COLLECTION', isRestricted: true });
+          campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true });
         });
 
         context('When association is not already done', function() {

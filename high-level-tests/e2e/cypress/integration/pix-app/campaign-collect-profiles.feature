@@ -11,7 +11,7 @@ Fonctionnalité: Campagne de collecte de profils
     Et je saisis "LION" dans le champ "Saisissez le code du parcours"
     Lorsque je clique sur "Commencer mon parcours"
     Alors je vois la page de "presentation" de la campagne
-    Lorsque je clique sur "Je commence"
+    Lorsque je clique sur "C’est parti !"
     Alors je vois la page d'"envoi-profil" de la campagne
     Lorsque je clique sur "J'envoie mon profil"
     Alors je vois que j'ai partagé mon profil
@@ -20,7 +20,7 @@ Fonctionnalité: Campagne de collecte de profils
     Étant donné que je vais sur Pix
     Lorsque je vais sur la campagne "LION" avec l'identifiant "1er bataillon"
     Alors je vois la page de "presentation" de la campagne
-    Lorsque je clique sur "Je commence"
+    Lorsque je clique sur "C’est parti !"
     Et je clique sur "connectez-vous à votre compte"
     Et je me connecte avec le compte "daenerys.targaryen@pix.fr"
     Alors je vois la page d'"envoi-profil" de la campagne
@@ -39,7 +39,7 @@ Fonctionnalité: Campagne de collecte de profils
     Et je saisis la date de naissance 23-10-1986
     Et je clique sur "C'est parti !"
     Alors je vois la page de "presentation" de la campagne
-    Lorsque je clique sur "Je commence"
+    Lorsque je clique sur "C’est parti !"
     Alors je vois la page d'"envoi-profil" de la campagne
     Lorsque je clique sur "J'envoie mon profil"
     Alors je vois que j'ai partagé mon profil
@@ -53,7 +53,7 @@ Fonctionnalité: Campagne de collecte de profils
     Lorsque je saisis la date de naissance 23-10-1986
     Et je clique sur "C'est parti !"
     Alors je vois la page de "presentation" de la campagne
-    Lorsque je clique sur "Je commence"
+    Lorsque je clique sur "C’est parti !"
     Alors je vois la page d'"envoi-profil" de la campagne
     Lorsque je clique sur "J'envoie mon profil"
     Alors je vois que j'ai partagé mon profil

@@ -16,10 +16,20 @@
         {{/if}}
       </div>
       <div class="campaign-landing-page__start__text">
-        <p class="campaign-landing-page__start__text__title">Commencez votre parcours</p>
+        <p class="campaign-landing-page__start__text__title">
+          {{#if model.isTypeAssessment}}
+            Commencez votre parcours
+          {{else}}
+            Envoyez votre profil
+          {{/if}}
+        </p>
         <p class="campaign-landing-page__start__text__announcement">
-          Démarrez votre parcours d'évaluation personnalisé.<br>
-          Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.
+          {{#if model.isTypeAssessment}}
+            Démarrez votre parcours d'évaluation personnalisé.<br>
+            Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.
+          {{else}}
+            Inscrivez-vous ou connectez-vous sur la plateforme Pix et envoyez votre profil à l'organisation destinataire.
+          {{/if}}
         </p>
 
         <form {{action "startCampaignParticipation" on="submit"}}>
@@ -29,15 +39,23 @@
               </button>
           {{else}}
             <button type="submit" class="campaign-landing-page__start-button button button--big">
-              Je commence
+              {{#if model.isTypeAssessment}}
+                Je commence
+              {{else}}
+                C’est parti !
+              {{/if}} 
             </button>
           {{/if}}
         </form>
 
         <p class="campaign-landing-page__start__text__legal">
-          Les informations relatives à votre avancée seront transmises à l'organisateur du parcours pour lui permettre
-          de
-          vous accompagner. Les résultats des tests ne seront transmis qu’avec votre consentement.
+          {{#if model.isTypeAssessment}}
+            Les informations relatives à votre avancée seront transmises à l'organisateur du parcours pour lui permettre de
+            vous accompagner. Les résultats des tests ne seront transmis qu’avec votre consentement.
+          {{else}}
+            Les informations relatives à votre profil PIX seront transmises à l'organisateur pour lui permettre de vous 
+            accompagner. Elle ne seront transmises qu'avec votre consentement.
+          {{/if}}
         </p>
       </div>
 
@@ -51,62 +69,64 @@
 
     </div>
 
-    <div class="rounded-panel campaign-landing-page__container__details">
-      <div class="campaign-landing-page__details__text">
-        <p class="campaign-landing-page__details__text title">Durant ce parcours, vous aurez l’opportunité de :</p>
-        <hr class="campaign-landing-page__details__line">
+    {{#if model.isTypeAssessment}}
+      <div class="rounded-panel campaign-landing-page__container__details">
+        <div class="campaign-landing-page__details__text">
+          <p class="campaign-landing-page__details__text title">Durant ce parcours, vous aurez l’opportunité de :</p>
+          <hr class="campaign-landing-page__details__line">
 
-        <div class="campaign-landing-page__details__measure__container">
-          <img class="campaign-landing-page__details__article-image measure"
-               src="{{rootURL}}/images/landing-page/icon-mesurer.svg" alt="">
-          <div class="campaign-landing-page__details__article-side">
-            <p class="campaign-landing-page__details__text article-title ">
-              Mesurer vos compétences numériques avec des tests ludiques sur différents thèmes comme :
-            </p>
-            <p class="campaign-landing-page__details__text article-list">
-              • rechercher de l’information sur internet,<br>
-              • rédiger des documents,<br>
-              • communiquer et collaborer en ligne,<br>
-              • sécuriser son environnement de travail,<br>
-              etc.<br>
-            </p>
+          <div class="campaign-landing-page__details__measure__container">
+            <img class="campaign-landing-page__details__article-image measure"
+                src="{{rootURL}}/images/landing-page/icon-mesurer.svg" alt="">
+            <div class="campaign-landing-page__details__article-side">
+              <p class="campaign-landing-page__details__text article-title ">
+                Mesurer vos compétences numériques avec des tests ludiques sur différents thèmes comme :
+              </p>
+              <p class="campaign-landing-page__details__text article-list">
+                • rechercher de l’information sur internet,<br>
+                • rédiger des documents,<br>
+                • communiquer et collaborer en ligne,<br>
+                • sécuriser son environnement de travail,<br>
+                etc.<br>
+              </p>
+            </div>
           </div>
-        </div>
-        <p class="campaign-landing-page__details__text article-text complement">
-          Le service public d’évaluation et de certification des compétences numériques Pix permet d’évaluer son
-          niveau dans 5 grands domaines de compétences, qui couvrent l’ensemble des usages actuels du numérique.
-          <a href="https://pix.fr/competences" target="_BLANK">En savoir plus.</a>
-        </p>
+          <p class="campaign-landing-page__details__text article-text complement">
+            Le service public d’évaluation et de certification des compétences numériques Pix permet d’évaluer son
+            niveau dans 5 grands domaines de compétences, qui couvrent l’ensemble des usages actuels du numérique.
+            <a href="https://pix.fr/competences" target="_BLANK">En savoir plus.</a>
+          </p>
 
-        <hr class="campaign-landing-page__dash-line">
+          <hr class="campaign-landing-page__dash-line">
 
-        <div class="campaign-landing-page__details__measure__container">
-          <img src="{{rootURL}}/images/landing-page/icon-conseil.svg" alt="">
-          <div class="campaign-landing-page__details__article-side">
-            <p class="campaign-landing-page__details__text article-title ">
-              Découvrir vos résultats au fil du test et consulter des indices pour progresser.
-            </p>
-            <p class="campaign-landing-page__details__text article-text">
-              Après 5 épreuves, vous pouvez visualiser vos réponses et suivre des tutos pour développer vos compétences.
-            </p>
+          <div class="campaign-landing-page__details__measure__container">
+            <img src="{{rootURL}}/images/landing-page/icon-conseil.svg" alt="">
+            <div class="campaign-landing-page__details__article-side">
+              <p class="campaign-landing-page__details__text article-title ">
+                Découvrir vos résultats au fil du test et consulter des indices pour progresser.
+              </p>
+              <p class="campaign-landing-page__details__text article-text">
+                Après 5 épreuves, vous pouvez visualiser vos réponses et suivre des tutos pour développer vos compétences.
+              </p>
+            </div>
+
           </div>
+          <hr class="campaign-landing-page__dash-line">
 
-        </div>
-        <hr class="campaign-landing-page__dash-line">
+          <div class="campaign-landing-page__details__measure__container">
+            <img src="{{rootURL}}/images/landing-page/icon-certif.svg" alt="">
+            <div class="campaign-landing-page__details__article-side">
+              <p class="campaign-landing-page__details__text article-title ">
+                Préparer une certification reconnue par l’État et le monde professionnel
+              </p>
+              <p class="campaign-landing-page__details__text article-text">
+                La certification Pix permet de valoriser ses compétences numériques auprès des employeurs.
+              </p>
+            </div>
 
-        <div class="campaign-landing-page__details__measure__container">
-          <img src="{{rootURL}}/images/landing-page/icon-certif.svg" alt="">
-          <div class="campaign-landing-page__details__article-side">
-            <p class="campaign-landing-page__details__text article-title ">
-              Préparer une certification reconnue par l’État et le monde professionnel
-            </p>
-            <p class="campaign-landing-page__details__text article-text">
-              La certification Pix permet de valoriser ses compétences numériques auprès des employeurs.
-            </p>
           </div>
-
         </div>
       </div>
-    </div>
+    {{/if}}
   </div>
 </div>
