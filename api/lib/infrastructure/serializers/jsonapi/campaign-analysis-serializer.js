@@ -7,7 +7,7 @@ module.exports = {
       campaignTubeRecommendations: {
         ref: 'id',
         includes: true,
-        attributes: ['tubeId', 'competenceId', 'competenceName', 'tubePracticalTitle', 'areaColor'],
+        attributes: ['tubeId', 'competenceId', 'competenceName', 'tubePracticalTitle', 'areaColor', 'averageScore'],
       },
     }).serialize(results);
   },
