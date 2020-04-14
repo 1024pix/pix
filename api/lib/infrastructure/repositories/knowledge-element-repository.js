@@ -89,5 +89,22 @@ module.exports = {
       });
   },
 
+  findByCampaignIdForSharedCampaignParticipation(campaignId) {
+    return BookshelfKnowledgeElement
+      .query((qb) => {
+        qb.select('knowledge-elements.*');
+        qb.leftJoin('campaign-participations', 'campaign-participations.userId', 'knowledge-elements.userId');
+        qb.leftJoin('campaigns', 'campaigns.id', 'campaign-participations.campaignId');
+        qb.innerJoin('target-profiles_skills', function() {
+          this.on('target-profiles_skills.targetProfileId', '=', 'campaigns.targetProfileId')
+            .andOn('target-profiles_skills.skillId', '=', 'knowledge-elements.skillId');
+        });
+      })
+      .where({ 'campaign-participations.isShared': true })
+      .where({ 'campaign-participations.campaignId': campaignId })
+      .where({ status: 'validated' })
+      .fetchAll()
+      .then(_toDomain);
+  }
 };
 
