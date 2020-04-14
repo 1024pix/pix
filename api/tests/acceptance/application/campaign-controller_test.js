@@ -367,6 +367,7 @@ describe('Acceptance | API | Campaign Controller', () => {
         organizationId: organization.id,
         targetProfileId: targetProfile.id
       });
+      databaseBuilder.factory.buildCampaignParticipation({ isShared: true, campaignId: campaign.id });
 
       await databaseBuilder.commit();
 
@@ -417,6 +418,7 @@ describe('Acceptance | API | Campaign Controller', () => {
             'competence-id': 'recCompetence1',
             'competence-name': 'Fabriquer un meuble',
             'tube-practical-title': 'Monter une étagère',
+            'average-score': 30
           },
         }]
       };
