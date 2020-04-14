@@ -6,5 +6,7 @@
     "CERTIF_URL": "http://localhost:4203"
   },
   "video": false,
-  "blacklistHosts": "*stats.pix.fr*"
+  "blacklistHosts": "*stats.pix.fr*",
+  "screenshotsFolder": "cypress/snapshots/actual",
+  "trashAssetsBeforeRuns": true
 }
