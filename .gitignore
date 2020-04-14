@@ -71,3 +71,6 @@ high-level-tests/load-testing/report/*.html
 
 # Answers extracts
 api/scripts/extractions
+
+# Visual regression snapshots
+high-level-tests/e2e/cypress/snapshots/actual/**

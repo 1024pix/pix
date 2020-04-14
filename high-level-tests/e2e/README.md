@@ -75,3 +75,19 @@ Pour connaître la liste des mots-clés utilisables, exécuter la commande :
 ```
 npx cucumber-js --i18n-keywords fr
 ```
+
+#### Tests de non régression visuelle
+
+Il est possible de comparer le rendu d'une page ou d'un élément html lors des tests end-to-end.  
+
+Pour mettre à jour les captures d'écran de base (qui servent de référence pour détecter les régressions), lancer :
+```
+npm run cy:run:base
+```
+
+Pour détecter une régression visuelle dans un test, utiliser le step : 
+```
+    Alors la page "## nom explicite de la capture d'écran ##" est correctement affichée
+```
+
+Pour toutes les options de comparaison / test se référer au plugin utilisé [cypress-visual-regression](https://github.com/mjhea0/cypress-visual-regression). 
