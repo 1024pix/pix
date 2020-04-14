@@ -20,20 +20,27 @@ module.exports = {
     return h.response(userSerializer.serialize(createdUser)).created();
   },
 
-  async updatePassword(request) {
+  async updatePassword(request, h) {
     const payload = request.payload.data.attributes;
     const userId = parseInt(request.auth.credentials.userId);
     const organizationId = parseInt(payload['organization-id']);
-    const schoolingRegistrationId = parseInt(payload['student-id']);
-    const password = payload.password;
+    const schoolingRegistrationId = parseInt(payload['schooling-registration-id']);
 
-    const updatedUser = await usecases.updateSchoolingRegistrationDependentUserPassword({
+    const generatedPassword = await usecases.updateSchoolingRegistrationDependentUserPassword({
       userId,
       organizationId,
       schoolingRegistrationId,
-      password,
     });
 
-    return userSerializer.serialize(updatedUser);
+    const schoolingRegistrationWithGeneratedPasswordResponse = {
+      data: {
+        attributes: {
+          'generated-password': generatedPassword
+        },
+        type: 'schooling-registration-dependent-user'
+      }
+    };
+
+    return h.response(schoolingRegistrationWithGeneratedPasswordResponse).code(200);
   },
 };

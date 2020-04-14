@@ -1,7 +1,7 @@
-const { expect, databaseBuilder } = require('../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | Student-dependent-user', () => {
+describe('Acceptance | Controller | Schooling-registration-dependent-user', () => {
 
   let server;
 
@@ -9,7 +9,7 @@ describe('Acceptance | Controller | Student-dependent-user', () => {
     server = await createServer();
   });
 
-  describe('POST /api/student-dependent-user', () => {
+  describe('POST /api/schooling-registration-dependent-users', () => {
     let organization;
     let campaign;
     let options;
@@ -25,8 +25,7 @@ describe('Acceptance | Controller | Student-dependent-user', () => {
 
       options = {
         method: 'POST',
-        url: '/api/student-dependent-users',
-        headers: {},
+        url: '/api/schooling-registration-dependent-users',
         payload: {
           data: {
             attributes: {
@@ -109,7 +108,7 @@ describe('Acceptance | Controller | Student-dependent-user', () => {
         options.payload.data.attributes['with-username'] = true;
       });
 
-      it('should return an 201 status after having successfully created user and associated user to schoolingRegistration', async () => {
+      it('should return a 201 status after having successfully created user and associated user to schoolingRegistration', async () => {
         // when
         const response = await server.inject(options);
 
@@ -137,4 +136,94 @@ describe('Acceptance | Controller | Student-dependent-user', () => {
       });
     });
   });
+
+  describe('POST /api/schooling-registration-dependent-users/password-update', () => {
+
+    let organizationId;
+    let options;
+
+    beforeEach(async () => {
+      organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({ organizationId, userId });
+
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'POST',
+        url: '/api/schooling-registration-dependent-users/password-update',
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        payload: {
+          data: {
+            attributes: {
+              'organization-id': organizationId,
+              'schooling-registration-id': null,
+            }
+          }
+        }
+      };
+    });
+
+    it('should return a 200 status after having successfully updated the password', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId, userId
+      }).id;
+      options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId;
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return a 404 status when schoolingRegistration does not exist', async () => {
+      // given
+      options.payload.data.attributes['schooling-registration-id'] = 0;
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+
+    it('should return a 404 status when schoolingRegistration\'s userId does not exist', async () => {
+      // given
+      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId, userId: null
+      }).id;
+      options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId;
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+
+    it('should return a 403 status when user does not belong to the same organization as schoolingRegistration', async () => {
+      // given
+      const wrongOrganization = databaseBuilder.factory.buildOrganization();
+      const schoolingRegistrationWithWrongOrganization = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: wrongOrganization.id
+      });
+      await databaseBuilder.commit();
+
+      options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationWithWrongOrganization.id;
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
 });
