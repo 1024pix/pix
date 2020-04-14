@@ -3,18 +3,20 @@ const CampaignTubeRecommendation = require('../../../../lib/domain/models/Campai
 module.exports = function buildCampaignTubeRecommendation(
   {
     campaignId,
-    competenceId,
-    competenceName,
-    tubeId,
-    tubePracticalTitle,
-    areaColor,
+    competence,
+    tube,
+    skills,
+    validatedKnowledgeElements,
+    maxSkillLevelInTargetProfile,
+    participantsCount
   } = {}) {
   return new CampaignTubeRecommendation({
     campaignId,
-    tubeId,
-    competenceId,
-    competenceName,
-    tubePracticalTitle,
-    areaColor,
+    tube,
+    competence,
+    skills,
+    validatedKnowledgeElements,
+    maxSkillLevelInTargetProfile,
+    participantsCount
   });
 };
