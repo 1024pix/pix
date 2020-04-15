@@ -4,70 +4,27 @@
   <div class="background-banner"></div>
   <div class="campaign-landing-page__container rounded-panel--over-background-banner">
 
-    <div class="rounded-panel campaign-landing-page__container__start">
-      <div class="campaign-landing-page__start__image__container">
-        <div class="campaign-landing-page__pix-logo">
-          <img class="campaign-landing-page__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
-        </div>
-        {{#if model.organizationLogoUrl}}
-          <div class="campaign-landing-page__logo">
-            <img class="campaign-landing-page__image" src="{{@model.organizationLogoUrl}}" alt="{{@model.organizationName}}">
-          </div>
-        {{/if}}
-      </div>
-      <div class="campaign-landing-page__start__text">
-        <p class="campaign-landing-page__start__text__title">
-          {{#if model.isTypeAssessment}}
-            Commencez votre parcours
-          {{else}}
-            Envoyez votre profil
-          {{/if}}
-        </p>
-        <p class="campaign-landing-page__start__text__announcement">
-          {{#if model.isTypeAssessment}}
-            Démarrez votre parcours d'évaluation personnalisé.<br>
-            Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.
-          {{else}}
-            Inscrivez-vous ou connectez-vous sur la plateforme Pix et envoyez votre profil à l'organisation destinataire.
-          {{/if}}
-        </p>
-
-        <form {{action "startCampaignParticipation" on="submit"}}>
-          {{#if isLoading}}
-              <button type="button" disabled class="campaign-landing-page__start-button button button--big">
-                <span class="loader-in-button ">&nbsp;</span>
-              </button>
-          {{else}}
-            <button type="submit" class="campaign-landing-page__start-button button button--big">
-              {{#if model.isTypeAssessment}}
-                Je commence
-              {{else}}
-                C’est parti !
-              {{/if}} 
-            </button>
-          {{/if}}
-        </form>
-
-        <p class="campaign-landing-page__start__text__legal">
-          {{#if model.isTypeAssessment}}
-            Les informations relatives à votre avancée seront transmises à l'organisateur du parcours pour lui permettre de
-            vous accompagner. Les résultats des tests ne seront transmis qu’avec votre consentement.
-          {{else}}
-            Les informations relatives à votre profil PIX seront transmises à l'organisateur pour lui permettre de vous 
-            accompagner. Elle ne seront transmises qu'avec votre consentement.
-          {{/if}}
-        </p>
-      </div>
-
-      {{#if model.customLandingPageText}}
-        <hr class="campaign-landing-page__dash-line">
-
-        <div class="campaign-landing-page__start__custom-text">
-          <MarkdownToHtml @markdown={{@model.customLandingPageText}} />
-        </div>
-      {{/if}}
-
-    </div>
+    {{#if model.isTypeAssessment}}
+      <CampaignStartBlock
+        @campaign={{@model}}
+        @isLoading={{isLoading}}
+        @startCampaignParticipation={{startCampaignParticipation}}
+        @titleText="Commencez votre parcours"
+        @announcementText="Démarrez votre parcours d'évaluation personnalisé.<br /> Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test."
+        @buttonText="Je commence"
+        @legalText="Les informations relatives à votre avancée seront transmises à l'organisateur du parcours pour lui permettre de vous accompagner. Les résultats des tests ne seront transmis qu’avec votre consentement."
+      />
+    {{else}}
+      <CampaignStartBlock
+        @campaign={{@model}}
+        @isLoading={{isLoading}}
+        @startCampaignParticipation={{startCampaignParticipation}}
+        @titleText="Envoyez votre profil"
+        @announcementText="Inscrivez-vous ou connectez-vous sur la plateforme Pix et envoyez votre profil à l'organisation destinataire."
+        @buttonText="C’est parti !"
+        @legalText="Les informations relatives à votre profil PIX seront transmises à l'organisateur pour lui permettre de vous accompagner. Elle ne seront transmises qu'avec votre consentement."
+      />
+    {{/if}}
 
     {{#if model.isTypeAssessment}}
       <div class="rounded-panel campaign-landing-page__container__details">
