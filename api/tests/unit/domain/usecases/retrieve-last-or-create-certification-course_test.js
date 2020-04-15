@@ -8,6 +8,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
   let clock;
   const now = new Date('2019-01-01T05:06:07Z');
+  const domainTransaction = Symbol('someDomainTransaction');
   const userId = 'userId';
   const sessionId = 'sessionId';
   const accessCode = 'accessCode';
@@ -26,6 +27,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
     getCertificationProfile: sinon.stub(),
   };
   const parameters = {
+    domainTransaction,
     assessmentRepository,
     certificationCandidateRepository,
     certificationChallengeRepository,
@@ -77,7 +79,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
       let existingCertificationCourse;
       beforeEach(() => {
         existingCertificationCourse = Symbol('existingCertificationCourse');
-        certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId.withArgs({ userId, sessionId }).resolves(existingCertificationCourse);
+        certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId.withArgs({ userId, sessionId, domainTransaction }).resolves(existingCertificationCourse);
       });
 
       it('should return it with flag created marked as false', async function() {
@@ -103,7 +105,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
       beforeEach(() => {
         certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-          .withArgs({ userId, sessionId }).onCall(0).resolves(null);
+          .withArgs({ userId, sessionId, domainTransaction }).onCall(0).resolves(null);
       });
 
       context('when the user is not certifiable', () => {
@@ -155,7 +157,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           beforeEach(() => {
             existingCertificationCourse = Symbol('existingCertificationCourse');
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-              .withArgs({ userId, sessionId }).onCall(1).resolves(existingCertificationCourse);
+              .withArgs({ userId, sessionId, domainTransaction }).onCall(1).resolves(existingCertificationCourse);
             userService.fillCertificationProfileWithChallenges.withArgs(certificationProfile).resolves();
           });
 
@@ -233,15 +235,15 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
           beforeEach(() => {
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-              .withArgs({ userId, sessionId }).onCall(1).resolves(null);
+              .withArgs({ userId, sessionId, domainTransaction }).onCall(1).resolves(null);
             userService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves(certificationProfile);
             certificationCandidateRepository.getBySessionIdAndUserId.withArgs({ sessionId, userId }).resolves(foundCertificationCandidate);
             certificationCourseRepository.save.resolves(savedCertificationCourse);
             assessmentRepository.save.resolves(savedAssessment);
             certificationChallengesService.generateCertificationChallenges
               .withArgs(certificationProfile.userCompetences, savedCertificationCourse.id).returns(generatedCertificationChallenges);
-            certificationChallengeRepository.save.withArgs({ certificationChallenge: challenge1 }).resolves(savedCertificationChallenge1);
-            certificationChallengeRepository.save.withArgs({ certificationChallenge: challenge2 }).resolves(savedCertificationChallenge2);
+            certificationChallengeRepository.save.withArgs({ certificationChallenge: challenge1, domainTransaction }).resolves(savedCertificationChallenge1);
+            certificationChallengeRepository.save.withArgs({ certificationChallenge: challenge2, domainTransaction }).resolves(savedCertificationChallenge2);
           });
 
           it('should return it with flag created marked as true with related ressources', async function() {
@@ -274,7 +276,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             });
 
             // then
-            expect(certificationCourseRepository.save).to.have.been.calledWith({ certificationCourse: sinon.match(mockCertificationCourse) });
+            expect(certificationCourseRepository.save).to.have.been.calledWith({ certificationCourse: sinon.match(mockCertificationCourse), domainTransaction });
           });
 
           it('should have save the assessment based on an appropriate argument', async function() {
@@ -287,7 +289,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             });
 
             // then
-            expect(assessmentRepository.save).to.have.been.calledWith({ assessment: sinon.match(mockAssessment) });
+            expect(assessmentRepository.save).to.have.been.calledWith({ assessment: sinon.match(mockAssessment), domainTransaction });
           });
         });
       });
