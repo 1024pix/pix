@@ -1,0 +1,20 @@
+.campaign-details-analysis {
+  color: $grey-90;
+  font-weight: normal;
+  letter-spacing: 0;
+
+  &__header {
+    font-weight: normal;
+    font-family: $open-sans;
+    font-size: 1.25rem;
+    margin: 4px 0 0 0;
+    line-height: 1.688rem;
+  }
+
+  &__text {
+    font-family: $roboto;
+    margin: 2px 0 29px 0;
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+  }
+}
