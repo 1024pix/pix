@@ -1,0 +1,44 @@
+<div class="rounded-panel campaign-landing-page__container__start">
+  <div class="campaign-landing-page__start__image__container">
+    <div class="campaign-landing-page__pix-logo">
+      <img class="campaign-landing-page__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
+    </div>
+    {{#if @campaign.organizationLogoUrl}}
+      <div class="campaign-landing-page__logo">
+        <img class="campaign-landing-page__image" src="{{@campaign.organizationLogoUrl}}" alt="{{@campaign.organizationName}}">
+      </div>
+    {{/if}}
+  </div>
+  <div class="campaign-landing-page__start__text">
+    <p class="campaign-landing-page__start__text__title">
+      {{@titleText}}
+    </p>
+    <p class="campaign-landing-page__start__text__announcement">
+      {{{@announcementText}}}
+    </p>
+
+    <form {{action @startCampaignParticipation on="submit"}}>
+      {{#if @isLoading}}
+          <button type="button" disabled class="campaign-landing-page__start-button button button--big">
+            <span class="loader-in-button ">&nbsp;</span>
+          </button>
+      {{else}}
+        <button type="submit" class="campaign-landing-page__start-button button button--big">
+          {{@buttonText}} 
+        </button>
+      {{/if}}
+    </form>
+
+    <p class="campaign-landing-page__start__text__legal">
+      {{@legalText}}
+    </p>
+  </div>
+
+  {{#if @campaign.customLandingPageText}}
+    <hr class="campaign-landing-page__dash-line">
+
+    <div class="campaign-landing-page__start__custom-text">
+      <MarkdownToHtml @markdown={{@campaign.customLandingPageText}} />
+    </div>
+  {{/if}}
+</div>
