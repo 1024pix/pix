@@ -18,7 +18,10 @@ export default class ChallengeEmbedSimulator extends Component {
     return '';
   }
 
-  configureIframe(iframe, [embedUrl, thisComponent]) {
+  configureIframe(iframe, params) {
+    const embedUrl = params[0];
+    const thisComponent = params[1];
+
     thisComponent.isLoadingEmbed = true;
     thisComponent.isSimulatorLaunched = false;
     iframe.onload = () => {
