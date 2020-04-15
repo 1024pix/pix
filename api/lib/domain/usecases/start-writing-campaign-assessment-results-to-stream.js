@@ -23,34 +23,34 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
 
 function _createHeaderOfCSV(skills, competences, areas, idPixLabel) {
   return [
-    { title: 'Nom de l\'organisation', property: 'organizationName' },
-    { title: 'ID Campagne', property: 'campaignId' },
-    { title: 'Nom de la campagne', property: 'campaignName' },
-    { title: 'Nom du Profil Cible', property: 'targetProfileName' },
-    { title: 'Nom du Participant', property: 'participantLastName' },
-    { title: 'Prénom du Participant', property: 'participantFirstName' },
+    'Nom de l\'organisation',
+    'ID Campagne',
+    'Nom de la campagne',
+    'Nom du Profil Cible',
+    'Nom du Participant',
+    'Prénom du Participant',
 
-    ...(idPixLabel ? [{ title: idPixLabel, property: 'participantExternalId' }] : []),
+    ...(idPixLabel ? [idPixLabel] : []),
 
-    { title: '% de progression', property: 'progress' },
-    { title: 'Date de début', property: 'createdAt' },
-    { title: 'Partage (O/N)', property: 'isShared' },
-    { title: 'Date du partage', property: 'sharedAt' },
-    { title: '% maitrise de l\'ensemble des acquis du profil', property: 'percentageSkillValidated' },
+    '% de progression',
+    'Date de début',
+    'Partage (O/N)',
+    'Date du partage',
+    '% maitrise de l\'ensemble des acquis du profil',
 
     ...(_.flatMap(competences, (competence) => [
-      { title: `% de maitrise des acquis de la compétence ${competence.name}`, property: `competence_${competence.id}_percentageValidated` },
-      { title: `Nombre d'acquis du profil cible dans la compétence ${competence.name}`, property: `competence_${competence.id}_skillCount` },
-      { title: `Acquis maitrisés dans la compétence ${competence.name}`, property: `competence_${competence.id}_validatedSkillCount` },
+      `% de maitrise des acquis de la compétence ${competence.name}`,
+      `Nombre d'acquis du profil cible dans la compétence ${competence.name}`,
+      `Acquis maitrisés dans la compétence ${competence.name}`,
     ])),
 
     ...(_.flatMap(areas, (area) => [
-      { title: `% de maitrise des acquis du domaine ${area.title}`, property: `area_${area.id}_percentageValidated` },
-      { title: `Nombre d'acquis du profil cible du domaine ${area.title}`, property: `area_${area.id}_skillCount` },
-      { title: `Acquis maitrisés du domaine ${area.title}`, property: `area_${area.id}_validatedSkillCount` },
+      `% de maitrise des acquis du domaine ${area.title}`,
+      `Nombre d'acquis du profil cible du domaine ${area.title}`,
+      `Acquis maitrisés du domaine ${area.title}`,
     ])),
 
-    ...(_.map(skills, (skill) => ({ title: `${skill.name}`, property: `skill_${skill.id}` }))),
+    ...(_.map(skills, 'name')),
   ];
 }
 
@@ -106,18 +106,18 @@ function _getCommonColumns({
   knowledgeElements,
 }) {
 
-  return {
-    organizationName: organization.name,
-    campaignId: campaign.id,
-    campaignName: campaign.name,
-    targetProfileName: targetProfile.name,
+  return [
+    organization.name,
+    campaign.id,
+    campaign.name,
+    targetProfile.name,
     participantLastName,
     participantFirstName,
-    progress: campaignParticipationService.progress(campaignParticipationResultData.isCompleted, knowledgeElements.length, targetProfile.skills.length),
-    createdAt: moment.utc(campaignParticipationResultData.createdAt).format('YYYY-MM-DD'),
-    isShared: campaignParticipationResultData.isShared ? 'Oui' : 'Non',
-    ...(campaign.idPixLabel ? { participantExternalId: campaignParticipationResultData.participantExternalId } : {}),
-  };
+    campaign.idPixLabel ? campaignParticipationResultData.participantExternalId : 'NA',
+    campaignParticipationService.progress(campaignParticipationResultData.isCompleted, knowledgeElements.length, targetProfile.skills.length),
+    moment.utc(campaignParticipationResultData.createdAt).format('YYYY-MM-DD'),
+    campaignParticipationResultData.isShared ? 'Oui' : 'Non',
+  ];
 }
 
 function _getSharedColumns({
@@ -152,22 +152,22 @@ function _getSharedColumns({
     };
   });
 
-  const lineMap = {
-    sharedAt: moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD'),
-    percentageSkillValidated: _percentageSkillsValidated(knowledgeElements, targetProfile),
+  const lineMap = [
+    moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD'),
+    _percentageSkillsValidated(knowledgeElements, targetProfile),
+  ];
+
+  const addStatsColumns = () => ({ skillCount, validatedSkillCount }) => {
+    lineMap.push(_.round(validatedSkillCount / skillCount, 2));
+    lineMap.push(skillCount);
+    lineMap.push(validatedSkillCount);
   };
 
-  const addStatsColumns = (prefix) => ({ id, skillCount, validatedSkillCount }) => {
-    lineMap[`${prefix}_${id}_percentageValidated`] = _.round(validatedSkillCount / skillCount, 2);
-    lineMap[`${prefix}_${id}_skillCount`] = skillCount;
-    lineMap[`${prefix}_${id}_validatedSkillCount`] = validatedSkillCount;
-  };
-
-  _.forEach(competenceStats, addStatsColumns('competence'));
-  _.forEach(areaStats, addStatsColumns('area'));
+  _.forEach(competenceStats, addStatsColumns());
+  _.forEach(areaStats, addStatsColumns());
 
   _.forEach(targetProfile.skills, ({ id }) => {
-    lineMap[`skill_${id}`] = _stateOfSkill(id, knowledgeElements);
+    lineMap.push(_stateOfSkill(id, knowledgeElements));
   });
 
   return lineMap;
@@ -189,7 +189,7 @@ function _createOneLineOfCSV({
   const knowledgeElements = participantKnowledgeElements
     .filter((ke) => _.find(targetProfile.skills, { id: ke.skillId }));
 
-  const lineMap = _getCommonColumns({
+  let lineMap = _getCommonColumns({
     organization,
     campaign,
     targetProfile,
@@ -200,20 +200,19 @@ function _createOneLineOfCSV({
   });
 
   if (campaignParticipationResultData.isShared) {
-    _.assign(lineMap, _getSharedColumns({
+    lineMap = _.concat(lineMap, _getSharedColumns({
       competences,
       targetProfile,
       areas,
       campaignParticipationResultData,
       knowledgeElements,
     }));
+  } else {
+    const columnsWithNA = headers.length - lineMap.length;
+    lineMap = _.concat(lineMap, Array(columnsWithNA).fill('NA'));
   }
 
-  const lineArray = headers.map(({ property }) => {
-    return property in lineMap ? lineMap[property] : 'NA';
-  });
-
-  return csvSerializer.serializeLine(lineArray);
+  return csvSerializer.serializeLine(lineMap);
 }
 
 function _extractCompetences(allCompetences, skills) {
@@ -269,7 +268,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
   // - https://stackoverflow.com/a/38192870
-  const headerLine = '\uFEFF' + csvSerializer.serializeLine(_.map(headers, 'title'));
+  const headerLine = '\uFEFF' + csvSerializer.serializeLine(headers);
 
   writableStream.write(headerLine);
 
