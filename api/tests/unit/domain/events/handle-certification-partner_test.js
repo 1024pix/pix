@@ -1,20 +1,20 @@
 const _ = require('lodash');
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const events = require('../../../../lib/domain/events');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Badge = require('../../../../lib/domain/models/Badge');
-const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
+const CertificationPartnerAcquisition = require('../../../../lib/domain/models/CertificationPartnerAcquisition');
+const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 
 describe('Unit | Domain | Events | handle-certification-partner', () => {
   const scoringCertificationService = { calculateAssessmentScore: _.noop };
   const assessmentRepository = { get: _.noop };
   const assessmentResultRepository = { save: _.noop };
-  const badgeAcquisitionRepository = { hasAcquiredBadgeWithKey:  _.noop };
+  const badgeAcquisitionRepository = { hasAcquiredBadgeWithKey: _.noop };
   const certificationPartnerAcquisitionRepository = { save: _.noop };
   const domainTransaction = {};
 
-  let assessmentCompletedEvent;
   let certificationScoringEvent;
 
   const dependencies = {
@@ -30,18 +30,12 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
     beforeEach(() => {
       certificationAssessment = _buildCertificationAssessment();
       sinon.stub(assessmentRepository, 'get').withArgs(certificationAssessment.id).resolves(certificationAssessment);
-      assessmentCompletedEvent = new AssessmentCompleted(
-        certificationAssessment.id,
-        Symbol('userId'),
-        null, //Symbol('targetProfileId'),
-        null, //Symbol('campaignParticipationId'),
-        true,
-      );
 
-      certificationScoringEvent = {
-        percentageCorrectAnswers: null,
-        certificationCourseId: certificationAssessment.certificationCourseId
-      };
+      certificationScoringEvent = new CertificationScoringCompleted({
+        certificationCourseId: Symbol('certificationCourseId'),
+        userId: Symbol('userId'),
+        isCertification: true,
+      });
 
     });
 
@@ -55,62 +49,74 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
         sinon.stub(assessmentResultRepository, 'save').resolves(savedAssessmentResult);
       });
 
-      context('when score is above 0', () => {
-        const assessmentScore = {
-          nbPix: null,
-          level: null,
-          competenceMarks: null,
-        };
+      const assessmentScore = {
+        nbPix: null,
+        level: null,
+        competenceMarks: null,
+      };
 
-        beforeEach(() => {
-          sinon.stub(scoringCertificationService, 'calculateAssessmentScore').resolves(assessmentScore);
-          sinon.stub(badgeAcquisitionRepository, 'hasAcquiredBadgeWithKey').resolves(true);
-        });
-
-        context('when user has clea badge', () => {
-          [80, 90, 100].forEach((reproducabilityRate) =>
-            it(`for ${reproducabilityRate} it should obtain CleA certification`, async () => {
-              // given
-              sinon.stub(certificationPartnerAcquisitionRepository, 'save').resolves();
-              certificationScoringEvent.percentageCorrectAnswers = reproducabilityRate;
-
-              // when
-              await events.handleCertificationAcquisitionForPartner({
-                assessmentCompletedEvent, certificationScoringEvent,  ...dependencies, domainTransaction
-              });
-
-              // then
-              expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
-              expect(certificationPartnerAcquisitionRepository.save).to.have.been.calledWithMatch(
-                {
-                  partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
-                  certificationCourseId: certificationAssessment.certificationCourseId,
-                },
-                domainTransaction);
-            })
-          );
-
-          [1, 50].forEach((reproducabilityRate) =>
-            it(`for ${reproducabilityRate} it should not obtain CleA certification`, async () => {
-              // given
-              sinon.stub(certificationPartnerAcquisitionRepository, 'save').resolves();
-              certificationScoringEvent.percentageCorrectAnswers = reproducabilityRate;
-
-              // when
-              await events.handleCertificationAcquisitionForPartner({
-                assessmentCompletedEvent, certificationScoringEvent, ...dependencies, domainTransaction
-              });
-
-              // then
-              expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
-              expect(certificationPartnerAcquisitionRepository.save).not.to.have.been.called;
-            })
-          );
-        });
+      beforeEach(() => {
+        sinon.stub(scoringCertificationService, 'calculateAssessmentScore').resolves(assessmentScore);
+        sinon.stub(certificationPartnerAcquisitionRepository, 'save').resolves();
 
       });
 
-      context('when score is equal 0', () => {
+      context('when user has clea badge', () => {
+        beforeEach(() => {
+          sinon.stub(badgeAcquisitionRepository, 'hasAcquiredBadgeWithKey').resolves(true);
+        });
+
+        it('user has acquired CleA certification, it should save it', async () => {
+          // given
+          sinon.stub(CertificationPartnerAcquisition.prototype, 'hasAcquiredCertification').returns(true);
+
+          // when
+          await events.handleCertificationAcquisitionForPartner({
+            certificationScoringEvent, ...dependencies, domainTransaction
+          });
+
+          // then
+          expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
+          expect(certificationPartnerAcquisitionRepository.save).to.have.been.calledWithMatch(
+            {
+              partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
+              certificationCourseId: certificationScoringEvent.certificationCourseId,
+            },
+            domainTransaction);
+        });
+
+        it('user has not acquired CleA certification, it should not save it any partner certif', async () => {
+          // given
+          sinon.stub(CertificationPartnerAcquisition.prototype, 'hasAcquiredCertification').returns(false);
+
+          // when
+          await events.handleCertificationAcquisitionForPartner({
+            certificationScoringEvent, ...dependencies, domainTransaction
+          });
+
+          // then
+          expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
+          expect(certificationPartnerAcquisitionRepository.save).not.to.have.been.called;
+        });
+      });
+
+      context('when user does not have clea badge', () => {
+        beforeEach(() => {
+          sinon.stub(badgeAcquisitionRepository, 'hasAcquiredBadgeWithKey').resolves(false);
+        });
+
+        it('it should not save partner certification', async () => {
+          // given
+
+          // when
+          await events.handleCertificationAcquisitionForPartner({
+            certificationScoringEvent, ...dependencies, domainTransaction
+          });
+
+          // then
+          expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
+          expect(certificationPartnerAcquisitionRepository.save).not.to.have.been.called;
+        });
 
       });
     });
