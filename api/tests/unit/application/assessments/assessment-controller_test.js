@@ -8,7 +8,6 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 describe('Unit | Controller | assessment-controller', function() {
 
   describe('#findByFilters', () => {
-
     const assessments = [{ id: 1 }, { id: 2 }];
     const assessmentsInJSONAPI = [{
       id: 1,
@@ -116,7 +115,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       sinon.stub(events, 'handleBadgeAcquisition');
       sinon.stub(events, 'handleCertificationScoring');
-      sinon.stub(events, 'handleCertificationPartner');
+      sinon.stub(events, 'handleCertificationAcquisitionForPartner');
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
         transactionToBeExecuted = lambda;
       });
@@ -169,7 +168,7 @@ describe('Unit | Controller | assessment-controller', function() {
       await transactionToBeExecuted(domainTransaction);
 
       // then
-      expect(events.handleCertificationPartner).to.have.been.calledWithExactly({ domainTransaction, assessmentCompletedEvent, certificationScoringEvent });
+      expect(events.handleCertificationAcquisitionForPartner).to.have.been.calledWithExactly({ domainTransaction, certificationScoringEvent });
     });
 
     it('should call usecase and handler within the transaction', async () => {
@@ -181,7 +180,7 @@ describe('Unit | Controller | assessment-controller', function() {
       expect(usecases.completeAssessment).to.not.have.been.called;
       expect(events.handleBadgeAcquisition).to.not.have.been.called;
       expect(events.handleCertificationScoring).to.not.have.been.called;
-      expect(events.handleCertificationPartner).to.not.have.been.called;
+      expect(events.handleCertificationAcquisitionForPartner).to.not.have.been.called;
     });
   });
 });
