@@ -8,7 +8,7 @@
   <div class="embed rounded-panel {{if this.isLoadingEmbed 'hidden-visibility' ''}}">
     {{#unless this.isSimulatorLaunched}}
       <div class="embed__acknowledgment-overlay">
-        <button class="embed__launch-simulator-button" {{on 'click' this.launchSimulator}}>Je lance l’application</button>
+        <button class="embed__launch-simulator-button" type="button" {{on 'click' this.launchSimulator}}>Je lance l’application</button>
       </div>
     {{/unless}}
 
@@ -23,7 +23,7 @@
   </div>
 
   <div class="embed__reboot">
-    <div class="link link--grey embed-reboot__content" {{on 'click' this.rebootSimulator}}>
+    <div class="link link--grey embed-reboot__content" role="button" {{on 'click' this.rebootSimulator}}>
       <FaIcon @icon="redo-alt"></FaIcon>
       <div class="embed-reboot-content__text"> Réinitialiser </div>
     </div>
