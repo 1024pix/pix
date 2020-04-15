@@ -19,11 +19,11 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     throw new NotFoundError('Session not found');
   }
 
-  const certificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId(userId, sessionId);
-  if (certificationCourse) {
+  const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId(userId, sessionId);
+  if (existingCertificationCourse) {
     return {
       created: false,
-      certificationCourse,
+      certificationCourse: existingCertificationCourse,
     };
   }
 
@@ -57,30 +57,15 @@ async function _startNewCertification({
 
   await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
 
-  const certificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId(userId, sessionId);
-  if (certificationCourse) {
+  const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId(userId, sessionId);
+  if (existingCertificationCourse) {
     return {
       created: false,
-      certificationCourse,
+      certificationCourse: existingCertificationCourse,
     };
   }
 
-  const personalInfo = { firstName: null, lastName: null, birthdate: null, birthplace: null, externalId: null };
-  const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ sessionId, userId });
-
-  personalInfo.firstName = certificationCandidate.firstName;
-  personalInfo.lastName = certificationCandidate.lastName;
-  personalInfo.birthdate = certificationCandidate.birthdate;
-  personalInfo.birthplace = certificationCandidate.birthCity;
-  personalInfo.externalId = certificationCandidate.externalId;
-
-  const newCertificationCourse = new CertificationCourse({
-    userId,
-    sessionId,
-    ...personalInfo,
-    isV2Certification: true,
-  });
-
+  const newCertificationCourse = await _generateCertificationCourseFromCandidateParticipation({ userId, sessionId, certificationCandidateRepository });
   const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
   const newAssessment = _generateAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id });
   const savedAssessment = await assessmentRepository.save(newAssessment);
@@ -94,7 +79,24 @@ async function _startNewCertification({
     created: true,
     certificationCourse: savedCertificationCourse,
   };
+}
 
+async function _generateCertificationCourseFromCandidateParticipation({ userId, sessionId, certificationCandidateRepository }) {
+  const personalInfo = { firstName: null, lastName: null, birthdate: null, birthplace: null, externalId: null };
+  const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ sessionId, userId });
+
+  personalInfo.firstName = certificationCandidate.firstName;
+  personalInfo.lastName = certificationCandidate.lastName;
+  personalInfo.birthdate = certificationCandidate.birthdate;
+  personalInfo.birthplace = certificationCandidate.birthCity;
+  personalInfo.externalId = certificationCandidate.externalId;
+
+  return new CertificationCourse({
+    userId,
+    sessionId,
+    ...personalInfo,
+    isV2Certification: true,
+  });
 }
 
 function _generateAssessmentForCertificationCourse({ userId, certificationCourseId }) {
