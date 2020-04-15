@@ -51,7 +51,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
 
       it('should return a 200 status code with paginated and filtered data', async () => {
         // given
-        options.url = '/api/sessions?filter[id]=2&page[number]=1&page[size]=2';
+        options.url = '/api/sessions?filter[id]=121&page[number]=1&page[size]=2';
         const expectedMetaData = { page: 1, pageSize: 2, rowCount: 1, pageCount: 1 };
 
         // when

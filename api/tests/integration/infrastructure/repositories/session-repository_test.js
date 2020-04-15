@@ -538,9 +538,9 @@ describe('Integration | Repository | Session', function() {
           return databaseBuilder.commit();
         });
 
-        it('should apply the filter and return the appropriate results', async () => {
+        it('should apply the strict filter and return the appropriate results', async () => {
           // given
-          const filters = { id: 2 };
+          const filters = { id: expectedSession.id };
           const page = { number: 1, size: 10 };
           const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
 
