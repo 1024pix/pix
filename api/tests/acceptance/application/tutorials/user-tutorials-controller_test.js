@@ -62,7 +62,7 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
         // then
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.type).to.deep.equal(expectedUserTutorial.data.type);
-        expect(response.result.data.id).to.deep.equal(expectedUserTutorial.data.id);
+        expect(response.result.data.id).to.exist;
         expect(response.result.data.attributes['user-id']).to.deep.equal(expectedUserTutorial.data.attributes['user-id']);
         expect(response.result.data.attributes['tutorial-id']).to.deep.equal(expectedUserTutorial.data.attributes['tutorial-id']);
       });
