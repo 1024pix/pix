@@ -14,12 +14,12 @@ describe('Integration | Application | Users | Routes', () => {
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('GET /api/users/{id}', () => {
+  describe('GET /api/admin/users/{id}', () => {
 
     it('should exist', async () => {
       // given
       const method = 'GET';
-      const url = '/api/users/123';
+      const url = '/api/admin/users/123';
 
       // when
       const response = await httpTestServer.request(method, url);
