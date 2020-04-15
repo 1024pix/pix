@@ -177,6 +177,43 @@ describe('Integration | Repository | Certification Course', function() {
 
   });
 
+  describe('#findOneCertificationCourseByUserIdAndSessionId', function() {
+
+    const createdAt = new Date('2018-12-11T01:02:03Z');
+    const createdAtLater = new Date('2018-12-12T01:02:03Z');
+    let userId;
+    let sessionId;
+
+    beforeEach(() => {
+      // given
+      userId = databaseBuilder.factory.buildUser({}).id;
+      sessionId = databaseBuilder.factory.buildSession({}).id;
+      databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt });
+      databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt: createdAtLater });
+
+      databaseBuilder.factory.buildCertificationCourse({ sessionId });
+      databaseBuilder.factory.buildCertificationCourse({ userId });
+
+      return databaseBuilder.commit();
+    });
+
+    it('should retrieve the most recently created certification course with given userId, sessionId', async () => {
+      // when
+      const certificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId(userId, sessionId);
+
+      // then
+      expect(certificationCourse.createdAt).to.deep.equal(createdAtLater);
+    });
+
+    it('should return null when no certification course found', async () => {
+      // when
+      const result = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId(userId + 1, sessionId + 1);
+
+      // then
+      expect(result).to.be.null;
+    });
+  });
+
   describe('#getLastCertificationCourseByUserIdAndSessionId', function() {
 
     const createdAt = new Date('2018-12-11T01:02:03Z');

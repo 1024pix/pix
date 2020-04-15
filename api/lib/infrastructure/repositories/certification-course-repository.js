@@ -35,6 +35,14 @@ module.exports = {
     }
   },
 
+  async findOneCertificationCourseByUserIdAndSessionId(userId, sessionId) {
+    const certificationCourse = await CertificationCourseBookshelf
+      .where({ userId, sessionId })
+      .orderBy('createdAt', 'desc')
+      .fetch({ withRelated: ['assessment', 'challenges'] });
+    return _toDomain(certificationCourse);
+  },
+
   async getLastCertificationCourseByUserIdAndSessionId(userId, sessionId) {
     try {
       const certificationCourse = await CertificationCourseBookshelf
