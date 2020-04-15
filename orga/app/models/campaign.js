@@ -77,7 +77,10 @@ export default class Campaign extends Model {
 
   @computed('id', 'tokenForCampaignResults')
   get urlToResult() {
-    return `${ENV.APP.API_HOST}/api/campaigns/${this.id}/csvResults?accessToken=${this.tokenForCampaignResults}`;
+    if (this.isTypeAssessment) {
+      return `${ENV.APP.API_HOST}/api/campaigns/${this.id}/csv-assessment-results?accessToken=${this.tokenForCampaignResults}`;
+    }
+    return `${ENV.APP.API_HOST}/api/campaigns/${this.id}/csv-profiles-collection-results?accessToken=${this.tokenForCampaignResults}`;
   }
 
   @computed('archivedAt')

@@ -3,12 +3,12 @@ const moment = require('moment');
 
 const { expect, sinon, domainBuilder, streamToPromise } = require('../../../test-helper');
 
-const startWritingCampaignResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-results-to-stream');
+const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream');
 const Area = require('../../../../lib/domain/models/Area');
 
-describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream', () => {
+describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', () => {
 
-  describe('#startWritingCampaignResultsToStream', () => {
+  describe('#startWritingCampaignAssessmentResultsToStream', () => {
 
     const user = domainBuilder.buildUser({ firstName: '@Jean', lastName: '=Bono' });
     const organization = user.memberships[0].organization;
@@ -101,10 +101,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
     const targetProfileRepository = { get: () => undefined };
     const competenceRepository = { list: () => undefined };
     const organizationRepository = { get: () => undefined };
-    const campaignParticipationRepository = { findResultDataByCampaignId: () => undefined };
+    const campaignParticipationRepository = { findAssessmentResultDataByCampaignId: () => undefined };
     const knowledgeElementRepository = { findUniqByUserId: () => undefined };
 
-    let findResultDataByCampaignIdStub;
+    let findAssessmentResultDataByCampaignIdStub;
     let targetProfileRepositoryStub;
     let knowledgeElementRepositoryStub;
 
@@ -119,7 +119,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
       sinon.stub(userRepository, 'getWithMemberships').resolves(user);
       sinon.stub(organizationRepository, 'get').resolves(organization);
       knowledgeElementRepositoryStub = sinon.stub(knowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
-      findResultDataByCampaignIdStub = sinon.stub(campaignParticipationRepository, 'findResultDataByCampaignId');
+      findAssessmentResultDataByCampaignIdStub = sinon.stub(campaignParticipationRepository, 'findAssessmentResultDataByCampaignId');
 
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
@@ -150,10 +150,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
         '"\'@web3";' +
         '"\'@web4";' +
         '"\'@web5"\n';
-      findResultDataByCampaignIdStub.resolves([]);
+      findAssessmentResultDataByCampaignIdStub.resolves([]);
 
       // when
-      startWritingCampaignResultsToStream({
+      startWritingCampaignAssessmentResultsToStream({
         userId: user.id,
         campaignId: campaign.id,
         writableStream,
@@ -187,7 +187,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           participantFirstName: user.firstName,
           participantLastName: user.lastName,
         };
-        findResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
+        findAssessmentResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
 
         const csvSecondLine = `"${organization.name}";` +
           `${campaign.id};` +
@@ -214,7 +214,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           '"KO"';
 
         // when
-        startWritingCampaignResultsToStream({
+        startWritingCampaignAssessmentResultsToStream({
           userId: user.id,
           campaignId: campaign.id,
           writableStream,
@@ -252,7 +252,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           participantLastName: user.lastName,
         };
 
-        findResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
+        findAssessmentResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
 
         const csvSecondLine =
           `"${organization.name}";` +
@@ -280,7 +280,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           '"NA"';
 
         // when
-        startWritingCampaignResultsToStream({
+        startWritingCampaignAssessmentResultsToStream({
           userId: user.id,
           campaignId: campaign.id,
           writableStream,
@@ -317,7 +317,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           participantLastName: user.lastName,
         };
 
-        findResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
+        findAssessmentResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
         knowledgeElementRepositoryStub.resolves([]);
 
         const csvSecondLine =
@@ -346,7 +346,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           '"NA"';
 
         // when
-        startWritingCampaignResultsToStream({
+        startWritingCampaignAssessmentResultsToStream({
           userId: user.id,
           campaignId: campaign.id,
           writableStream,
@@ -401,7 +401,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           participantLastName: user.lastName,
         };
 
-        findResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
+        findAssessmentResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
 
         const csvSecondLine =
           `"${organization.name}";` +
@@ -426,7 +426,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           '"NA"';
 
         // when
-        startWritingCampaignResultsToStream({
+        startWritingCampaignAssessmentResultsToStream({
           userId: user.id,
           campaignId: campaign.id,
           writableStream,
@@ -459,7 +459,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           participantLastName: user.lastName,
         };
 
-        findResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
+        findAssessmentResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
 
         const campaignWithoutIdPixLabel = domainBuilder.buildCampaign.ofTypeAssessment({
           name: 'CampaignName',
@@ -496,7 +496,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-results-to-stream'
           '"\'@web5"';
 
         // when
-        startWritingCampaignResultsToStream({
+        startWritingCampaignAssessmentResultsToStream({
           userId: user.id,
           campaignId: campaign.id,
           writableStream,
