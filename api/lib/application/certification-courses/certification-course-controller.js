@@ -4,6 +4,7 @@ const certificationResultSerializer = require('../../infrastructure/serializers/
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const usecases = require('../../domain/usecases');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
 
@@ -30,8 +31,9 @@ module.exports = {
     const accessCode = request.payload.data.attributes['access-code'];
     const sessionId = request.payload.data.attributes['session-id'];
 
-    const { created, certificationCourse } =
-      await usecases.retrieveLastOrCreateCertificationCourse({ sessionId, accessCode, userId });
+    const { created, certificationCourse } = await DomainTransaction.execute((domainTransaction) => {
+      return usecases.retrieveLastOrCreateCertificationCourse({ domainTransaction, sessionId, accessCode, userId });
+    });
 
     const serialized = await certificationCourseSerializer.serialize(certificationCourse);
 
