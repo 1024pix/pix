@@ -89,6 +89,16 @@ module('Acceptance | Switch Organization', function(hooks) {
           assert.equal(currentURL(), '/campagnes');
         });
       });
+
+      module('When user switch from a not managing student organization to a managing student organization', function() {
+
+        test('it should display student menu item', async function(assert) {
+          await click('.logged-user-summary__link');
+          await click('.logged-user-menu-item');
+
+          assert.dom('.sidebar').containsText('Élèves');
+        });
+      });
     });
   });
 });

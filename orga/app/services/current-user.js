@@ -38,10 +38,6 @@ export default class CurrentUserService extends Service {
     }
   }
 
-  get isSCOManagingStudents() {
-    return this.organization.isSco && this.organization.isManagingStudents;
-  }
-
   async _getMembershipByUserOrgaSettings(memberships, userOrgaSettings) {
     const organization = await userOrgaSettings.get('organization');
     for (let i = 0; i < memberships.length; i++) {
@@ -66,7 +62,9 @@ export default class CurrentUserService extends Service {
   async _setOrganizationProperties(membership) {
     const organization = await membership.organization;
     const isAdminInOrganization = membership.isAdmin;
+    const isSCOManagingStudents = organization.isSco && organization.isManagingStudents;
     this.set('organization', organization);
     this.set('isAdminInOrganization', isAdminInOrganization);
+    this.set('isSCOManagingStudents', isSCOManagingStudents);
   }
 }
