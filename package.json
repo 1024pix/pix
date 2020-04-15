@@ -45,7 +45,7 @@
     "ci:all": "run-p --print-label ci:api ci:front",
     "ci:api": "cd api && npm ci",
     "ci:certif": "cd certif && npm ci",
-    "ci:front": "run-p --print-label ci:mon-pix ci:orga ci:certif ci:admin ci:pix-ui",
+    "ci:front": "run-s --print-label ci:mon-pix ci:orga ci:certif ci:admin",
     "ci:mon-pix": "cd mon-pix && npm ci",
     "ci:orga": "cd orga && npm ci",
     "ci:pix-ui": "cd pix-ui && npm ci",
