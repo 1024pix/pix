@@ -34,6 +34,10 @@ workflows:
                 - prod
                 - /release-.*/
 
+      - ui_build_and_test:
+          requires:
+            - checkout
+
       - api_build_and_test:
           requires:
             - checkout
@@ -75,6 +79,26 @@ jobs:
           root: ~/pix
           paths:
             - .
+
+  ui_build_and_test:
+    docker:
+      - image: circleci/node:12.14.0-browsers
+        environment:
+          JOBS: 2
+    working_directory: ~/pix/pix-ui
+    parallelism: 3
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-pix-ui-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-pix-ui-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
 
   api_build_and_test:
     docker:

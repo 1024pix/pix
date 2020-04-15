@@ -103,6 +103,7 @@
     "loader.js": "^4.7.0",
     "lodash": "^4.17.15",
     "p-queue": "^6.3.0",
+    "pix-ui": "file:./../pix-ui",
     "sass": "^1.23.7",
     "showdown": "^1.9.1"
   }
