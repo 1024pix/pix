@@ -9,7 +9,7 @@ export default class ChallengeEmbedSimulator extends Component {
   isLoadingEmbed = true;
 
   @tracked
-  isSimulatorNotYetLaunched = true;
+  isSimulatorLaunched = false;
 
   get embedDocumentHeightStyle() {
     if (this.args.embedDocument) {
@@ -20,7 +20,7 @@ export default class ChallengeEmbedSimulator extends Component {
 
   configureIframe(iframe, [embedUrl, thisComponent]) {
     thisComponent.isLoadingEmbed = true;
-    thisComponent.isSimulatorNotYetLaunched = true;
+    thisComponent.isSimulatorLaunched = false;
     iframe.onload = () => {
       if (embedUrl) {
         thisComponent.isLoadingEmbed = false;
@@ -35,7 +35,7 @@ export default class ChallengeEmbedSimulator extends Component {
     // TODO: use correct targetOrigin once the embeds are hosted behind our domain
     iframe.contentWindow.postMessage('launch', '*');
     iframe.focus();
-    this.isSimulatorNotYetLaunched = false;
+    this.isSimulatorLaunched = true;
   }
 
   @action
