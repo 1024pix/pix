@@ -46,24 +46,48 @@ module('Integration | Component | user-detail-personal-information', function(ho
     assert.dom('.user__username').hasText(this.user.username);
   });
 
-  test('should display user’s cgu', async function(assert) {
-    this.set('user', { isPixTermsOfServiceAccepted: 'OUI' });
+  test('should display "OUI" when user accepted Pix App terms of service', async function(assert) {
+    this.set('user', { isPixTermsOfServiceAccepted: true });
 
     await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
     assert.dom('.user__cgu').hasText('OUI');
   });
 
-  test('should display user’s Pix Orga terms of service', async function(assert) {
-    this.set('user', { isPixOrgaTermsOfServiceAccepted: 'NON' });
+  test('should display "NON" when user not accepted Pix App terms of service', async function(assert) {
+    this.set('user', { isPixTermsOfServiceAccepted: false });
+
+    await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+    assert.dom('.user__cgu').hasText('NON');
+  });
+
+  test('should display "OUI" when user accepted Pix Orga terms of service', async function(assert) {
+    this.set('user', { isPixOrgaTermsOfServiceAccepted: true });
+
+    await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+    assert.dom('.user__pix-orga-terms-of-service-accepted').hasText('OUI');
+  });
+
+  test('should display "NON" when user not accepted Pix Orga terms of service', async function(assert) {
+    this.set('user', { isPixOrgaTermsOfServiceAccepted: false });
 
     await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
     assert.dom('.user__pix-orga-terms-of-service-accepted').hasText('NON');
   });
 
-  test('should display user’s Pix Certif terms of service', async function(assert) {
-    this.set('user', { isPixCertifTermsOfServiceAccepted: 'NON' });
+  test('should display "OUI" when user accepted Pix Certif terms of service', async function(assert) {
+    this.set('user', { isPixCertifTermsOfServiceAccepted: true });
+
+    await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+    assert.dom('.user__pix-certif-terms-of-service-accepted').hasText('OUI');
+  });
+
+  test('should display "NON" when user not accepted Pix Certif terms of service', async function(assert) {
+    this.set('user', { isPixCertifTermsOfServiceAccepted: false });
 
     await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
