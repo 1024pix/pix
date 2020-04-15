@@ -142,7 +142,7 @@ jobs:
       - restore_cache:
           keys:
             - v7-mon-pix-npm-{{ checksum "cachekey" }}
-      - run: npm ci
+      - run: npm install
       - save_cache:
           key: v7-mon-pix-npm-{{ checksum "cachekey" }}
           paths:
