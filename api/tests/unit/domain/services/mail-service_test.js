@@ -1,8 +1,12 @@
-const { sinon } = require('../../../test-helper');
-const mailer = require('../../../../lib/infrastructure/mailers/mailer');
+const { sinon, expect } = require('../../../test-helper');
+
 const mailService = require('../../../../lib/domain/services/mail-service');
+const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 
 describe('Unit | Service | MailService', () => {
+
+  const senderEmailAddress = 'ne-pas-repondre@pix.fr';
+  const userEmailAddress = 'user@example.net';
 
   beforeEach(() => {
     sinon.stub(mailer, 'sendEmail').resolves();
@@ -12,76 +16,114 @@ describe('Unit | Service | MailService', () => {
 
     it('should use mailer to send an email', async () => {
       // given
-      const email = 'text@example.net';
+      const expectedOptions = {
+        from: senderEmailAddress,
+        fromName: 'PIX - Ne pas répondre',
+        to: userEmailAddress,
+        subject: 'Création de votre compte PIX',
+        template: 'test-account-creation-template-id',
+      };
 
       // when
-      await mailService.sendAccountCreationEmail(email);
+      await mailService.sendAccountCreationEmail(userEmailAddress);
 
       // then
-      sinon.assert.calledWith(mailer.sendEmail, {
-        to: email,
-        template: 'test-account-creation-template-id',
-        from: 'ne-pas-repondre@pix.fr',
-        fromName: 'PIX - Ne pas répondre',
-        subject: 'Création de votre compte PIX'
-      });
+      expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
     });
   });
 
-  describe('#sendResetPasswordDemandEmail', async () => {
+  describe('#sendResetPasswordDemandEmail', () => {
 
-    describe('when provided passwordResetDemandBaseUrl is not production', () => {
+    context('when provided passwordResetDemandBaseUrl is not production', () => {
 
       it('should call Mailjet with a sub-domain prefix', async () => {
         // given
-        const email = 'text@example.net';
         const fakeTemporaryKey = 'token';
         const passwordResetDemandBaseUrl = 'http://dev.pix.fr';
 
-        // when
-        await mailService.sendResetPasswordDemandEmail(email, passwordResetDemandBaseUrl, fakeTemporaryKey);
-
-        // then
-        sinon.assert.calledWith(mailer.sendEmail, {
-          to: email,
-          template: 'test-password-reset-template-id',
-          from: 'ne-pas-repondre@pix.fr',
+        const expectedOptions = {
+          from: senderEmailAddress,
           fromName: 'PIX - Ne pas répondre',
+          to: userEmailAddress,
           subject: 'Demande de réinitialisation de mot de passe PIX',
+          template: 'test-password-reset-template-id',
           variables: {
             resetUrl: `${passwordResetDemandBaseUrl}/changer-mot-de-passe/${fakeTemporaryKey}`
           }
-        });
+        };
+
+        // when
+        await mailService.sendResetPasswordDemandEmail(userEmailAddress, passwordResetDemandBaseUrl, fakeTemporaryKey);
+
+        // then
+        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
       });
     });
   });
 
   describe('#sendOrganizationInvitationEmail', () => {
 
-    it('should call Mailjet with pix-orga url, organization-invitation id and code', async () => {
-      // given
-      const email = 'user@organization.org';
-      const organizationName = 'Organization Name';
-      const pixOrgaBaseUrl = 'http://dev.pix-orga.fr';
-      const organizationInvitationId = 1;
-      const code = 'ABCDEFGH01';
+    const fromName = 'Pix Orga - Ne pas répondre';
 
-      // when
-      await mailService.sendOrganizationInvitationEmail({
-        email, organizationName, organizationInvitationId, code
+    const subject = 'Invitation à rejoindre Pix Orga';
+    const template = 'test-organization-invitation-demand-template-id';
+
+    const organizationName = 'Organization Name';
+    const pixOrgaBaseUrl = 'http://dev.pix-orga.fr';
+    const organizationInvitationId = 1;
+    const code = 'ABCDEFGH01';
+
+    context('When tags property is not provided', () => {
+
+      it('should call mail provider with pix-orga url, organization-invitation id, code and null tags', async () => {
+        // given
+        const expectedOptions = {
+          from: senderEmailAddress,
+          fromName,
+          to: userEmailAddress,
+          subject, template,
+          variables: {
+            organizationName,
+            responseUrl: `${pixOrgaBaseUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
+          },
+          tags: null
+        };
+
+        // when
+        await mailService.sendOrganizationInvitationEmail({
+          email: userEmailAddress, organizationName, organizationInvitationId, code
+        });
+
+        // then
+        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
       });
+    });
 
-      // then
-      sinon.assert.calledWith(mailer.sendEmail, {
-        to: email,
-        template: 'test-organization-invitation-demand-template-id',
-        from: 'ne-pas-repondre@pix.fr',
-        fromName: 'Pix Orga - Ne pas répondre',
-        subject: 'Invitation à rejoindre Pix Orga',
-        variables: {
-          organizationName,
-          responseUrl: `${pixOrgaBaseUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
-        }
+    context('When tags property is provided', () => {
+
+      it('should call mail provider with correct tags', async () => {
+        // given
+        const tags = ['JOIN_ORGA'];
+
+        const expectedOptions = {
+          from: senderEmailAddress,
+          fromName,
+          to: userEmailAddress,
+          subject, template,
+          variables: {
+            organizationName,
+            responseUrl: `${pixOrgaBaseUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`
+          },
+          tags
+        };
+
+        // when
+        await mailService.sendOrganizationInvitationEmail({
+          email: userEmailAddress, organizationName, organizationInvitationId, code, tags
+        });
+
+        // then
+        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
       });
     });
   });
