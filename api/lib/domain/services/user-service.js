@@ -22,7 +22,7 @@ async function getCertificationProfile({ userId, limitDate, isV2Certification = 
   return _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredChallengeIdsV1(certificationProfile);
 }
 
-async function fillCertificationProfileWithCertificationChallenges(certificationProfile) {
+async function fillCertificationProfileWithChallenges(certificationProfile) {
   const allChallenges = await challengeRepository.list();
   const challengesAlreadyAnswered = certificationProfile.challengeIdsCorrectlyAnswered.map((challengeId) => Challenge.findById(allChallenges, challengeId));
 
@@ -144,5 +144,5 @@ async function _fillCertificationProfileWithUserCompetencesAndCorrectlyAnsweredC
 
 module.exports = {
   getCertificationProfile,
-  fillCertificationProfileWithCertificationChallenges,
+  fillCertificationProfileWithChallenges,
 };
