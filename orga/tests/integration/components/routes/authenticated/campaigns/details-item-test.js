@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module ('Integration | Component | routes/authenticated/campaign | details-item', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign | details-item', function(hooks) {
   setupRenderingTest(hooks);
 
   let store;
@@ -96,8 +96,8 @@ module ('Integration | Component | routes/authenticated/campaign | details-item'
       assert.dom('nav a[href="/campagnes/12"]').hasText('Détails');
     });
 
-    module('When campaign type is ASSESSMENT', function() {
-      test('it should display participation item', async function(assert) {
+    module('When campaign type is ASSESSMENT', function(hooks) {
+      hooks.beforeEach(async function() {
         const campaignReport = store.createRecord('campaignReport', {
           participationsCount: 10,
         });
@@ -110,55 +110,44 @@ module ('Integration | Component | routes/authenticated/campaign | details-item'
         this.set('campaign', campaign);
 
         await render(hbs`<Routes::Authenticated::Campaigns::DetailsItem @campaign={{campaign}}/>`);
+      });
 
+      test('it should display campaign analyse item', async function(assert) {
+        assert.dom('nav a[href="/campagnes/13/analyse"]').hasText('Analyse');
+      });
+
+      test('it should display participation item', async function(assert) {
         assert.dom('nav a[href="/campagnes/13/participants"]').hasText('Participants (10)');
       });
 
       test('it should display collective results item', async function(assert) {
-        // given
-        const campaign = store.createRecord('campaign', {
-          id: 14,
-          type: 'ASSESSMENT',
-        });
-
-        this.set('campaign', campaign);
-
-        // when
-        await render(hbs`<Routes::Authenticated::Campaigns::DetailsItem @campaign={{campaign}}/>`);
-        // then
-        assert.dom('nav a[href="/campagnes/14/resultats-collectifs"]').hasText('Résultats collectifs');
+        assert.dom('nav a[href="/campagnes/13/resultats-collectifs"]').hasText('Résultats collectifs');
       });
     });
 
-    module('When campaign type is PROFILES_COLLECTION', function() {
-      test('it should not display participation item', async function(assert) {
+    module('When campaign type is PROFILES_COLLECTION', function(hooks) {
+      hooks.beforeEach(async function() {
         // given
         const campaign = store.createRecord('campaign', {
-          id: 15,
+          id: 13,
           type: 'PROFILES_COLLECTION',
         });
 
         this.set('campaign', campaign);
 
-        // when
         await render(hbs`<Routes::Authenticated::Campaigns::DetailsItem @campaign={{campaign}}/>`);
-        // then
-        assert.dom('nav a[href="/campagnes/15/participants"]').doesNotExist();
+      });
+
+      test('it should not display participation item', async function(assert) {
+        assert.dom('nav a[href="/campagnes/13/participants"]').doesNotExist();
+      });
+
+      test('it should not display analyse item', async function(assert) {
+        assert.dom('nav a[href="/campagnes/13/analyse"]').doesNotExist();
       });
 
       test('it should not display collective results item', async function(assert) {
-        // given
-        const campaign = store.createRecord('campaign', {
-          id: 16,
-          type: 'PROFILES_COLLECTION',
-        });
-
-        this.set('campaign', campaign);
-
-        // when
-        await render(hbs`<Routes::Authenticated::Campaigns::DetailsItem @campaign={{campaign}}/>`);
-        // then
-        assert.dom('nav a[href="/campagnes/16/resultats-collectifs"]').doesNotExist();
+        assert.dom('nav a[href="/campagnes/13/resultats-collectifs"]').doesNotExist();
       });
     });
   });
