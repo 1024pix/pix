@@ -59,7 +59,9 @@ export function createUserWithMultipleMemberships() {
 
   const secondOrganization = server.create('organization', {
     name: 'My Heaven Company',
-    externalId: 'HEAVEN'
+    externalId: 'HEAVEN',
+    type: 'SCO',
+    isManagingStudents: true,
   });
 
   const firstMembership = server.create('membership', {
