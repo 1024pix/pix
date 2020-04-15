@@ -43,21 +43,6 @@ module.exports = {
     return _toDomain(certificationCourse);
   },
 
-  async getLastCertificationCourseByUserIdAndSessionId(userId, sessionId) {
-    try {
-      const certificationCourse = await CertificationCourseBookshelf
-        .where({ userId, sessionId })
-        .orderBy('createdAt', 'desc')
-        .fetch({ require: true, withRelated: ['assessment', 'challenges', 'acquiredPartnerCertifications'] });
-      return _toDomain(certificationCourse);
-    } catch (err) {
-      if (err instanceof CertificationCourseBookshelf.NotFoundError) {
-        throw new NotFoundError(`Certification course with userId ${userId} and sessionId ${sessionId} does not exist.`);
-      }
-      throw err;
-    }
-  },
-
   async update(certificationCourse) {
     const certificationCourseData = _adaptModelToDb(certificationCourse);
     const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourseData);
