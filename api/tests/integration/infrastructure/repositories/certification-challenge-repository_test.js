@@ -9,13 +9,13 @@ describe('Integration | Repository | Certification Challenge', function() {
 
   describe('#save', () => {
 
-    let certificationCourseObject;
     let certificationChallenge;
 
     beforeEach(async () => {
-      certificationCourseObject = databaseBuilder.factory.buildCertificationCourse();
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
 
-      certificationChallenge = domainBuilder.buildCertificationChallenge();
+      certificationChallenge = domainBuilder.buildCertificationChallenge({ courseId: certificationCourseId });
+      certificationChallenge.id = undefined;
       await databaseBuilder.commit();
     });
 
@@ -23,13 +23,13 @@ describe('Integration | Repository | Certification Challenge', function() {
       return knex('certification-challenges').delete();
     });
 
-    it('should return certification challenge object', () => {
-      const promise = certificationChallengeRepository.save(certificationChallenge, certificationCourseObject);
+    it('should return certification challenge object', async () => {
+      const savedCertificationChallenge = await certificationChallengeRepository.save(certificationChallenge);
 
       // then
-      return promise.then((savedCertificationChallenge) => {
-        expect(savedCertificationChallenge.challengeId).to.deep.equal(certificationChallenge.id);
-      });
+      expect(savedCertificationChallenge).to.be.an.instanceOf(CertificationChallenge);
+      expect(savedCertificationChallenge).to.have.property('id').and.not.null;
+      expect(savedCertificationChallenge.challengeId).to.equal(certificationChallenge.challengeId);
     });
   });
 
