@@ -33,5 +33,9 @@
       <span class="attibute__label">CGU Pix Certif validé : </span>
       <span class="attribute__value user__pix-certif-terms-of-service-accepted">{{if @user.isPixCertifTermsOfServiceAccepted 'OUI' 'NON'}}</span>
     </div>
+    <div class="attribute authenticated-from-gar">
+      <span class="attibute__label">Connecté via le GAR : </span>
+      <span class="attribute__value user__is-authenticated-from-gar">{{if @user.isAuthenticatedFromGar 'OUI' 'NON'}}</span>
+    </div>
   </div>
 </section>
