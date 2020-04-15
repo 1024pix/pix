@@ -96,12 +96,15 @@ function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
 
 }
 
-function _makeStatsColumns({ skillCount, validatedSkillCount }) {
-  return [
-    _.round(validatedSkillCount / skillCount, 2),
-    skillCount,
-    validatedSkillCount,
-  ];
+function _makeStatsColumns(isShared) {
+  return ({ skillCount, validatedSkillCount }) => {
+    if (!isShared) return ['NA', 'NA', 'NA'];
+    return [
+      _.round(validatedSkillCount / skillCount, 2),
+      skillCount,
+      validatedSkillCount,
+    ];
+  };
 }
 
 function _getStatsForCompetence(targetProfile, knowledgeElements) {
@@ -114,12 +117,52 @@ function _getStatsForCompetence(targetProfile, knowledgeElements) {
   };
 }
 
+function _makeCompetenceColumns(competences, targetProfile, knowledgeElements, isShared) {
+  return _.flatMap(competences, (competence) => _makeStatsColumns(isShared)({
+    id: competence.id,
+    ..._getStatsForCompetence(targetProfile, knowledgeElements)(competence),
+  }));
+}
+
+function _makeAreaColumns(competences, targetProfile, knowledgeElements, isShared) {
+  const areas = _extractAreas(competences);
+  return _.flatMap(areas, ({ id }) => {
+    const areaCompetenceStats = _.filter(competences, (competence) => competence.area.id === id)
+      .map(_getStatsForCompetence(targetProfile, knowledgeElements));
+
+    const skillCount = _.sumBy(areaCompetenceStats, 'skillCount');
+    const validatedSkillCount = _.sumBy(areaCompetenceStats, 'validatedSkillCount');
+
+    return _makeStatsColumns(isShared)({
+      id,
+      skillCount,
+      validatedSkillCount,
+    });
+  });
+}
+
+function _makeCommonColumns(organization, campaign, targetProfile, knowledgeElements, participant, campaignParticipationResultData) {
+  const isShared = campaignParticipationResultData.isShared;
+  return [
+    organization.name,
+    campaign.id,
+    campaign.name,
+    targetProfile.name,
+    participant.lastName,
+    participant.firstName,
+    campaign.idPixLabel ? campaignParticipationResultData.participantExternalId : 'NA',
+    campaignParticipationService.progress(campaignParticipationResultData.isCompleted, knowledgeElements.length, targetProfile.skills.length),
+    moment.utc(campaignParticipationResultData.createdAt).format('YYYY-MM-DD'),
+    isShared ? 'Oui' : 'Non',
+    isShared ? moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD') : 'NA',
+    isShared ? _percentageSkillsValidated(knowledgeElements, targetProfile) : 'NA',
+  ];
+}
+
 function _createOneLineOfCSV({
-  headers,
   organization,
   campaign,
   competences,
-  areas,
   campaignParticipationResultData,
   targetProfile,
 
@@ -127,60 +170,16 @@ function _createOneLineOfCSV({
   participantLastName,
   participantKnowledgeElements,
 }) {
+  const isShared = campaignParticipationResultData.isShared;
   const knowledgeElements = participantKnowledgeElements
     .filter((ke) => _.find(targetProfile.skills, { id: ke.skillId }));
 
-  let lineMap = [
-    organization.name,
-    campaign.id,
-    campaign.name,
-    targetProfile.name,
-    participantLastName,
-    participantFirstName,
-    campaign.idPixLabel ? campaignParticipationResultData.participantExternalId : 'NA',
-    campaignParticipationService.progress(campaignParticipationResultData.isCompleted, knowledgeElements.length, targetProfile.skills.length),
-    moment.utc(campaignParticipationResultData.createdAt).format('YYYY-MM-DD'),
-    campaignParticipationResultData.isShared ? 'Oui' : 'Non',
-  ];
-
-  if (campaignParticipationResultData.isShared) {
-    const sharedLineMap = [
-      moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD'),
-      _percentageSkillsValidated(knowledgeElements, targetProfile),
-
-      ..._.flatMap(competences, (competence) => {
-        return _makeStatsColumns({
-          id: competence.id,
-          ..._getStatsForCompetence(targetProfile, knowledgeElements)(competence),
-        });
-      }),
-
-      ..._.flatMap(areas, ({ id }) => {
-        const areaCompetenceStats = _.filter(competences, (competence) => competence.area.id === id)
-          .map(_getStatsForCompetence(targetProfile, knowledgeElements));
-
-        const skillCount = _.sumBy(areaCompetenceStats, 'skillCount');
-        const validatedSkillCount = _.sumBy(areaCompetenceStats, 'validatedSkillCount');
-
-        return _makeStatsColumns({
-          id,
-          skillCount,
-          validatedSkillCount,
-        });
-      }),
-
-      ..._.map(targetProfile.skills, ({ id }) => {
-        return _stateOfSkill(id, knowledgeElements);
-      })
-    ];
-
-    lineMap = _.concat(lineMap, sharedLineMap);
-  } else {
-    const emptyColumns = headers.length - lineMap.length;
-    _.times(emptyColumns, () => lineMap.push('NA'));
-  }
-
-  return csvSerializer.serializeLine(lineMap);
+  return csvSerializer.serializeLine([
+    ..._makeCommonColumns(organization, campaign, targetProfile, knowledgeElements, { firstName: participantFirstName, lastName: participantLastName }, campaignParticipationResultData),
+    ..._makeCompetenceColumns(competences, targetProfile, knowledgeElements, isShared),
+    ..._makeAreaColumns(competences, targetProfile, knowledgeElements, isShared),
+    ..._.map(targetProfile.skills, ({ id }) => isShared ? _stateOfSkill(id, knowledgeElements) : 'NA')
+  ]);
 }
 
 function _extractCompetences(allCompetences, skills) {
