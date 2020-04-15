@@ -7,6 +7,74 @@ const bluebird = require('bluebird');
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 
+module.exports = async function startWritingCampaignAssessmentResultsToStream(
+  {
+    userId,
+    campaignId,
+    writableStream,
+    campaignRepository,
+    userRepository,
+    targetProfileRepository,
+    competenceRepository,
+    campaignParticipationRepository,
+    organizationRepository,
+    knowledgeElementRepository,
+  }) {
+
+  const campaign = await campaignRepository.get(campaignId);
+
+  await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
+
+  const [targetProfile, allCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
+    targetProfileRepository.get(campaign.targetProfileId),
+    competenceRepository.list(),
+    organizationRepository.get(campaign.organizationId),
+    campaignParticipationRepository.findAssessmentResultDataByCampaignId(campaign.id),
+  ]);
+
+  const competences = _extractCompetences(allCompetences, targetProfile.skills);
+
+  //Create HEADER of CSV
+  const headers = _createHeaderOfCSV(targetProfile.skills, competences, campaign.idPixLabel);
+
+  // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
+  // - https://en.wikipedia.org/wiki/Byte_order_mark
+  // - https://stackoverflow.com/a/38192870
+  const headerLine = '\uFEFF' + csvSerializer.serializeLine(headers);
+
+  writableStream.write(headerLine);
+
+  // No return/await here, we need the writing to continue in the background
+  // after this function's returned promise resolves. If we await the mapSeries
+  // function, node will keep all the data in memory until the end of the
+  // complete operation.
+  bluebird.mapSeries(campaignParticipationResultDatas, async (campaignParticipationResultData) => {
+    const participantKnowledgeElements = await knowledgeElementRepository.findUniqByUserId({
+      userId: campaignParticipationResultData.userId,
+      limitDate: campaignParticipationResultData.sharedAt,
+    });
+
+    const csvLine = _createOneLineOfCSV({
+      organization,
+      campaign,
+      competences,
+      campaignParticipationResultData,
+      targetProfile,
+      participantKnowledgeElements,
+    });
+
+    writableStream.write(csvLine);
+  }).then(() => {
+    writableStream.end();
+  }).catch((error) => {
+    writableStream.emit('error', error);
+    throw error;
+  });
+
+  const fileName = `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
+  return { fileName };
+};
+
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   if (_.isNil(organizationId)) {
     throw new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`);
@@ -21,7 +89,9 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
   }
 }
 
-function _createHeaderOfCSV(skills, competences, areas, idPixLabel) {
+function _createHeaderOfCSV(skills, competences, idPixLabel) {
+  const areas = _extractAreas(competences);
+
   return [
     'Nom de l\'organisation',
     'ID Campagne',
@@ -117,14 +187,14 @@ function _getStatsForCompetence(targetProfile, knowledgeElements) {
   };
 }
 
-function _makeCompetenceColumns(competences, targetProfile, knowledgeElements, isShared) {
+function _makeCompetenceColumns({ competences, targetProfile, knowledgeElements, isShared }) {
   return _.flatMap(competences, (competence) => _makeStatsColumns(isShared)({
     id: competence.id,
     ..._getStatsForCompetence(targetProfile, knowledgeElements)(competence),
   }));
 }
 
-function _makeAreaColumns(competences, targetProfile, knowledgeElements, isShared) {
+function _makeAreaColumns({ competences, targetProfile, knowledgeElements, isShared }) {
   const areas = _extractAreas(competences);
   return _.flatMap(areas, ({ id }) => {
     const areaCompetenceStats = _.filter(competences, (competence) => competence.area.id === id)
@@ -141,15 +211,16 @@ function _makeAreaColumns(competences, targetProfile, knowledgeElements, isShare
   });
 }
 
-function _makeCommonColumns(organization, campaign, targetProfile, knowledgeElements, participant, campaignParticipationResultData) {
+function _makeCommonColumns({ organization, campaign, targetProfile, knowledgeElements, campaignParticipationResultData }) {
   const isShared = campaignParticipationResultData.isShared;
+  const { participantFirstName, participantLastName } = campaignParticipationResultData;
   return [
     organization.name,
     campaign.id,
     campaign.name,
     targetProfile.name,
-    participant.lastName,
-    participant.firstName,
+    participantLastName,
+    participantFirstName,
     campaign.idPixLabel ? campaignParticipationResultData.participantExternalId : 'NA',
     campaignParticipationService.progress(campaignParticipationResultData.isCompleted, knowledgeElements.length, targetProfile.skills.length),
     moment.utc(campaignParticipationResultData.createdAt).format('YYYY-MM-DD'),
@@ -165,9 +236,6 @@ function _createOneLineOfCSV({
   competences,
   campaignParticipationResultData,
   targetProfile,
-
-  participantFirstName,
-  participantLastName,
   participantKnowledgeElements,
 }) {
   const isShared = campaignParticipationResultData.isShared;
@@ -175,9 +243,9 @@ function _createOneLineOfCSV({
     .filter((ke) => _.find(targetProfile.skills, { id: ke.skillId }));
 
   return csvSerializer.serializeLine([
-    ..._makeCommonColumns(organization, campaign, targetProfile, knowledgeElements, { firstName: participantFirstName, lastName: participantLastName }, campaignParticipationResultData),
-    ..._makeCompetenceColumns(competences, targetProfile, knowledgeElements, isShared),
-    ..._makeAreaColumns(competences, targetProfile, knowledgeElements, isShared),
+    ..._makeCommonColumns({ organization, campaign, targetProfile, knowledgeElements, campaignParticipationResultData }),
+    ..._makeCompetenceColumns({ competences, targetProfile, knowledgeElements, isShared }),
+    ..._makeAreaColumns({ competences, targetProfile, knowledgeElements, isShared }),
     ..._.map(targetProfile.skills, ({ id }) => isShared ? _stateOfSkill(id, knowledgeElements) : 'NA')
   ]);
 }
@@ -200,77 +268,3 @@ function _extractAreas(competences) {
   return _.uniqBy(competences.map((competence) => competence.area), 'code');
 }
 
-module.exports = async function startWritingCampaignAssessmentResultsToStream(
-  {
-    userId,
-    campaignId,
-    writableStream,
-    campaignRepository,
-    userRepository,
-    targetProfileRepository,
-    competenceRepository,
-    campaignParticipationRepository,
-    organizationRepository,
-    knowledgeElementRepository,
-  }) {
-
-  const campaign = await campaignRepository.get(campaignId);
-
-  await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
-
-  const [targetProfile, allCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
-    targetProfileRepository.get(campaign.targetProfileId),
-    competenceRepository.list(),
-    organizationRepository.get(campaign.organizationId),
-    campaignParticipationRepository.findAssessmentResultDataByCampaignId(campaign.id),
-  ]);
-
-  const competences = _extractCompetences(allCompetences, targetProfile.skills);
-
-  const areas = _extractAreas(competences);
-
-  //Create HEADER of CSV
-  const headers = _createHeaderOfCSV(targetProfile.skills, competences, areas, campaign.idPixLabel);
-
-  // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
-  // - https://en.wikipedia.org/wiki/Byte_order_mark
-  // - https://stackoverflow.com/a/38192870
-  const headerLine = '\uFEFF' + csvSerializer.serializeLine(headers);
-
-  writableStream.write(headerLine);
-
-  // No return/await here, we need the writing to continue in the background
-  // after this function's returned promise resolves. If we await the mapSeries
-  // function, node will keep all the data in memory until the end of the
-  // complete operation.
-  bluebird.mapSeries(campaignParticipationResultDatas, async (campaignParticipationResultData) => {
-    const participantKnowledgeElements = await knowledgeElementRepository.findUniqByUserId({
-      userId: campaignParticipationResultData.userId,
-      limitDate: campaignParticipationResultData.sharedAt,
-    });
-
-    const csvLine = _createOneLineOfCSV({
-      headers,
-      organization,
-      campaign,
-      competences,
-      areas,
-      campaignParticipationResultData,
-      targetProfile,
-
-      participantFirstName: campaignParticipationResultData.participantFirstName,
-      participantLastName: campaignParticipationResultData.participantLastName,
-      participantKnowledgeElements,
-    });
-
-    writableStream.write(csvLine);
-  }).then(() => {
-    writableStream.end();
-  }).catch((error) => {
-    writableStream.emit('error', error);
-    throw error;
-  });
-
-  const fileName = `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
-  return { fileName };
-};
