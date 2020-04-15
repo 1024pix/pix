@@ -23,15 +23,15 @@
     <br>
     <div class="attribute cgu">
       <span class="attibute__label">CGU Pix App validé : </span>
-      <span class="attribute__value user__cgu">{{@user.isPixTermsOfServiceAccepted}}</span>
+      <span class="attribute__value user__cgu">{{if @user.isPixTermsOfServiceAccepted 'OUI' 'NON'}}</span>
     </div>
     <div class="attribute pix-orga-terms-of-service-accepted">
       <span class="attibute__label">CGU Pix Orga validé : </span>
-      <span class="attribute__value user__pix-orga-terms-of-service-accepted">{{@user.isPixOrgaTermsOfServiceAccepted}}</span>
+      <span class="attribute__value user__pix-orga-terms-of-service-accepted">{{if @user.isPixOrgaTermsOfServiceAccepted 'OUI' 'NON'}}</span>
     </div>
     <div class="attribute pix-certif-terms-of-service-accepted">
       <span class="attibute__label">CGU Pix Certif validé : </span>
-      <span class="attribute__value user__pix-certif-terms-of-service-accepted">{{@user.isPixCertifTermsOfServiceAccepted}}</span>
+      <span class="attribute__value user__pix-certif-terms-of-service-accepted">{{if @user.isPixCertifTermsOfServiceAccepted 'OUI' 'NON'}}</span>
     </div>
   </div>
 </section>
