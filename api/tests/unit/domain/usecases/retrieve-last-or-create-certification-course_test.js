@@ -22,7 +22,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   const sessionRepository = { get: sinon.stub() };
   const certificationChallengesService = { generateCertificationChallenges: sinon.stub() };
   const userService = {
-    fillCertificationProfileWithCertificationChallenges: sinon.stub(),
+    fillCertificationProfileWithChallenges: sinon.stub(),
     getCertificationProfile: sinon.stub(),
   };
   const parameters = {
@@ -156,7 +156,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             existingCertificationCourse = Symbol('existingCertificationCourse');
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
               .withArgs(userId, sessionId).onCall(1).resolves(existingCertificationCourse);
-            userService.fillCertificationProfileWithCertificationChallenges.withArgs(certificationProfile).resolves();
+            userService.fillCertificationProfileWithChallenges.withArgs(certificationProfile).resolves();
           });
 
           it('should return it with flag created marked as false', async function() {
@@ -185,7 +185,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             });
 
             // then
-            expect(userService.fillCertificationProfileWithCertificationChallenges).to.have.been.calledWith(certificationProfile);
+            expect(userService.fillCertificationProfileWithChallenges).to.have.been.calledWith(certificationProfile);
           });
 
         });
