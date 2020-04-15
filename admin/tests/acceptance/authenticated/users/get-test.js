@@ -21,9 +21,7 @@ module('Acceptance | authenticated/users/get', function(hooks) {
       username: 'K1ng0fTh3N0rth',
     });
 
-
     await visit(`/users/${user.id}`);
-    debugger;
     assert.equal(currentURL(), `/users/${user.id}`);
   });
 
