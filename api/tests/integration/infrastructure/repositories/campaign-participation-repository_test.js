@@ -180,7 +180,7 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('#findResultDataByCampaignId', () => {
+  describe('#findAssessmentResultDataByCampaignId', () => {
 
     let campaign1;
     let campaign2;
@@ -192,8 +192,8 @@ describe('Integration | Repository | Campaign Participation', () => {
         firstName: 'First',
         lastName: 'Last',
       }).id;
-      campaign1 = databaseBuilder.factory.buildCampaign({});
-      campaign2 = databaseBuilder.factory.buildCampaign({});
+      campaign1 = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
+      campaign2 = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
 
       campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign1.id,
@@ -212,7 +212,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       const campaignId = campaign1.id;
 
       // when
-      const participationResultDatas = await campaignParticipationRepository.findResultDataByCampaignId(campaignId);
+      const participationResultDatas = await campaignParticipationRepository.findAssessmentResultDataByCampaignId(campaignId);
 
       // then
       expect(participationResultDatas).to.deep.equal([
@@ -252,7 +252,7 @@ describe('Integration | Repository | Campaign Participation', () => {
         const campaignId = campaign1.id;
 
         // when
-        const participationResultDatas = await campaignParticipationRepository.findResultDataByCampaignId(campaignId);
+        const participationResultDatas = await campaignParticipationRepository.findAssessmentResultDataByCampaignId(campaignId);
 
         // then
         expect(participationResultDatas).to.deep.equal([
@@ -291,7 +291,7 @@ describe('Integration | Repository | Campaign Participation', () => {
         const campaignId = campaign1.id;
 
         // when
-        const participationResultDatas = await campaignParticipationRepository.findResultDataByCampaignId(campaignId);
+        const participationResultDatas = await campaignParticipationRepository.findAssessmentResultDataByCampaignId(campaignId);
 
         // then
         expect(participationResultDatas).to.deep.equal([
@@ -325,7 +325,81 @@ describe('Integration | Repository | Campaign Participation', () => {
         await databaseBuilder.commit();
 
         // when
-        const participationResultDatas = await campaignParticipationRepository.findResultDataByCampaignId(campaign.id);
+        const participationResultDatas = await campaignParticipationRepository.findAssessmentResultDataByCampaignId(campaign.id);
+
+        // then
+        expect(participationResultDatas[0].sharedAt).to.equal(null);
+      });
+    });
+  });
+
+  describe('#findProfilesCollectionResultDataByCampaignId', () => {
+
+    let campaign1;
+    let campaign2;
+    let campaignParticipation1;
+    let userId;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser({
+        firstName: 'First',
+        lastName: 'Last',
+      }).id;
+      campaign1 = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
+      campaign2 = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
+
+      campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign1.id,
+        userId,
+        isShared: true,
+        createdAt: new Date('2017-03-15T14:59:35Z'),
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign2.id,
+        isShared: true,
+      });
+      await databaseBuilder.commit();
+    });
+
+    it('should return the campaign-participation links to the given campaign', async () => {
+      // given
+      const campaignId = campaign1.id;
+
+      // when
+      const participationResultDatas = await campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaignId);
+
+      // then
+      const attributes = participationResultDatas.map((participationResultData) =>
+        _.pick(participationResultData, ['id', 'isShared', 'sharedAt', 'participantExternalId', 'userId', 'participantFirstName', 'participantLastName']));
+      expect(attributes).to.deep.equal([
+        {
+          id: campaignParticipation1.id,
+          isShared: true,
+          sharedAt: campaignParticipation1.sharedAt,
+          participantExternalId: campaignParticipation1.participantExternalId,
+          userId: campaignParticipation1.userId,
+          participantFirstName: 'First',
+          participantLastName: 'Last',
+        }
+      ]);
+    });
+
+    context('When sharedAt is null', () => {
+
+      it('Should return null as shared date', async () => {
+        // given
+        const campaign = databaseBuilder.factory.buildCampaign({ sharedAt: null });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+          isShared: false,
+          sharedAt: null
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const participationResultDatas = await campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id);
 
         // then
         expect(participationResultDatas[0].sharedAt).to.equal(null);

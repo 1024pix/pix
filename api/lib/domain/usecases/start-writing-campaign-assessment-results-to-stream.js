@@ -30,7 +30,7 @@ function _createHeaderOfCSV(skills, competences, areas, idPixLabel) {
     { title: 'Nom du Participant', property: 'participantLastName' },
     { title: 'Prénom du Participant', property: 'participantFirstName' },
 
-    ...(idPixLabel ? [ { title: idPixLabel, property: 'participantExternalId' } ] : []),
+    ...(idPixLabel ? [{ title: idPixLabel, property: 'participantExternalId' }] : []),
 
     { title: '% de progression', property: 'progress' },
     { title: 'Date de début', property: 'createdAt' },
@@ -143,7 +143,7 @@ function _getSharedColumns({
   const areaStats = _.map(areas, ({ id }) => {
     const areaCompetenceStats = _.filter(competenceStats, { areaId: id });
     const skillCount = _.sumBy(areaCompetenceStats, 'skillCount');
-    const validatedSkillCount  = _.sumBy(areaCompetenceStats, 'validatedSkillCount');
+    const validatedSkillCount = _.sumBy(areaCompetenceStats, 'validatedSkillCount');
 
     return {
       id,
@@ -234,7 +234,7 @@ function _extractAreas(competences) {
   return _.uniqBy(competences.map((competence) => competence.area), 'code');
 }
 
-module.exports = async function startWritingCampaignResultsToStream(
+module.exports = async function startWritingCampaignAssessmentResultsToStream(
   {
     userId,
     campaignId,
@@ -256,7 +256,7 @@ module.exports = async function startWritingCampaignResultsToStream(
     targetProfileRepository.get(campaign.targetProfileId),
     competenceRepository.list(),
     organizationRepository.get(campaign.organizationId),
-    campaignParticipationRepository.findResultDataByCampaignId(campaign.id),
+    campaignParticipationRepository.findAssessmentResultDataByCampaignId(campaign.id),
   ]);
 
   const competences = _extractCompetences(allCompetences, targetProfile.skills);

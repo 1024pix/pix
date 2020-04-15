@@ -48,15 +48,6 @@ exports.seed = (knex) => {
   targetProfilesBuilder({ databaseBuilder });
   pixEmploiTargetProfileBuilder({ databaseBuilder });
 
-  // Éléments de parcours
-  campaignsBuilder({ databaseBuilder });
-  campaignParticipationsBuilder({ databaseBuilder });
-  assessmentsBuilder({ databaseBuilder });
-  answersBuilder({ databaseBuilder });
-
-  // Éléments de partcours pour l'utilisateur Pix Aile
-  buildPixAileProfile({ databaseBuilder });
-
   // Certifications
   certificationCentersBuilder({ databaseBuilder });
   certificationUsersBuilder({ databaseBuilder });
@@ -67,6 +58,15 @@ exports.seed = (knex) => {
   certificationCoursesBuilder({ databaseBuilder });
   certificationScoresBuilder({ databaseBuilder });
   userBadgeBuilder({ databaseBuilder });
+
+  // Éléments de parcours
+  campaignsBuilder({ databaseBuilder });
+  campaignParticipationsBuilder({ databaseBuilder });
+  assessmentsBuilder({ databaseBuilder });
+  answersBuilder({ databaseBuilder });
+
+  // Éléments de parcours pour l'utilisateur Pix Aile
+  buildPixAileProfile({ databaseBuilder });
 
   po376Builder({ databaseBuilder });
 

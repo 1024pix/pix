@@ -44,14 +44,36 @@ module.exports = {
       .then((campaign) => campaignSerializer.serialize(campaign, {}, { tokenForCampaignResults }));
   },
 
-  async getCsvResults(request) {
+  async getCsvAssessmentResults(request) {
     const token = request.query.accessToken;
     const userId = tokenService.extractUserIdForCampaignResults(token);
     const campaignId = parseInt(request.params.id);
 
     const writableStream = new PassThrough();
 
-    const { fileName } = await usecases.startWritingCampaignResultsToStream({ userId, campaignId, writableStream });
+    const { fileName } = await usecases.startWritingCampaignAssessmentResultsToStream({ userId, campaignId, writableStream });
+    const escapedFileName = requestResponseUtils.escapeFileName(fileName);
+
+    writableStream.headers = {
+      'content-type': 'text/csv;charset=utf-8',
+      'content-disposition': `attachment; filename="${escapedFileName}"`,
+
+      // WHY: to avoid compression because when compressing, the server buffers
+      // for too long causing a response timeout.
+      'content-encoding': 'identity',
+    };
+
+    return writableStream;
+  },
+
+  async getCsvProfilesCollectionResults(request) {
+    const token = request.query.accessToken;
+    const userId = tokenService.extractUserIdForCampaignResults(token);
+    const campaignId = parseInt(request.params.id);
+
+    const writableStream = new PassThrough();
+
+    const { fileName } = await usecases.startWritingCampaignProfilesCollectionResultsToStream({ userId, campaignId, writableStream });
     const escapedFileName = requestResponseUtils.escapeFileName(fileName);
 
     writableStream.headers = {
