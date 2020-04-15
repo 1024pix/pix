@@ -163,7 +163,7 @@ jobs:
       - restore_cache:
           keys:
             - v7-orga-npm-{{ checksum "cachekey" }}
-      - run: npm ci
+      - run: npm install
       - save_cache:
           key: v7-orga-npm-{{ checksum "cachekey" }}
           paths:
@@ -183,7 +183,7 @@ jobs:
       - restore_cache:
           keys:
             - v7-certif-npm-{{ checksum "cachekey" }}
-      - run: npm ci
+      - run: npm install
       - save_cache:
           key: v7-certif-npm-{{ checksum "cachekey" }}
           paths:
@@ -203,7 +203,7 @@ jobs:
       - restore_cache:
           keys:
             - v7-admin-npm-{{ checksum "cachekey" }}
-      - run: npm ci
+      - run: npm install
       - save_cache:
           key: v7-admin-npm-{{ checksum "cachekey" }}
           paths:
@@ -253,7 +253,7 @@ jobs:
           environment:
             JOBS: 1
           working_directory: ~/pix/mon-pix
-          command: npm ci
+          command: npm install
 
       - run:
           working_directory: ~/pix/orga
@@ -265,7 +265,7 @@ jobs:
           environment:
             JOBS: 2
           working_directory: ~/pix/orga
-          command: npm ci
+          command: npm install
 
       - run:
           working_directory: ~/pix/certif
@@ -277,7 +277,7 @@ jobs:
           environment:
             JOBS: 2
           working_directory: ~/pix/certif
-          command: npm ci
+          command: npm install
 
       - run:
           working_directory: ~/pix/api
