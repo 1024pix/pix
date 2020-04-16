@@ -24,6 +24,9 @@ export default class CampaignParticipation extends Model {
   @belongsTo('campaignParticipationResult')
   campaignParticipationResult;
 
+  @belongsTo('campaignAnalysis')
+  campaignAnalysis;
+
   @belongsTo('campaignCollectiveResult')
   campaignCollectiveResult;
 }
