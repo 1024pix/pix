@@ -287,7 +287,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             });
 
             // then
-            expect(assessmentRepository.save).to.have.been.calledWith(sinon.match(mockAssessment));
+            expect(assessmentRepository.save).to.have.been.calledWith({ assessment: sinon.match(mockAssessment) });
           });
         });
       });

@@ -68,7 +68,7 @@ async function _startNewCertification({
   const newCertificationCourse = await _generateCertificationCourseFromCandidateParticipation({ userId, sessionId, certificationCandidateRepository });
   const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
   const newAssessment = _generateAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id });
-  const savedAssessment = await assessmentRepository.save(newAssessment);
+  const savedAssessment = await assessmentRepository.save({ assessment: newAssessment });
   const newCertificationChallenges = certificationChallengesService.generateCertificationChallenges(certificationProfile.userCompetences, savedCertificationCourse.id);
   const savedChallenges = await Promise.all(newCertificationChallenges.map((certificationChallenge) => certificationChallengeRepository.save(certificationChallenge)));
 
