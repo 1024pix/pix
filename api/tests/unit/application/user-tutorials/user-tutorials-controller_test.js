@@ -66,4 +66,5 @@ describe('Unit | Controller | User-tutorials', function() {
       expect(removeFromUserArgs).to.have.property('tutorialId', tutorialId);
     });
   });
+
 });

@@ -68,6 +68,7 @@ module.exports = injectDependencies({
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
   acceptPixOrgaTermsOfService: require('./accept-pix-orga-terms-of-service'),
   addCertificationCandidateToSession: require('./add-certification-candidate-to-session'),
+  addTutorialEvaluation: require('./add-tutorial-evaluation'),
   addTutorialToUser: require('./add-tutorial-to-user'),
   analyzeAttendanceSheet: require('./analyze-attendance-sheet'),
   answerToOrganizationInvitation: require('./answer-to-organization-invitation'),

@@ -39,7 +39,7 @@ exports.register = async (server) => {
           ' - L‘id du tutoriel doit faire référence à un tutoriel existant',
         ],
       }
-    }
+    },
   ]);
 };
 
