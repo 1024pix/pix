@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, domainBuilder, catchErr, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, knex } = require('../../../test-helper');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const BookshelfCertificationCourse = require('../../../../lib/infrastructure/data/certification-course');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -37,7 +37,7 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should persist the certif course in db', async () => {
       // when
-      await certificationCourseRepository.save(certificationCourse);
+      await certificationCourseRepository.save({ certificationCourse });
 
       // then
       const certificationCourseSaved = await knex('certification-courses').select();
@@ -46,7 +46,7 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should return the saved certification course', async () => {
       // when
-      const savedCertificationCourse = await certificationCourseRepository.save(certificationCourse);
+      const savedCertificationCourse = await certificationCourseRepository.save({ certificationCourse });
 
       // then
       expect(savedCertificationCourse).to.be.an.instanceOf(CertificationCourse);

@@ -274,7 +274,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             });
 
             // then
-            expect(certificationCourseRepository.save).to.have.been.calledWith(sinon.match(mockCertificationCourse));
+            expect(certificationCourseRepository.save).to.have.been.calledWith({ certificationCourse: sinon.match(mockCertificationCourse) });
           });
 
           it('should have save the assessment based on an appropriate argument', async function() {
