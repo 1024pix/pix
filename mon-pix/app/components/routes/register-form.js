@@ -68,9 +68,9 @@ export default class RegisterForm extends Component {
 
   @computed('email', 'username', 'password')
   get isCreationFormNotValid() {
-    const isPasswordNotValid = !isPasswordValid(this.get('password'));
-    const isUsernameNotValid = !isStringValid(this.get('username'));
-    const isEmailNotValid = !isEmailValid(this.get('email'));
+    const isPasswordNotValid = !isPasswordValid(this.password);
+    const isUsernameNotValid = !isStringValid(this.username);
+    const isEmailNotValid = !isEmailValid(this.email);
     if (this.loginWithUsername) {
       return isUsernameNotValid || isPasswordNotValid;
     }
@@ -177,10 +177,10 @@ export default class RegisterForm extends Component {
     try {
       this.set('studentDependentUser.password', this.password);
       if (this.loginWithUsername) {
-        this.set('studentDependentUser.username', this.get('username'));
+        this.set('studentDependentUser.username', this.username);
         this.set('studentDependentUser.email', undefined);
       } else {
-        this.set('studentDependentUser.email', this.get('email'));
+        this.set('studentDependentUser.email', this.email);
         this.set('studentDependentUser.username', undefined);
       }
       await this.studentDependentUser.save({
