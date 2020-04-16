@@ -131,7 +131,7 @@ module.exports = {
 
   async getAnalysis(request) {
     const { userId } = request.auth.credentials;
-    const campaignId = parseInt(request.params.id);
+    const campaignId = request.params.id;
 
     const campaignAnalysis = await usecases.computeCampaignAnalysis({ userId, campaignId });
     return campaignAnalysisSerializer.serialize(campaignAnalysis);
