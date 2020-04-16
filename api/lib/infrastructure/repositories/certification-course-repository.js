@@ -9,9 +9,10 @@ const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
-  async save(certificationCourse) {
+  async save({ certificationCourse, domainTransaction = {} }) {
     const certificationCourseToSave = _adaptModelToDb(certificationCourse);
-    const savedCertificationCourse = await new CertificationCourseBookshelf(certificationCourseToSave).save();
+    const options = { transacting : domainTransaction.knexTransaction };
+    const savedCertificationCourse = await new CertificationCourseBookshelf(certificationCourseToSave).save(null, options);
     return _toDomain(savedCertificationCourse);
   },
 
