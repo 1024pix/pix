@@ -11,7 +11,7 @@ describe('Unit | Repository | competence-tree-repository', () => {
 
   describe('#get', () => {
 
-    it('should return a the competence tree populated with Areas and Competences', () => {
+    it('should return a competence tree populated with Areas and Competences', () => {
       // given
       const area = {
         id: 'recvoGdo7z2z7pXWa',
