@@ -3,6 +3,7 @@ const Bookshelf = require('../bookshelf');
 const BookshelfUser = require('../data/user');
 const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, SchoolingRegistrationAlreadyLinkedToUserError, UserNotFoundError } = require('../../domain/errors');
 const User = require('../../domain/models/User');
+const UserDetailForAdmin = require('../../domain/read-models/UserDetailForAdmin');
 const PixRole = require('../../domain/models/PixRole');
 const Membership = require('../../domain/models/Membership');
 const UserOrgaSettings = require('../../domain/models/UserOrgaSettings');
@@ -12,6 +13,24 @@ const Organization = require('../../domain/models/Organization');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 const PIX_MASTER_ROLE_ID = 1;
+
+function _toUserDetailForAdminDomain(BookshelfUser) {
+
+  const rawUserDetailForAdmin = BookshelfUser.toJSON();
+  return new UserDetailForAdmin({
+    id: rawUserDetailForAdmin.id,
+    firstName: rawUserDetailForAdmin.firstName,
+    lastName: rawUserDetailForAdmin.lastName,
+    birthdate: rawUserDetailForAdmin.birthdate,
+    organizationId: rawUserDetailForAdmin.organizationId,
+    username: rawUserDetailForAdmin.username,
+    email: rawUserDetailForAdmin.email,
+    cgu: rawUserDetailForAdmin.cgu,
+    pixOrgaTermsOfServiceAccepted: rawUserDetailForAdmin.pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted: rawUserDetailForAdmin.pixCertifTermsOfServiceAccepted,
+    isAuthenticatedFromGAR: !!rawUserDetailForAdmin.samlId,
+  });
+}
 
 function _toCertificationCenterMembershipsDomain(certificationCenterMembershipBookshelf) {
   return certificationCenterMembershipBookshelf.map((bookshelf) => {
@@ -152,6 +171,20 @@ module.exports = {
       .where({ id: userId })
       .fetch({ require: true, withRelated: ['userOrgaSettings'] })
       .then((user) => bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user))
+      .catch((err) => {
+        if (err instanceof BookshelfUser.NotFoundError) {
+          throw new UserNotFoundError(`User not found for ID ${userId}`);
+        }
+        throw err;
+      });
+  },
+
+  getUserDetailForAdmin(userId) {
+    return BookshelfUser
+      .where({ id: userId })
+      .fetch({ require: true, columns: ['id','firstName','firstName','lastName','email','username','cgu','pixOrgaTermsOfServiceAccepted',
+        'pixCertifTermsOfServiceAccepted','samlId', ] })
+      .then((userDetailForAdmin) => _toUserDetailForAdminDomain(userDetailForAdmin))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
