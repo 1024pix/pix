@@ -9,6 +9,7 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
   beforeEach(() => {
     sinon.stub(campaignParticipationController, 'shareCampaignResult').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignParticipationController, 'find').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(campaignParticipationController, 'getAnalysis').callsFake((request, h) => h.response('ok').code(200));
 
     server = Hapi.server();
 
@@ -52,6 +53,39 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
 
       // then
       expect(response.statusCode).to.equal(201);
+    });
+  });
+
+  describe('GET /api/campaign-participations/{id}/analyses', () => {
+
+    context('when id is not an integer', () => {
+
+      it('should return 400 - Bad request', async () => {
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: '/api/campaign-participations/FAKE_ID/analyses',
+        });
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+    });
+
+    context('when id is an integer', () => {
+
+      it('should return 200', async () => {
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: '/api/campaign-participations/12/analyses',
+        });
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
     });
   });
 
