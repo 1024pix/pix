@@ -48,6 +48,14 @@ then(`je vois la moyenne des résultats à {int}%`, (averageResult) => {
   cy.get('[aria-label="Moyenne des résultats"]').contains(`${averageResult}%`);
 });
 
+then(`je vois un résultat global à {int}%`, (globalResult) => {
+  cy.get('[aria-label="Résultat global"]').contains(`${globalResult}%`);
+});
+
 then(`je vois que j'ai partagé mon profil`, () => {
   cy.contains('Merci, votre profil a bien été envoyé !');
+});
+
+then(`je vois que j'ai envoyé les résultats`, () => {
+  cy.contains('Merci, vos résultats ont bien été envoyés !');
 });

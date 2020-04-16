@@ -6,8 +6,8 @@
     "source": "direct",
     "answerId": 1,
     "status": "validated",
-    "skillId": "rec98HYctM7sl9Hyq",
-    "competenceId": "recH9MjIzN54zXlwr",
+    "skillId": "recdFsWU9ij5bXZhD",
+    "competenceId": "recoVElv3xmVppK5a",
     "createdAt": "2019-04-21T06:00:00Z",
     "earnedPix": 0.65
   },
@@ -30,8 +30,8 @@
     "source": "direct",
     "answerId": 3,
     "status": "validated",
-    "skillId": "rec98HYctM7sl9Hyq",
-    "competenceId": "recH9MjIzN54zXlwr",
+    "skillId": "recdFsWU9ij5bXZhD",
+    "competenceId": "recoVElv3xmVppK5a",
     "createdAt": "2019-04-21T06:00:00Z",
     "earnedPix": 0.65
   },
@@ -54,8 +54,8 @@
     "source": "direct",
     "answerId": 5,
     "status": "validated",
-    "skillId": "rec98HYctM7sl9Hyq",
-    "competenceId": "recH9MjIzN54zXlwr",
+    "skillId": "recdFsWU9ij5bXZhD",
+    "competenceId": "recoVElv3xmVppK5a",
     "createdAt": "2019-04-21T06:00:00Z",
     "earnedPix": 0.65
   }

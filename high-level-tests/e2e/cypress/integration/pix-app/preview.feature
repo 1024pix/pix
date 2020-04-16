@@ -9,5 +9,5 @@ Fonctionnalité: Preview
     Et je suis connecté à Pix en tant qu'administrateur
     Lorsque je lance la preview du challenge "recc3QU4nKAk4byGv"
     Alors je suis redirigé vers une page d'épreuve
-    Alors l'épreuve contient le texte "Quelle est la capitale de la Lettonie ?"
+    Alors je vois l'épreuve "Quelle est la capitale de la Lettonie ?"
 
