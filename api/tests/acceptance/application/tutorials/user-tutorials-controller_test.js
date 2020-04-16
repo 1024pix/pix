@@ -178,5 +178,4 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
     });
 
   });
-
 });
