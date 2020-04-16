@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.140.0 (16/04/2020)
+
+- [#1290](https://github.com/1024pix/pix/pull/1290) [FEATURE] Changement des formulations de la landing page des collectes de profils (PF-1222).
+- [#1301](https://github.com/1024pix/pix/pull/1301) [FEATURE] Appliquer une recherche stricte sur le filtre de la colonne ID dans la liste des sessions sur PixAdmin (PA-202)
+- [#1283](https://github.com/1024pix/pix/pull/1283) [FEATURE] Exporter les résultats de campagne de collecte de profils (PO-393).
+- [#1289](https://github.com/1024pix/pix/pull/1289) [FEATURE] Ajout d'informations sur la méthode de calcul des recommandations (PO-405).
+- [#1296](https://github.com/1024pix/pix/pull/1296) [BUGFIX] Le menu "Élèves" ne s'affiche pas correctement lorsque l'on change d'organisation (PO-426).
+- [#1287](https://github.com/1024pix/pix/pull/1287) [BUGFIX] Campagnes non affichées sur IE (PO-398).
+- [#1285](https://github.com/1024pix/pix/pull/1285) [TECH] Ajout de tests de non régression visuelle.
+- [#1278](https://github.com/1024pix/pix/pull/1278) [TECH] Retourner une réponse 204 lors de l'appel de rafraichissement du cache
+
 ## v2.139.0 (10/04/2020)
 
 - [#1284](https://github.com/1024pix/pix/pull/1284) [FEATURE] Ajout d'un composant pour représenter les différents niveaux de recommandation des sujets (PO-403).
