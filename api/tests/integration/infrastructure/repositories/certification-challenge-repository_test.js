@@ -24,7 +24,7 @@ describe('Integration | Repository | Certification Challenge', function() {
     });
 
     it('should return certification challenge object', async () => {
-      const savedCertificationChallenge = await certificationChallengeRepository.save(certificationChallenge);
+      const savedCertificationChallenge = await certificationChallengeRepository.save({ certificationChallenge });
 
       // then
       expect(savedCertificationChallenge).to.be.an.instanceOf(CertificationChallenge);
