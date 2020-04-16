@@ -137,6 +137,8 @@ module.exports = {
         if (id) {
           qb.where({ id });
         }
+        qb.orderByRaw('?? ASC NULLS FIRST', 'publishedAt');
+        qb.orderByRaw('?? ASC', 'finalizedAt');
       })
       .fetchPage({ page: page.number, pageSize: page.size });
 
