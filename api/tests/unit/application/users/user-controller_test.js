@@ -19,6 +19,8 @@ const membershipSerializer = require('../../../../lib/infrastructure/serializers
 const userOrgaSettingsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer');
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
+const userDetailForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-detail-for-admin-serializer');
+
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
 describe('Unit | Controller | user-controller', () => {
@@ -241,23 +243,23 @@ describe('Unit | Controller | user-controller', () => {
 
   });
 
-  describe('#getUserDetail', () => {
+  describe('#getUserDetailForAdmin', () => {
     let request;
 
     beforeEach(() => {
       request = { params: { id: '123' } };
 
-      sinon.stub(usecases, 'getUserDetail');
-      sinon.stub(userSerializer, 'serialize');
+      sinon.stub(usecases, 'getUserDetailForAdmin');
+      sinon.stub(userDetailForAdminSerializer, 'serialize');
     });
 
-    it('should get the specified user', async () => {
+    it('should get the specified user for admin context', async () => {
       // given
-      usecases.getUserDetail.withArgs({ userId: 123 }).resolves('user');
-      userSerializer.serialize.withArgs('user').returns('ok');
+      usecases.getUserDetailForAdmin.withArgs({ userId: 123 }).resolves('userDetail');
+      userDetailForAdminSerializer.serialize.withArgs('userDetail').returns('ok');
 
       // when
-      const response = await userController.getUserDetail(request);
+      const response = await userController.getUserDetailForAdmin(request);
 
       // then
       expect(response).to.be.equal('ok');

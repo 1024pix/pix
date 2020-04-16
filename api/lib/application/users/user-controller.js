@@ -6,6 +6,7 @@ const userOrgaSettingsSerializer = require('../../infrastructure/serializers/jso
 const pixScoreSerializer = require('../../infrastructure/serializers/jsonapi/pix-score-serializer');
 const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const userDetailForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-detail-for-admin-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
 const usecases = require('../../domain/usecases');
@@ -33,10 +34,10 @@ module.exports = {
       .then(userSerializer.serialize);
   },
 
-  async getUserDetail(request) {
+  async getUserDetailForAdmin(request) {
     const userId = parseInt(request.params.id);
-    const user = await usecases.getUserDetail({ userId });
-    return userSerializer.serialize(user);
+    const userDetailForAdmin = await usecases.getUserDetailForAdmin({ userId });
+    return userDetailForAdminSerializer.serialize(userDetailForAdmin);
   },
 
   async updatePassword(request) {
