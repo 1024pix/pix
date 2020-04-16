@@ -55,6 +55,7 @@ const dependencies = {
   targetProfileShareRepository: require('../../infrastructure/repositories/target-profile-share-repository'),
   tokenService: require('../../domain/services/token-service'),
   tubeRepository: require('../../infrastructure/repositories/tube-repository'),
+  tutorialEvaluationRepository: require('../../infrastructure/repositories/tutorial-evaluation-repository'),
   tutorialRepository: require('../../infrastructure/repositories/tutorial-repository'),
   userOrgaSettingsRepository: require('../../infrastructure/repositories/user-orga-settings-repository'),
   userReconciliationService: require('../services/user-reconciliation-service'),
