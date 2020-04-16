@@ -135,7 +135,7 @@ module.exports = {
       .query((qb) => {
         const { id } = filters;
         if (id) {
-          qb.whereRaw('CAST(id as TEXT) LIKE ?', `%${id.toString()}%`);
+          qb.where({ id });
         }
       })
       .fetchPage({ page: page.number, pageSize: page.size });
