@@ -502,6 +502,37 @@ describe('Integration | Repository | Session', function() {
       });
     });
 
+    context('orders', () => {
+      let firstSessionId;
+      let secondSessionId;
+      let thirdSessionId;
+      let fourthSessionId;
+
+      beforeEach(() => {
+        firstSessionId = databaseBuilder.factory.buildSession({ finalizedAt: new Date('2020-01-01T00:00:00Z'), resultsSentToPrescriberAt: null }).id;
+        secondSessionId = databaseBuilder.factory.buildSession({ finalizedAt: new Date('2020-01-02T00:00:00Z'), resultsSentToPrescriberAt: null }).id;
+        thirdSessionId = databaseBuilder.factory.buildSession({ finalizedAt: new Date('2020-01-02T00:00:00Z'), resultsSentToPrescriberAt: new Date('2020-01-03T00:00:00Z') }).id;
+        fourthSessionId = databaseBuilder.factory.buildSession({ finalizedAt: null, resultsSentToPrescriberAt: null }).id;
+
+        return databaseBuilder.commit();
+      });
+
+      it('should order sessions by returning first finalized but not published, then neither of those, and finally the processed ones', async () => {
+        // given
+        const filters = {};
+        const page = { number: 1, size: 10 };
+
+        // when
+        const { sessions: matchingSessions } = await sessionRepository.findPaginatedFiltered({ filters, page });
+
+        // then
+        expect(matchingSessions[0].id).to.equal(firstSessionId);
+        expect(matchingSessions[1].id).to.equal(secondSessionId);
+        expect(matchingSessions[2].id).to.equal(thirdSessionId);
+        expect(matchingSessions[3].id).to.equal(fourthSessionId);
+      });
+    });
+
     context('filters', () => {
 
       context('when there are ignored filters', () => {
