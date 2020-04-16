@@ -1,9 +1,11 @@
 [
   {
+    "id": 1,
     "userId": 1,
     "currentOrganizationId": 1
   },
   {
+    "id": 2,
     "userId": 3 ,
     "currentOrganizationId": 2
   }

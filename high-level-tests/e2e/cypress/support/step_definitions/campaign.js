@@ -20,16 +20,12 @@ when(`je saisis la date de naissance {int}-{int}-{int}`, (dayOfBirth, monthOfBir
   cy.get('input#yearOfBirth').type(yearOfBirth);
 });
 
-then(`je vois {int} campagnes`, (numberOfCampaigns) => {
+then(`je vois {int} campagne\(s\)`, (numberOfCampaigns) => {
   cy.get('[aria-label="Campagne"]').should('have.lengthOf', numberOfCampaigns);
 });
 
 when(`je recherche une campagne avec le nom {string}`, (campaignSearchName) => {
   cy.get('input#campaignName').type(campaignSearchName);
-});
-
-then(`la liste est filtrée`, () => {
-  cy.get('.campaign-list table tbody tr').should('have.lengthOf', 1);
 });
 
 then(`je vois le détail de la campagne {string}`, (campaignName) => {
@@ -52,6 +48,14 @@ then(`je vois la moyenne des résultats à {int}%`, (averageResult) => {
   cy.get('[aria-label="Moyenne des résultats"]').contains(`${averageResult}%`);
 });
 
+then(`je vois un résultat global à {int}%`, (globalResult) => {
+  cy.get('[aria-label="Résultat global"]').contains(`${globalResult}%`);
+});
+
 then(`je vois que j'ai partagé mon profil`, () => {
   cy.contains('Merci, votre profil a bien été envoyé !');
+});
+
+then(`je vois que j'ai envoyé les résultats`, () => {
+  cy.contains('Merci, vos résultats ont bien été envoyés !');
 });

@@ -83,3 +83,7 @@ when(`je sélectionne {string} dans le champ {string}`, (value, label) => {
 then(`la page {string} est correctement affichée`, (pageName) => {
   cy.compareSnapshot(pageName);
 });
+
+then(`je vois {string} comme {string}`, (value, label) => {
+  cy.contains(label).parent().within(() => cy.get('p').contains(value));
+});
