@@ -199,7 +199,7 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should retrieve the most recently created certification course with given userId, sessionId', async () => {
       // when
-      const certificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId(userId, sessionId);
+      const certificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId });
 
       // then
       expect(certificationCourse.createdAt).to.deep.equal(createdAtLater);
@@ -207,7 +207,7 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should return null when no certification course found', async () => {
       // when
-      const result = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId(userId + 1, sessionId + 1);
+      const result = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({ userId: userId + 1, sessionId });
 
       // then
       expect(result).to.be.null;

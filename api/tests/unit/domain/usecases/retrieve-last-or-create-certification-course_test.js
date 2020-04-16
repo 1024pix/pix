@@ -77,7 +77,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
       let existingCertificationCourse;
       beforeEach(() => {
         existingCertificationCourse = Symbol('existingCertificationCourse');
-        certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId.withArgs(userId, sessionId).resolves(existingCertificationCourse);
+        certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId.withArgs({ userId, sessionId }).resolves(existingCertificationCourse);
       });
 
       it('should return it with flag created marked as false', async function() {
@@ -103,7 +103,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
       beforeEach(() => {
         certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-          .withArgs(userId, sessionId).onCall(0).resolves(null);
+          .withArgs({ userId, sessionId }).onCall(0).resolves(null);
       });
 
       context('when the user is not certifiable', () => {
@@ -155,7 +155,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           beforeEach(() => {
             existingCertificationCourse = Symbol('existingCertificationCourse');
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-              .withArgs(userId, sessionId).onCall(1).resolves(existingCertificationCourse);
+              .withArgs({ userId, sessionId }).onCall(1).resolves(existingCertificationCourse);
             userService.fillCertificationProfileWithChallenges.withArgs(certificationProfile).resolves();
           });
 
@@ -233,7 +233,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
           beforeEach(() => {
             certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-              .withArgs(userId, sessionId).onCall(1).resolves(null);
+              .withArgs({ userId, sessionId }).onCall(1).resolves(null);
             userService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves(certificationProfile);
             certificationCandidateRepository.getBySessionIdAndUserId.withArgs({ sessionId, userId }).resolves(foundCertificationCandidate);
             certificationCourseRepository.save.resolves(savedCertificationCourse);
