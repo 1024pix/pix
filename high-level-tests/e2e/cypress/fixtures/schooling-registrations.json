@@ -9,5 +9,13 @@
     "birthdate": "1986-10-23",
     "organizationId": 2,
     "userId": null
+  },
+  {
+    "id": 2,
+    "firstName": "user",
+    "lastName": "name",
+    "birthdate": "1986-10-23",
+    "organizationId": 2,
+    "userId": 8
   }
 ]
