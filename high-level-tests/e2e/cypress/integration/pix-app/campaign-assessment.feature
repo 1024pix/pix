@@ -11,6 +11,7 @@ Fonctionnalité: Campagne d'évaluation
     Et je saisis "NERA" dans le champ "Saisissez le code du parcours"
     Lorsque je clique sur "Commencer mon parcours"
     Alors je vois la page de "presentation" de la campagne
+    Et la page "Presentation campagne evaluation" est correctement affichée
     Lorsque je clique sur "Je commence"
     Alors je vois la page de "didacticiel" de la campagne
 
