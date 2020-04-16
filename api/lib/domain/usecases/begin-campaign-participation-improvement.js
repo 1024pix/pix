@@ -30,5 +30,5 @@ function _createImprovingAssessment({ userId, campaignParticipationId, assessmen
     courseId: Assessment.courseIdMessage.SMART_PLACEMENT,
     isImproving: true,
   });
-  return assessmentRepository.save(assessment);
+  return assessmentRepository.save({ assessment });
 }
