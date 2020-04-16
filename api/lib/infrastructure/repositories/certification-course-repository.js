@@ -35,11 +35,11 @@ module.exports = {
     }
   },
 
-  async findOneCertificationCourseByUserIdAndSessionId(userId, sessionId) {
+  async findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId, domainTransaction = {} }) {
     const certificationCourse = await CertificationCourseBookshelf
       .where({ userId, sessionId })
       .orderBy('createdAt', 'desc')
-      .fetch({ withRelated: ['assessment', 'challenges'] });
+      .fetch({ withRelated: ['assessment', 'challenges'], transacting: domainTransaction.knexTransaction });
     return _toDomain(certificationCourse);
   },
 

@@ -19,7 +19,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     throw new NotFoundError('Session not found');
   }
 
-  const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId(userId, sessionId);
+  const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId });
   if (existingCertificationCourse) {
     return {
       created: false,
@@ -57,7 +57,7 @@ async function _startNewCertification({
 
   await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
-  const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId(userId, sessionId);
+  const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId });
   if (existingCertificationCourse) {
     return {
       created: false,
