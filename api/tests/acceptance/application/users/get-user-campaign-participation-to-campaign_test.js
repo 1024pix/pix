@@ -56,6 +56,11 @@ describe('Acceptance | Route | GET /users/id/campaigns/id/campaign-participation
               links: {
                 'related': `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
               }
+            },
+            'campaign-analysis': {
+              links: {
+                related: `/api/campaign-participations/${campaignParticipation.id}/analyses`
+              }
             }
           },
         },
