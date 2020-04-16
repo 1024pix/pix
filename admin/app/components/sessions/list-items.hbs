@@ -10,6 +10,7 @@
         <th>Date de finalisation</th>
         <th>Nombre de certifications publiées</th>
         <th>Date de publication</th>
+        <th>Date de diffusion au prescripteur</th>
       </tr>
       <tr>
         <th>
@@ -18,6 +19,7 @@
                  @key-up={{fn @triggerFiltering "id" @id}}
                  class="table-admin-input" />
         </th>
+        <th></th>
         <th></th>
         <th></th>
         <th></th>
@@ -43,6 +45,7 @@
           <td>{{session.displayFinalizationDate}}</td>
           <td>{{session.countPublishedCertifications}}</td>
           <td>{{session.displayPublishedAtDate}}</td>
+          <td>{{session.displayResultsSentToPrescriberDate}}</td>
         </tr>
       {{/each}}
       </tbody>

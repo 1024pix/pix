@@ -100,6 +100,7 @@ module.exports = {
         'time',
         'status',
         'finalizedAt',
+        'resultsSentToPrescriberAt',
         'publishedAt',
         'certifications',
         'certificationCenter',

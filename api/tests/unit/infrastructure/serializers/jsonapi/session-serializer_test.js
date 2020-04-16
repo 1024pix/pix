@@ -233,6 +233,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
             status: statuses.PROCESSED,
             'finalized-at': new Date('2020-02-17T14:23:56Z'),
             'published-at': new Date('2020-02-21T14:23:56Z'),
+            'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
           },
           relationships: {
             certifications: {
