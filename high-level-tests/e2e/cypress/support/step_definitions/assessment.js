@@ -14,7 +14,7 @@ then(`le titre sur l'épreuve est {string}`, (titre) => {
   cy.get('.assessment-banner__title').should('contain', titre);
 });
 
-when(`l'épreuve contient le texte {string}`, (texte) => {
+when(`je vois l'épreuve {string}`, (texte) => {
   cy.get('.challenge-statement__instruction').should('contain', texte);
 });
 
