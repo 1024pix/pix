@@ -20,16 +20,12 @@ when(`je saisis la date de naissance {int}-{int}-{int}`, (dayOfBirth, monthOfBir
   cy.get('input#yearOfBirth').type(yearOfBirth);
 });
 
-then(`je vois {int} campagnes`, (numberOfCampaigns) => {
+then(`je vois {int} campagne\(s\)`, (numberOfCampaigns) => {
   cy.get('[aria-label="Campagne"]').should('have.lengthOf', numberOfCampaigns);
 });
 
 when(`je recherche une campagne avec le nom {string}`, (campaignSearchName) => {
   cy.get('input#campaignName').type(campaignSearchName);
-});
-
-then(`la liste est filtrée`, () => {
-  cy.get('.campaign-list table tbody tr').should('have.lengthOf', 1);
 });
 
 then(`je vois le détail de la campagne {string}`, (campaignName) => {
