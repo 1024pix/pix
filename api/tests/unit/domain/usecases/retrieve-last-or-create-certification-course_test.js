@@ -240,8 +240,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             assessmentRepository.save.resolves(savedAssessment);
             certificationChallengesService.generateCertificationChallenges
               .withArgs(certificationProfile.userCompetences, savedCertificationCourse.id).returns(generatedCertificationChallenges);
-            certificationChallengeRepository.save.withArgs(challenge1).resolves(savedCertificationChallenge1);
-            certificationChallengeRepository.save.withArgs(challenge2).resolves(savedCertificationChallenge2);
+            certificationChallengeRepository.save.withArgs({ certificationChallenge: challenge1 }).resolves(savedCertificationChallenge1);
+            certificationChallengeRepository.save.withArgs({ certificationChallenge: challenge2 }).resolves(savedCertificationChallenge2);
           });
 
           it('should return it with flag created marked as true with related ressources', async function() {

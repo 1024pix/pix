@@ -23,7 +23,7 @@ function _toDomain(model) {
 
 module.exports = {
 
-  save(certificationChallenge) {
+  save({ certificationChallenge, domainTransaction = {} }) {
     const certificationChallengeToSave = new CertificationChallengeBookshelf({
       challengeId: certificationChallenge.challengeId,
       competenceId: certificationChallenge.competenceId,
@@ -31,7 +31,7 @@ module.exports = {
       associatedSkillId: certificationChallenge.associatedSkillId,
       courseId: certificationChallenge.courseId,
     });
-    return certificationChallengeToSave.save()
+    return certificationChallengeToSave.save(null, { transacting: domainTransaction.knexTransaction })
       .then((certificationChallenge) => {
         return _toDomain(certificationChallenge);
       });
