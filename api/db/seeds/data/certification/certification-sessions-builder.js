@@ -85,6 +85,28 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
     publishedAt: new Date('2020-06-05T15:00:34Z'),
   });
+
+  // Some sessions to illustrate paginated sessions list order in PixAdmin
+  databaseBuilder.factory.buildSession({
+    certificationCenter, certificationCenterId, address, room, examiner, date , time,
+    finalizedAt: null,
+    publishedAt: null,
+  });
+  databaseBuilder.factory.buildSession({
+    certificationCenter, certificationCenterId,
+    finalizedAt: new Date('2018-01-01T00:00:00Z'),
+    publishedAt: null,
+  });
+  databaseBuilder.factory.buildSession({
+    certificationCenter, certificationCenterId,
+    finalizedAt: new Date('2018-01-02T00:00:00Z'),
+    publishedAt: null,
+  });
+  databaseBuilder.factory.buildSession({
+    certificationCenter, certificationCenterId, address, room, examiner, date , time,
+    finalizedAt: new Date('2018-01-02T00:00:00Z'),
+    publishedAt: new Date('2018-01-03T00:00:00Z'),
+  });
 }
 
 module.exports = {
