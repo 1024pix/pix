@@ -73,7 +73,7 @@
     <div class="skill-review-result__table-header">
       <h2 class="rounded-panel-subtitle">Vos résultats détaillés</h2>
       <CircleChart @value={{@model.campaignParticipation.campaignParticipationResult.masteryPercentage}}>
-        <span class="skill-review-table-header__circle-chart-value">
+        <span aria-label="Résultat global" class="skill-review-table-header__circle-chart-value">
           {{@model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%
         </span>
       </CircleChart>
@@ -90,7 +90,7 @@
       <tbody>
       {{#if model.campaignParticipation.campaignParticipationResult.partnerCompetenceResults}}
         {{#each model.campaignParticipation.campaignParticipationResult.partnerCompetenceResults as |partnerCompetence|}}
-          <tr>
+          <tr aria-label="Résultats par compétence">
             <td>
               <span class="skill-review-competence__bullet skill-review-competence__bullet--{{partnerCompetence.areaColor}}">&#8226;</span>
               <span>{{partnerCompetence.name}}</span>
@@ -105,7 +105,7 @@
         {{/each}}
       {{else}}
         {{#each model.campaignParticipation.campaignParticipationResult.competenceResults as |competence|}}
-          <tr>
+          <tr aria-label="Résultats par compétence">
             <td>
               <span class="skill-review-competence__bullet skill-review-competence__bullet--{{competence.areaColor}}">&#8226;</span>
               <span>{{competence.name}}</span>

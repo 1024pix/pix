@@ -13,7 +13,7 @@
         </thead>
         <tbody>
           {{#each @organizationInvitations as |organizationInvitation|}}
-            <tr>
+            <tr aria-label="Invitation en attente">
               <td>{{organizationInvitation.email}}</td>
               <td colspan="3">Invité le {{moment-format organizationInvitation.createdAt 'DD/MM/YYYY'}}</td>
             </tr>
@@ -39,7 +39,7 @@
       {{#if @memberships}}
         <tbody>
           {{#each @memberships as |membership|}}
-            <Routes::Authenticated::Team::Items @membership={{membership}} @tagName="tr"/>
+            <Routes::Authenticated::Team::Items @membership={{membership}} @tagName="tr" aria-label="Membre"/>
           {{/each}}
         </tbody>
       {{/if}}
