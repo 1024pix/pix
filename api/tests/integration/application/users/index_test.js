@@ -9,8 +9,8 @@ describe('Integration | Application | Users | Routes', () => {
   let httpTestServer;
 
   beforeEach(() => {
-    sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-    sinon.stub(userController, 'getUserDetail').returns('ok');
+    sinon.stub(securityController, 'checkUserHasRolePixMaster');
+    sinon.stub(userController, 'getUserDetailForAdmin').returns('ok');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
@@ -18,6 +18,7 @@ describe('Integration | Application | Users | Routes', () => {
 
     it('should exist', async () => {
       // given
+      securityController.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       const method = 'GET';
       const url = '/api/admin/users/123';
 
@@ -27,5 +28,6 @@ describe('Integration | Application | Users | Routes', () => {
       // then
       expect(response.statusCode).to.equal(200);
     });
+
   });
 });

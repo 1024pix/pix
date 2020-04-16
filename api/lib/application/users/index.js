@@ -49,7 +49,7 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/admin/users/{id}',
       config: {
-        handler: userController.getUserDetail,
+        handler: userController.getUserDetailForAdmin,
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
