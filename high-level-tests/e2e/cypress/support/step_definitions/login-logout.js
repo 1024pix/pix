@@ -76,3 +76,11 @@ when(`je me déconnecte de Pix Certif`, () => {
 then(`je suis redirigé vers la page {string}`, (pathname) => {
   cy.url().should('include', pathname);
 });
+
+when(`j'accepte les CGU de Pix`, () => {
+  cy.get('input[type=checkbox]').click();
+});
+
+when(`j'accepte les CGU de Pix Orga`, () => {
+  cy.get('button').contains('J’accepte les conditions d’utilisation').click();
+});
