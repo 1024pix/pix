@@ -1,9 +1,5 @@
 <section class="page-section mb_10">
   <div>
-    <div class="attribute id">
-      <span class="attibute__label">ID : </span>
-      <span class="attribute__value user__id">{{@user.id}}</span>
-    </div>
     <div class="attribute first-name">
       <span class="attibute__label">Prénom : </span>
       <span class="attribute__value user__first-name">{{@user.firstName}}</span>
@@ -20,6 +16,10 @@
       <span class="attibute__label">Identifiant : </span>
       <span class="attribute__value user__username">{{@user.username}}</span>
     </div>
+    <div class="attribute authenticated-from-gar">
+      <span class="attibute__label">Connecté via le GAR : </span>
+      <span class="attribute__value user__is-authenticated-from-gar">{{if @user.isAuthenticatedFromGar 'OUI' 'NON'}}</span>
+    </div>
     <br>
     <div class="attribute cgu">
       <span class="attibute__label">CGU Pix App validé : </span>
@@ -32,10 +32,6 @@
     <div class="attribute pix-certif-terms-of-service-accepted">
       <span class="attibute__label">CGU Pix Certif validé : </span>
       <span class="attribute__value user__pix-certif-terms-of-service-accepted">{{if @user.isPixCertifTermsOfServiceAccepted 'OUI' 'NON'}}</span>
-    </div>
-    <div class="attribute authenticated-from-gar">
-      <span class="attibute__label">Connecté via le GAR : </span>
-      <span class="attribute__value user__is-authenticated-from-gar">{{if @user.isAuthenticatedFromGar 'OUI' 'NON'}}</span>
     </div>
   </div>
 </section>

@@ -6,14 +6,6 @@ import { hbs } from 'ember-cli-htmlbars';
 module('Integration | Component | user-detail-personal-information', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('should display user’s id', async function(assert) {
-    this.set('user', { id: '1234' });
-
-    await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-    assert.dom('.user__id').hasText(this.user.id);
-  });
-
   test('should display user’s first name', async function(assert) {
     this.set('user', { firstName: 'John' });
 
