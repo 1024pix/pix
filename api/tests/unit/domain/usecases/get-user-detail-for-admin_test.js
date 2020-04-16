@@ -12,7 +12,7 @@ describe('Unit | UseCase | get-user-detail-for-admin', () => {
   it('should get the user detail in adminstration contexte', async () => {
     // given
     const userId = 1;
-    userRepository.get.withArgs(userId).resolves({ id: userId });
+    userRepository.getUserDetailForAdmin.withArgs(userId).resolves({ id: userId });
 
     // when
     const result = await getUserDetailForAdmin({ userId, userRepository });
