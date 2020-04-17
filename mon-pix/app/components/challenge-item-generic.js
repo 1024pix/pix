@@ -19,7 +19,7 @@ const ChallengeItemGeneric = Component.extend({
 
   init() {
     this._super(...arguments);
-    if (!_.isInteger(this.get('challenge.timer'))) {
+    if (!_.isInteger(this.challenge.timer)) {
       this._start();
     }
   },
@@ -51,7 +51,7 @@ const ChallengeItemGeneric = Component.extend({
   }),
 
   hasTimerDefined() {
-    return _.isInteger(this.get('challenge.timer'));
+    return _.isInteger(this.challenge.timer);
   },
 
   _getTimeout() {
@@ -86,16 +86,16 @@ const ChallengeItemGeneric = Component.extend({
         if (this._hasError()) {
 
           const errorMessage = this._getErrorMessage();
-          
+
           this.set('errorMessage', errorMessage);
 
           return;
         }
-        
+
         this.set('errorMessage', null);
         this.set('_isUserAwareThatChallengeIsTimed', false);
         this.set('isValidateButtonEnabled', false);
-        
+
         return this.answerValidated(this.challenge, this.assessment, this._getAnswerValue(), this._getTimeout(), this._getElapsedTime())
           .finally(() => this.set('isValidateButtonEnabled', true));
       }
