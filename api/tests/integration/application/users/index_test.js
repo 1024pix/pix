@@ -7,6 +7,7 @@ const moduleUnderTest = require('../../../../lib/application/users');
 describe('Integration | Application | Users | Routes', () => {
 
   let httpTestServer;
+  const method = 'GET';
 
   beforeEach(() => {
     sinon.stub(securityController, 'checkUserHasRolePixMaster');
@@ -19,7 +20,6 @@ describe('Integration | Application | Users | Routes', () => {
     it('should exist', async () => {
       // given
       securityController.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
-      const method = 'GET';
       const url = '/api/admin/users/123';
 
       // when
@@ -27,6 +27,18 @@ describe('Integration | Application | Users | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return a 400 when id in param is not a number"', async () => {
+
+      // given
+      const url = '/api/admin/users/NOT_A_NUMBER';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
 
   });

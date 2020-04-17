@@ -1,6 +1,7 @@
 const securityController = require('../../interfaces/controllers/security-controller');
 const userController = require('./user-controller');
 const Joi = require('@hapi/joi');
+const JSONAPIError = require('jsonapi-serializer').Error;
 const userVerification = require('../preHandlers/user-existence-verification');
 const { passwordValidationPattern } = require('../../config').account;
 const XRegExp = require('xregexp');
@@ -49,14 +50,28 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/admin/users/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required(),
+          }),
+          failAction: (request, h) => {
+            const errorHttpStatusCode = 400;
+            const jsonApiError = new JSONAPIError({
+              code: errorHttpStatusCode.toString(),
+              title: 'Bad request',
+              detail: 'L\'identifiant de l\'utilisateur n\'est pas au bon format.',
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+          }
+        },
         handler: userController.getUserDetailForAdmin,
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération de l’utilisateur courant\n',
+          '- **Cette route est restreinte aux utilisateurs administrateurs**\n' +
+          '- Elle permet de récupérer le détail d\'un utilisateur dans un contexte d\'administration\n',
         ],
         tags: ['api', 'user admin'],
       }
