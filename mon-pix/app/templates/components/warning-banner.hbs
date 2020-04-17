@@ -1,9 +1,5 @@
-{{#if this.isEnabled}}
+{{#if this.displayBanner}}
   <div class="warning-banner">
-    <a class="warning-banner__text" href="https://app.pix.fr">
-      <FaIcon @icon="exclamation-triangle"></FaIcon>
-      Cette plateforme est destinée aux tests internes à Pix. Vos pix ne sont pas comptabilisés.
-      <br><span class="warning-banner__text--underline">Allez sur le site Pix.</span>
-    </a>
+    {{this.htmlSafeBannerContent}}
   </div>
 {{/if}}
