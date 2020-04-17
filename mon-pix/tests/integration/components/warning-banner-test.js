@@ -8,15 +8,15 @@ import ENV from 'mon-pix/config/environment';
 describe('Integration | Component | warning-banner', function() {
   setupRenderingTest();
 
-  const originalIsStagingBannerEnabled = ENV.APP.IS_STAGING_BANNER_ENABLED;
+  const warningBannerContent = ENV.APP.WARNING_BANNER_CONTENT;
 
   afterEach(function() {
-    ENV.APP.IS_STAGING_BANNER_ENABLED = originalIsStagingBannerEnabled;
+    ENV.APP.WARNING_BANNER_CONTENT = warningBannerContent;
   });
 
-  it('should not display the banner when not in staging', async function() {
+  it('should not display the banner when no banner content', async function() {
     // given
-    ENV.APP.IS_STAGING_BANNER_ENABLED = false;
+    ENV.APP.WARNING_BANNER_CONTENT = '';
 
     // when
     await render(hbs`<WarningBanner />`);
@@ -27,12 +27,14 @@ describe('Integration | Component | warning-banner', function() {
 
   it('should display the banner when in staging', async function() {
     // given
-    ENV.APP.IS_STAGING_BANNER_ENABLED = true;
+    ENV.APP.WARNING_BANNER_CONTENT = 'banner text ...';
 
     // when
     await render(hbs`<WarningBanner />`);
 
     // then
     expect(find('.warning-banner')).to.exist;
+    expect(find('.warning-banner').textContent).to.contain(ENV.APP.WARNING_BANNER_CONTENT);
   });
+
 });
