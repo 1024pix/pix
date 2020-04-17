@@ -35,7 +35,14 @@ module.exports = {
         'single-line-function',
         'multi-line-function',
       ]
-    }]
+    }],
+    /* Rules recommanded */
+    'ember/no-mixins': 'off',
+    'ember/no-jquery': 'off',
+    'ember/require-computed-property-dependencies': 'off',
+    'ember/no-private-routing-service': 'off',
+    'ember/require-computed-macros': 'off',
+
   },
   overrides: [
     // node files
