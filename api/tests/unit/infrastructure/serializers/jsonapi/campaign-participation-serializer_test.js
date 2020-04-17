@@ -197,10 +197,10 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
                   id: '1',
                   type: 'competenceResults',
                 },
-                  {
-                    id: '2',
-                    type: 'competenceResults',
-                  }]
+                {
+                  id: '2',
+                  type: 'competenceResults',
+                }]
               }
             },
             id: '1',
