@@ -34,4 +34,19 @@ module('Acceptance | authenticated/users/get', function(hooks) {
 
     assert.equal(currentURL(), `/users/${firstUser.id}`);
   });
+
+  test('Should redirect to list users page when click page title', async function(assert) {
+    const user = this.server.create('user', {
+      firstName: 'John',
+      lastName: 'Snow',
+      email: 'john.snow@winterfell.got',
+      username: 'K1ng0fTh3N0rth',
+    });
+
+    await visit(`/users/${user.id}`);
+    assert.equal(currentURL(), `/users/${user.id}`);
+    await click('#link-to-users-page');
+    assert.equal(currentURL(), '/users/list');
+
+  });
 });
