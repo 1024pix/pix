@@ -55,6 +55,14 @@ class UnauthorizedError extends BaseHttpError {
   }
 }
 
+class PasswordShouldChangeError extends BaseHttpError {
+  constructor(message) {
+    super(message);
+    this.title = 'PasswordShouldChange';
+    this.status = 401;
+  }
+}
+
 class ForbiddenError extends BaseHttpError {
   constructor(message) {
     super(message);
@@ -72,13 +80,14 @@ class BadRequestError extends BaseHttpError {
 }
 
 module.exports = {
-  UnprocessableEntityError,
   BadRequestError,
+  BaseHttpError,
   ConflictError,
   ForbiddenError,
-  BaseHttpError,
   MissingQueryParamError,
   NotFoundError,
-  UnauthorizedError,
+  PasswordShouldChangeError,
   PreconditionFailedError,
+  UnauthorizedError,
+  UnprocessableEntityError,
 };
