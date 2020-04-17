@@ -23,7 +23,7 @@ module.exports = {
   },
   rules: {
     'ember/avoid-leaking-state-in-ember-objects': 'off',
-    'ember/no-get': 'error',
+    'ember/no-get': ['error', { ignoreNestedPaths : true }],
     'ember/no-empty-attrs': 'error',
     'ember/no-new-mixins': 'off',
     'ember/no-restricted-resolver-tests': 'off',
