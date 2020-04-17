@@ -59,3 +59,11 @@ then(`je vois que j'ai partagé mon profil`, () => {
 then(`je vois que j'ai envoyé les résultats`, () => {
   cy.contains('Merci, vos résultats ont bien été envoyés !');
 });
+
+then(`je vois {int} sujets`, (tubeCount) => {
+  cy.get('[aria-label="Sujet"]').should('have.lengthOf', tubeCount);
+});
+
+then(`je vois que le sujet {string} est {string}`, (tubeName, recommendationLevel) => {
+  cy.contains(tubeName).closest('[aria-label="Sujet"]').get(`[aria-label="${recommendationLevel}"]`);
+});
