@@ -326,6 +326,12 @@ class ObjectValidationError extends DomainError {
   }
 }
 
+class UserShouldChangePasswordError extends DomainError {
+  constructor(message = 'Erreur, vous devez changer votre mot de passe.') {
+    super(message);
+  }
+}
+
 class SchoolingRegistrationAlreadyLinkedToUserError extends DomainError {
   constructor(message = 'L\'élève est déjà rattaché à un compte utilisateur.') {
     super(message);
@@ -508,7 +514,8 @@ module.exports = {
   UserNotAuthorizedToUpdateResourceError,
   UserNotAuthorizedToUpdateStudentPasswordError,
   UserNotFoundError,
-  WrongDateFormatError,
-  UserOrgaSettingsCreationError,
   UserNotMemberOfOrganizationError,
+  UserOrgaSettingsCreationError,
+  UserShouldChangePasswordError,
+  WrongDateFormatError,
 };

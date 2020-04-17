@@ -131,6 +131,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserNotFoundError) {
     return new HttpErrors.NotFoundError(error.message);
   }
+  if (error instanceof DomainErrors.UserShouldChangePasswordError) {
+    return new HttpErrors.PasswordShouldChangeError(error.message);
+  }
   if (error instanceof DomainErrors.PasswordResetDemandNotFoundError) {
     return new HttpErrors.NotFoundError(error.message);
   }
