@@ -81,8 +81,9 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
       assert.equal(find('[data-test-id="session-info__examiner-comment"]'), undefined);
       assert.equal(find('[data-test-id="session-info__number-of-not-checked-end-screen"]'), undefined);
+      const firstButton = this.element.querySelector('.session-info__actions .row button:nth-child(1)');
+      assert.equal(firstButton.innerHTML.trim(), 'Récupérer le fichier avant jury');
     });
-
   });
 
   module('when the session is finalized', function() {
@@ -146,7 +147,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         await visit(`/sessions/${session.id}`);
 
         // then
-        const buttonSendResultsToCandidates = this.element.querySelector('.session-info__actions .row button:nth-child(3)');
+        const buttonSendResultsToCandidates = this.element.querySelector('.session-info__actions .row button:nth-child(4)');
         assert.equal(buttonSendResultsToCandidates.innerHTML.trim(), 'Résultats transmis au prescripteur');
       });
       
@@ -161,7 +162,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         await visit(`/sessions/${session.id}`);
 
         // then
-        assert.dom('.session-info__actions .row button:nth-child(3)').doesNotExist();
+        assert.dom('.session-info__actions .row button:nth-child(4)').doesNotExist();
       });
 
     });

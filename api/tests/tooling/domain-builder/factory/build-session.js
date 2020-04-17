@@ -17,6 +17,7 @@ module.exports = function buildSession({
   finalizedAt = null,
   resultsSentToPrescriberAt = null,
   publishedAt = null,
+  assignedCertificationOfficerId,
 } = {}) {
   return new Session({
     id,
@@ -33,5 +34,6 @@ module.exports = function buildSession({
     finalizedAt,
     resultsSentToPrescriberAt,
     publishedAt,
+    assignedCertificationOfficerId,
   });
 };

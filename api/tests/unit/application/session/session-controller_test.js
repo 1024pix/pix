@@ -655,4 +655,35 @@ describe('Unit | Controller | sessionController', () => {
       expect(sessionSerializer.serializeForPaginatedFilteredResults).to.have.been.calledWithExactly(expectedResults, expectedPagination);
     });
   });
+
+  describe('#assignCertificationOfficer', () => {
+    let request;
+    const sessionId = 1;
+    const session = Symbol('session');
+    const sessionJsonApi = Symbol('someSessionSerialized');
+
+    beforeEach(() => {
+      // given
+      request = {
+        params: { id : sessionId },
+        auth: {
+          credentials : {
+            userId,
+          }
+        },
+      };
+      sinon.stub(usecases, 'assignCertificationOfficerToSession').withArgs({ sessionId, certificationOfficerId: userId }).resolves(session);
+      sinon.stub(sessionSerializer, 'serialize').withArgs(session).returns(sessionJsonApi);
+    });
+
+    it('should return updated session', async () => {
+      // when
+      const response = await sessionController.assignCertificationOfficer(request, hFake);
+
+      // then
+      expect(usecases.assignCertificationOfficerToSession).to.have.been.calledWithExactly({ sessionId, certificationOfficerId: userId });
+      expect(response).to.deep.equal(sessionJsonApi);
+    });
+
+  });
 });

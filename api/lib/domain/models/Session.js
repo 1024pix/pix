@@ -2,11 +2,13 @@ const _ = require('lodash');
 
 const CREATED = 'created';
 const FINALIZED = 'finalized';
+const IN_PROCESS = 'in_process';
 const PROCESSED = 'processed';
 
 const statuses = {
   CREATED,
   FINALIZED,
+  IN_PROCESS,
   PROCESSED,
 };
 
@@ -32,6 +34,7 @@ class Session {
     certificationCandidates,
     // references
     certificationCenterId,
+    assignedCertificationOfficerId,
   } = {}) {
     this.id = id;
     // attributes
@@ -51,6 +54,7 @@ class Session {
     this.certificationCandidates = certificationCandidates;
     // references
     this.certificationCenterId = certificationCenterId;
+    this.assignedCertificationOfficerId = assignedCertificationOfficerId;
   }
 
   areResultsFlaggedAsSent() {
@@ -60,6 +64,9 @@ class Session {
   get status() {
     if (this.publishedAt) {
       return statuses.PROCESSED;
+    }
+    if (this.assignedCertificationOfficerId) {
+      return statuses.IN_PROCESS;
     }
     if (this.finalizedAt) {
       return statuses.FINALIZED;
