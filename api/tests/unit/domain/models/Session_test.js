@@ -18,6 +18,7 @@ const SESSION_PROPS = [
   'publishedAt',
   'certificationCandidates',
   'certificationCenterId',
+  'assignedCertificationOfficerId',
 ];
 
 describe('Unit | Domain | Models | Session', () => {
@@ -42,6 +43,7 @@ describe('Unit | Domain | Models | Session', () => {
       certificationCandidates: [],
       // references
       certificationCenterId: '',
+      assignedCertificationOfficerId: '',
     });
   });
 
@@ -100,28 +102,45 @@ describe('Unit | Domain | Models | Session', () => {
 
     context('when session publishedAt timestamp is not defined', () => {
 
-      context('when session finalizedAt timestamp is defined', () => {
+      context('when session assignedCertificationOfficerId is defined', () => {
 
-        it('should return FINALIZED', () => {
+        it('should return IN_PROCESS', () => {
           // given
-          session.finalizedAt = new Date();
+          session.assignedCertificationOfficerId = 123;
 
           // when
           const status = session.status;
 
           // then
-          expect(status).to.equal(Session.statuses.FINALIZED);
+          expect(status).to.equal(Session.statuses.IN_PROCESS);
         });
       });
 
-      context('when session finalizedAt timestamp is not defined', () => {
+      context('when session assignedCertificationOfficerId is not defined', () => {
+      
+        context('when session finalizedAt timestamp is defined', () => {
 
-        it('should return CREATED', () => {
-          // when
-          const status = session.status;
+          it('should return FINALIZED', () => {
+            // given
+            session.finalizedAt = new Date();
 
-          // then
-          expect(status).to.equal(Session.statuses.CREATED);
+            // when
+            const status = session.status;
+
+            // then
+            expect(status).to.equal(Session.statuses.FINALIZED);
+          });
+        });
+
+        context('when session finalizedAt timestamp is not defined', () => {
+
+          it('should return CREATED', () => {
+            // when
+            const status = session.status;
+
+            // then
+            expect(status).to.equal(Session.statuses.CREATED);
+          });
         });
       });
     });
