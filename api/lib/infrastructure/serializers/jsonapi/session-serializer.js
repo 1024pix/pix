@@ -28,6 +28,7 @@ module.exports = {
         'certificationCandidates',
         'certificationReports',
         'certificationCenter',
+        'assignedCertificationOfficer',
       ],
       certifications : {
         ref: 'id',
@@ -65,6 +66,15 @@ module.exports = {
           }
         }
       },
+      assignedCertificationOfficer: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current) {
+            return `/api/users/${current.id}`;
+          }
+        }
+      },
       transform(session) {
         const transformedSession = Object.assign({}, session);
         transformedSession.status = session.status;
@@ -75,9 +85,13 @@ module.exports = {
         if (session.certificationCenterId) {
           transformedSession.certificationCenter = { id: session.certificationCenterId };
         }
+        if (session.assignedCertificationOfficerId) {
+          transformedSession.assignedCertificationOfficer = { id: session.assignedCertificationOfficerId };
+        }
         return transformedSession;
       },
     }).serialize(sessions);
+
   },
 
   serializeForFinalization(sessions) {
@@ -104,6 +118,7 @@ module.exports = {
         'publishedAt',
         'certifications',
         'certificationCenter',
+        'assignedCertificationOfficer',
       ],
       certifications : {
         ref: 'id',
@@ -123,6 +138,15 @@ module.exports = {
           }
         }
       },
+      assignedCertificationOfficer: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current) {
+            return `/api/users/${current.id}`;
+          }
+        }
+      },
       transform(session) {
         const transformedSession = Object.assign({}, session);
         transformedSession.status = session.status;
@@ -131,6 +155,9 @@ module.exports = {
         delete transformedSession.certificationCenter;
         if (session.certificationCenterId) {
           transformedSession.certificationCenter = { id: session.certificationCenterId };
+        }
+        if (session.assignedCertificationOfficerId) {
+          transformedSession.assignedCertificationOfficer = { id: session.assignedCertificationOfficerId };
         }
         return transformedSession;
       },
