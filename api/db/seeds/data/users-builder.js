@@ -44,4 +44,14 @@ module.exports = function usersBuilder({ databaseBuilder }) {
     rawPassword: 'pix123',
     cgu: true,
   });
+
+  const userShouldChangePassword = {
+    firstName: 'Joffrey',
+    lastName: 'Baratheon',
+    email: null,
+    username: 'username123',
+    rawPassword: 'Password123',
+    shouldChangePassword: true
+  };
+  databaseBuilder.factory.buildUser.withUnencryptedPassword(userShouldChangePassword);
 };

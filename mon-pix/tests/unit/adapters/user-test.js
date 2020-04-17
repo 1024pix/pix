@@ -34,6 +34,7 @@ describe('Unit | Adapters | user', function() {
   });
 
   describe('#urlForUpdateRecord', () => {
+
     it('should build update url from user id', async function() {
       // when
       const snapshot = { adapterOptions: { } };
@@ -60,7 +61,36 @@ describe('Unit | Adapters | user', function() {
       // then
       expect(url.endsWith('/users/123/password-update?temporary-key=temp%3D%26key')).to.be.true;
     });
+  });
 
+  describe('#createRecord', () => {
+
+    it('should call expired-password-updates when updateExpiredPassword is true', async () => {
+      // given
+      const username = 'username123';
+      const expiredPassword = 'Password123';
+      const newPassword = 'Password456';
+
+      const expectedUrl = 'http://localhost:3000/api/expired-password-updates';
+      const expectedMethod = 'POST';
+      const expectedData = {
+        data: {
+          data: {
+            attributes: { username, expiredPassword, newPassword }
+          }
+        }
+      };
+
+      // when
+      const snapshot = {
+        record: { username, password: expiredPassword },
+        adapterOptions: { updateExpiredPassword: true, newPassword }
+      };
+      await adapter.createRecord(null, null, snapshot);
+
+      // then
+      sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
+    });
   });
 
 });

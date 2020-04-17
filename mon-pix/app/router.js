@@ -14,6 +14,7 @@ export default class Router extends EmberRouter {
 
 /* eslint-disable max-statements */
 Router.map(function() {
+
   this.route('index', { path: '/' });
   this.route('inscription');
   this.route('profile', { path: '/profil' });
@@ -34,6 +35,7 @@ Router.map(function() {
   this.route('not-connected', { path: '/nonconnecte' });
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
+  this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
 
   this.route('certifications', function() {
     this.route('start', { path: '/' });

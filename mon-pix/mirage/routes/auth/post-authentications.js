@@ -17,12 +17,15 @@ export default function(schema, request) {
   }
 
   if (foundUser && queryParams.password === foundUser.password) {
-    return {
-      token_type: '',
-      expires_in: '',
-      access_token: 'aaa.' + btoa(`{"user_id":${foundUser.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-      user_id: foundUser.id
-    };
+    if (!foundUser.shouldChangePassword) {
+      return {
+        token_type: '',
+        expires_in: '',
+        access_token: 'aaa.' + btoa(`{"user_id":${foundUser.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+        user_id: foundUser.id
+      };
+    }
+    return new Response(401, {}, { errors: [ { title: 'PasswordShouldChange' } ] });
   }
   return new Response(401, {}, 'Authentication failed');
 }

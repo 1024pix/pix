@@ -1,5 +1,8 @@
-const passwordController = require('./password-controller');
 const Joi = require('@hapi/joi');
+const XRegExp = require('xregexp');
+
+const { passwordValidationPattern } = require('../../config').account;
+const passwordController = require('./password-controller');
 
 exports.register = async function(server) {
   server.route([
@@ -35,7 +38,31 @@ exports.register = async function(server) {
         handler: passwordController.checkResetDemand,
         tags: ['api', 'passwords']
       }
-    }
+    },
+    {
+      method: 'POST',
+      path: '/api/expired-password-updates',
+      config: {
+        auth: false,
+        handler: passwordController.updateExpiredPassword,
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                username: Joi.string().required(),
+                expiredPassword: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
+                newPassword: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
+              },
+              type: Joi.string()
+            }
+          })
+        },
+        notes: ['Route publique',
+          'Cette route permet de mettre à jour un mot de passe expiré'
+        ],
+        tags: ['api', 'passwords']
+      }
+    },
   ]);
 };
 

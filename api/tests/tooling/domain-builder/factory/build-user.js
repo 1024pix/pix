@@ -17,12 +17,13 @@ module.exports = function buildUser(
     hasSeenAssessmentInstructions = false,
     pixRoles = [buildPixRole()],
     memberships = [buildMembership()],
-    certificationCenterMemberships = [buildCertificationCenterMembership()]
+    certificationCenterMemberships = [buildCertificationCenterMembership()],
+    shouldChangePassword = false
   } = {}) {
 
   return new User({
     id, firstName, lastName, email, username, password, cgu, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, shouldChangePassword,
     pixRoles, memberships, certificationCenterMemberships,
   });
 };
