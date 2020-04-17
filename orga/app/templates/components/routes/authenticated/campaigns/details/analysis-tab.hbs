@@ -15,25 +15,16 @@
       <th class="table__column--wide">Sujets ({{if @displayAnalysis
                                                   @campaignTubeRecommendations.length '-' }})</th>
       <th class="table__column--small table__column--center">Pertinence</th>
+      <th class="table__column--small table__column--center"></th>
     </tr>
     </thead>
 
     {{#if @displayAnalysis }}
       <tbody>
       {{#each @campaignTubeRecommendations as |tubeRecommendation|}}
-        <tr aria-label="Sujet">
-          <td class="campaign-details-table__line-wrapper">
-            <span class="campaign-details-table__bullet campaign-details-table__bullet--{{tubeRecommendation.areaColor}}">
-              &#8226;
-            </span>
-            <span>{{tubeRecommendation.tubePracticalTitle}}<br/>
-              <sub>{{tubeRecommendation.competenceName}}</sub>
-            </span>
-          </td>
-          <td>
-            <RecommendationIndicator @value={{tubeRecommendation.averageScore}} />
-          </td>
-        </tr>
+        <Routes::Authenticated::Campaigns::Details::Analysis::TubeRecommendationRow
+          @tubeRecommendation={{tubeRecommendation}}
+        />
       {{/each}}
       </tbody>
     {{/if}}

@@ -1,0 +1,39 @@
+<tr aria-label="Sujet">
+  <td class="campaign-details-table__line-wrapper">
+    <span class="campaign-details-table__bullet campaign-details-table__bullet--{{@tubeRecommendation.areaColor}}">
+      &#8226;
+    </span>
+    <span>{{@tubeRecommendation.tubePracticalTitle}}<br />
+      <sub>{{@tubeRecommendation.competenceName}}</sub>
+    </span>
+  </td>
+  <td>
+    <RecommendationIndicator @value={{@tubeRecommendation.averageScore}} />
+  </td>
+  <td>
+    <button type="button" class="icon-button" {{on 'click' this.toggle}} aria-expanded={{this.isOpen}}>
+      {{#if this.isOpen}}
+      <FaIcon @icon="chevron-up" />
+      {{else}}
+      <FaIcon @icon="chevron-down" />
+      {{/if}}
+    </button>
+  </td>
+</tr>
+{{#if this.isOpen}}
+<tr>
+  <td colspan="3">
+    <h3>Tutos recommandés par la communauté Pix</h3>
+    <table>
+      <tbody>
+        <tr>
+          <td>Tuto 1</td>
+        </tr>
+        <tr>
+          <td>Tuto 2</td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+{{/if}}
