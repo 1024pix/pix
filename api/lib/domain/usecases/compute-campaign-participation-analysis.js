@@ -21,6 +21,10 @@ module.exports = async function computeCampaignParticipationAnalysis(
     throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
   }
 
+  if (!campaignParticipation.isShared)  {
+    return null;
+  }
+
   const [competences, tubes, targetProfile, validatedKnowledgeElements] = await Promise.all([
     competenceRepository.list(),
     tubeRepository.list(),
