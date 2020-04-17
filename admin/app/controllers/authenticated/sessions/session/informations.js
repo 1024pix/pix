@@ -4,14 +4,10 @@ import { alias } from '@ember/object/computed';
 import Controller from '@ember/controller';
 
 export default class IndexController extends Controller {
-  @service
-  sessionInfoService;
+  @service sessionInfoService;
+  @service notifications;
 
-  @service
-  notifications;
-
-  @alias('model')
-  session;
+  @alias('model') session;
 
   @action
   downloadSessionResultFile() {
@@ -34,5 +30,15 @@ export default class IndexController extends Controller {
   @action
   async tagSessionAsSentToPrescriber() {
     await this.session.save({ adapterOptions: { flagResultsAsSentToPrescriber: true } });
+  }
+
+  @action
+  async assignSessionToCurrentUser() {
+    try {
+      await this.session.save({ adapterOptions: { certificationOfficerAssignment: true } });
+      this.notifications.success('La session vous a correctement été assignée');
+    } catch (err) {
+      this.notifications.error('Erreur lors de l\'assignation à la session');
+    }
   }
 }
