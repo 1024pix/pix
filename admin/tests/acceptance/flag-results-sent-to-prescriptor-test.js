@@ -63,9 +63,9 @@ module('Acceptance | Session page', function(hooks) {
       });
         // when
       await visit(`/sessions/${session.id}`);
-      await click('.session-info__actions button:nth-child(3)');
+      await click('.session-info__actions button:nth-child(4)');
         
-      assert.dom('.session-info__actions button:nth-child(3)').doesNotExist();
+      assert.dom('.session-info__actions button:nth-child(4)').doesNotExist();
     });
 
   });

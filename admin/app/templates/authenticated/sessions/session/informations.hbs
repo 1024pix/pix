@@ -83,18 +83,25 @@
 
   <div class="session-info__actions">
     <div class='row row--btn'>
-      <button class="btn btn-primary" {{action "downloadBeforeJuryFile"}} type="button">
+
+      {{#if this.session.finalizedAt}}
+        <button class="btn btn-primary" {{on 'click' this.assignSessionToCurrentUser}}>
+          M'assigner la session
+        </button>
+      {{/if}}
+
+      <button class="btn btn-primary" {{on 'click' this.downloadBeforeJuryFile}}>
         Récupérer le fichier avant jury
       </button>
 
-      <button class="btn btn-primary btn--right" {{action "downloadSessionResultFile"}} type="button">
+      <button class="btn btn-primary btn--right" {{on 'click' this.downloadSessionResultFile}}>
         Exporter les résultats
       </button>
 
       {{#if this.session.areResultsToBeSentToPrescriber}}
-      <button class="btn btn-primary" {{action "tagSessionAsSentToPrescriber"}} type="button">
-        Résultats transmis au prescripteur
-      </button>
+        <button class="btn btn-primary" {{on 'click' this.tagSessionAsSentToPrescriber}}>
+          Résultats transmis au prescripteur
+        </button>
       {{/if}}
     </div>
   </div>
