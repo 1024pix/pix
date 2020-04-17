@@ -3,7 +3,7 @@
   En fonction du référentiel testé et des résultats de la campagne,
   Pix vous recommande ces sujets à travailler, classés par degré de pertinence (
   <svg height="10" width="10">
-      <circle cx="5" cy="5" r="5" class="campaign-details-analysis recommendation-indicator__bubble"/>
+    <circle cx="5" cy="5" r="5" class="campaign-details-analysis recommendation-indicator__bubble"/>
   </svg>
   )
 </p>
@@ -12,11 +12,13 @@
   <table aria-label="Analyse par sujet">
     <thead>
     <tr>
-      <th class="table__column--wide">Sujets ({{ @campaignTubeRecommendations.length }})</th>
+      <th class="table__column--wide">Sujets ({{if @displayAnalysis
+                                                  @campaignTubeRecommendations.length '-' }})</th>
       <th class="table__column--small table__column--center">Pertinence</th>
     </tr>
     </thead>
 
+    {{#if @displayAnalysis }}
       <tbody>
       {{#each @campaignTubeRecommendations as |tubeRecommendation|}}
         <tr aria-label="Sujet">
@@ -28,9 +30,15 @@
               <sub>{{tubeRecommendation.competenceName}}</sub>
             </span>
           </td>
-          <td><RecommendationIndicator @value={{tubeRecommendation.averageScore}} /></td>
+          <td>
+            <RecommendationIndicator @value={{tubeRecommendation.averageScore}} />
+          </td>
         </tr>
       {{/each}}
       </tbody>
+    {{/if}}
   </table>
+  {{#unless @displayAnalysis }}
+    <div class="table__empty content-text">En attente de résultats</div>
+  {{/unless}}
 </div>
