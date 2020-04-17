@@ -42,8 +42,10 @@ describe('Integration | Component | ChallengeStatement', function() {
     // Inspired from: https://github.com/emberjs/ember-mocha/blob/0790a78d7464655fee0c103d2fa960fa53a056ca/tests/setup-component-test-test.js#L118-L122
     it('should render challenge instruction if it exists', async function() {
       // given
+      addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
-        instruction: 'La consigne de mon test'
+        instruction: 'La consigne de mon test',
+        id: 'rec_challenge'
       });
 
       // when
@@ -55,6 +57,7 @@ describe('Integration | Component | ChallengeStatement', function() {
 
     it('should not render challenge instruction if it does not exist', async function() {
       // given
+      addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {});
 
       // when
@@ -91,9 +94,11 @@ describe('Integration | Component | ChallengeStatement', function() {
       // given
       const challenge = {
         illustrationUrl: '/images/pix-logo.svg',
-        illustrationAlt: 'texte alternatif'
+        illustrationAlt: 'texte alternatif',
+        id: 'rec_challenge'
       };
       addChallengeToContext(this, challenge);
+      addAssessmentToContext(this, { id: '267845' });
 
       // when
       await renderChallengeStatement();
@@ -106,6 +111,7 @@ describe('Integration | Component | ChallengeStatement', function() {
     it('should not display challenge illustration if it does not exist', async function() {
       // given
       addChallengeToContext(this, {});
+      addAssessmentToContext(this, { id: '267845' });
 
       // when
       await renderChallengeStatement();
@@ -127,8 +133,10 @@ describe('Integration | Component | ChallengeStatement', function() {
       it('should not display attachements section', async function() {
         addChallengeToContext(this, {
           attachments: [],
-          hasAttachment: false
+          hasAttachment: false,
+          id: 'rec_challenge'
         });
+        addAssessmentToContext(this, { id: '267845' });
 
         // when
         await renderChallengeStatement();
@@ -146,8 +154,10 @@ describe('Integration | Component | ChallengeStatement', function() {
           attachments: ['http://challenge.file.url'],
           hasAttachment: true,
           hasSingleAttachment: true,
-          hasMultipleAttachments: false
+          hasMultipleAttachments: false,
+          id: 'rec_challenge'
         });
+        addAssessmentToContext(this, { id: '267845' });
 
         // when
         await renderChallengeStatement();
@@ -167,7 +177,8 @@ describe('Integration | Component | ChallengeStatement', function() {
         attachments: [file1, file2],
         hasAttachment: true,
         hasSingleAttachment: false,
-        hasMultipleAttachments: true
+        hasMultipleAttachments: true,
+        id: 'rec_challenge'
       };
 
       const challengeQROC = {
@@ -176,12 +187,14 @@ describe('Integration | Component | ChallengeStatement', function() {
         hasSingleAttachment: false,
         hasAttachment: true,
         hasMultipleAttachments: true,
-        attachments: ['http://dl.airtable.com/EL9k935vQQS1wAGIhcZU_PIX_parchemin.ppt', 'http://dl.airtable.com/VGAwZSilQji6Spm9C9Tf_PIX_parchemin.odp']
+        attachments: ['http://dl.airtable.com/EL9k935vQQS1wAGIhcZU_PIX_parchemin.ppt', 'http://dl.airtable.com/VGAwZSilQji6Spm9C9Tf_PIX_parchemin.odp'],
+        id: 'rec_challenge'
       };
 
       it('should display as many radio button as attachments', async function() {
         // given
         addChallengeToContext(this, challenge);
+        addAssessmentToContext(this, { id: '267845' });
 
         // when
         await renderChallengeStatement();
@@ -193,6 +206,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       it('should display radio buttons with right label', async function() {
         // given
         addChallengeToContext(this, challenge);
+        addAssessmentToContext(this, { id: '267845' });
 
         // when
         await renderChallengeStatement();
@@ -206,6 +220,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       it('should select first attachment as default selected radio button', async function() {
         // given
         addChallengeToContext(this, challenge);
+        addAssessmentToContext(this, { id: '267845' });
 
         // when
         await renderChallengeStatement();
@@ -218,6 +233,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       it('should select first attachment as default selected radio button when QROC', async function() {
         // given
         addChallengeToContext(this, challengeQROC);
+        addAssessmentToContext(this, { id: '267845' });
 
         // when
         await renderChallengeStatement();
@@ -230,6 +246,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       it('should display attachements paragraph text', async function() {
         // given
         addChallengeToContext(this, challenge);
+        addAssessmentToContext(this, { id: '267845' });
 
         // when
         await renderChallengeStatement();
@@ -241,6 +258,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       it('should display help icon next to attachements paragraph', async function() {
         // given
         addChallengeToContext(this, challenge);
+        addAssessmentToContext(this, { id: '267845' });
 
         // when
         await renderChallengeStatement();
@@ -262,7 +280,8 @@ describe('Integration | Component | ChallengeStatement', function() {
 
     it('should be displayed when the challenge has a valid Embed object', async function() {
       // given
-      addChallengeToContext(this, { hasValidEmbedDocument: true });
+      addChallengeToContext(this, { hasValidEmbedDocument: true, id: 'rec_challenge' });
+      addAssessmentToContext(this, { id: '267845' });
 
       // when
       await renderChallengeStatement();
@@ -273,7 +292,8 @@ describe('Integration | Component | ChallengeStatement', function() {
 
     it('should not be displayed when the challenge does not have a valid Embed object', async function() {
       // given
-      addChallengeToContext(this, { hasValidEmbedDocument: false });
+      addChallengeToContext(this, { hasValidEmbedDocument: false, id: 'rec_challenge' });
+      addAssessmentToContext(this, { id: '267845' });
 
       // when
       await renderChallengeStatement();
