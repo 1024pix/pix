@@ -1,4 +1,4 @@
 {{title pageTitle}}
 <div class="sign-form-page">
-  <SigninForm @authenticateUser={{route-action "authenticate"}} />
+  <SigninForm @authenticateUser={{route-action "authenticate"}} @updateExpiredPassword={{route-action "updateExpiredPassword"}} />
 </div>

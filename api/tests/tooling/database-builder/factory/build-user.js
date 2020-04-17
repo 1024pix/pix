@@ -21,6 +21,7 @@ const buildUser = function buildUser({
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
   samlId,
+  shouldChangePassword = false,
 } = {}) {
 
   password = _.isUndefined(password) ? encrypt.hashPasswordSync(faker.internet.password()) : encrypt.hashPasswordSync(password);
@@ -28,7 +29,7 @@ const buildUser = function buildUser({
 
   const values = {
     id, firstName, lastName, email, username, password, cgu, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId, shouldChangePassword,
   };
 
   return databaseBuffer.pushInsertable({
@@ -49,13 +50,14 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
   samlId,
+  shouldChangePassword = false,
 }) {
 
   const password = encrypt.hashPasswordSync(rawPassword);
 
   const values = {
     id, firstName, lastName, email, username, password, cgu, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId, shouldChangePassword,
   };
 
   return databaseBuffer.pushInsertable({

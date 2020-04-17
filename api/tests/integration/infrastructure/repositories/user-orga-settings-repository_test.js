@@ -8,7 +8,7 @@ const _ = require('lodash');
 describe('Integration | Repository | UserOrgaSettings', function() {
 
   const USER_OMITTED_PROPERTIES = ['campaignParticipations', 'certificationCenterMemberships', 'knowledgeElements',
-    'memberships', 'pixRoles', 'pixScore', 'samlId', 'scorecards', 'userOrgaSettings'];
+    'memberships', 'pixRoles', 'pixScore', 'samlId', 'scorecards', 'userOrgaSettings', 'shouldChangePassword'];
 
   const ORGANIZATION_OMITTED_PROPERTIES = ['memberships', 'organizationInvitations', 'students', 'targetProfileShares',
     'createdAt', 'updatedAt'];

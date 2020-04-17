@@ -18,6 +18,7 @@ export default class User extends ApplicationAdapter {
 
   createRecord(store, type, snapshot) {
     const { adapterOptions } = snapshot;
+
     if (adapterOptions && adapterOptions.isStudentDependentUser) {
       const url = this.buildURL(type.modelName, null, snapshot, 'createRecord');
       const serializedUser = this.serialize(snapshot);
@@ -26,6 +27,24 @@ export default class User extends ApplicationAdapter {
       serializedUser.data.attributes['with-username'] = adapterOptions.withUsername;
       return this.ajax(url, 'POST', { data: serializedUser });
     }
+
+    if (adapterOptions && adapterOptions.updateExpiredPassword) {
+      const url = this.buildURL('expired-password-update', null, snapshot, 'createRecord');
+
+      delete adapterOptions.updateExpiredPassword;
+      const newPassword = adapterOptions.newPassword;
+      delete adapterOptions.newPassword;
+
+      const { username, password: expiredPassword } = snapshot.record;
+      const payload = {
+        data: {
+          attributes: { username, expiredPassword, newPassword }
+        }
+      };
+
+      return this.ajax(url, 'POST', { data: payload });
+    }
+
     return super.createRecord(...arguments);
   }
 

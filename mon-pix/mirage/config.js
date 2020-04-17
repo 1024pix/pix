@@ -6,6 +6,7 @@ import getScorecard from './routes/get-scorecard';
 import getScorecardsTutorials from './routes/get-scorecards-tutorials';
 import postCompetenceEvaluation from './routes/post-competence-evaluation';
 import postSessionParticipation from './routes/post-session-participation';
+import postExpiredPasswordUpdates from './routes/post-expired-password-updates';
 import loadAnswerRoutes from './routes/answers/index';
 import loadAssessmentRoutes from './routes/assessments/index';
 import loadAuthRoutes from './routes/auth/index';
@@ -56,4 +57,6 @@ export default function() {
   this.get('/scorecards/:id/tutorials', getScorecardsTutorials);
 
   this.post('/sessions/:id/candidate-participation', postSessionParticipation);
+
+  this.post('/expired-password-updates', postExpiredPasswordUpdates);
 }

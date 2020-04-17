@@ -76,6 +76,7 @@ function _toDomain(userBookshelf) {
     email: userBookshelf.get('email'),
     username: userBookshelf.get('username'),
     password: userBookshelf.get('password'),
+    shouldChangePassword: Boolean(userBookshelf.get('shouldChangePassword')),
     cgu: Boolean(userBookshelf.get('cgu')),
     pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
     pixCertifTermsOfServiceAccepted: Boolean(userBookshelf.get('pixCertifTermsOfServiceAccepted')),
@@ -341,6 +342,19 @@ module.exports = {
       throw new AlreadyRegisteredUsernameError();
     }
     return username;
+  },
+
+  async updateExpiredPassword({ userId, hashedNewPassword }) {
+    return BookshelfUser
+      .where({ id: userId })
+      .save({ password: hashedNewPassword, shouldChangePassword: false }, { patch: true, method: 'update' })
+      .then((bookshelfUser) => bookshelfUser.toDomainEntity())
+      .catch((err) => {
+        if (err instanceof BookshelfUser.NoRowsUpdatedError) {
+          throw new UserNotFoundError(`User not found for ID ${userId}`);
+        }
+        throw err;
+      });
   }
 
 };

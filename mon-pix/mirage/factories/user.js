@@ -110,6 +110,9 @@ export default Factory.extend({
   cgu() {
     return false;
   },
+  shouldChangePassword: trait({
+    shouldChangePassword: true,
+  }),
   withEmail: trait({
     email: faker.internet.exampleEmail(),
     password: faker.internet.password(),

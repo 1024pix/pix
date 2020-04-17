@@ -15,6 +15,7 @@ describe('Unit | Domain | Models | User', () => {
         password: 'pix123',
         cgu: true,
         samlId: 'some-saml-id',
+        shouldChangePassword: false,
       };
 
       // when
@@ -28,6 +29,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(user.password).to.equal('pix123');
       expect(user.cgu).to.be.true;
       expect(user.samlId).to.equal('some-saml-id');
+      expect(user.shouldChangePassword).to.be.false;
     });
 
   });

@@ -5,6 +5,12 @@ given(`je me connecte avec le compte {string}`, (email) => {
   cy.get('button[type=submit]').click();
 });
 
+given(`je me connecte avec un mot de passe temporaire`, () => {
+  cy.get('input[name="login"]').type('user.shouldChangePassword1234');
+  cy.get('input[name="password"]').type('Pix12345');
+  cy.get('button[type=submit]').click();
+});
+
 given(`je m'inscris avec le prénom {string}, le nom {string}, le mail {string} et le mot de passe {string}`, (firstname, lastname, email, password) => {
   cy.get('input[id="firstName"]').type(firstname);
   cy.get('input[id="lastName"]').type(lastname);
