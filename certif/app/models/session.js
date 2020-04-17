@@ -7,10 +7,12 @@ const { Model, attr, belongsTo, hasMany } = DS;
 
 export const CREATED = 'created';
 export const FINALIZED = 'finalized';
+export const IN_PROCESS = 'in_process';
 export const PROCESSED = 'processed';
 export const statusToDisplayName = {
   [CREATED]: 'Créée',
   [FINALIZED]: 'Finalisée',
+  [IN_PROCESS]: 'Finalisée', // we don't want to show "En cours de traitement" status in Pix Certif
   [PROCESSED]: 'Résultats transmis par Pix',
 };
 
@@ -31,7 +33,9 @@ export default class Session extends Model {
 
   @computed('status')
   get isFinalized() {
-    return this.status === FINALIZED || this.status === PROCESSED;
+    return this.status === FINALIZED
+        || this.status === IN_PROCESS
+        || this.status === PROCESSED;
   }
 
   @computed('certificationCandidates.@each.isLinked')
