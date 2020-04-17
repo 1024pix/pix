@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.141.0 (17/04/2020)
+
+- [#1280](https://github.com/1024pix/pix/pull/1280) [FEATURE] Pouvoir s'assigner une session à traiter dans PixAdmin (PA-137)
+- [#1199](https://github.com/1024pix/pix/pull/1199) [FEATURE] Permettre l'utilisation d'un mot de passe à usage unique (PF-1027).
+- [#1305](https://github.com/1024pix/pix/pull/1305) [FEATURE] Ajout de la date de diffusion au prescripteur dans la liste des sessions sur PixAdmin (PA-189)
+- [#1306](https://github.com/1024pix/pix/pull/1306) [FEATURE] Ordonner la liste des sessions paginée dans PixAdmin de sorte à remonter les sessions à traiter en premier par le pôle certification (PA-178)
+- [#1304](https://github.com/1024pix/pix/pull/1304) [TECH] Tester la présence d'un ID et pas sa valeur dans le test auto sur les tutos (PF-1244)
+- [#1307](https://github.com/1024pix/pix/pull/1307) [TECH] Ajout de tests e2e (PF-1246).
+
 ## v2.140.0 (16/04/2020)
 
 - [#1290](https://github.com/1024pix/pix/pull/1290) [FEATURE] Changement des formulations de la landing page des collectes de profils (PF-1222).
