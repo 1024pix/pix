@@ -20,6 +20,7 @@ module.exports = function buildSession({
   finalizedAt = null,
   resultsSentToPrescriberAt = null,
   publishedAt = null,
+  assignedCertificationOfficerId,
 } = {}) {
 
   if (_.isUndefined(certificationCenterId)) {
@@ -43,6 +44,7 @@ module.exports = function buildSession({
     finalizedAt,
     resultsSentToPrescriberAt,
     publishedAt,
+    assignedCertificationOfficerId,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'sessions',
