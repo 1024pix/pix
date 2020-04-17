@@ -1,11 +1,19 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import sinon from 'sinon';
+import XSelectInteractor from 'emberx-select/test-support/interactor';
 
 module('Integration | Component | routes/authenticated/sessions | list-items', function(hooks) {
-
   setupRenderingTest(hooks);
+
+  hooks.beforeEach(function() {
+    const setStatusFilter = sinon.stub();
+    const triggerFiltering = function() {};
+    this.set('setStatusFilter', setStatusFilter);
+    this.set('triggerFiltering', triggerFiltering);
+  });
 
   test('it should display sessions list', async function(assert) {
     // given
@@ -31,13 +39,10 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     ];
 
     sessions.meta = { rowCount: 3 };
-    const triggerFiltering = function() {};
-
     this.set('sessions', sessions);
-    this.set('triggerFiltering', triggerFiltering);
 
     // when
-    await render(hbs`{{sessions/list-items sessions=sessions triggerFiltering=triggerFiltering}}`);
+    await render(hbs`{{sessions/list-items sessions=sessions triggerFiltering=triggerFiltering setStatusFilter=setStatusFilter}}`);
 
     // then
     assert.dom('table tbody tr').exists({ count: sessions.length });
@@ -55,4 +60,38 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     assert.dom('table tbody tr:nth-child(2) td:nth-child(3)').hasText('-');
     assert.dom('table tbody tr:nth-child(3) td:nth-child(3)').hasText('-');
   });
+
+  module('Dropdown menu for status filtering', function(hooks) {
+
+    hooks.beforeEach(function() {
+      const statusList = [
+        { status: 'status1', label: 'label1' },
+        { status: 'status2', label: 'label2' },
+        { status: 'status3', label: 'label3' },
+      ];
+      this.set('sessionStatusAndLabels', statusList);
+    });
+
+    test('it should render a dropdown menu to filter on status', async function(assert) {
+      // when
+      await render(hbs`{{sessions/list-items setStatusFilter=setStatusFilter triggerFiltering=triggerFiltering sessionStatusAndLabels=sessionStatusAndLabels}}`);
+
+      // then
+      const option1 = find('table thead tr:nth-child(2) th:nth-child(5) select option:nth-child(1)');
+      assert.dom(option1).hasText('label1');
+    });
+    
+    test('it should call setStatusFilter callback with appropriate arguments', async function(assert) {
+      // given
+      const xselect = new XSelectInteractor('#status');
+      await render(hbs`{{sessions/list-items setStatusFilter=setStatusFilter triggerFiltering=triggerFiltering sessionStatusAndLabels=sessionStatusAndLabels}}`);
+
+      // when
+      await xselect.select('label3').when(() => {
+        sinon.assert.calledWith(this.get('setStatusFilter'), 'status3');
+        assert.equal(xselect.options(2).isSelected, true);
+      });
+    });
+  });
+
 });
