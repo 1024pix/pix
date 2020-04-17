@@ -304,6 +304,22 @@ exports.register = async (server) => {
         ]
       }
     },
+    {
+      method: 'PATCH',
+      path: '/api/sessions/{id}/certification-officer-assignment',
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: sessionController.assignCertificationOfficer,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle PixMaster**\n' +
+          '- Assigne la session à un membre du pôle certifification (certification-officer)'
+        ],
+        tags: ['api', 'session', 'assignment']
+      }
+    },
   ]);
 };
 

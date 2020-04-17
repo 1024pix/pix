@@ -76,6 +76,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         expect(json).to.deep.equal(expectedJsonApi);
       });
     });
+
     context('when session has a link to an existing certification center', () => {
 
       it('should convert a Session model object into JSON API data with a link to the certification center', function() {
@@ -89,6 +90,25 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         expectedJsonApi.data.relationships['certification-center'] = {
           'links': {
             'related': '/api/certification-centers/13',
+          }
+        };
+        expect(json).to.deep.equal(expectedJsonApi);
+      });
+    });
+
+    context('when session has an assigned certification officer', () => {
+
+      it('should convert a Session model object into JSON API data with a link to the assigned certification officer', function() {
+        // given
+        modelSession.assignedCertificationOfficerId = 13;
+
+        // when
+        const json = serializer.serialize(modelSession);
+
+        // then
+        expectedJsonApi.data.relationships['assigned-certification-officer'] = {
+          'links': {
+            'related': '/api/users/13',
           }
         };
         expect(json).to.deep.equal(expectedJsonApi);
@@ -275,6 +295,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         expect(json).to.deep.equal(expectedResult);
       });
     });
+
     context('when session has a link to an existing certification center', () => {
 
       it('should convert a Session model object into JSON API data with a link to the certification center', function() {
@@ -290,6 +311,27 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         expectedResult.data.relationships['certification-center'] = {
           'links': {
             'related': '/api/certification-centers/13',
+          }
+        };
+        expect(json).to.deep.equal(expectedResult);
+      });
+    });
+
+    context('when session has an assigned certification officer', () => {
+
+      it('should convert a Session model object into JSON API data with a link to the assigned certification officer', function() {
+        // given
+        modelSession.assignedCertificationOfficerId = 13;
+        const meta = { page: 1, pageSize: 10, rowCount: 6, pageCount: 1 };
+        const expectedResult = Object.assign(expectedJsonApi, { meta });
+
+        // when
+        const json = serializer.serializeForPaginatedFilteredResults(modelSession, meta);
+
+        // then
+        expectedResult.data.relationships['assigned-certification-officer'] = {
+          'links': {
+            'related': '/api/users/13',
           }
         };
         expect(json).to.deep.equal(expectedResult);

@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { click, fillIn, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
+import { FINALIZED } from 'pix-admin/models/session';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -30,8 +31,8 @@ module('Acceptance | Session pages', function(hooks) {
       session = server.create('session', {
         id: 1,
         certificationCenterName: 'Centre des Staranne',
+        status: FINALIZED,
         finalizedAt: new Date('2020-01-01T03:00:00Z'),
-        resultsSentToPrescriberAt: new Date('2020-02-01T03:00:00Z'),
         examinerGlobalComment: 'Commentaire du surveillant',
       });
     });
@@ -95,8 +96,19 @@ module('Acceptance | Session pages', function(hooks) {
         test('it show session informations', function(assert) {
           // then
           assert.dom('.session-info__details .row div:last-child').hasText(session.certificationCenterName);
-          assert.dom('[data-test-id="session-info__sent-to-prescriber-at"]').hasText(session.resultsSentToPrescriberAt.toLocaleString('fr-FR'));
+          assert.dom('[data-test-id="session-info__finalized-at"]').hasText(session.finalizedAt.toLocaleString('fr-FR'));
           assert.dom('[data-test-id="session-info__examiner-global-comment"]').hasText(session.examinerGlobalComment);
+        });
+      });
+
+      module('Buttons section', function() {
+
+        test('it show all buttons', function(assert) {
+          // then
+          assert.dom('.session-info__actions div button:first-child').hasText('M\'assigner la session');
+          assert.dom('.session-info__actions div button:nth-child(2)').hasText('Récupérer le fichier avant jury');
+          assert.dom('.session-info__actions div button:nth-child(3)').hasText('Exporter les résultats');
+          assert.dom('.session-info__actions div button:nth-child(4)').hasText('Résultats transmis au prescripteur');
         });
       });
     });

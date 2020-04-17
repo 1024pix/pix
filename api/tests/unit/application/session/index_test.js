@@ -367,6 +367,7 @@ describe('Unit | Application | Sessions | Routes', () => {
       expect(res.statusCode).to.equal(200);
     });
   });
+
   describe('PUT /api/sessions/{id}/results-sent-to-prescriber', () => {
     let sessionId;
 
@@ -381,6 +382,26 @@ describe('Unit | Application | Sessions | Routes', () => {
       sessionId = 3;
 
       const res = await server.inject({ method: 'PUT', url: `/api/sessions/${sessionId}/results-sent-to-prescriber` });
+      expect(res.statusCode).to.equal(200);
+    });
+  });
+
+  describe('PATCH /api/sessions/{id}/certification-officer-assignment', () => {
+    let options;
+
+    beforeEach(() => {
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
+      const sessionId = 1;
+      options = {
+        method: 'PATCH',
+        url: `/api/sessions/${sessionId}/certification-officer-assignment`,
+      };
+      return server.register(route);
+    });
+
+    it('should exist', async () => {
+      const res = await server.inject(options);
       expect(res.statusCode).to.equal(200);
     });
   });

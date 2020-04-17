@@ -4,17 +4,18 @@ const BookshelfSession = require('../data/session');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
+const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
 module.exports = {
 
-  save: async (sessionData) => {
+  async save(sessionData) {
     sessionData = _.omit(sessionData, ['certificationCandidates']);
 
     const newSession = await new BookshelfSession(sessionData).save();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, newSession);
   },
 
-  isSessionCodeAvailable: async (accessCode) => {
+  async isSessionCodeAvailable(accessCode) {
     const sessionWithAccessCode = await BookshelfSession
       .where({ accessCode })
       .fetch({});
@@ -22,7 +23,7 @@ module.exports = {
     return !sessionWithAccessCode;
   },
 
-  isFinalized: async (id) => {
+  async isFinalized(id) {
     const session = await BookshelfSession
       .query((qb) => {
         qb.where({ id });
@@ -147,5 +148,19 @@ module.exports = {
       pagination,
     };
   },
+
+  async assignCertificationOfficer({ id, assignedCertificationOfficerId }) {
+    try {
+      let updatedSession = await new BookshelfSession({ id })
+        .save({ assignedCertificationOfficerId }, { method: 'update' });
+      updatedSession = await updatedSession.refresh();
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
+    } catch (bookshelfError) {
+      if (bookshelfError.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
+        throw new NotFoundError(`L'utilisateur d'id ${assignedCertificationOfficerId} n'existe pas`);
+      }
+      throw new NotFoundError(`La session d'id ${id} n'existe pas.`);
+    }
+  }
 
 };

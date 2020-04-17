@@ -16,10 +16,12 @@ function _formatHumanReadableLocaleDateTime(date, options) {
 
 export const CREATED = 'created';
 export const FINALIZED = 'finalized';
+export const IN_PROCESS = 'in_process';
 export const PROCESSED = 'processed';
 export const statusToDisplayName = {
   [CREATED]: 'Créée',
   [FINALIZED]: 'Finalisée',
+  [IN_PROCESS]: 'En cours de traitement',
   [PROCESSED]: 'Résultats transmis par Pix',
 };
 
@@ -44,7 +46,9 @@ export default class Session extends Model {
 
   @computed('status')
   get isFinalized() {
-    return this.status === FINALIZED || this.status === PROCESSED;
+    return this.status === FINALIZED
+        || this.status === IN_PROCESS
+        || this.status === PROCESSED;
   }
 
   @computed('examinerGlobalComment')
