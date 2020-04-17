@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 import config from 'mon-pix/config/environment';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
+import _ from 'lodash';
 
 @classic
 @classNames('challenge-statement')
@@ -12,14 +13,15 @@ export default class ChallengeStatement extends Component {
 
   challenge = null;
   assessment = null;
+  selectedAttachmentUrl = null;
 
   didReceiveAttrs() {
-    this.set('selectedAttachmentUrl', this.get('challenge.attachments.firstObject'));
+    this.selectedAttachmentUrl =  _.get(this.challenge, 'attachments.firstObject');
   }
 
   @computed('challenge.instruction')
   get challengeInstruction() {
-    const instruction = this.get('challenge.instruction');
+    const instruction = this.challenge.instruction;
     if (!instruction) {
       return null;
     }
@@ -28,24 +30,25 @@ export default class ChallengeStatement extends Component {
 
   @computed('challenge.hasValidEmbedDocument')
   get challengeEmbedDocument() {
-    if (this.get('challenge.hasValidEmbedDocument')) {
+    if (this.challenge.hasValidEmbedDocument) {
       return {
-        url: this.get('challenge.embedUrl'),
-        title: this.get('challenge.embedTitle'),
-        height: this.get('challenge.embedHeight')
+        url: this.challenge.embedUrl,
+        title: this.challenge.embedTitle,
+        height: this.challenge.embedHeight
       };
     }
     return undefined;
   }
 
-  init() {
-    super.init(...arguments);
-    this.id = 'challenge_statement_' + this.get('challenge.id');
+  @computed('challenge.id')
+  get id() {
+    return 'challenge_statement_' + this.challenge.id;
+
   }
 
   @computed('challenge.attachments')
   get attachmentsData() {
-    return this.get('challenge.attachments');
+    return this.challenge.attachments;
   }
 
   @action
@@ -55,6 +58,6 @@ export default class ChallengeStatement extends Component {
 
   _formattedEmailForInstruction() {
     return this.mailGenerator
-      .generateEmail(this.get('challenge.id'), this.get('assessment.id'), window.location.hostname, config.environment);
+      .generateEmail(this.challenge.id, this.assessment.id, window.location.hostname, config.environment);
   }
 }
