@@ -5,6 +5,9 @@ const logger = require('../../../../lib/infrastructure/logger');
 describe('Unit | Class | MockLogEmailProvider', function() {
 
   describe('#sendEmail', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
 
     it('should log options to fake email sending', async () => {
       // given

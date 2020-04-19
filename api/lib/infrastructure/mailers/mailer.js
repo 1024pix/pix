@@ -1,6 +1,8 @@
+const createSendEmailQueueService = require('../../infrastructure/queued-jobs/create-send-email-queue-service');
 const MailingProvider = require('./MailingProvider');
 const MailjetProvider = require('./MailjetProvider');
 const SendinblueProvider = require('./SendinblueProvider');
+const MockLogEmailProvider = require('./MockLogEmailProvider');
 const { mailing } = require('../../config');
 const logger = require('../logger');
 const mailCheck = require('../mail-check');
@@ -19,26 +21,14 @@ class Mailer extends MailingProvider {
       case 'mailjet':
         this._provider = new MailjetProvider();
         break;
+      case 'logger':
+        this._provider = new MockLogEmailProvider();
+        break;
       default:
         logger.warn('Undefined mailing provider');
     }
-  }
 
-  async sendEmail(options) {
-    if (!mailing.enabled) {
-      return Promise.resolve();
-    }
-
-    return mailCheck.checkMail(options.to)
-      .then(() => {
-        return this._provider.sendEmail(options)
-          .catch((err) => {
-            logger.warn({ err }, `Could not send email to '${options.to}'`);
-          });
-      })
-      .catch((err) => {
-        logger.warn({ err }, `Email is not valid '${options.to}'`);
-      });
+    this.sendEmailQueue = createSendEmailQueueService.createSendEmailQueue(`${__dirname}/send-email-job-processor.js`);
   }
 
   get accountCreationTemplateId() {
@@ -53,6 +43,18 @@ class Mailer extends MailingProvider {
     return mailing[this._providerName].templates.organizationInvitationTemplateId;
   }
 
+  async sendEmail(mailOptions) {
+    if (!mailing.enabled) {
+      return Promise.resolve();
+    }
+
+    try {
+      await mailCheck.checkMail(mailOptions.to);
+      this.sendEmailQueue.add(mailOptions, createSendEmailQueueService.sendEmailJobOptions);
+    } catch (err) {
+      logger.warn({ err }, `Email is not valid '${mailOptions.to}'`);
+    }
+  }
 }
 
 module.exports = new Mailer();

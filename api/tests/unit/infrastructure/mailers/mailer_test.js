@@ -22,19 +22,17 @@ describe('Unit | Infrastructure | Mailers | mailer', () => {
         sinon.stub(mailer, '_provider').value(mailingProvider);
       });
 
-      context('when email check succeed', () => {
+      context('when email check succeeds', () => {
 
         beforeEach(() => {
           sinon.stub(mailCheck, 'checkMail').withArgs(recipient).resolves();
         });
 
-        it('should called email provider method _doSendEmail', async () => {
+        it('should add send Email job to queue', async () => {
           // given
-          const from = 'no-reply@example.net';
-          mailer._provider.sendEmail.resolves();
-
+          sinon.stub(mailer.sendEmailQueue, 'add');
           const options = {
-            from,
+            from:'no-reply@example.net',
             to: recipient,
             fromName: 'Ne Pas Repondre',
             subject: 'Creation de compte',
@@ -45,7 +43,7 @@ describe('Unit | Infrastructure | Mailers | mailer', () => {
           await mailer.sendEmail(options);
 
           // then
-          sinon.assert.calledWith(mailer._provider.sendEmail, options);
+          expect(mailer.sendEmailQueue.add).to.be.called;
         });
       });
 
@@ -67,27 +65,6 @@ describe('Unit | Infrastructure | Mailers | mailer', () => {
         });
       });
 
-      context('when emailing fails', () => {
-
-        let error;
-
-        beforeEach(() => {
-          error = new Error('fail');
-          sinon.stub(mailCheck, 'checkMail').resolves();
-          sinon.stub(logger, 'warn');
-        });
-
-        it('should log a warning', async () => {
-          // given
-          mailer._provider.sendEmail.rejects(error);
-
-          // when
-          await mailer.sendEmail({ to: recipient });
-
-          // then
-          expect(logger.warn).to.have.been.calledWith({ err: error }, 'Could not send email to \'test@example.net\'');
-        });
-      });
     });
   });
 

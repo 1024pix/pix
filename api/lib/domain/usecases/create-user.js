@@ -67,8 +67,8 @@ module.exports = async function createUser({
       return userWithEncryptedPassword;
     })
     .then(userRepository.create)
-    .then((savedUser) => {
-      mailService.sendAccountCreationEmail(savedUser.email);
+    .then(async (savedUser) => {
+      await mailService.sendAccountCreationEmail(savedUser.email);
       return savedUser;
     });
 };

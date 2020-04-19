@@ -124,6 +124,10 @@ module.exports = (function() {
       maxBreadcrumbs: _getNumber(process.env.SENTRY_MAX_BREADCRUMBS, 100),
       debug: isFeatureEnabled(process.env.SENTRY_DEBUG),
     },
+
+    scheduledJobs: {
+      redisUrl: process.env.REDIS_URL,
+    }
   };
 
   if (process.env.NODE_ENV === 'test') {
