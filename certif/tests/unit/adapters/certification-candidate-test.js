@@ -12,7 +12,7 @@ module('Unit | Adapters | certification-candidate', function(hooks) {
   hooks.beforeEach(function() {
     adapter = this.owner.lookup('adapter:certification-candidate');
     const ajaxStub = () => resolve();
-    adapter.set('ajax', ajaxStub);
+    adapter.ajax = ajaxStub;
   });
 
   module('#urlForCreateRecord', function() {
