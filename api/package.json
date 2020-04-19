@@ -34,6 +34,7 @@
     "bookshelf-page": "^0.3.2",
     "bookshelf-validate": "^2.0.3",
     "boom": "^7.3.0",
+    "bull": "3.13.0",
     "bunyan": "^1.8.12",
     "catbox": "^10.0.6",
     "catbox-memory": "^4.0.1",
