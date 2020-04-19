@@ -64,6 +64,9 @@ module.exports = (function() {
           passwordResetTemplateId: process.env.SENDINBLUE_PASSWORD_RESET_TEMPLATE_ID
         },
       },
+      logger: {
+        templates: {}
+      }
     },
 
     captcha: {
@@ -109,7 +112,7 @@ module.exports = (function() {
 
     features: {
       dayBeforeImproving: _getNumber(process.env.DAY_BEFORE_IMPROVING, 4),
-      dayBeforeCompetenceResetV2: _getNumber(process.env.DAY_BEFORE_COMPETENCE_RESET_V2,7),
+      dayBeforeCompetenceResetV2: _getNumber(process.env.DAY_BEFORE_COMPETENCE_RESET_V2, 7),
     },
 
     pixOrgaUrl: process.env.PIXORGA_URL,
