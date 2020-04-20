@@ -19,7 +19,10 @@ export default function() {
     session.update({ resultsSentToPrescriberAt: new Date() });
     return session;
   });
-  this.get('admin/certification-officer/:id');
+  this.get('/admin/certification-officer/:id', (schema, request) => {
+    const id = request.params.id;
+    return schema.users.where({ id });
+  });
 
   this.get('/users');
   this.get('/admin/users/:id');

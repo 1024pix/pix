@@ -112,6 +112,46 @@ module('Acceptance | Session pages', function(hooks) {
           assert.dom('.session-info__actions div button:nth-child(3)').hasText('Exporter les résultats');
           assert.dom('.session-info__actions div button:nth-child(4)').hasText('Résultats transmis au prescripteur');
         });
+
+        // module('assignation button', function() {
+
+        //   module('on click "M\'assigner la session" button', function(hooks) {
+
+        //     const annulerButtonPath = '.ember-modal-dialog--actions button:first-child';
+        //     const confirmerButtonPath = '.ember-modal-dialog--actions button:last-child';
+
+        //     hooks.beforeEach(async function() {
+        //       // when
+        //       await click(assignationButtonPath);
+        //     });
+
+        //     test('should show modal', async function(assert) {
+        //       // then
+        //       assert.dom('.ember-modal-dialog p').hasText('L\'utilisateur George Dupont s\'est déjà assigné cette session. Voulez-vous vous quand même vous assigner cette session ?');
+        //       assert.dom(annulerButtonPath).hasText('Annuler');
+        //       assert.dom(confirmerButtonPath).hasText('Confirmer');
+        //     });
+
+        //     test('should remain the same on click "Annuler"', async function(assert) {
+        //       // when
+        //       await click(annulerButtonPath);
+
+        //       // then
+        //       assert.dom('.ember-modal-dialog p').doesNotExist();
+        //       assert.dom(assignationButtonPath).hasText('M\'assigner la session');
+        //     });
+
+        //     test('should assign to currentUser on click "Confirmer"', async function(assert) {
+        //       // when
+        //       await click(confirmerButtonPath);
+        //       session.update({ assignedCertificationOfficer: currentUser });
+
+        //       // then
+        //       assert.dom('.ember-modal-dialog p').doesNotExist();
+        //       assert.dom(assignationButtonPath).hasText('Vous êtes assigné à cette session');
+        //     });
+        //   });
+        // });
       });
     });
 

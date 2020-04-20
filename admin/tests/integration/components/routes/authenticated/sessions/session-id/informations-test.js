@@ -13,10 +13,11 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
   setupMirage(hooks);
 
   let session;
+  let currentUser;
 
   hooks.beforeEach(async function() {
-    const user = createUser();
-    await createAuthenticateSession({ userId: user.id });
+    currentUser = createUser();
+    await createAuthenticateSession({ userId: currentUser.id });
   });
 
   module('regardless of session status', function() {
@@ -138,6 +139,58 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         assert.dom('.session-info__actions .row button:nth-child(4)').doesNotExist();
       });
 
+    });
+
+    module.only('assignation button section', function() {
+
+      const assignationButtonPath = '.session-info__actions div button:first-child';
+
+      module('when no certification officer is assigned to session', function() {
+
+        test('should show "M\'assigner la session" button', async function(assert) {
+          // when
+          await visit(`/sessions/${session.id}`);
+
+          // then
+          assert.dom(assignationButtonPath).hasText('M\'assigner la session');
+        });
+      });
+
+      module('when a certification officer is already assigned to session', function() {
+
+        module('when the assigned user is different of the current user', function() {
+
+          test('should show "M\'assigner la session" button too', async function(assert) {
+            // given 
+            const assignedCertificationOfficer = await this.server.create('user', {
+              id: 123,
+              firstName: 'George',
+              lastName: 'Dupont',
+            });
+            session.update({ assignedCertificationOfficer });
+
+            // when
+            await visit(`/sessions/${session.id}`);
+
+            // then
+            assert.dom(assignationButtonPath).hasText('M\'assigner la session');
+          });
+        });
+
+        module('when the assigned user is the current user', function() {
+
+          test('should show "Vous êtes assigné à cette session" button', async function(assert) {
+            // given
+            session.update({ assignedCertificationOfficer: currentUser });
+
+            // when
+            await visit(`/sessions/${session.id}`);
+
+            // then
+            assert.dom(assignationButtonPath).hasText('Vous êtes assigné à cette session');
+          });
+        });
+      });
     });
   });
 
