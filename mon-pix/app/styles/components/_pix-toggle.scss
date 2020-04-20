@@ -3,8 +3,8 @@
   font-size: 1rem;
   font-weight: $font-medium;
   letter-spacing: 0.45px;
-  color: $pix-grey;
-  border: 2px solid $alto-grey;
+  color: $grey-60;
+  border: 2px solid $grey-20;
   height: 44px;
   width: 359px;
   display: flex;
@@ -20,13 +20,13 @@
   }
 
   &__on {
-    background-color: $pix-grey;
+    background-color: $grey-60;
     color: white;
   }
 
   &__off {
       &:hover {
-      color: $pix-grey-hover;
+      color: $grey-70;
     }
   }
 }

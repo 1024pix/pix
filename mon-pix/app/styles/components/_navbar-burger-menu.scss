@@ -4,7 +4,7 @@
   &__user-info {
     display: flex;
     flex-direction: column;
-    background-color: $dodger-blue;
+    background-color: $light-blue;
   }
 
   &__navigation {
@@ -71,23 +71,23 @@
   &__item {
     margin: 5px 0;
     padding: 10px 32px;
-    color: $gray;
+    color: $grey-35;
     font-size: 1.125rem;
     font-family: $font-roboto;
 
     &.active {
-      color: $dodger-blue;
-      border-left: 5px solid $dodger-blue;
+      color: $light-blue;
+      border-left: 5px solid $light-blue;
       padding-left: 27px;
     }
 
     &:focus {
-      color: $gray;
+      color: $grey-35;
       text-decoration: none;
     }
 
     &:hover {
-      color: $dodger-blue;
+      color: $light-blue;
       text-decoration: none;
     }
   }

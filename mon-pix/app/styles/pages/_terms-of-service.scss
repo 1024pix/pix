@@ -3,7 +3,7 @@
   align-items: center;
   height: 100vh;
   width: 100vw;
-  background: $pix-blue-to-purple-gradient;
+  background: $pix-purple-gradient;
 
 }
 
@@ -64,7 +64,7 @@
   }
 
   &__validation-error {
-    color: $red-error;
+    color: $error;
     font-weight: normal;
     margin-top: 16px;
   }
@@ -87,7 +87,7 @@
     font-weight: 400;
 
     &:hover {
-      background-color: $gray;
+      background-color: darken($grey-50, 4%);
     }
   }
 }

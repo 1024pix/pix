@@ -11,7 +11,7 @@
   background-color: $white;
 
   &:nth-child(odd) {
-    background: $porcelain-grey;
+    background: $grey-10;
   }
 
   @include device-is('tablet') {
@@ -53,7 +53,7 @@
   &:hover,
   &:focus,
   &:active {
-    color: $pix-blue-hover;
+    color: $blue-hover;
     cursor: pointer;
     text-decoration: underline;
   }
@@ -68,11 +68,11 @@
   }
 
   &--green {
-    color: $mountain-meadow;
+    color: $green;
   }
 
   &--orange {
-    color: $dark-orange;
+    color: $information-light;
   }
 
   &--red {
@@ -80,6 +80,6 @@
   }
 
   &--grey {
-    color: $dove-gray;
+    color: $grey-60;
   }
 }

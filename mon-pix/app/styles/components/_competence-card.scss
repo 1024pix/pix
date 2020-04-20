@@ -4,11 +4,11 @@
   overflow: hidden;
   font-family: $font-roboto;
   box-shadow: $box-shadow-competence-cards;
-  border: 1px solid $alto-grey;
+  border: 1px solid $grey-20;
   border-radius: 11px;
   background-color: $white;
   transition: all 0.1s linear;
-  -webkit-tap-highlight-color: rgba($dove-gray, 0.3);
+  -webkit-tap-highlight-color: rgba($grey-60, 0.3);
   pointer-events: none;
 
   &--interactive {
@@ -50,7 +50,7 @@
   }
 
   &--emerald::after {
-    background: linear-gradient(90deg, $content-dark 45%, $success 100%);
+    background: linear-gradient(90deg, $content-dark 45%, $content-light 100%);
   }
 
   &--cerulean::after {
@@ -62,7 +62,7 @@
   }
 
   &--butterfly-bush::after {
-    background: linear-gradient(90deg, $environment-dark 45%, $butterfly-bush 100%);
+    background: linear-gradient(90deg, $environment-dark 45%, $environment-light 100%);
   }
 }
 

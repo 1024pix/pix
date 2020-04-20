@@ -68,7 +68,7 @@ input[type=checkbox]:before {
   width: 18px;
   top: -3px;
 
-  border: 2px solid $raven-grey;
+  border: 2px solid $grey-40;
   content: ' ';
   display: block;
   background-color: $white;
@@ -132,7 +132,7 @@ input[type=radio]:before {
   top: -3px;
   left: -5px;
 
-  border: solid 2px $dusty-grey;
+  border: solid 2px $grey-30;
   border-radius: 10px;
   background-color: $white;
 }

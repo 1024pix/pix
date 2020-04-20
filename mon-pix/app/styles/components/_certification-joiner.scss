@@ -13,7 +13,7 @@
   }
 
   &__title {
-    color: $nero;
+    color: $grey-100;
     font-family: $font-open-sans;
     font-size: 2.625rem;
     font-weight: $font-light;
@@ -54,7 +54,7 @@
     min-width: 0px;
 
     &:hover {
-      border: 2px solid $dodger-blue;
+      border: 2px solid $light-blue;
     }
   }
 
@@ -68,11 +68,11 @@
   }
 
   ::placeholder {
-    color: $dusty-grey;
+    color: $grey-30;
   }
 
   :-ms-input-placeholder {
-    color: $dusty-grey;
+    color: $grey-30;
   }
 }
 

@@ -28,7 +28,7 @@
 .circle {
   fill: none;
   stroke-width: 1.1;
-  stroke: $alto-grey;
+  stroke: $grey-20;
   stroke-linecap: round;
 
   &--thick {
@@ -36,7 +36,7 @@
   }
 
   &--slice {
-    stroke: $dark-orange;
+    stroke: $information-light;
     animation: progress 1s ease-out forwards;
   }
 
@@ -45,7 +45,7 @@
   }
 
   &--emerald {
-    stroke: $success;
+    stroke: $content-light;
   }
 
   &--cerulean {
@@ -57,7 +57,7 @@
   }
 
   &--butterfly-bush {
-    stroke: $butterfly-bush;
+    stroke: $environment-light;
   }
 }
 

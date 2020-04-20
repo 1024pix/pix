@@ -1,5 +1,5 @@
 .feedback-panel {
-  color: $charcoal-grey;
+  color: $grey-80;
   font-size: 0.938rem;
   margin-top: -18px;
 }
@@ -9,7 +9,7 @@
 
 .feedback-panel__open-link {
   cursor: pointer;
-  color: $dusty-grey;
+  color: $grey-30;
   font-family: $font-roboto;
   font-weight: $font-medium;
   font-size: 0.875rem;
@@ -19,7 +19,7 @@
 .feedback-panel__open-link:hover,
 .feedback-panel__open-link:focus,
 .feedback-panel__open-link:active {
-  color: $charcoal-grey;
+  color: $grey-80;
 }
 
 /* "Form" view
@@ -52,7 +52,7 @@
   width: 100%;
   border-radius: 3px;
   background-color: $white;
-  border: solid 1px $alto-grey;
+  border: solid 1px $grey-20;
   box-sizing: border-box;
   padding: 8px;
   font-size: 0.875rem;
@@ -66,7 +66,7 @@
 .feedback-panel__dropdown {
   font-family: $font-roboto;
   font-size: 0.938rem;
-  color: $charcoal-grey;
+  color: $grey-80;
 
   margin: 5px 0;
   width: 100%;
@@ -83,7 +83,7 @@
   word-break: break-word;
   background-color: $white;
   padding: 20px;
-  border: dashed $tundora-grey;
+  border: dashed $grey-70;
 
   & .tuto-icon {
     width: 15px;
@@ -92,7 +92,7 @@
       float: left;
       width: 20px;
       height: 20px;
-      color: $yellow;
+      color: $warning;
     }
   }
 
@@ -105,8 +105,8 @@
   border-radius: 3px;
   box-sizing: border-box;
   padding: 10px 20px;
-  background-color: $alto-grey;
-  border: 1px solid $raven-grey;
+  background-color: $grey-20;
+  border: 1px solid $grey-40;
   margin: 0 10px 20px 0;
 
   &[disabled] {
@@ -115,13 +115,13 @@
 }
 
 .feedback-panel__button--send {
-  background-color: $raven-grey;
+  background-color: $grey-40;
   color: white;
 }
 
 .feedback-panel__form-legal-notice {
   padding-top: 15px;
-  border-top: 1px solid $alto-grey;
+  border-top: 1px solid $grey-20;
 
   & p {
     font-size: 0.75rem;
@@ -134,7 +134,7 @@
 .feedback-panel__view--mercix {
   text-align: center;
   font-size: 1.125rem;
-  color: $charcoal-grey;
+  color: $grey-80;
   padding-top: 20px;
   padding-bottom: 10px;
 }

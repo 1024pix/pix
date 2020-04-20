@@ -13,18 +13,18 @@
 }
 
 .alert-success {
-  border: 1px solid $deyork-green;
-  background-color: $deyork-green;
+  border: 1px solid $green;
+  background-color: $green;
 }
 
 .alert-danger {
-  border: 1px solid $mandy-red;
-  background-color: $mandy-red;
+  border: 1px solid $light-red;
+  background-color: $light-red;
 }
 
 abbr.mandatory-mark {
   cursor: help;
-  color: $monza;
+  color: $dark-error;
   display: contents;
   margin: 1.25rem;
 }

@@ -6,7 +6,7 @@
 .form-textfield__label {
   font-size: 0.938rem;
   font-weight: $font-medium;
-  color: $charcoal-grey;
+  color: $grey-80;
   letter-spacing: 0.031rem;
 }
 
@@ -37,12 +37,12 @@
   height: 46px;
   border-radius: 3px;
   align-items: center;
-  border: 2px solid $alto-grey;
+  border: 2px solid $grey-20;
   background-color: $white;
   width: 100%;
 
   &:hover {
-    border: 2px solid $dodger-blue;
+    border: 2px solid $light-blue;
   }
 
   @include device-is('desktop') {
@@ -51,19 +51,19 @@
 }
 
 .form-textfield__input-container--default {
-  border: 2px solid $alto-grey;
+  border: 2px solid $grey-20;
 }
 
 .form-textfield__input-container--error {
-  border: 2px solid $red-error;
+  border: 2px solid $dark-error;
 }
 
 .form-textfield__input-container--success {
-  border: 2px solid $caribbean-green;
+  border: 2px solid $green;
 }
 
 .form-textfield__input-container--disabled {
-  background-color: $alto-grey;
+  background-color: $grey-20;
 }
 
 .form-textfield__input-field-container input {
@@ -72,7 +72,7 @@
   border: none;
   border-radius: 3px;
   outline: none;
-  color: $slate-grey;
+  color: $grey-50;
   padding: 0 10px;
 
   &:focus {
@@ -84,7 +84,7 @@
   }
 
   &[disabled] {
-    background-color: $alto-grey;
+    background-color: $grey-20;
   }
 }
 
@@ -94,11 +94,11 @@
 }
 
 .form-textfield__message--error {
-  color: $red-error;
+  color: $dark-error;
 }
 
 .form-textfield__message--success {
-  color: $caribbean-green;
+  color: $green;
 }
 
 .form-textfield__message--error.form-textfield__message-password,
@@ -149,13 +149,13 @@
 
 .form-textfield-icon-button {
   &__eye {
-    color: $dove-gray;
+    color: $grey-60;
     transition: .5s;
     font-size: 1.125rem;
     margin-top: 1px;
 
     &:hover {
-      color: $nero;
+      color: $grey-100;
       cursor: pointer;
     }
   }

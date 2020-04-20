@@ -42,7 +42,7 @@
     justify-content: center;
     border-radius: 6.75px;
     font-family: $font-roboto;
-    background-color: $alabaster-grey;
+    background-color: $grey-5;
     padding: 40px 0;
     margin: 14px;
 
@@ -60,7 +60,7 @@
   }
 
   &__reset-button {
-    color: $dusty-grey;
+    color: $grey-30;
     margin-top: 50px;
   }
 
@@ -83,7 +83,7 @@
     @include device-is('desktop') {
       max-width: 68%;
       padding: 0 30px;
-      border-right: 2px dashed $silver-grey;
+      border-right: 2px dashed $grey-22;
     }
   }
 
@@ -112,7 +112,7 @@
       color: $information-light;
     }
     &--emerald {
-      color: $success;
+      color: $content-light;
     }
     &--cerulean {
       color: $communication-light;
@@ -121,7 +121,7 @@
       color: $security-light;
     }
     &--butterfly-bush {
-      color: $butterfly-bush;
+      color: $environment-light;
     }
   }
 
@@ -133,7 +133,7 @@
     font-family: $font-open-sans;
     font-size: 1rem;
     line-height: 1.625rem;
-    color: $dove-gray;
+    color: $grey-60;
   }
 }
 
@@ -147,7 +147,7 @@
 
   &__level-info {
     margin-top: 20px;
-    color: $grayish-grey;
+    color: $grey-80;
     text-transform: uppercase;
     letter-spacing: 0.019rem;
     white-space: nowrap;
@@ -155,7 +155,7 @@
 
   &__reset-message {
     padding-top: 50px;
-    color: $dusty-grey;
+    color: $grey-30;
     font-family: $font-roboto;
     font-size: 0.813rem;
   }
@@ -168,14 +168,14 @@
     align-items: center;
     margin-left: 60px;
     text-transform: uppercase;
-    color: $grayish-grey;
+    color: $grey-80;
   }
 }
 
 .scorecard-details-reset-modal {
   &__important-message {
     padding: 20px 0;
-    color: $black;
+    color: $grey-200;
     font-family: $font-roboto;
     font-weight: $font-medium;
     font-size: 1.375rem;
@@ -187,7 +187,7 @@
 
   &__warning {
     padding-bottom: 10px;
-    color: $grayish-grey;
+    color: $grey-80;
     font-family: $font-roboto;
     font-weight: $font-light;
     font-size: 1rem;

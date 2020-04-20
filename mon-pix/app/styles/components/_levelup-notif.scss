@@ -6,8 +6,8 @@
   width: 300px;
   height: 80px;
   border-radius: 5px;
-  box-shadow: 0 0 10px $charcoal-grey;
-  color: $pix-grey-hover;
+  box-shadow: 0 0 10px $grey-80;
+  color: $grey-70;
   animation-duration: 1s;
   animation-name: slidein;
   user-select: none;
@@ -36,19 +36,19 @@
   &__close {
     background-color: transparent;
     cursor: pointer;
-    color: $slate-grey;
+    color: $grey-50;
     font-size: 1.5rem;
     width: 70px;
     border: none;
-    border-left: 1px solid $alto-grey;
+    border-left: 1px solid $grey-20;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
 
     &:hover, &:focus, &:active {
-      color: $tundora-grey;
-      background-color: $mercury-grey;
+      color: $grey-70;
+      background-color: $grey-15;
       border-bottom-right-radius: 5px;
       border-top-right-radius: 5px;
     }
