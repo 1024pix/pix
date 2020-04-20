@@ -1,70 +1,49 @@
-import Component from '@ember/component';
-import { attributeBindings, classNames } from '@ember-decorators/component';
-import { action, computed } from '@ember/object';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 import { htmlSafe } from '@ember/string';
-import classic from 'ember-classic-decorator';
 
-@classic
-@classNames('challenge-embed-simulator')
-@attributeBindings('embedDocumentHeightStyle:style')
 export default class ChallengeEmbedSimulator extends Component {
-  // Data props
-  embedDocument = null;
 
-  // CPs
-  @computed('embedDocument.height')
+  @tracked
+  isLoadingEmbed = true;
+
+  @tracked
+  isSimulatorLaunched = false;
+
   get embedDocumentHeightStyle() {
-    return htmlSafe(`height: ${this.get('embedDocument.height')}px`);
+    if (this.args.embedDocument) {
+      return htmlSafe(`height: ${this.args.embedDocument.height}px`);
+    }
+    return '';
+  }
+
+  configureIframe(iframe, params) {
+    const embedUrl = params[0];
+    const thisComponent = params[1];
+
+    thisComponent.isLoadingEmbed = true;
+    thisComponent.isSimulatorLaunched = false;
+    iframe.onload = () => {
+      if (embedUrl) {
+        thisComponent.isLoadingEmbed = false;
+      }
+    };
   }
 
   @action
-  launchSimulator() {
-    const iframe = this._getIframe();
+  launchSimulator(event) {
+    const iframe = this._getIframe(event);
 
     // TODO: use correct targetOrigin once the embeds are hosted behind our domain
     iframe.contentWindow.postMessage('launch', '*');
     iframe.focus();
-
-    this.toggleProperty('_isSimulatorNotYetLaunched');
-    this._unblurSimulator();
+    this.isSimulatorLaunched = true;
   }
 
   @action
-  rebootSimulator() {
-    this._rebootSimulator();
-  }
-
-  // Internals
-  _isSimulatorNotYetLaunched = true;
-
-  _hiddenSimulatorClass = null;
-
-  didUpdateAttrs() {
-    this.set('_isSimulatorNotYetLaunched', true);
-    this.set('_hiddenSimulatorClass', 'hidden-class');
-  }
-
-  didRender() {
-    super.didRender(...arguments);
-    const iframe = this._getIframe();
-    iframe.onload = () => {
-      this._removePlaceholder();
-    };
-  }
-
-  _removePlaceholder() {
-    if (this.embedDocument.url) {
-      this.set('_hiddenSimulatorClass', null);
-    }
-  }
-
-  _getIframe() {
-    return this.element.querySelector('.embed__iframe');
-  }
-
-  /* This method is not tested because it would be too difficult (add an observer on a complicated stubbed DOM API element!) */
-  _rebootSimulator() {
-    const iframe = this._getIframe();
+  rebootSimulator(event) {
+    const iframe = this._getIframe(event);
     const tmpSrc = iframe.src;
 
     // First onload: when we reset the iframe
@@ -79,8 +58,7 @@ export default class ChallengeEmbedSimulator extends Component {
     iframe.src = '';
   }
 
-  _unblurSimulator() {
-    const $simulatorPanel = this.element.getElementsByClassName('embed__simulator').item(0);
-    $simulatorPanel.classList.remove('blurred');
+  _getIframe(event) {
+    return event.currentTarget.parentElement.parentElement.querySelector('.embed__iframe');
   }
 }
