@@ -7,6 +7,14 @@ module('Integration | Component | routes/authenticated/users | list-items', func
 
   setupRenderingTest(hooks);
 
+  hooks.beforeEach(async function() {
+    const triggerFiltering = function() {};
+    const goToUserDetailPage = function() {};
+
+    this.triggerFiltering = triggerFiltering;
+    this.goToUserDetailPage = goToUserDetailPage;
+  });
+
   test('it should display user list', async function(assert) {
     // given
     const users = [
@@ -17,13 +25,11 @@ module('Integration | Component | routes/authenticated/users | list-items', func
     users.meta = {
       rowCount: 3
     };
-    const triggerFiltering = function() {};
 
-    this.set('users', users);
-    this.set('triggerFiltering', triggerFiltering);
+    this.users = users;
 
     // when
-    await render(hbs`{{users/list-items users=users triggerFiltering=triggerFiltering}}`);
+    await render(hbs`<Users::ListItems @users={{this.users}} @triggerFiltering={{this.triggerFiltering}} @goToUserDetailPage={{this.goToUserDetailPage}} />`);
 
     // then
     assert.dom('table tbody tr:first-child td:first-child').hasText('1');
