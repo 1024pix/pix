@@ -68,7 +68,7 @@ export default class ComparisonWindow extends Component {
   @computed('answer.result')
   get resultItem() {
     let resultItem = TEXT_FOR_RESULT['default'];
-    const answerStatus = this.get('answer.result');
+    const answerStatus = this.answer.result;
 
     if (answerStatus && (answerStatus in TEXT_FOR_RESULT)) {
       resultItem = TEXT_FOR_RESULT[answerStatus];
@@ -78,6 +78,6 @@ export default class ComparisonWindow extends Component {
 
   @computed('resultItem')
   get resultItemIcon() {
-    return resultIconUrl(this.get('resultItem.status'));
+    return resultIconUrl(this.resultItem.status);
   }
 }
