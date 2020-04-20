@@ -157,6 +157,36 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
     });
   });
 
+  describe('#serializeMinimal', () => {
+    const minimalJsonApi = {
+      data: {
+        id: '1',
+        type: 'users',
+        attributes: {
+          'first-name': 'Luke',
+          'last-name': 'Skywalker',
+          email: 'lskywalker@deathstar.empire',
+        },
+      }
+    };
+
+    it('should serialize minimal info', () => {
+      // given
+      const modelObject = new User({
+        id: 1,
+        firstName: 'Luke',
+        lastName: 'Skywalker',
+        email: 'lskywalker@deathstar.empire',
+      });
+
+      // when
+      const json = serializer.serializeMinimal(modelObject);
+
+      // then
+      expect(json).to.be.deep.equal(minimalJsonApi);
+    });
+  });
+
   describe('#deserialize()', () => {
 
     let jsonUser;

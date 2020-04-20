@@ -89,6 +89,16 @@ module.exports = {
     }).serialize(users);
   },
 
+  serializeMinimal(users) {
+    return new Serializer('user', {
+      attributes: [
+        'firstName',
+        'lastName',
+        'email',
+      ],
+    }).serialize(users);
+  },
+
   deserialize(json) {
     return new User({
       id: json.data.id,
