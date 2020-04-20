@@ -1,9 +1,8 @@
 class CertificationScoringCompleted {
-  constructor({ certificationCourseId, userId, reproducibilityRate, isCertification }) {
+  constructor({ certificationCourseId, userId, reproducibilityRate, }) {
     this.certificationCourseId = certificationCourseId;
     this.userId = userId;
     this.reproducibilityRate = reproducibilityRate;
-    this.isCertification = isCertification;
   }
 }
 

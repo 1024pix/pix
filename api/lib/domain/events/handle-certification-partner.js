@@ -7,9 +7,6 @@ async function handleCertificationAcquisitionForPartner({
   badgeAcquisitionRepository,
   certificationPartnerAcquisitionRepository,
 }) {
-  if (!certificationScoringEvent.isCertification) {
-    return;
-  }
   const hasAcquiredBadgeClea = await _getHasAcquiredBadgeClea(badgeAcquisitionRepository, certificationScoringEvent.userId);
 
   const cleaPartnerAcquisition = new CertificationPartnerAcquisition({
