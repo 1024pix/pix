@@ -135,9 +135,15 @@ module.exports = {
   async findPaginatedFiltered({ filters = {}, page = {} }) {
     const { models, pagination } = await BookshelfSession
       .query((qb) => {
-        const { id, status } = filters;
+        const { id, status, resultsSentToPrescriberAt } = filters;
         if (id) {
           qb.where({ id });
+        }
+        if (resultsSentToPrescriberAt === 'true') {
+          qb.whereNotNull('resultsSentToPrescriberAt');
+        }
+        if (resultsSentToPrescriberAt === 'false') {
+          qb.whereNull('resultsSentToPrescriberAt');
         }
         if (status === statuses.CREATED) {
           qb.whereNull('finalizedAt');
