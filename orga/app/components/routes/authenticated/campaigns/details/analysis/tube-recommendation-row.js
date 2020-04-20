@@ -7,7 +7,7 @@ export default class TubeRecommendationRowComponent extends Component {
   isOpen = false;
 
   @action
-  toggle() {
+  toggleTutorialsSection() {
     this.isOpen = !this.isOpen;
   }
 }

@@ -1,0 +1,47 @@
+.tube-recommendation-title {
+  font-family: $open-sans;
+  color: $grey-80;
+  font-weight: 600;
+  font-size: 0.875rem;
+
+  &--open {
+    color: $grey-100;
+    font-weight: 700;
+  }
+}
+
+.tube-recommendation-subtitle {
+  font-family: $open-sans;
+  color: $grey-35;
+  font-weight: 400;
+  font-size: 0.75rem;
+
+  &--open {
+    color: $grey-60;
+  }
+}
+
+.tube-recommendation-tutorial {
+  &__column {
+    padding-left: 52px;
+    padding-right: 52px;
+  }
+
+  &__title {
+    font-weight: 400;
+    font-family: $open-sans;
+    font-size: 1rem;
+  }
+}
+
+.tube-recommendation-tutorial-table {
+  margin-bottom: 10px;
+
+  &__row {
+    padding-left: 0;
+
+    a {
+      font-weight: 500;
+    }
+  }
+}
