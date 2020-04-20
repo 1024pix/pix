@@ -9,6 +9,22 @@ const XRegExp = require('xregexp');
 exports.register = async function(server) {
   server.route([
     {
+      method: 'GET',
+      path: '/api/admin/certification-officer/{id}',
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: userController.getCertificationOfficerInfo,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de récupérer le nom d\'un membre du pôle certification (certification-officer)'
+        ],
+        tags: ['api', 'user']
+      }
+    },
+    {
       method: 'POST',
       path: '/api/users',
       config: {

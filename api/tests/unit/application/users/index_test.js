@@ -315,4 +315,32 @@ describe('Unit | Router | user-router', () => {
       expect(result.statusCode).to.equal(400);
     });
   });
+
+  describe('GET /api/admin/certification-officer/{id}', () => {
+
+    beforeEach(() => {
+      sinon.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, h) => {
+        h.continue({ credentials: { accessToken: 'jwt.access.token' } });
+      });
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(userController, 'getCertificationOfficerInfo').returns('ok');
+      startServer();
+    });
+
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/admin/certification-officer/123',
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+  });
 });
