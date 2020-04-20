@@ -9,7 +9,7 @@
   position: relative;
   height: 100%;
 
-  &.hidden-class {
+  &.hidden-visibility {
     visibility: hidden;
   }
 
@@ -57,6 +57,7 @@
   text-transform: uppercase;
   height: 56px;
   padding: 0 36px;
+  cursor: pointer;
 }
 
 .embed__simulator {
