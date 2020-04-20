@@ -50,7 +50,7 @@ export default class UserLoggedMenu extends Component {
     const selectedOrganization = await this.store.peekRecord('organization', organization.get('id'));
 
     userOrgaSettings.set('organization', selectedOrganization);
-    userOrgaSettings.save();
+    userOrgaSettings.save({ adapterOptions: { userId: user.id } });
 
     await this.currentUser.load();
 
