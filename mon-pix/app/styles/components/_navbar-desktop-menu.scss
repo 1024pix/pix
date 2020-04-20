@@ -69,20 +69,20 @@
   &:hover,
   &:focus,
   &:active {
-    color: $communication-dark;
+    color: $blue;
     text-decoration: none;
     background-color: $white;
   }
 }
 
 .navbar-header--white .navbar-menu-signup-link {
-  color: $communication-dark;
-  border: 2px solid $communication-dark;
+  color: $blue;
+  border: 2px solid $blue;
 
   &:hover,
   &:focus,
   &:active {
     color: $white;
-    background-color: $communication-dark;
+    background-color: $blue;
   }
 }

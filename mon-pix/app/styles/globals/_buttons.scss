@@ -6,7 +6,7 @@
   letter-spacing: 0.012rem;
   text-align: center;
   border-radius: 5px;
-  background-color: $communication-dark;
+  background-color: $blue;
   color: $white;
   cursor: pointer;
   border: none;
@@ -120,11 +120,11 @@
   }
 
   &--bordered {
-    border: 1px solid $communication-dark;
-    color: $communication-dark;
+    border: 1px solid $blue;
+    color: $blue;
 
     &:hover, &:active, &:focus {
-      background-color: $communication-dark;
+      background-color: $blue;
       color: $white;
     }
   }
@@ -170,7 +170,7 @@
   outline: none;
   border: none;
   background-color: inherit;
-  color: $communication-dark;
+  color: $blue;
   text-decoration: none;
 
   &:hover,

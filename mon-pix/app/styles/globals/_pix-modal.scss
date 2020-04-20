@@ -143,7 +143,7 @@ $pix-modal-border-radius: 5px;
   text-align: center;
 
   &:focus {
-    border-color: $communication-dark;
+    border-color: $blue;
   }
 
   @include device-is('tablet') {
