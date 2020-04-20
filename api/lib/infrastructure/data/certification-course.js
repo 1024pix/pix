@@ -17,16 +17,16 @@ module.exports = Bookshelf.model('CertificationCourse', {
     return rawAttributes;
   },
 
+  acquiredPartnerCertifications() {
+    return this.hasMany('CertificationPartnerAcquisition', 'certificationCourseId');
+  },
+
   assessment() {
     return this.hasOne('Assessment', 'certificationCourseId');
   },
 
   challenges() {
     return this.hasMany('CertificationChallenge', 'courseId');
-  },
-
-  acquiredPartnerCertifications() {
-    return this.hasMany('CertificationPartnerAcquisition', 'certificationCourseId');
   },
 
   session() {

@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, domainBuilder, catchErr, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, knex } = require('../../../test-helper');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const BookshelfCertificationCourse = require('../../../../lib/infrastructure/data/certification-course');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -37,7 +37,7 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should persist the certif course in db', async () => {
       // when
-      await certificationCourseRepository.save(certificationCourse);
+      await certificationCourseRepository.save({ certificationCourse });
 
       // then
       const certificationCourseSaved = await knex('certification-courses').select();
@@ -46,7 +46,7 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should return the saved certification course', async () => {
       // when
-      const savedCertificationCourse = await certificationCourseRepository.save(certificationCourse);
+      const savedCertificationCourse = await certificationCourseRepository.save({ certificationCourse });
 
       // then
       expect(savedCertificationCourse).to.be.an.instanceOf(CertificationCourse);
@@ -177,7 +177,7 @@ describe('Integration | Repository | Certification Course', function() {
 
   });
 
-  describe('#getLastCertificationCourseByUserIdAndSessionId', function() {
+  describe('#findOneCertificationCourseByUserIdAndSessionId', function() {
 
     const createdAt = new Date('2018-12-11T01:02:03Z');
     const createdAtLater = new Date('2018-12-12T01:02:03Z');
@@ -186,8 +186,8 @@ describe('Integration | Repository | Certification Course', function() {
 
     beforeEach(() => {
       // given
-      userId = databaseBuilder.factory.buildUser().id;
-      sessionId = databaseBuilder.factory.buildSession().id;
+      userId = databaseBuilder.factory.buildUser({}).id;
+      sessionId = databaseBuilder.factory.buildSession({}).id;
       databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt });
       databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt: createdAtLater });
 
@@ -197,20 +197,20 @@ describe('Integration | Repository | Certification Course', function() {
       return databaseBuilder.commit();
     });
 
-    it('should retrieve the last certification course with given userId, sessionId', async () => {
+    it('should retrieve the most recently created certification course with given userId, sessionId', async () => {
       // when
-      const certificationCourse = await certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
+      const certificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId });
 
       // then
       expect(certificationCourse.createdAt).to.deep.equal(createdAtLater);
     });
 
-    it('should throw not found error when no certification course found', async () => {
+    it('should return null when no certification course found', async () => {
       // when
-      const result = await catchErr(certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId)(userId + 1, sessionId + 1);
+      const result = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({ userId: userId + 1, sessionId });
 
       // then
-      expect(result).to.be.instanceOf(NotFoundError);
+      expect(result).to.be.null;
     });
   });
 

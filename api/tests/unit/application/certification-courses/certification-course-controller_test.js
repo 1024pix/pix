@@ -1,11 +1,11 @@
 const { sinon, expect, hFake, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const Hapi = require('@hapi/hapi');
 const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const usecases = require('../../../../lib/domain/usecases');
 const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -152,7 +152,6 @@ describe('Unit | Controller | certification-course-controller', () => {
 
   describe('#save', () => {
 
-    let server;
     let request;
 
     beforeEach(() => {
@@ -170,65 +169,49 @@ describe('Unit | Controller | certification-course-controller', () => {
       };
       sinon.stub(usecases, 'retrieveLastOrCreateCertificationCourse');
       sinon.stub(certificationCourseSerializer, 'serialize');
-
-      server = this.server = Hapi.server();
-      return server.register(require('../../../../lib/application/certification-courses'));
     });
 
-    context('when certification course needs to be created', function() {
-      const newlyCreatedCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
+    const retrievedCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
 
-      it('should call the use case with the right arguments', async () => {
-        // given
-        usecases.retrieveLastOrCreateCertificationCourse
-          .withArgs({ sessionId: '12345', accessCode: 'ABCD12', userId: 'userId' })
-          .resolves({ created: true, certificationCourse: newlyCreatedCertificationCourse });
-
-        // when
-        await certificationCourseController.save(request, hFake);
-
-        // then
-        sinon.assert.calledWith(usecases.retrieveLastOrCreateCertificationCourse, {
-          sessionId: '12345',
-          accessCode: 'ABCD12',
-          userId: 'userId',
-        });
+    it('should call the use case with the right arguments', async () => {
+      // given
+      const usecaseArgs = { sessionId: '12345', accessCode: 'ABCD12', userId: 'userId' };
+      usecases.retrieveLastOrCreateCertificationCourse
+        .withArgs(usecaseArgs)
+        .resolves({ created: true, certificationCourse: retrievedCertificationCourse });
+      sinon.stub(DomainTransaction, 'execute').callsFake(() => {
+        return usecases.retrieveLastOrCreateCertificationCourse(usecaseArgs);
       });
 
-      it('should reply the certification course serialized', async () => {
-        // given
-        const serializedCertificationCourse = Symbol('a serialized certification course');
-        usecases.retrieveLastOrCreateCertificationCourse
-          .withArgs({ sessionId: '12345', accessCode: 'ABCD12', userId: 'userId' })
-          .resolves({ created: true, certificationCourse: newlyCreatedCertificationCourse });
-        certificationCourseSerializer.serialize.resolves(serializedCertificationCourse);
+      // when
+      await certificationCourseController.save(request, hFake);
 
-        // when
-        const response = await certificationCourseController.save(request, hFake);
-
-        // then
-        expect(response.source).to.equal(serializedCertificationCourse);
-        expect(response.statusCode).to.equal(201);
+      // then
+      sinon.assert.calledWith(usecases.retrieveLastOrCreateCertificationCourse, {
+        sessionId: '12345',
+        accessCode: 'ABCD12',
+        userId: 'userId',
       });
     });
 
-    context('when certification course already exists', function() {
-      it('should reply the existing certification course', async () => {
-        // given
-        const existingCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
-
-        usecases.retrieveLastOrCreateCertificationCourse
-          .withArgs({ sessionId: '12345', accessCode: 'ABCD12', userId: 'userId' })
-          .resolves({ created: false, certificationCourse: existingCertificationCourse });
-        certificationCourseSerializer.serialize.resolves({});
-
-        // when
-        await certificationCourseController.save(request, hFake);
-
-        // then
-        sinon.assert.calledWith(certificationCourseSerializer.serialize, existingCertificationCourse);
+    it('should reply the certification course serialized', async () => {
+      // given
+      const serializedCertificationCourse = Symbol('a serialized certification course');
+      const usecaseArgs = { sessionId: '12345', accessCode: 'ABCD12', userId: 'userId' };
+      usecases.retrieveLastOrCreateCertificationCourse
+        .withArgs(usecaseArgs)
+        .resolves({ created: true, certificationCourse: retrievedCertificationCourse });
+      sinon.stub(DomainTransaction, 'execute').callsFake(() => {
+        return usecases.retrieveLastOrCreateCertificationCourse(usecaseArgs);
       });
+      certificationCourseSerializer.serialize.resolves(serializedCertificationCourse);
 
+      // when
+      const response = await certificationCourseController.save(request, hFake);
+
+      // then
+      expect(response.source).to.equal(serializedCertificationCourse);
+      expect(response.statusCode).to.equal(201);
     });
   });
 

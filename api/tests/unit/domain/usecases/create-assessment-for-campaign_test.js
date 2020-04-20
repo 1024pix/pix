@@ -90,7 +90,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
       // then
       return promise.then(() => {
         expect(assessmentRepository.save).to.have.been.called;
-        expect(assessmentRepository.save).to.have.been.calledWith(assessment);
+        expect(assessmentRepository.save).to.have.been.calledWith({ assessment });
       });
     });
 

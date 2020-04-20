@@ -395,7 +395,7 @@ describe('Integration | Service | User Service', function() {
     });
   });
 
-  describe('#fillCertificationProfileWithCertificationChallenges', () => {
+  describe('#fillCertificationProfileWithChallenges', () => {
     let certificationProfile;
     let userCompetence1;
     let userCompetence2;
@@ -426,7 +426,7 @@ describe('Integration | Service | User Service', function() {
 
     it('should list available challenges', async () => {
       // when
-      await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+      await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       sinon.assert.calledOnce(challengeRepository.list);
@@ -438,7 +438,7 @@ describe('Integration | Service | User Service', function() {
       certificationProfile.challengeIdsCorrectlyAnswered = ['challengeRecordIdFive'];
 
       // when
-      const actualCertificationProfile = await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+      const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -458,7 +458,7 @@ describe('Integration | Service | User Service', function() {
         certificationProfile.challengeIdsCorrectlyAnswered = [];
 
         // when
-        const actualCertificationProfile = await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
         // then
         expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -478,7 +478,7 @@ describe('Integration | Service | User Service', function() {
         certificationProfile.challengeIdsCorrectlyAnswered = ['challengeRecordIdEleven'];
 
         // when
-        const actualCertificationProfile = await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
         // then
         expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -498,7 +498,7 @@ describe('Integration | Service | User Service', function() {
         certificationProfile.challengeIdsCorrectlyAnswered = ['challengeRecordIdOne'];
 
         // when
-        const actualCertificationProfile = await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
         // then
         expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -516,7 +516,7 @@ describe('Integration | Service | User Service', function() {
           ['challengeRecordIdFour', 'challengeRecordIdTwo'];
 
         // when
-        const actualCertificationProfile = await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
         // then
         expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -535,7 +535,7 @@ describe('Integration | Service | User Service', function() {
       certificationProfile.challengeIdsCorrectlyAnswered =
         ['challengeRecordIdFour', 'challengeRecordIdFive', 'challengeRecordIdSeven'];
       // when
-      const actualCertificationProfile = await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+      const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -567,7 +567,7 @@ describe('Integration | Service | User Service', function() {
       certificationProfile.challengeIdsCorrectlyAnswered =
         ['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven'];
       // when
-      const actualCertificationProfile = await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+      const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -599,7 +599,7 @@ describe('Integration | Service | User Service', function() {
       certificationProfile.challengeIdsCorrectlyAnswered =
         ['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven', 'challengeRecordIdEight'];
       // when
-      const actualCertificationProfile = await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+      const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -630,7 +630,7 @@ describe('Integration | Service | User Service', function() {
       certificationProfile.userCompetences = [userCompetence1, userCompetence2];
       certificationProfile.challengeIdsCorrectlyAnswered = ['challengeRecordIdFive', 'challengeRecordIdFive'];
       // when
-      const actualCertificationProfile = await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+      const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -661,7 +661,7 @@ describe('Integration | Service | User Service', function() {
       certificationProfile.userCompetences = [userCompetence1, userCompetence2];
       certificationProfile.challengeIdsCorrectlyAnswered = ['nonExistentchallengeRecordId'];
       // when
-      const actualCertificationProfile = await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+      const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -692,7 +692,7 @@ describe('Integration | Service | User Service', function() {
       certificationProfile.userCompetences = [userCompetence1, userCompetence2];
       certificationProfile.challengeIdsCorrectlyAnswered = ['challengeRecordIdThree'];
       // when
-      const actualCertificationProfile = await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+      const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
       // then
       expect(actualCertificationProfile.userCompetences).to.deep.equal([
@@ -726,7 +726,7 @@ describe('Integration | Service | User Service', function() {
         certificationProfile.challengeIdsCorrectlyAnswered =
           ['challengeRecordIdSix', 'challengeRecordIdFive', 'challengeRecordIdSeven', 'challengeRecordIdEight'];
         // when
-        const actualCertificationProfile = await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
         // then
         expect(actualCertificationProfile.userCompetences[1].skills)
@@ -751,7 +751,7 @@ describe('Integration | Service | User Service', function() {
           challenge2ForSkillSearch1,
         ]);
         // when
-        const actualCertificationProfile = await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+        const actualCertificationProfile = await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
         // then
         expect(actualCertificationProfile.userCompetences[0].skills)

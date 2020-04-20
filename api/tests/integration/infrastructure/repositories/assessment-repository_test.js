@@ -319,7 +319,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     it('should save new assessment if not already existing', async () => {
       // when
-      assessmentReturned = await assessmentRepository.save(assessmentToBeSaved);
+      assessmentReturned = await assessmentRepository.save({ assessment: assessmentToBeSaved });
 
       // then
       const assessmentsInDb = await knex('assessments').where('id', assessmentReturned.id).first('id', 'userId');

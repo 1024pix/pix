@@ -1,331 +1,298 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../../../../lib/domain/errors');
-const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
-const userService = require('../../../../lib/domain/services/user-service');
 const retrieveLastOrCreateCertificationCourse = require('../../../../lib/domain/usecases/retrieve-last-or-create-certification-course');
-const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
-const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
-const CertificationProfile = require('../../../../lib/domain/models/CertificationProfile');
-const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => {
 
-  describe('#retrieveLastOrCreateCertificationCourse', () => {
+  let clock;
+  const now = new Date('2019-01-01T05:06:07Z');
+  const domainTransaction = Symbol('someDomainTransaction');
+  const userId = 'userId';
+  const sessionId = 'sessionId';
+  const accessCode = 'accessCode';
+  let foundSession;
+  const assessmentRepository = { save: sinon.stub() };
+  const certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub() };
+  const certificationChallengeRepository = { save: sinon.stub() };
+  const certificationCourseRepository = {
+    findOneCertificationCourseByUserIdAndSessionId: sinon.stub(),
+    save: sinon.stub(),
+  };
+  const sessionRepository = { get: sinon.stub() };
+  const certificationChallengesService = { generateCertificationChallenges: sinon.stub() };
+  const userService = {
+    fillCertificationProfileWithChallenges: sinon.stub(),
+    getCertificationProfile: sinon.stub(),
+  };
+  const parameters = {
+    domainTransaction,
+    assessmentRepository,
+    certificationCandidateRepository,
+    certificationChallengeRepository,
+    certificationCourseRepository,
+    sessionRepository,
+    certificationChallengesService,
+    userService,
+  };
 
-    const fiveCompetencesWithLevelHigherThan0 = [
-      new UserCompetence({ id: 'competence1', pixScore: 8, estimatedLevel: 1 }),
-      new UserCompetence({ id: 'competence2', pixScore: 0, estimatedLevel: 0 }),
-      new UserCompetence({ id: 'competence3', pixScore: 24, estimatedLevel: 3 }),
-      new UserCompetence({ id: 'competence4', pixScore: 32, estimatedLevel: 4 }),
-      new UserCompetence({ id: 'competence5', pixScore: 40, estimatedLevel: 5 }),
-      new UserCompetence({ id: 'competence6', pixScore: 48, estimatedLevel: 6 }),
-    ];
+  beforeEach(() => {
+    clock = sinon.useFakeTimers(now);
+  });
 
-    context('when a certification course already exists for given sessionId and userId', () => {
+  afterEach(() => {
+    clock.restore();
+    certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId.reset();
+  });
 
-      let userId;
-      let sessionId;
-      let accessCode;
-      let certificationCourse;
+  context('when session access code is different from provided access code', () => {
 
-      beforeEach(() => {
-        userId = 12345;
-        sessionId = 23;
-        accessCode = 'ABCD12';
-        certificationCourse = domainBuilder.buildCertificationCourse({ id: 'newlyCreatedCertificationCourse', sessionId, userId, createdAt: new Date('2018-12-12T01:02:03Z') });
-
-        sinon.stub(sessionRepository, 'get').resolves({ id: sessionId, accessCode });
-        sinon.stub(certificationCourseRepository, 'save').resolves();
-      });
-
-      context('when a certification course already exists from the beginning', () => {
-
-        beforeEach(() => {
-          sinon.stub(certificationCourseRepository, 'getLastCertificationCourseByUserIdAndSessionId').resolves(certificationCourse);
-        });
-
-        it('should get last started certification course for given sessionId and userId', async function() {
-          // when
-          const result = await retrieveLastOrCreateCertificationCourse({
-            sessionId,
-            accessCode,
-            userId,
-            sessionRepository,
-            userService,
-            certificationCandidateRepository,
-            certificationChallengesService,
-            certificationCourseRepository,
-            assessmentRepository,
-          });
-
-          // then
-          expect(result).to.deep.equal({
-            created: false,
-            certificationCourse
-          });
-        });
-
-      });
-
-      context('when a certification course has been created meanwhile', () => {
-
-        beforeEach(() => {
-          sinon.stub(certificationCourseRepository, 'getLastCertificationCourseByUserIdAndSessionId')
-            .onFirstCall().rejects(new NotFoundError())
-            .onSecondCall().resolves(certificationCourse);
-          const certificationProfile = new CertificationProfile({ userCompetences: fiveCompetencesWithLevelHigherThan0 });
-          sinon.stub(certificationCandidateRepository, 'getBySessionIdAndUserId').resolves({ firstName: 'Moi', lastName: 'Moche', birthdate: 'Méchant', birthplace: 'En enfer' });
-          sinon.stub(userService, 'getCertificationProfile').resolves(certificationProfile);
-          sinon.stub(userService, 'fillCertificationProfileWithCertificationChallenges').withArgs(certificationProfile).resolves(certificationProfile);
-        });
-
-        it('should get last started certification course for given sessionId and userId', async function() {
-          // when
-          const result = await retrieveLastOrCreateCertificationCourse({
-            sessionId,
-            accessCode,
-            userId,
-            sessionRepository,
-            userService,
-            certificationCandidateRepository,
-            certificationChallengesService,
-            certificationCourseRepository,
-            assessmentRepository,
-          });
-
-          // then
-          expect(result).to.deep.equal({
-            created: false,
-            certificationCourse
-          });
-        });
-
-      });
-
+    beforeEach(() => {
+      foundSession = { accessCode: 'differentAccessCode' };
+      sessionRepository.get.withArgs(sessionId).resolves(foundSession);
     });
 
-    context('when the session does not exist', function() {
-      let userId;
-      let accessCode;
-      let sessionId;
-
-      beforeEach(() => {
-        userId = 12345;
-        accessCode = 'ABCD12';
-        sessionId = 23;
-        sinon.stub(sessionRepository, 'get').rejects(new NotFoundError());
+    it('should throw a not found error', async () => {
+      // when
+      const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+        sessionId,
+        accessCode,
+        userId,
+        ...parameters,
       });
 
-      it('should rejects an error when the session does not exist',  async function() {
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+    });
+  });
+
+  context('when session access code is the same as the provided access code', () => {
+
+    beforeEach(() => {
+      foundSession = { accessCode };
+      sessionRepository.get.withArgs(sessionId).resolves(foundSession);
+    });
+
+    context('when a certification course with provided userId and sessionId already exists', () => {
+
+      let existingCertificationCourse;
+      beforeEach(() => {
+        existingCertificationCourse = Symbol('existingCertificationCourse');
+        certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId.withArgs({ userId, sessionId, domainTransaction }).resolves(existingCertificationCourse);
+      });
+
+      it('should return it with flag created marked as false', async function() {
         // when
-        const result = await catchErr(retrieveLastOrCreateCertificationCourse)({
+        const result = await retrieveLastOrCreateCertificationCourse({
           sessionId,
           accessCode,
           userId,
-          sessionRepository,
-          userService,
-          certificationCandidateRepository,
-          certificationChallengesService,
-          certificationCourseRepository,
-          assessmentRepository,
+          ...parameters,
         });
 
         // then
-        expect(result).to.be.an.instanceOf(NotFoundError);
+        expect(result).to.deep.equal({
+          created: false,
+          certificationCourse: existingCertificationCourse,
+        });
       });
+
     });
 
-    context('when no certification course already exists for given sessionId and userId', function() {
-
-      let userId;
-      let sessionId;
-      let accessCode;
-      let certificationCourse;
-      let certificationCourseWithNbOfChallenges;
-
-      const now = new Date('2019-01-01T05:06:07Z');
-      let clock;
-
-      const noCompetences = [];
-      const oneCompetenceWithLevel0 = [new UserCompetence({ id: 'competence1', pixScore: 0, estimatedLevel: 0 })];
-      const oneCompetenceWithLevel5 = [new UserCompetence({ id: 'competence1', pixScore: 40, estimatedLevel: 5 })];
-      const fiveCompetencesAndOneWithLevel0 = [
-        new UserCompetence({ id: 'competence1', pixScore: 8, estimatedLevel: 1 }),
-        new UserCompetence({ id: 'competence2', pixScore: 16, estimatedLevel: 2 }),
-        new UserCompetence({ id: 'competence3', pixScore: 0, estimatedLevel: 0 }),
-        new UserCompetence({ id: 'competence4', pixScore: 32, estimatedLevel: 4 }),
-        new UserCompetence({ id: 'competence5', pixScore: 40, estimatedLevel: 5 }),
-      ];
+    context('when no certification course exists for this userId and sessionId', () => {
+      let certificationProfile;
 
       beforeEach(() => {
-        clock = sinon.useFakeTimers(now);
-        userId = 12345;
-        sessionId = 23;
-        accessCode = 'ABCD12';
-        sinon.stub(sessionRepository, 'get').resolves({ id: sessionId, accessCode });
-        sinon.stub(certificationCourseRepository, 'getLastCertificationCourseByUserIdAndSessionId').rejects(new NotFoundError());
-        certificationCourse = domainBuilder.buildCertificationCourse({
-          id: 'newlyCreatedCertificationCourse',
-          sessionId,
-          userId,
-          createdAt: new Date('2018-12-12T01:02:03Z')
-        });
-
-        certificationCourseWithNbOfChallenges = domainBuilder.buildCertificationCourse({
-          id: 'certificationCourseWithChallenges',
-          sessionId,
-          userId,
-          createdAt: new Date('2018-12-12T01:02:03Z'),
-          nbChallenges: 3
-        });
+        certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+          .withArgs({ userId, sessionId, domainTransaction }).onCall(0).resolves(null);
       });
 
-      afterEach(() => {
-        clock.restore();
-      });
+      context('when the user is not certifiable', () => {
 
-      [
-        { label: 'User Has No AirtableCompetence', competences: noCompetences },
-        { label: 'User Has Only 1 AirtableCompetence at Level 0', competences: oneCompetenceWithLevel0 },
-        { label: 'User Has Only 1 AirtableCompetence at Level 5', competences: oneCompetenceWithLevel5 },
-        { label: 'User Has 5 Competences with 1 at Level 0', competences: fiveCompetencesAndOneWithLevel0 },
-      ].forEach(function(testCase) {
+        beforeEach(() => {
+          certificationProfile = { isCertifiable: sinon.stub().returns(false) };
+          userService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves(certificationProfile);
+        });
 
-        it(`should not create a new certification if ${testCase.label}`, async function() {
-          // given
-          const certificationProfile = new CertificationProfile({ userCompetences: testCase.competences });
-          sinon.stub(userService, 'getCertificationProfile').withArgs({ userId, limitDate: now }).resolves(certificationProfile);
-          sinon.stub(userService, 'fillCertificationProfileWithCertificationChallenges').withArgs(certificationProfile).resolves(certificationProfile);
-          sinon.stub(certificationCourseRepository, 'save');
-          sinon.stub(assessmentRepository, 'save');
-
+        it('should throw a UserNotAuthorizedToCertifyError', async function() {
           // when
-          const result = await catchErr(retrieveLastOrCreateCertificationCourse)({
+          const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
             sessionId,
             accessCode,
             userId,
-            sessionRepository,
-            userService,
-            certificationCandidateRepository,
-            certificationChallengesService,
-            certificationCourseRepository,
-            assessmentRepository,
+            ...parameters,
           });
 
           // then
-          expect(result).to.be.an.instanceOf(UserNotAuthorizedToCertifyError);
+          expect(error).to.be.an.instanceOf(UserNotAuthorizedToCertifyError);
+        });
+
+        it('should not create any new resource', async function() {
+          // when
+          await catchErr(retrieveLastOrCreateCertificationCourse)({
+            sessionId,
+            accessCode,
+            userId,
+            ...parameters,
+          });
+
+          // then
           sinon.assert.notCalled(certificationCourseRepository.save);
           sinon.assert.notCalled(assessmentRepository.save);
+          sinon.assert.notCalled(certificationChallengeRepository.save);
         });
       });
 
-      context('when the user has no link with a certification candidate in the session', () => {
+      context('when user is certifiable', () => {
 
-        it('should throw a not found error', async function() {
-          // given
-          const certificationProfile = new CertificationProfile({ userCompetences: fiveCompetencesWithLevelHigherThan0 });
-          sinon.stub(userService, 'getCertificationProfile').withArgs({ userId, limitDate: now })
-            .resolves(certificationProfile);
-          sinon.stub(userService, 'fillCertificationProfileWithCertificationChallenges').withArgs(certificationProfile)
-            .resolves(certificationProfile);
-          sinon.stub(certificationCandidateRepository, 'getBySessionIdAndUserId')
-            .rejects(new NotFoundError());
+        beforeEach(() => {
+          certificationProfile = { isCertifiable: sinon.stub().returns(true), userCompetences: 'someUserCompetences' };
+          userService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves(certificationProfile);
+        });
 
-          // when
-          const err = await catchErr(retrieveLastOrCreateCertificationCourse)({
-            sessionId,
-            accessCode,
+        context('when a certification course has been created meanwhile', () => {
+
+          let existingCertificationCourse;
+          beforeEach(() => {
+            existingCertificationCourse = Symbol('existingCertificationCourse');
+            certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+              .withArgs({ userId, sessionId, domainTransaction }).onCall(1).resolves(existingCertificationCourse);
+            userService.fillCertificationProfileWithChallenges.withArgs(certificationProfile).resolves();
+          });
+
+          it('should return it with flag created marked as false', async function() {
+            // when
+            const result = await retrieveLastOrCreateCertificationCourse({
+              sessionId,
+              accessCode,
+              userId,
+              ...parameters,
+            });
+
+            // then
+            expect(result).to.deep.equal({
+              created: false,
+              certificationCourse: existingCertificationCourse,
+            });
+          });
+
+          it('should have filled the certification profile with challenges anyway', async () => {
+            // when
+            await retrieveLastOrCreateCertificationCourse({
+              sessionId,
+              accessCode,
+              userId,
+              ...parameters,
+            });
+
+            // then
+            expect(userService.fillCertificationProfileWithChallenges).to.have.been.calledWith(certificationProfile);
+          });
+
+        });
+
+        context('when a certification still has not been created meanwhile', () => {
+
+          const foundCertificationCandidate = {
+            firstName: Symbol('firstName'),
+            lastName: Symbol('lastName'),
+            birthdate: Symbol('birthdate'),
+            birthCity: Symbol('birthCity'),
+            externalId: Symbol('externalId'),
+          };
+          const mockCertificationCourse = {
             userId,
-            sessionRepository,
-            userService,
-            certificationCandidateRepository,
-            certificationChallengesService,
-            certificationCourseRepository,
-            assessmentRepository,
-          });
-
-          // then
-          expect(err).to.be.an.instanceOf(NotFoundError);
-        });
-      });
-
-      context('when the user has a link with a certification candidate in the session', () => {
-
-        it('should create the certification course with status "started", if at least 5 competences with level higher than 0', async function() {
-          // given
-          sinon.stub(certificationCandidateRepository, 'getBySessionIdAndUserId')
-            .resolves({ firstName: 'prénom', lastName: 'nom', birthdate:'DDN', birthplace:'lieu' });
-          const certificationProfile = new CertificationProfile({ userCompetences: fiveCompetencesWithLevelHigherThan0 });
-          sinon.stub(userService, 'getCertificationProfile').withArgs({ userId, limitDate: now })
-            .resolves(certificationProfile);
-          sinon.stub(userService, 'fillCertificationProfileWithCertificationChallenges').withArgs(certificationProfile)
-            .resolves(certificationProfile);
-          sinon.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
-          sinon.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
-          sinon.stub(assessmentRepository, 'save').resolves();
-
-          // when
-          const newCertification = await retrieveLastOrCreateCertificationCourse({
             sessionId,
-            accessCode,
+            firstName: foundCertificationCandidate.firstName,
+            lastName: foundCertificationCandidate.lastName,
+            birthdate: foundCertificationCandidate.birthdate,
+            birthplace: foundCertificationCandidate.birthCity,
+            externalId: foundCertificationCandidate.externalId,
+            isV2Certification: true,
+          };
+          const savedCertificationCourse = {
+            id: 'savedCertificationCourse',
+          };
+          const mockAssessment = {
             userId,
-            sessionRepository,
-            userService,
-            certificationCandidateRepository,
-            certificationChallengesService,
-            certificationCourseRepository,
-            assessmentRepository,
+            certificationCourseId: savedCertificationCourse.id,
+            state: Assessment.states.STARTED,
+            type: Assessment.types.CERTIFICATION,
+          };
+          const savedAssessment = {
+            id: 'savedAssessment',
+          };
+          const challenge1 = 'challenge1';
+          const challenge2 = 'challenge2';
+          const generatedCertificationChallenges = [challenge1, challenge2];
+          const savedCertificationChallenge1 = {
+            id: 'savedCertificationChallenge1',
+          };
+          const savedCertificationChallenge2 = {
+            id: 'savedCertificationChallenge2',
+          };
+
+          beforeEach(() => {
+            certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+              .withArgs({ userId, sessionId, domainTransaction }).onCall(1).resolves(null);
+            userService.getCertificationProfile.withArgs({ userId, limitDate: now }).resolves(certificationProfile);
+            certificationCandidateRepository.getBySessionIdAndUserId.withArgs({ sessionId, userId }).resolves(foundCertificationCandidate);
+            certificationCourseRepository.save.resolves(savedCertificationCourse);
+            assessmentRepository.save.resolves(savedAssessment);
+            certificationChallengesService.generateCertificationChallenges
+              .withArgs(certificationProfile.userCompetences, savedCertificationCourse.id).returns(generatedCertificationChallenges);
+            certificationChallengeRepository.save.withArgs({ certificationChallenge: challenge1, domainTransaction }).resolves(savedCertificationChallenge1);
+            certificationChallengeRepository.save.withArgs({ certificationChallenge: challenge2, domainTransaction }).resolves(savedCertificationChallenge2);
           });
 
-          // then
-          expect(newCertification).to.deep.equal({
-            created: true,
-            certificationCourse: certificationCourseWithNbOfChallenges
+          it('should return it with flag created marked as true with related ressources', async function() {
+            // when
+            const result = await retrieveLastOrCreateCertificationCourse({
+              sessionId,
+              accessCode,
+              userId,
+              ...parameters,
+            });
+
+            // then
+            expect(result).to.deep.equal({
+              created: true,
+              certificationCourse: {
+                ...savedCertificationCourse,
+                assessment: savedAssessment,
+                challenges: [savedCertificationChallenge1, savedCertificationChallenge2],
+              },
+            });
           });
-          sinon.assert.calledOnce(assessmentRepository.save);
+
+          it('should have save the certification course based on an appropriate argument', async function() {
+            // when
+            await retrieveLastOrCreateCertificationCourse({
+              sessionId,
+              accessCode,
+              userId,
+              ...parameters,
+            });
+
+            // then
+            expect(certificationCourseRepository.save).to.have.been.calledWith({ certificationCourse: sinon.match(mockCertificationCourse), domainTransaction });
+          });
+
+          it('should have save the assessment based on an appropriate argument', async function() {
+            // when
+            await retrieveLastOrCreateCertificationCourse({
+              sessionId,
+              accessCode,
+              userId,
+              ...parameters,
+            });
+
+            // then
+            expect(assessmentRepository.save).to.have.been.calledWith({ assessment: sinon.match(mockAssessment), domainTransaction });
+          });
         });
       });
-
     });
-
-    context('when the access code does not correspond to the given sessionId', () => {
-      let userId;
-      let accessCode;
-      let wrongAccessCode;
-      let sessionId;
-
-      beforeEach(() => {
-        userId = 12345;
-        accessCode = 'ABCD12';
-        wrongAccessCode = 'ABCD13';
-        sessionId = 6789;
-
-        sinon.stub(sessionRepository, 'get').resolves({ id: sessionId, accessCode });
-      });
-
-      it('should not find the session', async function() {
-        // when
-        const result = await catchErr(retrieveLastOrCreateCertificationCourse)({
-          sessionId: sessionId,
-          wrongAccessCode,
-          userId,
-          sessionRepository,
-          userService,
-          certificationCandidateRepository,
-          certificationChallengesService,
-          certificationCourseRepository,
-          assessmentRepository,
-        });
-
-        // then
-        expect(result).to.be.an.instanceOf(NotFoundError);
-      });
-
-    });
-
   });
-
 });

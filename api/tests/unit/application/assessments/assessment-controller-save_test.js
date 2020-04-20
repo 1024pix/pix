@@ -98,7 +98,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
         await controller.save(request, hFake);
 
         // then
-        expect(assessmentRepository.save).to.have.been.calledWith(expected);
+        expect(assessmentRepository.save).to.have.been.calledWith({ assessment: expected });
       });
     });
   });

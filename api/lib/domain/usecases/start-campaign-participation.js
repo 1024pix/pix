@@ -26,7 +26,7 @@ async function _createSmartPlacementAssessment(userId, assessmentRepository, cre
     courseId: Assessment.courseIdMessage.SMART_PLACEMENT,
     campaignParticipationId: createdCampaignParticipation.id
   });
-  return assessmentRepository.save(assessment);
+  return assessmentRepository.save({ assessment });
 }
 
 async function _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository) {

@@ -23,17 +23,15 @@ function _toDomain(model) {
 
 module.exports = {
 
-  // TODO modifier pour que cela prenne un CertificationChallenge en entrée
-  save(challenge, certificationCourse) {
-    const certificationChallenge = new CertificationChallengeBookshelf({
-      challengeId: challenge.id,
-      competenceId: challenge.competenceId,
-      associatedSkill: challenge.testedSkill,
-      associatedSkillId: undefined, // TODO: Add skillId
-      courseId: certificationCourse.id,
+  save({ certificationChallenge, domainTransaction = {} }) {
+    const certificationChallengeToSave = new CertificationChallengeBookshelf({
+      challengeId: certificationChallenge.challengeId,
+      competenceId: certificationChallenge.competenceId,
+      associatedSkill: certificationChallenge.associatedSkillName,
+      associatedSkillId: certificationChallenge.associatedSkillId,
+      courseId: certificationChallenge.courseId,
     });
-
-    return certificationChallenge.save()
+    return certificationChallengeToSave.save(null, { transacting: domainTransaction.knexTransaction })
       .then((certificationChallenge) => {
         return _toDomain(certificationChallenge);
       });

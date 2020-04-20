@@ -271,8 +271,8 @@ describe('Unit | Service | ScorecardService', function() {
           userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository,
         });
         // given
-        expect(assessmentRepository.save.args[0][0]).to.include({ type: 'SMART_PLACEMENT', state: 'started', userId, campaignParticipationId: 1 });
-        expect(assessmentRepository.save.args[1][0]).to.include({ type: 'SMART_PLACEMENT', state: 'started', userId, campaignParticipationId: 2 });
+        expect(assessmentRepository.save.args[0][0].assessment).to.include({ type: 'SMART_PLACEMENT', state: 'started', userId, campaignParticipationId: 1 });
+        expect(assessmentRepository.save.args[1][0].assessment).to.include({ type: 'SMART_PLACEMENT', state: 'started', userId, campaignParticipationId: 2 });
       });
 
       context('when campaign is already shared', function() {

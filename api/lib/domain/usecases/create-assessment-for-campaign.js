@@ -36,7 +36,7 @@ module.exports = async function createAssessmentForCampaign(
   assessment.courseId = Assessment.courseIdMessage.SMART_PLACEMENT;
   assessment.campaignParticipationId = campaignParticipation.id;
 
-  const assessmentCreated = await assessmentRepository.save(assessment);
+  const assessmentCreated = await assessmentRepository.save({ assessment });
 
   return assessmentCreated;
 };

@@ -3,54 +3,54 @@ const Assessment = require('../models/Assessment');
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../errors');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
-  sessionId,
+  domainTransaction,
   accessCode,
+  sessionId,
   userId,
-  sessionRepository,
-  userService,
-  certificationCandidateRepository,
-  certificationChallengesService,
-  certificationCourseRepository,
   assessmentRepository,
+  certificationCandidateRepository,
+  certificationChallengeRepository,
+  certificationCourseRepository,
+  sessionRepository,
+  certificationChallengesService,
+  userService,
 }) {
   const session = await sessionRepository.get(sessionId);
-
   if (session.accessCode !== accessCode) {
     throw new NotFoundError('Session not found');
   }
 
-  try {
-    const certificationCourse = await certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
-
+  const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId, domainTransaction });
+  if (existingCertificationCourse) {
     return {
       created: false,
-      certificationCourse,
+      certificationCourse: existingCertificationCourse,
     };
-  } catch (err) {
-    if (err instanceof NotFoundError) {
-      return _startNewCertification({
-        userId,
-        sessionId,
-        userService,
-        certificationCandidateRepository,
-        certificationChallengesService,
-        certificationCourseRepository,
-        assessmentRepository,
-      });
-    }
-
-    throw err;
   }
+
+  return _startNewCertification({
+    domainTransaction,
+    sessionId,
+    userId,
+    assessmentRepository,
+    certificationCandidateRepository,
+    certificationChallengeRepository,
+    certificationCourseRepository,
+    certificationChallengesService,
+    userService,
+  });
 };
 
 async function _startNewCertification({
-  userId,
+  domainTransaction,
   sessionId,
-  userService,
-  certificationChallengesService,
-  certificationCandidateRepository,
-  certificationCourseRepository,
+  userId,
   assessmentRepository,
+  certificationCandidateRepository,
+  certificationChallengeRepository,
+  certificationCourseRepository,
+  certificationChallengesService,
+  userService,
 }) {
   const certificationProfile = await userService.getCertificationProfile({ userId, limitDate: new Date() });
 
@@ -58,54 +58,55 @@ async function _startNewCertification({
     throw new UserNotAuthorizedToCertifyError();
   }
 
-  await userService.fillCertificationProfileWithCertificationChallenges(certificationProfile);
+  await userService.fillCertificationProfileWithChallenges(certificationProfile);
 
-  try {
-    const certificationCourse = await certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
-
+  const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId, domainTransaction });
+  if (existingCertificationCourse) {
     return {
       created: false,
-      certificationCourse,
+      certificationCourse: existingCertificationCourse,
     };
-  } catch (err) {
-    if (err instanceof NotFoundError) {
-      const personalInfo = { firstName: null, lastName: null, birthdate: null, birthplace: null, externalId: null };
-      const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ sessionId, userId });
-
-      personalInfo.firstName = certificationCandidate.firstName;
-      personalInfo.lastName = certificationCandidate.lastName;
-      personalInfo.birthdate = certificationCandidate.birthdate;
-      personalInfo.birthplace = certificationCandidate.birthCity;
-      personalInfo.externalId = certificationCandidate.externalId;
-
-      const newCertificationCourse = new CertificationCourse({
-        userId,
-        sessionId,
-        ...personalInfo,
-        isV2Certification: true,
-      });
-
-      const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
-      const assessment = await _createAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id, assessmentRepository });
-      savedCertificationCourse.assessment = assessment;
-
-      return {
-        created: true,
-        certificationCourse: await certificationChallengesService.saveChallenges(certificationProfile.userCompetences, savedCertificationCourse),
-      };
-    }
-
-    throw err;
   }
+
+  const newCertificationCourse = await _generateCertificationCourseFromCandidateParticipation({ userId, sessionId, certificationCandidateRepository });
+  const savedCertificationCourse = await certificationCourseRepository.save({ certificationCourse: newCertificationCourse, domainTransaction });
+  const newAssessment = _generateAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id });
+  const savedAssessment = await assessmentRepository.save({ assessment: newAssessment, domainTransaction });
+  const newCertificationChallenges = certificationChallengesService.generateCertificationChallenges(certificationProfile.userCompetences, savedCertificationCourse.id);
+  const savedChallenges = await Promise.all(newCertificationChallenges.map((certificationChallenge) => certificationChallengeRepository.save({ certificationChallenge, domainTransaction })));
+
+  savedCertificationCourse.assessment = savedAssessment;
+  savedCertificationCourse.challenges = savedChallenges;
+
+  return {
+    created: true,
+    certificationCourse: savedCertificationCourse,
+  };
 }
 
-function _createAssessmentForCertificationCourse({ userId, certificationCourseId, assessmentRepository }) {
-  const assessment = new Assessment({
+async function _generateCertificationCourseFromCandidateParticipation({ userId, sessionId, certificationCandidateRepository }) {
+  const personalInfo = { firstName: null, lastName: null, birthdate: null, birthplace: null, externalId: null };
+  const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ sessionId, userId });
+
+  personalInfo.firstName = certificationCandidate.firstName;
+  personalInfo.lastName = certificationCandidate.lastName;
+  personalInfo.birthdate = certificationCandidate.birthdate;
+  personalInfo.birthplace = certificationCandidate.birthCity;
+  personalInfo.externalId = certificationCandidate.externalId;
+
+  return new CertificationCourse({
+    userId,
+    sessionId,
+    ...personalInfo,
+    isV2Certification: true,
+  });
+}
+
+function _generateAssessmentForCertificationCourse({ userId, certificationCourseId }) {
+  return new Assessment({
     userId,
     certificationCourseId,
     state: Assessment.states.STARTED,
     type: Assessment.types.CERTIFICATION,
   });
-
-  return assessmentRepository.save(assessment);
 }
