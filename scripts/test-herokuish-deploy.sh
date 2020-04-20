@@ -4,13 +4,17 @@ rm -rf ./tmp/pix.tar ./tmp/herokuenv ./tmp/herokuenvfile
 
 # To avoid a slow copy over the Docker mount, we tar the sources
 mkdir -p tmp
-tar -cf tmp/pix.tar $(git ls-files)
+git ls-files -z | xargs -0 tar -cf tmp/pix.tar
 
 APPLICATION_NAME=${APPLICATION_NAME:-mon-pix}
 
 mkdir -p tmp/herokuenv
 (
   cd tmp/herokuenv
+
+  # Avoid warnings due to Scalingo's node-buildpack injecting their certs
+  # (which our image does not have)
+  echo /dev/null > NODE_EXTRA_CA_CERTS
 
   case "$APPLICATION_NAME" in
     mon-pix)
