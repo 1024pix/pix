@@ -22,6 +22,10 @@ Fonctionnalité: Gestion des Campagnes
     Lorsque je reviens en arrière
     Et je clique sur "Résultats collectifs"
     Alors je vois la moyenne des résultats à 50%
+    Lorsque je clique sur "Analyse"
+    Alors je vois 2 sujets
+    Et je vois que le sujet "Capitales" est "Fortement recommandé"
+    Et je vois que le sujet "Philosophes" est "Assez recommandé"
 
   Scénario: Je consulte le détail d'une campagne de collecte de profils
     Étant donné que je suis connecté à Pix Orga
