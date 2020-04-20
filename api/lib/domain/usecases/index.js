@@ -86,6 +86,7 @@ module.exports = injectDependencies({
   createMembership: require('./create-membership'),
   createOrganization: require('./create-organization'),
   createOrganizationInvitations: require('./create-organization-invitations'),
+  createOrUpdateUserOrgaSettings: require('./create-or-update-user-orga-settings'),
   createSession: require('./create-session'),
   createUser: require('./create-user'),
   createUserOrgaSettings: require('./create-user-orga-settings'),
