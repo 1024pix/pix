@@ -11,6 +11,7 @@ const knowledgeElementRepository = require('../../../../lib/infrastructure/repos
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
@@ -175,6 +176,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-
         organizationRepository,
         campaignParticipationRepository,
         knowledgeElementRepository,
+        campaignCsvExportService
       });
 
       const csv = await csvPromise;

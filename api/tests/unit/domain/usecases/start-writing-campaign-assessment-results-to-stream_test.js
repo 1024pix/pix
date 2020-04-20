@@ -3,6 +3,7 @@ const moment = require('moment');
 
 const { expect, sinon, domainBuilder, streamToPromise } = require('../../../test-helper');
 
+const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
 const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream');
 const Area = require('../../../../lib/domain/models/Area');
 
@@ -164,6 +165,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         organizationRepository,
         campaignParticipationRepository,
         knowledgeElementRepository,
+        campaignCsvExportService
       });
 
       const csv = await csvPromise;
@@ -225,6 +227,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           organizationRepository,
           campaignParticipationRepository,
           knowledgeElementRepository,
+          campaignCsvExportService
         });
 
         const csv = await csvPromise;
@@ -291,6 +294,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           organizationRepository,
           campaignParticipationRepository,
           knowledgeElementRepository,
+          campaignCsvExportService
         });
 
         const csv = await csvPromise;
@@ -357,6 +361,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           organizationRepository,
           campaignParticipationRepository,
           knowledgeElementRepository,
+          campaignCsvExportService
         });
 
         const csv = await csvPromise;
@@ -437,6 +442,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           organizationRepository,
           campaignParticipationRepository,
           knowledgeElementRepository,
+          campaignCsvExportService
         });
 
         const csv = await csvPromise;
@@ -507,6 +513,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           organizationRepository,
           campaignParticipationRepository,
           knowledgeElementRepository,
+          campaignCsvExportService
         });
 
         const csv = await csvPromise;
