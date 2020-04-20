@@ -1,0 +1,40 @@
+.participant {
+  display: flex;
+  flex-flow: column;
+}
+
+.participant-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.participant-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 2%;
+
+  &--wide {
+    width: 100%;
+  }
+
+  &--large {
+    padding: 30px 0;
+  }
+
+  &__progress-bar {
+    position: relative;
+  }
+
+  &__label-text {
+    margin-bottom: 10px;
+  }
+
+  &__check-shared {
+    margin-right: 3px;
+
+    &--green {
+      color: $success;
+    }
+  }
+}

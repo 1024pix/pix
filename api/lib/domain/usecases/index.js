@@ -76,6 +76,7 @@ module.exports = injectDependencies({
   completeAssessment: require('./complete-assessment'),
   computeCampaignAnalysis: require('./compute-campaign-analysis'),
   computeCampaignCollectiveResult: require('./compute-campaign-collective-result'),
+  computeCampaignParticipationAnalysis: require('./compute-campaign-participation-analysis'),
   correctAnswerThenUpdateAssessment: require('./correct-answer-then-update-assessment'),
   createAndAssociateUserToSchoolingRegistration: require('./create-and-associate-user-to-schooling-registration'),
   createAssessmentForCampaign: require('./create-assessment-for-campaign'),

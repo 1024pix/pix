@@ -1,0 +1,53 @@
+<div class="participant-header__title">
+  <LinkTo @route="authenticated.campaigns.details.participants" @model={{@campaign.id}} class="icon-button campaign-details-content__return-button">
+    <FaIcon @icon='arrow-left'></FaIcon>
+  </LinkTo>
+  <div
+    class="page__title page-title">{{@campaignParticipation.user.firstName}} {{@campaignParticipation.user.lastName}}
+  </div>
+</div>
+
+<div class="panel panel--light-shadow participant-header__information">
+  <div class="participant-row">
+    {{#if @campaignParticipation.participantExternalId}}
+      <div class="participant-content participant-content--large participant-header-content__left-wrapper">
+        <div class="label-text participant-content__label-text">{{@campaign.idPixLabel}}</div>
+        <div class="content-text">{{@campaignParticipation.participantExternalId}}</div>
+      </div>
+    {{/if}}
+    <div class="participant-header-content__right-wrapper">
+      <div class="participant-content participant-content--large ">
+        <div class="label-text participant-content__label-text">Avancement</div>
+        <div aria-label="Avancement" class="content-text">
+          {{percentage @campaignParticipation.campaignParticipationResult.progress}}%
+          <div class="participant-content__progress-bar progress-bar">
+            {{#if @campaignParticipation.campaignParticipationResult.isCompleted}}
+              <div class="participant-content__progress-bar progress-bar progress-bar--completed"></div>
+            {{else}}
+              <div class="progress-bar progress-bar--completion" style={{@progressBarStyle}}></div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+      <div class="participant-content participant-content--large ">
+        <div class="label-text participant-content__label-text">Commencé le</div>
+        <div class="content-text">
+          {{moment-format @campaignParticipation.createdAt 'll'}}
+        </div>
+      </div>
+      <div class="participant-content participant-content--large ">
+        <div class="label-text participant-content__label-text">Partagé le</div>
+        <div class="content-text">
+          {{#if @campaignParticipation.isShared}}
+            <FaIcon @icon='check-circle'
+                    @class="participant-content__check-shared participant-content__check-shared--green"></FaIcon>
+            {{moment-format @campaignParticipation.sharedAt 'll'}}
+          {{else}}
+            Non disponible
+          {{/if}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

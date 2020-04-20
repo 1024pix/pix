@@ -21,7 +21,7 @@ module.exports = {
           return campaignParticipationForSerialization;
         },
 
-        attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId',  'campaign', 'user', 'campaignParticipationResult', 'assessment'],
+        attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId',  'campaign', 'user', 'campaignParticipationResult', 'assessment', 'campaignAnalysis'],
         campaign: {
           ref: 'id',
           attributes: ['code', 'title']
@@ -81,6 +81,15 @@ module.exports = {
               'testedSkillsCount',
               'validatedSkillsCount'
             ],
+          }
+        },
+        campaignAnalysis: {
+          ref: 'id',
+          ignoreRelationshipData: true,
+          relationshipLinks: {
+            related(record, current, parent) {
+              return `/api/campaign-participations/${parent.id}/analyses`;
+            }
           }
         },
         meta
