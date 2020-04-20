@@ -22,10 +22,10 @@ export default class QcuSolutionPanel extends Component {
 
   @computed('answer')
   get labeledRadios() {
-    const answer = this.get('answer.value');
+    const answer = this.answer.value;
     let radiosArray = [];
     if (_.isNonEmptyString(answer)) {
-      const proposals = this.get('challenge.proposals');
+      const proposals = this.challenge.get('proposals');
       const proposalsArray = proposalsAsArray(proposals);
       const answerArray = valueAsArrayOfBoolean(answer);
       radiosArray = labeledCheckboxes(proposalsArray, answerArray);

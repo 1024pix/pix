@@ -79,11 +79,11 @@ describe('Integration | Component | QROC solution panel', function() {
           // given
           const assessment = EmberObject.create({ id: 'assessment_id' });
           const challenge = EmberObject.create({ id: 'challenge_id', format: data.format });
-          const answer = EmberObject.create({ id: 'answer_id', result: 'ok', assessment, challenge });
+          const answer = EmberObject.create({ id: 'answer_id', result: 'ok', value: 'test', assessment, challenge });
 
           // when
-          await render(hbs`{{qroc-solution-panel answer=answer}}`);
           this.set('answer', answer);
+          await render(hbs`{{qroc-solution-panel answer=answer}}`);
         });
 
         it('should display the answer in bold green', async function() {
