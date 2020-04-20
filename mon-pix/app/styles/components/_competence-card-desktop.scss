@@ -30,7 +30,7 @@
     }
 
     &--cerulean::after {
-      background: radial-gradient($cerulean-dark 25%, $communication-light 100%);
+      background: radial-gradient($blue 25%, $communication-light 100%);
     }
 
     &--wild-strawberry::after {

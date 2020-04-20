@@ -16,7 +16,7 @@
 
   a {
     text-decoration: underline;
-    color: $communication-dark;
+    color: $blue;
 
     &:active,
     &:focus,
@@ -67,7 +67,7 @@
   display: inline-block;
   margin: 0 5px;
   cursor: pointer;
-  color: $communication-dark;
+  color: $blue;
   position: relative;
 }
 
@@ -163,7 +163,7 @@
   width: 156px;
   height: 46px;
   border-radius: 23px;
-  background-color: $communication-dark;
+  background-color: $blue;
   color: $white;
   cursor: pointer;
   text-align: center;
