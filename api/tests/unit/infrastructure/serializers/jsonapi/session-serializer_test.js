@@ -91,6 +91,25 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       });
     });
 
+    context('when session has an assigned certification officer', () => {
+
+      it('should convert a Session model object into JSON API data with a link to the assigned certification officer', function() {
+        // given
+        modelSession.assignedCertificationOfficerId = 13;
+
+        // when
+        const json = serializer.serialize(modelSession);
+
+        // then
+        expectedJsonApi.data.relationships['assigned-certification-officer'] = {
+          'links': {
+            'related': '/api/admin/certification-officer/13',
+          }
+        };
+        expect(json).to.deep.equal(expectedJsonApi);
+      });
+    });
+
   });
 
   describe('#deserialize()', function() {
@@ -208,6 +227,110 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
       // then
       expect(json).to.deep.equal(expectedJsonApi);
+    });
+
+  });
+
+  describe('#serializeForPaginatedFilteredResults()', function() {
+
+    let modelSession;
+    let expectedJsonApi;
+
+    beforeEach(() => {
+      expectedJsonApi = {
+        data: {
+          type: 'sessions',
+          id: '12',
+          attributes: {
+            'certification-center-name': 'Université des Laura en folie',
+            date: '2017-01-20',
+            time: '14:30',
+            status: statuses.PROCESSED,
+            'finalized-at': new Date('2020-02-17T14:23:56Z'),
+            'published-at': new Date('2020-02-21T14:23:56Z'),
+            'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
+          },
+          relationships: {
+            certifications: {
+              links: {
+                related: '/api/sessions/12/certifications',
+              }
+            },
+          }
+        }
+      };
+      modelSession = new Session({
+        id: 12,
+        certificationCenter: 'Université des Laura en folie',
+        address: 'Nice',
+        room: '28D',
+        examiner: 'Antoine Toutvenant',
+        date: '2017-01-20',
+        time: '14:30',
+        description: '',
+        accessCode: '',
+        examinerGlobalComment: 'It was a fine session my dear',
+        finalizedAt: new Date('2020-02-17T14:23:56Z'),
+        resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
+        publishedAt: new Date('2020-02-21T14:23:56Z'),
+      });
+    });
+
+    context('when session does not have a link to an existing certification center', () => {
+
+      it('should convert a Session model object into JSON API data', function() {
+        // given
+        const meta = { page: 1, pageSize: 10, rowCount: 6, pageCount: 1 };
+        const expectedResult = Object.assign(expectedJsonApi, { meta });
+
+        // when
+        const json = serializer.serializeForPaginatedFilteredResults(modelSession, meta);
+
+        // then
+        expect(json).to.deep.equal(expectedResult);
+      });
+    });
+
+    context('when session has a link to an existing certification center', () => {
+
+      it('should convert a Session model object into JSON API data with a link to the certification center', function() {
+        // given
+        modelSession.certificationCenterId = 13;
+        const meta = { page: 1, pageSize: 10, rowCount: 6, pageCount: 1 };
+        const expectedResult = Object.assign(expectedJsonApi, { meta });
+
+        // when
+        const json = serializer.serializeForPaginatedFilteredResults(modelSession, meta);
+
+        // then
+        expectedResult.data.relationships['certification-center'] = {
+          'links': {
+            'related': '/api/certification-centers/13',
+          }
+        };
+        expect(json).to.deep.equal(expectedResult);
+      });
+    });
+
+    context('when session has an assigned certification officer', () => {
+
+      it('should convert a Session model object into JSON API data with a link to the assigned certification officer', function() {
+        // given
+        modelSession.assignedCertificationOfficerId = 13;
+        const meta = { page: 1, pageSize: 10, rowCount: 6, pageCount: 1 };
+        const expectedResult = Object.assign(expectedJsonApi, { meta });
+
+        // when
+        const json = serializer.serializeForPaginatedFilteredResults(modelSession, meta);
+
+        // then
+        expectedResult.data.relationships['assigned-certification-officer'] = {
+          'links': {
+            'related': '/api/admin/certification-officer/13',
+          }
+        };
+        expect(json).to.deep.equal(expectedResult);
+      });
     });
 
   });

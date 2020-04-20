@@ -91,6 +91,18 @@ describe('PATCH /api/jury/sessions/:id/certification-officer-assignment', () => 
           // then
           expect(response.statusCode).to.equal(200);
         });
+
+        it('should return the serialized session with a link to the assigned user', async () => {
+          // given
+          options.url = `/api/jury/sessions/${sessionId}/certification-officer-assignment`;
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          const linkToAssignedUser = response.result.data.relationships['assigned-certification-officer'].links.related;
+          expect(linkToAssignedUser).to.equal(`/api/admin/certification-officer/${certificationOfficerId}`);
+        });
       });
     });
   });

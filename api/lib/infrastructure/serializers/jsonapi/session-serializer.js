@@ -27,6 +27,7 @@ module.exports = {
         'certificationCandidates',
         'certificationReports',
         'certificationCenter',
+        'assignedCertificationOfficer',
       ],
       certificationCandidates: {
         ref: 'id',
@@ -55,6 +56,15 @@ module.exports = {
           }
         }
       },
+      assignedCertificationOfficer: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current) {
+            return `/api/admin/certification-officer/${current.id}`;
+          }
+        }
+      },
       transform(session) {
         const transformedSession = Object.assign({}, session);
         transformedSession.status = session.status;
@@ -63,6 +73,9 @@ module.exports = {
         delete transformedSession.certificationCenter;
         if (session.certificationCenterId) {
           transformedSession.certificationCenter = { id: session.certificationCenterId };
+        }
+        if (session.assignedCertificationOfficerId) {
+          transformedSession.assignedCertificationOfficer = { id: session.assignedCertificationOfficerId };
         }
         return transformedSession;
       },
@@ -79,6 +92,65 @@ module.exports = {
       transform(session) {
         return { ...session, status: session.status };
       },
+    }).serialize(sessions);
+  },
+
+  serializeForPaginatedFilteredResults(sessions, meta) {
+    return new Serializer('session', {
+      attributes: [
+        'certificationCenterName',
+        'date',
+        'time',
+        'status',
+        'finalizedAt',
+        'resultsSentToPrescriberAt',
+        'publishedAt',
+        'certifications',
+        'certificationCenter',
+        'assignedCertificationOfficer',
+      ],
+      certifications : {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/sessions/${parent.id}/certifications`;
+          }
+        }
+      },
+      certificationCenter: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current) {
+            return `/api/certification-centers/${current.id}`;
+          }
+        }
+      },
+      assignedCertificationOfficer: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current) {
+            return `/api/admin/certification-officer/${current.id}`;
+          }
+        }
+      },
+      transform(session) {
+        const transformedSession = Object.assign({}, session);
+        transformedSession.status = session.status;
+        transformedSession.certifications = [];
+        transformedSession.certificationCenterName = session.certificationCenter;
+        delete transformedSession.certificationCenter;
+        if (session.certificationCenterId) {
+          transformedSession.certificationCenter = { id: session.certificationCenterId };
+        }
+        if (session.assignedCertificationOfficerId) {
+          transformedSession.assignedCertificationOfficer = { id: session.assignedCertificationOfficerId };
+        }
+        return transformedSession;
+      },
+      meta,
     }).serialize(sessions);
   },
 
