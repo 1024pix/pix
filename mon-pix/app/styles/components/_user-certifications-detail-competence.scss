@@ -4,7 +4,7 @@
 }
 
 .user-certifications-detail-competence__box-name {
-  color: $charcoal-grey;
+  color: $grey-80;
   font-size: 1rem;
   letter-spacing: 0.5px;
   line-height: 19px;
@@ -19,7 +19,7 @@
   float: right;
   width: 25px;
   text-align: center;
-  color: $charcoal-grey;
+  color: $grey-80;
   font-size: 1.25rem;
   font-weight: bold;
   line-height: 24px;
@@ -42,9 +42,9 @@
 
 
 .user-certifications-detail-competence__validate-level {
-  background: $yellow;
+  background: $warning;
 }
 
 .user-certifications-detail-competence__not-validate-level {
-  background: $alto-grey;
+  background: $grey-20;
 }

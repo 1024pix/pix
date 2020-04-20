@@ -39,7 +39,7 @@
 
   &__explain-text {
     font-size: 1.5rem;
-    color: $dove-gray;
+    color: $grey-60;
     line-height: 33px;
     font-weight: $font-light;
   }
@@ -52,14 +52,14 @@
 .skill-review-information {
   &__info-icon {
     float: left;
-    color: $dove-gray;
+    color: $grey-60;
     font-size: 0.938em;
   }
 
   &__text {
     padding-left: 14px;
     margin-top: 14px;
-    color: $dove-gray;
+    color: $grey-60;
     font-family: $font-open-sans;
     font-size: 0.875rem;
   }
@@ -75,7 +75,7 @@
     }
 
     &--emerald {
-      color: $success;
+      color: $content-light;
     }
 
     &--cerulean {
@@ -87,14 +87,14 @@
     }
 
     &--butterfly-bush {
-      color: $butterfly-bush;
+      color: $environment-light;
     }
   }
 }
 
 .skill-review-table-header {
   &__circle-chart-value {
-    color: $nero;
+    color: $grey-100;
     font-family: $font-roboto;
     font-size: 1.938rem;
   }
@@ -177,7 +177,7 @@
   &__legal {
     text-align: center;
     font-size: 1.25rem;
-    color: $dove-gray;
+    color: $grey-60;
     line-height: 2rem;
     font-weight: $font-light;
     margin: 0 20px 16px 20px;
@@ -217,7 +217,7 @@
   margin: 30px auto 60px;
   font-family: $font-open-sans;
   font-weight: $font-light;
-  color: $gray;
+  color: $grey-35;
 }
 
 @media print {
@@ -226,11 +226,11 @@
   }
 
   .progression-gauge {
-    border-bottom: 4px solid $alto-grey;
+    border-bottom: 4px solid $grey-20;
   }
 
   .progression-gauge__marker {
-    border-bottom: 4px solid $dark-orange;
+    border-bottom: 4px solid $information-light;
   }
 
   .default-table thead {

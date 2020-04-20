@@ -11,23 +11,23 @@
 }
 
 @mixin hexagon-score-title {
-  color: $nero;
+  color: $grey-100;
   font-family: $font-roboto;
   font-size: 0.875rem;
   letter-spacing: 0.219rem;
 }
 
 @mixin hexagon-score-pix-score {
-  color: $black;
+  color: $grey-200;
   font-family: $font-open-sans;
   font-size: 2.875rem;
 }
 
 @mixin hexagon-score-pix-total {
-  color: $dove-gray;
+  color: $grey-60;
   font-family: $font-roboto;
   font-size: 0.813rem;
-  border-top: 1px solid $dusty-grey;
+  border-top: 1px solid $grey-30;
 }
 
 .hexagon-score-content {

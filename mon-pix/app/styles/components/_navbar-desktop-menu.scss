@@ -30,7 +30,7 @@
 }
 
 .navbar-header--white .navbar-desktop-menu-links__item {
-  color: $slate-grey;
+  color: $grey-50;
 }
 
 .navbar-desktop-menu-links__item:first-child {
@@ -51,7 +51,7 @@
   &:hover,
   &:focus,
   &:active {
-    color: $yellow;
+    color: $warning;
     text-decoration: none;
   }
 }

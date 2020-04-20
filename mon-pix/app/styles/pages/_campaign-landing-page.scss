@@ -1,5 +1,5 @@
 .campaign-landing-page__dash-line {
-  border-top: 1px dashed $dove-gray;
+  border-top: 1px dashed $grey-60;
   width: 85%;
   margin-top: 50px;
   margin-bottom: 50px;
@@ -63,7 +63,7 @@
 
   &__legal {
     font-size: 0.75rem;
-    color: $dove-gray;
+    color: $grey-60;
   }
 }
 
@@ -120,21 +120,21 @@
   }
 
   .article-title {
-    color: $nero;
+    color: $grey-100;
     font-size: 1.5rem;
     font-weight: $font-semi-bold;
     line-height: 30px;
   }
 
   .article-list {
-    color: $nero;
+    color: $grey-100;
     font-size: 0.875rem;
     line-height: 22px;
   }
 
   .article-text {
     margin: auto;
-    color: $nero;
+    color: $grey-100;
     font-size: 1rem;
     line-height: 24px;
   }

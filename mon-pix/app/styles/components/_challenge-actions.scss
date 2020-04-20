@@ -8,7 +8,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  background-color: $porcelain-grey;
+  background-color: $grey-10;
   margin: 6px;
 }
 
@@ -30,13 +30,13 @@
   @include button-background-transition();
   border-radius: 23px;
   background-color: transparent;
-  border: 1px solid $slate-grey;
+  border: 1px solid $grey-50;
   display: flex;
   align-items: center;
   justify-content: center;
 
   &:hover {
-    background-color: $silver-grey;
+    background-color: $grey-22;
     text-decoration: none;
   }
   &:focus {
@@ -49,7 +49,7 @@
   flex-grow: 1;
   font-size: 1rem;
   font-weight: $font-semi-bold;
-  color: $slate-grey;
+  color: $grey-50;
   text-transform: uppercase;
   letter-spacing: 0.031rem;
 }
@@ -58,7 +58,7 @@
   width: 150px;
   height: 46px;
   border-radius: 23px;
-  background-color: $mercury-grey;
+  background-color: $grey-15;
 }
 
 
@@ -76,7 +76,7 @@
   width: 150px;
   height: 46px;
   border-radius: 23px;
-  background-color: $mountain-meadow;
+  background-color: $green;
   color: $white;
   display: flex;
   align-items: center;
@@ -84,7 +84,7 @@
   @include button-background-transition();
   text-decoration: none;
   &:hover{
-    background: $eucalyptus;
+    background: $green-hover;
     text-decoration: none;
   }
 
@@ -111,7 +111,7 @@
   width: 150px;
   height: 46px;
   border-radius: 23px;
-  background: $vista-blue;
+  background: lighten($green, 30%);
 }
 
 .challenge-actions__action-validate__loader-bar {
@@ -132,7 +132,7 @@
   font-family: $font-roboto;
   font-size: 1rem;
   font-weight: 600;
-  color: $tundora-grey;
+  color: $grey-70;
   letter-spacing: 0.031rem;
   margin-right: 20px;
 }
@@ -149,7 +149,7 @@
   text-decoration: none;
 
   &:hover{
-    background: $pix-blue-hover;
+    background: $blue-hover;
     text-decoration: none;
   }
 

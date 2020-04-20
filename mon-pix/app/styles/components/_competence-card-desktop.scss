@@ -26,7 +26,7 @@
     }
 
     &--emerald::after {
-      background: radial-gradient($content-dark 25%, $success 100%);
+      background: radial-gradient($content-dark 25%, $content-light 100%);
     }
 
     &--cerulean::after {
@@ -38,7 +38,7 @@
     }
 
     &--butterfly-bush::after {
-      background: radial-gradient($environment-dark 25%, $butterfly-bush 100%);
+      background: radial-gradient($environment-dark 25%, $environment-light 100%);
     }
   }
 
@@ -157,7 +157,7 @@
     justify-content: center;
     width: 100%;
     height: 34px;
-    color: $pix-grey-hover;
+    color: $grey-70;
     font-family: $font-open-sans;
     font-size: 0.938rem;
     font-weight: $font-bold;
@@ -169,7 +169,7 @@
     display: block;
     margin-top: 3px;
     margin-bottom: -4px;
-    color: $dusty-grey;
+    color: $grey-30;
     opacity: 0;
     text-transform: uppercase;
     font-size: 0.625rem;

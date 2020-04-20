@@ -25,7 +25,7 @@ button.routable-modal--close {
   font-size: 1.25rem;
   line-height: 0.938rem;
   border: 0;
-  color: $boulder-grey;
+  color: $grey-45;
   cursor: pointer;
   float: right;
 }
@@ -33,6 +33,6 @@ button.routable-modal--close {
 button.routable-modal--close:hover,
 button.routable-modal--close:focus,
 button.routable-modal--close:active {
-  color: $black;
+  color: $grey-200;
   outline: 0;
 }

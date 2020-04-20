@@ -15,7 +15,7 @@
 .timeout-jauge-container {
   position: relative;
   z-index: 0;
-  background-color: $alto-grey;
+  background-color: $grey-20;
   width: 100px;
   height: 36px;
   border-radius: 5px;
@@ -27,7 +27,7 @@
   left: 0;
   top: 0;
   z-index: 1;
-  background-color: $porcelain-grey;
+  background-color: $grey-10;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   height: 100%;
