@@ -7,6 +7,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     pageSize: { refreshModel: true },
     id: { refreshModel: true },
     status: { refreshModel: true },
+    resultsSentToPrescriberAt: { refreshModel: true },
   },
 
   model(params) {
@@ -14,6 +15,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
       filter: {
         id: params.id ? params.id.trim() : undefined,
         status: params.status ? params.status.trim() : undefined,
+        resultsSentToPrescriberAt: params.resultsSentToPrescriberAt ? params.resultsSentToPrescriberAt.trim() : undefined,
       },
       page: {
         number: params.pageNumber,
@@ -28,6 +30,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.pageSize = 10;
       controller.id = null;
       controller.status = null;
+      controller.resultsSentToPrescriberAt = null;
     }
   }
 });

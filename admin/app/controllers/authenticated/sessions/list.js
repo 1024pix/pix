@@ -15,12 +15,19 @@ export default class SessionListController extends Controller {
   @tracked pageSize = 10;
   @tracked id = null;
   @tracked status = null;
+  @tracked resultsSentToPrescriberAt = null;
+  searchFilter = null;
 
   sessionStatusAndLabels = [
     { status: '', label: 'Tous' },
     ..._.map(statusToDisplayName, (label, status) => ({ status, label })),
   ];
-  searchFilter = null;
+
+  sessionResultsSentToPrescriberAtAndLabels = [
+    { value: '', label: 'Tous' },
+    { value: 'true', label: 'Résultats diffusés' },
+    { value: 'false', label: 'Résultats non diffusés' },
+  ];
 
   setFieldName() {
     this.searchFilter.fieldName = this.searchFilter.value;
@@ -30,6 +37,12 @@ export default class SessionListController extends Controller {
   @action
   setStatusFilter(status) {
     this.status = status;
+    this.pageNumber = DEFAULT_PAGE_NUMBER;
+  }
+
+  @action
+  setResultsSentToPrescriberAtFilter(value) {
+    this.resultsSentToPrescriberAt = value;
     this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 

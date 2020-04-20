@@ -10,8 +10,10 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
 
   hooks.beforeEach(function() {
     const setStatusFilter = sinon.stub();
+    const setResultsSentToPrescriberAtFilter = sinon.stub();
     const triggerFiltering = function() {};
     this.set('setStatusFilter', setStatusFilter);
+    this.set('setResultsSentToPrescriberAtFilter', setResultsSentToPrescriberAtFilter);
     this.set('triggerFiltering', triggerFiltering);
   });
 
@@ -42,7 +44,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     this.set('sessions', sessions);
 
     // when
-    await render(hbs`{{sessions/list-items sessions=sessions triggerFiltering=triggerFiltering setStatusFilter=setStatusFilter}}`);
+    await render(hbs`{{sessions/list-items sessions=sessions triggerFiltering=triggerFiltering setStatusFilter=setStatusFilter setResultsSentToPrescriberAtFilter=setResultsSentToPrescriberAtFilter}}`);
 
     // then
     assert.dom('table tbody tr').exists({ count: sessions.length });
@@ -74,7 +76,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
 
     test('it should render a dropdown menu to filter on status', async function(assert) {
       // when
-      await render(hbs`{{sessions/list-items setStatusFilter=setStatusFilter triggerFiltering=triggerFiltering sessionStatusAndLabels=sessionStatusAndLabels}}`);
+      await render(hbs`{{sessions/list-items setStatusFilter=setStatusFilter triggerFiltering=triggerFiltering setResultsSentToPrescriberAtFilter=setResultsSentToPrescriberAtFilter sessionStatusAndLabels=sessionStatusAndLabels}}`);
 
       // then
       const option1 = find('table thead tr:nth-child(2) th:nth-child(5) select option:nth-child(1)');
@@ -84,11 +86,44 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     test('it should call setStatusFilter callback with appropriate arguments', async function(assert) {
       // given
       const xselect = new XSelectInteractor('#status');
-      await render(hbs`{{sessions/list-items setStatusFilter=setStatusFilter triggerFiltering=triggerFiltering sessionStatusAndLabels=sessionStatusAndLabels}}`);
+      await render(hbs`{{sessions/list-items setStatusFilter=setStatusFilter triggerFiltering=triggerFiltering setResultsSentToPrescriberAtFilter=setResultsSentToPrescriberAtFilter sessionStatusAndLabels=sessionStatusAndLabels}}`);
 
       // when
       await xselect.select('label3').when(() => {
         sinon.assert.calledWith(this.get('setStatusFilter'), 'status3');
+        assert.equal(xselect.options(2).isSelected, true);
+      });
+    });
+  });
+
+  module('Dropdown menu for resultsSentToPrescriberAt filtering', function(hooks) {
+
+    hooks.beforeEach(function() {
+      const statusList = [
+        { value: 'value1', label: 'label1' },
+        { value: 'value2', label: 'label2' },
+        { value: 'value3', label: 'label3' },
+      ];
+      this.set('sessionResultsSentToPrescriberAtAndLabels', statusList);
+    });
+
+    test('it should render a dropdown menu to filter on resultsSentToPrescriberAt', async function(assert) {
+      // when
+      await render(hbs`{{sessions/list-items setStatusFilter=setStatusFilter triggerFiltering=triggerFiltering setResultsSentToPrescriberAtFilter=setResultsSentToPrescriberAtFilter sessionResultsSentToPrescriberAtAndLabels=sessionResultsSentToPrescriberAtAndLabels}}`);
+
+      // then
+      const option1 = find('table thead tr:nth-child(2) th:nth-child(9) select option:nth-child(1)');
+      assert.dom(option1).hasText('label1');
+    });
+
+    test('it should call setResultsSentToPrescriberAtFilter callback with appropriate arguments', async function(assert) {
+      // given
+      const xselect = new XSelectInteractor('#resultsSentToPrescriberAt');
+      await render(hbs`{{sessions/list-items setStatusFilter=setStatusFilter triggerFiltering=triggerFiltering setResultsSentToPrescriberAtFilter=setResultsSentToPrescriberAtFilter sessionResultsSentToPrescriberAtAndLabels=sessionResultsSentToPrescriberAtAndLabels}}`);
+
+      // when
+      await xselect.select('label3').when(() => {
+        sinon.assert.calledWith(this.get('setResultsSentToPrescriberAtFilter'), 'value3');
         assert.equal(xselect.options(2).isSelected, true);
       });
     });
