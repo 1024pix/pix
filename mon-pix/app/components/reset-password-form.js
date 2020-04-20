@@ -32,7 +32,7 @@ export default class ResetPasswordForm extends Component {
 
   @action
   validatePassword() {
-    const password = this.get('user.password');
+    const password = this.user.password;
     const validationStatus = (isPasswordValid(password)) ? 'default' : 'error';
     this.set('validation', VALIDATION_MAP[validationStatus]);
   }
