@@ -23,6 +23,12 @@ export default function() {
 
   this.get('/users');
   this.get('/admin/users/:id');
+  this.get('/users/me', (schema, request) => {
+    const userToken = request.requestHeaders.Authorization.replace('Bearer ', '');
+    const userId = JSON.parse(atob(userToken.split('.')[1])).user_id;
+
+    return schema.users.find(userId);
+  });
   this.get('/certification-centers');
   this.get('/certification-centers/:id');
 

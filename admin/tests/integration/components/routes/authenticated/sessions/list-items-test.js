@@ -24,7 +24,11 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
         displayPublishedAtDate: '', displayResultsSentToPrescriberDate: '',
       },
       { id: 2, certificationCenterName: 'Centre B', certificationCenterType: null, date: now, time: '14:00:00',
-        displayDate, displayStatus, displayFinalizationDate: 'SomeFDate',
+        displayDate, displayStatus, displayFinalizationDate: 'SomeFDate', 
+        displayPublishedAtDate: 'SomePDate', displayResultsSentToPrescriberDate: 'SomeRDate', 
+      },
+      { id: 3, certificationCenterName: 'Centre C',  assignedCertificationOfficer: { fullName: 'Coucou' }, date: now, time: '14:00:00',
+        displayDate, displayStatus, countPublishedCertifications: 1, displayFinalizationDate: 'SomeFDate',
         displayPublishedAtDate: 'SomePDate', displayResultsSentToPrescriberDate: 'SomeRDate',
       },
     ];
@@ -48,6 +52,12 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     }
     assert.dom('table tbody tr:nth-child(1) td:nth-child(3)').hasText(sessions[0].certificationCenterType);
     assert.dom('table tbody tr:nth-child(2) td:nth-child(3)').hasText('-');
+    assert.dom('table tbody tr:nth-child(3) td:nth-child(3)').hasText('-');
+
+    // who ? column
+    assert.dom('table tbody tr:nth-child(1) td:nth-child(9)').hasText('-');
+    assert.dom('table tbody tr:nth-child(2) td:nth-child(9)').hasText('-');
+    assert.dom('table tbody tr:nth-child(3) td:nth-child(9)').hasText('Coucou');
   });
 
   module('Input field for id filtering', function() {
