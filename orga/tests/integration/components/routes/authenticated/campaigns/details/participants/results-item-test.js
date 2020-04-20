@@ -25,7 +25,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     this.set('campaignParticipation', campaignParticipation);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/details/participants/results-item campaignParticipation=campaignParticipation}}`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ResultsItem @campaignParticipation={{campaignParticipation}} />`);
 
     // then
     assert.dom('.participant-results-content__summary .content-text--big').hasText('-');
@@ -54,7 +54,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     this.set('campaignParticipation', campaignParticipation);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/details/participants/results-item campaignParticipation=campaignParticipation}}`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ResultsItem @campaignParticipation={{campaignParticipation}} />`);
 
     // then
     assert.dom('.participant-results-content__summary .content-text--big').hasText('-');
@@ -87,11 +87,11 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     this.set('campaignParticipation', campaignParticipation);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/details/participants/results-item campaignParticipation=campaignParticipation}}`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ResultsItem @campaignParticipation={{campaignParticipation}} />`);
 
     // then
-    assert.dom('.participant-results-content__summary .participant-results-content:nth-child(1) .content-text--big').hasText('15');
-    assert.dom('.participant-results-content__summary .participant-results-content:nth-child(2) .content-text--big').hasText('30');
+    assert.dom('.participant-results-content__summary .participant-content:nth-child(1) .content-text--big').hasText('15');
+    assert.dom('.participant-results-content__summary .participant-content:nth-child(2) .content-text--big').hasText('30');
     assert.dom('.participant-results-content__circle-chart-value').hasText('50%');
 
     assert.dom('table tbody tr').exists({ count: 1 });
@@ -100,49 +100,6 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     assert.dom('table tbody tr td:nth-child(2)').containsText('50%');
     assert.dom('table tbody tr td:nth-child(3)').hasText('5');
     assert.dom('table tbody tr td:nth-child(4)').hasText('10');
-  });
-
-  test('it should display participant details', async function(assert) {
-    // given
-    const user = run(() => store.createRecord('user', {
-      firstName: 'Prénom',
-      lastName: 'Nom',
-    }));
-
-    const campaignParticipationResult  = run(() => store.createRecord('campaign-participation-result', {
-      totalSkillsCount: 30,
-      testedSkillsCount: 29,
-      validatedSkillsCount: 15,
-      isCompleted: true,
-      progress: 1
-    }));
-
-    const campaignParticipation  = run(() => store.createRecord('campaign-participation', {
-      createdAt: '2019-01-07T10:57:31.567Z',
-      sharedAt: '2019-02-04T10:57:31.567Z',
-      isShared: true,
-      participantExternalId: 'mail@pro.net',
-      user: user,
-      campaignParticipationResult: campaignParticipationResult
-    }));
-
-    const campaign  = run(() => store.createRecord('campaign', {
-      idPixLabel: 'MailPro',
-    }));
-
-    this.set('campaignParticipation', campaignParticipation);
-    this.set('campaign', campaign);
-
-    // when
-    await render(hbs`{{routes/authenticated/campaigns/details/participants/results-item campaignParticipation=campaignParticipation campaign=campaign}}`);
-
-    // then
-    assert.dom('.page__title').hasText('Prénom Nom');
-    assert.dom('.participant-results-content__left-wrapper').hasText('MailPro mail@pro.net');
-    assert.dom('.participant-results-content__right-wrapper .participant-results-content:nth-child(1)').hasText('Avancement 100%');
-    assert.dom('.participant-results-content__right-wrapper .participant-results-content:nth-child(2)').hasText('Commencé le 7 janv' +
-      '. 2019');
-    assert.dom('.participant-results-content__right-wrapper .participant-results-content:nth-child(3)').hasText('Partagé le 4 févr. 2019');
   });
 });
 

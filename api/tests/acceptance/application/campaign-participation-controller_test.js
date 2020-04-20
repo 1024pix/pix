@@ -77,6 +77,11 @@ describe('Acceptance | API | Campaign Participations', () => {
               related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
             }
           },
+          'campaign-analysis': {
+            links: {
+              related: `/api/campaign-participations/${campaignParticipation.id}/analyses`
+            }
+          }
         }
       };
 
@@ -150,6 +155,11 @@ describe('Acceptance | API | Campaign Participations', () => {
               'campaign-participation-result': {
                 links: {
                   related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
+                }
+              },
+              'campaign-analysis': {
+                links: {
+                  related: `/api/campaign-participations/${campaignParticipation.id}/analyses`
                 }
               }
             }
@@ -322,6 +332,11 @@ describe('Acceptance | API | Campaign Participations', () => {
                 data: {
                   id: participant.id.toString(),
                   type: 'users',
+                }
+              },
+              'campaign-analysis': {
+                links: {
+                  related: `/api/campaign-participations/${campaignParticipation.id}/analyses`
                 }
               }
             },

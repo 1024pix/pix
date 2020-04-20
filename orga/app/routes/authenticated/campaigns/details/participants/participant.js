@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import RSVP from 'rsvp';
 
-export default class ResultsRoute extends Route {
+export default class ParticipantRoute extends Route {
 
   model(params) {
     const campaign = this.modelFor('authenticated.campaigns.details');
@@ -17,12 +17,9 @@ export default class ResultsRoute extends Route {
   }
 
   renderTemplate() {
-    this.render('authenticated.campaigns.details.participants.results', {
+    this.render('authenticated.campaigns.details.participants.participant', {
       into: 'authenticated.campaigns',
     });
   }
 
-  afterModel(model) {
-    model.campaignParticipation.belongsTo('campaignParticipationResult').reload();
-  }
 }

@@ -38,7 +38,10 @@ Router.map(function() {
         this.route('collective-results', { path: '/resultats-collectifs' });
         this.route('analysis', { path: '/analyse' });
         this.route('participants', function() {
-          this.route('results', { path: '/:campaign_participation_id' });
+          this.route('participant', { path: '/:campaign_participation_id' }, function() {
+            this.route('results', { path: '/' });
+            this.route('analysis', { path: '/analyse' });
+          });
         });
       });
     });

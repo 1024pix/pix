@@ -1,3 +1,4 @@
+const Joi = require('@hapi/joi');
 const campaignParticipationController = require('./campaign-participation-controller');
 
 exports.register = async function(server) {
@@ -62,7 +63,25 @@ exports.register = async function(server) {
         ],
         tags: ['api', 'campaign-participation']
       }
-    }
+    },
+    {
+      method: 'GET',
+      path: '/api/campaign-participations/{id}/analyses',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required()
+          }),
+        },
+        handler: campaignParticipationController.getAnalysis,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la participation à la campagne',
+          '- Récupération de l\'analyse d\'un participant pour la participation à la campagne',
+        ],
+        tags: ['api', 'campaign-participation']
+      }
+    },
   ]);
 };
 
