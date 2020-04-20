@@ -705,4 +705,22 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
+  describe('#countSharedParticipationOfCampaign', () => {
+
+    it('counts the number of campaign participation shared for a campaign', async () => {
+      const campaignId = databaseBuilder.factory.buildCampaign({}).id;
+      const otherCampaignId = databaseBuilder.factory.buildCampaign({}).id;
+
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false, });
+      databaseBuilder.factory.buildCampaignParticipation({ otherCampaignId, isShared: true, });
+
+      await databaseBuilder.commit();
+
+      const  numberOfCampaignShared = await campaignParticipationRepository.countSharedParticipationOfCampaign(campaignId);
+
+      expect(numberOfCampaignShared).to.equal(1);
+    });
+  });
+
 });

@@ -261,4 +261,161 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
 
   });
 
+  describe('findByCampaignIdForSharedCampaignParticipation', () => {
+    let userId, targetProfileId, campaignId;
+
+    beforeEach(() => {
+      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      userId = databaseBuilder.factory.buildUser().id;
+      campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+    });
+
+    it('should have the skill Id', async () => {
+      // given
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 12 });
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId,
+        isShared: true
+      });
+
+      databaseBuilder.factory.buildKnowledgeElement({
+        id: 1,
+        status: 'validated',
+        userId,
+        skillId: 12,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+
+      // then
+      expect(actualKnowledgeElements[0].skillId).to.equal('12');
+    });
+
+    it('should return nothing when there is no shared campaign participations', async () => {
+      // given
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId,
+        isShared: false
+      });
+
+      databaseBuilder.factory.buildKnowledgeElement({
+        id: 1,
+        status: 'validated',
+        userId,
+        skillId: 1,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+
+      // then
+      expect(actualKnowledgeElements).to.be.empty;
+    });
+
+    it('should return a list of knowledge elements when there are shared campaign participations', async () => {
+      // given
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 2 });
+      const otherUserId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId,
+        isShared: true
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId: otherUserId,
+        campaignId,
+        isShared: false
+      });
+      databaseBuilder.factory.buildKnowledgeElement({
+        id: 1,
+        status: 'validated',
+        userId,
+        skillId: 1
+      });
+      databaseBuilder.factory.buildKnowledgeElement({
+        id: 2,
+        status: 'validated',
+        userId,
+        skillId: 2,
+      });
+      databaseBuilder.factory.buildKnowledgeElement({
+        id: 3,
+        status: 'validated',
+        userId: otherUserId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+
+      // then
+      expect(_.map(actualKnowledgeElements, 'id')).to.have.members([1,2]);
+    });
+
+    it('should return a list of knowledge elements when there are validated knowledge elements', async () => {
+      // given
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId:  'recSkill1' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId:  'recSkill2' });
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId,
+        isShared: true
+      });
+      databaseBuilder.factory.buildKnowledgeElement({
+        id: 1,
+        status: 'validated',
+        userId,
+        skillId:  'recSkill1'
+      });
+      databaseBuilder.factory.buildKnowledgeElement({
+        id: 2,
+        status: 'invalidated',
+        userId,
+        skillId:  'recSkill2'
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+
+      // then
+      expect(_.map(actualKnowledgeElements, 'id')).to.deep.equal([1]);
+    });
+
+    it('should return a list of knowledge elements whose its skillId is included in the campaign target profile', async () => {
+      // given
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId:  'recSkill1' });
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId,
+        isShared: true
+      });
+      databaseBuilder.factory.buildKnowledgeElement({
+        id: 1,
+        skillId:  'recSkill1',
+        status: 'validated',
+        userId
+      });
+      databaseBuilder.factory.buildKnowledgeElement({
+        id: 2,
+        skillId:  'recSkill2',
+        status: 'validated',
+        userId
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+
+      // then
+      expect(_.map(actualKnowledgeElements, 'id')).to.deep.equal([1]);
+    });
+  });
 });

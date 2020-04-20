@@ -167,6 +167,10 @@ module.exports = {
   count(filters = {}) {
     return BookshelfCampaignParticipation.where(filters).count();
   },
+
+  countSharedParticipationOfCampaign(campaignId) {
+    return this.count({ campaignId, isShared: true });
+  }
 };
 
 function _adaptModelToDb(campaignParticipation) {
