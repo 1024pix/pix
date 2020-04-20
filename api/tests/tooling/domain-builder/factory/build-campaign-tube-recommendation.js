@@ -8,7 +8,8 @@ module.exports = function buildCampaignTubeRecommendation(
     skills,
     validatedKnowledgeElements,
     maxSkillLevelInTargetProfile,
-    participantsCount
+    participantsCount,
+    tutorials,
   } = {}) {
   return new CampaignTubeRecommendation({
     campaignId,
@@ -17,6 +18,7 @@ module.exports = function buildCampaignTubeRecommendation(
     skills,
     validatedKnowledgeElements,
     maxSkillLevelInTargetProfile,
-    participantsCount
+    participantsCount,
+    tutorials,
   });
 };
