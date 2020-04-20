@@ -152,4 +152,32 @@ describe('Unit | Repository | tutorial-repository', () => {
     });
   });
 
+  describe('#list', () => {
+
+    context('when tutorials are found', () => {
+      beforeEach(() => {
+        // given
+        sinon.stub(tutorialDatasource, 'list')
+          .resolves([tutorialData1, tutorialData2]);
+      });
+
+      it('should return a lits of domain Tutorial objects', async () => {
+        // when
+        const fetchedTutorialList = await tutorialRepository.list();
+
+        // then
+        const expectedTutorialList = [
+          expectedTutorial,
+          expectedTutorial2
+        ];
+
+        expect(fetchedTutorialList[0]).to.be.an.instanceOf(Tutorial);
+        expect(fetchedTutorialList[1]).to.be.an.instanceOf(Tutorial);
+        expect(fetchedTutorialList).to.deep.equal(expectedTutorialList);
+      });
+
+    });
+
+  });
+
 });
