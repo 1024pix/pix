@@ -18,6 +18,7 @@ export const CREATED = 'created';
 export const FINALIZED = 'finalized';
 export const IN_PROCESS = 'in_process';
 export const PROCESSED = 'processed';
+
 export const statusToDisplayName = {
   [CREATED]: 'Créée',
   [FINALIZED]: 'Finalisée',

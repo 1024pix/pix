@@ -19,6 +19,7 @@ export default function() {
     session.update({ resultsSentToPrescriberAt: new Date() });
     return session;
   });
+  this.get('admin/certification-officer/:id');
 
   this.get('/users');
   this.get('/admin/users/:id');

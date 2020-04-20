@@ -62,6 +62,14 @@ export default Factory.extend({
     status: CREATED,
   }),
 
+  withAssignedCertificationOfficer: trait({
+    afterCreate(session, server) {
+      if (!session.assignedCertificationOfficer) {
+        session.update({ assignedCertificationOfficer: server.create('user'), status: IN_PROCESS });
+      }
+    }
+  }),
+
   finalized: trait({
     status: FINALIZED,
     finalizedAt: faker.date.past(),
