@@ -650,4 +650,28 @@ describe('Unit | Controller | user-controller', () => {
       expect(response).to.equal(expectedCampaignParticipation);
     });
   });
+
+  describe('#getCertificationOfficerInfo ', () => {
+    let request;
+    const userId = 1;
+    const user = Symbol('user');
+    const userJsonApi = Symbol('userJsonApi');
+
+    beforeEach(() => {
+      // given
+      request = {
+        params: { id : userId },
+      };
+      sinon.stub(usecases, 'getCertificationOfficerInfo').withArgs({ userId }).resolves(user);
+      sinon.stub(userSerializer, 'serializeMinimal').withArgs(user).returns(userJsonApi);
+    });
+
+    it('should return serialized user', async () => {
+      // when
+      const response = await userController.getCertificationOfficerInfo(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(userJsonApi);
+    });
+  });
 });
