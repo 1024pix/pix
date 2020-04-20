@@ -9,9 +9,10 @@ const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
-  async save(certificationCourse) {
+  async save({ certificationCourse, domainTransaction = {} }) {
     const certificationCourseToSave = _adaptModelToDb(certificationCourse);
-    const savedCertificationCourse = await new CertificationCourseBookshelf(certificationCourseToSave).save();
+    const options = { transacting : domainTransaction.knexTransaction };
+    const savedCertificationCourse = await new CertificationCourseBookshelf(certificationCourseToSave).save(null, options);
     return _toDomain(savedCertificationCourse);
   },
 
@@ -35,19 +36,12 @@ module.exports = {
     }
   },
 
-  async getLastCertificationCourseByUserIdAndSessionId(userId, sessionId) {
-    try {
-      const certificationCourse = await CertificationCourseBookshelf
-        .where({ userId, sessionId })
-        .orderBy('createdAt', 'desc')
-        .fetch({ require: true, withRelated: ['assessment', 'challenges', 'acquiredPartnerCertifications'] });
-      return _toDomain(certificationCourse);
-    } catch (err) {
-      if (err instanceof CertificationCourseBookshelf.NotFoundError) {
-        throw new NotFoundError(`Certification course with userId ${userId} and sessionId ${sessionId} does not exist.`);
-      }
-      throw err;
-    }
+  async findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId, domainTransaction = {} }) {
+    const certificationCourse = await CertificationCourseBookshelf
+      .where({ userId, sessionId })
+      .orderBy('createdAt', 'desc')
+      .fetch({ withRelated: ['assessment', 'challenges'], transacting: domainTransaction.knexTransaction });
+    return _toDomain(certificationCourse);
   },
 
   async update(certificationCourse) {

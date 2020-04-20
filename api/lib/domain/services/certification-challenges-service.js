@@ -1,19 +1,20 @@
-const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
+
+const _ = require('lodash');
+const CertificationChallenge = require('../models/CertificationChallenge');
 
 module.exports = {
 
-  saveChallenges(userCompetences, certificationCourse) {
-    const saveChallengePromises = [];
-    userCompetences.forEach((userCompetence) => {
-      userCompetence.challenges.forEach((challenge) => {
-        saveChallengePromises.push(certificationChallengeRepository.save(challenge, certificationCourse));
+  generateCertificationChallenges(userCompetences, certificationCourseId) {
+    return _.flatMap(userCompetences, (userCompetence) => {
+      return _.map(userCompetence.challenges, (challenge) => {
+        return new CertificationChallenge({
+          challengeId: challenge.id,
+          competenceId: challenge.competenceId,
+          associatedSkillName: challenge.testedSkill,
+          associatedSkillId: undefined, // TODO: Add skillId
+          courseId: certificationCourseId,
+        });
       });
     });
-
-    return Promise.all(saveChallengePromises)
-      .then((certificationChallenges) => {
-        certificationCourse.challenges = certificationChallenges;
-        return certificationCourse;
-      });
   }
 };

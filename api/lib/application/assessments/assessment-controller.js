@@ -29,7 +29,7 @@ module.exports = {
           });
         } else {
           assessment.state = 'started';
-          return assessmentRepository.save(assessment);
+          return assessmentRepository.save({ assessment });
         }
       })
       .then((assessment) => {

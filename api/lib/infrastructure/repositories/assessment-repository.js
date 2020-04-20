@@ -58,10 +58,10 @@ module.exports = {
       });
   },
 
-  save(assessment) {
+  save({ assessment, domainTransaction = {} }) {
     return assessment.validate()
       .then(() => new BookshelfAssessment(_adaptModelToDb(assessment)))
-      .then((bookshelfAssessment) => bookshelfAssessment.save())
+      .then((bookshelfAssessment) => bookshelfAssessment.save(null, { transacting: domainTransaction.knexTransaction }))
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 

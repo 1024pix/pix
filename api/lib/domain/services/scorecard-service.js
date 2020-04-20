@@ -121,7 +121,7 @@ async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessm
   });
 
   await assessmentRepository.abortByAssessmentId(assessment.id);
-  return await assessmentRepository.save(newAssessment);
+  return await assessmentRepository.save({ assessment: newAssessment });
 }
 
 function _computeResetSkillsNotIncludedInTargetProfile({ targetObjectSkills, resetSkills }) {
