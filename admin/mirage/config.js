@@ -11,6 +11,7 @@ export default function() {
   this.namespace = 'api';
 
   this.get('/users');
+  this.get('/admin/users/:id');
   this.get('/certification-centers');
   this.get('/certification-centers/:id');
   this.get('/sessions', findPaginatedAndFilteredSessions);

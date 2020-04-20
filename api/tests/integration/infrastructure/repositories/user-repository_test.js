@@ -9,6 +9,7 @@ const {
 } = require('../../../../lib/domain/errors');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../../lib/domain/models/User');
+const UserDetailForAdmin = require('../../../../lib/domain/read-models/UserDetailForAdmin');
 const Membership = require('../../../../lib/domain/models/Membership');
 const UserOrgaSettings = require('../../../../lib/domain/models/UserOrgaSettings');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
@@ -456,6 +457,92 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(result).to.be.instanceOf(UserNotFoundError);
       });
     });
+  });
+
+  describe('get user detail for administration usage', () => {
+
+    describe('#getUserDetailForAdmin', () => {
+
+      let userInDb;
+
+      beforeEach(async () => {
+        userInDb = databaseBuilder.factory.buildUser(userToInsert);
+        await databaseBuilder.commit();
+      });
+
+      it('should return the found user', async () => {
+        // when
+        const userDetailForAdmin = await userRepository.getUserDetailForAdmin(userInDb.id);
+
+        // then
+        expect(userDetailForAdmin).to.be.an.instanceOf(UserDetailForAdmin);
+        expect(userDetailForAdmin.id).to.equal(userInDb.id);
+        expect(userDetailForAdmin.firstName).to.equal(userInDb.firstName);
+        expect(userDetailForAdmin.lastName).to.equal(userInDb.lastName);
+        expect(userDetailForAdmin.email).to.equal(userInDb.email);
+        expect(userDetailForAdmin.cgu).to.be.true;
+      });
+
+      it('should return a UserNotFoundError if no user is found', async () => {
+        // given
+        const nonExistentUserId = 678;
+
+        // when
+        const result = await catchErr(userRepository.getUserDetailForAdmin)(nonExistentUserId);
+
+        // then
+        expect(result).to.be.instanceOf(UserNotFoundError);
+      });
+    });
+
+    context('when user is authenticated from GAR', () => {
+
+      let userInDb;
+
+      beforeEach(() => {
+        userInDb = databaseBuilder.factory.buildUser(userToInsert);
+        return databaseBuilder.commit();
+      });
+
+      it('should return the "isAuthenticatedFromGAR" property to true', async () => {
+        // when
+        const userDetailForAdmin = await userRepository.getUserDetailForAdmin(userInDb.id);
+
+        // then
+        expect(userDetailForAdmin).to.be.an.instanceOf(UserDetailForAdmin);
+        expect(userDetailForAdmin.cgu).to.be.true;
+      });
+
+    });
+
+    context('when user is not authenticated from GAR', () => {
+
+      let userInDb;
+      const userNotAuthenticatedFromGAR = {
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        email: faker.internet.exampleEmail().toLowerCase(),
+        password: bcrypt.hashSync('A124B2C3#!', 1),
+        cgu: true,
+        samlId: null,
+      };
+
+      beforeEach(() => {
+        userInDb = databaseBuilder.factory.buildUser(userNotAuthenticatedFromGAR);
+        return databaseBuilder.commit();
+      });
+
+      it('should return the "isAuthenticatedFromGAR" property to false', async () => {
+        // when
+        const userDetailForAdmin = await userRepository.getUserDetailForAdmin(userInDb.id);
+
+        // then
+        expect(userDetailForAdmin).to.be.an.instanceOf(UserDetailForAdmin);
+        expect(userDetailForAdmin.isAuthenticatedFromGAR).to.be.false;
+      });
+
+    });
+
   });
 
   describe('#create', () => {

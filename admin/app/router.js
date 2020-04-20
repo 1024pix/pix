@@ -33,6 +33,7 @@ Router.map(function() {
 
     this.route('users', function() {
       this.route('list');
+      this.route('get', { path: '/:user_id' });
     });
 
     this.route('certification-centers', function() {

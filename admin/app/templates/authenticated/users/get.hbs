@@ -1,0 +1,13 @@
+<header class="page-header">
+  <div class="page-title">
+    <LinkTo @route="authenticated.users.list"><span id="link-to-users-page">Tous les utilisateurs</span></LinkTo>
+    <span style="color: #DDDDDD;">&nbsp;>&nbsp;</span>
+    {{@model.id}}
+  </div>
+</header>
+
+<main class="page-body" id="organizations-get-page">
+
+  <UserDetailPersonalInformation @user={{@model}} />
+
+</main>
