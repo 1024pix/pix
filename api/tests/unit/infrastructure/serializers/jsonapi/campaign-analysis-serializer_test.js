@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
+const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer');
 
 describe('Unit | Serializer | JSONAPI | campaign-analysis-serializer', () => {
@@ -9,19 +9,20 @@ describe('Unit | Serializer | JSONAPI | campaign-analysis-serializer', () => {
       // given
       const campaignId = 123;
 
-      const campaignAnalysis = domainBuilder.buildCampaignAnalysis({
+      const campaignAnalysis = {
         id: campaignId,
         campaignTubeRecommendations: [
-          domainBuilder.buildCampaignTubeRecommendation({
-            campaignId: campaignId,
+          {
+            id: '123_tubeRec1',
             tubeId: 'tubeRec1',
             competenceId: 'rec1',
             competenceName: 'Cuisson des legumes d’automne',
             tubePracticalTitle: 'Savoir cuisiner des legumes d’automne à la perfection',
             areaColor: 'jaffa',
-          }),
+            averageScore: 11,
+          }
         ]
-      });
+      };
 
       const expectedSerializedResult = {
         data: {
@@ -46,6 +47,8 @@ describe('Unit | Serializer | JSONAPI | campaign-analysis-serializer', () => {
             'competence-name': 'Cuisson des legumes d’automne',
             'tube-practical-title': 'Savoir cuisiner des legumes d’automne à la perfection',
             'area-color': 'jaffa',
+            'average-score': 11,
+
           }
         }]
       };

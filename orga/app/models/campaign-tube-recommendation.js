@@ -8,6 +8,7 @@ export default class CampaignTubeRecommendation extends Model {
   @attr() competenceId;
   @attr() tubeId;
   @attr() tubePracticalTitle;
+  @attr() averageScore;
 
   @belongsTo('campaignAnalysis') campaignAnalysis;
 
