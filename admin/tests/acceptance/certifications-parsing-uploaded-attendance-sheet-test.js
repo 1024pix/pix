@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
+import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { upload } from 'ember-file-upload/test-support';
 
@@ -18,7 +18,7 @@ module('Acceptance | Certifications Parsing', function(hooks) {
   setupMirage(hooks);
 
   hooks.beforeEach(async function() {
-    await authenticateSession({ userId: 1 });
+    await createAuthenticateSession({ userId: 1 });
     server.create('session', { id: 1 });
   });
 

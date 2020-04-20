@@ -1,16 +1,18 @@
 import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { FINALIZED, statusToDisplayName } from 'pix-admin/models/session';
+
+import { createAuthenticateSession, createUser } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Session page', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   hooks.beforeEach(async function() {
-    await authenticateSession({ userId: 1 });
+    const user = createUser();
+    await createAuthenticateSession({ userId: user.id });
   });
 
   module('Access', function() {
@@ -35,7 +37,6 @@ module('Acceptance | Session page', function(hooks) {
     });
 
     test('Should not have a "Date de finalisation" section', async function(assert) {
-
       const session = this.server.create('session');
 
       // when

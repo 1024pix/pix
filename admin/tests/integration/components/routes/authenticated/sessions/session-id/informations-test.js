@@ -1,11 +1,10 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
 import { visit, currentURL, find } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import {
-  statusToDisplayName
-} from 'pix-admin/models/session';
+
+import { statusToDisplayName } from 'pix-admin/models/session';
+import { createAuthenticateSession, createUser } from 'pix-admin/tests/helpers/test-init';
 
 import moment from 'moment';
 
@@ -16,7 +15,8 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
   let session;
 
   hooks.beforeEach(async function() {
-    await authenticateSession({ userId: 1 });
+    const user = createUser();
+    await createAuthenticateSession({ userId: user.id });
   });
 
   module('regardless of session status', function() {

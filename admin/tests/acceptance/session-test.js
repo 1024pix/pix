@@ -1,10 +1,11 @@
 import { module, test } from 'qunit';
 import { click, fillIn, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
 import { FINALIZED } from 'pix-admin/models/session';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+
+import { createAuthenticateSession, createUser } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Session pages', function(hooks) {
   setupApplicationTest(hooks);
@@ -27,7 +28,8 @@ module('Acceptance | Session pages', function(hooks) {
 
     hooks.beforeEach(async () => {
       // given
-      await authenticateSession({ userId: 1 });
+      const user = createUser();
+      await createAuthenticateSession({ userId: user.id });
       session = server.create('session', {
         id: 1,
         certificationCenterName: 'Centre des Staranne',
