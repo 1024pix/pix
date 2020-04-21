@@ -10,43 +10,6 @@ module('Unit | Adapter | session', function(hooks) {
     adapter = this.owner.lookup('adapter:session');
   });
 
-  module('#urlForUpdateRecord', function() {
-    test('should build update url from session id', function(assert) {
-      // when
-      const options = { adapterOptions: {} };
-      const url = adapter.urlForUpdateRecord(123, 'session', options);
-
-      assert.ok(url.endsWith('/sessions/123'));
-    });
-
-    test('should build specific url to results-sent-to-prescriber', function(assert) {
-      // when
-      const options = { adapterOptions: { flagResultsAsSentToPrescriber: true } };
-      const url = adapter.urlForUpdateRecord(123, 'session', options);
-
-      // then
-      assert.ok(url.endsWith('/sessions/123/results-sent-to-prescriber'));
-    });
-
-    test('should build specific url to publication', function(assert) {
-      // when
-      const options = { adapterOptions: { updatePublishedCertifications: true, isPublished: true } };
-      const url = adapter.urlForUpdateRecord(123, 'session', options);
-
-      // then
-      assert.ok(url.endsWith('/sessions/123/publication'));
-    });
-
-    test('should build specific url to user assignment', function(assert) {
-      // when
-      const options = { adapterOptions: { certificationOfficerAssignment: true } };
-      const url = adapter.urlForUpdateRecord(123, 'session', options);
-
-      // then
-      assert.ok(url.endsWith('/sessions/123/certification-officer-assignment'));
-    });
-  });
-
   module('#updateRecord', function() {
 
     module('when updatePublishedCertification adapterOption is passed', function() {
