@@ -10,6 +10,6 @@ export default class UserCertificationsDetailProfile extends Component {
 
   @computed('resultCompetenceTree.areas.[]')
   get sortedAreas() {
-    return this.get('resultCompetenceTree.areas').sortBy('code');
+    return this.resultCompetenceTree.areas.sortBy('code');
   }
 }
