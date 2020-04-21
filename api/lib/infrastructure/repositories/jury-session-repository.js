@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
+const { NotFoundError } = require('../../domain/errors');
 const JurySession = require('../../domain/models/JurySession');
 const { statuses } = require('../../domain/models/JurySession');
 const CertificationOfficer = require('../../domain/read-models/CertificationOfficer');
@@ -8,6 +9,20 @@ const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_NUMBER = 1;
 
 module.exports = {
+
+  async get(id) {
+    const results = await Bookshelf.knex
+      .select('sessions.*', 'certification-centers.type', 'users.firstName', 'users.lastName')
+      .from('sessions')
+      .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
+      .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
+      .where('sessions.id', '=', id)
+      .limit(1);
+    if (!results[0]) {
+      throw new NotFoundError('La session n\'existe pas ou son accès est restreint');
+    }
+    return _toDomain(results[0]);
+  },
 
   async findPaginatedFiltered({ filters, page }) {
     const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
@@ -29,19 +44,7 @@ module.exports = {
     let rowCount = 0;
     const jurySessions = _.map(results, (result) => {
       rowCount = result.rowCount;
-      let assignedCertificationOfficer;
-      if (result.assignedCertificationOfficerId) {
-        assignedCertificationOfficer = new CertificationOfficer({
-          id: result.assignedCertificationOfficerId,
-          firstName: result.firstName,
-          lastName: result.lastName,
-        });
-      }
-      return new JurySession({
-        ...result,
-        certificationCenterName: result.certificationCenter,
-        assignedCertificationOfficer,
-      });
+      return _toDomain(result);
     });
 
     return {
@@ -55,6 +58,24 @@ module.exports = {
     };
   },
 };
+
+function _toDomain(jurySessionFromDB) {
+  const jurySession = new JurySession({
+    ...jurySessionFromDB,
+    certificationCenterName: jurySessionFromDB.certificationCenter,
+    certificationCenterType: jurySessionFromDB.type,
+  });
+
+  if (jurySessionFromDB.assignedCertificationOfficerId) {
+    jurySession.assignedCertificationOfficer = new CertificationOfficer({
+      id: jurySessionFromDB.assignedCertificationOfficerId,
+      firstName: jurySessionFromDB.firstName,
+      lastName: jurySessionFromDB.lastName,
+    });
+  }
+
+  return jurySession;
+}
 
 function _setupFilters(query, filters) {
   const { id, certificationCenterName, status, resultsSentToPrescriberAt } = filters;

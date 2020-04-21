@@ -1,5 +1,6 @@
 const _ = require('lodash');
-const { databaseBuilder, expect } = require('../../../test-helper');
+const { databaseBuilder, expect, catchErr } = require('../../../test-helper');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 const JurySession = require('../../../../lib/domain/models/JurySession');
 const { statuses } = require('../../../../lib/domain/models/JurySession');
 const CertificationOfficer = require('../../../../lib/domain/read-models/CertificationOfficer');
@@ -359,6 +360,41 @@ describe('Integration | Repository | JurySession', function() {
             expect(jurySessions).to.have.length(2);
           });
         });
+      });
+    });
+  });
+
+  describe('#get', () => {
+
+    context('when id of session exists', () => {
+      let sessionId;
+
+      beforeEach(() => {
+        const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({ firstName: 'Pix', lastName: 'Doe' }).id;
+        sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId }).id;
+
+        return databaseBuilder.commit();
+      });
+
+      it('should return the session', async () => {
+        // when
+        const expectedJurySession = await jurySessionRepository.get(sessionId);
+
+        // then
+        expect(expectedJurySession).to.be.an.instanceOf(JurySession);
+        expect(expectedJurySession.assignedCertificationOfficer).be.an.instanceOf(CertificationOfficer);
+      });
+
+    });
+
+    context('when id of session does not exist', () => {
+
+      it('should throw a NotFoundError', async () => {
+        // when
+        const error = await catchErr(jurySessionRepository.get)(12345);
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
   });
