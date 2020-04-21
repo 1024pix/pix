@@ -2,6 +2,10 @@ import ApplicationAdapter from './application';
 
 export default class SessionAdapter extends ApplicationAdapter {
 
+  urlForQuery() {
+    return `${this.host}/${this.namespace}/jury/sessions`;
+  }
+
   updateRecord(store, type, snapshot) {
     if (snapshot.adapterOptions.flagResultsAsSentToPrescriber) {
       const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/results-sent-to-prescriber';

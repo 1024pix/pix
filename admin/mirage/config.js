@@ -14,7 +14,7 @@ export default function() {
   this.get('/admin/users/:id');
   this.get('/certification-centers');
   this.get('/certification-centers/:id');
-  this.get('/sessions', findPaginatedAndFilteredSessions);
+  this.get('/jury/sessions', findPaginatedAndFilteredSessions);
 
   this.post('/memberships', createMembership);
   this.get('/organizations');

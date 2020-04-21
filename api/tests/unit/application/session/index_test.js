@@ -44,7 +44,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('GET /api/sessions', () => {
+  describe('GET /api/jury/sessions', () => {
 
     beforeEach(() => {
       sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
@@ -53,7 +53,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'GET', url: '/api/sessions' });
+      const res = await server.inject({ method: 'GET', url: '/api/jury/sessions' });
       expect(res.statusCode).to.equal(200);
     });
   });
