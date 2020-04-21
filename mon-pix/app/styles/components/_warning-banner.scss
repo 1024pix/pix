@@ -1,5 +1,4 @@
 .warning-banner {
-  background-color: $vermilion;
   text-align: center;
   color: $white;
   height: 60px;
@@ -8,15 +7,34 @@
   line-height: 1.5rem;
   font-size: 1rem;
   padding: 10px 0;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @include device-is('tablet') {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     line-height: 2rem;
   }
 
-  &--underline {
+  &__icon {
+    margin-right: 8px;
+  }
+
+  a {
+    color: $white;
     text-decoration: underline;
+  }
+
+  &--info{
+    background-color: darken($pix-blue, 5%);
+  }
+
+  &--warn{
+    background-color: $dark-orange;
+  }
+
+  &--error{
+    background-color: darken($red-error, 10%);
   }
 }
 
