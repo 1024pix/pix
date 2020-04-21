@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import EmberObject from '@ember/object';
 
 describe('Unit | Controller | Assessments | Checkpoint', function() {
 
@@ -30,11 +31,11 @@ describe('Unit | Controller | Assessments | Checkpoint', function() {
 
     it('should equal the progression completionPercentage', function() {
       // when
-      const model = {
+      const model = EmberObject.create({
         progression: {
           completionPercentage: 73,
         },
-      };
+      });
       controller.set('model', model);
 
       // then
