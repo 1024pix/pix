@@ -9,6 +9,7 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
   let competenceRepository;
   let targetProfileRepository;
   let tubeRepository;
+  let knowledgeElementRepository;
 
   const userId = 1;
   const campaignId = 'someCampaignId';
@@ -21,6 +22,7 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
     competenceRepository = { list: sinon.stub() };
     targetProfileRepository = { getByCampaignId: sinon.stub() };
     tubeRepository = { list: sinon.stub() };
+    knowledgeElementRepository = { findByCampaignIdAndUserIdForSharedCampaignParticipation: sinon.stub() };
 
     campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
   });
@@ -32,6 +34,9 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
       const competence = domainBuilder.buildCompetence({ area });
       const skill = domainBuilder.buildSkill({ id: 'skillId', name: '@url1', competenceId: competence.id, tubeId: 'tubeId' });
       const skill2 = domainBuilder.buildSkill({ id: 'skillId2', name: '@url2', competenceId: competence.id, tubeId: 'otherTubeId' });
+      const knowledgeElementSkill1 = { skillId: 'skillId', userId: 1 };
+      const knowledgeElementSkill2 = { skillId: 'skillId2', userId: 1 };
+
       const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill, skill2] });
       const tube = domainBuilder.buildTube({ id: 'tubeId', competenceId: competence.id, skills: [skill] });
       const otherTube = domainBuilder.buildTube({ id: 'otherTubeId', competenceId: competence.id, skills: [skill2] });
@@ -39,17 +44,17 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
         campaignId,
         tube,
         competence,
-        validatedKnowledgeElements: [],
+        validatedKnowledgeElements: [knowledgeElementSkill1],
         skills: [skill],
         maxSkillLevelInTargetProfile:  2,
-        participantsCount:  1
+        participantsCount: 1
       });
 
       const campaignOtherTubeRecommendation = domainBuilder.buildCampaignTubeRecommendation({
         campaignId,
         tube: otherTube,
         competence,
-        validatedKnowledgeElements: [],
+        validatedKnowledgeElements: [knowledgeElementSkill2],
         skills: [skill2],
         maxSkillLevelInTargetProfile:  2,
         participantsCount: 1
@@ -61,6 +66,7 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
       tubeRepository.list.resolves([tube, otherTube]);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
       targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
+      knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation.withArgs({ campaignId, userId: campaignParticipation.userId }).resolves([knowledgeElementSkill1,knowledgeElementSkill2]);
 
       const expectedResult = {
         id: campaignId,
@@ -75,7 +81,8 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
         campaignParticipationRepository,
         competenceRepository,
         targetProfileRepository,
-        tubeRepository
+        tubeRepository,
+        knowledgeElementRepository,
       });
 
       // then
