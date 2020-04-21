@@ -7,7 +7,7 @@ exports.register = async (server) => {
   server.route([
     {
       method: 'GET',
-      path: '/api/sessions',
+      path: '/api/jury/sessions',
       config: {
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
