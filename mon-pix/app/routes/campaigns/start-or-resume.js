@@ -86,7 +86,7 @@ export default class StartOrResumeRoute extends Route.extend(AuthenticatedRouteM
   }
 
   _userIsUnauthenticated() {
-    return this.get('session.isAuthenticated') === false;
+    return this.session.isAuthenticated === false;
   }
 
   _thereIsNoAssessment(assessments) {
