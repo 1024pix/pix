@@ -5,6 +5,6 @@ export default class SessionsListRoute extends Route {
   @service currentUser;
 
   model() {
-    return this.currentUser.certificationCenter.get('sessions');
+    return this.currentUser.certificationCenter.sessions;
   }
 }

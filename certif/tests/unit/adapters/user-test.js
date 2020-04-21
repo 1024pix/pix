@@ -10,7 +10,7 @@ module('Unit | Adapters | user', function(hooks) {
   hooks.beforeEach(function() {
     adapter = this.owner.lookup('adapter:user');
     const ajaxStub = () => resolve();
-    adapter.set('ajax', ajaxStub);
+    adapter.ajax = ajaxStub;
   });
 
   module('#urlForUpdateRecord', function() {

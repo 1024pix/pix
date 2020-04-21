@@ -21,7 +21,7 @@ module('Unit | Adapters | ApplicationAdapter', function(hooks) {
       const applicationAdapter = this.owner.lookup('adapter:application');
 
       // When
-      applicationAdapter.set('session', { isAuthenticated: true, data: { authenticated: { access_token } } });
+      applicationAdapter.session = { isAuthenticated: true, data: { authenticated: { access_token } } };
 
       // Then
       assert.equal(applicationAdapter.headers['Authorization'], `Bearer ${access_token}`);
@@ -32,7 +32,7 @@ module('Unit | Adapters | ApplicationAdapter', function(hooks) {
       const applicationAdapter = this.owner.lookup('adapter:application');
 
       // When
-      applicationAdapter.set('session', {});
+      applicationAdapter.session = {};
 
       // Then
       assert.notOk(applicationAdapter.headers['Authorization']);
