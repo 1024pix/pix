@@ -23,6 +23,23 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
+      path: '/api/jury/sessions/{id}',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: sessionController.getJurySession,
+        tags: ['api', 'sessions']
+      }
+    },
+    {
+      method: 'GET',
       path: '/api/sessions/{id}',
       config: {
         validate: {
