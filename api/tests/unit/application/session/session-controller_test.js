@@ -93,6 +93,39 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
+  describe('#getJurySession', function() {
+    const sessionId = 123;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getJurySession');
+      sinon.stub(jurySessionSerializer, 'serialize');
+      request = {
+        auth: { credentials: { userId } },
+        params: {
+          id: sessionId.toString(),
+        }
+      };
+    });
+
+    context('when session exists', () => {
+
+      it('should reply serialized session informations', async function() {
+        // given
+        const foundJurySession = Symbol('foundSession');
+        const serializedJurySession = Symbol('serializedSession');
+        usecases.getJurySession.withArgs({ sessionId }).resolves(foundJurySession);
+        jurySessionSerializer.serialize.withArgs(foundJurySession).resolves(serializedJurySession);
+
+        // when
+        const response = await sessionController.getJurySession(request, hFake);
+
+        // then
+        expect(response).to.deep.equal(serializedJurySession);
+      });
+
+    });
+  });
+
   describe('#get', function() {
     const sessionId = 123;
 

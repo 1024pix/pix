@@ -128,6 +128,7 @@ module.exports = injectDependencies({
   getCertificationCourse: require('./get-certification-course'),
   getCorrectionForAnswer: require('./get-correction-for-answer'),
   getCurrentUser: require('./get-current-user'),
+  getJurySession: require('./get-jury-session'),
   getNextChallengeForCertification: require('./get-next-challenge-for-certification'),
   getNextChallengeForCompetenceEvaluation: require('./get-next-challenge-for-competence-evaluation'),
   getNextChallengeForDemo: require('./get-next-challenge-for-demo'),
