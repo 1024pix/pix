@@ -24,12 +24,12 @@ export default class CheckpointController extends Controller {
 
   @computed('finalCheckpoint', 'model.progression.completionPercentage')
   get completionPercentage() {
-    return this.finalCheckpoint ? 100 : this.get('model.progression.completionPercentage');
+    return this.finalCheckpoint ? 100 : this.model.get('progression.completionPercentage');
   }
 
   @computed('model.answersSinceLastCheckpoints')
   get shouldDisplayAnswers() {
-    return !!this.get('model.answersSinceLastCheckpoints.length');
+    return !!this.model.answersSinceLastCheckpoints.length;
   }
 
   @computed('finalCheckpoint')
