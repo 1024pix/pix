@@ -8,7 +8,7 @@ const { disconnect } = require('../db/knex-database-connection');
 
 const start = async () => {
   try {
-    if (system.heapProfileSamplingEnabled) {
+    if (system.samplingHeapProfilerEnabled) {
       heapProfile.start();
     }
 
