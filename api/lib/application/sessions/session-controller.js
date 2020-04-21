@@ -18,6 +18,13 @@ module.exports = {
     return jurySessionSerializer.serialize(jurySessions, pagination);
   },
 
+  async getJurySession(request) {
+    const sessionId = parseInt(request.params.id);
+    const jurySession = await usecases.getJurySession({ sessionId });
+
+    return jurySessionSerializer.serialize(jurySession);
+  },
+
   async get(request) {
     const sessionId = parseInt(request.params.id);
     const session = await usecases.getSession({ sessionId });
