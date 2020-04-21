@@ -3,6 +3,7 @@ const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
+const jurySessionSerializer = require('../../infrastructure/serializers/jsonapi/jury-session-serializer');
 const certificationCandidateSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-serializer');
 const certificationReportSerializer = require('../../infrastructure/serializers/jsonapi/certification-report-serializer');
 const certificationResultSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-serializer');
@@ -12,9 +13,9 @@ module.exports = {
 
   async findPaginatedFilteredSessions(request) {
     const options = queryParamsUtils.extractParameters(request.query);
-    const { sessions, pagination } = await usecases.findPaginatedFilteredSessions({ filters: options.filter, page: options.page });
+    const { jurySessions, pagination } = await usecases.findPaginatedFilteredSessions({ filters: options.filter, page: options.page });
 
-    return sessionSerializer.serializeForPaginatedFilteredResults(sessions, pagination);
+    return jurySessionSerializer.serialize(jurySessions, pagination);
   },
 
   async get(request) {
