@@ -7,9 +7,8 @@ const { system } = require('../../config');
 module.exports = {
 
   async generateAndDownloadHeapDump(request, h) {
-
     if (!os.hostname().endsWith(request.params.hostname)) {
-      return h.redirect(request.url.path);
+      return h.redirect(request.path);
     }
 
     const writeHeapDump = util.promisify(heapdump.writeSnapshot);
@@ -18,17 +17,15 @@ module.exports = {
   },
 
   async generateAndDownloadHeapProfile(request, h) {
-
     if (!system.samplingHeapProfilerEnabled) {
-      return h.response(`Heap profile sampling is disabled for the server ${request.params.hostname}`).code(404);
+      return h.response('Heap profile sampling is not enabled').code(404);
     }
 
     if (!os.hostname().endsWith(request.params.hostname)) {
-      return h.redirect(request.url.path);
+      return h.redirect(request.path);
     }
 
-    const writeHeapProfile = util.promisify(heapProfile.write);
-    const filename = await writeHeapProfile();
+    const filename = await heapProfile.write();
     return h.file(filename, { mode: 'attachment' });
   },
 };
