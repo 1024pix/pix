@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.143.0 (21/04/2020)
+
+- [#1319](https://github.com/1024pix/pix/pull/1319) [BUGFIX] Affichage non correct du résumé des résultats collectifs de campagne d'évaluation (PO-432).
+- [#1316](https://github.com/1024pix/pix/pull/1316) [TECH] Remplacer les dummy tests unitaires par défaut Ember par de vrais tests (PC-145)
+
 ## v2.142.0 (20/04/2020)
 
 - [#1314](https://github.com/1024pix/pix/pull/1314) [FEATURE] afficher l id de certif dans le champ de recherche admin (PA-201)
