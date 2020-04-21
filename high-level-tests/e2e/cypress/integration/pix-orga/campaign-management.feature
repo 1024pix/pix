@@ -26,6 +26,8 @@ Fonctionnalité: Gestion des Campagnes
     Alors je vois 2 sujets
     Et je vois que le sujet "Capitales" est "Fortement recommandé"
     Et je vois que le sujet "Philosophes" est "Assez recommandé"
+    Lorsque j'ouvre le sujet "Capitales"
+    Alors je vois 1 tutoriel
 
   Scénario: Je consulte le détail d'une campagne de collecte de profils
     Étant donné que je suis connecté à Pix Orga
