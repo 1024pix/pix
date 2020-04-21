@@ -24,7 +24,7 @@
       <div class="skill-review-result__share-container">
         {{#if model.campaignParticipation.isShared}}
           <p class="skill-review-share__thanks">Merci, vos résultats ont bien été envoyés !</p>
-          <LinkTo @route="index" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
+          <LinkTo @route="authenticated" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
         {{else}}
           <p class="skill-review-share__legal">
             Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.
@@ -65,7 +65,7 @@
         <img class="skill-reviw__campaign-archived-image "src="{{rootURL}}/images/bees/fat-bee.svg">
         <p class="skill-review__campaign-archived-text">Ce parcours a été archivé par l'organisateur.
         <br> L'envoi des résultats n'est plus possible mais ils sont bien pris en compte dans votre parcours.</p>
-        <LinkTo @route="index" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
+        <LinkTo @route="authenticated" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
       </div>
     {{/if}}
     <div class="skill-review-result__dash-line"></div>

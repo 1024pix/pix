@@ -9,7 +9,7 @@
         Vous allez transmettre votre score Pix et vos niveaux de compétence.<br>
         Toute évolution de votre profil après cet envoi ne sera pas partagée !<br>
         N'hésitez pas à vérifier
-        <LinkTo @route="profile" target="_blank" class="link">votre profil Pix</LinkTo>
+        <LinkTo @route="authenticated.profile" target="_blank" class="link">votre profil Pix</LinkTo>
         avant envoi.
       </p>
     </div>
@@ -19,7 +19,7 @@
 
       {{#if this.model.campaignParticipation.isShared}}
         <p class="skill-review-share__thanks">Merci, votre profil a bien été envoyé !</p>
-        <LinkTo @route="index" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
+        <LinkTo @route="authenticated" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
       {{else}}
         {{#if this.isLoading}}
           <button type="button" disabled class="button button--big">

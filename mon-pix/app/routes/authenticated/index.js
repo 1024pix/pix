@@ -4,7 +4,8 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 @classic
 export default class IndexRoute extends Route.extend(AuthenticatedRouteMixin) {
+
   redirect() {
-    this.replaceWith('profile');
+    this.replaceWith('authenticated.profile');
   }
 }

@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 
 export default Route.extend(ApplicationRouteMixin, {
 
+  routeAfterAuthentication: 'authenticated',
   splash: service(),
   currentUser: service(),
   session: service(),
