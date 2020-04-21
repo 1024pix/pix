@@ -11,9 +11,9 @@ const queryParamsUtils = require('../../infrastructure/utils/query-params-utils'
 
 module.exports = {
 
-  async findPaginatedFilteredSessions(request) {
+  async findPaginatedFilteredJurySessions(request) {
     const options = queryParamsUtils.extractParameters(request.query);
-    const { jurySessions, pagination } = await usecases.findPaginatedFilteredSessions({ filters: options.filter, page: options.page });
+    const { jurySessions, pagination } = await usecases.findPaginatedFilteredJurySessions({ filters: options.filter, page: options.page });
 
     return jurySessionSerializer.serialize(jurySessions, pagination);
   },

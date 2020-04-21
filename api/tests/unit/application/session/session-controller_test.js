@@ -618,11 +618,11 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#findPaginatedFilteredSessions', () => {
+  describe('#findPaginatedFilteredJurySessions', () => {
 
     beforeEach(() => {
       sinon.stub(queryParamsUtils, 'extractParameters');
-      sinon.stub(usecases, 'findPaginatedFilteredSessions');
+      sinon.stub(usecases, 'findPaginatedFilteredJurySessions');
       sinon.stub(jurySessionSerializer, 'serialize');
     });
 
@@ -630,14 +630,14 @@ describe('Unit | Controller | sessionController', () => {
       // given
       const request = { query: {} };
       queryParamsUtils.extractParameters.withArgs({}).returns({});
-      usecases.findPaginatedFilteredSessions.resolves({ jurySessions: {}, pagination: {} });
+      usecases.findPaginatedFilteredJurySessions.resolves({ jurySessions: {}, pagination: {} });
       jurySessionSerializer.serialize.returns({ data: {}, meta: {} });
 
       // when
-      await sessionController.findPaginatedFilteredSessions(request, hFake);
+      await sessionController.findPaginatedFilteredJurySessions(request, hFake);
 
       // then
-      expect(usecases.findPaginatedFilteredSessions).to.have.been.calledOnce;
+      expect(usecases.findPaginatedFilteredJurySessions).to.have.been.calledOnce;
       expect(jurySessionSerializer.serialize).to.have.been.calledOnce;
     });
 
@@ -647,10 +647,10 @@ describe('Unit | Controller | sessionController', () => {
       const expectedResults = 'sessionsList';
       const expectedPagination = 'pagination';
       queryParamsUtils.extractParameters.withArgs({}).returns({});
-      usecases.findPaginatedFilteredSessions.resolves({ jurySessions: expectedResults, pagination: expectedPagination });
+      usecases.findPaginatedFilteredJurySessions.resolves({ jurySessions: expectedResults, pagination: expectedPagination });
 
       // when
-      await sessionController.findPaginatedFilteredSessions(request, hFake);
+      await sessionController.findPaginatedFilteredJurySessions(request, hFake);
 
       // then
       expect(jurySessionSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedPagination);

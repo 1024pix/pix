@@ -2,7 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 
-describe('Unit | UseCase | find-paginated-filtered-sessions', () => {
+describe('Unit | UseCase | find-paginated-filtered-jury-sessions', () => {
   let jurySessionRepository;
   let restoreValidateFilters;
 
@@ -33,7 +33,7 @@ describe('Unit | UseCase | find-paginated-filtered-sessions', () => {
         .resolves({ jurySessions: matchingSessions, pagination: resolvedPagination });
 
       // when
-      const response = await usecases.findPaginatedFilteredSessions({ filters, page, jurySessionRepository });
+      const response = await usecases.findPaginatedFilteredJurySessions({ filters, page, jurySessionRepository });
 
       // then
       expect(response.jurySessions).to.equal(matchingSessions);
@@ -54,9 +54,9 @@ describe('Unit | UseCase | find-paginated-filtered-sessions', () => {
         pageCount: 0,
       };
       sessionValidator.validateFilters.withArgs(filters).throws();
-
+      
       // when
-      const response = await usecases.findPaginatedFilteredSessions({ filters, page, jurySessionRepository });
+      const response = await usecases.findPaginatedFilteredJurySessions({ filters, page, jurySessionRepository });
 
       // then
       expect(jurySessionRepository.findPaginatedFiltered.notCalled).to.be.true;
