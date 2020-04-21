@@ -18,7 +18,7 @@ export default Controller.extend({
         this.set('isLoading', true);
         return this.start(this.model, participantExternalId);
       } else {
-        return this.set('errorMessage', `Merci de renseigner votre ${this.get('model.idPixLabel')}.`);
+        return this.set('errorMessage', `Merci de renseigner votre ${ this.model.idPixLabel }.`);
       }
     },
 
