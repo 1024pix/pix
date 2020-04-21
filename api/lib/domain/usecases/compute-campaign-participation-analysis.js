@@ -11,6 +11,7 @@ module.exports = async function computeCampaignParticipationAnalysis(
     competenceRepository,
     targetProfileRepository,
     tubeRepository,
+    knowledgeElementRepository,
   } = {}) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
   const campaignId = campaignParticipation.campaignId;
@@ -20,10 +21,11 @@ module.exports = async function computeCampaignParticipationAnalysis(
     throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
   }
 
-  const [competences, tubes, targetProfile] = await Promise.all([
+  const [competences, tubes, targetProfile, validatedKnowledgeElements] = await Promise.all([
     competenceRepository.list(),
     tubeRepository.list(),
-    targetProfileRepository.getByCampaignId(campaignId)
+    targetProfileRepository.getByCampaignId(campaignId),
+    knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId: campaignParticipation.userId }),
   ]);
 
   const targetedTubeIds = _.map(targetProfile.skills, ({ tubeId }) => ({ id: tubeId }));
@@ -34,7 +36,7 @@ module.exports = async function computeCampaignParticipationAnalysis(
     tubes: targetedTubes,
     competences,
     skills: targetProfile.skills,
-    validatedKnowledgeElements: [],
+    validatedKnowledgeElements,
     participantsCount: 1
   });
 };
