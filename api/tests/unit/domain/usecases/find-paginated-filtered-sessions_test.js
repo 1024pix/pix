@@ -3,11 +3,11 @@ const usecases = require('../../../../lib/domain/usecases');
 const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 
 describe('Unit | UseCase | find-paginated-filtered-sessions', () => {
-  let sessionRepository;
+  let jurySessionRepository;
   let restoreValidateFilters;
 
   beforeEach(() => {
-    sessionRepository = {
+    jurySessionRepository = {
       findPaginatedFiltered: sinon.stub(),
     };
     restoreValidateFilters = sessionValidator.validateFilters;
@@ -29,14 +29,14 @@ describe('Unit | UseCase | find-paginated-filtered-sessions', () => {
       const matchingSessions = 'listOfMatchingSessions';
       sessionValidator.validateFilters.withArgs({ filter1: 'filter1ToTrim', filter2: 'filter2' })
         .returns(normalizedFilters);
-      sessionRepository.findPaginatedFiltered.withArgs({ filters: normalizedFilters, page })
-        .resolves({ sessions: matchingSessions, pagination: resolvedPagination });
+      jurySessionRepository.findPaginatedFiltered.withArgs({ filters: normalizedFilters, page })
+        .resolves({ jurySessions: matchingSessions, pagination: resolvedPagination });
 
       // when
-      const response = await usecases.findPaginatedFilteredSessions({ filters, page, sessionRepository });
+      const response = await usecases.findPaginatedFilteredSessions({ filters, page, jurySessionRepository });
 
       // then
-      expect(response.sessions).to.equal(matchingSessions);
+      expect(response.jurySessions).to.equal(matchingSessions);
       expect(response.pagination).to.equal(resolvedPagination);
     });
   });
@@ -56,10 +56,10 @@ describe('Unit | UseCase | find-paginated-filtered-sessions', () => {
       sessionValidator.validateFilters.withArgs(filters).throws();
 
       // when
-      const response = await usecases.findPaginatedFilteredSessions({ filters, page, sessionRepository });
+      const response = await usecases.findPaginatedFilteredSessions({ filters, page, jurySessionRepository });
 
       // then
-      expect(sessionRepository.findPaginatedFiltered.notCalled).to.be.true;
+      expect(jurySessionRepository.findPaginatedFiltered.notCalled).to.be.true;
       expect(response.pagination).to.deep.equal(basicPagination);
       expect(response.sessions).to.be.empty;
     });

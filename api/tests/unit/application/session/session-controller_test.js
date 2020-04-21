@@ -6,6 +6,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const Session = require('../../../../lib/domain/models/Session');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
+const jurySessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer');
 const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
 const certificationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-result-serializer');
 const certificationReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer');
@@ -592,22 +593,22 @@ describe('Unit | Controller | sessionController', () => {
     beforeEach(() => {
       sinon.stub(queryParamsUtils, 'extractParameters');
       sinon.stub(usecases, 'findPaginatedFilteredSessions');
-      sinon.stub(sessionSerializer, 'serializeForPaginatedFilteredResults');
+      sinon.stub(jurySessionSerializer, 'serialize');
     });
 
     it('should return a list of JSON API sessions fetched from the data repository', async () => {
       // given
       const request = { query: {} };
       queryParamsUtils.extractParameters.withArgs({}).returns({});
-      usecases.findPaginatedFilteredSessions.resolves({ sessions: {}, pagination: {} });
-      sessionSerializer.serializeForPaginatedFilteredResults.returns({ data: {}, meta: {} });
+      usecases.findPaginatedFilteredSessions.resolves({ jurySessions: {}, pagination: {} });
+      jurySessionSerializer.serialize.returns({ data: {}, meta: {} });
 
       // when
       await sessionController.findPaginatedFilteredSessions(request, hFake);
 
       // then
       expect(usecases.findPaginatedFilteredSessions).to.have.been.calledOnce;
-      expect(sessionSerializer.serializeForPaginatedFilteredResults).to.have.been.calledOnce;
+      expect(jurySessionSerializer.serialize).to.have.been.calledOnce;
     });
 
     it('should return a JSON API response with pagination information in the data field "meta"', async () => {
@@ -616,13 +617,13 @@ describe('Unit | Controller | sessionController', () => {
       const expectedResults = 'sessionsList';
       const expectedPagination = 'pagination';
       queryParamsUtils.extractParameters.withArgs({}).returns({});
-      usecases.findPaginatedFilteredSessions.resolves({ sessions: expectedResults, pagination: expectedPagination });
+      usecases.findPaginatedFilteredSessions.resolves({ jurySessions: expectedResults, pagination: expectedPagination });
 
       // when
       await sessionController.findPaginatedFilteredSessions(request, hFake);
 
       // then
-      expect(sessionSerializer.serializeForPaginatedFilteredResults).to.have.been.calledWithExactly(expectedResults, expectedPagination);
+      expect(jurySessionSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedPagination);
     });
   });
 
