@@ -65,7 +65,7 @@ describe('Unit | Component | certification-starter', function() {
           await component.send('submit');
 
           // then
-          sinon.assert.calledWith(replaceWithStub, 'certifications.resume', certificationId);
+          sinon.assert.calledWith(replaceWithStub, 'authenticated.certifications.resume', certificationId);
         });
       });
 
@@ -106,7 +106,7 @@ describe('Unit | Component | certification-starter', function() {
             // then
             sinon.assert.calledWithExactly(storeCreateRecordStub, 'certification-course', { accessCode, sessionId });
             await sinon.assert.called(storeSaveStub);
-            sinon.assert.calledWith(replaceWithStub, 'certifications.resume', certificationId);
+            sinon.assert.calledWith(replaceWithStub, 'authenticated.certifications.resume', certificationId);
           });
         });
 

@@ -27,7 +27,7 @@ describe('Unit | Route | Certification | Resume', function() {
       certificationCourse = EmberObject.create({ id: certificationCourseId, assessment, get: getAssessmentStub });
       peekRecordStub = sinon.stub().returns(certificationCourse);
       storeStub = Service.create({ query: queryStub, peekRecord: peekRecordStub });
-      route = this.owner.lookup('route:certifications.resume');
+      route = this.owner.lookup('route:authenticated.certifications.resume');
       route.set('store', storeStub);
       route.replaceWith = sinon.stub();
     });

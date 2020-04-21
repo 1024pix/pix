@@ -23,7 +23,11 @@ Router.map(function() {
 
   this.route('authenticated', { path: '' }, function() {
     this.route('profile', { path: '/profil' });
-
+    this.route('certifications', function() {
+      this.route('start', { path: '/' });
+      this.route('resume', { path: '/:certification_course_id' });
+      this.route('results', { path: '/:certification_number/results' });
+    });
   });
 
   this.route('assessments', { path: '/assessments/:assessment_id' }, function() {
@@ -41,11 +45,6 @@ Router.map(function() {
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
   this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
 
-  this.route('certifications', function() {
-    this.route('start', { path: '/' });
-    this.route('resume', { path: '/:certification_course_id' });
-    this.route('results', { path: '/:certification_number/results' });
-  });
   this.route('user-certifications', { path: 'mes-certifications' }, function() {
     this.route('get', { path: '/:id' });
   });

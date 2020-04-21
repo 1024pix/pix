@@ -10,7 +10,7 @@ describe('Unit | Route | Certifications | Results', function() {
 
     it('should find logged user details', function() {
       // Given
-      const route = this.owner.lookup('route:certifications.results');
+      const route = this.owner.lookup('route:authenticated.certifications.results');
 
       // When
       const model = route.model({

@@ -28,7 +28,7 @@ export default Component.extend({
 
       const existingCertificationCourse = this.getCurrentCertificationCourse();
       if (existingCertificationCourse) {
-        return this.router.replaceWith('certifications.resume', existingCertificationCourse.id);
+        return this.router.replaceWith('authenticated.certifications.resume', existingCertificationCourse.id);
       }
       const newCertificationCourse = this.store.createRecord('certification-course', {
         accessCode: this.accessCode,
@@ -36,7 +36,7 @@ export default Component.extend({
       });
       try {
         await newCertificationCourse.save();
-        this.router.replaceWith('certifications.resume', this.getCurrentCertificationCourse().id);
+        this.router.replaceWith('authenticated.certifications.resume', this.getCurrentCertificationCourse().id);
       } catch (err) {
         this.getCurrentCertificationCourse().deleteRecord();
         if (err.errors && err.errors[0] && err.errors[0].status === '404') {

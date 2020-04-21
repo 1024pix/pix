@@ -236,7 +236,7 @@ describe('Unit | Route | Assessments | Resume', function() {
 
           // then
           return promise.then(() => {
-            sinon.assert.calledWith(route.replaceWith, 'certifications.results', 666);
+            sinon.assert.calledWith(route.replaceWith, 'authenticated.certifications.results', 666);
           });
         });
       });
