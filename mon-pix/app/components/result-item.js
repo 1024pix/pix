@@ -35,8 +35,8 @@ export default Component.extend({
   openComparison: null,
 
   resultItem: computed('answer.result', function() {
-    if (!this.get('answer.result')) return;
-    return contentReference[this.get('answer.result')];
+    if (!this.answer.result) return;
+    return contentReference[this.answer.result];
   }),
 
   resultTooltip: computed('resultItem', function() {
@@ -45,7 +45,7 @@ export default Component.extend({
 
   validationImplementedForChallengeType: computed('answer.challenge.type', function() {
     const implementedTypes = ['QCM', 'QROC', 'QCU', 'QROCM-ind', 'QROCM-dep'];
-    const challengeType = this.get('answer.challenge.type');
+    const challengeType = this.answer.get('challenge.type');
     return implementedTypes.includes(challengeType);
   }),
 
