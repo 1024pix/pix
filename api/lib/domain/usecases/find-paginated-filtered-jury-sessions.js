@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const sessionValidator = require('../validators/session-validator');
 
-module.exports = async function findPaginatedFilteredSessions({ filters, page, jurySessionRepository }) {
+module.exports = async function findPaginatedFilteredJurySessions({ filters, page, jurySessionRepository }) {
   let normalizedFilters;
   try {
     const trimmedFilters = _.mapValues(filters, (value) => {
