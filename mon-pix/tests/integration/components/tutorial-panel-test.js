@@ -9,10 +9,6 @@ describe('Integration | Component | tutorial panel', function() {
   setupRenderingTest();
 
   context('when the result is not ok', function() {
-    beforeEach(function() {
-      this.set('resultItemStatus', 'ko');
-    });
-
     context('and a hint is present', function() {
       beforeEach(function() {
         this.set('hint', 'Ceci est un indice.');
@@ -21,7 +17,7 @@ describe('Integration | Component | tutorial panel', function() {
 
       it('should render the hint', async function() {
         // when
-        await render(hbs`{{tutorial-panel hint=hint resultItemStatus=resultItemStatus tutorials=tutorials}}`);
+        await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 
         // then
         expect(find('.tutorial-panel')).to.exist;
@@ -30,9 +26,7 @@ describe('Integration | Component | tutorial panel', function() {
         expect(find('.tutorial-panel__hint-picto-container')).to.exist;
         expect(find('.tutorial-panel__hint-picto')).to.exist;
         expect(find('.tutorial-panel__hint-content')).to.exist;
-
-        const $contentElement = find('.tutorial-panel__hint-content');
-        expect($contentElement.textContent.trim()).to.equal('Ceci est un indice.');
+        expect(find('.tutorial-panel__hint-content').textContent.trim()).to.equal('Ceci est un indice.');
       });
     });
 
@@ -60,7 +54,7 @@ describe('Integration | Component | tutorial panel', function() {
 
         it('should render the tutorial with actions', async function() {
           // when
-          await render(hbs`{{tutorial-panel hint=hint resultItemStatus=resultItemStatus tutorials=tutorials}}`);
+          await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 
           // then
           expect(find('.tutorial-item')).to.exist;
@@ -75,7 +69,7 @@ describe('Integration | Component | tutorial panel', function() {
       context('when the user is not logged in', function() {
         it('should render the tutorial without actions', async function() {
           // when
-          await render(hbs`{{tutorial-panel hint=hint resultItemStatus=resultItemStatus tutorials=tutorials}}`);
+          await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 
           // then
           expect(find('.tutorial-item')).to.exist;
