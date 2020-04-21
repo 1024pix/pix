@@ -16,19 +16,19 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
     const setStub = sinon.stub();
 
     controller.set('model', {
-      campaignParticipation: {
+      campaignParticipation: EmberObject.create({
         isShared: false,
         set: setStub,
         save: sinon.stub().resolves({}),
-        campaignParticipationResult: {
+        campaignParticipationResult: EmberObject.create({
           masteryPercentage: 50,
-        },
-        campaign: {
+        }),
+        campaign: EmberObject.create({
           targetProfile: {
             name: 'Cléa Numérique',
           }
-        }
-      },
+        })
+      }),
       assessment: {
         id: 'assessmentId',
         get: sinon.stub().withArgs('id').resolves('assessmentId'),
