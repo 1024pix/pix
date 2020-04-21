@@ -48,7 +48,7 @@ describe('Unit | Application | Sessions | Routes', () => {
 
     beforeEach(() => {
       sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-      sinon.stub(sessionController, 'findPaginatedFilteredSessions').returns('ok');
+      sinon.stub(sessionController, 'findPaginatedFilteredJurySessions').returns('ok');
       return server.register(route);
     });
 
