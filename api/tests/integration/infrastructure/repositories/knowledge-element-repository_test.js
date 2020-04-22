@@ -358,7 +358,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.have.members([1,2]);
+      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1,2]);
     });
 
     it('should return a list of knowledge elements when there are validated knowledge elements', async () => {
@@ -388,7 +388,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.deep.equal([1]);
+      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
     });
 
     it('should return a list of knowledge elements whose its skillId is included in the campaign target profile', async () => {
@@ -417,7 +417,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.deep.equal([1]);
+      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
     });
   });
 
@@ -470,7 +470,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       const actualKnowledgeElements = await KnowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
 
       // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.have.members([1,2]);
+      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1,2]);
     });
 
   });
