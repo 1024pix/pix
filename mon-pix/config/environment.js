@@ -95,7 +95,6 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
-    ENV.APP.API_HOST = process.env.API_HOST || 'http://localhost:3000';
     ENV.APP.HOME_HOST = process.env.HOME_HOST || '/';
     ENV.matomo.url = 'https://stats.pix.fr/js/container_jKDD76j4_dev_179474167add1104d6c8a92b.js';
     ENV.matomo.debug = true;
