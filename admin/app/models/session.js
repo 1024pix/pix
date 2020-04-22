@@ -27,22 +27,23 @@ export const statusToDisplayName = {
 
 export default class Session extends Model {
 
+  @attr() certificationCenterType;
   @attr() certificationCenterName;
   @attr() address;
   @attr() room;
   @attr() examiner;
   @attr('date-only') date;
   @attr() time;
-  @attr() description;
   @attr() accessCode;
   @attr() status;
+  @attr() description;
+  @attr() examinerGlobalComment;
   @attr() finalizedAt;
   @attr() resultsSentToPrescriberAt;
-  @attr() examinerGlobalComment;
   @attr() publishedAt;
 
   @hasMany('certification') certifications;
-  @belongsTo('certification-center') certificationCenter;
+  @belongsTo('user') assignedCertificationOfficer;
 
   @computed('status')
   get isFinalized() {
