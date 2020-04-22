@@ -9,11 +9,20 @@ export default function() {
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
 
+  this.get('/jury/sessions', findPaginatedAndFilteredSessions);
+  this.get('/jury/sessions/:id');
+  this.get('/jury/sessions/:id/certifications', getCertificationsBySessionId);
+  this.put('/jury/sessions/:id/results-sent-to-prescriber', (schema, request) => {
+    const sessionId = request.params.id;
+    const session = schema.sessions.findBy({ id: sessionId });
+    session.update({ resultsSentToPrescriberAt: new Date() });
+    return session;
+  });
+
   this.get('/users');
   this.get('/admin/users/:id');
   this.get('/certification-centers');
   this.get('/certification-centers/:id');
-  this.get('/jury/sessions', findPaginatedAndFilteredSessions);
 
   this.post('/memberships', createMembership);
   this.get('/organizations');
@@ -22,16 +31,7 @@ export default function() {
   this.get('/organizations/:id/target-profiles', getOrganizationTargetProfiles);
   this.post('/organizations/:id/target-profiles', attachTargetProfiles);
 
-  this.get('/jury/sessions/:id');
-  this.get('/sessions/:id/certifications', getCertificationsBySessionId);
   this.get('/admin/certifications/:id');
-
-  this.put('/sessions/:id/results-sent-to-prescriber', (schema, request) => {
-    const sessionId = request.params.id;
-    const session = schema.sessions.findBy({ id: sessionId });
-    session.update({ resultsSentToPrescriberAt: new Date() });
-    return session;
-  });
 
   this.post('/organizations/:id/invitations', (schema, request) => {
     const params = JSON.parse(request.requestBody);

@@ -44,6 +44,20 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
+  describe('GET /api/jury/sessions/{id}', () => {
+
+    beforeEach(() => {
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'getJurySession').returns('ok');
+      return server.register(route);
+    });
+
+    it('should exist', async () => {
+      const res = await server.inject({ method: 'GET', url: '/api/jury/sessions/123' });
+      expect(res.statusCode).to.equal(200);
+    });
+  });
+
   describe('GET /api/jury/sessions', () => {
 
     beforeEach(() => {
@@ -285,7 +299,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('GET /api/sessions/{id}/certifications', () => {
+  describe('GET /api/jury/sessions/{id}/certifications', () => {
 
     beforeEach(() => {
       sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
@@ -294,7 +308,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'GET', url: '/api/sessions/1/certifications' });
+      const res = await server.inject({ method: 'GET', url: '/api/jury/sessions/1/certifications' });
       expect(res.statusCode).to.equal(200);
     });
   });
@@ -341,7 +355,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('PATCH /api/sessions/{id}/publication', () => {
+  describe('PATCH /api/jury/sessions/{id}/publication', () => {
     let options;
 
     beforeEach(() => {
@@ -350,7 +364,7 @@ describe('Unit | Application | Sessions | Routes', () => {
       const sessionId = 1;
       options = {
         method: 'PATCH',
-        url: `/api/sessions/${sessionId}/publication`,
+        url: `/api/jury/sessions/${sessionId}/publication`,
         payload: {
           data: {
             attributes: {
@@ -368,7 +382,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('PUT /api/sessions/{id}/results-sent-to-prescriber', () => {
+  describe('PUT /api/jury/sessions/{id}/results-sent-to-prescriber', () => {
     let sessionId;
 
     beforeEach(() => {
@@ -381,12 +395,12 @@ describe('Unit | Application | Sessions | Routes', () => {
       // given
       sessionId = 3;
 
-      const res = await server.inject({ method: 'PUT', url: `/api/sessions/${sessionId}/results-sent-to-prescriber` });
+      const res = await server.inject({ method: 'PUT', url: `/api/jury/sessions/${sessionId}/results-sent-to-prescriber` });
       expect(res.statusCode).to.equal(200);
     });
   });
 
-  describe('PATCH /api/sessions/{id}/certification-officer-assignment', () => {
+  describe('PATCH /api/jury/sessions/{id}/certification-officer-assignment', () => {
     let options;
 
     beforeEach(() => {
@@ -395,7 +409,7 @@ describe('Unit | Application | Sessions | Routes', () => {
       const sessionId = 1;
       options = {
         method: 'PATCH',
-        url: `/api/sessions/${sessionId}/certification-officer-assignment`,
+        url: `/api/jury/sessions/${sessionId}/certification-officer-assignment`,
       };
       return server.register(route);
     });

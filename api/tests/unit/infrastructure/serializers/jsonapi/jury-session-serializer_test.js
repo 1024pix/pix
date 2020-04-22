@@ -32,7 +32,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
           relationships: {
             certifications: {
               links: {
-                related: '/api/sessions/1/certifications',
+                related: '/api/jury/sessions/1/certifications',
               }
             },
           }

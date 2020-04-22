@@ -29,7 +29,7 @@ module.exports = {
         ignoreRelationshipData: true,
         relationshipLinks: {
           related(record, current, parent) {
-            return `/api/sessions/${parent.id}/certifications`;
+            return `/api/jury/sessions/${parent.id}/certifications`;
           }
         }
       },
