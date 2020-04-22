@@ -21,7 +21,7 @@ describe('Unit | Route | user certifications/get', function() {
       findRecord: findRecordStub,
     });
 
-    route = this.owner.lookup('route:user-certifications/get');
+    route = this.owner.lookup('route:authenticated.user-certifications.get');
     route.set('store', storeStub);
     route.replaceWith = sinon.stub().resolves();
   });

@@ -37,7 +37,7 @@
 {{/if}}
 
 {{#if this.isPublishedAndValidated}}
-  <LinkTo @route="user-certifications.get" @model={{this.certification.id}} class="certifications-list-item__row-presentation">
+  <LinkTo @route="authenticated.user-certifications.get" @model={{this.certification.id}} class="certifications-list-item__row-presentation">
     <div class="certifications-list-item__cell">
       {{moment-format this.certification.date 'DD/MM/YYYY' allow-empty=true}}
     </div>

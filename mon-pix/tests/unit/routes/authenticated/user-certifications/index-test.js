@@ -20,7 +20,7 @@ describe('Unit | Route | user certifications/index', function() {
       unloadAll: unloadAll
     });
 
-    route = this.owner.lookup('route:user-certifications/index');
+    route = this.owner.lookup('route:authenticated.user-certifications.index');
     route.set('store', storeStub);
   });
 
