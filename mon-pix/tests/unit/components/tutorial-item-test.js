@@ -269,20 +269,20 @@ describe('Unit | Component | tutorial item', function() {
       component.store = store;
     });
 
-    it('should save tutorial evaluation', async function() {
-      // when
-      await component.evaluateTutorial();
-
-      // then
-      sinon.assert.calledWith(tutorialEvaluation.save, { adapterOptions: { tutorialId: tutorial.id } });
-    });
-
     it('should create tutorial evaluation in store', async function() {
       // when
       await component.evaluateTutorial();
 
       // then
       sinon.assert.calledWith(store.createRecord, 'tutorialEvaluation', { tutorial });
+    });
+
+    it('should save tutorial evaluation', async function() {
+      // when
+      await component.evaluateTutorial();
+
+      // then
+      sinon.assert.calledWith(tutorialEvaluation.save, { adapterOptions: { tutorialId: tutorial.id } });
     });
 
     it('should set status to saved', async function() {

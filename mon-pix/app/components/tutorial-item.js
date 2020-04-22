@@ -69,7 +69,6 @@ export default class TutorialItemComponent extends Component {
       this.status = statusTypes.saved;
     } catch (e) {
       this.status = statusTypes.unsaved;
-      throw (e);
     }
   }
 
@@ -81,7 +80,6 @@ export default class TutorialItemComponent extends Component {
       this.status = statusTypes.unsaved;
     } catch (e) {
       this.status = statusTypes.saved;
-      throw (e);
     }
   }
 
@@ -95,7 +93,6 @@ export default class TutorialItemComponent extends Component {
       this.evaluationStatus = statusTypes.saved;
     } catch (e) {
       this.evaluationStatus = statusTypes.unsaved;
-      throw (e);
     }
   }
 }

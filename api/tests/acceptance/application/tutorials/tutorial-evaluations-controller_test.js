@@ -7,7 +7,6 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', () => {
   let server;
 
   beforeEach(async () => {
-    await cache.flushAll();
     server = await createServer();
     await databaseBuilder.factory.buildUser({
       id: 4444,
@@ -24,20 +23,11 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', () => {
       .activate();
   });
 
-  afterEach(async () => {
-    return airtableBuilder.cleanAll();
-  });
-
-  after(() => {
-    return cache.flushAll();
-  });
-
   describe('PUT /api/users/tutorials/{tutorialId}/evaluate', () => {
 
     let options;
 
     beforeEach(async () => {
-      await cache.flushAll();
       options = {
         method: 'PUT',
         url: '/api/users/tutorials/tutorialId/evaluate',
@@ -49,6 +39,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', () => {
 
     afterEach(async () => {
       airtableBuilder.cleanAll();
+      cache.flushAll();
       return knex('tutorial-evaluations').delete();
     });
 
