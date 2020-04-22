@@ -1,4 +1,4 @@
-.warning-banner {
+.communication-banner {
   text-align: center;
   color: $white;
   height: 60px;
@@ -25,15 +25,15 @@
     text-decoration: underline;
   }
 
-  &--info{
+  &--info {
     background-color: darken($pix-blue, 5%);
   }
 
-  &--warn{
+  &--warning {
     background-color: $dark-orange;
   }
 
-  &--error{
+  &--error {
     background-color: darken($red-error, 10%);
   }
 }
