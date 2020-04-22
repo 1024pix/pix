@@ -20,6 +20,7 @@ import loadPasswordResetDemandRoutes from './routes/password-reset-demands/index
 import loadStudentDependentUserRoutes from './routes/student-dependent-users/index';
 import loadStudentUserAssociationRoutes from './routes/student-user-associations/index';
 import loadUserRoutes from './routes/users/index';
+import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 
 /* eslint max-statements: off */
 export default function() {
@@ -62,4 +63,6 @@ export default function() {
   this.post('/sessions/:id/candidate-participation', postSessionParticipation);
 
   this.post('/expired-password-updates', postExpiredPasswordUpdates);
+
+  this.put('/users/tutorials/:tutorialId/evaluate', putTutorialEvaluation);
 }

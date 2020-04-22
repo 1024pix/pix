@@ -19,10 +19,12 @@ export default class TutorialItemComponent extends Component {
     'page': 'page'
   };
   @tracked status = statusTypes.unsaved;
+  @tracked evaluationStatus = statusTypes.unsaved;
 
   constructor(owner, args) {
     super(owner, args);
     this.status = this.tutorial.isSaved ? statusTypes.saved : statusTypes.unsaved;
+    this.evaluationStatus = this.tutorial.isEvaluated ? statusTypes.saved : statusTypes.unsaved;
   }
 
   get tutorial() {
@@ -39,6 +41,10 @@ export default class TutorialItemComponent extends Component {
 
   get isSaved() {
     return this.status === 'saved';
+  }
+
+  get isEvaluated() {
+    return this.evaluationStatus === 'saved';
   }
 
   get buttonText() {
@@ -63,6 +69,7 @@ export default class TutorialItemComponent extends Component {
       this.status = statusTypes.saved;
     } catch (e) {
       this.status = statusTypes.unsaved;
+      throw (e);
     }
   }
 
@@ -74,7 +81,21 @@ export default class TutorialItemComponent extends Component {
       this.status = statusTypes.unsaved;
     } catch (e) {
       this.status = statusTypes.saved;
+      throw (e);
     }
   }
 
+  @action
+  async evaluateTutorial() {
+    this.evaluationStatus = statusTypes.saving;
+    const tutorialEvaluation = this.store.createRecord('tutorialEvaluation', { tutorial: this.tutorial });
+    try {
+      await tutorialEvaluation.save({ adapterOptions: { tutorialId: this.tutorial.id } });
+      tutorialEvaluation.tutorial = this.tutorial;
+      this.evaluationStatus = statusTypes.saved;
+    } catch (e) {
+      this.evaluationStatus = statusTypes.unsaved;
+      throw (e);
+    }
+  }
 }

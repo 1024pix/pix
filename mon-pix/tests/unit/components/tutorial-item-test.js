@@ -80,6 +80,29 @@ describe('Unit | Component | tutorial item', function() {
 
   });
 
+  describe('#isEvaluated', function() {
+
+    it('should return false when the tutorial has not already been evaluated', function() {
+      // when
+      const result = component.isEvaluated;
+
+      // then
+      expect(result).to.equal(false);
+    });
+
+    it('should return true when the tutorial has been evaluated', function() {
+      // given
+      component.evaluationStatus = 'saved';
+
+      // when
+      const result = component.isEvaluated;
+
+      // then
+      expect(result).to.equal(true);
+    });
+
+  });
+
   describe('#buttonText', function() {
 
     it('should return "Enregistré" when the tutorial is not saved', function() {
@@ -234,5 +257,48 @@ describe('Unit | Component | tutorial item', function() {
       expect(component.status).to.equal('unsaved');
     });
 
+  });
+
+  describe('#evaluateTutorial', function() {
+    let store;
+    let tutorialEvaluation;
+
+    beforeEach(() => {
+      tutorialEvaluation = { save: sinon.stub().resolves(null) };
+      store = { createRecord: sinon.stub().returns(tutorialEvaluation) };
+      component.store = store;
+    });
+
+    it('should save tutorial evaluation', async function() {
+      // when
+      await component.evaluateTutorial();
+
+      // then
+      sinon.assert.calledWith(tutorialEvaluation.save, { adapterOptions: { tutorialId: tutorial.id } });
+    });
+
+    it('should create tutorial evaluation in store', async function() {
+      // when
+      await component.evaluateTutorial();
+
+      // then
+      sinon.assert.calledWith(store.createRecord, 'tutorialEvaluation', { tutorial });
+    });
+
+    it('should set status to saved', async function() {
+      // when
+      await component.evaluateTutorial();
+
+      // then
+      expect(component.evaluationStatus).to.equal('saved');
+    });
+
+    it('should link tutorial and tutorialEvaluation', async function() {
+      // when
+      await component.evaluateTutorial();
+
+      // then
+      expect(tutorialEvaluation.tutorial).to.equal(tutorial);
+    });
   });
 });

@@ -57,7 +57,42 @@
     display: inline-block;
   }
 
-  &__save-tutorial {
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+  }
+}
+
+.tutorial-content-actions {
+  &__save {
+    font-size: 1.3rem;
+    font-weight: $font-medium;
+    color: $grey-45;
+    letter-spacing: 0.045rem;
+    margin: 0 0 16px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: block;
+
+    svg {
+      margin-right: 4px;
+    }
+
+    &:hover {
+      filter: brightness(70%);
+      cursor: pointer;
+    }
+
+    &:disabled {
+      color: $grey-30;
+      filter: brightness(90%);
+      cursor: auto;
+    }
+  }
+
+  &__evaluate {
     font-size: 1.3rem;
     font-weight: $font-medium;
     color: $grey-45;
