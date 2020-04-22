@@ -10,7 +10,7 @@ describe('Acceptance | Controller | session-controller-get-certifications', () =
     server = await createServer();
   });
 
-  describe('GET /sessions/{id}/certifications', function() {
+  describe('GET /jury/sessions/{id}/certifications', function() {
     let sessionId;
 
     beforeEach(() => {
@@ -31,7 +31,7 @@ describe('Acceptance | Controller | session-controller-get-certifications', () =
         // when
         const response = await server.inject({
           method: 'GET',
-          url: `/api/sessions/${sessionId}/certifications`,
+          url: `/api/jury/sessions/${sessionId}/certifications`,
           payload: {},
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         });
@@ -107,7 +107,7 @@ describe('Acceptance | Controller | session-controller-get-certifications', () =
 
         request = {
           method: 'GET',
-          url: `/api/sessions/${sessionId}/certifications`,
+          url: `/api/jury/sessions/${sessionId}/certifications`,
           payload: {},
           headers: { authorization: generateValidRequestAuthorizationHeader(pixMasterId) },
         };

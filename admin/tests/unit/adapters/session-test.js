@@ -22,9 +22,19 @@ module('Unit | Adapter | session', function(hooks) {
   });
 
   module('#urlForFindRecord', function() {
-    test('should add /admin inside the default find record url', function(assert) {
+    test('should add /jury inside the default find record url', function(assert) {
       // when
       const url = adapter.urlForFindRecord(123, 'sessions');
+
+      // then
+      assert.ok(url.endsWith('/jury/sessions/123'));
+    });
+  });
+
+  module('#urlForUpdateMarks', function() {
+    test('should add /jury inside the default update record url', function(assert) {
+      // when
+      const url = adapter.urlForUpdateRecord(123);
 
       // then
       assert.ok(url.endsWith('/jury/sessions/123'));
@@ -44,7 +54,7 @@ module('Unit | Adapter | session', function(hooks) {
           adapter.updateRecord(null, { modelName: 'session' }, snapshot);
 
           // then
-          sinon.assert.calledWithExactly(adapter.ajax, 'http://localhost:3000/api/sessions/123/publication', 'PATCH', { data: { data: { attributes: { toPublish: isTrue } } } });
+          sinon.assert.calledWithExactly(adapter.ajax, 'http://localhost:3000/api/jury/sessions/123/publication', 'PATCH', { data: { data: { attributes: { toPublish: isTrue } } } });
           assert.ok(adapter);
         });
       });
@@ -68,7 +78,7 @@ module('Unit | Adapter | session', function(hooks) {
         await adapter.updateRecord(null, { modelName: 'session' }, { id: 123, adapterOptions: { certificationOfficerAssignment: true } });
 
         // then
-        sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/sessions/123/certification-officer-assignment', 'PATCH');
+        sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/jury/sessions/123/certification-officer-assignment', 'PATCH');
         assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
       });
     });

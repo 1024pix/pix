@@ -10,6 +10,10 @@ export default class SessionAdapter extends ApplicationAdapter {
     return `${this.host}/${this.namespace}/jury/sessions/${id}`;
   }
 
+  urlForUpdateRecord(id) {
+    return `${this.host}/${this.namespace}/jury/sessions/${id}`;
+  }
+
   updateRecord(store, type, snapshot) {
     if (snapshot.adapterOptions.flagResultsAsSentToPrescriber) {
       const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/results-sent-to-prescriber';
