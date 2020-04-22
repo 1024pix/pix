@@ -10,6 +10,27 @@ module('Unit | Adapter | session', function(hooks) {
     adapter = this.owner.lookup('adapter:session');
   });
 
+  module('#urlForQueryRecord', function() {
+
+    test('should add /jury inside the default query url', function(assert) {
+      // when
+      const url = adapter.urlForQuery();
+
+      // then
+      assert.ok(url.endsWith('/jury/sessions'));
+    });
+  });
+
+  module('#urlForFindRecord', function() {
+    test('should add /admin inside the default find record url', function(assert) {
+      // when
+      const url = adapter.urlForFindRecord(123, 'sessions');
+
+      // then
+      assert.ok(url.endsWith('/jury/sessions/123'));
+    });
+  });
+
   module('#updateRecord', function() {
 
     module('when updatePublishedCertification adapterOption is passed', function() {
