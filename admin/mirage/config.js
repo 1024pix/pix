@@ -23,7 +23,7 @@ export default function() {
   this.get('/organizations/:id/target-profiles', getOrganizationTargetProfiles);
   this.post('/organizations/:id/target-profiles', attachTargetProfiles);
 
-  this.get('/sessions/:id');
+  this.get('/jury/sessions/:id');
   this.get('/sessions/:id/certifications', getCertificationsBySessionId);
   this.get('/admin/certifications/:id');
 
