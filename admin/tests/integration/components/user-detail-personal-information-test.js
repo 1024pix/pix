@@ -39,7 +39,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
   });
 
   test('should display "OUI" when user accepted Pix App terms of service', async function(assert) {
-    this.set('user', { isPixTermsOfServiceAccepted: true });
+    this.set('user', { cgu: true });
 
     await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
@@ -47,7 +47,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
   });
 
   test('should display "NON" when user not accepted Pix App terms of service', async function(assert) {
-    this.set('user', { isPixTermsOfServiceAccepted: false });
+    this.set('user', { cgu: false });
 
     await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
@@ -55,7 +55,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
   });
 
   test('should display "OUI" when user accepted Pix Orga terms of service', async function(assert) {
-    this.set('user', { isPixOrgaTermsOfServiceAccepted: true });
+    this.set('user', { pixOrgaTermsOfServiceAccepted: true });
 
     await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
@@ -63,7 +63,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
   });
 
   test('should display "NON" when user not accepted Pix Orga terms of service', async function(assert) {
-    this.set('user', { isPixOrgaTermsOfServiceAccepted: false });
+    this.set('user', { pixOrgaTermsOfServiceAccepted: false });
 
     await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
@@ -71,7 +71,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
   });
 
   test('should display "OUI" when user accepted Pix Certif terms of service', async function(assert) {
-    this.set('user', { isPixCertifTermsOfServiceAccepted: true });
+    this.set('user', { pixCertifTermsOfServiceAccepted: true });
 
     await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
@@ -79,7 +79,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
   });
 
   test('should display "NON" when user not accepted Pix Certif terms of service', async function(assert) {
-    this.set('user', { isPixCertifTermsOfServiceAccepted: false });
+    this.set('user', { pixCertifTermsOfServiceAccepted: false });
 
     await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
