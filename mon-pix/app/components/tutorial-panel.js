@@ -1,10 +1,6 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 
 export default class TutorialPanel extends Component {
-  @tracked hint = null;
-  @tracked tutorials = null;
-
   get shouldDisplayHintOrTuto() {
     const tutorials = this.args.tutorials || [];
     const hint = this.args.hint || [];

@@ -41,7 +41,7 @@ describe('Integration | Component | tutorial panel', function() {
         ]);
       });
 
-      context('and the user is logged in', function() {
+      context('when the user is logged in', function() {
         beforeEach(function() {
           this.owner.register('service:currentUser', Service.extend({
             user: {
