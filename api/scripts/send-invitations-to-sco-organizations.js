@@ -12,6 +12,8 @@ const organizationInvitationService = require('../lib/domain/services/organizati
 const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
 const organizationInvitationRepository = require('../lib/infrastructure/repositories/organization-invitation-repository');
 
+const TAGS = ['JOIN_ORGA'];
+
 async function getOrganizationByExternalId(externalId) {
   return BookshelfOrganization
     .where({ externalId })
@@ -36,14 +38,14 @@ async function prepareDataForSending(objectsFromFile) {
   });
 }
 
-async function sendJoinOrganizationInvitations(invitations) {
+async function sendJoinOrganizationInvitations(invitations, tags) {
   return bluebird.mapSeries(invitations, ({ organizationId, email }, index) => {
     if (require.main === module) {
       process.stdout.write(`${index}/${invitations.length}\r`);
     }
 
     return organizationInvitationService.createOrganizationInvitation({
-      organizationRepository, organizationInvitationRepository, organizationId, email
+      organizationRepository, organizationInvitationRepository, organizationId, email, tags
     });
   });
 }
@@ -53,6 +55,8 @@ async function main() {
 
   try {
     const filePath = process.argv[2];
+    const argTags = process.argv[3];
+    const tags = argTags ? [argTags] : TAGS;
 
     console.log('Reading and parsing csv file... ');
     const csvData = parseCsvWithHeader(filePath);
@@ -63,7 +67,7 @@ async function main() {
     console.log('ok');
 
     console.log('Sending invitations...');
-    await sendJoinOrganizationInvitations(invitations);
+    await sendJoinOrganizationInvitations(invitations, tags);
     console.log('\nDone.');
 
   } catch (error) {
