@@ -219,7 +219,7 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/sessions/{id}/certifications',
+      path: '/api/jury/sessions/{id}/certifications',
       config: {
         validate: {
           params: Joi.object({
@@ -305,7 +305,7 @@ exports.register = async (server) => {
     },
     {
       method: 'PATCH',
-      path: '/api/sessions/{id}/publication',
+      path: '/api/jury/sessions/{id}/publication',
       config: {
         validate: {
           params: Joi.object({
@@ -326,7 +326,7 @@ exports.register = async (server) => {
     },
     {
       method: 'PUT',
-      path: '/api/sessions/{id}/results-sent-to-prescriber',
+      path: '/api/jury/sessions/{id}/results-sent-to-prescriber',
       config: {
         validate: {
           params: Joi.object({
@@ -349,7 +349,7 @@ exports.register = async (server) => {
     },
     {
       method: 'PATCH',
-      path: '/api/sessions/{id}/certification-officer-assignment',
+      path: '/api/jury/sessions/{id}/certification-officer-assignment',
       config: {
         validate: {
           params: Joi.object({
