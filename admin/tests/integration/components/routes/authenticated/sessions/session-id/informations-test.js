@@ -30,6 +30,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
       // then
       assert.equal(currentURL(), `/sessions/${session.id}`);
+      assert.dom('.session-info__details div:nth-child(1) div:last-child').hasText(session.certificationCenterName);
       assert.dom('.session-info__details div:nth-child(2) div:last-child').hasText(session.address);
       assert.dom('.session-info__details div:nth-child(3) div:last-child').hasText(session.room);
       assert.dom('.session-info__details div:nth-child(4) div:last-child').hasText(session.examiner);
@@ -38,34 +39,6 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       assert.dom('.session-info__details div:nth-child(7) div:last-child').hasText(session.description);
       assert.dom('.session-info__details div:nth-child(8) div:last-child').hasText(session.accessCode);
       assert.dom('.session-info__details div:nth-child(9) div:last-child').hasText(statusToDisplayName[session.status]);
-    });
-
-    module('when the session is linked to a real certification center', function() {
-
-      test('it should display the same name as the linked certification center name', async function(assert) {
-        // given
-        session = this.server.create('session', 'withCertificationCenter');
-
-        // when
-        await visit(`/sessions/${session.id}`);
-
-        // then
-        assert.dom('.session-info__details div:nth-child(1) div:last-child').hasText(session.certificationCenter.name);
-      });
-    });
-
-    module('when the session is not linked to a real certification center', function() {
-
-      test('it should display the certificationCenterName value in session', async function(assert) {
-        // given
-        session = this.server.create('session');
-
-        // when
-        await visit(`/sessions/${session.id}`);
-
-        // then
-        assert.dom('.session-info__details div:nth-child(1) div:last-child').hasText(session.certificationCenterName);
-      });
     });
 
   });
