@@ -30,7 +30,7 @@
     "build": "ember build --environment $BUILD_ENVIRONMENT",
     "preinstall": "test \"$(npm --version)\" = 6.13.4",
     "scalingo-post-ra-creation": "echo 'nothing to do'",
-    "start": "ember server --proxy",
+    "start": "ember serve --proxy http://localhost:3000",
     "test": "ember test --reporter dot",
     "test:lint": "npm test && npm run lint",
     "test:watch": "ember exam --serve --reporter dot"

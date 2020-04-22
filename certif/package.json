@@ -28,7 +28,7 @@
     "lint:hbs": "ember-template-lint .",
     "preinstall": "test \"$(npm --version)\" = 6.13.4",
     "scalingo-post-ra-creation": "echo 'nothing to do'",
-    "start": "ember serve --proxy",
+    "start": "ember serve --proxy http://localhost:3000",
     "test": "ember test"
   },
   "devDependencies": {
