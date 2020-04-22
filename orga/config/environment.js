@@ -68,7 +68,6 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
-    ENV.APP.API_HOST = 'http://localhost:3000';
     ENV.APP.CAMPAIGNS_ROOT_URL = 'http://localhost:4200/campagnes/';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
