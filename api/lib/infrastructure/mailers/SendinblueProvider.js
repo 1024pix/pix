@@ -1,4 +1,6 @@
+const _ = require ('lodash');
 const SibApiV3Sdk = require('sib-api-v3-sdk');
+
 const MailingProvider = require('./MailingProvider');
 const { mailing } = require('../../config');
 
@@ -18,9 +20,15 @@ function _formatPayload(options) {
       'accept': 'application/json',
     },
   };
+
   if (options.variables) {
     payload.params = options.variables;
   }
+
+  if (_.isArray(options.tags) && !_.isEmpty(options.tags)) {
+    payload.tags = options.tags;
+  }
+
   return payload;
 }
 
