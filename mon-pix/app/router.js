@@ -20,6 +20,13 @@ Router.map(function() {
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
   this.route('user-tutorials', { path: '/mes-tutos' });
+  this.route('login', { path: '/connexion' });
+  this.route('logout', { path: '/deconnexion' });
+  this.route('login-or-register-to-access-restricted-campaign', { path: '/campagnes/:campaign_code/identification' });
+  this.route('not-connected', { path: '/nonconnecte' });
+  this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
+  this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
+  this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
 
   this.route('authenticated', { path: '' }, function() {
     this.route('profile', { path: '/profil' });
@@ -31,6 +38,11 @@ Router.map(function() {
     this.route('user-certifications', { path: 'mes-certifications' }, function() {
       this.route('get', { path: '/:id' });
     });
+    this.route('competences', { path: '/competences/:competence_id' }, function() {
+      this.route('details');
+      this.route('results', { path: '/resultats/:assessment_id' });
+      this.route('resume', { path: '/evaluer' });
+    });
   });
 
   this.route('assessments', { path: '/assessments/:assessment_id' }, function() {
@@ -39,14 +51,6 @@ Router.map(function() {
     this.route('results');
     this.route('checkpoint');
   });
-
-  this.route('login', { path: '/connexion' });
-  this.route('logout', { path: '/deconnexion' });
-  this.route('login-or-register-to-access-restricted-campaign', { path: '/campagnes/:campaign_code/identification' });
-  this.route('not-connected', { path: '/nonconnecte' });
-  this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
-  this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
-  this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
 
   this.route('campaigns', { path: '/campagnes' }, function() {
     this.route('fill-in-campaign-code', { path: '/' });
@@ -57,12 +61,6 @@ Router.map(function() {
     this.route('tutorial', { path: '/:campaign_code/didacticiel' });
     this.route('skill-review', { path: '/:campaign_code/resultats/:assessment_id' });
     this.route('send-profile', { path: '/:campaign_code/envoi-profil' });
-  });
-
-  this.route('competences', { path: '/competences/:competence_id' }, function() {
-    this.route('details');
-    this.route('results', { path: '/resultats/:assessment_id' });
-    this.route('resume', { path: '/evaluer' });
   });
 
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE

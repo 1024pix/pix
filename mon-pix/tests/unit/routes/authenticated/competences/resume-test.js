@@ -23,7 +23,7 @@ describe('Unit | Route | Competence | Resume', function() {
       queryRecord: queryRecordStub
     });
 
-    route = this.owner.lookup('route:competences.resume');
+    route = this.owner.lookup('route:authenticated.competences.resume');
     route.set('store', storeStub);
     route.replaceWith = sinon.stub();
   });

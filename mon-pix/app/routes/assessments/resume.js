@@ -111,7 +111,7 @@ export default class ResumeRoute extends Route {
       return this.replaceWith('campaigns.skill-review', assessment.codeCampaign, assessment.id);
     }
     if (assessment.isCompetenceEvaluation) {
-      return this.replaceWith('competences.results', assessment.competenceId, assessment.id);
+      return this.replaceWith('authenticated.competences.results', assessment.competenceId, assessment.id);
     }
     return this.replaceWith('assessments.results', assessment.id);
   }

@@ -57,7 +57,7 @@
     {{/if}}
 
     {{#unless scorecard.isFinished}}
-      <LinkTo @route="competences.resume"
+      <LinkTo @route="authenticated.competences.resume"
               @model={{scorecard.competenceId}}
               class={{concat "button button--big button--thin button--round button--link button--green " (if scorecard.isNotStarted "" "scorecard-details__resume-or-start-button")}}>
         {{#if scorecard.isStarted}}

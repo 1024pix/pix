@@ -1,5 +1,5 @@
 <article class="competence-card">
-  <LinkTo @route="competences.details" @model={{scorecard.competenceId}}>
+  <LinkTo @route="authenticated.competences.details" @model={{scorecard.competenceId}}>
     <header class="competence-card__header">
       <span class="competence-card__color competence-card__color--{{scorecard.area.color}}"></span>
       <span class="competence-card__area-name">{{scorecard.area.title}}</span>
@@ -35,7 +35,7 @@
   {{else}}
     <footer class="competence-card__footer">
       {{#unless scorecard.isFinished}}
-        <LinkTo @route="competences.resume" @model={{scorecard.competenceId}} class="button button--extra-thin button--round button--link button--green competence-card__button">
+        <LinkTo @route="authenticated.competences.resume" @model={{scorecard.competenceId}} class="button button--extra-thin button--round button--link button--green competence-card__button">
           <span class="competence-card-button__label">
             {{#if scorecard.isStarted}}
               Reprendre

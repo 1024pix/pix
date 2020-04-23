@@ -26,7 +26,7 @@ describe('Unit | Route | Competences | Results', function() {
         isAuthenticated: true,
       });
 
-      route = this.owner.lookup('route:competences.results');
+      route = this.owner.lookup('route:authenticated.competences.results');
       route.set('store', storeStub);
       route.set('session', sessionStub);
       route.transitionTo = sinon.stub();

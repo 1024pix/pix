@@ -1,5 +1,5 @@
 <article class="competence-card">
-  <LinkTo @route="competences.details" @model={{scorecard.competenceId}} class="competence-card__link">
+  <LinkTo @route="authenticated.competences.details" @model={{scorecard.competenceId}} class="competence-card__link">
     <span class="competence-card__color competence-card__color--{{scorecard.area.color}}"></span>
     <header class="competence-card__header">
       <span class="competence-card__area-name">{{scorecard.area.title}}</span>
