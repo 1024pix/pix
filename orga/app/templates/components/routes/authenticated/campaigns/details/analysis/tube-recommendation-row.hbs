@@ -1,0 +1,55 @@
+<tr aria-label="Sujet">
+  <td class="campaign-details-table__line-wrapper">
+    <span class="campaign-details-table__bullet campaign-details-table__bullet--{{@tubeRecommendation.areaColor}}">
+      &#8226;
+    </span>
+    <span class={{concat "tube-recommendation-title " (if this.isOpen "tube-recommendation-title--open")}}>
+      {{@tubeRecommendation.tubePracticalTitle}}<br />
+      <sub class={{concat "tube-recommendation-subtitle " (if this.isOpen "tube-recommendation-subtitle--open")}}>
+        {{@tubeRecommendation.competenceName}}
+      </sub>
+    </span>
+  </td>
+  <td>
+    <RecommendationIndicator @value={{@tubeRecommendation.averageScore}} />
+  </td>
+  <td class="table__column--right">
+    <button type="button" class="icon-button" {{on 'click' this.toggleTutorialsSection}} aria-expanded="{{this.isOpen}}">
+      {{#if this.isOpen}}
+        <FaIcon @icon="chevron-up" />
+      {{else}}
+        <FaIcon @icon="chevron-down" />
+      {{/if}}
+    </button>
+  </td>
+</tr>
+{{#if this.isOpen}}
+  <tr>
+    <td colspan="3" class="tube-recommendation-tutorial__column">
+      {{#if (eq @tubeRecommendation.tutorials.length 0)}}
+        <h3 class="tube-recommendation-tutorial__title">Aucun tuto recommandé pour ce sujet.</h3>
+      {{else}}
+        <h3 class="tube-recommendation-tutorial__title">
+          {{#if (eq @tubeRecommendation.tutorials.length 1)}}
+            1 tuto recommandé par la communauté Pix
+          {{else}}
+            {{@tubeRecommendation.tutorials.length}} tutos recommandés par la communauté Pix
+          {{/if}}
+        </h3>
+        <table class="tube-recommendation-tutorial-table">
+          <tbody>
+            {{#each @tubeRecommendation.tutorials as |tutorial|}}
+              <tr aria-label="Tutoriel" class="table__row--small">
+                <td class="tube-recommendation-tutorial-table__row">
+                  <a href={{tutorial.link}} class="link" target="_blank" rel="noopener noreferrer">
+                    {{tutorial.title}}
+                  </a>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
+    </td>
+  </tr>
+{{/if}}

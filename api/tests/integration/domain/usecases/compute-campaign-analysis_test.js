@@ -10,6 +10,7 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
   let tubeRepository;
   let knowledgeElementRepository;
   let campaignParticipationRepository;
+  let tutorialRepository;
 
   const userId = 1;
   const campaignId = 'someCampaignId';
@@ -21,6 +22,7 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
     tubeRepository = { list: sinon.stub() };
     knowledgeElementRepository = { findByCampaignIdForSharedCampaignParticipation: sinon.stub() };
     campaignParticipationRepository = { countSharedParticipationOfCampaign: sinon.stub() };
+    tutorialRepository = { list: sinon.stub() };
   });
 
   context('User has access to this result', () => {
@@ -30,7 +32,8 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
       const competence = domainBuilder.buildCompetence({ area });
       const knowledgeElementSkill1 = { skillId: 'skillId', userId: 1 };
       const knowledgeElementSkill2 = { skillId: 'skillId2', userId: 1 };
-      const skill = domainBuilder.buildSkill({ id: 'skillId', name: '@url1', competenceId: competence.id, tubeId: 'tubeId' });
+      const tutorial = domainBuilder.buildTutorial({ id: 'recTuto1' });
+      const skill = domainBuilder.buildSkill({ id: 'skillId', name: '@url1', competenceId: competence.id, tubeId: 'tubeId', tutorialIds: [tutorial.id] });
       const skill2 = domainBuilder.buildSkill({ id: 'skillId2', name: '@url2', competenceId: competence.id, tubeId: 'otherTubeId' });
       const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill, skill2] });
       const tube = domainBuilder.buildTube({ id: 'tubeId', competenceId: competence.id, skills: [skill] });
@@ -42,8 +45,9 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
         competence,
         validatedKnowledgeElements: [knowledgeElementSkill1],
         skills: [skill],
-        maxSkillLevelInTargetProfile:  2,
-        participantsCount:  1
+        maxSkillLevelInTargetProfile: 2,
+        participantsCount: 1,
+        tutorials: [tutorial],
       });
 
       const campaignOtherTubeRecommendation = domainBuilder.buildCampaignTubeRecommendation({
@@ -52,8 +56,9 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
         competence,
         validatedKnowledgeElements: [knowledgeElementSkill2],
         skills: [skill2],
-        maxSkillLevelInTargetProfile:  2,
-        participantsCount: 1
+        maxSkillLevelInTargetProfile: 2,
+        participantsCount: 1,
+        tutorials: [],
       });
 
       targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
@@ -63,6 +68,7 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
       tubeRepository.list.resolves([tube, otherTube]);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
       targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
+      tutorialRepository.list.resolves([tutorial]);
 
       const expectedResult = {
         id: campaignId,
@@ -78,7 +84,8 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
         targetProfileRepository,
         tubeRepository,
         knowledgeElementRepository,
-        campaignParticipationRepository
+        campaignParticipationRepository,
+        tutorialRepository,
       });
 
       // then

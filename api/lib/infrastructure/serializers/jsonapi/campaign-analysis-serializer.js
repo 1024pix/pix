@@ -1,4 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
+const tutorialAttributes = require('./tutorial-attributes');
 
 module.exports = {
   serialize(results) {
@@ -7,7 +8,8 @@ module.exports = {
       campaignTubeRecommendations: {
         ref: 'id',
         includes: true,
-        attributes: ['tubeId', 'competenceId', 'competenceName', 'tubePracticalTitle', 'areaColor', 'averageScore'],
+        attributes: ['tubeId', 'competenceId', 'competenceName', 'tubePracticalTitle', 'areaColor', 'averageScore', 'tutorials'],
+        tutorials: tutorialAttributes
       },
     }).serialize(results);
   },

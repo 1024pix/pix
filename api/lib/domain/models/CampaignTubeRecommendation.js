@@ -12,7 +12,8 @@ class CampaignTubeRecommendation {
     skills,
     validatedKnowledgeElements,
     participantsCount,
-    maxSkillLevelInTargetProfile
+    maxSkillLevelInTargetProfile,
+    tutorials,
   } = {}) {
     // attributes
     this.campaignId = campaignId;
@@ -25,6 +26,7 @@ class CampaignTubeRecommendation {
     if (participantsCount) {
       this.averageScore = this._computeAverageScore(validatedKnowledgeElements, skills, participantsCount, maxSkillLevelInTargetProfile);
     }
+    this.tutorials = tutorials;
   }
 
   get id() {

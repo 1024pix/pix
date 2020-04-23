@@ -25,6 +25,11 @@ module.exports = {
     }
   },
 
+  async list() {
+    const tutorialData = await tutorialDatasource.list();
+    return _.map(tutorialData, _toDomain);
+  },
+
 };
 
 function _toDomain(tutorialData) {
