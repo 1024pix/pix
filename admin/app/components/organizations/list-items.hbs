@@ -9,22 +9,25 @@
         </tr>
         <tr>
           <th>
-            <Input id="name"
-                   @value={{@name}}
-                   @key-up={{fn @triggerFiltering "name" @name}}
+            <input id="name"
+                   type="text"
+                   value={{@name}}
+                   oninput={{perform @triggerFiltering 'name'}}
                    class="table-admin-input" />
           </th>
           <th>
-            <Input id="type"
-                   @value={{@type}}
-                   @key-up={{fn @triggerFiltering "type" @type}}
-                   class="table-admin-input"/>
+            <input id="type"
+                   type="text"
+                   value={{@type}}
+                   oninput={{perform @triggerFiltering 'type'}}
+                   class="table-admin-input" />
           </th>
           <th>
-            <Input id="externalId"
-                   @value={{@externalId}}
-                   @key-up={{fn @triggerFiltering "externalId" @externalId}}
-                   class="table-admin-input"/>
+            <input id="externalId"
+                   type="text"
+                   value={{@externalId}}
+                   oninput={{perform @triggerFiltering 'externalId'}}
+                   class="table-admin-input" />
           </th>
         </tr>
       </thead>

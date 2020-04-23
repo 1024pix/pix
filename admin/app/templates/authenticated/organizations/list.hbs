@@ -11,9 +11,9 @@
   <section class="page-section">
     <Organizations::ListItems
       @organizations={{@model}}
-      @name={{name}}
-      @type={{type}}
-      @externalId={{externalId}}
+      @name={{this.name}}
+      @type={{this.type}}
+      @externalId={{this.externalId}}
       @triggerFiltering={{this.triggerFiltering}}
       @goToOrganizationPage={{this.goToOrganizationPage}} />
   </section>
