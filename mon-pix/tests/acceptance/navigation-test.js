@@ -23,16 +23,12 @@ describe('Acceptance | Navbar', function() {
 
     [
       {
-        initialRoute: '/certifications', initialNavigationItem: '.navbar-desktop-header-menu__item:nth-child(3)',
+        initialRoute: '/certifications', initialNavigationItem: '.navbar-desktop-header-menu__item:nth-child(2)',
         expectedRoute: '/profil', targetedNavigationItem: '.navbar-desktop-header-menu__item:nth-child(1)',
       },
       {
         initialRoute: '/profil', initialNavigationItem: '.navbar-desktop-header-menu__item:nth-child(1)',
-        expectedRoute: '/campagnes', targetedNavigationItem: '.navbar-desktop-header-menu__item:nth-child(2)'
-      },
-      {
-        initialRoute: '/campagnes', initialNavigationItem: '.navbar-desktop-header-menu__item:nth-child(2)',
-        expectedRoute: '/certifications', targetedNavigationItem: '.navbar-desktop-header-menu__item:nth-child(3)'
+        expectedRoute: '/certifications', targetedNavigationItem: '.navbar-desktop-header-menu__item:nth-child(2)'
       },
     ].forEach((usecase) => {
       it(`should redirect from "${usecase.initialRoute}" to "${usecase.expectedRoute}"`, async function() {
@@ -66,7 +62,7 @@ describe('Acceptance | Navbar', function() {
       await visit('/profil');
 
       // then
-      expect(find('.navbar-desktop-header-menu__item:nth-child(4)').getAttribute('href')).to.equal('https://pix.fr/aide');
+      expect(find('.navbar-desktop-header-menu__item:nth-child(3)').getAttribute('href')).to.equal('https://pix.fr/aide');
     });
   });
 });

@@ -40,8 +40,7 @@ describe('Integration | Component | navbar-burger-menu', function() {
 
     expect(findAll('.navbar-burger-menu-navigation__item')).to.have.lengthOf(4);
     expect(findAll('.navbar-burger-menu-navigation__item')[0].textContent.trim()).to.equal('Profil');
-    expect(findAll('.navbar-burger-menu-navigation__item')[1].textContent.trim()).to.equal('Parcours');
-    expect(findAll('.navbar-burger-menu-navigation__item')[2].textContent.trim()).to.equal('Certification');
-    expect(findAll('.navbar-burger-menu-navigation__item')[3].textContent.trim()).to.equal('Aide');
+    expect(findAll('.navbar-burger-menu-navigation__item')[1].textContent.trim()).to.equal('Certification');
+    expect(findAll('.navbar-burger-menu-navigation__item')[2].textContent.trim()).to.equal('Aide');
   });
 });
