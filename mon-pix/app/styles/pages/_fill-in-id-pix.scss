@@ -18,16 +18,16 @@
   font-family: $font-open-sans;
 
   &__title {
-    font-size: 3rem;
+    font-size: 1.875rem;
     font-weight: $font-bold;
 
     @include device-is('tablet') {
-      font-size: 3.2rem;
+      font-size: 2rem;
     }
   }
 
   &__announcement {
-    font-size: 1.8rem;
+    font-size: 1.125rem;
     margin-bottom: 40px;
   }
 }
@@ -51,7 +51,7 @@
 .fill-in-id-pix__form label {
   display: block;
   font-weight: $font-bold;
-  font-size: 1.5rem;
+  font-size: 0.938rem;
   margin-bottom: 5px;
 }
 
@@ -77,6 +77,6 @@
 
 .fill-in-id-pix__form__error-message {
   margin-top: 5px;
-  font-size: 1.2rem;
+  font-size: 0.75rem;
   color: red;
 }

@@ -62,7 +62,7 @@
     text-align: center;
     border-radius: 3px;
     color: $white;
-    font-size: 1.4rem;
+    font-size: 0.875rem;
     padding: 9px;
     margin: 10px 0;
 
@@ -89,7 +89,7 @@
     flex-direction: column;
     text-align: center;
     font-family: $font-open-sans;
-    font-size: 1.6rem;
+    font-size: 1rem;
 
     @include device-is('tablet') {
       flex-direction: row;
@@ -118,7 +118,7 @@
 
   &__instruction {
     margin: 10px 0;
-    font-size: 1.4rem;
+    font-size: 0.875rem;
   }
 
   &__input {
@@ -168,29 +168,29 @@
   font-family: $font-open-sans;
   color: $charcoal-grey;
   margin: 0;
-  font-size: 2.5rem;
+  font-size: 1.563rem;
   font-weight: $font-light;
 
   @include device-is('desktop') {
-    font-size: 3.6rem;
+    font-size: 2.25rem;
   }
 }
 
 .sign-form-subtitle {
   font-family: $font-open-sans;
   color: $charcoal-grey;
-  font-size: 1.5rem;
+  font-size: 0.938rem;
   font-weight: $font-light;
   line-height: 28px;
   text-align: center;
 
   @include device-is('tablet') {
-    font-size: 2.2rem;
+    font-size: 1.375rem;
   }
 }
 
 .sign-form-instruction {
-  font-size: 1.5rem;
+  font-size: 0.938rem;
   font-weight: $font-light;
   color: $charcoal-grey;
 }
@@ -198,13 +198,13 @@
 .sign-form-text {
   color: $charcoal-grey;
   font-family: $font-open-sans;
-  font-size: 1.0rem;
+  font-size: 0.625rem;
 
   @include device-is('tablet') {
-    font-size: 1.5rem;
+    font-size: 0.938rem;
   }
 }
 
 .sign-form-link {
-  font-size: 1.5rem;
+  font-size: 0.938rem;
 }

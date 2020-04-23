@@ -37,7 +37,7 @@
   &__title {
     color: $nero;
     font-family: $font-open-sans;
-    font-size: 4.2rem;
+    font-size: 2.625rem;
     font-weight: $font-light;
     text-align: center;
     margin-bottom: 12px;
@@ -46,7 +46,7 @@
   &__subtitle {
     color: $nero;
     font-family: $font-open-sans;
-    font-size: 1.8rem;
+    font-size: 1.125rem;
     font-weight: $font-light;
     text-align: center;
     margin-bottom: 30px;
@@ -54,19 +54,19 @@
 
   &__label {
     font-family: $font-roboto;
-    font-size: 1.5rem;
+    font-size: 0.938rem;
     font-weight: $font-medium;
   }
 
   &__field-error {
     color: $pure-orange;
-    font-size: 1.4rem;
+    font-size: 0.875rem;
   }
 
   &__error {
     text-align: center;
     color: $pure-orange;
-    font-size: 1.5rem;
+    font-size: 0.938rem;
     padding: 4px 10px;
 
     @include device-is('tablet') {

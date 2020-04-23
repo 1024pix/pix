@@ -38,9 +38,9 @@
   }
 
   &__description {
-    font-size: 1.6rem;
+    font-size: 1rem;
     margin: auto;
-    line-height: 2.7rem;
+    line-height: 1.688rem;
     letter-spacing: 0.15px;
     max-width: 440px;
 
@@ -114,17 +114,17 @@
     font-family: $font-open-sans;
     font-weight: $font-normal;
     letter-spacing: 0;
-    line-height: 4rem;
+    line-height: 2.5rem;
 
     @include device-is('tablet') {
-      line-height: 5.4rem;
+      line-height: 3.375rem;
     }
   }
 
   &-instructions__description {
     margin: 0;
-    font-size: 1.6rem;
-    line-height: 2.7rem;
-    letter-spacing: 0.015rem;
+    font-size: 1rem;
+    line-height: 1.688rem;
+    letter-spacing: 0.009rem;
   }
 }

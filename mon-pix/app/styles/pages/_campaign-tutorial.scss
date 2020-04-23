@@ -40,12 +40,12 @@
   &__explanation-text {
     color: $nero;
     font-family: $font-open-sans;
-    font-size: 1.8rem;
+    font-size: 1.125rem;
     text-align: center;
     white-space: pre-line;
 
     @include device-is('tablet') {
-      font-size: 2rem;
+      font-size: 1.25rem;
     }
   }
 

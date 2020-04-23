@@ -10,16 +10,16 @@
   &__title {
     color: $grey-90;
     font-family: $font-open-sans;
-    font-size: 3.2rem;
+    font-size: 2rem;
     text-align: center;
     font-weight: $font-light;
   }
 
   &__instruction {
     color: $grey-90;
-    font-size: 2rem;
+    font-size: 1.25rem;
     font-family: $font-open-sans;
-    line-height: 4rem;
+    line-height: 2.5rem;
     text-align: center;
     margin: 30px;
     font-weight: $font-light;
@@ -54,13 +54,13 @@
   &__recipient {
     color: $grey-90;
     font-family: $font-open-sans;
-    font-size: 2rem;
+    font-size: 1.25rem;
     font-weight: $font-medium;
   }
 
   &__warning {
     color: $grey-90;
-    font-size: 1.2rem;
+    font-size: 0.75rem;
     letter-spacing: 0.36px;
     padding-top: 10px;
   }
