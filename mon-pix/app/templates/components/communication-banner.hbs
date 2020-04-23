@@ -1,0 +1,16 @@
+{{#if this.isEnabled}}
+  <div class="communication-banner communication-banner--{{this.bannerType}}">
+    <div class="communication-banner__content">
+      <span class="communication-banner__icon">
+        {{#if this.isError}}
+          <FaIcon @icon="exclamation-triangle"></FaIcon>
+        {{else if this.isWarning}}
+          <FaIcon @icon="exclamation-circle"></FaIcon>
+        {{else}}
+          <FaIcon @icon="info-circle"></FaIcon>
+        {{/if}}
+      </span>
+      {{this.bannerContent}}
+    </div>
+  </div>
+{{/if}}
