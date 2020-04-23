@@ -4,6 +4,6 @@
 
   &__bubble {
     padding: 2px;
-    fill: $blue;
+    fill: lighten($blue, 10%);
   }
 }
