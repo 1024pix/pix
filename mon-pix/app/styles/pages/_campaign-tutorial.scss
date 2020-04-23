@@ -21,13 +21,13 @@
   &__title {
     color: $pix-blue;
     font-family: $font-open-sans;
-    font-size: 2em;
+    font-size: 1.25rem;
     font-weight: 600;
     line-height: 40px;
     text-align: center;
 
     @include device-is('tablet') {
-      font-size: 3em;
+      font-size: 1.875rem;
     }
   }
 
