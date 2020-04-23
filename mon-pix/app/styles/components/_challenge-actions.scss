@@ -47,11 +47,11 @@
 .challenge-actions__action-skip-text {
   text-align: center;
   flex-grow: 1;
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-weight: $font-semi-bold;
   color: $slate-grey;
   text-transform: uppercase;
-  letter-spacing: 0.05rem;
+  letter-spacing: 0.031rem;
 }
 .challenge-actions__action-skip__loader {
   margin-right: 15px;
@@ -99,10 +99,10 @@
 .challenge-actions__action-validate-text {
   width: 76px;
   flex-grow: 1;
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-weight: $font-semi-bold;
   text-transform: uppercase;
-  letter-spacing: 0.15rem;
+  letter-spacing: 0.094rem;
   color: white;
   text-decoration: none;
 }
@@ -130,10 +130,10 @@
 
 .challenge-actions__already-answered {
   font-family: $font-roboto;
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-weight: 600;
   color: $tundora-grey;
-  letter-spacing: 0.05rem;
+  letter-spacing: 0.031rem;
   margin-right: 20px;
 }
 
@@ -164,10 +164,10 @@
   width: 76px;
   padding: 0;
   font-family: $font-roboto;
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-weight: $font-semi-bold;
   text-transform: uppercase;
-  letter-spacing: 0.15rem;
+  letter-spacing: 0.094rem;
   color: white;
   text-decoration: none;
 }

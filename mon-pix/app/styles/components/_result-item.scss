@@ -22,7 +22,7 @@
 
 .result-item__instruction {
   width: 82%;
-  font-size: 1.6rem;
+  font-size: 1rem;
   margin-left: 10px;
   overflow: hidden;
 
@@ -33,7 +33,7 @@
 }
 
 .result-item__correction {
-  font-size: 1.2rem;
+  font-size: 0.75rem;
   margin-right: 26px;
   margin-left: 35px;
 
@@ -44,7 +44,7 @@
 
 .result-item__correction-button {
   font-weight: $font-normal;
-  font-size: 1.4rem;
+  font-size: 0.875rem;
   color: $pix-blue;
   border: none;
   outline: none;
@@ -61,7 +61,7 @@
 
 .result-item__icon {
   margin-left: 10px;
-  font-size: 2.2rem;
+  font-size: 1.375rem;
 
   @include device-is('tablet') {
     margin-left: 30px;

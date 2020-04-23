@@ -4,10 +4,10 @@
 }
 
 .form-textfield__label {
-  font-size: 1.5rem;
+  font-size: 0.938rem;
   font-weight: $font-medium;
   color: $charcoal-grey;
-  letter-spacing: 0.05rem;
+  letter-spacing: 0.031rem;
 }
 
 .form-textfield__help {
@@ -90,7 +90,7 @@
 
 
 .form-textfield__message {
-  font-size: 1.4rem;
+  font-size: 0.875rem;
 }
 
 .form-textfield__message--error {
@@ -151,7 +151,7 @@
   &__eye {
     color: $dove-gray;
     transition: .5s;
-    font-size: 1.8rem;
+    font-size: 1.125rem;
     margin-top: 1px;
 
     &:hover {

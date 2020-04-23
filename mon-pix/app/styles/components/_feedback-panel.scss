@@ -1,6 +1,6 @@
 .feedback-panel {
   color: $charcoal-grey;
-  font-size: 1.5rem;
+  font-size: 0.938rem;
   margin-top: -18px;
 }
 
@@ -12,7 +12,7 @@
   color: $dusty-grey;
   font-family: $font-roboto;
   font-weight: $font-medium;
-  font-size: 1.4rem;
+  font-size: 0.875rem;
   line-height: 20px;
 }
 
@@ -27,12 +27,12 @@
 
 .feedback-panel__form-description {
   margin-bottom: 20px;
-  font-size: 2rem;
+  font-size: 1.25rem;
 }
 
 .feedback-panel__form-description p {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 0.938rem;
   font-family: $font-open-sans;
 }
 
@@ -55,7 +55,7 @@
   border: solid 1px $alto-grey;
   box-sizing: border-box;
   padding: 8px;
-  font-size: 1.4rem;
+  font-size: 0.875rem;
 }
 
 .feedback-panel__category-selection {
@@ -65,7 +65,7 @@
 
 .feedback-panel__dropdown {
   font-family: $font-roboto;
-  font-size: 1.5rem;
+  font-size: 0.938rem;
   color: $charcoal-grey;
 
   margin: 5px 0;
@@ -76,7 +76,7 @@
 }
 
 .feedback-panel__quick-help {
-  font-size: 1.5rem;
+  font-size: 0.938rem;
   margin-top: 20px;
   font-weight: bold;
   text-align: justify;
@@ -124,7 +124,7 @@
   border-top: 1px solid $alto-grey;
 
   & p {
-    font-size: 1.2rem;
+    font-size: 0.75rem;
   }
 }
 
@@ -133,7 +133,7 @@
 
 .feedback-panel__view--mercix {
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 1.125rem;
   color: $charcoal-grey;
   padding-top: 20px;
   padding-bottom: 10px;

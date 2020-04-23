@@ -40,7 +40,7 @@
 }
 
 .checkpoint-legend {
-  font-size: 1.3rem;
+  font-size: 0.813rem;
   font-weight: $font-light;
   color: $white;
   margin: 6px 0;
@@ -107,16 +107,16 @@
   text-align: center;
 
   &__header {
-    font-size: 4.2rem;
-    line-height: 4.8rem;
+    font-size: 2.625rem;
+    line-height: 3rem;
     font-weight: $font-light;
     margin-bottom: 60px;
   }
 
   &__info {
     color: $dove-gray;
-    font-size: 2.4rem;
-    line-height: 3.3rem;
+    font-size: 1.5rem;
+    line-height: 2.063rem;
     font-weight: $font-light;
     margin-bottom: 60px;
     max-width: 100%;

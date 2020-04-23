@@ -43,11 +43,11 @@
   }
 
   .competence-card__area-name {
-    font-size: 0.9rem;
+    font-size: 0.563rem;
   }
 
   .competence-card__competence-name {
-    font-size: 1.6rem;
+    font-size: 1rem;
   }
 
   .competence-card__competence-name {
@@ -145,7 +145,7 @@
 
   .competence-card__score-value--congrats {
     color: $white;
-    font-size: 4.5rem;
+    font-size: 2.813rem;
     font-weight: $font-bold;
   }
 
@@ -159,9 +159,9 @@
     height: 34px;
     color: $pix-grey-hover;
     font-family: $font-open-sans;
-    font-size: 1.5rem;
+    font-size: 0.938rem;
     font-weight: $font-bold;
-    letter-spacing: 0.1rem;
+    letter-spacing: 0.063rem;
     text-transform: uppercase;
   }
 
@@ -172,7 +172,7 @@
     color: $dusty-grey;
     opacity: 0;
     text-transform: uppercase;
-    font-size: 1rem;
+    font-size: 0.625rem;
     transition: opacity 0.1s linear;
     letter-spacing: 0.5px;
   }
