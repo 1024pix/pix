@@ -8,7 +8,7 @@
   color: $charcoal-grey;
   font-family: $font-open-sans;
   font-weight: $font-light;
-  font-size: 2rem;
+  font-size: 1.25rem;
   line-height: 28px;
   text-align: center;
   margin-top: 5px;
@@ -17,7 +17,7 @@
 
 .certification-course-page__cgu {
   color: $charcoal-grey;
-  font-size: 1.2rem;
+  font-size: 0.75rem;
   line-height: 18px;
   text-align: justify;
   margin: 5px 30px 5px 30px;
@@ -50,7 +50,7 @@
     $silver-grey 1ch,
     transparent 0,
     transparent 1ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
-  font-size: 3rem;
+  font-size: 1.875rem;
   font-family: $font-roboto-mono;
   letter-spacing: $space-between-dashes;
   background-position-x: 0.5ch;
@@ -83,7 +83,7 @@
 
 .certification-course-page__errors {
   color: $pure-orange;
-  font-size: 1.4rem;
+  font-size: 0.875rem;
   text-align: center;
   margin: 5px 5px 5px 5px;
 }

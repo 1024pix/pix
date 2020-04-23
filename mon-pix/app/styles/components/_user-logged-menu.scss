@@ -28,8 +28,8 @@
 .logged-user-name {
   word-break: break-all;
   font-family: $font-roboto;
-  font-size: 1.6rem;
-  letter-spacing: 0.05rem;
+  font-size: 1rem;
+  letter-spacing: 0.031rem;
   text-align: right;
   color: $dove-gray;
   text-transform: capitalize;
@@ -74,7 +74,7 @@
 }
 
 .logged-user-menu-details__fullname {
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-weight: $font-bold;
   white-space: nowrap;
   overflow: hidden;
@@ -82,14 +82,14 @@
 }
 
 .logged-user-menu-details__identifier {
-  font-size: 1.3rem;
+  font-size: 0.813rem;
   color: $dove-gray;
 }
 
 .logged-user-menu__link {
   display: flex;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: 0.938rem;
   padding: 12px 16px;
   color: $charcoal-grey;
   transition: background-color 0.1s linear;

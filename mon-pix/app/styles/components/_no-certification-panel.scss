@@ -6,11 +6,11 @@
   background-color: white;
   color: $charcoal-grey;
   font-family: $font-open-sans;
-  font-size: 1.7rem;
+  font-size: 1.063rem;
 
   @include device-is('tablet') {
     margin: 0 50px;
-    font-size: 2rem;
+    font-size: 1.25rem;
 
   }
 

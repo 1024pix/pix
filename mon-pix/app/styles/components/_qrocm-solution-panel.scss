@@ -1,13 +1,13 @@
 .correction-qrocm {
   &__text {
     display: inline-block;
-    font-size: 1.6rem;
-    line-height: 2.8rem;
+    font-size: 1rem;
+    line-height: 1.75rem;
     color: $charcoal-grey;
   }
 
   &__answer {
-    line-height: 2.6rem;
+    line-height: 1.625rem;
     border-radius: 3px;
     background-color: $white;
     box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
@@ -49,7 +49,7 @@
     &-text {
       font-weight: $font-bold;
       color: $caribbean-green;
-      font-size: 1.6rem;
+      font-size: 1rem;
       margin-left: 3px;
       padding-bottom: 1px;
     }

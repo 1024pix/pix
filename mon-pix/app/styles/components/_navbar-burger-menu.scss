@@ -24,7 +24,7 @@
     margin: 5px 0;
     padding: 6px 32px;
     color: $white;
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-family: $font-open-sans;
 
     &.active,
@@ -37,7 +37,7 @@
 
 .navbar-burger-menu-user-info-item {
   &__name {
-    font-size: 2rem;
+    font-size: 1.25rem;
     font-weight: $font-semi-bold;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -45,7 +45,7 @@
   }
 
   &__email {
-    font-size: 1.2rem;
+    font-size: 0.75rem;
     font-weight: $font-light;
     padding: 0;
     text-overflow: ellipsis;
@@ -54,7 +54,7 @@
   }
 
   &__logout {
-    font-size: 1.5rem;
+    font-size: 0.938rem;
     text-decoration: underline;
     margin: 10px 0;
 
@@ -72,7 +72,7 @@
     margin: 5px 0;
     padding: 10px 32px;
     color: $gray;
-    font-size: 1.8rem;
+    font-size: 1.125rem;
     font-family: $font-roboto;
 
     &.active {

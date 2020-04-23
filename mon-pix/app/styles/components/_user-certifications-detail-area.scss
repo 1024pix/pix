@@ -21,14 +21,14 @@
   background-color: $mercury-grey;
   color: $charcoal-grey;
   font-family: $font-open-sans;
-  font-size: 1.8rem;
+  font-size: 1.125rem;
   font-weight: 600;
   letter-spacing: 1px;
-  line-height: 2.1rem;
+  line-height: 1.313rem;
   padding: 20px 40px;
 
   text-transform: uppercase;
   @include device-is('desktop') {
-    height: 5.9rem;
+    height: 3.688rem;
   }
 }
