@@ -332,38 +332,4 @@ describe('Acceptance | Interface | Controller | SecurityController', function() 
     });
   });
 
-  describe('#checkUserCanAccessCampaign', () => {
-    let userId;
-
-    beforeEach(async () => {
-      userId = databaseBuilder.factory.buildUser().id;
-      await databaseBuilder.commit();
-    });
-
-    it('should return a well formed JSON API error when user is not allowed to access campaign', async () => {
-      // given
-      const campaignId = databaseBuilder.factory.buildCampaign().id;
-      await databaseBuilder.commit();
-      const options = {
-        method: 'GET',
-        url: `/api/campaigns/${campaignId}`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      const jsonApiError = {
-        errors: [{
-          code: 403,
-          title: 'Forbidden access',
-          detail: 'Missing or insufficient permissions.'
-        }]
-      };
-      expect(response.statusCode).to.equal(403);
-      expect(response.result).to.deep.equal(jsonApiError);
-    });
-  });
-
 });

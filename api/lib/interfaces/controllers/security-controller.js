@@ -4,7 +4,6 @@ const checkUserHasRolePixMasterUseCase = require('../../application/usecases/che
 const checkUserIsAdminInOrganizationUseCase = require('../../application/usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase  = require('../../application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 const checkUserBelongsToOrganizationUseCase  = require('../../application/usecases/checkUserBelongsToOrganization');
-const checkUserCanAccessCampaignUseCase  = require('../../application/usecases/checkUserCanAccessCampaign');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
 
@@ -30,20 +29,6 @@ function _replyWithAuthorizationError(h) {
       code: errorHttpStatusCode,
       title: 'Forbidden access',
       detail: 'Missing or insufficient permissions.'
-    });
-
-    return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-  });
-}
-
-function _replyWithBadRequestError(h) {
-  return Promise.resolve().then(() => {
-    const errorHttpStatusCode = 400;
-
-    const jsonApiError = new JSONAPIError({
-      code: errorHttpStatusCode,
-      title: 'Bad Request',
-      detail: 'Malformed request syntax.'
     });
 
     return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
@@ -201,26 +186,6 @@ async function checkUserIsAdminInScoOrganizationAndManagesStudents(request, h) {
   return _replyWithAuthorizationError(h);
 }
 
-async function checkUserCanAccessCampaign(request, h) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyWithAuthorizationError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const campaignId = parseInt(request.params.id);
-
-  if (isNaN(campaignId)) {
-    return _replyWithBadRequestError(h);
-  }
-
-  const canAccessCampaign = await checkUserCanAccessCampaignUseCase.execute(userId, campaignId);
-  if (canAccessCampaign) {
-    return h.response(true);
-  }
-
-  return _replyWithAuthorizationError(h);
-}
-
 module.exports = {
   checkRequestedUserIsAuthenticatedUser,
   checkUserBelongsToOrganizationOrHasRolePixMaster,
@@ -230,5 +195,4 @@ module.exports = {
   checkUserIsAdminInOrganization,
   checkUserIsAdminInOrganizationOrHasRolePixMaster,
   checkUserIsAdminInScoOrganizationAndManagesStudents,
-  checkUserCanAccessCampaign,
 };
