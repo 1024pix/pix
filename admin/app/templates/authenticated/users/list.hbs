@@ -8,8 +8,10 @@
   <section class="page-section">
     <Users::ListItems
       @users={{@model}}
-      @firstName={{firstName}} @lastName={{lastName}} @email={{email}}
-      @triggerFiltering={{action "triggerFiltering"}}
+      @firstName={{this.firstName}}
+      @lastName={{this.lastName}}
+      @email={{this.email}}
+      @triggerFiltering={{this.triggerFiltering}}
       @goToUserDetailPage={{this.goToUserDetailPage}} />
   </section>
 </main>
