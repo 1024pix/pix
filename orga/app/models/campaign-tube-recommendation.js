@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-const { belongsTo, Model, attr } = DS;
+const { belongsTo, hasMany, Model, attr } = DS;
 
 export default class CampaignTubeRecommendation extends Model {
 
@@ -12,4 +12,5 @@ export default class CampaignTubeRecommendation extends Model {
 
   @belongsTo('campaignAnalysis') campaignAnalysis;
 
+  @hasMany('tutorial') tutorials;
 }

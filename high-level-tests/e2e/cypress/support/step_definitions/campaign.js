@@ -6,6 +6,12 @@ when(`je vais sur la campagne {string} avec l'identifiant {string}`, (campaignCo
   cy.visitMonPix(`/campagnes/${campaignCode}?participantExternalId=${participantExternalId}`);
 });
 
+when(`j'ouvre le sujet {string}`, (tubeName) => {
+  cy.contains(tubeName).closest('[aria-label="Sujet"]').within(() => {
+    cy.get('button').click();
+  });
+});
+
 then(`je vois la page \(d'\)/\(de \){string} de la campagne`, (page) => {
   cy.url().should('include', page);
 });
@@ -20,8 +26,12 @@ when(`je saisis la date de naissance {int}-{int}-{int}`, (dayOfBirth, monthOfBir
   cy.get('input#yearOfBirth').type(yearOfBirth);
 });
 
-then(`je vois {int} campagne\(s\)`, (numberOfCampaigns) => {
-  cy.get('[aria-label="Campagne"]').should('have.lengthOf', numberOfCampaigns);
+then(`je vois {int} campagne\(s\)`, (campaignsCount) => {
+  cy.get('[aria-label="Campagne"]').should('have.lengthOf', campaignsCount);
+});
+
+then(`je vois {int} tutoriel\(s\)`, (tutorialsCount) => {
+  cy.get('[aria-label="Tutoriel"]').should('have.lengthOf', tutorialsCount);
 });
 
 when(`je recherche une campagne avec le nom {string}`, (campaignSearchName) => {

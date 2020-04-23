@@ -169,18 +169,29 @@ describe('Acceptance | API | Campaign Controller', () => {
         campaignParticipationId: campaignParticipation.id
       });
 
-      databaseBuilder.factory.buildKnowledgeElement({ skillId: 'recSkillId1', status: 'validated', userId, assessmentId: assessment.id, competenceId: 'recCompetence1', createdAt: faker.date.past(10, campaignParticipation.sharedAt) });
+      databaseBuilder.factory.buildKnowledgeElement({
+        skillId: 'recSkillId1',
+        status: 'validated',
+        userId,
+        assessmentId: assessment.id,
+        competenceId: 'recCompetence1',
+        createdAt: faker.date.past(10, campaignParticipation.sharedAt)
+      });
 
       await databaseBuilder.commit();
 
       const area = airtableBuilder.factory.buildArea({ competenceIds: ['recCompetence1'], couleur: 'specialColor' });
-      const competence1 = airtableBuilder.factory.buildCompetence({ id: 'recCompetence1', titre: 'Fabriquer un meuble', domaineIds: [ area.id ] });
+      const competence1 = airtableBuilder.factory.buildCompetence({
+        id: 'recCompetence1',
+        titre: 'Fabriquer un meuble',
+        domaineIds: [area.id]
+      });
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
-        airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: [ 'recCompetence1' ] }),
-        airtableBuilder.factory.buildSkill({ id: 'recSkillId2', ['compétenceViaTube']: [ 'recCompetence1' ] }),
+        airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: ['recCompetence1'] }),
+        airtableBuilder.factory.buildSkill({ id: 'recSkillId2', ['compétenceViaTube']: ['recCompetence1'] }),
       ]).activate();
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([ competence1 ]).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([ area ]).activate();
+      airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence1]).activate();
+      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([area]).activate();
     });
 
     afterEach(async () => {
@@ -261,9 +272,9 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       await databaseBuilder.commit();
 
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([ airtableBuilder.factory.buildSkill() ]).activate();
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([ airtableBuilder.factory.buildCompetence() ]).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([ airtableBuilder.factory.buildArea() ]).activate();
+      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([airtableBuilder.factory.buildSkill()]).activate();
+      airtableBuilder.mockList({ tableName: 'Competences' }).returns([airtableBuilder.factory.buildCompetence()]).activate();
+      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([airtableBuilder.factory.buildArea()]).activate();
     });
 
     afterEach(async () => {
@@ -271,7 +282,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       return cache.flushAll();
     });
 
-    it('should return csv file with statusCode 200', async ()=> {
+    it('should return csv file with statusCode 200', async () => {
 
       // given
       const url = `/api/campaigns/${campaign.id}/csv-assessment-results?accessToken=${accessToken}`;
@@ -316,9 +327,9 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       await databaseBuilder.commit();
 
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([ airtableBuilder.factory.buildSkill() ]).activate();
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([ airtableBuilder.factory.buildCompetence() ]).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([ airtableBuilder.factory.buildArea() ]).activate();
+      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([airtableBuilder.factory.buildSkill()]).activate();
+      airtableBuilder.mockList({ tableName: 'Competences' }).returns([airtableBuilder.factory.buildCompetence()]).activate();
+      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([airtableBuilder.factory.buildArea()]).activate();
     });
 
     afterEach(async () => {
@@ -326,7 +337,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       return cache.flushAll();
     });
 
-    it('should return csv file with statusCode 200', async ()=> {
+    it('should return csv file with statusCode 200', async () => {
       // given
       const url = `/api/campaigns/${campaign.id}/csv-profiles-collection-results?accessToken=${accessToken}`;
       const request = {
@@ -372,14 +383,37 @@ describe('Acceptance | API | Campaign Controller', () => {
       await databaseBuilder.commit();
 
       const area = airtableBuilder.factory.buildArea({ competenceIds: ['recCompetence1'], couleur: 'specialColor' });
-      const competence1 = airtableBuilder.factory.buildCompetence({ id: 'recCompetence1', titre: 'Fabriquer un meuble', acquisViaTubes: [ 'recSkillId1' ], domaineIds: [ area.id ] });
+      const competence1 = airtableBuilder.factory.buildCompetence({
+        id: 'recCompetence1',
+        titre: 'Fabriquer un meuble',
+        acquisViaTubes: ['recSkillId1'],
+        domaineIds: [area.id]
+      });
+      const tutorial = airtableBuilder.factory.buildTutorial({
+        id: 'recTutorial1',
+        titre: 'Apprendre à vivre confiné',
+        format: '2 mois',
+        source: 'covid-19',
+        lien: 'www.liberez-moi.fr',
+        createdTime: '2020-03-16T14:38:03.000Z'
+      });
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
-        airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: [ 'recCompetence1' ], tube: ['recTube1'] }),
+        airtableBuilder.factory.buildSkill({
+          id: 'recSkillId1',
+          'compétenceViaTube': ['recCompetence1'],
+          tube: ['recTube1'],
+          comprendre: [tutorial.id]
+        }),
       ]).activate();
-      const tube1 = airtableBuilder.factory.buildTube({ id: 'recTube1', titrePratique: 'Monter une étagère', competences: [ 'recCompetence1' ] });
-      airtableBuilder.mockList({ tableName: 'Tubes' }).returns([ tube1 ]).activate();
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([ competence1 ]).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([ area ]).activate();
+      const tube1 = airtableBuilder.factory.buildTube({
+        id: 'recTube1',
+        titrePratique: 'Monter une étagère',
+        competences: ['recCompetence1']
+      });
+      airtableBuilder.mockList({ tableName: 'Tubes' }).returns([tube1]).activate();
+      airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence1]).activate();
+      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([area]).activate();
+      airtableBuilder.mockList({ tableName: 'Tutoriels' }).returns([tutorial]).activate();
     });
 
     afterEach(async () => {
@@ -410,6 +444,17 @@ describe('Acceptance | API | Campaign Controller', () => {
           },
         },
         included: [{
+          'id': 'recTutorial1',
+          'type': 'tutorials',
+          attributes: {
+            'duration': '00:03:31',
+            'format': '2 mois',
+            'id': 'recTutorial1',
+            'link': 'www.liberez-moi.fr',
+            'source': 'covid-19',
+            'title': 'Apprendre à vivre confiné'
+          },
+        }, {
           id: `${campaign.id}_recTube1`,
           type: 'campaignTubeRecommendations',
           attributes: {
@@ -420,6 +465,14 @@ describe('Acceptance | API | Campaign Controller', () => {
             'tube-practical-title': 'Monter une étagère',
             'average-score': 30
           },
+          relationships: {
+            tutorials: {
+              data: [{
+                'id': 'recTutorial1',
+                'type': 'tutorials',
+              }]
+            }
+          }
         }]
       };
 

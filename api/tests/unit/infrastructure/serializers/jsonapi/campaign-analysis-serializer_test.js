@@ -20,6 +20,14 @@ describe('Unit | Serializer | JSONAPI | campaign-analysis-serializer', () => {
             tubePracticalTitle: 'Savoir cuisiner des legumes d’automne à la perfection',
             areaColor: 'jaffa',
             averageScore: 11,
+            tutorials: [{
+              id: 'recTutorial1',
+              duration: '00:03:30',
+              format: 'video',
+              link: 'https://youtube.fr',
+              source: 'Youtube',
+              title: 'Savoir regarder des vidéos youtube.',
+            }]
           }
         ]
       };
@@ -39,6 +47,17 @@ describe('Unit | Serializer | JSONAPI | campaign-analysis-serializer', () => {
           },
         },
         included: [{
+          id: 'recTutorial1',
+          type: 'tutorials',
+          attributes: {
+            id: 'recTutorial1',
+            duration: '00:03:30',
+            format: 'video',
+            link: 'https://youtube.fr',
+            source: 'Youtube',
+            title: 'Savoir regarder des vidéos youtube.'
+          }
+        }, {
           id: '123_tubeRec1',
           type: 'campaignTubeRecommendations',
           attributes: {
@@ -48,7 +67,16 @@ describe('Unit | Serializer | JSONAPI | campaign-analysis-serializer', () => {
             'tube-practical-title': 'Savoir cuisiner des legumes d’automne à la perfection',
             'area-color': 'jaffa',
             'average-score': 11,
-
+          },
+          relationships: {
+            tutorials: {
+              data: [
+                {
+                  id: 'recTutorial1',
+                  type: 'tutorials'
+                }
+              ]
+            }
           }
         }]
       };

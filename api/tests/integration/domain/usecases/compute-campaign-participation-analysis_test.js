@@ -10,6 +10,7 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
   let targetProfileRepository;
   let tubeRepository;
   let knowledgeElementRepository;
+  let tutorialRepository;
 
   const userId = 1;
   const campaignId = 'someCampaignId';
@@ -23,6 +24,7 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
     targetProfileRepository = { getByCampaignId: sinon.stub() };
     tubeRepository = { list: sinon.stub() };
     knowledgeElementRepository = { findByCampaignIdAndUserIdForSharedCampaignParticipation: sinon.stub() };
+    tutorialRepository = { list: sinon.stub() };
 
     campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId, isShared: true });
   });
@@ -33,7 +35,8 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
         // given
         const area = domainBuilder.buildArea();
         const competence = domainBuilder.buildCompetence({ area });
-        const skill = domainBuilder.buildSkill({ id: 'skillId', name: '@url1', competenceId: competence.id, tubeId: 'tubeId' });
+        const tutorial = domainBuilder.buildTutorial({ id: 'recTutorial1', duration: '00:01:30', format: 'video', link: 'https://youtube.fr', source: 'Youtube', title: 'Savoir regarder des vidéos youtube.' });
+        const skill = domainBuilder.buildSkill({ id: 'skillId', name: '@url1', competenceId: competence.id, tubeId: 'tubeId', tutorialIds: [tutorial.id] });
         const skill2 = domainBuilder.buildSkill({ id: 'skillId2', name: '@url2', competenceId: competence.id, tubeId: 'otherTubeId' });
         const knowledgeElementSkill1 = { skillId: 'skillId', userId: 1 };
         const knowledgeElementSkill2 = { skillId: 'skillId2', userId: 1 };
@@ -48,7 +51,8 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
           validatedKnowledgeElements: [knowledgeElementSkill1],
           skills: [skill],
           maxSkillLevelInTargetProfile:  2,
-          participantsCount: 1
+          participantsCount: 1,
+          tutorials: [tutorial],
         });
 
         const campaignOtherTubeRecommendation = domainBuilder.buildCampaignTubeRecommendation({
@@ -58,7 +62,8 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
           validatedKnowledgeElements: [knowledgeElementSkill2],
           skills: [skill2],
           maxSkillLevelInTargetProfile:  2,
-          participantsCount: 1
+          participantsCount: 1,
+          tutorials: [],
         });
 
         targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
@@ -68,6 +73,7 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
         campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
         targetProfileRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
         knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation.withArgs({ campaignId, userId: campaignParticipation.userId }).resolves([knowledgeElementSkill1,knowledgeElementSkill2]);
+        tutorialRepository.list.resolves([tutorial]);
 
         const expectedResult = {
           id: campaignId,
@@ -84,6 +90,7 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
           targetProfileRepository,
           tubeRepository,
           knowledgeElementRepository,
+          tutorialRepository,
         });
 
         // then
@@ -106,7 +113,8 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
           campaignParticipationRepository,
           competenceRepository,
           targetProfileRepository,
-          tubeRepository
+          tubeRepository,
+          tutorialRepository
         });
 
         // then
@@ -130,7 +138,8 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
         campaignParticipationRepository,
         competenceRepository,
         targetProfileRepository,
-        tubeRepository
+        tubeRepository,
+        tutorialRepository,
       });
 
       // then

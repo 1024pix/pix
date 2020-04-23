@@ -12,6 +12,7 @@ module.exports = async function computeCampaignParticipationAnalysis(
     targetProfileRepository,
     tubeRepository,
     knowledgeElementRepository,
+    tutorialRepository,
   } = {}) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
   const campaignId = campaignParticipation.campaignId;
@@ -25,11 +26,12 @@ module.exports = async function computeCampaignParticipationAnalysis(
     return null;
   }
 
-  const [competences, tubes, targetProfile, validatedKnowledgeElements] = await Promise.all([
+  const [competences, tubes, targetProfile, validatedKnowledgeElements, tutorials] = await Promise.all([
     competenceRepository.list(),
     tubeRepository.list(),
     targetProfileRepository.getByCampaignId(campaignId),
     knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId: campaignParticipation.userId }),
+    tutorialRepository.list(),
   ]);
 
   const targetedTubeIds = _.map(targetProfile.skills, ({ tubeId }) => ({ id: tubeId }));
@@ -41,6 +43,7 @@ module.exports = async function computeCampaignParticipationAnalysis(
     competences,
     skills: targetProfile.skills,
     validatedKnowledgeElements,
+    tutorials,
     participantsCount: 1
   });
 };
