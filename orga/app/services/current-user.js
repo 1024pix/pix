@@ -56,7 +56,7 @@ export default class CurrentUserService extends Service {
 
   async _createUserOrgaSettings(user, membership) {
     const organization = await membership.organization;
-    await this.store.createRecord('user-orga-setting', { user, organization }).save();
+    await this.store.createRecord('user-orga-setting', { user, organization }).save({ adapterOptions: { userId: user.id } });
   }
 
   async _setOrganizationProperties(membership) {
