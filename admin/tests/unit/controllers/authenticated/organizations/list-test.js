@@ -2,46 +2,58 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
 module('Unit | Controller | authenticated/organizations/list', function(hooks) {
-
   setupTest(hooks);
+  let controller;
 
-  module('#setFieldName', function() {
+  hooks.beforeEach(function() {
+    controller = this.owner.lookup('controller:authenticated.organizations.list');
+  });
 
-    test('it should set name', function(assert) {
-      // given
-      const controller = this.owner.lookup('controller:authenticated/organizations/list');
-      controller.searchFilter = { fieldName: 'name', value: 'sav' };
+  module('#triggerFiltering task', function() {
 
-      // when
-      controller.setFieldName();
+    module('updating name', function() {
 
-      // then
-      assert.equal(controller.get('name'), 'sav');
+      test('it should update controller name field', async function(assert) {
+        // given
+        controller.name = 'someName';
+        const expectedValue = 'someOtherName';
+        
+        // when
+        await controller.triggerFiltering.perform('name', { target: { value: expectedValue } });
+
+        // then
+        assert.equal(controller.name, expectedValue);
+      });
     });
 
-    test('it should set type', function(assert) {
-      // given
-      const controller = this.owner.lookup('controller:authenticated/organizations/list');
-      controller.set('searchFilter', { fieldName: 'type', value: 'SCO' });
+    module('updating type', function() {
 
-      // when
-      controller.setFieldName();
+      test('it should update controller type field', async function(assert) {
+        // given
+        controller.type = 'someType';
+        const expectedValue = 'someOtherType';
 
-      // then
-      assert.equal(controller.get('type'), 'SCO');
+        // when
+        await controller.triggerFiltering.perform('type', { target: { value: expectedValue } });
+
+        // then
+        assert.equal(controller.type, expectedValue);
+      });
     });
 
-    test('it should reset pageNumber', function(assert) {
-      // given
-      const controller = this.owner.lookup('controller:authenticated/organizations/list');
-      controller.set('searchFilter', { fieldName: 'name', value: 'random thing' });
-      controller.set('pageNumber', 3);
+    module('updating externalId', function() {
 
-      // when
-      controller.setFieldName();
+      test('it should update controller externalId field', async function(assert) {
+        // given
+        controller.externalId = 'someExternalId';
+        const expectedValue = 'someOtherExternalId';
 
-      // then
-      assert.equal(controller.get('pageNumber'), 1);
+        // when
+        await controller.triggerFiltering.perform('externalId', { target: { value: expectedValue } });
+
+        // then
+        assert.equal(controller.externalId, expectedValue);
+      });
     });
   });
 });
