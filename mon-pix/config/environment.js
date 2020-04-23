@@ -42,8 +42,9 @@ module.exports = function(environment) {
       SCROLL_DURATION: 800,
       NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS: 5,
       IS_RECAPTCHA_ENABLED: process.env.IS_RECAPTCHA_ENABLED === 'true',
-      IS_WARNING_BANNER_ENABLED: process.env.IS_WARNING_BANNER_ENABLED === 'true',
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
+      BANNER_CONTENT: process.env.BANNER_CONTENT || '',
+      BANNER_TYPE: process.env.BANNER_TYPE || '',
     },
 
     googleFonts: [
