@@ -1,5 +1,5 @@
 .challenge-response {
-  font-size: 15px;
+  font-size: 1.5rem;
   background-color: $porcelain-grey;
   margin: 6px;
 
@@ -8,7 +8,7 @@
   }
 
   @include device-is('desktop') {
-    font-size: 20px;
+    font-size: 2rem;
   }
 
   &__proposal {

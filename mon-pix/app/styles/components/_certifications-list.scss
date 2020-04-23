@@ -2,12 +2,12 @@
 
   background-color: transparent;
   justify-content: space-around;
-  font-size: 10px;
+  font-size: 1rem;
   color: $charcoal-grey;
   font-family: $font-open-sans;
 
   @include device-is('tablet') {
-    font-size: 14px;
+    font-size: 1.4rem;
   }
 }
 
