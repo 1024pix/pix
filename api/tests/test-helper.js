@@ -147,6 +147,25 @@ function compareDatabaseObject(evaluatedObject, expectedObject) {
 
 }
 
+chai.use(function(chai) {
+  const Assertion = chai.Assertion;
+
+  Assertion.addMethod('exactlyContain', function(expectedElements) {
+    const errorMessage = `expect [${this._obj}] to exactly contain [${expectedElements}]`;
+    new Assertion(this._obj, errorMessage).to.have.members(expectedElements);
+  });
+});
+
+chai.use(function(chai) {
+  const Assertion = chai.Assertion;
+
+  Assertion.addMethod('exactlyContainInOrder', function(expectedElements) {
+    const errorMessage = `expect [${this._obj}] to exactly contain in order [${expectedElements}]`;
+
+    new Assertion(this._obj, errorMessage).to.deep.equal(expectedElements);
+  });
+});
+
 module.exports = {
   EMPTY_BLANK_AND_NULL,
   airtableBuilder,

@@ -6,7 +6,7 @@ import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/te
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Participants Details', function(hooks) {
+module('Acceptance | Campaign Participants Individual Results', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);

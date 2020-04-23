@@ -37,6 +37,7 @@ module('Integration | Component | routes/authenticated/campaigns/details/analysi
     // when
     await render(hbs`<Routes::Authenticated::Campaigns::Details::AnalysisTab
       @campaignTubeRecommendations={{campaignTubeRecommendations}}
+      @displayAnalysis={{true}}
     />`);
 
     // then
@@ -47,6 +48,7 @@ module('Integration | Component | routes/authenticated/campaigns/details/analysi
     // when
     await render(hbs`<Routes::Authenticated::Campaigns::Details::AnalysisTab
       @campaignTubeRecommendations={{campaignTubeRecommendations}}
+      @displayAnalysis={{true}}
     />`);
 
     // then
@@ -54,5 +56,17 @@ module('Integration | Component | routes/authenticated/campaigns/details/analysi
     assert.dom(firstTube).containsText('•');
     assert.dom(firstTube).containsText('Tube A');
     assert.dom(firstTube).containsText('Competence A');
+  });
+
+  test('it should not display tube details when display', async function(assert) {
+    // when
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::AnalysisTab
+      @campaignTubeRecommendations={{campaignTubeRecommendations}}
+      @displayAnalysis={{false}}
+    />`);
+
+    // then
+    assert.dom('[aria-label="Sujet"]').doesNotExist;
+    assert.dom('.table__empty').containsText('En attente de résultats');
   });
 });

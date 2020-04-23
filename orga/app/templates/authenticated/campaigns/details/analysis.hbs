@@ -1,2 +1,3 @@
 <Routes::Authenticated::Campaigns::Details::AnalysisTab
-  @campaignTubeRecommendations={{@model.campaignAnalysis.sortedCampaignTubeRecommendations}}/>
+  @campaignTubeRecommendations={{@model.campaignAnalysis.sortedCampaignTubeRecommendations}}
+  @displayAnalysis={{gt @model.campaignReport.sharedParticipationsCount 0}}/>

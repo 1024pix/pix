@@ -22,6 +22,24 @@ function _dropResetKnowledgeElements(knowledgeElements) {
   return _.reject(knowledgeElements, { status: KnowledgeElement.StatusType.RESET });
 }
 
+function _findByCampaignIdForSharedCampaignParticipationWhere(campaignParticipationsWhereClause) {
+  return BookshelfKnowledgeElement
+    .query((qb) => {
+      qb.select('knowledge-elements.*');
+      qb.leftJoin('campaign-participations', 'campaign-participations.userId', 'knowledge-elements.userId');
+      qb.leftJoin('campaigns', 'campaigns.id', 'campaign-participations.campaignId');
+      qb.innerJoin('target-profiles_skills', function() {
+        this.on('target-profiles_skills.targetProfileId', '=', 'campaigns.targetProfileId')
+          .andOn('target-profiles_skills.skillId', '=', 'knowledge-elements.skillId');
+      });
+    })
+    .where({ 'campaign-participations.isShared': true })
+    .where(campaignParticipationsWhereClause)
+    .where({ status: 'validated' })
+    .fetchAll()
+    .then(_toDomain);
+}
+
 module.exports = {
 
   save(knowledgeElement) {
@@ -89,22 +107,17 @@ module.exports = {
       });
   },
 
+  findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId }) {
+    return _findByCampaignIdForSharedCampaignParticipationWhere({
+      'campaign-participations.campaignId': campaignId,
+      'campaign-participations.userId': userId,
+    });
+  },
+
   findByCampaignIdForSharedCampaignParticipation(campaignId) {
-    return BookshelfKnowledgeElement
-      .query((qb) => {
-        qb.select('knowledge-elements.*');
-        qb.leftJoin('campaign-participations', 'campaign-participations.userId', 'knowledge-elements.userId');
-        qb.leftJoin('campaigns', 'campaigns.id', 'campaign-participations.campaignId');
-        qb.innerJoin('target-profiles_skills', function() {
-          this.on('target-profiles_skills.targetProfileId', '=', 'campaigns.targetProfileId')
-            .andOn('target-profiles_skills.skillId', '=', 'knowledge-elements.skillId');
-        });
-      })
-      .where({ 'campaign-participations.isShared': true })
-      .where({ 'campaign-participations.campaignId': campaignId })
-      .where({ status: 'validated' })
-      .fetchAll()
-      .then(_toDomain);
+    return _findByCampaignIdForSharedCampaignParticipationWhere({
+      'campaign-participations.campaignId': campaignId
+    });
   }
 };
 
