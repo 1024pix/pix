@@ -632,7 +632,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     it('should complete an assessment if not already existing and commited', async () => {
       // when
       await DomainTransaction.execute(async (domainTransaction) => {
-        await assessmentRepository.completeByAssessmentId(domainTransaction, assessmentId);
+        await assessmentRepository.completeByAssessmentId(assessmentId, domainTransaction);
       });
 
       // then
@@ -644,7 +644,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       // when
       await catchErr(async () => {
         await DomainTransaction.execute(async (domainTransaction) => {
-          await assessmentRepository.completeByAssessmentId(domainTransaction, assessmentId);
+          await assessmentRepository.completeByAssessmentId(assessmentId, domainTransaction);
           throw new Error('an error occurs within the domain transaction');
         });
       });

@@ -82,7 +82,7 @@ describe('Unit | UseCase | complete-assessment', () => {
             });
 
             // then
-            expect(assessmentRepository.completeByAssessmentId.calledWithExactly(domainTransaction, assessment.id)).to.be.true;
+            expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessment.id, domainTransaction)).to.be.true;
           });
 
           it('should return a AssessmentCompleted event', async () => {

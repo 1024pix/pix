@@ -1,15 +1,15 @@
 const AssessmentResult = require('../models/AssessmentResult');
-const Badge = require('../models/Badge');
-const CertificationPartnerAcquisition = require('../models/CertificationPartnerAcquisition');
+const CertificationScoringCompleted = require('./CertificationScoringCompleted.js');
 const CompetenceMark = require('../models/CompetenceMark');
-const Promise = require('bluebird');
-const { MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED, UNCERTIFIED_LEVEL } = require('../constants');
+const bluebird = require('bluebird');
+const { UNCERTIFIED_LEVEL } = require('../constants');
 const {
   CertificationComputeError,
 } = require('../errors');
 
-const handleCertificationScoring = async function({
+async function  handleCertificationScoring({
   assessmentCompletedEvent,
+  domainTransaction,
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
@@ -19,34 +19,37 @@ const handleCertificationScoring = async function({
   certificationPartnerAcquisitionRepository,
 }) {
   if (assessmentCompletedEvent.isCertification) {
-    await _calculateCertificationScore({ assessmentId:assessmentCompletedEvent.assessmentId, assessmentResultRepository, certificationCourseRepository, competenceMarkRepository, scoringCertificationService, assessmentRepository, badgeAcquisitionRepository, certificationPartnerAcquisitionRepository, });
+    return _calculateCertificationScore({ assessmentCompletedEvent, assessmentId: assessmentCompletedEvent.assessmentId, domainTransaction, assessmentResultRepository, certificationCourseRepository, competenceMarkRepository, scoringCertificationService, assessmentRepository, badgeAcquisitionRepository, certificationPartnerAcquisitionRepository, });
   }
-};
+
+  return null;
+
+}
 
 async function _calculateCertificationScore({
+  assessmentCompletedEvent,
   assessmentId,
+  domainTransaction,
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
   scoringCertificationService,
   assessmentRepository,
-  badgeAcquisitionRepository,
-  certificationPartnerAcquisitionRepository,
 }) {
   const assessment = await assessmentRepository.get(assessmentId);
   try {
     const assessmentScore = await scoringCertificationService.calculateAssessmentScore(assessment);
-    const partnerCertifications = await _getAcquiredPartnerCertifications({ badgeAcquisitionRepository, assessment, assessmentScore });
     await _saveResult({
       assessment,
       assessmentScore,
-      partnerCertifications,
+      domainTransaction,
       assessmentResultRepository,
       certificationCourseRepository,
       competenceMarkRepository,
-      badgeAcquisitionRepository,
-      certificationPartnerAcquisitionRepository,
     });
+
+    return new CertificationScoringCompleted({ userId: assessmentCompletedEvent.userId, isCertification: assessmentCompletedEvent.isCertification, certificationCourseId: assessment.certificationCourseId, percentageCorrectAnswers: assessmentScore.percentageCorrectAnswers });
+
   }
   catch (error) {
     if (!(error instanceof CertificationComputeError)) {
@@ -54,6 +57,7 @@ async function _calculateCertificationScore({
     }
     await _saveResultAfterCertificationComputeError({
       assessment,
+      domainTransaction,
       assessmentResultRepository,
       certificationCourseRepository,
       certificationComputeError: error,
@@ -64,38 +68,30 @@ async function _calculateCertificationScore({
 async function _saveResult({
   assessment,
   assessmentScore,
-  partnerCertifications,
+  domainTransaction,
   assessmentResultRepository,
   certificationCourseRepository,
-  certificationPartnerAcquisitionRepository,
   competenceMarkRepository,
 }) {
-  const assessmentResult = await _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository });
+  const assessmentResult = await _createAssessmentResult({
+    assessment,
+    assessmentScore,
+    assessmentResultRepository,
+    domainTransaction
+  });
 
-  await Promise.map(assessmentScore.competenceMarks, (competenceMark) => {
+  await bluebird.mapSeries(assessmentScore.competenceMarks, (competenceMark) => {
     const competenceMarkDomain = new CompetenceMark({ ...competenceMark, ...{ assessmentResultId: assessmentResult.id } });
-    return competenceMarkRepository.save(competenceMarkDomain);
+    return competenceMarkRepository.save(competenceMarkDomain, domainTransaction);
   });
 
-  await Promise.map(partnerCertifications, (partnerCertification) => {
-    return certificationPartnerAcquisitionRepository.save(partnerCertification);
-  });
-
-  return certificationCourseRepository.changeCompletionDate(assessment.certificationCourseId, new Date());
+  return certificationCourseRepository.changeCompletionDate(assessment.certificationCourseId, new Date(), domainTransaction);
 }
 
-function _checkCriteriaFullfilledClea(hasBadgeClea, percentageCorrectAnswers) {
-  if (hasBadgeClea) {
-    // Green zone
-    return percentageCorrectAnswers >= MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED;
-  }
-  return false;
-}
-
-function _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository }) {
+function _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository, domainTransaction }) {
   const assessmentStatus = _getAssessmentStatus(assessmentScore);
   const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(assessmentScore.level, assessmentScore.nbPix, assessmentStatus, assessment.id);
-  return assessmentResultRepository.save(assessmentResult);
+  return assessmentResultRepository.save(assessmentResult, domainTransaction);
 }
 
 function _getAssessmentStatus(assessmentScore) {
@@ -109,30 +105,14 @@ function _getAssessmentStatus(assessmentScore) {
 
 async function _saveResultAfterCertificationComputeError({
   assessment,
+  domainTransaction,
   assessmentResultRepository,
   certificationCourseRepository,
   certificationComputeError,
 }) {
   const assessmentResult = AssessmentResult.BuildAlgoErrorResult(certificationComputeError, assessment.id);
   await assessmentResultRepository.save(assessmentResult);
-  return certificationCourseRepository.changeCompletionDate(assessment.certificationCourseId, new Date());
-}
-
-async function _getAcquiredPartnerCertifications({ badgeAcquisitionRepository, assessment, assessmentScore }) {
-  const partnerCertifications = [];
-  const hasAcquiredBadgeClea = await badgeAcquisitionRepository.hasAcquiredBadgeWithKey({
-    badgeKey: Badge.keys.PIX_EMPLOI_CLEA,
-    userId: assessment.userId
-  });
-
-  if (_checkCriteriaFullfilledClea(hasAcquiredBadgeClea, assessmentScore.percentageCorrectAnswers)) {
-    partnerCertifications.push(new CertificationPartnerAcquisition({
-      certificationCourseId: assessment.certificationCourseId,
-      partnerKey: Badge.keys.PIX_EMPLOI_CLEA
-    }));
-  }
-
-  return partnerCertifications;
+  return certificationCourseRepository.changeCompletionDate(assessment.certificationCourseId, new Date(), domainTransaction);
 }
 
 module.exports = handleCertificationScoring;

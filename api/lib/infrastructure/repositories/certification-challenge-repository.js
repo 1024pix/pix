@@ -1,5 +1,6 @@
 const Bookshelf = require('../bookshelf');
 const CertificationChallenge = require('../../domain/models/CertificationChallenge');
+const DomainTransaction = require('../DomainTransaction');
 const CertificationChallengeBookshelf = require('../data/certification-challenge');
 const logger = require('../../infrastructure/logger');
 
@@ -23,7 +24,7 @@ function _toDomain(model) {
 
 module.exports = {
 
-  save({ certificationChallenge, domainTransaction = {} }) {
+  save({ certificationChallenge, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const certificationChallengeToSave = new CertificationChallengeBookshelf({
       challengeId: certificationChallenge.challengeId,
       competenceId: certificationChallenge.competenceId,

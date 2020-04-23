@@ -1,9 +1,10 @@
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const BookshelfBadgeAcquisition = require('../../infrastructure/data/badge-acquisition');
+const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
 
-  async create(domainTransaction, { badgeId, userId }) {
+  async create({ badgeId, userId }, domainTransaction = DomainTransaction.emptyTransaction()) {
     const result = await new BookshelfBadgeAcquisition({
       badgeId,
       userId

@@ -11,10 +11,10 @@ const handleBadgeAcquisition = async function({
     if (isABadgeAssociatedToCampaign(badge)) {
       const campaignParticipationResult = await fetchCampaignParticipationResults(assessmentCompletedEvent, badge, campaignParticipationResultRepository);
       if (isBadgeAcquired(campaignParticipationResult, badgeCriteriaService)) {
-        await badgeAcquisitionRepository.create(domainTransaction, {
+        await badgeAcquisitionRepository.create({
           badgeId: badge.id,
           userId: assessmentCompletedEvent.userId
-        });
+        }, domainTransaction);
       }
     }
   }
