@@ -6,31 +6,20 @@ import isPasswordValid from '../utils/password-validator';
 import ENV from 'mon-pix/config/environment';
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  firstName: 'Votre prénom n’est pas renseigné.',
-  lastName: 'Votre nom n’est pas renseigné.',
-  email: 'Votre adresse e-mail n’est pas valide.',
-  password: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.'
+  firstName: 'signup-form.text.fields.firstName.error',
+  lastName: 'signup-form.text.fields.lastName.error',
+  email: 'signup-form.text.fields.email.error',
+  password: 'signup-form.text.fields.password.error'
 };
 const TEMPORARY_DIV_CLASS_MAP = {
   error: 'signup-form__temporary-msg--error',
   success: 'signup-form__temporary-msg--success'
 };
 
-function getErrorMessage(status, key) {
-  return (status === 'error') ? ERROR_INPUT_MESSAGE_MAP[key] : null;
-}
-
-function getValidationStatus(isValidField) {
-  return (isValidField) ? 'error' : 'success';
-}
-
-function isValuePresent(value) {
-  return value.trim() ? true : false;
-}
-
 export default Component.extend({
 
   session: service(),
+  intl: service(),
 
   _notificationMessage: null,
   validation: null,
@@ -42,6 +31,18 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this._resetValidationFields();
+  },
+
+  _getErrorMessage(status, key) {
+    return (status === 'error') ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
+  },
+
+  _getValidationStatus(isValidField) {
+    return (isValidField) ? 'error' : 'success';
+  },
+
+  _isValuePresent(value) {
+    return value.trim() ? true : false;
   },
 
   _updateValidationStatus(key, status, message) {
@@ -106,8 +107,8 @@ export default Component.extend({
   _executeFieldValidation(key, isValid) {
     const modelAttrValue = this._getModelAttributeValueFromKey(key);
     const isValidInput = !isValid(modelAttrValue);
-    const status = getValidationStatus(isValidInput);
-    const message = getErrorMessage(status, key);
+    const status = this._getValidationStatus(isValidInput);
+    const message = this._getErrorMessage(status, key);
     this._updateValidationStatus(key, status, message);
   },
 
@@ -125,7 +126,7 @@ export default Component.extend({
     },
 
     validateInput(key) {
-      this._executeFieldValidation(key, isValuePresent);
+      this._executeFieldValidation(key, this._isValuePresent);
     },
 
     validateInputEmail(key) {

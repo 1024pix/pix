@@ -1,0 +1,41 @@
+homepage:
+  title: "Homepage"
+
+signup-form:
+  text:
+    sign-up: "Sign up"
+    sign-in: "sign in"
+    or: "or"
+    instruction:
+      marked-fields: "Marked fields"
+      be-mandatory: "are mandatory"
+    fields:
+      firstName:
+        label: "First name"
+        error: "Your first name is empty."
+      lastName:
+        label: "Last name"
+        error: "Your last name is empty."
+      email:
+        label: "Email"
+        help: "(ex: nom@exemple.com)"
+        error: "Your email is invalid"
+      password:
+        label: "Password"
+        help: "(8 char min, with uppercase, lowercase and a number)"
+        error: "Password should have 8 characters, one uppercase and lowercase letter and one number at least."
+      cgu:
+        label: "I accept <a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">Pix's CGU</a>"
+        error: "Please accept terms of service before you sign up"
+  title:
+    mandatory: "mandatory"
+  button:
+    signup: "I sign up"
+  legal:
+    text: "By signing in, data are saved by Pix.
+        They are kept for a maximum of 5 years since the user's last sign in,
+        and are archived according to statutory limitation periods (5 years).
+        They are only used by Pix and Pix's service providers.
+        In accordance to the law « informatique et libertés », you can exercise your right of access to data
+        and correct them by send an email at dpd@pix.fr."
+
