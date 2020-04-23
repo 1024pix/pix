@@ -38,7 +38,7 @@
   }
 
   &__explain-text {
-    font-size: 2.4rem;
+    font-size: 1.5rem;
     color: $dove-gray;
     line-height: 33px;
     font-weight: $font-light;
@@ -61,13 +61,13 @@
     margin-top: 14px;
     color: $dove-gray;
     font-family: $font-open-sans;
-    font-size: 1.4rem;
+    font-size: 0.875rem;
   }
 }
 
 .skill-review-competence {
   &__bullet {
-    font-size: 1.8rem;
+    font-size: 1.125rem;
     margin-right: 12px;
 
     &--jaffa {
@@ -96,7 +96,7 @@
   &__circle-chart-value {
     color: $nero;
     font-family: $font-roboto;
-    font-size: 3.1rem;
+    font-size: 1.938rem;
   }
 }
 
@@ -115,8 +115,8 @@
     &-information {
       font-family: $font-roboto;
       font-weight: $font-light;
-      font-size: 2rem;
-      line-height: 3.2rem;
+      font-size: 1.25rem;
+      line-height: 2rem;
       margin: 32px 0;
     }
   }
@@ -171,14 +171,14 @@
 .skill-review-share {
   &__button {
     text-transform: uppercase;
-    letter-spacing: 0.05rem;
+    letter-spacing: 0.031rem;
   }
 
   &__legal {
     text-align: center;
-    font-size: 2rem;
+    font-size: 1.25rem;
     color: $dove-gray;
-    line-height: 3.2rem;
+    line-height: 2rem;
     font-weight: $font-light;
     margin: 0 20px 16px 20px;
   }
@@ -186,18 +186,18 @@
   &__thanks {
     font-family: $font-open-sans;
     font-weight: $font-light;
-    font-size: 2.4rem;
+    font-size: 1.5rem;
     padding-top: 20px;
   }
 
   &__error {
     color: $pure-orange;
-    font-size: 1.5rem;
+    font-size: 0.938rem;
     padding-bottom: 10px;
   }
 
   &__back-to-home {
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-weight: $font-bold;
     font-family: $font-open-sans;
     text-align: center;
@@ -211,7 +211,7 @@
 }
 
 .skill-review__campaign-archived-text {
-  font-size: 2.2rem;
+  font-size: 1.375rem;
   line-height: 30px;
   max-width: 640px;
   margin: 30px auto 60px;
