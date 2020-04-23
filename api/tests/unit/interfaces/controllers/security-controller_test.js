@@ -7,7 +7,6 @@ const checkUserHasRolePixMasterUseCase = require('../../../../lib/application/us
 const checkUserIsAdminInOrganizationUseCase = require('../../../../lib/application/usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 const checkUserBelongsToOrganizationUseCase = require('../../../../lib/application/usecases/checkUserBelongsToOrganization');
-const checkUserCanAccessCampaignUseCase = require('../../../../lib/application/usecases/checkUserCanAccessCampaign');
 
 describe('Unit | Interfaces | Controllers | SecurityController', () => {
 
@@ -677,95 +676,4 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
     });
   });
 
-  describe('#checkUserCanAccessCampaign', () => {
-
-    let canAccessCampaignStub;
-
-    beforeEach(() => {
-      canAccessCampaignStub = sinon.stub(checkUserCanAccessCampaignUseCase, 'execute');
-    });
-
-    context('Successful case', () => {
-      const request = {
-        auth: {
-          credentials: {
-            accessToken: 'valid.access.token',
-            userId: 1234
-          }
-        },
-        params: { id: 5678 }
-      };
-
-      it('should authorize access to resource when the user is authenticated and can access campaign', async () => {
-        // given
-        canAccessCampaignStub.resolves(true);
-
-        // when
-        const response = await securityController.checkUserCanAccessCampaign(request, hFake);
-
-        // then
-        expect(response.source).to.equal(true);
-      });
-    });
-
-    context('Error cases', () => {
-      const request = {
-        auth: {
-          credentials: {
-            accessToken: 'valid.access.token',
-            userId: 1234
-          }
-        },
-      };
-
-      it('should return a 400 error if campaignId is not a number', async () => {
-        // given
-        request.params = {
-          id: 'not_a_number'
-        };
-
-        // when
-        const response = await securityController.checkUserCanAccessCampaign(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(400);
-      });
-
-      it('should forbid resource access when user was not previously authenticated', async () => {
-        // given
-        delete request.auth.credentials;
-
-        // when
-        const response = await securityController.checkUserCanAccessCampaign(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-        expect(response.isTakeOver).to.be.true;
-      });
-
-      it('should forbid resource access when user does not have access to campaign', async () => {
-        // given
-        canAccessCampaignStub.resolves(false);
-
-        // when
-        const response = await securityController.checkUserCanAccessCampaign(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-        expect(response.isTakeOver).to.be.true;
-      });
-
-      it('should forbid resource access when an error is thrown by use case', async () => {
-        // given
-        canAccessCampaignStub.rejects(new Error('Some error'));
-
-        // when
-        const response = await securityController.checkUserCanAccessCampaign(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-        expect(response.isTakeOver).to.be.true;
-      });
-    });
-  });
 });
