@@ -1,5 +1,4 @@
 const Joi = require('@hapi/joi');
-const securityController = require('../../interfaces/controllers/security-controller');
 const campaignController = require('./campaign-controller');
 
 exports.register = async function(server) {
@@ -33,14 +32,9 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/campaigns/{id}',
       config: {
-        pre: [{
-          method: securityController.checkUserCanAccessCampaign,
-          assign: 'userCanAccessCampaign'
-        }],
         handler: campaignController.getById,
         notes: [
           '- Récupération d\'une campagne par son id',
-          '- L‘utilisateur doit appartenir à l‘organisation ayant créé cette campagne',
         ],
         tags: ['api', 'campaign']
       }
