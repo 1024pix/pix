@@ -6,9 +6,9 @@ function _toDomain(bookshelfCompetenceMark) {
 }
 
 module.exports = {
-  save: (competenceMark) => {
+  save: (competenceMark, domainTransaction = {}) => {
     return competenceMark.validate()
-      .then(() => new BookshelfCompetenceMark(competenceMark).save())
+      .then(() => new BookshelfCompetenceMark(competenceMark).save(null, { transacting: domainTransaction.knexTransaction }))
       .then((savedCompetenceMark) => savedCompetenceMark.toDomainEntity());
   },
 

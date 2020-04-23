@@ -17,7 +17,7 @@ module.exports = {
     id,
     juryId,
     assessmentId,
-  }) => {
+  }, domainTransaction = {}) => {
     return new BookshelfAssessmentResult({
       pixScore,
       level,
@@ -30,7 +30,7 @@ module.exports = {
       juryId,
       assessmentId,
     })
-      .save()
+      .save(null, { transacting: domainTransaction.knexTransaction })
       .then(_toDomain);
   },
 

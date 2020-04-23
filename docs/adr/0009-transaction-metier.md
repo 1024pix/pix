@@ -86,7 +86,7 @@ class DomainTransaction {
 ```javascript
 completeAssessment({assessment, domainTransaction, assessmentRepository, badgeRepository}) {
     if (!assessment.isComplete()) {
-        await assessmentRepository.completeAssessment(domainTransaction, assessment.id);
+        await assessmentRepository.completeAssessment(assessment.id, domainTransaction);
         await badgeRepository.acquireBadge(domainTransaction);
     }
 }
@@ -94,7 +94,7 @@ completeAssessment({assessment, domainTransaction, assessmentRepository, badgeRe
 
 #### Repository :
 ```javascript
-  completeByAssessmentId(domainTransaction, assessmentId) {
+  completeByAssessmentId(assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
       const assessment = await BookshelfAssessment
           .where({ assessmentId })
           .save({ Assessment.states.COMPLETED }, { require: true, patch: true, transacting: domainTransaction.knexTransaction });

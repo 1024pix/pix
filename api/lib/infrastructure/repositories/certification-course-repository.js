@@ -3,22 +3,23 @@ const { _ } = require('lodash');
 const CertificationCourseBookshelf = require('../data/certification-course');
 const AssessmentBookshelf = require('../data/assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const DomainTransaction = require('../DomainTransaction');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
 const Assessment = require('../../domain/models/Assessment');
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
-  async save({ certificationCourse, domainTransaction = {} }) {
+  async save({ certificationCourse, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const certificationCourseToSave = _adaptModelToDb(certificationCourse);
     const options = { transacting : domainTransaction.knexTransaction };
     const savedCertificationCourse = await new CertificationCourseBookshelf(certificationCourseToSave).save(null, options);
     return _toDomain(savedCertificationCourse);
   },
 
-  async changeCompletionDate(certificationCourseId, completedAt = null) {
+  async changeCompletionDate(certificationCourseId, completedAt = null, domainTransaction = {}) {
     const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, completedAt });
-    const savedCertificationCourse = await certificationCourseBookshelf.save();
+    const savedCertificationCourse = await certificationCourseBookshelf.save(null, { transacting: domainTransaction.knexTransaction });
     return _toDomain(savedCertificationCourse);
   },
 
@@ -36,7 +37,7 @@ module.exports = {
     }
   },
 
-  async findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId, domainTransaction = {} }) {
+  async findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const certificationCourse = await CertificationCourseBookshelf
       .where({ userId, sessionId })
       .orderBy('createdAt', 'desc')

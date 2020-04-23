@@ -16,4 +16,5 @@ const dependencies = {
 module.exports = injectDependencies({
   handleBadgeAcquisition: require('./handle-badge-acquisition'),
   handleCertificationScoring: require('./handle-certification-scoring'),
+  handleCertificationAcquisitionForPartner: require('./handle-certification-partner'),
 }, dependencies);
