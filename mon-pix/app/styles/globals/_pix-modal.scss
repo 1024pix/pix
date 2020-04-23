@@ -33,7 +33,7 @@ $pix-modal-border-radius: 5px;
 
       &> span {
         color: inherit;
-        font-size: 1.4rem;
+        font-size: 0.875rem;
         margin-right: 5px;
 
         &:hover,
@@ -44,7 +44,7 @@ $pix-modal-border-radius: 5px;
       }
 
       &> svg {
-        font-size: 1.4rem;
+        font-size: 0.875rem;
       }
     }
 
@@ -52,7 +52,7 @@ $pix-modal-border-radius: 5px;
       border-radius: $pix-modal-border-radius;
       background-color: $porcelain-grey;
       box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
-      font-size: 1.6rem;
+      font-size: 1rem;
       position: relative;
       margin: auto;
 
@@ -76,7 +76,7 @@ $pix-modal-border-radius: 5px;
           text-align: center;
           padding: 15px;
           font-family: $font-roboto;
-          font-size: 2.8rem;
+          font-size: 1.75rem;
 
           &--thin {
             font-weight: $font-light;
@@ -89,7 +89,7 @@ $pix-modal-border-radius: 5px;
           color: $nero;
           font-family: $font-roboto;
           font-weight: $font-normal;
-          font-size: 1.6rem;
+          font-size: 1rem;
         }
       }
 
@@ -136,7 +136,7 @@ $pix-modal-border-radius: 5px;
   background-color: $white;
   border: 2px solid $alto-grey;
   color: $slate-grey;
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.125rem;
   box-sizing: border-box;
   margin-bottom: 5px;
   outline: none;

@@ -1,9 +1,9 @@
 .button {
   font-family: $font-roboto;
   padding: 14px 20px;
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-weight: 500;
-  letter-spacing: 0.019rem;
+  letter-spacing: 0.012rem;
   text-align: center;
   border-radius: 5px;
   background-color: $pix-blue;
@@ -45,7 +45,7 @@
   &--extra-thin {
     padding-top: 8px;
     padding-bottom: 8px;
-    font-size: 1.5rem;
+    font-size: 0.938rem;
   }
 
   &--regular {
@@ -91,7 +91,7 @@
     background: $pix-yellow;
     color: $nero;
     font-weight: $font-bold;
-    font-size: 1.45rem;
+    font-size: 0.906rem;
     box-shadow: 0 2px 6px 0 rgba(12, 22, 58, 0.11), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
 
     &:hover, &:active, &:focus {
@@ -104,7 +104,7 @@
     background-color: $dove-gray;
     color: $white;
     font-weight: $font-bold;
-    font-size: 1.5rem;
+    font-size: 0.938rem;
     &:hover, &:active, &:focus {
       background-color: $charcoal-grey;
     }
@@ -143,7 +143,7 @@
   color: $dove-gray;
   padding: 4px 8px;
   border: none;
-  font-size: 1.6rem;
+  font-size: 1rem;
   background-color: transparent;
   cursor: pointer;
   outline: none;
@@ -190,9 +190,9 @@
 
   &__return-to {
     color: $black;
-    font-size: 1.3rem;
+    font-size: 0.813rem;
     font-weight: $font-semi-bold;
-    letter-spacing: 0.03rem;
+    letter-spacing: 0.019rem;
     display: inline-flex;
     align-items: center;
 
