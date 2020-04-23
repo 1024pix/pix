@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { debounce } from '@ember/runloop';
 import _ from 'lodash';
-import { statusToDisplayName } from 'pix-admin/models/session';
+import { statusToDisplayName, FINALIZED } from 'pix-admin/models/session';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
@@ -14,7 +14,7 @@ export default class SessionListController extends Controller {
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 10;
   @tracked id = null;
-  @tracked status = null;
+  @tracked status = FINALIZED;
   @tracked resultsSentToPrescriberAt = null;
   searchFilter = null;
 
