@@ -1,51 +1,8 @@
 const moment = require('moment');
 const _ = require('lodash');
 
-function _stateOfSkill(skillId, knowledgeElements) {
-  const knowledgeElementForSkill = _.findLast(knowledgeElements,
-    (knowledgeElement) => knowledgeElement.skillId === skillId);
-  if (knowledgeElementForSkill) {
-    return knowledgeElementForSkill.isValidated ? 'OK' : 'KO';
-  } else {
-    return 'Non testé';
-  }
-}
-
-function _getSkillsOfCompetenceByTargetProfile(competence, targetProfile) {
-  const skillsOfProfile = targetProfile.skills;
-  const skillsOfCompetences = competence.skillIds;
-  return skillsOfProfile
-    .filter((skillOfProfile) => skillsOfCompetences.some((skill) => skill === skillOfProfile.id));
-}
-
-function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
-  const sumValidatedSkills = _.reduce(knowledgeElements, function(validatedSkill, knowledgeElement) {
-    if (knowledgeElement.isValidated && skills.find((skill) => skill.id === knowledgeElement.skillId)) {
-      return validatedSkill + 1;
-    }
-    return validatedSkill;
-  }, 0);
-  return sumValidatedSkills;
-
-}
-
-function _extractAreas(competences) {
-  return _.uniqBy(competences.map((competence) => competence.area), 'code');
-}
-
-function _totalValidatedSkills(knowledgeElements) {
-  const sumValidatedSkills = _.reduce(knowledgeElements, function(validatedSkill, knowledgeElement) {
-    if (knowledgeElement.isValidated) {
-      return validatedSkill + 1;
-    }
-    return validatedSkill;
-  }, 0);
-  return sumValidatedSkills;
-}
-
-function _percentageSkillsValidated(knowledgeElements, targetProfile) {
-  return _.round(_totalValidatedSkills(knowledgeElements) / targetProfile.skills.length, 2);
-}
+const STATS_COLUMNS_COUNT = 3;
+const EMPTY_CONTENT = 'NA';
 
 class CampaignAssessmentCsvLine {
   constructor({
@@ -63,29 +20,23 @@ class CampaignAssessmentCsvLine {
     this.competences = competences;
     this.campaignParticipationResultData = campaignParticipationResultData;
     this.targetProfile = targetProfile;
-    this.participantKnowledgeElements = participantKnowledgeElements;
     this.isShared = campaignParticipationResultData.isShared;
     this.knowledgeElements = participantKnowledgeElements
       .filter((ke) => _.find(targetProfile.skills, { id: ke.skillId }));
     this.campaignParticipationService = campaignParticipationService;
 
-    this._makeStatsColumns = this._makeStatsColumns.bind(this);
-    this._makeAreaColumns  = this._makeAreaColumns.bind(this);
-    this._makeCommonColumns = this._makeCommonColumns.bind(this);
+    // To have the good `this` in _getStatsForCompetence, it is necessary to bind it
     this._getStatsForCompetence = this._getStatsForCompetence.bind(this);
   }
 
   toCsvLine() {
     return [
       ...this._makeCommonColumns(),
-      ...this._makeCompetenceColumns(),
-      ...this._makeAreaColumns(),
-      ..._.map(this.targetProfile.skills, ({ id }) => this.isShared ? _stateOfSkill(id, this.knowledgeElements) : 'NA')
+      ...(this.isShared ? this._makeSharedColumns() : this._makeNotSharedColumns())
     ];
   }
 
-  _makeStatsColumns({ skillCount, validatedSkillCount }) {
-    if (!this.isShared) return ['NA', 'NA', 'NA'];
+  _makeSharedStatsColumns({ skillCount, validatedSkillCount }) {
     return [
       _.round(validatedSkillCount / skillCount, 2),
       skillCount,
@@ -93,23 +44,27 @@ class CampaignAssessmentCsvLine {
     ];
   }
 
+  _makeNotSharedStatsColumns(times) {
+    return _.times(times, () => EMPTY_CONTENT);
+  }
+
   _getStatsForCompetence(competence) {
-    const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, this.targetProfile);
+    const skillsForThisCompetence = this._getSkillsOfCompetenceByTargetProfile(competence);
     return {
       skillCount: skillsForThisCompetence.length,
-      validatedSkillCount: _getSkillsValidatedForCompetence(skillsForThisCompetence, this.knowledgeElements)
+      validatedSkillCount: this._countValidatedKnowledgeElementsForSkills(skillsForThisCompetence)
     };
   }
 
   _makeCompetenceColumns() {
-    return _.flatMap(this.competences, (competence) => this._makeStatsColumns({
+    return _.flatMap(this.competences, (competence) => this._makeSharedStatsColumns({
       id: competence.id,
       ...this._getStatsForCompetence(competence),
     }));
   }
 
   _makeAreaColumns() {
-    const areas = _extractAreas(this.competences);
+    const areas = this._extractAreas();
     return _.flatMap(areas, ({ id }) => {
       const areaCompetenceStats = _.filter(this.competences, (competence) => competence.area.id === id)
         .map(this._getStatsForCompetence);
@@ -117,7 +72,7 @@ class CampaignAssessmentCsvLine {
       const skillCount = _.sumBy(areaCompetenceStats, 'skillCount');
       const validatedSkillCount = _.sumBy(areaCompetenceStats, 'validatedSkillCount');
 
-      return this._makeStatsColumns({
+      return this._makeSharedStatsColumns({
         id,
         skillCount,
         validatedSkillCount,
@@ -134,13 +89,68 @@ class CampaignAssessmentCsvLine {
       this.targetProfile.name,
       participantLastName,
       participantFirstName,
-      this.campaign.idPixLabel ? this.campaignParticipationResultData.participantExternalId : 'NA',
+      this.campaign.idPixLabel ? this.campaignParticipationResultData.participantExternalId : EMPTY_CONTENT,
       this.campaignParticipationService.progress(this.campaignParticipationResultData.isCompleted, this.knowledgeElements.length, this.targetProfile.skills.length),
       moment.utc(this.campaignParticipationResultData.createdAt).format('YYYY-MM-DD'),
       this.isShared ? 'Oui' : 'Non',
-      this.isShared ? moment.utc(this.campaignParticipationResultData.sharedAt).format('YYYY-MM-DD') : 'NA',
-      this.isShared ? _percentageSkillsValidated(this.knowledgeElements, this.targetProfile) : 'NA',
+      this.isShared ? moment.utc(this.campaignParticipationResultData.sharedAt).format('YYYY-MM-DD') : EMPTY_CONTENT,
+      this.isShared ? this._percentageSkillsValidated() : EMPTY_CONTENT,
     ];
+  }
+
+  _makeSharedColumns() {
+    return [
+      ...this._makeCompetenceColumns(),
+      ...this._makeAreaColumns(),
+      ..._.map(this.targetProfile.skills, ({ id }) => this._stateOfSkill(id))
+    ];
+  }
+
+  _makeNotSharedColumns() {
+    const areas = this._extractAreas(this.competences);
+    return [
+      ...this._makeNotSharedStatsColumns(this.competences.length * STATS_COLUMNS_COUNT),
+      ...this._makeNotSharedStatsColumns(areas.length * STATS_COLUMNS_COUNT),
+      ...this._makeNotSharedStatsColumns(this.targetProfile.skills.length)
+    ];
+  }
+
+  _stateOfSkill(skillId) {
+    const knowledgeElementForSkill = _.findLast(this.knowledgeElements,
+      (knowledgeElement) => knowledgeElement.skillId === skillId);
+    if (knowledgeElementForSkill) {
+      return knowledgeElementForSkill.isValidated ? 'OK' : 'KO';
+    } else {
+      return 'Non testé';
+    }
+  }
+
+  _getSkillsOfCompetenceByTargetProfile(competence) {
+    const skillsOfProfile = this.targetProfile.skills;
+    const skillsOfCompetences = competence.skillIds;
+    return skillsOfProfile
+      .filter((skillOfProfile) => skillsOfCompetences.includes(skillOfProfile.id));
+  }
+
+  _countValidatedKnowledgeElementsForSkills(skills) {
+    return this.knowledgeElements
+      .filter((knowledgeElement) => knowledgeElement.isValidated &&
+        skills.some((skill) => skill.id === knowledgeElement.skillId))
+      .length;
+  }
+
+  _extractAreas() {
+    return _.uniqBy(this.competences.map((competence) => competence.area), 'code');
+  }
+
+  _countValidatedKnowledgeElements() {
+    return this.knowledgeElements
+      .filter((knowledgeElement) => knowledgeElement.isValidated)
+      .length;
+  }
+
+  _percentageSkillsValidated() {
+    return _.round(this._countValidatedKnowledgeElements() / this.targetProfile.skills.length, 2);
   }
 
 }
