@@ -31,9 +31,9 @@
 
   &__cgu-label span {
     color: $charcoal-grey;
-    font-size: 13px;
+    font-size: 1.3rem;
     @include device-is('tablet') {
-      font-size: 14px;
+      font-size: 1.4rem;
     }
   }
 
