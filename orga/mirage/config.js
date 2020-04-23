@@ -220,6 +220,12 @@ export default function() {
 
   this.get('/campaign-participations/:id');
 
+  this.get('/campaign-participations/:id/analyses', (schema, request) => {
+    const campaignParticipationId = request.params.id;
+    const campaignParticipation = schema.campaignParticipations.find(campaignParticipationId);
+    return campaignParticipation.campaignAnalysis;
+  });
+
   this.get('/campaign-participation-results/:id');
 
   this.post('/student-dependent-users/password-update', (schema, request) => {
