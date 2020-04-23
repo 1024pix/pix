@@ -16,11 +16,11 @@ import {
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
+import ENV from '../../../config/environment';
 
 const FORM_CONTAINER = '.sign-form__container';
 const FORM_HEADER_CONTAINER = '.sign-form__header';
-const FORM_HEADER = '.sign-form-title';
-const EXPECTED_FORM_HEADER_CONTENT = 'Inscrivez-vous';
+const FORM_TITLE = '.sign-form-title';
 
 const INPUT_TEXT_FIELD = '.sign-form-body__input';
 const INPUT_TEXT_FIELD_CLASS_DEFAULT = 'form-textfield__input-container--default';
@@ -28,20 +28,11 @@ const INPUT_TEXT_FIELD_CLASS_DEFAULT = 'form-textfield__input-container--default
 const CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
 const CHECKBOX_CGU_INPUT = '#pix-cgu';
 const CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
-const UNCHECKED_CHECKBOX_CGU_ERROR = 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.';
 
 const CGU_LINK = '.signup-form__cgu .link';
-const CGU_LINK_CONTENT = 'conditions d\'utilisation de Pix';
 
 const SUBMIT_BUTTON_CONTAINER = '.sign-form-body__bottom-button';
 const SUBMIT_BUTTON = '.button';
-const SUBMIT_BUTTON_CONTENT = 'Je m\'inscris';
-
-const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
-
-const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
-const EMPTY_EMAIL_ERROR_MESSAGE = 'Votre adresse e-mail n’est pas valide.';
-const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
 
 const userEmpty = EmberObject.create({});
 const CAPTCHA_CONTAINER = '.signup-form__captcha-container';
@@ -49,6 +40,36 @@ const CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 describe('Integration | Component | signup form', function() {
 
   setupRenderingTest();
+  let intl;
+
+  beforeEach(function() {
+    intl = this.owner.lookup('service:intl');
+  });
+
+  describe('Localization', function() {
+    const originalLocale = ENV.APP.LOCALE;
+
+    afterEach(function() {
+      intl.setLocale(originalLocale);
+    });
+
+    [
+      { locale: 'fr-fr', expectedFormTitle: 'Inscrivez-vous' },
+      { locale: 'en-us', expectedFormTitle: 'Sign up' },
+    ].forEach(function(testCase) {
+      it(`${testCase.locale}`, async function() {
+        const expectedTitle = testCase.expectedFormTitle;
+        this.set('user', userEmpty);
+        intl.setLocale(testCase.locale);
+
+        // when
+        await render(hbs`{{signup-form user=user}}`);
+
+        // then
+        expect(find(FORM_TITLE).textContent).to.equal(expectedTitle);
+      });
+    });
+  });
 
   describe('Rendering', function() {
 
@@ -61,14 +82,15 @@ describe('Integration | Component | signup form', function() {
       expect(find('.sign-form__container')).to.exist;
     });
 
-    it(`Should return true if heading content gets <${EXPECTED_FORM_HEADER_CONTENT}>`, function() {
-      expect(find(FORM_HEADER).textContent).to.equal(EXPECTED_FORM_HEADER_CONTENT);
+    it('should return correct form title', function() {
+      const formTitle = intl.t('signup-form.text.sign-up');
+      expect(find(FORM_TITLE).textContent).to.equal(formTitle);
     });
 
     [
       { expectedRendering: 'form container', input: FORM_CONTAINER, expected: 1 },
       { expectedRendering: 'div to wrap heading of form', input: FORM_HEADER_CONTAINER, expected: 1 },
-      { expectedRendering: 'form title (h1)', input: FORM_HEADER, expected: 1 },
+      { expectedRendering: 'form title (h1)', input: FORM_TITLE, expected: 1 },
       { expectedRendering: '4 input fields in form', input: INPUT_TEXT_FIELD, expected: 4 },
       { expectedRendering: 'cgu container', input: CHECKBOX_CGU_CONTAINER, expected: 1 },
       { expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1 },
@@ -82,31 +104,19 @@ describe('Integration | Component | signup form', function() {
 
     });
 
-    [
-      {
-        expectedRendering: 'cgu content link',
-        input: CGU_LINK,
-        expectedLength: 1,
-        expectedValue: CGU_LINK_CONTENT,
-        expectedType: 'a'
-      },
-      {
-        expectedRendering: 'submit content button',
-        input: SUBMIT_BUTTON,
-        expectedLength: 1,
-        expectedValue: SUBMIT_BUTTON_CONTENT,
-        expectedType: 'button'
-      },
+    it('should have link to Pix\'s CGU', function() {
+      const cguText = intl.t('signup-form.text.fields.cgu.label');
 
-    ].forEach(function({ expectedRendering, input, expectedLength, expectedValue, expectedType }) {
-
-      it(`should render a ${expectedRendering}`, function() {
-        expect(findAll(input)).to.have.length(expectedLength);
-        expect(find(input).textContent.trim()).to.equal(expectedValue);
-        expect(find(input).nodeName).to.equal(expectedType.toUpperCase());
-      });
-
+      expect(find('.signup-form__cgu').innerHTML).to.contains(cguText);
+      expect(findAll(CGU_LINK)).to.have.length(1);
     });
+
+    it('should render a submit button', function() {
+      expect(findAll(SUBMIT_BUTTON)).to.have.length(1);
+      expect(find(SUBMIT_BUTTON).textContent.trim()).to.equal(intl.t('signup-form.button.signup'));
+      expect(find(SUBMIT_BUTTON).nodeName).to.equal('button'.toUpperCase());
+    });
+
   });
 
   describe('Behaviors', function() {
@@ -181,6 +191,7 @@ describe('Integration | Component | signup form', function() {
 
       it('should display an error message on first name field, when field is empty and focus-out', async function() {
         // given
+        const emptyFirstnameErrorMessage = intl.t('signup-form.text.fields.firstName.error');
         this.set('user', userEmpty);
         await render(hbs`{{signup-form user=user}}`);
 
@@ -191,7 +202,7 @@ describe('Integration | Component | signup form', function() {
         // then
         return settled().then(() => {
           expect(find('.form-textfield__message-text').getAttribute('class')).to.contain('form-textfield__message--error');
-          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
+          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(emptyFirstnameErrorMessage);
           expect(find('#firstName').getAttribute('class')).to.contain('form-textfield__input--error');
           expect(find('.form-textfield-icon__state--error')).to.exist;
         });
@@ -199,6 +210,7 @@ describe('Integration | Component | signup form', function() {
 
       it('should display an error message on last name field, when field is empty and focus-out', async function() {
         // given
+        const emptyLastnameErrorMessage = intl.t('signup-form.text.fields.lastName.error');
         this.set('user', userEmpty);
         await render(hbs`{{signup-form user=user}}`);
 
@@ -209,7 +221,7 @@ describe('Integration | Component | signup form', function() {
         // then
         return settled().then(() => {
           expect(find('.form-textfield__message-text').getAttribute('class')).to.contain('form-textfield__message--error');
-          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
+          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(emptyLastnameErrorMessage);
           expect(find('#lastName').getAttribute('class')).to.contain('form-textfield__input--error');
           expect(find('.form-textfield-icon__state--error')).to.exist;
         });
@@ -217,6 +229,7 @@ describe('Integration | Component | signup form', function() {
 
       it('should display an error message on email field, when field is empty and focus-out', async function() {
         // given
+        const emptyEmailErrorMessage = intl.t('signup-form.text.fields.email.error');
         this.set('user', userEmpty);
         await render(hbs`{{signup-form user=user}}`);
 
@@ -227,7 +240,7 @@ describe('Integration | Component | signup form', function() {
         // then
         return settled().then(() => {
           expect(find('.form-textfield__message-email').getAttribute('class')).to.contain('form-textfield__message--error');
-          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
+          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(emptyEmailErrorMessage);
           expect(find('#email').getAttribute('class')).to.contain('form-textfield__input--error');
           expect(find('.form-textfield-icon__state--error')).to.exist;
         });
@@ -235,6 +248,7 @@ describe('Integration | Component | signup form', function() {
 
       it('should display an error message on password field, when field is empty and focus-out', async function() {
         // given
+        const incorrectPasswordErrorMessage = intl.t('signup-form.text.fields.password.error');
         this.set('user', userEmpty);
         await render(hbs`{{signup-form user=user}}`);
 
@@ -245,7 +259,7 @@ describe('Integration | Component | signup form', function() {
         // then
         return settled().then(() => {
           expect(find('.form-textfield__message-password').getAttribute('class')).to.contain('form-textfield__message--error');
-          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
+          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(incorrectPasswordErrorMessage);
           expect(find('#password').getAttribute('class')).to.contain('form-textfield__input--error');
           expect(find('.form-textfield-icon__state--error')).to.exist;
         });
@@ -253,16 +267,17 @@ describe('Integration | Component | signup form', function() {
 
       it('should display an error message on cgu field, when cgu isn\'t accepted and form is submitted', async function() {
         // given
+        const uncheckedCheckboxCguErrorMessage = intl.t('signup-form.text.fields.cgu.error');
         const userWithCguNotAccepted = EmberObject.create({
           cgu: false,
           errors: ArrayProxy.create({
             content: [{
               attribute: 'cgu',
-              message: UNCHECKED_CHECKBOX_CGU_ERROR,
+              message: uncheckedCheckboxCguErrorMessage,
             }],
             cgu: [{
               attribute: 'cgu',
-              message: UNCHECKED_CHECKBOX_CGU_ERROR
+              message: uncheckedCheckboxCguErrorMessage
             }]
           }),
           save() {
@@ -279,7 +294,7 @@ describe('Integration | Component | signup form', function() {
         // then
         return settled().then(() => {
           expect(find('.sign-form__validation-error')).to.exist;
-          expect(find('.sign-form__validation-error').textContent.trim()).to.equal(UNCHECKED_CHECKBOX_CGU_ERROR);
+          expect(find('.sign-form__validation-error').textContent.trim()).to.equal(uncheckedCheckboxCguErrorMessage);
         });
       });
 
