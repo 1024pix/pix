@@ -76,6 +76,10 @@ module.exports = function(environment) {
       warnIfNoIconsIncluded: true,
     },
 
+    pagination: {
+      debounce: 250,
+    },
+
   };
 
   if (environment === 'development') {
@@ -103,6 +107,8 @@ module.exports = function(environment) {
     ENV['ember-cli-notifications'] = {
       clearDuration: 300
     };
+
+    ENV.pagination.debounce = 0;
   }
 
   ENV.APP.ODS_PARSING_URL = 'api/sessions/session_id/certifications/attendance-sheet-analysis';
