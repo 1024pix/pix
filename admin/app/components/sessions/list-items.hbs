@@ -23,7 +23,7 @@
         <th></th>
         <th></th>
         <th>
-          <XSelect id='status' @value={{@sessionStatusAndLabels.[0].status}} @onChange={{@setStatusFilter}} as |xs|>
+          <XSelect id='status' @value={{@status}} @onChange={{@setStatusFilter}} as |xs|>
             <xs.option @value={{@sessionStatusAndLabels.[0].status}}>{{@sessionStatusAndLabels.[0].label}}</xs.option>
             <xs.option @value={{@sessionStatusAndLabels.[1].status}}>{{@sessionStatusAndLabels.[1].label}}</xs.option>
             <xs.option @value={{@sessionStatusAndLabels.[2].status}}>{{@sessionStatusAndLabels.[2].label}}</xs.option>

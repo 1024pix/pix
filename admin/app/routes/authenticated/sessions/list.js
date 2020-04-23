@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import { FINALIZED } from 'pix-admin/models/session';
 
 export default Route.extend(AuthenticatedRouteMixin, {
   queryParams: {
@@ -29,7 +30,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.pageNumber = 1;
       controller.pageSize = 10;
       controller.id = null;
-      controller.status = null;
+      controller.status = FINALIZED;
       controller.resultsSentToPrescriberAt = null;
     }
   }
