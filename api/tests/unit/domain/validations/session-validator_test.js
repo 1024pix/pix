@@ -1,4 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
+const { expect, domainBuilder, catchErr } = require('../../../test-helper');
+const { statuses } = require('../../../../lib/domain/models/Session');
+const { EntityValidationError } = require('../../../../lib/domain/errors');
 const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 
 const MISSING_VALUE = '';
@@ -155,6 +157,120 @@ describe('Unit | Domain | Validators | session-validator', () => {
           }
         });
 
+      });
+
+    });
+  });
+
+  describe('#validateFilters', () => {
+
+    context('when validating id', () => {
+
+      context('when id not in submitted filters', () => {
+
+        it('should not throw any error', () => {
+          expect(sessionValidator.validateFilters({})).to.not.throw;
+        });
+      });
+
+      context('when id is in submitted filters', () => {
+
+        context('when id is not an integer', () => {
+
+          it('should throw an error', async () => {
+            const error = await catchErr(sessionValidator.validateFilters)({ id: 'salut' });
+            expect(error).to.be.instanceOf(EntityValidationError);
+          });
+        });
+
+        context('when id is an integer', () => {
+
+          it('should not throw any error in form of a string', () => {
+            expect(sessionValidator.validateFilters({ id: '123' })).to.not.throw;
+          });
+
+          it('should not throw any error', () => {
+            expect(sessionValidator.validateFilters({ id: 123 })).to.not.throw;
+          });
+        });
+      });
+
+    });
+
+    context('when validating status', () => {
+
+      context('when status not in submitted filters', () => {
+
+        it('should not throw any error', () => {
+          expect(sessionValidator.validateFilters({})).to.not.throw;
+        });
+      });
+
+      context('when status is in submitted filters', () => {
+
+        context('when status is not an string', () => {
+
+          it('should throw an error', async () => {
+            const error = await catchErr(sessionValidator.validateFilters)({ status: 123 });
+            expect(error).to.be.instanceOf(EntityValidationError);
+          });
+        });
+
+        context('when status is not in the statuses list', () => {
+
+          it('should throw an error', async () => {
+            const error = await catchErr(sessionValidator.validateFilters)({ status: 'SomeOtherStatus' });
+            expect(error).to.be.instanceOf(EntityValidationError);
+          });
+        });
+
+        context('when status is in the statuses list', () => {
+
+          it('should not throw an error', async () => {
+            expect(sessionValidator.validateFilters({ status: statuses.CREATED })).to.not.throw;
+            expect(sessionValidator.validateFilters({ status: statuses.FINALIZED })).to.not.throw;
+            expect(sessionValidator.validateFilters({ status: statuses.IN_PROCESS })).to.not.throw;
+            expect(sessionValidator.validateFilters({ status: statuses.PROCESSED })).to.not.throw;
+          });
+        });
+      });
+
+    });
+
+    context('when validating resultsSentToPrescriberAt', () => {
+
+      context('when resultsSentToPrescriberAt not in submitted filters', () => {
+
+        it('should not throw any error', () => {
+          expect(sessionValidator.validateFilters({})).to.not.throw;
+        });
+      });
+
+      context('when resultsSentToPrescriberAt is in submitted filters', () => {
+
+        context('when resultsSentToPrescriberAt is not an string', () => {
+
+          it('should throw an error', async () => {
+            const error = await catchErr(sessionValidator.validateFilters)({ resultsSentToPrescriberAt: 123 });
+            expect(error).to.be.instanceOf(EntityValidationError);
+          });
+        });
+
+        context('when resultsSentToPrescriberAt is not in the resultsSentToPrescriberAt list', () => {
+
+          it('should throw an error', async () => {
+            const error = await catchErr(sessionValidator.validateFilters)({ resultsSentToPrescriberAt: 'SomeOtherValue' });
+            expect(error).to.be.instanceOf(EntityValidationError);
+          });
+        });
+
+        context('when resultsSentToPrescriberAt is string true or false', () => {
+
+          it('should not throw an error', async () => {
+            expect(sessionValidator.validateFilters({ resultsSentToPrescriberAt: 'true' })).to.not.throw;
+            expect(sessionValidator.validateFilters({ resultsSentToPrescriberAt: 'false' })).to.not.throw;
+          });
+        });
       });
 
     });
