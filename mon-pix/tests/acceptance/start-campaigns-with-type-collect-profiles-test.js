@@ -52,7 +52,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
               // when
               await fillIn('#campaign-code', campaign.code);
-              await click('.button');
+              await click('.fill-in-campaign-code__start-button');
 
               // then
               expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code.toLowerCase()}/presentation`);
@@ -73,7 +73,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
                 // when
                 await fillIn('#campaign-code', campaign.code);
-                await click('.button');
+                await click('.fill-in-campaign-code__start-button');
                 await click('#login-button');
                 await fillIn('#login', campaignParticipant.email);
                 await fillIn('#password', campaignParticipant.password);
@@ -360,7 +360,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
             //when
             await fillIn('#campaign-code', campaign.code);
-            await click('.button');
+            await click('.fill-in-campaign-code__start-button');
 
             //then
             expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code.toLowerCase()}/rejoindre`);

@@ -89,11 +89,10 @@ describe('Integration | Component | navbar-desktop-header', function() {
     it('should display the navigation menu with expected elements', function() {
       // then
       expect(find('.navbar-desktop-header-container__menu')).to.exist;
-      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(4);
+      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(3);
       expect(findAll('.navbar-desktop-header-menu__item')[0].textContent.trim()).to.equal('Profil');
-      expect(findAll('.navbar-desktop-header-menu__item')[1].textContent.trim()).to.equal('Parcours');
-      expect(findAll('.navbar-desktop-header-menu__item')[2].textContent.trim()).to.equal('Certification');
-      expect(findAll('.navbar-desktop-header-menu__item')[3].textContent.trim()).to.equal('Aide');
+      expect(findAll('.navbar-desktop-header-menu__item')[1].textContent.trim()).to.equal('Certification');
+      expect(findAll('.navbar-desktop-header-menu__item')[2].textContent.trim()).to.equal('Aide');
     });
   });
 
