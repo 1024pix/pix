@@ -1,7 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 
 describe('Integration | Application | Route | campaignRouter', () => {
   let server;
@@ -13,7 +12,6 @@ describe('Integration | Application | Route | campaignRouter', () => {
     sinon.stub(campaignController, 'getById').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'update').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignController, 'getAnalysis').callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(securityController, 'checkUserCanAccessCampaign');
 
     server = Hapi.server();
 
@@ -99,8 +97,6 @@ describe('Integration | Application | Route | campaignRouter', () => {
   describe('GET /api/campaigns/{id}', () => {
 
     it('should return a 200', function() {
-      // given
-      securityController.checkUserCanAccessCampaign.returns(true);
       // when
       const promise = server.inject({
         method: 'GET',
@@ -110,23 +106,6 @@ describe('Integration | Application | Route | campaignRouter', () => {
       // then
       return promise.then((res) => {
         expect(res.statusCode).to.equal(200);
-      });
-    });
-
-    it('should return a 403 if user is not allowed to access campaign', function() {
-      // given
-      securityController.checkUserCanAccessCampaign.callsFake((request, h) => {
-        return Promise.resolve(h.response().code(403).takeover());
-      });
-      // when
-      const promise = server.inject({
-        method: 'GET',
-        url: '/api/campaigns/1',
-      });
-
-      // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(403);
       });
     });
   });
