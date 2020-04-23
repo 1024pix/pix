@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.144.0 (23/04/2020)
+
+- [#1311](https://github.com/1024pix/pix/pull/1311) [BUGFIX] Correction de l'affichage du logo sous IE (PF-1225).
+- [#1328](https://github.com/1024pix/pix/pull/1328) [TECH] Éviter de générer des heap dumps lors de l'utilisation de `nodemon`
+- [#1326](https://github.com/1024pix/pix/pull/1326) [TECH] Problème de script npm start en développement. 
+- [#1300](https://github.com/1024pix/pix/pull/1300) [TECH][FIX] Catégoriser les envois d'e-mail en alimentant la propriété TAGS (PF-1242).
+- [#1303](https://github.com/1024pix/pix/pull/1303) [TECH] Correction des routes d'API destinées aux diagnostics mémoire
+- [#1330](https://github.com/1024pix/pix/pull/1330) Revert "[BUGFIX] Restreindre l'accès au détail d'une campagne dans Pix Orga (PO-357). "
+- [#1327](https://github.com/1024pix/pix/pull/1327) [BSR] Remplacer Promise.all par bluebird.mapSeries lors de la génération des résultats de certification d'une session entière (PA-209)
+- [#1325](https://github.com/1024pix/pix/pull/1325) [BUG] Propriétés cgus incorrects lors de l'affichage de détail utilisateurs.(PA-208)
+
 ## v2.143.0 (21/04/2020)
 
 - [#1319](https://github.com/1024pix/pix/pull/1319) [BUGFIX] Affichage non correct du résumé des résultats collectifs de campagne d'évaluation (PO-432).
