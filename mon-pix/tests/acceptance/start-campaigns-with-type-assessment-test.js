@@ -47,7 +47,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           await visit('/campagnes');
 
           // then
-          expect(find('.button').textContent).to.contains('Commencer mon parcours');
+          expect(find('.button').textContent).to.contains('Commencer');
         });
       });
 
