@@ -1,15 +1,30 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/organizations/list', function(hooks) {
+module('Unit | Controller | authenticated/certification-centers/list', function(hooks) {
   setupTest(hooks);
   let controller;
 
   hooks.beforeEach(function() {
-    controller = this.owner.lookup('controller:authenticated.organizations.list');
+    controller = this.owner.lookup('controller:authenticated.certification-centers.list');
   });
 
   module('#triggerFiltering task', function() {
+
+    module('updating id', function() {
+
+      test('it should update controller id field', async function(assert) {
+        // given
+        controller.id = 'someId';
+        const expectedValue = 'someOtherId';
+
+        // when
+        await controller.triggerFiltering.perform('id', { target: { value: expectedValue } });
+
+        // then
+        assert.equal(controller.id, expectedValue);
+      });
+    });
 
     module('updating name', function() {
 
@@ -17,7 +32,7 @@ module('Unit | Controller | authenticated/organizations/list', function(hooks) {
         // given
         controller.name = 'someName';
         const expectedValue = 'someOtherName';
-        
+
         // when
         await controller.triggerFiltering.perform('name', { target: { value: expectedValue } });
 

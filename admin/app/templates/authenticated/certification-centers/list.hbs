@@ -5,11 +5,11 @@
 <main class="page-body">
   <section class="page-section">
     <CertificationCenters::ListItems
-            @id={{id}}
-            @certificationCenters={{@model}}
-            @name={{name}}
-            @type={{type}}
-            @externalId={{externalId}}
-            @triggerFiltering={{this.triggerFiltering}} />
+      @certificationCenters={{@model}}
+      @id={{this.id}}
+      @name={{this.name}}
+      @type={{this.type}}
+      @externalId={{this.externalId}}
+      @triggerFiltering={{this.triggerFiltering}} />
   </section>
 </main>
