@@ -39,7 +39,7 @@ Router.map(function() {
         this.route('analysis', { path: '/analyse' });
         this.route('participants', function() {
           this.route('participant', { path: '/:campaign_participation_id' }, function() {
-            this.route('results', { path: '/' });
+            this.route('results', { path: '/resultats' });
             this.route('analysis', { path: '/analyse' });
           });
         });

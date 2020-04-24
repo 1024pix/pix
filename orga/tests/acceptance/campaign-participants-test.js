@@ -64,7 +64,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
       await click('table tbody .tr--clickable');
 
       // then
-      assert.equal(currentURL(), '/campagnes/1/participants/1');
+      assert.equal(currentURL(), '/campagnes/1/participants/1/resultats');
     });
   });
 
