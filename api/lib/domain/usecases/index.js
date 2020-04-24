@@ -13,6 +13,7 @@ const dependencies = {
   campaignRepository: require('../../infrastructure/repositories/campaign-repository'),
   certificationCandidatesOdsService: require('../../domain/services/certification-candidates-ods-service'),
   certificationsOdsService: require('../../domain/services/certifications-ods-service'),
+  campaignCsvExportService: require('../../domain/services/campaign-csv-export-service'),
   certificationCandidateRepository: require('../../infrastructure/repositories/certification-candidate-repository'),
   certificationReportRepository: require('../../infrastructure/repositories/certification-report-repository'),
   certificationChallengesService: require('../../domain/services/certification-challenges-service'),
