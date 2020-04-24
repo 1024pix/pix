@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module.only('Integration | Component | routes/authenticated/campaign/details/participants | participant-header', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/participant | participant-header', function(hooks) {
   setupRenderingTest(hooks);
 
   let store;
@@ -45,7 +45,7 @@ module.only('Integration | Component | routes/authenticated/campaign/details/par
     this.campaign = campaign;
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ParticipantHeader @campaignParticipation={{campaignParticipation}} @campaign={{campaign}} />`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Participant::ParticipantHeader @campaignParticipation={{campaignParticipation}} @campaign={{campaign}} />`);
 
     // then
     assert.dom('.page__title').hasText('Prénom Nom');
@@ -89,7 +89,7 @@ module.only('Integration | Component | routes/authenticated/campaign/details/par
     this.campaign = campaign;
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ParticipantHeader @campaignParticipation={{campaignParticipation}} @campaign={{campaign}} />`);
+    await render(hbs`<Routes::Authenticated::Campaigns::Participant::ParticipantHeader @campaignParticipation={{campaignParticipation}} @campaign={{campaign}} />`);
 
     // then
     assert.dom(`nav a[href="/campagnes/${campaign.id}/participants/${campaignParticipation.id}/resultats"]`).hasText('Résultats');

@@ -4,10 +4,11 @@ import RSVP from 'rsvp';
 export default class ParticipantRoute extends Route {
 
   model(params) {
-    const campaign = this.modelFor('authenticated.campaigns.details');
-
     return RSVP.hash({
-      campaign,
+      campaign: this.store.findRecord(
+        'campaign',
+        params.campaign_id,
+      ),
       campaignParticipation: this.store.findRecord(
         'campaignParticipation',
         params.campaign_participation_id,
@@ -15,11 +16,4 @@ export default class ParticipantRoute extends Route {
       ),
     });
   }
-
-  renderTemplate() {
-    this.render('authenticated.campaigns.details.participants.participant', {
-      into: 'authenticated.campaigns',
-    });
-  }
-
 }
