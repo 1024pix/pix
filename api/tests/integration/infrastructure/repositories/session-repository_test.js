@@ -583,6 +583,182 @@ describe('Integration | Repository | Session', function() {
           expect(sessions[0].id).to.equal(expectedSession.id);
         });
       });
+
+      context('when there is a filter regarding session status', () => {
+        context('when there is a filter on created sessions', () => {
+          let expectedSessionId;
+
+          beforeEach(() => {
+            expectedSessionId = databaseBuilder.factory.buildSession({ finalizedAt: null, publishedAt: null }).id;
+            databaseBuilder.factory.buildSession({ finalizedAt: new Date('2020-01-01T00:00:00Z') });
+
+            return databaseBuilder.commit();
+          });
+
+          it('should apply the strict filter and return the appropriate results', async () => {
+            // given
+            const filters = { status: statuses.CREATED };
+            const page = { number: 1, size: 10 };
+
+            // when
+            const { sessions } = await sessionRepository.findPaginatedFiltered({ filters, page });
+
+            // then
+            expect(sessions).to.have.length(1);
+            expect(sessions[0].id).to.equal(expectedSessionId);
+          });
+        });
+
+        context('when there is a filter on finalized sessions', () => {
+          let expectedSessionId;
+
+          beforeEach(() => {
+            const someDate = new Date('2020-01-01T00:00:00Z');
+            expectedSessionId = databaseBuilder.factory.buildSession({ finalizedAt: someDate, publishedAt: null, assignedCertificationOfficerId: null }).id;
+            databaseBuilder.factory.buildSession({ finalizedAt: someDate, publishedAt: someDate, assignedCertificationOfficerId: null });
+
+            return databaseBuilder.commit();
+          });
+
+          it('should apply the strict filter and return the appropriate results', async () => {
+            // given
+            const filters = { status: statuses.FINALIZED };
+            const page = { number: 1, size: 10 };
+
+            // when
+            const { sessions } = await sessionRepository.findPaginatedFiltered({ filters, page });
+
+            // then
+            expect(sessions).to.have.length(1);
+            expect(sessions[0].id).to.equal(expectedSessionId);
+          });
+        });
+
+        context('when there is a filter on in process sessions', () => {
+          let expectedSessionId;
+
+          beforeEach(() => {
+            const someDate = new Date('2020-01-01T00:00:00Z');
+            const assignedCertificationOfficerId = databaseBuilder.factory.buildUser().id;
+            expectedSessionId = databaseBuilder.factory.buildSession({ finalizedAt: someDate, publishedAt: null, assignedCertificationOfficerId }).id;
+            databaseBuilder.factory.buildSession({ publishedAt: someDate, assignedCertificationOfficerId });
+
+            return databaseBuilder.commit();
+          });
+
+          it('should apply the strict filter and return the appropriate results', async () => {
+            // given
+            const filters = { status: statuses.IN_PROCESS };
+            const page = { number: 1, size: 10 };
+
+            // when
+            const { sessions } = await sessionRepository.findPaginatedFiltered({ filters, page });
+
+            // then
+            expect(sessions).to.have.length(1);
+            expect(sessions[0].id).to.equal(expectedSessionId);
+          });
+        });
+
+        context('when there is a filter on published sessions', () => {
+          let expectedSessionId;
+
+          beforeEach(() => {
+            const someDate = new Date('2020-01-01T00:00:00Z');
+            expectedSessionId = databaseBuilder.factory.buildSession({ publishedAt: someDate }).id;
+            databaseBuilder.factory.buildSession({ publishedAt: null });
+
+            return databaseBuilder.commit();
+          });
+
+          it('should apply the strict filter and return the appropriate results', async () => {
+            // given
+            const filters = { status: statuses.PROCESSED };
+            const page = { number: 1, size: 10 };
+
+            // when
+            const { sessions } = await sessionRepository.findPaginatedFiltered({ filters, page });
+
+            // then
+            expect(sessions).to.have.length(1);
+            expect(sessions[0].id).to.equal(expectedSessionId);
+          });
+        });
+      });
+
+      context('when there is a filter regarding resultsSentToPrescriberAt state', () => {
+
+        context('when there is a filter on sessions which results have been sent to prescriber', () => {
+          let expectedSessionId;
+
+          beforeEach(() => {
+            expectedSessionId = databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: new Date('2020-01-01T00:00:00Z') }).id;
+            databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: null });
+
+            return databaseBuilder.commit();
+          });
+
+          it('should apply the strict filter and return the appropriate results', async () => {
+            // given
+            const filters = { resultsSentToPrescriberAt: 'true' };
+            const page = { number: 1, size: 10 };
+
+            // when
+            const { sessions } = await sessionRepository.findPaginatedFiltered({ filters, page });
+
+            // then
+            expect(sessions).to.have.length(1);
+            expect(sessions[0].id).to.equal(expectedSessionId);
+          });
+        });
+
+        context('when there is a filter on sessions which results have not been sent to prescriber', () => {
+          let expectedSessionId;
+
+          beforeEach(() => {
+            databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: new Date('2020-01-01T00:00:00Z') });
+            expectedSessionId = databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: null }).id;
+
+            return databaseBuilder.commit();
+          });
+
+          it('should apply the strict filter and return the appropriate results', async () => {
+            // given
+            const filters = { resultsSentToPrescriberAt: 'false' };
+            const page = { number: 1, size: 10 };
+
+            // when
+            const { sessions } = await sessionRepository.findPaginatedFiltered({ filters, page });
+
+            // then
+            expect(sessions).to.have.length(1);
+            expect(sessions[0].id).to.equal(expectedSessionId);
+          });
+        });
+
+        context('when there is no filter on whether session results has been sent to prescriber or not', () => {
+
+          beforeEach(() => {
+            databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: new Date('2020-01-01T00:00:00Z') });
+            databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: null });
+
+            return databaseBuilder.commit();
+          });
+
+          it('should apply the strict filter and return the appropriate results', async () => {
+            // given
+            const filters = {};
+            const page = { number: 1, size: 10 };
+
+            // when
+            const { sessions } = await sessionRepository.findPaginatedFiltered({ filters, page });
+
+            // then
+            expect(sessions).to.have.length(2);
+          });
+        });
+      });
+
     });
   });
 

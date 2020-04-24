@@ -101,6 +101,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     certificationCenter, certificationCenterId,
     finalizedAt: new Date('2018-01-02T00:00:00Z'),
     publishedAt: null,
+    resultsSentToPrescriberAt: new Date('2018-01-04T00:00:00Z'),
   });
   databaseBuilder.factory.buildSession({
     certificationCenter, certificationCenterId, address, room, examiner, date , time,

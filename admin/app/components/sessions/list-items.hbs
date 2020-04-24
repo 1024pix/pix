@@ -22,10 +22,25 @@
         <th></th>
         <th></th>
         <th></th>
+        <th>
+          <XSelect id='status' @value={{@status}} @onChange={{@setStatusFilter}} as |xs|>
+            <xs.option @value={{@sessionStatusAndLabels.[0].status}}>{{@sessionStatusAndLabels.[0].label}}</xs.option>
+            <xs.option @value={{@sessionStatusAndLabels.[1].status}}>{{@sessionStatusAndLabels.[1].label}}</xs.option>
+            <xs.option @value={{@sessionStatusAndLabels.[2].status}}>{{@sessionStatusAndLabels.[2].label}}</xs.option>
+            <xs.option @value={{@sessionStatusAndLabels.[3].status}}>{{@sessionStatusAndLabels.[3].label}}</xs.option>
+            <xs.option @value={{@sessionStatusAndLabels.[4].status}}>{{@sessionStatusAndLabels.[4].label}}</xs.option>
+          </XSelect>
+        </th>
         <th></th>
         <th></th>
         <th></th>
-        <th></th>
+        <th>
+          <XSelect id='resultsSentToPrescriberAt' @value={{@sessionResultsSentToPrescriberAtAndLabels.[0].value}} @onChange={{@setResultsSentToPrescriberAtFilter}} as |xs|>
+            <xs.option @value={{@sessionResultsSentToPrescriberAtAndLabels.[0].value}}>{{@sessionResultsSentToPrescriberAtAndLabels.[0].label}}</xs.option>
+            <xs.option @value={{@sessionResultsSentToPrescriberAtAndLabels.[1].value}}>{{@sessionResultsSentToPrescriberAtAndLabels.[1].label}}</xs.option>
+            <xs.option @value={{@sessionResultsSentToPrescriberAtAndLabels.[2].value}}>{{@sessionResultsSentToPrescriberAtAndLabels.[2].label}}</xs.option>
+          </XSelect>
+        </th>
       </tr>
     </thead>
 

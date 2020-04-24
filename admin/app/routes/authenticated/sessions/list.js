@@ -1,23 +1,22 @@
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import { FINALIZED } from 'pix-admin/models/session';
 
 export default Route.extend(AuthenticatedRouteMixin, {
   queryParams: {
-    pageNumber: {
-      refreshModel: true,
-    },
-    pageSize: {
-      refreshModel: true,
-    },
-    id: {
-      refreshModel: true,
-    },
+    pageNumber: { refreshModel: true },
+    pageSize: { refreshModel: true },
+    id: { refreshModel: true },
+    status: { refreshModel: true },
+    resultsSentToPrescriberAt: { refreshModel: true },
   },
 
   model(params) {
     return this.store.query('session', {
       filter: {
-        id: params.id ? params.id.trim() : '',
+        id: params.id ? params.id.trim() : undefined,
+        status: params.status ? params.status.trim() : undefined,
+        resultsSentToPrescriberAt: params.resultsSentToPrescriberAt ? params.resultsSentToPrescriberAt.trim() : undefined,
       },
       page: {
         number: params.pageNumber,
@@ -31,6 +30,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.pageNumber = 1;
       controller.pageSize = 10;
       controller.id = null;
+      controller.status = FINALIZED;
+      controller.resultsSentToPrescriberAt = null;
     }
   }
 });
