@@ -59,13 +59,11 @@
 
 <div class="panel campaign-details__controls">
   <nav class="navbar campaign-details-controls__navbar-tabs">
-    <LinkTo @route="authenticated.campaigns.details.participants.participant.results" class="navbar-item" @models={{array @campaign.id @campaignParticipation.id}}>
+    <LinkTo @route="authenticated.campaigns.participant.results" class="navbar-item" @models={{array @campaign.id @campaignParticipation.id}}>
       Résultats
     </LinkTo>
-    <LinkTo @route="authenticated.campaigns.details.participants.participant.analysis" class="navbar-item" @models={{array @campaign.id @campaignParticipation.id}}>
+    <LinkTo @route="authenticated.campaigns.participant.analysis" class="navbar-item" @models={{array @campaign.id @campaignParticipation.id}}>
       Analyse
     </LinkTo>
   </nav>
 </div>
-
-{{outlet}}
