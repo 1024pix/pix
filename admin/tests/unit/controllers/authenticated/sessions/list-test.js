@@ -26,6 +26,21 @@ module('Unit | Controller | authenticated/sessions/list', function(hooks) {
       });
     });
 
+    module('when fieldName is certificationCenterName', function() {
+
+      test('it should update controller certificationCenterName field', async function(assert) {
+        // given
+        controller.certificationCenterName = 'someName';
+
+        // when
+        const expectedValue = 'someOtherName';
+        await controller.triggerFiltering.perform('certificationCenterName', { target: { value: expectedValue } });
+
+        // then
+        assert.equal(controller.certificationCenterName, expectedValue);
+      });
+    });
+
     module('when fieldName is status', function() {
 
       test('it should update controller status field', async function(assert) {

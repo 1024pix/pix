@@ -58,6 +58,28 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     assert.dom('table tbody tr:nth-child(3) td:nth-child(3)').hasText('-');
   });
 
+  module('Input field for id filtering', function() {
+
+    test('it should render a input field to filter on id', async function(assert) {
+      // when
+      await render(hbs`{{sessions/list-items triggerFiltering=triggerFiltering}}`);
+
+      // then
+      assert.dom('table thead tr:nth-child(2) th:nth-child(1) input').exists();
+    });
+  });
+
+  module('Input field for certificationCenterName filtering', function() {
+
+    test('it should render a input field to filter on certificationCenterName', async function(assert) {
+      // when
+      await render(hbs`{{sessions/list-items triggerFiltering=triggerFiltering}}`);
+
+      // then
+      assert.dom('table thead tr:nth-child(2) th:nth-child(2) input').exists();
+    });
+  });
+
   module('Dropdown menu for status filtering', function(hooks) {
 
     hooks.beforeEach(function() {
