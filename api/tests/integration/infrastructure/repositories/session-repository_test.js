@@ -584,6 +584,33 @@ describe('Integration | Repository | Session', function() {
         });
       });
 
+      context('when there is a filter on the certificationCenterName', () => {
+        let expectedSession;
+
+        beforeEach(() => {
+          const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ name: 'Université des Laura en Folie !' });
+          expectedSession = databaseBuilder.factory.buildSession({ certificationCenter: certificationCenter.name, certificationCenterId: certificationCenter.id });
+          databaseBuilder.factory.buildSession();
+
+          return databaseBuilder.commit();
+        });
+
+        it('it should find sessions by part of their certification center name, in a case-insensitive way', async () => {
+          // given
+          const filters = { certificationCenterName: ' Des laURa' };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
+
+          // when
+          const { sessions, pagination } = await sessionRepository.findPaginatedFiltered({ filters, page });
+
+          // then
+          expect(pagination).to.deep.equal(expectedPagination);
+          expect(sessions[0].id).to.equal(expectedSession.id);
+          expect(sessions).to.have.length(1);
+        });
+      });
+
       context('when there is a filter regarding session status', () => {
         context('when there is a filter on created sessions', () => {
           let expectedSessionId;
