@@ -27,10 +27,6 @@
       Profil
     </LinkTo>
 
-    <LinkTo @route="campaigns" class="navbar-burger-menu-navigation__item">
-      Parcours
-    </LinkTo>
-
     <LinkTo @route="certifications" class="navbar-burger-menu-navigation__item">
       Certification
     </LinkTo>
@@ -38,5 +34,11 @@
     <a href="https://pix.fr/aide" target="_blank" class="navbar-burger-menu-navigation__item">
       Aide
     </a>
+
+  </div>
+  <div class="navbar-burger-menu-navigation__item  navbar-burger-menu-navigation__bottom-item">
+   <LinkTo @route="campaigns" class="button button--thin">
+     J'ai un code
+    </LinkTo>
   </div>
 {{/unless}}
