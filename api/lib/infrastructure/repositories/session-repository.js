@@ -5,6 +5,7 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
 const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
+const { statuses } = require('../../domain/models/Session');
 
 module.exports = {
 
@@ -131,12 +132,35 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, publishedSession);
   },
 
-  async findPaginatedFiltered({ filters, page }) {
+  async findPaginatedFiltered({ filters = {}, page = {} }) {
     const { models, pagination } = await BookshelfSession
       .query((qb) => {
-        const { id } = filters;
+        const { id, status, resultsSentToPrescriberAt } = filters;
         if (id) {
           qb.where({ id });
+        }
+        if (resultsSentToPrescriberAt === 'true') {
+          qb.whereNotNull('resultsSentToPrescriberAt');
+        }
+        if (resultsSentToPrescriberAt === 'false') {
+          qb.whereNull('resultsSentToPrescriberAt');
+        }
+        if (status === statuses.CREATED) {
+          qb.whereNull('finalizedAt');
+          qb.whereNull('publishedAt');
+        }
+        if (status === statuses.FINALIZED) {
+          qb.whereNotNull('finalizedAt');
+          qb.whereNull('assignedCertificationOfficerId');
+          qb.whereNull('publishedAt');
+        }
+        if (status === statuses.IN_PROCESS) {
+          qb.whereNotNull('finalizedAt');
+          qb.whereNotNull('assignedCertificationOfficerId');
+          qb.whereNull('publishedAt');
+        }
+        if (status === statuses.PROCESSED) {
+          qb.whereNotNull('publishedAt');
         }
         qb.orderByRaw('?? ASC NULLS FIRST', 'publishedAt');
         qb.orderByRaw('?? ASC', 'finalizedAt');

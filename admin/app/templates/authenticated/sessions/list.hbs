@@ -6,7 +6,12 @@
   <section class="page-section">
       <Sessions::ListItems
         @sessions={{@model}}
-        @id={{id}}
+        @id={{this.id}}
+        @status={{this.status}}
+        @sessionStatusAndLabels={{this.sessionStatusAndLabels}}
+        @setStatusFilter={{this.setStatusFilter}}
+        @sessionResultsSentToPrescriberAtAndLabels={{this.sessionResultsSentToPrescriberAtAndLabels}}
+        @setResultsSentToPrescriberAtFilter={{this.setResultsSentToPrescriberAtFilter}}
         @triggerFiltering={{this.triggerFiltering}} />
   </section>
 </main>
