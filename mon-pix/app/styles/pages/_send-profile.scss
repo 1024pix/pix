@@ -1,6 +1,5 @@
 .send-profile-header {
-
-  padding: 40px;
+  padding: 30px;
 
   &__announcement {
     display: flex;
@@ -33,6 +32,23 @@
     border-radius: 6px;
     background-color: $grey-10;
     padding: 20px;
+  }
+
+  &__profile {
+    border-top: 1px dashed  $grey-10;
+    border-bottom: 1px dashed  $grey-10;
+    padding-top: 36px;
+    padding-bottom: 22px;
+    margin-top: 24px;
+    margin-bottom: 39px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    &__cards {
+      width: 100%;
+      margin-top: 24px;
+    }
   }
 
   &__recipient {
