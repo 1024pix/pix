@@ -14,30 +14,25 @@
       </p>
     </div>
 
-    <form {{action "sendProfile" on="submit"}} class="send-profile-header__form">
-      <p class="send-profile-header__recipient">Destinataire : {{this.model.campaign.organizationName}}</p>
+    <ProfileSharingForm
+            @campaignParticiation={{this.model.campaignParticipation}}
+            @campaign={{this.model.campaign}}
+            @isLoading={{this.isLoading}}
+            @errorMessage={{this.errorMessage}}
+    />
 
-      {{#if this.model.campaignParticipation.isShared}}
-        <p class="skill-review-share__thanks">Merci, votre profil a bien été envoyé !</p>
-        <LinkTo @route="index" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
-      {{else}}
-        {{#if this.isLoading}}
-          <button type="button" disabled class="button button--big">
-            <span class="loader-in-button">&nbsp;</span>
-          </button>
-        {{else}}
-          <button type="submit" class="button button--big">J'envoie mon profil</button>
-        {{/if}}
-        {{#if this.errorMessage}}
-          <div class="fill-in-id-pix__form__error-message">{{this.errorMessage}}</div>
-        {{/if}}
+    <div class="send-profile-header__profile">
+      <HexagonScore @pixScore={{this.model.user.pixScore.value}} />
+      <div class="send-profile-header__profile__cards">
+        <ProfileScorecards class="send-profile-header__profile__cards" @areasCode={{this.model.user.areasCode}} @scorecards={{this.model.user.scorecards}}/>
+      </div>
+    </div>
 
-        <p class="send-profile-header__warning">
-          <FaIcon @icon="exclamation-circle"></FaIcon>
-          Cet envoi n’est possible qu’une seule fois
-        </p>
-      {{/if}}
-
-    </form>
+    <ProfileSharingForm
+            @campaignParticiation={{this.model.campaignParticipation}}
+            @campaign={{this.model.campaign}}
+            @isLoading={{this.isLoading}}
+            @errorMessage={{this.errorMessage}}
+    />
   </div>
 </div>

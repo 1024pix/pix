@@ -26,11 +26,10 @@ describe('Unit | Route | campaigns/send-profile', function() {
 
     it('should return campaign and campaign participation', async function() {
       // given
+      const  user = Service.create({ id: userId });
       const route = this.owner.lookup('route:campaigns/send-profile');
       route.set('store', storeStub);
-      route.set('currentUser', Service.create({
-        user: { id: userId }
-      }));
+      route.set('currentUser', { user: user });
 
       const params = {
         campaign_code: campaignCode
@@ -46,7 +45,7 @@ describe('Unit | Route | campaigns/send-profile', function() {
       const model = await route.model(params);
 
       // then
-      expect(model).to.deep.equal({ campaign, campaignParticipation });
+      expect(model).to.deep.equal({ campaign, campaignParticipation, user });
     });
   });
 });
