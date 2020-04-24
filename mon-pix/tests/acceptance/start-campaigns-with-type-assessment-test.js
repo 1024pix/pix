@@ -47,7 +47,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           await visit('/campagnes');
 
           // then
-          expect(find('.button').textContent).to.contains('Commencer');
+          expect(find('.fill-in-campaign-code__start-button').textContent).to.contains('Commencer');
         });
       });
 
@@ -64,7 +64,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
               // when
               await fillIn('#campaign-code', campaign.code);
-              await click('.button');
+              await click('.fill-in-campaign-code__start-button');
 
               // then
               expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
@@ -85,7 +85,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
                 // when
                 await fillIn('#campaign-code', campaign.code);
-                await click('.button');
+                await click('.fill-in-campaign-code__start-button');
                 await click('#login-button');
                 await fillIn('#login', prescritUser.email);
                 await fillIn('#password', prescritUser.password);
@@ -240,7 +240,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
             // when
             await fillIn('#campaign-code', campaignCode);
-            await click('.button');
+            await click('.fill-in-campaign-code__start-button');
 
             // then
             expect(currentURL()).to.equal('/campagnes');
@@ -256,7 +256,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await visit('/campagnes');
 
             // when
-            await click('.button');
+            await click('.fill-in-campaign-code__start-button');
 
             // then
             expect(currentURL()).to.equal('/campagnes');
@@ -471,7 +471,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
             //when
             await fillIn('#campaign-code', campaign.code);
-            await click('.button');
+            await click('.fill-in-campaign-code__start-button');
 
             //then
             expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/rejoindre`.toLowerCase());

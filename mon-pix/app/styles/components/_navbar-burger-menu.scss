@@ -13,6 +13,12 @@
   }
 }
 
+.navbar-burger-menu-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .navbar-burger-menu-user-info {
   &__item {
     margin: 5px 0;
@@ -60,6 +66,8 @@
 }
 
 .navbar-burger-menu-navigation {
+  margin-bottom: auto;
+
   &__item {
     margin: 5px 0;
     padding: 10px 32px;
@@ -82,5 +90,12 @@
       color: $dodger-blue;
       text-decoration: none;
     }
+  }
+
+  &__bottom-item {
+    margin-top: auto;
+    margin-bottom: 21px;
+    display: flex;
+    flex-direction: column;
   }
 }

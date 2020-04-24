@@ -15,9 +15,6 @@
         <LinkTo @route="profile" class="navbar-desktop-header-menu__item">
           Profil
         </LinkTo>
-        <LinkTo @route="campaigns" class="navbar-desktop-header-menu__item">
-          Parcours
-        </LinkTo>
         <LinkTo @route="certifications" class="navbar-desktop-header-menu__item">
           Certification
         </LinkTo>
@@ -27,6 +24,10 @@
       </div>
     {{/if}}
   {{/unless}}
+
+  <LinkTo @route="campaigns" class="button button--extra-thin button--link">
+    J'ai un code
+  </LinkTo>
 
   <!-- Links (right) -->
   <div class="navbar-desktop-header-right">
