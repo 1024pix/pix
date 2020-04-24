@@ -14,23 +14,6 @@
       </div>
     </div>
 
-    <div class="rounded-panel-body">
-      {{#each @model.areasCode as |areaCode|}}
-        <div class="rounded-panel-body__areas">
-          {{#each @model.scorecards as |scorecard|}}
-            {{#if (eq areaCode scorecard.area.code)}}
-              <div class="rounded-panel-body__competence-card">
-                {{#if (media 'isTablet')}}
-                  <CompetenceCardDesktop @scorecard={{scorecard}} />
-                {{else}}
-                  <CompetenceCard @scorecard={{scorecard}} />
-                {{/if}}
-              </div>
-            {{/if}}
-          {{/each}}
-        </div>
-      {{/each}}
-    </div>
-
+    <ProfileScorecards @areasCode={{@model.areasCode}} @scorecards={{@model.scorecards}}/>
   </div>
 </div>
