@@ -8,8 +8,8 @@ Fonctionnalité: Campagne de collecte de profils
     Étant donné que je vais sur Pix
     Et je suis connecté à Pix en tant que "Daenerys Targaryen"
     Lorsque je vais sur la page d'accès à une campagne
-    Et je saisis "LION" dans le champ "Saisissez le code du parcours"
-    Lorsque je clique sur "Commencer mon parcours"
+    Et je saisis "LION" dans le champ "Ce code permet de démarrer un parcours"
+    Lorsque je clique sur "Commencer"
     Alors je vois la page de "presentation" de la campagne
     Et la page "Presentation campagne collecte profils" est correctement affichée
     Lorsque je clique sur "C’est parti !"
@@ -32,8 +32,8 @@ Fonctionnalité: Campagne de collecte de profils
     Étant donné que je vais sur Pix
     Et je suis connecté à Pix en tant que "Daenerys Targaryen"
     Et je vais sur la page d'accès à une campagne
-    Lorsque je saisis "WOLF" dans le champ "Saisissez le code du parcours"
-    Et je clique sur "Commencer mon parcours"
+    Lorsque je saisis "WOLF" dans le champ "Ce code permet de démarrer un parcours"
+    Et je clique sur "Commencer"
     Alors je vois la page de "rejoindre" de la campagne
     Lorsque je saisis "Daenerys" dans le champ "Prénom"
     Et je saisis "Targaryen" dans le champ "Nom"
@@ -48,8 +48,8 @@ Fonctionnalité: Campagne de collecte de profils
   Scénario: Je partage mon profil de manière restreinte en étant connecté via un organisme externe
     Étant donné que je vais sur Pix via un organisme externe
     Et je vais sur la page d'accès à une campagne
-    Lorsque je saisis "WOLF" dans le champ "Saisissez le code du parcours"
-    Et je clique sur "Commencer mon parcours"
+    Lorsque je saisis "WOLF" dans le champ "Ce code permet de démarrer un parcours"
+    Et je clique sur "Commencer"
     Alors je vois la page de "rejoindre" de la campagne
     Lorsque je saisis la date de naissance 23-10-1986
     Et je clique sur "C'est parti !"
