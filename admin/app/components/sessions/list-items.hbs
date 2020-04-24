@@ -19,7 +19,13 @@
                  oninput={{perform @triggerFiltering 'id'}}
                  class="table-admin-input" />
         </th>
-        <th></th>
+        <th>
+          <input id="certificationCenterName"
+                 type="text"
+                 value={{@certificationCenterName}}
+                 oninput={{perform @triggerFiltering 'certificationCenterName'}}
+                 class="table-admin-input" />
+        </th>
         <th></th>
         <th></th>
         <th>

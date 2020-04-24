@@ -7,6 +7,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
     id: { refreshModel: true },
+    certificationCenterName: { refreshModel: true },
     status: { refreshModel: true },
     resultsSentToPrescriberAt: { refreshModel: true },
   },
@@ -15,6 +16,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     return this.store.query('session', {
       filter: {
         id: params.id ? params.id.trim() : undefined,
+        certificationCenterName: params.certificationCenterName ? params.certificationCenterName.trim() : undefined,
         status: params.status ? params.status.trim() : undefined,
         resultsSentToPrescriberAt: params.resultsSentToPrescriberAt ? params.resultsSentToPrescriberAt.trim() : undefined,
       },
@@ -30,6 +32,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.pageNumber = 1;
       controller.pageSize = 10;
       controller.id = null;
+      controller.certificationCenterName = null;
       controller.status = FINALIZED;
       controller.resultsSentToPrescriberAt = null;
     }

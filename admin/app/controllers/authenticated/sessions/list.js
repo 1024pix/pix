@@ -9,12 +9,13 @@ const DEFAULT_PAGE_NUMBER = 1;
 
 export default class SessionListController extends Controller {
 
-  queryParams = ['pageNumber', 'pageSize', 'id', 'status', 'resultsSentToPrescriberAt'];
+  queryParams = ['pageNumber', 'pageSize', 'id', 'certificationCenterName', 'status', 'resultsSentToPrescriberAt'];
   DEBOUNCE_MS = config.pagination.debounce;
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 10;
   @tracked id = null;
+  @tracked certificationCenterName = null;
   @tracked status = FINALIZED;
   @tracked resultsSentToPrescriberAt = null;
 
@@ -34,12 +35,10 @@ export default class SessionListController extends Controller {
     let debounceDuration = this.DEBOUNCE_MS;
     switch (fieldName) {
       case 'id':
+      case 'certificationCenterName':
         value = param.target.value; // param is an InputEvent
         break;
       case 'status':
-        debounceDuration = 0;
-        value = param;
-        break;
       case 'resultsSentToPrescriberAt':
         debounceDuration = 0;
         value = param;
