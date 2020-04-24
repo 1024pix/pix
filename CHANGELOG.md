@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.145.0 (24/04/2020)
+
+- [#1335](https://github.com/1024pix/pix/pull/1335) [FEATURE] Renommer et déplacer l'entrée vers la page de saisie de code depuis le menu de PIX App (PF-1226).
+- [#1333](https://github.com/1024pix/pix/pull/1333) [FEATURE] Changement du wording de la page de saisi de code (PF-1227).
+- [#1309](https://github.com/1024pix/pix/pull/1309) [FEATURE] Ajouter des filtres concernant le statut et l'envoi des résultats au prescripteur sur la liste des sessions paginées (PA-205)
+- [#1275](https://github.com/1024pix/pix/pull/1275) [FEATURE] Certif clea zone rouge (PF-1147)
+- [#1318](https://github.com/1024pix/pix/pull/1318) [FEATURE] Affichage des tutoriels par sujets dans l'analyse de campagne (PO-408).
+- [#1313](https://github.com/1024pix/pix/pull/1313) [FEATURE] Affichage d'une bannière pour informer les utilisateurs de problèmes sur la prod (PF-1251)
+- [#1324](https://github.com/1024pix/pix/pull/1324) [FEATURE] Ajouter un loader au chargement de l'analyse de campagne (PO-431)
+- [#1322](https://github.com/1024pix/pix/pull/1322) [FEATURE] Ajout de la recommandation pour un participant à une campagne (PO-422)
+- [#1320](https://github.com/1024pix/pix/pull/1320) [BUGFIX] Le temps d'attente (debounce) avant de lancer une requête de recherche ne marchait pas dans les listes paginées sur PixAdmin (PA-206)
+- [#1298](https://github.com/1024pix/pix/pull/1298) [TECH] Simplification de la génération de CSV de campagne d'évaluation (PO-427).
+
 ## v2.144.0 (23/04/2020)
 
 - [#1311](https://github.com/1024pix/pix/pull/1311) [BUGFIX] Correction de l'affichage du logo sous IE (PF-1225).
