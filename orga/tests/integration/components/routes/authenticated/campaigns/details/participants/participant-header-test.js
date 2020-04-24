@@ -1,50 +1,48 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/details/participants | participant-header', function(hooks) {
+module.only('Integration | Component | routes/authenticated/campaign/details/participants | participant-header', function(hooks) {
   setupRenderingTest(hooks);
 
   let store;
 
   hooks.beforeEach(function() {
-    run(() => {
-      store = this.owner.lookup('service:store');
-    });
+    store = this.owner.lookup('service:store');
+    this.owner.setupRouter();
   });
 
   test('it should display participant details', async function(assert) {
     // given
-    const user = run(() => store.createRecord('user', {
+    const user = store.createRecord('user', {
       firstName: 'Prénom',
       lastName: 'Nom',
-    }));
+    });
 
-    const campaignParticipationResult  = run(() => store.createRecord('campaign-participation-result', {
+    const campaignParticipationResult = store.createRecord('campaign-participation-result', {
       totalSkillsCount: 30,
       testedSkillsCount: 29,
       validatedSkillsCount: 15,
       isCompleted: true,
       progress: 1
-    }));
+    });
 
-    const campaignParticipation  = run(() => store.createRecord('campaign-participation', {
+    const campaignParticipation = store.createRecord('campaign-participation', {
       createdAt: '2019-01-07T10:57:31.567Z',
       sharedAt: '2019-02-04T10:57:31.567Z',
       isShared: true,
       participantExternalId: 'mail@pro.net',
       user: user,
       campaignParticipationResult: campaignParticipationResult
-    }));
+    });
 
-    const campaign  = run(() => store.createRecord('campaign', {
+    const campaign = store.createRecord('campaign', {
       idPixLabel: 'MailPro',
-    }));
+    });
 
-    this.set('campaignParticipation', campaignParticipation);
-    this.set('campaign', campaign);
+    this.campaignParticipation = campaignParticipation;
+    this.campaign = campaign;
 
     // when
     await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ParticipantHeader @campaignParticipation={{campaignParticipation}} @campaign={{campaign}} />`);
@@ -55,5 +53,46 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     assert.dom('.participant-header-content__right-wrapper .participant-content:nth-child(1)').hasText('Avancement 100%');
     assert.dom('.participant-header-content__right-wrapper .participant-content:nth-child(2)').hasText('Commencé le 7 janv. 2019');
     assert.dom('.participant-header-content__right-wrapper .participant-content:nth-child(3)').hasText('Partagé le 4 févr. 2019');
+  });
+
+  test('should navigate', async function(assert) {
+    // given
+    const user = store.createRecord('user', {
+      firstName: 'Prénom',
+      lastName: 'Nom',
+    });
+
+    const campaignParticipationResult  = store.createRecord('campaign-participation-result', {
+      totalSkillsCount: 30,
+      testedSkillsCount: 29,
+      validatedSkillsCount: 15,
+      isCompleted: true,
+      progress: 1
+    });
+
+    const campaignParticipation = store.createRecord('campaign-participation', {
+      id: 15,
+      createdAt: '2019-01-07T10:57:31.567Z',
+      sharedAt: '2019-02-04T10:57:31.567Z',
+      isShared: true,
+      participantExternalId: 'mail@pro.net',
+      user: user,
+      campaignParticipationResult: campaignParticipationResult
+    });
+
+    const campaign = store.createRecord('campaign', {
+      id: 13,
+      idPixLabel: 'MailPro',
+    });
+
+    this.campaignParticipation = campaignParticipation;
+    this.campaign = campaign;
+
+    // when
+    await render(hbs`<Routes::Authenticated::Campaigns::Details::Participants::ParticipantHeader @campaignParticipation={{campaignParticipation}} @campaign={{campaign}} />`);
+
+    // then
+    assert.dom(`nav a[href="/campagnes/${campaign.id}/participants/${campaignParticipation.id}/resultats"]`).hasText('Résultats');
+    assert.dom(`nav a[href="/campagnes/${campaign.id}/participants/${campaignParticipation.id}/analyse"]`).hasText('Analyse');
   });
 });

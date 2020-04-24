@@ -3,10 +3,11 @@ import Route from '@ember/routing/route';
 export default class ResultsRoute extends Route {
 
   model() {
-    return this.modelFor('authenticated.campaigns.details.participants.participant');
+    const { campaignParticipation } = this.modelFor('authenticated.campaigns.details.participants.participant');
+    return campaignParticipation;
   }
 
   afterModel(model) {
-    model.campaignParticipation.belongsTo('campaignParticipationResult').reload();
+    model.belongsTo('campaignParticipationResult').reload();
   }
 }
