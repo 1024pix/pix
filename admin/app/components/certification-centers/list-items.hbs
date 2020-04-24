@@ -8,10 +8,34 @@
       <th>ID externe</th>
     </tr>
     <tr>
-      <th><Input class="table-admin-input" id="id" @value={{@id}} @key-up={{fn @triggerFiltering "id" @id}} /></th>
-      <th><Input class="table-admin-input" id="name" @value={{@name}} @key-up={{fn @triggerFiltering "name" @name}} /></th>
-      <th><Input class="table-admin-input" id="type" @value={{@type}} @key-up={{fn @triggerFiltering "type" @type}} /></th>
-      <th><Input class="table-admin-input" id="externalId" @value={{@externalId}} @key-up={{fn @triggerFiltering "externalId" @externalId}} /></th>
+      <th>
+        <input id="id"
+               type="text"
+               value={{@id}}
+               oninput={{perform @triggerFiltering 'id'}}
+               class="table-admin-input" />
+      </th>
+      <th>
+        <input id="name"
+               type="text"
+               value={{@name}}
+               oninput={{perform @triggerFiltering 'name'}}
+               class="table-admin-input" />
+      </th>
+      <th>
+        <input id="type"
+               type="text"
+               value={{@type}}
+               oninput={{perform @triggerFiltering 'type'}}
+               class="table-admin-input" />
+      </th>
+      <th>
+        <input id="externalId"
+               type="text"
+               value={{@externalId}}
+               oninput={{perform @triggerFiltering 'externalId'}}
+               class="table-admin-input" />
+      </th>
     </tr>
     </thead>
 

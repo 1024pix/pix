@@ -10,21 +10,24 @@
       <tr>
         <th></th>
         <th>
-          <Input id="firstName"
-                 @value={{@firstName}}
-                 @key-up={{fn @triggerFiltering "firstName" @firstName}}
+          <input id="firstName"
+                 type="text"
+                 value={{@firstName}}
+                 oninput={{perform @triggerFiltering 'firstName'}}
                  class="table-admin-input" />
         </th>
         <th>
-          <Input id="lastName"
-                 @value={{@lastName}}
-                 @key-up={{fn @triggerFiltering "lastName" @lastName}}
+          <input id="lastName"
+                 type="text"
+                 value={{@lastName}}
+                 oninput={{perform @triggerFiltering 'lastName'}}
                  class="table-admin-input" />
         </th>
         <th>
-          <Input id="email"
-                 @value={{@email}}
-                 @key-up={{fn @triggerFiltering "email" @email}}
+          <input id="email"
+                 type="text"
+                 value={{@email}}
+                 oninput={{perform @triggerFiltering 'email'}}
                  class="table-admin-input" />
         </th>
       </tr>

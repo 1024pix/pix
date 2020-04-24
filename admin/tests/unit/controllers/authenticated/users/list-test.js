@@ -3,56 +3,57 @@ import { setupTest } from 'ember-qunit';
 
 module('Unit | Controller | authenticated/users/list', function(hooks) {
   setupTest(hooks);
+  let controller;
 
-  module('#setFieldName', function() {
+  hooks.beforeEach(function() {
+    controller = this.owner.lookup('controller:authenticated.users.list');
+  });
 
-    test('it should set firstName', function(assert) {
-      // given
-      const controller = this.owner.lookup('controller:authenticated/users/list');
-      controller.set('searchFilter', { fieldName: 'firstName', value: 'Emilie' });
+  module('#triggerFiltering task', function() {
 
-      // when
-      controller.setFieldName();
+    module('updating firstName', function() {
 
-      // then
-      assert.equal(controller.get('firstName'), 'Emilie');
+      test('it should update controller firstName field', async function(assert) {
+        // given
+        controller.firstName = 'someFirstName';
+        const expectedValue = 'someOtherFirstName';
+
+        // when
+        await controller.triggerFiltering.perform('firstName', { target: { value: expectedValue } });
+
+        // then
+        assert.equal(controller.firstName, expectedValue);
+      });
     });
 
-    test('it should set lastName', function(assert) {
-      // given
-      const controller = this.owner.lookup('controller:authenticated/users/list');
-      controller.set('searchFilter', { fieldName: 'lastName', value: 'Duval' });
+    module('updating lastName', function() {
 
-      // when
-      controller.setFieldName();
+      test('it should update controller lastName field', async function(assert) {
+        // given
+        controller.lastName = 'someLastName';
+        const expectedValue = 'someOtherLastName';
 
-      // then
-      assert.equal(controller.get('lastName'), 'Duval');
+        // when
+        await controller.triggerFiltering.perform('lastName', { target: { value: expectedValue } });
+
+        // then
+        assert.equal(controller.lastName, expectedValue);
+      });
     });
 
-    test('it should set email', function(assert) {
-      // given
-      const controller = this.owner.lookup('controller:authenticated/users/list');
-      controller.set('searchFilter', { fieldName: 'email', value: 'emilie.duval' });
+    module('updating email', function() {
 
-      // when
-      controller.setFieldName();
+      test('it should update controller email field', async function(assert) {
+        // given
+        controller.email = 'someEmail';
+        const expectedValue = 'someOtherEmail';
 
-      // then
-      assert.equal(controller.get('email'), 'emilie.duval');
-    });
+        // when
+        await controller.triggerFiltering.perform('email', { target: { value: expectedValue } });
 
-    test('it should reset pageNumber', function(assert) {
-      // given
-      const controller = this.owner.lookup('controller:authenticated/users/list');
-      controller.set('searchFilter', { fieldName: 'firstName', value: 'random name' });
-      controller.set('pageNumber', 3);
-
-      // when
-      controller.setFieldName();
-
-      // then
-      assert.equal(controller.get('pageNumber'), 1);
+        // then
+        assert.equal(controller.email, expectedValue);
+      });
     });
   });
 });
