@@ -197,6 +197,35 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
     });
 
+    context('when validating certificationCenterName', () => {
+
+      context('when certificationCenterName not in submitted filters', () => {
+
+        it('should not throw any error', () => {
+          expect(sessionValidator.validateFilters({})).to.not.throw;
+        });
+      });
+
+      context('when status is in submitted filters', () => {
+
+        context('when certificationCenterName is not an string', () => {
+
+          it('should throw an error', async () => {
+            const error = await catchErr(sessionValidator.validateFilters)({ certificationCenterName: 123 });
+            expect(error).to.be.instanceOf(EntityValidationError);
+          });
+        });
+
+        context('when certificationCenterName is a string', () => {
+
+          it('should not throw an error', async () => {
+            expect(sessionValidator.validateFilters({ certificationCenterName: 'Coucou le dév qui lit ce message !' })).to.not.throw;
+          });
+        });
+      });
+
+    });
+
     context('when validating status', () => {
 
       context('when status not in submitted filters', () => {
