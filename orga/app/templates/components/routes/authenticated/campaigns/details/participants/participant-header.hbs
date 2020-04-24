@@ -1,5 +1,10 @@
 <div class="participant-header__title">
-  <LinkTo @route="authenticated.campaigns.details.participants" @model={{@campaign.id}} class="icon-button campaign-details-content__return-button">
+  <LinkTo 
+    @route="authenticated.campaigns.details.participants"
+    @model={{@campaign.id}}
+    class="icon-button campaign-details-content__return-button"
+    aria-label="Retourner au détail de la campagne"
+  >
     <FaIcon @icon='arrow-left'></FaIcon>
   </LinkTo>
   <div

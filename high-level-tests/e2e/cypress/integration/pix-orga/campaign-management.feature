@@ -19,7 +19,11 @@ Fonctionnalité: Gestion des Campagnes
     Lorsque je reviens en arrière
     Et je clique sur "Tyrion"
     Alors je vois 2 résultats par compétence
-    Lorsque je reviens en arrière
+    Lorsque je clique sur "Analyse"
+    Alors je vois 2 sujets
+    Et je vois que le sujet "Capitales" est "Fortement recommandé"
+    Et je vois que le sujet "Philosophes" est "Assez recommandé"
+    Lorsque je retourne au détail de la campagne
     Et je clique sur "Résultats collectifs"
     Alors je vois la moyenne des résultats à 50%
     Lorsque je clique sur "Analyse"
