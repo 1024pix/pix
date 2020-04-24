@@ -6,16 +6,14 @@
     <div class="send-profile-header__announcement">
       <h1 class="send-profile-header__title">Envoi de votre profil Pix</h1>
       <p class="send-profile-header__instruction">
-        Vous allez transmettre votre score Pix et vos niveaux de compétence.<br>
-        Toute évolution de votre profil après cet envoi ne sera pas partagée !<br>
-        N'hésitez pas à vérifier
-        <LinkTo @route="profile" target="_blank" class="link">votre profil Pix</LinkTo>
-        avant envoi.
+        Vous allez transmettre votre score Pix et vos niveaux de compétence en l'état actuel.<br>
+        N'hésitez pas à vérifier votre profil avant de l'envoyer.
       </p>
     </div>
 
     <ProfileSharingForm
-            @campaignParticiation={{this.model.campaignParticipation}}
+            @sendProfile={{action "sendProfile"}}
+            @campaignParticipation={{this.model.campaignParticipation}}
             @campaign={{this.model.campaign}}
             @isLoading={{this.isLoading}}
             @errorMessage={{this.errorMessage}}
@@ -29,7 +27,8 @@
     </div>
 
     <ProfileSharingForm
-            @campaignParticiation={{this.model.campaignParticipation}}
+            @sendProfile={{action "sendProfile"}}
+            @campaignParticipation={{this.model.campaignParticipation}}
             @campaign={{this.model.campaign}}
             @isLoading={{this.isLoading}}
             @errorMessage={{this.errorMessage}}
