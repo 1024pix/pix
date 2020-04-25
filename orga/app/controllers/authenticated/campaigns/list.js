@@ -19,7 +19,7 @@ export default class ListController extends Controller {
 
   @empty('model') hasNoCampaign;
 
-  @computed('name', 'hasNoCampaign')
+  @computed('model')
   get displayNoCampaignPanel() {
     return this.hasNoCampaign && isEmpty(this.name) && isEmpty(this.status) && isEmpty(this.creatorId);
   }
