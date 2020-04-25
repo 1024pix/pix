@@ -65,6 +65,10 @@ module.exports = function(environment) {
       clearDuration: 5000,
       includeFontAwesome: true,
     },
+
+    pagination: {
+      debounce: 500,
+    },
   };
 
   if (environment === 'development') {
@@ -96,6 +100,8 @@ module.exports = function(environment) {
       autoClear: null,
       clearDuration: null,
     };
+    
+    ENV.pagination.debounce = 0;
   }
 
   if (environment === 'production') {
