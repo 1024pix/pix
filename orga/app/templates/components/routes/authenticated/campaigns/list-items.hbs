@@ -12,7 +12,7 @@
           </tr>
           <tr>
             <th>
-              <SearchInput @inputName="campaignName" @class="input table__input search-input" @value={{@campaignName}} @placeholder="Rechercher une campagne" @keyUp={{fn @triggerFiltering "name" @campaignName}}/>
+              <SearchInput @inputName="campaignName" @class="input table__input search-input" @value={{@campaignName}} @placeholder="Rechercher une campagne" @filterFunction={{fn @triggerFiltering "name"}}/>
             </th>
             <th>
               <Routes::Authenticated::Campaigns::SelectCreator

@@ -32,8 +32,9 @@ export default class ListController extends Controller {
   }
 
   @action
-  triggerFiltering(fieldName, value) {
-    this.set('searchFilter', { fieldName, value });
+  triggerFiltering(fieldName, event) {
+    const value = event.target.value;
+    this.searchFilter = { fieldName, value };
     debounce(this, this.setFieldName, 500);
   }
 

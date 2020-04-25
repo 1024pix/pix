@@ -1,2 +1,7 @@
 <FaIcon @icon='search'></FaIcon>
-<Input id={{@inputName}} name={{@inputName}} placeholder={{@placeholder}} @value={{@value}} @keyUp={{@keyUp}} class="search-input__invisible-field" />
+<input id={{@inputName}}
+       name={{@inputName}}
+       placeholder={{@placeholder}}
+       value={{@value}}
+       oninput={{@filterFunction}}
+       class="search-input__invisible-field" />
