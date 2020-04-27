@@ -1,4 +1,3 @@
-import { later } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import isEmailValid from 'mon-pix/utils/email-validator';
@@ -10,10 +9,6 @@ const ERROR_INPUT_MESSAGE_MAP = {
   lastName: 'signup-form.text.fields.lastName.error',
   email: 'signup-form.text.fields.email.error',
   password: 'signup-form.text.fields.password.error'
-};
-const TEMPORARY_DIV_CLASS_MAP = {
-  error: 'signup-form__temporary-msg--error',
-  success: 'signup-form__temporary-msg--success'
 };
 
 export default Component.extend({
@@ -55,15 +50,6 @@ export default Component.extend({
   _getModelAttributeValueFromKey(key) {
     const userModel = this.user;
     return userModel.get(key);
-  },
-
-  _toggleConfirmation(status, message) {
-    this.set('temporaryAlert', { status: TEMPORARY_DIV_CLASS_MAP[status], message });
-    if (ENV.APP.isMessageStatusTogglingEnabled) {
-      later(() => {
-        this.set('temporaryAlert', { status: 'default', message: '' });
-      }, ENV.APP.MESSAGE_DISPLAY_DURATION);
-    }
   },
 
   _resetValidationFields() {
