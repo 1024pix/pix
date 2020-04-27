@@ -5,7 +5,7 @@ import { setupRenderingTest } from 'ember-mocha';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | competence-card-desktop', function() {
+describe('Integration | Component | competence-card-default', function() {
   setupRenderingTest();
 
   describe('Component rendering', function() {
@@ -25,7 +25,7 @@ describe('Integration | Component | competence-card-desktop', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
 
       // then
       expect(find('.competence-card')).to.exist;
@@ -37,7 +37,7 @@ describe('Integration | Component | competence-card-desktop', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
 
       // then
       expect(find('.competence-card__color').getAttribute('class'))
@@ -50,7 +50,7 @@ describe('Integration | Component | competence-card-desktop', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
 
       // then
       expect(find('.competence-card__area-name').textContent).to.equal(scorecard.area.title);
@@ -62,7 +62,7 @@ describe('Integration | Component | competence-card-desktop', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
 
       // then
       expect(find('.competence-card__competence-name').textContent).to.equal(scorecard.name);
@@ -74,7 +74,7 @@ describe('Integration | Component | competence-card-desktop', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
 
       // then
       expect(find('.score-label').textContent).to.equal('Niveau');
@@ -89,7 +89,7 @@ describe('Integration | Component | competence-card-desktop', function() {
         this.set('scorecard', scorecard);
 
         // when
-        await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+        await render(hbs`{{competence-card-default scorecard=scorecard}}`);
 
         // then
         expect(find('.competence-card__button').textContent).to.contains('Commencer');
@@ -104,7 +104,7 @@ describe('Integration | Component | competence-card-desktop', function() {
         this.set('scorecard', scorecard);
 
         // when
-        await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+        await render(hbs`{{competence-card-default scorecard=scorecard}}`);
 
         // then
         expect(find('.competence-card__button').textContent).to.contains('Reprendre');
@@ -117,7 +117,7 @@ describe('Integration | Component | competence-card-desktop', function() {
           this.set('scorecard', scorecard);
 
           // when
-          await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+          await render(hbs`{{competence-card-default scorecard=scorecard}}`);
         });
 
         it('should not show congrats design', function() {
@@ -140,7 +140,7 @@ describe('Integration | Component | competence-card-desktop', function() {
         this.set('scorecard', scorecard);
 
         // when
-        await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+        await render(hbs`{{competence-card-default scorecard=scorecard}}`);
 
         // then
         expect(find('.competence-card__button')).to.be.null;
@@ -153,7 +153,7 @@ describe('Integration | Component | competence-card-desktop', function() {
           this.set('scorecard', scorecard);
 
           // when
-          await render(hbs`{{competence-card-desktop scorecard=scorecard}}`);
+          await render(hbs`{{competence-card-default scorecard=scorecard}}`);
         });
 
         it('should show congrats design', function() {
