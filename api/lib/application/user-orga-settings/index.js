@@ -4,42 +4,6 @@ const userOrgaSettingsController = require('./user-orga-settings-controller');
 exports.register = async function(server) {
   server.route([
     {
-      method: 'POST',
-      path: '/api/user-orga-settings',
-      config: {
-        handler: userOrgaSettingsController.create,
-        validate: {
-          options: {
-            allowUnknown: true
-          },
-          payload: Joi.object({
-            data: {
-              relationships: {
-                organization: {
-                  data: {
-                    id: Joi.number().integer().required(),
-                  }
-                },
-                user: {
-                  data: {
-                    id: Joi.number().integer().required()
-                  }
-                }
-              }
-            }
-          })
-        },
-        notes: [
-          '- **Cette route est dépréciée**\n' +
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Création des paramètres utilisateurs liés à Pix Orga\n' +
-          '- L’id dans le payload doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'user-orga-settings']
-      }
-
-    },
-    {
       method: 'PATCH',
       path: '/api/user-orga-settings/{id}',
       config: {
