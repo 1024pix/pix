@@ -164,6 +164,20 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
   describe('#validateFilters', () => {
 
+    context('return value', () => {
+
+      it('should return the filters in a normalized form', () => {
+        const value = sessionValidator.validateFilters({
+          id: '123',
+          status: 'finalized',
+        });
+
+        expect(typeof value.id).to.equal('number');
+        expect(value.status).to.equal('finalized');
+        expect(value.certificationCenterName).to.be.undefined;
+      });
+    });
+
     context('when validating id', () => {
 
       context('when id not in submitted filters', () => {
@@ -185,7 +199,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
         context('when id is an integer', () => {
 
-          it('should not throw any error in form of a string', () => {
+          it('accept a string containing an int', () => {
             expect(sessionValidator.validateFilters({ id: '123' })).to.not.throw;
           });
 
@@ -206,7 +220,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
         });
       });
 
-      context('when status is in submitted filters', () => {
+      context('when certificationCenterName is in submitted filters', () => {
 
         context('when certificationCenterName is not an string', () => {
 

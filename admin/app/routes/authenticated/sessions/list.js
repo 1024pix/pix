@@ -15,10 +15,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
   model(params) {
     return this.store.query('session', {
       filter: {
-        id: params.id ? params.id.trim() : undefined,
-        certificationCenterName: params.certificationCenterName ? params.certificationCenterName.trim() : undefined,
-        status: params.status ? params.status.trim() : undefined,
-        resultsSentToPrescriberAt: params.resultsSentToPrescriberAt ? params.resultsSentToPrescriberAt.trim() : undefined,
+        id: params.id && params.id.trim(),
+        certificationCenterName: params.certificationCenterName && params.certificationCenterName.trim(),
+        status: params.status && params.status.trim(),
+        resultsSentToPrescriberAt: params.resultsSentToPrescriberAt && params.resultsSentToPrescriberAt.trim(),
       },
       page: {
         number: params.pageNumber,
