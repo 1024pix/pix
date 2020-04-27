@@ -5,7 +5,7 @@ import { setupRenderingTest } from 'ember-mocha';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | competence-card-default', function() {
+describe('Integration | Component | competence-card-mobile', function() {
   setupRenderingTest();
 
   describe('Component rendering', function() {
@@ -25,7 +25,7 @@ describe('Integration | Component | competence-card-default', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
 
       // then
       expect(find('.competence-card')).to.exist;
@@ -37,7 +37,7 @@ describe('Integration | Component | competence-card-default', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
 
       // then
       expect(find('.competence-card__color').getAttribute('class'))
@@ -50,7 +50,7 @@ describe('Integration | Component | competence-card-default', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
 
       // then
       expect(find('.competence-card__area-name').textContent).to.equal(scorecard.area.title);
@@ -62,7 +62,7 @@ describe('Integration | Component | competence-card-default', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
 
       // then
       expect(find('.competence-card__competence-name').textContent).to.equal(scorecard.name);
@@ -74,7 +74,7 @@ describe('Integration | Component | competence-card-default', function() {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+      await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
 
       // then
       expect(find('.score-value').textContent).to.equal(scorecard.level.toString());
@@ -89,7 +89,7 @@ describe('Integration | Component | competence-card-default', function() {
           this.set('scorecard', scorecard);
 
           // when
-          await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+          await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
         });
 
         it('should not show congrats design', function() {
@@ -109,7 +109,7 @@ describe('Integration | Component | competence-card-default', function() {
           this.set('scorecard', scorecard);
 
           // when
-          await render(hbs`{{competence-card-default scorecard=scorecard}}`);
+          await render(hbs`{{competence-card-mobile scorecard=scorecard}}`);
         });
 
         it('should show congrats design', function() {
