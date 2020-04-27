@@ -11,6 +11,12 @@ module.exports = {
     const savedTutorialEvaluation = await newTutorialEvaluation.save();
     return _toDomain(savedTutorialEvaluation);
   },
+
+  async find({ userId }) {
+    const tutorialEvaluation = await BookshelfTutorialEvaluation.where({ userId }).fetchAll();
+    return tutorialEvaluation.map(_toDomain);
+  },
+
 };
 
 function _toDomain(bookshelfTutorialEvaluation) {
