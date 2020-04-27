@@ -21,7 +21,7 @@ describe('PATCH /api/sessions/:id/certification-officer-assignment', () => {
 
     it('should return a 403 error code', async () => {
       // given
-      options.url = '/api/sessions/any/certification-officer-assignment';
+      options.url = '/api/sessions/12/certification-officer-assignment';
       options.headers = { authorization: generateValidRequestAuthorizationHeader(certificationOfficerId) };
 
       // when
@@ -44,15 +44,15 @@ describe('PATCH /api/sessions/:id/certification-officer-assignment', () => {
 
     context('when the session id has an invalid format', () => {
 
-      it('should return a 422 error code', async () => {
+      it('should return a 400 error code', async () => {
         // given
-        options.url = '/api/sessions/any/certification-officer-assignment';
+        options.url = '/api/sessions/test/certification-officer-assignment';
 
         // when
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(422);
+        expect(response.statusCode).to.equal(400);
       });
     });
 

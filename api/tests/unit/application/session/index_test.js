@@ -79,7 +79,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'GET', url: '/api/sessions/{id}/attendance-sheet' });
+      const res = await server.inject({ method: 'GET', url: '/api/sessions/1/attendance-sheet' });
 
       expect(res.statusCode).to.equal(200);
     });
@@ -294,7 +294,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
 
     it('should exist', async () => {
-      const res = await server.inject({ method: 'GET', url: '/api/sessions/{id}/certifications' });
+      const res = await server.inject({ method: 'GET', url: '/api/sessions/1/certifications' });
       expect(res.statusCode).to.equal(200);
     });
   });

@@ -46,6 +46,28 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
 
     });
 
+    context('when session id is not an integer', () => {
+
+      beforeEach(() => {
+        options = {
+          method: 'POST',
+          url: '/api/sessions/2.1/candidate-participation',
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+      });
+
+      it('should respond with a 400 - Bad Request', async () => {
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        expect(response.result.error).to.equal('Bad Request');
+      });
+
+    });
+
     context('when user is authenticated', () => {
       let sessionId;
 
