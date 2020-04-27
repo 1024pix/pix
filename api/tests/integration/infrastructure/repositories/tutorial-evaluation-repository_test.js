@@ -56,4 +56,34 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
 
   });
 
+  describe('#find', () => {
+
+    context('when user has evaluated some tutorials', function() {
+      it('should return tutorial-evaluations belonging to given user', async () => {
+        // given
+        const tutorialId = 'recTutorial';
+        databaseBuilder.factory.buildTutorialEvaluation({ tutorialId, userId });
+        await databaseBuilder.commit();
+
+        // when
+        const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
+
+        // then
+        expect(tutorialEvaluations).to.have.length(1);
+        expect(tutorialEvaluations[0]).to.have.property('tutorialId', tutorialId);
+        expect(tutorialEvaluations[0]).to.have.property('userId', userId);
+      });
+    });
+
+    context('when user has not evaluated tutorial', function() {
+      it('should empty array', async () => {
+        const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
+
+        // then
+        expect(tutorialEvaluations).to.deep.equal([]);
+      });
+    });
+
+  });
+
 });
