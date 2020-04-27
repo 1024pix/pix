@@ -52,7 +52,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().required(),
+            id: Joi.number().integer().required(),
           }),
           failAction: (request, h) => {
             const errorHttpStatusCode = 400;

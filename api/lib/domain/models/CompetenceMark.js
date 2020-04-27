@@ -2,7 +2,7 @@ const Joi = require('@hapi/joi');
 const { ObjectValidationError } = require('../errors');
 
 const schemaValidateCompetenceMark = Joi.object({
-  id: Joi.number().optional(),
+  id: Joi.number().integer().optional(),
   level: Joi.number().integer().min(-1).max(8).required(),
   score: Joi.number().integer().min(0).max(64).required(),
   area_code: Joi.required(),
