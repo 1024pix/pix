@@ -21,7 +21,7 @@ export default class CurrentUserService extends Service {
           membership = await this._getMembershipByUserOrgaSettings(userMemberships.toArray(), userOrgaSettings);
           if (!membership) {
             membership = await userMemberships.firstObject;
-            await this._updateUserOrgaSettings(userOrgaSettings, membership);
+            await this._updateUserOrgaSettings(userOrgaSettings, membership, user.id);
           }
         } else {
           membership = await userMemberships.firstObject;
@@ -49,14 +49,14 @@ export default class CurrentUserService extends Service {
     return null;
   }
 
-  async _updateUserOrgaSettings(userOrgaSettings, membership) {
+  async _updateUserOrgaSettings(userOrgaSettings, membership, userId) {
     userOrgaSettings.organization = await membership.organization;
-    userOrgaSettings.save();
+    userOrgaSettings.save({ adapterOptions: { userId: userId } });
   }
 
   async _createUserOrgaSettings(user, membership) {
     const organization = await membership.organization;
-    await this.store.createRecord('user-orga-setting', { user, organization }).save();
+    await this.store.createRecord('user-orga-setting', { user, organization }).save({ adapterOptions: { userId: user.id } });
   }
 
   async _setOrganizationProperties(membership) {

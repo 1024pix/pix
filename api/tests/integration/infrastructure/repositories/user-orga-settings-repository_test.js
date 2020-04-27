@@ -92,4 +92,40 @@ describe('Integration | Repository | UserOrgaSettings', function() {
       expect(_.omit(updatedUserOrgaSettings.currentOrganization, ORGANIZATION_OMITTED_PROPERTIES)).to.deep.equal(_.omit(expectedOrganization, ORGANIZATION_OMITTED_PROPERTIES));
     });
   });
+
+  describe('#findOneByUserId', () => {
+
+    let userOrgaSettingsId;
+
+    beforeEach(async () => {
+      userOrgaSettingsId = databaseBuilder.factory.buildUserOrgaSettings({ userId: user.id, currentOrganizationId: organization.id }).id;
+      await databaseBuilder.commit();
+    });
+
+    it('should return an UserOrgaSettings domain object', async () => {
+      // when
+      const foundUserOrgaSettings = await userOrgaSettingsRepository.findOneByUserId(user.id);
+
+      // then
+      expect(foundUserOrgaSettings).to.be.an.instanceof(UserOrgaSettings);
+    });
+
+    it('should return the userOrgaSettings belonging to user', async () => {
+      // when
+      const foundUserOrgaSettings = await userOrgaSettingsRepository.findOneByUserId(user.id);
+
+      // then
+      expect(foundUserOrgaSettings.id).to.deep.equal(userOrgaSettingsId);
+      expect(_.omit(foundUserOrgaSettings.user, USER_OMITTED_PROPERTIES)).to.deep.equal(_.omit(user, USER_OMITTED_PROPERTIES));
+      expect(_.omit(foundUserOrgaSettings.currentOrganization, ORGANIZATION_OMITTED_PROPERTIES)).to.deep.equal(_.omit(organization, ORGANIZATION_OMITTED_PROPERTIES));
+    });
+
+    it('should return empty object when user-orga-settings doesn\'t exists', async () => {
+      // when
+      const foundUserOrgaSettings = await userOrgaSettingsRepository.findOneByUserId(user.id + 1);
+
+      // then
+      expect(foundUserOrgaSettings).to.deep.equal({});
+    });
+  });
 });
