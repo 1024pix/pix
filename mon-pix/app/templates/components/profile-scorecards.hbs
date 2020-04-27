@@ -4,7 +4,7 @@
       {{#each @scorecards as |scorecard|}}
         {{#if (eq areaCode scorecard.area.code)}}
           <div class="rounded-panel-body__competence-card">
-            <CompetenceCard @scorecard={{scorecard}} />
+            <CompetenceCard @interactive={{@interactive}} @scorecard={{scorecard}} />
           </div>
         {{/if}}
       {{/each}}

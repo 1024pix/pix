@@ -1,4 +1,4 @@
-<article class="competence-card">
+<article class="competence-card {{if @interactive "competence-card--interactive"}}">
   <LinkTo @route="competences.details" @model={{scorecard.competenceId}}>
     <header class="competence-card__header">
       <span class="competence-card__color competence-card__color--{{scorecard.area.color}}"></span>
