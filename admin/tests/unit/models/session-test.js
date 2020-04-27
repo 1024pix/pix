@@ -257,35 +257,6 @@ module('Unit | Model | session', function(hooks) {
 
   });
 
-  module('#countPublishedCertifications', function() {
-
-    let sessionWithOnePublishedCertif;
-    let sessionWithNoPublishedCertif;
-
-    hooks.beforeEach(async function() {
-      sessionWithOnePublishedCertif = run(() => {
-        const certif = store.createRecord('certification', { isPublished: true });
-        return store.createRecord('session', { certifications: [certif] });
-      });
-
-      sessionWithNoPublishedCertif = run(() => {
-        const certif = store.createRecord('certification', { isPublished: false });
-        return store.createRecord('session', { certifications: [certif] });
-      });
-    });
-
-    test('it should count 1 published', function(assert) {
-      const countPublished = sessionWithOnePublishedCertif.countPublishedCertifications;
-      assert.equal(countPublished, 1);
-    });
-
-    test('it should count 0 published', function(assert) {
-      const countNonValidated = sessionWithNoPublishedCertif.countPublishedCertifications;
-      assert.equal(countNonValidated, 0);
-    });
-
-  });
-
   module('#displayDate', function() {
 
     test('it should display date without time properly', function(assert) {

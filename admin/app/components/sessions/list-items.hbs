@@ -8,7 +8,6 @@
         <th>Date de session</th>
         <th>Statut</th>
         <th>Date de finalisation</th>
-        <th>Nombre de certifications publiées</th>
         <th>Date de publication</th>
         <th>Date de diffusion au prescripteur</th>
       </tr>
@@ -32,7 +31,6 @@
             <xs.option @value={{@sessionStatusAndLabels.[4].status}}>{{@sessionStatusAndLabels.[4].label}}</xs.option>
           </XSelect>
         </th>
-        <th></th>
         <th></th>
         <th></th>
         <th>
@@ -59,7 +57,6 @@
           <td>{{session.displayDate}} à {{session.time}}</td>
           <td>{{session.displayStatus}}</td>
           <td>{{session.displayFinalizationDate}}</td>
-          <td>{{session.countPublishedCertifications}}</td>
           <td>{{session.displayPublishedAtDate}}</td>
           <td>{{session.displayResultsSentToPrescriberDate}}</td>
         </tr>
