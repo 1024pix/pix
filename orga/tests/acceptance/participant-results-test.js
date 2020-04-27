@@ -33,7 +33,7 @@ module('Acceptance | Campaign Details Participants', function(hooks) {
       await click('.tr--clickable:first-child');
 
       // then
-      assert.equal(currentURL(), '/campagnes/1/participants/1');
+      assert.equal(currentURL(), '/campagnes/1/participants/1/resultats');
     });
     test('it could return on list of participants', async function(assert) {
       // when
