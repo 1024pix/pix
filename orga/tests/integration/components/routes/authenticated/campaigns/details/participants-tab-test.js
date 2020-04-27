@@ -23,22 +23,22 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
     }));
 
     const participants = [
-      { 
-        user: { firstName: 'John', lastName: 'Doe' }, 
+      {
+        user: { firstName: 'John', lastName: 'Doe' },
         campaignParticipationResult: { masteryPercentage: 80 },
-        participantExternalId: '123',  
+        participantExternalId: '123',
         isShared: true,
       },
-      { 
-        user: { firstName: 'John', lastName: 'Doe2' }, 
+      {
+        user: { firstName: 'John', lastName: 'Doe2' },
         campaignParticipationResult: { isCompleted: true },
-        participantExternalId: '1234',  
+        participantExternalId: '1234',
         isShared: false,
       },
-      { 
-        user: { firstName: 'John', lastName: 'Doe3' }, 
+      {
+        user: { firstName: 'John', lastName: 'Doe3' },
         campaignParticipationResult: { isCompleted: false },
-        participantExternalId: '12345',  
+        participantExternalId: '12345',
         isShared: false,
       },
     ];

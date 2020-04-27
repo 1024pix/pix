@@ -8,6 +8,6 @@ export default class ParticipantsController extends Controller {
 
   @action
   goToParticipantPage(campaignId, participantId) {
-    this.transitionToRoute('authenticated.campaigns.details.participants.participant.results', campaignId, participantId);
+    this.transitionToRoute('authenticated.campaigns.participant.results', campaignId, participantId);
   }
 }

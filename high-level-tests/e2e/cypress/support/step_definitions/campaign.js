@@ -77,3 +77,7 @@ then(`je vois {int} sujets`, (tubeCount) => {
 then(`je vois que le sujet {string} est {string}`, (tubeName, recommendationLevel) => {
   cy.contains(tubeName).closest('[aria-label="Sujet"]').get(`[aria-label="${recommendationLevel}"]`);
 });
+
+when(`je retourne au détail de la campagne`, () => {
+  cy.get('[aria-label="Retourner au détail de la campagne"]').click();
+});
