@@ -2,18 +2,53 @@ import _ from 'lodash';
 
 export function findPaginatedAndFilteredSessions(schema, request) {
   const queryParams = request.queryParams;
-  const pageSize = queryParams ? parseInt(queryParams['page[size]']) : 10;
-  const page = queryParams ? parseInt(queryParams['page[number]']) : 1;
-  const start = (page - 1) * pageSize;
-  const end = start + pageSize;
-  const idFilter = queryParams ? queryParams['filter[id]'] : null;
-  const certificationCenterNameFilter = queryParams ? queryParams['filter[certificationCenterName]'] : null;
-  const statusFilter = queryParams ? queryParams['filter[status]'] : null;
-  const resultsSentToPrescriberAtFilter = queryParams ? queryParams['filter[resultsSentToPrescriberAt]'] : null;
   const sessions = schema.sessions.all().models;
   const rowCount = sessions.length;
 
-  // Apply filters
+  const filters = _getFiltersFromQueryParams(queryParams);
+  const pagination = _getPaginationFromQueryParams(queryParams);
+  const filteredSessions = _applyFilters(sessions, filters);
+  const paginatedSessions = _applyPagination(filteredSessions, pagination);
+
+  const json = this.serialize({ modelName: 'session', models: paginatedSessions }, 'session');
+  json.meta = {
+    page: pagination.page,
+    pageSize: pagination.pageSize,
+    rowCount,
+    pageCount: Math.ceil(rowCount / pagination.pageSize),
+  };
+  return json;
+}
+
+function _getFiltersFromQueryParams(queryParams) {
+  const idFilter = queryParams
+    ? (queryParams['filter[id]'] ? queryParams['filter[id]'].trim() || null : null)
+    : null;
+  const certificationCenterNameFilter = queryParams
+    ? (queryParams['filter[certificationCenterName]'] ? queryParams['filter[certificationCenterName]'].trim() || null : null)
+    : null;
+  const statusFilter = queryParams
+    ? (queryParams['filter[status]'] ? queryParams['filter[status]'].trim() || null : null)
+    : null;
+  const resultsSentToPrescriberAtFilter = queryParams
+    ? (queryParams['filter[resultsSentToPrescriberAt]'] ? queryParams['filter[resultsSentToPrescriberAt]'].trim() || null : null)
+    : null;
+  return {
+    idFilter,
+    certificationCenterNameFilter,
+    statusFilter,
+    resultsSentToPrescriberAtFilter,
+  };
+}
+
+function _getPaginationFromQueryParams(queryParams) {
+  return {
+    pageSize: queryParams ? parseInt(queryParams['page[size]']) : 10,
+    page: queryParams ? parseInt(queryParams['page[number]']) : 1,
+  };
+}
+
+function _applyFilters(sessions, { idFilter, certificationCenterNameFilter, statusFilter, resultsSentToPrescriberAtFilter }) {
   let filteredSessions = sessions;
   if (idFilter) {
     filteredSessions = _.filter(filteredSessions, (session) => {
@@ -43,15 +78,12 @@ export function findPaginatedAndFilteredSessions(schema, request) {
     }
   }
 
-  // Apply page size
-  const sessionsToSend = _.slice(filteredSessions, start, end);
+  return filteredSessions;
+}
 
-  const json = this.serialize({ modelName: 'session', models: sessionsToSend }, 'session');
-  json.meta = {
-    page,
-    pageSize,
-    rowCount,
-    pageCount: Math.ceil(rowCount / pageSize),
-  };
-  return json;
+function _applyPagination(sessions, { page, pageSize }) {
+  const start = (page - 1) * pageSize;
+  const end = start + pageSize;
+
+  return _.slice(sessions, start, end);
 }
