@@ -1,27 +1,26 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 export default class SendProfileController extends Controller {
 
-  isLoading = false;
-  errorMessage = null;
+  @tracked isLoading = false;
+  @tracked errorMessage = null;
 
   @action
-  sendProfile() {
-    this.set('errorMessage', null);
-    this.set('isLoading', true);
+  async sendProfile() {
+    this.errorMessage = null;
+    this.isLoading = true;
 
-    const campaignParticipation = this.get('model.campaignParticipation');
-    campaignParticipation.set('isShared', true);
+    const campaignParticipation = this.model.campaignParticipation;
+    campaignParticipation.isShared = true;
 
-    return campaignParticipation.save()
-      .then(() => {
-        this.set('isLoading', false);
-      })
-      .catch(() => {
-        campaignParticipation.rollbackAttributes();
-        this.set('isLoading', false);
-        this.set('errorMessage', true);
-      });
+    try {
+      await campaignParticipation.save();
+    } catch (error) {
+      campaignParticipation.rollbackAttributes();
+      this.errorMessage = true;
+    }
+    this.isLoading = false;
   }
 }

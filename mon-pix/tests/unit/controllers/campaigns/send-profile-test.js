@@ -27,7 +27,7 @@ describe('Unit | Controller | Campaigns | Send Profile', function() {
 
   beforeEach(function() {
     controller = this.owner.lookup('controller:campaigns/send-profile');
-    controller.set('model', model);
+    controller.model = model;
     campaignParticipation.save.resolves(campaignParticipationShared);
   });
 
@@ -38,7 +38,7 @@ describe('Unit | Controller | Campaigns | Send Profile', function() {
       controller.actions.sendProfile.call(controller);
 
       // then
-      sinon.assert.calledWith(controller.get('model.campaignParticipation.set'), 'isShared', true);
+      expect(controller.model.campaignParticipation.isShared).to.equal(true);
     });
 
     it('should not be loading nor in error', async function() {
@@ -46,8 +46,8 @@ describe('Unit | Controller | Campaigns | Send Profile', function() {
       await controller.actions.sendProfile.call(controller);
 
       // then
-      expect(controller.get('isLoading')).to.equal(false);
-      expect(controller.get('errorMessage')).to.equal(null);
+      expect(controller.isLoading).to.equal(false);
+      expect(controller.errorMessage).to.equal(null);
     });
   });
 });
