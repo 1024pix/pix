@@ -5,6 +5,19 @@ const { UserOrgaSettingsCreationError } = require('../../domain/errors');
 
 module.exports = {
 
+  findOneByUserId(userId) {
+    return BookshelfUserOrgaSettings
+      .where({ userId })
+      .fetch({ require: true, withRelated: ['user', 'currentOrganization'] })
+      .then((userOrgaSettings) => bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, userOrgaSettings))
+      .catch((err) => {
+        if (err instanceof BookshelfUserOrgaSettings.NotFoundError) {
+          return {};
+        }
+        throw err;
+      });
+  },
+
   create(userId, currentOrganizationId) {
     return new BookshelfUserOrgaSettings({ userId, currentOrganizationId })
       .save()
