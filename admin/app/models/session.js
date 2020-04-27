@@ -80,11 +80,6 @@ export default class Session extends Model {
     return _getNumberOf(this.certifications, (certif) => certif.status !== 'validated');
   }
 
-  @computed('certifications.@each.isPublished')
-  get countPublishedCertifications() {
-    return _getNumberOf(this.certifications, (certif) => certif.isPublished);
-  }
-
   @computed('resultsSentToPrescriberAt')
   get displayResultsSentToPrescriberDate() {
     return _formatHumanReadableLocaleDateTime(this.resultsSentToPrescriberAt);
