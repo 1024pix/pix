@@ -1,5 +1,5 @@
-{{#if (media 'isTablet')}}
-  <CompetenceCardDefault @scorecard={{@scorecard}} />
+{{#if (media 'isMobile')}}
+  <CompetenceCardMobile @interactive={{@interactive}} @scorecard={{@scorecard}} />
 {{else}}
-  <CompetenceCardMobile @scorecard={{@scorecard}} />
+  <CompetenceCardDefault @interactive={{@interactive}} @scorecard={{@scorecard}} />
 {{/if}}
