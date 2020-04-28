@@ -89,7 +89,7 @@ class CampaignAssessmentCsvLine {
       this.targetProfile.name,
       participantLastName,
       participantFirstName,
-      this.campaign.idPixLabel ? this.campaignParticipationResultData.participantExternalId : EMPTY_CONTENT,
+      ...(this.campaign.idPixLabel ? [this.campaignParticipationResultData.participantExternalId] : []),
       this.campaignParticipationService.progress(this.campaignParticipationResultData.isCompleted, this.knowledgeElements.length, this.targetProfile.skills.length),
       moment.utc(this.campaignParticipationResultData.createdAt).format('YYYY-MM-DD'),
       this.isShared ? 'Oui' : 'Non',
