@@ -9,7 +9,7 @@ import { expect } from 'chai';
 import sinonjs from 'sinon';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
-describe.only('Unit | Mixin | secured-route-mixin', function() {
+describe('Unit | Mixin | secured-route-mixin', function() {
   setupTest();
 
   let sinon;
@@ -138,29 +138,6 @@ describe.only('Unit | Mixin | secured-route-mixin', function() {
         sinon.assert.calledWith(router.transitionTo, authenticationRoute);
       });
 
-      it('sets the redirectTarget cookie in fastboot', function() {
-        this.owner.register('service:fastboot', Service.extend({
-          isFastBoot: true,
-          init() {
-            this._super(...arguments);
-            this.request = {
-              protocol: 'https'
-            };
-          },
-        }));
-        const writeCookieStub = sinon.stub();
-        this.owner.register('service:cookies', Service.extend({
-          write: writeCookieStub
-        }));
-
-        const cookieName = 'ember_simple_auth-redirectTarget';
-
-        route.beforeModel(transition);
-        sinon.assert.calledWith(writeCookieStub, cookieName, transition.intent.url, {
-          path: '/',
-          secure: true
-        });
-      });
     });
   });
 });
