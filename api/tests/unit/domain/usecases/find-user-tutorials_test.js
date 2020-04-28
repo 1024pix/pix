@@ -3,6 +3,7 @@ const findUserTutorials = require('../../../../lib/domain/usecases/find-user-tut
 
 describe('Unit | UseCase | find-user-tutorials', () => {
 
+  let tutorialEvaluationRepository;
   let tutorialRepository;
   let userTutorialRepository;
   let tutorial;
@@ -20,13 +21,14 @@ describe('Unit | UseCase | find-user-tutorials', () => {
 
   context('when there is no tutorial saved by current user', () => {
     beforeEach(() => {
+      tutorialEvaluationRepository = { find: sinon.spy(async () => []) };
       tutorialRepository = { findByRecordIds: sinon.spy(async () => []) };
       userTutorialRepository = { find: sinon.spy(async () => []) };
     });
 
     it('should call the userTutorialRepository', async function() {
       // When
-      await findUserTutorials({ tutorialRepository, userTutorialRepository, userId });
+      await findUserTutorials({ tutorialEvaluationRepository, tutorialRepository, userTutorialRepository, userId });
 
       // Then
       expect(userTutorialRepository.find).to.have.been.calledWith({ userId });
@@ -34,7 +36,7 @@ describe('Unit | UseCase | find-user-tutorials', () => {
 
     it('should return an empty array', async function() {
       // When
-      const tutorials = await findUserTutorials({ tutorialRepository, userTutorialRepository, userId });
+      const tutorials = await findUserTutorials({ tutorialEvaluationRepository, tutorialRepository, userTutorialRepository, userId });
 
       // Then
       expect(tutorials).to.deep.equal([]);
@@ -44,13 +46,14 @@ describe('Unit | UseCase | find-user-tutorials', () => {
   context('when there is one tutorial saved by current user', () => {
     beforeEach(() => {
       const userTutorial = { id: userTutorialId, userId, tutorialId };
+      tutorialEvaluationRepository = { find: sinon.spy(async () => []) };
       userTutorialRepository = { find: sinon.spy(async () => [userTutorial]) };
       tutorialRepository = { findByRecordIds: sinon.spy(async () => [tutorial]) };
     });
 
     it('should call the tutorialRepository', async function() {
       // When
-      await findUserTutorials({ tutorialRepository, userTutorialRepository, userId });
+      await findUserTutorials({ tutorialEvaluationRepository, tutorialRepository, userTutorialRepository, userId });
 
       // Then
       expect(tutorialRepository.findByRecordIds).to.have.been.calledWith([tutorialId]);
@@ -66,7 +69,7 @@ describe('Unit | UseCase | find-user-tutorials', () => {
       }];
 
       // When
-      const tutorials = await findUserTutorials({ tutorialRepository, userTutorialRepository, userId });
+      const tutorials = await findUserTutorials({ tutorialEvaluationRepository, tutorialRepository, userTutorialRepository, userId });
 
       // Then
       expect(tutorials).to.deep.equal(expectedUserTutorials);
