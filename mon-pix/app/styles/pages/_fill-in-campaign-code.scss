@@ -10,7 +10,7 @@
 
   &__title {
     text-align: center;
-    margin-bottom: 42px;
+    margin-bottom: 32px;
   }
 
   &__instruction {
@@ -19,7 +19,7 @@
     font-size: 1.95rem;
     text-align: center;
     font-weight: $font-light;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
   }
 
   &__form-field {
@@ -71,7 +71,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 130px;
+    height: 118px;
     margin-bottom: 30px;
   }
 
