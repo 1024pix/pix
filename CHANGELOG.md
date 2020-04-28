@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.146.0 (28/04/2020)
+
+- [#1299](https://github.com/1024pix/pix/pull/1299) [FEATURE] Générer un mot de passe à usage unique pour un élève dans Pix Orga (PO-321).
+- [#1338](https://github.com/1024pix/pix/pull/1338) [FEATURE] Ajout d'onglets sur la page participant (PIX-569).
+- [#1345](https://github.com/1024pix/pix/pull/1345) [FEATURE] Retrait de la colonne "Nombre de certifications publiées" dans la liste des sessions de PixAdmin (PIX-566).
+- [#1339](https://github.com/1024pix/pix/pull/1339) [FEATURE] Ajuster la formulation de la page d'identifiant externe (PIX-564).
+- [#1350](https://github.com/1024pix/pix/pull/1350) [BUGFIX] Export CSV d'une campagne, ne pas mettre l'id externe quand la campagne n'en a pas (PIX-592).
+- [#1341](https://github.com/1024pix/pix/pull/1341) [BUGFIX] Le temps d'attente d'envoi de requêtes mis en place lors de la recherche de campagnes par nom dans PixOrga ne marche plus (PO-440)
+- [#1342](https://github.com/1024pix/pix/pull/1342) [BUGFIX] Affichage défectueux lorsqu'on supprime rapidement un filtre sur nom dans la liste des campagnes (PIX-583)
+- [#1336](https://github.com/1024pix/pix/pull/1336) [TECH] Eviter les erreurs de contraintes d'unicité. 
+
 ## v2.145.0 (24/04/2020)
 
 - [#1335](https://github.com/1024pix/pix/pull/1335) [FEATURE] Renommer et déplacer l'entrée vers la page de saisie de code depuis le menu de PIX App (PF-1226).
