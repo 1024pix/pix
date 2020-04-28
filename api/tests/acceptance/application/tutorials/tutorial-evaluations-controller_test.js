@@ -49,6 +49,11 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', () => {
         const expectedResponse = {
           data: {
             type: 'tutorial-evaluations',
+            id: '1',
+            attributes: {
+              'tutorial-id': 'tutorialId',
+              'user-id': 4444,
+            }
           }
         };
 
@@ -58,6 +63,9 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', () => {
         // then
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.type).to.deep.equal(expectedResponse.data.type);
+        expect(response.result.data.id).to.exist;
+        expect(response.result.data.attributes['user-id']).to.deep.equal(expectedResponse.data.attributes['user-id']);
+        expect(response.result.data.attributes['tutorial-id']).to.deep.equal(expectedResponse.data.attributes['tutorial-id']);
       });
     });
 

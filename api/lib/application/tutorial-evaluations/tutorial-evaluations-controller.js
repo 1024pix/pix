@@ -1,4 +1,5 @@
 const usecases = require('../../domain/usecases');
+const tutorialEvaluationSerializer = require('../../infrastructure/serializers/jsonapi/tutorial-evaluation-serializer');
 
 module.exports = {
 
@@ -6,9 +7,9 @@ module.exports = {
     const { userId } = request.auth.credentials;
     const { tutorialId } = request.params;
 
-    await usecases.addTutorialEvaluation({ userId, tutorialId });
+    const tutorialEvaluation = await usecases.addTutorialEvaluation({ userId, tutorialId });
 
-    return h.response({ data: { type: 'tutorial-evaluations' } }).created();
+    return h.response(tutorialEvaluationSerializer.serialize(tutorialEvaluation)).created();
   },
 
 };
