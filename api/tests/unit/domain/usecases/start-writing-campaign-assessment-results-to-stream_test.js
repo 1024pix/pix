@@ -454,6 +454,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     });
 
     context('when campaign do not have a idPixLabel', () => {
+      let campaignWithoutIdPixLabel;
 
       beforeEach(() => {
         const campaignParticipationResultData = {
@@ -463,11 +464,12 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           userId: 123,
           participantFirstName: user.firstName,
           participantLastName: user.lastName,
+          isCompleted: true,
         };
 
         findAssessmentResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
 
-        const campaignWithoutIdPixLabel = domainBuilder.buildCampaign.ofTypeAssessment({
+        campaignWithoutIdPixLabel = domainBuilder.buildCampaign.ofTypeAssessment({
           name: 'CampaignName',
           code: 'AZERTY123',
           organizationId: organization.id,
@@ -476,9 +478,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         campaignRepository.get.resolves(campaignWithoutIdPixLabel);
       });
 
-      it('should return the header in CSV styles with all competence, domain and skills', async () => {
+      it('should return the header and the data in CSV styles with all competence, domain and skills', async () => {
         // given
-        const csvExpected = '\uFEFF"Nom de l\'organisation";' +
+        const csvHeadersExpected =
+          '\uFEFF"Nom de l\'organisation";' +
           '"ID Campagne";' +
           '"Nom de la campagne";' +
           '"Nom du Profil Cible";' +
@@ -501,6 +504,30 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
           '"\'@web4";' +
           '"\'@web5"';
 
+        const csvDataExpected =
+          `"${organization.name}";` +
+          `${campaignWithoutIdPixLabel.id};` +
+          `"${campaignWithoutIdPixLabel.name}";` +
+          `"'${targetProfile.name}";` +
+          `"'${user.lastName}";` +
+          `"'${user.firstName}";` +
+          '1;' +
+          '2019-02-25;' +
+          '"Non";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA"';
+
         // when
         startWritingCampaignAssessmentResultsToStream({
           userId: user.id,
@@ -520,7 +547,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         const csvLines = csv.split('\n');
 
         // then
-        expect(csvLines[0]).to.equal(csvExpected);
+        expect(csvLines[0]).to.equal(csvHeadersExpected);
+        expect(csvLines[1]).to.equal(csvDataExpected);
       });
     });
   });
