@@ -4,7 +4,7 @@ const moduleUnderTest = require('../../../../lib/application/schooling-registrat
 
 const usecases = require('../../../../lib/domain/usecases');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
-const { NotFoundError, UserNotAuthorizedToUpdateStudentPasswordError } = require('../../../../lib/domain/errors');
+const { NotFoundError, UserNotAuthorizedToUpdatePasswordError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Application | Schooling-registration-dependent-users | schooling-registration-dependent-user-controller', () => {
 
@@ -99,33 +99,31 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
     const payload = { data: { attributes: {} } };
     const auth = { credentials: {}, strategy: {} };
-    let updatedUser;
+    const generatedPassword = 'Passw0rd';
 
     beforeEach(() => {
       securityController.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) => h.response(true));
 
       payload.data.attributes = {
-        'student-id': 1,
-        'organization-id': 3,
-        'password': 'P@ssw0rd'
+        'schooling-registration-id': 1,
+        'organization-id': 3
       };
 
-      updatedUser = domainBuilder.buildUser();
-      auth.credentials.userId = updatedUser.id;
+      auth.credentials.userId = domainBuilder.buildUser().id;
     });
 
     context('Success cases', () => {
 
       it('should return an HTTP response with status code 200', async () => {
         // given
-        usecases.updateSchoolingRegistrationDependentUserPassword.resolves(updatedUser);
+        usecases.updateSchoolingRegistrationDependentUserPassword.resolves(generatedPassword);
 
         // when
         const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/password-update', payload, auth);
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data.id).to.equal(updatedUser.id.toString());
+        expect(response.result.data.attributes['generated-password']).to.equal(generatedPassword);
       });
     });
 
@@ -145,11 +143,11 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
         });
       });
 
-      context('when a UserNotAuthorizedToUpdateStudentPasswordError is thrown', () => {
+      context('when a UserNotAuthorizedToUpdatePasswordError is thrown', () => {
 
         it('should resolve a 403 HTTP response', async () => {
           // given
-          usecases.updateSchoolingRegistrationDependentUserPassword.rejects(new UserNotAuthorizedToUpdateStudentPasswordError());
+          usecases.updateSchoolingRegistrationDependentUserPassword.rejects(new UserNotAuthorizedToUpdatePasswordError());
 
           // when
           const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/password-update', payload, auth);

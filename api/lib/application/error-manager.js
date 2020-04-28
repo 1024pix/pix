@@ -149,7 +149,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.SchoolingRegistrationAlreadyLinkedToUserError) {
     return new HttpErrors.ConflictError(error.message);
   }
-  if (error instanceof DomainErrors.UserNotAuthorizedToUpdateStudentPasswordError) {
+  if (error instanceof DomainErrors.UserNotAuthorizedToUpdatePasswordError) {
     return new HttpErrors.ForbiddenError(error.message);
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToCreateResourceError) {

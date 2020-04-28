@@ -38,6 +38,7 @@ const dependencies = {
   organizationService: require('../../domain/services/organization-service'),
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
   organizationInvitationRepository: require('../../infrastructure/repositories/organization-invitation-repository'),
+  passwordGenerator: require('../../domain/services/password-generator'),
   pickChallengeService: require('../services/pick-challenge-service'),
   resetPasswordService: require('../../domain/services/reset-password-service'),
   reCaptchaValidator: require('../../infrastructure/validators/grecaptcha-validator'),

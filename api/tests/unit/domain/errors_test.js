@@ -63,8 +63,8 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.CampaignAlreadyArchivedError).to.exist;
   });
 
-  it('should export a UserNotAuthorizedToUpdateStudentPassword', () => {
-    expect(errors.UserNotAuthorizedToUpdateStudentPasswordError).to.exist;
+  it('should export a UserNotAuthorizedToUpdatePasswordError', () => {
+    expect(errors.UserNotAuthorizedToUpdatePasswordError).to.exist;
   });
 
   it('should export a UserNotAuthorizedToUpdateCampaignError', () => {

@@ -1,8 +1,7 @@
 const schoolingRegistrationDependentUserController = require('./schooling-registration-dependent-user-controller');
 const securityController = require('../../interfaces/controllers/security-controller');
+const JSONAPIError = require('jsonapi-serializer').Error;
 const Joi = require('@hapi/joi');
-const { passwordValidationPattern } = require('../../config').account;
-const XRegExp = require('xregexp');
 
 exports.register = async function(server) {
   server.route([
@@ -36,11 +35,19 @@ exports.register = async function(server) {
             data: {
               attributes: {
                 'organization-id': Joi.number().required(),
-                'student-id': Joi.number().required(),
-                password: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
+                'schooling-registration-id': Joi.number().required()
               }
             }
-          })
+          }),
+          failAction: (request, h) => {
+            const errorHttpStatusCode = 400;
+            const jsonApiError = new JSONAPIError({
+              code: errorHttpStatusCode.toString(),
+              title: 'Bad request',
+              detail: 'The server could not understand the request due to invalid syntax.',
+            });
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+          }
         },
         notes : [
           '- Met à jour le mot de passe d\'un utilisateur identifié par son identifiant élève\n' +
