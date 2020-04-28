@@ -1,11 +1,12 @@
 const _ = require('lodash');
 const moment = require('moment');
-const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
+const { sinon, expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Skill = require('../../../../lib/domain/models/Skill');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
+const { AlreadyExistingCampaignParticipationError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Campaign Participation', () => {
 
@@ -122,6 +123,22 @@ describe('Integration | Repository | Campaign Participation', () => {
       expect(campaignParticipationInDB[0].campaignId).to.equal(campaignParticipationToSave.campaignId);
       expect(campaignParticipationInDB[0].participantExternalId).to.equal(savedCampaignParticipation.participantExternalId);
       expect(campaignParticipationInDB[0].userId).to.equal(savedCampaignParticipation.userId);
+    });
+
+    it('should throw an error if the couple participantExternalId and userId already exists', async () => {
+      // given
+      const campaignParticipationToSave = new CampaignParticipation({
+        campaignId,
+        userId,
+        participantExternalId: '034516273645RET'
+      });
+
+      // when
+      await campaignParticipationRepository.save(campaignParticipationToSave);
+      const error = await catchErr(campaignParticipationRepository.save)(campaignParticipationToSave);
+
+      // then
+      return expect(error).to.be.instanceOf(AlreadyExistingCampaignParticipationError);
     });
 
   });

@@ -3,7 +3,7 @@ const CampaignParticipation = require('../../domain/models/CampaignParticipation
 const Campaign = require('../../domain/models/Campaign');
 const Skill = require('../../domain/models/Skill');
 const User = require('../../domain/models/User');
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError, AlreadyExistingCampaignParticipationError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
@@ -43,7 +43,13 @@ module.exports = {
   save(campaignParticipation) {
     return new BookshelfCampaignParticipation(_adaptModelToDb(campaignParticipation))
       .save()
-      .then(_toDomain);
+      .then(_toDomain)
+      .catch((error) => {
+        if (error.constraint === 'campaign_participations_campaignid_userid_unique') {
+          throw new AlreadyExistingCampaignParticipationError(`User ${campaignParticipation.userId} has already a campaign participation with campaign ${campaignParticipation.campaignId}`);
+        }
+        throw error;
+      });
   },
 
   async findAssessmentResultDataByCampaignId(campaignId) {
