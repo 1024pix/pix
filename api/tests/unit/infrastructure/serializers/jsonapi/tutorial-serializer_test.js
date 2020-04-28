@@ -72,15 +72,16 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', () => {
 
     it('should return a serialized JSON data object, with userTutorial related to', () => {
       // given
-      const tutorialId = 123;
       const userId = 456;
+      const tutorialId = 123;
+      const tutorialEvaluationId = `${userId}_${tutorialId}`;
       const userTutorialId = `${userId}_${tutorialId}`;
 
       const tutorial = domainBuilder.buildTutorial({
         id: tutorialId,
       });
-      const userTutorial = { userId, id: userTutorialId, tutorialId };
-      tutorial.userTutorial = userTutorial;
+      tutorial.tutorialEvaluation = { userId, id: tutorialEvaluationId, tutorialId };
+      tutorial.userTutorial = { userId, id: userTutorialId, tutorialId };
 
       const expectedSerializedResult = {
         data: {
@@ -94,6 +95,12 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', () => {
             'title': 'Savoir regarder des vidéos youtube.',
           },
           relationships: {
+            'tutorial-evaluation': {
+              data: {
+                id: tutorialEvaluationId,
+                type: 'tutorialEvaluation',
+              }
+            },
             'user-tutorial': {
               data: {
                 id: userTutorialId,
@@ -102,15 +109,26 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', () => {
             }
           }
         },
-        included: [{
-          attributes: {
-            id: userTutorialId,
-            'user-id': userId,
-            'tutorial-id': tutorialId,
+        included: [
+          {
+            attributes: {
+              id: tutorialEvaluationId,
+              'user-id': userId,
+              'tutorial-id': tutorialId,
+            },
+            id: tutorialEvaluationId,
+            type: 'tutorialEvaluation',
           },
-          id: userTutorialId,
-          type: 'user-tutorial',
-        }]
+          {
+            attributes: {
+              id: userTutorialId,
+              'user-id': userId,
+              'tutorial-id': tutorialId,
+            },
+            id: userTutorialId,
+            type: 'user-tutorial',
+          },
+        ]
       };
 
       // when
