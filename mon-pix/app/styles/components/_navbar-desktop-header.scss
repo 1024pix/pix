@@ -13,15 +13,15 @@
 .navbar-desktop-header-container {
   &__menu {
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 68px;
+    margin-right: 20px;
   }
 }
 
 .navbar-desktop-header-menu {
   &__item {
-    margin-left: 23.3px;
-    margin-right: 23.3px;
+    margin-left: 20px;
+    margin-right: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
     font-size: 1.6rem;
@@ -73,6 +73,6 @@
   }
 
   &__marianne {
-    margin-left: 16px;
+    margin-left: 24px;
   }
 }
