@@ -12,9 +12,9 @@
       Élèves
     </LinkTo>
   {{/if}}
-  {{#if this.currentUser.isSCOManagingStudents}}
+  {{#if this.documentationUrl}}
     <div class="sidebar-menu__documentation-item">
-      <a class="sidebar-menu-documentation-item__button" href="https://bit.ly/ressourcespixorga"
+      <a class="sidebar-menu-documentation-item__button" href={{this.documentationUrl}}
          target="_blank" rel="noopener noreferrer">
         <div class="sidebar-menu-documentation-item__bar"></div>
         <FaIcon @icon='book' @class="sidebar--padding-right sidebar--item-icon "></FaIcon>
