@@ -2,12 +2,12 @@ import classic from 'ember-classic-decorator';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
 import { isEmpty } from '@ember/utils';
 
 @classic
-export default class StartOrResumeRoute extends Route.extend(AuthenticatedRouteMixin) {
+export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
   @service session;
 
