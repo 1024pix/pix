@@ -39,6 +39,8 @@
 
   p {
     text-align: left;
+    font-size: 0.625rem;
+
     @include device-is('desktop') {
       text-align: center;
     }
@@ -46,6 +48,7 @@
 }
 
 .error-page-main-content__title {
+  font-size: 1.25rem;
   padding-bottom: 20px;
 }
 
