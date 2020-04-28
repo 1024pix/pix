@@ -18,4 +18,9 @@ module.exports = {
     return skillDatasource.findByCompetenceId(competenceId)
       .then((skillDatas) => skillDatas.map(_toDomain));
   },
+
+  findByIds(skillIds) {
+    return skillDatasource.findByRecordIds(skillIds)
+      .then((skillDatas) => skillDatas.map(_toDomain));
+  },
 };
