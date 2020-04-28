@@ -1,10 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { fillIn, render, triggerEvent } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
+import { resolve } from 'rsvp';
 import hbs from 'htmlbars-inline-precompile';
-
-const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
+import Service from '@ember/service';
+import Object from '@ember/object';
 
 module('Integration | Component | password-reset-window', function(hooks) {
   setupRenderingTest(hooks);
@@ -62,23 +63,25 @@ module('Integration | Component | password-reset-window', function(hooks) {
     });
   });
 
-  module('errors management', function() {
-
-    [' ', 'password', 'password1', 'Password'].forEach(function(wrongPassword) {
-
-      test(`it should display an error message on password field, when '${wrongPassword}' is typed and focused out`, async function(assert) {
-        // given
-        await render(hbs`{{password-reset-window student=student}}`);
-
-        // when
-        await fillIn('#update-password', wrongPassword);
-        await triggerEvent('#update-password', 'focusout');
-
-        // then
-        assert.dom('.alert-input--error').hasText(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
-        assert.dom('.input-password--error').exists();
-      });
+  test('should display unique password input when reset password button is clicked', async function(assert) {
+    // given
+    const storeStub = Service.extend({
+      createRecord: () => {
+        return Object.create({
+          save() {
+            return resolve();
+          }
+        });
+      }
     });
-  });
+    this.owner.unregister('service:store');
+    this.owner.register('service:store', storeStub);
+    await render(hbs`{{password-reset-window student=student}}`);
 
+    // when
+    await click('.pix-modal-footer div button');
+
+    // then
+    assert.dom('#generated-password').exists();
+  });
 });

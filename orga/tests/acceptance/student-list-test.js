@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { find, currentURL, triggerEvent, visit, click, fillIn } from '@ember/test-helpers';
+import { find, currentURL, triggerEvent, visit, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -122,7 +122,7 @@ module('Acceptance | Student List', function(hooks) {
 
       module('when student authenticated by username and email', async function() {
 
-        test('it should display password update button for student', async function(assert) {
+        test('it should display password reset modal button for student', async function(assert) {
           // when
           await visit('/eleves');
 
@@ -130,34 +130,30 @@ module('Acceptance | Student List', function(hooks) {
           assert.dom('.table tbody tr:nth-child(6) td:last-child button .fa-cog').exists();
         });
 
-        test('it should update password and close modal window', async function(assert) {
+        test('it should open modal and display password reset button', async function(assert) {
           // given
           await visit('/eleves');
-          await click('.table tbody tr:nth-child(6) td:last-child button');
 
           // when
-          await fillIn('#update-password', 'Pix12345');
-          await click('button[type="submit"]');
+          await click('.table tbody tr:nth-child(6) td:last-child button');
 
           // then
-          assert.dom('.pix-modal-overlay').doesNotExist();
-          assert.dom('[data-test-notification-message="success"]').exists();
+          assert.dom('.pix-modal-overlay').exists();
+          assert.dom('.pix-modal-footer button').exists();
+          assert.dom('.pix-modal-footer button').hasText('Réinitialiser le mot de passe');
         });
 
-        test('it should close modal window when update password failed', async function(assert) {
+        test('it should display unique password input when reset button is clicked', async function(assert) {
           // given
-          const passwordForFailure = 'passwordFor01Failure';
-
           await visit('/eleves');
           await click('.table tbody tr:nth-child(6) td:last-child button');
 
           // when
-          await fillIn('#update-password', passwordForFailure);
-          await click('button[type="submit"]');
+          await click('.pix-modal-footer div button');
 
           // then
-          assert.dom('.pix-modal-overlay').doesNotExist();
-          assert.dom('[data-test-notification-message="error"]').exists();
+          assert.dom('.pix-modal-footer div button').doesNotExist();
+          assert.dom('#generated-password').exists();
         });
 
         test('it should open password modal window with email and username value', async function(assert) {

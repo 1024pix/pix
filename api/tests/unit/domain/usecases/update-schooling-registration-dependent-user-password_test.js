@@ -1,7 +1,7 @@
 const { sinon, expect, catchErr } = require('../../../test-helper');
 
 const {
-  UserNotAuthorizedToUpdateStudentPasswordError, UserNotFoundError, DomainError
+  UserNotFoundError, UserNotAuthorizedToUpdatePasswordError
 } = require('../../../../lib/domain/errors');
 
 const updateSchoolingRegistrationDependentUserPassword = require('../../../../lib/domain/usecases/update-schooling-registration-dependent-user-password');
@@ -12,9 +12,10 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
   const organizationId = 1;
   const schoolingRegistrationId = 1;
 
-  const password = 'Pix12345';
+  const generatedPassword = 'Pix12345';
   const encryptedPassword = '@Pix12345@';
 
+  let passwordGenerator;
   let encryptionService;
   let userRepository;
   let schoolingRegistrationRepository;
@@ -29,22 +30,27 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
       hasAccessToOrganization: sinon.stub().returns(true)
     };
     userStudent = {
-      username: 'first.last0112'
+      id: 2,
+      username: 'first.last0112',
+      email: 'first.last@example.net'
     };
 
     student = {
       id: schoolingRegistrationId,
-      userId: userMember.id,
+      userId: userStudent.id,
       organizationId
     };
 
+    passwordGenerator = {
+      generate: sinon.stub().returns(generatedPassword),
+    };
     encryptionService = {
       hashPassword: sinon.stub().resolves(encryptedPassword),
     };
     userRepository = {
       get: sinon.stub().resolves(userStudent),
       getWithMemberships: sinon.stub().resolves(userMember),
-      updatePassword: sinon.stub().resolves()
+      updatePasswordThatShouldBeChanged: sinon.stub().resolves()
     };
     schoolingRegistrationRepository = {
       get: sinon.stub().resolves(student),
@@ -54,9 +60,14 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
   it('should get user by his id', async () => {
     // when
     await updateSchoolingRegistrationDependentUserPassword({
-      userId, organizationId,
+      userId,
+      organizationId,
+      schoolingRegistrationId,
+      passwordGenerator,
       encryptionService,
-      userRepository, schoolingRegistrationRepository });
+      userRepository,
+      schoolingRegistrationRepository
+    });
 
     // then
     expect(userRepository.getWithMemberships).to.have.been.calledWith(userId);
@@ -65,9 +76,13 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
   it('should get student by his id', async () => {
     // when
     await updateSchoolingRegistrationDependentUserPassword({
-      userId, organizationId, schoolingRegistrationId, password,
+      userId,
+      organizationId,
+      schoolingRegistrationId,
+      passwordGenerator,
       encryptionService,
-      userRepository, schoolingRegistrationRepository
+      userRepository,
+      schoolingRegistrationRepository
     });
 
     // then
@@ -77,49 +92,77 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
   it('should update user password with a hashed password', async () => {
     // when
     await updateSchoolingRegistrationDependentUserPassword({
-      userId, organizationId, schoolingRegistrationId, password,
+      userId,
+      organizationId,
+      schoolingRegistrationId,
+      passwordGenerator,
       encryptionService,
-      userRepository, schoolingRegistrationRepository
+      userRepository,
+      schoolingRegistrationRepository
     });
 
     // then
-    expect(encryptionService.hashPassword).to.have.been.calledWith(password);
-    expect(userRepository.updatePassword).to.have.been.calledWith(userMember.id, encryptedPassword);
+    expect(encryptionService.hashPassword).to.have.been.calledWith(generatedPassword);
+    expect(userRepository.updatePasswordThatShouldBeChanged).to.have.been.calledWith(userStudent.id, encryptedPassword);
+  });
+
+  it('should return generated password if update succeeded', async () => {
+    // when
+    const result = await updateSchoolingRegistrationDependentUserPassword({
+      userId,
+      organizationId,
+      schoolingRegistrationId,
+      passwordGenerator,
+      encryptionService,
+      userRepository,
+      schoolingRegistrationRepository
+    });
+
+    // then
+    expect(result).to.equal(generatedPassword);
   });
 
   describe('When the user member is not part of student organization', () => {
 
-    it('should return UserNotAuthorizedToUpdateStudentPasswordError', async () => {
+    it('should return UserNotAuthorizedToUpdatePasswordError', async () => {
       // given
       userMember.hasAccessToOrganization.returns(false);
 
       // when
       const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
-        userId, organizationId, schoolingRegistrationId, password,
+        userId,
+        organizationId,
+        schoolingRegistrationId,
+        passwordGenerator,
         encryptionService,
-        userRepository, schoolingRegistrationRepository
+        userRepository,
+        schoolingRegistrationRepository
       });
 
       // then
-      expect(error).to.be.instanceOf(UserNotAuthorizedToUpdateStudentPasswordError);
+      expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
     });
   });
 
   describe('When the student is not part of the organization', () => {
 
-    it('should return UserNotAuthorizedToUpdateStudentPasswordError', async () => {
+    it('should return UserNotAuthorizedToUpdatePasswordError', async () => {
       // given
       student.organizationId = 2;
 
       // when
       const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
-        userId, organizationId, schoolingRegistrationId, password,
+        userId,
+        organizationId,
+        schoolingRegistrationId,
+        passwordGenerator,
         encryptionService,
-        userRepository, schoolingRegistrationRepository
+        userRepository,
+        schoolingRegistrationRepository
       });
 
       // then
-      expect(error).to.be.instanceOf(UserNotAuthorizedToUpdateStudentPasswordError);
+      expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
     });
   });
 
@@ -131,30 +174,37 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
 
       // when
       const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
-        userId, organizationId, schoolingRegistrationId, password,
+        userId,
+        organizationId,
+        schoolingRegistrationId,
+        passwordGenerator,
         encryptionService,
-        userRepository, schoolingRegistrationRepository
+        userRepository,
+        schoolingRegistrationRepository
       });
 
       // then
       expect(error).to.be.instanceOf(UserNotFoundError);
     });
 
-    it('should return a DomainError when user student have not username', async () => {
+    it('should return a UserNotAuthorizedToUpdatePasswordError when student authenticates without username or email', async () => {
       // given
       userStudent.username = null;
+      userStudent.email = null;
 
       // when
       const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
-        userId, organizationId, schoolingRegistrationId, password,
+        userId,
+        organizationId,
+        schoolingRegistrationId,
+        passwordGenerator,
         encryptionService,
-        userRepository, schoolingRegistrationRepository
+        userRepository,
+        schoolingRegistrationRepository
       });
 
       // then
-      expect(error).to.be.instanceOf(DomainError);
+      expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
     });
-
   });
-
 });

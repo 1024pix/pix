@@ -50,7 +50,7 @@ exports.register = async function(server) {
             data: {
               attributes: {
                 username: Joi.string().required(),
-                expiredPassword: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
+                expiredPassword: Joi.string().required(),
                 newPassword: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
               },
               type: Joi.string()

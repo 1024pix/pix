@@ -420,8 +420,8 @@ class UserNotAuthorizedToCertifyError extends DomainError {
   }
 }
 
-class UserNotAuthorizedToUpdateStudentPasswordError extends DomainError {
-  constructor(message = 'Cet utilisateur n\'est pas autorisé à mettre à jour le mot de passe de l\'étudiant.') {
+class UserNotAuthorizedToUpdatePasswordError extends DomainError {
+  constructor(message = 'L\'utilisateur n\'est pas autorisé à mettre à jour ce mot de passe.') {
     super(message);
   }
 }
@@ -511,8 +511,8 @@ module.exports = {
   UserNotAuthorizedToGetCampaignResultsError,
   UserNotAuthorizedToGetCertificationCoursesError,
   UserNotAuthorizedToUpdateCampaignError,
+  UserNotAuthorizedToUpdatePasswordError,
   UserNotAuthorizedToUpdateResourceError,
-  UserNotAuthorizedToUpdateStudentPasswordError,
   UserNotFoundError,
   UserNotMemberOfOrganizationError,
   UserOrgaSettingsCreationError,

@@ -394,9 +394,9 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 403 on domain UserNotAuthorizedToUpdateStudentPasswordError', function() {
+    it('should return 403 on domain UserNotAuthorizedToUpdatePasswordError', function() {
       // given
-      const error = new DomainErrors.UserNotAuthorizedToUpdateStudentPasswordError();
+      const error = new DomainErrors.UserNotAuthorizedToUpdatePasswordError();
 
       // when
       const result = handle(hFake, error);

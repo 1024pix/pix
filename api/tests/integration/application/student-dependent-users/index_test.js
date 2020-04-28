@@ -4,14 +4,13 @@ const schoolingRegistrationDependentUserController = require('../../../../lib/ap
 const moduleUnderTest = require('../../../../lib/application/student-dependent-users');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 
-describe('Integration | Application | Route | schooling-registration-dependent-users', () => {
+describe('Integration | Application | Route | student-dependent-users', () => {
 
   let httpTestServer;
 
   beforeEach(() => {
     sinon.stub(securityController, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
     sinon.stub(schoolingRegistrationDependentUserController, 'createAndAssociateUserToSchoolingRegistration').callsFake((request, h) => h.response('ok').code(201));
-    sinon.stub(schoolingRegistrationDependentUserController, 'updatePassword').callsFake((request, h) => h.response('ok').code(200));
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
@@ -41,29 +40,4 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
       expect(response.statusCode).to.equal(201);
     });
   });
-
-  describe('POST /api/student-dependent-users/password-update', () => {
-
-    it('should succeed', async () => {
-      // given
-      const method = 'POST';
-      const url = '/api/student-dependent-users/password-update';
-      const payload = {
-        data: {
-          attributes: {
-            'student-id': 1,
-            'organization-id': 3,
-            'password': 'P@ssw0rd'
-          }
-        }
-      };
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
 });

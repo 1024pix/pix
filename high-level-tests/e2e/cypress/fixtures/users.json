@@ -22,7 +22,8 @@
     "lastName": "Snow",
     "email": "john.snow@pix.fr",
     "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
-    "cgu": true
+    "cgu": true,
+    "pixOrgaTermsOfServiceAccepted": true
   },
   {
     "id": 4,

@@ -71,32 +71,38 @@
         border-radius: 8px 8px 4px 4px;
         padding: 24px;
 
-        &__title {
-          color: $white;
-          margin-bottom: 22px;
-        }
-
         button {
           font-weight: 600;
-        }
-
-        .input-password__icon {
-          &:hover, &:focus, &:active {
-            background-color: inherit;
-          }
+          margin-bottom: 16px;
         }
 
         .label {
           color: $white;
         }
 
-        .alert-input {
-          text-align: left;
+        &__warning {
+          display: flex;
+          color: $white;
+          font-size: .875rem;
+
+          .warning-icon {
+            color: $information-light;
+          }
+
+          span {
+            margin-left: 10px;
+          }
         }
 
-        .help {
-          font-size: .85rem;
-          font-weight: 400;
+        &__informations {
+          display: flex;
+          color: $white;
+          flex-direction: column;
+          font-size: .875rem;
+
+          span {
+            margin: 4px 0;
+          }
         }
       }
     }
