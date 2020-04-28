@@ -1,6 +1,8 @@
 const AirtableRecord = require('airtable').Record;
 
 const ACTIVE_STATUS = 'actif';
+const COMPETENCE_TUBE_ID = 'Compétence (via Tube) (id persistant)';
+const STATUS = 'Status';
 
 class SkillRawAirTableFixture extends AirtableRecord {
   constructor(id) {
@@ -11,13 +13,13 @@ class SkillRawAirTableFixture extends AirtableRecord {
         'Nom': '@accesDonnées1',
         'Indice': 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?',
         'Statut de l\'indice': 'Validé',
-        'Status': ACTIVE_STATUS,
+        [STATUS]: ACTIVE_STATUS,
         'Epreuves': [
           'recF2iWmZKIuOsKO1',
           'recYu7YmDXXt5Owo8',
           'recbH4xMDsDZnRzzN'
         ],
-        'Compétence (via Tube) (id persistant)': [
+        [COMPETENCE_TUBE_ID]: [
           'recofJCxg0NqTqTdP'
         ],
         'Comprendre (id persistant)': [
@@ -39,13 +41,18 @@ class SkillRawAirTableFixture extends AirtableRecord {
     });
   }
 
+  withCompetenceId(id) {
+    this.fields[COMPETENCE_TUBE_ID] = [id];
+    return this;
+  }
+
   withActiveStatus() {
-    this.fields['Status'] = ACTIVE_STATUS;
+    this.fields[STATUS] = ACTIVE_STATUS;
     return this;
   }
 
   withInactiveStatus() {
-    this.fields['Status'] = 'périmé';
+    this.fields[STATUS] = 'périmé';
     return this;
   }
 }
