@@ -56,4 +56,14 @@ module.exports = function usersBuilder({ databaseBuilder }) {
   };
   databaseBuilder.factory.buildUser.withUnencryptedPassword(userShouldChangePassword);
 
+  const userWithSamlId = {
+    firstName: 'Margaery',
+    lastName: 'Tyrell',
+    email: null,
+    rawPassword: 'Password123',
+    cgu: false,
+    samlId: 'samlId'
+  };
+  databaseBuilder.factory.buildUser.withUnencryptedPassword(userWithSamlId);
+
 };
