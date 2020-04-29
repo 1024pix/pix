@@ -567,7 +567,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await click('.button');
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/didacticiel`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
 
@@ -619,7 +619,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await click('.button');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/didacticiel`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
 
           it('should start the assessment when the user has seen tutorial', async function() {

@@ -65,7 +65,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     if (this._thereIsNoAssessment(smartPlacementAssessments)) {
 
       if (campaign.isTypeProfilesCollection && this.campaignParticipationIsStarted) {
-        return this.replaceWith('campaigns.send-profile', this.campaignCode);
+        return this.replaceWith('profiles-collection-campaigns.send-profile', this.campaignCode);
       }
       if (this.userHasSeenLanding) {
         return this.replaceWith('campaigns.fill-in-id-pix', this.campaignCode, { queryParams: { givenParticipantExternalId: this.givenParticipantExternalId } });
@@ -79,7 +79,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     const assessment = await smartPlacementAssessments.get('firstObject').reload();
 
     if (this._showTutorial(assessment)) {
-      return this.replaceWith('campaigns.tutorial', this.campaignCode);
+      return this.replaceWith('assessment-campaigns.tutorial', this.campaignCode);
     }
 
     return this.replaceWith('assessments.resume', assessment.get('id'));

@@ -4,7 +4,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-describe('Unit | Route | campaigns/tutorial', function() {
+describe('Unit | Route | assessment-campaigns/tutorial', function() {
 
   setupTest();
 
@@ -27,7 +27,7 @@ describe('Unit | Route | campaigns/tutorial', function() {
   };
 
   beforeEach(function() {
-    route = this.owner.lookup('route:campaigns/tutorial');
+    route = this.owner.lookup('route:assessment-campaigns/tutorial');
     route.transitionTo = sinon.stub();
     route.tutorial = tutorialPages.tutorial;
   });

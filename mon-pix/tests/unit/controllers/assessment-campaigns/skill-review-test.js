@@ -4,14 +4,14 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import  EmberObject  from '@ember/object';
 
-describe('Unit | Controller | Campaigns | Skill Review', function() {
+describe('Unit | Controller | Assessment Campaigns | Skill Review', function() {
 
   setupTest();
 
   let controller;
 
   beforeEach(function() {
-    controller = this.owner.lookup('controller:campaigns/skill-review');
+    controller = this.owner.lookup('controller:assessment-campaigns/skill-review');
 
     const setStub = sinon.stub();
 
