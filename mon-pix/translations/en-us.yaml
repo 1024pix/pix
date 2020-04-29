@@ -1,6 +1,21 @@
 homepage:
   title: "Homepage"
 
+signin-form:
+  fields:
+    login:
+      label: "Email or identifier"
+    password:
+      label: "Password"
+  error:
+    message: "Wrong email, identifier and/or password"
+  link: "Forgotten password ?"
+  submit: "Sign in"
+  subtitle:
+    text: "Don't have a Pix account yet ?"
+    link: "Sign up"
+  title: "Sign in"
+
 signup-form:
   text:
     sign-up: "Sign up"
