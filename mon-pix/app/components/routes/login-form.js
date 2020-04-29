@@ -11,6 +11,9 @@ export default class LoginForm extends Component {
   @inject()
   store;
 
+  @inject()
+  router;
+
   login = null;
   password = null;
   isLoading = false;
@@ -41,7 +44,12 @@ export default class LoginForm extends Component {
     const scope = 'mon-pix';
     try {
       await this.session.authenticate('authenticator:oauth2', { login, password, scope });
-    } catch (e) {
+    } catch (err) {
+      const title = ('errors' in err) ? err.errors.get('firstObject').title : null;
+      if (title === 'PasswordShouldChange') {
+        this.store.createRecord('user', { username: this.login, password: this.password });
+        return this.router.replaceWith('update-expired-password');
+      }
       this.set('isErrorMessagePresent', true);
     }
     this.set('isLoading', false);
