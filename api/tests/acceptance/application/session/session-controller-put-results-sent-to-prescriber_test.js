@@ -21,7 +21,7 @@ describe('PUT /api/sessions/:id/results-sent-to-prescriber', () => {
 
     it('should return a 403 error code', async () => {
       // given
-      options.url = '/api/sessions/any/results-sent-to-prescriber';
+      options.url = '/api/sessions/12/results-sent-to-prescriber';
       options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
 
       // when
@@ -44,7 +44,7 @@ describe('PUT /api/sessions/:id/results-sent-to-prescriber', () => {
 
     context('when the session id has an invalid format', () => {
 
-      it('should return a 404 error code', async () => {
+      it('should return a 400 error code', async () => {
         // given
         options.url = '/api/sessions/any/results-sent-to-prescriber';
 
@@ -52,7 +52,7 @@ describe('PUT /api/sessions/:id/results-sent-to-prescriber', () => {
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(404);
+        expect(response.statusCode).to.equal(400);
       });
     });
 

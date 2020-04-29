@@ -4,7 +4,7 @@ const Joi = require('@hapi/joi')
 const { InvalidCertificationCandidate } = require('../errors');
 
 const certificationCandidateValidationJoiSchema_v1_1 = Joi.object({
-  id: Joi.number().optional(),
+  id: Joi.number().integer().optional(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
   birthCity: Joi.string().required(),
@@ -21,7 +21,7 @@ const certificationCandidateValidationJoiSchema_v1_1 = Joi.object({
 
 // Same as v1_1 but with email
 const certificationCandidateValidationJoiSchema_v1_2 = Joi.object({
-  id: Joi.number().optional(),
+  id: Joi.number().integer().optional(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
   birthCity: Joi.string().required(),

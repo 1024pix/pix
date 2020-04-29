@@ -27,7 +27,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().required()
+            id: Joi.number().integer().required()
           }),
         },
         pre: [{
@@ -43,6 +43,11 @@ exports.register = async (server) => {
       path: '/api/sessions/{id}/attendance-sheet',
       config: {
         auth: false,
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required()
+          }),
+        },
         handler: sessionController.getAttendanceSheet,
         tags: ['api', 'sessions'],
         notes: [
@@ -69,7 +74,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().required()
+            id: Joi.number().integer().required()
           }),
         },
         pre: [{
@@ -90,7 +95,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().required()
+            id: Joi.number().integer().required()
           }),
         },
         payload: {
@@ -115,7 +120,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().required()
+            id: Joi.number().integer().required()
           }),
         },
         pre: [{
@@ -137,7 +142,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().required()
+            id: Joi.number().integer().required()
           }),
         },
         pre: [{
@@ -158,7 +163,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().required()
+            id: Joi.number().integer().required()
           }),
         },
         pre: [{
@@ -179,8 +184,8 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().required(),
-            certificationCandidateId: Joi.number().required(),
+            id: Joi.number().integer().required(),
+            certificationCandidateId: Joi.number().integer().required(),
           }),
         },
         pre: [{
@@ -199,6 +204,11 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/sessions/{id}/certifications',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required()
+          }),
+        },
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
@@ -217,7 +227,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().required()
+            id: Joi.number().integer().required()
           }),
         },
         pre: [{
@@ -237,6 +247,11 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/sessions/{id}/candidate-participation',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required()
+          }),
+        },
         handler: sessionController.createCandidateParticipation,
         tags: ['api', 'sessions', 'certification-candidates'],
         notes: [
@@ -252,7 +267,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().required(),
+            id: Joi.number().integer().required()
           }),
         },
         pre: [{
@@ -275,6 +290,11 @@ exports.register = async (server) => {
       method: 'PATCH',
       path: '/api/sessions/{id}/publication',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required()
+          }),
+        },
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
@@ -291,10 +311,16 @@ exports.register = async (server) => {
       method: 'PUT',
       path: '/api/sessions/{id}/results-sent-to-prescriber',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required()
+          }),
+        },
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
+
         handler: sessionController.flagResultsAsSentToPrescriber,
         tags: ['api', 'sessions'],
         notes: [
@@ -308,6 +334,11 @@ exports.register = async (server) => {
       method: 'PATCH',
       path: '/api/sessions/{id}/certification-officer-assignment',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required()
+          }),
+        },
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
