@@ -34,8 +34,12 @@ describe('Unit | Route | campaigns/tutorial', function() {
 
   describe('#model', function() {
     it('should initialize tutorial page with the first one', function() {
+      // given
+      const params = { campaign_code: 'AZERTY' };
+      route.paramsFor = sinon.stub().returns(params);
+
       // when
-      const tutorialPage = route.model({ campaign_code: 'AZERTY' });
+      const tutorialPage = route.model();
 
       // then
       expect(tutorialPage.title).to.equal(tutorialPages.tutorial[0].title);

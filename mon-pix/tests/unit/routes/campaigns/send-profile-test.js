@@ -34,6 +34,8 @@ describe('Unit | Route | campaigns/send-profile', function() {
       const params = {
         campaign_code: campaignCode
       };
+      route.paramsFor = sinon.stub().returns(params);
+
       const campaign = EmberObject.create({ id: campaignId, code: campaignCode });
       const campaigns = A([campaign]);
       queryStub.withArgs('campaign', { filter: { code: campaignCode } }).resolves(campaigns);
@@ -42,7 +44,7 @@ describe('Unit | Route | campaigns/send-profile', function() {
       queryRecordStub.withArgs('campaignParticipation', { campaignId, userId }).resolves(campaignParticipation);
 
       // when
-      const model = await route.model(params);
+      const model = await route.model();
 
       // then
       expect(model).to.deep.equal({ campaign, campaignParticipation, user });

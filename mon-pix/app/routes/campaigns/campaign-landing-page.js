@@ -12,8 +12,9 @@ export default class CampaignLandingPageRoute extends Route {
     this.controller.set('isLoading', false);
   }
 
-  async model(params) {
-    const campaigns = await this.store.query('campaign', { filter: { code: params.campaign_code } });
+  async model() {
+    const campaignCode = this.paramsFor('campaigns').campaign_code;
+    const campaigns = await this.store.query('campaign', { filter: { code: campaignCode } });
 
     return campaigns.get('firstObject');
   }
