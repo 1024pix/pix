@@ -53,7 +53,7 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(422);
     });
 
-    it('should return 421 on domain AlreadyRatedAssessmentError', function() {
+    it('should return 412 on domain AlreadyRatedAssessmentError', function() {
       // given
       const error = new DomainErrors.AlreadyRatedAssessmentError();
 
@@ -61,7 +61,7 @@ describe('Integration | Utils | Error Manager', function() {
       const result = handle(hFake, error);
 
       // then
-      expect(result.statusCode).to.equal(421);
+      expect(result.statusCode).to.equal(412);
     });
 
     it('should return 409 on domain ChallengeAlreadyAnsweredError', function() {
@@ -328,7 +328,7 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 on domain AlreadyExistingMembershipError', function() {
+    it('should return 412 on domain AlreadyExistingMembershipError', function() {
       // given
       const error = new DomainErrors.AlreadyExistingMembershipError();
 
@@ -336,7 +336,7 @@ describe('Integration | Utils | Error Manager', function() {
       const result = handle(hFake, error);
 
       // then
-      expect(result.statusCode).to.equal(421);
+      expect(result.statusCode).to.equal(412);
     });
 
     it('should return 400 on domain MembershipCreationError', function() {

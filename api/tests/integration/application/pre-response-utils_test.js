@@ -26,7 +26,7 @@ describe('Integration | Application | PreResponse-utils', () => {
       { should: 'should return HTTP code 403 when ForbiddenError', response: new ForbiddenError('Error message'), expectedStatusCode: 403 },
       { should: 'should return HTTP code 404 when NotFoundError', response: new NotFoundError('Error message'), expectedStatusCode: 404 },
       { should: 'should return HTTP code 409 when ConflictError', response: new ConflictError('Error message'), expectedStatusCode: 409 },
-      { should: 'should return HTTP code 421 when PreconditionFailedError', response: new PreconditionFailedError('Error message'), expectedStatusCode: 421 },
+      { should: 'should return HTTP code 412 when PreconditionFailedError', response: new PreconditionFailedError('Error message'), expectedStatusCode: 412 },
       { should: 'should return HTTP code 422 when EntityValidationError', response: new EntityValidationError({ invalidAttributes }), expectedStatusCode: 422 },
       { should: 'should return HTTP code 422 when UnprocessableEntityError', response: new UnprocessableEntityError('Error message'), expectedStatusCode: 422 },
       { should: 'should return HTTP code 500 when BaseHttpError', response: new BaseHttpError('Error message'), expectedStatusCode: 500 },

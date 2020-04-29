@@ -146,7 +146,7 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.dom('[data-test-notification-message="error"]').hasText('Quelque chose s\'est mal passé. Veuillez réessayer.');
       });
 
-      test('it should display error on global form when error 421 is returned from backend', async function(assert) {
+      test('it should display error on global form when error 412 is returned from backend', async function(assert) {
         // given
         await visit('/equipe/creation');
         server.post(`/organizations/${organizationId}/invitations`,
@@ -154,11 +154,11 @@ module('Acceptance | Team Creation', function(hooks) {
             errors: [
               {
                 detail: '',
-                status: '421',
+                status: '412',
                 title: 'Precondition Failed',
               }
             ]
-          }, 421);
+          }, 412);
         await fillIn('#email', 'fake@email');
 
         // when

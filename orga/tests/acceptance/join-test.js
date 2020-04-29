@@ -223,10 +223,10 @@ module('Acceptance | join', function(hooks) {
         server.post(`/organization-invitations/${organizationInvitationId}/response`, {
           errors: [{
             detail: '',
-            status: '421',
+            status: '412',
             title: '',
           }]
-        }, 421);
+        }, 412);
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         await click('#login');
         await fillIn('#login-email', user.email);
