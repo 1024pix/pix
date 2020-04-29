@@ -104,7 +104,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond with a 421 if organization-invitation is already accepted', async () => {
+      it('should respond with a 412 if organization-invitation is already accepted', async () => {
         // given
         const { id: organizationInvitationId, code } = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
@@ -120,7 +120,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(421);
+        expect(response.statusCode).to.equal(412);
       });
 
       it('should respond with a 404 if given email is not linked to an existing user', async () => {
@@ -143,7 +143,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond with a 421 if membership already exist with userId and OrganizationId', async () => {
+      it('should respond with a 412 if membership already exist with userId and OrganizationId', async () => {
         // given
         const { id: userId, email } = databaseBuilder.factory.buildUser();
 
@@ -164,7 +164,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(421);
+        expect(response.statusCode).to.equal(412);
       });
     });
   });
@@ -247,7 +247,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond with a 421 if organization-invitation is already accepted', async () => {
+      it('should respond with a 412 if organization-invitation is already accepted', async () => {
         // given
         const code = 'ABCDEFGH01';
         organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -264,7 +264,7 @@ describe('Acceptance | Application | organization-invitation-controller', () => 
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(421);
+        expect(response.statusCode).to.equal(412);
       });
     });
   });

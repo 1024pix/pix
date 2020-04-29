@@ -18,7 +18,7 @@ class PreconditionFailedError extends BaseHttpError {
   constructor(message) {
     super(message);
     this.title = 'Precondition Failed';
-    this.status = 421;
+    this.status = 412;
   }
 }
 
