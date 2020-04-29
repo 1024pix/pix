@@ -54,7 +54,7 @@ describe('Unit | Controller | Campaigns | Fill in Campaign Code', function() {
       await controller.actions.startCampaign.call(controller);
 
       // then
-      expect(controller.get('errorMessage')).to.equal('Votre code est erroné, veuillez vérifier ou contacter l\'organisateur.');
+      expect(controller.get('errorMessage')).to.equal('Votre code est erroné, veuillez vérifier ou contacter l’organisateur.');
     });
 
     it('should set error when student is not authorized in campaign', async () => {
@@ -66,7 +66,7 @@ describe('Unit | Controller | Campaigns | Fill in Campaign Code', function() {
       await controller.actions.startCampaign.call(controller);
 
       // then
-      expect(controller.get('errorMessage')).to.equal('Oups ! nous ne parvenons pas à vous trouver. Verifiez vos informations afin de continuer ou prévenez l’organisateur.');
+      expect(controller.get('errorMessage')).to.equal('Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.');
     });
   });
 
