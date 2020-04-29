@@ -1,6 +1,6 @@
 <div class="register-form">
   <form {{action 'searchForMatchingStudent' on='submit'}}>
-    <span class="register-form__required-inputs">Les champs marqués de <abbr title="obligatoire">*</abbr> sont obligatoires.</span>
+    <span class="register-form__required-inputs">{{t 'common.form.mandatory-fields' htmlSafe=true}}</span>
 
     <div id="register-firstName-container">
       <FormTextfield @label="Prénom"

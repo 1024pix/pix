@@ -5,10 +5,10 @@ import isPasswordValid from '../utils/password-validator';
 import ENV from 'mon-pix/config/environment';
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  firstName: 'signup-form.text.fields.firstName.error',
-  lastName: 'signup-form.text.fields.lastName.error',
-  email: 'signup-form.text.fields.email.error',
-  password: 'signup-form.text.fields.password.error'
+  firstName: 'signup-form.fields.firstname.error',
+  lastName: 'signup-form.fields.lastname.error',
+  email: 'signup-form.fields.email.error',
+  password: 'signup-form.fields.password.error'
 };
 
 export default Component.extend({
