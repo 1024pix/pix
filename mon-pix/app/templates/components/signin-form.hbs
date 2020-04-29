@@ -1,45 +1,45 @@
 <div class="sign-form__container">
 
-  <a href={{urlHome}} class="pix-logo__link" title="Page d'accueil de Pix">
+  <a href={{urlHome}} class="pix-logo__link" title="{{t 'homepage.title'}}">
     <img class="pix-logo__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
   </a>
 
   <div class="sign-form__header">
-    <h1 class="sign-form-title">Connectez-vous</h1>
+    <h1 class="sign-form-title">{{t 'signin-form.title'}}</h1>
     <div class="sign-form-header__subtitle">
-      <span class="sign-form-header-subtitle sign-form-instruction">Vous n'avez pas encore de compte Pix ?</span>
-      <LinkTo @route="inscription" class="link sign-form-link"> Créez un compte</LinkTo>
+      <span class="sign-form-header-subtitle sign-form-instruction">{{t 'signin-form.subtitle.text'}}</span>
+      <LinkTo @route="inscription" class="link sign-form-link"> {{t 'signin-form.subtitle.link'}}</LinkTo>
     </div>
   </div>
 
-  {{#if displayErrorMessage}}
+  {{#if shouldDisplayErrorMessage}}
     <div class="sign-form__notification-message sign-form__notification-message--error" aria-live="polite">
-      L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects
+      {{t 'signin-form.error.message'}}
     </div>
   {{/if}}
 
   <form {{action "signin" on="submit"}} class="sign-form__body">
 
     <div class="sign-form-body__input">
-      <FormTextfield @label="Adresse e-mail ou identifiant"
+      <FormTextfield @label="{{t 'signin-form.fields.login.label'}}"
                      @textfieldName="login"
                      @validationStatus="default"
                      @inputBindingValue={{username}} @autocomplete="username" />
     </div>
 
     <div class="sign-form-body__input">
-      <FormTextfield @label="Mot de passe"
+      <FormTextfield @label="{{t 'signin-form.fields.password.label'}}"
                      @textfieldName="password"
                      @validationStatus="default"
                      @inputBindingValue={{password}} @autocomplete="current-password" />
     </div>
 
     <LinkTo @route="password-reset-demand" class="link link--grey sign-form-link sign-form-body__forgotten-password-link">
-      Mot de passe oublié ?</LinkTo>
+      {{t 'signin-form.link'}}</LinkTo>
 
     <div class="sign-form-body__bottom-button">
       <button type="submit" class="button button--uppercase button--thin button--round button--big">
-        Je me connecte
+        {{t 'signin-form.submit'}}
       </button>
     </div>
   </form>

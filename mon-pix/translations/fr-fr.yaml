@@ -1,6 +1,21 @@
 homepage:
   title: "Page d'accueil"
 
+signin-form:
+  fields:
+    login:
+      label: "Adresse e-mail ou identifiant"
+    password:
+      label: "Mot de passe"
+  error:
+    message: "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects"
+  link: "Mot de passe oublié ?"
+  submit: "Je me connecte"
+  subtitle:
+    text: "Vous n'avez pas encore de compte Pix ?"
+    link: "Créez un compte"
+  title: "Connectez-vous"
+
 signup-form:
   text:
     sign-up: "Inscrivez-vous"

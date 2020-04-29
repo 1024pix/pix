@@ -57,10 +57,10 @@ describe('Integration | Component | signin form', function() {
 
     it('should display an error if authentication failed', async function() {
       // given
-      this.set('displayErrorMessage', true);
+      this.set('shouldDisplayErrorMessage', true);
 
       // when
-      await render(hbs`{{signin-form displayErrorMessage=displayErrorMessage}}`);
+      await render(hbs`{{signin-form shouldDisplayErrorMessage=shouldDisplayErrorMessage}}`);
 
       // then
       expect(document.querySelector('div.sign-form__notification-message--error')).to.exist;
