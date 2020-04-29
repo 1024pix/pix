@@ -62,7 +62,7 @@ Le format à respecter est le suivant : `[<TAG>] <DESCRIPTION> (<PROJET_REF-<US_
 Nom | Usage
 --- | ---
 FEATURE | PR relative à une story
-BUGFIX | PR relative à une correction d'un bug (hors itération)
+BUGFIX | PR relative à une correction d'un bug
 CLEANUP | PR relative à du refactoring
 INFRA | PR relative à du code technique / d'infra
 DOC | PR relative à de la documentation
