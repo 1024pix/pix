@@ -85,13 +85,14 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       const params = {
         campaign_code: campaignCode
       };
+      route.paramsFor = sinon.stub().returns(params);
 
       const campaigns = A([campaign]);
       queryStub.resolves(campaigns);
       route.start = sinon.stub();
 
       // when
-      const promise = route.model(params);
+      const promise = route.model();
 
       // then
       return promise.then(() => {

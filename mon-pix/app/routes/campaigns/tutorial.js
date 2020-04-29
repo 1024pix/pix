@@ -17,8 +17,8 @@ export default Route.extend(SecuredRouteMixin, {
     return classOfTutorialPages;
   },
 
-  model(params) {
-    this.set('campaignCode', params.campaign_code);
+  model() {
+    this.set('campaignCode', this.paramsFor('campaigns').campaign_code);
     const maxTutorialPageId = this.tutorial.length - 1;
     return {
       title: this.tutorial[this.tutorialPageId].title,

@@ -24,7 +24,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   beforeModel(transition) {
     this.set('_isReady', false);
-    this.set('campaignCode', transition.to.params.campaign_code);
+    this.set('campaignCode', transition.to.parent.params.campaign_code);
     this.set('associationDone', transition.to.queryParams.associationDone);
     this.set('campaignIsRestricted', transition.to.queryParams.campaignIsRestricted);
     this.set('givenParticipantExternalId', this.givenParticipantExternalId || transition.to.queryParams.participantExternalId);
