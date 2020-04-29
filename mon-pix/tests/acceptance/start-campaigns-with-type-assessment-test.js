@@ -245,7 +245,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             // then
             expect(currentURL()).to.equal('/campagnes');
             expect(find('.fill-in-campaign-code__error').textContent)
-              .to.contains('Votre code de parcours est erroné, veuillez vérifier ou contacter la personne organisant le parcours de test.');
+              .to.contains('Votre code est erroné, veuillez vérifier ou contacter l\'organisateur.');
           });
         });
 
@@ -260,7 +260,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
             // then
             expect(currentURL()).to.equal('/campagnes');
-            expect(find('.fill-in-campaign-code__error').textContent).to.contains('Merci de renseigner le code du parcours.');
+            expect(find('.fill-in-campaign-code__error').textContent).to.contains('Veuillez saisir un code.');
           });
         });
       });
