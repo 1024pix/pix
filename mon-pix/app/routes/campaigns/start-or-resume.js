@@ -33,8 +33,8 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     this.set('campaignParticipationIsStarted', transition.to.queryParams.campaignParticipationIsStarted);
 
     if (this._userIsUnauthenticated() && !this.userHasSeenLanding && this.campaignIsRestricted) {
-      this.set('authenticationRoute', 'login-or-register-to-access-restricted-campaign');
-      this.transitionTo('login-or-register-to-access-restricted-campaign',this.campaignCode);
+      this.set('authenticationRoute', 'campaigns.login-or-register-to-access-restricted-campaign');
+      this.transitionTo('campaigns.login-or-register-to-access-restricted-campaign',this.campaignCode);
     }
     if (this._userIsUnauthenticated() && !this.userHasSeenLanding && !this.campaignIsRestricted) {
       return this.replaceWith('campaigns.campaign-landing-page', this.campaignCode, { queryParams: transition.to.queryParams });
