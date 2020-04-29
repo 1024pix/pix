@@ -4,8 +4,9 @@ import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-
 
 @classic
 export default class LoginOrRegisterToAccessRestrictedCampaignRoute extends Route.extend(UnauthenticatedRouteMixin) {
-  async model(params) {
-    const campaigns = await this.store.query('campaign', { filter: { code: params.campaign_code } });
+  async model() {
+    const campaignCode = this.paramsFor('campaigns').campaign_code;
+    const campaigns = await this.store.query('campaign', { filter: { code: campaignCode } });
     return campaigns.firstObject;
   }
 }

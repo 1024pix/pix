@@ -31,7 +31,6 @@ Router.map(function() {
 
   this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
-  this.route('login-or-register-to-access-restricted-campaign', { path: '/campagnes/:campaign_code/identification' });
   this.route('not-connected', { path: '/nonconnecte' });
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
@@ -50,6 +49,7 @@ Router.map(function() {
   this.route('campaigns', { path: '/campagnes/:campaign_code' }, function() {
     this.route('start-or-resume', { path: '/' });
     this.route('join-restricted-campaign', { path: '/rejoindre' });
+    this.route('login-or-register-to-access-restricted-campaign', { path: '/identification' });
     this.route('campaign-landing-page', { path: '/presentation' });
     this.route('fill-in-id-pix', { path: '/identifiant' });
   });
