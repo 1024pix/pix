@@ -1,13 +1,14 @@
-import classic from 'ember-classic-decorator';
+import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 
-@classic
 export default class FillInCampaignCodeController extends Controller {
   @service store;
 
   campaignCode = null;
+
+  @tracked
   errorMessage = null;
 
   @action
@@ -15,7 +16,7 @@ export default class FillInCampaignCodeController extends Controller {
     this.clearErrorMessage();
 
     if (!this.campaignCode) {
-      this.set('errorMessage', 'Veuillez saisir un code.');
+      this.errorMessage = 'Veuillez saisir un code.';
       return;
     }
   
@@ -31,9 +32,9 @@ export default class FillInCampaignCodeController extends Controller {
   onStartCampaignError(error) {
     const { status } = error.errors[0];
     if (status === '403') {
-      this.set('errorMessage', 'Oups ! nous ne parvenons pas à vous trouver. Verifiez vos informations afin de continuer ou prévenez l’organisateur.');
+      this.errorMessage = 'Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.';
     } else if (status === '404') {
-      this.set('errorMessage', 'Votre code est erroné, veuillez vérifier ou contacter l\'organisateur.');
+      this.errorMessage = 'Votre code est erroné, veuillez vérifier ou contacter l’organisateur.';
     } else {
       throw (error);
     } 
@@ -41,6 +42,6 @@ export default class FillInCampaignCodeController extends Controller {
 
   @action
   clearErrorMessage() {
-    this.set('errorMessage', null);
+    this.errorMessage = null;
   }
 }

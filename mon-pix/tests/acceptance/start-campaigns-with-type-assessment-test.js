@@ -245,7 +245,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             // then
             expect(currentURL()).to.equal('/campagnes');
             expect(find('.fill-in-campaign-code__error').textContent)
-              .to.contains('Votre code est erroné, veuillez vérifier ou contacter l\'organisateur.');
+              .to.contains('Votre code est erroné, veuillez vérifier ou contacter l’organisateur.');
           });
         });
 
