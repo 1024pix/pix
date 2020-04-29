@@ -52,8 +52,14 @@ Router.map(function() {
     this.route('join-restricted-campaign', { path: '/rejoindre' });
     this.route('campaign-landing-page', { path: '/presentation' });
     this.route('fill-in-id-pix', { path: '/identifiant' });
+  });
+
+  this.route('assessment-campaigns', { path: '/campagnes/:campaign_code/evaluation' }, function() {
     this.route('tutorial', { path: '/didacticiel' });
     this.route('skill-review', { path: '/resultats/:assessment_id' });
+  });
+
+  this.route('profiles-collection-campaigns', { path: '/campagnes/:campaign_code/collecte' }, function() {
     this.route('send-profile', { path: '/envoi-profil' });
   });
 

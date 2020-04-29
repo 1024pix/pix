@@ -230,7 +230,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
             await click('.button');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         });
 
@@ -250,7 +250,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
             it('should redirect to send profile page', async function() {
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
             });
           });
 
@@ -278,7 +278,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
             it('should redirect to send profile page', async function() {
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
             });
           });
         });
@@ -298,7 +298,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
         it('should redirect to send profile page after signup', async function() {
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
         });
       });
 
@@ -316,7 +316,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
         it('should redirect to send profile page after signup', async function() {
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
         });
       });
     });
@@ -426,7 +426,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
             await click('.button');
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         });
 
@@ -478,7 +478,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
             await click('.button');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         });
 
@@ -490,7 +490,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
 
           it('should redirect to send profile page', async function() {
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         });
       });
@@ -507,7 +507,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
           await click('.campaign-landing-page__start-button');
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
         });
       });
 
@@ -522,7 +522,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Collect Profiles',
           await click('.campaign-landing-page__start-button');
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/envoi-profil`);
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
         });
       });
     });

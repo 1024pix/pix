@@ -6,7 +6,7 @@ import Service from '@ember/service';
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 
-describe('Unit | Route | campaigns/send-profile', function() {
+describe('Unit | Route | profiles-collection-campaigns/send-profile', function() {
   setupTest();
 
   describe('#model', function() {
@@ -27,7 +27,7 @@ describe('Unit | Route | campaigns/send-profile', function() {
     it('should return campaign and campaign participation', async function() {
       // given
       const  user = Service.create({ id: userId });
-      const route = this.owner.lookup('route:campaigns/send-profile');
+      const route = this.owner.lookup('route:profiles-collection-campaigns/send-profile');
       route.set('store', storeStub);
       route.set('currentUser', { user: user });
 

@@ -8,7 +8,7 @@ export default class CampaignsSendProfileRoute extends Route {
 
   async model() {
     const user = this.currentUser.user;
-    const campaignCode = this.paramsFor('campaigns').campaign_code;
+    const campaignCode = this.paramsFor('profiles-collection-campaigns').campaign_code;
     const campaigns = await this.store.query('campaign', { filter: { code: campaignCode } });
     const campaign = campaigns.get('firstObject');
     return RSVP.hash({
