@@ -6,6 +6,7 @@ import { click, fillIn, render, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { reject, resolve } from 'rsvp';
+import sinon from 'sinon';
 
 describe('Integration | Component | routes/login-form', function() {
   setupRenderingTest();
@@ -108,7 +109,7 @@ describe('Integration | Component | routes/login-form', function() {
 
   it('should display an error message when authentication fails', async function() {
     // given
-    sessionStub.prototype.authenticate = () => reject();
+    sessionStub.prototype.authenticate = () => reject({});
     await render(hbs`{{routes/login-form}}`);
     await fillIn('#login', 'pix@example.net');
     await fillIn('#password', 'Mauvais mot de passe');
@@ -154,6 +155,33 @@ describe('Integration | Component | routes/login-form', function() {
 
       // then
       expect(find('.fa-eye')).to.exist;
+    });
+  });
+
+  context('when password is a one time password', function() {
+
+    let replaceWithStub;
+
+    beforeEach(function() {
+      replaceWithStub = sinon.stub();
+      const router = Service.extend({
+        replaceWith: replaceWithStub
+      });
+      this.owner.register('service:router', router);
+    });
+
+    it('should redirect to "update-expired-password" route', async function() {
+      // given
+      sessionStub.prototype.authenticate = () => reject({ errors: [{ title: 'PasswordShouldChange' }] });
+      await render(hbs`{{routes/login-form}}`);
+      await fillIn('#login', 'pix@example.net');
+      await fillIn('#password', 'Mauvais mot de passe');
+
+      //  when
+      await click('#submit-connexion');
+
+      // then
+      sinon.assert.calledWith(replaceWithStub, 'update-expired-password');
     });
   });
 });
