@@ -65,5 +65,14 @@
     "username": "user.shouldChangePassword1234",
     "password": "$2b$05$Ryd6vVDoubvN9MQmSGmfY.tscxdmWhu1g8NOrHI4dveemziMof6Qm",
     "shouldChangePassword": true
+  },
+  {
+    "id": 9,
+    "firstName": "Joffrey",
+    "lastName": "Baratheon",
+    "email": "user-who-must-validate-the-last-terms-of-service@example.net",
+    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
+    "cgu": true,
+    "mustValidateTermsOfService": true
   }
 ]
