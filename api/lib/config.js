@@ -42,6 +42,7 @@ module.exports = (function() {
       enabled: isFeatureEnabled(process.env.LOG_ENABLED),
       colorEnabled: (process.env.NODE_ENV === 'development'),
       logLevel: (process.env.LOG_LEVEL || 'info'),
+      logRequestPayload: (process.env.LOG_REQUEST_PAYLOAD),
     },
 
     mailing: {

@@ -61,6 +61,9 @@ const plugins = [
   {
     plugin: require('good'),
     options: {
+      includes: {
+        request: (settings.logging.logRequestPayload ? [settings.logging.logRequestPayload] : []),
+      },
       reporters: {
         console: consoleReporters,
       }
