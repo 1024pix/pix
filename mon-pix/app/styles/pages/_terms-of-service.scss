@@ -1,0 +1,64 @@
+.terms-of-service-page {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: $pix-blue-to-purple-gradient;
+
+}
+
+.terms-of-service-form {
+  margin: auto;
+  padding: 40px 32px;
+  background: white;
+  border-radius: 8px;
+  max-width: 580px;
+
+  &__logo {
+    margin-bottom: 24px;
+
+    & img {
+      display: flex;
+      margin: auto;
+    }
+
+  }
+
+  &__title, &__description, &__conditions {
+    margin-bottom: 30px;
+    text-align: center;
+    color: $grey-80;
+    font-family: $font-roboto;
+    font-size: 1.5rem;
+    font-weight: normal;
+
+  }
+
+  &__title {
+    font-weight: 300;
+    font-size: 2.5rem;
+  }
+
+  &__conditions {
+    font-weight: normal;
+    font-size: 1.4rem;
+    letter-spacing: 0.015rem;
+    text-align: center;
+
+  }
+
+  &__actions {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+}
+
+.terms-of-service-form-conditions {
+
+  &__check {
+    margin-right: 8px;
+  }
+}
+
+
+
