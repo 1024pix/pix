@@ -1,431 +1,72 @@
-const { expect, hFake } = require('../../test-helper');
-const { handle } = require('../../../lib/application/error-manager');
-const { BaseHttpError } = require('../../../lib/application/http-errors');
+const createServer = require('../../../server');
+const { expect, sinon } = require('../../test-helper');
 const DomainErrors = require('../../../lib/domain/errors');
 
-describe('Integration | Utils | Error Manager', function() {
+describe('Integration | API | Controller Error', () => {
 
-  describe('#handle', function() {
+  let server;
+  const routeHandler = sinon.stub();
+  const options = { method: 'GET', url: '/test_route' };
 
-    it('should return 422 on EntityValidationError', function() {
-      // given
-      const error = new DomainErrors.EntityValidationError({ invalidAttributes: [] });
+  function responseDetail(response)  {
+    const payload = JSON.parse(response.payload);
+    return payload.errors[0].detail;
+  }
 
-      // when
-      const result = handle(hFake, error);
+  beforeEach(async () => {
+    server = await createServer();
+    server.route({ method: 'GET', path: '/test_route', handler: routeHandler, config:  { auth: false } });
 
-      // then
-      expect(result.statusCode).to.equal(422);
-    });
-
-    it('should return 500 on BaseHttpError', function() {
-      // given
-      const error = new BaseHttpError('http error');
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(500);
-      expect(result.source.errors[0].detail).to.equal('http error');
-    });
-
-    it('should return 500 on unknown errors', function() {
-      // given
-      const error = new Error('unknown error');
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(500);
-      expect(result.source.errors[0].detail).to.equal('unknown error');
-    });
-
-    it('should return 422 on domain ObjectValidationError', function() {
-      // given
-      const error = new DomainErrors.ObjectValidationError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(422);
-    });
-
-    it('should return 412 on domain AlreadyRatedAssessmentError', function() {
-      // given
-      const error = new DomainErrors.AlreadyRatedAssessmentError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(412);
-    });
-
-    it('should return 409 on domain ChallengeAlreadyAnsweredError', function() {
-      // given
-      const error = new DomainErrors.ChallengeAlreadyAnsweredError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(409);
-    });
-
-    it('should return 409 on domain AssessmentNotCompletedError', function() {
-      // given
-      const error = new DomainErrors.AssessmentNotCompletedError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(409);
-    });
-
-    it('should return 404 on domain UserNotFoundError', function() {
-      // given
-      const error = new DomainErrors.UserNotFoundError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(404);
-    });
-
-    it('should return 404 on domain CampaignCodeError', function() {
-      // given
-      const error = new DomainErrors.CampaignCodeError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(404);
-    });
-
-    it('should return 404 on domain PasswordResetDemandNotFoundError', function() {
-      // given
-      const error = new DomainErrors.PasswordResetDemandNotFoundError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(404);
-    });
-
-    it('should return 404 on domain NotFoundError', function() {
-      // given
-      const error = new DomainErrors.NotFoundError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(404);
-    });
-
-    it('should return 401 on domain InvalidTemporaryKeyError', function() {
-      // given
-      const error = new DomainErrors.InvalidTemporaryKeyError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(401);
-    });
-
-    it('should return 403 on domain UserAlreadyLinkedToCandidateInSessionError', function() {
-      // given
-      const error = new DomainErrors.UserAlreadyLinkedToCandidateInSessionError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(403);
-    });
-
-    it('should return 403 on domain UserNotAuthorizedToAccessEntity', function() {
-      // given
-      const error = new DomainErrors.UserNotAuthorizedToAccessEntity();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(403);
-    });
-
-    it('should return 403 on domain UserNotAuthorizedToUpdateResourceError', function() {
-      // given
-      const error = new DomainErrors.UserNotAuthorizedToUpdateResourceError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(403);
-    });
-
-    it('should return 403 on domain UserNotAuthorizedToCreateCampaignError', function() {
-      // given
-      const error = new DomainErrors.UserNotAuthorizedToCreateCampaignError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(403);
-    });
-
-    it('should return 403 on domain ForbiddenAccess', function() {
-      // given
-      const error = new DomainErrors.ForbiddenAccess();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(403);
-    });
-
-    it('should return 403 on domain UserNotAuthorizedToGetCertificationCoursesError', function() {
-      // given
-      const error = new DomainErrors.UserNotAuthorizedToGetCertificationCoursesError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(403);
-    });
-
-    it('should return 403 on domain UserNotAuthorizedToCertifyError', function() {
-      // given
-      const error = new DomainErrors.UserNotAuthorizedToCertifyError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(403);
-    });
-
-    it('should return 401 on domain MissingOrInvalidCredentialsError', function() {
-      // given
-      const error = new DomainErrors.MissingOrInvalidCredentialsError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(401);
-    });
-
-    it('should return 403 on domain UserNotAuthorizedToGetCampaignResultsError', function() {
-      // given
-      const error = new DomainErrors.UserNotAuthorizedToGetCampaignResultsError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(403);
-    });
-
-    it('should return 400 on domain WrongDateFormatError', function() {
-      // given
-      const error = new DomainErrors.WrongDateFormatError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-    });
-
-    it('should return 403 on domain CertificationCandidateAlreadyLinkedToUserError', function() {
-      // given
-      const error = new DomainErrors.CertificationCandidateAlreadyLinkedToUserError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(403);
-    });
-
-    it('should return 404 on domain CertificationCandidateByPersonalInfoNotFoundError', function() {
-      // given
-      const error = new DomainErrors.CertificationCandidateByPersonalInfoNotFoundError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(404);
-    });
-
-    it('should return 409 on domain CertificationCandidateByPersonalInfoTooManyMatchesError', function() {
-      // given
-      const error = new DomainErrors.CertificationCandidateByPersonalInfoTooManyMatchesError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(409);
-    });
-
-    it('should return 400 on domain CertificationCandidatePersonalInfoFieldMissingError', function() {
-      // given
-      const error = new DomainErrors.CertificationCandidatePersonalInfoFieldMissingError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-    });
-
-    it('should return 403 on domain CertificationCandidateForbiddenDeletionError', function() {
-      // given
-      const error = new DomainErrors.CertificationCandidateForbiddenDeletionError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(403);
-    });
-
-    it('should return 400 on domain CertificationCandidatePersonalInfoWrongFormat', function() {
-      // given
-      const error = new DomainErrors.CertificationCandidatePersonalInfoWrongFormat();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-    });
-
-    it('should return 400 on domain CertificationCenterMembershipCreationError', function() {
-      // given
-      const error = new DomainErrors.CertificationCenterMembershipCreationError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-    });
-
-    it('should return 412 on domain AlreadyExistingMembershipError', function() {
-      // given
-      const error = new DomainErrors.AlreadyExistingMembershipError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(412);
-    });
-
-    it('should return 400 on domain MembershipCreationError', function() {
-      // given
-      const error = new DomainErrors.MembershipCreationError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-    });
-
-    it('should return 400 on domain InvalidCertificationCandidate', function() {
-      // given
-      const error = new DomainErrors.InvalidCertificationCandidate();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-    });
-
-    it('should return 400 on domain InvalidCertificationReportForFinalization', function() {
-      // given
-      const error = new DomainErrors.InvalidCertificationReportForFinalization();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-    });
-
-    it('should return 400 on domain InvalidParametersForSessionPublication', function() {
-      // given
-      const error = new DomainErrors.InvalidParametersForSessionPublication();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-    });
-
-    it('should return 400 on domain SessionAlreadyFinalizedError', function() {
-      // given
-      const error = new DomainErrors.SessionAlreadyFinalizedError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-    });
-
-    it('should return 403 on domain UserNotAuthorizedToUpdatePasswordError', function() {
-      // given
-      const error = new DomainErrors.UserNotAuthorizedToUpdatePasswordError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(403);
-    });
-
-    it('should return 422 on domain SameNationalStudentIdInFileError', function() {
-      // given
-      const error = new DomainErrors.SameNationalStudentIdInFileError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(422);
-    });
-
-    it('should return 422 on domain SameNationalStudentIdInOrganizationError', function() {
-      // given
-      const error = new DomainErrors.SameNationalStudentIdInOrganizationError();
-
-      // when
-      const result = handle(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(409);
-    });
   });
 
+  context('412 Precondition Failed', () => {
+    const PRECONDITION_FAILED = 412;
+
+    it('responds Precondition Failed when a AlreadyRatedAssessmentError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.AlreadyRatedAssessmentError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+      expect(responseDetail(response)).to.equal('Assessment is already rated.');
+    });
+
+    it('responds Precondition Failed when a CompetenceResetError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.CompetenceResetError(2));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+      expect(responseDetail(response)).to.equal('Il reste 2 jours avant de pouvoir réinitiliser la compétence.');
+    });
+
+    it('responds Precondition Failed when a AlreadyExistingMembershipError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.AlreadyExistingMembershipError('Le membership existe déjà.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+      expect(responseDetail(response)).to.equal('Le membership existe déjà.');
+    });
+
+    it('responds Precondition Failed when a AlreadyExistingOrganizationInvitationError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.AlreadyExistingOrganizationInvitationError('L\'invitation de l\'organisation existe déjà.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+      expect(responseDetail(response)).to.equal('L\'invitation de l\'organisation existe déjà.');
+    });
+
+    it('responds Precondition Failed when a AlreadySharedCampaignParticipationError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.AlreadySharedCampaignParticipationError('Ces résultats de campagne ont déjà été partagés.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+      expect(responseDetail(response)).to.equal('Ces résultats de campagne ont déjà été partagés.');
+    });
+
+    it('responds Precondition Failed when a AlreadyExistingCampaignParticipationError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.AlreadyExistingCampaignParticipationError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+    });
+  });
 });
