@@ -17,12 +17,12 @@ exports.register = async function(server) {
               relationships: {
                 organization: {
                   data: {
-                    id: Joi.number().required(),
+                    id: Joi.number().integer().required(),
                   }
                 },
                 user: {
                   data: {
-                    id: Joi.number().required()
+                    id: Joi.number().integer().required()
                   }
                 }
               }
@@ -53,7 +53,7 @@ exports.register = async function(server) {
               relationships: {
                 organization: {
                   data: {
-                    id: Joi.number().required(),
+                    id: Joi.number().integer().required(),
                   }
                 }
               }
@@ -83,7 +83,7 @@ exports.register = async function(server) {
               relationships: {
                 organization: {
                   data: {
-                    id: Joi.number().required(),
+                    id: Joi.number().integer().required(),
                   }
                 }
               }
