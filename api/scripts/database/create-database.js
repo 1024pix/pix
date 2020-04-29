@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('../../loadEnv');
 const PgClient = require('../PgClient');
 const { PGSQL_DUPLICATE_DATABASE_ERROR } = require('../../db/pgsql-errors');
 

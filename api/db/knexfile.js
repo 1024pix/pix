@@ -1,4 +1,8 @@
-require('dotenv').config({ path: `${__dirname}/../.env` });
+if (process.env.NODE_ENV === 'cypress') {
+  require('dotenv').config({ path: `${__dirname}/../.env.cypress` });
+} else {
+  require('dotenv').config({ path: `${__dirname}/../.env` });
+}
 
 function localPostgresEnv(databaseUrl) {
   return {
@@ -23,6 +27,8 @@ module.exports = {
   development: localPostgresEnv(process.env.DATABASE_URL),
 
   test: localPostgresEnv(process.env.TEST_DATABASE_URL),
+
+  cypress: localPostgresEnv(process.env.DATABASE_URL),
 
   staging: {
     client: 'postgresql',

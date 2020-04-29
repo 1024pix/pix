@@ -30,8 +30,8 @@ module.exports = (function() {
     },
 
     airtable: {
-      apiKey: process.env.CYPRESS_AIRTABLE_API_KEY || process.env.AIRTABLE_API_KEY,
-      base: process.env.CYPRESS_AIRTABLE_BASE || process.env.AIRTABLE_BASE,
+      apiKey: process.env.AIRTABLE_API_KEY,
+      base: process.env.AIRTABLE_BASE,
     },
 
     app: {

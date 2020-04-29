@@ -3,7 +3,7 @@
 // To use on file with columns |externalId|
 
 'use strict';
-require('dotenv').config();
+require('../loadEnv');
 const request = require('request-promise-native');
 const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('./helpers/organizations-by-external-id-helper');
 const { parseCsv } = require('./helpers/csvHelpers');

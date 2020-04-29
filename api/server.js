@@ -1,6 +1,5 @@
-// As early as possible in your application, require and configure dotenv.
-// https://www.npmjs.com/package/dotenv#usage
-require('dotenv').config();
+require('./loadEnv');
+
 const Hapi = require('@hapi/hapi');
 
 const preResponseUtils = require('./lib/application/pre-response-utils');

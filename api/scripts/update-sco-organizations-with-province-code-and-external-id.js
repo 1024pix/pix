@@ -1,5 +1,5 @@
 'use strict';
-require('dotenv').config();
+require('../loadEnv');
 const path = require('path');
 const fs = require('fs');
 const request = require('request-promise-native');

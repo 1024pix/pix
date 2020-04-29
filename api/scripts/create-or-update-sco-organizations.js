@@ -3,7 +3,7 @@
 // To use on file with columns |externalId, name|
 
 'use strict';
-require('dotenv').config();
+require('../loadEnv');
 const request = require('request-promise-native');
 
 const logoUrl = require('./default-sco-organization-logo-base64');

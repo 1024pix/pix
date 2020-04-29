@@ -33,6 +33,7 @@
 .DS_Store
 
 **/.env
+**/.env.cypress
 
 # CircleCI
 *.circle-cache-key

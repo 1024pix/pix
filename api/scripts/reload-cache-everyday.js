@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('../loadEnv');
 const cron = require('node-cron');
 const request = require('request-promise-native');
 

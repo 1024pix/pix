@@ -14,7 +14,6 @@ exports.down = async function(knex) {
 
 /* Generating the skill value table:
 
-require('dotenv').config();
 const airtable = require('./lib/infrastructure/airtable.js');
 const _ = require('lodash');
 
