@@ -63,6 +63,8 @@ Router.map(function() {
     this.route('resume', { path: '/evaluer' });
   });
 
+  this.route('terms-of-service', { path: '/cgu' });
+
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
   this.route('not-found', { path: '/*path' });
 });
