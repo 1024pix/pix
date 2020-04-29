@@ -51,7 +51,9 @@ module.exports = function usersBuilder({ databaseBuilder }) {
     email: null,
     username: 'username123',
     rawPassword: 'Password123',
-    shouldChangePassword: true
+    cgu: false,
+    shouldChangePassword: true,
   };
   databaseBuilder.factory.buildUser.withUnencryptedPassword(userShouldChangePassword);
+
 };
