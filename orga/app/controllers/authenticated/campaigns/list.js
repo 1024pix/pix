@@ -4,6 +4,7 @@ import { isEmpty } from '@ember/utils';
 import Controller from '@ember/controller';
 import { debounce } from '@ember/runloop';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 import config from 'pix-orga/config/environment';
 
 export default class ListController extends Controller {
@@ -12,8 +13,10 @@ export default class ListController extends Controller {
   pageNumber = 1;
   pageSize = 25;
   name = null;
-  searchFilter = null;
   campaignName = null;
+  @tracked creatorId = null;
+  @tracked status = null;
+  searchFilter = null;
 
   @service currentUser;
 
@@ -42,12 +45,12 @@ export default class ListController extends Controller {
 
   @action
   updateCampaignStatus(newStatus) {
-    this.set('status', newStatus);
+    this.status = newStatus;
   }
 
   @action
   updateCampaignCreator(creatorId) {
-    this.set('creatorId', creatorId);
+    this.creatorId = creatorId;
   }
 
   @action
