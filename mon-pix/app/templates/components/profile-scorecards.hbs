@@ -1,0 +1,13 @@
+<div class="rounded-panel-body">
+  {{#each @areasCode as |areaCode|}}
+    <div class="rounded-panel-body__areas">
+      {{#each @scorecards as |scorecard|}}
+        {{#if (eq areaCode scorecard.area.code)}}
+          <div class="rounded-panel-body__competence-card">
+            <CompetenceCard @interactive={{@interactive}} @scorecard={{scorecard}} />
+          </div>
+        {{/if}}
+      {{/each}}
+    </div>
+  {{/each}}
+</div>

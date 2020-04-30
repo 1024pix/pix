@@ -1,9 +1,7 @@
 import { computed } from '@ember/object';
 import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
 
-@classic
-export default class CompetenceCard extends Component {
+export default class CompetenceCardMobile extends Component {
   scorecard = null;
 
   @computed('scorecard.{level,isNotStarted}')
