@@ -157,4 +157,105 @@ describe('Integration | API | Controller Error', () => {
       expect(responseDetail(response)).to.equal('L’INE ABC123 est déjà présent pour cette organisation.');
     });
   });
+
+  context('403 Forbidden', () => {
+    const FORBIDDEN_ERROR = 403;
+
+    it('responds Forbidden when a UserNotAuthorizedToAccessEntity error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserNotAuthorizedToAccessEntity());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal('Utilisateur non autorisé à accéder à la ressource');
+    });
+
+    it('responds Forbidden when a UserNotAuthorizedToUpdateResourceError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserNotAuthorizedToUpdateResourceError('Utilisateur non autorisé à mettre à jour à la ressource'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal('Utilisateur non autorisé à mettre à jour à la ressource');
+    });
+
+    it('responds Forbidden when a UserNotAuthorizedToCreateCampaignError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserNotAuthorizedToCreateCampaignError('Utilisateur non autorisé à créer une campagne'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal('Utilisateur non autorisé à créer une campagne');
+
+    });
+
+    it('responds Forbidden when a UserNotAuthorizedToGetCertificationCoursesError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserNotAuthorizedToGetCertificationCoursesError('Cet utilisateur n\'est pas autorisé à récupérer ces certification courses.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal('Cet utilisateur n\'est pas autorisé à récupérer ces certification courses.');
+    });
+
+    it('responds Forbidden when a CertificationCandidateAlreadyLinkedToUserError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.CertificationCandidateAlreadyLinkedToUserError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal('Le candidat de certification est déjà lié à un utilisateur.');
+    });
+
+    it('responds Forbidden when a CertificationCandidateForbiddenDeletionError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.CertificationCandidateForbiddenDeletionError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal('Il est interdit de supprimer un candidat de certification déjà lié à un utilisateur.');
+    });
+
+    it('responds Forbidden when a ForbiddenAccess error occurs', async () => {
+      routeHandler.throws(new DomainErrors.ForbiddenAccess('Accès non autorisé.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal('Accès non autorisé.');
+    });
+
+    it('responds Forbidden when a UserAlreadyLinkedToCandidateInSessionError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserAlreadyLinkedToCandidateInSessionError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal('L\'utilisateur est déjà lié à un candidat dans cette session.');
+    });
+
+    it('responds Forbidden when a UserNotAuthorizedToCertifyError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserNotAuthorizedToCertifyError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal('The user cannot be certified.');
+    });
+
+    it('responds Forbidden when a UserNotAuthorizedToGetCampaignResultsError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserNotAuthorizedToGetCampaignResultsError('Cet utilisateur n\'est pas autorisé à récupérer les résultats de la campagne.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal('Cet utilisateur n\'est pas autorisé à récupérer les résultats de la campagne.');
+    });
+
+    it('responds Forbidden when a UserNotAuthorizedToUpdatePasswordError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserNotAuthorizedToUpdatePasswordError('Cet utilisateur n\'est pas autorisé à récupérer les résultats de la campagne.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal('Cet utilisateur n\'est pas autorisé à récupérer les résultats de la campagne.');
+    });
+
+    it('responds Forbidden when a UserNotAuthorizedToCreateResourceError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserNotAuthorizedToCreateResourceError('Cet utilisateur n\'est pas autorisé à créer la ressource.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal('Cet utilisateur n\'est pas autorisé à créer la ressource.');
+    });
+  });
 });
