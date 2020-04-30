@@ -15,6 +15,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     createdAt: '2018-01-01',
     campaign: EmberObject.create({
       code: 'AZERTY0',
+      isTypeAssessment: true,
     })
   });
   const oldCampaignNotFinished = EmberObject.create({
@@ -22,6 +23,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     createdAt: '2017-01-01',
     campaign: EmberObject.create({
       code: 'AZERTY1',
+      isTypeAssessment: true,
     })
   });
   const campaignFinished = EmberObject.create({
@@ -29,6 +31,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     createdAt: '2018-12-12',
     campaign: EmberObject.create({
       code: 'AZERTY2',
+      isTypeAssessment: true,
     }),
     assessment: EmberObject.create({
       isCompleted: true,
@@ -39,6 +42,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     createdAt: '2017-12-12',
     campaign: EmberObject.create({
       code: 'AZERTY3',
+      isTypeAssessment: true,
     }),
     assessment: EmberObject.create({
       isCompleted: true,
@@ -49,7 +53,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     component = this.owner.lookup('component:resume-campaign-banner');
   });
 
-  describe('#campaignToResumeOrShare', function() {
+  describe('#campaignParticipationState', function() {
     it('should return the most recent campaign among campaigns not finished and not shared', function() {
       // given
       const listCampaignParticipations = [oldCampaignNotFinished, campaignNotFinished];
@@ -58,14 +62,15 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
       const expectedResult = {
         title: campaignNotFinished.campaign.title,
         code: campaignNotFinished.campaign.code,
+        isTypeAssessment: true,
         assessment: campaignNotFinished.assessment
       };
 
       // when
-      const campaignToResumeOrShare = component.get('campaignToResumeOrShare');
+      const campaignParticipationState = component.get('campaignParticipationState');
 
       // then
-      expect(campaignToResumeOrShare).to.deep.equal(expectedResult);
+      expect(campaignParticipationState).to.deep.equal(expectedResult);
     });
 
     it('should return the most recent campaign among campaigns not finished and not shared dynamically', function() {
@@ -74,12 +79,13 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
       component.set('campaignParticipations', participations);
 
       // then
-      expect(component.get('campaignToResumeOrShare')).to.equal(null);
+      expect(component.get('campaignParticipationState')).to.equal(null);
 
       // when
       const updatableCampaignNotFinished = EmberObject.create({
         isShared: false,
         createdAt: '2018-01-01',
+        isTypeAssessment: true,
         campaign: EmberObject.create({
           code: 'AZERTY0',
         })
@@ -88,11 +94,11 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
       participations.addObject(updatableCampaignNotFinished);
 
       // then
-      expect(component.get('campaignToResumeOrShare').code).to.equal('AZERTY0');
+      expect(component.get('campaignParticipationState').code).to.equal('AZERTY0');
 
       updatableCampaignNotFinished.set('createdAt', '2000-05-13');
 
-      expect(component.get('campaignToResumeOrShare').code).to.equal(oldCampaignNotFinished.campaign.code);
+      expect(component.get('campaignParticipationState').code).to.equal(oldCampaignNotFinished.campaign.code);
     });
 
     it('should return the most recent campaign among campaigns not shared', function() {
@@ -102,14 +108,15 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
       const expectedResult = {
         title: campaignFinishedButNotShared.campaign.title,
         code: campaignFinishedButNotShared.campaign.code,
+        isTypeAssessment: true,
         assessment: campaignFinishedButNotShared.assessment
       };
 
       // when
-      const campaignToResumeOrShare = component.get('campaignToResumeOrShare');
+      const campaignParticipationState = component.get('campaignParticipationState');
 
       // then
-      expect(campaignToResumeOrShare).to.deep.equal(expectedResult);
+      expect(campaignParticipationState).to.deep.equal(expectedResult);
     });
 
     it('should return the only campaign not finished or not shared', function() {
@@ -119,14 +126,15 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
       const expectedResult = {
         title: campaignFinishedButNotShared.campaign.title,
         code: campaignFinishedButNotShared.campaign.code,
+        isTypeAssessment: true,
         assessment: campaignFinishedButNotShared.assessment
       };
 
       // when
-      const campaignToResumeOrShare = component.get('campaignToResumeOrShare');
+      const campaignParticipationState = component.get('campaignParticipationState');
 
       // then
-      expect(campaignToResumeOrShare).to.deep.equal(expectedResult);
+      expect(campaignParticipationState).to.deep.equal(expectedResult);
     });
 
     it('should return null when all campaign are finished', function() {
@@ -135,10 +143,10 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
       component.set('campaignParticipations', listCampaignParticipations);
 
       // when
-      const campaignToResumeOrShare = component.get('campaignToResumeOrShare');
+      const campaignParticipationState = component.get('campaignParticipationState');
 
       // then
-      expect(campaignToResumeOrShare).to.equal(null);
+      expect(campaignParticipationState).to.equal(null);
     });
   });
 });
