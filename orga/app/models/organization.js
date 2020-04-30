@@ -17,4 +17,5 @@ export default class Organization extends Model {
   @hasMany('student') students;
 
   @equal('type', 'SCO') isSco;
+  @equal('type', 'PRO') isPro;
 }
