@@ -258,4 +258,104 @@ describe('Integration | API | Controller Error', () => {
       expect(responseDetail(response)).to.equal('Cet utilisateur n\'est pas autorisé à créer la ressource.');
     });
   });
+
+  context('400 Bad Request', () => {
+    const BAD_REQUEST_ERROR = 400;
+
+    it('responds Bad Request when a CertificationCandidatePersonalInfoFieldMissingError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.CertificationCandidatePersonalInfoFieldMissingError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal('Un ou plusieurs champs d\'informations d\'identité sont manquants.');
+    });
+
+    it('responds Bad Request when a CertificationCandidatePersonalInfoWrongFormat error occurs', async () => {
+      routeHandler.throws(new DomainErrors.CertificationCandidatePersonalInfoWrongFormat());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal('Un ou plusieurs champs d\'informations d\'identité sont au mauvais format.');
+    });
+
+    it('responds Bad Request when a CertificationCenterMembershipCreationError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.CertificationCenterMembershipCreationError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal('Le membre ou le centre de certification n\'existe pas.');
+    });
+
+    it('responds Bad Request when a InvalidCertificationReportForFinalization error occurs', async () => {
+      routeHandler.throws(new DomainErrors.InvalidCertificationReportForFinalization('Echec lors de la validation du certification course'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal('Echec lors de la validation du certification course');
+    });
+
+    it('responds Bad Request when a InvalidParametersForSessionPublication error occurs', async () => {
+      routeHandler.throws(new DomainErrors.InvalidParametersForSessionPublication('Echec lors de la publication des résultats de la session, paramètres entrants invalides.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal('Echec lors de la publication des résultats de la session, paramètres entrants invalides.');
+    });
+
+    it('responds Bad Request when a MembershipCreationError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.MembershipCreationError('Erreur lors de la création du membership à une organisation.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal('Erreur lors de la création du membership à une organisation.');
+    });
+
+    it('responds Bad Request when a MembershipUpdateError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.MembershipUpdateError('Erreur lors de la mise à jour du membership à une organisation.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal('Erreur lors de la mise à jour du membership à une organisation.');
+    });
+
+    it('responds Bad Request when a SchoolingRegistrationsCouldNotBeSavedError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.SchoolingRegistrationsCouldNotBeSavedError('Une erreur est survenue durant le traitement.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal('Une erreur est survenue durant le traitement.');
+    });
+
+    it('responds Bad Request when a InvalidCertificationCandidate error occurs', async () => {
+      routeHandler.throws(new DomainErrors.InvalidCertificationCandidate('Candidat de certification invalide.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal('Candidat de certification invalide.');
+    });
+
+    it('responds Bad Request when a WrongDateFormatError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.WrongDateFormatError('Format de date invalide.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal('Format de date invalide.');
+    });
+
+    it('responds Bad Request when a SessionAlreadyFinalizedError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.SessionAlreadyFinalizedError('Erreur, tentatives de finalisation multiples de la session.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal('Erreur, tentatives de finalisation multiples de la session.');
+    });
+
+    it('responds Bad Request when a UserOrgaSettingsCreationError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserOrgaSettingsCreationError('Erreur lors de la création des paramètres utilisateur relatifs à Pix Orga.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal('Erreur lors de la création des paramètres utilisateur relatifs à Pix Orga.');
+    });
+  });
 });
