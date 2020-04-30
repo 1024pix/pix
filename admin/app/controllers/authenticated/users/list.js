@@ -16,11 +16,14 @@ export default class ListController extends Controller {
   @tracked firstName = null;
   @tracked lastName = null;
   @tracked email = null;
+  pendingFilters = {};
 
   @(task(function * (fieldName, event) {
     const value = event.target.value;
+    this.pendingFilters[fieldName] = value;
     yield timeout(this.DEBOUNCE_MS);
-    this[fieldName] = value;
+    this.setProperties(this.pendingFilters);
+    this.pendingFilters = {};
     this.pageNumber = DEFAULT_PAGE_NUMBER;
   }).restartable()) triggerFiltering;
 
