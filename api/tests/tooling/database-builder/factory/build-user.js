@@ -17,6 +17,7 @@ const buildUser = function buildUser({
   username = firstName + '.' + lastName + faker.random.number({ min: 1000, max: 9999 }),
   password,
   cgu = true,
+  mustValidateTermsOfService = false,
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
@@ -28,7 +29,7 @@ const buildUser = function buildUser({
   email = _.isUndefined(email) ? faker.internet.exampleEmail(firstName, lastName).toLowerCase() : email || null;
 
   const values = {
-    id, firstName, lastName, email, username, password, cgu, pixOrgaTermsOfServiceAccepted,
+    id, firstName, lastName, email, username, password, cgu, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId, shouldChangePassword,
   };
 
@@ -46,6 +47,7 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   username,
   rawPassword = faker.internet.password(),
   cgu = true,
+  mustValidateTermsOfService = false,
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
@@ -56,7 +58,7 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   const password = encrypt.hashPasswordSync(rawPassword);
 
   const values = {
-    id, firstName, lastName, email, username, password, cgu, pixOrgaTermsOfServiceAccepted,
+    id, firstName, lastName, email, username, password, cgu, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId, shouldChangePassword,
   };
 
@@ -73,13 +75,14 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
   email = faker.internet.exampleEmail().toLowerCase(),
   password = encrypt.hashPasswordSync(faker.internet.password()),
   cgu = true,
+  mustValidateTermsOfService = false,
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
 } = {}) {
 
   const values = {
-    id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
+    id, firstName, lastName, email, password, cgu, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions
   };
 
@@ -100,6 +103,7 @@ buildUser.withMembership = function buildUserWithMemberships({
   email = faker.internet.exampleEmail().toLowerCase(),
   password = 'encrypt.hashPasswordSync(faker.internet.password())',
   cgu = true,
+  mustValidateTermsOfService,
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
@@ -108,7 +112,7 @@ buildUser.withMembership = function buildUserWithMemberships({
 } = {}) {
 
   const values = {
-    id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
+    id, firstName, lastName, email, password, cgu, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions
   };
 

@@ -1,4 +1,5 @@
 const { expect, domainBuilder } = require('../../../test-helper');
+
 const User = require('../../../../lib/domain/models/User');
 
 describe('Unit | Domain | Models | User', () => {
@@ -14,6 +15,7 @@ describe('Unit | Domain | Models | User', () => {
         email: 'email@example.net',
         password: 'pix123',
         cgu: true,
+        mustValidateTermsOfService: true,
         samlId: 'some-saml-id',
         shouldChangePassword: false,
       };
@@ -22,21 +24,22 @@ describe('Unit | Domain | Models | User', () => {
       const user = new User(rawData);
 
       // then
-      expect(user.id).to.equal(1);
-      expect(user.firstName).to.equal('Son');
-      expect(user.lastName).to.equal('Goku');
-      expect(user.email).to.equal('email@example.net');
-      expect(user.password).to.equal('pix123');
-      expect(user.cgu).to.be.true;
-      expect(user.samlId).to.equal('some-saml-id');
-      expect(user.shouldChangePassword).to.be.false;
+      expect(user.id).to.equal(rawData.id);
+      expect(user.firstName).to.equal(rawData.firstName);
+      expect(user.lastName).to.equal(rawData.lastName);
+      expect(user.email).to.equal(rawData.email);
+      expect(user.password).to.equal(rawData.password);
+      expect(user.cgu).to.equal(rawData.cgu);
+      expect(user.mustValidateTermsOfService).to.equal(rawData.mustValidateTermsOfService);
+      expect(user.samlId).to.equal(rawData.samlId);
+      expect(user.shouldChangePassword).to.equal(rawData.shouldChangePassword);
     });
-
   });
 
   describe('the attribute "hasRolePixMaster"', () => {
 
     let userRawDetails;
+
     beforeEach(() => {
       userRawDetails = {
         id: 1,
@@ -60,10 +63,10 @@ describe('Unit | Domain | Models | User', () => {
       const hasRole = user.hasRolePixMaster;
 
       // then
-      expect(hasRole).to.be.deep.equal(true);
+      expect(hasRole).to.be.true;
     });
 
-    it('should be false if user has role PixMaster ', () => {
+    it('should be false if user has not role PixMaster ', () => {
       // given
       userRawDetails.pixRoles = [];
 
@@ -73,7 +76,7 @@ describe('Unit | Domain | Models | User', () => {
       const hasRole = user.hasRolePixMaster;
 
       // then
-      expect(hasRole).to.be.deep.equal(false);
+      expect(hasRole).to.be.false;
     });
   });
 
@@ -85,16 +88,22 @@ describe('Unit | Domain | Models | User', () => {
         memberships: [domainBuilder.buildMembership()]
       });
 
-      // when/then
-      expect(user.isLinkedToOrganizations()).to.be.true;
+      // when
+      const isLinked = user.isLinkedToOrganizations();
+
+      //then
+      expect(isLinked).to.be.true;
     });
 
     it('should be false is user has no role in no organization', () => {
       // given
       const user = new User();
 
-      // when/then
-      expect(user.isLinkedToOrganizations()).to.be.false;
+      // when
+      const isLinked = user.isLinkedToOrganizations();
+
+      //then
+      expect(isLinked).to.be.false;
     });
 
   });
@@ -124,7 +133,6 @@ describe('Unit | Domain | Models | User', () => {
       // then
       expect(isLinked).to.be.false;
     });
-
   });
 
   describe('hasAccessToOrganization', () => {
@@ -134,8 +142,11 @@ describe('Unit | Domain | Models | User', () => {
       const user = new User();
       const organizationId = 12345;
 
-      // when/then
-      expect(user.hasAccessToOrganization(organizationId)).to.be.false;
+      // when
+      const hasAccess = user.hasAccessToOrganization(organizationId);
+
+      //then
+      expect(hasAccess).to.be.false;
     });
 
     it('should be false is the user has access to many organizations, but not the one asked', () => {
@@ -146,8 +157,11 @@ describe('Unit | Domain | Models | User', () => {
       user.memberships[0].organization.id = 93472;
       user.memberships[1].organization.id = 74569;
 
-      // when/then
-      expect(user.hasAccessToOrganization(organizationId)).to.be.false;
+      // when
+      const hasAccess = user.hasAccessToOrganization(organizationId);
+
+      //then
+      expect(hasAccess).to.be.false;
     });
 
     it('should be true if the user has an access to the given organizationId', () => {
@@ -156,10 +170,12 @@ describe('Unit | Domain | Models | User', () => {
       const user = domainBuilder.buildUser();
       user.memberships[0].organization.id = 12345;
 
-      // when/then
-      expect(user.hasAccessToOrganization(organizationId)).to.be.true;
-    });
+      // when
+      const hasAccess = user.hasAccessToOrganization(organizationId);
 
+      //then
+      expect(hasAccess).to.be.true;
+    });
   });
 
   describe('hasAccessToCertificationCenter', () => {
@@ -169,8 +185,11 @@ describe('Unit | Domain | Models | User', () => {
       const user = new User();
       const certificationCenterId = 12345;
 
-      // when/then
-      expect(user.hasAccessToCertificationCenter(certificationCenterId)).to.be.false;
+      // when
+      const hasAccess = user.hasAccessToCertificationCenter(certificationCenterId);
+
+      // then
+      expect(hasAccess).to.be.false;
     });
 
     it('should be false if user has access to many CertificationCenters, but not the given one', () => {
@@ -178,25 +197,28 @@ describe('Unit | Domain | Models | User', () => {
       const certificationCenterId = 12345;
       const user = domainBuilder.buildUser();
       user.certificationCenterMemberships.push(domainBuilder.buildCertificationCenterMembership());
-      user.certificationCenterMemberships.push(domainBuilder.buildCertificationCenterMembership());
       user.certificationCenterMemberships[0].certificationCenter.id = 93472;
       user.certificationCenterMemberships[1].certificationCenter.id = 74569;
 
-      // when/then
-      expect(user.hasAccessToCertificationCenter(certificationCenterId)).to.be.false;
+      // when
+      const hasAccess = user.hasAccessToCertificationCenter(certificationCenterId);
+
+      //then
+      expect(hasAccess).to.be.false;
     });
 
     it('should be true if the user has an access to the given CertificationCenterId', () => {
       // given
       const certificationCenterId = 12345;
       const user = domainBuilder.buildUser();
-      user.certificationCenterMemberships.push(domainBuilder.buildCertificationCenterMembership());
       user.certificationCenterMemberships[0].certificationCenter.id = 12345;
 
-      // when/then
-      expect(user.hasAccessToCertificationCenter(certificationCenterId)).to.be.true;
-    });
+      // when
+      const hasAccess = user.hasAccessToCertificationCenter(certificationCenterId);
 
+      //then
+      expect(hasAccess).to.be.true;
+    });
   });
 
   describe('#email', () => {

@@ -1,9 +1,12 @@
+const _ = require('lodash');
+
 const { catchErr, expect, knex, databaseBuilder } = require('../../../test-helper');
+
 const UserOrgaSettings = require('../../../../lib/domain/models/UserOrgaSettings');
 const BookshelfUserOrgaSettings = require('../../../../lib/infrastructure/data/user-orga-settings');
-const userOrgaSettingsRepository = require('../../../../lib/infrastructure/repositories/user-orga-settings-repository');
 const { UserOrgaSettingsCreationError } = require('../../../../lib/domain/errors');
-const _ = require('lodash');
+
+const userOrgaSettingsRepository = require('../../../../lib/infrastructure/repositories/user-orga-settings-repository');
 
 describe('Integration | Repository | UserOrgaSettings', function() {
 

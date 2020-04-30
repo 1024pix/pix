@@ -12,6 +12,7 @@ module.exports = function buildUser(
     username = 'jean.bono1234',
     password = 'liuehrfi128743KUUKNSUkuz12Ukun',
     cgu = true,
+    mustValidateTermsOfService = false,
     pixOrgaTermsOfServiceAccepted = false,
     pixCertifTermsOfServiceAccepted = false,
     hasSeenAssessmentInstructions = false,
@@ -22,8 +23,10 @@ module.exports = function buildUser(
   } = {}) {
 
   return new User({
-    id, firstName, lastName, email, username, password, cgu, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, shouldChangePassword,
+    id, firstName, lastName, email, username, password,
+    cgu, mustValidateTermsOfService,
+    pixOrgaTermsOfServiceAccepted, pixCertifTermsOfServiceAccepted,
+    hasSeenAssessmentInstructions, shouldChangePassword,
     pixRoles, memberships, certificationCenterMemberships,
   });
 };
