@@ -69,4 +69,48 @@ describe('Integration | API | Controller Error', () => {
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
     });
   });
+
+  context('404 Not Found', () => {
+    const NOT_FOUND_ERROR = 404;
+
+    it('responds Not Found when a DomainError.NotFoundError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.NotFoundError('Entity Not Found'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
+      expect(responseDetail(response)).to.equal('Entity Not Found');
+    });
+
+    it('responds Not Found when a CampaignCodeError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.CampaignCodeError('Campaign Code Error'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
+      expect(responseDetail(response)).to.equal('Campaign Code Error');
+    });
+
+    it('responds Not Found when a CertificationCandidateByPersonalInfoNotFoundError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.CertificationCandidateByPersonalInfoNotFoundError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
+      expect(responseDetail(response)).to.equal('Aucun candidat de certification ne correspond aux informations d\'identité fournies.');
+    });
+
+    it('responds Not Found when a UserNotFoundError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserNotFoundError('Ce compte est introuvable.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
+      expect(responseDetail(response)).to.equal('Ce compte est introuvable.');
+    });
+
+    it('responds Not Found when a PasswordResetDemandNotFoundError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.PasswordResetDemandNotFoundError('La demande de réinitialisation de mot de passe n\'existe pas.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
+      expect(responseDetail(response)).to.equal('La demande de réinitialisation de mot de passe n\'existe pas.');
+    });
+  });
 });
