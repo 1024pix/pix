@@ -395,4 +395,32 @@ describe('Integration | API | Controller Error', () => {
       expect(responseDetail(response)).to.equal('L\'utilisateur n\'est pas membre de l\'organisation.');
     });
   });
+
+  context('401 Unauthorized', () => {
+    const UNAUTHORIZED_ERROR = 401;
+
+    it('responds Unauthorized when a MissingOrInvalidCredentialsError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.MissingOrInvalidCredentialsError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
+      expect(responseDetail(response)).to.equal('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
+    });
+
+    it('responds Unauthorized when a InvalidTemporaryKeyError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.InvalidTemporaryKeyError('Demande de réinitialisation invalide.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
+      expect(responseDetail(response)).to.equal('Demande de réinitialisation invalide.');
+    });
+
+    it('responds Unauthorized when a UserShouldChangePasswordError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserShouldChangePasswordError('Erreur, vous devez changer votre mot de passe.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
+      expect(responseDetail(response)).to.equal('Erreur, vous devez changer votre mot de passe.');
+    });
+  });
 });
