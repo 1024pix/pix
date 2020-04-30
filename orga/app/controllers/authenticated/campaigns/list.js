@@ -7,10 +7,12 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import config from 'pix-orga/config/environment';
 
+const DEFAULT_PAGE_NUMBER = 1;
+
 export default class ListController extends Controller {
   queryParams = ['pageNumber', 'pageSize', 'name', 'status', 'creatorId'];
   DEBOUNCE_MS = config.pagination.debounce;
-  pageNumber = 1;
+  @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   pageSize = 25;
   name = null;
   @tracked creatorId = null;
@@ -30,6 +32,7 @@ export default class ListController extends Controller {
 
   setFieldName() {
     this.set(this.searchFilter.fieldName, this.searchFilter.value);
+    this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
   @action
