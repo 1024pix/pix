@@ -19,13 +19,14 @@ export default class ResumeCampaignBanner extends Component {
   }
 
   @computed(
-    'lastUnsharedCampaignParticipation.campaign.{title,code},lastUnsharedCampaignParticipation.assessment.isCompleted'
+    'lastUnsharedCampaignParticipation.campaign.{title,code,isTypeAssessment},lastUnsharedCampaignParticipation.assessment.isCompleted'
   )
-  get campaignToResumeOrShare() {
+  get campaignParticipationState() {
     if (this.lastUnsharedCampaignParticipation) {
       return {
         title: this.lastUnsharedCampaignParticipation.campaign.get('title'),
         code: this.lastUnsharedCampaignParticipation.campaign.get('code'),
+        isTypeAssessment: this.lastUnsharedCampaignParticipation.campaign.get('isTypeAssessment'),
         assessment: this.lastUnsharedCampaignParticipation.assessment
       };
     }
