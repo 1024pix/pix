@@ -309,69 +309,96 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
     });
 
     context('on targetProfileId attribute', () => {
-      it('should reject with error when targetProfileId is provided and campaign type is PROFILES_COLLECTION', () => {
-        // given
-        const expectedError = {
-          attribute: 'targetProfileId',
-          message: 'Un profil cible n’est pas autorisé pour les campagnes de collecte de profils.'
-        };
 
-        try {
-          // when
-          campaignValidator.validate({
-            ...campaignOfTypeProfilesCollection,
-            targetProfileId: '1',
-          });
-          expect.fail('should have thrown an error');
+      context('when type is PROFILES_COLLECTION', () => {
+        it('should reject with error when targetProfileId is provide', () => {
+          // given
+          const expectedError = {
+            attribute: 'targetProfileId',
+            message: 'Un profil cible n’est pas autorisé pour les campagnes de collecte de profils.'
+          };
 
-        } catch (entityValidationErrors) {
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
-        }
+          try {
+            // when
+            campaignValidator.validate({
+              ...campaignOfTypeProfilesCollection,
+              targetProfileId: '1',
+            });
+            expect.fail('should have thrown an error');
+
+          } catch (entityValidationErrors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          }
+        });
+
+        it('should be valid with null as targetProfileId', () => {
+          try {
+            campaignValidator.validate({
+              ...campaignOfTypeProfilesCollection,
+              targetProfileId: MISSING_VALUE,
+            });
+          } catch (entityValidationErrors) {
+            expect.fail('should be valid when targetProfileId is null');
+          }
+        });
+
+        it('should be valid when targetProfileId is not provided', () => {
+          try {
+            campaignValidator.validate({
+              ...campaignOfTypeProfilesCollection,
+              targetProfileId: UNDEFINED_VALUE,
+            });
+
+          } catch (entityValidationErrors) {
+            expect.fail('should be valid when targetProfileId is undefined');
+          }
+        });
       });
 
-      it('should reject with error when targetProfileId is missing and campaign type is ASSESSMENT', () => {
+      context('when type is ASSESSMENT', () => {
+        it('should reject with error when targetProfileId is missing', () => {
         // given
-        const expectedError = {
-          attribute: 'targetProfileId',
-          message: 'Veuillez sélectionner un profil cible pour votre campagne.'
-        };
+          const expectedError = {
+            attribute: 'targetProfileId',
+            message: 'Veuillez sélectionner un profil cible pour votre campagne.'
+          };
 
-        try {
-          // when
-          campaignValidator.validate({
-            ...campaignOfTypeAssessment,
-            targetProfileId: MISSING_VALUE,
-          });
-          expect.fail('should have thrown an error');
+          try {
+            // when
+            campaignValidator.validate({
+              ...campaignOfTypeAssessment,
+              targetProfileId: MISSING_VALUE,
+            });
+            expect.fail('should have thrown an error');
 
-        } catch (entityValidationErrors) {
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
-        }
-      });
+          } catch (entityValidationErrors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          }
+        });
 
-      it('should reject with error when targetProfileId is undefined and campaign type is ASSESSMENT', () => {
+        it('should reject with error when targetProfileId is undefined', () => {
         // given
-        const expectedError = {
-          attribute: 'targetProfileId',
-          message: 'Veuillez sélectionner un profil cible pour votre campagne.'
-        };
+          const expectedError = {
+            attribute: 'targetProfileId',
+            message: 'Veuillez sélectionner un profil cible pour votre campagne.'
+          };
 
-        try {
-          // when
-          campaignValidator.validate({
-            ...campaignOfTypeAssessment,
-            targetProfileId: UNDEFINED_VALUE,
-          });
-          expect.fail('should have thrown an error');
+          try {
+            // when
+            campaignValidator.validate({
+              ...campaignOfTypeAssessment,
+              targetProfileId: UNDEFINED_VALUE,
+            });
+            expect.fail('should have thrown an error');
 
-        } catch (entityValidationErrors) {
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
-        }
+          } catch (entityValidationErrors) {
+            // then
+            _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          }
+        });
       });
-
     });
 
     context('when a title is provided', () => {
