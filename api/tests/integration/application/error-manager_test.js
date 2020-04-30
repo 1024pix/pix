@@ -358,4 +358,41 @@ describe('Integration | API | Controller Error', () => {
       expect(responseDetail(response)).to.equal('Erreur lors de la création des paramètres utilisateur relatifs à Pix Orga.');
     });
   });
+
+  context('422 Unprocessable Entity', () => {
+    const UNPROCESSABLE_ENTITY_ERROR = 422;
+
+    it('responds Unprocessable Entity when a ObjectValidationError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.ObjectValidationError('Erreur, objet non valide.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
+      expect(responseDetail(response)).to.equal('Erreur, objet non valide.');
+
+    });
+
+    it('responds Unprocessable Entity when a FileValidationError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.FileValidationError('Erreur, fichier non valide.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
+      expect(responseDetail(response)).to.equal('Erreur, fichier non valide.');
+    });
+
+    it('responds Unprocessable Entity when a SameNationalStudentIdInFileError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.SameNationalStudentIdInFileError('123'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
+      expect(responseDetail(response)).to.equal('L’INE 123 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
+    });
+
+    it('responds Unprocessable Entity when a UserNotMemberOfOrganizationError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserNotMemberOfOrganizationError('L\'utilisateur n\'est pas membre de l\'organisation.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
+      expect(responseDetail(response)).to.equal('L\'utilisateur n\'est pas membre de l\'organisation.');
+    });
+  });
 });
