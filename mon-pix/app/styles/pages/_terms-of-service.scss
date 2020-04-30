@@ -60,5 +60,24 @@
   }
 }
 
+.terms-of-service-form-actions {
+
+  &__submit {
+    margin-left: 16px;
+    border-radius: 4px;
+    padding: 10px 16px;
+
+  }
+
+  &__cancel {
+    background-color: $grey-50;
+    border-radius: 4px;
+    padding: 10px 16px;
+
+    &:hover {
+      background-color: $gray;
+    }
+  }
+}
 
 
