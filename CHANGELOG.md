@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.147.0 (30/04/2020)
+
+- [#1358](https://github.com/1024pix/pix/pull/1358) [FEATURE] Retirer la pagination à 100 sur les participations aux campagnes (PIX-594).
+- [#1362](https://github.com/1024pix/pix/pull/1362) [FEATURE] Ajout de la gestion du mot de passe à usage unique sur la double mire (PF-1216).
+- [#1347](https://github.com/1024pix/pix/pull/1347) [FEATURE] Création d'une page pour afficher la nouvelle version des cgus Pix. (PF-998)
+- [#1346](https://github.com/1024pix/pix/pull/1346) [TECH] Utiliser .integer() sur les validations d'ID (PIX-591).
+- [#1355](https://github.com/1024pix/pix/pull/1355) [DOC] Met à jour la description du tag de PR `BUGFIX`
+
 ## v2.146.0 (28/04/2020)
 
 - [#1299](https://github.com/1024pix/pix/pull/1299) [FEATURE] Générer un mot de passe à usage unique pour un élève dans Pix Orga (PO-321).
