@@ -14,9 +14,11 @@ module.exports = {
         return user;
       },
       attributes: [
-        'firstName', 'lastName', 'email', 'username', 'cgu', 'pixOrgaTermsOfServiceAccepted',
-        'pixCertifTermsOfServiceAccepted', 'memberships',
-        'certificationCenterMemberships', 'pixScore', 'scorecards',
+        'firstName', 'lastName', 'email', 'username',
+        'cgu', 'mustValidateTermsOfService',
+        'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted',
+        'memberships', 'certificationCenterMemberships',
+        'pixScore', 'scorecards',
         'campaignParticipations', 'hasSeenAssessmentInstructions', 'certificationProfile',
         'userOrgaSettings'
       ],
@@ -95,6 +97,7 @@ module.exports = {
       email: json.data.attributes.email,
       password: json.data.attributes.password,
       cgu: json.data.attributes.cgu,
+      mustValidateTermsOfService: json.data.attributes['must-validate-terms-of-service'],
       pixOrgaTermsOfServiceAccepted: json.data.attributes['pix-orga-terms-of-service-accepted'],
       pixCertifTermsOfServiceAccepted: json.data.attributes['pix-certif-terms-of-service-accepted'],
     });
