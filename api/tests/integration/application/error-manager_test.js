@@ -113,4 +113,48 @@ describe('Integration | API | Controller Error', () => {
       expect(responseDetail(response)).to.equal('La demande de réinitialisation de mot de passe n\'existe pas.');
     });
   });
+
+  context('409 Conflict', () => {
+    const CONFLICT_ERROR = 409;
+
+    it('responds Conflict when a CertificationCandidateByPersonalInfoTooManyMatchesError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.CertificationCandidateByPersonalInfoTooManyMatchesError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(CONFLICT_ERROR);
+      expect(responseDetail(response)).to.equal('Plus d\'un candidat de certification correspondent aux informations d\'identité fournies.');
+    });
+
+    it('responds Conflict when a ChallengeAlreadyAnsweredError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.ChallengeAlreadyAnsweredError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(CONFLICT_ERROR);
+      expect(responseDetail(response)).to.equal('This challenge has already been answered.');
+    });
+
+    it('responds Conflict when a AssessmentNotCompletedError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.AssessmentNotCompletedError('Cette évaluation n\'est pas terminée.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(CONFLICT_ERROR);
+      expect(responseDetail(response)).to.equal('Cette évaluation n\'est pas terminée.');
+    });
+
+    it('responds Conflict when a SchoolingRegistrationAlreadyLinkedToUserError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.SchoolingRegistrationAlreadyLinkedToUserError('L\'élève est déjà rattaché à un compte utilisateur.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(CONFLICT_ERROR);
+      expect(responseDetail(response)).to.equal('L\'élève est déjà rattaché à un compte utilisateur.');
+    });
+
+    it('responds Conflict when a SameNationalStudentIdInOrganizationError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.SameNationalStudentIdInOrganizationError('(ABC123)'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(CONFLICT_ERROR);
+      expect(responseDetail(response)).to.equal('L’INE ABC123 est déjà présent pour cette organisation.');
+    });
+  });
 });
