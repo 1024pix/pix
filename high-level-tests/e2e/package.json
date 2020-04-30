@@ -26,9 +26,9 @@
     "db:empty": "cd ../../api && npm run db:empty",
     "db:initialize": "cd ../../api && npm run db:prepare",
     "start:api": "cd ../../api && DATABASE_URL=postgresql://postgres@localhost/pix_test npm run start:watch",
-    "start:mon-pix": "cd ../../mon-pix && npx ember serve --proxy",
-    "start:orga": "cd ../../orga && npx ember serve --proxy",
-    "start:certif": "cd ../../certif && npx ember serve --proxy"
+    "start:mon-pix": "cd ../../mon-pix && npm start",
+    "start:orga": "cd ../../orga && npm start",
+    "start:certif": "cd ../../certif && npm start"
   },
   "devDependencies": {
     "cypress": "4.3.0",
