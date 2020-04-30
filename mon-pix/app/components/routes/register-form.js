@@ -161,7 +161,7 @@ export default class RegisterForm extends Component {
         this.set('isLoading', false);
         errorResponse.errors.forEach((error) => {
           if (error.status === '404') {
-            return this.set('errorMessage', 'Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
+            return this.set('errorMessage', 'Vérifiez vos informations afin de continuer ou prévenez l’organisateur.');
           }
           if (error.status === '409') {
             return this.set('errorMessage', 'Vous possédez déjà un compte Pix. Veuillez vous connecter.');
