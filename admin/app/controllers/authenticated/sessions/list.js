@@ -18,6 +18,7 @@ export default class SessionListController extends Controller {
   @tracked certificationCenterName = null;
   @tracked status = FINALIZED;
   @tracked resultsSentToPrescriberAt = null;
+  pendingFilters = {};
 
   sessionStatusAndLabels = [
     { status: null, label: 'Tous' },
@@ -46,8 +47,10 @@ export default class SessionListController extends Controller {
       default:
         return;
     }
+    this.pendingFilters[fieldName] = value;
     yield timeout(debounceDuration);
-    this[fieldName] = value;
+    this.setProperties(this.pendingFilters);
+    this.pendingFilters = {};
     this.pageNumber = DEFAULT_PAGE_NUMBER;
   }).restartable()) triggerFiltering;
 }
