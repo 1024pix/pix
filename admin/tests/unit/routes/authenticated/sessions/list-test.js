@@ -32,6 +32,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         await route.model(params);
         expectedQueryArgs.filter = {
           id: undefined,
+          certificationCenterName: undefined,
           status: undefined,
           resultsSentToPrescriberAt: undefined,
         };
@@ -49,6 +50,28 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         params.id = ' someId';
         expectedQueryArgs.filter = {
           id: 'someId',
+          certificationCenterName: undefined,
+          status: undefined,
+          resultsSentToPrescriberAt: undefined,
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
+        assert.ok(true);
+      });
+    });
+
+    module('when queryParams certificationCenterName is truthy', function() {
+
+      test('it should call store.query with a filter with trimmed certificationCenterName', async function(assert) {
+        // given
+        params.certificationCenterName = ' someName';
+        expectedQueryArgs.filter = {
+          id: undefined,
+          certificationCenterName: 'someName',
           status: undefined,
           resultsSentToPrescriberAt: undefined,
         };
@@ -69,6 +92,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         params.status = ' someStatus';
         expectedQueryArgs.filter = {
           id: undefined,
+          certificationCenterName: undefined,
           status: 'someStatus',
           resultsSentToPrescriberAt: undefined,
         };
@@ -89,6 +113,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         params.resultsSentToPrescriberAt = ' someValue';
         expectedQueryArgs.filter = {
           id: undefined,
+          certificationCenterName: undefined,
           status: undefined,
           resultsSentToPrescriberAt: 'someValue',
         };
@@ -112,6 +137,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         pageNumber: 'somePageNumber',
         pageSize: 'somePageSize',
         id: 'someId',
+        certificationCenterName: 'someName',
         status: 'someStatus',
         resultsSentToPrescriberAt: 'someValue',
       };
@@ -127,6 +153,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         assert.equal(controller.pageNumber, 1);
         assert.equal(controller.pageSize, 10);
         assert.equal(controller.id, null);
+        assert.equal(controller.certificationCenterName, null);
         assert.equal(controller.status, 'finalized');
         assert.equal(controller.resultsSentToPrescriberAt, null);
       });
@@ -142,6 +169,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         assert.equal(controller.pageNumber, 'somePageNumber');
         assert.equal(controller.pageSize, 'somePageSize');
         assert.equal(controller.id, 'someId');
+        assert.equal(controller.certificationCenterName, 'someName');
         assert.equal(controller.status, 'someStatus');
         assert.equal(controller.resultsSentToPrescriberAt, 'someValue');
       });

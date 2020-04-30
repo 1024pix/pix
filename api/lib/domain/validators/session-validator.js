@@ -46,6 +46,7 @@ const sessionFiltersValidationSchema = Joi.object({
   status: Joi.string()
     .valid(statuses.CREATED, statuses.FINALIZED, statuses.IN_PROCESS, statuses.PROCESSED).optional(),
   resultsSentToPrescriberAt: Joi.string().valid('true', 'false').optional(),
+  certificationCenterName: Joi.string().optional(),
 });
 
 module.exports = {
@@ -57,10 +58,11 @@ module.exports = {
     }
   },
 
-  validateFilters(sessionFilters) {
-    const { error } = sessionFiltersValidationSchema.validate(sessionFilters, validationConfiguration);
+  validateFilters(filters) {
+    const { value, error } = sessionFiltersValidationSchema.validate(filters, validationConfiguration);
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
+    return value;
   }
 };

@@ -22,12 +22,15 @@ describe('Unit | UseCase | find-paginated-filtered-sessions', () => {
 
     it('should result sessions with filtering and pagination', async () => {
       // given
-      const filters = 'someFilters';
+      const filters = { filter1: ' filter1ToTrim', filter2: 'filter2' };
+      const normalizedFilters = 'normalizedFilters';
       const page = 'somePageConfiguration';
       const resolvedPagination = 'pagination';
       const matchingSessions = 'listOfMatchingSessions';
-      sessionValidator.validateFilters.withArgs(filters).returns();
-      sessionRepository.findPaginatedFiltered.withArgs({ filters, page }).resolves({ sessions: matchingSessions, pagination: resolvedPagination });
+      sessionValidator.validateFilters.withArgs({ filter1: 'filter1ToTrim', filter2: 'filter2' })
+        .returns(normalizedFilters);
+      sessionRepository.findPaginatedFiltered.withArgs({ filters: normalizedFilters, page })
+        .resolves({ sessions: matchingSessions, pagination: resolvedPagination });
 
       // when
       const response = await usecases.findPaginatedFilteredSessions({ filters, page, sessionRepository });
@@ -42,7 +45,7 @@ describe('Unit | UseCase | find-paginated-filtered-sessions', () => {
 
     it('should result empty list of session with basic pagination', async () => {
       // given
-      const filters = 'someFilters';
+      const filters = { filter1: 'filter1', filter2: 'filter2' };
       const page = { number: 'aNumber', size: 'aSize' };
       const basicPagination = {
         page: 'aNumber',
