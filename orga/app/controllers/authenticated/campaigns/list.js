@@ -17,7 +17,7 @@ export default class ListController extends Controller {
   name = null;
   @tracked creatorId = null;
   @tracked status = null;
-  searchFilter = null;
+  pendingFilters = {};
 
   @service currentUser;
 
@@ -30,16 +30,17 @@ export default class ListController extends Controller {
 
   @equal('status', 'archived') isArchived;
 
-  setFieldName() {
-    this.set(this.searchFilter.fieldName, this.searchFilter.value);
+  updateFilters() {
+    this.setProperties(this.pendingFilters);
+    this.pendingFilters = {};
     this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
   @action
   triggerFiltering(fieldName, event) {
     const value = event.target.value;
-    this.searchFilter = { fieldName, value };
-    debounce(this, this.setFieldName, this.DEBOUNCE_MS);
+    this.pendingFilters[fieldName] = value;
+    debounce(this, this.updateFilters, this.DEBOUNCE_MS);
   }
 
   @action
