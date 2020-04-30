@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import { resolve } from 'rsvp';
+import { resolve, reject } from 'rsvp';
 import {
   click,
   fillIn,
@@ -266,6 +266,47 @@ describe('Integration | Component | routes/register-form', function() {
         // then
         expect(find('#register-password-container #validationMessage').textContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
         expect(find('#register-password-container .form-textfield__input-container--error')).to.exist;
+      });
+    });
+
+    [
+      { status: '404', errorMessage: 'Vérifiez vos informations afin de continuer ou prévenez l’organisateur.' },
+      { status: '409', errorMessage: 'Vous possédez déjà un compte Pix. Veuillez vous connecter.' },
+    ].forEach(({ status, errorMessage }) => {
+      it(`should display an error message if user saves with an error response status ${status}`, async function() {
+        this.owner.unregister('service:store');
+        this.owner.register('service:store', storeStub);
+        storeStub.prototype.createRecord = () => {
+          return EmberObject.create({
+            username: 'pix.pix1010',
+
+            save() {
+              return reject({ errors: [{ status }] });
+            },
+            unloadRecord() {
+              return resolve();
+            }
+          });
+        };
+        sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+          this.authenticator = authenticator;
+          this.login = login;
+          this.password = password;
+          this.scope = scope;
+          return resolve();
+        };
+
+        await render(hbs`{{routes/register-form matchingStudentFound=matchingStudentFound studentDependentUser=studentDependentUser}}`);
+
+        await fillIn('#firstName', 'pix');
+        await fillIn('#lastName', 'pix');
+        await fillIn('#dayOfBirth', '10');
+        await fillIn('#monthOfBirth', '10');
+        await fillIn('#yearOfBirth', '2010');
+
+        await click('#submit-search');
+
+        expect(find('.register-form__error').textContent).to.equal(errorMessage);
       });
     });
   });
