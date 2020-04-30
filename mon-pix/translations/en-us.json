@@ -13,6 +13,11 @@
     }
   },
 
+  "page-title": {
+    "signin": "Sign in",
+    "suffix": "Pix"
+  },
+
   "signin-form": {
     "actions": {
       "submit": "Sign in"
