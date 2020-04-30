@@ -1,5 +1,5 @@
 import { action, computed } from '@ember/object';
-import { empty } from '@ember/object/computed';
+import { empty, equal } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
 import Controller from '@ember/controller';
 import { debounce } from '@ember/runloop';
@@ -26,10 +26,7 @@ export default class ListController extends Controller {
     return this.hasNoCampaign && isEmpty(this.name) && isEmpty(this.status) && isEmpty(this.creatorId);
   }
 
-  @computed('status')
-  get isArchived() {
-    return this.status === 'archived';
-  }
+  @equal('status', 'archived') isArchived;
 
   setFieldName() {
     this.set(this.searchFilter.fieldName, this.searchFilter.value);
