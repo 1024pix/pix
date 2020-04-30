@@ -423,4 +423,17 @@ describe('Integration | API | Controller Error', () => {
       expect(responseDetail(response)).to.equal('Erreur, vous devez changer votre mot de passe.');
     });
   });
+
+  context('500 Internal Server Error', () => {
+    const INTERNAL_SERVER_ERROR = 500;
+
+    it('responds Internal Server Error error when another error occurs', async () => {
+      routeHandler.throws(new Error('Unexpected Error'));
+      const response = await server.inject(options);
+      const payload = JSON.parse(response.payload);
+
+      expect(response.statusCode).to.equal(INTERNAL_SERVER_ERROR);
+      expect(payload.message).to.equal('An internal server error occurred');
+    });
+  });
 });
