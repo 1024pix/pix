@@ -6,13 +6,12 @@ module.exports = function buildBadgeAcquisition({
   userId,
 } = {}) {
 
-  const values = {
-    id,
-    badgeId,
-    userId,
-  };
   return databaseBuffer.pushInsertable({
     tableName: 'badge-acquisitions',
-    values,
+    values: {
+      id,
+      badgeId,
+      userId,
+    },
   });
 };
