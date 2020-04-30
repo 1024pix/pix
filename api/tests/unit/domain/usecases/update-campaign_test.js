@@ -1,6 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const updateCampaign = require('../../../../lib/domain/usecases/update-campaign');
 const { UserNotAuthorizedToUpdateResourceError } = require('../../../../lib/domain/errors');
+const { EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | update-campaign', () => {
   let originalCampaign;
@@ -11,11 +12,15 @@ describe('Unit | UseCase | update-campaign', () => {
   const organizationId = 1;
 
   beforeEach(() => {
+
     originalCampaign = {
       id: 1,
       name: 'Old name',
       title: 'Old title',
+      type: 'ASSESSMENT',
       customLandingPageText: 'Old text',
+      targetProfileId: 1,
+      creatorId: 1,
       organizationId,
     };
     userWithMembership = {
@@ -216,6 +221,30 @@ describe('Unit | UseCase | update-campaign', () => {
 
       // then
       return expect(promise).to.be.rejected;
+    });
+
+    it('should throw an error when the campaign is not valid', async () => {
+      originalCampaign = {
+        id: 1,
+        name: 'I cannot have title',
+        customLandingPageText: 'All our hopes now lie with one little test',
+        type: 'PROFILES_COLLECTION',
+        organizationId,
+      };
+
+      campaignRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
+
+      // when
+      const error = await catchErr(updateCampaign)({
+        userId: userWithMembership.id,
+        campaignId: originalCampaign.id,
+        title: 'You shall not pass !',
+        userRepository,
+        campaignRepository,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(EntityValidationError);
     });
   });
 });

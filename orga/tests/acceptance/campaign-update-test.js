@@ -20,7 +20,7 @@ module('Acceptance | Campaign Update', function(hooks) {
       token_type: 'Bearer token type',
     });
     const campaign = server.create('campaign', { id: 1 });
-    const newName = 'New NAme';
+    const newName = 'New Name';
     const newText = 'New text';
 
     await visit(`/campagnes/${campaign.id}/modification`);

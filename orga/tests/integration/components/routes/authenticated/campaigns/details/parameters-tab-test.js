@@ -182,17 +182,34 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
   });
 
   module('on Modify action display', function() {
-    test('it should display the button modify', async function(assert) {
-      // given
-      const campaign = store.createRecord('campaign', {});
+    module('when the campaign is not archived', function() {
+      test('it should display the button modify', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', { isArchived: false });
 
-      this.set('campaign', campaign);
+        this.set('campaign', campaign);
 
-      // when
-      await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
+        // when
+        await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
 
-      // then
-      assert.dom('[aria-label="Détails de la campagne"]').includesText('Modifier');
+        // then
+        assert.dom('[aria-label="Détails de la campagne"]').includesText('Modifier');
+      });
+    });
+
+    module('when the campaign is archived', function() {
+      test('it should not display the button modify', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', { isArchived: true });
+
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaigns::Details::ParametersTab @campaign={{campaign}}/>`);
+
+        // then
+        assert.dom('[aria-label="Détails de la campagne"]').doesNotContainText('Modifier');
+      });
     });
   });
 });
