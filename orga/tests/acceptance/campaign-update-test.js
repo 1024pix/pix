@@ -20,18 +20,18 @@ module('Acceptance | Campaign Update', function(hooks) {
       token_type: 'Bearer token type',
     });
     const campaign = server.create('campaign', { id: 1 });
-    const newTitle = 'New title';
+    const newName = 'New NAme';
     const newText = 'New text';
 
     await visit(`/campagnes/${campaign.id}/modification`);
-    await fillIn('#campaign-title', newTitle);
+    await fillIn('#campaign-name', newName);
     await fillIn('#campaign-custom-landing-page-text', newText);
 
     // when
     await click('button[type="submit"]');
 
     // then
-    assert.equal(server.db.campaigns.find(1).title, newTitle);
+    assert.equal(server.db.campaigns.find(1).name, newName);
     assert.equal(server.db.campaigns.find(1).customLandingPageText, newText);
     assert.equal(currentURL(), '/campagnes/1');
   });
