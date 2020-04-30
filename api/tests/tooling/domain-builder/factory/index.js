@@ -51,6 +51,7 @@ module.exports = {
   buildTube: require('./build-tube'),
   buildTutorial: require('./build-tutorial'),
   buildUser: require('./build-user'),
+  buildBadgeAcquisition: require('./build-badge-acquisition'),
   buildUserOrgaSettings: require('./build-user-orga-settings'),
   buildUserScorecard: require('./build-user-scorecard'),
   buildUserWithSchoolingRegistration: require('./build-user-with-schooling-registration'),
