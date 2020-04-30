@@ -13,7 +13,6 @@ export default class ListController extends Controller {
   pageNumber = 1;
   pageSize = 25;
   name = null;
-  campaignName = null;
   @tracked creatorId = null;
   @tracked status = null;
   searchFilter = null;
