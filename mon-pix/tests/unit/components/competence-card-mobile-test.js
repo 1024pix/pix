@@ -2,14 +2,14 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | competence-card-component', function() {
+describe('Unit | Component | competence-card-mobile', function() {
 
   setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = this.owner.lookup('component:competence-card');
+    component = this.owner.lookup('component:competence-card-mobile');
   });
 
   describe('#displayedLevel', function() {

@@ -9,6 +9,11 @@
   background-color: $white;
   transition: all 0.1s linear;
   -webkit-tap-highlight-color: rgba($dove-gray, 0.3);
+  pointer-events: none;
+
+  &--interactive {
+    pointer-events: auto;
+  }
 
   & a {
     text-decoration: none;

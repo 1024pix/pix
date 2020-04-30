@@ -1,0 +1,25 @@
+<form {{action @sendProfile on="submit"}} class="send-profile-header__form">
+  <p class="send-profile-header__recipient">Destinataire : {{@campaign.organizationName}}</p>
+
+  {{#if @campaignParticipation.isShared}}
+    <p class="skill-review-share__thanks">Merci, votre profil a bien été envoyé !</p>
+    <LinkTo @route="index" class="skill-review-share__back-to-home link">Continuez votre expérience Pix</LinkTo>
+  {{else}}
+    {{#if @isLoading}}
+      <button type="button" disabled class="button button--big">
+        <span class="loader-in-button">&nbsp;</span>
+      </button>
+    {{else}}
+      <button type="submit" class="button button--big">J'envoie mon profil</button>
+    {{/if}}
+    {{#if @errorMessage}}
+      <div class="fill-in-id-pix__form__error-message">{{@errorMessage}}</div>
+    {{/if}}
+
+    <p class="send-profile-header__warning">
+      <FaIcon @icon="exclamation-circle"></FaIcon>
+      Cet envoi n’est possible qu’une seule fois
+    </p>
+  {{/if}}
+
+</form>
