@@ -32,6 +32,7 @@ const dependencies = {
   courseRepository: require('../../infrastructure/repositories/course-repository'),
   encryptionService: require('../../domain/services/encryption-service'),
   improvementService: require('../../domain/services/improvement-service'),
+  juryCertificationSummaryRepository: require('../../infrastructure/repositories/jury-certification-summary-repository'),
   jurySessionRepository: require('../../infrastructure/repositories/jury-session-repository'),
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),
   mailService: require('../../domain/services/mail-service'),
