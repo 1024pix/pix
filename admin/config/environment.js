@@ -111,8 +111,6 @@ module.exports = function(environment) {
     ENV.pagination.debounce = 0;
   }
 
-  ENV.APP.ODS_PARSING_URL = 'api/sessions/session_id/certifications/attendance-sheet-analysis';
-
   if (environment === 'production') {
     // here you can enable a production-specific feature
   }
