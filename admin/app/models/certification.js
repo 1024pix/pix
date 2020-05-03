@@ -1,6 +1,5 @@
 import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
-import _ from 'lodash';
 
 export default class Certification extends Model {
 
@@ -63,15 +62,5 @@ export default class Certification extends Model {
       result.push(indexedCompetences[value]);
       return result;
     }, []);
-  }
-
-  updateUsingCertificationInReport(certificationInReport) {
-    _.each(['firstName', 'lastName', 'birthdate', 'birthplace', 'externalId', 'examinerComment'], (attribute) => {
-      if (_.isEmpty(this.get(attribute)) && !_.isEmpty(certificationInReport[attribute])) {
-        this.set(attribute, certificationInReport[attribute].trim());
-      }
-    });
-
-    this.set('hasSeenEndTestScreen', certificationInReport.hasSeenEndTestScreen);
   }
 }
