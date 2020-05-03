@@ -61,35 +61,6 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_1 = [
   },
 ];
 
-const _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_1 = [
-  ..._TRANSFORMATION_STRUCT_COMMON_V1_1,
-  {
-    header: 'Commune de naissance',
-    property: 'birthplace',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Signature',
-    property: 'signature',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Numéro de certification\n(sans le #)',
-    property: 'certificationId',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Ecran de fin de test vu\n(cocher)',
-    property: 'lastScreen',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Commentaires / Signalements\n(test non achevé, incident technique, fraude, etc.)\nà compléter par un rapport si nécessaire',
-    property: 'comments',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-];
-
 // V1.2
 const _TRANSFORMATION_STRUCT_COMMON_V1_2 = [
   {
@@ -145,67 +116,9 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_2 = [
   },
 ];
 
-const _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_2 = [
-  ..._TRANSFORMATION_STRUCT_COMMON_V1_2,
-  {
-    header: 'Commune de naissance',
-    property: 'birthplace',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Signature',
-    property: 'signature',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Numéro de certification\n(sans le #)',
-    property: 'certificationId',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Ecran de fin de test vu\n(cocher)',
-    property: 'lastScreen',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Commentaires / Signalements\n(test non achevé, incident technique, fraude, etc.)\nà compléter par un rapport si nécessaire',
-    property: 'comments',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-];
-
 // V1.3
-const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_3 = 
+const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_3 =
   _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_2;
-
-const _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_3 = [
-  ..._TRANSFORMATION_STRUCT_COMMON_V1_2,
-  {
-    header: 'Commune de naissance',
-    property: 'birthplace',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Signature',
-    property: 'signature',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Numéro de certification\n(sans le #)',
-    property: 'certificationId',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Ecran de fin de test vu\n(cocher)',
-    property: 'lastScreen',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Signalements\n(test non achevé, incident technique, fraude, etc.)\nà compléter par un rapport si nécessaire',
-    property: 'comments',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-];
 
 // ALL
 const TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION = {
@@ -223,24 +136,6 @@ const TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION = {
     version: '1.3',
     transformStruct : _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_3,
     headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_3),
-  },
-};
-
-const TRANSFORMATION_STRUCTS_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_BY_VERSION = {
-  '1.1': {
-    version: '1.1',
-    transformStruct : _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_1,
-    headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_1),
-  },
-  '1.2': {
-    version: '1.2',
-    transformStruct : _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_2,
-    headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_2),
-  },
-  '1.3': {
-    version: '1.3',
-    transformStruct : _TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_3,
-    headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_V1_3),
   },
 };
 
@@ -262,5 +157,4 @@ function _getHeadersFromTransformationStruct(transformationStruct) {
 module.exports = {
   CURRENT_ATTENDANCE_SHEET_VERSION,
   TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION,
-  TRANSFORMATION_STRUCTS_FOR_PIX_ADMIN_CERTIFICATIONS_PARSING_BY_VERSION,
 };
