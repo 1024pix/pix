@@ -220,7 +220,7 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/jury/sessions/{id}/certifications',
+      path: '/api/jury/sessions/{id}/jury-certification-summaries',
       config: {
         validate: {
           params: Joi.object({
@@ -231,11 +231,11 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
-        handler: sessionController.getCertifications,
-        tags: ['api', 'sessions', 'certifications'],
+        handler: sessionController.getJuryCertificationSummaries,
+        tags: ['api', 'sessions', 'jury-certification-summary'],
         notes: [
           'Cette route est restreinte aux utilisateurs ayant le rôle PIXMASTER',
-          'Elle retourne les certifications d\'une session',
+          'Elle retourne les résumés de certifications d\'une session',
         ]
       }
     },
