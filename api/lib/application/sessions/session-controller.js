@@ -16,24 +16,13 @@ module.exports = {
 
   async findPaginatedFilteredJurySessions(request) {
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
-    let normalizedFilters;
-    try {
-      const trimmedFilters = _.mapValues(filter, (value) => {
-        if (typeof value === 'string') {
-          return value.trim() || undefined;
-        }
-        return value;
-      });
-      normalizedFilters = sessionValidator.validateFilters(trimmedFilters);
-    } catch (err) {
-      const emptyPagination = {
-        page: page.number,
-        pageSize: page.size,
-        rowCount: 0,
-        pageCount: 0,
-      };
-      return jurySessionSerializer.serialize([], emptyPagination);
-    }
+    const trimmedFilters = _.mapValues(filter, (value) => {
+      if (typeof value === 'string') {
+        return value.trim() || undefined;
+      }
+      return value;
+    });
+    const normalizedFilters = sessionValidator.validateFilters(trimmedFilters);
     const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters: normalizedFilters, page });
 
     return jurySessionSerializer.serialize(jurySessions, pagination);
