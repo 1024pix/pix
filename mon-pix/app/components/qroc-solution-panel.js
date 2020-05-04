@@ -15,17 +15,17 @@ export default class QrocSolutionPanel extends Component {
 
   @computed('answer.result')
   get inputClass() {
-    return classByResultValue[this.get('answer.result')] || '';
+    return classByResultValue[this.answer.result] || '';
   }
 
   @computed('answer')
   get isResultOk() {
-    return this.get('answer.result') === 'ok';
+    return this.answer.result === 'ok';
   }
 
   @computed('answer')
   get answerToDisplay() {
-    const answer = this.get('answer.value');
+    const answer = this.answer.value;
     if (answer === '#ABAND#') {
       return 'Pas de réponse';
     }

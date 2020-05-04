@@ -187,7 +187,6 @@ describe('Acceptance | Certification | Start Certification Course', function() {
             it('should navigate to next challenge when we click pass', async function() {
               // when
               await click('.challenge-actions__action-skip-text');
-
               // then
               expect(currentURL().startsWith(`/assessments/${assessment.id}/challenges/rec`)).to.be.true;
             });

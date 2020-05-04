@@ -29,7 +29,7 @@ describe('Integration | Component | comparison-window', function() {
         '- 3eme possibilite\n' +
         '- 4eme possibilite'
       });
-      correction = EmberObject.create({ solution: '2,3' });
+      correction = EmberObject.create({ solution: '2,3', learningMoreTutorials: [], tutorials: [] });
 
       this.set('answer', answer);
       answer.set('challenge', challenge);
@@ -118,6 +118,7 @@ describe('Integration | Component | comparison-window', function() {
     it('should render a feedback panel already opened',async  function() {
       //when
       await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+
       //then
       expect(find('.comparison-window__feedback-panel')).to.exist;
       expect(find('.feedback-panel__form')).to.exist;
@@ -191,7 +192,7 @@ describe('Integration | Component | comparison-window', function() {
       });
     });
 
-    context('the correction has no hints nor tutoriasl at all', function() {
+    context('the correction has no hints nor tutorials at all', function() {
       it('should render “Bientot des tutos”', async function() {
         // given
         correction.setProperties({

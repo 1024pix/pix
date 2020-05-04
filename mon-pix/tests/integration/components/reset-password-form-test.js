@@ -105,7 +105,7 @@ describe('Integration | Component | reset password form', function() {
           // then
           expect(isSaveMethodCalled).to.be.true;
           expect(saveMethodOptions).to.eql({ adapterOptions: { updatePassword: true, temporaryKey: 'temp-key' } });
-          expect(this.get('user.password')).to.eql(null);
+          expect(this.user.password).to.eql(null);
           expect(find(PASSWORD_INPUT_CLASS)).to.not.exist;
           expect(find('.password-reset-demand-form__body')).to.exist;
         });
@@ -126,7 +126,7 @@ describe('Integration | Component | reset password form', function() {
 
           // then
           expect(isSaveMethodCalled).to.be.true;
-          expect(this.get('user.password')).to.eql(validPassword);
+          expect(this.user.password).to.eql(validPassword);
           expect(find(PASSWORD_INPUT_CLASS).value).to.equal(validPassword);
           expect(find('.form-textfield__message--error')).to.exist;
         });

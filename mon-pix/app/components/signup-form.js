@@ -97,7 +97,7 @@ export default Component.extend({
   },
 
   _updateInputsStatus() {
-    const errors = this.get('user.errors');
+    const errors = this.user.errors;
     errors.forEach(({ attribute, message }) => {
       this._updateValidationStatus(attribute, 'error', message);
     });
@@ -143,7 +143,7 @@ export default Component.extend({
       this._trimNamesAndEmailOfUser();
 
       this.user.save().then(() => {
-        const credentials = { login: this.get('user.email'), password: this.get('user.password') };
+        const credentials = { login: this.user.email, password: this.user.password };
         this.authenticateUser(credentials);
         this.set('_tokenHasBeenUsed', true);
         this.set('user.password', null);

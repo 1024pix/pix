@@ -6,6 +6,7 @@ export default class SendProfileController extends Controller {
 
   @tracked isLoading = false;
   @tracked errorMessage = null;
+  pageTitle = 'Envoyer mon profil';
 
   @action
   async sendProfile() {
@@ -14,13 +15,14 @@ export default class SendProfileController extends Controller {
 
     const campaignParticipation = this.model.campaignParticipation;
     campaignParticipation.isShared = true;
-
-    try {
-      await campaignParticipation.save();
-    } catch (error) {
-      campaignParticipation.rollbackAttributes();
-      this.errorMessage = true;
-    }
-    this.isLoading = false;
+    return campaignParticipation.save()
+      .then(() => {
+        this.isLoading = false;
+      })
+      .catch(() => {
+        campaignParticipation.rollbackAttributes();
+        this.isLoading = false;
+        this.errorMessage = true;
+      });
   }
 }

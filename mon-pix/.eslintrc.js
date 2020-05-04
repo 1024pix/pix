@@ -23,6 +23,7 @@ module.exports = {
   },
   rules: {
     'ember/avoid-leaking-state-in-ember-objects': 'off',
+    'ember/no-get': ['error'],
     'ember/no-empty-attrs': 'error',
     'ember/no-new-mixins': 'off',
     'ember/no-restricted-resolver-tests': 'off',
@@ -34,7 +35,14 @@ module.exports = {
         'single-line-function',
         'multi-line-function',
       ]
-    }]
+    }],
+    /* Recommended rules */
+    'ember/no-mixins': 'off',
+    'ember/no-jquery': 'off',
+    'ember/require-computed-property-dependencies': 'off',
+    'ember/no-private-routing-service': 'off',
+    'ember/require-computed-macros': 'off',
+
   },
   overrides: [
     // node files

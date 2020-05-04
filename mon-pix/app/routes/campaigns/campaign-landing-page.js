@@ -27,6 +27,6 @@ export default class CampaignLandingPageRoute extends Route {
   }
 
   _userIsUnauthenticated() {
-    return this.get('session.isAuthenticated') === false;
+    return this.session.isAuthenticated === false;
   }
 }

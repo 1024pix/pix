@@ -14,7 +14,8 @@ describe('Unit | Component | challenge statement', function() {
         hasValidEmbedDocument: true,
         embedUrl: 'https://challenge-embed.url',
         embedTitle: 'Challenge embed document title',
-        embedHeight: 300
+        embedHeight: 300,
+        id: 'rec_123'
       });
 
       const component = this.owner.lookup('component:challenge-statement');
