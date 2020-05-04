@@ -36,15 +36,15 @@ export default class ProgressBar extends Component {
     'assessment.{hasCheckpoints,certificationCourse.nbChallenges,course.nbChallenges}'
   )
   get maxStepsNumber() {
-    if (this.get('assessment.hasCheckpoints')) {
+    if (this.assessment.hasCheckpoints) {
       return ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
     }
 
     if (this.assessment.isCertification) {
-      return this.get('assessment.certificationCourse.nbChallenges');
+      return this.assessment.get('certificationCourse.nbChallenges');
     }
 
-    return this.get('assessment.course.nbChallenges');
+    return this.assessment.get('course.nbChallenges');
   }
 
   @computed('currentStepIndex')

@@ -1,7 +1,10 @@
 import getCampaignParticipationResult from './routes/get-campaign-participation-result';
 import getCampaigns from './routes/get-campaigns';
+import getCertifications from './routes/get-certifications';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
+import getCompetenceEvaluations from './routes/get-competence-evaluations';
+import getProgression from './routes/get-progression';
 import getScorecard from './routes/get-scorecard';
 import getScorecardsTutorials from './routes/get-scorecards-tutorials';
 import postCompetenceEvaluation from './routes/post-competence-evaluation';
@@ -43,15 +46,15 @@ export default function() {
 
   this.get('/campaign-participations/:id/campaign-participation-result', getCampaignParticipationResult);
 
-  this.get('/certifications');
+  this.get('/certifications', getCertifications);
 
   this.get('/challenges', getChallenges);
   this.get('/challenges/:id', getChallenge);
 
-  this.get('/competence-evaluations');
+  this.get('/competence-evaluations', getCompetenceEvaluations);
   this.post('/competence-evaluations/start-or-resume', postCompetenceEvaluation);
 
-  this.get('/progressions/:id');
+  this.get('/progressions/:id', getProgression);
 
   this.get('/scorecards/:id', getScorecard);
   this.get('/scorecards/:id/tutorials', getScorecardsTutorials);

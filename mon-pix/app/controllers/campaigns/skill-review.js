@@ -14,8 +14,8 @@ export default class SkillReviewController extends Controller {
     'model.{campaignParticipation.campaignParticipationResult.badge,campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled}'
   )
   get shouldShowBadge() {
-    const badge = this.get('model.campaignParticipation.campaignParticipationResult.badge.content');
-    const areBadgeCriteriaFulfilled = this.get('model.campaignParticipation.campaignParticipationResult.areBadgeCriteriaFulfilled');
+    const badge = this.model.campaignParticipation.get('campaignParticipationResult.badge.content');
+    const areBadgeCriteriaFulfilled = this.model.campaignParticipation.get('campaignParticipationResult.areBadgeCriteriaFulfilled');
     return (!_.isEmpty(badge) && areBadgeCriteriaFulfilled);
   }
 
@@ -23,7 +23,7 @@ export default class SkillReviewController extends Controller {
   shareCampaignParticipation() {
     this.set('displayErrorMessage', false);
     this.set('displayLoadingButton', true);
-    const campaignParticipation = this.get('model.campaignParticipation');
+    const campaignParticipation = this.model.campaignParticipation;
     campaignParticipation.set('isShared', true);
     return campaignParticipation.save()
       .then(() => {
@@ -38,8 +38,8 @@ export default class SkillReviewController extends Controller {
 
   @action
   async improvementCampaignParticipation() {
-    const assessment = this.get('model.assessment');
-    const campaignParticipation = this.get('model.campaignParticipation');
+    const assessment = this.model.assessment;
+    const campaignParticipation = this.model.campaignParticipation;
     await campaignParticipation.save({ adapterOptions: { beginImprovement: true } });
     return this.transitionToRoute('campaigns.start-or-resume', assessment.get('codeCampaign'));
   }

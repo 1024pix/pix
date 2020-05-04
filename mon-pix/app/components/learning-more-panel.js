@@ -10,6 +10,6 @@ export default class LearningMorePanel extends Component {
 
   @computed('learningMoreTutorials.length')
   get hasLearningMoreItems() {
-    return this.get('learningMoreTutorials.length') > 0;
+    return this.learningMoreTutorials.length > 0;
   }
 }

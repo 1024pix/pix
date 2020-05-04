@@ -20,7 +20,7 @@ export default class UserLoggedMenu extends Component.extend(EmberKeyboardMixin)
 
   @computed('routing.currentRouteName')
   get canDisplayLinkToProfile() {
-    const currentRouteName = this.get('routing.currentRouteName');
+    const currentRouteName = this.routing.currentRouteName;
 
     return currentRouteName !== 'profile';
   }

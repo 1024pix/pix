@@ -17,27 +17,27 @@ export default class ScorecardDetails extends Component {
 
   @computed('scorecard.{level,isNotStarted}')
   get level() {
-    return this.get('scorecard.isNotStarted') ? null : this.get('scorecard.level');
+    return this.scorecard.isNotStarted ? null : this.scorecard.level;
   }
 
   @computed('scorecard.{isMaxLevel,isNotStarted,isFinished}')
   get isProgressable() {
-    return !(this.get('scorecard.isFinished') || this.get('scorecard.isMaxLevel') || this.get('scorecard.isNotStarted'));
+    return !(this.scorecard.isFinished || this.scorecard.isMaxLevel || this.scorecard.isNotStarted);
   }
 
   @computed('scorecard.remainingDaysBeforeReset')
   get displayWaitSentence() {
-    return this.get('scorecard.remainingDaysBeforeReset') > 0;
+    return this.scorecard.remainingDaysBeforeReset > 0;
   }
 
   @computed('scorecard.remainingDaysBeforeReset')
   get displayResetButton() {
-    return this.get('scorecard.remainingDaysBeforeReset') === 0;
+    return this.scorecard.remainingDaysBeforeReset === 0;
   }
 
   @computed('scorecard.remainingDaysBeforeReset')
   get remainingDaysText() {
-    const daysBeforeReset = this.get('scorecard.remainingDaysBeforeReset');
+    const daysBeforeReset = this.scorecard.remainingDaysBeforeReset;
     return `Remise à zéro disponible dans ${daysBeforeReset} ${daysBeforeReset <= 1 ? 'jour' : 'jours'}`;
   }
 
@@ -75,7 +75,7 @@ export default class ScorecardDetails extends Component {
 
   @action
   reset() {
-    this.scorecard.save({ adapterOptions: { resetCompetence: true, userId: this.currentUser.user.id, competenceId: this.get('scorecard.competenceId') } });
+    this.scorecard.save({ adapterOptions: { resetCompetence: true, userId: this.currentUser.user.id, competenceId: this.scorecard.competenceId } });
 
     this.set('showResetModal', false);
   }
