@@ -23,14 +23,6 @@ export default class ChallengeRoute extends Route {
     });
   }
 
-  async afterModel(modelResult) {
-    if (modelResult.assessment.get('isSmartPlacement')) {
-      const campaignCode = modelResult.assessment.codeCampaign;
-      const campaigns = await this._findCampaigns({ campaignCode });
-      modelResult.campaign = campaigns.get('firstObject');
-    }
-  }
-
   serialize(model) {
     return {
       assessment_id: model.assessment.id,
