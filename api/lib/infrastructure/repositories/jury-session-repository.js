@@ -3,7 +3,7 @@ const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
 const JurySession = require('../../domain/models/JurySession');
 const { statuses } = require('../../domain/models/JurySession');
-const CertificationOfficer = require('../../domain/read-models/CertificationOfficer');
+const CertificationOfficer = require('../../domain/models/CertificationOfficer');
 
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_NUMBER = 1;
