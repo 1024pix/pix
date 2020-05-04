@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
 const BookshelfUser = require('../data/user');
+const moment = require('moment');
 const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, SchoolingRegistrationAlreadyLinkedToUserError, UserNotFoundError } = require('../../domain/errors');
 const User = require('../../domain/models/User');
 const UserDetailForAdmin = require('../../domain/read-models/UserDetailForAdmin');
@@ -323,6 +324,14 @@ module.exports = {
     let updatedUser = await BookshelfUser
       .where({ id })
       .save({ 'hasSeenAssessmentInstructions': true }, { patch: true, method: 'update' });
+    updatedUser = await updatedUser.refresh();
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
+  },
+
+  async updateLastPixTermsOfServiceAccepted(id) {
+    let updatedUser = await BookshelfUser
+      .where({ id })
+      .save({ 'lastTermsOfServiceValidatedAt': moment().toDate() , 'mustValidateTermsOfService': false }, { patch: true, method: 'update' });
     updatedUser = await updatedUser.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
   },
