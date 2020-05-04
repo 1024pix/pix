@@ -2,6 +2,7 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 describe('Unit | Component | Navbar Desktop Header Component', function() {
   setupTest();
@@ -12,14 +13,14 @@ describe('Unit | Component | Navbar Desktop Header Component', function() {
 
   describe('When user is logged', function() {
     beforeEach(function() {
-      component = this.owner.lookup('component:navbar-desktop-header');
-      component.set('session', sessionStubResolve);
+      component = createGlimmerComponent('component:navbar-desktop-header');
+      component.session = sessionStubResolve;
     });
 
     context('#isUserLogged', function() {
       it('should return true', function() {
         // then
-        expect(component.get('isUserLogged')).to.equal(true);
+        expect(component.isUserLogged).to.equal(true);
       });
     });
 
@@ -29,21 +30,21 @@ describe('Unit | Component | Navbar Desktop Header Component', function() {
         const expectedLoggedUserMenu = [];
 
         // then
-        expect(component.get('menu')).to.deep.equal(expectedLoggedUserMenu);
+        expect(component.menu).to.deep.equal(expectedLoggedUserMenu);
       });
     });
   });
 
   describe('When user is not logged', function() {
     beforeEach(function() {
-      component = this.owner.lookup('component:navbar-desktop-header');
-      component.set('session', sessionStubReject);
+      component = createGlimmerComponent('component:navbar-desktop-header');
+      component.session = sessionStubReject;
     });
 
     context('#isUserLogged', function() {
       it('should return false, when user is unauthenticated', function() {
         // then
-        expect(component.get('isUserLogged')).to.equal(false);
+        expect(component.isUserLogged).to.equal(false);
       });
     });
 
@@ -56,7 +57,7 @@ describe('Unit | Component | Navbar Desktop Header Component', function() {
         ];
 
         // then
-        expect(component.get('menu')).to.deep.equal(expectedUnloggedUserMenu);
+        expect(component.menu).to.deep.equal(expectedUnloggedUserMenu);
       });
     });
   });
