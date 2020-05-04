@@ -2,6 +2,7 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
 const AirtableNotFoundError = require('../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
 const tutorialDatasource = require('../../../../lib/infrastructure/datasources/airtable/tutorial-datasource');
+const tutorialEvaluationRepository = require('../../../../lib/infrastructure/repositories/tutorial-evaluation-repository');
 const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
 const userTutorialRepository = require('../../../../lib/infrastructure/repositories/user-tutorial-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -14,6 +15,7 @@ describe('Unit | Repository | tutorial-repository', () => {
   let expectedTutorial2;
   let userId;
   let userTutorial;
+  let tutorialEvaluation;
 
   beforeEach(() => {
     tutorialData1 = {
@@ -54,6 +56,7 @@ describe('Unit | Repository | tutorial-repository', () => {
 
     userId = 'userId';
     userTutorial = { id: 'userId_recTutorial1', userId, tutorialId: 'recTutorial1' };
+    tutorialEvaluation = { id: 'userId_recTutorial1', userId, tutorialId: 'recTutorial1' };
   });
 
   describe('#findByRecordIds', () => {
@@ -88,6 +91,9 @@ describe('Unit | Repository | tutorial-repository', () => {
       sinon.stub(tutorialDatasource, 'findByRecordIds')
         .withArgs(['recTutorial1', 'recTutorial2'])
         .resolves([tutorialData1, tutorialData2]);
+      sinon.stub(tutorialEvaluationRepository, 'find')
+        .withArgs({ userId })
+        .resolves([tutorialEvaluation]);
       sinon.stub(userTutorialRepository, 'find')
         .withArgs({ userId })
         .resolves([userTutorial]);
@@ -96,6 +102,7 @@ describe('Unit | Repository | tutorial-repository', () => {
     it('should return a list of Domain Tutorial objects', async () => {
       // given
       const tutorialIds = ['recTutorial1', 'recTutorial2'];
+      expectedTutorial.tutorialEvaluation = tutorialEvaluation;
       expectedTutorial.userTutorial = userTutorial;
       const expectedTutorialList = [
         expectedTutorial,

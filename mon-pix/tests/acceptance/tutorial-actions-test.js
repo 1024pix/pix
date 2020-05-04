@@ -6,7 +6,7 @@ import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Tutorial | Save', function() {
+describe('Acceptance | Tutorial | Actions', function() {
   setupApplicationTest();
   setupMirage();
   let user;
@@ -30,13 +30,25 @@ describe('Acceptance | Tutorial | Save', function() {
 
   describe('Authenticated cases as simple user', function() {
 
-    it('displays tutorial item in competence page', async function() {
+    it('should display tutorial item in competence page with actions', async function() {
       // when
       await visit('/profil');
       await click(`.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__header`);
 
       // then
       expect(find('.tutorial__content')).to.exist;
+      expect(find('.tutorial-content-actions__save')).to.exist;
+      expect(find('.tutorial-content-actions__evaluate')).to.exist;
+    });
+
+    it('should disable evaluate action on click', async function() {
+      // when
+      await visit('/profil');
+      await click(`.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__header`);
+      await click('.tutorial-content-actions__evaluate');
+
+      // then
+      expect(find('.tutorial-content-actions__evaluate').disabled).to.be.true;
     });
 
   });

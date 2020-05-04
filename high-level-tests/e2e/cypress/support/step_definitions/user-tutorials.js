@@ -1,13 +1,9 @@
-when(`j‘enregistre le tutoriel {string}`, (tutorialName) => {
-  cy.contains('.tutorial__content', tutorialName).find('.tutorial-content__save-tutorial').click();
-});
-
-when(`je retire le tutoriel {string}`, (tutorialName) => {
-  cy.contains('.tutorial__content', tutorialName).find('.tutorial-content__save-tutorial').click();
+when(`je clique sur {string} pour le tutoriel {string}`, (buttonName, tutorialName) => {
+  cy.contains('.tutorial__content', tutorialName).contains(buttonName).click();
 });
 
 when(`le titre du bouton du tutoriel {string} est {string}`, (tutorialName, buttonTitle) => {
-  cy.contains('.tutorial__content', tutorialName).find('.tutorial-content__save-tutorial')
+  cy.contains('.tutorial__content', tutorialName).find('.tutorial-content-actions__save')
     .should('contain', buttonTitle);
 });
 
