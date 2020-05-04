@@ -25,7 +25,6 @@ describe('Integration | Component | navbar-mobile-header', function() {
     it('should display the Pix logo', function() {
       // then
       expect(find('.navbar-mobile-header-logo__pix')).to.exist;
-      expect(find('.navbar-mobile-header-logo__marianne')).to.exist;
     });
 
     it('should not display the burger menu', function() {
@@ -55,7 +54,6 @@ describe('Integration | Component | navbar-mobile-header', function() {
 
       // then
       expect(find('.navbar-mobile-header-logo__pix')).to.exist;
-      expect(find('.navbar-mobile-header-logo__marianne')).to.exist;
     });
 
     it('should display the burger icon', async function() {
@@ -75,4 +73,27 @@ describe('Integration | Component | navbar-mobile-header', function() {
       expect(find('.navbar-mobile-header__burger-icon')).to.exist;
     });
   });
+
+  it('should not display marianne logo when url does not have frenchDomainExtension', async function() {
+    // given
+    this.set('isFrenchDomain', false);
+
+    // when
+    await render(hbs`{{navbar-mobile-header isFrenchDomain=isFrenchDomain}}`);
+
+    // then
+    expect(find('.navbar-mobile-header-logo__marianne')).to.not.exist;
+  });
+
+  it('should display marianne logo when url does have frenchDomainExtension', async function() {
+    // given
+    this.set('isFrenchDomain', true);
+
+    // when
+    await render(hbs`{{navbar-mobile-header isFrenchDomain=isFrenchDomain}}`);
+
+    // then
+    expect(find('.navbar-mobile-header-logo__marianne')).to.exist;
+  });
+
 });

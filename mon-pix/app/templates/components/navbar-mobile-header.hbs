@@ -19,8 +19,10 @@
     <div class="navbar-mobile-header-logo__pix">
       <PixLogo />
     </div>
-    <div class="navbar-mobile-header-logo__marianne">
-      <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="République française">
-    </div>
+    {{#if @isFrenchDomain}}
+      <div class="navbar-mobile-header-logo__marianne">
+        <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="République française">
+      </div>
+    {{/if}}
   </div>
 </div>

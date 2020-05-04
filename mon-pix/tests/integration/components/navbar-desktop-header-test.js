@@ -96,4 +96,26 @@ describe('Integration | Component | navbar-desktop-header', function() {
     });
   });
 
+  it('should not display marianne logo when url does not have frenchDomainExtension', async function() {
+    // given
+    this.set('isFrenchDomain', false);
+
+    // when
+    await render(hbs`{{navbar-desktop-header isFrenchDomain=isFrenchDomain}}`);
+
+    // then
+    expect(find('.navbar-desktop-header-logo__marianne')).to.not.exist;
+  });
+
+  it('should display marianne logo when url does have frenchDomainExtension', async function() {
+    // given
+    this.set('isFrenchDomain', true);
+
+    // when
+    await render(hbs`{{navbar-desktop-header isFrenchDomain=isFrenchDomain}}`);
+
+    // then
+    expect(find('.navbar-desktop-header-logo__marianne')).to.exist;
+  });
+
 });

@@ -4,9 +4,11 @@
     <div class="navbar-desktop-header-logo__pix">
       <PixLogo />
     </div>
-    <div class="navbar-desktop-header-logo__marianne">
-      <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="République française">
-    </div>
+    {{#if @isFrenchDomain}}
+      <div class="navbar-desktop-header-logo__marianne">
+        <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="République française">
+      </div>
+    {{/if}}
   </div>
 
   {{#unless isInRouteWithoutLinksInHeader}}
