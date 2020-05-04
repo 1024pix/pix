@@ -76,10 +76,10 @@ describe('Integration | Component | navbar-mobile-header', function() {
 
   it('should not display marianne logo when url does not have frenchDomainExtension', async function() {
     // given
-    this.set('isFrenchDomain', false);
+    this.set('isFrenchDomainUrl', false);
 
     // when
-    await render(hbs`<NavbarMobileHeader @isFrenchDomain={{this.isFrenchDomain}} />`);
+    await render(hbs`<NavbarMobileHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
 
     // then
     expect(find('.navbar-mobile-header-logo__marianne')).to.not.exist;
@@ -87,10 +87,10 @@ describe('Integration | Component | navbar-mobile-header', function() {
 
   it('should display marianne logo when url does have frenchDomainExtension', async function() {
     // given
-    this.set('isFrenchDomain', true);
+    this.set('isFrenchDomainUrl', true);
 
     // when
-    await render(hbs`<NavbarMobileHeader @isFrenchDomain={{this.isFrenchDomain}} />`);
+    await render(hbs`<NavbarMobileHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
 
     // then
     expect(find('.navbar-mobile-header-logo__marianne')).to.exist;

@@ -98,10 +98,10 @@ describe('Integration | Component | navbar-desktop-header', function() {
 
   it('should not display marianne logo when url does not have frenchDomainExtension', async function() {
     // given
-    this.set('isFrenchDomain', false);
+    this.set('isFrenchDomainUrl', false);
 
     // when
-    await render(hbs`<NavbarDesktopHeader @isFrenchDomain={{this.isFrenchDomain}} />`);
+    await render(hbs`<NavbarDesktopHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
 
     // then
     expect(find('.navbar-desktop-header-logo__marianne')).to.not.exist;
@@ -109,10 +109,10 @@ describe('Integration | Component | navbar-desktop-header', function() {
 
   it('should display marianne logo when url does have frenchDomainExtension', async function() {
     // given
-    this.set('isFrenchDomain', true);
+    this.set('isFrenchDomainUrl', true);
 
     // when
-    await render(hbs`<NavbarDesktopHeader @isFrenchDomain={{this.isFrenchDomain}} />`);
+    await render(hbs`<NavbarDesktopHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
 
     // then
     expect(find('.navbar-desktop-header-logo__marianne')).to.exist;
