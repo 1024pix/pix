@@ -1,19 +1,40 @@
+const _ = require('lodash');
 const { BadRequestError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
+const sessionValidator = require('../../domain/validators/session-validator');
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const jurySessionSerializer = require('../../infrastructure/serializers/jsonapi/jury-session-serializer');
 const certificationCandidateSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-serializer');
 const certificationReportSerializer = require('../../infrastructure/serializers/jsonapi/certification-report-serializer');
 const certificationResultSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-serializer');
+const jurySessionRepository = require('../../infrastructure/repositories/jury-session-repository');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
 module.exports = {
 
   async findPaginatedFilteredJurySessions(request) {
-    const options = queryParamsUtils.extractParameters(request.query);
-    const { jurySessions, pagination } = await usecases.findPaginatedFilteredJurySessions({ filters: options.filter, page: options.page });
+    const { filter, page } = queryParamsUtils.extractParameters(request.query);
+    let normalizedFilters;
+    try {
+      const trimmedFilters = _.mapValues(filter, (value) => {
+        if (typeof value === 'string') {
+          return value.trim() || undefined;
+        }
+        return value;
+      });
+      normalizedFilters = sessionValidator.validateFilters(trimmedFilters);
+    } catch (err) {
+      const emptyPagination = {
+        page: page.number,
+        pageSize: page.size,
+        rowCount: 0,
+        pageCount: 0,
+      };
+      return jurySessionSerializer.serialize([], emptyPagination);
+    }
+    const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters: normalizedFilters, page });
 
     return jurySessionSerializer.serialize(jurySessions, pagination);
   },
