@@ -13,7 +13,7 @@ describe('Integration | Component | navbar-header', function() {
   context('when user is on desktop', function() {
     beforeEach(async function() {
       setBreakpoint('desktop');
-      await render(hbs`{{navbar-header media=media}}`);
+      await render(hbs`<NavbarHeader/>`);
     });
 
     it('should be rendered in desktop mode', function() {
@@ -37,7 +37,7 @@ describe('Integration | Component | navbar-header', function() {
           }
         }
       });
-      await render(hbs`{{navbar-header media=media burger=burger }}`);
+      await render(hbs`<NavbarHeader @burger={{this.burger}} />`);
       // then
       expect(find('.navbar-mobile-header__container')).to.exist;
       expect(find('.navbar-mobile-header__burger-icon')).to.exist;
@@ -45,7 +45,8 @@ describe('Integration | Component | navbar-header', function() {
 
     it('should be rendered in mobile/tablet mode without burger', async function() {
       // when
-      await render(hbs`{{navbar-header media=media}}`);
+      await render(hbs`<NavbarHeader/>`);
+
       // then
       expect(find('.navbar-mobile-header__container')).to.exist;
       expect(find('.navbar-mobile-header__burger-icon')).to.not.exist;
