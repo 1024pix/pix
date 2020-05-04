@@ -5,10 +5,12 @@
       <div class="campaign-landing-page__pix-logo">
         <img class="campaign-landing-page__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
       </div>
-      <div class="campaign-landing-page__marianne-logo">
-        <img class="campaign-landing-page__image" src="{{rootURL}}/images/logo-de-la-republique-francaise.svg"
-             alt="République française">
-      </div>
+      {{#if this.shouldShowTheMarianneLogo}}
+        <div class="campaign-landing-page__marianne-logo">
+          <img class="campaign-landing-page__image" src="{{rootURL}}/images/logo-de-la-republique-francaise.svg"
+               alt="République française">
+        </div>
+      {{/if}}
     </div>
     <div class="campaign-landing-page__error-text">
       <p class="campaign-landing-page__error-text title">{{yield}}</p>

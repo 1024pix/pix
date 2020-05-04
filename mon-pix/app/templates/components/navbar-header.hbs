@@ -1,7 +1,7 @@
 <div class="navbar-header">
   {{#if (media 'isDesktop')}}
-    <NavbarDesktopHeader @isFrenchDomain={{this.isFrenchDomainExtension}}/>
+    <NavbarDesktopHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainExtension}}/>
   {{else}}
-    <NavbarMobileHeader @burger={{@burger}} @isFrenchDomain={{this.isFrenchDomainExtension}} />
+    <NavbarMobileHeader @burger={{@burger}} @shouldShowTheMarianneLogo={{this.isFrenchDomainExtension}} />
   {{/if}}
 </div>

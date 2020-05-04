@@ -1,5 +1,10 @@
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
 
-@classic
-export default class InaccessibleCampaign extends Component {}
+export default class InaccessibleCampaign extends Component {
+  @service url;
+
+  get shouldShowTheMarianneLogo() {
+    return this.url.isFrenchDomainExtension;
+  }
+}
