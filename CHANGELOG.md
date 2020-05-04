@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.148.0 (04/05/2020)
+
+- [#1332](https://github.com/1024pix/pix/pull/1332) [FEATURE] Permettre de signaler que les utilisateurs non SCO doivent valider les prochaines CGU (PF-1236).
+- [#1337](https://github.com/1024pix/pix/pull/1337) [FEATURE] Ajout d'un filtre sur la colonne "Centre de certification" dans la liste des sessions paginée sur PixAdmin (PA-210)
+- [#1366](https://github.com/1024pix/pix/pull/1366) [FEATURE] Mise à jour de l'apparence du bouton "J'ai un code" (PIX-595).
+- [#1340](https://github.com/1024pix/pix/pull/1340) [FEATURE] Afficher le profil d'un utilisateur avant qu'il le partage dans une campagne de collecte de profils (PIX-559).
+- [#1348](https://github.com/1024pix/pix/pull/1348) [FEATURE] Ajout d'une bannière spécifique à l'envoi de profil (PIX-568).
+- [#1351](https://github.com/1024pix/pix/pull/1351) [FEATURE] Ajout d'un lien vers la documentation pour les utilisateurs d'organisations pro (PIX-565).
+- [#1356](https://github.com/1024pix/pix/pull/1356) [FEATURE] Changer les messages d'erreur à la saisie de code campagne (PIX-573).
+- [#1354](https://github.com/1024pix/pix/pull/1354) [FEATURE] Changer le texte du loader de campagne dans pix-app  (PIX-572)
+- [#1308](https://github.com/1024pix/pix/pull/1308) [CLEANUP] Appliquer la règle eslint no-get dans PixApp (PF-1247).
+- [#1353](https://github.com/1024pix/pix/pull/1353) [INFRA] Corriger le démarrage des apps pour les tests Cypress en local (PIX-596).
+
 ## v2.147.0 (30/04/2020)
 
 - [#1358](https://github.com/1024pix/pix/pull/1358) [FEATURE] Retirer la pagination à 100 sur les participations aux campagnes (PIX-594).
