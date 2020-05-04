@@ -15,7 +15,7 @@ module.exports = {
       },
       attributes: [
         'firstName', 'lastName', 'email', 'username',
-        'cgu', 'mustValidateTermsOfService',
+        'cgu', 'lastTermsOfServiceValidatedAt', 'mustValidateTermsOfService',
         'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted',
         'memberships', 'certificationCenterMemberships',
         'pixScore', 'scorecards',
@@ -97,6 +97,7 @@ module.exports = {
       email: json.data.attributes.email,
       password: json.data.attributes.password,
       cgu: json.data.attributes.cgu,
+      lastTermsOfServiceValidatedAt: json.data.attributes['lastTermsOfServiceValidatedAt'],
       mustValidateTermsOfService: json.data.attributes['must-validate-terms-of-service'],
       pixOrgaTermsOfServiceAccepted: json.data.attributes['pix-orga-terms-of-service-accepted'],
       pixCertifTermsOfServiceAccepted: json.data.attributes['pix-certif-terms-of-service-accepted'],
