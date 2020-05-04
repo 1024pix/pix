@@ -65,6 +65,7 @@ const dependencies = {
 };
 
 module.exports = injectDependencies({
+  acceptLastPixTermsOfService: require('./accept-last-pix-terms-of-service'),
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
   acceptPixOrgaTermsOfService: require('./accept-pix-orga-terms-of-service'),
   addCertificationCandidateToSession: require('./add-certification-candidate-to-session'),
