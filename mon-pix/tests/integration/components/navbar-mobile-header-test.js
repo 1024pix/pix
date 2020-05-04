@@ -14,7 +14,7 @@ describe('Integration | Component | navbar-mobile-header', function() {
     beforeEach(async function() {
       this.owner.register('service:session', Service.extend({ isAuthenticated: false }));
       setBreakpoint('tablet');
-      await render(hbs`{{navbar-mobile-header media=media}}`);
+      await render(hbs`{{navbar-mobile-header}}`);
     });
 
     it('should be rendered', function() {
@@ -42,7 +42,7 @@ describe('Integration | Component | navbar-mobile-header', function() {
 
     it('should be rendered', async function() {
       // when
-      await render(hbs`{{navbar-mobile-header media=media}}`);
+      await render(hbs`{{navbar-mobile-header}}`);
 
       // then
       expect(find('.navbar-mobile-header')).to.exist;
@@ -50,7 +50,7 @@ describe('Integration | Component | navbar-mobile-header', function() {
 
     it('should display the Pix logo', async function() {
       // when
-      await render(hbs`{{navbar-mobile-header media=media}}`);
+      await render(hbs`{{navbar-mobile-header}}`);
 
       // then
       expect(find('.navbar-mobile-header-logo__pix')).to.exist;
@@ -67,7 +67,7 @@ describe('Integration | Component | navbar-mobile-header', function() {
       });
 
       // when
-      await render(hbs`{{navbar-mobile-header media=media burger=burger}}`);
+      await render(hbs`{{navbar-mobile-header burger=burger}}`);
 
       // then
       expect(find('.navbar-mobile-header__burger-icon')).to.exist;
