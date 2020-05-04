@@ -463,7 +463,7 @@ describe('Unit | Controller | campaigns/join-restricted-campaign', function() {
 
       // then
       sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
-      expect(controller.get('errorMessage')).to.equal('Vérifiez vos informations afin de continuer ou prévenez l’organisateur de votre parcours.');
+      expect(controller.get('errorMessage')).to.equal('Vérifiez vos informations afin de continuer ou prévenez l’organisateur.');
       sinon.assert.notCalled(controller.transitionToRoute);
       expect(controller.get('isLoading')).to.equal(false);
     });
@@ -477,7 +477,7 @@ describe('Unit | Controller | campaigns/join-restricted-campaign', function() {
 
       // then
       sinon.assert.calledOnce(studentUserAssociation.unloadRecord);
-      expect(controller.get('errorMessage')).to.equal('Les informations saisies ont déjà été utilisées. Prévenez l’organisateur de votre parcours.');
+      expect(controller.get('errorMessage')).to.equal('Les informations saisies ont déjà été utilisées. Prévenez l’organisateur.');
       sinon.assert.notCalled(controller.transitionToRoute);
       expect(controller.get('isLoading')).to.equal(false);
     });
