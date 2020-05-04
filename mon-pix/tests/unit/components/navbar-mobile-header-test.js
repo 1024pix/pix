@@ -2,6 +2,7 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 describe('Unit | Component | Navbar Mobile Header Component', function() {
   setupTest();
@@ -13,13 +14,13 @@ describe('Unit | Component | Navbar Mobile Header Component', function() {
   describe('When user is logged', function() {
     beforeEach(function() {
       this.owner.register('service:session', sessionStubResolve);
-      component = this.owner.lookup('component:navbar-mobile-header');
+      component = createGlimmerComponent('component:navbar-mobile-header');
     });
 
     context('#isUserLogged', function() {
       it('should return true', function() {
         // then
-        expect(component.get('isUserLogged')).to.equal(true);
+        expect(component.isUserLogged).to.equal(true);
       });
     });
   });
@@ -27,13 +28,13 @@ describe('Unit | Component | Navbar Mobile Header Component', function() {
   describe('When user is not logged', function() {
     beforeEach(function() {
       this.owner.register('service:session', sessionStubReject);
-      component = this.owner.lookup('component:navbar-mobile-header');
+      component = createGlimmerComponent('component:navbar-mobile-header');
     });
 
     context('#isUserLogged', function() {
       it('should return false, when user is unauthenticated', function() {
         // then
-        expect(component.get('isUserLogged')).to.equal(false);
+        expect(component.isUserLogged).to.equal(false);
       });
     });
   });

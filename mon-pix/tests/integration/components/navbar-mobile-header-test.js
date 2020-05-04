@@ -14,7 +14,7 @@ describe('Integration | Component | navbar-mobile-header', function() {
     beforeEach(async function() {
       this.owner.register('service:session', Service.extend({ isAuthenticated: false }));
       setBreakpoint('tablet');
-      await render(hbs`{{navbar-mobile-header}}`);
+      await render(hbs`<NavbarMobileHeader />`);
     });
 
     it('should be rendered', function() {
@@ -42,7 +42,7 @@ describe('Integration | Component | navbar-mobile-header', function() {
 
     it('should be rendered', async function() {
       // when
-      await render(hbs`{{navbar-mobile-header}}`);
+      await render(hbs`<NavbarMobileHeader />`);
 
       // then
       expect(find('.navbar-mobile-header')).to.exist;
@@ -50,7 +50,7 @@ describe('Integration | Component | navbar-mobile-header', function() {
 
     it('should display the Pix logo', async function() {
       // when
-      await render(hbs`{{navbar-mobile-header}}`);
+      await render(hbs`<NavbarMobileHeader />`);
 
       // then
       expect(find('.navbar-mobile-header-logo__pix')).to.exist;
@@ -67,7 +67,7 @@ describe('Integration | Component | navbar-mobile-header', function() {
       });
 
       // when
-      await render(hbs`{{navbar-mobile-header burger=burger}}`);
+      await render(hbs`<NavbarMobileHeader @burger={{this.burger}} />`);
 
       // then
       expect(find('.navbar-mobile-header__burger-icon')).to.exist;
@@ -79,7 +79,7 @@ describe('Integration | Component | navbar-mobile-header', function() {
     this.set('isFrenchDomain', false);
 
     // when
-    await render(hbs`{{navbar-mobile-header isFrenchDomain=isFrenchDomain}}`);
+    await render(hbs`<NavbarMobileHeader @isFrenchDomain={{this.isFrenchDomain}} />`);
 
     // then
     expect(find('.navbar-mobile-header-logo__marianne')).to.not.exist;
@@ -90,7 +90,7 @@ describe('Integration | Component | navbar-mobile-header', function() {
     this.set('isFrenchDomain', true);
 
     // when
-    await render(hbs`{{navbar-mobile-header isFrenchDomain=isFrenchDomain}}`);
+    await render(hbs`<NavbarMobileHeader @isFrenchDomain={{this.isFrenchDomain}} />`);
 
     // then
     expect(find('.navbar-mobile-header-logo__marianne')).to.exist;
