@@ -1,16 +1,9 @@
-import { classNames } from '@ember-decorators/component';
 import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
 
-@classic
-@classNames('navbar-mobile-header')
 export default class NavbarMobileHeader extends Component {
   @service session;
 
-  @alias('session.isAuthenticated')
-  isUserLogged;
-
-  burger = null;
+  @alias('session.isAuthenticated') isUserLogged;
 }
