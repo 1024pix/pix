@@ -27,18 +27,22 @@ describe('Unit | Repository | correction-repository', function() {
     ];
 
     const userTutorial = { id: 'userTutorialId', userId, tutorialId: 'recTuto1' };
+    const tutorialEvaluation = { id: 'tutorialEvaluationId', userId, tutorialId: 'recTuto1' };
     const expectedTutorials = [
       domainBuilder.buildTutorial({ id: 'recTuto1', title:'Comment dresser un panda' }),
       domainBuilder.buildTutorial({ id: 'recTuto2', title:'Comment dresser un chat' }),
     ];
     expectedTutorials[0].userTutorial = userTutorial;
+    expectedTutorials[0].tutorialEvaluation = tutorialEvaluation;
 
     const userTutorial3 = { id: 'userTutorialId3', userId, tutorialId: 'recTuto3' };
+    const tutorialEvaluation3 = { id: 'tutorialEvaluationId3', userId, tutorialId: 'recTuto3' };
     const expectedLearningMoreTutorials = [
       domainBuilder.buildTutorial({ id: 'recTuto3', title:'Comment dresser un tigre du bengale' }),
       domainBuilder.buildTutorial({ id: 'recTuto4', title:'Comment dresser une belette' }),
     ];
     expectedLearningMoreTutorials[0].userTutorial = userTutorial3;
+    expectedLearningMoreTutorials[0].tutorialEvaluation = tutorialEvaluation3;
 
     context('normal challenge', () => {
 

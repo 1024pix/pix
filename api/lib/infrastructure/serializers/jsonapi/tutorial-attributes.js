@@ -1,3 +1,4 @@
+const tutorialEvaluationAttributes = require('./tutorial-evaluation-attributes');
 const userTutorialAttributes = require('./user-tutorial-attributes');
 
 module.exports = {
@@ -10,7 +11,9 @@ module.exports = {
     'link',
     'source',
     'title',
+    'tutorialEvaluation',
     'userTutorial',
   ],
-  userTutorial: userTutorialAttributes,
+  tutorialEvaluation: tutorialEvaluationAttributes,
+  userTutorial: userTutorialAttributes
 };

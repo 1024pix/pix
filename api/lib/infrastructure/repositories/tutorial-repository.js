@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const Tutorial = require('../../domain/models/Tutorial');
 const userTutorialRepository = require('./user-tutorial-repository');
+const tutorialEvaluationRepository = require('./tutorial-evaluation-repository');
 const tutorialDatasource = require('../datasources/airtable/tutorial-datasource');
 const { NotFoundError } = require('../../domain/errors');
 
@@ -8,7 +9,8 @@ module.exports = {
   async findByRecordIdsForCurrentUser({ ids, userId }) {
     const tutorials = await _findByRecordIds(ids);
     const userTutorials = await userTutorialRepository.find({ userId });
-    _.forEach(tutorials, _assignUserTutorial(userTutorials));
+    const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
+    _.forEach(tutorials, _assignUserInformation(userTutorials, tutorialEvaluations));
     return tutorials;
   },
 
@@ -52,11 +54,19 @@ function _getUserTutorial(userTutorials, tutorial) {
   return _.find(userTutorials, (userTutorial) => userTutorial.tutorialId === tutorial.id);
 }
 
-function _assignUserTutorial(userTutorials) {
+function _getTutorialEvaluation(tutorialEvaluations, tutorial) {
+  return _.find(tutorialEvaluations, (tutorialEvaluation) => tutorialEvaluation.tutorialId === tutorial.id);
+}
+
+function _assignUserInformation(userTutorials, tutorialEvaluations) {
   return (tutorial) => {
     const userTutorial = _getUserTutorial(userTutorials, tutorial);
     if (userTutorial) {
       tutorial.userTutorial = userTutorial;
+    }
+    const tutorialEvaluation = _getTutorialEvaluation(tutorialEvaluations, tutorial);
+    if (tutorialEvaluation) {
+      tutorial.tutorialEvaluation = tutorialEvaluation;
     }
   };
 }
