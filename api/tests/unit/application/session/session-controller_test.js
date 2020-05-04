@@ -662,54 +662,26 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(jurySessionSerializer, 'serialize');
     });
 
-    context('when filters not are valid', () => {
+    it('should pass the jurySessions and the pagination from the repository to the serializer', async () => {
+      // given
+      const request = { query: {} };
+      const filter = { filter1: ' filter1ToTrim', filter2: 'filter2' };
+      const normalizedFilters = 'normalizedFilters';
+      const page = 'somePageConfiguration';
+      const resolvedPagination = 'pagination';
+      const matchingJurySessions = 'listOfMatchingJurySessions';
+      queryParamsUtils.extractParameters.withArgs(request.query).returns({ filter, page });
+      sessionValidator.validateFilters.withArgs({ filter1: 'filter1ToTrim', filter2: 'filter2' })
+        .returns(normalizedFilters);
+      jurySessionRepository.findPaginatedFiltered.withArgs({ filters: normalizedFilters, page })
+        .resolves({ jurySessions: matchingJurySessions, pagination: resolvedPagination });
+      jurySessionSerializer.serialize.returns({ data: {}, meta: {} });
 
-      it('should pass an empty list of jury sessions with basic pagination to serializer', async () => {
-        // given
-        const request = { query: {} };
-        const filter = { filter1: 'filter1', filter2: 'filter2' };
-        const page = { number: 'aNumber', size: 'aSize' };
-        queryParamsUtils.extractParameters.withArgs(request.query).returns({ filter, page });
-        sessionValidator.validateFilters.withArgs(filter).throws();
+      // when
+      await sessionController.findPaginatedFilteredJurySessions(request, hFake);
 
-        // when
-        await sessionController.findPaginatedFilteredJurySessions(request, hFake);
-
-        // then
-        const expectedPagination = {
-          page: page.number,
-          pageSize: page.size,
-          rowCount: 0,
-          pageCount: 0,
-        };
-        expect(jurySessionRepository.findPaginatedFiltered.notCalled).to.be.true;
-        expect(jurySessionSerializer.serialize).to.have.been.calledWithExactly([], expectedPagination);
-      });
-    });
-
-    context('when filters are valid', () => {
-
-      it('should pass the jurySessions and the pagination from the repository to the serializer', async () => {
-        // given
-        const request = { query: {} };
-        const filter = { filter1: ' filter1ToTrim', filter2: 'filter2' };
-        const normalizedFilters = 'normalizedFilters';
-        const page = 'somePageConfiguration';
-        const resolvedPagination = 'pagination';
-        const matchingJurySessions = 'listOfMatchingJurySessions';
-        queryParamsUtils.extractParameters.withArgs(request.query).returns({ filter, page });
-        sessionValidator.validateFilters.withArgs({ filter1: 'filter1ToTrim', filter2: 'filter2' })
-          .returns(normalizedFilters);
-        jurySessionRepository.findPaginatedFiltered.withArgs({ filters: normalizedFilters, page })
-          .resolves({ jurySessions: matchingJurySessions, pagination: resolvedPagination });
-        jurySessionSerializer.serialize.returns({ data: {}, meta: {} });
-
-        // when
-        await sessionController.findPaginatedFilteredJurySessions(request, hFake);
-
-        // then
-        expect(jurySessionSerializer.serialize).to.have.been.calledWithExactly(matchingJurySessions, resolvedPagination);
-      });
+      // then
+      expect(jurySessionSerializer.serialize).to.have.been.calledWithExactly(matchingJurySessions, resolvedPagination);
     });
   });
 
