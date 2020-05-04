@@ -93,7 +93,7 @@ module('Unit | Model | campaign', function(hooks) {
       store = this.owner.lookup('service:store');
     });
 
-    module('when campaign is not archived', function() {
+    module('when campaign does not have an archived date', function() {
       test('it should return false', function(assert) {
         const campaign = store.createRecord('campaign', {
           archivedAt: null,
@@ -102,7 +102,7 @@ module('Unit | Model | campaign', function(hooks) {
         assert.equal(campaign.isArchived, false);
       });
     });
-    module('when campaign is archived', function() {
+    module('when campaign has an archived date', function() {
       test('it should return true', function(assert) {
         const campaign = store.createRecord('campaign', {
           archivedAt: new Date('2020-01-01'),
