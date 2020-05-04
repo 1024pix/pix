@@ -14,7 +14,7 @@ describe('Integration | Component | navbar-desktop-header', function() {
     beforeEach(async function() {
       this.owner.register('service:session', Service.extend({ isAuthenticated: false }));
       setBreakpoint('desktop');
-      await render(hbs`{{navbar-desktop-header}}`);
+      await render(hbs`<NavbarDesktopHeader/>`);
     });
 
     it('should be rendered', function() {
@@ -58,7 +58,7 @@ describe('Integration | Component | navbar-desktop-header', function() {
         }
       }));
       setBreakpoint('desktop');
-      await render(hbs`{{navbar-desktop-header}}`);
+      await render(hbs`<NavbarDesktopHeader/>}`);
     });
 
     it('should be rendered', function() {
@@ -101,7 +101,7 @@ describe('Integration | Component | navbar-desktop-header', function() {
     this.set('isFrenchDomain', false);
 
     // when
-    await render(hbs`{{navbar-desktop-header isFrenchDomain=isFrenchDomain}}`);
+    await render(hbs`<NavbarDesktopHeader @isFrenchDomain={{this.isFrenchDomain}} />`);
 
     // then
     expect(find('.navbar-desktop-header-logo__marianne')).to.not.exist;
@@ -112,7 +112,7 @@ describe('Integration | Component | navbar-desktop-header', function() {
     this.set('isFrenchDomain', true);
 
     // when
-    await render(hbs`{{navbar-desktop-header isFrenchDomain=isFrenchDomain}}`);
+    await render(hbs`<NavbarDesktopHeader @isFrenchDomain={{this.isFrenchDomain}} />`);
 
     // then
     expect(find('.navbar-desktop-header-logo__marianne')).to.exist;
