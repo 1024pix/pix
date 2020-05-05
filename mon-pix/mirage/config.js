@@ -65,4 +65,12 @@ export default function() {
   this.post('/expired-password-updates', postExpiredPasswordUpdates);
 
   this.put('/users/tutorials/:tutorialId/evaluate', putTutorialEvaluation);
+
+  this.patch('/users/:id/pix-terms-of-service-acceptance', (schema, request) => {
+    const userId = request.params.id;
+    const user = schema.users.find(userId);
+    user.update({ mustValidateTermsOfService: false , lastTermsOfServiceValidatedAt: '2020-06-06' });
+
+    return user;
+  });
 }

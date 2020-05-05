@@ -10,6 +10,7 @@ export default class User extends Model {
   @attr('string') username;
   @attr('string') password;
   @attr('boolean') cgu;
+  @attr('boolean') mustValidateTermsOfService;
   @attr('boolean') hasSeenAssessmentInstructions;
   @attr('string') recaptchaToken;
 
