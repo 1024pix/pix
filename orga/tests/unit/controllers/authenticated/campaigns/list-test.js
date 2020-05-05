@@ -94,18 +94,22 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
     });
   });
 
-  module('#setFieldName', function() {
+  module('#updateFilters', function() {
 
-    test('it should put value from searchFilter into appropriate controller property', function(assert) {
+    test('it should put value from pendingFilters into appropriate controller properties', function(assert) {
       // given
-      controller.name = 'someName';
-      controller.searchFilter = { fieldName: 'name', value: 'someOtherName' };
+      controller.prop1 = 'someValue1';
+      controller.prop2 = 'someValue2';
+      controller.prop3 = 'someValue3';
+      controller.pendingFilters = { prop1: 'someOtherValue1', prop2: 'someOtherValue2' };
 
       // when
-      controller.setFieldName();
+      controller.updateFilters();
 
       // then
-      assert.equal(controller.name, 'someOtherName');
+      assert.equal(controller.prop1, 'someOtherValue1');
+      assert.equal(controller.prop2, 'someOtherValue2');
+      assert.equal(controller.prop3, 'someValue3');
     });
   });
 
