@@ -1,0 +1,12 @@
+<Table::Header @size={{@size}} @align={{@align}} aria-sort={{this.order}} ...attributes>
+  <span class="table__column--clickable" role="button" {{on "click" this.toggleSort}}>
+    {{yield}}
+    <span class="icon-button column__icon">
+      {{#if (eq this.order "asc")}}
+        <FaIcon @icon="arrow-up" />
+      {{else}}
+        <FaIcon @icon="arrow-down" />
+      {{/if}}
+    </span>
+  </span>
+</Table::Header>

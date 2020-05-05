@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/campaigns/details/analysis-tab', function(hooks) {
@@ -19,6 +19,7 @@ module('Integration | Component | routes/authenticated/campaigns/details/analysi
       competenceName: 'Competence A',
       tubePracticalTitle: 'Tube A',
       areaColor: 'jaffa',
+      averageScore: 10,
     });
 
     const campaignTubeRecommendation_2 = store.createRecord('campaign-tube-recommendation', {
@@ -28,44 +29,53 @@ module('Integration | Component | routes/authenticated/campaigns/details/analysi
       competenceName: 'Competence B',
       tubePracticalTitle: 'Tube B',
       areaColor: 'emerald',
+      averageScore: 30,
     });
 
     this.set('campaignTubeRecommendations', [campaignTubeRecommendation_1, campaignTubeRecommendation_2]);
   });
 
-  test('it should display the tube analysis list of the campaign', async function(assert) {
-    // when
-    await render(hbs`<Routes::Authenticated::Campaigns::Details::AnalysisTab
-      @campaignTubeRecommendations={{campaignTubeRecommendations}}
-      @displayAnalysis={{true}}
-    />`);
+  module('when analysis is displayed', async function(hooks) {
+    hooks.beforeEach(async function() {
+      await render(hbs`<Routes::Authenticated::Campaigns::Details::AnalysisTab
+        @campaignTubeRecommendations={{campaignTubeRecommendations}}
+        @displayAnalysis={{true}}
+      />`);
+    });
 
-    // then
-    assert.dom('[aria-label="Sujet"]').exists({ count: 2 });
-  });
+    test('it should display the tube analysis list of the campaign', async function(assert) {
+      assert.dom('[aria-label="Sujet"]').exists({ count: 2 });
+      assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube A');
+    });
 
-  test('it should display tube details', async function(assert) {
-    // when
-    await render(hbs`<Routes::Authenticated::Campaigns::Details::AnalysisTab
-      @campaignTubeRecommendations={{campaignTubeRecommendations}}
-      @displayAnalysis={{true}}
-    />`);
+    test('it should display tube details', async function(assert) {
+      const firstTube = '[aria-label="Sujet"]:first-child';
+      assert.dom(firstTube).containsText('•');
+      assert.dom(firstTube).containsText('Tube A');
+      assert.dom(firstTube).containsText('Competence A');
+    });
 
-    // then
-    const firstTube = '[aria-label="Sujet"]:first-child';
-    assert.dom(firstTube).containsText('•');
-    assert.dom(firstTube).containsText('Tube A');
-    assert.dom(firstTube).containsText('Competence A');
+    test('it should order by recommendation asc', async function(assert) {
+      await click('[aria-label="Analyse par sujet"] thead [role="button"]:first-child');
+
+      assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube B');
+    });
+
+    test('it should order by recommendation desc', async function(assert) {
+      const recommendationColumn = '[aria-label="Analyse par sujet"] thead [role="button"]:first-child';
+      await click(recommendationColumn);
+      await click(recommendationColumn);
+
+      assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube A');
+    });
   });
 
   test('it should not display tube details when display', async function(assert) {
-    // when
     await render(hbs`<Routes::Authenticated::Campaigns::Details::AnalysisTab
       @campaignTubeRecommendations={{campaignTubeRecommendations}}
       @displayAnalysis={{false}}
     />`);
 
-    // then
     assert.dom('[aria-label="Sujet"]').doesNotExist;
     assert.dom('.table__empty').containsText('En attente de résultats');
   });
