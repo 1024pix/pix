@@ -1,4 +1,4 @@
-module.exports = function acceptPixTermsOfService({
+module.exports = function acceptLastPixTermsOfService({
   userId,
   userRepository
 }) {

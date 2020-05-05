@@ -5,7 +5,6 @@ const encrypt = require('../../../../lib/domain/services/encryption-service');
 const buildUserPixRole = require('./build-user-pix-role');
 const buildOrganization = require('./build-organization');
 const buildMembership = require('./build-membership');
-const moment = require('moment');
 const _ = require('lodash');
 
 const PIX_MASTER_ROLE_ID = 1;
@@ -18,7 +17,7 @@ const buildUser = function buildUser({
   username = firstName + '.' + lastName + faker.random.number({ min: 1000, max: 9999 }),
   password,
   cgu = true,
-  lastTermsOfServiceValidatedAt,
+  lastTermsOfServiceValidatedAt = null,
   mustValidateTermsOfService = false,
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
@@ -29,7 +28,6 @@ const buildUser = function buildUser({
 
   password = _.isUndefined(password) ? encrypt.hashPasswordSync(faker.internet.password()) : encrypt.hashPasswordSync(password);
   email = _.isUndefined(email) ? faker.internet.exampleEmail(firstName, lastName).toLowerCase() : email || null;
-  lastTermsOfServiceValidatedAt = _.isUndefined(lastTermsOfServiceValidatedAt) ? moment().toDate() : null;
 
   const values = {
     id, firstName, lastName, email, username, password, cgu, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,

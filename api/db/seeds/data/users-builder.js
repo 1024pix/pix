@@ -69,9 +69,10 @@ module.exports = function usersBuilder({ databaseBuilder }) {
   const userWithLastTermsOfServiceValidated = {
     firstName: 'lasttermsofservice',
     lastName: 'validated',
-    email: null,
+    email: 'lasttermsofservice@validated.net',
     rawPassword: 'Password123',
-    cgu: false,
+    cgu: true,
+    mustValidateTermsOfService: false,
     lastTermsOfServiceValidatedAt: '2020-07-22',
   };
   databaseBuilder.factory.buildUser.withUnencryptedPassword(userWithLastTermsOfServiceValidated);
@@ -79,10 +80,11 @@ module.exports = function usersBuilder({ databaseBuilder }) {
   const userWithLastTermsOfServiceNotValidated = {
     firstName: 'lasttermsofservice',
     lastName: 'notValidated',
-    email: null,
+    email: 'lasttermsofservice@notvalidated.net',
     rawPassword: 'Password123',
-    cgu: false,
-    lastTermsOfServiceValidatedAt: '2020-07-22',
+    cgu: true,
+    mustValidateTermsOfService: true,
+    lastTermsOfServiceValidatedAt: null,
   };
   databaseBuilder.factory.buildUser.withUnencryptedPassword(userWithLastTermsOfServiceNotValidated);
 
