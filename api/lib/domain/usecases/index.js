@@ -92,7 +92,6 @@ module.exports = injectDependencies({
   createOrUpdateUserOrgaSettings: require('./create-or-update-user-orga-settings'),
   createSession: require('./create-session'),
   createUser: require('./create-user'),
-  createUserOrgaSettings: require('./create-user-orga-settings'),
   deleteUnlinkedCertificationCandidate: require('./delete-unlinked-certification-candidate'),
   finalizeSession: require('./finalize-session'),
   findAnswerByChallengeAndAssessment: require('./find-answer-by-challenge-and-assessment'),
@@ -173,6 +172,5 @@ module.exports = injectDependencies({
   updatePublicationSession: require('./update-publication-session'),
   updateSession: require('./update-session'),
   updateSchoolingRegistrationDependentUserPassword: require('./update-schooling-registration-dependent-user-password'),
-  updateUserOrgaSettings: require('./update-user-orga-settings'),
   updateUserPassword: require('./update-user-password')
 }, dependencies);
