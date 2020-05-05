@@ -29,7 +29,7 @@ module('Acceptance | Campaign Analysis', function(hooks) {
     });
   });
 
-  test('it should display campain analysis', async function(assert) {
+  test('it should display campaign analysis', async function(assert) {
     // when
     await visit('/campagnes/1/analyse');
 

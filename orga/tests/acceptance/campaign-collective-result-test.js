@@ -31,7 +31,7 @@ module('Acceptance | Campaign Collective Result', function(hooks) {
     });
   });
 
-  test('it should display campain collective result', async function(assert) {
+  test('it should display campaign collective result', async function(assert) {
     // when
     await visit('/campagnes/1/resultats-collectifs');
 

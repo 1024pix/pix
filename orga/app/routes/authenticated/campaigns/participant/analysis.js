@@ -7,10 +7,7 @@ export default class AnalysisRoute extends Route {
     return campaignParticipation;
   }
 
-  async afterModel(model) {
-    if (model.campaignAnalysis.isFulfilled) {
-      await model.belongsTo('campaignAnalysis').reload();
-    }
-    return model;
+  afterModel(model) {
+    return model.belongsTo('campaignAnalysis').reload();
   }
 }
