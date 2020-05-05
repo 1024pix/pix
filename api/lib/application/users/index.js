@@ -186,7 +186,7 @@ exports.register = async function(server) {
         handler: userController.acceptLastPixTermsOfService,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Sauvegarde le fait que l\'utilisateur a accepté les Conditions Générales d\'Utilisation de Pix App\n' +
+          '- Sauvegarde le fait que l\'utilisateur a accepté les dernières Conditions Générales d\'Utilisation de Pix App\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
           '- Le contenu de la requête n\'est pas pris en compte.',
         ],
