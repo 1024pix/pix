@@ -4,7 +4,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-describe('Unit | Route | campaigns/login-or-register-to-access-restricted-campaign', () => {
+describe('Unit | Route | restricted-campaigns/login-or-register-to-access-restricted-campaign', () => {
 
   setupTest();
 
@@ -18,7 +18,7 @@ describe('Unit | Route | campaigns/login-or-register-to-access-restricted-campai
       query: queryStub
     });
 
-    route = this.owner.lookup('route:campaigns/login-or-register-to-access-restricted-campaign');
+    route = this.owner.lookup('route:restricted-campaigns/login-or-register-to-access-restricted-campaign');
     route.set('store', storeStub);
   });
 
