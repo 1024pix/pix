@@ -49,7 +49,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return campaigns.get('firstObject');
   }
 
-  async afterModel(campaign) {
+  async redirect(campaign) {
 
     if (campaign.isArchived) {
       this.set('isLoading', false);

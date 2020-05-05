@@ -17,7 +17,7 @@ export default class ResumeRoute extends Route {
     this.set('competenceLeveled', transition.to.queryParams.competenceLeveled || null);
   }
 
-  async afterModel(assessment) {
+  async redirect(assessment) {
     if (assessment.isCompleted) {
       return this._routeToResults(assessment);
     }
