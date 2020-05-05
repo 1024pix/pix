@@ -1,8 +1,25 @@
-const CERTIF_GREEN_ZONE = 'green_zone';
-const CERTIF_RED_ZONE = 'red_zone';
-const CERTIF_GREY_ZONE = 'grey_zone';
+const _ = require('lodash');
+const MIN_PERCENTAGE = 75;
 
 const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED, MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED } = require('../constants');
+
+function _isOverPercentage(value = 0, total, percentage = MIN_PERCENTAGE) {
+  return value >= (total * percentage / 100);
+}
+
+function _hasRequiredPixValue({ totalPixCleaByCompetence, pixScoreByCompetence }) {
+  const competenceIds = _.keys(totalPixCleaByCompetence);
+  return !_.isEmpty(competenceIds)
+    && _.every(competenceIds, (id) => _isOverPercentage(pixScoreByCompetence[id], totalPixCleaByCompetence[id]));
+}
+
+function _hasSufficientReproducibilityRateToBeCertified(reproducibilityRate) {
+  return reproducibilityRate >= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED;
+}
+
+function _hasNotMinimumReproducibilityRateToBeTrusted(reproducibilityRate) {
+  return reproducibilityRate <= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED;
+}
 
 class CertificationPartnerAcquisition {
   constructor(
@@ -17,33 +34,17 @@ class CertificationPartnerAcquisition {
 
   hasAcquiredCertification({
     hasAcquiredBadge = false,
-    reproducibilityRate = 0
+    reproducibilityRate = 0,
+    pixScoreByCompetence, totalPixCleaByCompetence,
   }) {
     if (!hasAcquiredBadge) return false;
+    if (_hasNotMinimumReproducibilityRateToBeTrusted(reproducibilityRate)) return false;
 
-    switch (this._getPartnerCertificationObtentionZone(reproducibilityRate)) {
-      case CERTIF_GREEN_ZONE:
-        return true;
-      case CERTIF_RED_ZONE:
-        return false;
-      case CERTIF_GREY_ZONE:
-        return this._checkCleaPixRate();
-    }
+    if (_hasSufficientReproducibilityRateToBeCertified(reproducibilityRate)) return true;
+
+    return _hasRequiredPixValue({ pixScoreByCompetence, totalPixCleaByCompetence });
   }
 
-  _getPartnerCertificationObtentionZone(reproducibilityRate) {
-    if (reproducibilityRate >= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED) {
-      return CERTIF_GREEN_ZONE;
-    } else if (reproducibilityRate <= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED) {
-      return CERTIF_RED_ZONE;
-    }
-    return CERTIF_GREY_ZONE;
-  }
-
-  _checkCleaPixRate() {
-    // implémentation de la “zone grise” => mise en place d’un seuil, un nombre de Pix minimum à obtenir / compétence couvertes pas le référentiel Cléa numérique pour répondre au critère d’obtention du certif Cléa “avoir 75% des acquis validés par compétence”
-    return false;
-  }
 }
 
 module.exports = CertificationPartnerAcquisition;

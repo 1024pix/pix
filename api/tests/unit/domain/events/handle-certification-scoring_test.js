@@ -12,7 +12,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
   const scoringCertificationService = { calculateAssessmentScore: _.noop };
   const assessmentRepository = { get: _.noop };
   const assessmentResultRepository = { save: _.noop };
-  const certificationCourseRepository = { changeCompletionDate: _.noop };
+  const certificationCourseRepository = { changeCompletionDate: _.noop, getCreationDate: _.noop };
   const competenceMarkRepository = { save: _.noop };
   const domainTransaction = {};
   const now = new Date('2019-01-01T05:06:07Z');
@@ -41,6 +41,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
     beforeEach(() => {
       certificationAssessment = _buildCertificationAssessment();
       sinon.stub(assessmentRepository, 'get').withArgs(certificationAssessment.id).resolves(certificationAssessment);
+      sinon.stub(certificationCourseRepository, 'getCreationDate').withArgs(certificationAssessment.certificationCourseId).resolves(now);
       assessmentCompletedEvent = new AssessmentCompleted(
         certificationAssessment.id,
         Symbol('userId'),
@@ -181,7 +182,12 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
           // then
           expect(certificationScoringCompleted).to.be.instanceof(CertificationScoringCompleted);
-          expect(certificationScoringCompleted).to.deep.equal({ userId: assessmentCompletedEvent.userId, certificationCourseId: certificationAssessment.certificationCourseId, reproducibilityRate: assessmentScore.percentageCorrectAnswers });
+          expect(certificationScoringCompleted).to.deep.equal({
+            userId: assessmentCompletedEvent.userId,
+            certificationCourseId: certificationAssessment.certificationCourseId,
+            reproducibilityRate: assessmentScore.percentageCorrectAnswers,
+            limitDate: now
+          });
         });
 
         it('should build and save as many competence marks as present in the assessmentScore', async () => {

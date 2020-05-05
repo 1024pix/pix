@@ -48,8 +48,13 @@ async function _calculateCertificationScore({
       competenceMarkRepository,
     });
 
-    return new CertificationScoringCompleted({ userId: assessmentCompletedEvent.userId, certificationCourseId: assessment.certificationCourseId, reproducibilityRate: assessmentScore.percentageCorrectAnswers });
-
+    const createdAt = await certificationCourseRepository.getCreationDate(assessment.certificationCourseId);
+    return new CertificationScoringCompleted({
+      userId: assessmentCompletedEvent.userId,
+      certificationCourseId: assessment.certificationCourseId,
+      reproducibilityRate: assessmentScore.percentageCorrectAnswers,
+      limitDate: createdAt
+    });
   }
   catch (error) {
     if (!(error instanceof CertificationComputeError)) {
