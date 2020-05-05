@@ -1,0 +1,22 @@
+@startuml
+actor User #blue
+participant MonPix
+participant API
+User -> MonPix : /connexion
+note left:  Connexion à app.pix.fr
+User -> MonPix : /connexion
+note left:  Saisie identifiant/email et mot de passe \net clic sur "Je me connecte"
+MonPix -> API : POST /api/token \ngrant_type=password\n&username=<USER_NAME>password=<PASSWORD>\n&scope=mon-pix
+API -> MonPix : 200 OK \n{ token_type: "bearer", \naccess_token: <JWT>\n user_id: <USER_ID> }
+MonPix -> MonPix: Stockage du token dans le LocalStorage \ndu navigateur
+MonPix -> API : GET /api/users/me\nHeaders: Authorization: Bearer <JWT>
+API -> MonPix : 200 OK \n{ data: \ntype: "users",\nid: <USER_ID>, \n attributes: { first-name: (…)} \n}
+User -> MonPix : /assesments
+note left: Clic sur "Commencer"
+MonPix -> API : GET /api/challenges\nHeaders: Authorization: Bearer <JWT>
+User -> MonPix : /deconnexion
+note left: Clic sur entrée de menu \n "Se déconnecter"
+MonPix -> API : POST /api/revoke \ntoken_type_hint:"access_token"\n&token=<JWT>
+API -> MonPix : 204 No content \n Note: La révocation n'est pas implémentée côté API
+MonPix -> MonPix: Suppression du token dans le LocalStorage \ndu navigateur
+@enduml
