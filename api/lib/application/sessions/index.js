@@ -262,31 +262,6 @@ exports.register = async (server) => {
       }
     },
     {
-      method: 'PUT',
-      path: '/api/sessions/{id}/certifications/attendance-sheet-analysis',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: Joi.number().integer().required()
-          }),
-        },
-        pre: [{
-          method: securityController.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
-        payload: {
-          allow: 'multipart/form-data',
-          maxBytes: 1048576 * 10, // 10MB
-        },
-        handler: sessionController.analyzeAttendanceSheet,
-        tags: ['api', 'certifications'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de lire et de retourner des données sur les certifications présentes dans le PV de session transmis en buffer',
-        ]
-      }
-    },
-    {
       method: 'PATCH',
       path: '/api/sessions/{id}/publication',
       config: {
