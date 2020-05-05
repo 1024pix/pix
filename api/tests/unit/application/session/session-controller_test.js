@@ -629,29 +629,31 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(queryParamsUtils, 'extractParameters');
       sinon.stub(sessionValidator, 'validateFilters');
       sinon.stub(jurySessionRepository, 'findPaginatedFiltered');
-      sinon.stub(jurySessionSerializer, 'serialize');
+      sinon.stub(jurySessionSerializer, 'serializeForPaginatedList');
     });
 
-    it('should pass the jurySessions and the pagination from the repository to the serializer', async () => {
+    it('should return the serialized jurySessions', async () => {
       // given
       const request = { query: {} };
       const filter = { filter1: ' filter1ToTrim', filter2: 'filter2' };
       const normalizedFilters = 'normalizedFilters';
       const page = 'somePageConfiguration';
-      const resolvedPagination = 'pagination';
-      const matchingJurySessions = 'listOfMatchingJurySessions';
+      const jurySessionsForPaginatedList = Symbol('jurySessionsForPaginatedList');
+      const serializedJurySessionsForPaginatedList = Symbol('serializedJurySessionsForPaginatedList');
       queryParamsUtils.extractParameters.withArgs(request.query).returns({ filter, page });
       sessionValidator.validateFilters.withArgs({ filter1: 'filter1ToTrim', filter2: 'filter2' })
         .returns(normalizedFilters);
       jurySessionRepository.findPaginatedFiltered.withArgs({ filters: normalizedFilters, page })
-        .resolves({ jurySessions: matchingJurySessions, pagination: resolvedPagination });
-      jurySessionSerializer.serialize.returns({ data: {}, meta: {} });
+        .resolves(jurySessionsForPaginatedList);
+      jurySessionSerializer.serializeForPaginatedList.returns(serializedJurySessionsForPaginatedList);
 
       // when
-      await sessionController.findPaginatedFilteredJurySessions(request, hFake);
+      const result = await sessionController.findPaginatedFilteredJurySessions(request, hFake);
 
       // then
-      expect(jurySessionSerializer.serialize).to.have.been.calledWithExactly(matchingJurySessions, resolvedPagination);
+      expect(jurySessionRepository.findPaginatedFiltered).to.have.been.calledWithExactly({ filters: normalizedFilters, page });
+      expect(jurySessionSerializer.serializeForPaginatedList).to.have.been.calledWithExactly(jurySessionsForPaginatedList);
+      expect(result).to.equal(serializedJurySessionsForPaginatedList);
     });
   });
 

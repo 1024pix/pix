@@ -16,16 +16,11 @@ module.exports = {
 
   async findPaginatedFilteredJurySessions(request) {
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
-    const trimmedFilters = _.mapValues(filter, (value) => {
-      if (typeof value === 'string') {
-        return value.trim() || undefined;
-      }
-      return value;
-    });
+    const trimmedFilters = _trimValues(filter);
     const normalizedFilters = sessionValidator.validateFilters(trimmedFilters);
-    const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters: normalizedFilters, page });
+    const jurySessionsForPaginatedList = await jurySessionRepository.findPaginatedFiltered({ filters: normalizedFilters, page });
 
-    return jurySessionSerializer.serialize(jurySessions, pagination);
+    return jurySessionSerializer.serializeForPaginatedList(jurySessionsForPaginatedList);
   },
 
   async getJurySession(request) {
@@ -178,3 +173,12 @@ module.exports = {
   },
 
 };
+
+function _trimValues(values) {
+  return _.mapValues(values, (value) => {
+    if (typeof value === 'string') {
+      return value.trim() || undefined;
+    }
+    return value;
+  });
+}

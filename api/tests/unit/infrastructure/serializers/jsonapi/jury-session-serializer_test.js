@@ -1,7 +1,26 @@
-const { expect } = require('../../../../test-helper');
+const { expect, sinon } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer');
 
 describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
+
+  describe('#serializeForPaginatedList()', function() {
+
+    it('should call serialize method by destructuring passed parameter', function() {
+      // given
+      const restore = serializer.serialize;
+      serializer.serialize = sinon.stub();
+      const jurySessions = Symbol('someJurySessions');
+      const pagination = Symbol('somePagination');
+      const parameter = { jurySessions, pagination, someUnusedField: 'unused' };
+
+      // when
+      serializer.serializeForPaginatedList(parameter);
+
+      // then
+      expect(serializer.serialize).to.have.been.calledWithExactly(jurySessions, pagination);
+      serializer.serialize = restore;
+    });
+  });
 
   describe('#serialize()', function() {
 

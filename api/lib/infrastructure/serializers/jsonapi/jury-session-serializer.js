@@ -2,7 +2,12 @@ const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
 
-  serialize(sessions, meta) {
+  serializeForPaginatedList(jurySessionsForPaginatedList) {
+    const { jurySessions, pagination } = jurySessionsForPaginatedList;
+    return this.serialize(jurySessions, pagination);
+  },
+
+  serialize(jurySessions, meta) {
     return new Serializer('sessions', {
       attributes: [
         'certificationCenterName',
@@ -38,11 +43,11 @@ module.exports = {
         included: true,
         attributes: ['firstName', 'lastName']
       },
-      transform(session) {
-        const transformedSession = Object.assign({}, session);
-        transformedSession.status = session.status;
-        transformedSession.certifications = [];
-        return transformedSession;
+      transform(jurySession) {
+        const transformedJurySession = Object.assign({}, jurySession);
+        transformedJurySession.status = jurySession.status;
+        transformedJurySession.certifications = [];
+        return transformedJurySession;
       },
       typeForAttribute: function(attribute) {
         if (attribute === 'assignedCertificationOfficer') {
@@ -51,6 +56,6 @@ module.exports = {
         return attribute;
       },
       meta,
-    }).serialize(sessions);
+    }).serialize(jurySessions);
   },
 };
