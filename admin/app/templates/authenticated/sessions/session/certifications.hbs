@@ -4,21 +4,6 @@
     <h2 class="certification-list-page__title">Certifications</h2>
     <div class="btn-group certification-list-page__actions" role="group">
 
-      <button class="btn btn-outline-default" type="button">
-        <FileUpload @name="session-record-report"
-                    @for="upload-attendance-sheet"
-                    @onfileadd={{action "onDisplaySessionReportAnalysis"}}
-                    @accept="application/vnd.oasis.opendocument.spreadsheet">
-          <FaIcon @icon="clipboard-list"></FaIcon>
-        </FileUpload>
-        <BsTooltip>Analyser le PV de session afin de détecter les cas particuliers à traiter (.ods)</BsTooltip>
-      </button>
-
-      <button class="btn btn-outline-default" {{action "downloadSessionResultFile"}} type="button">
-        <FaIcon @icon="file-download"></FaIcon>
-        <BsTooltip>Exporter les résultats après jury pour les communiquer aux prescripteurs (.csv)</BsTooltip>
-      </button>
-
       {{#if this.model.isPublished}}
         <button class="btn btn-primary" {{action "displayCertificationStatusUpdateConfirmationModal"}} type="button">
           Dépublier la session
@@ -49,9 +34,3 @@
               @confirm={{action "toggleSessionPublication"}}
               @cancel={{action "onCancelConfirm"}}
               @show={{displayConfirm}} />
-
-<CertificationSessionReport @show={{displaySessionReport}}
-                            @onHide={{action "onCloseSessionReportAnalysis"}}
-                            @onDownloadJuryFile={{action "onDownloadJuryFile"}}
-                            @onSaveSessionReportCertifications={{action "onUpdateSessionCertificationsWithReportData"}}
-                            @certifications={{certificationsInSessionReport}} />

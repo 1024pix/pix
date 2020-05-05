@@ -537,36 +537,6 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#analyzeAttendanceSheet', () => {
-    const sessionId = 3;
-
-    let request;
-    const odsBuffer = 'File Buffer';
-    beforeEach(() => {
-      // given
-      request = {
-        params: {
-          id: sessionId,
-        },
-        payload: { file: odsBuffer },
-      };
-
-      sinon.stub(usecases, 'analyzeAttendanceSheet').resolves();
-    });
-
-    it('should return certifications data for PV analysis', async () => {
-      // given
-      const analyzeResult = Symbol('attendance sheet analyze result');
-      usecases.analyzeAttendanceSheet.resolves(analyzeResult);
-
-      // when
-      const result = await sessionController.analyzeAttendanceSheet(request);
-
-      // then
-      expect(result).to.equal(analyzeResult);
-    });
-  });
-
   describe('#flagResultsAsSentToPrescriber', () => {
     const sessionId = 123;
     const session = Symbol('session');
