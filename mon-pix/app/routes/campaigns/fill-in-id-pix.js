@@ -52,7 +52,7 @@ export default class FillInIdPixRoute extends Route.extend(SecuredRouteMixin) {
     return this.store.createRecord('campaign-participation', { campaign, participantExternalId })
       .save()
       .then(() => {
-        return this.transitionTo('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } });
+        this.transitionTo('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } });
       }, (err) => {
         if (_.get(err, 'errors[0].status') === 403) {
           this.session.invalidate();
