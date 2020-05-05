@@ -49,3 +49,13 @@ location /api/ {
 add_header X-Content-Type-Options "nosniff";
 add_header X-Frame-Options "SAMEORIGIN";
 add_header X-XSS-Protection 1;
+
+<% ENV.each do |key,value| %>
+  <% if key.start_with? 'ADD_HTTP_HEADER' %>
+    add_header <%=
+        key.sub(/^ADD_HTTP_HEADER_/, '').split("_").map(&:capitalize).join("-")
+      %> "<%=
+        value.gsub('\\', '\\\\\\\\').gsub('"','\\"').gsub('$','\\$')
+      %>" ;
+  <% end %>
+<% end %>
