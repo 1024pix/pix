@@ -55,11 +55,13 @@ Router.map(function() {
   });
 
   this.route('assessment-campaigns', { path: '/campagnes/:campaign_code/evaluation' }, function() {
+    this.route('start-or-resume', { path: '/' });
     this.route('tutorial', { path: '/didacticiel' });
     this.route('skill-review', { path: '/resultats/:assessment_id' });
   });
 
   this.route('profiles-collection-campaigns', { path: '/campagnes/:campaign_code/collecte' }, function() {
+    this.route('start-or-resume', { path: '/' });
     this.route('send-profile', { path: '/envoi-profil' });
   });
 

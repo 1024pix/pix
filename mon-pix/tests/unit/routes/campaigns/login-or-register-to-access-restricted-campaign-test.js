@@ -32,8 +32,7 @@ describe('Unit | Route | campaigns/login-or-register-to-access-restricted-campai
     queryStub.resolves(expectedCampains);
 
     const expectedCode = 'RESTRICTD';
-    const params = { campaign_code: expectedCode };
-    route.paramsFor = sinon.stub().returns(params);
+    route.campaignCode = expectedCode;
 
     // when
     const model = await route.model();

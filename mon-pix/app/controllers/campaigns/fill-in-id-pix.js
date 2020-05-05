@@ -25,7 +25,7 @@ export default Controller.extend({
     cancel() {
       this.set('errorMessage', null);
 
-      return this.transitionToRoute('campaigns.campaign-landing-page', this.model.code);
+      return this.transitionToRoute('campaigns.start-or-resume', this.model.code);
     },
   }
 });

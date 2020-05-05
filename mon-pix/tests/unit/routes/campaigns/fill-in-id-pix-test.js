@@ -54,14 +54,14 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
       it('should save participant external id as a property', async function() {
         // given
-        const givenParticipantExternalId = 'a7Eat01r3';
+        const participantExternalId = 'a7Eat01r3';
         transition = {
           to: {
             params: {
               campaign_code: campaignCode,
             },
             queryParams: {
-              givenParticipantExternalId,
+              participantExternalId,
             }
           }
         };
@@ -73,7 +73,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
         await route.beforeModel(transition);
 
         // then
-        expect(route.get('givenParticipantExternalId')).to.equal(givenParticipantExternalId);
+        expect(route.get('participantExternalId')).to.equal(participantExternalId);
       });
     });
   });
@@ -134,7 +134,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       const participantExternalId = 'a73at01r3';
       queryRecordStub.resolves(null);
       route.start = sinon.stub();
-      route.set('givenParticipantExternalId', participantExternalId);
+      route.set('participantExternalId', participantExternalId);
 
       // when
       await route.afterModel(campaignWithIdPixLabel);
