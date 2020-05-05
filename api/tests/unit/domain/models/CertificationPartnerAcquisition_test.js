@@ -4,6 +4,7 @@ const CertificationPartnerAcquisition = require('../../../../lib/domain/models/C
 const GREEN_ZONE_REPRO = [80, 90, 100];
 const RED_ZONE_REPRO = [1, 50];
 const GREY_ZONE_REPRO = [75];
+
 describe('Unit | Domain | Models | CertificationPartnerAcquisition', () => {
   let certificationPartnerAcquisition;
   describe('#hasAcquiredCertification', () => {
@@ -50,15 +51,54 @@ describe('Unit | Domain | Models | CertificationPartnerAcquisition', () => {
 
       context('reproducibility rate in grey zone', () => {
         const reproducibilityRate = GREY_ZONE_REPRO[0];
-        it(`for ${reproducibilityRate} reproducibility rate, it should obtain certification`, async () => {
+        const competenceId1 = 'competenceId1', competenceId2 = 'competenceId2';
+
+        it('for 70 reproducibility rate, it should obtain certification with all pixValue above 75% of Clea skills pixValue for each competence', async () => {
+          // given
+          const totalPixCleaByCompetence = {
+              [competenceId1]: 20,
+              [competenceId2]: 10,
+            },
+            pixScoreByCompetence = {
+              [competenceId1]: 15,
+              [competenceId2]: 7.5,
+              'competence3': 0,
+            };
+
           // when
           const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({
             hasAcquiredBadge: true,
-            reproducibilityRate
+            reproducibilityRate,
+            totalPixCleaByCompetence,
+            pixScoreByCompetence,
           });
 
           // then
           expect(hasAcquiredCertif).to.be.true;
+        });
+
+        it('for 70 reproducibility rate, it should not obtain certification without all pixValue above 75% of Clea skills pixValue for each competence', async () => {
+          // given
+          const totalPixCleaByCompetence = {
+              [competenceId1]: 20,
+              [competenceId2]: 10,
+            },
+            pixScoreByCompetence = {
+              [competenceId1]: 15,
+              [competenceId2]: 7.4,
+              'competence3': 0,
+            };
+
+          // when
+          const hasAcquiredCertif = certificationPartnerAcquisition.hasAcquiredCertification({
+            hasAcquiredBadge: true,
+            reproducibilityRate,
+            totalPixCleaByCompetence,
+            pixScoreByCompetence,
+          });
+
+          // then
+          expect(hasAcquiredCertif).to.be.false;
         });
       });
 
@@ -79,3 +119,4 @@ describe('Unit | Domain | Models | CertificationPartnerAcquisition', () => {
     });
   });
 });
+

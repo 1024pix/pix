@@ -1,17 +1,17 @@
 const _ = require('lodash');
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const events = require('../../../../lib/domain/events');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const Badge = require('../../../../lib/domain/models/Badge');
+const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
+const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const CertificationPartnerAcquisition = require('../../../../lib/domain/models/CertificationPartnerAcquisition');
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
+const events = require('../../../../lib/domain/events');
 
 describe('Unit | Domain | Events | handle-certification-partner', () => {
   const scoringCertificationService = { calculateAssessmentScore: _.noop };
   const assessmentRepository = { get: _.noop };
   const assessmentResultRepository = { save: _.noop };
-  const badgeAcquisitionRepository = { hasAcquiredBadgeWithKey: _.noop };
   const certificationPartnerAcquisitionRepository = { save: _.noop };
   const domainTransaction = {};
 
@@ -20,7 +20,6 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
   const dependencies = {
     scoringCertificationService,
     assessmentRepository,
-    badgeAcquisitionRepository,
     certificationPartnerAcquisitionRepository,
   };
 
@@ -35,6 +34,8 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
         certificationCourseId: Symbol('certificationCourseId'),
         userId: Symbol('userId'),
         isCertification: true,
+        reproducibilityRate: 80,
+        limitDate: new Date('2018-02-03'),
       });
 
     });
@@ -43,22 +44,27 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
       const assessmentResult = Symbol('AssessmentResult');
       const assessmentResultId = 'assessmentResultId';
       const savedAssessmentResult = { id: assessmentResultId };
-
-      beforeEach(() => {
-        sinon.stub(AssessmentResult, 'BuildStandardAssessmentResult').returns(assessmentResult);
-        sinon.stub(assessmentResultRepository, 'save').resolves(savedAssessmentResult);
-      });
-
       const assessmentScore = {
         nbPix: null,
         level: null,
         competenceMarks: null,
       };
 
+      const pixScoreByCompetence = Symbol('pixScoreByCompetence');
+      const totalPixCleaByCompetence = Symbol('totalPixCleaByCompetence');
+
       beforeEach(() => {
+        sinon.stub(AssessmentResult, 'BuildStandardAssessmentResult').returns(assessmentResult);
+        sinon.stub(assessmentResultRepository, 'save').resolves(savedAssessmentResult);
         sinon.stub(scoringCertificationService, 'calculateAssessmentScore').resolves(assessmentScore);
         sinon.stub(certificationPartnerAcquisitionRepository, 'save').resolves();
-
+        sinon.stub(competenceRepository, 'getPixScoreByCompetence')
+          .withArgs({
+            userId: certificationScoringEvent.userId,
+            limitDate: certificationScoringEvent.limitDate,
+          }).resolves(pixScoreByCompetence);
+        sinon.stub(competenceRepository, 'getTotalPixCleaByCompetence')
+          .withArgs().resolves(totalPixCleaByCompetence);
       });
 
       context('when user has clea badge', () => {
@@ -77,12 +83,16 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
 
           // then
           expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
-          expect(certificationPartnerAcquisitionRepository.save).to.have.been.calledWithMatch(
-            {
-              partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
-              certificationCourseId: certificationScoringEvent.certificationCourseId,
-            },
-            domainTransaction);
+          expect(competenceRepository.getPixScoreByCompetence).to.have.been.calledWith({
+            userId: certificationScoringEvent.userId,
+            limitDate: certificationScoringEvent.limitDate,
+          });
+          expect(competenceRepository.getTotalPixCleaByCompetence).to.have.been.calledWith();
+          expect(CertificationPartnerAcquisition.prototype.hasAcquiredCertification).to.have.been.calledWith({
+            hasAcquiredBadge: true,
+            reproducibilityRate: certificationScoringEvent.reproducibilityRate,
+            pixScoreByCompetence,totalPixCleaByCompetence,
+          });
         });
 
         it('user has not acquired CleA certification, it should not save it any partner certif', async () => {
@@ -96,6 +106,11 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
 
           // then
           expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
+          expect(competenceRepository.getPixScoreByCompetence).to.have.been.calledWith({
+            userId: certificationScoringEvent.userId,
+            limitDate: certificationScoringEvent.limitDate,
+          });
+          expect(competenceRepository.getTotalPixCleaByCompetence).to.have.been.calledWith();
           expect(certificationPartnerAcquisitionRepository.save).not.to.have.been.called;
         });
       });
@@ -106,8 +121,6 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
         });
 
         it('it should not save partner certification', async () => {
-          // given
-
           // when
           await events.handleCertificationAcquisitionForPartner({
             certificationScoringEvent, ...dependencies, domainTransaction
@@ -115,6 +128,11 @@ describe('Unit | Domain | Events | handle-certification-partner', () => {
 
           // then
           expect(badgeAcquisitionRepository.hasAcquiredBadgeWithKey).to.have.been.called;
+          expect(competenceRepository.getPixScoreByCompetence).to.have.been.calledWith({
+            userId: certificationScoringEvent.userId,
+            limitDate: certificationScoringEvent.limitDate,
+          });
+          expect(competenceRepository.getTotalPixCleaByCompetence).to.have.been.calledWith();
           expect(certificationPartnerAcquisitionRepository.save).not.to.have.been.called;
         });
 

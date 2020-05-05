@@ -5,6 +5,7 @@ async function handleCertificationAcquisitionForPartner({
   certificationScoringEvent,
   domainTransaction,
   badgeAcquisitionRepository,
+  competenceRepository,
   certificationPartnerAcquisitionRepository,
 }) {
   const hasAcquiredBadgeClea = await _getHasAcquiredBadgeClea(badgeAcquisitionRepository, certificationScoringEvent.userId);
@@ -14,7 +15,19 @@ async function handleCertificationAcquisitionForPartner({
     partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
   });
 
-  if (cleaPartnerAcquisition.hasAcquiredCertification({ hasAcquiredBadge: hasAcquiredBadgeClea, reproducibilityRate: certificationScoringEvent.reproducibilityRate })) {
+  const pixScoreByCompetence = await competenceRepository.getPixScoreByCompetence({
+    userId: certificationScoringEvent.userId,
+    limitDate: certificationScoringEvent.limitDate,
+  });
+
+  const totalPixCleaByCompetence = await competenceRepository.getTotalPixCleaByCompetence();
+
+  if (cleaPartnerAcquisition.hasAcquiredCertification({
+    hasAcquiredBadge: hasAcquiredBadgeClea,
+    reproducibilityRate: certificationScoringEvent.reproducibilityRate,
+    totalPixCleaByCompetence,
+    pixScoreByCompetence
+  })) {
     await certificationPartnerAcquisitionRepository.save(cleaPartnerAcquisition, domainTransaction);
   }
 }
