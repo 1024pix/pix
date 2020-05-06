@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.149.1 (06/05/2020)
+
+- [#1383](https://github.com/1024pix/pix/pull/1383) [BUGFIX] Problème d'affichage des réponses des QROCM (PIX-636).
+
 ## v2.149.0 (06/05/2020)
 
 - [#1293](https://github.com/1024pix/pix/pull/1293) [FEATURE] Evaluer un tutoriel (PF-1095).
