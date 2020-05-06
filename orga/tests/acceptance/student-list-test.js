@@ -149,10 +149,10 @@ module('Acceptance | Student List', function(hooks) {
           await click('.table tbody tr:nth-child(6) td:last-child button');
 
           // when
-          await click('.pix-modal-footer div button');
+          await click('#generate-password');
 
           // then
-          assert.dom('.pix-modal-footer div button').doesNotExist();
+          assert.dom('#generate-password').doesNotExist();
           assert.dom('#generated-password').exists();
         });
 
