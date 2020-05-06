@@ -59,12 +59,11 @@ function _getByUserIdAndLimitDateQuery({ userId, limitDate }) {
 
 module.exports = {
 
-  save(knowledgeElement) {
+  async save(knowledgeElement) {
+    const keToSave = _.omit(knowledgeElement, ['id', 'createdAt']);
+    const savedKe = await new BookshelfKnowledgeElement(keToSave).save();
 
-    return Promise.resolve(_.omit(knowledgeElement, ['id', 'createdAt']))
-      .then((knowledgeElement) => new BookshelfKnowledgeElement(knowledgeElement))
-      .then((knowledgeElementBookshelf) => knowledgeElementBookshelf.save())
-      .then(_toDomain);
+    return _toDomain(savedKe);
   },
 
   async findUniqByUserId({ userId, limitDate }) {
