@@ -29,7 +29,7 @@ describe('Unit | Controller | terms-of-service', function() {
 
     });
 
-    it('it should show an error to must validate terms of service ', async function() {
+    it('it should show an error to user to validate terms of service ', async function() {
       // when
       controller.isTermsOfServiceValidated =  false ;
       controller.showErrorTermsOfServiceNotSelected =  false ;

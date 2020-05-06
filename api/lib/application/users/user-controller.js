@@ -53,10 +53,10 @@ module.exports = {
     return userSerializer.serialize(updatedUser);
   },
 
-  async acceptLastPixTermsOfService(request) {
+  async accepPixLastTermsOfService(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
-    const updatedUser = await usecases.acceptLastPixTermsOfService({
+    const updatedUser = await usecases.acceptPixLastTermsOfService({
       userId: authenticatedUserId
     });
 

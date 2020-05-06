@@ -328,7 +328,7 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, updatedUser);
   },
 
-  async updateLastPixTermsOfServiceAccepted(id) {
+  async acceptPixLastTermsOfService(id) {
     let updatedUser = await BookshelfUser
       .where({ id })
       .save({ 'lastTermsOfServiceValidatedAt': moment().toDate() , 'mustValidateTermsOfService': false }, { patch: true, method: 'update' });

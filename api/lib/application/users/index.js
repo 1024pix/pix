@@ -183,7 +183,7 @@ exports.register = async function(server) {
           method: securityController.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser'
         }],
-        handler: userController.acceptLastPixTermsOfService,
+        handler: userController.accepPixLastTermsOfService,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Sauvegarde le fait que l\'utilisateur a accepté les dernières Conditions Générales d\'Utilisation de Pix App\n' +
