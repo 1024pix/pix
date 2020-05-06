@@ -15,12 +15,21 @@
 
     <div class="terms-of-service-form__conditions">
       <label for="pix-cgu">
-        <Input @type="checkbox" @id="pix-cgu" class="terms-of-service-form-conditions__check"/>
+        <Input @type="checkbox" @id="pix-cgu" class="terms-of-service-form-conditions__check" @checked={{this.isTermsOfServiceValidated}}/>
         J'accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="link" target="_blank">conditions
         d'utilisation de Pix</a>
       </label>
+      {{#if this.showErrorTermsOfServiceNotSelected }}
+        <div class="terms-of-service-form-conditions__validation-error">
+          {{'Vous devez accepter les conditions d’utilisation de Pix.'}}
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="terms-of-service-form__actions">
+      <LinkTo @route="logout" class="button terms-of-service-form-actions__cancel">Retour</LinkTo>
+      <button type="submit" class="button terms-of-service-form-actions__submit" {{on 'click' this.submit}}>Je continue</button>
     </div>
 
   </div>
-
 </div>

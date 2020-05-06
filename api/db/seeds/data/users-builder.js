@@ -66,4 +66,26 @@ module.exports = function usersBuilder({ databaseBuilder }) {
   };
   databaseBuilder.factory.buildUser.withUnencryptedPassword(userWithSamlId);
 
+  const userWithLastTermsOfServiceValidated = {
+    firstName: 'lasttermsofservice',
+    lastName: 'validated',
+    email: 'lasttermsofservice@validated.net',
+    rawPassword: 'Password123',
+    cgu: true,
+    mustValidateTermsOfService: false,
+    lastTermsOfServiceValidatedAt: '2020-07-22',
+  };
+  databaseBuilder.factory.buildUser.withUnencryptedPassword(userWithLastTermsOfServiceValidated);
+
+  const userWithLastTermsOfServiceNotValidated = {
+    firstName: 'lasttermsofservice',
+    lastName: 'notValidated',
+    email: 'lasttermsofservice@notvalidated.net',
+    rawPassword: 'Password123',
+    cgu: true,
+    mustValidateTermsOfService: true,
+    lastTermsOfServiceValidatedAt: null,
+  };
+  databaseBuilder.factory.buildUser.withUnencryptedPassword(userWithLastTermsOfServiceNotValidated);
+
 };

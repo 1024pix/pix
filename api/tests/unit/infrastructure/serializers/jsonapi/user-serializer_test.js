@@ -1,5 +1,4 @@
 const { expect } = require('../../../../test-helper');
-
 const User = require('../../../../../lib/domain/models/User');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 
@@ -17,6 +16,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
         email: 'lskywalker@deathstar.empire',
         username: 'luke.skywalker1234',
         cgu: true,
+        lastTermsOfServiceValidatedAt: '2020-05-04T13:18:26.323Z',
         mustValidateTermsOfService: true,
         pixOrgaTermsOfServiceAccepted: false,
         pixCertifTermsOfServiceAccepted: false,
@@ -39,6 +39,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               'email': userModelObject.email,
               'username': userModelObject.username,
               'cgu': userModelObject.cgu,
+              'last-terms-of-service-validated-at' : userModelObject.lastTermsOfServiceValidatedAt,
               'must-validate-terms-of-service': userModelObject.mustValidateTermsOfService,
               'pix-orga-terms-of-service-accepted': userModelObject.pixOrgaTermsOfServiceAccepted,
               'pix-certif-terms-of-service-accepted': userModelObject.pixCertifTermsOfServiceAccepted,
@@ -103,6 +104,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               'email': userModelObject.email,
               'username': userModelObject.username,
               'cgu': userModelObject.cgu,
+              'last-terms-of-service-validated-at': userModelObject.lastTermsOfServiceValidatedAt,
               'must-validate-terms-of-service': userModelObject.mustValidateTermsOfService,
               'pix-orga-terms-of-service-accepted': userModelObject.pixOrgaTermsOfServiceAccepted,
               'pix-certif-terms-of-service-accepted': userModelObject.pixCertifTermsOfServiceAccepted,

@@ -58,7 +58,33 @@
   &__check {
     margin-right: 8px;
   }
+
+  &__validation-error {
+    color: $red-error;
+    font-weight: normal;
+    margin-left: 16px;
+    margin-top: 16px;
+  }
 }
 
+.terms-of-service-form-actions {
+
+  &__submit {
+    margin-left: 16px;
+    border-radius: 4px;
+    padding: 10px 16px;
+
+  }
+
+  &__cancel {
+    background-color: $grey-50;
+    border-radius: 4px;
+    padding: 10px 16px;
+
+    &:hover {
+      background-color: $gray;
+    }
+  }
+}
 
 

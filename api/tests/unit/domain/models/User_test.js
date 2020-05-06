@@ -15,6 +15,7 @@ describe('Unit | Domain | Models | User', () => {
         email: 'email@example.net',
         password: 'pix123',
         cgu: true,
+        lastTermsOfServiceValidatedAt: '2020-05-04T13:40:00.000Z',
         mustValidateTermsOfService: true,
         samlId: 'some-saml-id',
         shouldChangePassword: false,
@@ -30,6 +31,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(user.email).to.equal(rawData.email);
       expect(user.password).to.equal(rawData.password);
       expect(user.cgu).to.equal(rawData.cgu);
+      expect(user.lastTermsOfServiceValidatedAt).to.equal(rawData.lastTermsOfServiceValidatedAt);
       expect(user.mustValidateTermsOfService).to.equal(rawData.mustValidateTermsOfService);
       expect(user.samlId).to.equal(rawData.samlId);
       expect(user.shouldChangePassword).to.equal(rawData.shouldChangePassword);

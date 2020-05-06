@@ -66,6 +66,11 @@ export default class User extends ApplicationAdapter {
   urlForUpdateRecord(id, modelName, { adapterOptions }) {
     const url = super.urlForUpdateRecord(...arguments);
 
+    if (adapterOptions && adapterOptions.acceptPixTermsOfService) {
+      delete adapterOptions.acceptPixTermsOfService;
+      return url + '/pix-terms-of-service-acceptance';
+    }
+
     if (adapterOptions && adapterOptions.rememberUserHasSeenAssessmentInstructions) {
       delete adapterOptions.rememberUserHasSeenAssessmentInstructions;
       return url + '/remember-user-has-seen-assessment-instructions';
