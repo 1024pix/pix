@@ -17,7 +17,7 @@ async function handleCertificationAcquisitionForPartner({
     partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
   });
 
-  if (cleaPartnerAcquisition.hasAcquiredCertification({ hasAcquiredBadge: hasAcquiredBadgeClea, percentageCorrectAnswers: certificationScoringEvent.percentageCorrectAnswers })) {
+  if (cleaPartnerAcquisition.hasAcquiredCertification({ hasAcquiredBadge: hasAcquiredBadgeClea, reproducibilityRate: certificationScoringEvent.reproducibilityRate })) {
     await certificationPartnerAcquisitionRepository.save(cleaPartnerAcquisition, domainTransaction);
   }
 }

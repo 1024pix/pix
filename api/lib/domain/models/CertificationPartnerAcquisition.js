@@ -1,7 +1,7 @@
 const CERTIF_GREEN_ZONE = 'green_zone';
 const CERTIF_RED_ZONE = 'red_zone';
 
-const { MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_CERTIFIED, MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED } = require('../constants');
+const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED, MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED } = require('../constants');
 
 class CertificationPartnerAcquisition {
   constructor(
@@ -30,9 +30,9 @@ class CertificationPartnerAcquisition {
   }
 
   _getPartnerCertificationObtentionZone(percentageCorrectAnswers) {
-    if (percentageCorrectAnswers >= MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED) {
+    if (percentageCorrectAnswers >= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED) {
       return CERTIF_GREEN_ZONE;
-    } else if (percentageCorrectAnswers <= MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_CERTIFIED) {
+    } else if (percentageCorrectAnswers <= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED) {
       return CERTIF_RED_ZONE;
     }
 
