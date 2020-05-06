@@ -12,19 +12,26 @@ export default Route.extend(AuthenticatedRouteMixin, {
     resultsSentToPrescriberAt: { refreshModel: true },
   },
 
-  model(params) {
-    return this.store.query('session', {
-      filter: {
-        id: params.id && params.id.trim(),
-        certificationCenterName: params.certificationCenterName && params.certificationCenterName.trim(),
-        status: params.status && params.status.trim(),
-        resultsSentToPrescriberAt: params.resultsSentToPrescriberAt && params.resultsSentToPrescriberAt.trim(),
-      },
-      page: {
-        number: params.pageNumber,
-        size: params.pageSize,
-      },
-    });
+  async model(params) {
+    let sessions;
+    try {
+      sessions = await this.store.query('session', {
+        filter: {
+          id: params.id && params.id.trim(),
+          certificationCenterName: params.certificationCenterName && params.certificationCenterName.trim(),
+          status: params.status && params.status.trim(),
+          resultsSentToPrescriberAt: params.resultsSentToPrescriberAt && params.resultsSentToPrescriberAt.trim(),
+        },
+        page: {
+          number: params.pageNumber,
+          size: params.pageSize,
+        },
+      });
+    } catch (err) {
+      return [];
+    }
+
+    return sessions;
   },
 
   resetController(controller, isExiting) {

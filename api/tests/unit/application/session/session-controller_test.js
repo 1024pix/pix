@@ -6,10 +6,13 @@ const usecases = require('../../../../lib/domain/usecases');
 const Session = require('../../../../lib/domain/models/Session');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
+const jurySessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer');
 const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
 const certificationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-result-serializer');
 const certificationReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
+const sessionValidator = require('../../../../lib/domain/validators/session-validator');
+const jurySessionRepository = require('../../../../lib/infrastructure/repositories/jury-session-repository');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -89,6 +92,39 @@ describe('Unit | Controller | sessionController', () => {
       // then
       expect(response).to.deep.equal(jsonApiSession);
       expect(sessionSerializer.serialize).to.have.been.calledWith(savedSession);
+    });
+  });
+
+  describe('#getJurySession', function() {
+    const sessionId = 123;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getJurySession');
+      sinon.stub(jurySessionSerializer, 'serialize');
+      request = {
+        auth: { credentials: { userId } },
+        params: {
+          id: sessionId.toString(),
+        }
+      };
+    });
+
+    context('when session exists', () => {
+
+      it('should reply serialized session informations', async function() {
+        // given
+        const foundJurySession = Symbol('foundSession');
+        const serializedJurySession = Symbol('serializedSession');
+        usecases.getJurySession.withArgs({ sessionId }).resolves(foundJurySession);
+        jurySessionSerializer.serialize.withArgs(foundJurySession).resolves(serializedJurySession);
+
+        // when
+        const response = await sessionController.getJurySession(request, hFake);
+
+        // then
+        expect(response).to.deep.equal(serializedJurySession);
+      });
+
     });
   });
 
@@ -587,42 +623,37 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#findPaginatedFilteredSessions', () => {
+  describe('#findPaginatedFilteredJurySessions', () => {
 
     beforeEach(() => {
       sinon.stub(queryParamsUtils, 'extractParameters');
-      sinon.stub(usecases, 'findPaginatedFilteredSessions');
-      sinon.stub(sessionSerializer, 'serializeForPaginatedFilteredResults');
+      sinon.stub(sessionValidator, 'validateFilters');
+      sinon.stub(jurySessionRepository, 'findPaginatedFiltered');
+      sinon.stub(jurySessionSerializer, 'serializeForPaginatedList');
     });
 
-    it('should return a list of JSON API sessions fetched from the data repository', async () => {
+    it('should return the serialized jurySessions', async () => {
       // given
       const request = { query: {} };
-      queryParamsUtils.extractParameters.withArgs({}).returns({});
-      usecases.findPaginatedFilteredSessions.resolves({ sessions: {}, pagination: {} });
-      sessionSerializer.serializeForPaginatedFilteredResults.returns({ data: {}, meta: {} });
+      const filter = { filter1: ' filter1ToTrim', filter2: 'filter2' };
+      const normalizedFilters = 'normalizedFilters';
+      const page = 'somePageConfiguration';
+      const jurySessionsForPaginatedList = Symbol('jurySessionsForPaginatedList');
+      const serializedJurySessionsForPaginatedList = Symbol('serializedJurySessionsForPaginatedList');
+      queryParamsUtils.extractParameters.withArgs(request.query).returns({ filter, page });
+      sessionValidator.validateFilters.withArgs({ filter1: 'filter1ToTrim', filter2: 'filter2' })
+        .returns(normalizedFilters);
+      jurySessionRepository.findPaginatedFiltered.withArgs({ filters: normalizedFilters, page })
+        .resolves(jurySessionsForPaginatedList);
+      jurySessionSerializer.serializeForPaginatedList.returns(serializedJurySessionsForPaginatedList);
 
       // when
-      await sessionController.findPaginatedFilteredSessions(request, hFake);
+      const result = await sessionController.findPaginatedFilteredJurySessions(request, hFake);
 
       // then
-      expect(usecases.findPaginatedFilteredSessions).to.have.been.calledOnce;
-      expect(sessionSerializer.serializeForPaginatedFilteredResults).to.have.been.calledOnce;
-    });
-
-    it('should return a JSON API response with pagination information in the data field "meta"', async () => {
-      // given
-      const request = { query: {} };
-      const expectedResults = 'sessionsList';
-      const expectedPagination = 'pagination';
-      queryParamsUtils.extractParameters.withArgs({}).returns({});
-      usecases.findPaginatedFilteredSessions.resolves({ sessions: expectedResults, pagination: expectedPagination });
-
-      // when
-      await sessionController.findPaginatedFilteredSessions(request, hFake);
-
-      // then
-      expect(sessionSerializer.serializeForPaginatedFilteredResults).to.have.been.calledWithExactly(expectedResults, expectedPagination);
+      expect(jurySessionRepository.findPaginatedFiltered).to.have.been.calledWithExactly({ filters: normalizedFilters, page });
+      expect(jurySessionSerializer.serializeForPaginatedList).to.have.been.calledWithExactly(jurySessionsForPaginatedList);
+      expect(result).to.equal(serializedJurySessionsForPaginatedList);
     });
   });
 

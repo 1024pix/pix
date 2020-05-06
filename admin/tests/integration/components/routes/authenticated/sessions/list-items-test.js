@@ -19,24 +19,17 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     const displayDate = now.toLocaleString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' });
     const displayStatus = 'SomeStatus';
     const sessions = [
-      { id: 1, certificationCenterName: 'Centre A', certificationCenter: { type: 'SUP' },
-        date: now, time: '14:00:00', displayDate,
-        displayStatus, displayFinalizationDate: '', displayPublishedAtDate: '',
-        displayResultsSentToPrescriberDate: '',
+      { id: 1, certificationCenterName: 'Centre A', certificationCenterType: 'SUP', date: now, time: '14:00:00',
+        displayDate, displayStatus, displayFinalizationDate: '',
+        displayPublishedAtDate: '', displayResultsSentToPrescriberDate: '',
       },
-      { id: 2, certificationCenterName: 'Centre B', certificationCenter: { type: null },
-        date: now, time: '14:00:00', displayDate,
-        displayStatus, displayFinalizationDate: 'SomeFDate', displayPublishedAtDate: 'SomePDate',
-        displayResultsSentToPrescriberDate: 'SomeRDate',
-      },
-      { id: 3, certificationCenterName: 'Centre C',
-        date: now, time: '14:00:00', displayDate,
-        displayStatus, displayFinalizationDate: 'SomeFDate', displayPublishedAtDate: 'SomePDate',
-        displayResultsSentToPrescriberDate: 'SomeRDate',
+      { id: 2, certificationCenterName: 'Centre B', certificationCenterType: null, date: now, time: '14:00:00',
+        displayDate, displayStatus, displayFinalizationDate: 'SomeFDate',
+        displayPublishedAtDate: 'SomePDate', displayResultsSentToPrescriberDate: 'SomeRDate',
       },
     ];
 
-    sessions.meta = { rowCount: 3 };
+    sessions.meta = { rowCount: 2 };
     this.set('sessions', sessions);
 
     // when
@@ -53,9 +46,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(7)`).hasText(sessions[i].displayPublishedAtDate);
       assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(8)`).hasText(sessions[i].displayResultsSentToPrescriberDate);
     }
-    assert.dom('table tbody tr:nth-child(1) td:nth-child(3)').hasText(sessions[0].certificationCenter.type);
+    assert.dom('table tbody tr:nth-child(1) td:nth-child(3)').hasText(sessions[0].certificationCenterType);
     assert.dom('table tbody tr:nth-child(2) td:nth-child(3)').hasText('-');
-    assert.dom('table tbody tr:nth-child(3) td:nth-child(3)').hasText('-');
   });
 
   module('Input field for id filtering', function() {

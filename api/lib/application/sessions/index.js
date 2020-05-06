@@ -7,18 +7,35 @@ exports.register = async (server) => {
   server.route([
     {
       method: 'GET',
-      path: '/api/sessions',
+      path: '/api/jury/sessions',
       config: {
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
-        handler: sessionController.findPaginatedFilteredSessions,
+        handler: sessionController.findPaginatedFilteredJurySessions,
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
           '- Elle permet de consulter la liste de toutes les sessions avec filtre et pagination (retourne un tableau avec n éléments)',
         ]
+      }
+    },
+    {
+      method: 'GET',
+      path: '/api/jury/sessions/{id}',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().required()
+          }),
+        },
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: sessionController.getJurySession,
+        tags: ['api', 'sessions']
       }
     },
     {
@@ -202,7 +219,7 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/sessions/{id}/certifications',
+      path: '/api/jury/sessions/{id}/certifications',
       config: {
         validate: {
           params: Joi.object({
@@ -263,7 +280,7 @@ exports.register = async (server) => {
     },
     {
       method: 'PATCH',
-      path: '/api/sessions/{id}/publication',
+      path: '/api/jury/sessions/{id}/publication',
       config: {
         validate: {
           params: Joi.object({
@@ -284,7 +301,7 @@ exports.register = async (server) => {
     },
     {
       method: 'PUT',
-      path: '/api/sessions/{id}/results-sent-to-prescriber',
+      path: '/api/jury/sessions/{id}/results-sent-to-prescriber',
       config: {
         validate: {
           params: Joi.object({
@@ -307,7 +324,7 @@ exports.register = async (server) => {
     },
     {
       method: 'PATCH',
-      path: '/api/sessions/{id}/certification-officer-assignment',
+      path: '/api/jury/sessions/{id}/certification-officer-assignment',
       config: {
         validate: {
           params: Joi.object({

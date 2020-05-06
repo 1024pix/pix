@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { Response } from 'ember-cli-mirage';
 
 export function findPaginatedAndFilteredSessions(schema, request) {
   const queryParams = request.queryParams;
@@ -7,6 +8,15 @@ export function findPaginatedAndFilteredSessions(schema, request) {
 
   const filters = _getFiltersFromQueryParams(queryParams);
   const pagination = _getPaginationFromQueryParams(queryParams);
+  if (!_areFiltersValid(filters)) {
+    return new Response(422, {}, {
+      errors: [{
+        status: 422,
+        title: 'Invalid filters',
+        description: 'Filter on id field must be a number.'
+      }]
+    });
+  }
   const filteredSessions = _applyFilters(sessions, filters);
   const paginatedSessions = _applyPagination(filteredSessions, pagination);
 
@@ -46,6 +56,15 @@ function _getPaginationFromQueryParams(queryParams) {
     pageSize: queryParams ? parseInt(queryParams['page[size]']) : 10,
     page: queryParams ? parseInt(queryParams['page[number]']) : 1,
   };
+}
+
+function _areFiltersValid({ idFilter }) {
+  if (idFilter !== null) {
+    const idAsNumber = parseInt(idFilter, 10);
+    return !isNaN(idAsNumber);
+  }
+
+  return true;
 }
 
 function _applyFilters(sessions, { idFilter, certificationCenterNameFilter, statusFilter, resultsSentToPrescriberAtFilter }) {

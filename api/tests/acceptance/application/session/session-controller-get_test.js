@@ -10,11 +10,11 @@ describe('Acceptance | Controller | session-controller-get', () => {
     await insertUserWithRolePixMaster();
   });
 
-  describe('GET /api/sessions', () => {
+  describe('GET /api/jury/sessions', () => {
     beforeEach(() => {
       options = {
         method: 'GET',
-        url: '/api/sessions',
+        url: '/api/jury/sessions',
         payload: { },
       };
 
@@ -51,7 +51,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
 
       it('should return a 200 status code with paginated and filtered data', async () => {
         // given
-        options.url = '/api/sessions?filter[id]=121&page[number]=1&page[size]=2';
+        options.url = '/api/jury/sessions?filter[id]=121&page[number]=1&page[size]=2';
         const expectedMetaData = { page: 1, pageSize: 2, rowCount: 1, pageCount: 1 };
 
         // when
@@ -66,7 +66,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
 
       it('should return a 200 status code with empty result', async () => {
         // given
-        options.url = '/api/organizations?filter[id]=4&page[number]=1&page[size]=1';
+        options.url = '/api/jury/sessions?filter[id]=4&page[number]=1&page[size]=1';
         const expectedMetaData = { page: 1, pageSize: 1, rowCount: 0, pageCount: 0 };
 
         // when
@@ -94,7 +94,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
     });
 
     context('when user is not connected', () => {
-      
+
       it('should return 401 HTTP status code if user is not authenticated', async () => {
         // when
         const response = await server.inject(options);

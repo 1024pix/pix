@@ -1,20 +1,33 @@
+const _ = require('lodash');
 const { BadRequestError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
+const sessionValidator = require('../../domain/validators/session-validator');
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
+const jurySessionSerializer = require('../../infrastructure/serializers/jsonapi/jury-session-serializer');
 const certificationCandidateSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-serializer');
 const certificationReportSerializer = require('../../infrastructure/serializers/jsonapi/certification-report-serializer');
 const certificationResultSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-serializer');
+const jurySessionRepository = require('../../infrastructure/repositories/jury-session-repository');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
 module.exports = {
 
-  async findPaginatedFilteredSessions(request) {
-    const options = queryParamsUtils.extractParameters(request.query);
-    const { sessions, pagination } = await usecases.findPaginatedFilteredSessions({ filters: options.filter, page: options.page });
+  async findPaginatedFilteredJurySessions(request) {
+    const { filter, page } = queryParamsUtils.extractParameters(request.query);
+    const trimmedFilters = _trimValues(filter);
+    const normalizedFilters = sessionValidator.validateFilters(trimmedFilters);
+    const jurySessionsForPaginatedList = await jurySessionRepository.findPaginatedFiltered({ filters: normalizedFilters, page });
 
-    return sessionSerializer.serializeForPaginatedFilteredResults(sessions, pagination);
+    return jurySessionSerializer.serializeForPaginatedList(jurySessionsForPaginatedList);
+  },
+
+  async getJurySession(request) {
+    const sessionId = parseInt(request.params.id);
+    const jurySession = await usecases.getJurySession({ sessionId });
+
+    return jurySessionSerializer.serialize(jurySession);
   },
 
   async get(request) {
@@ -160,3 +173,12 @@ module.exports = {
   },
 
 };
+
+function _trimValues(values) {
+  return _.mapValues(values, (value) => {
+    if (typeof value === 'string') {
+      return value.trim() || undefined;
+    }
+    return value;
+  });
+}

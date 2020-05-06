@@ -81,6 +81,20 @@ module('Acceptance | Session List', function(hooks) {
           assert.dom('div.page-navigation__current-page').hasText('1');
         });
       });
+
+      module('when invalid filter value are typed in', function() {
+
+        test('it should display an empty list', async function(assert) {
+          // given
+          await visit('/sessions/list');
+
+          // when
+          await fillIn('#id', 'azere');
+
+          //then
+          assert.dom('.table__empty').hasText('Aucun résultat');
+        });
+      });
     });
 
     module('#Filters', function() {
