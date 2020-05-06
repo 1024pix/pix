@@ -4,7 +4,7 @@ const serializer = require('../../infrastructure/serializers/jsonapi/feedback-se
 
 module.exports = {
 
-  save : async(request, h) => {
+  async save(request, h) {
     const newFeedback = await serializer.deserialize(request.payload);
 
     if (_.isBlank(newFeedback.get('content'))) {
