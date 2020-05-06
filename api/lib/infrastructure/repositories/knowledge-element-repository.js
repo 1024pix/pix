@@ -1,15 +1,9 @@
-const KnowledgeElement = require('../../domain/models/KnowledgeElement');
-const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
+const KnowledgeElement = require('../../domain/models/KnowledgeElement');
+const BookshelfKnowledgeElement = require('../data/knowledge-element');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const scoringService = require('../../domain/services/scoring/scoring-service');
-
-function _toDomain(knowledgeElementBookshelf) {
-  const knowledgeElements = knowledgeElementBookshelf.toJSON();
-  return _.isArray(knowledgeElements)
-    ? knowledgeElements.map((ke) => new KnowledgeElement(ke))
-    : new KnowledgeElement(knowledgeElements);
-}
 
 function _getUniqMostRecents(knowledgeElements) {
   return _(knowledgeElements)
@@ -43,7 +37,7 @@ async function _findByCampaignIdForSharedCampaignParticipationWhere(campaignPart
     .where({ status: 'validated' })
     .fetchAll();
 
-  return _toDomain(keResults);
+  return bookshelfToDomainConverter.buildDomainObjects(BookshelfKnowledgeElement, keResults);
 }
 
 function _getByUserIdAndLimitDateQuery({ userId, limitDate }) {
@@ -64,7 +58,7 @@ module.exports = {
     const keToSave = _.omit(knowledgeElement, ['id', 'createdAt']);
     const savedKe = await new BookshelfKnowledgeElement(keToSave).save();
 
-    return _toDomain(savedKe);
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfKnowledgeElement, savedKe);
   },
 
   async findUniqByUserId({ userId, limitDate }) {
