@@ -22,8 +22,8 @@ describe('Unit | Repository | correction-repository', function() {
     const userId = 'userId';
 
     const expectedHints = [
-      domainBuilder.buildHint({ skillName: '@web2', value: 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?' }),
-      domainBuilder.buildHint({ skillName: '@web3', value: 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?' }),
+      domainBuilder.buildHint({ skillName: '@web2', value: 'Peut-on géo-localiser un lapin sur la banquise ?' }),
+      domainBuilder.buildHint({ skillName: '@web3', value: 'Peut-on géo-localiser un lapin sur la banquise ?' }),
     ];
 
     const userTutorial = { id: 'userTutorialId', userId, tutorialId: 'recTuto1' };
