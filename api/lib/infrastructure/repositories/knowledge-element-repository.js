@@ -27,8 +27,8 @@ function _applyFilters(knowledgeElements) {
   return _dropResetKnowledgeElements(uniqsMostRecentPerSkill);
 }
 
-function _findByCampaignIdForSharedCampaignParticipationWhere(campaignParticipationsWhereClause) {
-  return BookshelfKnowledgeElement
+async function _findByCampaignIdForSharedCampaignParticipationWhere(campaignParticipationsWhereClause) {
+  const keResults = await BookshelfKnowledgeElement
     .query((qb) => {
       qb.select('knowledge-elements.*');
       qb.leftJoin('campaign-participations', 'campaign-participations.userId', 'knowledge-elements.userId');
@@ -41,8 +41,9 @@ function _findByCampaignIdForSharedCampaignParticipationWhere(campaignParticipat
     .where({ 'campaign-participations.isShared': true })
     .where(campaignParticipationsWhereClause)
     .where({ status: 'validated' })
-    .fetchAll()
-    .then(_toDomain);
+    .fetchAll();
+
+  return _toDomain(keResults);
 }
 
 function _getByUserIdAndLimitDateQuery({ userId, limitDate }) {
