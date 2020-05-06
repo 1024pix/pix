@@ -1,4 +1,5 @@
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 
@@ -10,6 +11,36 @@ export default class PasswordResetWindow extends Component {
   isUniquePasswordVisible = false;
 
   generatedPassword = null;
+
+  @tracked tooltipTextUsername = 'Copier l\'identifiant';
+  @tracked tooltipTextEmail = 'Copier l\'adresse e-mail';
+  @tracked tooltipTextGeneratedPassword = 'Copier le mot de passe unique';
+
+  @action
+  clipboardSuccessUsername() {
+    this.tooltipTextUsername = 'Copié !';
+  }
+  @action
+  clipboardSuccessEmail() {
+    this.tooltipTextEmail = 'Copié !';
+  }
+  @action
+  clipboardSuccessGeneratedPassword() {
+    this.tooltipTextGeneratedPassword = 'Copié !';
+  }
+
+  @action
+  clipboardOutUsername() {
+    this.tooltipTextUsername = 'Copier l\'identifiant';
+  }
+  @action
+  clipboardOutEmail() {
+    this.tooltipTextEmail = 'Copier l\'adresse e-mail';
+  }
+  @action
+  clipboardOutGeneratedPassword() {
+    this.tooltipTextGeneratedPassword = 'Copier le mot de passe unique';
+  }
 
   @action
   async resetPassword(event) {
