@@ -5,32 +5,28 @@ import { CREATED, FINALIZED, IN_PROCESS, PROCESSED } from 'pix-admin/models/sess
 
 export default Factory.extend({
 
-  address() {
-    return faker.address.streetName();
-  },
-
-  accessCode() {
-    return 'ABCDEF' + faker.random.number({ min: 100, max: 999 });
-  },
-
   certificationCenterName() {
     return faker.company.companyName();
   },
 
-  date() {
-    return moment(faker.date.recent()).format('YYYY-MM-DD');
+  certificationCenterType() {
+    return 'SCO';
   },
 
-  description() {
-    return faker.random.words();
+  address() {
+    return faker.address.streetName();
+  },
+
+  room() {
+    return faker.random.alphaNumeric(9);
   },
 
   examiner() {
     return faker.company.companyName();
   },
 
-  room() {
-    return faker.random.alphaNumeric(9);
+  date() {
+    return moment(faker.date.recent()).format('YYYY-MM-DD');
   },
 
   time() {
@@ -42,6 +38,14 @@ export default Factory.extend({
     return CREATED;
   },
 
+  accessCode() {
+    return 'ABCDEF' + faker.random.number({ min: 100, max: 999 });
+  },
+
+  description() {
+    return faker.random.words();
+  },
+
   examinerGlobalComment(i) {
     if (i % 2 === 0) {
       return faker.random.words();
@@ -49,15 +53,6 @@ export default Factory.extend({
 
     return '';
   },
-
-  withCertificationCenter: trait({
-    afterCreate(session, server) {
-      if (!session.certificationCenter) {
-        session.update({ certificationCenter: server.create('certification-center') });
-      }
-      session.update({ certificationCenterName: session.certificationCenter.name });
-    }
-  }),
 
   withResultsSentToPrescriber: trait({
     resultsSentToPrescriberAt: faker.date.past(),

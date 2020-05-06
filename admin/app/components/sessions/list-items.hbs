@@ -55,8 +55,8 @@
         <tr>
           <td><LinkTo @route="authenticated.sessions.session" @model={{session.id}}> {{session.id}} </LinkTo></td>
           <td>{{session.certificationCenterName}}</td>
-            {{#if (and session.certificationCenter session.certificationCenter.type)}}
-              <td class="session-list__item--align-center">{{session.certificationCenter.type}}</td>
+            {{#if session.certificationCenterType}}
+              <td class="session-list__item--align-center">{{session.certificationCenterType}}</td>
             {{else}}
               <td class="session-list__item--align-center">-</td>
             {{/if}}

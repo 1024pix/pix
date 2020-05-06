@@ -3,7 +3,7 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('PUT /api/sessions/:id/results-sent-to-prescriber', () => {
+describe('PUT /api/jury/sessions/:id/results-sent-to-prescriber', () => {
   let server;
   const options = { method: 'PUT' };
   let userId;
@@ -21,7 +21,7 @@ describe('PUT /api/sessions/:id/results-sent-to-prescriber', () => {
 
     it('should return a 403 error code', async () => {
       // given
-      options.url = '/api/sessions/12/results-sent-to-prescriber';
+      options.url = '/api/jury/sessions/12/results-sent-to-prescriber';
       options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
 
       // when
@@ -46,7 +46,7 @@ describe('PUT /api/sessions/:id/results-sent-to-prescriber', () => {
 
       it('should return a 400 error code', async () => {
         // given
-        options.url = '/api/sessions/any/results-sent-to-prescriber';
+        options.url = '/api/jury/sessions/any/results-sent-to-prescriber';
 
         // when
         const response = await server.inject(options);
@@ -62,7 +62,7 @@ describe('PUT /api/sessions/:id/results-sent-to-prescriber', () => {
 
         it('should return a 404 error code', async () => {
           // given
-          options.url = '/api/sessions/1/results-sent-to-prescriber';
+          options.url = '/api/jury/sessions/1/results-sent-to-prescriber';
 
           // when
           const response = await server.inject(options);
@@ -87,7 +87,7 @@ describe('PUT /api/sessions/:id/results-sent-to-prescriber', () => {
 
           it('should return a 200 status code', async () => {
             // given
-            options.url = `/api/sessions/${sessionId}/results-sent-to-prescriber`;
+            options.url = `/api/jury/sessions/${sessionId}/results-sent-to-prescriber`;
 
             // when
             const response = await server.inject(options);
@@ -98,7 +98,7 @@ describe('PUT /api/sessions/:id/results-sent-to-prescriber', () => {
 
           it('should return the serialized session with an untouched resultsSentToPrescriberAt date', async () => {
             // given
-            options.url = `/api/sessions/${sessionId}/results-sent-to-prescriber`;
+            options.url = `/api/jury/sessions/${sessionId}/results-sent-to-prescriber`;
 
             // when
             const response = await server.inject(options);
@@ -119,7 +119,7 @@ describe('PUT /api/sessions/:id/results-sent-to-prescriber', () => {
 
           it('should return a 201 status code', async () => {
             // given
-            options.url = `/api/sessions/${sessionId}/results-sent-to-prescriber`;
+            options.url = `/api/jury/sessions/${sessionId}/results-sent-to-prescriber`;
 
             // when
             const response = await server.inject(options);
@@ -130,7 +130,7 @@ describe('PUT /api/sessions/:id/results-sent-to-prescriber', () => {
 
           it('should return the serialized session with a defined resultsSentToPrescriberAt date', async () => {
             // given
-            options.url = `/api/sessions/${sessionId}/results-sent-to-prescriber`;
+            options.url = `/api/jury/sessions/${sessionId}/results-sent-to-prescriber`;
 
             // when
             const response = await server.inject(options);

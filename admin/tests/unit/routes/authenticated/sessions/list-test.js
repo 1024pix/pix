@@ -15,7 +15,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
     const expectedQueryArgs = {};
 
     hooks.beforeEach(function() {
-      route.store.query = sinon.stub().resolves();
+      route.store.query = sinon.stub();
       params = {};
       params.pageNumber = 'somePageNumber';
       params.pageSize = 'somePageSize';
@@ -124,6 +124,32 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         // then
         sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
         assert.ok(true);
+      });
+    });
+
+    module('when query to the store throws an error', function() {
+      test('it should return an empty array of sessions', async function(assert) {
+        // given
+        route.store.query.rejects();
+
+        // when
+        const returnedSessions = await route.model({});
+
+        // then
+        assert.deepEqual(returnedSessions, []);
+      });
+    });
+
+    module('when query to the store is successful', function() {
+      test('it should return the result of the store call to query', async function(assert) {
+        // given
+        route.store.query.resolves('someSessions');
+
+        // when
+        const returnedSessions = await route.model({});
+
+        // then
+        assert.equal(returnedSessions, 'someSessions');
       });
     });
 
