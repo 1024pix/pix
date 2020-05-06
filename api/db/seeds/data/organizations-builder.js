@@ -74,4 +74,20 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     userId: user2Id
   });
 
+  const userWithEmailAndUsername = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    firstName: 'Lyanna',
+    lastName: 'Mormont',
+    email: 'lyanna.mormont@example.net',
+    username: 'lyanna.mormont3009',
+    rawPassword: 'Pix123',
+    cgu: false
+  });
+  databaseBuilder.factory.buildSchoolingRegistration({
+    userId: userWithEmailAndUsername.id,
+    firstName: userWithEmailAndUsername.firstName,
+    lastName: userWithEmailAndUsername.lastName,
+    birthdate: '2003-09-30',
+    organizationId: 3,
+  });
+
 };
