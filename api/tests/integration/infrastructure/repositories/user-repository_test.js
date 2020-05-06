@@ -990,6 +990,27 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
+  describe('#acceptPixLastTermsOfService', () => {
+    let userId;
+
+    beforeEach(() => {
+      userId = databaseBuilder.factory.buildUser({ mustValidateTermsOfService: true , lastTermsOfServiceValidatedAt: null }).id;
+      return databaseBuilder.commit();
+    });
+
+    it('should validate the last terms of service and save the date of acceptance ', async () => {
+      // when
+      const actualUser = await userRepository.acceptPixLastTermsOfService(userId);
+
+      // then
+      expect(actualUser.lastTermsOfServiceValidatedAt).to.be.exist;
+      expect(actualUser.lastTermsOfServiceValidatedAt).to.be.a('Date');
+      expect(actualUser.mustValidateTermsOfService).to.be.false;
+
+    });
+
+  });
+
   describe('#updatePixOrgaTermsOfServiceAcceptedToTrue', () => {
     let userId;
 

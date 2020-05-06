@@ -35,6 +35,15 @@ describe('Unit | Adapters | user', function() {
 
   describe('#urlForUpdateRecord', () => {
 
+    it('should redirect to /api/users/{id}/pix-terms-of-service-acceptance', async function() {
+      // when
+      const snapshot = { adapterOptions: { acceptPixTermsOfService: true } };
+      const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
+
+      // then
+      expect(url.endsWith('/users/123/pix-terms-of-service-acceptance')).to.be.true;
+    });
+
     it('should build update url from user id', async function() {
       // when
       const snapshot = { adapterOptions: { } };

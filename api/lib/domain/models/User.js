@@ -13,6 +13,7 @@ class User {
     firstName,
     knowledgeElements,
     lastName,
+    lastTermsOfServiceValidatedAt,
     password,
     samlId,
     hasSeenAssessmentInstructions,
@@ -36,6 +37,7 @@ class User {
     this.email = email ? _.toLower(email) : undefined;
     this.password = password;
     this.cgu = cgu;
+    this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
     this.mustValidateTermsOfService = mustValidateTermsOfService;
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
