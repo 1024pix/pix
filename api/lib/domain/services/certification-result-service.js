@@ -1,6 +1,6 @@
 const {
-  MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_CERTIFIED,
-  MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED,
+  MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED,
+  MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
   PIX_COUNT_BY_LEVEL,
   UNCERTIFIED_LEVEL
 } = require('../constants');
@@ -75,21 +75,21 @@ function _numberOfCorrectAnswersPerCompetence(answers, competence, certification
   return nbOfCorrectAnswers;
 }
 
-function _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, reproductibilityRate) {
+function _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, reproducibilityRate) {
   if (numberOfCorrectAnswers < 2) {
     return competence.pixScore;
   }
-  if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
+  if (reproducibilityRate < MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
     return PIX_COUNT_BY_LEVEL;
   }
   return 0;
 }
 
-function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate) {
+function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproducibilityRate) {
   if (numberOfCorrectAnswers < 2) {
     return UNCERTIFIED_LEVEL;
   }
-  if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
+  if (reproducibilityRate < MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
     return scoringService.getBlockedLevel(competence.estimatedLevel - 1);
   }
   return scoringService.getBlockedLevel(competence.estimatedLevel);
@@ -99,7 +99,7 @@ function _getSumScoreFromCertifiedCompetences(listCompetences) {
   return _(listCompetences).map('obtainedScore').sum();
 }
 
-function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, reproductibilityRate, certificationChallenges, continueOnError) {
+function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, reproducibilityRate, certificationChallenges, continueOnError) {
   return listCompetences.map((competence) => {
     const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answers, competence, certificationChallenges, continueOnError);
     return {
@@ -109,9 +109,9 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
       id: competence.id,
       positionedLevel: scoringService.getBlockedLevel(competence.estimatedLevel),
       positionedScore: competence.pixScore,
-      obtainedLevel: _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate),
+      obtainedLevel: _getCertifiedLevel(numberOfCorrectAnswers, competence, reproducibilityRate),
       obtainedScore: competence.pixScore - _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence,
-        reproductibilityRate),
+        reproducibilityRate),
     };
   });
 }
@@ -137,23 +137,23 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
     CertificationContract.assertThatWeHaveEnoughAnswers(answers, certificationChallenges);
   }
 
-  const reproductibilityRate = Math.round(_computeAnswersSuccessRate(answers));
-  if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_CERTIFIED) {
+  const reproducibilityRate = Math.round(_computeAnswersSuccessRate(answers));
+  if (reproducibilityRate < MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED) {
     return {
       competencesWithMark: _getCompetenceWithFailedLevel(testedCompetences),
       totalScore: 0,
-      percentageCorrectAnswers: reproductibilityRate,
+      percentageCorrectAnswers: reproducibilityRate,
     };
   }
 
-  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answers, testedCompetences, reproductibilityRate, certificationChallenges, continueOnError);
+  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answers, testedCompetences, reproducibilityRate, certificationChallenges, continueOnError);
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
 
   if (!continueOnError) {
-    CertificationContract.assertThatScoreIsCoherentWithReproductibilityRate(scoreAfterRating, reproductibilityRate);
+    CertificationContract.assertThatScoreIsCoherentWithReproducibilityRate(scoreAfterRating, reproducibilityRate);
   }
 
-  return { competencesWithMark, totalScore: scoreAfterRating, percentageCorrectAnswers: reproductibilityRate };
+  return { competencesWithMark, totalScore: scoreAfterRating, percentageCorrectAnswers: reproducibilityRate };
 }
 
 function _getChallengeInformation(listAnswers, certificationChallenges, competences) {

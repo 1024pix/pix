@@ -137,7 +137,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
           nbPix: 1,
           level: originalLevel,
           competenceMarks: [competenceMarkData1, competenceMarkData2],
-          reproducabilityRate: undefined,
           percentageCorrectAnswers: 80
         };
 
@@ -182,7 +181,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
           // then
           expect(certificationScoringCompleted).to.be.instanceof(CertificationScoringCompleted);
-          expect(certificationScoringCompleted).to.deep.equal({ userId: assessmentCompletedEvent.userId, isCertification: assessmentCompletedEvent.isCertification, certificationCourseId: certificationAssessment.certificationCourseId, percentageCorrectAnswers: assessmentScore.percentageCorrectAnswers });
+          expect(certificationScoringCompleted).to.deep.equal({ userId: assessmentCompletedEvent.userId, isCertification: assessmentCompletedEvent.isCertification, certificationCourseId: certificationAssessment.certificationCourseId, reproducibilityRate: assessmentScore.percentageCorrectAnswers });
         });
 
         it('should build and save as many competence marks as present in the assessmentScore', async () => {

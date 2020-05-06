@@ -48,7 +48,7 @@ async function _calculateCertificationScore({
       competenceMarkRepository,
     });
 
-    return new CertificationScoringCompleted({ userId: assessmentCompletedEvent.userId, isCertification: assessmentCompletedEvent.isCertification, certificationCourseId: assessment.certificationCourseId, percentageCorrectAnswers: assessmentScore.percentageCorrectAnswers });
+    return new CertificationScoringCompleted({ userId: assessmentCompletedEvent.userId, isCertification: assessmentCompletedEvent.isCertification, certificationCourseId: assessment.certificationCourseId, reproducibilityRate: assessmentScore.percentageCorrectAnswers });
 
   }
   catch (error) {
