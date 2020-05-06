@@ -10,6 +10,8 @@ export default class LearningMorePanel extends Component {
 
   @computed('learningMoreTutorials.length')
   get hasLearningMoreItems() {
-    return this.learningMoreTutorials.length > 0;
+    const learningMoreTutorials = this.learningMoreTutorials || [];
+
+    return learningMoreTutorials.length > 0;
   }
 }

@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import EmberObject from '@ember/object';
 
 describe('Unit | Component | qrocm-dep-solution-panel', function() {
 
@@ -10,7 +11,7 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
 
     it('should return an array with data to display', function() {
       //Given
-      const challenge = { proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' };
+      const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
       const answer = { value: 'smiley1: \':)\' smiley2: \'\'', result: 'ko' };
 
       const component = this.owner.lookup('component:qrocm-dep-solution-panel');

@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import EmberObject from '@ember/object';
 
 describe('Unit | Component | qrocm-solution-panel', function() {
 
@@ -28,7 +29,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
 
     it('should return an array with data to display (case when the answers are right)', function() {
       //Given
-      challenge = { proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' };
+      challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
       answer = { value: 'smiley1: \':)\' smiley2: \':(\'', resultDetails: 'smiley1: true\nsmiley2: true' };
       solution = 'smiley1: \n - :-)\n - :)\n - :-D\n - :D\n - :))\n\nsmiley2:\n - :-(\n - :(\n - :((';
 
@@ -55,7 +56,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
 
     it('should return an array with data to display (case when there is wrong answers)', function() {
       //Given
-      challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
+      challenge = EmberObject.create({ proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' });
       answer = { value: 'num1: \'1\' num2: \'2\'', resultDetails: 'num1: false\nnum2: false' };
       solution = 'num1: \n - 2\n\nnum2:\n - 1';
       const result = [{
@@ -82,7 +83,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
 
     it('should return an array with data to display (case when there is some empty answer)', function() {
       //Given
-      challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
+      challenge = EmberObject.create({ proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' });
       answer = { value: 'num1: \'\' num2: \'2\'', resultDetails: 'num1: false\nnum2: false' };
       solution = 'num1: \n - 2\n\nnum2:\n - 1';
 
@@ -109,7 +110,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
 
     it('should return an array with data to display (proposals contains a dash ("-"))', function() {
       // given
-      challenge = { proposals: '- alain@pix.fr : ${num1}\n\n- leonie@pix.fr : ${num2}\n\n- Programme_Pix.pdf : ${num3}\n\n- lucie@pix.fr : ${num4}\n\n- Programme du festival Pix : ${num5}\n\n- jeremy@pix.fr : ${num6}' };
+      challenge = EmberObject.create({ proposals: '- alain@pix.fr : ${num1}\n\n- leonie@pix.fr : ${num2}\n\n- Programme_Pix.pdf : ${num3}\n\n- lucie@pix.fr : ${num4}\n\n- Programme du festival Pix : ${num5}\n\n- jeremy@pix.fr : ${num6}' });
       answer = {
         value: 'num1: \'1\' num2: \'2\' num3: \'3\' num4: \'4\' num5: \'5\' num6: \'6\'',
         resultDetails: 'num1: false\nnum2: false\nnum3: false\nnum4: false\nnum5: true\nnum6: false'
@@ -163,7 +164,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
 
     it('should return an array with data to display (proposals are questions)', function() {
       // given
-      challenge = { proposals: '- Combien le dossier "projet PIX" contient-il de dossiers ? ${Num1}\n\n- Combien le dossier "images" contient-il de fichiers ? ${Num2}' };
+      challenge = EmberObject.create({ proposals: '- Combien le dossier "projet PIX" contient-il de dossiers ? ${Num1}\n\n- Combien le dossier "images" contient-il de fichiers ? ${Num2}' });
       answer = { value: 'Num1: \'2\' Num2: \'3\'', resultDetails: 'Num1: false\nNum2: false' };
       solution = 'Num1:\n - 1\n\nNum2:\n - 6';
 
@@ -190,7 +191,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
 
     it('it should return "Pas de réponse" in each answer if the question was passed', function() {
       // given
-      challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
+      challenge = EmberObject.create({ proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' });
       answer = { value: '#ABAND#', resultDetails: 'num1: false\nnum2: false' };
       solution = 'num1: \n - 2\n\nnum2:\n - 1';
 
@@ -221,7 +222,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
 
     it('should return "correction-qroc-box-answer--correct" CSS class when answer is right', function() {
       // given
-      challenge = { proposals: 'Clé USB : ${num1}' };
+      challenge = EmberObject.create({ proposals: 'Clé USB : ${num1}' });
       answer = { value: 'num1: \'2\'', resultDetails: 'num1: true' };
       solution = 'num1: \n - 2';
 
