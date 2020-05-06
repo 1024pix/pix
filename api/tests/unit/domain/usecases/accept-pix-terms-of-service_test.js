@@ -1,24 +1,24 @@
 const { expect, sinon } = require('../../../test-helper');
-const acceptLastPixTermsOfService = require('../../../../lib/domain/usecases/accept-last-pix-terms-of-service');
+const acceptPixLastTermsOfService = require('../../../../lib/domain/usecases/accept-pix-last-terms-of-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
-describe('Unit | UseCase | accept-last-pix-terms-of-service', () => {
+describe('Unit | UseCase | accept-pix-last-terms-of-service', () => {
 
   beforeEach(() => {
-    sinon.stub(userRepository, 'updateLastPixTermsOfServiceAccepted');
+    sinon.stub(userRepository, 'acceptPixLastTermsOfService');
   });
 
   it('should accept terms of service of pix', async () => {
     // given
     const userId = Symbol('userId');
     const updatedUser = Symbol('updateduser');
-    userRepository.updateLastPixTermsOfServiceAccepted.resolves(updatedUser);
+    userRepository.acceptPixLastTermsOfService.resolves(updatedUser);
 
     // when
-    const actualUpdatedUser = await acceptLastPixTermsOfService({ userId, userRepository });
+    const actualUpdatedUser = await acceptPixLastTermsOfService({ userId, userRepository });
 
     // then
-    expect(userRepository.updateLastPixTermsOfServiceAccepted).to.have.been.calledWith(userId);
+    expect(userRepository.acceptPixLastTermsOfService).to.have.been.calledWith(userId);
     expect(actualUpdatedUser).to.equal(updatedUser);
   });
 

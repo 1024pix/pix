@@ -990,7 +990,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#updateLastPixTermsOfServiceAccepted', () => {
+  describe('#acceptPixLastTermsOfService', () => {
     let userId;
 
     beforeEach(() => {
@@ -1000,10 +1000,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     it('should validate the last terms of service and save the date of acceptance ', async () => {
       // when
-      const actualUser = await userRepository.updateLastPixTermsOfServiceAccepted(userId);
+      const actualUser = await userRepository.acceptPixLastTermsOfService(userId);
 
       // then
       expect(actualUser.lastTermsOfServiceValidatedAt).to.be.exist;
+      expect(actualUser.lastTermsOfServiceValidatedAt).to.be.a('Date');
       expect(actualUser.mustValidateTermsOfService).to.be.false;
 
     });

@@ -12,7 +12,7 @@ module.exports = function buildUser(
     username = 'jean.bono1234',
     password = 'liuehrfi128743KUUKNSUkuz12Ukun',
     cgu = true,
-    lastTermsOfServiceValidatedAt,
+    lastTermsOfServiceValidatedAt = null,
     mustValidateTermsOfService = false,
     pixOrgaTermsOfServiceAccepted = false,
     pixCertifTermsOfServiceAccepted = false,

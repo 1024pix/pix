@@ -138,7 +138,7 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#acceptPixTermsOfService', () => {
+  describe('#acceptPixLastTermsOfService', () => {
     let request;
     const userId = 1;
 
@@ -148,20 +148,21 @@ describe('Unit | Controller | user-controller', () => {
         params: { id: userId },
       };
 
-      sinon.stub(usecases, 'acceptLastPixTermsOfService');
+      sinon.stub(usecases, 'acceptPixLastTermsOfService');
       sinon.stub(userSerializer, 'serialize');
     });
 
     it('should accept pix terms of service', async () => {
       // given
-      usecases.acceptLastPixTermsOfService.withArgs({ userId }).resolves({});
-      userSerializer.serialize.withArgs({}).returns('ok');
+      usecases.acceptPixLastTermsOfService.withArgs({ userId }).resolves({});
+      const stubSerializedObject = 'ok';
+      userSerializer.serialize.withArgs({}).returns(stubSerializedObject);
 
       // when
-      const response = await userController.acceptLastPixTermsOfService(request);
+      const response = await userController.accepPixLastTermsOfService(request);
 
       // then
-      expect(response).to.be.equal('ok');
+      expect(response).to.be.equal(stubSerializedObject);
     });
   });
 
