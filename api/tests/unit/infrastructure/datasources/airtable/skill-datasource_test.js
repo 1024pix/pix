@@ -4,7 +4,7 @@ const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const skillDatasource = require('../../../../../lib/infrastructure/datasources/airtable/skill-datasource');
 const skillAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/skillAirtableDataObjectFixture');
-const skillRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
+const { skillRawAirTableFixture } = require('../../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
 const makeAirtableFake = require('../../../../tooling/airtable-builder/make-airtable-fake');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 

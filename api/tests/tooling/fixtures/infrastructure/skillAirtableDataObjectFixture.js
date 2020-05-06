@@ -1,14 +1,16 @@
+const { DEFAULT_TUTORIAL_ID, DEFAULT_PIX_VALUE, DEFAULT_NAME, DEFAULT_LEARNING_TUTORIAL_IDS, DEFAULT_COMPETENCE_ID, DEFAULT_STATUS, DEFAULT_HINT_STATUS, DEFAULT_ID, DEFAULT_HINT, DEFAULT_TUBE_ID }  = require('./skillRawAirTableFixture');
+
 module.exports = function SkillAirtableDataObjectFixture({
-  id = 'recTIddrkopID28Ep',
-  name = '@accesDonnées1',
-  hint = 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?',
-  hintStatus = 'Validé',
-  tutorialIds = ['receomyzL0AmpMFGw'],
-  learningMoreTutorialIds = ['recQbjXNAPsVJthXh', 'rec3DkUX0a6RNi2Hz'],
-  competenceId = 'recofJCxg0NqTqTdP',
-  pixValue = 2.4,
-  status = 'actif',
-  tubeId = 'recofJCazertqTdP',
+  id = DEFAULT_ID,
+  name = DEFAULT_NAME,
+  hint = DEFAULT_HINT,
+  hintStatus = DEFAULT_HINT_STATUS,
+  tutorialIds = [DEFAULT_TUTORIAL_ID],
+  learningMoreTutorialIds = DEFAULT_LEARNING_TUTORIAL_IDS,
+  competenceId = DEFAULT_COMPETENCE_ID,
+  pixValue = DEFAULT_PIX_VALUE,
+  status = DEFAULT_STATUS,
+  tubeId = DEFAULT_TUBE_ID,
 } = {}) {
   return {
     id,
