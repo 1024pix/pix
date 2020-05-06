@@ -18,7 +18,7 @@ const classByResultValue = {
 export default class QrocmDepSolutionPanel extends Component {
   @computed('challenge.proposals', 'answer.value')
   get inputFields() {
-    const escapedProposals = this.challenge.proposals.replace(/(\n\n|\n)/gm, '<br>');
+    const escapedProposals = this.challenge.get('proposals').replace(/(\n\n|\n)/gm, '<br>');
     const labels = labelsAsObject(htmlSafe(escapedProposals).string);
     const answers = answersAsObject(this.answer.value, _.keys(labels));
 
