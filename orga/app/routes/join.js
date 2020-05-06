@@ -11,7 +11,7 @@ export default class JoinRoute extends Route.extend(UnauthenticatedRouteMixin) {
       code: params.code
     }).catch((errorResponse) => {
       errorResponse.errors.forEach((error) => {
-        if (error.status === '421') {
+        if (error.status === '412') {
           this.replaceWith('login', { queryParams: { hasInvitationError: true } });
         }
       });

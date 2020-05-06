@@ -22,7 +22,7 @@ export default class NewController extends Controller {
       .catch((errorResponse) => {
         if (errorResponse.errors && errorResponse.errors.length > 0) {
           errorResponse.errors.forEach((error) => {
-            if (error.status === '421') {
+            if (error.status === '412') {
               return this.get('notifications').sendError('Ce membre a déjà été ajouté.');
             }
             if (error.status === '404') {

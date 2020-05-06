@@ -99,7 +99,7 @@ export default function() {
       return new Response(404, {}, { errors: [ { status: '404', detail: '' } ] });
     }
     if (organizationInvitation.status === 'accepted') {
-      return new Response(421, {}, { errors: [ { status: '421', detail: '' } ] });
+      return new Response(412, {}, { errors: [ { status: '412', detail: '' } ] });
     }
 
     return organizationInvitation;

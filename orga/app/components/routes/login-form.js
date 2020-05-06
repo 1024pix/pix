@@ -33,7 +33,7 @@ export default class LoginForm extends Component {
         await this._acceptOrganizationInvitation(this.organizationInvitationId, this.organizationInvitationCode, email);
       } catch (errorResponse) {
         errorResponse.errors.forEach((error) => {
-          if (error.status === '421') {
+          if (error.status === '412') {
             return this._authenticate(password, email);
           }
         });

@@ -642,7 +642,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       expect(response.statusCode).to.equal(404);
     });
 
-    it('should return 421 error if the user has already participated to the campaign', async () => {
+    it('should return 412 error if the user has already participated to the campaign', async () => {
       // given
       options.payload.data.relationships.campaign.data.id = campaignId;
       databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, campaignId });
@@ -652,7 +652,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(421);
+      expect(response.statusCode).to.equal(412);
     });
   });
 
@@ -741,12 +741,12 @@ describe('Acceptance | API | Campaign Participations', () => {
         };
       });
 
-      it('should return 421 HTTP status code', async () => {
+      it('should return 412 HTTP status code', async () => {
         // when
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(421);
+        expect(response.statusCode).to.equal(412);
       });
     });
   });
