@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.149.0 (06/05/2020)
+
+- [#1293](https://github.com/1024pix/pix/pull/1293) [FEATURE] Evaluer un tutoriel (PF-1095).
+- [#1373](https://github.com/1024pix/pix/pull/1373) [FEATURE] Supprime le terme parcours des messages d'erreurs des pages de réconciliation (PIX-582).
+- [#1371](https://github.com/1024pix/pix/pull/1371) [FEATURE] Supprime le terme parcours des messages d'erreurs des pages de réconciliation (PIX-582).
+- [#1381](https://github.com/1024pix/pix/pull/1381) [BUGFIX] Le résultat de certificat de l'utilisateur ne s'affiche plus (PIX-631)
+- [#1369](https://github.com/1024pix/pix/pull/1369) [BUGFIX] Le changement rapide du contenu de plusieurs filtres dans les listes paginées n'est pas bien géré (PIX-598)
+- [#1323](https://github.com/1024pix/pix/pull/1323) [CLEANUP] Refacto autour des sessions côté PixAdmin (PIX-589)
+- [#1297](https://github.com/1024pix/pix/pull/1297) [INFRA] Ajout d'en-têtes HTTP pour la sécurité
+- [#1370](https://github.com/1024pix/pix/pull/1370) [CLEANUP] Suppression de la feature d'analyse de PV de session dans PixAdmin (PIX-600)
+- [#1344](https://github.com/1024pix/pix/pull/1344) [BSR] Supprimer les actions dépréciées POST et PATCH sur la route user-orga-settings
+- [#1247](https://github.com/1024pix/pix/pull/1247) [DOC] Ajouter des diagrammes de séquence sur la sécurité
+- [#1375](https://github.com/1024pix/pix/pull/1375) [CLEANUP] Suppression d'un appel inutile dans la page challenge (PIX-609).
+
 ## v2.148.0 (04/05/2020)
 
 - [#1332](https://github.com/1024pix/pix/pull/1332) [FEATURE] Permettre de signaler que les utilisateurs non SCO doivent valider les prochaines CGU (PF-1236).
