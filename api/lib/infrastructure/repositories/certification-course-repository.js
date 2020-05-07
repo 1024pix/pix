@@ -1,4 +1,5 @@
 const { _ } = require('lodash');
+const { knex } = require('../bookshelf');
 
 const CertificationCourseBookshelf = require('../data/certification-course');
 const AssessmentBookshelf = require('../data/assessment');
@@ -35,6 +36,18 @@ module.exports = {
       }
       throw bookshelfError;
     }
+  },
+
+  async getCreationDate(id) {
+    const row = await knex('certification-courses')
+      .select('createdAt')
+      .where({ id })
+      .first();
+    if (!row) {
+      throw new NotFoundError(`Certification course of id ${id} does not exist.`);
+    }
+
+    return row.createdAt;
   },
 
   async findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
