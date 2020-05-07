@@ -8,6 +8,7 @@ import { tracked } from '@glimmer/tracking';
 export default class TermsOfServiceController extends Controller {
 
   pageTitle = 'Conditions d\'utilisation';
+  @service session;
   @service currentUser;
   @tracked isTermsOfServiceValidated = false;
   @tracked showErrorTermsOfServiceNotSelected = false;
@@ -17,7 +18,12 @@ export default class TermsOfServiceController extends Controller {
     if (this.isTermsOfServiceValidated) {
       this.showErrorTermsOfServiceNotSelected = false;
       await this.currentUser.user.save({ adapterOptions: { acceptPixTermsOfService: true } });
-      this.transitionToRoute('profile');
+
+      if (this.session.attemptedTransition) {
+        this.session.attemptedTransition.retry();
+      } else {
+        this.transitionToRoute('profile');
+      }
     } else {
       this.showErrorTermsOfServiceNotSelected = true;
     }
