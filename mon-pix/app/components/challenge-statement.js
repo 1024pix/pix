@@ -46,13 +46,13 @@ export default class ChallengeStatement extends Component {
 
   }
 
-  @computed('challenge')
+  @computed('challenge.attachments')
   get attachmentsData() {
     return this.challenge.attachments;
   }
 
   @action
-  selectAttachementUrl(attachementUrl) {
+  chooseAttachmentUrl(attachementUrl) {
     this.set('selectedAttachmentUrl', attachementUrl);
   }
 
