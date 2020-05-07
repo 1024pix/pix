@@ -1,9 +1,14 @@
 .login-form {
-  max-width: 400px;
+  max-width: 450px;
 
   &__information {
-    max-width: 360px;
-    margin-bottom: 20px;
+    text-align: center;
+    margin-bottom: 32px;
+    color: $grey-90;
+    font-family: $roboto;
+    font-size: 0.875rem;
+    letter-spacing: 0.009375rem;
+    line-height: 1.5rem;
   }
 
   &__error-message {
@@ -13,11 +18,12 @@
 
   &__forgotten-password {
     font-size: 0.875rem;
-    text-align: center;
+    text-align: left;
   }
 
   &__button {
     font-weight: 600;
+    margin-top: 8px;
   }
 
   &__invitation-error {
@@ -27,6 +33,19 @@
     margin: 10px 0 16px 0;
     padding: 9px;
     text-align: center;
+  }
+
+  .input-container {
+    margin-bottom: 16px;
+  }
+
+  form {
+    width: 352px;
+    margin: auto;
+
+    .input {
+      padding-left: 16px;
+    }
   }
 }
 
