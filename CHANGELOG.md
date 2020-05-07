@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.150.0 (07/05/2020)
+
+- [#1357](https://github.com/1024pix/pix/pull/1357) [FEATURE]  Ajout de la page /cgu au workflow de connexion (PF-1249). 
+- [#1379](https://github.com/1024pix/pix/pull/1379) [FEATURE] Pouvoir trier la recommandation dans l'onglet analyse (PIX-585).
+- [#1368](https://github.com/1024pix/pix/pull/1368) [FEATURE] Permettre la modification d'une campagne de type collecte de profils (PIX-579).
+- [#1376](https://github.com/1024pix/pix/pull/1376) [FEATURE] Enregister l'acceptation des CGU par l'utilisateur (PF-1235)
+- [#1388](https://github.com/1024pix/pix/pull/1388) [BUGFIX] Deux épreuves avec des fichiers à télécharger ont les mêmes fichiers (PIX-642).
+- [#1385](https://github.com/1024pix/pix/pull/1385) [BUGFIX] Corriger les rem de la communication banner (PIX-646).
+- [#1367](https://github.com/1024pix/pix/pull/1367) [TECH] Regrouper les tests des cas d'erreurs des contrôleurs (PIX-599).
+- [#1360](https://github.com/1024pix/pix/pull/1360) [INFRA] Possibilité d'ajouter des en-têtes HTTP grâce à des variables d'environnement.
+- [#1331](https://github.com/1024pix/pix/pull/1331) [CLEANUP] Convertir les font-size exprimées en px en rem et aligner la valeur du rem de Pix App sur les autres fronts.
+- [#1359](https://github.com/1024pix/pix/pull/1359) [INFRA] Corrige le status code HTTP "precondition failed" (421 -> 412)
+
 ## v2.149.1 (06/05/2020)
 
 - [#1383](https://github.com/1024pix/pix/pull/1383) [BUGFIX] Problème d'affichage des réponses des QROCM (PIX-636).
