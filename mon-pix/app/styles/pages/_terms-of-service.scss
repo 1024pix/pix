@@ -9,10 +9,10 @@
 
 .terms-of-service-form {
   margin: auto;
-  padding: 40px 32px;
+  padding: 40px 88px 48px 88px;
   background: white;
   border-radius: 8px;
-  max-width: 580px;
+  width: 581px;
 
   &__logo {
     margin-bottom: 24px;
@@ -20,35 +20,39 @@
     & img {
       display: flex;
       margin: auto;
+      height: 75px;
     }
 
   }
 
   &__title, &__description, &__conditions {
-    margin-bottom: 30px;
+    margin-bottom: 32px;
     text-align: center;
     color: $grey-80;
     font-family: $font-roboto;
-    font-size: 0.938rem;
+    font-size: 1rem;
     font-weight: normal;
 
   }
 
   &__title {
     font-weight: 300;
-    font-size: 1.56rem;
+    font-size: 2.125rem;
+    margin-bottom: 8px;
+  }
+
+  &__description {
+    margin-bottom: 40px;
   }
 
   &__conditions {
     font-weight: normal;
-    font-size: 0.875rem;
+    font-size: 1rem;
     letter-spacing: 0.009rem;
     text-align: center;
-
   }
 
   &__actions {
-    margin-bottom: 30px;
     text-align: center;
   }
 }
@@ -62,7 +66,6 @@
   &__validation-error {
     color: $red-error;
     font-weight: normal;
-    margin-left: 16px;
     margin-top: 16px;
   }
 }
@@ -72,14 +75,16 @@
   &__submit {
     margin-left: 16px;
     border-radius: 4px;
-    padding: 10px 16px;
+    padding: 14px 21px;
+    font-weight: 400;
 
   }
 
   &__cancel {
     background-color: $grey-50;
     border-radius: 4px;
-    padding: 10px 16px;
+    padding: 14px 36px;
+    font-weight: 400;
 
     &:hover {
       background-color: $gray;
