@@ -4,7 +4,6 @@ import { authenticateByEmail } from '../helpers/authentification';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import visit from '../helpers/visit';
 
 describe('Acceptance | terms-of-service', function() {
   setupApplicationTest();
@@ -20,14 +19,24 @@ describe('Acceptance | terms-of-service', function() {
     });
   });
 
-  describe('Navigation buttons when user is authenticated', async function() {
+  describe('When user log in and must validate Pix latest terms of service', async function() {
 
-    it('should be redirect to profile page when user validate terms of service ', async function() {
+    it('should be redirected to terms-of-services page', async function() {
+      // when
+      await authenticateByEmail(user);
+
+      // then
+      expect(currentURL()).to.equal('/cgu');
+    });
+  });
+
+  describe('when the user has validated terms of service', async function() {
+
+    it('should be redirected to profile page when user validate terms of service ', async function() {
       // given
       await authenticateByEmail(user);
 
       // when
-      await visit('/cgu');
       await click('#pix-cgu');
       await click('.terms-of-service-form-actions__submit');
 

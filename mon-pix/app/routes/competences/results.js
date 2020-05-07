@@ -1,10 +1,10 @@
 import classic from 'ember-classic-decorator';
-import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
 import Route from '@ember/routing/route';
 
 @classic
-export default class ResultsRoute extends Route.extend(AuthenticatedRouteMixin) {
+export default class ResultsRoute extends Route.extend(SecuredRouteMixin) {
   async model(params) {
     const competenceEvaluations = await this.store.query('competenceEvaluation', {
       filter: {
