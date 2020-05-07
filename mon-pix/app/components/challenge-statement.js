@@ -13,10 +13,10 @@ export default class ChallengeStatement extends Component {
 
   challenge = null;
   assessment = null;
-  selectedAttachmentUrl = null;
 
-  didReceiveAttrs() {
-    this.selectedAttachmentUrl =  _.get(this.challenge, 'attachments.firstObject');
+  @computed('challenge.attachments')
+  get selectedAttachmentUrl() {
+    return  _.get(this.challenge, 'attachments.firstObject');
   }
 
   @computed('challenge.instruction')
@@ -46,7 +46,7 @@ export default class ChallengeStatement extends Component {
 
   }
 
-  @computed('challenge.attachments')
+  @computed('challenge')
   get attachmentsData() {
     return this.challenge.attachments;
   }
