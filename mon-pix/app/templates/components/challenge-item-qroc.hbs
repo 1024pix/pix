@@ -1,47 +1,58 @@
-{{#if hasChallengeTimer}}
-  {{#unless hasUserConfirmWarning}}
-    <WarningPage @hasUserConfirmWarning={{action "setUserConfirmation"}} @time={{challenge.timer}} />
+{{#if this.hasChallengeTimer}}
+  {{#unless this.hasUserConfirmWarning}}
+    <WarningPage @hasUserConfirmWarning={{action "setUserConfirmation"}} @time={{@challenge.timer}} />
   {{/unless}}
 {{/if}}
 
-{{#unless hasChallengeTimer}}
+{{#unless this.hasChallengeTimer}}
   <form {{action "validateAnswer" on="submit"}} class="rounded-panel">
-    <ChallengeStatement @challenge={{challenge}} @assessment={{assessment}} @class="rounded-panel__row" />
+    <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} @class="rounded-panel__row" />
 
-    <div class="rounded-panel__row challenge-response {{if answer 'challenge-response--locked'}}">
+    <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
       <div class="challenge-proposals">
-        <QrocProposal @answer={{answer}} @format={{challenge.format}} @proposals={{challenge.proposals}} @answerValue={{answer.value}} @answerChanged={{action "answerChanged"}} />
+        <QrocProposal @answer={{@answer}}
+                      @format={{@challenge.format}}
+                      @proposals={{@challenge.proposals}}
+                      @answerValue={{@answer.value}}
+                      @answerChanged={{action "answerChanged"}} />
       </div>
 
-      {{#if answer}}
+      {{#if @answer}}
         <div class="challenge-response__locked-overlay">
-          {{fa-icon 'lock' class='challenge-response-locked__icon'}}
+          <FaIcon @icon='lock' class='challenge-response-locked__icon' />
         </div>
       {{/if}}
 
-      {{#if challenge.timer}}
-        {{#if hasUserConfirmWarning}}
+      {{#if @challenge.timer}}
+        {{#if this.hasUserConfirmWarning}}
           <div class="timeout-jauge-wrapper">
-            <TimeoutJauge @allotedTime={{challenge.timer}} />
+            <TimeoutJauge @allotedTime={{@challenge.timer}} />
           </div>
         {{/if}}
       {{/if}}
     </div>
 
-    {{#if errorMessage}}
+    {{#if this.errorMessage}}
       <div class="alert alert-danger" role="alert">
-        {{errorMessage}}
+        {{this.errorMessage}}
       </div>
     {{/if}}
 
-    {{#if assessment}}
-      <ChallengeActions @challenge={{challenge}} @answer={{answer}} @resumeAssessment={{action "resumeAssessment"}} @validateAnswer={{action "validateAnswer"}} @skipChallenge={{action "skipChallenge"}} @isValidateButtonEnabled={{isValidateButtonEnabled}} @isSkipButtonEnabled={{isSkipButtonEnabled}} @class="rounded-panel__row" />
+    {{#if @assessment}}
+      <ChallengeActions @challenge={{@challenge}}
+                        @answer={{@answer}}
+                        @resumeAssessment={{action "resumeAssessment"}}
+                        @validateAnswer={{action "validateAnswer"}}
+                        @skipChallenge={{action "skipChallenge"}}
+                        @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+                        @isSkipButtonEnabled={{this.isSkipButtonEnabled}}
+                        @class="rounded-panel__row" />
     {{/if}}
   </form>
 {{/unless}}
 
-{{#if canDisplayFeedbackPanel}}
+{{#if this.canDisplayFeedbackPanel}}
   <div class="challenge-item__feedback">
-    <FeedbackPanel @assessment={{assessment}} @challenge={{challenge}} @isFormOpened={{false}} />
+    <FeedbackPanel @assessment={{@assessment}} @challenge={{@challenge}} @isFormOpened={{false}} />
   </div>
 {{/if}}
