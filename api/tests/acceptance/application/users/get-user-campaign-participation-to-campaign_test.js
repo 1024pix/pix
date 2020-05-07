@@ -49,9 +49,6 @@ describe('Acceptance | Route | GET /users/id/campaigns/id/campaign-participation
             campaign: {
               data: null
             },
-            user: {
-              data: null
-            },
             'campaign-participation-result': {
               links: {
                 'related': `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`

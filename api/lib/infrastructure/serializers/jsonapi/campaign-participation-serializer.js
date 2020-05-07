@@ -9,6 +9,9 @@ module.exports = {
     return new Serializer('campaign-participation',
       {
         transform: (campaignParticipation) => {
+          if (!campaignParticipation.user) {
+            delete campaignParticipation.user;
+          }
           const campaignParticipationForSerialization = Object.assign({}, campaignParticipation);
 
           if (campaignParticipation.lastAssessment) {
