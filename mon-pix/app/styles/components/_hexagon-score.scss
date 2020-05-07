@@ -13,20 +13,20 @@
 @mixin hexagon-score-title {
   color: $nero;
   font-family: $font-roboto;
-  font-size: 1.4rem;
-  letter-spacing: 0.35rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.219rem;
 }
 
 @mixin hexagon-score-pix-score {
   color: $black;
   font-family: $font-open-sans;
-  font-size: 4.6rem;
+  font-size: 2.875rem;
 }
 
 @mixin hexagon-score-pix-total {
   color: $dove-gray;
   font-family: $font-roboto;
-  font-size: 1.3rem;
+  font-size: 0.813rem;
   border-top: 1px solid $dusty-grey;
 }
 
@@ -101,8 +101,8 @@
 
 .hexagon-score-information__text {
   font-family: $font-open-sans;
-  font-size: 1.6rem;
-  line-height: 2.2rem;
+  font-size: 1rem;
+  line-height: 1.375rem;
 
   &--strong {
     font-weight: $font-bold;
@@ -110,7 +110,7 @@
 }
 .hexagon-score-information__close {
   float: right;
-  font-size: 2rem;
+  font-size: 1.25rem;
   padding: 10px;
   margin-top: -10px;
   @include device-is('desktop') {

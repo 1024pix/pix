@@ -49,20 +49,20 @@
   }
 
   &__title {
-    font-size: 3rem;
+    font-size: 1.875rem;
     font-weight: $font-light;
 
     @include device-is('tablet') {
-      font-size: 4.8rem;
+      font-size: 3rem;
     }
   }
 
   &__announcement {
-    font-size: 1.8rem;
+    font-size: 1.125rem;
   }
 
   &__legal {
-    font-size: 1.2rem;
+    font-size: 0.75rem;
     color: $dove-gray;
   }
 }
@@ -72,7 +72,7 @@
   margin: auto;
   padding: 5px;
   font-family: $font-open-sans;
-  font-size: 1.6rem;
+  font-size: 1rem;
   text-align: left;
 
   strong {
@@ -80,15 +80,15 @@
   }
 
   h1 {
-    font-size: 3rem;
+    font-size: 1.875rem;
   }
 
   h2 {
-    font-size: 2.5rem;
+    font-size: 1.563rem;
   }
 
   h3 {
-    font-size: 2rem;
+    font-size: 1.25rem;
   }
 }
 
@@ -114,28 +114,28 @@
   font-family: $font-open-sans;
 
   .title {
-    font-size: 2.2rem;
+    font-size: 1.375rem;
     font-weight: $font-light;
     text-align: center;
   }
 
   .article-title {
     color: $nero;
-    font-size: 2.4rem;
+    font-size: 1.5rem;
     font-weight: $font-semi-bold;
     line-height: 30px;
   }
 
   .article-list {
     color: $nero;
-    font-size: 1.4rem;
+    font-size: 0.875rem;
     line-height: 22px;
   }
 
   .article-text {
     margin: auto;
     color: $nero;
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 24px;
   }
 
@@ -181,7 +181,7 @@
   padding-bottom: 50px;
 
   .title {
-    font-size: 2.2rem;
+    font-size: 1.375rem;
     font-weight: $font-light;
     text-align: center;
   }

@@ -7,7 +7,7 @@
   &__login-options {
     margin-bottom: 5px;
     display: inline-block;
-    font-size: 1.4rem;
+    font-size: 0.875rem;
     font-family: $font-roboto;
     font-weight: $font-bold;
     color: $grayish-grey;
@@ -16,7 +16,7 @@
   &__required-inputs {
     color: $dove-gray;
     font-family: $font-roboto;
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-weight: $font-normal;
   }
 
@@ -63,7 +63,7 @@
     align-items: center;
     margin: 4px 0;
     font-family: $font-roboto;
-    font-size: 1.4rem;
+    font-size: 0.875rem;
   }
 
   &__return-button:hover {
@@ -75,7 +75,7 @@
   &__error {
     text-align: center;
     color: $pure-orange;
-    font-size: 1.5rem;
+    font-size: 0.938rem;
     padding: 4px 10px;
 
     @include device-is('tablet') {

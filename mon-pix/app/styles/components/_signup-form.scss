@@ -16,7 +16,7 @@
   }
 
   &__cgu {
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-weight: $font-medium;
   }
 
@@ -31,9 +31,9 @@
 
   &__cgu-label span {
     color: $charcoal-grey;
-    font-size: 13px;
+    font-size: 0.813rem;
     @include device-is('tablet') {
-      font-size: 14px;
+      font-size: 0.875rem;
     }
   }
 
@@ -41,7 +41,7 @@
     display: block;
     max-width: 100%;
     padding: 10px;
-    font-size: 1.2rem;
+    font-size: 0.75rem;
 
     @include device-is('tablet') {
       padding: 10px 0;

@@ -67,8 +67,8 @@
 }
 
 .competence-card__area-name {
-  font-size: 1.1rem;
-  letter-spacing: 0.05rem;
+  font-size: 0.688rem;
+  letter-spacing: 0.031rem;
   opacity: 0.8;
   text-transform: uppercase;
   position: relative;
@@ -76,7 +76,7 @@
 }
 
 .competence-card__competence-name {
-  font-size: 1.8rem;
+  font-size: 1.125rem;
   font-weight: $font-medium;
   position: relative;
 }
@@ -120,7 +120,7 @@
 
 .competence-card__score-value {
   min-height: 44px;
-  font-size: 3.5rem;
+  font-size: 2.188rem;
 
   &--congrats {
     color: $white;

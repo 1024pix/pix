@@ -1,5 +1,5 @@
 .challenge-response {
-  font-size: 15px;
+  font-size: 0.938rem;
   background-color: $porcelain-grey;
   margin: 6px;
 
@@ -8,7 +8,7 @@
   }
 
   @include device-is('desktop') {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 
   &__proposal {
@@ -18,7 +18,7 @@
 }
 
 .challenge-response__proposal {
-  font-size: 2rem;
+  font-size: 1.25rem;
   color: $charcoal-grey;
 
   &--paragraph {
@@ -44,7 +44,7 @@
   width: 100%;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  line-height: 2.6rem;
+  line-height: 1.625rem;
 }
 
 form .challenge-response {
@@ -78,7 +78,7 @@ form .challenge-response.challenge-response--locked {
 
 form .challenge-response-locked {
   &__icon {
-    font-size: 5rem;
+    font-size: 3.125rem;
     opacity: 1;
 
     &:hover {

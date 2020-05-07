@@ -9,30 +9,30 @@ h6 {
 }
 
 h3 {
-  font-size: 2.6rem;
+  font-size: 1.625rem;
   color: $grey-90;
   font-family: $font-open-sans;
   font-weight: $font-light;
-  letter-spacing: 0.015rem;
-  line-height: 4.4rem;
+  letter-spacing: 0.009rem;
+  line-height: 2.75rem;
 
   @include device-is('tablet') {
-    font-size: 3.2rem;
-    line-height: 5.4rem;
+    font-size: 2rem;
+    line-height: 3.375rem;
   }
 }
 
 h4 {
-  font-size: 2.4rem;
+  font-size: 1.5rem;
   color: $grey-90;
   font-family: $font-open-sans;
   font-weight: $font-normal;
   letter-spacing: 0;
-  line-height: 3.6rem;
+  line-height: 2.25rem;
   margin-block-start: 0;
   margin-block-end: 0;
 
   @include device-is('tablet') {
-    line-height: 4.0rem;
+    line-height: 2.5rem;
   }
 }

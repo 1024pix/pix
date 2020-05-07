@@ -8,8 +8,8 @@
   max-width:370px;
 
   color: $charcoal-grey;
-  font-size: 1.8rem;
-  line-height: 2.6rem;
+  font-size: 1.125rem;
+  line-height: 1.625rem;
   margin-bottom: 40px;
 
   @include device-is('desktop') {
@@ -17,14 +17,14 @@
   }
 
   &__pix-score{
-    margin-bottom: 1.25rem;
-    width: 27rem;
+    margin-bottom: 0.781rem;
+    width: 16.875rem;
   }
 
   &__badge-pix-score{
-    width: 13rem;
-    height: 13rem;
-    padding-top: 4.7rem;
+    width: 8.125rem;
+    height: 8.125rem;
+    padding-top: 2.938rem;
     float: left;
 
     background: url('/images/pix-pastille-certif.svg') no-repeat;
@@ -34,12 +34,12 @@
     display: table;
 
     span {
-      height: 1.75rem;
-      width: 2.81rem;
+      height: 1.094rem;
+      width: 1.756rem;
       color: $tundora-grey;
-      font-size: 3rem;
+      font-size: 1.875rem;
       font-weight: bold;
-      line-height: 2.06rem;
+      line-height: 1.288rem;
       text-align: center;
 
     }
@@ -47,24 +47,24 @@
 
   &__pix-certified {
     color: $tundora-grey;
-    font-size: 2.5rem;
+    font-size: 1.563rem;
     font-weight: bold;
-    line-height: 1.75rem;
-    margin-top: 4.8rem;
+    line-height: 1.094rem;
+    margin-top: 3rem;
     text-align: right;
   }
 
   &__separation{
     clear: both;
     position: absolute;
-    height: 14rem;
-    margin-top: 0.8rem;
-    width : 0.25rem;
+    height: 8.75rem;
+    margin-top: 0.5rem;
+    width : 0.156rem;
     background: black;
   }
 
   &__text-pix-certified {
-    padding-left: 1.25rem;
+    padding-left: 0.781rem;
 
     border-left-style: solid;
     border-left-color: $charcoal-grey;
@@ -79,9 +79,9 @@
   &__title-comment-jury {
     color: $raven-grey;
     font-family: $font-open-sans;
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-weight: $font-medium;
-    line-height: 2.6rem;
+    line-height: 1.625rem;
   }
 
   hr {

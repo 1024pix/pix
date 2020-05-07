@@ -16,7 +16,7 @@
   &__instruction {
     color: $nero;
     font-family: $font-open-sans;
-    font-size: 1.95rem;
+    font-size: 1.219rem;
     text-align: center;
     font-weight: $font-light;
     margin-bottom: 16px;
@@ -42,7 +42,7 @@
         transparent 1.5ch) 0 96%/98% 2px no-repeat;
       background-origin: content-box;
       color: $tundora-grey;
-      font-size: 3rem;
+      font-size: 1.875rem;
       font-family: $font-roboto-mono;
       letter-spacing: .5ch;
 
@@ -83,7 +83,7 @@
 
   &__error {
     color: $pure-orange;
-    font-size: 1.4rem;
+    font-size: 0.875rem;
     padding: 16px 10px;
     text-align: center;
   }

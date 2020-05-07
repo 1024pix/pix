@@ -6,7 +6,7 @@
   max-width: 990px;
   width: 100%;
   margin: -150px auto;
-  line-height: 3rem;
+  line-height: 1.875rem;
   background-color: $white;
   padding-top: 10px;
 
@@ -18,22 +18,22 @@
 .result-content__panel-title {
   color: $grayish-grey;
   font-family: $font-open-sans;
-  font-size: 2.5rem;
+  font-size: 1.563rem;
   font-weight: $font-bold;
-  line-height: 4rem;
+  line-height: 2.5rem;
   text-align: center;
   margin-top: 11px;
 
   @include device-is('tablet') {
-    font-size: 30px;
+    font-size: 1.875rem;
   }
 }
 
 .result-content__panel-description {
   color: $charcoal-grey;
   font-family: $font-open-sans;
-  font-size: 2rem;
-  line-height: 3rem;
+  font-size: 1.25rem;
+  line-height: 1.875rem;
   text-align: center;
   margin-top: 21px;
   padding: 0 3px;
@@ -42,25 +42,25 @@
 
 .result-content__panel-description-supervisor {
   color: $pure-orange;
-  font-size: 2rem;
+  font-size: 1.25rem;
   font-weight: bold;
-  line-height: 3rem;
+  line-height: 1.875rem;
   text-align: center;
   margin-top: 21px;
   padding: 0 3px;
 }
 
 .result-content__warning-container {
-  padding-top: 5rem;
+  padding-top: 3.125rem;
   text-align: center;
 }
 
 .result-content__warning-text {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 0.938rem;
   color: $charcoal-grey;
   line-height: normal;
-  padding-left: 1rem;
+  padding-left: 0.625rem;
   padding-bottom: 30px;
 }
 
@@ -71,7 +71,7 @@
 .result-content__button {
   border: none;
   display: block;
-  font-size: 1.3rem;
+  font-size: 0.813rem;
   text-transform: uppercase;
   font-weight: $font-bold;
   text-align: center;
