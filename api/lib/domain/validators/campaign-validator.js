@@ -44,7 +44,7 @@ const campaignValidationJoiSchema = Joi.object({
     .when('$type', {
       switch: [{
         is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
-        then: Joi.forbidden(),
+        then: Joi.valid(null).optional(),
       }, {
         is: Joi.string().required().valid(Campaign.types.ASSESSMENT),
         then: Joi.required(),
@@ -54,7 +54,7 @@ const campaignValidationJoiSchema = Joi.object({
     .messages({
       'any.required': 'Veuillez sélectionner un profil cible pour votre campagne.',
       'number.base': 'Veuillez sélectionner un profil cible pour votre campagne.',
-      'any.unknown': 'Un profil cible n’est pas autorisé pour les campagnes de collecte de profils.'
+      'any.only': 'Un profil cible n’est pas autorisé pour les campagnes de collecte de profils.'
     }),
 
   idPixLabel: Joi.string()
