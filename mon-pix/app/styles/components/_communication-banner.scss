@@ -4,16 +4,16 @@
   height: 56px;
   font-family: $font-open-sans;
   font-weight: 400;
-  line-height: 1.5rem;
-  font-size: 1rem;
+  line-height: 0.938rem;
+  font-size: 0.625rem;
   padding: 10px 0;
   display: flex;
   align-items: center;
   justify-content: center;
 
   @include device-is('tablet') {
-    font-size: 1.6rem;
-    line-height: 2rem;
+    font-size: 1rem;
+    line-height: 1.25rem;
   }
 
   &__icon {
