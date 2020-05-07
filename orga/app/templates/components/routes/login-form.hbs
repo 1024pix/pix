@@ -1,6 +1,6 @@
 <div class="login-form">
-  <div class="login-form__information paragraph">Vous avez déjà un compte sur Pix.fr ? Vous pouvez utiliser ce compte
-    pour rejoindre l'espace organisation.
+  <div class="login-form__information">
+    L'accès à Pix Orga est limité aux membres invités. Contactez l’administrateur Pix Orga de votre organisation pour qu'il vous invite.
   </div>
 
   {{#if @hasInvitationError}}
@@ -59,9 +59,10 @@
       {{/if}}
     </div>
 
+    <div class="login-form__forgotten-password help-text">
+      <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank" rel="noopener noreferrer" class="link">Mot de passe oublié ?</a>
+    </div>
   </form>
 
-  <div class="login-form__forgotten-password help-text">
-    <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank" rel="noopener noreferrer" class="link">J'ai oublié mon mot de passe</a>
-  </div>
+
 </div>
