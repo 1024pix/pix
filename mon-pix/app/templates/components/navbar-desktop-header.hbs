@@ -28,9 +28,11 @@
       {{/if}}
     {{/unless}}
 
-    <LinkTo @route="campaigns" class="button button--extra-thin button--link">
-      J'ai un code
-    </LinkTo>
+    {{#if isUserLogged}}
+      <LinkTo @route="campaigns" class="button button--extra-thin button--link">
+        J'ai un code
+      </LinkTo>
+    {{/if}}
 
     <!-- Links (right) -->
     <div class="navbar-desktop-header-right">
