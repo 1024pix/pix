@@ -71,6 +71,19 @@ td, th {
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  &--clickable {
+    cursor: pointer;
+
+    &--icon {
+      margin-left: 8px;
+    }
+  }
+}
+
+.column__icon {
+  font-size: 0.9rem;
+  color: inherit;
 }
 
 .table__row {
