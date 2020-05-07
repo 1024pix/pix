@@ -29,13 +29,20 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
       userId: null,
       organizationId: null
     });
+
+    this.server.schema.users.create({
+      mustValidateTermsOfService: true
+    });
   });
 
   describe('Start a campaign', function() {
     let prescritUser;
 
     beforeEach(function() {
-      prescritUser = server.create('user', 'withEmail');
+      prescritUser = server.create('user', 'withEmail', {
+        mustValidateTermsOfService: false,
+        lastTermsOfServiceValidatedAt: null
+      });
     });
 
     context('When user is not logged in', function() {
@@ -93,6 +100,29 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
                 // then
                 expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/rejoindre`.toLowerCase());
+              });
+            });
+
+            context('When user must accept Pix last terms of service', async function() {
+
+              it('should redirect to campaign landing page after accept terms of service', async function() {
+                // given
+                await visit('/campagnes');
+                prescritUser.mustValidateTermsOfService = true;
+                await fillIn('#campaign-code', campaign.code);
+                await click('.fill-in-campaign-code__start-button');
+                await click('#login-button');
+                await fillIn('#login', prescritUser.email);
+                await fillIn('#password', prescritUser.password);
+                await click('#submit-connexion');
+
+                // when
+                await click('#pix-cgu');
+                await click('.terms-of-service-form-actions__submit');
+
+                // then
+                expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/rejoindre`.toLowerCase());
+
               });
             });
 
