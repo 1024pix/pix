@@ -42,6 +42,10 @@ describe('Integration | Component | navbar-desktop-header', function() {
       // then
       expect(find('.navbar-menu-signin-link')).to.exist;
     });
+
+    it('should not display the link "J\'ai un code"', function() {
+      expect(find('.button')).not.to.exist;
+    });
   });
 
   context('When user is logged', function() {
@@ -63,6 +67,10 @@ describe('Integration | Component | navbar-desktop-header', function() {
 
     it('should be rendered', function() {
       expect(find('.navbar-desktop-header')).to.exist;
+    });
+
+    it('should display the link "J\'ai un code"', function() {
+      expect(find('.button').textContent.trim()).to.equal('J\'ai un code');
     });
 
     it('should display the Pix logo', function() {
