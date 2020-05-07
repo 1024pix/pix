@@ -15,17 +15,19 @@
       />
     </div>
 
-    <div class="form__field">
-      <label for="campaign-title" class="label">Titre du parcours</label>
-      <Input
-        @id="campaign-title"
-        @name="campaign-title"
-        @type="text"
-        @class="input"
-        @maxlength="50"
-        @value={{@campaign.title}}
-      />
-    </div>
+    {{#if @campaign.isTypeAssessment}}
+      <div class="form__field">
+        <label for="campaign-title" class="label">Titre du parcours</label>
+        <Input
+          @id="campaign-title"
+          @name="campaign-title"
+          @type="text"
+          @class="input"
+          @maxlength="50"
+          @value={{@campaign.title}}
+        />
+      </div>
+    {{/if}}
 
     <div class="form__field">
       <label for="campaign-custom-landing-page-text" class="label">Texte de la page d'accueil</label>

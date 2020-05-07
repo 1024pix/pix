@@ -1,4 +1,5 @@
 const { UserNotAuthorizedToUpdateResourceError } = require('../errors');
+const campaignValidator = require('../validators/campaign-validator');
 
 module.exports = async function updateCampaign(
   {
@@ -25,6 +26,8 @@ module.exports = async function updateCampaign(
   if (name !== undefined) campaign.name = name;
   if (title !== undefined) campaign.title = title;
   if (customLandingPageText !== undefined) campaign.customLandingPageText = customLandingPageText;
+
+  campaignValidator.validate(campaign);
 
   await campaignRepository.update(campaign);
 

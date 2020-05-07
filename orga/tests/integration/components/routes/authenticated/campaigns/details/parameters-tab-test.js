@@ -182,13 +182,10 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
   });
 
   module('on Modify action display', function() {
-    module('when type campaign can be archived', function() {
+    module('when the campaign is not archived', function() {
       test('it should display the button modify', async function(assert) {
         // given
-        const campaign = store.createRecord('campaign', {
-          type: 'ASSESSMENT',
-          archivedAt: null,
-        });
+        const campaign = store.createRecord('campaign', { isArchived: false });
 
         this.set('campaign', campaign);
 
@@ -200,12 +197,10 @@ module('Integration | Component | routes/authenticated/campaign/details | parame
       });
     });
 
-    module('when type campaign cannot archived', function() {
-      test('it should hide the button modify', async function(assert) {
+    module('when the campaign is archived', function() {
+      test('it should not display the button modify', async function(assert) {
         // given
-        const campaign = store.createRecord('campaign', {
-          type: 'PROFILES_COLLECTION',
-        });
+        const campaign = store.createRecord('campaign', { isArchived: true });
 
         this.set('campaign', campaign);
 
