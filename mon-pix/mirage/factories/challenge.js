@@ -88,6 +88,22 @@ export default Factory.extend({
     timer: faker.random.number(),
   }),
 
+  QROCwithFile1: trait({
+    type: 'QROC',
+    instruction: 'Un QROC avec deux fichiers',
+    attachments: ['file1.docx', 'file1.odt'],
+    'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
+    proposals: 'Entrez la premiere ligne ${ligne1}'
+  }),
+
+  QROCwithFile2: trait({
+    type: 'QROC',
+    instruction: 'Un QROC avec deux fichiers, deuxieme version',
+    attachments: ['file2.docx', 'file2.odt'],
+    'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
+    proposals: 'Entrez la premiere ligne ${ligne2}'
+  }),
+
   withAttachment: trait({
     attachments: [faker.internet.url()],
   }),

@@ -1,4 +1,4 @@
-import { click, find, findAll, fillIn } from '@ember/test-helpers';
+import { click, find, findAll, fillIn, currentURL } from '@ember/test-helpers';
 import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
 import visit from '../helpers/visit';
@@ -56,6 +56,39 @@ describe('Acceptance | Displaying a QROC', function() {
 
       expect(find('.alert')).to.exist;
       expect(find('.alert').textContent.trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
+    });
+
+  });
+
+  context('Two challenges with download file', () => {
+    let qrocWithFile1Challenge, qrocWithFile2Challenge;
+
+    beforeEach(async function() {
+      qrocWithFile1Challenge = server.create('challenge', 'forDemo', 'QROCwithFile1');
+      qrocWithFile2Challenge = server.create('challenge', 'forDemo', 'QROCwithFile2');
+      assessment = server.create('assessment', 'ofDemoType');
+
+      await visit(`/assessments/${assessment.id}/challenges/${qrocWithFile1Challenge.id}`);
+    });
+
+    it('should display the correct challenge for first one', async function() {
+      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qrocWithFile1Challenge.instruction);
+      expect(find('.challenge-statement__action-link').href).to.contains(qrocWithFile1Challenge.attachments[0]);
+
+      await click(find('#attachment1'));
+      expect(find('.challenge-statement__action-link').href).to.contains(qrocWithFile1Challenge.attachments[1]);
+    });
+
+    it('should display the error alert if the users tries to validate an empty answer', async function() {
+      await click(find('.challenge-actions__action-skip'));
+
+      expect(currentURL()).to.equal(`/assessments/${assessment.id}/challenges/${qrocWithFile2Challenge.id}`);
+      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qrocWithFile2Challenge.instruction);
+      expect(find('.challenge-statement__action-link').href).to.contains(qrocWithFile2Challenge.attachments[0]);
+
+      await click(find('#attachment1'));
+      expect(find('.challenge-statement__action-link').href).to.contains(qrocWithFile2Challenge.attachments[1]);
+
     });
 
   });
