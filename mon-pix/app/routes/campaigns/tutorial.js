@@ -1,9 +1,9 @@
 import Route from '@ember/routing/route';
-import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import campaignTutorial from 'mon-pix/static-data/campaign-tutorial';
 import { inject as service } from '@ember/service';
 
-export default Route.extend(AuthenticatedRouteMixin, {
+export default Route.extend(SecuredRouteMixin, {
 
   currentUser: service(),
 
