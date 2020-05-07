@@ -1,4 +1,6 @@
-module.exports = function usersBuilder({ databaseBuilder }) {
+const PIX_MASTER_ID = 5;
+
+function usersBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildUser.withUnencryptedPassword({
     id: 3,
@@ -19,7 +21,7 @@ module.exports = function usersBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildUser.withUnencryptedPassword({
-    id: 5,
+    id: PIX_MASTER_ID,
     firstName: 'Pix',
     lastName: 'Master',
     email: 'pixmaster@example.net',
@@ -88,4 +90,17 @@ module.exports = function usersBuilder({ databaseBuilder }) {
   };
   databaseBuilder.factory.buildUser.withUnencryptedPassword(userWithLastTermsOfServiceNotValidated);
 
+  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    id: 200,
+    firstName: 'Pix',
+    lastName: 'Masteur',
+    rawPassword: 'pix123',
+    email: 'pixmasteur@example.net',
+    cgu: true,
+  });
+}
+
+module.exports = {
+  usersBuilder,
+  PIX_MASTER_ID,
 };

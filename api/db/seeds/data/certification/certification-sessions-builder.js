@@ -1,4 +1,5 @@
 const { SCO_CERTIF_CENTER_ID, SCO_CERTIF_CENTER_NAME } = require('./certification-centers-builder');
+const { PIX_MASTER_ID } = require('./../users-builder');
 const EMPTY_SESSION_ID = 1;
 const STARTED_SESSION_ID = 2;
 const STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID = 3;
@@ -61,10 +62,11 @@ function certificationSessionsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildSession({
     id: PROBLEMS_FINALIZED_SESSION_ID,
     certificationCenter, certificationCenterId, address, room, examiner, date , time,
-    description: 'Session finalisée à problèmes !',
+    description: 'Session finalisée à problèmes et assignée !',
     accessCode: 'ANNE06',
     examinerGlobalComment: 'Une météorite est tombée sur le centre de certification pendant la session !!',
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
+    assignedCertificationOfficerId: PIX_MASTER_ID,
   });
 
   databaseBuilder.factory.buildSession({

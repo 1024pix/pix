@@ -22,7 +22,7 @@ const organizationsBuilder = require('./data/organizations-builder');
 const pixAileBuilder = require('./data/pix-aile-builder');
 const { pixEmploiTargetProfileBuilder } = require('./data/pix-emploi-target-profile-builder');
 const targetProfilesBuilder = require('./data/target-profiles-builder');
-const usersBuilder = require('./data/users-builder');
+const { usersBuilder } = require('./data/users-builder');
 const usersPixRolesBuilder = require('./data/users_pix_roles-builder');
 
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
