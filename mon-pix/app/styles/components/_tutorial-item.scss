@@ -22,8 +22,8 @@
 
 .tutorial-content {
   &__title {
-    font-size: 1.8rem;
-    line-height: 3rem;
+    font-size: 1.125rem;
+    line-height: 1.875rem;
     letter-spacing: 0;
     color: $grey-90;
     margin-bottom: 4px;
@@ -36,11 +36,11 @@
   }
 
   &__description {
-    font-size: 1.4rem;
+    font-size: 0.875rem;
     font-family: $font-roboto;
     font-weight: $font-normal;
     color: $grey-45;
-    line-height: 2.4rem;
+    line-height: 1.5rem;
     margin: 0 0 14px;
 
     .tutorial-content__format {
@@ -49,9 +49,9 @@
   }
 
   &__competence-name {
-    font-size: 1.3rem;
+    font-size: 0.813rem;
     font-weight: 400;
-    letter-spacing: 0.015rem;
+    letter-spacing: 0.009rem;
     margin: 0 0 8px;
     color: $pix-blue-hover;
     display: inline-block;
@@ -66,10 +66,10 @@
 
 .tutorial-content-actions {
   &__save {
-    font-size: 1.3rem;
+    font-size: 0.813rem;
     font-weight: $font-medium;
     color: $grey-45;
-    letter-spacing: 0.045rem;
+    letter-spacing: 0.028rem;
     margin: 0 0 16px;
     background: transparent;
     border: none;
@@ -93,10 +93,10 @@
   }
 
   &__evaluate {
-    font-size: 1.3rem;
+    font-size: 0.813rem;
     font-weight: $font-medium;
     color: $grey-45;
-    letter-spacing: 0.045rem;
+    letter-spacing: 0.028rem;
     margin: 0 0 16px;
     background: transparent;
     border: none;

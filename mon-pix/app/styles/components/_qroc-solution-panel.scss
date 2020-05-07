@@ -4,13 +4,13 @@
 
 .correction-qroc-box-answer {
   height: 26px;
-  line-height: 2.4rem;
+  line-height: 1.5rem;
   border-radius: 3px;
   background-color: $white;
   box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
   border: solid 1px $alto-grey;
   padding: 0 10px;
-  font-size: 1.6rem;
+  font-size: 1rem;
 
   &--paragraph {
     width: 100%;
@@ -45,7 +45,7 @@
 }
 
 .correction-qroc-box__solution-text {
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-weight: $font-bold;
   color: $caribbean-green;
   display: flex;

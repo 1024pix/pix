@@ -19,7 +19,7 @@
   right: 10px;
   left: auto;
   bottom: auto;
-  font-size: 1em;
+  font-size: 0.625rem;
   cursor: pointer;
   opacity: .5;
   &:hover, &:active {
@@ -31,7 +31,7 @@
   color: $porcelain-grey;
   font-weight: $font-normal;
   font-family: $font-open-sans;
-  line-height: 1.4em;
-  font-size: 2.4em;
+  line-height: 0.875em;
+  font-size: 1.5em;
   text-align: center;
 }

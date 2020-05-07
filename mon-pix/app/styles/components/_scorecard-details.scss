@@ -16,8 +16,8 @@
     font-family: $font-roboto;
     font-weight: $font-normal;
     color: $grey-90;
-    font-size: 1.6rem;
-    line-height: 2.6rem;
+    font-size: 1rem;
+    line-height: 1.625rem;
     margin: 0 0 10px;
   }
 }
@@ -26,10 +26,10 @@
   margin-bottom: 40px;
 
   &__title {
-    font-size: 2rem;
+    font-size: 1.25rem;
     font-weight: $font-normal;
     font-family: $font-open-sans;
-    line-height: 3.4rem;
+    line-height: 2.125rem;
     color: $grey-90;
     margin-bottom: 24px;
   }
@@ -105,8 +105,8 @@
 .scorecard-details-content-left {
   &__area {
     text-transform: uppercase;
-    font-size: 1.4rem;
-    letter-spacing: 0.2rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.125rem;
 
     &--jaffa {
       color: $jaffa;
@@ -131,8 +131,8 @@
 
   &__description {
     font-family: $font-open-sans;
-    font-size: 1.6rem;
-    line-height: 2.6rem;
+    font-size: 1rem;
+    line-height: 1.625rem;
     color: $dove-gray;
   }
 }
@@ -149,7 +149,7 @@
     margin-top: 20px;
     color: $grayish-grey;
     text-transform: uppercase;
-    letter-spacing: 0.03rem;
+    letter-spacing: 0.019rem;
     white-space: nowrap;
   }
 
@@ -157,7 +157,7 @@
     padding-top: 50px;
     color: $dusty-grey;
     font-family: $font-roboto;
-    font-size: 1.3rem;
+    font-size: 0.813rem;
   }
 }
 
@@ -178,7 +178,7 @@
     color: $black;
     font-family: $font-roboto;
     font-weight: $font-medium;
-    font-size: 2.2rem;
+    font-size: 1.375rem;
 
     @include device-is('desktop') {
       padding: 50px 0 20px 0;
@@ -190,6 +190,6 @@
     color: $grayish-grey;
     font-family: $font-roboto;
     font-weight: $font-light;
-    font-size: 1.6rem;
+    font-size: 1rem;
   }
 }

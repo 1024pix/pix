@@ -112,10 +112,6 @@
   box-sizing: border-box;
 }
 
-html {
-  font-size: 10px;
-}
-
 body {
   font-family: $font-roboto;
   background-color: $porcelain-grey;
@@ -135,7 +131,7 @@ input:invalid {
 }
 
 input {
-  font-size: 1.4rem;
+  font-size: 0.875rem;
   font-family: $font-roboto;
 }
 

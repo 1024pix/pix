@@ -28,7 +28,7 @@
 
 .comparison-window__instruction {
   margin: 15px;
-  font-size: 16px;
+  font-size: 1rem;
 
   @include device-is('desktop') {
     margin: 20px 40px 0 40px;
@@ -51,7 +51,7 @@
   right: -10px; /*XXX : right alignment, found no other way to achieve it;*/
   margin-right: 0;
   height: 17px;
-  font-size: 14px;
+  font-size: 0.875rem;
   border: none;
   background-color: transparent;
   color: $white;
@@ -82,7 +82,7 @@
   margin-left: 9px;
   max-width: 618.5px;
   font-family: $font-open-sans;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: $font-heavy;
   color: $charcoal-grey;
 }
@@ -118,14 +118,14 @@
 
 .comparison-windows__default-message-title {
   font-family: $font-open-sans;
-  font-size: 17px;
+  font-size: 1.063rem;
   text-align: center;
   color: $black;
   font-weight: $font-semi-bold;
   margin-top: 10.2px;
 
   @include device-is('desktop') {
-    font-size: 22px;
+    font-size: 1.375rem;
     line-height: 26px;
   }
 }

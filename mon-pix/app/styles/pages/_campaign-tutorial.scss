@@ -21,13 +21,13 @@
   &__title {
     color: $pix-blue;
     font-family: $font-open-sans;
-    font-size: 2em;
+    font-size: 1.25rem;
     font-weight: 600;
     line-height: 40px;
     text-align: center;
 
     @include device-is('tablet') {
-      font-size: 3em;
+      font-size: 1.875rem;
     }
   }
 
@@ -40,12 +40,12 @@
   &__explanation-text {
     color: $nero;
     font-family: $font-open-sans;
-    font-size: 1.8rem;
+    font-size: 1.125rem;
     text-align: center;
     white-space: pre-line;
 
     @include device-is('tablet') {
-      font-size: 2rem;
+      font-size: 1.25rem;
     }
   }
 

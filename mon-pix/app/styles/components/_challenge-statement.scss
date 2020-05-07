@@ -27,7 +27,7 @@
 }
 
 .challenge-statement__instruction-section {
-  font-size: 15px;
+  font-size: 0.938rem;
   font-family: $font-open-sans;
   margin-bottom: 20px;
 
@@ -37,7 +37,7 @@
   }
 
   @include device-is('desktop') {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 }
 
@@ -60,7 +60,7 @@
 }
 
 .challenge-statement__text {
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .challenge-statement__help-icon {
@@ -122,7 +122,7 @@
 }
 
 .challenge-statement__help-text {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: $charcoal-grey;
 }
 
@@ -148,7 +148,7 @@
 }
 
 .challenge-statement__file-option-label {
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 10px;
   font-weight: $font-normal;
 }
@@ -177,7 +177,7 @@
 .challenge-statement__action-label {
   width: 76px;
   line-height: 46px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: $font-heavy;
   text-transform: uppercase;
 }
