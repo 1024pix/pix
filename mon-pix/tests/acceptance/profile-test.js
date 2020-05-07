@@ -147,7 +147,7 @@ describe('Acceptance | Profile', function() {
 
           // then
           expect(find('.resume-campaign-banner__container').textContent).to.contain('N\'oubliez pas de finaliser votre envoi !');
-          expect(find('.resume-campaign-banner__button').textContent).to.equal('Continuer');
+          expect(find('.resume-campaign-banner__button').textContent.trim()).to.equal('Continuer');
         });
       });
     });

@@ -1,2 +1,9 @@
 <span class="resume-campaign-banner__title">N'oubliez pas de finaliser votre envoi !</span>
-<LinkTo @route="campaigns.start-or-resume" @model={{@code}} class="resume-campaign-banner__button button button--big button--link">Continuer</LinkTo>
+<LinkTo
+  @route="campaigns.start-or-resume"
+  @model={{@code}}
+  @query={{hash campaignParticipationIsStarted="true"}}
+  class="resume-campaign-banner__button button button--big button--link"
+>
+  Continuer
+</LinkTo>
