@@ -22,7 +22,7 @@
   background-color: $mandy-red;
 }
 
-abbr[title="obligatoire"] {
+abbr.mandatory-mark {
   cursor: help;
   color: $monza;
   display: contents;

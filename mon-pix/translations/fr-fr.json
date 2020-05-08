@@ -1,0 +1,80 @@
+{
+  "common": {
+    "form": {
+      "mandatory-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr> sont obligatoires"
+    },
+    "mandatory": "obligatoire",
+    "or": "ou"
+  },
+
+  "navigation": {
+    "homepage": {
+      "link": "Page d'accueil"
+    }
+  },
+
+  "page-title": {
+    "signin": "Connexion",
+    "signup": "Inscription",
+    "suffix": "Pix"
+  },
+
+  "signin-form": {
+    "actions": {
+      "submit": "Je me connecte"
+    },
+    "error": {
+      "message": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects"
+    },
+    "fields": {
+      "login": {
+        "label": "Adresse e-mail ou identifiant"
+      },
+      "password": {
+        "label": "Mot de passe"
+      }
+    },
+    "link": "Mot de passe oublié ?",
+    "subtitle": {
+      "text": "Vous n'avez pas encore de compte Pix ?",
+      "link": "Créez un compte"
+    },
+    "title": "Connectez-vous"
+  },
+
+  "signup-form": {
+    "actions": {
+      "submit": "Je m'inscris"
+    },
+    "fields": {
+      "cgu": {
+        "error": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
+        "label": "<abbr title=\"obligatoire\">*</abbr> J'accepte les <a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">conditions d'utilisation de Pix</a>"
+      },
+      "email": {
+        "error": "Votre adresse e-mail n’est pas valide.",
+        "help": "(ex: nom@exemple.fr)",
+        "label": "Adresse e-mail"
+      },
+      "firstname": {
+        "error": "Votre prénom n’est pas renseigné.",
+        "label": "Prénom"
+      },
+      "lastname": {
+        "error": "Votre nom n’est pas renseigné.",
+        "label": "Nom"
+      },
+      "password": {
+        "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
+        "help": "(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)",
+        "label": "Mot de passe"
+      }
+    },
+    "instructions": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr> sont obligatoires",
+    "legal-information": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l'accès au service offert par Pix. Elles sont conservées pendant une durée de 5 ans maximum à compter du dernier accès au compte utilisateur, et archivées selon les délais de prescription légale (5 ans). Elles sont destinées à Pix et à ses prestataires techniques exclusivement. Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en envoyant un mail à dpd@pix.fr.",
+    "subtitle": {
+      "link": "connectez-vous à votre compte"
+    },
+    "title": "Inscrivez-vous"
+  }
+}

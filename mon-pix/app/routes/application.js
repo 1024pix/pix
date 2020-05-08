@@ -1,4 +1,5 @@
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
+import ENV from 'mon-pix/config/environment';
 
 import Route from '@ember/routing/route';
 
@@ -9,6 +10,7 @@ export default Route.extend(ApplicationRouteMixin, {
   splash: service(),
   currentUser: service(),
   session: service(),
+  intl: service(),
 
   activate() {
     this.splash.hide();
@@ -23,6 +25,8 @@ export default Route.extend(ApplicationRouteMixin, {
   },
 
   async beforeModel(transition) {
+    const defaultLocale = 'fr-fr';
+    this.intl.setLocale([ENV.APP.LOCALE, defaultLocale]);
     await this._checkForURLAuthentication(transition);
     return this._loadCurrentUser();
   },

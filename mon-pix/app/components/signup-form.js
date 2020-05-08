@@ -1,4 +1,3 @@
-import { later } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import isEmailValid from 'mon-pix/utils/email-validator';
@@ -6,31 +5,16 @@ import isPasswordValid from '../utils/password-validator';
 import ENV from 'mon-pix/config/environment';
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  firstName: 'Votre prénom n’est pas renseigné.',
-  lastName: 'Votre nom n’est pas renseigné.',
-  email: 'Votre adresse e-mail n’est pas valide.',
-  password: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.'
+  firstName: 'signup-form.fields.firstname.error',
+  lastName: 'signup-form.fields.lastname.error',
+  email: 'signup-form.fields.email.error',
+  password: 'signup-form.fields.password.error'
 };
-const TEMPORARY_DIV_CLASS_MAP = {
-  error: 'signup-form__temporary-msg--error',
-  success: 'signup-form__temporary-msg--success'
-};
-
-function getErrorMessage(status, key) {
-  return (status === 'error') ? ERROR_INPUT_MESSAGE_MAP[key] : null;
-}
-
-function getValidationStatus(isValidField) {
-  return (isValidField) ? 'error' : 'success';
-}
-
-function isValuePresent(value) {
-  return value.trim() ? true : false;
-}
 
 export default Component.extend({
 
   session: service(),
+  intl: service(),
 
   _notificationMessage: null,
   validation: null,
@@ -44,6 +28,18 @@ export default Component.extend({
     this._resetValidationFields();
   },
 
+  _getErrorMessage(status, key) {
+    return (status === 'error') ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
+  },
+
+  _getValidationStatus(isValidField) {
+    return (isValidField) ? 'error' : 'success';
+  },
+
+  _isValuePresent(value) {
+    return value.trim() ? true : false;
+  },
+
   _updateValidationStatus(key, status, message) {
     const statusObject = 'validation.' + key + '.status';
     const messageObject = 'validation.' + key + '.message';
@@ -54,15 +50,6 @@ export default Component.extend({
   _getModelAttributeValueFromKey(key) {
     const userModel = this.user;
     return userModel.get(key);
-  },
-
-  _toggleConfirmation(status, message) {
-    this.set('temporaryAlert', { status: TEMPORARY_DIV_CLASS_MAP[status], message });
-    if (ENV.APP.isMessageStatusTogglingEnabled) {
-      later(() => {
-        this.set('temporaryAlert', { status: 'default', message: '' });
-      }, ENV.APP.MESSAGE_DISPLAY_DURATION);
-    }
   },
 
   _resetValidationFields() {
@@ -106,8 +93,8 @@ export default Component.extend({
   _executeFieldValidation(key, isValid) {
     const modelAttrValue = this._getModelAttributeValueFromKey(key);
     const isValidInput = !isValid(modelAttrValue);
-    const status = getValidationStatus(isValidInput);
-    const message = getErrorMessage(status, key);
+    const status = this._getValidationStatus(isValidInput);
+    const message = this._getErrorMessage(status, key);
     this._updateValidationStatus(key, status, message);
   },
 
@@ -125,7 +112,7 @@ export default Component.extend({
     },
 
     validateInput(key) {
-      this._executeFieldValidation(key, isValuePresent);
+      this._executeFieldValidation(key, this._isValuePresent);
     },
 
     validateInputEmail(key) {
