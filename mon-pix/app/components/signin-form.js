@@ -7,14 +7,14 @@ import ENV from 'mon-pix/config/environment';
 @classic
 export default class SigninForm extends Component {
 
-  @tracked displayErrorMessage = false;
+  @tracked shouldDisplayErrorMessage = false;
   username = '';
   password = '';
   urlHome = ENV.APP.HOME_HOST;
 
   @action
   signin() {
-    this.displayErrorMessage = false;
+    this.shouldDisplayErrorMessage = false;
     this.authenticateUser(this.username, this.password)
       .catch((err) => {
         const title = ('errors' in err) ? err.errors.get('firstObject').title : null;
@@ -22,7 +22,7 @@ export default class SigninForm extends Component {
         if (title === 'PasswordShouldChange') {
           this.updateExpiredPassword(this.username, this.password);
         }
-        this.displayErrorMessage = true;
+        this.shouldDisplayErrorMessage = true;
       });
   }
 }

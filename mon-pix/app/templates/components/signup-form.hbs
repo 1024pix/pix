@@ -1,14 +1,14 @@
 <div class="sign-form__container">
 
-  <a href={{urlHome}} class="pix-logo__link" title="Page d'accueil">
+  <a href={{urlHome}} class="pix-logo__link" title="{{t 'navigation.homepage.link'}}">
     <img class="pix-logo__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
   </a>
 
   <div class="sign-form__header">
-    <h1 class="sign-form-title">Inscrivez-vous</h1>
+    <h1 class="sign-form-title">{{t 'signup-form.title'}}</h1>
     <div class="sign-form-header__subtitle">
-      <span class="sign-form-header-subtitle">ou</span>
-      <LinkTo @route="login" class="link">connectez-vous à votre compte</LinkTo>
+      <span class="sign-form-header-subtitle">{{t 'common.or'}}</span>
+      <LinkTo @route="login" class="link">{{t 'signup-form.subtitle.link'}}</LinkTo>
     </div>
   </div>
 
@@ -19,10 +19,10 @@
   {{/if}}
 
   <form {{action "signup" on="submit"}} class="sign-form__body">
-    <span class="sign-form-body__instruction">Les champs marqués de <abbr title="obligatoire">*</abbr> sont obligatoires.</span>
+    <span class="sign-form-body__instruction">{{t 'common.form.mandatory-fields' htmlSafe=true}}</span>
 
     <div class="sign-form-body__input">
-      <FormTextfield @label="Prénom"
+      <FormTextfield @label="{{t 'signup-form.fields.firstname.label'}}"
                      @textfieldName="firstName"
                      @inputBindingValue={{user.firstName}}
                      @onValidate={{action "validateInput"}}
@@ -33,7 +33,7 @@
     </div>
 
     <div class="sign-form-body__input">
-      <FormTextfield @label="Nom"
+      <FormTextfield @label="{{t 'signup-form.fields.lastname.label'}}"
                      @textfieldName="lastName"
                      @inputBindingValue={{user.lastName}}
                      @onValidate={{action "validateInput"}}
@@ -43,8 +43,8 @@
     </div>
 
     <div class="sign-form-body__input">
-      <FormTextfield @label="Adresse e-mail"
-                     @help="(ex: nom@exemple.fr)"
+      <FormTextfield @label="{{t 'signup-form.fields.email.label'}}"
+                     @help="{{t 'signup-form.fields.email.help'}}"
                      @textfieldName="email"
                      @validationStatus={{validation.email.status}}
                      @onValidate={{action "validateInputEmail"}}
@@ -54,8 +54,8 @@
     </div>
 
     <div class="sign-form-body__input">
-      <FormTextfield @label="Mot de passe"
-                     @help="(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)"
+      <FormTextfield @label="{{t 'signup-form.fields.password.label'}}"
+                     @help="{{t 'signup-form.fields.password.help'}}"
                      @textfieldName="password"
                      @validationStatus={{validation.password.status}}
                      @onValidate={{action "validateInputPassword"}}
@@ -69,12 +69,12 @@
       <label for="pix-cgu" class="signup-form__cgu-label">
         <div class="signup-form__cgu">
           <Input @type="checkbox" @id="pix-cgu" @checked={{user.cgu}} />
-           <abbr title="obligatoire">*</abbr> J'accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="link" target="_blank">conditions d'utilisation de Pix</a>
+           {{t 'signup-form.fields.cgu.label' htmlSafe=true}}
         </div>
 
         {{#if user.errors.cgu}}
           <div class="sign-form__validation-error">
-            {{user.errors.cgu.firstObject.message}}
+            {{t 'signup-form.fields.cgu.error'}}
           </div>
         {{/if}}
       </label>
@@ -96,18 +96,13 @@
         </button>
       {{else}}
         <button type="submit" class="button button--uppercase button--thin button--round button--big">
-          Je m'inscris
+          {{t 'signup-form.actions.submit'}}
         </button>
       {{/if}}
     </div>
 
     <div class="signup-form__legal-details-container">
-      Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix
-      pour permettre l'accès au service offert par Pix.
-      Elles sont conservées pendant une durée de 5 ans maximum à compter du dernier accès au compte utilisateur,
-      et archivées selon les délais de prescription légale (5 ans).
-      Elles sont destinées à Pix et à ses prestataires techniques exclusivement.
-      Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en envoyant un mail à dpd@pix.fr.
+      {{t 'signup-form.legal-information' }}
     </div>
 
   </form>

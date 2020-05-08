@@ -1,0 +1,80 @@
+{
+  "common": {
+    "form": {
+      "mandatory-fields": "Fields marked with <abbr title=\"mandatory\" class=\"mandatory-mark\">*</abbr> are mandatory"
+    },
+    "mandatory": "mandatory",
+    "or": "or"
+  },
+
+  "navigation": {
+    "homepage": {
+      "link": "Homepage"
+    }
+  },
+
+  "page-title": {
+    "signin": "Sign in",
+    "signup": "Sign up",
+    "suffix": "Pix"
+  },
+
+  "signin-form": {
+    "actions": {
+      "submit": "Sign in"
+    },
+    "error": {
+      "message": "Wrong email, identifier and/or password"
+    },
+    "fields": {
+      "login": {
+        "label": "Email or identifier"
+      },
+      "password": {
+        "label": "Password"
+      }
+    },
+    "link": "Forgot password?",
+    "subtitle": {
+      "text": "Don't have a Pix account yet?",
+      "link": "Sign up"
+    },
+    "title": "Sign in"
+  },
+
+  "signup-form": {
+    "actions": {
+      "submit": "I sign up"
+    },
+    "fields": {
+      "cgu": {
+        "error": "Please accept terms of service before you sign up",
+        "label": "I accept <a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">Pix's CGU</a>"
+      },
+      "email": {
+        "error": "Your email is invalid",
+        "help": "(ex: name@example.com)",
+        "label": "Email"
+      },
+      "firstname": {
+        "error": "Your firstname is empty.",
+        "label": "Firstname"
+      },
+      "lastname": {
+        "error": "Your lastname is empty.",
+        "label": "Last name"
+      },
+      "password": {
+        "error": "Password should have 8 characters, one uppercase and lowercase letter and one number at least.",
+        "help": "(8 char min, with uppercase, lowercase and a number)",
+        "label": "Password"
+      }
+    },
+    "instructions": "Fields marked with <abbr title=\"mandatory\" class=\"mandatory-mark\">*</abbr> are mandatory",
+    "legal-information": "By signing in, you allow Pix to store your data. They will be kept for a maximum of 5 years, starting with your last sign in date, and will then be archived according to statutory limitation periods (5 years). They are only used by Pix and Pix's service providers. In accordance to the law « informatique et libertés », you can exercise your right of access to data and correct them by sending an email to dpd@pix.fr.",
+    "subtitle": {
+      "link": "sign in"
+    },
+    "title": "Sign up"
+  }
+}
