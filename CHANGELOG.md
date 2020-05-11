@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.151.0 (11/05/2020)
+
+- [#1386](https://github.com/1024pix/pix/pull/1386) [FEATURE] Modification du message concernant la réinitialisation d'un mot de passe, sur la double mire de connexion (PIX-556).
+- [#1380](https://github.com/1024pix/pix/pull/1380) [FEATURE] Copier/Coller les informations contenues dans la pop-up Gestion du compte de l'élève de PixOrga (PIX-557).
+- [#1334](https://github.com/1024pix/pix/pull/1334) [FEATURE] Traduction des pages d'inscription/connexion (PF-1207).
+- [#1390](https://github.com/1024pix/pix/pull/1390) [BUGFIX] Rediriger vers la page de campagne après revalidation des CGU (PIX-644).
+- [#1384](https://github.com/1024pix/pix/pull/1384) [CLEANUP] Retrait du code lié à la route GET /api/feedbacks, non utilisée (PIX-639)
+
 ## v2.150.0 (07/05/2020)
 
 - [#1357](https://github.com/1024pix/pix/pull/1357) [FEATURE]  Ajout de la page /cgu au workflow de connexion (PF-1249). 
