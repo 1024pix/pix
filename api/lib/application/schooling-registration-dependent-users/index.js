@@ -1,5 +1,5 @@
 const schoolingRegistrationDependentUserController = require('./schooling-registration-dependent-user-controller');
-const securityController = require('../../interfaces/controllers/security-controller');
+const securityController = require('../security-controller');
 const JSONAPIError = require('jsonapi-serializer').Error;
 const Joi = require('@hapi/joi');
 

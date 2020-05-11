@@ -1,4 +1,4 @@
-const securityController = require('../interfaces/controllers/security-controller');
+const securityController = require('../application/security-controller');
 
 module.exports = {
 

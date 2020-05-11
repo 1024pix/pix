@@ -1,6 +1,6 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityController = require('../../../../lib/application/security-controller');
 const userController = require('../../../../lib/application/users/user-controller');
 const moduleUnderTest = require('../../../../lib/application/users');
 

@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
 const _ = require('lodash');
 
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityController = require('../../../../lib/application/security-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 

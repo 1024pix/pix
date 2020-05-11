@@ -1,5 +1,5 @@
 const systemController = require('./system-controller');
-const securityController = require('../../interfaces/controllers/security-controller');
+const securityController = require('../security-controller');
 
 exports.register = async function(server) {
 

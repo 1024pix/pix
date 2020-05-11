@@ -1,4 +1,4 @@
-const securityController = require('../../interfaces/controllers/security-controller');
+const securityController = require('../security-controller');
 const userController = require('./user-controller');
 const Joi = require('@hapi/joi');
 const JSONAPIError = require('jsonapi-serializer').Error;

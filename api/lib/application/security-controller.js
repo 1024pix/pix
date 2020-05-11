@@ -1,9 +1,9 @@
-const tokenService = require('../../domain/services/token-service');
-const checkUserIsAuthenticatedUseCase = require('../../application/usecases/checkUserIsAuthenticated');
-const checkUserHasRolePixMasterUseCase = require('../../application/usecases/checkUserHasRolePixMaster');
-const checkUserIsAdminInOrganizationUseCase = require('../../application/usecases/checkUserIsAdminInOrganization');
-const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase  = require('../../application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
-const checkUserBelongsToOrganizationUseCase  = require('../../application/usecases/checkUserBelongsToOrganization');
+const tokenService = require('../domain/services/token-service');
+const checkUserIsAuthenticatedUseCase = require('./usecases/checkUserIsAuthenticated');
+const checkUserHasRolePixMasterUseCase = require('./usecases/checkUserHasRolePixMaster');
+const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization');
+const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase  = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
+const checkUserBelongsToOrganizationUseCase  = require('./usecases/checkUserBelongsToOrganization');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
 
