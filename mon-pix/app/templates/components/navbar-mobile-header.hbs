@@ -1,26 +1,30 @@
-<div class="navbar-mobile-header__container">
-  {{#if burger}}
-    {{#if isUserLogged}}
-      <span class="navbar-mobile-header__burger-icon" {{action burger.state.actions.toggle}}>
-        {{#if burger.state.open}}
-          {{fa-icon 'times'}}
-        {{else}}
-          {{fa-icon 'bars'}}
-        {{/if}}
-      </span>
+<div class="navbar-mobile-header">
+  <div class="navbar-mobile-header__container">
+    {{#if @burger}}
+      {{#if this.isUserLogged}}
+        <span class="navbar-mobile-header__burger-icon" {{action @burger.state.actions.toggle}}>
+          {{#if @burger.state.open}}
+            <FaIcon @icon="times" />
+          {{else}}
+            <FaIcon @icon="bars" />
+          {{/if}}
+        </span>
 
-      {{#burger.menu as |menu|}}
-        <NavbarBurgerMenu class="navbar-burger-menu-content"/>
-      {{/burger.menu}}
+        {{#@burger.menu as |menu|}}
+          <NavbarBurgerMenu class="navbar-burger-menu-content"/>
+        {{/@burger.menu}}
+      {{/if}}
     {{/if}}
-  {{/if}}
 
-  <div class="navbar-mobile-header__logo">
-    <div class="navbar-mobile-header-logo__pix">
-      <PixLogo />
-    </div>
-    <div class="navbar-mobile-header-logo__marianne">
-      <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="République française">
+    <div class="navbar-mobile-header__logo">
+      <div class="navbar-mobile-header-logo__pix">
+        <PixLogo />
+      </div>
+      {{#if @shouldShowTheMarianneLogo}}
+        <div class="navbar-mobile-header-logo__marianne">
+          <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="République française">
+        </div>
+      {{/if}}
     </div>
   </div>
 </div>
