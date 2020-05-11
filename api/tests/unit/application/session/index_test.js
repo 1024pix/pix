@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
-const securityController = require('../../../../lib/application/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const sessionAuthorization = require('../../../../lib/application/preHandlers/session-authorization');
 const route = require('../../../../lib/application/sessions');
@@ -47,7 +47,7 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('GET /api/jury/sessions/{id}', () => {
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'getJurySession').returns('ok');
       return server.register(route);
     });
@@ -61,7 +61,7 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('GET /api/jury/sessions', () => {
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'findPaginatedFilteredJurySessions').returns('ok');
       return server.register(route);
     });
@@ -302,7 +302,7 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('GET /api/jury/sessions/{id}/certifications', () => {
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'getCertifications').returns('ok');
       return server.register(route);
     });
@@ -359,7 +359,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     let options;
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'updatePublication').returns('ok');
       const sessionId = 1;
       options = {
@@ -386,7 +386,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     let sessionId;
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
       return server.register(route);
     });
@@ -404,7 +404,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     let options;
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
       const sessionId = 1;
       options = {

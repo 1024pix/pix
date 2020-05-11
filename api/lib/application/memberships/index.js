@@ -1,4 +1,4 @@
-const securityController = require('../security-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 const membershipController = require('./membership-controller');
 
 exports.register = async function(server) {
@@ -8,7 +8,7 @@ exports.register = async function(server) {
       path: '/api/memberships',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: membershipController.create,
@@ -30,7 +30,7 @@ exports.register = async function(server) {
       path: '/api/memberships/{id}',
       config: {
         pre: [{
-          method: securityController.checkUserIsAdminInOrganization,
+          method: securityPreHandlers.checkUserIsAdminInOrganization,
           assign: 'isAdminInOrganization'
         }],
         handler: membershipController.update,

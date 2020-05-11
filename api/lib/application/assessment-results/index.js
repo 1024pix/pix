@@ -1,5 +1,5 @@
 const AssessmentResultController = require('./assessment-result-controller');
-const securityController = require('../security-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 
 exports.register = async function(server) {
   server.route([
@@ -8,7 +8,7 @@ exports.register = async function(server) {
       path: '/api/admin/assessment-results',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
+          method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
         handler: AssessmentResultController.save,

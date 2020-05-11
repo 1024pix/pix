@@ -1,6 +1,6 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
-const securityController = require('../../../../lib/application/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const userController = require('../../../../lib/application/users/user-controller');
 const moduleUnderTest = require('../../../../lib/application/users');
 
@@ -10,7 +10,7 @@ describe('Integration | Application | Users | Routes', () => {
   const method = 'GET';
 
   beforeEach(() => {
-    sinon.stub(securityController, 'checkUserHasRolePixMaster');
+    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
     sinon.stub(userController, 'getUserDetailForAdmin').returns('ok');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -19,7 +19,7 @@ describe('Integration | Application | Users | Routes', () => {
 
     it('should exist', async () => {
       // given
-      securityController.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       const url = '/api/admin/users/123';
 
       // when

@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
 const _ = require('lodash');
 
-const securityController = require('../../../../lib/application/security-controller');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const usecases = require('../../../../lib/domain/usecases');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 
@@ -24,11 +24,11 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
     sandbox.stub(usecases, 'attachTargetProfilesToOrganization');
 
-    sandbox.stub(securityController, 'checkUserHasRolePixMaster');
-    sandbox.stub(securityController, 'checkUserIsAdminInOrganization');
-    sandbox.stub(securityController, 'checkUserIsAdminInOrganizationOrHasRolePixMaster');
-    sandbox.stub(securityController, 'checkUserBelongsToScoOrganizationAndManagesStudents');
-    sandbox.stub(securityController, 'checkUserBelongsToOrganizationOrHasRolePixMaster');
+    sandbox.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
+    sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
+    sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster');
+    sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
+    sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationOrHasRolePixMaster');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
@@ -56,7 +56,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     context('Success cases', () => {
 
       beforeEach(() => {
-        securityController.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       });
 
       it('should resolve a 200 HTTP response', async () => {
@@ -87,7 +87,7 @@ describe('Integration | Application | Organizations | organization-controller', 
       context('when user is allowed to access resource', () => {
 
         beforeEach(() => {
-          securityController.checkUserHasRolePixMaster.callsFake((request, h) => {
+          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
         });
@@ -108,7 +108,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     context('Success cases', () => {
 
       beforeEach(() => {
-        securityController.checkUserBelongsToOrganizationOrHasRolePixMaster.returns(true);
+        securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster.returns(true);
       });
 
       const membership = domainBuilder.buildMembership();
@@ -155,7 +155,7 @@ describe('Integration | Application | Organizations | organization-controller', 
   describe('#findOrganizationsStudentsWithUserInfo', () => {
 
     beforeEach(() => {
-      securityController.checkUserBelongsToScoOrganizationAndManagesStudents.returns(true);
+      securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.returns(true);
     });
 
     context('Success cases', () => {
@@ -190,7 +190,7 @@ describe('Integration | Application | Organizations | organization-controller', 
       context('when user is not allowed to access resource', () => {
 
         beforeEach(() => {
-          securityController.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) => {
+          securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
         });
@@ -223,7 +223,7 @@ describe('Integration | Application | Organizations | organization-controller', 
       };
 
       beforeEach(() => {
-        securityController.checkUserIsAdminInOrganizationOrHasRolePixMaster.returns(true);
+        securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.returns(true);
       });
 
       it('should return an HTTP response with status code 201', async () => {
@@ -269,7 +269,7 @@ describe('Integration | Application | Organizations | organization-controller', 
       });
 
       beforeEach(() => {
-        securityController.checkUserIsAdminInOrganization.returns(true);
+        securityPreHandlers.checkUserIsAdminInOrganization.returns(true);
       });
 
       it('should return an HTTP response with status code 200', async () => {
@@ -301,7 +301,7 @@ describe('Integration | Application | Organizations | organization-controller', 
       context('when user is not Pix Master', () => {
 
         beforeEach(() => {
-          securityController.checkUserHasRolePixMaster.callsFake((request, h) => {
+          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
         });

@@ -2,7 +2,7 @@ const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = req
 const createServer = require('../../../server');
 const Membership = require('../../../lib/domain/models/Membership');
 
-describe('Acceptance | Interface | Controller | SecurityController', function() {
+describe('Acceptance | Application | SecurityPreHandlers', function() {
 
   let server;
 
