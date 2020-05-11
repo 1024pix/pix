@@ -41,8 +41,8 @@ describe('Acceptance | Interface | Controller | SecurityController', function() 
     it('should return a well formed JSON API error when user is not authorized', async () => {
       // given
       const options = {
-        method: 'GET',
-        url: '/api/feedbacks',
+        method: 'PATCH',
+        url: '/api/cache',
         headers: { authorization: generateValidRequestAuthorizationHeader() },
       };
 
