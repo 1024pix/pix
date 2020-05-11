@@ -89,10 +89,9 @@ module.exports = {
     return _applyFilters(knowledgeElements);
   },
 
-  findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
-    return this.findUniqByUserId({ userId, limitDate })
-      .then(_dropResetKnowledgeElements)
-      .then((knowledgeElements) => _.groupBy(knowledgeElements, 'competenceId'));
+  async findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
+    const knowledgeElements = await this.findUniqByUserId({ userId, limitDate })
+    return _.groupBy(knowledgeElements, 'competenceId');
   },
 
   getSumOfPixFromUserKnowledgeElements(userId) {
