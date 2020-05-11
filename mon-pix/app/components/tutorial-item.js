@@ -59,6 +59,10 @@ export default class TutorialItemComponent extends Component {
     return this.status === statusTypes.saving;
   }
 
+  get isEvaluateButtonDisabled() {
+    return this.evaluationStatus !== statusTypes.unsaved;
+  }
+
   @action
   async saveTutorial() {
     this.status = statusTypes.saving;
