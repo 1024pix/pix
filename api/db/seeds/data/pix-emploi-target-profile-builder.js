@@ -409,6 +409,18 @@ function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
     targetProfileId: pixEmploiProfile.id,
   });
 
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: 'La campagne est maîtrisée à X %',
+    threshold: 85,
+    badgeId: badge.id,
+  });
+  
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: 'Chaque compétence de la campagne est maîtrisée à X %',
+    threshold: 75,
+    badgeId: badge.id,
+  });
+
   databaseBuilder.factory.buildBadgePartnerCompetence({
     name : 'Rechercher des informations sur internet',
     color : 'jaffa',

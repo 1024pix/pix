@@ -7,7 +7,7 @@ module.exports = {
     return new BookshelfBadge({ targetProfileId })
       .fetch({
         require: false,
-        withRelated: ['badgePartnerCompetences']
+        withRelated: ['badgeCriteria','badgePartnerCompetences']
       })
       .then((results) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, results));
   },
@@ -16,7 +16,7 @@ module.exports = {
     return new BookshelfBadge({ key })
       .fetch({
         require: false,
-        withRelated: ['badgePartnerCompetences']
+        withRelated: ['badgeCriteria', 'badgePartnerCompetences']
       })
       .then((results) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, results));
   },

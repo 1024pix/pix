@@ -1,6 +1,7 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const Area = require('../../../../lib/domain/models/Area');
 const Badge = require('../../../../lib/domain/models/Badge');
+const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
 const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartnerCompetence');
 const CampaignParticipationResult = require('../../../../lib/domain/models/CampaignParticipationResult');
 const CompetenceResult = require('../../../../lib/domain/models/CompetenceResult');
@@ -51,6 +52,13 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
         imageUrl: '/img/banana.svg',
         message: 'Congrats, you won the Banana badge!',
         key: 'BANANA',
+        badgeCriteria: [
+          domainBuilder.buildBadgeCriterion({
+            id: 15,
+            scope: 'Every competences should be validated with X %',
+            threshold: 54
+          })
+        ],
         badgePartnerCompetences: [
           domainBuilder.buildBadgePartnerCompetence({
             id: 12,
@@ -66,6 +74,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
       // then
       expect(result).to.be.an.instanceOf(CampaignParticipationResult);
       expect(result.badge).to.be.an.instanceOf(Badge);
+      expect(result.badge.badgeCriteria[0]).to.be.an.instanceOf(BadgeCriterion);
       expect(result.badge.badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
       expect(result.partnerCompetenceResults[0]).to.be.an.instanceOf(CompetenceResult);
       expect(result).to.deep.equal({
@@ -82,6 +91,13 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           imageUrl: '/img/banana.svg',
           message: 'Congrats, you won the Banana badge!',
           key: 'BANANA',
+          badgeCriteria: [
+            {
+              id: 15,
+              scope: 'Every competences should be validated with X %',
+              threshold: 54,
+            }
+          ],
           badgePartnerCompetences: [
             {
               color: 'emerald',

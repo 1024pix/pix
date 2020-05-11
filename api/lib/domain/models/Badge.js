@@ -7,6 +7,7 @@ class Badge {
     imageUrl,
     message,
     // includes
+    badgeCriteria = [],
     badgePartnerCompetences = [],
     // references
     targetProfileId,
@@ -18,6 +19,7 @@ class Badge {
     this.message = message;
     this.key = key;
     // includes
+    this.badgeCriteria = badgeCriteria;
     this.badgePartnerCompetences = badgePartnerCompetences;
     // references
     this.targetProfileId = targetProfileId;
