@@ -1,10 +1,8 @@
-import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import Route from '@ember/routing/route';
 import _ from 'lodash';
 
-@classic
 export default class FillInIdPixRoute extends Route.extend(SecuredRouteMixin) {
   @service session;
   @service currentUser;
@@ -17,12 +15,11 @@ export default class FillInIdPixRoute extends Route.extend(SecuredRouteMixin) {
   }
 
   async beforeModel(transition) {
-    this.set('givenParticipantExternalId', transition.to.queryParams && transition.to.queryParams.givenParticipantExternalId);
+    this.givenParticipantExternalId = transition.to.queryParams && transition.to.queryParams.givenParticipantExternalId;
   }
 
   async model(params) {
     const campaigns = await this.store.query('campaign', { filter: { code: params.campaign_code } });
-
     return campaigns.get('firstObject');
   }
 
@@ -48,17 +45,16 @@ export default class FillInIdPixRoute extends Route.extend(SecuredRouteMixin) {
     controller.set('start', (campaign, participantExternalId) => this.start(campaign, participantExternalId));
   }
 
-  start(campaign, participantExternalId = null) {
-    return this.store.createRecord('campaign-participation', { campaign, participantExternalId })
-      .save()
-      .then(() => {
+  async start(campaign, participantExternalId = null) {
+    try {
+      await this.store.createRecord('campaign-participation', { campaign, participantExternalId }).save();
+      this.transitionTo('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } });
+    } catch (err) {
+      if (_.get(err, 'errors[0].status') === 403) {
+        this.session.invalidate();
         return this.transitionTo('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } });
-      }, (err) => {
-        if (_.get(err, 'errors[0].status') === 403) {
-          this.session.invalidate();
-          return this.transitionTo('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } });
-        }
-        return this.send('error', err, this.transitionTo('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } }));
-      });
+      }
+      return this.send('error', err, this.transitionTo('campaigns.start-or-resume', campaign.code, { queryParams: { campaignParticipationIsStarted: true } }));
+    }
   }
 }

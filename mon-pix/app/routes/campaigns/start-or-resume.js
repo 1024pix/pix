@@ -27,7 +27,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     this.set('campaignCode', transition.to.params.campaign_code);
     this.set('associationDone', transition.to.queryParams.associationDone);
     this.set('campaignIsRestricted', transition.to.queryParams.campaignIsRestricted);
-    this.set('givenParticipantExternalId', transition.to.queryParams.participantExternalId);
+    this.set('givenParticipantExternalId', this.givenParticipantExternalId || transition.to.queryParams.participantExternalId);
     this.set('userHasSeenLanding', transition.to.queryParams.hasSeenLanding);
     this.set('userHasJustConsultedTutorial', transition.to.queryParams.hasJustConsultedTutorial);
     this.set('campaignParticipationIsStarted', transition.to.queryParams.campaignParticipationIsStarted);
@@ -49,7 +49,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return campaigns.get('firstObject');
   }
 
-  async afterModel(campaign) {
+  async redirect(campaign) {
 
     if (campaign.isArchived) {
       this.set('isLoading', false);
