@@ -22,6 +22,11 @@ function _dropResetKnowledgeElements(knowledgeElements) {
   return _.reject(knowledgeElements, { status: KnowledgeElement.StatusType.RESET });
 }
 
+function _applyFilters(knowledgeElements) {
+  const uniqsMostRecentPerSkill = _getUniqMostRecents(knowledgeElements);
+  return _dropResetKnowledgeElements(uniqsMostRecentPerSkill);
+}
+
 function _findByCampaignIdForSharedCampaignParticipationWhere(campaignParticipationsWhereClause) {
   return BookshelfKnowledgeElement
     .query((qb) => {
@@ -50,18 +55,19 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findUniqByUserId({ userId, limitDate }) {
-    return BookshelfKnowledgeElement
-      .query((qb) => {
+  async findUniqByUserId({ userId, limitDate }) {
+    const keRows = await Bookshelf.knex
+      .select('*', Bookshelf.knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['skillId', 'createdAt']))
+      .from('knowledge-elements')
+      .where((qb) => {
         qb.where({ userId });
         if (limitDate) {
-          qb.where('knowledge-elements.createdAt', '<', limitDate);
+          qb.where('createdAt', '<', limitDate);
         }
-      })
-      .fetchAll()
-      .then(_toDomain)
-      .then(_getUniqMostRecents)
-      .then(_dropResetKnowledgeElements);
+      });
+
+    const knowledgeElements = _.map(keRows, (keRow) => new KnowledgeElement({ ...keRow }));
+    return _applyFilters(knowledgeElements);
   },
 
   findUniqByUserIdAndAssessmentId({ userId, assessmentId }) {
