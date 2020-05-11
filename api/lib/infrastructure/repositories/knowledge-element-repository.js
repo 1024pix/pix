@@ -81,13 +81,12 @@ module.exports = {
     return _applyFilters(knowledgeElements);
   },
 
-  findUniqByUserIdAndCompetenceId({ userId, competenceId }) {
-    return BookshelfKnowledgeElement
-      .where({ userId, competenceId })
-      .fetchAll()
-      .then(_toDomain)
-      .then(_getUniqMostRecents)
-      .then(_dropResetKnowledgeElements);
+  async findUniqByUserIdAndCompetenceId({ userId, competenceId }) {
+    const query = _getByUserIdAndLimitDateQuery({ userId });
+    const keRows = await query.where({ competenceId });
+
+    const knowledgeElements = _.map(keRows, (keRow) => new KnowledgeElement(keRow));
+    return _applyFilters(knowledgeElements);
   },
 
   findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
