@@ -9,8 +9,11 @@ import jsyaml from 'js-yaml';
 class ChallengeItemQrocm extends ChallengeItemGeneric {
   _hasError() {
     const allAnswers = this._getRawAnswerValue(); // ex. {"logiciel1":"word", "logiciel2":"excel", "logiciel3":""}
-    const hasAtLeastOneAnswer = _(allAnswers).hasSomeTruthyProps();
-    return _.isFalsy(hasAtLeastOneAnswer);
+    return this._hasEmptyAnswerFields(allAnswers);
+  }
+
+  _hasEmptyAnswerFields(answers) {
+    return _.filter(answers, _.isEmpty).length;
   }
 
   _getAnswerValue() {
@@ -23,7 +26,7 @@ class ChallengeItemQrocm extends ChallengeItemGeneric {
   _getRawAnswerValue() {
     const result = {};
     // XXX : forEach on NodeList returned by document.querySelectorAll is not supported by IE
-    _.forEach(document.querySelectorAll('.challenge-proposals input'), (element)=> {
+    _.forEach(document.querySelectorAll('.challenge-proposals input'), (element) => {
       result[element.getAttribute('name')] = element.value;
     });
     return result;
