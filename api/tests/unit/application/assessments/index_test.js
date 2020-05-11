@@ -2,7 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const assessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityController = require('../../../../lib/application/security-controller');
 
 describe('Integration | Route | AssessmentRoute', () => {
 

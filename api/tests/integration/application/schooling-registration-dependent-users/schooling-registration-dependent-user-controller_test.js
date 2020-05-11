@@ -3,7 +3,7 @@ const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-
 const moduleUnderTest = require('../../../../lib/application/schooling-registration-dependent-users');
 
 const usecases = require('../../../../lib/domain/usecases');
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityController = require('../../../../lib/application/security-controller');
 const { NotFoundError, UserNotAuthorizedToUpdatePasswordError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Application | Schooling-registration-dependent-users | schooling-registration-dependent-user-controller', () => {

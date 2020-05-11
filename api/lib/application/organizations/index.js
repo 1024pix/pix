@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 
-const securityController = require('../../interfaces/controllers/security-controller');
+const securityController = require('../security-controller');
 const organisationController = require('./organization-controller');
 
 exports.register = async (server) => {

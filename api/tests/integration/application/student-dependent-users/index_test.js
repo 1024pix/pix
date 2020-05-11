@@ -2,7 +2,7 @@ const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
 const schoolingRegistrationDependentUserController = require('../../../../lib/application/schooling-registration-dependent-users/schooling-registration-dependent-user-controller');
 const moduleUnderTest = require('../../../../lib/application/student-dependent-users');
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityController = require('../../../../lib/application/security-controller');
 
 describe('Integration | Application | Route | student-dependent-users', () => {
 

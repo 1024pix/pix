@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityController = require('../../../../lib/application/security-controller');
 const certificationCoursesController = require('../../../../lib/application/certification-courses/certification-course-controller');
 
 describe('Unit | Application | Certifications Course | Route', function() {

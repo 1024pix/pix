@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const securityController = require('../../interfaces/controllers/security-controller');
+const securityController = require('../security-controller');
 const sessionController = require('./session-controller');
 const sessionAuthorization = require('../preHandlers/session-authorization');
 

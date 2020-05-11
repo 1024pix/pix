@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
 const cacheController = require('../../../../lib/application/cache/cache-controller');
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityController = require('../../../../lib/application/security-controller');
 
 describe('Unit | Router | cache-router', () => {
 

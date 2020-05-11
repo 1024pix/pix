@@ -1,6 +1,6 @@
 const os = require('os');
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
-const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const securityController = require('../../../../lib/application/security-controller');
 const moduleUnderTest = require('../../../../lib/application/system');
 const heapdump = require('heapdump');
 const heapProfile = require('heap-profile');
